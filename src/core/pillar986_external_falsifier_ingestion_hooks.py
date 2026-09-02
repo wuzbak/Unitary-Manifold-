@@ -10,6 +10,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
+from src.core.pillar937_alpha_s_13d_window_tighten import ALPHA_S_PDG, WINDOW_TIGHTENED
+
 __all__ = [
     "PILLAR_NUMBER",
     "PILLAR_GATE",
@@ -29,6 +31,29 @@ LITEBIRD_BETA_MIN: float = 0.22
 LITEBIRD_BETA_MAX: float = 0.38
 LITEBIRD_GAP_MIN: float = 0.29
 LITEBIRD_GAP_MAX: float = 0.31
+
+
+def _alpha_s_route(payload: Dict[str, Any]) -> Dict[str, Any]:
+    alpha = float(payload["alpha_s_mz"])
+    sigma = float(payload.get("sigma", 0.0009))
+    low, high = WINDOW_TIGHTENED
+    in_window = low <= alpha <= high
+    rerun = (not in_window) or abs(alpha - ALPHA_S_PDG) >= sigma or bool(payload.get("force_reaudit", False))
+    if in_window:
+        verdict = "INSIDE_WINDOW"
+    elif alpha > high:
+        verdict = "OUTSIDE_WINDOW_HIGH"
+    else:
+        verdict = "OUTSIDE_WINDOW_LOW"
+    return {
+        "experiment": str(payload.get("experiment", "PDG_ALPHA_S")).upper(),
+        "verdict": verdict,
+        "alpha_s_mz": alpha,
+        "sigma": sigma,
+        "window": [low, high],
+        "pdg_reference": ALPHA_S_PDG,
+        "trigger_uv_solver_rerun": rerun,
+    }
 
 
 def _desi_route(payload: Dict[str, Any]) -> Dict[str, Any]:
@@ -79,11 +104,13 @@ def ingest_release(payload: Dict[str, Any]) -> Dict[str, Any]:
         result = _desi_route(payload)
     elif experiment == "LITEBIRD":
         result = _litebird_route(payload)
+    elif experiment in {"PDG_ALPHA_S", "FLAG_ALPHA_S"}:
+        result = _alpha_s_route(payload)
     else:
         result = {
             "experiment": experiment,
             "verdict": "UNSUPPORTED_EXPERIMENT",
-            "supported": ["DESI_DR3", "LITEBIRD"],
+            "supported": ["DESI_DR3", "LITEBIRD", "PDG_ALPHA_S", "FLAG_ALPHA_S"],
         }
 
     return {

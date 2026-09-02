@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v33.1
+# Unitary Manifold v34.0
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v34.0 sync note (Sprint BL — 2026-09-02):*
+*(1) Auditable checked-in branch state is Sprint BL: Pillars 982–992; Lean4 3912; next pillar slot 993; latest verified full regression 62,525 passed · 48 skipped · 12 deselected · 0 failed.*
+*(2) Sprint BL does not pretend to “solve flavor” or “solve α_s”. Instead it converts the surviving flavor-family residuals into one explicit UV flavor/moduli boundary: P990 reports `MODULI_LOCKED_FERMION_RADII_TENSION`, and P991 records the family verdict `FLAVOR_FAMILY_BOUNDARY_MAPPED` with `radii_lock` as the dominant next target.*
+*(3) P986 now ingests PDG/FLAG α_s releases and routes out-of-window values into the UV compactification rerun path. This improves external-data discipline but does not close the α_s Type-B floor.*
+*(4) Remaining lanes are still explicitly monitoring/architecture lanes only: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM θ13 architecture residual, fermion-magnitude moduli-lock tension, Jarlskog Layer-2 architecture limit, DESI DR3, LiteBIRD.*
+*(5) Canonical truth surfaces are lockstep-synced in this sprint; no closure inflation claims.*
 
 *v33.1 sync note (Sprint BK — 2026-09-02):*
 *(1) Auditable checked-in branch state is Sprint BK: Pillars 980–981; Lean4 3912; next pillar slot 982.*

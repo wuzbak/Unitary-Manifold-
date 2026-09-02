@@ -1,9 +1,34 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v33.1 (2026-09-02)**
-**Regression:** ~62,200 passed · 45 skipped · 12 deselected · 0 failed
-**Next pillar slot:** 982
+**Current version: v34.0 (2026-09-02)**
+**Regression:** 62,525 passed · 48 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 993
+
+---
+
+## v34.0 (2026-09-02 — Sprint BL: Pillars 982–992)
+
+**What changed:**
+Pillars 982–992 (11 pillars). Sprint BL was a boundary-consolidation sprint. (1) P982–P989 formalize the current architecture-limit runtime stack as the canonical branch reality: registry, residual budget, shared compactification object, calibration harness, falsifier ingestion hooks, UV compactification layer, coupled KK backreaction scaffold, and flavor closure layer. (2) P990 bridges the flavor-generation spacing to inferred fermion R_i windows and returns `MODULI_LOCKED_FERMION_RADII_TENSION`, showing the family is better constrained but still not solved. (3) P991 converts CKM θ₁₃ / |Vub| and fermion-magnitude residuals into one machine-readable verdict, `FLAVOR_FAMILY_BOUNDARY_MAPPED`, with `radii_lock` carrying the largest residual share. (4) P986 extends release ingestion to PDG/FLAG α_s and triggers UV reruns whenever α_s sits outside the tightened window. (5) P992 records the Sprint BL certificate and continuity ledger.
+
+**Why:**
+Close one honest flavor family without pretending it is closed, wire α_s into the UV boundary machinery, and synchronize every canonical/public truth surface to the same audited branch reality before the final wrap-up.
+
+**Epistemic label deltas:**
+- flavor residuals reclassified from disconnected complaints to `FLAVOR_FAMILY_BOUNDARY_MAPPED`
+- fermion-magnitude lane sharpened to `FERMION_MASS_MAGNITUDES_MODULI_LOCK_TENSION`
+- α_s release handling upgraded to explicit rerun-capable UV monitoring
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM θ₁₃ residual, fermion moduli-lock residual, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Regression:** 62,525 passed · 48 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 993
 
 ---
 

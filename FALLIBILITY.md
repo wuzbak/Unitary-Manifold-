@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v33.1 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **v33.1 Sprint BK** (2026-09-02): Pillars 980–981. JARLSKOG Layer-2 binary outcome executed: residual not materially reducible within audited 5D/13D EFT channels, so status advances to `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED` with tightened positive residual window (~5.6–5.7%). Lean4 unchanged at 3912. Next pillar slot 982. Remaining open lanes: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_THETA13_ARCHITECTURE_LIMIT, FERMION_MASS_MAGNITUDES_13D_IRREDUCIBLE, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3 (~2027), LITEBIRD (~2032).)*
+*Unitary Manifold v34.0 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **v34.0 Sprint BL** (2026-09-02): Pillars 982–992. Sprint BL converts the surviving flavor-family complaints into one explicit UV flavor/moduli boundary: P990 shows `MODULI_LOCKED_FERMION_RADII_TENSION`, P991 promotes the family verdict to `FLAVOR_FAMILY_BOUNDARY_MAPPED`, and P986 adds PDG/FLAG α_s release ingestion with automatic UV rerun routing when α_s lies outside the tightened window. No false closure claim is made: α_s Type-B, Higgs window, CKM θ13, fermion magnitudes, and the prior JARLSKOG Layer-2 architecture limit all remain open architecture lanes. Lean4 unchanged at 3912. Next pillar slot 993. Latest full regression: 62,525 passed · 48 skipped · 12 deselected · 0 failed.)*
 
 ---
 
@@ -50,7 +50,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (~62,200 passed · 45 skipped · 12 deselected · 0 failed (v33.0, 2026-09-02; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (62,525 passed · 48 skipped · 12 deselected · 0 failed (v34.0, 2026-09-02; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -83,12 +83,12 @@ framework as a description of nature.  Specifically:
   Passing every test means the code faithfully executes the framework's
   equations.  It says nothing about whether those equations describe nature.
 
-The test count (currently ~61,896) is a measure of **implementation coverage
+The test count (currently 62,525) is a measure of **implementation coverage
 and internal mathematical self-consistency**.  It is not a measure of
 empirical truth.  A physicist reading a large test count should understand
 exactly this and nothing more.
 
-When the README badge reads "~62,200 passed · 0 failed," this is a statement about
+When the README badge reads "62,525 passed · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an

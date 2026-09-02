@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Verification Dashboard — Unitary Manifold</title>
+  <meta name="description" content="Live verification dashboard: tests, pillars, Lean4 totals, open residuals, and falsification windows for the Unitary Manifold public webspace." />
+  <meta property="og:title" content="Verification Dashboard — Unitary Manifold" />
+  <meta property="og:description" content="Live verification dashboard: tests, pillars, Lean4 totals, open residuals, and falsification windows for the Unitary Manifold public webspace." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://wuzbak.github.io/Unitary-Manifold-/apps/verification-dashboard.html" />
+  <link rel="canonical" href="https://wuzbak.github.io/Unitary-Manifold-/apps/verification-dashboard.html" />
+  <meta name="theme-color" content="#050a1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .status-hero { background:linear-gradient(135deg,rgba(48,209,88,0.08),rgba(59,139,255,0.05)); border:1px solid rgba(48,209,88,0.2); border-radius:16px; padding:2rem; margin-bottom:2rem; }
+    .status-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; margin-top:1.25rem; }
+    .status-card { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:1rem; text-align:center; }
+    .status-num { font-family:var(--font-mono); font-size:2rem; font-weight:800; color:var(--color-gold); }
+    .admission-row { display:flex; align-items:center; gap:1rem; padding:.7rem 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+    .admission-icon { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; flex-shrink:0; }
+    .icon-closed { background:rgba(48,209,88,0.15); color:var(--color-green); }
+    .icon-open   { background:rgba(255,159,10,0.15); color:var(--color-orange); }
+    .pred-row { display:flex; align-items:center; gap:1rem; padding:.65rem 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-brand" href="../index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Apps</a></li>
+    <li><a href="../az-apps/index.html">AZ Products</a></li>
+    <li><a href="../explore/index.html">Explore 5D</a></li>
+    <li><a href="../pentad/index.html">Pentad</a></li>
+    <li><a href="../status/index.html">Status</a></li>
+    <li><a href="../ip/index.html">IP</a></li>
+    <li><span class="nav-badge" id="nav-version">v34.0</span></li>
+  </ul>
+</nav>
+
+<div style="padding-top:80px">
+<div class="container section-sm">
+  <div style="margin-bottom:2rem">
+    <div class="section-eyebrow">Epistemic Dashboard</div>
+    <h1 style="margin-bottom:.5rem">Verification Dashboard</h1>
+    <p class="text-muted">Public-facing implementation status only: tests, residuals, decision windows, and the current honest boundary of the framework.</p>
+  </div>
+
+  <div class="status-hero">
+    <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-muted);">Current audited branch state</div>
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="status-num" id="vd-version">v34.0</div>
+        <div class="text-xs text-muted">Version</div>
+      </div>
+      <div class="status-card">
+        <div class="status-num" id="vd-tests">62,525</div>
+        <div class="text-xs text-muted">Passing tests</div>
+      </div>
+      <div class="status-card">
+        <div class="status-num" id="vd-failed">0</div>
+        <div class="text-xs text-muted">Failures</div>
+      </div>
+      <div class="status-card">
+        <div class="status-num" id="vd-lean4">3,912</div>
+        <div class="text-xs text-muted">Lean4 theorems</div>
+      </div>
+      <div class="status-card">
+        <div class="status-num" id="vd-pillars">992</div>
+        <div class="text-xs text-muted">Total pillar slots</div>
+      </div>
+      <div class="status-card">
+        <div class="status-num" id="vd-next">993</div>
+        <div class="text-xs text-muted">Next pillar slot</div>
+      </div>
+    </div>
+    <div style="margin-top:1rem;color:var(--color-muted);font-size:.9rem" id="vd-summary">
+      Internal mathematical self-consistency is established. External empirical confirmation is still pending.
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+        <h3>Active architecture boundaries</h3>
+        <div style="font-family:var(--font-mono);font-size:.8rem;color:var(--color-muted)">
+          <span class="text-green" id="adm-closed-n">10</span> closed · <span style="color:var(--color-orange)" id="adm-open-n">3</span> open
+        </div>
+      </div>
+      <div id="admissions-list"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:1.25rem">Predictions &amp; live residuals</h3>
+      <div id="predictions-list"></div>
+    </div>
+  </div>
+
+  <div class="card card-gold mt-4">
+    <h3 style="margin-bottom:.75rem;color:var(--color-gold)">⚠ Primary Falsification Condition</h3>
+    <div id="falsifier-text" class="text-sm" style="line-height:1.8"></div>
+    <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap">
+      <span class="badge badge-gold">LiteBIRD ~2032</span>
+      <span class="badge badge-blue">Decision window open</span>
+      <a href="../status/index.html" class="badge badge-green" style="text-decoration:none">Full status surface</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="../js/physics-engine.js"></script>
+<script>
+function loadStatusJson(url) {
+  return fetch(url).then(function(r) {
+    if (!r.ok) throw new Error('status fetch failed');
+    return r.json();
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dashboard = UM.verificationDashboardData();
+
+  document.getElementById("adm-closed-n").textContent = dashboard.closed_admissions;
+  document.getElementById("adm-open-n").textContent = dashboard.open_admissions;
+
+  const admList = document.getElementById("admissions-list");
+  dashboard.admissions.forEach(a => {
+    const cls  = a.closed ? "icon-closed" : "icon-open";
+    const icon = a.closed ? "✓" : "!";
+    admList.insertAdjacentHTML("beforeend", `
+      <div class="admission-row">
+        <div class="admission-icon ${cls}">${icon}</div>
+        <div style="flex:1">
+          <div style="font-size:.85rem;font-weight:600">${a.id}. ${a.name}</div>
+          <div class="text-xs text-muted">${a.status}</div>
+        </div>
+      </div>`);
+  });
+
+  const predList = document.getElementById("predictions-list");
+  const statusCls = { CONFIRMED:"badge-green", CONSISTENT:"badge-blue", IN_TENSION:"badge-orange", PENDING:"badge-blue" };
+  dashboard.predictions.forEach(p => {
+    const cls = statusCls[p.status] || "badge-blue";
+    const sigStr = p.sigma != null ? ` &nbsp; <span class="text-mono text-xs">${p.sigma}σ</span>` : "";
+    predList.insertAdjacentHTML("beforeend", `
+      <div class="pred-row">
+        <div style="flex:1">
+          <div style="font-size:.85rem;font-weight:600">${p.name}</div>
+          <div class="text-xs text-muted">UM: ${p.um} &nbsp;|&nbsp; Measured / status: ${p.measured}</div>
+        </div>
+        <span class="badge ${cls}" style="white-space:nowrap">${p.status}${sigStr}</span>
+      </div>`);
+  });
+
+  document.getElementById("falsifier-text").innerHTML =
+    dashboard.primary_falsifier.replace(/β/g, "<strong>β</strong>");
+
+  function applyLiveStatus(d) {
+    const testsPassed = d.tests_passed || (d.tests && d.tests.passed) || dashboard.tests_total;
+    const testsFailed = d.tests_failed || (d.tests && d.tests.failed) || 0;
+    const leanTheorems = d.lean4_theorems || (d.lean4 && d.lean4.theorem_count) || dashboard.lean4_total;
+    const version = d.version || (d.meta && d.meta.version && ('v' + d.meta.version)) || dashboard.version;
+    const nextSlot = d.next_pillar_slot || (d.pillars && d.pillars.next_slot) || (dashboard.pillars_total + 1);
+    const totalPillars = d.pillars_total || (d.pillars && d.pillars.total_slots) || dashboard.pillars_total;
+    document.getElementById("vd-version").textContent = version;
+    document.getElementById("nav-version").textContent = version;
+    document.getElementById("vd-tests").textContent = Number(testsPassed).toLocaleString();
+    document.getElementById("vd-failed").textContent = Number(testsFailed).toLocaleString();
+    document.getElementById("vd-lean4").textContent = Number(leanTheorems).toLocaleString();
+    document.getElementById("vd-pillars").textContent = Number(totalPillars).toLocaleString();
+    document.getElementById("vd-next").textContent = Number(nextSlot).toLocaleString();
+  }
+
+  loadStatusJson('/api/status')
+    .catch(function() { return loadStatusJson('../data/status.json'); })
+    .then(applyLiveStatus)
+    .catch(function(){});
+});
+</script>
+</body>
+</html>

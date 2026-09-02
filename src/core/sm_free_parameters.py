@@ -59,6 +59,8 @@ report, src module map. No new SM parameter admissions; no parameter values chan
 no hardgate score inflation. Latest full regression: 46,218 passed · 2 skipped ·
 12 deselected · 0 failed. Next pillar slot: 517.
 
+sprint registry note (v34.0): Pillars 990–992 added — moduli-locked fermion radii bridge (pillar990), flavor/moduli joint closure certificate (pillar991), and Sprint BL regression certificate (pillar992). Sprint BL maps the remaining CKM θ13/|Vub|/fermion-magnitude residual into a shared UV flavor/moduli boundary while keeping α_s exact closure explicitly architecture-limited. No new SM parameter admissions; no parameter values changed. Latest full regression: 62,525 passed · 48 skipped · 12 deselected · 0 failed. Next pillar slot: 993.
+
 sprint registry note (v22.11): Pillar 785 added —
 (pillar785_g4_criterion2_higgs_correlation.py): G4 Criterion 2 Higgs correlation
 audit; consolidates TYPE_AB_CLASSIFICATION_COMPLETE gate for all four generation

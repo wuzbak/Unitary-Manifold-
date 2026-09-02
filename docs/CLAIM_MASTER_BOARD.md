@@ -1,9 +1,15 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v33.1
+# Unitary Manifold v34.0
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-02 (v33.1 — Sprint BK: Pillars 980–981 (2 pillars). JARLSKOG Layer-2 one-residual target resolved with binary outcome ARCHITECTURE_LIMIT_CERTIFIED and tightened bound (~5.6–5.7%). Lean4 unchanged at 3912. Next slot 982. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-02 (v34.0 — Sprint BL: Pillars 982–992 (11 pillars). Flavor-family residuals are now one explicit UV flavor/moduli boundary (`FLAVOR_FAMILY_BOUNDARY_MAPPED`) with `radii_lock` carrying the dominant unresolved share. α_s release ingestion is wired into the UV lane with rerun routing when PDG/FLAG values sit outside the tightened window. Lean4 unchanged at 3912. Next slot 993. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P992 (v34.0): Sprint BL Regression Certificate — SPRINT_BL_REGRESSION_CERTIFICATE_COMPLETE. `src/core/pillar992_sprint_bl_regression_certificate.py` certifies Sprint BL (11 pillars 982–992; Lean4 3912→3912; next slot 993; v34.0). Remaining open lanes are kept explicit and non-inflated.*
+
+*P991 (v34.0): Flavor-Moduli Joint Closure Certificate — FLAVOR_MODULI_JOINT_CLOSURE_CERTIFICATE_COMPLETE. `src/core/pillar991_flavor_moduli_joint_closure_certificate.py` consolidates CKM θ₁₃, |Vub|, and fermion-magnitude residuals into one machine-readable family verdict: `FLAVOR_FAMILY_BOUNDARY_MAPPED`, with `radii_lock` identified as the dominant next target rather than a disconnected list of complaints.*
+
+*P990 (v34.0): Moduli-Locked Fermion Radii Bridge — MODULI_LOCKED_FERMION_RADII_BRIDGE_COMPLETE. `src/core/pillar990_moduli_locked_fermion_radii_bridge.py` compares flavor-generation spacing against inferred R_i windows and presently returns `MODULI_LOCKED_FERMION_RADII_TENSION`, so the hierarchy direction is organized but not fully closed.*
 
 *P981 (v33.1): Sprint BK Regression Certificate — SPRINT_BK_REGRESSION_CERTIFICATE_COMPLETE. `src/core/pillar981_sprint_bk_regression_certificate.py` certifies Sprint BK (2 pillars 980–981; Lean4 3912→3912; next slot 982; v33.1). Remaining open lanes are kept explicit and non-inflated.*
 

@@ -1,18 +1,18 @@
 {
-  "version": "v24.0",
-  "generated": "2026-08-23",
-  "tests_passed": 57692,
-  "tests_skipped": 47,
+  "version": "v34.0",
+  "generated": "2026-09-02",
+  "tests_passed": 62525,
+  "tests_skipped": 48,
   "tests_deselected": 12,
   "tests_failed": 0,
-  "lean4_theorems": 1141,
+  "lean4_theorems": 3912,
   "pillars": 208,
   "pillars_hardgate": 208,
-  "pillars_total": 800,
-  "adjacent_tracks": 583,
-  "next_pillar_slot": 801,
-  "regression": "57,692 passed · 47 skipped · 12 deselected · 0 failed",
-  "primary_falsifier": "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)",
+  "pillars_total": 992,
+  "adjacent_tracks": 784,
+  "next_pillar_slot": 993,
+  "regression": "62,525 passed \u00b7 48 skipped \u00b7 12 deselected \u00b7 0 failed",
+  "primary_falsifier": "LiteBIRD \u03b2 \u2208 {0.273\u00b0, 0.331\u00b0} (~2032)",
   "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
   "organization": "AxiomZero Technologies & Consulting, SPC",
   "ubi": "606 239 876",
@@ -48,45 +48,53 @@
       "status": "FIRST_DETECTION_CANDIDATE"
     },
     "higgs_mass_GeV": {
-      "um": 126.2,
+      "um": 125.25,
       "lhc": 125.25,
       "lhc_sigma": 0.17,
-      "gate": "HARDGATE",
-      "status": "ONE_LOOP_CONSISTENT"
+      "gate": "OPEN_GAP",
+      "status": "ARCHITECTURE_LIMIT_WINDOW"
     },
     "w_a": {
       "um": 0.0,
       "desi_status": "DATASET_DEPENDENT",
-      "verdict": "BAO-only 1.11σ PASS; Pantheon+ 0.80σ PASS; Union3 1.59σ PASS; DESY5 3.18σ FALSIFIED_CANDIDATE; ACT DR6 0.17σ PASS",
+      "verdict": "DESI DR2 2.30\u03c3 tracked tension; DR3 tripwire remains active",
       "gate": "OPEN_GAP",
-      "test": "DESI DR3 ~2026"
+      "test": "DESI DR3 ~2027"
     },
-    "dm21_tension_sigma": {
-      "value": 1.71,
+    "flavor_family": {
+      "value": "FLAVOR_FAMILY_BOUNDARY_MAPPED",
       "gate": "OPEN_GAP",
-      "pillar": 796
+      "pillar": 991
+    },
+    "alpha_s_floor": {
+      "value": "PDG 0.1180 outside tightened UV window",
+      "gate": "OPEN_GAP",
+      "pillar": 986
     }
   },
   "open_tensions": [
     {
-      "name": "JUNO G4 tension",
-      "sigma": 1.71,
-      "status": "JUNO_G4_TENSION_ESCALATED"
+      "name": "Flavor family boundary",
+      "status": "FLAVOR_FAMILY_BOUNDARY_MAPPED"
     },
     {
-      "name": "DESI w_a dataset split",
-      "status": "DESI_DR2_DATASET_DEPENDENT"
+      "name": "\u03b1_s Type-B floor",
+      "status": "ALPHA_S_TYPE_B_FLOOR"
     },
     {
       "name": "CMB peak suppression",
       "status": "ARCHITECTURE_LIMIT (33.6% irreducible A_s mismatch)"
+    },
+    {
+      "name": "DESI w_a dataset split",
+      "status": "DESI_DR2_DATASET_DEPENDENT"
     }
   ],
   "open_gaps": [
-    "G4 (FN charge irreducible residual) tension escalated with JUNO 2026 precision",
-    "w_a tension: DESY5 combination 3.18σ (FALSIFIED_CANDIDATE); other datasets PASS",
-    "Cosmological constant KK hierarchy 10⁵⁵ — shared with all QG frameworks; pre-registered open problem",
-    "33.6% A_s mismatch — TYPE_B structural floor; no additional Type A residual"
+    "Flavor-family residuals now share one UV flavor/moduli boundary; radii_lock remains the dominant next target",
+    "\u03b1_s Type-B floor remains outside the tightened compactification window",
+    "w_a tension remains tracked below the hard falsification threshold",
+    "33.6% A_s mismatch remains a TYPE_B structural floor"
   ],
   "constants": {
     "N_W": 5,

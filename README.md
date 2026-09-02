@@ -1,4 +1,4 @@
-# The The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v33.1)
+# The The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v34.0)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -24,9 +24,9 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![~62,200 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-~62%2C200%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
-[![963+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-963%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v33.1-blue)](docs/mas_tracker.yml)
+[![62,525 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-62%2C525%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
+[![992+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-992%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
+[![Version](https://img.shields.io/badge/version-v34.0-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
@@ -58,16 +58,18 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 
 </details>
 
-> **Current status (v33.0):** Framework is internally self-consistent.
-> Full regression: **62,200 passed · 45 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-09-02, v33.0).
+> **Current status (v34.0 / Sprint BL):** Framework is internally self-consistent.
+> Full regression: **62,525 passed · 48 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-09-02, v34.0).
 > Tests verify mathematical self-consistency of the implementation, not physical correctness.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**
 > - **r-tension:** Framework predicts r = 0.0315 (derived from N_w=5, k_CS=74, braid geometry). ACT DR6 combined bound: r < 0.016 (95% CL). Gap: ~2σ. Status: ARCHITECTURE_LIMIT_CERTIFIED (Pillar 396) — irreducible in current 5D-EFT. Decidable by CMB-S4 (~2030). Formal treatment: [`docs/R_TENSION_FORMAL_STATUS.md`](docs/R_TENSION_FORMAL_STATUS.md).
 > - **w_a tension:** Framework predicts w_a = 0 (cosmological constant). DESI DR2 wₐ signal: 2.30σ. Status: ARCHITECTURE_LIMIT_CERTIFIED (Pillar 301). DESI DR3 tripwire preregistered (Pillar 486).
+> - **Flavor-family boundary:** Sprint BL maps CKM θ₁₃ / |Vub| and fermion-magnitude residuals into one shared UV flavor lane. Current runtime status is `FLAVOR_FAMILY_BOUNDARY_MAPPED`, with `radii_lock` carrying the dominant unresolved burden.
+> - **α_s Type-B floor:** Sprint BL adds PDG/FLAG α_s ingestion and rerun routing, but the tightened compactification window still does not contain PDG α_s(M_Z); this remains an architecture-boundary problem, not a closed derivation.
 > - Both tensions are documented in the canonical ledger. Neither crosses the 3σ falsification threshold.
 > Most headline quantities are tracked with explicit epistemic labels (DERIVED / FITTED / CONSTRAINED / OPEN) in [`1-THEORY/DERIVATION_STATUS.md`](1-THEORY/DERIVATION_STATUS.md) and [`docs/mas_tracker.yml`](docs/mas_tracker.yml).
-> Taken together, this is an unusually complete, code-backed speculative physics framework — still pending external peer review, independent reproduction, and decisive laboratory/cosmology confirmation. It is not a Theory of Everything: the SM gauge group requires additional compact dimensions beyond the 5D core, fermion masses use per-species parameters (not first-principles derivations), and the w_a dark energy tension is live at 2.07σ (pre-registered falsification threshold: ≥3σ).
+> Taken together, this is an unusually complete, code-backed speculative physics framework — still pending external peer review, independent reproduction, and decisive laboratory/cosmology confirmation. It is not a Theory of Everything: the SM gauge group requires additional compact dimensions beyond the 5D core, fermion masses still retain a UV flavor/moduli residual, and the w_a dark energy tension is live at 2.30σ (pre-registered falsification threshold: ≥3σ).
 > It is also an unusually compressed human-AI scientific synthesis and reproducibility event: original monograph, executable proof path, and public audit trail built with explicit provenance.
 > For canonical, up-to-date status and provenance, begin with the foundational proof stack:
 > [`6-MONOGRAPH/THEBOOKV9a (1).pdf`](<6-MONOGRAPH/THEBOOKV9a (1).pdf>), [`1-THEORY/UNIFICATION_PROOF.md`](1-THEORY/UNIFICATION_PROOF.md), [`STATUS.md`](STATUS.md), [`FALLIBILITY.md`](FALLIBILITY.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml),

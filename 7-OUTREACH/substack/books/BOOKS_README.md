@@ -96,6 +96,10 @@ manuscripts in this folder are original to this repository and its subsequent ed
 - *Effective Field Theory in the Unitary Manifold* expanded into a complete EFT-facing working book
 - Catalog language refreshed so the books index reads as a living archive instead of a frozen count snapshot
 
+**v34.0 — Sprint BL Closing Ledger (September 2026):**
+- *The Theory That Keeps Its Own Ledger* added as the full FALLIBILITY companion volume
+- *Effective Field Theory in the Unitary Manifold* updated with Sprint BL architecture-boundary addendum
+
 ---
 
 ## The Four Books (v3.0 — Omega Expanded)

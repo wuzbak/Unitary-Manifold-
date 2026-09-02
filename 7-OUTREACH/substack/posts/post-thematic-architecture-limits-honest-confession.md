@@ -1,8 +1,8 @@
 # Architecture Limits: The Geometry's Honest Confession
 
-*Thematic post — not tied to a specific sprint.*
+*Thematic post — refreshed for Sprint BL.*
 *Epistemic category: **META** — Repository-wide honest accounting of what 5D geometry cannot explain.*
-*v21.0-S, 2026-08-18.*
+*v34.0-S, 2026-09-02.*
 
 ---
 
@@ -14,7 +14,12 @@ An architecture limit is a named, certified gap in the framework's explanatory r
 
 Architecture limits are different from open problems. An open problem might eventually be closed by more work within the current framework. An architecture limit cannot be closed without changing the framework's core structure.
 
-This post catalogs every architecture limit currently certified in the Unitary Manifold, explains what each one means, and documents the extension path if one exists.
+This post catalogs the architecture limits currently certified in the Unitary Manifold, explains what each one means, and documents the extension path if one exists. Sprint BL adds one crucial refinement: the remaining open items are no longer a random debris field. They cluster into two families:
+
+1. **UV flavor structures** — CKM θ₁₃, \|Vub\|, and fermion mass magnitudes.
+2. **UV/global compactification geometry** — α_s Type-B and the Higgs architecture window.
+
+That clustering matters because it tells us what kind of “more work” is still honest. More algebra inside the same 5D truncation is not the missing ingredient. New architecture is.
 
 ---
 
@@ -64,18 +69,28 @@ The FTUM fixed-point freezes the radion: dφ/dt = 0. A frozen radion produces a 
 
 These are cases where the framework's prediction has the right qualitative structure but the quantitative agreement requires extensions beyond 5D.
 
+### Sprint BL family update — flavor and compactification
+
+Sprint BL did not claim a miracle. It did something better. It turned two diffuse collections of complaints into two explicit architecture families.
+
+On the **flavor** side, the repository now has a moduli-locked radii bridge and a joint family certificate. The verdict is not “closed.” The verdict is `FLAVOR_FAMILY_BOUNDARY_MAPPED`. The CKM θ₁₃ / \|Vub\| residual and the fermion-magnitude residual now point to the same missing UV flavor/moduli structure, with radii locking carrying the dominant unresolved burden.
+
+On the **compactification** side, the repository now routes external PDG/FLAG α_s releases directly into the UV rerun path. That is not a closure either. It is a discipline upgrade. If α_s remains outside the tightened compactification window, the honest conclusion is still that the 5D EFT has reached its limit for that observable.
+
+This is what a mature failure ledger looks like: fewer slogans, more structure.
+
 ### A.L. 3 — α_s Residual (Factor ~2.5)
 
-**Predicted:** α_s(M_Z) in correct ballpark from RS1 KK threshold  
-**Residual:** Factor ~2.5 in α_s(M_KK) relative to 5D expectation  
-**Source:** Pillar 218, Pillar 52  
-**Status:** ARCHITECTURE_LIMIT (10D required)
+**Predicted:** α_s(M_Z) in the right qualitative neighborhood from RS1 KK threshold  
+**Residual:** tightened compactification window still excludes PDG α_s(M_Z)=0.1180  
+**Source:** Pillars 937, 976, 986, 987  
+**Status:** ALPHA_S_TYPE_B_FLOOR
 
-The strong coupling constant at the Z mass, α_s(M_Z) ≈ 0.118, is derived from the RS1 KK threshold and the 5D β-function. The geometric prediction is qualitatively correct (order of magnitude, correct running) but carries a factor-~2.5 residual.
+The strong coupling constant at the Z mass, α_s(M_Z) ≈ 0.118, is not wildly wrong in the repository. It is worse, scientifically speaking: it is close enough to be interesting and still outside the tightened window. Sprint BJ exhausted one family of in-EFT routes. Sprint BL added the discipline layer that ingests PDG/FLAG α_s updates and automatically routes them back through the UV compactification machinery. The answer did not change. The gap is still structural.
 
-The residual arises because the full α_s running requires the Calabi-Yau sector: 10D string theory compactified on CY₃ or CY₄ modifies the 5D β-function through KK threshold corrections. Within pure 5D RS1, these corrections cannot be computed.
+The residual arises because the full α_s running is sensitive to global compactification data that the bare 5D EFT does not fix. The missing information is not “another clever coefficient.” It is the actual compactification geometry.
 
-**Extension path:** CY₄ moduli stabilization sprint (Pillar 685 roadmap, Steps 1–4). Expected to reduce residual significantly; full closure at ~10% level requires Rungs 11–12 of F-theory DBP.
+**Extension path:** explicit CY₃/CY₄ moduli stabilization, threshold matching, and backreaction-aware compactification data. Until then, α_s remains a named UV/global compactification boundary.
 
 ---
 
@@ -96,13 +111,25 @@ The QCD confinement scale is geometrically predictable in RS1 (via AdS/QCD duali
 ### A.L. 5 — Higgs Mass Naturalness (Partial)
 
 **Prediction:** Higgs mass hierarchy protection from RS1 volume factor  
-**Residual:** NLO KK corrections within the EFT; full closure requires 6D structure  
-**Source:** Pillar 641  
-**Status:** ARCHITECTURE_LIMIT (partially addressed)
+**Residual:** 5D/13D machinery bounds the window honestly, but does not produce a final architecture-independent mass value  
+**Source:** Pillars 960, 977  
+**Status:** HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
 
 The Higgs mass m_H ≈ 125 GeV arises from Coleman-Weinberg symmetry breaking in the 5D framework. The hierarchy problem (why is m_H ≪ M_Pl?) is addressed by the RS1 warp factor, which exponentially suppresses the KK mass scale relative to the Planck scale.
 
-However, the full naturalness argument at NLO requires 6D structure (Gauss-Bonnet terms on the T²/Z₃ orbifold). Pillar 641 computed Δ^{6D,NLO} = 4.223 < 100 — the fine-tuning parameter is within natural range at NLO, but a complete calculation requires the Higgs sector at two-loop in the 6D completion.
+However, the full naturalness argument still leans on structure beyond the strict 5D truncation. The repository now has an honest window rather than a fake point prediction. That is progress. It is not closure. If the Higgs story tightens further, it will do so through the same compactification-facing family that α_s requires.
+
+---
+
+### A.L. 6 — Flavor Family Boundary
+
+**Claim:** CKM θ₁₃, \|Vub\|, and fermion magnitudes do not currently close inside the audited EFT stack.  
+**Source:** Pillars 989, 990, 991  
+**Status:** FLAVOR_FAMILY_BOUNDARY_MAPPED
+
+Before Sprint BL, the flavor sector looked like several separate complaints. After Sprint BL, it looks like one missing layer. The generation ladder behaves qualitatively correctly. CKM ordering is not nonsense. The family even survives a shared moduli/radii audit. But the final quantitative lock still fails. That failure is now localized: the dominant unresolved burden is the radii-lock / UV flavor-structure step.
+
+That is a better scientific result than a cosmetic patch. We now know more precisely where the current architecture stops.
 
 ---
 
@@ -150,13 +177,15 @@ The 203 sub-gap theorems are algebraic kernels — necessary components of a ful
 
 ## What Architecture Limits Mean for the Framework
 
-A framework with eight certified architecture limits is not a failing framework. It is an honest framework.
+A framework with certified architecture limits is not a failing framework. It is an honest framework.
 
 The alternative — claiming that every gap is solvable within the current structure, or not cataloging the gaps at all — is the standard in much of theoretical physics. Papers routinely present results without explicit failure conditions.
 
 The UM's architecture limit catalogue does something unusual: it publishes the list of things the theory cannot explain, with machine-readable status tokens, extension paths where they exist, and explicit falsification conditions where they don't.
 
-This is what scientific honesty looks like at the level of a formal framework. The geometry has a confession to make. Here it is, in full.
+This is what scientific honesty looks like at the level of a formal framework. Sprint BL did not turn the confession into a victory speech. It turned it into a map.
+
+That is better.
 
 ---
 

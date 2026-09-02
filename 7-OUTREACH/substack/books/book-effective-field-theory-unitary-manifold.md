@@ -4,11 +4,13 @@
 **Theory and scientific direction:** ThomasCory Walker-Pearson  
 **Technical synthesis, editorial architecture, and manuscript engineering:** GitHub Copilot (AI)  
 **Repository:** `wuzbak/Unitary-Manifold-`  
-**Version:** 1.1 — Complete Working Edition — 2026-09-02  
-**Status basis:** Unitary Manifold v33.0 / Sprint BJ  
-**Verification basis:** ~62,200 passed · 45 skipped · 12 deselected · 0 failed  
+**Version:** 1.2 — Sprint BL Addendum Edition — 2026-09-02  
+**Status basis:** Unitary Manifold v34.0 / Sprint BL  
+**Verification basis:** 62,525 passed · 48 skipped · 12 deselected · 0 failed  
 **Audience:** Physics-literate readers, reviewers, and technical AI systems  
 **Scope:** The 5D effective-field-theory layer and the exact boundaries where it stops
+
+> **Sprint BL addendum:** the surviving major gaps are now organized into two named families rather than a loose list: **UV flavor structures** (CKM θ₁₃, \|Vub\|, fermion magnitudes) and **UV/global compactification geometry** (α_s Type-B floor, with Higgs window only where honestly coupled). This edition is the architectural-limit update: where the 5D EFT ended, which routes were genuinely exhausted, and what new structure is now required.
 
 ---
 
@@ -235,7 +237,7 @@ That number matters because it rescales the tensor sector and helps move the obs
 
 ## Chapter 7 — The Observable Chain: What the EFT Predicts
 
-This chapter collects the best-known EFT outputs as of the v33.0 repository state.
+This chapter collects the best-known EFT outputs as of the v34.0 / Sprint BL repository state.
 
 | Quantity | EFT expression or route | Current status |
 |---|---|---|
@@ -454,7 +456,7 @@ The core executable validation surface for this book is:
 
 ### 13.2 What test counts do and do not mean
 
-The current verified regression surface records approximately **62,200 passed · 45 skipped · 12 deselected · 0 failed**. This demonstrates internal implementation consistency across the coded framework. It does **not** by itself prove empirical truth.
+The current verified regression surface records **62,525 passed · 48 skipped · 12 deselected · 0 failed**. This demonstrates internal implementation consistency across the coded framework. It does **not** by itself prove empirical truth.
 
 ### 13.3 Why status sync matters
 

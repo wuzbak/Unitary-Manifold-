@@ -72,12 +72,10 @@ const UM = (() => {
     SENTINEL_CAPACITY: 12 / 37,            // ≈ 0.3243
     HIL_THRESHOLD:    15,
 
-    // ToE score
-    TOE_SCORE:        29.0,
-    TOE_DENOMINATOR:  28,
-    PILLARS_TOTAL:    590,
-    LEAN4_TOTAL:      274,
-    TESTS_TOTAL:      49850,
+    // Public verification defaults
+    PILLARS_TOTAL:    992,
+    LEAN4_TOTAL:      3912,
+    TESTS_TOTAL:      62525,
   });
 
   // ── KK Mass Calculator ────────────────────────────────────────────────────
@@ -269,20 +267,20 @@ const UM = (() => {
     };
   }
 
-  // ── ToE Score Dashboard ───────────────────────────────────────────────────
+  // ── Verification Dashboard Data ───────────────────────────────────────────
   /**
-   * Return the current ToE score breakdown.
+   * Return the current verification-dashboard breakdown.
    * @returns {object}
    */
-  function toeScoreDashboard() {
+  function verificationDashboardData() {
     const admissions = [
-      { id: 1,  name: "CMB peak amplitude A_s",          status: "CLOSED_WITH_10D_HARDGATE_BENCHMARK",     closed: true  },
+      { id: 1,  name: "CMB peak amplitude A_s",          status: "ARCHITECTURE_LIMIT_CERTIFIED",            closed: false },
       { id: 2,  name: "n_w = 5 uniqueness",               status: "BRAID_UNIQUENESS_CERTIFIED",             closed: true  },
       { id: 3,  name: "Tensor ratio r tension",           status: "IRREDUCIBLE_WITHIN_5D_EFT",              closed: false },
       { id: 4,  name: "Holographic entropy S=A/4G",       status: "DERIVED_CONDITIONAL",                    closed: true  },
       { id: 5,  name: "FTUM fixed point",                  status: "CLOSED_SOBOLEV_H1",                      closed: true  },
       { id: 6,  name: "λ_GW warp factor",                 status: "DERIVED_FROM_GW_NORMALIZATION",          closed: true  },
-      { id: 7,  name: "Jarlskog CP naturalness",          status: "NATURALNESS_DERIVED",                    closed: true  },
+      { id: 7,  name: "Jarlskog CP naturalness",          status: "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED", closed: false },
       { id: 8,  name: "P8 full functional space",         status: "ALGEBRAIC_KERNEL_PROVED",                closed: true  },
       { id: 9,  name: "Consciousness attractor",           status: "COUPLED_MASTER_EQUATION",                closed: true  },
       { id: 10, name: "LHC KK graviton",                  status: "CONSTRAINED_BOUNDED",                    closed: true  },
@@ -295,25 +293,28 @@ const UM = (() => {
       { name: "CMB n_s",         um: "0.9635",  measured: "0.9649 ± 0.0042", status: "CONFIRMED",     sigma: 0.3 },
       { name: "Tensor ratio r",  um: "0.0315",  measured: "< 0.036 (95% CL)", status: "CONSISTENT",   sigma: null },
       { name: "Birefringence β", um: "0.273° / 0.331°", measured: "PENDING",  status: "PENDING",      sigma: null },
-      { name: "f_NL SPHEREx",    um: "-0.532",  measured: "PENDING (2027-28)", status: "PENDING",      sigma: null },
-      { name: "DESI wₐ = 0",     um: "0.0",     measured: "2.75σ tension",    status: "IN_TENSION",   sigma: 2.75 },
+      { name: "DESI wₐ = 0",     um: "0.0",     measured: "2.30σ tension",    status: "IN_TENSION",   sigma: 2.30 },
+      { name: "α_s(M_Z)",        um: "tightened UV window", measured: "PDG 0.1180 outside window", status: "IN_TENSION", sigma: null },
+      { name: "Flavor family",   um: "shared UV flavor/moduli lane", measured: "boundary mapped, not closed", status: "IN_TENSION", sigma: null },
       { name: "KK graviton",     um: "≥ 5 TeV", measured: "> 2.3 TeV (Run 2)", status: "CONSISTENT",  sigma: null },
       { name: "Proton decay",    um: ">> 10^35 yr", measured: "> 1.6×10^34 yr", status: "CONSISTENT", sigma: null },
-      { name: "Δm²₃₁",          um: "2.4110 × 10⁻³ eV²", measured: "PDG match 0.12σ", status: "CONFIRMED", sigma: 0.12 },
     ];
 
     return {
-      toe_score:         CONSTANTS.TOE_SCORE,
-      toe_denominator:   CONSTANTS.TOE_DENOMINATOR,
-      toe_percent:       +((CONSTANTS.TOE_SCORE / CONSTANTS.TOE_DENOMINATOR) * 100).toFixed(1),
       admissions,
       closed_admissions: admissions.filter(a => a.closed).length,
       open_admissions:   admissions.filter(a => !a.closed).length,
       predictions,
+      fallback_metrics: {
+        pillars_total: CONSTANTS.PILLARS_TOTAL,
+        lean4_total: CONSTANTS.LEAN4_TOTAL,
+        tests_total: CONSTANTS.TESTS_TOTAL,
+        version: "v34.0",
+      },
       pillars_total:     CONSTANTS.PILLARS_TOTAL,
       lean4_total:       CONSTANTS.LEAN4_TOTAL,
       tests_total:       CONSTANTS.TESTS_TOTAL,
-      version:           "v20.1",
+      version:           "v34.0",
       primary_falsifier: "LiteBIRD birefringence β ∈ {0.273°, 0.331°} prediction (launch ~2032). Any β outside [0.22°, 0.38°] or landing in gap [0.29°–0.31°] falsifies the braided-winding mechanism.",
     };
   }
@@ -444,7 +445,7 @@ const UM = (() => {
     birefringencePredictor,
     cmbParameters,
     desiTensionTracker,
-    toeScoreDashboard,
+    verificationDashboardData,
     simulatePentad,
     lean4Progress,
     litebirdCountdown,

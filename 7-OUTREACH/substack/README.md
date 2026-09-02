@@ -7,7 +7,7 @@
 
 > ⚠️ **Historical snapshot notice:** Test counts, pillar counts, and version numbers mentioned
 > within individual post drafts reflect the state of the repository **at the time of writing**.
-> The current verified totals are: **~62,200 passed · 45 skipped · 12 deselected · 0 failed · next pillar slot 980 (v33.0 Sprint BJ)**.
+> The current verified totals are: **62,525 passed · 48 skipped · 12 deselected · 0 failed · next pillar slot 993 (v34.0 Sprint BL)**.
 > Individual posts have not been retroactively updated to preserve their historical authenticity.
 
 ## Directory Structure
@@ -42,6 +42,8 @@ source and the caveats in `FALLIBILITY.md`.
 **[book-version-omega.md](books/book-version-omega.md)** — *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph. All physics, all implications, all themes. Readable by anyone. This is the definitive single-document statement of the entire framework. Start here if you want the full picture in one place.
 
 **[book-effective-field-theory-unitary-manifold.md](books/book-effective-field-theory-unitary-manifold.md)** — *Effective Field Theory in the Unitary Manifold* — the complete EFT-focused technical companion: 5D field content, dimensional reduction, observable chain, architecture limits, next-architecture paths, glossary appendices, and software/application notes. Start here if you want the bounded academic statement of the EFT layer.
+
+**[book-fallibility-theory-that-keeps-its-own-ledger.md](books/book-fallibility-theory-that-keeps-its-own-ledger.md)** — *The Theory That Keeps Its Own Ledger* — the full FALLIBILITY companion book: residuals, architecture limits, external falsifiers, decision windows, and the public logic of honest defeat. Start here if you want the framework's failure ledger in one place.
 
 ## AxiomZero Books — Politics & Civic Life
 

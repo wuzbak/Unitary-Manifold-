@@ -2,13 +2,13 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it using the metadata in this file."
 type: article
 title: "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility"
-version: "v22.11"
-date-released: "2026-08-20"
+version: "v34.0"
+date-released: "2026-09-02"
 doi: "10.5281/zenodo.19584531"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.19584531"
-    description: "Zenodo DOI for the Unitary Manifold (v22.11, 208 hardgated core pillars + 785 total pillar slots + Ω₀ Holon Zero + sub-pillars; next slot 786; ~56,964 passed · 47 skipped · 12 deselected · 0 failed; Lean4 976 theorems. Framework internally self-consistent; external empirical confirmation pending. Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} (~2032).)"
+    description: "Zenodo DOI for the Unitary Manifold (v34.0, 208 hardgated core pillars + 992 total pillar slots + Ω₀ Holon Zero + sub-pillars; next slot 993; 62,525 passed · 48 skipped · 12 deselected · 0 failed; Lean4 3,912 theorems. Framework internally self-consistent; external empirical confirmation pending. Sprint BL maps the surviving flavor-family residuals into one UV flavor/moduli boundary without inflating closure claims. Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} (~2032).)"
 authors:
   - family-names: "Walker-Pearson"
     given-names: "ThomasCory"
@@ -26,11 +26,13 @@ abstract: >
   higher-dimensional geometry. Dimensional reduction of the 5D
   Einstein-Hilbert action yields a 4D effective action whose field equations —
   the Walker-Pearson equations — show that the Second Law of Thermodynamics is
-  a geometric identity rather than a statistical postulate. As of v22.11
-  (2026-08-20), the hardgated core comprises 208 pillars and the repository
-  tracks 785 total pillar slots, with next slot 786. Full regression stands at
-  ~56,964 passed · 47 skipped · 12 deselected · 0 failed, and the Lean4 corpus
-  stands at 976 theorems. The framework is internally self-consistent at the
+  a geometric identity rather than a statistical postulate. As of v34.0
+  (2026-09-02), the hardgated core comprises 208 pillars and the repository
+  tracks 992 total pillar slots, with next slot 993. Full regression stands at
+  62,525 passed · 48 skipped · 12 deselected · 0 failed, and the Lean4 corpus
+  stands at 3,912 theorems. Sprint BL consolidates the surviving flavor-family
+  residuals into one explicit UV flavor/moduli boundary and wires PDG/FLAG α_s
+  releases into the UV rerun path without inflating closure claims. The framework is internally self-consistent at the
   repository level; external empirical confirmation remains pending. Adjacent
   research tracks (Pillars 218–232+) extend the geometric machinery to quantum
   computing, energy systems, biomedical applications, and AI/robotics as honest
