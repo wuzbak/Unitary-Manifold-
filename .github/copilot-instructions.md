@@ -5,9 +5,9 @@ on the Unitary Manifold repository.
 
 ## What This Repository Is
 
-A 5-dimensional Kaluza-Klein physics framework — **v23.2** — with:
+A 5-dimensional Kaluza-Klein physics framework — **v34.0** — with:
 - **208 core physics pillars** (hardgate, formally closed)
-- **785 total pillar slots** (next slot 786; Pillars 218–785 are adjacent tracks)
+- **992 total pillar slots** (next slot 993; Pillars 218–992 are adjacent/completion/infrastructure tracks)
 - **Ω₀ Holon Zero** + sub-pillars (Pillar 70-B, 70-C, 70-D)
 - **Independent HILS governance framework** (Unitary Pentad)
 - **Quantum simulation layer** (`src/quantum/`: KK VQE, Fermi–Hubbard, XDiag bridge)
@@ -34,7 +34,7 @@ python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
 # Full repository (takes ~130 seconds):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 62,200 passed · 45 skipped · 12 deselected · 0 failed
+# Expected: 62,525 passed · 48 skipped · 12 deselected · 0 failed
 ```
 
 ## Repository Structure
@@ -62,7 +62,7 @@ src/neuroscience/ src/ecology/ src/climate/ src/marine/ (Pillars 20–23)
 src/psychology/ src/genetics/ src/materials/ (Pillars 24–26)
 recycling/          ← Pillar 16: φ-debt entropy accounting
 5-GOVERNANCE/Unitary Pentad/ ← Independent HILS governance framework
-tests/              ← 200+ test files, 61,896+ passing tests (all pillars, adjacent tracks, integrations)
+tests/              ← 200+ test files, 62,525 passing tests (all pillars, adjacent tracks, integrations)
 bot/                ← AI assistant infrastructure (RAG, Copilot Extension, Custom GPT)
 5-GOVERNANCE/co-emergence/ ← HILS framework documentation
 ```
