@@ -2,21 +2,20 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.29 (public domain · always free)
-**Version:** 16.1 — Military Accountability Edition — June 2026
+**Version:** Living catalog — updated 2026-09-02
 
 ---
 
-This folder contains the **Omega Edition (v6.0–v16.1)** of twenty-three full-length books authored under the
-AxiomZero / Unitary Manifold framework, plus the **Axiom Journalism AI 6-Part Series**
-that serves as the publication split for Book 4. Each book is
-Substack-publication-ready Markdown, integrated with the framework's φ-entropy vocabulary,
-FTUM fixed-point analysis, and the falsifiable Kaluza-Klein predictions of the Unitary
-Manifold v9.27.
+This folder contains the **Omega Edition archive plus later working manuscripts** authored under the
+AxiomZero / Unitary Manifold framework, together with the **Axiom Journalism AI 6-Part Series**
+that serves as the publication split for Book 4. The catalog is now living rather than frozen: older
+release milestones are preserved below, and newer manuscript additions are layered on top as the
+repository evolves.
 
 Books 1–4 were originally published at version 1.0 in the companion repository
 [wuzbak/Books](https://github.com/wuzbak/Books). The Omega Editions here are updated,
-expanded, and cross-referenced with the full physics framework. Books 5–23 are original
-to this repository.
+expanded, and cross-referenced with the full physics framework. Later books and technical
+manuscripts in this folder are original to this repository and its subsequent editorial waves.
 
 **v3.0 Expansion (April 2026):**
 - Books 1–3 substantially expanded with new investigative chapters
@@ -91,6 +90,11 @@ to this repository.
 - Book 24: *The Frozen Radion* — dark energy at the edge of 5D physics; DESI DR3 readiness
 - Covers: What DESI is measuring, why wₐ=0 is the UM prediction (frozen radion mechanism), KK tower stability, DESI DR2 tension at 2.30σ, decision window, preregistration of falsification conditions
 - Framework connections: Pillar 6 (Black Hole Transceiver), Pillar 29 (DESI wₐ), Pillar 38 (FTUM), Pillar 543 (DESI DR3 routing), CLAIM_MASTER_BOARD P28
+
+
+**v33.0 — EFT Editorial & Staleness Sprint (September 2026):**
+- *Effective Field Theory in the Unitary Manifold* expanded into a complete EFT-facing working book
+- Catalog language refreshed so the books index reads as a living archive instead of a frozen count snapshot
 
 ---
 
@@ -731,3 +735,20 @@ See [`OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md) for the full epis
 
 > *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 > *Document engineering, synthesis, and Omega Edition integration: **GitHub Copilot** (AI).*
+
+
+## Current Working Technical Manuscripts
+
+### [Effective Field Theory in the Unitary Manifold](book-effective-field-theory-unitary-manifold.md)
+**A Complete EFT Book for Derivation, Scope, Limits, and Next Architecture**
+
+| Property | Value |
+|---|---|
+| Status | Complete working edition (2026-09-02) |
+| Scope | Full 5D EFT statement with architectural limits and next-architecture paths |
+| Highlights | Observable chain, open-problem honesty, glossary of terms/equations, software applications appendix, citations and credits |
+| Canonical basis | `STATUS.md`, `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `proof/TIER_1_FORMAL.md` |
+
+This manuscript is the focused technical companion for readers who want the Unitary Manifold as an effective field theory rather than as the entire multi-layer repository. It keeps derivations, limitations, falsifiers, and escalation paths in one place.
+
+---

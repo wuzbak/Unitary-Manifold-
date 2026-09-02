@@ -7,7 +7,7 @@
 
 > ⚠️ **Historical snapshot notice:** Test counts, pillar counts, and version numbers mentioned
 > within individual post drafts reflect the state of the repository **at the time of writing**.
-> The current verified totals are: **28,560 tests passing · 329 skipped · 11 deselected · 0 failures · 208 pillars (v10.44)**.
+> The current verified totals are: **~62,200 passed · 45 skipped · 12 deselected · 0 failed · next pillar slot 980 (v33.0 Sprint BJ)**.
 > Individual posts have not been retroactively updated to preserve their historical authenticity.
 
 ## Directory Structure
@@ -17,7 +17,7 @@ This directory is organized into three subdirectories:
 ```
 substack/
 ├── posts/      ← All post-*.md and epilog-*.md article drafts (Posts 00–151+)
-├── books/      ← All book-*.md full-length book drafts (17 books)
+├── books/      ← All book-*.md full-length book drafts and working manuscripts
 ├── visuals/    ← Substack-ready PNG figures and caption/index guide
 └── README.md   ← This file
 ```
@@ -40,6 +40,8 @@ source and the caveats in `FALLIBILITY.md`.
 ## The Canonical Book — Version Omega
 
 **[book-version-omega.md](books/book-version-omega.md)** — *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph. All physics, all implications, all themes. Readable by anyone. This is the definitive single-document statement of the entire framework. Start here if you want the full picture in one place.
+
+**[book-effective-field-theory-unitary-manifold.md](books/book-effective-field-theory-unitary-manifold.md)** — *Effective Field Theory in the Unitary Manifold* — the complete EFT-focused technical companion: 5D field content, dimensional reduction, observable chain, architecture limits, next-architecture paths, glossary appendices, and software/application notes. Start here if you want the bounded academic statement of the EFT layer.
 
 ## AxiomZero Books — Politics & Civic Life
 
