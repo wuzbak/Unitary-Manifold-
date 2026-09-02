@@ -167,11 +167,11 @@ def _build_live_status_from_generator() -> dict[str, Any] | None:
 
 def load_live_status() -> dict[str, Any]:
     """Load canonical live status for Base44/frontends with safe fallbacks."""
-    live_status = _read_json_file(LIVE_STATUS_PATH)
+    live_status = _build_live_status_from_generator()
     if isinstance(live_status, dict) and "meta" in live_status and "tests" in live_status:
         return live_status
 
-    live_status = _build_live_status_from_generator()
+    live_status = _read_json_file(LIVE_STATUS_PATH)
     if isinstance(live_status, dict) and "meta" in live_status and "tests" in live_status:
         return live_status
 

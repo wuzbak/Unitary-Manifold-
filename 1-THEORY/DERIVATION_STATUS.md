@@ -1,9 +1,9 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v32.1 — Unambiguous Record**  
+**The Unitary Manifold v33.0 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-01 (v32.1 — Sprint BI: Pillars 955–963; SU3 Kawamura P-matrix derived from k_CS=74 CS boundary (FALLIBILITY §XIV.2 CLOSED); n₂=7 derived from Z₂-odd BC + minimum step (FALLIBILITY §XIII.4 CLOSED); ν mass splitting tree-level computed; CMB KK transfer analytic; c_L/SL spectrum derived; Higgs mass GW bounded; KK QCD axion mass computed; Lean4 +100 (3712→3812); ~61,896 passed · 45 skipped · 12 deselected · 0 failed; next slot 964.)*
-*Latest verified full regression: 61,896 passed · 45 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-01).*
+*Last updated: 2026-09-02 (v33.0 — Sprint BJ: Pillars 964–979; c_L^phys analytically derived, quark/lepton c_L split derived, N_e derived window, A₄ mechanism identified with Jarlskog Layer 2 tightened, ISW NLO bounded, m_ν₁ geometric estimate, η̄(5) uniqueness proved; Lean4 +100 (3812→3912); ~62,200 passed · 45 skipped · 12 deselected · 0 failed; next slot 980.)*
+*Latest verified full regression: 62,200 passed · 45 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-02).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

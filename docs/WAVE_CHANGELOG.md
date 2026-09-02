@@ -1,7 +1,9 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v32.1 (2026-09-01)**
+**Current version: v33.0 (2026-09-02)**
+**Regression:** ~62,200 passed · 45 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 980
 
 ---
 
