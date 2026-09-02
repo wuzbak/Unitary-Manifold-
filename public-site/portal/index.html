@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>axiomzerospc.org — Open Science Portal</title>
-  <meta name="description" content="AxiomZero open science portal: 208 hardgate pillars, 2,186 Lean4 theorems, 56,772 passing tests, public tools, and a persistent AI assistant grounded in the Unitary Manifold." />
+  <meta name="description" content="AxiomZero open science portal with live status from the canonical Unitary Manifold status feed, public tools, and a persistent AI assistant." />
   <meta property="og:title" content="axiomzerospc.org — Open Science Portal" />
   <meta property="og:description" content="Explore the Unitary Manifold 5D Kaluza-Klein physics framework. All tools, apps, knowledge, and a RAG-grounded AI assistant — open, honest, public domain." />
   <meta property="og:type" content="website" />
@@ -230,10 +230,10 @@
 
 <!-- ── Hero ── -->
 <section class="portal-hero">
-  <div class="portal-wordmark">axiomzerospc.org · Open Science Portal · v22.10</div>
+  <div class="portal-wordmark">axiomzerospc.org · Open Science Portal · <span data-stat="version">v-live</span></div>
   <h1 class="portal-headline">Explore the Edge<br>of What We Know</h1>
   <p class="portal-sub">
-    The Unitary Manifold is a 5-dimensional Kaluza-Klein physics framework — publicly open, radically honest about its gaps, and built to be traversed by anyone. Current public snapshot: v22.10 · 56,772 passing tests · 2,186 Lean4 theorems. Start anywhere.
+    The Unitary Manifold is a 5-dimensional Kaluza-Klein physics framework — publicly open, radically honest about its gaps, and built to be traversed by anyone. Current public snapshot: <span data-stat="version">v-live</span> · <span data-stat="tests">live-tests</span> passing tests · <span data-stat="lean4">live-lean4</span> Lean4 theorems. Start anywhere.
   </p>
 
   <!-- Search -->
@@ -274,15 +274,15 @@
   <!-- Stats -->
   <div class="stats-row">
     <div class="stat-item">
-      <div class="stat-num">208+</div>
+      <div class="stat-num" data-stat="pillars">live-pillars</div>
       <div class="stat-label">Physics Pillars</div>
     </div>
     <div class="stat-item">
-      <div class="stat-num">2,186</div>
+      <div class="stat-num" data-stat="lean4">live-lean4</div>
       <div class="stat-label">Lean4 Theorems</div>
     </div>
     <div class="stat-item">
-      <div class="stat-num">56,772</div>
+      <div class="stat-num" data-stat="tests">live-tests</div>
       <div class="stat-label">Tests Passing</div>
     </div>
     <div class="stat-item">
@@ -334,7 +334,7 @@
       <div class="feature-card">
         <div class="feature-card-icon">✓</div>
         <h3>Theorem Registry</h3>
-        <p>2,186 Lean4 formally verified theorems — machine-readable proofs tied to each pillar.</p>
+        <p>Live Lean4 formally verified theorem totals — machine-readable proofs tied to each pillar.</p>
         <a href="knowledge/#theorems" class="btn">Theorem Registry →</a>
       </div>
       <div class="feature-card">
@@ -529,6 +529,28 @@
   document.getElementById('portal-search').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') portalSearch();
   });
+
+  const STATUS_URL = 'https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json';
+  async function loadLiveStatus() {
+    try {
+      const r = await fetch(STATUS_URL, { cache: 'force-cache' });
+      if (!r.ok) return;
+      const d = await r.json();
+      document.querySelectorAll('[data-stat="tests"]').forEach(el => {
+        el.textContent = d.tests?.passed?.toLocaleString() || el.textContent;
+      });
+      document.querySelectorAll('[data-stat="lean4"]').forEach(el => {
+        el.textContent = d.lean4?.theorem_count?.toLocaleString() || el.textContent;
+      });
+      document.querySelectorAll('[data-stat="pillars"]').forEach(el => {
+        el.textContent = d.pillars?.hardgate_count || el.textContent;
+      });
+      document.querySelectorAll('[data-stat="version"]').forEach(el => {
+        el.textContent = 'v' + (d.meta?.version || 'live');
+      });
+    } catch (e) {}
+  }
+  document.addEventListener('DOMContentLoaded', loadLiveStatus);
 </script>
 </body>
 </html>

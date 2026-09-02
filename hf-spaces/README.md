@@ -1,6 +1,6 @@
 # AxiomZero HF Spaces — Complete Webspace
 
-**Status:** v24.1 · 57,927 passing tests · 1,246 Lean4 theorems · 208 hardgate pillars
+**Status source:** `https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json` (canonical live metrics for version/tests/Lean4/pillars)
 
 Full Hugging Face deployment of the [axiomzerospc.org](https://axiomzerospc.org) webspace.
 ALL apps, OS environments, physics engines, IP catalog, and knowledge base — fully functional.
@@ -30,7 +30,7 @@ Each space deploys independently. Push the contents of each subfolder to the cor
 # Example for oracle-space:
 git clone https://huggingface.co/spaces/axiomzero/oracle-space /tmp/oracle-space
 cp hf-spaces/oracle-space/* /tmp/oracle-space/
-cd /tmp/oracle-space && git add -A && git commit -m "Deploy v24.1" && git push
+cd /tmp/oracle-space && git add -A && git commit -m "Deploy from canonical status feed" && git push
 
 # For the dataset:
 git clone https://huggingface.co/datasets/axiomzero/um-knowledge-dataset /tmp/um-knowledge-dataset
@@ -85,6 +85,9 @@ hf-spaces/
 │   ├── README.md
 │   ├── app.py                   ← 539 lines, full catalog
 │   └── requirements.txt
+├── space_core/                  ← shared runtime contract utilities
+│   ├── __init__.py
+│   └── live_status.py           ← canonical status loader (um_live_status.json)
 └── um-knowledge-dataset/        ← RAG Knowledge Base Dataset
     ├── README.md
     ├── pillars.jsonl            ← 13 pillar records
@@ -94,6 +97,13 @@ hf-spaces/
     ├── apps.jsonl               ← 6 app records
     └── docs.jsonl               ← 5 doc records
 ```
+
+## Runtime contract
+
+- Shared status loader for spaces: `hf-spaces/space_core/live_status.py`
+- Canonical live metrics feed: `9-INFRASTRUCTURE/um_live_status.json`
+- Drift enforcement gate: `9-INFRASTRUCTURE/check_status_drift.py`
+- Nightly endpoint canary: `.github/workflows/hf-spaces-canary.yml`
 
 ## Epistemic Notes
 

@@ -22,6 +22,7 @@ import json
 import random
 import hashlib
 import datetime
+from pathlib import Path
 import numpy as np
 
 try:
@@ -45,9 +46,21 @@ N_S            = 0.9635
 R_PRED         = 0.0315
 BETA_CANONICAL = [0.2728, 0.3309]
 PHI            = (1 + math.sqrt(5)) / 2
-VERSION        = "v24.1"
-TEST_COUNT     = 57927
-LEAN4_COUNT    = 1246
+
+_SPACE_DIR = Path(__file__).resolve().parent
+_SPACE_PARENT = _SPACE_DIR.parent
+if str(_SPACE_PARENT) not in sys.path:
+    sys.path.insert(0, str(_SPACE_PARENT))
+
+try:
+    from space_core.live_status import status_snapshot
+    _STATUS = status_snapshot()
+except Exception:
+    _STATUS = {"version": "vunknown", "tests_passed": 0, "lean4_theorems": 0}
+
+VERSION        = str(_STATUS["version"])
+TEST_COUNT     = int(_STATUS["tests_passed"])
+LEAN4_COUNT    = int(_STATUS["lean4_theorems"])
 
 FOOTER = (
     "\n\n---\n"
@@ -668,12 +681,12 @@ def flashcard_init():
 # ══════════════════════════════════════════════════════════════════════════════
 # PRODUCT 20 — OX Navigator: Extended AI Memory
 # ══════════════════════════════════════════════════════════════════════════════
-OX_NAV_SYSTEM = """\
+OX_NAV_SYSTEM = f"""\
 You are the OX Navigator — AxiomZero's extended-memory AI powered by OX Alpha.
 You hold the FULL Unitary Manifold repository as a single coherent thought:
 - 208 hardgate pillars with derivations and citations
-- 1,246 Lean4 theorems (formally verified)  
-- 57,927 passing tests, 0 failures
+- {LEAN4_COUNT:,} Lean4 theorems (formally verified)  
+- {TEST_COUNT:,} passing tests, 0 failures
 - All open gaps, admissions, and FALLIBILITY.md content
 - All 20 AZ products and their specifications
 - The Unitary Pentad governance framework (separate from physics)

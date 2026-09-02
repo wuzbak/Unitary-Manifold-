@@ -21,6 +21,7 @@ import math
 import json
 import hashlib
 import datetime
+from pathlib import Path
 import numpy as np
 
 try:
@@ -46,10 +47,27 @@ N_S                 = 0.9635
 R_PRED              = 0.0315
 BETA_CANONICAL      = [0.2728, 0.3309]
 PHI                 = (1 + math.sqrt(5)) / 2   # golden ratio
-VERSION             = "v24.1"
-PILLAR_COUNT        = 208
-TEST_COUNT          = 57927
-LEAN4_COUNT         = 1246
+
+_SPACE_DIR = Path(__file__).resolve().parent
+_SPACE_PARENT = _SPACE_DIR.parent
+if str(_SPACE_PARENT) not in sys.path:
+    sys.path.insert(0, str(_SPACE_PARENT))
+
+try:
+    from space_core.live_status import status_snapshot
+    _STATUS = status_snapshot()
+except Exception:
+    _STATUS = {
+        "version": "vunknown",
+        "hardgate_pillars": 208,
+        "tests_passed": 0,
+        "lean4_theorems": 0,
+    }
+
+VERSION             = str(_STATUS["version"])
+PILLAR_COUNT        = int(_STATUS["hardgate_pillars"])
+TEST_COUNT          = int(_STATUS["tests_passed"])
+LEAN4_COUNT         = int(_STATUS["lean4_theorems"])
 
 FOOTER = (
     "\n\n---\n"
@@ -87,12 +105,12 @@ def ox_query(system_prompt: str, user_msg: str, max_tokens: int = 2048) -> str:
 # ══════════════════════════════════════════════════════════════════════════════
 # PRODUCT 01 — AxiomOS
 # ══════════════════════════════════════════════════════════════════════════════
-AXIOM_OS_SYSTEM = """\
+AXIOM_OS_SYSTEM = f"""\
 You are AxiomOS — a persistent AI cognitive layer grounded in the Unitary Manifold 5D KK framework.
 You manage memory, hierarchical goals, and belief states. You have access to:
 - 208 hardgate physics pillars (HARDGATE gate)
-- 1,246 Lean4 theorems (formally verified)
-- 57,927 passing tests (0 failures)
+- {LEAN4_COUNT:,} Lean4 theorems (formally verified)
+- {TEST_COUNT:,} passing tests (0 failures)
 - All open gaps and admissions in FALLIBILITY.md
 
 Agent modes:
@@ -267,7 +285,7 @@ def um_sos_lookup(pillar_id: int, query: str) -> str:
                 f"**Gate:** {gate_icon} `{gate}`\n\n"
                 f"**Description:** {desc}\n\n"
                 f"**Source:** `{src}`\n\n"
-                f"**Status:** v24.1 — {TEST_COUNT:,} tests passing" + FOOTER)
+                f"**Status:** {VERSION} — {TEST_COUNT:,} tests passing" + FOOTER)
 
     if pillar_id and pillar_id not in PILLAR_DB:
         if 1 <= pillar_id <= 208:

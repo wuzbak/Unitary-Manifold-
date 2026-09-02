@@ -12,6 +12,7 @@ import math
 import json
 import hashlib
 import datetime
+from pathlib import Path
 import numpy as np
 
 try:
@@ -31,7 +32,18 @@ K_CS = 74
 BRAIDED_CS = 12 / 37
 XI_C = 35 / 74
 PHI = (1 + math.sqrt(5)) / 2
-VERSION = "v24.1"
+_SPACE_DIR = Path(__file__).resolve().parent
+_SPACE_PARENT = _SPACE_DIR.parent
+if str(_SPACE_PARENT) not in sys.path:
+    sys.path.insert(0, str(_SPACE_PARENT))
+
+try:
+    from space_core.live_status import status_snapshot
+    _STATUS = status_snapshot()
+except Exception:
+    _STATUS = {"version": "vunknown"}
+
+VERSION = str(_STATUS["version"])
 FOOTER = (
     "\n\n---\n"
     f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION}*\n"

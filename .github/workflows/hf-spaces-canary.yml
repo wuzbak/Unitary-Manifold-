@@ -1,0 +1,20 @@
+name: HF Spaces Canary
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check published HF spaces
+        run: python3 9-INFRASTRUCTURE/check_hf_spaces_canary.py
+
