@@ -8,6 +8,7 @@
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** `stealth/ox-alpha` via OpenRouter when live; offline RAG fallback when not
 - **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap)
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
@@ -53,10 +54,16 @@
 ## Hidden agent backend space
 
 - `GET /api/agentToolkit` exposes discovery views: `index`, `domain`, `tool`, `full`, `state`.
+- Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.
 - The standalone implementation is intentionally conservative and read-mostly.
 - Cross-device Base44 entity semantics are not fully recreated here; the schema is exposed honestly as planned-but-not-implemented.
+
+## Merlin replacement program implementation
+
+- The implementation ledger for the 13-point Merlin replacement plan lives in `MERLIN_PROGRAM.md`.
+- Runtime program artifacts are provided by `ox_navigator/engine/merlin_program.py`.
 
 ## Gate-badge extraction
 
