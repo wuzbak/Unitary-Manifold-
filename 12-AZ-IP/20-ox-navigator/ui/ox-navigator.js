@@ -236,10 +236,18 @@
     (sources || []).forEach(function (source) {
       const card = document.createElement('div');
       card.className = 'ox-source-card';
-      card.innerHTML =
-        '<div class="ox-source-type">' + escHtml(source.type || 'SOURCE') + '</div>' +
-        '<div class="ox-source-label">' + escHtml(source.label || '') + '</div>' +
-        '<div class="ox-source-desc">' + escHtml(source.description || '') + '</div>';
+      const type = document.createElement('div');
+      type.className = 'ox-source-type';
+      type.textContent = source.type || 'SOURCE';
+      const label = document.createElement('div');
+      label.className = 'ox-source-label';
+      label.textContent = source.label || '';
+      const desc = document.createElement('div');
+      desc.className = 'ox-source-desc';
+      desc.textContent = source.description || '';
+      card.appendChild(type);
+      card.appendChild(label);
+      card.appendChild(desc);
       wrap.appendChild(card);
     });
   }
@@ -282,9 +290,14 @@
     history.forEach(function (item) {
       const div = document.createElement('div');
       div.className = 'ox-history-item';
-      div.innerHTML =
-        '<div class="ox-history-q">' + escHtml(item.query) + '</div>' +
-        '<div class="ox-history-ts">' + item.ts.replace('T', ' ').slice(0, 19) + ' UTC</div>';
+      const question = document.createElement('div');
+      question.className = 'ox-history-q';
+      question.textContent = item.query;
+      const ts = document.createElement('div');
+      ts.className = 'ox-history-ts';
+      ts.textContent = item.ts.replace('T', ' ').slice(0, 19) + ' UTC';
+      div.appendChild(question);
+      div.appendChild(ts);
       div.addEventListener('click', function () {
         renderResponse({
           answer: item.response,
@@ -330,12 +343,4 @@
     renderHistory();
     window.oxClear();
   };
-
-  function escHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
 }());
