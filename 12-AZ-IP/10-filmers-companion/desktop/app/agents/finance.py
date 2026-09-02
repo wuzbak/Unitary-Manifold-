@@ -107,6 +107,7 @@ class FinanceOfficer(BaseAgent):
             "total_budgeted": round(total_budgeted, 2),
             "total_actual": round(total_actual, 2),
             "pct_used": round(pct_used, 4),
+            "burn_rate_pct": round(pct_used, 4),
             "days_remaining_at_rate": round(days_remaining, 1) if days_remaining is not None else None,
         }
 

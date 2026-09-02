@@ -35,10 +35,10 @@ def create_app():
     app = FastAPI(
         title="FilmersCompanion",
         description=(
-            "AI-powered film production suite — cinematography, locations, "
-            "finance, and AD tools for independent filmmakers."
+            "AI-powered end-to-end film production suite — script, breakdown, "
+            "scheduling, departments, finance, dailies, and producer oversight."
         ),
-        version="1.0.0",
+        version="2.0.0",
         docs_url="/docs",
         redoc_url="/redoc",
     )
@@ -56,15 +56,17 @@ def create_app():
     from .locations.router import router as loc_router
     from .finance.router import router as fin_router
     from .ad_suite.router import router as ad_router
+    from .production_suite.router import router as suite_router
 
     app.include_router(cine_router, prefix="/api")
     app.include_router(loc_router, prefix="/api")
     app.include_router(fin_router, prefix="/api")
     app.include_router(ad_router, prefix="/api")
+    app.include_router(suite_router, prefix="/api")
 
     @app.get("/api/health")
     def health():
-        return {"status": "ok", "service": "filmers-companion", "version": "1.0.0"}
+        return {"status": "ok", "service": "filmers-companion", "version": "2.0.0"}
 
     # Startup: init DB + seed if first run
     @app.on_event("startup")
@@ -87,10 +89,145 @@ def create_app():
         from .locations.ui import build_locations_tab
         from .finance.ui import build_finance_tab
         from .ad_suite.ui import build_ad_suite_tab
+        from .production_suite.service import FilmProductionSuiteService
 
         with gr.Blocks(title="FilmersCompanion", theme=gr.themes.Soft()) as demo:
-            gr.Markdown("# 🎬 FilmersCompanion\n*AI-powered production suite for independent filmmakers*")
+            gr.Markdown("# 🎬 FilmersCompanion\n*AI-powered end-to-end production suite for development, prep, shooting, post, and delivery*")
             with gr.Tabs():
+                with gr.Tab("🧭 Producer / UPM Dashboard"):
+                    dashboard_project_input = gr.Textbox(label="Project ID", value="omega-001")
+                    dashboard_btn = gr.Button("Refresh Dashboard", variant="primary")
+                    dashboard_output = gr.JSON(label="Dashboard")
+                    dashboard_brief = gr.Textbox(label="UPM Brief", lines=8)
+
+                    def _dashboard(pid: str):
+                        from .config import get_config
+
+                        service = FilmProductionSuiteService(get_config().db_path)
+                        data = service.producer_dashboard(pid)
+                        return data, data.get("upm_brief", "")
+
+                    dashboard_btn.click(
+                        fn=_dashboard,
+                        inputs=[dashboard_project_input],
+                        outputs=[dashboard_output, dashboard_brief],
+                    )
+
+                with gr.Tab("✍️ Script Studio"):
+                    script_project_input = gr.Textbox(label="Project ID", value="omega-dev-001")
+                    script_title_input = gr.Textbox(label="Script Title", value="NEW OMEGA FEATURE")
+                    script_revision_input = gr.Textbox(label="Revision Name", value="White Draft")
+                    script_color_input = gr.Dropdown(
+                        ["White", "Blue", "Pink", "Yellow", "Green", "Goldenrod"],
+                        value="White",
+                        label="Revision Color",
+                    )
+                    script_content_input = gr.Textbox(
+                        label="Plain-Text Screenplay",
+                        lines=14,
+                        value=(
+                            "INT. SAFE HOUSE - NIGHT\n"
+                            "NOVA studies the monitor wall while MIRA assembles the disguise kit.\n\n"
+                            "EXT. BACK ALLEY - NIGHT\n"
+                            "NOVA and MIRA move toward a waiting car as a DRONE circles overhead.\n\n"
+                            "INT. PRESS ROOM - DAY\n"
+                            "ELIAS prepares the press conference while crew reset the podium."
+                        ),
+                    )
+                    script_import_btn = gr.Button("Import Script + Build Prep Artifacts", variant="primary")
+                    script_import_output = gr.JSON(label="Import Summary")
+                    script_overview_output = gr.JSON(label="Script Overview")
+
+                    def _import_script(project_id: str, title: str, revision_name: str, revision_color: str, content: str):
+                        from .config import get_config
+
+                        service = FilmProductionSuiteService(get_config().db_path)
+                        summary = service.import_script_text(
+                            project_id=project_id,
+                            title=title,
+                            content=content,
+                            revision_name=revision_name,
+                            revision_color=revision_color,
+                            replace_existing=True,
+                        )
+                        return summary, service.script_overview(project_id)
+
+                    script_import_btn.click(
+                        fn=_import_script,
+                        inputs=[
+                            script_project_input,
+                            script_title_input,
+                            script_revision_input,
+                            script_color_input,
+                            script_content_input,
+                        ],
+                        outputs=[script_import_output, script_overview_output],
+                    )
+
+                with gr.Tab("🧩 Breakdown + Departments"):
+                    breakdown_project_input = gr.Textbox(label="Project ID", value="omega-001")
+                    department_input = gr.Dropdown(
+                        [
+                            "Producing", "UPM / Production", "1st AD", "Script Supervisor",
+                            "Camera", "G&E", "Sound", "Art", "Wardrobe", "Hair/Makeup",
+                            "Locations", "Transport", "Stunts/SPFX", "VFX",
+                            "Editorial/Post", "Legal/Payroll", "Distribution/Marketing",
+                        ],
+                        value="VFX",
+                        label="Department",
+                    )
+                    breakdown_btn = gr.Button("Refresh Breakdown + Department Board", variant="primary")
+                    breakdown_output = gr.JSON(label="Breakdown Summary")
+                    department_output = gr.JSON(label="Department Board")
+
+                    def _breakdown(project_id: str, department: str):
+                        from .config import get_config
+
+                        service = FilmProductionSuiteService(get_config().db_path)
+                        return service.breakdown_summary(project_id), service.department_board(project_id, department)
+
+                    breakdown_btn.click(
+                        fn=_breakdown,
+                        inputs=[breakdown_project_input, department_input],
+                        outputs=[breakdown_output, department_output],
+                    )
+
+                with gr.Tab("📅 Scheduling + DOOD"):
+                    schedule_project_input = gr.Textbox(label="Project ID", value="omega-001")
+                    schedule_btn = gr.Button("Refresh Scheduling", variant="primary")
+                    schedule_output = gr.JSON(label="Schedule Overview")
+                    dood_output = gr.JSON(label="DOOD")
+
+                    def _schedule(project_id: str):
+                        from .config import get_config
+
+                        service = FilmProductionSuiteService(get_config().db_path)
+                        return service.schedule_overview(project_id), service.dood_report(project_id)
+
+                    schedule_btn.click(
+                        fn=_schedule,
+                        inputs=[schedule_project_input],
+                        outputs=[schedule_output, dood_output],
+                    )
+
+                with gr.Tab("🎞️ Post + Delivery"):
+                    post_project_input = gr.Textbox(label="Project ID", value="omega-001")
+                    post_btn = gr.Button("Refresh Post / Delivery", variant="primary")
+                    post_output = gr.JSON(label="Post Overview")
+                    approvals_output = gr.JSON(label="Approvals Queue")
+
+                    def _post(project_id: str):
+                        from .config import get_config
+
+                        service = FilmProductionSuiteService(get_config().db_path)
+                        return service.post_overview(project_id), service.list_approvals(project_id)
+
+                    post_btn.click(
+                        fn=_post,
+                        inputs=[post_project_input],
+                        outputs=[post_output, approvals_output],
+                    )
+
                 build_cinematography_tab()
                 build_locations_tab()
                 build_finance_tab()
