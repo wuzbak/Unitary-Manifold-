@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v33.0 — Unambiguous Record**  
+**The Unitary Manifold v33.1 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-02 (v33.0 — Sprint BJ: Pillars 964–979; c_L^phys analytically derived, quark/lepton c_L split derived, N_e derived window, A₄ mechanism identified with Jarlskog Layer 2 tightened, ISW NLO bounded, m_ν₁ geometric estimate, η̄(5) uniqueness proved; Lean4 +100 (3812→3912); ~62,200 passed · 45 skipped · 12 deselected · 0 failed; next slot 980.)*
+*Last updated: 2026-09-02 (v33.1 — Sprint BK: Pillars 980–981; one-residual target executed with JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED and tightened residual window; truth surfaces re-synced in lockstep; Lean4 3912→3912; ~62,200 passed · 45 skipped · 12 deselected · 0 failed; next slot 982.)*
 *Latest verified full regression: 62,200 passed · 45 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-02).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
