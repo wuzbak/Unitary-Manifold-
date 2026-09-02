@@ -18,6 +18,16 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
+from src.core.pillar987_uv_completion_compactification_layer import (
+    solve_uv_moduli_point,
+)
+from src.core.pillar988_fully_coupled_kk_backreaction_engine import (
+    run_fully_coupled_kk_backreaction,
+)
+from src.core.pillar989_flavor_closure_geometric_layer import (
+    flavor_closure_observables,
+)
+
 __all__ = [
     "PILLAR_NUMBER",
     "PILLAR_GATE",
@@ -27,6 +37,7 @@ __all__ = [
     "PREDICTIONS",
     "OPEN_LANES",
     "ARCHITECTURE_LIMITS",
+    "DEEP_LAYER_CHAIN",
     "observational_readiness_v4_summary",
 ]
 
@@ -160,6 +171,45 @@ ARCHITECTURE_LIMITS: List[str] = [
     "FERMION_MASS_MAGNITUDES: R_i species-dependent — accommodable but not uniquely predicted.",
 ]
 
+_UV_LAYER = solve_uv_moduli_point()
+_KK_LAYER = run_fully_coupled_kk_backreaction(steps=12)
+_FLAVOR_LAYER = flavor_closure_observables()
+
+DEEP_LAYER_CHAIN: List[Dict[str, Any]] = [
+    {
+        "pillar": 987,
+        "name": "UV_COMPLETION_COMPACTIFICATION_LAYER",
+        "status": _UV_LAYER["status"],
+        "key_output": {
+            "tau": _UV_LAYER["best_point"]["tau"],
+            "rho": _UV_LAYER["best_point"]["rho"],
+            "alpha_s_uv": _UV_LAYER["best_point"]["alpha_s_uv"],
+            "n_d3_model": _UV_LAYER["best_point"]["n_d3_model"],
+        },
+    },
+    {
+        "pillar": 988,
+        "name": "FULLY_COUPLED_KK_BACKREACTION_ENGINE",
+        "status": _KK_LAYER["status"],
+        "key_output": {
+            "tail_spread": _KK_LAYER["tail_spread"],
+            "mean_phi_final": _KK_LAYER["mean_phi_final"],
+            "mean_winding_abs": _KK_LAYER["mean_winding_abs"],
+        },
+    },
+    {
+        "pillar": 989,
+        "name": "FLAVOR_CLOSURE_GEOMETRIC_LAYER",
+        "status": _FLAVOR_LAYER["status"],
+        "key_output": {
+            "theta13_deg": _FLAVOR_LAYER["theta13_deg"],
+            "vub": _FLAVOR_LAYER["vub"],
+            "ckm_ok": _FLAVOR_LAYER["ckm_ok"],
+            "hierarchy_ok": _FLAVOR_LAYER["hierarchy_ok"],
+        },
+    },
+]
+
 PILLAR_STATUS: str = "OBSERVATIONAL_READINESS_V4_COMPLETE"
 PILLAR_VALID: bool = True
 
@@ -178,6 +228,8 @@ def observational_readiness_v4_summary() -> Dict[str, Any]:
         "predictions": PREDICTIONS,
         "open_lanes": OPEN_LANES,
         "architecture_limits": ARCHITECTURE_LIMITS,
+        "deep_layer_chain": DEEP_LAYER_CHAIN,
+        "n_deep_layers": len(DEEP_LAYER_CHAIN),
         "primary_falsifier": "LiteBIRD β ∈ {0.273°,0.331°} — ~2032",
         "next_data_milestone": "DESI DR3 ~2027 (w_a=0 test)",
     }
