@@ -4,7 +4,7 @@
 from __future__ import annotations
 from src.core.pillar952_observational_readiness_v4 import (
     PILLAR_NUMBER, PILLAR_GATE, PILLAR_STATUS, PILLAR_VALID,
-    OBSERVATIONAL_MATRIX_VERSION, PREDICTIONS, OPEN_LANES, ARCHITECTURE_LIMITS,
+    OBSERVATIONAL_MATRIX_VERSION, PREDICTIONS, OPEN_LANES, ARCHITECTURE_LIMITS, DEEP_LAYER_CHAIN,
     observational_readiness_v4_summary,
 )
 
@@ -71,7 +71,7 @@ def test_summary_keys():
     s = observational_readiness_v4_summary()
     for key in ["pillar", "gate", "status", "valid", "version",
                 "n_predictions", "n_open_lanes", "predictions", "open_lanes",
-                "primary_falsifier"]:
+                "primary_falsifier", "deep_layer_chain", "n_deep_layers"]:
         assert key in s
 
 def test_summary_valid(): assert observational_readiness_v4_summary()["valid"] is True
@@ -79,3 +79,14 @@ def test_summary_pillar(): assert observational_readiness_v4_summary()["pillar"]
 def test_summary_primary_falsifier():
     s = observational_readiness_v4_summary()
     assert "LiteBIRD" in s["primary_falsifier"] or "litebird" in s["primary_falsifier"].lower()
+
+
+def test_deep_layer_chain_present():
+    assert len(DEEP_LAYER_CHAIN) == 3
+    pillars = {row["pillar"] for row in DEEP_LAYER_CHAIN}
+    assert pillars == {987, 988, 989}
+
+
+def test_deep_layer_chain_in_summary():
+    s = observational_readiness_v4_summary()
+    assert s["n_deep_layers"] == 3
