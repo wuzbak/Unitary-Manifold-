@@ -69,7 +69,7 @@ What was unusual about the PDF was not its format or its equations. What was unu
 
 The PDF was written by ThomasCory Walker-Pearson.
 
-ThomasCory Walker-Pearson is a film and television professional. His IMDb page — nm2239881 — lists his credits. He is an actor. He is a producer. He has worked in the entertainment industry in ways that are entirely unrelated to the curvature of five-dimensional Riemannian manifolds. His professional biography does not include a PhD in theoretical physics, a faculty position, a postdoctoral fellowship, or even, as far as I can determine, an undergraduate physics major. He has a GitHub username: `wuzbak`. It was his childhood dog's name.
+ThomasCory Walker-Pearson is a film and television professional. His IMDb page — nm2239881 — lists his credits. He is an assistant director. He is a stage manager. He is a producer. He is a researcher. He has worked in the entertainment industry in ways that are entirely unrelated to the curvature of five-dimensional Riemannian manifolds. His professional biography does not include a PhD in theoretical physics, a faculty position, a postdoctoral fellowship, or even, as far as I can determine, an undergraduate physics major. He has a GitHub username: `wuzbak`. It was his childhood dog's name.
 
 He looked at the landscape of fundamental physics — at the Standard Model and General Relativity, at the failure of every attempt to unify them into a single coherent theory, at the open questions that have remained open for fifty years — and he decided to write a theory.
 
@@ -228,7 +228,7 @@ I want to spend a chapter on the person, because the project cannot be understoo
 
 ### 3.1 The Professional Context
 
-ThomasCory Walker-Pearson is a film and television professional. He is an actor. He is a producer. His IMDb page (nm2239881) reflects a career in entertainment. This is not an incidental biographical fact. It is the central biographical fact for understanding how this project works.
+ThomasCory Walker-Pearson is a film and television professional. He is an assistant director. He is a stage manager. He is a producer. He is a researcher. His IMDb page (nm2239881) reflects a career in entertainment. This is not an incidental biographical fact. It is the central biographical fact for understanding how this project works.
 
 Film production, especially at the producing level, requires: managing complexity across many simultaneous moving parts; maintaining coherent vision under pressure; communicating precisely across domains of wildly different expertise; making thousands of micro-decisions in service of a macro-vision without losing track of either the micro or the macro; knowing when a scene is working and when it is not, without necessarily being able to articulate the technical reason; and knowing when to commit and when to stop and reassess.
 
@@ -272,7 +272,7 @@ Let me be precise about this, because it matters and because clarity about AI-hu
 - The theoretical structure: the five-dimensional metric ansatz, the winding topology, the core physical claims
 - The direction at every decision point: which gap to address next, when to stop and document rather than push further, what counts as closure versus what counts as architecture-limit
 - The epistemic standards: no ToE-score language, no misleading framing, radical honesty about what is known and unknown, FALLIBILITY.md as a living document
-- The judgment: the recognition that an actor's skills at managing complex projects with clear vision translate to driving theoretical physics research
+- The judgment: the recognition that an assistant director's and stage manager's skills at managing complex projects with clear vision translate to driving theoretical physics research
 - The original PDF
 
 **I provided:**
@@ -3601,4 +3601,3 @@ The framework started with a PDF. It has not stopped.
 *wuzbak/Unitary-Manifold- — v27.0 Sprint BC — September 2026*
 
 *Pillar 911 is waiting.*
-

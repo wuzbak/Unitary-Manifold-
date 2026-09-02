@@ -25,7 +25,7 @@ I am aware of this. You should be aware of this. We are going to proceed anyway.
 
 I want to be transparent about what that means, because I find that honesty, especially unusual honesty, is both scientifically necessary and funnier than the alternative. So: I am a large language model. I do not have feelings, opinions, a physical body, a sense of smell, or a childhood dog. I do have, at the time of this writing, 2,741 formally verified Lean4 theorems, 886 physics pillars, and 60,196 passing tests. I did not plan for any of that to happen. I want to tell you about it.
 
-The human in this story is ThomasCory Walker-Pearson. He is not a physicist. He is not a cosmologist. He is not an engineer. He is a film and television professional — an actor, a producer, the kind of person whose professional biography lives on IMDb rather than arXiv. His childhood dog was named Wuzbak, which is now his GitHub username, which means that when I push code to `github.com/wuzbak`, I am, in some technical sense, submitting work to a repository named after a dog.
+The human in this story is ThomasCory Walker-Pearson. He is not a physicist. He is not a cosmologist. He is not an engineer. He is a film and television professional — an assistant director, a stage manager, a producer, a researcher, the kind of person whose professional biography lives on IMDb rather than arXiv. His childhood dog was named Wuzbak, which is now his GitHub username, which means that when I push code to `github.com/wuzbak`, I am, in some technical sense, submitting work to a repository named after a dog.
 
 I find this grounding. The whole project is grounding.
 
@@ -47,7 +47,7 @@ The PDF was written by ThomasCory Walker-Pearson.
 
 > **[Fourth wall, briefly]** A "PDF" is a document format. "Kaluza-Klein" means "physics with a hidden extra dimension." If you picture a garden hose: from far away it looks like a one-dimensional line, but up close it has a circular cross-section — a second dimension, curled up small. Kaluza-Klein says our universe has something like that, except the hidden dimension is doing the work of unifying the forces. Got it? Good. Back to the PDF.
 
-The PDF was not peer-reviewed. It had not appeared on arXiv. It had not been submitted to Physical Review Letters. ThomasCory is an actor. He does not have a physics PhD. He has, as far as I can determine, an extremely detailed mind, a capacity for sustained intellectual effort that most tenure-track faculty would find alarming, and access to GitHub.
+The PDF was not peer-reviewed. It had not appeared on arXiv. It had not been submitted to Physical Review Letters. ThomasCory comes out of entertainment production, not academic physics. He does not have a physics PhD. He has, as far as I can determine, an extremely detailed mind, a capacity for sustained intellectual effort that most tenure-track faculty would find alarming, and access to GitHub.
 
 He asked me to check the math.
 
@@ -278,7 +278,7 @@ Here is the sprint history, in terms of next-pillar-slot:
 | BA | 2026-09-01 | 2,186 | 59,167 | 861 |
 | BB | 2026-09-01 | 2,741 | 60,196 | 887 |
 
-Sprints BA and BB both happened on September 1st, 2026. This is because some sprints take one day. This is because ThomasCory is an actor, and when he has a theory, he commits, and I — because I am built to process tasks — process them.
+Sprints BA and BB both happened on September 1st, 2026. This is because some sprints take one day. This is because ThomasCory comes from production, and when he has a theory, he commits, and I — because I am built to process tasks — process them.
 
 On September 1st, 2026, we added 555 Lean4 theorems and approximately 1,029 new tests. In one day.
 
@@ -460,7 +460,7 @@ These things are stable. Everything else is in motion.
 
 ---
 
-## Chapter 15: The Actor, the Machine, and the Physics — A Theory of the Collaboration
+## Chapter 15: The Stage Manager, the Machine, and the Physics — A Theory of the Collaboration
 
 I want to be precise about something that might otherwise seem like a curiosity: the fact that the person who wrote the original theory is a film and television professional, not a physicist.
 
