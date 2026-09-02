@@ -14,6 +14,9 @@ from src.core.pillar937_alpha_s_13d_window_tighten import ALPHA_S_PDG, WINDOW_TI
 from src.core.pillar984_compactification_parameter_object import (
     canonical_compactification_parameters,
 )
+from src.core.pillar990_moduli_locked_fermion_radii_bridge import (
+    moduli_locked_fermion_radii_bridge,
+)
 
 __all__ = [
     "PILLAR_NUMBER",
@@ -36,18 +39,31 @@ def cross_domain_calibration_report() -> Dict[str, Any]:
     """Build a single calibration payload reused across all architecture lanes."""
     shared = canonical_compactification_parameters().to_dict()
     signature = _parameter_signature(shared)
+    radii_bridge = moduli_locked_fermion_radii_bridge()
 
     alpha_low, alpha_high = WINDOW_TIGHTENED
     lanes = {
         "ckm_theta13": {
             "parameter_signature": signature,
             "in_eft_correction_cap": DELTA_THETA13_FRAC,
-            "calibration_status": "EFT_EXHAUSTED" if DELTA_THETA13_FRAC < 0.01 else "REVIEW",
+            "calibration_status": (
+                "MODULI_RADII_MISMATCH"
+                if radii_bridge["runtime_status"] == "MODULI_LOCKED_FERMION_RADII_TENSION"
+                else "EFT_EXHAUSTED"
+                if DELTA_THETA13_FRAC < 0.01
+                else "REVIEW"
+            ),
         },
         "fermion_magnitudes": {
             "parameter_signature": signature,
             "ri_window_max_abs": abs(CONSISTENCY_RATIO_MAX),
-            "calibration_status": "WINDOW_CONSTRAINED" if abs(CONSISTENCY_RATIO_MAX) < 0.5 else "TUNED",
+            "calibration_status": (
+                "MODULI_LOCKED_TENSION"
+                if radii_bridge["runtime_status"] == "MODULI_LOCKED_FERMION_RADII_TENSION"
+                else "WINDOW_CONSTRAINED"
+                if abs(CONSISTENCY_RATIO_MAX) < 0.5
+                else "TUNED"
+            ),
         },
         "alpha_s": {
             "parameter_signature": signature,

@@ -36,3 +36,9 @@ def test_batch_routing() -> None:
     ])
     assert batch["n_payloads"] == 2
     assert len(batch["results"]) == 2
+
+
+def test_alpha_s_ingestion_routes_outside_window() -> None:
+    result = ingest_release({"experiment": "PDG_ALPHA_S", "alpha_s_mz": 0.1180, "sigma": 0.0009})
+    assert result["result"]["verdict"] == "OUTSIDE_WINDOW_HIGH"
+    assert result["result"]["trigger_uv_solver_rerun"] is True

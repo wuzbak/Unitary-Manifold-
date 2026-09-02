@@ -28,3 +28,17 @@ def test_shared_signature_across_lanes() -> None:
 def test_alpha_s_lane_marks_outside_window() -> None:
     report = cross_domain_calibration_report()
     assert report["lanes"]["alpha_s"]["calibration_status"] in {"OUTSIDE_WINDOW", "INSIDE_WINDOW"}
+
+
+def test_flavor_lanes_can_report_moduli_lock_tension() -> None:
+    report = cross_domain_calibration_report()
+    assert report["lanes"]["ckm_theta13"]["calibration_status"] in {
+        "EFT_EXHAUSTED",
+        "MODULI_RADII_MISMATCH",
+        "REVIEW",
+    }
+    assert report["lanes"]["fermion_magnitudes"]["calibration_status"] in {
+        "WINDOW_CONSTRAINED",
+        "MODULI_LOCKED_TENSION",
+        "TUNED",
+    }
