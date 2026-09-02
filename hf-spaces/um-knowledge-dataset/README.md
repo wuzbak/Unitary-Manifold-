@@ -20,7 +20,7 @@ size_categories:
 
 Chunked and embedded knowledge base for the **Unitary Manifold** 5D Kaluza-Klein physics framework.
 
-Status snapshot: **v22.10 · 56,772 passing tests · 2,186 Lean4 theorems**.
+Status source: **`9-INFRASTRUCTURE/um_live_status.json`** (canonical live metrics).
 
 Powering the persistent AI assistant at [axiomzerospc.org](https://axiomzerospc.org).
 
@@ -46,7 +46,7 @@ Each record:
   "title": "...",
   "text": "...",
   "source": "path/to/file.py or lean4/...",
-  "version": "v22.10",
+  "version": "v<live>",
   "pillar_ids": [4]
 }
 ```

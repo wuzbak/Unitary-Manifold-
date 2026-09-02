@@ -9,6 +9,7 @@ import os
 import sys
 import math
 import json
+from pathlib import Path
 import numpy as np
 
 try:
@@ -32,9 +33,20 @@ PHI_0             = 1.0        # partial closure P853
 K_CS_STATUS       = "FIXED_BY_9D_GS"  # P849 — k_CS=74 not free
 DIM_CHAIN_STATUS  = "CLOSED"   # P858 — 7-step 11D→4D chain
 DESI_STATUS       = "PREREGISTERED"  # P824
-VERSION           = "v25.5"
-TEST_COUNT        = 59167
-LEAN4_COUNT       = 2186
+_SPACE_DIR = Path(__file__).resolve().parent
+_SPACE_PARENT = _SPACE_DIR.parent
+if str(_SPACE_PARENT) not in sys.path:
+    sys.path.insert(0, str(_SPACE_PARENT))
+
+try:
+    from space_core.live_status import status_snapshot
+    _STATUS = status_snapshot()
+except Exception:
+    _STATUS = {"version": "vunknown", "tests_passed": 0, "lean4_theorems": 0}
+
+VERSION           = str(_STATUS["version"])
+TEST_COUNT        = int(_STATUS["tests_passed"])
+LEAN4_COUNT       = int(_STATUS["lean4_theorems"])
 
 FOOTER = (
     "\n\n---\n"

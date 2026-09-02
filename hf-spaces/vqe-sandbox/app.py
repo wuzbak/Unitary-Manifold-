@@ -10,6 +10,7 @@
 
 import sys
 import math
+from pathlib import Path
 import numpy as np
 
 try:
@@ -22,8 +23,19 @@ except ImportError:
 WINDING_NUMBER = 5
 K_CS           = 74
 BRAIDED_CS     = 12 / 37
-VERSION        = "v24.1"
-TEST_COUNT     = 57927
+_SPACE_DIR = Path(__file__).resolve().parent
+_SPACE_PARENT = _SPACE_DIR.parent
+if str(_SPACE_PARENT) not in sys.path:
+    sys.path.insert(0, str(_SPACE_PARENT))
+
+try:
+    from space_core.live_status import status_snapshot
+    _STATUS = status_snapshot()
+except Exception:
+    _STATUS = {"version": "vunknown", "tests_passed": 0}
+
+VERSION        = str(_STATUS["version"])
+TEST_COUNT     = int(_STATUS["tests_passed"])
 FOOTER = (
     "\n\n---\n"
     "**Gate: 🔵 ADJACENT_TRACK** — quantum simulation lane. Non-hardgate. "

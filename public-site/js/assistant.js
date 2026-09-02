@@ -19,7 +19,10 @@
 
   // ── Configuration ─────────────────────────────────────────────────────────
   var CFG = {
-    apiEndpoint    : '/api/assistant',           // FastAPI / Base44 backend
+    apiEndpoints   : [
+      '/api/assistant',
+      'https://api.axiomzerospc.org/api/assistant'
+    ],                                           // canonical API first, Base44 compatibility edge second
     hfEndpoint     : 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3',
     hfToken        : '',                         // Set via window.AZ_HF_TOKEN or env
     maxHops        : 3,                          // Rabbit-hole threshold
@@ -280,16 +283,25 @@
         system     : CFG.systemPrompt,
       };
 
-      var resp = await fetch(CFG.apiEndpoint, {
-        method  : 'POST',
-        headers : { 'Content-Type': 'application/json' },
-        body    : JSON.stringify(payload),
-        signal  : AbortSignal.timeout(25000),
-      });
+      var endpoints = Array.isArray(global.AZ_API_ENDPOINTS) && global.AZ_API_ENDPOINTS.length
+        ? global.AZ_API_ENDPOINTS
+        : CFG.apiEndpoints;
+      var resp = null;
+      for (var i = 0; i < endpoints.length; i++) {
+        try {
+          resp = await fetch(endpoints[i], {
+            method  : 'POST',
+            headers : { 'Content-Type': 'application/json' },
+            body    : JSON.stringify(payload),
+            signal  : AbortSignal.timeout(25000),
+          });
+          if (resp.ok) break;
+        } catch (err) {}
+      }
 
       removeTypingIndicator();
 
-      if (resp.ok) {
+      if (resp && resp.ok) {
         var data = await resp.json();
         var answer = data.answer || data.response || data.text || '(no response)';
         var sources = data.sources || [];

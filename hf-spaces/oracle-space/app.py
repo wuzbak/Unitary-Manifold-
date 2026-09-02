@@ -12,6 +12,7 @@
 import os
 import sys
 import math
+from pathlib import Path
 import numpy as np
 
 try:
@@ -36,8 +37,20 @@ XI_C                  = 35 / 74     # consciousness coupling
 SENTINEL_CAPACITY     = 12 / 37
 N_S_PREDICTED         = 0.9635
 PHI_0                 = 1.0        # partial closure P853
-LEAN4_COUNT           = 2186
-TEST_COUNT            = 59167
+_SPACE_DIR_PATH       = Path(__file__).resolve().parent
+_SPACE_PARENT         = _SPACE_DIR_PATH.parent
+if str(_SPACE_PARENT) not in sys.path:
+    sys.path.insert(0, str(_SPACE_PARENT))
+
+try:
+    from space_core.live_status import status_snapshot
+    _STATUS = status_snapshot()
+except Exception:
+    _STATUS = {"version": "vunknown", "tests_passed": 0, "lean4_theorems": 0}
+
+VERSION               = str(_STATUS["version"])
+LEAN4_COUNT           = int(_STATUS["lean4_theorems"])
+TEST_COUNT            = int(_STATUS["tests_passed"])
 SPRINT_BA_STATUS      = {"k_cs_74": "FIXED_BY_9D_GS_P849", "phi0": "PARTIAL_P853", "dim_chain": "CLOSED_P858", "desi_dr3": "PREREGISTERED_P824"}
 R_PREDICTED           = 0.0315
 BETA_CANONICAL        = [0.2728, 0.3309]  # degrees — approximate
@@ -63,7 +76,7 @@ EPISTEMIC_FOOTER = (
 OX_SYSTEM_PROMPT = """\
 You are the AxiomZero Open Science Assistant powered by OX Alpha (extended memory mode).
 You have access to the full Unitary Manifold repository context: 800+ pillars,
-57,450 tests, 1,066 Lean4 theorems, all open gaps and hardgate claims.
+live test/theorem totals from the canonical status feed, all open gaps and hardgate claims.
 
 RULES:
 1. Always cite pillar numbers and their gate status (HARDGATE / ADJACENT_TRACK / OPEN_GAP).
@@ -224,7 +237,7 @@ def run_ox_query(query: str, use_full_context: bool, temperature: float) -> str:
     else:
         repo_ctx = (
             "Full context pack not available. Core: Pillars 1–208 hardgated, "
-            "208+ adjacent tracks, 57,450 tests, 1,066 Lean4 theorems, n_w=5, K_cs=74."
+            f"live status {VERSION} with {TEST_COUNT:,} tests and {LEAN4_COUNT:,} Lean4 theorems, n_w=5, K_cs=74."
         )
         ctx_note = "Inline stub (context pack not found — upload ox_full_context.md to Space)."
 
@@ -276,13 +289,13 @@ with gr.Blocks(
     theme=gr.themes.Base(primary_hue="blue", neutral_hue="slate"),
 ) as demo:
     gr.Markdown(
-        """# 🌀 AxiomZero Ω Oracle — Grand Synthesis Engine
-        **Product 16** · 5D Kaluza-Klein physics framework · v22.10
+        f"""# 🌀 AxiomZero Ω Oracle — Grand Synthesis Engine
+        **Product 16** · 5D Kaluza-Klein physics framework · {VERSION}
 
         > *Epistemic honesty: all outputs carry gate labels. Results include uncertainty and open gaps.
         > This engine does not claim to prove the Unitary Manifold — it computes predictions from it.*
 
-        **Status snapshot:** 56,772 passing tests · 976 Lean4 theorems.
+        **Status snapshot:** {TEST_COUNT:,} passing tests · {LEAN4_COUNT:,} Lean4 theorems.
 
         **Primary falsifier:** Birefringence β — LiteBIRD ~2032.
         **Primary open gap:** DESI w_a tension · Δm²₂₁ residual.

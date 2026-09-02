@@ -22,6 +22,7 @@ import json
 import random
 import hashlib
 import datetime
+from pathlib import Path
 import numpy as np
 
 try:
@@ -45,9 +46,21 @@ N_S            = 0.9635
 R_PRED         = 0.0315
 BETA_CANONICAL = [0.2728, 0.3309]
 PHI            = (1 + math.sqrt(5)) / 2
-VERSION        = "v24.1"
-TEST_COUNT     = 57927
-LEAN4_COUNT    = 1246
+
+_SPACE_DIR = Path(__file__).resolve().parent
+_SPACE_PARENT = _SPACE_DIR.parent
+if str(_SPACE_PARENT) not in sys.path:
+    sys.path.insert(0, str(_SPACE_PARENT))
+
+try:
+    from space_core.live_status import status_snapshot
+    _STATUS = status_snapshot()
+except Exception:
+    _STATUS = {"version": "vunknown", "tests_passed": 0, "lean4_theorems": 0}
+
+VERSION        = str(_STATUS["version"])
+TEST_COUNT     = int(_STATUS["tests_passed"])
+LEAN4_COUNT    = int(_STATUS["lean4_theorems"])
 
 FOOTER = (
     "\n\n---\n"

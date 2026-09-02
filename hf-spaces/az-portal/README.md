@@ -20,7 +20,7 @@ tags:
 
 **Full webspace** for [axiomzerospc.org](https://axiomzerospc.org) — mirrored and extended on HF Spaces.
 
-Status: **v25.5 · 59,167 passing tests · 1,246 Lean4 theorems · 208 hardgate pillars**
+Status source: **`9-INFRASTRUCTURE/um_live_status.json`** (canonical live version/tests/Lean4/pillars; no hardcoded snapshots).
 
 ## Spaces in this Organization
 
