@@ -91,7 +91,7 @@ def create_app():
         from .ad_suite.ui import build_ad_suite_tab
         from .production_suite.service import FilmProductionSuiteService
 
-        with gr.Blocks(title="FilmersCompanion", theme=gr.themes.Soft()) as demo:
+        with gr.Blocks(title="FilmersCompanion") as demo:
             gr.Markdown("# 🎬 FilmersCompanion\n*AI-powered end-to-end production suite for development, prep, shooting, post, and delivery*")
             with gr.Tabs():
                 with gr.Tab("🧭 Producer / UPM Dashboard"):

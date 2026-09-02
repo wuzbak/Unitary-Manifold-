@@ -1,7 +1,6 @@
 """Unified end-to-end production-suite services for FilmersCompanion."""
 from __future__ import annotations
 
-import math
 import re
 import uuid
 from collections import Counter, defaultdict
@@ -620,6 +619,7 @@ class FilmProductionSuiteService:
         )
 
     def _clear_script_related(self, conn, project_id: str) -> None:
+        script_ids = [row[0] for row in conn.execute("SELECT id FROM scripts WHERE project_id=?", (project_id,)).fetchall()]
         scene_ids = [row[0] for row in conn.execute("SELECT id FROM scenes WHERE project_id=?", (project_id,)).fetchall()]
         if scene_ids:
             placeholders = ",".join("?" for _ in scene_ids)
@@ -628,6 +628,9 @@ class FilmProductionSuiteService:
             conn.execute(f"DELETE FROM breakdown_elements WHERE scene_id IN ({placeholders})", scene_ids)
             conn.execute(f"DELETE FROM assets WHERE scene_id IN ({placeholders})", scene_ids)
             conn.execute(f"DELETE FROM schedule_strips WHERE scene_id IN ({placeholders})", scene_ids)
+        if script_ids:
+            placeholders = ",".join("?" for _ in script_ids)
+            conn.execute(f"DELETE FROM script_versions WHERE script_id IN ({placeholders})", script_ids)
         conn.execute("DELETE FROM scenes WHERE project_id=?", (project_id,))
         conn.execute("DELETE FROM scripts WHERE project_id=?", (project_id,))
         conn.execute("DELETE FROM characters WHERE project_id=?", (project_id,))
@@ -775,4 +778,3 @@ class FilmProductionSuiteService:
         else:
             parts.append("No critical alerts. Protect contingency and maintain information loops.")
         return "\n".join(parts)
-
