@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OX Navigator — AxiomZero</title>
+  <title>Merlin — Quantum Cat Interface · AxiomZero</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" crossorigin>
   <link rel="stylesheet" href="./css/main.css">
@@ -18,8 +18,9 @@
       --ox-accent3: #34d399;
       --gate-hard: #22c55e;
       --gate-adj: #3b82f6;
+      --gate-derived: #3fb950;
       --gate-gap: #f59e0b;
-      --gate-gov: #a78bfa;
+      --gate-arch: #8b949e;
     }
     * { box-sizing: border-box; }
     body {
@@ -188,14 +189,30 @@
     }
     .gate-HARDGATE { color: var(--gate-hard); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.07); }
     .gate-ADJACENT_TRACK { color: var(--gate-adj); border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.07); }
+    .gate-DERIVED { color: var(--gate-derived); border-color: rgba(63,185,80,0.3); background: rgba(63,185,80,0.07); }
     .gate-OPEN_GAP { color: var(--gate-gap); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.07); }
-    .gate-GOV { color: var(--gate-gov); border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.07); }
+    .gate-ARCHITECTURE_LIMIT { color: var(--gate-arch); border-color: rgba(139,148,158,0.3); background: rgba(139,148,158,0.07); }
 
     .ox-gov-note {
       margin-top: 1rem; padding: 0.75rem 1rem;
       background: rgba(167,139,250,0.07); border: 1px solid rgba(167,139,250,0.2);
       border-radius: 6px; font-size: 0.8rem; color: #c4b5fd;
     }
+    .ox-section-title {
+      margin-top: 1rem; margin-bottom: 0.5rem;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .ox-followups, .ox-sources {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+    }
+    .ox-source-card {
+      min-width: 220px; max-width: 300px;
+      background: #080c14; border: 1px solid var(--ox-border); border-radius: 8px; padding: 0.8rem 0.9rem;
+    }
+    .ox-source-type { font-size: 0.68rem; color: var(--ox-accent2); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.35rem; }
+    .ox-source-label { font-size: 0.85rem; color: #f8fafc; font-weight: 600; margin-bottom: 0.25rem; }
+    .ox-source-desc { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; }
     .ox-copy-btn {
       float: right; background: none; border: 1px solid var(--ox-border);
       color: #64748b; border-radius: 5px; padding: 0.25rem 0.6rem;
@@ -253,17 +270,16 @@
 
   <!-- HERO -->
   <header class="ox-hero">
-    <h1>🧠 <span>OX</span> Navigator</h1>
-    <p class="subtitle">Extended-memory AI · Full-repository cross-pillar awareness · Unitary Manifold v23.2</p>
+    <h1>🐈‍⬛ <span>Merlin</span> — Quantum Cat</h1>
+    <p class="subtitle">Structured AI interface · gate-visible reasoning · Product 20 successor to OX Navigator</p>
     <div>
       <span class="tag">Product 20</span>
-      <span class="tag">stealth/ox-alpha</span>
-      <span class="tag">OpenRouter</span>
-      <span class="tag">57,450 tests</span>
-      <span class="tag">1,066 Lean4 theorems</span>
+      <span class="tag">Merlin v1</span>
+      <span class="tag">storyteller / serious</span>
+      <span class="tag">structured citations</span>
     </div>
     <div class="gov-banner">
-      ⚖️ HILS Governance: OX outputs are AI suggestions — hardgate decisions require steward approval
+      ⚖️ HILS Governance: Merlin can guide, trace, and synthesize — hardgate decisions still require steward approval
     </div>
   </header>
 
@@ -273,7 +289,7 @@
     <!-- Status bar -->
     <div class="ox-status-bar" id="ox-status-bar">
       <div class="ox-status-dot checking" id="ox-status-dot"></div>
-      <span class="ox-status-text" id="ox-status-text">Checking OX availability…</span>
+      <span class="ox-status-text" id="ox-status-text">Checking Merlin availability…</span>
       <span class="ox-status-meta" id="ox-status-meta"></span>
     </div>
 
@@ -285,20 +301,20 @@
 
     <!-- Query card -->
     <div class="ox-query-card">
-      <label for="ox-query-input">Ask OX anything about the Unitary Manifold</label>
+      <label for="ox-query-input">Ask Merlin anything about the Unitary Manifold or AxiomZero platform</label>
       <div class="ox-query-row">
-        <textarea id="ox-query-input" placeholder="e.g. Which pillar closes the Δm²₂₁ tension? What Lean4 theorems cover winding selection? Summarise all OPEN_GAP claims." rows="3"></textarea>
+        <textarea id="ox-query-input" placeholder="e.g. Explain the birefringence falsifier, or use fourth-wall mode to walk me through Pillar 67." rows="3"></textarea>
       </div>
       <div class="ox-btn-row">
-        <button class="ox-btn ox-btn-primary" id="ox-send-btn" onclick="oxSend()">Ask OX ↗</button>
+        <button class="ox-btn ox-btn-primary" id="ox-send-btn" onclick="merlinSend()">Ask Merlin ↗</button>
         <button class="ox-btn ox-btn-secondary" onclick="oxClear()">Clear</button>
+        <button class="ox-btn ox-btn-secondary" onclick="oxResetSession()">Reset session</button>
         <div class="ox-options">
-          <label title="Load the full ~85k-token repository context pack (slower but more accurate)">
-            <input type="checkbox" id="ox-full-ctx" checked> Full context
+          <label title="Break frame and explain technical terms in plain language.">
+            <input type="checkbox" id="ox-fourth-wall"> Fourth wall
           </label>
-          <label title="Temperature (0 = deterministic, 0.5 = creative)">
-            Temp: <input type="range" id="ox-temp" min="0" max="1.0" step="0.1" value="0.3">
-            <span id="ox-temp-val">0.3</span>
+          <label title="Use the web-alignment path for broader or URL-heavy questions.">
+            <input type="checkbox" id="ox-websearch"> Web alignment
           </label>
         </div>
       </div>
@@ -307,39 +323,44 @@
     <!-- Spinner -->
     <div class="ox-spinner" id="ox-spinner">
       <span class="ox-spinner-ring"></span>
-      OX is thinking — extended-context queries may take up to 30 s…
+      <span id="ox-thoughts">Merlin is thinking…</span>
     </div>
 
     <!-- Response -->
     <div class="ox-response-card" id="ox-response-card">
       <div class="ox-response-header">
-        <span class="ox-response-title">OX Response</span>
+        <span class="ox-response-title" id="ox-response-title">Merlin Response</span>
         <span class="ox-response-meta" id="ox-response-meta"></span>
         <button class="ox-copy-btn" onclick="oxCopy()">⎘ Copy</button>
       </div>
       <div class="ox-answer" id="ox-answer"></div>
       <div class="ox-gate-strip" id="ox-gate-strip"></div>
+      <div class="ox-section-title">Follow-ups</div>
+      <div class="ox-followups" id="ox-followups"></div>
+      <div class="ox-section-title">Sources</div>
+      <div class="ox-sources" id="ox-sources"></div>
       <div class="ox-gov-note">
-        ⚖️ <strong>Governance reminder:</strong> This is an AI-generated suggestion from OX Alpha.
+        ⚖️ <strong>Governance reminder:</strong> Merlin is an AI interface, not a sovereign adjudicator.
         No hardgate claim, pillar number, or Lean4 theorem is accepted without steward approval.
-        Gate labels in the response follow HARDGATE / ADJACENT_TRACK / OPEN_GAP conventions.
+        Gate labels are part of the honesty contract, not decoration.
       </div>
     </div>
 
     <!-- History -->
     <div class="ox-history" id="ox-history" style="display:none">
-      <div class="ox-history-title">Session history</div>
+      <div class="ox-history-title">Active local session</div>
       <div class="ox-history-list" id="ox-history-list"></div>
     </div>
 
     <!-- Info strip -->
     <div class="ox-info-strip">
-      <strong>How this works:</strong> OX Navigator calls the AxiomZero Assistant API at
-      <code>/api/ox</code> with the full <code>ox_full_context.md</code> pack (~85k tokens)
-      as the system prompt, giving OX Alpha cross-pillar awareness across all 800+ pillars,
-      57,450 tests, and 1,066 Lean4 theorems.<br><br>
-      Requires <code>OPENROUTER_API_KEY</code> set on the backend (never in source).
-      Model: <a href="https://openrouter.ai/stealth/ox-alpha" target="_blank" rel="noopener">stealth/ox-alpha</a>.<br><br>
+      <strong>How this works:</strong> Merlin calls <code>/api/merlin</code> for structured answers with a strict
+      response contract: body, follow-ups, and sources. The hidden backend also exposes
+      <code>/api/agentToolkit</code>, <code>/api/agentInvoke</code>, and <code>/api/agentOrchestrate</code> as
+      machine-readable orchestration surfaces.<br><br>
+      Active session memory is kept in browser <code>localStorage</code> under <code>merlin_active_session</code>.
+      Cross-device Base44-style library persistence is not yet implemented in this standalone shell.<br><br>
+      Live model access still uses <code>OPENROUTER_API_KEY</code> when available, with offline RAG fallback when it is not.<br><br>
       <em>Theory &amp; scientific direction: ThomasCory Walker-Pearson ·
       Code &amp; engineering: GitHub Copilot (AI) ·
       Open science artifact — public domain</em>
