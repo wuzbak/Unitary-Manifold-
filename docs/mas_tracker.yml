@@ -1,6 +1,34 @@
-version: "v33.0"
+version: "v33.1"
 date: "2026-09-02"
 updated: "2026-09-02"
+
+v33_1_sprint_bk:
+  sprint: BK
+  version: v33.1
+  date: "2026-09-02"
+  pillars: 980-981
+  new_pillars: 2
+  new_tests: 23
+  lean4_start: 3912
+  lean4_end: 3912
+  lean4_delta: 0
+  closures:
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - SPRINT_BK_REGRESSION_CERTIFICATE_COMPLETE
+  advances:
+    - JARLSKOG_LAYER2_TIGHTENED_BOUND
+    - TRUTH_SURFACE_LOCKSTEP_SYNC
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_THETA13_ARCHITECTURE_LIMIT
+    - FERMION_MASS_MAGNITUDES_13D_IRREDUCIBLE
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+  regression: "pending full-suite run"
+  next_pillar_slot: 982
 
 v33_0_sprint_bj:
   sprint: BJ

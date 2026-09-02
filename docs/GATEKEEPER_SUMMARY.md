@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v32.0
+# Unitary Manifold v33.1
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,6 +8,8 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Sprint BK (v33.1 — 2026-09-02):** 2 pillars (980–981). One-residual target executed: JARLSKOG Layer-2 moved from MECHANISM_PARTIAL to ARCHITECTURE_LIMIT_CERTIFIED after explicit in-EFT cap audit; tightened residual remains strictly positive (~5.6–5.7%). Truth surfaces updated in lockstep. Lean4 unchanged (3912). Next slot 982.
+>
 > **Sprint BG (v31.0 — 2026-09-01):** 7 pillars (942–948). B3_g4_flux → PARTIAL_CONSISTENT (Kähler primitivity + tadpole integer confirmed; explicit G₄ rep architecture-dependent). CKM → SECOND_ORDER_PARTIAL (θ₁₂, θ₂₃ within 30%; θ₁₃ architecture residual). Fermion mass ratio → 13D_IRREDUCIBLE. CMB amplitude → FULLY_CONFIRMED_IRREDUCIBLE (WZ cross-check closes all EFT routes). Lean4 3512→3612 (+100). Regression ~61,578 passed · 0 failed. Next slot 949.
 >
 
@@ -22,7 +24,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-01 (v32.1 — Sprint BI: Pillars 955–963 (9 pillars); SU3 Kawamura P-matrix derived from k_CS=74 boundary (FALLIBILITY §XIV.2 CLOSED); n₂=7 derived from Z₂-odd BC + minimum step (FALLIBILITY §XIII.4 CLOSED); ν mass splitting tree-level computed; CMB KK transfer analytic complete; c_L/SL spectrum derived; Higgs mass GW bounded; KK QCD axion mass computed; Lean4 +100 (3712→3812); ~61,896 passed · 45 skipped · 12 deselected · 0 failed; next pillar slot 964. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, CKM_THETA13_ARCHITECTURE_LIMIT, FERMION_MASS_MAGNITUDES_13D_IRREDUCIBLE, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE_OPEN.)*
+*Last updated: 2026-09-02 (v33.1 — Sprint BK: Pillars 980–981 (2 pillars); one-residual objective executed on JARLSKOG Layer-2 with binary outcome ARCHITECTURE_LIMIT_CERTIFIED and tightened residual window (~5.6–5.7%); truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 982. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_THETA13_ARCHITECTURE_LIMIT, FERMION_MASS_MAGNITUDES_13D_IRREDUCIBLE, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
 
 > **Repository sync guardrail (v32.1):** Sprint BI artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

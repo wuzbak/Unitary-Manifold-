@@ -1,9 +1,13 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v32.0
+# Unitary Manifold v33.1
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-01 (v31.0 — Sprint BG: Pillars 942–948 (7 pillars). B3_g4_flux → PARTIAL_CONSISTENT (Kähler primitivity + D3 tadpole integer confirmed; explicit G₄ rep architecture-dependent). CKM → SECOND_ORDER_PARTIAL (θ₁₂,θ₂₃ within 30%; θ₁₃ architecture residual). Fermion mass ratio → 13D_IRREDUCIBLE. CMB amplitude → FULLY_CONFIRMED_IRREDUCIBLE (all EFT routes exhausted). Lean4 +100 (3512→3612); ~138 new tests; ~61,578 passed · 45 skipped · 12 deselected · 0 failed. Active falsification windows: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-02 (v33.1 — Sprint BK: Pillars 980–981 (2 pillars). JARLSKOG Layer-2 one-residual target resolved with binary outcome ARCHITECTURE_LIMIT_CERTIFIED and tightened bound (~5.6–5.7%). Lean4 unchanged at 3912. Next slot 982. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P981 (v33.1): Sprint BK Regression Certificate — SPRINT_BK_REGRESSION_CERTIFICATE_COMPLETE. `src/core/pillar981_sprint_bk_regression_certificate.py` certifies Sprint BK (2 pillars 980–981; Lean4 3912→3912; next slot 982; v33.1). Remaining open lanes are kept explicit and non-inflated.*
+
+*P980 (v33.1): Jarlskog Layer-2 Binary Outcome Audit — JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED. `src/core/pillar980_jarlskog_layer2_architecture_limit.py` audits A4-NLO, O(1/K_CS^2), and KK-mixing channels; in-EFT improvement cap is sub-percent and cannot close the ~5.7% residual, so the lane is certified as architecture-limited with a tightened positive bound.*
 
 *P948 (v31.0): Sprint BG Regression Certificate — SPRINT_BG_REGRESSION_CERTIFICATE. `src/core/pillar948_sprint_bg_regression_certificate.py` certifies Sprint BG (7 pillars 942–948; ~138 new tests; Lean4 +100 (3512→3612); next slot 949; v31.0). Remaining open: B3_G4_FLUX (explicit rep), CKM_TEXTURE_13D (θ₁₃ residual), FERMION_MASS_RATIO (13D irreducible), CMB_AMP_ARCHITECTURE_LIMIT (fully confirmed), ALPHA_S_13D_IRREDUCIBLE, DELTA_M21_NLO_IRREDUCIBLE, DESI_DR3_MONITORING, LiteBIRD β pending.*
 

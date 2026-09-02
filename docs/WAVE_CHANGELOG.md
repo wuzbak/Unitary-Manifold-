@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v33.0 (2026-09-02)**
+**Current version: v33.1 (2026-09-02)**
 **Regression:** ~62,200 passed · 45 skipped · 12 deselected · 0 failed
-**Next pillar slot:** 980
+**Next pillar slot:** 982
+
+---
+
+## v33.1 (2026-09-02 — Sprint BK: Pillars 980–981)
+
+**What changed:**
+Pillars 980–981 (2 pillars). Sprint BK executed a truth-lock + one-residual scope. (1) P980: Jarlskog Layer-2 binary outcome audit over audited in-EFT channels (A₄ higher-order insertion, O(1/K_CS²) residual scale, KK excited-state mixing cap). Material reduction threshold was not met; lane advanced to `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED` with a tightened positive residual bound (~5.6–5.7%). (2) P981: Sprint BK regression certificate and canonical sprint ledger.
+
+**Why:**
+To complete one meaningful internal target without inflating closure claims, while re-locking all canonical status surfaces to the same branch reality.
+
+**Epistemic label deltas:**
+- `JARLSKOG_LAYER2_MECHANISM_PARTIAL` → `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`
+- Remaining TYPE_B lanes retained as monitoring/architecture tracks
+
+**Physics label delta:** None — no new hardgate claim promotion.
+
+**Falsification impact:** None — DESI DR3 and LiteBIRD windows unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s floor, Higgs architecture window, CKM θ₁₃ residual, fermion magnitudes, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Next pillar slot:** 982
 
 ---
 

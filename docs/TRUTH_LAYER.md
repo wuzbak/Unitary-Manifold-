@@ -1,8 +1,14 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v32.1
+# Unitary Manifold v33.1
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v33.1 sync note (Sprint BK — 2026-09-02):*
+*(1) Auditable checked-in branch state is Sprint BK: Pillars 980–981; Lean4 3912; next pillar slot 982.*
+*(2) Sprint BK resolves the one-residual objective with a binary outcome: JARLSKOG_LAYER2_MECHANISM_PARTIAL → JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED (tightened bound remains positive, ~5.6–5.7%).*
+*(3) Remaining lanes are explicitly monitoring/architecture lanes only: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM θ13 architecture residual, fermion-magnitude residual, DESI DR3, LiteBIRD.*
+*(4) Canonical truth surfaces are lockstep-synced in this sprint; no closure inflation claims.*
 
 *v31.0 sync note (Sprint BG — 2026-09-01):*
 *(1) Auditable checked-in branch state is Sprint BG: ~61,578 passed · 45 skipped · 12 deselected · 0 failed; Lean4 3612; next pillar slot 949.*
