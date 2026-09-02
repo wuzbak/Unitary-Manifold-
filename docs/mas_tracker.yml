@@ -1,6 +1,36 @@
-version: "v33.1"
+version: "v34.0"
 date: "2026-09-02"
 updated: "2026-09-02"
+
+v34_0_sprint_bl:
+  sprint: BL
+  version: v34.0
+  date: "2026-09-02"
+  pillars: 982-992
+  new_pillars: 11
+  new_tests: 46
+  lean4_start: 3912
+  lean4_end: 3912
+  lean4_delta: 0
+  closures:
+    - FLAVOR_MODULI_JOINT_CLOSURE_CERTIFICATE_COMPLETE
+    - SPRINT_BL_REGRESSION_CERTIFICATE_COMPLETE
+  advances:
+    - FLAVOR_FAMILY_BOUNDARY_MAPPED
+    - MODULI_LOCKED_FERMION_RADII_TENSION
+    - ALPHA_S_RELEASE_INGESTION_ROUTED
+    - TRUTH_SURFACE_LOCKSTEP_SYNC
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_THETA13_ARCHITECTURE_LIMIT
+    - FERMION_MASS_MAGNITUDES_MODULI_LOCK_TENSION
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+  regression: "62,525 passed · 48 skipped · 12 deselected · 0 failed"
+  next_pillar_slot: 993
 
 v33_1_sprint_bk:
   sprint: BK
@@ -27,7 +57,7 @@ v33_1_sprint_bk:
     - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
     - DESI_DR3_MONITORING
     - LITEBIRD_BIREFRINGENCE
-  regression: "pending full-suite run"
+  regression: "62,200 passed · 45 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 982
 
 v33_0_sprint_bj:

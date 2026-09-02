@@ -1,28 +1,31 @@
 {
-  "version": "v24.0",
-  "date": "2026-08-23",
-  "tests_passed": 57692,
-  "tests_skipped": 47,
+  "version": "v34.0",
+  "date": "2026-09-02",
+  "tests_passed": 62525,
+  "tests_skipped": 48,
   "tests_deselected": 12,
   "tests_failed": 0,
-  "lean4_theorems": 1141,
+  "lean4_theorems": 3912,
   "pillars_hardgate": 208,
-  "pillars_total": 800,
-  "next_pillar_slot": 801,
-  "primary_falsifier": "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)",
+  "pillars_total": 992,
+  "next_pillar_slot": 993,
+  "primary_falsifier": "LiteBIRD \u03b2 \u2208 {0.273\u00b0, 0.331\u00b0} (~2032)",
   "open_tensions": [
     {
-      "name": "JUNO G4 tension",
-      "sigma": 1.71,
-      "status": "JUNO_G4_TENSION_ESCALATED"
+      "name": "Flavor family boundary",
+      "status": "FLAVOR_FAMILY_BOUNDARY_MAPPED"
     },
     {
-      "name": "DESI w_a dataset split",
-      "status": "DESI_DR2_DATASET_DEPENDENT"
+      "name": "\u03b1_s Type-B floor",
+      "status": "ALPHA_S_TYPE_B_FLOOR"
     },
     {
       "name": "CMB peak suppression",
       "status": "ARCHITECTURE_LIMIT (33.6% irreducible A_s mismatch)"
+    },
+    {
+      "name": "DESI w_a dataset split",
+      "status": "DESI_DR2_DATASET_DEPENDENT"
     }
   ],
   "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",

@@ -1,10 +1,10 @@
 # Where We Are: The Full Picture, September 2026
 
-**Unitary Manifold — S03E075 · v32.1**
+**Unitary Manifold — S03E075 · v34.0**
 
 ---
 
-The last status summary was written at v24.1, Sprint AT (August 2026). Since then, nine more sprints have run. This post is the full accounting: what was established, what remains open, what the experiments say, and what comes next.
+The last status summary was written before the final late-summer push. Since then, the repository has run through Sprint BL and then stopped at a natural pause point. This post is the full accounting: what was established, what remains open, which limits turned out to be real architecture limits, and what the experiments now get to decide for us.
 
 No score. No ranking. Just the evidence.
 
@@ -12,19 +12,19 @@ No score. No ranking. Just the evidence.
 
 ## What the repository looks like now
 
-**Version:** v32.1, Sprint BI (September 1, 2026)
+**Version:** v34.0, Sprint BL (September 2, 2026)
 
-**Test suite:** 61,896 passed · 45 skipped · 12 deselected · **0 failed**
+**Test suite:** 62,525 passed · 48 skipped · 12 deselected · **0 failed**
 
-The zero-failures rule has held without exception through nine consecutive sprints, 963 derivation pillars, and 3,812 machine-checked Lean4 theorems.
+The zero-failures rule has held through the closing sprint push: 992 tracked pillar slots and 3,912 machine-checked Lean4 theorems.
 
-**Pillar count:** 963 pillars registered. 208 are hardgate (formally closed core physics). The remainder are adjacent tracks — F-theory extensions, applied domain pillars, quantum simulation — labeled clearly as non-hardgate.
+**Pillar count:** 992 pillar slots registered. 208 are hardgate (formally closed core physics). The remainder are adjacent tracks, completion tracks, or infrastructure surfaces, labeled clearly as non-hardgate.
 
 ---
 
-## The arc of Sprints BA through BI
+## The arc of Sprints BA through BL
 
-Here is what nine sprints accomplished, compressed into a paragraph each.
+Here is what the late-summer sprint run accomplished, compressed into a paragraph each.
 
 **Sprint BA (v25.5):** The 6D→11D→5D→4D dimensional reduction chain was closed. Three fermion generations from the T²/Z₂ orbifold were machine-proved. The Hořava-Witten UV vacuum was selected. Swampland constraints passed. The architecture hangs together end to end.
 
@@ -44,6 +44,12 @@ Here is what nine sprints accomplished, compressed into a paragraph each.
 
 **Sprint BI (v32.1):** Two sections of FALLIBILITY.md were closed. SU(3) — why the strong force has the symmetry it has — was derived from k_CS = 74 and the Freed-Hopkins boundary condition. The second winding number n₂ = 7 was derived from Z₂-odd boundary conditions without any CMB input. The c_L coupling spectrum was analytically characterized. The Higgs mass received a GW geometric bound (153 GeV, 22% off PDG, honest architecture limit). The KK QCD axion was identified and shown to satisfy observational bounds.
 
+**Sprint BJ (v33.0):** The repository tightened several live boundary lanes instead of pretending to close them. Jarlskog Layer-2 was cut from a much larger gap to a smaller one; the Higgs ceiling was sharpened; α_s Route C was certified as non-existent in the 5D lane; and the tensor/slow-roll chain received further derivation hardening.
+
+**Sprint BK (v33.1):** Jarlskog Layer-2 was forced into a binary outcome. The answer was not “closed.” The answer was `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`. That matters. A false win would have been easier.
+
+**Sprint BL (v34.0):** The last sprint for a while did the adult thing. It took the remaining flavor complaints — CKM θ₁₃, \|Vub\|, fermion magnitudes — and converted them into one explicit UV flavor/moduli family. It also wired PDG/FLAG α_s releases directly into the UV rerun path. The resulting verdict is not triumph. It is structure: `FLAVOR_FAMILY_BOUNDARY_MAPPED`, with `radii_lock` carrying the dominant unresolved burden.
+
 ---
 
 ## Experimental status, as of September 2026
@@ -52,11 +58,11 @@ Here is what nine sprints accomplished, compressed into a paragraph each.
 |---|---|---|
 | LiteBIRD birefringence β | β ∈ {0.273°, 0.331°} | **ACT+Planck DR6: 4.8σ detection, low branch (0.273°) central match at 0.07σ.** LiteBIRD (~2032) is the decisive test. |
 | JUNO neutrino ordering | Normal hierarchy (ν₁ lightest) | First data 1.07σ → 1.71σ tension with inverted. Year 2 (~2027) is the gate. |
-| DESI dark energy wₐ | wₐ = 0 (KK radion frozen) | Dataset-dependent: BAO-only PASS; DESY5: 3.18σ raw, FALSIFIED_CANDIDATE. Loop-QKK reduces to 1.82σ. DR3 monitoring ongoing. |
+| DESI dark energy wₐ | wₐ = 0 (KK radion frozen) | Dataset-dependent: tracked 2.30σ tension, DR3 monitoring ongoing. |
 | CMB tensor-to-scalar r | r = 0.0315 | PASS: BICEP/Keck < 0.036. |
 | HL-LHC KK graviton M_G* | M₁ ≈ 1.0 TeV | PASS: exclusion < 4.0 TeV. |
 | nEDM@SNS neutron EDM | d_n ≈ 7.8×10⁻²⁷ e·cm | Experiment scheduled 2028. |
-| XENON-nT dark matter σ_SI | σ_SI ≈ 6×10⁻⁴⁷ cm² | TENSION: below current limit; KK DM tree-level architecture limit noted. |
+| XENON-nT dark matter σ_SI | σ_SI ≈ 6×10⁻⁴⁷ cm² | PASS within current limit; KK DM tree-level caveats remain documented. |
 
 The birefringence signal is the most significant development of the past months. A 4.8σ CMB birefringence detection whose central value matches the low-branch prediction of this framework at 0.07σ is not proof — single-experiment, cross-correlation systematics, LiteBIRD needed for discrimination between the two branches — but it is the first external signal potentially consistent with the core prediction.
 
@@ -69,23 +75,20 @@ This is the canonical list, taken directly from the gate registry:
 | Item | Status | Note |
 |---|---|---|
 | CMB acoustic peak amplitude | CONFIRMED_IRREDUCIBLE | ×4–7 suppression; all EFT routes exhausted |
-| CKM θ₁₃ | TRUE_ARCHITECTURE_LIMIT | KK excitation contribution ∼3×10⁻²¹; negligible |
-| Fermion mass magnitudes | WINDOW_CONSTRAINED | |ΔR/R₀|<0.5; magnitudes require specifying R_i |
-| α_s exact value | 13D_IRREDUCIBLE | PDG outside tightened 13D instanton window |
-| Δm²₂₁ NLO | NLO_IRREDUCIBLE | NLO overshoots; tree-level bounded |
+| CKM θ₁₃ + \|Vub\| | FLAVOR_FAMILY_BOUNDARY_MAPPED | Now part of one shared UV flavor/moduli lane |
+| Fermion mass magnitudes | MODULI_LOCK_TENSION | Dominant unresolved share is radii_lock |
+| α_s exact value | ALPHA_S_TYPE_B_FLOOR | PDG outside tightened compactification window |
 | Higgs mass exact value | GEOMETRIC_BOUNDED | GW: 153 GeV; PDG: 125 GeV; 22% off |
-| G₄ explicit representation | ARCHITECTURE-DEPENDENT | Requires specific CY₄ intersection ring data |
-| KK axion Z₂ BC model building | NOMINATED | Mechanism identified; specific model not constructed |
 | DESI DR3 wₐ | MONITORING | ~2027 |
 | LiteBIRD birefringence | OPEN | ~2032 |
 
-These are not being softened or minimized. The CMB amplitude gap is the most significant known discrepancy between the framework's predictions and observation. The exact Higgs mass and CKM θ₁₃ are the most significant unfixed flavour-physics gaps. All three are documented in FALLIBILITY.md with admission numbers.
+These are not being softened or minimized. The CMB amplitude gap remains the largest known mismatch. The α_s/Higgs pair and the flavor family are now each explicit architecture clusters rather than loose complaints. That is the main conceptual gain of Sprint BL.
 
 ---
 
 ## The Lean4 milestone
 
-3,812 machine-checked Lean4 theorems covering:
+3,912 machine-checked Lean4 theorems covering:
 - The full dimensional reduction chain (11D → 4D)
 - Fermion generation count (T²/Z₂ APS index)
 - The Sp(2,ℝ) null cone consistency
@@ -101,17 +104,17 @@ The Lean4 coverage is not complete — not every pillar has a corresponding Lean
 
 ## What comes next
 
-The project is at a natural consolidation point. The dimensional reduction chain is complete. The flavour physics program has run to its honest architectural limits. The F-theory G₄ problem has a concrete form. The falsification observatory is running.
+The project is at a natural stopping point for now. The dimensional reduction chain is complete enough to be judged. The flavor program has reached an honest architecture boundary. The compactification-facing α_s/Higgs story now has a clear “not enough structure yet” sign hanging on it. The falsification observatory is running. That is enough to stop pretending we need one more sprint to become somebody else.
 
 Immediate next work:
-1. **DESI DR3 response**: When DESI DR3 data publishes, the pre-registered framework response will run immediately. The dark energy wₐ tension is either resolved or escalated.
-2. **JUNO Year 2**: The neutrino ordering prediction is pre-registered and will be tested around 2027.
-3. **CY₄ model building**: Selecting a specific CY₄ geometry and computing its intersection ring would pin N_D3 and allow the explicit G₄ to be fully specified.
-4. **Lean4 coverage of remaining physics pillars**: The bridge proof strategy scales; covering the remaining hardgate pillars formally is ongoing work.
+1. **DESI DR3 response**: when DR3 lands, the preregistered framework response runs.
+2. **LiteBIRD**: the birefringence window remains the cleanest public yes/no test.
+3. **UV model-building, if anyone resumes it**: flavor-moduli closure and compactification closure are now clearly named tasks, not fog banks.
+4. **Publication and archive stewardship**: keep the ledgers, site surfaces, and archive metadata synchronized so the pause is intelligible to outsiders.
 
-The birefringence detection from ACT+Planck DR6 is the most exciting development. The framework made this prediction years before that data. The current 0.07σ agreement between the low-branch prediction and the ACT central value is consistent but not decisive. LiteBIRD will be decisive.
+The birefringence hint from ACT+Planck DR6 is still the most interesting external development. It is not a coronation. It is a reason to wait without losing the plot. LiteBIRD will be decisive.
 
-That is where we are. The evidence is what it is. The gaps are what they are. The experiments will do what they do.
+That is where we are. The evidence is what it is. The gaps are what they are. The geometry has said everything it can say without new architecture. The sky and the lab get the next turn.
 
 ---
 

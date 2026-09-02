@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v33.1
+# Unitary Manifold v34.0
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,6 +8,8 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Sprint BL (v34.0 — 2026-09-02):** 11 pillars (982–992). The surviving flavor residuals are no longer treated as disconnected issues: Sprint BL maps CKM θ₁₃ / |Vub| and fermion-magnitude tension into one UV flavor/moduli family verdict (`FLAVOR_FAMILY_BOUNDARY_MAPPED`), with `radii_lock` the dominant remaining burden. PDG/FLAG α_s release ingestion is now wired into the UV lane and triggers reruns whenever α_s sits outside the tightened compactification window. Truth surfaces updated in lockstep. Lean4 unchanged (3912). Next slot 993.
+>
 > **Sprint BK (v33.1 — 2026-09-02):** 2 pillars (980–981). One-residual target executed: JARLSKOG Layer-2 moved from MECHANISM_PARTIAL to ARCHITECTURE_LIMIT_CERTIFIED after explicit in-EFT cap audit; tightened residual remains strictly positive (~5.6–5.7%). Truth surfaces updated in lockstep. Lean4 unchanged (3912). Next slot 982.
 >
 > **Sprint BG (v31.0 — 2026-09-01):** 7 pillars (942–948). B3_g4_flux → PARTIAL_CONSISTENT (Kähler primitivity + tadpole integer confirmed; explicit G₄ rep architecture-dependent). CKM → SECOND_ORDER_PARTIAL (θ₁₂, θ₂₃ within 30%; θ₁₃ architecture residual). Fermion mass ratio → 13D_IRREDUCIBLE. CMB amplitude → FULLY_CONFIRMED_IRREDUCIBLE (WZ cross-check closes all EFT routes). Lean4 3512→3612 (+100). Regression ~61,578 passed · 0 failed. Next slot 949.
@@ -24,9 +26,9 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-02 (v33.1 — Sprint BK: Pillars 980–981 (2 pillars); one-residual objective executed on JARLSKOG Layer-2 with binary outcome ARCHITECTURE_LIMIT_CERTIFIED and tightened residual window (~5.6–5.7%); truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 982. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_THETA13_ARCHITECTURE_LIMIT, FERMION_MASS_MAGNITUDES_13D_IRREDUCIBLE, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
+*Last updated: 2026-09-02 (v34.0 — Sprint BL: Pillars 982–992 (11 pillars); flavor-family residuals consolidated into a single UV flavor/moduli verdict (`FLAVOR_FAMILY_BOUNDARY_MAPPED`); α_s release ingestion routed into the UV compactification lane; truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 993. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_THETA13_ARCHITECTURE_LIMIT, FERMION_MASS_MAGNITUDES_MODULI_LOCK_TENSION, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
 
-> **Repository sync guardrail (v32.1):** Sprint BI artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
+> **Repository sync guardrail (v34.0):** Sprint BL artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 
 > **v15.8 sync note:** Pillars 511–515 deliver the topological irreversibility engine in response to a structural critique of test_evolution.py. Four identified architectural flaws addressed: Minkowski cage replaced by factory-vs-solver architecture proof; J^0 illusion replaced by Chern-Simons-corrected topological current (k_CS=74); S-matrix fake replaced by forward-only honest irreversibility measure; KK scaffold residue replaced by live winding tracking with explicit open-work record. Pillar 516 certifies the KK backreaction architecture limit as ARCHITECTURE_LIMIT_CERTIFIED. No physics promotion, no physics label promotion, no falsifier softened.
 

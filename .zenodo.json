@@ -1,13 +1,13 @@
 {
-  "title": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (v22.9)",
-  "version": "v22.9",
+  "title": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (v34.0)",
+  "version": "v34.0",
   "upload_type": "publication",
   "publication_type": "preprint",
-  "description": "<p>We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. Dimensional reduction of the 5D Einstein-Hilbert action yields a 4D effective action whose field equations — the Walker-Pearson equations — show that the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate.</p><p>v22.9 (2026-08-20): 208 hardgated core pillars, 784 total pillar slots, next slot 785. Full regression: ~56,747 passed · 47 skipped · 12 deselected · 0 failed. Lean4 corpus: 976 theorems.</p><p>Epistemic status: repository-level internal mathematical self-consistency is established across the tracked pillar set; external empirical confirmation remains pending. Adjacent research tracks remain honest quantitative explorations rather than hardgated physics claims.</p><p>Primary falsifier: LiteBIRD CMB polarization rotation angle β ∈ {0.273°, 0.331°} (~2032).</p><p>Theory, framework, and scientific direction: ThomasCory Walker-Pearson. Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).</p>",
+  "description": "<p>We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. Dimensional reduction of the 5D Einstein-Hilbert action yields a 4D effective action whose field equations — the Walker-Pearson equations — show that the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate.</p><p>v34.0 (2026-09-02): 208 hardgated core pillars, 992 total tracked pillar slots, next slot 993. Full regression: 62,525 passed · 48 skipped · 12 deselected · 0 failed. Lean4 corpus: 3,912 theorems.</p><p>Epistemic status: repository-level internal mathematical self-consistency is established across the tracked pillar set; external empirical confirmation remains pending. Sprint BL consolidates the surviving flavor-family residuals into one explicit UV flavor/moduli boundary and wires PDG/FLAG α_s releases into the UV rerun path without inflating closure claims.</p><p>Primary falsifier: LiteBIRD CMB polarization rotation angle β ∈ {0.273°, 0.331°} (~2032).</p><p>Theory, framework, and scientific direction: ThomasCory Walker-Pearson. Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).</p>",
   "access_right": "open",
   "license": "other-open",
   "doi": "10.5281/zenodo.19584531",
-  "publication_date": "2026-08-20",
+  "publication_date": "2026-09-02",
   "keywords": [
     "Kaluza-Klein",
     "5D geometry",

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Status Dashboard — axiomzerospc.org</title>
-  <meta name="description" content="Public status dashboard for the Unitary Manifold: v24.0, 57,692 passing tests, 1,141 Lean4 theorems, open tensions, and the primary LiteBIRD falsifier." />
+  <meta name="description" content="Public status dashboard for the Unitary Manifold: v34.0, 62,525 passing tests, 3,912 Lean4 theorems, open residuals, and the primary LiteBIRD falsifier." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/main.css" />
@@ -82,7 +82,7 @@
     <li><a href="../portal/library/">Library</a></li>
     <li><a href="../portal/engine/">Science Engine</a></li>
     <li><a href="index.html" class="active">Status</a></li>
-    <li><span class="nav-badge">v24.0</span></li>
+    <li><span class="nav-badge" id="nav-version">v34.0</span></li>
   </ul>
   <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
 </nav>
@@ -105,17 +105,17 @@
     <div class="status-grid">
       <div class="status-card">
         <div class="status-card-label">Version</div>
-        <div class="status-card-value" style="color:var(--color-gold);">v24.0</div>
-        <div class="status-card-sub">2026-08-23</div>
+        <div class="status-card-value" style="color:var(--color-gold);" id="status-version">v34.0</div>
+        <div class="status-card-sub" id="status-date">2026-09-02</div>
       </div>
       <div class="status-card">
         <div class="status-card-label">Passing Tests</div>
-        <div class="status-card-value" style="color:var(--color-green);">57,692</div>
+        <div class="status-card-value" style="color:var(--color-green);" id="status-tests">62,525</div>
         <div class="status-card-sub">0 failures required</div>
       </div>
       <div class="status-card">
         <div class="status-card-label">Lean4 Theorems</div>
-        <div class="status-card-value" style="color:var(--color-accent);">1,141</div>
+        <div class="status-card-value" style="color:var(--color-accent);" id="status-lean4">3,912</div>
         <div class="status-card-sub">machine-checkable theorem registry</div>
       </div>
       <div class="status-card">
@@ -125,8 +125,8 @@
       </div>
       <div class="status-card">
         <div class="status-card-label">Total Pillars</div>
-        <div class="status-card-value">800</div>
-        <div class="status-card-sub">next pillar slot: 801</div>
+        <div class="status-card-value" id="status-pillars">992</div>
+        <div class="status-card-sub" id="status-next">next pillar slot: 993</div>
       </div>
     </div>
 
@@ -154,9 +154,9 @@
         </thead>
         <tbody>
           <tr>
-            <td>Δm²₂₁</td>
-            <td class="mono">1.71σ</td>
-            <td>JUNO_G4_TENSION_ESCALATED</td>
+            <td>Flavor family</td>
+            <td class="mono">boundary mapped</td>
+            <td>FLAVOR_FAMILY_BOUNDARY_MAPPED</td>
           </tr>
           <tr>
             <td>CMB peak suppression</td>
@@ -164,8 +164,13 @@
             <td>ARCHITECTURE_LIMIT</td>
           </tr>
           <tr>
+            <td>α<sub>s</sub> Type-B floor</td>
+            <td class="mono">PDG 0.1180 outside tightened window</td>
+            <td>ALPHA_S_TYPE_B_FLOOR</td>
+          </tr>
+          <tr>
             <td>DESI w_a dataset split</td>
-            <td class="mono">3.18σ worst-case branch</td>
+            <td class="mono">2.30σ tracked tension</td>
             <td>DESI_DR2_DATASET_DEPENDENT</td>
           </tr>
         </tbody>
@@ -188,9 +193,35 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof AZAssistant !== 'undefined') {
-      AZAssistant.setPageContext('Public status dashboard — v24.0, 57,692 tests, 1,141 Lean4 theorems, open tensions, and the LiteBIRD falsifier');
+      AZAssistant.setPageContext('Public status dashboard — v34.0, 62,525 tests, 3,912 Lean4 theorems, open residuals, and the LiteBIRD falsifier');
     }
   });
+  function loadStatusJson(url) {
+    return fetch(url).then(function(r) {
+      if (!r.ok) throw new Error('status fetch failed');
+      return r.json();
+    });
+  }
+  loadStatusJson('/api/status')
+    .catch(function() { return loadStatusJson('../data/status.json'); })
+    .then(function(d) {
+      var testsPassed = d.tests_passed || (d.tests && d.tests.passed);
+      var leanTheorems = d.lean4_theorems || (d.lean4 && d.lean4.theorem_count);
+      var version = d.version || (d.meta && d.meta.version && ('v' + d.meta.version));
+      var date = d.date || (d.meta && d.meta.date);
+      var totalPillars = d.pillars_total || (d.pillars && d.pillars.total_slots);
+      var nextSlot = d.next_pillar_slot || (d.pillars && d.pillars.next_slot);
+      if (typeof testsPassed === 'number') document.getElementById('status-tests').textContent = testsPassed.toLocaleString();
+      if (typeof leanTheorems === 'number') document.getElementById('status-lean4').textContent = leanTheorems.toLocaleString();
+      if (version) {
+        document.getElementById('nav-version').textContent = version;
+        document.getElementById('status-version').textContent = version;
+      }
+      if (date) document.getElementById('status-date').textContent = date;
+      if (typeof totalPillars === 'number') document.getElementById('status-pillars').textContent = totalPillars.toLocaleString();
+      if (typeof nextSlot === 'number') document.getElementById('status-next').textContent = 'next pillar slot: ' + nextSlot.toLocaleString();
+    })
+    .catch(function(){});
 </script>
 </body>
 </html>
