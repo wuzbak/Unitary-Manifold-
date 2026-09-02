@@ -1,6 +1,39 @@
-version: "v32.1"
-date: "2026-09-01"
-updated: "2026-09-01"
+version: "v33.0"
+date: "2026-09-02"
+updated: "2026-09-02"
+
+v33_0_sprint_bj:
+  sprint: BJ
+  version: v33.0
+  date: "2026-09-02"
+  pillars: 964-979
+  new_pillars: 16
+  new_tests: 304
+  lean4_start: 3812
+  lean4_end: 3912
+  lean4_delta: 100
+  next_pillar_slot: 980
+  closures:
+    - CL_PHYS_ANALYTICALLY_DERIVED
+    - QUARK_LEPTON_CL_SPLITTING_DERIVED
+    - EFOLDS_DERIVED_WINDOW
+    - MNU1_GEOMETRIC_ESTIMATE
+    - ETA_BAR_SPINSTRUCTURE_UNIQUENESS_PROVED
+  advances:
+    - JARLSKOG_LAYER2_MECHANISM_PARTIAL
+    - ISW_NLO_BOLTZMANN_BOUNDED
+    - CMB_AS_LOWER_BOUND_SHARPENED
+    - ALPHA_S_ROUTE_C_NONEXISTENT_CERTIFIED
+    - HIGGS_MASS_CEILING_SHARPENED
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_THETA13_ARCHITECTURE_LIMIT
+    - FERMION_MASS_MAGNITUDES_13D_IRREDUCIBLE
+    - JARLSKOG_LAYER2_MECHANISM_PARTIAL
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
 
 v32_1_sprint_bi:
   description: "Sprint BI — FALLIBILITY Gap Closure Sprint (7 physics pillars + Lean4 + certificate)"
