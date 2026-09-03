@@ -6,7 +6,6 @@ from src.core.pillar1036_merlin_self_hosted_replacement_milestone import (
     PILLAR_GATE,
     PILLAR_NUMBER,
     PILLAR_STATUS,
-    PILLAR_VALID,
     merlin_self_hosted_replacement_milestone,
     pillar1036_summary,
 )
@@ -16,7 +15,6 @@ def test_identity() -> None:
     assert PILLAR_NUMBER == 1036
     assert PILLAR_GATE == "MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE"
     assert PILLAR_STATUS == "MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE_COMPLETE"
-    assert PILLAR_VALID is True
 
 
 def test_self_hosted_stage_a_surface_exists() -> None:

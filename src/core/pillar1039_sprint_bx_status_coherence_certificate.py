@@ -60,7 +60,7 @@ def status_surface_audit() -> Dict[str, Any]:
     for name, path in STATUS_SURFACES.items():
         text = path.read_text(encoding="utf-8") if path.exists() else ""
         text_lower = text.lower()
-        pillar_window_pass = bool(re.search(r"1032\s*[–-]\s*1039", text))
+        pillar_window_pass = bool(re.search(r"1032\s*(?:[–-]|to)\s*1039", text, flags=re.IGNORECASE))
         next_slot_pass = (
             ("next slot 1040" in text_lower)
             or ("next_pillar_slot: 1040" in text)

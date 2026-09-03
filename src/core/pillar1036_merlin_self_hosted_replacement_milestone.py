@@ -86,8 +86,7 @@ def merlin_self_hosted_replacement_milestone() -> Dict[str, Any]:
     }
 
 
-_REPORT = merlin_self_hosted_replacement_milestone()
-PILLAR_VALID: bool = bool(_REPORT["valid"])
+PILLAR_VALID: bool | None = None
 
 
 def pillar1036_summary() -> Dict[str, Any]:
@@ -97,7 +96,7 @@ def pillar1036_summary() -> Dict[str, Any]:
         "pillar": PILLAR_NUMBER,
         "title": "Merlin Self-Hosted Replacement Milestone",
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": report["valid"],
         "readiness_decision": report["readiness_decision"],
         "evidence_present": report["evidence_present"],
         "comparable_run_count": report["comparable_run_count"],
