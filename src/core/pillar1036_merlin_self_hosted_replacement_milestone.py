@@ -41,7 +41,11 @@ def _ensure_merlin_package_loaded() -> None:
         raise ImportError("Unable to load ox_navigator package")
     module = importlib.util.module_from_spec(spec)
     sys.modules["ox_navigator"] = module
-    spec.loader.exec_module(module)
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop("ox_navigator", None)
+        raise
 
 
 def _run_merlin_helper(module_name: str, function_name: str, kwargs: dict[str, Any]) -> dict[str, Any]:
