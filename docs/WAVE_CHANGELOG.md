@@ -1,10 +1,34 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v34.1 (2026-09-03)**
-**Regression:** 63,441 passed · 23 skipped · 12 deselected · 0 failed
-**Next pillar slot:** 998
+**Current version: v34.4 (2026-09-03)**
+**Regression:** 1,205 passed (1,184 targeted CMB architecture tests + 21 new sprint tests)
+**Next pillar slot:** 1001
 
+## v34.4 (2026-09-03 — Sprint BN: Pillars 998–1000)
+
+**What changed:**
+Pillars 998–1000 (3 pillars). Sprint BN executes the user-requested two-lane integrity push as one coherent branch state. (1) P998: one shared-state UV/global-geometry + flavor full attempt scans τ/ρ parent-state candidates across α_s, CKM shadow, fermion magnitude/radii, Higgs-window, and Jarlskog lanes with zero per-lane rescue parameters; the best joint point still returns `UNIFIED_UV_FLAVOR_ARCHITECTURE_LIMIT_CERTIFIED`. (2) P999: CMB amplitude calibration boundary audit makes explicit that λ_COBE reproducing an input A_s is calibration, not prediction, and aggregates the terminal KK / brane-backreaction / rolling-radion / WZ evidence with the residual-budget row. (3) P1000: sprint-wide certificate for the combined UV/flavor full attempt and the parallel CMB integrity lane.
+
+**Why:**
+Execute the strongest honest in-branch closure attempt now, preserve absolute integrity about what does not close, and separate genuine first-principles prediction from target calibration in the hardest remaining cosmology lane.
+
+**Epistemic label deltas:**
+- new executable sprint-level status: `UNIFIED_UV_FLAVOR_ARCHITECTURE_LIMIT_CERTIFIED`
+- CMB scalar-amplitude normalization explicitly labeled `CALIBRATED_NOT_PREDICTED`
+- no open lane is downgraded or hidden; missing UV/flavor objects are ranked and named
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Regression:** 1,205 passed (1,184 targeted CMB architecture tests + 21 new sprint tests)
+**Next pillar slot:** 1001
+
+---
 ---
 
 ## v34.1 (2026-09-03 — Sprint BM: Pillars 993–997)

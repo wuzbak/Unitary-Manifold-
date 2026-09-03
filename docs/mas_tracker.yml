@@ -1,6 +1,36 @@
-version: "v34.1"
+version: "v34.4"
 date: "2026-09-03"
 updated: "2026-09-03"
+
+v34_4_sprint_bn:
+  sprint: BN
+  version: v34.4
+  date: "2026-09-03"
+  pillars: 998-1000
+  new_pillars: 3
+  new_tests: 21
+  lean4_start: 3912
+  lean4_end: 3912
+  lean4_delta: 0
+  closures:
+    - UNIFIED_UV_FLAVOR_COMPLETION_ATTEMPT_COMPLETE
+    - CMB_AMP_CALIBRATION_BOUNDARY_COMPLETE
+    - SPRINT_BN_UNIFIED_COMPLETION_CERTIFICATE_COMPLETE
+  advances:
+    - SHARED_STATE_ONLY_UV_FLAVOR_FULL_ATTEMPT_EXECUTED
+    - CMB_CALIBRATION_VS_PREDICTION_BOUNDARY_MADE_EXECUTABLE
+    - OPEN_SET_HONESTY_PRESERVED_ACROSS_COMBINED_SPRINT
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+  regression: "1,205 passed (1,184 targeted CMB architecture tests + 21 new sprint tests)"
+  next_pillar_slot: 1001
 
 v34_3_cmb_amplitude_integrity:
   sprint: "CMB integrity"

@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-03 (v34.1 Sprint BM COMPLETE — Pillars 993–997; Lean4 3912→3912; next slot 998)*
+*Last updated: 2026-09-03 (v34.4 Sprint BN COMPLETE — Pillars 998–1000; Lean4 3912→3912; next slot 1001)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,18 +16,18 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v34.1 — Sprint BM)
+## CURRENT AUDITABLE STATE (v34.4 — Sprint BN)
 
 | Field | Value |
 |-------|-------|
-| Version | **v34.1** |
-| Sprint | **Sprint BM** |
-| Pillars | **993–997** |
-| Next pillar slot | **998** |
+| Version | **v34.4** |
+| Sprint | **Sprint BN** |
+| Pillars | **998–1000** |
+| Next pillar slot | **1001** |
 | Lean4 theorems | **3912** |
-| Sprint theme | **13D parent-structure execution with binary closure policy** |
-| Primary target | **Single parent-state runtime feeding CKM + fermion lanes** |
-| Binary outcome | **CLOSED_OR_ARCHITECTURE_LIMIT_ONLY** |
+| Sprint theme | **Unified completion attempt + parallel CMB integrity lane** |
+| Primary target | **One shared-state UV/flavor full attempt plus a dedicated CMB boundary audit** |
+| Binary outcome | **EARNED_CLOSURE_OR_EXPLICIT_ARCHITECTURE_LIMIT_ONLY** |
 
 ---
 
@@ -48,15 +48,17 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BM continuation)
+## NEXT PHASE PRIORITIES (post-BN continuation)
 
 1. **Truth-surface lockstep first**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, and this file synchronized in one change set.
-2. **Keep flavor + UV families honest**
-   - Treat CKM θ₁₃, fermion magnitudes, α_s, and Higgs as architecture-boundary lanes unless new executable evidence actually changes them.
-3. **No closure inflation**
+2. **Keep the named missing-object program honest**
+   - Treat CKM shadow, fermion magnitude/radii, α_s, Higgs, and Jarlskog as one UV/flavor architecture cluster unless a derived shared object actually changes them.
+3. **Keep the CMB integrity line hard**
+   - Do not let calibrated λ_COBE outputs drift back into prediction language unless a future lane removes the external A_s target entirely.
+4. **No closure inflation**
    - Keep architecture limits and external waits explicitly separated.
-4. **Regression discipline**
+5. **Regression discipline**
    - Keep 0 failures and preserve next-slot continuity if work resumes.
 
 ---

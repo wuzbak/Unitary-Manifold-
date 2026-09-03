@@ -1,12 +1,16 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v34.1
+# Unitary Manifold v34.4
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v34.3 — Pillar 999. The CMB scalar-amplitude lane now explicitly separates a target-calibrated COBE normalization from a first-principles prediction and links the terminal EFT evidence to the residual budget. No CMB closure is claimed. Next slot 1000. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v34.4 — Sprint BN: Pillars 998–1000. A shared-state-only UV/global-geometry + flavor full attempt is now executable and still resolves to an explicit architecture limit; the dedicated CMB integrity pillar separates COBE calibration from any false A_s prediction claim; Sprint BN certifies the combined lane. Next slot 1001. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
+
+*P1000 (v34.4): Sprint BN Unified Completion Certificate — SPRINT_BN_UNIFIED_COMPLETION_CERTIFICATE_COMPLETE. `src/core/pillar1000_sprint_bn_unified_completion_certificate.py` certifies Sprint BN (3 pillars 998–1000; Lean4 3912→3912; next slot 1001; v34.4). The combined sprint keeps the UV/flavor full-attempt lane and the CMB integrity lane synchronized without changing the open-set labels.*
 
 *P999 (v34.3): CMB Amplitude Calibration/Prediction Boundary Audit — CMB_AMP_CALIBRATION_BOUNDARY_COMPLETE. `src/core/pillar999_cmb_amplitude_calibration_boundary.py` demonstrates that λ_COBE scales with the supplied external A_s target and therefore labels the pivot result CALIBRATED_NOT_PREDICTED. It also aggregates the terminal KK, brane-backreaction, rolling-radion, and WZ checks with the P983 residual-budget row. The acoustic ×4–7 deficit remains `CMB_AMP_CONFIRMED_IRREDUCIBLE`; only a derived nonperturbative/global-UV normalization mechanism can change that status.*
+
+*P998 (v34.4): Unified UV/Global-Geometry + Flavor Completion Attempt — UNIFIED_UV_FLAVOR_COMPLETION_ATTEMPT_COMPLETE. `src/core/pillar998_unified_uv_flavor_completion_attempt.py` executes one shared-parent-state search across α_s, CKM shadow, fermion magnitude/radii, Higgs-window, and Jarlskog lanes with zero per-lane rescue parameters. The best joint point still returns `UNIFIED_UV_FLAVOR_ARCHITECTURE_LIMIT_CERTIFIED`, strengthening the case that the surviving residuals cluster around named missing UV/flavor objects rather than scattered tuning failures.*
 
 *P997 (v34.1): Sprint BM Parent-Shadow Master Certificate — SPRINT_BM_PARENT_SHADOW_MASTER_CERTIFICATE_COMPLETE. `src/core/pillar997_sprint_bm_parent_shadow_master_certificate.py` certifies Sprint BM (5 pillars 993–997; Lean4 3912→3912; next slot 998; v34.1). Binary lane policy is enforced: closure lanes must resolve to CLOSED or ARCHITECTURE_LIMIT only.*
 
