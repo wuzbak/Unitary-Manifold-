@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-03 (v35.1 Sprint BU COMPLETE — Pillars 1021–1024; Lean4 3912→3936; next slot 1025)*
+*Last updated: 2026-09-03 (v35.2 Sprint BV COMPLETE — Pillars 1025–1030; Lean4 3936→3952; next slot 1031)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,20 +16,20 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v35.1 — Sprint BU)
+## CURRENT AUDITABLE STATE (v35.2 — Sprint BV)
 
 | Field | Value |
 |-------|-------|
-| Version | **v35.1** |
-| Sprint | **Sprint BU** |
-| Pillars | **1021–1024** |
-| Next pillar slot | **1025** |
-| Lean4 theorems | **3936** |
-| Sprint theme | **Promote only exact kernels; contain whole-lane biology overreach** |
-| Primary target | **Advance the promotable embryology kernels and attach a Lean4-backed kernel to P636 without hiding residual opens** |
-| Binary outcome | **EMBRYOLOGY_EXACT_KERNELS_CERTIFIED + SU3_ORBIFOLD_LEAN4_KERNEL_CERTIFIED** |
+| Version | **v35.2** |
+| Sprint | **Sprint BV** |
+| Pillars | **1025–1030** |
+| Next pillar slot | **1031** |
+| Lean4 theorems | **3952** |
+| Sprint theme | **Execute closure programs end-to-end with binary outcomes and no narrative promotion** |
+| Primary target | **Run flavor-root, shared-UV, and CMB mechanism closure attempts in strict order; contract P636 residual domain formally** |
+| Binary outcome | **CLOSURE_PROGRAM_PACKET_EXECUTED + HONEST_BOUNDARY_HARDENING_WITH_NO_LABEL_INFLATION** |
 
-Historical continuity: v35.0 Sprint BT covered Pillar 1020 with next slot 1021 before the Sprint BU exact-kernel promotion update.
+Historical continuity: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program execution update.
 
 ---
 
@@ -50,7 +50,7 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BU continuation)
+## NEXT PHASE PRIORITIES (post-BV continuation)
 
 1. **Truth-surface lockstep first**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, and this file synchronized in one change set.
