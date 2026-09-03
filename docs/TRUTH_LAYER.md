@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v34.7
+# Unitary Manifold v34.8
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v34.8 sync note (Sprint BR — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BR: Pillars 1011–1013; Lean4 3912; next pillar slot 1014; focused regression: new Pillars 1011–1013 targeted tests passed · 0 failed.*
+*(2) P1011 consolidates the 10D flux lane into one bridge object: R5 hard-gate evidence, flux-sufficiency, explicit UV selection, and normalized candidate weighting are published together so the measure/selection logic is inspectable in one place.*
+*(3) P1012 lifts branch canonicality into 10D terms: `(5,7)` and `(5,6)` are both retained as explicit branches, but only `(5,7)` is preserved through the 10D UV-selection chain; `(5,6)` remains explicitly suppressed/non-canonical with named reasons.*
+*(4) P1013 checks cross-surface coherence across STATUS/FALLIBILITY/tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan and requires aligned sprint markers plus unchanged open-lane labels.*
+*(5) Open set remains unchanged and explicit: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3, LiteBIRD.*
 
 *v34.7 sync note (Sprint BQ — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BQ: Pillars 1008–1010; Lean4 3912; next pillar slot 1011; focused regression 14 passed · 0 skipped · 0 deselected · 0 failed (Sprint BQ targeted regression). *

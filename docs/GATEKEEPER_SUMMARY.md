@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v34.7
+# Unitary Manifold v34.8
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,6 +8,8 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Sprint BR (v34.8 — 2026-09-03):** 3 pillars (1011–1013). P1011 consolidates the 10D flux-count gate, flux-sufficiency check, explicit UV vacuum selection, and normalized candidate weighting into one auditable bridge object and keeps unique support on `n_w=5` explicit. P1012 lifts `(5,7)` and `(5,6)` branch handling into 10D compactification/selection terms, preserving canonical `(5,7)` while explicitly suppressing non-canonical `(5,6)` in the 10D gate chain. P1013 certifies status-surface coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan. Open-lane labels remain unchanged and explicit. Lean4 unchanged (3912). Next slot 1014.
+>
 > **Sprint BQ (v34.7 — 2026-09-03):** 3 pillars (1008–1010). P1008 enforces one named flavor-family promotion gate and requires a real downstream status change across CKM shadow + fermion magnitude/radii; outcome is `FLAVOR_FAMILY_PROMOTION_NOT_EARNED`, so architecture limits remain explicit. P1009 executes one non-fitted nonperturbative/global-UV CMB normalization candidate and records `CMB_NONPERTURBATIVE_NORMALIZATION_NOT_EARNED`, tightening the residual-budget certificate without softening the ×4–7 deficit. P1010 certifies the sprint. Truth surfaces updated in lockstep. Lean4 unchanged (3912). Next slot 1011.
 >
 > **Sprint BP (v34.6 — 2026-09-03):** 2 pillars (1006–1007). P1006 runs the BO shared-5 / 6D / 7D packet against one real downstream CKM lane and records the executable result `CKM_SHADOW_PROMOTION_NOT_EARNED`: the named missing object remains absent, runtime status stays `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, and 13D is not promoted by rhetoric. P1007 certifies the sprint. Truth surfaces updated in lockstep. Lean4 unchanged (3912). Next slot 1008.
@@ -36,7 +38,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-03 (v34.7 — Sprint BQ: Pillars 1008–1010 (3 pillars); primary flavor-family gate run plus secondary non-fitted CMB candidate run, both with explicit non-promotion outcomes, sprint certificate recorded, truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 1011. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
+*Last updated: 2026-09-03 (v34.8 — Sprint BR: Pillars 1011–1013 (3 pillars); 10D mechanism-consolidation package recorded with explicit branch and flux-selection audits plus cross-surface coherence certificate; truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 1014. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 
