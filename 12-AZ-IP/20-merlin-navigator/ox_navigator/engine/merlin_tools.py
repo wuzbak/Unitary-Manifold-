@@ -12,7 +12,12 @@ from typing import Any
 from .flashcard import get_categories, load_flashcards
 from .interrogator import get_tension_map_data, search_kb
 from .merlin_admission import evaluate_model_admission, get_model_admission_policy
-from .merlin_benchmark import evaluate_benchmark_response, get_stage_a_benchmark_corpus
+from .merlin_benchmark import (
+    build_promotion_packet,
+    evaluate_benchmark_response,
+    evaluate_empirical_gate,
+    get_stage_a_benchmark_corpus,
+)
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
@@ -111,6 +116,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinBenchmarkSuite", "summary": "Return benchmark harness definition", "domain": "functions"},
             {"name": "getMerlinBenchmarkCorpus", "summary": "Return Stage A benchmark prompt corpus", "domain": "functions"},
             {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Stage A benchmark", "domain": "functions"},
+            {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
+            {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
@@ -176,6 +183,28 @@ def _tool_manifest() -> dict[str, Any]:
                 },
                 "required": ["benchmark_id", "response"],
             },
+        },
+        "evaluateMerlinEmpiricalGate": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "head_to_head_runs": {"type": "array"},
+                    "min_runs": {"type": "integer"},
+                    "max_quality_regressions": {"type": "integer"},
+                },
+                "required": ["head_to_head_runs"],
+            },
+            "risk_level": "medium",
+        },
+        "getMerlinPromotionPacket": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "head_to_head_runs": {"type": "array"},
+                },
+                "additionalProperties": True,
+            },
+            "risk_level": "medium",
         },
         "runMerlinMemoryAudit": {
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
@@ -384,6 +413,26 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
     active_session = session if session is not None else MerlinSession()
     manifest = _tool_manifest()
     policy = next((item for item in manifest["functions"] if item["name"] == tool), None)
+    requires_human_gate = bool((policy or {}).get("requires_human_gate", False))
+    if requires_human_gate and not bool(args.get("human_gate_approved")):
+        return {
+            "ok": False,
+            "tool": tool,
+            "type": "function",
+            "result": None,
+            "error": "Human gate approval required for this tool.",
+            "policy": {
+                "capability_class": (policy or {}).get("capability_class", "unknown"),
+                "risk_level": (policy or {}).get("risk_level", "unknown"),
+                "requires_human_gate": True,
+            },
+            "audit": {
+                "args_keys": sorted(args.keys()),
+                "duration_ms": 0.0,
+                "blocked_by_policy": True,
+            },
+            "duration_ms": 0.0,
+        }
     started = time.perf_counter()
     tool_type = "unknown"
     ok = True
@@ -399,6 +448,20 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
         elif tool == "evaluateMerlinBenchmarkResponse":
             tool_type = "function"
             result = {"data": evaluate_benchmark_response(str(args.get("benchmark_id", "")), dict(args.get("response") or {}))}
+        elif tool == "evaluateMerlinEmpiricalGate":
+            tool_type = "function"
+            result = {"data": evaluate_empirical_gate(
+                list(args.get("head_to_head_runs") or []),
+                min_runs=int(args.get("min_runs", 12)),
+                max_quality_regressions=int(args.get("max_quality_regressions", 0)),
+            )}
+        elif tool == "getMerlinPromotionPacket":
+            tool_type = "function"
+            result = {"data": build_promotion_packet(
+                head_to_head_runs=list(args.get("head_to_head_runs") or []),
+                telemetry_summary=active_session.get_telemetry_summary(public=True),
+                sync_checks_ok=bool(run_sync_checks().get("ok")),
+            )}
         elif tool == "getMerlinMemoryState":
             tool_type = "function"
             result = {"data": active_session.get_public_memory_state()}
@@ -494,6 +557,8 @@ def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | N
     """Execute a bounded sequential Merlin tool chain."""
     if len(steps) > 10:
         raise ValueError("step cap exceeded (max 10)")
+    if any(str(step.get("tool", "")).strip() == "authorizeMerlinPrivilege" for step in steps):
+        raise ValueError("authorizeMerlinPrivilege is blocked in orchestration; use single-step invocation with explicit human gate.")
     started = time.perf_counter()
     results = []
     for index, step in enumerate(steps):
@@ -519,10 +584,15 @@ def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | N
         result["step"] = index
         results.append(result)
     total_duration_ms = round((time.perf_counter() - started) * 1000, 3)
+    high_risk_steps = sum(1 for step in results if str((step.get("policy") or {}).get("risk_level")) == "high")
     return {
         "ok": all(step.get("ok") for step in results),
         "steps": results,
         "total_duration_ms": total_duration_ms,
         "audit_log_mode": "required",
         "human_gate_required": any((step.get("policy") or {}).get("requires_human_gate") for step in results),
+        "policy_summary": {
+            "high_risk_steps": high_risk_steps,
+            "blocked_tools_in_orchestration": ["authorizeMerlinPrivilege"],
+        },
     }

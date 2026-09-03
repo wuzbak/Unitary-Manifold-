@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v35.2
+# Unitary Manifold v35.3
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v35.3 sync note (Sprint BW — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BW: Pillar 1031; Lean4 3952; next pillar slot 1032; focused regression: Sprint BW targeted tests passed · 0 failed.*
+*(2) Day-0 baseline is formally frozen against `STATUS.md`, `docs/mas_tracker.yml`, and `docs/SPRINT_PLAN.md` before additional lane expansion work.*
+*(3) Merlin replacement governance now exposes explicit sustained empirical replacement-gate evaluation and a promotion-packet pass/fail contract; approval is denied by default when comparable run receipts are insufficient.*
+*(4) Back-room orchestration policy is tightened: privileged policy-mutating tool paths are blocked from multi-step orchestration and require explicit single-step human-gate approval flow.*
+*(5) Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`.*
 
 *v35.2 sync note (Sprint BV — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BV: Pillars 1025–1030; Lean4 3952; next pillar slot 1031; focused regression: Sprint BV targeted tests passed · 0 failed.*

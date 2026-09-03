@@ -13,6 +13,7 @@ if str(PRODUCT_ROOT) not in sys.path:
 from ox_navigator.engine.merlin_memory import MerlinSession
 from ox_navigator.engine.merlin_benchmark import match_benchmark_for_query
 from ox_navigator.engine.merlin_benchmark import evaluate_benchmark_response
+from ox_navigator.engine.merlin_benchmark import evaluate_empirical_gate
 from ox_navigator.engine.merlin_telemetry import (
     build_run_telemetry,
     estimate_cost_usd,
@@ -119,3 +120,21 @@ def test_evaluate_benchmark_response_requires_all_categories():
     })
     assert result['ok'] is True
     assert result['pass'] is False
+
+
+def test_evaluate_empirical_gate_requires_sustained_comparable_runs():
+    result = evaluate_empirical_gate([], min_runs=12)
+    assert result['ok'] is True
+    assert result['gate_pass'] is False
+    assert result['decision'] == 'REPLACEMENT_NOT_APPROVED'
+
+    runs = [
+        {
+            'merlin': {'task_success': True, 'quality_score': 0.9, 'energy_joules': 0.5, 'high_severity_policy_violations': 0},
+            'incumbent': {'task_success': True, 'quality_score': 0.85, 'energy_joules': 0.8, 'high_severity_policy_violations': 0},
+        }
+        for _ in range(12)
+    ]
+    passed = evaluate_empirical_gate(runs, min_runs=12)
+    assert passed['gate_pass'] is True
+    assert passed['metrics']['comparable_runs'] == 12

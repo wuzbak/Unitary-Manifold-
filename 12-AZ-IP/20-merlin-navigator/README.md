@@ -9,7 +9,7 @@
 -- **Model transport:** sovereign local/offline-first runtime; `stealth/ox-alpha` via OpenRouter is compatibility-only fallback
 - **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/telemetry`
-- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`
+- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/promotion-packet`
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus audited multi-tier Merlin memory with contradiction tracking and telemetry
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
@@ -61,6 +61,7 @@
 - `GET /api/merlin/policy` exposes combined identity-trust and Sentinel enforcement policies.
 - `GET /api/merlin/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
 - `GET /api/merlin/benchmarks` exposes benchmark harness tracks and promotion gates.
+- `GET /api/merlin/promotion-packet` exposes explicit pass/fail replacement readiness with sustained empirical gate status.
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.
@@ -80,6 +81,7 @@
 - Merlin now exposes a first-class Stage A benchmark corpus for parity capture before wider takeover.
 - Each Merlin run records latency, estimated tokens, estimated cost, estimated energy, routing lane, provider, provenance coverage, and memory/contradiction signals.
 - Benchmark evaluation can score a response against the Stage A corpus using `evaluateMerlinBenchmarkResponse`.
+- Sustained head-to-head replacement gating is available through `evaluateMerlinEmpiricalGate` and summarized by `getMerlinPromotionPacket`.
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 
 ## Gate-badge extraction

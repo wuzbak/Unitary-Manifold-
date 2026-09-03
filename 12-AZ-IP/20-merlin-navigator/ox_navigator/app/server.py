@@ -172,6 +172,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'telemetry': merlin_session.get_telemetry_summary(public=True),
                 })
                 return
+            if parsed.path == '/api/merlin/promotion-packet':
+                self._json({
+                'ok': True,
+                'packet': route_tool('getMerlinPromotionPacket', {}, session=merlin_session).get('result', {}).get('data', {}),
+                })
+                return
             if parsed.path == '/api/merlin/identity':
                 self._json({'ok': True, 'identity': get_identity_policy()})
                 return

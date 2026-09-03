@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v35.2
+# Unitary Manifold v35.3
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,6 +8,8 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Sprint BW (v35.3 — 2026-09-03):** 1 pillar (1031). P1031 certifies three-lane execution readiness: Lane 1 baseline reality is frozen against STATUS/mas_tracker/sprint-plan and closure-order discipline remains strict; Lane 2 Merlin adds explicit sustained empirical replacement gating and promotion-packet pass/fail surfaces while keeping OpenRouter compatibility optional; Lane 3 performs high-visibility stale-status coherence cleanup. No open-lane label changes are claimed. Lean4 unchanged (3952). Next slot 1032.
+>
 > **Sprint BV (v35.2 — 2026-09-03):** 6 pillars (1025–1030). P1025 executes the flavor-root closure attempt across CKM shadow, fermion magnitude/radii, and Jarlskog Layer-2 under one shared object and strict binary outcomes; no runtime flip is credited without a real status change. P1026 executes one shared-object-only UV coupled attempt across α_s and Higgs with no per-lane rescue parameters and explicit before/after residual accounting. P1027 executes one non-fitted CMB mechanism attempt targeting the named missing objects and publishes a residual-budget delta while retaining non-promotion discipline when closure is not earned. P1028 adds Lean4-backed SU(3) residual contraction tied to P636 and explicitly narrows, but does not erase, the functional-analysis burden. P1029 certifies Sprint BV definition-of-done and meaningful-result rules. P1030 certifies cross-surface coherence. Open-lane labels remain unchanged and explicit, including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`. Lean4 3936→3952 (+16). Next slot 1031.
 >
 > **Sprint BU (v35.1 — 2026-09-03):** 4 pillars (1021–1024). P1021 promotes only the exact embryology kernels worth promoting now: `HOX_clusters = 4`, HOX co-linearity as an order-preserving orbifold-unrolling kernel, centriole `9` / `10` count identities, and the exact dielectric threshold `ε_r,crit = 1/c_s²`. It does **not** promote the broad vertebrate `HOX_groups = 10` statement, which remains formal analogy only. P1022 attaches a Lean4-backed exact kernel to the P636 SU(3) orbifold-equivalence lane while leaving the Hilbert-space functional-analysis step open. P1023 certifies the sprint outcome. P1024 certifies cross-surface coherence. Open-lane labels remain unchanged and explicit, including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`. Lean4 3912→3936 (+24). Next slot 1025.
@@ -46,7 +48,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-03 (v35.2 — Sprint BV: Pillars 1025–1030 (6 pillars); three-program closure packet executed in order with binary auditable outcomes, SU(3) residual domain formally contracted without overclaiming full closure, truth surfaces resynced in lockstep, Lean4 rises to 3952 (+16), and next pillar slot is 1031. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
+*Last updated: 2026-09-03 (v35.3 — Sprint BW: Pillar 1031; baseline lock certificate + Merlin empirical replacement-gate/promotion-packet hardening + high-visibility stale-surface coherence cleanup. Lean4 unchanged at 3952. Next pillar slot is 1032. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-03 (v35.2 Sprint BV COMPLETE — Pillars 1025–1030; Lean4 3936→3952; next slot 1031)*
+*Last updated: 2026-09-03 (v35.3 Sprint BW COMPLETE — Pillar 1031; Lean4 3952→3952; next slot 1032)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,20 +16,20 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v35.2 — Sprint BV)
+## CURRENT AUDITABLE STATE (v35.3 — Sprint BW)
 
 | Field | Value |
 |-------|-------|
-| Version | **v35.2** |
-| Sprint | **Sprint BV** |
-| Pillars | **1025–1030** |
-| Next pillar slot | **1031** |
+| Version | **v35.3** |
+| Sprint | **Sprint BW** |
+| Pillars | **1031** |
+| Next pillar slot | **1032** |
 | Lean4 theorems | **3952** |
-| Sprint theme | **Execute closure programs end-to-end with binary outcomes and no narrative promotion** |
-| Primary target | **Run flavor-root, shared-UV, and CMB mechanism closure attempts in strict order; contract P636 residual domain formally** |
-| Binary outcome | **CLOSURE_PROGRAM_PACKET_EXECUTED + HONEST_BOUNDARY_HARDENING_WITH_NO_LABEL_INFLATION** |
+| Sprint theme | **Three-lane execution: freeze reality, harden Merlin replacement gates, and tighten truth surfaces without label inflation** |
+| Primary target | **Lock Day-0 baseline, enforce binary lane gates, and publish explicit Merlin promotion pass/fail packet** |
+| Binary outcome | **THREE_LANE_EXECUTION_CERTIFIED + EXPLICIT_REPLACEMENT_GATE_WITH_EVIDENCE_REQUIREMENTS** |
 
-Historical continuity: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program execution update.
+Historical continuity: v35.2 Sprint BV covered Pillars 1025–1030 with next slot 1031 before the Sprint BW three-lane execution certificate.
 
 ---
 
@@ -50,7 +50,7 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BV continuation)
+## NEXT PHASE PRIORITIES (post-BW continuation)
 
 1. **Truth-surface lockstep first**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, and this file synchronized in one change set.
@@ -60,8 +60,8 @@ Classification:
    - Keep `ε_r,crit = 1/c_s²` exact, but do not promote water-fraction or mass-ratio numbers until the medium assumptions are made internally consistent and externally auditable.
 4. **Use the same decomposition rule for future biology promotions**
    - Promote only exact kernels or externally checkable audit packets; do not promote whole biology/genetics lanes by rhetoric.
-5. **Resume the three-program architecture work in the checked-in open set**
-   - Shared flavor geometry first, shared UV compactification second, CMB normalization mechanism third.
+5. **Resume the three-program architecture work under the same strict order**
+   - Shared flavor geometry first, shared UV compactification second, CMB normalization mechanism third, with no per-lane rescue narratives.
 6. **Regression discipline**
    - Keep 0 failures and preserve next-slot continuity if work resumes.
 
