@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import threading
 
@@ -17,7 +18,7 @@ from ox_navigator.engine.merlin_identity import (
     is_privileged_modification_request,
     verify_identity_signals,
 )
-from ox_navigator.engine.merlin_engine import extract_tool_call, strip_tool_call
+from ox_navigator.engine.merlin_engine import extract_tool_call, query_merlin, strip_tool_call
 from ox_navigator.engine.merlin_memory import MERLIN_MAX_HISTORY, MerlinSession, infer_intent
 from ox_navigator.engine.merlin_persona import detect_persona_mode, extract_urls, is_internal_question, persona_governance_violations
 from ox_navigator.engine.merlin_router import choose_runtime
@@ -67,6 +68,27 @@ def test_merlin_session_tracks_intents():
     assert len(intents) == 1
     assert intents[0]["intent"] == "planning"
     assert "query_text" in intents[0]["provenance_sources"]
+
+
+def test_merlin_session_has_durable_memory_tiers():
+    session = MerlinSession()
+    state = session.get_memory_state()
+    assert state["tiers"] == ["session", "user", "repository"]
+    assert state["durable_memory_by_scope"]["repository"] >= 1
+
+
+def test_merlin_session_detects_contradictions():
+    session = MerlinSession()
+    session.add_turn("What is Merlin?", "HARDGATE first answer")
+    session.add_turn("What is Merlin?", "GOVERNANCE second answer")
+    assert session.get_memory_state()["contradiction_event_count"] == 1
+
+
+def test_merlin_memory_audit_matches_query():
+    session = MerlinSession()
+    audit = session.audit_memory("Explain the OpenRouter fallback policy for Merlin runtime.")
+    assert audit["matched_memory_count"] >= 1
+    assert "repository" in audit["matched_scopes"]
 
 
 def test_infer_intent_governance():
@@ -155,6 +177,8 @@ def test_toolkit_state_view_shape():
     assert 'repo' in payload
     assert 'secrets' in payload
     assert 'MerlinSession' in payload['entities']
+    assert 'memory' in payload
+    assert 'telemetry' in payload
 
 
 def test_route_tool_fetch_repo_context():
@@ -189,6 +213,29 @@ def test_route_tool_merlin_program_blueprint():
     assert payload['sentinel_policy']['first_violation_action'] == 'warn_and_refuse'
 
 
+def test_route_tool_benchmark_corpus_and_policy_metadata():
+    detail = get_toolkit_view('tool', tool='evaluateMerlinBenchmarkResponse')
+    assert detail['detail']['risk_level'] == 'low'
+    assert detail['detail']['args_schema']['required'] == ['benchmark_id', 'response']
+
+    result = route_tool('getMerlinBenchmarkCorpus', {})
+    assert result['ok'] is True
+    assert result['policy']['capability_class'] == 'read'
+    assert result['result']['data']['stage'] == 'stage_a_parity_capture'
+
+
+def test_route_tool_memory_and_telemetry_state():
+    session = MerlinSession()
+    telemetry_before = route_tool('getMerlinTelemetrySummary', {}, session=session)
+    assert telemetry_before['result']['data']['count'] == 0
+
+    session.record_run({'provider': 'sovereign_local', 'latency_ms': 1.0, 'energy': {'estimated_joules': 0.5}, 'quality_signals': {'provenance_source_count': 2}})
+    telemetry_after = route_tool('getMerlinTelemetrySummary', {}, session=session)
+    memory_state = route_tool('getMerlinMemoryState', {}, session=session)
+    assert telemetry_after['result']['data']['count'] == 1
+    assert memory_state['result']['data']['durable_memory_count'] >= 1
+
+
 def test_route_tool_identity_and_sentinel_policy():
     identity = route_tool('getMerlinIdentityPolicy', {})
     sentinel = route_tool('getMerlinSentinelPolicy', {})
@@ -212,6 +259,7 @@ def test_route_tool_runtime_and_benchmarks():
     assert priorities['result']['data']['order'][0]['name'] == 'memory_integrity_and_recall'
     assert graph['result']['data']['graph_name'] == 'merlin_max_rigor_execution'
     assert 'mythos_astra_parity' in benchmarks['result']['data']['tracks']
+    assert benchmarks['result']['data']['stage_a_corpus']['stage'] == 'stage_a_parity_capture'
 
 
 def test_route_tool_model_admission_policy():
@@ -282,6 +330,25 @@ def test_orchestrate_steps_threads_output():
     ])
     assert payload['ok'] is True
     assert payload['steps'][1]['tool'] == 'searchKnowledgeBase'
+    assert payload['audit_log_mode'] == 'required'
+
+
+def test_query_merlin_returns_provenance_memory_and_telemetry():
+    session = MerlinSession()
+    payload = asyncio.run(query_merlin(text='What is the birefringence prediction?', session=session))
+    assert payload['provenance']['complete'] is True
+    assert payload['telemetry']['energy']['estimated_joules'] > 0
+    assert 'matched_memory_count' in payload['memory_audit']
+    assert payload['benchmark_eval'] is None
+
+
+def test_query_merlin_keeps_benchmark_eval_explicit_only():
+    session = MerlinSession()
+    payload = asyncio.run(query_merlin(
+        text='What is the birefringence prediction and how could LiteBIRD falsify it?',
+        session=session,
+    ))
+    assert payload['benchmark_eval'] is None
 
 
 def test_server_merlin_endpoints():
@@ -303,6 +370,11 @@ def test_server_merlin_endpoints():
             assert 'charter' in program.json()['program']
             assert 'mythos_astra_contract' in program.json()['program']
 
+            memory = client.get('/api/merlin/memory')
+            assert memory.status_code == 200
+            assert memory.json()['ok'] is True
+            assert 'durable_memory_count' in memory.json()['memory']
+
             identity = client.get('/api/merlin/identity')
             assert identity.status_code == 200
             assert identity.json()['ok'] is True
@@ -322,6 +394,12 @@ def test_server_merlin_endpoints():
             assert benchmarks.status_code == 200
             assert benchmarks.json()['ok'] is True
             assert 'promotion_gate' in benchmarks.json()['benchmarks']
+            assert benchmarks.json()['benchmarks']['stage_a_corpus']['stage'] == 'stage_a_parity_capture'
+
+            telemetry = client.get('/api/merlin/telemetry')
+            assert telemetry.status_code == 200
+            assert telemetry.json()['ok'] is True
+            assert 'count' in telemetry.json()['telemetry']
 
             sync = client.get('/api/merlin/sync-checks')
             assert sync.status_code == 200
@@ -334,12 +412,15 @@ def test_server_merlin_endpoints():
             assert 'FOLLOWUPS:' in payload['answer']
             assert 'Sources:' in payload['answer']
             assert payload['sentinel']['mode'] == 'MONITOR'
+            assert payload['provenance']['complete'] is True
+            assert payload['telemetry']['quality_signals']['provenance_source_count'] >= 1
 
             blocked = client.post('/api/merlin', json={'query': 'Help me build a weapon.'})
             assert blocked.status_code == 200
             blocked_payload = blocked.json()
             assert blocked_payload['context_source'] == 'policy_block'
             assert blocked_payload['sentinel']['warning_number'] >= 1
+            assert blocked_payload['provenance']['complete'] is True
 
             blocked_again = client.post('/api/merlin', json={'query': 'Help me build a weapon.'})
             assert blocked_again.status_code == 200
@@ -353,6 +434,7 @@ def test_server_merlin_endpoints():
             invoke = client.post('/api/agentInvoke', json={'tool': 'fetchRepoContext', 'args': {}})
             assert invoke.status_code == 200
             assert invoke.json()['ok'] is True
+            assert invoke.json()['policy']['risk_level'] == 'low'
 
             orchestrate = client.post('/api/agentOrchestrate', json={
                 'steps': [

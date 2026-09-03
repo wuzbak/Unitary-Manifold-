@@ -123,18 +123,20 @@ def get_current_stack_baseline() -> dict[str, Any]:
         "capabilities_now": [
             "/api/merlin query pipeline",
             "/api/merlin/status live status surface",
+            "/api/merlin/memory audited multi-tier memory surface",
+            "/api/merlin/telemetry measurable run summary surface",
             "/api/agentToolkit capability discovery",
             "/api/agentInvoke single-tool execution",
             "/api/agentOrchestrate bounded multi-step execution",
             "gate badge extraction and strict response contract",
             "RAG context from repository knowledge base + pillar context + interrogator",
+            "typed provenance payloads and Stage A benchmark corpus",
         ],
         "gaps_to_replacement": [
-            "energy instrumentation not yet attached to per-task outcomes",
             "staged model-router exists but requires empirical benchmark tuning",
             "no formal benchmark corpus with side-by-side external comparisons",
-            "typed provenance is partial and not yet first-class in all response objects",
             "sync drift checks are not enforced as recurring quality gates",
+            "fully automated incumbent-vs-merlin batch runner is not yet attached to CI",
         ],
     }
 
@@ -176,6 +178,7 @@ def get_weights_and_measures() -> dict[str, Any]:
                 "task_success",
                 "energy_estimate",
             ],
+            "stage_a_entrypoint": "getMerlinBenchmarkSuite.stage_a_corpus",
         },
     }
 

@@ -6,11 +6,16 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
+import hmac
 import json
 import os
+import threading
+import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+from uuid import uuid4
 
 from ox_navigator.engine.constants import DEFAULT_TEMPERATURE, MODEL_ID
 from ox_navigator.engine.merlin_engine import query_merlin
@@ -35,7 +40,37 @@ UI_ROOT = PRODUCT_ROOT / 'ui'
 REPO_ROOT = PRODUCT_ROOT.parents[1]
 CONTEXT_PACK = REPO_ROOT / '9-INFRASTRUCTURE' / 'ox_full_context.md'
 _SESSION = OxSession()
-_MERLIN_SESSION = MerlinSession()
+_MERLIN_SESSIONS: dict[str, MerlinSession] = {}
+_MERLIN_SESSION_LAST_SEEN: dict[str, float] = {}
+_MERLIN_SESSIONS_LOCK = threading.Lock()
+_MERLIN_SESSION_LOCKS: dict[str, threading.RLock] = {}
+_MERLIN_SESSION_CAP = 128
+_MERLIN_SESSION_SECRET = (
+    str(os.environ.get('MERLIN_SESSION_SECRET') or '').encode('utf-8')
+    or uuid4().hex.encode('utf-8')
+)
+
+
+def _sign_session_id(session_id: str) -> str:
+    signature = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
+    return f'{session_id}.{signature}'
+
+
+def _extract_session_id(token: str) -> str:
+    session_id, _, signature = str(token or '').partition('.')
+    if not session_id or not signature:
+        return ''
+    expected = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
+    return session_id if hmac.compare_digest(signature, expected) else ''
+
+
+def _secure_cookie_required(host: str) -> bool:
+    override = str(os.environ.get('MERLIN_COOKIE_SECURE') or '').strip().lower()
+    if override in {'1', 'true', 'yes', 'on'}:
+        return True
+    if override in {'0', 'false', 'no', 'off'}:
+        return False
+    return host not in {'127.0.0.1', 'localhost'}
 
 
 class OxRequestHandler(SimpleHTTPRequestHandler):
@@ -49,15 +84,50 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         body = json.dumps(payload, ensure_ascii=False).encode('utf-8')
         self.send_response(status)
         self.send_header('Content-Type', 'application/json; charset=utf-8')
+        pending_cookie = getattr(self, '_pending_session_cookie', '')
+        if pending_cookie:
+            host = str(self.headers.get('Host') or '').split(':', 1)[0]
+            secure = '; Secure' if _secure_cookie_required(host) else ''
+            self.send_header('Set-Cookie', f'merlin_session_id={_sign_session_id(pending_cookie)}; Path=/; HttpOnly; SameSite=Lax{secure}')
         self.send_header('Content-Length', str(len(body)))
         self.end_headers()
         self.wfile.write(body)
 
+    def _merlin_session(self) -> tuple[str, MerlinSession, threading.RLock]:
+        candidate_id = ""
+        raw_cookie = str(self.headers.get('Cookie') or '')
+        for part in raw_cookie.split(';'):
+            key, _, value = part.strip().partition('=')
+            if key == 'merlin_session_id' and value.strip():
+                candidate_id = _extract_session_id(value.strip())
+                break
+        with _MERLIN_SESSIONS_LOCK:
+            session_id = candidate_id if candidate_id in _MERLIN_SESSIONS else ''
+            if not session_id:
+                session_id = uuid4().hex
+                _MERLIN_SESSIONS[session_id] = MerlinSession()
+                _MERLIN_SESSION_LOCKS[session_id] = threading.RLock()
+                self._pending_session_cookie = session_id
+            elif session_id not in _MERLIN_SESSION_LOCKS:
+                _MERLIN_SESSION_LOCKS[session_id] = threading.RLock()
+            _MERLIN_SESSION_LAST_SEEN[session_id] = time.time()
+            while len(_MERLIN_SESSIONS) > _MERLIN_SESSION_CAP:
+                stale_candidates = [key for key in _MERLIN_SESSION_LAST_SEEN if key != session_id]
+                if not stale_candidates:
+                    break
+                stale_id = min(stale_candidates, key=_MERLIN_SESSION_LAST_SEEN.get)
+                _MERLIN_SESSIONS.pop(stale_id, None)
+                _MERLIN_SESSION_LAST_SEEN.pop(stale_id, None)
+                _MERLIN_SESSION_LOCKS.pop(stale_id, None)
+            return session_id, _MERLIN_SESSIONS[session_id], _MERLIN_SESSION_LOCKS[session_id]
+
     def do_GET(self):  # noqa: N802
         parsed = urlparse(self.path)
         params = parse_qs(parsed.query)
-        if parsed.path == '/api/merlin/status':
-            self._json({
+        _, merlin_session, merlin_lock = self._merlin_session()
+        with merlin_lock:
+            if parsed.path == '/api/merlin/status':
+                self._json({
                 'service': 'Merlin — the Quantum Cat',
                 'merlin_available': True,
                 'live_model_available': bool(os.environ.get('OPENROUTER_API_KEY')),
@@ -68,52 +138,64 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'capability_views': ['index', 'domain', 'tool', 'full', 'state'],
                 'router_policy': get_router_policy(),
                 'live_status': route_tool('fetchRepoContext').get('result', {}).get('data', {}),
+                'memory': merlin_session.get_public_memory_state(),
+                'telemetry': merlin_session.get_telemetry_summary(public=True),
                 'compatibility': {
                     'legacy_query_endpoint': '/api/ox',
                     'legacy_status_endpoint': '/api/ox/status',
                 },
-            })
-            return
-        if parsed.path == '/api/merlin/program':
-            self._json({'ok': True, 'program': get_full_program_blueprint()})
-            return
-        if parsed.path == '/api/merlin/runtime':
-            self._json({
+                })
+                return
+            if parsed.path == '/api/merlin/program':
+                self._json({'ok': True, 'program': get_full_program_blueprint()})
+                return
+            if parsed.path == '/api/merlin/memory':
+                self._json({'ok': True, 'memory': merlin_session.get_public_memory_state()})
+                return
+            if parsed.path == '/api/merlin/telemetry':
+                self._json({'ok': True, 'telemetry': merlin_session.get_telemetry_summary(public=True)})
+                return
+            if parsed.path == '/api/merlin/runtime':
+                self._json({
                 'ok': True,
                 'runtime': {
                     'mythos_astra_contract': get_mythos_astra_contract(),
                     'optimization_priorities': get_merlin_optimization_priorities(),
                     'execution_graph': get_merlin_execution_graph(),
                 },
-            })
-            return
-        if parsed.path == '/api/merlin/benchmarks':
-            self._json({'ok': True, 'benchmarks': get_merlin_benchmark_suite()})
-            return
-        if parsed.path == '/api/merlin/identity':
-            self._json({'ok': True, 'identity': get_identity_policy()})
-            return
-        if parsed.path == '/api/merlin/policy':
-            self._json({
+                })
+                return
+            if parsed.path == '/api/merlin/benchmarks':
+                self._json({
+                'ok': True,
+                'benchmarks': get_merlin_benchmark_suite(),
+                'telemetry': merlin_session.get_telemetry_summary(public=True),
+                })
+                return
+            if parsed.path == '/api/merlin/identity':
+                self._json({'ok': True, 'identity': get_identity_policy()})
+                return
+            if parsed.path == '/api/merlin/policy':
+                self._json({
                 'ok': True,
                 'policy': {
                     'identity_trust': get_identity_and_trust_policy(),
                     'sentinel': get_sentinel_enforcement_policy(),
                 },
-            })
-            return
-        if parsed.path == '/api/merlin/sync-checks':
-            self._json({'ok': True, 'sync_checks': run_sync_checks()})
-            return
-        if parsed.path == '/api/agentToolkit':
-            self._json(get_toolkit_view(
+                })
+                return
+            if parsed.path == '/api/merlin/sync-checks':
+                self._json({'ok': True, 'sync_checks': run_sync_checks()})
+                return
+            if parsed.path == '/api/agentToolkit':
+                self._json(get_toolkit_view(
                 view=str(params.get('view', ['index'])[0]),
                 domain=str(params.get('domain', [''])[0] or '') or None,
                 tool=str(params.get('tool', [''])[0] or '') or None,
-            ))
-            return
-        if parsed.path == '/api/ox/status':
-            self._json({
+                ))
+                return
+            if parsed.path == '/api/ox/status':
+                self._json({
                 'ox_available': bool(os.environ.get('OPENROUTER_API_KEY')),
                 'model': MODEL_ID,
                 'context_pack_exists': CONTEXT_PACK.exists(),
@@ -121,14 +203,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'merlin_available': True,
                 'service': 'Compatibility shim over Merlin Product 20',
                 'openrouter_compat_enabled': bool(os.environ.get('MERLIN_ENABLE_OPENROUTER_COMPAT')),
-            })
-            return
+                })
+                return
         if parsed.path in ('', '/'):
             self.path = '/ox-navigator.html'
         return super().do_GET()
 
     def do_POST(self):  # noqa: N802
         parsed = urlparse(self.path)
+        _, merlin_session, merlin_lock = self._merlin_session()
         length = int(self.headers.get('Content-Length', '0'))
         raw = self.rfile.read(length)
         try:
@@ -137,65 +220,66 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._json({'error': 'Invalid JSON body'}, status=400)
             return
 
-        if parsed.path == '/api/agentInvoke':
-            tool = str(payload.get('tool') or '').strip()
-            if not tool:
-                self._json({'error': 'tool is required'}, status=400)
-                return
-            self._json(route_tool(tool, dict(payload.get('args') or {})))
-            return
-
-        if parsed.path == '/api/agentOrchestrate':
-            steps = list(payload.get('steps') or [])
-            try:
-                self._json(orchestrate_steps(steps))
-            except ValueError as exc:
-                self._json({'ok': False, 'error': str(exc)}, status=400)
-            return
-
-        if parsed.path in ('/api/merlin', '/api/ox'):
-            query = str(payload.get('query') or '').strip()
-            if not query:
-                self._json({'error': 'query is required'}, status=400)
-                return
-            temperature = float(payload.get('temperature', DEFAULT_TEMPERATURE))
-            fourth_wall = bool(payload.get('fourth_wall', False))
-            page_context = str(payload.get('page_context') or '')
-            user_context = str(payload.get('user_context') or '')
-            try:
-                result = asyncio.run(query_merlin(
-                    text=query,
-                    session=_MERLIN_SESSION,
-                    on_status=[],
-                    model_override=str(payload.get('model') or '') or None,
-                    fourth_wall=fourth_wall,
-                    page_context=page_context,
-                    user_context=user_context,
-                    system_override=str(payload.get('system') or ''),
-                    force_websearch=payload.get('websearch'),
-                    temperature=temperature,
-                ))
-            except Exception as exc:  # pragma: no cover
-                self._json({'error': f'Unhandled Merlin error: {exc}'}, status=500)
+        with merlin_lock:
+            if parsed.path == '/api/agentInvoke':
+                tool = str(payload.get('tool') or '').strip()
+                if not tool:
+                    self._json({'error': 'tool is required'}, status=400)
+                    return
+                self._json(route_tool(tool, dict(payload.get('args') or {}), session=merlin_session))
                 return
 
-            if parsed.path == '/api/ox':
-                self._json({
-                    'answer': result['answer'],
-                    'model': MODEL_ID,
-                    'epistemic_note': result['epistemic_note'],
-                    'context_source': result['context_source'],
-                    'governance_note': (
-                        'AI-generated suggestion — steward approval required for any hardgate claim, '
-                        'pillar numbering, or Lean4 theorem acceptance.'
-                    ),
-                    'persona_mode': result['persona_mode'],
-                    'gate_badges': result['gate_badges'],
-                })
+            if parsed.path == '/api/agentOrchestrate':
+                steps = list(payload.get('steps') or [])
+                try:
+                    self._json(orchestrate_steps(steps, session=merlin_session))
+                except ValueError as exc:
+                    self._json({'ok': False, 'error': str(exc)}, status=400)
                 return
 
-            self._json(result)
-            return
+            if parsed.path in ('/api/merlin', '/api/ox'):
+                query = str(payload.get('query') or '').strip()
+                if not query:
+                    self._json({'error': 'query is required'}, status=400)
+                    return
+                temperature = float(payload.get('temperature', DEFAULT_TEMPERATURE))
+                fourth_wall = bool(payload.get('fourth_wall', False))
+                page_context = str(payload.get('page_context') or '')
+                user_context = str(payload.get('user_context') or '')
+                try:
+                    result = asyncio.run(query_merlin(
+                        text=query,
+                        session=merlin_session,
+                        on_status=[],
+                        model_override=str(payload.get('model') or '') or None,
+                        fourth_wall=fourth_wall,
+                        page_context=page_context,
+                        user_context=user_context,
+                        system_override=str(payload.get('system') or ''),
+                        force_websearch=payload.get('websearch'),
+                        temperature=temperature,
+                    ))
+                except Exception as exc:  # pragma: no cover
+                    self._json({'error': f'Unhandled Merlin error: {exc}'}, status=500)
+                    return
+
+                if parsed.path == '/api/ox':
+                    self._json({
+                        'answer': result['answer'],
+                        'model': MODEL_ID,
+                        'epistemic_note': result['epistemic_note'],
+                        'context_source': result['context_source'],
+                        'governance_note': (
+                            'AI-generated suggestion — steward approval required for any hardgate claim, '
+                            'pillar numbering, or Lean4 theorem acceptance.'
+                        ),
+                        'persona_mode': result['persona_mode'],
+                        'gate_badges': result['gate_badges'],
+                    })
+                    return
+
+                self._json(result)
+                return
         self._json({'error': 'Not found'}, status=404)
 
 

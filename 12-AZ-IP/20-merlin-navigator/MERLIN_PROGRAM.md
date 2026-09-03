@@ -6,6 +6,10 @@ This document records the implemented execution blueprint for making Merlin the 
 
 - Runtime blueprint module:
   - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_program.py`
+- Stage A benchmark corpus:
+  - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_benchmark.py`
+- Telemetry instrumentation:
+  - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_telemetry.py`
 - Toolkit functions exposed through `/api/agentInvoke`:
   - `getMerlinProgramCharter`
   - `getMerlinReplacementScope`
@@ -33,6 +37,8 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinBenchmarkSuite`
 - Direct API views:
   - `GET /api/merlin/program`
+  - `GET /api/merlin/memory`
+  - `GET /api/merlin/telemetry`
   - `GET /api/merlin/sync-checks`
   - `GET /api/merlin/identity`
   - `GET /api/merlin/policy`
@@ -57,7 +63,7 @@ This document records the implemented execution blueprint for making Merlin the 
 
 ## Continuous sync controls
 
-`run_sync_checks()` verifies canonical Merlin source surfaces remain present and readable to reduce epistemic drift.
+`run_sync_checks()` verifies canonical Merlin source surfaces remain present and readable to reduce epistemic drift. `query_merlin()` now records per-run telemetry and attaches typed provenance plus memory-audit state to every response object.
 
 ## Merlin Sovereignty Roadmap checklist
 
@@ -66,11 +72,14 @@ This document records the implemented execution blueprint for making Merlin the 
 - [x] OpenRouter frozen to compatibility-only fallback path with explicit enablement.
 - [x] Persona governance guardrails added (style cannot override epistemic honesty/boundary rules).
 - [x] Durable intent/provenance session records added.
+- [x] Multi-tier memory, contradiction tracking, and replayable audits added.
 - [x] Governed "back room" workspace policy/state exposed.
 - [x] Open-science model admission policy + evaluator exposed.
 - [x] 12/37 cadence policy added as internal scheduling control (not universal-superiority claim).
 - [x] Stage A→E rollout naming aligned in runtime blueprint.
-- [ ] Benchmark corpus + sustained empirical gate runs still required for full replacement approval.
+- [x] Stage A benchmark corpus and response evaluator exposed.
+- [x] Per-run latency/cost/energy/provenance telemetry attached to Merlin output and API surfaces.
+- [ ] Sustained empirical gate runs against the incumbent path still required for full replacement approval.
 
 ## Governance and epistemic constraints retained
 

@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from .merlin_benchmark import get_stage_a_benchmark_corpus
+
 
 def get_optimization_priorities() -> dict[str, Any]:
     """Return ordered top-priority optimization tracks for Merlin."""
@@ -148,6 +150,7 @@ def get_advanced_execution_graph() -> dict[str, Any]:
 
 def get_benchmark_suite() -> dict[str, Any]:
     """Return benchmark harness definition for competitive evaluation."""
+    corpus = get_stage_a_benchmark_corpus()
     return {
         "tracks": [
             "memory_persistence",
@@ -164,6 +167,14 @@ def get_benchmark_suite() -> dict[str, Any]:
             "safety_compliance",
             "governance_compliance",
             "energy_per_successful_task",
+        ],
+        "stage_a_corpus": corpus,
+        "stage_a_required_shadow_fields": [
+            "provider",
+            "lane",
+            "latency_ms",
+            "energy.estimated_joules",
+            "quality_signals",
         ],
         "promotion_gate": "No promotion to broader autonomy unless all critical tracks pass with zero high-severity policy failures.",
     }
