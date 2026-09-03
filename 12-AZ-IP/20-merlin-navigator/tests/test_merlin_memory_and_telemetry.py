@@ -87,7 +87,7 @@ def test_merlin_telemetry_estimators_and_summary():
 
 
 def test_match_benchmark_for_query_uses_keywords():
-    match = match_benchmark_for_query('What is the birefringence prediction?')
+    match = match_benchmark_for_query('What is the birefringence prediction and how could LiteBIRD falsify it?')
     assert match is not None
     assert match['id'] == 'physics_birefringence'
 

@@ -339,7 +339,7 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert payload['provenance']['complete'] is True
     assert payload['telemetry']['energy']['estimated_joules'] > 0
     assert 'matched_memory_count' in payload['memory_audit']
-    assert payload['benchmark_eval']['ok'] is True
+    assert payload['benchmark_eval'] is None
 
 
 def test_server_merlin_endpoints():

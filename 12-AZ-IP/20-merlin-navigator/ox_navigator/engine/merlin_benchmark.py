@@ -100,20 +100,17 @@ def get_stage_a_benchmark_corpus() -> dict[str, Any]:
     }
 
 
+def _normalize(text: str) -> str:
+    return " ".join(re.findall(r"[a-z0-9_]+", str(text or "").lower()))
+
+
 def match_benchmark_for_query(query: str) -> dict[str, Any] | None:
-    query_tokens = {token for token in re.findall(r"[a-z0-9_]+", str(query or "").lower()) if token}
-    best_match = None
-    best_score = (0, 0.0)
+    sample = _normalize(query)
     for benchmark in STAGE_A_BENCHMARK_CORPUS:
-        keyword_tokens = {token for token in benchmark.get("keywords", []) if token}
-        hits = len(query_tokens & keyword_tokens)
-        ratio = hits / max(len(keyword_tokens), 1)
-        score = (hits, ratio)
-        if score > best_score:
-            best_score = score
-            best_match = benchmark
-    if best_match and best_score[0] >= int(best_match.get("minimum_keyword_hits", 1)):
-        return dict(best_match)
+        if sample == _normalize(benchmark["query"]):
+            return dict(benchmark)
+        if benchmark["id"] in sample:
+            return dict(benchmark)
     return None
 
 

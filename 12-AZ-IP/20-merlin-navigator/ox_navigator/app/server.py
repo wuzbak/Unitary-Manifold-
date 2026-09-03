@@ -11,6 +11,7 @@ import os
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+from uuid import uuid4
 
 from ox_navigator.engine.constants import DEFAULT_TEMPERATURE, MODEL_ID
 from ox_navigator.engine.merlin_engine import query_merlin
@@ -49,15 +50,25 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         body = json.dumps(payload, ensure_ascii=False).encode('utf-8')
         self.send_response(status)
         self.send_header('Content-Type', 'application/json; charset=utf-8')
+        pending_cookie = getattr(self, '_pending_session_cookie', '')
+        if pending_cookie:
+            self.send_header('Set-Cookie', f'merlin_session_id={pending_cookie}; Path=/; HttpOnly; SameSite=Lax')
         self.send_header('Content-Length', str(len(body)))
         self.end_headers()
         self.wfile.write(body)
 
     def _merlin_session(self) -> MerlinSession:
-        session_id = (
-            str(self.headers.get('X-Merlin-Session') or '').strip()
-            or f'client:{self.client_address[0]}'
-        )
+        session_id = str(self.headers.get('X-Merlin-Session') or '').strip()
+        if not session_id:
+            raw_cookie = str(self.headers.get('Cookie') or '')
+            for part in raw_cookie.split(';'):
+                key, _, value = part.strip().partition('=')
+                if key == 'merlin_session_id' and value.strip():
+                    session_id = value.strip()
+                    break
+        if not session_id:
+            session_id = uuid4().hex
+            self._pending_session_cookie = session_id
         if session_id not in _MERLIN_SESSIONS:
             _MERLIN_SESSIONS[session_id] = MerlinSession()
         return _MERLIN_SESSIONS[session_id]
