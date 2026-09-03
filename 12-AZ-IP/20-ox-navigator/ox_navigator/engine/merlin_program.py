@@ -10,7 +10,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from .merlin_identity import get_identity_policy
 from .merlin_memory import MERLIN_MAX_HISTORY
+from .merlin_sentinel import get_sentinel_policy
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
@@ -358,6 +360,8 @@ def get_reliability_security_plan() -> dict[str, Any]:
             "strict_secret_handling",
             "connector_isolation",
             "zero_trust_external_call_posture",
+            "sentinel_warn_then_reset_controls",
+            "privileged_action_identity_verification",
         ],
     }
 
@@ -406,6 +410,14 @@ def get_exit_criteria() -> dict[str, Any]:
     }
 
 
+def get_identity_and_trust_policy() -> dict[str, Any]:
+    return get_identity_policy()
+
+
+def get_sentinel_enforcement_policy() -> dict[str, Any]:
+    return get_sentinel_policy()
+
+
 def get_full_program_blueprint() -> dict[str, Any]:
     return {
         "generated_at": _utcnow(),
@@ -420,6 +432,8 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "backend_expansion": get_backend_expansion_policy(),
         "governance_integration": get_governance_integration_policy(),
         "reliability_security": get_reliability_security_plan(),
+        "identity_and_trust": get_identity_and_trust_policy(),
+        "sentinel_policy": get_sentinel_enforcement_policy(),
         "rollout": get_rollout_plan(),
         "operating_rhythm": get_operating_rhythm(),
         "exit_criteria": get_exit_criteria(),

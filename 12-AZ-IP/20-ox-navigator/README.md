@@ -7,9 +7,9 @@
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** `stealth/ox-alpha` via OpenRouter when live; offline RAG fallback when not
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`
-- **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap)
+- **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) with Sentinel strike memory for policy enforcement
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
 
@@ -54,6 +54,8 @@
 ## Hidden agent backend space
 
 - `GET /api/agentToolkit` exposes discovery views: `index`, `domain`, `tool`, `full`, `state`.
+- `GET /api/merlin/identity` exposes canonical identity/alias and privileged-action verification policy.
+- `GET /api/merlin/policy` exposes combined identity-trust and Sentinel enforcement policies.
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.

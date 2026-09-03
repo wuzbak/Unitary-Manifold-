@@ -23,9 +23,15 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinOperatingRhythm`
   - `getMerlinExitCriteria`
   - `getMerlinProgramBlueprint`
+  - `getMerlinIdentityPolicy`
+  - `verifyMerlinIdentity`
+  - `authorizeMerlinPrivilege`
+  - `getMerlinSentinelPolicy`
 - Direct API views:
   - `GET /api/merlin/program`
   - `GET /api/merlin/sync-checks`
+  - `GET /api/merlin/identity`
+  - `GET /api/merlin/policy`
 
 ## Scope mapping to the 13-point implementation request
 

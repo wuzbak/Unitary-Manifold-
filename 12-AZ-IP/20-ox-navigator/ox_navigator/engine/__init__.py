@@ -23,6 +23,17 @@ from .gate_parser import classify_response, extract_gate_badges
 from .interrogator import get_tension_map_data, load_kb, search_kb
 from .lean4_index import LEAN4_THEOREM_COUNT, LEAN4_THEOREM_SAMPLE, get_theorem_count, get_theorems_by_pillar, search_theorems
 from .merlin_engine import extract_tool_call, query_merlin, strip_tool_call
+from .merlin_identity import (
+    ALLOWED_ALIASES,
+    CANONICAL_IDENTITY,
+    FORBIDDEN_ALIASES,
+    TRUSTED_SOURCES_RANKED,
+    authorize_privileged_request,
+    detect_identity_mentions,
+    get_identity_policy,
+    is_privileged_modification_request,
+    verify_identity_signals,
+)
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MERLIN_MAX_HISTORY, MerlinSession
 from .merlin_persona import build_persona_prompt, build_system_prompt, detect_persona_mode, extract_urls, is_internal_question
 from .merlin_program import (
@@ -32,6 +43,7 @@ from .merlin_program import (
     get_exit_criteria,
     get_full_program_blueprint,
     get_governance_integration_policy,
+    get_identity_and_trust_policy,
     get_knowledge_core_sources,
     get_model_strategy,
     get_operating_rhythm,
@@ -39,6 +51,7 @@ from .merlin_program import (
     get_reliability_security_plan,
     get_replacement_scope,
     get_rollout_plan,
+    get_sentinel_enforcement_policy,
     get_training_and_adaptation,
     get_weights_and_measures,
     run_sync_checks,
@@ -60,11 +73,15 @@ __all__ = [
     'MERLIN_MAX_HISTORY', 'build_persona_prompt', 'build_system_prompt', 'detect_persona_mode',
     'extract_urls', 'is_internal_question', 'lookup_kb', 'retrieve_context', 'build_rag_context',
     'closest_pillar', 'extract_tool_call', 'strip_tool_call', 'query_merlin', 'get_toolkit_view',
-    'route_tool', 'orchestrate_steps', 'get_path', 'get_program_charter', 'get_replacement_scope',
+    'route_tool', 'orchestrate_steps', 'get_path', 'CANONICAL_IDENTITY', 'ALLOWED_ALIASES',
+    'FORBIDDEN_ALIASES', 'TRUSTED_SOURCES_RANKED', 'get_identity_policy', 'detect_identity_mentions',
+    'verify_identity_signals', 'is_privileged_modification_request', 'authorize_privileged_request',
+    'get_program_charter', 'get_replacement_scope',
     'get_current_stack_baseline', 'get_weights_and_measures', 'get_knowledge_core_sources',
     'run_sync_checks', 'get_model_strategy', 'get_training_and_adaptation',
     'get_energy_optimization_track', 'get_backend_expansion_policy',
     'get_governance_integration_policy', 'get_reliability_security_plan',
+    'get_identity_and_trust_policy', 'get_sentinel_enforcement_policy',
     'get_rollout_plan', 'get_operating_rhythm', 'get_exit_criteria',
     'get_full_program_blueprint',
 ]

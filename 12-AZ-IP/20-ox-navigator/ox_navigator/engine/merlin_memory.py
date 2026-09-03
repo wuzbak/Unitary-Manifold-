@@ -22,6 +22,10 @@ class MerlinSession:
     """Track recent Merlin conversation turns."""
 
     turns: list[dict[str, Any]] = field(default_factory=list)
+    policy_strikes: int = 0
+    reset_events: list[dict[str, Any]] = field(default_factory=list)
+    sentinel_mode: str = "MONITOR"
+    privileged_attempts: int = 0
 
     def add_turn(self, query: str, response: str, *, gates: list[str] | None = None) -> None:
         visible_gates = list(gates or extract_gate_badges(response))
@@ -37,8 +41,23 @@ class MerlinSession:
     def get_history(self) -> list[dict[str, Any]]:
         return list(self.turns)
 
-    def clear(self) -> None:
+    def clear(self, *, reason: str = "manual") -> None:
         self.turns.clear()
+        self.reset_events.append({
+            "reason": reason,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        })
+
+    def set_sentinel_mode(self, mode: str) -> None:
+        self.sentinel_mode = mode
+
+    def register_policy_strike(self) -> int:
+        self.policy_strikes += 1
+        return self.policy_strikes
+
+    def register_privileged_attempt(self) -> int:
+        self.privileged_attempts += 1
+        return self.privileged_attempts
 
     def compressed(self) -> dict[str, Any]:
         return compress_context(self.turns)
