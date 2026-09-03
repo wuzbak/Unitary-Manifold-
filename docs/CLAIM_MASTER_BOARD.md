@@ -1,9 +1,20 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v34.0
+# Unitary Manifold v34.1
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-02 (v34.0 — Sprint BL: Pillars 982–992 (11 pillars). Flavor-family residuals are now one explicit UV flavor/moduli boundary (`FLAVOR_FAMILY_BOUNDARY_MAPPED`) with `radii_lock` carrying the dominant unresolved share. α_s release ingestion is wired into the UV lane with rerun routing when PDG/FLAG values sit outside the tightened window. Lean4 unchanged at 3912. Next slot 993. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v34.1 — Sprint BM: Pillars 993–997 (5 pillars). Parent→shadow mapping and unified 13D compactification state are now canonical runtime artifacts; CKM and fermion magnitude lanes are forced to binary closure outcomes (closed vs certified architecture-limit with named missing objects). Lean4 unchanged at 3912. Next slot 998. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+
+*P997 (v34.1): Sprint BM Parent-Shadow Master Certificate — SPRINT_BM_PARENT_SHADOW_MASTER_CERTIFICATE_COMPLETE. `src/core/pillar997_sprint_bm_parent_shadow_master_certificate.py` certifies Sprint BM (5 pillars 993–997; Lean4 3912→3912; next slot 998; v34.1). Binary lane policy is enforced: closure lanes must resolve to CLOSED or ARCHITECTURE_LIMIT only.*
+
+*P996 (v34.1): Fermion Magnitude/Radii Binary Closure — FERMION_MAGNITUDE_RADII_CLOSURE_BINARY_COMPLETE. `src/core/pillar996_fermion_magnitude_radii_closure_binary.py` reruns fermion magnitudes from the unified 13D parent state and returns a strict binary result (`FERMION_MAGNITUDE_RADII_CLOSED_FROM_PARENT_13D` or `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`), with a named missing object when not closed.*
+
+*P995 (v34.1): CKM Shadow Binary Closure — CKM_SHADOW_CLOSURE_BINARY_COMPLETE. `src/core/pillar995_ckm_shadow_closure_binary.py` reruns θ₁₃ / |Vub| / Jarlskog from the unified 13D parent state and returns a strict binary result (`CKM_SHADOW_CLOSED_FROM_PARENT_13D` or `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`), with a named missing object when not closed.*
+
+*P994 (v34.1): Unified 13D Compactification State — UNIFIED_13D_COMPACTIFICATION_STATE_COMPLETE. `src/core/pillar994_unified_13d_compactification_state.py` provides one canonical parent-state object consumed by both CKM and fermion closure lanes, removing disconnected per-lane geometry inputs.*
+
+*P993 (v34.1): Parent→Shadow Dictionary (13D) — PARENT_SHADOW_DICTIONARY_13D_COMPLETE. `src/core/pillar993_parent_shadow_dictionary_13d.py` locks the canonical map between 13D parent invariants and lower-dimensional observables, explicitly classifying true projections vs effective shadows under non-negotiable consistency gates.*
 
 *P992 (v34.0): Sprint BL Regression Certificate — SPRINT_BL_REGRESSION_CERTIFICATE_COMPLETE. `src/core/pillar992_sprint_bl_regression_certificate.py` certifies Sprint BL (11 pillars 982–992; Lean4 3912→3912; next slot 993; v34.0). Remaining open lanes are kept explicit and non-inflated.*
 
