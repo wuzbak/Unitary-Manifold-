@@ -37,9 +37,8 @@ def generate_local_response(
     if persona_mode != "serious":
         body = body.replace("Direct answer:", "Merlin short answer:")
     normalized_query = str(query or "").lower()
-    if "litebird" in normalized_query or "falsif" in normalized_query:
-        if "[OPEN_GAP]" not in body:
-            body += " [OPEN_GAP] LiteBIRD is the primary observational falsifier lane and remains pending."
+    if "litebird" in normalized_query:
+        body += " LiteBIRD remains the primary observational falsifier lane and is still pending."
     if fourth_wall:
         body += "\n\n[Fourth wall] Gate badges are confidence-status labels, not decoration."
     return {

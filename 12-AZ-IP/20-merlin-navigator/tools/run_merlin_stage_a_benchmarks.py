@@ -41,7 +41,11 @@ async def _run_once(benchmark: dict) -> dict:
     merlin_session = MerlinSession()
     incumbent_session = MerlinSession()
     merlin_result = await query_merlin(text=str(benchmark["query"]), session=merlin_session)
-    incumbent_result = await query_merlin(text=str(benchmark["query"]), session=incumbent_session)
+    incumbent_result = await query_merlin(
+        text=str(benchmark["query"]),
+        session=incumbent_session,
+        runtime_mode="incumbent_compat",
+    )
     merlin_eval = evaluate_benchmark_response(str(benchmark["id"]), merlin_result)
     incumbent_eval = evaluate_benchmark_response(str(benchmark["id"]), incumbent_result)
     shadow = {"/".join(path): _path_has(merlin_result, path) for path in REQUIRED_SHADOW_FIELDS}

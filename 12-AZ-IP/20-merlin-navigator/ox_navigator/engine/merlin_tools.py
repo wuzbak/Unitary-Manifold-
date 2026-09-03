@@ -242,32 +242,41 @@ def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple
             return False, f"Unknown argument(s): {', '.join(extra)}"
     type_map = {
         "string": str,
-        "integer": int,
-        "number": (int, float),
         "boolean": bool,
         "object": dict,
         "array": list,
     }
+
+    def _matches(expected_type: str, value: Any) -> bool:
+        if expected_type == "integer":
+            return isinstance(value, int) and not isinstance(value, bool)
+        if expected_type == "number":
+            return isinstance(value, (int, float)) and not isinstance(value, bool)
+        py_type = type_map.get(expected_type)
+        return isinstance(value, py_type) if py_type else True
     for key, spec in properties.items():
         if key not in args:
             continue
         expected = spec.get("type")
         if isinstance(expected, list):
-            valid = any(isinstance(args[key], type_map.get(t, object)) for t in expected if t in type_map)
-        elif expected in type_map:
-            valid = isinstance(args[key], type_map[expected])
+            valid = any(_matches(str(t), args[key]) for t in expected)
         else:
-            valid = True
+            valid = _matches(str(expected), args[key]) if expected else True
         if not valid:
             return False, f"Invalid type for '{key}', expected {expected}"
     return True, ""
 
 
 def _build_replay_artifact(*, tool: str, args: dict[str, Any], result: Any, ok: bool) -> dict[str, Any]:
+    secret_markers = ("token", "secret", "key", "password", "credential")
+    safe_args = {}
+    for key, value in dict(args or {}).items():
+        lower = str(key).lower()
+        safe_args[key] = "***REDACTED***" if any(marker in lower for marker in secret_markers) else value
     replay = {
         "generated_at": _utcnow(),
         "tool": tool,
-        "args": args,
+        "args": safe_args,
         "ok": ok,
         "result_excerpt": json.dumps(result, ensure_ascii=False)[:800] if result is not None else "",
     }

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import os
+import tempfile
 import threading
 from pathlib import Path
 from typing import Any
@@ -41,7 +42,17 @@ class MerlinMemoryStore:
 
     def _write_all(self, payload: dict[str, Any]) -> None:
         serial = json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True)
-        self.path.write_text(serial + "\n", encoding="utf-8")
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            delete=False,
+            dir=str(self.path.parent),
+            prefix=f"{self.path.name}.",
+            suffix=".tmp",
+        ) as handle:
+            handle.write(serial + "\n")
+            temp_name = handle.name
+        Path(temp_name).replace(self.path)
 
     def load_profile(self, profile_id: str) -> MerlinSession:
         key = str(profile_id or "").strip() or "global"
@@ -54,6 +65,12 @@ class MerlinMemoryStore:
             payload["profiles"][key] = session.to_dict()
             self._write_all(payload)
             return session
+
+    def has_profile(self, profile_id: str) -> bool:
+        key = str(profile_id or "").strip() or "global"
+        with self._lock:
+            payload = self._read_all()
+            return key in payload.get("profiles", {})
 
     def save_profile(self, profile_id: str, session: MerlinSession) -> None:
         key = str(profile_id or "").strip() or "global"

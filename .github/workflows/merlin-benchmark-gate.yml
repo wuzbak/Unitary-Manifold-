@@ -15,6 +15,8 @@ on:
 jobs:
   merlin-stage-a-gate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         shell: bash

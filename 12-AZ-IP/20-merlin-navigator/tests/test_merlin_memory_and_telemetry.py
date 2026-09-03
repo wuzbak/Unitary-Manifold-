@@ -89,6 +89,15 @@ def test_merlin_memory_store_persists_profile(tmp_path):
     assert any(item["fact"] == "Cross-device memory fact" for item in loaded_again.durable_memory)
 
 
+def test_merlin_memory_store_recovers_from_corrupt_json(tmp_path):
+    path = tmp_path / "broken_store.json"
+    path.write_text("{not-json", encoding="utf-8")
+    store = MerlinMemoryStore(path=path)
+    session = store.load_profile("recover-profile")
+    assert session.get_memory_state()["durable_memory_count"] >= 1
+    assert store.has_profile("recover-profile") is True
+
+
 def test_merlin_telemetry_estimators_and_summary():
     assert estimate_token_count('abcd' * 4) >= 4
     assert estimate_cost_usd(provider='sovereign_local', input_tokens=10, output_tokens=20) == 0.0

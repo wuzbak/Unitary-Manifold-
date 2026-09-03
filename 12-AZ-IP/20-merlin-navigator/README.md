@@ -58,7 +58,7 @@
 - `GET /api/agentToolkit` exposes discovery views: `index`, `domain`, `tool`, `full`, `state`.
 - `GET /api/merlin/memory` exposes multi-tier memory state, contradictions, and recall audits.
 - `GET /api/merlin/telemetry` exposes recent run summaries for measurement and rollout gating.
-- `GET /api/merlin/status` now returns `memory_profile` to support cross-device durable profile continuity.
+- `GET /api/merlin/status` now returns `memory_profile_token`; cross-device resume via `X-Merlin-Profile-Token` also requires `X-Merlin-Profile-Key` matching server-side `MERLIN_PROFILE_SHARED_KEY`.
 - `GET /api/merlin/identity` exposes canonical identity/alias and privileged-action verification policy.
 - `GET /api/merlin/policy` exposes combined identity-trust and Sentinel enforcement policies.
 - `GET /api/merlin/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.

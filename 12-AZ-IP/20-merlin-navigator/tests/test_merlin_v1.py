@@ -368,7 +368,7 @@ def test_server_merlin_endpoints():
             assert status.json()['merlin_available'] is True
             assert 'router_policy' in status.json()
             assert 'openrouter_compat_enabled' in status.json()
-            assert status.json()['memory_profile']
+            assert status.json()['memory_profile_token']
 
             program = client.get('/api/merlin/program')
             assert program.status_code == 200
@@ -473,3 +473,4 @@ def test_run_sync_checks_has_consistency_contract():
     assert checks['ok'] is True
     assert checks['consistency']['no_derived_drift_in_ui_gate_labels'] is True
     assert all(item['ok'] for item in checks['consistency']['endpoint_checks'])
+    assert all(item['ok'] for item in checks['consistency']['gate_checks'])

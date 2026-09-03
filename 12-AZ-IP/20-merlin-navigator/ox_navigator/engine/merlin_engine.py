@@ -365,6 +365,7 @@ async def query_merlin(
     system_override: str = "",
     force_websearch: bool | None = None,
     temperature: float = DEFAULT_TEMPERATURE,
+    runtime_mode: str = "merlin",
 ) -> dict[str, Any]:
     """Run a Merlin query and return a structured response."""
     started = time.perf_counter()
@@ -527,43 +528,58 @@ async def query_merlin(
     response_text = ""
     context_source = "sovereign_local_model"
     tool_rounds = 0
-    local_candidate = generate_local_response(
-        query=text,
-        context=context,
-        persona_mode=persona_mode,
-        fourth_wall=fourth_wall,
-    )
-    response_text = local_candidate["body"]
-    router_decision = choose_runtime(text, confidence=float(local_candidate.get("confidence", 0.7)))
-    if (
-        router_decision["provider"] == "openrouter_compat"
-        and os.environ.get("OPENROUTER_API_KEY")
-        and bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT"))
-    ):
-        if on_status is not None:
-            on_status.append("model")
-        try:
-            response_text = await _call_openrouter(
-                messages,
-                model=model_override or MODEL_ID,
-                temperature=temperature,
-            )
-            context_source = "openrouter_compat" if not used_websearch else "openrouter_compat_web_aligned"
-            for _ in range(2):
-                tool_call = extract_tool_call(response_text)
-                if not tool_call:
-                    break
-                tool_rounds += 1
-                tool_result = route_tool(str(tool_call["tool"]), dict(tool_call.get("args") or {}))
-                messages.append({"role": "assistant", "content": strip_tool_call(response_text) or "(tool request emitted)"})
-                messages.append({"role": "system", "content": f"[TOOL RESULT]\n{json.dumps(tool_result, ensure_ascii=False)}\n[/TOOL RESULT]"})
+    if runtime_mode == "incumbent_compat":
+        response_text = _fallback_body(text, context, persona_mode, fourth_wall)
+        router_decision = {
+            "provider": "incumbent_compat",
+            "lane": "medium_reasoner_default",
+            "risk_level": "medium",
+            "confidence": 0.5,
+            "reason": "Incumbent compatibility baseline.",
+            "openrouter_compat_enabled": False,
+            "openrouter_key_present": False,
+            "cadence_tick_ratio": "12/37",
+            "cadence_tick_value": 12 / 37,
+        }
+        context_source = "incumbent_compat"
+    else:
+        local_candidate = generate_local_response(
+            query=text,
+            context=context,
+            persona_mode=persona_mode,
+            fourth_wall=fourth_wall,
+        )
+        response_text = local_candidate["body"]
+        router_decision = choose_runtime(text, confidence=float(local_candidate.get("confidence", 0.7)))
+        if (
+            router_decision["provider"] == "openrouter_compat"
+            and os.environ.get("OPENROUTER_API_KEY")
+            and bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT"))
+        ):
+            if on_status is not None:
+                on_status.append("model")
+            try:
                 response_text = await _call_openrouter(
                     messages,
                     model=model_override or MODEL_ID,
                     temperature=temperature,
                 )
-        except Exception:
-            context_source = "sovereign_local_model"
+                context_source = "openrouter_compat" if not used_websearch else "openrouter_compat_web_aligned"
+                for _ in range(2):
+                    tool_call = extract_tool_call(response_text)
+                    if not tool_call:
+                        break
+                    tool_rounds += 1
+                    tool_result = route_tool(str(tool_call["tool"]), dict(tool_call.get("args") or {}))
+                    messages.append({"role": "assistant", "content": strip_tool_call(response_text) or "(tool request emitted)"})
+                    messages.append({"role": "system", "content": f"[TOOL RESULT]\n{json.dumps(tool_result, ensure_ascii=False)}\n[/TOOL RESULT]"})
+                    response_text = await _call_openrouter(
+                        messages,
+                        model=model_override or MODEL_ID,
+                        temperature=temperature,
+                    )
+            except Exception:
+                context_source = "sovereign_local_model"
 
     initial_processed = _post_process_answer(
         response_text,
@@ -578,7 +594,7 @@ async def query_merlin(
         processed=initial_processed,
         privilege_requested=bool(privilege.get("requested")),
         privilege_allowed=bool(privilege.get("allowed")),
-        sentinel_blocked=False,
+        sentinel_blocked=bool(sentinel.blocked),
     )
     session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
     telemetry = build_run_telemetry(
