@@ -1,17 +1,17 @@
 {
-  "version": "v34.0",
-  "generated": "2026-09-02",
-  "tests_passed": 62525,
-  "tests_skipped": 48,
+  "version": "v35.2",
+  "generated": "2026-09-03",
+  "tests_passed": 63639,
+  "tests_skipped": 23,
   "tests_deselected": 12,
   "tests_failed": 0,
-  "lean4_theorems": 3912,
+  "lean4_theorems": 3952,
   "pillars": 208,
   "pillars_hardgate": 208,
-  "pillars_total": 992,
-  "adjacent_tracks": 784,
-  "next_pillar_slot": 993,
-  "regression": "62,525 passed \u00b7 48 skipped \u00b7 12 deselected \u00b7 0 failed",
+  "pillars_total": 1030,
+  "adjacent_tracks": 822,
+  "next_pillar_slot": 1031,
+  "regression": "63,639 passed \u00b7 23 skipped \u00b7 12 deselected \u00b7 0 failed",
   "primary_falsifier": "LiteBIRD \u03b2 \u2208 {0.273\u00b0, 0.331\u00b0} (~2032)",
   "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
   "organization": "AxiomZero Technologies & Consulting, SPC",
@@ -57,14 +57,14 @@
     "w_a": {
       "um": 0.0,
       "desi_status": "DATASET_DEPENDENT",
-      "verdict": "DESI DR2 2.30\u03c3 tracked tension; DR3 tripwire remains active",
+      "verdict": "BAO-only 1.11\u03c3 PASS; Pantheon+ 0.80\u03c3 PASS; Union3 1.59\u03c3 PASS; DESY5 3.18\u03c3 FALSIFIED_CANDIDATE; ACT DR6 0.17\u03c3 PASS",
       "gate": "OPEN_GAP",
-      "test": "DESI DR3 ~2027"
+      "test": "DESI DR3 ~2026"
     },
     "flavor_family": {
-      "value": "FLAVOR_FAMILY_BOUNDARY_MAPPED",
+      "value": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
       "gate": "OPEN_GAP",
-      "pillar": 991
+      "pillar": 1030
     },
     "alpha_s_floor": {
       "value": "PDG 0.1180 outside tightened UV window",
@@ -75,7 +75,7 @@
   "open_tensions": [
     {
       "name": "Flavor family boundary",
-      "status": "FLAVOR_FAMILY_BOUNDARY_MAPPED"
+      "status": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED"
     },
     {
       "name": "\u03b1_s Type-B floor",
@@ -87,7 +87,7 @@
     },
     {
       "name": "DESI w_a dataset split",
-      "status": "DESI_DR2_DATASET_DEPENDENT"
+      "status": "DATASET_DEPENDENT"
     }
   ],
   "open_gaps": [
