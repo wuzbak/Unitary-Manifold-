@@ -126,13 +126,11 @@ class MerlinSession:
             if overlap:
                 scored.append((overlap, entry))
         scored.sort(key=lambda item: (-item[0], item[1]["created_at"]))
-        matches = [dict(entry) for _, entry in scored[:limit]]
-        for match in matches:
-            for entry in self.durable_memory:
-                if entry["fact"] == match["fact"] and entry["scope"] == match["scope"]:
-                    entry["retrieval_count"] += 1
-                    entry["last_seen_at"] = _utcnow()
-        return matches
+        selected = [entry for _, entry in scored[:limit]]
+        for entry in selected:
+            entry["retrieval_count"] += 1
+            entry["last_seen_at"] = _utcnow()
+        return [dict(entry) for entry in selected]
 
     def audit_memory(self, query: str) -> dict[str, Any]:
         matched = self.retrieve_memory(query)
@@ -142,6 +140,7 @@ class MerlinSession:
             "matched_memory_count": len(matched),
             "matched_scopes": sorted({item["scope"] for item in matched}),
             "matched_facts": [item["fact"] for item in matched],
+            "matched_memory": matched,
         }
         self.memory_audits.append(audit)
         if len(self.memory_audits) > MERLIN_MAX_AUDITS:
@@ -150,12 +149,12 @@ class MerlinSession:
 
     def _record_contradiction(self, query: str, response: str) -> None:
         normalized_query = _normalize(query)
-        normalized_response = _normalize(response)
+        current_gates = set(extract_gate_badges(response))
         for prior in reversed(self.turns):
             if _normalize(prior.get("query", "")) != normalized_query:
                 continue
-            prior_response = _normalize(prior.get("response", ""))
-            if prior_response and prior_response != normalized_response:
+            prior_gates = set(prior.get("gates") or extract_gate_badges(str(prior.get("response", ""))))
+            if prior_gates and current_gates and prior_gates != current_gates:
                 self.contradiction_events.append({
                     "query": query,
                     "prior_response": str(prior.get("response", ""))[:240],
@@ -259,12 +258,33 @@ class MerlinSession:
             ],
         }
 
-    def get_telemetry_summary(self) -> dict[str, Any]:
-        return summarize_runs(self.telemetry)
+    def get_public_memory_state(self) -> dict[str, Any]:
+        state = self.get_memory_state()
+        return {
+            "tiers": state["tiers"],
+            "durable_memory_count": state["durable_memory_count"],
+            "durable_memory_by_scope": state["durable_memory_by_scope"],
+            "contradiction_event_count": state["contradiction_event_count"],
+            "audit_count": state["audit_count"],
+        }
 
-    def compressed(self, query: str = "") -> dict[str, Any]:
+    def get_telemetry_summary(self, *, public: bool = False) -> dict[str, Any]:
+        summary = summarize_runs(self.telemetry)
+        if public:
+            return {
+                "count": summary["count"],
+                "providers": summary["providers"],
+                "average_latency_ms": summary["average_latency_ms"],
+                "average_energy_joules": summary["average_energy_joules"],
+                "average_provenance_sources": summary["average_provenance_sources"],
+            }
+        return summary
+
+    def compressed(self, query: str = "", *, matched_memory: list[dict[str, Any]] | None = None) -> dict[str, Any]:
         base = compress_context(self.turns)
-        matched = self.retrieve_memory(query) if query else []
+        matched = list(matched_memory or [])
+        if query and not matched:
+            matched = self.retrieve_memory(query)
         memory_summary = " | ".join(f"[{item['scope']}] {item['fact']}" for item in matched[:3])
         contradiction_summary = (
             f" contradictions={len(self.contradiction_events)}"

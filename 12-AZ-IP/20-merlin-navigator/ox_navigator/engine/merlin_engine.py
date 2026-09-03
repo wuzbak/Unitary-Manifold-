@@ -413,7 +413,7 @@ async def query_merlin(
     internal = is_internal_question(text)
     used_websearch = bool(force_websearch) if force_websearch is not None else (not internal or bool(urls))
     audit = session.audit_memory(text)
-    compressed = session.compressed(text)
+    compressed = session.compressed(text, matched_memory=audit.get("matched_memory"))
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "system", "content": f"[EARLIER CONVERSATION SUMMARY]\n{compressed['summary']}"},

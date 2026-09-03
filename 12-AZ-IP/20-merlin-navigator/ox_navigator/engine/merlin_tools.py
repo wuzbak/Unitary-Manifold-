@@ -51,8 +51,6 @@ from .merlin_rag import (
 )
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
-_DEFAULT_MERLIN_SESSION = MerlinSession()
-
 MERLIN_SESSION_SCHEMA = {
     "title": "MerlinSession",
     "type": "object",
@@ -331,6 +329,7 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
     if view == "full":
         return {"view": "full", **manifest}
     if view == "state":
+        state_session = MerlinSession()
         return {
             "view": "state",
             "fetchedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -359,14 +358,14 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
                 "policy": get_router_policy(),
                 "openrouter_compat_enabled": bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT")),
             },
-            "memory": _DEFAULT_MERLIN_SESSION.get_memory_state(),
-            "telemetry": _DEFAULT_MERLIN_SESSION.get_telemetry_summary(),
+            "memory": state_session.get_public_memory_state(),
+            "telemetry": state_session.get_telemetry_summary(public=True),
             "entities": {
                 "MerlinSession": {
                     "summary": "Audited multi-tier session memory with contradiction tracking and measurable run telemetry.",
                     "schema": MERLIN_SESSION_SCHEMA,
-                    "sample_count": len(_DEFAULT_MERLIN_SESSION.get_history()),
-                    "samples": _DEFAULT_MERLIN_SESSION.get_history()[-3:],
+                    "sample_count": 0,
+                    "samples": [],
                     "storage_keys": [MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY],
                 },
             },
@@ -377,7 +376,7 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
 def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: MerlinSession | None = None) -> dict[str, Any]:
     """Route a Merlin tool call to a safe local capability."""
     args = dict(args or {})
-    active_session = session if session is not None else _DEFAULT_MERLIN_SESSION
+    active_session = session if session is not None else MerlinSession()
     manifest = _tool_manifest()
     policy = next((item for item in manifest["functions"] if item["name"] == tool), None)
     started = time.perf_counter()

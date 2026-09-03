@@ -68,8 +68,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'capability_views': ['index', 'domain', 'tool', 'full', 'state'],
                 'router_policy': get_router_policy(),
                 'live_status': route_tool('fetchRepoContext').get('result', {}).get('data', {}),
-                'memory': _MERLIN_SESSION.get_memory_state(),
-                'telemetry': _MERLIN_SESSION.get_telemetry_summary(),
+                'memory': _MERLIN_SESSION.get_public_memory_state(),
+                'telemetry': _MERLIN_SESSION.get_telemetry_summary(public=True),
                 'compatibility': {
                     'legacy_query_endpoint': '/api/ox',
                     'legacy_status_endpoint': '/api/ox/status',
@@ -80,10 +80,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._json({'ok': True, 'program': get_full_program_blueprint()})
             return
         if parsed.path == '/api/merlin/memory':
-            self._json({'ok': True, 'memory': _MERLIN_SESSION.get_memory_state()})
+            self._json({'ok': True, 'memory': _MERLIN_SESSION.get_public_memory_state()})
             return
         if parsed.path == '/api/merlin/telemetry':
-            self._json({'ok': True, 'telemetry': _MERLIN_SESSION.get_telemetry_summary()})
+            self._json({'ok': True, 'telemetry': _MERLIN_SESSION.get_telemetry_summary(public=True)})
             return
         if parsed.path == '/api/merlin/runtime':
             self._json({
@@ -99,7 +99,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._json({
                 'ok': True,
                 'benchmarks': get_merlin_benchmark_suite(),
-                'telemetry': _MERLIN_SESSION.get_telemetry_summary(),
+                'telemetry': _MERLIN_SESSION.get_telemetry_summary(public=True),
             })
             return
         if parsed.path == '/api/merlin/identity':
