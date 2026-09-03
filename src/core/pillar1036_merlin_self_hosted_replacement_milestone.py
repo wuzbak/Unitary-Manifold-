@@ -5,8 +5,8 @@
 from __future__ import annotations
 
 import json
-import os
-import subprocess
+import importlib
+import importlib.util
 import sys
 from pathlib import Path
 from typing import Any, Dict
@@ -28,30 +28,27 @@ PILLAR_GATE: str = "MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE"
 PILLAR_STATUS: str = "MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE_COMPLETE"
 
 
+def _ensure_merlin_package_loaded() -> None:
+    if "ox_navigator" in sys.modules:
+        return
+    package_root = _PRODUCT_ROOT / "ox_navigator"
+    spec = importlib.util.spec_from_file_location(
+        "ox_navigator",
+        package_root / "__init__.py",
+        submodule_search_locations=[str(package_root)],
+    )
+    if spec is None or spec.loader is None:
+        raise ImportError("Unable to load ox_navigator package")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["ox_navigator"] = module
+    spec.loader.exec_module(module)
+
+
 def _run_merlin_helper(module_name: str, function_name: str, kwargs: dict[str, Any]) -> dict[str, Any]:
-    code = """
-import json
-from {module_name} import {function_name}
-print(json.dumps({function_name}(**json.loads({payload!r}))))
-""".format(
-        module_name=module_name,
-        function_name=function_name,
-        payload=json.dumps(kwargs),
-    )
-    env = dict(os.environ)
-    prior_path = env.get("PYTHONPATH", "")
-    env["PYTHONPATH"] = (
-        f"{_PRODUCT_ROOT}:{prior_path}" if prior_path else str(_PRODUCT_ROOT)
-    )
-    completed = subprocess.run(
-        [sys.executable, "-c", code],
-        cwd=str(_PRODUCT_ROOT),
-        check=True,
-        capture_output=True,
-        text=True,
-        env=env,
-    )
-    return json.loads(completed.stdout)
+    _ensure_merlin_package_loaded()
+    module = importlib.import_module(module_name)
+    function = getattr(module, function_name)
+    return json.loads(json.dumps(function(**kwargs)))
 
 
 def merlin_self_hosted_replacement_milestone() -> Dict[str, Any]:

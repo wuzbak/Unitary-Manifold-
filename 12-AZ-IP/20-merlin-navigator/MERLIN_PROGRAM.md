@@ -72,7 +72,7 @@ This document records the implemented execution blueprint for making Merlin the 
 
 `run_sync_checks()` verifies canonical Merlin source surfaces remain present and readable to reduce epistemic drift. `query_merlin()` now records per-run telemetry and attaches typed provenance plus memory-audit state to every response object.
 
-`evaluateMerlinEmpiricalGate()` now computes an explicit sustained head-to-head replacement verdict from comparable Merlin/incumbent runs (success parity, quality regression budget, energy-per-successful-task delta, and high-severity policy violations). `runMerlinStageAReceipts()` now produces the comparable run receipts directly from the self-hosted benchmark corpus, and `getMerlinReplacementReadiness()` exposes the stage-D pass/fail decision contract with requirements and measurable outputs.
+`evaluateMerlinEmpiricalGate()` now computes an explicit sustained head-to-head replacement verdict from comparable Merlin/incumbent runs (success parity, quality regression budget, energy-per-successful-task delta, and high-severity policy violations). `runMerlinStageAReceipts()` now produces the comparable run receipts directly from the self-hosted benchmark corpus, and `getMerlinReplacementReadiness()` exposes the concrete receipt-backed stage-D decision contract while `getMerlinPromotionPacket()` remains the compatibility view.
 
 ## Merlin Sovereignty Roadmap checklist
 

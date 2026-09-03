@@ -485,7 +485,7 @@ def test_server_merlin_endpoints():
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200
             assert packet.json()['ok'] is True
-            assert packet.json()['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
+            assert packet.json()['packet']['decision'] == 'REPLACEMENT_EVIDENCE_REQUIRED'
 
             bad_limit = client.get('/api/merlin/replacement-readiness?limit=abc')
             assert bad_limit.status_code == 400

@@ -274,21 +274,18 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/promotion-packet':
-                limit, error = _parse_int_query_param(params, 'limit', 3)
-                if error:
-                    self._json({'ok': False, 'error': error}, status=400)
-                    return
                 status, payload = _tool_data_or_error(route_tool(
-                    'getMerlinReplacementReadiness',
-                    {'limit': limit},
+                    'getMerlinPromotionPacket',
+                    {},
                     session=merlin_session,
                 ))
-                readiness = payload.get('data') or {}
+                if status != 200:
+                    self._json({'ok': payload['ok'], 'packet': {}, 'error': payload.get('error')}, status=status)
+                    return
                 self._json({
-                'ok': payload['ok'],
-                'packet': readiness.get('packet', {}),
-                'error': payload.get('error'),
-                }, status=status)
+                'ok': True,
+                'packet': payload['data'],
+                })
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/identity':
