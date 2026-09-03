@@ -41,7 +41,10 @@ __all__ = [
     "OPEN_ARCHITECTURE_LANES",
     "BOOKKEEPING_PROGRAM_ORDER",
     "PRACTICAL_PRIORITY_ORDER",
+    "EXTERNAL_WAIT_LANES",
+    "ALL_OPEN_LANES",
     "three_program_open_architecture_registry",
+    "finish_path_execution_packet",
     "pillar1020_summary",
 ]
 
@@ -56,6 +59,16 @@ OPEN_ARCHITECTURE_LANES: List[str] = [
     "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED",
     "FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED",
     "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
+]
+
+EXTERNAL_WAIT_LANES: List[str] = [
+    "DESI_DR3_MONITORING",
+    "LITEBIRD_BIREFRINGENCE",
+]
+
+ALL_OPEN_LANES: List[str] = [
+    *OPEN_ARCHITECTURE_LANES,
+    *EXTERNAL_WAIT_LANES,
 ]
 
 BOOKKEEPING_PROGRAM_ORDER: List[str] = [
@@ -231,6 +244,68 @@ def three_program_open_architecture_registry() -> Dict[str, Any]:
             "Program numbering is bookkeeping only; practical execution priority starts with the "
             "shared flavor-family root, then the shared UV compactification lane, and only then the CMB program."
         ),
+    }
+
+
+def finish_path_execution_packet() -> Dict[str, Any]:
+    """Return executable finish-path packet tied to the three-program registry."""
+    registry = three_program_open_architecture_registry()
+    return {
+        "has_clear_path": True,
+        "open_lanes": ALL_OPEN_LANES,
+        "internal_attackable_lanes": OPEN_ARCHITECTURE_LANES,
+        "external_wait_lanes": EXTERNAL_WAIT_LANES,
+        "hardest_internal_blocker": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
+        "execution_sequence": [
+            {
+                "step": 1,
+                "action": "SYNC_TRUTH_SURFACES_IN_ONE_CHANGESET",
+                "required_surfaces": [
+                    "STATUS.md",
+                    "docs/mas_tracker.yml",
+                    "FALLIBILITY.md",
+                    "docs/CLAIM_MASTER_BOARD.md",
+                    "docs/GATEKEEPER_SUMMARY.md",
+                    "docs/TRUTH_LAYER.md",
+                    "docs/WAVE_CHANGELOG.md",
+                    "docs/SPRINT_PLAN.md",
+                ],
+            },
+            {
+                "step": 2,
+                "action": "EXECUTE_SHARED_FLAVOR_ROOT_FIRST",
+                "program_id": "PROGRAM_3_SHARED_FLAVOR_GEOMETRY",
+                "must_use_shared_missing_objects": True,
+            },
+            {
+                "step": 3,
+                "action": "EXECUTE_SHARED_UV_COMPACTIFICATION_SECOND",
+                "program_id": "PROGRAM_2_SHARED_UV_COMPACTIFICATION",
+                "per_lane_rescue_parameters_allowed": 0,
+            },
+            {
+                "step": 4,
+                "action": "EXECUTE_CMB_PROGRAM_THIRD",
+                "program_id": "PROGRAM_1_CMB_NORMALIZATION_MECHANISM",
+                "forbid_external_as_target": True,
+                "forbid_new_fit_knobs": True,
+                "must_reduce_amplitude_deficit": True,
+            },
+            {
+                "step": 5,
+                "action": "PROMOTE_ONLY_ON_DOWNSTREAM_RUNTIME_FLIP",
+                "status_promotion_requires_runtime_change": True,
+            },
+            {
+                "step": 6,
+                "action": "MAINTAIN_ZERO_FAILURE_DISCIPLINE",
+                "required_full_regression_command": (
+                    'python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q'
+                ),
+            },
+        ],
+        "registry_valid": registry["valid"],
+        "practical_priority_order": registry["practical_priority_order"],
     }
 
 

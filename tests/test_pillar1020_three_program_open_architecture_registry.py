@@ -5,13 +5,16 @@
 from __future__ import annotations
 
 from src.core.pillar1020_three_program_open_architecture_registry import (
+    ALL_OPEN_LANES,
     BOOKKEEPING_PROGRAM_ORDER,
+    EXTERNAL_WAIT_LANES,
     OPEN_ARCHITECTURE_LANES,
     PILLAR_GATE,
     PILLAR_NUMBER,
     PILLAR_STATUS,
     PILLAR_VALID,
     PRACTICAL_PRIORITY_ORDER,
+    finish_path_execution_packet,
     pillar1020_summary,
     three_program_open_architecture_registry,
 )
@@ -80,3 +83,25 @@ def test_summary() -> None:
     assert summary["pillar"] == 1020
     assert summary["valid"] is True
     assert summary["bookkeeping_program_order"] == BOOKKEEPING_PROGRAM_ORDER
+
+
+def test_finish_path_execution_packet_contract() -> None:
+    packet = finish_path_execution_packet()
+    assert packet["has_clear_path"] is True
+    assert packet["internal_attackable_lanes"] == OPEN_ARCHITECTURE_LANES
+    assert packet["external_wait_lanes"] == EXTERNAL_WAIT_LANES
+    assert packet["open_lanes"] == ALL_OPEN_LANES
+    assert packet["hardest_internal_blocker"] == "CMB_AMP_CONFIRMED_IRREDUCIBLE"
+    assert packet["registry_valid"] is True
+
+
+def test_finish_path_execution_sequence_is_strict() -> None:
+    packet = finish_path_execution_packet()
+    sequence = packet["execution_sequence"]
+    assert [row["step"] for row in sequence] == [1, 2, 3, 4, 5, 6]
+    assert sequence[1]["program_id"] == "PROGRAM_3_SHARED_FLAVOR_GEOMETRY"
+    assert sequence[2]["program_id"] == "PROGRAM_2_SHARED_UV_COMPACTIFICATION"
+    assert sequence[3]["program_id"] == "PROGRAM_1_CMB_NORMALIZATION_MECHANISM"
+    assert sequence[3]["forbid_external_as_target"] is True
+    assert sequence[3]["forbid_new_fit_knobs"] is True
+    assert sequence[4]["status_promotion_requires_runtime_change"] is True
