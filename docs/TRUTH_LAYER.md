@@ -1,10 +1,19 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v35.1
+# Unitary Manifold v35.2
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
 
-*v35.1 sync note (Sprint BU — 2026-09-03):*
+*v35.2 sync note (Sprint BV — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BV: Pillars 1025–1030; Lean4 3952; next pillar slot 1031; focused regression: Sprint BV targeted tests passed · 0 failed.*
+*(2) The three-program closure packet is executed in strict priority order: Program 3 flavor root first, Program 2 shared UV dual-lane second, Program 1 CMB mechanism third.*
+*(3) P1025 enforces one shared flavor-root object across CKM shadow, fermion magnitude/radii, and Jarlskog Layer-2 with binary outcomes and ranked blockers; no downstream runtime flip is credited unless a lane status actually changes.*
+*(4) P1026 runs one shared-object-only coupled attempt across α_s and Higgs with explicit before/after residual accounting and no per-lane rescue parameters; closure is not promoted unless both lanes materially converge together.*
+*(5) P1027 runs one non-fitted CMB mechanism attempt with no external A_s targeting and no new fit knobs, reporting explicit deficit and residual-budget deltas; irreducibility is strengthened when closure is not earned.*
+*(6) P1028 adds a Lean4-backed residual-contraction map for the P636 SU(3) lane: open-step count shrinks, but full Hilbert-space functional analysis remains open and is still stated explicitly.*
+*(7) P1029/P1030 finalize sprint certificate and cross-surface coherence. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`.*
+
+*v35.1 sync note (Sprint BU — 2026-09-03):
 *(1) Auditable checked-in branch state is Sprint BU: Pillars 1021–1024; Lean4 3936; next pillar slot 1025; focused regression: 134 passed · 0 failed (Sprint BU targeted regression).*
 *(2) The embryology/genetics lane is **not** promoted wholesale. P1021 promotes only exact kernels: `HOX_clusters = 4`, HOX co-linearity as an order theorem kernel, centriole `9` / `10` integer kernels, and the exact dielectric threshold `ε_r,crit = 1/c_s²`.*
 *(3) The vertebrate `HOX_groups = 10` statement remains explicit non-promotion: it is retained as `FORMAL_ANALOGY_ONLY`, because vertebrates have 13 paralog groups. Likewise, the empirical HOX boundary-fit lane stays adjacent-track and the hydration mass-ratio step stays model-dependent.*
