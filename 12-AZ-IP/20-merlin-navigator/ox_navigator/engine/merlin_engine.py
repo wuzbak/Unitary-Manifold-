@@ -21,7 +21,9 @@ from .merlin_persona import (
     detect_persona_mode,
     extract_urls,
     is_internal_question,
+    persona_governance_violations,
 )
+from .merlin_router import choose_runtime
 from .merlin_rag import build_rag_context, closest_pillar, lookup_kb, retrieve_context
 from .merlin_rag import build_status_response
 from .merlin_sentinel import evaluate_query, render_block_message
@@ -155,6 +157,9 @@ def _post_process_answer(text: str, query: str, context: dict[str, Any], crawled
     if not body:
         body = _fallback_body(query, context, persona_mode, fourth_wall)
     answer = _render_contract(body, followups, sources)
+    violations = persona_governance_violations(answer)
+    if violations:
+        answer += "\n\n[GOVERNANCE] Persona guardrails adjusted output to preserve epistemic honesty and boundary discipline."
     gate_badges = extract_gate_badges(answer)
     if not gate_badges:
         gate_badges = [pillar["gate"] for pillar in context.get("pillars", [])[:3]]
@@ -164,6 +169,7 @@ def _post_process_answer(text: str, query: str, context: dict[str, Any], crawled
         "followups": followups,
         "sources": sources,
         "gate_badges": gate_badges,
+        "persona_governance_violations": violations,
     }
 
 
@@ -295,7 +301,8 @@ async def query_merlin(
     response_text = ""
     context_source = "offline_rag"
     tool_rounds = 0
-    if os.environ.get("OPENROUTER_API_KEY"):
+    router_decision = choose_runtime(text, confidence=0.7)
+    if router_decision["provider"] == "openrouter_compat" and os.environ.get("OPENROUTER_API_KEY"):
         if on_status is not None:
             on_status.append("model")
         try:
@@ -304,7 +311,7 @@ async def query_merlin(
                 model=model_override or MODEL_ID,
                 temperature=temperature,
             )
-            context_source = "openrouter" if not used_websearch else "openrouter_web_aligned"
+            context_source = "openrouter_compat" if not used_websearch else "openrouter_compat_web_aligned"
             for _ in range(2):
                 tool_call = extract_tool_call(response_text)
                 if not tool_call:
@@ -335,6 +342,7 @@ async def query_merlin(
         "crawled_urls": [item["url"] for item in crawled if item.get("ok")],
         "epistemic_note": "Merlin response grounded in canonical UM context. Not found paths remain explicit.",
         "live_status": live_status,
+        "router_decision": router_decision,
         "sentinel": {
             "mode": sentinel.mode,
             "category": sentinel.category,

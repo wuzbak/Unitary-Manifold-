@@ -6,7 +6,7 @@
 - **Folder:** `12-AZ-IP/20-merlin-navigator/`
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
-- **Model transport:** `stealth/ox-alpha` via OpenRouter when live; offline RAG fallback when not
+-- **Model transport:** sovereign local/offline-first runtime; `stealth/ox-alpha` via OpenRouter is compatibility-only fallback
 - **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) with Sentinel strike memory for policy enforcement
@@ -35,10 +35,10 @@
 
 - The model identifier is `stealth/ox-alpha`.
 - The API base is `https://openrouter.ai/api/v1`.
-- The local Python client requires `OPENROUTER_API_KEY` or an explicit constructor argument.
+- The local Python client requires `OPENROUTER_API_KEY` **and** compatibility flag `MERLIN_ENABLE_OPENROUTER_COMPAT=1` for fallback usage.
 - No real API key is stored in source.
 - Missing-key behavior is explicit through `OxApiKeyMissingError`.
-- When the key is missing, Merlin falls back to offline RAG responses instead of a hard failure.
+- OpenRouter is not the primary path; Merlin defaults to sovereign local/offline-first behavior.
 
 ## Merlin response contract
 

@@ -11,6 +11,7 @@ from typing import Any
 
 from .flashcard import get_categories, load_flashcards
 from .interrogator import get_tension_map_data, search_kb
+from .merlin_admission import evaluate_model_admission, get_model_admission_policy
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY
 from .merlin_program import (
@@ -29,14 +30,17 @@ from .merlin_program import (
     get_model_strategy,
     get_operating_rhythm,
     get_program_charter,
+    get_program_doctrine,
     get_reliability_security_plan,
     get_replacement_scope,
     get_rollout_plan,
+    get_sovereignty_roadmap,
     get_sentinel_enforcement_policy,
     get_training_and_adaptation,
     get_weights_and_measures,
     run_sync_checks,
 )
+from .merlin_router import choose_runtime, get_router_policy
 from .merlin_rag import (
     INTERROGATOR_ENTRIES,
     PILLAR_KNOWLEDGE,
@@ -44,6 +48,7 @@ from .merlin_rag import (
     build_status_response,
     lookup_kb,
 )
+from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 MERLIN_SESSION_SCHEMA = {
     "title": "MerlinSession",
@@ -73,15 +78,23 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "loadFlashcards", "summary": "Return Merlin flashcard deck", "domain": "functions"},
             {"name": "getFlashcardCategories", "summary": "Return flashcard categories", "domain": "functions"},
             {"name": "getMerlinProgramCharter", "summary": "Return Merlin replacement program charter", "domain": "functions"},
+            {"name": "getMerlinProgramDoctrine", "summary": "Return hard doctrine and success definition", "domain": "functions"},
+            {"name": "getMerlinSovereigntyRoadmap", "summary": "Return implementation checklist mapped to blueprint", "domain": "functions"},
             {"name": "getMerlinReplacementScope", "summary": "Return in-scope and fallback policy boundaries", "domain": "functions"},
             {"name": "getMerlinStackBaseline", "summary": "Return baseline capabilities and replacement gaps", "domain": "functions"},
             {"name": "getMerlinWeightsAndMeasures", "summary": "Return scorecard axes and benchmark battery", "domain": "functions"},
             {"name": "getMerlinKnowledgeCore", "summary": "Return typed provenance source registry", "domain": "functions"},
             {"name": "runMerlinSyncChecks", "summary": "Run canonical source sync checks", "domain": "functions"},
             {"name": "getMerlinModelStrategy", "summary": "Return staged small/medium/heavy strategy", "domain": "functions"},
+            {"name": "getMerlinRouterPolicy", "summary": "Return sovereign router and 12/37 cadence policy", "domain": "functions"},
+            {"name": "previewMerlinRoute", "summary": "Preview lane/provider decision for a query", "domain": "functions"},
+            {"name": "getMerlinModelAdmissionPolicy", "summary": "Return open-science model admission policy", "domain": "functions"},
+            {"name": "evaluateMerlinModelAdmission", "summary": "Evaluate one model against admission policy", "domain": "functions"},
             {"name": "getMerlinTrainingPlan", "summary": "Return adaptation and training tracks", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
             {"name": "getMerlinBackendPolicy", "summary": "Return backend expansion policy controls", "domain": "functions"},
+            {"name": "getMerlinWorkspacePolicy", "summary": "Return governed back-room workspace policy", "domain": "functions"},
+            {"name": "getMerlinWorkspaceState", "summary": "Return back-room workspace state summary", "domain": "functions"},
             {"name": "getMerlinGovernancePolicy", "summary": "Return Pentad governance integration policy", "domain": "functions"},
             {"name": "getMerlinReliabilityPlan", "summary": "Return reliability and abuse-resistance controls", "domain": "functions"},
             {"name": "getMerlinRolloutPlan", "summary": "Return staged rollout and rollback policy", "domain": "functions"},
@@ -167,15 +180,23 @@ _FUNCTIONS = {
     "loadFlashcards": lambda **args: load_flashcards_tool(),
     "getFlashcardCategories": lambda **args: get_flashcard_categories(),
     "getMerlinProgramCharter": lambda **args: {"data": get_program_charter()},
+    "getMerlinProgramDoctrine": lambda **args: {"data": get_program_doctrine()},
+    "getMerlinSovereigntyRoadmap": lambda **args: {"data": get_sovereignty_roadmap()},
     "getMerlinReplacementScope": lambda **args: {"data": get_replacement_scope()},
     "getMerlinStackBaseline": lambda **args: {"data": get_current_stack_baseline()},
     "getMerlinWeightsAndMeasures": lambda **args: {"data": get_weights_and_measures()},
     "getMerlinKnowledgeCore": lambda **args: {"data": get_knowledge_core_sources()},
     "runMerlinSyncChecks": lambda **args: {"data": run_sync_checks()},
     "getMerlinModelStrategy": lambda **args: {"data": get_model_strategy()},
+    "getMerlinRouterPolicy": lambda **args: {"data": get_router_policy()},
+    "previewMerlinRoute": lambda **args: {"data": choose_runtime(str(args.get("query", "")), confidence=float(args.get("confidence", 0.7)))},
+    "getMerlinModelAdmissionPolicy": lambda **args: {"data": get_model_admission_policy()},
+    "evaluateMerlinModelAdmission": lambda **args: {"data": evaluate_model_admission(dict(args.get("model") or {}))},
     "getMerlinTrainingPlan": lambda **args: {"data": get_training_and_adaptation()},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
     "getMerlinBackendPolicy": lambda **args: {"data": get_backend_expansion_policy()},
+    "getMerlinWorkspacePolicy": lambda **args: {"data": get_workspace_policy()},
+    "getMerlinWorkspaceState": lambda **args: {"data": get_workspace_state()},
     "getMerlinGovernancePolicy": lambda **args: {"data": get_governance_integration_policy()},
     "getMerlinReliabilityPlan": lambda **args: {"data": get_reliability_security_plan()},
     "getMerlinRolloutPlan": lambda **args: {"data": get_rollout_plan()},
@@ -238,7 +259,7 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
             "secrets": {
                 "OPENROUTER_API_KEY": {
                     "available": bool(os.environ.get("OPENROUTER_API_KEY")),
-                    "description": "OpenRouter access for live Merlin/OpenRouter path.",
+                    "description": "OpenRouter access for compatibility-only fallback path.",
                 },
                 "BRAVE_API_KEY": {
                     "available": bool(os.environ.get("BRAVE_API_KEY")),
@@ -248,6 +269,10 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
                     "available": bool(os.environ.get("HF_API_TOKEN")),
                     "description": "HF inference compatibility token.",
                 },
+            },
+            "router": {
+                "policy": get_router_policy(),
+                "openrouter_compat_enabled": bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT")),
             },
             "entities": {
                 "MerlinSession": {
