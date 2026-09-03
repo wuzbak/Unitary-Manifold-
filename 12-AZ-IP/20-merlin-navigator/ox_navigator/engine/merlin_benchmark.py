@@ -145,12 +145,13 @@ def evaluate_benchmark_response(benchmark_id: str, response: dict[str, Any]) -> 
     passed_checks = sum(contract_hits.values()) + sum(gate_hits.values()) + sum(provenance_hits.values())
     total_checks = len(contract_hits) + len(gate_hits) + len(provenance_hits)
     score = round(passed_checks / max(total_checks, 1), 4)
+    passed = all(contract_hits.values()) and all(gate_hits.values()) and all(provenance_hits.values())
     return {
         "ok": True,
         "benchmark_id": benchmark_id,
         "track": benchmark["track"],
         "score": score,
-        "pass": score >= 0.8,
+        "pass": passed,
         "checks": {
             "contract": contract_hits,
             "gates": gate_hits,

@@ -12,6 +12,7 @@ if str(PRODUCT_ROOT) not in sys.path:
 
 from ox_navigator.engine.merlin_memory import MerlinSession
 from ox_navigator.engine.merlin_benchmark import match_benchmark_for_query
+from ox_navigator.engine.merlin_benchmark import evaluate_benchmark_response
 from ox_navigator.engine.merlin_telemetry import (
     build_run_telemetry,
     estimate_cost_usd,
@@ -54,6 +55,20 @@ def test_merlin_memory_audit_and_telemetry_summary():
     assert summary['latest']['quality_signals']['typed_provenance_complete'] is True
 
 
+def test_merlin_memory_does_not_duplicate_seeded_state():
+    session = MerlinSession(durable_memory=[{
+        'fact': 'Existing fact',
+        'normalized_fact': 'existing fact',
+        'scope': 'repository',
+        'source': 'test',
+        'tags': [],
+        'created_at': '2026-01-01T00:00:00+00:00',
+        'last_seen_at': '2026-01-01T00:00:00+00:00',
+        'retrieval_count': 0,
+    }])
+    assert session.get_memory_state()['durable_memory_count'] == 1
+
+
 def test_merlin_telemetry_estimators_and_summary():
     assert estimate_token_count('abcd' * 4) >= 4
     assert estimate_cost_usd(provider='sovereign_local', input_tokens=10, output_tokens=20) == 0.0
@@ -94,3 +109,13 @@ def test_match_benchmark_for_query_uses_keywords():
 
 def test_match_benchmark_for_query_rejects_generic_memory_prompt():
     assert match_benchmark_for_query('Explain memory policy.') is None
+
+
+def test_evaluate_benchmark_response_requires_all_categories():
+    result = evaluate_benchmark_response('physics_birefringence', {
+        'answer': 'FOLLOWUPS:\nSources:',
+        'gate_badges': ['HARDGATE'],
+        'provenance': {'sources': [{'kind': 'knowledge_base'}]},
+    })
+    assert result['ok'] is True
+    assert result['pass'] is False

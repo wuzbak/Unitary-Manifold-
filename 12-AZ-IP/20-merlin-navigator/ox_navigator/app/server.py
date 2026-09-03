@@ -82,9 +82,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._pending_session_cookie = session_id
             _MERLIN_SESSION_LAST_SEEN[session_id] = time.time()
             while len(_MERLIN_SESSIONS) > _MERLIN_SESSION_CAP:
-                stale_id = min(_MERLIN_SESSION_LAST_SEEN, key=_MERLIN_SESSION_LAST_SEEN.get)
-                if stale_id == session_id:
+                stale_candidates = [key for key in _MERLIN_SESSION_LAST_SEEN if key != session_id]
+                if not stale_candidates:
                     break
+                stale_id = min(stale_candidates, key=_MERLIN_SESSION_LAST_SEEN.get)
                 _MERLIN_SESSIONS.pop(stale_id, None)
                 _MERLIN_SESSION_LAST_SEEN.pop(stale_id, None)
             return _MERLIN_SESSIONS[session_id]

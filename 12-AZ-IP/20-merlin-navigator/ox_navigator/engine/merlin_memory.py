@@ -82,8 +82,9 @@ class MerlinSession:
     telemetry: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
-        for item in DEFAULT_DURABLE_MEMORIES:
-            self.remember(item["fact"], scope=item["scope"], source=item["source"], tags=item["tags"])
+        if not self.durable_memory:
+            for item in DEFAULT_DURABLE_MEMORIES:
+                self.remember(item["fact"], scope=item["scope"], source=item["source"], tags=item["tags"])
 
     def remember(
         self,
