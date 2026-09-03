@@ -1,11 +1,24 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v35.1
+# Unitary Manifold v35.2
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v35.1 — Sprint BU: Pillars 1021–1024. Exact-kernel promotion is now explicit: the embryology lane advances only through exact kernels, not whole-lane rhetoric; P636 carries a Lean4-backed SU(3) kernel while its Hilbert-space residual stays open; truth surfaces are synchronized. Next slot 1025. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v35.2 — Sprint BV: Pillars 1025–1030. The three-program closure packet is executed in priority order (flavor root, shared UV, CMB mechanism), binary outcomes are retained without narrative promotion, P636 residual domain contracts via a new Lean4 kernel set while functional-analysis burden remains open, and canonical truth surfaces are synchronized. Next slot 1031. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
-*Historical continuity note: v35.0 Sprint BT covered Pillar 1020 with next slot 1021 before the Sprint BU exact-kernel promotion update.*
+*Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
+
+
+*P1030 (v35.2): Sprint BV Status-Coherence Certificate — SPRINT_BV_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1030_sprint_bv_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan and verifies Sprint BV markers with unchanged open-lane labels including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`.*
+
+*P1029 (v35.2): Sprint BV Closure-Program Certificate — SPRINT_BV_CLOSURE_PROGRAM_CERTIFICATE_COMPLETE. `src/core/pillar1029_sprint_bv_closure_program_certificate.py` integrates Workstreams A-D, enforces three-program execution order, and certifies meaningful-result discipline (runtime flip or stronger honesty boundary) with binary auditable outcomes.*
+
+*P1028 (v35.2): SU(3) Residual Contraction Lean4 — SU3_RESIDUAL_CONTRACTION_LEAN4_COMPLETE. `src/core/pillar1028_su3_residual_contraction_lean4.py` adds a Lean4-backed residual-contraction layer tied to P636 and explicitly reduces open-step count without claiming full Hilbert-space closure.*
+
+*P1027 (v35.2): CMB Mechanism Closure Attempt — CMB_MECHANISM_CLOSURE_ATTEMPT_COMPLETE. `src/core/pillar1027_cmb_mechanism_closure_attempt.py` runs one non-fitted/non-calibration mechanism attempt for the named CMB missing objects, publishes deficit and residual-budget deltas, and preserves non-promotion when closure criteria are not met.*
+
+*P1026 (v35.2): UV Dual-Lane Coupled Attempt — UV_DUAL_LANE_COUPLED_ATTEMPT_COMPLETE. `src/core/pillar1026_uv_dual_lane_coupled_attempt.py` executes one shared-object-only attempt across `ALPHA_S_TYPE_B_FLOOR` and `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, with no per-lane rescue parameters and explicit coupled before/after residual accounting.*
+
+*P1025 (v35.2): Flavor-Root Closure Attempt — FLAVOR_ROOT_CLOSURE_ATTEMPT_COMPLETE. `src/core/pillar1025_flavor_root_closure_attempt.py` executes a single shared-root attempt across CKM shadow, fermion magnitude/radii, and Jarlskog Layer-2, emits strict binary outcomes, and publishes dominant-blocker ranking with named unresolved objects when runtime flip is not earned.*
 
 *P1024 (v35.1): Sprint BU Status-Coherence Certificate — SPRINT_BU_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1024_sprint_bu_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan and verifies Sprint BU markers with unchanged open-lane labels including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`.*
 

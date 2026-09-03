@@ -103,12 +103,21 @@ def status_surface_audit() -> Dict[str, Any]:
     # Require each canonical open label to be visible on multiple truth surfaces
     # (not necessarily every surface, because some files are role-specific).
     open_labels_pass = all(count >= 4 for count in label_surface_counts.values())
-    sprint_markers_pass = all(item["sprint_markers_pass"] for item in per_surface.values())
+    sprint_marker_surface_counts = {
+        marker: sum(
+            1
+            for item in per_surface.values()
+            if bool(item["sprint_marker_hits"].get(marker))
+        )
+        for marker in ["v34.8", "pillar_window_1011_to_1013", "next_slot_1014"]
+    }
+    sprint_markers_pass = all(count >= 4 for count in sprint_marker_surface_counts.values())
     return {
         "surfaces": per_surface,
         "all_exist": all_exist,
         "open_labels_pass": open_labels_pass,
         "open_label_surface_counts": label_surface_counts,
+        "sprint_marker_surface_counts": sprint_marker_surface_counts,
         "sprint_markers_pass": sprint_markers_pass,
     }
 

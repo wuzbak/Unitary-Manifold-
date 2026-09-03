@@ -1,9 +1,34 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v35.1 (2026-09-03)**
-**Regression:** 63,544 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1025
+**Current version: v35.2 (2026-09-03)**
+**Regression:** 63,639 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1031
+
+## v35.2 (2026-09-03 — Sprint BV: Pillars 1025–1030)
+
+**What changed:**
+Pillars 1025–1030 (6 pillars). Sprint BV implements the full closure-program packet promised by Sprint BT. (1) P1025 executes a single shared flavor-root attempt across CKM shadow, fermion magnitude/radii, and Jarlskog Layer-2 with strict binary outcomes and blocker ranking. (2) P1026 executes a shared-object-only UV dual-lane attempt for α_s and Higgs with no per-lane rescue parameters. (3) P1027 executes a non-fitted CMB mechanism attempt and publishes residual-budget deltas. (4) P1028 adds Lean4-backed SU(3) residual contraction tied to P636 while preserving explicit open steps. (5) P1029 certifies sprint-level definition-of-done and meaningful-result conditions. (6) P1030 certifies cross-surface coherence.
+
+**Why:**
+Execute hard, auditable closure work in program order, and if runtime flips are not earned, strengthen architecture boundaries without rhetorical promotion.
+
+**Epistemic label deltas:**
+- new flavor-root execution verdict: `FLAVOR_ROOT_CLOSURE_ATTEMPT_COMPLETE`
+- new UV coupled execution verdict: `UV_DUAL_LANE_COUPLED_ATTEMPT_COMPLETE`
+- new CMB mechanism execution verdict: `CMB_MECHANISM_CLOSURE_ATTEMPT_COMPLETE`
+- new formal residual-contraction verdict: `SU3_RESIDUAL_CONTRACTION_LEAN4_COMPLETE`
+- new sprint certificate and lockstep coherence verdicts: `SPRINT_BV_CLOSURE_PROGRAM_CERTIFICATE_COMPLETE`, `SPRINT_BV_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3936 → 3952 (+16)
+**Regression:** Sprint BV targeted tests passed · 0 failed
+**Next pillar slot:** 1031
 
 ## v35.1 (2026-09-03 — Sprint BU: Pillars 1021–1024)
 

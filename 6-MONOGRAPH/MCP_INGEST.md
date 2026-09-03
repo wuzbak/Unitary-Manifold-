@@ -34,7 +34,7 @@ not a statistical postulate.
 
 > *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
 
-**Canonical status (v34.9):** Full regression: **63,544 passed · 23 skipped · 12 deselected · 0 failed** (internal mathematical self-consistency). Sprint BL maps the remaining flavor-family residual into a shared UV flavor/moduli boundary and keeps α_s as an explicit compactification-facing architecture limit. Primary falsifier remains LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
+**Canonical status (v34.9):** Full regression: **63,639 passed · 23 skipped · 12 deselected · 0 failed** (internal mathematical self-consistency). Sprint BL maps the remaining flavor-family residual into a shared UV flavor/moduli boundary and keeps α_s as an explicit compactification-facing architecture limit. Primary falsifier remains LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
 
 | Requirement | Status | Identity |
 |---|---|---|

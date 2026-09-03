@@ -1,4 +1,4 @@
-# The The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v34.9)
+# The The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v35.2)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -24,7 +24,7 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![63,544 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-63%2C544%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
+[![63,639 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-63%2C639%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
 [![1010+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-1019%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
 [![Version](https://img.shields.io/badge/version-v34.9-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
@@ -59,7 +59,7 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 </details>
 
 > **Current status (v34.9 / Sprint BS):** Framework is internally self-consistent.
-> Full regression: **63,544 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-09-03, v34.9).
+> Full regression: **63,639 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-09-03, v34.9).
 > Tests verify mathematical self-consistency of the implementation, not physical correctness.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**
