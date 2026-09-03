@@ -1,8 +1,16 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v34.8
+# Unitary Manifold v34.9
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v34.9 sync note (Sprint BS — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BS: Pillars 1014–1019; Lean4 3912; next pillar slot 1020; focused regression: Sprint BS targeted tests passed · 0 failed.*
+*(2) P1014 widens the 8D Wilson lane into a strict robustness + adversarial package: branch-to-rho-bar consistency is audited and broken-branch failure certificates are explicit.*
+*(3) P1015 binds 9D GS hard-gate validity to CP utility under widened anchor partitions and threshold edge-case checks, so nominal success cannot substitute for robustness evidence.*
+*(4) P1016 audits 11D conditional-chain integrity end-to-end, including contradiction checks between status language and numeric residual bookkeeping plus deterministic boundary stress tests.*
+*(5) P1017 converts 12D named residuals into machine-checkable closure predicates and keeps the dual statement explicit: complete at reference CY4, still open globally.*
+*(6) P1018/P1019 finalize integration and truth-surface coherence. Open set remains unchanged and explicit: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3, LiteBIRD.*
 
 *v34.8 sync note (Sprint BR — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BR: Pillars 1011–1013; Lean4 3912; next pillar slot 1014; focused regression: new Pillars 1011–1013 targeted tests passed · 0 failed.*

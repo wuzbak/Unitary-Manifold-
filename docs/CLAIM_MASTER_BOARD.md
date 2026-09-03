@@ -1,9 +1,21 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v34.8
+# Unitary Manifold v34.9
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v34.8 — Sprint BR: Pillars 1011–1013. Primary lane consolidates 10D flux counting + explicit selection + normalized measure into one auditable bridge object. Secondary lane lifts (5,7) canonical and (5,6) shadow branches into 10D compactification/selection terms with explicit suppression reasons for non-canonical paths. Sprint certificate locks cross-surface coherence with no open-lane promotion. Next slot 1014. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v34.9 — Sprint BS: Pillars 1014–1019. Sprint BS executes four parallel lanes with binary closure/non-promotion outcomes: 8D robustness+adversarial branch audit, 9D GS/CP coherence partitioning, 11D conditional-chain integrity audit, and 12D residual-registry perturbation hardening. Sprint certificates lock integration and cross-surface coherence with no open-lane promotion. Next slot 1020. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P1019 (v34.9): Sprint BS Status-Coherence Certificate — SPRINT_BS_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1019_sprint_bs_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan and verifies Sprint BS markers with unchanged open-lane labels.*
+
+*P1018 (v34.9): Sprint BS Four-Lane Certificate — SPRINT_BS_FOUR_LANE_CERTIFICATE_COMPLETE. `src/core/pillar1018_sprint_bs_four_lane_certificate.py` certifies integrated 8D/9D/11D/12D lane outcomes under mandatory analytic/executable/adversarial evidence classes and binary closure/non-promotion verdicts.*
+
+*P1017 (v34.9): 12D Residual Registry + Perturbation Audit — TWELVED_RESIDUAL_REGISTRY_PERTURBATION_AUDIT_COMPLETE. `src/core/pillar1017_twelved_residual_registry_perturbation_audit.py` converts named residuals into machine-checkable closure predicates and adds off-reference CY4 perturbation checks while preserving structural invariants and explicit global-open residual status.*
+
+*P1016 (v34.9): 11D Conditional-Closure Integrity Audit — ELEVENTD_CONDITIONAL_CLOSURE_INTEGRITY_AUDIT_COMPLETE. `src/core/pillar1016_eleventd_conditional_closure_integrity_audit.py` runs contradiction checks plus deterministic boundary stress tests across the full 11D conditional chain and emits named breakpoints if coherence fails.*
+
+*P1015 (v34.9): 9D CP/Anomaly Coherence Certificate — NINED_CP_ANOMALY_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1015_nined_cp_anomaly_coherence_certificate.py` couples GS hard-gate evidence with CP-refinement utility under widened anchor partitions and threshold-edge checks so gate pass and utility claims cannot drift.*
+
+*P1014 (v34.9): 8D Wilson Robustness + Branch Audit — EIGHTD_WILSON_ROBUSTNESS_BRANCH_AUDIT_COMPLETE. `src/core/pillar1014_eightd_wilson_robustness_branch_audit.py` widens robustness windows, ties branch consistency to downstream rho-bar behavior, and emits explicit adversarial failure certificates for rank/quantization/group gate violations.*
 
 *P1013 (v34.8): 10D Status-Coherence Certificate — TEN_D_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1013_tend_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan and verifies the same open-lane labels remain explicit while the 10D mechanism narrative is consolidated.*
 

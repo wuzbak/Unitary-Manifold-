@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v34.8 (2026-09-03)**
-**Regression:** 63,503 passed · 23 skipped · 12 deselected · 0 failed (latest inherited full regression in branch history)
-**Next pillar slot:** 1014
+**Current version: v34.9 (2026-09-03)**
+**Regression:** 63,544 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1020
+
+## v34.9 (2026-09-03 — Sprint BS: Pillars 1014–1019)
+
+**What changed:**
+Pillars 1014–1019 (6 pillars). Sprint BS executes a four-lane coverage-closure package with binary outcomes and explicit failure routing. (1) P1014 widens 8D Wilson robustness windows, links branch gates to downstream rho-bar behavior, and emits adversarial branch-failure certificates. (2) P1015 couples 9D GS hard-gate evidence with CP-refinement utility under widened anchor partitions and threshold edge-case partitions. (3) P1016 audits 11D conditional-closure integrity across status labels, residual accounting, deterministic stress points, and breakpoint naming. (4) P1017 converts 12D named residuals into machine-checkable closure predicates and adds off-reference CY4 perturbation checks while preserving structural invariants. (5) P1018 certifies the integrated four-lane sprint outcome matrix. (6) P1019 certifies cross-surface status coherence.
+
+**Why:**
+Close coverage holes with meaningful evidence discipline: every lane now must pass analytic, executable, and adversarial checks before closure is credited.
+
+**Epistemic label deltas:**
+- new executable four-lane package verdict: `SPRINT_BS_FOUR_LANE_CERTIFICATE_COMPLETE`
+- new executable cross-surface lock verdict: `SPRINT_BS_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+- lane-level binary closure/non-promotion routing added for 8D/9D/11D/12D
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Regression:** Sprint BS targeted tests passed · 0 failed
+**Next pillar slot:** 1020
 
 ## v34.8 (2026-09-03 — Sprint BR: Pillars 1011–1013)
 

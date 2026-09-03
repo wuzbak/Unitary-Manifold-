@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-03 (v34.8 Sprint BR COMPLETE — Pillars 1011–1013; Lean4 3912→3912; next slot 1014)*
+*Last updated: 2026-09-03 (v34.9 Sprint BS COMPLETE — Pillars 1014–1019; Lean4 3912→3912; next slot 1020)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,18 +16,18 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v34.8 — Sprint BR)
+## CURRENT AUDITABLE STATE (v34.9 — Sprint BS)
 
 | Field | Value |
 |-------|-------|
-| Version | **v34.8** |
-| Sprint | **Sprint BR** |
-| Pillars | **1011–1013** |
-| Next pillar slot | **1014** |
+| Version | **v34.9** |
+| Sprint | **Sprint BS** |
+| Pillars | **1014–1019** |
+| Next pillar slot | **1020** |
 | Lean4 theorems | **3912** |
-| Sprint theme | **10D mechanism consolidation (flux-selection bridge + branch canonicality lift + status coherence)** |
-| Primary target | **Consolidate 10D flux-count/selection logic and lift 5,6 vs 5,7 into explicit 10D selection terms** |
-| Binary outcome | **TEN_D_FLUX_SELECTION_MEASURE_AUDIT_COMPLETE + TEN_D_BRANCH_CANONICALITY_LIFT_COMPLETE + TEN_D_STATUS_COHERENCE_CERTIFICATE_COMPLETE** |
+| Sprint theme | **Four-lane coverage closure (8D robustness, 9D coherence, 11D integrity, 12D residual hardening)** |
+| Primary target | **Close coverage holes with binary lane outcomes and explicit failure-cert routing across 8D/9D/11D/12D** |
+| Binary outcome | **EIGHTD_WILSON_ROBUSTNESS_BRANCH_AUDIT_COMPLETE + NINED_CP_ANOMALY_COHERENCE_CERTIFICATE_COMPLETE + ELEVENTD_CONDITIONAL_CLOSURE_INTEGRITY_AUDIT_COMPLETE + TWELVED_RESIDUAL_REGISTRY_PERTURBATION_AUDIT_COMPLETE + SPRINT_BS_FOUR_LANE_CERTIFICATE_COMPLETE + SPRINT_BS_STATUS_COHERENCE_CERTIFICATE_COMPLETE** |
 
 ---
 
@@ -48,7 +48,7 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BR continuation)
+## NEXT PHASE PRIORITIES (post-BS continuation)
 
 1. **Truth-surface lockstep first**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, and this file synchronized in one change set.
