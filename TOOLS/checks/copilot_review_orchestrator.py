@@ -86,7 +86,7 @@ class GitHubAPI:
         payload = None if data is None else json.dumps(data).encode("utf-8")
         request = Request(url, data=payload, method=method)
         request.add_header("Accept", "application/vnd.github+json")
-        request.add_header("Authorization", f"******")
+        request.add_header("Authorization", "Bearer " + self.token)
         request.add_header("X-GitHub-Api-Version", "2022-11-28")
         if payload is not None:
             request.add_header("Content-Type", "application/json")
