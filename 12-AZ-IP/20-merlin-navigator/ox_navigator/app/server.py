@@ -64,16 +64,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
     def _merlin_session(self) -> MerlinSession:
         candidate_id = ""
-        raw_header = str(self.headers.get('X-Merlin-Session') or '').strip()
-        if raw_header:
-            candidate_id = raw_header
-        if not candidate_id:
-            raw_cookie = str(self.headers.get('Cookie') or '')
-            for part in raw_cookie.split(';'):
-                key, _, value = part.strip().partition('=')
-                if key == 'merlin_session_id' and value.strip():
-                    candidate_id = value.strip()
-                    break
+        raw_cookie = str(self.headers.get('Cookie') or '')
+        for part in raw_cookie.split(';'):
+            key, _, value = part.strip().partition('=')
+            if key == 'merlin_session_id' and value.strip():
+                candidate_id = value.strip()
+                break
         with _MERLIN_SESSIONS_LOCK:
             session_id = candidate_id if candidate_id in _MERLIN_SESSIONS else ''
             if not session_id:

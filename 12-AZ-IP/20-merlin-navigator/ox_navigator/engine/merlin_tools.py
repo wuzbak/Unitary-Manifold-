@@ -117,7 +117,12 @@ def _tool_manifest() -> dict[str, Any]:
         ]
     policy_overrides = {
         "getPillar": {
-            "args_schema": {"type": "object", "properties": {"pillar_id": {"type": "integer"}}, "additionalProperties": True},
+            "args_schema": {
+                "type": "object",
+                "properties": {"pillar_id": {"type": "integer"}},
+                "required": ["pillar_id"],
+                "additionalProperties": True,
+            },
         },
         "searchKnowledgeBase": {
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
@@ -396,28 +401,41 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
             result = {"data": evaluate_benchmark_response(str(args.get("benchmark_id", "")), dict(args.get("response") or {}))}
         elif tool == "getMerlinMemoryState":
             tool_type = "function"
-            result = {"data": active_session.get_memory_state()}
+            result = {"data": active_session.get_public_memory_state()}
         elif tool == "runMerlinMemoryAudit":
             tool_type = "function"
-            result = {"data": active_session.audit_memory(str(args.get("query", "")))}
+            audit = active_session.audit_memory(str(args.get("query", "")))
+            result = {"data": {
+                "query": audit["query"],
+                "matched_memory_count": audit["matched_memory_count"],
+                "matched_scopes": audit["matched_scopes"],
+            }}
         elif tool == "getMerlinTelemetrySummary":
             tool_type = "function"
-            result = {"data": active_session.get_telemetry_summary()}
+            result = {"data": active_session.get_telemetry_summary(public=True)}
         elif tool.startswith("entity.MerlinSession."):
             tool_type = "entity"
             op = tool.split(".")[-1]
             if op == "schema":
                 result = {"data": MERLIN_SESSION_SCHEMA}
             elif op == "state":
-                result = {"data": active_session.get_memory_state()}
+                result = {"data": active_session.get_public_memory_state()}
             elif op == "audit":
                 query = str(args.get("query", "")).strip()
-                result = {"data": active_session.audit_memory(query)} if query else {
-                    "data": {
-                        "recent_memory_audits": active_session.get_memory_state()["recent_memory_audits"],
-                        "contradiction_event_count": active_session.get_memory_state()["contradiction_event_count"],
-                    },
-                }
+                if query:
+                    audit = active_session.audit_memory(query)
+                    result = {"data": {
+                        "query": query,
+                        "matched_memory_count": audit["matched_memory_count"],
+                        "matched_scopes": audit["matched_scopes"],
+                    }}
+                else:
+                    result = {
+                        "data": {
+                            "recent_memory_audits": active_session.get_memory_state()["recent_memory_audits"],
+                            "contradiction_event_count": active_session.get_memory_state()["contradiction_event_count"],
+                        },
+                    }
             else:
                 ok = False
                 error = "Unsupported MerlinSession operation."
