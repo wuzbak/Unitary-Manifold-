@@ -67,6 +67,12 @@ def test_gate_labels_exact():
     assert constants.GATE_LABELS == ['HARDGATE', 'ADJACENT_TRACK', 'OPEN_GAP', 'ARCHITECTURE_LIMIT', 'GOVERNANCE']
 
 
+def test_ui_gate_labels_consistent_with_runtime():
+    ui_js = (UI_ROOT / 'ox-navigator.js').read_text(encoding='utf-8')
+    assert "GOVERNANCE" in ui_js
+    assert "DERIVED" not in ui_js
+
+
 def test_example_queries_count():
     assert len(constants.EXAMPLE_QUERIES) == 8
 

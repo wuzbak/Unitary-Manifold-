@@ -6,11 +6,11 @@
 - **Folder:** `12-AZ-IP/20-merlin-navigator/`
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
--- **Model transport:** sovereign local/offline-first runtime; `stealth/ox-alpha` via OpenRouter is compatibility-only fallback
+-- **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
 - **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/telemetry`
 - **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`
-- **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus audited multi-tier Merlin memory with contradiction tracking and telemetry
+- **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
 
@@ -40,6 +40,7 @@
 - No real API key is stored in source.
 - Missing-key behavior is explicit through `OxApiKeyMissingError`.
 - OpenRouter is not the primary path; Merlin defaults to sovereign local/offline-first behavior.
+- OpenRouter compat only activates when router confidence is low and compatibility mode is explicitly enabled.
 
 ## Merlin response contract
 
@@ -57,6 +58,7 @@
 - `GET /api/agentToolkit` exposes discovery views: `index`, `domain`, `tool`, `full`, `state`.
 - `GET /api/merlin/memory` exposes multi-tier memory state, contradictions, and recall audits.
 - `GET /api/merlin/telemetry` exposes recent run summaries for measurement and rollout gating.
+- `GET /api/merlin/status` now returns `memory_profile` to support cross-device durable profile continuity.
 - `GET /api/merlin/identity` exposes canonical identity/alias and privileged-action verification policy.
 - `GET /api/merlin/policy` exposes combined identity-trust and Sentinel enforcement policies.
 - `GET /api/merlin/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
@@ -64,7 +66,7 @@
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.
-- Toolkit entries now include typed argument schema, capability class, risk level, and human-gate metadata.
+- Toolkit entries include typed argument schema, capability class, risk level, and human-gate metadata; runtime now enforces tool allowlists and schema checks, and emits replay artifacts for invoke/orchestrate runs.
 - The standalone implementation remains conservative, but its internal contracts are now audit-ready for tiered capability expansion.
 - Cross-device Base44 entity semantics are not fully recreated here; the schema is exposed honestly as planned-but-not-implemented.
 
@@ -81,6 +83,7 @@
 - Each Merlin run records latency, estimated tokens, estimated cost, estimated energy, routing lane, provider, provenance coverage, and memory/contradiction signals.
 - Benchmark evaluation can score a response against the Stage A corpus using `evaluateMerlinBenchmarkResponse`.
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
+- Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).
 
 ## Gate-badge extraction
 

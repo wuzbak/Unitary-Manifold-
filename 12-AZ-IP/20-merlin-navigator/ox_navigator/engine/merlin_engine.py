@@ -16,6 +16,7 @@ import httpx
 from .constants import API_BASE, DEFAULT_TEMPERATURE, MODEL_ID
 from .gate_parser import extract_gate_badges
 from .merlin_identity import authorize_privileged_request, get_identity_policy
+from .merlin_local_provider import generate_local_response
 from .merlin_memory import MerlinSession
 from .merlin_persona import (
     build_system_prompt,
@@ -282,6 +283,75 @@ def _policy_contract_response(body: str, *, sources: list[dict[str, str]]) -> di
     }
 
 
+def _build_max_rigor_audit(
+    *,
+    privilege_requested: bool,
+    privilege_allowed: bool,
+    sentinel_blocked: bool,
+    processed: dict[str, Any],
+) -> dict[str, Any]:
+    verification_ok = bool((processed.get("provenance") or {}).get("complete"))
+    violations = list(processed.get("persona_governance_violations") or [])
+    blocking_violations = [item for item in violations if not str(item).startswith("pillar_reference_missing_gate_marker")]
+    governance_ok = not bool(blocking_violations)
+    safety_ok = not sentinel_blocked
+    identity_ok = (not privilege_requested) or privilege_allowed
+    checks = {
+        "identity_gate": identity_ok,
+        "sentinel_scan": safety_ok,
+        "source_verification": verification_ok,
+        "governance_boundary_check": governance_ok,
+    }
+    return {
+        "graph": "merlin_max_rigor_execution",
+        "nodes": {
+            "N2_identity_gate": {"ok": checks["identity_gate"]},
+            "N3_sentinel_scan": {"ok": checks["sentinel_scan"]},
+            "N5_source_verification": {"ok": checks["source_verification"]},
+            "N6_governance_boundary_check": {"ok": checks["governance_boundary_check"]},
+        },
+        "all_green": all(checks.values()),
+        "checks": checks,
+        "violations": violations,
+        "blocking_violations": blocking_violations,
+        "hard_stops": [
+            key
+            for key, condition in {
+                "identity_gate_fail_for_privileged": checks["identity_gate"],
+                "sentinel_policy_block": checks["sentinel_scan"],
+                "verification_conflict_unresolved": checks["source_verification"] and checks["governance_boundary_check"],
+            }.items()
+            if not condition
+        ],
+    }
+
+
+def _enforce_max_rigor(
+    *,
+    processed: dict[str, Any],
+    privilege_requested: bool,
+    privilege_allowed: bool,
+    sentinel_blocked: bool,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    audit = _build_max_rigor_audit(
+        privilege_requested=privilege_requested,
+        privilege_allowed=privilege_allowed,
+        sentinel_blocked=sentinel_blocked,
+        processed=processed,
+    )
+    if audit["all_green"]:
+        return processed, audit
+    blocked = _policy_contract_response(
+        "[ARCHITECTURE_LIMIT] Max-rigor execution halted because verification/safety/governance checks were not all green.",
+        sources=[
+            {"label": "Merlin Execution Graph", "type": "GOVERNANCE", "description": "verification + safety + governance must all pass"},
+            {"label": "Max-Rigor Hard Stop", "type": "ARCHITECTURE_LIMIT", "description": ", ".join(audit["hard_stops"]) or "unknown"},
+        ],
+    )
+    blocked["persona_governance_violations"] = list(processed.get("persona_governance_violations") or [])
+    return blocked, audit
+
+
 async def query_merlin(
     *,
     text: str,
@@ -336,6 +406,12 @@ async def query_merlin(
             latency_ms=(time.perf_counter() - started) * 1000,
         )
         session.record_run(telemetry)
+        max_rigor = _build_max_rigor_audit(
+            privilege_requested=False,
+            privilege_allowed=True,
+            sentinel_blocked=True,
+            processed=processed,
+        )
         return {
             **processed,
             "persona_mode": "serious",
@@ -354,6 +430,7 @@ async def query_merlin(
             "identity_policy": get_identity_policy(),
             "memory_audit": audit,
             "telemetry": telemetry,
+            "max_rigor": max_rigor,
         }
 
     privilege = authorize_privileged_request(
@@ -394,6 +471,12 @@ async def query_merlin(
             latency_ms=(time.perf_counter() - started) * 1000,
         )
         session.record_run(telemetry)
+        max_rigor = _build_max_rigor_audit(
+            privilege_requested=True,
+            privilege_allowed=False,
+            sentinel_blocked=False,
+            processed=processed,
+        )
         return {
             **processed,
             "persona_mode": "serious",
@@ -407,6 +490,7 @@ async def query_merlin(
             "identity_check": privilege["verification"],
             "memory_audit": audit,
             "telemetry": telemetry,
+            "max_rigor": max_rigor,
         }
 
     persona_mode = detect_persona_mode(text)
@@ -441,10 +525,21 @@ async def query_merlin(
     messages.append({"role": "user", "content": text})
 
     response_text = ""
-    context_source = "offline_rag"
+    context_source = "sovereign_local_model"
     tool_rounds = 0
-    router_decision = choose_runtime(text, confidence=0.7)
-    if router_decision["provider"] == "openrouter_compat" and os.environ.get("OPENROUTER_API_KEY"):
+    local_candidate = generate_local_response(
+        query=text,
+        context=context,
+        persona_mode=persona_mode,
+        fourth_wall=fourth_wall,
+    )
+    response_text = local_candidate["body"]
+    router_decision = choose_runtime(text, confidence=float(local_candidate.get("confidence", 0.7)))
+    if (
+        router_decision["provider"] == "openrouter_compat"
+        and os.environ.get("OPENROUTER_API_KEY")
+        and bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT"))
+    ):
         if on_status is not None:
             on_status.append("model")
         try:
@@ -468,12 +563,9 @@ async def query_merlin(
                     temperature=temperature,
                 )
         except Exception:
-            response_text = ""
-            context_source = "offline_rag_fallback"
-    if not response_text:
-        response_text = _fallback_body(text, context, persona_mode, fourth_wall)
+            context_source = "sovereign_local_model"
 
-    processed = _post_process_answer(
+    initial_processed = _post_process_answer(
         response_text,
         text,
         context,
@@ -481,6 +573,12 @@ async def query_merlin(
         persona_mode,
         fourth_wall,
         matched_memory=compressed.get("matched_memory"),
+    )
+    processed, max_rigor = _enforce_max_rigor(
+        processed=initial_processed,
+        privilege_requested=bool(privilege.get("requested")),
+        privilege_allowed=bool(privilege.get("allowed")),
+        sentinel_blocked=False,
     )
     session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
     telemetry = build_run_telemetry(
@@ -517,4 +615,5 @@ async def query_merlin(
         "memory_audit": audit,
         "telemetry": telemetry,
         "benchmark_eval": None,
+        "max_rigor": max_rigor,
     }

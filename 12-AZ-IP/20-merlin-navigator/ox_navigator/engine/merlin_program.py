@@ -256,10 +256,57 @@ def run_sync_checks() -> dict[str, Any]:
             "gate": source["gate"],
         })
     ok = all(item["exists"] and item["readable"] for item in checks)
+    endpoint_targets = [
+        "/api/merlin",
+        "/api/merlin/status",
+        "/api/merlin/program",
+        "/api/merlin/memory",
+        "/api/merlin/telemetry",
+        "/api/agentToolkit",
+        "/api/agentInvoke",
+        "/api/agentOrchestrate",
+        "/api/ox",
+        "/api/ox/status",
+    ]
+    gate_targets = [
+        "HARDGATE",
+        "ADJACENT_TRACK",
+        "OPEN_GAP",
+        "ARCHITECTURE_LIMIT",
+        "GOVERNANCE",
+    ]
+    server_text = (PRODUCT_ROOT / "ox_navigator" / "app" / "server.py").read_text(encoding="utf-8")
+    readme_text = (PRODUCT_ROOT / "README.md").read_text(encoding="utf-8")
+    ui_text = (PRODUCT_ROOT / "ui" / "ox-navigator.js").read_text(encoding="utf-8")
+    endpoint_checks = []
+    for endpoint in endpoint_targets:
+        present_everywhere = endpoint in server_text and endpoint in readme_text
+        endpoint_checks.append({
+            "endpoint": endpoint,
+            "server": endpoint in server_text,
+            "readme": endpoint in readme_text,
+            "ok": present_everywhere,
+        })
+    gate_checks = []
+    for gate in gate_targets:
+        gate_checks.append({
+            "gate": gate,
+            "server": gate in server_text,
+            "readme": gate in readme_text,
+            "ui": gate in ui_text,
+            "ok": gate in readme_text and gate in ui_text,
+        })
+    no_derived_drift = "DERIVED" not in ui_text
+    consistency_ok = all(item["ok"] for item in endpoint_checks) and all(item["ok"] for item in gate_checks) and no_derived_drift
     return {
-        "ok": ok,
+        "ok": bool(ok and consistency_ok),
         "checked_at": _utcnow(),
         "checks": checks,
+        "consistency": {
+            "endpoint_checks": endpoint_checks,
+            "gate_checks": gate_checks,
+            "no_derived_drift_in_ui_gate_labels": no_derived_drift,
+        },
         "policy": "Fail closed on missing canonical sources to prevent epistemic drift.",
     }
 
