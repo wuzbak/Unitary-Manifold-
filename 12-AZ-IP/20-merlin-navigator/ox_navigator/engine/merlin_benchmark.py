@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
@@ -85,6 +86,21 @@ def get_stage_a_benchmark_corpus() -> dict[str, Any]:
             "energy_per_successful_task",
         ],
     }
+
+
+def match_benchmark_for_query(query: str) -> dict[str, Any] | None:
+    query_tokens = {token for token in re.findall(r"[a-z0-9_]+", str(query or "").lower()) if token}
+    best_match = None
+    best_score = 0.0
+    for benchmark in STAGE_A_BENCHMARK_CORPUS:
+        benchmark_tokens = {token for token in re.findall(r"[a-z0-9_]+", benchmark["query"].lower()) if token}
+        score = len(query_tokens & benchmark_tokens) / max(len(query_tokens), 1)
+        if score > best_score:
+            best_score = score
+            best_match = benchmark
+    if best_match and best_score >= 0.3:
+        return dict(best_match)
+    return None
 
 
 def evaluate_benchmark_response(benchmark_id: str, response: dict[str, Any]) -> dict[str, Any]:

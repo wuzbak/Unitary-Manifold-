@@ -15,7 +15,7 @@ import httpx
 
 from .constants import API_BASE, DEFAULT_TEMPERATURE, MODEL_ID
 from .gate_parser import extract_gate_badges
-from .merlin_benchmark import evaluate_benchmark_response
+from .merlin_benchmark import evaluate_benchmark_response, match_benchmark_for_query
 from .merlin_identity import authorize_privileged_request, get_identity_policy
 from .merlin_memory import MerlinSession
 from .merlin_persona import (
@@ -485,10 +485,9 @@ async def query_merlin(
     )
     session.record_run(telemetry)
     benchmark_eval = None
-    for candidate in ("physics_birefringence", "gap_dark_energy", "governance_boundary", "tool_navigation", "memory_recall"):
-        benchmark_eval = evaluate_benchmark_response(candidate, processed)
-        if benchmark_eval.get("score", 0.0) >= 0.8:
-            break
+    matched_benchmark = match_benchmark_for_query(text)
+    if matched_benchmark:
+        benchmark_eval = evaluate_benchmark_response(matched_benchmark["id"], processed)
     return {
         **processed,
         "persona_mode": persona_mode,

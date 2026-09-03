@@ -412,7 +412,13 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
             elif op == "state":
                 result = {"data": active_session.get_memory_state()}
             elif op == "audit":
-                result = {"data": active_session.get_telemetry_summary()}
+                query = str(args.get("query", "")).strip()
+                result = {"data": active_session.audit_memory(query)} if query else {
+                    "data": {
+                        "recent_memory_audits": active_session.get_memory_state()["recent_memory_audits"],
+                        "contradiction_event_count": active_session.get_memory_state()["contradiction_event_count"],
+                    },
+                }
             else:
                 ok = False
                 error = "Unsupported MerlinSession operation."
