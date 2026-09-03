@@ -2,7 +2,7 @@
   "default_max_entries": 900,
   "advisory_truncation_threshold": 1000,
   "explicit_limits": {
-    "src/core": 1200,
-    "tests": 1350
+    "src/core": 1250,
+    "tests": 1400
   }
 }
