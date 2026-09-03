@@ -5,12 +5,13 @@
 
 from __future__ import annotations
 
-import re
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+import re
 from typing import Any
 
+from .constants import GATE_LABELS
 from .merlin_admission import get_model_admission_policy
 from .merlin_identity import get_identity_policy
 from .merlin_memory import MERLIN_MAX_HISTORY
@@ -256,7 +257,43 @@ def run_sync_checks() -> dict[str, Any]:
             "claim_class": source["claim_class"],
             "gate": source["gate"],
         })
+    server_path = PRODUCT_ROOT / "ox_navigator" / "app" / "server.py"
+    server_text = server_path.read_text(encoding="utf-8") if server_path.exists() else ""
+    route_eq_matches = re.findall(r"parsed\.path\s*==\s*['\"]([^'\"]+)['\"]", server_text)
+    route_in_blocks = re.findall(r"parsed\.path\s+in\s*\(([^)]*)\)", server_text, flags=re.DOTALL)
+    parsed_routes = set(route_eq_matches)
+    for block in route_in_blocks:
+        for route in re.findall(r"['\"]([^'\"]+)['\"]", block):
+            parsed_routes.add(route)
+
+    runtime_endpoint_checks = []
+    for endpoint in [
+        "/api/merlin",
+        "/api/merlin/status",
+        "/api/merlin/program",
+        "/api/merlin/memory",
+        "/api/merlin/telemetry",
+        "/api/merlin/policy",
+        "/api/merlin/runtime",
+        "/api/merlin/benchmarks",
+        "/api/merlin/promotion-packet",
+        "/api/merlin/sync-checks",
+        "/api/merlin/identity",
+        "/api/agentToolkit",
+        "/api/agentInvoke",
+        "/api/agentOrchestrate",
+        "/api/ox",
+        "/api/ox/status",
+    ]:
+        runtime_endpoint_checks.append({"endpoint": endpoint, "present": endpoint in parsed_routes})
+
+    ui_path = PRODUCT_ROOT / "ui" / "ox-navigator.js"
+    ui_text = ui_path.read_text(encoding="utf-8") if ui_path.exists() else ""
+    gate_label_checks = [{"gate": gate, "present": f"'{gate}'" in ui_text} for gate in GATE_LABELS]
+
     ok = all(item["exists"] and item["readable"] for item in checks)
+    runtime_ok = all(item["present"] for item in runtime_endpoint_checks)
+    gate_labels_ok = all(item["present"] for item in gate_label_checks)
     endpoint_targets = [
         "/api/merlin",
         "/api/merlin/status",
@@ -276,11 +313,9 @@ def run_sync_checks() -> dict[str, Any]:
         "ARCHITECTURE_LIMIT",
         "GOVERNANCE",
     ]
-    server_text = (PRODUCT_ROOT / "ox_navigator" / "app" / "server.py").read_text(encoding="utf-8")
     readme_text = (PRODUCT_ROOT / "README.md").read_text(encoding="utf-8")
-    ui_text = (PRODUCT_ROOT / "ui" / "ox-navigator.js").read_text(encoding="utf-8")
     endpoint_re = re.compile(r"/api/[a-zA-Z0-9_/-]+")
-    server_endpoints = set(endpoint_re.findall(server_text))
+    server_endpoints = set(parsed_routes)
     readme_endpoints = set(endpoint_re.findall(readme_text))
     endpoint_checks = []
     for endpoint in endpoint_targets:
@@ -303,9 +338,11 @@ def run_sync_checks() -> dict[str, Any]:
     no_derived_drift = "DERIVED" not in ui_text
     consistency_ok = all(item["ok"] for item in endpoint_checks) and all(item["ok"] for item in gate_checks) and no_derived_drift
     return {
-        "ok": bool(ok and consistency_ok),
+        "ok": bool(ok and runtime_ok and gate_labels_ok and consistency_ok),
         "checked_at": _utcnow(),
         "checks": checks,
+        "runtime_endpoint_checks": runtime_endpoint_checks,
+        "gate_label_checks": gate_label_checks,
         "consistency": {
             "endpoint_checks": endpoint_checks,
             "gate_checks": gate_checks,

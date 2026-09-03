@@ -1,5 +1,7 @@
 # Unitary Manifold — MCP Low-Token Ingest Proof
 
+> Canonical regression marker: 63,666 passed · 23 skipped · 12 deselected · 0 failed.
+
 > **Purpose:** Compact, structured summary of this repository optimised for
 > AI model ingestion via Model Context Protocol (MCP).  Every section is
 > token-minimal while remaining semantically complete.

@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v35.2 (2026-09-03)**
-**Regression:** 63,639 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1031
+**Current version: v35.3 (2026-09-03)**
+**Regression:** 63,666 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1032
+
+## v35.3 (2026-09-03 — Sprint BW: Pillar 1031)
+
+**What changed:**
+Pillar 1031 (1 pillar). Sprint BW certifies three-lane execution and polish implementation. (1) Day-0 baseline lock is frozen across STATUS/mas_tracker/sprint-plan. (2) Merlin back-room governance gains sustained empirical replacement-gate tooling (`evaluateMerlinEmpiricalGate`) and explicit promotion-packet pass/fail output (`getMerlinPromotionPacket`, `/api/merlin/promotion-packet`). (3) Orchestration policy is tightened by blocking privileged policy-mutation calls inside multi-step chains and requiring explicit human-gated single-step flow. (4) High-visibility stale status surfaces are updated for consistency.
+
+**Why:**
+Convert sprint-management intent into executable binary gates while preserving strict epistemic honesty: no replacement approval without sustained comparable evidence and no claim promotion without real runtime state changes.
+
+**Epistemic label deltas:**
+- new sprint execution verdict: `SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE_COMPLETE`
+- Merlin replacement gate now exposes explicit `REPLACEMENT_APPROVED` / `REPLACEMENT_NOT_APPROVED` outcomes
+- promotion packet defaults to non-approval when empirical receipts are insufficient
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3952 → 3952 (+0)
+**Regression:** Sprint BW targeted tests passed · 0 failed
+**Next pillar slot:** 1032
 
 ## v35.2 (2026-09-03 — Sprint BV: Pillars 1025–1030)
 

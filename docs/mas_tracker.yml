@@ -1,6 +1,35 @@
-version: "v35.2"
+version: "v35.3"
 date: "2026-09-03"
 updated: "2026-09-03"
+
+v35_3_sprint_bw:
+  sprint: BW
+  version: v35.3
+  date: "2026-09-03"
+  pillars: 1031-1031
+  new_pillars: 1
+  new_tests: 8
+  lean4_start: 3952
+  lean4_end: 3952
+  lean4_delta: 0
+  closures:
+    - SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE_COMPLETE
+  advances:
+    - DAY0_BASELINE_FREEZE_LOCKED_TO_STATUS_TRACKER_SPRINT_PLAN
+    - MERLIN_SUSTAINED_EMPIRICAL_GATE_AND_PROMOTION_PACKET_SURFACES_ADDED
+    - HIGH_VISIBILITY_STALE_STATUS_SURFACES_POLISHED_WITHOUT_LABEL_INFLATION
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+  regression: "63,666 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)"
+  focused_regression: "Sprint BW targeted tests passed · 0 failed"
+  next_pillar_slot: 1032
 
 v35_2_sprint_bv:
   sprint: BV

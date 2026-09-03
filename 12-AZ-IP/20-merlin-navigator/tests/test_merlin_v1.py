@@ -226,6 +226,42 @@ def test_route_tool_benchmark_corpus_and_policy_metadata():
     assert result['result']['data']['stage'] == 'stage_a_parity_capture'
 
 
+def test_route_tool_empirical_gate_and_promotion_packet():
+    runs = [
+        {
+            'id': 'r1',
+            'merlin': {'task_success': True, 'quality_score': 0.92, 'energy_joules': 0.4, 'high_severity_policy_violations': 0},
+            'incumbent': {'task_success': True, 'quality_score': 0.90, 'energy_joules': 0.9, 'high_severity_policy_violations': 0},
+        }
+        for _ in range(12)
+    ]
+    gate = route_tool('evaluateMerlinEmpiricalGate', {'head_to_head_runs': runs})
+    assert gate['ok'] is True
+    assert gate['result']['data']['gate_pass'] is True
+    assert gate['result']['data']['decision'] == 'REPLACEMENT_APPROVED'
+
+    packet = route_tool('getMerlinPromotionPacket', {'head_to_head_runs': runs})
+    assert packet['ok'] is True
+    assert packet['result']['data']['gate_pass'] is True
+    assert packet['result']['data']['decision'] == 'REPLACEMENT_APPROVED'
+
+
+def test_route_tool_empirical_gate_rejects_net_quality_downgrade():
+    runs = [
+        {
+            'id': 'r1',
+            'merlin': {'task_success': True, 'quality_score': 0.89, 'energy_joules': 0.4, 'high_severity_policy_violations': 0},
+            'incumbent': {'task_success': True, 'quality_score': 0.90, 'energy_joules': 0.9, 'high_severity_policy_violations': 0},
+        }
+        for _ in range(12)
+    ]
+    gate = route_tool('evaluateMerlinEmpiricalGate', {'head_to_head_runs': runs})
+    assert gate['ok'] is True
+    assert gate['result']['data']['checks']['mean_quality_nonnegative'] is False
+    assert gate['result']['data']['gate_pass'] is False
+    assert gate['result']['data']['decision'] == 'REPLACEMENT_NOT_APPROVED'
+
+
 def test_route_tool_memory_and_telemetry_state():
     session = MerlinSession()
     telemetry_before = route_tool('getMerlinTelemetrySummary', {}, session=session)
@@ -236,6 +272,12 @@ def test_route_tool_memory_and_telemetry_state():
     memory_state = route_tool('getMerlinMemoryState', {}, session=session)
     assert telemetry_after['result']['data']['count'] == 1
     assert memory_state['result']['data']['durable_memory_count'] >= 1
+
+
+def test_route_tool_entity_state_rejects_unexpected_args():
+    result = route_tool('entity.MerlinSession.state', {'unexpected': True})
+    assert result['ok'] is False
+    assert 'argument' in result['error'].lower()
 
 
 def test_route_tool_identity_and_sentinel_policy():
@@ -336,6 +378,17 @@ def test_orchestrate_steps_threads_output():
     assert payload['replay_artifact']['digest_sha256']
 
 
+def test_orchestrate_blocks_privilege_tool():
+    try:
+        orchestrate_steps([
+            {'tool': 'authorizeMerlinPrivilege', 'args': {'query': 'change policy'}},
+        ])
+    except ValueError as exc:
+        assert 'blocked in orchestration' in str(exc)
+    else:
+        raise AssertionError('Expected orchestration to block privileged tool')
+
+
 def test_query_merlin_returns_provenance_memory_and_telemetry():
     session = MerlinSession()
     payload = asyncio.run(query_merlin(text='What is the birefringence prediction?', session=session))
@@ -401,6 +454,11 @@ def test_server_merlin_endpoints():
             assert benchmarks.json()['ok'] is True
             assert 'promotion_gate' in benchmarks.json()['benchmarks']
             assert benchmarks.json()['benchmarks']['stage_a_corpus']['stage'] == 'stage_a_parity_capture'
+
+            packet = client.get('/api/merlin/promotion-packet')
+            assert packet.status_code == 200
+            assert packet.json()['ok'] is True
+            assert packet.json()['packet']['decision'] == 'REPLACEMENT_EVIDENCE_REQUIRED'
 
             telemetry = client.get('/api/merlin/telemetry')
             assert telemetry.status_code == 200

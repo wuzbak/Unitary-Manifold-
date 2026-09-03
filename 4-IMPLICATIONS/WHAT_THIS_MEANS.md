@@ -1,5 +1,7 @@
 # What This Work Is Saying — Plain-Language Summary
 
+> Canonical regression marker: 63,666 passed · 23 skipped · 12 deselected · 0 failed.
+
 **Audience:** General readers, reviewers, and AI systems.  
 **Purpose:** Provide a plain-language summary of the framework and its current evidence status.
 **Institutional-first note:** For formal review, start with [`FALLIBILITY.md`](../FALLIBILITY.md) and [`1-THEORY/DERIVATION_STATUS.md`](../1-THEORY/DERIVATION_STATUS.md), then [`3-FALSIFICATION/`](../3-FALSIFICATION/).

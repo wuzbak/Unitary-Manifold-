@@ -15,7 +15,12 @@ from typing import Any
 from .flashcard import get_categories, load_flashcards
 from .interrogator import get_tension_map_data, search_kb
 from .merlin_admission import evaluate_model_admission, get_model_admission_policy
-from .merlin_benchmark import evaluate_benchmark_response, get_stage_a_benchmark_corpus
+from .merlin_benchmark import (
+    build_promotion_packet,
+    evaluate_benchmark_response,
+    evaluate_empirical_gate,
+    get_stage_a_benchmark_corpus,
+)
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
@@ -70,6 +75,47 @@ MERLIN_SESSION_SCHEMA = {
 }
 
 
+def _matches_schema_type(value: Any, schema_type: Any) -> bool:
+    if isinstance(schema_type, list):
+        return any(_matches_schema_type(value, item) for item in schema_type)
+    if schema_type == "string":
+        return isinstance(value, str)
+    if schema_type == "integer":
+        return isinstance(value, int) and not isinstance(value, bool)
+    if schema_type == "number":
+        return (isinstance(value, int) and not isinstance(value, bool)) or isinstance(value, float)
+    if schema_type == "boolean":
+        return isinstance(value, bool)
+    if schema_type == "array":
+        return isinstance(value, list)
+    if schema_type == "object":
+        return isinstance(value, dict)
+    if schema_type == "null":
+        return value is None
+    return True
+
+
+def _validate_args_schema(schema: dict[str, Any] | None, args: dict[str, Any]) -> str | None:
+    if not schema:
+        return None
+    reserved_keys = {"human_gate_approved"}
+    required = list(schema.get("required") or [])
+    for key in required:
+        if key not in args:
+            return f"Missing required argument: {key}"
+    props = dict(schema.get("properties") or {})
+    for key, value in args.items():
+        if key in reserved_keys:
+            continue
+        if key in props:
+            expected = props[key].get("type")
+            if expected and not _matches_schema_type(value, expected):
+                return f"Invalid argument type for '{key}': expected {expected}"
+        elif schema.get("additionalProperties") is False:
+            return f"Unexpected argument: {key}"
+    return None
+
+
 def _tool_manifest() -> dict[str, Any]:
     functions = [
             {"name": "fetchRepoContext", "summary": "Return canonical live repo status", "domain": "functions"},
@@ -114,6 +160,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinBenchmarkSuite", "summary": "Return benchmark harness definition", "domain": "functions"},
             {"name": "getMerlinBenchmarkCorpus", "summary": "Return Stage A benchmark prompt corpus", "domain": "functions"},
             {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Stage A benchmark", "domain": "functions"},
+            {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
+            {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
@@ -180,6 +228,29 @@ def _tool_manifest() -> dict[str, Any]:
                 "required": ["benchmark_id", "response"],
             },
         },
+        "evaluateMerlinEmpiricalGate": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "head_to_head_runs": {"type": "array"},
+                    "min_runs": {"type": "integer"},
+                    "max_quality_regressions": {"type": "integer"},
+                },
+                "required": ["head_to_head_runs"],
+            },
+            "risk_level": "medium",
+        },
+        "getMerlinPromotionPacket": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "head_to_head_runs": {"type": "array"},
+                    "sync_checks_ok": {"type": "boolean"},
+                },
+                "additionalProperties": True,
+            },
+            "risk_level": "medium",
+        },
         "runMerlinMemoryAudit": {
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
             "capability_class": "state_read",
@@ -233,11 +304,13 @@ def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple
     properties = dict(schema.get("properties") or {})
     required = list(schema.get("required") or [])
     allow_extra = bool(schema.get("additionalProperties", False))
+    reserved_keys = {"human_gate_approved"}
+    filtered_args = {k: v for k, v in args.items() if k not in reserved_keys}
     for key in required:
-        if key not in args:
+        if key not in filtered_args:
             return False, f"Missing required argument: {key}"
     if not allow_extra:
-        extra = sorted(set(args.keys()) - set(properties.keys()))
+        extra = sorted(set(filtered_args.keys()) - set(properties.keys()))
         if extra:
             return False, f"Unknown argument(s): {', '.join(extra)}"
     type_map = {
@@ -255,13 +328,13 @@ def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple
         py_type = type_map.get(expected_type)
         return isinstance(value, py_type) if py_type else True
     for key, spec in properties.items():
-        if key not in args:
+        if key not in filtered_args:
             continue
         expected = spec.get("type")
         if isinstance(expected, list):
-            valid = any(_matches(str(t), args[key]) for t in expected)
+            valid = any(_matches(str(t), filtered_args[key]) for t in expected)
         else:
-            valid = _matches(str(expected), args[key]) if expected else True
+            valid = _matches(str(expected), filtered_args[key]) if expected else True
         if not valid:
             return False, f"Invalid type for '{key}', expected {expected}"
     return True, ""
@@ -447,6 +520,14 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
     active_session = session if session is not None else MerlinSession()
     manifest = _tool_manifest()
     policy = next((item for item in manifest["functions"] if item["name"] == tool), None)
+    if policy is None and tool.startswith("entity.MerlinSession."):
+        op = tool.split(".")[-1]
+        if op == "audit":
+            policy = {"args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "additionalProperties": False}}
+        elif op in {"schema", "state"}:
+            policy = {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}}
+    if policy is None and tool == "connector.github":
+        policy = {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}}
     allowed_tools = {
         *(item["name"] for item in manifest["functions"]),
         "getMerlinBenchmarkCorpus",
@@ -472,6 +553,10 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 ok = False
                 error = schema_error
                 raise ValueError(schema_error)
+            if bool(policy.get("requires_human_gate")) and not bool(args.get("human_gate_approved")):
+                ok = False
+                error = "Human gate approval required for this tool."
+                raise ValueError(error)
         if tool in _FUNCTIONS:
             tool_type = "function"
             result = _FUNCTIONS[tool](**args)
@@ -481,6 +566,25 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
         elif tool == "evaluateMerlinBenchmarkResponse":
             tool_type = "function"
             result = {"data": evaluate_benchmark_response(str(args.get("benchmark_id", "")), dict(args.get("response") or {}))}
+        elif tool == "evaluateMerlinEmpiricalGate":
+            tool_type = "function"
+            result = {"data": evaluate_empirical_gate(
+                list(args.get("head_to_head_runs") or []),
+                min_runs=int(args.get("min_runs", 12)),
+                max_quality_regressions=int(args.get("max_quality_regressions", 0)),
+            )}
+        elif tool == "getMerlinPromotionPacket":
+            tool_type = "function"
+            sync_checks_ok = (
+                bool(args.get("sync_checks_ok"))
+                if "sync_checks_ok" in args
+                else bool(run_sync_checks().get("ok"))
+            )
+            result = {"data": build_promotion_packet(
+                head_to_head_runs=list(args.get("head_to_head_runs") or []),
+                telemetry_summary=active_session.get_telemetry_summary(public=True),
+                sync_checks_ok=sync_checks_ok,
+            )}
         elif tool == "getMerlinMemoryState":
             tool_type = "function"
             result = {"data": active_session.get_public_memory_state()}
@@ -578,6 +682,8 @@ def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | N
     """Execute a bounded sequential Merlin tool chain."""
     if len(steps) > 10:
         raise ValueError("step cap exceeded (max 10)")
+    if any(str(step.get("tool", "")).strip() == "authorizeMerlinPrivilege" for step in steps):
+        raise ValueError("authorizeMerlinPrivilege is blocked in orchestration; use single-step invocation with explicit human gate.")
     started = time.perf_counter()
     results = []
     for index, step in enumerate(steps):
@@ -604,6 +710,7 @@ def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | N
         result["threading"] = threading
         results.append(result)
     total_duration_ms = round((time.perf_counter() - started) * 1000, 3)
+    high_risk_steps = sum(1 for step in results if str((step.get("policy") or {}).get("risk_level")) == "high")
     replay = {
         "generated_at": _utcnow(),
         "step_count": len(results),
@@ -629,5 +736,9 @@ def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | N
         "total_duration_ms": total_duration_ms,
         "audit_log_mode": "required",
         "human_gate_required": any((step.get("policy") or {}).get("requires_human_gate") for step in results),
+        "policy_summary": {
+            "high_risk_steps": high_risk_steps,
+            "blocked_tools_in_orchestration": ["authorizeMerlinPrivilege"],
+        },
         "replay_artifact": replay,
     }

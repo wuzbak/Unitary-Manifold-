@@ -82,6 +82,15 @@ class MerlinSession:
     telemetry: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
+        self.turns = list(self.turns)[-MERLIN_MAX_HISTORY:] if isinstance(self.turns, list) else []
+        self.intents = list(self.intents)[-MERLIN_MAX_INTENTS:] if isinstance(self.intents, list) else []
+        self.telemetry = list(self.telemetry)[-MERLIN_MAX_TELEMETRY:] if isinstance(self.telemetry, list) else []
+        self.memory_audits = list(self.memory_audits)[-MERLIN_MAX_AUDITS:] if isinstance(self.memory_audits, list) else []
+        self.contradiction_events = (
+            list(self.contradiction_events)[-MERLIN_MAX_AUDITS:] if isinstance(self.contradiction_events, list) else []
+        )
+        self.reset_events = list(self.reset_events)[-MERLIN_MAX_AUDITS:] if isinstance(self.reset_events, list) else []
+        self.durable_memory = list(self.durable_memory) if isinstance(self.durable_memory, list) else []
         if not self.durable_memory:
             for item in DEFAULT_DURABLE_MEMORIES:
                 self.remember(item["fact"], scope=item["scope"], source=item["source"], tags=item["tags"])

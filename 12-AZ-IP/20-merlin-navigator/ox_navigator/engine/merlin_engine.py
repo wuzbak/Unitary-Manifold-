@@ -528,6 +528,13 @@ async def query_merlin(
     response_text = ""
     context_source = "sovereign_local_model"
     tool_rounds = 0
+    kb_score = float((context.get("kb_match") or {}).get("score") or 0.0)
+    interrogator_scores = [
+        float(item.get("confidence", 0.0))
+        for item in (context.get("interrogator_hits") or [])
+        if isinstance(item, dict)
+    ]
+    route_confidence = max([kb_score, *interrogator_scores], default=0.7)
     if runtime_mode == "incumbent_compat":
         response_text = _fallback_body(text, context, persona_mode, fourth_wall)
         router_decision = {
@@ -550,11 +557,14 @@ async def query_merlin(
             fourth_wall=fourth_wall,
         )
         response_text = local_candidate["body"]
-        router_decision = choose_runtime(text, confidence=float(local_candidate.get("confidence", 0.7)))
+        router_decision = choose_runtime(
+            text,
+            confidence=max(float(local_candidate.get("confidence", 0.7)), route_confidence),
+        )
         if (
             router_decision["provider"] == "openrouter_compat"
             and os.environ.get("OPENROUTER_API_KEY")
-            and bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT"))
+            and bool(router_decision.get("openrouter_compat_enabled"))
         ):
             if on_status is not None:
                 on_status.append("model")

@@ -1,12 +1,14 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v35.2
+# Unitary Manifold v35.3
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v35.2 — Sprint BV: Pillars 1025–1030. The three-program closure packet is executed in priority order (flavor root, shared UV, CMB mechanism), binary outcomes are retained without narrative promotion, P636 residual domain contracts via a new Lean4 kernel set while functional-analysis burden remains open, and canonical truth surfaces are synchronized. Next slot 1031. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v35.3 — Sprint BW: Pillar 1031. Day-0 baseline reality is frozen against STATUS/mas_tracker/sprint-plan, Merlin replacement governance now exposes sustained empirical gate tooling plus explicit promotion-packet pass/fail outputs, and high-visibility stale status surfaces are tightened without label inflation. Next slot 1032. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
+
+*P1031 (v35.3): Sprint BW Three-Lane Execution Certificate — SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE_COMPLETE. `src/core/pillar1031_sprint_bw_three_lane_execution_certificate.py` certifies that (1) the baseline state is locked to canonical truth surfaces, (2) Merlin back-room governance now includes explicit sustained empirical replacement-gate and promotion-packet contracts, and (3) integrity/editorial stale-surface fixes are completed with unchanged open-lane labels and no narrative promotion.*
 
 *P1030 (v35.2): Sprint BV Status-Coherence Certificate — SPRINT_BV_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1030_sprint_bv_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan and verifies Sprint BV markers with unchanged open-lane labels including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`.*
 

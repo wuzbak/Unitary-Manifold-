@@ -35,6 +35,8 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinOptimizationPriorities`
   - `getMerlinExecutionGraph`
   - `getMerlinBenchmarkSuite`
+  - `evaluateMerlinEmpiricalGate`
+  - `getMerlinPromotionPacket`
 - Direct API views:
   - `GET /api/merlin/program`
   - `GET /api/merlin/memory`
@@ -44,6 +46,7 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/policy`
   - `GET /api/merlin/runtime`
   - `GET /api/merlin/benchmarks`
+  - `GET /api/merlin/promotion-packet`
 
 ## Scope mapping to the 13-point implementation request
 
@@ -65,6 +68,8 @@ This document records the implemented execution blueprint for making Merlin the 
 
 `run_sync_checks()` verifies canonical Merlin source surfaces remain present and readable to reduce epistemic drift. `query_merlin()` now records per-run telemetry and attaches typed provenance plus memory-audit state to every response object.
 
+`evaluateMerlinEmpiricalGate()` now computes an explicit sustained head-to-head replacement verdict from comparable Merlin/incumbent runs (success parity, quality regression budget, energy-per-successful-task delta, and high-severity policy violations). `getMerlinPromotionPacket()` exposes the stage-D pass/fail decision contract with requirements and measurable outputs.
+
 ## Merlin Sovereignty Roadmap checklist
 
 - [x] Program doctrine defined (reproducible, auditable, self-hostable, governance-aligned, higher task success).
@@ -79,7 +84,8 @@ This document records the implemented execution blueprint for making Merlin the 
 - [x] Stage A→E rollout naming aligned in runtime blueprint.
 - [x] Stage A benchmark corpus and response evaluator exposed.
 - [x] Per-run latency/cost/energy/provenance telemetry attached to Merlin output and API surfaces.
-- [ ] Sustained empirical gate runs against the incumbent path still required for full replacement approval.
+- [x] Sustained empirical gate evaluator implemented with explicit replacement pass/fail contract and measurable thresholds.
+- [ ] Sustained empirical gate run receipts against the incumbent path are still required for full replacement approval.
 
 ## Governance and epistemic constraints retained
 

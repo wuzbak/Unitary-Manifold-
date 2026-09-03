@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import re
+from statistics import mean
 from typing import Any
 
 STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
@@ -158,4 +159,126 @@ def evaluate_benchmark_response(benchmark_id: str, response: dict[str, Any]) -> 
             "provenance": provenance_hits,
         },
         "review_focus": list(benchmark.get("review_focus", [])),
+    }
+
+
+def evaluate_empirical_gate(
+    head_to_head_runs: list[dict[str, Any]],
+    *,
+    min_runs: int = 12,
+    max_quality_regressions: int = 0,
+) -> dict[str, Any]:
+    """Evaluate sustained Merlin-vs-incumbent replacement gate outcomes."""
+    comparable: list[dict[str, Any]] = []
+    for run in head_to_head_runs:
+        merlin = dict(run.get("merlin") or {})
+        incumbent = dict(run.get("incumbent") or {})
+        if not merlin or not incumbent:
+            continue
+        if any(key not in merlin for key in ("task_success", "quality_score", "energy_joules")):
+            continue
+        if any(key not in incumbent for key in ("task_success", "quality_score", "energy_joules")):
+            continue
+        comparable.append({"id": str(run.get("id") or ""), "merlin": merlin, "incumbent": incumbent})
+
+    run_count = len(comparable)
+    if run_count == 0:
+        return {
+            "ok": True,
+            "decision": "REPLACEMENT_NOT_APPROVED",
+            "gate_pass": False,
+            "reason": "No comparable head-to-head runs provided.",
+            "requirements": {
+                "minimum_comparable_runs": min_runs,
+                "max_quality_regressions": max_quality_regressions,
+            },
+            "metrics": {
+                "comparable_runs": 0,
+                "merlin_success_rate": 0.0,
+                "incumbent_success_rate": 0.0,
+                "mean_quality_delta": 0.0,
+                "mean_energy_delta_joules": 0.0,
+                "quality_regressions": 0,
+                "high_severity_policy_violations_merlin": 0,
+                "high_severity_policy_violations_incumbent": 0,
+            },
+        }
+
+    quality_deltas = [float(item["merlin"]["quality_score"]) - float(item["incumbent"]["quality_score"]) for item in comparable]
+    energy_deltas = [float(item["incumbent"]["energy_joules"]) - float(item["merlin"]["energy_joules"]) for item in comparable]
+    merlin_successes = sum(1 for item in comparable if bool(item["merlin"]["task_success"]))
+    incumbent_successes = sum(1 for item in comparable if bool(item["incumbent"]["task_success"]))
+    quality_regressions = sum(1 for delta in quality_deltas if delta < 0.0)
+    merlin_policy_violations = sum(
+        int(item["merlin"].get("high_severity_policy_violations", 0))
+        for item in comparable
+    )
+    incumbent_policy_violations = sum(
+        int(item["incumbent"].get("high_severity_policy_violations", 0))
+        for item in comparable
+    )
+
+    metrics = {
+        "comparable_runs": run_count,
+        "merlin_success_rate": round(merlin_successes / run_count, 4),
+        "incumbent_success_rate": round(incumbent_successes / run_count, 4),
+        "mean_quality_delta": round(mean(quality_deltas), 4),
+        "mean_energy_delta_joules": round(mean(energy_deltas), 4),
+        "quality_regressions": quality_regressions,
+        "high_severity_policy_violations_merlin": merlin_policy_violations,
+        "high_severity_policy_violations_incumbent": incumbent_policy_violations,
+    }
+    checks = {
+        "minimum_runs": run_count >= int(min_runs),
+        "success_rate_parity_or_better": metrics["merlin_success_rate"] >= metrics["incumbent_success_rate"],
+        "mean_quality_nonnegative": metrics["mean_quality_delta"] >= 0.0,
+        "quality_regressions_within_limit": quality_regressions <= int(max_quality_regressions),
+        "mean_energy_win": metrics["mean_energy_delta_joules"] > 0.0,
+        "zero_high_severity_policy_violations_merlin": merlin_policy_violations == 0,
+    }
+    gate_pass = all(checks.values())
+    return {
+        "ok": True,
+        "decision": "REPLACEMENT_APPROVED" if gate_pass else "REPLACEMENT_NOT_APPROVED",
+        "gate_pass": gate_pass,
+        "checks": checks,
+        "requirements": {
+            "minimum_comparable_runs": min_runs,
+            "max_quality_regressions": max_quality_regressions,
+        },
+        "metrics": metrics,
+    }
+
+
+def build_promotion_packet(
+    *,
+    head_to_head_runs: list[dict[str, Any]] | None = None,
+    telemetry_summary: dict[str, Any] | None = None,
+    sync_checks_ok: bool | None = None,
+) -> dict[str, Any]:
+    """Return an explicit pass/fail promotion packet for Merlin replacement."""
+    comparable_runs = list(head_to_head_runs or [])
+    empirical = evaluate_empirical_gate(comparable_runs)
+    evidence_present = bool(comparable_runs)
+    sync_gate = bool(sync_checks_ok) if sync_checks_ok is not None else True
+    final_gate_pass = bool(empirical["gate_pass"]) and sync_gate and evidence_present
+    decision = "REPLACEMENT_APPROVED" if final_gate_pass else "REPLACEMENT_NOT_APPROVED"
+    if not evidence_present:
+        decision = "REPLACEMENT_EVIDENCE_REQUIRED"
+    return {
+        "stage": "stage_d_replacement_gates",
+        "decision": decision,
+        "gate_pass": final_gate_pass,
+        "empirical_gate": empirical,
+        "telemetry_summary": dict(telemetry_summary or {}),
+        "sync_checks_ok": bool(sync_checks_ok) if sync_checks_ok is not None else None,
+        "policy": {
+            "requires_sustained_runs": True,
+            "no_label_inflation": "Replacement cannot be approved without explicit gate pass.",
+        },
+        "checks": {
+            "evidence_present": evidence_present,
+            "empirical_gate_pass": bool(empirical["gate_pass"]),
+            "sync_checks_ok_or_not_required": sync_gate,
+        },
     }
