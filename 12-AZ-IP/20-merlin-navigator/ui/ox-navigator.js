@@ -12,10 +12,10 @@
   const API_BASE = (window.AZ_API_BASE || window.location.origin).replace(/\/$/, '');
   const STORAGE_KEY = 'merlin_active_session';
   const MAX_HISTORY = 50;
-  const GATE_LABELS = ['HARDGATE', 'ADJACENT_TRACK', 'DERIVED', 'OPEN_GAP', 'ARCHITECTURE_LIMIT'];
+  const GATE_LABELS = ['HARDGATE', 'ADJACENT_TRACK', 'OPEN_GAP', 'ARCHITECTURE_LIMIT', 'GOVERNANCE'];
   const EXAMPLES = [
     'What is the current birefringence falsifier and which gate does it sit under?',
-    'Explain the difference between HARDGATE, DERIVED, and ARCHITECTURE_LIMIT.',
+    'Explain the difference between HARDGATE, ADJACENT_TRACK, and ARCHITECTURE_LIMIT.',
     'Which pillar should I read first if I want the cleanest entry into the framework?',
     'Summarise the current open tensions and tell me what LiteBIRD could falsify.',
     'Use fourth-wall mode to explain why k_CS = 74 matters.',

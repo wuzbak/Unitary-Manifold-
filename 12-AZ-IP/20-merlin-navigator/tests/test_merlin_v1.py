@@ -25,6 +25,7 @@ from ox_navigator.engine.merlin_router import choose_runtime
 from ox_navigator.engine.merlin_rag import build_rag_context, lookup_kb, retrieve_context
 from ox_navigator.engine.merlin_sentinel import MODE_MONITOR, evaluate_query, get_sentinel_policy
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
+from ox_navigator.engine.merlin_program import run_sync_checks
 
 
 def test_detect_persona_mode_storyteller():
@@ -186,6 +187,7 @@ def test_route_tool_fetch_repo_context():
     assert result['ok'] is True
     assert result['type'] == 'function'
     assert 'meta' in result['result']['data']
+    assert result['replay_artifact']['digest_sha256']
 
 
 def test_route_tool_entity_schema():
@@ -331,6 +333,7 @@ def test_orchestrate_steps_threads_output():
     assert payload['ok'] is True
     assert payload['steps'][1]['tool'] == 'searchKnowledgeBase'
     assert payload['audit_log_mode'] == 'required'
+    assert payload['replay_artifact']['digest_sha256']
 
 
 def test_query_merlin_returns_provenance_memory_and_telemetry():
@@ -340,6 +343,8 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert payload['telemetry']['energy']['estimated_joules'] > 0
     assert 'matched_memory_count' in payload['memory_audit']
     assert payload['benchmark_eval'] is None
+    assert payload['max_rigor']['graph'] == 'merlin_max_rigor_execution'
+    assert payload['max_rigor']['all_green'] is True
 
 
 def test_query_merlin_keeps_benchmark_eval_explicit_only():
@@ -363,6 +368,7 @@ def test_server_merlin_endpoints():
             assert status.json()['merlin_available'] is True
             assert 'router_policy' in status.json()
             assert 'openrouter_compat_enabled' in status.json()
+            assert status.json()['memory_profile_token']
 
             program = client.get('/api/merlin/program')
             assert program.status_code == 200
@@ -435,6 +441,7 @@ def test_server_merlin_endpoints():
             assert invoke.status_code == 200
             assert invoke.json()['ok'] is True
             assert invoke.json()['policy']['risk_level'] == 'low'
+            assert invoke.json()['replay_artifact']['digest_sha256']
 
             orchestrate = client.post('/api/agentOrchestrate', json={
                 'steps': [
@@ -444,6 +451,7 @@ def test_server_merlin_endpoints():
             })
             assert orchestrate.status_code == 200
             assert orchestrate.json()['ok'] is True
+            assert orchestrate.json()['replay_artifact']['digest_sha256']
 
             legacy = client.post('/api/ox', json={'query': 'What is LiteBIRD?'})
             assert legacy.status_code == 200
@@ -452,3 +460,17 @@ def test_server_merlin_endpoints():
         httpd.shutdown()
         httpd.server_close()
         thread.join(timeout=2)
+
+
+def test_route_tool_schema_validation_blocks_invalid_args():
+    payload = route_tool('getPillar', {'pillar_id': 'not-int'})
+    assert payload['ok'] is False
+    assert "Invalid type" in payload['error']
+
+
+def test_run_sync_checks_has_consistency_contract():
+    checks = run_sync_checks()
+    assert checks['ok'] is True
+    assert checks['consistency']['no_derived_drift_in_ui_gate_labels'] is True
+    assert all(item['ok'] for item in checks['consistency']['endpoint_checks'])
+    assert all(item['ok'] for item in checks['consistency']['gate_checks'])

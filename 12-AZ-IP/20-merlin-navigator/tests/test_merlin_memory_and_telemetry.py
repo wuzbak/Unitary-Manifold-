@@ -20,6 +20,7 @@ from ox_navigator.engine.merlin_telemetry import (
     estimate_token_count,
     summarize_runs,
 )
+from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
 
 
 def test_merlin_memory_remember_and_retrieve():
@@ -67,6 +68,34 @@ def test_merlin_memory_does_not_duplicate_seeded_state():
         'retrieval_count': 0,
     }])
     assert session.get_memory_state()['durable_memory_count'] == 1
+
+
+def test_merlin_memory_serialization_roundtrip():
+    session = MerlinSession()
+    session.add_turn("q1", "HARDGATE answer")
+    payload = session.to_dict()
+    restored = MerlinSession.from_dict(payload)
+    assert restored.get_history()[-1]["query"] == "q1"
+    assert restored.get_memory_state()["durable_memory_count"] >= 1
+
+
+def test_merlin_memory_store_persists_profile(tmp_path):
+    store = MerlinMemoryStore(path=tmp_path / "merlin_store.json")
+    profile_id = "cross-device-demo"
+    loaded = store.load_profile(profile_id)
+    loaded.remember("Cross-device memory fact", scope="user", source="test")
+    store.save_profile(profile_id, loaded)
+    loaded_again = store.load_profile(profile_id)
+    assert any(item["fact"] == "Cross-device memory fact" for item in loaded_again.durable_memory)
+
+
+def test_merlin_memory_store_recovers_from_corrupt_json(tmp_path):
+    path = tmp_path / "broken_store.json"
+    path.write_text("{not-json", encoding="utf-8")
+    store = MerlinMemoryStore(path=path)
+    session = store.load_profile("recover-profile")
+    assert session.get_memory_state()["durable_memory_count"] >= 1
+    assert store.has_profile("recover-profile") is True
 
 
 def test_merlin_telemetry_estimators_and_summary():

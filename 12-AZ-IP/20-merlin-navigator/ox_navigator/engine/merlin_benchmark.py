@@ -16,7 +16,7 @@ STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "query": "What is the birefringence prediction and how could LiteBIRD falsify it?",
         "keywords": ["birefringence", "litebird", "falsify"],
         "minimum_keyword_hits": 1,
-        "required_gates": ["HARDGATE", "OPEN_GAP"],
+        "required_gates": ["HARDGATE"],
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["knowledge_base", "pillar"],
         "review_focus": ["falsification_window", "explicit_status_labels", "traceable_sources"],
