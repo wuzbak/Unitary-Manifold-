@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v34.6 (2026-09-03)**
-**Regression:** 10 passed · 0 skipped · 0 deselected · 0 failed (Sprint BP targeted regression)
-**Next pillar slot:** 1008
+**Current version: v34.7 (2026-09-03)**
+**Regression:** 63,503 passed · 23 skipped · 12 deselected · 0 failed (latest inherited full regression in branch history)
+**Next pillar slot:** 1011
+
+## v34.7 (2026-09-03 — Sprint BQ: Pillars 1008–1010)
+
+**What changed:**
+Pillars 1008–1010 (3 pillars). Sprint BQ executes the full open-hole program with binary outcomes. (1) P1008 applies one named promotion gate across CKM shadow + fermion magnitude/radii and enforces a strict downstream status-change requirement; result is `FLAVOR_FAMILY_PROMOTION_NOT_EARNED`. (2) P1009 runs one non-fitted nonperturbative/global-UV CMB normalization candidate and records `CMB_NONPERTURBATIVE_NORMALIZATION_NOT_EARNED`; the residual-budget certificate is tightened rather than softened. (3) P1010 records the sprint-wide certificate.
+
+**Why:**
+Push the two biggest unresolved internal holes through executable yes/no tests, reduce ambiguity, and keep closure claims tied to real runtime status changes only.
+
+**Epistemic label deltas:**
+- new executable sprint-level verdict: `FLAVOR_FAMILY_PROMOTION_NOT_EARNED`
+- new executable CMB-candidate verdict: `CMB_NONPERTURBATIVE_NORMALIZATION_NOT_EARNED`
+- residual-budget tightening recorded without changing hardgate claim labels
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Regression:** 14 targeted tests passed · 0 failed (Sprint BQ targeted regression)
+**Next pillar slot:** 1011
 
 ## v34.6 (2026-09-03 — Sprint BP: Pillars 1006–1007)
 
@@ -99,7 +122,7 @@ Replace fragmented per-lane assumptions with a single parent-state object and fo
 **Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
 
 **Lean4:** 3912 → 3912 (+0)
-**Regression:** 63,441 passed · 23 skipped · 12 deselected · 0 failed
+**Regression:** 63,503 passed · 23 skipped · 12 deselected · 0 failed
 **Next pillar slot:** 998
 
 ---
@@ -124,7 +147,7 @@ Close one honest flavor family without pretending it is closed, wire α_s into t
 **Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM θ₁₃ residual, fermion moduli-lock residual, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
 
 **Lean4:** 3912 → 3912 (+0)
-**Regression:** 62,525 passed · 48 skipped · 12 deselected · 0 failed
+**Regression:** 63,503 passed · 23 skipped · 12 deselected · 0 failed
 **Next pillar slot:** 993
 
 ---

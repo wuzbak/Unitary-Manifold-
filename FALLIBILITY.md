@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v34.6 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BP** (2026-09-03; Pillars 1006–1007) turns the BO shared-5 framing into one narrow proof-first downstream test. P1006 asks whether the shared 5D / 6D / 7D packet actually promotes the checked-in CKM shadow lane; the executable answer is `CKM_SHADOW_PROMOTION_NOT_EARNED`, because the named missing object `GLOBAL_FLAVOR_BUNDLE_WITH_NONLOCAL_OVERLAP_TENSOR` remains absent and runtime status stays `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`. P1007 certifies the sprint. No open lane is hidden or promoted by rhetoric: the ×4–7 acoustic deficit remains CMB_AMP_CONFIRMED_IRREDUCIBLE, the surviving UV/flavor lanes remain explicit architecture limits, and 13D remains downstream-only unless a future lane really closes. Next pillar slot 1008. Focused regression: 10 passed · 0 skipped · 0 deselected · 0 failed.)*
+*Unitary Manifold v34.7 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BQ** (2026-09-03; Pillars 1008–1010) executes the next full two-hole program with binary outcomes. P1008 applies one named promotion gate across CKM shadow + fermion magnitude/radii and requires a real downstream status change; the gate object `GLOBAL_FLAVOR_BUNDLE_WITH_NONLOCAL_OVERLAP_TENSOR` remains absent, so the executable outcome is `FLAVOR_FAMILY_PROMOTION_NOT_EARNED`. P1009 runs one non-fitted nonperturbative/global-UV CMB normalization candidate; it supplies neither named missing CMB object, so no closure upgrade is earned and the residual-budget certificate is tightened. P1010 certifies the sprint. No open lane is hidden or promoted by rhetoric: the ×4–7 acoustic deficit remains CMB_AMP_CONFIRMED_IRREDUCIBLE, surviving UV/flavor lanes remain explicit architecture limits, and 13D remains downstream-only unless a future lane really closes. Next pillar slot 1011. Latest inherited full regression in branch history: 63,503 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: 14 targeted tests passed · 0 failed.)*
 
 ---
 
@@ -50,7 +50,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (62,525 passed · 48 skipped · 12 deselected · 0 failed (v34.0, 2026-09-02; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (63,503 passed · 23 skipped · 12 deselected · 0 failed (v34.0, 2026-09-02; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution

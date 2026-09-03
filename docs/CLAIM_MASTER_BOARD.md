@@ -1,9 +1,15 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v34.6
+# Unitary Manifold v34.7
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v34.6 — Sprint BP: Pillars 1006–1007. The checked-in branch now uses the BO shared-5 / 6D / 7D packet to interrogate one real downstream CKM lane and records the honest result that no 13D promotion is earned while the named missing flavor object remains absent. Next slot 1008. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v34.7 — Sprint BQ: Pillars 1008–1010. Primary lane applies one named flavor-family promotion gate and requires a real downstream status change; no gate closure was earned, so architecture limits remain explicit. Secondary lane tests one non-fitted CMB nonperturbative/global-UV normalization candidate; no closure upgrade is earned and the residual-budget certificate is tightened. Next slot 1011. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P1010 (v34.7): Sprint BQ Open-Hole Certificate — SPRINT_BQ_OPEN_HOLE_CERTIFICATE_COMPLETE. `src/core/pillar1010_sprint_bq_open_hole_certificate.py` certifies Sprint BQ (3 pillars 1008–1010; Lean4 3912→3912; next slot 1011; v34.7). The sprint enforces binary outcomes across the primary flavor-family gate and the secondary CMB candidate lane without narrative promotion.*
+
+*P1009 (v34.7): CMB Nonperturbative/Global-UV Normalization Candidate — CMB_NONPERTURBATIVE_NORMALIZATION_CANDIDATE_COMPLETE. `src/core/pillar1009_cmb_nonperturbative_normalization_candidate.py` executes one non-fitted candidate (`GLOBAL_UV_NONPERTURBATIVE_TRANSFER_NORMALIZATION_KERNEL`) and returns `CMB_NONPERTURBATIVE_NORMALIZATION_NOT_EARNED`. The CMB residual-budget lane is tightened while `CMB_AMP_CONFIRMED_IRREDUCIBLE` remains explicit.*
+
+*P1008 (v34.7): Flavor-Family Shared-5 Promotion Audit — FLAVOR_FAMILY_SHARED5_PROMOTION_AUDIT_COMPLETE. `src/core/pillar1008_flavor_family_shared5_promotion_audit.py` applies one named gate (`GLOBAL_FLAVOR_BUNDLE_WITH_NONLOCAL_OVERLAP_TENSOR`) across CKM shadow + fermion magnitude/radii and requires downstream status change for promotion. Current executable outcome is `FLAVOR_FAMILY_PROMOTION_NOT_EARNED`, with explicit non-promotion certificate and preserved dimensional role separation.*
 
 *P1007 (v34.6): Sprint BP Proof-First CKM Certificate — SPRINT_BP_PROOF_FIRST_CKM_CERTIFICATE_COMPLETE. `src/core/pillar1007_sprint_bp_proof_first_ckm_certificate.py` certifies Sprint BP (2 pillars 1006–1007; Lean4 3912→3912; next slot 1008; v34.6). The checked-in branch now requires any 13D upgrade claim to pass a real downstream status-change test instead of interpretive rhetoric.*
 
