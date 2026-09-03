@@ -70,7 +70,7 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
     ) and "/api/merlin/promotion-packet" in merlin_readme_text
 
     lane3_done = (
-        "63,639 passed · 23 skipped · 12 deselected · 0 failed · next pillar slot 1031 (v35.2 Sprint BV)"
+        "63,666 passed · 23 skipped · 12 deselected · 0 failed · next pillar slot 1032 (v35.3 Sprint BW)"
         in outreach_readme_text
         and "62,525 passed · 48 skipped · 12 deselected · 0 failed · next pillar slot 993 (v34.0 Sprint BL)"
         not in outreach_readme_text
@@ -86,7 +86,7 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
-        "valid": bool(all(lane_results.values())),
+        "valid": bool(prior_sync["valid"] and all(lane_results.values())),
         "lane_results": lane_results,
         "prior_dependency": {"pillar1030": prior_sync["valid"]},
         "binary_gate": "all_three_lanes_required",

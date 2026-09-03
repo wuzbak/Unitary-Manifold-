@@ -1,6 +1,8 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v35.3 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BW** (2026-09-03; Pillar 1031) locks Day-0 baseline reality against `STATUS.md`/`docs/mas_tracker.yml`/`docs/SPRINT_PLAN.md`, preserves the strict three-program closure order and no-label-inflation guardrails, and hardens Merlin replacement governance with explicit sustained empirical gate and promotion-packet pass/fail surfaces. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`. Next pillar slot 1032. Latest verified full regression in branch history: 63,639 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint BW targeted tests passed · 0 failed.)*
+*Unitary Manifold v35.3 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BW** (2026-09-03; Pillar 1031) locks Day-0 baseline reality against `STATUS.md`/`docs/mas_tracker.yml`/`docs/SPRINT_PLAN.md`, preserves the strict three-program closure order and no-label-inflation guardrails, and hardens Merlin replacement governance with explicit sustained empirical gate and promotion-packet pass/fail surfaces. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`. Next pillar slot 1032. Latest verified full regression in branch history: 63,666 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint BW targeted tests passed · 0 failed.)*
+
+*Historical continuity note: v35.2 Sprint BV (Pillars 1025–1030) remains the canonical closure-program execution layer directly below Sprint BW.*
 
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 and preserved the same explicit open-lane set before the Sprint BV closure-program execution step.*
 
@@ -52,7 +54,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (63,639 passed · 23 skipped · 12 deselected · 0 failed (v35.2, 2026-09-03; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (63,666 passed · 23 skipped · 12 deselected · 0 failed (v35.3, 2026-09-03; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -85,12 +87,12 @@ framework as a description of nature.  Specifically:
   Passing every test means the code faithfully executes the framework's
   equations.  It says nothing about whether those equations describe nature.
 
-The test count (currently 63,639) is a measure of **implementation coverage
+The test count (currently 63,666) is a measure of **implementation coverage
 and internal mathematical self-consistency**.  It is not a measure of
 empirical truth.  A physicist reading a large test count should understand
 exactly this and nothing more.
 
-When the README badge reads "63,639 passed · 0 failed," this is a statement about
+When the README badge reads "63,666 passed · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an

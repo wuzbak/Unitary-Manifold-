@@ -45,7 +45,7 @@ High-visibility stale status surfaces were updated to current branch reality, in
 - Pillars added: `1031`
 - Lean4: `3952` (unchanged)
 - Next pillar slot: `1032`
-- Latest verified full regression in branch history: `63,639 passed · 23 skipped · 12 deselected · 0 failed`
+- Latest verified full regression in branch history: `63,666 passed · 23 skipped · 12 deselected · 0 failed`
 
 This sprint is about control, not rhetoric. It strengthens execution quality without overstating closure.
 

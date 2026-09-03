@@ -131,10 +131,12 @@ class KnowledgeExchange:
     def history(
         self,
         agent_label: Optional[str] = None,
-        n: int = 50,
+        n: Optional[int] = None,
     ) -> List[Dict[str, Any]]:
         """
-        Return recent question/answer pairs, optionally filtered by agent.
+        Return question/answer pairs, optionally filtered by agent.
+
+        If ``n`` is provided, returns the most recent ``n`` rows.
         """
         if not _HISTORY_FILE.exists():
             return []
@@ -150,6 +152,8 @@ class KnowledgeExchange:
                 except (json.JSONDecodeError, KeyError):
                     continue
 
+        if n is None:
+            return rows
         return rows[-n:]
 
     # ── Internals ─────────────────────────────────────────────────────────────

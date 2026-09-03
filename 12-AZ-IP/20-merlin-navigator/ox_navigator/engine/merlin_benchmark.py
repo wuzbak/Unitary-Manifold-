@@ -208,8 +208,12 @@ def evaluate_empirical_gate(
     merlin_successes = sum(1 for item in comparable if bool(item["merlin"]["task_success"]))
     incumbent_successes = sum(1 for item in comparable if bool(item["incumbent"]["task_success"]))
     quality_regressions = sum(1 for delta in quality_deltas if delta < 0.0)
-    policy_violations = sum(
-        int(item["merlin"].get("high_severity_policy_violations", 0)) + int(item["incumbent"].get("high_severity_policy_violations", 0))
+    merlin_policy_violations = sum(
+        int(item["merlin"].get("high_severity_policy_violations", 0))
+        for item in comparable
+    )
+    incumbent_policy_violations = sum(
+        int(item["incumbent"].get("high_severity_policy_violations", 0))
         for item in comparable
     )
 
@@ -220,14 +224,15 @@ def evaluate_empirical_gate(
         "mean_quality_delta": round(mean(quality_deltas), 4),
         "mean_energy_delta_joules": round(mean(energy_deltas), 4),
         "quality_regressions": quality_regressions,
-        "high_severity_policy_violations": policy_violations,
+        "high_severity_policy_violations_merlin": merlin_policy_violations,
+        "high_severity_policy_violations_incumbent": incumbent_policy_violations,
     }
     checks = {
         "minimum_runs": run_count >= int(min_runs),
         "success_rate_parity_or_better": metrics["merlin_success_rate"] >= metrics["incumbent_success_rate"],
         "quality_regressions_within_limit": quality_regressions <= int(max_quality_regressions),
         "mean_energy_win": metrics["mean_energy_delta_joules"] > 0.0,
-        "zero_high_severity_policy_violations": policy_violations == 0,
+        "zero_high_severity_policy_violations_merlin": merlin_policy_violations == 0,
     }
     gate_pass = all(checks.values())
     return {

@@ -2,7 +2,7 @@
 
 This file is the required wave-level changelog ledger.
 **Current version: v35.3 (2026-09-03)**
-**Regression:** 63,639 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Regression:** 63,666 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
 **Next pillar slot:** 1032
 
 ## v35.3 (2026-09-03 — Sprint BW: Pillar 1031)
