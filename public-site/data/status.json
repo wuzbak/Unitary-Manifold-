@@ -1,19 +1,19 @@
 {
-  "version": "v34.0",
-  "date": "2026-09-02",
-  "tests_passed": 62525,
-  "tests_skipped": 48,
+  "version": "v35.2",
+  "date": "2026-09-03",
+  "tests_passed": 63639,
+  "tests_skipped": 23,
   "tests_deselected": 12,
   "tests_failed": 0,
-  "lean4_theorems": 3912,
+  "lean4_theorems": 3952,
   "pillars_hardgate": 208,
-  "pillars_total": 992,
-  "next_pillar_slot": 993,
+  "pillars_total": 1030,
+  "next_pillar_slot": 1031,
   "primary_falsifier": "LiteBIRD \u03b2 \u2208 {0.273\u00b0, 0.331\u00b0} (~2032)",
   "open_tensions": [
     {
       "name": "Flavor family boundary",
-      "status": "FLAVOR_FAMILY_BOUNDARY_MAPPED"
+      "status": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED"
     },
     {
       "name": "\u03b1_s Type-B floor",
@@ -25,7 +25,7 @@
     },
     {
       "name": "DESI w_a dataset split",
-      "status": "DESI_DR2_DATASET_DEPENDENT"
+      "status": "DATASET_DEPENDENT"
     }
   ],
   "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
