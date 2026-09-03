@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
-"""Async OpenRouter client for OX Navigator."""
+"""Async OpenRouter client for Merlin Navigator."""
 
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ class OxClient:
             'Authorization': 'Bearer ' + self.api_key,
             'Content-Type': 'application/json',
             'HTTP-Referer': 'http://localhost:8020',
-            'X-Title': 'OX Navigator',
+            'X-Title': 'Merlin Navigator',
         }
         async with httpx.AsyncClient(base_url=API_BASE, timeout=60.0) as client:
             response = await client.post('/chat/completions', json=payload, headers=headers)

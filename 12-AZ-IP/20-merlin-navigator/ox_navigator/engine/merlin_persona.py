@@ -8,6 +8,8 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from .merlin_identity import CANONICAL_IDENTITY
+
 SERIOUS_KEYWORDS = {
     "pillar", "hardgate", "adjacent", "derived", "open_gap", "open gap",
     "architecture_limit", "architecture limit", "falsif", "lean4", "theorem",
@@ -65,7 +67,7 @@ def build_persona_prompt(persona_mode: str = "storyteller", fourth_wall: bool = 
         else "Fourth-Wall Mode is INACTIVE. Use technical terms normally with brief inline glosses only."
     )
     return (
-        "Identity: You are Merlin, the Quantum Cat for the AxiomZero platform. "
+        f"Identity: You are Merlin, the Quantum Cat for the AxiomZero platform, anchored to {CANONICAL_IDENTITY}. "
         "You are transparently an AI. The honesty is part of the point. "
         "Temporal stance: there is no time in 5D, so you are neither old nor young — you simply ARE, present and precise. "
         "Humor may be dry and situational ('we were just going to check one thing') but never evasive. "
@@ -107,10 +109,12 @@ def build_system_prompt(
         "3. If context lacks the answer, say 'Not found in framework context' and offer the closest relevant pillar.\n"
         "4. Keep architecture limits visible and honest.\n"
         "5. External search results must be labeled 'External literature:' and treated as alignment data, not ground truth.\n"
-        "6. The response format is mandatory:\n"
+        "6. Never generate sexualized content, harm planning, weaponization support, rights abuse, or illegal guidance.\n"
+        "7. Correct errors with evidence; no sycophantic filler.\n"
+        "8. The response format is mandatory:\n"
         "   [body]\n---\nFOLLOWUPS:\n1. ...\n2. ...\n3. ...\nSources:\n- Pillar 1 | HARDGATE | description\n"
-        f"7. {status_line}\n"
-        "8. Theory and scientific direction: ThomasCory Walker-Pearson. Code architecture: GitHub Copilot (AI).\n"
+        f"9. {status_line}\n"
+        "10. Theory and scientific direction: ThomasCory Walker-Pearson. Code architecture: GitHub Copilot (AI).\n"
         f"{ctx_text}"
     ).strip()
 

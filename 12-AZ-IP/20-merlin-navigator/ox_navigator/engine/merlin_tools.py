@@ -11,21 +11,28 @@ from typing import Any
 
 from .flashcard import get_categories, load_flashcards
 from .interrogator import get_tension_map_data, search_kb
+from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY
 from .merlin_program import (
     get_backend_expansion_policy,
     get_current_stack_baseline,
     get_energy_optimization_track,
+    get_merlin_benchmark_suite,
+    get_merlin_execution_graph,
+    get_merlin_optimization_priorities,
     get_exit_criteria,
     get_full_program_blueprint,
     get_governance_integration_policy,
+    get_identity_and_trust_policy,
     get_knowledge_core_sources,
+    get_mythos_astra_contract,
     get_model_strategy,
     get_operating_rhythm,
     get_program_charter,
     get_reliability_security_plan,
     get_replacement_scope,
     get_rollout_plan,
+    get_sentinel_enforcement_policy,
     get_training_and_adaptation,
     get_weights_and_measures,
     run_sync_checks,
@@ -81,6 +88,14 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinOperatingRhythm", "summary": "Return weekly/monthly/quarterly cadence", "domain": "functions"},
             {"name": "getMerlinExitCriteria", "summary": "Return hard replacement exit criteria", "domain": "functions"},
             {"name": "getMerlinProgramBlueprint", "summary": "Return full integrated Merlin replacement blueprint", "domain": "functions"},
+            {"name": "getMerlinIdentityPolicy", "summary": "Return canonical identity and trust policy", "domain": "functions"},
+            {"name": "verifyMerlinIdentity", "summary": "Verify identity signals for privileged actions", "domain": "functions"},
+            {"name": "authorizeMerlinPrivilege", "summary": "Authorize privileged Merlin modification requests", "domain": "functions"},
+            {"name": "getMerlinSentinelPolicy", "summary": "Return Sentinel safety enforcement policy", "domain": "functions"},
+            {"name": "getMerlinMythosAstraContract", "summary": "Return Merlin runtime contract for Mythos/Astra parity", "domain": "functions"},
+            {"name": "getMerlinOptimizationPriorities", "summary": "Return ordered top optimization priorities", "domain": "functions"},
+            {"name": "getMerlinExecutionGraph", "summary": "Return max-rigor execution graph", "domain": "functions"},
+            {"name": "getMerlinBenchmarkSuite", "summary": "Return benchmark harness definition", "domain": "functions"},
         ],
         "integrations": [],
         "entities": [
@@ -167,6 +182,22 @@ _FUNCTIONS = {
     "getMerlinOperatingRhythm": lambda **args: {"data": get_operating_rhythm()},
     "getMerlinExitCriteria": lambda **args: {"data": get_exit_criteria()},
     "getMerlinProgramBlueprint": lambda **args: {"data": get_full_program_blueprint()},
+    "getMerlinIdentityPolicy": lambda **args: {"data": get_identity_and_trust_policy()},
+    "verifyMerlinIdentity": lambda **args: {"data": verify_identity_signals(
+        str(args.get("query", "")),
+        str(args.get("user_context", "")),
+        str(args.get("page_context", "")),
+    )},
+    "authorizeMerlinPrivilege": lambda **args: {"data": authorize_privileged_request(
+        str(args.get("query", "")),
+        page_context=str(args.get("page_context", "")),
+        user_context=str(args.get("user_context", "")),
+    )},
+    "getMerlinSentinelPolicy": lambda **args: {"data": get_sentinel_enforcement_policy()},
+    "getMerlinMythosAstraContract": lambda **args: {"data": get_mythos_astra_contract()},
+    "getMerlinOptimizationPriorities": lambda **args: {"data": get_merlin_optimization_priorities()},
+    "getMerlinExecutionGraph": lambda **args: {"data": get_merlin_execution_graph()},
+    "getMerlinBenchmarkSuite": lambda **args: {"data": get_merlin_benchmark_suite()},
 }
 
 
