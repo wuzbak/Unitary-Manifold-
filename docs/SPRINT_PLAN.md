@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-02 (v34.0 Sprint BL COMPLETE — Pillars 982–992; Lean4 3912→3912; next slot 993)*
+*Last updated: 2026-09-03 (v34.1 Sprint BM COMPLETE — Pillars 993–997; Lean4 3912→3912; next slot 998)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,18 +16,18 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v34.0 — Sprint BL)
+## CURRENT AUDITABLE STATE (v34.1 — Sprint BM)
 
 | Field | Value |
 |-------|-------|
-| Version | **v34.0** |
-| Sprint | **Sprint BL** |
-| Pillars | **982–992** |
-| Next pillar slot | **993** |
+| Version | **v34.1** |
+| Sprint | **Sprint BM** |
+| Pillars | **993–997** |
+| Next pillar slot | **998** |
 | Lean4 theorems | **3912** |
-| Sprint theme | **Flavor-family + UV-boundary consolidation** |
-| Primary target | **Shared UV flavor/moduli boundary** |
-| Binary outcome | **FLAVOR_FAMILY_BOUNDARY_MAPPED** |
+| Sprint theme | **13D parent-structure execution with binary closure policy** |
+| Primary target | **Single parent-state runtime feeding CKM + fermion lanes** |
+| Binary outcome | **CLOSED_OR_ARCHITECTURE_LIMIT_ONLY** |
 
 ---
 
@@ -36,8 +36,8 @@ Proceed only when all three agree.
 1. `CMB_AMP_CONFIRMED_IRREDUCIBLE` (TYPE_B G1)
 2. `ALPHA_S_TYPE_B_FLOOR` (TYPE_B G2)
 3. `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW` (TYPE_B G3)
-4. `CKM_THETA13_ARCHITECTURE_LIMIT`
-5. `FERMION_MASS_MAGNITUDES_MODULI_LOCK_TENSION`
+4. `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`
+5. `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`
 6. `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED` (TYPE_B G4)
 7. `DESI_DR3_MONITORING` (~2027)
 8. `LITEBIRD_BIREFRINGENCE` (~2032)
@@ -48,7 +48,7 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BL pause / external-decision stewardship)
+## NEXT PHASE PRIORITIES (post-BM continuation)
 
 1. **Truth-surface lockstep first**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, and this file synchronized in one change set.

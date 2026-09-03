@@ -1,9 +1,34 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v34.0 (2026-09-02)**
-**Regression:** 62,525 passed · 48 skipped · 12 deselected · 0 failed
-**Next pillar slot:** 993
+**Current version: v34.1 (2026-09-03)**
+**Regression:** 63,441 passed · 23 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 998
+
+---
+
+## v34.1 (2026-09-03 — Sprint BM: Pillars 993–997)
+
+**What changed:**
+Pillars 993–997 (5 pillars). Sprint BM executes the 13D parent-structure program as one coherent runtime chain. (1) P993 locks a machine-readable parent→shadow dictionary and explicitly separates true projections from effective shadows. (2) P994 creates one unified 13D compactification state consumed by downstream flavor lanes. (3) P995 reruns CKM θ₁₃ / |Vub| / Jarlskog strictly from the unified parent state and returns only a binary result: closure or certified architecture limit with a named missing object. (4) P996 reruns fermion magnitude/radii closure from the same parent state and returns the same binary form. (5) P997 consolidates the sprint as a master certificate with no-middle-state policy.
+
+**Why:**
+Replace fragmented per-lane assumptions with a single parent-state object and force hard binary outcomes on unresolved flavor lanes, so every result is either a real closure or an explicit architecture boundary.
+
+**Epistemic label deltas:**
+- `CKM_THETA13_ARCHITECTURE_LIMIT` → `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`
+- `FERMION_MASS_MAGNITUDES_MODULI_LOCK_TENSION` → `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`
+- Parent→shadow classification is now explicit and machine-readable (`TRUE_PROJECTION` vs `EFFECTIVE_SHADOW`)
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Regression:** 63,441 passed · 23 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 998
 
 ---
 

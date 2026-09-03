@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v34.0
+# Unitary Manifold v34.1
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v34.1 sync note (Sprint BM — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BM: Pillars 993–997; Lean4 3912; next pillar slot 998; latest verified full regression 63,441 passed · 23 skipped · 12 deselected · 0 failed.*
+*(2) Sprint BM upgrades the 13D parent-structure lane from narrative to executable runtime: P993 locks the parent→shadow dictionary and classifies true projections vs effective shadows under explicit consistency gates.*
+*(3) P994 introduces one unified 13D compactification state consumed by CKM and fermion closure lanes, removing disconnected per-lane geometry assumptions.*
+*(4) P995 (CKM) and P996 (fermion magnitudes) are binary-only lanes: each returns either CLOSED or ARCHITECTURE_LIMIT with a named missing object. No middle-state wording is allowed in this lane family.*
+*(5) P997 records the sprint-wide certificate and preserves the explicit open set: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3, LiteBIRD.*
 
 *v34.0 sync note (Sprint BL — 2026-09-02):*
 *(1) Auditable checked-in branch state is Sprint BL: Pillars 982–992; Lean4 3912; next pillar slot 993; latest verified full regression 62,525 passed · 48 skipped · 12 deselected · 0 failed.*
