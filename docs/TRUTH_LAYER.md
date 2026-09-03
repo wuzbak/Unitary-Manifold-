@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v35.0
+# Unitary Manifold v35.1
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v35.1 sync note (Sprint BU — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BU: Pillars 1021–1024; Lean4 3936; next pillar slot 1025; focused regression: 134 passed · 0 failed (Sprint BU targeted regression).*
+*(2) The embryology/genetics lane is **not** promoted wholesale. P1021 promotes only exact kernels: `HOX_clusters = 4`, HOX co-linearity as an order theorem kernel, centriole `9` / `10` integer kernels, and the exact dielectric threshold `ε_r,crit = 1/c_s²`.*
+*(3) The vertebrate `HOX_groups = 10` statement remains explicit non-promotion: it is retained as `FORMAL_ANALOGY_ONLY`, because vertebrates have 13 paralog groups. Likewise, the empirical HOX boundary-fit lane stays adjacent-track and the hydration mass-ratio step stays model-dependent.*
+*(4) P1022 advances P636 honestly: the exact arithmetic/parity kernel is now Lean4-backed, while the Hilbert-space functional-analysis equivalence remains the residual-open step. This is a formal-status improvement, not a claim that the entire referee-grade proof burden is closed.*
+*(5) Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`.*
 
 *v35.0 sync note (Sprint BT — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BT: Pillar 1020; Lean4 3912; next pillar slot 1021; focused regression: Pillar 1020 targeted tests passed · 0 failed.*

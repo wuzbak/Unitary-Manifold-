@@ -385,7 +385,7 @@ class ConsciousnessReport:
     """Predicted zinc ion count N_Zn = k_CS^N_W = 74^5 ≈ 2.19×10⁹."""
 
     hox_groups: int
-    """HOX gene group count = 2 × N_W = 10 (Drosophila-like count; vertebrates have 13 paralog groups — see FALLIBILITY.md §IV)."""
+    """HOX gene group count = 2 × N_W = 10 (core mirror-slot / Drosophila-like analogy only; vertebrates have 13 paralog groups — see FALLIBILITY.md §XIII.1)."""
 
     hox_clusters: int
     """HOX clusters = 2^(N_2−N_W) = 2^2 = 4 (vertebrate HOX clusters)."""

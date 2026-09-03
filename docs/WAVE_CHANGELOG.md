@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v35.0 (2026-09-03)**
+**Current version: v35.1 (2026-09-03)**
 **Regression:** 63,544 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1021
+**Next pillar slot:** 1025
+
+## v35.1 (2026-09-03 — Sprint BU: Pillars 1021–1024)
+
+**What changed:**
+Pillars 1021–1024 (4 pillars). Sprint BU turns the earlier promotion plan into a narrower honesty-first implementation. (1) P1021 promotes only the exact embryology kernels that are actually ready: `HOX_clusters = 4`, HOX co-linearity as an order-preserving orbifold-unrolling kernel, centriole `9` / `10` integer identities, and the exact hydration threshold `ε_r,crit = 1/c_s²`. (2) P1022 adds a Lean4-backed exact kernel for the P636 SU(3) orbifold-equivalence lane while keeping the Hilbert-space functional-analysis residual open. (3) P1023 certifies the sprint outcome. (4) P1024 certifies status-surface coherence.
+
+**Why:**
+Promote what is exact with a small amount of work, contain what is still analogy/mechanism/data-dependent, and avoid whole-lane biology promotion that would overstate the evidence.
+
+**Epistemic label deltas:**
+- new executable bundle verdict: `EMBRYOLOGY_EXACT_KERNELS_CERTIFIED`
+- new formal-status certificate: `SU3_ORBIFOLD_LEAN4_KERNEL_CERTIFIED`
+- vertebrate `HOX_groups = 10` stays `FORMAL_ANALOGY_ONLY`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged, including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3936 (+24)
+**Regression:** 134 passed · 0 failed (Sprint BU targeted regression)
+**Next pillar slot:** 1025
 
 ## v35.0 (2026-09-03 — Sprint BT: Pillar 1020)
 
