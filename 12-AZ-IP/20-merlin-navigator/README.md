@@ -3,7 +3,7 @@
 
 > "Ask the repository. Keep the gates visible. Keep the governance boundary explicit. Merlin is the application OX was supposed to become."
 
-- **Folder:** `12-AZ-IP/20-ox-navigator/`
+- **Folder:** `12-AZ-IP/20-merlin-navigator/`
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** `stealth/ox-alpha` via OpenRouter when live; offline RAG fallback when not
@@ -106,14 +106,14 @@
 ### With an API key
 ```bash
 export OPENROUTER_API_KEY=your_openrouter_key
-cd 12-AZ-IP/20-ox-navigator
+cd 12-AZ-IP/20-merlin-navigator
 pip install -r requirements.txt
 python run.py --port 8020 --no-open
 ```
 
 ### Without an API key
 ```bash
-cd 12-AZ-IP/20-ox-navigator
+cd 12-AZ-IP/20-merlin-navigator
 pip install -r requirements.txt
 python run.py --port 8020 --no-open
 ```
@@ -703,7 +703,7 @@ python run.py --port 8020 --no-open
 - **UI loads but live calls fail:** confirm the page is served by the local app and that `/api/ox` is reachable.
 - **Interrogator returns no results:** try shorter lexical queries such as `birefringence`, `LiteBIRD`, or `dark energy`.
 - **Flashcards look incomplete:** verify that `ui/flashcard-deck.json` exists beside the HTML file.
-- **Tests fail unexpectedly:** run `python -m pytest tests/` from inside `12-AZ-IP/20-ox-navigator/`.
+- **Tests fail unexpectedly:** run `python -m pytest tests/` from inside `12-AZ-IP/20-merlin-navigator/`.
 
 ## Governance reminder
 

@@ -363,7 +363,7 @@
       "sha256": "3f35d5e220140d70d1eecdf380e35e532e382731a780dd5230091f9ae98636dc",
       "size_bytes": 8749
     },
-    "12-AZ-IP/20-ox-navigator/ox_navigator/engine/client.py": {
+    "12-AZ-IP/20-merlin-navigator/ox_navigator/engine/client.py": {
       "description": "Merlin Navigator (legacy OX compatibility) \u2014 OpenRouter/stealth/ox-alpha client with gate-badge extraction and session history",
       "category": "apps",
       "status": "REGISTERED",
@@ -582,7 +582,7 @@
       "port": "Browser + /api/merlin (+ /api/ox compatibility)",
       "tests": "149",
       "description": "AI physics/governance navigator using stealth/ox-alpha via OpenRouter with offline fallback. Features gate-badge extraction, identity trust policy, Sentinel do-no-harm enforcement, privileged-change controls, and compatibility shim endpoints. Includes Axiom Zero Interrogator and Flashcard Trainer sub-tools.",
-      "link": "20-ox-navigator/",
+      "link": "20-merlin-navigator/",
       "pillar_refs": [
         "P789",
         "P790",

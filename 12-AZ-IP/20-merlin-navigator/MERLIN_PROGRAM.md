@@ -5,7 +5,7 @@ This document records the implemented execution blueprint for making Merlin the 
 ## Implemented surfaces
 
 - Runtime blueprint module:
-  - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-ox-navigator/ox_navigator/engine/merlin_program.py`
+  - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_program.py`
 - Toolkit functions exposed through `/api/agentInvoke`:
   - `getMerlinProgramCharter`
   - `getMerlinReplacementScope`

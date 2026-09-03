@@ -106,7 +106,7 @@ def get_replacement_scope() -> dict[str, Any]:
 
 def get_current_stack_baseline() -> dict[str, Any]:
     return {
-        "baseline_product": "12-AZ-IP/20-ox-navigator",
+        "baseline_product": "12-AZ-IP/20-merlin-navigator",
         "live_model_transport": "OpenRouter stealth/ox-alpha",
         "current_limits": {
             "live_dependency": "OPENROUTER_API_KEY required for live model path",

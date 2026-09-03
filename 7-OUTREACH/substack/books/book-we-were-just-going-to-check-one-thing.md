@@ -3353,7 +3353,7 @@ Each of these directories has its own module files corresponding to the pillars 
 | 17 UM Image Generator | 12-AZ-IP/17-um-image-generator/ | ~40 |
 | 18 UM Reader | 12-AZ-IP/18-um-reader/ | ~45 |
 | 19 Falsification Observatory | 12-AZ-IP/19-falsification-observatory/ | ~50 |
-| 20 OX Navigator | 12-AZ-IP/20-ox-navigator/ | ~40 |
+| 20 OX Navigator | 12-AZ-IP/20-merlin-navigator/ | ~40 |
 | 21 Geo Monitor | 12-AZ-IP/21-geo-monitor/ | 204 |
 | 22 Solar Generation Estimator | 12-AZ-IP/22-az-sge/ | ~40 |
 

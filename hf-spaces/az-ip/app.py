@@ -271,7 +271,7 @@ PRODUCTS = {
         "name": "OX Navigator",
         "category": "apps",
         "description": "Extended AI memory via OX Alpha (stealth/ox-alpha) — full UM context ~85k tokens",
-        "path": "12-AZ-IP/20-ox-navigator/",
+        "path": "12-AZ-IP/20-merlin-navigator/",
         "key_files": ["ox-navigator.js", "ox-navigator.py"],
         "trl": "TRL 6",
         "status": "REGISTERED",

@@ -324,7 +324,7 @@ The `12-AZ-IP/` directory contains 22 products. They include:
 - `17-um-image-generator`: an image generation interface for the framework
 - `18-um-reader`: a reader for Unitary Manifold documentation
 - `19-falsification-observatory`: a live monitoring dashboard for the framework's open falsification conditions
-- `20-ox-navigator`: an ontology and cross-reference navigator
+- `20-merlin-navigator`: an ontology and cross-reference navigator
 - `21-geo-monitor`: a geophysical hazard monitor
 
 I want to dwell on the geophysical hazard monitor.
