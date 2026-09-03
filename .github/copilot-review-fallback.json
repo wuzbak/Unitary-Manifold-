@@ -1,0 +1,11 @@
+{
+  "preferred_model": "claude-sonnet-5",
+  "fallback_models": [
+    "claude-fable-5",
+    "gpt-5.5",
+    "gpt-5.4"
+  ],
+  "cooldown_hours": 72,
+  "max_issue_comments": 100,
+  "max_pull_reviews": 100
+}
