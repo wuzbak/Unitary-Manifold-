@@ -35,7 +35,7 @@ UI_ROOT = PRODUCT_ROOT / 'ui'
 REPO_ROOT = PRODUCT_ROOT.parents[1]
 CONTEXT_PACK = REPO_ROOT / '9-INFRASTRUCTURE' / 'ox_full_context.md'
 _SESSION = OxSession()
-_MERLIN_SESSION = MerlinSession()
+_MERLIN_SESSIONS: dict[str, MerlinSession] = {}
 
 
 class OxRequestHandler(SimpleHTTPRequestHandler):
@@ -53,9 +53,19 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _merlin_session(self) -> MerlinSession:
+        session_id = (
+            str(self.headers.get('X-Merlin-Session') or '').strip()
+            or f'client:{self.client_address[0]}'
+        )
+        if session_id not in _MERLIN_SESSIONS:
+            _MERLIN_SESSIONS[session_id] = MerlinSession()
+        return _MERLIN_SESSIONS[session_id]
+
     def do_GET(self):  # noqa: N802
         parsed = urlparse(self.path)
         params = parse_qs(parsed.query)
+        merlin_session = self._merlin_session()
         if parsed.path == '/api/merlin/status':
             self._json({
                 'service': 'Merlin — the Quantum Cat',
@@ -68,8 +78,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'capability_views': ['index', 'domain', 'tool', 'full', 'state'],
                 'router_policy': get_router_policy(),
                 'live_status': route_tool('fetchRepoContext').get('result', {}).get('data', {}),
-                'memory': _MERLIN_SESSION.get_public_memory_state(),
-                'telemetry': _MERLIN_SESSION.get_telemetry_summary(public=True),
+                'memory': merlin_session.get_public_memory_state(),
+                'telemetry': merlin_session.get_telemetry_summary(public=True),
                 'compatibility': {
                     'legacy_query_endpoint': '/api/ox',
                     'legacy_status_endpoint': '/api/ox/status',
@@ -80,10 +90,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._json({'ok': True, 'program': get_full_program_blueprint()})
             return
         if parsed.path == '/api/merlin/memory':
-            self._json({'ok': True, 'memory': _MERLIN_SESSION.get_public_memory_state()})
+            self._json({'ok': True, 'memory': merlin_session.get_public_memory_state()})
             return
         if parsed.path == '/api/merlin/telemetry':
-            self._json({'ok': True, 'telemetry': _MERLIN_SESSION.get_telemetry_summary(public=True)})
+            self._json({'ok': True, 'telemetry': merlin_session.get_telemetry_summary(public=True)})
             return
         if parsed.path == '/api/merlin/runtime':
             self._json({
@@ -99,7 +109,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._json({
                 'ok': True,
                 'benchmarks': get_merlin_benchmark_suite(),
-                'telemetry': _MERLIN_SESSION.get_telemetry_summary(public=True),
+                'telemetry': merlin_session.get_telemetry_summary(public=True),
             })
             return
         if parsed.path == '/api/merlin/identity':
@@ -141,6 +151,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):  # noqa: N802
         parsed = urlparse(self.path)
+        merlin_session = self._merlin_session()
         length = int(self.headers.get('Content-Length', '0'))
         raw = self.rfile.read(length)
         try:
@@ -154,13 +165,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             if not tool:
                 self._json({'error': 'tool is required'}, status=400)
                 return
-            self._json(route_tool(tool, dict(payload.get('args') or {}), session=_MERLIN_SESSION))
+            self._json(route_tool(tool, dict(payload.get('args') or {}), session=merlin_session))
             return
 
         if parsed.path == '/api/agentOrchestrate':
             steps = list(payload.get('steps') or [])
             try:
-                self._json(orchestrate_steps(steps, session=_MERLIN_SESSION))
+                self._json(orchestrate_steps(steps, session=merlin_session))
             except ValueError as exc:
                 self._json({'ok': False, 'error': str(exc)}, status=400)
             return
@@ -177,7 +188,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             try:
                 result = asyncio.run(query_merlin(
                     text=query,
-                    session=_MERLIN_SESSION,
+                    session=merlin_session,
                     on_status=[],
                     model_override=str(payload.get('model') or '') or None,
                     fourth_wall=fourth_wall,

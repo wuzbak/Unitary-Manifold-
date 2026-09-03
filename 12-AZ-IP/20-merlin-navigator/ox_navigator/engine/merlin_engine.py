@@ -315,7 +315,14 @@ async def query_merlin(
             ],
         )
         session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
-        audit = session.audit_memory(text)
+        audit = {
+            "query": text,
+            "timestamp": "",
+            "matched_memory_count": 0,
+            "matched_scopes": [],
+            "matched_facts": [],
+            "matched_memory": [],
+        }
         telemetry = build_run_telemetry(
             query=text,
             answer=processed["answer"],
@@ -366,7 +373,14 @@ async def query_merlin(
             ],
         )
         session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
-        audit = session.audit_memory(text)
+        audit = {
+            "query": text,
+            "timestamp": "",
+            "matched_memory_count": 0,
+            "matched_scopes": [],
+            "matched_facts": [],
+            "matched_memory": [],
+        }
         telemetry = build_run_telemetry(
             query=text,
             answer=processed["answer"],
