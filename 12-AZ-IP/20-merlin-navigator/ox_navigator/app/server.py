@@ -68,6 +68,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'capability_views': ['index', 'domain', 'tool', 'full', 'state'],
                 'router_policy': get_router_policy(),
                 'live_status': route_tool('fetchRepoContext').get('result', {}).get('data', {}),
+                'memory': _MERLIN_SESSION.get_memory_state(),
+                'telemetry': _MERLIN_SESSION.get_telemetry_summary(),
                 'compatibility': {
                     'legacy_query_endpoint': '/api/ox',
                     'legacy_status_endpoint': '/api/ox/status',
@@ -76,6 +78,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             return
         if parsed.path == '/api/merlin/program':
             self._json({'ok': True, 'program': get_full_program_blueprint()})
+            return
+        if parsed.path == '/api/merlin/memory':
+            self._json({'ok': True, 'memory': _MERLIN_SESSION.get_memory_state()})
+            return
+        if parsed.path == '/api/merlin/telemetry':
+            self._json({'ok': True, 'telemetry': _MERLIN_SESSION.get_telemetry_summary()})
             return
         if parsed.path == '/api/merlin/runtime':
             self._json({
@@ -88,7 +96,11 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             })
             return
         if parsed.path == '/api/merlin/benchmarks':
-            self._json({'ok': True, 'benchmarks': get_merlin_benchmark_suite()})
+            self._json({
+                'ok': True,
+                'benchmarks': get_merlin_benchmark_suite(),
+                'telemetry': _MERLIN_SESSION.get_telemetry_summary(),
+            })
             return
         if parsed.path == '/api/merlin/identity':
             self._json({'ok': True, 'identity': get_identity_policy()})
@@ -142,13 +154,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             if not tool:
                 self._json({'error': 'tool is required'}, status=400)
                 return
-            self._json(route_tool(tool, dict(payload.get('args') or {})))
+            self._json(route_tool(tool, dict(payload.get('args') or {}), session=_MERLIN_SESSION))
             return
 
         if parsed.path == '/api/agentOrchestrate':
             steps = list(payload.get('steps') or [])
             try:
-                self._json(orchestrate_steps(steps))
+                self._json(orchestrate_steps(steps, session=_MERLIN_SESSION))
             except ValueError as exc:
                 self._json({'ok': False, 'error': str(exc)}, status=400)
             return

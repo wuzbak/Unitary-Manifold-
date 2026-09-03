@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
-"""Safe, read-mostly tool registry and orchestration helpers for Merlin."""
+"""Safe, tiered tool registry and orchestration helpers for Merlin."""
 
 from __future__ import annotations
 
@@ -12,8 +12,9 @@ from typing import Any
 from .flashcard import get_categories, load_flashcards
 from .interrogator import get_tension_map_data, search_kb
 from .merlin_admission import evaluate_model_admission, get_model_admission_policy
+from .merlin_benchmark import evaluate_benchmark_response, get_stage_a_benchmark_corpus
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
-from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY
+from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
     get_backend_expansion_policy,
     get_current_stack_baseline,
@@ -50,6 +51,8 @@ from .merlin_rag import (
 )
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
+_DEFAULT_MERLIN_SESSION = MerlinSession()
+
 MERLIN_SESSION_SCHEMA = {
     "title": "MerlinSession",
     "type": "object",
@@ -67,8 +70,7 @@ MERLIN_SESSION_SCHEMA = {
 
 
 def _tool_manifest() -> dict[str, Any]:
-    return {
-        "functions": [
+    functions = [
             {"name": "fetchRepoContext", "summary": "Return canonical live repo status", "domain": "functions"},
             {"name": "listPillars", "summary": "List representative pillar records", "domain": "functions"},
             {"name": "getPillar", "summary": "Return one pillar by id", "domain": "functions"},
@@ -109,14 +111,96 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinOptimizationPriorities", "summary": "Return ordered top optimization priorities", "domain": "functions"},
             {"name": "getMerlinExecutionGraph", "summary": "Return max-rigor execution graph", "domain": "functions"},
             {"name": "getMerlinBenchmarkSuite", "summary": "Return benchmark harness definition", "domain": "functions"},
-        ],
+            {"name": "getMerlinBenchmarkCorpus", "summary": "Return Stage A benchmark prompt corpus", "domain": "functions"},
+            {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Stage A benchmark", "domain": "functions"},
+            {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
+            {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
+            {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
+        ]
+    policy_overrides = {
+        "getPillar": {
+            "args_schema": {"type": "object", "properties": {"pillar_id": {"type": "integer"}}, "additionalProperties": True},
+        },
+        "searchKnowledgeBase": {
+            "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
+        },
+        "searchInterrogator": {
+            "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
+        },
+        "previewMerlinRoute": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "confidence": {"type": "number"},
+                },
+                "required": ["query"],
+            },
+        },
+        "evaluateMerlinModelAdmission": {
+            "args_schema": {"type": "object", "properties": {"model": {"type": "object"}}, "required": ["model"]},
+            "risk_level": "medium",
+        },
+        "verifyMerlinIdentity": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "user_context": {"type": "string"},
+                    "page_context": {"type": "string"},
+                },
+            },
+            "risk_level": "medium",
+        },
+        "authorizeMerlinPrivilege": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "user_context": {"type": "string"},
+                    "page_context": {"type": "string"},
+                },
+            },
+            "risk_level": "high",
+            "requires_human_gate": True,
+        },
+        "evaluateMerlinBenchmarkResponse": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "benchmark_id": {"type": "string"},
+                    "response": {"type": "object"},
+                },
+                "required": ["benchmark_id", "response"],
+            },
+        },
+        "runMerlinMemoryAudit": {
+            "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
+            "capability_class": "state_read",
+        },
+        "getMerlinMemoryState": {"capability_class": "state_read"},
+        "getMerlinTelemetrySummary": {"capability_class": "state_read"},
+    }
+    enriched_functions = []
+    for item in functions:
+        enriched = {
+            "capability_class": "read",
+            "risk_level": "low",
+            "requires_human_gate": False,
+            "args_schema": {"type": "object", "properties": {}, "additionalProperties": True},
+            **item,
+            **policy_overrides.get(item["name"], {}),
+        }
+        enriched_functions.append(enriched)
+    return {
+        "functions": enriched_functions,
         "integrations": [],
         "entities": [
             {
                 "name": "MerlinSession",
-                "summary": "Planned saved-session library. Standalone Product 20 currently exposes schema only.",
+                "summary": "Audited Merlin session with durable memory, contradictions, and telemetry.",
                 "domain": "entities",
-                "operations": ["schema"],
+                "operations": ["schema", "state", "audit"],
             },
         ],
         "connectors": [
@@ -124,6 +208,7 @@ def _tool_manifest() -> dict[str, Any]:
                 "name": "github",
                 "summary": "Standalone compatibility summary only; no token exposure.",
                 "domain": "connectors",
+                "risk_level": "low",
             },
         ],
         "secrets": [
@@ -274,12 +359,14 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
                 "policy": get_router_policy(),
                 "openrouter_compat_enabled": bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT")),
             },
+            "memory": _DEFAULT_MERLIN_SESSION.get_memory_state(),
+            "telemetry": _DEFAULT_MERLIN_SESSION.get_telemetry_summary(),
             "entities": {
                 "MerlinSession": {
-                    "summary": "Planned cross-device saved-session library; schema only in standalone Product 20.",
+                    "summary": "Audited multi-tier session memory with contradiction tracking and measurable run telemetry.",
                     "schema": MERLIN_SESSION_SCHEMA,
-                    "sample_count": 0,
-                    "samples": [],
+                    "sample_count": len(_DEFAULT_MERLIN_SESSION.get_history()),
+                    "samples": _DEFAULT_MERLIN_SESSION.get_history()[-3:],
                     "storage_keys": [MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY],
                 },
             },
@@ -287,9 +374,12 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
     return {"view": view, "error": "unsupported view"}
 
 
-def route_tool(tool: str, args: dict[str, Any] | None = None) -> dict[str, Any]:
+def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: MerlinSession | None = None) -> dict[str, Any]:
     """Route a Merlin tool call to a safe local capability."""
     args = dict(args or {})
+    active_session = session or _DEFAULT_MERLIN_SESSION
+    manifest = _tool_manifest()
+    policy = next((item for item in manifest["functions"] if item["name"] == tool), None)
     started = time.perf_counter()
     tool_type = "unknown"
     ok = True
@@ -299,14 +389,33 @@ def route_tool(tool: str, args: dict[str, Any] | None = None) -> dict[str, Any]:
         if tool in _FUNCTIONS:
             tool_type = "function"
             result = _FUNCTIONS[tool](**args)
+        elif tool == "getMerlinBenchmarkCorpus":
+            tool_type = "function"
+            result = {"data": get_stage_a_benchmark_corpus()}
+        elif tool == "evaluateMerlinBenchmarkResponse":
+            tool_type = "function"
+            result = {"data": evaluate_benchmark_response(str(args.get("benchmark_id", "")), dict(args.get("response") or {}))}
+        elif tool == "getMerlinMemoryState":
+            tool_type = "function"
+            result = {"data": active_session.get_memory_state()}
+        elif tool == "runMerlinMemoryAudit":
+            tool_type = "function"
+            result = {"data": active_session.audit_memory(str(args.get("query", "")))}
+        elif tool == "getMerlinTelemetrySummary":
+            tool_type = "function"
+            result = {"data": active_session.get_telemetry_summary()}
         elif tool.startswith("entity.MerlinSession."):
             tool_type = "entity"
             op = tool.split(".")[-1]
             if op == "schema":
                 result = {"data": MERLIN_SESSION_SCHEMA}
+            elif op == "state":
+                result = {"data": active_session.get_memory_state()}
+            elif op == "audit":
+                result = {"data": active_session.get_telemetry_summary()}
             else:
                 ok = False
-                error = "MerlinSession library operations are not yet implemented in standalone Product 20."
+                error = "Unsupported MerlinSession operation."
         elif tool == "connector.github":
             tool_type = "connector"
             result = {
@@ -327,6 +436,15 @@ def route_tool(tool: str, args: dict[str, Any] | None = None) -> dict[str, Any]:
         "type": tool_type,
         "result": result,
         "error": error,
+        "policy": {
+            "capability_class": (policy or {}).get("capability_class", "unknown"),
+            "risk_level": (policy or {}).get("risk_level", "unknown"),
+            "requires_human_gate": bool((policy or {}).get("requires_human_gate", False)),
+        },
+        "audit": {
+            "args_keys": sorted(args.keys()),
+            "duration_ms": duration_ms,
+        },
         "duration_ms": duration_ms,
     }
 
@@ -349,7 +467,7 @@ def get_path(obj: Any, path: str | None):
     return current
 
 
-def orchestrate_steps(steps: list[dict[str, Any]]) -> dict[str, Any]:
+def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | None = None) -> dict[str, Any]:
     """Execute a bounded sequential Merlin tool chain."""
     if len(steps) > 10:
         raise ValueError("step cap exceeded (max 10)")
@@ -374,7 +492,7 @@ def orchestrate_steps(steps: list[dict[str, Any]]) -> dict[str, Any]:
                     args.update(threaded)
                 else:
                     args["_threaded"] = threaded
-        result = route_tool(tool, args)
+        result = route_tool(tool, args, session=session)
         result["step"] = index
         results.append(result)
     total_duration_ms = round((time.perf_counter() - started) * 1000, 3)
@@ -382,4 +500,6 @@ def orchestrate_steps(steps: list[dict[str, Any]]) -> dict[str, Any]:
         "ok": all(step.get("ok") for step in results),
         "steps": results,
         "total_duration_ms": total_duration_ms,
+        "audit_log_mode": "required",
+        "human_gate_required": any((step.get("policy") or {}).get("requires_human_gate") for step in results),
     }

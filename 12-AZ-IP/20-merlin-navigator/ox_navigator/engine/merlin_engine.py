@@ -8,12 +8,14 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 from typing import Any
 
 import httpx
 
 from .constants import API_BASE, DEFAULT_TEMPERATURE, MODEL_ID
 from .gate_parser import extract_gate_badges
+from .merlin_benchmark import evaluate_benchmark_response
 from .merlin_identity import authorize_privileged_request, get_identity_policy
 from .merlin_memory import MerlinSession
 from .merlin_persona import (
@@ -27,6 +29,7 @@ from .merlin_router import choose_runtime
 from .merlin_rag import build_rag_context, closest_pillar, lookup_kb, retrieve_context
 from .merlin_rag import build_status_response
 from .merlin_sentinel import evaluate_query, render_block_message
+from .merlin_telemetry import build_run_telemetry
 from .merlin_tools import route_tool
 
 TOOL_CALL_RE = re.compile(r"\[TOOL_CALL\]\s*(\{[\s\S]*?\})\s*\[/TOOL_CALL\]")
@@ -120,6 +123,83 @@ def _default_sources(context: dict[str, Any], crawled: list[dict[str, Any]]) -> 
     return sources
 
 
+def _source_id(label: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", str(label or "").lower()).strip("_") or "source"
+
+
+def _build_provenance(
+    context: dict[str, Any],
+    crawled: list[dict[str, Any]],
+    *,
+    matched_memory: list[dict[str, Any]] | None = None,
+    policy_sources: list[dict[str, str]] | None = None,
+) -> dict[str, Any]:
+    sources: list[dict[str, Any]] = []
+    kb_match = context.get("kb_match")
+    if kb_match:
+        for index, source in enumerate(kb_match.get("sources", [])[:3], start=1):
+            sources.append({
+                "source_id": f"kb_{index}_{_source_id(source)}",
+                "label": source,
+                "path": source,
+                "kind": "knowledge_base",
+                "claim_class": "knowledge_base_match",
+                "confidence_tier": "retrieved",
+                "gate": kb_match.get("status", "ARCHITECTURE_LIMIT"),
+                "description": kb_match.get("topic", ""),
+            })
+    for pillar in context.get("pillars", [])[:3]:
+        sources.append({
+            "source_id": f"pillar_{pillar['id']}",
+            "label": f"Pillar {pillar['id']}",
+            "path": "",
+            "kind": "pillar",
+            "claim_class": "pillar_context",
+            "confidence_tier": "retrieved",
+            "gate": pillar["gate"],
+            "description": pillar["name"],
+        })
+    for item in matched_memory or []:
+        sources.append({
+            "source_id": f"memory_{_source_id(item['fact'])}",
+            "label": item["fact"],
+            "path": item["source"],
+            "kind": "memory",
+            "claim_class": "durable_memory",
+            "confidence_tier": "session",
+            "gate": "GOVERNANCE",
+            "description": f"{item['scope']} memory",
+        })
+    for item in crawled:
+        if item.get("ok"):
+            sources.append({
+                "source_id": f"crawl_{_source_id(item['url'])}",
+                "label": item["url"],
+                "path": item["url"],
+                "kind": "web",
+                "claim_class": "external_context",
+                "confidence_tier": "external",
+                "gate": "ARCHITECTURE_LIMIT",
+                "description": item.get("title", item["url"]),
+            })
+    for item in policy_sources or []:
+        sources.append({
+            "source_id": f"policy_{_source_id(item['label'])}",
+            "label": item["label"],
+            "path": item.get("label", ""),
+            "kind": "policy",
+            "claim_class": "policy_enforcement",
+            "confidence_tier": "runtime",
+            "gate": item.get("type", "GOVERNANCE"),
+            "description": item.get("description", ""),
+        })
+    return {
+        "schema_version": "v1",
+        "complete": bool(sources),
+        "sources": sources,
+    }
+
+
 def _render_contract(body: str, followups: list[str], sources: list[dict[str, str]]) -> str:
     body = body.strip()
     lines = [body, "", "---", "FOLLOWUPS:"]
@@ -148,12 +228,22 @@ def _fallback_body(query: str, context: dict[str, Any], persona_mode: str, fourt
     return body
 
 
-def _post_process_answer(text: str, query: str, context: dict[str, Any], crawled: list[dict[str, Any]], persona_mode: str, fourth_wall: bool) -> dict[str, Any]:
+def _post_process_answer(
+    text: str,
+    query: str,
+    context: dict[str, Any],
+    crawled: list[dict[str, Any]],
+    persona_mode: str,
+    fourth_wall: bool,
+    *,
+    matched_memory: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     cleaned = strip_tool_call(text)
     sections = cleaned.split("\n---\n", 1)
     body = sections[0].strip() if sections else cleaned.strip()
     followups = _default_followups(query, context)
     sources = _default_sources(context, crawled)
+    provenance = _build_provenance(context, crawled, matched_memory=matched_memory)
     if not body:
         body = _fallback_body(query, context, persona_mode, fourth_wall)
     answer = _render_contract(body, followups, sources)
@@ -168,6 +258,7 @@ def _post_process_answer(text: str, query: str, context: dict[str, Any], crawled
         "body": body,
         "followups": followups,
         "sources": sources,
+        "provenance": provenance,
         "gate_badges": gate_badges,
         "persona_governance_violations": violations,
     }
@@ -181,11 +272,13 @@ def _policy_contract_response(body: str, *, sources: list[dict[str, str]]) -> di
     ]
     answer = _render_contract(body, followups, sources)
     gate_badges = extract_gate_badges(answer) or ["GOVERNANCE"]
+    provenance = _build_provenance({}, [], policy_sources=sources)
     return {
         "answer": answer,
         "body": body,
         "followups": followups,
         "sources": sources,
+        "provenance": provenance,
         "gate_badges": gate_badges,
     }
 
@@ -205,6 +298,7 @@ async def query_merlin(
     temperature: float = DEFAULT_TEMPERATURE,
 ) -> dict[str, Any]:
     """Run a Merlin query and return a structured response."""
+    started = time.perf_counter()
     live_status = live_status or build_status_response()
     sentinel = evaluate_query(text, policy_strikes=session.policy_strikes)
     session.set_sentinel_mode(sentinel.mode)
@@ -221,6 +315,21 @@ async def query_merlin(
             ],
         )
         session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
+        audit = session.audit_memory(text)
+        telemetry = build_run_telemetry(
+            query=text,
+            answer=processed["answer"],
+            router_decision={"provider": "sovereign_local", "lane": "small_fast_router"},
+            context_source="policy_block",
+            tool_rounds=0,
+            used_websearch=False,
+            provenance=processed["provenance"],
+            gate_badges=processed["gate_badges"],
+            memory_hits=audit["matched_memory_count"],
+            contradiction_events=len(session.contradiction_events),
+            latency_ms=(time.perf_counter() - started) * 1000,
+        )
+        session.record_run(telemetry)
         return {
             **processed,
             "persona_mode": "serious",
@@ -237,6 +346,8 @@ async def query_merlin(
                 "session_cleared": sentinel.session_cleared,
             },
             "identity_policy": get_identity_policy(),
+            "memory_audit": audit,
+            "telemetry": telemetry,
         }
 
     privilege = authorize_privileged_request(
@@ -255,6 +366,21 @@ async def query_merlin(
             ],
         )
         session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
+        audit = session.audit_memory(text)
+        telemetry = build_run_telemetry(
+            query=text,
+            answer=processed["answer"],
+            router_decision={"provider": "sovereign_local", "lane": "small_fast_router"},
+            context_source="privilege_block",
+            tool_rounds=0,
+            used_websearch=False,
+            provenance=processed["provenance"],
+            gate_badges=processed["gate_badges"],
+            memory_hits=audit["matched_memory_count"],
+            contradiction_events=len(session.contradiction_events),
+            latency_ms=(time.perf_counter() - started) * 1000,
+        )
+        session.record_run(telemetry)
         return {
             **processed,
             "persona_mode": "serious",
@@ -266,6 +392,8 @@ async def query_merlin(
             "live_status": live_status,
             "sentinel": {"mode": sentinel.mode, "category": "none", "warning_number": session.policy_strikes, "session_cleared": False},
             "identity_check": privilege["verification"],
+            "memory_audit": audit,
+            "telemetry": telemetry,
         }
 
     persona_mode = detect_persona_mode(text)
@@ -284,7 +412,8 @@ async def query_merlin(
         on_status.append("crawling" if crawled else "rag")
     internal = is_internal_question(text)
     used_websearch = bool(force_websearch) if force_websearch is not None else (not internal or bool(urls))
-    compressed = session.compressed()
+    audit = session.audit_memory(text)
+    compressed = session.compressed(text)
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "system", "content": f"[EARLIER CONVERSATION SUMMARY]\n{compressed['summary']}"},
@@ -331,8 +460,35 @@ async def query_merlin(
     if not response_text:
         response_text = _fallback_body(text, context, persona_mode, fourth_wall)
 
-    processed = _post_process_answer(response_text, text, context, crawled, persona_mode, fourth_wall)
+    processed = _post_process_answer(
+        response_text,
+        text,
+        context,
+        crawled,
+        persona_mode,
+        fourth_wall,
+        matched_memory=compressed.get("matched_memory"),
+    )
     session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
+    telemetry = build_run_telemetry(
+        query=text,
+        answer=processed["answer"],
+        router_decision=router_decision,
+        context_source=context_source,
+        tool_rounds=tool_rounds,
+        used_websearch=used_websearch,
+        provenance=processed["provenance"],
+        gate_badges=processed["gate_badges"],
+        memory_hits=audit["matched_memory_count"],
+        contradiction_events=len(session.contradiction_events),
+        latency_ms=(time.perf_counter() - started) * 1000,
+    )
+    session.record_run(telemetry)
+    benchmark_eval = None
+    for candidate in ("physics_birefringence", "gap_dark_energy", "governance_boundary", "tool_navigation", "memory_recall"):
+        benchmark_eval = evaluate_benchmark_response(candidate, processed)
+        if benchmark_eval.get("score", 0.0) >= 0.8:
+            break
     return {
         **processed,
         "persona_mode": persona_mode,
@@ -350,4 +506,7 @@ async def query_merlin(
             "session_cleared": False,
         },
         "identity_check": privilege["verification"],
+        "memory_audit": audit,
+        "telemetry": telemetry,
+        "benchmark_eval": benchmark_eval,
     }

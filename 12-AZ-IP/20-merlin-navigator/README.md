@@ -8,8 +8,9 @@
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 -- **Model transport:** sovereign local/offline-first runtime; `stealth/ox-alpha` via OpenRouter is compatibility-only fallback
 - **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/telemetry`
 - **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`
-- **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) with Sentinel strike memory for policy enforcement
+- **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus audited multi-tier Merlin memory with contradiction tracking and telemetry
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
 
@@ -54,6 +55,8 @@
 ## Hidden agent backend space
 
 - `GET /api/agentToolkit` exposes discovery views: `index`, `domain`, `tool`, `full`, `state`.
+- `GET /api/merlin/memory` exposes multi-tier memory state, contradictions, and recall audits.
+- `GET /api/merlin/telemetry` exposes recent run summaries for measurement and rollout gating.
 - `GET /api/merlin/identity` exposes canonical identity/alias and privileged-action verification policy.
 - `GET /api/merlin/policy` exposes combined identity-trust and Sentinel enforcement policies.
 - `GET /api/merlin/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
@@ -61,13 +64,23 @@
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.
-- The standalone implementation is intentionally conservative and read-mostly.
+- Toolkit entries now include typed argument schema, capability class, risk level, and human-gate metadata.
+- The standalone implementation remains conservative, but its internal contracts are now audit-ready for tiered capability expansion.
 - Cross-device Base44 entity semantics are not fully recreated here; the schema is exposed honestly as planned-but-not-implemented.
 
 ## Merlin replacement program implementation
 
 - The implementation ledger for the 13-point Merlin replacement plan lives in `MERLIN_PROGRAM.md`.
 - Runtime program artifacts are provided by `ox_navigator/engine/merlin_program.py`.
+- Stage A benchmark prompts now ship in `ox_navigator/engine/merlin_benchmark.py`.
+- Per-run telemetry and energy estimates now ship in `ox_navigator/engine/merlin_telemetry.py`.
+
+## Stage A benchmark and measurement layer
+
+- Merlin now exposes a first-class Stage A benchmark corpus for parity capture before wider takeover.
+- Each Merlin run records latency, estimated tokens, estimated cost, estimated energy, routing lane, provider, provenance coverage, and memory/contradiction signals.
+- Benchmark evaluation can score a response against the Stage A corpus using `evaluateMerlinBenchmarkResponse`.
+- The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 
 ## Gate-badge extraction
 
@@ -92,6 +105,7 @@
 - History is formatted as compact plain text for prompt continuity.
 - The browser UI also keeps a clickable short history list.
 - The cap exists to balance utility, prompt size, and reproducibility.
+- Durable repository/user memory, contradiction events, and telemetry survive normal turn trimming.
 
 ## Included sub-tools
 
