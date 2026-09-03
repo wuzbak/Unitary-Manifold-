@@ -1,0 +1,21 @@
+name: Copilot Review Health
+
+on:
+  schedule:
+    - cron: "13 4 * * *"
+  workflow_dispatch:
+
+jobs:
+  copilot-review-health:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check preferred Copilot review model health
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 TOOLS/checks/copilot_review_orchestrator.py health
