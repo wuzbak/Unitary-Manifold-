@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-03 (v34.7 Sprint BQ COMPLETE — Pillars 1008–1010; Lean4 3912→3912; next slot 1011)*
+*Last updated: 2026-09-03 (v34.8 Sprint BR COMPLETE — Pillars 1011–1013; Lean4 3912→3912; next slot 1014)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,18 +16,18 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v34.7 — Sprint BQ)
+## CURRENT AUDITABLE STATE (v34.8 — Sprint BR)
 
 | Field | Value |
 |-------|-------|
-| Version | **v34.7** |
-| Sprint | **Sprint BQ** |
-| Pillars | **1008–1010** |
-| Next pillar slot | **1011** |
+| Version | **v34.8** |
+| Sprint | **Sprint BR** |
+| Pillars | **1011–1013** |
+| Next pillar slot | **1014** |
 | Lean4 theorems | **3912** |
-| Sprint theme | **Open-hole closure or hard-bound certification (primary flavor gate + secondary CMB candidate)** |
-| Primary target | **Ask whether one named gate object can earn a real downstream flavor-family promotion (CKM shadow + fermion radii)** |
-| Binary outcome | **FLAVOR_FAMILY_PROMOTION_NOT_EARNED + CMB_NONPERTURBATIVE_NORMALIZATION_NOT_EARNED** |
+| Sprint theme | **10D mechanism consolidation (flux-selection bridge + branch canonicality lift + status coherence)** |
+| Primary target | **Consolidate 10D flux-count/selection logic and lift 5,6 vs 5,7 into explicit 10D selection terms** |
+| Binary outcome | **TEN_D_FLUX_SELECTION_MEASURE_AUDIT_COMPLETE + TEN_D_BRANCH_CANONICALITY_LIFT_COMPLETE + TEN_D_STATUS_COHERENCE_CERTIFICATE_COMPLETE** |
 
 ---
 
@@ -48,7 +48,7 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BQ continuation)
+## NEXT PHASE PRIORITIES (post-BR continuation)
 
 1. **Truth-surface lockstep first**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, and this file synchronized in one change set.

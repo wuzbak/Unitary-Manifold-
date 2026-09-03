@@ -1,9 +1,15 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v34.7
+# Unitary Manifold v34.8
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v34.7 — Sprint BQ: Pillars 1008–1010. Primary lane applies one named flavor-family promotion gate and requires a real downstream status change; no gate closure was earned, so architecture limits remain explicit. Secondary lane tests one non-fitted CMB nonperturbative/global-UV normalization candidate; no closure upgrade is earned and the residual-budget certificate is tightened. Next slot 1011. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v34.8 — Sprint BR: Pillars 1011–1013. Primary lane consolidates 10D flux counting + explicit selection + normalized measure into one auditable bridge object. Secondary lane lifts (5,7) canonical and (5,6) shadow branches into 10D compactification/selection terms with explicit suppression reasons for non-canonical paths. Sprint certificate locks cross-surface coherence with no open-lane promotion. Next slot 1014. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P1013 (v34.8): 10D Status-Coherence Certificate — TEN_D_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1013_tend_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan and verifies the same open-lane labels remain explicit while the 10D mechanism narrative is consolidated.*
+
+*P1012 (v34.8): 10D Branch Canonicality Lift — TEN_D_BRANCH_CANONICALITY_LIFT_COMPLETE. `src/core/pillar1012_tend_branch_canonicality_lift.py` maps `(5,7)` and `(5,6)` into 10D compactification/selection terms, preserving `(5,7)` through the UV-selection chain and keeping `(5,6)` explicit as a suppressed non-canonical branch.*
+
+*P1011 (v34.8): 10D Flux Selection Measure Audit — TEN_D_FLUX_SELECTION_MEASURE_AUDIT_COMPLETE. `src/core/pillar1011_tend_flux_selection_measure_audit.py` unifies R5 hard-gate evidence, effective flux sufficiency, explicit UV vacuum selection, and normalized candidate weighting into one auditable 10D bridge object with unique support on `n_w=5`.*
 
 *P1010 (v34.7): Sprint BQ Open-Hole Certificate — SPRINT_BQ_OPEN_HOLE_CERTIFICATE_COMPLETE. `src/core/pillar1010_sprint_bq_open_hole_certificate.py` certifies Sprint BQ (3 pillars 1008–1010; Lean4 3912→3912; next slot 1011; v34.7). The sprint enforces binary outcomes across the primary flavor-family gate and the secondary CMB candidate lane without narrative promotion.*
 

@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v34.7 (2026-09-03)**
+**Current version: v34.8 (2026-09-03)**
 **Regression:** 63,503 passed · 23 skipped · 12 deselected · 0 failed (latest inherited full regression in branch history)
-**Next pillar slot:** 1011
+**Next pillar slot:** 1014
+
+## v34.8 (2026-09-03 — Sprint BR: Pillars 1011–1013)
+
+**What changed:**
+Pillars 1011–1013 (3 pillars). Sprint BR executes the 10D mechanism-consolidation package. (1) P1011 creates one auditable bridge object joining R5 hard-gate evidence, effective flux sufficiency, explicit UV vacuum selection, and normalized candidate weighting across UV candidates. (2) P1012 lifts the `(5,7)` canonical and `(5,6)` shadow branches into 10D compactification/selection terms and records a preserved-vs-suppressed split in 10D language. (3) P1013 certifies status coherence across executable artifacts and canonical status surfaces.
+
+**Why:**
+Close documentation/interpretation seams in the existing 10D lane without claiming new hardgate promotion.
+
+**Epistemic label deltas:**
+- new executable bridge verdict: `TEN_D_FLUX_SELECTION_MEASURE_AUDIT_COMPLETE`
+- new executable branch-lift verdict: `TEN_D_BRANCH_CANONICALITY_LIFT_COMPLETE`
+- new executable cross-surface lock verdict: `TEN_D_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Regression:** new Pillars 1011–1013 targeted tests passed · 0 failed
+**Next pillar slot:** 1014
 
 ## v34.7 (2026-09-03 — Sprint BQ: Pillars 1008–1010)
 
