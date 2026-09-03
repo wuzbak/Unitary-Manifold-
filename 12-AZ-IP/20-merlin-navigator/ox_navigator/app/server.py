@@ -9,6 +9,7 @@ import asyncio
 import json
 import os
 import threading
+import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -38,7 +39,9 @@ REPO_ROOT = PRODUCT_ROOT.parents[1]
 CONTEXT_PACK = REPO_ROOT / '9-INFRASTRUCTURE' / 'ox_full_context.md'
 _SESSION = OxSession()
 _MERLIN_SESSIONS: dict[str, MerlinSession] = {}
+_MERLIN_SESSION_LAST_SEEN: dict[str, float] = {}
 _MERLIN_SESSIONS_LOCK = threading.Lock()
+_MERLIN_SESSION_CAP = 128
 
 
 class OxRequestHandler(SimpleHTTPRequestHandler):
@@ -77,6 +80,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 session_id = uuid4().hex
                 _MERLIN_SESSIONS[session_id] = MerlinSession()
                 self._pending_session_cookie = session_id
+            _MERLIN_SESSION_LAST_SEEN[session_id] = time.time()
+            while len(_MERLIN_SESSIONS) > _MERLIN_SESSION_CAP:
+                stale_id = min(_MERLIN_SESSION_LAST_SEEN, key=_MERLIN_SESSION_LAST_SEEN.get)
+                if stale_id == session_id:
+                    break
+                _MERLIN_SESSIONS.pop(stale_id, None)
+                _MERLIN_SESSION_LAST_SEEN.pop(stale_id, None)
             return _MERLIN_SESSIONS[session_id]
 
     def do_GET(self):  # noqa: N802

@@ -114,7 +114,9 @@ def match_benchmark_for_query(query: str) -> dict[str, Any] | None:
             return dict(benchmark)
         if benchmark["id"] in sample:
             return dict(benchmark)
-        keyword_tokens = {token for token in benchmark.get("keywords", []) if token}
+        keyword_tokens: set[str] = set()
+        for keyword in benchmark.get("keywords", []):
+            keyword_tokens.update(_normalize(keyword).split())
         hits = len(query_tokens & keyword_tokens)
         minimum_hits = int(benchmark.get("minimum_keyword_hits", 1))
         if hits < minimum_hits:
