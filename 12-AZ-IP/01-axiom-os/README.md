@@ -6,7 +6,7 @@
 **AxiomZero** is original intellectual property of **ThomasCory Walker-Pearson** (2026),
 developed as part of the [Unitary Manifold](https://github.com/wuzbak/Unitary-Manifold-)
 project. Code architecture and implementation by **GitHub Copilot (AI)**.
-Licensed under the [Defensive Public Commons License v1.0 (2026)](../LICENSE).
+Licensed under the [Defensive Public Commons License v1.0 (2026)](../../../LICENSE).
 See [`IDENTITY.md`](IDENTITY.md) for full IP provenance and fingerprinting record.
 
 AxiomZero is a persistent AI cognitive layer that lives **on top of any existing OS**,

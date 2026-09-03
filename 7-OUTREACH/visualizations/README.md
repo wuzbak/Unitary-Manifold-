@@ -47,9 +47,9 @@ from the live repository data.
 | [`fig07_mas_wave_progress.png`](fig07_mas_wave_progress.png) | MAS Wave Progress W0–W14 (test growth per wave) | mas_tracker.yml |
 | [`fig08_test_suite_growth.png`](fig08_test_suite_growth.png) | Test Suite Growth Over Versions (0 failures throughout) | STATUS.md |
 | [`fig09_toe_score_timeline.png`](fig09_toe_score_timeline.png) | ⚠️ RETIRED — ToE score language retired (v22.10). See fig20 for honest replacement. | — |
-| [`fig19_tension_reduction_chart.png`](fig19_tension_reduction_chart.png) | Δm²₂₁ Tension Reduction Journey (2.98σ → 1.07σ, architecture limit certified) | Pillars 772–774 |
-| [`fig20_test_pillar_timeline.png`](fig20_test_pillar_timeline.png) | Test Suite & Lean4 Theorem Growth (v21.8 → v22.10) — honest progress accounting | STATUS.md |
-| [`fig21_architecture_limits_summary.png`](fig21_architecture_limits_summary.png) | Architecture Limits — Honest Accounting: G1/G2/G3 TYPE_B_STRUCTURAL_FLOOR, G4 TYPE_B_CANDIDATE | Pillars 784–785, FALLIBILITY §XVI–XVIII |
+| `fig19_tension_reduction_chart.png` *(historical artifact not present in this folder)* | Δm²₂₁ Tension Reduction Journey (2.98σ → 1.07σ, architecture limit certified) | Pillars 772–774 |
+| `fig20_test_pillar_timeline.png` *(historical artifact not present in this folder)* | Test Suite & Lean4 Theorem Growth (v21.8 → v22.10) — honest progress accounting | STATUS.md |
+| `fig21_architecture_limits_summary.png` *(historical artifact not present in this folder)* | Architecture Limits — Honest Accounting: G1/G2/G3 TYPE_B_STRUCTURAL_FLOOR, G4 TYPE_B_CANDIDATE | Pillars 784–785, FALLIBILITY §XVI–XVIII |
 
 ### Theory & Geometry
 
