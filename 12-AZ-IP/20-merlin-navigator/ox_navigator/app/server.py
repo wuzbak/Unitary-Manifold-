@@ -8,6 +8,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import threading
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -37,6 +38,7 @@ REPO_ROOT = PRODUCT_ROOT.parents[1]
 CONTEXT_PACK = REPO_ROOT / '9-INFRASTRUCTURE' / 'ox_full_context.md'
 _SESSION = OxSession()
 _MERLIN_SESSIONS: dict[str, MerlinSession] = {}
+_MERLIN_SESSIONS_LOCK = threading.Lock()
 
 
 class OxRequestHandler(SimpleHTTPRequestHandler):
@@ -58,20 +60,24 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def _merlin_session(self) -> MerlinSession:
-        session_id = str(self.headers.get('X-Merlin-Session') or '').strip()
-        if not session_id:
+        candidate_id = ""
+        raw_header = str(self.headers.get('X-Merlin-Session') or '').strip()
+        if raw_header:
+            candidate_id = raw_header
+        if not candidate_id:
             raw_cookie = str(self.headers.get('Cookie') or '')
             for part in raw_cookie.split(';'):
                 key, _, value = part.strip().partition('=')
                 if key == 'merlin_session_id' and value.strip():
-                    session_id = value.strip()
+                    candidate_id = value.strip()
                     break
-        if not session_id:
-            session_id = uuid4().hex
-            self._pending_session_cookie = session_id
-        if session_id not in _MERLIN_SESSIONS:
-            _MERLIN_SESSIONS[session_id] = MerlinSession()
-        return _MERLIN_SESSIONS[session_id]
+        with _MERLIN_SESSIONS_LOCK:
+            session_id = candidate_id if candidate_id in _MERLIN_SESSIONS else ''
+            if not session_id:
+                session_id = uuid4().hex
+                _MERLIN_SESSIONS[session_id] = MerlinSession()
+                self._pending_session_cookie = session_id
+            return _MERLIN_SESSIONS[session_id]
 
     def do_GET(self):  # noqa: N802
         parsed = urlparse(self.path)

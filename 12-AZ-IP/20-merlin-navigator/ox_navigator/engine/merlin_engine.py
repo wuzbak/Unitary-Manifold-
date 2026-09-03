@@ -15,7 +15,6 @@ import httpx
 
 from .constants import API_BASE, DEFAULT_TEMPERATURE, MODEL_ID
 from .gate_parser import extract_gate_badges
-from .merlin_benchmark import evaluate_benchmark_response, match_benchmark_for_query
 from .merlin_identity import authorize_privileged_request, get_identity_policy
 from .merlin_memory import MerlinSession
 from .merlin_persona import (
@@ -498,10 +497,6 @@ async def query_merlin(
         latency_ms=(time.perf_counter() - started) * 1000,
     )
     session.record_run(telemetry)
-    benchmark_eval = None
-    matched_benchmark = match_benchmark_for_query(text)
-    if matched_benchmark:
-        benchmark_eval = evaluate_benchmark_response(matched_benchmark["id"], processed)
     return {
         **processed,
         "persona_mode": persona_mode,
@@ -521,5 +516,5 @@ async def query_merlin(
         "identity_check": privilege["verification"],
         "memory_audit": audit,
         "telemetry": telemetry,
-        "benchmark_eval": benchmark_eval,
+        "benchmark_eval": None,
     }

@@ -106,12 +106,25 @@ def _normalize(text: str) -> str:
 
 def match_benchmark_for_query(query: str) -> dict[str, Any] | None:
     sample = _normalize(query)
+    query_tokens = set(sample.split())
+    best_match = None
+    best_score = (0, 0.0)
     for benchmark in STAGE_A_BENCHMARK_CORPUS:
         if sample == _normalize(benchmark["query"]):
             return dict(benchmark)
         if benchmark["id"] in sample:
             return dict(benchmark)
-    return None
+        keyword_tokens = {token for token in benchmark.get("keywords", []) if token}
+        hits = len(query_tokens & keyword_tokens)
+        minimum_hits = int(benchmark.get("minimum_keyword_hits", 1))
+        if hits < minimum_hits:
+            continue
+        ratio = hits / max(len(keyword_tokens), 1)
+        score = (hits, ratio)
+        if score > best_score:
+            best_score = score
+            best_match = benchmark
+    return dict(best_match) if best_match else None
 
 
 def evaluate_benchmark_response(benchmark_id: str, response: dict[str, Any]) -> dict[str, Any]:
