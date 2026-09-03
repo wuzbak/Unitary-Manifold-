@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v34.9 (2026-09-03)**
+**Current version: v35.0 (2026-09-03)**
 **Regression:** 63,544 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1020
+**Next pillar slot:** 1021
+
+## v35.0 (2026-09-03 — Sprint BT: Pillar 1020)
+
+**What changed:**
+Pillar 1020 (1 pillar). Sprint BT converts the six checked-in internal architecture-limit lanes into three coupled executable programs instead of six disconnected holes. (1) Program 1 is the CMB normalization mechanism lane and keeps the non-fitted, no-new-knob rule explicit. (2) Program 2 is the shared UV compactification lane and binds α_s + Higgs to one shared object rather than separate rescue stories. (3) Program 3 is the shared flavor-geometry lane and makes CKM shadow + fermion magnitude/radii + Jarlskog one family program with a root-first gate.
+
+**Why:**
+Reduce architectural drift, keep the honesty rule executable, and make the next work packet target shared missing objects rather than lane-by-lane rhetoric.
+
+**Epistemic label deltas:**
+- new executable regrouping verdict: `THREE_PROGRAM_OPEN_ARCHITECTURE_REGISTRY_COMPLETE`
+- program numbering is now explicitly separated from practical execution priority
+- open-lane labels remain frozen until a downstream runtime actually changes
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Regression:** Pillar 1020 targeted tests passed · 0 failed
+**Next pillar slot:** 1021
 
 ## v34.9 (2026-09-03 — Sprint BS: Pillars 1014–1019)
 

@@ -1,6 +1,35 @@
-version: "v34.9"
+version: "v35.0"
 date: "2026-09-03"
 updated: "2026-09-03"
+
+v35_0_sprint_bt:
+  sprint: BT
+  version: v35.0
+  date: "2026-09-03"
+  pillars: 1020-1020
+  new_pillars: 1
+  new_tests: 8
+  lean4_start: 3912
+  lean4_end: 3912
+  lean4_delta: 0
+  closures:
+    - THREE_PROGRAM_OPEN_ARCHITECTURE_REGISTRY_COMPLETE
+  advances:
+    - SIX_INTERNAL_ARCHITECTURE_LIMIT_LANES_ARE_NOW_GROUPED_AS_THREE_COUPLED_PROGRAMS
+    - PROGRAM_NUMBERING_IS_BOOKKEEPING_ONLY_WHILE_EXECUTION_PRIORITY_STARTS_WITH_SHARED_FLAVOR_GEOMETRY
+    - OPEN_LABELS_REMAIN_FROZEN_UNTIL_A_REAL_DOWNSTREAM_RUNTIME_STATUS_CHANGES
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+  regression: "63,544 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)"
+  focused_regression: "Pillar 1020 targeted tests passed · 0 failed"
+  next_pillar_slot: 1021
 
 v34_9_sprint_bs:
   sprint: BS
