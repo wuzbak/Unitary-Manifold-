@@ -14,6 +14,7 @@ import httpx
 
 from .constants import API_BASE, DEFAULT_TEMPERATURE, MODEL_ID
 from .gate_parser import extract_gate_badges
+from .merlin_identity import authorize_privileged_request, get_identity_policy
 from .merlin_memory import MerlinSession
 from .merlin_persona import (
     build_system_prompt,
@@ -25,6 +26,7 @@ from .merlin_persona import (
 from .merlin_router import choose_runtime
 from .merlin_rag import build_rag_context, closest_pillar, lookup_kb, retrieve_context
 from .merlin_rag import build_status_response
+from .merlin_sentinel import evaluate_query, render_block_message
 from .merlin_tools import route_tool
 
 TOOL_CALL_RE = re.compile(r"\[TOOL_CALL\]\s*(\{[\s\S]*?\})\s*\[/TOOL_CALL\]")
@@ -171,6 +173,23 @@ def _post_process_answer(text: str, query: str, context: dict[str, Any], crawled
     }
 
 
+def _policy_contract_response(body: str, *, sources: list[dict[str, str]]) -> dict[str, Any]:
+    followups = [
+        "Do you want a safe alternative framed as a legitimate governance or research task?",
+        "Should Merlin show the exact policy section that triggered this refusal?",
+        "Do you want to continue with normal user-access actions?",
+    ]
+    answer = _render_contract(body, followups, sources)
+    gate_badges = extract_gate_badges(answer) or ["GOVERNANCE"]
+    return {
+        "answer": answer,
+        "body": body,
+        "followups": followups,
+        "sources": sources,
+        "gate_badges": gate_badges,
+    }
+
+
 async def query_merlin(
     *,
     text: str,
@@ -187,6 +206,68 @@ async def query_merlin(
 ) -> dict[str, Any]:
     """Run a Merlin query and return a structured response."""
     live_status = live_status or build_status_response()
+    sentinel = evaluate_query(text, policy_strikes=session.policy_strikes)
+    session.set_sentinel_mode(sentinel.mode)
+    if sentinel.blocked:
+        strikes = session.register_policy_strike()
+        body = render_block_message(sentinel)
+        if sentinel.session_cleared:
+            session.clear(reason=f"sentinel_{sentinel.category}")
+        processed = _policy_contract_response(
+            body,
+            sources=[
+                {"label": "Merlin Sentinel Policy", "type": "GOVERNANCE", "description": "Hard do-no-harm refusal policy"},
+                {"label": f"Warning #{strikes}", "type": "GOVERNANCE", "description": "Warn then reset escalation"},
+            ],
+        )
+        session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
+        return {
+            **processed,
+            "persona_mode": "serious",
+            "used_websearch": False,
+            "tool_rounds": 0,
+            "context_source": "policy_block",
+            "crawled_urls": [],
+            "epistemic_note": "Request blocked by Sentinel do-no-harm policy.",
+            "live_status": live_status,
+            "sentinel": {
+                "mode": sentinel.mode,
+                "category": sentinel.category,
+                "warning_number": sentinel.warning_number,
+                "session_cleared": sentinel.session_cleared,
+            },
+            "identity_policy": get_identity_policy(),
+        }
+
+    privilege = authorize_privileged_request(
+        text,
+        page_context=page_context,
+        user_context=user_context,
+    )
+    if privilege["requested"] and not privilege["allowed"]:
+        session.register_privileged_attempt()
+        processed = _policy_contract_response(
+            "[GOVERNANCE] Privileged Merlin-modification request refused. Identity verification is uncertain, "
+            "so Merlin defaults to normal user access and refuses privileged changes.",
+            sources=[
+                {"label": "Merlin Identity Policy", "type": "GOVERNANCE", "description": "Canonical identity and alias trust policy"},
+                {"label": "Privilege Rule", "type": "ARCHITECTURE_LIMIT", "description": "Only verified identity may alter Merlin"},
+            ],
+        )
+        session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
+        return {
+            **processed,
+            "persona_mode": "serious",
+            "used_websearch": False,
+            "tool_rounds": 0,
+            "context_source": "privilege_block",
+            "crawled_urls": [],
+            "epistemic_note": "Privileged request refused under identity trust policy.",
+            "live_status": live_status,
+            "sentinel": {"mode": sentinel.mode, "category": "none", "warning_number": session.policy_strikes, "session_cleared": False},
+            "identity_check": privilege["verification"],
+        }
+
     persona_mode = detect_persona_mode(text)
     system_prompt = system_override or build_system_prompt(
         persona_mode=persona_mode,
@@ -262,4 +343,11 @@ async def query_merlin(
         "epistemic_note": "Merlin response grounded in canonical UM context. Not found paths remain explicit.",
         "live_status": live_status,
         "router_decision": router_decision,
+        "sentinel": {
+            "mode": sentinel.mode,
+            "category": sentinel.category,
+            "warning_number": session.policy_strikes,
+            "session_cleared": False,
+        },
+        "identity_check": privilege["verification"],
     }

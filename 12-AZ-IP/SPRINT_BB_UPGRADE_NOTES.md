@@ -56,7 +56,7 @@ receives targeted enhancements grounded in Sprint BA physics results and open sc
 - Added `engine/multi_model_consensus.py`: multi-model consensus simulation
 - Tests: `tests/test_epistemic_oracle.py`
 
-**20 — OX Navigator**
+**20 — Merlin Navigator (formerly OX Navigator)**
 - Added `engine/lean4_index.py`: 2,186 theorem search & pillar lookup
 - Added `engine/pillar_graph.py`: Sprint BA pillar dependency graph + BFS path finder
 - Tests: `tests/test_lean4_pillar_graph.py`

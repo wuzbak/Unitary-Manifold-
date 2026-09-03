@@ -11,8 +11,16 @@ from pathlib import Path
 from typing import Any
 
 from .merlin_admission import get_model_admission_policy
+from .merlin_identity import get_identity_policy
 from .merlin_memory import MERLIN_MAX_HISTORY
 from .merlin_router import get_router_policy
+from .merlin_runtime import (
+    get_advanced_execution_graph,
+    get_benchmark_suite,
+    get_mythos_astra_runtime_contract,
+    get_optimization_priorities,
+)
+from .merlin_sentinel import get_sentinel_policy
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -102,7 +110,7 @@ def get_replacement_scope() -> dict[str, Any]:
 
 def get_current_stack_baseline() -> dict[str, Any]:
     return {
-        "baseline_product": "12-AZ-IP/20-ox-navigator",
+        "baseline_product": "12-AZ-IP/20-merlin-navigator",
         "live_model_transport": "Sovereign local runtime primary; OpenRouter stealth/ox-alpha compatibility-only",
         "current_limits": {
             "live_dependency": "OpenRouter path requires OPENROUTER_API_KEY and explicit compatibility enablement",
@@ -364,6 +372,8 @@ def get_reliability_security_plan() -> dict[str, Any]:
             "strict_secret_handling",
             "connector_isolation",
             "zero_trust_external_call_posture",
+            "sentinel_warn_then_reset_controls",
+            "privileged_action_identity_verification",
         ],
     }
 
@@ -453,6 +463,30 @@ def get_sovereignty_roadmap() -> dict[str, Any]:
     }
 
 
+def get_identity_and_trust_policy() -> dict[str, Any]:
+    return get_identity_policy()
+
+
+def get_sentinel_enforcement_policy() -> dict[str, Any]:
+    return get_sentinel_policy()
+
+
+def get_mythos_astra_contract() -> dict[str, Any]:
+    return get_mythos_astra_runtime_contract()
+
+
+def get_merlin_optimization_priorities() -> dict[str, Any]:
+    return get_optimization_priorities()
+
+
+def get_merlin_execution_graph() -> dict[str, Any]:
+    return get_advanced_execution_graph()
+
+
+def get_merlin_benchmark_suite() -> dict[str, Any]:
+    return get_benchmark_suite()
+
+
 def get_full_program_blueprint() -> dict[str, Any]:
     return {
         "generated_at": _utcnow(),
@@ -472,6 +506,12 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "workspace_state": get_workspace_state(),
         "governance_integration": get_governance_integration_policy(),
         "reliability_security": get_reliability_security_plan(),
+        "identity_and_trust": get_identity_and_trust_policy(),
+        "sentinel_policy": get_sentinel_enforcement_policy(),
+        "mythos_astra_contract": get_mythos_astra_contract(),
+        "optimization_priorities": get_merlin_optimization_priorities(),
+        "execution_graph": get_merlin_execution_graph(),
+        "benchmark_suite": get_merlin_benchmark_suite(),
         "rollout": get_rollout_plan(),
         "operating_rhythm": get_operating_rhythm(),
         "exit_criteria": get_exit_criteria(),

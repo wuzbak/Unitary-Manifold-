@@ -1,15 +1,15 @@
 # Merlin
-## Product 20 — Quantum Cat interface (successor to OX Navigator)
+## Product 20 — Merlin Navigator (Quantum Cat interface; legacy OX-compatible)
 
 > "Ask the repository. Keep the gates visible. Keep the governance boundary explicit. Merlin is the application OX was supposed to become."
 
-- **Folder:** `12-AZ-IP/20-ox-navigator/`
+- **Folder:** `12-AZ-IP/20-merlin-navigator/`
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
-- **Model transport:** sovereign local/offline-first runtime; `stealth/ox-alpha` via OpenRouter is compatibility-only fallback
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
-- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`
-- **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap)
+-- **Model transport:** sovereign local/offline-first runtime; `stealth/ox-alpha` via OpenRouter is compatibility-only fallback
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`
+- **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) with Sentinel strike memory for policy enforcement
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
 
@@ -18,7 +18,7 @@
 ## What Merlin is
 
 - A standalone AI-powered interface for the Unitary Manifold repository and AxiomZero platform.
-- A successor to OX Navigator with a stricter response contract and richer frontend rendering.
+- Merlin Navigator is the canonical product label; legacy OX naming/endpoints remain for compatibility.
 - A gate-aware interface that keeps epistemic status visible in answers, follow-ups, and citations.
 - A local product folder bundling UI, Python engine, hidden machine-readable tooling endpoints, and tests.
 - A study-and-navigation layer that still includes the Interrogator and Flashcard Trainer.
@@ -54,6 +54,10 @@
 ## Hidden agent backend space
 
 - `GET /api/agentToolkit` exposes discovery views: `index`, `domain`, `tool`, `full`, `state`.
+- `GET /api/merlin/identity` exposes canonical identity/alias and privileged-action verification policy.
+- `GET /api/merlin/policy` exposes combined identity-trust and Sentinel enforcement policies.
+- `GET /api/merlin/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
+- `GET /api/merlin/benchmarks` exposes benchmark harness tracks and promotion gates.
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.
@@ -102,14 +106,14 @@
 ### With an API key
 ```bash
 export OPENROUTER_API_KEY=your_openrouter_key
-cd 12-AZ-IP/20-ox-navigator
+cd 12-AZ-IP/20-merlin-navigator
 pip install -r requirements.txt
 python run.py --port 8020 --no-open
 ```
 
 ### Without an API key
 ```bash
-cd 12-AZ-IP/20-ox-navigator
+cd 12-AZ-IP/20-merlin-navigator
 pip install -r requirements.txt
 python run.py --port 8020 --no-open
 ```
@@ -699,7 +703,7 @@ python run.py --port 8020 --no-open
 - **UI loads but live calls fail:** confirm the page is served by the local app and that `/api/ox` is reachable.
 - **Interrogator returns no results:** try shorter lexical queries such as `birefringence`, `LiteBIRD`, or `dark energy`.
 - **Flashcards look incomplete:** verify that `ui/flashcard-deck.json` exists beside the HTML file.
-- **Tests fail unexpectedly:** run `python -m pytest tests/` from inside `12-AZ-IP/20-ox-navigator/`.
+- **Tests fail unexpectedly:** run `python -m pytest tests/` from inside `12-AZ-IP/20-merlin-navigator/`.
 
 ## Governance reminder
 

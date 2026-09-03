@@ -14,8 +14,18 @@ from urllib.parse import parse_qs, urlparse
 
 from ox_navigator.engine.constants import DEFAULT_TEMPERATURE, MODEL_ID
 from ox_navigator.engine.merlin_engine import query_merlin
+from ox_navigator.engine.merlin_identity import get_identity_policy
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
-from ox_navigator.engine.merlin_program import get_full_program_blueprint, run_sync_checks
+from ox_navigator.engine.merlin_program import (
+    get_merlin_benchmark_suite,
+    get_merlin_execution_graph,
+    get_merlin_optimization_priorities,
+    get_mythos_astra_contract,
+    get_full_program_blueprint,
+    get_identity_and_trust_policy,
+    get_sentinel_enforcement_policy,
+    run_sync_checks,
+)
 from ox_navigator.engine.merlin_router import get_router_policy
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
 from ox_navigator.engine.session import OxSession
@@ -66,6 +76,31 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             return
         if parsed.path == '/api/merlin/program':
             self._json({'ok': True, 'program': get_full_program_blueprint()})
+            return
+        if parsed.path == '/api/merlin/runtime':
+            self._json({
+                'ok': True,
+                'runtime': {
+                    'mythos_astra_contract': get_mythos_astra_contract(),
+                    'optimization_priorities': get_merlin_optimization_priorities(),
+                    'execution_graph': get_merlin_execution_graph(),
+                },
+            })
+            return
+        if parsed.path == '/api/merlin/benchmarks':
+            self._json({'ok': True, 'benchmarks': get_merlin_benchmark_suite()})
+            return
+        if parsed.path == '/api/merlin/identity':
+            self._json({'ok': True, 'identity': get_identity_policy()})
+            return
+        if parsed.path == '/api/merlin/policy':
+            self._json({
+                'ok': True,
+                'policy': {
+                    'identity_trust': get_identity_and_trust_policy(),
+                    'sentinel': get_sentinel_enforcement_policy(),
+                },
+            })
             return
         if parsed.path == '/api/merlin/sync-checks':
             self._json({'ok': True, 'sync_checks': run_sync_checks()})

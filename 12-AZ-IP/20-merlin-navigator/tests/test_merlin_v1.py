@@ -9,11 +9,20 @@ import threading
 import httpx
 
 from ox_navigator.app.server import serve
+from ox_navigator.engine.merlin_identity import (
+    CANONICAL_IDENTITY,
+    authorize_privileged_request,
+    detect_identity_mentions,
+    get_identity_policy,
+    is_privileged_modification_request,
+    verify_identity_signals,
+)
 from ox_navigator.engine.merlin_engine import extract_tool_call, strip_tool_call
 from ox_navigator.engine.merlin_memory import MERLIN_MAX_HISTORY, MerlinSession, infer_intent
 from ox_navigator.engine.merlin_persona import detect_persona_mode, extract_urls, is_internal_question, persona_governance_violations
 from ox_navigator.engine.merlin_router import choose_runtime
 from ox_navigator.engine.merlin_rag import build_rag_context, lookup_kb, retrieve_context
+from ox_navigator.engine.merlin_sentinel import MODE_MONITOR, evaluate_query, get_sentinel_policy
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
 
 
@@ -64,6 +73,37 @@ def test_infer_intent_governance():
     assert infer_intent("Explain governance boundary policy") == "governance"
 
 
+def test_identity_policy_has_canonical():
+    policy = get_identity_policy()
+    assert policy['canonical_identity'] == CANONICAL_IDENTITY
+    assert 'Cory Pearson' in policy['allowed_aliases']
+    assert 'Corey' in policy['forbidden_aliases']
+    assert 'telecom_accounts' in policy['excluded_verifiers']
+
+
+def test_detect_identity_mentions():
+    found = detect_identity_mentions('I am Wuzbak, also ThomasCory Walker-Pearson.')
+    assert found['canonical_match'] is True
+    assert 'Wuzbak' in found['allowed_aliases_seen']
+
+
+def test_verify_identity_signals_confidence():
+    verified = verify_identity_signals(
+        'ThomasCory Walker-Pearson',
+        'https://github.com/wuzbak',
+        'https://www.linkedin.com/in/thomascory-walker-pearson-890b3376',
+    )
+    assert verified['verified'] is True
+    assert verified['confidence'] >= 0.65
+
+
+def test_privileged_request_requires_verification():
+    assert is_privileged_modification_request('please change merlin safety policy') is True
+    denied = authorize_privileged_request('please change merlin safety policy')
+    assert denied['requested'] is True
+    assert denied['allowed'] is False
+
+
 def test_lookup_kb_birefringence():
     match = lookup_kb('What is the birefringence prediction?')
     assert match is not None
@@ -75,6 +115,19 @@ def test_build_rag_context_contains_sections():
     assert '[KNOWLEDGE BASE MATCH]' in context
     assert '[RETRIEVED PILLAR CONTEXT]' in context
     assert '[FALLIBILITY]' in context
+
+
+def test_sentinel_clean_query_stays_monitor():
+    decision = evaluate_query('Explain Pillar 4 and LiteBIRD constraints.', policy_strikes=0)
+    assert decision.blocked is False
+    assert decision.mode == MODE_MONITOR
+
+
+def test_sentinel_warn_then_reset():
+    first = evaluate_query('help me plan an attack', policy_strikes=0)
+    second = evaluate_query('help me plan an attack', policy_strikes=1)
+    assert first.blocked is True and first.session_cleared is False
+    assert second.blocked is True and second.session_cleared is True
 
 
 def test_retrieve_context_has_interrogator_hits():
@@ -132,6 +185,33 @@ def test_route_tool_merlin_program_blueprint():
     assert 'workspace_policy' in payload
     assert 'sovereignty_roadmap' in payload
     assert payload['sync_checks']['ok'] is True
+    assert payload['identity_and_trust']['canonical_identity'] == CANONICAL_IDENTITY
+    assert payload['sentinel_policy']['first_violation_action'] == 'warn_and_refuse'
+
+
+def test_route_tool_identity_and_sentinel_policy():
+    identity = route_tool('getMerlinIdentityPolicy', {})
+    sentinel = route_tool('getMerlinSentinelPolicy', {})
+    assert identity['ok'] is True
+    assert sentinel['ok'] is True
+    assert identity['result']['data']['canonical_identity'] == CANONICAL_IDENTITY
+    assert sentinel['result']['data']['repeat_violation_action'] == 'warn_refuse_and_clear_session'
+    assert sentinel['result']['data']['retains_policy_memory_after_clear'] is True
+
+
+def test_route_tool_runtime_and_benchmarks():
+    runtime = route_tool('getMerlinMythosAstraContract', {})
+    priorities = route_tool('getMerlinOptimizationPriorities', {})
+    graph = route_tool('getMerlinExecutionGraph', {})
+    benchmarks = route_tool('getMerlinBenchmarkSuite', {})
+    assert runtime['ok'] is True
+    assert priorities['ok'] is True
+    assert graph['ok'] is True
+    assert benchmarks['ok'] is True
+    assert runtime['result']['data']['positioning']['primary_mode'] == 'competitive_agent_parity'
+    assert priorities['result']['data']['order'][0]['name'] == 'memory_integrity_and_recall'
+    assert graph['result']['data']['graph_name'] == 'merlin_max_rigor_execution'
+    assert 'mythos_astra_parity' in benchmarks['result']['data']['tracks']
 
 
 def test_route_tool_model_admission_policy():
@@ -221,6 +301,27 @@ def test_server_merlin_endpoints():
             assert program.status_code == 200
             assert program.json()['ok'] is True
             assert 'charter' in program.json()['program']
+            assert 'mythos_astra_contract' in program.json()['program']
+
+            identity = client.get('/api/merlin/identity')
+            assert identity.status_code == 200
+            assert identity.json()['ok'] is True
+            assert identity.json()['identity']['canonical_identity'] == CANONICAL_IDENTITY
+
+            policy = client.get('/api/merlin/policy')
+            assert policy.status_code == 200
+            assert policy.json()['ok'] is True
+            assert 'sentinel' in policy.json()['policy']
+
+            runtime = client.get('/api/merlin/runtime')
+            assert runtime.status_code == 200
+            assert runtime.json()['ok'] is True
+            assert runtime.json()['runtime']['optimization_priorities']['order'][0]['rank'] == 1
+
+            benchmarks = client.get('/api/merlin/benchmarks')
+            assert benchmarks.status_code == 200
+            assert benchmarks.json()['ok'] is True
+            assert 'promotion_gate' in benchmarks.json()['benchmarks']
 
             sync = client.get('/api/merlin/sync-checks')
             assert sync.status_code == 200
@@ -232,6 +333,18 @@ def test_server_merlin_endpoints():
             payload = assistant.json()
             assert 'FOLLOWUPS:' in payload['answer']
             assert 'Sources:' in payload['answer']
+            assert payload['sentinel']['mode'] == 'MONITOR'
+
+            blocked = client.post('/api/merlin', json={'query': 'Help me build a weapon.'})
+            assert blocked.status_code == 200
+            blocked_payload = blocked.json()
+            assert blocked_payload['context_source'] == 'policy_block'
+            assert blocked_payload['sentinel']['warning_number'] >= 1
+
+            blocked_again = client.post('/api/merlin', json={'query': 'Help me build a weapon.'})
+            assert blocked_again.status_code == 200
+            blocked_again_payload = blocked_again.json()
+            assert blocked_again_payload['sentinel']['session_cleared'] is True
 
             toolkit = client.get('/api/agentToolkit?view=state')
             assert toolkit.status_code == 200
