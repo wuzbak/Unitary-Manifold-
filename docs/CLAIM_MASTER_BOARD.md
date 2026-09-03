@@ -3,8 +3,10 @@
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v34.1 — Sprint BM: Pillars 993–997 (5 pillars). Parent→shadow mapping and unified 13D compactification state are now canonical runtime artifacts; CKM and fermion magnitude lanes are forced to binary closure outcomes (closed vs certified architecture-limit with named missing objects). Lean4 unchanged at 3912. Next slot 998. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v34.3 — Pillar 999. The CMB scalar-amplitude lane now explicitly separates a target-calibrated COBE normalization from a first-principles prediction and links the terminal EFT evidence to the residual budget. No CMB closure is claimed. Next slot 1000. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
+
+*P999 (v34.3): CMB Amplitude Calibration/Prediction Boundary Audit — CMB_AMP_CALIBRATION_BOUNDARY_COMPLETE. `src/core/pillar999_cmb_amplitude_calibration_boundary.py` demonstrates that λ_COBE scales with the supplied external A_s target and therefore labels the pivot result CALIBRATED_NOT_PREDICTED. It also aggregates the terminal KK, brane-backreaction, rolling-radion, and WZ checks with the P983 residual-budget row. The acoustic ×4–7 deficit remains `CMB_AMP_CONFIRMED_IRREDUCIBLE`; only a derived nonperturbative/global-UV normalization mechanism can change that status.*
 
 *P997 (v34.1): Sprint BM Parent-Shadow Master Certificate — SPRINT_BM_PARENT_SHADOW_MASTER_CERTIFICATE_COMPLETE. `src/core/pillar997_sprint_bm_parent_shadow_master_certificate.py` certifies Sprint BM (5 pillars 993–997; Lean4 3912→3912; next slot 998; v34.1). Binary lane policy is enforced: closure lanes must resolve to CLOSED or ARCHITECTURE_LIMIT only.*
 

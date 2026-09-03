@@ -6,7 +6,7 @@ tests/test_cmb_amplitude.py
 Test suite for src/core/cmb_amplitude.py — Pillar 52.
 
 Covers:
-  - COBE normalization check: λ_COBE fixes Aₛ, zero remaining freedom
+  - COBE normalization check: λ_COBE is calibrated to an external Aₛ target
   - COBE normalization ratio ≈ 1.000 (sub-0.01% accuracy)
   - Spectral index from COBE check matches UM canonical value
   - Tower correction factor ≥ 1 (always boosts amplitude)
@@ -106,6 +106,8 @@ class TestCobeNormalizationCheck:
             "phi0_eff", "ns", "r_braided", "lam_cobe",
             "As_predicted", "As_target", "As_ratio",
             "ns_sigma_planck", "r_within_bicep", "normalization_resolved",
+            "calibration_parameter_count", "calibration_input",
+            "normalization_is_calibrated", "normalization_predicted",
         ]
         for k in required:
             assert k in self.result, f"Missing key: {k}"
@@ -143,8 +145,11 @@ class TestCobeNormalizationCheck:
     def test_r_within_bicep_true(self):
         assert self.result["r_within_bicep"] is True
 
-    def test_normalization_resolved_true(self):
-        assert self.result["normalization_resolved"] is True
+    def test_normalization_is_calibrated_not_predicted(self):
+        assert self.result["normalization_is_calibrated"] is True
+        assert self.result["normalization_predicted"] is False
+        assert self.result["normalization_resolved"] is False
+        assert self.result["calibration_parameter_count"] == 1
 
     def test_phi0_eff_around_31(self):
         # φ₀_eff = 5 × 2π × √1 ≈ 31.42
@@ -377,12 +382,13 @@ class TestAmplitudeGapAudit:
     def test_cobe_check_is_dict(self):
         assert isinstance(self.audit["cobe_check"], dict)
 
-    def test_gap_status_open(self):
-        assert self.audit["gap_status"] == "OPEN"
+    def test_gap_status_confirmed_irreducible(self):
+        assert self.audit["gap_status"] == "CONFIRMED_IRREDUCIBLE"
 
-    def test_pivot_amplitude_resolved(self):
-        # COBE normalization fixes Aₛ at the pivot scale
-        assert self.audit["As_at_pivot_resolved"] is True
+    def test_pivot_amplitude_calibrated_not_predicted(self):
+        assert self.audit["As_at_pivot_calibrated"] is True
+        assert self.audit["As_at_pivot_predicted"] is False
+        assert self.audit["As_at_pivot_resolved"] is False
 
     def test_acoustic_peaks_not_resolved(self):
         # The ×4–7 suppression is an open problem
@@ -404,8 +410,9 @@ class TestAmplitudeGapAudit:
     def test_cobe_check_ratio_near_unity(self):
         assert abs(self.audit["cobe_check"]["As_ratio"] - 1.0) < 1e-8
 
-    def test_cobe_check_normalization_resolved(self):
-        assert self.audit["cobe_check"]["normalization_resolved"] is True
+    def test_cobe_check_normalization_is_not_prediction(self):
+        assert self.audit["cobe_check"]["normalization_resolved"] is False
+        assert self.audit["cobe_check"]["normalization_predicted"] is False
 
     def test_residual_info_has_missing_physics(self):
         assert "missing_physics" in self.audit["residual_info"]
@@ -413,8 +420,8 @@ class TestAmplitudeGapAudit:
 
     def test_audit_custom_phi0(self):
         audit = amplitude_gap_audit(phi0_bare=0.95)
-        assert audit["gap_status"] == "OPEN"
-        assert audit["As_at_pivot_resolved"] is True
+        assert audit["gap_status"] == "CONFIRMED_IRREDUCIBLE"
+        assert audit["As_at_pivot_resolved"] is False
 
 
 # ---------------------------------------------------------------------------

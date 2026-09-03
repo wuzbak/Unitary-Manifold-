@@ -2,6 +2,34 @@ version: "v34.1"
 date: "2026-09-03"
 updated: "2026-09-03"
 
+v34_3_cmb_amplitude_integrity:
+  sprint: "CMB integrity"
+  version: v34.3
+  date: "2026-09-03"
+  pillars: 999
+  new_pillars: 1
+  new_tests: 7
+  lean4_start: 3912
+  lean4_end: 3912
+  lean4_delta: 0
+  closures:
+    - CMB_AMP_CALIBRATION_BOUNDARY_COMPLETE
+  advances:
+    - COBE_TARGET_CALIBRATION_SEPARATED_FROM_AS_PREDICTION
+    - TERMINAL_CMB_EFT_EVIDENCE_LINKED_TO_RESIDUAL_BUDGET
+    - CMB_UV_UPGRADE_CRITERION_MADE_EXECUTABLE
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+  regression: "209 passed (targeted CMB architecture regression)"
+  next_pillar_slot: 1000
+
 v34_1_sprint_bm:
   sprint: BM
   version: v34.1
