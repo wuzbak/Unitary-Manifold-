@@ -36,7 +36,7 @@ __all__ = [
     "REQUIRED_RECOVERY_FACTOR",
     "calibration_prediction_boundary",
     "cmb_amplitude_evidence_ledger",
-    "pillar998_summary",
+    "pillar999_summary",
 ]
 
 PILLAR_NUMBER: int = 999
@@ -139,4 +139,4 @@ def pillar999_summary() -> Dict[str, Any]:
     }
 
 
-PILLAR_VALID: bool = pillar998_summary()["valid"]
+PILLAR_VALID: bool = pillar999_summary()["valid"]
