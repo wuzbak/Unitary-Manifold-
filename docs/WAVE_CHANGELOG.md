@@ -1,9 +1,36 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v35.3 (2026-09-03)**
+**Current version: v35.4 (2026-09-03)**
 **Regression:** 63,666 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1032
+**Next pillar slot:** 1040
+
+## v35.4 (2026-09-03 — Sprint BX: Pillars 1032–1039)
+
+**What changed:**
+Pillars 1032–1039 (8 pillars). Sprint BX executes a parallel closure campaign with serialized claim discipline. (1) P1032 pushes the shared flavor-root lane first and sharpens the blocker map across CKM shadow, fermion magnitude/radii, and Jarlskog Layer-2 without claiming an unearned runtime flip. (2) P1033 couples α_s and Higgs under one shared compactification object and narrows both residuals jointly with no per-lane rescue knobs. (3) P1034 escalates the non-fitted CMB mechanism lane under no external `A_s` targeting and strengthens irreducibility when closure is not earned. (4) P1035 adds a Lean4-backed residual tightening layer tied to P636 and reduces the named formal-open surface. (5) P1036 upgrades Merlin replacement from policy-only intent to concrete self-hosted Stage A receipts and readiness packets. (6) P1037 keeps biology exactness honest by separating exact kernels from HOX empirical and hydration model-dependent claims. (7) P1038 certifies sprint integration. (8) P1039 certifies cross-surface and live-status coherence.
+
+**Why:**
+Make the next sprint materially meaningful even without closure flips: sharpen blockers, tighten architecture-limit certificates, shrink the formal-open surface, and advance Merlin toward real in-repo/self-hosted capability.
+
+**Epistemic label deltas:**
+- new flavor campaign verdict: `PARALLEL_FLAVOR_CLOSURE_CAMPAIGN_COMPLETE`
+- new UV campaign verdict: `UV_PARALLEL_COMPACTIFICATION_CAMPAIGN_COMPLETE`
+- new CMB campaign verdict: `PARALLEL_CMB_CLOSURE_CAMPAIGN_COMPLETE`
+- new formal residual verdict: `SPRINT_BX_FORMAL_RESIDUAL_TIGHTENING_COMPLETE`
+- new Merlin milestone verdict: `MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE_COMPLETE`
+- new biology follow-through verdict: `BIOLOGY_EXACTNESS_FOLLOWTHROUGH_AUDIT_COMPLETE`
+- new sprint integration and coherence verdicts: `SPRINT_BX_PARALLEL_CAMPAIGN_CERTIFICATE_COMPLETE`, `SPRINT_BX_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3952 → 3964 (+12)
+**Regression:** Sprint BX targeted tests passed · 0 failed; Merlin Product 20 targeted tests passed · 0 failed
+**Next pillar slot:** 1040
 
 ## v35.3 (2026-09-03 — Sprint BW: Pillar 1031)
 

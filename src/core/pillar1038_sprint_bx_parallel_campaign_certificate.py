@@ -84,7 +84,11 @@ def sprint_bx_parallel_campaign_certificate() -> Dict[str, Any]:
         )
     )
     definition_of_done = {
-        "baseline_freeze_dependency_retained": bool(baseline["valid"]),
+        "baseline_freeze_dependency_retained": bool(
+            baseline["pillar"] == 1031
+            and baseline["status"] == "SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE_COMPLETE"
+            and baseline["next_pillar_slot"] == 1032
+        ),
         "three_physics_programs_executed": execution_order_ok,
         "formal_residual_burden_shrunk": bool(p1035["residual_map"]["formal_reduction_earned"]),
         "merlin_replacement_beyond_policy": bool(p1036["evidence_present"]),

@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v35.3
+# Unitary Manifold v35.4
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,7 +8,7 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-> **Sprint BW (v35.3 — 2026-09-03):** 1 pillar (1031). P1031 certifies three-lane execution readiness: Lane 1 baseline reality is frozen against STATUS/mas_tracker/sprint-plan and closure-order discipline remains strict; Lane 2 Merlin adds explicit sustained empirical replacement gating and promotion-packet pass/fail surfaces while keeping OpenRouter compatibility optional; Lane 3 performs high-visibility stale-status coherence cleanup. No open-lane label changes are claimed. Lean4 unchanged (3952). Next slot 1032.
+> **Sprint BX (v35.4 — 2026-09-03):** 8 pillars (1032–1039). P1032 runs the strongest in-branch shared flavor-root push and sharpens the blocker map across CKM shadow, fermion magnitude/radii, and Jarlskog Layer-2 without claiming a runtime flip that is not earned. P1033 reruns α_s + Higgs together under one shared compactification object, narrows both residuals jointly, and forbids per-lane rescue knobs. P1034 escalates the non-fitted CMB mechanism lane without external `A_s` targeting and strengthens the irreducibility certificate when closure is not earned. P1035 reduces the P636 formal-open surface with a Lean4-backed residual tightening layer while keeping the Hilbert-space burden explicit. P1036 upgrades Merlin from policy-only replacement intent to concrete self-hosted Stage A receipts and replacement-readiness surfaces. P1037 keeps biology exactness honest by separating exact kernels from HOX empirical and hydration model-dependent quantities. P1038 certifies the integrated sprint outcome. P1039 certifies cross-surface and live-status coherence. Open-lane labels remain unchanged and explicit, including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`. Lean4 3952→3964 (+12). Next slot 1040.
 >
 > **Sprint BV (v35.2 — 2026-09-03):** 6 pillars (1025–1030). P1025 executes the flavor-root closure attempt across CKM shadow, fermion magnitude/radii, and Jarlskog Layer-2 under one shared object and strict binary outcomes; no runtime flip is credited without a real status change. P1026 executes one shared-object-only UV coupled attempt across α_s and Higgs with no per-lane rescue parameters and explicit before/after residual accounting. P1027 executes one non-fitted CMB mechanism attempt targeting the named missing objects and publishes a residual-budget delta while retaining non-promotion discipline when closure is not earned. P1028 adds Lean4-backed SU(3) residual contraction tied to P636 and explicitly narrows, but does not erase, the functional-analysis burden. P1029 certifies Sprint BV definition-of-done and meaningful-result rules. P1030 certifies cross-surface coherence. Open-lane labels remain unchanged and explicit, including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`. Lean4 3936→3952 (+16). Next slot 1031.
 >
@@ -48,7 +48,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-03 (v35.3 — Sprint BW: Pillar 1031; baseline lock certificate + Merlin empirical replacement-gate/promotion-packet hardening + high-visibility stale-surface coherence cleanup. Lean4 unchanged at 3952. Next pillar slot is 1032. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
+*Last updated: 2026-09-03 (v35.4 — Sprint BX: Pillars 1032–1039; flavor/UV/CMB program hardening + formal residual tightening + Merlin self-hosted replacement milestone + biology follow-through + sprint/live-status coherence. Lean4 rises to 3964. Next pillar slot is 1040. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 
