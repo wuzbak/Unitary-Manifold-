@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import asyncio
 import re
+import threading
 from statistics import mean
 from typing import Any
 
@@ -406,7 +407,27 @@ def run_stage_a_head_to_head_receipts_sync(
     limit: int | None = None,
 ) -> dict[str, Any]:
     """Synchronous wrapper for Stage A receipts."""
-    return asyncio.run(run_stage_a_head_to_head_receipts(limit=limit))
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(run_stage_a_head_to_head_receipts(limit=limit))
+
+    result: dict[str, Any] = {}
+    error: BaseException | None = None
+
+    def _runner() -> None:
+        nonlocal result, error
+        try:
+            result = asyncio.run(run_stage_a_head_to_head_receipts(limit=limit))
+        except BaseException as exc:  # pragma: no cover - surfaced below
+            error = exc
+
+    thread = threading.Thread(target=_runner, daemon=True)
+    thread.start()
+    thread.join()
+    if error is not None:
+        raise error
+    return result
 
 
 def build_stage_a_replacement_readiness(

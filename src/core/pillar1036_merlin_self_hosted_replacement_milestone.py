@@ -4,19 +4,14 @@
 
 from __future__ import annotations
 
+import importlib
 import sys
+from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Iterator
 
 _ROOT = Path(__file__).resolve().parents[2]
 _PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-merlin-navigator"
-if str(_PRODUCT_ROOT) not in sys.path:
-    sys.path.insert(0, str(_PRODUCT_ROOT))
-
-from ox_navigator.engine.merlin_benchmark import (  # type: ignore[import-not-found]
-    build_stage_a_replacement_readiness,
-)
-from ox_navigator.engine.merlin_program import run_sync_checks  # type: ignore[import-not-found]
 
 __all__ = [
     "PILLAR_NUMBER",
@@ -32,8 +27,33 @@ PILLAR_GATE: str = "MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE"
 PILLAR_STATUS: str = "MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE_COMPLETE"
 
 
+@contextmanager
+def _merlin_import_path() -> Iterator[None]:
+    product_root = str(_PRODUCT_ROOT)
+    inserted = False
+    if product_root not in sys.path:
+        sys.path.insert(0, product_root)
+        inserted = True
+    try:
+        yield
+    finally:
+        if inserted:
+            try:
+                sys.path.remove(product_root)
+            except ValueError:
+                pass
+
+
+def _load_merlin_helpers() -> tuple[Any, Any]:
+    with _merlin_import_path():
+        benchmark = importlib.import_module("ox_navigator.engine.merlin_benchmark")
+        program = importlib.import_module("ox_navigator.engine.merlin_program")
+    return benchmark.build_stage_a_replacement_readiness, program.run_sync_checks
+
+
 def merlin_self_hosted_replacement_milestone() -> Dict[str, Any]:
     """Return the Sprint BX Merlin self-hosted replacement milestone report."""
+    build_stage_a_replacement_readiness, run_sync_checks = _load_merlin_helpers()
     readiness = build_stage_a_replacement_readiness(limit=3)
     sync_checks = run_sync_checks()
     valid = bool(

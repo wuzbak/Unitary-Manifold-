@@ -149,11 +149,8 @@ def parallel_flavor_closure_campaign() -> Dict[str, Any]:
         "dominant_blocker": blocker_table[0],
         "grouped_blockers": grouped_blockers,
         "named_unresolved_objects": _dedupe(
-            [
-                PRIMARY_SHARED_ROOT_OBJECT,
-                str(fermion["named_missing_object"]),
-                blocker_table[2]["missing_object"],
-            ]
+            [PRIMARY_SHARED_ROOT_OBJECT]
+            + [str(row["missing_object"]) for row in blocker_table]
         ),
         "interpretation": (
             "Sprint BX keeps flavor first but runs a larger parallel blocker map: one shared "
