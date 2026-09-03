@@ -342,6 +342,15 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert payload['benchmark_eval'] is None
 
 
+def test_query_merlin_keeps_benchmark_eval_explicit_only():
+    session = MerlinSession()
+    payload = asyncio.run(query_merlin(
+        text='What is the birefringence prediction and how could LiteBIRD falsify it?',
+        session=session,
+    ))
+    assert payload['benchmark_eval'] is None
+
+
 def test_server_merlin_endpoints():
     httpd = serve(port=0)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)

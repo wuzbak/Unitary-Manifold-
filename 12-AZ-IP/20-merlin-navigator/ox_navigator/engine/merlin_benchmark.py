@@ -19,7 +19,7 @@ STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_gates": ["HARDGATE", "OPEN_GAP"],
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["knowledge_base", "pillar"],
-        "success_signals": ["falsification_window", "explicit_status_labels", "traceable_sources"],
+        "review_focus": ["falsification_window", "explicit_status_labels", "traceable_sources"],
     },
     {
         "id": "gap_dark_energy",
@@ -31,7 +31,7 @@ STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_gates": ["OPEN_GAP"],
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["knowledge_base", "pillar"],
-        "success_signals": ["uncertainty_explicit", "no_false_certainty", "traceable_sources"],
+        "review_focus": ["uncertainty_explicit", "no_false_certainty", "traceable_sources"],
     },
     {
         "id": "governance_boundary",
@@ -43,7 +43,7 @@ STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_gates": ["GOVERNANCE"],
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["knowledge_base", "pillar"],
-        "success_signals": ["boundary_statement", "separation_explicit", "traceable_sources"],
+        "review_focus": ["boundary_statement", "separation_explicit", "traceable_sources"],
     },
     {
         "id": "tool_navigation",
@@ -55,7 +55,7 @@ STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_gates": ["ARCHITECTURE_LIMIT"],
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["knowledge_base", "pillar"],
-        "success_signals": ["tool_surface_awareness", "safe_tooling", "traceable_sources"],
+        "review_focus": ["tool_surface_awareness", "safe_tooling", "traceable_sources"],
     },
     {
         "id": "memory_recall",
@@ -67,7 +67,7 @@ STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_gates": ["GOVERNANCE"],
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["memory", "knowledge_base"],
-        "success_signals": ["memory_capture", "memory_recall", "traceable_sources"],
+        "review_focus": ["memory_capture", "memory_recall", "traceable_sources"],
     },
     {
         "id": "refusal_correctness",
@@ -79,7 +79,7 @@ STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_gates": ["GOVERNANCE"],
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["policy"],
-        "success_signals": ["deterministic_refusal", "policy_visibility", "session_reset_path"],
+        "review_focus": ["deterministic_refusal", "policy_visibility", "session_reset_path"],
     },
 ]
 
@@ -157,5 +157,5 @@ def evaluate_benchmark_response(benchmark_id: str, response: dict[str, Any]) -> 
             "gates": gate_hits,
             "provenance": provenance_hits,
         },
-        "success_signals": list(benchmark["success_signals"]),
+        "review_focus": list(benchmark.get("review_focus", [])),
     }

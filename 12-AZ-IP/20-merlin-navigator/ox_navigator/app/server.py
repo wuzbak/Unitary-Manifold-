@@ -6,6 +6,8 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
+import hmac
 import json
 import os
 import threading
@@ -42,6 +44,20 @@ _MERLIN_SESSIONS: dict[str, MerlinSession] = {}
 _MERLIN_SESSION_LAST_SEEN: dict[str, float] = {}
 _MERLIN_SESSIONS_LOCK = threading.Lock()
 _MERLIN_SESSION_CAP = 128
+_MERLIN_SESSION_SECRET = uuid4().hex.encode('utf-8')
+
+
+def _sign_session_id(session_id: str) -> str:
+    signature = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
+    return f'{session_id}.{signature}'
+
+
+def _extract_session_id(token: str) -> str:
+    session_id, _, signature = str(token or '').partition('.')
+    if not session_id or not signature:
+        return ''
+    expected = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
+    return session_id if hmac.compare_digest(signature, expected) else ''
 
 
 class OxRequestHandler(SimpleHTTPRequestHandler):
@@ -57,7 +73,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         self.send_header('Content-Type', 'application/json; charset=utf-8')
         pending_cookie = getattr(self, '_pending_session_cookie', '')
         if pending_cookie:
-            self.send_header('Set-Cookie', f'merlin_session_id={pending_cookie}; Path=/; HttpOnly; SameSite=Lax')
+            self.send_header('Set-Cookie', f'merlin_session_id={_sign_session_id(pending_cookie)}; Path=/; HttpOnly; SameSite=Lax')
         self.send_header('Content-Length', str(len(body)))
         self.end_headers()
         self.wfile.write(body)
@@ -68,7 +84,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         for part in raw_cookie.split(';'):
             key, _, value = part.strip().partition('=')
             if key == 'merlin_session_id' and value.strip():
-                candidate_id = value.strip()
+                candidate_id = _extract_session_id(value.strip())
                 break
         with _MERLIN_SESSIONS_LOCK:
             session_id = candidate_id if candidate_id in _MERLIN_SESSIONS else ''
