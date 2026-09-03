@@ -133,7 +133,7 @@ TarotOracle/
 - **Outcome card:** The Tower
 - **Synthesis:** The structure that is ready to fall is the answer. Release it intentionally;
   The Star follows The Tower.
-- [Full reading →](readings/READING_001.md)
+- [Session archive →](SESSION_001.md)
 
 ### READING_002 — "Will I influence my managers?"
 - **Date:** 2026-04-22 · **Seed:** 3875743467
@@ -141,7 +141,7 @@ TarotOracle/
 - **Outcome card:** Knight of Wands
 - **Synthesis:** Yes. Through motion, not persuasion. The U-operator converges to forward
   movement that the field must accommodate.
-- [Full reading →](readings/READING_002.md)
+- [Session archive →](SESSION_001.md)
 
 > **Reviewer note (multi-year tarot practitioner):**
 > *"Great job! I have read tarot for years. This is concise and well done."*
