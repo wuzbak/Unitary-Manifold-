@@ -55,11 +55,17 @@ def su3_residual_contraction_report() -> Dict[str, Any]:
 
     reduction_earned = len(after) < len(before)
 
+    valid = bool(
+        lean4_path.exists()
+        and reduction_earned
+        and p1022["valid"]
+    )
+
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": valid,
         "dependency": {
             "pillar636_open_item": p636["open_item"],
             "pillar1022_status": p1022["status"],
@@ -89,11 +95,7 @@ def su3_residual_contraction_report() -> Dict[str, Any]:
 
 
 _REPORT = su3_residual_contraction_report()
-PILLAR_VALID: bool = bool(
-    _REPORT["lean4_kernel"]["exists"]
-    and _REPORT["residual_map"]["formal_reduction_earned"]
-    and _REPORT["dependency"]["pillar1022_valid"]
-)
+PILLAR_VALID: bool = bool(_REPORT["valid"])
 
 
 def pillar1028_summary() -> Dict[str, Any]:

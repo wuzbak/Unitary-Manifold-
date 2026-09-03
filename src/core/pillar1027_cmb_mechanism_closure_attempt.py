@@ -60,11 +60,18 @@ def cmb_mechanism_closure_attempt() -> Dict[str, Any]:
         "external_pending": float(cmb_row["external_pending"]),
     }
 
+    valid = (
+        candidate["uses_external_as_target"] is False
+        and candidate["free_parameters_added"] == 0
+        and outcome
+        in {"CMB_MECHANISM_EARNED", "CMB_IRREDUCIBLE_CERTIFICATE_STRENGTHENED"}
+    )
+
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": valid,
         "execution_order_rank": 3,
         "candidate": candidate,
         "named_missing_objects": ledger["named_missing_objects"],
@@ -98,12 +105,7 @@ def cmb_mechanism_closure_attempt() -> Dict[str, Any]:
 
 
 _REPORT = cmb_mechanism_closure_attempt()
-PILLAR_VALID: bool = (
-    _REPORT["candidate"]["uses_external_as_target"] is False
-    and _REPORT["candidate"]["free_parameters_added"] == 0
-    and _REPORT["outcome"]
-    in {"CMB_MECHANISM_EARNED", "CMB_IRREDUCIBLE_CERTIFICATE_STRENGTHENED"}
-)
+PILLAR_VALID: bool = bool(_REPORT["valid"])
 
 
 def pillar1027_summary() -> Dict[str, Any]:

@@ -95,11 +95,16 @@ def flavor_root_closure_attempt() -> Dict[str, Any]:
         ]
     )
 
+    valid = outcome in {
+        "FLAVOR_ROOT_RUNTIME_FLIP_EARNED",
+        "FLAVOR_ROOT_RUNTIME_FLIP_NOT_EARNED",
+    }
+
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": valid,
         "shared_root_object": SHARED_ROOT_OBJECT,
         "execution_order_rank": 1,
         "binary_outcomes": {
@@ -122,10 +127,7 @@ def flavor_root_closure_attempt() -> Dict[str, Any]:
 
 
 _REPORT = flavor_root_closure_attempt()
-PILLAR_VALID: bool = _REPORT["outcome"] in {
-    "FLAVOR_ROOT_RUNTIME_FLIP_EARNED",
-    "FLAVOR_ROOT_RUNTIME_FLIP_NOT_EARNED",
-}
+PILLAR_VALID: bool = bool(_REPORT["valid"])
 
 
 def pillar1025_summary() -> Dict[str, Any]:

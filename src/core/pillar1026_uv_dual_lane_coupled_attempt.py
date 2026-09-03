@@ -61,11 +61,16 @@ def uv_dual_lane_coupled_attempt() -> Dict[str, Any]:
     )
     strengthened = simultaneous_narrowing and not closure_earned
 
+    valid = outcome in {
+        "UV_DUAL_LANE_COUPLED_IMPROVEMENT_EARNED",
+        "UV_DUAL_LANE_ARCHITECTURE_LIMIT_REAFFIRMED",
+    }
+
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": valid,
         "execution_order_rank": 2,
         "shared_uv_object": SHARED_UV_OBJECT,
         "per_lane_rescue_parameters_added": 0,
@@ -93,10 +98,7 @@ def uv_dual_lane_coupled_attempt() -> Dict[str, Any]:
 
 
 _REPORT = uv_dual_lane_coupled_attempt()
-PILLAR_VALID: bool = _REPORT["outcome"] in {
-    "UV_DUAL_LANE_COUPLED_IMPROVEMENT_EARNED",
-    "UV_DUAL_LANE_ARCHITECTURE_LIMIT_REAFFIRMED",
-}
+PILLAR_VALID: bool = bool(_REPORT["valid"])
 
 
 def pillar1026_summary() -> Dict[str, Any]:
