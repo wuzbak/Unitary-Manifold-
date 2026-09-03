@@ -38,6 +38,7 @@ from src.core.omega_qcd_phase_a import (
     n_c_from_winding,
     cs_coupling_from_n_w_k_cs,
     alpha_gut_geometric,
+    cs_first_principles_closure_audit,
     beta0_qcd_nf,
     rge_alpha_s,
     alpha_3_sm_only_at_mgut,
@@ -242,7 +243,7 @@ class TestAlphaGutGeometric:
         self.result = alpha_gut_geometric()
 
     def test_epistemic_status(self):
-        assert self.result["epistemic_status"] == "DERIVED"
+        assert self.result["epistemic_status"] == "POSTULATED_BY_CS_ANALOGY"
 
     def test_pillar_label(self):
         assert "Ω_QCD" in self.result["pillar"]
@@ -563,7 +564,7 @@ class TestTwoPathConvergence:
         assert self.result["free_parameters"] == 0
 
     def test_epistemic_label(self):
-        assert "DERIVED" in self.result["epistemic_label"]
+        assert "POSTULATED" in self.result["epistemic_label"]
         assert "VERIFIED" in self.result["epistemic_label"]
 
 
@@ -793,8 +794,14 @@ class TestOmegaQcdPhaseAReport:
 
     def test_epistemic_status(self):
         status = self.result["epistemic_status"]
-        assert "DERIVED" in status
+        assert "POSTULATED" in status
         assert "VERIFIED" in status
+
+    def test_first_principles_audit_present(self):
+        audit = self.result["first_principles_audit"]
+        assert audit["lane"] == "UV_ALPHA_GUT_FIRST_PRINCIPLES"
+        assert audit["lane_status"] == "OPEN"
+        assert audit["first_principles_closed"] is False
 
     def test_impact_string(self):
         impact = self.result["impact"]
@@ -954,3 +961,11 @@ class TestKcsTopologicalProof:
         for n1, n2 in [(5, 7), (3, 5), (7, 9), (1, 3)]:
             p = k_cs_topological_proof(n1, n2)
             assert p["k_eff"] == n1**2 + n2**2
+
+
+class TestCsFirstPrinciplesClosureAudit:
+    def test_audit_reports_open_lane(self):
+        audit = cs_first_principles_closure_audit()
+        assert audit["lane"] == "UV_ALPHA_GUT_FIRST_PRINCIPLES"
+        assert audit["lane_status"] == "OPEN"
+        assert audit["first_principles_closed"] is False

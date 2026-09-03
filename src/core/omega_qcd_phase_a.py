@@ -487,7 +487,7 @@ def alpha_gut_geometric(
     """
     base = cs_coupling_from_n_w_k_cs(n_w, k_cs)
     base.update({
-        "epistemic_status": "DERIVED",
+        "epistemic_status": "POSTULATED_BY_CS_ANALOGY",
         "pillar": "Ω_QCD Phase A",
         "result_summary": (
             f"α_GUT = {base['alpha_gut']:.6f}  (= N_c/K_CS = {base['n_c']}/{k_cs})  "
@@ -496,6 +496,27 @@ def alpha_gut_geometric(
         ),
     })
     return base
+
+
+def cs_first_principles_closure_audit(
+    n_w: int = N_W,
+    k_cs: int = K_CS,
+) -> Dict[str, object]:
+    """Audit whether the CS coupling step is first-principles closed."""
+    coupling = cs_coupling_from_n_w_k_cs(n_w=n_w, k_cs=k_cs)
+    return {
+        "lane": "UV_ALPHA_GUT_FIRST_PRINCIPLES",
+        "n_w": n_w,
+        "k_cs": k_cs,
+        "alpha_gut_candidate": coupling["alpha_gut"],
+        "closure_target": "derive K_CS * alpha_GUT = N_c directly from 5D action integral",
+        "first_principles_closed": False,
+        "lane_status": "OPEN",
+        "current_state": "CS quantization relation remains postulated by analogy",
+        "non_promotion_reason": (
+            "Path-A coupling matches KK-corrected running, but a direct 5D action-level derivation is pending."
+        ),
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -839,7 +860,7 @@ def two_path_convergence(
         ),
         "status": status,
         "free_parameters": 0,
-        "epistemic_label": "DERIVED (A) + VERIFIED (B)",
+        "epistemic_label": "POSTULATED_BY_ANALOGY (A) + VERIFIED (B)",
     }
 
 
@@ -1034,8 +1055,9 @@ def omega_qcd_phase_a_report(
             "The 10⁷ gap in Λ_QCD originated because Pillar 62 used the KK scale "
             "as the starting point for dimensional transmutation.  Pillar 153 fixed "
             "the route (use M_GUT) but left α_GUT = 1/24.3 as an external input.  "
-            "Ω_QCD Phase A closes the geometric gap: α_GUT = N_c/K_CS = 3/74 is "
-            "derived from (n_w=5, K_CS=74) alone — no free parameters."
+            "Ω_QCD Phase A closes the route-level mismatch and provides a zero-parameter "
+            "coupling candidate α_GUT = N_c/K_CS = 3/74, but this coupling relation "
+            "remains postulated by CS analogy pending first-principles action closure."
         ),
         "path_a": {
             "label": "Top-Down Geometric (CS quantization)",
@@ -1063,6 +1085,7 @@ def omega_qcd_phase_a_report(
             "residual_explanation": convergence["residual_origin"],
         },
         "full_chain": chain,
+        "first_principles_audit": cs_first_principles_closure_audit(n_w=n_w, k_cs=k_cs),
         "lambda_qcd_nf3_mev": chain["step_4_lambda_qcd_nf3_mev"],
         "pdg_lambda_qcd_mev": LAMBDA_QCD_PDG_MEV,
         "alpha_gut_geometric": alpha_gut_a,
@@ -1082,11 +1105,11 @@ def omega_qcd_phase_a_report(
             "4_loop_closure": "Pillar 153 provides 4-loop + threshold matching, closing to PDG precision",
             "no_free_parameters": True,
         },
-        "epistemic_status": "DERIVED (Path A) + VERIFIED (Path B KK-corrected)",
+        "epistemic_status": "POSTULATED_BY_ANALOGY (Path A) + VERIFIED (Path B KK-corrected)",
         "impact": (
             "Sub-atomic matter stability (quartz lattice, nuclear binding) rests on Λ_QCD. "
-            "This derivation shows the 5D geometry (n_w=5, K_CS=74) fixes α_GUT — and "
-            "therefore Λ_QCD — without any free parameters.  The UM's claim that geometry "
-            "determines nuclear stability is now mathematically grounded."
+            "The current chain provides a converged α_GUT candidate and downstream Λ_QCD agreement, "
+            "while preserving the explicit open requirement to derive the CS coupling step "
+            "directly from the 5D action."
         ),
     }

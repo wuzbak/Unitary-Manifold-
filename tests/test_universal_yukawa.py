@@ -28,6 +28,9 @@ from src.core.universal_yukawa import (
     universal_yukawa_c_L_spectrum,
     c_L_ordering_check,
     c_L_winding_consistency,
+    geometry_quantized_c_l_levels,
+    discrete_c_l_projection_for_fermion,
+    universal_yukawa_discrete_geometry_projection,
     rge_yukawa_running,
     b_tau_unification_test,
     fermion_mass_from_universal_yukawa,
@@ -561,3 +564,20 @@ class TestPillar98Summary:
         r = summary["step4_b_tau"]["ratio_b_tau_gut"]
         assert math.isfinite(r)
         assert r > 0.0
+
+
+class TestDiscreteGeometryProjection:
+    def test_quantized_levels_nw5(self):
+        levels = geometry_quantized_c_l_levels(5)
+        assert levels == pytest.approx([1.0, 0.9, 0.8, 0.7, 0.6, 0.5], rel=0, abs=1e-12)
+
+    def test_per_fermion_projection_shape(self):
+        projected = discrete_c_l_projection_for_fermion(M_ELECTRON_MEV)
+        assert projected["c_L_discrete"] in geometry_quantized_c_l_levels(5)
+        assert projected["pct_error"] >= 0.0
+
+    def test_lane_status_machine_readable(self):
+        lane = universal_yukawa_discrete_geometry_projection(pass_tolerance_pct=10.0)
+        assert lane["lane"] == "FLAVOR_DISCRETE_CL_GEOMETRY"
+        assert lane["lane_status"] in {"CLOSED", "ARCH_LIMIT"}
+        assert isinstance(lane["all_pass"], bool)

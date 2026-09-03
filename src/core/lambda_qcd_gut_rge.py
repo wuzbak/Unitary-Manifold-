@@ -647,6 +647,8 @@ def lambda_qcd_gut_rge_full(
         "old_pillar62_gap_factor": old_gap,
         "new_gap_from_pdg_pct": new_gap_from_pdg * 100.0,
         "status": "✅ RESOLVED",
+        "route_closure_status": "CLOSED",
+        "first_principles_alpha_gut_status": "OPEN",
         "resolution": (
             f"Old Pillar 62: Λ_QCD ~ {LAMBDA_QCD_PILLAR62_GEV:.0e} GeV (×{old_gap:.0e} too large). "
             "Root cause: starting RGE at M_KK = 1 TeV with naive α_s estimate, bypassing GUT. "
@@ -680,6 +682,21 @@ def lambda_qcd_gut_rge_full(
     }
 
 
+def qcd_uv_compactification_status() -> Dict[str, object]:
+    """Return machine-checkable UV compactification lane status."""
+    from src.core.omega_qcd_phase_a import cs_first_principles_closure_audit  # noqa: PLC0415
+
+    audit = cs_first_principles_closure_audit()
+    return {
+        "lane": "QCD_UV_COMPACTIFICATION",
+        "route_chain_status": "CLOSED",
+        "first_principles_alpha_gut_status": audit["lane_status"],
+        "ready_for_promotion": audit["first_principles_closed"],
+        "status": "ARCH_LIMIT" if not audit["first_principles_closed"] else "CLOSED",
+        "non_promotion_reason": audit["non_promotion_reason"],
+    }
+
+
 def pillar153_summary() -> Dict[str, object]:
     """Structured Pillar 153 closure summary for audit tools.
 
@@ -696,6 +713,8 @@ def pillar153_summary() -> Dict[str, object]:
         "pillar": 153,
         "title": full["title"],
         "status": "✅ RESOLVED",
+        "route_closure_status": full["route_closure_status"],
+        "first_principles_alpha_gut_status": full["first_principles_alpha_gut_status"],
         "old_pillar62_gap_factor": full["old_pillar62_gap_factor"],
         "old_pillar62_lambda_gev": LAMBDA_QCD_PILLAR62_GEV,
         "new_lambda_qcd_nf3_mev": lam["lambda_qcd_nf3_mev"],
@@ -713,4 +732,5 @@ def pillar153_summary() -> Dict[str, object]:
             "Status changes from OPEN to ✅ RESOLVED. "
             "sm_parameter_grand_sync.py P_QCD updated to DERIVED."
         ),
+        "uv_compactification_lane": qcd_uv_compactification_status(),
     }
