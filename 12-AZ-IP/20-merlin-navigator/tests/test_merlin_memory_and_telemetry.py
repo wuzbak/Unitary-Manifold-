@@ -90,3 +90,7 @@ def test_match_benchmark_for_query_uses_keywords():
     match = match_benchmark_for_query('What is the birefringence prediction?')
     assert match is not None
     assert match['id'] == 'physics_birefringence'
+
+
+def test_match_benchmark_for_query_rejects_generic_memory_prompt():
+    assert match_benchmark_for_query('Explain memory policy.') is None
