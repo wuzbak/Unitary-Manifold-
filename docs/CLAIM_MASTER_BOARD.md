@@ -1,10 +1,20 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v34.4
+# Unitary Manifold v34.5
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v34.4 — Sprint BN: Pillars 998–1000. A shared-state-only UV/global-geometry + flavor full attempt is now executable and still resolves to an explicit architecture limit; the dedicated CMB integrity pillar separates COBE calibration from any false A_s prediction claim; Sprint BN certifies the combined lane. Next slot 1001. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v34.5 — Sprint BO: Pillars 1001–1005. The checked-in branch now exposes one shared 5D core, one 6D counting branch, one 7D torsion/shear branch, and a 13D downstream sink that is explicitly organizational rather than salvific. Next slot 1006. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
+
+*P1005 (v34.5): Sprint BO Shared-5 Bifurcation Certificate — SPRINT_BO_SHARED_5_BIFURCATION_CERTIFICATE_COMPLETE. `src/core/pillar1005_sprint_bo_shared_5_bifurcation_certificate.py` certifies Sprint BO (5 pillars 1001–1005; Lean4 3912→3912; next slot 1006; v34.5). The checked-in branch now treats 5 as the shared source, 6D and 7D as sibling branch resolutions, and 13D as a downstream consistency frame only.*
+
+*P1004 (v34.5): 13D Bifurcation Sink — THIRTEEN_DIMENSIONAL_BIFURCATION_SINK_COMPLETE. `src/core/pillar1004_thirteen_dimensional_bifurcation_sink.py` reruns the 13D parent/shadow scaffold as a consumer of the lower-dimensional bifurcation data and returns the honest runtime outcome `THIRTEEN_D_ORGANIZATIONAL_SINK_ONLY`. The downstream CKM and fermion lanes remain architecture-limited; 13D is not credited with rescue closure.*
+
+*P1003 (v34.5): 7D Torsion/Shear Branch Rule — SEVEND_TORSION_SHEAR_BRANCH_RULE_COMPLETE. `src/core/pillar1003_sevend_torsion_shear_branch_rule.py` links the shared upper branch `(5,7)` to the checked-in 7D discrete-torsion phase and the SL(2,R) shear map `(5,7)→(5,6)`, making the phase/shear role of the recurring 7 explicit.*
+
+*P1002 (v34.5): 6D Projection/Counting Branch Rule — SIXD_PROJECTION_BRANCH_RULE_COMPLETE. `src/core/pillar1002_sixd_projection_branch_rule.py` links the lower branch `(5,6)` to the checked-in 6D T²/Z₃ counting machinery via the clean rule `n2=2×N_gen=6`, making the counting role of the recurring 6 explicit.*
+
+*P1001 (v34.5): Shared 5D Bifurcation Core — SHARED_5D_BIFURCATION_CORE_COMPLETE. `src/core/pillar1001_shared_5d_bifurcation_core.py` canonicalizes one shared 5D object with `n_w=5`, parent integer `6`, and sibling branch coordinates `(6,7)` before the higher-dimensional lifts split into separate explanatory roles.*
 
 *P1000 (v34.4): Sprint BN Unified Completion Certificate — SPRINT_BN_UNIFIED_COMPLETION_CERTIFICATE_COMPLETE. `src/core/pillar1000_sprint_bn_unified_completion_certificate.py` certifies Sprint BN (3 pillars 998–1000; Lean4 3912→3912; next slot 1001; v34.4). The combined sprint keeps the UV/flavor full-attempt lane and the CMB integrity lane synchronized without changing the open-set labels.*
 

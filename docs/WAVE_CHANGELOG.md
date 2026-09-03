@@ -1,9 +1,35 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v34.4 (2026-09-03)**
-**Regression:** 1,205 passed (1,184 targeted CMB architecture tests + 21 new sprint tests)
-**Next pillar slot:** 1001
+**Current version: v34.5 (2026-09-03)**
+**Regression:** 34 passed · 0 skipped · 0 deselected · 0 failed (related parent-shadow + Sprint BO targeted regression)
+**Next pillar slot:** 1006
+
+## v34.5 (2026-09-03 — Sprint BO: Pillars 1001–1005)
+
+**What changed:**
+Pillars 1001–1005 (5 pillars). Sprint BO reframes the recurring 5/6/7 structure around one shared 5D source rather than a parent-vs-shadow narrative. (1) P1001 canonicalizes a shared 5D core with `n_w=5`, parent integer `6`, and sibling branch coordinates `(6,7)`. (2) P1002 links the lower `(5,6)` branch to the checked-in 6D T²/Z₃ counting machinery via `n2=2×N_gen=6`. (3) P1003 links the upper `(5,7)` branch to the checked-in 7D discrete-torsion phase and the existing SL(2,R) shear map to `(5,6)`. (4) P1004 reruns 13D only as a downstream consistency sink and returns the honest outcome `THIRTEEN_D_ORGANIZATIONAL_SINK_ONLY`. (5) P1005 records the sprint certificate.
+
+**Why:**
+Make the next breakthrough attempt more disciplined: isolate what is already fixed by the shared 5D structure, separate the 6D and 7D explanatory roles cleanly, and stop asking 13D to do origin work it has not earned.
+
+**Epistemic label deltas:**
+- new executable organizational verdict: `THIRTEEN_D_ORGANIZATIONAL_SINK_ONLY`
+- shared-5 / 6D-counting / 7D-phase roles are now explicit and machine-readable
+- no open lane is hidden, downgraded, or falsely promoted
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Regression:** 34 passed · 0 skipped · 0 deselected · 0 failed (related parent-shadow + Sprint BO targeted regression)
+**Next pillar slot:** 1006
+
+---
+---
 
 ## v34.4 (2026-09-03 — Sprint BN: Pillars 998–1000)
 
@@ -28,7 +54,6 @@ Execute the strongest honest in-branch closure attempt now, preserve absolute in
 **Regression:** 1,205 passed (1,184 targeted CMB architecture tests + 21 new sprint tests)
 **Next pillar slot:** 1001
 
----
 ---
 
 ## v34.1 (2026-09-03 — Sprint BM: Pillars 993–997)

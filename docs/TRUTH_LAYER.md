@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v34.4
+# Unitary Manifold v34.5
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v34.5 sync note (Sprint BO — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BO: Pillars 1001–1005; Lean4 3912; next pillar slot 1006; focused regression 34 passed · 0 skipped · 0 deselected · 0 failed (related parent-shadow + Sprint BO targeted regression).*
+*(2) P1001 makes the shared 5D core explicit before any higher-dimensional split: `n_w=5`, parent integer `6`, and sibling branch coordinates `(6,7)` are now one executable packet rather than a scattered interpretation.*
+*(3) P1002 and P1003 then split explanation cleanly: the checked-in 6D machinery explains the counting-side companion `6`, while the checked-in 7D torsion/shear machinery explains the phase-side companion `7` and its one-quantum map to `(5,6)`.*
+*(4) P1004 reruns the 13D scaffold as a downstream consumer only and records the honest runtime outcome `THIRTEEN_D_ORGANIZATIONAL_SINK_ONLY`: the structure is better organized, but the CKM and fermion lanes remain architecture-limited and no rescue closure is claimed.*
+*(5) P1005 records the sprint certificate. The explicit open set is unchanged: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3, LiteBIRD.*
 
 *v34.4 sync note (Sprint BN — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BN: Pillars 998–1000; Lean4 3912; next pillar slot 1001; focused regression 1,205 passed (1,184 targeted CMB architecture tests + 21 new sprint tests).*
