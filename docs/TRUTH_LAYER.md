@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v34.6
+# Unitary Manifold v34.7
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v34.7 sync note (Sprint BQ — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BQ: Pillars 1008–1010; Lean4 3912; next pillar slot 1011; focused regression 14 passed · 0 skipped · 0 deselected · 0 failed (Sprint BQ targeted regression). *
+*(2) P1008 turns the flavor-family hole into one binary gate test: CKM shadow and fermion magnitude/radii are evaluated together under one named promotion object, and promotion is only allowed if a real downstream runtime status changes. *
+*(3) The runtime answer is negative but explicit: `FLAVOR_FAMILY_PROMOTION_NOT_EARNED`. The named gate object `GLOBAL_FLAVOR_BUNDLE_WITH_NONLOCAL_OVERLAP_TENSOR` remains absent, so the family lane stays architecture-limited without reinterpretation. *
+*(4) P1009 runs one non-fitted nonperturbative/global-UV CMB normalization candidate and records `CMB_NONPERTURBATIVE_NORMALIZATION_NOT_EARNED`; the residual-budget certificate is tightened instead of softened. *
+*(5) P1010 records the sprint certificate. The explicit open set is unchanged: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3, LiteBIRD.*
 
 *v34.6 sync note (Sprint BP — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BP: Pillars 1006–1007; Lean4 3912; next pillar slot 1008; focused regression 10 passed · 0 skipped · 0 deselected · 0 failed (Sprint BP targeted regression).*

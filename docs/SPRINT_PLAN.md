@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-03 (v34.6 Sprint BP COMPLETE — Pillars 1006–1007; Lean4 3912→3912; next slot 1008)*
+*Last updated: 2026-09-03 (v34.7 Sprint BQ COMPLETE — Pillars 1008–1010; Lean4 3912→3912; next slot 1011)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,18 +16,18 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v34.6 — Sprint BP)
+## CURRENT AUDITABLE STATE (v34.7 — Sprint BQ)
 
 | Field | Value |
 |-------|-------|
-| Version | **v34.6** |
-| Sprint | **Sprint BP** |
-| Pillars | **1006–1007** |
-| Next pillar slot | **1008** |
+| Version | **v34.7** |
+| Sprint | **Sprint BQ** |
+| Pillars | **1008–1010** |
+| Next pillar slot | **1011** |
 | Lean4 theorems | **3912** |
-| Sprint theme | **Proof-first CKM promotion test + 13D demotion lock** |
-| Primary target | **Ask whether the checked-in shared 5D / 6D / 7D packet actually upgrades one real downstream CKM lane** |
-| Binary outcome | **CKM_SHADOW_PROMOTION_NOT_EARNED** |
+| Sprint theme | **Open-hole closure or hard-bound certification (primary flavor gate + secondary CMB candidate)** |
+| Primary target | **Ask whether one named gate object can earn a real downstream flavor-family promotion (CKM shadow + fermion radii)** |
+| Binary outcome | **FLAVOR_FAMILY_PROMOTION_NOT_EARNED + CMB_NONPERTURBATIVE_NORMALIZATION_NOT_EARNED** |
 
 ---
 
@@ -48,7 +48,7 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BP continuation)
+## NEXT PHASE PRIORITIES (post-BQ continuation)
 
 1. **Truth-surface lockstep first**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, and this file synchronized in one change set.

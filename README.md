@@ -1,4 +1,4 @@
-# The The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v34.0)
+# The The Unitary Manifold — 5D Kaluza-Klein Physics Framework (v34.7)
 
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
@@ -24,9 +24,9 @@
 ---
 
 [![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![62,525 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-62%2C525%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
-[![992+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-992%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
-[![Version](https://img.shields.io/badge/version-v34.0-blue)](docs/mas_tracker.yml)
+[![63,503 passed · 0 failed (internal self-consistency)](https://img.shields.io/badge/tests-63%2C503%20passed%20%C2%B7%200%20failed%20%28internal%20self--consistency%29-brightgreen)](tests/)
+[![1010+ pillars + Ω₀ | see STATUS.md](https://img.shields.io/badge/pillars-1010%2B%20%2B%20%CE%A9%E2%82%80%20%7C%20see%20STATUS.md-gold)](STATUS.md)
+[![Version](https://img.shields.io/badge/version-v34.7-blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19584531.svg)](https://doi.org/10.5281/zenodo.19584531)
 [![▶ Open Demo](https://img.shields.io/badge/%E2%96%B6%20Open%20Demo-demo.ipynb-orange)](https://colab.research.google.com/github/wuzbak/Unitary-Manifold-/blob/main/demo.ipynb)
@@ -59,7 +59,7 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 </details>
 
 > **Current status (v34.0 / Sprint BL):** Framework is internally self-consistent.
-> Full regression: **62,525 passed · 48 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-09-02, v34.0).
+> Full regression: **63,503 passed · 23 skipped · 12 deselected · 0 failed** (tests/ + recycling/ + Pentad; 2026-09-02, v34.0).
 > Tests verify mathematical self-consistency of the implementation, not physical correctness.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**

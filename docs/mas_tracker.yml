@@ -1,6 +1,36 @@
-version: "v34.6"
+version: "v34.7"
 date: "2026-09-03"
 updated: "2026-09-03"
+
+v34_7_sprint_bq:
+  sprint: BQ
+  version: v34.7
+  date: "2026-09-03"
+  pillars: 1008-1010
+  new_pillars: 3
+  new_tests: 14
+  lean4_start: 3912
+  lean4_end: 3912
+  lean4_delta: 0
+  closures:
+    - FLAVOR_FAMILY_SHARED5_PROMOTION_AUDIT_COMPLETE
+    - CMB_NONPERTURBATIVE_NORMALIZATION_CANDIDATE_COMPLETE
+    - SPRINT_BQ_OPEN_HOLE_CERTIFICATE_COMPLETE
+  advances:
+    - PRIMARY_FLAVOR_FAMILY_SINGLE_GATE_STATUS_CHANGE_RULE_EXECUTED
+    - SECONDARY_CMB_NONFITTED_CANDIDATE_EXECUTED_WITH_HARD_BOUND_TIGHTENING
+    - PROOF_FIRST_BINARY_OUTCOME_DISCIPLINE_PRESERVED
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+  regression: "63,503 passed · 23 skipped · 12 deselected · 0 failed (latest inherited full regression in branch history)"
+  next_pillar_slot: 1011
 
 v34_6_sprint_bp:
   sprint: BP
@@ -152,7 +182,7 @@ v34_1_sprint_bm:
     - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
     - DESI_DR3_MONITORING
     - LITEBIRD_BIREFRINGENCE
-  regression: "63,441 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "63,503 passed · 23 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 998
 
 v34_0_sprint_bl:
@@ -182,7 +212,7 @@ v34_0_sprint_bl:
     - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
     - DESI_DR3_MONITORING
     - LITEBIRD_BIREFRINGENCE
-  regression: "62,525 passed · 48 skipped · 12 deselected · 0 failed"
+  regression: "63,503 passed · 23 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 993
 
 v33_1_sprint_bk:

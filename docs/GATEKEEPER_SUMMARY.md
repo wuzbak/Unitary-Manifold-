@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v34.6
+# Unitary Manifold v34.7
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,6 +8,8 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Sprint BQ (v34.7 — 2026-09-03):** 3 pillars (1008–1010). P1008 enforces one named flavor-family promotion gate and requires a real downstream status change across CKM shadow + fermion magnitude/radii; outcome is `FLAVOR_FAMILY_PROMOTION_NOT_EARNED`, so architecture limits remain explicit. P1009 executes one non-fitted nonperturbative/global-UV CMB normalization candidate and records `CMB_NONPERTURBATIVE_NORMALIZATION_NOT_EARNED`, tightening the residual-budget certificate without softening the ×4–7 deficit. P1010 certifies the sprint. Truth surfaces updated in lockstep. Lean4 unchanged (3912). Next slot 1011.
+>
 > **Sprint BP (v34.6 — 2026-09-03):** 2 pillars (1006–1007). P1006 runs the BO shared-5 / 6D / 7D packet against one real downstream CKM lane and records the executable result `CKM_SHADOW_PROMOTION_NOT_EARNED`: the named missing object remains absent, runtime status stays `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, and 13D is not promoted by rhetoric. P1007 certifies the sprint. Truth surfaces updated in lockstep. Lean4 unchanged (3912). Next slot 1008.
 >
 > **Sprint BO (v34.5 — 2026-09-03):** 5 pillars (1001–1005). P1001 locks one shared 5D core before the higher-dimensional split. P1002 assigns the recurring 6 to the checked-in 6D counting branch. P1003 assigns the recurring 7 to the checked-in 7D torsion/shear branch and preserves the `(5,7)→(5,6)` one-quantum map. P1004 reruns 13D as a downstream consistency sink only and records `THIRTEEN_D_ORGANIZATIONAL_SINK_ONLY`, not closure. P1005 certifies the sprint. Truth surfaces updated in lockstep. Lean4 unchanged (3912). Next slot 1006.
@@ -34,9 +36,9 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-03 (v34.6 — Sprint BP: Pillars 1006–1007 (2 pillars); one real downstream CKM promotion test executed against the BO shared-5 packet, no 13D promotion earned, sprint certificate recorded, truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 1008. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
+*Last updated: 2026-09-03 (v34.7 — Sprint BQ: Pillars 1008–1010 (3 pillars); primary flavor-family gate run plus secondary non-fitted CMB candidate run, both with explicit non-promotion outcomes, sprint certificate recorded, truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 1011. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
 
-> **Repository sync guardrail (v34.6):** Sprint BP artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
+> **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 
 > **v15.8 sync note:** Pillars 511–515 deliver the topological irreversibility engine in response to a structural critique of test_evolution.py. Four identified architectural flaws addressed: Minkowski cage replaced by factory-vs-solver architecture proof; J^0 illusion replaced by Chern-Simons-corrected topological current (k_CS=74); S-matrix fake replaced by forward-only honest irreversibility measure; KK scaffold residue replaced by live winding tracking with explicit open-work record. Pillar 516 certifies the KK backreaction architecture limit as ARCHITECTURE_LIMIT_CERTIFIED. No physics promotion, no physics label promotion, no falsifier softened.
 
