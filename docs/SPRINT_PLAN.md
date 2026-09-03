@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-03 (v35.0 Sprint BT COMPLETE — Pillar 1020; Lean4 3912→3912; next slot 1021)*
+*Last updated: 2026-09-03 (v35.1 Sprint BU COMPLETE — Pillars 1021–1024; Lean4 3912→3936; next slot 1025)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,20 +16,20 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v35.0 — Sprint BT)
+## CURRENT AUDITABLE STATE (v35.1 — Sprint BU)
 
 | Field | Value |
 |-------|-------|
-| Version | **v35.0** |
-| Sprint | **Sprint BT** |
-| Pillars | **1020** |
-| Next pillar slot | **1021** |
-| Lean4 theorems | **3912** |
-| Sprint theme | **Three-program regrouping of the surviving internal architecture-limit lanes** |
-| Primary target | **Replace six disconnected-hole tracking with three coupled executable programs while keeping all open labels unchanged** |
-| Binary outcome | **THREE_PROGRAM_OPEN_ARCHITECTURE_REGISTRY_COMPLETE** |
+| Version | **v35.1** |
+| Sprint | **Sprint BU** |
+| Pillars | **1021–1024** |
+| Next pillar slot | **1025** |
+| Lean4 theorems | **3936** |
+| Sprint theme | **Promote only exact kernels; contain whole-lane biology overreach** |
+| Primary target | **Advance the promotable embryology kernels and attach a Lean4-backed kernel to P636 without hiding residual opens** |
+| Binary outcome | **EMBRYOLOGY_EXACT_KERNELS_CERTIFIED + SU3_ORBIFOLD_LEAN4_KERNEL_CERTIFIED** |
 
-Historical continuity: v34.9 Sprint BS covered Pillars 1014–1019 with next slot 1020 before the Sprint BT regrouping update.
+Historical continuity: v35.0 Sprint BT covered Pillar 1020 with next slot 1021 before the Sprint BU exact-kernel promotion update.
 
 ---
 
@@ -50,18 +50,18 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BT continuation)
+## NEXT PHASE PRIORITIES (post-BU continuation)
 
 1. **Truth-surface lockstep first**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, and this file synchronized in one change set.
-2. **Start with the shared flavor-family root**
-   - Build the global flavor-bundle object first, then rerun CKM shadow, fermion magnitude/radii, and Jarlskog as one family packet.
-3. **Run the shared UV compactification dual-lane second**
-   - Require one shared compactification object to narrow α_s and Higgs together rather than via separate lane rescues.
-4. **Keep the CMB program strict and last**
-   - Only credit a future CMB candidate if it avoids external `A_s`, adds no new fit knob, and reduces the amplitude deficit.
-5. **Keep the proof-first rule**
-   - Every future “higher-dimensional rescue” idea must hit one real downstream runtime and either change status or fail cleanly.
+2. **Harden the HOX empirical lane separately from the exact kernel**
+   - Keep `HOX_clusters = 4` promoted, but treat boundary fits and developmental mechanism as distinct evidence packets with explicit species-by-species audit surfaces.
+3. **Resolve the hydration conversion assumptions before any stronger claim**
+   - Keep `ε_r,crit = 1/c_s²` exact, but do not promote water-fraction or mass-ratio numbers until the medium assumptions are made internally consistent and externally auditable.
+4. **Use the same decomposition rule for future biology promotions**
+   - Promote only exact kernels or externally checkable audit packets; do not promote whole biology/genetics lanes by rhetoric.
+5. **Resume the three-program architecture work in the checked-in open set**
+   - Shared flavor geometry first, shared UV compactification second, CMB normalization mechanism third.
 6. **Regression discipline**
    - Keep 0 failures and preserve next-slot continuity if work resumes.
 
@@ -70,8 +70,8 @@ Classification:
 ## SUCCESS CRITERIA FOR NEXT SPRINT
 
 1. All canonical surfaces agree on version, slot, and open set.
-2. The six internal architecture-limit lanes remain grouped as three coupled programs rather than six isolated complaints.
-3. Program numbering stays distinct from practical execution priority.
+2. Whole-lane biology promotion is not allowed when only a sub-kernel is exact.
+3. P636 retains an explicit residual-open statement even after a Lean4 kernel is added.
 4. A future higher-dimensional claim is only credited if it changes a real downstream runtime state.
 5. No lane label changes without executable runtime evidence.
 6. Tests remain green.

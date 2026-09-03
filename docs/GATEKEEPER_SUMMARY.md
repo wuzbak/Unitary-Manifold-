@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v35.0
+# Unitary Manifold v35.1
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,6 +8,8 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Sprint BU (v35.1 — 2026-09-03):** 4 pillars (1021–1024). P1021 promotes only the exact embryology kernels worth promoting now: `HOX_clusters = 4`, HOX co-linearity as an order-preserving orbifold-unrolling kernel, centriole `9` / `10` count identities, and the exact dielectric threshold `ε_r,crit = 1/c_s²`. It does **not** promote the broad vertebrate `HOX_groups = 10` statement, which remains formal analogy only. P1022 attaches a Lean4-backed exact kernel to the P636 SU(3) orbifold-equivalence lane while leaving the Hilbert-space functional-analysis step open. P1023 certifies the sprint outcome. P1024 certifies cross-surface coherence. Open-lane labels remain unchanged and explicit, including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`. Lean4 3912→3936 (+24). Next slot 1025.
+>
 > **Sprint BT (v35.0 — 2026-09-03):** 1 pillar (1020). P1020 groups the six surviving internal architecture-limit lanes into three coupled executable programs: CMB normalization mechanism, shared UV compactification for α_s + Higgs, and shared flavor geometry for CKM shadow + fermion magnitude/radii + Jarlskog. Program numbering is bookkeeping only; practical execution priority is flavor family first, then UV/global, then CMB. Open-lane labels remain unchanged and explicit until a real downstream runtime flips. Lean4 unchanged (3912). Next slot 1021.
 >
 > **Sprint BS (v34.9 — 2026-09-03):** 6 pillars (1014–1019). P1014 expands 8D robustness coverage and adversarial failure certificates for branch violations. P1015 couples 9D GS hard-gate validity to CP utility with widened anchor partitions and threshold boundary checks. P1016 audits 11D conditional-chain coherence with contradiction and deterministic boundary stress checks. P1017 converts 12D named residuals into machine-checkable closure predicates with off-reference perturbation audits while preserving invariants. P1018 certifies the integrated four-lane binary outcomes. P1019 certifies lockstep truth-surface coherence. Open-lane labels remain unchanged and explicit. Lean4 unchanged (3912). Next slot 1020.
@@ -42,7 +44,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-03 (v35.0 — Sprint BT: Pillar 1020 (1 pillar); three-program regrouping of the six surviving internal architecture-limit lanes is now canonical, with bookkeeping program numbering separated from practical execution priority; truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 1021. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
+*Last updated: 2026-09-03 (v35.1 — Sprint BU: Pillars 1021–1024 (4 pillars); exact-kernel promotion is now narrowed to what is genuinely promotable, P636 carries a Lean4-backed exact kernel while its Hilbert-space residual remains open, truth surfaces are resynced in lockstep, Lean4 rises to 3936 (+24), and next pillar slot is 1025. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

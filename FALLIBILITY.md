@@ -1,8 +1,8 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v35.0 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BT** (2026-09-03; Pillar 1020) groups the six surviving internal architecture-limit lanes into three coupled executable programs rather than six disconnected holes. The checked-in rule stays strict: no open-lane label changes until a real downstream runtime flips. Program numbering is bookkeeping only; practical execution priority is shared flavor geometry first, shared UV compactification second, CMB normalization mechanism third. No open lane is hidden or promoted by rhetoric: the ×4–7 acoustic deficit remains CMB_AMP_CONFIRMED_IRREDUCIBLE, surviving UV/flavor lanes remain explicit architecture limits, and 13D remains downstream-only unless a future lane really closes. Next pillar slot 1021. Latest verified full regression in branch history: 63,544 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Pillar 1020 targeted tests passed · 0 failed.)*
+*Unitary Manifold v35.1 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BU** (2026-09-03; Pillars 1021–1024) promotes only the exact kernels that are actually ready. The checked-in rule stays strict: no whole-lane biology promotion, no hidden residuals, and no open-lane label changes until a real downstream runtime flips. Exact embryology kernels now include `HOX_clusters = 4`, HOX co-linearity as an order kernel, centrosome `9` / `10` count identities, and `ε_r,crit = 1/c_s²`; the broad vertebrate `HOX_groups = 10` statement remains explicit formal analogy only, and the hydration mass-ratio step remains model-dependent. P636 now has a Lean4-backed exact kernel, but the Hilbert-space functional-analysis residual remains open. The ×4–7 acoustic deficit remains CMB_AMP_CONFIRMED_IRREDUCIBLE; surviving UV/flavor lanes remain explicit architecture limits; 13D remains downstream-only unless a future lane really closes. Next pillar slot 1025. Latest verified full regression in branch history: 63,544 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: 134 passed · 0 failed (Sprint BU targeted regression).)*
 
-*Historical continuity note: v34.9 Sprint BS covered Pillars 1014–1019 with next slot 1020 and preserved the same explicit open-lane set before the Sprint BT regrouping step.*
+*Historical continuity note: v35.0 Sprint BT covered Pillar 1020 with next slot 1021 and preserved the same explicit open-lane set before the Sprint BU exact-kernel promotion step.*
 
 ---
 
@@ -2003,6 +2003,12 @@ count scaled by 1.25, and the numerical coincidence is noted in the engine (see
 **What the engine actually predicts:**  The (5,7) braid geometry correctly derives the number of
 **HOX clusters** (paralogs × chromosomal copies) = `2^(N_2 − N_W)` = 2² = **4**, which matches
 the four mammalian HOX clusters (HOXA–HOXD) on chromosomes 7, 17, 12, and 2.
+
+**Sprint BU clarification (v35.1):** The repository now promotes the exact kernels only:
+- `HOX_clusters = 4` is the promotable vertebrate-count claim.
+- HOX co-linearity is promoted only as an order-preserving orbifold-unrolling kernel.
+- The empirical HOX boundary-fit lane remains an adjacent-track audit.
+- `HOX_groups = 10` remains explicit analogy only and is not upgraded by proximity to the exact kernels.
 
 **Honest status:**  
 - `HOX_clusters = 4` ✅ derived and biologically correct (vertebrate HOX clusters)  

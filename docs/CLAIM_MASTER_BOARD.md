@@ -1,11 +1,19 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v35.0
+# Unitary Manifold v35.1
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v35.0 — Sprint BT: Pillar 1020. The six surviving internal architecture-limit lanes are now canonically grouped into three executable programs with unchanged open-lane labels, explicit shared missing objects, and separated bookkeeping-vs-priority order. Next slot 1021. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v35.1 — Sprint BU: Pillars 1021–1024. Exact-kernel promotion is now explicit: the embryology lane advances only through exact kernels, not whole-lane rhetoric; P636 carries a Lean4-backed SU(3) kernel while its Hilbert-space residual stays open; truth surfaces are synchronized. Next slot 1025. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
-*Historical continuity note: v34.9 Sprint BS covered Pillars 1014–1019 with next slot 1020 before the Sprint BT regrouping update.*
+*Historical continuity note: v35.0 Sprint BT covered Pillar 1020 with next slot 1021 before the Sprint BU exact-kernel promotion update.*
+
+*P1024 (v35.1): Sprint BU Status-Coherence Certificate — SPRINT_BU_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1024_sprint_bu_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan and verifies Sprint BU markers with unchanged open-lane labels including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`.*
+
+*P1023 (v35.1): Sprint BU Exact-Kernel Promotion Certificate — SPRINT_BU_EXACT_KERNEL_PROMOTION_CERTIFICATE_COMPLETE. `src/core/pillar1023_sprint_bu_exact_kernel_certificate.py` certifies the exact-kernel promotion sprint: exact embryology kernels advance, whole-lane biology promotion does not, and P636 retains an honest residual-open statement.*
+
+*P1022 (v35.1): SU(3) Orbifold Lean4 Kernel Certificate — SU3_ORBIFOLD_LEAN4_KERNEL_CERTIFIED. `src/core/pillar1022_su3_orbifold_lean4_kernel.py` attaches a Lean4-backed arithmetic/parity kernel to P636 while keeping the Hilbert-space functional-analysis step explicit as the remaining burden.*
+
+*P1021 (v35.1): Embryology Exact-Kernel Promotion Bundle — EMBRYOLOGY_EXACT_KERNELS_CERTIFIED. `src/core/pillar1021_embryology_exact_kernels.py` promotes only the exact embryology kernels: `HOX_clusters = 4`, HOX co-linearity as an order kernel, centriole `9` / `10` count identities, and `ε_r,crit = 1/c_s²`. The broad vertebrate `HOX_groups = 10` statement remains `FORMAL_ANALOGY_ONLY`.*
 
 *P1020 (v35.0): Three-Program Open Architecture Registry — THREE_PROGRAM_OPEN_ARCHITECTURE_REGISTRY_COMPLETE. `src/core/pillar1020_three_program_open_architecture_registry.py` groups the six checked-in internal architecture-limit lanes into three coupled programs: CMB normalization mechanism, shared UV compactification for α_s + Higgs, and shared flavor geometry for CKM shadow + fermion magnitude/radii + Jarlskog. Program numbering is bookkeeping only; practical execution priority is flavor first, UV/global second, CMB third. No lane label is promoted or renamed.*
 
