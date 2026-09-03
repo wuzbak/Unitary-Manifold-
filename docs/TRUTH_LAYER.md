@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v34.1
+# Unitary Manifold v34.4
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v34.4 sync note (Sprint BN — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BN: Pillars 998–1000; Lean4 3912; next pillar slot 1001; focused regression 1,205 passed (1,184 targeted CMB architecture tests + 21 new sprint tests).*
+*(2) P998 executes the strongest in-branch UV/global-geometry + flavor completion attempt available under the current integrity rules: one shared parent state, zero per-lane rescue parameters, explicit blocker ranking, and binary outcome `UNIFIED_UV_FLAVOR_ARCHITECTURE_LIMIT_CERTIFIED` when closure is not earned.*
+*(3) P999 makes the CMB amplitude integrity boundary executable: λ_COBE reproducing an input A_s is a calibration identity, not a scalar-amplitude prediction, and the KK / brane-backreaction / rolling-radion / WZ routes remain terminal inside the checked-in EFT architecture.*
+*(4) P1000 records the combined sprint certificate and preserves the open set without label inflation: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3, LiteBIRD.*
+*(5) Sprint BM remains part of the current branch history immediately below: the parent→shadow dictionary, unified 13D compactification state, and binary CKM/fermion lanes are still the canonical upstream scaffold used by Sprint BN.*
 
 *v34.1 sync note (Sprint BM — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BM: Pillars 993–997; Lean4 3912; next pillar slot 998; latest verified full regression 63,441 passed · 23 skipped · 12 deselected · 0 failed.*

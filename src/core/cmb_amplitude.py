@@ -18,8 +18,9 @@ Within the Unitary Manifold, the slow-roll formula (M_Pl = 1) gives:
 
 with V(φ) = λ(φ² − φ₀_eff²)².  The spectral index nₛ and tensor ratio
 r are λ-independent and determined solely by φ₀_eff (fixed by FTUM +
-n_w = 5).  The single remaining free parameter λ = λ_COBE is fixed by
-requiring Aₛ = Aₛ^{Planck}.  This is the COBE normalization.
+n_w = 5).  The coupling λ = λ_COBE is calibrated by requiring
+Aₛ = Aₛ^{Planck}.  This is a useful normalization identity, but is not
+a first-principles prediction of Aₛ: it uses the measured target as input.
 
 However, the *transfer function* from primordial spectrum to observed CMB
 power C_ℓ involves acoustic oscillations, radiation–matter equality, and
@@ -179,9 +180,10 @@ def cobe_normalization_check(
 
         Aₛ(λ_COBE) = Aₛ^{Planck}
 
-    has a unique solution that removes all remaining freedom in the
-    inflationary sector.  After fixing λ_COBE, the theory has **zero**
-    remaining free parameters in the inflationary sector.
+    has a unique solution *conditional on the supplied target*.  It is
+    therefore a calibration of one parameter, not a prediction of the
+    scalar amplitude.  The λ-independent observables nₛ and r retain their
+    separate status.
 
     Parameters
     ----------
@@ -205,7 +207,8 @@ def cobe_normalization_check(
     ``As_ratio``        : float — As_predicted / As_target (≈ 1.000).
     ``ns_sigma_planck`` : float — |nₛ − nₛ^Planck| / σ_nₛ.
     ``r_within_bicep``  : bool  — True iff r < BICEP/Keck limit.
-    ``normalization_resolved`` : bool — True (COBE fixes the amplitude).
+    ``normalization_resolved`` : bool — False; a target-calibrated identity
+        is not an independently predicted normalization.
     """
     phi0_eff = _effective_phi0(phi0_bare, n_winding)
     ns = _ns_from_phi0(phi0_eff)
@@ -227,7 +230,11 @@ def cobe_normalization_check(
         "As_ratio":             As_pred / As_target if As_target > 0 else 0.0,
         "ns_sigma_planck":      ns_sig,
         "r_within_bicep":       UM_R_BRAIDED < BICEP_R_LIMIT,
-        "normalization_resolved": True,
+        "calibration_parameter_count": 1,
+        "calibration_input": "As_target (external observational datum)",
+        "normalization_is_calibrated": True,
+        "normalization_predicted": False,
+        "normalization_resolved": False,
     }
 
 
@@ -438,8 +445,9 @@ def amplitude_gap_audit(
     ``cobe_check``           : dict — cobe_normalization_check() result.
     ``tower_correction``     : float — KK tower amplitude correction.
     ``residual_info``        : dict — residual_suppression() result.
-    ``gap_status``           : str  — 'OPEN' (documented, not bridged).
-    ``As_at_pivot_resolved`` : bool — True (COBE fixes overall amplitude).
+    ``gap_status``           : str  — current architecture-limit status.
+    ``As_at_pivot_resolved`` : bool — False; COBE calibrates, rather than
+        predicts, the pivot amplitude.
     ``As_at_peaks_resolved`` : bool — False (acoustic peaks still suppressed).
     ``path_to_closure``      : str  — description of required work.
     """
@@ -451,17 +459,19 @@ def amplitude_gap_audit(
         "cobe_check":           cobe,
         "tower_correction":     C_t,
         "residual_info":        res,
-        "gap_status":           "OPEN",
-        "As_at_pivot_resolved": True,
+        "gap_status":           "CONFIRMED_IRREDUCIBLE",
+        "As_at_pivot_calibrated": True,
+        "As_at_pivot_predicted": False,
+        "As_at_pivot_resolved": False,
         "As_at_peaks_resolved": False,
         "path_to_closure": (
-            "Bridging the ×4–7 acoustic-peak suppression requires adding a "
-            "full Boltzmann transport code (CLASS or CAMB equivalent) to the "
-            "UM, computing the primordial power spectrum P(k) from the COBE-"
-            "normalized UM potential, and projecting onto C_ℓ via the UM "
-            "transfer function.  The AdS/CFT tower correction (C_tower ≈ "
-            "{:.3f}) partially offsets the suppression but is insufficient "
-            "to close the full 4–7× gap without the missing Boltzmann physics "
-            "listed in residual_suppression()['missing_physics'].".format(C_t)
+            "A closure would require a derived, non-perturbative UV mechanism "
+            "that fixes the primordial/transfer normalization without using "
+            "A_s as a fitted input and remains consistent across acoustic "
+            "multipoles. Existing KK, backreaction, rolling-radion, and WZ "
+            "EFT routes are terminally insufficient; adding a Boltzmann solver "
+            "alone cannot turn a target-calibrated normalization into a "
+            "prediction. The tower correction (C_tower ≈ {:.3f}) does not "
+            "remove the documented ×4–7 deficit.".format(C_t)
         ),
     }
