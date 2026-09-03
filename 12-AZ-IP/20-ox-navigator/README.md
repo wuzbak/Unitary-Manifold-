@@ -1,5 +1,5 @@
 # Merlin
-## Product 20 — Quantum Cat interface (successor to OX Navigator)
+## Product 20 — Merlin Navigator (Quantum Cat interface; legacy OX-compatible)
 
 > "Ask the repository. Keep the gates visible. Keep the governance boundary explicit. Merlin is the application OX was supposed to become."
 
@@ -7,8 +7,8 @@
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** `stealth/ox-alpha` via OpenRouter when live; offline RAG fallback when not
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
-- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) with Sentinel strike memory for policy enforcement
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
@@ -18,7 +18,7 @@
 ## What Merlin is
 
 - A standalone AI-powered interface for the Unitary Manifold repository and AxiomZero platform.
-- A successor to OX Navigator with a stricter response contract and richer frontend rendering.
+- Merlin Navigator is the canonical product label; legacy OX naming/endpoints remain for compatibility.
 - A gate-aware interface that keeps epistemic status visible in answers, follow-ups, and citations.
 - A local product folder bundling UI, Python engine, hidden machine-readable tooling endpoints, and tests.
 - A study-and-navigation layer that still includes the Interrogator and Flashcard Trainer.
@@ -56,6 +56,8 @@
 - `GET /api/agentToolkit` exposes discovery views: `index`, `domain`, `tool`, `full`, `state`.
 - `GET /api/merlin/identity` exposes canonical identity/alias and privileged-action verification policy.
 - `GET /api/merlin/policy` exposes combined identity-trust and Sentinel enforcement policies.
+- `GET /api/merlin/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
+- `GET /api/merlin/benchmarks` exposes benchmark harness tracks and promotion gates.
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.

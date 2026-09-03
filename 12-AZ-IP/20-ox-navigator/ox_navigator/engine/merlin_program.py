@@ -12,6 +12,12 @@ from typing import Any
 
 from .merlin_identity import get_identity_policy
 from .merlin_memory import MERLIN_MAX_HISTORY
+from .merlin_runtime import (
+    get_advanced_execution_graph,
+    get_benchmark_suite,
+    get_mythos_astra_runtime_contract,
+    get_optimization_priorities,
+)
 from .merlin_sentinel import get_sentinel_policy
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -418,6 +424,22 @@ def get_sentinel_enforcement_policy() -> dict[str, Any]:
     return get_sentinel_policy()
 
 
+def get_mythos_astra_contract() -> dict[str, Any]:
+    return get_mythos_astra_runtime_contract()
+
+
+def get_merlin_optimization_priorities() -> dict[str, Any]:
+    return get_optimization_priorities()
+
+
+def get_merlin_execution_graph() -> dict[str, Any]:
+    return get_advanced_execution_graph()
+
+
+def get_merlin_benchmark_suite() -> dict[str, Any]:
+    return get_benchmark_suite()
+
+
 def get_full_program_blueprint() -> dict[str, Any]:
     return {
         "generated_at": _utcnow(),
@@ -434,6 +456,10 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "reliability_security": get_reliability_security_plan(),
         "identity_and_trust": get_identity_and_trust_policy(),
         "sentinel_policy": get_sentinel_enforcement_policy(),
+        "mythos_astra_contract": get_mythos_astra_contract(),
+        "optimization_priorities": get_merlin_optimization_priorities(),
+        "execution_graph": get_merlin_execution_graph(),
+        "benchmark_suite": get_merlin_benchmark_suite(),
         "rollout": get_rollout_plan(),
         "operating_rhythm": get_operating_rhythm(),
         "exit_criteria": get_exit_criteria(),

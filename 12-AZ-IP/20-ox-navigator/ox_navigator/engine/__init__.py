@@ -36,15 +36,25 @@ from .merlin_identity import (
 )
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MERLIN_MAX_HISTORY, MerlinSession
 from .merlin_persona import build_persona_prompt, build_system_prompt, detect_persona_mode, extract_urls, is_internal_question
+from .merlin_runtime import (
+    get_advanced_execution_graph,
+    get_benchmark_suite,
+    get_mythos_astra_runtime_contract,
+    get_optimization_priorities,
+)
 from .merlin_program import (
     get_backend_expansion_policy,
     get_current_stack_baseline,
     get_energy_optimization_track,
+    get_merlin_benchmark_suite,
+    get_merlin_execution_graph,
+    get_merlin_optimization_priorities,
     get_exit_criteria,
     get_full_program_blueprint,
     get_governance_integration_policy,
     get_identity_and_trust_policy,
     get_knowledge_core_sources,
+    get_mythos_astra_contract,
     get_model_strategy,
     get_operating_rhythm,
     get_program_charter,
@@ -76,12 +86,16 @@ __all__ = [
     'route_tool', 'orchestrate_steps', 'get_path', 'CANONICAL_IDENTITY', 'ALLOWED_ALIASES',
     'FORBIDDEN_ALIASES', 'TRUSTED_SOURCES_RANKED', 'get_identity_policy', 'detect_identity_mentions',
     'verify_identity_signals', 'is_privileged_modification_request', 'authorize_privileged_request',
+    'get_mythos_astra_runtime_contract', 'get_optimization_priorities',
+    'get_advanced_execution_graph', 'get_benchmark_suite',
     'get_program_charter', 'get_replacement_scope',
     'get_current_stack_baseline', 'get_weights_and_measures', 'get_knowledge_core_sources',
     'run_sync_checks', 'get_model_strategy', 'get_training_and_adaptation',
     'get_energy_optimization_track', 'get_backend_expansion_policy',
     'get_governance_integration_policy', 'get_reliability_security_plan',
     'get_identity_and_trust_policy', 'get_sentinel_enforcement_policy',
+    'get_mythos_astra_contract', 'get_merlin_optimization_priorities',
+    'get_merlin_execution_graph', 'get_merlin_benchmark_suite',
     'get_rollout_plan', 'get_operating_rhythm', 'get_exit_criteria',
     'get_full_program_blueprint',
 ]

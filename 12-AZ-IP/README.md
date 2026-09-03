@@ -25,7 +25,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 17 | UM Physics Image Generator | 1.0.0 | TRL-5 | Browser / static | 113 | Canvas 2D browser tool generating PNG visualizations for 8 UM physics concepts. | [17-um-image-generator/](17-um-image-generator/) |
 | 18 | UM Reader / Educator | 1.0.0 | TRL-5 | Browser / static | 90 | 302-entry reading & TTS platform for the UM framework — offline, KaTeX, 9 categories. | [18-um-reader/](18-um-reader/) |
 | 19 | Falsification Observatory | 1.0.0 | TRL-5 | Browser / static | 112 | Live tracker for 7 experiments testing UM predictions — PASS / TENSION / FALSIFIED verdicts. | [19-falsification-observatory/](19-falsification-observatory/) |
-| 20 | OX Navigator | 1.0.0 | TRL-4 | Browser + /api/ox | 149 | AI physics navigator (stealth/ox-alpha via OpenRouter) with gate-badge extraction and session history. | [20-ox-navigator/](20-ox-navigator/) |
+| 20 | Merlin Navigator (formerly OX Navigator) | 1.0.0 | TRL-4 | Browser + /api/merlin (+ /api/ox compatibility) | 149 | AI physics/governance navigator with identity trust policy, Sentinel do-no-harm enforcement, and compatibility shim endpoints. | [20-ox-navigator/](20-ox-navigator/) |
 | 21 | UM Geophysical Monitor | 1.0.0 | TRL-5 | Browser / static | 121 | Live globe disaster monitor with USGS + NASA EONET feeds and UM φ-overlay (P806/P786/P16). | [21-geo-monitor/](21-geo-monitor/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
@@ -53,7 +53,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - `17-um-image-generator/` — standalone product built from `public-site/js/um-image-generator.js`
 - `18-um-reader/` — standalone product built from `public-site/js/um-reader.js`
 - `19-falsification-observatory/` — standalone product built from `public-site/js/17-falsification-observatory.js`
-- `20-ox-navigator/` — standalone product built from `public-site/js/19-ox-navigator.js` (includes Interrogator + Flashcard sub-tools)
+- `20-ox-navigator/` — Merlin Navigator canonical product folder (legacy OX name retained for compatibility), built from `public-site/js/19-ox-navigator.js` and expanded with identity/sentinel/runtime policy layers
 - `21-geo-monitor/` — standalone product built from `src/core/pillar_geo_monitor.py` + `public-site/js/20-geo-monitor.js`
 
 ## Shared assets retained

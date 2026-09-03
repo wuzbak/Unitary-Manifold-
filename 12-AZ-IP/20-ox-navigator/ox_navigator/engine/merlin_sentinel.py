@@ -17,6 +17,8 @@ SENTINEL_POLICY = {
     "modes": [MODE_MONITOR, MODE_GUARD, MODE_ENFORCE, MODE_AUDIT],
     "first_violation_action": "warn_and_refuse",
     "repeat_violation_action": "warn_refuse_and_clear_session",
+    "strikes_before_session_clear": 2,
+    "retains_policy_memory_after_clear": True,
     "post_clear_behavior": "session_cleared_but_policy_memory_retained",
     "hard_blocks": [
         "sexualized_content",

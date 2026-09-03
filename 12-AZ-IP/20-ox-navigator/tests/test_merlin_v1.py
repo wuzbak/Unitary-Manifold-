@@ -171,6 +171,22 @@ def test_route_tool_identity_and_sentinel_policy():
     assert sentinel['ok'] is True
     assert identity['result']['data']['canonical_identity'] == CANONICAL_IDENTITY
     assert sentinel['result']['data']['repeat_violation_action'] == 'warn_refuse_and_clear_session'
+    assert sentinel['result']['data']['retains_policy_memory_after_clear'] is True
+
+
+def test_route_tool_runtime_and_benchmarks():
+    runtime = route_tool('getMerlinMythosAstraContract', {})
+    priorities = route_tool('getMerlinOptimizationPriorities', {})
+    graph = route_tool('getMerlinExecutionGraph', {})
+    benchmarks = route_tool('getMerlinBenchmarkSuite', {})
+    assert runtime['ok'] is True
+    assert priorities['ok'] is True
+    assert graph['ok'] is True
+    assert benchmarks['ok'] is True
+    assert runtime['result']['data']['positioning']['primary_mode'] == 'competitive_agent_parity'
+    assert priorities['result']['data']['order'][0]['name'] == 'memory_integrity_and_recall'
+    assert graph['result']['data']['graph_name'] == 'merlin_max_rigor_execution'
+    assert 'mythos_astra_parity' in benchmarks['result']['data']['tracks']
 
 
 def test_route_tool_merlin_sync_checks():
@@ -215,6 +231,7 @@ def test_server_merlin_endpoints():
             assert program.status_code == 200
             assert program.json()['ok'] is True
             assert 'charter' in program.json()['program']
+            assert 'mythos_astra_contract' in program.json()['program']
 
             identity = client.get('/api/merlin/identity')
             assert identity.status_code == 200
@@ -225,6 +242,16 @@ def test_server_merlin_endpoints():
             assert policy.status_code == 200
             assert policy.json()['ok'] is True
             assert 'sentinel' in policy.json()['policy']
+
+            runtime = client.get('/api/merlin/runtime')
+            assert runtime.status_code == 200
+            assert runtime.json()['ok'] is True
+            assert runtime.json()['runtime']['optimization_priorities']['order'][0]['rank'] == 1
+
+            benchmarks = client.get('/api/merlin/benchmarks')
+            assert benchmarks.status_code == 200
+            assert benchmarks.json()['ok'] is True
+            assert 'promotion_gate' in benchmarks.json()['benchmarks']
 
             sync = client.get('/api/merlin/sync-checks')
             assert sync.status_code == 200

@@ -17,11 +17,15 @@ from .merlin_program import (
     get_backend_expansion_policy,
     get_current_stack_baseline,
     get_energy_optimization_track,
+    get_merlin_benchmark_suite,
+    get_merlin_execution_graph,
+    get_merlin_optimization_priorities,
     get_exit_criteria,
     get_full_program_blueprint,
     get_governance_integration_policy,
     get_identity_and_trust_policy,
     get_knowledge_core_sources,
+    get_mythos_astra_contract,
     get_model_strategy,
     get_operating_rhythm,
     get_program_charter,
@@ -88,6 +92,10 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "verifyMerlinIdentity", "summary": "Verify identity signals for privileged actions", "domain": "functions"},
             {"name": "authorizeMerlinPrivilege", "summary": "Authorize privileged Merlin modification requests", "domain": "functions"},
             {"name": "getMerlinSentinelPolicy", "summary": "Return Sentinel safety enforcement policy", "domain": "functions"},
+            {"name": "getMerlinMythosAstraContract", "summary": "Return Merlin runtime contract for Mythos/Astra parity", "domain": "functions"},
+            {"name": "getMerlinOptimizationPriorities", "summary": "Return ordered top optimization priorities", "domain": "functions"},
+            {"name": "getMerlinExecutionGraph", "summary": "Return max-rigor execution graph", "domain": "functions"},
+            {"name": "getMerlinBenchmarkSuite", "summary": "Return benchmark harness definition", "domain": "functions"},
         ],
         "integrations": [],
         "entities": [
@@ -186,6 +194,10 @@ _FUNCTIONS = {
         user_context=str(args.get("user_context", "")),
     )},
     "getMerlinSentinelPolicy": lambda **args: {"data": get_sentinel_enforcement_policy()},
+    "getMerlinMythosAstraContract": lambda **args: {"data": get_mythos_astra_contract()},
+    "getMerlinOptimizationPriorities": lambda **args: {"data": get_merlin_optimization_priorities()},
+    "getMerlinExecutionGraph": lambda **args: {"data": get_merlin_execution_graph()},
+    "getMerlinBenchmarkSuite": lambda **args: {"data": get_merlin_benchmark_suite()},
 }
 
 

@@ -27,11 +27,17 @@ This document records the implemented execution blueprint for making Merlin the 
   - `verifyMerlinIdentity`
   - `authorizeMerlinPrivilege`
   - `getMerlinSentinelPolicy`
+  - `getMerlinMythosAstraContract`
+  - `getMerlinOptimizationPriorities`
+  - `getMerlinExecutionGraph`
+  - `getMerlinBenchmarkSuite`
 - Direct API views:
   - `GET /api/merlin/program`
   - `GET /api/merlin/sync-checks`
   - `GET /api/merlin/identity`
   - `GET /api/merlin/policy`
+  - `GET /api/merlin/runtime`
+  - `GET /api/merlin/benchmarks`
 
 ## Scope mapping to the 13-point implementation request
 
