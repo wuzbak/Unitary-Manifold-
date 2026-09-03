@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v34.5
+# Unitary Manifold v34.6
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v34.6 sync note (Sprint BP — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BP: Pillars 1006–1007; Lean4 3912; next pillar slot 1008; focused regression 10 passed · 0 skipped · 0 deselected · 0 failed (Sprint BP targeted regression).*
+*(2) P1006 converts the “maybe 13D helps” instinct into one narrow executable audit: the shared 5D core plus the checked-in 6D counting branch and 7D torsion/shear branch are run directly against the checked-in CKM shadow lane.*
+*(3) The runtime answer is negative but informative: `CKM_SHADOW_PROMOTION_NOT_EARNED`. The named missing object `GLOBAL_FLAVOR_BUNDLE_WITH_NONLOCAL_OVERLAP_TENSOR` is still absent, so the CKM lane stays `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`.*
+*(4) Because no downstream status changes, 13D does not earn explanatory promotion. The BO sink framing survives the stronger test: 13D remains downstream-only rather than being elevated by narrative.*
+*(5) P1007 records the sprint certificate. The explicit open set is unchanged: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3, LiteBIRD.*
 
 *v34.5 sync note (Sprint BO — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BO: Pillars 1001–1005; Lean4 3912; next pillar slot 1006; focused regression 34 passed · 0 skipped · 0 deselected · 0 failed (related parent-shadow + Sprint BO targeted regression).*

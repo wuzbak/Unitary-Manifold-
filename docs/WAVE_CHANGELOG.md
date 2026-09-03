@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v34.5 (2026-09-03)**
-**Regression:** 34 passed · 0 skipped · 0 deselected · 0 failed (related parent-shadow + Sprint BO targeted regression)
-**Next pillar slot:** 1006
+**Current version: v34.6 (2026-09-03)**
+**Regression:** 10 passed · 0 skipped · 0 deselected · 0 failed (Sprint BP targeted regression)
+**Next pillar slot:** 1008
+
+## v34.6 (2026-09-03 — Sprint BP: Pillars 1006–1007)
+
+**What changed:**
+Pillars 1006–1007 (2 pillars). Sprint BP takes the BO structure and runs one narrow proof-first downstream test instead of widening the story. (1) P1006 asks whether the shared 5D source plus the checked-in 6D counting branch and 7D phase/shear branch materially promote the CKM shadow lane; the answer is no, because the named missing object `GLOBAL_FLAVOR_BUNDLE_WITH_NONLOCAL_OVERLAP_TENSOR` is still absent and the runtime stays `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`. (2) P1007 records the sprint certificate and preserves the rule that 13D only earns promotion if a downstream lane actually changes status.
+
+**Why:**
+Turn the next-sprint instinct into an executable honesty test: challenge one real downstream lane, accept promotion only if the runtime improves, and refuse broad 13D rhetoric when the missing CKM object is still named and absent.
+
+**Epistemic label deltas:**
+- new executable sprint-level verdict: `CKM_SHADOW_PROMOTION_NOT_EARNED`
+- the BO source-first framing is now tested against one real downstream lane instead of treated as interpretation alone
+- 13D remains downstream-only because no CKM status promotion was earned
+
+**Physics label delta:** None — no new hardgate physics claims promoted.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3912 → 3912 (+0)
+**Regression:** 10 passed · 0 skipped · 0 deselected · 0 failed (Sprint BP targeted regression)
+**Next pillar slot:** 1008
 
 ## v34.5 (2026-09-03 — Sprint BO: Pillars 1001–1005)
 

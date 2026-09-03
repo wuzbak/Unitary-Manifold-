@@ -1,9 +1,13 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v34.5
+# Unitary Manifold v34.6
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v34.5 — Sprint BO: Pillars 1001–1005. The checked-in branch now exposes one shared 5D core, one 6D counting branch, one 7D torsion/shear branch, and a 13D downstream sink that is explicitly organizational rather than salvific. Next slot 1006. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v34.6 — Sprint BP: Pillars 1006–1007. The checked-in branch now uses the BO shared-5 / 6D / 7D packet to interrogate one real downstream CKM lane and records the honest result that no 13D promotion is earned while the named missing flavor object remains absent. Next slot 1008. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*P1007 (v34.6): Sprint BP Proof-First CKM Certificate — SPRINT_BP_PROOF_FIRST_CKM_CERTIFICATE_COMPLETE. `src/core/pillar1007_sprint_bp_proof_first_ckm_certificate.py` certifies Sprint BP (2 pillars 1006–1007; Lean4 3912→3912; next slot 1008; v34.6). The checked-in branch now requires any 13D upgrade claim to pass a real downstream status-change test instead of interpretive rhetoric.*
+
+*P1006 (v34.6): CKM Shadow Shared-5 Promotion Audit — CKM_SHADOW_SHARED5_PROMOTION_AUDIT_COMPLETE. `src/core/pillar1006_ckm_shadow_shared5_promotion_audit.py` runs the shared 5D source, 6D counting branch, and 7D phase/shear branch against the checked-in CKM shadow lane and returns the executable verdict `CKM_SHADOW_PROMOTION_NOT_EARNED`. The named missing object remains `GLOBAL_FLAVOR_BUNDLE_WITH_NONLOCAL_OVERLAP_TENSOR`, so runtime status stays `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED` and 13D remains downstream-only.*
 
 
 *P1005 (v34.5): Sprint BO Shared-5 Bifurcation Certificate — SPRINT_BO_SHARED_5_BIFURCATION_CERTIFICATE_COMPLETE. `src/core/pillar1005_sprint_bo_shared_5_bifurcation_certificate.py` certifies Sprint BO (5 pillars 1001–1005; Lean4 3912→3912; next slot 1006; v34.5). The checked-in branch now treats 5 as the shared source, 6D and 7D as sibling branch resolutions, and 13D as a downstream consistency frame only.*

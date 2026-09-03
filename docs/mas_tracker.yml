@@ -1,6 +1,35 @@
-version: "v34.5"
+version: "v34.6"
 date: "2026-09-03"
 updated: "2026-09-03"
+
+v34_6_sprint_bp:
+  sprint: BP
+  version: v34.6
+  date: "2026-09-03"
+  pillars: 1006-1007
+  new_pillars: 2
+  new_tests: 10
+  lean4_start: 3912
+  lean4_end: 3912
+  lean4_delta: 0
+  closures:
+    - CKM_SHADOW_SHARED5_PROMOTION_AUDIT_COMPLETE
+    - SPRINT_BP_PROOF_FIRST_CKM_CERTIFICATE_COMPLETE
+  advances:
+    - SHARED5_BRANCH_PACKET_TESTED_AGAINST_REAL_CKM_DOWNSTREAM_LANE
+    - CKM_PROMOTION_REQUIRES_RUNTIME_STATUS_CHANGE_NOT_RHETORIC
+    - THIRTEEN_D_DOWNSTREAM_ONLY_DEMOTION_PRESERVED_HONESTLY
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+  regression: "10 passed · 0 skipped · 0 deselected · 0 failed (Sprint BP targeted regression)"
+  next_pillar_slot: 1008
 
 v34_5_sprint_bo:
   sprint: BO
