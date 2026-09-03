@@ -89,6 +89,12 @@ def sprint_bx_parallel_campaign_certificate() -> Dict[str, Any]:
             and baseline.get("status") == "SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE_COMPLETE"
             and baseline.get("next_pillar_slot") == 1032
         ),
+        "sprint_metadata_coherent": bool(
+            SPRINT_PILLARS == [1032, 1033, 1034, 1035, 1036, 1037, 1038, 1039]
+            and NEXT_PILLAR_SLOT == 1040
+            and LEAN4_END - LEAN4_START == LEAN4_DELTA
+            and VERSION == "v35.4"
+        ),
         "three_physics_programs_executed": execution_order_ok,
         "formal_residual_burden_shrunk": bool(p1035["residual_map"]["formal_reduction_earned"]),
         "merlin_replacement_beyond_policy": bool(p1036["evidence_present"]),

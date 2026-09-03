@@ -94,10 +94,10 @@ def status_surface_audit() -> Dict[str, Any]:
     return {
         "surfaces": per_surface,
         "all_exist": all_exist,
-        "open_labels_pass": all(count >= 4 for count in label_surface_counts.values()),
+        "open_labels_pass": all(count == len(STATUS_SURFACES) for count in label_surface_counts.values()),
         "open_label_surface_counts": label_surface_counts,
         "sprint_marker_surface_counts": sprint_marker_surface_counts,
-        "sprint_markers_pass": all(count >= 4 for count in sprint_marker_surface_counts.values()),
+        "sprint_markers_pass": all(count == len(STATUS_SURFACES) for count in sprint_marker_surface_counts.values()),
     }
 
 

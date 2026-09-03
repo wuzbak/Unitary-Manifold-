@@ -4,16 +4,15 @@
 
 from __future__ import annotations
 
-import importlib
+import json
+import os
+import subprocess
 import sys
-import threading
-from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Dict, Iterator
+from typing import Any, Dict
 
 _ROOT = Path(__file__).resolve().parents[2]
 _PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-merlin-navigator"
-_MERLIN_IMPORT_LOCK = threading.RLock()
 
 __all__ = [
     "PILLAR_NUMBER",
@@ -29,36 +28,44 @@ PILLAR_GATE: str = "MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE"
 PILLAR_STATUS: str = "MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE_COMPLETE"
 
 
-@contextmanager
-def _merlin_import_path() -> Iterator[None]:
-    product_root = str(_PRODUCT_ROOT)
-    inserted = False
-    if product_root not in sys.path:
-        sys.path.insert(0, product_root)
-        inserted = True
-    try:
-        yield
-    finally:
-        if inserted:
-            try:
-                sys.path.remove(product_root)
-            except ValueError:
-                pass
-
-
-def _load_merlin_helpers() -> tuple[Any, Any]:
-    with _MERLIN_IMPORT_LOCK:
-        with _merlin_import_path():
-            benchmark = importlib.import_module("ox_navigator.engine.merlin_benchmark")
-            program = importlib.import_module("ox_navigator.engine.merlin_program")
-    return benchmark.build_stage_a_replacement_readiness, program.run_sync_checks
+def _run_merlin_helper(module_name: str, function_name: str, kwargs: dict[str, Any]) -> dict[str, Any]:
+    code = """
+import json
+from {module_name} import {function_name}
+print(json.dumps({function_name}(**json.loads({payload!r}))))
+""".format(
+        module_name=module_name,
+        function_name=function_name,
+        payload=json.dumps(kwargs),
+    )
+    env = dict(os.environ)
+    prior_path = env.get("PYTHONPATH", "")
+    env["PYTHONPATH"] = (
+        f"{_PRODUCT_ROOT}:{prior_path}" if prior_path else str(_PRODUCT_ROOT)
+    )
+    completed = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=str(_PRODUCT_ROOT),
+        check=True,
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    return json.loads(completed.stdout)
 
 
 def merlin_self_hosted_replacement_milestone() -> Dict[str, Any]:
     """Return the Sprint BX Merlin self-hosted replacement milestone report."""
-    build_stage_a_replacement_readiness, run_sync_checks = _load_merlin_helpers()
-    readiness = build_stage_a_replacement_readiness(limit=3)
-    sync_checks = run_sync_checks()
+    readiness = _run_merlin_helper(
+        "ox_navigator.engine.merlin_benchmark",
+        "build_stage_a_replacement_readiness",
+        {"limit": 3},
+    )
+    sync_checks = _run_merlin_helper(
+        "ox_navigator.engine.merlin_program",
+        "run_sync_checks",
+        {},
+    )
     valid = bool(
         readiness["ok"]
         and readiness["packet"]["decision"] in {"REPLACEMENT_APPROVED", "REPLACEMENT_NOT_APPROVED"}

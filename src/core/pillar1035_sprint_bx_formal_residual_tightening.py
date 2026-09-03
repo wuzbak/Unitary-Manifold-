@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -42,15 +43,22 @@ def _open_steps_after() -> List[str]:
     ]
 
 
+def _count_lean4_kernels(text: str) -> int:
+    return len(re.findall(r"^theorem\s+bx_kernel_\d+\b", text, flags=re.MULTILINE))
+
+
 def sprint_bx_formal_residual_tightening() -> Dict[str, Any]:
     """Return the Sprint BX formal residual tightening report."""
     prior = pillar1028_summary()
     lean4_path = _ROOT / LEAN4_FILE
+    lean4_text = lean4_path.read_text(encoding="utf-8") if lean4_path.exists() else ""
+    theorem_count = _count_lean4_kernels(lean4_text)
     before = _open_steps_before()
     after = _open_steps_after()
     valid = bool(
         prior["valid"]
         and lean4_path.exists()
+        and theorem_count == LEAN4_THEOREM_COUNT
         and len(after) < len(before)
     )
     return {
@@ -62,7 +70,8 @@ def sprint_bx_formal_residual_tightening() -> Dict[str, Any]:
         "lean4_kernel": {
             "file": LEAN4_FILE,
             "exists": lean4_path.exists(),
-            "theorem_count": LEAN4_THEOREM_COUNT,
+            "theorem_count": theorem_count,
+            "expected_theorem_count": LEAN4_THEOREM_COUNT,
         },
         "residual_map": {
             "open_steps_before": before,

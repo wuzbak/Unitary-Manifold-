@@ -85,6 +85,15 @@ def _parse_int_query_param(params: dict[str, list[str]], name: str, default: int
         return None, f"Query parameter '{name}' must be an integer."
 
 
+def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
+    if not tool_payload.get("ok"):
+        return 500, {"ok": False, "error": tool_payload.get("error", "Merlin tool call failed.")}
+    result = tool_payload.get("result")
+    if not isinstance(result, dict) or "data" not in result:
+        return 500, {"ok": False, "error": "Merlin tool returned no data payload."}
+    return 200, {"ok": True, "data": result["data"]}
+
+
 def _secure_cookie_required(host: str) -> bool:
     override = str(os.environ.get('MERLIN_COOKIE_SECURE') or '').strip().lower()
     if override in {'1', 'true', 'yes', 'on'}:
@@ -243,14 +252,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                self._json({
-                'ok': True,
-                'receipts': route_tool(
+                status, payload = _tool_data_or_error(route_tool(
                     'runMerlinStageAReceipts',
                     {'limit': limit},
                     session=merlin_session,
-                ).get('result', {}).get('data', {}),
-                })
+                ))
+                self._json({'ok': payload['ok'], 'receipts': payload.get('data'), 'error': payload.get('error')}, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/replacement-readiness':
@@ -258,14 +265,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                self._json({
-                'ok': True,
-                'readiness': route_tool(
+                status, payload = _tool_data_or_error(route_tool(
                     'getMerlinReplacementReadiness',
                     {'limit': limit},
                     session=merlin_session,
-                ).get('result', {}).get('data', {}),
-                })
+                ))
+                self._json({'ok': payload['ok'], 'readiness': payload.get('data'), 'error': payload.get('error')}, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/promotion-packet':
@@ -273,15 +278,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                readiness = route_tool(
+                status, payload = _tool_data_or_error(route_tool(
                     'getMerlinReplacementReadiness',
                     {'limit': limit},
                     session=merlin_session,
-                ).get('result', {}).get('data', {})
+                ))
+                readiness = payload.get('data') or {}
                 self._json({
-                'ok': True,
+                'ok': payload['ok'],
                 'packet': readiness.get('packet', {}),
-                })
+                'error': payload.get('error'),
+                }, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/identity':
