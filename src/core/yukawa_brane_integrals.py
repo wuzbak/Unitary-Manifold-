@@ -348,6 +348,57 @@ def fit_c_L_to_lepton_ratios(
     }
 
 
+def quantized_lepton_texture_projection(
+    n_w: int = N_W,
+    pass_tolerance_pct: float = 10.0,
+    c_R: float = 0.5,
+    k_RS: float = K_RS_CANONICAL,
+    pi_kR: float = PI_KR_CANONICAL,
+) -> Dict[str, object]:
+    """Project lepton c_L texture onto winding-quantized levels and audit residuals."""
+    if n_w <= 0:
+        raise ValueError(f"n_w must be positive, got {n_w}")
+    if pass_tolerance_pct <= 0:
+        raise ValueError(f"pass_tolerance_pct must be positive, got {pass_tolerance_pct}")
+
+    quantized_levels = [0.5 + (n_w - n) / (2.0 * n_w) for n in range(n_w + 1)]
+    fit = fit_c_L_to_lepton_ratios(c_R=c_R, k_RS=k_RS, pi_kR=pi_kR)
+    fitted_values = [fit["c_L0"], fit["c_L1"], fit["c_L2"]]
+    discrete_values = [min(quantized_levels, key=lambda q: abs(q - c_val)) for c_val in fitted_values]
+
+    ratios = mass_ratio_generations(
+        discrete_values[0], discrete_values[1], discrete_values[2], c_R=c_R, k_RS=k_RS, pi_kR=pi_kR
+    )
+    ratio_checks = {
+        "mu_over_e": {"pred": ratios["m1_over_m0"], "pdg": R_MU_E},
+        "tau_over_mu": {"pred": ratios["m2_over_m1"], "pdg": R_TAU_MU},
+    }
+    max_error = 0.0
+    all_pass = True
+    for payload in ratio_checks.values():
+        pred, pdg = payload["pred"], payload["pdg"]
+        pct_error = abs(pred - pdg) / pdg * 100.0 if pdg > 0 else float("inf")
+        payload["pct_error"] = pct_error
+        max_error = max(max_error, pct_error)
+        all_pass = all_pass and pct_error <= pass_tolerance_pct
+
+    return {
+        "lane": "FLAVOR_LEPTON_DISCRETE_TEXTURE",
+        "n_w": n_w,
+        "quantized_levels": quantized_levels,
+        "fitted_c_L": {"electron": fit["c_L0"], "muon": fit["c_L1"], "tau": fit["c_L2"]},
+        "discrete_c_L": {"electron": discrete_values[0], "muon": discrete_values[1], "tau": discrete_values[2]},
+        "ratio_checks": ratio_checks,
+        "pass_tolerance_pct": pass_tolerance_pct,
+        "all_pass": all_pass,
+        "max_pct_error": max_error,
+        "lane_status": "CLOSED" if all_pass else "ARCH_LIMIT",
+        "non_promotion_reason": (
+            None if all_pass else "Discrete orbifold c_L texture does not yet reproduce both lepton ratios."
+        ),
+    }
+
+
 def lepton_masses_from_bulk_params(
     c_L_vals: Tuple[float, float, float],
     c_R: float = 0.5,

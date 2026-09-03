@@ -30,9 +30,12 @@ from src.core.boltzmann_bridge import (
     PHI0_EFF,
     R_BRAIDED,
     TAU_REIO,
+    MEMORY_KERNEL_STRENGTH_DEFAULT,
+    MEMORY_KERNEL_DECAY_ELL_DEFAULT,
     UMBoltzmannBridge,
     _camb_available,
     _class_available,
+    apply_projection_memory_kernel,
     primordial_power_spectrum,
     um_primordial_params,
     um_to_camb_params,
@@ -378,3 +381,24 @@ class TestPhysicsConsistency:
     def test_bridge_r_matches_module_constant(self):
         b = UMBoltzmannBridge()
         assert abs(b.r_braided() - R_BRAIDED) < 1e-10
+
+
+class TestProjectionMemoryKernel:
+    def test_kernel_defaults_positive(self):
+        assert MEMORY_KERNEL_STRENGTH_DEFAULT >= 0.0
+        assert MEMORY_KERNEL_DECAY_ELL_DEFAULT > 0.0
+
+    def test_kernel_preserves_shape(self):
+        arr = np.linspace(0.0, 1.0, 32)
+        out = apply_projection_memory_kernel(arr)
+        assert out.shape == arr.shape
+
+    def test_kernel_negative_strength_raises(self):
+        with pytest.raises(ValueError):
+            apply_projection_memory_kernel(np.ones(8), kernel_strength=-0.1)
+
+    def test_bridge_projection_memory_api(self):
+        bridge = UMBoltzmannBridge(prefer="native")
+        cl = bridge.compute_cl_tt_with_projection_memory(lmax=32)
+        assert isinstance(cl, np.ndarray)
+        assert cl.shape == (33,)

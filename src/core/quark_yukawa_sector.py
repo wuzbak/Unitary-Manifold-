@@ -602,6 +602,74 @@ def quark_mass_ratios_all(
     }
 
 
+def quantized_quark_bulk_mass_projection(
+    n_w: int = 5,
+    pass_tolerance_pct: float = 10.0,
+    pi_kR: float = PI_KR_CANONICAL,
+    k_RS: float = K_RS_CANONICAL,
+) -> Dict[str, object]:
+    """Project quark sectors onto discrete winding-quantized c_L levels."""
+    if n_w <= 0:
+        raise ValueError(f"n_w must be positive, got {n_w}")
+    if pass_tolerance_pct <= 0:
+        raise ValueError(f"pass_tolerance_pct must be positive, got {pass_tolerance_pct}")
+
+    quantized = [0.5 + (n_w - n) / (2.0 * n_w) for n in range(n_w + 1)]
+    fitted_up = fit_up_sector_bulk_masses(pi_kR=pi_kR, k_RS=k_RS)
+    fitted_dn = fit_down_sector_bulk_masses(pi_kR=pi_kR, k_RS=k_RS)
+    fit_map = {
+        "u": fitted_up["c_L_up"],
+        "c": fitted_up["c_L_charm"],
+        "t": fitted_up["c_L_top"],
+        "d": fitted_dn["c_L_down"],
+        "s": fitted_dn["c_L_strange"],
+        "b": fitted_dn["c_L_bottom"],
+    }
+
+    discrete_map: Dict[str, float] = {
+        key: min(quantized, key=lambda q: abs(q - c_val))
+        for key, c_val in fit_map.items()
+    }
+
+    fvals = {q: rs_wavefunction_zero_mode(q, k_RS, pi_kR) for q in set(discrete_map.values())}
+
+    def _ratio(a: str, b: str) -> float:
+        return fvals[discrete_map[a]] / fvals[discrete_map[b]]
+
+    ratio_checks = {
+        "charm_over_up": {"pred": _ratio("c", "u"), "pdg": R_CHARM_UP},
+        "top_over_charm": {"pred": _ratio("t", "c"), "pdg": R_TOP_CHARM},
+        "strange_over_down": {"pred": _ratio("s", "d"), "pdg": R_STRANGE_DOWN},
+        "bottom_over_strange": {"pred": _ratio("b", "s"), "pdg": R_BOTTOM_STRANGE},
+    }
+
+    max_error = 0.0
+    all_pass = True
+    for entry in ratio_checks.values():
+        pred, pdg = entry["pred"], entry["pdg"]
+        pct_error = abs(pred - pdg) / pdg * 100.0 if pdg > 0 else float("inf")
+        entry["pct_error"] = pct_error
+        max_error = max(max_error, pct_error)
+        all_pass = all_pass and pct_error <= pass_tolerance_pct
+
+    return {
+        "lane": "FLAVOR_QUARK_DISCRETE_TEXTURE",
+        "quantized_levels": quantized,
+        "fitted_reference": fit_map,
+        "discrete_projection": discrete_map,
+        "ratio_checks": ratio_checks,
+        "pass_tolerance_pct": pass_tolerance_pct,
+        "all_pass": all_pass,
+        "max_pct_error": max_error,
+        "lane_status": "CLOSED" if all_pass else "ARCH_LIMIT",
+        "non_promotion_reason": (
+            None
+            if all_pass
+            else "Discrete quark c_L texture fails at least one PDG ratio tolerance check."
+        ),
+    }
+
+
 # ---------------------------------------------------------------------------
 # Cabibbo angle from bulk mass mismatch
 # ---------------------------------------------------------------------------

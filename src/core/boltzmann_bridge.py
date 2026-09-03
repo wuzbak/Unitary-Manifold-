@@ -123,6 +123,10 @@ K_PIVOT_MPC: float = 0.05
 #: (see Pillar 52: cmb_amplitude.py for the full derivation chain)
 A_S: float = 2.1e-9  # Planck 2018 reference value
 
+#: Delayed-response projection kernel defaults (non-local fifth-dimension scaffold)
+MEMORY_KERNEL_STRENGTH_DEFAULT: float = 0.12
+MEMORY_KERNEL_DECAY_ELL_DEFAULT: float = 220.0
+
 #: Baryon density (Planck 2018 best-fit, used in Boltzmann calls)
 OMEGA_B: float = 0.02237
 
@@ -402,6 +406,34 @@ def compute_cl_tt_native(lmax: int = 2500) -> "np.ndarray":
     return result
 
 
+def apply_projection_memory_kernel(
+    cl_tt: "np.ndarray",
+    *,
+    kernel_strength: float = MEMORY_KERNEL_STRENGTH_DEFAULT,
+    kernel_decay_ell: float = MEMORY_KERNEL_DECAY_ELL_DEFAULT,
+) -> "np.ndarray":
+    """Apply a causal exponential delayed-response kernel to a C_ell series."""
+    arr = np.asarray(cl_tt, dtype=float)
+    if arr.ndim != 1:
+        raise ValueError("cl_tt must be a 1D array")
+    if kernel_strength < 0.0:
+        raise ValueError(f"kernel_strength must be non-negative, got {kernel_strength}")
+    if kernel_decay_ell <= 0.0:
+        raise ValueError(f"kernel_decay_ell must be positive, got {kernel_decay_ell}")
+    if arr.size < 3:
+        return arr.copy()
+
+    output = arr.copy()
+    ells = np.arange(arr.size, dtype=float)
+    for ell in range(2, arr.size):
+        distances = ells[: ell + 1][::-1]
+        weights = np.exp(-distances / kernel_decay_ell)
+        weights /= weights.sum()
+        delayed = float(np.dot(arr[: ell + 1], weights[::-1]))
+        output[ell] = (1.0 - kernel_strength) * arr[ell] + kernel_strength * delayed
+    return output
+
+
 # ---------------------------------------------------------------------------
 # Unified interface
 # ---------------------------------------------------------------------------
@@ -480,6 +512,21 @@ class UMBoltzmannBridge:
                     return result
         # Fall back to native
         return compute_cl_tt_native(lmax)
+
+    def compute_cl_tt_with_projection_memory(
+        self,
+        lmax: int = 2500,
+        *,
+        kernel_strength: float = MEMORY_KERNEL_STRENGTH_DEFAULT,
+        kernel_decay_ell: float = MEMORY_KERNEL_DECAY_ELL_DEFAULT,
+    ) -> "np.ndarray":
+        """Compute C_ell and apply delayed-response projection-memory smoothing."""
+        raw = self.compute_cl_tt(lmax=lmax)
+        return apply_projection_memory_kernel(
+            raw,
+            kernel_strength=kernel_strength,
+            kernel_decay_ell=kernel_decay_ell,
+        )
 
     @property
     def backend(self) -> str:

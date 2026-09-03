@@ -41,6 +41,7 @@ from src.core.lambda_qcd_gut_rge import (
     lambda_qcd_from_alpha_mz,
     gut_coupling_alpha,
     lambda_qcd_gut_rge_full,
+    qcd_uv_compactification_status,
     pillar153_summary,
 )
 
@@ -334,6 +335,10 @@ class TestLambdaQCDGUTRGEFull:
     def test_status_resolved(self):
         assert "RESOLVED" in self.result["status"]
 
+    def test_first_principles_status_open(self):
+        assert self.result["route_closure_status"] == "CLOSED"
+        assert self.result["first_principles_alpha_gut_status"] == "OPEN"
+
     def test_old_gap_factor_huge(self):
         """Old Pillar 62 gave ×10⁷ discrepancy."""
         assert self.result["old_pillar62_gap_factor"] > 1e5
@@ -383,6 +388,23 @@ class TestPillar153Summary:
 
     def test_status_resolved(self):
         assert "RESOLVED" in self.result["status"]
+
+    def test_uv_lane_present(self):
+        lane = self.result["uv_compactification_lane"]
+        assert lane["lane"] == "QCD_UV_COMPACTIFICATION"
+        assert lane["status"] in {"ARCH_LIMIT", "CLOSED"}
+
+
+class TestQcdUvCompactificationStatus:
+    def setup_method(self):
+        self.result = pillar153_summary()
+
+    def test_lane_open_until_first_principles(self):
+        lane = qcd_uv_compactification_status()
+        assert lane["lane"] == "QCD_UV_COMPACTIFICATION"
+        assert lane["route_chain_status"] == "CLOSED"
+        assert lane["first_principles_alpha_gut_status"] == "OPEN"
+        assert lane["ready_for_promotion"] is False
 
     def test_old_gap_huge(self):
         assert self.result["old_pillar62_gap_factor"] > 1e5

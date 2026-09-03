@@ -40,6 +40,7 @@ from src.core.yukawa_brane_integrals import (
     mass_from_overlap,
     mass_ratio_generations,
     fit_c_L_to_lepton_ratios,
+    quantized_lepton_texture_projection,
     lepton_masses_from_bulk_params,
     geometric_baseline_ratios,
     delta_c_needed_for_ratio,
@@ -482,3 +483,19 @@ class TestDiracYukawa6DOverlap:
         )
         # Either finds hits or honestly reports no hits — both valid
         assert r["verdict"] in ("TEXTURE_REGION_EXISTS", "NO_TEXTURE_IN_SEESAW_RANGE")
+
+
+class TestQuantizedLeptonTextureProjection:
+    def test_projection_shape(self):
+        result = quantized_lepton_texture_projection()
+        assert result["lane"] == "FLAVOR_LEPTON_DISCRETE_TEXTURE"
+        assert result["lane_status"] in {"CLOSED", "ARCH_LIMIT"}
+        assert "ratio_checks" in result
+
+    def test_projection_has_two_ratio_checks(self):
+        result = quantized_lepton_texture_projection()
+        assert set(result["ratio_checks"].keys()) == {"mu_over_e", "tau_over_mu"}
+
+    def test_invalid_tolerance_raises(self):
+        with pytest.raises(ValueError):
+            quantized_lepton_texture_projection(pass_tolerance_pct=0.0)

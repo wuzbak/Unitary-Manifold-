@@ -53,6 +53,7 @@ from src.core.quark_yukawa_sector import (
     fn_generation_charge_interpretation,
     bottom_tau_ratio,
     quark_sector_gap_report,
+    quantized_quark_bulk_mass_projection,
 )
 
 
@@ -535,3 +536,24 @@ class TestQuarkSectorGapReport:
 
     def test_mechanism_mentions_rs(self):
         assert "RS" in self.report["mechanism"] or "Randall" in self.report["mechanism"]
+
+
+class TestQuantizedQuarkBulkMassProjection:
+    def test_projection_shape(self):
+        projection = quantized_quark_bulk_mass_projection()
+        assert projection["lane"] == "FLAVOR_QUARK_DISCRETE_TEXTURE"
+        assert projection["lane_status"] in {"CLOSED", "ARCH_LIMIT"}
+        assert "ratio_checks" in projection
+
+    def test_projection_has_four_ratio_checks(self):
+        projection = quantized_quark_bulk_mass_projection()
+        assert set(projection["ratio_checks"].keys()) == {
+            "charm_over_up",
+            "top_over_charm",
+            "strange_over_down",
+            "bottom_over_strange",
+        }
+
+    def test_projection_invalid_tolerance_raises(self):
+        with pytest.raises(ValueError):
+            quantized_quark_bulk_mass_projection(pass_tolerance_pct=0.0)

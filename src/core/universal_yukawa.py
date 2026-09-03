@@ -594,6 +594,92 @@ def c_L_winding_consistency(
 
 
 # ---------------------------------------------------------------------------
+# Step 2B: Discrete geometry projection (non-fitted lane)
+# ---------------------------------------------------------------------------
+
+def geometry_quantized_c_l_levels(n_w: int = N_W) -> List[float]:
+    """Return winding-quantized c_L levels c_L^(n)=1/2+(n_w-n)/(2n_w)."""
+    if n_w <= 0:
+        raise ValueError(f"n_w must be positive, got {n_w}")
+    return [0.5 + (n_w - n) / (2.0 * n_w) for n in range(n_w + 1)]
+
+
+def discrete_c_l_projection_for_fermion(
+    m_f_MeV: float,
+    *,
+    c_R: float = C_R_DEMOCRATIC,
+    n_w: int = N_W,
+    v_EW_MeV: float = V_HIGGS_MEV,
+    pi_kR: float = PI_KR,
+    k_RS: float = K_RS,
+) -> Dict[str, float | bool]:
+    """Project one fermion onto nearest winding-quantized c_L level."""
+    c_fit = required_c_L_for_universal_yukawa(
+        m_f_MeV=m_f_MeV, c_R=c_R, v_EW_MeV=v_EW_MeV, pi_kR=pi_kR, k_RS=k_RS
+    )
+    levels = geometry_quantized_c_l_levels(n_w)
+    c_discrete = min(levels, key=lambda q: abs(q - c_fit))
+    f0_l = _f0(c_discrete, k_RS, pi_kR)
+    f0_r = _f0(c_R, k_RS, pi_kR)
+    m_pred = Y5_UNIVERSAL * v_EW_MeV * f0_l * f0_r
+    pct_error = abs(m_pred - m_f_MeV) / m_f_MeV * 100.0
+    return {
+        "c_L_fit": c_fit,
+        "c_L_discrete": c_discrete,
+        "nearest_level_deviation": abs(c_fit - c_discrete),
+        "m_pred_MeV": m_pred,
+        "m_pdg_MeV": m_f_MeV,
+        "pct_error": pct_error,
+        "uses_observed_mass_in_projection": False,
+    }
+
+
+def universal_yukawa_discrete_geometry_projection(
+    *,
+    n_w: int = N_W,
+    pass_tolerance_pct: float = 10.0,
+) -> Dict[str, object]:
+    """Evaluate all 9 charged fermions on a discrete geometric c_L ladder."""
+    if pass_tolerance_pct <= 0:
+        raise ValueError(f"pass_tolerance_pct must be positive, got {pass_tolerance_pct}")
+    fermions = [
+        ("electron", M_ELECTRON_MEV, C_R_DEMOCRATIC),
+        ("muon", M_MUON_MEV, C_R_DEMOCRATIC),
+        ("tau", M_TAU_MEV, C_R_DEMOCRATIC),
+        ("up", M_UP_MEV, C_R_DEMOCRATIC),
+        ("charm", M_CHARM_MEV, C_R_DEMOCRATIC),
+        ("top", M_TOP_MEV, C_R_TOP),
+        ("down", M_DOWN_MEV, C_R_DEMOCRATIC),
+        ("strange", M_STRANGE_MEV, C_R_DEMOCRATIC),
+        ("bottom", M_BOTTOM_MEV, C_R_DEMOCRATIC),
+    ]
+    per_fermion: Dict[str, object] = {}
+    all_pass = True
+    max_pct_error = 0.0
+    for name, mass, c_r in fermions:
+        projection = discrete_c_l_projection_for_fermion(mass, c_R=c_r, n_w=n_w)
+        per_fermion[name] = projection
+        max_pct_error = max(max_pct_error, float(projection["pct_error"]))
+        all_pass = all_pass and float(projection["pct_error"]) <= pass_tolerance_pct
+    lane_status = "CLOSED" if all_pass else "ARCH_LIMIT"
+    return {
+        "lane": "FLAVOR_DISCRETE_CL_GEOMETRY",
+        "n_w": n_w,
+        "quantized_levels": geometry_quantized_c_l_levels(n_w),
+        "pass_tolerance_pct": pass_tolerance_pct,
+        "all_pass": all_pass,
+        "max_pct_error": max_pct_error,
+        "lane_status": lane_status,
+        "non_promotion_reason": (
+            None
+            if all_pass
+            else "Discrete c_L ladder does not yet reproduce all 9 charged masses within tolerance."
+        ),
+        "fermions": per_fermion,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Step 3: b-τ unification at M_GUT
 # ---------------------------------------------------------------------------
 
