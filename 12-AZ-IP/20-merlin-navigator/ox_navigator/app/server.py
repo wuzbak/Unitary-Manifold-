@@ -84,11 +84,14 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         body = json.dumps(payload, ensure_ascii=False).encode('utf-8')
         self.send_response(status)
         self.send_header('Content-Type', 'application/json; charset=utf-8')
+        self.send_header('X-Merlin-Session-Persistence', 'process_local_memory')
         pending_cookie = getattr(self, '_pending_session_cookie', '')
         if pending_cookie:
             host = str(self.headers.get('Host') or '').split(':', 1)[0]
             secure = '; Secure' if _secure_cookie_required(host) else ''
             self.send_header('Set-Cookie', f'merlin_session_id={_sign_session_id(pending_cookie)}; Path=/; HttpOnly; SameSite=Lax{secure}')
+        if getattr(self, '_session_state', ''):
+            self.send_header('X-Merlin-Session-State', str(self._session_state))
         self.send_header('Content-Length', str(len(body)))
         self.end_headers()
         self.wfile.write(body)
@@ -101,14 +104,24 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             if key == 'merlin_session_id' and value.strip():
                 candidate_id = _extract_session_id(value.strip())
                 break
+        self._session_state = ''
         with _MERLIN_SESSIONS_LOCK:
             session_id = candidate_id if candidate_id in _MERLIN_SESSIONS else ''
-            if not session_id:
+            if candidate_id and not session_id:
                 session_id = uuid4().hex
                 _MERLIN_SESSIONS[session_id] = MerlinSession()
                 _MERLIN_SESSION_LOCKS[session_id] = threading.RLock()
                 self._pending_session_cookie = session_id
-            elif session_id not in _MERLIN_SESSION_LOCKS:
+                self._session_state = 'expired_new_session'
+            elif not session_id:
+                session_id = uuid4().hex
+                _MERLIN_SESSIONS[session_id] = MerlinSession()
+                _MERLIN_SESSION_LOCKS[session_id] = threading.RLock()
+                self._pending_session_cookie = session_id
+                self._session_state = 'new_session'
+            else:
+                self._session_state = 'resumed_session'
+            if session_id not in _MERLIN_SESSION_LOCKS:
                 _MERLIN_SESSION_LOCKS[session_id] = threading.RLock()
             _MERLIN_SESSION_LAST_SEEN[session_id] = time.time()
             while len(_MERLIN_SESSIONS) > _MERLIN_SESSION_CAP:
@@ -143,6 +156,11 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'compatibility': {
                     'legacy_query_endpoint': '/api/ox',
                     'legacy_status_endpoint': '/api/ox/status',
+                },
+                'session_contract': {
+                    'persistence': 'process_local_memory',
+                    'signed_cookie_resume_scope': 'same_process_only',
+                    'expired_cookie_behavior': 'new_session_id_issued',
                 },
                 })
                 return
@@ -209,6 +227,11 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'merlin_available': True,
                 'service': 'Compatibility shim over Merlin Product 20',
                 'openrouter_compat_enabled': bool(os.environ.get('MERLIN_ENABLE_OPENROUTER_COMPAT')),
+                'session_contract': {
+                    'persistence': 'process_local_memory',
+                    'signed_cookie_resume_scope': 'same_process_only',
+                    'expired_cookie_behavior': 'new_session_id_issued',
+                },
                 })
                 return
         if parsed.path in ('', '/'):

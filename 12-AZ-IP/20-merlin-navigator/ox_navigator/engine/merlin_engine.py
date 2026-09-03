@@ -443,8 +443,19 @@ async def query_merlin(
     response_text = ""
     context_source = "offline_rag"
     tool_rounds = 0
-    router_decision = choose_runtime(text, confidence=0.7)
-    if router_decision["provider"] == "openrouter_compat" and os.environ.get("OPENROUTER_API_KEY"):
+    kb_score = float((context.get("kb_match") or {}).get("score") or 0.0)
+    interrogator_scores = [
+        float(item.get("confidence", 0.0))
+        for item in (context.get("interrogator_hits") or [])
+        if isinstance(item, dict)
+    ]
+    route_confidence = max([kb_score, *interrogator_scores], default=0.7)
+    router_decision = choose_runtime(text, confidence=route_confidence)
+    if (
+        router_decision["provider"] == "openrouter_compat"
+        and bool(router_decision.get("openrouter_compat_enabled"))
+        and os.environ.get("OPENROUTER_API_KEY")
+    ):
         if on_status is not None:
             on_status.append("model")
         try:

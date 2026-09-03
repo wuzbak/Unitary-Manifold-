@@ -72,6 +72,47 @@ MERLIN_SESSION_SCHEMA = {
 }
 
 
+def _matches_schema_type(value: Any, schema_type: Any) -> bool:
+    if isinstance(schema_type, list):
+        return any(_matches_schema_type(value, item) for item in schema_type)
+    if schema_type == "string":
+        return isinstance(value, str)
+    if schema_type == "integer":
+        return isinstance(value, int) and not isinstance(value, bool)
+    if schema_type == "number":
+        return (isinstance(value, int) and not isinstance(value, bool)) or isinstance(value, float)
+    if schema_type == "boolean":
+        return isinstance(value, bool)
+    if schema_type == "array":
+        return isinstance(value, list)
+    if schema_type == "object":
+        return isinstance(value, dict)
+    if schema_type == "null":
+        return value is None
+    return True
+
+
+def _validate_args_schema(schema: dict[str, Any] | None, args: dict[str, Any]) -> str | None:
+    if not schema:
+        return None
+    reserved_keys = {"human_gate_approved"}
+    required = list(schema.get("required") or [])
+    for key in required:
+        if key not in args:
+            return f"Missing required argument: {key}"
+    props = dict(schema.get("properties") or {})
+    for key, value in args.items():
+        if key in reserved_keys:
+            continue
+        if key in props:
+            expected = props[key].get("type")
+            if expected and not _matches_schema_type(value, expected):
+                return f"Invalid argument type for '{key}': expected {expected}"
+        elif schema.get("additionalProperties") is False:
+            return f"Unexpected argument: {key}"
+    return None
+
+
 def _tool_manifest() -> dict[str, Any]:
     functions = [
             {"name": "fetchRepoContext", "summary": "Return canonical live repo status", "domain": "functions"},
@@ -201,6 +242,7 @@ def _tool_manifest() -> dict[str, Any]:
                 "type": "object",
                 "properties": {
                     "head_to_head_runs": {"type": "array"},
+                    "sync_checks_ok": {"type": "boolean"},
                 },
                 "additionalProperties": True,
             },
@@ -219,7 +261,7 @@ def _tool_manifest() -> dict[str, Any]:
             "capability_class": "read",
             "risk_level": "low",
             "requires_human_gate": False,
-            "args_schema": {"type": "object", "properties": {}, "additionalProperties": True},
+            "args_schema": {"type": "object", "properties": {}, "additionalProperties": False},
             **item,
             **policy_overrides.get(item["name"], {}),
         }
@@ -413,6 +455,69 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
     active_session = session if session is not None else MerlinSession()
     manifest = _tool_manifest()
     policy = next((item for item in manifest["functions"] if item["name"] == tool), None)
+    special_tools = {
+        "getMerlinBenchmarkCorpus",
+        "evaluateMerlinBenchmarkResponse",
+        "evaluateMerlinEmpiricalGate",
+        "getMerlinPromotionPacket",
+        "getMerlinMemoryState",
+        "runMerlinMemoryAudit",
+        "getMerlinTelemetrySummary",
+    }
+    known_tool = bool(
+        tool in _FUNCTIONS
+        or tool in special_tools
+        or tool.startswith("entity.MerlinSession.")
+        or tool == "connector.github"
+    )
+    if policy is None and tool.startswith("entity.MerlinSession."):
+        op = tool.split(".")[-1]
+        if op == "audit":
+            policy = {"args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "additionalProperties": False}}
+        elif op in {"schema", "state"}:
+            policy = {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}}
+    if policy is None and tool == "connector.github":
+        policy = {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}}
+    is_entity_or_connector = tool.startswith("entity.MerlinSession.") or tool == "connector.github"
+    if not known_tool or (policy is None and not is_entity_or_connector):
+        return {
+            "ok": False,
+            "tool": tool,
+            "type": "function",
+            "result": None,
+            "error": f"Tool not allowlisted: {tool}",
+            "policy": {
+                "capability_class": "unknown",
+                "risk_level": "unknown",
+                "requires_human_gate": False,
+            },
+            "audit": {
+                "args_keys": sorted(args.keys()),
+                "duration_ms": 0.0,
+                "blocked_by_policy": True,
+            },
+            "duration_ms": 0.0,
+        }
+    schema_error = _validate_args_schema((policy or {}).get("args_schema"), args)
+    if schema_error:
+        return {
+            "ok": False,
+            "tool": tool,
+            "type": "function",
+            "result": None,
+            "error": schema_error,
+            "policy": {
+                "capability_class": (policy or {}).get("capability_class", "unknown"),
+                "risk_level": (policy or {}).get("risk_level", "unknown"),
+                "requires_human_gate": bool((policy or {}).get("requires_human_gate", False)),
+            },
+            "audit": {
+                "args_keys": sorted(args.keys()),
+                "duration_ms": 0.0,
+                "blocked_by_policy": True,
+            },
+            "duration_ms": 0.0,
+        }
     requires_human_gate = bool((policy or {}).get("requires_human_gate", False))
     if requires_human_gate and not bool(args.get("human_gate_approved")):
         return {
@@ -457,10 +562,15 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
             )}
         elif tool == "getMerlinPromotionPacket":
             tool_type = "function"
+            sync_checks_ok = (
+                bool(args.get("sync_checks_ok"))
+                if "sync_checks_ok" in args
+                else bool(run_sync_checks().get("ok"))
+            )
             result = {"data": build_promotion_packet(
                 head_to_head_runs=list(args.get("head_to_head_runs") or []),
                 telemetry_summary=active_session.get_telemetry_summary(public=True),
-                sync_checks_ok=bool(run_sync_checks().get("ok")),
+                sync_checks_ok=sync_checks_ok,
             )}
         elif tool == "getMerlinMemoryState":
             tool_type = "function"

@@ -199,7 +199,8 @@ def evaluate_empirical_gate(
                 "mean_quality_delta": 0.0,
                 "mean_energy_delta_joules": 0.0,
                 "quality_regressions": 0,
-                "high_severity_policy_violations": 0,
+                "high_severity_policy_violations_merlin": 0,
+                "high_severity_policy_violations_incumbent": 0,
             },
         }
 
@@ -230,6 +231,7 @@ def evaluate_empirical_gate(
     checks = {
         "minimum_runs": run_count >= int(min_runs),
         "success_rate_parity_or_better": metrics["merlin_success_rate"] >= metrics["incumbent_success_rate"],
+        "mean_quality_nonnegative": metrics["mean_quality_delta"] >= 0.0,
         "quality_regressions_within_limit": quality_regressions <= int(max_quality_regressions),
         "mean_energy_win": metrics["mean_energy_delta_joules"] > 0.0,
         "zero_high_severity_policy_violations_merlin": merlin_policy_violations == 0,
@@ -255,16 +257,28 @@ def build_promotion_packet(
     sync_checks_ok: bool | None = None,
 ) -> dict[str, Any]:
     """Return an explicit pass/fail promotion packet for Merlin replacement."""
-    empirical = evaluate_empirical_gate(list(head_to_head_runs or []))
+    comparable_runs = list(head_to_head_runs or [])
+    empirical = evaluate_empirical_gate(comparable_runs)
+    evidence_present = bool(comparable_runs)
+    sync_gate = bool(sync_checks_ok) if sync_checks_ok is not None else True
+    final_gate_pass = bool(empirical["gate_pass"]) and sync_gate and evidence_present
+    decision = "REPLACEMENT_APPROVED" if final_gate_pass else "REPLACEMENT_NOT_APPROVED"
+    if not evidence_present:
+        decision = "REPLACEMENT_EVIDENCE_REQUIRED"
     return {
         "stage": "stage_d_replacement_gates",
-        "decision": empirical["decision"],
-        "gate_pass": bool(empirical["gate_pass"]),
+        "decision": decision,
+        "gate_pass": final_gate_pass,
         "empirical_gate": empirical,
         "telemetry_summary": dict(telemetry_summary or {}),
         "sync_checks_ok": bool(sync_checks_ok) if sync_checks_ok is not None else None,
         "policy": {
             "requires_sustained_runs": True,
             "no_label_inflation": "Replacement cannot be approved without explicit gate pass.",
+        },
+        "checks": {
+            "evidence_present": evidence_present,
+            "empirical_gate_pass": bool(empirical["gate_pass"]),
+            "sync_checks_ok_or_not_required": sync_gate,
         },
     }

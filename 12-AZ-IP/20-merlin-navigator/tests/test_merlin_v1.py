@@ -244,6 +244,22 @@ def test_route_tool_empirical_gate_and_promotion_packet():
     assert packet['result']['data']['decision'] == 'REPLACEMENT_APPROVED'
 
 
+def test_route_tool_empirical_gate_rejects_net_quality_downgrade():
+    runs = [
+        {
+            'id': 'r1',
+            'merlin': {'task_success': True, 'quality_score': 0.89, 'energy_joules': 0.4, 'high_severity_policy_violations': 0},
+            'incumbent': {'task_success': True, 'quality_score': 0.90, 'energy_joules': 0.9, 'high_severity_policy_violations': 0},
+        }
+        for _ in range(12)
+    ]
+    gate = route_tool('evaluateMerlinEmpiricalGate', {'head_to_head_runs': runs})
+    assert gate['ok'] is True
+    assert gate['result']['data']['checks']['mean_quality_nonnegative'] is False
+    assert gate['result']['data']['gate_pass'] is False
+    assert gate['result']['data']['decision'] == 'REPLACEMENT_NOT_APPROVED'
+
+
 def test_route_tool_memory_and_telemetry_state():
     session = MerlinSession()
     telemetry_before = route_tool('getMerlinTelemetrySummary', {}, session=session)
@@ -254,6 +270,12 @@ def test_route_tool_memory_and_telemetry_state():
     memory_state = route_tool('getMerlinMemoryState', {}, session=session)
     assert telemetry_after['result']['data']['count'] == 1
     assert memory_state['result']['data']['durable_memory_count'] >= 1
+
+
+def test_route_tool_entity_state_rejects_unexpected_args():
+    result = route_tool('entity.MerlinSession.state', {'unexpected': True})
+    assert result['ok'] is False
+    assert 'Unexpected argument' in result['error']
 
 
 def test_route_tool_identity_and_sentinel_policy():
@@ -430,7 +452,7 @@ def test_server_merlin_endpoints():
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200
             assert packet.json()['ok'] is True
-            assert packet.json()['packet']['decision'] == 'REPLACEMENT_NOT_APPROVED'
+            assert packet.json()['packet']['decision'] == 'REPLACEMENT_EVIDENCE_REQUIRED'
 
             telemetry = client.get('/api/merlin/telemetry')
             assert telemetry.status_code == 200
