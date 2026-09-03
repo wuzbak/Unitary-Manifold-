@@ -487,6 +487,10 @@ def test_server_merlin_endpoints():
             assert packet.json()['ok'] is True
             assert packet.json()['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
 
+            bad_limit = client.get('/api/merlin/replacement-readiness?limit=abc')
+            assert bad_limit.status_code == 400
+            assert "must be an integer" in bad_limit.json()['error']
+
             telemetry = client.get('/api/merlin/telemetry')
             assert telemetry.status_code == 200
             assert telemetry.json()['ok'] is True

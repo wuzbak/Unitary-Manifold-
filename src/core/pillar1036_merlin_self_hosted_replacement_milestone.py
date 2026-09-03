@@ -6,12 +6,14 @@ from __future__ import annotations
 
 import importlib
 import sys
+import threading
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Dict, Iterator
 
 _ROOT = Path(__file__).resolve().parents[2]
 _PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-merlin-navigator"
+_MERLIN_IMPORT_LOCK = threading.RLock()
 
 __all__ = [
     "PILLAR_NUMBER",
@@ -45,9 +47,10 @@ def _merlin_import_path() -> Iterator[None]:
 
 
 def _load_merlin_helpers() -> tuple[Any, Any]:
-    with _merlin_import_path():
-        benchmark = importlib.import_module("ox_navigator.engine.merlin_benchmark")
-        program = importlib.import_module("ox_navigator.engine.merlin_program")
+    with _MERLIN_IMPORT_LOCK:
+        with _merlin_import_path():
+            benchmark = importlib.import_module("ox_navigator.engine.merlin_benchmark")
+            program = importlib.import_module("ox_navigator.engine.merlin_program")
     return benchmark.build_stage_a_replacement_readiness, program.run_sync_checks
 
 
