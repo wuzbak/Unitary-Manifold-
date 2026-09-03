@@ -246,6 +246,23 @@ def test_route_tool_empirical_gate_and_promotion_packet():
     assert packet['result']['data']['decision'] == 'REPLACEMENT_APPROVED'
 
 
+def test_route_tool_stage_a_receipts_and_replacement_readiness():
+    receipts = route_tool('runMerlinStageAReceipts', {'limit': 1})
+    assert receipts['ok'] is True
+    receipt_data = receipts['result']['data']
+    assert receipt_data['ok'] is True
+    assert receipt_data['summary']['total'] == 1
+    assert len(receipt_data['head_to_head_runs']) == 1
+
+    readiness = route_tool('getMerlinReplacementReadiness', {'limit': 1})
+    assert readiness['ok'] is True
+    readiness_data = readiness['result']['data']
+    assert readiness_data['ok'] is True
+    assert readiness_data['receipts']['summary']['total'] == 1
+    assert readiness_data['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
+    assert readiness_data['packet']['decision'] != 'REPLACEMENT_EVIDENCE_REQUIRED'
+
+
 def test_route_tool_empirical_gate_rejects_net_quality_downgrade():
     runs = [
         {
@@ -455,10 +472,20 @@ def test_server_merlin_endpoints():
             assert 'promotion_gate' in benchmarks.json()['benchmarks']
             assert benchmarks.json()['benchmarks']['stage_a_corpus']['stage'] == 'stage_a_parity_capture'
 
+            receipts = client.get('/api/merlin/stage-a-receipts?limit=1')
+            assert receipts.status_code == 200
+            assert receipts.json()['ok'] is True
+            assert receipts.json()['receipts']['summary']['total'] == 1
+
+            readiness = client.get('/api/merlin/replacement-readiness?limit=1')
+            assert readiness.status_code == 200
+            assert readiness.json()['ok'] is True
+            assert readiness.json()['readiness']['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
+
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200
             assert packet.json()['ok'] is True
-            assert packet.json()['packet']['decision'] == 'REPLACEMENT_EVIDENCE_REQUIRED'
+            assert packet.json()['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
 
             telemetry = client.get('/api/merlin/telemetry')
             assert telemetry.status_code == 200

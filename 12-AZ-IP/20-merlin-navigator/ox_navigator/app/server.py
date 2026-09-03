@@ -230,11 +230,39 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
-            if parsed.path == '/api/merlin/promotion-packet':
+            if parsed.path == '/api/merlin/stage-a-receipts':
                 self._json({
                 'ok': True,
-                'packet': route_tool('getMerlinPromotionPacket', {}, session=merlin_session).get('result', {}).get('data', {}),
+                'receipts': route_tool(
+                    'runMerlinStageAReceipts',
+                    {'limit': int(params.get('limit', ['3'])[0])},
+                    session=merlin_session,
+                ).get('result', {}).get('data', {}),
                 })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/replacement-readiness':
+                self._json({
+                'ok': True,
+                'readiness': route_tool(
+                    'getMerlinReplacementReadiness',
+                    {'limit': int(params.get('limit', ['3'])[0])},
+                    session=merlin_session,
+                ).get('result', {}).get('data', {}),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/promotion-packet':
+                readiness = route_tool(
+                    'getMerlinReplacementReadiness',
+                    {'limit': int(params.get('limit', ['3'])[0])},
+                    session=merlin_session,
+                ).get('result', {}).get('data', {})
+                self._json({
+                'ok': True,
+                'packet': readiness.get('packet', {}),
+                })
+                self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/identity':
                 self._json({'ok': True, 'identity': get_identity_policy()})

@@ -16,10 +16,12 @@ from .flashcard import get_categories, load_flashcards
 from .interrogator import get_tension_map_data, search_kb
 from .merlin_admission import evaluate_model_admission, get_model_admission_policy
 from .merlin_benchmark import (
+    build_stage_a_replacement_readiness,
     build_promotion_packet,
     evaluate_benchmark_response,
     evaluate_empirical_gate,
     get_stage_a_benchmark_corpus,
+    run_stage_a_head_to_head_receipts_sync,
 )
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
@@ -160,8 +162,10 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinBenchmarkSuite", "summary": "Return benchmark harness definition", "domain": "functions"},
             {"name": "getMerlinBenchmarkCorpus", "summary": "Return Stage A benchmark prompt corpus", "domain": "functions"},
             {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Stage A benchmark", "domain": "functions"},
+            {"name": "runMerlinStageAReceipts", "summary": "Run self-hosted Stage A receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
             {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
+            {"name": "getMerlinReplacementReadiness", "summary": "Return concrete self-hosted replacement readiness packet", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
@@ -228,6 +232,15 @@ def _tool_manifest() -> dict[str, Any]:
                 "required": ["benchmark_id", "response"],
             },
         },
+        "runMerlinStageAReceipts": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+        },
         "evaluateMerlinEmpiricalGate": {
             "args_schema": {
                 "type": "object",
@@ -248,6 +261,17 @@ def _tool_manifest() -> dict[str, Any]:
                     "sync_checks_ok": {"type": "boolean"},
                 },
                 "additionalProperties": True,
+            },
+            "risk_level": "medium",
+        },
+        "getMerlinReplacementReadiness": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                    "sync_checks_ok": {"type": "boolean"},
+                },
+                "additionalProperties": False,
             },
             "risk_level": "medium",
         },
@@ -443,6 +467,11 @@ _FUNCTIONS = {
     "getMerlinOptimizationPriorities": lambda **args: {"data": get_merlin_optimization_priorities()},
     "getMerlinExecutionGraph": lambda **args: {"data": get_merlin_execution_graph()},
     "getMerlinBenchmarkSuite": lambda **args: {"data": get_merlin_benchmark_suite()},
+    "runMerlinStageAReceipts": lambda **args: {"data": run_stage_a_head_to_head_receipts_sync(limit=args.get("limit"))},
+    "getMerlinReplacementReadiness": lambda **args: {"data": build_stage_a_replacement_readiness(
+        limit=args.get("limit"),
+        sync_checks_ok=args.get("sync_checks_ok"),
+    )},
 }
 
 

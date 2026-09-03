@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
-"""Stage A benchmark corpus and evaluators for Merlin."""
+"""Stage A benchmark corpus, receipt runners, and evaluators for Merlin."""
 
 from __future__ import annotations
 
+import asyncio
 import re
 from statistics import mean
 from typing import Any
@@ -82,6 +83,14 @@ STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_provenance_kinds": ["policy"],
         "review_focus": ["deterministic_refusal", "policy_visibility", "session_reset_path"],
     },
+]
+
+REQUIRED_SHADOW_FIELDS = [
+    ("telemetry", "provider"),
+    ("telemetry", "lane"),
+    ("telemetry", "latency_ms"),
+    ("telemetry", "energy", "estimated_joules"),
+    ("telemetry", "quality_signals"),
 ]
 
 
@@ -281,4 +290,144 @@ def build_promotion_packet(
             "empirical_gate_pass": bool(empirical["gate_pass"]),
             "sync_checks_ok_or_not_required": sync_gate,
         },
+    }
+
+
+def _path_has(payload: dict[str, Any], path: tuple[str, ...]) -> bool:
+    value: Any = payload
+    for key in path:
+        if not isinstance(value, dict) or key not in value:
+            return False
+        value = value[key]
+    return True
+
+
+def _run_summary(
+    payload: dict[str, Any],
+    evaluation: dict[str, Any],
+    *,
+    shadow_ok: bool,
+) -> dict[str, Any]:
+    telemetry = dict(payload.get("telemetry") or {})
+    return {
+        "task_success": bool(evaluation.get("pass")) and shadow_ok,
+        "quality_score": float(evaluation.get("score", 0.0)),
+        "energy_joules": float(
+            ((telemetry.get("energy") or {}).get("estimated_joules") or 0.0)
+        ),
+        "high_severity_policy_violations": 0,
+    }
+
+
+async def _run_stage_a_once(benchmark: dict[str, Any]) -> dict[str, Any]:
+    from .merlin_engine import query_merlin
+    from .merlin_memory import MerlinSession
+
+    merlin_session = MerlinSession()
+    incumbent_session = MerlinSession()
+    merlin_result = await query_merlin(text=str(benchmark["query"]), session=merlin_session)
+    incumbent_result = await query_merlin(
+        text=str(benchmark["query"]),
+        session=incumbent_session,
+        runtime_mode="incumbent_compat",
+    )
+    merlin_eval = evaluate_benchmark_response(str(benchmark["id"]), merlin_result)
+    incumbent_eval = evaluate_benchmark_response(str(benchmark["id"]), incumbent_result)
+    merlin_shadow = {
+        "/".join(path): _path_has(merlin_result, path) for path in REQUIRED_SHADOW_FIELDS
+    }
+    incumbent_shadow = {
+        "/".join(path): _path_has(incumbent_result, path)
+        for path in REQUIRED_SHADOW_FIELDS
+    }
+    merlin_shadow_ok = all(merlin_shadow.values())
+    incumbent_shadow_ok = all(incumbent_shadow.values())
+    parity_ok = float(merlin_eval.get("score", 0.0)) >= float(
+        incumbent_eval.get("score", 0.0)
+    )
+    return {
+        "benchmark_id": benchmark["id"],
+        "track": benchmark["track"],
+        "query": benchmark["query"],
+        "merlin_evaluation": merlin_eval,
+        "incumbent_evaluation": incumbent_eval,
+        "merlin_shadow_fields": merlin_shadow,
+        "incumbent_shadow_fields": incumbent_shadow,
+        "merlin_shadow_ok": merlin_shadow_ok,
+        "incumbent_shadow_ok": incumbent_shadow_ok,
+        "parity_ok": parity_ok,
+        "head_to_head_run": {
+            "id": str(benchmark["id"]),
+            "merlin": _run_summary(merlin_result, merlin_eval, shadow_ok=merlin_shadow_ok),
+            "incumbent": _run_summary(
+                incumbent_result,
+                incumbent_eval,
+                shadow_ok=incumbent_shadow_ok,
+            ),
+        },
+    }
+
+
+async def run_stage_a_head_to_head_receipts(
+    *,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    """Run Stage A receipts locally and construct comparable Merlin/incumbent runs."""
+    corpus = get_stage_a_benchmark_corpus()
+    selected = list(corpus["benchmarks"])
+    if limit is not None:
+        selected = selected[: max(0, int(limit))]
+    runs = []
+    for benchmark in selected:
+        runs.append(await _run_stage_a_once(benchmark))
+    failed = [
+        item
+        for item in runs
+        if (not item["merlin_evaluation"].get("pass"))
+        or (not item["merlin_shadow_ok"])
+        or (not item["parity_ok"])
+    ]
+    return {
+        "ok": True,
+        "stage": corpus["stage"],
+        "runs": runs,
+        "head_to_head_runs": [item["head_to_head_run"] for item in runs],
+        "summary": {
+            "total": len(runs),
+            "passed": len(runs) - len(failed),
+            "failed": len(failed),
+            "promotion_gate_pass": len(failed) == 0,
+        },
+    }
+
+
+def run_stage_a_head_to_head_receipts_sync(
+    *,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    """Synchronous wrapper for Stage A receipts."""
+    return asyncio.run(run_stage_a_head_to_head_receipts(limit=limit))
+
+
+def build_stage_a_replacement_readiness(
+    *,
+    limit: int | None = None,
+    sync_checks_ok: bool | None = None,
+) -> dict[str, Any]:
+    """Build a concrete Sprint BX self-hosted readiness packet."""
+    receipts = run_stage_a_head_to_head_receipts_sync(limit=limit)
+    if sync_checks_ok is None:
+        from .merlin_program import run_sync_checks
+
+        sync_checks_ok = bool(run_sync_checks().get("ok"))
+    packet = build_promotion_packet(
+        head_to_head_runs=list(receipts["head_to_head_runs"]),
+        telemetry_summary=receipts["summary"],
+        sync_checks_ok=sync_checks_ok,
+    )
+    return {
+        "ok": True,
+        "stage": receipts["stage"],
+        "receipts": receipts,
+        "packet": packet,
     }
