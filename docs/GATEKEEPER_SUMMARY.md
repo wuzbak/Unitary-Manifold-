@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v34.9
+# Unitary Manifold v35.0
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,6 +8,8 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Sprint BT (v35.0 — 2026-09-03):** 1 pillar (1020). P1020 groups the six surviving internal architecture-limit lanes into three coupled executable programs: CMB normalization mechanism, shared UV compactification for α_s + Higgs, and shared flavor geometry for CKM shadow + fermion magnitude/radii + Jarlskog. Program numbering is bookkeeping only; practical execution priority is flavor family first, then UV/global, then CMB. Open-lane labels remain unchanged and explicit until a real downstream runtime flips. Lean4 unchanged (3912). Next slot 1021.
+>
 > **Sprint BS (v34.9 — 2026-09-03):** 6 pillars (1014–1019). P1014 expands 8D robustness coverage and adversarial failure certificates for branch violations. P1015 couples 9D GS hard-gate validity to CP utility with widened anchor partitions and threshold boundary checks. P1016 audits 11D conditional-chain coherence with contradiction and deterministic boundary stress checks. P1017 converts 12D named residuals into machine-checkable closure predicates with off-reference perturbation audits while preserving invariants. P1018 certifies the integrated four-lane binary outcomes. P1019 certifies lockstep truth-surface coherence. Open-lane labels remain unchanged and explicit. Lean4 unchanged (3912). Next slot 1020.
 >
 > **Sprint BR (v34.8 — 2026-09-03):** 3 pillars (1011–1013). P1011 consolidates the 10D flux-count gate, flux-sufficiency check, explicit UV vacuum selection, and normalized candidate weighting into one auditable bridge object and keeps unique support on `n_w=5` explicit. P1012 lifts `(5,7)` and `(5,6)` branch handling into 10D compactification/selection terms, preserving canonical `(5,7)` while explicitly suppressing non-canonical `(5,6)` in the 10D gate chain. P1013 certifies status-surface coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan. Open-lane labels remain unchanged and explicit. Lean4 unchanged (3912). Next slot 1014.
@@ -40,7 +42,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-03 (v34.9 — Sprint BS: Pillars 1014–1019 (6 pillars); four-lane coverage-closure package recorded with binary closure/non-promotion outcomes plus cross-surface coherence certificate; truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 1020. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
+*Last updated: 2026-09-03 (v35.0 — Sprint BT: Pillar 1020 (1 pillar); three-program regrouping of the six surviving internal architecture-limit lanes is now canonical, with bookkeeping program numbering separated from practical execution priority; truth surfaces resynced in lockstep; Lean4 unchanged at 3912; next pillar slot 1021. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

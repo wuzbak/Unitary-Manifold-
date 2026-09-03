@@ -1,9 +1,13 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v34.9
+# Unitary Manifold v35.0
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v34.9 — Sprint BS: Pillars 1014–1019. Sprint BS executes four parallel lanes with binary closure/non-promotion outcomes: 8D robustness+adversarial branch audit, 9D GS/CP coherence partitioning, 11D conditional-chain integrity audit, and 12D residual-registry perturbation hardening. Sprint certificates lock integration and cross-surface coherence with no open-lane promotion. Next slot 1020. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v35.0 — Sprint BT: Pillar 1020. The six surviving internal architecture-limit lanes are now canonically grouped into three executable programs with unchanged open-lane labels, explicit shared missing objects, and separated bookkeeping-vs-priority order. Next slot 1021. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*Historical continuity note: v34.9 Sprint BS covered Pillars 1014–1019 with next slot 1020 before the Sprint BT regrouping update.*
+
+*P1020 (v35.0): Three-Program Open Architecture Registry — THREE_PROGRAM_OPEN_ARCHITECTURE_REGISTRY_COMPLETE. `src/core/pillar1020_three_program_open_architecture_registry.py` groups the six checked-in internal architecture-limit lanes into three coupled programs: CMB normalization mechanism, shared UV compactification for α_s + Higgs, and shared flavor geometry for CKM shadow + fermion magnitude/radii + Jarlskog. Program numbering is bookkeeping only; practical execution priority is flavor first, UV/global second, CMB third. No lane label is promoted or renamed.*
 
 *P1019 (v34.9): Sprint BS Status-Coherence Certificate — SPRINT_BS_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1019_sprint_bs_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan and verifies Sprint BS markers with unchanged open-lane labels.*
 

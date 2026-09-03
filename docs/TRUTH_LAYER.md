@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v34.9
+# Unitary Manifold v35.0
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v35.0 sync note (Sprint BT — 2026-09-03):*
+*(1) Auditable checked-in branch state is Sprint BT: Pillar 1020; Lean4 3912; next pillar slot 1021; focused regression: Pillar 1020 targeted tests passed · 0 failed.*
+*(2) P1020 stops treating the six surviving internal architecture-limit lanes as disconnected holes and groups them into three coupled executable programs with unchanged open labels.*
+*(3) The three programs are: CMB normalization mechanism; shared UV compactification for α_s + Higgs; and shared flavor geometry for CKM shadow, fermion magnitude/radii, and Jarlskog.*
+*(4) Program numbering is bookkeeping only. Practical execution priority is explicit and starts with the shared flavor-family root because it already has the clearest named downstream missing objects and executable status tests.*
+*(5) No status promotion is allowed without a real downstream runtime flip. Open set remains unchanged and explicit: CMB amplitude, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3, LiteBIRD.*
 
 *v34.9 sync note (Sprint BS — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BS: Pillars 1014–1019; Lean4 3912; next pillar slot 1020; focused regression: Sprint BS targeted tests passed · 0 failed.*
