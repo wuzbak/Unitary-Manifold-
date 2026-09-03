@@ -10,7 +10,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from .merlin_admission import get_model_admission_policy
 from .merlin_memory import MERLIN_MAX_HISTORY
+from .merlin_router import get_router_policy
+from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
@@ -49,8 +52,8 @@ def get_program_charter() -> dict[str, Any]:
     return {
         "name": "Merlin Replacement Program",
         "mission": (
-            "Make Merlin the primary assistant for repository and governance intelligence "
-            "with lower energy-per-successful-task than the incumbent external-model path."
+            "Make Merlin the primary open-science assistant for repository and governance intelligence "
+            "with lower energy-per-successful-task than the incumbent token-dependent external-model path."
         ),
         "ownership": {
             "stewards": ["AxiomZero", "@wuzbak", "GitHub Copilot Task Agent"],
@@ -62,6 +65,7 @@ def get_program_charter() -> dict[str, Any]:
                 "quality_parity_or_better",
                 "energy_per_successful_task_lower_than_incumbent",
                 "safety_and_governance_compliance_stable",
+                "self_hostable_reproducible_and_auditable_stack",
             ],
             "secondary": [
                 "lower_external_model_dependency",
@@ -99,9 +103,9 @@ def get_replacement_scope() -> dict[str, Any]:
 def get_current_stack_baseline() -> dict[str, Any]:
     return {
         "baseline_product": "12-AZ-IP/20-ox-navigator",
-        "live_model_transport": "OpenRouter stealth/ox-alpha",
+        "live_model_transport": "Sovereign local runtime primary; OpenRouter stealth/ox-alpha compatibility-only",
         "current_limits": {
-            "live_dependency": "OPENROUTER_API_KEY required for live model path",
+            "live_dependency": "OpenRouter path requires OPENROUTER_API_KEY and explicit compatibility enablement",
             "offline_path": "offline_rag fallback",
             "tool_round_cap": 2,
             "orchestration_step_cap": 10,
@@ -119,7 +123,7 @@ def get_current_stack_baseline() -> dict[str, Any]:
         ],
         "gaps_to_replacement": [
             "energy instrumentation not yet attached to per-task outcomes",
-            "no staged model-router with small/medium/heavy policy lanes",
+            "staged model-router exists but requires empirical benchmark tuning",
             "no formal benchmark corpus with side-by-side external comparisons",
             "typed provenance is partial and not yet first-class in all response objects",
             "sync drift checks are not enforced as recurring quality gates",
@@ -290,6 +294,7 @@ def get_training_and_adaptation() -> dict[str, Any]:
             "deduplicate low-signal examples",
             "gate-label consistency checks",
             "manual steward sampling of high-impact outputs",
+            "persona-governance checks cannot be overridden by style mode",
         ],
     }
 
@@ -323,6 +328,7 @@ def get_backend_expansion_policy() -> dict[str, Any]:
             "hard_stop_conditions",
             "human_gate_requirements_for_high_risk_actions",
             "compatibility_shim_retention_during_migration",
+            "workspace_audit_logs_for_all_adaptive_interface_adjustments",
         ],
     }
 
@@ -366,19 +372,23 @@ def get_rollout_plan() -> dict[str, Any]:
     return {
         "stages": [
             {
-                "name": "shadow",
+                "name": "stage_a_parity_capture",
                 "goal": "Score Merlin outputs against incumbent path with no takeover.",
             },
             {
-                "name": "assisted",
+                "name": "stage_b_sovereign_takeover",
                 "goal": "Merlin primary in selected domains with controlled fallback.",
             },
             {
-                "name": "primary",
+                "name": "stage_c_capability_expansion",
                 "goal": "Merlin default for most workloads; fallback by exception policy.",
             },
             {
-                "name": "decommission",
+                "name": "stage_d_replacement_gates",
+                "goal": "Hold quality/energy/safety/governance gates over sustained runs.",
+            },
+            {
+                "name": "stage_e_external_decommission",
                 "goal": "Retire selected external dependencies once replacement gates pass.",
             },
         ],
@@ -406,22 +416,65 @@ def get_exit_criteria() -> dict[str, Any]:
     }
 
 
+def get_program_doctrine() -> dict[str, Any]:
+    return {
+        "success_definition": [
+            "reproducible",
+            "auditable",
+            "self_hostable",
+            "governance_aligned",
+            "higher_task_success_than_incumbent",
+        ],
+        "mandatory_disclosures": [
+            "openness_tier",
+            "boundary_statement",
+            "uncertainty_statement",
+            "provenance_sources",
+        ],
+        "openness_tiers": ["fully_open_science", "partially_open", "proprietary"],
+        "non_negotiable": "Boundary labels and epistemic honesty cannot be relaxed by persona or routing mode.",
+    }
+
+
+def get_sovereignty_roadmap() -> dict[str, Any]:
+    return {
+        "checklist": [
+            {"id": 1, "item": "Program doctrine", "mapped_to_blueprint": "charter + doctrine"},
+            {"id": 2, "item": "Sovereign runtime routing", "mapped_to_blueprint": "model_strategy + router_policy"},
+            {"id": 3, "item": "Persona governance", "mapped_to_blueprint": "training_and_adaptation + reliability_security"},
+            {"id": 4, "item": "Governed back-room workspace", "mapped_to_blueprint": "backend_expansion + workspace_policy"},
+            {"id": 5, "item": "Typed provenance completion", "mapped_to_blueprint": "knowledge_core"},
+            {"id": 6, "item": "Open-science model admission", "mapped_to_blueprint": "model_admission_policy"},
+            {"id": 7, "item": "Benchmark harness", "mapped_to_blueprint": "weights_and_measures"},
+            {"id": 8, "item": "Reliability and abuse resistance", "mapped_to_blueprint": "reliability_security"},
+            {"id": 9, "item": "12/37 cadence controls", "mapped_to_blueprint": "router_policy.cadence_policy"},
+            {"id": 10, "item": "Stage A-E rollout", "mapped_to_blueprint": "rollout + exit_criteria"},
+        ]
+    }
+
+
 def get_full_program_blueprint() -> dict[str, Any]:
     return {
         "generated_at": _utcnow(),
         "charter": get_program_charter(),
+        "doctrine": get_program_doctrine(),
         "replacement_scope": get_replacement_scope(),
         "current_stack_baseline": get_current_stack_baseline(),
         "weights_and_measures": get_weights_and_measures(),
         "knowledge_core": get_knowledge_core_sources(),
         "model_strategy": get_model_strategy(),
+        "router_policy": get_router_policy(),
+        "model_admission_policy": get_model_admission_policy(),
         "training_and_adaptation": get_training_and_adaptation(),
         "energy_optimization": get_energy_optimization_track(),
         "backend_expansion": get_backend_expansion_policy(),
+        "workspace_policy": get_workspace_policy(),
+        "workspace_state": get_workspace_state(),
         "governance_integration": get_governance_integration_policy(),
         "reliability_security": get_reliability_security_plan(),
         "rollout": get_rollout_plan(),
         "operating_rhythm": get_operating_rhythm(),
         "exit_criteria": get_exit_criteria(),
+        "sovereignty_roadmap": get_sovereignty_roadmap(),
         "sync_checks": run_sync_checks(),
     }

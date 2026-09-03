@@ -16,6 +16,7 @@ from ox_navigator.engine.constants import DEFAULT_TEMPERATURE, MODEL_ID
 from ox_navigator.engine.merlin_engine import query_merlin
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_program import get_full_program_blueprint, run_sync_checks
+from ox_navigator.engine.merlin_router import get_router_policy
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
 from ox_navigator.engine.session import OxSession
 
@@ -50,10 +51,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'service': 'Merlin — the Quantum Cat',
                 'merlin_available': True,
                 'live_model_available': bool(os.environ.get('OPENROUTER_API_KEY')),
+                'openrouter_compat_enabled': bool(os.environ.get('MERLIN_ENABLE_OPENROUTER_COMPAT')),
                 'model': MODEL_ID,
                 'context_pack_exists': CONTEXT_PACK.exists(),
                 'active_session_key': MERLIN_ACTIVE_SESSION_KEY,
                 'capability_views': ['index', 'domain', 'tool', 'full', 'state'],
+                'router_policy': get_router_policy(),
                 'live_status': route_tool('fetchRepoContext').get('result', {}).get('data', {}),
                 'compatibility': {
                     'legacy_query_endpoint': '/api/ox',
@@ -82,6 +85,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'api_base': 'local',
                 'merlin_available': True,
                 'service': 'Compatibility shim over Merlin Product 20',
+                'openrouter_compat_enabled': bool(os.environ.get('MERLIN_ENABLE_OPENROUTER_COMPAT')),
             })
             return
         if parsed.path in ('', '/'):

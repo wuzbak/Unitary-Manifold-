@@ -47,6 +47,19 @@ This document records the implemented execution blueprint for making Merlin the 
 
 `run_sync_checks()` verifies canonical Merlin source surfaces remain present and readable to reduce epistemic drift.
 
+## Merlin Sovereignty Roadmap checklist
+
+- [x] Program doctrine defined (reproducible, auditable, self-hostable, governance-aligned, higher task success).
+- [x] Sovereign runtime router added (small / medium / heavy lanes; local-first provider).
+- [x] OpenRouter frozen to compatibility-only fallback path with explicit enablement.
+- [x] Persona governance guardrails added (style cannot override epistemic honesty/boundary rules).
+- [x] Durable intent/provenance session records added.
+- [x] Governed "back room" workspace policy/state exposed.
+- [x] Open-science model admission policy + evaluator exposed.
+- [x] 12/37 cadence policy added as internal scheduling control (not universal-superiority claim).
+- [x] Stage A→E rollout naming aligned in runtime blueprint.
+- [ ] Benchmark corpus + sustained empirical gate runs still required for full replacement approval.
+
 ## Governance and epistemic constraints retained
 
 - Explicit gate labels remain mandatory in Merlin output contracts.

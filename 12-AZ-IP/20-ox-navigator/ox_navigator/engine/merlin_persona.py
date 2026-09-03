@@ -25,6 +25,8 @@ INTERNAL_KEYWORDS = {
     "falsifier", "fallibility", "hils", "pentad", "oracle", "interrogator",
 }
 URL_RE = re.compile(r"https?://[^\s)\]]+")
+DISALLOWED_CERTAINTY_PHRASES = ("100% hardgate", "hardgate proven", "fully confirmed")
+GATE_MARKER_RE = re.compile(r"\[(HARDGATE|ADJACENT_TRACK|DERIVED|OPEN_GAP|ARCHITECTURE_LIMIT|GOVERNANCE)\]")
 
 
 def detect_persona_mode(text: str) -> str:
@@ -113,6 +115,17 @@ def build_system_prompt(
         "8. Theory and scientific direction: ThomasCory Walker-Pearson. Code architecture: GitHub Copilot (AI).\n"
         f"{ctx_text}"
     ).strip()
+
+
+def persona_governance_violations(text: str) -> list[str]:
+    sample = (text or "").lower()
+    violations: list[str] = []
+    for phrase in DISALLOWED_CERTAINTY_PHRASES:
+        if phrase in sample:
+            violations.append(f"disallowed_certainty_phrase:{phrase}")
+    if "pillar" in sample and not GATE_MARKER_RE.search(text or ""):
+        violations.append("pillar_reference_missing_gate_marker")
+    return violations
 
 
 def compress_context(turns: list[dict[str, Any]], max_recent: int = 4) -> dict[str, Any]:
