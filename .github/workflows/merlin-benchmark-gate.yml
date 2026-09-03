@@ -1,0 +1,42 @@
+name: merlin-benchmark-gate
+
+on:
+  pull_request:
+    paths:
+      - "12-AZ-IP/20-merlin-navigator/**"
+      - ".github/workflows/merlin-benchmark-gate.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "12-AZ-IP/20-merlin-navigator/**"
+      - ".github/workflows/merlin-benchmark-gate.yml"
+
+jobs:
+  merlin-stage-a-gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: 12-AZ-IP/20-merlin-navigator
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+
+      - name: Product tests
+        run: python -m pytest tests/ -q
+
+      - name: Stage A benchmark promotion gate
+        run: python tools/run_merlin_stage_a_benchmarks.py --json

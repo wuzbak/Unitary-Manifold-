@@ -94,6 +94,11 @@ class MerlinSession:
         if not self.durable_memory:
             for item in DEFAULT_DURABLE_MEMORIES:
                 self.remember(item["fact"], scope=item["scope"], source=item["source"], tags=item["tags"])
+        self.turns = list(self.turns)[-MERLIN_MAX_HISTORY:]
+        self.intents = list(self.intents)[-MERLIN_MAX_INTENTS:]
+        self.telemetry = list(self.telemetry)[-MERLIN_MAX_TELEMETRY:]
+        self.memory_audits = list(self.memory_audits)[-MERLIN_MAX_AUDITS:]
+        self.contradiction_events = list(self.contradiction_events)[-MERLIN_MAX_AUDITS:]
 
     def remember(
         self,
@@ -310,3 +315,33 @@ class MerlinSession:
         base["memory_hits"] = len(matched)
         base["matched_memory"] = matched
         return base
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "turns": list(self.turns),
+            "intents": list(self.intents),
+            "policy_strikes": int(self.policy_strikes),
+            "reset_events": list(self.reset_events),
+            "sentinel_mode": str(self.sentinel_mode),
+            "privileged_attempts": int(self.privileged_attempts),
+            "durable_memory": list(self.durable_memory),
+            "contradiction_events": list(self.contradiction_events),
+            "memory_audits": list(self.memory_audits),
+            "telemetry": list(self.telemetry),
+        }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "MerlinSession":
+        data = dict(payload or {})
+        return cls(
+            turns=list(data.get("turns") or []),
+            intents=list(data.get("intents") or []),
+            policy_strikes=int(data.get("policy_strikes", 0) or 0),
+            reset_events=list(data.get("reset_events") or []),
+            sentinel_mode=str(data.get("sentinel_mode") or "MONITOR"),
+            privileged_attempts=int(data.get("privileged_attempts", 0) or 0),
+            durable_memory=list(data.get("durable_memory") or []),
+            contradiction_events=list(data.get("contradiction_events") or []),
+            memory_audits=list(data.get("memory_audits") or []),
+            telemetry=list(data.get("telemetry") or []),
+        )

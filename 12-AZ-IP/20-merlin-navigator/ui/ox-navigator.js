@@ -15,7 +15,7 @@
   const GATE_LABELS = ['HARDGATE', 'ADJACENT_TRACK', 'OPEN_GAP', 'ARCHITECTURE_LIMIT', 'GOVERNANCE'];
   const EXAMPLES = [
     'What is the current birefringence falsifier and which gate does it sit under?',
-    'Explain the difference between HARDGATE, OPEN_GAP, and ARCHITECTURE_LIMIT.',
+    'Explain the difference between HARDGATE, ADJACENT_TRACK, and ARCHITECTURE_LIMIT.',
     'Which pillar should I read first if I want the cleanest entry into the framework?',
     'Summarise the current open tensions and tell me what LiteBIRD could falsify.',
     'Use fourth-wall mode to explain why k_CS = 74 matters.',

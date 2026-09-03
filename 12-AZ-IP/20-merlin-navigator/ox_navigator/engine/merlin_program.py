@@ -294,12 +294,60 @@ def run_sync_checks() -> dict[str, Any]:
     ok = all(item["exists"] and item["readable"] for item in checks)
     runtime_ok = all(item["present"] for item in runtime_endpoint_checks)
     gate_labels_ok = all(item["present"] for item in gate_label_checks)
+    endpoint_targets = [
+        "/api/merlin",
+        "/api/merlin/status",
+        "/api/merlin/program",
+        "/api/merlin/memory",
+        "/api/merlin/telemetry",
+        "/api/agentToolkit",
+        "/api/agentInvoke",
+        "/api/agentOrchestrate",
+        "/api/ox",
+        "/api/ox/status",
+    ]
+    gate_targets = [
+        "HARDGATE",
+        "ADJACENT_TRACK",
+        "OPEN_GAP",
+        "ARCHITECTURE_LIMIT",
+        "GOVERNANCE",
+    ]
+    readme_text = (PRODUCT_ROOT / "README.md").read_text(encoding="utf-8")
+    endpoint_re = re.compile(r"/api/[a-zA-Z0-9_/-]+")
+    server_endpoints = set(parsed_routes)
+    readme_endpoints = set(endpoint_re.findall(readme_text))
+    endpoint_checks = []
+    for endpoint in endpoint_targets:
+        present_everywhere = endpoint in server_endpoints and endpoint in readme_endpoints
+        endpoint_checks.append({
+            "endpoint": endpoint,
+            "server": endpoint in server_endpoints,
+            "readme": endpoint in readme_endpoints,
+            "ok": present_everywhere,
+        })
+    gate_checks = []
+    for gate in gate_targets:
+        gate_checks.append({
+            "gate": gate,
+            "server": gate in server_text,
+            "readme": gate in readme_text,
+            "ui": gate in ui_text,
+            "ok": gate in server_text and gate in readme_text and gate in ui_text,
+        })
+    no_derived_drift = "DERIVED" not in ui_text
+    consistency_ok = all(item["ok"] for item in endpoint_checks) and all(item["ok"] for item in gate_checks) and no_derived_drift
     return {
-        "ok": bool(ok and runtime_ok and gate_labels_ok),
+        "ok": bool(ok and runtime_ok and gate_labels_ok and consistency_ok),
         "checked_at": _utcnow(),
         "checks": checks,
         "runtime_endpoint_checks": runtime_endpoint_checks,
         "gate_label_checks": gate_label_checks,
+        "consistency": {
+            "endpoint_checks": endpoint_checks,
+            "gate_checks": gate_checks,
+            "no_derived_drift_in_ui_gate_labels": no_derived_drift,
+        },
         "policy": "Fail closed on missing canonical sources to prevent epistemic drift.",
     }
 

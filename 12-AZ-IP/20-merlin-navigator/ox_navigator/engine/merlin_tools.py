@@ -6,7 +6,10 @@
 from __future__ import annotations
 
 import os
+import hashlib
+import json
 import time
+from datetime import datetime, timezone
 from typing import Any
 
 from .flashcard import get_categories, load_flashcards
@@ -293,6 +296,68 @@ def _tool_manifest() -> dict[str, Any]:
     }
 
 
+def _utcnow() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple[bool, str]:
+    properties = dict(schema.get("properties") or {})
+    required = list(schema.get("required") or [])
+    allow_extra = bool(schema.get("additionalProperties", False))
+    reserved_keys = {"human_gate_approved"}
+    filtered_args = {k: v for k, v in args.items() if k not in reserved_keys}
+    for key in required:
+        if key not in filtered_args:
+            return False, f"Missing required argument: {key}"
+    if not allow_extra:
+        extra = sorted(set(filtered_args.keys()) - set(properties.keys()))
+        if extra:
+            return False, f"Unknown argument(s): {', '.join(extra)}"
+    type_map = {
+        "string": str,
+        "boolean": bool,
+        "object": dict,
+        "array": list,
+    }
+
+    def _matches(expected_type: str, value: Any) -> bool:
+        if expected_type == "integer":
+            return isinstance(value, int) and not isinstance(value, bool)
+        if expected_type == "number":
+            return isinstance(value, (int, float)) and not isinstance(value, bool)
+        py_type = type_map.get(expected_type)
+        return isinstance(value, py_type) if py_type else True
+    for key, spec in properties.items():
+        if key not in filtered_args:
+            continue
+        expected = spec.get("type")
+        if isinstance(expected, list):
+            valid = any(_matches(str(t), filtered_args[key]) for t in expected)
+        else:
+            valid = _matches(str(expected), filtered_args[key]) if expected else True
+        if not valid:
+            return False, f"Invalid type for '{key}', expected {expected}"
+    return True, ""
+
+
+def _build_replay_artifact(*, tool: str, args: dict[str, Any], result: Any, ok: bool) -> dict[str, Any]:
+    secret_markers = ("token", "secret", "key", "password", "credential")
+    safe_args = {}
+    for key, value in dict(args or {}).items():
+        lower = str(key).lower()
+        safe_args[key] = "***REDACTED***" if any(marker in lower for marker in secret_markers) else value
+    replay = {
+        "generated_at": _utcnow(),
+        "tool": tool,
+        "args": safe_args,
+        "ok": ok,
+        "result_excerpt": json.dumps(result, ensure_ascii=False)[:800] if result is not None else "",
+    }
+    replay_payload = json.dumps(replay, ensure_ascii=False, sort_keys=True)
+    replay["digest_sha256"] = hashlib.sha256(replay_payload.encode("utf-8")).hexdigest()
+    return replay
+
+
 def fetch_repo_context() -> dict[str, Any]:
     return {"data": build_status_response()}
 
@@ -455,21 +520,6 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
     active_session = session if session is not None else MerlinSession()
     manifest = _tool_manifest()
     policy = next((item for item in manifest["functions"] if item["name"] == tool), None)
-    special_tools = {
-        "getMerlinBenchmarkCorpus",
-        "evaluateMerlinBenchmarkResponse",
-        "evaluateMerlinEmpiricalGate",
-        "getMerlinPromotionPacket",
-        "getMerlinMemoryState",
-        "runMerlinMemoryAudit",
-        "getMerlinTelemetrySummary",
-    }
-    known_tool = bool(
-        tool in _FUNCTIONS
-        or tool in special_tools
-        or tool.startswith("entity.MerlinSession.")
-        or tool == "connector.github"
-    )
     if policy is None and tool.startswith("entity.MerlinSession."):
         op = tool.split(".")[-1]
         if op == "audit":
@@ -478,72 +528,35 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
             policy = {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}}
     if policy is None and tool == "connector.github":
         policy = {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}}
-    is_entity_or_connector = tool.startswith("entity.MerlinSession.") or tool == "connector.github"
-    if not known_tool or (policy is None and not is_entity_or_connector):
-        return {
-            "ok": False,
-            "tool": tool,
-            "type": "function",
-            "result": None,
-            "error": f"Tool not allowlisted: {tool}",
-            "policy": {
-                "capability_class": "unknown",
-                "risk_level": "unknown",
-                "requires_human_gate": False,
-            },
-            "audit": {
-                "args_keys": sorted(args.keys()),
-                "duration_ms": 0.0,
-                "blocked_by_policy": True,
-            },
-            "duration_ms": 0.0,
-        }
-    schema_error = _validate_args_schema((policy or {}).get("args_schema"), args)
-    if schema_error:
-        return {
-            "ok": False,
-            "tool": tool,
-            "type": "function",
-            "result": None,
-            "error": schema_error,
-            "policy": {
-                "capability_class": (policy or {}).get("capability_class", "unknown"),
-                "risk_level": (policy or {}).get("risk_level", "unknown"),
-                "requires_human_gate": bool((policy or {}).get("requires_human_gate", False)),
-            },
-            "audit": {
-                "args_keys": sorted(args.keys()),
-                "duration_ms": 0.0,
-                "blocked_by_policy": True,
-            },
-            "duration_ms": 0.0,
-        }
-    requires_human_gate = bool((policy or {}).get("requires_human_gate", False))
-    if requires_human_gate and not bool(args.get("human_gate_approved")):
-        return {
-            "ok": False,
-            "tool": tool,
-            "type": "function",
-            "result": None,
-            "error": "Human gate approval required for this tool.",
-            "policy": {
-                "capability_class": (policy or {}).get("capability_class", "unknown"),
-                "risk_level": (policy or {}).get("risk_level", "unknown"),
-                "requires_human_gate": True,
-            },
-            "audit": {
-                "args_keys": sorted(args.keys()),
-                "duration_ms": 0.0,
-                "blocked_by_policy": True,
-            },
-            "duration_ms": 0.0,
-        }
+    allowed_tools = {
+        *(item["name"] for item in manifest["functions"]),
+        "getMerlinBenchmarkCorpus",
+        "evaluateMerlinBenchmarkResponse",
+        "getMerlinMemoryState",
+        "runMerlinMemoryAudit",
+        "getMerlinTelemetrySummary",
+        "connector.github",
+    }
     started = time.perf_counter()
     tool_type = "unknown"
     ok = True
     error = ""
     result: Any = None
     try:
+        if not (tool in allowed_tools or tool.startswith("entity.MerlinSession.")):
+            ok = False
+            error = f"Tool not allowlisted: {tool}"
+            raise ValueError(error)
+        if policy:
+            schema_ok, schema_error = _validate_args_schema(args, dict(policy.get("args_schema") or {}))
+            if not schema_ok:
+                ok = False
+                error = schema_error
+                raise ValueError(schema_error)
+            if bool(policy.get("requires_human_gate")) and not bool(args.get("human_gate_approved")):
+                ok = False
+                error = "Human gate approval required for this tool."
+                raise ValueError(error)
         if tool in _FUNCTIONS:
             tool_type = "function"
             result = _FUNCTIONS[tool](**args)
@@ -626,6 +639,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
         ok = False
         error = str(exc)
     duration_ms = round((time.perf_counter() - started) * 1000, 3)
+    replay = _build_replay_artifact(tool=tool, args=args, result=result, ok=ok)
     return {
         "ok": ok,
         "tool": tool,
@@ -641,6 +655,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
             "args_keys": sorted(args.keys()),
             "duration_ms": duration_ms,
         },
+        "replay_artifact": replay,
         "duration_ms": duration_ms,
     }
 
@@ -692,9 +707,29 @@ def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | N
                     args["_threaded"] = threaded
         result = route_tool(tool, args, session=session)
         result["step"] = index
+        result["threading"] = threading
         results.append(result)
     total_duration_ms = round((time.perf_counter() - started) * 1000, 3)
     high_risk_steps = sum(1 for step in results if str((step.get("policy") or {}).get("risk_level")) == "high")
+    replay = {
+        "generated_at": _utcnow(),
+        "step_count": len(results),
+        "steps": [
+            {
+                "step": step.get("step"),
+                "tool": step.get("tool"),
+                "ok": step.get("ok"),
+                "policy": step.get("policy"),
+                "args_keys": (step.get("audit") or {}).get("args_keys", []),
+                "threading": step.get("threading", {}),
+                "duration_ms": step.get("duration_ms"),
+                "replay_digest": ((step.get("replay_artifact") or {}).get("digest_sha256", "")),
+            }
+            for step in results
+        ],
+    }
+    replay_payload = json.dumps(replay, ensure_ascii=False, sort_keys=True)
+    replay["digest_sha256"] = hashlib.sha256(replay_payload.encode("utf-8")).hexdigest()
     return {
         "ok": all(step.get("ok") for step in results),
         "steps": results,
@@ -705,4 +740,5 @@ def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | N
             "high_risk_steps": high_risk_steps,
             "blocked_tools_in_orchestration": ["authorizeMerlinPrivilege"],
         },
+        "replay_artifact": replay,
     }
