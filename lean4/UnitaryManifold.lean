@@ -27,3 +27,5 @@ import UnitaryManifold.LiteBIRDBirefringenceFormal
 import UnitaryManifold.CKM7DMixingAngles
 import UnitaryManifold.GS9DAnomalyBridge
 import UnitaryManifold.APS_T2Z2_NgenBridge
+import UnitaryManifold.EmbryologyExactKernels
+import UnitaryManifold.SU3OrbifoldLean4Kernel

@@ -56,8 +56,15 @@ Recent peer-reviewed data (2024–2026):
    sequential and controlled by morphogen gradient threshold crossings — the
    mechanism modeled here.
 
-This module provides the mathematical formalization and a χ² goodness-of-fit
-framework for comparing the UM prediction to observed boundary positions.
+This module provides the empirical χ² / threshold-alignment audit for comparing
+the UM spacing/order hypothesis to observed boundary positions.
+
+Promotion note
+--------------
+This file is NOT the place where the vertebrate ``HOX_groups = 10`` issue is
+promoted.  That broad vertebrate count is explicitly contained elsewhere as a
+formal analogy only.  This module remains an empirical audit lane for boundary
+spacing/order and does not upgrade vertebrate group-count claims by itself.
 
 Drosophila reference positions
 --------------------------------
@@ -532,7 +539,8 @@ def hox_report() -> dict:
         "tier1_drosophila": tier1_droso,
         "tier1_zebrafish": tier1_zebra,
         "tier1_overall": tier1_droso and tier1_zebra,
-        "pillar_classification": "🔵 ADJACENT TRACK (Pillar 25-B)",
+        "pillar_classification": "🔵 ADJACENT TRACK (Pillar 25-B empirical audit lane)",
+        "vertebrate_hox_group_status": "FORMAL_ANALOGY_ONLY — vertebrates have 13 paralog groups",
         "promotion_condition": (
             "Promote to hardgate when: (1) χ²/dof < 2.0 against independently "
             "published boundary positions with <1% measurement uncertainty, AND "
