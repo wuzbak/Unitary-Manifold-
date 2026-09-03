@@ -377,7 +377,7 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
 def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: MerlinSession | None = None) -> dict[str, Any]:
     """Route a Merlin tool call to a safe local capability."""
     args = dict(args or {})
-    active_session = session or _DEFAULT_MERLIN_SESSION
+    active_session = session if session is not None else _DEFAULT_MERLIN_SESSION
     manifest = _tool_manifest()
     policy = next((item for item in manifest["functions"] if item["name"] == tool), None)
     started = time.perf_counter()

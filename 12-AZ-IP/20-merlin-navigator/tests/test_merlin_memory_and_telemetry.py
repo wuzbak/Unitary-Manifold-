@@ -11,6 +11,7 @@ if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
 from ox_navigator.engine.merlin_memory import MerlinSession
+from ox_navigator.engine.merlin_benchmark import match_benchmark_for_query
 from ox_navigator.engine.merlin_telemetry import (
     build_run_telemetry,
     estimate_cost_usd,
@@ -83,3 +84,9 @@ def test_merlin_telemetry_estimators_and_summary():
     assert summary['providers']['openrouter_compat'] == 1
     assert summary['average_latency_ms'] == 20.0
     assert summary['average_provenance_sources'] == 3.0
+
+
+def test_match_benchmark_for_query_uses_keywords():
+    match = match_benchmark_for_query('What is the birefringence prediction?')
+    assert match is not None
+    assert match['id'] == 'physics_birefringence'
