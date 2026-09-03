@@ -5,7 +5,7 @@ on the Unitary Manifold repository.
 
 ## What This Repository Is
 
-A 5-dimensional Kaluza-Klein physics framework — **v34.0** — with:
+A 5-dimensional Kaluza-Klein physics framework — **v34.9** — with:
 - **208 core physics pillars** (hardgate, formally closed)
 - **992 total pillar slots** (next slot 993; Pillars 218–992 are adjacent/completion/infrastructure tracks)
 - **Ω₀ Holon Zero** + sub-pillars (Pillar 70-B, 70-C, 70-D)
@@ -34,7 +34,7 @@ python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
 # Full repository (takes ~130 seconds):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 63,503 passed · 23 skipped · 12 deselected · 0 failed
+# Expected: 63,544 passed · 23 skipped · 12 deselected · 0 failed
 ```
 
 ## Repository Structure

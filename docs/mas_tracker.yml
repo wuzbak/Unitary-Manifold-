@@ -32,7 +32,7 @@ v34_9_sprint_bs:
     - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
     - DESI_DR3_MONITORING
     - LITEBIRD_BIREFRINGENCE
-  regression: "Sprint BS targeted tests passed · 0 failed"
+  regression: "63,544 passed · 23 skipped · 12 deselected · 0 failed (full regression)"
   next_pillar_slot: 1020
 
 v34_8_sprint_br:

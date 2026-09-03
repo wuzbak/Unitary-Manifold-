@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v34.9 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BS** (2026-09-03; Pillars 1014–1019) executes a four-lane coverage-closure package. P1014 widens the 8D Wilson lane into a robustness-plus-adversarial audit with explicit failure certificates for rank/quantization/group violations. P1015 couples 9D GS hard-gate evidence with CP utility under widened anchor partitions and threshold edge checks. P1016 audits 11D conditional-chain integrity for contradiction-free status and deterministic boundary behavior. P1017 converts 12D named residuals into machine-checkable closure predicates and off-reference perturbation checks while preserving invariant structure. P1018 and P1019 certify integrated lane outcomes and cross-surface coherence. No open lane is hidden or promoted by rhetoric: the ×4–7 acoustic deficit remains CMB_AMP_CONFIRMED_IRREDUCIBLE, surviving UV/flavor lanes remain explicit architecture limits, and 13D remains downstream-only unless a future lane really closes. Next pillar slot 1020. Latest inherited full regression in branch history: 63,503 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint BS targeted tests passed · 0 failed.)*
+*Unitary Manifold v34.9 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BS** (2026-09-03; Pillars 1014–1019) executes a four-lane coverage-closure package. P1014 widens the 8D Wilson lane into a robustness-plus-adversarial audit with explicit failure certificates for rank/quantization/group violations. P1015 couples 9D GS hard-gate evidence with CP utility under widened anchor partitions and threshold edge checks. P1016 audits 11D conditional-chain integrity for contradiction-free status and deterministic boundary behavior. P1017 converts 12D named residuals into machine-checkable closure predicates and off-reference perturbation checks while preserving invariant structure. P1018 and P1019 certify integrated lane outcomes and cross-surface coherence. No open lane is hidden or promoted by rhetoric: the ×4–7 acoustic deficit remains CMB_AMP_CONFIRMED_IRREDUCIBLE, surviving UV/flavor lanes remain explicit architecture limits, and 13D remains downstream-only unless a future lane really closes. Next pillar slot 1020. Latest verified full regression in branch history: 63,544 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint BS targeted tests passed · 0 failed.)*
 
 ---
 
@@ -50,7 +50,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (63,503 passed · 23 skipped · 12 deselected · 0 failed (v34.0, 2026-09-02; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (63,544 passed · 23 skipped · 12 deselected · 0 failed (v34.9, 2026-09-03; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
