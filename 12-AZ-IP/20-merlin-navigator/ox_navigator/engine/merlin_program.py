@@ -1190,8 +1190,8 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "phase": "preference_optimization",
                 },
                 "datasets": {
-                    "adversarial_eval_records": benchmark_counts.get("stage_c_capability_expansion", 0),
-                    "boundary_eval_records": benchmark_counts.get("stage_b_sovereign_takeover", 0),
+                    "stage_c_eval_records": benchmark_counts.get("stage_c_capability_expansion", 0),
+                    "stage_b_boundary_eval_records": benchmark_counts.get("stage_b_sovereign_takeover", 0),
                 },
                 "params": {
                     "preference_targets": [

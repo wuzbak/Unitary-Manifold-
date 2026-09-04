@@ -339,6 +339,7 @@ def test_route_tool_training_architecture_and_artifacts():
     assert mlflow['result']['data']['manifests'][0]['entry_command'].startswith(sys.executable)
     assert '12-AZ-IP/20-merlin-navigator/tools/' in mlflow['result']['data']['manifests'][0]['entry_command']
     assert mlflow['result']['data']['manifests'][0]['working_directory'] == str(PRODUCT_ROOT.parents[1])
+    assert 'stage_c_eval_records' in mlflow['result']['data']['manifests'][1]['datasets']
     assert any(
         item.endswith('/benchmarks/stage_c_capability_expansion.jsonl')
         for item in mlflow['result']['data']['manifests'][-1]['artifacts']

@@ -316,9 +316,14 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
+                payload = get_mlflow_experiment_manifests(limit=limit)
+                if payload.get('ok') is False:
+                    self._json({'ok': False, 'error': payload.get('error', 'Unable to build MLflow manifests.')}, status=500)
+                    self._persist_session(session_id, merlin_session)
+                    return
                 self._json({
                 'ok': True,
-                'mlflow_manifests': get_mlflow_experiment_manifests(limit=limit),
+                'mlflow_manifests': payload,
                 })
                 self._persist_session(session_id, merlin_session)
                 return
