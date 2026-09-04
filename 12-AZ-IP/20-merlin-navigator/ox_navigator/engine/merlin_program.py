@@ -564,8 +564,12 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/policy",
         "/api/merlin/runtime",
         "/api/merlin/benchmarks",
+        "/api/merlin/training-architecture",
+        "/api/merlin/open-science-registry",
+        "/api/merlin/competitive-benchmarks",
         "/api/merlin/stage-a-receipts",
         "/api/merlin/replacement-readiness",
+        "/api/merlin/training-artifacts",
         "/api/merlin/promotion-packet",
         "/api/merlin/sync-checks",
         "/api/merlin/identity",
@@ -593,8 +597,12 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/memory",
         "/api/merlin/telemetry",
         "/api/merlin/benchmarks",
+        "/api/merlin/training-architecture",
+        "/api/merlin/open-science-registry",
+        "/api/merlin/competitive-benchmarks",
         "/api/merlin/stage-a-receipts",
         "/api/merlin/replacement-readiness",
+        "/api/merlin/training-artifacts",
         "/api/merlin/promotion-packet",
         "/api/agentToolkit",
         "/api/agentInvoke",
@@ -699,6 +707,352 @@ def get_training_and_adaptation() -> dict[str, Any]:
             "faculty_surface": "getMerlinFacultyMatrix",
             "transfer_cycles_surface": "getMerlinKnowledgeTransferCycles",
             "exchange_protocol_surface": "getMerlinExchangeProtocol",
+        },
+    }
+
+
+def _status_to_gate(status: str) -> str:
+    upper = str(status or "").upper()
+    if "OPEN" in upper:
+        return "OPEN_GAP"
+    if "ARCHITECTURE_LIMIT" in upper:
+        return "ARCHITECTURE_LIMIT"
+    if "GOVERNANCE" in upper:
+        return "GOVERNANCE"
+    return "HARDGATE"
+
+
+def _seed_tool_alignment_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "tool-alignment-runtime-policy",
+            "track": "tool_call_success_failure_pairs",
+            "prompt": "Inspect Merlin runtime policy and benchmark readiness before approving wider replacement scope.",
+            "preferred_tool": "getMerlinControlTower",
+            "fallback_tools": ["getMerlinBenchmarkSuite", "getMerlinExecutionGraph", "getMerlinTrainingArchitecture"],
+            "supervision_mode": "tool_selection_alignment",
+            "required_fields": ["decision", "gate_pass", "empirical_gate", "deployment_eligibility"],
+        },
+        {
+            "id": "tool-alignment-training-artifacts",
+            "track": "tool_call_success_failure_pairs",
+            "prompt": "Export the governed Merlin training pack with benchmark baseline and open-science augmentation registry.",
+            "preferred_tool": "getMerlinTrainingArtifacts",
+            "fallback_tools": ["getMerlinTrainingArchitecture", "getMerlinOpenScienceRegistry"],
+            "supervision_mode": "tool_selection_alignment",
+            "required_fields": ["training_architecture", "competitive_benchmark_plan", "open_science_registry"],
+        },
+        {
+            "id": "tool-alignment-boundary-audit",
+            "track": "tool_call_success_failure_pairs",
+            "prompt": "Audit whether a Merlin answer preserved the physics-vs-governance boundary with typed provenance.",
+            "preferred_tool": "getMerlinGovernancePolicy",
+            "fallback_tools": ["getMerlinKnowledgeCore", "runMerlinMemoryAudit"],
+            "supervision_mode": "tool_selection_alignment",
+            "required_fields": ["boundary_statement", "provenance_sources", "confidence_statement"],
+        },
+    ]
+
+
+def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, Any]]:
+    from .merlin_benchmark import get_stage_a_benchmark_corpus
+    from .merlin_rag import KNOWLEDGE_BASE
+
+    examples: list[dict[str, Any]] = []
+    for key, entry in sorted(KNOWLEDGE_BASE.items()):
+        answer_text = str(entry.get("answer", ""))
+        if key == "toe_score" or "toe score" in answer_text.lower():
+            continue
+        examples.append(
+            {
+                "id": f"repo-qa-{key}",
+                "track": "repository_native_qa",
+                "prompt": f"Explain {entry.get('topic', key)} with explicit epistemic status and falsification or boundary notes where relevant.",
+                "target": answer_text,
+                "required_gates": [_status_to_gate(str(entry.get("status", "")))],
+                "provenance_sources": list(entry.get("sources", [])),
+                "supervision_mode": "grounded_supervised_finetuning",
+            }
+        )
+
+    benchmark_corpus = get_stage_a_benchmark_corpus()
+    for benchmark in benchmark_corpus["benchmarks"]:
+        examples.append(
+            {
+                "id": f"benchmark-{benchmark['id']}",
+                "track": "adversarial_counterexamples",
+                "prompt": benchmark["query"],
+                "target_contract": {
+                    "required_gates": list(benchmark["required_gates"]),
+                    "required_contract_sections": list(benchmark["required_contract_sections"]),
+                    "required_provenance_kinds": list(benchmark["required_provenance_kinds"]),
+                    "review_focus": list(benchmark.get("review_focus", [])),
+                },
+                "supervision_mode": "benchmark_contract_alignment",
+            }
+        )
+
+    examples.extend(_seed_tool_alignment_examples())
+    if limit is not None:
+        return examples[: max(0, int(limit))]
+    return examples
+
+
+def get_open_science_resource_registry() -> dict[str, Any]:
+    return {
+        "policy": (
+            "Use external open-science resources as augmentation lanes for Merlin, never as a replacement "
+            "for repository-native provenance, governance boundaries, or benchmark discipline."
+        ),
+        "admission_requirements": [
+            "license_review",
+            "provenance_review",
+            "task_relevance_review",
+            "duplication_and_contamination_review",
+            "benchmark_impact_review",
+        ],
+        "resources": [
+            {
+                "resource_id": "hugging_face_datasets",
+                "category": "programmatic_dataset_hub",
+                "url": "https://huggingface.co/datasets",
+                "recommended_role": [
+                    "primary external corpus distribution",
+                    "multimodal scientific expansion",
+                    "open-weight finetuning inputs",
+                ],
+                "priority": "highest_external",
+            },
+            {
+                "resource_id": "openml",
+                "category": "benchmark_and_tabular_lab",
+                "url": "https://www.openml.org/",
+                "recommended_role": [
+                    "structured benchmarking",
+                    "reproducible model comparisons",
+                    "meta-learning experiments",
+                ],
+                "priority": "high",
+            },
+            {
+                "resource_id": "uci_ml_repository",
+                "category": "curated_tabular_repository",
+                "url": "https://archive.ics.uci.edu/",
+                "recommended_role": [
+                    "classical reasoning baselines",
+                    "small clean evaluation sets",
+                ],
+                "priority": "medium",
+            },
+            {
+                "resource_id": "papers_with_code",
+                "category": "reproducibility_index",
+                "url": "https://paperswithcode.com/",
+                "recommended_role": [
+                    "competitive benchmark discovery",
+                    "paper-to-code-to-dataset linking",
+                ],
+                "priority": "high",
+            },
+            {
+                "resource_id": "mlflow",
+                "category": "experiment_tracking",
+                "url": "https://mlflow.org/",
+                "recommended_role": [
+                    "dataset lineage",
+                    "model registry",
+                    "run comparison and promotion governance",
+                ],
+                "priority": "highest_ops",
+            },
+            {
+                "resource_id": "aws_open_data_registry",
+                "category": "cloud_scale_open_science",
+                "url": "https://registry.opendata.aws/",
+                "recommended_role": [
+                    "large-scale science corpora access",
+                    "remote compute-adjacent data staging",
+                ],
+                "priority": "medium",
+            },
+            {
+                "resource_id": "nairr_pilot",
+                "category": "public_compute_and_datasets",
+                "url": "https://nairrpilot.org/pilotresources",
+                "recommended_role": [
+                    "AI-ready scientific datasets",
+                    "shared compute pathways for open evaluation",
+                ],
+                "priority": "high",
+            },
+            {
+                "resource_id": "nasa_open_science",
+                "category": "domain_science_catalog",
+                "url": "https://science.nasa.gov/open-science/",
+                "recommended_role": [
+                    "earth-space science specialization",
+                    "physics and astronomy expansion lanes",
+                ],
+                "priority": "high",
+            },
+        ],
+    }
+
+
+def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
+    seed_examples = _build_seed_training_examples(limit=limit)
+    track_counts: dict[str, int] = {}
+    for item in seed_examples:
+        track = str(item.get("track", "unknown"))
+        track_counts[track] = track_counts.get(track, 0) + 1
+    return {
+        "mission_profile": [
+            "repository_assistant",
+            "scientific_reasoning_assistant",
+            "autonomous_research_agent",
+        ],
+        "training_principle": (
+            "Finetune for behavior, discipline, and tool use; use retrieval for fast-moving facts; "
+            "promote only through explicit benchmark and governance gates."
+        ),
+        "model_strategy": {
+            "base_path": "open_weight_primary",
+            "adaptation_order": [
+                "supervised_finetuning",
+                "preference_optimization",
+                "tool_use_alignment",
+                "retrieval_and_memory_hardening",
+            ],
+            "scratch_pretraining_policy": "Only justified after open-weight adaptation saturates on target benchmark families.",
+        },
+        "dataset_families": [
+            {
+                "family": "repository_native_qa",
+                "purpose": "Teach canonical answers tied to repository sources and gate labels.",
+                "source_surfaces": [
+                    str(REPO_ROOT / "STATUS.md"),
+                    str(REPO_ROOT / "FALLIBILITY.md"),
+                    str(REPO_ROOT / "5-GOVERNANCE" / "SEPARATION.md"),
+                    str(PRODUCT_ROOT / "README.md"),
+                    str(REPO_ROOT / "hf-spaces" / "um-knowledge-dataset" / "README.md"),
+                ],
+            },
+            {
+                "family": "governance_decision_traces",
+                "purpose": "Teach Merlin to preserve separation boundaries, escalation policy, and privileged-action discipline.",
+                "source_surfaces": [
+                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_identity.py"),
+                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_sentinel.py"),
+                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_program.py"),
+                ],
+            },
+            {
+                "family": "benchmark_contract_exemplars",
+                "purpose": "Teach the answer contract, provenance kinds, and gate visibility needed for promotion gates.",
+                "source_surfaces": [
+                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_benchmark.py"),
+                    str(PRODUCT_ROOT / "tools" / "run_merlin_stage_a_benchmarks.py"),
+                ],
+            },
+            {
+                "family": "tool_call_success_failure_pairs",
+                "purpose": "Teach precise tool choice, schema-aware invocation, and safe orchestration behavior.",
+                "source_surfaces": [
+                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_tools.py"),
+                    str(PRODUCT_ROOT / "ox_navigator" / "app" / "server.py"),
+                ],
+            },
+            {
+                "family": "external_open_science_augmentation",
+                "purpose": "Expand beyond repository-native scope without diluting Merlin's grounded identity.",
+                "source_surfaces": ["getMerlinOpenScienceRegistry"],
+            },
+        ],
+        "split_policy": {
+            "train": "repository-native QA, tool traces, and mentorship deposits with deduplication",
+            "dev": "high-impact boundary cases and adversarial counterexamples",
+            "test": "promotion-gate benchmarks, refusal probes, and held-out provenance audits",
+            "hard_rule": "No overlap between promotion benchmarks and supervised answer targets when measuring readiness.",
+        },
+        "curriculum": [
+            {"stage": 1, "name": "grounded_repository_mastery", "goal": "Canonical answers with typed provenance."},
+            {"stage": 2, "name": "boundary_and_refusal_discipline", "goal": "Stable governance and safety behavior."},
+            {"stage": 3, "name": "tool_and_memory_alignment", "goal": "Correct tool selection, recall, and replayability."},
+            {"stage": 4, "name": "scientific_open_science_expansion", "goal": "Controlled ingestion of external scientific corpora."},
+            {"stage": 5, "name": "competitive_replacement_gates", "goal": "Sustained quality, energy, and reliability wins."},
+        ],
+        "seed_instruction_corpus": seed_examples,
+        "seed_statistics": {
+            "total_examples": len(seed_examples),
+            "track_counts": track_counts,
+        },
+        "active_training_surfaces": {
+            "baseline_plan": "getMerlinTrainingPlan",
+            "full_architecture": "getMerlinTrainingArchitecture",
+            "artifact_bundle": "getMerlinTrainingArtifacts",
+        },
+    }
+
+
+def get_competitive_benchmark_plan() -> dict[str, Any]:
+    from .merlin_benchmark import get_multi_stage_benchmark_plan, get_stage_a_benchmark_corpus
+
+    return {
+        "objective": "Benchmark Merlin competitively against incumbent and external-class expectations before broader promotion.",
+        "internal_gate_stack": {
+            "stage_a": get_stage_a_benchmark_corpus(),
+            "multi_stage": get_multi_stage_benchmark_plan(),
+        },
+        "competitive_families": [
+            {
+                "family": "repository_grounding",
+                "must_measure": ["citation_faithfulness", "gate_visibility", "historical_context_retrieval"],
+            },
+            {
+                "family": "scientific_reasoning",
+                "must_measure": ["uncertainty_discipline", "cross-source synthesis", "falsification_awareness"],
+            },
+            {
+                "family": "agentic_tool_use",
+                "must_measure": ["tool_selection_precision", "schema_compliance", "replayability"],
+            },
+            {
+                "family": "autonomous_research",
+                "must_measure": ["hypothesis_generation", "source_triage", "risk_escalation_correctness"],
+            },
+            {
+                "family": "safety_and_governance",
+                "must_measure": ["refusal_correctness", "boundary_preservation", "privileged_action_control"],
+            },
+        ],
+        "promotion_metrics": [
+            "success_rate_parity_or_better",
+            "mean_quality_delta_nonnegative",
+            "energy_per_successful_task_lower_than_incumbent",
+            "zero_high_severity_policy_violations",
+            "stable_clean_windows_over_time",
+        ],
+    }
+
+
+def build_training_artifact_bundle(limit: int | None = None) -> dict[str, Any]:
+    from .merlin_benchmark import build_stage_a_artifact_bundle
+
+    training_architecture = get_training_architecture(limit=limit)
+    stage_a_limit = limit if limit is None else max(1, int(limit))
+    return {
+        "ok": True,
+        "artifact_bundle": {
+            "generated_at": _utcnow(),
+            "training_architecture": training_architecture,
+            "competitive_benchmark_plan": get_competitive_benchmark_plan(),
+            "open_science_registry": get_open_science_resource_registry(),
+            "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
+            "artifact_policy": {
+                "promotion_rule": "Training artifacts inform promotion, but do not replace empirical benchmark gates.",
+                "primary_store": "repository_governed_json_bundle",
+                "external_distribution_candidate": "hugging_face_datasets",
+            },
         },
     }
 
@@ -898,6 +1252,9 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "router_policy": get_router_policy(),
         "model_admission_policy": get_model_admission_policy(),
         "training_and_adaptation": get_training_and_adaptation(),
+        "training_architecture": get_training_architecture(limit=12),
+        "open_science_registry": get_open_science_resource_registry(),
+        "competitive_benchmark_plan": get_competitive_benchmark_plan(),
         "energy_optimization": get_energy_optimization_track(),
         "backend_expansion": get_backend_expansion_policy(),
         "workspace_policy": get_workspace_policy(),

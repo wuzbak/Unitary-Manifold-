@@ -31,6 +31,7 @@ from .merlin_identity import authorize_privileged_request, verify_identity_signa
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
     get_backend_expansion_policy,
+    get_competitive_benchmark_plan,
     get_cross_model_exchange_protocol,
     get_current_stack_baseline,
     get_energy_optimization_track,
@@ -48,6 +49,7 @@ from .merlin_program import (
     get_mentorship_sprint_charter,
     get_mythos_astra_contract,
     get_model_strategy,
+    get_open_science_resource_registry,
     get_operating_rhythm,
     get_program_office,
     get_program_charter,
@@ -58,8 +60,10 @@ from .merlin_program import (
     get_sovereignty_roadmap,
     get_sentinel_enforcement_policy,
     get_specialized_model_faculty_matrix,
+    get_training_architecture,
     get_training_and_adaptation,
     get_weights_and_measures,
+    build_training_artifact_bundle,
     run_sync_checks,
 )
 from .merlin_router import choose_runtime, get_router_policy
@@ -169,6 +173,10 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinModelAdmissionPolicy", "summary": "Return open-science model admission policy", "domain": "functions"},
             {"name": "evaluateMerlinModelAdmission", "summary": "Evaluate one model against admission policy", "domain": "functions"},
             {"name": "getMerlinTrainingPlan", "summary": "Return adaptation and training tracks", "domain": "functions"},
+            {"name": "getMerlinTrainingArchitecture", "summary": "Return full Merlin training architecture and seed corpus manifest", "domain": "functions"},
+            {"name": "getMerlinOpenScienceRegistry", "summary": "Return governed external open-science ingestion registry", "domain": "functions"},
+            {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
+            {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
             {"name": "getMerlinBackendPolicy", "summary": "Return backend expansion policy controls", "domain": "functions"},
             {"name": "getMerlinWorkspacePolicy", "summary": "Return governed back-room workspace policy", "domain": "functions"},
@@ -230,6 +238,8 @@ def _tool_manifest() -> dict[str, Any]:
             "args_schema": {"type": "object", "properties": {"model": {"type": "object"}}, "required": ["model"]},
             "risk_level": "medium",
         },
+        "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "verifyMerlinIdentity": {
             "args_schema": {
                 "type": "object",
@@ -508,6 +518,10 @@ _FUNCTIONS = {
     "getMerlinModelAdmissionPolicy": lambda **args: {"data": get_model_admission_policy()},
     "evaluateMerlinModelAdmission": lambda **args: {"data": evaluate_model_admission(dict(args.get("model") or {}))},
     "getMerlinTrainingPlan": lambda **args: {"data": get_training_and_adaptation()},
+    "getMerlinTrainingArchitecture": lambda **args: {"data": get_training_architecture(limit=args.get("limit"))},
+    "getMerlinOpenScienceRegistry": lambda **args: {"data": get_open_science_resource_registry()},
+    "getMerlinCompetitiveBenchmarkPlan": lambda **args: {"data": get_competitive_benchmark_plan()},
+    "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit"))},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
     "getMerlinBackendPolicy": lambda **args: {"data": get_backend_expansion_policy()},
     "getMerlinWorkspacePolicy": lambda **args: {"data": get_workspace_policy()},

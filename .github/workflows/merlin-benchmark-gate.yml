@@ -47,8 +47,17 @@ jobs:
       - name: Export Stage A artifact bundle
         run: python tools/export_merlin_stage_a_artifacts.py --limit 3 --output /tmp/merlin-stage-a-artifacts.json
 
+      - name: Export Merlin training artifact bundle
+        run: python tools/export_merlin_training_artifacts.py --limit 12 --output /tmp/merlin-training-artifacts.json
+
       - name: Upload Stage A artifact bundle
         uses: actions/upload-artifact@v4
         with:
           name: merlin-stage-a-artifacts
           path: /tmp/merlin-stage-a-artifacts.json
+
+      - name: Upload Merlin training artifact bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: merlin-training-artifacts
+          path: /tmp/merlin-training-artifacts.json

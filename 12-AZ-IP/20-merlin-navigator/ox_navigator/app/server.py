@@ -23,12 +23,16 @@ from ox_navigator.engine.merlin_identity import get_identity_policy
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
 from ox_navigator.engine.merlin_program import (
+    build_training_artifact_bundle,
+    get_competitive_benchmark_plan,
     get_merlin_benchmark_suite,
     get_merlin_execution_graph,
     get_merlin_optimization_priorities,
     get_mythos_astra_contract,
+    get_open_science_resource_registry,
     get_full_program_blueprint,
     get_identity_and_trust_policy,
+    get_training_architecture,
     get_program_office,
     get_sentinel_enforcement_policy,
     run_sync_checks,
@@ -278,6 +282,31 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/training-architecture':
+                limit, error = _parse_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'training_architecture': get_training_architecture(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/open-science-registry':
+                self._json({
+                'ok': True,
+                'open_science_registry': get_open_science_resource_registry(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/competitive-benchmarks':
+                self._json({
+                'ok': True,
+                'competitive_benchmarks': get_competitive_benchmark_plan(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/stage-a-receipts':
                 limit, error = _parse_int_query_param(params, 'limit', 3)
                 if error:
@@ -315,6 +344,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     session=merlin_session,
                 ))
                 self._json({'ok': payload['ok'], 'artifacts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/training-artifacts':
+                limit, error = _parse_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'training_artifacts': build_training_artifact_bundle(limit=limit),
+                })
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/promotion-packet':
