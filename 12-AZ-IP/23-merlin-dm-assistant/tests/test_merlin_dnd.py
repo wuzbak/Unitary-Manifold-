@@ -215,6 +215,29 @@ def test_http_handler_rejects_invalid_json_body():
         thread.join(timeout=2)
 
 
+def test_http_handler_rejects_non_object_json_body():
+    server = serve(port=0)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        time.sleep(0.05)
+        conn = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=5)
+        conn.request(
+            "POST",
+            "/api/campaigns",
+            body='["not", "an", "object"]',
+            headers={"Content-Type": "application/json"},
+        )
+        response = conn.getresponse()
+        payload = json.loads(response.read().decode("utf-8"))
+        assert response.status == 400
+        assert payload["error"] == "Request body must be a JSON object."
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
+
+
 def test_dispatch_request_requires_campaign_name():
     status, payload = dispatch_request("POST", "/api/campaigns", {"setting": "Mist coast"})
     assert status == 400
