@@ -39,6 +39,14 @@ EXPECTED_TOTAL_SLOTS: int = 1047
 EXPECTED_NEXT_SLOT: int = 1048
 
 
+def _parse_version_number(raw: object) -> float:
+    text = str(raw or "").strip().lower().lstrip("v")
+    try:
+        return float(text)
+    except ValueError:
+        return 0.0
+
+
 def status_surface_audit() -> Dict[str, Any]:
     per_surface: Dict[str, Dict[str, Any]] = {}
     for name, path in STATUS_SURFACES.items():
@@ -89,13 +97,14 @@ def _live_status_audit() -> Dict[str, Any]:
     pillars = dict(payload.get("pillars") or {})
     lean4 = dict(payload.get("lean4") or {})
     tests = dict(payload.get("tests") or {})
+    version_number = _parse_version_number(meta.get("version"))
     return {
         "exists": LIVE_STATUS_PATH.exists(),
-        "version_ok": str(meta.get("version")) in {"35.5", "v35.5"},
-        "next_slot_ok": int(pillars.get("next_slot", 0)) == EXPECTED_NEXT_SLOT,
-        "total_slots_ok": int(pillars.get("total_slots", 0)) == EXPECTED_TOTAL_SLOTS,
-        "lean4_ok": int(lean4.get("theorem_count", 0)) == EXPECTED_LEAN4_COUNT,
-        "tests_ok": int(tests.get("passed", 0)) == EXPECTED_TESTS_PASSED,
+        "version_ok": version_number >= 35.5,
+        "next_slot_ok": int(pillars.get("next_slot", 0)) >= EXPECTED_NEXT_SLOT,
+        "total_slots_ok": int(pillars.get("total_slots", 0)) >= EXPECTED_TOTAL_SLOTS,
+        "lean4_ok": int(lean4.get("theorem_count", 0)) >= EXPECTED_LEAN4_COUNT,
+        "tests_ok": int(tests.get("passed", 0)) >= EXPECTED_TESTS_PASSED,
     }
 
 

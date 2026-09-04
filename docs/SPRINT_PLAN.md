@@ -31,6 +31,7 @@ Proceed only when all three agree.
 
 Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock and post-BX continuation layer directly below Sprint BZ.
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer in this sequence.
+Historical continuity: v35.3 Sprint BW (Pillar 1031; next slot 1032) remains the three-lane execution checkpoint that must stay auditable.
 
 ---
 

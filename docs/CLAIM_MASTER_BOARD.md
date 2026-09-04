@@ -6,6 +6,7 @@
 *Last updated: 2026-09-04 (v35.6 — Sprint BZ: Pillar 1048. A targeted parallel quantum-gravity rigor packet is now executable: data-citable research intake, O1–O4 architecture-gap mapping, controlled reproduction/cross-validation, deterministic PASS/TENSION/FALSIFIED routing with anti-hidden-calibration guardrails, and explicit truth-surface synchronization doctrine. This is a rigor upgrade only; non-perturbative QG remains architecture-limited/irreducible. Next slot 1049. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *Historical continuity note: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the canonical precision-lock continuation layer directly below Sprint BZ.*
+*Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
 
