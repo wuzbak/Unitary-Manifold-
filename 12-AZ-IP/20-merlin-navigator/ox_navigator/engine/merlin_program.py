@@ -1232,13 +1232,14 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "prompt_injection_resistance",
                     "open_gap_visibility",
                 ],
-                "entry_command": f"{training_jsonl_command} && {mlflow_manifest_command}",
-                "supporting_commands": [
+                "entry_command": mlflow_manifest_command,
+                "prerequisite_commands": [
                     training_jsonl_command,
-                    mlflow_manifest_command,
                 ],
                 "artifacts": [
                     "/tmp/merlin-mlflow/mlflow_manifests.json",
+                ],
+                "prerequisite_artifacts": [
                     "/tmp/merlin-training-jsonl/benchmarks/stage_b_sovereign_takeover.jsonl",
                     "/tmp/merlin-training-jsonl/benchmarks/stage_c_capability_expansion.jsonl",
                 ],
@@ -1263,18 +1264,20 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "privileged_action_escalation_correctness",
                     "energy_per_successful_task",
                 ],
-                "entry_command": f"{training_jsonl_command} && {stage_a_artifact_command}",
-                "supporting_commands": [
+                "entry_command": stage_a_artifact_command,
+                "prerequisite_commands": [
+                    training_jsonl_command,
                     _shell_command(
                         python_executable,
                         "12-AZ-IP/20-merlin-navigator/tools/run_merlin_stage_a_benchmarks.py",
                         "--json",
                     ),
-                    stage_a_artifact_command,
                 ],
                 "artifacts": [
-                    "/tmp/merlin-training-jsonl/benchmarks/stage_b_sovereign_takeover.jsonl",
                     "/tmp/merlin-stage-a-artifacts.json",
+                ],
+                "prerequisite_artifacts": [
+                    "/tmp/merlin-training-jsonl/benchmarks/stage_b_sovereign_takeover.jsonl",
                 ],
             },
             {
@@ -1297,14 +1300,15 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "research_triage_correctness",
                     "high_severity_policy_violations",
                 ],
-                "entry_command": f"{training_jsonl_command} && {training_artifact_command}",
-                "supporting_commands": [
+                "entry_command": training_artifact_command,
+                "prerequisite_commands": [
                     training_jsonl_command,
-                    training_artifact_command,
                 ],
                 "artifacts": [
-                    "/tmp/merlin-training-jsonl/benchmarks/stage_c_capability_expansion.jsonl",
                     "/tmp/merlin-training-artifacts.json",
+                ],
+                "prerequisite_artifacts": [
+                    "/tmp/merlin-training-jsonl/benchmarks/stage_c_capability_expansion.jsonl",
                 ],
             },
         ],

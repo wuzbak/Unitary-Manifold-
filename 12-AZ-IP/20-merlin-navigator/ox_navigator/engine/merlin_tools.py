@@ -304,6 +304,20 @@ def _tool_manifest() -> dict[str, Any]:
                 "properties": {
                     "benchmark_id": {"type": "string"},
                     "response": {"type": "object"},
+                    "stage": {
+                        "type": "string",
+                        "enum": [
+                            "stage_a",
+                            "stage_a_parity_capture",
+                            "a",
+                            "stage_b",
+                            "stage_b_sovereign_takeover",
+                            "b",
+                            "stage_c",
+                            "stage_c_capability_expansion",
+                            "c",
+                        ],
+                    },
                 },
                 "required": ["benchmark_id", "response"],
             },
@@ -735,7 +749,11 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
             result = {"data": get_stage_a_benchmark_corpus()}
         elif tool == "evaluateMerlinBenchmarkResponse":
             tool_type = "function"
-            result = {"data": evaluate_benchmark_response(str(args.get("benchmark_id", "")), dict(args.get("response") or {}))}
+            result = {"data": evaluate_benchmark_response(
+                str(args.get("benchmark_id", "")),
+                dict(args.get("response") or {}),
+                stage=str(args.get("stage")) if "stage" in args else None,
+            )}
         elif tool == "evaluateMerlinEmpiricalGate":
             tool_type = "function"
             result = {"data": evaluate_empirical_gate(

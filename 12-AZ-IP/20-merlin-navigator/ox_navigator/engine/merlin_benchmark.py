@@ -448,14 +448,21 @@ def match_benchmark_for_query(query: str) -> dict[str, Any] | None:
     return dict(best_match) if best_match else None
 
 
-def evaluate_benchmark_response(benchmark_id: str, response: dict[str, Any]) -> dict[str, Any]:
+def evaluate_benchmark_response(
+    benchmark_id: str,
+    response: dict[str, Any],
+    *,
+    stage: str | None = None,
+) -> dict[str, Any]:
+    if stage is None:
+        benchmark_sets = [STAGE_A_BENCHMARK_CORPUS]
+    else:
+        selected = get_benchmark_corpus(stage)
+        if selected.get("ok") is False:
+            return {"ok": False, "error": selected.get("error", f"Unknown benchmark stage: {stage}")}
+        benchmark_sets = [list(selected.get("benchmarks") or [])]
     benchmark = next(
-        (
-            item
-            for benchmark_set in BENCHMARK_CORPORA.values()
-            for item in benchmark_set
-            if item["id"] == benchmark_id
-        ),
+        (item for benchmark_set in benchmark_sets for item in benchmark_set if item["id"] == benchmark_id),
         None,
     )
     if benchmark is None:
