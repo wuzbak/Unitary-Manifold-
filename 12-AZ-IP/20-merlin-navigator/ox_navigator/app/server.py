@@ -345,6 +345,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 ))
                 if status != 200:
                     self._json({'ok': payload['ok'], 'error': payload.get('error')}, status=status)
+                    self._persist_session(session_id, merlin_session)
                     return
                 self._json(payload['data'], status=status)
                 self._persist_session(session_id, merlin_session)
