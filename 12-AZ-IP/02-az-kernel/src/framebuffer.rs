@@ -154,7 +154,7 @@ impl AxiomFramebuffer {
 
     fn draw_glyph(&mut self, x0: usize, y0: usize, ch: char, fg: Color) {
         let code = ch as u8;
-        if code < FONT_FIRST || code > FONT_LAST {
+        if !(FONT_FIRST..=FONT_LAST).contains(&code) {
             return; // non-printable; skip
         }
         let idx = (code - FONT_FIRST) as usize * GLYPH_H;

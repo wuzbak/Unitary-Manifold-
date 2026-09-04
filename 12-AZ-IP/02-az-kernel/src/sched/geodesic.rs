@@ -24,7 +24,7 @@ const W_CPU:  f32 = 1.0;
 const W_MEM:  f32 = 0.5;
 const W_IO:   f32 = 2.0;
 const W_AGE:  f32 = 0.01;
-const W_PHI:  f32 = 0.618_033_988; // φ⁻¹
+const W_PHI:  f32 = 0.618_034; // φ⁻¹
 
 #[derive(Clone, Copy, Default)]
 struct CacheEntry {
@@ -49,7 +49,7 @@ impl GeodesicCache {
     }
 
     /// Register a new process in the cache.
-    pub fn register(&mut self, pid: ProcessId, priority: u8, cpu_budget: u32, mem_pages: u32) {
+    pub fn register(&mut self, pid: ProcessId, _priority: u8, cpu_budget: u32, mem_pages: u32) {
         let entry = CacheEntry {
             pid: pid.0,
             distance: Self::compute(cpu_budget as f32, mem_pages as f32, 0.0, 0.0, 0.0),

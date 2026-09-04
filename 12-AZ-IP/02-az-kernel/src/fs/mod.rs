@@ -25,6 +25,7 @@ pub mod ramfs;
 pub mod inode;
 
 pub use ramfs::RamFs;
+#[allow(unused_imports)]
 pub use inode::Inode;
 
 use spin::Mutex;

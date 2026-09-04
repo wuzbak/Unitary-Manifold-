@@ -6,9 +6,8 @@
 //! at boot to build a bitmap of available 4 KiB pages.  Thread-safe via
 //! a spinlock (Sprint 0/1: single-core; Sprint 3: SMP-ready).
 
-use spin::Mutex;
-use uefi::table::boot::{MemoryDescriptor, MemoryMap, MemoryType};
 use super::PAGE_SIZE;
+use uefi::mem::memory_map::{MemoryMap, MemoryType};
 
 const MAX_PAGES: usize = 1024 * 1024; // 4 GiB addressable at 4 KiB granularity
 
@@ -25,7 +24,7 @@ pub struct PhysicalMemoryManager {
 impl PhysicalMemoryManager {
     /// Build from UEFI memory map.  Marks conventional memory as free;
     /// everything else (firmware, MMIO, reserved) as used.
-    pub fn from_uefi_map(mmap: &MemoryMap) -> Self {
+    pub fn from_uefi_map<M: MemoryMap + ?Sized>(mmap: &M) -> Self {
         let mut pmm = Self {
             bitmap: [!0u64; MAX_PAGES / 64], // all used initially
             total_pages: 0,

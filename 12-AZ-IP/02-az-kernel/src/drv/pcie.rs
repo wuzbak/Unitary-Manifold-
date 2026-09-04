@@ -24,7 +24,7 @@ const PCIE_ECAM_BASE: usize = 0xB000_0000; // QEMU virt default
 
 /// Read a 16-bit word from PCI config space.
 /// Sprint 1: returns zeroed stub.  Sprint 3: real MMIO read.
-pub fn config_read_u16(bus: u8, dev: u8, func: u8, offset: u16) -> u16 {
+pub fn config_read_u16(_bus: u8, _dev: u8, _func: u8, _offset: u16) -> u16 {
     // Sprint 3 implementation:
     // let addr = PCIE_ECAM_BASE
     //     + ((bus as usize) << 20)

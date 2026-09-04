@@ -8,7 +8,7 @@
 pub fn init() -> bool { false }
 
 /// Transmit a raw Ethernet frame.  Sprint 1: no-op.
-pub fn transmit(frame: &[u8]) -> bool { false }
+pub fn transmit(_frame: &[u8]) -> bool { false }
 
 /// Receive a raw Ethernet frame.  Sprint 1: always empty.
-pub fn receive(buf: &mut [u8]) -> Option<usize> { None }
+pub fn receive(_buf: &mut [u8]) -> Option<usize> { None }

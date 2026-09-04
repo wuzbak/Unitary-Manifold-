@@ -29,7 +29,7 @@ impl VirtualMemoryManager {
 
     /// Map `n` pages at `paddr` into the ring's virtual range.
     /// Returns the virtual base address.
-    pub fn map(&mut self, paddr: usize, n: usize, ring: u8) -> usize {
+    pub fn map(&mut self, paddr: usize, _n: usize, ring: u8) -> usize {
         let vaddr = Self::ring_base(ring) + self.mappings.len() * PAGE_SIZE;
         // Record the mapping (actual page table writes happen in Sprint 2).
         let _ = self.mappings.push((paddr, vaddr, ring));
@@ -37,7 +37,7 @@ impl VirtualMemoryManager {
     }
 
     /// Unmap pages at the given physical address.
-    pub fn unmap(&mut self, paddr: usize, n: usize) {
+    pub fn unmap(&mut self, paddr: usize, _n: usize) {
         self.mappings.retain(|(p, _, _)| *p != paddr);
     }
 

@@ -28,8 +28,9 @@ pub mod pmm;
 pub mod vmm;
 pub mod phi_debt;
 
-use uefi::table::boot::{MemoryDescriptor, MemoryMap, MemoryType};
+use uefi::mem::memory_map::MemoryMap;
 
+#[allow(unused_imports)]
 pub use fiber_bundle::{FiberBundle, CompactificationDomain};
 pub use pmm::PhysicalMemoryManager;
 pub use vmm::VirtualMemoryManager;
@@ -68,7 +69,7 @@ impl AxiomMemoryManager {
     ///
     /// # Panics
     /// Panics if no conventional memory regions are available.
-    pub fn from_memory_map(mmap: &MemoryMap) -> Self {
+    pub fn from_memory_map<M: MemoryMap + ?Sized>(mmap: &M) -> Self {
         let pmm = PhysicalMemoryManager::from_uefi_map(mmap);
         let vmm = VirtualMemoryManager::new();
         let bundle = FiberBundle::default();

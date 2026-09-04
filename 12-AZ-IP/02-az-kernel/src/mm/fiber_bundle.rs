@@ -29,7 +29,6 @@
 //! validated by the Pentad gate (the kernel's analogue of HILS approval).
 
 use super::pmm::PhysicalMemoryManager;
-use super::{WINDING_NUMBER, KK_RADIUS_PAGES, PAGE_SIZE};
 
 /// A single compactification domain: one KK level × one process namespace.
 #[derive(Debug, Clone)]
@@ -45,18 +44,10 @@ pub struct CompactificationDomain {
 }
 
 /// The fiber bundle: a collection of compactification domains, one per KK level.
+#[derive(Default)]
 pub struct FiberBundle {
     domains: [Option<CompactificationDomain>; 5], // n_w = 5 levels
     initialized: bool,
-}
-
-impl Default for FiberBundle {
-    fn default() -> Self {
-        Self {
-            domains: [None, None, None, None, None],
-            initialized: false,
-        }
-    }
 }
 
 impl FiberBundle {

@@ -3,7 +3,7 @@
 //! az-kernel/src/fs/inode.rs — Inode with φ-Debt Accounting
 
 const MAX_INLINE_DATA: usize = 4096; // 4 KiB inline data per inode (Sprint 1)
-const PHI_INV: f32 = 0.618_033_988;
+const PHI_INV: f32 = 0.618_034;
 const PHI_DEBT_EVICT: f32 = 12.0;
 
 /// An inode representing a file in AZ-FS.
