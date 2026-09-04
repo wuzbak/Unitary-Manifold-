@@ -255,7 +255,23 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinBenchmarkCorpora": {
             "args_schema": {
                 "type": "object",
-                "properties": {"stage": {"type": "string"}},
+                "properties": {
+                    "stage": {
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "stage_a",
+                            "stage_a_parity_capture",
+                            "a",
+                            "stage_b",
+                            "stage_b_sovereign_takeover",
+                            "b",
+                            "stage_c",
+                            "stage_c_capability_expansion",
+                            "c",
+                        ],
+                    }
+                },
                 "additionalProperties": False,
             },
         },
@@ -450,6 +466,8 @@ def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple
             valid = _matches(str(expected), filtered_args[key]) if expected else True
         if not valid:
             return False, f"Invalid type for '{key}', expected {expected}"
+        if "enum" in spec and filtered_args[key] not in list(spec.get("enum") or []):
+            return False, f"Invalid value for '{key}', expected one of {list(spec.get('enum') or [])}"
     return True, ""
 
 

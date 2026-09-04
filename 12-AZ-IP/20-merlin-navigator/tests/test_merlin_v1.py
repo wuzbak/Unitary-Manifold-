@@ -313,8 +313,7 @@ def test_route_tool_training_architecture_and_artifacts():
     assert len(corpora['result']['data']['benchmarks']) >= 6
 
     bad_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'not-a-stage'})
-    assert bad_corpora['ok'] is True
-    assert bad_corpora['result']['data']['ok'] is False
+    assert bad_corpora['ok'] is False
 
     artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4})
     assert artifacts['ok'] is True
