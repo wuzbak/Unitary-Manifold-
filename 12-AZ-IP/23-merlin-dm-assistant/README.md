@@ -41,6 +41,7 @@ Merlin DM Guide & Player Assistant is an offline-first Dungeons & Dragons **5e /
 ```bash
 cd 12-AZ-IP/23-merlin-dm-assistant
 python run.py --port 8033
+# UI: http://127.0.0.1:8033/
 ```
 
 Demo mode:

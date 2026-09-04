@@ -5,19 +5,34 @@ from __future__ import annotations
 
 import json
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 from .service import MerlinDndService
 
 SERVICE = MerlinDndService()
+UI_ROOT = Path(__file__).resolve().parents[1] / "ui"
 
 
 def dispatch_request(method: str, path: str, payload: dict | None = None) -> tuple[int, dict]:
     payload = payload or {}
     parsed = urlparse(path)
     query = parse_qs(parsed.query)
+    if method == "GET" and parsed.path in {"/", "/index.html"}:
+        return 200, {
+            "content_type": "text/html; charset=utf-8",
+            "body": (UI_ROOT / "index.html").read_text(encoding="utf-8"),
+        }
+    if method == "GET" and parsed.path == "/app.js":
+        return 200, {
+            "content_type": "application/javascript; charset=utf-8",
+            "body": (UI_ROOT / "app.js").read_text(encoding="utf-8"),
+        }
     if method == "GET" and parsed.path == "/api/health":
         return 200, {"status": "ok", "service": "merlin-dm-assistant", "version": "1.0.0"}
+    if method == "GET" and parsed.path == "/api/rules":
+        spell_name = query.get("spell", [None])[0]
+        return 200, SERVICE.rules_reference(spell_name)
     if method == "GET" and parsed.path == "/api/monsters":
         environment = query.get("environment", [None])[0]
         raw_max_cr = query.get("max_cr", [None])[0]
@@ -57,10 +72,15 @@ class MerlinDndRequestHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):  # noqa: A003
         return
 
-    def _json(self, status: int, payload: dict) -> None:
-        body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    def _send(self, status: int, payload: dict) -> None:
+        if "body" in payload and "content_type" in payload:
+            body = str(payload["body"]).encode("utf-8")
+            content_type = str(payload["content_type"])
+        else:
+            body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+            content_type = "application/json; charset=utf-8"
         self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
@@ -74,11 +94,11 @@ class MerlinDndRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         status, payload = dispatch_request("GET", self.path)
-        self._json(status, payload)
+        self._send(status, payload)
 
     def do_POST(self) -> None:  # noqa: N802
         status, payload = dispatch_request("POST", self.path, self._body())
-        self._json(status, payload)
+        self._send(status, payload)
 
 
 def serve(host: str = "127.0.0.1", port: int = 8033) -> ThreadingHTTPServer:

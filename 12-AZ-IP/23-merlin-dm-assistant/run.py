@@ -41,6 +41,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     print("Merlin DM Guide & Player Assistant (Product 23)")
+    print(f"Local UI: http://{args.host}:{args.port}/")
     print(f"Local API: http://{args.host}:{args.port}/api/health")
     httpd = serve(host=args.host, port=args.port)
     try:

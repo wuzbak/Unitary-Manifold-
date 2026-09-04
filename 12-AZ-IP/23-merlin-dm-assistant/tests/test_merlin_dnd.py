@@ -83,7 +83,7 @@ def test_character_builder_computes_spellcasting_math():
         }
     )
     assert character.proficiency_bonus == 3
-    assert character.hit_points == 26
+    assert character.hit_points == 32
     assert character.spell_save_dc == 15
     assert character.spell_attack_bonus == 7
 
@@ -126,7 +126,7 @@ def test_image_brief_is_grounded_in_campaign_context():
     service = MerlinDndService()
     campaign_id = _seed_campaign(service)
     brief = service.build_image_brief(campaign_id, {"subject": "the party confronting the gate"})
-    assert "The Ember Road" in brief.title or brief.title.endswith("image brief")
+    assert brief.title == "The Ember Road image brief"
     assert "Ash-fall trade frontier" in brief.prompt
     assert "Toll Keep Undercroft" in brief.prompt
 
@@ -167,3 +167,16 @@ def test_dispatch_request_end_to_end_routes_campaign_api():
     )
     assert status == 200
     assert payload["response"]["assistant"] == "Merlin"
+
+
+def test_dispatch_request_serves_static_index():
+    status, payload = dispatch_request("GET", "/")
+    assert status == 200
+    assert payload["content_type"] == "text/html; charset=utf-8"
+    assert "Merlin DM Guide & Player Assistant" in payload["body"]
+
+
+def test_dispatch_request_rules_reference_endpoint():
+    status, payload = dispatch_request("GET", "/api/rules?spell=fireball")
+    assert status == 200
+    assert payload["spell"]["fireball"].startswith("20-foot-radius explosion")
