@@ -2,7 +2,7 @@
 
 > Canonical regression marker: 63,732 passed · 23 skipped · 12 deselected · 0 failed.
 
-Canonical full regression (STATUS.md): **63,732 passed · 23 skipped · 12 deselected · 0 failed** (v35.6, Sprint BZ, 2026-09-04; tests/ + recycling/ + Pentad).
+Canonical full regression (STATUS.md): **63,732 passed · 23 skipped · 12 deselected · 0 failed** (v35.7, Sprint CA, 2026-09-04; tests/ + recycling/ + Pentad).
 
 **Historical checkpoint:** 33,398 tests: 32,993 passed · 393 skipped · 12 deselected · 0 failures (verified 2026-05-16, Python 3.12, pytest)
 

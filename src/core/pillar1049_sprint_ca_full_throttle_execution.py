@@ -250,7 +250,14 @@ def sprint_ca_full_throttle_execution() -> Dict[str, Any]:
     }
 
 
-PILLAR_VALID: bool = bool(sprint_ca_full_throttle_execution()["valid"])
+def _safe_pillar_valid() -> bool:
+    try:
+        return bool(sprint_ca_full_throttle_execution()["valid"])
+    except Exception:
+        return False
+
+
+PILLAR_VALID: bool = _safe_pillar_valid()
 
 
 def pillar1049_summary() -> Dict[str, Any]:
