@@ -7,9 +7,9 @@
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 -- **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/competitive-benchmarks`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/telemetry`
-- **Program endpoints:** `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/promotion-packet`
+- **Program endpoints:** `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/competitive-benchmarks`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
@@ -65,9 +65,16 @@
 - `GET /api/merlin/policy` exposes combined identity-trust and Sentinel enforcement policies.
 - `GET /api/merlin/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
 - `GET /api/merlin/benchmarks` exposes benchmark harness tracks and promotion gates.
+- `GET /api/merlin/training-architecture` exposes the full Merlin training stack, dataset families, curriculum, and governed seed corpus manifest.
+- `GET /api/merlin/training-dataset` exposes an actual JSONL-ready train/dev/test bundle plus benchmark records for export pipelines.
+- `GET /api/merlin/mlflow-manifests` exposes MLflow-ready experiment manifests for SFT, preference optimization, and Stage B/C gate evaluations.
+- `GET /api/merlin/open-science-registry` exposes curated external open-science resources allowed for controlled augmentation.
+- `GET /api/merlin/competitive-benchmarks` exposes the competitive benchmark families Merlin must clear before broader promotion.
+- `GET /api/merlin/benchmark-corpora` exposes Stage A/B/C corpora directly, with stage selection support.
 - `GET /api/merlin/stage-a-receipts` runs the self-hosted Stage A receipt set and returns comparable Merlin/incumbent runs.
 - `GET /api/merlin/replacement-readiness` turns the receipt set into a concrete readiness packet instead of an evidence-empty placeholder.
 - `GET /api/merlin/benchmark-artifacts` exports the receipts plus readiness state as a CI-friendly artifact bundle.
+- `GET /api/merlin/training-artifacts` exports the training architecture, competitive benchmark plan, open-science registry, and Stage A baseline as one governed bundle.
 - `GET /api/merlin/promotion-packet` preserves the legacy promotion-packet contract while `replacement-readiness` exposes the new concrete receipt-backed surface.
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - Mentorship sprint discovery surfaces are now first-class: `getMerlinMentorshipSprintCharter`, `getMerlinFacultyMatrix`, `getMerlinKnowledgeTransferCycles`, `getMerlinLibraryAndStudy`, `getMerlinExchangeProtocol`, and `getMerlinMentorshipClosureContract`.
@@ -88,14 +95,28 @@
 
 - Merlin now exposes a first-class Stage A benchmark corpus for parity capture before wider takeover.
 - Each Merlin run records latency, estimated tokens, estimated cost, estimated energy, routing lane, provider, provenance coverage, and memory/contradiction signals.
-- Benchmark evaluation can score a response against the Stage A corpus using `evaluateMerlinBenchmarkResponse`.
+- Benchmark evaluation can score a response against Merlin benchmark corpora using `evaluateMerlinBenchmarkResponse`, with explicit stage selection available for Stage A/B/C scoring.
 - Sustained head-to-head replacement gating is available through `evaluateMerlinEmpiricalGate`, `runMerlinStageAReceipts`, `getMerlinReplacementReadiness`, and `getMerlinStageAArtifacts`, while `/api/merlin/promotion-packet` remains the legacy compatibility view.
 - `GET /api/merlin/control-tower` now includes mentorship-to-runtime closure checks with fail-closed completion logic and explicit evidence-required fields.
 - CI artifact export: `python tools/export_merlin_stage_a_artifacts.py --limit 3 --output /tmp/merlin-stage-a-artifacts.json`.
+- Training artifact export: `python tools/export_merlin_training_artifacts.py --limit 12 --output /tmp/merlin-training-artifacts.json`.
+- JSONL dataset export: `python tools/export_merlin_training_jsonl.py --limit 12 --output-dir /tmp/merlin-training-jsonl`.
+- MLflow manifest export: `python tools/export_merlin_mlflow_manifests.py --limit 12 --output-dir /tmp/merlin-mlflow`.
+- MLflow experiment receipt runner: `python tools/run_merlin_mlflow_experiment.py --experiment merlin_stage_b_shadow_eval --limit 3 --output /tmp/merlin-stage-b-receipts.json`.
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).
 - Multi-stage replacement batteries now define Stage A→E acceptance tracks with sustained clean-window cadence checks for promotion discipline.
 - Longitudinal acceptance windows are explicitly **non-overlapping** to avoid counting one streak multiple times as separate gate windows.
+
+## Training architecture and competitive build-out
+
+- Merlin now exposes a governed training architecture covering repository-native QA, governance traces, tool-use alignment, adversarial counterexamples, and controlled open-science augmentation.
+- Merlin now generates actual train/dev/test JSONL-ready records plus Stage A/B/C benchmark JSONL corpora for downstream fine-tuning and evaluation jobs.
+- Merlin now emits MLflow-ready experiment manifests for supervised tuning, preference optimization, Stage B shadow evaluation, and Stage C agentic evaluation.
+- Those manifests now point to runnable receipt commands rather than artifact-export placeholders, so Stage B/C tracking can execute governed benchmark jobs directly.
+- The training architecture keeps open-weight adaptation primary; scratch pretraining remains conditional on open-weight saturation against target benchmark families.
+- Competitive benchmark planning now explicitly covers repository grounding, scientific reasoning, agentic tool use, autonomous research, and safety/governance.
+- External platforms such as Hugging Face Datasets, OpenML, UCI, Papers with Code, MLflow, AWS Open Data, NAIRR, and NASA are treated as curated augmentation lanes rather than replacements for repository-native provenance.
 
 ## Gate-badge extraction
 

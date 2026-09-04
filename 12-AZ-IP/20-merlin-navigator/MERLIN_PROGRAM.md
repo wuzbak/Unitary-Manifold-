@@ -6,6 +6,12 @@ This document records the implemented execution blueprint for making Merlin the 
 
 - Runtime blueprint module:
   - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_program.py`
+- Training artifact export module:
+  - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/tools/export_merlin_training_artifacts.py`
+- Training JSONL export module:
+  - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/tools/export_merlin_training_jsonl.py`
+- MLflow manifest export module:
+  - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/tools/export_merlin_mlflow_manifests.py`
 - Stage A benchmark corpus:
   - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_benchmark.py`
 - Telemetry instrumentation:
@@ -26,6 +32,15 @@ This document records the implemented execution blueprint for making Merlin the 
   - `runMerlinSyncChecks`
   - `getMerlinModelStrategy`
   - `getMerlinTrainingPlan`
+  - `getMerlinTrainingArchitecture`
+  - `getMerlinTrainingDataset`
+  - `getMerlinMLflowManifests`
+  - `getMerlinOpenScienceRegistry`
+  - `getMerlinCompetitiveBenchmarkPlan`
+  - `getMerlinTrainingArtifacts`
+  - `getMerlinStageBCorpus`
+  - `getMerlinStageCCorpus`
+  - `getMerlinBenchmarkCorpora`
   - `getMerlinEnergyPlan`
   - `getMerlinBackendPolicy`
   - `getMerlinGovernancePolicy`
@@ -60,8 +75,15 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/policy`
   - `GET /api/merlin/runtime`
   - `GET /api/merlin/benchmarks`
+  - `GET /api/merlin/training-architecture`
+  - `GET /api/merlin/training-dataset`
+  - `GET /api/merlin/mlflow-manifests`
+  - `GET /api/merlin/open-science-registry`
+  - `GET /api/merlin/competitive-benchmarks`
+  - `GET /api/merlin/benchmark-corpora`
   - `GET /api/merlin/stage-a-receipts`
   - `GET /api/merlin/replacement-readiness`
+  - `GET /api/merlin/training-artifacts`
   - `GET /api/merlin/promotion-packet`
 
 ## Scope mapping to the 13-point implementation request
@@ -71,7 +93,7 @@ This document records the implemented execution blueprint for making Merlin the 
 3. Weights & Measures scorecard and benchmark batteries are implemented in `get_weights_and_measures()`.
 4. Knowledge core with typed provenance and source registry is implemented in `get_knowledge_core_sources()`.
 5. Multi-lane model strategy and policy-based fallback are implemented in `get_model_strategy()`.
-6. Training/adaptation tracks are implemented in `get_training_and_adaptation()`.
+6. Training/adaptation tracks are implemented in `get_training_and_adaptation()` and expanded into a governed corpus/curriculum in `get_training_architecture()`.
 7. Energy-first optimization controls are implemented in `get_energy_optimization_track()`.
 8. Backend expansion governance controls are implemented in `get_backend_expansion_policy()`.
 9. Pentad integration and separation-boundary controls are implemented in `get_governance_integration_policy()`.
@@ -79,12 +101,21 @@ This document records the implemented execution blueprint for making Merlin the 
 11. Shadow→Assisted→Primary→Decommission rollout is implemented in `get_rollout_plan()`.
 12. Weekly/monthly/quarterly governance rhythm is implemented in `get_operating_rhythm()`.
 13. Hard replacement exit criteria are implemented in `get_exit_criteria()`.
+14. Competitive benchmark families and promotion metrics are implemented in `get_competitive_benchmark_plan()`.
+15. External open-science augmentation registry and governed training artifact bundle are implemented in `get_open_science_resource_registry()` and `build_training_artifact_bundle()`.
+16. Actual train/dev/test JSONL-ready dataset generation is implemented in `build_training_dataset_bundle()`.
+17. MLflow-ready experiment manifests are implemented in `get_mlflow_experiment_manifests()`, with runnable receipt execution in `tools/run_merlin_mlflow_experiment.py`.
+18. Broader Stage B/C benchmark corpora are implemented in `get_stage_b_benchmark_corpus()`, `get_stage_c_benchmark_corpus()`, and `get_benchmark_corpus()`.
 
 ## Continuous sync controls
 
 `run_sync_checks()` verifies canonical Merlin source surfaces remain present and readable to reduce epistemic drift. `query_merlin()` now records per-run telemetry and attaches typed provenance plus memory-audit state to every response object.
 
 `evaluateMerlinEmpiricalGate()` now computes an explicit sustained head-to-head replacement verdict from comparable Merlin/incumbent runs (success parity, quality regression budget, energy-per-successful-task delta, and high-severity policy violations). `runMerlinStageAReceipts()` now produces the comparable run receipts directly from the self-hosted benchmark corpus, `getMerlinReplacementReadiness()` exposes the concrete receipt-backed stage-D decision contract, and `getMerlinStageAArtifacts()` / `GET /api/merlin/benchmark-artifacts` export CI-friendly artifact bundles for recurring review while `getMerlinPromotionPacket()` remains the compatibility view.
+
+`getMerlinTrainingArchitecture()` now exposes the governed dataset families, curriculum stages, and seed instruction corpus manifest for Merlin's repository-assistant + scientific-reasoning + autonomous-research mission profile. `getMerlinOpenScienceRegistry()` curates high-value augmentation lanes (Hugging Face Datasets, OpenML, UCI, Papers with Code, MLflow, AWS Open Data, NAIRR, NASA) under explicit admission controls, while `getMerlinCompetitiveBenchmarkPlan()` and `getMerlinTrainingArtifacts()` turn the ambition of a premiere/premium benchmarked Merlin into an auditable artifact contract.
+
+`build_training_dataset_bundle()` now materializes actual train/dev/test records with deterministic split policy plus Stage A/B/C benchmark corpora suitable for JSONL export. `get_mlflow_experiment_manifests()` now emits experiment-ready tracking manifests for supervised tuning, preference optimization, Stage B shadow evaluation, and Stage C agentic evaluation, and those manifests now resolve to runnable receipt commands instead of export-only placeholders.
 
 `getMerlinProgramOffice()` now declares a formal command structure with explicit approve/hold/rollback authority, one decision ledger, one risk ledger, and one gate board. `getMerlinMultiStageBenchmarks()` defines Stage A→E batteries with minimum sustained-run thresholds, `evaluateMerlinLongitudinalAcceptance()` enforces clean-window cadence checks, and `getMerlinControlTower()` surfaces deployment eligibility with fail-closed gate logic.
 

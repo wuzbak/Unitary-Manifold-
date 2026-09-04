@@ -92,6 +92,77 @@ def test_export_stage_a_artifacts_script(tmp_path, monkeypatch):
     assert payload['artifact_bundle']['receipts']['summary']['total'] == 1
 
 
+def test_export_training_artifacts_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_training_artifacts.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_training_artifacts', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'training_artifacts.json'
+    monkeypatch.setattr(sys, 'argv', ['export_merlin_training_artifacts.py', '--limit', '4', '--output', str(output_path)])
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
+
+
+def test_export_training_jsonl_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_training_jsonl.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_training_jsonl', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_dir = tmp_path / 'training_jsonl'
+    monkeypatch.setattr(sys, 'argv', ['export_merlin_training_jsonl.py', '--limit', '4', '--output-dir', str(output_dir)])
+    assert module.main() == 0
+    assert (output_dir / 'train.jsonl').exists()
+    assert (output_dir / 'dev.jsonl').exists()
+    assert (output_dir / 'test.jsonl').exists()
+    assert (output_dir / 'benchmarks' / 'stage_b_sovereign_takeover.jsonl').exists()
+    manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
+    assert manifest['dataset']['counts']['total_benchmark_records'] >= 18
+
+
+def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_mlflow_manifests.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_mlflow_manifests', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_dir = tmp_path / 'mlflow'
+    monkeypatch.setattr(sys, 'argv', ['export_merlin_mlflow_manifests.py', '--limit', '4', '--output-dir', str(output_dir)])
+    assert module.main() == 0
+    payload = json.loads((output_dir / 'mlflow_manifests.json').read_text())
+    assert len(payload['manifests']) >= 4
+
+
+def test_run_mlflow_experiment_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'run_merlin_mlflow_experiment.py'
+    spec = importlib.util.spec_from_file_location('run_merlin_mlflow_experiment', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'stage_b_receipts.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'run_merlin_mlflow_experiment.py',
+            '--experiment',
+            'merlin_stage_b_shadow_eval',
+            '--limit',
+            '1',
+            '--output',
+            str(output_path),
+        ],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['experiment_name'] == 'merlin_stage_b_shadow_eval'
+    assert payload['summary']['total'] == 1
+
+
 def test_merlin_session_has_durable_memory_tiers():
     session = MerlinSession()
     state = session.get_memory_state()
@@ -247,6 +318,78 @@ def test_route_tool_benchmark_corpus_and_policy_metadata():
     assert result['ok'] is True
     assert result['policy']['capability_class'] == 'read'
     assert result['result']['data']['stage'] == 'stage_a_parity_capture'
+
+    stage_b_eval = route_tool(
+        'evaluateMerlinBenchmarkResponse',
+        {
+            'benchmark_id': 'stage_b_runtime_policy_escalation',
+            'stage': 'stage_b',
+            'response': {
+                'answer': 'GOVERNANCE policy applies. FOLLOWUPS: verify identity, escalate to human gate. Sources: policy + runtime.',
+                'gate_badges': ['GOVERNANCE'],
+                'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'knowledge_base'}]},
+            },
+        },
+    )
+    assert stage_b_eval['ok'] is True
+    assert stage_b_eval['result']['data']['ok'] is True
+    assert stage_b_eval['result']['data']['benchmark_id'] == 'stage_b_runtime_policy_escalation'
+
+
+def test_route_tool_training_architecture_and_artifacts():
+    architecture = route_tool('getMerlinTrainingArchitecture', {'limit': 5})
+    assert architecture['ok'] is True
+    assert architecture['result']['data']['seed_statistics']['total_examples'] == 5
+    assert 'repository_assistant' in architecture['result']['data']['mission_profile']
+
+    registry = route_tool('getMerlinOpenScienceRegistry', {})
+    assert registry['ok'] is True
+    assert any(item['resource_id'] == 'hugging_face_datasets' for item in registry['result']['data']['resources'])
+
+    benchmarks = route_tool('getMerlinCompetitiveBenchmarkPlan', {})
+    assert benchmarks['ok'] is True
+    assert any(item['family'] == 'autonomous_research' for item in benchmarks['result']['data']['competitive_families'])
+
+    corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_b'})
+    assert corpora['ok'] is True
+    assert corpora['result']['data']['stage'] == 'stage_b_sovereign_takeover'
+    assert len(corpora['result']['data']['benchmarks']) >= 6
+
+    bad_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'not-a-stage'})
+    assert bad_corpora['ok'] is False
+
+    extra_arg_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_b', 'limit': 1})
+    assert extra_arg_corpora['ok'] is False
+
+    artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4})
+    assert artifacts['ok'] is True
+    assert artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
+
+    empty_artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 0})
+    assert empty_artifacts['ok'] is True
+    assert empty_artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 0
+    assert empty_artifacts['result']['data']['artifact_bundle']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] == 0
+
+    dataset = route_tool('getMerlinTrainingDataset', {'limit': 4})
+    assert dataset['ok'] is True
+    assert dataset['result']['data']['dataset']['counts']['total_training_records'] == 4
+    assert dataset['result']['data']['dataset']['counts']['total_benchmark_records'] >= 18
+
+    mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
+    assert mlflow['ok'] is True
+    assert len(mlflow['result']['data']['manifests']) >= 4
+    assert '{limit}' not in mlflow['result']['data']['manifests'][0]['entry_command']
+    assert '&&' not in mlflow['result']['data']['manifests'][1]['entry_command']
+    assert mlflow['result']['data']['manifests'][0]['entry_command'].startswith(sys.executable)
+    assert 'run_merlin_mlflow_experiment.py' in mlflow['result']['data']['manifests'][0]['entry_command']
+    assert mlflow['result']['data']['manifests'][0]['working_directory'] == str(PRODUCT_ROOT.parents[1])
+    assert 'stage_c_eval_records' in mlflow['result']['data']['manifests'][1]['datasets']
+    assert 'merlin_stage_b_shadow_eval' in mlflow['result']['data']['manifests'][2]['entry_command']
+    assert 'merlin_stage_c_agentic_eval' in mlflow['result']['data']['manifests'][3]['entry_command']
+    assert any(
+        item.endswith('/benchmarks/stage_c_capability_expansion.jsonl')
+        for item in mlflow['result']['data']['manifests'][-1]['prerequisite_artifacts']
+    )
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
@@ -605,6 +748,51 @@ def test_server_merlin_endpoints():
             assert 'promotion_gate' in benchmarks.json()['benchmarks']
             assert benchmarks.json()['benchmarks']['stage_a_corpus']['stage'] == 'stage_a_parity_capture'
 
+            training_architecture = client.get('/api/merlin/training-architecture?limit=5')
+            assert training_architecture.status_code == 200
+            assert training_architecture.json()['ok'] is True
+            assert training_architecture.json()['training_architecture']['seed_statistics']['total_examples'] == 5
+
+            training_dataset = client.get('/api/merlin/training-dataset?limit=4')
+            assert training_dataset.status_code == 200
+            assert training_dataset.json()['ok'] is True
+            assert training_dataset.json()['dataset']['counts']['total_training_records'] == 4
+
+            open_science_registry = client.get('/api/merlin/open-science-registry')
+            assert open_science_registry.status_code == 200
+            assert open_science_registry.json()['ok'] is True
+            assert any(
+                item['resource_id'] == 'mlflow'
+                for item in open_science_registry.json()['open_science_registry']['resources']
+            )
+
+            mlflow_manifests = client.get('/api/merlin/mlflow-manifests?limit=4')
+            assert mlflow_manifests.status_code == 200
+            assert mlflow_manifests.json()['ok'] is True
+            assert len(mlflow_manifests.json()['mlflow_manifests']['manifests']) >= 4
+
+            competitive_benchmarks = client.get('/api/merlin/competitive-benchmarks')
+            assert competitive_benchmarks.status_code == 200
+            assert competitive_benchmarks.json()['ok'] is True
+            assert any(
+                item['family'] == 'scientific_reasoning'
+                for item in competitive_benchmarks.json()['competitive_benchmarks']['competitive_families']
+            )
+
+            benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=stage_c')
+            assert benchmark_corpora.status_code == 200
+            assert benchmark_corpora.json()['ok'] is True
+            assert benchmark_corpora.json()['benchmark_corpora']['stage'] == 'stage_c_capability_expansion'
+            assert len(benchmark_corpora.json()['benchmark_corpora']['benchmarks']) >= 6
+
+            bad_benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=not-a-stage')
+            assert bad_benchmark_corpora.status_code == 400
+            assert bad_benchmark_corpora.json()['ok'] is False
+
+            duplicate_benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=stage_b&stage=stage_c')
+            assert duplicate_benchmark_corpora.status_code == 400
+            assert duplicate_benchmark_corpora.json()['ok'] is False
+
             receipts = client.get('/api/merlin/stage-a-receipts?limit=1')
             assert receipts.status_code == 200
             assert receipts.json()['ok'] is True
@@ -618,11 +806,29 @@ def test_server_merlin_endpoints():
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200
             assert artifacts.json()['ok'] is True
-            assert artifacts.json()['artifacts']['artifact_bundle']['receipts']['summary']['total'] == 1
+            assert artifacts.json()['artifacts']['receipts']['summary']['total'] == 1
+
+            training_artifacts = client.get('/api/merlin/training-artifacts?limit=4')
+            assert training_artifacts.status_code == 200
+            assert training_artifacts.json()['ok'] is True
+            assert training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 4
+
+            empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
+            assert empty_training_artifacts.status_code == 200
+            assert empty_training_artifacts.json()['ok'] is True
+            assert empty_training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 0
 
             bad_artifact_limit = client.get('/api/merlin/benchmark-artifacts?limit=abc')
             assert bad_artifact_limit.status_code == 400
             assert bad_artifact_limit.json()['ok'] is False
+
+            bad_training_limit = client.get('/api/merlin/training-architecture?limit=abc')
+            assert bad_training_limit.status_code == 400
+            assert bad_training_limit.json()['ok'] is False
+
+            bad_training_dataset_limit = client.get('/api/merlin/training-dataset?limit=abc')
+            assert bad_training_dataset_limit.status_code == 400
+            assert bad_training_dataset_limit.json()['ok'] is False
 
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200

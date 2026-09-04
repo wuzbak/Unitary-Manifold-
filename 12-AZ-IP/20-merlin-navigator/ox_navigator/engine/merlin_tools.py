@@ -20,10 +20,13 @@ from .merlin_benchmark import (
     build_stage_a_artifact_bundle,
     build_stage_a_replacement_readiness,
     build_promotion_packet,
+    get_benchmark_corpus,
     evaluate_longitudinal_acceptance,
     evaluate_benchmark_response,
     evaluate_empirical_gate,
     get_multi_stage_benchmark_plan,
+    get_stage_b_benchmark_corpus,
+    get_stage_c_benchmark_corpus,
     get_stage_a_benchmark_corpus,
     run_stage_a_head_to_head_receipts_sync,
 )
@@ -31,6 +34,7 @@ from .merlin_identity import authorize_privileged_request, verify_identity_signa
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
     get_backend_expansion_policy,
+    get_competitive_benchmark_plan,
     get_cross_model_exchange_protocol,
     get_current_stack_baseline,
     get_energy_optimization_track,
@@ -48,6 +52,7 @@ from .merlin_program import (
     get_mentorship_sprint_charter,
     get_mythos_astra_contract,
     get_model_strategy,
+    get_open_science_resource_registry,
     get_operating_rhythm,
     get_program_office,
     get_program_charter,
@@ -58,8 +63,12 @@ from .merlin_program import (
     get_sovereignty_roadmap,
     get_sentinel_enforcement_policy,
     get_specialized_model_faculty_matrix,
+    get_mlflow_experiment_manifests,
+    build_training_dataset_bundle,
+    get_training_architecture,
     get_training_and_adaptation,
     get_weights_and_measures,
+    build_training_artifact_bundle,
     run_sync_checks,
 )
 from .merlin_router import choose_runtime, get_router_policy
@@ -169,6 +178,10 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinModelAdmissionPolicy", "summary": "Return open-science model admission policy", "domain": "functions"},
             {"name": "evaluateMerlinModelAdmission", "summary": "Evaluate one model against admission policy", "domain": "functions"},
             {"name": "getMerlinTrainingPlan", "summary": "Return adaptation and training tracks", "domain": "functions"},
+            {"name": "getMerlinTrainingArchitecture", "summary": "Return full Merlin training architecture and seed corpus manifest", "domain": "functions"},
+            {"name": "getMerlinOpenScienceRegistry", "summary": "Return governed external open-science ingestion registry", "domain": "functions"},
+            {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
+            {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
             {"name": "getMerlinBackendPolicy", "summary": "Return backend expansion policy controls", "domain": "functions"},
             {"name": "getMerlinWorkspacePolicy", "summary": "Return governed back-room workspace policy", "domain": "functions"},
@@ -188,8 +201,11 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinExecutionGraph", "summary": "Return max-rigor execution graph", "domain": "functions"},
             {"name": "getMerlinBenchmarkSuite", "summary": "Return benchmark harness definition", "domain": "functions"},
             {"name": "getMerlinBenchmarkCorpus", "summary": "Return Stage A benchmark prompt corpus", "domain": "functions"},
+            {"name": "getMerlinStageBCorpus", "summary": "Return Stage B benchmark corpus", "domain": "functions"},
+            {"name": "getMerlinStageCCorpus", "summary": "Return Stage C benchmark corpus", "domain": "functions"},
+            {"name": "getMerlinBenchmarkCorpora", "summary": "Return all Merlin benchmark corpora or a selected stage", "domain": "functions"},
             {"name": "getMerlinMultiStageBenchmarks", "summary": "Return multi-stage benchmark batteries and acceptance cadence", "domain": "functions"},
-            {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Stage A benchmark", "domain": "functions"},
+            {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Merlin benchmark", "domain": "functions"},
             {"name": "runMerlinStageAReceipts", "summary": "Run self-hosted Stage A receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
             {"name": "evaluateMerlinLongitudinalAcceptance", "summary": "Evaluate sustained clean-window promotion cadence over gate history", "domain": "functions"},
@@ -197,6 +213,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinReplacementReadiness", "summary": "Return concrete self-hosted replacement readiness packet", "domain": "functions"},
             {"name": "getMerlinStageAArtifacts", "summary": "Return exportable Stage A artifact bundle", "domain": "functions"},
             {"name": "getMerlinControlTower", "summary": "Return control tower readiness, drift alerts, trendlines, and deployment eligibility", "domain": "functions"},
+            {"name": "getMerlinTrainingDataset", "summary": "Return structured Merlin JSONL-ready training and benchmark dataset bundle", "domain": "functions"},
+            {"name": "getMerlinMLflowManifests", "summary": "Return MLflow-ready experiment manifests for Merlin training and gates", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
@@ -230,6 +248,33 @@ def _tool_manifest() -> dict[str, Any]:
             "args_schema": {"type": "object", "properties": {"model": {"type": "object"}}, "required": ["model"]},
             "risk_level": "medium",
         },
+        "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingDataset": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinBenchmarkCorpora": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "stage": {
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "stage_a",
+                            "stage_a_parity_capture",
+                            "a",
+                            "stage_b",
+                            "stage_b_sovereign_takeover",
+                            "b",
+                            "stage_c",
+                            "stage_c_capability_expansion",
+                            "c",
+                        ],
+                    }
+                },
+                "additionalProperties": False,
+            },
+        },
         "verifyMerlinIdentity": {
             "args_schema": {
                 "type": "object",
@@ -259,6 +304,20 @@ def _tool_manifest() -> dict[str, Any]:
                 "properties": {
                     "benchmark_id": {"type": "string"},
                     "response": {"type": "object"},
+                    "stage": {
+                        "type": "string",
+                        "enum": [
+                            "stage_a",
+                            "stage_a_parity_capture",
+                            "a",
+                            "stage_b",
+                            "stage_b_sovereign_takeover",
+                            "b",
+                            "stage_c",
+                            "stage_c_capability_expansion",
+                            "c",
+                        ],
+                    },
                 },
                 "required": ["benchmark_id", "response"],
             },
@@ -390,11 +449,12 @@ def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple
     allow_extra = bool(schema.get("additionalProperties", False))
     reserved_keys = {"human_gate_approved"}
     filtered_args = {k: v for k, v in args.items() if k not in reserved_keys}
+    declared_keys = set(properties.keys())
     for key in required:
         if key not in filtered_args:
             return False, f"Missing required argument: {key}"
     if not allow_extra:
-        extra = sorted(set(filtered_args.keys()) - set(properties.keys()))
+        extra = sorted(set(filtered_args.keys()) - declared_keys)
         if extra:
             return False, f"Unknown argument(s): {', '.join(extra)}"
     type_map = {
@@ -421,6 +481,8 @@ def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple
             valid = _matches(str(expected), filtered_args[key]) if expected else True
         if not valid:
             return False, f"Invalid type for '{key}', expected {expected}"
+        if "enum" in spec and filtered_args[key] not in list(spec.get("enum") or []):
+            return False, f"Invalid value for '{key}', expected one of {list(spec.get('enum') or [])}"
     return True, ""
 
 
@@ -508,6 +570,10 @@ _FUNCTIONS = {
     "getMerlinModelAdmissionPolicy": lambda **args: {"data": get_model_admission_policy()},
     "evaluateMerlinModelAdmission": lambda **args: {"data": evaluate_model_admission(dict(args.get("model") or {}))},
     "getMerlinTrainingPlan": lambda **args: {"data": get_training_and_adaptation()},
+    "getMerlinTrainingArchitecture": lambda **args: {"data": get_training_architecture(limit=args.get("limit"))},
+    "getMerlinOpenScienceRegistry": lambda **args: {"data": get_open_science_resource_registry()},
+    "getMerlinCompetitiveBenchmarkPlan": lambda **args: {"data": get_competitive_benchmark_plan()},
+    "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit"))},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
     "getMerlinBackendPolicy": lambda **args: {"data": get_backend_expansion_policy()},
     "getMerlinWorkspacePolicy": lambda **args: {"data": get_workspace_policy()},
@@ -534,6 +600,9 @@ _FUNCTIONS = {
     "getMerlinOptimizationPriorities": lambda **args: {"data": get_merlin_optimization_priorities()},
     "getMerlinExecutionGraph": lambda **args: {"data": get_merlin_execution_graph()},
     "getMerlinBenchmarkSuite": lambda **args: {"data": get_merlin_benchmark_suite()},
+    "getMerlinStageBCorpus": lambda **args: {"data": get_stage_b_benchmark_corpus()},
+    "getMerlinStageCCorpus": lambda **args: {"data": get_stage_c_benchmark_corpus()},
+    "getMerlinBenchmarkCorpora": lambda **args: {"data": get_benchmark_corpus(stage=args.get("stage"))},
     "getMerlinMultiStageBenchmarks": lambda **args: {"data": get_multi_stage_benchmark_plan()},
     "runMerlinStageAReceipts": lambda **args: {"data": run_stage_a_head_to_head_receipts_sync(limit=args.get("limit"))},
     "getMerlinReplacementReadiness": lambda **args: {"data": build_stage_a_replacement_readiness(
@@ -548,6 +617,8 @@ _FUNCTIONS = {
         limit=_coerce_positive_int(args.get("limit"), 3),
         gate_history=list(args.get("gate_history") or []) or None,
     )},
+    "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(limit=args.get("limit"))},
+    "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(limit=args.get("limit"))},
 }
 
 
@@ -678,7 +749,11 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
             result = {"data": get_stage_a_benchmark_corpus()}
         elif tool == "evaluateMerlinBenchmarkResponse":
             tool_type = "function"
-            result = {"data": evaluate_benchmark_response(str(args.get("benchmark_id", "")), dict(args.get("response") or {}))}
+            result = {"data": evaluate_benchmark_response(
+                str(args.get("benchmark_id", "")),
+                dict(args.get("response") or {}),
+                stage=str(args.get("stage")) if "stage" in args else None,
+            )}
         elif tool == "evaluateMerlinEmpiricalGate":
             tool_type = "function"
             result = {"data": evaluate_empirical_gate(

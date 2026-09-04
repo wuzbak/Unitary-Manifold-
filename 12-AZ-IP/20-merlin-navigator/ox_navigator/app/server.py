@@ -18,17 +18,24 @@ from urllib.parse import parse_qs, urlparse
 from uuid import uuid4
 
 from ox_navigator.engine.constants import DEFAULT_TEMPERATURE, MODEL_ID
+from ox_navigator.engine.merlin_benchmark import get_benchmark_corpus
 from ox_navigator.engine.merlin_engine import query_merlin
 from ox_navigator.engine.merlin_identity import get_identity_policy
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
 from ox_navigator.engine.merlin_program import (
+    build_training_artifact_bundle,
+    build_training_dataset_bundle,
+    get_mlflow_experiment_manifests,
+    get_competitive_benchmark_plan,
     get_merlin_benchmark_suite,
     get_merlin_execution_graph,
     get_merlin_optimization_priorities,
     get_mythos_astra_contract,
+    get_open_science_resource_registry,
     get_full_program_blueprint,
     get_identity_and_trust_policy,
+    get_training_architecture,
     get_program_office,
     get_sentinel_enforcement_policy,
     run_sync_checks,
@@ -278,6 +285,72 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/training-architecture':
+                limit, error = _parse_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'training_architecture': get_training_architecture(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/training-dataset':
+                limit, error = _parse_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json(build_training_dataset_bundle(limit=limit))
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/open-science-registry':
+                self._json({
+                'ok': True,
+                'open_science_registry': get_open_science_resource_registry(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/mlflow-manifests':
+                limit, error = _parse_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                payload = get_mlflow_experiment_manifests(limit=limit)
+                if payload.get('ok') is False:
+                    self._json({'ok': False, 'error': payload.get('error', 'Unable to build MLflow manifests.')}, status=500)
+                    self._persist_session(session_id, merlin_session)
+                    return
+                self._json({
+                'ok': True,
+                'mlflow_manifests': payload,
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/competitive-benchmarks':
+                self._json({
+                'ok': True,
+                'competitive_benchmarks': get_competitive_benchmark_plan(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/benchmark-corpora':
+                stages = params.get('stage', [])
+                if len(stages) > 1:
+                    self._json({'ok': False, 'error': "Query parameter 'stage' must not be repeated."}, status=400)
+                    self._persist_session(session_id, merlin_session)
+                    return
+                payload = get_benchmark_corpus(stage=str(stages[0] if stages else 'all'))
+                if payload.get('ok') is False:
+                    self._json({'ok': False, 'error': payload.get('error'), 'allowed_stages': payload.get('allowed_stages', [])}, status=400)
+                    self._persist_session(session_id, merlin_session)
+                    return
+                self._json({
+                'ok': True,
+                'benchmark_corpora': payload,
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/stage-a-receipts':
                 limit, error = _parse_int_query_param(params, 'limit', 3)
                 if error:
@@ -314,7 +387,31 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     {'limit': limit},
                     session=merlin_session,
                 ))
-                self._json({'ok': payload['ok'], 'artifacts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                if status != 200:
+                    self._json({'ok': payload['ok'], 'error': payload.get('error')}, status=status)
+                    self._persist_session(session_id, merlin_session)
+                    return
+                artifacts_payload = dict(payload.get('data') or {})
+                self._json({
+                'ok': bool(artifacts_payload.get('ok', True)),
+                'artifacts': artifacts_payload.get('artifact_bundle', {}),
+                }, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/training-artifacts':
+                limit, error = _parse_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                payload = build_training_artifact_bundle(limit=limit)
+                if not payload.get('ok'):
+                    self._json({'ok': False, 'error': payload.get('error', 'Unable to build training artifacts.')}, status=500)
+                    self._persist_session(session_id, merlin_session)
+                    return
+                self._json({
+                'ok': bool(payload.get('ok')),
+                'training_artifacts': payload.get('artifact_bundle', {}),
+                })
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/promotion-packet':
