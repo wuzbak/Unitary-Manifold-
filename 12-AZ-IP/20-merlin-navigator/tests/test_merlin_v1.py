@@ -136,6 +136,33 @@ def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
     assert len(payload['manifests']) >= 4
 
 
+def test_run_mlflow_experiment_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'run_merlin_mlflow_experiment.py'
+    spec = importlib.util.spec_from_file_location('run_merlin_mlflow_experiment', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'stage_b_receipts.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'run_merlin_mlflow_experiment.py',
+            '--experiment',
+            'merlin_stage_b_shadow_eval',
+            '--limit',
+            '1',
+            '--output',
+            str(output_path),
+        ],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['experiment_name'] == 'merlin_stage_b_shadow_eval'
+    assert payload['summary']['total'] == 1
+
+
 def test_merlin_session_has_durable_memory_tiers():
     session = MerlinSession()
     state = session.get_memory_state()
@@ -338,9 +365,11 @@ def test_route_tool_training_architecture_and_artifacts():
     assert '{limit}' not in mlflow['result']['data']['manifests'][0]['entry_command']
     assert '&&' not in mlflow['result']['data']['manifests'][1]['entry_command']
     assert mlflow['result']['data']['manifests'][0]['entry_command'].startswith(sys.executable)
-    assert '12-AZ-IP/20-merlin-navigator/tools/' in mlflow['result']['data']['manifests'][0]['entry_command']
+    assert 'run_merlin_mlflow_experiment.py' in mlflow['result']['data']['manifests'][0]['entry_command']
     assert mlflow['result']['data']['manifests'][0]['working_directory'] == str(PRODUCT_ROOT.parents[1])
     assert 'stage_c_eval_records' in mlflow['result']['data']['manifests'][1]['datasets']
+    assert 'merlin_stage_b_shadow_eval' in mlflow['result']['data']['manifests'][2]['entry_command']
+    assert 'merlin_stage_c_agentic_eval' in mlflow['result']['data']['manifests'][3]['entry_command']
     assert any(
         item.endswith('/benchmarks/stage_c_capability_expansion.jsonl')
         for item in mlflow['result']['data']['manifests'][-1]['prerequisite_artifacts']

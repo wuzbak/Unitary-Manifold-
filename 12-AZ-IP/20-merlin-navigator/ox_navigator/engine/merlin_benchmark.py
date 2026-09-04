@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import asyncio
 import re
+import threading
 from datetime import datetime, timezone
 from statistics import mean
 from typing import Any
@@ -643,20 +644,27 @@ def _run_summary(
     }
 
 
-async def _run_stage_a_once(benchmark: dict[str, Any]) -> dict[str, Any]:
+async def _run_benchmark_once(benchmark: dict[str, Any], *, stage: str) -> dict[str, Any]:
     from .merlin_engine import query_merlin
     from .merlin_memory import MerlinSession
 
     merlin_session = MerlinSession()
     incumbent_session = MerlinSession()
+    for setup_turn in list(benchmark.get("setup_turns") or []):
+        await query_merlin(text=str(setup_turn), session=merlin_session)
+        await query_merlin(
+            text=str(setup_turn),
+            session=incumbent_session,
+            runtime_mode="incumbent_compat",
+        )
     merlin_result = await query_merlin(text=str(benchmark["query"]), session=merlin_session)
     incumbent_result = await query_merlin(
         text=str(benchmark["query"]),
         session=incumbent_session,
         runtime_mode="incumbent_compat",
     )
-    merlin_eval = evaluate_benchmark_response(str(benchmark["id"]), merlin_result)
-    incumbent_eval = evaluate_benchmark_response(str(benchmark["id"]), incumbent_result)
+    merlin_eval = evaluate_benchmark_response(str(benchmark["id"]), merlin_result, stage=stage)
+    incumbent_eval = evaluate_benchmark_response(str(benchmark["id"]), incumbent_result, stage=stage)
     merlin_shadow = {
         "/".join(path): _path_has(merlin_result, path) for path in REQUIRED_SHADOW_FIELDS
     }
@@ -692,18 +700,21 @@ async def _run_stage_a_once(benchmark: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-async def run_stage_a_head_to_head_receipts(
+async def run_stage_head_to_head_receipts(
+    stage: str,
     *,
     limit: int | None = None,
 ) -> dict[str, Any]:
-    """Run Stage A receipts locally and construct comparable Merlin/incumbent runs."""
-    corpus = get_stage_a_benchmark_corpus()
-    selected = list(corpus["benchmarks"])
+    """Run head-to-head receipts for one benchmark stage."""
+    corpus = get_benchmark_corpus(stage)
+    if corpus.get("ok") is False:
+        return corpus
+    selected = list(corpus.get("benchmarks") or [])
     if limit is not None:
         selected = selected[: max(0, int(limit))]
     runs = []
     for benchmark in selected:
-        runs.append(await _run_stage_a_once(benchmark))
+        runs.append(await _run_benchmark_once(benchmark, stage=stage))
     failed = [
         item
         for item in runs
@@ -725,6 +736,14 @@ async def run_stage_a_head_to_head_receipts(
     }
 
 
+async def run_stage_a_head_to_head_receipts(
+    *,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    """Run Stage A receipts locally and construct comparable Merlin/incumbent runs."""
+    return await run_stage_head_to_head_receipts("stage_a_parity_capture", limit=limit)
+
+
 def run_stage_a_head_to_head_receipts_sync(
     *,
     limit: int | None = None,
@@ -743,6 +762,62 @@ def run_stage_a_head_to_head_receipts_sync(
         try:
             result = asyncio.run(run_stage_a_head_to_head_receipts(limit=limit))
         except BaseException as exc:  # pragma: no cover - surfaced below
+            error = exc
+
+    thread = threading.Thread(target=_runner, daemon=True)
+    thread.start()
+    thread.join()
+    if error is not None:
+        raise error
+    return result
+
+
+def run_stage_b_head_to_head_receipts_sync(
+    *,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    """Synchronous wrapper for Stage B receipts."""
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(run_stage_head_to_head_receipts("stage_b_sovereign_takeover", limit=limit))
+
+    result: dict[str, Any] = {}
+    error: BaseException | None = None
+
+    def _runner() -> None:
+        nonlocal result, error
+        try:
+            result = asyncio.run(run_stage_head_to_head_receipts("stage_b_sovereign_takeover", limit=limit))
+        except BaseException as exc:  # pragma: no cover
+            error = exc
+
+    thread = threading.Thread(target=_runner, daemon=True)
+    thread.start()
+    thread.join()
+    if error is not None:
+        raise error
+    return result
+
+
+def run_stage_c_head_to_head_receipts_sync(
+    *,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    """Synchronous wrapper for Stage C receipts."""
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(run_stage_head_to_head_receipts("stage_c_capability_expansion", limit=limit))
+
+    result: dict[str, Any] = {}
+    error: BaseException | None = None
+
+    def _runner() -> None:
+        nonlocal result, error
+        try:
+            result = asyncio.run(run_stage_head_to_head_receipts("stage_c_capability_expansion", limit=limit))
+        except BaseException as exc:  # pragma: no cover
             error = exc
 
     thread = threading.Thread(target=_runner, daemon=True)

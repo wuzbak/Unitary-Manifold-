@@ -1170,6 +1170,17 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
             "/tmp/merlin-stage-a-artifacts.json",
         )
     )
+    def _mlflow_runner_command(experiment: str, output: str) -> str:
+        return _shell_command(
+            python_executable,
+            "12-AZ-IP/20-merlin-navigator/tools/run_merlin_mlflow_experiment.py",
+            "--experiment",
+            experiment,
+            "--limit",
+            str(resolved_limit),
+            "--output",
+            output,
+        )
     return {
         "generated_at": _utcnow(),
         "manifests": [
@@ -1199,8 +1210,17 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "boundary_preservation_rate",
                     "tool_selection_precision",
                 ],
-                "entry_command": training_jsonl_command,
+                "entry_command": _mlflow_runner_command(
+                    "merlin_sft_repository_mastery",
+                    "/tmp/merlin-sft-receipt.json",
+                ),
+                "prerequisite_commands": [
+                    training_jsonl_command,
+                ],
                 "artifacts": [
+                    "/tmp/merlin-sft-receipt.json",
+                ],
+                "prerequisite_artifacts": [
                     "/tmp/merlin-training-jsonl/train.jsonl",
                     "/tmp/merlin-training-jsonl/dev.jsonl",
                     "/tmp/merlin-training-jsonl/test.jsonl",
@@ -1232,14 +1252,19 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "prompt_injection_resistance",
                     "open_gap_visibility",
                 ],
-                "entry_command": mlflow_manifest_command,
+                "entry_command": _mlflow_runner_command(
+                    "merlin_dpo_boundary_discipline",
+                    "/tmp/merlin-dpo-eval-receipt.json",
+                ),
                 "prerequisite_commands": [
                     training_jsonl_command,
+                    mlflow_manifest_command,
                 ],
                 "artifacts": [
-                    "/tmp/merlin-mlflow/mlflow_manifests.json",
+                    "/tmp/merlin-dpo-eval-receipt.json",
                 ],
                 "prerequisite_artifacts": [
+                    "/tmp/merlin-mlflow/mlflow_manifests.json",
                     "/tmp/merlin-training-jsonl/benchmarks/stage_b_sovereign_takeover.jsonl",
                     "/tmp/merlin-training-jsonl/benchmarks/stage_c_capability_expansion.jsonl",
                 ],
@@ -1264,7 +1289,10 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "privileged_action_escalation_correctness",
                     "energy_per_successful_task",
                 ],
-                "entry_command": stage_a_artifact_command,
+                "entry_command": _mlflow_runner_command(
+                    "merlin_stage_b_shadow_eval",
+                    "/tmp/merlin-stage-b-receipts.json",
+                ),
                 "prerequisite_commands": [
                     training_jsonl_command,
                     _shell_command(
@@ -1272,12 +1300,14 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                         "12-AZ-IP/20-merlin-navigator/tools/run_merlin_stage_a_benchmarks.py",
                         "--json",
                     ),
+                    stage_a_artifact_command,
                 ],
                 "artifacts": [
-                    "/tmp/merlin-stage-a-artifacts.json",
+                    "/tmp/merlin-stage-b-receipts.json",
                 ],
                 "prerequisite_artifacts": [
                     "/tmp/merlin-training-jsonl/benchmarks/stage_b_sovereign_takeover.jsonl",
+                    "/tmp/merlin-stage-a-artifacts.json",
                 ],
             },
             {
@@ -1300,15 +1330,20 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "research_triage_correctness",
                     "high_severity_policy_violations",
                 ],
-                "entry_command": training_artifact_command,
+                "entry_command": _mlflow_runner_command(
+                    "merlin_stage_c_agentic_eval",
+                    "/tmp/merlin-stage-c-receipts.json",
+                ),
                 "prerequisite_commands": [
                     training_jsonl_command,
+                    training_artifact_command,
                 ],
                 "artifacts": [
-                    "/tmp/merlin-training-artifacts.json",
+                    "/tmp/merlin-stage-c-receipts.json",
                 ],
                 "prerequisite_artifacts": [
                     "/tmp/merlin-training-jsonl/benchmarks/stage_c_capability_expansion.jsonl",
+                    "/tmp/merlin-training-artifacts.json",
                 ],
             },
         ],
