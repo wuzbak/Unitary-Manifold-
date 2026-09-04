@@ -312,6 +312,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert corpora['result']['data']['stage'] == 'stage_b_sovereign_takeover'
     assert len(corpora['result']['data']['benchmarks']) >= 6
 
+    bad_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'not-a-stage'})
+    assert bad_corpora['ok'] is True
+    assert bad_corpora['result']['data']['ok'] is False
+
     artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4})
     assert artifacts['ok'] is True
     assert artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
@@ -728,6 +732,10 @@ def test_server_merlin_endpoints():
             assert benchmark_corpora.json()['ok'] is True
             assert benchmark_corpora.json()['benchmark_corpora']['stage'] == 'stage_c_capability_expansion'
             assert len(benchmark_corpora.json()['benchmark_corpora']['benchmarks']) >= 6
+
+            bad_benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=not-a-stage')
+            assert bad_benchmark_corpora.status_code == 400
+            assert bad_benchmark_corpora.json()['ok'] is False
 
             receipts = client.get('/api/merlin/stage-a-receipts?limit=1')
             assert receipts.status_code == 200

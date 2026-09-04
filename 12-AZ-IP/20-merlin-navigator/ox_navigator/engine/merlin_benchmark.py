@@ -356,7 +356,10 @@ def get_stage_c_benchmark_corpus() -> dict[str, Any]:
 
 
 def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
-    normalized = str(stage or "all").strip().lower()
+    if stage is None:
+        normalized = "all"
+    else:
+        normalized = str(stage).strip().lower()
     stage_aliases = {
         "stage_a": "stage_a_parity_capture",
         "stage_a_parity_capture": "stage_a_parity_capture",
@@ -369,7 +372,13 @@ def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
         "c": "stage_c_capability_expansion",
         "all": "all",
     }
-    selected = stage_aliases.get(normalized, "all")
+    if normalized not in stage_aliases:
+        return {
+            "ok": False,
+            "error": f"Unknown benchmark corpus stage: {stage}",
+            "allowed_stages": sorted(stage_aliases),
+        }
+    selected = stage_aliases[normalized]
     if selected == "stage_a_parity_capture":
         return get_stage_a_benchmark_corpus()
     if selected == "stage_b_sovereign_takeover":
