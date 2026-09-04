@@ -4,6 +4,12 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Merlin DM Guide & Player Assistant — AxiomZero</title>
+  <meta name="description" content="Product 23: Offline-first Dungeons & Dragons 5e/5.5e campaign assistant with DM/player dashboards, invite joins, campaign state tools, and Merlin guidance."/>
+  <meta property="og:title" content="Merlin DM Guide & Player Assistant — Product 23"/>
+  <meta property="og:description" content="AxiomZero Product 23: offline-first campaign workflow for DMs and players with structured state, rules access, and Merlin support."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://axiomzerospc.org/az-apps/23-merlin-dm-assistant.html"/>
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/23-merlin-dm-assistant.html"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/main.css"/>
@@ -41,13 +47,18 @@
       </div>
 
       <div class="card" style="margin-top:1rem">
-        <h3>API highlights</h3>
-        <p class="text-muted"><code>/api/health</code>, <code>/api/rules</code>, <code>/api/campaigns</code>, <code>/api/join-campaign</code>, <code>/api/campaigns/&lt;id&gt;/merlin</code></p>
+        <h3>Integration posture</h3>
+        <p class="text-muted">
+          Product 23 exposes governed service interfaces for campaign state, rules context, and
+          Merlin-assisted table workflows. Public documentation remains capability-level; operational
+          interface details stay in developer-controlled repository docs.
+        </p>
       </div>
 
       <div class="card" style="margin-top:1rem">
         <h3>Run locally</h3>
         <pre><code>cd 12-AZ-IP/23-merlin-dm-assistant
+pip install -r requirements.txt
 python run.py --port 8033</code></pre>
         <p class="text-muted">UI: <code>http://127.0.0.1:8033/</code></p>
       </div>

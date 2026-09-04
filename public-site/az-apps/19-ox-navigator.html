@@ -257,7 +257,7 @@
     <p class="subtitle">Product 20 · OX-compatible · local-first with optional compatibility fallback</p>
     <div>
       <span class="tag">Product 20</span>
-      <span class="tag">stealth/ox-alpha</span>
+      <span class="tag">local/offline-first</span>
       <span class="tag">OX compatibility</span>
       <span class="tag">status-linked</span>
     </div>
@@ -333,12 +333,13 @@
 
     <!-- Info strip -->
     <div class="ox-info-strip">
-      <strong>How this works:</strong> Merlin Navigator uses the Merlin API surface
-      (<code>/api/merlin</code>, <code>/api/merlin/status</code>, <code>/api/agentToolkit</code>) with
-      <code>/api/ox</code> preserved as a compatibility shim. Runtime status should be read from
-      <code>9-INFRASTRUCTURE/um_live_status.json</code> rather than hardcoded counts.<br><br>
+      <strong>How this works:</strong> Merlin Navigator provides governed Merlin orchestration with
+      legacy OX compatibility preserved as a shim for existing clients. Runtime status should be read from
+      <a href="https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json" target="_blank" rel="noopener"><code>um_live_status.json</code></a>
+      rather than hardcoded counts.<br><br>
       Primary mode is sovereign local/offline-first. Optional compatibility fallback can use
-      OpenRouter when explicitly enabled in backend configuration.<br><br>
+      OpenRouter when explicitly enabled in backend configuration (compatibility model:
+      <code>stealth/ox-alpha</code>).<br><br>
       <em>Theory &amp; scientific direction: ThomasCory Walker-Pearson ·
       Code &amp; engineering: GitHub Copilot (AI) ·
       Open science artifact — public domain</em>

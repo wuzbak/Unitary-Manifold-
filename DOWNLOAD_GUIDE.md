@@ -45,10 +45,15 @@ cd Unitary-Manifold-
 ## Verify your copy
 
 ```bash
+python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
+```
+
+Optional stepwise run:
+
+```bash
 python -m pytest tests/ -q
 python -m pytest recycling/ -q
 python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
-python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 ```
 
 Use `STATUS.md` and `9-INFRASTRUCTURE/um_live_status.json` as the canonical state surfaces for expected totals.
