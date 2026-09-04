@@ -59,7 +59,7 @@
       "description": "AZ-KERNEL Rust manifest — UEFI bare-metal kernel",
       "category": "os",
       "status": "REGISTERED",
-      "size_bytes": 1139
+      "size_bytes": 1038
     },
     "az-kernel/rust-toolchain.toml": {
       "sha256": "5d6aa74cb567effffacb8cc438e46132ca9034c8db08c51ea5527e666f54c268",
@@ -329,7 +329,7 @@
       "status": "REGISTERED",
       "updated": "2026-08-18",
       "sha256": "b342edaec122b06ae11c75373f1354399d814f9d8310b9c4c0540661090e308e",
-      "size_bytes": 6887
+      "size_bytes": 7934
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",

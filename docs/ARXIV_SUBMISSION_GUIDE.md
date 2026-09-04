@@ -5,55 +5,48 @@
 
 ---
 
-## 1 · Current Submission Readiness (v10.61)
+## Current canonical submission state
 
-| Item | Status |
-|------|--------|
-| Theory manuscript | `6-MONOGRAPH/arxiv/main.tex` updated through v10.61 |
-| References | `6-MONOGRAPH/arxiv/references.bib` current through v10.61 |
-| framework derivation coverage | **framework internally consistent = 100%** (canonical: `docs/TOE_SCORE_AUDIT.md`) |
-| Primary falsifier | LiteBIRD birefringence β ∈ {0.273°, 0.331°}; falsified in gap [0.29°, 0.31°] or outside [0.22°, 0.38°] |
-| Canonical claim layer | `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md` |
-| Regression gate | `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q` |
-| Submission verdict | **READY** — see `docs/ARXIV_SUBMISSION_STATUS.md` |
-
-## 2 · Pre-Submission Checklist
-
-### 2.1 Manuscript Sync
-- [ ] Ensure manuscript title page and abstract match v10.61 claim state
-- [ ] Ensure framework derivation coverage statements use framework internally consistent (100%) and cite `docs/TOE_SCORE_AUDIT.md`
-- [ ] Ensure P1–P28 labels match `docs/CLAIM_MASTER_BOARD.md`
-- [ ] Ensure active tensions/falsifiers match `FALLIBILITY.md` and `3-FALSIFICATION/OBSERVATION_TRACKER.md`
-- [ ] Ensure all module references point to current file paths in `src/core/`
-
-### 2.2 Falsification Integrity
-- [ ] Keep LiteBIRD falsifier wording exact (no weakened bounds)
-- [ ] Keep DESI wₐ lane honest (TENSION/FALSIFIED routing policy)
-- [ ] Keep epistemic boundary aligned with `SEPARATION.md`
-
-### 2.3 Metadata & Packaging
-- [ ] Confirm category routing (`hep-th`, cross-lists as appropriate)
-- [ ] Confirm release version/tag and DOI metadata (`CITATION.cff`, `9-INFRASTRUCTURE/schema.jsonld`)
-- [ ] Confirm no stale v10.18/v10.4 score language remains
-
-## 3 · Submission Strategy
-
-### Option A — Single canonical submission (recommended)
-- Submit one v10.61 manuscript with full canonical truth-sync
-- Anchor all claim statuses to claim board + truth layer + gatekeeper summary
-- Keep active tensions explicit rather than deferred
-
-### Option B — Split delivery
-- Technical derivation paper first, governance/operations companion second
-- Use same canonical falsifier/score language in both
-
-## 4 · Final Gate Before Upload
-
-1. Run full regression.
-2. Confirm docs truth-sync (framework derivation coverage, labels, falsifiers, tensions).
-3. Confirm no stale historical score snapshots are presented as current.
-4. Freeze submission artifacts and publish.
+- Canonical status surfaces: `STATUS.md`, `FALLIBILITY.md`, `docs/mas_tracker.yml`, `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/WAVE_CHANGELOG.md`, `docs/SPRINT_PLAN.md`
+- Current branch-wide verified regression marker: **63,732 passed · 23 skipped · 12 deselected · 0 failed**
+- Current tracked slot marker: **next pillar slot 1051**
+- Canonical live status JSON: `9-INFRASTRUCTURE/um_live_status.json`
 
 ---
 
-*Document version: 4.0 — 2026-05-15 (v10.61 sync; READY verdict retained)*
+## Pre-submission checklist
+
+1. Confirm title/abstract and scope language match the current canonical claim state.
+2. Confirm open lanes and residual limits match `FALLIBILITY.md` and `docs/CLAIM_MASTER_BOARD.md`.
+3. Keep falsification language exact and unweakened:
+   - LiteBIRD birefringence decision window and kill conditions
+   - DESI `w_a` monitoring/falsification routing
+4. Confirm no stale historical status snapshots are presented as current state.
+5. Run full regression:
+   - `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
+6. Confirm metadata alignment:
+   - `CITATION.cff`
+   - `.zenodo.json`
+   - `6-MONOGRAPH/zenodo/.zenodo.json`
+   - `9-INFRASTRUCTURE/schema.jsonld`
+
+---
+
+## Submission strategy
+
+- Use one canonical manuscript packet that matches the live claim registry.
+- Keep explicit boundaries: internal mathematical self-consistency is not external empirical confirmation.
+- Keep open limits, unresolved lanes, and external decision windows visible.
+
+---
+
+## Final gate before upload
+
+1. Regression green.
+2. Canonical surfaces synchronized.
+3. No stale status strings in submission docs.
+4. Archive and DOI metadata aligned with current release state.
+
+---
+
+*Document version: 5.0 — 2026-09-04 (v35.7 sync)*

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OX Navigator — AxiomZero</title>
+  <title>Merlin Navigator (OX Navigator Compatible) — AxiomZero</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" crossorigin>
   <link rel="stylesheet" href="../css/main.css">
@@ -253,17 +253,16 @@
 
   <!-- HERO -->
   <header class="ox-hero">
-    <h1>🧠 <span>OX</span> Navigator</h1>
-    <p class="subtitle">Extended-memory AI · Full-repository cross-pillar awareness · Unitary Manifold v34.0</p>
+    <h1>🧠 <span>Merlin</span> Navigator</h1>
+    <p class="subtitle">Product 20 · OX-compatible · local-first with optional compatibility fallback</p>
     <div>
       <span class="tag">Product 20</span>
-      <span class="tag">stealth/ox-alpha</span>
-      <span class="tag">OpenRouter</span>
-      <span class="tag">62,525 tests</span>
-      <span class="tag">3,912 Lean4 theorems</span>
+      <span class="tag">local/offline-first</span>
+      <span class="tag">OX compatibility</span>
+      <span class="tag">status-linked</span>
     </div>
     <div class="gov-banner">
-      ⚖️ HILS Governance: OX outputs are AI suggestions — hardgate decisions require steward approval
+      ⚖️ HILS Governance: Merlin outputs are AI suggestions — hardgate decisions require steward approval
     </div>
   </header>
 
@@ -273,7 +272,7 @@
     <!-- Status bar -->
     <div class="ox-status-bar" id="ox-status-bar">
       <div class="ox-status-dot checking" id="ox-status-dot"></div>
-      <span class="ox-status-text" id="ox-status-text">Checking OX availability…</span>
+      <span class="ox-status-text" id="ox-status-text">Checking Merlin availability…</span>
       <span class="ox-status-meta" id="ox-status-meta"></span>
     </div>
 
@@ -285,12 +284,12 @@
 
     <!-- Query card -->
     <div class="ox-query-card">
-      <label for="ox-query-input">Ask OX anything about the Unitary Manifold</label>
+      <label for="ox-query-input">Ask Merlin anything about the Unitary Manifold</label>
       <div class="ox-query-row">
         <textarea id="ox-query-input" placeholder="e.g. Which pillar closes the Δm²₂₁ tension? What Lean4 theorems cover winding selection? Summarise all OPEN_GAP claims." rows="3"></textarea>
       </div>
       <div class="ox-btn-row">
-        <button class="ox-btn ox-btn-primary" id="ox-send-btn" onclick="oxSend()">Ask OX ↗</button>
+        <button class="ox-btn ox-btn-primary" id="ox-send-btn" onclick="oxSend()">Ask Merlin ↗</button>
         <button class="ox-btn ox-btn-secondary" onclick="oxClear()">Clear</button>
         <div class="ox-options">
           <label title="Load the full ~85k-token repository context pack (slower but more accurate)">
@@ -307,20 +306,20 @@
     <!-- Spinner -->
     <div class="ox-spinner" id="ox-spinner">
       <span class="ox-spinner-ring"></span>
-      OX is thinking — extended-context queries may take up to 30 s…
+      Merlin is thinking — extended-context queries may take up to 30 s…
     </div>
 
     <!-- Response -->
     <div class="ox-response-card" id="ox-response-card">
       <div class="ox-response-header">
-        <span class="ox-response-title">OX Response</span>
+        <span class="ox-response-title">Merlin Response</span>
         <span class="ox-response-meta" id="ox-response-meta"></span>
         <button class="ox-copy-btn" onclick="oxCopy()">⎘ Copy</button>
       </div>
       <div class="ox-answer" id="ox-answer"></div>
       <div class="ox-gate-strip" id="ox-gate-strip"></div>
       <div class="ox-gov-note">
-        ⚖️ <strong>Governance reminder:</strong> This is an AI-generated suggestion from OX Alpha.
+        ⚖️ <strong>Governance reminder:</strong> This is an AI-generated suggestion from Merlin.
         No hardgate claim, pillar number, or Lean4 theorem is accepted without steward approval.
         Gate labels in the response follow HARDGATE / ADJACENT_TRACK / OPEN_GAP conventions.
       </div>
@@ -334,12 +333,13 @@
 
     <!-- Info strip -->
     <div class="ox-info-strip">
-      <strong>How this works:</strong> OX Navigator calls the AxiomZero Assistant API at
-      <code>/api/ox</code> with the full <code>ox_full_context.md</code> pack (~85k tokens)
-      as the system prompt, giving OX Alpha cross-pillar awareness across all 800+ pillars,
-      57,450 tests, and 1,066 Lean4 theorems.<br><br>
-      Requires <code>OPENROUTER_API_KEY</code> set on the backend (never in source).
-      Model: <a href="https://openrouter.ai/stealth/ox-alpha" target="_blank" rel="noopener">stealth/ox-alpha</a>.<br><br>
+      <strong>How this works:</strong> Merlin Navigator provides governed Merlin orchestration with
+      legacy OX compatibility preserved as a shim for existing clients. Runtime status should be read from
+      <a href="https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json" target="_blank" rel="noopener"><code>um_live_status.json</code></a>
+      rather than hardcoded counts.<br><br>
+      Primary mode is sovereign local/offline-first. Optional compatibility fallback can use
+      OpenRouter when explicitly enabled in backend configuration (compatibility model:
+      <code>stealth/ox-alpha</code>).<br><br>
       <em>Theory &amp; scientific direction: ThomasCory Walker-Pearson ·
       Code &amp; engineering: GitHub Copilot (AI) ·
       Open science artifact — public domain</em>

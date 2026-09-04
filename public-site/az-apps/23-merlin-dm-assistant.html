@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Merlin DM Guide & Player Assistant — AxiomZero</title>
+  <meta name="description" content="Product 23: Offline-first Dungeons & Dragons 5e/5.5e campaign assistant with DM/player dashboards, invite joins, campaign state tools, and Merlin guidance."/>
+  <meta property="og:title" content="Merlin DM Guide & Player Assistant — Product 23"/>
+  <meta property="og:description" content="AxiomZero Product 23: offline-first campaign workflow for DMs and players with structured state, rules access, and Merlin support."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://axiomzerospc.org/az-apps/23-merlin-dm-assistant.html"/>
+  <link rel="canonical" href="https://axiomzerospc.org/az-apps/23-merlin-dm-assistant.html"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/az-apps.css"/>
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav-brand" href="../index.html"><div class="nav-logo">AZ</div>AxiomZero</a>
+    <ul class="nav-links">
+      <li><a href="../apps/index.html">Calculators</a></li>
+      <li><a href="index.html" class="active">AZ Products</a></li>
+      <li><a href="../status/index.html">Status</a></li>
+    </ul>
+  </nav>
+
+  <div class="app-page">
+    <div class="container section-sm">
+      <div class="section-eyebrow">Product 23 · v1.1.0 · Offline-first</div>
+      <h1>Merlin DM Guide &amp; Player Assistant</h1>
+      <p class="text-muted">
+        Tabletop campaign operating surface for Dungeons &amp; Dragons 5e/5.5e with
+        separate DM and player dashboards, invite-code joins, character import,
+        campaign trackers, encounter tools, and Merlin-assisted table guidance.
+      </p>
+
+      <div class="card" style="margin-top:1.25rem">
+        <h3>Core capabilities</h3>
+        <ul>
+          <li>DM/player split dashboards with synchronized campaign state</li>
+          <li>Invite-code campaign joins and player import flow</li>
+          <li>XP, gold, treasure, inventory, map, NPC, and encounter tracking</li>
+          <li>Grounded image-brief generation and DM image pushes</li>
+          <li>Standalone player mode with no live campaign dependency</li>
+        </ul>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <h3>Integration posture</h3>
+        <p class="text-muted">
+          Product 23 exposes governed service interfaces for campaign state, rules context, and
+          Merlin-assisted table workflows. Public documentation remains capability-level; operational
+          interface details stay in developer-controlled repository docs.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <h3>Run locally</h3>
+        <pre><code>cd 12-AZ-IP/23-merlin-dm-assistant
+pip install -r requirements.txt
+python run.py --port 8033</code></pre>
+        <p class="text-muted">UI: <code>http://127.0.0.1:8033/</code></p>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <h3>Canonical source</h3>
+        <p class="text-muted">
+          <code>12-AZ-IP/23-merlin-dm-assistant/README.md</code>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/assistant.js" defer></script>
+</body>
+</html>
