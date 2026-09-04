@@ -36,7 +36,10 @@ def dispatch_request(method: str, path: str, payload: dict | None = None) -> tup
     if method == "GET" and parsed.path == "/api/monsters":
         environment = query.get("environment", [None])[0]
         raw_max_cr = query.get("max_cr", [None])[0]
-        max_cr = float(raw_max_cr) if raw_max_cr is not None else None
+        try:
+            max_cr = float(raw_max_cr) if raw_max_cr is not None else None
+        except (TypeError, ValueError):
+            return 400, {"error": "Query parameter 'max_cr' must be numeric."}
         return 200, {"items": SERVICE.search_monsters(environment=environment, max_cr=max_cr)}
     if method == "GET" and parsed.path == "/api/merchants":
         return 200, {"items": SERVICE.list_merchants()}
@@ -90,14 +93,24 @@ class MerlinDndRequestHandler(BaseHTTPRequestHandler):
         if not length:
             return {}
         raw = self.rfile.read(length)
-        return json.loads(raw.decode("utf-8")) if raw else {}
+        if not raw:
+            return {}
+        try:
+            return json.loads(raw.decode("utf-8"))
+        except json.JSONDecodeError as exc:
+            raise ValueError("Request body must be valid JSON.") from exc
 
     def do_GET(self) -> None:  # noqa: N802
         status, payload = dispatch_request("GET", self.path)
         self._send(status, payload)
 
     def do_POST(self) -> None:  # noqa: N802
-        status, payload = dispatch_request("POST", self.path, self._body())
+        try:
+            body = self._body()
+        except ValueError as exc:
+            self._send(400, {"error": str(exc)})
+            return
+        status, payload = dispatch_request("POST", self.path, body)
         self._send(status, payload)
 
 

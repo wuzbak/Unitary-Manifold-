@@ -3,14 +3,18 @@
 
 from __future__ import annotations
 
+import http.client
+import json
 import sys
+import threading
+import time
 from pathlib import Path
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
-from merlin_dnd.server import dispatch_request
+from merlin_dnd.server import dispatch_request, serve
 from merlin_dnd.service import MerlinDndService
 
 
@@ -180,3 +184,32 @@ def test_dispatch_request_rules_reference_endpoint():
     status, payload = dispatch_request("GET", "/api/rules?spell=fireball")
     assert status == 200
     assert payload["spell"]["fireball"].startswith("20-foot-radius explosion")
+
+
+def test_dispatch_request_rejects_non_numeric_max_cr():
+    status, payload = dispatch_request("GET", "/api/monsters?max_cr=abc")
+    assert status == 400
+    assert payload["error"] == "Query parameter 'max_cr' must be numeric."
+
+
+def test_http_handler_rejects_invalid_json_body():
+    server = serve(port=0)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        time.sleep(0.05)
+        conn = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=5)
+        conn.request(
+            "POST",
+            "/api/campaigns",
+            body="{bad json",
+            headers={"Content-Type": "application/json"},
+        )
+        response = conn.getresponse()
+        payload = json.loads(response.read().decode("utf-8"))
+        assert response.status == 400
+        assert payload["error"] == "Request body must be valid JSON."
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
