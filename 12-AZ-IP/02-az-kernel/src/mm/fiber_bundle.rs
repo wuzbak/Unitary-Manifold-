@@ -29,7 +29,6 @@
 //! validated by the Pentad gate (the kernel's analogue of HILS approval).
 
 use super::pmm::PhysicalMemoryManager;
-use super::{WINDING_NUMBER, KK_RADIUS_PAGES, PAGE_SIZE};
 
 /// A single compactification domain: one KK level × one process namespace.
 #[derive(Debug, Clone)]
@@ -51,6 +50,7 @@ pub struct FiberBundle {
 }
 
 impl Default for FiberBundle {
+    #[allow(clippy::derivable_impls)]
     fn default() -> Self {
         Self {
             domains: [None, None, None, None, None],

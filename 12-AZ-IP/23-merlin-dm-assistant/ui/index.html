@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Merlin DM Guide & Player Assistant</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #0e1220; color: #eef2ff; }
+    main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 48px; }
+    .panel { background: #151b2f; border: 1px solid #2b365d; border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+    h1, h2, h3 { margin-top: 0; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    code { color: #8be9fd; }
+    button { background: #7c5cff; color: white; border: 0; padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+    button.secondary { background: #233053; }
+    pre { white-space: pre-wrap; background: #0a0f1d; padding: 16px; border-radius: 12px; overflow: auto; min-height: 140px; }
+    ul { padding-left: 18px; }
+    input, select, textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #31416e; background: #0a0f1d; color: #eef2ff; }
+    label { display: block; margin-bottom: 10px; font-size: 14px; }
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .split { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .muted { color: #b7c2ea; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="panel">
+      <h1>Merlin DM Guide &amp; Player Assistant</h1>
+      <p>Separate DM and Player dashboards, invite-code campaign joins, character import, XP/treasure/item tracking, image pushes, and standalone solo play.</p>
+      <div class="toolbar" role="tablist" aria-label="Dashboard mode">
+        <button id="show-dm" aria-controls="dm-view">DM Dashboard</button>
+        <button id="show-player" class="secondary" aria-controls="player-view">Player Dashboard</button>
+        <button id="show-solo" class="secondary" aria-controls="solo-view">Solo Standalone</button>
+        <button id="load-health" class="secondary" aria-controls="output">API Health</button>
+      </div>
+      <p class="muted">Core endpoints include invite codes, joins, dashboards, inventory, treasure, maps, NPCs, images, and rules-aware Merlin support.</p>
+    </section>
+
+    <section id="dm-view" class="view active panel">
+      <h2>DM Dashboard</h2>
+      <div class="split">
+        <div>
+          <h3>Create / control campaign</h3>
+          <label>Campaign name<input id="dm-campaign-name" value="Crown of Cinders"></label>
+          <label>Setting<input id="dm-campaign-setting" value="Volcanic capital frontier"></label>
+          <label>Dungeon Master name<input id="dm-name" value="Merlin Host"></label>
+          <label>Invite label<input id="dm-invite-label" value="Table A"></label>
+          <div class="toolbar">
+            <button id="create-campaign">Create Campaign</button>
+            <button id="create-invite" class="secondary">Generate Invite</button>
+            <button id="load-dm-dashboard" class="secondary">Load DM Dashboard</button>
+          </div>
+          <p id="dm-state" class="muted">Create a campaign first, then generate invite codes and load the DM dashboard.</p>
+        </div>
+        <div>
+          <h3>DM push + tracker actions</h3>
+          <label>Image title<input id="dm-image-title" value="Ash Gate Vision"></label>
+          <label>Image URL<input id="dm-image-url" value="https://example.invalid/ash-gate.png"></label>
+          <label>Treasure title<input id="dm-treasure-title" value="Vault Recovery"></label>
+          <label>Treasure gold<input id="dm-treasure-gold" type="number" value="125"></label>
+          <label>Inventory item<input id="dm-item-name" value="Obsidian Ward-Key"></label>
+          <div class="toolbar">
+            <button id="push-image" class="secondary">Push Image</button>
+            <button id="add-treasure" class="secondary">Add Treasure</button>
+            <button id="add-party-item" class="secondary">Add Party Item</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="player-view" class="view panel">
+      <h2>Player Dashboard</h2>
+      <div class="split">
+        <div>
+          <h3>Join campaign with invite</h3>
+          <label>Invite code<input id="player-invite-code" placeholder="Invite code"></label>
+          <label>Player name<input id="player-name" value="Iria"></label>
+          <label>Class<input id="player-class" value="wizard"></label>
+          <label>Level<input id="player-level" type="number" value="5"></label>
+          <div class="toolbar">
+            <button id="join-campaign">Join Campaign</button>
+            <button id="load-player-dashboard" class="secondary">Load Player Dashboard</button>
+          </div>
+          <p id="player-state" class="muted">Paste a DM invite code to join from any player dashboard.</p>
+        </div>
+        <div>
+          <h3>What players can inspect</h3>
+          <ul>
+            <li>Party members and their current character summaries</li>
+            <li>Environment maps and pushed scene images</li>
+            <li>Items, treasure, merchants, monsters, and NPCs</li>
+            <li>Standalone play when no campaign invite is available</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="solo-view" class="view panel">
+      <h2>Solo Standalone</h2>
+      <label>Solo player name<input id="solo-player-name" value="Solo Explorer"></label>
+      <label>Character name<input id="solo-character-name" value="Nym"></label>
+      <label>Class<input id="solo-class" value="rogue"></label>
+      <label>Level<input id="solo-level" type="number" value="3"></label>
+      <div class="toolbar">
+        <button id="load-solo-dashboard">Build Solo Dashboard</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 id="api-output-heading">API output</h2>
+      <pre id="output" aria-live="polite" aria-labelledby="api-output-heading"></pre>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

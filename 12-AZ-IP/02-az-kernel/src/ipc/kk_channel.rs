@@ -8,7 +8,7 @@
 //
 // Theory: ThomasCory Walker-Pearson | Code: GitHub Copilot (AI)
 
-use heapless::spsc::{Consumer, Producer, Queue};
+use heapless::spsc::Queue;
 
 /// Type-level ring-level constants
 pub struct Ring<const N: usize>;
@@ -94,5 +94,6 @@ where
 }
 
 pub mod ipc {
+    #[allow(unused_imports)]
     pub use super::{KKChannel, KKMessage, Ring, KKAdjacent};
 }

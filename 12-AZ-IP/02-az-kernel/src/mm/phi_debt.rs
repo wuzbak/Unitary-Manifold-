@@ -21,7 +21,7 @@
 //! where φ = (1 + √5) / 2 ≈ 1.618 (golden ratio) and the decay term
 //! φ⁻¹ ≈ 0.618 ensures debt naturally diminishes when not stimulated.
 
-const PHI_INV: f32 = 0.618_033_988; // φ⁻¹ = 2/(1+√5)
+const PHI_INV: f32 = 0.618_034; // φ⁻¹ = 2/(1+√5)
 const PHI_DEBT_THRESHOLD: f32 = 8.0; // pages above this are reclamation candidates
 const MAX_TRACKED_PAGES: usize = 8192;
 

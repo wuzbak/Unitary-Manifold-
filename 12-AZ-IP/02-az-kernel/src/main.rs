@@ -18,17 +18,19 @@
 
 #![no_std]
 #![no_main]
-#![feature(abi_efiapi)]
 // Lints: bare-metal code never uses std; clippy must be aware.
 #![warn(clippy::all)]
 #![allow(clippy::empty_loop)]
+#![allow(dead_code)]
 
 extern crate alloc;
 
 use alloc::format;
 use uefi::prelude::*;
-use uefi::proto::console::gop::{GraphicsOutput, PixelFormat};
-use uefi::table::boot::{MemoryDescriptor, MemoryMap, MemoryType};
+use uefi::boot;
+use uefi::mem::memory_map::MemoryType;
+use uefi::mem::memory_map::MemoryMapOwned;
+use uefi::proto::console::gop::GraphicsOutput;
 
 mod framebuffer;
 mod mm;
@@ -59,22 +61,19 @@ const AZ_INTERRUPT_RINGS: u32 = 5;  // mirrors the winding number — topologica
 /// for the duration of boot services.  After `exit_boot_services` the memory
 /// map becomes authoritative and boot services are no longer callable.
 #[entry]
-fn kernel_main(image: Handle, mut st: SystemTable<Boot>) -> Status {
+fn kernel_main() -> Status {
     // -----------------------------------------------------------------------
     // Phase 1 — Metric Initialisation
     // Identify the hardware topology (memory, framebuffer, CPU topology).
     // -----------------------------------------------------------------------
-    uefi_services::init(&mut st).expect("UEFI services init failed");
-    let bs = st.boot_services();
+    uefi::helpers::init().expect("UEFI helpers init failed");
 
     // Acquire the Graphics Output Protocol (GOP) framebuffer.
     // This is the kernel's sole output channel until a proper VT subsystem
     // is initialised (Sprint 3).
-    let gop_handle = bs
-        .get_handle_for_protocol::<GraphicsOutput>()
+    let gop_handle = boot::get_handle_for_protocol::<GraphicsOutput>()
         .expect("GOP not available — verify UEFI firmware supports GOP");
-    let mut gop = bs
-        .open_protocol_exclusive::<GraphicsOutput>(gop_handle)
+    let mut gop = boot::open_protocol_exclusive::<GraphicsOutput>(gop_handle)
         .expect("Failed to open GOP protocol");
 
     // Construct the AZ framebuffer abstraction over the GOP linear buffer.
@@ -89,10 +88,7 @@ fn kernel_main(image: Handle, mut st: SystemTable<Boot>) -> Status {
     // -----------------------------------------------------------------------
     fb.draw_status_line("AZ-BOOT: Exiting UEFI boot services — crossing the geodesic...");
 
-    let mut mmap_buf = [0u8; 16 * 1024]; // 16 KB for memory map
-    let (st_runtime, memory_map) = st
-        .exit_boot_services(image, &mut mmap_buf)
-        .expect("exit_boot_services failed");
+    let memory_map: MemoryMapOwned = unsafe { boot::exit_boot_services(MemoryType::LOADER_DATA) };
 
     // From this point: no heap, no alloc, no panics until AZ-MM is live.
     // We have: framebuffer, memory map, runtime services.
@@ -147,8 +143,4 @@ fn kernel_main(image: Handle, mut st: SystemTable<Boot>) -> Status {
     // processes; in Sprint 2 the Python cognitive layer is the primary process.
     // -----------------------------------------------------------------------
     scheduler.run_event_loop(&mut fb);
-
-    // Unreachable in production; UEFI runtime requires a non-EFI_SUCCESS only
-    // on catastrophic failure.
-    Status::SUCCESS
 }

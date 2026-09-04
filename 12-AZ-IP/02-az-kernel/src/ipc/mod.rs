@@ -22,8 +22,11 @@ pub mod holographic;
 pub mod kk_channel;
 pub mod ring_buffer;
 
+#[allow(unused_imports)]
 pub use holographic::{Channel, Endpoint, HolographicBoundary};
+#[allow(unused_imports)]
 pub use kk_channel::{KKAdjacent, KKChannel, KKMessage, Ring};
+#[allow(unused_imports)]
 pub use ring_buffer::RingBuffer;
 
 use spin::Mutex;

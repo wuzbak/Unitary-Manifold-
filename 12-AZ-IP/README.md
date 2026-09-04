@@ -2,7 +2,7 @@
 
 All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and consolidated here as the canonical software registry. The shared library at `12-AZ-IP/lib/az_ip_common/` remains in place for cross-product imports.
 
-## Product registry (21 canonical software products / surfaces)
+## Product registry (23 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -27,6 +27,8 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 19 | Falsification Observatory | 1.0.0 | TRL-5 | Browser / static | 112 | Live tracker for 7 experiments testing UM predictions — PASS / TENSION / FALSIFIED verdicts. | [19-falsification-observatory/](19-falsification-observatory/) |
 | 20 | Merlin Navigator (formerly OX Navigator) | 1.0.0 | TRL-4 | Browser + /api/merlin (+ /api/ox compatibility) | 149 | AI physics/governance navigator with identity trust policy, Sentinel do-no-harm enforcement, and compatibility shim endpoints. | [20-merlin-navigator/](20-merlin-navigator/) |
 | 21 | UM Geophysical Monitor | 1.0.0 | TRL-5 | Browser / static | 121 | Live globe disaster monitor with USGS + NASA EONET feeds and UM φ-overlay (P806/P786/P16). | [21-geo-monitor/](21-geo-monitor/) |
+| 22 | AxiomZero SGE | 1.0.0 | TRL-7 | http://localhost:7622 | 229 | Next-gen system security governance engine for anti-malware, zero-day detection, IDS, firewall, anti-surveillance, and governed protection workflows. | [22-az-sge/](22-az-sge/) |
+| 23 | Merlin DM Guide & Player Assistant | 1.1.0 | TRL-3 | http://localhost:8033 | 17 | Offline-first Dungeons & Dragons 5e / 5.5e campaign assistant with separate DM/player dashboards, invite-code joins, character import, XP/treasure/gold/item tracking, maps, NPCs, image pushes, and Merlin expert guidance. | [23-merlin-dm-assistant/](23-merlin-dm-assistant/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
@@ -55,6 +57,8 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - `19-falsification-observatory/` — standalone product built from `public-site/js/17-falsification-observatory.js`
 - `20-merlin-navigator/` — Merlin Navigator canonical product folder (legacy OX name retained for compatibility), built from `public-site/js/19-ox-navigator.js` and expanded with identity/sentinel/runtime policy layers
 - `21-geo-monitor/` — standalone product built from `src/core/pillar_geo_monitor.py` + `public-site/js/20-geo-monitor.js`
+- `22-az-sge/` — standalone system security governance engine with governed protection workflows and tests
+- `23-merlin-dm-assistant/` — standalone Merlin-powered D&D 5e/5.5e assistant built as an offline-first campaign, encounter, and image-brief product
 
 ## Shared assets retained
 

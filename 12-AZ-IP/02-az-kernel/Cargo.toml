@@ -21,8 +21,7 @@ strip = "debuginfo"
 
 [dependencies]
 # UEFI boot services (Sprint 0)
-uefi = { version = "0.33", features = ["alloc"] }
-uefi-services = "0.24"
+uefi = { version = "0.33", features = ["alloc", "global_allocator", "logger"] }
 
 # Embedded utilities for no_std kernel (Sprint 1)
 bitflags = "2"
@@ -32,10 +31,6 @@ log = "0.4"
 # Physics-informed data structures (Sprint 1)
 heapless = "0.8"       # fixed-capacity collections (no heap until AZ-MM boots)
 libm = "0.2"           # software math (sqrtf) for no_std geodesic scheduler
-
-[dev-dependencies]
-# Sprint 0 validation: kernel spec tests run on host (not bare metal)
-criterion = "0.5"
 
 [[bin]]
 name = "az-kernel"
