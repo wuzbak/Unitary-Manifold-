@@ -1,8 +1,8 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v35.3 — Unambiguous Record**  
+**The Unitary Manifold v35.4 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-03 (v35.3 — Sprint BW: Pillar 1031; three-lane execution certificate with baseline freeze, Merlin replacement-gate hardening, and truth-surface coherence polish; Lean4 3952→3952; 63,666 passed · 23 skipped · 12 deselected · 0 failed; next slot 1032.)*
+*Last updated: 2026-09-03 (v35.4 — Sprint BX: Pillars 1032–1039; parallel closure campaign with synchronized truth surfaces and Merlin replacement advancement; Lean4 3952→3964; 63,666 passed · 23 skipped · 12 deselected · 0 failed; next slot 1040.)*
 *Latest verified full regression: 63,666 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-03).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
