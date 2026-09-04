@@ -758,6 +758,11 @@ def test_server_merlin_endpoints():
             assert training_artifacts.json()['ok'] is True
             assert training_artifacts.json()['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
 
+            empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
+            assert empty_training_artifacts.status_code == 200
+            assert empty_training_artifacts.json()['ok'] is True
+            assert empty_training_artifacts.json()['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 0
+
             bad_artifact_limit = client.get('/api/merlin/benchmark-artifacts?limit=abc')
             assert bad_artifact_limit.status_code == 400
             assert bad_artifact_limit.json()['ok'] is False
