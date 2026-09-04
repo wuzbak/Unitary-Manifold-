@@ -57,6 +57,7 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
     lane1_tracker_markers = (
         "pillars: 1031-1031" in tracker_text
         and PILLAR_STATUS in tracker_text
+        and "next_pillar_slot: 1032" in tracker_text
     )
     lane1_plan_marker = "Historical continuity: v35.3 Sprint BW" in plan_text
     lane1_done = (
