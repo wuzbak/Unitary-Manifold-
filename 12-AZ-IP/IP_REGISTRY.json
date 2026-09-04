@@ -55,7 +55,7 @@
       "size_bytes": 11199
     },
     "az-kernel/Cargo.toml": {
-      "sha256": "70a28581a19bfa8bebef2f88f6614483cec66e22567bc3c42a0dab8dcb8b9ea0",
+      "sha256": "74395c134fffc3f945ce33ed83cfbc1887343049c6bd21de51d5107aff6db5ce",
       "description": "AZ-KERNEL Rust manifest — UEFI bare-metal kernel",
       "category": "os",
       "status": "REGISTERED",
@@ -328,7 +328,7 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-08-18",
-      "sha256": "a7f32fd0a4bf342955ecdc1ccd5b9b237b037887d485e12405c01ee8f677bec6",
+      "sha256": "b342edaec122b06ae11c75373f1354399d814f9d8310b9c4c0540661090e308e",
       "size_bytes": 6887
     },
     "12-AZ-IP/NOTICE": {
