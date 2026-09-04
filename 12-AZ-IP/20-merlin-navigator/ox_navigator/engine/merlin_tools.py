@@ -306,7 +306,10 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinControlTower": {
             "args_schema": {
                 "type": "object",
-                "properties": {"limit": {"type": "integer"}},
+                "properties": {
+                    "limit": {"type": "integer"},
+                    "gate_history": {"type": "array"},
+                },
                 "additionalProperties": False,
             },
             "risk_level": "medium",
@@ -360,10 +363,13 @@ def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _coerce_limit(value: Any, default: int = 3) -> int:
-    if value is None:
-        return int(default)
-    return int(value)
+def _coerce_positive_int(value: Any, default: int) -> int:
+    try:
+        if value is None:
+            return max(1, int(default))
+        return max(1, int(value))
+    except (TypeError, ValueError):
+        return max(1, int(default))
 
 
 def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple[bool, str]:
@@ -520,7 +526,10 @@ _FUNCTIONS = {
         limit=args.get("limit"),
         sync_checks_ok=args.get("sync_checks_ok"),
     )},
-    "getMerlinControlTower": lambda **args: {"data": build_merlin_control_tower(limit=_coerce_limit(args.get("limit"), default=3))},
+    "getMerlinControlTower": lambda **args: {"data": build_merlin_control_tower(
+        limit=_coerce_positive_int(args.get("limit"), 3),
+        gate_history=list(args.get("gate_history") or []) or None,
+    )},
 }
 
 
@@ -655,8 +664,8 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
             tool_type = "function"
             result = {"data": evaluate_longitudinal_acceptance(
                 list(args.get("gate_history") or []),
-                window_size=int(args.get("window_size", 4)),
-                min_clean_windows=int(args.get("min_clean_windows", 3)),
+                window_size=_coerce_positive_int(args.get("window_size"), 4),
+                min_clean_windows=_coerce_positive_int(args.get("min_clean_windows"), 3),
             )}
         elif tool == "getMerlinPromotionPacket":
             tool_type = "function"

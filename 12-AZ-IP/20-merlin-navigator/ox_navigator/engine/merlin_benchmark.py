@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import asyncio
 import re
-import threading
 from datetime import datetime, timezone
 from statistics import mean
 from typing import Any
@@ -134,6 +133,7 @@ LONGITUDINAL_ACCEPTANCE_POLICY = {
     "minimum_clean_windows": 3,
     "required_latest_decision": "REPLACEMENT_APPROVED",
     "fail_closed_on_missing_history": True,
+    "window_semantics": "non_overlapping",
 }
 
 
@@ -541,6 +541,21 @@ def evaluate_longitudinal_acceptance(
     min_clean_windows: int | None = None,
     fail_closed_on_missing_history: bool | None = None,
 ) -> dict[str, Any]:
+    def _packet(item: dict[str, Any]) -> dict[str, Any]:
+        raw = item.get("packet", item)
+        return dict(raw) if isinstance(raw, dict) else {}
+
+    def _policy_violations(item: dict[str, Any]) -> int:
+        packet = _packet(item)
+        empirical = packet.get("empirical_gate") or {}
+        metrics = empirical.get("metrics") or {}
+        if "high_severity_policy_violations_merlin" not in metrics:
+            return 1
+        try:
+            return int(metrics.get("high_severity_policy_violations_merlin", 0))
+        except (TypeError, ValueError):
+            return 1
+
     if window_size is None:
         window_size = int(LONGITUDINAL_ACCEPTANCE_POLICY["window_size"])
     if min_clean_windows is None:
@@ -554,12 +569,18 @@ def evaluate_longitudinal_acceptance(
     clean_windows = 0
     if len(gate_history) < window_size:
         latest = gate_history[-1] if gate_history else {}
-        latest_decision = str((latest.get("packet") or {}).get("decision") or "NO_DATA")
-        pass_gate = bool(not fail_closed_on_missing_history and latest_decision == "REPLACEMENT_APPROVED")
+        latest_packet = _packet(dict(latest)) if isinstance(latest, dict) else {}
+        latest_decision = str(latest_packet.get("decision") or "NO_DATA")
+        pass_gate = bool(
+            not fail_closed_on_missing_history
+            and min_clean_windows <= 1
+            and latest_decision == "REPLACEMENT_APPROVED"
+        )
         return {
             "ok": True,
             "window_size": int(window_size),
             "minimum_clean_windows": int(min_clean_windows),
+            "window_semantics": str(LONGITUDINAL_ACCEPTANCE_POLICY.get("window_semantics") or "non_overlapping"),
             "history_count": len(gate_history),
             "clean_windows": 0,
             "windows": [],
@@ -575,13 +596,10 @@ def evaluate_longitudinal_acceptance(
     for start in range(0, len(gate_history) - window_size + 1, window_size):
         window = gate_history[start:start + window_size]
         approved = all(
-            str((item.get("packet") or {}).get("decision")) == "REPLACEMENT_APPROVED"
+            str(_packet(item).get("decision")) == "REPLACEMENT_APPROVED"
             for item in window
         )
-        safe = all(
-            int((((item.get("packet") or {}).get("empirical_gate") or {}).get("metrics") or {}).get("high_severity_policy_violations_merlin", 0)) == 0
-            for item in window
-        )
+        safe = all(_policy_violations(item) == 0 for item in window)
         stable = approved and safe
         windows.append(
             {
@@ -595,12 +613,14 @@ def evaluate_longitudinal_acceptance(
         if stable:
             clean_windows += 1
     latest = gate_history[-1] if gate_history else {}
-    latest_decision = str((latest.get("packet") or {}).get("decision") or "")
+    latest_packet = _packet(dict(latest)) if isinstance(latest, dict) else {}
+    latest_decision = str(latest_packet.get("decision") or "")
     pass_gate = bool(latest_decision == "REPLACEMENT_APPROVED" and clean_windows >= int(min_clean_windows))
     return {
         "ok": True,
         "window_size": int(window_size),
         "minimum_clean_windows": int(min_clean_windows),
+        "window_semantics": str(LONGITUDINAL_ACCEPTANCE_POLICY.get("window_semantics") or "non_overlapping"),
         "history_count": len(gate_history),
         "clean_windows": clean_windows,
         "windows": windows,
@@ -614,14 +634,22 @@ def evaluate_longitudinal_acceptance(
     }
 
 
-def build_merlin_control_tower(*, limit: int = 3) -> dict[str, Any]:
+def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     readiness = build_stage_a_replacement_readiness(limit=limit)
     packet = dict(readiness.get("packet") or {})
-    history = [readiness]
+    history = list(gate_history or [])
+    history.append({"packet": packet})
     longitudinal = evaluate_longitudinal_acceptance(history)
     sync_ok = bool(packet.get("sync_checks_ok"))
     empirical_gate = dict(packet.get("empirical_gate") or {})
-    policy_violations = int((empirical_gate.get("metrics") or {}).get("high_severity_policy_violations_merlin", 0))
+    policy_metric = (empirical_gate.get("metrics") or {}).get("high_severity_policy_violations_merlin")
+    if policy_metric is None:
+        policy_violations = 1
+    else:
+        try:
+            policy_violations = int(policy_metric)
+        except (TypeError, ValueError):
+            policy_violations = 1
     deployment_eligible = bool(
         packet.get("decision") == "REPLACEMENT_APPROVED"
         and packet.get("gate_pass")
@@ -644,6 +672,7 @@ def build_merlin_control_tower(*, limit: int = 3) -> dict[str, Any]:
         "replacement_readiness": readiness,
         "longitudinal_acceptance": longitudinal,
         "longitudinal_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),
+        "history_count": len(history),
         "trendlines": {
             "quality_delta": (empirical_gate.get("metrics") or {}).get("mean_quality_delta", 0.0),
             "energy_delta_joules": (empirical_gate.get("metrics") or {}).get("mean_energy_delta_joules", 0.0),

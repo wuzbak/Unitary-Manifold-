@@ -283,6 +283,13 @@ def test_route_tool_program_office_and_control_tower():
     assert 'drift_alerts' in data
 
 
+def test_route_tool_control_tower_clamps_non_positive_limit():
+    control = route_tool('getMerlinControlTower', {'limit': 0})
+    assert control['ok'] is True
+    summary = control['result']['data']['replacement_readiness']['receipts']['summary']
+    assert summary['total'] == 1
+
+
 def test_route_tool_multi_stage_and_longitudinal():
     plan = route_tool('getMerlinMultiStageBenchmarks', {})
     assert plan['ok'] is True
@@ -512,6 +519,29 @@ def test_server_merlin_endpoints():
             assert control_tower.status_code == 200
             assert control_tower.json()['ok'] is True
             assert 'deployment_eligibility' in control_tower.json()['control_tower']
+
+            control_tower_clamped = client.get('/api/merlin/control-tower?limit=0')
+            assert control_tower_clamped.status_code == 200
+            assert control_tower_clamped.json()['ok'] is True
+            assert control_tower_clamped.json()['control_tower']['replacement_readiness']['receipts']['summary']['total'] == 1
+
+            control_tower_defaulted = client.get('/api/merlin/control-tower?limit=abc')
+            assert control_tower_defaulted.status_code == 200
+            assert control_tower_defaulted.json()['ok'] is True
+
+            gate_history_payload = json.dumps([
+                {'packet': {'decision': 'REPLACEMENT_APPROVED', 'empirical_gate': {'metrics': {'high_severity_policy_violations_merlin': 0}}}}
+                for _ in range(11)
+            ])
+            control_tower_with_history = client.get(
+                '/api/merlin/control-tower',
+                params={'limit': '1', 'gate_history': gate_history_payload},
+            )
+            assert control_tower_with_history.status_code == 200
+            assert control_tower_with_history.json()['ok'] is True
+
+            bad_control_tower_history = client.get('/api/merlin/control-tower?gate_history=not-json')
+            assert bad_control_tower_history.status_code == 400
 
             memory = client.get('/api/merlin/memory')
             assert memory.status_code == 200

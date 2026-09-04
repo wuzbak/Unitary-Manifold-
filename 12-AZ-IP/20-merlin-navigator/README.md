@@ -93,6 +93,7 @@
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).
 - Multi-stage replacement batteries now define Stage A→E acceptance tracks with sustained clean-window cadence checks for promotion discipline.
+- Longitudinal acceptance windows are explicitly **non-overlapping** to avoid counting one streak multiple times as separate gate windows.
 
 ## Gate-badge extraction
 
