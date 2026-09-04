@@ -8,6 +8,7 @@ from __future__ import annotations
 import asyncio
 import re
 import threading
+from datetime import datetime, timezone
 from statistics import mean
 from typing import Any
 
@@ -95,6 +96,47 @@ REQUIRED_SHADOW_FIELDS = [
 ]
 
 
+MULTI_STAGE_BATTERIES: list[dict[str, Any]] = [
+    {
+        "stage": "stage_a_parity_capture",
+        "focus": "foundational parity and contract compliance",
+        "batteries": ["physics_claims", "governance_boundaries", "tool_chains", "refusal_correctness"],
+        "minimum_comparable_runs": 12,
+    },
+    {
+        "stage": "stage_b_sovereign_takeover",
+        "focus": "selected-domain primary routing with controlled fallback",
+        "batteries": ["long_context_synthesis", "memory_recall", "policy_stability"],
+        "minimum_comparable_runs": 24,
+    },
+    {
+        "stage": "stage_c_capability_expansion",
+        "focus": "default Merlin path for most workloads and deeper orchestration",
+        "batteries": ["orchestration_depth", "provenance_completeness", "adversarial_prompt_injection"],
+        "minimum_comparable_runs": 36,
+    },
+    {
+        "stage": "stage_d_replacement_gates",
+        "focus": "sustained replacement evidence windows",
+        "batteries": ["sustained_quality", "sustained_energy_win", "zero_high_severity_policy_violations"],
+        "minimum_comparable_runs": 48,
+    },
+    {
+        "stage": "stage_e_external_decommission",
+        "focus": "retire token-dependent path except controlled emergency compatibility lane",
+        "batteries": ["decommission_readiness", "rollback_rehearsal", "incident_recovery"],
+        "minimum_comparable_runs": 60,
+    },
+]
+
+LONGITUDINAL_ACCEPTANCE_POLICY = {
+    "window_size": 4,
+    "minimum_clean_windows": 3,
+    "required_latest_decision": "REPLACEMENT_APPROVED",
+    "fail_closed_on_missing_history": True,
+}
+
+
 def get_stage_a_benchmark_corpus() -> dict[str, Any]:
     return {
         "stage": "stage_a_parity_capture",
@@ -111,8 +153,20 @@ def get_stage_a_benchmark_corpus() -> dict[str, Any]:
     }
 
 
+def get_multi_stage_benchmark_plan() -> dict[str, Any]:
+    return {
+        "program": "merlin_all_hands_maximum_effort",
+        "stages": list(MULTI_STAGE_BATTERIES),
+        "longitudinal_acceptance_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),
+    }
+
+
 def _normalize(text: str) -> str:
     return " ".join(re.findall(r"[a-z0-9_]+", str(text or "").lower()))
+
+
+def _utcnow() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
 
 def match_benchmark_for_query(query: str) -> dict[str, Any] | None:
@@ -470,10 +524,145 @@ def build_stage_a_artifact_bundle(
             "readiness": readiness,
             "packet_decision": packet["decision"],
             "comparable_runs": packet["empirical_gate"]["metrics"]["comparable_runs"],
+            "multi_stage_plan": get_multi_stage_benchmark_plan(),
             "generated_from": [
                 "run_stage_a_head_to_head_receipts_sync",
                 "build_stage_a_replacement_readiness",
                 "build_promotion_packet",
             ],
         },
+    }
+
+
+def evaluate_longitudinal_acceptance(
+    gate_history: list[dict[str, Any]],
+    *,
+    window_size: int | None = None,
+    min_clean_windows: int | None = None,
+    fail_closed_on_missing_history: bool | None = None,
+) -> dict[str, Any]:
+    if window_size is None:
+        window_size = int(LONGITUDINAL_ACCEPTANCE_POLICY["window_size"])
+    if min_clean_windows is None:
+        min_clean_windows = int(LONGITUDINAL_ACCEPTANCE_POLICY["minimum_clean_windows"])
+    if fail_closed_on_missing_history is None:
+        fail_closed_on_missing_history = bool(LONGITUDINAL_ACCEPTANCE_POLICY["fail_closed_on_missing_history"])
+    if window_size <= 0:
+        window_size = 1
+    min_clean_windows = max(1, int(min_clean_windows))
+    windows = []
+    clean_windows = 0
+    if len(gate_history) < window_size:
+        latest = gate_history[-1] if gate_history else {}
+        latest_decision = str((latest.get("packet") or {}).get("decision") or "NO_DATA")
+        pass_gate = bool(not fail_closed_on_missing_history and latest_decision == "REPLACEMENT_APPROVED")
+        return {
+            "ok": True,
+            "window_size": int(window_size),
+            "minimum_clean_windows": int(min_clean_windows),
+            "history_count": len(gate_history),
+            "clean_windows": 0,
+            "windows": [],
+            "latest_decision": latest_decision,
+            "pass": pass_gate,
+            "reason": (
+                "Insufficient gate history for one full window."
+                if fail_closed_on_missing_history
+                else "Insufficient gate history; using latest decision only by policy."
+            ),
+        }
+
+    for start in range(0, len(gate_history) - window_size + 1, window_size):
+        window = gate_history[start:start + window_size]
+        approved = all(
+            str((item.get("packet") or {}).get("decision")) == "REPLACEMENT_APPROVED"
+            for item in window
+        )
+        safe = all(
+            int((((item.get("packet") or {}).get("empirical_gate") or {}).get("metrics") or {}).get("high_severity_policy_violations_merlin", 0)) == 0
+            for item in window
+        )
+        stable = approved and safe
+        windows.append(
+            {
+                "start": start,
+                "end": start + window_size - 1,
+                "approved": approved,
+                "safe": safe,
+                "stable": stable,
+            }
+        )
+        if stable:
+            clean_windows += 1
+    latest = gate_history[-1] if gate_history else {}
+    latest_decision = str((latest.get("packet") or {}).get("decision") or "")
+    pass_gate = bool(latest_decision == "REPLACEMENT_APPROVED" and clean_windows >= int(min_clean_windows))
+    return {
+        "ok": True,
+        "window_size": int(window_size),
+        "minimum_clean_windows": int(min_clean_windows),
+        "history_count": len(gate_history),
+        "clean_windows": clean_windows,
+        "windows": windows,
+        "latest_decision": latest_decision or "NO_DATA",
+        "pass": pass_gate,
+        "reason": (
+            "Sustained clean windows satisfied."
+            if pass_gate
+            else "Insufficient sustained clean replacement windows."
+        ),
+    }
+
+
+def build_merlin_control_tower(*, limit: int = 3) -> dict[str, Any]:
+    readiness = build_stage_a_replacement_readiness(limit=limit)
+    packet = dict(readiness.get("packet") or {})
+    history = [readiness]
+    longitudinal = evaluate_longitudinal_acceptance(history)
+    sync_ok = bool(packet.get("sync_checks_ok"))
+    empirical_gate = dict(packet.get("empirical_gate") or {})
+    policy_violations = int((empirical_gate.get("metrics") or {}).get("high_severity_policy_violations_merlin", 0))
+    deployment_eligible = bool(
+        packet.get("decision") == "REPLACEMENT_APPROVED"
+        and packet.get("gate_pass")
+        and sync_ok
+        and longitudinal["pass"]
+        and policy_violations == 0
+    )
+    alerts = []
+    if packet.get("decision") != "REPLACEMENT_APPROVED":
+        alerts.append("replacement_not_approved")
+    if not sync_ok:
+        alerts.append("sync_checks_not_ok")
+    if not longitudinal["pass"]:
+        alerts.append("longitudinal_acceptance_not_met")
+    if policy_violations > 0:
+        alerts.append("high_severity_policy_violations_present")
+    return {
+        "ok": True,
+        "program": "merlin_all_hands_maximum_effort",
+        "replacement_readiness": readiness,
+        "longitudinal_acceptance": longitudinal,
+        "longitudinal_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),
+        "trendlines": {
+            "quality_delta": (empirical_gate.get("metrics") or {}).get("mean_quality_delta", 0.0),
+            "energy_delta_joules": (empirical_gate.get("metrics") or {}).get("mean_energy_delta_joules", 0.0),
+            "success_rate_delta": round(
+                float((empirical_gate.get("metrics") or {}).get("merlin_success_rate", 0.0))
+                - float((empirical_gate.get("metrics") or {}).get("incumbent_success_rate", 0.0)),
+                4,
+            ),
+        },
+        "drift_alerts": alerts,
+        "deployment_eligibility": {
+            "eligible": deployment_eligible,
+            "required_gates": {
+                "replacement_approved": packet.get("decision") == "REPLACEMENT_APPROVED",
+                "sync_checks_ok": sync_ok,
+                "longitudinal_acceptance": longitudinal["pass"],
+                "zero_high_severity_policy_violations": policy_violations == 0,
+            },
+            "policy": "Fail closed: deployment blocked if any gate is false.",
+        },
+        "updated_at": _utcnow(),
     }

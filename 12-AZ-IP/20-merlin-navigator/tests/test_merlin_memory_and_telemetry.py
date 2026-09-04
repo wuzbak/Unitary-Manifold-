@@ -15,6 +15,9 @@ from ox_navigator.engine.merlin_benchmark import match_benchmark_for_query
 from ox_navigator.engine.merlin_benchmark import evaluate_benchmark_response
 from ox_navigator.engine.merlin_benchmark import evaluate_empirical_gate
 from ox_navigator.engine.merlin_benchmark import build_promotion_packet
+from ox_navigator.engine.merlin_benchmark import evaluate_longitudinal_acceptance
+from ox_navigator.engine.merlin_benchmark import get_multi_stage_benchmark_plan
+from ox_navigator.engine.merlin_benchmark import build_merlin_control_tower
 from ox_navigator.engine.merlin_telemetry import (
     build_run_telemetry,
     estimate_cost_usd,
@@ -190,3 +193,45 @@ def test_build_promotion_packet_requires_evidence():
     assert packet['checks']['evidence_present'] is False
     assert packet['gate_pass'] is False
     assert packet['decision'] == 'REPLACEMENT_EVIDENCE_REQUIRED'
+
+
+def test_multi_stage_benchmark_plan_has_stage_e():
+    plan = get_multi_stage_benchmark_plan()
+    stages = [item['stage'] for item in plan['stages']]
+    assert stages[0] == 'stage_a_parity_capture'
+    assert 'stage_e_external_decommission' in stages
+
+
+def test_longitudinal_acceptance_requires_clean_windows():
+    history = [
+        {"packet": {"decision": "REPLACEMENT_APPROVED", "empirical_gate": {"metrics": {"high_severity_policy_violations_merlin": 0}}}},
+        {"packet": {"decision": "REPLACEMENT_APPROVED", "empirical_gate": {"metrics": {"high_severity_policy_violations_merlin": 0}}}},
+        {"packet": {"decision": "REPLACEMENT_NOT_APPROVED", "empirical_gate": {"metrics": {"high_severity_policy_violations_merlin": 0}}}},
+    ]
+    result = evaluate_longitudinal_acceptance(history, window_size=1, min_clean_windows=3)
+    assert result["pass"] is False
+
+    stable_history = [
+        {"packet": {"decision": "REPLACEMENT_APPROVED", "empirical_gate": {"metrics": {"high_severity_policy_violations_merlin": 0}}}}
+        for _ in range(3)
+    ]
+    stable = evaluate_longitudinal_acceptance(stable_history, window_size=1, min_clean_windows=3)
+    assert stable["pass"] is True
+
+
+def test_longitudinal_acceptance_counts_non_overlapping_windows():
+    stable_history = [
+        {"packet": {"decision": "REPLACEMENT_APPROVED", "empirical_gate": {"metrics": {"high_severity_policy_violations_merlin": 0}}}}
+        for _ in range(5)
+    ]
+    result = evaluate_longitudinal_acceptance(stable_history, window_size=4, min_clean_windows=2)
+    assert result["clean_windows"] == 1
+    assert result["pass"] is False
+
+
+def test_control_tower_returns_gate_bundle():
+    payload = build_merlin_control_tower(limit=1)
+    assert payload["ok"] is True
+    assert "replacement_readiness" in payload
+    assert "deployment_eligibility" in payload
+    assert "trendlines" in payload

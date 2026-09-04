@@ -7,11 +7,10 @@
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 -- **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/telemetry`
-- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`
+- **Program endpoints:** `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/promotion-packet`
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
-- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/promotion-packet`
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
 
@@ -60,6 +59,8 @@
 - `GET /api/merlin/memory` exposes multi-tier memory state, contradictions, and recall audits.
 - `GET /api/merlin/telemetry` exposes recent run summaries for measurement and rollout gating.
 - `GET /api/merlin/status` now returns `memory_profile_token`; cross-device resume via `X-Merlin-Profile-Token` also requires `X-Merlin-Profile-Key` matching server-side `MERLIN_PROFILE_SHARED_KEY`.
+- `GET /api/merlin/program-office` exposes command authority, decision/risk ledgers, and squad ownership for replacement governance.
+- `GET /api/merlin/control-tower` exposes live replacement readiness, drift alerts, trendlines, and fail-closed deployment eligibility.
 - `GET /api/merlin/identity` exposes canonical identity/alias and privileged-action verification policy.
 - `GET /api/merlin/policy` exposes combined identity-trust and Sentinel enforcement policies.
 - `GET /api/merlin/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
@@ -91,6 +92,7 @@
 - CI artifact export: `python tools/export_merlin_stage_a_artifacts.py --limit 3 --output /tmp/merlin-stage-a-artifacts.json`.
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).
+- Multi-stage replacement batteries now define Stage A→E acceptance tracks with sustained clean-window cadence checks for promotion discipline.
 
 ## Gate-badge extraction
 

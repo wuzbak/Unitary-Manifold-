@@ -29,6 +29,7 @@ from ox_navigator.engine.merlin_program import (
     get_mythos_astra_contract,
     get_full_program_blueprint,
     get_identity_and_trust_policy,
+    get_program_office,
     get_sentinel_enforcement_policy,
     run_sync_checks,
 )
@@ -219,6 +220,23 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 return
             if parsed.path == '/api/merlin/program':
                 self._json({'ok': True, 'program': get_full_program_blueprint()})
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/program-office':
+                self._json({'ok': True, 'program_office': get_program_office()})
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/control-tower':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinControlTower',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'control_tower': payload.get('data'), 'error': payload.get('error')}, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/memory':

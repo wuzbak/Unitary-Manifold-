@@ -223,6 +223,7 @@ def test_route_tool_merlin_program_blueprint():
     assert result['ok'] is True
     payload = result['result']['data']
     assert 'charter' in payload
+    assert 'program_office' in payload
     assert 'weights_and_measures' in payload
     assert payload['current_stack_baseline']['current_limits']['tool_round_cap'] == 2
     assert payload['current_stack_baseline']['current_limits']['orchestration_step_cap'] == 10
@@ -234,6 +235,7 @@ def test_route_tool_merlin_program_blueprint():
     assert payload['sync_checks']['ok'] is True
     assert payload['identity_and_trust']['canonical_identity'] == CANONICAL_IDENTITY
     assert payload['sentinel_policy']['first_violation_action'] == 'warn_and_refuse'
+    assert payload['program_office']['authority_model']['rollback'] == 'program office + stewards'
 
 
 def test_route_tool_benchmark_corpus_and_policy_metadata():
@@ -265,6 +267,40 @@ def test_route_tool_empirical_gate_and_promotion_packet():
     assert packet['ok'] is True
     assert packet['result']['data']['gate_pass'] is True
     assert packet['result']['data']['decision'] == 'REPLACEMENT_APPROVED'
+
+
+def test_route_tool_program_office_and_control_tower():
+    office = route_tool('getMerlinProgramOffice', {})
+    assert office['ok'] is True
+    assert office['result']['data']['mode'] == 'replacement_program_not_feature_work'
+    assert len(office['result']['data']['parallel_squads']) == 8
+
+    control = route_tool('getMerlinControlTower', {'limit': 1})
+    assert control['ok'] is True
+    data = control['result']['data']
+    assert 'replacement_readiness' in data
+    assert 'deployment_eligibility' in data
+    assert 'drift_alerts' in data
+
+
+def test_route_tool_multi_stage_and_longitudinal():
+    plan = route_tool('getMerlinMultiStageBenchmarks', {})
+    assert plan['ok'] is True
+    stages = [item['stage'] for item in plan['result']['data']['stages']]
+    assert 'stage_d_replacement_gates' in stages
+    assert 'stage_e_external_decommission' in stages
+
+    gate_history = [
+        {'packet': {'decision': 'REPLACEMENT_APPROVED', 'empirical_gate': {'metrics': {'high_severity_policy_violations_merlin': 0}}}},
+        {'packet': {'decision': 'REPLACEMENT_APPROVED', 'empirical_gate': {'metrics': {'high_severity_policy_violations_merlin': 0}}}},
+    ]
+    longitudinal = route_tool('evaluateMerlinLongitudinalAcceptance', {
+        'gate_history': gate_history,
+        'window_size': 1,
+        'min_clean_windows': 2,
+    })
+    assert longitudinal['ok'] is True
+    assert longitudinal['result']['data']['pass'] is True
 
 
 def test_route_tool_stage_a_receipts_and_replacement_readiness():
@@ -466,6 +502,16 @@ def test_server_merlin_endpoints():
             assert program.json()['ok'] is True
             assert 'charter' in program.json()['program']
             assert 'mythos_astra_contract' in program.json()['program']
+
+            program_office = client.get('/api/merlin/program-office')
+            assert program_office.status_code == 200
+            assert program_office.json()['ok'] is True
+            assert program_office.json()['program_office']['mode'] == 'replacement_program_not_feature_work'
+
+            control_tower = client.get('/api/merlin/control-tower?limit=1')
+            assert control_tower.status_code == 200
+            assert control_tower.json()['ok'] is True
+            assert 'deployment_eligibility' in control_tower.json()['control_tower']
 
             memory = client.get('/api/merlin/memory')
             assert memory.status_code == 200

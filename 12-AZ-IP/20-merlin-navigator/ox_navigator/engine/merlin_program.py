@@ -87,6 +87,61 @@ def get_program_charter() -> dict[str, Any]:
     }
 
 
+def get_program_office() -> dict[str, Any]:
+    return {
+        "name": "Merlin Program Office",
+        "mode": "replacement_program_not_feature_work",
+        "authority_model": {
+            "approve": "promotion gate board",
+            "hold": "program office",
+            "rollback": "program office + stewards",
+        },
+        "decision_ledger": {
+            "single_source_of_truth": "merlin_control_tower_packet",
+            "required_fields": [
+                "decision",
+                "gate_pass",
+                "empirical_gate",
+                "sync_checks_ok",
+                "deployment_eligibility",
+                "timestamp",
+            ],
+            "policy": "No stage promotion without explicit ledger entry.",
+        },
+        "risk_ledger": {
+            "required_risk_classes": [
+                "quality_regression",
+                "energy_regression",
+                "governance_boundary_violation",
+                "safety_policy_violation",
+                "operational_reliability",
+            ],
+            "escalation_rule": "Any unresolved high-severity risk blocks promotion.",
+        },
+        "gate_board": {
+            "frozen_success_contract": [
+                "quality_parity_or_better",
+                "lower_energy_per_successful_task",
+                "stable_safety_and_governance_compliance",
+                "operational_reliability_under_load",
+            ],
+            "fail_closed": True,
+        },
+        "parallel_squads": [
+            {"id": "A", "name": "model_stack_and_routing"},
+            {"id": "B", "name": "benchmark_and_empirical_gating"},
+            {"id": "C", "name": "toolchain_governed_expansion"},
+            {"id": "D", "name": "memory_provenance_telemetry_observability"},
+            {"id": "E", "name": "security_safety_identity_hardening"},
+            {"id": "F", "name": "product_operator_transparency_surfaces"},
+            {"id": "G", "name": "ci_release_and_artifact_governance"},
+            {"id": "H", "name": "migration_cutover_decommission_operations"},
+        ],
+        "operating_rhythm": get_operating_rhythm(),
+        "updated_at": _utcnow(),
+    }
+
+
 def get_replacement_scope() -> dict[str, Any]:
     return {
         "takeover_in_scope": [
@@ -271,6 +326,8 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin",
         "/api/merlin/status",
         "/api/merlin/program",
+        "/api/merlin/program-office",
+        "/api/merlin/control-tower",
         "/api/merlin/memory",
         "/api/merlin/telemetry",
         "/api/merlin/policy",
@@ -300,6 +357,8 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin",
         "/api/merlin/status",
         "/api/merlin/program",
+        "/api/merlin/program-office",
+        "/api/merlin/control-tower",
         "/api/merlin/memory",
         "/api/merlin/telemetry",
         "/api/merlin/benchmarks",
@@ -588,6 +647,7 @@ def get_full_program_blueprint() -> dict[str, Any]:
     return {
         "generated_at": _utcnow(),
         "charter": get_program_charter(),
+        "program_office": get_program_office(),
         "doctrine": get_program_doctrine(),
         "replacement_scope": get_replacement_scope(),
         "current_stack_baseline": get_current_stack_baseline(),
