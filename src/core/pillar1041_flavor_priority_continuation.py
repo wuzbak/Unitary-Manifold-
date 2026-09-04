@@ -65,7 +65,14 @@ def flavor_priority_continuation() -> Dict[str, Any]:
     }
 
 
-PILLAR_VALID: bool = True
+def _safe_pillar_valid() -> bool:
+    try:
+        return bool(flavor_priority_continuation()["valid"])
+    except Exception:
+        return False
+
+
+PILLAR_VALID: bool = _safe_pillar_valid()
 
 
 def pillar1041_summary() -> Dict[str, Any]:

@@ -5,12 +5,12 @@
 from __future__ import annotations
 
 import importlib
-import importlib.util
 import json
 import re
-import sys
 from pathlib import Path
 from typing import Any, Dict, List
+
+from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 
 _ROOT = Path(__file__).resolve().parents[2]
 _PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-merlin-navigator"
@@ -44,36 +44,16 @@ REQUIRED_OPEN_LABELS: List[str] = [
 ]
 
 
-def _ensure_merlin_package_loaded() -> None:
-    if "ox_navigator" in sys.modules:
-        return
-    package_root = _PRODUCT_ROOT / "ox_navigator"
-    spec = importlib.util.spec_from_file_location(
-        "ox_navigator",
-        package_root / "__init__.py",
-        submodule_search_locations=[str(package_root)],
-    )
-    if spec is None or spec.loader is None:
-        raise ImportError("Unable to load ox_navigator package")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules["ox_navigator"] = module
-    try:
-        spec.loader.exec_module(module)
-    except Exception:
-        sys.modules.pop("ox_navigator", None)
-        raise
-
-
 def _load_merlin_baseline() -> Dict[str, Any]:
-    _ensure_merlin_package_loaded()
+    ensure_merlin_package_loaded(_PRODUCT_ROOT)
     module = importlib.import_module("ox_navigator.engine.merlin_program")
     return json.loads(json.dumps(module.get_current_stack_baseline()))
 
 
 def _surface_snapshot() -> Dict[str, Any]:
-    status_text = STATUS_SURFACES["status"].read_text(encoding="utf-8")
-    fallibility_text = STATUS_SURFACES["fallibility"].read_text(encoding="utf-8")
-    live_status = json.loads(LIVE_STATUS_PATH.read_text(encoding="utf-8"))
+    status_text = STATUS_SURFACES["status"].read_text(encoding="utf-8") if STATUS_SURFACES["status"].exists() else ""
+    fallibility_text = STATUS_SURFACES["fallibility"].read_text(encoding="utf-8") if STATUS_SURFACES["fallibility"].exists() else ""
+    live_status = json.loads(LIVE_STATUS_PATH.read_text(encoding="utf-8")) if LIVE_STATUS_PATH.exists() else {}
     version_match = re.search(r"\*v([\d.]+) Sprint (\w+)", status_text)
     next_slot_match = re.search(r"next slot (\d+)", status_text)
     tests_match = re.search(
@@ -96,9 +76,8 @@ def sprint_by_precision_lock() -> Dict[str, Any]:
     snapshot = _surface_snapshot()
     baseline = _load_merlin_baseline()
     stale_phrase = "63,666 passed · 23 skipped · 12 deselected · 0 failed (v35.3"
-    merlin_program_text = MERLIN_PROGRAM_PATH.read_text(encoding="utf-8")
-    merlin_gate_text = MERLIN_GATE_WORKFLOW.read_text(encoding="utf-8")
-    status_drift_text = STATUS_DRIFT_WORKFLOW.read_text(encoding="utf-8")
+    merlin_gate_text = MERLIN_GATE_WORKFLOW.read_text(encoding="utf-8") if MERLIN_GATE_WORKFLOW.exists() else ""
+    status_drift_text = STATUS_DRIFT_WORKFLOW.read_text(encoding="utf-8") if STATUS_DRIFT_WORKFLOW.exists() else ""
 
     stale_checks = {
         "fallibility_stale_v35_3_removed": stale_phrase not in snapshot["fallibility_text"],
@@ -115,7 +94,10 @@ def sprint_by_precision_lock() -> Dict[str, Any]:
         "status_drift_gate_exists": STATUS_DRIFT_WORKFLOW.exists(),
         "status_drift_gate_active": "check_status_drift.py" in status_drift_text,
     }
-    surface_texts = {name: path.read_text(encoding="utf-8") for name, path in STATUS_SURFACES.items()}
+    surface_texts = {
+        name: path.read_text(encoding="utf-8") if path.exists() else ""
+        for name, path in STATUS_SURFACES.items()
+    }
     open_set_checks = {
         label: all(label in text for text in surface_texts.values())
         for label in REQUIRED_OPEN_LABELS
@@ -124,6 +106,7 @@ def sprint_by_precision_lock() -> Dict[str, Any]:
         "version_ok": str(snapshot["live_status"].get("meta", {}).get("version")) in {snapshot["version"], snapshot["version"].lstrip("v")},
         "next_slot_ok": int(snapshot["live_status"].get("pillars", {}).get("next_slot", 0)) == snapshot["next_slot"],
         "tests_ok": int(snapshot["live_status"].get("tests", {}).get("passed", 0)) == snapshot["tests_passed"],
+        "failed_zero": int(snapshot["live_status"].get("tests", {}).get("failed", -1)) == 0,
     }
     valid = all(stale_checks.values()) and all(workflow_checks.values()) and all(open_set_checks.values()) and all(live_status_checks.values())
     return {
@@ -146,7 +129,14 @@ def sprint_by_precision_lock() -> Dict[str, Any]:
     }
 
 
-PILLAR_VALID: bool = True
+def _safe_pillar_valid() -> bool:
+    try:
+        return bool(sprint_by_precision_lock()["valid"])
+    except Exception:
+        return False
+
+
+PILLAR_VALID: bool = _safe_pillar_valid()
 
 
 def pillar1040_summary() -> Dict[str, Any]:

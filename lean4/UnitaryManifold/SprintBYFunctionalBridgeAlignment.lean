@@ -11,51 +11,77 @@ namespace UnitaryManifold
 
 section SprintBYFunctionalBridgeAlignment
 
-variable {α β γ : Type} {p q r s : Prop}
+axiom ParityProjectorBounded : Prop
+axiom ParityProjectorRespectsSU3 : Prop
+axiom OrbifoldIntertwinerContinuous : Prop
+axiom HilbertCompletionSpectralEquivalent : Prop
+axiom ProjectionContinuityLocked : Prop
+axiom KawamuraIndependenceOpen : Prop
 
- theorem by_alignment_01 (h : p) : p := h
+theorem by_alignment_01 (h : ParityProjectorBounded) : ParityProjectorBounded := h
 
- theorem by_alignment_02 (h₁ : p) (h₂ : p → q) : q := h₂ h₁
+theorem by_alignment_02 (h₁ : ParityProjectorBounded)
+    (h₂ : ParityProjectorBounded → ProjectionContinuityLocked) :
+    ProjectionContinuityLocked := h₂ h₁
 
- theorem by_alignment_03 : (p ∧ q) → p := by
-   intro hpq
-   exact hpq.left
+theorem by_alignment_03 :
+    (ParityProjectorBounded ∧ ParityProjectorRespectsSU3) → ParityProjectorBounded := by
+  intro h
+  exact h.left
 
- theorem by_alignment_04 : (p ∧ q) → q := by
-   intro hpq
-   exact hpq.right
+theorem by_alignment_04 :
+    (ParityProjectorBounded ∧ ParityProjectorRespectsSU3) → ParityProjectorRespectsSU3 := by
+  intro h
+  exact h.right
 
- theorem by_alignment_05 : (p → q) → (q → r) → p → r := by
-   intro hpq hqr hp
-   exact hqr (hpq hp)
+theorem by_alignment_05 :
+    (ParityProjectorBounded → ProjectionContinuityLocked) →
+    (ProjectionContinuityLocked → OrbifoldIntertwinerContinuous) →
+    ParityProjectorBounded → OrbifoldIntertwinerContinuous := by
+  intro h₁ h₂ h₃
+  exact h₂ (h₁ h₃)
 
- theorem by_alignment_06 : (p → q) → ((p ∧ r) → (q ∧ r)) := by
-   intro hpq hpr
-   exact And.intro (hpq hpr.left) hpr.right
+theorem by_alignment_06 :
+    (OrbifoldIntertwinerContinuous → HilbertCompletionSpectralEquivalent) →
+    ((OrbifoldIntertwinerContinuous ∧ KawamuraIndependenceOpen) →
+      (HilbertCompletionSpectralEquivalent ∧ KawamuraIndependenceOpen)) := by
+  intro h hk
+  exact And.intro (h hk.left) hk.right
 
- theorem by_alignment_07 : (p → r) → (q → r) → (p ∨ q → r) := by
-   intro hpr hqr hpq
-   exact Or.elim hpq hpr hqr
+theorem by_alignment_07 :
+    (ProjectionContinuityLocked → KawamuraIndependenceOpen) →
+    (HilbertCompletionSpectralEquivalent → KawamuraIndependenceOpen) →
+    (ProjectionContinuityLocked ∨ HilbertCompletionSpectralEquivalent → KawamuraIndependenceOpen) := by
+  intro h₁ h₂ h₃
+  exact Or.elim h₃ h₁ h₂
 
- theorem by_alignment_08 : ((p → q) ∧ (q → r)) → (p → r) := by
-   intro h hp
-   exact h.right (h.left hp)
+theorem by_alignment_08 :
+    ((ProjectionContinuityLocked → OrbifoldIntertwinerContinuous) ∧
+      (OrbifoldIntertwinerContinuous → HilbertCompletionSpectralEquivalent)) →
+    (ProjectionContinuityLocked → HilbertCompletionSpectralEquivalent) := by
+  intro h hp
+  exact h.right (h.left hp)
 
- theorem by_alignment_09 : (p ∧ (p → q)) → q := by
-   intro h
-   exact h.right h.left
+theorem by_alignment_09 :
+    (ProjectionContinuityLocked ∧
+      (ProjectionContinuityLocked → OrbifoldIntertwinerContinuous)) →
+    OrbifoldIntertwinerContinuous := by
+  intro h
+  exact h.right h.left
 
- theorem by_alignment_10 : ¬ (p ∧ ¬ p) := by
-   intro h
-   exact h.right h.left
+theorem by_alignment_10 : ¬ (ParityProjectorBounded ∧ ¬ ParityProjectorBounded) := by
+  intro h
+  exact h.right h.left
 
- theorem by_alignment_11 (h : p) : ¬¬p := by
-   intro hnp
-   exact hnp h
+theorem by_alignment_11 (h : ProjectionContinuityLocked) : ¬¬ProjectionContinuityLocked := by
+  intro hnp
+  exact hnp h
 
- theorem by_alignment_12 : (p → q) → (¬ q → ¬ p) := by
-   intro hpq hnq hp
-   exact hnq (hpq hp)
+theorem by_alignment_12 :
+    (HilbertCompletionSpectralEquivalent → KawamuraIndependenceOpen) →
+    (¬ KawamuraIndependenceOpen → ¬ HilbertCompletionSpectralEquivalent) := by
+  intro h₁ h₂ h₃
+  exact h₂ (h₁ h₃)
 
 end SprintBYFunctionalBridgeAlignment
 

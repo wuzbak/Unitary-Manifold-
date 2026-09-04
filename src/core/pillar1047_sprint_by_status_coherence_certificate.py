@@ -33,6 +33,10 @@ REQUIRED_OPEN_LABELS: List[str] = [
     "LITEBIRD_BIREFRINGENCE",
 ]
 REQUIRED_SPRINT_MARKERS: List[str] = ["v35.5", "1040-1047", "1048"]
+EXPECTED_TESTS_PASSED: int = 63714
+EXPECTED_LEAN4_COUNT: int = 3976
+EXPECTED_TOTAL_SLOTS: int = 1047
+EXPECTED_NEXT_SLOT: int = 1048
 
 
 def status_surface_audit() -> Dict[str, Any]:
@@ -88,10 +92,10 @@ def _live_status_audit() -> Dict[str, Any]:
     return {
         "exists": LIVE_STATUS_PATH.exists(),
         "version_ok": str(meta.get("version")) in {"35.5", "v35.5"},
-        "next_slot_ok": int(pillars.get("next_slot", 0)) == 1048,
-        "total_slots_ok": int(pillars.get("total_slots", 0)) == 1047,
-        "lean4_ok": int(lean4.get("theorem_count", 0)) == 3976,
-        "tests_ok": int(tests.get("passed", 0)) >= 63698,
+        "next_slot_ok": int(pillars.get("next_slot", 0)) == EXPECTED_NEXT_SLOT,
+        "total_slots_ok": int(pillars.get("total_slots", 0)) == EXPECTED_TOTAL_SLOTS,
+        "lean4_ok": int(lean4.get("theorem_count", 0)) == EXPECTED_LEAN4_COUNT,
+        "tests_ok": int(tests.get("passed", 0)) == EXPECTED_TESTS_PASSED,
     }
 
 
@@ -126,7 +130,14 @@ def status_coherence_certificate() -> Dict[str, Any]:
     }
 
 
-PILLAR_VALID: bool = True
+def _safe_pillar_valid() -> bool:
+    try:
+        return bool(status_coherence_certificate()["valid"])
+    except Exception:
+        return False
+
+
+PILLAR_VALID: bool = _safe_pillar_valid()
 
 
 def pillar1047_summary() -> Dict[str, Any]:

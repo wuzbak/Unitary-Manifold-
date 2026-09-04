@@ -56,7 +56,14 @@ def cmb_irreducibility_continuation() -> Dict[str, Any]:
     }
 
 
-PILLAR_VALID: bool = True
+def _safe_pillar_valid() -> bool:
+    try:
+        return bool(cmb_irreducibility_continuation()["valid"])
+    except Exception:
+        return False
+
+
+PILLAR_VALID: bool = _safe_pillar_valid()
 
 
 def pillar1043_summary() -> Dict[str, Any]:

@@ -62,6 +62,15 @@ from .merlin_rag import (
 )
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
+_LIMIT_SYNC_ARGS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "limit": {"type": "integer"},
+        "sync_checks_ok": {"type": "boolean"},
+    },
+    "additionalProperties": False,
+}
+
 MERLIN_SESSION_SCHEMA = {
     "title": "MerlinSession",
     "type": "object",
@@ -267,25 +276,11 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "getMerlinReplacementReadiness": {
-            "args_schema": {
-                "type": "object",
-                "properties": {
-                    "limit": {"type": "integer"},
-                    "sync_checks_ok": {"type": "boolean"},
-                },
-                "additionalProperties": False,
-            },
+            "args_schema": _LIMIT_SYNC_ARGS_SCHEMA,
             "risk_level": "medium",
         },
         "getMerlinStageAArtifacts": {
-            "args_schema": {
-                "type": "object",
-                "properties": {
-                    "limit": {"type": "integer"},
-                    "sync_checks_ok": {"type": "boolean"},
-                },
-                "additionalProperties": False,
-            },
+            "args_schema": _LIMIT_SYNC_ARGS_SCHEMA,
             "risk_level": "medium",
         },
         "runMerlinMemoryAudit": {

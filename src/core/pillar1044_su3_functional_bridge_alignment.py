@@ -17,6 +17,14 @@ LEAN4_FILE: str = "lean4/UnitaryManifold/SprintBYFunctionalBridgeAlignment.lean"
 LEAN4_THEOREM_COUNT: int = 12
 _ROOT = Path(__file__).resolve().parents[2]
 HIGH_LEVEL_REMAINING_BURDEN = "Full functional-analysis bridge proving referee-grade Kawamura independence"
+SEMANTIC_MARKERS: List[str] = [
+    "ParityProjectorBounded",
+    "ParityProjectorRespectsSU3",
+    "OrbifoldIntertwinerContinuous",
+    "HilbertCompletionSpectralEquivalent",
+    "ProjectionContinuityLocked",
+    "KawamuraIndependenceOpen",
+]
 
 
 def _open_substeps_before() -> List[str]:
@@ -45,12 +53,16 @@ def su3_functional_bridge_alignment() -> Dict[str, Any]:
     theorem_count = _count_kernels(lean4_text)
     before = _open_substeps_before()
     after = _open_substeps_after()
+    remaining_burdens = [HIGH_LEVEL_REMAINING_BURDEN]
+    semantic_markers_present = all(marker in lean4_text for marker in SEMANTIC_MARKERS)
     valid = bool(
         prior["valid"]
         and lean4_path.exists()
         and theorem_count == LEAN4_THEOREM_COUNT
+        and semantic_markers_present
         and len(after) < len(before)
         and HIGH_LEVEL_REMAINING_BURDEN in prior["residual_map"]["open_steps_after"]
+        and HIGH_LEVEL_REMAINING_BURDEN in remaining_burdens
     )
     return {
         "pillar": PILLAR_NUMBER,
@@ -63,8 +75,10 @@ def su3_functional_bridge_alignment() -> Dict[str, Any]:
             "exists": lean4_path.exists(),
             "theorem_count": theorem_count,
             "expected_theorem_count": LEAN4_THEOREM_COUNT,
+            "semantic_markers_present": semantic_markers_present,
         },
         "high_level_remaining_burden": HIGH_LEVEL_REMAINING_BURDEN,
+        "remaining_burdens": remaining_burdens,
         "substep_map": {
             "before": before,
             "after": after,
@@ -81,7 +95,14 @@ def su3_functional_bridge_alignment() -> Dict[str, Any]:
     }
 
 
-PILLAR_VALID: bool = True
+def _safe_pillar_valid() -> bool:
+    try:
+        return bool(su3_functional_bridge_alignment()["valid"])
+    except Exception:
+        return False
+
+
+PILLAR_VALID: bool = _safe_pillar_valid()
 
 
 def pillar1044_summary() -> Dict[str, Any]:

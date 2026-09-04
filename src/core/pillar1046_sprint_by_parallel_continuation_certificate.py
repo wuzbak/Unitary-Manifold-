@@ -55,7 +55,7 @@ def sprint_by_parallel_continuation_certificate() -> Dict[str, Any]:
         "formal_substeps_reduced": bool(p1044["valid"]),
         "merlin_artifact_bundle_exported": bool(p1045["valid"]),
         "sprint_metadata_coherent": bool(VERSION == "v35.5" and NEXT_PILLAR_SLOT == 1048 and LEAN4_DELTA == 12),
-        "regression_zero_failures": True,
+        "regression_zero_failures": bool(p1040["live_status_checks"].get("failed_zero")),
     }
     valid = workstreams_valid and execution_order_ok and meaningful_result and all(definition_of_done.values())
     return {
@@ -85,7 +85,14 @@ def sprint_by_parallel_continuation_certificate() -> Dict[str, Any]:
     }
 
 
-PILLAR_VALID: bool = True
+def _safe_pillar_valid() -> bool:
+    try:
+        return bool(sprint_by_parallel_continuation_certificate()["valid"])
+    except Exception:
+        return False
+
+
+PILLAR_VALID: bool = _safe_pillar_valid()
 
 
 def pillar1046_summary() -> Dict[str, Any]:
