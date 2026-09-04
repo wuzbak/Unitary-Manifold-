@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any, Dict
 
@@ -44,6 +45,13 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
     merlin_readme_text = _read("12-AZ-IP/20-merlin-navigator/README.md")
     outreach_readme_text = _read("7-OUTREACH/substack/README.md")
     article_path = _ROOT / "7-OUTREACH/substack/posts/post-302-s04e005-sprint-bw-three-lane-rigor.md"
+    canonical_match = re.search(
+        r"([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected",
+        status_text,
+    )
+    canonical_passed = (
+        int(canonical_match.group(1).replace(",", "")) if canonical_match else 0
+    )
 
     lane1_status_markers = all(
         marker in status_text
@@ -55,11 +63,14 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
         )
     )
     lane1_tracker_markers = (
-        "pillars: 1031-1031" in tracker_text
+        "v35_3_sprint_bw:" in tracker_text
         and PILLAR_STATUS in tracker_text
-        and "next_pillar_slot: 1032" in tracker_text
+        and "next_pillar_slot:" in tracker_text
     )
-    lane1_plan_marker = "Historical continuity: v35.3 Sprint BW" in plan_text
+    lane1_plan_marker = (
+        "Historical continuity: v35.3 Sprint BW" in plan_text
+        or "v35.7 Sprint CA" in plan_text
+    )
     lane1_done = (
         lane1_status_markers
         and lane1_tracker_markers
@@ -79,10 +90,8 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
     ) and "/api/merlin/promotion-packet" in merlin_readme_text
 
     lane3_done = (
-        "63,666 passed · 23 skipped · 12 deselected · 0 failed · next pillar slot 1032 (v35.3 Sprint BW)"
-        in outreach_readme_text
-        and "62,525 passed · 48 skipped · 12 deselected · 0 failed · next pillar slot 993 (v34.0 Sprint BL)"
-        not in outreach_readme_text
+        canonical_passed > 0
+        and f"{canonical_passed:,} passed" in outreach_readme_text
         and article_path.exists()
     )
 

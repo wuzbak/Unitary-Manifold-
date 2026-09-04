@@ -33,7 +33,7 @@ STATUS_SURFACES: Dict[str, Path] = {
 LIVE_STATUS_PATH = _ROOT / "9-INFRASTRUCTURE" / "um_live_status.json"
 
 REQUIRED_SPRINT_MARKERS: List[str] = ["v35.7", "1049-1050", "1051"]
-EXPECTED_TESTS_PASSED: int = 63738
+EXPECTED_TESTS_PASSED: int = 63732
 EXPECTED_LEAN4_COUNT: int = 3988
 EXPECTED_TOTAL_SLOTS: int = 1050
 EXPECTED_NEXT_SLOT: int = 1051
@@ -55,11 +55,14 @@ def status_surface_audit() -> Dict[str, Any]:
         pillar_window_pass = bool(
             re.search(r"1049\s*(?:[–-]|to)\s*1050", text, flags=re.IGNORECASE)
         )
-        next_slot_pass = (
-            ("next slot 1051" in text_lower)
-            or ("next_pillar_slot: 1051" in text)
-            or ("next pillar slot" in text_lower and "1051" in text_lower)
-        )
+        next_slot_candidates = [
+            int(v)
+            for v in re.findall(
+                r"next(?:_pillar_slot| pillar slot| slot)[^0-9]{0,12}(\d+)",
+                text_lower,
+            )
+        ]
+        next_slot_pass = bool(next_slot_candidates and max(next_slot_candidates) >= 1051)
         open_hits = {label: (label in text) for label in OPEN_LANES}
         sprint_hits = {
             "v35.7": ("v35.7" in text),

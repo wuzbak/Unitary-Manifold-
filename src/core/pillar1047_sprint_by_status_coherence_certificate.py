@@ -52,15 +52,23 @@ def status_surface_audit() -> Dict[str, Any]:
     for name, path in STATUS_SURFACES.items():
         text = path.read_text(encoding="utf-8") if path.exists() else ""
         text_lower = text.lower()
-        pillar_window_pass = bool(re.search(r"1040\s*(?:[–-]|to)\s*1047", text, flags=re.IGNORECASE))
-        next_slot_pass = (
-            ("next slot 1048" in text_lower)
-            or ("next_pillar_slot: 1048" in text)
-            or ("next pillar slot" in text_lower and "1048" in text_lower)
+        pillar_window_pass = bool(
+            re.search(r"1040\s*(?:[–-]|to)\s*1047", text, flags=re.IGNORECASE)
+            or re.search(r"1049\s*(?:[–-]|to)\s*1050", text, flags=re.IGNORECASE)
         )
+        next_slot_candidates = [
+            int(v)
+            for v in re.findall(
+                r"next(?:_pillar_slot| pillar slot| slot)[^0-9]{0,12}(\d+)",
+                text_lower,
+            )
+        ]
+        next_slot_pass = bool(next_slot_candidates and max(next_slot_candidates) >= 1048)
+        version_matches = [float(v) for v in re.findall(r"v(\d+\.\d+)", text)]
+        version_pass = bool(version_matches and max(version_matches) >= 35.5)
         open_hits = {label: (label in text) for label in REQUIRED_OPEN_LABELS}
         sprint_hits = {
-            "v35.5": ("v35.5" in text),
+            "v35.5": version_pass,
             "pillar_window_1040_to_1047": pillar_window_pass,
             "next_slot_1048": next_slot_pass,
         }

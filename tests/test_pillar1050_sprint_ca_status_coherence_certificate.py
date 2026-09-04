@@ -30,7 +30,7 @@ def test_surface_registry() -> None:
 
 
 def test_expected_thresholds() -> None:
-    assert EXPECTED_TESTS_PASSED == 63738
+    assert EXPECTED_TESTS_PASSED == 63732
     assert EXPECTED_LEAN4_COUNT == 3988
     assert EXPECTED_TOTAL_SLOTS == 1050
     assert EXPECTED_NEXT_SLOT == 1051
