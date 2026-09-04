@@ -4,8 +4,8 @@
 **Domain:** axiomzerospc.org  
 **Email:** cpo@axiomzerospc.org
 
-**Current public webspace release:** v22.9  
-**Public status snapshot:** 56,747 passing tests · 976 Lean4 theorems · 0 failed
+**Canonical public status source:** `9-INFRASTRUCTURE/um_live_status.json`  
+**Live status URL:** `https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json`
 
 ---
 
@@ -87,7 +87,7 @@ jobs:
 | URL | Page |
 |-----|------|
 | `axiomzerospc.org/` | Main landing (Unitary Manifold) |
-| `axiomzerospc.org/az-apps/` | AZ Products hub (17 apps) |
+| `axiomzerospc.org/az-apps/` | AZ Products hub (23 products) |
 | `axiomzerospc.org/az-apps/um-image-generator.html` | UM Image Generator |
 | `axiomzerospc.org/az-apps/01-axiom-os` | AxiomOS |
 | `axiomzerospc.org/az-apps/06-omega-synthesis` | Omega Synthesis (browser JS) |
@@ -210,7 +210,7 @@ Run `bot/rag_index.py` to generate the JSONL files before pushing.
 | `axiomzerospc.org/portal/gym/` | Gym |
 | `axiomzerospc.org/portal/engine/` | Science Engine |
 | `axiomzerospc.org/portal/library/` | Open Science Library |
-| `axiomzerospc.org/az-apps/` | 17 AZ-IP products |
+| `axiomzerospc.org/az-apps/` | 23 AZ-IP products |
 | `axiomzerospc.org/az-apps/um-image-generator.html` | UM Image Generator |
 | `api.axiomzerospc.org` | Assistant API backend |
 

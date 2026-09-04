@@ -2,21 +2,21 @@
 
 **Status source:** `https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json` (canonical live metrics for version/tests/Lean4/pillars)
 
-Full Hugging Face deployment of the [axiomzerospc.org](https://axiomzerospc.org) webspace.
-ALL apps, OS environments, physics engines, IP catalog, and knowledge base — fully functional.
+Full Hugging Face deployment surfaces for the [axiomzerospc.org](https://axiomzerospc.org) webspace.
+Canonical AZ product count is 23; HF spaces currently host Products 01–20 directly, while Products 21–23 are linked via the public AZ app hub / repository.
 
 ## Spaces
 
 | Space | SDK | Products | Description |
 |-------|-----|----------|-------------|
 | `az-portal/` | Static HTML | Hub | Full portal hub — links to all spaces, physics constants, live status |
-| `oracle-space/` | Gradio | 16, 20 (OX Alpha) | Grand Synthesis Engine + OX Alpha AI |
+| `oracle-space/` | Gradio | 16, 20 (Merlin/OX-compatible) | Grand Synthesis Engine + Merlin compatibility AI |
 | `cmb-calc-space/` | Gradio | CMB, Birefringence, KK, DESI | Physics calculators — 5 tabs |
 | `axiom-apps/` | Gradio | 01–10 | AxiomOS, EIGE, UM-SOS, Omega Synthesis, Holon Zero, Journalist, OmegaHolon, Filmer |
-| `az-tools/` | Gradio | 11–20 | Terra-OS, Lithos-OS, DelPhi, SDAM, Pentacorder, Oracle, Falsification-Obs, Interrogator, Flashcard, OX Navigator |
+| `az-tools/` | Gradio | 11–20 | Terra-OS, Lithos-OS, DelPhi, SDAM, Pentacorder, Oracle, + legacy utility trio (Falsification Obs, Interrogator, Flashcard) and Merlin/OX-compatible navigator |
 | `vqe-sandbox/` | Gradio | Quantum | VQE + Fermi-Hubbard simulation — JW encoding + KK φ-weighted ansatz |
 | `az-os/` | Gradio | 01, 11, 12 | AxiomOS + Terra-OS + Lithos-OS unified OS environment |
-| `az-ip/` | Gradio | IP Catalog | Full IP registry — 20 products, engines, OS, tools, fingerprint browser |
+| `az-ip/` | Gradio | IP Catalog | IP registry browser (legacy in-space snapshot + canonical links to current 23-product registry) |
 | `um-knowledge-dataset/` | Dataset | RAG | pillars.jsonl, theorems.jsonl, claims.jsonl, fallibility.jsonl, apps.jsonl, docs.jsonl |
 
 ## Deploy to Hugging Face
@@ -42,9 +42,9 @@ cd /tmp/um-knowledge-dataset && git add -A && git commit -m "Add JSONL data file
 
 | Space | Variable | Purpose |
 |-------|----------|---------|
-| oracle-space | `OPENROUTER_API_KEY` | OX Alpha (stealth/ox-alpha) — extended memory AI |
+| oracle-space | `OPENROUTER_API_KEY` | Optional compatibility path for Merlin/OX model routing |
 | axiom-apps | `OPENROUTER_API_KEY` | AxiomOS + Journalist AI |
-| az-tools | `OPENROUTER_API_KEY` | OX Navigator (Product 20) |
+| az-tools | `OPENROUTER_API_KEY` | Optional compatibility path for Product 20 Merlin/OX routing |
 | az-os | `OPENROUTER_API_KEY` | AxiomOS cognitive queries |
 
 Set via HF Space Settings → Variables and Secrets. Never commit API keys.
@@ -104,6 +104,15 @@ hf-spaces/
 - Canonical live metrics feed: `9-INFRASTRUCTURE/um_live_status.json`
 - Drift enforcement gate: `9-INFRASTRUCTURE/check_status_drift.py`
 - Nightly endpoint canary: `.github/workflows/hf-spaces-canary.yml`
+
+## Coverage notes
+
+- Canonical product registry and naming authority: `12-AZ-IP/README.md` (Products 01–23).
+- HF spaces provide direct hosted coverage for Products 01–20 plus portal/dataset surfaces.
+- Products 21 (UM Geophysical Monitor), 22 (AxiomZero SGE), and 23 (Merlin DM Guide & Player Assistant) are linked through:
+  - `public-site/az-apps/index.html`
+  - `docs/APPS_SPACES_FINALIZATION_MATRIX.md`
+  - product folders under `12-AZ-IP/21-geo-monitor/`, `12-AZ-IP/22-az-sge/`, `12-AZ-IP/23-merlin-dm-assistant/`
 
 ## Epistemic Notes
 

@@ -1,14 +1,14 @@
 {
   "upload_type": "publication",
   "publication_type": "preprint",
-  "title": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 22.9)",
+  "title": "The Unitary Manifold: A 5D Gauge Geometry of Emergent Irreversibility (Version 35.7)",
   "creators": [
     {
       "name": "Walker-Pearson, ThomasCory",
       "affiliation": "AxiomZero Technologies & Consulting, SPC — UBI 606 239 876"
     }
   ],
-  "description": "We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The fifth dimension is compact, the cylinder condition is imposed, and the 5D metric is cast in the standard Kaluza-Klein block form with a vector field B_mu — the irreversibility 1-form — and a scalar phi — the entropic dilaton. Dimensional reduction of the 5D Einstein-Hilbert action yields a 4D effective action whose field equations we call the Walker-Pearson equations. We show that (i) the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate; (ii) information pressure provides a purely geometric alternative to a cosmological constant; (iii) entropic holography identifies boundary entropy with bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture asserts that irreversible singularities are hidden behind holographic boundaries. Version 22.9 (2026-08-20) tracks 208 hardgated core pillars and 784 total pillar slots, with next slot 785. Numerical implementation covering ~56,747 passed tests, 47 skipped, and 12 deselected with 0 failed is provided for independent verification, alongside a Lean4 corpus of 976 theorems. Epistemic status: the repository is internally self-consistent across the tracked pillar set; external empirical confirmation remains pending. Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} (~2032). DOI: 10.5281/zenodo.19584531",
+  "description": "We present the Unitary Manifold (UM), a five-dimensional Kaluza-Klein framework in which thermodynamic irreversibility, information flow, and quantum transition asymmetry are unified as projections of a single higher-dimensional geometry. The fifth dimension is compact, the cylinder condition is imposed, and the 5D metric is cast in the standard Kaluza-Klein block form with a vector field B_mu — the irreversibility 1-form — and a scalar phi — the entropic dilaton. Dimensional reduction of the 5D Einstein-Hilbert action yields a 4D effective action whose field equations we call the Walker-Pearson equations. We show that (i) the Second Law of Thermodynamics is a geometric identity rather than a statistical postulate; (ii) information pressure provides a purely geometric alternative to a cosmological constant; (iii) entropic holography identifies boundary entropy with bulk area; and (iv) a Thermodynamic Cosmic Censorship Conjecture asserts that irreversible singularities are hidden behind holographic boundaries. Version 35.7 (2026-09-04) tracks 208 hardgated core pillars and 1,050 total pillar slots, with next slot 1,051. Numerical implementation currently reports 63,732 passed tests, 23 skipped, and 12 deselected with 0 failed in the latest verified full branch regression, alongside a Lean4 corpus of 3,988 theorems. Epistemic status: the repository is internally self-consistent across the tracked pillar set; external empirical confirmation remains pending. Primary falsifier: LiteBIRD β ∈ {0.273°, 0.331°} (~2032), falsified if β falls outside [0.22°, 0.38°] or in [0.29°, 0.31°]. DOI: 10.5281/zenodo.19584531",
   "access_right": "open",
   "license": "other-open",
   "keywords": [
@@ -80,7 +80,7 @@
     }
   ],
   "language": "eng",
-  "notes": "This work is dedicated to the Defensive Public Commons. All ideas, methods, and scientific principles contained herein are freely available for public use without restriction. Version 22.9 — 208 hardgated core pillars, 784 total pillar slots, next slot 785. Full regression: ~56,747 passed · 47 skipped · 12 deselected · 0 failed. Lean4 corpus: 976 theorems. Full test suite available at https://github.com/wuzbak/Unitary-Manifold-",
+  "notes": "This work is dedicated to the Defensive Public Commons. All ideas, methods, and scientific principles contained herein are freely available for public use without restriction. Version 35.7 — 208 hardgated core pillars, 1,050 total pillar slots, next slot 1,051. Latest verified full branch regression: 63,732 passed · 23 skipped · 12 deselected · 0 failed. Lean4 corpus: 3,988 theorems. Full test suite available at https://github.com/wuzbak/Unitary-Manifold-",
   "related_identifiers": [
     {
       "identifier": "https://github.com/wuzbak/Unitary-Manifold-",
@@ -100,7 +100,7 @@
       "scheme": "doi"
     }
   ],
-  "version": "22.9",
+  "version": "35.7",
   "communities": [
     {
       "identifier": "zenodo"

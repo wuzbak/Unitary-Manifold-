@@ -1,5 +1,5 @@
 ---
-title: AxiomZero Tools 11–20
+title: AxiomZero Tools 11–20 (HF Hosted)
 emoji: 🔧
 colorFrom: purple
 colorTo: indigo
@@ -8,7 +8,7 @@ sdk_version: "4.44.0"
 app_file: app.py
 pinned: true
 license: other
-short_description: AZ Products 11–20 — Terra-OS, Lithos-OS, DelPhi, SDAM, Pentacorder, Oracle, Image-Gen, Reader, Falsification-Obs, OX Navigator
+short_description: HF-hosted tools suite (11–20 lane) with Merlin/OX compatibility for Product 20; canonical 23-product registry lives in 12-AZ-IP/README.md
 tags:
   - physics
   - kaluza-klein
@@ -18,9 +18,9 @@ tags:
   - oracle
 ---
 
-# AxiomZero Products 11–20
+# AxiomZero Products 11–20 (HF hosted set)
 
-**10 AZ Products** — the tools, OS environments, and AI assistants.
+**10 AZ products hosted in this space** — tools, OS environments, and AI assistants.
 
 | # | Product | Description |
 |---|---------|-------------|
@@ -33,6 +33,9 @@ tags:
 | 17 | Falsification Observatory | 7-experiment tracker |
 | 18 | Interrogator | Physics Q&A knowledge base |
 | 19 | Flashcard Trainer | Physics education |
-| 20 | OX Navigator | Extended AI memory (OX Alpha) |
+| 20 | Merlin Navigator (OX-compatible) | Extended AI navigation with compatibility routing |
+
+Canonical full product registry (Products 01–23): `12-AZ-IP/README.md`.
+Note: this HF tools space remains a hosted legacy utility lane for slots 17–19; canonical Product 17/18/19 surfaces are managed in the current AZ product hub and registry.
 
 *AxiomZero Technologies & Consulting, SPC — UBI 606 239 876*
