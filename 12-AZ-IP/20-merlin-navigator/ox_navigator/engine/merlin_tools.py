@@ -521,7 +521,7 @@ _FUNCTIONS = {
     "getMerlinTrainingArchitecture": lambda **args: {"data": get_training_architecture(limit=args.get("limit"))},
     "getMerlinOpenScienceRegistry": lambda **args: {"data": get_open_science_resource_registry()},
     "getMerlinCompetitiveBenchmarkPlan": lambda **args: {"data": get_competitive_benchmark_plan()},
-    "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit")).get("artifact_bundle", {})},
+    "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit"))},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
     "getMerlinBackendPolicy": lambda **args: {"data": get_backend_expansion_policy()},
     "getMerlinWorkspacePolicy": lambda **args: {"data": get_workspace_policy()},

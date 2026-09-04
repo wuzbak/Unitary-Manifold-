@@ -279,12 +279,12 @@ def test_route_tool_training_architecture_and_artifacts():
 
     artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4})
     assert artifacts['ok'] is True
-    assert artifacts['result']['data']['training_architecture']['seed_statistics']['total_examples'] == 4
+    assert artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
 
     empty_artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 0})
     assert empty_artifacts['ok'] is True
-    assert empty_artifacts['result']['data']['training_architecture']['seed_statistics']['total_examples'] == 0
-    assert empty_artifacts['result']['data']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] == 0
+    assert empty_artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 0
+    assert empty_artifacts['result']['data']['artifact_bundle']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] == 0
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
@@ -682,7 +682,7 @@ def test_server_merlin_endpoints():
             training_artifacts = client.get('/api/merlin/training-artifacts?limit=4')
             assert training_artifacts.status_code == 200
             assert training_artifacts.json()['ok'] is True
-            assert training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 4
+            assert training_artifacts.json()['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
 
             bad_artifact_limit = client.get('/api/merlin/benchmark-artifacts?limit=abc')
             assert bad_artifact_limit.status_code == 400

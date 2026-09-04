@@ -352,10 +352,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({'ok': False, 'error': error}, status=400)
                     return
                 payload = build_training_artifact_bundle(limit=limit)
-                self._json({
-                'ok': bool(payload.get('ok')),
-                'training_artifacts': payload.get('artifact_bundle', {}),
-                })
+                self._json(payload)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/promotion-packet':
