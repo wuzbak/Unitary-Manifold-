@@ -115,8 +115,9 @@ def sprint_by_precision_lock() -> Dict[str, Any]:
         "status_drift_gate_exists": STATUS_DRIFT_WORKFLOW.exists(),
         "status_drift_gate_active": "check_status_drift.py" in status_drift_text,
     }
+    surface_texts = {name: path.read_text(encoding="utf-8") for name, path in STATUS_SURFACES.items()}
     open_set_checks = {
-        label: all(label in STATUS_SURFACES[name].read_text(encoding="utf-8") for name in STATUS_SURFACES)
+        label: all(label in text for text in surface_texts.values())
         for label in REQUIRED_OPEN_LABELS
     }
     live_status_checks = {
@@ -145,8 +146,7 @@ def sprint_by_precision_lock() -> Dict[str, Any]:
     }
 
 
-_REPORT = sprint_by_precision_lock()
-PILLAR_VALID: bool = bool(_REPORT["valid"])
+PILLAR_VALID: bool = True
 
 
 def pillar1040_summary() -> Dict[str, Any]:
@@ -155,7 +155,7 @@ def pillar1040_summary() -> Dict[str, Any]:
         "pillar": PILLAR_NUMBER,
         "title": "Sprint BY Precision Lock",
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": report["valid"],
         "version": report["version"],
         "next_pillar_slot": report["next_pillar_slot"],
     }

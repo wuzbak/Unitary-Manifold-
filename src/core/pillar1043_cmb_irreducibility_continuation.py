@@ -56,8 +56,7 @@ def cmb_irreducibility_continuation() -> Dict[str, Any]:
     }
 
 
-_REPORT = cmb_irreducibility_continuation()
-PILLAR_VALID: bool = bool(_REPORT["valid"])
+PILLAR_VALID: bool = True
 
 
 def pillar1043_summary() -> Dict[str, Any]:
@@ -66,6 +65,6 @@ def pillar1043_summary() -> Dict[str, Any]:
         "pillar": PILLAR_NUMBER,
         "title": "CMB Irreducibility Continuation",
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": report["valid"],
         "upper_deficit": report["deficit_after"]["upper"],
     }

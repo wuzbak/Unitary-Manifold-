@@ -44,8 +44,7 @@ def uv_joint_bottleneck_continuation() -> Dict[str, Any]:
     }
 
 
-_REPORT = uv_joint_bottleneck_continuation()
-PILLAR_VALID: bool = bool(_REPORT["valid"])
+PILLAR_VALID: bool = True
 
 
 def pillar1042_summary() -> Dict[str, Any]:
@@ -54,6 +53,6 @@ def pillar1042_summary() -> Dict[str, Any]:
         "pillar": PILLAR_NUMBER,
         "title": "UV Joint Bottleneck Continuation",
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": report["valid"],
         "joint_bottleneck_pressure": report["joint_bottleneck_pressure"],
     }

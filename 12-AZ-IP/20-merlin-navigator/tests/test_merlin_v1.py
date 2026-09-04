@@ -5,9 +5,15 @@ from __future__ import annotations
 
 import asyncio
 import json
+import sys
 import threading
+from pathlib import Path
 
 import httpx
+
+PRODUCT_ROOT = Path(__file__).resolve().parents[1]
+if str(PRODUCT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PRODUCT_ROOT))
 
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_identity import (
@@ -481,6 +487,11 @@ def test_server_merlin_endpoints():
             assert readiness.status_code == 200
             assert readiness.json()['ok'] is True
             assert readiness.json()['readiness']['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
+
+            artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
+            assert artifacts.status_code == 200
+            assert artifacts.json()['ok'] is True
+            assert artifacts.json()['artifacts']['artifact_bundle']['receipts']['summary']['total'] == 1
 
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200

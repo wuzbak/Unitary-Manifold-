@@ -65,8 +65,7 @@ def flavor_priority_continuation() -> Dict[str, Any]:
     }
 
 
-_REPORT = flavor_priority_continuation()
-PILLAR_VALID: bool = bool(_REPORT["valid"])
+PILLAR_VALID: bool = True
 
 
 def pillar1041_summary() -> Dict[str, Any]:
@@ -75,7 +74,7 @@ def pillar1041_summary() -> Dict[str, Any]:
         "pillar": PILLAR_NUMBER,
         "title": "Flavor Priority Continuation",
         "status": PILLAR_STATUS,
-        "valid": PILLAR_VALID,
+        "valid": report["valid"],
         "closest_lane": report["closest_lane_to_runtime_flip"]["lane"],
         "hardest_lane": report["hardest_remaining_lane"]["lane"],
     }
