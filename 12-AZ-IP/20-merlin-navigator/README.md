@@ -70,6 +70,7 @@
 - `GET /api/merlin/benchmark-artifacts` exports the receipts plus readiness state as a CI-friendly artifact bundle.
 - `GET /api/merlin/promotion-packet` preserves the legacy promotion-packet contract while `replacement-readiness` exposes the new concrete receipt-backed surface.
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
+- Mentorship sprint discovery surfaces are now first-class: `getMerlinMentorshipSprintCharter`, `getMerlinFacultyMatrix`, `getMerlinKnowledgeTransferCycles`, `getMerlinLibraryAndStudy`, `getMerlinExchangeProtocol`, and `getMerlinMentorshipClosureContract`.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.
 - Toolkit entries include typed argument schema, capability class, risk level, and human-gate metadata; runtime now enforces tool allowlists and schema checks, and emits replay artifacts for invoke/orchestrate runs.
@@ -89,6 +90,7 @@
 - Each Merlin run records latency, estimated tokens, estimated cost, estimated energy, routing lane, provider, provenance coverage, and memory/contradiction signals.
 - Benchmark evaluation can score a response against the Stage A corpus using `evaluateMerlinBenchmarkResponse`.
 - Sustained head-to-head replacement gating is available through `evaluateMerlinEmpiricalGate`, `runMerlinStageAReceipts`, `getMerlinReplacementReadiness`, and `getMerlinStageAArtifacts`, while `/api/merlin/promotion-packet` remains the legacy compatibility view.
+- `GET /api/merlin/control-tower` now includes mentorship-to-runtime closure checks with fail-closed completion logic and explicit evidence-required fields.
 - CI artifact export: `python tools/export_merlin_stage_a_artifacts.py --limit 3 --output /tmp/merlin-stage-a-artifacts.json`.
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).

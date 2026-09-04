@@ -13,6 +13,12 @@ This document records the implemented execution blueprint for making Merlin the 
 - Toolkit functions exposed through `/api/agentInvoke`:
   - `getMerlinProgramCharter`
   - `getMerlinProgramOffice`
+  - `getMerlinMentorshipSprintCharter`
+  - `getMerlinFacultyMatrix`
+  - `getMerlinKnowledgeTransferCycles`
+  - `getMerlinLibraryAndStudy`
+  - `getMerlinExchangeProtocol`
+  - `getMerlinMentorshipClosureContract`
   - `getMerlinReplacementScope`
   - `getMerlinStackBaseline`
   - `getMerlinWeightsAndMeasures`
@@ -81,6 +87,15 @@ This document records the implemented execution blueprint for making Merlin the 
 `evaluateMerlinEmpiricalGate()` now computes an explicit sustained head-to-head replacement verdict from comparable Merlin/incumbent runs (success parity, quality regression budget, energy-per-successful-task delta, and high-severity policy violations). `runMerlinStageAReceipts()` now produces the comparable run receipts directly from the self-hosted benchmark corpus, `getMerlinReplacementReadiness()` exposes the concrete receipt-backed stage-D decision contract, and `getMerlinStageAArtifacts()` / `GET /api/merlin/benchmark-artifacts` export CI-friendly artifact bundles for recurring review while `getMerlinPromotionPacket()` remains the compatibility view.
 
 `getMerlinProgramOffice()` now declares a formal command structure with explicit approve/hold/rollback authority, one decision ledger, one risk ledger, and one gate board. `getMerlinMultiStageBenchmarks()` defines Stage A→E batteries with minimum sustained-run thresholds, `evaluateMerlinLongitudinalAcceptance()` enforces clean-window cadence checks, and `getMerlinControlTower()` surfaces deployment eligibility with fail-closed gate logic.
+
+## Mentorship sprint implementation
+
+- Formal mentorship sprint charter is now first-class under Program Office with non-negotiables for full rigor, no partial delivery, auditable decisions, and fail-closed promotion gates.
+- Specialized model faculty matrix now defines small/router, medium/default, heavy/exception, safety/governance, and benchmarking lanes with fixed teaching scopes, acceptance rubrics, and required artifacts.
+- Structured knowledge-transfer cycles now require each specialist to deposit playbooks, failure counterexamples, decision criteria, and benchmark-aligned exemplars into Merlin's governed back room.
+- Library + Study assets are now explicit governed contracts covering canonical source curation, typed provenance registry linkage, benchmark corpora, active training queue surface, contradiction log, replay packs, and mentorship session ledger schema.
+- Cross-model exchange protocol now requires at least one peer review per specialist, reconciliation, and explicit unresolved-conflict risk logging (silent merge forbidden).
+- Control-tower responses now include a mentorship-to-runtime closure block with fail-closed checks and explicit evidence requirements for exchange-cycle completion and unresolved-risk counts.
 
 ## Merlin Sovereignty Roadmap checklist
 

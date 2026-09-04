@@ -274,6 +274,10 @@ def test_route_tool_program_office_and_control_tower():
     assert office['ok'] is True
     assert office['result']['data']['mode'] == 'replacement_program_not_feature_work'
     assert len(office['result']['data']['parallel_squads']) == 8
+    mentorship = office['result']['data']['mentorship_sprint']
+    assert mentorship['charter']['mode'] == 'full_rigor_no_partial_delivery'
+    assert len(mentorship['faculty_matrix']['faculty']) == 5
+    assert mentorship['completion_contract']['gate_policy'] == 'fail_closed'
 
     control = route_tool('getMerlinControlTower', {'limit': 1})
     assert control['ok'] is True
@@ -281,6 +285,35 @@ def test_route_tool_program_office_and_control_tower():
     assert 'replacement_readiness' in data
     assert 'deployment_eligibility' in data
     assert 'drift_alerts' in data
+    assert 'mentorship_to_runtime' in data
+    assert data['mentorship_to_runtime']['checks']['faculty_artifacts_landed'] is True
+    assert data['mentorship_to_runtime']['checks']['exchange_cycle_complete'] is False
+
+
+def test_route_tool_mentorship_surfaces():
+    charter = route_tool('getMerlinMentorshipSprintCharter', {})
+    assert charter['ok'] is True
+    assert charter['result']['data']['non_negotiables']
+
+    faculty = route_tool('getMerlinFacultyMatrix', {})
+    assert faculty['ok'] is True
+    assert len(faculty['result']['data']['faculty']) == 5
+
+    transfer = route_tool('getMerlinKnowledgeTransferCycles', {})
+    assert transfer['ok'] is True
+    assert "process_playbooks" in transfer['result']['data']['deposit_bundle_required']
+
+    library = route_tool('getMerlinLibraryAndStudy', {})
+    assert library['ok'] is True
+    assert library['result']['data']['library']['typed_provenance_registry_surface'] == 'getMerlinKnowledgeCore'
+
+    exchange = route_tool('getMerlinExchangeProtocol', {})
+    assert exchange['ok'] is True
+    assert exchange['result']['data']['requirements']['silent_merge_forbidden'] is True
+
+    closure = route_tool('getMerlinMentorshipClosureContract', {})
+    assert closure['ok'] is True
+    assert closure['result']['data']['name'] == 'mentorship_to_runtime_closure'
 
 
 def test_route_tool_control_tower_clamps_non_positive_limit():
@@ -514,11 +547,14 @@ def test_server_merlin_endpoints():
             assert program_office.status_code == 200
             assert program_office.json()['ok'] is True
             assert program_office.json()['program_office']['mode'] == 'replacement_program_not_feature_work'
+            assert program_office.json()['program_office']['mentorship_sprint']['charter']['mode'] == 'full_rigor_no_partial_delivery'
 
             control_tower = client.get('/api/merlin/control-tower?limit=1')
             assert control_tower.status_code == 200
             assert control_tower.json()['ok'] is True
             assert 'deployment_eligibility' in control_tower.json()['control_tower']
+            assert 'mentorship_to_runtime' in control_tower.json()['control_tower']
+            assert control_tower.json()['control_tower']['mentorship_to_runtime']['complete'] is False
 
             control_tower_clamped = client.get('/api/merlin/control-tower?limit=0')
             assert control_tower_clamped.status_code == 200
@@ -631,6 +667,7 @@ def test_server_merlin_endpoints():
             toolkit = client.get('/api/agentToolkit?view=state')
             assert toolkit.status_code == 200
             assert toolkit.json()['view'] == 'state'
+            assert toolkit.json()['mentorship']['closure_contract']['name'] == 'mentorship_to_runtime_closure'
 
             invoke = client.post('/api/agentInvoke', json={'tool': 'fetchRepoContext', 'args': {}})
             assert invoke.status_code == 200
