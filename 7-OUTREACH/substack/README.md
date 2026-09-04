@@ -29,6 +29,11 @@ All visual assets live inside `visuals/`.
 This directory contains ready-to-publish Substack post drafts for communicating
 the Unitary Manifold framework to a general audience.
 
+## Latest additions (Apps & Spaces sweep)
+
+- `posts/post-300-s04e003-axiomzero-apps-spaces-complete-2026-state.md`
+- `posts/post-301-s04e004-merlin-and-dnd-adoption-workflow.md`
+
 ## Substack Visuals
 
 **[visuals/](visuals/README.md)** contains 18 PNG figures for explaining the
