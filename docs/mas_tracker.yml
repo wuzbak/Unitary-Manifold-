@@ -34,7 +34,7 @@ v35_5_sprint_by:
     - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
     - DESI_DR3_MONITORING
     - LITEBIRD_BIREFRINGENCE
-  regression: "63,698 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)"
+  regression: "63,709 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)"
   focused_regression: "Sprint BY targeted tests passed · 0 failed; Merlin Product 20 targeted tests passed · 0 failed"
   next_pillar_slot: 1048
 

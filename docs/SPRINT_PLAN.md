@@ -30,6 +30,7 @@ Proceed only when all three agree.
 | Binary outcome | **PRECISION_LOCK_EARNED + MEANINGFUL_CONTINUATION_WITH_NO_LABEL_INFLATION** |
 
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) completed the first parallel closure campaign and sharpened the blocker map before the Sprint BY precision-lock continuation.
+Historical continuity: v35.3 Sprint BW (Pillar 1031; next slot 1032) remains the canonical three-lane execution checkpoint directly below Sprint BX.
 
 ---
 

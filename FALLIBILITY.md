@@ -1,6 +1,6 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v35.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BY** (2026-09-04; Pillars 1040–1047) begins with a precision lock, then continues the parallel closure campaign under serialized claim discipline: flavor first, UV second, CMB third, with formal bridge alignment and Merlin sovereign batch-gating in parallel. The sprint repairs stale-surface drift, sharpens the flavor priority ladder, tightens the shared UV and CMB non-promotion boundaries again, narrows the surviving P636 functional-analysis burden without claiming final closure, and upgrades Merlin from one-off readiness checks to CI-exportable benchmark artifacts and scheduled gate execution. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`. Next pillar slot 1048. Latest verified full regression in branch history: 63,698 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint BY targeted tests passed · 0 failed; Merlin Product 20 targeted tests passed · 0 failed.)*
+*Unitary Manifold v35.5 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint BY** (2026-09-04; Pillars 1040–1047) begins with a precision lock, then continues the parallel closure campaign under serialized claim discipline: flavor first, UV second, CMB third, with formal bridge alignment and Merlin sovereign batch-gating in parallel. The sprint repairs stale-surface drift, sharpens the flavor priority ladder, tightens the shared UV and CMB non-promotion boundaries again, narrows the surviving P636 functional-analysis burden without claiming final closure, and upgrades Merlin from one-off readiness checks to CI-exportable benchmark artifacts and scheduled gate execution. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`. Next pillar slot 1048. Latest verified full regression in branch history: 63,709 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint BY targeted tests passed · 0 failed; Merlin Product 20 targeted tests passed · 0 failed.)*
 
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 
@@ -56,7 +56,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (63,698 passed · 23 skipped · 12 deselected · 0 failed (v35.5, 2026-09-04; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (63,709 passed · 23 skipped · 12 deselected · 0 failed (v35.5, 2026-09-04; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution
@@ -89,12 +89,12 @@ framework as a description of nature.  Specifically:
   Passing every test means the code faithfully executes the framework's
   equations.  It says nothing about whether those equations describe nature.
 
-The test count (currently 63,698) is a measure of **implementation coverage
+The test count (currently 63,709) is a measure of **implementation coverage
 and internal mathematical self-consistency**.  It is not a measure of
 empirical truth.  A physicist reading a large test count should understand
 exactly this and nothing more.
 
-When the README badge reads "63,698 passed · 0 failed," this is a statement about
+When the README badge reads "63,709 passed · 0 failed," this is a statement about
 **code correctness**, not about **physical correctness**.
 
 The adjacent quantum interoperability lane (`src/quantum/xdiag_bridge/`) is an
