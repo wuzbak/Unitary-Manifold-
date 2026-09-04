@@ -343,7 +343,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     {'limit': limit},
                     session=merlin_session,
                 ))
-                self._json({'ok': payload['ok'], 'artifacts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                if status != 200:
+                    self._json({'ok': payload['ok'], 'error': payload.get('error')}, status=status)
+                    return
+                self._json(payload['data'], status=status)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/training-artifacts':

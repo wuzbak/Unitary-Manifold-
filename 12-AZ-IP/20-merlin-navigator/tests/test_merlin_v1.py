@@ -677,7 +677,7 @@ def test_server_merlin_endpoints():
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200
             assert artifacts.json()['ok'] is True
-            assert artifacts.json()['artifacts']['artifact_bundle']['receipts']['summary']['total'] == 1
+            assert artifacts.json()['artifact_bundle']['receipts']['summary']['total'] == 1
 
             training_artifacts = client.get('/api/merlin/training-artifacts?limit=4')
             assert training_artifacts.status_code == 200
