@@ -1,9 +1,38 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v35.4 (2026-09-03)**
-**Regression:** 63,666 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1040
+**Current version: v35.5 (2026-09-04)**
+**Regression:** 63,714 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1048
+
+## v35.5 (2026-09-04 — Sprint BY: Pillars 1040–1047)
+
+**What changed:**
+Pillars 1040–1047 (8 pillars). Sprint BY begins with a precision lock and then continues the post-BX parallel program under the same serialized claim discipline. (1) P1040 repairs stale truth-surface and Merlin-baseline wording before new claim work proceeds. (2) P1041 converts the flavor blocker map into a priority ladder with explicit closest-to-flip and hardest-lane ranking. (3) P1042 reruns α_s and Higgs under the same shared packet and emits a joint bottleneck pressure instead of any unearned label change. (4) P1043 reruns the no-fit/no-external-target CMB packet and tightens the irreducibility boundary again. (5) P1044 adds a Lean4-backed bridge-alignment layer that narrows the surviving P636 functional-analysis burden. (6) P1045 upgrades Merlin to CI-exportable artifact bundles plus scheduled benchmark-gate execution. (7) P1046 certifies the integrated continuation outcome. (8) P1047 certifies cross-surface and live-status coherence.
+
+**Why:**
+Repair stale branch narration first, continue the exact unresolved programs with harder accounting and no label inflation, and advance Merlin toward governed self-hosted sovereignty with recurring measurable artifacts.
+
+**Epistemic label deltas:**
+- new precision-lock verdict: `SPRINT_BY_PRECISION_LOCK_COMPLETE`
+- new flavor continuation verdict: `FLAVOR_PRIORITY_CONTINUATION_COMPLETE`
+- new UV continuation verdict: `UV_JOINT_BOTTLENECK_CONTINUATION_COMPLETE`
+- new CMB continuation verdict: `CMB_IRREDUCIBILITY_CONTINUATION_COMPLETE`
+- new formal bridge verdict: `SU3_FUNCTIONAL_BRIDGE_ALIGNMENT_COMPLETE`
+- new Merlin batch-gating verdict: `MERLIN_SOVEREIGN_BATCH_GATING_COMPLETE`
+- new sprint integration and coherence verdicts: `SPRINT_BY_PARALLEL_CONTINUATION_CERTIFICATE_COMPLETE`, `SPRINT_BY_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032).
+
+**Lean4:** 3964 → 3976 (+12)
+**Regression:** Sprint BY targeted tests passed · 0 failed; Merlin Product 20 targeted tests passed · 0 failed
+**Next pillar slot:** 1048
 
 ## v35.4 (2026-09-03 — Sprint BX: Pillars 1032–1039)
 

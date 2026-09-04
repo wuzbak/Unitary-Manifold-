@@ -11,6 +11,9 @@ on:
     paths:
       - "12-AZ-IP/20-merlin-navigator/**"
       - ".github/workflows/merlin-benchmark-gate.yml"
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
 
 jobs:
   merlin-stage-a-gate:
@@ -40,3 +43,12 @@ jobs:
 
       - name: Stage A benchmark promotion gate
         run: python tools/run_merlin_stage_a_benchmarks.py --json
+
+      - name: Export Stage A artifact bundle
+        run: python tools/export_merlin_stage_a_artifacts.py --limit 3 --output /tmp/merlin-stage-a-artifacts.json
+
+      - name: Upload Stage A artifact bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: merlin-stage-a-artifacts
+          path: /tmp/merlin-stage-a-artifacts.json

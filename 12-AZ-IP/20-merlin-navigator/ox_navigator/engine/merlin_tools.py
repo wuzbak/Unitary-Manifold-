@@ -16,6 +16,7 @@ from .flashcard import get_categories, load_flashcards
 from .interrogator import get_tension_map_data, search_kb
 from .merlin_admission import evaluate_model_admission, get_model_admission_policy
 from .merlin_benchmark import (
+    build_stage_a_artifact_bundle,
     build_stage_a_replacement_readiness,
     build_promotion_packet,
     evaluate_benchmark_response,
@@ -60,6 +61,15 @@ from .merlin_rag import (
     lookup_kb,
 )
 from .merlin_workspace import get_workspace_policy, get_workspace_state
+
+_LIMIT_SYNC_ARGS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "limit": {"type": "integer"},
+        "sync_checks_ok": {"type": "boolean"},
+    },
+    "additionalProperties": False,
+}
 
 MERLIN_SESSION_SCHEMA = {
     "title": "MerlinSession",
@@ -166,6 +176,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
             {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
             {"name": "getMerlinReplacementReadiness", "summary": "Return concrete self-hosted replacement readiness packet", "domain": "functions"},
+            {"name": "getMerlinStageAArtifacts", "summary": "Return exportable Stage A artifact bundle", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
@@ -265,14 +276,11 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "getMerlinReplacementReadiness": {
-            "args_schema": {
-                "type": "object",
-                "properties": {
-                    "limit": {"type": "integer"},
-                    "sync_checks_ok": {"type": "boolean"},
-                },
-                "additionalProperties": False,
-            },
+            "args_schema": _LIMIT_SYNC_ARGS_SCHEMA,
+            "risk_level": "medium",
+        },
+        "getMerlinStageAArtifacts": {
+            "args_schema": _LIMIT_SYNC_ARGS_SCHEMA,
             "risk_level": "medium",
         },
         "runMerlinMemoryAudit": {
@@ -469,6 +477,10 @@ _FUNCTIONS = {
     "getMerlinBenchmarkSuite": lambda **args: {"data": get_merlin_benchmark_suite()},
     "runMerlinStageAReceipts": lambda **args: {"data": run_stage_a_head_to_head_receipts_sync(limit=args.get("limit"))},
     "getMerlinReplacementReadiness": lambda **args: {"data": build_stage_a_replacement_readiness(
+        limit=args.get("limit"),
+        sync_checks_ok=args.get("sync_checks_ok"),
+    )},
+    "getMerlinStageAArtifacts": lambda **args: {"data": build_stage_a_artifact_bundle(
         limit=args.get("limit"),
         sync_checks_ok=args.get("sync_checks_ok"),
     )},

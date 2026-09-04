@@ -1,6 +1,6 @@
 # 2-REPRODUCIBILITY — Everything a Verifier Needs
 
-> Canonical regression marker: 63,666 passed · 23 skipped · 12 deselected · 0 failed.
+> Canonical regression marker: 63,714 passed · 23 skipped · 12 deselected · 0 failed.
 
 This folder contains all records required to reproduce, audit, and independently
 verify the numerical results of the Unitary Manifold framework.

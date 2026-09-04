@@ -135,10 +135,10 @@ def get_current_stack_baseline() -> dict[str, Any]:
             "typed provenance payloads and Stage A benchmark corpus",
         ],
         "gaps_to_replacement": [
-            "staged model-router exists but requires empirical benchmark tuning",
-            "no formal benchmark corpus with side-by-side external comparisons",
-            "sync drift checks are not enforced as recurring quality gates",
-            "fully automated incumbent-vs-merlin batch runner is not yet attached to CI",
+            "stage-a parity capture exists, but broader multi-stage corpus coverage is still required",
+            "heavy-lane self-hosted routing still needs empirical tuning beyond the current benchmark gate",
+            "scheduled benchmark artifacts exist, but steward-reviewed longitudinal acceptance cadence is not yet complete",
+            "cross-run artifact retention and comparison dashboards are still limited to exported JSON bundles",
         ],
     }
 

@@ -273,6 +273,19 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({'ok': payload['ok'], 'readiness': payload.get('data'), 'error': payload.get('error')}, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/benchmark-artifacts':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinStageAArtifacts',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'artifacts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/promotion-packet':
                 status, payload = _tool_data_or_error(route_tool(
                     'getMerlinPromotionPacket',

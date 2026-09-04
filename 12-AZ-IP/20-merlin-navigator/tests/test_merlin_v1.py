@@ -4,10 +4,17 @@
 from __future__ import annotations
 
 import asyncio
+import importlib.util
 import json
+import sys
 import threading
+from pathlib import Path
 
 import httpx
+
+PRODUCT_ROOT = Path(__file__).resolve().parents[1]
+if str(PRODUCT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PRODUCT_ROOT))
 
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_identity import (
@@ -69,6 +76,20 @@ def test_merlin_session_tracks_intents():
     assert len(intents) == 1
     assert intents[0]["intent"] == "planning"
     assert "query_text" in intents[0]["provenance_sources"]
+
+
+def test_export_stage_a_artifacts_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_stage_a_artifacts.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_stage_a_artifacts', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'stage_a_artifacts.json'
+    monkeypatch.setattr(sys, 'argv', ['export_merlin_stage_a_artifacts.py', '--limit', '1', '--output', str(output_path)])
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['artifact_bundle']['receipts']['summary']['total'] == 1
 
 
 def test_merlin_session_has_durable_memory_tiers():
@@ -481,6 +502,15 @@ def test_server_merlin_endpoints():
             assert readiness.status_code == 200
             assert readiness.json()['ok'] is True
             assert readiness.json()['readiness']['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
+
+            artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
+            assert artifacts.status_code == 200
+            assert artifacts.json()['ok'] is True
+            assert artifacts.json()['artifacts']['artifact_bundle']['receipts']['summary']['total'] == 1
+
+            bad_artifact_limit = client.get('/api/merlin/benchmark-artifacts?limit=abc')
+            assert bad_artifact_limit.status_code == 400
+            assert bad_artifact_limit.json()['ok'] is False
 
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200

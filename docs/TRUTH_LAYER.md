@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v35.4
+# Unitary Manifold v35.5
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
@@ -14,6 +14,17 @@ Every claim, every gap, every tension, every falsifier — stated completely.*
 *(7) P1036 moves Merlin replacement beyond policy text by exposing self-hosted Stage A comparable receipts and a concrete replacement-readiness packet; the output is binary (`REPLACEMENT_APPROVED` or `REPLACEMENT_NOT_APPROVED`) and no longer an evidence-empty placeholder.*
 *(8) P1037 keeps exact embryology kernels promoted while containing HOX empirical and hydration conversion claims as separate, model-dependent audit surfaces.*
 *(9) P1038/P1039 finalize the integrated sprint and cross-surface/live-status coherence. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`.*
+
+*v35.5 sync note (Sprint BY — 2026-09-04):*
+*(1) Auditable checked-in branch state is Sprint BY: Pillars 1040–1047; Lean4 3976; next pillar slot 1048; focused regression: Sprint BY targeted tests passed · 0 failed; Merlin Product 20 targeted tests passed · 0 failed.*
+*(2) Sprint BY begins with a precision lock: stale FALLIBILITY wording is repaired and Merlin baseline language is forced to match the benchmark/workflow state actually implemented in-repo.*
+*(3) The three physics programs continue in the same strict credit order even though workstreams run in parallel: flavor first, UV second, CMB third.*
+*(4) P1041 converts the shared flavor blocker map into a priority ladder with explicit closest-to-flip and hardest-lane ranking while preserving the exact unresolved objects.*
+*(5) P1042 reruns α_s and Higgs under one shared packet and publishes joint bottleneck pressure rather than any unearned label change.*
+*(6) P1043 reruns the harder no-fit/no-external-target CMB lane and narrows the acoustic deficit again without collapsing it; `CMB_AMP_CONFIRMED_IRREDUCIBLE` remains explicit.*
+*(7) P1044 adds a Lean4-backed bridge-alignment layer to the P636 proof lane, shrinking the remaining functional-analysis substep count while keeping full Kawamura-independence closure open.*
+*(8) P1045 moves Merlin from one-off readiness checks to CI-exportable artifact bundles, routed toolkit access, and scheduled benchmark-gate execution; approval remains binary and evidence-gated.*
+*(9) P1046/P1047 finalize the integrated sprint and cross-surface/live-status coherence. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`.*
 
 *v35.2 sync note (Sprint BV — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BV: Pillars 1025–1030; Lean4 3952; next pillar slot 1031; focused regression: Sprint BV targeted tests passed · 0 failed.*
