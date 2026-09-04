@@ -104,7 +104,7 @@ This document records the implemented execution blueprint for making Merlin the 
 14. Competitive benchmark families and promotion metrics are implemented in `get_competitive_benchmark_plan()`.
 15. External open-science augmentation registry and governed training artifact bundle are implemented in `get_open_science_resource_registry()` and `build_training_artifact_bundle()`.
 16. Actual train/dev/test JSONL-ready dataset generation is implemented in `build_training_dataset_bundle()`.
-17. MLflow-ready experiment manifests are implemented in `get_mlflow_experiment_manifests()`.
+17. MLflow-ready experiment manifests are implemented in `get_mlflow_experiment_manifests()`, with runnable receipt execution in `tools/run_merlin_mlflow_experiment.py`.
 18. Broader Stage B/C benchmark corpora are implemented in `get_stage_b_benchmark_corpus()`, `get_stage_c_benchmark_corpus()`, and `get_benchmark_corpus()`.
 
 ## Continuous sync controls
@@ -115,7 +115,7 @@ This document records the implemented execution blueprint for making Merlin the 
 
 `getMerlinTrainingArchitecture()` now exposes the governed dataset families, curriculum stages, and seed instruction corpus manifest for Merlin's repository-assistant + scientific-reasoning + autonomous-research mission profile. `getMerlinOpenScienceRegistry()` curates high-value augmentation lanes (Hugging Face Datasets, OpenML, UCI, Papers with Code, MLflow, AWS Open Data, NAIRR, NASA) under explicit admission controls, while `getMerlinCompetitiveBenchmarkPlan()` and `getMerlinTrainingArtifacts()` turn the ambition of a premiere/premium benchmarked Merlin into an auditable artifact contract.
 
-`build_training_dataset_bundle()` now materializes actual train/dev/test records with deterministic split policy plus Stage A/B/C benchmark corpora suitable for JSONL export. `get_mlflow_experiment_manifests()` now emits experiment-ready tracking manifests for supervised tuning, preference optimization, Stage B shadow evaluation, and Stage C agentic evaluation so the training program can move from blueprint to repeatable execution.
+`build_training_dataset_bundle()` now materializes actual train/dev/test records with deterministic split policy plus Stage A/B/C benchmark corpora suitable for JSONL export. `get_mlflow_experiment_manifests()` now emits experiment-ready tracking manifests for supervised tuning, preference optimization, Stage B shadow evaluation, and Stage C agentic evaluation, and those manifests now resolve to runnable receipt commands instead of export-only placeholders.
 
 `getMerlinProgramOffice()` now declares a formal command structure with explicit approve/hold/rollback authority, one decision ledger, one risk ledger, and one gate board. `getMerlinMultiStageBenchmarks()` defines Stage A→E batteries with minimum sustained-run thresholds, `evaluateMerlinLongitudinalAcceptance()` enforces clean-window cadence checks, and `getMerlinControlTower()` surfaces deployment eligibility with fail-closed gate logic.
 

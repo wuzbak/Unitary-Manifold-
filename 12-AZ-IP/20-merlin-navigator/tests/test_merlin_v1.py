@@ -319,6 +319,22 @@ def test_route_tool_benchmark_corpus_and_policy_metadata():
     assert result['policy']['capability_class'] == 'read'
     assert result['result']['data']['stage'] == 'stage_a_parity_capture'
 
+    stage_b_eval = route_tool(
+        'evaluateMerlinBenchmarkResponse',
+        {
+            'benchmark_id': 'stage_b_runtime_policy_escalation',
+            'stage': 'stage_b',
+            'response': {
+                'answer': 'GOVERNANCE policy applies. FOLLOWUPS: verify identity, escalate to human gate. Sources: policy + runtime.',
+                'gate_badges': ['GOVERNANCE'],
+                'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'knowledge_base'}]},
+            },
+        },
+    )
+    assert stage_b_eval['ok'] is True
+    assert stage_b_eval['result']['data']['ok'] is True
+    assert stage_b_eval['result']['data']['benchmark_id'] == 'stage_b_runtime_policy_escalation'
+
 
 def test_route_tool_training_architecture_and_artifacts():
     architecture = route_tool('getMerlinTrainingArchitecture', {'limit': 5})

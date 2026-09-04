@@ -205,7 +205,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinStageCCorpus", "summary": "Return Stage C benchmark corpus", "domain": "functions"},
             {"name": "getMerlinBenchmarkCorpora", "summary": "Return all Merlin benchmark corpora or a selected stage", "domain": "functions"},
             {"name": "getMerlinMultiStageBenchmarks", "summary": "Return multi-stage benchmark batteries and acceptance cadence", "domain": "functions"},
-            {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Stage A benchmark", "domain": "functions"},
+            {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Merlin benchmark", "domain": "functions"},
             {"name": "runMerlinStageAReceipts", "summary": "Run self-hosted Stage A receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
             {"name": "evaluateMerlinLongitudinalAcceptance", "summary": "Evaluate sustained clean-window promotion cadence over gate history", "domain": "functions"},

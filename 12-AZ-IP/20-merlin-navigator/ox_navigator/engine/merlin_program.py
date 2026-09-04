@@ -1182,6 +1182,7 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
             output,
         )
     return {
+        "ok": True,
         "generated_at": _utcnow(),
         "manifests": [
             {

@@ -456,7 +456,11 @@ def evaluate_benchmark_response(
     stage: str | None = None,
 ) -> dict[str, Any]:
     if stage is None:
-        benchmark_sets = [STAGE_A_BENCHMARK_CORPUS]
+        benchmark_sets = [
+            STAGE_A_BENCHMARK_CORPUS,
+            STAGE_B_BENCHMARK_CORPUS,
+            STAGE_C_BENCHMARK_CORPUS,
+        ]
     else:
         selected = get_benchmark_corpus(stage)
         if selected.get("ok") is False:
