@@ -329,6 +329,11 @@ def test_route_tool_training_architecture_and_artifacts():
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
     assert mlflow['ok'] is True
     assert len(mlflow['result']['data']['manifests']) >= 4
+    assert '{limit}' not in mlflow['result']['data']['manifests'][0]['entry_command']
+    assert any(
+        item.endswith('/benchmarks/stage_c_capability_expansion.jsonl')
+        for item in mlflow['result']['data']['manifests'][-1]['artifacts']
+    )
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
