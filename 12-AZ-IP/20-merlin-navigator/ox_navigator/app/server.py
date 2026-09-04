@@ -29,6 +29,7 @@ from ox_navigator.engine.merlin_program import (
     get_mythos_astra_contract,
     get_full_program_blueprint,
     get_identity_and_trust_policy,
+    get_program_office,
     get_sentinel_enforcement_policy,
     run_sync_checks,
 )
@@ -219,6 +220,36 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 return
             if parsed.path == '/api/merlin/program':
                 self._json({'ok': True, 'program': get_full_program_blueprint()})
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/program-office':
+                self._json({'ok': True, 'program_office': get_program_office()})
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/control-tower':
+                raw_limit = params.get('limit', ['3'])[0]
+                try:
+                    limit = max(1, int(raw_limit))
+                except (TypeError, ValueError):
+                    limit = 3
+                raw_history = params.get('gate_history', [''])[0]
+                gate_history = None
+                if str(raw_history).strip():
+                    try:
+                        parsed_history = json.loads(str(raw_history))
+                    except (TypeError, ValueError, json.JSONDecodeError):
+                        self._json({'ok': False, 'error': "Query parameter 'gate_history' must be valid JSON."}, status=400)
+                        return
+                    if not isinstance(parsed_history, list):
+                        self._json({'ok': False, 'error': "Query parameter 'gate_history' must decode to a JSON array."}, status=400)
+                        return
+                    gate_history = parsed_history
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinControlTower',
+                    {'limit': limit, 'gate_history': gate_history} if gate_history is not None else {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'control_tower': payload.get('data'), 'error': payload.get('error')}, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/memory':

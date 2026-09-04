@@ -12,6 +12,7 @@ This document records the implemented execution blueprint for making Merlin the 
   - `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_telemetry.py`
 - Toolkit functions exposed through `/api/agentInvoke`:
   - `getMerlinProgramCharter`
+  - `getMerlinProgramOffice`
   - `getMerlinReplacementScope`
   - `getMerlinStackBaseline`
   - `getMerlinWeightsAndMeasures`
@@ -35,12 +36,17 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinOptimizationPriorities`
   - `getMerlinExecutionGraph`
   - `getMerlinBenchmarkSuite`
+  - `getMerlinMultiStageBenchmarks`
   - `evaluateMerlinEmpiricalGate`
+  - `evaluateMerlinLongitudinalAcceptance`
   - `getMerlinPromotionPacket`
   - `runMerlinStageAReceipts`
   - `getMerlinReplacementReadiness`
+  - `getMerlinControlTower`
 - Direct API views:
   - `GET /api/merlin/program`
+  - `GET /api/merlin/program-office`
+  - `GET /api/merlin/control-tower`
   - `GET /api/merlin/memory`
   - `GET /api/merlin/telemetry`
   - `GET /api/merlin/sync-checks`
@@ -73,6 +79,8 @@ This document records the implemented execution blueprint for making Merlin the 
 `run_sync_checks()` verifies canonical Merlin source surfaces remain present and readable to reduce epistemic drift. `query_merlin()` now records per-run telemetry and attaches typed provenance plus memory-audit state to every response object.
 
 `evaluateMerlinEmpiricalGate()` now computes an explicit sustained head-to-head replacement verdict from comparable Merlin/incumbent runs (success parity, quality regression budget, energy-per-successful-task delta, and high-severity policy violations). `runMerlinStageAReceipts()` now produces the comparable run receipts directly from the self-hosted benchmark corpus, `getMerlinReplacementReadiness()` exposes the concrete receipt-backed stage-D decision contract, and `getMerlinStageAArtifacts()` / `GET /api/merlin/benchmark-artifacts` export CI-friendly artifact bundles for recurring review while `getMerlinPromotionPacket()` remains the compatibility view.
+
+`getMerlinProgramOffice()` now declares a formal command structure with explicit approve/hold/rollback authority, one decision ledger, one risk ledger, and one gate board. `getMerlinMultiStageBenchmarks()` defines Stage A→E batteries with minimum sustained-run thresholds, `evaluateMerlinLongitudinalAcceptance()` enforces clean-window cadence checks, and `getMerlinControlTower()` surfaces deployment eligibility with fail-closed gate logic.
 
 ## Merlin Sovereignty Roadmap checklist
 

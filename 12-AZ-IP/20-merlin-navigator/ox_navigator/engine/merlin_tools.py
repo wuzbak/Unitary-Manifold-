@@ -16,11 +16,14 @@ from .flashcard import get_categories, load_flashcards
 from .interrogator import get_tension_map_data, search_kb
 from .merlin_admission import evaluate_model_admission, get_model_admission_policy
 from .merlin_benchmark import (
+    build_merlin_control_tower,
     build_stage_a_artifact_bundle,
     build_stage_a_replacement_readiness,
     build_promotion_packet,
+    evaluate_longitudinal_acceptance,
     evaluate_benchmark_response,
     evaluate_empirical_gate,
+    get_multi_stage_benchmark_plan,
     get_stage_a_benchmark_corpus,
     run_stage_a_head_to_head_receipts_sync,
 )
@@ -41,6 +44,7 @@ from .merlin_program import (
     get_mythos_astra_contract,
     get_model_strategy,
     get_operating_rhythm,
+    get_program_office,
     get_program_charter,
     get_program_doctrine,
     get_reliability_security_plan,
@@ -140,6 +144,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getFlashcardCategories", "summary": "Return flashcard categories", "domain": "functions"},
             {"name": "getMerlinProgramCharter", "summary": "Return Merlin replacement program charter", "domain": "functions"},
             {"name": "getMerlinProgramDoctrine", "summary": "Return hard doctrine and success definition", "domain": "functions"},
+            {"name": "getMerlinProgramOffice", "summary": "Return Merlin Program Office command structure and gate authority", "domain": "functions"},
             {"name": "getMerlinSovereigntyRoadmap", "summary": "Return implementation checklist mapped to blueprint", "domain": "functions"},
             {"name": "getMerlinReplacementScope", "summary": "Return in-scope and fallback policy boundaries", "domain": "functions"},
             {"name": "getMerlinStackBaseline", "summary": "Return baseline capabilities and replacement gaps", "domain": "functions"},
@@ -171,12 +176,15 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinExecutionGraph", "summary": "Return max-rigor execution graph", "domain": "functions"},
             {"name": "getMerlinBenchmarkSuite", "summary": "Return benchmark harness definition", "domain": "functions"},
             {"name": "getMerlinBenchmarkCorpus", "summary": "Return Stage A benchmark prompt corpus", "domain": "functions"},
+            {"name": "getMerlinMultiStageBenchmarks", "summary": "Return multi-stage benchmark batteries and acceptance cadence", "domain": "functions"},
             {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Stage A benchmark", "domain": "functions"},
             {"name": "runMerlinStageAReceipts", "summary": "Run self-hosted Stage A receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
+            {"name": "evaluateMerlinLongitudinalAcceptance", "summary": "Evaluate sustained clean-window promotion cadence over gate history", "domain": "functions"},
             {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
             {"name": "getMerlinReplacementReadiness", "summary": "Return concrete self-hosted replacement readiness packet", "domain": "functions"},
             {"name": "getMerlinStageAArtifacts", "summary": "Return exportable Stage A artifact bundle", "domain": "functions"},
+            {"name": "getMerlinControlTower", "summary": "Return control tower readiness, drift alerts, trendlines, and deployment eligibility", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
@@ -243,6 +251,18 @@ def _tool_manifest() -> dict[str, Any]:
                 "required": ["benchmark_id", "response"],
             },
         },
+        "evaluateMerlinLongitudinalAcceptance": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "gate_history": {"type": "array"},
+                    "window_size": {"type": "integer"},
+                    "min_clean_windows": {"type": "integer"},
+                },
+                "required": ["gate_history"],
+            },
+            "risk_level": "medium",
+        },
         "runMerlinStageAReceipts": {
             "args_schema": {
                 "type": "object",
@@ -281,6 +301,17 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinStageAArtifacts": {
             "args_schema": _LIMIT_SYNC_ARGS_SCHEMA,
+            "risk_level": "medium",
+        },
+        "getMerlinControlTower": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                    "gate_history": {"type": "array"},
+                },
+                "additionalProperties": False,
+            },
             "risk_level": "medium",
         },
         "runMerlinMemoryAudit": {
@@ -330,6 +361,15 @@ def _tool_manifest() -> dict[str, Any]:
 
 def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _coerce_positive_int(value: Any, default: int) -> int:
+    try:
+        if value is None:
+            return max(1, int(default))
+        return max(1, int(value))
+    except (TypeError, ValueError):
+        return max(1, int(default))
 
 
 def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple[bool, str]:
@@ -437,6 +477,7 @@ _FUNCTIONS = {
     "getFlashcardCategories": lambda **args: get_flashcard_categories(),
     "getMerlinProgramCharter": lambda **args: {"data": get_program_charter()},
     "getMerlinProgramDoctrine": lambda **args: {"data": get_program_doctrine()},
+    "getMerlinProgramOffice": lambda **args: {"data": get_program_office()},
     "getMerlinSovereigntyRoadmap": lambda **args: {"data": get_sovereignty_roadmap()},
     "getMerlinReplacementScope": lambda **args: {"data": get_replacement_scope()},
     "getMerlinStackBaseline": lambda **args: {"data": get_current_stack_baseline()},
@@ -475,6 +516,7 @@ _FUNCTIONS = {
     "getMerlinOptimizationPriorities": lambda **args: {"data": get_merlin_optimization_priorities()},
     "getMerlinExecutionGraph": lambda **args: {"data": get_merlin_execution_graph()},
     "getMerlinBenchmarkSuite": lambda **args: {"data": get_merlin_benchmark_suite()},
+    "getMerlinMultiStageBenchmarks": lambda **args: {"data": get_multi_stage_benchmark_plan()},
     "runMerlinStageAReceipts": lambda **args: {"data": run_stage_a_head_to_head_receipts_sync(limit=args.get("limit"))},
     "getMerlinReplacementReadiness": lambda **args: {"data": build_stage_a_replacement_readiness(
         limit=args.get("limit"),
@@ -483,6 +525,10 @@ _FUNCTIONS = {
     "getMerlinStageAArtifacts": lambda **args: {"data": build_stage_a_artifact_bundle(
         limit=args.get("limit"),
         sync_checks_ok=args.get("sync_checks_ok"),
+    )},
+    "getMerlinControlTower": lambda **args: {"data": build_merlin_control_tower(
+        limit=_coerce_positive_int(args.get("limit"), 3),
+        gate_history=list(args.get("gate_history") or []) or None,
     )},
 }
 
@@ -613,6 +659,13 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 list(args.get("head_to_head_runs") or []),
                 min_runs=int(args.get("min_runs", 12)),
                 max_quality_regressions=int(args.get("max_quality_regressions", 0)),
+            )}
+        elif tool == "evaluateMerlinLongitudinalAcceptance":
+            tool_type = "function"
+            result = {"data": evaluate_longitudinal_acceptance(
+                list(args.get("gate_history") or []),
+                window_size=_coerce_positive_int(args.get("window_size"), 4),
+                min_clean_windows=_coerce_positive_int(args.get("min_clean_windows"), 3),
             )}
         elif tool == "getMerlinPromotionPacket":
             tool_type = "function"
