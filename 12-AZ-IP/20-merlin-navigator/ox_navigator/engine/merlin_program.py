@@ -1040,6 +1040,12 @@ def build_training_dataset_bundle(limit: int | None = None) -> dict[str, Any]:
         splits[split].append(record)
 
     benchmark_payload = get_benchmark_corpus("all")
+    if benchmark_payload.get("ok") is False:
+        return {
+            "ok": False,
+            "error": benchmark_payload.get("error", "Unable to build benchmark corpora."),
+            "allowed_stages": list(benchmark_payload.get("allowed_stages") or []),
+        }
     benchmark_records: dict[str, list[dict[str, Any]]] = {}
     corpora = dict(benchmark_payload.get("corpora") or {})
     for stage_name, payload in corpora.items():
@@ -1111,6 +1117,12 @@ def build_training_dataset_bundle(limit: int | None = None) -> dict[str, Any]:
 
 def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
     dataset_bundle = build_training_dataset_bundle(limit=limit)
+    if dataset_bundle.get("ok") is False:
+        return {
+            "generated_at": _utcnow(),
+            "ok": False,
+            "error": dataset_bundle.get("error", "Unable to build dataset bundle for MLflow manifests."),
+        }
     dataset_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("training_records") or {})
     benchmark_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("benchmark_records") or {})
     resolved_limit = 12 if limit is None else max(0, int(limit))
@@ -1329,6 +1341,11 @@ def build_training_artifact_bundle(limit: int | None = None) -> dict[str, Any]:
 
     training_architecture = get_training_architecture(limit=limit)
     dataset_bundle = build_training_dataset_bundle(limit=limit)
+    if dataset_bundle.get("ok") is False:
+        return {
+            "ok": False,
+            "error": dataset_bundle.get("error", "Unable to build training dataset bundle."),
+        }
     stage_a_limit = limit if limit is None else max(0, int(limit))
     return {
         "ok": True,

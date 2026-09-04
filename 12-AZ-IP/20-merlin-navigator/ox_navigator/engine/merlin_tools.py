@@ -435,11 +435,12 @@ def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple
     allow_extra = bool(schema.get("additionalProperties", False))
     reserved_keys = {"human_gate_approved"}
     filtered_args = {k: v for k, v in args.items() if k not in reserved_keys}
+    declared_keys = set(properties.keys())
     for key in required:
         if key not in filtered_args:
             return False, f"Missing required argument: {key}"
     if not allow_extra:
-        extra = sorted(set(filtered_args.keys()) - set(properties.keys()))
+        extra = sorted(set(filtered_args.keys()) - declared_keys)
         if extra:
             return False, f"Unknown argument(s): {', '.join(extra)}"
     type_map = {
