@@ -335,7 +335,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/benchmark-corpora':
-                payload = get_benchmark_corpus(stage=str(params.get('stage', ['all'])[0] or 'all'))
+                stages = params.get('stage', [])
+                if len(stages) > 1:
+                    self._json({'ok': False, 'error': "Query parameter 'stage' must not be repeated."}, status=400)
+                    self._persist_session(session_id, merlin_session)
+                    return
+                payload = get_benchmark_corpus(stage=str(stages[0] if stages else 'all'))
                 if payload.get('ok') is False:
                     self._json({'ok': False, 'error': payload.get('error'), 'allowed_stages': payload.get('allowed_stages', [])}, status=400)
                     self._persist_session(session_id, merlin_session)
