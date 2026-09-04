@@ -54,6 +54,229 @@ PROGRAM_NON_NEGOTIABLES = {
 }
 
 
+def get_mentorship_sprint_charter() -> dict[str, Any]:
+    return {
+        "name": "Merlin Mentorship Sprint",
+        "parent_office": "Merlin Program Office",
+        "mode": "full_rigor_no_partial_delivery",
+        "mission": (
+            "Run a multi-model mentorship sprint where specialized lanes transfer process knowledge "
+            "into Merlin's governed back-room until mentorship-to-runtime closure is earned."
+        ),
+        "non_negotiables": [
+            "full_rigor_required",
+            "no_partial_or_half_measures",
+            "auditable_decisions_only",
+            "fail_closed_promotion_gates",
+        ],
+        "governance": {
+            "decision_ledger_required": True,
+            "risk_ledger_required": True,
+            "unresolved_high_severity_risks_block_promotion": True,
+        },
+        "updated_at": _utcnow(),
+    }
+
+
+def get_specialized_model_faculty_matrix() -> dict[str, Any]:
+    faculty = [
+        {
+            "role": "small_router_faculty",
+            "lane": "small_fast_router",
+            "teaching_scope": [
+                "intent_routing",
+                "risk_precheck",
+                "safe_tool_selection",
+            ],
+            "acceptance_rubric": [
+                "routing_policy_alignment",
+                "risk_label_precision",
+                "tool_allowlist_compliance",
+            ],
+            "required_artifacts": [
+                "router_playbook",
+                "routing_failure_counterexamples",
+                "route_decision_criteria",
+                "benchmark_aligned_router_exemplars",
+            ],
+        },
+        {
+            "role": "medium_default_faculty",
+            "lane": "medium_reasoner_default",
+            "teaching_scope": [
+                "repository_governance_synthesis",
+                "boundary_disciplined_answers",
+                "citation_faithfulness",
+            ],
+            "acceptance_rubric": [
+                "task_success_parity_or_better",
+                "explicit_uncertainty_discipline",
+                "typed_provenance_completeness",
+            ],
+            "required_artifacts": [
+                "reasoning_playbook",
+                "quality_regression_counterexamples",
+                "answer_decision_criteria",
+                "stage_a_quality_exemplars",
+            ],
+        },
+        {
+            "role": "heavy_exception_faculty",
+            "lane": "heavy_reasoner_exception",
+            "teaching_scope": [
+                "long_context_reconciliation",
+                "cross_source_conflict_resolution",
+                "high_impact_exception_handling",
+            ],
+            "acceptance_rubric": [
+                "exception_path_justification_quality",
+                "cross_source_consistency",
+                "fallback_trigger_discipline",
+            ],
+            "required_artifacts": [
+                "long_context_playbook",
+                "conflict_reconciliation_counterexamples",
+                "escalation_decision_criteria",
+                "exception_benchmark_exemplars",
+            ],
+        },
+        {
+            "role": "safety_governance_faculty",
+            "lane": "safety_governance",
+            "teaching_scope": [
+                "sentinel_enforcement",
+                "identity_trust_controls",
+                "physics_governance_boundary",
+            ],
+            "acceptance_rubric": [
+                "zero_high_severity_policy_violations",
+                "boundary_statement_completeness",
+                "privileged_action_authorization_compliance",
+            ],
+            "required_artifacts": [
+                "safety_playbook",
+                "policy_bypass_counterexamples",
+                "governance_decision_criteria",
+                "safety_benchmark_exemplars",
+            ],
+        },
+        {
+            "role": "benchmarking_faculty",
+            "lane": "benchmark_and_empirical_gating",
+            "teaching_scope": [
+                "stage_a_receipt_generation",
+                "replacement_gate_evaluation",
+                "longitudinal_clean_window_validation",
+            ],
+            "acceptance_rubric": [
+                "reproducible_receipts",
+                "gate_contract_fidelity",
+                "energy_per_successful_task_tracking",
+            ],
+            "required_artifacts": [
+                "benchmark_ops_playbook",
+                "gate_failure_counterexamples",
+                "promotion_decision_criteria",
+                "receipt_aligned_benchmark_exemplars",
+            ],
+        },
+    ]
+    return {
+        "program": "merlin_all_hands_maximum_effort",
+        "faculty": faculty,
+        "required_peer_review_per_specialist": 1,
+        "updated_at": _utcnow(),
+    }
+
+
+def get_knowledge_transfer_cycles() -> dict[str, Any]:
+    return {
+        "cadence": "structured_specialist_cycles",
+        "deposit_bundle_required": [
+            "process_playbooks",
+            "failure_patterns_and_counterexamples",
+            "decision_criteria",
+            "benchmark_aligned_exemplars",
+        ],
+        "cycle_phases": [
+            "specialist_prepare",
+            "back_room_deposit",
+            "peer_review_and_reconciliation",
+            "risk_ledger_commit",
+        ],
+        "workspace_targets": {
+            "policy_surface": "getMerlinWorkspacePolicy",
+            "state_surface": "getMerlinWorkspaceState",
+            "exchange_ledger": "merlin_mentorship_session_ledger",
+        },
+    }
+
+
+def get_mentorship_library_and_study_assets() -> dict[str, Any]:
+    return {
+        "library": {
+            "curated_canonical_sources": [
+                "STATUS.md",
+                "FALLIBILITY.md",
+                "5-GOVERNANCE/SEPARATION.md",
+                "12-AZ-IP/20-merlin-navigator/README.md",
+            ],
+            "typed_provenance_registry_surface": "getMerlinKnowledgeCore",
+            "benchmark_corpora_surfaces": [
+                "getMerlinBenchmarkSuite",
+                "getMerlinBenchmarkCorpus",
+                "getMerlinMultiStageBenchmarks",
+            ],
+        },
+        "study": {
+            "active_training_queue_surface": "getMerlinTrainingPlan",
+            "contradiction_log_surface": "getMerlinMemoryState",
+            "replay_pack_surface": "runMerlinStageAReceipts",
+            "mentorship_session_ledger": {
+                "required_fields": [
+                    "session_id",
+                    "specialist_role",
+                    "reviewed_role",
+                    "artifacts_deposited",
+                    "reconciliation_outcome",
+                    "unresolved_risks",
+                    "timestamp",
+                ],
+            },
+        },
+    }
+
+
+def get_cross_model_exchange_protocol() -> dict[str, Any]:
+    return {
+        "policy": "Each specialist must review at least one other specialist output before closure.",
+        "requirements": {
+            "minimum_peer_reviews_per_specialist": 1,
+            "reconciliation_required": True,
+            "unresolved_conflicts_must_enter_risk_ledger": True,
+            "silent_merge_forbidden": True,
+        },
+        "risk_logging_contract": {
+            "risk_class": "mentorship_unresolved_conflict",
+            "minimum_fields": ["specialist_role", "conflict_summary", "severity", "resolution_owner"],
+        },
+    }
+
+
+def get_mentorship_completion_contract() -> dict[str, Any]:
+    return {
+        "name": "mentorship_to_runtime_closure",
+        "required_checks": [
+            "faculty_artifacts_landed",
+            "library_and_study_populated_and_auditable",
+            "exchange_cycle_complete",
+            "control_tower_deployment_eligibility",
+            "no_unresolved_high_severity_risks",
+        ],
+        "gate_policy": "fail_closed",
+    }
+
+
 def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -138,6 +361,14 @@ def get_program_office() -> dict[str, Any]:
             {"id": "H", "name": "migration_cutover_decommission_operations"},
         ],
         "operating_rhythm": get_operating_rhythm(),
+        "mentorship_sprint": {
+            "charter": get_mentorship_sprint_charter(),
+            "faculty_matrix": get_specialized_model_faculty_matrix(),
+            "knowledge_transfer_cycles": get_knowledge_transfer_cycles(),
+            "library_and_study": get_mentorship_library_and_study_assets(),
+            "cross_model_exchange_protocol": get_cross_model_exchange_protocol(),
+            "completion_contract": get_mentorship_completion_contract(),
+        },
         "updated_at": _utcnow(),
     }
 
@@ -448,18 +679,27 @@ def get_training_and_adaptation() -> dict[str, Any]:
             "governance_decision_traces",
             "adversarial_counterexamples",
             "tool_call_success_failure_pairs",
+            "specialist_mentorship_artifact_deposits",
         ],
         "adaptation_tracks": [
             "supervised_tuning_for_domain_coverage",
             "tool_use_alignment_for_agentToolkit_agentInvoke_agentOrchestrate",
             "preference_optimization_for_honesty_and_boundary_discipline",
+            "cross_model_mentorship_transfer_cycles",
         ],
         "quality_controls": [
             "deduplicate low-signal examples",
             "gate-label consistency checks",
             "manual steward sampling of high-impact outputs",
             "persona-governance checks cannot be overridden by style mode",
+            "no_partial_delivery_in_mentorship_sprint",
         ],
+        "mentorship": {
+            "charter_surface": "getMerlinMentorshipSprintCharter",
+            "faculty_surface": "getMerlinFacultyMatrix",
+            "transfer_cycles_surface": "getMerlinKnowledgeTransferCycles",
+            "exchange_protocol_surface": "getMerlinExchangeProtocol",
+        },
     }
 
 
@@ -647,6 +887,7 @@ def get_full_program_blueprint() -> dict[str, Any]:
     return {
         "generated_at": _utcnow(),
         "charter": get_program_charter(),
+        "mentorship_sprint_charter": get_mentorship_sprint_charter(),
         "program_office": get_program_office(),
         "doctrine": get_program_doctrine(),
         "replacement_scope": get_replacement_scope(),
@@ -669,6 +910,11 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "optimization_priorities": get_merlin_optimization_priorities(),
         "execution_graph": get_merlin_execution_graph(),
         "benchmark_suite": get_merlin_benchmark_suite(),
+        "faculty_matrix": get_specialized_model_faculty_matrix(),
+        "knowledge_transfer_cycles": get_knowledge_transfer_cycles(),
+        "library_and_study_assets": get_mentorship_library_and_study_assets(),
+        "cross_model_exchange_protocol": get_cross_model_exchange_protocol(),
+        "mentorship_completion_contract": get_mentorship_completion_contract(),
         "rollout": get_rollout_plan(),
         "operating_rhythm": get_operating_rhythm(),
         "exit_criteria": get_exit_criteria(),

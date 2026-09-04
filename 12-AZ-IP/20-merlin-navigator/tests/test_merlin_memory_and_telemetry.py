@@ -260,6 +260,8 @@ def test_control_tower_returns_gate_bundle():
     assert payload["ok"] is True
     assert "replacement_readiness" in payload
     assert "deployment_eligibility" in payload
+    assert "mentorship_to_runtime" in payload
+    assert payload["mentorship_to_runtime"]["checks"]["exchange_cycle_complete"] is False
     assert "trendlines" in payload
     assert payload["longitudinal_acceptance"]["pass"] is False
     assert payload["deployment_eligibility"]["eligible"] is False

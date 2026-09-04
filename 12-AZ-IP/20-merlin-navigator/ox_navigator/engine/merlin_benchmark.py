@@ -666,6 +666,44 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         alerts.append("longitudinal_acceptance_not_met")
     if policy_violations > 0:
         alerts.append("high_severity_policy_violations_present")
+    from .merlin_program import (
+        get_knowledge_transfer_cycles,
+        get_mentorship_completion_contract,
+        get_mentorship_library_and_study_assets,
+        get_specialized_model_faculty_matrix,
+    )
+
+    faculty_matrix = get_specialized_model_faculty_matrix()
+    transfer_cycles = get_knowledge_transfer_cycles()
+    library_and_study = get_mentorship_library_and_study_assets()
+    completion_contract = get_mentorship_completion_contract()
+    latest_history_packet = dict((history[-1] or {}).get("packet") or {}) if history else {}
+    mentorship_ledger = dict(latest_history_packet.get("mentorship") or {})
+    exchange_cycle_complete = bool(mentorship_ledger.get("exchange_cycle_complete", False))
+    unresolved_high_severity_risks_raw = mentorship_ledger.get("unresolved_high_severity_risks", 1)
+    try:
+        unresolved_high_severity_risks = int(unresolved_high_severity_risks_raw)
+    except (TypeError, ValueError):
+        unresolved_high_severity_risks = 1
+    faculty_artifacts_landed = bool(faculty_matrix.get("faculty")) and all(
+        bool(item.get("required_artifacts"))
+        for item in list(faculty_matrix.get("faculty") or [])
+    )
+    library_and_study_populated = bool(
+        (library_and_study.get("library") or {}).get("curated_canonical_sources")
+    ) and bool(
+        (library_and_study.get("study") or {}).get("mentorship_session_ledger")
+    ) and bool(
+        list(transfer_cycles.get("deposit_bundle_required") or [])
+    )
+    mentorship_to_runtime_checks = {
+        "faculty_artifacts_landed": faculty_artifacts_landed,
+        "library_and_study_populated_and_auditable": library_and_study_populated,
+        "exchange_cycle_complete": exchange_cycle_complete,
+        "control_tower_deployment_eligibility": deployment_eligible,
+        "no_unresolved_high_severity_risks": unresolved_high_severity_risks == 0,
+    }
+    mentorship_to_runtime_complete = all(mentorship_to_runtime_checks.values())
     return {
         "ok": True,
         "program": "merlin_all_hands_maximum_effort",
@@ -692,6 +730,16 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
                 "zero_high_severity_policy_violations": policy_violations == 0,
             },
             "policy": "Fail closed: deployment blocked if any gate is false.",
+        },
+        "mentorship_to_runtime": {
+            "contract": completion_contract,
+            "checks": mentorship_to_runtime_checks,
+            "complete": mentorship_to_runtime_complete,
+            "evidence_required": [
+                "mentorship_exchange_cycle_completion_log",
+                "unresolved_high_severity_risks_count",
+            ],
+            "policy": "Fail closed: mentorship-to-runtime closure requires all checks true.",
         },
         "updated_at": _utcnow(),
     }
