@@ -1,8 +1,8 @@
 # Test Suite — Unitary Manifold
 
-> Canonical regression marker: 63,714 passed · 23 skipped · 12 deselected · 0 failed.
+> Canonical regression marker: 63,722 passed · 23 skipped · 12 deselected · 0 failed.
 
-Canonical full regression (STATUS.md): **63,714 passed · 23 skipped · 12 deselected · 0 failed** (v35.5, Sprint BY, 2026-09-04; tests/ + recycling/ + Pentad).
+Canonical full regression (STATUS.md): **63,722 passed · 23 skipped · 12 deselected · 0 failed** (v35.6, Sprint BZ, 2026-09-04; tests/ + recycling/ + Pentad).
 
 **Historical checkpoint:** 33,398 tests: 32,993 passed · 393 skipped · 12 deselected · 0 failures (verified 2026-05-16, Python 3.12, pytest)
 
