@@ -1,13 +1,15 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v35.5
+# Unitary Manifold v35.6
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-04 (v35.5 — Sprint BY: Pillars 1040–1047. Precision lock repairs stale branch wording first; flavor, UV, and CMB architecture programs continue under the same serialized claim discipline; the P636 functional-analysis burden is narrowed again without claiming closure; Merlin advances to CI-exportable Stage A artifact bundles and scheduled benchmark gates. Next slot 1048. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-04 (v35.6 — Sprint BZ: Pillar 1048. A targeted parallel quantum-gravity rigor packet is now executable: data-citable research intake, O1–O4 architecture-gap mapping, controlled reproduction/cross-validation, deterministic PASS/TENSION/FALSIFIED routing with anti-hidden-calibration guardrails, and explicit truth-surface synchronization doctrine. This is a rigor upgrade only; non-perturbative QG remains architecture-limited/irreducible. Next slot 1049. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
-*Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
+*Historical continuity note: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the canonical precision-lock continuation layer directly below Sprint BZ.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
+
+*P1048 (v35.6): Quantum Gravity Parallel Rigor Sprint — QG_PARALLEL_RIGOR_SPRINT_COMPLETE. `src/core/pillar1048_quantum_gravity_parallel_rigor_sprint.py` implements a six-workstream execution packet: data-citable external QG evidence intake, O1–O4 obstruction mapping against `pillar875_nonperturbative_qg_limit.py`, controlled reproduction verdicts, deterministic routing with anti-hidden-calibration checks, freeze-registry alignment, and explicit definition-of-done checks that preserve non-perturbative QG irreducibility honesty.*
 
 *P1047 (v35.5): Sprint BY Status-Coherence Certificate — SPRINT_BY_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1047_sprint_by_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON and verifies Sprint BY markers with unchanged open-lane labels including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`.*
 
