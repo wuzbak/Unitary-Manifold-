@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 import hashlib
 from pathlib import Path
 import re
+import sys
 from typing import Any
 
 from .constants import GATE_LABELS
@@ -1113,20 +1114,21 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
     dataset_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("training_records") or {})
     benchmark_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("benchmark_records") or {})
     resolved_limit = 12 if limit is None else max(0, int(limit))
+    python_executable = sys.executable or "python3"
     training_jsonl_command = (
-        f"python 12-AZ-IP/20-merlin-navigator/tools/export_merlin_training_jsonl.py --limit {resolved_limit} "
+        f"{python_executable} 12-AZ-IP/20-merlin-navigator/tools/export_merlin_training_jsonl.py --limit {resolved_limit} "
         "--output-dir /tmp/merlin-training-jsonl"
     )
     mlflow_manifest_command = (
-        f"python 12-AZ-IP/20-merlin-navigator/tools/export_merlin_mlflow_manifests.py --limit {resolved_limit} "
+        f"{python_executable} 12-AZ-IP/20-merlin-navigator/tools/export_merlin_mlflow_manifests.py --limit {resolved_limit} "
         "--output-dir /tmp/merlin-mlflow"
     )
     training_artifact_command = (
-        f"python 12-AZ-IP/20-merlin-navigator/tools/export_merlin_training_artifacts.py --limit {resolved_limit} "
+        f"{python_executable} 12-AZ-IP/20-merlin-navigator/tools/export_merlin_training_artifacts.py --limit {resolved_limit} "
         "--output /tmp/merlin-training-artifacts.json"
     )
     stage_a_artifact_command = (
-        "python 12-AZ-IP/20-merlin-navigator/tools/export_merlin_stage_a_artifacts.py "
+        f"{python_executable} 12-AZ-IP/20-merlin-navigator/tools/export_merlin_stage_a_artifacts.py "
         "--limit 3 --output /tmp/merlin-stage-a-artifacts.json"
     )
     return {
@@ -1224,7 +1226,7 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                 ],
                 "entry_command": f"{training_jsonl_command} && {stage_a_artifact_command}",
                 "supporting_commands": [
-                    "python 12-AZ-IP/20-merlin-navigator/tools/run_merlin_stage_a_benchmarks.py --json",
+                    f"{python_executable} 12-AZ-IP/20-merlin-navigator/tools/run_merlin_stage_a_benchmarks.py --json",
                     stage_a_artifact_command,
                 ],
                 "artifacts": [
