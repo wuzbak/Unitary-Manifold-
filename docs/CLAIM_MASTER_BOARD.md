@@ -1,12 +1,29 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v35.4
+# Unitary Manifold v35.5
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v35.4 — Sprint BX: Pillars 1032–1039. Parallel workstreams now execute under serialized claim discipline: flavor blocker map tightened first, UV and CMB architecture programs hardened second and third, formal residual burden shrinks, Merlin replacement advances to concrete self-hosted Stage A readiness surfaces, and biology exactness follow-through keeps model-dependent quantities unpromoted. Next slot 1040. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-04 (v35.5 — Sprint BY: Pillars 1040–1047. Precision lock repairs stale branch wording first; flavor, UV, and CMB architecture programs continue under the same serialized claim discipline; the P636 functional-analysis burden is narrowed again without claiming closure; Merlin advances to CI-exportable Stage A artifact bundles and scheduled benchmark gates. Next slot 1048. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
+*Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
+
+*P1047 (v35.5): Sprint BY Status-Coherence Certificate — SPRINT_BY_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1047_sprint_by_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON and verifies Sprint BY markers with unchanged open-lane labels including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`.*
+
+*P1046 (v35.5): Sprint BY Parallel Continuation Certificate — SPRINT_BY_PARALLEL_CONTINUATION_CERTIFICATE_COMPLETE. `src/core/pillar1046_sprint_by_parallel_continuation_certificate.py` integrates precision lock, flavor priority continuation, UV/CMB boundary tightening, formal bridge alignment, and Merlin batch-gating under meaningful-result rules.*
+
+*P1045 (v35.5): Merlin Sovereign Batch Gating — MERLIN_SOVEREIGN_BATCH_GATING_COMPLETE. `src/core/pillar1045_merlin_sovereign_batch_gating.py` requires Merlin to export CI-friendly Stage A artifact bundles, route them through the toolkit surface, and run under a scheduled upload-artifact workflow without relaxing evidence-gated approval.*
+
+*P1044 (v35.5): SU(3) Functional Bridge Alignment — SU3_FUNCTIONAL_BRIDGE_ALIGNMENT_COMPLETE. `src/core/pillar1044_su3_functional_bridge_alignment.py` adds a new Lean4-backed bridge-alignment layer to the P636 proof lane, reduces the remaining functional-analysis substep count, and keeps referee-grade Kawamura independence explicitly open.*
+
+*P1043 (v35.5): CMB Irreducibility Continuation — CMB_IRREDUCIBILITY_CONTINUATION_COMPLETE. `src/core/pillar1043_cmb_irreducibility_continuation.py` reruns the no-fit/no-external-target CMB program, narrows the acoustic deficit again, and strengthens the non-promotion boundary without softening `CMB_AMP_CONFIRMED_IRREDUCIBLE`.*
+
+*P1042 (v35.5): UV Joint Bottleneck Continuation — UV_JOINT_BOTTLENECK_CONTINUATION_COMPLETE. `src/core/pillar1042_uv_joint_bottleneck_continuation.py` keeps α_s and Higgs under one shared UV packet, narrows both residuals again together, and exposes the joint bottleneck pressure explicitly.*
+
+*P1041 (v35.5): Flavor Priority Continuation — FLAVOR_PRIORITY_CONTINUATION_COMPLETE. `src/core/pillar1041_flavor_priority_continuation.py` converts the Sprint BX blocker map into a priority ladder with explicit closest-to-flip and hardest-lane ranking while preserving the exact unresolved objects and non-promotion discipline.*
+
+*P1040 (v35.5): Sprint BY Precision Lock — SPRINT_BY_PRECISION_LOCK_COMPLETE. `src/core/pillar1040_sprint_by_precision_lock.py` repairs stale v35.3 wording in `FALLIBILITY.md`, locks the canonical Sprint BY surfaces to one story, and forces Merlin baseline language to match the benchmark and workflow state actually implemented in-repo.*
 
 *P1039 (v35.4): Sprint BX Status-Coherence Certificate — SPRINT_BX_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1039_sprint_bx_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON and verifies Sprint BX markers with unchanged open-lane labels including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`.*
 

@@ -452,3 +452,28 @@ def build_stage_a_replacement_readiness(
         "receipts": receipts,
         "packet": packet,
     }
+
+
+def build_stage_a_artifact_bundle(
+    *,
+    limit: int | None = None,
+    sync_checks_ok: bool | None = None,
+) -> dict[str, Any]:
+    """Build an exportable Stage A artifact bundle with readiness state."""
+    readiness = build_stage_a_replacement_readiness(limit=limit, sync_checks_ok=sync_checks_ok)
+    packet = dict(readiness["packet"])
+    return {
+        "ok": True,
+        "artifact_bundle": {
+            "stage": readiness["stage"],
+            "receipts": readiness["receipts"],
+            "readiness": readiness,
+            "packet_decision": packet["decision"],
+            "comparable_runs": packet["empirical_gate"]["metrics"]["comparable_runs"],
+            "generated_from": [
+                "run_stage_a_head_to_head_receipts_sync",
+                "build_stage_a_replacement_readiness",
+                "build_promotion_packet",
+            ],
+        },
+    }

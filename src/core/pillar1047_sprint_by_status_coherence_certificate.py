@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Pillar 1039 — Sprint BX status-coherence certificate."""
+"""Pillar 1047 — Sprint BY status-coherence certificate."""
 
 from __future__ import annotations
 
@@ -9,24 +9,11 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List
 
-from src.core.pillar1038_sprint_bx_parallel_campaign_certificate import pillar1038_summary
+from src.core.pillar1046_sprint_by_parallel_continuation_certificate import pillar1046_summary
 
-__all__ = [
-    "PILLAR_NUMBER",
-    "PILLAR_GATE",
-    "PILLAR_STATUS",
-    "PILLAR_VALID",
-    "STATUS_SURFACES",
-    "REQUIRED_OPEN_LABELS",
-    "REQUIRED_SPRINT_MARKERS",
-    "status_surface_audit",
-    "status_coherence_certificate",
-    "pillar1039_summary",
-]
-
-PILLAR_NUMBER: int = 1039
-PILLAR_GATE: str = "SPRINT_BX_STATUS_COHERENCE_CERTIFICATE"
-PILLAR_STATUS: str = "SPRINT_BX_STATUS_COHERENCE_CERTIFICATE_COMPLETE"
+PILLAR_NUMBER: int = 1047
+PILLAR_GATE: str = "SPRINT_BY_STATUS_COHERENCE_CERTIFICATE"
+PILLAR_STATUS: str = "SPRINT_BY_STATUS_COHERENCE_CERTIFICATE_COMPLETE"
 
 _ROOT = Path(__file__).resolve().parents[2]
 STATUS_SURFACES: Dict[str, Path] = {
@@ -40,40 +27,30 @@ STATUS_SURFACES: Dict[str, Path] = {
     "sprint_plan": _ROOT / "docs/SPRINT_PLAN.md",
 }
 LIVE_STATUS_PATH = _ROOT / "9-INFRASTRUCTURE" / "um_live_status.json"
-
 REQUIRED_OPEN_LABELS: List[str] = [
     "CMB_AMP_CONFIRMED_IRREDUCIBLE",
     "ALPHA_S_TYPE_B_FLOOR",
     "LITEBIRD_BIREFRINGENCE",
 ]
-
-REQUIRED_SPRINT_MARKERS: List[str] = [
-    "v35.4",
-    "1032-1039",
-    "1040",
-]
+REQUIRED_SPRINT_MARKERS: List[str] = ["v35.5", "1040-1047", "1048"]
 
 
 def status_surface_audit() -> Dict[str, Any]:
-    """Audit that canonical surfaces narrate one Sprint BX story."""
     per_surface: Dict[str, Dict[str, Any]] = {}
     for name, path in STATUS_SURFACES.items():
         text = path.read_text(encoding="utf-8") if path.exists() else ""
         text_lower = text.lower()
-        pillar_window_pass = bool(re.search(r"1032\s*(?:[–-]|to)\s*1039", text, flags=re.IGNORECASE))
+        pillar_window_pass = bool(re.search(r"1040\s*(?:[–-]|to)\s*1047", text, flags=re.IGNORECASE))
         next_slot_pass = (
-            ("next slot 1040" in text_lower)
-            or ("next_pillar_slot: 1040" in text)
-            or ("next pillar slot" in text_lower and "1040" in text_lower)
-            or ("next slot 1048" in text_lower)
+            ("next slot 1048" in text_lower)
             or ("next_pillar_slot: 1048" in text)
             or ("next pillar slot" in text_lower and "1048" in text_lower)
         )
         open_hits = {label: (label in text) for label in REQUIRED_OPEN_LABELS}
         sprint_hits = {
-            "v35.4": ("v35.4" in text),
-            "pillar_window_1032_to_1039": pillar_window_pass,
-            "next_slot_1040": next_slot_pass,
+            "v35.5": ("v35.5" in text),
+            "pillar_window_1040_to_1047": pillar_window_pass,
+            "next_slot_1048": next_slot_pass,
         }
         per_surface[name] = {
             "path": str(path),
@@ -85,14 +62,12 @@ def status_surface_audit() -> Dict[str, Any]:
         }
     all_exist = all(item["exists"] for item in per_surface.values())
     label_surface_counts = {
-        label: sum(
-            1 for item in per_surface.values() if bool(item["open_label_hits"].get(label))
-        )
+        label: sum(1 for item in per_surface.values() if bool(item["open_label_hits"].get(label)))
         for label in REQUIRED_OPEN_LABELS
     }
     sprint_marker_surface_counts = {
         key: sum(1 for item in per_surface.values() if bool(item["sprint_marker_hits"].get(key)))
-        for key in ("v35.4", "pillar_window_1032_to_1039", "next_slot_1040")
+        for key in ("v35.5", "pillar_window_1040_to_1047", "next_slot_1048")
     }
     return {
         "surfaces": per_surface,
@@ -109,20 +84,21 @@ def _live_status_audit() -> Dict[str, Any]:
     meta = dict(payload.get("meta") or {})
     pillars = dict(payload.get("pillars") or {})
     lean4 = dict(payload.get("lean4") or {})
+    tests = dict(payload.get("tests") or {})
     return {
         "exists": LIVE_STATUS_PATH.exists(),
-        "version_ok": str(meta.get("version")) in {"35.4", "v35.4", "35.5", "v35.5"},
-        "next_slot_ok": int(pillars.get("next_slot", 0)) >= 1040,
-        "total_slots_ok": int(pillars.get("total_slots", 0)) >= 1039,
-        "lean4_ok": int(lean4.get("theorem_count", 0)) >= 3964,
+        "version_ok": str(meta.get("version")) in {"35.5", "v35.5"},
+        "next_slot_ok": int(pillars.get("next_slot", 0)) == 1048,
+        "total_slots_ok": int(pillars.get("total_slots", 0)) == 1047,
+        "lean4_ok": int(lean4.get("theorem_count", 0)) == 3976,
+        "tests_ok": int(tests.get("passed", 0)) >= 63698,
     }
 
 
 def status_coherence_certificate() -> Dict[str, Any]:
-    """Return the Sprint BX status-coherence certificate."""
     audit = status_surface_audit()
     live = _live_status_audit()
-    sprint = pillar1038_summary()
+    sprint = pillar1046_summary()
     valid = bool(
         audit["all_exist"]
         and audit["open_labels_pass"]
@@ -137,9 +113,7 @@ def status_coherence_certificate() -> Dict[str, Any]:
         "valid": valid,
         "surface_audit": audit,
         "live_status_audit": live,
-        "dependency_chain": {
-            "pillar1038": sprint,
-        },
+        "dependency_chain": {"pillar1046": sprint},
         "story_lock": {
             "open_set_preserved": audit["open_labels_pass"],
             "sprint_markers_coherent": audit["sprint_markers_pass"],
@@ -147,8 +121,7 @@ def status_coherence_certificate() -> Dict[str, Any]:
             "promotion_claim_hidden": False,
         },
         "interpretation": (
-            "Sprint BX parallel-campaign outputs and canonical truth surfaces are synchronized "
-            "with unchanged open-label discipline and refreshed live-status artifacts."
+            "Sprint BY continuation outputs and canonical truth surfaces are synchronized with unchanged open-lane discipline, repaired stale wording, and refreshed live-status artifacts."
         ),
     }
 
@@ -156,16 +129,13 @@ def status_coherence_certificate() -> Dict[str, Any]:
 PILLAR_VALID: bool = bool(status_coherence_certificate()["valid"])
 
 
-def pillar1039_summary() -> Dict[str, Any]:
-    """Return concise Pillar 1039 summary."""
+def pillar1047_summary() -> Dict[str, Any]:
     report = status_coherence_certificate()
     return {
         "pillar": PILLAR_NUMBER,
-        "title": "Sprint BX Status-Coherence Certificate",
+        "title": "Sprint BY Status-Coherence Certificate",
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
         "valid": PILLAR_VALID,
         "all_surfaces_exist": report["surface_audit"]["all_exist"],
-        "open_labels_pass": report["surface_audit"]["open_labels_pass"],
-        "sprint_markers_pass": report["surface_audit"]["sprint_markers_pass"],
     }

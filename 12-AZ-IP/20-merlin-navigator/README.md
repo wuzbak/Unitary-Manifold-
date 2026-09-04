@@ -7,11 +7,11 @@
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 -- **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/telemetry`
-- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`
+- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
-- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/promotion-packet`
+- **Program endpoints:** `/api/merlin/program`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/promotion-packet`
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
 
@@ -66,6 +66,7 @@
 - `GET /api/merlin/benchmarks` exposes benchmark harness tracks and promotion gates.
 - `GET /api/merlin/stage-a-receipts` runs the self-hosted Stage A receipt set and returns comparable Merlin/incumbent runs.
 - `GET /api/merlin/replacement-readiness` turns the receipt set into a concrete readiness packet instead of an evidence-empty placeholder.
+- `GET /api/merlin/benchmark-artifacts` exports the receipts plus readiness state as a CI-friendly artifact bundle.
 - `GET /api/merlin/promotion-packet` preserves the legacy promotion-packet contract while `replacement-readiness` exposes the new concrete receipt-backed surface.
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
@@ -86,7 +87,8 @@
 - Merlin now exposes a first-class Stage A benchmark corpus for parity capture before wider takeover.
 - Each Merlin run records latency, estimated tokens, estimated cost, estimated energy, routing lane, provider, provenance coverage, and memory/contradiction signals.
 - Benchmark evaluation can score a response against the Stage A corpus using `evaluateMerlinBenchmarkResponse`.
-- Sustained head-to-head replacement gating is available through `evaluateMerlinEmpiricalGate`, `runMerlinStageAReceipts`, and `getMerlinReplacementReadiness`, while `/api/merlin/promotion-packet` remains the legacy compatibility view.
+- Sustained head-to-head replacement gating is available through `evaluateMerlinEmpiricalGate`, `runMerlinStageAReceipts`, `getMerlinReplacementReadiness`, and `getMerlinStageAArtifacts`, while `/api/merlin/promotion-packet` remains the legacy compatibility view.
+- CI artifact export: `python tools/export_merlin_stage_a_artifacts.py --limit 3 --output /tmp/merlin-stage-a-artifacts.json`.
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).
 
