@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v35.5 (2026-09-04)**
-**Regression:** 63,714 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1048
+**Current version: v35.6 (2026-09-04)**
+**Regression:** 63,722 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1049
+
+## v35.6 (2026-09-04 — Sprint BZ: Pillar 1048)
+
+**What changed:**
+Pillar 1048 (1 pillar). Sprint BZ implements a targeted parallel quantum-gravity rigor packet as six executable workstreams: (1) data-citable online research intake rows with explicit source/metric/uncertainty/regime/reproducibility metadata, (2) architecture-gap mapping against the four non-perturbative QG obstructions O1–O4, (3) controlled reproduction/cross-validation verdict packets, (4) deterministic PASS/TENSION/FALSIFIED routing with anti-hidden-calibration checks, (5) targeted verification discipline for accepted mapping/routing rules, and (6) truth-surface synchronization doctrine.
+
+**Why:**
+Convert the next-sprint QG effort from narrative intent into machine-checkable rigor while preserving explicit non-perturbative/UV openness.
+
+**Epistemic label deltas:**
+- new parallel-rigor sprint verdict: `QG_PARALLEL_RIGOR_SPRINT_COMPLETE`
+- non-perturbative QG boundary remains explicit (`NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`)
+- no claim promotion without executable evidence
+
+**Physics label delta:** None — no hardgate closure promotion.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032), non-perturbative QG/UV completion.
+
+**Lean4:** 3976 → 3976 (+0)
+**Regression:** Sprint BZ targeted tests passed · 0 failed
+**Next pillar slot:** 1049
 
 ## v35.5 (2026-09-04 — Sprint BY: Pillars 1040–1047)
 

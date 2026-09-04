@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-04 (v35.5 Sprint BY COMPLETE — Pillars 1040–1047; Lean4 3964→3976; next slot 1048)*
+*Last updated: 2026-09-04 (v35.6 Sprint BZ COMPLETE — Pillar 1048; Lean4 3976→3976; next slot 1049)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,21 +16,22 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v35.5 — Sprint BY)
+## CURRENT AUDITABLE STATE (v35.6 — Sprint BZ)
 
 | Field | Value |
 |-------|-------|
-| Version | **v35.5** |
-| Sprint | **Sprint BY** |
-| Pillars | **1040-1047** |
-| Next pillar slot | **1048** |
+| Version | **v35.6** |
+| Sprint | **Sprint BZ** |
+| Pillars | **1048-1048** |
+| Next pillar slot | **1049** |
 | Lean4 theorems | **3976** |
-| Sprint theme | **Precision lock + post-BX parallel continuation + Merlin sovereign batch-gating** |
-| Primary target | **Repair stale branch narration first, then continue flavor/UV/CMB/formal/Merlin work with harder accounting and unchanged open-lane honesty** |
-| Binary outcome | **PRECISION_LOCK_EARNED + MEANINGFUL_CONTINUATION_WITH_NO_LABEL_INFLATION** |
+| Sprint theme | **Targeted parallel quantum-gravity rigor execution (intake→mapping→reproduction→routing→verification→synchronization)** |
+| Primary target | **Convert the quantum-gravity next-sprint plan into an executable six-workstream packet without claim inflation** |
+| Binary outcome | **FULL_RIGOR_PACKET_EXECUTED + OPEN_BOUNDARY_HONESTY_RETAINED** |
 
-Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) completed the first parallel closure campaign and sharpened the blocker map before the Sprint BY precision-lock continuation.
-Historical continuity: v35.3 Sprint BW (Pillar 1031; next slot 1032) remains the canonical three-lane execution checkpoint directly below Sprint BX.
+Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock and post-BX continuation layer directly below Sprint BZ.
+Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer in this sequence.
+Historical continuity: v35.3 Sprint BW (Pillar 1031; next slot 1032) remains the three-lane execution checkpoint that must stay auditable.
 
 ---
 
@@ -51,34 +52,30 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BY continuation)
+## NEXT PHASE PRIORITIES (post-BZ continuation)
 
 1. **Truth-surface lockstep remains non-negotiable**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, this file, and `9-INFRASTRUCTURE/um_live_status.json` synchronized in one change set.
-2. **Flavor family remains first claim-credit lane**
-   - Use the explicit priority ladder and exact unresolved objects; closure only counts if a real downstream runtime flips.
-3. **Shared UV compactification stays coupled**
-   - Keep α_s and Higgs on one shared packet, forbid per-lane rescue knobs, and only change labels if both evidence and runtime justify it.
-4. **CMB amplitude remains under no-fit discipline**
-   - No external `A_s` targeting, no calibration disguised as prediction, and no softening of the irreducibility boundary without a real collapse of the deficit.
-5. **Formal work stays focused on the one surviving high-level burden**
-   - Attack only the remaining Kawamura-independence functional-analysis bridge; do not scatter the Lean4 lane.
-6. **Biology exactness guardrails remain intact**
-   - Promote exact kernels only; keep HOX empirical and hydration conversion claims explicitly adjacent/model-dependent until separately earned.
-7. **Merlin replacement keeps moving toward governed sovereignty**
-   - Preserve current useful user-facing behavior while expanding recurring artifact bundles, routed benchmark surfaces, and self-hosted capability without token dependence.
-8. **Regression discipline**
-   - Keep 0 failures and preserve next-slot continuity if work resumes.
+2. **QG online research intake stays data-citable**
+   - Keep explicit source/metric/uncertainty/regime/reproducibility fields for each accepted external result.
+3. **Architecture-gap mapping remains O1–O4 anchored**
+   - Map every external result against the declared non-perturbative obstructions and classify impact with executable categories.
+4. **Reproduction + routing must remain deterministic**
+   - Require controlled assumptions for reproductions and deterministic PASS/TENSION/FALSIFIED routing with anti-hidden-calibration checks.
+5. **Verification discipline remains mandatory**
+   - Keep targeted regression coverage for each accepted mapping/routing rule and preserve zero-failure policy.
+6. **Non-perturbative boundary honesty stays explicit**
+   - Allow only two outcomes: sharper bound evidence or explicit open/irreducible carry-forward; no rhetorical closure.
 
 ---
 
 ## SUCCESS CRITERIA FOR NEXT SPRINT
 
 1. All canonical surfaces agree on version, slot, open set, and live-status output.
-2. Flavor/UV/CMB continuation either earns a real runtime flip or publishes a materially sharper non-closure boundary.
-3. P636 retains an explicit residual-open statement even after further Lean4 hardening.
-4. Merlin replacement artifacts remain evidence-gated and never report approval without a passing receipt packet.
-5. No lane label changes without executable runtime evidence.
+2. Every accepted external QG metric has a traceable evidence row, a reproduction packet, and a routing verdict.
+3. O1–O4 mapping remains explicit with no unsupported obstruction claims.
+4. No claim promotion without executable evidence and no hidden calibration.
+5. Non-perturbative QG remains explicitly open/irreducible unless a true external closure programme result is integrated.
 6. Tests remain green.
 
 ---

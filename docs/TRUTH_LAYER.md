@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v35.5
+# Unitary Manifold v35.6
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v35.6 sync note (Sprint BZ — 2026-09-04):*
+*(1) Auditable checked-in branch state now includes Pillar 1048; Lean4 remains 3976; next pillar slot 1049.*
+*(2) Sprint BZ implements a targeted parallel quantum-gravity rigor packet instead of a closure narrative: data-citable intake, O1–O4 obstruction mapping, controlled reproduction, deterministic routing, targeted verification discipline, and truth-surface synchronization doctrine.*
+*(3) Mapping is explicitly anchored to the four non-perturbative obstructions certified in Pillar 875, so new external findings can tighten boundaries without claiming internal closure of non-perturbative QG.*
+*(4) Routing remains deterministic PASS/TENSION/FALSIFIED and adds an anti-hidden-calibration guardrail to prevent calibrated outputs from being mislabeled as independent predictions.*
+*(5) Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.*
 
 *v35.4 sync note (Sprint BX — 2026-09-03):*
 *(1) Auditable checked-in branch state is Sprint BX: Pillars 1032–1039; Lean4 3964; next pillar slot 1040; focused regression: Sprint BX targeted tests passed · 0 failed; Merlin Product 20 targeted tests passed · 0 failed.*

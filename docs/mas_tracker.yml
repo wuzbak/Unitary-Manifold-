@@ -1,6 +1,36 @@
-version: "v35.5"
+version: "v35.6"
 date: "2026-09-04"
 updated: "2026-09-04"
+
+v35_6_sprint_bz:
+  sprint: BZ
+  version: v35.6
+  date: "2026-09-04"
+  pillars: 1048-1048
+  new_pillars: 1
+  new_tests: 8
+  lean4_start: 3976
+  lean4_end: 3976
+  lean4_delta: 0
+  closures:
+    - QG_PARALLEL_RIGOR_SPRINT_COMPLETE
+  advances:
+    - PARALLEL_QUANTUM_GRAVITY_RIGOR_PACKET_EXECUTABLE_WITH_DATA_CITABLE_INTAKE_O1_O4_MAPPING_REPRODUCTION_AND_ROUTING
+    - DETERMINISTIC_PASS_TENSION_FALSIFIED_ROUTING_EXTENDED_WITH_ANTI_HIDDEN_CALIBRATION_GUARDRAIL
+    - NONPERTURBATIVE_QG_BOUNDARY_REMAINS_EXPLICIT_AS_IRREDUCIBLE_WITHIN_IN_REPO_SCOPE
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "63,722 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)"
+  focused_regression: "Sprint BZ targeted tests passed · 0 failed"
+  next_pillar_slot: 1049
 
 v35_5_sprint_by:
   sprint: BY
