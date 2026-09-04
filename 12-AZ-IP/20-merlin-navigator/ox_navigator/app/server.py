@@ -381,7 +381,11 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({'ok': payload['ok'], 'error': payload.get('error')}, status=status)
                     self._persist_session(session_id, merlin_session)
                     return
-                self._json(payload['data'], status=status)
+                artifacts_payload = dict(payload.get('data') or {})
+                self._json({
+                'ok': bool(artifacts_payload.get('ok', True)),
+                'artifacts': artifacts_payload.get('artifact_bundle', {}),
+                }, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/training-artifacts':
@@ -390,7 +394,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({'ok': False, 'error': error}, status=400)
                     return
                 payload = build_training_artifact_bundle(limit=limit)
-                self._json(payload)
+                self._json({
+                'ok': bool(payload.get('ok')),
+                'training_artifacts': payload.get('artifact_bundle', {}),
+                })
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/promotion-packet':

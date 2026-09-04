@@ -752,17 +752,17 @@ def test_server_merlin_endpoints():
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200
             assert artifacts.json()['ok'] is True
-            assert artifacts.json()['artifact_bundle']['receipts']['summary']['total'] == 1
+            assert artifacts.json()['artifacts']['receipts']['summary']['total'] == 1
 
             training_artifacts = client.get('/api/merlin/training-artifacts?limit=4')
             assert training_artifacts.status_code == 200
             assert training_artifacts.json()['ok'] is True
-            assert training_artifacts.json()['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
+            assert training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 4
 
             empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
             assert empty_training_artifacts.status_code == 200
             assert empty_training_artifacts.json()['ok'] is True
-            assert empty_training_artifacts.json()['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 0
+            assert empty_training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 0
 
             bad_artifact_limit = client.get('/api/merlin/benchmark-artifacts?limit=abc')
             assert bad_artifact_limit.status_code == 400
