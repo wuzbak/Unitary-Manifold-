@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-04 (v35.6 Sprint BZ COMPLETE — Pillar 1048; Lean4 3976→3976; next slot 1049)*
+*Last updated: 2026-09-04 (v35.7 Sprint CA COMPLETE — Pillars 1049–1050; Lean4 3976→3988; next slot 1051)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,22 +16,22 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v35.6 — Sprint BZ)
+## CURRENT AUDITABLE STATE (v35.7 — Sprint CA)
 
 | Field | Value |
 |-------|-------|
-| Version | **v35.6** |
-| Sprint | **Sprint BZ** |
-| Pillars | **1048-1048** |
-| Next pillar slot | **1049** |
-| Lean4 theorems | **3976** |
-| Sprint theme | **Targeted parallel quantum-gravity rigor execution (intake→mapping→reproduction→routing→verification→synchronization)** |
-| Primary target | **Convert the quantum-gravity next-sprint plan into an executable six-workstream packet without claim inflation** |
-| Binary outcome | **FULL_RIGOR_PACKET_EXECUTED + OPEN_BOUNDARY_HONESTY_RETAINED** |
+| Version | **v35.7** |
+| Sprint | **Sprint CA** |
+| Pillars | **1049-1050** |
+| Next pillar slot | **1051** |
+| Lean4 theorems | **3988** |
+| Sprint theme | **Full-throttle closure-grade execution with binary go/no-go gates across flavor/UV/CMB/formal/QG lanes** |
+| Primary target | **Execute the full closure plan end-to-end with deterministic evidence routing, truth-surface lockstep, and publication synchronization** |
+| Binary outcome | **RUNTIME_FLIP_EARNED OR BOUNDARY_TIGHTENED_WITH_EXPLICIT_OPEN_CARRY_FORWARD** |
 
-Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock and post-BX continuation layer directly below Sprint BZ.
-Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer in this sequence.
-Historical continuity: v35.3 Sprint BW (Pillar 1031; next slot 1032) remains the three-lane execution checkpoint that must stay auditable.
+Historical continuity: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the targeted QG rigor layer directly below Sprint CA.
+Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer below Sprint BZ.
+Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer in this sequence.
 
 ---
 
@@ -45,14 +45,15 @@ Historical continuity: v35.3 Sprint BW (Pillar 1031; next slot 1032) remains the
 6. `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED` (TYPE_B G4)
 7. `DESI_DR3_MONITORING` (~2027)
 8. `LITEBIRD_BIREFRINGENCE` (~2032)
+9. `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`
 
 Classification:
-- **Architecture limits:** 1–6
-- **External waits:** 7–8
+- **Architecture limits:** 1–7, 9
+- **External waits:** 8
 
 ---
 
-## NEXT PHASE PRIORITIES (post-BZ continuation)
+## NEXT PHASE PRIORITIES (post-CA continuation)
 
 1. **Truth-surface lockstep remains non-negotiable**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, this file, and `9-INFRASTRUCTURE/um_live_status.json` synchronized in one change set.

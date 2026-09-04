@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v35.6
+# Unitary Manifold v35.7
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -7,6 +7,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CA (v35.7 — 2026-09-04):** 2 pillars (1049–1050). P1049 executes the full-throttle closure packet with binary go/no-go gates across Program A flavor shared-root closure, Program B coupled UV compactification for α_s + Higgs, Program C non-fitted CMB integrity reruns, Lean4 theorem-by-theorem traceability expansion, and O1–O4 non-perturbative QG routing discipline. P1050 certifies coherence across all canonical truth surfaces, live-status JSON, and a synchronized five-article outreach packet. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Lean4 3976→3988 (+12). Next slot 1051.
+>
 
 > **Sprint BZ (v35.6 — 2026-09-04):** 1 pillar (1048). P1048 implements a targeted parallel quantum-gravity rigor packet with six executable workstreams: data-citable online research intake, architecture-gap mapping to O1–O4 non-perturbative obstructions, controlled reproduction/cross-validation, deterministic PASS/TENSION/FALSIFIED routing with anti-hidden-calibration checks, targeted verification discipline, and truth-surface synchronization doctrine. This sprint does not promote hardgate closure claims; it sharpens process rigor and keeps non-perturbative QG explicitly irreducible within in-repo scope. Open-lane labels remain unchanged and explicit, including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `LITEBIRD_BIREFRINGENCE`, and `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Lean4 3976→3976 (+0). Next slot 1049.
 >
@@ -52,7 +55,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-04 (v35.6 — Sprint BZ: Pillar 1048; targeted parallel quantum-gravity rigor packet implemented with intake/mapping/reproduction/routing/verification/synchronization workstreams. Lean4 unchanged at 3976. Next pillar slot is 1049. Remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
+*Last updated: 2026-09-04 (v35.7 — Sprint CA: Pillars 1049–1050; full-throttle closure packet + status coherence lock implemented; Lean4 3988; next pillar slot 1051; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

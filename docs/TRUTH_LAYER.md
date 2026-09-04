@@ -1,8 +1,16 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v35.6
+# Unitary Manifold v35.7
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v35.7 sync note (Sprint CA — 2026-09-04):*
+*(1) Auditable checked-in branch state now includes Pillars 1049–1050; Lean4 rises to 3988; next pillar slot 1051.*
+*(2) Sprint CA executes the full-throttle closure program under one binary rule: runtime-flip credit only when earned; otherwise explicit boundary tightening and open carry-forward.*
+*(3) Program A reruns the strongest shared-root flavor attempt with explicit blocker ranking; Program B reruns α_s and Higgs under one shared compactification object; Program C reruns the non-fitted CMB mechanism lane with anti-hidden-calibration guardrails.*
+*(4) Formal lane reporting now requires theorem-by-theorem traceability between claim labels, executable artifacts, and Lean4 status markers while keeping the final functional-analysis burden explicit.*
+*(5) O1–O4 non-perturbative QG routing remains deterministic and synchronized with canonical truth surfaces and publication outputs.*
+*(6) Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.*
 
 *v35.6 sync note (Sprint BZ — 2026-09-04):*
 *(1) Auditable checked-in branch state now includes Pillar 1048; Lean4 remains 3976; next pillar slot 1049.*

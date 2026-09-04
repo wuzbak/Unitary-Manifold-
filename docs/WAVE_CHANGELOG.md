@@ -1,9 +1,34 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v35.6 (2026-09-04)**
-**Regression:** 63,722 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1049
+**Current version: v35.7 (2026-09-04)**
+**Regression:** 63,732 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1051
+
+## v35.7 (2026-09-04 — Sprint CA: Pillars 1049–1050)
+
+**What changed:**
+Pillars 1049–1050 (2 pillars). Sprint CA executes the full-throttle closure plan with strict binary outcomes and synchronized publication/state coherence. (1) P1049 runs Program A flavor shared-root closure, Program B coupled UV rerun for α_s+Higgs, Program C non-fitted CMB rerun, Lean4 theorem-traceability expansion, and O1–O4 non-perturbative QG routing under deterministic gates. (2) P1050 certifies lockstep coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON and five sprint outreach drafts.
+
+**Why:**
+Implement the full rigor sprint end-to-end with no narrative inflation, no hidden open-problem drift, and no desynchronized public/internal ledgers.
+
+**Epistemic label deltas:**
+- new sprint execution verdict: `SPRINT_CA_FULL_THROTTLE_EXECUTION_COMPLETE`
+- new status coherence verdict: `SPRINT_CA_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+- deterministic go/no-go gate routing now enforced across all closure workstreams
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032), non-perturbative QG/UV completion.
+
+**Lean4:** 3976 → 3988 (+12)
+**Regression:** Sprint CA targeted tests passed · 0 failed
+**Next pillar slot:** 1051
 
 ## v35.6 (2026-09-04 — Sprint BZ: Pillar 1048)
 
