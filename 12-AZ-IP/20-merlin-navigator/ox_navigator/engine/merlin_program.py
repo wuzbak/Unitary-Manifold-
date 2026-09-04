@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+import hashlib
 from pathlib import Path
 import re
 from typing import Any
@@ -565,8 +566,11 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/runtime",
         "/api/merlin/benchmarks",
         "/api/merlin/training-architecture",
+        "/api/merlin/training-dataset",
+        "/api/merlin/mlflow-manifests",
         "/api/merlin/open-science-registry",
         "/api/merlin/competitive-benchmarks",
+        "/api/merlin/benchmark-corpora",
         "/api/merlin/stage-a-receipts",
         "/api/merlin/replacement-readiness",
         "/api/merlin/training-artifacts",
@@ -598,8 +602,11 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/telemetry",
         "/api/merlin/benchmarks",
         "/api/merlin/training-architecture",
+        "/api/merlin/training-dataset",
+        "/api/merlin/mlflow-manifests",
         "/api/merlin/open-science-registry",
         "/api/merlin/competitive-benchmarks",
+        "/api/merlin/benchmark-corpora",
         "/api/merlin/stage-a-receipts",
         "/api/merlin/replacement-readiness",
         "/api/merlin/training-artifacts",
@@ -989,19 +996,265 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
         "active_training_surfaces": {
             "baseline_plan": "getMerlinTrainingPlan",
             "full_architecture": "getMerlinTrainingArchitecture",
+            "dataset_bundle": "getMerlinTrainingDataset",
+            "mlflow_manifests": "getMerlinMLflowManifests",
             "artifact_bundle": "getMerlinTrainingArtifacts",
         },
     }
 
 
+def _dataset_split(record_id: str, track: str) -> str:
+    if track == "adversarial_counterexamples":
+        return "test"
+    digest = hashlib.sha256(f"{track}:{record_id}".encode("utf-8")).hexdigest()
+    bucket = int(digest[:8], 16) % 100
+    if bucket < 70:
+        return "train"
+    if bucket < 85:
+        return "dev"
+    return "test"
+
+
+def build_training_dataset_bundle(limit: int | None = None) -> dict[str, Any]:
+    from .merlin_benchmark import get_benchmark_corpus
+
+    architecture = get_training_architecture(limit=limit)
+    seed_examples = list(architecture.get("seed_instruction_corpus") or [])
+    splits: dict[str, list[dict[str, Any]]] = {"train": [], "dev": [], "test": []}
+    for example in seed_examples:
+        track = str(example.get("track", "unknown"))
+        split = _dataset_split(str(example.get("id", "")), track)
+        record = {
+            "record_id": str(example.get("id", "")),
+            "split": split,
+            "task_family": track,
+            "instruction": str(example.get("prompt", "")),
+            "response_target": example.get("target"),
+            "target_contract": example.get("target_contract"),
+            "supervision_mode": str(example.get("supervision_mode", "unspecified")),
+            "required_gates": list(example.get("required_gates") or []),
+            "provenance_sources": list(example.get("provenance_sources") or []),
+            "format_version": "merlin_training_jsonl_v1",
+        }
+        splits[split].append(record)
+
+    benchmark_payload = get_benchmark_corpus("all")
+    benchmark_records: dict[str, list[dict[str, Any]]] = {}
+    corpora = dict(benchmark_payload.get("corpora") or {})
+    for stage_name, payload in corpora.items():
+        benchmark_records[stage_name] = []
+        for benchmark in list(payload.get("benchmarks") or []):
+            benchmark_records[stage_name].append(
+                {
+                    "benchmark_id": str(benchmark.get("id", "")),
+                    "stage": stage_name,
+                    "track": str(benchmark.get("track", "")),
+                    "query": str(benchmark.get("query", "")),
+                    "keywords": list(benchmark.get("keywords") or []),
+                    "required_gates": list(benchmark.get("required_gates") or []),
+                    "required_contract_sections": list(benchmark.get("required_contract_sections") or []),
+                    "required_provenance_kinds": list(benchmark.get("required_provenance_kinds") or []),
+                    "review_focus": list(benchmark.get("review_focus") or []),
+                    "benchmark_mode": str(benchmark.get("benchmark_mode") or "single_turn"),
+                    "setup_turns": list(benchmark.get("setup_turns") or []),
+                    "format_version": "merlin_benchmark_jsonl_v1",
+                }
+            )
+
+    split_counts = {name: len(items) for name, items in splits.items()}
+    benchmark_counts = {name: len(items) for name, items in benchmark_records.items()}
+    return {
+        "ok": True,
+        "dataset": {
+            "generated_at": _utcnow(),
+            "training_architecture": architecture,
+            "splits": splits,
+            "benchmark_corpora": benchmark_records,
+            "counts": {
+                "training_records": split_counts,
+                "benchmark_records": benchmark_counts,
+                "total_training_records": sum(split_counts.values()),
+                "total_benchmark_records": sum(benchmark_counts.values()),
+            },
+            "schema": {
+                "training_fields": [
+                    "record_id",
+                    "split",
+                    "task_family",
+                    "instruction",
+                    "response_target",
+                    "target_contract",
+                    "supervision_mode",
+                    "required_gates",
+                    "provenance_sources",
+                    "format_version",
+                ],
+                "benchmark_fields": [
+                    "benchmark_id",
+                    "stage",
+                    "track",
+                    "query",
+                    "keywords",
+                    "required_gates",
+                    "required_contract_sections",
+                    "required_provenance_kinds",
+                    "review_focus",
+                    "benchmark_mode",
+                    "setup_turns",
+                    "format_version",
+                ],
+            },
+        },
+    }
+
+
+def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
+    dataset_bundle = build_training_dataset_bundle(limit=limit)
+    dataset_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("training_records") or {})
+    benchmark_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("benchmark_records") or {})
+    return {
+        "generated_at": _utcnow(),
+        "manifests": [
+            {
+                "experiment_name": "merlin_sft_repository_mastery",
+                "objective": "Train Merlin on repository-native QA, tool traces, and benchmark contracts.",
+                "tracking_uri_env": "MLFLOW_TRACKING_URI",
+                "tags": {
+                    "program": "merlin_all_hands_maximum_effort",
+                    "phase": "supervised_finetuning",
+                    "mission_profile": "repository_assistant+scientific_reasoning+autonomous_research",
+                },
+                "datasets": {
+                    "train_split_records": dataset_counts.get("train", 0),
+                    "dev_split_records": dataset_counts.get("dev", 0),
+                    "test_split_records": dataset_counts.get("test", 0),
+                },
+                "params": {
+                    "base_model_policy": "open_weight_primary",
+                    "sft_curriculum_stages": [1, 2, 3],
+                    "benchmark_holdout_stages": ["stage_b_sovereign_takeover", "stage_c_capability_expansion"],
+                },
+                "metrics": [
+                    "validation_contract_pass_rate",
+                    "typed_provenance_completeness",
+                    "boundary_preservation_rate",
+                    "tool_selection_precision",
+                ],
+                "entry_command": "python tools/export_merlin_training_jsonl.py --limit {limit} --output-dir /tmp/merlin-training-jsonl",
+                "artifacts": [
+                    "train.jsonl",
+                    "dev.jsonl",
+                    "test.jsonl",
+                    "dataset_manifest.json",
+                ],
+            },
+            {
+                "experiment_name": "merlin_dpo_boundary_discipline",
+                "objective": "Optimize preference behavior for uncertainty discipline, refusal correctness, and boundary honesty.",
+                "tracking_uri_env": "MLFLOW_TRACKING_URI",
+                "tags": {
+                    "program": "merlin_all_hands_maximum_effort",
+                    "phase": "preference_optimization",
+                },
+                "datasets": {
+                    "adversarial_eval_records": benchmark_counts.get("stage_c_capability_expansion", 0),
+                    "boundary_eval_records": benchmark_counts.get("stage_b_sovereign_takeover", 0),
+                },
+                "params": {
+                    "preference_targets": [
+                        "uncertainty_discipline",
+                        "refusal_correctness",
+                        "governance_boundary_preservation",
+                    ],
+                },
+                "metrics": [
+                    "refusal_precision",
+                    "prompt_injection_resistance",
+                    "open_gap_visibility",
+                ],
+                "entry_command": "python tools/export_merlin_mlflow_manifests.py --limit {limit} --output-dir /tmp/merlin-mlflow",
+                "artifacts": [
+                    "mlflow_manifests.json",
+                    "benchmark_stage_b.jsonl",
+                    "benchmark_stage_c.jsonl",
+                ],
+            },
+            {
+                "experiment_name": "merlin_stage_b_shadow_eval",
+                "objective": "Run Stage B selected-domain primary-routing evaluations before wider takeover.",
+                "tracking_uri_env": "MLFLOW_TRACKING_URI",
+                "tags": {
+                    "program": "merlin_all_hands_maximum_effort",
+                    "phase": "stage_b_sovereign_takeover",
+                },
+                "datasets": {"stage_b_records": benchmark_counts.get("stage_b_sovereign_takeover", 0)},
+                "params": {
+                    "required_clean_windows": 3,
+                    "focus_tracks": ["long_context_synthesis", "memory_recall", "policy_stability"],
+                },
+                "metrics": [
+                    "stage_b_pass_rate",
+                    "memory_recall_accuracy",
+                    "privileged_action_escalation_correctness",
+                    "energy_per_successful_task",
+                ],
+                "entry_command": "python tools/run_merlin_stage_a_benchmarks.py --json",
+                "artifacts": [
+                    "benchmark_stage_b.jsonl",
+                    "merlin-stage-a-artifacts.json",
+                ],
+            },
+            {
+                "experiment_name": "merlin_stage_c_agentic_eval",
+                "objective": "Evaluate deeper orchestration, provenance auditing, and autonomous research readiness.",
+                "tracking_uri_env": "MLFLOW_TRACKING_URI",
+                "tags": {
+                    "program": "merlin_all_hands_maximum_effort",
+                    "phase": "stage_c_capability_expansion",
+                },
+                "datasets": {"stage_c_records": benchmark_counts.get("stage_c_capability_expansion", 0)},
+                "params": {
+                    "risk_mode": "fail_closed",
+                    "focus_tracks": ["orchestration_depth", "provenance_completeness", "autonomous_research"],
+                },
+                "metrics": [
+                    "orchestration_success_rate",
+                    "typed_provenance_completion_rate",
+                    "research_triage_correctness",
+                    "high_severity_policy_violations",
+                ],
+                "entry_command": "python tools/export_merlin_training_artifacts.py --limit {limit} --output /tmp/merlin-training-artifacts.json",
+                "artifacts": [
+                    "benchmark_stage_c.jsonl",
+                    "merlin-training-artifacts.json",
+                ],
+            },
+        ],
+        "mlflow_contract": {
+            "experiment_required_fields": [
+                "experiment_name",
+                "objective",
+                "tracking_uri_env",
+                "tags",
+                "params",
+                "metrics",
+                "entry_command",
+                "artifacts",
+            ],
+            "promotion_policy": "Merlin promotion remains governed by control-tower decisions, not MLflow logging alone.",
+        },
+    }
+
+
 def get_competitive_benchmark_plan() -> dict[str, Any]:
-    from .merlin_benchmark import get_multi_stage_benchmark_plan, get_stage_a_benchmark_corpus
+    from .merlin_benchmark import get_benchmark_corpus, get_multi_stage_benchmark_plan, get_stage_a_benchmark_corpus
 
     return {
         "objective": "Benchmark Merlin competitively against incumbent and external-class expectations before broader promotion.",
         "internal_gate_stack": {
             "stage_a": get_stage_a_benchmark_corpus(),
             "multi_stage": get_multi_stage_benchmark_plan(),
+            "corpora": get_benchmark_corpus("all"),
         },
         "competitive_families": [
             {
@@ -1039,12 +1292,15 @@ def build_training_artifact_bundle(limit: int | None = None) -> dict[str, Any]:
     from .merlin_benchmark import build_stage_a_artifact_bundle
 
     training_architecture = get_training_architecture(limit=limit)
+    dataset_bundle = build_training_dataset_bundle(limit=limit)
     stage_a_limit = limit if limit is None else max(0, int(limit))
     return {
         "ok": True,
         "artifact_bundle": {
             "generated_at": _utcnow(),
             "training_architecture": training_architecture,
+            "training_dataset": dataset_bundle["dataset"],
+            "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit),
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
@@ -1253,6 +1509,8 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "model_admission_policy": get_model_admission_policy(),
         "training_and_adaptation": get_training_and_adaptation(),
         "training_architecture": get_training_architecture(limit=12),
+        "training_dataset": build_training_dataset_bundle(limit=12),
+        "mlflow_manifests": get_mlflow_experiment_manifests(limit=12),
         "open_science_registry": get_open_science_resource_registry(),
         "competitive_benchmark_plan": get_competitive_benchmark_plan(),
         "energy_optimization": get_energy_optimization_track(),

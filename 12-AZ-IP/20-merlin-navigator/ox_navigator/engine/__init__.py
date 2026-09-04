@@ -45,7 +45,14 @@ from .merlin_runtime import (
     get_mythos_astra_runtime_contract,
     get_optimization_priorities,
 )
-from .merlin_benchmark import evaluate_benchmark_response, get_stage_a_benchmark_corpus, match_benchmark_for_query
+from .merlin_benchmark import (
+    evaluate_benchmark_response,
+    get_benchmark_corpus,
+    get_stage_a_benchmark_corpus,
+    get_stage_b_benchmark_corpus,
+    get_stage_c_benchmark_corpus,
+    match_benchmark_for_query,
+)
 from .merlin_telemetry import build_run_telemetry, estimate_cost_usd, estimate_energy_joules, estimate_token_count, summarize_runs
 from .merlin_program import (
     get_backend_expansion_policy,
@@ -71,6 +78,8 @@ from .merlin_program import (
     get_rollout_plan,
     get_sovereignty_roadmap,
     get_sentinel_enforcement_policy,
+    get_mlflow_experiment_manifests,
+    build_training_dataset_bundle,
     get_training_architecture,
     get_training_and_adaptation,
     get_weights_and_measures,
@@ -102,13 +111,15 @@ __all__ = [
     'verify_identity_signals', 'is_privileged_modification_request', 'authorize_privileged_request',
     'get_mythos_astra_runtime_contract', 'get_optimization_priorities',
     'get_advanced_execution_graph', 'get_benchmark_suite', 'get_stage_a_benchmark_corpus',
+    'get_stage_b_benchmark_corpus', 'get_stage_c_benchmark_corpus', 'get_benchmark_corpus',
     'match_benchmark_for_query', 'evaluate_benchmark_response', 'estimate_token_count', 'estimate_cost_usd',
     'estimate_energy_joules', 'build_run_telemetry', 'summarize_runs',
     'get_program_charter', 'get_program_doctrine', 'get_sovereignty_roadmap', 'get_replacement_scope',
     'get_current_stack_baseline', 'get_weights_and_measures', 'get_knowledge_core_sources',
     'run_sync_checks', 'get_model_strategy', 'get_training_and_adaptation',
     'get_training_architecture', 'get_open_science_resource_registry',
-    'get_competitive_benchmark_plan', 'build_training_artifact_bundle',
+    'get_competitive_benchmark_plan', 'build_training_dataset_bundle',
+    'get_mlflow_experiment_manifests', 'build_training_artifact_bundle',
     'get_energy_optimization_track', 'get_backend_expansion_policy',
     'get_governance_integration_policy', 'get_reliability_security_plan',
     'get_identity_and_trust_policy', 'get_sentinel_enforcement_policy',

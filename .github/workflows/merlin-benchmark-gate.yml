@@ -50,6 +50,12 @@ jobs:
       - name: Export Merlin training artifact bundle
         run: python tools/export_merlin_training_artifacts.py --limit 12 --output /tmp/merlin-training-artifacts.json
 
+      - name: Export Merlin training JSONL pack
+        run: python tools/export_merlin_training_jsonl.py --limit 12 --output-dir /tmp/merlin-training-jsonl
+
+      - name: Export Merlin MLflow manifests
+        run: python tools/export_merlin_mlflow_manifests.py --limit 12 --output-dir /tmp/merlin-mlflow
+
       - name: Upload Stage A artifact bundle
         uses: actions/upload-artifact@v4
         with:
@@ -61,3 +67,15 @@ jobs:
         with:
           name: merlin-training-artifacts
           path: /tmp/merlin-training-artifacts.json
+
+      - name: Upload Merlin training JSONL pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: merlin-training-jsonl
+          path: /tmp/merlin-training-jsonl
+
+      - name: Upload Merlin MLflow manifests
+        uses: actions/upload-artifact@v4
+        with:
+          name: merlin-mlflow-manifests
+          path: /tmp/merlin-mlflow

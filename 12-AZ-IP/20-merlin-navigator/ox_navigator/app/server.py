@@ -18,12 +18,15 @@ from urllib.parse import parse_qs, urlparse
 from uuid import uuid4
 
 from ox_navigator.engine.constants import DEFAULT_TEMPERATURE, MODEL_ID
+from ox_navigator.engine.merlin_benchmark import get_benchmark_corpus
 from ox_navigator.engine.merlin_engine import query_merlin
 from ox_navigator.engine.merlin_identity import get_identity_policy
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
 from ox_navigator.engine.merlin_program import (
     build_training_artifact_bundle,
+    build_training_dataset_bundle,
+    get_mlflow_experiment_manifests,
     get_competitive_benchmark_plan,
     get_merlin_benchmark_suite,
     get_merlin_execution_graph,
@@ -293,6 +296,14 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/training-dataset':
+                limit, error = _parse_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json(build_training_dataset_bundle(limit=limit))
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/open-science-registry':
                 self._json({
                 'ok': True,
@@ -300,10 +311,28 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/mlflow-manifests':
+                limit, error = _parse_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'mlflow_manifests': get_mlflow_experiment_manifests(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/competitive-benchmarks':
                 self._json({
                 'ok': True,
                 'competitive_benchmarks': get_competitive_benchmark_plan(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/benchmark-corpora':
+                self._json({
+                'ok': True,
+                'benchmark_corpora': get_benchmark_corpus(stage=str(params.get('stage', ['all'])[0] or 'all')),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

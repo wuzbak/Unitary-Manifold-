@@ -20,10 +20,13 @@ from .merlin_benchmark import (
     build_stage_a_artifact_bundle,
     build_stage_a_replacement_readiness,
     build_promotion_packet,
+    get_benchmark_corpus,
     evaluate_longitudinal_acceptance,
     evaluate_benchmark_response,
     evaluate_empirical_gate,
     get_multi_stage_benchmark_plan,
+    get_stage_b_benchmark_corpus,
+    get_stage_c_benchmark_corpus,
     get_stage_a_benchmark_corpus,
     run_stage_a_head_to_head_receipts_sync,
 )
@@ -60,6 +63,8 @@ from .merlin_program import (
     get_sovereignty_roadmap,
     get_sentinel_enforcement_policy,
     get_specialized_model_faculty_matrix,
+    get_mlflow_experiment_manifests,
+    build_training_dataset_bundle,
     get_training_architecture,
     get_training_and_adaptation,
     get_weights_and_measures,
@@ -196,6 +201,9 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinExecutionGraph", "summary": "Return max-rigor execution graph", "domain": "functions"},
             {"name": "getMerlinBenchmarkSuite", "summary": "Return benchmark harness definition", "domain": "functions"},
             {"name": "getMerlinBenchmarkCorpus", "summary": "Return Stage A benchmark prompt corpus", "domain": "functions"},
+            {"name": "getMerlinStageBCorpus", "summary": "Return Stage B benchmark corpus", "domain": "functions"},
+            {"name": "getMerlinStageCCorpus", "summary": "Return Stage C benchmark corpus", "domain": "functions"},
+            {"name": "getMerlinBenchmarkCorpora", "summary": "Return all Merlin benchmark corpora or a selected stage", "domain": "functions"},
             {"name": "getMerlinMultiStageBenchmarks", "summary": "Return multi-stage benchmark batteries and acceptance cadence", "domain": "functions"},
             {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Stage A benchmark", "domain": "functions"},
             {"name": "runMerlinStageAReceipts", "summary": "Run self-hosted Stage A receipt set", "domain": "functions"},
@@ -205,6 +213,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinReplacementReadiness", "summary": "Return concrete self-hosted replacement readiness packet", "domain": "functions"},
             {"name": "getMerlinStageAArtifacts", "summary": "Return exportable Stage A artifact bundle", "domain": "functions"},
             {"name": "getMerlinControlTower", "summary": "Return control tower readiness, drift alerts, trendlines, and deployment eligibility", "domain": "functions"},
+            {"name": "getMerlinTrainingDataset", "summary": "Return structured Merlin JSONL-ready training and benchmark dataset bundle", "domain": "functions"},
+            {"name": "getMerlinMLflowManifests", "summary": "Return MLflow-ready experiment manifests for Merlin training and gates", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
@@ -240,6 +250,15 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingDataset": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinBenchmarkCorpora": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"stage": {"type": "string"}},
+                "additionalProperties": False,
+            },
+        },
         "verifyMerlinIdentity": {
             "args_schema": {
                 "type": "object",
@@ -548,6 +567,9 @@ _FUNCTIONS = {
     "getMerlinOptimizationPriorities": lambda **args: {"data": get_merlin_optimization_priorities()},
     "getMerlinExecutionGraph": lambda **args: {"data": get_merlin_execution_graph()},
     "getMerlinBenchmarkSuite": lambda **args: {"data": get_merlin_benchmark_suite()},
+    "getMerlinStageBCorpus": lambda **args: {"data": get_stage_b_benchmark_corpus()},
+    "getMerlinStageCCorpus": lambda **args: {"data": get_stage_c_benchmark_corpus()},
+    "getMerlinBenchmarkCorpora": lambda **args: {"data": get_benchmark_corpus(stage=args.get("stage"))},
     "getMerlinMultiStageBenchmarks": lambda **args: {"data": get_multi_stage_benchmark_plan()},
     "runMerlinStageAReceipts": lambda **args: {"data": run_stage_a_head_to_head_receipts_sync(limit=args.get("limit"))},
     "getMerlinReplacementReadiness": lambda **args: {"data": build_stage_a_replacement_readiness(
@@ -562,6 +584,8 @@ _FUNCTIONS = {
         limit=_coerce_positive_int(args.get("limit"), 3),
         gate_history=list(args.get("gate_history") or []) or None,
     )},
+    "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(limit=args.get("limit"))},
+    "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(limit=args.get("limit"))},
 }
 
 

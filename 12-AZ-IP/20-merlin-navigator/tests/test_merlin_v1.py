@@ -106,6 +106,36 @@ def test_export_training_artifacts_script(tmp_path, monkeypatch):
     assert payload['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
 
 
+def test_export_training_jsonl_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_training_jsonl.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_training_jsonl', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_dir = tmp_path / 'training_jsonl'
+    monkeypatch.setattr(sys, 'argv', ['export_merlin_training_jsonl.py', '--limit', '4', '--output-dir', str(output_dir)])
+    assert module.main() == 0
+    assert (output_dir / 'train.jsonl').exists()
+    assert (output_dir / 'dev.jsonl').exists()
+    assert (output_dir / 'test.jsonl').exists()
+    assert (output_dir / 'benchmarks' / 'stage_b_sovereign_takeover.jsonl').exists()
+    manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
+    assert manifest['dataset']['counts']['total_benchmark_records'] >= 18
+
+
+def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_mlflow_manifests.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_mlflow_manifests', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_dir = tmp_path / 'mlflow'
+    monkeypatch.setattr(sys, 'argv', ['export_merlin_mlflow_manifests.py', '--limit', '4', '--output-dir', str(output_dir)])
+    assert module.main() == 0
+    payload = json.loads((output_dir / 'mlflow_manifests.json').read_text())
+    assert len(payload['manifests']) >= 4
+
+
 def test_merlin_session_has_durable_memory_tiers():
     session = MerlinSession()
     state = session.get_memory_state()
@@ -277,6 +307,11 @@ def test_route_tool_training_architecture_and_artifacts():
     assert benchmarks['ok'] is True
     assert any(item['family'] == 'autonomous_research' for item in benchmarks['result']['data']['competitive_families'])
 
+    corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_b'})
+    assert corpora['ok'] is True
+    assert corpora['result']['data']['stage'] == 'stage_b_sovereign_takeover'
+    assert len(corpora['result']['data']['benchmarks']) >= 6
+
     artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4})
     assert artifacts['ok'] is True
     assert artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
@@ -285,6 +320,15 @@ def test_route_tool_training_architecture_and_artifacts():
     assert empty_artifacts['ok'] is True
     assert empty_artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 0
     assert empty_artifacts['result']['data']['artifact_bundle']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] == 0
+
+    dataset = route_tool('getMerlinTrainingDataset', {'limit': 4})
+    assert dataset['ok'] is True
+    assert dataset['result']['data']['dataset']['counts']['total_training_records'] == 4
+    assert dataset['result']['data']['dataset']['counts']['total_benchmark_records'] >= 18
+
+    mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
+    assert mlflow['ok'] is True
+    assert len(mlflow['result']['data']['manifests']) >= 4
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
@@ -648,6 +692,11 @@ def test_server_merlin_endpoints():
             assert training_architecture.json()['ok'] is True
             assert training_architecture.json()['training_architecture']['seed_statistics']['total_examples'] == 5
 
+            training_dataset = client.get('/api/merlin/training-dataset?limit=4')
+            assert training_dataset.status_code == 200
+            assert training_dataset.json()['ok'] is True
+            assert training_dataset.json()['dataset']['counts']['total_training_records'] == 4
+
             open_science_registry = client.get('/api/merlin/open-science-registry')
             assert open_science_registry.status_code == 200
             assert open_science_registry.json()['ok'] is True
@@ -656,6 +705,11 @@ def test_server_merlin_endpoints():
                 for item in open_science_registry.json()['open_science_registry']['resources']
             )
 
+            mlflow_manifests = client.get('/api/merlin/mlflow-manifests?limit=4')
+            assert mlflow_manifests.status_code == 200
+            assert mlflow_manifests.json()['ok'] is True
+            assert len(mlflow_manifests.json()['mlflow_manifests']['manifests']) >= 4
+
             competitive_benchmarks = client.get('/api/merlin/competitive-benchmarks')
             assert competitive_benchmarks.status_code == 200
             assert competitive_benchmarks.json()['ok'] is True
@@ -663,6 +717,12 @@ def test_server_merlin_endpoints():
                 item['family'] == 'scientific_reasoning'
                 for item in competitive_benchmarks.json()['competitive_benchmarks']['competitive_families']
             )
+
+            benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=stage_c')
+            assert benchmark_corpora.status_code == 200
+            assert benchmark_corpora.json()['ok'] is True
+            assert benchmark_corpora.json()['benchmark_corpora']['stage'] == 'stage_c_capability_expansion'
+            assert len(benchmark_corpora.json()['benchmark_corpora']['benchmarks']) >= 6
 
             receipts = client.get('/api/merlin/stage-a-receipts?limit=1')
             assert receipts.status_code == 200
@@ -691,6 +751,10 @@ def test_server_merlin_endpoints():
             bad_training_limit = client.get('/api/merlin/training-architecture?limit=abc')
             assert bad_training_limit.status_code == 400
             assert bad_training_limit.json()['ok'] is False
+
+            bad_training_dataset_limit = client.get('/api/merlin/training-dataset?limit=abc')
+            assert bad_training_dataset_limit.status_code == 400
+            assert bad_training_dataset_limit.json()['ok'] is False
 
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200
