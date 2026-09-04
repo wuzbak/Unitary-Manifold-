@@ -33,6 +33,7 @@ class MerlinDndService:
         campaign_id = str(payload.get("id") or uuid4().hex)
         if campaign_id in self._campaigns:
             raise ValueError(f"Campaign ID already exists: {campaign_id}.")
+        allowed_merchant_slugs = list_merchants_by_slug()
         campaign = Campaign(
             id=campaign_id,
             name=str(payload["name"]),
@@ -41,7 +42,7 @@ class MerlinDndService:
             tone=str(payload.get("tone") or "heroic"),
             summary=str(payload.get("summary") or ""),
             pillars=list(payload.get("pillars") or []),
-            merchants=[get_merchant(slug) for slug in payload.get("merchant_slugs", []) if slug in list_merchants_by_slug()],
+            merchants=[get_merchant(slug) for slug in payload.get("merchant_slugs", []) if slug in allowed_merchant_slugs],
             notes=list(payload.get("notes") or []),
         )
         self._campaigns[campaign.id] = campaign
@@ -163,12 +164,11 @@ class MerlinDndService:
 
     def import_campaign(self, payload: dict) -> Campaign:
         data = payload["campaign"]
-        campaign = self.create_campaign(data)
-        campaign.characters = [Character(**item) for item in data.get("characters", [])]
-        campaign.quests = [Quest(**item) for item in data.get("quests", [])]
-        campaign.layouts = [DungeonLayout(**item) for item in data.get("layouts", [])]
-        campaign.encounters = [Encounter(**item) for item in data.get("encounters", [])]
-        campaign.merchants = [Merchant(**item) for item in data.get("merchants", [])]
+        campaign_id = str(data["id"])
+        if campaign_id in self._campaigns:
+            raise ValueError(f"Campaign ID already exists: {campaign_id}.")
+        campaign = self._campaign_from_dict(data)
+        self._campaigns[campaign.id] = campaign
         return campaign
 
     def merlin_query(self, campaign_id: str, prompt: str) -> dict:
@@ -188,6 +188,23 @@ class MerlinDndService:
         if spell_name:
             reference["spell"] = {spell_name: SPELL_EFFECTS.get(spell_name.lower())}
         return reference
+
+    def _campaign_from_dict(self, data: dict) -> Campaign:
+        return Campaign(
+            id=str(data["id"]),
+            name=str(data["name"]),
+            setting=str(data.get("setting") or "Original fantasy world"),
+            rules_edition=str(data.get("rules_edition") or "5e-2024"),
+            tone=str(data.get("tone") or "heroic"),
+            summary=str(data.get("summary") or ""),
+            pillars=list(data.get("pillars") or []),
+            characters=[Character(**item) for item in data.get("characters", [])],
+            quests=[Quest(**item) for item in data.get("quests", [])],
+            layouts=[DungeonLayout(**item) for item in data.get("layouts", [])],
+            encounters=[Encounter(**item) for item in data.get("encounters", [])],
+            merchants=[Merchant(**item) for item in data.get("merchants", [])],
+            notes=list(data.get("notes") or []),
+        )
 
 
 def list_merchants_by_slug() -> set[str]:

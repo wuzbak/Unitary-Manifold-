@@ -29,18 +29,18 @@ def dispatch_request(method: str, path: str, payload: dict | None = None) -> tup
     payload = payload or {}
     parsed = urlparse(path)
     query = parse_qs(parsed.query)
+    if method == "GET" and parsed.path in {"/", "/index.html"}:
+        return 200, {
+            "content_type": "text/html; charset=utf-8",
+            "body": (UI_ROOT / "index.html").read_text(encoding="utf-8"),
+        }
+    if method == "GET" and parsed.path == "/app.js":
+        return 200, {
+            "content_type": "application/javascript; charset=utf-8",
+            "body": (UI_ROOT / "app.js").read_text(encoding="utf-8"),
+        }
     try:
         with SERVICE_LOCK:
-            if method == "GET" and parsed.path in {"/", "/index.html"}:
-                return 200, {
-                    "content_type": "text/html; charset=utf-8",
-                    "body": (UI_ROOT / "index.html").read_text(encoding="utf-8"),
-                }
-            if method == "GET" and parsed.path == "/app.js":
-                return 200, {
-                    "content_type": "application/javascript; charset=utf-8",
-                    "body": (UI_ROOT / "app.js").read_text(encoding="utf-8"),
-                }
             if method == "GET" and parsed.path == "/api/health":
                 return 200, {"status": "ok", "service": "merlin-dm-assistant", "version": "1.0.0"}
             if method == "GET" and parsed.path == "/api/rules":

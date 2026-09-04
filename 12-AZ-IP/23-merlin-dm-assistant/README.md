@@ -23,6 +23,8 @@ Merlin DM Guide & Player Assistant is an offline-first Dungeons & Dragons **5e /
 ## Core API
 
 - `GET /api/health`
+- `GET /api/rules`
+- `GET /api/rules?spell=fireball`
 - `GET /api/monsters`
 - `GET /api/merchants`
 - `GET /api/campaigns`

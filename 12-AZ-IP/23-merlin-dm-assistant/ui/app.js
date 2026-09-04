@@ -3,6 +3,9 @@ async function loadSummary() {
   output.textContent = 'Loading…';
   try {
     const response = await fetch('/api/health');
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
     const payload = await response.json();
     output.textContent = JSON.stringify(payload, null, 2);
   } catch (error) {

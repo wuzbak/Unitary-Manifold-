@@ -21,7 +21,7 @@
     <section class="panel">
       <h1>Merlin DM Guide & Player Assistant</h1>
       <p>Offline-first campaign control for Dungeons &amp; Dragons 5e / 5.5e with Merlin embedded as the specialist for session prep, encounter support, quest tracking, and grounded image briefs.</p>
-      <button id="load-demo">Load API summary</button>
+      <button id="load-demo" aria-controls="output">Load API summary</button>
     </section>
     <section class="grid">
       <article class="panel">
@@ -53,9 +53,9 @@
       </article>
     </section>
     <section class="panel">
-      <h2>API output</h2>
+      <h2 id="api-output-heading">API output</h2>
       <p>Press “Load API summary” to fetch <code>/api/health</code>.</p>
-      <pre id="output" aria-live="polite"></pre>
+      <pre id="output" aria-live="polite" aria-labelledby="api-output-heading"></pre>
     </section>
   </main>
   <script src="/app.js"></script>
