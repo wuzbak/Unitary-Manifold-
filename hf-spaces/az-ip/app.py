@@ -1,7 +1,7 @@
 # hf-spaces/az-ip/app.py
 # AxiomZero IP Registry — Hugging Face Space (Gradio)
 #
-# Full IP catalog browser: 20 products, engines, OS, tools, calculators
+# IP catalog browser with canonical registry cross-links and fingerprint views
 # Source: 12-AZ-IP/IP_REGISTRY.json, 12-AZ-IP/FINGERPRINT_MANIFEST.md
 #
 # AxiomZero Technologies & Consulting, SPC — UBI 606 239 876
@@ -268,7 +268,7 @@ PRODUCTS = {
         "sha256_prefix": "d9e0f1a2",
     },
     "20": {
-        "name": "OX Navigator",
+        "name": "Merlin Navigator (OX-compatible)",
         "category": "apps",
         "description": "Extended AI memory via OX Alpha (stealth/ox-alpha) — full UM context ~85k tokens",
         "path": "12-AZ-IP/20-merlin-navigator/",

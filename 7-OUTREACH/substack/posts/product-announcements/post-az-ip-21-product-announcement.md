@@ -12,7 +12,7 @@ metric ansatz that underpins the Unitary Manifold is not decorative — it is
 *operational*. Every product listed below is a direct application of that framework:
 its constants, its geometry, its falsifiable predictions, or its governance philosophy.
 
-This post catalogs all 21 canonical AxiomZero IP products in the `12-AZ-IP/` registry.
+At publication time, this post cataloged 21 canonical AxiomZero IP products in the `12-AZ-IP/` registry.
 Each entry describes what the product is, where it sits on the Technology Readiness Level
 (TRL) scale, its intended use, and the broader space of applications it can address.
 
