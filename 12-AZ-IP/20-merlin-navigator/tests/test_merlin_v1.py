@@ -281,6 +281,11 @@ def test_route_tool_training_architecture_and_artifacts():
     assert artifacts['ok'] is True
     assert artifacts['result']['data']['training_architecture']['seed_statistics']['total_examples'] == 4
 
+    empty_artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 0})
+    assert empty_artifacts['ok'] is True
+    assert empty_artifacts['result']['data']['training_architecture']['seed_statistics']['total_examples'] == 0
+    assert empty_artifacts['result']['data']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] == 0
+
 
 def test_route_tool_empirical_gate_and_promotion_packet():
     runs = [

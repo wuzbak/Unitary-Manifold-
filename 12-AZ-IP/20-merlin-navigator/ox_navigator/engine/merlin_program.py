@@ -1039,7 +1039,7 @@ def build_training_artifact_bundle(limit: int | None = None) -> dict[str, Any]:
     from .merlin_benchmark import build_stage_a_artifact_bundle
 
     training_architecture = get_training_architecture(limit=limit)
-    stage_a_limit = limit if limit is None else max(1, int(limit))
+    stage_a_limit = limit if limit is None else max(0, int(limit))
     return {
         "ok": True,
         "artifact_bundle": {
