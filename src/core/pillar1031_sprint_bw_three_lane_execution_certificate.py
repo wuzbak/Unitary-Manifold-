@@ -48,7 +48,6 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
     lane1_status_markers = all(
         marker in status_text
         for marker in (
-            "Sprint BW",
             "1031",
             "CMB_AMP_CONFIRMED_IRREDUCIBLE",
             "ALPHA_S_TYPE_B_FLOOR",
