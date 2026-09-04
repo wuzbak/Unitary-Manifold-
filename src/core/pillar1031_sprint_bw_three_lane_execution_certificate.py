@@ -45,17 +45,26 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
     outreach_readme_text = _read("7-OUTREACH/substack/README.md")
     article_path = _ROOT / "7-OUTREACH/substack/posts/post-302-s04e005-sprint-bw-three-lane-rigor.md"
 
-    lane1_done = all(
+    lane1_status_markers = all(
         marker in status_text
         for marker in (
-            "v35.3",
             "Sprint BW",
             "1031",
             "CMB_AMP_CONFIRMED_IRREDUCIBLE",
             "ALPHA_S_TYPE_B_FLOOR",
             "LITEBIRD_BIREFRINGENCE",
         )
-    ) and all(marker in tracker_text for marker in ("version: \"v35.3\"", "next_pillar_slot: 1032")) and "v35.3" in plan_text
+    )
+    lane1_tracker_markers = (
+        "pillars: 1031-1031" in tracker_text
+        and PILLAR_STATUS in tracker_text
+    )
+    lane1_plan_marker = "Historical continuity: v35.3 Sprint BW" in plan_text
+    lane1_done = (
+        lane1_status_markers
+        and lane1_tracker_markers
+        and lane1_plan_marker
+    )
 
     lane2_done = all(
         marker in merlin_tools_text
