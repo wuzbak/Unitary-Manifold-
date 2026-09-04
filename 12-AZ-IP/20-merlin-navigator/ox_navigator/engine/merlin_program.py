@@ -1136,6 +1136,7 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                 "experiment_name": "merlin_sft_repository_mastery",
                 "objective": "Train Merlin on repository-native QA, tool traces, and benchmark contracts.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
+                "working_directory": str(REPO_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "supervised_finetuning",
@@ -1169,6 +1170,7 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                 "experiment_name": "merlin_dpo_boundary_discipline",
                 "objective": "Optimize preference behavior for uncertainty discipline, refusal correctness, and boundary honesty.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
+                "working_directory": str(REPO_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "preference_optimization",
@@ -1204,6 +1206,7 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                 "experiment_name": "merlin_stage_b_shadow_eval",
                 "objective": "Run Stage B selected-domain primary-routing evaluations before wider takeover.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
+                "working_directory": str(REPO_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "stage_b_sovereign_takeover",
@@ -1233,6 +1236,7 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                 "experiment_name": "merlin_stage_c_agentic_eval",
                 "objective": "Evaluate deeper orchestration, provenance auditing, and autonomous research readiness.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
+                "working_directory": str(REPO_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "stage_c_capability_expansion",
@@ -1264,6 +1268,7 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                 "experiment_name",
                 "objective",
                 "tracking_uri_env",
+                "working_directory",
                 "tags",
                 "params",
                 "metrics",
