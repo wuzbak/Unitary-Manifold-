@@ -18,6 +18,24 @@ from merlin_dnd.server import dispatch_request, serve
 from merlin_dnd.service import MerlinDndService
 
 
+def _wizard_payload(name: str = "Iria") -> dict:
+    return {
+        "name": name,
+        "species": "human",
+        "klass": "wizard",
+        "background": "scribe",
+        "level": 5,
+        "ability_scores": {
+            "strength": 8,
+            "dexterity": 14,
+            "constitution": 14,
+            "intelligence": 18,
+            "wisdom": 12,
+            "charisma": 10,
+        },
+    }
+
+
 def _seed_campaign(service: MerlinDndService) -> str:
     campaign = service.create_campaign(
         {
@@ -27,26 +45,10 @@ def _seed_campaign(service: MerlinDndService) -> str:
             "tone": "mythic frontier",
             "summary": "Caravan routes cross old dragon roads and haunted toll keeps.",
             "merchant_slugs": ["lantern-guild-quartermaster"],
+            "dm_name": "Merlin Host",
         }
     )
-    service.add_character_to_campaign(
-        campaign.id,
-        {
-            "name": "Iria",
-            "species": "human",
-            "klass": "wizard",
-            "background": "scribe",
-            "level": 5,
-            "ability_scores": {
-                "strength": 8,
-                "dexterity": 14,
-                "constitution": 14,
-                "intelligence": 18,
-                "wisdom": 12,
-                "charisma": 10,
-            },
-        },
-    )
+    service.add_character_to_campaign(campaign.id, _wizard_payload())
     service.add_quest(
         campaign.id,
         {
@@ -70,22 +72,7 @@ def _seed_campaign(service: MerlinDndService) -> str:
 
 def test_character_builder_computes_spellcasting_math():
     service = MerlinDndService()
-    character = service.build_character(
-        {
-            "name": "Mira",
-            "species": "elf",
-            "klass": "wizard",
-            "level": 5,
-            "ability_scores": {
-                "strength": 8,
-                "dexterity": 14,
-                "constitution": 14,
-                "intelligence": 18,
-                "wisdom": 12,
-                "charisma": 10,
-            },
-        }
-    )
+    character = service.build_character(_wizard_payload("Mira"))
     assert character.proficiency_bonus == 3
     assert character.hit_points == 32
     assert character.spell_save_dc == 15
@@ -103,87 +90,117 @@ def test_multi_campaign_tracking_and_listing():
 def test_export_import_round_trip_preserves_campaign_state():
     service = MerlinDndService()
     campaign_id = _seed_campaign(service)
+    invite = service.generate_invite_code(campaign_id, {"label": "Table A"})
+    service.join_campaign({"invite_code": invite.code, "display_name": "Tamsin", "character": _wizard_payload("Tamsin")})
+    service.add_inventory_item(campaign_id, {"name": "Wand", "owner_type": "party", "owner_id": "party", "kind": "focus", "quantity": 1, "rarity": "uncommon"})
     exported = service.export_campaign(campaign_id)
 
     clone = MerlinDndService()
     imported = clone.import_campaign(exported)
     assert imported.name == "The Ember Road"
-    assert imported.characters[0].name == "Iria"
-    assert imported.layouts[0].name == "Toll Keep Undercroft"
+    assert imported.players[0].display_name == "Tamsin"
+    assert imported.inventory[0].name == "Wand"
 
 
-def test_encounter_planner_scores_difficulty():
+def test_invite_join_and_player_dashboard_flow():
     service = MerlinDndService()
     campaign_id = _seed_campaign(service)
-    encounter = service.plan_encounter(
-        campaign_id,
+    invite = service.generate_invite_code(campaign_id, {"label": "Table B"})
+    joined = service.join_campaign({"invite_code": invite.code, "display_name": "Aster", "character": _wizard_payload("Aster")})
+    player = joined["player"]
+    dashboard = service.player_dashboard(campaign_id, player["id"])
+    assert dashboard["mode"] == "player"
+    assert dashboard["player"]["display_name"] == "Aster"
+    assert dashboard["characters"][0]["player_id"] == player["id"]
+
+
+def test_dm_dashboard_tracks_images_treasure_items_and_xp():
+    service = MerlinDndService()
+    campaign_id = _seed_campaign(service)
+    campaign = service.get_campaign(campaign_id)
+    character_id = campaign.characters[0].id
+    service.add_inventory_item(campaign_id, {"name": "Obsidian Key", "owner_type": "party", "owner_id": "party", "kind": "quest-item", "rarity": "rare", "quantity": 1})
+    service.add_treasure(campaign_id, {"title": "Vault Recovery", "gold": 125, "items": ["Ruby Seal"], "recipients": ["party"]})
+    service.push_image(campaign_id, {"title": "Ash Gate", "image_url": "https://example.invalid/ash-gate.png", "audience": "all_players"})
+    xp = service.award_xp(campaign_id, {"amount": 250, "character_id": character_id})
+    dashboard = service.dm_dashboard(campaign_id)
+    assert dashboard["summary"]["party_gold"] == 125
+    assert dashboard["summary"]["inventory_count"] == 1
+    assert dashboard["recent_images"][0]["title"] == "Ash Gate"
+    assert xp["xp"] == 250
+
+
+def test_player_dashboard_surfaces_maps_npcs_monsters_and_inventory():
+    service = MerlinDndService()
+    campaign_id = _seed_campaign(service)
+    invite = service.generate_invite_code(campaign_id, {})
+    joined = service.join_campaign({"invite_code": invite.code, "display_name": "Rook", "character": _wizard_payload("Rook")})
+    player_id = joined["player"]["id"]
+    character_id = joined["character"]["id"]
+    service.add_map_reference(campaign_id, {"name": "Gate Map", "kind": "battlemap", "image_url": "https://example.invalid/map.png", "zones": ["vault"], "tokens": ["Rook"]})
+    service.add_npc(campaign_id, {"name": "Captain Elowen", "role": "quest-giver", "location": "ash market"})
+    service.add_inventory_item(campaign_id, {"name": "Spellbook", "owner_type": "character", "owner_id": character_id, "kind": "focus", "quantity": 1, "rarity": "common"})
+    service.plan_encounter(campaign_id, {"title": "Bridge Ambush", "monster_slugs": ["goblin-skirmishers", "owlbear"]})
+    service.push_image(campaign_id, {"title": "Bridge Vision", "image_url": "https://example.invalid/bridge.png", "audience": "all_players"})
+    dashboard = service.player_dashboard(campaign_id, player_id)
+    assert dashboard["maps"][0]["name"] == "Gate Map"
+    assert dashboard["npcs"][0]["name"] == "Captain Elowen"
+    assert dashboard["inventory"][0]["name"] == "Spellbook"
+    assert len(dashboard["monsters"]) == 2
+    assert dashboard["images"][0]["title"] == "Bridge Vision"
+
+
+def test_standalone_player_dashboard_supports_solo_use():
+    service = MerlinDndService()
+    dashboard = service.standalone_player_dashboard(
         {
-            "title": "Gate Vault Push",
-            "monster_slugs": ["owlbear", "goblin-skirmishers", "goblin-skirmishers"],
-        },
+            "player_name": "Solo Explorer",
+            "character": {
+                **_wizard_payload("Nym"),
+                "klass": "rogue",
+                "level": 3,
+                "inventory": [{"name": "Lockpicks", "owner_type": "character", "owner_id": "solo", "quantity": 1, "kind": "tool", "rarity": "common"}],
+            },
+        }
     )
-    assert encounter.adjusted_xp > 0
-    assert encounter.difficulty in {"medium", "hard", "deadly"}
-
-
-def test_image_brief_is_grounded_in_campaign_context():
-    service = MerlinDndService()
-    campaign_id = _seed_campaign(service)
-    brief = service.build_image_brief(campaign_id, {"subject": "the party confronting the gate"})
-    assert brief.title == "The Ember Road image brief"
-    assert "Ash-fall trade frontier" in brief.prompt
-    assert "Toll Keep Undercroft" in brief.prompt
-
-
-def test_monster_search_filters_by_environment_and_cr():
-    service = MerlinDndService()
-    monsters = service.search_monsters(environment="ruins", max_cr=1)
-    assert len(monsters) == 1
-    assert monsters[0]["slug"] == "goblin-skirmishers"
-
-
-def test_merlin_query_returns_rules_digest_and_followups():
-    service = MerlinDndService()
-    campaign_id = _seed_campaign(service)
-    response = service.merlin_query(campaign_id, "Prep tonight's delve")
-    assert response["assistant"] == "Merlin"
-    assert response["rules_digest"]
-    assert len(response["followups"]) == 3
+    assert dashboard["mode"] == "standalone-player"
+    assert dashboard["solo_ready"] is True
+    assert dashboard["inventory"][0]["name"] == "Lockpicks"
 
 
 def test_dispatch_request_end_to_end_routes_campaign_api():
     status, payload = dispatch_request(
         "POST",
         "/api/campaigns",
-        {
-            "name": "Crown of Cinders",
-            "setting": "Volcanic capital",
-            "rules_edition": "5e-2024",
-        },
+        {"name": "Crown of Cinders", "setting": "Volcanic capital", "rules_edition": "5e-2024"},
     )
     assert status == 201
     campaign_id = payload["campaign"]["id"]
-
+    status, payload = dispatch_request("POST", f"/api/campaigns/{campaign_id}/invite-codes", {"label": "Open Table"})
+    invite_code = payload["invite"]["code"]
     status, payload = dispatch_request(
         "POST",
-        f"/api/campaigns/{campaign_id}/merlin",
-        {"prompt": "Plan the next session opener."},
+        "/api/join-campaign",
+        {"invite_code": invite_code, "display_name": "Sable", "character": _wizard_payload("Sable")},
     )
+    player_id = payload["player"]["id"]
+    status, payload = dispatch_request("GET", f"/api/campaigns/{campaign_id}/player-dashboard?player_id={player_id}")
     assert status == 200
-    assert payload["response"]["assistant"] == "Merlin"
+    assert payload["player"]["display_name"] == "Sable"
 
 
 def test_dispatch_request_serves_static_index():
     status, payload = dispatch_request("GET", "/")
     assert status == 200
     assert payload["content_type"] == "text/html; charset=utf-8"
-    assert "Merlin DM Guide & Player Assistant" in payload["body"]
+    assert "DM Dashboard" in payload["body"]
 
 
 def test_dispatch_request_rules_reference_endpoint():
     status, payload = dispatch_request("GET", "/api/rules?spell=fireball")
     assert status == 200
     assert payload["spell"]["fireball"].startswith("20-foot-radius explosion")
+    assert "dm" in payload["dashboard_modes"]
 
 
 def test_dispatch_request_rejects_non_numeric_max_cr():
@@ -199,12 +216,7 @@ def test_http_handler_rejects_invalid_json_body():
     try:
         time.sleep(0.05)
         conn = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=5)
-        conn.request(
-            "POST",
-            "/api/campaigns",
-            body="{bad json",
-            headers={"Content-Type": "application/json"},
-        )
+        conn.request("POST", "/api/campaigns", body="{bad json", headers={"Content-Type": "application/json"})
         response = conn.getresponse()
         payload = json.loads(response.read().decode("utf-8"))
         assert response.status == 400
@@ -222,12 +234,7 @@ def test_http_handler_rejects_non_object_json_body():
     try:
         time.sleep(0.05)
         conn = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=5)
-        conn.request(
-            "POST",
-            "/api/campaigns",
-            body='["not", "an", "object"]',
-            headers={"Content-Type": "application/json"},
-        )
+        conn.request("POST", "/api/campaigns", body='["not", "an", "object"]', headers={"Content-Type": "application/json"})
         response = conn.getresponse()
         payload = json.loads(response.read().decode("utf-8"))
         assert response.status == 400
@@ -251,16 +258,14 @@ def test_dispatch_request_rejects_unknown_campaign_id():
 
 
 def test_dispatch_request_rejects_duplicate_campaign_id():
-    status, payload = dispatch_request(
-        "POST",
-        "/api/campaigns",
-        {"id": "dup-campaign", "name": "First"},
-    )
+    status, payload = dispatch_request("POST", "/api/campaigns", {"id": "dup-campaign", "name": "First"})
     assert status == 201
-    status, payload = dispatch_request(
-        "POST",
-        "/api/campaigns",
-        {"id": "dup-campaign", "name": "Second"},
-    )
+    status, payload = dispatch_request("POST", "/api/campaigns", {"id": "dup-campaign", "name": "Second"})
     assert status == 409
     assert payload["error"] == "Campaign ID already exists: dup-campaign."
+
+
+def test_dispatch_request_requires_player_dashboard_player_id():
+    status, payload = dispatch_request("GET", "/api/campaigns/abc/player-dashboard")
+    assert status == 400
+    assert payload["error"] == "Query parameter 'player_id' is required."

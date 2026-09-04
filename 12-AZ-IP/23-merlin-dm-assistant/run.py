@@ -30,10 +30,11 @@ def main(argv: list[str] | None = None) -> int:
             "service": "merlin-dm-assistant",
             "url": f"http://{args.host}:{args.port}/api/health",
             "features": [
-                "multi-campaign tracking",
-                "character builder",
-                "encounter planner",
-                "grounded image briefs",
+                "separate DM and player dashboards",
+                "invite-code campaign joins",
+                "character import and player sync",
+                "xp, treasure, gold, and inventory tracking",
+                "map, npc, monster, and image interaction",
                 "Merlin table assistant",
             ],
         }

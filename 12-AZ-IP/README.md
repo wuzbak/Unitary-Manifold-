@@ -28,7 +28,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 20 | Merlin Navigator (formerly OX Navigator) | 1.0.0 | TRL-4 | Browser + /api/merlin (+ /api/ox compatibility) | 149 | AI physics/governance navigator with identity trust policy, Sentinel do-no-harm enforcement, and compatibility shim endpoints. | [20-merlin-navigator/](20-merlin-navigator/) |
 | 21 | UM Geophysical Monitor | 1.0.0 | TRL-5 | Browser / static | 121 | Live globe disaster monitor with USGS + NASA EONET feeds and UM φ-overlay (P806/P786/P16). | [21-geo-monitor/](21-geo-monitor/) |
 | 22 | AxiomZero SGE | 1.0.0 | TRL-7 | http://localhost:7622 | 229 | Next-gen system security governance engine for anti-malware, zero-day detection, IDS, firewall, anti-surveillance, and governed protection workflows. | [22-az-sge/](22-az-sge/) |
-| 23 | Merlin DM Guide & Player Assistant | 1.0.0 | TRL-3 | http://localhost:8033 | 9 | Offline-first Dungeons & Dragons 5e / 5.5e campaign assistant with multi-campaign tracking, character creation, encounter planning, import/export bundles, grounded image briefs, and Merlin expert guidance. | [23-merlin-dm-assistant/](23-merlin-dm-assistant/) |
+| 23 | Merlin DM Guide & Player Assistant | 1.1.0 | TRL-3 | http://localhost:8033 | 17 | Offline-first Dungeons & Dragons 5e / 5.5e campaign assistant with separate DM/player dashboards, invite-code joins, character import, XP/treasure/gold/item tracking, maps, NPCs, image pushes, and Merlin expert guidance. | [23-merlin-dm-assistant/](23-merlin-dm-assistant/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
