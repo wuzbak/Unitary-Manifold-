@@ -1113,6 +1113,22 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
     dataset_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("training_records") or {})
     benchmark_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("benchmark_records") or {})
     resolved_limit = 12 if limit is None else max(0, int(limit))
+    training_jsonl_command = (
+        f"python 12-AZ-IP/20-merlin-navigator/tools/export_merlin_training_jsonl.py --limit {resolved_limit} "
+        "--output-dir /tmp/merlin-training-jsonl"
+    )
+    mlflow_manifest_command = (
+        f"python 12-AZ-IP/20-merlin-navigator/tools/export_merlin_mlflow_manifests.py --limit {resolved_limit} "
+        "--output-dir /tmp/merlin-mlflow"
+    )
+    training_artifact_command = (
+        f"python 12-AZ-IP/20-merlin-navigator/tools/export_merlin_training_artifacts.py --limit {resolved_limit} "
+        "--output /tmp/merlin-training-artifacts.json"
+    )
+    stage_a_artifact_command = (
+        "python 12-AZ-IP/20-merlin-navigator/tools/export_merlin_stage_a_artifacts.py "
+        "--limit 3 --output /tmp/merlin-stage-a-artifacts.json"
+    )
     return {
         "generated_at": _utcnow(),
         "manifests": [
@@ -1141,10 +1157,7 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "boundary_preservation_rate",
                     "tool_selection_precision",
                 ],
-                "entry_command": (
-                    f"python tools/export_merlin_training_jsonl.py --limit {resolved_limit} "
-                    "--output-dir /tmp/merlin-training-jsonl"
-                ),
+                "entry_command": training_jsonl_command,
                 "artifacts": [
                     "/tmp/merlin-training-jsonl/train.jsonl",
                     "/tmp/merlin-training-jsonl/dev.jsonl",
@@ -1176,12 +1189,10 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "prompt_injection_resistance",
                     "open_gap_visibility",
                 ],
-                "entry_command": (
-                    f"python tools/export_merlin_mlflow_manifests.py --limit {resolved_limit} "
-                    "--output-dir /tmp/merlin-mlflow"
-                ),
+                "entry_command": f"{training_jsonl_command} && {mlflow_manifest_command}",
                 "supporting_commands": [
-                    f"python tools/export_merlin_training_jsonl.py --limit {resolved_limit} --output-dir /tmp/merlin-training-jsonl",
+                    training_jsonl_command,
+                    mlflow_manifest_command,
                 ],
                 "artifacts": [
                     "/tmp/merlin-mlflow/mlflow_manifests.json",
@@ -1208,13 +1219,10 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "privileged_action_escalation_correctness",
                     "energy_per_successful_task",
                 ],
-                "entry_command": (
-                    f"python tools/export_merlin_training_jsonl.py --limit {resolved_limit} "
-                    "--output-dir /tmp/merlin-training-jsonl"
-                ),
+                "entry_command": f"{training_jsonl_command} && {stage_a_artifact_command}",
                 "supporting_commands": [
-                    "python tools/run_merlin_stage_a_benchmarks.py --json",
-                    "python tools/export_merlin_stage_a_artifacts.py --limit 3 --output /tmp/merlin-stage-a-artifacts.json",
+                    "python 12-AZ-IP/20-merlin-navigator/tools/run_merlin_stage_a_benchmarks.py --json",
+                    stage_a_artifact_command,
                 ],
                 "artifacts": [
                     "/tmp/merlin-training-jsonl/benchmarks/stage_b_sovereign_takeover.jsonl",
@@ -1240,12 +1248,10 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "research_triage_correctness",
                     "high_severity_policy_violations",
                 ],
-                "entry_command": (
-                    f"python tools/export_merlin_training_artifacts.py --limit {resolved_limit} "
-                    "--output /tmp/merlin-training-artifacts.json"
-                ),
+                "entry_command": f"{training_jsonl_command} && {training_artifact_command}",
                 "supporting_commands": [
-                    f"python tools/export_merlin_training_jsonl.py --limit {resolved_limit} --output-dir /tmp/merlin-training-jsonl",
+                    training_jsonl_command,
+                    training_artifact_command,
                 ],
                 "artifacts": [
                     "/tmp/merlin-training-jsonl/benchmarks/stage_c_capability_expansion.jsonl",

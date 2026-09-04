@@ -334,6 +334,7 @@ def test_route_tool_training_architecture_and_artifacts():
     assert mlflow['ok'] is True
     assert len(mlflow['result']['data']['manifests']) >= 4
     assert '{limit}' not in mlflow['result']['data']['manifests'][0]['entry_command']
+    assert '12-AZ-IP/20-merlin-navigator/tools/' in mlflow['result']['data']['manifests'][0]['entry_command']
     assert any(
         item.endswith('/benchmarks/stage_c_capability_expansion.jsonl')
         for item in mlflow['result']['data']['manifests'][-1]['artifacts']
