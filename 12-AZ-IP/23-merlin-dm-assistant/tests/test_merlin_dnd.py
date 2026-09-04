@@ -225,3 +225,19 @@ def test_dispatch_request_rejects_unknown_campaign_id():
     status, payload = dispatch_request("GET", "/api/campaigns/not-real/export")
     assert status == 404
     assert payload["error"] == "Resource not found: not-real."
+
+
+def test_dispatch_request_rejects_duplicate_campaign_id():
+    status, payload = dispatch_request(
+        "POST",
+        "/api/campaigns",
+        {"id": "dup-campaign", "name": "First"},
+    )
+    assert status == 201
+    status, payload = dispatch_request(
+        "POST",
+        "/api/campaigns",
+        {"id": "dup-campaign", "name": "Second"},
+    )
+    assert status == 409
+    assert payload["error"] == "Campaign ID already exists: dup-campaign."

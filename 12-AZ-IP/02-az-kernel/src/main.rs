@@ -29,6 +29,7 @@ use alloc::format;
 use uefi::prelude::*;
 use uefi::boot;
 use uefi::mem::memory_map::MemoryType;
+use uefi::mem::memory_map::MemoryMapOwned;
 use uefi::proto::console::gop::GraphicsOutput;
 
 mod framebuffer;
@@ -87,7 +88,7 @@ fn kernel_main() -> Status {
     // -----------------------------------------------------------------------
     fb.draw_status_line("AZ-BOOT: Exiting UEFI boot services — crossing the geodesic...");
 
-    let memory_map = unsafe { boot::exit_boot_services(MemoryType::LOADER_DATA) };
+    let memory_map: MemoryMapOwned = unsafe { boot::exit_boot_services(MemoryType::LOADER_DATA) };
 
     // From this point: no heap, no alloc, no panics until AZ-MM is live.
     // We have: framebuffer, memory map, runtime services.

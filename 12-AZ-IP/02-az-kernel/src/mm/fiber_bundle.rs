@@ -44,10 +44,19 @@ pub struct CompactificationDomain {
 }
 
 /// The fiber bundle: a collection of compactification domains, one per KK level.
-#[derive(Default)]
 pub struct FiberBundle {
     domains: [Option<CompactificationDomain>; 5], // n_w = 5 levels
     initialized: bool,
+}
+
+impl Default for FiberBundle {
+    #[allow(clippy::derivable_impls)]
+    fn default() -> Self {
+        Self {
+            domains: [None, None, None, None, None],
+            initialized: false,
+        }
+    }
 }
 
 impl FiberBundle {

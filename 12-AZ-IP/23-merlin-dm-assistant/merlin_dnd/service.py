@@ -30,8 +30,11 @@ class MerlinDndService:
         self._campaigns: dict[str, Campaign] = {}
 
     def create_campaign(self, payload: dict) -> Campaign:
+        campaign_id = str(payload.get("id") or uuid4().hex)
+        if campaign_id in self._campaigns:
+            raise ValueError(f"Campaign ID already exists: {campaign_id}.")
         campaign = Campaign(
-            id=str(payload.get("id") or uuid4().hex),
+            id=campaign_id,
             name=str(payload["name"]),
             setting=str(payload.get("setting") or "Original fantasy world"),
             rules_edition=str(payload.get("rules_edition") or "5e-2024"),
