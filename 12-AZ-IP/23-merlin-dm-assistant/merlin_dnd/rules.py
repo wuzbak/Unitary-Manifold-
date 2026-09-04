@@ -3,6 +3,11 @@
 
 from __future__ import annotations
 
+# Encounter thresholds and multipliers intentionally follow the 2014 5e DMG
+# encounter-budget model as a deterministic baseline. Product consumers can
+# still tag campaigns as `5e-2024`, but current difficulty grading remains this
+# published legacy table until a separate 2024-calibrated budget lane is added.
+
 PROFICIENCY_BY_LEVEL = {
     range(1, 5): 2,
     range(5, 9): 3,

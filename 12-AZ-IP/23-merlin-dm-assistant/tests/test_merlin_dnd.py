@@ -213,3 +213,15 @@ def test_http_handler_rejects_invalid_json_body():
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+
+
+def test_dispatch_request_requires_campaign_name():
+    status, payload = dispatch_request("POST", "/api/campaigns", {"setting": "Mist coast"})
+    assert status == 400
+    assert payload["error"] == "Missing required field: name."
+
+
+def test_dispatch_request_rejects_unknown_campaign_id():
+    status, payload = dispatch_request("GET", "/api/campaigns/not-real/export")
+    assert status == 404
+    assert payload["error"] == "Resource not found: not-real."
