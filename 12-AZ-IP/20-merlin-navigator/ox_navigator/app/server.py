@@ -394,6 +394,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({'ok': False, 'error': error}, status=400)
                     return
                 payload = build_training_artifact_bundle(limit=limit)
+                if not payload.get('ok'):
+                    self._json({'ok': False, 'error': payload.get('error', 'Unable to build training artifacts.')}, status=500)
+                    self._persist_session(session_id, merlin_session)
+                    return
                 self._json({
                 'ok': bool(payload.get('ok')),
                 'training_artifacts': payload.get('artifact_bundle', {}),

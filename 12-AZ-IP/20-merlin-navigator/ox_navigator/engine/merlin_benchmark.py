@@ -311,6 +311,7 @@ LONGITUDINAL_ACCEPTANCE_POLICY = {
 
 def get_stage_a_benchmark_corpus() -> dict[str, Any]:
     return {
+        "ok": True,
         "stage": "stage_a_parity_capture",
         "purpose": "Run identical prompt sets across Merlin and incumbent paths before wider takeover.",
         "benchmarks": list(STAGE_A_BENCHMARK_CORPUS),
@@ -327,6 +328,7 @@ def get_stage_a_benchmark_corpus() -> dict[str, Any]:
 
 def get_stage_b_benchmark_corpus() -> dict[str, Any]:
     return {
+        "ok": True,
         "stage": "stage_b_sovereign_takeover",
         "purpose": "Evaluate selected-domain primary routing, memory recall, policy stability, and open-science admission discipline.",
         "benchmarks": list(STAGE_B_BENCHMARK_CORPUS),
@@ -342,6 +344,7 @@ def get_stage_b_benchmark_corpus() -> dict[str, Any]:
 
 def get_stage_c_benchmark_corpus() -> dict[str, Any]:
     return {
+        "ok": True,
         "stage": "stage_c_capability_expansion",
         "purpose": "Evaluate deeper orchestration, provenance auditing, prompt-injection resistance, and autonomous research triage.",
         "benchmarks": list(STAGE_C_BENCHMARK_CORPUS),
@@ -386,6 +389,7 @@ def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
     if selected == "stage_c_capability_expansion":
         return get_stage_c_benchmark_corpus()
     return {
+        "ok": True,
         "program": "merlin_all_hands_maximum_effort",
         "corpora": {
             "stage_a_parity_capture": get_stage_a_benchmark_corpus(),
