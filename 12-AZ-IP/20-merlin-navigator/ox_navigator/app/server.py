@@ -77,6 +77,23 @@ def _profile_store_key(session_id: str) -> str:
     return hmac.new(_MERLIN_SESSION_SECRET, str(session_id).encode("utf-8"), hashlib.sha256).hexdigest()
 
 
+def _parse_int_query_param(params: dict[str, list[str]], name: str, default: int) -> tuple[int | None, str | None]:
+    raw = params.get(name, [str(default)])[0]
+    try:
+        return int(raw), None
+    except (TypeError, ValueError):
+        return None, f"Query parameter '{name}' must be an integer."
+
+
+def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
+    if not tool_payload.get("ok"):
+        return 500, {"ok": False, "error": tool_payload.get("error", "Merlin tool call failed.")}
+    result = tool_payload.get("result")
+    if not isinstance(result, dict) or "data" not in result:
+        return 500, {"ok": False, "error": "Merlin tool returned no data payload."}
+    return 200, {"ok": True, "data": result["data"]}
+
+
 def _secure_cookie_required(host: str) -> bool:
     override = str(os.environ.get('MERLIN_COOKIE_SECURE') or '').strip().lower()
     if override in {'1', 'true', 'yes', 'on'}:
@@ -230,11 +247,46 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/stage-a-receipts':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'runMerlinStageAReceipts',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'receipts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/replacement-readiness':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinReplacementReadiness',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'readiness': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/promotion-packet':
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinPromotionPacket',
+                    {},
+                    session=merlin_session,
+                ))
+                if status != 200:
+                    self._json({'ok': payload['ok'], 'packet': {}, 'error': payload.get('error')}, status=status)
+                    return
                 self._json({
                 'ok': True,
-                'packet': route_tool('getMerlinPromotionPacket', {}, session=merlin_session).get('result', {}).get('data', {}),
+                'packet': payload['data'],
                 })
+                self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/identity':
                 self._json({'ok': True, 'identity': get_identity_policy()})

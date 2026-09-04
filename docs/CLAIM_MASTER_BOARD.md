@@ -1,12 +1,28 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v35.3
+# Unitary Manifold v35.4
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-03 (v35.3 — Sprint BW: Pillar 1031. Day-0 baseline reality is frozen against STATUS/mas_tracker/sprint-plan, Merlin replacement governance now exposes sustained empirical gate tooling plus explicit promotion-packet pass/fail outputs, and high-visibility stale status surfaces are tightened without label inflation. Next slot 1032. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-03 (v35.4 — Sprint BX: Pillars 1032–1039. Parallel workstreams now execute under serialized claim discipline: flavor blocker map tightened first, UV and CMB architecture programs hardened second and third, formal residual burden shrinks, Merlin replacement advances to concrete self-hosted Stage A readiness surfaces, and biology exactness follow-through keeps model-dependent quantities unpromoted. Next slot 1040. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
+
+*P1039 (v35.4): Sprint BX Status-Coherence Certificate — SPRINT_BX_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1039_sprint_bx_status_coherence_certificate.py` checks coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON and verifies Sprint BX markers with unchanged open-lane labels including `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, and `LITEBIRD_BIREFRINGENCE`.*
+
+*P1038 (v35.4): Sprint BX Parallel Campaign Certificate — SPRINT_BX_PARALLEL_CAMPAIGN_CERTIFICATE_COMPLETE. `src/core/pillar1038_sprint_bx_parallel_campaign_certificate.py` integrates Workstreams A–F, enforces flavor→UV→CMB claim-order discipline, and requires a meaningful executable outcome rather than status polish.*
+
+*P1037 (v35.4): Biology Exactness Follow-Through Audit — BIOLOGY_EXACTNESS_FOLLOWTHROUGH_AUDIT_COMPLETE. `src/core/pillar1037_biology_exactness_followthrough_audit.py` keeps exact kernels promoted, holds the HOX empirical lane separate, and turns hydration conversion assumptions into an explicit model-dependent interval surface.*
+
+*P1036 (v35.4): Merlin Self-Hosted Replacement Milestone — MERLIN_SELF_HOSTED_REPLACEMENT_MILESTONE_COMPLETE. `src/core/pillar1036_merlin_self_hosted_replacement_milestone.py` requires Merlin to expose concrete self-hosted Stage A comparable receipts and replacement-readiness packets rather than evidence-empty placeholders; approval remains binary and evidence-gated.*
+
+*P1035 (v35.4): Sprint BX Formal Residual Tightening — SPRINT_BX_FORMAL_RESIDUAL_TIGHTENING_COMPLETE. `src/core/pillar1035_sprint_bx_formal_residual_tightening.py` adds a new Lean4-backed residual tightening layer to the P636 proof lane and reduces the named formal-open surface without claiming full Hilbert-space closure.*
+
+*P1034 (v35.4): Parallel CMB Closure Campaign — PARALLEL_CMB_CLOSURE_CAMPAIGN_COMPLETE. `src/core/pillar1034_parallel_cmb_closure_campaign.py` executes a harder non-fitted, non-calibrated mechanism program for `CMB_AMP_CONFIRMED_IRREDUCIBLE`, reduces the deficit, and strengthens irreducibility when closure is not earned.*
+
+*P1033 (v35.4): UV Parallel Compactification Campaign — UV_PARALLEL_COMPACTIFICATION_CAMPAIGN_COMPLETE. `src/core/pillar1033_uv_parallel_compactification_campaign.py` couples `ALPHA_S_TYPE_B_FLOOR` and `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW` under one shared compactification object with joint narrowing and no per-lane rescue knobs.*
+
+*P1032 (v35.4): Parallel Flavor Closure Campaign — PARALLEL_FLAVOR_CLOSURE_CAMPAIGN_COMPLETE. `src/core/pillar1032_parallel_flavor_closure_campaign.py` forces one stronger shared-root pass across CKM shadow, fermion magnitude/radii, and Jarlskog Layer-2; absent a real runtime flip, it emits a stricter shared blocker map with ranked unresolved objects.*
 
 *P1031 (v35.3): Sprint BW Three-Lane Execution Certificate — SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE_COMPLETE. `src/core/pillar1031_sprint_bw_three_lane_execution_certificate.py` certifies that (1) the baseline state is locked to canonical truth surfaces, (2) Merlin back-room governance now includes explicit sustained empirical replacement-gate and promotion-packet contracts, and (3) integrity/editorial stale-surface fixes are completed with unchanged open-lane labels and no narrative promotion.*
 
