@@ -1,21 +1,37 @@
-# Sprint CB Execution Packet
+# S04E011 — Sprint CB: Merge-Gate Baseline Lock Before New Promotion Claims
+
+Sprint CB begins with a governance claim, not a physics claim: no new promotion language should move forward until merge-state and baseline surfaces are explicitly locked. This claim is falsified if promotions proceed while merge-gate freeze conditions are active or baseline status surfaces are missing.
+
+Pillar 1051 makes that rule executable.
 
 ## What changed
-- Added Sprint CB execution artifacts for merge-gated baseline lock, targeted closure rigor, Merlin frontier readiness, documentation packet synchronization, and integration gating.
-- Preserved deterministic binary routing and explicit promotion blockers.
+
+- A merge-gate control surface was formalized with two explicit triggers:
+  - environment flag `UM_HOUSEKEEPING_MERGED`,
+  - marker file `.housekeeping_merge_ready`.
+- Until merge acknowledgement is present, **new claim promotion is frozen by default**.
+- Canonical status surfaces (`STATUS`, `FALLIBILITY`, tracker, claim board, gatekeeper, truth layer, changelog, sprint plan) are hash-snapshotted for baseline lock once merge conditions are met.
+- This created an auditable “start state” for the rest of Sprint CB.
 
 ## What did not change
-- No hardgate physics claim labels were promoted.
-- Open-lane labels remain explicit and unchanged pending executable evidence.
+
+- No hardgate physics label was promoted by this pillar.
+- No open-lane scientific status changed as a side effect of governance gating.
+- No external falsifier window was edited.
+- This lane did not claim scientific closure; it enforced preconditions for trustworthy closure claims.
 
 ## Falsification implications
-- No falsification window was weakened or redefined.
-- DESI, CMB-S4, and LiteBIRD windows remain active with the same boundary conditions.
+
+- Process-level falsifier: if a later sprint bypasses the freeze and still declares promotion, this gate architecture has failed.
+- Scientific falsifiers (DESI/LiteBIRD and other open windows) remain exactly where they were.
+- The practical gain is credibility: baseline drift becomes observable before interpretation drift.
 
 ## Residual unknowns
-- CMB amplitude closure remains open.
-- α_s Type-B and Higgs architecture limits remain open.
-- CKM shadow, fermion magnitude/radii, Jarlskog Layer-2, and non-perturbative QG residual lanes remain open.
 
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
+- Merge-gate discipline cannot solve unresolved physics lanes by itself.
+- Its value depends on consistent future enforcement.
+- Open-lane closures still require independent executable evidence.
+- Governance rigor reduces narrative risk; it does not replace scientific proof.
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
