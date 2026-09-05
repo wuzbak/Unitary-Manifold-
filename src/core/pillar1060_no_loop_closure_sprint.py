@@ -71,27 +71,34 @@ def _lane_outcome(
     new_object_or_evidence_introduced: bool,
     retry_attempted_this_sprint: bool,
 ) -> Dict[str, Any]:
-    blocked_no_rerun = retry_attempted_this_sprint and (not new_object_or_evidence_introduced)
-    if blocked_no_rerun:
-        outcome = "BLOCKED_NO_RERUN"
-        lane_class = "BLOCKED / EXTERNAL WAIT"
+    if retry_attempted_this_sprint:
+        outcome = "TIGHTENED_WITH_EXPLICIT_BLOCKER"
+        lane_class = "TIGHTENED (WITH EXACT BLOCKER)"
+        anti_loop_enforced = True
+        blockers = list(explicit_blockers) + ["SAME_SPRINT_RERUN_BLOCKED_DEFER_NEXT_SPRINT"]
     elif runtime_flip_earned:
         outcome = "CLOSED_NOW"
         lane_class = "CLOSED THIS SPRINT"
+        anti_loop_enforced = True
+        blockers = list(explicit_blockers)
     elif boundary_tightened:
         outcome = "TIGHTENED_WITH_EXPLICIT_BLOCKER"
         lane_class = "TIGHTENED (WITH EXACT BLOCKER)"
+        anti_loop_enforced = True
+        blockers = list(explicit_blockers)
     else:
-        outcome = "BLOCKED_NO_RERUN"
+        outcome = "EXTERNAL_WAIT_ONLY"
         lane_class = "BLOCKED / EXTERNAL WAIT"
+        anti_loop_enforced = True
+        blockers = list(explicit_blockers)
     return {
         "lane": lane,
         "outcome": outcome,
         "column": lane_class,
-        "explicit_blockers": list(explicit_blockers),
+        "explicit_blockers": blockers,
         "new_object_or_evidence_introduced": new_object_or_evidence_introduced,
         "retry_attempted_this_sprint": retry_attempted_this_sprint,
-        "anti_loop_enforced": blocked_no_rerun or not retry_attempted_this_sprint,
+        "anti_loop_enforced": anti_loop_enforced,
     }
 
 
@@ -196,15 +203,14 @@ def sprint_cd_no_loop_closure_execution(
 
     for lane in EXTERNAL_WAIT_LANES:
         lane_rows.append(
-            {
-                "lane": lane,
-                "outcome": "EXTERNAL_WAIT_ONLY",
-                "column": "BLOCKED / EXTERNAL WAIT",
-                "explicit_blockers": ["EXTERNAL_DATA_NOT_AVAILABLE_YET"],
-                "new_object_or_evidence_introduced": False,
-                "retry_attempted_this_sprint": False,
-                "anti_loop_enforced": True,
-            }
+            _lane_outcome(
+                lane=lane,
+                runtime_flip_earned=False,
+                boundary_tightened=False,
+                explicit_blockers=["EXTERNAL_DATA_NOT_AVAILABLE_YET"],
+                new_object_or_evidence_introduced=False,
+                retry_attempted_this_sprint=False,
+            )
         )
 
     blunt_board = {
@@ -215,7 +221,7 @@ def sprint_cd_no_loop_closure_execution(
         "blocked_or_external_wait": [
             row["lane"]
             for row in lane_rows
-            if row["outcome"] in {"BLOCKED_NO_RERUN", "EXTERNAL_WAIT_ONLY"}
+            if row["outcome"] == "EXTERNAL_WAIT_ONLY"
         ],
     }
 
@@ -224,15 +230,38 @@ def sprint_cd_no_loop_closure_execution(
         "CLOSED_NOW",
         "TIGHTENED_WITH_EXPLICIT_BLOCKER",
         "EXTERNAL_WAIT_ONLY",
-        "BLOCKED_NO_RERUN",
     }
     binary_outcome_rule_pass = outcomes.issubset(allowed_outcomes)
-    strict_lane_order_pass = [1, 2, 3, 4] == [
-        flavor["primary_target"]["coverage_count"] and 1,
-        uv["execution_order_rank"],
-        cmb["execution_order_rank"],
-        4,
+    required_outcomes_present = {
+        "TIGHTENED_WITH_EXPLICIT_BLOCKER",
+        "EXTERNAL_WAIT_ONLY",
+    }.issubset(outcomes)
+    execution_order_trace = [
+        {
+            "packet": "FLAVOR_SHARED_ROOT_PACKET",
+            "declared_rank": 1,
+            "packet_valid": bool(flavor["valid"]),
+        },
+        {
+            "packet": "UV_JOINT_BOTTLENECK_PACKET",
+            "declared_rank": int(uv["execution_order_rank"]),
+            "packet_valid": bool(uv["valid"]),
+        },
+        {
+            "packet": "CMB_AMPLITUDE_PACKET",
+            "declared_rank": int(cmb["execution_order_rank"]),
+            "packet_valid": bool(cmb["valid"]),
+        },
+        {
+            "packet": "QG_O1_O4_REDUCTION_PACKET",
+            "declared_rank": 4,
+            "packet_valid": bool(qg["valid"]),
+        },
     ]
+    strict_lane_order_pass = bool(
+        [entry["declared_rank"] for entry in execution_order_trace] == [1, 2, 3, 4]
+        and all(entry["packet_valid"] for entry in execution_order_trace)
+    )
     anti_loop_pass = all(row["anti_loop_enforced"] for row in lane_rows)
 
     valid = bool(
@@ -241,6 +270,7 @@ def sprint_cd_no_loop_closure_execution(
         and cmb["valid"]
         and qg["valid"]
         and binary_outcome_rule_pass
+        and required_outcomes_present
         and strict_lane_order_pass
         and anti_loop_pass
         and sorted(INTERNAL_CLOSURE_CANDIDATES + EXTERNAL_WAIT_LANES)
@@ -259,8 +289,10 @@ def sprint_cd_no_loop_closure_execution(
         "internal_closure_candidates": list(INTERNAL_CLOSURE_CANDIDATES),
         "external_wait_lanes": list(EXTERNAL_WAIT_LANES),
         "lane_outcomes": lane_rows,
+        "execution_order_trace": execution_order_trace,
         "external_readiness_closure": _external_readiness_packet(),
         "binary_outcome_rule_pass": binary_outcome_rule_pass,
+        "required_outcomes_present": required_outcomes_present,
         "strict_lane_order_pass": strict_lane_order_pass,
         "anti_loop_pass": anti_loop_pass,
         "promotion_rule": "Runtime flips only when executable criteria pass.",
@@ -281,7 +313,7 @@ def sprint_cd_no_loop_closure_execution(
 def _safe_pillar_valid() -> bool:
     try:
         return bool(sprint_cd_no_loop_closure_execution()["valid"])
-    except Exception:
+    except (KeyError, TypeError, ValueError):
         return False
 
 
@@ -299,4 +331,3 @@ def pillar1060_summary() -> Dict[str, Any]:
         "next_pillar_slot": NEXT_PILLAR_SLOT,
         "valid": report["valid"],
     }
-

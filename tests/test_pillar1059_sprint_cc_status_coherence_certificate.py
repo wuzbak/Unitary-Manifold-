@@ -30,14 +30,57 @@ def test_surface_registry() -> None:
     assert REQUIRED_SPRINT_MARKERS == ["v35.9", "1058-1059", "1060"]
 
 
-def test_certificate_shape() -> None:
+def test_certificate_shape(monkeypatch, tmp_path) -> None:
+    def _surface_text(version: str, pillar_window: str, next_slot: int) -> str:
+        return (
+            f"version {version}\n"
+            f"pillars {pillar_window}\n"
+            f"next slot {next_slot}\n"
+            + "\n".join(REQUIRED_SPRINT_MARKERS)
+            + "\n"
+            + "\n".join(STATUS_SURFACES.keys())
+            + "\n"
+            + "\n".join(p1059.OPEN_LANES)
+        )
+
+    for name in STATUS_SURFACES:
+        path = tmp_path / f"{name}.txt"
+        if name == "mas_tracker":
+            path = tmp_path / "mas_tracker.yml"
+            path.write_text(
+                "\n".join(
+                    [
+                        'version: "v35.9"',
+                        "pillars: 1058-1059",
+                        "next_pillar_slot: 1060",
+                        "remaining_open:",
+                        *[f"  - {label}" for label in p1059.OPEN_LANES],
+                    ]
+                ),
+                encoding="utf-8",
+            )
+        else:
+            path.write_text(_surface_text("v35.9", "1058-1059", 1060), encoding="utf-8")
+        monkeypatch.setitem(STATUS_SURFACES, name, path)
+
+    payload = {
+        "meta": {"version": "35.9"},
+        "pillars": {"next_slot": 1060, "total_slots": 1059},
+        "lean4": {"theorem_count": 4000},
+        "tests": {"passed": 63771},
+    }
+    live = tmp_path / "live.json"
+    live.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(p1059, "LIVE_STATUS_PATH", live)
+
     report = sprint_cc_status_coherence_certificate()
+
     assert report["surface_audit"]["all_exist"] is True
-    assert "open_labels_pass" in report["surface_audit"]
-    assert "sprint_markers_pass" in report["surface_audit"]
+    assert report["surface_audit"]["open_labels_pass"] is True
+    assert report["surface_audit"]["sprint_markers_pass"] is True
     assert "tests_ok" in report["live_status_audit"]
-    assert "version_ok" in report["live_status_audit"]
-    assert "next_slot_ok" in report["live_status_audit"]
+    assert report["live_status_audit"]["version_ok"] is True
+    assert report["live_status_audit"]["next_slot_ok"] is True
     assert "pillar1058" in report["dependency_chain"]
 
 

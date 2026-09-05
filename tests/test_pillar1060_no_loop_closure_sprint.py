@@ -56,44 +56,26 @@ def test_internal_lanes_have_binary_or_blocked_outcomes() -> None:
         assert rows[lane]["outcome"] in {
             "CLOSED_NOW",
             "TIGHTENED_WITH_EXPLICIT_BLOCKER",
-            "BLOCKED_NO_RERUN",
         }
 
 
-def test_retry_without_new_object_is_blocked_no_rerun(monkeypatch) -> None:
-    original = p1060._lane_outcome
+def test_binary_outcome_rule_accepts_internal_and_external_mix() -> None:
+    report = sprint_cd_no_loop_closure_execution()
+    assert report["binary_outcome_rule_pass"] is True
+    assert report["required_outcomes_present"] is True
+    outcomes = {row["outcome"] for row in report["lane_outcomes"]}
+    assert "EXTERNAL_WAIT_ONLY" in outcomes
+    assert "TIGHTENED_WITH_EXPLICIT_BLOCKER" in outcomes
 
-    def _forced_lane_outcome(
-        lane: str,
-        runtime_flip_earned: bool,
-        boundary_tightened: bool,
-        explicit_blockers: list[str],
-        new_object_or_evidence_introduced: bool,
-        retry_attempted_this_sprint: bool,
-    ) -> dict:
-        if lane == "ALPHA_S_TYPE_B_FLOOR":
-            return {
-                "lane": lane,
-                "outcome": "BLOCKED_NO_RERUN",
-                "column": "BLOCKED / EXTERNAL WAIT",
-                "explicit_blockers": explicit_blockers,
-                "new_object_or_evidence_introduced": False,
-                "retry_attempted_this_sprint": True,
-                "anti_loop_enforced": True,
-            }
-        return original(
-            lane,
-            runtime_flip_earned,
-            boundary_tightened,
-            explicit_blockers,
-            new_object_or_evidence_introduced,
-            retry_attempted_this_sprint,
-        )
 
-    monkeypatch.setattr(p1060, "_lane_outcome", _forced_lane_outcome)
-    report = p1060.sprint_cd_no_loop_closure_execution()
+def test_retry_is_deferred_with_internal_blocker() -> None:
+    report = p1060.sprint_cd_no_loop_closure_execution(
+        retry_attempts={"ALPHA_S_TYPE_B_FLOOR": True}
+    )
     rows = {row["lane"]: row for row in report["lane_outcomes"]}
-    assert rows["ALPHA_S_TYPE_B_FLOOR"]["outcome"] == "BLOCKED_NO_RERUN"
+    assert rows["ALPHA_S_TYPE_B_FLOOR"]["outcome"] == "TIGHTENED_WITH_EXPLICIT_BLOCKER"
+    assert rows["ALPHA_S_TYPE_B_FLOOR"]["column"] == "TIGHTENED (WITH EXACT BLOCKER)"
+    assert "SAME_SPRINT_RERUN_BLOCKED_DEFER_NEXT_SPRINT" in rows["ALPHA_S_TYPE_B_FLOOR"]["explicit_blockers"]
     assert report["anti_loop_pass"] is True
 
 
