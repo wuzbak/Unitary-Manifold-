@@ -1,6 +1,12 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
+import copy
+import json
+from pathlib import Path
+
+import src.core.pillar1062_parallel_audit_remediation as audit_module
+
 from src.core.pillar1062_parallel_audit_remediation import (
     ADJACENCY_LABEL,
     NEXT_PILLAR_SLOT,
@@ -71,6 +77,45 @@ def test_live_status_alignment_check() -> None:
     assert row["exp4_status"] == "HIGH_TENSION"
     assert row["required_open_gates_present"] is True
     assert row["status"] == "PASS"
+
+
+def test_live_status_alignment_check_detects_generator_drift(monkeypatch) -> None:
+    repo_json = json.loads(
+        Path("9-INFRASTRUCTURE/um_live_status.json").read_text(encoding="utf-8")
+    )
+
+    class FakeModule:
+        @staticmethod
+        def build_live_status():
+            payload = copy.deepcopy(repo_json)
+            payload["tests"]["passed"] += 1
+            return payload
+
+    monkeypatch.setattr(audit_module, "_load_module", lambda *_args, **_kwargs: FakeModule)
+    row = audit_module.live_status_alignment_check()
+    assert row["json_matches_generator"] is False
+    assert row["status"] == "FAIL"
+
+
+def test_live_status_alignment_check_detects_missing_required_gate(monkeypatch) -> None:
+    repo_json = json.loads(
+        Path("9-INFRASTRUCTURE/um_live_status.json").read_text(encoding="utf-8")
+    )
+
+    class FakeModule:
+        @staticmethod
+        def build_live_status():
+            payload = copy.deepcopy(repo_json)
+            payload["open_gates"] = [
+                row for row in payload["open_gates"]
+                if row["gate"] != "LITEBIRD_BIREFRINGENCE"
+            ]
+            return payload
+
+    monkeypatch.setattr(audit_module, "_load_module", lambda *_args, **_kwargs: FakeModule)
+    row = audit_module.live_status_alignment_check()
+    assert row["required_open_gates_present"] is False
+    assert row["status"] == "FAIL"
 
 
 def test_public_status_sync_check() -> None:

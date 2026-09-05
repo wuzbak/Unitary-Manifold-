@@ -100,10 +100,12 @@ def _load_module(path: Path, name: str) -> Any:
     sys.modules[unique_name] = module
     try:
         spec.loader.exec_module(module)
+        return module
     except Exception:
         sys.modules.pop(unique_name, None)
         raise
-    return module
+    finally:
+        sys.modules.pop(unique_name, None)
 
 
 def observation_tracker_status_check() -> dict[str, Any]:
