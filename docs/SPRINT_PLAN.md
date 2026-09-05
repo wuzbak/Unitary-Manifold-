@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-04 (v35.7 Sprint CA COMPLETE — Pillars 1049–1050; Lean4 3976→3988; next slot 1051)*
+*Last updated: 2026-09-04 (v35.8 Sprint CB COMPLETE — Pillars 1051–1057; Lean4 3988→4000; next slot 1058)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,22 +16,23 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v35.7 — Sprint CA)
+## CURRENT AUDITABLE STATE (v35.8 — Sprint CB)
 
 | Field | Value |
 |-------|-------|
-| Version | **v35.7** |
-| Sprint | **Sprint CA** |
-| Pillars | **1049-1050** |
-| Next pillar slot | **1051** |
-| Lean4 theorems | **3988** |
-| Sprint theme | **Full-throttle closure-grade execution with binary go/no-go gates across flavor/UV/CMB/formal/QG lanes** |
-| Primary target | **Execute the full closure plan end-to-end with deterministic evidence routing, truth-surface lockstep, and publication synchronization** |
-| Binary outcome | **RUNTIME_FLIP_EARNED OR BOUNDARY_TIGHTENED_WITH_EXPLICIT_OPEN_CARRY_FORWARD** |
+| Version | **v35.8** |
+| Sprint | **Sprint CB** |
+| Pillars | **1051-1057** |
+| Next pillar slot | **1058** |
+| Lean4 theorems | **4000** |
+| Sprint theme | **Merge-gated full-effort multi-lane sprint with targeted closure rigor + Merlin frontier readiness + synchronized documentation and verification discipline** |
+| Primary target | **Execute merge gate, formal closure, Merlin development, documentation packet, and release discipline in one auditable parallel integration cycle** |
+| Binary outcome | **PROMOTION_FREEZE_UNTIL_MERGE_ACKNOWLEDGED OR EVIDENCE_BACKED_PROGRESS_WITH_EXPLICIT_OPEN_CARRY_FORWARD** |
 
-Historical continuity: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the targeted QG rigor layer directly below Sprint CA.
+Historical continuity: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.
+Historical continuity: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the targeted QG rigor layer below Sprint CA.
 Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer below Sprint BZ.
-Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer in this sequence.
+Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
 
 ---
 
@@ -53,7 +54,7 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-CA continuation)
+## NEXT PHASE PRIORITIES (post-CB continuation)
 
 1. **Truth-surface lockstep remains non-negotiable**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, this file, and `9-INFRASTRUCTURE/um_live_status.json` synchronized in one change set.
@@ -72,12 +73,12 @@ Classification:
 
 ## SUCCESS CRITERIA FOR NEXT SPRINT
 
-1. All canonical surfaces agree on version, slot, open set, and live-status output.
-2. Every accepted external QG metric has a traceable evidence row, a reproduction packet, and a routing verdict.
-3. O1–O4 mapping remains explicit with no unsupported obstruction claims.
-4. No claim promotion without executable evidence and no hidden calibration.
-5. Non-perturbative QG remains explicitly open/irreducible unless a true external closure programme result is integrated.
-6. Tests remain green.
+1. Merge-gate freeze is respected until housekeeping merge acknowledgement and baseline lock audit completion.
+2. Formal closure lane shows theorem-traceable substep reduction and deterministic binary outcome reporting per closure attempt.
+3. Merlin frontier readiness keeps sovereign primary routing and fail-closed promotion blockers explicit across control-tower and policy surfaces.
+4. Canonical truth surfaces and publication packet remain synchronized with explicit changed/unchanged/falsification/residual sections.
+5. Targeted and full regression gates remain reproducible with zero failures.
+6. Open-lane labels remain explicit and unchanged unless executable evidence flips runtime status.
 
 ---
 

@@ -1,14 +1,30 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v35.7
+# Unitary Manifold v35.8
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-04 (v35.7 — Sprint CA: Pillars 1049–1050. Full-throttle closure execution is now codified with binary go/no-go gates across flavor, UV, CMB, Lean4 formal traceability, and O1–O4 non-perturbative QG routing, with synchronized status/publication surfaces. Runtime flips are credited only when earned; otherwise boundaries are tightened and explicitly retained. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1051. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-04 (v35.8 — Sprint CB: Pillars 1051–1057. Merge-gated baseline lock, targeted closure deterministic rigor, Merlin frontier readiness blockers, documentation traceability packet, verification-release discipline, and integrated parallel execution/coherence certificates are now codified as one auditable packet. Runtime flips are credited only when earned; otherwise boundaries and blockers are carried forward explicitly. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1058. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *Historical continuity note: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the canonical targeted-QG-rigor layer directly below Sprint CA.*
+*Historical continuity note: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.*
+*Historical continuity note: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer directly below Sprint BZ.*
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
+
+*P1057 (v35.8): Sprint CB Status-Coherence Certificate — SPRINT_CB_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1057_sprint_cb_status_coherence_certificate.py` certifies lockstep coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON and the Sprint CB five-article packet, enforcing v35.8 markers and unchanged open-lane visibility.*
+
+*P1056 (v35.8): Sprint CB Parallel Execution Certificate — SPRINT_CB_PARALLEL_EXECUTION_CERTIFICATE_COMPLETE. `src/core/pillar1056_sprint_cb_parallel_execution_certificate.py` integrates merge-gate, targeted closure, Merlin frontier readiness, documentation packet, and verification/release lanes under an all-hands parallel integration gate with evidence-backed outcomes only.*
+
+*P1055 (v35.8): Sprint CB Verification Release Discipline — SPRINT_CB_VERIFICATION_RELEASE_DISCIPLINE_COMPLETE. `src/core/pillar1055_sprint_cb_verification_release_discipline.py` codifies targeted Lean4+Merlin suite requirements, artifact reproducibility surfaces, workflow gating checks, and full-regression command discipline as release criteria.*
+
+*P1054 (v35.8): Sprint CB Documentation Traceability Packet — SPRINT_CB_DOCUMENTATION_TRACEABILITY_PACKET_COMPLETE. `src/core/pillar1054_sprint_cb_documentation_traceability_packet.py` enforces five synchronized Sprint CB publication drafts with explicit changed/unchanged/falsification/residual sections and no score-branding drift.*
+
+*P1053 (v35.8): Merlin Frontier Development — MERLIN_FRONTIER_DEVELOPMENT_COMPLETE. `src/core/pillar1053_merlin_frontier_development.py` validates the new consolidated frontier-readiness packet and explicit fail-closed promotion blockers across sync, empirical gates, longitudinal acceptance, policy budget, provenance, and sovereign-default controls.*
+
+*P1052 (v35.8): Targeted Closure Deterministic Rigor — TARGETED_CLOSURE_DETERMINISTIC_RIGOR_COMPLETE. `src/core/pillar1052_targeted_closure_deterministic_rigor.py` extends formal closure reporting with deterministic binary go/no-go routing and explicit remaining-burden carry-forward without unearned closure claims.*
+
+*P1051 (v35.8): Merge-Gate Baseline Lock — MERGE_GATE_BASELINE_LOCK_COMPLETE. `src/core/pillar1051_merge_gate_baseline_lock.py` freezes new claim promotion until housekeeping merge acknowledgement and hash-locks canonical status surfaces for Sprint CB baseline integrity.*
 
 *P1050 (v35.7): Sprint CA Status-Coherence Certificate — SPRINT_CA_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1050_sprint_ca_status_coherence_certificate.py` certifies lockstep coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON and the five sprint publication drafts, enforcing v35.7 markers, next-slot alignment, and explicit nine-lane open-set visibility.*
 

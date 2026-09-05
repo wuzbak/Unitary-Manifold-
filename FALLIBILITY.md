@@ -1,8 +1,10 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v35.7 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint CA** (2026-09-04; Pillars 1049–1050) executes a full-throttle closure-grade packet with binary go/no-go gates: Program A flavor shared-root rerun with ranked blockers, Program B coupled UV rerun for α_s+Higgs with no rescue knobs, Program C non-fitted CMB integrity rerun, Lean4 theorem-traceability expansion, O1–O4 non-perturbative QG routing discipline, and synchronized truth/publication surfaces. This sprint is rigorous closure work without narrative inflation: runtime flips are credited only when earned; otherwise boundaries are tightened and explicitly retained. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1051. Latest verified full regression in branch history: 63,732 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint CA targeted tests passed · 0 failed.)*
+*Unitary Manifold v35.8 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint CB** (2026-09-04; Pillars 1051–1057) executes merge-gated all-hands parallel rigor: baseline lock before promotion, targeted Lean4 deterministic-closure reduction, sovereign-first Merlin frontier readiness with explicit promotion blockers, synchronized documentation packet, and verification/release gates. This sprint adds execution rigor without label inflation: runtime flips are credited only when earned; open lanes are carried forward explicitly when not closed. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1058. Latest verified full regression in branch history: 63,756 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint CB targeted tests passed · 0 failed; Merlin Product 20 targeted tests passed · 0 failed.)*
 
 *Historical continuity note: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the canonical targeted-QG-rigor layer directly below Sprint CA.*
+*Historical continuity note: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.*
+*Historical continuity note: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer directly below Sprint BZ.*
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer below Sprint BY.*
 
 *Historical continuity note: v35.2 Sprint BV (Pillars 1025–1030) remains the canonical closure-program execution layer directly below Sprint BW.*
@@ -57,7 +59,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (63,722 passed · 23 skipped · 12 deselected · 0 failed (v35.6, 2026-09-04; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (63,756 passed · 23 skipped · 12 deselected · 0 failed (v35.8 baseline with Sprint CB certificates; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution

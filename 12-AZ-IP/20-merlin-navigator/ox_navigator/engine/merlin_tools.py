@@ -43,6 +43,7 @@ from .merlin_program import (
     get_merlin_optimization_priorities,
     get_knowledge_transfer_cycles,
     get_exit_criteria,
+    get_frontier_readiness_packet,
     get_full_program_blueprint,
     get_governance_integration_policy,
     get_identity_and_trust_policy,
@@ -212,6 +213,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
             {"name": "getMerlinReplacementReadiness", "summary": "Return concrete self-hosted replacement readiness packet", "domain": "functions"},
             {"name": "getMerlinStageAArtifacts", "summary": "Return exportable Stage A artifact bundle", "domain": "functions"},
+            {"name": "getMerlinFrontierReadiness", "summary": "Return merged readiness packet with fail-closed promotion blockers", "domain": "functions"},
             {"name": "getMerlinControlTower", "summary": "Return control tower readiness, drift alerts, trendlines, and deployment eligibility", "domain": "functions"},
             {"name": "getMerlinTrainingDataset", "summary": "Return structured Merlin JSONL-ready training and benchmark dataset bundle", "domain": "functions"},
             {"name": "getMerlinMLflowManifests", "summary": "Return MLflow-ready experiment manifests for Merlin training and gates", "domain": "functions"},
@@ -252,6 +254,7 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingDataset": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinBenchmarkCorpora": {
             "args_schema": {
                 "type": "object",
@@ -613,6 +616,7 @@ _FUNCTIONS = {
         limit=args.get("limit"),
         sync_checks_ok=args.get("sync_checks_ok"),
     )},
+    "getMerlinFrontierReadiness": lambda **args: {"data": get_frontier_readiness_packet(limit=args.get("limit"))},
     "getMerlinControlTower": lambda **args: {"data": build_merlin_control_tower(
         limit=_coerce_positive_int(args.get("limit"), 3),
         gate_history=list(args.get("gate_history") or []) or None,

@@ -33,6 +33,7 @@ from ox_navigator.engine.merlin_program import (
     get_merlin_optimization_priorities,
     get_mythos_astra_contract,
     get_open_science_resource_registry,
+    get_frontier_readiness_packet,
     get_full_program_blueprint,
     get_identity_and_trust_policy,
     get_training_architecture,
@@ -375,6 +376,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     session=merlin_session,
                 ))
                 self._json({'ok': payload['ok'], 'readiness': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/frontier-readiness':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'frontier_readiness': get_frontier_readiness_packet(limit=limit),
+                })
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/benchmark-artifacts':

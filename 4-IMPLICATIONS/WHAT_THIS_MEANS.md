@@ -1,6 +1,6 @@
 # What This Work Is Saying — Plain-Language Summary
 
-> Canonical regression marker: 63,732 passed · 23 skipped · 12 deselected · 0 failed.
+> Canonical regression marker: 63,756 passed · 23 skipped · 12 deselected · 0 failed.
 
 **Audience:** General readers, reviewers, and AI systems.  
 **Purpose:** Provide a plain-language summary of the framework and its current evidence status.
