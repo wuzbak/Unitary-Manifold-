@@ -231,6 +231,23 @@ independent CMB normalization and UM transfer corrections; unique fermion and
 gauge-sector selection; joint UV/Higgs predictivity; nonperturbative QG.
 No universal completion is claimed.
 
+### Final PR handoff (2026-09-05)
+
+The saved implementation and final evidence-gating fixes were preserved at
+`ace780ae` and `d82f407a`. The final resumption verified the P1069, P1071,
+P1073 and P1080 suites: **46 passed**, including same-attempt evidence,
+unverified parameter inventory and invalid-packet progress regressions.
+The final review also made the unestablished P1069 closure flag explicitly
+false. After that repair, the same suites plus P1067, P1072, P1077 and P1081
+passed **68 tests, zero failures**. These focused checks do not replace the earlier combined-suite receipt
+or establish a full formal build.
+
+GitHub CI, Tests, Status Drift Gate and Lean workflows for `d82f407a` reported
+`action_required`; the inspected CI and Tests runs had no jobs. Repository-side
+action is required before these can provide merge-gate results. The repeated
+CodeQL attempt again skipped analysis because the database was too large;
+there is still no completed CodeQL security result.
+
 **Falsifier unchanged:** a birefringence value outside [0.22°, 0.38°], or in
 [0.29°, 0.31°], falsifies the braided-winding mechanism under its stated
 prediction. Future observations do not repair invalid internal implications.

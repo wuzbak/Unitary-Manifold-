@@ -84,7 +84,7 @@ def ftheory_spectral_cover_report() -> Dict[str, Any]:
         "hardgate_breakage_detected": None,
         "outcome": outcome,
         "runtime_label_changed": False,
-        "closure_earned": outcome == "EXTENSION_CLOSES_LANE",
+        "closure_earned": False,
         "next_pillar_slot": NEXT_PILLAR_SLOT,
         "packet_valid": True,
         "valid": outcome
