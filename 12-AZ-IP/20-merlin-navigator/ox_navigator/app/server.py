@@ -23,6 +23,7 @@ from ox_navigator.engine.merlin_engine import query_merlin
 from ox_navigator.engine.merlin_identity import get_identity_policy
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
+from ox_navigator.engine.merlin_runtime import get_client_blind_ingestion_contract, get_observatory_ingestion_lane
 from ox_navigator.engine.merlin_program import (
     build_training_artifact_bundle,
     build_training_dataset_bundle,
@@ -56,6 +57,8 @@ _MERLIN_SESSIONS_LOCK = threading.Lock()
 _MERLIN_SESSION_LOCKS: dict[str, threading.RLock] = {}
 _MERLIN_SESSION_CAP = 128
 _PROFILE_STORE = MerlinMemoryStore()
+_HANDSHAKE_TTL_SECONDS = 300.0
+_MERLIN_HANDSHAKE_STATE: dict[str, dict[str, float | str | bool]] = {}
 _MERLIN_GATE_LABELS = [
     "HARDGATE",
     "ADJACENT_TRACK",
@@ -131,15 +134,57 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self.send_header('Set-Cookie', f'merlin_profile_id={_sign_session_id(pending_cookie)}; Path=/; HttpOnly; SameSite=Lax{secure}')
         if getattr(self, '_session_state', ''):
             self.send_header('X-Merlin-Session-State', str(self._session_state))
+        if getattr(self, '_handshake_state', ''):
+            self.send_header('X-Merlin-Handshake-State', str(self._handshake_state))
+        if getattr(self, '_handshake_challenge', ''):
+            self.send_header('X-Merlin-Handshake-Challenge', str(self._handshake_challenge))
         self.send_header('Content-Length', str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def _issue_handshake_challenge(self, session_id: str) -> str:
+        challenge = uuid4().hex
+        _MERLIN_HANDSHAKE_STATE[challenge] = {
+            "issued_at": time.time(),
+            "used": False,
+            "session_id": session_id,
+        }
+        self._handshake_challenge = challenge
+        return challenge
+
+    def _validate_handshake(self, *, payload: dict | None = None, params: dict | None = None) -> tuple[bool, str]:
+        header_challenge = str(self.headers.get("X-Merlin-Handshake-Challenge") or "").strip()
+        body_challenge = str((payload or {}).get("merlin_handshake_challenge") or "").strip()
+        query_challenge = str((params or {}).get("merlin_handshake_challenge", [""])[0] or "").strip()
+        challenge = body_challenge or header_challenge or query_challenge
+        if not challenge:
+            return True, "absent"
+        record = _MERLIN_HANDSHAKE_STATE.get(challenge)
+        if not isinstance(record, dict):
+            return False, "invalid"
+        if bool(record.get("used")):
+            return False, "replayed"
+        issued_at = float(record.get("issued_at") or 0.0)
+        if (time.time() - issued_at) > _HANDSHAKE_TTL_SECONDS:
+            return False, "expired"
+        header_proof = str(self.headers.get("X-Merlin-Handshake-Proof") or "").strip()
+        body_proof = str((payload or {}).get("merlin_handshake_proof") or "").strip()
+        query_proof = str((params or {}).get("merlin_handshake_proof", [""])[0] or "").strip()
+        proof = body_proof or header_proof or query_proof
+        expected = hmac.new(_MERLIN_SESSION_SECRET, challenge.encode("utf-8"), hashlib.sha256).hexdigest()
+        if not proof:
+            return False, "missing_proof"
+        if not hmac.compare_digest(proof, expected):
+            return False, "invalid_proof"
+        record["used"] = True
+        return True, "verified"
 
     def _profile_hint(self, *, payload: dict | None = None, params: dict | None = None) -> str:
         query_profile = str((params or {}).get("merlin_profile_token", [""])[0] or "").strip()
         header_profile = str(self.headers.get("X-Merlin-Profile-Token") or "").strip()
         body_profile = str((payload or {}).get("memory_profile_token") or "").strip()
         token = body_profile or header_profile or query_profile
+        self._profile_token_state = 'none'
         if not token:
             return ""
         key_query = str((params or {}).get("memory_profile_key", [""])[0] or "").strip()
@@ -148,10 +193,14 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         provided_key = key_body or key_header or key_query
         expected_key = str(os.environ.get("MERLIN_PROFILE_SHARED_KEY") or "").strip()
         if not expected_key or not provided_key:
+            self._profile_token_state = 'missing_shared_key'
             return ""
         if not hmac.compare_digest(provided_key, expected_key):
+            self._profile_token_state = 'invalid_shared_key'
             return ""
-        return _extract_session_id(token)
+        extracted = _extract_session_id(token)
+        self._profile_token_state = 'verified' if extracted else 'invalid_token_signature'
+        return extracted
 
     def _merlin_session(self, *, profile_hint: str = "") -> tuple[str, MerlinSession, threading.RLock]:
         candidate_id = str(profile_hint or "").strip()
@@ -197,6 +246,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         params = parse_qs(parsed.query)
         profile_hint = self._profile_hint(params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
+        self._issue_handshake_challenge(session_id)
+        self._handshake_state = "challenge_issued"
         with merlin_lock:
             if parsed.path == '/api/merlin/status':
                 self._json({
@@ -222,7 +273,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     'persistence': 'process_local_memory',
                     'signed_cookie_resume_scope': 'same_process_only',
                     'expired_cookie_behavior': 'new_session_id_issued',
+                    'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
+                    'handshake': {
+                        'state': self._handshake_state,
+                        'challenge_ttl_seconds': _HANDSHAKE_TTL_SECONDS,
+                        'proof_hash': 'hmac_sha256',
+                        'invalid_or_replayed_behavior': 'request_refused',
+                    },
                 },
+                'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                 })
                 self._persist_session(session_id, merlin_session)
                 return
@@ -275,6 +334,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     'mythos_astra_contract': get_mythos_astra_contract(),
                     'optimization_priorities': get_merlin_optimization_priorities(),
                     'execution_graph': get_merlin_execution_graph(),
+                    'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
+                    'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                 },
                 })
                 return
@@ -302,7 +363,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                self._json(build_training_dataset_bundle(limit=limit))
+                compiled = merlin_session.get_compiled_training_insights()
+                self._json(build_training_dataset_bundle(limit=limit, compiled_insights=compiled))
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/open-science-registry':
@@ -317,7 +379,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                payload = get_mlflow_experiment_manifests(limit=limit)
+                payload = get_mlflow_experiment_manifests(
+                    limit=limit,
+                    compiled_insights=merlin_session.get_compiled_training_insights(),
+                )
                 if payload.get('ok') is False:
                     self._json({'ok': False, 'error': payload.get('error', 'Unable to build MLflow manifests.')}, status=500)
                     self._persist_session(session_id, merlin_session)
@@ -415,7 +480,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                payload = build_training_artifact_bundle(limit=limit)
+                payload = build_training_artifact_bundle(
+                    limit=limit,
+                    compiled_insights=merlin_session.get_compiled_training_insights(),
+                )
                 if not payload.get('ok'):
                     self._json({'ok': False, 'error': payload.get('error', 'Unable to build training artifacts.')}, status=500)
                     self._persist_session(session_id, merlin_session)
@@ -480,6 +548,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     'persistence': 'process_local_memory',
                     'signed_cookie_resume_scope': 'same_process_only',
                     'expired_cookie_behavior': 'new_session_id_issued',
+                    'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
                 },
                 })
                 self._persist_session(session_id, merlin_session)
@@ -500,9 +569,19 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             return
         profile_hint = self._profile_hint(payload=payload, params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
+        self._issue_handshake_challenge(session_id)
+        handshake_ok, handshake_state = self._validate_handshake(payload=payload, params=params)
+        self._handshake_state = handshake_state
 
         with merlin_lock:
             try:
+                if not handshake_ok:
+                    self._json({
+                        'ok': False,
+                        'error': 'Client-blind handshake verification failed.',
+                        'handshake_state': handshake_state,
+                    }, status=401)
+                    return
                 if parsed.path == '/api/agentInvoke':
                     tool = str(payload.get('tool') or '').strip()
                     if not tool:
@@ -520,6 +599,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     return
 
                 if parsed.path in ('/api/merlin', '/api/ox'):
+                    if str(self._profile_token_state) in {'invalid_token_signature', 'invalid_shared_key'}:
+                        self._json({
+                            'ok': False,
+                            'error': 'Invalid profile resume token.',
+                            'profile_token_state': self._profile_token_state,
+                        }, status=401)
+                        return
                     query = str(payload.get('query') or '').strip()
                     if not query:
                         self._json({'error': 'query is required'}, status=400)

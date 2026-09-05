@@ -30,6 +30,7 @@ from ox_navigator.engine.merlin_memory import MERLIN_MAX_HISTORY, MerlinSession,
 from ox_navigator.engine.merlin_persona import detect_persona_mode, extract_urls, is_internal_question, persona_governance_violations
 from ox_navigator.engine.merlin_router import choose_runtime
 from ox_navigator.engine.merlin_rag import build_rag_context, lookup_kb, retrieve_context
+from ox_navigator.engine.merlin_runtime import run_post_turn_compilation
 from ox_navigator.engine.merlin_sentinel import MODE_MONITOR, evaluate_query, get_sentinel_policy
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
 from ox_navigator.engine.merlin_program import run_sync_checks
@@ -392,6 +393,21 @@ def test_route_tool_training_architecture_and_artifacts():
     )
 
 
+def test_route_tool_training_dataset_includes_compiled_insights():
+    session = MerlinSession()
+    session.ingest_compiled_insight({
+        "insight_id": "s1",
+        "fact": "DESI tension must stay contradiction-flagged until validated.",
+        "kind": "falsification_lead",
+        "proof_verdict": "not_applicable",
+        "contradictions": [],
+    })
+    dataset = route_tool('getMerlinTrainingDataset', {'limit': 2}, session=session)
+    assert dataset['ok'] is True
+    counts = dataset['result']['data']['dataset']['counts']
+    assert counts['compile_time_insight_records'] >= 1
+
+
 def test_route_tool_empirical_gate_and_promotion_packet():
     runs = [
         {
@@ -655,6 +671,20 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert payload['benchmark_eval'] is None
     assert payload['max_rigor']['graph'] == 'merlin_max_rigor_execution'
     assert payload['max_rigor']['all_green'] is True
+    assert payload['compile_time_ingestion']['compiled_count'] >= 1
+
+
+def test_post_turn_compilation_flags_contradictions():
+    session = MerlinSession()
+    result = asyncio.run(run_post_turn_compilation(
+        query='Can we set w_a != 0 now?',
+        answer='No proven closure. Proposed patch: w_a != 0.',
+        provenance={'sources': [{'kind': 'knowledge_base'}]},
+        session=session,
+    ))
+    assert result['compiled_count'] >= 1
+    assert result['contradiction_count'] >= 1
+    assert session.get_memory_state()['quarantined_insight_count'] >= 1
 
 
 def test_query_merlin_keeps_benchmark_eval_explicit_only():
@@ -679,6 +709,8 @@ def test_server_merlin_endpoints():
             assert 'router_policy' in status.json()
             assert 'openrouter_compat_enabled' in status.json()
             assert status.json()['memory_profile_token']
+            assert 'client_blind_ingestion_contract' in status.json()['session_contract']
+            assert 'handshake' in status.json()['session_contract']
 
             program = client.get('/api/merlin/program')
             assert program.status_code == 200
@@ -741,6 +773,7 @@ def test_server_merlin_endpoints():
             assert runtime.status_code == 200
             assert runtime.json()['ok'] is True
             assert runtime.json()['runtime']['optimization_priorities']['order'][0]['rank'] == 1
+            assert runtime.json()['runtime']['client_blind_ingestion_contract']['mode'] == 'unidirectional_client_blind_ingestion'
 
             benchmarks = client.get('/api/merlin/benchmarks')
             assert benchmarks.status_code == 200
@@ -757,6 +790,7 @@ def test_server_merlin_endpoints():
             assert training_dataset.status_code == 200
             assert training_dataset.json()['ok'] is True
             assert training_dataset.json()['dataset']['counts']['total_training_records'] == 4
+            assert 'compile_time_insight_records' in training_dataset.json()['dataset']['counts']
 
             open_science_registry = client.get('/api/merlin/open-science-registry')
             assert open_science_registry.status_code == 200
@@ -859,6 +893,14 @@ def test_server_merlin_endpoints():
             assert sync.status_code == 200
             assert sync.json()['ok'] is True
             assert sync.json()['sync_checks']['ok'] is True
+
+            bad_handshake = client.post('/api/merlin', json={
+                'query': 'What is the birefringence prediction?',
+                'merlin_handshake_challenge': 'bad',
+                'merlin_handshake_proof': 'bad',
+            })
+            assert bad_handshake.status_code == 401
+            assert bad_handshake.json()['handshake_state'] == 'invalid'
 
             assistant = client.post('/api/merlin', json={'query': 'What is the birefringence prediction?'})
             assert assistant.status_code == 200

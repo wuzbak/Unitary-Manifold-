@@ -22,6 +22,14 @@ MERLIN_MAX_TELEMETRY = 100
 MERLIN_MAX_AUDITS = 100
 
 _NORMALIZE_RE = re.compile(r"[^a-z0-9]+")
+_NUMERIC_ASSIGNMENT_RE = re.compile(r"(k[\s_\-]*cs|n[\s_\-]*w|w[\s_\-]*a)\s*=\s*([\-]?\d+(?:\.\d+)?)", re.IGNORECASE)
+_W_A_NONZERO_RE = re.compile(r"w[\s_\-]*a\s*[!><~]+\s*0", re.IGNORECASE)
+
+HARDGATE_INVARIANTS = {
+    "kcs": "74",
+    "nw": "5",
+    "wa": "0",
+}
 
 DEFAULT_DURABLE_MEMORIES = [
     {
@@ -80,6 +88,8 @@ class MerlinSession:
     contradiction_events: list[dict[str, Any]] = field(default_factory=list)
     memory_audits: list[dict[str, Any]] = field(default_factory=list)
     telemetry: list[dict[str, Any]] = field(default_factory=list)
+    compiled_insights: list[dict[str, Any]] = field(default_factory=list)
+    quarantined_insights: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         self.turns = list(self.turns)[-MERLIN_MAX_HISTORY:] if isinstance(self.turns, list) else []
@@ -91,6 +101,12 @@ class MerlinSession:
         )
         self.reset_events = list(self.reset_events)[-MERLIN_MAX_AUDITS:] if isinstance(self.reset_events, list) else []
         self.durable_memory = list(self.durable_memory) if isinstance(self.durable_memory, list) else []
+        self.compiled_insights = (
+            list(self.compiled_insights)[-MERLIN_MAX_AUDITS:] if isinstance(self.compiled_insights, list) else []
+        )
+        self.quarantined_insights = (
+            list(self.quarantined_insights)[-MERLIN_MAX_AUDITS:] if isinstance(self.quarantined_insights, list) else []
+        )
         if not self.durable_memory:
             for item in DEFAULT_DURABLE_MEMORIES:
                 self.remember(item["fact"], scope=item["scope"], source=item["source"], tags=item["tags"])
@@ -99,6 +115,23 @@ class MerlinSession:
         self.telemetry = list(self.telemetry)[-MERLIN_MAX_TELEMETRY:]
         self.memory_audits = list(self.memory_audits)[-MERLIN_MAX_AUDITS:]
         self.contradiction_events = list(self.contradiction_events)[-MERLIN_MAX_AUDITS:]
+        self.compiled_insights = list(self.compiled_insights)[-MERLIN_MAX_AUDITS:]
+        self.quarantined_insights = list(self.quarantined_insights)[-MERLIN_MAX_AUDITS:]
+
+    def _semantic_hardgate_conflicts(self, text: str) -> list[str]:
+        sample = str(text or "")
+        conflicts: list[str] = []
+        if _W_A_NONZERO_RE.search(sample):
+            conflicts.append("w_a_nonzero_claim_conflicts_with_hardgate")
+        for lhs, value in _NUMERIC_ASSIGNMENT_RE.findall(sample):
+            key = _normalize(lhs).replace(" ", "")
+            if key == "kcs" and value != HARDGATE_INVARIANTS["kcs"]:
+                conflicts.append(f"k_cs_expected_{HARDGATE_INVARIANTS['kcs']}_received_{value}")
+            if key == "nw" and value != HARDGATE_INVARIANTS["nw"]:
+                conflicts.append(f"n_w_expected_{HARDGATE_INVARIANTS['nw']}_received_{value}")
+            if key == "wa" and value != HARDGATE_INVARIANTS["wa"]:
+                conflicts.append(f"w_a_expected_{HARDGATE_INVARIANTS['wa']}_received_{value}")
+        return conflicts
 
     def remember(
         self,
@@ -180,6 +213,50 @@ class MerlinSession:
                 if len(self.contradiction_events) > MERLIN_MAX_AUDITS:
                     self.contradiction_events = self.contradiction_events[-MERLIN_MAX_AUDITS:]
                 return
+        semantic_conflicts = self._semantic_hardgate_conflicts(f"{query}\n{response}")
+        if semantic_conflicts:
+            self.contradiction_events.append({
+                "query": query,
+                "prior_response": "",
+                "new_response": str(response or "")[:240],
+                "prior_timestamp": "",
+                "detected_at": _utcnow(),
+                "kind": "semantic_hardgate_conflict",
+                "conflicts": semantic_conflicts,
+            })
+            if len(self.contradiction_events) > MERLIN_MAX_AUDITS:
+                self.contradiction_events = self.contradiction_events[-MERLIN_MAX_AUDITS:]
+
+    def ingest_compiled_insight(self, insight: dict[str, Any]) -> dict[str, Any]:
+        item = dict(insight or {})
+        item["ingested_at"] = _utcnow()
+        contradictions = list(item.get("contradictions") or [])
+        proof_verdict = str(item.get("proof_verdict") or "not_applicable")
+        if contradictions:
+            item["status"] = "[CONTRADICTION_FLAGGED]"
+            self.quarantined_insights.append(item)
+            self.contradiction_events.append({
+                "query": str(item.get("source_query", "")),
+                "prior_response": "",
+                "new_response": str(item.get("fact", ""))[:240],
+                "prior_timestamp": "",
+                "detected_at": _utcnow(),
+                "kind": "compiled_insight_contradiction",
+                "conflicts": contradictions,
+            })
+        elif proof_verdict in {"needs_steward_review", "rejected"}:
+            item["status"] = "[PROOF_REVIEW_REQUIRED]"
+            self.quarantined_insights.append(item)
+        else:
+            item["status"] = "[TRUSTED_COMPILED]"
+            self.compiled_insights.append(item)
+        if len(self.compiled_insights) > MERLIN_MAX_AUDITS:
+            self.compiled_insights = self.compiled_insights[-MERLIN_MAX_AUDITS:]
+        if len(self.quarantined_insights) > MERLIN_MAX_AUDITS:
+            self.quarantined_insights = self.quarantined_insights[-MERLIN_MAX_AUDITS:]
+        if len(self.contradiction_events) > MERLIN_MAX_AUDITS:
+            self.contradiction_events = self.contradiction_events[-MERLIN_MAX_AUDITS:]
+        return item
 
     def add_turn(self, query: str, response: str, *, gates: list[str] | None = None) -> None:
         visible_gates = list(gates or extract_gate_badges(response))
@@ -258,9 +335,13 @@ class MerlinSession:
             "durable_memory_count": len(self.durable_memory),
             "durable_memory_by_scope": scopes,
             "contradiction_event_count": len(self.contradiction_events),
+            "compiled_insight_count": len(self.compiled_insights),
+            "quarantined_insight_count": len(self.quarantined_insights),
             "audit_count": len(self.memory_audits),
             "recent_memory_audits": self.memory_audits[-5:],
             "recent_contradictions": self.contradiction_events[-5:],
+            "recent_compiled_insights": self.compiled_insights[-5:],
+            "recent_quarantined_insights": self.quarantined_insights[-5:],
             "durable_memory": [
                 {
                     "fact": item["fact"],
@@ -280,8 +361,13 @@ class MerlinSession:
             "durable_memory_count": state["durable_memory_count"],
             "durable_memory_by_scope": state["durable_memory_by_scope"],
             "contradiction_event_count": state["contradiction_event_count"],
+            "compiled_insight_count": state["compiled_insight_count"],
+            "quarantined_insight_count": state["quarantined_insight_count"],
             "audit_count": state["audit_count"],
         }
+
+    def get_compiled_training_insights(self) -> list[dict[str, Any]]:
+        return [dict(item) for item in self.compiled_insights[-50:]]
 
     def get_telemetry_summary(self, *, public: bool = False) -> dict[str, Any]:
         summary = summarize_runs(self.telemetry)
@@ -328,7 +414,21 @@ class MerlinSession:
             "contradiction_events": list(self.contradiction_events),
             "memory_audits": list(self.memory_audits),
             "telemetry": list(self.telemetry),
+            "compiled_insights": list(self.compiled_insights),
+            "quarantined_insights": list(self.quarantined_insights),
         }
+
+    def to_persistence_dict(self) -> dict[str, Any]:
+        telemetry = []
+        for run in self.telemetry:
+            item = dict(run)
+            item.pop("query", None)
+            telemetry.append(item)
+        payload = self.to_dict()
+        payload["turns"] = []
+        payload["intents"] = []
+        payload["telemetry"] = telemetry
+        return payload
 
     @classmethod
     def from_dict(cls, payload: dict[str, Any]) -> "MerlinSession":
@@ -344,4 +444,6 @@ class MerlinSession:
             contradiction_events=list(data.get("contradiction_events") or []),
             memory_audits=list(data.get("memory_audits") or []),
             telemetry=list(data.get("telemetry") or []),
+            compiled_insights=list(data.get("compiled_insights") or []),
+            quarantined_insights=list(data.get("quarantined_insights") or []),
         )

@@ -28,6 +28,7 @@ from .merlin_persona import (
 from .merlin_router import choose_runtime
 from .merlin_rag import build_rag_context, closest_pillar, lookup_kb, retrieve_context
 from .merlin_rag import build_status_response
+from .merlin_runtime import run_post_turn_compilation
 from .merlin_sentinel import evaluate_query, render_block_message
 from .merlin_telemetry import build_run_telemetry
 from .merlin_tools import route_tool
@@ -407,6 +408,12 @@ async def query_merlin(
             latency_ms=(time.perf_counter() - started) * 1000,
         )
         session.record_run(telemetry)
+        ingestion = await run_post_turn_compilation(
+            query=text,
+            answer=processed["answer"],
+            provenance=processed["provenance"],
+            session=session,
+        )
         max_rigor = _build_max_rigor_audit(
             privilege_requested=False,
             privilege_allowed=True,
@@ -431,6 +438,7 @@ async def query_merlin(
             "identity_policy": get_identity_policy(),
             "memory_audit": audit,
             "telemetry": telemetry,
+            "compile_time_ingestion": ingestion,
             "max_rigor": max_rigor,
         }
 
@@ -472,6 +480,12 @@ async def query_merlin(
             latency_ms=(time.perf_counter() - started) * 1000,
         )
         session.record_run(telemetry)
+        ingestion = await run_post_turn_compilation(
+            query=text,
+            answer=processed["answer"],
+            provenance=processed["provenance"],
+            session=session,
+        )
         max_rigor = _build_max_rigor_audit(
             privilege_requested=True,
             privilege_allowed=False,
@@ -491,6 +505,7 @@ async def query_merlin(
             "identity_check": privilege["verification"],
             "memory_audit": audit,
             "telemetry": telemetry,
+            "compile_time_ingestion": ingestion,
             "max_rigor": max_rigor,
         }
 
@@ -606,6 +621,20 @@ async def query_merlin(
         privilege_allowed=bool(privilege.get("allowed")),
         sentinel_blocked=bool(sentinel.blocked),
     )
+    ingestion = await run_post_turn_compilation(
+        query=text,
+        answer=processed["answer"],
+        provenance=processed["provenance"],
+        session=session,
+    )
+    if ingestion["should_block_output"]:
+        processed = _policy_contract_response(
+            "[OPEN_GAP] Response withheld by contradiction/proof gate. Candidate memory was quarantined and routed to Falsification Lab.",
+            sources=[
+                {"label": "Compile-Time Ingestion Gate", "type": "GOVERNANCE", "description": "Contradiction/proof enforcement"},
+                {"label": "Falsification Lab Tripwire", "type": "ARCHITECTURE_LIMIT", "description": "Unverified or contradictory claims cannot auto-promote"},
+            ],
+        )
     session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
     telemetry = build_run_telemetry(
         query=text,
@@ -640,6 +669,7 @@ async def query_merlin(
         "identity_check": privilege["verification"],
         "memory_audit": audit,
         "telemetry": telemetry,
+        "compile_time_ingestion": ingestion,
         "benchmark_eval": None,
         "max_rigor": max_rigor,
     }
