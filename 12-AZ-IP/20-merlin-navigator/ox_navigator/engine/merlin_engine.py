@@ -16,7 +16,7 @@ import httpx
 from .constants import API_BASE, DEFAULT_TEMPERATURE, MODEL_ID
 from .gate_parser import extract_gate_badges
 from .merlin_identity import authorize_privileged_request, get_identity_policy
-from .merlin_local_provider import generate_local_response
+from .merlin_local_inference import generate_inference_response
 from .merlin_memory import MerlinSession
 from .merlin_persona import (
     build_system_prompt,
@@ -565,17 +565,23 @@ async def query_merlin(
         }
         context_source = "incumbent_compat"
     else:
-        local_candidate = generate_local_response(
+        router_decision = choose_runtime(
+            text,
+            confidence=route_confidence,
+        )
+        local_candidate = await generate_inference_response(
             query=text,
             context=context,
             persona_mode=persona_mode,
             fourth_wall=fourth_wall,
+            lane=str(router_decision.get("lane") or "medium_reasoner_default"),
+            preferred_provider=str(router_decision.get("inference_provider") or ""),
+            temperature=temperature,
         )
         response_text = local_candidate["body"]
-        router_decision = choose_runtime(
-            text,
-            confidence=max(float(local_candidate.get("confidence", 0.7)), route_confidence),
-        )
+        router_decision["local_candidate_provider"] = str(local_candidate.get("provider_variant") or "deterministic_retrieval")
+        if local_candidate.get("fallback_reason"):
+            router_decision["local_candidate_fallback_reason"] = str(local_candidate.get("fallback_reason"))
         if (
             router_decision["provider"] == "openrouter_compat"
             and os.environ.get("OPENROUTER_API_KEY")

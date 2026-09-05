@@ -59,6 +59,7 @@ def build_run_telemetry(
         "recorded_at": _utcnow(),
         "query": query,
         "provider": provider,
+        "provider_variant": str(router_decision.get("local_candidate_provider") or router_decision.get("inference_provider") or provider),
         "lane": lane,
         "context_source": context_source,
         "tool_rounds": int(tool_rounds),

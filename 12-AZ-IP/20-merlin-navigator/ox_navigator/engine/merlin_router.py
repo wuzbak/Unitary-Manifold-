@@ -9,6 +9,7 @@ import os
 from typing import Any
 
 from .constants import MERLIN_TICK_DENOMINATOR, MERLIN_TICK_NUMERATOR, MERLIN_TICK_RATIO
+from .merlin_local_inference import choose_inference_provider
 
 
 LARGE_CONTEXT_KEYWORDS = {
@@ -46,6 +47,7 @@ def infer_risk_level(query: str) -> str:
 def get_router_policy() -> dict[str, Any]:
     return {
         "default_provider": "sovereign_local",
+        "default_inference_provider": "deterministic_retrieval",
         "compat_provider": "openrouter_compat",
         "compat_mode": "compatibility_only",
         "openrouter_enabled_flag": "MERLIN_ENABLE_OPENROUTER_COMPAT",
@@ -64,6 +66,11 @@ def get_router_policy() -> dict[str, Any]:
             "allow_external_on_high_risk": False,
             "fallback_requires_disclosure": True,
             "primary_requires_fully_open_science": True,
+        },
+        "local_inference_policy": {
+            "small_fast_router": "deterministic_retrieval",
+            "medium_reasoner_default": choose_inference_provider("medium_reasoner_default"),
+            "heavy_reasoner_exception": choose_inference_provider("heavy_reasoner_exception"),
         },
     }
 
@@ -85,6 +92,7 @@ def choose_runtime(query: str, *, confidence: float = 0.7, risk_level: str | Non
         "risk_level": risk,
         "confidence": round(float(confidence), 3),
         "provider": provider,
+        "inference_provider": "openrouter_compat" if provider == "openrouter_compat" else choose_inference_provider(lane),
         "openrouter_compat_enabled": openrouter_enabled,
         "openrouter_key_present": has_openrouter_key,
         "reason": reason,

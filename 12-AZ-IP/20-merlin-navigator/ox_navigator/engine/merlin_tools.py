@@ -72,6 +72,7 @@ from .merlin_program import (
     build_training_artifact_bundle,
     run_sync_checks,
 )
+from .merlin_local_inference import get_inference_health, get_inference_providers
 from .merlin_router import choose_runtime, get_router_policy
 from .merlin_rag import (
     INTERROGATOR_ENTRIES,
@@ -220,6 +221,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
+            {"name": "getMerlinInferenceProviders", "summary": "Return sovereign local inference provider registry", "domain": "functions"},
+            {"name": "getMerlinInferenceHealth", "summary": "Return inference provider availability and health", "domain": "functions"},
         ]
     policy_overrides = {
         "getPillar": {
@@ -394,6 +397,15 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinMemoryState": {"capability_class": "state_read"},
         "getMerlinTelemetrySummary": {"capability_class": "state_read"},
+        "getMerlinInferenceProviders": {"capability_class": "state_read"},
+        "getMerlinInferenceHealth": {
+            "capability_class": "state_read",
+            "args_schema": {
+                "type": "object",
+                "properties": {"provider": {"type": "string"}},
+                "additionalProperties": False,
+            },
+        },
     }
     enriched_functions = []
     for item in functions:
@@ -623,6 +635,8 @@ _FUNCTIONS = {
     )},
     "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(limit=args.get("limit"))},
     "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(limit=args.get("limit"))},
+    "getMerlinInferenceProviders": lambda **args: {"data": {"providers": get_inference_providers()}},
+    "getMerlinInferenceHealth": lambda **args: {"data": get_inference_health(provider_name=str(args.get("provider", "")).strip() or None)},
 }
 
 
@@ -679,6 +693,7 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
                 "policy": get_router_policy(),
                 "openrouter_compat_enabled": bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT")),
             },
+            "inference": get_inference_health(),
             "mentorship": {
                 "charter": get_mentorship_sprint_charter(),
                 "faculty_matrix": get_specialized_model_faculty_matrix(),

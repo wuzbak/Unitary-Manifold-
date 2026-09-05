@@ -28,6 +28,7 @@ from ox_navigator.engine.merlin_identity import (
     verify_identity_signals,
 )
 from ox_navigator.engine.merlin_engine import extract_tool_call, query_merlin, strip_tool_call
+from ox_navigator.engine.merlin_local_inference import choose_inference_provider, get_inference_health
 from ox_navigator.engine.merlin_memory import MERLIN_MAX_HISTORY, MerlinSession, infer_intent
 from ox_navigator.engine.merlin_persona import detect_persona_mode, extract_urls, is_internal_question, persona_governance_violations
 from ox_navigator.engine.merlin_router import choose_runtime
@@ -549,6 +550,24 @@ def test_route_tool_memory_and_telemetry_state():
     assert memory_state['result']['data']['durable_memory_count'] >= 1
 
 
+def test_route_tool_inference_registry_and_health(monkeypatch):
+    monkeypatch.delenv('MERLIN_LOCAL_SMALL_BASE_URL', raising=False)
+    monkeypatch.delenv('MERLIN_LOCAL_SMALL_MODEL', raising=False)
+    providers = route_tool('getMerlinInferenceProviders', {})
+    assert providers['ok'] is True
+    names = [item['name'] for item in providers['result']['data']['providers']]
+    assert 'deterministic_retrieval' in names
+    assert 'local_small' in names
+
+    health = route_tool('getMerlinInferenceHealth', {})
+    assert health['ok'] is True
+    assert health['result']['data']['default_provider'] == 'deterministic_retrieval'
+
+    unknown = route_tool('getMerlinInferenceHealth', {'provider': 'missing'})
+    assert unknown['ok'] is True
+    assert unknown['result']['data']['ok'] is False
+
+
 def test_route_tool_entity_state_rejects_unexpected_args():
     result = route_tool('entity.MerlinSession.state', {'unexpected': True})
     assert result['ok'] is False
@@ -621,7 +640,23 @@ def test_route_tool_model_admission_rejects_incomplete():
 def test_choose_runtime_local_first():
     decision = choose_runtime("Summarize Pillar 67 and run parity checks", confidence=0.2)
     assert decision['provider'] == 'sovereign_local'
+    assert decision['inference_provider'] in {'deterministic_retrieval', 'local_small', 'local_medium'}
     assert decision['lane'] in {'small_fast_router', 'medium_reasoner_default', 'heavy_reasoner_exception'}
+
+
+def test_choose_inference_provider_prefers_configured_lanes(monkeypatch):
+    monkeypatch.setenv('MERLIN_LOCAL_SMALL_BASE_URL', 'http://127.0.0.1:9000')
+    monkeypatch.setenv('MERLIN_LOCAL_SMALL_MODEL', 'small.gguf')
+    monkeypatch.setenv('MERLIN_LOCAL_MEDIUM_BASE_URL', 'http://127.0.0.1:9001')
+    monkeypatch.setenv('MERLIN_LOCAL_MEDIUM_MODEL', 'medium.gguf')
+    assert choose_inference_provider('medium_reasoner_default') == 'local_small'
+    assert choose_inference_provider('heavy_reasoner_exception') == 'local_medium'
+
+
+def test_get_inference_health_reports_unknown_provider():
+    payload = get_inference_health(provider_name='nope')
+    assert payload['ok'] is False
+    assert 'Unknown inference provider' in payload['error']
 
 
 def test_route_tool_merlin_sync_checks():
@@ -669,6 +704,7 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     payload = asyncio.run(query_merlin(text='What is the birefringence prediction?', session=session))
     assert payload['provenance']['complete'] is True
     assert payload['telemetry']['energy']['estimated_joules'] > 0
+    assert payload['telemetry']['provider_variant']
     assert 'matched_memory_count' in payload['memory_audit']
     assert payload['benchmark_eval'] is None
     assert payload['max_rigor']['graph'] == 'merlin_max_rigor_execution'
@@ -927,6 +963,20 @@ def test_server_merlin_endpoints():
             assert telemetry.status_code == 200
             assert telemetry.json()['ok'] is True
             assert 'count' in telemetry.json()['telemetry']
+
+            inference_providers = client.get('/api/merlin/inference/providers')
+            assert inference_providers.status_code == 200
+            assert inference_providers.json()['ok'] is True
+            assert any(item['name'] == 'deterministic_retrieval' for item in inference_providers.json()['providers'])
+
+            inference_health = client.get('/api/merlin/inference/health')
+            assert inference_health.status_code == 200
+            assert inference_health.json()['ok'] is True
+            assert inference_health.json()['default_provider'] == 'deterministic_retrieval'
+
+            unknown_inference = client.get('/api/merlin/inference/health?provider=missing')
+            assert unknown_inference.status_code == 404
+            assert unknown_inference.json()['ok'] is False
 
             sync = client.get('/api/merlin/sync-checks')
             assert sync.status_code == 200

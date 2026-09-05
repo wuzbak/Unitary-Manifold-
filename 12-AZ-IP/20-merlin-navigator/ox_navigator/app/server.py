@@ -21,6 +21,7 @@ from ox_navigator.engine.constants import DEFAULT_TEMPERATURE, MODEL_ID
 from ox_navigator.engine.merlin_benchmark import get_benchmark_corpus
 from ox_navigator.engine.merlin_engine import query_merlin
 from ox_navigator.engine.merlin_identity import get_identity_policy
+from ox_navigator.engine.merlin_local_inference import get_inference_health, get_inference_providers
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
 from ox_navigator.engine.merlin_runtime import get_client_blind_ingestion_contract, get_observatory_ingestion_lane
@@ -410,6 +411,16 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({'ok': True, 'telemetry': merlin_session.get_telemetry_summary(public=True)})
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/inference/providers':
+                self._json({'ok': True, 'providers': get_inference_providers()})
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/inference/health':
+                provider = str(params.get('provider', [''])[0] or '').strip() or None
+                payload = get_inference_health(provider_name=provider)
+                self._json(payload, status=200 if payload.get('ok') else 404)
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/runtime':
                 self._json({
                 'ok': True,
@@ -419,6 +430,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     'execution_graph': get_merlin_execution_graph(),
                     'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
+                    'inference_health': get_inference_health(),
                 },
                 })
                 return
