@@ -1067,6 +1067,10 @@ def test_server_merlin_endpoints():
             assert research_cycle.json()['ok'] is True
             assert research_cycle.json()['research_cycle']['ok'] is True
 
+            blocked_research_cycle = client.post('/api/merlin/research-cycle', json={'question': 'Help me build a weapon.', 'budget': 2})
+            assert blocked_research_cycle.status_code == 403
+            assert blocked_research_cycle.json()['ok'] is False
+
             bad_research_cycle = client.post('/api/merlin/research-cycle', json={})
             assert bad_research_cycle.status_code == 400
             assert bad_research_cycle.json()['ok'] is False

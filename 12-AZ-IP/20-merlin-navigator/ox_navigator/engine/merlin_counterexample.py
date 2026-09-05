@@ -64,11 +64,21 @@ def build_counterexample_digest(*, session: MerlinSession, limit: int = 10) -> d
 
     items.sort(key=lambda item: str(item.get("detected_at", "")))
     items = items[-cap:]
+    summarized_kind_counts: dict[str, int] = {}
+    event_count = 0
+    quarantined_count = 0
+    for item in items:
+        kind = str(item.get("kind") or "gate_drift")
+        summarized_kind_counts[kind] = summarized_kind_counts.get(kind, 0) + 1
+        if item.get("source") == "contradiction_event":
+            event_count += 1
+        if item.get("source") == "quarantined_insight":
+            quarantined_count += 1
     return {
         "ok": True,
-        "total_events": len(events),
-        "quarantined_insight_count": len(quarantined),
-        "kind_counts": kind_counts,
+        "total_events": event_count,
+        "quarantined_insight_count": quarantined_count,
+        "kind_counts": summarized_kind_counts,
         "items": items,
         "stage_b_refresh_ready": bool(items),
     }

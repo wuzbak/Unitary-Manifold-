@@ -811,14 +811,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     except (TypeError, ValueError):
                         self._json({'ok': False, 'error': 'budget must be an integer'}, status=400)
                         return
+                    result = run_research_cycle(
+                        question=question,
+                        budget=budget,
+                        session=merlin_session,
+                    )
                     self._json({
-                        'ok': True,
-                        'research_cycle': run_research_cycle(
-                            question=question,
-                            budget=budget,
-                            session=merlin_session,
-                        ),
-                    })
+                        'ok': bool(result.get('ok')),
+                        'research_cycle': result,
+                    }, status=200 if result.get('ok') else 403)
                     return
             finally:
                 self._persist_session(session_id, merlin_session)

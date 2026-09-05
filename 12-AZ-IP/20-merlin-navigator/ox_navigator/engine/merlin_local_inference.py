@@ -11,7 +11,6 @@ from typing import Any
 import httpx
 
 from .merlin_local_provider import generate_local_response
-from .merlin_rag import build_rag_context
 
 
 def _bool_env(name: str, default: bool = False) -> bool:
@@ -194,7 +193,31 @@ def _build_grounded_prompt(
     fourth_wall: bool,
     deterministic_body: str,
 ) -> str:
-    grounded_context = build_rag_context(query)
+    context_blocks: list[str] = []
+    kb_match = dict(context.get("kb_match") or {})
+    if kb_match:
+        context_blocks.append(
+            "[KNOWLEDGE BASE MATCH]\n"
+            f"Topic: {kb_match.get('topic', '')}\n"
+            f"Status: {kb_match.get('status', '')}\n"
+            f"Answer: {kb_match.get('answer', '')}\n"
+            f"Sources: {', '.join(kb_match.get('sources', []))}"
+        )
+    pillar_lines = []
+    for pillar in list(context.get("pillars") or [])[:5]:
+        pillar_lines.append(
+            f"Pillar {pillar.get('id', '')} | {pillar.get('gate', '')} | {pillar.get('name', '')} | {pillar.get('text', '')}"
+        )
+    if pillar_lines:
+        context_blocks.append("[RETRIEVED PILLAR CONTEXT]\n" + "\n".join(pillar_lines))
+    interrogator_lines = []
+    for hit in list(context.get("interrogator_hits") or [])[:3]:
+        interrogator_lines.append(
+            f"{hit.get('id', 'unknown')} | {hit.get('gate', hit.get('status', 'UNKNOWN'))} | {hit.get('claim', hit.get('prediction', ''))}"
+        )
+    if interrogator_lines:
+        context_blocks.append("[INTERROGATOR MATCHES]\n" + "\n".join(interrogator_lines))
+    grounded_context = "\n\n".join(context_blocks) if context_blocks else "No retrieved context was available for this turn."
     persona_line = f"Persona mode: {persona_mode}."
     fourth_wall_line = "Fourth-wall explanations requested." if fourth_wall else "No fourth-wall framing requested."
     return "\n\n".join(
