@@ -219,6 +219,8 @@ def potential_curvature_proxy(
     """
     if step <= 0.0:
         raise ValueError("step must be positive")
+    if step >= phi:
+        raise ValueError("step must be smaller than phi")
     center = total_cw_potential(phi=phi, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
     plus = total_cw_potential(phi=phi + step, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
     minus = total_cw_potential(phi=phi - step, R_KK=R_KK, N_modes=N_modes, F_2=F_2)

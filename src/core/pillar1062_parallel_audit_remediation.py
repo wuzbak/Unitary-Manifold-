@@ -87,6 +87,135 @@ def _normalize_live_status(payload: dict[str, Any]) -> dict[str, Any]:
     return normalized
 
 
+def _expected_public_status(live_status: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "version": VERSION,
+        "date": live_status["meta"]["date"],
+        "tests_passed": live_status["tests"]["passed"],
+        "tests_skipped": live_status["tests"]["skipped"],
+        "tests_deselected": live_status["tests"]["deselected"],
+        "tests_failed": live_status["tests"]["failed"],
+        "lean4_theorems": live_status["lean4"]["theorem_count"],
+        "pillars_hardgate": live_status["pillars"]["hardgate_count"],
+        "pillars_total": live_status["pillars"]["total_slots"],
+        "next_pillar_slot": live_status["pillars"]["next_slot"],
+        "primary_falsifier": "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)",
+        "open_tensions": [
+            {
+                "name": "Flavor family boundary",
+                "status": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
+            },
+            {"name": "α_s Type-B floor", "status": "ALPHA_S_TYPE_B_FLOOR"},
+            {"name": "CMB amplitude floor", "status": "CMB_AMP_CONFIRMED_IRREDUCIBLE"},
+            {"name": "DESI dark-energy lane", "status": "HIGH_TENSION"},
+            {"name": "Tensor-to-scalar ratio r", "status": "HIGH_TENSION"},
+        ],
+        "predictions": {
+            "r": {"um": 0.0315, "bound": 0.036, "status": "HIGH_TENSION"},
+            "w_a": {"um": 0.0, "status": "HIGH_TENSION"},
+        },
+        "epistemic_status": "repository-level internal mathematical self-consistency established; current audit/remediation status surfaces synchronized to verified branch reality; external empirical confirmation pending",
+        "organization": "AxiomZero Technologies & Consulting, SPC",
+        "ubi": "606 239 876",
+    }
+
+
+def _expected_portal_status(live_status: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "version": VERSION,
+        "generated": live_status["meta"]["date"],
+        "tests_passed": live_status["tests"]["passed"],
+        "tests_skipped": live_status["tests"]["skipped"],
+        "tests_deselected": live_status["tests"]["deselected"],
+        "tests_failed": live_status["tests"]["failed"],
+        "lean4_theorems": live_status["lean4"]["theorem_count"],
+        "pillars": live_status["pillars"]["hardgate_count"],
+        "pillars_hardgate": live_status["pillars"]["hardgate_count"],
+        "pillars_total": live_status["pillars"]["total_slots"],
+        "adjacent_tracks": live_status["pillars"]["total_slots"] - live_status["pillars"]["hardgate_count"],
+        "next_pillar_slot": live_status["pillars"]["next_slot"],
+        "regression": f"{live_status['tests']['passed']:,} passed · {live_status['tests']['skipped']} skipped · {live_status['tests']['deselected']} deselected · {live_status['tests']['failed']} failed",
+        "primary_falsifier": "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)",
+        "epistemic_status": "repository-level internal mathematical self-consistency established; current audit/remediation status surfaces synchronized to verified branch reality; external empirical confirmation pending",
+        "organization": "AxiomZero Technologies & Consulting, SPC",
+        "ubi": "606 239 876",
+        "predictions": {
+            "n_s": {
+                "um": 0.9635,
+                "planck": 0.9649,
+                "sigma": 0.0042,
+                "tension_sigma": 0.3,
+                "gate": "HARDGATE",
+            },
+            "r": {"um": 0.0315, "bound": 0.036, "gate": "OPEN_GAP", "status": "HIGH_TENSION"},
+            "beta": {
+                "um": [0.273, 0.331],
+                "window": [0.22, 0.38],
+                "gap": [0.29, 0.31],
+                "test": "LiteBIRD ~2032 / Simons Observatory ~2028",
+                "gate": "HARDGATE",
+                "status": "EXTERNAL_WAIT_ONLY",
+            },
+            "higgs_mass_GeV": {
+                "um": 125.25,
+                "lhc": 125.25,
+                "lhc_sigma": 0.17,
+                "gate": "OPEN_GAP",
+                "status": "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
+            },
+            "w_a": {
+                "um": 0.0,
+                "desi_status": "HIGH_TENSION",
+                "verdict": "DESI DR2/Year 3 leaves the frozen-radion lane under high tension but below the 3σ falsifier.",
+                "gate": "OPEN_GAP",
+                "test": "DESI DR3 / late-2026 publication window",
+            },
+            "flavor_family": {
+                "value": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
+                "gate": "OPEN_GAP",
+                "pillar": PILLAR_NUMBER,
+            },
+            "alpha_s_floor": {
+                "value": "Shared UV compactification object remains unresolved",
+                "gate": "OPEN_GAP",
+                "pillar": PILLAR_NUMBER,
+            },
+        },
+        "open_tensions": [
+            {
+                "name": "Flavor family boundary",
+                "status": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
+            },
+            {"name": "α_s Type-B floor", "status": "ALPHA_S_TYPE_B_FLOOR"},
+            {"name": "CMB amplitude floor", "status": "CMB_AMP_CONFIRMED_IRREDUCIBLE"},
+            {"name": "DESI dark-energy lane", "status": "HIGH_TENSION"},
+            {"name": "Tensor-to-scalar ratio r", "status": "HIGH_TENSION"},
+        ],
+        "open_gaps": [
+            "Flavor-family residuals remain architecture-limited under the shared-root blocker map",
+            "α_s Type-B floor remains outside the shared UV compactification solution surface",
+            "w_a tension remains tracked below the hard falsification threshold",
+            "CMB amplitude mismatch remains an explicit irreducible architecture limit",
+            "Non-perturbative QG remains bounded by named O1–O4 obstructions",
+        ],
+        "constants": {
+            "N_W": 5,
+            "K_CS": 74,
+            "C_S": 0.324324,
+            "XI_C": 0.472973,
+            "SENTINEL_CAPACITY": 0.324324,
+            "HIL_THRESHOLD": 15,
+        },
+        "portal": {
+            "home": "https://axiomzerospc.org/portal/",
+            "knowledge": "https://axiomzerospc.org/portal/knowledge/",
+            "gym": "https://axiomzerospc.org/portal/gym/",
+            "engine": "https://axiomzerospc.org/portal/engine/",
+            "library": "https://axiomzerospc.org/portal/library/",
+        },
+    }
+
+
 def _read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
@@ -206,47 +335,15 @@ def public_status_sync_check() -> dict[str, Any]:
     public = json.loads(_PUBLIC_STATUS.read_text(encoding="utf-8"))
     portal = json.loads(_PORTAL_STATUS.read_text(encoding="utf-8"))
     live_status = json.loads(_LIVE_STATUS_JSON.read_text(encoding="utf-8"))
-    public_open_tensions = {
-        row["name"]: row["status"] for row in public.get("open_tensions", [])
-    }
-    portal_open_tensions = {
-        row["name"]: row["status"] for row in portal.get("open_tensions", [])
-    }
-    public_predictions = public.get("predictions", {})
-    portal_predictions = portal.get("predictions", {})
-    aligned = (
-        public["version"] == portal["version"]
-        and public["version"] == VERSION
-        and public["next_pillar_slot"] == portal["next_pillar_slot"]
-        and public["next_pillar_slot"] == NEXT_PILLAR_SLOT
-        and public["tests_passed"] == portal["tests_passed"]
-        and public["tests_passed"] == live_status["tests"]["passed"]
-        and public["tests_skipped"] == portal["tests_skipped"] == live_status["tests"]["skipped"]
-        and public["tests_deselected"] == portal["tests_deselected"] == live_status["tests"]["deselected"]
-        and public["tests_failed"] == portal["tests_failed"] == live_status["tests"]["failed"]
-        and public_open_tensions.get("DESI dark-energy lane") == "HIGH_TENSION"
-        and public_open_tensions.get("Tensor-to-scalar ratio r") == "HIGH_TENSION"
-        and portal_open_tensions.get("DESI dark-energy lane") == "HIGH_TENSION"
-        and portal_open_tensions.get("Tensor-to-scalar ratio r") == "HIGH_TENSION"
-        and public_predictions.get("r", {}).get("status") == "HIGH_TENSION"
-        and public_predictions.get("r", {}).get("bound") == 0.036
-        and public_predictions.get("w_a", {}).get("status") == "HIGH_TENSION"
-        and portal_predictions.get("r", {}).get("status") == "HIGH_TENSION"
-        and portal_predictions.get("r", {}).get("bound") == 0.036
-        and portal_predictions.get("w_a", {}).get("desi_status") == "HIGH_TENSION"
-    )
+    expected_public = _expected_public_status(live_status)
+    expected_portal = _expected_portal_status(live_status)
+    aligned = public == expected_public and portal == expected_portal
     return {
         "public_version": public["version"],
         "portal_version": portal["version"],
         "live_status_version": f"v{live_status['meta']['version']}",
-        "public_open_tensions": public_open_tensions,
-        "portal_open_tensions": portal_open_tensions,
-        "public_r_status": public_predictions.get("r", {}).get("status"),
-        "public_r_bound": public_predictions.get("r", {}).get("bound"),
-        "public_wa_status": public_predictions.get("w_a", {}).get("status"),
-        "portal_r_status": portal_predictions.get("r", {}).get("status"),
-        "portal_r_bound": portal_predictions.get("r", {}).get("bound"),
-        "portal_wa_status": portal_predictions.get("w_a", {}).get("desi_status"),
+        "public_matches_expected": public == expected_public,
+        "portal_matches_expected": portal == expected_portal,
         "aligned": aligned,
         "status": "PASS" if aligned else "FAIL",
     }

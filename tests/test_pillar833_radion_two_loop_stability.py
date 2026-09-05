@@ -72,6 +72,10 @@ class TestRadionMassTwoLoop:
         with pytest.raises(ValueError, match="step must be positive"):
             potential_curvature_proxy(step=0.0)
 
+    def test_curvature_proxy_rejects_step_at_or_above_phi(self):
+        with pytest.raises(ValueError, match="step must be smaller than phi"):
+            potential_curvature_proxy(phi=1.0e-4, step=1.0e-4)
+
 
 class TestPhiStarTwoLoop:
     def test_returns_dict(self):
