@@ -10,6 +10,9 @@
 > Flavor uniqueness, CMB predictivity, and the shared UV object remain open.
 > See [the precise findings and verification scope](TRUTH_LAYER.md#foundation-reassessment).
 > Historical test/theorem totals must not be read as discharged physics obligations.
+> Resumed combined software regression: **63,952 passed, 33 skipped,
+> 18 deselected, 0 failed**. CodeQL analysis was skipped for database size;
+> manual review and secret scans do not replace the missing automated analysis.
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*

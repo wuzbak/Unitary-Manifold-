@@ -19,6 +19,12 @@ are unchanged, including [0.29°, 0.31°] as the excluded birefringence gap.
 43 skipped, 12 deselected, 0 failed (354.83 s). Historical totals below belong
 to their recorded environments. Current execution results and remaining
 obligations are recorded in [TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment).
+The resumed combined run completed with **63,952 passed, 33 skipped,
+18 deselected, 0 failed** in 443.43 s. Targeted runs additionally enabled the
+real CAMB integrations and nonlinear-trajectory safety test.
+The two audited Lean modules compile warning-free with inspected axiom
+dependencies; the full formal build remains unverified. Final reporting repairs
+passed separate 29-test and 21-test suites after the combined-run receipt.
 
 **Resumed CMB execution:** 201 targeted tests passed, including five real
 CAMB 2.0.4 integration tests. The calibrated GR tilt comparison has a median

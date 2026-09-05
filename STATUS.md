@@ -2,12 +2,16 @@
 
 > **Foundation reassessment (2026-09-05):** no new pillar or physics closure.
 > Historical sprint summaries below are not evidence of universal derivation.
-> The mixed-metric normalization and odd-field photon argument require correction;
+> The mixed-metric normalization is corrected and the odd-field photon argument withdrawn;
 > assigned residual contractions and proxy theorem counts do not discharge
 > scientific obligations. Flavor uniqueness, independent CMB normalization,
 > action-to-evolution equivalence, and joint UV predictivity remain open.
 > The interrupted session's pre-change baseline was 63,430 passed, 43 skipped,
 > 12 deselected, 0 failed; the headline below is a historical regression record.
+> Resumed combined regression: **63,952 passed, 33 skipped, 18 deselected,
+> 0 failed** (443.43 s). Five real CAMB integrations were also run explicitly.
+> The two audited Lean modules compile warning-free; the full formal build
+> remains unverified. Final reporting repairs passed separate targeted suites.
 > See [the current reassessment](docs/TRUTH_LAYER.md#foundation-reassessment)
 > for precise counterexamples, assumptions, and verification scope.
 

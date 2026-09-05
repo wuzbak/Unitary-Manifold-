@@ -11,6 +11,8 @@
 > normalization, action-to-evolution equivalence, and UV predictivity remain open.
 > Existing lane identifiers are retained for traceability, not as universal
 > impossibility theorems. No additional physics closure is claimed.
+> Resumed combined software regression: 63,952 passed, 33 skipped,
+> 18 deselected, 0 failed. This does not remove the scientific limitations.
 
 *Unitary Manifold v36.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint CH** (2026-09-05; Pillars 1079–1081) converts Gemini external-critique handling into executable artifacts: P1079 critique-to-proof matrix with confabulation register + stop conditions, P1080 deterministic internal four-lane routing with explicit blockers, and P1081 fail-closed sprint certificate requiring matrix/packet/publication integrity. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1082. Latest verified full regression in branch history: 63,892 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint CH targeted tests passed · 0 failed.)*
 

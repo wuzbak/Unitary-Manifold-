@@ -51,3 +51,19 @@ def test_theorem_flag_without_compilation_and_proof_evidence_is_not_proof(monkey
     assert result["verified_physical_theorem_count"] == 0
     assert result["scientific_progress"] is False
     assert result["all_theorems_valid"] is False
+
+
+def test_explicit_proof_evidence_counts_only_the_verified_lane(monkeypatch) -> None:
+    report = module.cmb_amp_lower_bound_theorem_report()
+    report.update(
+        physical_theorem_proved=True,
+        lean4_compilation_verified=True,
+        physical_proof_evidence={"fixture": "synthetic positive-path evidence; not a real proof"},
+    )
+    monkeypatch.setattr(module, "cmb_amp_lower_bound_theorem_report", lambda: report)
+    result = module.track_a_floor_theorems_aggregator()
+    assert result["verified_physical_theorem_count"] == 1
+    assert result["per_lane"][0]["physical_theorem_proved"] is True
+    assert not any(lane["physical_theorem_proved"] for lane in result["per_lane"][1:])
+    assert result["scientific_progress"] is True
+    assert result["all_theorems_valid"] is False

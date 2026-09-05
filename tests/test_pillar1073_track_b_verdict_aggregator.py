@@ -82,7 +82,8 @@ def test_valid_packets_do_not_substitute_for_missing_audits(monkeypatch) -> None
 
 def test_impact_review_is_not_reported_as_proved_breakage(monkeypatch) -> None:
     audit = module.hardgate_non_breakage_veto()
-    audit.update(extension_retracted=True, hardgate_breakage_detected=None)
+    audit.update(extension_retracted=False, extension_review_required=True,
+                 hardgate_breakage_detected=None)
     monkeypatch.setattr(module, "hardgate_non_breakage_veto", lambda: audit)
     result = module.track_b_verdict_report()
     assert result["verdict"] == "EXTENSION_IMPACT_REVIEW_REQUIRED"

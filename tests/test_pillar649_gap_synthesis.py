@@ -63,6 +63,13 @@ class TestTierSummaries:
         for tier in [T1, T2, T3, T4, T5]:
             assert tier["toe_delta"] == 0.0
 
+    def test_metric_reflection_does_not_become_internal_lift_equivalence(self):
+        entry = next(item for item in T2["advances"] if item["pillar"] == 636)
+        assert entry["equivalence_established"] is False
+        assert entry["scientific_progress"] is False
+        assert "equivalence proved" not in entry["advance"]
+        assert "internal lift" in entry["open_item"]
+
 
 class TestAllAdvances:
     def test_at_least_14_advances(self):
@@ -82,6 +89,12 @@ class TestSynthesisCertificate:
 
     def test_not_claimed_no_measurements(self):
         assert len(CERT["what_is_NOT_claimed"]) > 0
+
+    def test_synthesis_retains_gauge_selection_gap(self):
+        assert CERT["closure_earned"] is False
+        assert CERT["scientific_progress"] is False
+        assert CERT["open_gauge_selection"]["status"] == "UNDERDETERMINED_BY_METRIC_REFLECTION"
+        assert REPORT["closure_earned"] is False
 
 
 class TestReport:

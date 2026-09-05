@@ -14,6 +14,7 @@ import UnitaryManifold.HiggsGHUNLOBound
 import UnitaryManifold.CKMFullUnitarityMatrix
 import UnitaryManifold.SeesawMechanismFull
 import UnitaryManifold.CMBAmplitudeFloorBound
+import UnitaryManifold.CMBReciprocalBound
 import UnitaryManifold.DESIWaNogo
 import UnitaryManifold.ACTrIrreducibility
 import UnitaryManifold.CKMRhoBarClosure
@@ -29,3 +30,4 @@ import UnitaryManifold.GS9DAnomalyBridge
 import UnitaryManifold.APS_T2Z2_NgenBridge
 import UnitaryManifold.EmbryologyExactKernels
 import UnitaryManifold.SU3OrbifoldLean4Kernel
+import UnitaryManifold.DiracOrbifoldSpectrum

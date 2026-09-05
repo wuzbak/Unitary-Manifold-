@@ -317,6 +317,8 @@ class TestDimensionalChainAudit:
 
     def test_theorem_non_empty(self):
         assert len(self.result["theorem"]) > 50
+        assert self.result["theorem"].startswith("INTERNAL CHECK SUMMARY")
+        assert self.result["physical_derivation_established"] is False
 
     def test_parameters_propagated(self):
         params = self.result["parameters_propagated"]

@@ -1,6 +1,7 @@
-import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Defs
 import Mathlib.Data.Int.Basic
-import Mathlib.Tactic
+import Mathlib.Tactic.NormNum
+import Lean.Elab.Tactic.Omega
 
 /-!
 # Dirac orbifold: conditional arithmetic proxies ONLY

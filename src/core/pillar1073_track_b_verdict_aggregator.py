@@ -122,6 +122,7 @@ def track_b_verdict_report() -> Dict[str, Any]:
         and hardgate_veto.get("hardgate_non_breakage_verified") is True
         and hardgate_veto.get("hardgate_breakage_detected") is False
         and hardgate_veto.get("extension_retracted") is False
+        and hardgate_veto.get("extension_review_required") is not True
         and hardgate_veto.get("all_hardgate_pillars_touched") == []
     )
     derivations_established = all(
@@ -134,7 +135,8 @@ def track_b_verdict_report() -> Dict[str, Any]:
 
     if hardgate_veto.get("hardgate_breakage_detected") is True:
         verdict = "EXTENSION_BREAKS_HARDGATE_RETRACTED"
-    elif hardgate_veto.get("extension_retracted") is True:
+    elif (hardgate_veto.get("extension_review_required") is True
+          or hardgate_veto.get("extension_retracted") is True):
         verdict = "EXTENSION_IMPACT_REVIEW_REQUIRED"
     elif parameter_free is False:
         verdict = "EXTENSION_INTRODUCES_NEW_FREE_PARAMETER_REJECTED"

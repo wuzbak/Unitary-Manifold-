@@ -20,6 +20,9 @@ Detailed assumptions, counterexamples, and verification record:
 [TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment).
 All observational falsifiers remain unchanged, including the closed forbidden
 birefringence gap [0.29°, 0.31°].
+The resumed combined software regression passed 63,952 tests, with 33 skipped,
+18 deselected and zero failures. This verifies neither empirical agreement
+nor the still-open physical obligations in the table.
 
 ## Historical claim registry
 

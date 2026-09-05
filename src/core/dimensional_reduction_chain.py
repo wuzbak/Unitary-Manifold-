@@ -464,10 +464,11 @@ def chain_link_5d_block_structure() -> Dict[str, object]:
         "residual": residual,
         "label": label,
         "physical_content": (
-            "All chain-propagated constants {K_CS=74, n_w=5, πkR=37, N_gen=3, N_c=3} "
-            "are consistent with metric.py's assemble_5d_metric. "
-            "The 5D G_AB block structure follows uniquely from the 11D HW origin."
+            "The supplied constants satisfy the listed arithmetic identities. "
+            "These checks neither select the metric inputs nor establish a "
+            "unique reduction from an 11D HW origin."
         ),
+        "physical_derivation_established": False,
     }
 
 
@@ -517,17 +518,16 @@ def dimensional_chain_audit() -> Dict[str, object]:
         chain_status = "CHAIN_HAS_OPEN_LINKS"
 
     theorem = (
-        "THEOREM (Dimensional Reduction Chain Audit): "
+        "INTERNAL CHECK SUMMARY (Dimensional Reduction Chain Audit): "
         f"The 11D → 5D reduction chain has {total} links. "
         f"{n_closed}/{total} CHAIN_CLOSED, "
         f"{n_tension}/{total} CHAIN_TENSION, "
         f"{n_open}/{total} CHAIN_OPEN. "
         f"Overall status: {chain_status}. "
-        "Parameters {K_CS=74, n_w=5, πkR=37, N_c=3, N_gen=3} propagate "
-        "consistently from the 11D HW boundary to the 5D G_AB block metric "
-        "with no new free parameters entering at any reduction step. "
-        "The 5D Unitary Manifold metric ansatz is the unique output of the "
-        "11D → 5D reduction under the stated boundary conditions."
+        "These legacy status labels summarize internal numerical checks, not "
+        "an action-level dimensional reduction. The terminal KK assembly is "
+        "conditional on supplied fields and coupling; physical uniqueness, "
+        "parameter selection and orbifold gauge survival are not established."
     )
 
     return {
@@ -537,6 +537,7 @@ def dimensional_chain_audit() -> Dict[str, object]:
         "n_open": n_open,
         "total_links": total,
         "chain_status": chain_status,
+        "physical_derivation_established": False,
         "parameters_propagated": {
             "K_CS": K_CS,
             "n_w": N_W,

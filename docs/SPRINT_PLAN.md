@@ -25,6 +25,13 @@ The current findings and verification record are in
 [TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment). The interrupted session
 recorded a pre-change combined suite of 63,430 passed, 43 skipped and
 12 deselected; this is not the resumed implementation's verification result.
+The resumed combined suite passed **63,952 tests, with 33 skipped and
+18 deselected, zero failures**. The real CAMB integrations and nonlinear
+trajectory safety test were separately enabled. The implemented corrections
+and countermodels meet the scoped definition above; the outstanding physical
+obligations are not marked complete by this software result.
+Both audited Lean modules compile with warnings treated as errors and are
+included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 

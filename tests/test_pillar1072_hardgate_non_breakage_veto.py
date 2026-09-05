@@ -61,4 +61,6 @@ def test_declared_impacts_require_review_not_invented_breakage(monkeypatch) -> N
     audit = module.hardgate_non_breakage_veto()
     assert audit["verdict"] == "HARDGATE_IMPACT_REQUIRES_REVIEW"
     assert audit["hardgate_breakage_detected"] is None
-    assert audit["extension_retracted"] is True
+    assert audit["extension_retracted"] is False
+    assert audit["extension_review_required"] is True
+    assert audit["hardgate_non_breakage_verified"] is False

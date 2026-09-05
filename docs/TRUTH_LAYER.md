@@ -151,6 +151,20 @@ and the consumer compared an unavailable backreaction amplitude with a number.
 This is an implementation-integration failure, not physical falsification.
 The earlier session's baseline is not a fresh verification of the resumed code.
 
+The resumed combined regression completed with **63,952 passed, 33 skipped,
+18 deselected, 0 failed** in **443.43 s**, using
+`OMP_NUM_THREADS=1 python -m pytest tests/ recycling/ '5-GOVERNANCE/Unitary Pentad/' -q`.
+This is the configured combined suite, not every optional product or formal
+build in the repository. Slow tests are excluded by its default selection;
+the real CAMB integrations and original nonlinear-trajectory safety test were
+also exercised explicitly in their targeted suites. Skips and deselections are
+not successful checks.
+Subsequent reporting-only review repairs passed **29 targeted tests** for
+P1067/P1072/P1073/P1077 and **21 targeted tests** for P649 and the formal
+closure certificate. The full-run receipt above precedes these final repairs.
+Potential impacts now require review rather than automatic retraction;
+passing internal checks still cannot establish physical closure.
+
 The completed CMB-specific validation passed **201 tests**, including five
 real CAMB integration tests with the slow-test selection explicitly enabled
 (`-m 'slow or not slow'`, `OMP_NUM_THREADS=1`). This targeted result is separate
@@ -171,11 +185,40 @@ algebra entry points passed **296 checks**. These are executable assertions,
 not a formal proof of all the surrounding physical interpretations.
 
 JAX/jaxlib **0.10.2 CPU** was installed within the existing dependency range.
-The JAX/backend, independent geometry and parity suites passed **148 tests
+The JAX/backend, independent geometry and parity suites passed **151 tests
 without skips**, including nonunit-radion RK4 parity and analytic divergence
 checks. This exposed and corrected the JAX evolution path's remaining
 all-coordinate field-strength derivative and its divergence endpoint mismatch.
+Short grids with fewer than three points are rejected rather than silently
+clipped, matching the NumPy second-order derivative contract.
 Targeted counts overlap and must not be added together as a unique test total.
+
+Integration also exposed a dimensional-chain consumer of the old mixed block
+and a Richardson test that compared different final times in an unstable
+nonlinear trajectory. The chain now tests nonunit radions and fails closed on
+assembly errors. The convergence test uses an exactly soluble scalar-diffusion
+limit at equal final times; the original large-amplitude trajectory is retained
+as a separate nonfinite-field safety check. The scalar CFL estimate is not a
+stability theorem for the full nonlinear Lorentzian metric flow.
+
+**Scoped formal verification succeeded:** with Lean **4.22.0-rc2**
+(`6a60de2`), Lake **5.0.0-src+6a60de2**, and pinned Mathlib
+`1a5c8fe51b870f5c4ffd6fe44936e09a776d8f3e`, the following command from
+`lean4/` built both audited modules with warnings treated as errors:
+`lake --no-cache --wfail build +UnitaryManifold.CMBReciprocalBound:olean +UnitaryManifold.DiracOrbifoldSpectrum:olean`.
+Both CMB axiom prints and the three selected Dirac axiom prints reported
+`propext`, `Classical.choice`, and `Quot.sound`, with no additional axioms.
+The reciprocal statements hold over arbitrary ordered fields; the Dirac file
+proves the disclosed arithmetic, not operator-domain or flavor-selection claims.
+Both files are imported by the root module; historical declaration totals are
+unchanged.
+
+**Full formal build is not verified.** The Mathlib cache hostname failed DNS
+resolution; an initial source build timed out after 600 seconds. Narrowing the
+audited modules to their actual dependencies enabled the successful scoped
+build above. The separate root build timed out after 120 seconds, and earlier
+real-construction imports exposed a Mathlib `CauSeq.Basic:440` tactic-output
+mismatch. These limitations are not evidence of physical falsification.
 
 Changed-file secret scans found no secrets. The final read-only production
 review found no significant issues, including manual inspection of changed
