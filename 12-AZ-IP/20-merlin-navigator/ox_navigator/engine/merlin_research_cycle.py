@@ -17,7 +17,20 @@ from .merlin_telemetry import estimate_energy_joules, estimate_token_count
 
 def run_research_cycle(*, question: str, budget: int = 3, session: MerlinSession | None = None) -> dict[str, Any]:
     active_session = session if session is not None else MerlinSession()
-    spend = max(1, min(int(budget or 3), 5))
+    requested_budget = int(budget or 0)
+    if requested_budget < 1:
+        return {
+            "ok": False,
+            "question": question,
+            "budget": requested_budget,
+            "error": "budget must be >= 1",
+            "sentinel": {
+                "blocked": False,
+                "mode": active_session.sentinel_mode,
+                "category": "invalid_budget",
+            },
+        }
+    spend = min(requested_budget, 5)
     sentinel = evaluate_query(question, policy_strikes=active_session.policy_strikes)
     if sentinel.blocked:
         return {

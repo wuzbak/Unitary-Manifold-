@@ -70,7 +70,18 @@ def _path_between(start: int, end: int) -> tuple[list[int], str]:
 
 
 def get_reasoning_chain(query: str, *, max_hops: int = 3) -> dict[str, Any]:
-    hop_cap = max(1, min(int(max_hops or 3), 5))
+    requested_hops = int(max_hops or 0)
+    if requested_hops < 1:
+        return {
+            "ok": False,
+            "error": "max_hops must be >= 1",
+            "query": query,
+            "chain": [],
+            "edges": [],
+            "proof_chain_confidence": 0.0,
+            "lean4_total_hits": 0,
+        }
+    hop_cap = min(requested_hops, 5)
     context = retrieve_context(query, max_chunks=max(hop_cap, 3))
     ranked = list(context.get("pillars") or [])
     if not ranked:

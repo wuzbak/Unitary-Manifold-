@@ -720,6 +720,7 @@ def test_reasoning_chain_and_research_cycle_helpers():
     reasoning = get_reasoning_chain('Explain the birefringence prediction.', max_hops=2)
     assert reasoning['ok'] is True
     assert reasoning['chain']
+    assert get_reasoning_chain('Explain the birefringence prediction.', max_hops=0)['ok'] is False
 
     session = MerlinSession()
     session.add_turn("What is Merlin?", "HARDGATE first answer")
@@ -732,6 +733,7 @@ def test_reasoning_chain_and_research_cycle_helpers():
     assert cycle['ok'] is True
     assert len(cycle['steps']) == 2
     assert cycle['energy_cost']['estimated_joules'] > 0
+    assert run_research_cycle(question='Explain the birefringence prediction.', budget=0, session=session)['ok'] is False
 
 
 def test_route_tool_merlin_sync_checks():

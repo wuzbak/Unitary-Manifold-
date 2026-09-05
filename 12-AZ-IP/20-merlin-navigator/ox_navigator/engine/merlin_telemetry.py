@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import sys
 from datetime import datetime, timezone
 from typing import Any
 
@@ -22,7 +23,8 @@ def _rss_peak_kb() -> int:
     if resource is None:
         return 0
     usage = resource.getrusage(resource.RUSAGE_SELF)
-    return int(getattr(usage, "ru_maxrss", 0) or 0)
+    raw = int(getattr(usage, "ru_maxrss", 0) or 0)
+    return int(raw / 1024) if sys.platform == "darwin" else raw
 
 
 def estimate_token_count(text: str) -> int:
