@@ -220,11 +220,35 @@ class TestLink6Dto5D:
     def test_g55_eq_phi_sq(self):
         assert self.result["G55_eq_phi_sq"] is True
 
-    def test_gmu5_eq_lam_phi_bmu(self):
-        assert self.result["Gmu5_eq_lam_phi_Bmu"] is True
+    def test_gmu5_eq_lam_phi_squared_bmu(self):
+        assert self.result["Gmu5_eq_lam_phi_sq_Bmu"] is True
+        assert self.result["Gmu5_eq_lam_phi_Bmu"] is False
 
-    def test_no_new_free_parameters(self):
-        assert self.result["no_new_free_parameters"] is True
+    def test_assembly_is_not_parameter_selection(self):
+        assert self.result["no_new_free_parameters"] is False
+        assert self.result["physical_derivation_established"] is False
+        assert self.result["quantity_to_next"]["assembly_inputs"] == ["g", "B", "phi", "lambda"]
+
+    def test_assembly_exception_fails_closed(self, monkeypatch):
+        def fail(*args, **kwargs):
+            raise RuntimeError("assembly unavailable")
+        monkeypatch.setattr("src.core.metric.assemble_5d_metric", fail)
+        result = chain_link_6d_to_5d()
+        assert result["block_structure_correct"] is False
+        assert result["label"] == "CHAIN_OPEN"
+        assert result["error"] == "assembly unavailable"
+
+    def test_old_phi_linear_assembly_is_rejected(self, monkeypatch):
+        from src.core.metric import assemble_5d_metric
+        def incorrect(g, B, phi, lam):
+            result = assemble_5d_metric(g, B, phi, lam)
+            result[:, :4, 4] = lam*phi[:, None]*B
+            result[:, 4, :4] = lam*phi[:, None]*B
+            return result
+        monkeypatch.setattr("src.core.metric.assemble_5d_metric", incorrect)
+        result = chain_link_6d_to_5d()
+        assert result["block_structure_correct"] is False
+        assert result["label"] == "CHAIN_OPEN"
 
     def test_label_closed(self):
         assert self.result["label"] == "CHAIN_CLOSED"

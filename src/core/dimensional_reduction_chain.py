@@ -49,11 +49,12 @@ BLOCK-STRUCTURE CONSISTENCY
 ----------------------------
 The terminal 5D G_AB must have the form (from metric.py):
 
-    G_AB = [[g_μν + λ²φ² B_μ B_ν,  λφ B_μ],
-             [λφ B_ν,               φ²    ]]
+    G_AB = [[g_μν + λ²φ² B_μ B_ν,  λφ² B_μ],
+             [λφ² B_ν,              φ²     ]]
 
-This is verified by checking that no new free parameters enter at any reduction
-step: K_CS, n_w, and N_c fully determine the block structure.
+The terminal assembly check is conditional on supplied g, B, φ and λ.
+Agreement does not derive compactification, flavor selection or a gauge sector.
+Legacy CHAIN_CLOSED labels denote internal checks, not physical closure.
 
 Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Code architecture, test suites, document engineering, and synthesis:
@@ -362,17 +363,14 @@ def chain_link_7d_to_6d() -> Dict[str, object]:
 # Quantity passed: G_AB block diagonal with no new free parameters.
 # ---------------------------------------------------------------------------
 def chain_link_6d_to_5d() -> Dict[str, object]:
-    """6D → 5D KK reduction block-structure link.
+    """Conditional KK assembly check, not a dynamical 6D-to-5D reduction.
 
-    Physical content:
-    - The 6D T²/Z₃ is further compactified on S¹/Z₂.
-    - The KK zero-mode reduction gives the 5D G_AB block metric.
-    - G_AB = [[g_μν + λ²φ²B_μB_ν, λφB_μ], [λφB_ν, φ²]].
-    - No new free parameters enter: K_CS, n_w, N_c are sufficient.
-
-    Gate: assemble_5d_metric returns a 5×5 matrix with the correct off-diagonal
-    structure; G_55 = φ² and G_μ5 = λφ B_μ.
+    G_μ5 = λφ²B_μ follows from the assumed completed-square line element.
+    K_CS, n_w and N_c do not select the input fields or compactification.
+    Exceptions fail the check; they are never evidence of consistency.
     """
+    phi2_ok = off_diag_ok = legacy_off_diag_ok = block_ok = False
+    error = None
     try:
         import numpy as np
         # Repo root is two levels up from src/core/
@@ -382,24 +380,24 @@ def chain_link_6d_to_5d() -> Dict[str, object]:
         from src.core.metric import assemble_5d_metric
         # Build a minimal test grid
         N = 3
-        g = np.eye(4)[np.newaxis].repeat(N, 0) * np.ones((N, 4, 4))
-        B = np.zeros((N, 4))
-        B[:, 0] = 0.1
-        phi = np.ones(N) * 1.5
-        lam = 1.0
+        g = np.tile(np.diag([-1., 1., 1., 1.]), (N, 1, 1))
+        B = np.tile([0.1, -0.2, 0.3, -0.1], (N, 1))
+        phi = np.array([0.7, 1.5, 2.3])
+        lam = 1.4
         G = assemble_5d_metric(g, B, phi, lam)
         # Check block structure: G[i, 4, 4] = phi[i]^2
         phi2_ok = all(abs(G[i, 4, 4] - phi[i] ** 2) < 1e-10 for i in range(N))
-        # Check G[i, mu, 4] = lam * phi[i] * B[i, mu]
-        off_diag_ok = all(
-            abs(G[i, 0, 4] - lam * phi[i] * B[i, 0]) < 1e-10
-            for i in range(N)
-        )
-        block_ok = phi2_ok and off_diag_ok
-    except Exception:
-        # metric.py exists and has the correct structure by construction.
-        # We verify the API contract by inspection.
-        block_ok = True
+        off_diag_ok = bool(np.allclose(G[:, :4, 4], lam*phi[:, None]**2*B))
+        legacy_off_diag_ok = bool(np.allclose(G[:, :4, 4], lam*phi[:, None]*B))
+        frame = np.tile(np.eye(5), (N, 1, 1))
+        frame[:, 4, :4] = lam*B
+        base = np.zeros_like(G)
+        base[:, :4, :4] = g
+        base[:, 4, 4] = phi**2
+        block_ok = phi2_ok and off_diag_ok and bool(
+            np.allclose(G, frame.transpose(0, 2, 1) @ base @ frame))
+    except Exception as exc:
+        error = str(exc)
 
     residual = 0.0 if block_ok else 1.0
     label = _label(residual)
@@ -407,20 +405,24 @@ def chain_link_6d_to_5d() -> Dict[str, object]:
     return {
         "link": "6D → 5D",
         "block_structure_correct": block_ok,
-        "G55_eq_phi_sq": True,
-        "Gmu5_eq_lam_phi_Bmu": True,
-        "no_new_free_parameters": True,
+        "G55_eq_phi_sq": phi2_ok,
+        "Gmu5_eq_lam_phi_sq_Bmu": off_diag_ok,
+        "Gmu5_eq_lam_phi_Bmu": legacy_off_diag_ok,
+        "no_new_free_parameters": False,
+        "physical_derivation_established": False,
+        "scope": "conditional assembly consistency only",
+        "error": error,
         "residual": residual,
         "label": label,
         "quantity_to_next": {
-            "G_AB_block_form": "[[g+λ²φ²BB, λφB], [λφB, φ²]]",
+            "G_AB_block_form": "[[g+λ²φ²BB, λφ²B], [λφ²B, φ²]]",
             "parameters": ["K_CS", "n_w", "N_c"],
+            "assembly_inputs": ["g", "B", "phi", "lambda"],
         },
         "physical_content": (
-            "S¹/Z₂ KK reduction produces G_AB block metric (metric.py). "
-            "G_55 = φ², G_μ5 = λφB_μ. "
-            "Parameters {K_CS, n_w, N_c} fully determine the structure. "
-            "No new free parameters enter at this step."
+            "Given the circle ansatz and supplied fields, metric.py assembles "
+            "G_55=φ² and G_μ5=λφ²B_μ. This is not an action-level reduction "
+            "from six dimensions or a proof of parameter selection."
         ),
     }
 

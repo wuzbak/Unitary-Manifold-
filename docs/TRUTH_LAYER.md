@@ -177,6 +177,12 @@ checks. This exposed and corrected the JAX evolution path's remaining
 all-coordinate field-strength derivative and its divergence endpoint mismatch.
 Targeted counts overlap and must not be added together as a unique test total.
 
+Changed-file secret scans found no secrets. The final read-only production
+review found no significant issues, including manual inspection of changed
+input, path and execution surfaces. **CodeQL analysis was skipped because its
+database was too large**; the tool's zero-alert summary is not evidence of a
+completed CodeQL scan. Manual review does not replace that missing analysis.
+
 **Open physical obligations:** photon origin; action-to-evolution equivalence;
 independent CMB normalization and UM transfer corrections; unique fermion and
 gauge-sector selection; joint UV/Higgs predictivity; nonperturbative QG.
