@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v36.0
+# Unitary Manifold v36.1
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v36.1 sync note (Sprint CE — 2026-09-05):*
+*(1) Auditable checked-in branch state now includes Pillar 1061; Lean4 remains 4000; next pillar slot 1062.*
+*(2) No status-only advancement is now fail-closed: a sprint only counts as progress if at least one internal lane closes or every non-closed internal lane exits with strict blocker-set contraction plus measurable contraction.*
+*(3) The closure packet is restricted to the seven internal lanes and executed in strict leverage order: flavor first, UV/Higgs second, CMB third, QG fourth.*
+*(4) Internal closure outcomes are binary (`CLOSED_NOW` or `TIGHTENED_WITH_EXPLICIT_BLOCKER`) with an explicit anti-loop defer state (`ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT`) for blocked same-sprint reruns, plus exact before/after blocker carry-forward and per-lane contraction metrics in one proof-first packet.*
+*(5) Same-sprint reruns are blocked unless genuinely new object/evidence classes are provided; DESI/LiteBIRD remain external readiness/falsifier waits only.*
 
 *v36.0 sync note (Sprint CD — 2026-09-05):*
 *(1) Auditable checked-in branch state now includes Pillar 1060; Lean4 remains 4000; next pillar slot 1061.*

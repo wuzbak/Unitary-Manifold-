@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.0 (2026-09-05)**
-**Regression:** 63,771 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1061
+**Current version: v36.1 (2026-09-05)**
+**Regression:** 63,787 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1062
+
+## v36.1 (2026-09-05 — Sprint CE: Pillar 1061)
+
+**What changed:**
+Pillar 1061 (1 pillar). Sprint CE enforces a proof-first internal closure gate: no status-only advancement is accepted unless at least one internal lane closes or every non-closed internal lane carries strict blocker-set contraction with measurable contraction metrics. The sprint runs only the seven internal lanes in leverage order (flavor → UV/Higgs → CMB → QG), keeps closure-binary outcomes (`CLOSED_NOW` / `TIGHTENED_WITH_EXPLICIT_BLOCKER`) while routing blocked same-sprint reruns to `ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT`, and fail-closes reruns without genuinely new object/evidence classes. External DESI/LiteBIRD remain explicit readiness-only waits.
+
+**Why:**
+Force auditable solving/deriving/proving progress and stop narrative-only or status-only pillar expansion.
+
+**Epistemic label deltas:**
+- `SPRINT_CE_PROOF_FIRST_INTERNAL_EXECUTION_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032), non-perturbative QG/UV completion.
+
+**Lean4:** 4000 → 4000 (+0)
+**Regression:** Sprint CE targeted tests passed · 0 failed; full regression 63,787 passed · 23 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 1062
 
 ## v36.0 (2026-09-05 — Sprint CD: Pillar 1060)
 

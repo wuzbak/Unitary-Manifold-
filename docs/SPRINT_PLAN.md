@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-05 (v36.0 Sprint CD COMPLETE — Pillar 1060; Lean4 4000→4000; next slot 1061)*
+*Last updated: 2026-09-05 (v36.1 Sprint CE COMPLETE — Pillar 1061; Lean4 4000→4000; next slot 1062)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,18 +16,18 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.0 — Sprint CD)
+## CURRENT AUDITABLE STATE (v36.1 — Sprint CE)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.0** |
-| Sprint | **Sprint CD** |
-| Pillars | **1060-1060** |
-| Next pillar slot | **1061** |
+| Version | **v36.1** |
+| Sprint | **Sprint CE** |
+| Pillars | **1061-1061** |
+| Next pillar slot | **1062** |
 | Lean4 theorems | **4000** |
-| Sprint theme | **Hard no-loop closure protocol with strict lane order, anti-rerun gating, and blunt end-state board** |
-| Primary target | **Force every open lane into closed/tightened/external-wait classification with explicit blockers** |
-| Binary outcome | **CLOSED_NOW OR TIGHTENED_WITH_EXPLICIT_BLOCKER OR EXTERNAL_WAIT_ONLY** |
+| Sprint theme | **Proof-first internal closure gate: no status-only advancement, strict blocker contraction or lane closure** |
+| Primary target | **Run the seven internal lanes only and force auditable closure-or-contraction outcomes** |
+| Binary outcome | **Internal closure: CLOSED_NOW OR TIGHTENED_WITH_EXPLICIT_BLOCKER; anti-loop defer: ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT; External: EXTERNAL_WAIT_ONLY** |
 
 Historical continuity: v35.8 Sprint CB (Pillars 1051–1057; next slot 1058) remains the merge-gated multi-lane baseline directly below Sprint CC.
 Historical continuity: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.
@@ -37,20 +37,20 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 
 ---
 
-## NO-LOOP CLOSURE PROTOCOL (Sprint CD, Executed)
+## PROOF-FIRST INTERNAL CLOSURE PROTOCOL (Sprint CE, Executed)
 
-1. Define closure target in one line before new work.
-2. Split open lanes into internal closure candidates vs external-wait lanes.
-3. Execute strict lane order: flavor → UV/Higgs → CMB → QG.
-4. Enforce anti-loop rule: no same-sprint rerun without new object/evidence class.
-5. Enforce promotion discipline: runtime flips only when executable criteria are met.
-6. Prioritize formal work only when it can change lane state this sprint.
-7. Close external lanes only for internal readiness (falsifier + ingestion + routing), not scientific verdict.
+1. Block status-only advancement: a sprint must close a lane or shrink blocker sets with measurable contraction.
+2. Restrict active closure packet to the seven internal lanes only.
+3. Execute strict leverage order: flavor → UV/Higgs → CMB → QG.
+4. Enforce anti-loop rule: no same-sprint rerun without genuinely new object/evidence class.
+5. Keep internal closure outcomes binary (`CLOSED_NOW` or `TIGHTENED_WITH_EXPLICIT_BLOCKER`) and route blocked same-sprint reruns to `ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT`.
+6. Require per-lane proof-first packet: exact before/after blockers plus contraction metric.
+7. Keep external lanes readiness-only (`EXTERNAL_WAIT_ONLY`) with explicit falsifier routing.
 8. Keep canonical truth surfaces lockstep synchronized.
 9. Keep targeted and full verification gates zero-fail.
 10. Publish blunt three-column output only: closed / tightened / blocked-external wait.
 
-### Sprint CD blunt board
+### Sprint CE blunt board
 
 | Closed this sprint | Tightened (with exact blocker) | Blocked / external wait |
 |---|---|---|
