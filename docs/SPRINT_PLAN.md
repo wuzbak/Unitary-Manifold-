@@ -16,7 +16,7 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v35.9 — Sprint CC)
+## CURRENT AUDITABLE STATE (v36.0 — Sprint CD)
 
 | Field | Value |
 |-------|-------|
@@ -69,12 +69,12 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 9. `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`
 
 Classification:
-- **Architecture limits:** 1–7, 9
-- **External waits:** 8
+- **Architecture limits:** 1–6, 9
+- **External waits:** 7–8
 
 ---
 
-## NEXT PHASE PRIORITIES (post-CB continuation)
+## NEXT PHASE PRIORITIES (post-CD continuation)
 
 1. **Truth-surface lockstep remains non-negotiable**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, this file, and `9-INFRASTRUCTURE/um_live_status.json` synchronized in one change set.
