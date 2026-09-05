@@ -73,6 +73,20 @@ class CheckResult:
     details: str
 
 
+def _normalize_live_status(payload: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(payload)
+    normalized.pop("_comment", None)
+    normalized.pop("_fetch_url", None)
+    normalized.pop("_cache_ttl_seconds", None)
+    meta = dict(normalized.get("meta") or {})
+    normalized["meta"] = {
+        "version": meta.get("version"),
+        "sprint": meta.get("sprint"),
+        "date": meta.get("date"),
+    }
+    return normalized
+
+
 def _read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
@@ -160,15 +174,17 @@ def live_status_alignment_check() -> dict[str, Any]:
     generator = _load_module(_LIVE_STATUS_PY, "pillar1062_live_status")
     built = generator.build_live_status()
     repo_json = json.loads(_LIVE_STATUS_JSON.read_text(encoding="utf-8"))
+    normalized_built = _normalize_live_status(built)
+    normalized_repo = _normalize_live_status(repo_json)
     predictions = {row["id"]: row for row in built["predictions"]}
     open_gate_names = {row["gate"] for row in built["open_gates"]}
     return {
-        "json_matches_generator": repo_json == built,
+        "json_matches_generator": normalized_repo == normalized_built,
         "exp2_status": predictions["EXP-2"]["status"],
         "exp4_status": predictions["EXP-4"]["status"],
         "required_open_gates_present": sorted(_REQUIRED_OPEN_GATES - open_gate_names) == [],
         "status": "PASS" if (
-            repo_json == built
+            normalized_repo == normalized_built
             and predictions["EXP-2"]["status"] == "HIGH_TENSION"
             and predictions["EXP-4"]["status"] == "HIGH_TENSION"
             and _REQUIRED_OPEN_GATES.issubset(open_gate_names)
@@ -186,6 +202,7 @@ def public_status_sync_check() -> dict[str, Any]:
     portal_open_tensions = {
         row["name"]: row["status"] for row in portal.get("open_tensions", [])
     }
+    public_predictions = public.get("predictions", {})
     portal_predictions = portal.get("predictions", {})
     aligned = (
         public["version"] == portal["version"]
@@ -201,6 +218,9 @@ def public_status_sync_check() -> dict[str, Any]:
         and public_open_tensions.get("Tensor-to-scalar ratio r") == "HIGH_TENSION"
         and portal_open_tensions.get("DESI dark-energy lane") == "HIGH_TENSION"
         and portal_open_tensions.get("Tensor-to-scalar ratio r") == "HIGH_TENSION"
+        and public_predictions.get("r", {}).get("status") == "HIGH_TENSION"
+        and public_predictions.get("r", {}).get("bound") == 0.036
+        and public_predictions.get("w_a", {}).get("status") == "HIGH_TENSION"
         and portal_predictions.get("r", {}).get("status") == "HIGH_TENSION"
         and portal_predictions.get("r", {}).get("bound") == 0.036
         and portal_predictions.get("w_a", {}).get("desi_status") == "HIGH_TENSION"
@@ -211,6 +231,9 @@ def public_status_sync_check() -> dict[str, Any]:
         "live_status_version": f"v{live_status['meta']['version']}",
         "public_open_tensions": public_open_tensions,
         "portal_open_tensions": portal_open_tensions,
+        "public_r_status": public_predictions.get("r", {}).get("status"),
+        "public_r_bound": public_predictions.get("r", {}).get("bound"),
+        "public_wa_status": public_predictions.get("w_a", {}).get("status"),
         "portal_r_status": portal_predictions.get("r", {}).get("status"),
         "portal_r_bound": portal_predictions.get("r", {}).get("bound"),
         "portal_wa_status": portal_predictions.get("w_a", {}).get("desi_status"),

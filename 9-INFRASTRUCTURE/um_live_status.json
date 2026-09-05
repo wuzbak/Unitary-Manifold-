@@ -92,7 +92,7 @@
       "name": "CMB-S4 / ACT tensor-to-scalar ratio r",
       "status": "HIGH_TENSION",
       "verdict": "BICEP/Keck and SPT-3G remain consistent, but ACT DR6 reports r<0.016 (95% CL), placing the UM r=0.0315 prediction under high tension; the measured-value falsifier is not yet triggered.",
-      "kill_condition": "r < 0.010 measured at ≥3σ",
+      "kill_condition": "r < 0.010 at >3σ (CMB-S4 ~2030)",
       "decision_window": "Simons Observatory ~2027 / CMB-S4 ~2028-2030",
       "pillar": 793
     },
