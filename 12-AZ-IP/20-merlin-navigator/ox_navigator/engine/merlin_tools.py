@@ -747,7 +747,23 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 raise ValueError(error)
         if tool in _FUNCTIONS:
             tool_type = "function"
-            result = _FUNCTIONS[tool](**args)
+            if tool == "getMerlinTrainingDataset":
+                result = {"data": build_training_dataset_bundle(
+                    limit=args.get("limit"),
+                    compiled_insights=active_session.get_compiled_training_insights(),
+                )}
+            elif tool == "getMerlinTrainingArtifacts":
+                result = {"data": build_training_artifact_bundle(
+                    limit=args.get("limit"),
+                    compiled_insights=active_session.get_compiled_training_insights(),
+                )}
+            elif tool == "getMerlinMLflowManifests":
+                result = {"data": get_mlflow_experiment_manifests(
+                    limit=args.get("limit"),
+                    compiled_insights=active_session.get_compiled_training_insights(),
+                )}
+            else:
+                result = _FUNCTIONS[tool](**args)
         elif tool == "getMerlinBenchmarkCorpus":
             tool_type = "function"
             result = {"data": get_stage_a_benchmark_corpus()}

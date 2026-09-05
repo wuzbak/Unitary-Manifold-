@@ -76,7 +76,7 @@ class MerlinMemoryStore:
         key = str(profile_id or "").strip() or "global"
         with self._lock:
             payload = self._read_all()
-            payload["profiles"][key] = session.to_dict()
+            payload["profiles"][key] = session.to_persistence_dict()
             self._write_all(payload)
 
     def get_profile_summary(self, profile_id: str) -> dict[str, Any]:

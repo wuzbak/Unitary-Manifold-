@@ -92,7 +92,53 @@ def test_merlin_memory_store_persists_profile(tmp_path):
     loaded.remember("Cross-device memory fact", scope="user", source="test")
     store.save_profile(profile_id, loaded)
     loaded_again = store.load_profile(profile_id)
-    assert any(item["fact"] == "Cross-device memory fact" for item in loaded_again.durable_memory)
+    assert all(item["fact"] != "Cross-device memory fact" for item in loaded_again.durable_memory)
+    assert loaded_again.get_memory_state()["durable_memory_count"] >= 1
+    assert loaded_again.get_history() == []
+
+
+def test_merlin_compiled_insight_quarantine_and_trust_paths():
+    session = MerlinSession()
+    trusted = session.ingest_compiled_insight({
+        "insight_id": "ok1",
+        "fact": "Use contradiction checks before promotion gates.",
+        "kind": "structural_constraint",
+        "proof_verdict": "not_applicable",
+        "contradictions": [],
+    })
+    flagged = session.ingest_compiled_insight({
+        "insight_id": "bad1",
+        "fact": "w_a != 0 should be merged into hardgate immediately.",
+        "kind": "falsification_lead",
+        "proof_verdict": "needs_steward_review",
+        "contradictions": ["w_a_nonzero_claim_conflicts_with_hardgate"],
+    })
+    assert trusted["status"] == "[TRUSTED_COMPILED]"
+    assert flagged["status"] == "[CONTRADICTION_FLAGGED]"
+    state = session.get_memory_state()
+    assert state["compiled_insight_count"] >= 1
+    assert state["quarantined_insight_count"] >= 1
+
+
+def test_merlin_compiled_insight_proof_review_and_training_filter():
+    session = MerlinSession()
+    session.ingest_compiled_insight({
+        "insight_id": "trusted2",
+        "fact": "semantic_insight kind=structural_constraint tags=constraint contradictions=none theorem_hits=none",
+        "kind": "structural_constraint",
+        "proof_verdict": "not_applicable",
+        "contradictions": [],
+    })
+    session.ingest_compiled_insight({
+        "insight_id": "review2",
+        "fact": "semantic_insight kind=theorem_candidate tags=proof contradictions=none theorem_hits=none",
+        "kind": "theorem_candidate",
+        "proof_verdict": "needs_steward_review",
+        "contradictions": [],
+    })
+    exported = session.get_compiled_training_insights()
+    assert any(item["insight_id"] == "trusted2" for item in exported)
+    assert all(item["insight_id"] != "review2" for item in exported)
 
 
 def test_merlin_memory_store_recovers_from_corrupt_json(tmp_path):

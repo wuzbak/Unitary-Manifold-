@@ -1019,7 +1019,66 @@ def _dataset_split(record_id: str, track: str) -> str:
     return "test"
 
 
-def build_training_dataset_bundle(limit: int | None = None) -> dict[str, Any]:
+def _build_compiled_insight_records(compiled_insights: list[dict[str, Any]] | None = None) -> tuple[list[dict[str, Any]], dict[str, list[dict[str, Any]]]]:
+    records: list[dict[str, Any]] = []
+    benchmark_fixtures: dict[str, list[dict[str, Any]]] = {
+        "stage_b_sovereign_takeover": [],
+        "stage_c_capability_expansion": [],
+    }
+    for item in list(compiled_insights or []):
+        fact = str(item.get("fact", "")).strip()
+        if not fact:
+            continue
+        kind = str(item.get("kind", "operational_heuristic"))
+        split = _dataset_split(str(item.get("insight_id", "")) or fact, "compiled_insights")
+        status = str(item.get("status", ""))
+        proof_verdict = str(item.get("proof_verdict", "not_applicable"))
+        required_gates = ["GOVERNANCE"]
+        if status == "[CONTRADICTION_FLAGGED]":
+            required_gates.append("ARCHITECTURE_LIMIT")
+        if status == "[PROOF_REVIEW_REQUIRED]" or proof_verdict in {"needs_steward_review", "rejected"}:
+            required_gates.append("OPEN_GAP")
+        records.append({
+            "record_id": f"compiled-{item.get('insight_id', '')}",
+            "split": split,
+            "task_family": "compiled_insights",
+            "instruction": f"Retained insight ({kind}): {fact}",
+            "response_target": {
+                "status": status,
+                "proof_verdict": proof_verdict,
+                "contradictions": list(item.get("contradictions") or []),
+            },
+            "target_contract": {
+                "requires_epistemic_tag": True,
+                "requires_contradiction_check": True,
+            },
+            "supervision_mode": "compile_time_ingestion",
+            "required_gates": required_gates,
+            "provenance_sources": ["merlin_compiled_insight_store"],
+            "format_version": "merlin_training_jsonl_v1",
+        })
+        if kind in {"falsification_lead", "structural_constraint"}:
+            benchmark_fixtures["stage_b_sovereign_takeover"].append({
+                "fixture_id": f"stage_b_fixture_{item.get('insight_id', '')}",
+                "source_insight_id": str(item.get("insight_id", "")),
+                "kind": kind,
+                "prompt": fact,
+            })
+        if kind in {"theorem_candidate", "operational_heuristic"}:
+            benchmark_fixtures["stage_c_capability_expansion"].append({
+                "fixture_id": f"stage_c_fixture_{item.get('insight_id', '')}",
+                "source_insight_id": str(item.get("insight_id", "")),
+                "kind": kind,
+                "prompt": fact,
+            })
+    return records, benchmark_fixtures
+
+
+def build_training_dataset_bundle(
+    limit: int | None = None,
+    *,
+    compiled_insights: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     from .merlin_benchmark import get_benchmark_corpus
 
     architecture = get_training_architecture(limit=limit)
@@ -1071,6 +1130,12 @@ def build_training_dataset_bundle(limit: int | None = None) -> dict[str, Any]:
                 }
             )
 
+    compiled_records, compiled_fixtures = _build_compiled_insight_records(compiled_insights)
+    for record in compiled_records:
+        splits[record["split"]].append(record)
+    benchmark_records["stage_b_sovereign_takeover"].extend(compiled_fixtures["stage_b_sovereign_takeover"])
+    benchmark_records["stage_c_capability_expansion"].extend(compiled_fixtures["stage_c_capability_expansion"])
+
     split_counts = {name: len(items) for name, items in splits.items()}
     benchmark_counts = {name: len(items) for name, items in benchmark_records.items()}
     return {
@@ -1085,6 +1150,7 @@ def build_training_dataset_bundle(limit: int | None = None) -> dict[str, Any]:
                 "benchmark_records": benchmark_counts,
                 "total_training_records": sum(split_counts.values()),
                 "total_benchmark_records": sum(benchmark_counts.values()),
+                "compile_time_insight_records": len(compiled_records),
             },
             "schema": {
                 "training_fields": [
@@ -1114,12 +1180,22 @@ def build_training_dataset_bundle(limit: int | None = None) -> dict[str, Any]:
                     "format_version",
                 ],
             },
+            "compile_time_memory": {
+                "source": "MerlinSession.compiled_insights",
+                "record_count": len(compiled_records),
+                "stage_b_fixture_count": len(compiled_fixtures["stage_b_sovereign_takeover"]),
+                "stage_c_fixture_count": len(compiled_fixtures["stage_c_capability_expansion"]),
+            },
         },
     }
 
 
-def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
-    dataset_bundle = build_training_dataset_bundle(limit=limit)
+def get_mlflow_experiment_manifests(
+    limit: int | None = None,
+    *,
+    compiled_insights: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    dataset_bundle = build_training_dataset_bundle(limit=limit, compiled_insights=compiled_insights)
     if dataset_bundle.get("ok") is False:
         return {
             "generated_at": _utcnow(),
@@ -1201,6 +1277,7 @@ def get_mlflow_experiment_manifests(limit: int | None = None) -> dict[str, Any]:
                     "train_split_records": dataset_counts.get("train", 0),
                     "dev_split_records": dataset_counts.get("dev", 0),
                     "test_split_records": dataset_counts.get("test", 0),
+                    "compile_time_insight_records": int(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("compile_time_insight_records", 0)),
                 },
                 "params": {
                     "base_model_policy": "open_weight_primary",
@@ -1475,11 +1552,15 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     }
 
 
-def build_training_artifact_bundle(limit: int | None = None) -> dict[str, Any]:
+def build_training_artifact_bundle(
+    limit: int | None = None,
+    *,
+    compiled_insights: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     from .merlin_benchmark import build_stage_a_artifact_bundle
 
     training_architecture = get_training_architecture(limit=limit)
-    dataset_bundle = build_training_dataset_bundle(limit=limit)
+    dataset_bundle = build_training_dataset_bundle(limit=limit, compiled_insights=compiled_insights)
     if dataset_bundle.get("ok") is False:
         return {
             "ok": False,
@@ -1492,7 +1573,7 @@ def build_training_artifact_bundle(limit: int | None = None) -> dict[str, Any]:
             "generated_at": _utcnow(),
             "training_architecture": training_architecture,
             "training_dataset": dataset_bundle["dataset"],
-            "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit),
+            "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit, compiled_insights=compiled_insights),
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
