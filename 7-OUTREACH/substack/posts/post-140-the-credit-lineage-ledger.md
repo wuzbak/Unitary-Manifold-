@@ -240,9 +240,9 @@ That is why this post includes an in-post appendix and a standalone companion bi
 
 ## Companion Bibliography
 
-A standalone, extended bibliography with structured grouping and expanded external context is provided at:
+A standalone, expanded bibliography with app, open-software, open-science, and provenance coverage is provided at:
 
-`7-OUTREACH/substack/references/post-140-credit-lineage-companion-bibliography.md`
+`7-OUTREACH/substack/posts/post-140-companion-bibliography-credit-lineage-ledger.md`
 
 ---
 
