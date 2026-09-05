@@ -1,9 +1,23 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.1 (2026-09-05)**
+**Current version: v36.2 (2026-09-05)**
 **Regression:** 63,787 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1062
+**Next pillar slot:** 1078
+
+## v36.2 (2026-09-05 — Sprint CF: Pillars 1062–1077)
+
+**What changed:**
+- Track A (Pillars 1062–1067): five Type-B open-lane floors upgraded to Lean4-backed lower/upper-bound theorems (CMB acoustic amplitude lower bound, α_s geometric floor lower bound, Higgs mass architecture upper bound, Jarlskog Layer-2 shadow floor lower bound, 5D-EFT QG irreducibility negative theorem). Lean4 delta +60. Track A aggregator (1067) publishes single certificate.
+- Track B (Pillars 1068–1073): pre-registered, parameter-free 6D T²/Z₃ + F-theory extension attempt with three lane attempts (1068 CW quartic Δλ_geo=6.5e-4 vs target 0.086; 1069 F-theory spectral cover m_H; 1070 6D A_s amplitude mechanism). Free-parameter audit (1071) verifies zero new parameters. Hardgate non-breakage veto (1072) verifies zero of 208 hardgate anchors touched. Verdict aggregator (1073) publishes `EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED` — an honest published failure, not a bug.
+- Track C (Pillars 1074–1076): pre-registered external falsifier sharpness theorems. LiteBIRD β must lie in [0.22°, 0.38°] and avoid (0.29°, 0.31°) (Pillar 1074). DESI DR3 |wₐ| ≤ 1/K_CS ≈ 0.0135, strict-symmetry wₐ=0 (Pillar 1075). Pre-registration ledger (1076) tags both as `SPRINT_CF_v36.2_TRACK_C_PRE_REGISTERED_2026`; post-hoc softening forbidden. Lean4 delta +20.
+- Pillar 1077: Sprint CF regression certificate — sprint_success=True conditioned on meaningful progress + hardgate untouched + parameter free.
+
+**What did not change:**
+- Zero runtime label flips on any of the 208 hardgate pillars.
+- All nine open lanes remain explicit and unchanged.
+
+**Sprint CF totals:** 16 pillars (1062–1077); Lean4 total→4080 (+80); next slot 1078.
 
 ## v36.1 (2026-09-05 — Sprint CE: Pillar 1061)
 
