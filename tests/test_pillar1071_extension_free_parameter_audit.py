@@ -65,3 +65,18 @@ def test_complete_inventory_is_distinct_from_physical_closure(monkeypatch) -> No
     assert audit["parameter_free_extension"] is True
     assert audit["total_new_free_parameters"] == 0
     assert all(row["closure_earned"] is False for row in audit["per_pillar"])
+
+
+def test_unverified_parameter_declarations_stay_out_of_established_aggregate(monkeypatch) -> None:
+    unknown = module.cw_quartic_extension_report()
+    unknown["free_parameters_introduced"] = ["unverified_modulus"]
+    known = module.ftheory_spectral_cover_report()
+    known.update(free_parameters_introduced=["verified_modulus"], free_parameter_count=1,
+                 parameter_inventory_complete=True, parameter_inventory_evidence=["inventory"])
+    monkeypatch.setattr(module, "cw_quartic_extension_report", lambda: unknown)
+    monkeypatch.setattr(module, "ftheory_spectral_cover_report", lambda: known)
+    audit = module.extension_free_parameter_audit()
+    assert audit["all_new_free_parameters"] == ["verified_modulus"]
+    assert audit["per_pillar"][0]["free_parameters_introduced"] == ["unverified_modulus"]
+    assert audit["per_pillar"][0]["free_parameter_count"] is None
+    assert audit["total_new_free_parameters"] is None

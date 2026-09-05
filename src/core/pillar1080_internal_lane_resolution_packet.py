@@ -169,7 +169,7 @@ def critique_internal_lane_resolution_packet() -> Dict[str, Any]:
         },
         "valid": valid,
         "packet_valid": valid,
-        "scientific_progress": tightened_count > 0,
+        "scientific_progress": valid and tightened_count > 0,
     }
 
 

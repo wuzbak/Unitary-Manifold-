@@ -88,3 +88,24 @@ def test_impact_review_is_not_reported_as_proved_breakage(monkeypatch) -> None:
     result = module.track_b_verdict_report()
     assert result["verdict"] == "EXTENSION_IMPACT_REVIEW_REQUIRED"
     assert result["closure_earned"] is False
+
+
+@pytest.mark.parametrize("missing", [
+    None, "parameter_inventory_complete", "parameter_inventory_evidence",
+    "hardgate_non_breakage_verified", "hardgate_comparison_evidence",
+])
+def test_progress_requires_complete_evidence_on_the_same_attempt(monkeypatch, missing) -> None:
+    report = module.cw_quartic_extension_report()
+    report.update(
+        scientific_progress=True, derivation_established=True, derivation_evidence=["calculation"],
+        parameter_inventory_complete=True, parameter_inventory_evidence=["inventory"],
+        free_parameter_count=0, hardgate_non_breakage_verified=True,
+        hardgate_breakage_detected=False, hardgate_comparison_evidence=["comparison"],
+    )
+    if missing is not None:
+        report.pop(missing)
+    monkeypatch.setattr(module, "cw_quartic_extension_report", lambda: report)
+    result = module.track_b_verdict_report()
+    assert result["per_lane"][0]["scientific_progress"] is (missing is None)
+    assert result["scientific_progress"] is (missing is None)
+    assert result["closure_earned"] is False

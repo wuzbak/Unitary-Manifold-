@@ -27,6 +27,7 @@ from src.core.pillar1069_ftheory_spectral_cover_mh import (
 )
 from src.core.pillar1070_6d_as_amplitude_mechanism import as_mechanism_report
 from src.core.pillar1071_extension_free_parameter_audit import (
+    _inventory_established,
     extension_free_parameter_audit,
 )
 from src.core.pillar1072_hardgate_non_breakage_veto import (
@@ -63,6 +64,18 @@ def _derivation_established(report: Dict[str, Any]) -> bool:
     )
 
 
+def _attempt_evidence_complete(report: Dict[str, Any]) -> bool:
+    evidence = report.get("hardgate_comparison_evidence")
+    return bool(
+        _derivation_established(report)
+        and _inventory_established(report)
+        and report.get("hardgate_non_breakage_verified") is True
+        and report.get("hardgate_breakage_detected") is False
+        and report.get("hardgate_pillars_touched") == []
+        and isinstance(evidence, list) and evidence and all(evidence)
+    )
+
+
 def track_b_verdict_report() -> Dict[str, Any]:
     attempts = [
         cw_quartic_extension_report(),
@@ -79,7 +92,8 @@ def track_b_verdict_report() -> Dict[str, Any]:
         closes = bool(
             r.get("outcome") == "EXTENSION_CLOSES_LANE"
             and r.get("closure_earned") is True
-            and _derivation_established(r)
+            and _attempt_evidence_complete(r)
+            and r.get("free_parameter_count") == 0
         )
         if not closes:
             all_closed = False
@@ -92,7 +106,7 @@ def track_b_verdict_report() -> Dict[str, Any]:
                 "derivation_established": _derivation_established(r),
                 "scientific_progress": bool(
                     r.get("scientific_progress") is True
-                    and _derivation_established(r)
+                    and _attempt_evidence_complete(r)
                 ),
             }
         )
@@ -128,10 +142,7 @@ def track_b_verdict_report() -> Dict[str, Any]:
     derivations_established = all(
         _derivation_established(r) for r in attempts
     )
-    scientific_progress = any(
-        r.get("scientific_progress") is True and _derivation_established(r)
-        for r in attempts
-    )
+    scientific_progress = any(row["scientific_progress"] for row in per_lane)
 
     if hardgate_veto.get("hardgate_breakage_detected") is True:
         verdict = "EXTENSION_BREAKS_HARDGATE_RETRACTED"

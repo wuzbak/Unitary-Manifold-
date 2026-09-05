@@ -32,6 +32,22 @@ SPRINT_NAME: str = "CF"
 NEXT_PILLAR_SLOT: int = 1072
 
 
+def _inventory_established(report: Dict[str, Any]) -> bool:
+    params = report.get("free_parameters_introduced")
+    count = report.get("free_parameter_count")
+    evidence = report.get("parameter_inventory_evidence")
+    return bool(
+        report.get("valid") is True
+        and report.get("parameter_inventory_complete") is True
+        and isinstance(evidence, list) and evidence and all(evidence)
+        and isinstance(params, list)
+        and isinstance(count, int) and not isinstance(count, bool)
+        and count == len(params)
+        and all(isinstance(param, str) and param.strip() for param in params)
+        and len(set(params)) == len(params)
+    )
+
+
 def extension_free_parameter_audit() -> Dict[str, Any]:
     reports = {
         "pillar_1068_cw_quartic": cw_quartic_extension_report(),
@@ -45,17 +61,7 @@ def extension_free_parameter_audit() -> Dict[str, Any]:
     for r in reports.values():
         params = list(r["free_parameters_introduced"])
         count = r.get("free_parameter_count")
-        established = bool(
-            r.get("valid") is True
-            and r.get("parameter_inventory_complete") is True
-            and isinstance(r.get("parameter_inventory_evidence"), list)
-            and r["parameter_inventory_evidence"]
-            and all(r["parameter_inventory_evidence"])
-            and isinstance(count, int) and not isinstance(count, bool)
-            and count == len(params)
-            and all(isinstance(param, str) and param.strip() for param in params)
-            and len(set(params)) == len(params)
-        )
+        established = _inventory_established(r)
         inventory_complete = inventory_complete and established
         per_pillar.append(
             {
@@ -78,7 +84,8 @@ def extension_free_parameter_audit() -> Dict[str, Any]:
             }
         )
         total_new_params += count if established else 0
-        all_params.extend(params)
+        if established:
+            all_params.extend(params)
     parameter_free = total_new_params == 0 if inventory_complete else None
     return {
         "pillar": PILLAR_NUMBER,

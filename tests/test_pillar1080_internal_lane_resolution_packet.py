@@ -87,3 +87,16 @@ def test_cmb_terminal_route_labels_are_not_irreducibility_evidence(monkeypatch) 
     assert row["current_status"] == "CMB_AMPLITUDE_DERIVATION_OPEN"
     assert row["tightened"] is False
     assert row["runtime_flip_earned"] is False
+
+
+@pytest.mark.parametrize("invalid", [
+    {"deterministic_verdict": "UNKNOWN"}, {"runtime_flip_earned": True},
+])
+def test_invalid_packet_cannot_claim_progress_even_with_tightening(monkeypatch, invalid) -> None:
+    row = p1080._cmb_lane_row()
+    row.update(tightened=True, **invalid)
+    monkeypatch.setattr(p1080, "_cmb_lane_row", lambda: row)
+    report = p1080.critique_internal_lane_resolution_packet()
+    assert report["counts"]["tightened"] == 1
+    assert report["valid"] is False
+    assert report["scientific_progress"] is False
