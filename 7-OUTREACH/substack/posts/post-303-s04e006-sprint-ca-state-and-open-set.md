@@ -29,7 +29,7 @@ Sprint CA (Pillars 1049–1050) is where that discipline was formalized as a clo
 
 ## Falsification implications
 
-- Sprint CA did not soften any external falsifier. DESI and LiteBIRD still carry decisive external pressure.
+- Sprint CA did not soften any external falsifier. DESI, CMB-S4, and LiteBIRD still carry decisive external pressure.
 - Internally, CA hardened a second falsifier: if the repository ever permits claim promotion without executable evidence, this sprint’s rigor doctrine fails on its own terms.
 - The value of CA is therefore procedural integrity: every future closure claim now has a stricter evidentiary trail requirement.
 
