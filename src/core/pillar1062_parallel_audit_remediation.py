@@ -178,18 +178,26 @@ def live_status_alignment_check() -> dict[str, Any]:
     repo_json = json.loads(_LIVE_STATUS_JSON.read_text(encoding="utf-8"))
     normalized_built = _normalize_live_status(built)
     normalized_repo = _normalize_live_status(repo_json)
-    predictions = {row["id"]: row for row in built["predictions"]}
-    open_gate_names = {row["gate"] for row in built["open_gates"]}
+    repo_predictions = {row["id"]: row for row in repo_json["predictions"]}
+    built_predictions = {row["id"]: row for row in built["predictions"]}
+    repo_open_gate_names = {row["gate"] for row in repo_json["open_gates"]}
+    built_open_gate_names = {row["gate"] for row in built["open_gates"]}
     return {
         "json_matches_generator": normalized_repo == normalized_built,
-        "exp2_status": predictions["EXP-2"]["status"],
-        "exp4_status": predictions["EXP-4"]["status"],
-        "required_open_gates_present": sorted(_REQUIRED_OPEN_GATES - open_gate_names) == [],
+        "repo_exp2_status": repo_predictions["EXP-2"]["status"],
+        "repo_exp4_status": repo_predictions["EXP-4"]["status"],
+        "built_exp2_status": built_predictions["EXP-2"]["status"],
+        "built_exp4_status": built_predictions["EXP-4"]["status"],
+        "required_open_gates_present": sorted(_REQUIRED_OPEN_GATES - repo_open_gate_names) == [],
+        "generator_required_open_gates_present": sorted(_REQUIRED_OPEN_GATES - built_open_gate_names) == [],
         "status": "PASS" if (
             normalized_repo == normalized_built
-            and predictions["EXP-2"]["status"] == "HIGH_TENSION"
-            and predictions["EXP-4"]["status"] == "HIGH_TENSION"
-            and _REQUIRED_OPEN_GATES.issubset(open_gate_names)
+            and repo_predictions["EXP-2"]["status"] == "HIGH_TENSION"
+            and repo_predictions["EXP-4"]["status"] == "HIGH_TENSION"
+            and built_predictions["EXP-2"]["status"] == "HIGH_TENSION"
+            and built_predictions["EXP-4"]["status"] == "HIGH_TENSION"
+            and _REQUIRED_OPEN_GATES.issubset(repo_open_gate_names)
+            and _REQUIRED_OPEN_GATES.issubset(built_open_gate_names)
         ) else "FAIL",
     }
 

@@ -6,6 +6,7 @@ import pytest
 from src.core.pillar833_radion_two_loop_stability import (
     PILLAR, GATE, LEAN4_TOTAL, LEAN4_COUNT,
     one_loop_cw_potential, two_loop_cw_correction, radion_mass_two_loop,
+    potential_curvature_proxy,
     phi_star_two_loop, two_loop_stability_check, radion_two_loop_summary,
 )
 
@@ -66,6 +67,10 @@ class TestRadionMassTwoLoop:
     def test_correction_small(self):
         r = radion_mass_two_loop()
         assert r["relative_correction"] < 0.05
+
+    def test_curvature_proxy_rejects_non_positive_step(self):
+        with pytest.raises(ValueError, match="step must be positive"):
+            potential_curvature_proxy(step=0.0)
 
 
 class TestPhiStarTwoLoop:

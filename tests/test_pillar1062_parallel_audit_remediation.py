@@ -73,9 +73,12 @@ def test_lean_proxy_disclosure_check() -> None:
 def test_live_status_alignment_check() -> None:
     row = live_status_alignment_check()
     assert row["json_matches_generator"] is True
-    assert row["exp2_status"] == "HIGH_TENSION"
-    assert row["exp4_status"] == "HIGH_TENSION"
+    assert row["repo_exp2_status"] == "HIGH_TENSION"
+    assert row["repo_exp4_status"] == "HIGH_TENSION"
+    assert row["built_exp2_status"] == "HIGH_TENSION"
+    assert row["built_exp4_status"] == "HIGH_TENSION"
     assert row["required_open_gates_present"] is True
+    assert row["generator_required_open_gates_present"] is True
     assert row["status"] == "PASS"
 
 
@@ -114,7 +117,8 @@ def test_live_status_alignment_check_detects_missing_required_gate(monkeypatch) 
 
     monkeypatch.setattr(audit_module, "_load_module", lambda *_args, **_kwargs: FakeModule)
     row = audit_module.live_status_alignment_check()
-    assert row["required_open_gates_present"] is False
+    assert row["required_open_gates_present"] is True
+    assert row["generator_required_open_gates_present"] is False
     assert row["status"] == "FAIL"
 
 

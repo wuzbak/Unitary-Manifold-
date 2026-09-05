@@ -217,6 +217,8 @@ def potential_curvature_proxy(
     reference point.  It is not, by itself, a proof that φ is the exact
     stationary point of the full potential.
     """
+    if step <= 0.0:
+        raise ValueError("step must be positive")
     center = total_cw_potential(phi=phi, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
     plus = total_cw_potential(phi=phi + step, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
     minus = total_cw_potential(phi=phi - step, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
