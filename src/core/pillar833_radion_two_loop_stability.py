@@ -190,10 +190,11 @@ def total_cw_potential(
     N_modes: int = N_MODES_CW,
     F_2: float = 1.0,
 ) -> dict:
-    """Return V_total = V^(1) + δV^(2) together with a stationarity proxy."""
+    """Return V_total together with the audited total-gradient proxy."""
     v1 = one_loop_cw_potential(phi=phi, R_KK=R_KK, N_modes=N_modes)
     v2 = two_loop_cw_correction(phi=phi, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
-    gradient_total = v1["dV1_dphi"]
+    dV2_dphi = -4.0 * v2["delta_V2"] / phi
+    gradient_total = v1["dV1_dphi"] + dV2_dphi
     return {
         "phi": phi,
         "V_total": v1["V1_loop"] + v2["delta_V2"],

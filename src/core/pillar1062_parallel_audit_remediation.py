@@ -22,6 +22,7 @@ from dataclasses import dataclass
 from importlib.util import module_from_spec, spec_from_file_location
 import json
 from pathlib import Path
+import sys
 from typing import Any
 
 PILLAR_NUMBER = 1062
@@ -80,7 +81,12 @@ def _load_module(path: Path, name: str) -> Any:
     if spec is None or spec.loader is None:
         raise ImportError(f"Could not load module spec for {path}")
     module = module_from_spec(spec)
-    spec.loader.exec_module(module)
+    sys.modules[name] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(name, None)
+        raise
     return module
 
 
@@ -172,6 +178,13 @@ def public_status_sync_check() -> dict[str, Any]:
     public = json.loads(_PUBLIC_STATUS.read_text(encoding="utf-8"))
     portal = json.loads(_PORTAL_STATUS.read_text(encoding="utf-8"))
     live_status = json.loads(_LIVE_STATUS_JSON.read_text(encoding="utf-8"))
+    public_open_tensions = {
+        row["name"]: row["status"] for row in public.get("open_tensions", [])
+    }
+    portal_open_tensions = {
+        row["name"]: row["status"] for row in portal.get("open_tensions", [])
+    }
+    portal_predictions = portal.get("predictions", {})
     aligned = (
         public["version"] == portal["version"]
         and public["version"] == VERSION
@@ -182,11 +195,23 @@ def public_status_sync_check() -> dict[str, Any]:
         and public["tests_skipped"] == portal["tests_skipped"] == live_status["tests"]["skipped"]
         and public["tests_deselected"] == portal["tests_deselected"] == live_status["tests"]["deselected"]
         and public["tests_failed"] == portal["tests_failed"] == live_status["tests"]["failed"]
+        and public_open_tensions.get("DESI dark-energy lane") == "HIGH_TENSION"
+        and public_open_tensions.get("Tensor-to-scalar ratio r") == "HIGH_TENSION"
+        and portal_open_tensions.get("DESI dark-energy lane") == "HIGH_TENSION"
+        and portal_open_tensions.get("Tensor-to-scalar ratio r") == "HIGH_TENSION"
+        and portal_predictions.get("r", {}).get("status") == "HIGH_TENSION"
+        and portal_predictions.get("r", {}).get("bound") == 0.036
+        and portal_predictions.get("w_a", {}).get("desi_status") == "HIGH_TENSION"
     )
     return {
         "public_version": public["version"],
         "portal_version": portal["version"],
         "live_status_version": f"v{live_status['meta']['version']}",
+        "public_open_tensions": public_open_tensions,
+        "portal_open_tensions": portal_open_tensions,
+        "portal_r_status": portal_predictions.get("r", {}).get("status"),
+        "portal_r_bound": portal_predictions.get("r", {}).get("bound"),
+        "portal_wa_status": portal_predictions.get("w_a", {}).get("desi_status"),
         "aligned": aligned,
         "status": "PASS" if aligned else "FAIL",
     }
