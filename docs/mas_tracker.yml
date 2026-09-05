@@ -8,7 +8,7 @@ v35_9_sprint_cc:
   date: "2026-09-05"
   pillars: 1058-1059
   new_pillars: 2
-  new_tests: 8
+  new_tests: 7
   lean4_start: 4000
   lean4_end: 4000
   lean4_delta: 0
@@ -29,7 +29,7 @@ v35_9_sprint_cc:
     - DESI_DR3_MONITORING
     - LITEBIRD_BIREFRINGENCE
     - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
-  regression: "63,764 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)"
+  regression: "63,771 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)"
   focused_regression: "Sprint CC targeted tests passed · 0 failed"
   next_pillar_slot: 1060
 

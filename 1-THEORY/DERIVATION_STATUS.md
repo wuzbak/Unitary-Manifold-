@@ -2,8 +2,8 @@
 
 **The Unitary Manifold v35.9 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-05 (v35.9 — Sprint CC: Pillars 1058–1059; deterministic flavor execution packet + lockstep status coherence certificate; Lean4 4000→4000; 63,764 passed · 23 skipped · 12 deselected · 0 failed; next slot 1060.)*
-*Latest verified full regression: 63,764 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-05).*
+*Last updated: 2026-09-05 (v35.9 — Sprint CC: Pillars 1058–1059; deterministic flavor execution packet + lockstep status coherence certificate; Lean4 4000→4000; 63,771 passed · 23 skipped · 12 deselected · 0 failed; next slot 1060.)*
+*Latest verified full regression: 63,771 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-05).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
