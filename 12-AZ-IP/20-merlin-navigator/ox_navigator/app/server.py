@@ -105,6 +105,19 @@ def _parse_int_query_param(params: dict[str, list[str]], name: str, default: int
         return None, f"Query parameter '{name}' must be an integer."
 
 
+def _parse_positive_int_query_param(
+    params: dict[str, list[str]],
+    name: str,
+    default: int,
+) -> tuple[int | None, str | None]:
+    value, error = _parse_int_query_param(params, name, default)
+    if error:
+        return None, error
+    if value is None or value < 1:
+        return None, f"Query parameter '{name}' must be >= 1."
+    return value, None
+
+
 def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
     if not tool_payload.get("ok"):
         return 500, {"ok": False, "error": tool_payload.get("error", "Merlin tool call failed.")}
@@ -430,27 +443,27 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if not query:
                     self._json({'ok': False, 'error': "Query parameter 'query' is required."}, status=400)
                     return
-                max_hops, error = _parse_int_query_param(params, 'max_hops', 3)
+                max_hops, error = _parse_positive_int_query_param(params, 'max_hops', 3)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                self._json({'ok': True, 'reasoning_chain': get_reasoning_chain(query, max_hops=max_hops or 3)})
+                self._json({'ok': True, 'reasoning_chain': get_reasoning_chain(query, max_hops=max_hops)})
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/counterexample-digest':
-                limit, error = _parse_int_query_param(params, 'limit', 10)
+                limit, error = _parse_positive_int_query_param(params, 'limit', 10)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                self._json({'ok': True, 'counterexample_digest': build_counterexample_digest(session=merlin_session, limit=limit or 10)})
+                self._json({'ok': True, 'counterexample_digest': build_counterexample_digest(session=merlin_session, limit=limit)})
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/energy-ledger':
-                limit, error = _parse_int_query_param(params, 'limit', 10)
+                limit, error = _parse_positive_int_query_param(params, 'limit', 10)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                self._json({'ok': True, 'energy_ledger': build_energy_ledger(merlin_session.telemetry, limit=limit or 10)})
+                self._json({'ok': True, 'energy_ledger': build_energy_ledger(merlin_session.telemetry, limit=limit)})
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/runtime':
@@ -810,6 +823,9 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         budget = int(payload.get('budget', 3))
                     except (TypeError, ValueError):
                         self._json({'ok': False, 'error': 'budget must be an integer'}, status=400)
+                        return
+                    if budget < 1:
+                        self._json({'ok': False, 'error': 'budget must be >= 1'}, status=400)
                         return
                     result = run_research_cycle(
                         question=question,

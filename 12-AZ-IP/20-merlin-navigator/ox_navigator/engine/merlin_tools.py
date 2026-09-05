@@ -419,7 +419,7 @@ def _tool_manifest() -> dict[str, Any]:
                 "type": "object",
                 "properties": {
                     "query": {"type": "string"},
-                    "max_hops": {"type": "integer"},
+                    "max_hops": {"type": "integer", "minimum": 1},
                 },
                 "required": ["query"],
                 "additionalProperties": False,
@@ -430,7 +430,7 @@ def _tool_manifest() -> dict[str, Any]:
                 "type": "object",
                 "properties": {
                     "question": {"type": "string"},
-                    "budget": {"type": "integer"},
+                    "budget": {"type": "integer", "minimum": 1},
                 },
                 "required": ["question"],
                 "additionalProperties": False,
@@ -441,7 +441,7 @@ def _tool_manifest() -> dict[str, Any]:
             "capability_class": "state_read",
             "args_schema": {
                 "type": "object",
-                "properties": {"limit": {"type": "integer"}},
+                "properties": {"limit": {"type": "integer", "minimum": 1}},
                 "additionalProperties": False,
             },
         },
@@ -449,7 +449,7 @@ def _tool_manifest() -> dict[str, Any]:
             "capability_class": "state_read",
             "args_schema": {
                 "type": "object",
-                "properties": {"limit": {"type": "integer"}},
+                "properties": {"limit": {"type": "integer", "minimum": 1}},
                 "additionalProperties": False,
             },
         },
@@ -543,6 +543,10 @@ def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple
             valid = _matches(str(expected), filtered_args[key]) if expected else True
         if not valid:
             return False, f"Invalid type for '{key}', expected {expected}"
+        minimum = spec.get("minimum")
+        if minimum is not None and isinstance(filtered_args[key], (int, float)) and not isinstance(filtered_args[key], bool):
+            if filtered_args[key] < minimum:
+                return False, f"Invalid value for '{key}', must be >= {minimum}"
         if "enum" in spec and filtered_args[key] not in list(spec.get("enum") or []):
             return False, f"Invalid value for '{key}', expected one of {list(spec.get('enum') or [])}"
     return True, ""

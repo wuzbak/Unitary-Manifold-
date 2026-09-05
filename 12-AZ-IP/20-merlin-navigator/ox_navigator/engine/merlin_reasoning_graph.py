@@ -126,7 +126,7 @@ def get_reasoning_chain(query: str, *, max_hops: int = 3) -> dict[str, Any]:
         chain.append(node)
 
     edge_average = (sum(item["edge_weight"] for item in edges) / len(edges)) if edges else 0.0
-    coverage = min(len(chain) / max(hop_cap, 1), 1.0)
+    coverage = min(len(ordered_ids) / max(hop_cap, 1), 1.0)
     kb_match = context.get("kb_match")
     if kb_match is None:
         kb_match = context.get("match")

@@ -595,6 +595,12 @@ def test_route_tool_keystone_surfaces():
     assert energy['ok'] is True
     assert energy['result']['data']['ok'] is True
 
+    bad_reasoning = route_tool('getMerlinReasoningChain', {'query': 'birefringence', 'max_hops': 0})
+    assert bad_reasoning['ok'] is False
+
+    bad_budget = route_tool('runMerlinResearchCycle', {'question': 'Explain birefringence.', 'budget': 0}, session=session)
+    assert bad_budget['ok'] is False
+
 
 def test_route_tool_entity_state_rejects_unexpected_args():
     result = route_tool('entity.MerlinSession.state', {'unexpected': True})
@@ -1055,13 +1061,22 @@ def test_server_merlin_endpoints():
             bad_reasoning_chain = client.get('/api/merlin/reasoning-chain')
             assert bad_reasoning_chain.status_code == 400
 
+            zero_reasoning_chain = client.get('/api/merlin/reasoning-chain?query=birefringence&max_hops=0')
+            assert zero_reasoning_chain.status_code == 400
+
             counterexample_digest = client.get('/api/merlin/counterexample-digest?limit=2')
             assert counterexample_digest.status_code == 200
             assert counterexample_digest.json()['ok'] is True
 
+            zero_counterexample_digest = client.get('/api/merlin/counterexample-digest?limit=0')
+            assert zero_counterexample_digest.status_code == 400
+
             energy_ledger = client.get('/api/merlin/energy-ledger?limit=2')
             assert energy_ledger.status_code == 200
             assert energy_ledger.json()['ok'] is True
+
+            negative_energy_ledger = client.get('/api/merlin/energy-ledger?limit=-1')
+            assert negative_energy_ledger.status_code == 400
 
             research_cycle = client.post('/api/merlin/research-cycle', json={'question': 'Explain birefringence.', 'budget': 2})
             assert research_cycle.status_code == 200
@@ -1079,6 +1094,10 @@ def test_server_merlin_endpoints():
             bad_research_budget = client.post('/api/merlin/research-cycle', json={'question': 'Explain birefringence.', 'budget': 'x'})
             assert bad_research_budget.status_code == 400
             assert bad_research_budget.json()['ok'] is False
+
+            zero_research_budget = client.post('/api/merlin/research-cycle', json={'question': 'Explain birefringence.', 'budget': 0})
+            assert zero_research_budget.status_code == 400
+            assert zero_research_budget.json()['ok'] is False
 
             sync = client.get('/api/merlin/sync-checks')
             assert sync.status_code == 200
