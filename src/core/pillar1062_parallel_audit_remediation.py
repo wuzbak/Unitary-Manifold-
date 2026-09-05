@@ -48,7 +48,7 @@ _LEAN_DISCLOSURE_TARGETS = {
     "BirefringenceACTDR6.lean": "These are arithmetic checks on millidegree proxy integers.",
     "RadionTwoLoopStability.lean": "They do not by themselves construct the full two-loop field theory",
     "SprintCAFormalTraceability.lean": "proof-structure scaffolding only",
-    "SprintBDITheoryBridge.lean": "status markers (`True := trivial`)",
+    "SprintBDITheoryBridge.lean": "markers (`True := trivial`)",
 }
 
 _REQUIRED_OPEN_GATES = {
