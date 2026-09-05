@@ -51,8 +51,10 @@ def su3_functional_bridge_alignment() -> Dict[str, Any]:
     lean4_path = _ROOT / LEAN4_FILE
     lean4_text = lean4_path.read_text(encoding="utf-8") if lean4_path.exists() else ""
     theorem_count = _count_kernels(lean4_text)
-    before = _open_substeps_before()
-    after = _open_substeps_after()
+    before = list(dict.fromkeys(
+        prior["residual_map"]["open_steps_after"] + _open_substeps_before()
+    ))
+    after = list(before)
     remaining_burdens = [HIGH_LEVEL_REMAINING_BURDEN]
     semantic_markers_present = all(marker in lean4_text for marker in SEMANTIC_MARKERS)
     valid = bool(
@@ -60,7 +62,6 @@ def su3_functional_bridge_alignment() -> Dict[str, Any]:
         and lean4_path.exists()
         and theorem_count == LEAN4_THEOREM_COUNT
         and semantic_markers_present
-        and len(after) < len(before)
         and HIGH_LEVEL_REMAINING_BURDEN in prior["residual_map"]["open_steps_after"]
         and HIGH_LEVEL_REMAINING_BURDEN in remaining_burdens
     )
@@ -69,6 +70,9 @@ def su3_functional_bridge_alignment() -> Dict[str, Any]:
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
         "valid": valid,
+        "packet_valid": valid,
+        "scientific_progress": False,
+        "physical_theorem_proved": False,
         "dependency": prior,
         "lean4_kernel": {
             "file": LEAN4_FILE,
@@ -76,6 +80,8 @@ def su3_functional_bridge_alignment() -> Dict[str, Any]:
             "theorem_count": theorem_count,
             "expected_theorem_count": LEAN4_THEOREM_COUNT,
             "semantic_markers_present": semantic_markers_present,
+            "evidence_kind": "SOURCE_TEXT_INVENTORY_ONLY",
+            "compilation_verified": False,
         },
         "high_level_remaining_burden": HIGH_LEVEL_REMAINING_BURDEN,
         "remaining_burdens": remaining_burdens,
@@ -84,13 +90,15 @@ def su3_functional_bridge_alignment() -> Dict[str, Any]:
             "after": after,
             "before_count": len(before),
             "after_count": len(after),
+            "historical_proposed_after": _open_substeps_after(),
         },
         "explicit_non_claims": [
             "Full Hilbert-space closure remains open",
             "No Kawamura-independence completion claim is made",
         ],
         "interpretation": (
-            "Sprint BY does not claim final closure; it narrows the surviving functional-analysis burden by proving more of the bridge skeleton in Lean4-backed form."
+            "No functional-analysis or internal-lift burden is discharged by source "
+            "text inventory. All inherited and targeted open substeps are retained."
         ),
     }
 

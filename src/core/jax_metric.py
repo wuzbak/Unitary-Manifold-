@@ -46,8 +46,9 @@ Notes
 -----
 * JAX uses 32-bit floats by default.  Call ``jax.config.update('jax_enable_x64', True)``
   before importing this module if 64-bit precision is required (matches NumPy behaviour).
-* Periodic (roll-based) boundary conditions are used for finite differences, matching
-  the ``np.roll`` calls in ``metric.py``.
+* Derivatives use central interiors and second-order one-sided endpoints,
+  matching ``np.gradient(..., edge_order=2)`` in ``metric.py``.
+* The sampled coordinate is spatial x (index 1); index 0 is time.
 * The condition-number guard present in the NumPy ``christoffel`` is reproduced via
   ``jnp.linalg.cond``; a ``ValueError`` is raised for ill-conditioned metrics.
 """
@@ -296,13 +297,10 @@ def _jax_riemann_from_christoffel(Gamma, dx: float):
 
     Riem = quad_plus - quad_minus                    # (N, D, D, D, D)
 
-    # Derivative terms — only mu=0 or nu=0 contributes on 1D grid:
-    # +∂_μ Γ^ρ_{νσ}  at μ=0: Riem[n,rho,sigma,0,nu] += dGamma[n,rho,nu,sigma]
-    #   → Riem[:,:,:,0,:] += dGamma.transpose(0,1,3,2)   [swap nu↔sigma]
+    # Derivative terms — only mu=1 or nu=1 contributes on the spatial grid.
     Riem = Riem.at[:, :, :, 1, :].add(dGamma.transpose(0, 1, 3, 2))
 
-    # −∂_ν Γ^ρ_{μσ}  at ν=0: Riem[n,rho,sigma,mu,0] -= dGamma[n,rho,mu,sigma]
-    #   → Riem[:,:,:,:,0] -= dGamma.transpose(0,1,3,2)
+    # −∂_ν Γ^ρ_{μσ} at ν=1.
     Riem = Riem.at[:, :, :, :, 1].add(-dGamma.transpose(0, 1, 3, 2))
 
     return Riem

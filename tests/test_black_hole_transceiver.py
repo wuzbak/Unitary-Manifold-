@@ -164,8 +164,8 @@ class TestGeometricEncodingDensity:
         phi = np.ones(N)
         B_gentle = np.zeros((N, 4))
         B_steep  = np.zeros((N, 4))
-        B_gentle[:, 1] = 0.1 * x
-        B_steep[:, 1]  = 1.0 * x
+        B_gentle[:, 0] = 0.1 * x
+        B_steep[:, 0]  = 1.0 * x
         rho_gentle = geometric_encoding_density(B_gentle, phi, dx)
         rho_steep  = geometric_encoding_density(B_steep,  phi, dx)
         assert np.mean(rho_steep) > np.mean(rho_gentle)
@@ -401,6 +401,9 @@ class TestPhysicalConsistency:
     def test_encoding_density_localised_at_horizon(self):
         """ρ_enc is largest near the B-spike (event horizon location)."""
         state = _state_with_horizon(N=64, dx=0.1, x_h=3.2)
+        # A longitudinal B_x(x) is pure gauge; use a temporal potential gradient.
+        state.B[:, 0] = state.B[:, 1]
+        state.B[:, 1] = 0
         rho = geometric_encoding_density(state.B, state.phi, state.dx)
         x_h_idx = int(3.2 / 0.1)
         # Maximum encoding should be within a few grid points of the horizon

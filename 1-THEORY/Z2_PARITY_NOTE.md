@@ -1,101 +1,53 @@
-# Z₂ Parity and Field Identification in the KK Reduction
+# Z₂ Parity and the Missing Photon Zero Mode
 
-**Referee question addressed:**
-> "If B_μ is Z₂-odd, it has no massless zero mode. The zero mode of an
-> electromagnetic field is Z₂-even, not Z₂-odd."
+**Status: OPEN — the referee's photon objection is valid.**
 
-This note provides the resolution. The short answer: **B_μ and the
-electromagnetic photon are physically distinct fields with distinct roles.**
+For the canonical circle ansatz
 
----
+    ds² = g_μν dx^μ dx^ν + φ²(dy + λB_μ dx^μ)²,
 
-## Field assignments under y → −y
+the mixed component is **G_{μ5} = λφ²B_μ** and the connection is
+**A_μ = G_{μ5}/G_{55} = λB_μ**, not λφB_μ.
 
-| Field       | Z₂ parity | Zero mode | Physical role                   |
-|-------------|-----------|-----------|----------------------------------|
-| B_μ         | ODD       | None      | Irreversibility 1-form           |
-| φ           | EVEN      | Yes       | KK radion / inflaton             |
-| A_μ = λφB_μ | ODD       | Boundary  | 4D electromagnetic field         |
-| g_μν        | EVEN      | Yes       | 4D spacetime metric              |
-| G_{μ5}      | ODD       | None      | Off-diagonal KK block            |
-| G_{55} = φ² | EVEN      | Yes       | 5D compact metric element        |
+## Reflection and fixed planes
 
----
+Under the orbifold reflection y → −y, an invariant tensor metric has:
 
-## Detailed argument
+| Field | Parity | Constant zero mode |
+|-------|--------|--------------------|
+| g_μν | even | allowed |
+| G_{55} = φ² | even | allowed |
+| positive radius φ | even | allowed; stabilisation may give it mass |
+| G_{μ5} | odd | absent |
+| B_μ and A_μ = λB_μ | odd | absent |
 
-### (a) B_μ is Z₂-odd
+For a smooth periodic odd field, B_μ(0) = −B_μ(0) = 0 and likewise
+B_μ(πR) = 0. Multiplication by any regular even radion factor preserves odd
+parity. Its fixed-plane restriction is therefore zero, **not a boundary photon**.
+The former argument that a boundary projection rescues the photon was incorrect.
 
-Under the orbifold involution y → −y, the fifth component of a covariant
-vector transforms as B_5 → −B_5. The off-diagonal block of the 5D KK metric
+On a circle, the connection produces a Lorentz-type geodesic force. That
+conditional geometric result does not establish the observed electromagnetic
+sector, and cannot restore the zero mode removed by the orbifold. In particular,
+a y-independent odd metric vector must vanish.
 
-    G_{μ5} = λφ B_μ
+## What would be needed
 
-therefore inherits Z₂-odd parity from B_μ.
+An independently specified even bulk gauge field or boundary gauge sector,
+or a different compactification, could change the spectrum. Such an extension
+requires an action, boundary conditions, and a demonstrated massless mode;
+none is derived here. Likewise, a spacetime reflection does not select an
+internal SU(5) gauge bundle or its reflection lift.
 
-### (b) B_μ's zero mode vanishes at the fixed planes — intentionally
+## Executable checks
 
-B_μ is the **irreversibility 1-form**: it sources the arrow of time via
-
-    H_μν = ∂_μ B_ν − ∂_ν B_μ
-
-Its zero mode vanishing at the orbifold fixed planes (y = 0, πR) encodes the
-boundary condition that the irreversibility field carries net Chern-Simons flux
-through the bulk, rather than being a boundary-localised photon. This is a
-feature, not a defect.
-
-### (c) The electromagnetic photon is the boundary projection of A_μ = λφB_μ
-
-Following the standard KK reduction (Kaluza 1921, Klein 1926), the 4D gauge
-field is identified as
-
-    A_μ = λφ B_μ
-
-This is a composite of the Z₂-odd field B_μ and the Z₂-even scalar φ (since
-G_{55} = φ² is even: (−y)² = y²). The product is Z₂-odd × Z₂-even = Z₂-odd.
-
-The 4D electromagnetic field is the **fixed-plane boundary projection** of A_μ
-at y = 0:
-
-    A_μ|_{y=0} = lim_{y→0} λφ(y) B_μ(y)
-
-Only the boundary-localised mode of A_μ contributes to 4D physics; the massive
-KK tower modes decouple at low energy. The Z₂-odd parity of A_μ is consistent
-with this picture: it is the boundary mode, not a bulk zero mode, that becomes
-the photon.
-
-### (d) These are distinct fields
-
-B_μ is the **topological source** of the arrow of time (a bulk, Z₂-odd field
-with no zero mode). A_μ = λφB_μ is the **standard KK electromagnetic field**
-(a composite, Z₂-odd, with a boundary mode at the fixed plane).
-
-The referee's concern applies to a scenario where the photon is the massless
-zero mode of A_μ in the bulk — which it is **not** in this framework. The
-photon is the fixed-plane projection, consistent with standard RS/KK
-electromagnetism.
-
----
-
-## Code references
-
-- `src/core/metric.py`: `assemble_5d_metric` — G_{μ5} = λφB_μ
-- `src/core/metric.py`: `z2_parity_clarification()` — machine-readable parity table
-- `src/core/kk_geodesic_reduction.py` — explicit derivation of Lorentz force from
-  cross-term −2Γ^μ_{ν5}
-- `src/core/geometric_chirality_uniqueness.py`: `bmu_z2_parity_forces_chirality`
-- `1-THEORY/DERIVATION_STATUS.md` — Part V, Z₂ Parity Clarification section
-
----
-
-## Status
-
-**RESOLVED** — standard Kaluza-Klein construction (Kaluza 1921, Klein 1926).
-
-The callable `z2_parity_clarification()` in `src/core/metric.py` encodes
-these assignments in machine-readable form for automated testing.
-
----
+- `src/core/metric.py`: canonical assembly and `z2_parity_clarification()`.
+- `tests/test_kk_geometry_invariants.py`: line element, inverse, gauge pullback,
+  analytic curvature and one-coordinate derivative convention.
+- `tests/test_orbifold_nonuniqueness.py`: odd fixed-plane restrictions and
+  inequivalent internal gauge lifts with the same metric reflection.
+- `src/core/pillar677_fermion_cl_orbifold_closure.py`: regular finite-interval
+  Dirac domain admits every real bulk mass; parity does not select flavor.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

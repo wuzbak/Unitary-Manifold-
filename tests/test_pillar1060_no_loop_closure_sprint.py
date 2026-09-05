@@ -54,9 +54,10 @@ def test_internal_lanes_have_binary_or_blocked_outcomes() -> None:
     rows = {row["lane"]: row for row in report["lane_outcomes"]}
     for lane in INTERNAL_CLOSURE_CANDIDATES:
         assert rows[lane]["outcome"] in {
-            "CLOSED_NOW",
-            "TIGHTENED_WITH_EXPLICIT_BLOCKER",
+            "CARRY_FORWARD_OPEN",
+            "ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT",
         }
+        assert rows[lane]["scientific_progress"] is False
 
 
 def test_binary_outcome_rule_accepts_internal_and_external_mix() -> None:
@@ -65,7 +66,8 @@ def test_binary_outcome_rule_accepts_internal_and_external_mix() -> None:
     assert report["required_outcomes_present"] is True
     outcomes = {row["outcome"] for row in report["lane_outcomes"]}
     assert "EXTERNAL_WAIT_ONLY" in outcomes
-    assert "TIGHTENED_WITH_EXPLICIT_BLOCKER" in outcomes
+    assert "CARRY_FORWARD_OPEN" in outcomes
+    assert "TIGHTENED_WITH_EXPLICIT_BLOCKER" not in outcomes
 
 
 def test_retry_is_deferred_with_internal_blocker() -> None:
@@ -73,8 +75,8 @@ def test_retry_is_deferred_with_internal_blocker() -> None:
         retry_attempts={"ALPHA_S_TYPE_B_FLOOR": True}
     )
     rows = {row["lane"]: row for row in report["lane_outcomes"]}
-    assert rows["ALPHA_S_TYPE_B_FLOOR"]["outcome"] == "TIGHTENED_WITH_EXPLICIT_BLOCKER"
-    assert rows["ALPHA_S_TYPE_B_FLOOR"]["column"] == "TIGHTENED (WITH EXACT BLOCKER)"
+    assert rows["ALPHA_S_TYPE_B_FLOOR"]["outcome"] == "ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT"
+    assert rows["ALPHA_S_TYPE_B_FLOOR"]["column"] == "BLOCKED / ANTI-LOOP"
     assert "SAME_SPRINT_RERUN_BLOCKED_DEFER_NEXT_SPRINT" in rows["ALPHA_S_TYPE_B_FLOOR"]["explicit_blockers"]
     assert report["anti_loop_pass"] is True
 
@@ -83,3 +85,10 @@ def test_summary() -> None:
     summary = pillar1060_summary()
     assert summary["pillar"] == 1060
     assert summary["status"] == PILLAR_STATUS
+
+
+def test_claimed_flags_and_empty_blockers_cannot_close_lane() -> None:
+    row = p1060._lane_outcome("ALPHA_S_TYPE_B_FLOOR", True, True, [], True, False)
+    assert row["outcome"] == "CARRY_FORWARD_OPEN"
+    assert row["runtime_flip_earned"] is False
+    assert row["scientific_progress"] is False

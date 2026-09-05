@@ -80,15 +80,59 @@ wavenumbers: a mass small relative to the Planck mass can still be enormous
 relative to a CMB inverse length. Calling \(e^{-37}M_{\rm Pl}\) “massless at
 CMB scales” is not justified by its small value in Planck units.
 
+### Reproduced conditional CMB calculation
+
+The resumed execution used **CAMB 2.0.4**, not the toy fallback, for unlensed
+TT spectra at 37 multipoles from 200 to 2000. Both spectra use the same
+explicit, empirically calibrated late-time cosmology and scalar amplitude.
+CAMB accuracy boosts of 1 and 2 and lmax margins of 150 and 300 provide a
+resolution-sensitivity check. The default candidate changes only
+\(n_s=0.9649\) to \(0.9635243738887584\), with tensors disabled in both.
+
+| Check | Observed result |
+|---|---|
+| Identical-input control | Zero residual; power ratio exactly 1 |
+| Candidate tilt, signed relative residual | −0.160968% to +0.140760% |
+| Candidate tilt, median absolute relative residual | 0.095388% |
+| Maximum reference / candidate relative numerical sensitivity | 0.085743% / 0.085764% |
+| Maximum summed absolute residual sensitivity | 3.071710 μK² in \(D_\ell\) |
+| Scalar amplitude multiplied by 1.2, unlensed power ratio | 1.199997307 to 1.200002039 |
+
+Reproduce the default comparison from the repository root with
+`OMP_NUM_THREADS=1 python -m src.core.pillar814_zph_camb_bridge --backend camb`.
+The output includes the spectra, residuals, input parameters, backend version,
+units and numerical-sensitivity arrays. Explicit `backend="camb"` calls reject
+an unavailable CAMB installation; `auto` reports a dimensionless toy fallback
+when CAMB is absent and cannot earn physical closure.
+
+The sensitivity figures are **not certified error bounds**, and are comparable
+to parts of the tilt residual. These runs establish a controlled GR comparison,
+not detection of a new physical effect, reproduction of Planck likelihoods,
+independent primordial normalization, or a reconstructed UM transfer function.
+No empirical covariance was supplied, so no empirical chi-square is reported.
+The unsupported mixed-unit P818 dynamics do not return a fabricated spectrum,
+zero residual, or convergence certificate.
+
 ### Verification record
 
-The fresh, unmodified baseline in this environment was **63,430 passed,
-43 skipped, 12 deselected, 0 failed** (354.83 s), using the existing combined
+The interrupted implementation session recorded an unmodified baseline of
+**63,430 passed, 43 skipped, 12 deselected, 0 failed** (354.83 s), using the existing combined
 `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/` suite. This is distinct
 from the historical headline total of 63,892; optional dependency availability
 affects collection. Post-change results and formal-tool limitations must be
 reported separately rather than silently replacing one environment's evidence
 with another's.
+
+On resumption, the saved implementation initially failed collection in the
+P814/P818 tests and the P819 consumer: tests still imported removed symbols,
+and the consumer compared an unavailable backreaction amplitude with a number.
+This is an implementation-integration failure, not physical falsification.
+The earlier session's baseline is not a fresh verification of the resumed code.
+
+The completed CMB-specific validation passed **201 tests**, including five
+real CAMB integration tests with the slow-test selection explicitly enabled
+(`-m 'slow or not slow'`, `OMP_NUM_THREADS=1`). This targeted result is separate
+from the full-repository regression record.
 
 **Open physical obligations:** photon origin; action-to-evolution equivalence;
 independent CMB normalization and UM transfer corrections; unique fermion and

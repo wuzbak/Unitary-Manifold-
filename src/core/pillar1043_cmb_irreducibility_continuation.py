@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from math import isfinite
 from typing import Any, Dict
 
 from src.core.pillar1034_parallel_cmb_closure_campaign import parallel_cmb_closure_campaign
@@ -20,8 +21,15 @@ def cmb_irreducibility_continuation() -> Dict[str, Any]:
     deficit_after = dict(prior["deficit_after"])
     demonstrable_reduction = False
     residual_budget_after = dict(prior["residual_budget_delta"]["after"])
+    residual_inputs_valid = bool(
+        all(isinstance(value, (int, float)) and not isinstance(value, bool)
+            and isfinite(value) and value >= 0
+            for value in (*deficit_after.values(), *residual_budget_after.values()))
+        and 0 < deficit_after["lower"] <= deficit_after["upper"]
+    )
     valid = bool(
-        prior["valid"]
+        prior["valid"] is True
+        and residual_inputs_valid
         and not prior["closure_earned"]
         and ledger["terminal_eft_routes"]
         and len(ledger["named_missing_objects"]) == 2
@@ -35,6 +43,7 @@ def cmb_irreducibility_continuation() -> Dict[str, Any]:
         "scientific_progress": False,
         "boundary_tightened": False,
         "residual_evidence_status": "INHERITED_HISTORICAL_INPUT_NOT_RECALCULATED",
+        "residual_inputs_valid": residual_inputs_valid,
         "historical_assigned_deficit": {"lower": 3.45, "upper": 4.85},
         "historical_assigned_budget_shift": 0.03,
         "execution_order_rank": 3,

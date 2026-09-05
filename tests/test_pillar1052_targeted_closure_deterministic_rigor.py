@@ -29,7 +29,11 @@ def test_report_valid() -> None:
     report = targeted_closure_deterministic_rigor()
     assert report["valid"] is True
     assert report["deterministic_gate_coverage"] is True
-    assert report["formal_open_substeps"]["after_count"] < report["formal_open_substeps"]["before_count"]
+    assert report["formal_open_substeps"]["after"] == report["formal_open_substeps"]["before"]
+    assert report["scientific_progress"] is False
+    assert report["physical_theorem_proved"] is False
+    assert report["lean4"]["compilation_verified"] is False
+    assert report["lean4"]["physical_theorem_count_verified"] == 0
     assert "CARRY_FORWARD_OPEN" in set(report["closure_attempts"].values())
 
 

@@ -94,7 +94,7 @@ class TestAssembleWarped5DMetric:
         G5  = assemble_warped_5d_metric(g, B, phi, r_c)
         assert np.allclose(G5[:, 4, 4], r_c**2)
 
-    def test_off_diagonal_mu5_equals_lam_phi_B(self):
+    def test_off_diagonal_mu5_equals_lam_radius_squared_B(self):
         """G_μ5 = G_5μ = λφB_μ (unchanged from flat KK ansatz)."""
         n   = N
         g   = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (n, 1, 1))
@@ -103,7 +103,7 @@ class TestAssembleWarped5DMetric:
         r_c = np.full(n, 8.0)
         lam = 2.0
         G5  = assemble_warped_5d_metric(g, B, phi, r_c, lam=lam)
-        expected = lam * phi[:, None] * B   # (N, 4)
+        expected = lam * r_c[:, None]**2 * B   # (N, 4)
         assert np.allclose(G5[:, :4, 4], expected)
         assert np.allclose(G5[:, 4, :4], expected)
 
@@ -161,8 +161,8 @@ class TestAssembleWarped5DMetric:
         G5_2 = assemble_warped_5d_metric(g, B, phi, r_c, lam=2.0)
         assert np.allclose(G5_2[:, :4, 4], 2.0 * G5_1[:, :4, 4], rtol=1e-12)
 
-    def test_r_c_does_not_affect_4d_block(self):
-        """The 4D g_μν block is independent of r_c."""
+    def test_r_c_affects_connection_square_but_not_base_schur_block(self):
+        """At y=0 only the Schur complement is independent of r_c."""
         g, B, phi, _ = _flat_inputs()
         rng = np.random.default_rng(4)
         B   = rng.uniform(-0.2, 0.2, (N, 4))
@@ -170,7 +170,10 @@ class TestAssembleWarped5DMetric:
         r_c_b = np.full(N, 15.0)
         G5_a = assemble_warped_5d_metric(g, B, phi, r_c_a)
         G5_b = assemble_warped_5d_metric(g, B, phi, r_c_b)
-        assert np.allclose(G5_a[:, :4, :4], G5_b[:, :4, :4], atol=1e-14)
+        for G5, radius in ((G5_a, r_c_a), (G5_b, r_c_b)):
+            schur = G5[:, :4, :4] - radius[:, None, None]**2 * np.einsum("ni,nj->nij", B, B)
+            np.testing.assert_allclose(schur, g, atol=1e-14)
+        assert not np.allclose(G5_a[:, :4, :4], G5_b[:, :4, :4])
 
     def test_scalar_r_c_broadcast(self):
         """Scalar-like r_c_field (length-1 array) works without error."""

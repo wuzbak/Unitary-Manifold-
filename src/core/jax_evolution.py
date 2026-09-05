@@ -53,7 +53,9 @@ Notes
 -----
 * JAX uses 32-bit floats by default.  For 64-bit precision (matching the numpy
   pipeline), call ``jax.config.update('jax_enable_x64', True)`` before importing.
-* Periodic boundary conditions (roll-based finite differences) are used throughout.
+* The scalar Laplacian is periodic. Geometric first derivatives and gauge
+  divergence use one-sided endpoints, with x at coordinate index 1.
+* This mirrors a phenomenological flow, not a covariant EH evolution.
 * The metric volume-preservation projection (det g = −1) is applied after each step,
   matching the behaviour in ``evolution.step``.
 """

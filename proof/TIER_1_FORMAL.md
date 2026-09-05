@@ -21,7 +21,9 @@ g_{\mu\nu} + \lambda^2 \phi^2 B_\mu B_\nu & \lambda \phi^2 B_\mu \\
 \lambda \phi^2 B_\nu & \phi^2
 \end{pmatrix},
 \]
-with projection and closure relations implemented in `metric.py` and `evolution.py`.
+with the canonical metric implemented in `src/core/metric.py` and re-exported
+by `proof/metric.py`. The evolution implementation is a symmetry-reduced flow;
+equivalence to the full Lorentzian field equations remains an open obligation.
 
 The integer pair \((n_1, n_2) = (5, 7)\) sets the topological sector used in executable checks. In the canonical chain,
 \[
@@ -40,6 +42,10 @@ python -m pytest tests/test_metric.py tests/test_evolution.py tests/test_fixed_p
 ```
 
 A valid run for this isolated surface requires successful execution with no failing assertions.
+Passing these checks verifies their particular assertions, not every claim in
+the manuscripts. See the [foundation reassessment](../docs/TRUTH_LAYER.md#foundation-reassessment)
+for the metric correction, odd-field photon obstruction, reciprocal-bound
+counterexample, and remaining action-to-observable obligations.
 
 ## Epistemic Boundary
 
@@ -53,10 +59,15 @@ Results referenced from this Tier-1 surface carry the following epistemic labels
 
 | Label | Meaning |
 |-------|---------|
-| **PROVED** | Formally derived from the 5D metric ansatz with no free parameters; executable test passes. |
+| **PROVED** | The stated mathematical proposition follows from explicit assumptions by a checked derivation. A passing executable assertion alone is insufficient; formal claims require inspection of the theorem and its axiom dependencies. |
 | **DERIVED** | Algebraically derived given stated assumptions; result is deterministic but depends on the ansatz or an upstream proved step. |
 | **GEOMETRICALLY MOTIVATED** | Identification supported by dimensional / group-theoretic reasoning (e.g., n_w KK species → SU(n_w)); not a rigorous derivation from the 5D action. |
 | **CONDITIONAL THEOREM** | Formally derived given a named axiom or postulate; result is only as strong as the axiom. |
 | **CONJECTURE** | Plausible but not yet derived; flagged in `FALLIBILITY.md`. |
 
-The n_w = 5 uniqueness result is a **CONDITIONAL THEOREM** (conditional on Axiom A, which is itself now DERIVED from the 5D CS action — see `nw5_pure_theorem.py`). The SU(5) gauge-group identification from n_w = 5 KK species is **GEOMETRICALLY MOTIVATED** (minimality argument). All downstream RGE predictions are **DERIVED** given SU(5).
+The arithmetic selecting n_w = 5 from {5, 7} is conditional on the specified
+candidate set and boundary-phase rule (Axiom A). It does not independently
+derive that rule from an action. Identifying SU(5) from a species count is
+geometrically motivated, not a uniqueness theorem. Downstream RGE calculations
+are conditional on their gauge group, boundary couplings, matching scheme,
+and any empirical inputs; assuming SU(5) alone does not fix those inputs.

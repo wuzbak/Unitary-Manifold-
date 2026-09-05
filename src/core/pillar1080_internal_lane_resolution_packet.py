@@ -33,15 +33,17 @@ _LIVE_STATUS = _ROOT / "9-INFRASTRUCTURE" / "um_live_status.json"
 
 def _flavor_lane_row() -> Dict[str, Any]:
     packet = sprint_cc_flavor_execution_packet()
-    verdict = str(packet.get("deterministic_verdict", "FALSIFIED"))
-    lane_verdict = verdict if verdict in ROUTING_ENUM else "FALSIFIED"
+    verdict = str(packet.get("deterministic_verdict", "TENSION"))
+    lane_verdict = verdict if verdict in ROUTING_ENUM else "TENSION"
     return {
         "lane": "FLAVOR_CL",
         "current_status": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
         "deterministic_verdict": lane_verdict,
         "outcome": packet.get("outcome"),
-        "tightened": bool(packet.get("boundary_tightened", False)),
-        "runtime_flip_earned": bool(packet.get("runtime_flip_earned", False)),
+        "tightened": False,
+        "runtime_flip_earned": False,
+        "scientific_progress": False,
+        "claimed_boundary_tightening": packet.get("boundary_tightened", False),
         "explicit_blocker": "GLOBAL_FLAVOR_BUNDLE_WITH_NONLOCAL_OVERLAP_TENSOR and downstream flavor-family unresolved objects",
         "source": "src/core/pillar1058_flavor_execution_packet.py",
     }
@@ -49,14 +51,16 @@ def _flavor_lane_row() -> Dict[str, Any]:
 
 def _uv_lane_row() -> Dict[str, Any]:
     report = track_b_verdict_report()
-    verdict = "PASS" if report.get("closure_earned", False) else "TENSION"
+    # Track B attempts do not establish the shared alpha_s/Higgs UV object.
+    verdict = "TENSION"
     return {
         "lane": "UV_SHARED_OBJECT",
         "current_status": "ALPHA_S_TYPE_B_FLOOR / HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
         "deterministic_verdict": verdict,
         "outcome": report.get("verdict"),
-        "tightened": report.get("scientific_progress") is True,
-        "runtime_flip_earned": bool(report.get("closure_earned", False)),
+        "tightened": False,
+        "runtime_flip_earned": False,
+        "scientific_progress": False,
         "explicit_blocker": "UV derivation, parameter inventory and hardgate comparisons remain unestablished.",
         "source": "src/core/pillar1073_track_b_verdict_aggregator.py",
     }
@@ -64,15 +68,14 @@ def _uv_lane_row() -> Dict[str, Any]:
 
 def _cmb_lane_row() -> Dict[str, Any]:
     summary = pillar999_summary()
-    ledger = dict(summary.get("evidence_ledger") or {})
-    irred = bool(ledger.get("terminal_eft_routes", False))
-    verdict = "TENSION" if irred else "FALSIFIED"
+    verdict = "TENSION"
     return {
         "lane": "CMB_AMPLITUDE",
-        "current_status": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
+        "current_status": "CMB_AMPLITUDE_DERIVATION_OPEN",
         "deterministic_verdict": verdict,
         "outcome": summary.get("status"),
-        "tightened": irred,
+        "tightened": False,
+        "scientific_progress": False,
         "runtime_flip_earned": False,
         "explicit_blocker": "Missing nonperturbative amplitude-generation mechanism and global UV transfer-normalization completion.",
         "source": "src/core/pillar999_cmb_amplitude_calibration_boundary.py",
@@ -90,18 +93,16 @@ def _neutrino_lane_row() -> Dict[str, Any]:
         outcome = "EXP3_MISSING_FAIL_CLOSED"
     else:
         status_text = str(exp3.get("status", ""))
-        exp3_status = status_text.upper()
-        if any(
-            token in exp3_status for token in ("FALSIFIED", "FAIL", "EXCLUDED", "REJECTED")
-        ):
+        exp3_status = status_text.strip().upper()
+        if exp3_status in {"FALSIFIED", "FAIL", "EXCLUDED", "REJECTED"}:
             verdict = "FALSIFIED"
-        elif any(token in exp3_status for token in ("PASS", "RESOLVED", "CONFIRMED")):
+        elif exp3_status in {"PASS", "RESOLVED", "CONFIRMED"}:
             verdict = "PASS"
         else:
             verdict = "TENSION"
         outcome = exp3.get("verdict")
 
-    tightened = verdict == "PASS"
+    tightened = False
 
     if exp3 is None:
         blocker = "EXP-3 lane is missing from live status; fail-closed until JUNO lane is explicitly tracked."
@@ -113,6 +114,7 @@ def _neutrino_lane_row() -> Dict[str, Any]:
         "deterministic_verdict": verdict,
         "outcome": outcome,
         "tightened": tightened,
+        "scientific_progress": False,
         "runtime_flip_earned": False,
         "explicit_blocker": blocker,
         "source": "9-INFRASTRUCTURE/um_live_status.json (EXP-3) + src/core/observational_lane_freeze_registry.py",
@@ -135,7 +137,7 @@ def critique_internal_lane_resolution_packet() -> Dict[str, Any]:
         "DESI_DR3_MONITORING",
         "LITEBIRD_BIREFRINGENCE",
     ]
-    valid = bool(all_routed and tightened_count >= 1 and no_unearned_closure)
+    valid = bool(all_routed and no_unearned_closure)
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
@@ -157,14 +159,17 @@ def critique_internal_lane_resolution_packet() -> Dict[str, Any]:
         },
         "outcome": (
             "INTERNAL_LANES_TIGHTENED_WITH_EXPLICIT_BLOCKERS"
-            if valid
-            else "PACKET_INVALID_OR_UNROUTED"
+            if valid and tightened_count
+            else "INTERNAL_LANES_CARRY_FORWARD_OPEN"
+            if valid else "PACKET_INVALID_OR_UNROUTED"
         ),
         "honesty_boundaries": {
             "no_unearned_closure_labels": no_unearned_closure,
             "external_wait_lanes_unchanged": unchanged_external_waits,
         },
         "valid": valid,
+        "packet_valid": valid,
+        "scientific_progress": tightened_count > 0,
     }
 
 

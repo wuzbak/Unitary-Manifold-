@@ -85,7 +85,7 @@ def targeted_closure_deterministic_rigor() -> Dict[str, Any]:
         and all(marker_hits.values())
         and deterministic_gate_coverage
         and HIGH_LEVEL_REMAINING_BURDEN in prior["remaining_burdens"]
-        and remaining_burden in after_cb
+        and after_cb == prior_after
     )
 
     return {
@@ -102,6 +102,8 @@ def targeted_closure_deterministic_rigor() -> Dict[str, Any]:
         "packet_valid": valid,
         "scientific_progress": False,
         "physical_theorem_proved": False,
+        "boundary_tightened": False,
+        "remaining_burden": remaining_burden,
         "historical_proposed_open_substeps": _open_substeps_after_cb(),
         "merge_gate_dependency": merge_gate,
         "prior_formal_alignment": prior,

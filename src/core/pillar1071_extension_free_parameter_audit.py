@@ -42,14 +42,19 @@ def extension_free_parameter_audit() -> Dict[str, Any]:
     total_new_params = 0
     inventory_complete = True
     all_params: List[str] = []
-    for key, r in reports.items():
+    for r in reports.values():
         params = list(r["free_parameters_introduced"])
         count = r.get("free_parameter_count")
         established = bool(
-            r.get("parameter_inventory_complete") is True
-            and r.get("parameter_inventory_evidence")
+            r.get("valid") is True
+            and r.get("parameter_inventory_complete") is True
+            and isinstance(r.get("parameter_inventory_evidence"), list)
+            and r["parameter_inventory_evidence"]
+            and all(r["parameter_inventory_evidence"])
             and isinstance(count, int) and not isinstance(count, bool)
             and count == len(params)
+            and all(isinstance(param, str) and param.strip() for param in params)
+            and len(set(params)) == len(params)
         )
         inventory_complete = inventory_complete and established
         per_pillar.append(
@@ -57,7 +62,16 @@ def extension_free_parameter_audit() -> Dict[str, Any]:
                 "pillar": r["pillar"],
                 "lane_target": r["lane_target"],
                 "outcome": r["outcome"],
-                "closure_earned": r["closure_earned"],
+                "closure_earned": bool(
+                    r.get("closure_earned") is True and established and count == 0
+                    and r.get("outcome") == "EXTENSION_CLOSES_LANE"
+                    and r.get("derivation_established") is True
+                    and r.get("derivation_evidence")
+                    and r.get("hardgate_non_breakage_verified") is True
+                    and r.get("hardgate_breakage_detected") is False
+                    and r.get("hardgate_comparison_evidence")
+                    and not r.get("hardgate_pillars_touched")
+                ),
                 "free_parameters_introduced": params,
                 "free_parameter_count": count if established else None,
                 "parameter_inventory_complete": established,

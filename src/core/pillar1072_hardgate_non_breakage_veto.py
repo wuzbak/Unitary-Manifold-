@@ -51,8 +51,12 @@ def hardgate_non_breakage_veto() -> Dict[str, Any]:
     for r in reports:
         touched = list(r.get("hardgate_pillars_touched", []))
         verified = bool(
-            r.get("hardgate_non_breakage_verified") is True
-            and r.get("hardgate_comparison_evidence")
+            r.get("valid") is True
+            and r.get("hardgate_non_breakage_verified") is True
+            and isinstance(r.get("hardgate_comparison_evidence"), list)
+            and r["hardgate_comparison_evidence"]
+            and all(r["hardgate_comparison_evidence"])
+            and r.get("hardgate_breakage_detected") is False
             and not touched
         )
         per_pillar.append(

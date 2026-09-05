@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
-"""Executable deeper-principle derivation certificate for the 5D metric ansatz.
+"""Executable conditional parameterization of the 5D circle metric ansatz.
 
 This module checks the KK block parameterization conditional on a spacelike
 circle fibre, the cylinder condition and the definition of its connection.
 It does not derive the existence of an extra dimension or select this
 compactification from Einstein–Hilbert stationarity.
 
-1. 5D Einstein-Hilbert stationarity (second-order local action).
+1. A spacelike circle fibre and cylinder condition (assumptions).
 2. 4D Lorentz recovery in the zero-field limit.
 3. U(1) gauge covariance of the KK off-diagonal sector.
 4. Z₂ orbifold parity consistency for compactification.
@@ -48,9 +48,9 @@ class MetricAnsatzCoefficients:
 
 
 def derive_metric_ansatz_from_deeper_principle(lam: float = 1.0) -> Dict[str, object]:
-    """Derive the canonical KK block coefficients from deeper principles.
+    """Complete the square for the assumed circle connection.
 
-    The coefficient relations are the minimal local solution of:
+    The coefficient relations in this parameterization follow from:
     - Gauge covariance and line-element completion:
         bmu_quadratic_prefactor = (bmu_linear_prefactor)^2
     - 4D Lorentz recovery:

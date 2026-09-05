@@ -75,6 +75,9 @@ def sprint_bv_master_report() -> Dict[str, Any]:
     }
 
     meaningful_result = runtime_flip_earned or honesty_progress
+    packet_valid = bool(
+        all(done.values()) and execution_order_ok and p1028["valid"]
+    )
 
     return {
         "sprint": SPRINT_NAME,
@@ -92,11 +95,14 @@ def sprint_bv_master_report() -> Dict[str, Any]:
         "runtime_flip_earned": runtime_flip_earned,
         "honesty_progress": honesty_progress,
         "meaningful_result": meaningful_result,
+        "scientific_progress": False,
+        "sprint_success": packet_valid and meaningful_result,
+        "packet_valid": packet_valid,
         "lean4_start": LEAN4_START,
         "lean4_end": LEAN4_END,
         "lean4_delta": LEAN4_DELTA,
         "status": PILLAR_STATUS,
-        "valid": all(done.values()) and execution_order_ok and meaningful_result,
+        "valid": packet_valid,
     }
 
 

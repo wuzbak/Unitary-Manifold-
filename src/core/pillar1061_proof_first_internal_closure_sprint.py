@@ -65,7 +65,6 @@ def _lane_row(
     normalized_after = list(before_blockers)
     if anti_loop_blocked:
         normalized_after = normalized_after + ["SAME_SPRINT_RERUN_BLOCKED_DEFER_NEXT_SPRINT"]
-        closed_now = False
         blocker_set_shrunk = False
         tightened = False
         outcome = "ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT"
@@ -79,7 +78,7 @@ def _lane_row(
         "lane": lane,
         "outcome": outcome,
         "column": column,
-        "before_blockers": before_blockers,
+        "before_blockers": list(before_blockers),
         "after_blockers": normalized_after,
         "blocker_set_shrunk": blocker_set_shrunk,
         "contraction_metric": 0.0,
@@ -222,7 +221,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
     non_closed_rows = [row for row in rows if row["outcome"] != "CLOSED_NOW"]
     blocked_non_closed_rows = [row for row in non_closed_rows if row["anti_loop_blocked"]]
     if not non_closed_rows:
-        all_non_closed_tightened = True
+        all_non_closed_tightened = False
     elif blocked_non_closed_rows:
         all_non_closed_tightened = False
     else:
@@ -278,7 +277,8 @@ def sprint_ce_proof_first_internal_closure_sprint(
     structural_valid = bool(
         internal_binary_only
         and anti_loop_outcome_consistent
-        and LEVERAGE_ORDER
+        and sorted(row["lane"] for row in rows) == sorted(INTERNAL_LANES)
+        and all(report.get("valid") is True for report in (flavor, uv, cmb, qg))
     )
     sprint_success = bool(anti_loop_pass and no_status_only_expansion and meaningful_progress)
     valid = structural_valid

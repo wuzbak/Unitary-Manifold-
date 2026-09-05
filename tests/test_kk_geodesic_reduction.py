@@ -142,10 +142,10 @@ class TestLorentzAcceleration:
         assert acc.shape == (8, 4)
         assert em.shape  == (8,)
 
-    def test_zero_for_zero_u5(self):
-        """Zero u^5 → zero Lorentz force (no 5th-momentum coupling)."""
+    def test_zero_for_zero_fifth_momentum(self):
+        """Neutrality is p5=0, not the gauge-dependent condition u5=0."""
         g, B, phi, u4, u5, dx, lam = _flat_state()
-        u5_zero = np.zeros(8)
+        u5_zero = -lam * np.einsum("ni,ni->n", B, u4)
         acc, em = lorentz_acceleration(B, phi, u4, u5_zero, g, dx, lam)
         np.testing.assert_allclose(np.abs(acc).max(), 0.0, atol=1e-12)
 
@@ -162,7 +162,7 @@ class TestLorentzAcceleration:
         np.testing.assert_allclose(np.abs(acc).max(), 0.0, atol=1e-12)
 
     def test_em_ratio_formula(self):
-        """e/m = λ p₅ / φ."""
+        """The coefficient of H in the affine-parameter equation is λp5."""
         N = 5
         g   = np.tile(np.eye(4), (N, 1, 1))
         B   = np.zeros((N, 4))
@@ -171,8 +171,8 @@ class TestLorentzAcceleration:
         u5  = 3.0 * np.ones(N)    # p5 = φ² u^5 = 4 * 3 = 12
         lam = 2.0
         _, em = lorentz_acceleration(B, phi, u4, u5, g, dx=0.1, lam=lam)
-        # p5 = φ² u^5 = 4 * 3 = 12; e/m = 2 * 12 / 2 = 12
-        np.testing.assert_allclose(em, 12.0, rtol=1e-10)
+        # p5 = φ² u^5 = 12; coefficient = λp5 = 24.
+        np.testing.assert_allclose(em, 24.0, rtol=1e-10)
 
 
 # ---------------------------------------------------------------------------
@@ -265,7 +265,7 @@ class TestGeodesicDecomposition:
         lam  = 1.0
         x = np.linspace(0, (N-1)*dx, N)
         B = np.zeros((N, 4))
-        B[:, 1] = 0.1 * x
+        B[:, 0] = 0.1 * x
         u4 = np.zeros((N, 4)); u4[:, 0] = 1.0; u4[:, 1] = 0.1
         u5 = 0.05 * np.ones(N)
         r = geodesic_decomposition(g, B, phi, u4, u5, dx, lam)

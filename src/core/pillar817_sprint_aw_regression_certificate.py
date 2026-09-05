@@ -5,9 +5,9 @@ Pillar 817 — SPRINT_AW_REGRESSION_CERTIFICATE
 
 Sprint AW: Z_φ×CAMB Bridge + Linearised 5D EOM + G2 α_s NLO Audit.
 
-This sprint closes:
-  - The CMB Boltzmann lane (partially): Z_φ×CAMB bridge records honest
-    BOLTZMANN_PARTIAL_CLOSURE gate; full 5D Boltzmann remains open.
+Historical sprint accounting (not a CMB closure certificate):
+  - The CMB bridge supplies GR control comparisons only. The UM transfer
+    derivation remains unsupported; this report runs an arbitrary-unit toy.
   - The linearised 5D Einstein + orbifold BC lane: LINEARISED_5D_EOM_CLOSED.
   - The G2 α_s floor: TYPE_B_STRUCTURAL_FLOOR_CONFIRMED with floor bounds
     tightened from "≥40%" to [40.2%, 41.8%] using back-reacted radion.
@@ -57,7 +57,7 @@ LEAN4_DELTA: int = LEAN4_END - LEAN4_START
 NEXT_PILLAR_SLOT: int = 818
 
 OPEN_ITEMS: list[str] = [
-    "FULL_5D_BOLTZMANN_OPEN: Z_φ×CAMB bridge is partial; full back-reacted Boltzmann requires CAMB+ADM",
+    "FULL_5D_BOLTZMANN_OPEN: normalized UM action, source, background and hierarchy missing",
     "G1_STRUCTURAL_FLOOR_REMAINS: S_warp ∈ [4,7] proved irreducible (Pillar 277)",
     "G2_STRUCTURAL_FLOOR_REMAINS: α_s residual [40.2%,41.8%]; needs NNLO lattice QCD on data side",
     "G3_STRUCTURAL_FLOOR_REMAINS: Higgs ceiling 42.3% (Pillar 733)",
@@ -75,8 +75,10 @@ def validate_sprint() -> dict[str, object]:
         errors.append("Sprint AW pillar numbering is inconsistent")
     if LEAN4_END != 1386:
         errors.append(f"Lean4 total mismatch: got {LEAN4_END}, expected 1386")
-    if "ZPH_CAMB_BRIDGE" not in bridge.gate:
-        errors.append("Z_φ CAMB bridge gate not set")
+    if bridge.gate != "ZPH_CAMB_BRIDGE_UM_TRANSFER_UNSUPPORTED" or bridge.closure_earned:
+        errors.append("Unsupported UM transfer cannot earn CMB closure")
+    if bridge.camb_used or bridge.metadata["units"] != "arbitrary":
+        errors.append("Bookkeeping report must identify its toy backend")
     if not linearised.graviton_flat:
         errors.append("Graviton zero mode not flat")
     if not linearised.neumann_uv_ok:
@@ -94,6 +96,10 @@ def validate_sprint() -> dict[str, object]:
         "lean4_end": LEAN4_END,
         "lean4_delta": LEAN4_DELTA,
         "next_slot": NEXT_PILLAR_SLOT,
+        "cmb_gate": bridge.gate,
+        "cmb_backend": bridge.metadata["backend"],
+        "cmb_closure_earned": bridge.closure_earned,
+        "validation_scope": "sprint bookkeeping, not a CMB solver certificate",
         "open_items": OPEN_ITEMS,
         "errors": errors,
         "status": "PASS" if not errors else "FAIL",

@@ -64,6 +64,9 @@ def radion_mass_audit(k_mpc_inv=0.05, scale_factor=A_REC):
             or not math.isfinite(scale_factor) or not 0 < scale_factor <= 1):
         raise ValueError("Require positive k [Mpc^-1] and 0 < a <= 1")
     conformal_mass = scale_factor * M_PHI_MPC_INV
+    mass_to_k = conformal_mass / k_mpc_inv
+    if not math.isfinite(mass_to_k):
+        raise ValueError("Conformal mass-to-wavenumber ratio exceeds numeric range")
     return {
         "assumption": "m_phi = exp(-37) reduced Planck mass",
         "mass_gev": M_PHI_GEV,
@@ -71,8 +74,8 @@ def radion_mass_audit(k_mpc_inv=0.05, scale_factor=A_REC):
         "k_mpc_inv": k_mpc_inv,
         "scale_factor": scale_factor,
         "conformal_mass_squared_mpc_inv2": conformal_mass**2,
-        "conformal_mass_to_k": conformal_mass / k_mpc_inv,
-        "massless_at_cmb_scales": False,
+        "conformal_mass_to_k": mass_to_k,
+        "mass_dominates_supplied_mode": conformal_mass > k_mpc_inv,
         "backreaction_prediction": None,
     }
 
@@ -81,7 +84,8 @@ def run_full_backreacted_boltzmann(
     n_k=24, n_eta=300, n_ell=20, max_iter=20, tol=1e-6,
 ) -> BackreactedBoltzmannResult:
     """Return unsupported, without fake convergence or numerical zero residuals."""
-    if any(not isinstance(x, int) or x < 1 for x in (n_k, n_eta, n_ell, max_iter)):
+    if any(isinstance(x, bool) or not isinstance(x, int) or x < 1
+           for x in (n_k, n_eta, n_ell, max_iter)):
         raise ValueError("Requested grid sizes and iteration count must be positive integers")
     if not math.isfinite(tol) or tol <= 0:
         raise ValueError("Tolerance must be finite and positive")
@@ -97,7 +101,11 @@ def delta_cl_from_backreaction(cl_gr, cl_br):
             or not np.all(np.isfinite(reference)) or not np.all(np.isfinite(candidate))
             or np.any(reference <= 0) or np.any(candidate < 0)):
         raise ValueError("Require matching finite nonnegative TT arrays and positive reference")
-    return np.abs(candidate - reference) / reference
+    with np.errstate(over="raise", divide="raise", invalid="raise"):
+        try:
+            return np.abs(candidate - reference) / reference
+        except FloatingPointError as exc:
+            raise ValueError("Relative TT residual exceeds numeric range") from exc
 
 
 def _unsupported_solver(*args, **kwargs):

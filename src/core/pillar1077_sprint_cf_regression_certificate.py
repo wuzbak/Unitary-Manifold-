@@ -41,19 +41,20 @@ def sprint_cf_regression_certificate() -> Dict[str, Any]:
     track_b = track_b_verdict_report()
     track_c = scientific_verdict_ledger_report()
 
-    track_a_ok = bool(track_a.get("valid", False))
-    track_b_ok = bool(track_b.get("valid", False))
-    track_c_ok = bool(track_c.get("valid", False))
+    track_a_ok = track_a.get("valid") is True
+    track_b_ok = track_b.get("valid") is True
+    track_c_ok = track_c.get("valid") is True
 
     hardgate_untouched = (
-        track_b.get("hardgate_non_breakage_verified", False)
+        track_b.get("hardgate_non_breakage_verified") is True
         and not track_b.get("runtime_labels_changed", True)
     )
     parameter_free = track_b.get("parameter_free_extension")
 
     packet_valid = track_a_ok and track_b_ok and track_c_ok
     meaningful_progress = any(
-        track.get("scientific_progress") is True for track in (track_a, track_b, track_c)
+        track.get("valid") is True and track.get("scientific_progress") is True
+        for track in (track_a, track_b, track_c)
     )
     sprint_success = bool(packet_valid and meaningful_progress and hardgate_untouched and parameter_free is True)
 

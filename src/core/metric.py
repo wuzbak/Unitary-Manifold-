@@ -380,10 +380,10 @@ def compute_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
             for C in range(5):
                 Ricci5[:, A, Bx] += Riem5[:, C, A, C, Bx]
 
-    # 4D block of the 5D Ricci gives the effective 4D Ricci tensor
+    # Legacy coordinate block, not the intrinsic or horizontal 4D Ricci.
     Ricci = Ricci5[:, :4, :4]                         # (N, 4, 4)
 
-    # 4D Ricci scalar: R = g^μν Ricci_μν  (use 4D inverse metric)
+    # Legacy contraction, neither the intrinsic R4 nor the full R5.
     g_inv = np.linalg.inv(g)
     R = np.einsum('nij,nij->n', g_inv, Ricci)         # (N,)
 

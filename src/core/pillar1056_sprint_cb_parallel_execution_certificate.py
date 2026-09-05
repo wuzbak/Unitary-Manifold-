@@ -71,6 +71,8 @@ def sprint_cb_parallel_execution_certificate() -> Dict[str, Any]:
         "all_hands_parallel": all_hands_parallel,
         "integration_gate": integration_gate,
         "meaningful_result": meaningful_result,
+        "scientific_progress": p1052.get("scientific_progress") is True,
+        "packet_valid": valid,
         "workstreams": {
             "A_merge_gate": p1051,
             "B_targeted_closure": p1052,

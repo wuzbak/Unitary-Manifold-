@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
+import src.core.pillar1077_sprint_cf_regression_certificate as module
+
 from src.core.pillar1077_sprint_cf_regression_certificate import (
     PILLAR_GATE,
     PILLAR_NUMBER,
@@ -34,12 +36,13 @@ def test_sprint_success_conditions() -> None:
     assert r["track_a_valid"] is True
     assert r["track_b_valid"] is True
     assert r["track_c_valid"] is True
-    assert r["hardgate_untouched"] is True
-    assert r["parameter_free_extension"] is True
-    assert r["meaningful_progress"] is True
-    assert r["sprint_success"] is True
+    assert r["hardgate_untouched"] is False
+    assert r["parameter_free_extension"] is None
+    assert r["meaningful_progress"] is False
+    assert r["sprint_success"] is False
+    assert r["packet_valid"] is True
     # Track B verdict must be the honest binary outcome, not a false closure.
-    assert r["track_b_verdict"] == "EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED"
+    assert r["track_b_verdict"] == "EXTENSION_UNESTABLISHED"
 
 
 def test_next_pillar_slot_is_1078() -> None:
@@ -50,4 +53,14 @@ def test_next_pillar_slot_is_1078() -> None:
 def test_summary() -> None:
     s = pillar1077_summary()
     assert s["pillar"] == 1077
-    assert s["sprint_success"] is True
+    assert s["sprint_success"] is False
+
+
+def test_invalid_track_cannot_supply_meaningful_progress(monkeypatch) -> None:
+    report = module.track_a_floor_theorems_aggregator()
+    report.update(valid=False, scientific_progress=True)
+    monkeypatch.setattr(module, "track_a_floor_theorems_aggregator", lambda: report)
+    certificate = module.sprint_cf_regression_certificate()
+    assert certificate["scientific_progress"] is False
+    assert certificate["sprint_success"] is False
+    assert certificate["packet_valid"] is False

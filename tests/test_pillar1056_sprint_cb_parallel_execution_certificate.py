@@ -28,6 +28,7 @@ def test_integration_gate() -> None:
     assert all(report["all_hands_parallel"].values()) is True
     assert all(report["integration_gate"].values()) is True
     assert report["valid"] is True
+    assert report["scientific_progress"] is False
 
 
 def test_summary() -> None:

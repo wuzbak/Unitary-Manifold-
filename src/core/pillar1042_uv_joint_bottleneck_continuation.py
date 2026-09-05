@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from math import isfinite
 from typing import Any, Dict
 
 from src.core.pillar1033_uv_parallel_compactification_campaign import uv_parallel_compactification_campaign
@@ -18,11 +19,14 @@ def uv_joint_bottleneck_continuation() -> Dict[str, Any]:
     alpha_after = float(prior["campaign_after_residuals"]["alpha_s"])
     higgs_after = float(prior["campaign_after_residuals"]["higgs"])
     reductions = {
-        "alpha_s_fractional_reduction": 1.0 - alpha_after / float(prior["campaign_after_residuals"]["alpha_s"]),
-        "higgs_fractional_reduction": 1.0 - higgs_after / float(prior["campaign_after_residuals"]["higgs"]),
+        "alpha_s_fractional_reduction": 0.0,
+        "higgs_fractional_reduction": 0.0,
     }
     shared_object_pressure = max(alpha_after / 0.05, higgs_after / 0.10)
-    valid = bool(prior["valid"] and alpha_after > 0 and higgs_after > 0)
+    valid = bool(
+        prior["valid"] is True
+        and all(isfinite(value) and value >= 0 for value in (alpha_after, higgs_after))
+    )
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,

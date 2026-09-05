@@ -56,7 +56,6 @@ def sprint_ch_critique_resolution_certificate() -> Dict[str, Any]:
         matrix["valid"]
         and packet["valid"]
         and pubs["status"] == "PASS"
-        and packet["counts"]["tightened"] >= 1
         and packet["honesty_boundaries"]["no_unearned_closure_labels"]
     )
     return {
@@ -71,7 +70,9 @@ def sprint_ch_critique_resolution_certificate() -> Dict[str, Any]:
             "pillar1080": packet,
         },
         "publication_packet": pubs,
-        "sprint_success": valid,
+        "sprint_success": valid and packet.get("scientific_progress") is True,
+        "scientific_progress": packet.get("scientific_progress") is True,
+        "packet_valid": valid,
         "valid": valid,
     }
 
@@ -95,4 +96,3 @@ def pillar1081_summary() -> Dict[str, Any]:
         "sprint_success": report["sprint_success"],
         "valid": report["valid"],
     }
-

@@ -27,7 +27,7 @@ NEXT_PILLAR_SLOT: int = 1061
 
 CLOSURE_TARGET: str = (
     "Each open lane must end as CLOSED_NOW, TIGHTENED_WITH_EXPLICIT_BLOCKER, "
-    "or EXTERNAL_WAIT_ONLY."
+    "CARRY_FORWARD_OPEN, ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT, or EXTERNAL_WAIT_ONLY."
 )
 
 STRICT_LANE_ORDER: List[str] = [
@@ -72,18 +72,14 @@ def _lane_outcome(
     retry_attempted_this_sprint: bool,
 ) -> Dict[str, Any]:
     if retry_attempted_this_sprint:
-        outcome = "TIGHTENED_WITH_EXPLICIT_BLOCKER"
-        lane_class = "TIGHTENED (WITH EXACT BLOCKER)"
+        outcome = "ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT"
+        lane_class = "BLOCKED / ANTI-LOOP"
         anti_loop_enforced = True
         blockers = list(explicit_blockers) + ["SAME_SPRINT_RERUN_BLOCKED_DEFER_NEXT_SPRINT"]
-    elif runtime_flip_earned:
-        outcome = "CLOSED_NOW"
-        lane_class = "CLOSED THIS SPRINT"
-        anti_loop_enforced = True
-        blockers = list(explicit_blockers)
-    elif boundary_tightened:
-        outcome = "TIGHTENED_WITH_EXPLICIT_BLOCKER"
-        lane_class = "TIGHTENED (WITH EXACT BLOCKER)"
+    elif lane not in EXTERNAL_WAIT_LANES:
+        # Status flags and a named blocker are not a derivation.
+        outcome = "CARRY_FORWARD_OPEN"
+        lane_class = "OPEN / EVIDENCE REQUIRED"
         anti_loop_enforced = True
         blockers = list(explicit_blockers)
     else:
@@ -97,6 +93,11 @@ def _lane_outcome(
         "column": lane_class,
         "explicit_blockers": blockers,
         "new_object_or_evidence_introduced": new_object_or_evidence_introduced,
+        "claimed_runtime_flip": runtime_flip_earned,
+        "claimed_boundary_tightening": boundary_tightened,
+        "scientific_progress": False,
+        "runtime_flip_earned": False,
+        "boundary_tightened": False,
         "retry_attempted_this_sprint": retry_attempted_this_sprint,
         "anti_loop_enforced": anti_loop_enforced,
     }
@@ -131,7 +132,7 @@ def sprint_cd_no_loop_closure_execution(
                     "SPECIES_RESOLVED_RI_GEOMETRY_WITH_BUNDLE_MODULI_LOCK",
                     "GLOBAL_CKM_PHASE_GEOMETRY_BEYOND_IN_EFT_CAP",
                 ],
-                new_object_or_evidence_introduced=True,
+                new_object_or_evidence_introduced=False,
                 retry_attempted_this_sprint=bool(
                     retries.get("CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED", False)
                 ),
@@ -143,7 +144,7 @@ def sprint_cd_no_loop_closure_execution(
                 explicit_blockers=[
                     "SPECIES_RESOLVED_RI_GEOMETRY_WITH_BUNDLE_MODULI_LOCK",
                 ],
-                new_object_or_evidence_introduced=True,
+                new_object_or_evidence_introduced=False,
                 retry_attempted_this_sprint=bool(
                     retries.get("FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED", False)
                 ),
@@ -153,7 +154,7 @@ def sprint_cd_no_loop_closure_execution(
                 runtime_flip_earned=False,
                 boundary_tightened=bool(flavor["boundary_tightened"]),
                 explicit_blockers=["GLOBAL_CKM_PHASE_GEOMETRY_BEYOND_IN_EFT_CAP"],
-                new_object_or_evidence_introduced=True,
+                new_object_or_evidence_introduced=False,
                 retry_attempted_this_sprint=bool(
                     retries.get("JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED", False)
                 ),
@@ -163,7 +164,7 @@ def sprint_cd_no_loop_closure_execution(
                 runtime_flip_earned=False,
                 boundary_tightened=bool(uv.get("boundary_tightened", False)),
                 explicit_blockers=["SHARED_UV_COMPACTIFICATION_OBJECT_NOT_CLOSED"],
-                new_object_or_evidence_introduced=True,
+                new_object_or_evidence_introduced=False,
                 retry_attempted_this_sprint=bool(
                     retries.get("ALPHA_S_TYPE_B_FLOOR", False)
                 ),
@@ -173,7 +174,7 @@ def sprint_cd_no_loop_closure_execution(
                 runtime_flip_earned=False,
                 boundary_tightened=bool(uv.get("boundary_tightened", False)),
                 explicit_blockers=["SHARED_UV_COMPACTIFICATION_OBJECT_NOT_CLOSED"],
-                new_object_or_evidence_introduced=True,
+                new_object_or_evidence_introduced=False,
                 retry_attempted_this_sprint=bool(
                     retries.get("HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW", False)
                 ),
@@ -183,7 +184,7 @@ def sprint_cd_no_loop_closure_execution(
                 runtime_flip_earned=bool(cmb["closure_earned"]),
                 boundary_tightened=bool(cmb.get("boundary_tightened", False)),
                 explicit_blockers=list(cmb["named_missing_objects"]),
-                new_object_or_evidence_introduced=True,
+                new_object_or_evidence_introduced=False,
                 retry_attempted_this_sprint=bool(
                     retries.get("CMB_AMP_CONFIRMED_IRREDUCIBLE", False)
                 ),
@@ -191,9 +192,9 @@ def sprint_cd_no_loop_closure_execution(
             _lane_outcome(
                 lane="NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
                 runtime_flip_earned=False,
-                boundary_tightened=bool(qg["valid"]),
+                boundary_tightened=qg.get("boundary_tightened") is True,
                 explicit_blockers=list(OBSTRUCTION_CODES),
-                new_object_or_evidence_introduced=True,
+                new_object_or_evidence_introduced=False,
                 retry_attempted_this_sprint=bool(
                     retries.get("NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT", False)
                 ),
@@ -221,7 +222,10 @@ def sprint_cd_no_loop_closure_execution(
         "blocked_or_external_wait": [
             row["lane"]
             for row in lane_rows
-            if row["outcome"] == "EXTERNAL_WAIT_ONLY"
+            if row["outcome"] in {
+                "EXTERNAL_WAIT_ONLY", "CARRY_FORWARD_OPEN",
+                "ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT",
+            }
         ],
     }
 
@@ -230,12 +234,16 @@ def sprint_cd_no_loop_closure_execution(
         "CLOSED_NOW",
         "TIGHTENED_WITH_EXPLICIT_BLOCKER",
         "EXTERNAL_WAIT_ONLY",
+        "CARRY_FORWARD_OPEN",
+        "ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT",
     }
     binary_outcome_rule_pass = outcomes.issubset(allowed_outcomes)
-    required_outcomes_present = {
-        "TIGHTENED_WITH_EXPLICIT_BLOCKER",
-        "EXTERNAL_WAIT_ONLY",
-    }.issubset(outcomes)
+    required_outcomes_present = all(
+        row["outcome"] == "EXTERNAL_WAIT_ONLY"
+        if row["lane"] in EXTERNAL_WAIT_LANES
+        else row["outcome"] != "EXTERNAL_WAIT_ONLY"
+        for row in lane_rows
+    )
     execution_order_trace = [
         {
             "packet": "FLAVOR_SHARED_ROOT_PACKET",
@@ -307,6 +315,9 @@ def sprint_cd_no_loop_closure_execution(
             "qg_packet": qg,
         },
         "valid": valid,
+        "packet_valid": valid,
+        "scientific_progress": False,
+        "sprint_success": False,
     }
 
 

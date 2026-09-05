@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 from math import isfinite
+from numbers import Real
 
 PILLAR_NUMBER: int = 1062
 PILLAR_GATE: str = "SPRINT_CF_TRACK_A_CMB_LOWER_BOUND_THEOREM"
@@ -19,7 +20,7 @@ PILLAR_STATUS: str = "SPRINT_CF_TRACK_A_CMB_LOWER_BOUND_THEOREM_STATED"
 VERSION: str = "v36.2"
 SPRINT_NAME: str = "CF"
 NEXT_PILLAR_SLOT: int = 1063
-LANE_TARGET: str = "CMB_AMP_CONFIRMED_IRREDUCIBLE"
+LANE_TARGET: str = "CMB_AMPLITUDE_DERIVATION_OPEN"
 JUSTIFICATION_CLASS_BEFORE: str = "TYPE_B_CRITERION_MET"
 JUSTIFICATION_CLASS_AFTER: str = "CONDITIONAL_ARITHMETIC_ONLY_PHYSICAL_BOUND_UNESTABLISHED"
 
@@ -56,15 +57,31 @@ def s_min_lower_bound(n_w: int = N_W, k_cs: int = K_CS) -> float:
             or not isinstance(n_w, int) or not isinstance(k_cs, int)
             or k_cs <= 0 or n_w <= 0):
         raise ValueError("n_w and k_cs must be positive integers.")
-    ratio = float(n_w) / float(k_cs)
-    return ratio * ratio * C_RS1_LOWER_BOUND_INVARIANT
+    try:
+        ratio = n_w / k_cs
+        value = ratio * ratio * C_RS1_LOWER_BOUND_INVARIANT
+    except OverflowError as exc:
+        raise ValueError("Historical formula is outside floating-point range.") from exc
+    if not isfinite(value) or value <= 0:
+        raise ValueError("Historical formula must be finite and positive.")
+    return value
 
 
 def reciprocal_deficit_bound(s_min: float, suppression: float) -> Dict[str, float]:
     """Evaluate x=1/S and its upper bound under 0 < S_min <= S."""
-    if not (isfinite(s_min) and isfinite(suppression) and 0 < s_min <= suppression):
+    if any(isinstance(value, bool) or not isinstance(value, Real)
+           for value in (s_min, suppression)):
+        raise ValueError("Require real numeric bounds, not booleans.")
+    try:
+        finite = isfinite(s_min) and isfinite(suppression)
+    except OverflowError as exc:
+        raise ValueError("Bounds are outside floating-point range.") from exc
+    if not (finite and 0 < s_min <= suppression):
         raise ValueError("Require finite 0 < s_min <= suppression.")
-    return {"deficit": 1.0 / suppression, "deficit_upper_bound": 1.0 / s_min}
+    deficit, upper = 1.0 / suppression, 1.0 / s_min
+    if not (isfinite(deficit) and isfinite(upper) and deficit > 0):
+        raise ValueError("Reciprocals are outside floating-point range.")
+    return {"deficit": deficit, "deficit_upper_bound": upper}
 
 
 def theorem_statement() -> Dict[str, Any]:
@@ -73,7 +90,8 @@ def theorem_statement() -> Dict[str, Any]:
         "form": (
             "0 < S_min ≤ S implies x = 1/S ≤ 1/S_min"
         ),
-        "assumptions": list(ASSUMPTIONS),
+        "assumptions": ["0 < S_min", "S_min ≤ S"],
+        "historical_physical_assumptions": list(ASSUMPTIONS),
         "topological_inputs": {"n_w": N_W, "k_cs": K_CS},
         "s_min": s_min_lower_bound(),
         "warp_class_invariant_sign": "assumed_positive_not_derived",
@@ -90,6 +108,13 @@ def theorem_statement() -> Dict[str, Any]:
 
 def cmb_amp_lower_bound_theorem_report() -> Dict[str, Any]:
     thm = theorem_statement()
+    valid = bool(
+        isfinite(thm["s_min"])
+        and 0.0 < thm["s_min"] <= 1.0
+        and thm["does_not_close_lane"] is True
+        and thm["physical_bound_established"] is False
+        and thm["irreducibility_established"] is False
+    )
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
@@ -97,6 +122,7 @@ def cmb_amp_lower_bound_theorem_report() -> Dict[str, Any]:
         "version": VERSION,
         "sprint": SPRINT_NAME,
         "lane_target": LANE_TARGET,
+        "historical_lane_target": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
         "theorem": thm,
         "lean4_theorem_name": LEAN4_THEOREM_NAME,
         "lean4_theorem_delta": LEAN4_THEOREM_DELTA,
@@ -105,18 +131,14 @@ def cmb_amp_lower_bound_theorem_report() -> Dict[str, Any]:
         "lean4_compilation_verified": False,
         "physical_theorem_proved": False,
         "scientific_progress": False,
-        "packet_valid": True,
+        "packet_valid": valid,
         "runtime_label_changed": False,
         "justification_upgrade": {
             "before": JUSTIFICATION_CLASS_BEFORE,
             "after": JUSTIFICATION_CLASS_AFTER,
         },
         "next_pillar_slot": NEXT_PILLAR_SLOT,
-        "valid": (
-            thm["s_min"] > 0.0
-            and thm["s_min"] <= 1.0
-            and not thm["does_not_close_lane"] is False
-        ),
+        "valid": valid,
     }
 
 

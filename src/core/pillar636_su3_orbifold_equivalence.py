@@ -37,7 +37,7 @@ def su5_involution(negative: int) -> Dict[str, Any]:
     traceless diagonal generators are even. The 0, 2, 4 examples exhaust
     these diagonal adjoint involutions up to conjugacy and P -> -P.
     """
-    if isinstance(negative, bool) or negative not in (0, 2, 4):
+    if not isinstance(negative, int) or isinstance(negative, bool) or negative not in (0, 2, 4):
         raise ValueError("negative must be 0, 2, or 4")
     positive = 5 - negative
     signs = (1,) * positive + (-1,) * negative

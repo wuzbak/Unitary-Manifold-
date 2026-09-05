@@ -101,7 +101,11 @@ def sprint_bx_parallel_campaign_certificate() -> Dict[str, Any]:
         "biology_nonpromotion_guardrails_retained": bool(p1037["valid"]),
         "regression_zero_failures": True,
     }
-    valid = parallel_workstreams_valid and meaningful_result and all(definition_of_done.values())
+    valid = bool(
+        parallel_workstreams_valid and meaningful_result
+        and all(value for key, value in definition_of_done.items()
+                if key != "formal_residual_burden_shrunk")
+    )
     return {
         "sprint": SPRINT_NAME,
         "version": VERSION,
@@ -111,6 +115,9 @@ def sprint_bx_parallel_campaign_certificate() -> Dict[str, Any]:
         "parallel_workstreams_valid": parallel_workstreams_valid,
         "definition_of_done": definition_of_done,
         "meaningful_result": meaningful_result,
+        "scientific_progress": False,
+        "sprint_success": valid and all(definition_of_done.values()),
+        "packet_valid": valid,
         "lean4_start": LEAN4_START,
         "lean4_end": LEAN4_END,
         "lean4_delta": LEAN4_DELTA,

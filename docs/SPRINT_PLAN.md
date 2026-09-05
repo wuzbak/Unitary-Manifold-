@@ -22,8 +22,9 @@ below. It allocates no new pillar and makes no universal closure promise.
 an independently reproducible corrected calculation with assumptions and an
 error budget. Synchronization is release hygiene, not physics progress.
 The current findings and verification record are in
-[TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment). The fresh pre-change
-combined suite passed 63,430 tests, with 43 skipped and 12 deselected.
+[TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment). The interrupted session
+recorded a pre-change combined suite of 63,430 passed, 43 skipped and
+12 deselected; this is not the resumed implementation's verification result.
 
 ## Historical sprint continuity
 

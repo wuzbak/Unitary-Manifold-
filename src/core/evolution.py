@@ -11,6 +11,12 @@ first-order Euler integrator is also provided for accuracy benchmarking.
 
 Field equations (schematically):
 
+This is a phenomenological flow, not the Euler–Lagrange evolution of the
+circle Einstein–Hilbert action. ``R`` below is the legacy contraction
+g^μν R^(5)_μν, not R4 or R5, and ``alpha`` is supplied independently.
+The geometric derivative routines sample only x (index 1); index 0 is time.
+The matter sources use Euclidean component norms, not Lorentzian contractions.
+
     ∂_t g_μν  = −2 R_μν + T_μν[B, φ]                   (modified Einstein)
     ∂_t B_μ   = ∇_ν (λ² H^νμ)                          (gauge / irreversibility)
     ∂_t φ     = □φ + α R φ + S[H] − m²_φ (φ − φ₀)     (optionally stabilised radion scalar)
@@ -318,7 +324,7 @@ def _stress_energy(B, phi, H, lam):
     we return a diagonal approximation for stability.
     """
     N = B.shape[0]
-    H2 = np.einsum('nij,nij->n', H, H)            # H_μν H^μν  (shape N)
+    H2 = np.einsum('nij,nij->n', H, H)            # Euclidean component norm (N,)
     T = np.zeros((N, 4, 4))
     for mu in range(4):
         for nu in range(4):
@@ -328,7 +334,7 @@ def _stress_energy(B, phi, H, lam):
 
 
 def _source_scalar(H):
-    """Source term S[H] = ½ H_μν H^μν for the scalar equation."""
+    """Phenomenological source: half the Euclidean component norm of H."""
     return 0.5 * np.einsum('nij,nij->n', H, H)
 
 

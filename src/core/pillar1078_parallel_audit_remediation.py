@@ -195,7 +195,7 @@ def _expected_portal_status(live_status: dict[str, Any]) -> dict[str, Any]:
             "Flavor-family residuals remain architecture-limited under the shared-root blocker map",
             "α_s Type-B floor remains outside the shared UV compactification solution surface",
             "w_a tension remains tracked below the hard falsification threshold",
-            "CMB amplitude mismatch remains an explicit irreducible architecture limit",
+            "CMB normalization and transfer corrections remain open; the historical irreducibility label is not a universal no-go proof",
             "Non-perturbative QG remains bounded by named O1–O4 obstructions",
         ],
         "constants": {
@@ -380,6 +380,9 @@ def pillar1078_parallel_audit_report() -> dict[str, Any]:
         "checks": checks,
         "failing_checks": failures,
         "overall_status": "PASS_WITH_FIXES" if not failures else "FAIL",
+        "scientific_progress": False,
+        "physical_theorem_proved": False,
+        "lean4_compilation_verified": False,
         "non_hardgate_statement": "This certificate hardens documentation, auditability, and live-status honesty without promoting new hardgate physics claims.",
     }
 

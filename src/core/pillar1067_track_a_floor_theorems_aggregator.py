@@ -38,7 +38,7 @@ SPRINT_NAME: str = "CF"
 NEXT_PILLAR_SLOT: int = 1068
 
 TRACK_A_LANES: List[str] = [
-    "CMB_AMP_CONFIRMED_IRREDUCIBLE",
+    "CMB_AMPLITUDE_DERIVATION_OPEN",
     "ALPHA_S_TYPE_B_FLOOR",
     "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
     "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
@@ -59,6 +59,12 @@ def track_a_floor_theorems_aggregator() -> Dict[str, Any]:
     all_valid = True
     all_stated = True
     for r in reports:
+        proved = bool(
+            r.get("valid") is True
+            and r.get("physical_theorem_proved") is True
+            and r.get("lean4_compilation_verified") is True
+            and r.get("physical_proof_evidence")
+        )
         per_lane.append(
             {
                 "pillar": r["pillar"],
@@ -69,7 +75,7 @@ def track_a_floor_theorems_aggregator() -> Dict[str, Any]:
                 "lean4_delta": r["lean4_theorem_delta"],
                 "runtime_label_changed": r["runtime_label_changed"],
                 "valid": r["valid"],
-                "physical_theorem_proved": r.get("physical_theorem_proved", False),
+                "physical_theorem_proved": proved,
             }
         )
         total_lean4_delta += int(r["lean4_theorem_delta"])
@@ -92,6 +98,9 @@ def track_a_floor_theorems_aggregator() -> Dict[str, Any]:
         "all_packets_valid": all_valid,
         "scientific_progress": any(row["physical_theorem_proved"] for row in per_lane),
         "theorem_count_evidence_status": "DECLARED_NOT_VERIFIED",
+        "verified_physical_theorem_count": sum(
+            row["physical_theorem_proved"] for row in per_lane
+        ),
         "all_justifications_upgraded_to_lean4": all_stated,
         "runtime_labels_untouched": runtime_untouched,
         "next_pillar_slot": NEXT_PILLAR_SLOT,

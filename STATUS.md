@@ -6,8 +6,8 @@
 > assigned residual contractions and proxy theorem counts do not discharge
 > scientific obligations. Flavor uniqueness, independent CMB normalization,
 > action-to-evolution equivalence, and joint UV predictivity remain open.
-> The fresh pre-change baseline is 63,430 passed, 43 skipped, 12 deselected,
-> 0 failed; the headline below is a historical regression record.
+> The interrupted session's pre-change baseline was 63,430 passed, 43 skipped,
+> 12 deselected, 0 failed; the headline below is a historical regression record.
 > See [the current reassessment](docs/TRUTH_LAYER.md#foundation-reassessment)
 > for precise counterexamples, assumptions, and verification scope.
 

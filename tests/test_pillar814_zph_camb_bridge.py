@@ -1,356 +1,379 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-
-import math
+"""Control spectra, numerical sensitivity and explicit unsupported UM physics."""
+from dataclasses import asdict, replace
+import json
+import runpy
+import sys
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
 
-from src.core.pillar814_zph_camb_bridge import (
-    A_S_PLANCK,
-    A_S_UM,
-    CAMB_AVAILABLE,
-    CLOSURE_THRESHOLD,
-    ELL_HIGH,
-    ELL_LOW,
-    LEAN4_THEOREM_COUNT,
-    LEAN4_TOTAL_AFTER,
-    N_MODES_807,
-    N_S,
-    N_W,
-    K_CS,
-    PHI0,
-    PHI0_EFF,
-    PHI0_ZPH,
-    PILLAR_GATE,
-    PILLAR_NUMBER,
-    PLANCK_2018_ELL,
-    R_BRAIDED,
-    S_WARP_MIDRANGE,
-    Z_PHI,
-    ZphBinResult,
-    ZphBridgeResult,
-    breathing_mode_damping,
-    compute_damping_filter,
-    compute_relative_residual,
-    compute_z_phi,
-    evaluate_closure_gate,
-    planck_reference_cl,
-    run_zph_camb_bridge,
-    toy_cl_tt_um,
-    um_transfer_correction,
-)
+from src.core import pillar814_zph_camb_bridge as bridge
 
 
-class TestConstants:
-    def test_pillar_number(self):
-        assert PILLAR_NUMBER == 814
+ELL = [200, 540, 1000]
 
-    def test_lean4_accounting(self):
-        assert LEAN4_THEOREM_COUNT == 15
-        assert LEAN4_TOTAL_AFTER == 1351
 
-    def test_n_w(self):
-        assert N_W == 5
+@pytest.fixture
+def fake_camb(monkeypatch):
+    """Deterministic solver double for accounting tests, not physical evidence."""
+    calls = []
 
-    def test_k_cs(self):
-        assert K_CS == 74
-
-    def test_k_cs_pythagoras(self):
-        assert K_CS == 5**2 + 7**2
-
-    def test_phi0(self):
-        assert abs(PHI0 - math.pi / 4.0) < 1e-15
-
-    def test_phi0_eff(self):
-        assert abs(PHI0_EFF - N_W * 2.0 * math.pi) < 1e-14
-
-    def test_n_s(self):
-        assert abs(N_S - (1.0 - 36.0 / PHI0_EFF**2)) < 1e-15
-
-    def test_n_s_value(self):
-        assert 0.960 < N_S < 0.968
-
-    def test_r_braided(self):
-        c_s = 12.0 / 37.0
-        assert abs(R_BRAIDED - (96.0 / PHI0_EFF**2) * c_s) < 1e-15
-
-    def test_r_braided_value(self):
-        assert 0.029 < R_BRAIDED < 0.033
-
-    def test_z_phi_value(self):
-        z = compute_z_phi()
-        assert abs(z - Z_PHI) < 1e-14
-
-    def test_z_phi_gt_one(self):
-        assert Z_PHI > 1.0
-
-    def test_z_phi_approx(self):
-        assert 5.0 < Z_PHI < 6.0
-
-    def test_a_s_planck(self):
-        assert abs(A_S_PLANCK - 2.1e-9) < 1e-20
-
-    def test_a_s_um_less_than_planck(self):
-        assert A_S_UM < A_S_PLANCK
-
-    def test_a_s_um_formula(self):
-        assert abs(A_S_UM - A_S_PLANCK / Z_PHI**2) < 1e-30
-
-    def test_s_warp_midrange(self):
-        assert abs(S_WARP_MIDRANGE - math.sqrt(4.0 * 7.0)) < 1e-15
-
-    def test_ell_range(self):
-        assert ELL_LOW == 200
-        assert ELL_HIGH == 2000
-        assert ELL_LOW < ELL_HIGH
-
-    def test_closure_threshold(self):
-        assert abs(CLOSURE_THRESHOLD - 0.30) < 1e-15
-
-    def test_n_modes_807(self):
-        assert N_MODES_807 == 5
-
-
-class TestComputeZPhi:
-    def test_returns_float(self):
-        assert isinstance(compute_z_phi(), float)
-
-    def test_gt_one(self):
-        assert compute_z_phi() > 1.0
-
-    def test_formula(self):
-        expected = 1.0 + math.sqrt(K_CS) / (2.0 * PHI0_ZPH**2)
-        assert abs(compute_z_phi() - expected) < 1e-14
-
-    def test_custom_params(self):
-        z = compute_z_phi(k_cs=100, phi0=1.0)
-        assert abs(z - (1.0 + 10.0 / 2.0)) < 1e-14
-
-    def test_matches_module_constant(self):
-        assert abs(compute_z_phi() - Z_PHI) < 1e-14
-
-
-class TestBreathingModeDamping:
-    def test_zero_ell_returns_one(self):
-        d = breathing_mode_damping(0.0)
-        assert abs(d - 1.0) < 1e-15
-
-    def test_positive_ell_lt_one(self):
-        d = breathing_mode_damping(220.0)
-        assert 0.0 < d <= 1.0
-
-    def test_monotone_decreasing(self):
-        d220 = breathing_mode_damping(220.0)
-        d540 = breathing_mode_damping(540.0)
-        d810 = breathing_mode_damping(810.0)
-        assert d220 >= d540 >= d810
-
-    def test_large_ell_near_zero(self):
-        # With the correct P807 KK spectrum, D ≈ 1 at acoustic scales
-        # because KK breathing modes are exponentially massive (sin ≈ 0)
-        d = breathing_mode_damping(10000.0)
-        assert d > 0.0  # always positive
-
-    def test_single_mode(self):
-        d1 = breathing_mode_damping(220.0, n_modes=1)
-        d5 = breathing_mode_damping(220.0, n_modes=5)
-        assert d1 >= d5  # more modes → same or more damping
-
-    def test_returns_float(self):
-        assert isinstance(breathing_mode_damping(300.0), float)
-
-
-class TestComputeDampingFilter:
-    def test_returns_dict(self):
-        filt = compute_damping_filter()
-        assert isinstance(filt, dict)
-
-    def test_all_ells_present(self):
-        filt = compute_damping_filter()
-        for ell in PLANCK_2018_ELL:
-            assert ell in filt
-
-    def test_all_values_in_01(self):
-        filt = compute_damping_filter()
-        for v in filt.values():
-            assert 0.0 < v <= 1.0
-
-    def test_first_ell_200(self):
-        filt = compute_damping_filter()
-        assert 200 in filt
-
-
-class TestUMTransferCorrection:
-    def test_returns_float(self):
-        assert isinstance(um_transfer_correction(220.0, Z_PHI), float)
-
-    def test_correction_positive(self):
-        assert um_transfer_correction(220.0, Z_PHI) > 0.0
-
-    def test_decreasing_with_ell(self):
-        c220 = um_transfer_correction(220.0, Z_PHI)
-        c810 = um_transfer_correction(810.0, Z_PHI)
-        assert c220 > c810
-
-
-class TestToyClTT:
-    def test_returns_positive(self):
-        cl = toy_cl_tt_um(220.0)
-        assert cl > 0.0
-
-    def test_varies_with_ell(self):
-        cl_220 = toy_cl_tt_um(220.0)
-        cl_800 = toy_cl_tt_um(800.0)
-        assert cl_220 != cl_800
-
-    def test_z_phi_dependency(self):
-        cl_z1 = toy_cl_tt_um(220.0, z_phi=1.0)
-        cl_z5 = toy_cl_tt_um(220.0, z_phi=5.0)
-        assert cl_z5 > cl_z1  # higher Z_φ → more correction
-
-
-class TestPlanckReferenceCl:
-    def test_returns_positive(self):
-        cl = planck_reference_cl(220.0)
-        assert cl > 0.0
-
-    def test_no_warp_suppression(self):
-        # Planck reference should be larger than UM toy at same ell
-        pl = planck_reference_cl(220.0)
-        um = toy_cl_tt_um(220.0)
-        # The UM is warp-suppressed, so um/pl < 1
-        assert um < pl or True  # depends on normalisation; just check both are positive
-
-    def test_varies_with_ell(self):
-        pl_220 = planck_reference_cl(220.0)
-        pl_1000 = planck_reference_cl(1000.0)
-        assert pl_220 != pl_1000
-
-
-class TestComputeRelativeResidual:
-    def test_returns_list(self):
-        bins = compute_relative_residual(use_camb=False)
-        assert isinstance(bins, list)
-
-    def test_correct_type(self):
-        bins = compute_relative_residual(use_camb=False)
-        for b in bins:
-            assert isinstance(b, ZphBinResult)
-
-    def test_residuals_non_negative(self):
-        bins = compute_relative_residual(use_camb=False)
-        for b in bins:
-            assert b.residual >= 0.0
-
-    def test_ell_values_present(self):
-        bins = compute_relative_residual(use_camb=False)
-        ells = [b.ell for b in bins]
-        assert 200 in ells
-        assert 2000 in ells
-
-    def test_cl_positive(self):
-        bins = compute_relative_residual(use_camb=False)
-        for b in bins:
-            assert b.cl_um >= 0.0
-            assert b.cl_planck >= 0.0
-
-
-class TestEvaluateClosureGate:
-    def test_partial_closure_when_low_residual(self):
-        bins = [
-            ZphBinResult(ell=220, cl_um=0.95, cl_planck=1.0, residual=0.05),
-            ZphBinResult(ell=540, cl_um=0.90, cl_planck=1.0, residual=0.10),
-            ZphBinResult(ell=1000, cl_um=0.85, cl_planck=1.0, residual=0.15),
-        ]
-        gate = evaluate_closure_gate(bins, threshold=0.30)
-        assert "PARTIAL_CLOSURE" in gate
-
-    def test_nlo_open_when_high_residual(self):
-        bins = [
-            ZphBinResult(ell=220, cl_um=0.60, cl_planck=1.0, residual=0.40),
-            ZphBinResult(ell=540, cl_um=0.55, cl_planck=1.0, residual=0.45),
-            ZphBinResult(ell=1000, cl_um=0.50, cl_planck=1.0, residual=0.50),
-        ]
-        gate = evaluate_closure_gate(bins, threshold=0.30)
-        assert "NLO_OPEN" in gate
-
-    def test_filters_to_ell_range(self):
-        bins = [
-            ZphBinResult(ell=50, cl_um=0.01, cl_planck=1.0, residual=0.99),   # outside range
-            ZphBinResult(ell=500, cl_um=0.90, cl_planck=1.0, residual=0.10),  # inside
-        ]
-        gate = evaluate_closure_gate(bins, threshold=0.30)
-        # Only the bin at ell=500 (residual 0.10 < 0.30) counts
-        assert "PARTIAL_CLOSURE" in gate
-
-    def test_empty_bins_returns_nlo_open(self):
-        gate = evaluate_closure_gate([])
-        assert gate == "NLO_OPEN"
-
-
-class TestRunZphCAMBBridge:
-    def test_returns_named_tuple(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert isinstance(result, ZphBridgeResult)
-
-    def test_z_phi_correct(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert abs(result.z_phi - Z_PHI) < 1e-14
-
-    def test_a_s_um(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert abs(result.a_s_um - A_S_UM) < 1e-30
-
-    def test_damping_values(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert 0.0 < result.damping_at_220 <= 1.0
-        assert 0.0 < result.damping_at_540 <= 1.0
-        assert 0.0 < result.damping_at_810 <= 1.0
-
-    def test_damping_ordering(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert result.damping_at_220 >= result.damping_at_540 >= result.damping_at_810
-
-    def test_gate_is_string(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert isinstance(result.gate, str)
-
-    def test_gate_is_valid(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert result.gate in (
-            "ZPH_CAMB_BRIDGE_BOLTZMANN_PARTIAL_CLOSURE",
-            "ZPH_CAMB_BRIDGE_NLO_OPEN",
+    def run(ell, cosmology, primordial, accuracy, margin):
+        calls.append((ell.copy(), cosmology, primordial, accuracy, margin))
+        return (10 * np.arange(1, len(ell) + 1) + accuracy - 1) * (
+            primordial.As / bridge.A_S_PLANCK
         )
 
-    def test_camb_not_used_when_disabled(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert not result.camb_used
+    monkeypatch.setattr(bridge, "CAMB_AVAILABLE", True)
+    monkeypatch.setattr(bridge, "_run_camb_cl_tt", run)
+    monkeypatch.setitem(sys.modules, "camb", SimpleNamespace(__version__="test-double"))
+    return calls
 
-    def test_median_residual_non_negative(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert result.median_residual >= 0.0
 
-    def test_open_items_non_empty(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert len(result.open_items) >= 3
+def test_missing_derivations_are_not_numerical_constants():
+    assert bridge.A_S_UM is None
+    assert bridge.Z_PHI is None
+    assert bridge.PLANCK_2018_ELL == bridge.DEFAULT_ELL
 
-    def test_g1_floor_in_open_items(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert any("G1" in item for item in result.open_items)
 
-    def test_boltzmann_open_in_items(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert any("BOLTZMANN" in item for item in result.open_items)
+@pytest.mark.parametrize("name", [
+    "compute_z_phi", "breathing_mode_damping", "compute_damping_filter",
+    "um_transfer_correction", "toy_cl_tt_um", "planck_reference_cl",
+])
+def test_unsupported_historical_corrections_fail_explicitly(name):
+    with pytest.raises(NotImplementedError, match="derivation"):
+        getattr(bridge, name)()
 
-    def test_pillar_gate_set(self):
-        assert "ZPH_CAMB_BRIDGE" in PILLAR_GATE
 
-    def test_bins_non_empty(self):
-        result = run_zph_camb_bridge(use_camb=False)
-        assert len(result.bins) > 0
+def test_toy_identity_is_not_a_sky_prediction_or_closure():
+    primordial = bridge.PrimordialSpectrum()
+    result = bridge.compare_cmb_spectra(
+        ELL, reference=primordial, candidate=primordial, backend="toy",
+    )
+    np.testing.assert_array_equal(result.candidate_dl, result.reference_dl)
+    np.testing.assert_array_equal(result.residual_dl, np.zeros(3))
+    assert not result.camb_used
+    assert not result.closure_earned
+    assert result.gate == bridge.PILLAR_GATE
+    assert bridge.evaluate_closure_gate(result, threshold=1) == bridge.PILLAR_GATE
+    assert result.reference_numerical_error is None
+    assert result.candidate_numerical_error is None
+    assert result.residual_numerical_error is None
+    assert result.observed_residual_dl is None
+    assert result.chi_square is None
+    assert result.metadata["units"] == "arbitrary"
+    assert result.metadata["convention"] is None
+    assert "no physical transfer" in result.metadata["transfer_physics"]
+    assert result.metadata["corrections_applied"] == []
+    assert "not empirical Planck" in result.metadata["reference_kind"]
+    assert json.loads(json.dumps(result.to_dict(), allow_nan=False))["ell"] == ELL
 
-    @pytest.mark.skipif(not CAMB_AVAILABLE, reason="camb not installed")
-    def test_camb_path_uses_camb(self):
-        result = run_zph_camb_bridge(use_camb=True)
-        assert result.camb_used
+
+def test_toy_primordial_sensitivity_without_peak_matching():
+    primordial = bridge.PrimordialSpectrum()
+    candidate = replace(primordial, As=1.5 * primordial.As, ns=primordial.ns + 0.1)
+    result = bridge.compare_cmb_spectra(
+        ELL, reference=primordial, candidate=candidate, backend="toy",
+    )
+    expected_ratio = 1.5 * (np.array(ELL) / 700.0) ** 0.1
+    np.testing.assert_allclose(result.candidate_dl / result.reference_dl, expected_ratio)
+    np.testing.assert_allclose(result.relative_residual, expected_ratio - 1)
+
+
+def test_toy_cannot_model_tensors():
+    with pytest.raises(NotImplementedError, match="tensor"):
+        bridge.compare_cmb_spectra(
+            ELL, backend="toy", candidate=bridge.PrimordialSpectrum(r=0.03),
+        )
+
+
+def test_backend_selection_without_camb(monkeypatch):
+    monkeypatch.setattr(bridge, "CAMB_AVAILABLE", False)
+    with pytest.raises(ImportError, match="CAMB"):
+        bridge.compare_cmb_spectra(ELL, backend="camb")
+    automatic = bridge.run_zph_camb_bridge(ELL, use_camb=True)
+    assert automatic.metadata["backend"] == "toy"
+    assert automatic.metadata["fallback_reason"] == "CAMB unavailable"
+    explicit = bridge.run_zph_camb_bridge(ELL, use_camb=False)
+    assert explicit.metadata["fallback_reason"] is None
+
+
+@pytest.mark.parametrize("backend", ["auto", "toy"])
+def test_command_line_without_camb_reports_labeled_toy(monkeypatch, capsys, backend):
+    find_spec = bridge.importlib.util.find_spec
+    monkeypatch.setattr(
+        bridge.importlib.util, "find_spec",
+        lambda name, *args, **kwargs: None if name == "camb" else find_spec(name, *args, **kwargs),
+    )
+    argv = [bridge.__file__] + ([] if backend == "auto" else ["--backend", backend])
+    monkeypatch.setattr(sys, "argv", argv)
+    runpy.run_path(bridge.__file__, run_name="__main__")
+    result = json.loads(capsys.readouterr().out)
+    assert result["metadata"]["backend"] == "toy"
+    assert result["metadata"]["backend_requested"] == backend
+    assert result["metadata"]["units"] == "arbitrary"
+    assert result["closure_earned"] is False
+    assert result["metadata"]["fallback_reason"] == (
+        "CAMB unavailable" if backend == "auto" else None
+    )
+
+
+def test_command_line_explicit_camb_does_not_fall_back(monkeypatch):
+    find_spec = bridge.importlib.util.find_spec
+    monkeypatch.setattr(
+        bridge.importlib.util, "find_spec",
+        lambda name, *args, **kwargs: None if name == "camb" else find_spec(name, *args, **kwargs),
+    )
+    monkeypatch.setattr(sys, "argv", [bridge.__file__, "--backend", "camb"])
+    with pytest.raises(ImportError, match="CAMB"):
+        runpy.run_path(bridge.__file__, run_name="__main__")
+
+
+def test_auto_uses_camb_when_available(fake_camb):
+    result = bridge.compare_cmb_spectra(ELL)
+    assert result.camb_used
+    assert len(fake_camb) == 4
+    assert result.metadata["fallback_reason"] is None
+
+
+def test_solver_failure_is_not_silently_replaced_with_toy(fake_camb, monkeypatch):
+    def fail(*args):
+        raise RuntimeError("solver failed")
+
+    monkeypatch.setattr(bridge, "_run_camb_cl_tt", fail)
+    with pytest.raises(RuntimeError, match="solver failed"):
+        bridge.compare_cmb_spectra(ELL, backend="auto")
+
+
+def test_independent_runs_and_numerical_sensitivity(fake_camb):
+    primordial = bridge.PrimordialSpectrum()
+    candidate = replace(primordial, As=1.5 * primordial.As)
+    cosmology = bridge.Cosmology(H0=70.0)
+    result = bridge.compare_cmb_spectra(
+        ELL, reference=primordial, candidate=candidate, cosmology=cosmology,
+        backend="camb",
+    )
+    assert [c[2] for c in fake_camb] == [primordial, primordial, candidate, candidate]
+    assert [c[3:] for c in fake_camb] == [(1.0, 150), (2.0, 300)] * 2
+    assert all(c[1] == cosmology for c in fake_camb)
+    np.testing.assert_array_equal(result.reference_dl, [11, 21, 31])
+    np.testing.assert_array_equal(result.candidate_dl, [16.5, 31.5, 46.5])
+    np.testing.assert_array_equal(result.reference_numerical_error, [1, 1, 1])
+    np.testing.assert_array_equal(result.candidate_numerical_error, [1.5, 1.5, 1.5])
+    np.testing.assert_array_equal(result.residual_numerical_error, [2.5, 2.5, 2.5])
+    np.testing.assert_allclose(result.relative_residual, 0.5)
+    assert not result.closure_earned
+    assert result.metadata["camb_version"] == "test-double"
+    assert result.metadata["cosmology"] == asdict(cosmology)
+    assert result.metadata["candidate_primordial"] == asdict(candidate)
+    assert "not a bound" in result.metadata["numerical_error_kind"]
+    assert "not quantified" in result.metadata["model_error"]
+    assert result.metadata["units"] == "microK^2"
+
+
+@pytest.mark.parametrize("invalid", [[0, 1, 2], [-1, 2, 3], [np.nan, 2, 3],
+                                     [np.inf, 2, 3], [1], [[1, 2, 3]]])
+@pytest.mark.parametrize("bad_run", [0, 1, 2, 3])
+def test_every_solver_run_requires_finite_positive_full_support(fake_camb, monkeypatch,
+                                                               invalid, bad_run):
+    good = bridge._run_camb_cl_tt
+    count = 0
+
+    def run(*args):
+        nonlocal count
+        index = count
+        count += 1
+        return np.array(invalid) if index == bad_run else good(*args)
+
+    monkeypatch.setattr(bridge, "_run_camb_cl_tt", run)
+    with pytest.raises(RuntimeError, match="invalid TT"):
+        bridge.compare_cmb_spectra(ELL, backend="camb")
+
+
+def test_supplied_covariance_quadratic_form_not_control_residual(fake_camb):
+    observed = np.array([10, 23, 28])
+    cov = np.array([[4, 1, 0], [1, 9, 0], [0, 0, 16]])
+    result = bridge.compare_cmb_spectra(
+        ELL, backend="camb", observed_dl=observed, covariance=cov,
+        observation_source="synthetic unit-test data, not Planck",
+    )
+    residual = np.array([1, -2, 3])
+    np.testing.assert_array_equal(result.residual_dl, np.zeros(3))
+    np.testing.assert_array_equal(result.observed_residual_dl, residual)
+    np.testing.assert_array_equal(result.covariance, cov)
+    assert result.chi_square == pytest.approx(residual @ np.linalg.solve(cov, residual))
+    assert result.metadata["covariance_units"] == "microK^4"
+    assert "not fitted/reduced" in result.metadata["chi_square_kind"]
+    assert not result.closure_earned
+
+
+def test_observations_without_covariance_do_not_invent_a_chi_square(fake_camb):
+    result = bridge.compare_cmb_spectra(
+        ELL, backend="camb", observed_dl=[11, 21, 31], observation_source="synthetic",
+    )
+    np.testing.assert_array_equal(result.observed_residual_dl, np.zeros(3))
+    assert result.chi_square is None
+    assert result.covariance is None
+    assert not result.closure_earned
+
+
+@pytest.mark.parametrize("kwargs", [
+    {"observed_dl": [1, 2]},
+    {"observed_dl": [1, 2, np.nan]},
+    {"observed_dl": [1, 2, 3]},
+    {"observed_dl": [1, 2, 3], "observation_source": " "},
+    {"covariance": np.eye(3)},
+    {"observed_dl": [1, 2, 3], "observation_source": "test", "covariance": np.eye(2)},
+    {"observed_dl": [1, 2, 3], "observation_source": "test", "covariance": np.zeros((3, 3))},
+    {"observed_dl": [1, 2, 3], "observation_source": "test",
+     "covariance": [[1, 2, 0], [0, 1, 0], [0, 0, 1]]},
+    {"observed_dl": [1, 2, 3], "observation_source": "test",
+     "covariance": np.diag([1, -1, 1])},
+    {"observed_dl": [1, 2, 3], "observation_source": "test",
+     "covariance": np.diag([1, np.nan, 1])},
+])
+def test_invalid_observation_inputs_fail_before_solver(fake_camb, kwargs):
+    with pytest.raises(ValueError):
+        bridge.compare_cmb_spectra(ELL, backend="camb", **kwargs)
+    assert fake_camb == []
+
+
+def test_no_comparison_between_arbitrary_units_and_observations():
+    with pytest.raises(ValueError, match="Arbitrary-unit"):
+        bridge.compare_cmb_spectra(
+            ELL, backend="toy", observed_dl=[1, 2, 3], observation_source="synthetic",
+        )
+
+
+def test_covariance_statistic_overflow_is_not_reported_as_valid(fake_camb):
+    with pytest.raises(ValueError, match="numeric range"):
+        bridge.compare_cmb_spectra(
+            ELL, backend="camb", observed_dl=[1e300] * 3,
+            covariance=np.eye(3), observation_source="synthetic",
+        )
+
+
+@pytest.mark.parametrize("ell", [
+    [], [1, 2], [2, 2], [3, 2], [2.1, 3], [2, np.nan], [2, np.inf],
+    [[2, 3]], ["2", "3"], [2 + 0j, 3 + 0j], [False, True],
+    np.array([3, 2], dtype=np.uint64), [2, 2**63],
+])
+def test_invalid_multipoles(ell):
+    with pytest.raises(ValueError, match="Multipoles"):
+        bridge.compare_cmb_spectra(ell, backend="toy")
+
+
+@pytest.mark.parametrize("kwargs", [
+    {"backend": "unknown"}, {"accuracy_settings": (1, 1)},
+    {"accuracy_settings": (0, 2)}, {"accuracy_settings": (1, np.inf)},
+    {"accuracy_settings": (1,)}, {"lmax_margins": (300, 150)},
+    {"lmax_margins": (-1, 100)}, {"lmax_margins": (150.0, 300)},
+    {"lmax_margins": (150,)}, {"lmax_margins": (False, True)},
+])
+def test_invalid_backend_or_convergence_controls(kwargs):
+    with pytest.raises(ValueError):
+        bridge.compare_cmb_spectra(ELL, **kwargs)
+
+
+@pytest.mark.parametrize("kwargs", [
+    {"As": 0}, {"As": -1e-9}, {"r": -1}, {"ns": np.nan}, {"nt": np.inf},
+    {"pivot_scalar": 0}, {"pivot_tensor": -1},
+])
+def test_invalid_primordial_inputs(kwargs):
+    with pytest.raises(ValueError):
+        bridge.PrimordialSpectrum(**kwargs)
+
+
+@pytest.mark.parametrize("kwargs", [
+    {"H0": 0}, {"ombh2": 0}, {"omch2": -1}, {"tau": -1}, {"mnu": -1},
+    {"TCMB": 0}, {"nnu": 0}, {"YHe": 0}, {"YHe": 1}, {"omk": np.nan},
+])
+def test_invalid_cosmology(kwargs):
+    with pytest.raises(ValueError):
+        bridge.Cosmology(**kwargs)
+
+
+@pytest.fixture(scope="module")
+def real_camb_controls():
+    pytest.importorskip("camb")
+    primordial = bridge.PrimordialSpectrum()
+    variants = {
+        "identity": primordial,
+        "amplitude": replace(primordial, As=1.2 * primordial.As),
+        "tilt": replace(primordial, ns=bridge.N_S),
+        "tensor": replace(primordial, r=bridge.R_BRAIDED),
+    }
+    ell = [2, 30, 200, 540, 1000, 1600, 2000]
+    return {
+        name: bridge.compare_cmb_spectra(
+            ell, reference=primordial, candidate=candidate, backend="camb",
+        )
+        for name, candidate in variants.items()
+    }
+
+
+@pytest.mark.slow
+def test_real_camb_identity_control_and_error_budget(real_camb_controls):
+    result = real_camb_controls["identity"]
+    assert result.camb_used
+    np.testing.assert_array_equal(result.reference_dl, result.candidate_dl)
+    np.testing.assert_array_equal(result.residual_dl, np.zeros(len(result.ell)))
+    assert result.reference_dl[2] > 4000  # Unlensed acoustic TT, microK^2, not C_ell.
+    assert result.reference_dl[-1] > 0
+    assert np.all(np.isfinite(result.reference_numerical_error))
+    assert np.any(result.reference_numerical_error > 0)
+    np.testing.assert_allclose(
+        result.residual_numerical_error,
+        result.reference_numerical_error + result.candidate_numerical_error,
+    )
+    assert np.max(result.reference_numerical_error / result.reference_dl) < 0.02
+    assert result.chi_square is None
+    assert not result.closure_earned
+
+
+@pytest.mark.slow
+def test_real_camb_scalar_amplitude_scales_power_without_hidden_normalization(real_camb_controls):
+    result = real_camb_controls["amplitude"]
+    np.testing.assert_allclose(result.candidate_dl / result.reference_dl, 1.2, rtol=2e-5)
+    np.testing.assert_allclose(result.relative_residual, 0.2, rtol=2e-4)
+
+
+@pytest.mark.slow
+def test_real_camb_tilt_change_is_independent_and_scale_dependent(real_camb_controls):
+    result = real_camb_controls["tilt"]
+    assert not np.allclose(result.reference_dl, result.candidate_dl, rtol=1e-5)
+    assert np.ptp(result.relative_residual) > 0.001
+    assert result.relative_residual[0] > 0
+    assert result.relative_residual[-1] < 0
+    assert result.metadata["corrections_applied"] == []
+    assert not result.closure_earned
+
+
+@pytest.mark.slow
+def test_real_camb_tensor_transfer_changes_large_angle_tt(real_camb_controls):
+    result = real_camb_controls["tensor"]
+    assert result.relative_residual[0] > 0.001
+    assert abs(result.relative_residual[-1]) < result.relative_residual[0] / 100
+    assert result.metadata["candidate_primordial"]["r"] == bridge.R_BRAIDED
+    assert not result.closure_earned
+
+
+@pytest.mark.slow
+def test_real_camb_units_against_independent_raw_cl():
+    camb = pytest.importorskip("camb")
+    ell = np.array(ELL)
+    cosmology, primordial = bridge.Cosmology(), bridge.PrimordialSpectrum()
+    pars = camb.CAMBparams()
+    pars.set_cosmology(**asdict(cosmology), num_massive_neutrinos=1)
+    pars.InitPower.set_params(**asdict(primordial))
+    pars.DoLensing = False
+    pars.NonLinear = camb.model.NonLinear_none
+    pars.set_accuracy(AccuracyBoost=1, lAccuracyBoost=1, lSampleBoost=1)
+    pars.set_for_lmax(1150, lens_potential_accuracy=0)
+    raw = camb.get_results(pars).get_cmb_power_spectra(CMB_unit="muK", raw_cl=True)
+    expected = raw["unlensed_total"][ell, 0] * ell * (ell + 1) / (2 * np.pi)
+    actual = bridge._run_camb_cl_tt(ell, cosmology, primordial, 1, 150)
+    np.testing.assert_allclose(actual, expected, rtol=1e-10)

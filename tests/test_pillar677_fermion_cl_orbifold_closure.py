@@ -1,13 +1,13 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Tests for Pillar 677: Fermion c_L Orbifold BC Spectrum Closure.
+"""Tests for Pillar 677: conditional ladders and orbifold nonuniqueness.
 
 Verifies:
-  • c_L generation values match physical expectations
+  • Assumed c_L generation values retain historical arithmetic
   • c_L orbifold spectrum has correct length and ordering
   • Bisection comparison passes the <1.5% gate for all 9 fermions
   • SU(3) Hilbert equivalence certificate structure
-  • Neutrino c_L spectrum bound (m_ν₁ < 15 meV)
+  • Conditional neutrino c_L spectrum (no absolute mass prediction)
   • Fermion closure report status token
 """
 
@@ -43,7 +43,7 @@ def test_cl_generation_returns_float():
 
 
 def test_cl_generation_hierarchy():
-    """Third generation should have smallest c_L (IR localized → heaviest)."""
+    """The assumed ladder decreases; all three entries remain UV localised."""
     c1, c2, c3 = cl_generation(1), cl_generation(2), cl_generation(3)
     assert c3 < c2 <= c1, f"c_L hierarchy broken: {c1}, {c2}, {c3}"
 
@@ -81,9 +81,11 @@ def test_orbifold_spectrum_c_L_values_range():
         assert 0.0 < c_L < 1.0, f"gen {gen_id} c_L={c_L} not in (0,1)"
 
 
-def test_orbifold_spectrum_axiom_zero_compliant():
+def test_orbifold_spectrum_requires_additional_assumptions():
     spec = cl_orbifold_spectrum()
-    assert spec.get("axiom_zero_compliant") is True
+    assert spec["axiom_zero_compliant"] is False
+    assert len(spec["additional_assumptions"]) == 3
+    assert spec["status"] == "CONDITIONAL_ANSATZ_NOT_BC_DERIVED"
 
 
 # ── cl_bisection_comparison ───────────────────────────────────────────────────
@@ -126,9 +128,8 @@ def test_su3_hilbert_equivalence_returns_dict():
 def test_su3_hilbert_equivalence_status():
     result = su3_hilbert_equivalence()
     status = result["status"]
-    assert "PROVED" in status or "EQUIVALENT" in status or "CONSISTENT" in status, (
-        f"Unexpected SU(3) equivalence status: {status}"
-    )
+    assert status == "INTERNAL_LIFT_UNDERDETERMINED"
+    assert result["equivalence_detail"]["equivalence_established"] is False
 
 
 def test_su3_hilbert_equivalence_kawamura():
@@ -162,7 +163,7 @@ def test_nu_cl_spectrum_seesaw_label():
 def test_fermion_closure_report_status():
     report = fermion_closure_report()
     assert "status" in report
-    assert "CL_ORBIFOLD_BC_SPECTRUM_DERIVED" in report["status"]
+    assert report["status"] == "BULK_MASS_UNDERDETERMINED_BY_ORBIFOLD_BC"
 
 
 def test_fermion_closure_report_pillar():

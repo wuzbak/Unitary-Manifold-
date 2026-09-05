@@ -2,9 +2,9 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """Pillar 1022 — Lean4 kernel certificate for the P636 SU(3) orbifold-equivalence lane.
 
-This pillar does not claim a full Hilbert-space closure of P636.  It narrows
-the remaining burden by attaching a Lean4-backed kernel to the exact arithmetic
-and parity structure already isolated in the SU(3) orbifold-equivalence lane.
+This is a source inventory for conditional arithmetic and parity statements.
+Neither a source file nor its declared theorem count proves the missing internal
+lift selection or functional-analysis equivalence.
 """
 
 from __future__ import annotations
@@ -45,17 +45,19 @@ def su3_orbifold_lean4_kernel_certificate() -> Dict[str, Any]:
     residual = residual_open()
     lean4_path = _ROOT / LEAN4_FILE
     valid = bool(
-        theorem["equivalence_established"]
+        isinstance(theorem["equivalence_established"], bool)
         and decomp["sm_generators_even"] == 12
         and decomp["heavy_generators_odd"] == 12
         and lean4_path.exists()
-        and LEAN4_THEOREM_COUNT > 0
     )
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
         "valid": valid,
+        "packet_valid": valid,
+        "scientific_progress": False,
+        "physical_theorem_proved": False,
         "dependency": {
             "pillar636_equivalence_established": theorem["equivalence_established"],
             "pillar636_residual_open": residual["open_item"],
@@ -64,12 +66,13 @@ def su3_orbifold_lean4_kernel_certificate() -> Dict[str, Any]:
             "file": LEAN4_FILE,
             "exists": lean4_path.exists(),
             "theorem_count": LEAN4_THEOREM_COUNT,
-            "status": "LEAN4_KERNEL_CERTIFIED",
+            "status": "SOURCE_INVENTORY_NOT_COMPILED_PROOF",
+            "compilation_verified": False,
+            "physical_theorem_count_verified": 0,
         },
         "status_advance": (
-            "P636 remains SU3_INTERNAL_ORBIFOLD_EQUIVALENCE_DERIVED, but its exact "
-            "arithmetic/parity kernel is now Lean4-backed and the residual burden is "
-            "explicitly narrowed to the functional-analysis step."
+            "P636 internal-lift selection and functional-analysis equivalence remain "
+            "open. Conditional source statements do not narrow those physical burdens."
         ),
         "what_is_NOT_claimed": [
             "The full Hilbert-space functional analysis is still open",

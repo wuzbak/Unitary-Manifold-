@@ -29,8 +29,10 @@
 
 Throughout this document and this repository:
 
-- **α_NM** = φ₀⁻² is the **nonminimal KK curvature-scalar coupling** from the
-  cross-block Riemann sector R^μ_{5ν5}.  It is NOT the fine structure constant.
+- **α_NM** = φ₀⁻² is the historical inverse-radius identification, NOT the
+  fine structure constant. A cross-block Riemann component does not by itself
+  derive a nonminimal operator coefficient in the reduced action. That
+  identification and observables using it require action-level reassessment.
 - **α_em** = 1/137.036 is the **electromagnetic fine structure constant** (PDG).
   It appears only in the SM parameter matching context.
 - **λ** is the KK coupling constant in the metric ansatz (off-diagonal block).
@@ -89,11 +91,11 @@ first-order consequences that would require reformulation if the axiom failed.
 
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
-| 5D KK metric ansatz (block form with B_μ, φ, g_μν) | **DERIVED (conditional)** | Einstein-Hilbert stationarity + KK gauge covariance + Z₂ orbifold parity + radion normalization fix the lowest-order local block form; executable certificate in `metric_ansatz_derivation.py` | Any 4D observation requiring >5D spacetime | `src/core/metric.py`, `src/core/metric_ansatz_derivation.py` |
+| 5D KK metric ansatz (block form with B_μ, φ, g_μν) | **CONDITIONAL PARAMETERIZATION** | Completing the square for an assumed spacelike circle connection gives the corrected blocks; neither stationarity nor a species count selects the compactification uniquely | Failure of the completed-square, inverse or determinant identities invalidates this implementation | `src/core/metric.py`, `src/core/metric_ansatz_derivation.py` |
 | Walker-Pearson flow equals physical Einstein evolution | **OPEN** | The implemented first-order flow is not established as Lorentzian evolution from δS₅/δG_AB=0; reduced-action identities alone do not supply this equivalence | Requires constraint propagation and an explicit action-to-flow map | `src/core/evolution.py` |
-| Arrow of time as geometric identity | **DERIVED (conditional)** | B_μ field strength H_μν drives irreversibility; not postulated; depends on P3 interpretation | Observation of macroscopic time-reversal | `src/core/evolution.py` |
+| Arrow of time as geometric identity | **UNESTABLISHED physical identification** | The implementation evolves a symmetry-reduced flow; equivalence to Lorentzian dynamics and its thermodynamic interpretation require further derivation | A failure of the claimed action-to-flow implication invalidates that derivation | `src/core/evolution.py` |
 | φ₀ (bare radion vev) ≈ 1 Planck unit | **DERIVED (conditional)** (Steps 1–3) + CONVENTION (Step 4) | FTUM S*=0.25 → R=√(S*G₅/π) → φ₀_bare=R/ℓ_Pl (Steps 1–3 derived given P5); φ₀_bare=1 is the Planck-unit normalization convention (Step 4) | Non-convergence of FTUM | Pillar 56-B / `src/core/phi0_ftum_bridge.py` |
-| α_NM = φ₀⁻² (nonminimal coupling, NOT α_em) | **DERIVED (conditional)** | KK cross-block Riemann R^μ_{5ν5} after dimensional reduction; depends on P2 | α_NM outside 5D geometric range | `src/core/metric.py` |
+| α_NM = φ₀⁻² (historical nonminimal-coupling identification, NOT α_em) | **REQUIRES ACTION-LEVEL REASSESSMENT** | An inverse radius or curvature diagnostic is not a derivation of an independent operator coefficient | Reduced-action coefficients disagree with the asserted identification | `src/core/metric.py` |
 | Holographic entropy S = A/4G | **DERIVED_CONDITIONAL** (P6) | Pillar 379 derives S\*=A/(4G_N^{4D}) exactly at the FTUM fixed point from 5D Gauss-Bonnet reduction; assumption: standard AdS₅ bulk geometry (Λ₅<0). P6 ASSUMED → DERIVED_CONDITIONAL in v12.6. Conditions: (1) FTUM convergence to unique fixed point Ψ\*; (2) AdS₅ bulk; (3) RS1 compactification. | Violation of holographic bound; deviation from Bekenstein-Hawking at the fixed point | Pillar 379 / `src/core/pillar379_holographic_entropy_derivation.py`; `src/holography/boundary.py` |
 | FTUM fixed-point convergence | **DERIVED (conditional)** | Banach fixed-point theorem applied to U = I+H+T, given P5 | Non-convergence | `src/multiverse/fixed_point.py` |
 | φ₀ self-consistency (Pillar 56) | **CLOSED** | Three φ₀ candidates collapse to single value under c_s-corrected slow-roll | ≠ machine precision agreement | `src/core/phi0_closure.py` |

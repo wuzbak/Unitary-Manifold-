@@ -15,10 +15,16 @@ No new pillar is allocated. Existing lane identifiers are preserved as historica
 routing identifiers, not guaranteed theorem statements. Observational falsifiers
 are unchanged, including [0.29°, 0.31°] as the excluded birefringence gap.
 
-**Verification:** fresh pre-change combined regression: 63,430 passed,
+**Verification:** interrupted session's pre-change combined regression: 63,430 passed,
 43 skipped, 12 deselected, 0 failed (354.83 s). Historical totals below belong
 to their recorded environments. Current execution results and remaining
 obligations are recorded in [TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment).
+
+**Resumed CMB execution:** 201 targeted tests passed, including five real
+CAMB 2.0.4 integration tests. The calibrated GR tilt comparison has a median
+absolute residual of 0.095388%; its numerical-sensitivity and amplitude-scaling
+controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
+or empirical closure.
 
 This file is the required wave-level changelog ledger.
 **Current version: v36.4 (2026-09-05)**

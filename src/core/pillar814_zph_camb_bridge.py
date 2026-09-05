@@ -36,7 +36,8 @@ A_S_PLANCK = 2.1e-9
 A_S_UM = None  # No independently derived primordial normalization.
 Z_PHI = None
 ELL_LOW, ELL_HIGH = 200, 2000
-PLANCK_2018_ELL = tuple(range(200, 2001, 50))  # Sampling grid, NOT measured bins.
+DEFAULT_ELL = tuple(range(200, 2001, 50))
+PLANCK_2018_ELL = DEFAULT_ELL  # Historical alias; NOT measured Planck bins.
 CAMB_AVAILABLE = importlib.util.find_spec("camb") is not None
 
 
@@ -111,9 +112,10 @@ class SpectrumComparison:
 
 def _multipoles(ell_values):
     ell = np.asarray(ell_values)
-    if (ell.ndim != 1 or not ell.size or not np.issubdtype(ell.dtype, np.number)
+    if (ell.ndim != 1 or not ell.size or ell.dtype.kind not in "iuf"
             or not np.all(np.isfinite(ell)) or np.any(ell < 2)
-            or np.any(ell != np.floor(ell)) or np.any(np.diff(ell) <= 0)):
+            or np.any(ell >= np.iinfo(np.int32).max)
+            or np.any(ell != np.floor(ell)) or np.any(ell[1:] <= ell[:-1])):
         raise ValueError("Multipoles must be nonempty, increasing integers >= 2")
     return ell.astype(int)
 
@@ -131,6 +133,9 @@ def _run_camb_cl_tt(ell, cosmology, primordial, accuracy, margin):
     pars.set_accuracy(AccuracyBoost=accuracy, lAccuracyBoost=accuracy,
                       lSampleBoost=accuracy)
     pars.set_for_lmax(max(600, int(ell[-1]) + margin), lens_potential_accuracy=0)
+    if pars.WantTensors:
+        pars.max_l_tensor = pars.max_l
+        pars.max_eta_k_tensor = pars.max_eta_k
     results = camb.get_results(pars)
     powers = results.get_cmb_power_spectra(CMB_unit="muK", raw_cl=False)
     return powers["unlensed_total"][ell, 0].copy()
@@ -145,8 +150,16 @@ def _toy_spectrum(ell, primordial):
             * np.exp(-(ell / 1800.0)**2))
 
 
+def _validated_tt(values, ell):
+    values = np.asarray(values, dtype=float)
+    if (values.shape != ell.shape or not np.all(np.isfinite(values))
+            or np.any(values <= 0)):
+        raise RuntimeError("Solver produced invalid TT spectra or missing multipole support")
+    return values
+
+
 def compare_cmb_spectra(
-    ell_values=PLANCK_2018_ELL,
+    ell_values=DEFAULT_ELL,
     *,
     reference: PrimordialSpectrum = PrimordialSpectrum(),
     candidate: PrimordialSpectrum = PrimordialSpectrum(ns=N_S),
@@ -175,7 +188,8 @@ def compare_cmb_spectra(
     if (len(accuracy_settings) != 2 or not all(math.isfinite(x) for x in accuracy_settings)
             or not 0 < accuracy_settings[0] < accuracy_settings[1]):
         raise ValueError("Two positive increasing CAMB accuracy settings required")
-    if (len(lmax_margins) != 2 or any(not isinstance(x, int) for x in lmax_margins)
+    if (len(lmax_margins) != 2
+            or any(isinstance(x, bool) or not isinstance(x, int) for x in lmax_margins)
             or not 0 <= lmax_margins[0] < lmax_margins[1]):
         raise ValueError("Two increasing nonnegative integer lmax margins required")
     observed = cov = cholesky = None
@@ -204,7 +218,9 @@ def compare_cmb_spectra(
         spectra = []
         for primordial in (reference, candidate):
             coarse, fine = [
-                _run_camb_cl_tt(ell, cosmology, primordial, accuracy, margin)
+                _validated_tt(
+                   _run_camb_cl_tt(ell, cosmology, primordial, accuracy, margin), ell
+                )
                 for accuracy, margin in zip(accuracy_settings, lmax_margins)
             ]
             spectra.append((fine, np.abs(fine - coarse)))
@@ -212,33 +228,39 @@ def compare_cmb_spectra(
         residual_error = ref_error + cand_error
         version = camb.__version__
     else:
-        ref, cand = (_toy_spectrum(ell, p) for p in (reference, candidate))
+        ref, cand = (_validated_tt(_toy_spectrum(ell, p), ell) for p in (reference, candidate))
         version = None
-    if (ref.shape != ell.shape or cand.shape != ell.shape
-            or not np.all(np.isfinite(ref)) or not np.all(np.isfinite(cand))
-            or np.any(ref <= 0) or np.any(cand < 0)):
-        raise RuntimeError("Solver produced invalid TT spectra")
-    residual = cand - ref
-    observed_residual = None if observed is None else cand - observed
-    chi_square = None
-    if cholesky is not None:
-        whitened = np.linalg.solve(cholesky, observed_residual)
-        chi_square = float(whitened @ whitened)
+    with np.errstate(over="raise", divide="raise", invalid="raise"):
+        try:
+            residual = cand - ref
+            relative_residual = residual / ref
+            observed_residual = None if observed is None else cand - observed
+            chi_square = None
+            if cholesky is not None:
+                whitened = np.linalg.solve(cholesky, observed_residual)
+                chi_square = float(whitened @ whitened)
+                if not math.isfinite(chi_square):
+                    raise FloatingPointError("Nonfinite chi-square")
+        except FloatingPointError as exc:
+            raise ValueError("Spectral residual or covariance statistic exceeds numeric range") from exc
     metadata = {
         "backend": selected,
         "backend_requested": backend,
         "fallback_reason": "CAMB unavailable" if backend == "auto" and selected == "toy" else None,
         "camb_version": version,
         "numpy_version": np.__version__,
-        "spectrum": "unlensed_total_TT",
-        "convention": "D_ell = ell(ell+1) C_ell / (2 pi)",
+        "spectrum": "unlensed_total_TT" if selected == "camb" else "toy_TT_envelope",
+        "convention": "D_ell = ell(ell+1) C_ell / (2 pi)" if selected == "camb" else None,
         "units": "microK^2" if selected == "camb" else "arbitrary",
         "reference_kind": "theoretical control, not empirical Planck bandpowers",
         "cosmology": asdict(cosmology),
         "reference_primordial": asdict(reference),
         "candidate_primordial": asdict(candidate),
         "primordial_normalization": "externally supplied calibration, not a UM prediction",
-        "transfer_physics": "identical GR transfer; no UM correction",
+        "transfer_physics": (
+            "identical GR transfer; no UM correction" if selected == "camb"
+            else "no physical transfer; ignores cosmology and primordial pivots"
+        ),
         "corrections_applied": [],
         "corrections_disabled": {
             "Z_phi": "no normalized action-to-transfer derivation",
@@ -260,12 +282,12 @@ def compare_cmb_spectra(
             if chi_square is not None else None,
     }
     return SpectrumComparison(
-        ell, ref, cand, residual, residual / ref, ref_error, cand_error,
+        ell, ref, cand, residual, relative_residual, ref_error, cand_error,
         residual_error, observed_residual, cov, chi_square, metadata,
     )
 
 
-def run_zph_camb_bridge(ell_values=PLANCK_2018_ELL, use_camb=True, **kwargs):
+def run_zph_camb_bridge(ell_values=DEFAULT_ELL, use_camb=True, **kwargs):
     """Compatibility entry point; inspect metadata to distinguish CAMB and toy."""
     return compare_cmb_spectra(ell_values, backend="auto" if use_camb else "toy", **kwargs)
 
@@ -288,5 +310,12 @@ planck_reference_cl = _unsupported_correction
 
 
 if __name__ == "__main__":
-    # Reproducible calculation with all arrays/provenance, never an implicit toy.
-    print(json.dumps(compare_cmb_spectra(backend="camb").to_dict(), allow_nan=False))
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--backend", choices=("auto", "camb", "toy"), default="auto",
+        help="auto labels any toy fallback; camb requires the real solver",
+    )
+    args = parser.parse_args()
+    print(json.dumps(compare_cmb_spectra(backend=args.backend).to_dict(), allow_nan=False))
