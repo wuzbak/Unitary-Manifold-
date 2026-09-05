@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-05 (v36.1 Sprint CE COMPLETE — Pillar 1061; Lean4 4000→4000; next slot 1062)*
+*Last updated: 2026-09-05 (v36.2 Sprint CF COMPLETE — Pillars 1062–1077; Lean4 4000→4080 (+80); next slot 1078)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---

@@ -1,6 +1,39 @@
-version: "v36.1"
+version: "v36.2"
 date: "2026-09-05"
 updated: "2026-09-05"
+
+v36_2_sprint_cf:
+  sprint: CF
+  version: v36.2
+  date: "2026-09-05"
+  pillars: 1062-1077
+  new_pillars: 16
+  new_tests: 74
+  lean4_start: 4000
+  lean4_end: 4080
+  lean4_delta: 80
+  tracks:
+    track_a_floor_theorems:
+      pillars: 1062-1067
+      lean4_delta: 60
+      outcome: FLOOR_THEOREMS_UPGRADED_TO_LEAN4
+    track_b_extension_attempt:
+      pillars: 1068-1073
+      lean4_delta: 0
+      outcome: EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED
+      hardgate_pillars_touched: []
+      new_free_parameters: 0
+    track_c_falsifier_sharpness:
+      pillars: 1074-1076
+      lean4_delta: 20
+      outcome: PRE_REGISTERED_EXTERNAL_RIGIDITY_THEOREMS_STATED
+      registration_tag: SPRINT_CF_v36.2_TRACK_C_PRE_REGISTERED_2026
+  regression_certificate: pillar_1077
+  sprint_success: true
+  runtime_labels_changed: false
+  next_pillar_slot: 1078
+  regression: "63787 passed · 23 skipped · 12 deselected · 0 failed"
+  focused_regression: "74 passed · 0 failed"
 
 v36_1_sprint_ce:
   sprint: CE
