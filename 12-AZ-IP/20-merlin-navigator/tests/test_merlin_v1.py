@@ -803,6 +803,13 @@ def test_server_merlin_endpoints():
             assert readiness.json()['ok'] is True
             assert readiness.json()['readiness']['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
 
+            frontier = client.get('/api/merlin/frontier-readiness?limit=1')
+            assert frontier.status_code == 200
+            assert frontier.json()['ok'] is True
+            assert frontier.json()['frontier_readiness']['sovereign_primary'] is True
+            assert frontier.json()['frontier_readiness']['openrouter_fallback_only'] is True
+            assert len(frontier.json()['frontier_readiness']['promotion_blockers']) >= 4
+
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200
             assert artifacts.json()['ok'] is True
@@ -838,6 +845,10 @@ def test_server_merlin_endpoints():
             bad_limit = client.get('/api/merlin/replacement-readiness?limit=abc')
             assert bad_limit.status_code == 400
             assert "must be an integer" in bad_limit.json()['error']
+
+            bad_frontier_limit = client.get('/api/merlin/frontier-readiness?limit=abc')
+            assert bad_frontier_limit.status_code == 400
+            assert "must be an integer" in bad_frontier_limit.json()['error']
 
             telemetry = client.get('/api/merlin/telemetry')
             assert telemetry.status_code == 200

@@ -1,9 +1,38 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v35.7 (2026-09-04)**
-**Regression:** 63,732 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1051
+**Current version: v35.8 (2026-09-04)**
+**Regression:** 63,756 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1058
+
+## v35.8 (2026-09-04 — Sprint CB: Pillars 1051–1057)
+
+**What changed:**
+Pillars 1051–1057 (7 pillars). Sprint CB implements the approved all-hands plan as a strict multi-lane execution packet. (1) P1051 enforces merge-gate freeze + baseline lock across canonical status surfaces. (2) P1052 advances targeted Lean4 deterministic closure reporting and reduces explicit formal substeps while preserving open residual honesty. (3) P1053 expands Merlin frontier development with a consolidated readiness packet and explicit fail-closed promotion blockers. (4) P1054 adds a synchronized five-article documentation packet with mandatory changed/unchanged/falsification/residual sections. (5) P1055 codifies verification and release discipline for targeted suites, artifact reproducibility, and full regression. (6) P1056 certifies integrated multi-lane execution. (7) P1057 certifies cross-surface coherence with live-status and publication packet alignment.
+
+**Why:**
+Execute the full approved plan with explicit merge gating, deterministic closure rigor, sovereign Merlin progression, synchronized documentation, and auditable verification controls.
+
+**Epistemic label deltas:**
+- `MERGE_GATE_BASELINE_LOCK_COMPLETE`
+- `TARGETED_CLOSURE_DETERMINISTIC_RIGOR_COMPLETE`
+- `MERLIN_FRONTIER_DEVELOPMENT_COMPLETE`
+- `SPRINT_CB_DOCUMENTATION_TRACEABILITY_PACKET_COMPLETE`
+- `SPRINT_CB_VERIFICATION_RELEASE_DISCIPLINE_COMPLETE`
+- `SPRINT_CB_PARALLEL_EXECUTION_CERTIFICATE_COMPLETE`
+- `SPRINT_CB_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032), non-perturbative QG/UV completion.
+
+**Lean4:** 3988 → 4000 (+12)
+**Regression:** Sprint CB targeted tests passed · 0 failed; Merlin Product 20 targeted tests passed · 0 failed
+**Next pillar slot:** 1058
 
 ## v35.7 (2026-09-04 — Sprint CA: Pillars 1049–1050)
 

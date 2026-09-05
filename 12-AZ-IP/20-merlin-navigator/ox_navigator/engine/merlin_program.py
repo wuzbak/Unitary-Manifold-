@@ -575,6 +575,7 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/benchmark-corpora",
         "/api/merlin/stage-a-receipts",
         "/api/merlin/replacement-readiness",
+        "/api/merlin/frontier-readiness",
         "/api/merlin/training-artifacts",
         "/api/merlin/promotion-packet",
         "/api/merlin/sync-checks",
@@ -611,6 +612,7 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/benchmark-corpora",
         "/api/merlin/stage-a-receipts",
         "/api/merlin/replacement-readiness",
+        "/api/merlin/frontier-readiness",
         "/api/merlin/training-artifacts",
         "/api/merlin/promotion-packet",
         "/api/agentToolkit",
@@ -1407,6 +1409,72 @@ def get_competitive_benchmark_plan() -> dict[str, Any]:
     }
 
 
+def _coerce_frontier_limit(value: Any, default: int = 3) -> int:
+    try:
+        parsed = int(value) if value is not None else int(default)
+    except (TypeError, ValueError):
+        return max(1, int(default))
+    return parsed if parsed > 0 else max(1, int(default))
+
+
+def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
+    from .merlin_benchmark import build_merlin_control_tower, get_multi_stage_benchmark_plan
+
+    resolved_limit = _coerce_frontier_limit(limit, default=3)
+    sync = run_sync_checks()
+    control_tower = build_merlin_control_tower(limit=resolved_limit)
+    benchmark_plan = get_multi_stage_benchmark_plan()
+    training = get_training_architecture(limit=resolved_limit)
+    runtime = get_mythos_astra_contract()
+    router = get_router_policy()
+
+    promotion_blockers = [
+        {
+            "id": "sync_checks_green",
+            "pass": bool(sync.get("ok")),
+            "reason": "Canonical source and endpoint sync checks must pass before promotion.",
+        },
+        {
+            "id": "stage_a_empirical_gate",
+            "pass": bool(control_tower.get("readiness", {}).get("packet", {}).get("empirical_gate", {}).get("gate_pass")),
+            "reason": "Stage A head-to-head empirical gate must pass with comparable receipts.",
+        },
+        {
+            "id": "longitudinal_acceptance",
+            "pass": bool(control_tower.get("longitudinal", {}).get("pass")),
+            "reason": "Non-overlapping clean-window longitudinal acceptance must pass.",
+        },
+        {
+            "id": "policy_violation_budget",
+            "pass": int(control_tower.get("readiness", {}).get("packet", {}).get("empirical_gate", {}).get("metrics", {}).get("high_severity_policy_violations_merlin", 1)) == 0,
+            "reason": "Any high-severity policy violation blocks promotion.",
+        },
+        {
+            "id": "typed_provenance_contract",
+            "pass": "typed_provenance_and_gate_badges" in runtime.get("capability_contract", {}).get("required_surfaces", []),
+            "reason": "Typed provenance and gate badges must remain mandatory in runtime contract.",
+        },
+        {
+            "id": "sovereign_default_policy",
+            "pass": router.get("default_provider") == "sovereign_local" and router.get("gates", {}).get("primary_requires_fully_open_science") is True,
+            "reason": "Sovereign local runtime remains primary with open-science policy guardrails.",
+        },
+    ]
+
+    return {
+        "generated_at": _utcnow(),
+        "sovereign_primary": router.get("default_provider") == "sovereign_local",
+        "openrouter_fallback_only": router.get("compat_mode") == "compatibility_only",
+        "sync_checks": sync,
+        "control_tower": control_tower,
+        "multi_stage_plan": benchmark_plan,
+        "training_seed_examples": training.get("seed_statistics", {}),
+        "promotion_blockers": promotion_blockers,
+        "promotion_blockers_all_clear": all(item["pass"] for item in promotion_blockers),
+        "policy": "Fail closed: promotion blocked unless every blocker passes.",
+    }
+
+
 def build_training_artifact_bundle(limit: int | None = None) -> dict[str, Any]:
     from .merlin_benchmark import build_stage_a_artifact_bundle
 
@@ -1659,4 +1727,5 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "exit_criteria": get_exit_criteria(),
         "sovereignty_roadmap": get_sovereignty_roadmap(),
         "sync_checks": run_sync_checks(),
+        "frontier_readiness": get_frontier_readiness_packet(limit=3),
     }
