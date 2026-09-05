@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import datetime
 from typing import Any
 
 from .merlin_memory import MerlinSession
@@ -15,6 +16,15 @@ from .merlin_memory import MerlinSession
 def _digest_id(payload: dict[str, Any]) -> str:
     body = json.dumps(payload, ensure_ascii=False, sort_keys=True)
     return hashlib.sha256(body.encode("utf-8")).hexdigest()
+
+
+def _sort_key(item: dict[str, Any], index: int) -> tuple[datetime, int]:
+    stamp = str(item.get("detected_at", "") or "")
+    try:
+        parsed = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+    except ValueError:
+        parsed = datetime.min
+    return parsed, index
 
 
 def build_counterexample_digest(*, session: MerlinSession, limit: int = 10) -> dict[str, Any]:
@@ -62,7 +72,7 @@ def build_counterexample_digest(*, session: MerlinSession, limit: int = 10) -> d
             }
         )
 
-    items.sort(key=lambda item: str(item.get("detected_at", "")))
+    items = [item for _, item in sorted(enumerate(items), key=lambda pair: _sort_key(pair[1], pair[0]))]
     items = items[-cap:]
     summarized_kind_counts: dict[str, int] = {}
     event_count = 0
