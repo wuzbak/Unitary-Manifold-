@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.1 (2026-09-05)**
-**Regression:** 63,787 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1062
+**Current version: v36.2 (2026-09-05)**
+**Regression:** 63,000 passed · 45 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1063
+
+## v36.2 (2026-09-05 — Sprint CF: Pillar 1062)
+
+**What changed:**
+Pillar 1062 (1 pillar). A full parallel audit/remediation pass hardens status honesty instead of promoting new physics closure. The sprint synchronizes canonical and public status surfaces to the checked-in branch reality, reclassifies stale observation routing text as historical/non-canonical, adds explicit scope markers to audited Lean proxy surfaces, corrects radion/evolution wording drift, and publishes a findings packet plus article.
+
+**Why:**
+Remove cross-surface drift and keep the repository's code, proof, documentation, API, and publication surfaces aligned to what the branch actually proves and what the verified regression actually reports.
+
+**Epistemic label deltas:**
+- `PARALLEL_AUDIT_REMEDIATION_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — DESI DR3, ACT/CMB tensor pressure, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032), non-perturbative QG/UV completion.
+
+**Lean4:** 4000 → 4000 (+0)
+**Regression:** Pillar 1062 audit/status targeted tests passed · 0 failed; full regression 63,000 passed · 45 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 1063
 
 ## v36.1 (2026-09-05 — Sprint CE: Pillar 1061)
 

@@ -53,20 +53,19 @@ That has now been corrected directly in the file. It is preserved as a
 historical routing ledger with active decision procedures, but it no longer
 pretends to be the canonical current sprint/status source.
 
-### 2. The live status JSON was behind the truth surfaces
+### 2. The live status JSON and public status counts were behind the truth surfaces
 
 The machine-readable status feed matters because dashboards, APIs, and public
 status views consume it.
 
-That feed was still carrying older observational summaries, especially for the
-`r` and `w_a` lanes. In the current branch, both are pressure lanes, not clean
-PASS lanes.
+That feed was still carrying older observational summaries, and other public status surfaces were still advertising older branch totals. In the current branch, both `r` and `w_a` are pressure lanes, not clean PASS lanes, and the verified branch-wide regression now stands at **63,000 passed · 45 skipped · 12 deselected · 0 failed**.
 
 So the generator and the generated JSON were updated to match the actual ledger:
 
 - `r` remains **HIGH_TENSION**
 - `w_a` remains **HIGH_TENSION**
 - the current open-lane set is exported explicitly
+- public status JSON surfaces are synchronized to the same branch reality
 - validation now fails if those lanes drift again
 
 ### 3. Some proof surfaces needed stronger honesty labels

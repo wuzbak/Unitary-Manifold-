@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-05 (v36.1 Sprint CE COMPLETE — Pillar 1061; Lean4 4000→4000; next slot 1062)*
+*Last updated: 2026-09-05 (v36.2 Sprint CF COMPLETE — Pillar 1062; Lean4 4000→4000; next slot 1063)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,18 +16,19 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.1 — Sprint CE)
+## CURRENT AUDITABLE STATE (v36.2 — Sprint CF)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.1** |
-| Sprint | **Sprint CE** |
-| Pillars | **1061-1061** |
-| Next pillar slot | **1062** |
+| Version | **v36.2** |
+| Sprint | **Sprint CF** |
+| Pillars | **1062-1062** |
+| Next pillar slot | **1063** |
 | Lean4 theorems | **4000** |
-| Sprint theme | **Proof-first internal closure gate: no status-only advancement, strict blocker contraction or lane closure** |
-| Primary target | **Run the seven internal lanes only and force auditable closure-or-contraction outcomes** |
-| Binary outcome | **Internal closure: CLOSED_NOW OR TIGHTENED_WITH_EXPLICIT_BLOCKER; anti-loop defer: ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT; External: EXTERNAL_WAIT_ONLY** |
+| Verified full regression | **63,000 passed · 45 skipped · 12 deselected · 0 failed** |
+| Sprint theme | **Parallel audit remediation + status honesty lock** |
+| Primary target | **Force canonical/public status, code/proof, and reporting surfaces to agree with the checked-in branch reality** |
+| Binary outcome | **No new hardgate claim promotion; explicit PASS/FAIL audit checks on honesty, synchronization, and traceability surfaces** |
 
 Historical continuity: v35.8 Sprint CB (Pillars 1051–1057; next slot 1058) remains the merge-gated multi-lane baseline directly below Sprint CC.
 Historical continuity: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.
@@ -37,24 +38,24 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 
 ---
 
-## PROOF-FIRST INTERNAL CLOSURE PROTOCOL (Sprint CE, Executed)
+## PARALLEL AUDIT REMEDIATION PROTOCOL (Sprint CF, Executed)
 
-1. Block status-only advancement: a sprint must close a lane or shrink blocker sets with measurable contraction.
-2. Restrict active closure packet to the seven internal lanes only.
-3. Execute strict leverage order: flavor → UV/Higgs → CMB → QG.
-4. Enforce anti-loop rule: no same-sprint rerun without genuinely new object/evidence class.
-5. Keep internal closure outcomes binary (`CLOSED_NOW` or `TIGHTENED_WITH_EXPLICIT_BLOCKER`) and route blocked same-sprint reruns to `ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT`.
-6. Require per-lane proof-first packet: exact before/after blockers plus contraction metric.
-7. Keep external lanes readiness-only (`EXTERNAL_WAIT_ONLY`) with explicit falsifier routing.
+1. Audit canonical status, public status, code/proof, and publication surfaces in parallel.
+2. Mark stale-but-useful observation routing text as historical/non-canonical instead of silently current.
+3. Add explicit scope/honesty notes where proxy Lean arithmetic or status markers could be read too strongly.
+4. Correct radion/evolution wording where optional or already-closed gaps were being described inaccurately.
+5. Synchronize live-status and public status JSON outputs to the checked-in branch reality.
+6. Publish one findings packet and one outward-facing article with sober accounting.
+7. Preserve all open-lane labels and falsifier windows unless executable evidence changes them.
 8. Keep canonical truth surfaces lockstep synchronized.
 9. Keep targeted and full verification gates zero-fail.
-10. Publish blunt three-column output only: closed / tightened / blocked-external wait.
+10. Reject narrative-only status drift even when tests are green.
 
-### Sprint CE blunt board
+### Sprint CF blunt board
 
-| Closed this sprint | Tightened (with exact blocker) | Blocked / external wait |
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
 |---|---|---|
-| _(none)_ | CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED; FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED; JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED; ALPHA_S_TYPE_B_FLOOR; HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW; CMB_AMP_CONFIRMED_IRREDUCIBLE; NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT | DESI_DR3_MONITORING; LITEBIRD_BIREFRINGENCE |
+| Public/canonical status drift; Lean proxy disclosure drift; radion/evolution wording drift; observation freshness drift | Machine-readable live status honesty; public status JSON sync; publication packet traceability | DESI_DR3_MONITORING; LITEBIRD_BIREFRINGENCE; CMB_AMP_CONFIRMED_IRREDUCIBLE; ALPHA_S_TYPE_B_FLOOR; HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW; CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED; FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED; JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED; NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT |
 
 ## CURRENT OPEN SET IN THE CHECKED-IN BRANCH
 
@@ -74,7 +75,7 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-CD continuation)
+## NEXT PHASE PRIORITIES (post-CF continuation)
 
 1. **Truth-surface lockstep remains non-negotiable**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, this file, and `9-INFRASTRUCTURE/um_live_status.json` synchronized in one change set.
@@ -93,9 +94,9 @@ Classification:
 
 ## SUCCESS CRITERIA FOR NEXT SPRINT
 
-1. Merge-gate freeze is respected until housekeeping merge acknowledgement and baseline lock audit completion.
-2. Formal closure lane shows theorem-traceable substep reduction and deterministic binary outcome reporting per closure attempt.
-3. Merlin frontier readiness keeps sovereign primary routing and fail-closed promotion blockers explicit across control-tower and policy surfaces.
+1. Truth-surface and public-surface synchronization remains non-negotiable.
+2. Formal closure work must keep theorem-traceable honesty boundaries explicit, especially where proxy or status-marker surfaces remain in use.
+3. Observation-ledger routing remains usable, but freshness boundaries must stay explicit whenever a file is historical rather than canonical.
 4. Canonical truth surfaces and publication packet remain synchronized with explicit changed/unchanged/falsification/residual sections.
 5. Targeted and full regression gates remain reproducible with zero failures.
 6. Open-lane labels remain explicit and unchanged unless executable evidence flips runtime status.

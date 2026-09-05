@@ -1,6 +1,36 @@
-version: "v36.1"
+version: "v36.2"
 date: "2026-09-05"
 updated: "2026-09-05"
+
+v36_2_sprint_cf:
+  sprint: CF
+  version: v36.2
+  date: "2026-09-05"
+  pillars: 1062-1062
+  new_pillars: 1
+  new_tests: 10
+  lean4_start: 4000
+  lean4_end: 4000
+  lean4_delta: 0
+  closures:
+    - PARALLEL_AUDIT_REMEDIATION_COMPLETE
+  advances:
+    - CANONICAL_AND_PUBLIC_STATUS_SURFACES_ARE_NOW_SYNCHRONIZED_TO_THE_CHECKED_IN_BRANCH_REALITY
+    - LEAN_PROXY_RADION_PROXY_AND_OBSERVATION_ROUTING_SURFACES_NOW_DISCLOSE_SCOPE_LIMITS_EXPLICITLY
+    - LIVE_STATUS_EXPORT_NOW_FAILS_CLOSED_IF_OPEN_GATES_OR_HIGH_TENSION_OBSERVATION_VERDICTS_DRIFT
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "63,000 passed · 45 skipped · 12 deselected · 0 failed (latest verified full regression in current branch history)"
+  focused_regression: "Pillar 1062 audit/status targeted tests passed · 0 failed"
+  next_pillar_slot: 1063
 
 v36_1_sprint_ce:
   sprint: CE

@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v36.1
+# Unitary Manifold v36.2
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -7,6 +7,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CF (v36.2 — 2026-09-05):** 1 pillar (1062). P1062 is a non-hardgate audit/remediation lock: it does not promote new physics closure, but it forces the checked-in branch story to stay honest across Lean proxy disclosures, radion/evolution wording, observation-ledger freshness notes, live/public status JSON, and publication traceability. Open-lane labels remain unchanged and explicit. Lean4 4000→4000 (+0). Verified full regression is now 63,000 passed · 45 skipped · 12 deselected · 0 failed. Next slot 1063.
+>
 
 > **Sprint CE (v36.1 — 2026-09-05):** 1 pillar (1061). P1061 enforces a proof-first closure gate: no status-only sprint advancement is valid unless at least one internal lane closes or every non-closed internal lane exits with strict blocker-set contraction plus measurable reduction. The sprint is restricted to the seven internal open lanes and executed in strict leverage order (flavor → UV/Higgs → CMB → QG). Internal closure outcomes are `CLOSED_NOW` or `TIGHTENED_WITH_EXPLICIT_BLOCKER`, with an explicit anti-loop defer state (`ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT`) when a same-sprint rerun is blocked for lacking genuinely new object/evidence. Output requires both a blunt three-column board and a per-lane proof-first packet (before/after blockers + contraction metric). DESI/LiteBIRD remain external readiness waits only. Open-lane labels remain unchanged and explicit. Lean4 4000→4000 (+0). Next slot 1062.
 >
@@ -67,7 +70,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-05 (v36.1 — Sprint CE: Pillar 1061; proof-first internal closure gate with no status-only advancement; Lean4 4000; next pillar slot 1062; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
+*Last updated: 2026-09-05 (v36.2 — Sprint CF: Pillar 1062; audit/remediation honesty lock with no new hardgate-physics promotion; Lean4 4000; next pillar slot 1063; verified full regression 63,000 passed · 45 skipped · 12 deselected · 0 failed; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

@@ -170,14 +170,22 @@ def live_status_alignment_check() -> dict[str, Any]:
 def public_status_sync_check() -> dict[str, Any]:
     public = json.loads(_PUBLIC_STATUS.read_text(encoding="utf-8"))
     portal = json.loads(_PORTAL_STATUS.read_text(encoding="utf-8"))
+    live_status = json.loads(_LIVE_STATUS_JSON.read_text(encoding="utf-8"))
     aligned = (
         public["version"] == portal["version"]
+        and public["version"] == VERSION
         and public["next_pillar_slot"] == portal["next_pillar_slot"]
+        and public["next_pillar_slot"] == NEXT_PILLAR_SLOT
         and public["tests_passed"] == portal["tests_passed"]
+        and public["tests_passed"] == live_status["tests"]["passed"]
+        and public["tests_skipped"] == portal["tests_skipped"] == live_status["tests"]["skipped"]
+        and public["tests_deselected"] == portal["tests_deselected"] == live_status["tests"]["deselected"]
+        and public["tests_failed"] == portal["tests_failed"] == live_status["tests"]["failed"]
     )
     return {
         "public_version": public["version"],
         "portal_version": portal["version"],
+        "live_status_version": f"v{live_status['meta']['version']}",
         "aligned": aligned,
         "status": "PASS" if aligned else "FAIL",
     }

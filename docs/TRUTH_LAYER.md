@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v36.1
+# Unitary Manifold v36.2
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v36.2 sync note (Sprint CF — 2026-09-05):*
+*(1) Auditable checked-in branch state now includes Pillar 1062; Lean4 remains 4000; next pillar slot 1063; verified full regression is 63,000 passed · 45 skipped · 12 deselected · 0 failed.*
+*(2) Sprint CF is an explicit non-hardgate audit/remediation lock: it promotes no new physics closure and instead forces code, proof, documentation, API, and publication surfaces to agree with the checked-in branch reality.*
+*(3) Observation-routing text that is still useful historically is now marked historical/non-canonical rather than left looking current.*
+*(4) Audited Lean proxy surfaces, radion/evolution wording, and machine-readable live/public status outputs now carry stronger honesty constraints and drift checks.*
+*(5) Open-lane labels, falsifier windows, and the proof-first closure doctrine remain unchanged.*
 
 *v36.1 sync note (Sprint CE — 2026-09-05):*
 *(1) Auditable checked-in branch state now includes Pillar 1061; Lean4 remains 4000; next pillar slot 1062.*
