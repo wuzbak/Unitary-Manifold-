@@ -42,7 +42,7 @@ def sprint_by_parallel_continuation_certificate() -> Dict[str, Any]:
     meaningful_result = any((
         bool(p1040["stale_checks"]["fallibility_stale_v35_3_removed"]),
         bool(p1041["closest_lane_to_runtime_flip"]),
-        bool(p1042["joint_bottleneck_pressure"] > 1.0),
+        bool(p1042["scientific_progress"]),
         bool(p1043["demonstrable_reduction"]),
         bool(p1044["substep_map"]["after_count"] < p1044["substep_map"]["before_count"]),
         bool(p1045["workflow_artifact_upload_present"]),
@@ -51,7 +51,7 @@ def sprint_by_parallel_continuation_certificate() -> Dict[str, Any]:
         "truth_surface_drift_repaired": bool(p1040["valid"]),
         "flavor_priority_ladder_emitted": bool(p1041["valid"]),
         "uv_joint_bottleneck_emitted": bool(p1042["valid"]),
-        "cmb_irreducibility_strengthened": bool(p1043["valid"]),
+        "cmb_packet_emitted": bool(p1043["packet_valid"]),
         "formal_substeps_reduced": bool(p1044["valid"]),
         "merlin_artifact_bundle_exported": bool(p1045["valid"]),
         "sprint_metadata_coherent": bool(VERSION == "v35.5" and NEXT_PILLAR_SLOT == 1048 and LEAN4_DELTA == 12),
@@ -69,6 +69,11 @@ def sprint_by_parallel_continuation_certificate() -> Dict[str, Any]:
         "workstreams_valid": workstreams_valid,
         "definition_of_done": definition_of_done,
         "meaningful_result": meaningful_result,
+        "scientific_progress": any(
+            report.get("scientific_progress") is True
+            for report in (p1041, p1042, p1043, p1044)
+        ),
+        "packet_valid": valid,
         "lean4_start": LEAN4_START,
         "lean4_end": LEAN4_END,
         "lean4_delta": LEAN4_DELTA,

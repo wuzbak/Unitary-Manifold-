@@ -202,7 +202,7 @@ def _jax_laplacian(f, dx):
 
 def _jax_divergence_x(V, dx):
     """Divergence of the x-component of a vector field along the grid."""
-    return _central_diff(V[:, 0:1], dx)[:, 0]
+    return _central_diff(V[:, 1:2], dx)[:, 0]
 
 
 def _jax_stress_energy(B, phi, H, lam):
@@ -249,7 +249,7 @@ def _jax_compute_rhs(g, B, phi, dx, lam, alpha, phi0, m_phi):
     # ∂_t B_μ = ∂_ν (λ² H^νμ)
     H_up = jnp.einsum('nai,nbj,nij->nab', g_inv, g_inv, H)    # (N, 4, 4)
     # Divergence: ∂_x of the leading column of H_up — np.gradient compatible
-    dB = _grad_np_compat(lam ** 2 * H_up, dx)[:, 0, :]  # (N, 4)
+    dB = _grad_np_compat(lam ** 2 * H_up, dx)[:, 1, :]  # x is coordinate 1
 
     # ∂_t φ = □φ + α R φ + S[H] − m²_φ (φ − φ₀)
     dphi = (_jax_laplacian(phi, dx)

@@ -1,5 +1,25 @@
 # Wave Changelog
 
+## Foundation reassessment (2026-09-05; no new pillar)
+
+**Changed interpretation:** the current audit supersedes historical scientific
+contraction and closure claims on the metric/photon, P1042/P1043/P1052/P1061,
+P1062, flavor-identifiability, and UV/CMB extension paths. Assigned reductions,
+proxy counts, and empty declared parameter lists are not sufficient evidence.
+The metric Schur-complement discrepancy, regular odd-field boundary obstruction,
+and reciprocal-inequality counterexample identify specific failed implications.
+
+**Not changed:** no empirical confirmation, universal no-go theorem, unique
+flavor derivation, or independent primordial-amplitude prediction is claimed.
+No new pillar is allocated. Existing lane identifiers are preserved as historical
+routing identifiers, not guaranteed theorem statements. Observational falsifiers
+are unchanged, including [0.29°, 0.31°] as the excluded birefringence gap.
+
+**Verification:** fresh pre-change combined regression: 63,430 passed,
+43 skipped, 12 deselected, 0 failed (354.83 s). Historical totals below belong
+to their recorded environments. Current execution results and remaining
+obligations are recorded in [TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment).
+
 This file is the required wave-level changelog ledger.
 **Current version: v36.4 (2026-09-05)**
 **Regression:** 63,892 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)

@@ -2,8 +2,10 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Executable deeper-principle derivation certificate for the 5D metric ansatz.
 
-This module formalizes the UM claim that the KK block metric is not inserted as
-an arbitrary template, but fixed by a compact set of deeper principles:
+This module checks the KK block parameterization conditional on a spacelike
+circle fibre, the cylinder condition and the definition of its connection.
+It does not derive the existence of an extra dimension or select this
+compactification from Einstein–Hilbert stationarity.
 
 1. 5D Einstein-Hilbert stationarity (second-order local action).
 2. 4D Lorentz recovery in the zero-field limit.
@@ -11,10 +13,10 @@ an arbitrary template, but fixed by a compact set of deeper principles:
 4. Z₂ orbifold parity consistency for compactification.
 5. Radion normalization to the physical compact metric component G_55 = φ².
 
-Under these constraints, the lowest-order local block form is uniquely fixed to
+Completing ds² = g dx² + φ²(dy + λB dx)² gives
 
     G_μν = g_μν + λ² φ² B_μ B_ν
-    G_μ5 = G_5μ = λ φ B_μ
+    G_μ5 = G_5μ = λ φ² B_μ
     G_55 = φ²
 """
 
@@ -59,7 +61,7 @@ def derive_metric_ansatz_from_deeper_principle(lam: float = 1.0) -> Dict[str, ob
     Parameters
     ----------
     lam : float
-        KK U(1) gauge coupling constant λ in the off-diagonal block G_{μ5}=λφB_μ.
+        Connection normalization λ in the off-diagonal block G_{μ5}=λφ²B_μ.
 
     Returns
     -------
@@ -88,20 +90,24 @@ def derive_metric_ansatz_from_deeper_principle(lam: float = 1.0) -> Dict[str, ob
 
     return {
         "principles": [
-            "5D Einstein-Hilbert stationarity (second-order local action)",
+            "Assumed spacelike circle fibre and cylinder condition",
             "4D Lorentz recovery in the zero-field limit",
             "KK U(1) gauge covariance",
-            "Z₂ orbifold parity consistency",
+            "Circle U(1) connection; an odd orbifold vector has no zero mode",
             "radion normalization G55 = φ²",
         ],
         "coefficients": coeffs,
         "derived_form": {
             "G_munu": "g_munu + (lambda^2 phi^2) B_mu B_nu",
-            "G_mu5": "lambda phi B_mu",
+            "G_mu5": "lambda phi^2 B_mu",
             "G_55": "phi^2",
         },
         "consistency_checks": consistency_checks,
         "all_checks_pass": all(consistency_checks.values()),
+        "scope": "Conditional block parameterization, not dynamical uniqueness",
+        "gauge_transformation": "y' = y - lambda chi; B' = B + d chi",
+        "schur_complement": "g_munu",
+        "determinant": "phi^2 det(g)",
     }
 
 
@@ -136,7 +142,7 @@ def assemble_derived_5d_metric(
         * (phi**2)[:, None, None]
         * np.einsum("ni,nj->nij", B, B)
     )
-    off_diag = coeffs.bmu_linear_prefactor * phi[:, None] * B
+    off_diag = coeffs.bmu_linear_prefactor * (phi**2)[:, None] * B
     g5[:, :4, 4] = off_diag
     g5[:, 4, :4] = off_diag
     g5[:, 4, 4] = coeffs.g55_prefactor * phi**2
@@ -146,7 +152,7 @@ def assemble_derived_5d_metric(
 def metric_ansatz_derivation_certificate(
     lam: float = 1.0, n_points: int = 9
 ) -> Dict[str, object]:
-    """Return an executable closure certificate for the derived ansatz."""
+    """Check assembly agreement and an independent completed-square factorization."""
     rng = np.random.default_rng(7405)
     eta = np.diag([-1.0, 1.0, 1.0, 1.0])
     g = np.tile(eta, (n_points, 1, 1)) + 1e-4 * rng.standard_normal((n_points, 4, 4))
@@ -157,14 +163,23 @@ def metric_ansatz_derivation_certificate(
     derived = assemble_derived_5d_metric(g, B, phi, lam=lam)
     canonical = assemble_5d_metric(g, B, phi, lam=lam)
     max_abs_error = float(np.max(np.abs(derived - canonical)))
+    frame = np.tile(np.eye(5), (n_points, 1, 1))
+    frame[:, 4, :4] = lam * B
+    diagonal = np.zeros_like(derived)
+    diagonal[:, :4, :4] = g
+    diagonal[:, 4, 4] = phi**2
+    factorized = frame.transpose(0, 2, 1) @ diagonal @ frame
+    completion_error = float(np.max(np.abs(derived - factorized)))
 
     derivation = derive_metric_ansatz_from_deeper_principle(lam=lam)
-    passed = bool(derivation["all_checks_pass"] and max_abs_error < 1e-12)
+    passed = bool(derivation["all_checks_pass"] and max_abs_error < 1e-12
+                  and completion_error < 1e-12)
     return {
-        "status": "DERIVED_FROM_DEEPER_PRINCIPLE" if passed else "OPEN",
+        "status": "CONDITIONAL_KK_PARAMETERIZATION" if passed else "OPEN",
         "lam": float(lam),
         "n_points": int(n_points),
         "derivation": derivation,
         "max_abs_error_vs_metric_module": max_abs_error,
+        "max_abs_error_line_element": completion_error,
         "passed": passed,
     }

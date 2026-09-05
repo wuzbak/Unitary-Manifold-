@@ -6,16 +6,8 @@ Aggregates Sprint CF (v36.2) Track A (Pillars 1062–1067), Track B (Pillars
 1068–1073), and Track C (Pillars 1074–1076) into a single sprint-level
 closure certificate.
 
-Meaningful progress rule (same as Sprint CE): Sprint CF succeeds iff
-  1. Track A: all five Type-B floor theorems are stated and their
-     justification classes are upgraded to LEAN4_..._THEOREM_STATED.
-  2. Track B: the 6D/F-theory extension attempt returns a binary verdict
-     (either TRACK_B_CLOSES_ALL_ATTEMPTED_LANES or
-     EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED) with zero hardgate breakage
-     and zero new free parameters.
-  3. Track C: two external falsifier sharpness theorems are stated and
-     registered under the anti-post-hoc-softening ledger.
-  4. No runtime label on any of the 208 closed hardgate pillars changes.
+Packet completeness is not physical progress. Unknown parameter inventories,
+unverified non-breakage and unproved physical statements cannot earn success.
 """
 
 from __future__ import annotations
@@ -57,10 +49,13 @@ def sprint_cf_regression_certificate() -> Dict[str, Any]:
         track_b.get("hardgate_non_breakage_verified", False)
         and not track_b.get("runtime_labels_changed", True)
     )
-    parameter_free = bool(track_b.get("parameter_free_extension", False))
+    parameter_free = track_b.get("parameter_free_extension")
 
-    meaningful_progress = track_a_ok and track_b_ok and track_c_ok
-    sprint_success = meaningful_progress and hardgate_untouched and parameter_free
+    packet_valid = track_a_ok and track_b_ok and track_c_ok
+    meaningful_progress = any(
+        track.get("scientific_progress") is True for track in (track_a, track_b, track_c)
+    )
+    sprint_success = bool(packet_valid and meaningful_progress and hardgate_untouched and parameter_free is True)
 
     return {
         "pillar": PILLAR_NUMBER,
@@ -76,9 +71,11 @@ def sprint_cf_regression_certificate() -> Dict[str, Any]:
         "hardgate_untouched": hardgate_untouched,
         "parameter_free_extension": parameter_free,
         "meaningful_progress": meaningful_progress,
+        "scientific_progress": meaningful_progress,
+        "packet_valid": packet_valid,
         "sprint_success": sprint_success,
         "next_pillar_slot": NEXT_PILLAR_SLOT,
-        "valid": sprint_success,
+        "valid": packet_valid,
     }
 
 

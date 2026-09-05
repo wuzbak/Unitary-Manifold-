@@ -2,10 +2,8 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """Pillar 1068 — Sprint CF Track B: 6D T²/Z₃ Coleman–Weinberg quartic extension.
 
-Continues Pillar 540 (which showed δA_s/A_s ≈ 1.58e-4 from the 6D T²/Z₃ boundary,
-about 0.02% of the CMB deficit gap) into the full moduli-integrated 6D CW
-correction to the Higgs quartic. This is a pre-registered *attempt*, not a
-closure claim.
+Records an extension proposal. No moduli-integrated CW calculation, spectrum,
+matching prescription or complete parameter inventory is supplied here.
 
 Pre-registered success criteria (must ALL hold to earn closure of G3 in this pillar):
   1. Δλ_geo ≥ 0.086 delivered by the 6D T²/Z₃ CW quartic alone.
@@ -13,8 +11,8 @@ Pre-registered success criteria (must ALL hold to earn closure of G3 in this pil
      modulus τ that is itself geometrically fixed by the orbifold class.
   3. All 208 hardgate pillar predictions remain unchanged.
 
-If any criterion fails, the outcome is
-``EXTENSION_FAILS_WITH_EXACT_RESIDUAL`` and the exact residual is reported.
+The assigned 6.5e-4 is a historical input, not a computed quartic correction.
+The result and parameter count therefore remain unestablished.
 """
 
 from __future__ import annotations
@@ -32,13 +30,10 @@ LANE_TARGET: str = "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW"
 # Pre-registered success threshold (from Pillar 540 gap analysis).
 DELTA_LAMBDA_TARGET: float = 0.086
 
-# Actual 6D T²/Z₃ CW quartic contribution computed from moduli-integrated CW
-# at the orbifold-fixed τ = exp(2πi/3). This is a leading-order geometric
-# estimate; the honest value falls well short of the target — that is a
-# pre-registered failure recorded, not softened.
+# Historical assigned value; no CW derivation is attached to this constant.
 DELTA_LAMBDA_ACHIEVED: float = 6.5e-4
 
-FREE_PARAMETERS_INTRODUCED: List[str] = []  # Empty by construction — τ is fixed.
+FREE_PARAMETERS_INTRODUCED: List[str] = []  # Historical incomplete declaration.
 
 HARDGATE_PILLARS_TOUCHED: List[str] = []  # Non-empty here → veto (Pillar 1072).
 
@@ -46,19 +41,12 @@ OUTCOME_ENUM = {
     "EXTENSION_CLOSES_LANE",
     "EXTENSION_FAILS_WITH_EXACT_RESIDUAL",
     "EXTENSION_BREAKS_HARDGATE",
+    "EXTENSION_UNESTABLISHED",
 }
 
 
 def cw_quartic_extension_report() -> Dict[str, Any]:
-    residual = DELTA_LAMBDA_TARGET - DELTA_LAMBDA_ACHIEVED
-    closes = DELTA_LAMBDA_ACHIEVED >= DELTA_LAMBDA_TARGET
-    breaks_hardgate = len(HARDGATE_PILLARS_TOUCHED) > 0
-    if breaks_hardgate:
-        outcome = "EXTENSION_BREAKS_HARDGATE"
-    elif closes:
-        outcome = "EXTENSION_CLOSES_LANE"
-    else:
-        outcome = "EXTENSION_FAILS_WITH_EXACT_RESIDUAL"
+    outcome = "EXTENSION_UNESTABLISHED"
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
@@ -67,17 +55,32 @@ def cw_quartic_extension_report() -> Dict[str, Any]:
         "sprint": SPRINT_NAME,
         "lane_target": LANE_TARGET,
         "delta_lambda_target": DELTA_LAMBDA_TARGET,
-        "delta_lambda_achieved": DELTA_LAMBDA_ACHIEVED,
-        "delta_lambda_residual": residual,
-        "residual_fraction": residual / DELTA_LAMBDA_TARGET,
+        "delta_lambda_achieved": None,
+        "delta_lambda_residual": None,
+        "residual_fraction": None,
+        "historical_assigned_delta_lambda": DELTA_LAMBDA_ACHIEVED,
+        "derivation_established": False,
+        "derivation_evidence": [],
+        "missing_evidence": [
+            "6D spectrum and moduli stabilization",
+            "regulated Coleman-Weinberg potential and quartic extraction",
+            "matching and renormalization prescription",
+            "complete independent parameter inventory",
+        ],
+        "scientific_progress": False,
         "free_parameters_introduced": list(FREE_PARAMETERS_INTRODUCED),
-        "free_parameter_count": len(FREE_PARAMETERS_INTRODUCED),
+        "free_parameter_count": None,
+        "parameter_inventory_complete": False,
+        "parameter_inventory_evidence": [],
         "hardgate_pillars_touched": list(HARDGATE_PILLARS_TOUCHED),
+        "hardgate_non_breakage_verified": False,
+        "hardgate_breakage_detected": None,
         "outcome": outcome,
         "runtime_label_changed": False,
         "closure_earned": outcome == "EXTENSION_CLOSES_LANE",
         "next_pillar_slot": NEXT_PILLAR_SLOT,
         "valid": outcome in OUTCOME_ENUM,
+        "packet_valid": outcome in OUTCOME_ENUM,
     }
 
 

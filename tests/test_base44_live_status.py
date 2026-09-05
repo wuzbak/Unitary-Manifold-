@@ -86,6 +86,19 @@ def test_live_status_validation_passes(live_status_module):
     assert live_status_module.validate(data) == []
 
 
+def test_status_distinguishes_registry_counts_from_scientific_proofs(live_status_module):
+    data = live_status_module.build_live_status()
+    assert data["lean4"]["physical_proof_count"] is None
+    assert data["lean4"]["count_scope"] == "HISTORICAL_DECLARATIONS_NOT_PHYSICAL_PROOF_OBLIGATIONS"
+    assessment = data["scientific_assessment"]
+    assert assessment["closure_earned"] is False
+    assert assessment["photon_origin"].startswith("OPEN:")
+    assert assessment["cmb_normalization"].startswith("CALIBRATED:")
+    assert "Historical" in data["meta"]["regression_provenance"]
+    assert data["physics"]["birefringence_admissible_window"] == [0.22, 0.38]
+    assert data["physics"]["birefringence_gap_forbidden"] == [0.29, 0.31]
+
+
 def test_generated_live_status_file_is_current(live_status_module):
     assert LIVE_STATUS_PATH.exists(), "um_live_status.json not found — run 9-INFRASTRUCTURE/generate_live_status.py"
     repo_json = json.loads(LIVE_STATUS_PATH.read_text(encoding="utf-8"))

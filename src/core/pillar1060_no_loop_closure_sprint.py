@@ -161,7 +161,7 @@ def sprint_cd_no_loop_closure_execution(
             _lane_outcome(
                 lane="ALPHA_S_TYPE_B_FLOOR",
                 runtime_flip_earned=False,
-                boundary_tightened=bool(uv["valid"]),
+                boundary_tightened=bool(uv.get("boundary_tightened", False)),
                 explicit_blockers=["SHARED_UV_COMPACTIFICATION_OBJECT_NOT_CLOSED"],
                 new_object_or_evidence_introduced=True,
                 retry_attempted_this_sprint=bool(
@@ -171,7 +171,7 @@ def sprint_cd_no_loop_closure_execution(
             _lane_outcome(
                 lane="HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
                 runtime_flip_earned=False,
-                boundary_tightened=bool(uv["valid"]),
+                boundary_tightened=bool(uv.get("boundary_tightened", False)),
                 explicit_blockers=["SHARED_UV_COMPACTIFICATION_OBJECT_NOT_CLOSED"],
                 new_object_or_evidence_introduced=True,
                 retry_attempted_this_sprint=bool(
@@ -181,7 +181,7 @@ def sprint_cd_no_loop_closure_execution(
             _lane_outcome(
                 lane="CMB_AMP_CONFIRMED_IRREDUCIBLE",
                 runtime_flip_earned=bool(cmb["closure_earned"]),
-                boundary_tightened=bool(cmb["valid"] and not cmb["closure_earned"]),
+                boundary_tightened=bool(cmb.get("boundary_tightened", False)),
                 explicit_blockers=list(cmb["named_missing_objects"]),
                 new_object_or_evidence_introduced=True,
                 retry_attempted_this_sprint=bool(

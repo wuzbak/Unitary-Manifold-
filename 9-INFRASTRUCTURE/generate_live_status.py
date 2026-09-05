@@ -15,7 +15,7 @@ Cache recommendation: 1 hour (values change only on sprint merges).
 Structure:
   meta            — version, sprint, date, source_of_truth
   tests           — passed, skipped, deselected, failed
-  lean4           — theorem_count
+  lean4           — historical declaration count, not discharged physics obligations
   pillars         — next_slot, hardgate_count, total_slots
   physics         — static constants (never change)
   predictions     — live falsification-window verdicts
@@ -272,10 +272,13 @@ def build_live_status() -> dict:
             "date": parsed["date"],
             "source_of_truth": "https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md",
             "generated_by": "9-INFRASTRUCTURE/generate_live_status.py",
+            "regression_provenance": "Historical headline record; see docs/TRUTH_LAYER.md for this environment's verification.",
         },
         "tests": parsed["tests"],
         "lean4": {
             "theorem_count": parsed["lean4_theorem_count"],
+            "count_scope": "HISTORICAL_DECLARATIONS_NOT_PHYSICAL_PROOF_OBLIGATIONS",
+            "physical_proof_count": None,
         },
         "pillars": {
             "next_slot": parsed["next_pillar_slot"],
@@ -283,6 +286,16 @@ def build_live_status() -> dict:
             "total_slots": parsed["next_pillar_slot"] - 1,
         },
         "physics": PHYSICS_CONSTANTS,
+        "scientific_assessment": {
+            "scope": "FOUNDATION_REASSESSMENT",
+            "closure_earned": False,
+            "reference": "docs/TRUTH_LAYER.md#foundation-reassessment",
+            "registry_labels": "Historical lane identifiers are retained; they do not establish universal impossibility theorems.",
+            "photon_origin": "OPEN: a regular odd composite vanishes at an orbifold fixed point.",
+            "cmb_normalization": "CALIBRATED: primordial normalization and transfer-spectrum errors are separate questions.",
+            "flavor_uniqueness": "UNESTABLISHED: parity alone does not fix bulk masses or the internal gauge involution.",
+            "uv_predictivity": "UNESTABLISHED: an empty declared parameter list is not a derivation.",
+        },
         "predictions": PREDICTIONS,
         "open_gates": OPEN_GATES,
         "fetch_targets": FETCH_TARGETS,

@@ -15,20 +15,24 @@ PILLAR_STATUS: str = "UV_JOINT_BOTTLENECK_CONTINUATION_COMPLETE"
 
 def uv_joint_bottleneck_continuation() -> Dict[str, Any]:
     prior = uv_parallel_compactification_campaign()
-    alpha_after = 0.93 * float(prior["campaign_after_residuals"]["alpha_s"])
-    higgs_after = 0.95 * float(prior["campaign_after_residuals"]["higgs"])
+    alpha_after = float(prior["campaign_after_residuals"]["alpha_s"])
+    higgs_after = float(prior["campaign_after_residuals"]["higgs"])
     reductions = {
         "alpha_s_fractional_reduction": 1.0 - alpha_after / float(prior["campaign_after_residuals"]["alpha_s"]),
         "higgs_fractional_reduction": 1.0 - higgs_after / float(prior["campaign_after_residuals"]["higgs"]),
     }
-    simultaneous_narrowing = alpha_after < float(prior["campaign_after_residuals"]["alpha_s"]) and higgs_after < float(prior["campaign_after_residuals"]["higgs"])
     shared_object_pressure = max(alpha_after / 0.05, higgs_after / 0.10)
-    valid = bool(prior["valid"] and simultaneous_narrowing and shared_object_pressure > 1.0)
+    valid = bool(prior["valid"] and alpha_after > 0 and higgs_after > 0)
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
         "valid": valid,
+        "packet_valid": valid,
+        "scientific_progress": False,
+        "boundary_tightened": False,
+        "residual_evidence_status": "INHERITED_HISTORICAL_INPUT_NOT_RECALCULATED",
+        "historical_assigned_scales": {"alpha_s": 0.93, "higgs": 0.95},
         "execution_order_rank": 2,
         "dependency": prior,
         "shared_uv_packet": prior["shared_uv_packet"],
@@ -36,10 +40,10 @@ def uv_joint_bottleneck_continuation() -> Dict[str, Any]:
         "fractional_reductions": reductions,
         "joint_bottleneck_pressure": shared_object_pressure,
         "shared_object_still_required": True,
-        "continuation_outcome": "UV_SHARED_PACKET_BOUNDARY_TIGHTENED",
+        "continuation_outcome": "CARRY_FORWARD_OPEN",
         "interpretation": (
-            "Sprint BY reruns the same shared UV packet under stricter coupled accounting and shrinks both residuals again, "
-            "without changing the architecture-limit labels."
+            "Inherited residuals are retained for traceability, not independently derived here. "
+            "Assigned 0.93/0.95 scales do not establish contraction."
         ),
     }
 

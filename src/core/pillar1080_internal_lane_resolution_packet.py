@@ -55,9 +55,9 @@ def _uv_lane_row() -> Dict[str, Any]:
         "current_status": "ALPHA_S_TYPE_B_FLOOR / HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
         "deterministic_verdict": verdict,
         "outcome": report.get("verdict"),
-        "tightened": report.get("verdict") == "EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED",
+        "tightened": report.get("scientific_progress") is True,
         "runtime_flip_earned": bool(report.get("closure_earned", False)),
-        "explicit_blocker": "Shared compactification object still does not collapse residual floors to closure-grade values.",
+        "explicit_blocker": "UV derivation, parameter inventory and hardgate comparisons remain unestablished.",
         "source": "src/core/pillar1073_track_b_verdict_aggregator.py",
     }
 

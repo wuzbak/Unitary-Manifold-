@@ -2,6 +2,28 @@ version: "v36.4"
 date: "2026-09-05"
 updated: "2026-09-05"
 
+foundation_reassessment:
+  date: "2026-09-05"
+  new_pillars: 0
+  physical_closure_claimed: false
+  reference: "docs/TRUTH_LAYER.md#foundation-reassessment"
+  baseline_environment_regression: "63430 passed, 43 skipped, 12 deselected, 0 failed"
+  historical_counts_are_not_physical_proof_obligations: true
+  superseded_inferences:
+    - "Mixed lambda*phi*B block with unchanged quadratic block recovers base metric"
+    - "Regular odd composite produces a nonzero fixed-plane photon"
+    - "Positive suppression lower bound proves a lower reciprocal deficit"
+    - "Assigned residual contraction or fewer blocker names establishes progress"
+    - "Proxy declaration counts discharge functional-analysis obligations"
+    - "Empty parameter declarations establish UV predictivity"
+  remaining_obligations:
+    - "Photon origin and action-to-evolution equivalence"
+    - "Independent CMB normalization and action-derived transfer corrections"
+    - "Unique flavor spectrum and internal gauge involution selection"
+    - "Joint UV/Higgs matching, moduli fixing and stability"
+    - "Nonperturbative quantum gravity"
+  observational_falsifiers_unchanged: true
+
 v36_4_sprint_ch:
   sprint: CH
   version: v36.4

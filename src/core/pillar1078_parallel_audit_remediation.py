@@ -66,7 +66,7 @@ _REQUIRED_OPEN_GATES = {
 }
 
 _PRIMARY_FALSIFIER = "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)"
-_EPISTEMIC_STATUS = "repository-level internal mathematical self-consistency established; current audit/remediation status surfaces synchronized to verified branch reality; external empirical confirmation pending"
+_EPISTEMIC_STATUS = "foundation reassessment: historical test and theorem counts do not establish physical derivations; photon origin, flavor uniqueness, independent CMB normalization and UV predictivity remain open; external empirical confirmation pending"
 _ORG_NAME = "AxiomZero Technologies & Consulting, SPC"
 _ORG_UBI = "606 239 876"
 _FLAVOR_STATUS = "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED"

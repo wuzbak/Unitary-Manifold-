@@ -196,8 +196,8 @@ def _laplacian(f, dx):
 
 
 def _divergence_vec(V, dx):
-    """Scalar divergence ∂_x V^x of a 1-D vector field (leading component)."""
-    return np.gradient(V[:, 0], dx, edge_order=2)
+    """Spatial divergence ∂_x V^x; index 0 is time, index 1 is x."""
+    return np.gradient(V[:, 1], dx, edge_order=2)
 
 
 def _stress_energy(B, phi, H, lam):

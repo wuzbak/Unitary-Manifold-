@@ -2,17 +2,9 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """Pillar 1072 — Sprint CF Track B: hardgate non-breakage veto.
 
-Verifies that the 6D/F-theory extension attempts (Pillars 1068–1070) do not
-break any of the 208 closed hardgate physics claims (n_s, r_braided, β, α_GUT,
-Λ_QCD path C, n_w=5 uniqueness, K_CS=74 derivation, φ₀ self-consistency,
-etc.). If any hardgate breakage is detected, the extension is retracted in
-the same commit — this pillar is the veto gate.
-
-Since Track B pillars each report ``hardgate_pillars_touched = []`` by
-construction (Pillar 1068/1069/1070 all target *additive* corrections on top of
-the closed 5D chain, not modifications of it), the veto returns
-``NO_HARDGATE_BREAKAGE_DETECTED``. If a later evidence-earned upgrade adds an
-entry, this pillar's report flips to ``HARDGATE_BREAKAGE_DETECTED_RETRACT_EXTENSION``.
+An empty touched-pillar declaration is not a calculation of non-breakage.
+Without evidence-backed comparisons, compatibility remains unestablished.
+Declared impacts conservatively block acceptance pending review.
 """
 
 from __future__ import annotations
@@ -58,20 +50,33 @@ def hardgate_non_breakage_veto() -> Dict[str, Any]:
     per_pillar = []
     for r in reports:
         touched = list(r.get("hardgate_pillars_touched", []))
+        verified = bool(
+            r.get("hardgate_non_breakage_verified") is True
+            and r.get("hardgate_comparison_evidence")
+            and not touched
+        )
         per_pillar.append(
             {
                 "pillar": r["pillar"],
                 "hardgate_pillars_touched": touched,
-                "breaks_hardgate": len(touched) > 0,
+                "breaks_hardgate": r.get("hardgate_breakage_detected"),
+                "non_breakage_verified": verified,
             }
         )
         all_touched.extend(touched)
-    breakage_detected = len(all_touched) > 0
-    verdict = (
-        "HARDGATE_BREAKAGE_DETECTED_RETRACT_EXTENSION"
-        if breakage_detected
-        else "NO_HARDGATE_BREAKAGE_DETECTED"
+    non_breakage_verified = all(row["non_breakage_verified"] for row in per_pillar)
+    breakage_detected = (
+        True if any(row["breaks_hardgate"] is True for row in per_pillar)
+        else False if non_breakage_verified else None
     )
+    if breakage_detected is True:
+        verdict = "HARDGATE_BREAKAGE_DETECTED_RETRACT_EXTENSION"
+    elif all_touched:
+        verdict = "HARDGATE_IMPACT_REQUIRES_REVIEW"
+    elif non_breakage_verified:
+        verdict = "NO_HARDGATE_BREAKAGE_DETECTED"
+    else:
+        verdict = "HARDGATE_NON_BREAKAGE_UNESTABLISHED"
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
@@ -81,11 +86,14 @@ def hardgate_non_breakage_veto() -> Dict[str, Any]:
         "per_pillar": per_pillar,
         "all_hardgate_pillars_touched": all_touched,
         "hardgate_breakage_detected": breakage_detected,
+        "hardgate_non_breakage_verified": non_breakage_verified,
         "core_hardgate_anchors": list(CORE_HARDGATE_ANCHORS),
-        "extension_retracted": breakage_detected,
+        "extension_retracted": breakage_detected is True or bool(all_touched),
         "verdict": verdict,
         "next_pillar_slot": NEXT_PILLAR_SLOT,
         "valid": True,
+        "packet_valid": True,
+        "scientific_progress": False,
     }
 
 

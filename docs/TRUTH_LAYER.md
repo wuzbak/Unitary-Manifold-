@@ -1,6 +1,106 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
 # Unitary Manifold v36.4
 
+## Foundation reassessment
+
+**2026-09-05 — correction of evidentiary scope, without a new pillar or a
+physics-closure claim.** This section supersedes the claims of derived
+contraction, photon recovery, and formal closure in the historical sprint
+summaries below where they concern the audited paths. The historical regression
+and declaration totals are retained as historical records, not newly verified
+proof counts.
+
+### Mathematical findings and assumptions
+
+1. **Metric normalization.** For a spacelike compact fibre, positive regular
+   radion, and cylinder condition, the canonical line element is
+   \(ds_5^2=g_{\mu\nu}dx^\mu dx^\nu+\phi^2(dy+\lambda B_\mu dx^\mu)^2\).
+   Its mixed block is \(\lambda\phi^2 B_\mu\). Its horizontal Schur complement
+   is \(g_{\mu\nu}\) and its determinant is \(\phi^2\det g\).
+   The former mixed block \(\lambda\phi B_\mu\), with the same upper block,
+   instead yields \(g_{\mu\nu}+\lambda^2(\phi^2-1)B_\mu B_\nu\).
+   Agreement at \(\phi=1\) does not establish equivalence for a dynamic radion.
+   All downstream identifications relying on that equivalence need reassessment.
+2. **Photon obstruction.** A continuous odd field is zero at a reflection
+   fixed point; multiplication by a finite even radion does not change that.
+   The previous fixed-plane composite-photon argument is withdrawn.
+   An independent even gauge field or a justified boundary construction would
+   be an additional assumption, not a consequence of evaluating the odd field.
+3. **Suppression-bound direction.** From \(S\ge S_{\min}>0\), it follows that
+   \(1/S\le1/S_{\min}\), not the opposite inequality. The P1062 proposed
+   \(S_{\min}=(5/74)^2\) also permits \(S=1\).
+   This disproves the claimed inference to irreducibility; it does not prove
+   that a physical warp profile realizes \(S=1\), or disprove every other
+   possible no-go theorem.
+4. **Flavor identifiability.** On a finite regular warped interval, parity
+   selects a chiral profile, not a discrete bulk-mass value. A continuum of
+   smooth profiles can have finite action-derived norm. A generation ladder
+   requires additional equations fixing the mass parameters and overlaps.
+   Similarly, spatial reflection alone does not select the internal SU(5)
+   involution; deriving its fixed algebra is conditional on choosing that
+   involution and assuming SU(5) in the first place.
+
+These are scoped mathematical statements. Neither test success nor a
+declaration labelled “PROVED” upgrades them to empirical confirmation.
+
+### What cannot be counted as progress
+
+- P1042's assigned residual multipliers, P1043's assigned narrowed interval,
+  and P1061's deleted blocker names/subtracted tension are not new physical
+  calculations.
+- P1052's theorem-name counts and text markers cannot discharge a
+  functional-analysis obligation. A theorem must state the required
+  proposition, compile, and have its assumptions and physical interpretation
+  inspected. Missing files and failed builds are verification failures, not
+  observational falsification.
+- P1068–P1070's assigned extension coefficients are not derived corrections.
+  An empty list of declared parameters cannot establish zero parameter cost.
+  A joint UV prediction requires specified moduli, spectra, effective
+  couplings, matching scheme, and consistency/stability checks.
+- Exhaustion of named attempts is not exhaustion of all admissible models.
+  The historical `ARCHITECTURE_LIMIT` and `CONFIRMED_IRREDUCIBLE` lane names
+  remain identifiers, not a replacement for a quantified theorem.
+
+### Controlled CMB question
+
+Pivot-amplitude calibration, a transfer-function approximation, and a
+primordial-amplitude prediction are different tasks. The existing COBE
+normalization explicitly uses an observational target. It is not evidence for
+an independently derived amplitude.
+
+A reference/control CAMB spectrum using declared cosmological inputs is a
+conditional numerical comparison. It must identify the actual backend, report
+multipole residuals and numerical resolution dependence, and keep absent
+empirical covariance and absent action-derived UM corrections explicit.
+A toy fallback must not be reported as a CAMB reproduction. A multiplier of a
+transfer **amplitude** enters angular **power** quadratically.
+
+The radion scale must be converted before comparison with cosmological
+wavenumbers: a mass small relative to the Planck mass can still be enormous
+relative to a CMB inverse length. Calling \(e^{-37}M_{\rm Pl}\) “massless at
+CMB scales” is not justified by its small value in Planck units.
+
+### Verification record
+
+The fresh, unmodified baseline in this environment was **63,430 passed,
+43 skipped, 12 deselected, 0 failed** (354.83 s), using the existing combined
+`tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/` suite. This is distinct
+from the historical headline total of 63,892; optional dependency availability
+affects collection. Post-change results and formal-tool limitations must be
+reported separately rather than silently replacing one environment's evidence
+with another's.
+
+**Open physical obligations:** photon origin; action-to-evolution equivalence;
+independent CMB normalization and UM transfer corrections; unique fermion and
+gauge-sector selection; joint UV/Higgs predictivity; nonperturbative QG.
+No universal completion is claimed.
+
+**Falsifier unchanged:** a birefringence value outside [0.22°, 0.38°], or in
+[0.29°, 0.31°], falsifies the braided-winding mechanism under its stated
+prediction. Future observations do not repair invalid internal implications.
+
+## Historical sprint records
+
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
 

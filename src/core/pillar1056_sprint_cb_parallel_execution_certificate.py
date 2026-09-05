@@ -51,7 +51,7 @@ def sprint_cb_parallel_execution_certificate() -> Dict[str, Any]:
     meaningful_result = any(
         [
             bool(p1051["merge_gate"]["freeze_new_claim_promotion"]),
-            bool(p1052["formal_open_substeps"]["after_count"] < p1052["formal_open_substeps"]["before_count"]),
+            bool(p1052["scientific_progress"]),
             bool(any(not item.get("pass") for item in p1053["frontier_readiness"].get("promotion_blockers", []))),
         ]
     )

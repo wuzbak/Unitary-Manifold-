@@ -17,19 +17,11 @@ PILLAR_STATUS: str = "CMB_IRREDUCIBILITY_CONTINUATION_COMPLETE"
 def cmb_irreducibility_continuation() -> Dict[str, Any]:
     prior = parallel_cmb_closure_campaign()
     ledger = cmb_amplitude_evidence_ledger()
-    deficit_after = {"lower": 3.45, "upper": 4.85}
-    demonstrable_reduction = (
-        deficit_after["lower"] < float(prior["deficit_after"]["lower"])
-        and deficit_after["upper"] < float(prior["deficit_after"]["upper"])
-    )
-    residual_budget_after = {
-        "eft_exhausted": min(1.0, float(prior["residual_budget_delta"]["after"]["eft_exhausted"]) + 0.03),
-        "uv_missing": max(0.0, float(prior["residual_budget_delta"]["after"]["uv_missing"]) - 0.03),
-        "external_pending": float(prior["residual_budget_delta"]["after"]["external_pending"]),
-    }
+    deficit_after = dict(prior["deficit_after"])
+    demonstrable_reduction = False
+    residual_budget_after = dict(prior["residual_budget_delta"]["after"])
     valid = bool(
         prior["valid"]
-        and demonstrable_reduction
         and not prior["closure_earned"]
         and ledger["terminal_eft_routes"]
         and len(ledger["named_missing_objects"]) == 2
@@ -39,6 +31,12 @@ def cmb_irreducibility_continuation() -> Dict[str, Any]:
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
         "valid": valid,
+        "packet_valid": valid,
+        "scientific_progress": False,
+        "boundary_tightened": False,
+        "residual_evidence_status": "INHERITED_HISTORICAL_INPUT_NOT_RECALCULATED",
+        "historical_assigned_deficit": {"lower": 3.45, "upper": 4.85},
+        "historical_assigned_budget_shift": 0.03,
         "execution_order_rank": 3,
         "dependency": prior,
         "candidate_name": prior["candidate"]["name"],
@@ -48,10 +46,10 @@ def cmb_irreducibility_continuation() -> Dict[str, Any]:
         "demonstrable_reduction": demonstrable_reduction,
         "closure_earned": False,
         "residual_budget_after": residual_budget_after,
-        "continuation_outcome": "CMB_IRREDUCIBILITY_FURTHER_STRENGTHENED",
+        "continuation_outcome": "CARRY_FORWARD_OPEN",
         "interpretation": (
-            "Sprint BY keeps the no-fit/no-external-target CMB rules intact and tightens the residual budget again; "
-            "the acoustic deficit narrows but remains explicitly architecture-limited."
+            "Historical interval and budget inputs are carried forward unchanged. "
+            "No transfer calculation or irreducibility proof is supplied by this packet."
         ),
     }
 

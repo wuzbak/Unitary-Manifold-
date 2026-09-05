@@ -2,8 +2,9 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """Pillar 1071 — Sprint CF Track B: extension free-parameter audit.
 
-Counts free parameters introduced by the 6D/F-theory extension attempts
-(Pillars 1068–1070). Publishes the exact count. If count > 0, the associated
+Audits parameter inventories of the 6D/F-theory extension attempts.
+Unknown inventories remain unknown, even when their declaration lists are empty.
+If an established count > 0, the associated
 Type-B floor labels do NOT flip to closed — the parameter cost is published in
 the article alongside the outcome.
 
@@ -39,9 +40,18 @@ def extension_free_parameter_audit() -> Dict[str, Any]:
     }
     per_pillar = []
     total_new_params = 0
+    inventory_complete = True
     all_params: List[str] = []
     for key, r in reports.items():
         params = list(r["free_parameters_introduced"])
+        count = r.get("free_parameter_count")
+        established = bool(
+            r.get("parameter_inventory_complete") is True
+            and r.get("parameter_inventory_evidence")
+            and isinstance(count, int) and not isinstance(count, bool)
+            and count == len(params)
+        )
+        inventory_complete = inventory_complete and established
         per_pillar.append(
             {
                 "pillar": r["pillar"],
@@ -49,12 +59,13 @@ def extension_free_parameter_audit() -> Dict[str, Any]:
                 "outcome": r["outcome"],
                 "closure_earned": r["closure_earned"],
                 "free_parameters_introduced": params,
-                "free_parameter_count": len(params),
+                "free_parameter_count": count if established else None,
+                "parameter_inventory_complete": established,
             }
         )
-        total_new_params += len(params)
+        total_new_params += count if established else 0
         all_params.extend(params)
-    parameter_free = total_new_params == 0
+    parameter_free = total_new_params == 0 if inventory_complete else None
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
@@ -62,11 +73,15 @@ def extension_free_parameter_audit() -> Dict[str, Any]:
         "version": VERSION,
         "sprint": SPRINT_NAME,
         "per_pillar": per_pillar,
-        "total_new_free_parameters": total_new_params,
+        "total_new_free_parameters": total_new_params if inventory_complete else None,
         "all_new_free_parameters": all_params,
         "parameter_free_extension": parameter_free,
+        "parameter_inventory_complete": inventory_complete,
+        "audit_status": "ESTABLISHED" if inventory_complete else "UNESTABLISHED",
+        "scientific_progress": False,
+        "packet_valid": True,
         "audit_rule": (
-            "closure requires zero new free parameters; otherwise Type-B "
+            "closure requires an evidence-backed complete inventory with zero new free parameters; otherwise Type-B "
             "labels are preserved and the parameter cost is published"
         ),
         "next_pillar_slot": NEXT_PILLAR_SLOT,
