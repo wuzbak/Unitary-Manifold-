@@ -17,12 +17,12 @@ Correct claim (replacing the overclaim in UNIFICATION_PROOF.md Part VIII)
 --------------------------------------------------------------------------
 The 5D KK construction with compact S¹ produces:
 
-    - Zero mode: one massless U(1) gauge boson  →  photon  ✓
+    - Zero mode: one massless U(1) graviphoton (not an identified SM photon)
     - KK tower: massive U(1) modes at m_n = n/R  →  heavy, not SM bosons
 
 To obtain the full Standard Model gauge structure requires:
 
-    - For U(1)_Y: already present (zero mode)
+    - For U(1)_Y: a circle U(1) is not yet an identified hypercharge sector
     - For SU(2)_L: requires additional compact dimensions (≥1 extra)
     - For SU(3)_c: requires a further compact space with SU(3) isometry
     - Chiral fermions: require orbifold construction or D-brane structure
@@ -31,9 +31,10 @@ Witten (1981) proved: the minimum number of extra dimensions required to
 accommodate the Standard Model gauge group with chiral fermions is 7,
 giving a total spacetime dimension of 4+7 = 11.
 
-The current theory (5D = 4+1) produces U(1) electromagnetism exactly.
-That is a genuine result.  The overclaim that it also produces SU(2)×SU(3)
-without additional structure is corrected here.
+The circle calculation produces a U(1) metric vector, not a demonstration of
+observed electromagnetism. On the standard S¹/Z₂ metric orbifold, G_{μ5}
+and its vector coefficient are odd; their constant mode is projected out.
+An independent even bulk gauge field would require additional model input.
 
 Public API
 ----------
@@ -50,7 +51,7 @@ kk_mode_mass(n, R)
     Mass of the n-th KK mode.
 
 photon_identification()
-    Shows the zero-mode identification with the photon.
+    Reports the circle zero mode and why observed-photon identification is unsupported.
 """
 
 __provenance__ = {
@@ -133,10 +134,10 @@ def kk_spectrum_1d(R: float = 1.0, lam: float = 1.0,
     for n in range(-n_modes, n_modes + 1):
         mass = kk_mode_mass(n, R)
         if n == 0:
-            label = 'photon (zero mode, massless U(1) gauge boson)'
+            label = 'circle graviphoton (massless U(1) zero mode; not identified as observed photon)'
             gauge = 'U(1)'
         else:
-            label = f'KK mode n={n}: massive U(1) boson at m = {mass:.3f}/R'
+            label = f'circle KK mode n={n}: mass = {mass:.3f} in supplied inverse-length units'
             gauge = 'U(1)_KK'
         modes.append(KKMode(
             n=n, mass=mass, charge=n,
@@ -146,13 +147,16 @@ def kk_spectrum_1d(R: float = 1.0, lam: float = 1.0,
 
 
 def gauge_group_from_5d() -> dict:
-    """Gauge group produced by the 5D KK construction.
+    """Gauge group of circle compactification, not the metric-orbifold zero sector.
 
     Returns an honest statement of what is and is not produced.
     """
     return {
         'produced': 'U(1)',
-        'produced_physical': 'One massless U(1) gauge boson (photon)',
+        'compactification': 'S1 circle, not S1/Z2',
+        'produced_physical': 'One massless circle U(1) graviphoton',
+        'metric_orbifold_vector_zero_mode': False,
+        'observed_photon_identified': False,
         'NOT_produced': ['SU(2)_L', 'SU(3)_c'],
         'explanation': (
             "5D KK compactification on S¹ yields U(1) gauge symmetry "
@@ -163,10 +167,10 @@ def gauge_group_from_5d() -> dict:
             "(Witten 1981), giving total 4+7 = 11 dimensions."
         ),
         'what_this_means_for_current_theory': (
-            "The current 5D theory correctly produces electromagnetism. "
+            "The circle theory produces a U(1) graviphoton, not an identified SM photon. "
             "The claim in UNIFICATION_PROOF.md Part VIII that the KK tower "
             "yields the Standard Model gauge structure is an overclaim. "
-            "A correct (reduced) claim: the theory geometrises electromagnetism. "
+            "The standard metric orbifold projects out this odd vector zero mode. "
             "The weak and strong forces require additional structure."
         ),
     }
@@ -189,7 +193,8 @@ def sm_dimensional_requirements() -> List[dict]:
             'extra_dims_needed': 1,
             'compact_space': 'S¹',
             'isometry_group': 'U(1) = SO(2)',
-            'status_in_5d_theory': '✓ PRESENT (zero mode of Bμ)',
+            'status_in_5d_theory': 'Circle U(1) only; observed orbifold photon NOT ESTABLISHED',
+            'metric_orbifold_vector_zero_mode': False,
         },
         {
             'force': 'Weak force',
@@ -221,13 +226,12 @@ def sm_dimensional_requirements() -> List[dict]:
 
 
 def photon_identification(lam: float = 1.0, phi0: float = 1.0) -> dict:
-    """Show the photon identification: zero-mode of Bμ = photon.
+    """Preserve circle spectrum numerics without identifying the observed photon.
 
-    This identification IS valid and rigorous:
-    - The zero KK mode (n=0) is massless
-    - It has U(1) gauge symmetry
-    - Its field strength H_μν = ∂_μBν − ∂_νBμ has Maxwell-form dynamics
-    - Charge quantisation follows from the compactness of S¹
+    The circle graviphoton is massless with Maxwell-form dynamics and is
+    neutral under its own Abelian group. Nonzero Fourier modes carry KK
+    momentum charge. These facts alone do not identify SM electromagnetism,
+    and the standard metric orbifold removes the constant vector mode.
 
     Returns
     -------
@@ -242,10 +246,15 @@ def photon_identification(lam: float = 1.0, phi0: float = 1.0) -> dict:
         'zero_mode_field_strength': 'F_μν = λ H_μν = λ(∂_μBν − ∂_νBμ)',
         'electromagnetic_potential': f'A_μ = {lam} × Bμ',
         'first_kk_mass':            m_first_kk,       # 1/φ₀ ≈ m_Planck
-        'identification_valid':     True,
-        'identification_basis':     'Massless, U(1)-charged, Maxwell dynamics',
+        'compactification':         'S1 circle, not S1/Z2',
+        'circle_zero_mode_charge':  0,
+        'metric_orbifold_vector_zero_mode': False,
+        'orbifold_photon_mass':     None,
+        'identification_valid':     False,
+        'identification_basis':     'Circle U(1) Maxwell dynamics; no SM matter-charge identification',
         'note': (
-            'The photon identification is rigorous. '
+            'Observed-photon identification is unsupported; the standard metric '
+            'orbifold projects out the odd constant vector mode. '
             'The W/Z/gluon identifications in UNIFICATION_PROOF.md Part VIII '
             'are not — they require additional compact dimensions.'
         ),
@@ -257,15 +266,17 @@ def gap5_status() -> str:
     return (
         "GAP 5 STATUS: PARTIALLY RESOLVED\n"
         "\n"
-        "RESOLVED: U(1) electromagnetism IS produced by the 5D KK construction.\n"
-        "          The photon is the zero mode of Bμ. This is rigorous.\n"
+        "RESOLVED: Circle compactification produces a massless U(1) graviphoton.\n"
+        "          This is not an identification with the observed photon.\n"
         "\n"
         "REMAINS: SU(2)_L and SU(3)_c are NOT produced by the current 5D theory.\n"
         "         Getting the full SM requires at minimum 7 extra dimensions\n"
         "         (Witten 1981). The current overclaim in UNIFICATION_PROOF.md\n"
         "         Part VIII is corrected by this module.\n"
         "\n"
-        "CORRECT REDUCED CLAIM: This 5D theory geometrises electromagnetism.\n"
+        "CORRECT REDUCED CLAIM: Circle KK gives Maxwell-form U(1) dynamics.\n"
+        "         The metric S1/Z2 orbifold projects out the vector zero mode;\n"
+        "         an observed orbifold photon remains unsupported.\n"
         "         Extension to the full SM is an open problem requiring\n"
         "         additional compact dimensions.\n"
     )

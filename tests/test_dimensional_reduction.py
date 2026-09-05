@@ -11,8 +11,8 @@ expected KK relations regardless of the specific φ or B background.
 
 Eight independent checks covering:
 
-  1. TestAlphaFormulaConsistency     — no tree-level EH R H² operator
-  2. TestAlphaIndependentOfRadius   — coefficient stays zero as radius varies
+  1. TestAlphaFormulaConsistency     — historical inverse-radius diagnostic
+  2. TestAlphaRadiusScaling         — inverse-square scaling, not a coupling
   3. TestCrossBlockZeroAtBZero      — R^μ_{5ν5} = 0 for B = 0, φ = const
   4. TestCrossBlockNonzeroForBGrad  — transverse electric gradient gives curvature
   5. TestRicciScalarFlatSpace       — R → 0 on exact flat space
@@ -51,44 +51,44 @@ _B_ZERO = np.zeros((_N, 4))
 
 
 # ===========================================================================
-# 1 — No R H² coefficient from tree-level EH
+# 1 — Preserve the historical inverse-radius diagnostic API
 # ===========================================================================
 
 class TestAlphaFormulaConsistency:
-    """A finite radius does not generate a tree-level R H² operator."""
+    """Check diagnostic arithmetic, not a nonminimal-coupling derivation."""
 
-    def test_alpha_zero_for_constant_radius(self):
+    def test_inverse_square_for_constant_radius(self):
         phi_val = 2.5
         phi = np.full(_N, phi_val)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi, _DX)
-        expected = 0.0
+        expected = 1.0 / phi_val**2
         assert abs(alpha - expected) < 1e-10, (
             f"α={alpha:.12f} ≠ expected={expected:.12f}"
         )
 
-    def test_nonuniform_radius_does_not_generate_nonminimal_operator(self):
+    def test_nonuniform_radius_mean_diagnostic(self):
         rng = np.random.default_rng(5)
         phi = 1.0 + 0.1 * rng.standard_normal(_N)
         phi = np.maximum(phi, 0.5)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi, _DX)
-        expected = 0.0
+        expected = float(np.mean(phi**-2))
         assert abs(alpha - expected) < 1e-10
 
 
 # ===========================================================================
-# 2 — EH R H² coefficient remains zero for any regular radius
+# 2 — The diagnostic retains its inverse-square scaling for a constant radius
 # ===========================================================================
 
-class TestAlphaIndependentOfRadius:
-    """Four constant-φ backgrounds all have the same absent operator."""
+class TestAlphaRadiusScaling:
+    """Four constant-φ backgrounds test diagnostic scaling, not an operator."""
 
     @pytest.mark.parametrize("phi_val", [0.5, 1.0, 2.0, 10.0])
-    def test_alpha_zero(self, phi_val):
+    def test_inverse_square(self, phi_val):
         phi = np.full(_N, phi_val)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi, _DX)
-        expected = 0.0
+        expected = 1.0 / phi_val**2
         assert abs(alpha - expected) < 1e-10, (
-            f"φ={phi_val}: unexpected tree-level coefficient α={alpha:.12f}"
+            f"φ={phi_val}: unexpected inverse-radius diagnostic α={alpha:.12f}"
         )
 
 

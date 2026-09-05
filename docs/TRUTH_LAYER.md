@@ -21,6 +21,12 @@ proof counts.
    instead yields \(g_{\mu\nu}+\lambda^2(\phi^2-1)B_\mu B_\nu\).
    Agreement at \(\phi=1\) does not establish equivalence for a dynamic radion.
    All downstream identifications relying on that equivalence need reassessment.
+   For API compatibility, `extract_alpha_from_curvature()` retains the
+   numerical diagnostic \(\langle\phi^{-2}\rangle\); that number is not an
+   action-derived coupling. The separate `circle_eh_rh2_coefficient()` reports
+   the absent tree-level \(R H_{\mu\nu}H^{\mu\nu}\) operator in the circle
+   Einstein–Hilbert reduction. This does not determine a phenomenological
+   \(R\phi^2\) coupling or prove the implemented flow equations.
 2. **Photon obstruction.** A continuous odd field is zero at a reflection
    fixed point; multiplication by a finite even radion does not change that.
    The previous fixed-plane composite-photon argument is withdrawn.
@@ -39,6 +45,22 @@ proof counts.
    Similarly, spatial reflection alone does not select the internal SU(5)
    involution; deriving its fixed algebra is conditional on choosing that
    involution and assuming SU(5) in the first place.
+
+   The explicit RS1 countermodels use the same finite interval, action-derived
+   weighted inner product, and chiral endpoint domain while varying the bulk
+   mass. Independent quadrature checks normalization and differing overlaps;
+   a Green-identity check tests the boundary form. These are countermodels to
+   selection by parity alone, not a proof against a future mass-fixing action.
+   Explicit SU(5) matrix involutions with zero, two, or four negative eigenvalues
+   retain 24, 12, or 16 generators respectively: the spatial reflection does
+   not choose the 3+2 split. The corresponding 3+2 fixed group is
+   \(S(U(3)\times U(2))\), with the usual finite quotient in its product
+   representation.
+
+   The assumed arithmetic ladder itself has also been corrected:
+   \(71/74-2/148=35/37\), not \(69/74\). Its assumed NLO/NNLO scale sums to
+   \(9/5476+27/405224=693/405224\); this is not a derived remainder bound
+   and does not bound all the historical calibration residuals.
 
 These are scoped mathematical statements. Neither test success nor a
 declaration labelled “PROVED” upgrades them to empirical confirmation.
@@ -133,6 +155,27 @@ The completed CMB-specific validation passed **201 tests**, including five
 real CAMB integration tests with the slow-test selection explicitly enabled
 (`-m 'slow or not slow'`, `OMP_NUM_THREADS=1`). This targeted result is separate
 from the full-repository regression record.
+
+The evidence/reporting workstream passed **361 tests** across the changed
+report modules and their immediate consumers. Those tests distinguish packet
+validity from scientific progress, preserve unresolved blockers, and reject
+closure inferred from assigned residuals, empty parameter inventories, status
+substrings or formal-file text markers. They do not prove the physical claims
+reported by those modules.
+
+The directly coupled photon-scope corrections passed **61 tests**. Circle
+KK masses and charges and an independently assumed bulk-U(1) Neumann problem
+remain available; neither supplies the projected-out metric photon on the
+orbifold. Both standalone VERIFY entry points passed **18 checks**, and both
+algebra entry points passed **296 checks**. These are executable assertions,
+not a formal proof of all the surrounding physical interpretations.
+
+JAX/jaxlib **0.10.2 CPU** was installed within the existing dependency range.
+The JAX/backend, independent geometry and parity suites passed **148 tests
+without skips**, including nonunit-radion RK4 parity and analytic divergence
+checks. This exposed and corrected the JAX evolution path's remaining
+all-coordinate field-strength derivative and its divergence endpoint mismatch.
+Targeted counts overlap and must not be added together as a unique test total.
 
 **Open physical obligations:** photon origin; action-to-evolution equivalence;
 independent CMB normalization and UM transfer corrections; unique fermion and

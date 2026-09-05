@@ -8,7 +8,7 @@ VERIFY.py — Unitary Manifold: Observable Consistency Demonstration
 HOOK: A single 5D Kaluza-Klein integer pair (n₁, n₂) = (5, 7) is
 consistent with three independent CMB observables — nₛ ≈ 0.9635,
 r ≈ 0.0315, β ≈ 0.35° — all within current observational bounds, from
-topology alone. Run this script to check the consistency chain in under 1 s.
+additional model assumptions. Run this script to check the consistency chain.
 
 Usage
 -----
@@ -62,7 +62,7 @@ import numpy as np
 # ---------------------------------------------------------------------------
 # Path setup — works whether called from repo root or any subdirectory
 # ---------------------------------------------------------------------------
-_ROOT = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
@@ -142,6 +142,7 @@ def run_verify() -> int:
 
     print(_SEP)
     print("  UNITARY MANIFOLD — OBSERVABLE CONSISTENCY CHECKS (142 pillars + Ω₀)")
+    print("  Conditional model checks, not proof of a photon, flavor selection or the full theory.")
     print("  Hook: (n₁,n₂)=(5,7) → nₛ=0.9635, r=0.0315, β≈0.331° [canonical FTUM PRIMARY; GW-radion: 0.351°]  (< 1 s)")
     print(_SEP)
     print(f"  {'Check':<28s}  {'Value':<22s}  {'Reference':<14s}  Result")
@@ -455,10 +456,10 @@ def run_verify() -> int:
     n_total = len(checks)
     print(f"  VERDICT: {n_pass}/{n_total} PASS  —  elapsed {elapsed:.1f}s")
     if n_pass == n_total:
-        print("  All checks pass.  The (5,7) braid uniquely satisfies every")
-        print("  Planck/BICEP/birefringence/DESI constraint from integer topology alone.")
-        print("  k_CS=74 is confirmed by 7 independent conditions (Pillar 74).")
-        print("  Axiom A: DERIVED from 5D CS action (v9.37) — not postulated.")
+        print("  All listed conditional model checks pass.")
+        print("  Finite scans and assumed model relations do not establish uniqueness")
+        print("  from topology alone, an orbifold photon, or flavor selection.")
+        print("  This is neither a full-theory proof nor experimental confirmation.")
         print("  Primary prediction: β ≈ 0.331° [canonical FTUM PRIMARY] / 0.351° [GW-radion variant] [(5,7) sector]; test: LiteBIRD ~2032.")
     else:
         failed = [i + 1 for i, c in enumerate(checks) if not c]

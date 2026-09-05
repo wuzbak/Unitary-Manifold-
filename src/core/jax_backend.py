@@ -64,6 +64,8 @@ def field_strength_jax(B: jnp.ndarray, dx: float) -> jnp.ndarray:
     B  : jnp.ndarray, shape (N, 4)
     dx : float, grid spacing
     """
+    if B.shape[0] < 3:
+        raise ValueError("second-order derivatives require at least 3 grid points")
     # Compute all column gradients at once: dB[x, nu] = ∂_x B[x, nu]
     # jnp.gradient with axis=0 handles all columns simultaneously
     dB = jnp.gradient(B, dx, axis=0)

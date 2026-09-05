@@ -26,6 +26,8 @@ from src.core.metric import (
     extract_alpha_from_curvature,
     field_strength,
     inverse_5d_metric,
+    inverse_radius_squared,
+    circle_eh_rh2_coefficient,
     derive_nw_index_theorem,
     z2_parity_clarification,
 )

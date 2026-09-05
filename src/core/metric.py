@@ -40,8 +40,8 @@ compute_curvature(g, B, phi, dx, lam)
     via the 5D metric and projected back to the 4D block.
 
 extract_alpha_from_curvature(g, B, phi, dx, lam)
-    Return the tree-level Einstein–Hilbert coefficient of R H² (zero)
-    and the cross-block Riemann diagnostic; inverse radius is not this coupling.
+    Legacy API: return mean(φ⁻²) and a cross-block curvature diagnostic.
+    The first value is NOT an action coefficient; see circle_eh_rh2_coefficient.
 
 assemble_warped_5d_metric(g, B, phi, r_c_field, k, lam)
     Build the 5×5 warped Randall–Sundrum KK metric with a **dynamical**
@@ -357,10 +357,10 @@ def compute_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
 
     Returns
     -------
-    Gamma  : ndarray, shape (N, 4, 4, 4)   — 4D Christoffel (from 5D projection)
-    Riemann: ndarray, shape (N, 4, 4, 4, 4) — 4D Riemann block
-    Ricci  : ndarray, shape (N, 4, 4)       — 4D Ricci (projected from 5D)
-    R      : ndarray, shape (N,)            — 4D Ricci scalar
+    Gamma  : ndarray, shape (N, 4, 4, 4)   — 5D connection coordinate block
+    Riemann: ndarray, shape (N, 4, 4, 4, 4) — 5D Riemann coordinate block
+    Ricci  : ndarray, shape (N, 4, 4)       — 5D Ricci coordinate block
+    R      : ndarray, shape (N,)            — legacy g^μν R^(5)_μν contraction
     """
     N = g.shape[0]
 
@@ -398,13 +398,37 @@ def compute_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
 # α derivation from 5D Riemann cross-block term
 # ---------------------------------------------------------------------------
 
-def extract_alpha_from_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
-    """Return (0.0, R^μ_{5ν5}) for the two-derivative circle EH truncation.
+def inverse_radius_squared(phi):
+    """Return the spatial mean of φ⁻², an inverse-radius diagnostic only.
 
-    R₅ = R₄ − λ²φ²H²/4 − 2□φ/φ generates no R H² operator.
-    The former return value mean(φ⁻²) was an inverse-radius diagnostic, not
-    an action coefficient. Higher-derivative/quantum/boundary contributions
-    to a nonminimal coupling require a separate action-level derivation.
+    This is the historical alpha_NM identification, not a derived coefficient
+    of R H² or R φ². No action matching follows from this numerical average.
+    """
+    values = np.asarray(phi, dtype=float)
+    if values.size == 0 or np.any(~np.isfinite(values)) or np.any(values == 0):
+        raise ValueError("phi must contain finite nonzero radii")
+    return float(np.mean(1.0 / values**2))
+
+
+def circle_eh_rh2_coefficient():
+    """Coefficient of R H² in the two-derivative circle EH reduction: zero.
+
+    R₅ = R₄ − λ²φ²H²/4 − 2□φ/φ and √|G| = φ√|g|, before Weyl rescaling.
+    This statement assumes the cylinder condition and a smooth circle with no
+    added operators. Higher-derivative, quantum or boundary corrections require
+    a separate action. It says nothing about a phenomenological R φ² coupling.
+    """
+    return 0.0
+
+
+def extract_alpha_from_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
+    """Legacy return (mean(φ⁻²), R^μ_{5ν5}); NOT an action-level extraction.
+
+    Numerical behavior is retained for callers of the historical alpha_NM API.
+    The first output is an inverse-radius diagnostic, not derived from the
+    second output and not a coefficient of R H² or R φ². Use
+    ``inverse_radius_squared`` when only this diagnostic is needed and
+    ``circle_eh_rh2_coefficient`` for the absent tree-level EH R H² operator.
     """
     G5 = assemble_5d_metric(g, B, phi, lam)
     _validate_coordinate_index(coordinate_index, 4)
@@ -416,7 +440,7 @@ def extract_alpha_from_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
     # So R^μ_{5ν5} = Riem5[n, mu, 4, nu, 4]  with mu,nu ∈ 0..3
     cross_block_riem = Riem5[:, :4, 4, :4, 4].copy()  # (N, 4, 4)
 
-    return 0.0, cross_block_riem
+    return inverse_radius_squared(phi), cross_block_riem
 
 
 # ---------------------------------------------------------------------------

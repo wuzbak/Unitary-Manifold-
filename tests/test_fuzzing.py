@@ -64,19 +64,19 @@ def _make_fuzz_state(seed: int, noise_amp: float,
 
 
 # ===========================================================================
-# 1 — random backgrounds cannot generate an EH R H² operator
+# 1 — inverse-radius diagnostics remain finite and positive
 # ===========================================================================
 
-class TestFuzzAlphaFiniteZero:
-    """Adversarial α extraction: zero under random regular inputs.
+class TestFuzzAlphaFinitePositive:
+    """Adversarial inverse-radius diagnostics under random regular inputs.
 
     Tests that no combination of random near-Minkowski metric, random B
-    field, or random radion perturbation generates an R H² coefficient or NaN.
+    field, or random radion perturbation generates a nonfinite diagnostic.
     Covers noise amplitudes from 1e-4 to 5e-2.
     """
 
     @pytest.mark.parametrize("seed,noise_amp", _ALPHA_PARAMS)
-    def test_alpha_finite_zero(self, seed, noise_amp):
+    def test_alpha_finite_positive(self, seed, noise_amp):
         state = _make_fuzz_state(seed, noise_amp)
         alpha, _ = extract_alpha_from_curvature(
             state.g, state.B, state.phi, state.dx
@@ -84,8 +84,8 @@ class TestFuzzAlphaFiniteZero:
         assert np.isfinite(alpha), (
             f"seed={seed}, noise={noise_amp}: α={alpha} is not finite"
         )
-        assert alpha == 0.0, (
-            f"seed={seed}, noise={noise_amp}: spurious EH R H² coefficient {alpha}"
+        assert alpha > 0.0, (
+            f"seed={seed}, noise={noise_amp}: invalid inverse-radius diagnostic {alpha}"
         )
 
 

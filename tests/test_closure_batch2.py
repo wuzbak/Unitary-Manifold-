@@ -99,27 +99,28 @@ class TestPhiZeroMetricGuard:
         phi_unit = np.ones(_N)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi_unit, _DX)
         assert np.isfinite(alpha)
-        assert alpha == 0.0
+        assert alpha == 1.0
 
 
 class TestPhiInfinityDecoupling:
-    """Increasing the radius does not generate an EH R H² operator."""
+    """The inverse-radius diagnostic decreases, without an action inference."""
 
     def test_large_phi_gives_small_alpha(self):
-        """The EH coefficient stays zero for a large radius."""
+        """The inverse-radius diagnostic tends to zero at large radius."""
         phi_large = np.full(_N, 1e6)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi_large, _DX)
         assert np.isfinite(alpha)
         assert alpha < 1e-8, f"Expected α ≈ 0 for φ=10⁶, got α={alpha:.3e}"
 
-    def test_alpha_stays_zero_as_radius_increases(self):
+    def test_inverse_radius_diagnostic_decreases(self):
         phi_values = [1.0, 10.0, 100.0, 1e4]
         alphas = []
         for phi_val in phi_values:
             phi_grid = np.full(_N, phi_val)
             a, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi_grid, _DX)
             alphas.append(a)
-        assert alphas == [0.0] * len(phi_values)
+        np.testing.assert_allclose(alphas, np.array(phi_values)**-2)
+        assert all(a > b for a, b in zip(alphas, alphas[1:]))
 
 
 class TestMinimalBoundaryGrid:
@@ -245,7 +246,7 @@ class TestFixedPointLongRunStable:
 
 
 class TestLargeGridStability:
-    """A7: larger grids do not create a nonminimal R H² operator."""
+    """A7: inverse-radius diagnostics are independent of grid size."""
 
     def test_alpha_finite_at_n32(self):
         """extract_alpha_from_curvature is finite for N = 32 near-Minkowski grid."""
@@ -259,7 +260,7 @@ class TestLargeGridStability:
         assert np.isfinite(alpha)
 
     def test_alpha_close_to_expected_at_n32(self):
-        """The tree-level R H² coefficient is zero also on a larger grid."""
+        """The legacy diagnostic retains inverse-radius scaling on a larger grid."""
         rng   = np.random.default_rng(99)
         N32   = 32
         g32   = np.tile(_ETA, (N32, 1, 1)) + 5e-3 * rng.standard_normal((N32, 4, 4))
@@ -267,21 +268,21 @@ class TestLargeGridStability:
         B32   = np.zeros((N32, 4))
         phi32 = np.full(N32, _PHI0_EFF)
         alpha, _ = extract_alpha_from_curvature(g32, B32, phi32, _DX)
-        assert alpha == 0.0
+        assert alpha == pytest.approx(_PHI0_EFF**-2)
 
 
 class TestParameterNoiseRobustness:
-    """A8: noisy φ changes curvature, not the operators in the action."""
+    """A8: inverse-radius diagnostics vary continuously with small radion noise."""
 
     def test_noise_in_phi_gives_bounded_alpha_error(self):
-        """Radion noise does not create a new operator in the action."""
+        """Small radion noise produces a small change in the diagnostic."""
         rng   = np.random.default_rng(5)
         N32   = 32
         phi_noisy = _PHI0_EFF * (1.0 + rng.normal(0.0, 1e-6, N32))
         g_flat    = np.tile(_ETA, (N32, 1, 1))
         B_flat    = np.zeros((N32, 4))
         alpha_noisy, _ = extract_alpha_from_curvature(g_flat, B_flat, phi_noisy, _DX)
-        expected = 0.0
+        expected = 1.0 / _PHI0_EFF**2
         assert abs(alpha_noisy - expected) < 1e-6, (
             f"α error = {abs(alpha_noisy - expected):.3e} exceeds 1e-6 "
             f"for 1 ppm noise in φ")

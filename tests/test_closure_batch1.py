@@ -35,6 +35,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from src.core.metric import (
     extract_alpha_from_curvature,
+    circle_eh_rh2_coefficient,
     assemble_5d_metric,
 )
 from src.multiverse.fixed_point import (
@@ -91,10 +92,10 @@ class TestAlphaConsistency:
     """The phenomenological FTUM inverse radius is not an EH R H² coefficient."""
 
     def test_geometric_alpha_matches_expected(self):
-        """The tree-level EH reduction has no R H² operator."""
+        """The legacy function returns the inverse-radius diagnostic."""
         phi_grid = np.full(_N_GRID, _PHI0_EFF)
         alpha_geo, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi_grid, _DX)
-        expected = 0.0
+        expected = 1.0 / _PHI0_EFF**2
         assert abs(alpha_geo - expected) < _TOL_ALPHA
 
     def test_fixed_point_alpha_matches_expected(self):
@@ -108,8 +109,9 @@ class TestAlphaConsistency:
         phi_grid = np.full(_N_GRID, _PHI0_EFF)
         alpha_geo, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi_grid, _DX)
         alpha_fp, _, _ = derive_alpha_from_fixed_point(_PHI0_EFF)
-        assert alpha_geo == 0.0
-        assert alpha_fp > _TOL_ALPHA
+        assert abs(alpha_geo - alpha_fp) < _TOL_ALPHA
+        assert circle_eh_rh2_coefficient() == 0.0
+        assert alpha_geo > _TOL_ALPHA
 
 
 class TestNsKKEqualsCasimir:

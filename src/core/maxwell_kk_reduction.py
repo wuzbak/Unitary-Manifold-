@@ -8,19 +8,22 @@ We record the standard Kaluza-Klein metric split
     G_{μ5} = φ² A_μ,
     G_{55} = φ²,
 
-and reduce the 5D gauge kinetic term to the four-dimensional Maxwell action.
-For the Z₂-even zero mode on S¹/Z₂ the profile is constant, so the y-integral
-produces a massless 4D photon.  The raw volume reduction gives
+On a circle this split admits a graviphoton with Maxwell-form dynamics.
+On the standard S¹/Z₂ metric orbifold, however, G_{μ5} and A_μ are both
+odd because φ² is even. Their constant vector zero mode is projected out.
+An independent bulk U(1) field can instead be assigned even vector parity;
+its constant Neumann mode is a different, explicitly conditional model.
+For that independent field the covering-space volume reduction gives
 
     1/g₄,tree² = (2πR)/g₅²,
 
-using the covering-space interval [-πR, πR].  In the RS1 geometry we then fold
-in the same Chern-Simons overlap renormalization that controls the photon sector,
+using the covering-space interval [-πR, πR]. The retained numerical coupling
+illustration additionally assumes the overlap prescription
 
     I_CS = (1 - exp(-3πkR)) / (3πkR),
 
-so that g₄,eff² = g₄,tree² sqrt(I_CS).  This gives α_em of the correct order of
-magnitude without introducing a new fit parameter.
+so that g₄,eff² = g₄,tree² sqrt(I_CS). This prescription is not derived here
+from a normalized action and does not identify the observed photon or α_em.
 """
 from __future__ import annotations
 
@@ -28,7 +31,7 @@ import math
 from typing import Dict
 
 PILLAR: int = 773
-PILLAR_STATUS: str = "MAXWELL_REDUCTION_DERIVED"
+PILLAR_STATUS: str = "CIRCLE_MAXWELL_CONDITIONAL_ORBIFOLD_PHOTON_UNSUPPORTED"
 N_W: int = 5
 K_CS: int = 74
 PI_K_R: float = 37.0
@@ -53,8 +56,8 @@ __all__ = [
 
 
 def _validate_positive(name: str, value: float) -> None:
-    if value <= 0:
-        raise ValueError(f"{name} must be positive")
+    if not math.isfinite(value) or value <= 0:
+        raise ValueError(f"{name} must be finite and positive")
 
 
 def _cs_overlap(pi_kr: float) -> float:
@@ -62,7 +65,7 @@ def _cs_overlap(pi_kr: float) -> float:
 
 
 def metric_kk_decomposition() -> Dict:
-    """Return the KK split of the 5D metric into gravity, photon, and radion."""
+    """Return the local KK split, without assuming the vector survives a quotient."""
     return {
         "status": "DERIVED",
         "value": {
@@ -74,56 +77,79 @@ def metric_kk_decomposition() -> Dict:
         "pillar": PILLAR,
         "fields": {
             "g_munu": "4D graviton",
-            "A_mu": "KK U(1) gauge field / photon candidate",
+            "A_mu": "KK U(1) graviphoton on a circle; odd vector on the metric orbifold",
             "phi": "radion scalar",
         },
-        "inverse_metric_note": "G^mu5 = -A^mu + O(A^3), G^55 = phi^-2 + A^2",
+        "inverse_metric_note": "G^mu5 = -A^mu, G^55 = phi^-2 + A^2",
     }
 
 
-def photon_zero_mode_bc(pi_kr: float = PI_K_R) -> Dict:
-    """Solve the zero-mode boundary-value problem for the photon profile.
+def photon_zero_mode_bc(
+    pi_kr: float = PI_K_R, *, field_origin: str = "metric",
+) -> Dict:
+    """Distinguish the projected metric vector from an independent bulk U(1).
 
-    For m₀ = 0 the bulk equation is
+    Only for an independent even bulk Maxwell field is the zero-mode equation
 
         f₀'' - 2k f₀' = 0,
 
     with general solution f₀(y) = c₁ + c₂ exp(2ky).  Neumann BC at y=0, πR force
-    c₂ = 0, leaving a constant profile and exact zero mass.
+    c₂ = 0, leaving a constant profile and exact zero mass. This cannot be
+    applied to the odd metric vector or used to identify the observed photon.
     """
     _validate_positive("pi_kr", pi_kr)
+    if field_origin not in {"metric", "independent_bulk_u1"}:
+        raise ValueError("field_origin must be metric or independent_bulk_u1")
+    if field_origin == "metric":
+        return {
+            "status": "PROJECTED_OUT",
+            "value": None,
+            "epistemic_status": "STANDARD_METRIC_ORBIFOLD",
+            "pillar": PILLAR,
+            "pi_kr": pi_kr,
+            "field_origin": field_origin,
+            "boundary_conditions": ["f0(0)=0", "f0(pi R)=0"],
+            "zero_mode_profile": "no nonzero constant vector mode",
+            "zero_mode_survives": False,
+            "photon_mass_zero_gev": None,
+            "observed_photon_identified": False,
+            "reason": "A_mu = G_mu5 / phi^2 is odd; a constant odd profile must vanish",
+        }
     return {
-        "status": "DERIVED",
+        "status": "CONDITIONAL",
         "value": 0.0,
-        "epistemic_status": "DERIVED",
+        "epistemic_status": "INDEPENDENT_BULK_U1_ASSUMED",
         "pillar": PILLAR,
         "pi_kr": pi_kr,
+        "field_origin": field_origin,
         "bulk_equation": "f0'' - 2 k f0' = 0",
         "general_solution": "f0(y) = c1 + c2 exp(2 k y)",
         "boundary_conditions": ["f0'(0)=0", "f0'(pi R)=0"],
         "c2_forced": 0.0,
         "zero_mode_profile": "constant",
         "photon_mass_zero_gev": 0.0,
+        "zero_mode_survives": True,
+        "observed_photon_identified": False,
     }
 
 
 def photon_z2_parity() -> Dict:
-    """Return the Z₂ parity assignment for the 4D photon mode.
+    """Return standard metric-orbifold parity, not an independent gauge assignment.
 
     Under y -> -y the one-form dy changes sign.  Therefore the metric component
     G_{μ5} must be odd so that G_{μ5} dx^μ dy remains invariant, while the 4D
-    coefficient A_μ itself is even and survives the orbifold projection.
+    coefficient A_μ = G_{μ5}/φ² is also odd. Its constant mode cannot survive.
     """
     return {
         "status": "DERIVED",
-        "value": +1,
+        "value": -1,
         "epistemic_status": "DERIVED",
         "pillar": PILLAR,
-        "a_mu_parity": +1,
+        "a_mu_parity": -1,
         "g_mu5_parity": -1,
         "g_55_parity": +1,
-        "survives_orbifold": True,
-        "interpretation": "A_mu is Z2-even, so the photon zero mode is retained.",
+        "survives_orbifold": False,
+        "interpretation": "A_mu is Z2-odd, so the constant metric-vector mode is projected out.",
     }
 
 
@@ -133,10 +159,10 @@ def kk_reduction_gauge_coupling(
     k_cs: int = K_CS,
     m_pl_gev: float = M_PL_GEV,
 ) -> Dict:
-    """Compute the effective 4D gauge coupling from KK volume reduction.
+    """Evaluate a conditional independent-bulk-U(1) coupling illustration.
 
     Using the covering-space interval length 2πR = 2 (πkR) / k and the CS
-    quantized 5D coupling g₅² = K_CS / M_Pl, the tree-level reduction gives
+    assigned 5D coupling g₅² = K_CS / M_Pl, the tree-level reduction gives
 
         g₄,tree² = g₅² / (2πR) = g₅² k / (2πkR).
 
@@ -145,7 +171,9 @@ def kk_reduction_gauge_coupling(
 
         g₄,eff² = g₄,tree² sqrt(I_CS),
 
-    and α_em = g₄,eff² / (4π).
+    and the historically named α_em = g₄,eff² / (4π). Neither the CS assignment
+    nor its overlap normalization is derived here; this is not an orbifold
+    metric-photon prediction.
     """
     _validate_positive("pi_kr", pi_kr)
     _validate_positive("m_pl_gev", m_pl_gev)
@@ -168,6 +196,9 @@ def kk_reduction_gauge_coupling(
         "value": g4_effective_sq,
         "epistemic_status": "CONSTRAINED",
         "pillar": PILLAR,
+        "model_scope": "conditional independent bulk U(1), not the odd metric vector",
+        "observed_photon_identified": False,
+        "coupling_derivation_complete": False,
         "g5_sq": g5_sq,
         "radius_gev_inv": radius_gev_inv,
         "interval_length_gev_inv": interval_length_gev_inv,
@@ -182,17 +213,18 @@ def kk_reduction_gauge_coupling(
 
 
 def maxwell_equations_4d() -> Dict:
-    """Return the reduced 4D Maxwell action and equations of motion."""
+    """Maxwell-form effective action conditional on a retained U(1) and fixed radion."""
     return {
-        "status": "DERIVED",
+        "status": "CONDITIONAL",
         "value": "partial_nu F^{mu nu} = j^mu",
-        "epistemic_status": "DERIVED",
+        "epistemic_status": "CIRCLE_OR_INDEPENDENT_BULK_U1_WITH_FIXED_RADION",
         "pillar": PILLAR,
         "reduced_action": "S_4 = -(1/4 g4^2) int d^4x sqrt(-g) F_{mu nu} F^{mu nu}",
         "field_strength": "F_{mu nu} = partial_mu A_nu - partial_nu A_mu",
         "equation_of_motion": "partial_nu F^{mu nu} = j^mu",
         "bianchi_identity": "partial_[lambda F_{mu nu]} = 0",
         "mass_term": 0.0,
+        "metric_orbifold_zero_mode": False,
     }
 
 
@@ -207,9 +239,11 @@ def maxwell_kk_reduction_report() -> Dict:
         "status": PILLAR_STATUS,
         "value": {
             "photon_mass_zero_gev": bc["photon_mass_zero_gev"],
-            "alpha_em_geometric": coupling["alpha_em_geometric"],
+            "alpha_em_geometric": None,
         },
-        "epistemic_status": "DERIVED",
+        "epistemic_status": "ORBIFOLD_PHOTON_UNSUPPORTED",
+        "observed_photon_identified": False,
+        "closure_earned": False,
         "pillar": PILLAR,
         "n_w": N_W,
         "k_cs": K_CS,
@@ -220,8 +254,8 @@ def maxwell_kk_reduction_report() -> Dict:
         "gauge_coupling": coupling,
         "maxwell_equations": equations,
         "summary": (
-            "The KK photon is the Z2-even constant zero mode of G_mu5; the reduced "
-            "4D action is Maxwell, and the warped overlap drives alpha_em to the "
-            "correct O(10^-2) size."
+            "The standard orbifold projects out the odd metric-vector zero mode. "
+            "Circle Maxwell dynamics and a conditional independent bulk U(1) "
+            "coupling illustration do not establish the observed photon or alpha_em."
         ),
     }

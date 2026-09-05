@@ -89,7 +89,7 @@ from .jax_metric import (
     _jax_assemble_5d_metric_impl,
     _jax_christoffel_impl,
     _jax_riemann_from_christoffel,
-    _central_diff,
+    _jax_field_strength_impl,
     _grad_np_compat,
 )
 
@@ -203,8 +203,8 @@ def _jax_laplacian(f, dx):
 
 
 def _jax_divergence_x(V, dx):
-    """Divergence of the x-component of a vector field along the grid."""
-    return _central_diff(V[:, 1:2], dx)[:, 0]
+    """Spatial divergence ∂_x V^1 with the canonical one-sided endpoints."""
+    return _grad_np_compat(V[:, 1], dx)
 
 
 def _jax_stress_energy(B, phi, H, lam):
@@ -217,7 +217,7 @@ def _jax_stress_energy(B, phi, H, lam):
 
 
 def _jax_source_scalar(H):
-    """Source S[H] = ½ H_μν H^μν."""
+    """Phenomenological source: half the Euclidean component norm of H."""
     return 0.5 * jnp.einsum('nij,nij->n', H, H)
 
 
@@ -239,9 +239,7 @@ def _jax_compute_rhs(g, B, phi, dx, lam, alpha, phi0, m_phi):
     g_inv  = jnp.linalg.inv(g)
     R      = jnp.einsum('nij,nij->n', g_inv, Ricci)  # (N,)
 
-    # Field strength — use np.gradient-compatible differences to match numpy pipeline
-    dB_x = _grad_np_compat(B, dx)                    # (N, 4): ∂_x B_mu
-    H    = dB_x[:, None, :] - dB_x[:, :, None]      # (N, 4, 4)
+    H = _jax_field_strength_impl(B, dx)
 
     # ∂_t g_μν = −2 R_μν + T_μν
     T  = _jax_stress_energy(B, phi, H, lam)
@@ -250,7 +248,7 @@ def _jax_compute_rhs(g, B, phi, dx, lam, alpha, phi0, m_phi):
 
     # ∂_t B_μ = ∂_ν (λ² H^νμ)
     H_up = jnp.einsum('nai,nbj,nij->nab', g_inv, g_inv, H)    # (N, 4, 4)
-    # Divergence: ∂_x of the leading column of H_up — np.gradient compatible
+    # Spatial divergence: ∂_x H^1μ, with np.gradient-compatible endpoints.
     dB = _grad_np_compat(lam ** 2 * H_up, dx)[:, 1, :]  # x is coordinate 1
 
     # ∂_t φ = □φ + α R φ + S[H] − m²_φ (φ − φ₀)

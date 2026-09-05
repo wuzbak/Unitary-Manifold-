@@ -31,7 +31,7 @@ def test_constants_match_context():
 
 def test_pillar_metadata():
     assert PILLAR == 773
-    assert PILLAR_STATUS == "MAXWELL_REDUCTION_DERIVED"
+    assert PILLAR_STATUS == "CIRCLE_MAXWELL_CONDITIONAL_ORBIFOLD_PHOTON_UNSUPPORTED"
 
 
 def test_metric_decomposition_fields_present():
@@ -43,11 +43,31 @@ def test_metric_decomposition_fields_present():
     assert "G_55" in result["value"]
 
 
-def test_zero_mode_bc_is_massless():
+def test_metric_vector_constant_mode_is_projected_out_not_massless():
     result = photon_zero_mode_bc()
+    assert result["status"] == "PROJECTED_OUT"
+    assert result["value"] is None
+    assert result["photon_mass_zero_gev"] is None
+    assert result["zero_mode_survives"] is False
+    assert result["boundary_conditions"] == ["f0(0)=0", "f0(pi R)=0"]
+    assert result["observed_photon_identified"] is False
+
+
+def test_independent_even_bulk_u1_retains_conditional_neumann_solution():
+    result = photon_zero_mode_bc(field_origin="independent_bulk_u1")
+    assert result["status"] == "CONDITIONAL"
+    assert result["field_origin"] == "independent_bulk_u1"
     assert result["photon_mass_zero_gev"] == 0.0
     assert result["zero_mode_profile"] == "constant"
     assert result["c2_forced"] == 0.0
+    assert result["boundary_conditions"] == ["f0'(0)=0", "f0'(pi R)=0"]
+    assert result["zero_mode_survives"] is True
+    assert result["observed_photon_identified"] is False
+
+
+def test_field_origin_must_be_explicitly_supported():
+    with pytest.raises(ValueError, match="field_origin"):
+        photon_zero_mode_bc(field_origin="photon")
 
 
 def test_zero_mode_bc_requires_positive_pi_kr():
@@ -57,9 +77,11 @@ def test_zero_mode_bc_requires_positive_pi_kr():
 
 def test_z2_parity_assignments():
     result = photon_z2_parity()
-    assert result["a_mu_parity"] == 1
+    assert result["a_mu_parity"] == -1
     assert result["g_mu5_parity"] == -1
-    assert result["survives_orbifold"] is True
+    assert result["g_55_parity"] == 1
+    assert result["survives_orbifold"] is False
+    assert result["a_mu_parity"] * result["g_55_parity"] == result["g_mu5_parity"]
 
 
 def test_gauge_coupling_returns_dict():
@@ -79,11 +101,14 @@ def test_effective_g4_sq_is_smaller_after_warp_overlap():
     assert 0.09 < result["g4_effective_sq"] < 0.10
 
 
-def test_alpha_em_is_near_inverse_137_scale():
+def test_assigned_coupling_obeys_its_formula_not_an_em_prediction():
     result = kk_reduction_gauge_coupling()
     alpha = result["alpha_em_geometric"]
-    assert 0.006 < alpha < 0.009
-    assert 120.0 < result["inverse_alpha_em"] < 160.0
+    assert alpha == pytest.approx(result["g4_effective_sq"] / (4 * math.pi))
+    assert result["inverse_alpha_em"] == pytest.approx(1 / alpha)
+    assert result["observed_photon_identified"] is False
+    assert result["coupling_derivation_complete"] is False
+    assert "independent bulk U(1)" in result["model_scope"]
 
 
 def test_custom_g5_sq_changes_coupling():
@@ -99,6 +124,8 @@ def test_negative_g5_raises():
 
 def test_maxwell_equations_content():
     result = maxwell_equations_4d()
+    assert result["status"] == "CONDITIONAL"
+    assert result["metric_orbifold_zero_mode"] is False
     assert result["mass_term"] == 0.0
     assert "partial_nu F^{mu nu}" in result["equation_of_motion"]
     assert "F_{mu nu}" in result["field_strength"]
@@ -111,7 +138,24 @@ def test_report_contains_sections():
         assert key in report
 
 
-def test_report_alpha_is_consistent_with_subreport():
+def test_report_does_not_promote_conditional_coupling_to_observed_photon():
     report = maxwell_kk_reduction_report()
-    alpha = report["gauge_coupling"]["alpha_em_geometric"]
-    assert report["value"]["alpha_em_geometric"] == pytest.approx(alpha, rel=1e-12)
+    assert report["gauge_coupling"]["alpha_em_geometric"] > 0
+    assert report["value"]["alpha_em_geometric"] is None
+    assert report["value"]["photon_mass_zero_gev"] is None
+    assert report["observed_photon_identified"] is False
+    assert report["closure_earned"] is False
+
+
+@pytest.mark.parametrize("pi_kr", [1.0, 10.0, 37.0, 50.0])
+def test_varying_warp_parameter_cannot_reverse_orbifold_projection(pi_kr):
+    metric = photon_zero_mode_bc(pi_kr)
+    independent = photon_zero_mode_bc(pi_kr, field_origin="independent_bulk_u1")
+    assert metric["zero_mode_survives"] is False
+    assert independent["zero_mode_survives"] is True
+
+
+@pytest.mark.parametrize("pi_kr", [float("nan"), float("inf")])
+def test_nonfinite_geometry_is_rejected(pi_kr):
+    with pytest.raises(ValueError, match="finite"):
+        photon_zero_mode_bc(pi_kr)

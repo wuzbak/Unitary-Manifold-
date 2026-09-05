@@ -130,6 +130,29 @@ def test_full_scalar_is_not_legacy_coordinate_block_contraction():
     np.testing.assert_allclose(block[3:-3], -0.04, rtol=2e-5)
 
 
+def test_inverse_radius_api_is_not_a_nonminimal_action_coefficient():
+    x, g, B, phi = fields(17)
+    diagnostic, cross = metric.extract_alpha_from_curvature(g, B, phi, x[1]-x[0])
+    assert diagnostic == pytest.approx(np.mean(phi**-2))
+    assert metric.inverse_radius_squared(phi) == diagnostic
+    assert metric.inverse_radius_squared(2*phi) == pytest.approx(diagnostic/4)
+    assert diagnostic > 0
+    assert np.linalg.norm(cross) > 0
+    # The independently checked circle reduction has H², but no R H² operator.
+    from src.core.symbolic_metric import symbolic_5d_ricci_scalar_decomposition
+    R5, symbols = symbolic_5d_ricci_scalar_decomposition()
+    density = sp.expand(symbols["phi"]*R5)
+    assert density.coeff(symbols["R4"]).coeff(symbols["H_sq"]) == 0
+    assert metric.circle_eh_rh2_coefficient() == 0.0
+    assert density.coeff(symbols["H_sq"]) == -symbols["lam"]**2*symbols["phi"]**3/4
+
+
+@pytest.mark.parametrize("phi", [[], [0.], [np.nan], [np.inf]])
+def test_inverse_radius_diagnostic_rejects_invalid_input(phi):
+    with pytest.raises(ValueError, match="finite nonzero"):
+        metric.inverse_radius_squared(phi)
+
+
 def test_proof_entry_point_is_canonical_not_independent_evidence():
     path = Path(__file__).resolve().parents[1] / "proof" / "metric.py"
     spec = importlib.util.spec_from_file_location("proof_metric_exports", path)

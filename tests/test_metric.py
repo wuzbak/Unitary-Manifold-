@@ -9,8 +9,8 @@ Covers:
   - christoffel: shape, vanishes on flat metric (D=4 and D=5)
   - compute_curvature: shapes, R≈0 on flat Minkowski,
                        5D pipeline differs from naive 4D-only result
-  - extract_alpha_from_curvature: no tree-level EH R H² operator,
-    cross-block shape and analytic warped-product curvature
+  - extract_alpha_from_curvature: legacy inverse-radius diagnostic,
+    cross-block shape and analytic warped-product curvature; no coupling inference
 """
 
 import numpy as np
@@ -27,6 +27,7 @@ from src.core.metric import (
     compute_curvature,
     _riemann_from_christoffel,
     extract_alpha_from_curvature,
+    circle_eh_rh2_coefficient,
 )
 
 
@@ -223,7 +224,7 @@ class TestComputeCurvature:
 # ---------------------------------------------------------------------------
 
 class TestExtractAlphaFromCurvature:
-    """Tree-level circle EH reduction contains H², but no R H² operator."""
+    """Preserve inverse-radius diagnostics without identifying action coefficients."""
 
     def test_output_types(self, flat_fields):
         g, B, phi, N, dx = flat_fields
@@ -231,30 +232,31 @@ class TestExtractAlphaFromCurvature:
         assert isinstance(alpha_geom, float)
         assert cb.shape == (N, 4, 4)
 
-    def test_alpha_zero_for_unit_phi(self, flat_fields):
+    def test_diagnostic_one_for_unit_phi(self, flat_fields):
         g, B, phi, N, dx = flat_fields  # phi = ones(N)
         alpha_geom, _ = extract_alpha_from_curvature(g, B, phi, dx)
-        assert alpha_geom == 0.0
+        assert alpha_geom == 1.0
 
-    def test_doubling_radius_does_not_generate_nonminimal_operator(self, flat_fields):
+    def test_doubling_radius_quarters_diagnostic(self, flat_fields):
         g, B, phi, N, dx = flat_fields
         phi2 = 2.0 * phi
         alpha2, _ = extract_alpha_from_curvature(g, B, phi2, dx)
-        assert alpha2 == 0.0
+        assert alpha2 == 0.25
 
     def test_alpha_general_uniform_phi(self, flat_fields):
-        """No R H² coefficient for any uniform radius."""
+        """The historical API returns inverse radius squared."""
         g, B, phi, N, dx = flat_fields
         for phi_val in (0.5, 1.0, 2.0, 3.0):
             phi_uniform = phi_val * np.ones(N)
             alpha_geom, _ = extract_alpha_from_curvature(g, B, phi_uniform, dx)
-            assert alpha_geom == 0.0
+            assert alpha_geom == pytest.approx(phi_val**-2)
 
     def test_varying_radius_is_not_an_action_coefficient(self, perturbed_fields):
         g, B, phi, N, dx = perturbed_fields
         alpha_geom, _ = extract_alpha_from_curvature(g, B, phi, dx)
-        assert alpha_geom == 0.0
-        assert not np.isclose(alpha_geom, np.mean(1.0 / phi**2))
+        assert alpha_geom == pytest.approx(np.mean(1.0 / phi**2))
+        assert circle_eh_rh2_coefficient() == 0.0
+        assert alpha_geom != circle_eh_rh2_coefficient()
 
     def test_cross_block_shape(self, perturbed_fields):
         """Cross-block Riemann array has shape (N, 4, 4)."""
@@ -283,14 +285,14 @@ class TestExtractAlphaFromCurvature:
         _, cb = extract_alpha_from_curvature(g, B_nz, phi, dx)
         assert not np.allclose(cb, 0.0, atol=1e-8)
 
-    def test_alpha_zero_with_nonzero_curvature(self, perturbed_fields):
+    def test_diagnostic_positive_with_nonzero_curvature(self, perturbed_fields):
         g, B, phi, N, dx = perturbed_fields
         alpha_geom, cb = extract_alpha_from_curvature(g, B, phi, dx)
-        assert alpha_geom == 0.0
+        assert alpha_geom > 0.0
         assert np.linalg.norm(cb) > 0
 
     def test_lam_does_not_affect_alpha(self, flat_fields):
-        """Changing λ does not generate an R H² operator."""
+        """The inverse-radius diagnostic is independent of λ."""
         g, B, phi, N, dx = flat_fields
         alpha1, _ = extract_alpha_from_curvature(g, B, phi, dx, lam=1.0)
         alpha2, _ = extract_alpha_from_curvature(g, B, phi, dx, lam=3.7)

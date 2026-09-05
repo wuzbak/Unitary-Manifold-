@@ -8,6 +8,10 @@ foundation_reassessment:
   physical_closure_claimed: false
   reference: "docs/TRUTH_LAYER.md#foundation-reassessment"
   baseline_environment_regression: "63430 passed, 43 skipped, 12 deselected, 0 failed"
+  baseline_provenance: "Recorded by the interrupted implementation session, not a resumed-code verification"
+  cmb_targeted_regression: "201 passed, including five real CAMB integrations"
+  reporting_targeted_regression: "361 passed"
+  cmb_backend: "CAMB 2.0.4; conditional GR comparison, not UM closure"
   historical_counts_are_not_physical_proof_obligations: true
   superseded_inferences:
     - "Mixed lambda*phi*B block with unchanged quadratic block recovers base metric"

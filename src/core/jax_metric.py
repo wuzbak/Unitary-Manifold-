@@ -112,6 +112,8 @@ def _grad_np_compat(f, dx):
     Left  boundary (i=0): (−3 f[0] + 4 f[1] − f[2]) / (2 dx)
     Right boundary (i=-1): (3 f[-1] − 4 f[-2] + f[-3]) / (2 dx)
     """
+    if f.shape[0] < 3:
+        raise ValueError("second-order derivatives require at least 3 grid points")
     # Central difference for all points (periodic roll — correct for interior)
     out = (jnp.roll(f, -1, axis=0) - jnp.roll(f, 1, axis=0)) / (2.0 * dx)
     # Fix left boundary
