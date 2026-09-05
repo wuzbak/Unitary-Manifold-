@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-05 (v36.3 Sprint CG COMPLETE — Pillar 1078; Lean4 4080→4080; next slot 1079)*
+*Last updated: 2026-09-05 (v36.4 Sprint CH COMPLETE — Pillars 1079–1081; Lean4 4080→4080; next slot 1082)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,20 +16,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.3 — Sprint CG)
+## CURRENT AUDITABLE STATE (v36.4 — Sprint CH)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.3** |
-| Sprint | **Sprint CG** |
-| Pillars | **1078-1078** |
-| Next pillar slot | **1079** |
+| Version | **v36.4** |
+| Sprint | **Sprint CH** |
+| Pillars | **1079-1081** |
+| Next pillar slot | **1082** |
 | Lean4 theorems | **4080** |
-| Verified full regression | **63,876 passed · 23 skipped · 12 deselected · 0 failed** |
-| Sprint theme | **Post-merge audit remediation + status integrity lock** |
-| Primary target | **Preserve merged Sprint CF scientific reality while forcing canonical/public status, code/proof, and reporting surfaces to agree with it** |
-| Binary outcome | **No new hardgate claim promotion; explicit PASS/FAIL audit checks on honesty, synchronization, and traceability surfaces after merge** |
+| Verified full regression | **63,892 passed · 23 skipped · 12 deselected · 0 failed** |
+| Sprint theme | **Critique-to-proof execution + internal lane resolution packet** |
+| Primary target | **Convert Gemini external critique into executable matrix and deterministic lane routing with explicit blockers/falsifiers** |
+| Binary outcome | **No unearned closure relabeling; fail-closed certificate requires matrix + lane packet + publication packet integrity** |
 
+Historical continuity: v36.3 Sprint CG (Pillar 1078; next slot 1079) remains the canonical post-merge audit/remediation layer directly below Sprint CH.
 Historical continuity: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical theorem/extension/falsifier execution layer directly below Sprint CG.
 Historical continuity: v36.1 Sprint CE (Pillar 1061; next slot 1062) remains the proof-first internal closure layer directly below Sprint CF.
 Historical continuity: v35.8 Sprint CB (Pillars 1051–1057; next slot 1058) remains the merge-gated multi-lane baseline directly below Sprint CC.
@@ -40,7 +41,25 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 
 ---
 
-## POST-MERGE AUDIT REMEDIATION PROTOCOL (Sprint CG, Executed)
+## CRITIQUE-RESOLUTION EXECUTION PROTOCOL (Sprint CH, Executed)
+
+1. Preserve v36.3 baseline Gemini adjudication artifacts unchanged.
+2. Publish one canonical critique-to-proof matrix with evidence labels and stop conditions.
+3. Execute one deterministic internal packet for flavor/UV/CMB/neutrino dependency lanes.
+4. Keep DESI/LiteBIRD and other external waits explicitly observation-gated.
+5. Keep cold-fusion vertex/scale mismatch explicitly unresolved.
+6. Require no unearned closure relabeling and explicit blocker carry-forward.
+7. Publish four sprint articles tied to real execution outputs.
+8. Keep canonical truth surfaces lockstep synchronized.
+9. Keep targeted and full verification gates zero-fail.
+
+### Sprint CH blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| External-critique narrative drift (now executable matrix + deterministic routing) | Flavor/UV/CMB/neutrino critique routing explicit; confabulation register explicit; publication packet traceable | DESI_DR3_MONITORING; LITEBIRD_BIREFRINGENCE; CMB_AMP_CONFIRMED_IRREDUCIBLE; ALPHA_S_TYPE_B_FLOOR; HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW; CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED; FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED; JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED; NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT |
+
+## POST-MERGE AUDIT REMEDIATION PROTOCOL (Sprint CG, Historical)
 
 1. Merge the newer canonical branch state before making further status claims.
 2. Preserve the merged Sprint CF hardgate/open-lane story without retroactive softening or relabeling.

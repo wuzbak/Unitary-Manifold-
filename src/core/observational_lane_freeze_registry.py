@@ -15,6 +15,7 @@ from typing import Dict
 
 R_LANE_ID = "INFLATION_TENSOR_R"
 WA_LANE_ID = "DARK_ENERGY_WA"
+NU_LANE_ID = "NEUTRINO_ORDERING_DM21"
 
 
 def observational_lane_freeze_registry() -> Dict[str, object]:
@@ -34,6 +35,12 @@ def observational_lane_freeze_registry() -> Dict[str, object]:
                 "treatment": "FROZEN_UNTIL_NEW_DATA",
                 "next_external_gate": "DESI DR3",
                 "note": "Do not run code-parameter hunts for w_a inside frozen-radion 5D-EFT lane.",
+            },
+            NU_LANE_ID: {
+                "status": "OBS_TENSION",
+                "treatment": "FROZEN_UNTIL_NEW_DATA",
+                "next_external_gate": "JUNO Year 2",
+                "note": "Do not narratively close neutrino-ordering / Δm²₂₁ dependencies before updated JUNO gates.",
             },
         },
     }

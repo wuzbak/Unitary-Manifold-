@@ -1,9 +1,34 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.3 (2026-09-05)**
-**Regression:** 63,876 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1079
+**Current version: v36.4 (2026-09-05)**
+**Regression:** 63,892 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1082
+
+## v36.4 (2026-09-05 — Sprint CH: Pillars 1079–1081)
+
+**What changed:**
+Sprint CH adds one executable critique-resolution chain. Pillar 1079 publishes a machine-readable critique-to-proof matrix that maps each major Gemini claim to evidence label, required executable work, and exact stop condition/falsifier, including a confabulation register for outdated/incorrect claims while preserving immutable v36.3 baseline artifacts. Pillar 1080 executes a deterministic internal packet across flavor/c_L, shared UV object, CMB amplitude boundary, and neutrino dependency routing with explicit blockers and no unearned closure labels. Pillar 1081 integrates matrix + lane packet + publication packet checks into a fail-closed sprint certificate.
+
+**Why:**
+Convert external critique handling from narrative response into auditable executable artifacts, while preserving explicit unresolved boundaries and external observation gates.
+
+**Epistemic label deltas:**
+- `GEMINI_CRITIQUE_PROOF_MATRIX_COMPLETE`
+- `CRITIQUE_INTERNAL_LANE_RESOLUTION_PACKET_COMPLETE`
+- `SPRINT_CH_CRITIQUE_RESOLUTION_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — DESI DR3, CMB-S4/ACT tension pressure, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** Flavor/c_L first-principles closure, shared UV compactification object, CMB amplitude non-perturbative normalization mechanism, cold-fusion vertex bridge, DESI DR3 external decision, LiteBIRD external decision, non-perturbative QG/UV completion.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Sprint CH targeted tests passed · 0 failed; full regression 63,892 passed · 23 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 1082
 
 ## v36.3 (2026-09-05 — Sprint CG: Pillar 1078)
 

@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v36.3
+# Unitary Manifold v36.4
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -8,6 +8,9 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Sprint CH (v36.4 — 2026-09-05):** 3 pillars (1079–1081). P1079 turns Gemini external critique handling into an executable matrix with claim-level evidence labels, required work obligations, stop conditions/falsifiers, and a confabulation register for outdated claims. P1080 executes deterministic four-lane routing (flavor/c_L, shared UV object, CMB amplitude boundary, neutrino dependency hardening) with explicit blockers and no unearned closure labels. P1081 fail-closes sprint validity unless matrix + lane packet + four-article publication packet all pass. Open-lane labels remain unchanged and explicit. Lean4 4080→4080 (+0). Verified full regression is 63,892 passed · 23 skipped · 12 deselected · 0 failed. Next slot 1082.
+>
+ 
 > **Sprint CG (v36.3 — 2026-09-05):** 1 pillar (1078). P1078 is a non-hardgate post-merge audit/remediation lock: it preserves the merged Sprint CF physics/open-lane story while forcing canonical/public status surfaces, observation-ledger freshness notes, Lean proxy disclosures, radion/evolution wording, and publication traceability to stay synchronized. Open-lane labels remain unchanged and explicit. Lean4 4080→4080 (+0). Verified full regression is now 63,876 passed · 23 skipped · 12 deselected · 0 failed. Next slot 1079.
 >
 
@@ -73,7 +76,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-05 (v36.3 — Sprint CG: Pillar 1078; post-merge audit/remediation integrity lock with no new hardgate-physics promotion; Lean4 4080; next pillar slot 1079; verified full regression 63,787 passed · 23 skipped · 12 deselected · 0 failed; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
+*Last updated: 2026-09-05 (v36.4 — Sprint CH: Pillars 1079–1081; critique-to-proof execution matrix + deterministic internal lane routing + fail-closed sprint certificate; Lean4 4080; next pillar slot 1082; verified full regression 63,892 passed · 23 skipped · 12 deselected · 0 failed; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 
