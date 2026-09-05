@@ -13,7 +13,10 @@ They are NOT full mathematical proofs of the physics claims — they encode
 the logical structure of the I-Theory argument as Lean4 statements so that
 the reasoning chain is transparent and auditable.
 
-Theorem count target: ≥ 100 theorems.
+Statement-count note: this file mixes substantive propositions with status
+markers (`True := trivial`) used to keep the audit trail explicit.  The raw
+statement count should not be read as the count of fully substantive physics
+proofs.
 
 Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Lean4 encoding and synthesis: GitHub Copilot (AI).
@@ -40,7 +43,7 @@ def phi0_cycles : Nat := 5   -- φ₀_eff = n_w × 2π
 -- The symmetric two-time gauge fixing satisfies t₁ = t₂
 -- and the null-cone condition φ_null = sqrt(t₁² + t₂²)
 
--- 1.1  Pillar 911 registered
+/-- Status marker only: Pillar 911 registration, not a substantive theorem. -/
 theorem p911_registered : True := trivial
 
 -- 1.2  Null-cone condition is self-consistent with phi0_eff = n_w × 2π
@@ -51,7 +54,7 @@ theorem null_cone_symmetric_gauge (phi0 : ℝ) (h : phi0 > 0) :
   rw [div_pow, div_pow, ← two_mul, Real.sqrt_sq_eq_abs, abs_of_pos h, Real.sq_sqrt (by norm_num : (2:ℝ) ≥ 0)]
   field_simp
 
--- 1.3  SP2R_NULL_CONE_CONSISTENT registered as a status
+/-- Status marker only: SP2R_NULL_CONE_CONSISTENT registration. -/
 theorem sp2r_null_cone_status : True := trivial
 
 -- 1.4  n_w × 2π is the FTUM fixed-point (Pillar 56 proxy)
@@ -60,7 +63,7 @@ theorem phi0_eff_formula : phi0_cycles = n_w := by native_decide
 -- 1.5  Null-cone residual is zero under exact symmetric gauge
 theorem null_cone_residual_zero : (0 : ℝ) < 1.0e-6 := by norm_num
 
--- 1.6  Null-cone check closes a theoretical loop between 13D and 5D EFT
+/-- Status marker only: theoretical-loop closure registration. -/
 theorem sp2r_closes_ftum_loop : True := trivial
 
 -- 1.7  Two time-like directions required by Sp(2,R)

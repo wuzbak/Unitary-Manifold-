@@ -70,17 +70,18 @@ PHYSICS_CONSTANTS = {
 
 # ---------------------------------------------------------------------------
 # Live falsification-window verdicts — updated each sprint
-# From Pillar 787 (oracle) + Pillars 795-799 (latest updates)
+# Keep aligned with STATUS.md, FALLIBILITY.md, CLAIM_MASTER_BOARD.md,
+# GATEKEEPER_SUMMARY.md, TRUTH_LAYER.md, and the observation-gated freeze lanes.
 # ---------------------------------------------------------------------------
 PREDICTIONS = [
     {
         "id": "EXP-1",
         "name": "LiteBIRD CMB birefringence β",
-        "status": "FIRST_DETECTION_CANDIDATE",
+        "status": "EXTERNAL_WAIT_ONLY",
         "sigma": 4.8,
         "measured_value": "β=0.277°±0.057° (ACT+Planck DR6)",
         "predicted_range": "[0.22°, 0.38°] excl. [0.29°–0.31°]",
-        "verdict": "HINT→FIRST_DETECTION_CANDIDATE (low-branch 0.07σ containment; BF=1.56)",
+        "verdict": "ACT+Planck DR6 remains consistent with the low branch, but the live lane stays external-wait-only pending LiteBIRD/SO discrimination.",
         "kill_condition": "β outside [0.22°,0.38°] OR β in [0.29°,0.31°]",
         "decision_window": "LiteBIRD ~2032 / Simons Observatory ~2028",
         "pillar": 795,
@@ -88,10 +89,10 @@ PREDICTIONS = [
     {
         "id": "EXP-2",
         "name": "DESI dark energy w_a",
-        "status": "DATASET_DEPENDENT",
-        "verdict": "BAO-only 1.11σ PASS; Pantheon+ 0.80σ PASS; Union3 1.59σ PASS; DESY5 3.18σ FALSIFIED_CANDIDATE; ACT DR6 0.17σ PASS",
+        "status": "HIGH_TENSION",
+        "verdict": "DESI DR2/Year 3 leaves the frozen-radion lane under high tension: BAO-only ≈2.07σ on w_a, combined BAO+CMB+SNe ≈2.75σ, 2D correlated tension ≈2.30σ; below the 3σ falsifier.",
         "kill_condition": "w_a ≠ 0 confirmed >3σ by ≥3 independent datasets",
-        "decision_window": "DESI DR3 ~2026",
+        "decision_window": "DESI DR3 / late-2026 publication window",
         "pillar": 797,
     },
     {
@@ -108,10 +109,10 @@ PREDICTIONS = [
     {
         "id": "EXP-4",
         "name": "CMB-S4 / ACT tensor-to-scalar ratio r",
-        "status": "PASS",
-        "verdict": "r=0.0315 BICEP/Keck < 0.036 ✅; CMB-S4 10σ discrimination ready",
-        "kill_condition": "r > 0.036 confirmed",
-        "decision_window": "CMB-S4 ~2028",
+        "status": "HIGH_TENSION",
+        "verdict": "BICEP/Keck and SPT-3G remain consistent, but ACT DR6 reports r<0.016 (95% CL), placing the UM r=0.0315 prediction under high tension; the measured-value falsifier is not yet triggered.",
+        "kill_condition": "r < 0.010 measured at ≥3σ",
+        "decision_window": "Simons Observatory ~2027 / CMB-S4 ~2028-2030",
         "pillar": 793,
     },
     {
@@ -148,25 +149,49 @@ PREDICTIONS = [
 # ---------------------------------------------------------------------------
 OPEN_GATES = [
     {
-        "gate": "JUNO_G4_TENSION_ESCALATED",
-        "sigma": 1.71,
-        "description": "G4 (FN charge irreducible residual) tension escalated with JUNO 2026 precision",
-        "pillar": 796,
+        "gate": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED",
+        "description": "Flavor shared-root blocker remains open after proof-first contraction.",
+        "pillar": 1061,
     },
     {
-        "gate": "DESI_DR2_DATASET_DEPENDENT",
-        "description": "w_a tension: DESY5 combination 3.18σ (FALSIFIED_CANDIDATE); other datasets PASS",
-        "pillar": 797,
+        "gate": "FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED",
+        "description": "Species-resolved RI geometry with bundle-moduli lock remains unresolved.",
+        "pillar": 1061,
     },
     {
-        "gate": "CC_KK_HIERARCHY_ARCHITECTURE_LIMIT",
-        "description": "Cosmological constant KK hierarchy 10⁵⁵ — shared with all QG frameworks; pre-registered open problem",
-        "pillar": 792,
+        "gate": "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
+        "description": "Global CKM phase geometry remains architecture-limited after contraction.",
+        "pillar": 1061,
     },
     {
-        "gate": "CMB_AMPLITUDE_ARCHITECTURE_LIMIT",
-        "description": "33.6% A_s mismatch — TYPE_B structural floor; no additional Type A residual",
-        "pillar": 799,
+        "gate": "ALPHA_S_TYPE_B_FLOOR",
+        "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
+        "pillar": 1061,
+    },
+    {
+        "gate": "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
+        "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
+        "pillar": 1061,
+    },
+    {
+        "gate": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
+        "description": "CMB amplitude lane remains internally irreducible absent the missing UV object.",
+        "pillar": 1061,
+    },
+    {
+        "gate": "NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
+        "description": "Non-perturbative QG remains bounded by the declared O1–O4 obstructions.",
+        "pillar": 1061,
+    },
+    {
+        "gate": "DESI_DR3_MONITORING",
+        "description": "External wait only; frozen-radion dark-energy lane awaits DESI DR3.",
+        "pillar": 1061,
+    },
+    {
+        "gate": "LITEBIRD_BIREFRINGENCE",
+        "description": "External wait only; birefringence lane awaits LiteBIRD.",
+        "pillar": 1061,
     },
 ]
 
@@ -279,6 +304,30 @@ def validate(data: dict) -> list[str]:
         errors.append("physics.winding_number_n_w must be 5")
     if data["physics"]["cs_level_k_cs"] != 74:
         errors.append("physics.cs_level_k_cs must be 74")
+    predictions = {row["id"]: row for row in data["predictions"]}
+    if predictions.get("EXP-2", {}).get("status") != "HIGH_TENSION":
+        errors.append("EXP-2 must remain HIGH_TENSION until canonical truth surfaces change")
+    if "DESI DR3" not in predictions.get("EXP-2", {}).get("decision_window", ""):
+        errors.append("EXP-2 decision_window must mention DESI DR3")
+    if predictions.get("EXP-4", {}).get("status") != "HIGH_TENSION":
+        errors.append("EXP-4 must remain HIGH_TENSION until canonical truth surfaces change")
+    if "CMB-S4" not in predictions.get("EXP-4", {}).get("decision_window", ""):
+        errors.append("EXP-4 decision_window must mention CMB-S4")
+    required_open_gates = {
+        "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED",
+        "FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED",
+        "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
+        "ALPHA_S_TYPE_B_FLOOR",
+        "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
+        "CMB_AMP_CONFIRMED_IRREDUCIBLE",
+        "NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
+        "DESI_DR3_MONITORING",
+        "LITEBIRD_BIREFRINGENCE",
+    }
+    live_gate_names = {row.get("gate") for row in data.get("open_gates", [])}
+    missing_gates = sorted(required_open_gates - live_gate_names)
+    if missing_gates:
+        errors.append(f"open_gates missing required current lanes: {', '.join(missing_gates)}")
     return errors
 
 

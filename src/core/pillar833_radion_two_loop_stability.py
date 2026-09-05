@@ -3,8 +3,10 @@
 """
 Pillar 833 — RADION_TWO_LOOP_STABLE
 
-Two-loop Coleman-Weinberg potential for the radion on S¹/Z₂: proves the
-radion fixed point is stable at two loops.
+Two-loop Coleman-Weinberg potential audit for the radion on S¹/Z₂: bounds the
+size of the two-loop correction, checks the imported one-loop reference point
+for positive local curvature, and keeps the threshold/proxy assumptions
+explicit.
 
 Status: RADION_TWO_LOOP_OPEN → RADION_TWO_LOOP_STABLE
 
@@ -32,9 +34,10 @@ The radion mass shift at two loops:
 where Δ_2 ~ O(1).
 
 Fixed-point shift:
-    δφ*^{(2)}/φ* ~ (g_5²/4π)² / (16π²) ~ O(10⁻⁶)
+    δφ*^{(2)}/φ* ~ (g_5²/4π)² / (16π²) ≈ 1.39×10⁻³
 
-This is sub-0.1% → fixed point is two-loop stable.
+This is ≈0.139%, so it satisfies the implemented 0.2% stability bound but not
+the stricter 0.1% target sometimes quoted in earlier notes.
 
 Gap closure
 -----------
@@ -47,8 +50,6 @@ from __future__ import annotations
 
 import math
 from typing import NamedTuple
-
-import numpy as np
 
 # ---------------------------------------------------------------------------
 # Physical constants
@@ -87,6 +88,8 @@ __all__ = [
     "LEAN4_TOTAL_AFTER",
     "one_loop_cw_potential",
     "two_loop_cw_correction",
+    "total_cw_potential",
+    "potential_curvature_proxy",
     "radion_mass_two_loop",
     "phi_star_two_loop",
     "two_loop_stability_check",
@@ -179,6 +182,55 @@ def two_loop_cw_correction(
 
 
 # ---------------------------------------------------------------------------
+# Total potential / curvature proxy
+# ---------------------------------------------------------------------------
+def total_cw_potential(
+    phi: float,
+    R_KK: float = R_KK_DEFAULT,
+    N_modes: int = N_MODES_CW,
+    F_2: float = 1.0,
+) -> dict:
+    """Return V_total = V^(1) + δV^(2) together with a stationarity proxy."""
+    v1 = one_loop_cw_potential(phi=phi, R_KK=R_KK, N_modes=N_modes)
+    v2 = two_loop_cw_correction(phi=phi, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
+    gradient_total = v1["dV1_dphi"]
+    return {
+        "phi": phi,
+        "V_total": v1["V1_loop"] + v2["delta_V2"],
+        "gradient_total": gradient_total,
+        "stationarity_residual": abs(gradient_total),
+        "uses_gradient_proxy_only": True,
+    }
+
+
+def potential_curvature_proxy(
+    phi: float = PHI_STAR_1LOOP,
+    step: float = 1.0e-4,
+    R_KK: float = R_KK_DEFAULT,
+    N_modes: int = N_MODES_CW,
+    F_2: float = 1.0,
+) -> dict:
+    """Numerically estimate local curvature of the audited two-loop potential.
+
+    This is a finite-difference proxy for V''(φ) at the imported one-loop
+    reference point.  It is not, by itself, a proof that φ is the exact
+    stationary point of the full potential.
+    """
+    center = total_cw_potential(phi=phi, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
+    plus = total_cw_potential(phi=phi + step, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
+    minus = total_cw_potential(phi=phi - step, R_KK=R_KK, N_modes=N_modes, F_2=F_2)
+    second_derivative = (plus["V_total"] - 2.0 * center["V_total"] + minus["V_total"]) / (step**2)
+    return {
+        "phi": phi,
+        "step": step,
+        "d2V_dphi2_proxy": second_derivative,
+        "positive_local_curvature": second_derivative > 0.0,
+        "stationarity_residual": center["stationarity_residual"],
+        "is_exact_stationary_proof": False,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Radion mass at two loops
 # ---------------------------------------------------------------------------
 def radion_mass_two_loop(
@@ -198,8 +250,9 @@ def radion_mass_two_loop(
     v1 = one_loop_cw_potential(phi=phi_star, R_KK=R_KK)
     v2 = two_loop_cw_correction(phi=phi_star, R_KK=R_KK)
 
-    # Radion mass: m_φ² ~ d²V/dφ² at φ = φ*
-    # Estimate from curvature: m_φ^{(1)}² ~ |dV1/dφ| / φ* (rough)
+    # Legacy mass proxy retained for backward compatibility with the original
+    # Pillar 833 packaging.  This is a gradient-derived proxy, not a literal
+    # evaluation of V''(φ*) at an exact stationary point.
     m_phi_sq_1loop = abs(v1["dV1_dphi"]) / (phi_star + 1e-15)
 
     # Two-loop correction factor
@@ -207,6 +260,7 @@ def radion_mass_two_loop(
     m_phi_sq_2loop = m_phi_sq_1loop * (1.0 + Delta_2)
 
     relative_correction = Delta_2
+    curvature = potential_curvature_proxy(phi=phi_star, R_KK=R_KK)
 
     return {
         "m_phi_sq_1loop": m_phi_sq_1loop,
@@ -214,6 +268,10 @@ def radion_mass_two_loop(
         "Delta_2": Delta_2,
         "relative_correction": relative_correction,
         "is_small": relative_correction < TWO_LOOP_STABILITY_THRESHOLD,
+        "mass_proxy_uses_gradient_not_exact_hessian": True,
+        "d2V_dphi2_proxy": curvature["d2V_dphi2_proxy"],
+        "positive_local_curvature": curvature["positive_local_curvature"],
+        "stationarity_residual": curvature["stationarity_residual"],
         "g5sq_4pi_sq": G5_SQ_OVER_4PI**2,
     }
 
@@ -268,6 +326,9 @@ def two_loop_stability_check() -> dict:
         "potential_ratio": v2["two_loop_to_one_loop_ratio"],
         "phi_star_shift_percent": phi_shift["shift_percent"],
         "mass_correction_relative": mass["relative_correction"],
+        "positive_local_curvature": mass["positive_local_curvature"],
+        "stationarity_residual": mass["stationarity_residual"],
+        "mass_proxy_uses_gradient_not_exact_hessian": mass["mass_proxy_uses_gradient_not_exact_hessian"],
         "gate": PILLAR_GATE,
     }
 
@@ -285,6 +346,8 @@ def radion_two_loop_summary() -> dict:
         "phi_star_two_loop_stable": check["phi_star_stable_at_two_loop"],
         "phi_star_shift_percent": check["phi_star_shift_percent"],
         "mass_correction_relative": check["mass_correction_relative"],
+        "positive_local_curvature": check["positive_local_curvature"],
+        "stationarity_residual": check["stationarity_residual"],
         "lean4_total_after": LEAN4_TOTAL_AFTER,
         "remaining_open": [
             "RADION_THREE_LOOP_OPEN: three-loop corrections (sub-leading)",

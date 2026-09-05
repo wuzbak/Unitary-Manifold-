@@ -3,10 +3,18 @@
 /-
   BirefringenceACTDR6.lean
   Pillar 795 — BIREFRINGENCE_FIRST_DETECTION_CANDIDATE
-  Lean4 proxy theorems formalising the ACT+Planck 2026 joint birefringence
-  measurement and its consistency with the UM canonical windows.
+  Lean4 proxy theorems checking arithmetic consistency of rescaled ACT+Planck
+  2026 birefringence values against the UM canonical windows.
 
   Theorem count: 15  (total after: 1066 + 15 = 1081)
+-/
+
+/-! ## Proxy-theorem boundary
+
+These are arithmetic checks on millidegree proxy integers. They do NOT
+constitute a live observational ingest pipeline or a constructive proof of the
+physical birefringence claim; they only certify that the cited proxy values
+satisfy the expected window/gap relations.
 -/
 
 -- Proxy integers (× 10³ for degrees × 1000)

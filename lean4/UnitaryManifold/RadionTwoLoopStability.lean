@@ -4,6 +4,10 @@
   RadionTwoLoopStability.lean
   Pillar 833 — RADION_TWO_LOOP_STABLE
 
+  Proxy-scope note: these are arithmetic certificates for fixed proxy values.
+  They do not by themselves construct the full two-loop field theory or prove
+  that V''(φ*) has been derived from first principles inside Lean.
+
   Theorem count: 25  (total after: 1731 + 25 = 1756)
 -/
 
@@ -19,7 +23,7 @@ def PHI_STAR_DEN : Nat := 1000
 -- Two-loop correction: (g₅²/4π)² / (16π²) → proxy
 -- (g₅²/4π)² ~ (K_CS/(4π)²)² ≈ (74/157.9)² ≈ 0.219
 -- / (16π²) ≈ / 157.9 ≈ 0.00139
--- δφ*/φ* ~ 0.00139 < 0.001 ≈ 0.1%
+-- δφ*/φ* ~ 0.00139 = 0.139%
 -- Integer proxy: TWO_LOOP_NUM = 139, TWO_LOOP_DEN = 100000
 def TWO_LOOP_NUM : Nat := 139
 def TWO_LOOP_DEN : Nat := 100000
@@ -89,9 +93,9 @@ theorem pillar833_loop_factor : 1 < 158 := by decide
 -- 74^2 / (4 × 24964) = 5476 / 99856 < 1 < 74 → PASS (proxy)
 theorem pillar833_two_loop_factor : K_CS_833 ^ 2 < 4 * (158 ^ 2) := by decide
 
--- 17. Radion stabilization: φ* is a local minimum (V'' > 0)
--- Proxy: PHI_STAR_NUM > PHI_STAR_DEN (positive curvature → stable min)
-theorem pillar833_local_min : PHI_STAR_NUM > PHI_STAR_DEN := by decide
+-- 17. Status marker only: the imported one-loop reference point sits above 1.
+-- This is NOT a proof that V''(φ*) > 0.
+theorem pillar833_phi_star_above_one_status : PHI_STAR_NUM > PHI_STAR_DEN := by decide
 
 -- 18. c_L = 71/74 unchanged by two-loop correction (separate sector)
 theorem pillar833_cl_stable : C_L_NUM_833 + 3 = C_L_DEN_833 := by decide

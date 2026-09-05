@@ -1,10 +1,16 @@
 # OBSERVATION_TRACKER.md — Unitary Manifold Prediction Registry
 
-*Living document — update within 30 days of any new observational result.*  
-*Last updated: 2026-08-01 (v20.1 — Pillars 575–590: DESI DR3 ensemble routing hardened (P580, 3 decision branches, Euclid cross-check); frozen radion wₐ=0 analytic certificate (P581, ANALYTIC_CERTIFIED conditional on λ_GW natural); DESI DR3 preregistration v2 certified (P582, SHA-256, Euclid+Hyper-K NMO+SPHEREx f_NL); Δm²₂₁ three-step cascade complete (P583–P585, QUANTIFIED_RESIDUAL 2.98σ); NP-BC-4 sub-gaps J/K/L proved (P586–P588, 34 theorems, Lean4 274 total); Lean4 274-theorem milestone (P590); full regression ~49,850 passed · 23 skipped · 12 deselected · 0 failed.)*
+*Historical routing ledger + active decision procedures.*  
+*Audit-remediated: 2026-09-05. This file preserves observation-by-observation routing logic, but it is **not** the canonical current sprint/status source. For the live checked-in branch state use `STATUS.md`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/SPRINT_PLAN.md`, `docs/mas_tracker.yml`, and `9-INFRASTRUCTURE/um_live_status.json`.*
 *See `STEWARDSHIP.md §3.2` for the data integration protocol.*  
 *Self-executing check: `python src/core/falsification_check.py --beta [value] --sigma [uncertainty]`*
 
+> **Current architecture note (v36.x):** the checked-in sprint protocol now
+> uses seven internal closure lanes in strict leverage order plus explicit
+> external observation waits (`DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`).
+> This file remains useful for per-observation routing procedures, but it is
+> not the authoritative current execution model.
+>
 > **Dual-publication system active (v10.28+):** This tracker is the
 > observation-by-observation routing layer. All claims are simultaneously
 > published at:
@@ -12,14 +18,9 @@
 > - `docs/GATEKEEPER_SUMMARY.md` — concise PASS/TENSION/FALSIFIED verdicts
 > - `docs/CLAIM_MASTER_BOARD.md` — canonical single-source claim registry
 >
-> All five finish-line lanes are active simultaneously:
-> - **Lane A:** P16 closure hardgate
-> - **Lane B:** P28 / α_GW architecture frontier
-> - **Lane C:** Observational integration (DESI DR2/DR3, CMB-S4, JUNO, Hyper-K, LiteBIRD)
-> - **Lane D:** Stress / robustness protection
-> - **Lane E:** Truth-sync docs and release governance
->
-> No lane is queued behind another. All run concurrently.
+> **Historical note:** older five-lane language from the v20.x observation
+> program is preserved only for provenance. It should not be read as the live
+> v36.x sprint architecture.
 
 > **Lane C orchestration adjacent-track spec (Pillar 247):**
 > `3-FALSIFICATION/PILLAR247_UNIFIED_OBSERVATION_INGEST_AND_VERDICT_ROUTING_ENGINE.md`
@@ -31,11 +32,11 @@
 
 > **Operational hardening note:** Same-day decision routing is now backed by executable adjacent-track packs (`desi_dr3_publication_day_runbook.py`, `litebird_synthetic_rehearsal.py`, `lab_cp_execution_report.py`) and final sprint aggregation (`proof_close_certification_report.py`) for deterministic verdict handoff.
 
-> **v11.4 freshness note:** Canonical observation-routing surfaces are synchronized to the 2026-05-19 branch state. Residual execution priority remains `T3 → A3 → SC2 → SC4`; all observational falsifier windows and same-day routing rules are unchanged.
-
-> **v15.3 freshness note:** P503–P506 add machine-readable PMNS, lattice-braid, nEDM@SNS, and HL-LHC audit/tripwire surfaces. P505 records the nEDM@SNS 2028 adjacent-track band; P506 records the HL-LHC Run-4 m_G_KK ≥ 5 TeV routing. No primary falsifier window changed.
-
-> **v15.2 freshness note:** P495–P501 keep DESI DR3, SO DR1, JUNO, SPHEREx, HL-LHC, CMB amplitude, and CKM residual windows active. P502 adds a completion audit only; it does not alter any observational prediction or falsification threshold.
+> **Freshness note (audit remediation):** this file contains mixed-era
+> observational routing material preserved for provenance. The current
+> authoritative status of open lanes and sprint execution order lives in the
+> canonical truth surfaces listed above; falsifier windows remain unchanged
+> unless those canonical files say otherwise.
 
 ## Decision Tree (LiteBIRD / CMB-S4)
 
@@ -65,7 +66,7 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 | **P1b** | Cosmic birefringence — (5,6) shadow sector | β | **0.273° ± 0.007°** | LiteBIRD (primary) + lab substitute lane (parallel) | ~2032 (LiteBIRD), active now (lab lane) | 🟡 PENDING — second viable lossless branch | 2026-05-09 | Await LiteBIRD sector discrimination; keep lab decision-grade CP campaign running in parallel |
 | **P2** | CMB scalar spectral index | nₛ | **0.9635** | Planck 2018, ACT DR6, SPT-3G | Ongoing | 🟢 CONSISTENT — Planck: 0.9649±0.0042 (0.33σ) | 2026-05-04 | Monitor if error bar tightens below ±0.002; check ACT DR6 |
 | **P3** | Tensor-to-scalar ratio (braided) | r | **0.0315** | BICEP/Keck, ACT DR6, SPT-3G, Simons Observatory, CMB-S4 | ~2027 (SO), ~2030 (CMB-S4) | 🟠 HIGH_TENSION — BICEP/Keck: r<0.036 ✓; SPT-3G: r<0.036 ✓ (CONSISTENT); ACT DR6 (2024): r<0.016 (95%CL) → UM r=0.0315 exceeds bound by ~2×; P2 falsifier NOT triggered (P2 condition: r<0.010 at ≥3σ *measured*, not upper-bounded); SO preregistered: CONSISTENT if r_meas≥0.020; FALSIFIED if r<0.010 at ≥3σ | 2026-05-20 | Await Simons Observatory DR1 (~2027) — first measurement-capable instrument; SO 5-yr should detect r at ~10σ if UM correct; CMB-S4 (~2030) definitive |
-| **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0, w₀ = −1** (frozen radion; single coherent mechanism) | DESI Year 3 / DR2; DR3 | DR2 published (arXiv:2503.14738); DESI 5-yr complete Apr 2026; DR3 expected late 2026 | 🟠 HIGH_TENSION — DESI Y3/DR2 CPL (wₐ free): wₐ = −0.62±0.30 → **2.07σ**; w₀ = −0.838±0.072 → 2.25σ; combined BAO+CMB+SNe: 2.75σ; 2D joint χ² (ρ=−0.97): **≈ 2.30σ** (correlation reduces tension for frozen-radion point); NOT falsified. **Pillar 428 correction:** w₀CDM comparison (0.11σ) is circular and is retired; correct comparison uses CPL fit (wₐ free). | 2026-05-25 | **PILLAR 428 CORRECTED:** strict ingest + mock-drill implemented; correct comparison = CPL fit (NOT w₀CDM); route DESI DR3 within 30 days; sync `kk_de_wa_cpl.py`, `pillar428_desi_cpl_consistency_audit.py`, this tracker, and canonical falsifier feed same day |
+| **P4** | Dark energy equation of state | wₐ (CPL parametrization) | **wₐ = 0, w₀ = −1** (frozen radion; single coherent mechanism) | DESI Year 3 / DR2; DR3 | DR2 published (arXiv:2503.14738); DESI 5-yr complete Apr 2026; DR3 expected late 2026 | 🟠 HIGH_TENSION — DESI Y3/DR2 CPL (wₐ free): wₐ = −0.62±0.30 → **2.07σ**; w₀ = −0.838±0.072 → 2.25σ; combined BAO+CMB+SNe: 2.75σ; 2D joint χ² (ρ=−0.97): **≈ 2.30σ** (correlation reduces tension for frozen-radion point); NOT falsified. **Pillar 428 correction:** w₀CDM comparison (0.11σ) is circular and is retired; correct comparison uses CPL fit (wₐ free). | 2026-05-25 | **PILLAR 428 CORRECTED:** strict ingest + mock-drill implemented; correct comparison = CPL fit (NOT w₀CDM); await DESI DR3 publication, then sync `kk_de_wa_cpl.py`, `pillar428_desi_cpl_consistency_audit.py`, this tracker, and canonical falsifier feed the same day |
 
 > **DESI Y3 Routing Protocol (execute immediately on publication):**
 > ```python
@@ -73,7 +74,7 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 > route_desi_y3(wa, sigma):
 >     if sigma >= 3.0 and abs(wa) > 0:
 >         verdict = "FALSIFIED — frozen radion mechanism excluded; wₐ≠0 confirmed"
->         # Required action: mark P28/T1 FALSIFIED in CLAIM_MASTER_BOARD.md
+>         # Required action: mark the frozen-radion dark-energy lane FALSIFIED in CLAIM_MASTER_BOARD.md
 >         # Required action: open retraction issue; update WAVE_CHANGELOG.md
 >     elif sigma >= 2.5:
 >         verdict = "HIGH TENSION — imminent falsification risk; escalate monitoring"
@@ -89,12 +90,12 @@ and `3-FALSIFICATION/LAB_SCALE_CP_VIOLATION_FALSIFIER.md`.
 >
 > | Condition | Verdict | Required same-day updates |
 > |---|---|---|
-> | σ ≥ 3.0 with wₐ ≠ 0 | **FALSIFIED** | `docs/CLAIM_MASTER_BOARD.md` (T1), `docs/TRUTH_LAYER.md` §3, `docs/GATEKEEPER_SUMMARY.md`, `docs/WAVE_CHANGELOG.md` |
-> | 2.5 ≤ σ < 3.0 | **HIGH_TENSION** | Keep T1 as HIGH_TENSION and maintain 30-day ingest cycle |
-> | 2.1 ≤ σ < 2.5 | **TENSION** | Keep T1 as TENSION and monitor DR3/Year-5 |
+> | σ ≥ 3.0 with wₐ ≠ 0 | **FALSIFIED** | `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/WAVE_CHANGELOG.md` |
+> | 2.5 ≤ σ < 3.0 | **HIGH_TENSION** | Keep the frozen-radion lane as HIGH_TENSION and maintain the ingest cycle |
+> | 2.1 ≤ σ < 2.5 | **TENSION** | Keep the frozen-radion lane as TENSION and monitor DR3/Year-5 |
 > | σ < 2.1 | **RESOLVED** | Downgrade T1 tension flags and record closure in changelog |
 >
-> Canonical source row for T1 status: `docs/CLAIM_MASTER_BOARD.md` (Lane C).
+> Canonical source row for current status: `docs/CLAIM_MASTER_BOARD.md`.
 | **P5** | CMB acoustic peak amplitude | A_s | Suppressed ×4.2–6.1 vs ΛCDM (α_GW Casimir target band 4.2e-10–4.8e-10; Pillar 52 fixes the gravity-scale decade and the 10D bridge gives α_GW≈4.49e-10) | Planck, CMB-S4 | ~2030 | 🟢 CLOSED_WITH_PILLAR52_10D_BRIDGE — framework closure achieved; the RS1-only undershoot is retained as provenance, while the live missing link is resolved by the Pillar 52 + 10D bridge | 2026-05-09 | Maintain closed status under hardgate policy; re-open only if future 10D consistency gates fail or the Pillar 52 normalization anchor is invalidated |
 | **P6** | PMNS solar mixing angle (Route A + RS see-saw cross-route) | sin²θ₁₂ | **0.302252** Route A baseline + RS see-saw cross-route packet (`src/core/pmns_seesaw_5d.py`) | Ongoing neutrino experiments | Ongoing | 🟢 CONSISTENT — Route A remains canonical (1.55% from PDG 0.307); v10.52 adds RS see-saw cross-route closure surface in CKM/PMNS lane | 2026-05-11 | Monitor NuFIT updates; keep Route A canonical and use see-saw lane as executable cross-check |
 | **P7** | Cold fusion: φ-enhanced Gamow factor / COP | Excess heat at predicted COP | Falsifiable COP prediction (Pillar 15) | Calorimetry experiments | Ongoing | 🟡 PENDING — no confirmed measurement; prediction explicitly framed as falsifiable | 2026-05-04 | Monitor LENR experimental literature |
