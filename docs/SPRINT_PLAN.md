@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-04 (v35.8 Sprint CB COMPLETE — Pillars 1051–1057; Lean4 3988→4000; next slot 1058)*
+*Last updated: 2026-09-05 (v35.9 Sprint CC COMPLETE — Pillars 1058–1059; Lean4 4000→4000; next slot 1060)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,19 +16,20 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v35.8 — Sprint CB)
+## CURRENT AUDITABLE STATE (v35.9 — Sprint CC)
 
 | Field | Value |
 |-------|-------|
-| Version | **v35.8** |
-| Sprint | **Sprint CB** |
-| Pillars | **1051-1057** |
-| Next pillar slot | **1058** |
+| Version | **v35.9** |
+| Sprint | **Sprint CC** |
+| Pillars | **1058-1059** |
+| Next pillar slot | **1060** |
 | Lean4 theorems | **4000** |
-| Sprint theme | **Merge-gated full-effort multi-lane sprint with targeted closure rigor + Merlin frontier readiness + synchronized documentation and verification discipline** |
-| Primary target | **Execute merge gate, formal closure, Merlin development, documentation packet, and release discipline in one auditable parallel integration cycle** |
-| Binary outcome | **PROMOTION_FREEZE_UNTIL_MERGE_ACKNOWLEDGED OR EVIDENCE_BACKED_PROGRESS_WITH_EXPLICIT_OPEN_CARRY_FORWARD** |
+| Sprint theme | **Single hard flavor closure-grade execution packet with deterministic routing, blocker contraction, and lockstep status coherence** |
+| Primary target | **Execute one highest-leverage flavor target with deterministic primary/fallback gating and anti-hidden-calibration integrity checks** |
+| Binary outcome | **RUNTIME_FLIP_EARNED OR BOUNDARY_TIGHTENED_WITH_EXPLICIT_OPEN_CARRY_FORWARD** |
 
+Historical continuity: v35.8 Sprint CB (Pillars 1051–1057; next slot 1058) remains the merge-gated multi-lane baseline directly below Sprint CC.
 Historical continuity: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.
 Historical continuity: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the targeted QG rigor layer below Sprint CA.
 Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer below Sprint BZ.

@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v35.8
+# Unitary Manifold v35.9
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v35.9 sync note (Sprint CC — 2026-09-05):*
+*(1) Auditable checked-in branch state now includes Pillars 1058–1059; Lean4 remains 4000; next pillar slot 1060.*
+*(2) Sprint CC executes one strict flavor closure-grade packet: deterministic primary/fallback target selection from existing blocker families, explicit PASS/TENSION/FALSIFIED routing, and anti-hidden-calibration checks against internal provenance-only runtime inputs.*
+*(3) No runtime flip is credited in this sprint; the earned outcome is a tighter architecture-limit boundary with explicit blocker-front contraction and unresolved-object carry-forward.*
+*(4) Cross-surface coherence is explicitly certified across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON.*
+*(5) Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.*
 
 *v35.8 sync note (Sprint CB — 2026-09-04):*
 *(1) Auditable checked-in branch state now includes Pillars 1051–1057; Lean4 rises to 4000; next pillar slot 1058.*
