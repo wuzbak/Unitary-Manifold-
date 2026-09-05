@@ -176,7 +176,7 @@ Primary in-repo evidence summary: `9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.
 
 107. Planck Collaboration (N. Aghanim et al.). (2020). *Planck 2018 results. VI. Cosmological parameters.* A&A 641, A6. https://doi.org/10.1051/0004-6361/201833910  
 108. BICEP/Keck Collaboration (P. A. R. Ade et al.). (2021). *Improved Constraints on Primordial Gravitational Waves using BICEP/Keck Observations through the 2018 Observing Season.* Phys. Rev. Lett. 127, 151301. https://doi.org/10.1103/PhysRevLett.127.151301  
-109. DESI Collaboration. (2024). *DESI 2024 Results Papers* (dark-energy and BAO cosmology set). https://www.desi.lbl.gov/publications/  
+109. DESI Collaboration. (2025). *DESI DR2 (Year 3) BAO + CPL dark-energy results* (repository-tracked source: arXiv:2503.14738). https://arxiv.org/abs/2503.14738  
 110. LiteBIRD Collaboration (E. Allys et al.). (2023). *Probing Cosmic Inflation with the LiteBIRD Cosmic Microwave Background Polarization Survey.* PTEP 2023(4):042F01. https://doi.org/10.1093/ptep/ptad034  
 111. GitHub repository archive: https://github.com/wuzbak/Unitary-Manifold-  
 112. Zenodo archive DOI: https://doi.org/10.5281/zenodo.19584531
