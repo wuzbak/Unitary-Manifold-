@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v35.9
+# Unitary Manifold v36.0
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -7,6 +7,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CD (v36.0 — 2026-09-05):** 1 pillar (1060). P1060 implements a hard no-loop closure protocol: each open lane receives only one allowed end-state (`CLOSED_NOW`, `TIGHTENED_WITH_EXPLICIT_BLOCKER`, `EXTERNAL_WAIT_ONLY`), internal execution order is locked as flavor → UV/Higgs → CMB → QG, and same-sprint retries are blocked unless a new object/evidence class is introduced. Runtime flips remain evidence-earned only; otherwise boundaries tighten with named blockers. DESI/LiteBIRD remain external-wait science lanes with readiness-only closure. End output is a blunt three-column board (closed / tightened / blocked-external wait). Open-lane labels remain unchanged and explicit. Lean4 4000→4000 (+0). Next slot 1061.
+>
 
 > **Sprint CC (v35.9 — 2026-09-05):** 2 pillars (1058–1059). P1058 executes a single closure-grade flavor packet against the current open internal lanes: deterministic leverage scoring selects `phase_completion` as primary and `shared_root` as fallback, routing is explicitly PASS/TENSION/FALSIFIED, and anti-hidden-calibration checks confirm internal provenance-only runtime inputs. No runtime flip is credited; the auditable outcome is boundary tightening with blocker-front contraction and explicit unresolved-object carry-forward. P1059 certifies cross-surface coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON. Open-lane labels remain unchanged and explicit. Lean4 4000→4000 (+0). Next slot 1060.
 >
@@ -61,7 +64,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-05 (v35.9 — Sprint CC: Pillars 1058–1059; deterministic flavor execution packet + status coherence certificate; Lean4 4000; next pillar slot 1060; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
+*Last updated: 2026-09-05 (v36.0 — Sprint CD: Pillar 1060; hard no-loop closure protocol execution; Lean4 4000; next pillar slot 1061; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

@@ -1,6 +1,36 @@
-version: "v35.9"
+version: "v36.0"
 date: "2026-09-05"
 updated: "2026-09-05"
+
+v36_0_sprint_cd:
+  sprint: CD
+  version: v36.0
+  date: "2026-09-05"
+  pillars: 1060-1060
+  new_pillars: 1
+  new_tests: 6
+  lean4_start: 4000
+  lean4_end: 4000
+  lean4_delta: 0
+  closures:
+    - SPRINT_CD_NO_LOOP_CLOSURE_EXECUTION_COMPLETE
+  advances:
+    - CLOSURE_TARGET_IS_NOW_HARD_BINARY_PER_LANE_CLOSED_NOW_TIGHTENED_WITH_EXPLICIT_BLOCKER_OR_EXTERNAL_WAIT_ONLY
+    - STRICT_LANE_ORDER_FLAVOR_TO_UV_HIGGS_TO_CMB_TO_QG_PLUS_ANTI_LOOP_NO_RERUN_WITHOUT_NEW_OBJECT_EVIDENCE_IS_EXECUTABLE
+    - END_OF_SPRINT_BLUNT_BOARD_OUTPUT_IS_ENFORCED_WITH_THREE_COLUMNS_ONLY_CLOSED_TIGHTENED_BLOCKED_EXTERNAL_WAIT
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "63,771 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)"
+  focused_regression: "Sprint CD targeted tests passed · 0 failed"
+  next_pillar_slot: 1061
 
 v35_9_sprint_cc:
   sprint: CC
