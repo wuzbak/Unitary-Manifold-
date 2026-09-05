@@ -99,37 +99,28 @@ class TestPhiZeroMetricGuard:
         phi_unit = np.ones(_N)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi_unit, _DX)
         assert np.isfinite(alpha)
-        assert alpha > 0.0
+        assert alpha == 1.0
 
 
 class TestPhiInfinityDecoupling:
-    """A2: φ → ∞ gives α → 0 (large-radius compactification decouples the gauge sector).
-
-    In the KK picture a large fifth dimension L₅ = φ ℓP → ∞ means the
-    compact-dimension curvature scale 1/L₅² → 0, so the coupling α = φ⁻² → 0.
-    This is the correct physical decoupling limit and must be reproduced
-    numerically.
-    """
+    """The inverse-radius diagnostic decreases, without an action inference."""
 
     def test_large_phi_gives_small_alpha(self):
-        """α(φ = 10⁶) ≈ 10⁻¹² ≈ 0."""
+        """The inverse-radius diagnostic tends to zero at large radius."""
         phi_large = np.full(_N, 1e6)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi_large, _DX)
         assert np.isfinite(alpha)
         assert alpha < 1e-8, f"Expected α ≈ 0 for φ=10⁶, got α={alpha:.3e}"
 
-    def test_alpha_approaches_zero_monotonically(self):
-        """α = φ⁻² is strictly decreasing as φ grows."""
+    def test_inverse_radius_diagnostic_decreases(self):
         phi_values = [1.0, 10.0, 100.0, 1e4]
         alphas = []
         for phi_val in phi_values:
             phi_grid = np.full(_N, phi_val)
             a, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi_grid, _DX)
             alphas.append(a)
-        for i in range(len(alphas) - 1):
-            assert alphas[i] > alphas[i + 1], (
-                f"α not monotone: φ={phi_values[i]} → α={alphas[i]:.3e}, "
-                f"φ={phi_values[i+1]} → α={alphas[i+1]:.3e}")
+        np.testing.assert_allclose(alphas, np.array(phi_values)**-2)
+        assert all(a > b for a, b in zip(alphas, alphas[1:]))
 
 
 class TestMinimalBoundaryGrid:
@@ -255,12 +246,7 @@ class TestFixedPointLongRunStable:
 
 
 class TestLargeGridStability:
-    """A7: α is finite and physically bounded for a 32-point grid.
-
-    A hidden N-dependence (e.g., from the 5D Riemann computation) would
-    cause α to drift away from 1/φ₀² as N grows.  Agreement to within
-    1% rules out such artefacts.
-    """
+    """A7: inverse-radius diagnostics are independent of grid size."""
 
     def test_alpha_finite_at_n32(self):
         """extract_alpha_from_curvature is finite for N = 32 near-Minkowski grid."""
@@ -274,7 +260,7 @@ class TestLargeGridStability:
         assert np.isfinite(alpha)
 
     def test_alpha_close_to_expected_at_n32(self):
-        """α at N=32 agrees with 1/φ₀² to within 5 %."""
+        """The legacy diagnostic retains inverse-radius scaling on a larger grid."""
         rng   = np.random.default_rng(99)
         N32   = 32
         g32   = np.tile(_ETA, (N32, 1, 1)) + 5e-3 * rng.standard_normal((N32, 4, 4))
@@ -282,28 +268,21 @@ class TestLargeGridStability:
         B32   = np.zeros((N32, 4))
         phi32 = np.full(N32, _PHI0_EFF)
         alpha, _ = extract_alpha_from_curvature(g32, B32, phi32, _DX)
-        expected = 1.0 / _PHI0_EFF ** 2
-        assert abs(alpha - expected) / expected < 0.05, (
-            f"α = {alpha:.6e} deviates > 5% from expected {expected:.6e}")
+        assert alpha == pytest.approx(_PHI0_EFF**-2)
 
 
 class TestParameterNoiseRobustness:
-    """A8: α is insensitive to 1 ppm (10⁻⁶) noise in φ.
-
-    Physical predictions must not rest on knife-edge cancellations in the
-    input parameters.  A 1 ppm variation in φ should produce a change in α
-    smaller than 1 ppm of the nominal value.
-    """
+    """A8: inverse-radius diagnostics vary continuously with small radion noise."""
 
     def test_noise_in_phi_gives_bounded_alpha_error(self):
-        """1 ppm noise in φ changes α by less than 1 ppm of 1/φ₀²."""
+        """Small radion noise produces a small change in the diagnostic."""
         rng   = np.random.default_rng(5)
         N32   = 32
         phi_noisy = _PHI0_EFF * (1.0 + rng.normal(0.0, 1e-6, N32))
         g_flat    = np.tile(_ETA, (N32, 1, 1))
         B_flat    = np.zeros((N32, 4))
         alpha_noisy, _ = extract_alpha_from_curvature(g_flat, B_flat, phi_noisy, _DX)
-        expected = 1.0 / _PHI0_EFF ** 2
+        expected = 1.0 / _PHI0_EFF**2
         assert abs(alpha_noisy - expected) < 1e-6, (
             f"α error = {abs(alpha_noisy - expected):.3e} exceeds 1e-6 "
             f"for 1 ppm noise in φ")

@@ -47,6 +47,7 @@ INTERNAL_ALLOWED_OUTCOMES = {
     "CLOSED_NOW",
     "TIGHTENED_WITH_EXPLICIT_BLOCKER",
     "ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT",
+    "CARRY_FORWARD_OPEN",
 }
 
 
@@ -59,31 +60,32 @@ def _lane_row(
     new_object_or_evidence_introduced: bool,
 ) -> Dict[str, Any]:
     anti_loop_blocked = retry_attempted_this_sprint and not new_object_or_evidence_introduced
-    normalized_after = list(after_blockers)
+    # The historical proposed edits have no supporting derivation in this packet.
+    # A caller's evidence flag controls retry routing, not scientific acceptance.
+    normalized_after = list(before_blockers)
     if anti_loop_blocked:
         normalized_after = normalized_after + ["SAME_SPRINT_RERUN_BLOCKED_DEFER_NEXT_SPRINT"]
-        closed_now = False
         blocker_set_shrunk = False
         tightened = False
         outcome = "ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT"
         column = "BLOCKED / ANTI-LOOP"
     else:
-        closed_now = contraction_metric <= 0.0 and len(normalized_after) == 0
-        blocker_set_shrunk = (
-            set(normalized_after).issubset(set(before_blockers))
-            and len(normalized_after) < len(before_blockers)
-        )
-        tightened = blocker_set_shrunk and contraction_metric > 0.0
-        outcome = "CLOSED_NOW" if closed_now else "TIGHTENED_WITH_EXPLICIT_BLOCKER"
-        column = "CLOSED THIS SPRINT" if closed_now else "TIGHTENED (WITH EXACT BLOCKER)"
+        blocker_set_shrunk = False
+        tightened = False
+        outcome = "CARRY_FORWARD_OPEN"
+        column = "OPEN / EVIDENCE REQUIRED"
     return {
         "lane": lane,
         "outcome": outcome,
         "column": column,
-        "before_blockers": before_blockers,
+        "before_blockers": list(before_blockers),
         "after_blockers": normalized_after,
         "blocker_set_shrunk": blocker_set_shrunk,
-        "contraction_metric": float(contraction_metric),
+        "contraction_metric": 0.0,
+        "historical_proposed_contraction_metric": float(contraction_metric),
+        "historical_proposed_after_blockers": list(after_blockers),
+        "scientific_progress": False,
+        "derivation_established": False,
         "retry_attempted_this_sprint": retry_attempted_this_sprint,
         "new_object_or_evidence_introduced": new_object_or_evidence_introduced,
         "anti_loop_blocked": anti_loop_blocked,
@@ -128,8 +130,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
     cmb_contraction = max(cmb_width_before - cmb_width_after, 0.0)
 
     qg_tension_before = max(float(pkt["z_sigma"]) for pkt in qg["reproductions"])
-    qg_tension_after = max(qg_tension_before - 0.30, 0.0)
-    qg_contraction = max(qg_tension_before - qg_tension_after, 0.0)
+    qg_contraction = 0.0
 
     rows = [
         _lane_row(
@@ -145,7 +146,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
             ],
             contraction_metric=0.08 * flavor_pressures["CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED"],
             retry_attempted_this_sprint=bool(retries.get("CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED", False)),
-            new_object_or_evidence_introduced=bool(evidence.get("CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED", True)),
+            new_object_or_evidence_introduced=bool(evidence.get("CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED", False)),
         ),
         _lane_row(
             lane="FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED",
@@ -156,7 +157,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
             after_blockers=["SPECIES_RESOLVED_RI_GEOMETRY_WITH_BUNDLE_MODULI_LOCK"],
             contraction_metric=0.06 * flavor_pressures["FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED"],
             retry_attempted_this_sprint=bool(retries.get("FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED", False)),
-            new_object_or_evidence_introduced=bool(evidence.get("FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED", True)),
+            new_object_or_evidence_introduced=bool(evidence.get("FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED", False)),
         ),
         _lane_row(
             lane="JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
@@ -167,7 +168,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
             after_blockers=["GLOBAL_CKM_PHASE_GEOMETRY_BEYOND_IN_EFT_CAP"],
             contraction_metric=0.05 * flavor_pressures["JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED"],
             retry_attempted_this_sprint=bool(retries.get("JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED", False)),
-            new_object_or_evidence_introduced=bool(evidence.get("JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED", True)),
+            new_object_or_evidence_introduced=bool(evidence.get("JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED", False)),
         ),
         _lane_row(
             lane="ALPHA_S_TYPE_B_FLOOR",
@@ -178,7 +179,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
             after_blockers=["SHARED_UV_COMPACTIFICATION_OBJECT_NOT_CLOSED"],
             contraction_metric=0.04 * uv_before,
             retry_attempted_this_sprint=bool(retries.get("ALPHA_S_TYPE_B_FLOOR", False)),
-            new_object_or_evidence_introduced=bool(evidence.get("ALPHA_S_TYPE_B_FLOOR", True)),
+            new_object_or_evidence_introduced=bool(evidence.get("ALPHA_S_TYPE_B_FLOOR", False)),
         ),
         _lane_row(
             lane="HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
@@ -189,7 +190,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
             after_blockers=["SHARED_UV_COMPACTIFICATION_OBJECT_NOT_CLOSED"],
             contraction_metric=0.03 * uv_before,
             retry_attempted_this_sprint=bool(retries.get("HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW", False)),
-            new_object_or_evidence_introduced=bool(evidence.get("HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW", True)),
+            new_object_or_evidence_introduced=bool(evidence.get("HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW", False)),
         ),
         _lane_row(
             lane="CMB_AMP_CONFIRMED_IRREDUCIBLE",
@@ -200,7 +201,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
             after_blockers=["GLOBAL_UV_COMPLETION_OF_TRANSFER_NORMALIZATION"],
             contraction_metric=cmb_contraction,
             retry_attempted_this_sprint=bool(retries.get("CMB_AMP_CONFIRMED_IRREDUCIBLE", False)),
-            new_object_or_evidence_introduced=bool(evidence.get("CMB_AMP_CONFIRMED_IRREDUCIBLE", True)),
+            new_object_or_evidence_introduced=bool(evidence.get("CMB_AMP_CONFIRMED_IRREDUCIBLE", False)),
         ),
         _lane_row(
             lane="NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
@@ -212,7 +213,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
             ],
             contraction_metric=qg_contraction,
             retry_attempted_this_sprint=bool(retries.get("NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT", False)),
-            new_object_or_evidence_introduced=bool(evidence.get("NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT", True)),
+            new_object_or_evidence_introduced=bool(evidence.get("NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT", False)),
         ),
     ]
 
@@ -220,7 +221,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
     non_closed_rows = [row for row in rows if row["outcome"] != "CLOSED_NOW"]
     blocked_non_closed_rows = [row for row in non_closed_rows if row["anti_loop_blocked"]]
     if not non_closed_rows:
-        all_non_closed_tightened = True
+        all_non_closed_tightened = False
     elif blocked_non_closed_rows:
         all_non_closed_tightened = False
     else:
@@ -258,7 +259,7 @@ def sprint_ce_proof_first_internal_closure_sprint(
         ],
         "blocked_or_external_wait": list(EXTERNAL_WAIT_LANES)
         + [
-            row["lane"] for row in rows if row["anti_loop_blocked"]
+            row["lane"] for row in rows if not row["tightened"] and row["outcome"] != "CLOSED_NOW"
         ],
     }
     proof_first_packet = {
@@ -276,10 +277,11 @@ def sprint_ce_proof_first_internal_closure_sprint(
     structural_valid = bool(
         internal_binary_only
         and anti_loop_outcome_consistent
-        and LEVERAGE_ORDER
+        and sorted(row["lane"] for row in rows) == sorted(INTERNAL_LANES)
+        and all(report.get("valid") is True for report in (flavor, uv, cmb, qg))
     )
     sprint_success = bool(anti_loop_pass and no_status_only_expansion and meaningful_progress)
-    valid = bool(structural_valid and sprint_success)
+    valid = structural_valid
 
     return {
         "pillar": PILLAR_NUMBER,
@@ -296,6 +298,11 @@ def sprint_ce_proof_first_internal_closure_sprint(
         "anti_loop_outcome_consistent": anti_loop_outcome_consistent,
         "anti_loop_pass": anti_loop_pass,
         "meaningful_progress": meaningful_progress,
+        "scientific_progress": meaningful_progress,
+        "packet_valid": valid,
+        "qg_tension_before": qg_tension_before,
+        "qg_tension_after": qg_tension_before,
+        "historical_assigned_qg_subtraction": 0.30,
         "all_non_closed_tightened": all_non_closed_tightened,
         "closed_count": closed_count,
         "no_status_only_expansion": no_status_only_expansion,

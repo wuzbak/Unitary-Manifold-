@@ -40,6 +40,9 @@ def test_report_done_and_meaningful() -> None:
     assert report["execution_order_ok"] is True
     assert report["parallel_workstreams_valid"] is True
     assert report["meaningful_result"] is True
+    assert report["definition_of_done"]["formal_residual_burden_shrunk"] is False
+    assert report["sprint_success"] is False
+    assert report["scientific_progress"] is False
     assert report["valid"] is True
 
 

@@ -64,14 +64,14 @@ def _make_fuzz_state(seed: int, noise_amp: float,
 
 
 # ===========================================================================
-# 1 — α = ⟨1/φ²⟩ is finite and positive
+# 1 — inverse-radius diagnostics remain finite and positive
 # ===========================================================================
 
 class TestFuzzAlphaFinitePositive:
-    """Adversarial α extraction: finite and positive under random inputs.
+    """Adversarial inverse-radius diagnostics under random regular inputs.
 
     Tests that no combination of random near-Minkowski metric, random B
-    field, or random radion perturbation drives α to zero, infinity, or NaN.
+    field, or random radion perturbation generates a nonfinite diagnostic.
     Covers noise amplitudes from 1e-4 to 5e-2.
     """
 
@@ -85,7 +85,7 @@ class TestFuzzAlphaFinitePositive:
             f"seed={seed}, noise={noise_amp}: α={alpha} is not finite"
         )
         assert alpha > 0.0, (
-            f"seed={seed}, noise={noise_amp}: α={alpha} ≤ 0"
+            f"seed={seed}, noise={noise_amp}: invalid inverse-radius diagnostic {alpha}"
         )
 
 

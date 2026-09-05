@@ -18,7 +18,7 @@ Tier 1 — Falsification-Risk Tensions:
 Tier 2 — Honest Derivation Gaps:
   P634: Jarlskog Layer 2 FN mechanism scoped (OPEN → MECHANISM_SCOPED)
   P635: P19 lightest ν mass bound tightened (OPEN → CL_BOUND_TIGHTENED, ≤15 meV)
-  P636: SU(3) internal orbifold-equivalence derived (SUBSTANTIALLY_CLOSED → INTERNALLY_DERIVED)
+  P636: metric reflection does not select the SU(5) internal lift (UNDERDETERMINED)
   P637: Fermion hierarchy all-9 within 1.0 dex (PARTIALLY_CONSTRAINED → FN_COMPLETE)
 
 Tier 3 — Architecture Limits:
@@ -64,6 +64,8 @@ from src.core.pillar635_p19_lightest_nu_cl_bound import (
 from src.core.pillar636_su3_orbifold_equivalence import (
     PILLAR_STATUS as P636_STATUS,
     SU3_STATUS_AFTER,
+    orbifold_equivalence_theorem,
+    residual_open as su3_residual_open,
 )
 from src.core.pillar637_fermion_hierarchy_fn_complete import (
     PILLAR_STATUS as P637_STATUS,
@@ -179,7 +181,10 @@ def tier2_summary() -> Dict[str, Any]:
             {
                 "pillar": 636,
                 "status": P636_STATUS,
-                "advance": f"SU(3) orbifold equivalence proved; {SU3_STATUS_AFTER}",
+                "advance": f"Conditional SU(5) projection, not metric/internal-lift equivalence; {SU3_STATUS_AFTER}",
+                "equivalence_established": orbifold_equivalence_theorem()["equivalence_established"],
+                "scientific_progress": False,
+                "open_item": su3_residual_open()["open_item"],
             },
             {
                 "pillar": 637,
@@ -296,8 +301,11 @@ def synthesis_certificate() -> Dict[str, Any]:
         "lean4_total": LEAN4_TOTAL,
         "architecture_limits_mapped": 4,  # CC, Higgs NLO, baryogenesis, CMB Boltzmann
         "experiments_pre_registered": len(EXPERIMENT_PORTFOLIO),
-        "what_is_claimed": "Complete Tier 1-4 gap analysis executed and documented",
-        "what_is_NOT_claimed": "No external experimental measurements claimed",
+        "what_is_claimed": "Inventory of reported Tier 1-4 work, with conditional assumptions retained",
+        "what_is_NOT_claimed": "No external measurements, metric/internal-lift equivalence, or physical gap closure claimed",
+        "closure_earned": False,
+        "scientific_progress": False,
+        "open_gauge_selection": su3_residual_open(),
     }
 
 
@@ -317,4 +325,6 @@ def pillar_report() -> Dict[str, Any]:
         "synthesis_certificate": synthesis_certificate(),
         "toe_score_delta": 0.0,
         "hardgate_score_delta": 0.0,
+        "closure_earned": False,
+        "scientific_progress": False,
     }

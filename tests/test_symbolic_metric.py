@@ -80,7 +80,7 @@ class TestSymbolic5dMetric:
         lam = syms["lam"]
         B = syms["B"]
         for mu in range(4):
-            expected = lam * phi * B[mu]
+            expected = lam * phi**2 * B[mu]
             assert sp.simplify(G[mu, 4] - expected) == 0
 
     def test_4d_block_structure(self, metric_and_syms):
@@ -242,22 +242,22 @@ class TestSymbolicRicciDecomposition:
         phi = syms["phi"]
         lam = syms["lam"]
         H_sq = syms["H_sq"]
-        # Extract coefficient of H_sq — should be lam²/(4φ)
+        # Spacelike fibre and the stated Riemann convention fix the negative sign.
         coeff = R5.coeff(H_sq)
-        expected = sp.Rational(1, 4) * lam**2 / phi
+        expected = -sp.Rational(1, 4) * lam**2 * phi**2
         assert sp.simplify(coeff - expected) == 0
 
     def test_box_phi_coefficient_is_minus_two(self):
         R5, syms = symbolic_5d_ricci_scalar_decomposition()
         box_phi = syms["box_phi"]
         coeff = R5.coeff(box_phi)
-        assert sp.simplify(coeff + 2) == 0
+        assert sp.simplify(coeff + 2 / syms["phi"]) == 0
 
-    def test_dphi_sq_coefficient_is_minus_two(self):
+    def test_no_separate_dphi_squared_term_before_weyl_rescaling(self):
         R5, syms = symbolic_5d_ricci_scalar_decomposition()
         dphi_sq = syms["dphi_sq"]
         coeff = R5.coeff(dphi_sq)
-        assert sp.simplify(coeff + 2) == 0
+        assert coeff == 0
 
 
 # ---------------------------------------------------------------------------
@@ -422,11 +422,11 @@ class TestNumericalConsistency:
         for i in range(G_num.shape[0]):
             np.testing.assert_allclose(G_num[i, 4, 4], phi_num[i]**2)
 
-    def test_G_mu5_matches_lam_phi_B(self):
+    def test_G_mu5_matches_lam_phi_squared_B(self):
         G_num, _, B_num, phi_num, lam_val = self._numerical_metric()
         for i in range(G_num.shape[0]):
             for mu in range(4):
-                expected = lam_val * phi_num[i] * B_num[i, mu]
+                expected = lam_val * phi_num[i]**2 * B_num[i, mu]
                 np.testing.assert_allclose(G_num[i, mu, 4], expected)
 
     def test_4d_block_matches_g_plus_outer(self):
@@ -461,7 +461,13 @@ class TestNumericalConsistency:
 
         # G[0,0] = g_00 + λ²φ² B_0² = -1 + 1*4*(0.25) = -1+1 = 0
         assert sp.simplify(G_num[0, 0] - 0) == 0
-        # G[0,2] = λφ B_0 = 1*2*0.5 = 1
-        assert sp.simplify(G_num[0, 2] - 1) == 0
+        # G[0,2] = λφ² B_0 = 1*4*0.5 = 2
+        assert sp.simplify(G_num[0, 2] - 2) == 0
         # G[2,2] = φ² = 4
         assert sp.simplify(G_num[2, 2] - 4) == 0
+
+    def test_symbolic_metric_hessian_equals_independent_line_element(self):
+        G, syms = symbolic_5d_metric(n=3)
+        ds2, _ = symbolic_line_element(n=3)
+        variables = [*syms["dx"], syms["dy"]]
+        assert sp.simplify(sp.hessian(ds2, variables)/2 - G) == sp.zeros(4)

@@ -35,28 +35,34 @@ def test_internal_binary_outcomes_only() -> None:
     assert report["internal_binary_only"] is True
     rows = {row["lane"]: row for row in report["lane_outcomes"]}
     for lane in INTERNAL_LANES:
-        assert rows[lane]["outcome"] in {"CLOSED_NOW", "TIGHTENED_WITH_EXPLICIT_BLOCKER"}
+        assert rows[lane]["outcome"] == "CARRY_FORWARD_OPEN"
 
 
 def test_meaningful_progress_rule() -> None:
     report = sprint_ce_proof_first_internal_closure_sprint()
-    assert report["meaningful_progress"] is True
-    assert report["closed_count"] >= 1 or report["all_non_closed_tightened"] is True
+    assert report["meaningful_progress"] is False
+    assert report["closed_count"] == 0
+    assert report["all_non_closed_tightened"] is False
+    assert report["sprint_success"] is False
+    assert report["qg_tension_after"] == report["qg_tension_before"]
 
 
-def test_proof_first_packet_has_strict_contraction_for_non_closed() -> None:
+def test_proof_first_packet_does_not_invent_contraction() -> None:
     report = sprint_ce_proof_first_internal_closure_sprint()
     for lane in INTERNAL_LANES:
         row = next(item for item in report["lane_outcomes"] if item["lane"] == lane)
         if row["outcome"] != "CLOSED_NOW":
-            assert row["blocker_set_shrunk"] is True
-            assert row["contraction_metric"] > 0.0
+            assert row["blocker_set_shrunk"] is False
+            assert row["contraction_metric"] == 0.0
+            assert row["after_blockers"] == row["before_blockers"]
 
 
 def test_external_wait_lanes_are_not_internal_closure_claims() -> None:
     report = sprint_ce_proof_first_internal_closure_sprint()
     board = report["blunt_board"]
-    assert board["blocked_or_external_wait"] == EXTERNAL_WAIT_LANES
+    assert board["blocked_or_external_wait"] == EXTERNAL_WAIT_LANES + INTERNAL_LANES
+    assert board["closed_this_sprint"] == []
+    assert board["tightened_with_exact_blocker"] == []
     assert set(board.keys()) == {
         "closed_this_sprint",
         "tightened_with_exact_blocker",
@@ -82,7 +88,8 @@ def test_retry_without_new_evidence_fails_anti_loop() -> None:
     assert report["structural_valid"] is True
     assert report["meaningful_progress"] is False
     assert report["sprint_success"] is False
-    assert report["valid"] is False
+    assert report["valid"] is True
+    assert report["packet_valid"] is True
 
 
 def test_retry_with_new_evidence_stays_on_normal_path() -> None:
@@ -92,7 +99,8 @@ def test_retry_with_new_evidence_stays_on_normal_path() -> None:
     )
     row = next(item for item in report["lane_outcomes"] if item["lane"] == "ALPHA_S_TYPE_B_FLOOR")
     assert row["anti_loop_blocked"] is False
-    assert row["outcome"] == "TIGHTENED_WITH_EXPLICIT_BLOCKER"
+    assert row["outcome"] == "CARRY_FORWARD_OPEN"
+    assert row["scientific_progress"] is False
     assert report["anti_loop_pass"] is True
 
 
@@ -100,3 +108,11 @@ def test_summary() -> None:
     summary = pillar1061_summary()
     assert summary["pillar"] == 1061
     assert summary["status"] == PILLAR_STATUS
+
+
+def test_empty_proposed_blockers_and_large_assigned_contraction_are_not_proof() -> None:
+    row = p1061._lane_row("test", ["missing action"], [], 1e100, False, True)
+    assert row["after_blockers"] == ["missing action"]
+    assert row["contraction_metric"] == 0.0
+    assert row["outcome"] == "CARRY_FORWARD_OPEN"
+    assert row["scientific_progress"] is False

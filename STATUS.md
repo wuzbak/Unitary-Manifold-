@@ -1,5 +1,20 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
+> **Foundation reassessment (2026-09-05):** no new pillar or physics closure.
+> Historical sprint summaries below are not evidence of universal derivation.
+> The mixed-metric normalization is corrected and the odd-field photon argument withdrawn;
+> assigned residual contractions and proxy theorem counts do not discharge
+> scientific obligations. Flavor uniqueness, independent CMB normalization,
+> action-to-evolution equivalence, and joint UV predictivity remain open.
+> The interrupted session's pre-change baseline was 63,430 passed, 43 skipped,
+> 12 deselected, 0 failed; the headline below is a historical regression record.
+> Resumed combined regression: **63,952 passed, 33 skipped, 18 deselected,
+> 0 failed** (443.43 s). Five real CAMB integrations were also run explicitly.
+> The two audited Lean modules compile warning-free; the full formal build
+> remains unverified. Final reporting repairs passed separate targeted suites.
+> See [the current reassessment](docs/TRUTH_LAYER.md#foundation-reassessment)
+> for precise counterexamples, assumptions, and verification scope.
+
 *v36.4 Sprint CH — Critique-to-Proof Execution Matrix + Internal Lane Resolution Packet + Sprint Certificate (2026-09-05): Pillar 1079 (GEMINI_CRITIQUE_PROOF_MATRIX_COMPLETE: machine-readable adjudication matrix maps each major Gemini critique to current claim state, evidence label, required executable work, and exact stop condition/falsifier; outdated/incorrect critique claims are explicitly routed into a confabulation register while preserving immutable baseline artifacts from v36.3). Pillar 1080 (CRITIQUE_INTERNAL_LANE_RESOLUTION_PACKET_COMPLETE: deterministic four-lane packet executes flavor/c_L, shared UV object, CMB amplitude boundary, and neutrino dependency hardening with explicit PASS/TENSION/FALSIFIED-compatible routing, named blockers, and no unearned closure relabeling). Pillar 1081 (SPRINT_CH_CRITIQUE_RESOLUTION_CERTIFICATE_COMPLETE: integrates matrix + lane packet + publication packet existence checks and fail-closes sprint validity unless all dependencies pass with explicit honesty boundaries). Sprint CH totals: 3 pillars (1079–1081); Lean4 total→4080 (+0); next slot 1082. Latest verified full regression in current branch history: 63,892 passed · 23 skipped · 12 deselected · 0 failed. Open lanes remain explicit and unchanged: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING (~2027), LITEBIRD_BIREFRINGENCE (~2032), NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT. Focused regression: Sprint CH targeted tests passed · 0 failed*
 
 *v36.3 Sprint CG — Post-Merge Audit Remediation + Status Integrity Lock (2026-09-05): Pillar 1078 (POST_MERGE_AUDIT_REMEDIATION_COMPLETE: after merging the newer Sprint CF branch reality, this non-hardgate audit/remediation layer preserves the checked-in Sprint CF physics state while hardening observation-ledger freshness markers, Lean proxy scope disclosures, radion/evolution honesty notes, live/public status synchronization, and CI-facing regression traceability. It promotes no new hardgate physics closure, changes no open-lane label, and exists only to force code, ledgers, JSON status feeds, and outward-facing reports to agree with the merged branch reality). Sprint CG totals: 1 pillar (1078–1078); Lean4 total→4080 (+0); next slot 1079. Latest verified full regression in current branch history: 63,876 passed · 23 skipped · 12 deselected · 0 failed. Open lanes remain explicit and unchanged: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING (~2027), LITEBIRD_BIREFRINGENCE (~2032), NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT. Focused regression: Pillar 1078 audit/status targeted tests passed · 0 failed*

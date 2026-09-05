@@ -26,8 +26,10 @@ def test_lean4_kernel_and_residual_reduction() -> None:
     assert report["lean4_kernel"]["file"] == LEAN4_FILE
     assert report["lean4_kernel"]["exists"] is True
     assert report["lean4_kernel"]["theorem_count"] == LEAN4_THEOREM_COUNT == 12
-    assert report["residual_map"]["formal_reduction_earned"] is True
-    assert report["residual_map"]["after_count"] < report["residual_map"]["before_count"]
+    assert report["residual_map"]["formal_reduction_earned"] is False
+    assert report["residual_map"]["open_steps_after"] == report["residual_map"]["open_steps_before"]
+    assert report["residual_map"]["open_steps_before"] == report["dependency"]["residual_map"]["open_steps_after"]
+    assert report["scientific_progress"] is False
 
 
 def test_summary() -> None:

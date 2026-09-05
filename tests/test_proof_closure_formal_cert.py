@@ -22,3 +22,12 @@ def test_formal_proof_closure_certificate_status():
     cert = formal_proof_closure_certificate()
     assert cert["status"] in {"PASS", "TENSION"}
     assert cert["overall_pass"] == (cert["status"] == "PASS")
+
+
+def test_metric_assembly_agreement_does_not_establish_physical_closure():
+    cert = formal_proof_closure_certificate()
+    assert cert["metric_boundary_consistency"]["metric_passed"]
+    assert cert["metric_boundary_consistency"]["metric_scope"] == "CONDITIONAL_KK_PARAMETERIZATION"
+    assert cert["metric_boundary_consistency"]["physical_derivation_established"] is False
+    assert cert["closure_earned"] is False
+    assert cert["physical_derivation_established"] is False

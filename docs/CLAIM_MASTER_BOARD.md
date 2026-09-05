@@ -1,6 +1,31 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
 # Unitary Manifold v36.4
 
+## Current foundation reassessment (2026-09-05)
+
+This table supersedes historical closure wording on the audited paths below.
+No new pillar or overall physics closure is claimed.
+
+| Obligation | Current assessment | Required evidence |
+|---|---|---|
+| KK block normalization | Former mixed-block convention fails the horizontal-metric identity away from unit radion | Canonical line element, inverse/determinant, gauge covariance, reduced-action checks |
+| Odd-composite boundary photon | Proposed recovery argument is invalid for regular fields | Independent admissible photon construction and action |
+| P1062 suppression no-go | Reciprocal inference invalid; proposed lower bound permits unity | A correctly directed bound on a precisely defined physical model class |
+| Residual contraction / formal counts | Assigned reductions and declaration counts do not discharge physical obligations | Reproducible calculations and compiled proposition-level proofs |
+| Flavor / internal gauge selection | Uniqueness not established by parity | Action/domain specification plus uniqueness proof or explicit countermodels |
+| CMB | Calibration and transfer errors must be separated | Backend-labelled spectra, error budget, covariance scope, action-derived corrections |
+| UV/Higgs | Predictivity unestablished; zero parameter cost not inferred from an empty list | Joint matching calculation with moduli and stability accounted for |
+
+Detailed assumptions, counterexamples, and verification record:
+[TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment).
+All observational falsifiers remain unchanged, including the closed forbidden
+birefringence gap [0.29°, 0.31°].
+The resumed combined software regression passed 63,952 tests, with 33 skipped,
+18 deselected and zero failures. This verifies neither empirical agreement
+nor the still-open physical obligations in the table.
+
+## Historical claim registry
+
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
 *Last updated: 2026-09-05 (v36.4 — Sprint CH: Pillars 1079–1081. This sprint converts external Gemini critique handling into executable artifacts: P1079 publishes a claim-level critique-to-proof matrix with evidence labels, executable work obligations, stop conditions/falsifiers, and a confabulation register for outdated claims; P1080 executes deterministic four-lane routing (flavor/c_L, shared UV object, CMB amplitude boundary, neutrino dependency) with named blockers and no unearned closure relabeling; P1081 fail-closes sprint validity unless matrix, lane packet, and publication packet all pass. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1082. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*

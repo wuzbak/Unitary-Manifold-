@@ -9,9 +9,9 @@ The 5D parent metric G_AB is assembled from the 4D metric g_μν, the
 irreversibility gauge field B_μ, and the scalar (entanglement capacity / radion) φ:
 
     ┌                               ┐
-    │  g_μν + λ²φ² B_μ B_ν   λφ B_μ │
+    │  g_μν + λ²φ² B_μ B_ν   λφ² B_μ │
 G = │                               │
-    │  λφ B_ν                   φ²  │
+    │  λφ² B_ν                  φ²  │
     └                               ┘
 
 G_55 = φ² so that φ plays the role of the KK radion; the 4D fields are
@@ -40,9 +40,8 @@ compute_curvature(g, B, phi, dx, lam)
     via the 5D metric and projected back to the 4D block.
 
 extract_alpha_from_curvature(g, B, phi, dx, lam)
-    Derive the nonminimal coupling α from the 5D Riemann cross-block term
-    R^μ_{5ν5}.  Returns (alpha_geometric, cross_block_riem) where
-    alpha_geometric = ⟨1/φ²⟩ is the KK-derived coupling constant.
+    Legacy API: return mean(φ⁻²) and a cross-block curvature diagnostic.
+    The first value is NOT an action coefficient; see circle_eh_rh2_coefficient.
 
 assemble_warped_5d_metric(g, B, phi, r_c_field, k, lam)
     Build the 5×5 warped Randall–Sundrum KK metric with a **dynamical**
@@ -73,53 +72,11 @@ import numpy as np
 # ---------------------------------------------------------------------------
 
 def z2_parity_clarification() -> Dict[str, Any]:
-    """Return a structured description of the Z₂ parity of each field component.
+    """State the orbifold obstruction, not a fictitious boundary photon.
 
-    Encodes the Z₂ parity assignments for B_μ, φ, g_μν, and the composite
-    electromagnetic field A_μ = λφB_μ in the S¹/Z₂ KK reduction.
-
-    For the full referee-response derivation explaining why B_μ (irreversibility
-    1-form, Z₂-odd, no zero mode) and A_μ (electromagnetic field, boundary mode)
-    are physically distinct, see ``1-THEORY/Z2_PARITY_NOTE.md``.
-
-    (c) **The electromagnetic photon is the zero mode of the Z₂-even combination**.
-        Following the KK reduction (Kaluza 1921, Klein 1926), the 4D gauge field
-        is identified as A_μ = λφB_μ — a product of the Z₂-odd B_μ with the
-        Z₂-even scalar φ (G_{55} = φ² is even under y → −y since (−y)² = y²).
-        The combination λφB_μ is Z₂-odd × Z₂-even = Z₂-odd, but projected onto
-        the fixed-plane boundary at y = 0:
-
-            A_μ|_{y=0} = lim_{y→0} (λφ(y) B_μ(y))
-
-        The fixed-plane projection selects the boundary mode of the composite
-        field, which is the standard 4D electromagnetic gauge field.  This
-        is standard Randall-Sundrum / Kaluza-Klein electromagnetism.
-
-    (d) **These are physically distinct fields with distinct parity:**
-
-        | Field   | Z₂ parity | Zero mode | Physical role              |
-        |---------|-----------|-----------|---------------------------|
-        | B_μ     | ODD       | None      | Irreversibility 1-form    |
-        | φ       | EVEN      | Yes       | KK radion / inflaton      |
-        | A_μ=λφB_μ | ODD    | Boundary  | 4D electromagnetic field  |
-        | g_μν    | EVEN      | Yes       | 4D spacetime metric       |
-        | G_{μ5}  | ODD       | None      | Off-diagonal KK block     |
-        | G_{55}=φ² | EVEN    | Yes       | 5D compact metric element |
-
-    Returns
-    -------
-    dict with keys:
-
-    ``B_mu_parity``         : str  — "Z₂-ODD" with explanation.
-    ``phi_parity``          : str  — "Z₂-EVEN" with explanation.
-    ``A_mu_photon_parity``  : str  — "Z₂-ODD (composite, boundary mode)".
-    ``g_munu_parity``       : str  — "Z₂-EVEN".
-    ``G_mu5_parity``        : str  — "Z₂-ODD (off-diagonal block)".
-    ``G_55_parity``         : str  — "Z₂-EVEN (G_{55} = φ²)".
-    ``resolution``          : str  — the full resolution of the apparent contradiction.
-    ``referee_question``    : str  — the exact referee question being answered.
-    ``status``              : str  — "RESOLVED (standard KK construction)".
-    ``fields_are_distinct`` : bool — True (B_μ and A_μ are physically distinct).
+    A smooth odd field vanishes at both fixed planes and has no constant
+    zero mode. Multiplying by an even radion does not change that fact.
+    The circle connection A = λB is not an independently added boundary field.
     """
     return {
         "referee_question": (
@@ -129,48 +86,43 @@ def z2_parity_clarification() -> Dict[str, Any]:
         "B_mu_parity": (
             "Z₂-ODD. Under y → −y: B_μ → −B_μ (fifth-component sign from "
             "tensor transformation). B_μ's zero mode vanishes at orbifold fixed "
-            "planes. This is intentional: B_μ is the irreversibility 1-form, "
-            "not the photon."
+            "planes. The metric vector cannot supply an orbifold photon zero mode."
         ),
         "phi_parity": (
             "Z₂-EVEN. φ² = G_{55} is invariant under y → −y because "
-            "(−y)² = y². The radion φ has a massless zero mode localized "
-            "in the 4D effective theory."
+            "the tensor transformation has two fifth indices. A positive radius "
+            "φ is even; its zero mode is allowed, not necessarily massless."
         ),
         "A_mu_photon_parity": (
-            "Z₂-ODD (composite field: A_μ = λφB_μ, parity ODD×EVEN = ODD). "
-            "The 4D photon is the fixed-plane boundary projection of A_μ, "
-            "following the standard KK geodesic reduction. See "
-            "src/core/kk_geodesic_reduction.py for the explicit derivation."
+            "Z₂-ODD: A_μ = G_{μ5}/G_{55} = λB_μ. Even radion factors "
+            "also leave a composite odd. Its fixed-plane value is zero."
         ),
         "g_munu_parity": (
             "Z₂-EVEN. The 4D metric block g_μν is invariant under y → −y "
             "and has a massless zero mode (the 4D graviton)."
         ),
         "G_mu5_parity": (
-            "Z₂-ODD. G_{μ5} = λφB_μ inherits the odd parity of B_μ. "
+            "Z₂-ODD. G_{μ5} = λφ²B_μ inherits the odd parity of B_μ. "
             "Its zero mode vanishes — consistent with the orbifold boundary "
             "conditions that remove the B_μ Neumann modes."
         ),
         "G_55_parity": (
             "Z₂-EVEN. G_{55} = φ² is even under y → −y. The radion φ "
-            "has a massless zero mode stabilized by the Goldberger-Wise potential."
+            "has an allowed zero mode; stabilization can give it a mass."
         ),
         "resolution": (
-            "B_μ (irreversibility field, Z₂-odd, no zero mode) and A_μ = λφB_μ "
-            "(electromagnetic field, Z₂-odd, boundary mode at fixed plane) are "
-            "physically distinct fields. B_μ is the topological source of the "
-            "arrow of time; A_μ = λφB_μ is the Standard KK electromagnetic field. "
-            "The referee's concern applies to the photon being a zero mode of A_μ, "
-            "which it is: the fixed-plane boundary projection selects the 4D gauge "
-            "field from the composite A_μ. The Z₂-odd parity of A_μ is consistent "
-            "because only the boundary-localized mode contributes to 4D physics; "
-            "the KK tower modes are massive and decouple at low energy."
+            "The objection is valid. Smooth odd B_μ and any even-radion multiple "
+            "vanish at orbifold fixed planes. A boundary projection cannot create "
+            "a photon. An independent even bulk or boundary gauge sector, or a "
+            "different compactification, would need an action and spectrum. "
+            "Neither is derived here: photon origin remains OPEN."
         ),
-        "status": "RESOLVED (standard Kaluza-Klein construction, Kaluza 1921 / Klein 1926)",
-        "fields_are_distinct": True,
+        "status": "OPEN (orbifold photon origin)",
+        "fields_are_distinct": False,
+        "photon_zero_mode": False,
+        "fixed_plane_value": 0.0,
         "code_references": [
-            "src/core/metric.py: assemble_5d_metric (G_{μ5} = λφB_μ)",
+            "src/core/metric.py: assemble_5d_metric (G_{μ5} = λφ²B_μ)",
             "src/core/kk_geodesic_reduction.py: Lorentz force = cross-term −2Γ^μ_{ν5}",
             "src/core/geometric_chirality_uniqueness.py: bmu_z2_parity_forces_chirality",
             "1-THEORY/DERIVATION_STATUS.md: Part V, Z₂ Parity Clarification section",
@@ -189,7 +141,7 @@ def _grad(f, dx, axis=0):
 # Field strength
 # ---------------------------------------------------------------------------
 
-def field_strength(B, dx):
+def field_strength(B, dx, coordinate_index=1):
     """Return H_μν = ∂_μ B_ν − ∂_ν B_μ  (shape: N × 4 × 4).
 
     Parameters
@@ -197,7 +149,10 @@ def field_strength(B, dx):
     B : ndarray, shape (N, 4)
         Gauge field B_μ sampled on N grid points.
     dx : float
-        Spatial grid spacing.
+        Grid spacing. Coordinates are (t, x, z, w); the default grid is x.
+    coordinate_index : int
+        The only coordinate with nonzero derivatives (default 1).
+        Use 0 explicitly for a time-dependent homogeneous background.
 
     Returns
     -------
@@ -206,13 +161,16 @@ def field_strength(B, dx):
     """
     N, D = B.shape
     H = np.zeros((N, D, D))
-    for mu in range(D):
-        for nu in range(D):
-            if mu != nu:
-                dBnu_dmu = _grad(B[:, nu], dx)
-                dBmu_dnu = _grad(B[:, mu], dx)
-                H[:, mu, nu] = dBnu_dmu - dBmu_dnu
+    _validate_coordinate_index(coordinate_index, D)
+    dB = _grad(B, dx)
+    H[:, coordinate_index, :] = dB
+    H[:, :, coordinate_index] -= dB
     return H
+
+
+def _validate_coordinate_index(coordinate_index, dimension):
+    if not isinstance(coordinate_index, (int, np.integer)) or not 0 <= coordinate_index < dimension:
+        raise ValueError("coordinate_index must select a metric coordinate")
 
 
 # ---------------------------------------------------------------------------
@@ -225,7 +183,7 @@ def assemble_5d_metric(g, B, phi, lam=1.0):
     The KK ansatz with φ as the radion field:
 
         G_μν = g_μν + λ²φ² B_μ B_ν
-        G_μ5 = G_5μ = λφ B_μ
+        G_μ5 = G_5μ = λφ² B_μ
         G_55 = φ²        (radion; NOT fixed to 1)
 
     Parameters
@@ -243,11 +201,11 @@ def assemble_5d_metric(g, B, phi, lam=1.0):
     G5 = np.zeros((N, 5, 5))
 
     lam_phi = lam * phi                          # shape (N,)
-    lam_phi_B = lam_phi[:, None] * B            # shape (N, 4)
+    lam_phi_B = (lam * phi**2)[:, None] * B     # shape (N, 4)
 
     # 4×4 block: g_μν + λ²φ² B_μ B_ν
     G5[:, :4, :4] = g + (lam_phi**2)[:, None, None] * np.einsum('ni,nj->nij', B, B)
-    # Off-diagonal: G_μ5 = G_5μ = λφ B_μ
+    # Off-diagonal from φ²(dy + λ B_μ dx^μ)².
     G5[:, :4, 4] = lam_phi_B
     G5[:, 4, :4] = lam_phi_B
     # G_55 = φ² (radion equals scalar field — not fixed to unity)
@@ -259,12 +217,12 @@ def assemble_5d_metric(g, B, phi, lam=1.0):
 # Christoffel symbols (4-D)
 # ---------------------------------------------------------------------------
 
-def christoffel(g, dx):
+def christoffel(g, dx, coordinate_index=1):
     """Christoffel symbols Γ^σ_μν from a D×D metric on a 1-D grid.
 
-    Only the spatial (x) direction is discretised; the remaining indices
-    are treated algebraically.  This is the correct reduction for the
-    symmetry-reduced (1+1 effective) system used in the evolution module.
+    Only coordinate_index is differentiated: x (index 1) by default, while
+    index 0 is time. All other derivatives are zero, not inferred from x.
+    This is a one-coordinate ansatz, not a general 1+1 spacetime solver.
     Works for any D (4 for the 4D block, 5 for the full KK metric).
 
     Parameters
@@ -278,6 +236,7 @@ def christoffel(g, dx):
         Gamma[n, sigma, mu, nu]
     """
     N, D, _ = g.shape
+    _validate_coordinate_index(coordinate_index, D)
     # Guard against near-singular metrics before inversion.
     cond = np.linalg.cond(g)                    # (N,) condition numbers
     bad = np.where(cond > 1e12)[0]
@@ -290,11 +249,11 @@ def christoffel(g, dx):
     g_inv = np.linalg.inv(g)                    # (N, D, D)
 
     # Partial derivatives ∂_ρ g_μν  — only x-component is non-trivial on 1-D grid
-    # We store dg[n, rho, mu, nu]; rho=0 is x, others are zero for this reduction.
+    # The array's grid axis and the metric's coordinate index are distinct.
     dg = np.zeros((N, D, D, D))
     for mu in range(D):
         for nu in range(D):
-            dg[:, 0, mu, nu] = _grad(g[:, mu, nu], dx)
+            dg[:, coordinate_index, mu, nu] = _grad(g[:, mu, nu], dx)
 
     # Γ^σ_μν = ½ g^{σρ} (∂_μ g_{νρ} + ∂_ν g_{μρ} − ∂_ρ g_{μν})
     Gamma = np.zeros((N, D, D, D))
@@ -316,12 +275,13 @@ def christoffel(g, dx):
 # Riemann, Ricci, Ricci scalar
 # ---------------------------------------------------------------------------
 
-def _riemann_from_christoffel(Gamma, dx):
+def _riemann_from_christoffel(Gamma, dx, coordinate_index=1):
     """R^ρ_σμν from Christoffel symbols (1-D grid, x-direction only).
 
     R^ρ_σμν = ∂_μ Γ^ρ_νσ − ∂_ν Γ^ρ_μσ + Γ^ρ_μλ Γ^λ_νσ − Γ^ρ_νλ Γ^λ_μσ
     """
     N, D = Gamma.shape[0], Gamma.shape[1]
+    _validate_coordinate_index(coordinate_index, D)
     Riem = np.zeros((N, D, D, D, D))
 
     dGamma = np.zeros_like(Gamma)              # ∂_x Gamma only
@@ -334,9 +294,8 @@ def _riemann_from_christoffel(Gamma, dx):
         for sigma in range(D):
             for mu in range(D):
                 for nu in range(D):
-                    # Derivative terms (only mu=0 or nu=0 contributes on 1-D grid)
-                    term1 = dGamma[:, rho, nu, sigma] if mu == 0 else np.zeros(N)
-                    term2 = dGamma[:, rho, mu, sigma] if nu == 0 else np.zeros(N)
+                    term1 = dGamma[:, rho, nu, sigma] if mu == coordinate_index else np.zeros(N)
+                    term2 = dGamma[:, rho, mu, sigma] if nu == coordinate_index else np.zeros(N)
                     # Quadratic terms
                     quad = np.zeros(N)
                     for lam in range(D):
@@ -346,8 +305,40 @@ def _riemann_from_christoffel(Gamma, dx):
     return Riem
 
 
-def compute_curvature(g, B, phi, dx, lam=1.0):
-    """Full curvature pipeline: 4D → 5D KK metric → project back to 4D.
+def compute_5d_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
+    """Return full (Γ₅, Riemann₅, Ricci₅, R₅), without discarding mixed blocks.
+
+    Cylinder condition ∂₅=0 is assumed; coordinate_index selects one of the
+    four base coordinates. R₅ contracts Ricci₅ with the full inverse metric.
+    """
+    _validate_coordinate_index(coordinate_index, 4)
+    G5 = assemble_5d_metric(g, B, phi, lam)
+    Gamma = christoffel(G5, dx, coordinate_index)
+    Riemann = _riemann_from_christoffel(Gamma, dx, coordinate_index)
+    Ricci = np.einsum("ncacb->nab", Riemann)
+    R = np.einsum("nab,nab->n", np.linalg.inv(G5), Ricci)
+    return Gamma, Riemann, Ricci, R
+
+
+def inverse_5d_metric(g, B, phi, lam=1.0):
+    """Exact inverse: G^μν=g^μν, G^μ5=−λB^μ, G^55=φ⁻²+λ²B²."""
+    g_inv = np.linalg.inv(g)
+    B_up = np.einsum("nij,nj->ni", g_inv, B)
+    inverse = np.zeros((g.shape[0], 5, 5))
+    inverse[:, :4, :4] = g_inv
+    inverse[:, :4, 4] = -lam * B_up
+    inverse[:, 4, :4] = -lam * B_up
+    inverse[:, 4, 4] = 1.0 / phi**2 + lam**2 * np.einsum("ni,ni->n", B, B_up)
+    return inverse
+
+
+def compute_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
+    """Legacy coordinate blocks of 5D curvature, NOT intrinsic 4D curvature.
+
+    These are coordinate slices, not a gauge-invariant horizontal projection.
+    In particular the last output g^μν R^(5)_μν is neither R₄ nor R₅.
+    Retained for the phenomenological evolution model; use
+    compute_5d_curvature for the scalar entering the Einstein–Hilbert action.
 
     Steps
     -----
@@ -366,10 +357,10 @@ def compute_curvature(g, B, phi, dx, lam=1.0):
 
     Returns
     -------
-    Gamma  : ndarray, shape (N, 4, 4, 4)   — 4D Christoffel (from 5D projection)
-    Riemann: ndarray, shape (N, 4, 4, 4, 4) — 4D Riemann block
-    Ricci  : ndarray, shape (N, 4, 4)       — 4D Ricci (projected from 5D)
-    R      : ndarray, shape (N,)            — 4D Ricci scalar
+    Gamma  : ndarray, shape (N, 4, 4, 4)   — 5D connection coordinate block
+    Riemann: ndarray, shape (N, 4, 4, 4, 4) — 5D Riemann coordinate block
+    Ricci  : ndarray, shape (N, 4, 4)       — 5D Ricci coordinate block
+    R      : ndarray, shape (N,)            — legacy g^μν R^(5)_μν contraction
     """
     N = g.shape[0]
 
@@ -377,8 +368,9 @@ def compute_curvature(g, B, phi, dx, lam=1.0):
     G5 = assemble_5d_metric(g, B, phi, lam)          # (N, 5, 5)
 
     # Step 2: 5D Christoffel and Riemann
-    Gamma5  = christoffel(G5, dx)                     # (N, 5, 5, 5)
-    Riem5   = _riemann_from_christoffel(Gamma5, dx)   # (N, 5, 5, 5, 5)
+    _validate_coordinate_index(coordinate_index, 4)
+    Gamma5  = christoffel(G5, dx, coordinate_index)
+    Riem5   = _riemann_from_christoffel(Gamma5, dx, coordinate_index)
 
     # Step 3: project 5D Riemann → 4D Ricci and scalar
     # 5D Ricci: Ricci5_{AB} = R^C_{ACB}  (contract index 0 and 2)
@@ -388,10 +380,10 @@ def compute_curvature(g, B, phi, dx, lam=1.0):
             for C in range(5):
                 Ricci5[:, A, Bx] += Riem5[:, C, A, C, Bx]
 
-    # 4D block of the 5D Ricci gives the effective 4D Ricci tensor
+    # Legacy coordinate block, not the intrinsic or horizontal 4D Ricci.
     Ricci = Ricci5[:, :4, :4]                         # (N, 4, 4)
 
-    # 4D Ricci scalar: R = g^μν Ricci_μν  (use 4D inverse metric)
+    # Legacy contraction, neither the intrinsic R4 nor the full R5.
     g_inv = np.linalg.inv(g)
     R = np.einsum('nij,nij->n', g_inv, Ricci)         # (N,)
 
@@ -406,62 +398,49 @@ def compute_curvature(g, B, phi, dx, lam=1.0):
 # α derivation from 5D Riemann cross-block term
 # ---------------------------------------------------------------------------
 
-def extract_alpha_from_curvature(g, B, phi, dx, lam=1.0):
-    """Evaluate the nonminimal coupling α from the 5D Riemann cross-block term.
+def inverse_radius_squared(phi):
+    """Return the spatial mean of φ⁻², an inverse-radius diagnostic only.
 
-    In the KK dimensional reduction of the 5D Einstein–Hilbert action
+    This is the historical alpha_NM identification, not a derived coefficient
+    of R H² or R φ². No action matching follows from this numerical average.
+    """
+    values = np.asarray(phi, dtype=float)
+    if values.size == 0 or np.any(~np.isfinite(values)) or np.any(values == 0):
+        raise ValueError("phi must contain finite nonzero radii")
+    return float(np.mean(1.0 / values**2))
 
-        S₅ = (1/16πG₅) ∫ d⁵x √-G R₅
 
-    the cross-block Riemann components R^μ_{5ν5} (where the index 5 labels
-    the compact dimension of radius L₅) encode the mixing between 4D curvature
-    and the irreversibility gauge-field vorticity.  After integrating over the
-    fifth dimension, these terms contribute the nonminimal coupling
+def circle_eh_rh2_coefficient():
+    """Coefficient of R H² in the two-derivative circle EH reduction: zero.
 
-        α ℓP² R H²
+    R₅ = R₄ − λ²φ²H²/4 − 2□φ/φ and √|G| = φ√|g|, before Weyl rescaling.
+    This statement assumes the cylinder condition and a smooth circle with no
+    added operators. Higher-derivative, quantum or boundary corrections require
+    a separate action. It says nothing about a phenomenological R φ² coupling.
+    """
+    return 0.0
 
-    to the 4D effective action.
 
-    Under the normalization G₅₅ = φ² with ℓP = 1, α evaluates to ⟨φ⁻²⟩.
-    This result is frame- and normalization-dependent: a complete action-level
-    reduction (including warp-factor Jacobians, Einstein-frame rescaling, and
-    boundary counter-terms) is required to establish the coupling canonically.
-    The expression α = (ℓP / L₅)² = φ₀⁻² follows from identifying the radion
-    φ with L₅/ℓP, which is the natural choice in the flat S¹ reduction used
-    here but may differ in the warped RS variant (see assemble_warped_5d_metric).
+def extract_alpha_from_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
+    """Legacy return (mean(φ⁻²), R^μ_{5ν5}); NOT an action-level extraction.
 
-    Parameters
-    ----------
-    g   : ndarray, shape (N, 4, 4)  — 4D metric
-    B   : ndarray, shape (N, 4)     — irreversibility gauge field
-    phi : ndarray, shape (N,)       — scalar / radion (entanglement capacity)
-    dx  : float                     — grid spacing
-    lam : float                     — KK coupling constant λ
-
-    Returns
-    -------
-    alpha_geometric : float
-        Spatially-averaged nonminimal coupling ⟨1/φ²⟩ evaluated from the KK
-        normalization identity  α = φ⁻²  (in Planck units ℓP = 1, flat S¹).
-    cross_block_riem : ndarray, shape (N, 4, 4)
-        Cross-block Riemann component R^μ_{5ν5} = Riem5[:, :4, 4, :4, 4].
-        Encodes the curvature mixing between the 4D block and the compact
-        fifth dimension; vanishes when B = 0 and φ = const on flat space.
+    Numerical behavior is retained for callers of the historical alpha_NM API.
+    The first output is an inverse-radius diagnostic, not derived from the
+    second output and not a coefficient of R H² or R φ². Use
+    ``inverse_radius_squared`` when only this diagnostic is needed and
+    ``circle_eh_rh2_coefficient`` for the absent tree-level EH R H² operator.
     """
     G5 = assemble_5d_metric(g, B, phi, lam)
-    Gamma5 = christoffel(G5, dx)
-    Riem5 = _riemann_from_christoffel(Gamma5, dx)   # (N, 5, 5, 5, 5)
+    _validate_coordinate_index(coordinate_index, 4)
+    Gamma5 = christoffel(G5, dx, coordinate_index)
+    Riem5 = _riemann_from_christoffel(Gamma5, dx, coordinate_index)
 
     # Cross-block Riemann: R^μ_{5ν5} where μ,ν ∈ {0,1,2,3} and 5 → index 4.
     # Convention: Riem5[n, rho, sigma, mu, nu] = R^ρ_σμν
     # So R^μ_{5ν5} = Riem5[n, mu, 4, nu, 4]  with mu,nu ∈ 0..3
     cross_block_riem = Riem5[:, :4, 4, :4, 4].copy()  # (N, 4, 4)
 
-    # KK identity: α = 1/φ²  (compactification radius L₅ = φ ℓP)
-    # At the stabilised background φ₀ the coupling is α = φ₀⁻².
-    alpha_geometric = float(np.mean(1.0 / phi**2))
-
-    return alpha_geometric, cross_block_riem
+    return inverse_radius_squared(phi), cross_block_riem
 
 
 # ---------------------------------------------------------------------------
@@ -599,19 +578,21 @@ def assemble_warped_5d_metric(
     r_c_field,
     k: float = 1.0,
     lam: float = 1.0,
+    y: float = 0.0,
 ):
     """Assemble the 5×5 warped KK metric G_AB with a dynamical compactification
     radius r_c(x), promoting the "frozen scaffold" to a breathing manifold.
 
-    The warped Randall–Sundrum ansatz is:
+    This is a local slice of the warped bundle ansatz:
 
-        ds² = e^{−2k|y|r_c(x)} g_μν dx^μ dx^ν + r_c(x)² dy²
+        ds² = e^{−2k|y|r_c(x)} g_μν dx^μ dx^ν
+              + r_c(x)² (dy + λ B_μ dx^μ)²
 
     In the zero-mode (y-integrated) projection the warp factor is encoded by
     ``jacobian_rs_orbifold``; the on-slice 5×5 metric assembles as:
 
-        G_μν = g_μν + λ²φ² B_μ B_ν    (4D block — same as flat case)
-        G_μ5 = G_5μ = λφ B_μ           (off-diagonal — unchanged)
+        G_μν = e^{−2k|y|r_c} g_μν + λ²r_c² B_μ B_ν
+        G_μ5 = G_5μ = λr_c² B_μ
         G_55 = r_c(x)²                  (radion size — NOW a separate field)
 
     The critical difference from :func:`assemble_5d_metric` (where G_55 = φ²)
@@ -625,7 +606,7 @@ def assemble_warped_5d_metric(
     **Flat-limit recovery**: in the limit r_c(x) → φ(x) (i.e., when the
     compactification radius equals the entanglement scalar) this function
     reduces exactly to :func:`assemble_5d_metric`, recovering G_55 = φ²
-    and the standard flat S¹ result for α = φ⁻².  The warped variant keeps
+    at y=0. No nonminimal R H² coupling is inferred. The warped variant keeps
     r_c and φ as independent degrees of freedom, which is the physically
     motivated choice for RS radion stabilisation.
 
@@ -637,6 +618,11 @@ def assemble_warped_5d_metric(
     r_c_field : ndarray, shape (N,)      — local compactification radius [M_Pl⁻¹]
     k         : float                    — AdS curvature scale (default 1)
     lam       : float                    — KK coupling constant λ (default 1)
+    y         : float                    — slice coordinate (default 0)
+
+    This does not integrate over y, compute y derivatives, or impose Israel
+    junction conditions. The cylinder-condition curvature routines cannot
+    establish a warped/orbifold action or its boundary terms from this slice.
 
     Returns
     -------
@@ -656,20 +642,6 @@ def assemble_warped_5d_metric(
             f"got min(r_c_field) = {float(np.min(r_c_arr))!r}."
         )
 
-    N = g.shape[0]
-    G5 = np.zeros((N, 5, 5))
-
-    lam_phi   = lam * phi               # shape (N,)
-    lam_phi_B = lam_phi[:, None] * B    # shape (N, 4)
-
-    # 4×4 block: g_μν + λ²φ² B_μ B_ν  (unchanged from flat case)
-    G5[:, :4, :4] = (
-        g + (lam_phi**2)[:, None, None] * np.einsum("ni,nj->nij", B, B)
-    )
-    # Off-diagonal: G_μ5 = G_5μ = λφ B_μ  (unchanged)
-    G5[:, :4, 4] = lam_phi_B
-    G5[:, 4, :4] = lam_phi_B
-    # G_55 = r_c(x)²  ← dynamical radion field, NOT φ²
-    G5[:, 4, 4] = r_c_arr**2
-
-    return G5
+    radius = np.broadcast_to(r_c_arr, (g.shape[0],))
+    warp = np.exp(-2.0 * k * abs(y) * radius)
+    return assemble_5d_metric(warp[:, None, None] * g, B, radius, lam)

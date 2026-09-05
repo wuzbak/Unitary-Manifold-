@@ -1,5 +1,19 @@
 # Fallibility, Limitations, and Failure Modes
 
+> **Foundation reassessment (2026-09-05):** the historical closure and
+> contraction descriptions below are superseded on the audited paths by
+> [the current findings](docs/TRUTH_LAYER.md#foundation-reassessment).
+> A regular odd composite has no nonzero fixed-plane photon; the old mixed
+> metric does not recover the stated horizontal metric for general radion;
+> and a positive lower suppression bound cannot imply the asserted lower
+> reciprocal deficit. Assigned residual reductions and arithmetic proxies
+> do not establish physical progress. Flavor uniqueness, independent CMB
+> normalization, action-to-evolution equivalence, and UV predictivity remain open.
+> Existing lane identifiers are retained for traceability, not as universal
+> impossibility theorems. No additional physics closure is claimed.
+> Resumed combined software regression: 63,952 passed, 33 skipped,
+> 18 deselected, 0 failed. This does not remove the scientific limitations.
+
 *Unitary Manifold v36.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint CH** (2026-09-05; Pillars 1079–1081) converts Gemini external-critique handling into executable artifacts: P1079 critique-to-proof matrix with confabulation register + stop conditions, P1080 deterministic internal four-lane routing with explicit blockers, and P1081 fail-closed sprint certificate requiring matrix/packet/publication integrity. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1082. Latest verified full regression in branch history: 63,892 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Sprint CH targeted tests passed · 0 failed.)*
 
 *Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
@@ -62,8 +76,9 @@ It is written in the same clinical tone expected of a refereed submission.
 ## I. Scope of Verification
 
 The latest verified branch regression (63,892 passed · 23 skipped · 12 deselected · 0 failed (v36.4 baseline in current branch history; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
-are **internally self-consistent**: every equation as coded is a correct
-consequence of the mathematical framework as stated.  The test suite covers
+provide **regression evidence for the assertions actually tested**. They do
+not establish that every coded equation follows from the stated action or
+that every claimed proof is valid. The test suite covers
 metric curvature (`test_metric.py`), field evolution
 (`test_evolution.py`), holographic boundary dynamics
 (`test_boundary.py`), fixed-point convergence (`test_fixed_point.py`,
@@ -91,8 +106,8 @@ framework as a description of nature.  Specifically:
 - External validation requires observational discrimination from competing
   models that also match those same reference values.
 - No test pulls live experimental data from particle detectors or satellites.
-  Passing every test means the code faithfully executes the framework's
-  equations.  It says nothing about whether those equations describe nature.
+  Passing every test establishes that the checked assertions pass in the
+  recorded environment, not universal equation fidelity or empirical truth.
 
 The test count (currently 63,722) is a measure of **implementation coverage
 and internal mathematical self-consistency**.  It is not a measure of

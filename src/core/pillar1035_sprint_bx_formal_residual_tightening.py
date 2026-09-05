@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List
 
-from src.core.pillar1028_su3_residual_contraction_lean4 import pillar1028_summary
+from src.core.pillar1028_su3_residual_contraction_lean4 import su3_residual_contraction_report
 
 __all__ = [
     "PILLAR_NUMBER",
@@ -49,44 +49,49 @@ def _count_lean4_kernels(text: str) -> int:
 
 def sprint_bx_formal_residual_tightening() -> Dict[str, Any]:
     """Return the Sprint BX formal residual tightening report."""
-    prior = pillar1028_summary()
+    prior = su3_residual_contraction_report()
     lean4_path = _ROOT / LEAN4_FILE
     lean4_text = lean4_path.read_text(encoding="utf-8") if lean4_path.exists() else ""
     theorem_count = _count_lean4_kernels(lean4_text)
-    before = _open_steps_before()
-    after = _open_steps_after()
+    before = list(prior["residual_map"]["open_steps_after"])
+    after = list(before)
     valid = bool(
         prior["valid"]
         and lean4_path.exists()
         and theorem_count == LEAN4_THEOREM_COUNT
-        and len(after) < len(before)
     )
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
         "valid": valid,
+        "packet_valid": valid,
+        "scientific_progress": False,
+        "physical_theorem_proved": False,
         "dependency": prior,
         "lean4_kernel": {
             "file": LEAN4_FILE,
             "exists": lean4_path.exists(),
             "theorem_count": theorem_count,
             "expected_theorem_count": LEAN4_THEOREM_COUNT,
+            "evidence_kind": "SOURCE_TEXT_INVENTORY_ONLY",
+            "compilation_verified": False,
         },
         "residual_map": {
             "open_steps_before": before,
             "open_steps_after": after,
             "before_count": len(before),
             "after_count": len(after),
-            "formal_reduction_earned": len(after) < len(before),
+            "formal_reduction_earned": False,
+            "historical_proposed_after": _open_steps_after(),
         },
         "explicit_non_claims": [
             "Full Hilbert-space closure remains open",
             "No hardgate promotion is claimed",
         ],
         "interpretation": (
-            "Sprint BX adds another Lean4-backed kernel layer and reduces the remaining "
-            "formal-open surface to one explicit functional-analysis burden."
+            "The inherited formal-open surface remains unchanged; theorem text counts "
+            "and proposed blocker deletions are not derivations."
         ),
     }
 

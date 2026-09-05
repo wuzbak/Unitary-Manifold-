@@ -22,7 +22,7 @@ def test_derivation_fixes_expected_block_form():
     result = derive_metric_ansatz_from_deeper_principle()
     form = result["derived_form"]
     assert "lambda^2 phi^2" in form["G_munu"]
-    assert "lambda phi B_mu" in form["G_mu5"]
+    assert "lambda phi^2 B_mu" in form["G_mu5"]
     assert form["G_55"] == "phi^2"
 
 
@@ -48,6 +48,6 @@ def test_derived_assembly_matches_metric_module():
 
 def test_derivation_certificate_passes():
     cert = metric_ansatz_derivation_certificate()
-    assert cert["status"] == "DERIVED_FROM_DEEPER_PRINCIPLE"
+    assert cert["status"] == "CONDITIONAL_KK_PARAMETERIZATION"
     assert cert["passed"] is True
     assert cert["max_abs_error_vs_metric_module"] < 1e-12

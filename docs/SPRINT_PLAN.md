@@ -1,5 +1,40 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
+## Foundation-first implementation (2026-09-05)
+
+This execution supersedes the historical narrative-only advancement criteria
+below. It allocates no new pillar and makes no universal closure promise.
+
+1. Resolve the canonical KK blocks and derivative convention with independent
+   identities and curved-background checks; withdraw the odd-composite photon
+   recovery argument and retain action-to-evolution equivalence as an obligation.
+2. Separate valid reporting from scientific progress. Do not credit assigned
+   residual multipliers, deleted blocker names, or proxy theorem counts.
+3. Reconstruct a conditional CMB reference/control spectrum with explicit
+   backend, normalization, units, numerical errors, and covariance limitations.
+   Unsupported corrections cannot become predictions through a new multiplier.
+4. Test flavor identifiability on an explicit operator domain. A constructive
+   nonuniqueness example is a result; fitting another texture is not uniqueness.
+5. Defer UV/Higgs promotion until an actual joint compactification/matching
+   calculation fixes the required inputs. An empty parameter list is insufficient.
+
+**Definition of done:** a checked mathematical implication/counterexample or
+an independently reproducible corrected calculation with assumptions and an
+error budget. Synchronization is release hygiene, not physics progress.
+The current findings and verification record are in
+[TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment). The interrupted session
+recorded a pre-change combined suite of 63,430 passed, 43 skipped and
+12 deselected; this is not the resumed implementation's verification result.
+The resumed combined suite passed **63,952 tests, with 33 skipped and
+18 deselected, zero failures**. The real CAMB integrations and nonlinear
+trajectory safety test were separately enabled. The implemented corrections
+and countermodels meet the scoped definition above; the outstanding physical
+obligations are not marked complete by this software result.
+Both audited Lean modules compile with warnings treated as errors and are
+included in the root imports; the full formal build remains unverified.
+
+## Historical sprint continuity
+
 *Last updated: 2026-09-05 (v36.4 Sprint CH COMPLETE — Pillars 1079–1081; Lean4 4080→4080; next slot 1082)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 

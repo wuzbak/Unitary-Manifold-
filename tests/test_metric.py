@@ -9,8 +9,8 @@ Covers:
   - christoffel: shape, vanishes on flat metric (D=4 and D=5)
   - compute_curvature: shapes, R≈0 on flat Minkowski,
                        5D pipeline differs from naive 4D-only result
-  - extract_alpha_from_curvature: α=1/φ², cross-block shape, flat-space
-                                   zero, φ-scaling identity
+  - extract_alpha_from_curvature: legacy inverse-radius diagnostic,
+    cross-block shape and analytic warped-product curvature; no coupling inference
 """
 
 import numpy as np
@@ -27,6 +27,7 @@ from src.core.metric import (
     compute_curvature,
     _riemann_from_christoffel,
     extract_alpha_from_curvature,
+    circle_eh_rh2_coefficient,
 )
 
 
@@ -106,10 +107,10 @@ class TestAssemble5dMetric:
         assert np.allclose(G5[:, 4, 4], phi**2, atol=1e-14)
 
     def test_off_diagonal_G_mu5(self, perturbed_fields):
-        """G_μ5 = λφ B_μ  (with default λ=1)."""
+        """G_μ5 = λφ² B_μ  (with default λ=1)."""
         g, B, phi, N, dx = perturbed_fields
         G5 = assemble_5d_metric(g, B, phi, lam=1.0)
-        expected = phi[:, None] * B       # shape (N, 4)
+        expected = phi[:, None]**2 * B       # shape (N, 4)
         assert np.allclose(G5[:, :4, 4], expected, atol=1e-14)
         assert np.allclose(G5[:, 4, :4], expected, atol=1e-14)
 
@@ -223,7 +224,7 @@ class TestComputeCurvature:
 # ---------------------------------------------------------------------------
 
 class TestExtractAlphaFromCurvature:
-    """Tests for the KK-derived nonminimal coupling α = ⟨1/φ²⟩."""
+    """Preserve inverse-radius diagnostics without identifying action coefficients."""
 
     def test_output_types(self, flat_fields):
         g, B, phi, N, dx = flat_fields
@@ -231,34 +232,31 @@ class TestExtractAlphaFromCurvature:
         assert isinstance(alpha_geom, float)
         assert cb.shape == (N, 4, 4)
 
-    def test_alpha_equals_one_for_unit_phi(self, flat_fields):
-        """φ = 1 everywhere ⟹ α_geometric = 1/1² = 1.0."""
+    def test_diagnostic_one_for_unit_phi(self, flat_fields):
         g, B, phi, N, dx = flat_fields  # phi = ones(N)
         alpha_geom, _ = extract_alpha_from_curvature(g, B, phi, dx)
-        assert abs(alpha_geom - 1.0) < 1e-12
+        assert alpha_geom == 1.0
 
-    def test_alpha_quarters_when_phi_doubles(self, flat_fields):
-        """Doubling φ quarters α: α = 1/φ² ⟹ α(2φ) = α(φ)/4."""
+    def test_doubling_radius_quarters_diagnostic(self, flat_fields):
         g, B, phi, N, dx = flat_fields
         phi2 = 2.0 * phi
         alpha2, _ = extract_alpha_from_curvature(g, B, phi2, dx)
-        assert abs(alpha2 - 0.25) < 1e-12
+        assert alpha2 == 0.25
 
     def test_alpha_general_uniform_phi(self, flat_fields):
-        """α = 1/φ₀² for any uniform scalar value φ₀."""
+        """The historical API returns inverse radius squared."""
         g, B, phi, N, dx = flat_fields
         for phi_val in (0.5, 1.0, 2.0, 3.0):
             phi_uniform = phi_val * np.ones(N)
             alpha_geom, _ = extract_alpha_from_curvature(g, B, phi_uniform, dx)
-            assert abs(alpha_geom - 1.0 / phi_val**2) < 1e-12, \
-                f"φ₀={phi_val}: expected α={1/phi_val**2:.6f}, got {alpha_geom:.6f}"
+            assert alpha_geom == pytest.approx(phi_val**-2)
 
-    def test_alpha_spatial_mean_for_varying_phi(self, perturbed_fields):
-        """α = ⟨1/φ²⟩ (spatial mean) for non-uniform φ."""
+    def test_varying_radius_is_not_an_action_coefficient(self, perturbed_fields):
         g, B, phi, N, dx = perturbed_fields
         alpha_geom, _ = extract_alpha_from_curvature(g, B, phi, dx)
-        expected = float(np.mean(1.0 / phi**2))
-        assert abs(alpha_geom - expected) < 1e-12
+        assert alpha_geom == pytest.approx(np.mean(1.0 / phi**2))
+        assert circle_eh_rh2_coefficient() == 0.0
+        assert alpha_geom != circle_eh_rh2_coefficient()
 
     def test_cross_block_shape(self, perturbed_fields):
         """Cross-block Riemann array has shape (N, 4, 4)."""
@@ -287,14 +285,14 @@ class TestExtractAlphaFromCurvature:
         _, cb = extract_alpha_from_curvature(g, B_nz, phi, dx)
         assert not np.allclose(cb, 0.0, atol=1e-8)
 
-    def test_alpha_positive(self, perturbed_fields):
-        """α_geometric is always positive (φ² > 0)."""
+    def test_diagnostic_positive_with_nonzero_curvature(self, perturbed_fields):
         g, B, phi, N, dx = perturbed_fields
-        alpha_geom, _ = extract_alpha_from_curvature(g, B, phi, dx)
+        alpha_geom, cb = extract_alpha_from_curvature(g, B, phi, dx)
         assert alpha_geom > 0.0
+        assert np.linalg.norm(cb) > 0
 
     def test_lam_does_not_affect_alpha(self, flat_fields):
-        """α = 1/φ² is independent of the KK coupling λ."""
+        """The inverse-radius diagnostic is independent of λ."""
         g, B, phi, N, dx = flat_fields
         alpha1, _ = extract_alpha_from_curvature(g, B, phi, dx, lam=1.0)
         alpha2, _ = extract_alpha_from_curvature(g, B, phi, dx, lam=3.7)
@@ -302,14 +300,8 @@ class TestExtractAlphaFromCurvature:
 
 
 # ---------------------------------------------------------------------------
-# Dark matter "ghost" force from the 5th dimension
+# Radion cross-block curvature (not a dark-matter density)
 # ---------------------------------------------------------------------------
-
-# Minimum acceptable Pearson r between the 5D curvature proxy and the
-# analytic dark-matter density profile.  A value ≥ 0.98 demonstrates that
-# the spatial *shape* of the 5D ghost force matches the observed halo
-# distribution to within 2% correlation tolerance.
-_MIN_DM_CORRELATION: float = 0.98
 
 # Numerical-noise tolerance for the monotonicity check: finite-difference
 # stencil errors on a 1-D grid are O(dx²) ≈ 10⁻² for dx=0.1, so trace
@@ -322,42 +314,17 @@ _MONOTONE_NOISE_FLOOR: float = 1e-12
 _MAX_NONMONOTONE_FRACTION: float = 0.10
 
 
-class TestDarkMatterGhostForce5D:
-    """
-    The 5th dimension generates a specific 4D curvature that mimics dark matter.
+class TestRadionCrossBlock5D:
+    """For flat Cartesian base and B=0, R^x_{5x5} = -φ φ''.
 
-    In the KK reduction, the cross-block Riemann component R^μ_{5ν5} (encoded
-    in the ``cross_block_riem`` output of ``extract_alpha_from_curvature``) acts
-    as an effective stress-energy source in the 4D Einstein equations:
-
-        G_μν^(4D) = T_μν^(matter) + T_μν^(KK)
-
-    where T_μν^(KK) ∝ ∂_μφ ∂_νφ / φ² − (1/2) δ_μν (∂φ/φ)².
-
-    For a galaxy-like radion profile φ(r) = φ₀ / √(1 + r/R₅), the effective
-    dark-matter density inherited from the KK geometry is:
-
-        ρ_KK(r) = (∂_r φ)² / φ² = 1 / (4 R₅²) × (1 + r/R₅)⁻²
-
-    This ∝ 1/r² scaling at large r is exactly the isothermal-sphere dark-matter
-    density that produces flat galaxy rotation curves — with no new particles.
-
-    The tests below verify that the cross-block Riemann trace (the numerical
-    output from ``extract_alpha_from_curvature``) reproduces this spatial profile
-    to high statistical accuracy (Pearson r ≥ _MIN_DM_CORRELATION = 0.98),
-    making this a genuine *predictive* result of the 5D geometry.
+    The old density assertions confused a coordinate Riemann block with a
+    positive matter source. The prescribed profile is not a galaxy solution.
     """
 
     @staticmethod
     def _galaxy_fields(N: int = 64, dx: float = 0.1,
                        phi0: float = 1.0, R_5: float = 2.0):
-        """Minkowski metric + isothermal-sphere radion profile φ(r) = φ₀/√(1+r/R₅).
-
-        The profile φ(r) = φ₀/√(1+r/R₅) is an *isothermal-sphere* ansatz:
-        it gives an effective dark-matter density ρ_KK ∝ (1+r/R₅)⁻², which
-        produces exactly flat rotation curves (v_circ = const for r → ∞).
-        This is distinct from the NFW profile ρ_NFW ∝ 1/(r(1+r)²).
-        """
+        """A prescribed smooth profile on a Cartesian x grid, not spherical r."""
         r = np.arange(N) * dx + dx          # avoid r = 0
         g = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (N, 1, 1))
         B = np.zeros((N, 4))
@@ -365,35 +332,19 @@ class TestDarkMatterGhostForce5D:
         return g, B, phi, N, dx, r
 
     # ------------------------------------------------------------------
-    def test_cross_block_curvature_positive_for_galaxy_phi(self):
-        """For a decreasing radion profile, R^μ_{5ν5} is nonzero and positive.
-
-        The radion gradient |∂φ| > 0 sources the cross-block Riemann term.
-        Its trace (the effective dark-matter density proxy) must be positive,
-        indicating that the compact 5th dimension attracts additional gravity.
-        """
+    def test_cross_block_curvature_negative_for_convex_phi(self):
+        """Convex φ gives -φ φ'' < 0, not a positive density."""
         g, B, phi, N, dx, _ = self._galaxy_fields()
         _, cb = extract_alpha_from_curvature(g, B, phi, dx)
         trace = np.array([np.trace(cb[i]) for i in range(N)])
-        assert np.all(trace > 0.0), (
-            "Cross-block Riemann trace must be positive for a decreasing φ(r)"
-        )
+        assert np.all(trace < 0.0)
 
-    def test_cross_block_trace_monotone_decreasing_with_radius(self):
-        """The 5D dark-matter proxy decreases outward, like a galactic halo.
-
-        For the isothermal-sphere profile φ(r) = φ₀/√(1+r/R₅), the gradient
-        |∂φ|/φ decreases with r, so the curvature contribution is concentrated
-        near the galactic centre — exactly where dark-matter halos are observed.
-
-        Tolerance: up to ``_MAX_NONMONOTONE_FRACTION`` (10%) of consecutive
-        pairs may show a spurious upward fluctuation ≤ ``_MONOTONE_NOISE_FLOOR``
-        (1e-12) due to finite-difference stencil rounding near grid boundaries.
-        """
+    def test_cross_block_magnitude_decreases_outward(self):
+        """The negative curvature approaches zero from below."""
         g, B, phi, N, dx, _ = self._galaxy_fields(N=64, dx=0.1, R_5=2.0)
         _, cb = extract_alpha_from_curvature(g, B, phi, dx)
         trace = np.array([np.trace(cb[i]) for i in range(N)])
-        diffs = np.diff(trace)
+        diffs = np.diff(np.abs(trace))
         n_increasing = int(np.sum(diffs > _MONOTONE_NOISE_FLOOR))
         max_allowed = int(_MAX_NONMONOTONE_FRACTION * (N - 1))
         assert n_increasing <= max_allowed, (
@@ -402,55 +353,26 @@ class TestDarkMatterGhostForce5D:
             f"(allowed ≤ {max_allowed})"
         )
 
-    def test_5d_dark_matter_density_matches_isothermal_sphere_scaling(self):
-        """Cross-block Riemann trace ∝ (1 + r/R₅)⁻² — the isothermal-sphere
-        dark-matter profile that produces exactly flat rotation curves.
-
-        This is the central *predictive* result: the 5th dimension produces an
-        effective dark-matter distribution whose spatial profile matches the
-        observed halo density — a genuine consequence of the KK geometry,
-        not an ad-hoc fit.
-
-        Verification criterion: Pearson correlation between the computed trace
-        and the analytic formula (1 + r/R₅)⁻² must exceed
-        ``_MIN_DM_CORRELATION`` = 0.98.
-        """
+    def test_cross_block_matches_analytic_hessian(self):
+        """Check amplitude and sign, not merely correlation with another curve."""
         R_5 = 2.0
         N, dx = 64, 0.1
         g, B, phi, _, dx_out, r = self._galaxy_fields(N=N, dx=dx, R_5=R_5)
         _, cb = extract_alpha_from_curvature(g, B, phi, dx_out)
         trace = np.array([np.trace(cb[i]) for i in range(N)])
 
-        # Analytic isothermal-sphere dark-matter density (5D prediction)
-        rho_dm_5d = 1.0 / (1.0 + r / R_5) ** 2
+        expected = -3.0 / (4 * R_5**2) * (1 + r / R_5)**-3
+        np.testing.assert_allclose(trace[2:-2], expected[2:-2], rtol=0.025)
 
-        # Pearson correlation — tests whether the spatial *profile* matches
-        corr = float(np.corrcoef(trace, rho_dm_5d)[0, 1])
-        assert corr >= _MIN_DM_CORRELATION, (
-            f"Cross-block Riemann trace must correlate ≥ {_MIN_DM_CORRELATION} "
-            f"with the isothermal-sphere profile (1+r/R₅)⁻²; got r = {corr:.4f}"
-        )
-
-    def test_ghost_force_zero_for_uniform_phi(self, flat_fields):
-        """No ghost dark matter when φ is spatially uniform.
-
-        When φ = const and B = 0, all Christoffel symbols involving the 5th
-        dimension vanish, so the cross-block Riemann is identically zero.
-        This is the sanity check: dark matter only appears where φ varies.
-        """
+    def test_cross_block_zero_for_uniform_phi(self, flat_fields):
+        """A constant product metric has no cross-block curvature."""
         g, B, phi, N, dx = flat_fields    # phi = ones(N), B = 0
         _, cb = extract_alpha_from_curvature(g, B, phi, dx)
         assert np.allclose(cb, 0.0, atol=1e-8), (
-            "Cross-block Riemann must vanish for uniform φ (no dark matter)"
+            "Cross-block Riemann must vanish for uniform φ"
         )
 
-    def test_ghost_force_grows_with_radion_gradient_amplitude(self):
-        """Steeper φ gradient → stronger dark-matter-like curvature.
-
-        Comparing two galaxies: one with a compact halo (small R₅, steep φ
-        gradient) and one with a diffuse halo (large R₅, gentle gradient).
-        The compact halo produces a larger central dark-matter density proxy.
-        """
+    def test_cross_block_magnitude_grows_for_shorter_profile_scale(self):
         N, dx = 64, 0.1
 
         # Compact halo: R₅ = 1.0 → steep gradient
@@ -463,20 +385,10 @@ class TestDarkMatterGhostForce5D:
         _, cb2 = extract_alpha_from_curvature(g2, B2, phi2, dx)
         trace2_mean = float(np.mean([np.trace(cb2[i]) for i in range(N)]))
 
-        assert trace1_mean > trace2_mean, (
-            f"Compact halo (R₅=1) must have stronger ghost force than diffuse halo "
-            f"(R₅=5); got trace_compact={trace1_mean:.4f}, trace_diffuse={trace2_mean:.4f}"
-        )
+        assert abs(trace1_mean) > abs(trace2_mean)
 
-    def test_dark_matter_proxy_consistent_with_radion_gradient_formula(self):
-        """The effective DM density proxy satisfies ρ_KK = (∂_r φ)² / φ² × (const).
-
-        This cross-validates the analytic formula: the cross-block Riemann trace
-        T(r) = Tr[R^μ_{5ν5}] at each grid point is proportional to (∂φ/φ)²,
-        the standard KK dark-matter source term.
-        The Pearson correlation between T(r) and (∂φ/φ)² must exceed
-        ``_MIN_DM_CORRELATION`` = 0.98.
-        """
+    def test_cross_block_is_not_squared_logarithmic_gradient(self):
+        """The two quantities have different sign AND radial power."""
         R_5 = 2.0
         N, dx = 64, 0.1
         g, B, phi, _, dx_out, r = self._galaxy_fields(N=N, dx=dx, R_5=R_5)
@@ -487,11 +399,9 @@ class TestDarkMatterGhostForce5D:
         dphi = np.gradient(phi, dx_out)
         rho_kk = (dphi / phi) ** 2
 
-        corr = float(np.corrcoef(trace, rho_kk)[0, 1])
-        assert corr >= _MIN_DM_CORRELATION, (
-            f"Cross-block trace must correlate ≥ {_MIN_DM_CORRELATION} "
-            f"with (∂φ/φ)²; got r = {corr:.4f}"
-        )
+        ratio = trace[2:-2] / rho_kk[2:-2]
+        np.testing.assert_allclose(ratio, -3 * phi[2:-2]**2, rtol=0.025)
+        assert np.ptp(ratio) > 0.5
 
 
 # ===========================================================================
@@ -516,15 +426,16 @@ class TestZ2ParityClarification:
     def test_phi_is_z2_even(self):
         assert "Z₂-EVEN" in self.result["phi_parity"]
 
-    def test_A_mu_is_distinct_from_B_mu(self):
-        """A_μ (photon) and B_μ are physically distinct."""
-        assert self.result["fields_are_distinct"] is True
+    def test_A_mu_is_not_an_independent_boundary_field(self):
+        assert self.result["fields_are_distinct"] is False
+        assert self.result["photon_zero_mode"] is False
+        assert self.result["fixed_plane_value"] == 0.0
 
     def test_resolution_non_empty(self):
         assert len(self.result["resolution"]) > 80
 
-    def test_status_resolved(self):
-        assert "RESOLVED" in self.result["status"]
+    def test_status_open(self):
+        assert "OPEN" in self.result["status"]
 
     def test_g_munu_is_z2_even(self):
         assert "Z₂-EVEN" in self.result["g_munu_parity"]

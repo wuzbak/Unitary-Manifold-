@@ -1,6 +1,259 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
 # Unitary Manifold v36.4
 
+## Foundation reassessment
+
+**2026-09-05 — correction of evidentiary scope, without a new pillar or a
+physics-closure claim.** This section supersedes the claims of derived
+contraction, photon recovery, and formal closure in the historical sprint
+summaries below where they concern the audited paths. The historical regression
+and declaration totals are retained as historical records, not newly verified
+proof counts.
+
+### Mathematical findings and assumptions
+
+1. **Metric normalization.** For a spacelike compact fibre, positive regular
+   radion, and cylinder condition, the canonical line element is
+   \(ds_5^2=g_{\mu\nu}dx^\mu dx^\nu+\phi^2(dy+\lambda B_\mu dx^\mu)^2\).
+   Its mixed block is \(\lambda\phi^2 B_\mu\). Its horizontal Schur complement
+   is \(g_{\mu\nu}\) and its determinant is \(\phi^2\det g\).
+   The former mixed block \(\lambda\phi B_\mu\), with the same upper block,
+   instead yields \(g_{\mu\nu}+\lambda^2(\phi^2-1)B_\mu B_\nu\).
+   Agreement at \(\phi=1\) does not establish equivalence for a dynamic radion.
+   All downstream identifications relying on that equivalence need reassessment.
+   For API compatibility, `extract_alpha_from_curvature()` retains the
+   numerical diagnostic \(\langle\phi^{-2}\rangle\); that number is not an
+   action-derived coupling. The separate `circle_eh_rh2_coefficient()` reports
+   the absent tree-level \(R H_{\mu\nu}H^{\mu\nu}\) operator in the circle
+   Einstein–Hilbert reduction. This does not determine a phenomenological
+   \(R\phi^2\) coupling or prove the implemented flow equations.
+2. **Photon obstruction.** A continuous odd field is zero at a reflection
+   fixed point; multiplication by a finite even radion does not change that.
+   The previous fixed-plane composite-photon argument is withdrawn.
+   An independent even gauge field or a justified boundary construction would
+   be an additional assumption, not a consequence of evaluating the odd field.
+3. **Suppression-bound direction.** From \(S\ge S_{\min}>0\), it follows that
+   \(1/S\le1/S_{\min}\), not the opposite inequality. The P1062 proposed
+   \(S_{\min}=(5/74)^2\) also permits \(S=1\).
+   This disproves the claimed inference to irreducibility; it does not prove
+   that a physical warp profile realizes \(S=1\), or disprove every other
+   possible no-go theorem.
+4. **Flavor identifiability.** On a finite regular warped interval, parity
+   selects a chiral profile, not a discrete bulk-mass value. A continuum of
+   smooth profiles can have finite action-derived norm. A generation ladder
+   requires additional equations fixing the mass parameters and overlaps.
+   Similarly, spatial reflection alone does not select the internal SU(5)
+   involution; deriving its fixed algebra is conditional on choosing that
+   involution and assuming SU(5) in the first place.
+
+   The explicit RS1 countermodels use the same finite interval, action-derived
+   weighted inner product, and chiral endpoint domain while varying the bulk
+   mass. Independent quadrature checks normalization and differing overlaps;
+   a Green-identity check tests the boundary form. These are countermodels to
+   selection by parity alone, not a proof against a future mass-fixing action.
+   Explicit SU(5) matrix involutions with zero, two, or four negative eigenvalues
+   retain 24, 12, or 16 generators respectively: the spatial reflection does
+   not choose the 3+2 split. The corresponding 3+2 fixed group is
+   \(S(U(3)\times U(2))\), with the usual finite quotient in its product
+   representation.
+
+   The assumed arithmetic ladder itself has also been corrected:
+   \(71/74-2/148=35/37\), not \(69/74\). Its assumed NLO/NNLO scale sums to
+   \(9/5476+27/405224=693/405224\); this is not a derived remainder bound
+   and does not bound all the historical calibration residuals.
+
+These are scoped mathematical statements. Neither test success nor a
+declaration labelled “PROVED” upgrades them to empirical confirmation.
+
+### What cannot be counted as progress
+
+- P1042's assigned residual multipliers, P1043's assigned narrowed interval,
+  and P1061's deleted blocker names/subtracted tension are not new physical
+  calculations.
+- P1052's theorem-name counts and text markers cannot discharge a
+  functional-analysis obligation. A theorem must state the required
+  proposition, compile, and have its assumptions and physical interpretation
+  inspected. Missing files and failed builds are verification failures, not
+  observational falsification.
+- P1068–P1070's assigned extension coefficients are not derived corrections.
+  An empty list of declared parameters cannot establish zero parameter cost.
+  A joint UV prediction requires specified moduli, spectra, effective
+  couplings, matching scheme, and consistency/stability checks.
+- Exhaustion of named attempts is not exhaustion of all admissible models.
+  The historical `ARCHITECTURE_LIMIT` and `CONFIRMED_IRREDUCIBLE` lane names
+  remain identifiers, not a replacement for a quantified theorem.
+
+### Controlled CMB question
+
+Pivot-amplitude calibration, a transfer-function approximation, and a
+primordial-amplitude prediction are different tasks. The existing COBE
+normalization explicitly uses an observational target. It is not evidence for
+an independently derived amplitude.
+
+A reference/control CAMB spectrum using declared cosmological inputs is a
+conditional numerical comparison. It must identify the actual backend, report
+multipole residuals and numerical resolution dependence, and keep absent
+empirical covariance and absent action-derived UM corrections explicit.
+A toy fallback must not be reported as a CAMB reproduction. A multiplier of a
+transfer **amplitude** enters angular **power** quadratically.
+
+The radion scale must be converted before comparison with cosmological
+wavenumbers: a mass small relative to the Planck mass can still be enormous
+relative to a CMB inverse length. Calling \(e^{-37}M_{\rm Pl}\) “massless at
+CMB scales” is not justified by its small value in Planck units.
+
+### Reproduced conditional CMB calculation
+
+The resumed execution used **CAMB 2.0.4**, not the toy fallback, for unlensed
+TT spectra at 37 multipoles from 200 to 2000. Both spectra use the same
+explicit, empirically calibrated late-time cosmology and scalar amplitude.
+CAMB accuracy boosts of 1 and 2 and lmax margins of 150 and 300 provide a
+resolution-sensitivity check. The default candidate changes only
+\(n_s=0.9649\) to \(0.9635243738887584\), with tensors disabled in both.
+
+| Check | Observed result |
+|---|---|
+| Identical-input control | Zero residual; power ratio exactly 1 |
+| Candidate tilt, signed relative residual | −0.160968% to +0.140760% |
+| Candidate tilt, median absolute relative residual | 0.095388% |
+| Maximum reference / candidate relative numerical sensitivity | 0.085743% / 0.085764% |
+| Maximum summed absolute residual sensitivity | 3.071710 μK² in \(D_\ell\) |
+| Scalar amplitude multiplied by 1.2, unlensed power ratio | 1.199997307 to 1.200002039 |
+
+Reproduce the default comparison from the repository root with
+`OMP_NUM_THREADS=1 python -m src.core.pillar814_zph_camb_bridge --backend camb`.
+The output includes the spectra, residuals, input parameters, backend version,
+units and numerical-sensitivity arrays. Explicit `backend="camb"` calls reject
+an unavailable CAMB installation; `auto` reports a dimensionless toy fallback
+when CAMB is absent and cannot earn physical closure.
+
+The sensitivity figures are **not certified error bounds**, and are comparable
+to parts of the tilt residual. These runs establish a controlled GR comparison,
+not detection of a new physical effect, reproduction of Planck likelihoods,
+independent primordial normalization, or a reconstructed UM transfer function.
+No empirical covariance was supplied, so no empirical chi-square is reported.
+The unsupported mixed-unit P818 dynamics do not return a fabricated spectrum,
+zero residual, or convergence certificate.
+
+### Verification record
+
+The interrupted implementation session recorded an unmodified baseline of
+**63,430 passed, 43 skipped, 12 deselected, 0 failed** (354.83 s), using the existing combined
+`tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/` suite. This is distinct
+from the historical headline total of 63,892; optional dependency availability
+affects collection. Post-change results and formal-tool limitations must be
+reported separately rather than silently replacing one environment's evidence
+with another's.
+
+On resumption, the saved implementation initially failed collection in the
+P814/P818 tests and the P819 consumer: tests still imported removed symbols,
+and the consumer compared an unavailable backreaction amplitude with a number.
+This is an implementation-integration failure, not physical falsification.
+The earlier session's baseline is not a fresh verification of the resumed code.
+
+The resumed combined regression completed with **63,952 passed, 33 skipped,
+18 deselected, 0 failed** in **443.43 s**, using
+`OMP_NUM_THREADS=1 python -m pytest tests/ recycling/ '5-GOVERNANCE/Unitary Pentad/' -q`.
+This is the configured combined suite, not every optional product or formal
+build in the repository. Slow tests are excluded by its default selection;
+the real CAMB integrations and original nonlinear-trajectory safety test were
+also exercised explicitly in their targeted suites. Skips and deselections are
+not successful checks.
+Subsequent reporting-only review repairs passed **29 targeted tests** for
+P1067/P1072/P1073/P1077 and **21 targeted tests** for P649 and the formal
+closure certificate. The full-run receipt above precedes these final repairs.
+Potential impacts now require review rather than automatic retraction;
+passing internal checks still cannot establish physical closure.
+
+The completed CMB-specific validation passed **201 tests**, including five
+real CAMB integration tests with the slow-test selection explicitly enabled
+(`-m 'slow or not slow'`, `OMP_NUM_THREADS=1`). This targeted result is separate
+from the full-repository regression record.
+
+The evidence/reporting workstream passed **361 tests** across the changed
+report modules and their immediate consumers. Those tests distinguish packet
+validity from scientific progress, preserve unresolved blockers, and reject
+closure inferred from assigned residuals, empty parameter inventories, status
+substrings or formal-file text markers. They do not prove the physical claims
+reported by those modules.
+
+The directly coupled photon-scope corrections passed **61 tests**. Circle
+KK masses and charges and an independently assumed bulk-U(1) Neumann problem
+remain available; neither supplies the projected-out metric photon on the
+orbifold. Both standalone VERIFY entry points passed **18 checks**, and both
+algebra entry points passed **296 checks**. These are executable assertions,
+not a formal proof of all the surrounding physical interpretations.
+
+JAX/jaxlib **0.10.2 CPU** was installed within the existing dependency range.
+The JAX/backend, independent geometry and parity suites passed **151 tests
+without skips**, including nonunit-radion RK4 parity and analytic divergence
+checks. This exposed and corrected the JAX evolution path's remaining
+all-coordinate field-strength derivative and its divergence endpoint mismatch.
+Short grids with fewer than three points are rejected rather than silently
+clipped, matching the NumPy second-order derivative contract.
+Targeted counts overlap and must not be added together as a unique test total.
+
+Integration also exposed a dimensional-chain consumer of the old mixed block
+and a Richardson test that compared different final times in an unstable
+nonlinear trajectory. The chain now tests nonunit radions and fails closed on
+assembly errors. The convergence test uses an exactly soluble scalar-diffusion
+limit at equal final times; the original large-amplitude trajectory is retained
+as a separate nonfinite-field safety check. The scalar CFL estimate is not a
+stability theorem for the full nonlinear Lorentzian metric flow.
+
+**Scoped formal verification succeeded:** with Lean **4.22.0-rc2**
+(`6a60de2`), Lake **5.0.0-src+6a60de2**, and pinned Mathlib
+`1a5c8fe51b870f5c4ffd6fe44936e09a776d8f3e`, the following command from
+`lean4/` built both audited modules with warnings treated as errors:
+`lake --no-cache --wfail build +UnitaryManifold.CMBReciprocalBound:olean +UnitaryManifold.DiracOrbifoldSpectrum:olean`.
+Both CMB axiom prints and the three selected Dirac axiom prints reported
+`propext`, `Classical.choice`, and `Quot.sound`, with no additional axioms.
+The reciprocal statements hold over arbitrary ordered fields; the Dirac file
+proves the disclosed arithmetic, not operator-domain or flavor-selection claims.
+Both files are imported by the root module; historical declaration totals are
+unchanged.
+
+**Full formal build is not verified.** The Mathlib cache hostname failed DNS
+resolution; an initial source build timed out after 600 seconds. Narrowing the
+audited modules to their actual dependencies enabled the successful scoped
+build above. The separate root build timed out after 120 seconds, and earlier
+real-construction imports exposed a Mathlib `CauSeq.Basic:440` tactic-output
+mismatch. These limitations are not evidence of physical falsification.
+
+Changed-file secret scans found no secrets. The final read-only production
+review found no significant issues, including manual inspection of changed
+input, path and execution surfaces. **CodeQL analysis was skipped because its
+database was too large**; the tool's zero-alert summary is not evidence of a
+completed CodeQL scan. Manual review does not replace that missing analysis.
+
+**Open physical obligations:** photon origin; action-to-evolution equivalence;
+independent CMB normalization and UM transfer corrections; unique fermion and
+gauge-sector selection; joint UV/Higgs predictivity; nonperturbative QG.
+No universal completion is claimed.
+
+### Final PR handoff (2026-09-05)
+
+The saved implementation and final evidence-gating fixes were preserved at
+`ace780ae` and `d82f407a`. The final resumption verified the P1069, P1071,
+P1073 and P1080 suites: **46 passed**, including same-attempt evidence,
+unverified parameter inventory and invalid-packet progress regressions.
+The final review also made the unestablished P1069 closure flag explicitly
+false. After that repair, the same suites plus P1067, P1072, P1077 and P1081
+passed **68 tests, zero failures**. These focused checks do not replace the earlier combined-suite receipt
+or establish a full formal build.
+
+GitHub CI, Tests, Status Drift Gate and Lean workflows for `d82f407a` reported
+`action_required`; the inspected CI and Tests runs had no jobs. Repository-side
+action is required before these can provide merge-gate results. The repeated
+CodeQL attempt again skipped analysis because the database was too large;
+there is still no completed CodeQL security result.
+
+**Falsifier unchanged:** a birefringence value outside [0.22°, 0.38°], or in
+[0.29°, 0.31°], falsifies the braided-winding mechanism under its stated
+prediction. Future observations do not repair invalid internal implications.
+
+## Historical sprint records
+
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
 

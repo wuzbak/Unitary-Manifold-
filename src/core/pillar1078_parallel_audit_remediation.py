@@ -66,7 +66,7 @@ _REQUIRED_OPEN_GATES = {
 }
 
 _PRIMARY_FALSIFIER = "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)"
-_EPISTEMIC_STATUS = "repository-level internal mathematical self-consistency established; current audit/remediation status surfaces synchronized to verified branch reality; external empirical confirmation pending"
+_EPISTEMIC_STATUS = "foundation reassessment: historical test and theorem counts do not establish physical derivations; photon origin, flavor uniqueness, independent CMB normalization and UV predictivity remain open; external empirical confirmation pending"
 _ORG_NAME = "AxiomZero Technologies & Consulting, SPC"
 _ORG_UBI = "606 239 876"
 _FLAVOR_STATUS = "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED"
@@ -195,7 +195,7 @@ def _expected_portal_status(live_status: dict[str, Any]) -> dict[str, Any]:
             "Flavor-family residuals remain architecture-limited under the shared-root blocker map",
             "α_s Type-B floor remains outside the shared UV compactification solution surface",
             "w_a tension remains tracked below the hard falsification threshold",
-            "CMB amplitude mismatch remains an explicit irreducible architecture limit",
+            "CMB normalization and transfer corrections remain open; the historical irreducibility label is not a universal no-go proof",
             "Non-perturbative QG remains bounded by named O1–O4 obstructions",
         ],
         "constants": {
@@ -380,6 +380,9 @@ def pillar1078_parallel_audit_report() -> dict[str, Any]:
         "checks": checks,
         "failing_checks": failures,
         "overall_status": "PASS_WITH_FIXES" if not failures else "FAIL",
+        "scientific_progress": False,
+        "physical_theorem_proved": False,
+        "lean4_compilation_verified": False,
         "non_hardgate_statement": "This certificate hardens documentation, auditability, and live-status honesty without promoting new hardgate physics claims.",
     }
 

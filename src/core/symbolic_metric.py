@@ -33,9 +33,9 @@ Coordinate conventions
 5D metric ansatz (KK block form)
 ---------------------------------
     ┌──────────────────────────────────────┬────────────┐
-    │  g[μ,ν] + λ²φ² B[μ] B[ν]           │  λφ B[μ]  │
+    │  g[μ,ν] + λ²φ² B[μ] B[ν]           │  λφ² B[μ] │
     ├──────────────────────────────────────┼────────────┤
-    │  λφ B[ν]                             │  φ²        │
+    │  λφ² B[ν]                            │  φ²        │
     └──────────────────────────────────────┴────────────┘
 
 This is the standard Kaluza–Klein ansatz (Kaluza 1921, Klein 1926)
@@ -43,19 +43,15 @@ specialised to the UM irreversibility field.
 
 Line element
 ------------
-    ds² = φ² gμν dxμ dxν
-          + φ² (dy + λ Bμ dxμ)²      [conformal frame]
+    ds² = gμν dxμ dxν + φ² (dy + λ Bμ dxμ)²
 
-or equivalently in the Einstein frame after Weyl rescaling.
+This is the circle Jordan-frame ansatz, before a 4D Weyl rescaling.
 
 Dimensional reduction
 ---------------------
-Integrating √(−G) R₅ over the compact y ∈ [0, 2πR] using the
-cylinder condition ∂₅ G_{AB} = 0 yields the 4D effective action
-
-    S_eff = ∫ d⁴x √(−g) [R/(16πG) − ¼ Hμν H^μν + β(∇φ)² + ...]
-
-documented in Eq. (Seff) of the manuscript.
+The circle EH density is proportional to φR₄ − λ²φ³H²/4 − 2□φ.
+The separate ``symbolic_effective_action`` API represents a phenomenological
+action with independent couplings; it is not this EH reduction.
 
 Public API
 ----------
@@ -72,8 +68,7 @@ symbolic_field_strength(n=4)
     as a symbolic Matrix.
 
 symbolic_5d_ricci_scalar_decomposition()
-    Return the symbolic decomposition R₅ = R₄ − 2∇²φ − 2(∂φ)²
-    + ¼ λ² φ⁻¹ H_{μν} H^{μν} from Appendix A of the manuscript.
+    Return R₅ = R₄ − 2□φ/φ − λ²φ² H_{μν} H^{μν}/4.
 
 symbolic_effective_action()
     Return the integrand of S_eff (without √(−g) d⁴x) as a SymPy
@@ -156,9 +151,9 @@ def symbolic_5d_metric(n: int = 4) -> Tuple[sp.Matrix, Dict[str, sp.Basic]]:
     The matrix is (n+1)×(n+1) and has the block structure::
 
         ┌──────────────────────────────────┬──────────────┐
-        │  g_{μν} + λ²φ² B_μ B_ν         │  λφ B_μ      │
+        │  g_{μν} + λ²φ² B_μ B_ν         │  λφ² B_μ     │
         ├──────────────────────────────────┼──────────────┤
-        │  λφ B_ν                          │  φ²          │
+        │  λφ² B_ν                         │  φ²          │
         └──────────────────────────────────┴──────────────┘
 
     Parameters
@@ -187,10 +182,10 @@ def symbolic_5d_metric(n: int = 4) -> Tuple[sp.Matrix, Dict[str, sp.Basic]]:
         for nu in range(n):
             G[mu, nu] = g[mu, nu] + lam**2 * phi**2 * B[mu] * B[nu]
 
-    # Off-diagonal: G_{μ5} = G_{5μ} = λφ B_μ
+    # Off-diagonal from the same completed square as the line element.
     for mu in range(n):
-        G[mu, n] = lam * phi * B[mu]
-        G[n, mu] = lam * phi * B[mu]
+        G[mu, n] = lam * phi**2 * B[mu]
+        G[n, mu] = lam * phi**2 * B[mu]
 
     # G_{55} = φ²
     G[n, n] = phi**2
@@ -203,7 +198,7 @@ def symbolic_line_element(n: int = 4) -> Tuple[sp.Expr, Dict[str, sp.Basic]]:
 
     ds² = g_{μν} dx^μ dx^ν + φ²(dy + λ B_μ dx^μ)²
 
-    This is the standard Kaluza–Klein line element in the string frame.
+    This is the circle KK line element before a 4D Weyl rescaling.
 
     Returns
     -------
@@ -271,10 +266,11 @@ def symbolic_field_strength(n: int = 4) -> Tuple[sp.Matrix, Dict[str, sp.Basic]]
 def symbolic_5d_ricci_scalar_decomposition() -> Tuple[sp.Expr, Dict[str, sp.Basic]]:
     """Return the symbolic KK decomposition of the 5D Ricci scalar.
 
-    R₅ = R₄ − 2∇²φ − 2(∂φ)² + ¼ λ² φ⁻¹ H_{μν} H^{μν}
+    R₅ = R₄ − 2□φ/φ − λ²φ² H_{μν} H^{μν}/4.
 
-    This is Eq. (R5-decomp) / Appendix A of the manuscript
-    and is implemented numerically in ``src/core/metric.compute_curvature()``.
+    Cylinder condition, spacelike fibre, before Weyl rescaling.
+    The full scalar is computed by ``metric.compute_5d_curvature``;
+    ``compute_curvature`` returns only legacy coordinate blocks.
 
     All quantities are abstract symbols; the equation encodes the
     correct algebraic structure for use in a LaTeX manuscript.
@@ -292,10 +288,10 @@ def symbolic_5d_ricci_scalar_decomposition() -> Tuple[sp.Expr, Dict[str, sp.Basi
     # Abstract curvature and kinetic scalars
     R4 = sp.Symbol(r"R_4", real=True)
     box_phi = sp.Symbol(r"\nabla^2\phi", real=True)
-    dphi_sq = sp.Symbol(r"(\partial\phi)^2", nonnegative=True)
+    dphi_sq = sp.Symbol(r"(\partial\phi)^2", real=True)
     H_sq = sp.Symbol(r"H_{\mu\nu}H^{\mu\nu}", real=True)
 
-    R5 = R4 - 2 * box_phi - 2 * dphi_sq + sp.Rational(1, 4) * lam**2 / phi * H_sq
+    R5 = R4 - 2 * box_phi / phi - sp.Rational(1, 4) * lam**2 * phi**2 * H_sq
 
     syms = {
         "phi": phi, "lam": lam, "R4": R4,
@@ -305,12 +301,12 @@ def symbolic_5d_ricci_scalar_decomposition() -> Tuple[sp.Expr, Dict[str, sp.Basi
 
 
 def symbolic_effective_action() -> Tuple[sp.Expr, Dict[str, sp.Basic]]:
-    """Return the Lagrangian density of the 4D effective action S_eff.
+    """Return the phenomenological 4D action, NOT the circle EH reduction.
 
     L_eff = R/(16πG) − ¼ H_{μν} H^{μν} + α ℓ_P² R H_{μν}H^{μν}
             + β (∇φ)² + Γ B_μ J^μ_inf
 
-    This is Eq. (Seff) of the manuscript; the full action is
+    All couplings, including alpha, are supplied independently. The full action is
         S_eff = ∫ d⁴x √(−g) L_eff.
 
     Returns

@@ -2,6 +2,39 @@ version: "v36.4"
 date: "2026-09-05"
 updated: "2026-09-05"
 
+foundation_reassessment:
+  date: "2026-09-05"
+  new_pillars: 0
+  physical_closure_claimed: false
+  reference: "docs/TRUTH_LAYER.md#foundation-reassessment"
+  baseline_environment_regression: "63430 passed, 43 skipped, 12 deselected, 0 failed"
+  baseline_provenance: "Recorded by the interrupted implementation session, not a resumed-code verification"
+  resumed_combined_regression: "63952 passed, 33 skipped, 18 deselected, 0 failed"
+  resumed_combined_seconds: 443.43
+  resumed_combined_command: "OMP_NUM_THREADS=1 python -m pytest tests/ recycling/ '5-GOVERNANCE/Unitary Pentad/' -q"
+  cmb_targeted_regression: "201 passed, including five real CAMB integrations"
+  reporting_targeted_regression: "361 passed"
+  cmb_backend: "CAMB 2.0.4; conditional GR comparison, not UM closure"
+  codeql_analysis: "Skipped: oversized database; not a successful security analysis"
+  final_reporting_review_regressions: "29 passed; separate P649/formal-certificate suite 21 passed"
+  scoped_lean_build: "CMBReciprocalBound and DiracOrbifoldSpectrum: warning-free build, Lean 4.22.0-rc2"
+  full_lean_build: "Unverified: root build timeout; cache DNS and Mathlib dependency limitations"
+  historical_counts_are_not_physical_proof_obligations: true
+  superseded_inferences:
+    - "Mixed lambda*phi*B block with unchanged quadratic block recovers base metric"
+    - "Regular odd composite produces a nonzero fixed-plane photon"
+    - "Positive suppression lower bound proves a lower reciprocal deficit"
+    - "Assigned residual contraction or fewer blocker names establishes progress"
+    - "Proxy declaration counts discharge functional-analysis obligations"
+    - "Empty parameter declarations establish UV predictivity"
+  remaining_obligations:
+    - "Photon origin and action-to-evolution equivalence"
+    - "Independent CMB normalization and action-derived transfer corrections"
+    - "Unique flavor spectrum and internal gauge involution selection"
+    - "Joint UV/Higgs matching, moduli fixing and stability"
+    - "Nonperturbative quantum gravity"
+  observational_falsifiers_unchanged: true
+
 v36_4_sprint_ch:
   sprint: CH
   version: v36.4

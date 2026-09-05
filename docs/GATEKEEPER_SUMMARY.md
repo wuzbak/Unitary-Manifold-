@@ -1,6 +1,19 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
 # Unitary Manifold v36.4
 
+> **Current foundation reassessment (2026-09-05):** no new physics closure.
+> The historical summaries below overstate evidence on the audited paths:
+> assigned contractions are not physical calculations; proxy theorems are not
+> functional-analysis proofs; the odd-field photon construction fails under
+> regularity; and the proposed CMB reciprocal bound has the wrong implication.
+> The prior metric convention also fails the intended horizontal-metric identity.
+> Flavor uniqueness, CMB predictivity, and the shared UV object remain open.
+> See [the precise findings and verification scope](TRUTH_LAYER.md#foundation-reassessment).
+> Historical test/theorem totals must not be read as discharged physics obligations.
+> Resumed combined software regression: **63,952 passed, 33 skipped,
+> 18 deselected, 0 failed**. CodeQL analysis was skipped for database size;
+> manual review and secret scans do not replace the missing automated analysis.
+
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
 

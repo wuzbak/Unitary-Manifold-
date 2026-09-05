@@ -13,10 +13,8 @@ extension. Success required ALL of:
   2. Zero new free parameters introduced (Pillar 1071).
   3. Zero hardgate pillars broken (Pillar 1072).
 
-If any attempted lane fails, Track B verdict is
-``EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED`` and residuals are reported
-exactly — no post-hoc softening, no runtime label change on any of the 208
-hardgate pillars.
+Missing derivations or incomplete inventories yield an unestablished verdict,
+not a tightening certificate. Packet validity is separate from physical progress.
 """
 
 from __future__ import annotations
@@ -29,6 +27,7 @@ from src.core.pillar1069_ftheory_spectral_cover_mh import (
 )
 from src.core.pillar1070_6d_as_amplitude_mechanism import as_mechanism_report
 from src.core.pillar1071_extension_free_parameter_audit import (
+    _inventory_established,
     extension_free_parameter_audit,
 )
 from src.core.pillar1072_hardgate_non_breakage_veto import (
@@ -49,8 +48,32 @@ VERDICT_ENUM = {
     "TRACK_B_CLOSES_ALL_ATTEMPTED_LANES",
     "EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED",
     "EXTENSION_BREAKS_HARDGATE_RETRACTED",
+    "EXTENSION_IMPACT_REVIEW_REQUIRED",
     "EXTENSION_INTRODUCES_NEW_FREE_PARAMETER_REJECTED",
+    "EXTENSION_UNESTABLISHED",
+    "EXTENSION_NO_CLOSURE_EARNED",
 }
+
+
+def _derivation_established(report: Dict[str, Any]) -> bool:
+    evidence = report.get("derivation_evidence")
+    return bool(
+        report.get("valid") is True
+        and report.get("derivation_established") is True
+        and isinstance(evidence, list) and evidence and all(evidence)
+    )
+
+
+def _attempt_evidence_complete(report: Dict[str, Any]) -> bool:
+    evidence = report.get("hardgate_comparison_evidence")
+    return bool(
+        _derivation_established(report)
+        and _inventory_established(report)
+        and report.get("hardgate_non_breakage_verified") is True
+        and report.get("hardgate_breakage_detected") is False
+        and report.get("hardgate_pillars_touched") == []
+        and isinstance(evidence, list) and evidence and all(evidence)
+    )
 
 
 def track_b_verdict_report() -> Dict[str, Any]:
@@ -66,7 +89,12 @@ def track_b_verdict_report() -> Dict[str, Any]:
     all_closed = True
     residuals: List[Dict[str, Any]] = []
     for r in attempts:
-        closes = r.get("outcome") == "EXTENSION_CLOSES_LANE"
+        closes = bool(
+            r.get("outcome") == "EXTENSION_CLOSES_LANE"
+            and r.get("closure_earned") is True
+            and _attempt_evidence_complete(r)
+            and r.get("free_parameter_count") == 0
+        )
         if not closes:
             all_closed = False
         per_lane.append(
@@ -75,6 +103,11 @@ def track_b_verdict_report() -> Dict[str, Any]:
                 "lane_target": r.get("lane_target"),
                 "outcome": r.get("outcome"),
                 "closes": closes,
+                "derivation_established": _derivation_established(r),
+                "scientific_progress": bool(
+                    r.get("scientific_progress") is True
+                    and _attempt_evidence_complete(r)
+                ),
             }
         )
         residuals.append(
@@ -85,17 +118,47 @@ def track_b_verdict_report() -> Dict[str, Any]:
             }
         )
 
-    parameter_free = bool(param_audit.get("parameter_free_extension", False))
-    hardgate_ok = not bool(hardgate_veto.get("hardgate_breakage_detected", True))
+    parameter_free = (
+        param_audit.get("parameter_free_extension")
+        if param_audit.get("valid") is True
+        and param_audit.get("parameter_inventory_complete") is True
+        else None
+    )
+    if parameter_free is not True and parameter_free is not False:
+        parameter_free = None
+    if parameter_free is True and (
+        type(param_audit.get("total_new_free_parameters")) is not int
+        or param_audit["total_new_free_parameters"] != 0
+    ):
+        parameter_free = None
+    hardgate_ok = bool(
+        hardgate_veto.get("valid") is True
+        and hardgate_veto.get("hardgate_non_breakage_verified") is True
+        and hardgate_veto.get("hardgate_breakage_detected") is False
+        and hardgate_veto.get("extension_retracted") is False
+        and hardgate_veto.get("extension_review_required") is not True
+        and hardgate_veto.get("all_hardgate_pillars_touched") == []
+    )
+    derivations_established = all(
+        _derivation_established(r) for r in attempts
+    )
+    scientific_progress = any(row["scientific_progress"] for row in per_lane)
 
-    if not hardgate_ok:
+    if hardgate_veto.get("hardgate_breakage_detected") is True:
         verdict = "EXTENSION_BREAKS_HARDGATE_RETRACTED"
-    elif not parameter_free:
+    elif (hardgate_veto.get("extension_review_required") is True
+          or hardgate_veto.get("extension_retracted") is True):
+        verdict = "EXTENSION_IMPACT_REVIEW_REQUIRED"
+    elif parameter_free is False:
         verdict = "EXTENSION_INTRODUCES_NEW_FREE_PARAMETER_REJECTED"
+    elif not derivations_established or parameter_free is None or not hardgate_ok:
+        verdict = "EXTENSION_UNESTABLISHED"
     elif all_closed:
         verdict = "TRACK_B_CLOSES_ALL_ATTEMPTED_LANES"
-    else:
+    elif scientific_progress:
         verdict = "EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED"
+    else:
+        verdict = "EXTENSION_NO_CLOSURE_EARNED"
 
     return {
         "pillar": PILLAR_NUMBER,
@@ -109,12 +172,16 @@ def track_b_verdict_report() -> Dict[str, Any]:
         "residuals": residuals,
         "parameter_free_extension": parameter_free,
         "hardgate_non_breakage_verified": hardgate_ok,
-        "all_lanes_closed": all_closed,
+        "all_lanes_closed": verdict == "TRACK_B_CLOSES_ALL_ATTEMPTED_LANES",
+        "all_attempts_claim_closure": all_closed,
+        "scientific_progress": scientific_progress,
+        "derivations_established": derivations_established,
         "verdict": verdict,
-        "runtime_labels_changed": False,
+        "runtime_labels_changed": any(r.get("runtime_label_changed") is True for r in attempts),
         "closure_earned": verdict == "TRACK_B_CLOSES_ALL_ATTEMPTED_LANES",
         "next_pillar_slot": NEXT_PILLAR_SLOT,
         "valid": verdict in VERDICT_ENUM,
+        "packet_valid": verdict in VERDICT_ENUM,
     }
 
 

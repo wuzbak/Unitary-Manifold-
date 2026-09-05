@@ -1,5 +1,13 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
+> **Foundation reassessment (2026-09-05):** historical labels below do not
+> override the counterexamples and scope corrections in
+> [TRUTH_LAYER](../docs/TRUTH_LAYER.md#foundation-reassessment).
+> In particular, the odd-composite photon argument is invalid, the old
+> mixed-block convention is not the stated canonical KK metric away from
+> unit radion, and parity alone does not establish flavor or internal
+> gauge-involution uniqueness. No new physics closure is claimed.
+
 **The Unitary Manifold v36.4 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
 *Last updated: 2026-09-05 (v36.4 — Sprint CH: Pillars 1079–1081; executable critique-to-proof matrix + deterministic internal lane resolution packet + fail-closed sprint certificate; Lean4 4080→4080; 63,892 passed · 23 skipped · 12 deselected · 0 failed; next slot 1082.)*
@@ -21,8 +29,10 @@
 
 Throughout this document and this repository:
 
-- **α_NM** = φ₀⁻² is the **nonminimal KK curvature-scalar coupling** from the
-  cross-block Riemann sector R^μ_{5ν5}.  It is NOT the fine structure constant.
+- **α_NM** = φ₀⁻² is the historical inverse-radius identification, NOT the
+  fine structure constant. A cross-block Riemann component does not by itself
+  derive a nonminimal operator coefficient in the reduced action. That
+  identification and observables using it require action-level reassessment.
 - **α_em** = 1/137.036 is the **electromagnetic fine structure constant** (PDG).
   It appears only in the SM parameter matching context.
 - **λ** is the KK coupling constant in the metric ansatz (off-diagonal block).
@@ -81,11 +91,11 @@ first-order consequences that would require reformulation if the axiom failed.
 
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
-| 5D KK metric ansatz (block form with B_μ, φ, g_μν) | **DERIVED (conditional)** | Einstein-Hilbert stationarity + KK gauge covariance + Z₂ orbifold parity + radion normalization fix the lowest-order local block form; executable certificate in `metric_ansatz_derivation.py` | Any 4D observation requiring >5D spacetime | `src/core/metric.py`, `src/core/metric_ansatz_derivation.py` |
-| Walker-Pearson field equations from δS₅/δG_AB=0 | **DERIVED (conditional)** | 5D Einstein-Hilbert variational principle, given P1+P2 | Equations not satisfied → framework inconsistent | `src/core/evolution.py` |
-| Arrow of time as geometric identity | **DERIVED (conditional)** | B_μ field strength H_μν drives irreversibility; not postulated; depends on P3 interpretation | Observation of macroscopic time-reversal | `src/core/evolution.py` |
+| 5D KK metric ansatz (block form with B_μ, φ, g_μν) | **CONDITIONAL PARAMETERIZATION** | Completing the square for an assumed spacelike circle connection gives the corrected blocks; neither stationarity nor a species count selects the compactification uniquely | Failure of the completed-square, inverse or determinant identities invalidates this implementation | `src/core/metric.py`, `src/core/metric_ansatz_derivation.py` |
+| Walker-Pearson flow equals physical Einstein evolution | **OPEN** | The implemented first-order flow is not established as Lorentzian evolution from δS₅/δG_AB=0; reduced-action identities alone do not supply this equivalence | Requires constraint propagation and an explicit action-to-flow map | `src/core/evolution.py` |
+| Arrow of time as geometric identity | **UNESTABLISHED physical identification** | The implementation evolves a symmetry-reduced flow; equivalence to Lorentzian dynamics and its thermodynamic interpretation require further derivation | A failure of the claimed action-to-flow implication invalidates that derivation | `src/core/evolution.py` |
 | φ₀ (bare radion vev) ≈ 1 Planck unit | **DERIVED (conditional)** (Steps 1–3) + CONVENTION (Step 4) | FTUM S*=0.25 → R=√(S*G₅/π) → φ₀_bare=R/ℓ_Pl (Steps 1–3 derived given P5); φ₀_bare=1 is the Planck-unit normalization convention (Step 4) | Non-convergence of FTUM | Pillar 56-B / `src/core/phi0_ftum_bridge.py` |
-| α_NM = φ₀⁻² (nonminimal coupling, NOT α_em) | **DERIVED (conditional)** | KK cross-block Riemann R^μ_{5ν5} after dimensional reduction; depends on P2 | α_NM outside 5D geometric range | `src/core/metric.py` |
+| α_NM = φ₀⁻² (historical nonminimal-coupling identification, NOT α_em) | **REQUIRES ACTION-LEVEL REASSESSMENT** | An inverse radius or curvature diagnostic is not a derivation of an independent operator coefficient | Reduced-action coefficients disagree with the asserted identification | `src/core/metric.py` |
 | Holographic entropy S = A/4G | **DERIVED_CONDITIONAL** (P6) | Pillar 379 derives S\*=A/(4G_N^{4D}) exactly at the FTUM fixed point from 5D Gauss-Bonnet reduction; assumption: standard AdS₅ bulk geometry (Λ₅<0). P6 ASSUMED → DERIVED_CONDITIONAL in v12.6. Conditions: (1) FTUM convergence to unique fixed point Ψ\*; (2) AdS₅ bulk; (3) RS1 compactification. | Violation of holographic bound; deviation from Bekenstein-Hawking at the fixed point | Pillar 379 / `src/core/pillar379_holographic_entropy_derivation.py`; `src/holography/boundary.py` |
 | FTUM fixed-point convergence | **DERIVED (conditional)** | Banach fixed-point theorem applied to U = I+H+T, given P5 | Non-convergence | `src/multiverse/fixed_point.py` |
 | φ₀ self-consistency (Pillar 56) | **CLOSED** | Three φ₀ candidates collapse to single value under c_s-corrected slow-roll | ≠ machine precision agreement | `src/core/phi0_closure.py` |
@@ -141,7 +151,7 @@ first-order consequences that would require reformulation if the axiom failed.
 | Claim | Status | Derivation chain | Falsification | Pillar / Code |
 |-------|--------|-----------------|---------------|---------------|
 | U(1) gauge symmetry from B_μ | **DERIVED (conditional)** | H_μν = ∂_μB_ν−∂_νB_μ invariant under B_μ→B_μ+∂_μΛ; standard KK; depends on P2 | — |  `src/core/metric.py` |
-| λB_μ ≡ A_μ identification | **RECOVERED** (not predicted) | Standard KK construction: photon = zero mode of 5th-dim gauge field. Kaluza (1921), Klein (1926). UM's new content: physical interpretation of B_μ as irreversibility 1-form and derivation of R from FTUM. | — | `1-THEORY/UNIFICATION_PROOF.md` Part V |
+| Photon from the KK off-diagonal field | **OPEN for the stated orbifold parity** | Local KK gauge covariance on a circle does not supply a massless photon when the vector is orbifold-odd; regular fixed-plane evaluation vanishes | An admissible nonzero mode and its action must be constructed | `1-THEORY/Z2_PARITY_NOTE.md` |
 | Maxwell stress-energy tensor structure | **RECOVERED** | Follows from KK reduction of 5D Einstein-Hilbert; standard result | — | `src/core/evolution.py` |
 | SU(2) and SU(3) gauge groups | **DERIVED (conditional) — Pillar 70-D + 94** | n_w=5 proved from Z₂-odd CS boundary phase (Pillar 70-D): k_CS(5)×η̄(5)=37 (odd ✓), k_CS(7)×η̄(7)=0 (even ✗). n_w=5 KK species → G_5D=SU(5) (dim fundamental = 5). Kawamura Z₂ orbifold → SU(3)×SU(2)×U(1). No observational input. Note: full SM chirality from 5D requires Z₂ orbifold mechanism (Kawamura 2001); internal-equivalence hardgate remains explicitly tracked (see canonical tokens below). Depends on P1,P2,P7. | LiteBIRD β ∉ [0.22°,0.38°] would falsify the braid structure | `src/core/nw5_pure_theorem.py`, `src/core/su5_orbifold_proof.py` |
 
@@ -149,26 +159,23 @@ first-order consequences that would require reformulation if the axiom failed.
 
 > **Referee question:** "If B_μ is Z₂-odd, it has no massless zero mode. The zero mode of an electromagnetic field is Z₂-even, not Z₂-odd."
 
-This apparent contradiction is resolved as follows — B_μ and the photon are *physically distinct fields*:
+**The former “RESOLVED” argument is withdrawn.** For a continuous odd field
+at a fixed point, \(B_\mu(0)=-B_\mu(0)\), hence \(B_\mu(0)=0\).
+Multiplication by a regular finite even scalar cannot give a nonzero boundary
+photon. The same reasoning applies at the second fixed point with the
+appropriate periodic reflection.
 
-**(a) B_μ is Z₂-odd under y → −y.** Under the orbifold involution, the fifth component of a covariant vector transforms as B_5 → −B_5, so the off-diagonal block G_{μ5} = λφB_μ is Z₂-odd.
+On an unorbifolded circle the local KK vector can possess an even constant
+mode. Imposing the stated odd orbifold parity removes that mode. These are
+different compactification assumptions and cannot be interchanged during a
+derivation. An independent even gauge field, a different parity assignment,
+or a justified singular/boundary construction would need its own action,
+boundary conditions, and normalizable spectrum.
 
-**(b) B_μ's zero mode vanishes at the orbifold fixed planes (y = 0, πR).** This is *intentional*: B_μ is the irreversibility 1-form, not the photon. Its vanishing at the fixed planes corresponds to the CS topological flux passing through the bulk.
-
-**(c) The electromagnetic photon is the zero mode of the Z₂-even combination A_μ = λφB_μ projected onto the fixed-plane boundary.** The scalar φ is Z₂-even (φ² = G_{55} is invariant under y → −y). The product A_μ = λφB_μ is odd × even = odd globally, but the fixed-plane projection selects the 4D gauge field by standard KK reduction (Kaluza 1921, Klein 1926).
-
-**(d) These are physically distinct fields with distinct parity:**
-
-| Field | Z₂ parity | Zero mode | Physical role |
-|-------|-----------|-----------|--------------|
-| B_μ | ODD | None | Irreversibility 1-form |
-| φ | EVEN | Yes | KK radion / inflaton |
-| A_μ = λφB_μ | ODD | Boundary mode | 4D electromagnetic field |
-| g_μν | EVEN | Yes | 4D spacetime metric |
-| G_{μ5} | ODD | None | Off-diagonal KK block |
-| G_{55} = φ² | EVEN | Yes | 5D compact metric element |
-
-**Status: RESOLVED.** See `src/core/metric.py::z2_parity_clarification()` for the testable structured summary.
+**Status: OPEN — photon origin under the stated orbifold assumptions.**
+See `src/core/metric.py::z2_parity_clarification()` and
+`1-THEORY/Z2_PARITY_NOTE.md`. A local gauge-covariance identity is not a
+construction of the missing massless mode.
 
 ---
 

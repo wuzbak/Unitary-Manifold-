@@ -30,17 +30,30 @@ def test_no_hardgate_pillars_touched() -> None:
     assert HARDGATE_PILLARS_TOUCHED == []
 
 
-def test_pre_registered_failure_reported_honestly() -> None:
+def test_missing_derivation_is_not_an_exact_residual() -> None:
     r = cw_quartic_extension_report()
-    assert r["outcome"] == "EXTENSION_FAILS_WITH_EXACT_RESIDUAL"
+    assert r["outcome"] == "EXTENSION_UNESTABLISHED"
     assert r["closure_earned"] is False
     assert r["runtime_label_changed"] is False
     assert r["delta_lambda_target"] == DELTA_LAMBDA_TARGET
-    assert r["delta_lambda_achieved"] == DELTA_LAMBDA_ACHIEVED
-    assert r["delta_lambda_residual"] > 0.0
+    assert r["delta_lambda_achieved"] is None
+    assert r["delta_lambda_residual"] is None
+    assert r["historical_assigned_delta_lambda"] == DELTA_LAMBDA_ACHIEVED
+    assert r["free_parameter_count"] is None
+    assert r["scientific_progress"] is False
 
 
 def test_summary() -> None:
     s = pillar1068_summary()
     assert s["pillar"] == 1068
     assert s["closure_earned"] is False
+
+
+def test_assigning_target_quartic_cannot_earn_closure(monkeypatch) -> None:
+    import src.core.pillar1068_6d_cw_quartic_extension as module
+
+    monkeypatch.setattr(module, "DELTA_LAMBDA_ACHIEVED", DELTA_LAMBDA_TARGET)
+    report = module.cw_quartic_extension_report()
+    assert report["outcome"] == "EXTENSION_UNESTABLISHED"
+    assert report["closure_earned"] is False
+    assert report["delta_lambda_achieved"] is None

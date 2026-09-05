@@ -7,7 +7,8 @@
     "sprint": "CH",
     "date": "2026-09-05",
     "source_of_truth": "https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md",
-    "generated_by": "9-INFRASTRUCTURE/generate_live_status.py"
+    "generated_by": "9-INFRASTRUCTURE/generate_live_status.py",
+    "regression_provenance": "Historical headline record; see docs/TRUTH_LAYER.md for this environment's verification."
   },
   "tests": {
     "passed": 63892,
@@ -16,7 +17,9 @@
     "failed": 0
   },
   "lean4": {
-    "theorem_count": 4080
+    "theorem_count": 4080,
+    "count_scope": "HISTORICAL_DECLARATIONS_NOT_PHYSICAL_PROOF_OBLIGATIONS",
+    "physical_proof_count": null
   },
   "pillars": {
     "next_slot": 1082,
@@ -53,6 +56,16 @@
     "quark_lepton_cl_split": -0.018018,
     "dimensions": 5,
     "planck_units": true
+  },
+  "scientific_assessment": {
+    "scope": "FOUNDATION_REASSESSMENT",
+    "closure_earned": false,
+    "reference": "docs/TRUTH_LAYER.md#foundation-reassessment",
+    "registry_labels": "Historical lane identifiers are retained; they do not establish universal impossibility theorems.",
+    "photon_origin": "OPEN: a regular odd composite vanishes at an orbifold fixed point.",
+    "cmb_normalization": "CALIBRATED: primordial normalization and transfer-spectrum errors are separate questions.",
+    "flavor_uniqueness": "UNESTABLISHED: parity alone does not fix bulk masses or the internal gauge involution.",
+    "uv_predictivity": "UNESTABLISHED: an empty declared parameter list is not a derivation."
   },
   "predictions": [
     {
@@ -127,7 +140,7 @@
   "open_gates": [
     {
       "gate": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED",
-      "description": "Flavor shared-root blocker remains open after proof-first contraction.",
+      "description": "Flavor shared-root blocker remains open; assigned blocker contraction is not scientific progress.",
       "pillar": 1081
     },
     {
@@ -137,27 +150,27 @@
     },
     {
       "gate": "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
-      "description": "Global CKM phase geometry remains architecture-limited after contraction.",
+      "description": "Global CKM phase geometry remains unresolved; no derived contraction or universal limit is established.",
       "pillar": 1081
     },
     {
       "gate": "ALPHA_S_TYPE_B_FLOOR",
-      "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
+      "description": "Joint α_s/Higgs prediction requires a specified compactification and matching calculation.",
       "pillar": 1081
     },
     {
       "gate": "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
-      "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
+      "description": "Joint α_s/Higgs prediction requires a specified compactification and matching calculation.",
       "pillar": 1081
     },
     {
       "gate": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
-      "description": "CMB amplitude lane remains internally irreducible absent the missing UV object.",
+      "description": "Independent CMB normalization and UM transfer corrections remain open; the reciprocal-bound irreducibility inference is invalid.",
       "pillar": 1081
     },
     {
       "gate": "NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
-      "description": "Non-perturbative QG remains bounded by the declared O1–O4 obstructions.",
+      "description": "Non-perturbative QG remains unresolved; declared O1–O4 obligations are not a universal impossibility theorem.",
       "pillar": 1081
     },
     {

@@ -80,3 +80,10 @@ class TestValidateSprint:
     def test_lean4_end(self):
         result = validate_sprint()
         assert result["lean4_end"] == 1386
+
+    def test_toy_bookkeeping_does_not_certify_cmb_closure(self):
+        result = validate_sprint()
+        assert result["cmb_gate"] == "ZPH_CAMB_BRIDGE_UM_TRANSFER_UNSUPPORTED"
+        assert result["cmb_backend"] == "toy"
+        assert result["cmb_closure_earned"] is False
+        assert "not a CMB solver certificate" in result["validation_scope"]

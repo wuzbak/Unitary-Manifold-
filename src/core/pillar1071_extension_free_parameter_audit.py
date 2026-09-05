@@ -2,8 +2,9 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """Pillar 1071 — Sprint CF Track B: extension free-parameter audit.
 
-Counts free parameters introduced by the 6D/F-theory extension attempts
-(Pillars 1068–1070). Publishes the exact count. If count > 0, the associated
+Audits parameter inventories of the 6D/F-theory extension attempts.
+Unknown inventories remain unknown, even when their declaration lists are empty.
+If an established count > 0, the associated
 Type-B floor labels do NOT flip to closed — the parameter cost is published in
 the article alongside the outcome.
 
@@ -31,6 +32,22 @@ SPRINT_NAME: str = "CF"
 NEXT_PILLAR_SLOT: int = 1072
 
 
+def _inventory_established(report: Dict[str, Any]) -> bool:
+    params = report.get("free_parameters_introduced")
+    count = report.get("free_parameter_count")
+    evidence = report.get("parameter_inventory_evidence")
+    return bool(
+        report.get("valid") is True
+        and report.get("parameter_inventory_complete") is True
+        and isinstance(evidence, list) and evidence and all(evidence)
+        and isinstance(params, list)
+        and isinstance(count, int) and not isinstance(count, bool)
+        and count == len(params)
+        and all(isinstance(param, str) and param.strip() for param in params)
+        and len(set(params)) == len(params)
+    )
+
+
 def extension_free_parameter_audit() -> Dict[str, Any]:
     reports = {
         "pillar_1068_cw_quartic": cw_quartic_extension_report(),
@@ -39,22 +56,37 @@ def extension_free_parameter_audit() -> Dict[str, Any]:
     }
     per_pillar = []
     total_new_params = 0
+    inventory_complete = True
     all_params: List[str] = []
-    for key, r in reports.items():
+    for r in reports.values():
         params = list(r["free_parameters_introduced"])
+        count = r.get("free_parameter_count")
+        established = _inventory_established(r)
+        inventory_complete = inventory_complete and established
         per_pillar.append(
             {
                 "pillar": r["pillar"],
                 "lane_target": r["lane_target"],
                 "outcome": r["outcome"],
-                "closure_earned": r["closure_earned"],
+                "closure_earned": bool(
+                    r.get("closure_earned") is True and established and count == 0
+                    and r.get("outcome") == "EXTENSION_CLOSES_LANE"
+                    and r.get("derivation_established") is True
+                    and r.get("derivation_evidence")
+                    and r.get("hardgate_non_breakage_verified") is True
+                    and r.get("hardgate_breakage_detected") is False
+                    and r.get("hardgate_comparison_evidence")
+                    and not r.get("hardgate_pillars_touched")
+                ),
                 "free_parameters_introduced": params,
-                "free_parameter_count": len(params),
+                "free_parameter_count": count if established else None,
+                "parameter_inventory_complete": established,
             }
         )
-        total_new_params += len(params)
-        all_params.extend(params)
-    parameter_free = total_new_params == 0
+        total_new_params += count if established else 0
+        if established:
+            all_params.extend(params)
+    parameter_free = total_new_params == 0 if inventory_complete else None
     return {
         "pillar": PILLAR_NUMBER,
         "gate": PILLAR_GATE,
@@ -62,11 +94,15 @@ def extension_free_parameter_audit() -> Dict[str, Any]:
         "version": VERSION,
         "sprint": SPRINT_NAME,
         "per_pillar": per_pillar,
-        "total_new_free_parameters": total_new_params,
+        "total_new_free_parameters": total_new_params if inventory_complete else None,
         "all_new_free_parameters": all_params,
         "parameter_free_extension": parameter_free,
+        "parameter_inventory_complete": inventory_complete,
+        "audit_status": "ESTABLISHED" if inventory_complete else "UNESTABLISHED",
+        "scientific_progress": False,
+        "packet_valid": True,
         "audit_rule": (
-            "closure requires zero new free parameters; otherwise Type-B "
+            "closure requires an evidence-backed complete inventory with zero new free parameters; otherwise Type-B "
             "labels are preserved and the parameter cost is published"
         ),
         "next_pillar_slot": NEXT_PILLAR_SLOT,

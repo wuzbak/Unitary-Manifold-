@@ -32,7 +32,11 @@ def test_lean4_kernel_exists_and_counts_theorems():
 
 
 def test_dependency_preserves_residual_open():
-    assert REPORT["dependency"]["pillar636_equivalence_established"] is True
+    assert REPORT["dependency"]["pillar636_equivalence_established"] is False
+    assert REPORT["packet_valid"] is True
+    assert REPORT["scientific_progress"] is False
+    assert REPORT["physical_theorem_proved"] is False
+    assert REPORT["lean4_kernel"]["compilation_verified"] is False
     assert "functional" in REPORT["status_advance"].lower()
 
 

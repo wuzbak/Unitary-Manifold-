@@ -39,7 +39,9 @@ def test_report_done_and_meaningful() -> None:
     report = sprint_bv_master_report()
     assert report["execution_order_ok"] is True
     assert report["definition_of_done"]["three_program_execution_packet_produced"] is True
-    assert report["meaningful_result"] is True
+    assert report["meaningful_result"] is False
+    assert report["scientific_progress"] is False
+    assert report["sprint_success"] is False
     assert report["valid"] is True
 
 

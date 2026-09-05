@@ -28,7 +28,10 @@ def test_lean4_counts() -> None:
 def test_remaining_burden_preserved() -> None:
     report = su3_functional_bridge_alignment()
     assert report["high_level_remaining_burden"] == HIGH_LEVEL_REMAINING_BURDEN
-    assert report["substep_map"]["after_count"] < report["substep_map"]["before_count"]
+    assert report["substep_map"]["after"] == report["substep_map"]["before"]
+    assert set(report["dependency"]["residual_map"]["open_steps_after"]) <= set(report["substep_map"]["after"])
+    assert report["scientific_progress"] is False
+    assert report["physical_theorem_proved"] is False
 
 
 def test_summary() -> None:

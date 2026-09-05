@@ -11,10 +11,10 @@ expected KK relations regardless of the specific φ or B background.
 
 Eight independent checks covering:
 
-  1. TestAlphaFormulaConsistency     — α = ⟨1/φ²⟩ matches curvature pipeline
-  2. TestAlphaScalesAsPhiSquareInv  — α(φ = c) = 1/c² for constant φ
+  1. TestAlphaFormulaConsistency     — historical inverse-radius diagnostic
+  2. TestAlphaRadiusScaling         — inverse-square scaling, not a coupling
   3. TestCrossBlockZeroAtBZero      — R^μ_{5ν5} = 0 for B = 0, φ = const
-  4. TestCrossBlockNonzeroForBGrad  — R^μ_{5ν5} ≠ 0 when ∂_x B ≠ 0
+  4. TestCrossBlockNonzeroForBGrad  — transverse electric gradient gives curvature
   5. TestRicciScalarFlatSpace       — R → 0 on exact flat space
   6. TestRicciScalesWithPerturbation — |R| increases monotonically with noise
   7. TestAlphaIndependentOfB        — α depends only on φ, not on B
@@ -51,46 +51,44 @@ _B_ZERO = np.zeros((_N, 4))
 
 
 # ===========================================================================
-# 1 — α = ⟨1/φ²⟩ matches the curvature-pipeline formula
+# 1 — Preserve the historical inverse-radius diagnostic API
 # ===========================================================================
 
 class TestAlphaFormulaConsistency:
-    """α from extract_alpha_from_curvature equals the direct formula 1/φ₀²."""
+    """Check diagnostic arithmetic, not a nonminimal-coupling derivation."""
 
-    def test_alpha_matches_phi_inverse_square(self):
-        """For φ = 2.5 (constant), α_pipeline = 1/2.5² = 0.16 exactly."""
+    def test_inverse_square_for_constant_radius(self):
         phi_val = 2.5
         phi = np.full(_N, phi_val)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi, _DX)
-        expected = 1.0 / phi_val ** 2
+        expected = 1.0 / phi_val**2
         assert abs(alpha - expected) < 1e-10, (
             f"α={alpha:.12f} ≠ expected={expected:.12f}"
         )
 
-    def test_alpha_mean_over_non_uniform_phi(self):
-        """For φ varying across the grid, α = mean(1/φ²) elementwise."""
+    def test_nonuniform_radius_mean_diagnostic(self):
         rng = np.random.default_rng(5)
         phi = 1.0 + 0.1 * rng.standard_normal(_N)
         phi = np.maximum(phi, 0.5)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi, _DX)
-        expected = float(np.mean(1.0 / phi ** 2))
+        expected = float(np.mean(phi**-2))
         assert abs(alpha - expected) < 1e-10
 
 
 # ===========================================================================
-# 2 — α = 1/φ² for any constant φ
+# 2 — The diagnostic retains its inverse-square scaling for a constant radius
 # ===========================================================================
 
-class TestAlphaScalesAsPhiSquareInv:
-    """α = φ⁻² exactly for constant-φ backgrounds at four different values."""
+class TestAlphaRadiusScaling:
+    """Four constant-φ backgrounds test diagnostic scaling, not an operator."""
 
     @pytest.mark.parametrize("phi_val", [0.5, 1.0, 2.0, 10.0])
-    def test_alpha_equals_phi_inverse_square(self, phi_val):
+    def test_inverse_square(self, phi_val):
         phi = np.full(_N, phi_val)
         alpha, _ = extract_alpha_from_curvature(_G_FLAT, _B_ZERO, phi, _DX)
-        expected = 1.0 / phi_val ** 2
+        expected = 1.0 / phi_val**2
         assert abs(alpha - expected) < 1e-10, (
-            f"φ={phi_val}: α={alpha:.12f} ≠ 1/φ²={expected:.12f}"
+            f"φ={phi_val}: unexpected inverse-radius diagnostic α={alpha:.12f}"
         )
 
 
@@ -127,18 +125,13 @@ class TestCrossBlockZeroAtBZero:
 # ===========================================================================
 
 class TestCrossBlockNonzeroForBGrad:
-    """R^μ_{5ν5} ≠ 0 when the gauge field has a spatial gradient.
-
-    A linearly varying B_1 makes G_{15} = G_{51} = λφ B_1 depend on x,
-    which yields non-zero 5D Christoffel symbols and hence non-zero
-    cross-block Riemann components.
-    """
+    """An electric field B_0(x), not a longitudinal pure gauge B_x(x)."""
 
     def test_cross_block_nonzero_with_linear_B(self):
         phi = np.ones(_N)
         B = np.zeros((_N, 4))
         x = np.arange(_N) * _DX
-        B[:, 1] = 0.5 * x          # linear gradient in B_1
+        B[:, 0] = 0.5 * x          # H_10 = ∂_x B_0
         _, cross = extract_alpha_from_curvature(_G_FLAT, B, phi, _DX)
         assert not np.allclose(cross, 0.0, atol=1e-6), (
             f"Expected non-zero cross-block for B with gradient; "

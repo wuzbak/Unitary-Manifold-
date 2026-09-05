@@ -35,6 +35,9 @@ def test_report_done_and_meaningful() -> None:
     assert LEAN4_END - LEAN4_START == LEAN4_DELTA == 12
     assert report["execution_order_ok"] is True
     assert report["meaningful_result"] is True
+    assert report["scientific_progress"] is False
+    assert report["definition_of_done"]["formal_substeps_reduced"] is False
+    assert report["sprint_success"] is False
     assert report["valid"] is True
 
 

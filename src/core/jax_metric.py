@@ -46,8 +46,9 @@ Notes
 -----
 * JAX uses 32-bit floats by default.  Call ``jax.config.update('jax_enable_x64', True)``
   before importing this module if 64-bit precision is required (matches NumPy behaviour).
-* Periodic (roll-based) boundary conditions are used for finite differences, matching
-  the ``np.roll`` calls in ``metric.py``.
+* Derivatives use central interiors and second-order one-sided endpoints,
+  matching ``np.gradient(..., edge_order=2)`` in ``metric.py``.
+* The sampled coordinate is spatial x (index 1); index 0 is time.
 * The condition-number guard present in the NumPy ``christoffel`` is reproduced via
   ``jnp.linalg.cond``; a ``ValueError`` is raised for ill-conditioned metrics.
 """
@@ -111,6 +112,8 @@ def _grad_np_compat(f, dx):
     Left  boundary (i=0): (−3 f[0] + 4 f[1] − f[2]) / (2 dx)
     Right boundary (i=-1): (3 f[-1] − 4 f[-2] + f[-3]) / (2 dx)
     """
+    if f.shape[0] < 3:
+        raise ValueError("second-order derivatives require at least 3 grid points")
     # Central difference for all points (periodic roll — correct for interior)
     out = (jnp.roll(f, -1, axis=0) - jnp.roll(f, 1, axis=0)) / (2.0 * dx)
     # Fix left boundary
@@ -154,19 +157,8 @@ def _jax_field_strength_impl(B, dx):
     # Uses np.gradient-compatible differences to match metric.field_strength exactly.
     dB = _grad_np_compat(B, dx)                # (N, 4): ∂_x B_mu for each mu
 
-    # H[n, mu, nu] = ∂_mu B_nu - ∂_nu B_mu
-    # On a 1D grid, only the x-derivative is nonzero (mu=0 or nu=0 gives nonzero derivative)
-    # ∂_mu B_nu = dB[:, nu] when mu=0, else 0
-    # Build H via outer broadcasting:
-    # H_full[n, mu, nu] = dB[n, nu] * δ(mu,0) - dB[n, mu] * δ(nu,0)
-    # ... but we want the full antisymmetric tensor.  On the 1D grid the convention
-    # in metric.py computes dBnu_dmu = ∂_x B_nu for *each* mu (treating the x-gradient
-    # as the direction-mu gradient on the 1D grid), giving H[n,mu,nu] = dB[n,nu] - dB[n,mu].
-    # This matches the original loop:
-    #   dBnu_dmu = _grad(B[:, nu], dx)   # same for every mu on 1D grid
-    #   dBmu_dnu = _grad(B[:, mu], dx)
-    #   H[:, mu, nu] = dBnu_dmu - dBmu_dnu
-    H = dB[:, None, :] - dB[:, :, None]       # (N, 4, 4): H[n, mu, nu] = dB_nu - dB_mu
+    direction = jnp.eye(B.shape[1])[1]  # x is coordinate 1; time is 0.
+    H = direction[None, :, None] * dB[:, None, :] - dB[:, :, None] * direction
     return H
 
 
@@ -199,7 +191,7 @@ def jax_assemble_5d_metric(g, B, phi, lam: float = 1.0):
 @jax.jit
 def _jax_assemble_5d_metric_impl(g, B, phi, lam):
     lam_phi = lam * phi                              # (N,)
-    lam_phi_B = lam_phi[:, None] * B                # (N, 4)
+    lam_phi_B = (lam * phi**2)[:, None] * B          # (N, 4)
     outer_BB = jnp.einsum('ni,nj->nij', B, B)       # (N, 4, 4)
 
     # 4×4 upper-left block
@@ -265,14 +257,9 @@ def _jax_christoffel_impl(g, dx, D):
     # Use np.gradient-compatible differences to match metric.christoffel exactly.
     dg_x = _grad_np_compat(g, dx)                    # (N, D, D): dg_x[n,mu,nu] = ∂_x g_{mu,nu}
 
-    # Build full dg[n, rho, mu, nu] = ∂_{x^rho} g_{mu,nu}; only rho=0 is nonzero.
-    # Construct directly via concatenation (avoids allocating a full zeros array
-    # and then overwriting one slice via .at[].set()).
+    # Only the spatial coordinate x (rho=1) is sampled.
     N = g.shape[0]
-    dg = jnp.concatenate(
-        [dg_x[:, None, :, :], jnp.zeros((N, D - 1, D, D))],
-        axis=1,
-    )
+    dg = jnp.zeros((N, D, D, D)).at[:, 1, :, :].set(dg_x)
 
     # Christoffel bracket: C[n, mu, nu, rho] = ∂_mu g_{nu,rho} + ∂_nu g_{mu,rho} − ∂_rho g_{mu,nu}
     # dg[n, rho, mu, nu] stores ∂_{rho} g_{mu,nu}  (axes: n, derivative-dir, 1st-idx, 2nd-idx)
@@ -312,14 +299,11 @@ def _jax_riemann_from_christoffel(Gamma, dx: float):
 
     Riem = quad_plus - quad_minus                    # (N, D, D, D, D)
 
-    # Derivative terms — only mu=0 or nu=0 contributes on 1D grid:
-    # +∂_μ Γ^ρ_{νσ}  at μ=0: Riem[n,rho,sigma,0,nu] += dGamma[n,rho,nu,sigma]
-    #   → Riem[:,:,:,0,:] += dGamma.transpose(0,1,3,2)   [swap nu↔sigma]
-    Riem = Riem.at[:, :, :, 0, :].add(dGamma.transpose(0, 1, 3, 2))
+    # Derivative terms — only mu=1 or nu=1 contributes on the spatial grid.
+    Riem = Riem.at[:, :, :, 1, :].add(dGamma.transpose(0, 1, 3, 2))
 
-    # −∂_ν Γ^ρ_{μσ}  at ν=0: Riem[n,rho,sigma,mu,0] -= dGamma[n,rho,mu,sigma]
-    #   → Riem[:,:,:,:,0] -= dGamma.transpose(0,1,3,2)
-    Riem = Riem.at[:, :, :, :, 0].add(-dGamma.transpose(0, 1, 3, 2))
+    # −∂_ν Γ^ρ_{μσ} at ν=1.
+    Riem = Riem.at[:, :, :, :, 1].add(-dGamma.transpose(0, 1, 3, 2))
 
     return Riem
 

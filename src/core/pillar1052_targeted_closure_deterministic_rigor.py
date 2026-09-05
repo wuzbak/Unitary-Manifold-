@@ -66,16 +66,15 @@ def targeted_closure_deterministic_rigor() -> Dict[str, Any]:
     marker_hits = {marker: marker in lean4_text for marker in SEMANTIC_MARKERS}
 
     prior_after = list(prior["substep_map"]["after"])
-    after_cb = _open_substeps_after_cb()
+    after_cb = list(prior_after)
 
     closure_attempts = {
-        "formal_projection_continuity": _go_no_go(runtime_flip_earned=False, boundary_tightened=True),
+        "formal_projection_continuity": _go_no_go(runtime_flip_earned=False, boundary_tightened=False),
         "kawamura_independence_final_step": _go_no_go(runtime_flip_earned=False, boundary_tightened=False),
-        "label_honesty_guardrail": _go_no_go(runtime_flip_earned=False, boundary_tightened=True),
+        "label_honesty_guardrail": _go_no_go(runtime_flip_earned=False, boundary_tightened=False),
     }
 
     deterministic_gate_coverage = all(g in DECISION_GATES for g in closure_attempts.values())
-    reduced_substeps = len(after_cb) < len(prior_after)
     remaining_burden = "Full referee-grade Kawamura-independence functional analysis closure proof"
 
     valid = bool(
@@ -85,9 +84,8 @@ def targeted_closure_deterministic_rigor() -> Dict[str, Any]:
         and theorem_count == LEAN4_THEOREM_COUNT
         and all(marker_hits.values())
         and deterministic_gate_coverage
-        and reduced_substeps
         and HIGH_LEVEL_REMAINING_BURDEN in prior["remaining_burdens"]
-        and remaining_burden in after_cb
+        and after_cb == prior_after
     )
 
     return {
@@ -101,6 +99,12 @@ def targeted_closure_deterministic_rigor() -> Dict[str, Any]:
         "decision_gates": list(DECISION_GATES),
         "closure_attempts": closure_attempts,
         "deterministic_gate_coverage": deterministic_gate_coverage,
+        "packet_valid": valid,
+        "scientific_progress": False,
+        "physical_theorem_proved": False,
+        "boundary_tightened": False,
+        "remaining_burden": remaining_burden,
+        "historical_proposed_open_substeps": _open_substeps_after_cb(),
         "merge_gate_dependency": merge_gate,
         "prior_formal_alignment": prior,
         "lean4": {
@@ -112,6 +116,9 @@ def targeted_closure_deterministic_rigor() -> Dict[str, Any]:
             "lean4_start": LEAN4_START,
             "lean4_end": LEAN4_END,
             "lean4_delta": LEAN4_DELTA,
+            "evidence_kind": "SOURCE_TEXT_INVENTORY_ONLY",
+            "compilation_verified": False,
+            "physical_theorem_count_verified": 0,
         },
         "formal_open_substeps": {
             "before": prior_after,

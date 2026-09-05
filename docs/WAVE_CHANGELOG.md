@@ -1,5 +1,37 @@
 # Wave Changelog
 
+## Foundation reassessment (2026-09-05; no new pillar)
+
+**Changed interpretation:** the current audit supersedes historical scientific
+contraction and closure claims on the metric/photon, P1042/P1043/P1052/P1061,
+P1062, flavor-identifiability, and UV/CMB extension paths. Assigned reductions,
+proxy counts, and empty declared parameter lists are not sufficient evidence.
+The metric Schur-complement discrepancy, regular odd-field boundary obstruction,
+and reciprocal-inequality counterexample identify specific failed implications.
+
+**Not changed:** no empirical confirmation, universal no-go theorem, unique
+flavor derivation, or independent primordial-amplitude prediction is claimed.
+No new pillar is allocated. Existing lane identifiers are preserved as historical
+routing identifiers, not guaranteed theorem statements. Observational falsifiers
+are unchanged, including [0.29°, 0.31°] as the excluded birefringence gap.
+
+**Verification:** interrupted session's pre-change combined regression: 63,430 passed,
+43 skipped, 12 deselected, 0 failed (354.83 s). Historical totals below belong
+to their recorded environments. Current execution results and remaining
+obligations are recorded in [TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment).
+The resumed combined run completed with **63,952 passed, 33 skipped,
+18 deselected, 0 failed** in 443.43 s. Targeted runs additionally enabled the
+real CAMB integrations and nonlinear-trajectory safety test.
+The two audited Lean modules compile warning-free with inspected axiom
+dependencies; the full formal build remains unverified. Final reporting repairs
+passed separate 29-test and 21-test suites after the combined-run receipt.
+
+**Resumed CMB execution:** 201 targeted tests passed, including five real
+CAMB 2.0.4 integration tests. The calibrated GR tilt comparison has a median
+absolute residual of 0.095388%; its numerical-sensitivity and amplitude-scaling
+controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
+or empirical closure.
+
 This file is the required wave-level changelog ledger.
 **Current version: v36.4 (2026-09-05)**
 **Regression:** 63,892 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)

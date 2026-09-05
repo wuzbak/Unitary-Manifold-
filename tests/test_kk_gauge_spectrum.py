@@ -3,9 +3,9 @@
 Tests for src/core/kk_gauge_spectrum.py
 
 Verifies Gap 5 of UNIFICATION_PROOF.md §XII:
-- U(1) IS produced by the 5D KK construction
+- U(1) IS produced by circle KK compactification
 - SU(2) and SU(3) are NOT produced
-- The photon identification is correct
+- The observed orbifold photon identification is unsupported
 - The SM dimensional requirements are documented accurately
 """
 
@@ -76,6 +76,9 @@ class TestKKSpectrum1d:
         modes = kk_spectrum_1d()
         zero = [m for m in modes if m.n == 0][0]
         assert 'U(1)' in zero.gauge_group
+        assert zero.charge == 0
+        assert 'circle graviphoton' in zero.label
+        assert 'not identified as observed photon' in zero.label
 
     def test_massive_modes_are_u1_kk(self):
         """All n≠0 modes should be KK U(1) modes, not SU(2) or SU(3)."""
@@ -128,6 +131,12 @@ class TestGaugeGroupFrom5d:
         combined = str(g.get('what_this_means_for_current_theory', ''))
         assert 'overclaim' in combined.lower() or 'corrected' in combined.lower()
 
+    def test_circle_gauge_result_is_not_orbifold_electromagnetism(self):
+        g = gauge_group_from_5d()
+        assert g['compactification'] == 'S1 circle, not S1/Z2'
+        assert g['metric_orbifold_vector_zero_mode'] is False
+        assert g['observed_photon_identified'] is False
+
 
 # ---------------------------------------------------------------------------
 # sm_dimensional_requirements
@@ -159,10 +168,11 @@ class TestSMDimensionalRequirements:
         if su2_dims and su3_dims:
             assert su3_dims[0] >= su2_dims[0]
 
-    def test_em_present_in_5d_theory(self):
+    def test_circle_u1_does_not_establish_orbifold_electromagnetism(self):
         r = sm_dimensional_requirements()
         em = [x for x in r if 'Electro' in x.get('force', '')][0]
-        assert '✓' in em['status_in_5d_theory']
+        assert 'NOT ESTABLISHED' in em['status_in_5d_theory']
+        assert em['metric_orbifold_vector_zero_mode'] is False
 
     def test_su2_not_present_in_5d_theory(self):
         r = sm_dimensional_requirements()
@@ -196,9 +206,13 @@ class TestPhotonIdentification:
         p = photon_identification()
         assert p['zero_mode_mass'] == 0.0
 
-    def test_identification_valid(self):
+    def test_observed_photon_identification_is_not_established(self):
         p = photon_identification()
-        assert p['identification_valid'] is True
+        assert p['identification_valid'] is False
+        assert p['compactification'] == 'S1 circle, not S1/Z2'
+        assert p['metric_orbifold_vector_zero_mode'] is False
+        assert p['orbifold_photon_mass'] is None
+        assert p['circle_zero_mode_charge'] == 0
 
     def test_gauge_symmetry_is_u1(self):
         p = photon_identification()
@@ -236,6 +250,10 @@ class TestGap5Status:
 
     def test_mentions_u1(self):
         assert 'U(1)' in gap5_status()
+
+    def test_circle_result_does_not_close_orbifold_photon_gap(self):
+        assert 'orbifold projects out the vector zero mode' in gap5_status()
+        assert 'orbifold photon remains unsupported' in gap5_status()
 
     def test_mentions_witten(self):
         assert 'Witten' in gap5_status() or '11D' in gap5_status() or '11' in gap5_status()

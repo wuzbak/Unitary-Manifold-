@@ -50,14 +50,13 @@ def su3_residual_contraction_report() -> Dict[str, Any]:
     p636 = residual_open()
     p1022 = pillar1022_summary()
     lean4_path = _ROOT / LEAN4_FILE
-    before = _open_steps_before()
-    after = _open_steps_after()
+    before = _open_steps_before() + [p636["open_item"]]
+    after = list(before)
 
-    reduction_earned = len(after) < len(before)
+    reduction_earned = False
 
     valid = bool(
         lean4_path.exists()
-        and reduction_earned
         and p1022["valid"]
     )
 
@@ -66,6 +65,9 @@ def su3_residual_contraction_report() -> Dict[str, Any]:
         "gate": PILLAR_GATE,
         "status": PILLAR_STATUS,
         "valid": valid,
+        "packet_valid": valid,
+        "scientific_progress": False,
+        "physical_theorem_proved": False,
         "dependency": {
             "pillar636_open_item": p636["open_item"],
             "pillar1022_status": p1022["status"],
@@ -75,6 +77,8 @@ def su3_residual_contraction_report() -> Dict[str, Any]:
             "file": LEAN4_FILE,
             "exists": lean4_path.exists(),
             "theorem_count": LEAN4_THEOREM_COUNT,
+            "evidence_kind": "DECLARED_SOURCE_INVENTORY_ONLY",
+            "compilation_verified": False,
         },
         "residual_map": {
             "open_steps_before": before,
@@ -82,14 +86,15 @@ def su3_residual_contraction_report() -> Dict[str, Any]:
             "before_count": len(before),
             "after_count": len(after),
             "formal_reduction_earned": reduction_earned,
+            "historical_proposed_after": _open_steps_after(),
         },
         "explicit_non_claims": [
             "Full Hilbert-space closure remains open",
             "No hardgate promotion is claimed",
         ],
         "interpretation": (
-            "Sprint BV formal work contracts the P636 residual domain with additional "
-            "Lean4-backed kernels while preserving explicit remaining open steps."
+            "The residual domain is retained unchanged. Source inventory and assigned "
+            "blocker deletions do not establish functional or internal-lift proofs."
         ),
     }
 

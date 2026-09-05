@@ -1,14 +1,18 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026  ThomasCory Walker-Pearson
 """
-UNITARY MANIFOLD — COMPLETE FORMAL ALGEBRAIC VERIFICATION + FALSIFICATION TEST
+UNITARY MANIFOLD — SELECTED ALGEBRA AND LEGACY MODEL CHECKS
 ================================================================================
-Checks every algebraic identity in the Unitary Manifold framework using exact
-symbolic computation, then imports live from the codebase to enforce the
+Checks selected algebraic identities using exact symbolic computation,
+then imports live from the codebase to enforce the
 canonical delta_phi ≈ 5.38 as a No-Regression constant across all 406 pillars
 + sub-pillars (v13.4 APEX EDITION — Current).
 
-Running this script is not just checking math — it is a Falsification Test.
-If SymPy resolves all symbolic logic to True AND the live import checks pass,
-the 5D→4D pipeline is lossless.  Any failure constitutes a falsification event.
+Passing this script is not a physical falsification test, a complete formal
+proof, or evidence of a lossless reduction. Later legacy sections include
+assumed model relations and structural checks. The corrected KK checks in
+sections 1, 4 and 10 are conditional on a circle ansatz; independent numerical
+curvature/convergence checks live in tests/test_kk_geometry_invariants.py.
 
 Usage
 -----
@@ -17,7 +21,7 @@ Usage
 
 Sections
 --------
-§1  KK Metric Assembly — block structure, G_55=phi², G_mu5=lambda*phi*B_mu
+§1  KK Metric Assembly — completed square, G_mu5=lambda*phi²*B_mu
 §2  Braided Winding Algebra — rho, c_s, SOS resonance identity
 §3  Slow-Roll Inflation — V, V', V'', epsilon, eta, ns formulas
 §4  KK Geodesic Reduction — Gamma^mu_{nu5} theorem, Lorentz force
@@ -26,7 +30,7 @@ Sections
 §7  Atiyah-Singer Index — n_w = 5 from topology
 §8  Chern-Simons Level — k_cs = 74 from birefringence
 §9  Radion Stabilisation — Goldberger-Wise equation
-§10 alpha Derivation — alpha = phi0^-2 from KK compactification
+§10 Circle EH reduction — no tree-level R H² operator
 §11 Canonical delta_phi Falsification Test — the smoking-gun 5.38 constant
 §12 406-Pillar No-Regression — live codebase constants must agree
 §13 Lossless 5D Pipeline — symbolic closure: delta_phi → k_cs → c_s → brain
@@ -84,32 +88,42 @@ g00, g11 = symbols('g_00 g_11', positive=True)
 
 # Assemble 3x3 KK metric (2D space + compact dimension)
 G = Matrix([
-    [g00 + lam**2*phi**2*B0**2,  lam**2*phi**2*B0*B1, lam*phi*B0],
-    [lam**2*phi**2*B0*B1,        g11 + lam**2*phi**2*B1**2, lam*phi*B1],
-    [lam*phi*B0,                 lam*phi*B1,            phi**2],
+    [-g00 + lam**2*phi**2*B0**2, lam**2*phi**2*B0*B1, lam*phi**2*B0],
+    [lam**2*phi**2*B0*B1,        g11 + lam**2*phi**2*B1**2, lam*phi**2*B1],
+    [lam*phi**2*B0,             lam*phi**2*B1,            phi**2],
 ])
 
 # G_55 = phi^2
 check("G_55 = phi^2", simplify(G[2,2] - phi**2) == 0)
 
-# G_mu5 = lambda*phi*B_mu
-check("G_05 = lambda*phi*B_0", simplify(G[0,2] - lam*phi*B0) == 0)
-check("G_15 = lambda*phi*B_1", simplify(G[1,2] - lam*phi*B1) == 0)
+# G_mu5 = lambda*phi²*B_mu
+check("G_05 = lambda*phi²*B_0", simplify(G[0,2] - lam*phi**2*B0) == 0)
+check("G_15 = lambda*phi²*B_1", simplify(G[1,2] - lam*phi**2*B1) == 0)
 
 # Symmetry: G_5mu = G_mu5
 check("G_AB symmetric: G[0,2]=G[2,0]", simplify(G[0,2] - G[2,0]) == 0)
 check("G_AB symmetric: G[1,2]=G[2,1]", simplify(G[1,2] - G[2,1]) == 0)
 
 # G_munu = g_munu + lambda^2*phi^2*B_mu*B_nu (KK modification)
-check("G_00 = g_00 + lambda^2*phi^2*B_0^2", 
-      simplify(G[0,0] - (g00 + lam**2*phi**2*B0**2)) == 0)
+check("G_00 = -g00 + lambda^2*phi^2*B_0^2",
+      simplify(G[0,0] - (-g00 + lam**2*phi**2*B0**2)) == 0)
 check("G_01 = lambda^2*phi^2*B_0*B_1", 
       simplify(G[0,1] - lam**2*phi**2*B0*B1) == 0)
 
 # At B=0: G reduces to block diag(g_munu, phi^2)
 G_B0 = G.subs([(B0, 0), (B1, 0)])
 check("At B=0: G_munu = g_munu (no mixing)",
-      simplify(G_B0[0,0] - g00) == 0 and simplify(G_B0[0,2]) == 0)
+      simplify(G_B0[0,0] + g00) == 0 and simplify(G_B0[0,2]) == 0)
+
+dt_kk, dx_kk, dy_kk = symbols("dt_kk dx_kk dy_kk", real=True)
+displacement = Matrix([dt_kk, dx_kk, dy_kk])
+completed_square = -g00*dt_kk**2 + g11*dx_kk**2 + phi**2*(
+    dy_kk + lam*(B0*dt_kk+B1*dx_kk))**2
+check("KK line element is a completed square",
+      simplify((displacement.T*G*displacement)[0] - completed_square) == 0)
+check("KK determinant = phi² det(g)", simplify(G.det() + phi**2*g00*g11) == 0)
+schur = G[:2, :2] - G[:2, 2:3]*G[2:3, :2]/phi**2
+check("KK Schur complement = base metric", simplify(schur) == Matrix.diag(-g00, g11))
 
 
 # ===========================================================================
@@ -275,77 +289,46 @@ check("ns = 1 - 6*eps + 2*eta formula verified", True)  # structural
 # ===========================================================================
 # §4  KK GEODESIC REDUCTION — Gamma^mu_{nu5} THEOREM
 # ===========================================================================
-section("§4  KK GEODESIC REDUCTION — A_mu = lambda*B_mu IS A THEOREM")
+section("§4  CONDITIONAL CIRCLE GEODESIC — NOT AN ORBIFOLD PHOTON")
 
 lam_g = symbols('lambda', positive=True)
 phi_g = symbols('phi', positive=True)
 dB0, dB1 = symbols('partial_x_B0 partial_x_B1', real=True)
 
-# Under cylinder condition (partial_5 = 0) and flat g_munu = delta_munu:
-# Gamma^sigma_{mu,5} = (1/2)[partial_mu G_{5 sigma} + partial_5 G_{mu sigma}
-#                            - partial_sigma G_{mu 5}]
-# With partial_5 = 0 and G_{5mu} = lambda*phi*B_mu:
-# = (1/2)[lambda*phi*partial_mu B_sigma - lambda*phi*partial_sigma B_mu]
-# = (lambda*phi/2) * H_{mu sigma}
-# where H_{mu nu} = partial_mu B_nu - partial_nu B_mu
-
-# In 1D code (only x = direction-0 has a gradient):
-# H_01 = partial_x B_1 - 0*... = dB1 (only x-gradient of B_1)
-# H_10 = -H_01
-H_01 = dB1   # partial_x B_1 (partial_x B_0 contributes only to H_00=0)
+# Only x (index 1) is differentiated. The background is Lorentzian.
+H_01 = -dB0
 H_10 = -H_01
-
-# Gamma^0_{1,5} = (lambda*phi/2) * H_{10}  (Lorentz-type: sigma=0, mu=1)
-Gamma_015_formula = (lam_g*phi_g/2) * H_10
-# Gamma^1_{0,5} = (lambda*phi/2) * H_{01}
-Gamma_105_formula = (lam_g*phi_g/2) * H_01
-
-check("Gamma^0_{1,5} = (lambda*phi/2)*H_{10}", True)
-check("Gamma^1_{0,5} = (lambda*phi/2)*H_{01}", True)
-
-# Antisymmetry of H
 check("H antisymmetric: H_01 = -H_10", simplify(H_01 + H_10) == 0)
+# Derive Γ from the full inverse, without assuming g^AB is diagonal.
+G_flat = G.subs({g00: 1, g11: 1})
+inverse_flat = simplify(G_flat.inv())
+derivative_G = diff(G_flat, B0)*dB0 + diff(G_flat, B1)*dB1
+Gamma_nu5 = Matrix(2, 2, lambda mu, nu: simplify(sum(
+    inverse_flat[mu, rho] * ((derivative_G[2, rho] if nu == 1 else 0)
+                            - (derivative_G[nu, 2] if rho == 1 else 0))/2
+    for rho in range(3))))
+H_mixed = Matrix.diag(-1, 1) * Matrix([[0, H_01], [H_10, 0]])
+check("Constant-radius Gamma^mu_nu5 = -lambda phi² H^mu_nu/2",
+      simplify(Gamma_nu5 + lam*phi**2*H_mixed/2) == Matrix.zeros(2))
 
-# Gamma^sigma_{mu,5} is antisymmetric in (sigma, mu) ✓
-Gamma_sym_check = simplify(Gamma_015_formula + Gamma_105_formula.subs(
-    [(H_01, -H_10)]
-))
-check("Gamma^sigma_{mu5} antisymmetric in (sigma,mu)", 
-      simplify(Gamma_015_formula + (lam_g*phi_g/2)*H_01 * (-1)) == 0 or True)
-# More directly: Gamma^0_{1,5} = -(lambda*phi/2)H_01 and Gamma^1_{0,5} = +(lambda*phi/2)H_01
-# They are opposite sign ✓
-check("Gamma^0_{15} + Gamma^1_{05} ~ 0 (antisymmetry)", 
-      simplify((lam_g*phi_g/2)*H_10 + (lam_g*phi_g/2)*H_01) == 0)
-
-# Lorentz force: -2*Gamma^mu_{nu5} * u^nu * u^5
-# = -2*(lambda*phi/2)*H^mu_nu * u^nu * u^5
-# = -lambda*phi * H^mu_nu * u^nu * u^5
-# With u^5 = p5/phi^2 (slow 5th motion):
-# = -(lambda*phi)*H^mu_nu*u^nu*(p5/phi^2)
-# = -(lambda*p5/phi)*H^mu_nu*u^nu
-# = (e/m) * F^mu_nu * u^nu  where e/m = lambda*p5/phi, F_munu = lambda*H_munu
-# A_mu = lambda*B_mu ← NOT an assumption; emerges from geodesic ✓
-
+# Eliminate u5 in the geodesic using the conserved momentum; no small-B limit.
 p5, u0, u1, u5 = symbols('p5 u0 u1 u5', real=True)
-
-# Lorentz acceleration mu=0: -2*Gamma^0_{1,5}*u^1*u^5
-acc_lor = -2 * Gamma_015_formula * u1 * u5
-acc_lor_with_p5 = acc_lor.subs(u5, p5/phi_g**2)
-acc_lor_simplified = simplify(acc_lor_with_p5)
-print(f"  Lorentz acc (mu=0) = {acc_lor_simplified}")
-# Should be (lambda_g * p5 / phi_g) * H_01 * u1 (up to sign)
-em_ratio = lam_g * p5 / phi_g
-check("Lorentz acc = (e/m)*F^mu_nu*u^nu form verified", True)
-check("A_mu = lambda*B_mu: emerges from 5D geodesic, not assumed", True)
-
-# p5 conservation: p5 = G_{5A}*U^A = lambda*phi*B_mu*u^mu + phi^2*u5
-B0_g, B1_g = symbols('B_0 B_1', real=True)
-p5_def = lam_g*phi_g*(B0_g*u0 + B1_g*u1) + phi_g**2*u5
-print(f"  p5 = {p5_def}")
-check("p5 = lambda*phi*B_mu*u^mu + phi^2*u5 (conservation law)", True)
-
-# e/m = lambda*p5 / phi (charge-to-mass ratio from geometry)
-check("e/m = lambda*p5/phi (geometric, not assumed)", True)
+U = Matrix([u0, u1, u5])
+p5_def = (G_flat[2:3, :] * U)[0]
+check("p5 = phi²(u5+lambda B.u)",
+      simplify(p5_def - phi**2*(u5+lam*(B0*u0+B1*u1))) == 0)
+for mu in range(2):
+    acceleration = 0
+    for a in range(3):
+        for b in range(3):
+            gamma = sum(inverse_flat[mu, rho] * (
+                (derivative_G[b, rho] if a == 1 else 0)
+                + (derivative_G[a, rho] if b == 1 else 0)
+                - (derivative_G[a, b] if rho == 1 else 0))/2 for rho in range(3))
+            acceleration -= gamma*U[a]*U[b]
+    reduced = acceleration.subs(u5, p5/phi**2 - lam*(B0*u0+B1*u1))
+    check(f"Affine Lorentz force component {mu} = lambda p5 H^mu_nu u^nu",
+          simplify(reduced - lam*p5*(H_mixed*Matrix([u0, u1]))[mu]) == 0)
 
 
 # ===========================================================================
@@ -534,29 +517,28 @@ check("Casimir correction: A_c = lambda*phi_min^6*(phi_min^2-phi0^2) satisfies d
 # ===========================================================================
 # §10  alpha DERIVATION
 # ===========================================================================
-section("§10  ALPHA DERIVATION — alpha = phi0^-2")
+section("§10  CIRCLE EINSTEIN-HILBERT REDUCTION — NO R H² OPERATOR")
 
 phi0_a = symbols('phi0', positive=True)
 
-# KK compactification: G_55 = phi^2 => L5 = phi * l_P in Planck units
-# alpha = (l_P / L5)^2 = 1/phi0^2
-alpha_formula = 1/phi0_a**2
-print(f"  alpha = {alpha_formula}")
-check("alpha = phi0^-2 from KK compactification G_55=phi^2", True)
+R4_a, H2_a, box_phi_a = symbols("R4 H2 box_phi", real=True)
+# Standard cylinder-condition reduction, independently checked by numerical
+# curvature/convergence tests. This is not a warped or boundary action.
+R5_reduced = R4_a - lam**2*phi0_a**2*H2_a/4 - 2*box_phi_a/phi0_a
+action_density = (phi0_a*R5_reduced).expand()
+check("Circle EH action has no R H² coefficient",
+      action_density.coeff(R4_a).coeff(H2_a) == 0)
+check("Circle EH gauge term coefficient is -lambda² phi³/4",
+      simplify(action_density.coeff(H2_a) + lam**2*phi0_a**3/4) == 0)
 
 # From FTUM fixed point: phi* = A0/(4G) => alpha = (4G/A0)^2
 A0_a, G4_a = symbols('A0 G4', positive=True)
 phi_star_a = A0_a / (4*G4_a)
 alpha_from_fp = 1/phi_star_a**2
 alpha_from_fp_simplified = simplify(alpha_from_fp)
-print(f"  alpha from FTUM fixed point = {alpha_from_fp_simplified}")
-check("alpha = 1/phi_star^2 consistent with FTUM phi*", True)
-
-# Zero free parameters: phi0 is the same phi that appears in G_55
-check("alpha has zero free parameters (same phi0 as radion)", True)
-
-# Consistency: both the metric and the fixed point give the same alpha
-check("Metric path and FTUM path give same alpha formula", True)
+print(f"  Phenomenological inverse-radius diagnostic = {alpha_from_fp_simplified}")
+check("Inverse-radius substitution is arithmetic, not an action coefficient",
+      simplify(alpha_from_fp_simplified - (4*G4_a/A0_a)**2) == 0)
 
 
 # ===========================================================================
@@ -719,11 +701,11 @@ section("§12  406-PILLAR NO-REGRESSION — LIVE CODEBASE CONSTANTS")
 
 # This section imports directly from the live codebase.
 # Any constant that has drifted from the canonical value will cause a FAIL.
-# That FAIL is a falsification event — the 5D pipeline has a leak.
+# This is a software/model consistency check, not experimental falsification.
 
 import sys as _sys
 import os as _os
-_repo = _os.path.dirname(_os.path.abspath(__file__))
+_repo = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
 if _repo not in _sys.path:
     _sys.path.insert(0, _repo)
 
@@ -846,9 +828,9 @@ except Exception as e:
 # ===========================================================================
 # §13  LOSSLESS 5D PIPELINE — SYMBOLIC CLOSURE
 # ===========================================================================
-section("§13  LOSSLESS 5D PIPELINE — SYMBOLIC CLOSURE")
+section("§13  LEGACY MODEL CONSTANT CHAIN — NOT INFORMATION-LOSS PROOF")
 
-# The 5D pipeline is "lossless" iff this chain closes with zero information loss:
+# The following assumed model relations link constants, not information spaces:
 #
 #   delta_phi  (canonical field displacement, Einstein frame)
 #      ↓   [birefringence formula]
@@ -860,7 +842,7 @@ section("§13  LOSSLESS 5D PIPELINE — SYMBOLIC CLOSURE")
 #      ↓   [brain-scale coupling: sentinel capacity, MVM floor, c_s coupling]
 #   SENTINEL_CAPACITY = BRAIDED_SOUND_SPEED = c_s = 12/37
 #
-# Each arrow is verified symbolically.  Any broken link = lossless violation.
+# Arithmetic consistency does not establish any physical arrow in this chain.
 
 # Step 1: symbolic recovery of k_cs from delta_phi
 beta_sym, alpha_sym, r_c_sym, dphi_sym = symbols('beta alpha_EM r_c delta_phi', positive=True)
@@ -894,23 +876,24 @@ check("Step 4: SENTINEL_CAPACITY = c_s(5,7) symbolically",
 
 # Step 5: Full closure — compose all steps
 # delta_phi_canonical -> k_cs=74 -> (5,7) unique -> c_s=12/37 -> brain coupling=12/37
-# ALL PASS iff the pipeline carries no information loss
-check("Step 5: Full pipeline closure — delta_phi -> k_cs -> (n1,n2) -> c_s -> brain", True)
+# This relation is conditional on the model identifications above.
+check("Step 5: Conditional arithmetic c_s = sentinel capacity", c_s_step3 == 12/37)
 
 # Step 6: No-go check — wrong delta_phi BREAKS the chain
 # With delta_phi_wrong: k_cs -> 78, SOS(78) has multiple decompositions
 sos_78 = [(n1v,n2v) for n1v in range(1,9) for n2v in range(n1v+1,9)
           if n1v**2 + n2v**2 == 78]
 print(f"  SOS pairs summing to 78 (wrong k_cs): {sos_78}")
-check("Step 6: Wrong delta_phi -> k_cs=78, SOS(78) is ambiguous (pipeline leaks)",
-      len(sos_78) != 1, f"SOS(78)={sos_78}")
+check("Step 6: 78 has no positive unequal two-square decomposition",
+      len(sos_78) == 0, f"SOS(78)={sos_78}")
 
 # If wrong delta_phi were used, c_s would be undetermined (multiple candidates)
 # This is what the phase-shift error does: it breaks the uniqueness of (n1,n2)
 # and makes the brain coupling constant undefined.
 print("  Phase-shift error destroys uniqueness: delta_phi_wrong -> k_cs=78 ->")
 print("  ambiguous (n1,n2) -> undefined c_s -> brain coupling NOT derivable from 5D.")
-check("Step 6 conclusion: DELTA_PHI_CANONICAL is necessary for lossless pipeline", True)
+check("Step 6 arithmetic: 74 has one listed pair, 78 has none",
+      len(sos_pairs) == 1 and len(sos_78) == 0)
 
 # Numerical verification of the full chain
 k_cs_from_canonical = round(beta_target_rad * 4*math.pi**2 * R_C_val
@@ -927,7 +910,7 @@ check("Numerical chain: c_s=12/37 == SENTINEL_CAPACITY (brain coupling)",
       abs(c_s_recovered - 12/37) < 1e-12)
 print(f"  Chain verified: {DELTA_PHI_CANONICAL:.4f} -> k={k_cs_from_canonical}"
       f" -> ({n1_recovered},{n2_recovered}) -> c_s={c_s_recovered:.6f}")
-print("  5D pipeline is LOSSLESS  ✓")
+print("  Conditional arithmetic checked; no information-loss theorem follows.")
 
 
 # ===========================================================================
@@ -2221,7 +2204,7 @@ check("Pillar Ω: N_W × N_2 = 5 × 7 = 35 = Ξ_c × K_CS (linking identity)",
 
 # Live codebase verification
 try:
-    from omega_synthesis import (   # type: ignore[import]
+    from omega.omega_synthesis import (   # type: ignore[import]
         N_W as _OM_NW, N_2 as _OM_N2, K_CS as _OM_KCS,
         C_S as _OM_CS, XI_C as _OM_XIC,
         UniversalEngine, OmegaReport,
@@ -2304,17 +2287,16 @@ print(f"""
 
 if n_fail == 0:
     print(f"""\
-  │  STATUS: ALL PASS — 5D PIPELINE IS LOSSLESS  ✓                  │
+  │  STATUS: ALL LISTED SOFTWARE/MODEL CHECKS PASS                  │
   │                                                                  │
-  │  The canonical delta_phi = {DELTA_PHI_CANONICAL:.4f} holds across all      │
-  │  406 pillars + sub-pillars.  c_s = 12/37 exactly.               │
-  │  Wolfenstein CKM, SM parameters, vacuum proof, dual sectors,     │
-  │  GW Yukawa, and Omega synthesis all verified.                    │
-  │  No falsification event detected.                                │
+  │  Conditional KK algebra and legacy model constants checked.      │
+  │  This is NOT a complete proof or experimental validation.        │
+  │  It proves neither flavor selection nor an orbifold photon.      │
+  │  See independent curvature and nonuniqueness tests.               │
   └──────────────────────────────────────────────────────────────────┘""")
 else:
     print(f"""\
-  │  STATUS: {n_fail} FAILURE(S) — FALSIFICATION EVENT DETECTED         │
+  │  STATUS: {n_fail} SOFTWARE/MODEL CHECK FAILURE(S)                   │
   └──────────────────────────────────────────────────────────────────┘
   Failed checks:""")
     for f in all_failed:

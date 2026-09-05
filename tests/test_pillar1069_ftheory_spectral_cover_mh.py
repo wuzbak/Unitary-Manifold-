@@ -31,11 +31,10 @@ def test_no_hardgate_pillars_touched() -> None:
 
 def test_report_reports_binary_outcome() -> None:
     r = ftheory_spectral_cover_report()
-    assert r["outcome"] in {
-        "EXTENSION_CLOSES_LANE",
-        "EXTENSION_FAILS_WITH_EXACT_RESIDUAL",
-        "EXTENSION_BREAKS_HARDGATE",
-    }
+    assert r["outcome"] == "EXTENSION_UNESTABLISHED"
+    assert r["m_h_ftheory_window_gev"] is None
+    assert r["tightening_vs_prior"] is None
+    assert r["scientific_progress"] is False
     assert r["runtime_label_changed"] is False
     assert M_H_OBSERVED_GEV == 125.25
 
@@ -43,3 +42,13 @@ def test_report_reports_binary_outcome() -> None:
 def test_summary() -> None:
     s = pillar1069_summary()
     assert s["pillar"] == 1069
+
+
+def test_assigning_observed_mass_cannot_earn_closure(monkeypatch) -> None:
+    import src.core.pillar1069_ftheory_spectral_cover_mh as module
+
+    monkeypatch.setattr(module, "M_H_FTHEORY_LOWER_GEV", M_H_OBSERVED_GEV)
+    monkeypatch.setattr(module, "M_H_FTHEORY_UPPER_GEV", M_H_OBSERVED_GEV)
+    report = module.ftheory_spectral_cover_report()
+    assert report["m_h_ftheory_window_gev"] is None
+    assert report["closure_earned"] is False

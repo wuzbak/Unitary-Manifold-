@@ -35,10 +35,10 @@ class TestConstants:
         assert PILLAR_NUMBER == 636
 
     def test_status(self):
-        assert PILLAR_STATUS == "SU3_INTERNAL_ORBIFOLD_EQUIVALENCE_DERIVED"
+        assert PILLAR_STATUS == "CONDITIONAL_SU5_PROJECTION_NOT_METRIC_DERIVED"
 
     def test_z2_bc_reuse(self):
-        assert Z2_ODD_BC_REUSE is True
+        assert Z2_ODD_BC_REUSE is False
 
     def test_sm_gauge_group(self):
         assert "SU(3)" in SM_GAUGE_GROUP
@@ -46,7 +46,7 @@ class TestConstants:
 
     def test_status_advance(self):
         assert SU3_STATUS_BEFORE == "SUBSTANTIALLY_CLOSED"
-        assert "DERIVED" in SU3_STATUS_AFTER
+        assert SU3_STATUS_AFTER == "CONDITIONAL_SU5_PROJECTION_NOT_METRIC_DERIVED"
 
 
 class TestZ2BoundaryCondition:
@@ -54,7 +54,8 @@ class TestZ2BoundaryCondition:
         assert "G_{μ5}" in BC["condition"]
 
     def test_reused_for_su5(self):
-        assert BC["reused_for_su5_projection"] is True
+        assert BC["reused_for_su5_projection"] is False
+        assert BC["internal_lift_required"]
 
     def test_z2_even_modes(self):
         assert len(BC["z2_parity_map"]["Z2_even_modes"]) == 3
@@ -74,18 +75,20 @@ class TestSU5Decomposition:
         assert DECOMP["heavy_generators_odd"] == 12
 
     def test_decoupled(self):
-        assert DECOMP["decoupled_at_low_energy"] is True
+        assert DECOMP["decoupled_at_low_energy"] == "conditional on energy below the KK gap"
 
     def test_heavy_mass(self):
-        assert abs(DECOMP["heavy_mass_gev"] - M_KK_GEV) < 1.0
+        assert DECOMP["heavy_mass_gev"] is None
+        assert DECOMP["illustrative_kk_scale_gev"] == M_KK_GEV
 
 
 class TestOrbifoldTheorem:
     def test_equivalence_established(self):
-        assert THEOREM["equivalence_established"] is True
+        assert THEOREM["equivalence_established"] is False
+        assert len(THEOREM["inequivalent_lifts"]) == 3
 
     def test_lean4_nominated(self):
-        assert THEOREM["lean4_proof_status"] == "NOMINATED_FUTURE_WORK"
+        assert THEOREM["lean4_proof_status"] == "NO_FUNCTIONAL_ANALYTIC_PROOF"
 
 
 class TestResidualOpen:

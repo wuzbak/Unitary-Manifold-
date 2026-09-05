@@ -23,7 +23,9 @@ def test_identity() -> None:
 def test_publication_packet_exists() -> None:
     report = sprint_ch_critique_resolution_certificate()
     assert report["publication_packet"]["status"] == "PASS"
-    assert report["sprint_success"] is True
+    assert report["sprint_success"] is False
+    assert report["scientific_progress"] is False
+    assert report["packet_valid"] is True
     assert report["valid"] is True
 
 
@@ -37,4 +39,3 @@ def test_publication_packet_missing_fails_closed(monkeypatch, tmp_path) -> None:
 def test_summary() -> None:
     summary = pillar1081_summary()
     assert summary["status"] == PILLAR_STATUS
-

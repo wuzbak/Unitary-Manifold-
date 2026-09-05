@@ -64,12 +64,16 @@ def field_strength_jax(B: jnp.ndarray, dx: float) -> jnp.ndarray:
     B  : jnp.ndarray, shape (N, 4)
     dx : float, grid spacing
     """
+    if B.shape[0] < 3:
+        raise ValueError("second-order derivatives require at least 3 grid points")
     # Compute all column gradients at once: dB[x, nu] = ∂_x B[x, nu]
     # jnp.gradient with axis=0 handles all columns simultaneously
-    dB = jnp.gradient(B, dx, axis=0)   # (N, 4)  — XLA-native, fully JIT-able
+    dB = jnp.gradient(B, dx, axis=0)
+    dB = dB.at[0].set((-3 * B[0] + 4 * B[1] - B[2]) / (2 * dx))
+    dB = dB.at[-1].set((3 * B[-1] - 4 * B[-2] + B[-3]) / (2 * dx))
 
-    # H[x, mu, nu] = dB[x, nu] - dB[x, mu]  (antisymmetric outer difference)
-    H = dB[:, jnp.newaxis, :] - dB[:, :, jnp.newaxis]   # (N, 4, 4) broadcast
+    direction = jnp.eye(B.shape[1])[1]
+    H = direction[None, :, None] * dB[:, None, :] - dB[:, :, None] * direction
     return H
 
 
@@ -83,7 +87,7 @@ def assemble_metric_jax(
     """Assemble the 5×5 KK metric G_AB at each grid point.
 
         G_μν = g_μν + λ²φ² B_μ B_ν
-        G_μ5 = G_5μ = λφ B_μ
+        G_μ5 = G_5μ = λφ² B_μ
         G_55 = φ²
 
     Parameters
@@ -99,7 +103,7 @@ def assemble_metric_jax(
     """
     N = g.shape[0]
     lam_phi = lam * phi                          # (N,)
-    lam_phi_B = lam_phi[:, None] * B             # (N, 4)
+    lam_phi_B = (lam * phi**2)[:, None] * B       # (N, 4)
 
     # 4×4 block
     BxB = jnp.einsum('ni,nj->nij', B, B)        # (N, 4, 4)

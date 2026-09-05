@@ -15,7 +15,7 @@ Cache recommendation: 1 hour (values change only on sprint merges).
 Structure:
   meta            — version, sprint, date, source_of_truth
   tests           — passed, skipped, deselected, failed
-  lean4           — theorem_count
+  lean4           — historical declaration count, not discharged physics obligations
   pillars         — next_slot, hardgate_count, total_slots
   physics         — static constants (never change)
   predictions     — live falsification-window verdicts
@@ -150,7 +150,7 @@ PREDICTIONS = [
 OPEN_GATES = [
     {
         "gate": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED",
-        "description": "Flavor shared-root blocker remains open after proof-first contraction.",
+        "description": "Flavor shared-root blocker remains open; assigned blocker contraction is not scientific progress.",
         "pillar": 1081,
     },
     {
@@ -160,27 +160,27 @@ OPEN_GATES = [
     },
     {
         "gate": "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
-        "description": "Global CKM phase geometry remains architecture-limited after contraction.",
+        "description": "Global CKM phase geometry remains unresolved; no derived contraction or universal limit is established.",
         "pillar": 1081,
     },
     {
         "gate": "ALPHA_S_TYPE_B_FLOOR",
-        "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
+        "description": "Joint α_s/Higgs prediction requires a specified compactification and matching calculation.",
         "pillar": 1081,
     },
     {
         "gate": "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
-        "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
+        "description": "Joint α_s/Higgs prediction requires a specified compactification and matching calculation.",
         "pillar": 1081,
     },
     {
         "gate": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
-        "description": "CMB amplitude lane remains internally irreducible absent the missing UV object.",
+        "description": "Independent CMB normalization and UM transfer corrections remain open; the reciprocal-bound irreducibility inference is invalid.",
         "pillar": 1081,
     },
     {
         "gate": "NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
-        "description": "Non-perturbative QG remains bounded by the declared O1–O4 obstructions.",
+        "description": "Non-perturbative QG remains unresolved; declared O1–O4 obligations are not a universal impossibility theorem.",
         "pillar": 1081,
     },
     {
@@ -272,10 +272,13 @@ def build_live_status() -> dict:
             "date": parsed["date"],
             "source_of_truth": "https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md",
             "generated_by": "9-INFRASTRUCTURE/generate_live_status.py",
+            "regression_provenance": "Historical headline record; see docs/TRUTH_LAYER.md for this environment's verification.",
         },
         "tests": parsed["tests"],
         "lean4": {
             "theorem_count": parsed["lean4_theorem_count"],
+            "count_scope": "HISTORICAL_DECLARATIONS_NOT_PHYSICAL_PROOF_OBLIGATIONS",
+            "physical_proof_count": None,
         },
         "pillars": {
             "next_slot": parsed["next_pillar_slot"],
@@ -283,6 +286,16 @@ def build_live_status() -> dict:
             "total_slots": parsed["next_pillar_slot"] - 1,
         },
         "physics": PHYSICS_CONSTANTS,
+        "scientific_assessment": {
+            "scope": "FOUNDATION_REASSESSMENT",
+            "closure_earned": False,
+            "reference": "docs/TRUTH_LAYER.md#foundation-reassessment",
+            "registry_labels": "Historical lane identifiers are retained; they do not establish universal impossibility theorems.",
+            "photon_origin": "OPEN: a regular odd composite vanishes at an orbifold fixed point.",
+            "cmb_normalization": "CALIBRATED: primordial normalization and transfer-spectrum errors are separate questions.",
+            "flavor_uniqueness": "UNESTABLISHED: parity alone does not fix bulk masses or the internal gauge involution.",
+            "uv_predictivity": "UNESTABLISHED: an empty declared parameter list is not a derivation.",
+        },
         "predictions": PREDICTIONS,
         "open_gates": OPEN_GATES,
         "fetch_targets": FETCH_TARGETS,
@@ -347,8 +360,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.check:
         print(f"OK: um_live_status.json would be valid (v{data['meta']['version']}, "
-              f"{data['tests']['passed']:,} tests, "
-              f"{data['lean4']['theorem_count']} Lean4 theorems, "
+              f"{data['tests']['passed']:,} historical test passes, "
+              f"{data['lean4']['theorem_count']} historical Lean4 declarations, "
               f"next slot {data['pillars']['next_slot']})")
         return 0
 
@@ -356,8 +369,8 @@ def main(argv: list[str] | None = None) -> int:
     out_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Written: {out_path} ({out_path.stat().st_size:,} bytes)")
     print(f"  version: v{data['meta']['version']} Sprint {data['meta']['sprint']}")
-    print(f"  tests: {data['tests']['passed']:,} passed · {data['tests']['failed']} failed")
-    print(f"  lean4: {data['lean4']['theorem_count']} theorems")
+    print(f"  historical tests: {data['tests']['passed']:,} passed · {data['tests']['failed']} failed")
+    print(f"  historical lean4 declarations: {data['lean4']['theorem_count']} (not physical proof obligations)")
     print(f"  next pillar slot: {data['pillars']['next_slot']}")
     return 0
 

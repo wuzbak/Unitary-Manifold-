@@ -11,6 +11,11 @@ first-order Euler integrator is also provided for accuracy benchmarking.
 
 Field equations (schematically):
 
+This is a phenomenological flow, not the Euler–Lagrange evolution of the
+circle Einstein–Hilbert action. R is the legacy contraction g^μν R^(5)_μν,
+not R4 or R5, and alpha is supplied independently. Only spatial x (index 1)
+is differentiated; the matter sources use Euclidean component norms.
+
     ∂_t g_μν  = −2 R_μν + T_μν[B, φ]                   (modified Einstein)
     ∂_t B_μ   = ∇_ν (λ² H^νμ)                          (gauge / irreversibility)
     ∂_t φ     = □φ + α R φ + S[H] − m²_φ (φ − φ₀)     (stabilised radion scalar)
@@ -110,7 +115,7 @@ from typing import Callable, List, Optional
 
 import numpy as np
 
-from .kk_backreaction import kk_tower_stress_energy
+from src.core.kk_backreaction import kk_tower_stress_energy
 from .metric import compute_curvature, field_strength
 
 
@@ -196,8 +201,8 @@ def _laplacian(f, dx):
 
 
 def _divergence_vec(V, dx):
-    """Scalar divergence ∂_x V^x of a 1-D vector field (leading component)."""
-    return np.gradient(V[:, 0], dx, edge_order=2)
+    """Spatial divergence ∂_x V^x; index 0 is time, index 1 is x."""
+    return np.gradient(V[:, 1], dx, edge_order=2)
 
 
 def _stress_energy(B, phi, H, lam):

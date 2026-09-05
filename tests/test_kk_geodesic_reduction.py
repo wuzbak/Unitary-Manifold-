@@ -2,12 +2,11 @@
 ======================================
 Tests for src/core/kk_geodesic_reduction.py
 
-These tests verify Gap 4 of UNIFICATION_PROOF.md §XII:
-The Lorentz force IS derived from the 5D geodesic equation — it is not
-assumed.  The identification A_μ = λ Bμ is a theorem.
+These tests check the circle KK geodesic reduction conditional on the metric
+ansatz, not the existence of an orbifold photon or measured electric charge.
 
 Key theorem tested:
-    acc_geo + acc_lor  ≈  acc_5d_projected
+    acc_geo + acc_lor + acc_radion ≈ acc_5d_projected
 
 where:
     acc_geo  = −Γ^μ_νρ(g) u^ν u^ρ  (4D gravity, from g alone)
@@ -42,8 +41,8 @@ def _flat_state(N=8, dx=0.1, lam=1.0, B_amp=0.05, u5_val=0.01):
     # Linear Bμ  (gives non-zero H_μν = ∂_μBν − ∂_νBμ)
     x = np.linspace(0, (N - 1) * dx, N)
     B = np.zeros((N, 4))
-    B[:, 1] = B_amp * x           # B_x varies linearly → H_{01} = const
-    B[:, 0] = B_amp * 0.5 * x    # B_0 also varies
+    B[:, 1] = B_amp * x           # longitudinal pure-gauge contribution
+    B[:, 0] = B_amp * 0.5 * x    # H_{10} = ∂_x B_0
 
     # Test particle with a simple 4-velocity (normalised approximately)
     u4 = np.zeros((N, 4))
@@ -91,7 +90,7 @@ class TestFifthMomentum:
         u4  = np.ones((N, 4))
         u5  = np.zeros(N)
         lam = 2.0
-        # p5 = λ φ Bμ u^μ = 2 * 1 * (4 * 0.5 * 1) = 4
+        # p5 = λ φ² Bμ u^μ = 2 * 1 * (4 * 0.5 * 1) = 4
         p5 = fifth_momentum(B, phi, u4, u5, lam)
         np.testing.assert_allclose(p5, 4.0, rtol=1e-10)
 
@@ -109,7 +108,7 @@ class TestChristoffel5dNu5Block:
     def test_matches_analytic_formula_flat(self):
         """Γ^σ_{μ5} matches 1D code's exact formula in flat space.
 
-        In 1D: Γ^σ_{μ5} = (λφ/2)[δ_{μ0} g^{σρ}∂_xB_ρ − g^{σ0}∂_xB_μ]
+        For constant radius: Γ^σ_{μ5} = -λφ² H^σ_μ/2, with x at index 1.
         """
         g, B, phi, u4, u5, dx, lam = _flat_state(N=16, B_amp=0.03)
         result = verify_christoffel_nu5(g, B, phi, dx, lam)
@@ -142,10 +141,10 @@ class TestLorentzAcceleration:
         assert acc.shape == (8, 4)
         assert em.shape  == (8,)
 
-    def test_zero_for_zero_u5(self):
-        """Zero u^5 → zero Lorentz force (no 5th-momentum coupling)."""
+    def test_zero_for_zero_fifth_momentum(self):
+        """Neutrality is p5=0, not the gauge-dependent condition u5=0."""
         g, B, phi, u4, u5, dx, lam = _flat_state()
-        u5_zero = np.zeros(8)
+        u5_zero = -lam * np.einsum("ni,ni->n", B, u4)
         acc, em = lorentz_acceleration(B, phi, u4, u5_zero, g, dx, lam)
         np.testing.assert_allclose(np.abs(acc).max(), 0.0, atol=1e-12)
 
@@ -162,7 +161,7 @@ class TestLorentzAcceleration:
         np.testing.assert_allclose(np.abs(acc).max(), 0.0, atol=1e-12)
 
     def test_em_ratio_formula(self):
-        """e/m = λ p₅ / φ."""
+        """The coefficient of H in the affine-parameter equation is λp5."""
         N = 5
         g   = np.tile(np.eye(4), (N, 1, 1))
         B   = np.zeros((N, 4))
@@ -171,8 +170,8 @@ class TestLorentzAcceleration:
         u5  = 3.0 * np.ones(N)    # p5 = φ² u^5 = 4 * 3 = 12
         lam = 2.0
         _, em = lorentz_acceleration(B, phi, u4, u5, g, dx=0.1, lam=lam)
-        # p5 = φ² u^5 = 4 * 3 = 12; e/m = 2 * 12 / 2 = 12
-        np.testing.assert_allclose(em, 12.0, rtol=1e-10)
+        # p5 = φ² u^5 = 12; coefficient = λp5 = 24.
+        np.testing.assert_allclose(em, 24.0, rtol=1e-10)
 
 
 # ---------------------------------------------------------------------------
@@ -217,16 +216,12 @@ class TestGeodesicDecomposition:
         np.testing.assert_allclose(np.abs(r.acc_geo).max(), 0.0, atol=1e-10)
 
     def test_theorem_residual_small(self):
-        """Main theorem: acc_geo + acc_lor + radion = acc_5d EXACTLY.
-
-        The residual acc_total − acc_5d is the RADION term (Γ^μ_{55} (u^5)²).
-        For small u^5, it is small relative to the 5D acceleration.
-        """
+        """For constant radius, the intrinsic gravity plus Lorentz force
+        agrees with the full 5D projection to numerical accuracy."""
         g, B, phi, u4, u5, dx, lam = _flat_state(N=16, B_amp=0.03,
                                                    u5_val=0.01)
         r = geodesic_decomposition(g, B, phi, u4, u5, dx, lam)
-        # The residual is just the radion term, O((u^5)^2) = O(1e-4)
-        # Verify it is small relative to the Lorentz term
+        # Verify the discretisation residual is small relative to acceleration.
         norm_5d  = np.linalg.norm(r.acc_5d)
         norm_res = np.linalg.norm(r.residual)
         if norm_5d > 1e-12:
@@ -265,7 +260,7 @@ class TestGeodesicDecomposition:
         lam  = 1.0
         x = np.linspace(0, (N-1)*dx, N)
         B = np.zeros((N, 4))
-        B[:, 1] = 0.1 * x
+        B[:, 0] = 0.1 * x
         u4 = np.zeros((N, 4)); u4[:, 0] = 1.0; u4[:, 1] = 0.1
         u5 = 0.05 * np.ones(N)
         r = geodesic_decomposition(g, B, phi, u4, u5, dx, lam)

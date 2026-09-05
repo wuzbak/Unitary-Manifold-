@@ -125,6 +125,14 @@ def test_field_strength_zero_for_uniform_B():
     np.testing.assert_allclose(H, 0.0, atol=1e-6)
 
 
+@pytest.mark.parametrize("size", [0, 1, 2])
+def test_short_grids_rejected_consistently_across_backends(size):
+    B = np.zeros((size, 4))
+    for strength in (field_strength_jax, jax_field_strength, np_field_strength):
+        with pytest.raises(ValueError):
+            strength(B, 0.1)
+
+
 def test_field_strength_dx_scaling(small_state):
     g, B, phi = small_state
     H1 = np.array(field_strength_jax(jnp.array(B), 0.1))
@@ -162,7 +170,7 @@ def test_assemble_metric_symmetry(small_state):
 def test_assemble_metric_off_diagonal(small_state):
     g, B, phi = small_state
     G = np.array(assemble_metric_jax(jnp.array(g), jnp.array(B), jnp.array(phi), 1.0))
-    np.testing.assert_allclose(G[:, :4, 4], 1.0 * phi[:, None] * B, rtol=1e-5)
+    np.testing.assert_allclose(G[:, :4, 4], 1.0 * phi[:, None]**2 * B, rtol=1e-5)
 
 
 def test_assemble_metric_4x4_block(small_state):
@@ -252,6 +260,39 @@ def test_jit_metric_determinism(small_state):
     G1 = np.array(assemble_metric_jax(jnp.array(g), jnp.array(B), jnp.array(phi)))
     G2 = np.array(assemble_metric_jax(jnp.array(g), jnp.array(B), jnp.array(phi)))
     np.testing.assert_array_equal(G1, G2)
+
+
+def test_jax_rhs_uses_spatial_divergence_and_agrees_with_numpy():
+    from src.core.jax_evolution import _jax_compute_rhs, _jax_divergence_x
+    from src.core.evolution import _compute_rhs
+    x = np.linspace(-0.4, 0.4, 17)
+    dx = x[1]-x[0]
+    g = np.tile(np.diag([-1., 1., 1., 1.]), (len(x), 1, 1))
+    B = x[:, None]**2 * np.array([0.2, 0.8, 0.3, 0.])
+    phi = np.full(len(x), 1.8)
+    np.testing.assert_allclose(_jax_divergence_x(jnp.array(B), dx),
+                               1.6*x, atol=1e-12)
+    state = FieldState(g=g, B=B, phi=phi, dx=dx, lam=1., alpha=0.1)
+    actual = _jax_compute_rhs(jnp.array(g), jnp.array(B), jnp.array(phi),
+                              dx, state.lam, state.alpha, state.phi0, state.m_phi)
+    expected_dB = np.tile([-0.4, 0., 0.6, 0.], (len(x), 1))
+    np.testing.assert_allclose(actual[1], expected_dB, atol=1e-12)
+    for a, b in zip(actual, _compute_rhs(state)):
+        np.testing.assert_allclose(a, b, rtol=1e-11, atol=1e-12)
+
+
+def test_jax_rk4_step_matches_numpy_for_nonunit_radion():
+    x = np.arange(16)*0.1
+    g = np.tile(np.diag([-1., 1., 1., 1.]), (len(x), 1, 1))
+    B = np.column_stack((0.2*np.sin(x), 0.1*x*x, 0.15*np.cos(x), 0.05*x))
+    phi = 1.7 + 0.02*np.sin(x)
+    state = FieldState(g=g, B=B, phi=phi, dx=0.1, lam=0.7, alpha=0.03,
+                       phi0=1.7, m_phi=0.2)
+    expected = np_step(state, 1e-5)
+    actual = to_numpy_state(jax_step(from_numpy_state(state), 1e-5))
+    for field in ("g", "B", "phi"):
+        np.testing.assert_allclose(getattr(actual, field), getattr(expected, field),
+                                   rtol=1e-11, atol=1e-12)
 
 
 # ===========================================================================
