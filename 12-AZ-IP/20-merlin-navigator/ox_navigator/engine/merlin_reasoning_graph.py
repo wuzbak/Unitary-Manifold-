@@ -127,8 +127,11 @@ def get_reasoning_chain(query: str, *, max_hops: int = 3) -> dict[str, Any]:
 
     edge_average = (sum(item["edge_weight"] for item in edges) / len(edges)) if edges else 0.0
     coverage = min(len(chain) / max(hop_cap, 1), 1.0)
+    kb_match = context.get("kb_match")
+    if kb_match is None:
+        kb_match = context.get("match")
     evidence_score = 0.0
-    if context.get("kb_match"):
+    if kb_match:
         evidence_score += 0.1
     evidence_score += 0.35 * edge_average
     evidence_score += min(0.45, 0.09 * lean4_total_hits)
@@ -136,7 +139,7 @@ def get_reasoning_chain(query: str, *, max_hops: int = 3) -> dict[str, Any]:
     return {
         "ok": True,
         "query": query,
-        "kb_match": context.get("kb_match"),
+        "kb_match": kb_match,
         "chain": chain,
         "edges": edges,
         "proof_chain_confidence": proof_chain_confidence,

@@ -5,13 +5,24 @@
 
 from __future__ import annotations
 
-import resource
 from datetime import datetime, timezone
 from typing import Any
+
+try:  # pragma: no cover - platform-dependent
+    import resource
+except ImportError:  # pragma: no cover - platform-dependent
+    resource = None
 
 
 def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _rss_peak_kb() -> int:
+    if resource is None:
+        return 0
+    usage = resource.getrusage(resource.RUSAGE_SELF)
+    return int(getattr(usage, "ru_maxrss", 0) or 0)
 
 
 def estimate_token_count(text: str) -> int:
@@ -68,7 +79,7 @@ def build_run_telemetry(
         "used_websearch": bool(used_websearch),
         "latency_ms": round(float(latency_ms), 3),
         "wall_time_ms": round(float(latency_ms), 3),
-        "rss_peak_kb": int(getattr(resource.getrusage(resource.RUSAGE_SELF), "ru_maxrss", 0) or 0),
+        "rss_peak_kb": _rss_peak_kb(),
         "tokens": {
             "input_estimate": input_tokens,
             "output_estimate": output_tokens,
