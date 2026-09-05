@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v35.9
+# Unitary Manifold v36.0
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v36.0 sync note (Sprint CD — 2026-09-05):*
+*(1) Auditable checked-in branch state now includes Pillar 1060; Lean4 remains 4000; next pillar slot 1061.*
+*(2) Sprint CD executes a hard no-loop closure protocol: each open lane must terminate as `CLOSED_NOW`, `TIGHTENED_WITH_EXPLICIT_BLOCKER`, or `EXTERNAL_WAIT_ONLY` with no narrative middle state.*
+*(3) Internal lane execution order is strict and fixed — flavor first, UV/Higgs second, CMB third, QG fourth — and same-sprint reruns are blocked unless a new object/evidence class is introduced.*
+*(4) Runtime flips remain evidence-earned only; otherwise lanes are explicitly tightened with named blockers and carried forward honestly.*
+*(5) End-of-sprint output is a blunt three-column board (closed / tightened / blocked-external wait); open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.*
 
 *v35.9 sync note (Sprint CC — 2026-09-05):*
 *(1) Auditable checked-in branch state now includes Pillars 1058–1059; Lean4 remains 4000; next pillar slot 1060.*

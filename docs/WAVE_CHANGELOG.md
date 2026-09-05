@@ -1,9 +1,32 @@
 # Wave Changelog
 
 This file is the required wave-level changelog ledger.
-**Current version: v35.9 (2026-09-05)**
+**Current version: v36.0 (2026-09-05)**
 **Regression:** 63,771 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1060
+**Next pillar slot:** 1061
+
+## v36.0 (2026-09-05 — Sprint CD: Pillar 1060)
+
+**What changed:**
+Pillar 1060 (1 pillar). Sprint CD executes a hard no-loop closure protocol: each open lane is forced into one binary class (`CLOSED_NOW`, `TIGHTENED_WITH_EXPLICIT_BLOCKER`, `EXTERNAL_WAIT_ONLY`), internal lanes are run in strict order (flavor → UV/Higgs → CMB → QG), same-sprint reruns are blocked unless a new object/evidence class appears, and end-of-sprint output is a blunt three-column board only.
+
+**Why:**
+Eliminate circular sprint behavior and require auditable closure semantics for every open lane without label inflation.
+
+**Epistemic label deltas:**
+- `SPRINT_CD_NO_LOOP_CLOSURE_EXECUTION_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — DESI DR3, CMB-S4, and LiteBIRD windows are unchanged.
+
+**Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032), non-perturbative QG/UV completion.
+
+**Lean4:** 4000 → 4000 (+0)
+**Regression:** Sprint CD targeted tests passed · 0 failed; full regression 63,771 passed · 23 skipped · 12 deselected · 0 failed
+**Next pillar slot:** 1061
 
 ## v35.9 (2026-09-05 — Sprint CC: Pillars 1058–1059)
 
