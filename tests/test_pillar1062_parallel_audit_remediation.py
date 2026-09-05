@@ -135,8 +135,8 @@ def test_publication_packet_exists() -> None:
     assert row["status"] == "PASS"
 
 
-def test_publication_packet_check_detects_missing_artifact(monkeypatch) -> None:
-    missing = Path("/tmp/nonexistent-pillar1062-report.md")
+def test_publication_packet_check_detects_missing_artifact(monkeypatch, tmp_path) -> None:
+    missing = tmp_path / "nonexistent-pillar1062-report.md"
     monkeypatch.setattr(audit_module, "_SELF_RUN_REPORT", missing)
     row = audit_module.publication_packet_check()
     assert row["self_run_report_exists"] is False

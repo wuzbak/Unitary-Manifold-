@@ -119,7 +119,7 @@ def _live_status_audit() -> Dict[str, Any]:
     tests = dict(payload.get("tests") or {})
     status_text = (_ROOT / "STATUS.md").read_text(encoding="utf-8")
     status_match = re.search(
-        r"Latest verified full regression in current branch history:\s*([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected",
+        r"Latest verified full regression in current branch history:\s*([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed",
         status_text,
     )
     version_number = _parse_version_number(meta.get("version"))
@@ -141,7 +141,7 @@ def _live_status_audit() -> Dict[str, Any]:
                 int(status_match.group(1).replace(",", "")),
                 int(status_match.group(2)),
                 int(status_match.group(3)),
-                0,
+                int(status_match.group(4)),
             )
         ),
     }
