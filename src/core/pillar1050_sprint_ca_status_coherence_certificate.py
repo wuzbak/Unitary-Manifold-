@@ -131,8 +131,16 @@ def _live_status_audit() -> Dict[str, Any]:
         "lean4_ok": int(lean4.get("theorem_count", 0)) >= EXPECTED_LEAN4_COUNT,
         "tests_ok": bool(
             status_match
-            and int(tests.get("passed", 0))
-            == int(status_match.group(1).replace(",", ""))
+            and (
+                int(tests.get("passed", 0)),
+                int(tests.get("skipped", 0)),
+                int(tests.get("deselected", 0)),
+            )
+            == (
+                int(status_match.group(1).replace(",", "")),
+                int(status_match.group(2)),
+                int(status_match.group(3)),
+            )
         ),
     }
 

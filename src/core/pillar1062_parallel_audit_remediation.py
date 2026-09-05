@@ -77,7 +77,8 @@ def _read_text(path: Path) -> str:
 
 def _load_module(path: Path, name: str) -> Any:
     spec = spec_from_file_location(name, path)
-    assert spec is not None and spec.loader is not None
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Could not load module spec for {path}")
     module = module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
