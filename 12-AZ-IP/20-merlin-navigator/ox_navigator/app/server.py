@@ -816,10 +816,16 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         budget=budget,
                         session=merlin_session,
                     )
+                    status = 200
+                    if not result.get('ok'):
+                        if ((result.get('sentinel') or {}).get('blocked')):
+                            status = 403
+                        else:
+                            status = 400
                     self._json({
                         'ok': bool(result.get('ok')),
                         'research_cycle': result,
-                    }, status=200 if result.get('ok') else 403)
+                    }, status=status)
                     return
             finally:
                 self._persist_session(session_id, merlin_session)

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from .merlin_memory import MerlinSession
@@ -22,8 +22,10 @@ def _sort_key(item: dict[str, Any], index: int) -> tuple[datetime, int]:
     stamp = str(item.get("detected_at", "") or "")
     try:
         parsed = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
     except ValueError:
-        parsed = datetime.min
+        parsed = datetime.min.replace(tzinfo=timezone.utc)
     return parsed, index
 
 

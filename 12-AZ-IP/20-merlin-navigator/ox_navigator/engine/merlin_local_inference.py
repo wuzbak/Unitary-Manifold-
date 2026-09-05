@@ -170,7 +170,7 @@ async def _call_local_chat(
         "temperature": float(temperature),
         "messages": [{"role": "user", "content": prompt}],
     }
-    endpoint_url = str(httpx.URL(f"{base_url}/").join(chat_path))
+    endpoint_url = f"{base_url.rstrip('/')}/{chat_path.lstrip('/')}"
     async with httpx.AsyncClient(timeout=30.0) as client:
         response = await client.post(endpoint_url, json=payload)
         response.raise_for_status()
