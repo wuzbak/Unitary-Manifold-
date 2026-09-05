@@ -1,9 +1,9 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v36.3
+# Unitary Manifold v36.4
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-05 (v36.3 — Sprint CG: Pillar 1078. This sprint is an explicit non-hardgate post-merge audit/remediation lock: it preserves the merged Sprint CF hardgate/open-lane story while forcing canonical/public status surfaces, observation freshness notes, Lean proxy disclosures, radion/evolution wording, and publication traceability to match the merged branch reality and verified regression results. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1079. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-05 (v36.4 — Sprint CH: Pillars 1079–1081. This sprint converts external Gemini critique handling into executable artifacts: P1079 publishes a claim-level critique-to-proof matrix with evidence labels, executable work obligations, stop conditions/falsifiers, and a confabulation register for outdated claims; P1080 executes deterministic four-lane routing (flavor/c_L, shared UV object, CMB amplitude boundary, neutrino dependency) with named blockers and no unearned closure relabeling; P1081 fail-closes sprint validity unless matrix, lane packet, and publication packet all pass. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1082. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
 
@@ -12,6 +12,12 @@
 *Historical continuity note: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer directly below Sprint BZ.*
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
+
+*P1081 (v36.4): Sprint CH Critique Resolution Certificate — SPRINT_CH_CRITIQUE_RESOLUTION_CERTIFICATE_COMPLETE. `src/core/pillar1081_sprint_ch_critique_resolution_certificate.py` integrates P1079 and P1080 and fail-closes sprint validity unless critique matrix integrity, deterministic lane routing integrity, and the four-article publication packet all pass while preserving explicit no-unearned-closure boundaries.*
+
+*P1080 (v36.4): Internal Lane Resolution Packet — CRITIQUE_INTERNAL_LANE_RESOLUTION_PACKET_COMPLETE. `src/core/pillar1080_internal_lane_resolution_packet.py` executes deterministic four-lane routing for flavor/c_L, shared UV object, CMB amplitude boundary, and neutrino dependency hardening with explicit PASS/TENSION/FALSIFIED-compatible outcomes, named blockers, and explicit external-wait preservation.*
+
+*P1079 (v36.4): Gemini Critique-to-Proof Matrix — GEMINI_CRITIQUE_PROOF_MATRIX_COMPLETE. `src/core/pillar1079_gemini_critique_proof_matrix.py` publishes a machine-readable claim matrix mapping each major Gemini critique to current claim state, evidence status (`PROVED`/`CONSTRAINED`/`OPEN`/`INCORRECT_CRITIQUE`), required executable tightening work, and exact stop condition/falsifier, with immutable-baseline artifact lock and confabulation register.*
 
 *P1078 (v36.3): Post-Merge Audit Remediation Certificate — POST_MERGE_AUDIT_REMEDIATION_COMPLETE. `src/core/pillar1078_parallel_audit_remediation.py` verifies that stale observation-routing text is marked historical, audited Lean proxy surfaces disclose scope limits, radion/evolution honesty notes are current, live-status and public status JSON stay aligned to the merged branch reality, and the findings/reporting packet exists. This is a repository-integrity hardening layer only and does not promote new hardgate physics claims.*
 

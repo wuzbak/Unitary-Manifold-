@@ -1,13 +1,13 @@
 {
-  "version": "v36.3",
-  "tests_passed": 63876,
+  "version": "v36.4",
+  "tests_passed": 63892,
   "tests_skipped": 23,
   "tests_deselected": 12,
   "tests_failed": 0,
   "lean4_theorems": 4080,
   "pillars_hardgate": 208,
-  "pillars_total": 1078,
-  "next_pillar_slot": 1079,
+  "pillars_total": 1081,
+  "next_pillar_slot": 1082,
   "primary_falsifier": "LiteBIRD \u03b2 \u2208 {0.273\u00b0, 0.331\u00b0} (~2032)",
   "open_tensions": [
     {
@@ -36,8 +36,8 @@
   "ubi": "606 239 876",
   "generated": "2026-09-05",
   "pillars": 208,
-  "adjacent_tracks": 870,
-  "regression": "63,876 passed \u00b7 23 skipped \u00b7 12 deselected \u00b7 0 failed",
+  "adjacent_tracks": 873,
+  "regression": "63,892 passed \u00b7 23 skipped \u00b7 12 deselected \u00b7 0 failed",
   "predictions": {
     "n_s": {
       "um": 0.9635,

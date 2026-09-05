@@ -1,13 +1,13 @@
 {
-  "version": "v36.3",
-  "tests_passed": 63876,
+  "version": "v36.4",
+  "tests_passed": 63892,
   "tests_skipped": 23,
   "tests_deselected": 12,
   "tests_failed": 0,
   "lean4_theorems": 4080,
   "pillars_hardgate": 208,
-  "pillars_total": 1078,
-  "next_pillar_slot": 1079,
+  "pillars_total": 1081,
+  "next_pillar_slot": 1082,
   "primary_falsifier": "LiteBIRD \u03b2 \u2208 {0.273\u00b0, 0.331\u00b0} (~2032)",
   "open_tensions": [
     {

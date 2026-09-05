@@ -80,8 +80,13 @@ _OPEN_TENSIONS = [
 
 
 def _canonical_status_surface_fields(live_status: dict[str, Any]) -> dict[str, Any]:
+    live_version = str((live_status.get("meta") or {}).get("version", "")).strip()
+    if live_version:
+        version_label = live_version if live_version.startswith("v") else f"v{live_version}"
+    else:
+        version_label = VERSION
     return {
-        "version": VERSION,
+        "version": version_label,
         "tests_passed": live_status["tests"]["passed"],
         "tests_skipped": live_status["tests"]["skipped"],
         "tests_deselected": live_status["tests"]["deselected"],

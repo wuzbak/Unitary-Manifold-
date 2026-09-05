@@ -1,9 +1,9 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-**The Unitary Manifold v36.3 — Unambiguous Record**  
+**The Unitary Manifold v36.4 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-05 (v36.3 — Sprint CG: Pillar 1078; non-hardgate post-merge audit/remediation lock preserving Sprint CF scientific state while re-aligning code, proof, documentation, and status surfaces to the merged branch reality; Lean4 4080→4080; 63,876 passed · 23 skipped · 12 deselected · 0 failed; next slot 1079.)*
-*Latest verified full regression: 63,787 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-05).*
+*Last updated: 2026-09-05 (v36.4 — Sprint CH: Pillars 1079–1081; executable critique-to-proof matrix + deterministic internal lane resolution packet + fail-closed sprint certificate; Lean4 4080→4080; 63,892 passed · 23 skipped · 12 deselected · 0 failed; next slot 1082.)*
+*Latest verified full regression: 63,892 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-05).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

@@ -1,8 +1,15 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v36.3
+# Unitary Manifold v36.4
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v36.4 sync note (Sprint CH — 2026-09-05):*
+*(1) Auditable checked-in branch state now includes Pillars 1079–1081; Lean4 remains 4080; next pillar slot 1082; latest verified full regression in current branch history is 63,892 passed · 23 skipped · 12 deselected · 0 failed.*
+*(2) P1079 publishes a machine-readable critique-to-proof matrix for the Gemini red-team review with explicit evidence labels, executable obligations, stop conditions/falsifiers, and a confabulation register for outdated claims.*
+*(3) P1080 executes deterministic routing across flavor/c_L, shared UV object, CMB amplitude boundary, and neutrino dependency hardening with explicit blockers and no unearned closure relabeling.*
+*(4) P1081 fail-closes sprint validity unless matrix + lane packet + publication packet all pass; this is an execution-certification layer, not a hardgate promotion.*
+*(5) Open-lane labels, falsifier windows, and external-wait discipline remain unchanged and explicit.*
 
 *v36.3 sync note (Sprint CG — 2026-09-05):*
 *(1) Auditable checked-in branch state now includes Pillar 1078; Lean4 remains 4080; next pillar slot 1079; verified full regression is 63,876 passed · 23 skipped · 12 deselected · 0 failed.*

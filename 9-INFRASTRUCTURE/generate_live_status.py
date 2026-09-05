@@ -151,47 +151,47 @@ OPEN_GATES = [
     {
         "gate": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED",
         "description": "Flavor shared-root blocker remains open after proof-first contraction.",
-        "pillar": 1078,
+        "pillar": 1081,
     },
     {
         "gate": "FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED",
         "description": "Species-resolved RI geometry with bundle-moduli lock remains unresolved.",
-        "pillar": 1078,
+        "pillar": 1081,
     },
     {
         "gate": "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
         "description": "Global CKM phase geometry remains architecture-limited after contraction.",
-        "pillar": 1078,
+        "pillar": 1081,
     },
     {
         "gate": "ALPHA_S_TYPE_B_FLOOR",
         "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
-        "pillar": 1078,
+        "pillar": 1081,
     },
     {
         "gate": "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
         "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
-        "pillar": 1078,
+        "pillar": 1081,
     },
     {
         "gate": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
         "description": "CMB amplitude lane remains internally irreducible absent the missing UV object.",
-        "pillar": 1078,
+        "pillar": 1081,
     },
     {
         "gate": "NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
         "description": "Non-perturbative QG remains bounded by the declared O1–O4 obstructions.",
-        "pillar": 1078,
+        "pillar": 1081,
     },
     {
         "gate": "DESI_DR3_MONITORING",
         "description": "External wait only; frozen-radion dark-energy lane awaits DESI DR3.",
-        "pillar": 1078,
+        "pillar": 1081,
     },
     {
         "gate": "LITEBIRD_BIREFRINGENCE",
         "description": "External wait only; birefringence lane awaits LiteBIRD.",
-        "pillar": 1078,
+        "pillar": 1081,
     },
 ]
 
