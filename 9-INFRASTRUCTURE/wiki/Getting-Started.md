@@ -1,6 +1,6 @@
 # Getting Started
 
-> Canonical regression marker: 63,756 passed · 23 skipped · 12 deselected · 0 failed.
+> Canonical regression marker: 63,771 passed · 23 skipped · 12 deselected · 0 failed.
 
 This page covers installing the Unitary Manifold package and running the built-in examples.
 

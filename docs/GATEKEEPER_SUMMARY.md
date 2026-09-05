@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v35.8
+# Unitary Manifold v35.9
 
 *Concise, auditable summary for scientific referees, journal editors,
 and peer reviewers.*
@@ -7,6 +7,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CC (v35.9 — 2026-09-05):** 2 pillars (1058–1059). P1058 executes a single closure-grade flavor packet against the current open internal lanes: deterministic leverage scoring selects `phase_completion` as primary and `shared_root` as fallback, routing is explicitly PASS/TENSION/FALSIFIED, and anti-hidden-calibration checks confirm internal provenance-only runtime inputs. No runtime flip is credited; the auditable outcome is boundary tightening with blocker-front contraction and explicit unresolved-object carry-forward. P1059 certifies cross-surface coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON. Open-lane labels remain unchanged and explicit. Lean4 4000→4000 (+0). Next slot 1060.
+>
 
 > **Sprint CB (v35.8 — 2026-09-04):** 7 pillars (1051–1057). P1051 enforces a merge-gated baseline lock so new claim promotion stays frozen until housekeeping merge acknowledgement and canonical truth surfaces are hash-locked. P1052 advances targeted formal closure with deterministic binary go/no-go routing and one explicit substep reduction while keeping full Kawamura-independence closure open. P1053 deepens Merlin frontier readiness with a consolidated readiness packet and fail-closed promotion blockers (sync, empirical gate, longitudinal acceptance, policy-violation budget, provenance contract, sovereign-default policy). P1054 codifies a five-article documentation packet with explicit changed/unchanged/falsification/residual sections. P1055 codifies verification and release discipline for targeted suites, artifact reproducibility, and full-regression gating. P1056 certifies integrated all-hands parallel execution across merge, closure, Merlin, documentation, and verification lanes. P1057 certifies cross-surface coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan, live-status JSON, and the Sprint CB publication packet. Open-lane labels remain unchanged and explicit. Lean4 3988→4000 (+12). Next slot 1058.
 >
@@ -58,7 +61,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-04 (v35.8 — Sprint CB: Pillars 1051–1057; merge-gated baseline lock + targeted closure deterministic rigor + Merlin frontier readiness + documentation traceability packet + verification discipline + integration/coherence certificates; Lean4 4000; next pillar slot 1058; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
+*Last updated: 2026-09-05 (v35.9 — Sprint CC: Pillars 1058–1059; deterministic flavor execution packet + status coherence certificate; Lean4 4000; next pillar slot 1060; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

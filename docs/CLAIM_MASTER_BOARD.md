@@ -1,15 +1,19 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v35.8
+# Unitary Manifold v35.9
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-04 (v35.8 — Sprint CB: Pillars 1051–1057. Merge-gated baseline lock, targeted closure deterministic rigor, Merlin frontier readiness blockers, documentation traceability packet, verification-release discipline, and integrated parallel execution/coherence certificates are now codified as one auditable packet. Runtime flips are credited only when earned; otherwise boundaries and blockers are carried forward explicitly. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1058. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-05 (v35.9 — Sprint CC: Pillars 1058–1059. A focused flavor execution packet now enforces deterministic primary/fallback target selection, explicit PASS/TENSION/FALSIFIED routing, anti-hidden-calibration checks, and blocker-front contraction without unearned runtime flips. A paired status-coherence certificate lockstep-audits canonical truth surfaces plus live-status JSON. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1060. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *Historical continuity note: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the canonical targeted-QG-rigor layer directly below Sprint CA.*
 *Historical continuity note: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.*
 *Historical continuity note: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer directly below Sprint BZ.*
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
+
+*P1059 (v35.9): Sprint CC Status-Coherence Certificate — SPRINT_CC_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1059_sprint_cc_status_coherence_certificate.py` certifies lockstep coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON, enforcing v35.9 markers, next-slot alignment, and unchanged open-lane visibility.*
+
+*P1058 (v35.9): Sprint CC Flavor Execution Packet — SPRINT_CC_FLAVOR_EXECUTION_PACKET_COMPLETE. `src/core/pillar1058_flavor_execution_packet.py` executes one deterministic flavor closure-grade packet with primary/fallback target selection, PASS/TENSION/FALSIFIED routing, anti-hidden-calibration checks, and explicit blocker-front contraction while preserving unresolved-object carry-forward and non-promotion honesty.*
 
 
 *P1057 (v35.8): Sprint CB Status-Coherence Certificate — SPRINT_CB_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1057_sprint_cb_status_coherence_certificate.py` certifies lockstep coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON and the Sprint CB five-article packet, enforcing v35.8 markers and unchanged open-lane visibility.*
