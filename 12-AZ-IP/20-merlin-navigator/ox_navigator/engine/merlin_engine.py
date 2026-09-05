@@ -621,13 +621,22 @@ async def query_merlin(
         privilege_allowed=bool(privilege.get("allowed")),
         sentinel_blocked=bool(sentinel.blocked),
     )
-    ingestion = await run_post_turn_compilation(
+    preflight_ingestion = await run_post_turn_compilation(
         query=text,
         answer=processed["answer"],
         provenance=processed["provenance"],
         session=session,
+        persist=False,
     )
-    if ingestion["should_block_output"]:
+    for artifact in preflight_ingestion.get("artifacts", []):
+        session.ingest_compiled_insight(dict(artifact))
+    ingestion = {
+        **preflight_ingestion,
+        "persisted_from_preflight": True,
+        "source_answer": "original_candidate_answer",
+        "served_response_rewritten": False,
+    }
+    if preflight_ingestion["should_block_output"]:
         processed = _policy_contract_response(
             "[OPEN_GAP] Response withheld by contradiction/proof gate. Candidate memory was quarantined and routed to Falsification Lab.",
             sources=[
@@ -635,6 +644,19 @@ async def query_merlin(
                 {"label": "Falsification Lab Tripwire", "type": "ARCHITECTURE_LIMIT", "description": "Unverified or contradictory claims cannot auto-promote"},
             ],
         )
+        served_preview = await run_post_turn_compilation(
+            query=text,
+            answer=processed["answer"],
+            provenance=processed["provenance"],
+            session=session,
+            persist=False,
+        )
+        ingestion["served_response_rewritten"] = True
+        ingestion["served_response_preview"] = {
+            "compiled_count": served_preview["compiled_count"],
+            "contradiction_count": served_preview["contradiction_count"],
+            "unresolved_proof_count": served_preview["unresolved_proof_count"],
+        }
     session.add_turn(text, processed["answer"], gates=processed["gate_badges"])
     telemetry = build_run_telemetry(
         query=text,

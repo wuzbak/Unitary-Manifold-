@@ -1031,14 +1031,21 @@ def _build_compiled_insight_records(compiled_insights: list[dict[str, Any]] | No
             continue
         kind = str(item.get("kind", "operational_heuristic"))
         split = _dataset_split(str(item.get("insight_id", "")) or fact, "compiled_insights")
+        status = str(item.get("status", ""))
+        proof_verdict = str(item.get("proof_verdict", "not_applicable"))
+        required_gates = ["GOVERNANCE"]
+        if status == "[CONTRADICTION_FLAGGED]":
+            required_gates.append("ARCHITECTURE_LIMIT")
+        if status == "[PROOF_REVIEW_REQUIRED]" or proof_verdict in {"needs_steward_review", "rejected"}:
+            required_gates.append("OPEN_GAP")
         records.append({
             "record_id": f"compiled-{item.get('insight_id', '')}",
             "split": split,
             "task_family": "compiled_insights",
             "instruction": f"Retained insight ({kind}): {fact}",
             "response_target": {
-                "status": str(item.get("status", "")),
-                "proof_verdict": str(item.get("proof_verdict", "not_applicable")),
+                "status": status,
+                "proof_verdict": proof_verdict,
                 "contradictions": list(item.get("contradictions") or []),
             },
             "target_contract": {
@@ -1046,7 +1053,7 @@ def _build_compiled_insight_records(compiled_insights: list[dict[str, Any]] | No
                 "requires_contradiction_check": True,
             },
             "supervision_mode": "compile_time_ingestion",
-            "required_gates": ["GOVERNANCE"],
+            "required_gates": required_gates,
             "provenance_sources": ["merlin_compiled_insight_store"],
             "format_version": "merlin_training_jsonl_v1",
         })

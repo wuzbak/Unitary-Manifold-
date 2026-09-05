@@ -6,6 +6,9 @@
 from __future__ import annotations
 
 import re
+import hashlib
+import hmac
+import os
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
@@ -23,7 +26,7 @@ MERLIN_MAX_AUDITS = 100
 
 _NORMALIZE_RE = re.compile(r"[^a-z0-9]+")
 _NUMERIC_ASSIGNMENT_RE = re.compile(r"(k[\s_\-]*cs|n[\s_\-]*w|w[\s_\-]*a)\s*=\s*([\-]?\d+(?:\.\d+)?)", re.IGNORECASE)
-_W_A_NONZERO_RE = re.compile(r"w[\s_\-]*a\s*[!><~]+\s*0", re.IGNORECASE)
+_W_A_NONZERO_RE = re.compile(r"w[\s_\-]*a\s*(?:!=|[><~]=?)\s*0", re.IGNORECASE)
 
 HARDGATE_INVARIANTS = {
     "kcs": "74",
@@ -55,6 +58,11 @@ DEFAULT_DURABLE_MEMORIES = [
 
 def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _redacted_digest(text: str) -> str:
+    secret = str(os.environ.get("MERLIN_MEMORY_HASH_SECRET") or "merlin-memory-redaction").encode("utf-8")
+    return hmac.new(secret, str(text or "").encode("utf-8"), hashlib.sha256).hexdigest()
 
 
 def _normalize(text: str) -> str:
@@ -232,7 +240,21 @@ class MerlinSession:
         item["ingested_at"] = _utcnow()
         contradictions = list(item.get("contradictions") or [])
         proof_verdict = str(item.get("proof_verdict") or "not_applicable")
-        if contradictions:
+        incoming_status = str(item.get("status") or "").strip()
+        if incoming_status in {"[CONTRADICTION_FLAGGED]", "[PROOF_REVIEW_REQUIRED]"}:
+            item["status"] = incoming_status
+            self.quarantined_insights.append(item)
+            if incoming_status == "[CONTRADICTION_FLAGGED]":
+                self.contradiction_events.append({
+                    "query": str(item.get("source_query", "")),
+                    "prior_response": "",
+                    "new_response": str(item.get("fact", ""))[:240],
+                    "prior_timestamp": "",
+                    "detected_at": _utcnow(),
+                    "kind": "compiled_insight_contradiction",
+                    "conflicts": contradictions,
+                })
+        elif contradictions:
             item["status"] = "[CONTRADICTION_FLAGGED]"
             self.quarantined_insights.append(item)
             self.contradiction_events.append({
@@ -367,7 +389,15 @@ class MerlinSession:
         }
 
     def get_compiled_training_insights(self) -> list[dict[str, Any]]:
-        return [dict(item) for item in self.compiled_insights[-50:]]
+        selected: list[dict[str, Any]] = []
+        for item in self.compiled_insights[-50:]:
+            fact = str(item.get("fact", "")).strip()
+            if not fact:
+                continue
+            if str(item.get("status", "")) != "[TRUSTED_COMPILED]":
+                continue
+            selected.append(dict(item))
+        return selected
 
     def get_telemetry_summary(self, *, public: bool = False) -> dict[str, Any]:
         summary = summarize_runs(self.telemetry)
@@ -421,13 +451,79 @@ class MerlinSession:
     def to_persistence_dict(self) -> dict[str, Any]:
         telemetry = []
         for run in self.telemetry:
-            item = dict(run)
-            item.pop("query", None)
-            telemetry.append(item)
+            telemetry.append({
+                "recorded_at": run.get("recorded_at"),
+                "provider": run.get("provider"),
+                "lane": run.get("lane"),
+                "context_source": run.get("context_source"),
+                "tool_rounds": run.get("tool_rounds"),
+                "used_websearch": run.get("used_websearch"),
+                "latency_ms": run.get("latency_ms"),
+                "tokens": dict(run.get("tokens") or {}),
+                "cost": dict(run.get("cost") or {}),
+                "energy": dict(run.get("energy") or {}),
+                "quality_signals": dict(run.get("quality_signals") or {}),
+            })
+        compiled: list[dict[str, Any]] = []
+        for item in self.compiled_insights:
+            compiled.append({
+                "insight_id": item.get("insight_id"),
+                "schema_version": item.get("schema_version"),
+                "kind": item.get("kind"),
+                "status": item.get("status"),
+                "proof_verdict": item.get("proof_verdict"),
+                "theorem_hits": list(item.get("theorem_hits") or []),
+                "contradictions": list(item.get("contradictions") or []),
+                "compiled_at": item.get("compiled_at"),
+                "ingested_at": item.get("ingested_at"),
+                "fact_sha256": _redacted_digest(str(item.get("fact", ""))),
+                "source_query_sha256": _redacted_digest(str(item.get("source_query", ""))),
+                "redacted_for_persistence": True,
+            })
+        quarantined: list[dict[str, Any]] = []
+        for item in self.quarantined_insights:
+            quarantined.append({
+                "insight_id": item.get("insight_id"),
+                "schema_version": item.get("schema_version"),
+                "kind": item.get("kind"),
+                "status": item.get("status"),
+                "proof_verdict": item.get("proof_verdict"),
+                "theorem_hits": list(item.get("theorem_hits") or []),
+                "contradictions": list(item.get("contradictions") or []),
+                "compiled_at": item.get("compiled_at"),
+                "ingested_at": item.get("ingested_at"),
+                "fact_sha256": _redacted_digest(str(item.get("fact", ""))),
+                "source_query_sha256": _redacted_digest(str(item.get("source_query", ""))),
+                "redacted_for_persistence": True,
+            })
+        redacted_contradictions: list[dict[str, Any]] = []
+        for item in self.contradiction_events:
+            redacted_contradictions.append({
+                "detected_at": item.get("detected_at"),
+                "kind": item.get("kind", "gate_drift"),
+                "conflicts": list(item.get("conflicts") or []),
+                "query_sha256": _redacted_digest(str(item.get("query", ""))),
+            })
         payload = self.to_dict()
         payload["turns"] = []
         payload["intents"] = []
         payload["telemetry"] = telemetry
+        payload["durable_memory_redacted"] = [
+            {
+                "scope": item.get("scope"),
+                "source": item.get("source"),
+                "tags": list(item.get("tags") or []),
+                "retrieval_count": int(item.get("retrieval_count", 0) or 0),
+                "fact_sha256": _redacted_digest(str(item.get("fact", ""))),
+                "created_at": item.get("created_at"),
+                "last_seen_at": item.get("last_seen_at"),
+            }
+            for item in self.durable_memory
+        ]
+        payload["durable_memory"] = []
+        payload["compiled_insights"] = compiled
+        payload["quarantined_insights"] = quarantined
+        payload["contradiction_events"] = redacted_contradictions
         return payload
 
     @classmethod

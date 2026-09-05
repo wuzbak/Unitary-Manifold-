@@ -59,6 +59,8 @@ _MERLIN_SESSION_CAP = 128
 _PROFILE_STORE = MerlinMemoryStore()
 _HANDSHAKE_TTL_SECONDS = 300.0
 _MERLIN_HANDSHAKE_STATE: dict[str, dict[str, float | str | bool]] = {}
+_MERLIN_HANDSHAKE_LOCK = threading.Lock()
+_MERLIN_SESSION_HANDSHAKE: dict[str, str] = {}
 _MERLIN_GATE_LABELS = [
     "HARDGATE",
     "ADJACENT_TRACK",
@@ -70,6 +72,7 @@ _MERLIN_SESSION_SECRET = (
     str(os.environ.get('MERLIN_SESSION_SECRET') or '').encode('utf-8')
     or uuid4().hex.encode('utf-8')
 )
+_MERLIN_PROFILE_SHARED_KEY = str(os.environ.get("MERLIN_PROFILE_SHARED_KEY") or "")
 
 
 def _sign_session_id(session_id: str) -> str:
@@ -138,46 +141,119 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self.send_header('X-Merlin-Handshake-State', str(self._handshake_state))
         if getattr(self, '_handshake_challenge', ''):
             self.send_header('X-Merlin-Handshake-Challenge', str(self._handshake_challenge))
+        if getattr(self, '_handshake_receipt', ''):
+            self.send_header('X-Merlin-Handshake-Receipt', str(self._handshake_receipt))
         self.send_header('Content-Length', str(len(body)))
         self.end_headers()
         self.wfile.write(body)
 
     def _issue_handshake_challenge(self, session_id: str) -> str:
-        challenge = uuid4().hex
-        _MERLIN_HANDSHAKE_STATE[challenge] = {
-            "issued_at": time.time(),
-            "used": False,
-            "session_id": session_id,
-        }
+        with _MERLIN_HANDSHAKE_LOCK:
+            self._prune_handshake_state()
+            active = _MERLIN_SESSION_HANDSHAKE.get(session_id, "")
+            active_record = _MERLIN_HANDSHAKE_STATE.get(active, {})
+            if isinstance(active_record, dict) and not bool(active_record.get("used")):
+                issued_at = float(active_record.get("issued_at") or 0.0)
+                if (time.time() - issued_at) <= _HANDSHAKE_TTL_SECONDS:
+                    self._handshake_challenge = active
+                    self._handshake_receipt = str(active_record.get("receipt") or "")
+                    return active
+            challenge = uuid4().hex
+            _MERLIN_HANDSHAKE_STATE[challenge] = {
+                "issued_at": time.time(),
+                "used": False,
+                "session_id": session_id,
+                "receipt": hmac.new(
+                    _MERLIN_SESSION_SECRET,
+                    f"{challenge}:{session_id}".encode("utf-8"),
+                    hashlib.sha256,
+                ).hexdigest(),
+            }
+            _MERLIN_SESSION_HANDSHAKE[session_id] = challenge
         self._handshake_challenge = challenge
+        self._handshake_receipt = str((_MERLIN_HANDSHAKE_STATE.get(challenge) or {}).get("receipt") or "")
         return challenge
 
-    def _validate_handshake(self, *, payload: dict | None = None, params: dict | None = None) -> tuple[bool, str]:
-        header_challenge = str(self.headers.get("X-Merlin-Handshake-Challenge") or "").strip()
-        body_challenge = str((payload or {}).get("merlin_handshake_challenge") or "").strip()
-        query_challenge = str((params or {}).get("merlin_handshake_challenge", [""])[0] or "").strip()
-        challenge = body_challenge or header_challenge or query_challenge
-        if not challenge:
-            return True, "absent"
-        record = _MERLIN_HANDSHAKE_STATE.get(challenge)
-        if not isinstance(record, dict):
-            return False, "invalid"
-        if bool(record.get("used")):
-            return False, "replayed"
-        issued_at = float(record.get("issued_at") or 0.0)
-        if (time.time() - issued_at) > _HANDSHAKE_TTL_SECONDS:
-            return False, "expired"
-        header_proof = str(self.headers.get("X-Merlin-Handshake-Proof") or "").strip()
-        body_proof = str((payload or {}).get("merlin_handshake_proof") or "").strip()
-        query_proof = str((params or {}).get("merlin_handshake_proof", [""])[0] or "").strip()
-        proof = body_proof or header_proof or query_proof
-        expected = hmac.new(_MERLIN_SESSION_SECRET, challenge.encode("utf-8"), hashlib.sha256).hexdigest()
-        if not proof:
-            return False, "missing_proof"
-        if not hmac.compare_digest(proof, expected):
-            return False, "invalid_proof"
-        record["used"] = True
-        return True, "verified"
+    def _prune_handshake_state(self) -> None:
+        now = time.time()
+        stale = []
+        for challenge, record in list(_MERLIN_HANDSHAKE_STATE.items()):
+            if not isinstance(record, dict):
+                stale.append(challenge)
+                continue
+            used = bool(record.get("used"))
+            issued_at = float(record.get("issued_at") or 0.0)
+            if used or (now - issued_at) > _HANDSHAKE_TTL_SECONDS:
+                stale.append(challenge)
+        for challenge in stale:
+            record = _MERLIN_HANDSHAKE_STATE.pop(challenge, None)
+            if isinstance(record, dict):
+                session_id = str(record.get("session_id") or "")
+                if _MERLIN_SESSION_HANDSHAKE.get(session_id) == challenge:
+                    _MERLIN_SESSION_HANDSHAKE.pop(session_id, None)
+
+    def _validate_handshake(
+        self,
+        *,
+        session_id: str,
+        payload: dict | None = None,
+        params: dict | None = None,
+        required: bool = False,
+    ) -> tuple[bool, str]:
+        with _MERLIN_HANDSHAKE_LOCK:
+            self._prune_handshake_state()
+            header_challenge = str(self.headers.get("X-Merlin-Handshake-Challenge") or "").strip()
+            body_challenge = str((payload or {}).get("merlin_handshake_challenge") or "").strip()
+            query_challenge = str((params or {}).get("merlin_handshake_challenge", [""])[0] or "").strip()
+            challenge = body_challenge or header_challenge or query_challenge
+            if not challenge:
+                return (False, "missing_challenge") if required else (True, "absent")
+            record = _MERLIN_HANDSHAKE_STATE.get(challenge)
+            if not isinstance(record, dict):
+                return False, "invalid"
+            if str(record.get("session_id") or "") != str(session_id):
+                return False, "session_mismatch"
+            if bool(record.get("used")):
+                return False, "replayed"
+            issued_at = float(record.get("issued_at") or 0.0)
+            if (time.time() - issued_at) > _HANDSHAKE_TTL_SECONDS:
+                return False, "expired"
+            header_proof = str(self.headers.get("X-Merlin-Handshake-Proof") or "").strip()
+            header_receipt = str(self.headers.get("X-Merlin-Handshake-Receipt") or "").strip()
+            body_proof = str((payload or {}).get("merlin_handshake_proof") or "").strip()
+            body_receipt = str((payload or {}).get("merlin_handshake_receipt") or "").strip()
+            query_proof = str((params or {}).get("merlin_handshake_proof", [""])[0] or "").strip()
+            query_receipt = str((params or {}).get("merlin_handshake_receipt", [""])[0] or "").strip()
+            proof = body_proof or header_proof or query_proof
+            receipt = body_receipt or header_receipt or query_receipt
+            token_query = str((params or {}).get("merlin_profile_token", [""])[0] or "").strip()
+            token_header = str(self.headers.get("X-Merlin-Profile-Token") or "").strip()
+            token_body = str((payload or {}).get("merlin_handshake_profile_token") or "").strip()
+            if not token_body:
+                token_body = str((payload or {}).get("memory_profile_token") or "").strip()
+            profile_token = token_body or token_header or token_query
+            if not proof:
+                return False, "missing_proof"
+            if not receipt:
+                return False, "missing_receipt"
+            if not profile_token:
+                return False, "missing_profile_token"
+            token_session_id = _extract_session_id(profile_token)
+            if not token_session_id:
+                return False, "invalid_profile_token"
+            if token_session_id != str(session_id):
+                return False, "profile_session_mismatch"
+            expected_receipt = str(record.get("receipt") or "")
+            if not expected_receipt or not hmac.compare_digest(receipt, expected_receipt):
+                return False, "invalid_receipt"
+            expected = hashlib.sha256(f"{challenge}:{profile_token}".encode("utf-8")).hexdigest()
+            if not hmac.compare_digest(proof, expected):
+                return False, "invalid_proof"
+            record["used"] = True
+            sid = str(record.get("session_id") or "")
+            if _MERLIN_SESSION_HANDSHAKE.get(sid) == challenge:
+                _MERLIN_SESSION_HANDSHAKE.pop(sid, None)
+            return True, "verified"
 
     def _profile_hint(self, *, payload: dict | None = None, params: dict | None = None) -> str:
         query_profile = str((params or {}).get("merlin_profile_token", [""])[0] or "").strip()
@@ -191,8 +267,11 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         key_header = str(self.headers.get("X-Merlin-Profile-Key") or "").strip()
         key_body = str((payload or {}).get("memory_profile_key") or "").strip()
         provided_key = key_body or key_header or key_query
-        expected_key = str(os.environ.get("MERLIN_PROFILE_SHARED_KEY") or "").strip()
-        if not expected_key or not provided_key:
+        expected_key = str(_MERLIN_PROFILE_SHARED_KEY).strip()
+        if not expected_key:
+            self._profile_token_state = 'shared_key_not_configured'
+            return ""
+        if not provided_key:
             self._profile_token_state = 'missing_shared_key'
             return ""
         if not hmac.compare_digest(provided_key, expected_key):
@@ -246,8 +325,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         params = parse_qs(parsed.query)
         profile_hint = self._profile_hint(params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
-        self._issue_handshake_challenge(session_id)
-        self._handshake_state = "challenge_issued"
+        self._handshake_state = "not_issued"
+        if parsed.path.startswith('/api/merlin') or parsed.path.startswith('/api/ox'):
+            self._issue_handshake_challenge(session_id)
+            self._handshake_state = "challenge_issued"
         with merlin_lock:
             if parsed.path == '/api/merlin/status':
                 self._json({
@@ -259,7 +340,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'context_pack_exists': CONTEXT_PACK.exists(),
                 'active_session_key': MERLIN_ACTIVE_SESSION_KEY,
                 'memory_profile_token': _sign_session_id(session_id),
-                'profile_resume_requires_key': bool(os.environ.get('MERLIN_PROFILE_SHARED_KEY')),
+                'profile_resume_requires_key': bool(_MERLIN_PROFILE_SHARED_KEY),
                 'capability_views': ['index', 'domain', 'tool', 'full', 'state'],
                 'router_policy': get_router_policy(),
                 'live_status': route_tool('fetchRepoContext').get('result', {}).get('data', {}),
@@ -276,8 +357,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
                     'handshake': {
                         'state': self._handshake_state,
+                        'challenge': self._handshake_challenge,
+                        'receipt': self._handshake_receipt,
                         'challenge_ttl_seconds': _HANDSHAKE_TTL_SECONDS,
-                        'proof_hash': 'hmac_sha256',
+                        'proof_hash': 'sha256(challenge:memory_profile_token)',
                         'invalid_or_replayed_behavior': 'request_refused',
                     },
                 },
@@ -568,20 +651,53 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._json({'error': 'Invalid JSON body'}, status=400)
             return
         profile_hint = self._profile_hint(payload=payload, params=params)
+        if parsed.path in ('/api/merlin', '/api/ox') and str(getattr(self, '_profile_token_state', '')) in {'invalid_token_signature', 'invalid_shared_key', 'shared_key_not_configured'}:
+            self._handshake_state = "not_checked"
+            self._json({
+                'ok': False,
+                'error': 'Invalid profile resume token.',
+                'profile_token_state': self._profile_token_state,
+            }, status=401)
+            return
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
-        self._issue_handshake_challenge(session_id)
-        handshake_ok, handshake_state = self._validate_handshake(payload=payload, params=params)
+        handshake_material_present = any([
+            str(self.headers.get("X-Merlin-Handshake-Challenge") or "").strip(),
+            str(self.headers.get("X-Merlin-Handshake-Proof") or "").strip(),
+            str(self.headers.get("X-Merlin-Handshake-Receipt") or "").strip(),
+            str((payload or {}).get("merlin_handshake_challenge") or "").strip(),
+            str((payload or {}).get("merlin_handshake_proof") or "").strip(),
+            str((payload or {}).get("merlin_handshake_receipt") or "").strip(),
+            str(params.get("merlin_handshake_challenge", [""])[0] or "").strip(),
+            str(params.get("merlin_handshake_proof", [""])[0] or "").strip(),
+            str(params.get("merlin_handshake_receipt", [""])[0] or "").strip(),
+        ])
+        requires_handshake = parsed.path in ('/api/merlin', '/api/ox')
+        if requires_handshake:
+            handshake_ok, handshake_state = self._validate_handshake(
+                session_id=session_id,
+                payload=payload,
+                params=params,
+                required=True,
+            )
+        else:
+            handshake_ok, handshake_state = True, "not_required"
         self._handshake_state = handshake_state
 
         with merlin_lock:
             try:
                 if not handshake_ok:
+                    if requires_handshake and handshake_state == "missing_challenge":
+                        self._issue_handshake_challenge(session_id)
                     self._json({
                         'ok': False,
                         'error': 'Client-blind handshake verification failed.',
                         'handshake_state': handshake_state,
+                        'handshake_required': requires_handshake,
+                        'handshake_material_present': bool(handshake_material_present),
                     }, status=401)
                     return
+                if requires_handshake:
+                    self._issue_handshake_challenge(session_id)
                 if parsed.path == '/api/agentInvoke':
                     tool = str(payload.get('tool') or '').strip()
                     if not tool:
@@ -599,13 +715,6 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     return
 
                 if parsed.path in ('/api/merlin', '/api/ox'):
-                    if str(self._profile_token_state) in {'invalid_token_signature', 'invalid_shared_key'}:
-                        self._json({
-                            'ok': False,
-                            'error': 'Invalid profile resume token.',
-                            'profile_token_state': self._profile_token_state,
-                        }, status=401)
-                        return
                     query = str(payload.get('query') or '').strip()
                     if not query:
                         self._json({'error': 'query is required'}, status=400)

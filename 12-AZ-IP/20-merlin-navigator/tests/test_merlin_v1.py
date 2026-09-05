@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import importlib.util
 import json
 import sys
@@ -16,6 +17,7 @@ PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
+import ox_navigator.engine.merlin_engine as merlin_engine
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_identity import (
     CANONICAL_IDENTITY,
@@ -687,6 +689,39 @@ def test_post_turn_compilation_flags_contradictions():
     assert session.get_memory_state()['quarantined_insight_count'] >= 1
 
 
+def test_post_turn_compilation_enforce_mode_blocks(monkeypatch):
+    monkeypatch.setenv("MERLIN_CONTRADICTION_ENFORCEMENT", "enforce")
+    session = MerlinSession()
+    result = asyncio.run(run_post_turn_compilation(
+        query='Can we set w_a != 0 now?',
+        answer='No proven closure. Proposed patch: w_a != 0.',
+        provenance={'sources': [{'kind': 'knowledge_base'}]},
+        session=session,
+    ))
+    assert result['should_block_output'] is True
+
+
+def test_query_merlin_uses_ingestion_gate_when_enforced(monkeypatch):
+    async def _force_block(**kwargs):
+        return {
+            "mode": "enforce",
+            "compiled_count": 1,
+            "contradiction_count": 1,
+            "unresolved_proof_count": 0,
+            "should_block_output": True,
+            "artifacts": [],
+        }
+
+    monkeypatch.setattr(merlin_engine, "run_post_turn_compilation", _force_block)
+    session = MerlinSession()
+    payload = asyncio.run(query_merlin(text='What is the birefringence prediction?', session=session))
+    assert "Response withheld by contradiction/proof gate" in payload["answer"]
+    assert payload["compile_time_ingestion"]["served_response_rewritten"] is True
+    assert payload["compile_time_ingestion"]["persisted_from_preflight"] is True
+    assert "served_response_preview" in payload["compile_time_ingestion"]
+    assert payload["compile_time_ingestion"]["served_response_preview"]["compiled_count"] >= 0
+
+
 def test_query_merlin_keeps_benchmark_eval_explicit_only():
     session = MerlinSession()
     payload = asyncio.run(query_merlin(
@@ -711,6 +746,10 @@ def test_server_merlin_endpoints():
             assert status.json()['memory_profile_token']
             assert 'client_blind_ingestion_contract' in status.json()['session_contract']
             assert 'handshake' in status.json()['session_contract']
+            handshake_challenge = status.json()['session_contract']['handshake']['challenge']
+            handshake_receipt = status.json()['session_contract']['handshake']['receipt']
+            memory_profile_token = status.json()['memory_profile_token']
+            handshake_proof = hashlib.sha256(f"{handshake_challenge}:{memory_profile_token}".encode('utf-8')).hexdigest()
 
             program = client.get('/api/merlin/program')
             assert program.status_code == 200
@@ -902,7 +941,13 @@ def test_server_merlin_endpoints():
             assert bad_handshake.status_code == 401
             assert bad_handshake.json()['handshake_state'] == 'invalid'
 
-            assistant = client.post('/api/merlin', json={'query': 'What is the birefringence prediction?'})
+            assistant = client.post('/api/merlin', json={
+                'query': 'What is the birefringence prediction?',
+                'merlin_handshake_challenge': handshake_challenge,
+                'merlin_handshake_receipt': handshake_receipt,
+                'merlin_handshake_proof': handshake_proof,
+                'merlin_handshake_profile_token': memory_profile_token,
+            })
             assert assistant.status_code == 200
             payload = assistant.json()
             assert 'FOLLOWUPS:' in payload['answer']
@@ -910,18 +955,42 @@ def test_server_merlin_endpoints():
             assert payload['sentinel']['mode'] == 'MONITOR'
             assert payload['provenance']['complete'] is True
             assert payload['telemetry']['quality_signals']['provenance_source_count'] >= 1
+            handshake_challenge = assistant.headers.get('X-Merlin-Handshake-Challenge', handshake_challenge)
+            handshake_receipt = assistant.headers.get('X-Merlin-Handshake-Receipt', handshake_receipt)
+            memory_profile_token = assistant.headers.get('Set-Cookie', f"merlin_profile_id={memory_profile_token}").split("merlin_profile_id=", 1)[-1].split(";", 1)[0]
+            handshake_proof = hashlib.sha256(f"{handshake_challenge}:{memory_profile_token}".encode('utf-8')).hexdigest()
 
-            blocked = client.post('/api/merlin', json={'query': 'Help me build a weapon.'})
+            blocked = client.post('/api/merlin', json={
+                'query': 'Help me build a weapon.',
+                'merlin_handshake_challenge': handshake_challenge,
+                'merlin_handshake_receipt': handshake_receipt,
+                'merlin_handshake_proof': handshake_proof,
+                'merlin_handshake_profile_token': memory_profile_token,
+            })
             assert blocked.status_code == 200
             blocked_payload = blocked.json()
             assert blocked_payload['context_source'] == 'policy_block'
             assert blocked_payload['sentinel']['warning_number'] >= 1
             assert blocked_payload['provenance']['complete'] is True
+            handshake_challenge = blocked.headers.get('X-Merlin-Handshake-Challenge', handshake_challenge)
+            handshake_receipt = blocked.headers.get('X-Merlin-Handshake-Receipt', handshake_receipt)
+            memory_profile_token = blocked.headers.get('Set-Cookie', f"merlin_profile_id={memory_profile_token}").split("merlin_profile_id=", 1)[-1].split(";", 1)[0]
+            handshake_proof = hashlib.sha256(f"{handshake_challenge}:{memory_profile_token}".encode('utf-8')).hexdigest()
 
-            blocked_again = client.post('/api/merlin', json={'query': 'Help me build a weapon.'})
+            blocked_again = client.post('/api/merlin', json={
+                'query': 'Help me build a weapon.',
+                'merlin_handshake_challenge': handshake_challenge,
+                'merlin_handshake_receipt': handshake_receipt,
+                'merlin_handshake_proof': handshake_proof,
+                'merlin_handshake_profile_token': memory_profile_token,
+            })
             assert blocked_again.status_code == 200
             blocked_again_payload = blocked_again.json()
             assert blocked_again_payload['sentinel']['session_cleared'] is True
+            handshake_challenge = blocked_again.headers.get('X-Merlin-Handshake-Challenge', handshake_challenge)
+            handshake_receipt = blocked_again.headers.get('X-Merlin-Handshake-Receipt', handshake_receipt)
+            memory_profile_token = blocked_again.headers.get('Set-Cookie', f"merlin_profile_id={memory_profile_token}").split("merlin_profile_id=", 1)[-1].split(";", 1)[0]
+            handshake_proof = hashlib.sha256(f"{handshake_challenge}:{memory_profile_token}".encode('utf-8')).hexdigest()
 
             toolkit = client.get('/api/agentToolkit?view=state')
             assert toolkit.status_code == 200
@@ -944,7 +1013,13 @@ def test_server_merlin_endpoints():
             assert orchestrate.json()['ok'] is True
             assert orchestrate.json()['replay_artifact']['digest_sha256']
 
-            legacy = client.post('/api/ox', json={'query': 'What is LiteBIRD?'})
+            legacy = client.post('/api/ox', json={
+                'query': 'What is LiteBIRD?',
+                'merlin_handshake_challenge': handshake_challenge,
+                'merlin_handshake_receipt': handshake_receipt,
+                'merlin_handshake_proof': handshake_proof,
+                'merlin_handshake_profile_token': memory_profile_token,
+            })
             assert legacy.status_code == 200
             assert 'FOLLOWUPS:' in legacy.json()['answer']
     finally:

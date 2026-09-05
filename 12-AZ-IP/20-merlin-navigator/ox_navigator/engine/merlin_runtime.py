@@ -17,7 +17,7 @@ from .merlin_benchmark import get_stage_a_benchmark_corpus
 _EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 _PHONE_RE = re.compile(r"\+?\d[\d\-\s().]{7,}\d")
 _THEOREM_CUE_RE = re.compile(r"\b(theorem|lemma|conjecture|proof|derive)\b", re.IGNORECASE)
-_W_A_NONZERO_RE = re.compile(r"w[\s_\-]*a\s*[!><~]+\s*0", re.IGNORECASE)
+_W_A_NONZERO_RE = re.compile(r"w[\s_\-]*a\s*(?:!=|[><~]=?)\s*0", re.IGNORECASE)
 _NUMERIC_ASSIGNMENT_RE = re.compile(r"(k[\s_\-]*cs|n[\s_\-]*w|w[\s_\-]*a)\s*=\s*([\-]?\d+(?:\.\d+)?)", re.IGNORECASE)
 
 _RUNTIME_INVARIANTS = {
@@ -35,6 +35,22 @@ def _sanitize_text(sample: str) -> str:
     text = _EMAIL_RE.sub("[REDACTED_EMAIL]", str(sample or ""))
     text = _PHONE_RE.sub("[REDACTED_PHONE]", text)
     return " ".join(text.split()).strip()
+
+
+def _semantic_projection(sample: str, *, kind: str, contradictions: list[str], theorem_hits: list[str]) -> str:
+    lowered = sample.lower()
+    tags = []
+    for token in ("pillar", "proof", "theorem", "constraint", "tension", "falsif", "litebird", "desi", "juno"):
+        if token in lowered:
+            tags.append(token)
+    if not tags:
+        tags = ["general"]
+    contradiction_tag = ",".join(contradictions) if contradictions else "none"
+    theorem_tag = ",".join(theorem_hits[:3]) if theorem_hits else "none"
+    return (
+        f"semantic_insight kind={kind} tags={','.join(sorted(set(tags)))} "
+        f"contradictions={contradiction_tag} theorem_hits={theorem_tag}"
+    )
 
 
 def _proof_verdict(fact: str) -> tuple[str, list[str]]:
@@ -83,13 +99,16 @@ def _extract_distilled_candidates(query: str, answer: str) -> list[str]:
     candidates: list[str] = []
     cleaned_query = _sanitize_text(query)
     cleaned_answer = _sanitize_text(answer)
-    if cleaned_query:
+    if cleaned_query and (
+        any(term in cleaned_query.lower() for term in ("pillar", "proof", "theorem", "constraint", "tension", "falsif"))
+        or bool(_detect_contradictions(cleaned_query))
+    ):
         candidates.append(cleaned_query[:220])
     for chunk in re.split(r"[.\n]+", cleaned_answer):
         part = chunk.strip()
         if len(part) < 24:
             continue
-        if any(term in part.lower() for term in ("pillar", "proof", "theorem", "constraint", "tension", "falsif")):
+        if any(term in part.lower() for term in ("pillar", "proof", "theorem", "constraint", "tension", "falsif")) or _detect_contradictions(part):
             candidates.append(part[:280])
         if len(candidates) >= 4:
             break
@@ -137,36 +156,48 @@ async def run_post_turn_compilation(
     answer: str,
     provenance: dict[str, Any],
     session: Any,
+    persist: bool = True,
 ) -> dict[str, Any]:
     candidates = _extract_distilled_candidates(query, answer)
-    ingested: list[dict[str, Any]] = []
+    artifacts: list[dict[str, Any]] = []
     for fact in candidates:
         contradictions = _detect_contradictions(fact)
         proof_verdict, theorem_hits = _proof_verdict(fact)
-        insight = {
+        kind = _insight_kind(fact)
+        artifact = {
             "insight_id": hashlib.sha256(fact.encode("utf-8")).hexdigest()[:16],
             "schema_version": "merlin_compiled_insight_v1",
-            "fact": fact,
-            "kind": _insight_kind(fact),
-            "source_query": _sanitize_text(query)[:180],
+            "fact": _semantic_projection(fact, kind=kind, contradictions=contradictions, theorem_hits=theorem_hits),
+            "kind": kind,
+            "source_query": hashlib.sha256(_sanitize_text(query).encode("utf-8")).hexdigest(),
             "provenance_source_count": len(list((provenance or {}).get("sources") or [])),
             "contradictions": contradictions,
             "proof_verdict": proof_verdict,
             "theorem_hits": theorem_hits,
             "compiled_at": _utcnow(),
         }
-        ingested.append(session.ingest_compiled_insight(insight))
+        if persist:
+            artifacts.append(session.ingest_compiled_insight(artifact))
+        else:
+            preview = dict(artifact)
+            if preview["contradictions"]:
+                preview["status"] = "[CONTRADICTION_FLAGGED]"
+            elif preview["proof_verdict"] in {"needs_steward_review", "rejected"}:
+                preview["status"] = "[PROOF_REVIEW_REQUIRED]"
+            else:
+                preview["status"] = "[TRUSTED_COMPILED]"
+            artifacts.append(preview)
     mode = str(os.environ.get("MERLIN_CONTRADICTION_ENFORCEMENT") or "audit_only").strip().lower()
-    contradiction_count = sum(1 for item in ingested if item.get("status") == "[CONTRADICTION_FLAGGED]")
-    unresolved_proof_count = sum(1 for item in ingested if item.get("status") == "[PROOF_REVIEW_REQUIRED]")
+    contradiction_count = sum(1 for item in artifacts if item.get("status") == "[CONTRADICTION_FLAGGED]")
+    unresolved_proof_count = sum(1 for item in artifacts if item.get("status") == "[PROOF_REVIEW_REQUIRED]")
     should_block_output = mode == "enforce" and (contradiction_count > 0 or unresolved_proof_count > 0)
     return {
         "mode": mode,
-        "compiled_count": len(ingested),
+        "compiled_count": len(artifacts),
         "contradiction_count": contradiction_count,
         "unresolved_proof_count": unresolved_proof_count,
         "should_block_output": should_block_output,
-        "artifacts": ingested,
+        "artifacts": artifacts,
     }
 
 
