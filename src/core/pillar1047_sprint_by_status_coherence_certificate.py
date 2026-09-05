@@ -123,11 +123,13 @@ def _live_status_audit() -> Dict[str, Any]:
                 int(tests.get("passed", 0)),
                 int(tests.get("skipped", 0)),
                 int(tests.get("deselected", 0)),
+                int(tests.get("failed", 0)),
             )
             == (
                 int(status_match.group(1).replace(",", "")),
                 int(status_match.group(2)),
                 int(status_match.group(3)),
+                0,
             )
         ),
     }

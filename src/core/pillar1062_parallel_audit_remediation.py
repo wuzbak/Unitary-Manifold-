@@ -24,6 +24,7 @@ import json
 from pathlib import Path
 import sys
 from typing import Any
+from uuid import uuid4
 
 PILLAR_NUMBER = 1062
 PILLAR_TITLE = "Parallel Audit Remediation Certificate"
@@ -77,15 +78,16 @@ def _read_text(path: Path) -> str:
 
 
 def _load_module(path: Path, name: str) -> Any:
-    spec = spec_from_file_location(name, path)
+    unique_name = f"{name}_{uuid4().hex}"
+    spec = spec_from_file_location(unique_name, path)
     if spec is None or spec.loader is None:
         raise ImportError(f"Could not load module spec for {path}")
     module = module_from_spec(spec)
-    sys.modules[name] = module
+    sys.modules[unique_name] = module
     try:
         spec.loader.exec_module(module)
     except Exception:
-        sys.modules.pop(name, None)
+        sys.modules.pop(unique_name, None)
         raise
     return module
 
