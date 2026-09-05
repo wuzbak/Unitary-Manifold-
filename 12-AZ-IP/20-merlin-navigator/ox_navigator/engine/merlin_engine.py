@@ -229,6 +229,14 @@ def _fallback_body(query: str, context: dict[str, Any], persona_mode: str, fourt
     return body
 
 
+def _retrieval_hit_count(context: dict[str, Any]) -> int:
+    return (
+        len(context.get("pillars") or [])
+        + len(context.get("interrogator_hits") or [])
+        + (1 if context.get("kb_match") else 0)
+    )
+
+
 def _post_process_answer(
     text: str,
     query: str,
@@ -677,6 +685,7 @@ async def query_merlin(
         memory_hits=audit["matched_memory_count"],
         contradiction_events=len(session.contradiction_events),
         latency_ms=(time.perf_counter() - started) * 1000,
+        retrieval_hit_count=_retrieval_hit_count(context),
     )
     session.record_run(telemetry)
     return {

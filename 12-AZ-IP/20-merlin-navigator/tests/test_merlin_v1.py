@@ -29,7 +29,7 @@ from ox_navigator.engine.merlin_identity import (
 )
 from ox_navigator.engine.merlin_engine import extract_tool_call, query_merlin, strip_tool_call
 from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
-from ox_navigator.engine.merlin_local_inference import choose_inference_provider, get_inference_health
+from ox_navigator.engine.merlin_local_inference import choose_inference_provider, generate_inference_response, get_inference_health
 from ox_navigator.engine.merlin_memory import MERLIN_MAX_HISTORY, MerlinSession, infer_intent
 from ox_navigator.engine.merlin_persona import detect_persona_mode, extract_urls, is_internal_question, persona_governance_violations
 from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
@@ -681,10 +681,33 @@ def test_choose_inference_provider_prefers_configured_lanes(monkeypatch):
     assert choose_inference_provider('heavy_reasoner_exception') == 'local_medium'
 
 
+def test_choose_inference_provider_falls_back_when_unconfigured(monkeypatch):
+    monkeypatch.delenv('MERLIN_LOCAL_SMALL_BASE_URL', raising=False)
+    monkeypatch.delenv('MERLIN_LOCAL_SMALL_MODEL', raising=False)
+    monkeypatch.delenv('MERLIN_LOCAL_MEDIUM_BASE_URL', raising=False)
+    monkeypatch.delenv('MERLIN_LOCAL_MEDIUM_MODEL', raising=False)
+    assert choose_inference_provider('medium_reasoner_default') == 'deterministic_retrieval'
+    assert choose_inference_provider('heavy_reasoner_exception') == 'deterministic_retrieval'
+
+
 def test_get_inference_health_reports_unknown_provider():
     payload = get_inference_health(provider_name='nope')
     assert payload['ok'] is False
     assert 'Unknown inference provider' in payload['error']
+
+
+def test_generate_inference_response_falls_back_when_provider_unavailable():
+    payload = asyncio.run(generate_inference_response(
+        query='Explain birefringence.',
+        context={'pillars': [], 'interrogator_hits': [], 'kb_match': None},
+        persona_mode='serious',
+        fourth_wall=False,
+        lane='heavy_reasoner_exception',
+        preferred_provider='local_medium',
+    ))
+    assert payload['provider_variant'] == 'deterministic_retrieval'
+    assert payload['requested_provider_variant'] == 'local_medium'
+    assert payload['fallback_reason']
 
 
 def test_reasoning_chain_and_research_cycle_helpers():
@@ -1047,6 +1070,10 @@ def test_server_merlin_endpoints():
             bad_research_cycle = client.post('/api/merlin/research-cycle', json={})
             assert bad_research_cycle.status_code == 400
             assert bad_research_cycle.json()['ok'] is False
+
+            bad_research_budget = client.post('/api/merlin/research-cycle', json={'question': 'Explain birefringence.', 'budget': 'x'})
+            assert bad_research_budget.status_code == 400
+            assert bad_research_budget.json()['ok'] is False
 
             sync = client.get('/api/merlin/sync-checks')
             assert sync.status_code == 200

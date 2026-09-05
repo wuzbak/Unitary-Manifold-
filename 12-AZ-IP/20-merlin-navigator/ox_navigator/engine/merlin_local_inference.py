@@ -11,6 +11,7 @@ from typing import Any
 import httpx
 
 from .merlin_local_provider import generate_local_response
+from .merlin_rag import build_rag_context
 
 
 def _bool_env(name: str, default: bool = False) -> bool:
@@ -185,6 +186,29 @@ async def _call_local_chat(
     return str(content)
 
 
+def _build_grounded_prompt(
+    *,
+    query: str,
+    context: dict[str, Any],
+    persona_mode: str,
+    fourth_wall: bool,
+    deterministic_body: str,
+) -> str:
+    grounded_context = build_rag_context(query)
+    persona_line = f"Persona mode: {persona_mode}."
+    fourth_wall_line = "Fourth-wall explanations requested." if fourth_wall else "No fourth-wall framing requested."
+    return "\n\n".join(
+        [
+            "You are Merlin running in sovereign local mode. Stay grounded in repository evidence and preserve explicit gate labels and uncertainty.",
+            persona_line,
+            fourth_wall_line,
+            f"User query:\n{query}",
+            f"Repository context:\n{grounded_context}",
+            f"Deterministic fallback baseline:\n{deterministic_body}",
+        ]
+    ).strip()
+
+
 async def generate_inference_response(
     *,
     query: str,
@@ -228,7 +252,13 @@ async def generate_inference_response(
             base_url=str(provider.get("endpoint") or ""),
             chat_path=str(provider.get("chat_path") or "v1/chat/completions"),
             model=str(provider.get("model") or ""),
-            prompt=str(query or ""),
+            prompt=_build_grounded_prompt(
+                query=query,
+                context=context,
+                persona_mode=persona_mode,
+                fourth_wall=fourth_wall,
+                deterministic_body=str(deterministic.get("body") or ""),
+            ),
             temperature=temperature,
         )
     except Exception as exc:

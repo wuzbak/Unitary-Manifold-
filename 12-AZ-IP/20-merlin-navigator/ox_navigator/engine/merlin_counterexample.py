@@ -62,6 +62,7 @@ def build_counterexample_digest(*, session: MerlinSession, limit: int = 10) -> d
             }
         )
 
+    items.sort(key=lambda item: str(item.get("detected_at", "")))
     items = items[-cap:]
     return {
         "ok": True,

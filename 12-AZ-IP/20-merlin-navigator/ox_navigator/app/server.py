@@ -806,12 +806,16 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     if not question:
                         self._json({'ok': False, 'error': 'question is required'}, status=400)
                         return
-                    budget = payload.get('budget', 3)
+                    try:
+                        budget = int(payload.get('budget', 3))
+                    except (TypeError, ValueError):
+                        self._json({'ok': False, 'error': 'budget must be an integer'}, status=400)
+                        return
                     self._json({
                         'ok': True,
                         'research_cycle': run_research_cycle(
                             question=question,
-                            budget=int(budget),
+                            budget=budget,
                             session=merlin_session,
                         ),
                     })
