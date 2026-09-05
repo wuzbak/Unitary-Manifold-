@@ -24,7 +24,9 @@ from ox_navigator.engine.merlin_identity import get_identity_policy
 from ox_navigator.engine.merlin_local_inference import get_inference_health, get_inference_providers
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
+from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
 from ox_navigator.engine.merlin_runtime import get_client_blind_ingestion_contract, get_observatory_ingestion_lane
+from ox_navigator.engine.merlin_research_cycle import run_research_cycle
 from ox_navigator.engine.merlin_program import (
     build_training_artifact_bundle,
     build_training_dataset_bundle,
@@ -43,7 +45,9 @@ from ox_navigator.engine.merlin_program import (
     get_sentinel_enforcement_policy,
     run_sync_checks,
 )
+from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
 from ox_navigator.engine.merlin_router import get_router_policy
+from ox_navigator.engine.merlin_telemetry import build_energy_ledger
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
 from ox_navigator.engine.session import OxSession
 
@@ -421,6 +425,34 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json(payload, status=200 if payload.get('ok') else 404)
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/reasoning-chain':
+                query = str(params.get('query', [''])[0] or '').strip()
+                if not query:
+                    self._json({'ok': False, 'error': "Query parameter 'query' is required."}, status=400)
+                    return
+                max_hops, error = _parse_int_query_param(params, 'max_hops', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({'ok': True, 'reasoning_chain': get_reasoning_chain(query, max_hops=max_hops or 3)})
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/counterexample-digest':
+                limit, error = _parse_int_query_param(params, 'limit', 10)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({'ok': True, 'counterexample_digest': build_counterexample_digest(session=merlin_session, limit=limit or 10)})
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/energy-ledger':
+                limit, error = _parse_int_query_param(params, 'limit', 10)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({'ok': True, 'energy_ledger': build_energy_ledger(merlin_session.telemetry, limit=limit or 10)})
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/runtime':
                 self._json({
                 'ok': True,
@@ -768,6 +800,21 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         return
 
                     self._json(result)
+                    return
+                if parsed.path == '/api/merlin/research-cycle':
+                    question = str(payload.get('question') or payload.get('query') or '').strip()
+                    if not question:
+                        self._json({'ok': False, 'error': 'question is required'}, status=400)
+                        return
+                    budget = payload.get('budget', 3)
+                    self._json({
+                        'ok': True,
+                        'research_cycle': run_research_cycle(
+                            question=question,
+                            budget=int(budget),
+                            session=merlin_session,
+                        ),
+                    })
                     return
             finally:
                 self._persist_session(session_id, merlin_session)

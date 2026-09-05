@@ -20,6 +20,7 @@ from ox_navigator.engine.merlin_benchmark import evaluate_longitudinal_acceptanc
 from ox_navigator.engine.merlin_benchmark import get_multi_stage_benchmark_plan
 from ox_navigator.engine.merlin_benchmark import build_merlin_control_tower
 from ox_navigator.engine.merlin_telemetry import (
+    build_energy_ledger,
     build_run_telemetry,
     estimate_cost_usd,
     estimate_energy_joules,
@@ -60,6 +61,7 @@ def test_merlin_memory_audit_and_telemetry_summary():
     assert summary['count'] == 1
     assert summary['average_energy_joules'] > 0
     assert summary['latest']['quality_signals']['typed_provenance_complete'] is True
+    assert summary['latest']['quality_signals']['retrieval_hit_count'] == 0
 
 
 def test_merlin_memory_does_not_duplicate_seeded_state():
@@ -180,6 +182,24 @@ def test_merlin_telemetry_estimators_and_summary():
     assert summary['providers']['openrouter_compat'] == 1
     assert summary['average_latency_ms'] == 20.0
     assert summary['average_provenance_sources'] == 3.0
+
+    ledger = build_energy_ledger([
+        {
+            'provider': 'sovereign_local',
+            'provider_variant': 'deterministic_retrieval',
+            'lane': 'medium_reasoner_default',
+            'latency_ms': 10.0,
+            'wall_time_ms': 10.0,
+            'rss_peak_kb': 2048,
+            'tool_rounds': 1,
+            'tokens': {'input_estimate': 10, 'output_estimate': 20},
+            'energy': {'estimated_joules': 0.4},
+            'quality_signals': {'provenance_source_count': 2, 'retrieval_hit_count': 3},
+        },
+    ])
+    assert ledger['ok'] is True
+    assert ledger['summary']['count'] == 1
+    assert ledger['entries'][0]['incumbent_baseline_joules'] >= ledger['entries'][0]['merlin_energy_joules']
 
 
 def test_match_benchmark_for_query_uses_keywords():

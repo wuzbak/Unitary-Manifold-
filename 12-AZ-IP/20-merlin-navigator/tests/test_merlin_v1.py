@@ -28,9 +28,12 @@ from ox_navigator.engine.merlin_identity import (
     verify_identity_signals,
 )
 from ox_navigator.engine.merlin_engine import extract_tool_call, query_merlin, strip_tool_call
+from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
 from ox_navigator.engine.merlin_local_inference import choose_inference_provider, get_inference_health
 from ox_navigator.engine.merlin_memory import MERLIN_MAX_HISTORY, MerlinSession, infer_intent
 from ox_navigator.engine.merlin_persona import detect_persona_mode, extract_urls, is_internal_question, persona_governance_violations
+from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
+from ox_navigator.engine.merlin_research_cycle import run_research_cycle
 from ox_navigator.engine.merlin_router import choose_runtime
 from ox_navigator.engine.merlin_rag import build_rag_context, lookup_kb, retrieve_context
 from ox_navigator.engine.merlin_runtime import run_post_turn_compilation
@@ -568,6 +571,31 @@ def test_route_tool_inference_registry_and_health(monkeypatch):
     assert unknown['result']['data']['ok'] is False
 
 
+def test_route_tool_keystone_surfaces():
+    session = MerlinSession()
+    session.add_turn("What is Merlin?", "HARDGATE first answer")
+    session.add_turn("What is Merlin?", "GOVERNANCE second answer")
+
+    reasoning = route_tool('getMerlinReasoningChain', {'query': 'birefringence prediction', 'max_hops': 2})
+    assert reasoning['ok'] is True
+    assert reasoning['result']['data']['ok'] is True
+    assert reasoning['result']['data']['chain']
+
+    research = route_tool('runMerlinResearchCycle', {'question': 'Explain the birefringence prediction.', 'budget': 2}, session=session)
+    assert research['ok'] is True
+    assert research['result']['data']['ok'] is True
+    assert research['result']['data']['steps']
+
+    counterexample = route_tool('getMerlinCounterexampleDigest', {'limit': 5}, session=session)
+    assert counterexample['ok'] is True
+    assert counterexample['result']['data']['ok'] is True
+    assert counterexample['result']['data']['total_events'] >= 1
+
+    energy = route_tool('getMerlinEnergyLedger', {'limit': 5}, session=session)
+    assert energy['ok'] is True
+    assert energy['result']['data']['ok'] is True
+
+
 def test_route_tool_entity_state_rejects_unexpected_args():
     result = route_tool('entity.MerlinSession.state', {'unexpected': True})
     assert result['ok'] is False
@@ -657,6 +685,23 @@ def test_get_inference_health_reports_unknown_provider():
     payload = get_inference_health(provider_name='nope')
     assert payload['ok'] is False
     assert 'Unknown inference provider' in payload['error']
+
+
+def test_reasoning_chain_and_research_cycle_helpers():
+    reasoning = get_reasoning_chain('Explain the birefringence prediction.', max_hops=2)
+    assert reasoning['ok'] is True
+    assert reasoning['chain']
+
+    session = MerlinSession()
+    session.add_turn("What is Merlin?", "HARDGATE first answer")
+    session.add_turn("What is Merlin?", "GOVERNANCE second answer")
+    digest = build_counterexample_digest(session=session, limit=5)
+    assert digest['ok'] is True
+    assert digest['total_events'] >= 1
+
+    cycle = run_research_cycle(question='Explain the birefringence prediction.', budget=2, session=session)
+    assert cycle['ok'] is True
+    assert cycle['energy_cost']['estimated_joules'] > 0
 
 
 def test_route_tool_merlin_sync_checks():
@@ -977,6 +1022,31 @@ def test_server_merlin_endpoints():
             unknown_inference = client.get('/api/merlin/inference/health?provider=missing')
             assert unknown_inference.status_code == 404
             assert unknown_inference.json()['ok'] is False
+
+            reasoning_chain = client.get('/api/merlin/reasoning-chain?query=birefringence')
+            assert reasoning_chain.status_code == 200
+            assert reasoning_chain.json()['ok'] is True
+            assert reasoning_chain.json()['reasoning_chain']['chain']
+
+            bad_reasoning_chain = client.get('/api/merlin/reasoning-chain')
+            assert bad_reasoning_chain.status_code == 400
+
+            counterexample_digest = client.get('/api/merlin/counterexample-digest?limit=2')
+            assert counterexample_digest.status_code == 200
+            assert counterexample_digest.json()['ok'] is True
+
+            energy_ledger = client.get('/api/merlin/energy-ledger?limit=2')
+            assert energy_ledger.status_code == 200
+            assert energy_ledger.json()['ok'] is True
+
+            research_cycle = client.post('/api/merlin/research-cycle', json={'question': 'Explain birefringence.', 'budget': 2})
+            assert research_cycle.status_code == 200
+            assert research_cycle.json()['ok'] is True
+            assert research_cycle.json()['research_cycle']['ok'] is True
+
+            bad_research_cycle = client.post('/api/merlin/research-cycle', json={})
+            assert bad_research_cycle.status_code == 400
+            assert bad_research_cycle.json()['ok'] is False
 
             sync = client.get('/api/merlin/sync-checks')
             assert sync.status_code == 200

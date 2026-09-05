@@ -66,6 +66,10 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinControlTower`
   - `getMerlinInferenceProviders`
   - `getMerlinInferenceHealth`
+  - `getMerlinReasoningChain`
+  - `runMerlinResearchCycle`
+  - `getMerlinCounterexampleDigest`
+  - `getMerlinEnergyLedger`
   - Direct API views:
   - `GET /api/merlin/program`
   - `GET /api/merlin/program-office`
@@ -74,6 +78,10 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/telemetry`
   - `GET /api/merlin/inference/providers`
   - `GET /api/merlin/inference/health`
+  - `GET /api/merlin/reasoning-chain`
+  - `POST /api/merlin/research-cycle`
+  - `GET /api/merlin/counterexample-digest`
+  - `GET /api/merlin/energy-ledger`
   - `GET /api/merlin/sync-checks`
   - `GET /api/merlin/identity`
   - `GET /api/merlin/policy`
