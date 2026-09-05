@@ -3,9 +3,9 @@ SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 Copyright (C) 2026  ThomasCory Walker-Pearson
 
 Sprint CA Lean4 traceability kernels.
-These kernels expand theorem-by-theorem traceability between claims,
-artifacts, and Lean status labels while keeping the final functional-analysis
-burden explicit.
+These kernels are proof-structure scaffolding only: they illustrate the
+traceability logic pattern between claims, artifacts, and Lean status labels,
+but they do not yet enforce a repository-wide claim/artifact registry.
 -/
 
 namespace UnitaryManifold
@@ -49,6 +49,7 @@ abbrev UMLeanStatusTraceable : Prop := True
  theorem ca_trace_kernel_11 : (p ∧ (p → q) ∧ (q → r)) → r := by
   intro h
   exact h.right.right (h.right.left h.left)
+/-- Status marker only: traceability registry wiring remains external to this file. -/
  theorem ca_trace_kernel_12 : UMClaimLabelTraceable ∧ UMArtifactTraceable ∧ UMLeanStatusTraceable := by
   trivial
 

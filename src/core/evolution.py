@@ -13,14 +13,15 @@ Field equations (schematically):
 
     ∂_t g_μν  = −2 R_μν + T_μν[B, φ]                   (modified Einstein)
     ∂_t B_μ   = ∇_ν (λ² H^νμ)                          (gauge / irreversibility)
-    ∂_t φ     = □φ + α R φ + S[H] − m²_φ (φ − φ₀)     (stabilised radion scalar)
+    ∂_t φ     = □φ + α R φ + S[H] − m²_φ (φ − φ₀)     (optionally stabilised radion scalar)
 
 where H_μν = ∂_μ B_ν − ∂_ν B_μ is the field strength,
 T_μν[B,φ] is the matter stress-energy sourced by B and φ, and the last
-term is a Goldberger–Wise–style mass potential that pins the KK radion φ
-to its background value φ₀, preventing both the collapse (φ → 0) and the
-run-away (φ → ∞) instabilities identified in the Gemini peer review.  The
-mass m_phi = 0 (default) recovers the original mass-less equation.
+term is an optional Goldberger–Wise–style mass potential that can pin the
+KK radion φ to its background value φ₀ and mitigate the collapse (φ → 0)
+and run-away (φ → ∞) channels identified in the Gemini peer review.
+This stabilization is available but disabled by default for backward
+compatibility: `m_phi = 0` recovers the original mass-less equation.
 
 **Time-synchronisation note (Gemini Issue 4 / ADM gap — documented in FALLIBILITY.md §III)**
 
@@ -34,20 +35,24 @@ Consumers of this code should be aware that the "double-counting" of time
 described in the review is therefore present by construction: λ and x⁰ are
 related but not formally synchronised within the current framework.
 
-**Partial correction:** Pillar 41 (`src/core/delay_field.py`) provides a
+**Closure status:** Pillar 41 (`src/core/delay_field.py`) provides a
 correction factor Ω(φ) = 1/φ connecting the flow parameter to the proper-time
 lapse in the non-relativistic limit.  This is a first-order correction, not a
-full ADM 3+1 decomposition.  The full ADM treatment remains an open gap for the
-"arrow of time is geometric" claim; see FALLIBILITY.md §III (ADM gap section)
-and DERIVATION_STATUS.md Part I for the precise epistemic status.
+full 5D ADM closure.  The 3+1 ADM/BSSN lapse correction gap for the
+"arrow of time is geometric" claim was closed in v13.7 by Pillar 434;
+see `src/core/adm_bssn_lapse.py` and FALLIBILITY.md §XIV.3.  What remains
+open is the broader fully inhomogeneous 5D closure program, not the older
+ADM lapse/BSSN sub-gap documented in the early peer review.
 
-**KK information-recovery note (Gemini Issue 2)**
+**KK information-recovery note (Gemini Issue 2 — lower-bound closure)**
 The simulation tracks only the zero-mode (4D) fields; higher Kaluza–Klein
 modes are truncated.  Apparent entropy increase visible in the zero-mode
-sector may therefore correspond to information encoded in the truncated KK
-tower rather than true, irreversible loss.  To verify physical irreversibility
-one would need to show the KK tower information is inaccessible, which is not
-established here.
+sector is therefore only a partial view of the full tower.  Pillar 40 and
+`kk_tower_irreversibility_proof()` in `src/core/kk_backreaction.py` prove that
+the zero-mode entropy production is a lower bound on the full KK tower
+entropy production, so KK truncation does not reverse the irreversibility
+verdict.  This module still evolves only the zero mode numerically; it does
+not attempt a full tower simulation here.
 
 Public API
 ----------

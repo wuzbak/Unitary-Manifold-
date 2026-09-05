@@ -37,6 +37,9 @@ with n_w = 5 fixed by the APS theorem (Pillars 70-B/C/C-bis/70-D).
 7. **FITTED gap honesty**: the numerical c_L values used in `universal_yukawa.py`
    are derived by root-finding against measured masses — this file proves the
    *pattern* is unique, not the numerical values (which require mass input).
+8. **Scope boundary**: this file formalises the arithmetic pattern only; it is
+   not a constructive Lean derivation of the full 5D Dirac/orbifold boundary
+   value problem on S¹/Z₂.
 
 ## What is NOT Proved Here (Honest Gap)
 
@@ -145,7 +148,7 @@ theorem full_hierarchy : c_L_pattern 1 n_w > c_L_pattern 2 n_w ∧
 
 /-! ## Honest Gap Statement -/
 
-/-- **GAP-FITTED-VALUES**: The *pattern* c_L^(n) = ½ + (n_w−n)/(2n_w) is DERIVED
+/-- **GAP-FITTED-VALUES**: Status marker only. The *pattern* c_L^(n) = ½ + (n_w−n)/(2n_w) is DERIVED
     from Z₂-even LH orbifold BCs and is machine-verified in this file.
     The *numerical values* used in `universal_yukawa.py` are FITTED by root-finding
     against observed SM fermion masses (m_e, m_μ, m_τ, m_u, m_d, ...).

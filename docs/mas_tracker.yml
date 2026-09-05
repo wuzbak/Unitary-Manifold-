@@ -1,6 +1,36 @@
-version: "v36.2"
+version: "v36.3"
 date: "2026-09-05"
 updated: "2026-09-05"
+
+v36_3_sprint_cg:
+  sprint: CG
+  version: v36.3
+  date: "2026-09-05"
+  pillars: 1078-1078
+  new_pillars: 1
+  new_tests: 13
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures:
+    - POST_MERGE_AUDIT_REMEDIATION_COMPLETE
+  advances:
+    - MERGE_CONFLICT_STATUS_DRIFT_IS_NOW_FAIL_CLOSED_ACROSS_CANONICAL_AND_PUBLIC_SURFACES
+    - LEAN_PROXY_RADION_PROXY_AND_OBSERVATION_ROUTING_SURFACES_REMAIN_EXPLICITLY_SCOPED_AFTER_MERGING_SPRINT_CF
+    - LIVE_STATUS_EXPORT_AND_PUBLIC_STATUS_FEEDS_NOW_TRACK_THE_MERGED_BRANCH_REALITY
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "63,876 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in current branch history)"
+  focused_regression: "Pillar 1078 audit/status targeted tests passed · 0 failed"
+  next_pillar_slot: 1079
 
 v36_2_sprint_cf:
   sprint: CF
@@ -32,7 +62,7 @@ v36_2_sprint_cf:
   sprint_success: true
   runtime_labels_changed: false
   next_pillar_slot: 1078
-  regression: "63787 passed · 23 skipped · 12 deselected · 0 failed"
+  regression: "63876 passed · 23 skipped · 12 deselected · 0 failed"
   focused_regression: "74 passed · 0 failed"
 
 v36_1_sprint_ce:

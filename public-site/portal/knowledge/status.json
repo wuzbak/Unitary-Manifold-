@@ -1,21 +1,43 @@
 {
-  "version": "v35.2",
-  "generated": "2026-09-03",
-  "tests_passed": 63639,
+  "version": "v36.3",
+  "tests_passed": 63876,
   "tests_skipped": 23,
   "tests_deselected": 12,
   "tests_failed": 0,
-  "lean4_theorems": 3952,
-  "pillars": 208,
+  "lean4_theorems": 4080,
   "pillars_hardgate": 208,
-  "pillars_total": 1030,
-  "adjacent_tracks": 822,
-  "next_pillar_slot": 1031,
-  "regression": "63,639 passed \u00b7 23 skipped \u00b7 12 deselected \u00b7 0 failed",
+  "pillars_total": 1078,
+  "next_pillar_slot": 1079,
   "primary_falsifier": "LiteBIRD \u03b2 \u2208 {0.273\u00b0, 0.331\u00b0} (~2032)",
-  "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
+  "open_tensions": [
+    {
+      "name": "Flavor family boundary",
+      "status": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED"
+    },
+    {
+      "name": "\u03b1_s Type-B floor",
+      "status": "ALPHA_S_TYPE_B_FLOOR"
+    },
+    {
+      "name": "CMB amplitude floor",
+      "status": "CMB_AMP_CONFIRMED_IRREDUCIBLE"
+    },
+    {
+      "name": "DESI dark-energy lane",
+      "status": "HIGH_TENSION"
+    },
+    {
+      "name": "Tensor-to-scalar ratio r",
+      "status": "HIGH_TENSION"
+    }
+  ],
+  "epistemic_status": "repository-level internal mathematical self-consistency established; current audit/remediation status surfaces synchronized to verified branch reality; external empirical confirmation pending",
   "organization": "AxiomZero Technologies & Consulting, SPC",
   "ubi": "606 239 876",
+  "generated": "2026-09-05",
+  "pillars": 208,
+  "adjacent_tracks": 870,
+  "regression": "63,876 passed \u00b7 23 skipped \u00b7 12 deselected \u00b7 0 failed",
   "predictions": {
     "n_s": {
       "um": 0.9635,
@@ -27,8 +49,8 @@
     "r": {
       "um": 0.0315,
       "bound": 0.036,
-      "gate": "HARDGATE",
-      "status": "within_bound"
+      "status": "HIGH_TENSION",
+      "gate": "OPEN_GAP"
     },
     "beta": {
       "um": [
@@ -43,58 +65,41 @@
         0.29,
         0.31
       ],
-      "test": "LiteBIRD ~2032",
+      "test": "LiteBIRD ~2032 / Simons Observatory ~2028",
       "gate": "HARDGATE",
-      "status": "FIRST_DETECTION_CANDIDATE"
+      "status": "EXTERNAL_WAIT_ONLY"
     },
     "higgs_mass_GeV": {
       "um": 125.25,
       "lhc": 125.25,
       "lhc_sigma": 0.17,
       "gate": "OPEN_GAP",
-      "status": "ARCHITECTURE_LIMIT_WINDOW"
+      "status": "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW"
     },
     "w_a": {
       "um": 0.0,
-      "desi_status": "DATASET_DEPENDENT",
-      "verdict": "BAO-only 1.11\u03c3 PASS; Pantheon+ 0.80\u03c3 PASS; Union3 1.59\u03c3 PASS; DESY5 3.18\u03c3 FALSIFIED_CANDIDATE; ACT DR6 0.17\u03c3 PASS",
+      "desi_status": "HIGH_TENSION",
+      "verdict": "DESI DR2/Year 3 leaves the frozen-radion lane under high tension but below the 3\u03c3 falsifier.",
       "gate": "OPEN_GAP",
-      "test": "DESI DR3 ~2026"
+      "test": "DESI DR3 / late-2026 publication window"
     },
     "flavor_family": {
       "value": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
       "gate": "OPEN_GAP",
-      "pillar": 1030
+      "pillar": 1078
     },
     "alpha_s_floor": {
-      "value": "PDG 0.1180 outside tightened UV window",
+      "value": "Shared UV compactification object remains unresolved",
       "gate": "OPEN_GAP",
-      "pillar": 986
+      "pillar": 1078
     }
   },
-  "open_tensions": [
-    {
-      "name": "Flavor family boundary",
-      "status": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED"
-    },
-    {
-      "name": "\u03b1_s Type-B floor",
-      "status": "ALPHA_S_TYPE_B_FLOOR"
-    },
-    {
-      "name": "CMB peak suppression",
-      "status": "ARCHITECTURE_LIMIT (33.6% irreducible A_s mismatch)"
-    },
-    {
-      "name": "DESI w_a dataset split",
-      "status": "DATASET_DEPENDENT"
-    }
-  ],
   "open_gaps": [
-    "Flavor-family residuals now share one UV flavor/moduli boundary; radii_lock remains the dominant next target",
-    "\u03b1_s Type-B floor remains outside the tightened compactification window",
+    "Flavor-family residuals remain architecture-limited under the shared-root blocker map",
+    "\u03b1_s Type-B floor remains outside the shared UV compactification solution surface",
     "w_a tension remains tracked below the hard falsification threshold",
-    "33.6% A_s mismatch remains a TYPE_B structural floor"
+    "CMB amplitude mismatch remains an explicit irreducible architecture limit",
+    "Non-perturbative QG remains bounded by named O1\u2013O4 obstructions"
   ],
   "constants": {
     "N_W": 5,

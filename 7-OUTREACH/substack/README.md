@@ -7,7 +7,7 @@
 
 > ⚠️ **Historical snapshot notice:** Test counts, pillar counts, and version numbers mentioned
 > within individual post drafts reflect the state of the repository **at the time of writing**.
-> The current verified totals are: **63,787 passed · 23 skipped · 12 deselected · 0 failed · next pillar slot 1062 (v36.1 Sprint CE)**.
+> The current verified totals are: **63,876 passed · 23 skipped · 12 deselected · 0 failed · next pillar slot 1079 (v36.3 Sprint CG)**.
 > Individual posts have not been retroactively updated to preserve their historical authenticity.
 
 ## Directory Structure
@@ -33,6 +33,7 @@ the Unitary Manifold framework to a general audience.
 
 - `posts/post-300-s04e003-axiomzero-apps-spaces-complete-2026-state.md`
 - `posts/post-301-s04e004-merlin-and-dnd-adoption-workflow.md`
+- `posts/post-302-s04e005-v36-2-parallel-audit-remediation.md`
 
 ## Substack Visuals
 

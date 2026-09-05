@@ -117,6 +117,11 @@ def _live_status_audit() -> Dict[str, Any]:
     pillars = dict(payload.get("pillars") or {})
     lean4 = dict(payload.get("lean4") or {})
     tests = dict(payload.get("tests") or {})
+    status_text = (_ROOT / "STATUS.md").read_text(encoding="utf-8")
+    status_match = re.search(
+        r"Latest verified full regression in current branch history:\s*([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed",
+        status_text,
+    )
     version_number = _parse_version_number(meta.get("version"))
     return {
         "exists": LIVE_STATUS_PATH.exists(),
@@ -124,7 +129,21 @@ def _live_status_audit() -> Dict[str, Any]:
         "next_slot_ok": int(pillars.get("next_slot", 0)) >= EXPECTED_NEXT_SLOT,
         "total_slots_ok": int(pillars.get("total_slots", 0)) >= EXPECTED_TOTAL_SLOTS,
         "lean4_ok": int(lean4.get("theorem_count", 0)) >= EXPECTED_LEAN4_COUNT,
-        "tests_ok": int(tests.get("passed", 0)) >= EXPECTED_TESTS_PASSED,
+        "tests_ok": bool(
+            status_match
+            and (
+                int(tests.get("passed", 0)),
+                int(tests.get("skipped", 0)),
+                int(tests.get("deselected", 0)),
+                int(tests.get("failed", 0)),
+            )
+            == (
+                int(status_match.group(1).replace(",", "")),
+                int(status_match.group(2)),
+                int(status_match.group(3)),
+                int(status_match.group(4)),
+            )
+        ),
     }
 
 

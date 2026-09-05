@@ -1,8 +1,22 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v36.2
+# Unitary Manifold v36.3
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v36.3 sync note (Sprint CG — 2026-09-05):*
+*(1) Auditable checked-in branch state now includes Pillar 1078; Lean4 remains 4080; next pillar slot 1079; verified full regression is 63,876 passed · 23 skipped · 12 deselected · 0 failed.*
+*(2) Sprint CG is an explicit non-hardgate post-merge audit/remediation lock: it preserves the merged Sprint CF hardgate/open-lane story and forces code, proof, documentation, API, and publication surfaces to agree with that merged branch reality.*
+*(3) Observation-routing text that is still useful historically remains marked historical/non-canonical rather than current.*
+*(4) Audited Lean proxy surfaces, radion/evolution wording, and machine-readable live/public status outputs remain fail-closed against drift after the merge.*
+*(5) Open-lane labels, falsifier windows, and the proof-first closure doctrine remain unchanged.*
+
+*v36.2 sync note (Sprint CF — 2026-09-05):*
+*(1) Auditable checked-in branch state includes Pillars 1062–1077; Lean4 rises from 4000 to 4080; next pillar slot 1078; verified full regression in current branch history reached 63,787 passed · 23 skipped · 12 deselected · 0 failed.*
+*(2) Track A upgrades the five Type-B open-lane floors to Lean4-backed lower/upper-bound theorems without flipping any hardgate/open-lane runtime label.*
+*(3) Track B executes a pre-registered, parameter-free 6D T²/Z₃ + F-theory extension attempt with explicit residual publication and the honest verdict `EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED`.*
+*(4) Track C sharpens LiteBIRD β-gap and DESI wₐ external falsifiers into rigidity theorems under registration tag `SPRINT_CF_v36.2_TRACK_C_PRE_REGISTERED_2026` with post-hoc softening forbidden.*
+*(5) Pillar 1077 certifies `sprint_success=True` conditioned on meaningful progress + hardgate untouched + zero new free parameters; open-lane labels remain unchanged and explicit.*
 
 *v36.1 sync note (Sprint CE — 2026-09-05):*
 *(1) Auditable checked-in branch state now includes Pillar 1061; Lean4 remains 4000; next pillar slot 1062.*
