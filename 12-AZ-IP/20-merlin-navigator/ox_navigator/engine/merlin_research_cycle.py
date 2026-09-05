@@ -40,37 +40,52 @@ def run_research_cycle(*, question: str, budget: int = 3, session: MerlinSession
         "Trace a multi-hop reasoning chain across nearby pillars.",
         "Audit memory and contradiction pressure before reporting.",
     ]
-    knowledge = route_tool("searchKnowledgeBase", {"query": question}, session=active_session)
-    steps.append({"step": 1, "tool": "searchKnowledgeBase", "ok": knowledge.get("ok", False)})
+    knowledge: dict[str, Any] = {"result": {"data": {"match": None}}}
+    reasoning: dict[str, Any] = {"ok": True, "chain": [], "proof_chain_confidence": 0.0}
+    interrogator: dict[str, Any] = {"result": {"data": {"results": []}}}
+    memory_audit: dict[str, Any] = {"matched_facts": []}
+    contradictions: dict[str, Any] = {
+        "ok": True,
+        "total_events": 0,
+        "quarantined_insight_count": 0,
+        "kind_counts": {},
+        "items": [],
+        "stage_b_refresh_ready": False,
+        "note": "not_run_due_to_budget",
+    }
 
-    reasoning = get_reasoning_chain(question, max_hops=min(4, spend + 1))
-    steps.append({"step": 2, "tool": "getMerlinReasoningChain", "ok": reasoning.get("ok", False)})
+    if spend >= 1:
+        knowledge = route_tool("searchKnowledgeBase", {"query": question}, session=active_session)
+        steps.append({"step": 1, "tool": "searchKnowledgeBase", "ok": knowledge.get("ok", False)})
+    if spend >= 2:
+        reasoning = get_reasoning_chain(question, max_hops=min(4, spend + 1))
+        steps.append({"step": 2, "tool": "getMerlinReasoningChain", "ok": reasoning.get("ok", False)})
+    if spend >= 3:
+        interrogator = route_tool("searchInterrogator", {"query": question}, session=active_session)
+        steps.append({"step": 3, "tool": "searchInterrogator", "ok": interrogator.get("ok", False)})
+    if spend >= 4:
+        memory_audit = active_session.audit_memory(question)
+        steps.append({"step": 4, "tool": "runMerlinMemoryAudit", "ok": True})
+    if spend >= 5:
+        contradictions = build_counterexample_digest(session=active_session, limit=spend)
+        steps.append({"step": 5, "tool": "getMerlinCounterexampleDigest", "ok": contradictions.get("ok", False)})
 
-    interrogator = route_tool("searchInterrogator", {"query": question}, session=active_session)
-    steps.append({"step": 3, "tool": "searchInterrogator", "ok": interrogator.get("ok", False)})
-
-    memory_audit = active_session.audit_memory(question)
-    steps.append({"step": 4, "tool": "runMerlinMemoryAudit", "ok": True})
-
-    contradictions = build_counterexample_digest(session=active_session, limit=spend)
     kb_match = ((knowledge.get("result") or {}).get("data") or {}).get("match")
     interrogator_hits = (((interrogator.get("result") or {}).get("data") or {}).get("results") or [])[:spend]
     chain = list(reasoning.get("chain") or [])
     open_gaps: list[str] = []
     if not kb_match:
         open_gaps.append("No strong canonical KB match; answer must stay pillar-grounded and cautious.")
-    if not any(int(item.get("lean4_hit_count", 0)) > 0 for item in chain):
+    if spend >= 2 and not any(int(item.get("lean4_hit_count", 0)) > 0 for item in chain):
         open_gaps.append("No Lean4 hit surfaced in the retrieved chain; proof confidence remains limited.")
+    if spend < 4:
+        open_gaps.append("Memory audit was not executed because the cycle budget ended before that step.")
+    if spend < 5:
+        open_gaps.append("Counterexample digest was not executed because the cycle budget ended before that step.")
     if contradictions.get("total_events", 0):
         open_gaps.append("Recent contradiction events exist and should be reviewed before any promotion claim.")
 
-    receipts = [
-        {
-            "tool": step["tool"],
-            "ok": step["ok"],
-        }
-        for step in steps[:spend + 1]
-    ]
+    receipts = [{"tool": step["tool"], "ok": step["ok"]} for step in steps]
     serialized_findings = json.dumps(
         {
             "kb_match": kb_match,

@@ -724,6 +724,7 @@ def test_reasoning_chain_and_research_cycle_helpers():
 
     cycle = run_research_cycle(question='Explain the birefringence prediction.', budget=2, session=session)
     assert cycle['ok'] is True
+    assert len(cycle['steps']) == 2
     assert cycle['energy_cost']['estimated_joules'] > 0
 
 

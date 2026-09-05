@@ -125,7 +125,7 @@ def get_reasoning_chain(query: str, *, max_hops: int = 3) -> dict[str, Any]:
         lean4_total_hits += int(node["lean4_hit_count"])
         chain.append(node)
 
-    edge_average = sum(item["edge_weight"] for item in edges) / max(len(edges), 1)
+    edge_average = (sum(item["edge_weight"] for item in edges) / len(edges)) if edges else 1.0
     coverage = min(len(chain) / max(hop_cap, 1), 1.0)
     proof_chain_confidence = round(min(0.99, (0.45 * edge_average) + (0.25 * coverage) + (0.05 * min(lean4_total_hits, 5))), 3)
     return {
