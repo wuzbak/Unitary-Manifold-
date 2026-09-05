@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Pillar 1062 — parallel audit remediation certificate.
+"""Pillar 1078 — post-merge audit remediation certificate.
 
 Adjacency / scope:
     Repository-integrity and epistemic-hardening artifact.
@@ -26,12 +26,12 @@ import sys
 from typing import Any
 from uuid import uuid4
 
-PILLAR_NUMBER = 1062
-PILLAR_TITLE = "Parallel Audit Remediation Certificate"
-PILLAR_STATUS = "PARALLEL_AUDIT_REMEDIATION_COMPLETE"
-VERSION = "v36.2"
-SPRINT = "CF"
-NEXT_PILLAR_SLOT = 1063
+PILLAR_NUMBER = 1078
+PILLAR_TITLE = "Post-Merge Audit Remediation Certificate"
+PILLAR_STATUS = "POST_MERGE_AUDIT_REMEDIATION_COMPLETE"
+VERSION = "v36.3"
+SPRINT = "CG"
+NEXT_PILLAR_SLOT = 1079
 ADJACENCY_LABEL = "NON_HARDGATE_AUDIT_REMEDIATION"
 
 _ROOT = Path(__file__).resolve().parents[2]
@@ -42,7 +42,7 @@ _LIVE_STATUS_JSON = _ROOT / "9-INFRASTRUCTURE" / "um_live_status.json"
 _LIVE_STATUS_PY = _ROOT / "9-INFRASTRUCTURE" / "generate_live_status.py"
 _PUBLIC_STATUS = _ROOT / "public-site" / "data" / "status.json"
 _PORTAL_STATUS = _ROOT / "public-site" / "portal" / "knowledge" / "status.json"
-_SELF_RUN_REPORT = _ROOT / "7-OUTREACH" / "self-run-reports" / "FINDINGS_REPORT_2026-09-05_SRR-20260905-P1062-R1.md"
+_SELF_RUN_REPORT = _ROOT / "7-OUTREACH" / "self-run-reports" / "FINDINGS_REPORT_2026-09-05_SRR-20260905-P1078-R1.md"
 _SUBSTACK_POST = _ROOT / "7-OUTREACH" / "substack" / "posts" / "post-302-s04e005-v36-2-parallel-audit-remediation.md"
 
 _LEAN_DISCLOSURE_TARGETS = {
@@ -269,7 +269,7 @@ def evolution_doc_honesty_check() -> dict[str, Any]:
 
 def radion_proxy_honesty_check() -> dict[str, Any]:
     text = _read_text(_PILLAR_833)
-    module = _load_module(_PILLAR_833, "pillar1062_p833")
+    module = _load_module(_PILLAR_833, "pillar1078_p833")
     mass = module.radion_mass_two_loop()
     required_phrases = {
         "threshold_honesty": "satisfies the implemented 0.2% stability bound but not",
@@ -298,7 +298,7 @@ def lean_proxy_disclosure_check() -> dict[str, Any]:
 
 
 def live_status_alignment_check() -> dict[str, Any]:
-    generator = _load_module(_LIVE_STATUS_PY, "pillar1062_live_status")
+    generator = _load_module(_LIVE_STATUS_PY, "pillar1078_live_status")
     built = generator.build_live_status()
     repo_json = json.loads(_LIVE_STATUS_JSON.read_text(encoding="utf-8"))
     normalized_built = _normalize_live_status(built)
@@ -353,7 +353,7 @@ def publication_packet_check() -> dict[str, Any]:
     }
 
 
-def pillar1062_parallel_audit_report() -> dict[str, Any]:
+def pillar1078_parallel_audit_report() -> dict[str, Any]:
     checks = {
         "observation_tracker": observation_tracker_status_check(),
         "evolution_docs": evolution_doc_honesty_check(),
@@ -379,8 +379,8 @@ def pillar1062_parallel_audit_report() -> dict[str, Any]:
     }
 
 
-def pillar1062_summary() -> dict[str, Any]:
-    report = pillar1062_parallel_audit_report()
+def pillar1078_summary() -> dict[str, Any]:
+    report = pillar1078_parallel_audit_report()
     return {
         "pillar": report["pillar"],
         "status": report["status"],

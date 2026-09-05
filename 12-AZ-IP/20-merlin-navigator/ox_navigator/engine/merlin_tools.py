@@ -72,6 +72,10 @@ from .merlin_program import (
     build_training_artifact_bundle,
     run_sync_checks,
 )
+from .merlin_local_inference import get_inference_health, get_inference_providers
+from .merlin_reasoning_graph import get_reasoning_chain
+from .merlin_research_cycle import run_research_cycle
+from .merlin_counterexample import build_counterexample_digest
 from .merlin_router import choose_runtime, get_router_policy
 from .merlin_rag import (
     INTERROGATOR_ENTRIES,
@@ -80,6 +84,7 @@ from .merlin_rag import (
     build_status_response,
     lookup_kb,
 )
+from .merlin_telemetry import build_energy_ledger
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 _LIMIT_SYNC_ARGS_SCHEMA = {
@@ -220,6 +225,12 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
+            {"name": "getMerlinInferenceProviders", "summary": "Return sovereign local inference provider registry", "domain": "functions"},
+            {"name": "getMerlinInferenceHealth", "summary": "Return inference provider availability and health", "domain": "functions"},
+            {"name": "getMerlinReasoningChain", "summary": "Return a multi-hop pillar reasoning chain with Lean4 hits", "domain": "functions"},
+            {"name": "runMerlinResearchCycle", "summary": "Run a bounded repository-grounded Merlin research cycle", "domain": "functions"},
+            {"name": "getMerlinCounterexampleDigest", "summary": "Return typed contradiction and counterexample digest artifacts", "domain": "functions"},
+            {"name": "getMerlinEnergyLedger", "summary": "Return Merlin-vs-incumbent energy ledger entries", "domain": "functions"},
         ]
     policy_overrides = {
         "getPillar": {
@@ -394,6 +405,54 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinMemoryState": {"capability_class": "state_read"},
         "getMerlinTelemetrySummary": {"capability_class": "state_read"},
+        "getMerlinInferenceProviders": {"capability_class": "state_read"},
+        "getMerlinInferenceHealth": {
+            "capability_class": "state_read",
+            "args_schema": {
+                "type": "object",
+                "properties": {"provider": {"type": "string"}},
+                "additionalProperties": False,
+            },
+        },
+        "getMerlinReasoningChain": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "max_hops": {"type": "integer", "minimum": 1},
+                },
+                "required": ["query"],
+                "additionalProperties": False,
+            },
+        },
+        "runMerlinResearchCycle": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "question": {"type": "string"},
+                    "budget": {"type": "integer", "minimum": 1},
+                },
+                "required": ["question"],
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
+        "getMerlinCounterexampleDigest": {
+            "capability_class": "state_read",
+            "args_schema": {
+                "type": "object",
+                "properties": {"limit": {"type": "integer", "minimum": 1}},
+                "additionalProperties": False,
+            },
+        },
+        "getMerlinEnergyLedger": {
+            "capability_class": "state_read",
+            "args_schema": {
+                "type": "object",
+                "properties": {"limit": {"type": "integer", "minimum": 1}},
+                "additionalProperties": False,
+            },
+        },
     }
     enriched_functions = []
     for item in functions:
@@ -484,6 +543,10 @@ def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple
             valid = _matches(str(expected), filtered_args[key]) if expected else True
         if not valid:
             return False, f"Invalid type for '{key}', expected {expected}"
+        minimum = spec.get("minimum")
+        if minimum is not None and isinstance(filtered_args[key], (int, float)) and not isinstance(filtered_args[key], bool):
+            if filtered_args[key] < minimum:
+                return False, f"Invalid value for '{key}', must be >= {minimum}"
         if "enum" in spec and filtered_args[key] not in list(spec.get("enum") or []):
             return False, f"Invalid value for '{key}', expected one of {list(spec.get('enum') or [])}"
     return True, ""
@@ -623,6 +686,12 @@ _FUNCTIONS = {
     )},
     "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(limit=args.get("limit"))},
     "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(limit=args.get("limit"))},
+    "getMerlinInferenceProviders": lambda **args: {"data": {"providers": get_inference_providers()}},
+    "getMerlinInferenceHealth": lambda **args: {"data": get_inference_health(provider_name=str(args.get("provider", "")).strip() or None)},
+"getMerlinReasoningChain": lambda **args: {"data": get_reasoning_chain(str(args.get("query", "")), max_hops=args.get("max_hops", 3))},
+"runMerlinResearchCycle": lambda **args: {"data": {"delegated": "session_bound"}},
+"getMerlinCounterexampleDigest": lambda **args: {"data": {"delegated": "session_bound"}},
+"getMerlinEnergyLedger": lambda **args: {"data": {"delegated": "session_bound"}},
 }
 
 
@@ -678,6 +747,11 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
             "router": {
                 "policy": get_router_policy(),
                 "openrouter_compat_enabled": bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT")),
+            },
+            "inference": get_inference_health(),
+            "reasoning_graph": {
+                "multi_hop": True,
+                "surface": "getMerlinReasoningChain",
             },
             "mentorship": {
                 "charter": get_mentorship_sprint_charter(),
@@ -745,7 +819,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 ok = False
                 error = "Human gate approval required for this tool."
                 raise ValueError(error)
-        if tool in _FUNCTIONS:
+        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger"}:
             tool_type = "function"
             if tool == "getMerlinTrainingDataset":
                 result = {"data": build_training_dataset_bundle(
@@ -761,6 +835,22 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 result = {"data": get_mlflow_experiment_manifests(
                     limit=args.get("limit"),
                     compiled_insights=active_session.get_compiled_training_insights(),
+                )}
+            elif tool == "runMerlinResearchCycle":
+                result = {"data": run_research_cycle(
+                    question=str(args.get("question", "")),
+                    budget=_coerce_positive_int(args.get("budget"), 3),
+                    session=active_session,
+                )}
+            elif tool == "getMerlinCounterexampleDigest":
+                result = {"data": build_counterexample_digest(
+                    session=active_session,
+                    limit=_coerce_positive_int(args.get("limit"), 10),
+                )}
+            elif tool == "getMerlinEnergyLedger":
+                result = {"data": build_energy_ledger(
+                    active_session.telemetry,
+                    limit=_coerce_positive_int(args.get("limit"), 10),
                 )}
             else:
                 result = _FUNCTIONS[tool](**args)

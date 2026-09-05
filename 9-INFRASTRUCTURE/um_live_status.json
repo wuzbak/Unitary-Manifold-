@@ -3,25 +3,25 @@
   "_fetch_url": "https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json",
   "_cache_ttl_seconds": 3600,
   "meta": {
-    "version": "36.2",
-    "sprint": "CF",
+    "version": "36.3",
+    "sprint": "CG",
     "date": "2026-09-05",
     "source_of_truth": "https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md",
     "generated_by": "9-INFRASTRUCTURE/generate_live_status.py"
   },
   "tests": {
-    "passed": 63005,
-    "skipped": 45,
+    "passed": 63876,
+    "skipped": 23,
     "deselected": 12,
     "failed": 0
   },
   "lean4": {
-    "theorem_count": 4000
+    "theorem_count": 4080
   },
   "pillars": {
-    "next_slot": 1063,
+    "next_slot": 1079,
     "hardgate_count": 208,
-    "total_slots": 1062
+    "total_slots": 1078
   },
   "physics": {
     "winding_number_n_w": 5,
@@ -128,47 +128,47 @@
     {
       "gate": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED",
       "description": "Flavor shared-root blocker remains open after proof-first contraction.",
-      "pillar": 1061
+      "pillar": 1078
     },
     {
       "gate": "FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED",
       "description": "Species-resolved RI geometry with bundle-moduli lock remains unresolved.",
-      "pillar": 1061
+      "pillar": 1078
     },
     {
       "gate": "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
       "description": "Global CKM phase geometry remains architecture-limited after contraction.",
-      "pillar": 1061
+      "pillar": 1078
     },
     {
       "gate": "ALPHA_S_TYPE_B_FLOOR",
       "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
-      "pillar": 1061
+      "pillar": 1078
     },
     {
       "gate": "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
       "description": "Shared UV compactification object remains open; joint α_s/Higgs residual persists.",
-      "pillar": 1061
+      "pillar": 1078
     },
     {
       "gate": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
       "description": "CMB amplitude lane remains internally irreducible absent the missing UV object.",
-      "pillar": 1061
+      "pillar": 1078
     },
     {
       "gate": "NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
       "description": "Non-perturbative QG remains bounded by the declared O1–O4 obstructions.",
-      "pillar": 1061
+      "pillar": 1078
     },
     {
       "gate": "DESI_DR3_MONITORING",
       "description": "External wait only; frozen-radion dark-energy lane awaits DESI DR3.",
-      "pillar": 1061
+      "pillar": 1078
     },
     {
       "gate": "LITEBIRD_BIREFRINGENCE",
       "description": "External wait only; birefringence lane awaits LiteBIRD.",
-      "pillar": 1061
+      "pillar": 1078
     }
   ],
   "fetch_targets": {

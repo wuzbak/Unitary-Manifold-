@@ -1,6 +1,6 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
-*Last updated: 2026-09-05 (v36.2 Sprint CF COMPLETE — Pillar 1062; Lean4 4000→4000; next slot 1063)*
+*Last updated: 2026-09-05 (v36.3 Sprint CG COMPLETE — Pillar 1078; Lean4 4080→4080; next slot 1079)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -16,20 +16,22 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.2 — Sprint CF)
+## CURRENT AUDITABLE STATE (v36.3 — Sprint CG)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.2** |
-| Sprint | **Sprint CF** |
-| Pillars | **1062-1062** |
-| Next pillar slot | **1063** |
-| Lean4 theorems | **4000** |
-| Verified full regression | **63,005 passed · 45 skipped · 12 deselected · 0 failed** |
-| Sprint theme | **Parallel audit remediation + status honesty lock** |
-| Primary target | **Force canonical/public status, code/proof, and reporting surfaces to agree with the checked-in branch reality** |
-| Binary outcome | **No new hardgate claim promotion; explicit PASS/FAIL audit checks on honesty, synchronization, and traceability surfaces** |
+| Version | **v36.3** |
+| Sprint | **Sprint CG** |
+| Pillars | **1078-1078** |
+| Next pillar slot | **1079** |
+| Lean4 theorems | **4080** |
+| Verified full regression | **63,876 passed · 23 skipped · 12 deselected · 0 failed** |
+| Sprint theme | **Post-merge audit remediation + status integrity lock** |
+| Primary target | **Preserve merged Sprint CF scientific reality while forcing canonical/public status, code/proof, and reporting surfaces to agree with it** |
+| Binary outcome | **No new hardgate claim promotion; explicit PASS/FAIL audit checks on honesty, synchronization, and traceability surfaces after merge** |
 
+Historical continuity: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical theorem/extension/falsifier execution layer directly below Sprint CG.
+Historical continuity: v36.1 Sprint CE (Pillar 1061; next slot 1062) remains the proof-first internal closure layer directly below Sprint CF.
 Historical continuity: v35.8 Sprint CB (Pillars 1051–1057; next slot 1058) remains the merge-gated multi-lane baseline directly below Sprint CC.
 Historical continuity: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.
 Historical continuity: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the targeted QG rigor layer below Sprint CA.
@@ -38,24 +40,25 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 
 ---
 
-## PARALLEL AUDIT REMEDIATION PROTOCOL (Sprint CF, Executed)
+## POST-MERGE AUDIT REMEDIATION PROTOCOL (Sprint CG, Executed)
 
-1. Audit canonical status, public status, code/proof, and publication surfaces in parallel.
-2. Mark stale-but-useful observation routing text as historical/non-canonical instead of silently current.
-3. Add explicit scope/honesty notes where proxy Lean arithmetic or status markers could be read too strongly.
-4. Correct radion/evolution wording where optional or already-closed gaps were being described inaccurately.
-5. Synchronize live-status and public status JSON outputs to the checked-in branch reality.
-6. Publish one findings packet and one outward-facing article with sober accounting.
-7. Preserve all open-lane labels and falsifier windows unless executable evidence changes them.
-8. Keep canonical truth surfaces lockstep synchronized.
-9. Keep targeted and full verification gates zero-fail.
-10. Reject narrative-only status drift even when tests are green.
+1. Merge the newer canonical branch state before making further status claims.
+2. Preserve the merged Sprint CF hardgate/open-lane story without retroactive softening or relabeling.
+3. Mark stale-but-useful observation routing text as historical/non-canonical instead of silently current.
+4. Keep explicit scope/honesty notes where proxy Lean arithmetic or status markers could be read too strongly.
+5. Correct radion/evolution wording where optional or already-closed gaps were being described inaccurately.
+6. Synchronize live-status and public status JSON outputs to the merged branch reality.
+7. Publish one findings packet and one outward-facing article with sober accounting.
+8. Preserve all open-lane labels and falsifier windows unless executable evidence changes them.
+9. Keep canonical truth surfaces lockstep synchronized.
+10. Keep targeted and full verification gates zero-fail.
+11. Reject narrative-only status drift even when tests are green.
 
-### Sprint CF blunt board
+### Sprint CG blunt board
 
 | Closed this sprint | Tightened / corrected | Blocked / external wait |
 |---|---|---|
-| Public/canonical status drift; Lean proxy disclosure drift; radion/evolution wording drift; observation freshness drift | Machine-readable live status honesty; public status JSON sync; publication packet traceability | DESI_DR3_MONITORING; LITEBIRD_BIREFRINGENCE; CMB_AMP_CONFIRMED_IRREDUCIBLE; ALPHA_S_TYPE_B_FLOOR; HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW; CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED; FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED; JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED; NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT |
+| Merge-conflict status drift; duplicate pillar-number claim; public/canonical status divergence | Observation freshness markers; Lean proxy disclosure drift; radion/evolution wording drift; live/public status sync; publication packet traceability | DESI_DR3_MONITORING; LITEBIRD_BIREFRINGENCE; CMB_AMP_CONFIRMED_IRREDUCIBLE; ALPHA_S_TYPE_B_FLOOR; HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW; CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED; FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED; JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED; NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT |
 
 ## CURRENT OPEN SET IN THE CHECKED-IN BRANCH
 
@@ -75,12 +78,12 @@ Classification:
 
 ---
 
-## NEXT PHASE PRIORITIES (post-CF continuation)
+## NEXT PHASE PRIORITIES (post-CG continuation)
 
 1. **Truth-surface lockstep remains non-negotiable**
    - Keep `STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`, `docs/GATEKEEPER_SUMMARY.md`, `docs/TRUTH_LAYER.md`, `docs/WAVE_CHANGELOG.md`, this file, and `9-INFRASTRUCTURE/um_live_status.json` synchronized in one change set.
-2. **QG online research intake stays data-citable**
-   - Keep explicit source/metric/uncertainty/regime/reproducibility fields for each accepted external result.
+2. **Post-merge honesty checks remain executable**
+   - Keep duplicate pillar-number collisions, stale JSON status payloads, and outdated outreach totals fail-closed.
 3. **Architecture-gap mapping remains O1–O4 anchored**
    - Map every external result against the declared non-perturbative obstructions and classify impact with executable categories.
 4. **Reproduction + routing must remain deterministic**

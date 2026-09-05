@@ -1,22 +1,21 @@
 {
-  "version": "v36.2",
-  "date": "2026-09-05",
-  "tests_passed": 63005,
-  "tests_skipped": 45,
+  "version": "v36.3",
+  "tests_passed": 63876,
+  "tests_skipped": 23,
   "tests_deselected": 12,
   "tests_failed": 0,
-  "lean4_theorems": 4000,
+  "lean4_theorems": 4080,
   "pillars_hardgate": 208,
-  "pillars_total": 1062,
-  "next_pillar_slot": 1063,
-  "primary_falsifier": "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)",
+  "pillars_total": 1078,
+  "next_pillar_slot": 1079,
+  "primary_falsifier": "LiteBIRD \u03b2 \u2208 {0.273\u00b0, 0.331\u00b0} (~2032)",
   "open_tensions": [
     {
       "name": "Flavor family boundary",
       "status": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED"
     },
     {
-      "name": "α_s Type-B floor",
+      "name": "\u03b1_s Type-B floor",
       "status": "ALPHA_S_TYPE_B_FLOOR"
     },
     {
@@ -32,6 +31,10 @@
       "status": "HIGH_TENSION"
     }
   ],
+  "epistemic_status": "repository-level internal mathematical self-consistency established; current audit/remediation status surfaces synchronized to verified branch reality; external empirical confirmation pending",
+  "organization": "AxiomZero Technologies & Consulting, SPC",
+  "ubi": "606 239 876",
+  "date": "2026-09-05",
   "predictions": {
     "r": {
       "um": 0.0315,
@@ -42,8 +45,5 @@
       "um": 0.0,
       "status": "HIGH_TENSION"
     }
-  },
-  "epistemic_status": "repository-level internal mathematical self-consistency established; current audit/remediation status surfaces synchronized to verified branch reality; external empirical confirmation pending",
-  "organization": "AxiomZero Technologies & Consulting, SPC",
-  "ubi": "606 239 876"
+  }
 }

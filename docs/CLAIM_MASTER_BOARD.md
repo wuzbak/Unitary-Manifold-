@@ -1,9 +1,11 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v36.2
+# Unitary Manifold v36.3
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-05 (v36.2 — Sprint CF: Pillar 1062. This sprint is an explicit non-hardgate audit/remediation lock: it promotes no new physics closure, changes no open-lane label, and instead forces canonical/public status surfaces, observation freshness notes, Lean proxy disclosures, radion/evolution wording, and publication traceability to match the checked-in branch reality and verified regression results. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1063. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-05 (v36.3 — Sprint CG: Pillar 1078. This sprint is an explicit non-hardgate post-merge audit/remediation lock: it preserves the merged Sprint CF hardgate/open-lane story while forcing canonical/public status surfaces, observation freshness notes, Lean proxy disclosures, radion/evolution wording, and publication traceability to match the merged branch reality and verified regression results. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1079. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+
+*Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
 
 *Historical continuity note: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the canonical targeted-QG-rigor layer directly below Sprint CA.*
 *Historical continuity note: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.*
@@ -11,7 +13,7 @@
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
-*P1062 (v36.2): Parallel Audit Remediation Certificate — PARALLEL_AUDIT_REMEDIATION_COMPLETE. `src/core/pillar1062_parallel_audit_remediation.py` verifies that stale observation-routing text is marked historical, audited Lean proxy surfaces disclose scope limits, radion/evolution honesty notes are current, live-status and public status JSON stay aligned to the checked-in branch reality, and the findings/reporting packet exists. This is a repository-integrity hardening layer only and does not promote new hardgate physics claims.*
+*P1078 (v36.3): Post-Merge Audit Remediation Certificate — POST_MERGE_AUDIT_REMEDIATION_COMPLETE. `src/core/pillar1078_parallel_audit_remediation.py` verifies that stale observation-routing text is marked historical, audited Lean proxy surfaces disclose scope limits, radion/evolution honesty notes are current, live-status and public status JSON stay aligned to the merged branch reality, and the findings/reporting packet exists. This is a repository-integrity hardening layer only and does not promote new hardgate physics claims.*
 
 *P1061 (v36.1): Sprint CE Proof-First Internal Closure Sprint — SPRINT_CE_PROOF_FIRST_INTERNAL_EXECUTION_COMPLETE. `src/core/pillar1061_proof_first_internal_closure_sprint.py` blocks status-only advancement, runs only the seven internal open lanes in strict leverage order, preserves closure-binary outcomes (`CLOSED_NOW`/`TIGHTENED_WITH_EXPLICIT_BLOCKER`) while exposing explicit anti-loop defer rows (`ANTI_LOOP_BLOCKED_DEFER_NEXT_SPRINT`) for blocked same-sprint reruns without genuinely new object/evidence classes, and emits a proof-first packet with exact before/after blocker carry-forward plus measurable contraction metrics.*
 

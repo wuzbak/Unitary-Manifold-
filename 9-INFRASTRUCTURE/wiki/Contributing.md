@@ -1,6 +1,6 @@
 # Contributing
 
-> Canonical regression marker: 63,005 passed · 45 skipped · 12 deselected · 0 failed.
+> Canonical regression marker: 63,876 passed · 23 skipped · 12 deselected · 0 failed.
 
 Thank you for your interest in contributing to the Unitary Manifold project. Contributions of all kinds are welcome — mathematical review, code improvements, documentation, and independent verification.
 
@@ -47,7 +47,7 @@ Improvements to the numerical implementation are welcome. Areas of particular in
 3. **Run the test suite before making changes** to establish a baseline:
    ```bash
    python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-   # Expected: 63,005 passed · 45 skipped · 12 deselected · 0 failed
+   # Expected: 63,787 passed · 23 skipped · 12 deselected · 0 failed
    ```
 4. **Make your changes** following the conventions below.
 5. **Run the test suite again** after your changes; 0 failures is a hard requirement.

@@ -1,4 +1,4 @@
-# v36.2: The Parallel Audit, the Fixes, and the Errors We Were Actually Carrying
+# v36.3: The Parallel Audit, the Fixes, and the Errors We Were Actually Carrying
 
 *Post 302 of the Unitary Manifold series.*  
 *Series S04, Episode E005.*  
@@ -58,7 +58,7 @@ pretends to be the canonical current sprint/status source.
 The machine-readable status feed matters because dashboards, APIs, and public
 status views consume it.
 
-That feed was still carrying older observational summaries, and other public status surfaces were still advertising older branch totals. In the current branch, both `r` and `w_a` are pressure lanes, not clean PASS lanes, and the verified branch-wide regression now stands at **63,005 passed · 45 skipped · 12 deselected · 0 failed**.
+That feed was still carrying older observational summaries, and other public status surfaces were still advertising older branch totals. In the current branch, both `r` and `w_a` are pressure lanes, not clean PASS lanes, and the verified branch-wide regression now stands at **63,876 passed · 23 skipped · 12 deselected · 0 failed**.
 
 So the generator and the generated JSON were updated to match the actual ledger:
 

@@ -1,6 +1,8 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v36.2 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint CF** (2026-09-05; Pillar 1062) is a non-hardgate audit/remediation lock: it promotes no new physics closure and instead hardens status honesty across Lean proxy surfaces, radion/evolution wording, observation-ledger freshness boundaries, live/public status JSON outputs, and publication traceability. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1063. Latest verified full regression in branch history: 63,005 passed · 45 skipped · 12 deselected · 0 failed. Focused regression: Pillar 1062 audit/status targeted tests passed · 0 failed.)*
+*Unitary Manifold v36.3 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint CG** (2026-09-05; Pillar 1078) is a non-hardgate post-merge audit/remediation lock: it preserves the merged Sprint CF physics/open-lane story and instead hardens status honesty across Lean proxy surfaces, radion/evolution wording, observation-ledger freshness boundaries, live/public status JSON outputs, and publication traceability. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1079. Latest verified full regression in branch history: 63,876 passed · 23 skipped · 12 deselected · 0 failed. Focused regression: Pillar 1078 audit/status targeted tests passed · 0 failed.)*
+
+*Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
 
 *Historical continuity note: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the canonical targeted-QG-rigor layer directly below Sprint CA.*
 *Historical continuity note: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) remains the full-throttle closure baseline directly below Sprint CB.*
@@ -59,7 +61,7 @@ It is written in the same clinical tone expected of a refereed submission.
 
 ## I. Scope of Verification
 
-The latest verified branch regression (63,005 passed · 45 skipped · 12 deselected · 0 failed (v36.2 branch verification; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
+The latest verified branch regression (63,756 passed · 23 skipped · 12 deselected · 0 failed (v35.8 baseline with Sprint CB certificates; collected across `tests/`, `recycling/`, and `5-GOVERNANCE/Unitary Pentad/`) confirms that the numerical implementations
 are **internally self-consistent**: every equation as coded is a correct
 consequence of the mathematical framework as stated.  The test suite covers
 metric curvature (`test_metric.py`), field evolution

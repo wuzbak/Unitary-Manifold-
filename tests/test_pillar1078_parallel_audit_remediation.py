@@ -5,9 +5,9 @@ import copy
 import json
 from pathlib import Path
 
-import src.core.pillar1062_parallel_audit_remediation as audit_module
+import src.core.pillar1078_parallel_audit_remediation as audit_module
 
-from src.core.pillar1062_parallel_audit_remediation import (
+from src.core.pillar1078_parallel_audit_remediation import (
     ADJACENCY_LABEL,
     NEXT_PILLAR_SLOT,
     PILLAR_NUMBER,
@@ -19,8 +19,8 @@ from src.core.pillar1062_parallel_audit_remediation import (
     lean_proxy_disclosure_check,
     live_status_alignment_check,
     observation_tracker_status_check,
-    pillar1062_parallel_audit_report,
-    pillar1062_summary,
+    pillar1078_parallel_audit_report,
+    pillar1078_summary,
     publication_packet_check,
     public_status_sync_check,
     radion_proxy_honesty_check,
@@ -28,12 +28,12 @@ from src.core.pillar1062_parallel_audit_remediation import (
 
 
 def test_identity() -> None:
-    assert PILLAR_NUMBER == 1062
-    assert PILLAR_STATUS == "PARALLEL_AUDIT_REMEDIATION_COMPLETE"
+    assert PILLAR_NUMBER == 1078
+    assert PILLAR_STATUS == "POST_MERGE_AUDIT_REMEDIATION_COMPLETE"
     assert "Audit" in PILLAR_TITLE
-    assert VERSION == "v36.2"
-    assert SPRINT == "CF"
-    assert NEXT_PILLAR_SLOT == 1063
+    assert VERSION == "v36.3"
+    assert SPRINT == "CG"
+    assert NEXT_PILLAR_SLOT == 1079
     assert ADJACENCY_LABEL == "NON_HARDGATE_AUDIT_REMEDIATION"
 
 
@@ -136,7 +136,7 @@ def test_publication_packet_exists() -> None:
 
 
 def test_publication_packet_check_detects_missing_artifact(monkeypatch, tmp_path) -> None:
-    missing = tmp_path / "nonexistent-pillar1062-report.md"
+    missing = tmp_path / "nonexistent-pillar1078-report.md"
     monkeypatch.setattr(audit_module, "_SELF_RUN_REPORT", missing)
     row = audit_module.publication_packet_check()
     assert row["self_run_report_exists"] is False
@@ -144,8 +144,8 @@ def test_publication_packet_check_detects_missing_artifact(monkeypatch, tmp_path
 
 
 def test_integrated_report() -> None:
-    report = pillar1062_parallel_audit_report()
-    assert report["pillar"] == 1062
+    report = pillar1078_parallel_audit_report()
+    assert report["pillar"] == 1078
     assert report["status"] == PILLAR_STATUS
     assert report["overall_status"] == "PASS_WITH_FIXES"
     assert report["failing_checks"] == []
@@ -153,7 +153,7 @@ def test_integrated_report() -> None:
 
 
 def test_summary() -> None:
-    row = pillar1062_summary()
-    assert row["pillar"] == 1062
+    row = pillar1078_summary()
+    assert row["pillar"] == 1078
     assert row["status"] == PILLAR_STATUS
     assert row["overall_status"] == "PASS_WITH_FIXES"

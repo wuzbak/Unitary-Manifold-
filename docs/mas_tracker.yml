@@ -1,23 +1,23 @@
-version: "v36.2"
+version: "v36.3"
 date: "2026-09-05"
 updated: "2026-09-05"
 
-v36_2_sprint_cf:
-  sprint: CF
-  version: v36.2
+v36_3_sprint_cg:
+  sprint: CG
+  version: v36.3
   date: "2026-09-05"
-  pillars: 1062-1062
+  pillars: 1078-1078
   new_pillars: 1
-  new_tests: 10
-  lean4_start: 4000
-  lean4_end: 4000
+  new_tests: 13
+  lean4_start: 4080
+  lean4_end: 4080
   lean4_delta: 0
   closures:
-    - PARALLEL_AUDIT_REMEDIATION_COMPLETE
+    - POST_MERGE_AUDIT_REMEDIATION_COMPLETE
   advances:
-    - CANONICAL_AND_PUBLIC_STATUS_SURFACES_ARE_NOW_SYNCHRONIZED_TO_THE_CHECKED_IN_BRANCH_REALITY
-    - LEAN_PROXY_RADION_PROXY_AND_OBSERVATION_ROUTING_SURFACES_NOW_DISCLOSE_SCOPE_LIMITS_EXPLICITLY
-    - LIVE_STATUS_EXPORT_NOW_FAILS_CLOSED_IF_OPEN_GATES_OR_HIGH_TENSION_OBSERVATION_VERDICTS_DRIFT
+    - MERGE_CONFLICT_STATUS_DRIFT_IS_NOW_FAIL_CLOSED_ACROSS_CANONICAL_AND_PUBLIC_SURFACES
+    - LEAN_PROXY_RADION_PROXY_AND_OBSERVATION_ROUTING_SURFACES_REMAIN_EXPLICITLY_SCOPED_AFTER_MERGING_SPRINT_CF
+    - LIVE_STATUS_EXPORT_AND_PUBLIC_STATUS_FEEDS_NOW_TRACK_THE_MERGED_BRANCH_REALITY
   remaining_open:
     - CMB_AMP_CONFIRMED_IRREDUCIBLE
     - ALPHA_S_TYPE_B_FLOOR
@@ -28,9 +28,42 @@ v36_2_sprint_cf:
     - DESI_DR3_MONITORING
     - LITEBIRD_BIREFRINGENCE
     - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
-  regression: "63,005 passed · 45 skipped · 12 deselected · 0 failed (latest verified full regression in current branch history)"
-  focused_regression: "Pillar 1062 audit/status targeted tests passed · 0 failed"
-  next_pillar_slot: 1063
+  regression: "63,876 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in current branch history)"
+  focused_regression: "Pillar 1078 audit/status targeted tests passed · 0 failed"
+  next_pillar_slot: 1079
+
+v36_2_sprint_cf:
+  sprint: CF
+  version: v36.2
+  date: "2026-09-05"
+  pillars: 1062-1077
+  new_pillars: 16
+  new_tests: 74
+  lean4_start: 4000
+  lean4_end: 4080
+  lean4_delta: 80
+  tracks:
+    track_a_floor_theorems:
+      pillars: 1062-1067
+      lean4_delta: 60
+      outcome: FLOOR_THEOREMS_UPGRADED_TO_LEAN4
+    track_b_extension_attempt:
+      pillars: 1068-1073
+      lean4_delta: 0
+      outcome: EXTENSION_TIGHTENED_BUT_NO_CLOSURE_EARNED
+      hardgate_pillars_touched: []
+      new_free_parameters: 0
+    track_c_falsifier_sharpness:
+      pillars: 1074-1076
+      lean4_delta: 20
+      outcome: PRE_REGISTERED_EXTERNAL_RIGIDITY_THEOREMS_STATED
+      registration_tag: SPRINT_CF_v36.2_TRACK_C_PRE_REGISTERED_2026
+  regression_certificate: pillar_1077
+  sprint_success: true
+  runtime_labels_changed: false
+  next_pillar_slot: 1078
+  regression: "63876 passed · 23 skipped · 12 deselected · 0 failed"
+  focused_regression: "74 passed · 0 failed"
 
 v36_1_sprint_ce:
   sprint: CE
