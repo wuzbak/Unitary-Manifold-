@@ -1,6 +1,6 @@
 # GitHub Copilot Instructions — Unitary Manifold
 
-> Canonical regression marker: 63,771 passed · 23 skipped · 12 deselected · 0 failed.
+> Canonical regression marker: 63,787 passed · 23 skipped · 12 deselected · 0 failed.
 
 This file provides context for GitHub Copilot and AI coding assistants working
 on the Unitary Manifold repository.
