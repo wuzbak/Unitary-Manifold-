@@ -5,7 +5,7 @@
 >  
 > To evaluate the mathematical core, begin with executable verification: run `python VERIFY.py` and review [`proof/TIER_1_FORMAL.md`](proof/TIER_1_FORMAL.md).  
 > The 5D metric closure and CMB-facing predictions are tied to the integer pair \((n_1, n_2) = (5, 7)\); assess that formal chain before evaluating broader repository scope.
-> **Canonical status marker:** v36.2 Sprint CF · latest verified full regression in branch history: 63,000 passed · 45 skipped · 12 deselected · 0 failed.
+> **Canonical status marker:** v36.2 Sprint CF · latest verified full regression in branch history: 63,005 passed · 45 skipped · 12 deselected · 0 failed.
 > Treat legacy references to earlier v15.x states, including v15.1, as historical snapshots; canonical current status is maintained in `STATUS.md` and `docs/mas_tracker.yml`.
 >
 > **Interpretation guardrail:** read the framework through the 5D Kaluza-Klein metric lens first: \(G_{AB}\) packages \(g_{\mu\nu}\), the irreversibility gauge field \(B_\mu\), and the dynamic radion \(\phi\). The \((5,7)\) sector gives the topological braid constraint \(k_{\rm CS}=5^2+7^2=74\), while the 3:2 scaffold is a structural diagnostic, not a license to blur tiers. Phase flips, loop inversions, or shorthand anomalies are orientation/topology statements inside that lens, not ordinary arithmetic contradictions.

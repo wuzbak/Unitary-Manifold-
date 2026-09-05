@@ -5,7 +5,7 @@
 Every claim, every gap, every tension, every falsifier — stated completely.*
 
 *v36.2 sync note (Sprint CF — 2026-09-05):*
-*(1) Auditable checked-in branch state now includes Pillar 1062; Lean4 remains 4000; next pillar slot 1063; verified full regression is 63,000 passed · 45 skipped · 12 deselected · 0 failed.*
+*(1) Auditable checked-in branch state now includes Pillar 1062; Lean4 remains 4000; next pillar slot 1063; verified full regression is 63,005 passed · 45 skipped · 12 deselected · 0 failed.*
 *(2) Sprint CF is an explicit non-hardgate audit/remediation lock: it promotes no new physics closure and instead forces code, proof, documentation, API, and publication surfaces to agree with the checked-in branch reality.*
 *(3) Observation-routing text that is still useful historically is now marked historical/non-canonical rather than left looking current.*
 *(4) Audited Lean proxy surfaces, radion/evolution wording, and machine-readable live/public status outputs now carry stronger honesty constraints and drift checks.*

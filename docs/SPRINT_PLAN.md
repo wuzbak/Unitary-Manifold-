@@ -25,7 +25,7 @@ Proceed only when all three agree.
 | Pillars | **1062-1062** |
 | Next pillar slot | **1063** |
 | Lean4 theorems | **4000** |
-| Verified full regression | **63,000 passed · 45 skipped · 12 deselected · 0 failed** |
+| Verified full regression | **63,005 passed · 45 skipped · 12 deselected · 0 failed** |
 | Sprint theme | **Parallel audit remediation + status honesty lock** |
 | Primary target | **Force canonical/public status, code/proof, and reporting surfaces to agree with the checked-in branch reality** |
 | Binary outcome | **No new hardgate claim promotion; explicit PASS/FAIL audit checks on honesty, synchronization, and traceability surfaces** |

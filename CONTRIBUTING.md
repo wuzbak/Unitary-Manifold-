@@ -1,6 +1,6 @@
 # Contributing to the Unitary Manifold
 
-> Canonical regression marker: 63,000 passed · 45 skipped · 12 deselected · 0 failed.
+> Canonical regression marker: 63,005 passed · 45 skipped · 12 deselected · 0 failed.
 
 Thank you for looking at this work.  All contributions — corrections, numerical
 verifications, extensions, and discussions — are welcome.
@@ -14,7 +14,7 @@ git clone https://github.com/wuzbak/Unitary-Manifold-
 cd Unitary-Manifold-
 pip install -r requirements.txt pytest
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 63,000 passed · 45 skipped · 12 deselected · 0 failed
+# Expected: 63,005 passed · 45 skipped · 12 deselected · 0 failed
 python -m pytest tests/ -q           # tests/ only — see STATUS.md for current sub-suite total
 python -m pytest tests/ -m slow     # 11 slow tests (Richardson convergence)
 ```

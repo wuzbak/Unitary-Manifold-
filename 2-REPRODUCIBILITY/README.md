@@ -1,6 +1,6 @@
 # 2-REPRODUCIBILITY — Everything a Verifier Needs
 
-> Canonical regression marker: 63,000 passed · 45 skipped · 12 deselected · 0 failed.
+> Canonical regression marker: 63,005 passed · 45 skipped · 12 deselected · 0 failed.
 
 This folder contains all records required to reproduce, audit, and independently
 verify the numerical results of the Unitary Manifold framework.
@@ -15,7 +15,7 @@ pip install -r requirements.txt pytest
 
 # Full test suite (~2 min):
 python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 63,000 passed · 45 skipped · 12 deselected · 0 failed
+# Expected: 63,005 passed · 45 skipped · 12 deselected · 0 failed
 
 # Single-module fast check:
 python -m pytest tests/test_metric.py tests/test_evolution.py -v

@@ -2,8 +2,8 @@
 
 **The Unitary Manifold v36.2 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-05 (v36.2 — Sprint CF: Pillar 1062; non-hardgate audit/remediation lock aligning code, proof, documentation, and status surfaces to the verified branch reality; Lean4 4000→4000; 63,000 passed · 45 skipped · 12 deselected · 0 failed; next slot 1063.)*
-*Latest verified full regression: 63,000 passed · 45 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-05).*
+*Last updated: 2026-09-05 (v36.2 — Sprint CF: Pillar 1062; non-hardgate audit/remediation lock aligning code, proof, documentation, and status surfaces to the verified branch reality; Lean4 4000→4000; 63,005 passed · 45 skipped · 12 deselected · 0 failed; next slot 1063.)*
+*Latest verified full regression: 63,005 passed · 45 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-05).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

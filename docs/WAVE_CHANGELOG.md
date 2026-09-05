@@ -2,7 +2,7 @@
 
 This file is the required wave-level changelog ledger.
 **Current version: v36.2 (2026-09-05)**
-**Regression:** 63,000 passed · 45 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
+**Regression:** 63,005 passed · 45 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
 **Next pillar slot:** 1063
 
 ## v36.2 (2026-09-05 — Sprint CF: Pillar 1062)
@@ -25,7 +25,7 @@ Remove cross-surface drift and keep the repository's code, proof, documentation,
 **Residual unknowns:** CMB amplitude floor, α_s Type-B floor, Higgs architecture window, CKM shadow architecture limit, fermion magnitude/radii architecture limit, Jarlskog Layer-2 architecture limit, DESI DR3 (~2027), LiteBIRD (~2032), non-perturbative QG/UV completion.
 
 **Lean4:** 4000 → 4000 (+0)
-**Regression:** Pillar 1062 audit/status targeted tests passed · 0 failed; full regression 63,000 passed · 45 skipped · 12 deselected · 0 failed
+**Regression:** Pillar 1062 audit/status targeted tests passed · 0 failed; full regression 63,005 passed · 45 skipped · 12 deselected · 0 failed
 **Next pillar slot:** 1063
 
 ## v36.1 (2026-09-05 — Sprint CE: Pillar 1061)

@@ -28,7 +28,7 @@ v36_2_sprint_cf:
     - DESI_DR3_MONITORING
     - LITEBIRD_BIREFRINGENCE
     - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
-  regression: "63,000 passed · 45 skipped · 12 deselected · 0 failed (latest verified full regression in current branch history)"
+  regression: "63,005 passed · 45 skipped · 12 deselected · 0 failed (latest verified full regression in current branch history)"
   focused_regression: "Pillar 1062 audit/status targeted tests passed · 0 failed"
   next_pillar_slot: 1063
 
