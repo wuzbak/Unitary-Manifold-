@@ -24,6 +24,13 @@ def _clean_url(value: str) -> str:
     return str(value or "").strip().rstrip("/")
 
 
+def _clean_chat_path(value: str) -> str:
+    sample = str(value or "").strip()
+    if not sample:
+        return "v1/chat/completions"
+    return sample.lstrip("/")
+
+
 def _provider_record(
     *,
     name: str,
@@ -35,6 +42,7 @@ def _provider_record(
     endpoint: str = "",
     health: str = "ready",
     reason: str = "",
+    chat_path: str = "v1/chat/completions",
 ) -> dict[str, Any]:
     return {
         "name": name,
@@ -45,6 +53,7 @@ def _provider_record(
         "lane_targets": lane_targets,
         "model": model,
         "endpoint": endpoint,
+        "chat_path": chat_path,
         "reason": reason,
         "cost_policy": "zero_external_token_cost" if provider_kind != "compatibility" else "token_compatibility_only",
     }
@@ -66,6 +75,7 @@ def get_inference_providers() -> list[dict[str, Any]]:
         ("local_medium", "MERLIN_LOCAL_MEDIUM", ["heavy_reasoner_exception"]),
     ):
         endpoint = _clean_url(os.environ.get(f"{env_prefix}_BASE_URL", ""))
+        chat_path = _clean_chat_path(os.environ.get(f"{env_prefix}_CHAT_PATH", "v1/chat/completions"))
         model = str(os.environ.get(f"{env_prefix}_MODEL", "")).strip()
         enabled = _bool_env(f"{env_prefix}_ENABLED", default=bool(endpoint and model))
         available = bool(enabled and endpoint and model)
@@ -79,6 +89,7 @@ def get_inference_providers() -> list[dict[str, Any]]:
                 lane_targets=lanes,
                 model=model,
                 endpoint=endpoint,
+                chat_path=chat_path,
                 reason="" if available else f"Set {env_prefix}_BASE_URL and {env_prefix}_MODEL to enable this lane.",
             )
         )
@@ -149,6 +160,7 @@ def get_inference_health(provider_name: str | None = None) -> dict[str, Any]:
 async def _call_local_chat(
     *,
     base_url: str,
+    chat_path: str,
     model: str,
     prompt: str,
     temperature: float,
@@ -158,8 +170,9 @@ async def _call_local_chat(
         "temperature": float(temperature),
         "messages": [{"role": "user", "content": prompt}],
     }
-    async with httpx.AsyncClient(base_url=base_url, timeout=30.0) as client:
-        response = await client.post("/v1/chat/completions", json=payload)
+    endpoint_url = str(httpx.URL(f"{base_url}/").join(chat_path))
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        response = await client.post(endpoint_url, json=payload)
         response.raise_for_status()
         data = response.json()
     choices = list(data.get("choices") or [])
@@ -213,6 +226,7 @@ async def generate_inference_response(
     try:
         body = await _call_local_chat(
             base_url=str(provider.get("endpoint") or ""),
+            chat_path=str(provider.get("chat_path") or "v1/chat/completions"),
             model=str(provider.get("model") or ""),
             prompt=str(query or ""),
             temperature=temperature,
