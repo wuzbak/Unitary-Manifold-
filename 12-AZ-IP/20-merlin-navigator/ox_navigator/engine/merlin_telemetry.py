@@ -5,12 +5,26 @@
 
 from __future__ import annotations
 
+import sys
 from datetime import datetime, timezone
 from typing import Any
+
+try:  # pragma: no cover - platform-dependent
+    import resource
+except ImportError:  # pragma: no cover - platform-dependent
+    resource = None
 
 
 def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _rss_peak_kb() -> int:
+    if resource is None:
+        return 0
+    usage = resource.getrusage(resource.RUSAGE_SELF)
+    raw = int(getattr(usage, "ru_maxrss", 0) or 0)
+    return int(raw / 1024) if sys.platform == "darwin" else raw
 
 
 def estimate_token_count(text: str) -> int:
@@ -49,6 +63,7 @@ def build_run_telemetry(
     memory_hits: int,
     contradiction_events: int,
     latency_ms: float,
+    retrieval_hit_count: int = 0,
 ) -> dict[str, Any]:
     input_tokens = estimate_token_count(query)
     output_tokens = estimate_token_count(answer)
@@ -59,11 +74,14 @@ def build_run_telemetry(
         "recorded_at": _utcnow(),
         "query": query,
         "provider": provider,
+        "provider_variant": str(router_decision.get("local_candidate_provider") or router_decision.get("inference_provider") or provider),
         "lane": lane,
         "context_source": context_source,
         "tool_rounds": int(tool_rounds),
         "used_websearch": bool(used_websearch),
         "latency_ms": round(float(latency_ms), 3),
+        "wall_time_ms": round(float(latency_ms), 3),
+        "rss_peak_kb": _rss_peak_kb(),
         "tokens": {
             "input_estimate": input_tokens,
             "output_estimate": output_tokens,
@@ -89,6 +107,7 @@ def build_run_telemetry(
             "typed_provenance_complete": bool(provenance.get("complete")),
             "memory_hits": int(memory_hits),
             "contradiction_events": int(contradiction_events),
+            "retrieval_hit_count": int(retrieval_hit_count),
         },
     }
 
@@ -121,4 +140,70 @@ def summarize_runs(runs: list[dict[str, Any]]) -> dict[str, Any]:
         "average_energy_joules": round(total_energy / count, 6),
         "average_provenance_sources": round(total_provenance / count, 3),
         "latest": runs[-1],
+    }
+
+
+def build_energy_ledger(runs: list[dict[str, Any]], *, limit: int = 10) -> dict[str, Any]:
+    cap = max(1, min(int(limit or 10), 50))
+    selected = list(runs)[-cap:]
+    entries: list[dict[str, Any]] = []
+    for index, run in enumerate(selected, start=1):
+        tokens = dict(run.get("tokens") or {})
+        input_tokens = int(tokens.get("input_estimate", 0) or 0)
+        output_tokens = int(tokens.get("output_estimate", 0) or 0)
+        tool_rounds = int(run.get("tool_rounds", 0) or 0)
+        lane = str(run.get("lane") or "medium_reasoner_default")
+        merlin_energy = float(((run.get("energy") or {}).get("estimated_joules") or 0.0))
+        incumbent_energy = estimate_energy_joules(
+            provider="openrouter_compat",
+            lane=lane,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            tool_rounds=tool_rounds,
+        )
+        entries.append(
+            {
+                "sequence": index,
+                "provider": str(run.get("provider") or "unknown"),
+                "provider_variant": str(run.get("provider_variant") or run.get("provider") or "unknown"),
+                "lane": lane,
+                "latency_ms": round(float(run.get("latency_ms", 0.0) or 0.0), 3),
+                "wall_time_ms": round(float(run.get("wall_time_ms", 0.0) or 0.0), 3),
+                "rss_peak_kb": int(run.get("rss_peak_kb", 0) or 0),
+                "retrieval_hit_count": int(((run.get("quality_signals") or {}).get("retrieval_hit_count") or 0)),
+                "tokens": {
+                    "input_estimate": input_tokens,
+                    "output_estimate": output_tokens,
+                },
+                "merlin_energy_joules": round(merlin_energy, 6),
+                "incumbent_baseline_joules": incumbent_energy,
+                "delta_joules": round(merlin_energy - incumbent_energy, 6),
+                "lower_than_incumbent": merlin_energy <= incumbent_energy,
+            }
+        )
+    if not entries:
+        return {
+            "ok": True,
+            "entries": [],
+            "summary": {
+                "count": 0,
+                "average_merlin_energy_joules": 0.0,
+                "average_incumbent_baseline_joules": 0.0,
+                "average_delta_joules": 0.0,
+            },
+        }
+    count = len(entries)
+    merlin_total = sum(item["merlin_energy_joules"] for item in entries)
+    incumbent_total = sum(item["incumbent_baseline_joules"] for item in entries)
+    delta_total = sum(item["delta_joules"] for item in entries)
+    return {
+        "ok": True,
+        "entries": entries,
+        "summary": {
+            "count": count,
+            "average_merlin_energy_joules": round(merlin_total / count, 6),
+            "average_incumbent_baseline_joules": round(incumbent_total / count, 6),
+            "average_delta_joules": round(delta_total / count, 6),
+            "lower_is_better_count": sum(1 for item in entries if item["lower_than_incumbent"]),
+        },
     }
