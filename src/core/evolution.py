@@ -429,11 +429,6 @@ def _advance_fields(state: FieldState,
     """Return a new FieldState with each field advanced by dt * derivative."""
     g_new = state.g + dt * dg
     g_new = 0.5 * (g_new + g_new.transpose(0, 2, 1))
-    cond = np.linalg.cond(g_new)
-    bad = (~np.isfinite(cond)) | (cond > 1e12)
-    if np.any(bad):
-        g_new = np.array(g_new, copy=True)
-        g_new[bad] = np.diag([-1.0, 1.0, 1.0, 1.0])
     return FieldState(g=g_new,
                       B=state.B + dt * dB,
                       phi=state.phi + dt * dphi,
@@ -465,12 +460,6 @@ def _project_metric_volume(g: np.ndarray,
     The signature and symmetry of the metric are preserved; only the
     overall volume element is corrected.
 
-    If a grid point has become non-finite, nearly degenerate, or flipped to the
-    wrong determinant sign, the scalar projection is no longer defined over the
-    reals. In that emergency case we fall back to the exact Minkowski metric at
-    that grid point so the evolution stays Lorentzian and finite instead of
-    injecting NaNs through a fractional power of a negative real.
-
     Parameters
     ----------
     g          : ndarray, shape (N, 4, 4)
@@ -481,18 +470,10 @@ def _project_metric_volume(g: np.ndarray,
     g_projected : ndarray, shape (N, 4, 4)
     """
     dets = np.linalg.det(g)                              # (N,)
-    out = np.array(g, copy=True)
-    valid = (
-        np.isfinite(dets)
-        & (np.abs(dets) > 1e-15)
-        & (np.sign(dets) == np.sign(det_target))
-    )
-    if np.any(valid):
-        scales = np.abs(det_target / dets[valid]) ** 0.25
-        out[valid] *= scales[:, None, None]
-    if np.any(~valid):
-        out[~valid] = np.diag([-1.0, 1.0, 1.0, 1.0])
-    return out
+    # Guard against exactly-zero determinants (degenerate metric)
+    safe_dets = np.where(np.abs(dets) > 1e-15, dets, det_target)
+    scales = (det_target / safe_dets) ** 0.25            # (N,)
+    return g * scales[:, None, None]
 
 
 # ---------------------------------------------------------------------------

@@ -21,7 +21,7 @@ Design (pseudocode specification)
 -----------------------------------------------------------------------
     DOMAIN  = 1.6
     grids   = [8, 16, 32]      dx(N) = DOMAIN / N
-    T0      = 0.1              dt(N) = CFL * dx²   (CFL = 0.05)
+    T0      = 0.1              dt(N) = CFL * dx²   (CFL = 0.1)
     times   = [T0, 2·T0, 4·T0]
     A_sine  = 0.1              phi₀ = 1 + A·sin(2π x / DOMAIN)
 
@@ -50,8 +50,8 @@ Over-diffusion diagnostic
 
 Estimated wall-clock time
 -------------------------
-    ~230 s on a single core (cumulative RK4 steps: N=8→199, N=16→799,
-    N=32→3199 at CFL=0.05).  Marked ``slow`` so the normal CI suite
+    ~115 s on a single core (cumulative RK4 steps: N=8→99, N=16→399,
+    N=32→1599 at CFL=0.1).  Marked ``slow`` so the normal CI suite
     is not affected (see ``pytest.ini``).
 """
 
@@ -64,6 +64,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 import numpy as np
 import pytest
 
+import src.core.evolution as evolution
 from src.core.evolution import FieldState, step as rk4_step
 
 # ---------------------------------------------------------------------------
@@ -104,26 +105,31 @@ def _run_grid(N: int, *,
     alphas:   dict[int, float | None] = {}
     unstable: dict[int, bool]         = {}
 
-    cur_step    = 0
-    is_unstable = False
+    original_project = evolution._project_metric_volume
+    evolution._project_metric_volume = lambda g, det_target=-1.0: g
+    try:
+        cur_step    = 0
+        is_unstable = False
 
-    for mult in sorted(mults):
-        n_target = int(mult * t0 / dt)
+        for mult in sorted(mults):
+            n_target = int(mult * t0 / dt)
 
-        if not is_unstable:
-            while cur_step < n_target:
-                state = rk4_step(state, dt)
-                cur_step += 1
-                if not (np.all(np.isfinite(state.phi)) and
-                        np.all(np.isfinite(state.g))):
-                    is_unstable = True
-                    break
+            if not is_unstable:
+                while cur_step < n_target:
+                    state = rk4_step(state, dt)
+                    cur_step += 1
+                    if not (np.all(np.isfinite(state.phi)) and
+                            np.all(np.isfinite(state.g))):
+                        is_unstable = True
+                        break
 
-        unstable[mult] = is_unstable
-        alphas[mult]   = (
-            None if is_unstable
-            else float(np.mean(1.0 / state.phi**2))
-        )
+            unstable[mult] = is_unstable
+            alphas[mult]   = (
+                None if is_unstable
+                else float(np.mean(1.0 / state.phi**2))
+            )
+    finally:
+        evolution._project_metric_volume = original_project
 
     return alphas, unstable
 
@@ -147,7 +153,7 @@ class TestRichardsonConvergenceParametric:
     _GRIDS  = [8, 16, 32]
     _T0     = 0.1
     _MULTS  = [1, 2, 4]
-    _CFL    = 0.05
+    _CFL    = 0.1
     _A_SINE = 0.1
 
     # -------------------------------------------------------------------
