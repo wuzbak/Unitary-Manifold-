@@ -140,7 +140,7 @@ def _fail_closed_packet(*, target_gap_id: str = "", charter: dict[str, Any] | No
 def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     try:
         program = _load_program_module()
-    except Exception:
+    except (ImportError, ModuleNotFoundError, FileNotFoundError):
         return _fail_closed_packet()
 
     charter = program.get_proof_first_closure_charter()
