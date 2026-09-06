@@ -1583,6 +1583,7 @@ def _build_training_curation_ledger(
     dedupe_collapses = rejection_reasons.get("deduplicated_duplicate", 0)
     quality_mean = round(sum(structural_scores) / len(structural_scores), 4) if structural_scores else 0.0
     external_tokens_per_accepted = round(external_token_spend / accepted_total, 4) if accepted_total else 0.0
+    local_only_cycle = external_token_spend == 0
     return {
         "measurement_mode": "deterministic_structural_proxy",
         "budget_doctrine": {
@@ -1591,7 +1592,7 @@ def _build_training_curation_ledger(
                 "deterministic_local_synthetic_variants",
                 "paid_teacher_calls_for_high_value_gaps_only",
             ],
-            "current_cycle_mode": "local_only",
+            "current_cycle_mode": "local_only" if local_only_cycle else "teacher_augmented",
             "external_teacher_calls_used": 0,
         },
         "accepted_sample_count": accepted_total,
@@ -1608,8 +1609,8 @@ def _build_training_curation_ledger(
             "external_tokens_spent_per_accepted_sample": external_tokens_per_accepted,
             "local_processing_token_estimate": local_token_estimate,
             "rejected_token_estimate": rejected_token_estimate,
-            "budget_gate_state": "local_only_green" if external_token_spend == 0 else "teacher_spend_active",
-            "freeze_external_generation": False,
+            "budget_gate_state": "local_only_green" if local_only_cycle else "teacher_spend_active",
+            "freeze_external_generation": local_only_cycle,
         },
         "gate_policy": {
             "pause_condition": "degrades_for_two_consecutive_cycles",

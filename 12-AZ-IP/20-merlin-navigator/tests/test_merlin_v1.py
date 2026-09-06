@@ -434,6 +434,7 @@ def test_route_tool_training_architecture_and_artifacts():
         counts['total_training_records'] + counts['total_benchmark_records']
     )
     assert dataset_payload['curation_ledger']['token_budget']['external_tokens_spent_total'] == 0
+    assert dataset_payload['curation_ledger']['token_budget']['freeze_external_generation'] is True
     assert dataset_payload['curation_ledger']['accepted_sample_quality_mean'] > 0
 
     curation = route_tool('getMerlinTrainingCuration', {'limit': 4})
@@ -441,6 +442,7 @@ def test_route_tool_training_architecture_and_artifacts():
     curation_payload = curation['result']['data']['curation_ledger']
     assert curation_payload['accepted_training_count'] == counts['total_training_records']
     assert curation_payload['budget_doctrine']['current_cycle_mode'] == 'local_only'
+    assert curation_payload['token_budget']['freeze_external_generation'] is True
 
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
     assert mlflow['ok'] is True
@@ -1117,6 +1119,7 @@ def test_server_merlin_endpoints():
             assert training_curation.json()['ok'] is True
             assert training_curation.json()['training_curation']['budget_doctrine']['current_cycle_mode'] == 'local_only'
             assert training_curation.json()['training_curation']['token_budget']['external_tokens_spent_total'] == 0
+            assert training_curation.json()['training_curation']['token_budget']['freeze_external_generation'] is True
 
             open_science_registry = client.get('/api/merlin/open-science-registry')
             assert open_science_registry.status_code == 200
