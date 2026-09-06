@@ -140,11 +140,12 @@ def _fail_closed_packet(*, target_gap_id: str = "", charter: dict[str, Any] | No
 def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     try:
         program = _load_program_module()
-        charter = program.get_proof_first_closure_charter()
-        ledger = program.get_kawamura_closure_burden_ledger()
-        cross_review = program.get_merlin_cross_review_packet()
-    except (ImportError, FileNotFoundError):
+    except Exception:
         return _fail_closed_packet()
+
+    charter = program.get_proof_first_closure_charter()
+    ledger = program.get_kawamura_closure_burden_ledger()
+    cross_review = program.get_merlin_cross_review_packet()
 
     lean_text = _read_text(_LEAN4_FILE)
     target_gap_id, article_path, article_path_valid, required_sections, required_sections_valid = _normalize_article_contract(charter)
