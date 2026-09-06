@@ -112,7 +112,7 @@ def _run_grid(N: int, *,
 
         if not is_unstable:
             while cur_step < n_target:
-                state = rk4_step(state, dt)
+                state = rk4_step(state, dt, project_metric_volume=False)
                 cur_step += 1
                 if not (np.all(np.isfinite(state.phi)) and
                         np.all(np.isfinite(state.g))):
