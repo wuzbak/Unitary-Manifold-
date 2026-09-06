@@ -430,6 +430,19 @@ def test_route_tool_training_architecture_and_artifacts():
         'stage_b_sovereign_takeover',
         'stage_c_capability_expansion',
     ]
+    assert dataset_payload['curation_ledger']['accepted_sample_count'] == (
+        counts['total_training_records'] + counts['total_benchmark_records']
+    )
+    assert dataset_payload['curation_ledger']['token_budget']['external_tokens_spent_total'] == 0
+    assert dataset_payload['curation_ledger']['token_budget']['freeze_external_generation'] is True
+    assert dataset_payload['curation_ledger']['accepted_sample_quality_mean'] > 0
+
+    curation = route_tool('getMerlinTrainingCuration', {'limit': 4})
+    assert curation['ok'] is True
+    curation_payload = curation['result']['data']['curation_ledger']
+    assert curation_payload['accepted_training_count'] == counts['total_training_records']
+    assert curation_payload['budget_doctrine']['current_cycle_mode'] == 'local_only'
+    assert curation_payload['token_budget']['freeze_external_generation'] is True
 
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
     assert mlflow['ok'] is True
@@ -502,6 +515,9 @@ def test_training_dataset_validation_and_quality_rejections(monkeypatch):
     reasons = [item["reason"] for item in payload["dataset"]["quality_filters"]["rejections"]]
     assert "deduplicated_duplicate" in reasons
     assert "quality_filter_failed" in reasons
+    curation = merlin_program.get_training_curation_ledger(limit=10)
+    assert curation["ok"] is False
+    assert curation["validation_error_count"] >= 1
 
 
 def test_route_tool_training_dataset_includes_compiled_insights():
@@ -521,6 +537,9 @@ def test_route_tool_training_dataset_includes_compiled_insights():
     assert counts['kernel_benchmark_records']['stage_b_sovereign_takeover']['kernel_a'] >= 1
     for stage_name, per_kernel in counts['kernel_benchmark_records'].items():
         assert sum(per_kernel.values()) == counts['benchmark_records'][stage_name]
+    curation = route_tool('getMerlinTrainingCuration', {'limit': 2}, session=session)
+    assert curation['ok'] is True
+    assert curation['result']['data']['curation_ledger']['accepted_by_source_family']['compiled_insight'] >= 1
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
@@ -1093,6 +1112,14 @@ def test_server_merlin_endpoints():
             assert training_dataset.json()['ok'] is True
             assert training_dataset.json()['dataset']['counts']['total_training_records'] == 4
             assert 'compile_time_insight_records' in training_dataset.json()['dataset']['counts']
+            assert training_dataset.json()['dataset']['curation_ledger']['accepted_sample_quality_mean'] > 0
+
+            training_curation = client.get('/api/merlin/training-curation?limit=4')
+            assert training_curation.status_code == 200
+            assert training_curation.json()['ok'] is True
+            assert training_curation.json()['training_curation']['budget_doctrine']['current_cycle_mode'] == 'local_only'
+            assert training_curation.json()['training_curation']['token_budget']['external_tokens_spent_total'] == 0
+            assert training_curation.json()['training_curation']['token_budget']['freeze_external_generation'] is True
 
             open_science_registry = client.get('/api/merlin/open-science-registry')
             assert open_science_registry.status_code == 200
@@ -1172,6 +1199,10 @@ def test_server_merlin_endpoints():
             bad_training_dataset_limit = client.get('/api/merlin/training-dataset?limit=abc')
             assert bad_training_dataset_limit.status_code == 400
             assert bad_training_dataset_limit.json()['ok'] is False
+
+            bad_training_curation_limit = client.get('/api/merlin/training-curation?limit=abc')
+            assert bad_training_curation_limit.status_code == 400
+            assert bad_training_curation_limit.json()['ok'] is False
 
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200
@@ -1345,6 +1376,79 @@ def test_server_merlin_endpoints():
             })
             assert legacy.status_code == 200
             assert 'FOLLOWUPS:' in legacy.json()['answer']
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
+def test_server_training_export_validation_failures_return_422(monkeypatch):
+    from ox_navigator.app import server as server_module
+
+    monkeypatch.setattr(
+        server_module,
+        'build_training_dataset_bundle',
+        lambda limit=None, compiled_insights=None: {
+            'ok': False,
+            'error': 'Dataset validation failed.',
+            'validation_error_count': 1,
+            'dataset': {'counts': {}, 'curation_ledger': {}},
+        },
+    )
+    monkeypatch.setattr(
+        server_module,
+        'route_tool',
+        lambda tool, args=None, session=None: {
+            'ok': True,
+            'result': {
+                'data': {
+                    'ok': False,
+                    'error': 'Dataset validation failed.',
+                    'validation_error_count': 1,
+                    'curation_ledger': {},
+                }
+            },
+        },
+    )
+
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        port = httpd.server_address[1]
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+            training_dataset = client.get('/api/merlin/training-dataset?limit=4')
+            assert training_dataset.status_code == 422
+            assert training_dataset.json()['ok'] is False
+
+            training_curation = client.get('/api/merlin/training-curation?limit=4')
+            assert training_curation.status_code == 422
+            assert training_curation.json()['ok'] is False
+            assert training_curation.json()['validation_error_count'] == 1
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
+def test_server_training_curation_malformed_tool_payload_returns_500(monkeypatch):
+    from ox_navigator.app import server as server_module
+
+    monkeypatch.setattr(
+        server_module,
+        'route_tool',
+        lambda tool, args=None, session=None: {'ok': True, 'result': {'data': {}}},
+    )
+
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        port = httpd.server_address[1]
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+            training_curation = client.get('/api/merlin/training-curation?limit=4')
+            assert training_curation.status_code == 500
+            assert training_curation.json()['ok'] is False
     finally:
         httpd.shutdown()
         httpd.server_close()

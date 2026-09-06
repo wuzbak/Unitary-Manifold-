@@ -63,6 +63,7 @@ from .merlin_program import (
     get_program_office,
     get_program_charter,
     get_program_doctrine,
+    get_training_curation_ledger,
     get_merlin_pentad_contract,
     get_reliability_security_plan,
     get_replacement_scope,
@@ -233,6 +234,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinFrontierReadiness", "summary": "Return merged readiness packet with fail-closed promotion blockers", "domain": "functions"},
             {"name": "getMerlinControlTower", "summary": "Return control tower readiness, drift alerts, trendlines, and deployment eligibility", "domain": "functions"},
             {"name": "getMerlinTrainingDataset", "summary": "Return structured Merlin JSONL-ready training and benchmark dataset bundle", "domain": "functions"},
+            {"name": "getMerlinTrainingCuration", "summary": "Return low-token Merlin curation ledger and budget metrics", "domain": "functions"},
             {"name": "getMerlinMLflowManifests", "summary": "Return MLflow-ready experiment manifests for Merlin training and gates", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
@@ -276,6 +278,7 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingDataset": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingCuration": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinBenchmarkCorpora": {
@@ -736,6 +739,7 @@ _FUNCTIONS = {
         gate_history=list(args.get("gate_history") or []) or None,
     )},
     "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(limit=args.get("limit"))},
+    "getMerlinTrainingCuration": lambda **args: {"data": get_training_curation_ledger(limit=args.get("limit"))},
     "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(limit=args.get("limit"))},
     "getMerlinInferenceProviders": lambda **args: {"data": {"providers": get_inference_providers()}},
     "getMerlinInferenceHealth": lambda **args: {"data": get_inference_health(provider_name=str(args.get("provider", "")).strip() or None)},
@@ -879,6 +883,11 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 )}
             elif tool == "getMerlinTrainingArtifacts":
                 result = {"data": build_training_artifact_bundle(
+                    limit=args.get("limit"),
+                    compiled_insights=active_session.get_compiled_training_insights(),
+                )}
+            elif tool == "getMerlinTrainingCuration":
+                result = {"data": get_training_curation_ledger(
                     limit=args.get("limit"),
                     compiled_insights=active_session.get_compiled_training_insights(),
                 )}
