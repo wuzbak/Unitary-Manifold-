@@ -433,7 +433,7 @@ def test_route_tool_training_architecture_and_artifacts():
     assert dataset_payload['curation_ledger']['accepted_sample_count'] == (
         counts['total_training_records'] + counts['total_benchmark_records']
     )
-    assert dataset_payload['curation_ledger']['token_budget']['tokens_spent_total'] == 0
+    assert dataset_payload['curation_ledger']['token_budget']['external_tokens_spent_total'] == 0
     assert dataset_payload['curation_ledger']['accepted_sample_quality_mean'] > 0
 
     curation = route_tool('getMerlinTrainingCuration', {'limit': 4})
@@ -1113,7 +1113,7 @@ def test_server_merlin_endpoints():
             assert training_curation.status_code == 200
             assert training_curation.json()['ok'] is True
             assert training_curation.json()['training_curation']['budget_doctrine']['current_cycle_mode'] == 'local_only'
-            assert training_curation.json()['training_curation']['token_budget']['tokens_spent_total'] == 0
+            assert training_curation.json()['training_curation']['token_budget']['external_tokens_spent_total'] == 0
 
             open_science_registry = client.get('/api/merlin/open-science-registry')
             assert open_science_registry.status_code == 200

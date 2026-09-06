@@ -1584,7 +1584,7 @@ def _build_training_curation_ledger(
             accepted_by_kernel[kernel_id] += 1
     dedupe_collapses = rejection_reasons.get("deduplicated_duplicate", 0)
     quality_mean = round(sum(structural_scores) / len(structural_scores), 4) if structural_scores else 0.0
-    tokens_per_accepted = round(external_token_spend / accepted_total, 4) if accepted_total else 0.0
+    external_tokens_per_accepted = round(external_token_spend / accepted_total, 4) if accepted_total else 0.0
     return {
         "measurement_mode": "deterministic_structural_proxy",
         "budget_doctrine": {
@@ -1606,8 +1606,8 @@ def _build_training_curation_ledger(
         "near_duplicate_collapse_count": dedupe_collapses,
         "validation_block_count": len(validation_errors),
         "token_budget": {
-            "tokens_spent_total": external_token_spend,
-            "tokens_spent_per_accepted_sample": tokens_per_accepted,
+            "external_tokens_spent_total": external_token_spend,
+            "external_tokens_spent_per_accepted_sample": external_tokens_per_accepted,
             "local_processing_token_estimate": local_token_estimate,
             "rejected_token_estimate": rejected_token_estimate,
             "budget_gate_state": "local_only_green" if external_token_spend == 0 else "teacher_spend_active",
