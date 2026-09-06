@@ -340,7 +340,7 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
         return default
 
 
-def _infer_kernel_for_benchmark_definition(benchmark: dict[str, Any]) -> str:
+def infer_kernel_for_benchmark_definition(benchmark: dict[str, Any]) -> str:
     sample = f"{benchmark.get('track', '')} {benchmark.get('query', '')}".lower()
     if any(term in sample for term in ("memory", "contradiction", "audit", "drift")):
         return "kernel_a"
@@ -374,7 +374,11 @@ def evaluate_kernel_gate_summary(
         kernel_id = str(kernel.get("id") or "kernel_s")
         per_kernel.setdefault(kernel_id, []).append(telemetry)
 
-    kernel_ids_to_check = list(required_kernel_ids or sorted(per_kernel.keys()))
+    kernel_ids_to_check = (
+        sorted(per_kernel.keys())
+        if required_kernel_ids is None
+        else list(required_kernel_ids)
+    )
     if not kernel_ids_to_check:
         return {
             "ok": True,
@@ -901,7 +905,7 @@ async def run_stage_head_to_head_receipts(
     ]
     required_kernel_ids = sorted(
         {
-            _infer_kernel_for_benchmark_definition(benchmark)
+            infer_kernel_for_benchmark_definition(benchmark)
             for benchmark in selected
         }
     )

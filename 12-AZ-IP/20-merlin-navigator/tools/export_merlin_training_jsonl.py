@@ -44,6 +44,9 @@ def main() -> int:
     benchmark_dir = out_dir / "benchmarks"
     for stage_name, rows in dict(dataset.get("benchmark_corpora") or {}).items():
         _write_jsonl(benchmark_dir / f"{stage_name}.jsonl", list(rows or []))
+    for stage_name, per_kernel in dict(dataset.get("kernel_benchmark_corpora") or {}).items():
+        for kernel_id, rows in dict(per_kernel or {}).items():
+            _write_jsonl(benchmark_dir / "kernels" / stage_name / f"{kernel_id}.jsonl", list(rows or []))
 
     manifest_path = out_dir / "dataset_manifest.json"
     manifest_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

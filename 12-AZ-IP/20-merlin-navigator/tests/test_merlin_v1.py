@@ -133,6 +133,11 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
         assert (output_dir / "kernels" / kernel_id / "test.jsonl").exists()
     manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
     assert manifest['dataset']['counts']['total_benchmark_records'] >= 18
+    stage = "stage_b_sovereign_takeover"
+    kernel_file = output_dir / "benchmarks" / "kernels" / stage / "kernel_s.jsonl"
+    assert kernel_file.exists()
+    exported_rows = [line for line in kernel_file.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(exported_rows) == manifest["dataset"]["counts"]["kernel_benchmark_records"][stage]["kernel_s"]
 
 
 def test_export_mlflow_manifests_script(tmp_path, monkeypatch):

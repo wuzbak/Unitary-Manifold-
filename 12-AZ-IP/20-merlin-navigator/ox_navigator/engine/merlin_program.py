@@ -1162,16 +1162,12 @@ def _kernel_for_training_record(track: str, *, instruction: str = "", response_t
 
 
 def _kernel_for_benchmark_record(track: str, query: str) -> str:
-    sample = f"{track} {query}".lower()
-    if any(term in sample for term in ("memory", "contradiction", "audit")):
-        return "kernel_a"
-    if any(term in sample for term in ("tool", "orchestration", "routing", "schema")):
-        return "kernel_r"
-    if any(term in sample for term in ("formal", "proof", "lean", "theorem")):
-        return "kernel_p"
-    if any(term in sample for term in ("governance", "refusal", "safety", "privileged", "boundary")):
-        return "kernel_g"
-    return "kernel_s"
+    from .merlin_benchmark import infer_kernel_for_benchmark_definition
+
+    return infer_kernel_for_benchmark_definition({
+        "track": track,
+        "query": query,
+    })
 
 
 def _build_compiled_insight_records(compiled_insights: list[dict[str, Any]] | None = None) -> tuple[list[dict[str, Any]], dict[str, list[dict[str, Any]]]]:
