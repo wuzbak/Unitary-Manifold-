@@ -120,6 +120,7 @@ def test_merlin_compiled_insight_quarantine_and_trust_paths():
     })
     assert trusted["status"] == "[TRUSTED_COMPILED]"
     assert flagged["status"] == "[CONTRADICTION_FLAGGED]"
+    assert "epistemic_uncertainty" in flagged
     state = session.get_memory_state()
     assert state["compiled_insight_count"] >= 1
     assert state["quarantined_insight_count"] >= 1
@@ -287,6 +288,45 @@ def test_build_run_telemetry_includes_kernel_attribution_fields():
     assert run["kernel_attribution"]["adaptation_tier"] == "adapter-lora-a"
     assert run["kernel_attribution"]["demotion_triggered"] is True
     assert run["quality_signals"]["demotion_triggered"] is True
+
+
+def test_accumulated_learnings_and_namespace_firewall():
+    session = MerlinSession()
+    session.remember("Filmer narrative speculative storyboard", scope="user", source="test")
+    session.remember("Hardgate LiteBIRD beta boundary remains enforced.", scope="repository", source="test")
+    session.ingest_compiled_insight({
+        "insight_id": "trusted-hardgate",
+        "fact": "Hardgate theorem candidate around LiteBIRD beta.",
+        "kind": "theorem_candidate",
+        "proof_verdict": "not_applicable",
+        "contradictions": [],
+    })
+    payload = session.build_accumulated_learnings(
+        "Need hardgate proof around LiteBIRD beta and storyboard context",
+        target_namespace="physics_hardgate",
+    )
+    assert payload["count"] >= 1
+    assert payload["blocked_count"] >= 1
+
+
+def test_context_breadcrumb_and_observatory_rupture_tracking():
+    session = MerlinSession()
+    session.register_context_envelope({
+        "route_domain": "/",
+        "tool_surface": "merlin_ui_shell",
+        "viewport_intent_class": "bottom_focus",
+        "objective_hint": "Switching from topology to code inspection",
+    })
+    session.register_observatory_event({
+        "kind": "invariant_rupture",
+        "tripwire_id": "DESI_DR3_WA_CEILING",
+        "source": "DESI",
+        "message": "Invariant rupture: DESI drift exceeded ceiling",
+    })
+    state = session.get_memory_state()
+    assert state["route_breadcrumb_count"] >= 1
+    assert state["observatory_event_count"] >= 1
+    assert state["contradiction_event_count"] >= 1
 
 
 def test_kernel_gate_summary_scopes_to_required_kernels_only():

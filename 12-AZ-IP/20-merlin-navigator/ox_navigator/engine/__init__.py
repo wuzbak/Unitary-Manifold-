@@ -40,10 +40,12 @@ from .merlin_identity import (
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MERLIN_MAX_HISTORY, MerlinSession
 from .merlin_persona import build_persona_prompt, build_system_prompt, detect_persona_mode, extract_urls, is_internal_question, persona_governance_violations
 from .merlin_runtime import (
+    empirical_observatory_check,
     get_advanced_execution_graph,
     get_benchmark_suite,
     get_mythos_astra_runtime_contract,
     get_optimization_priorities,
+    run_kernel_p_lean_proof_probe,
 )
 from .merlin_benchmark import (
     evaluate_benchmark_response,
@@ -116,7 +118,8 @@ __all__ = [
     'FORBIDDEN_ALIASES', 'TRUSTED_SOURCES_RANKED', 'get_identity_policy', 'detect_identity_mentions',
     'verify_identity_signals', 'is_privileged_modification_request', 'authorize_privileged_request',
     'get_mythos_astra_runtime_contract', 'get_optimization_priorities',
-    'get_advanced_execution_graph', 'get_benchmark_suite', 'get_stage_a_benchmark_corpus',
+    'get_advanced_execution_graph', 'get_benchmark_suite', 'empirical_observatory_check',
+    'run_kernel_p_lean_proof_probe', 'get_stage_a_benchmark_corpus',
     'get_stage_b_benchmark_corpus', 'get_stage_c_benchmark_corpus', 'get_benchmark_corpus',
     'match_benchmark_for_query', 'evaluate_benchmark_response', 'estimate_token_count', 'estimate_cost_usd',
     'estimate_energy_joules', 'build_run_telemetry', 'summarize_runs',

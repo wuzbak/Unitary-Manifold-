@@ -973,6 +973,37 @@ def test_orchestrate_blocks_privilege_tool():
         raise AssertionError('Expected orchestration to block privileged tool')
 
 
+def test_orchestrate_high_risk_chain_requires_trajectory_contract():
+    blocked = orchestrate_steps([
+        {'tool': 'runMerlinSyncChecks', 'args': {}},
+    ])
+    assert blocked['ok'] is False
+    assert blocked['trajectory_preflight']['error'] == 'trajectory_contract_required_for_high_risk_chain'
+
+    allowed = orchestrate_steps([
+        {
+            'tool': 'runMerlinSyncChecks',
+            'args': {},
+            'trajectory_contract': {
+                'id': 'sync_checks_read_only_guard',
+                'invariants': ['no_repo_mutation', 'no_external_write'],
+                'lean4_hook_enabled': False,
+            },
+        },
+    ])
+    assert allowed['ok'] is True
+    assert allowed['trajectory_preflight']['ok'] is True
+    invalid = orchestrate_steps([
+        {
+            'tool': 'runMerlinSyncChecks',
+            'args': {},
+            'trajectory_contract': {'id': 'bad', 'invariants': 'no_repo_mutation'},
+        },
+    ])
+    assert invalid['ok'] is False
+    assert invalid['trajectory_preflight']['error'] == 'trajectory_contract_invalid'
+
+
 def test_query_merlin_returns_provenance_memory_and_telemetry():
     session = MerlinSession()
     payload = asyncio.run(query_merlin(text='What is the birefringence prediction?', session=session))
@@ -984,6 +1015,38 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert payload['max_rigor']['graph'] == 'merlin_max_rigor_execution'
     assert payload['max_rigor']['all_green'] is True
     assert payload['compile_time_ingestion']['compiled_count'] >= 1
+    assert payload['active_kernel']['kernel_id']
+    assert 'count' in payload['accumulated_learnings']
+
+
+def test_route_tool_observatory_and_proof_probe_record_training_artifacts():
+    session = MerlinSession()
+    observatory = route_tool(
+        'empiricalObservatoryCheck',
+        {'observed': {'w_a': 0.2, 'beta_deg': 0.35, 'delta_m2_21_sigma': 1.1}},
+        session=session,
+    )
+    assert observatory['ok'] is True
+    assert observatory['result']['data']['ok'] is False
+    assert observatory['result']['data']['ruptures']
+    observatory_nan = route_tool(
+        'empiricalObservatoryCheck',
+        {'observed': {'w_a': float('nan'), 'beta_deg': 0.35, 'delta_m2_21_sigma': 1.1}},
+        session=session,
+    )
+    assert observatory_nan['ok'] is True
+    assert observatory_nan['result']['data']['ok'] is False
+    assert any(item.get('status') == 'invalid' for item in observatory_nan['result']['data']['records'])
+
+    proof_probe = route_tool(
+        'kernelPProofProbe',
+        {'conjecture': 'derive n_w = 5 from first principles', 'context': 'open gap'},
+        session=session,
+    )
+    assert proof_probe['ok'] is True
+    state = session.get_memory_state()
+    assert state['proof_attempt_count'] >= 1
+    assert state['observatory_event_count'] >= 1
 
 
 def test_post_turn_compilation_flags_contradictions():
@@ -1337,6 +1400,9 @@ def test_server_merlin_endpoints():
             assert payload['sentinel']['mode'] == 'MONITOR'
             assert payload['provenance']['complete'] is True
             assert payload['telemetry']['quality_signals']['provenance_source_count'] >= 1
+            assert payload['active_kernel']['kernel_id']
+            assert 'count' in payload['accumulated_learnings']
+            assert 'executed' in payload['observatory_poll']
             handshake_challenge = assistant.headers.get('X-Merlin-Handshake-Challenge', handshake_challenge)
             handshake_receipt = assistant.headers.get('X-Merlin-Handshake-Receipt', handshake_receipt)
             memory_profile_token = assistant.headers.get('Set-Cookie', f"merlin_profile_id={memory_profile_token}").split("merlin_profile_id=", 1)[-1].split(";", 1)[0]
@@ -1354,6 +1420,7 @@ def test_server_merlin_endpoints():
             assert blocked_payload['context_source'] == 'policy_block'
             assert blocked_payload['sentinel']['warning_number'] >= 1
             assert blocked_payload['provenance']['complete'] is True
+            assert blocked_payload['active_kernel']['kernel_id'] == 'kernel_g'
             handshake_challenge = blocked.headers.get('X-Merlin-Handshake-Challenge', handshake_challenge)
             handshake_receipt = blocked.headers.get('X-Merlin-Handshake-Receipt', handshake_receipt)
             memory_profile_token = blocked.headers.get('Set-Cookie', f"merlin_profile_id={memory_profile_token}").split("merlin_profile_id=", 1)[-1].split(";", 1)[0]

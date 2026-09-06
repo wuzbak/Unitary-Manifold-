@@ -88,6 +88,7 @@ from .merlin_reasoning_graph import get_reasoning_chain
 from .merlin_research_cycle import run_research_cycle
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_router import choose_runtime, get_router_policy
+from .merlin_runtime import empirical_observatory_check, run_kernel_p_lean_proof_probe
 from .merlin_rag import (
     INTERROGATOR_ENTRIES,
     PILLAR_KNOWLEDGE,
@@ -253,6 +254,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "runMerlinResearchCycle", "summary": "Run a bounded repository-grounded Merlin research cycle", "domain": "functions"},
             {"name": "getMerlinCounterexampleDigest", "summary": "Return typed contradiction and counterexample digest artifacts", "domain": "functions"},
             {"name": "getMerlinEnergyLedger", "summary": "Return Merlin-vs-incumbent energy ledger entries", "domain": "functions"},
+            {"name": "empiricalObservatoryCheck", "summary": "Evaluate DESI/JUNO/LiteBIRD tripwires and rupture events", "domain": "functions"},
+            {"name": "kernelPProofProbe", "summary": "Run gated KERNEL_P Lean4 proof probe with fallback", "domain": "functions"},
         ]
     policy_overrides = {
         "getPillar": {
@@ -509,6 +512,29 @@ def _tool_manifest() -> dict[str, Any]:
                 "additionalProperties": False,
             },
         },
+        "empiricalObservatoryCheck": {
+            "capability_class": "verification",
+            "risk_level": "high",
+            "args_schema": {
+                "type": "object",
+                "properties": {"observed": {"type": "object"}},
+                "additionalProperties": False,
+            },
+        },
+        "kernelPProofProbe": {
+            "capability_class": "verification",
+            "risk_level": "medium",
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "conjecture": {"type": "string"},
+                    "context": {"type": "string"},
+                    "enable_repl": {"type": "boolean"},
+                },
+                "required": ["conjecture"],
+                "additionalProperties": False,
+            },
+        },
     }
     enriched_functions = []
     for item in functions:
@@ -759,6 +785,8 @@ _FUNCTIONS = {
 "runMerlinResearchCycle": lambda **args: {"data": {"delegated": "session_bound"}},
 "getMerlinCounterexampleDigest": lambda **args: {"data": {"delegated": "session_bound"}},
 "getMerlinEnergyLedger": lambda **args: {"data": {"delegated": "session_bound"}},
+"empiricalObservatoryCheck": lambda **args: {"data": {"delegated": "session_bound"}},
+"kernelPProofProbe": lambda **args: {"data": {"delegated": "session_bound"}},
 }
 
 
@@ -890,7 +918,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 ok = False
                 error = "Human gate approval required for this tool."
                 raise ValueError(error)
-        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger"}:
+        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "empiricalObservatoryCheck", "kernelPProofProbe"}:
             tool_type = "function"
             if tool == "getMerlinTrainingDataset":
                 result = {"data": build_training_dataset_bundle(
@@ -928,6 +956,19 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     active_session.telemetry,
                     limit=_coerce_positive_int(args.get("limit"), 10),
                 )}
+            elif tool == "empiricalObservatoryCheck":
+                observatory = empirical_observatory_check(dict(args.get("observed") or {}))
+                for rupture in list(observatory.get("ruptures") or []):
+                    active_session.register_observatory_event(dict(rupture))
+                result = {"data": observatory}
+            elif tool == "kernelPProofProbe":
+                probe = run_kernel_p_lean_proof_probe(
+                    conjecture=str(args.get("conjecture") or ""),
+                    context=str(args.get("context") or ""),
+                    enable_repl=bool(args.get("enable_repl", False)),
+                )
+                active_session.register_proof_attempt(dict(probe))
+                result = {"data": probe}
             else:
                 result = _FUNCTIONS[tool](**args)
         elif tool == "getMerlinBenchmarkCorpus":
@@ -1060,12 +1101,125 @@ def get_path(obj: Any, path: str | None):
     return current
 
 
+def _step_trajectory_risk(step: dict[str, Any]) -> dict[str, Any]:
+    tool = str(step.get("tool") or "")
+    args = dict(step.get("args") or {})
+    mutating_tool = tool in {
+        "authorizeMerlinPrivilege",
+        "runMerlinSyncChecks",
+    }
+    method = str(args.get("method") or args.get("http_method") or "").strip().upper()
+    external_write = bool(args.get("write")) or method in {"POST", "PUT", "PATCH", "DELETE"}
+    privilege = any(token in tool.lower() for token in ("privilege", "authorize"))
+    high_risk = bool(mutating_tool or external_write or privilege)
+    return {
+        "tool": tool,
+        "high_risk": high_risk,
+        "reasons": [
+            reason
+            for reason, condition in (
+                ("state_mutation", mutating_tool),
+                ("external_write_path", external_write),
+                ("privilege_surface", privilege),
+            )
+            if condition
+        ],
+    }
+
+
+def _validate_trajectory_preflight(steps: list[dict[str, Any]]) -> dict[str, Any]:
+    assessments = [_step_trajectory_risk(step) for step in steps]
+    high_risk = [item for item in assessments if item["high_risk"]]
+    validated_contracts: list[dict[str, Any]] = []
+    invalid_contract_steps: list[dict[str, Any]] = []
+    missing_contract_steps: list[dict[str, Any]] = []
+    for index, risk in enumerate(assessments):
+        if not risk["high_risk"]:
+            continue
+        payload = dict((steps[index] or {}).get("trajectory_contract") or {})
+        if not payload:
+            missing_contract_steps.append({"step": index, "tool": risk["tool"], "reasons": risk["reasons"]})
+            continue
+        invariants = payload.get("invariants")
+        valid_invariants = (
+            isinstance(invariants, list)
+            and len(invariants) > 0
+            and all(isinstance(item, str) and item.strip() for item in invariants)
+        )
+        contract_valid = bool(payload.get("id")) and valid_invariants
+        if not contract_valid:
+            invalid_contract_steps.append({"step": index, "tool": risk["tool"], "reasons": risk["reasons"]})
+        else:
+            validated_contracts.append({"step": index, **payload})
+    if high_risk and missing_contract_steps:
+        return {
+            "ok": False,
+            "high_risk_count": len(high_risk),
+            "high_risk_steps": high_risk,
+            "error": "trajectory_contract_required_for_high_risk_chain",
+            "verification": "failed_closed",
+            "missing_contract_steps": missing_contract_steps,
+        }
+    if high_risk and invalid_contract_steps:
+        return {
+            "ok": False,
+            "high_risk_count": len(high_risk),
+            "high_risk_steps": high_risk,
+            "error": "trajectory_contract_invalid",
+            "verification": "failed_closed",
+            "invalid_contract_steps": invalid_contract_steps,
+        }
+    lean_hook = any(bool(item.get("lean4_hook_enabled")) for item in validated_contracts)
+    lean_probe = (
+        run_kernel_p_lean_proof_probe(
+            conjecture=f"Trajectory invariants: {','.join(str(item.get('id')) for item in validated_contracts)}",
+            context=json.dumps([item.get("invariants") for item in validated_contracts], ensure_ascii=False),
+            enable_repl=lean_hook,
+        )
+        if high_risk and validated_contracts
+        else {"proof_verdict": "not_applicable", "repl_used": False}
+    )
+    if lean_hook and str(lean_probe.get("proof_verdict") or "") != "verified":
+        return {
+            "ok": False,
+            "high_risk_count": len(high_risk),
+            "high_risk_steps": high_risk,
+            "error": "trajectory_lean_preflight_failed",
+            "verification": "failed_closed",
+            "contracts": validated_contracts,
+            "lean_preflight": lean_probe,
+        }
+    return {
+        "ok": True,
+        "high_risk_count": len(high_risk),
+        "high_risk_steps": high_risk,
+        "contracts": validated_contracts,
+        "lean_preflight": lean_probe,
+    }
+
+
 def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | None = None) -> dict[str, Any]:
     """Execute a bounded sequential Merlin tool chain."""
     if len(steps) > 10:
         raise ValueError("step cap exceeded (max 10)")
     if any(str(step.get("tool", "")).strip() == "authorizeMerlinPrivilege" for step in steps):
         raise ValueError("authorizeMerlinPrivilege is blocked in orchestration; use single-step invocation with explicit human gate.")
+    preflight = _validate_trajectory_preflight(steps)
+    if not bool(preflight.get("ok")):
+        return {
+            "ok": False,
+            "steps": [],
+            "total_duration_ms": 0.0,
+            "audit_log_mode": "required",
+            "human_gate_required": True,
+            "policy_summary": {
+                "high_risk_steps": int(preflight.get("high_risk_count", 0)),
+                "blocked_tools_in_orchestration": ["authorizeMerlinPrivilege"],
+            },
+            "trajectory_preflight": preflight,
+            "error": str(preflight.get("error") or "trajectory_preflight_failed"),
+            "replay_artifact": {"generated_at": _utcnow(), "step_count": 0, "steps": [], "digest_sha256": ""},
+        }
     started = time.perf_counter()
     results = []
     for index, step in enumerate(steps):
@@ -1122,5 +1276,6 @@ def orchestrate_steps(steps: list[dict[str, Any]], *, session: MerlinSession | N
             "high_risk_steps": high_risk_steps,
             "blocked_tools_in_orchestration": ["authorizeMerlinPrivilege"],
         },
+        "trajectory_preflight": preflight,
         "replay_artifact": replay,
     }

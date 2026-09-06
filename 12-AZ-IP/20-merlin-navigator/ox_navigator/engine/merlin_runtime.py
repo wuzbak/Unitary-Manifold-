@@ -6,8 +6,11 @@
 from __future__ import annotations
 
 import hashlib
+import math
 import os
 import re
+import shutil
+import subprocess
 from datetime import datetime, timezone
 from typing import Any
 
@@ -24,6 +27,41 @@ _RUNTIME_INVARIANTS = {
     "kcs": "74",
     "nw": "5",
     "wa": "0",
+}
+
+_EMPIRICAL_TRIPWIRES = {
+    "DESI_DR3_WA_CEILING": {
+        "feed": "DESI",
+        "metric": "w_a",
+        "operator": "<=",
+        "threshold": 0.0,
+        "trip_if": "greater",
+        "description": "Hardgate ceiling requires w_a ≤ 0 for certified lane.",
+    },
+    "LITEBIRD_BETA_WINDOW": {
+        "feed": "LiteBIRD",
+        "metric": "beta_deg",
+        "operator": "between",
+        "threshold": [0.22, 0.38],
+        "trip_if": "outside",
+        "description": "Braided-winding admissible birefringence window.",
+    },
+    "LITEBIRD_BETA_GAP": {
+        "feed": "LiteBIRD",
+        "metric": "beta_deg",
+        "operator": "not_between",
+        "threshold": [0.29, 0.31],
+        "trip_if": "inside",
+        "description": "Predicted exclusion gap [0.29°,0.31°].",
+    },
+    "JUNO_DM21_TENSION": {
+        "feed": "JUNO",
+        "metric": "delta_m2_21_sigma",
+        "operator": "<=",
+        "threshold": 1.5,
+        "trip_if": "greater",
+        "description": "Residual tension guardrail.",
+    },
 }
 
 
@@ -147,6 +185,164 @@ def get_observatory_ingestion_lane() -> dict[str, Any]:
             "falsification_tripwires",
             "readiness_manifest_updates",
         ],
+    }
+
+
+def _evaluate_tripwire_value(*, value: float, definition: dict[str, Any]) -> bool:
+    op = str(definition.get("operator") or "")
+    threshold = definition.get("threshold")
+    if op == "<=":
+        return value <= float(threshold)
+    if op == ">=":
+        return value >= float(threshold)
+    if op == "between" and isinstance(threshold, (list, tuple)) and len(threshold) == 2:
+        low, high = float(threshold[0]), float(threshold[1])
+        return low <= value <= high
+    if op == "not_between" and isinstance(threshold, (list, tuple)) and len(threshold) == 2:
+        low, high = float(threshold[0]), float(threshold[1])
+        return not (low <= value <= high)
+    return False
+
+
+def empirical_observatory_check(observed: dict[str, Any] | None = None) -> dict[str, Any]:
+    observed = dict(observed or {})
+    records: list[dict[str, Any]] = []
+    ruptures: list[dict[str, Any]] = []
+    for tripwire_id, definition in _EMPIRICAL_TRIPWIRES.items():
+        metric = str(definition.get("metric") or "")
+        feed = str(definition.get("feed") or "")
+        raw_value = observed.get(metric)
+        if raw_value is None:
+            checked_at = _utcnow()
+            records.append({
+                "tripwire_id": tripwire_id,
+                "feed": feed,
+                "metric": metric,
+                "status": "missing",
+                "message": f"Missing observed value for {metric}; fail-closed.",
+                "checked_at": checked_at,
+            })
+            ruptures.append({
+                "kind": "invariant_rupture",
+                "tripwire_id": tripwire_id,
+                "source": feed,
+                "message": f"Invariant rupture: missing observed metric {metric}",
+                "definition": definition,
+                "checked_at": checked_at,
+            })
+            continue
+        try:
+            value = float(raw_value)
+        except (TypeError, ValueError):
+            checked_at = _utcnow()
+            records.append({
+                "tripwire_id": tripwire_id,
+                "feed": feed,
+                "metric": metric,
+                "status": "invalid",
+                "message": f"Invalid observed value for {metric}; fail-closed.",
+                "checked_at": checked_at,
+            })
+            ruptures.append({
+                "kind": "invariant_rupture",
+                "tripwire_id": tripwire_id,
+                "source": feed,
+                "message": f"Invariant rupture: invalid observed metric {metric}",
+                "definition": definition,
+                "checked_at": checked_at,
+            })
+            continue
+        if not math.isfinite(value):
+            checked_at = _utcnow()
+            records.append({
+                "tripwire_id": tripwire_id,
+                "feed": feed,
+                "metric": metric,
+                "status": "invalid",
+                "message": f"Non-finite observed value for {metric}; fail-closed.",
+                "checked_at": checked_at,
+            })
+            ruptures.append({
+                "kind": "invariant_rupture",
+                "tripwire_id": tripwire_id,
+                "source": feed,
+                "message": f"Invariant rupture: non-finite observed metric {metric}",
+                "definition": definition,
+                "checked_at": checked_at,
+            })
+            continue
+        passed = _evaluate_tripwire_value(value=value, definition=definition)
+        status = "pass" if passed else "rupture"
+        record = {
+            "tripwire_id": tripwire_id,
+            "feed": feed,
+            "metric": metric,
+            "status": status,
+            "observed": value,
+            "definition": definition,
+            "checked_at": _utcnow(),
+        }
+        records.append(record)
+        if not passed:
+            ruptures.append({
+                "kind": "invariant_rupture",
+                "tripwire_id": tripwire_id,
+                "source": feed,
+                "message": f"Invariant rupture: {tripwire_id} observed {metric}={value}",
+                "observed": value,
+                "definition": definition,
+                "checked_at": record["checked_at"],
+            })
+    fail_closed = any(item.get("status") in {"missing", "invalid"} for item in records)
+    return {
+        "ok": len(ruptures) == 0 and not fail_closed,
+        "records": records,
+        "ruptures": ruptures,
+        "fail_closed": fail_closed,
+        "sources": sorted({str(item.get("feed") or "") for item in records}),
+    }
+
+
+def run_kernel_p_lean_proof_probe(
+    *,
+    conjecture: str,
+    context: str = "",
+    enable_repl: bool | None = None,
+) -> dict[str, Any]:
+    statement = _sanitize_text(conjecture)[:420]
+    target = f"{statement}\n{_sanitize_text(context)[:420]}".strip()
+    verdict, theorem_hits = _proof_verdict(target)
+    repl_requested = bool(enable_repl)
+    repl_enabled = repl_requested and str(os.environ.get("MERLIN_ENABLE_LEAN_BRIDGE") or "").strip().lower() in {"1", "true", "yes", "on"}
+    lean_binary = shutil.which("lean")
+    repl_available = bool(lean_binary)
+    repl_used = False
+    repl_output = ""
+    if repl_enabled and repl_available:
+        try:
+            completed = subprocess.run(
+                [lean_binary, "--version"],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=4,
+            )
+            repl_used = True
+            repl_output = (completed.stdout or completed.stderr or "").strip()[:220]
+        except Exception as exc:  # pragma: no cover - environment-dependent
+            repl_output = f"lean_repl_probe_failed: {exc}"
+    return {
+        "conjecture": statement,
+        "proof_verdict": verdict,
+        "theorem_hits": theorem_hits,
+        "repl_requested": repl_requested,
+        "repl_enabled": repl_enabled,
+        "repl_available": repl_available,
+        "repl_used": repl_used,
+        "repl_output": repl_output,
+        "promotion_allowed": False,
+        "governance_note": "Proof probes can strengthen evidence but cannot auto-promote hardgate claims.",
+        "checked_at": _utcnow(),
     }
 
 

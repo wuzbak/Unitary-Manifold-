@@ -25,7 +25,7 @@ from ox_navigator.engine.merlin_local_inference import get_inference_health, get
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
 from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
-from ox_navigator.engine.merlin_runtime import get_client_blind_ingestion_contract, get_observatory_ingestion_lane
+from ox_navigator.engine.merlin_runtime import empirical_observatory_check, get_client_blind_ingestion_contract, get_observatory_ingestion_lane
 from ox_navigator.engine.merlin_research_cycle import run_research_cycle
 from ox_navigator.engine.merlin_program import (
     build_training_artifact_bundle,
@@ -80,6 +80,13 @@ _MERLIN_SESSION_SECRET = (
     or uuid4().hex.encode('utf-8')
 )
 _MERLIN_PROFILE_SHARED_KEY = str(os.environ.get("MERLIN_PROFILE_SHARED_KEY") or "")
+_OBSERVATORY_LOCK = threading.Lock()
+_OBSERVATORY_LAST_CHECK = 0.0
+_OBSERVATORY_LAST_FAILURE_ATTEMPT = 0.0
+_OBSERVATORY_INTERVAL_SECONDS = max(60.0, float(os.environ.get("MERLIN_OBSERVATORY_POLL_SECONDS", "900") or 900.0))
+_OBSERVATORY_FAILURE_RETRY_SECONDS = max(10.0, float(os.environ.get("MERLIN_OBSERVATORY_FAILURE_RETRY_SECONDS", "60") or 60.0))
+_OBSERVATORY_LAST_RESULT: dict[str, object] = {"ok": True, "records": [], "ruptures": [], "fail_closed": False, "sources": []}
+_OBSERVATORY_POLL_IN_PROGRESS = False
 
 
 def _sign_session_id(session_id: str) -> str:
@@ -136,6 +143,74 @@ def _secure_cookie_required(host: str) -> bool:
     if override in {'0', 'false', 'no', 'off'}:
         return False
     return host not in {'127.0.0.1', 'localhost'}
+
+
+def _observatory_observed_payload() -> dict:
+    raw = str(os.environ.get("MERLIN_OBSERVATORY_MOCK") or "").strip()
+    if not raw:
+        return {}
+    try:
+        parsed = json.loads(raw)
+        return parsed if isinstance(parsed, dict) else {}
+    except json.JSONDecodeError:
+        return {}
+
+
+def _maybe_run_observatory_poll(session: MerlinSession) -> dict[str, object]:
+    global _OBSERVATORY_LAST_CHECK
+    global _OBSERVATORY_LAST_FAILURE_ATTEMPT
+    global _OBSERVATORY_LAST_RESULT
+    global _OBSERVATORY_POLL_IN_PROGRESS
+    now = time.time()
+    executed = False
+    poll_error = ""
+    reason = "cadence_not_elapsed"
+    should_poll = False
+    observed: dict = {}
+    with _OBSERVATORY_LOCK:
+        if (now - _OBSERVATORY_LAST_CHECK) >= _OBSERVATORY_INTERVAL_SECONDS:
+            if _OBSERVATORY_LAST_FAILURE_ATTEMPT and (now - _OBSERVATORY_LAST_FAILURE_ATTEMPT) < _OBSERVATORY_FAILURE_RETRY_SECONDS:
+                reason = "failure_backoff"
+            elif _OBSERVATORY_POLL_IN_PROGRESS:
+                reason = "poll_in_progress"
+            else:
+                reason = "poll_attempted"
+                should_poll = True
+                observed = _observatory_observed_payload()
+                _OBSERVATORY_LAST_FAILURE_ATTEMPT = now
+                _OBSERVATORY_POLL_IN_PROGRESS = True
+        else:
+            reason = "cadence_not_elapsed"
+    if should_poll:
+        try:
+            next_result = empirical_observatory_check(observed)
+        except Exception as exc:  # pragma: no cover - defensive
+            poll_error = str(exc)
+        else:
+            with _OBSERVATORY_LOCK:
+                _OBSERVATORY_LAST_RESULT = next_result
+                _OBSERVATORY_LAST_CHECK = now
+                _OBSERVATORY_LAST_FAILURE_ATTEMPT = 0.0
+                executed = True
+        finally:
+            with _OBSERVATORY_LOCK:
+                _OBSERVATORY_POLL_IN_PROGRESS = False
+    result = dict(_OBSERVATORY_LAST_RESULT)
+    existing = {
+        f"{item.get('tripwire_id')}:{item.get('checked_at') or item.get('recorded_at')}"
+        for item in list(session.observatory_events)
+        if isinstance(item, dict)
+    }
+    for rupture in list(result.get("ruptures") or []):
+        key = f"{rupture.get('tripwire_id')}:{rupture.get('checked_at') or rupture.get('recorded_at')}"
+        if key not in existing:
+            session.register_observatory_event(dict(rupture))
+            existing.add(key)
+    payload: dict[str, object] = {"executed": executed, "reason": reason, "result": result}
+    if poll_error:
+        payload["result"] = {**result, "ok": False, "fail_closed": True, "poll_error": poll_error}
+        payload["error"] = poll_error
+    return payload
 
 
 class OxRequestHandler(SimpleHTTPRequestHandler):
@@ -812,6 +887,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     fourth_wall = bool(payload.get('fourth_wall', False))
                     page_context = str(payload.get('page_context') or '')
                     user_context = str(payload.get('user_context') or '')
+                    context_envelope = dict(payload.get('context_envelope') or {})
+                    observatory_poll = _maybe_run_observatory_poll(merlin_session)
                     try:
                         result = asyncio.run(query_merlin(
                             text=query,
@@ -824,10 +901,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                             system_override=str(payload.get('system') or ''),
                             force_websearch=payload.get('websearch'),
                             temperature=temperature,
+                            context_envelope=context_envelope,
                         ))
                     except Exception as exc:  # pragma: no cover
                         self._json({'error': f'Unhandled Merlin error: {exc}'}, status=500)
                         return
+                    result['observatory_poll'] = observatory_poll
 
                     if parsed.path == '/api/ox':
                         self._json({
@@ -841,6 +920,9 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                             ),
                             'persona_mode': result['persona_mode'],
                             'gate_badges': result['gate_badges'],
+                            'active_kernel': result.get('active_kernel', {}),
+                            'accumulated_learnings': result.get('accumulated_learnings', {}),
+                            'observatory_poll': result.get('observatory_poll', {}),
                         })
                         return
 

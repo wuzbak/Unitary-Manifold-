@@ -35,6 +35,13 @@
 
   function el(id) { return document.getElementById(id); }
 
+  function inferViewportIntentClass() {
+    const y = window.scrollY || 0;
+    if (y < 120) return 'top_focus';
+    if (y > (document.body.scrollHeight - window.innerHeight - 120)) return 'bottom_focus';
+    return 'mid_scroll';
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     loadHistory();
     renderChips();
@@ -147,6 +154,12 @@
       fourth_wall: !!(el('ox-fourth-wall') && el('ox-fourth-wall').checked),
       websearch: !!(el('ox-websearch') && el('ox-websearch').checked),
       page_context: 'Product 20 Merlin shell',
+      context_envelope: {
+        route_domain: window.location.pathname || '/',
+        tool_surface: 'merlin_ui_shell',
+        viewport_intent_class: inferViewportIntentClass(),
+        objective_hint: query.slice(0, 180),
+      },
     };
     const t0 = Date.now();
 
@@ -184,6 +197,9 @@
       gate_badges: data.gate_badges || extractGateBadges(data.answer || parsed.body),
       persona_mode: data.persona_mode || 'storyteller',
       context_source: data.context_source || 'unknown',
+      active_kernel: data.active_kernel || {},
+      accumulated_learnings: data.accumulated_learnings || {},
+      observatory_poll: data.observatory_poll || {},
     };
 
     el('ox-response-title').textContent = 'Merlin Response';
@@ -192,10 +208,32 @@
       (lastResponse.persona_mode || 'storyteller') + ' · ' + elapsed + 's · ' + lastResponse.context_source;
 
     renderGateStrip(lastResponse.gate_badges);
+    renderTelemetry(lastResponse);
     renderFollowups(parsed.followups);
     renderSources(parsed.sources);
     el('ox-response-card').classList.add('visible');
     el('ox-response-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderTelemetry(response) {
+    const pane = el('ox-telemetry-pane');
+    const live = el('ox-telemetry-live');
+    if (!pane) return;
+    const kernel = response.active_kernel || {};
+    const learnings = response.accumulated_learnings || {};
+    const observatory = response.observatory_poll || {};
+    pane.textContent =
+      'kernel=' + (kernel.kernel_id || 'unknown') +
+      ' role=' + (kernel.role || 'unknown') +
+      ' lane=' + (kernel.lane || 'unknown') +
+      '\nprovider=' + (kernel.provider_variant || 'unknown') +
+      '\nlearnings=' + String(learnings.count || 0) +
+      ' blocked=' + String(learnings.blocked_count || 0) +
+      ' namespace=' + String(learnings.target_namespace || 'general') +
+      '\nobservatory_poll=' + (observatory.executed ? 'executed' : 'idle');
+    if (live) {
+      live.textContent = 'Kernel ' + (kernel.kernel_id || 'unknown') + ', observatory poll ' + (observatory.executed ? 'executed' : 'idle') + '.';
+    }
   }
 
   function renderGateStrip(gates) {
@@ -257,6 +295,7 @@
     el('ox-answer').textContent = '⚠️ ' + msg;
     el('ox-response-meta').textContent = 'offline';
     renderGateStrip([]);
+    renderTelemetry({ active_kernel: {}, accumulated_learnings: {}, observatory_poll: {} });
     renderFollowups([]);
     renderSources([]);
     el('ox-response-card').classList.add('visible');
@@ -273,6 +312,9 @@
       gate_badges: data.gate_badges || [],
       persona_mode: data.persona_mode || 'storyteller',
       context_source: data.context_source || 'unknown',
+      active_kernel: data.active_kernel || {},
+      accumulated_learnings: data.accumulated_learnings || {},
+      observatory_poll: data.observatory_poll || {},
       ts: new Date().toISOString(),
     });
     if (history.length > MAX_HISTORY) history = history.slice(0, MAX_HISTORY);
@@ -307,6 +349,9 @@
           gate_badges: item.gate_badges,
           persona_mode: item.persona_mode,
           context_source: item.context_source,
+          active_kernel: item.active_kernel,
+          accumulated_learnings: item.accumulated_learnings,
+          observatory_poll: item.observatory_poll,
         }, item.query, '0.0');
       });
       list.appendChild(div);

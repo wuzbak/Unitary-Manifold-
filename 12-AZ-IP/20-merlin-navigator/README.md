@@ -62,6 +62,10 @@ Related reading outside this product folder:
   - `---`
   - `FOLLOWUPS:`
   - `Sources:`
+- Every `/api/merlin` response now also returns:
+  - `active_kernel` attribution (`kernel_id`, role, lane, provider variant)
+  - `accumulated_learnings` (ranked memory/insight/contradiction injection ledger)
+  - `observatory_poll` (scheduled empirical tripwire polling status)
 - The frontend renders follow-up chips and typed source cards from that structure.
 - If a live model response omits the structure, Merlin fills the gaps before rendering.
 - This keeps the UI deterministic even when the model is imperfect.
@@ -94,8 +98,9 @@ Related reading outside this product folder:
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - Mentorship sprint discovery surfaces are now first-class: `getMerlinMentorshipSprintCharter`, `getMerlinFacultyMatrix`, `getMerlinKnowledgeTransferCycles`, `getMerlinLibraryAndStudy`, `getMerlinExchangeProtocol`, and `getMerlinMentorshipClosureContract`.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
-- `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading.
+- `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading plus fail-closed trajectory preflight contracts for high-risk chains.
 - Toolkit entries include typed argument schema, capability class, risk level, and human-gate metadata; runtime now enforces tool allowlists and schema checks, and emits replay artifacts for invoke/orchestrate runs.
+- New runtime tools include `empiricalObservatoryCheck` (DESI/JUNO/LiteBIRD kill-threshold checks) and `kernelPProofProbe` (gated Lean4 proof probing with safe fallback).
 - The standalone implementation remains conservative, but its internal contracts are now audit-ready for tiered capability expansion.
 - Cross-device Base44 entity semantics are not fully recreated here; the schema is exposed honestly as planned-but-not-implemented.
 
