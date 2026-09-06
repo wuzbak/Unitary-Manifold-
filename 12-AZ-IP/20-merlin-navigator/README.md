@@ -119,9 +119,9 @@ Related reading outside this product folder:
 - Sustained head-to-head replacement gating is available through `evaluateMerlinEmpiricalGate`, `runMerlinStageAReceipts`, `getMerlinReplacementReadiness`, and `getMerlinStageAArtifacts`, while `/api/merlin/promotion-packet` remains the legacy compatibility view.
 - `GET /api/merlin/control-tower` now includes mentorship-to-runtime closure checks with fail-closed completion logic and explicit evidence-required fields.
 - CI artifact export: `python tools/export_merlin_stage_a_artifacts.py --limit 3 --output /tmp/merlin-stage-a-artifacts.json`.
-- Training artifact export: `python tools/export_merlin_training_artifacts.py --limit 12 --output /tmp/merlin-training-artifacts.json`.
-- JSONL dataset export: `python tools/export_merlin_training_jsonl.py --limit 12 --output-dir /tmp/merlin-training-jsonl`.
-- MLflow manifest export: `python tools/export_merlin_mlflow_manifests.py --limit 12 --output-dir /tmp/merlin-mlflow`.
+- Training artifact export: `python tools/export_merlin_training_artifacts.py` (default output: `training/training_artifacts/training_artifacts.json`).
+- JSONL dataset export: `python tools/export_merlin_training_jsonl.py` (default output: `training/training_jsonl/`).
+- MLflow manifest export: `python tools/export_merlin_mlflow_manifests.py` (default output: `training/mlflow_manifests/mlflow_manifests.json`).
 - MLflow experiment receipt runner: `python tools/run_merlin_mlflow_experiment.py --experiment merlin_stage_b_shadow_eval --limit 3 --output /tmp/merlin-stage-b-receipts.json`.
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).

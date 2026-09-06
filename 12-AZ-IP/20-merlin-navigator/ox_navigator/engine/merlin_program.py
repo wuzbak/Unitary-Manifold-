@@ -1193,12 +1193,92 @@ def run_sync_checks() -> dict[str, Any]:
         })
     no_derived_drift = "DERIVED" not in ui_text
     consistency_ok = all(item["ok"] for item in endpoint_checks) and all(item["ok"] for item in gate_checks) and no_derived_drift
+
+    required_engine_modules = [
+        "ox_navigator/engine/merlin_kernel_routing.py",
+        "ox_navigator/engine/merlin_inference_health.py",
+        "ox_navigator/engine/merlin_research_cycle.py",
+        "ox_navigator/engine/merlin_energy_ledger.py",
+        "ox_navigator/engine/merlin_local_inference.py",
+        "ox_navigator/engine/merlin_local_provider.py",
+        "ox_navigator/engine/merlin_admission.py",
+    ]
+    engine_module_checks = []
+    for rel in required_engine_modules:
+        path = PRODUCT_ROOT / rel
+        engine_module_checks.append({
+            "module": rel,
+            "exists": path.exists(),
+            "readable": path.is_file(),
+            "ok": path.exists() and path.is_file(),
+        })
+    engine_module_ok = all(item["ok"] for item in engine_module_checks)
+
+    required_export_scripts = [
+        "tools/export_merlin_training_artifacts.py",
+        "tools/export_merlin_training_jsonl.py",
+        "tools/export_merlin_mlflow_manifests.py",
+    ]
+    export_script_checks = []
+    for rel in required_export_scripts:
+        path = PRODUCT_ROOT / rel
+        export_script_checks.append({
+            "script": rel,
+            "exists": path.exists(),
+            "readable": path.is_file(),
+            "ok": path.exists() and path.is_file(),
+        })
+    export_script_ok = all(item["ok"] for item in export_script_checks)
+
+    required_toolkit_functions = [
+        "runMerlinSyncChecks",
+        "getMerlinInferenceHealth",
+        "runMerlinResearchCycle",
+        "getMerlinCounterexampleDigest",
+        "getMerlinEnergyLedger",
+        "merlinConsolidateMemory",
+        "merlinSelfAudit",
+        "generateFalsificationOracle",
+        "merlinAnalyzeDepth",
+    ]
+    toolkit_names: set[str] = set()
+    try:
+        from .merlin_tools import get_toolkit_view
+
+        full_manifest = get_toolkit_view("full")
+        toolkit_names = {str(item.get("name", "")) for item in list(full_manifest.get("functions") or [])}
+    except Exception:
+        toolkit_names = set()
+    toolkit_function_checks = [
+        {
+            "tool": name,
+            "present": name in toolkit_names,
+            "ok": name in toolkit_names,
+        }
+        for name in required_toolkit_functions
+    ]
+    toolkit_ok = all(item["ok"] for item in toolkit_function_checks)
+
+    parity_dimensions = {
+        "version_source_parity": bool(ok),
+        "runtime_api_parity": bool(runtime_ok),
+        "gate_label_parity": bool(gate_labels_ok),
+        "consistency_parity": bool(consistency_ok),
+        "engine_module_parity": bool(engine_module_ok),
+        "training_export_script_parity": bool(export_script_ok),
+        "toolkit_function_parity": bool(toolkit_ok),
+    }
+    parity_ok = all(parity_dimensions.values())
     return {
-        "ok": bool(ok and runtime_ok and gate_labels_ok and consistency_ok),
+        "ok": bool(parity_ok),
         "checked_at": _utcnow(),
         "checks": checks,
         "runtime_endpoint_checks": runtime_endpoint_checks,
         "gate_label_checks": gate_label_checks,
+        "engine_module_checks": engine_module_checks,
+        "export_script_checks": export_script_checks,
+        "toolkit_function_checks": toolkit_function_checks,
+        "parity_dimensions": parity_dimensions,
         "consistency": {
             "endpoint_checks": endpoint_checks,
             "gate_checks": gate_checks,

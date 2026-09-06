@@ -27,7 +27,12 @@ def _write_jsonl(path: Path, rows: list[dict]) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Export Merlin training JSONL files.")
     parser.add_argument("--limit", type=int, default=12, help="Optional seed example limit")
-    parser.add_argument("--output-dir", type=str, required=True, help="Output directory")
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=str(ROOT / "training" / "training_jsonl"),
+        help="Output directory",
+    )
     args = parser.parse_args()
 
     payload = build_training_dataset_bundle(limit=args.limit)

@@ -20,7 +20,12 @@ from ox_navigator.engine.merlin_program import build_training_artifact_bundle
 def main() -> int:
     parser = argparse.ArgumentParser(description="Export Merlin training artifact bundle.")
     parser.add_argument("--limit", type=int, default=12, help="Optional seed example limit")
-    parser.add_argument("--output", type=str, required=True, help="Output JSON path")
+    parser.add_argument(
+        "--output",
+        type=str,
+        default=str(ROOT / "training" / "training_artifacts" / "training_artifacts.json"),
+        help="Output JSON path",
+    )
     args = parser.parse_args()
 
     payload = build_training_artifact_bundle(limit=args.limit)
