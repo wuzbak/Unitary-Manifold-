@@ -1,0 +1,76 @@
+# SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+"""Machine-readable proof-first Merlin packet for the Kawamura residual burden."""
+
+from __future__ import annotations
+
+import importlib
+from pathlib import Path
+from typing import Any, Dict
+
+from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
+
+_ROOT = Path(__file__).resolve().parents[2]
+_PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-merlin-navigator"
+_LEAN4_FILE = _ROOT / "lean4" / "UnitaryManifold" / "MerlinProofFirstKawamuraLedger.lean"
+_SUBSTACK_POST = _ROOT / "7-OUTREACH" / "substack" / "posts" / "post-320-s04e023-merlin-proof-first-kawamura-sprint.md"
+_EXPECTED_THEOREM_COUNT = 8
+_SEMANTIC_MARKERS = [
+    "KawamuraResidualStillOpen",
+    "NoTraceabilityEqualsClosure",
+    "DualLoopVerdictAgreementRequired",
+    "ExternalImportBoundaryPreserved",
+]
+
+
+def _load_program_module():
+    ensure_merlin_package_loaded(_PRODUCT_ROOT)
+    return importlib.import_module("ox_navigator.engine.merlin_program")
+
+
+def _count_theorems(text: str) -> int:
+    return sum(1 for line in text.splitlines() if line.strip().startswith("theorem mpf_kawamura_kernel_"))
+
+
+def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
+    program = _load_program_module()
+    charter = program.get_proof_first_closure_charter()
+    ledger = program.get_kawamura_closure_burden_ledger()
+    cross_review = program.get_merlin_cross_review_packet()
+    lean_text = _LEAN4_FILE.read_text(encoding="utf-8") if _LEAN4_FILE.exists() else ""
+    theorem_count = _count_theorems(lean_text)
+    marker_hits = {marker: marker in lean_text for marker in _SEMANTIC_MARKERS}
+    open_items = ledger["classification_buckets"]["open_residuals"]
+
+    valid = bool(
+        charter["target_gap_id"] == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
+        and charter["stewardship"]["default_final_verdict_until_residual_is_discharged"] == "still_open"
+        and ledger["final_verdict_if_executed_today"] == "still_open"
+        and len(open_items) == 1
+        and "functional-analysis" in open_items[0]["item"].lower()
+        and cross_review["reconciliation_policy"]["final_verdict_if_unresolved_objection"] == "still_open"
+        and _LEAN4_FILE.exists()
+        and theorem_count == _EXPECTED_THEOREM_COUNT
+        and all(marker_hits.values())
+        and _SUBSTACK_POST.exists()
+    )
+
+    return {
+        "target_gap_id": charter["target_gap_id"],
+        "charter": charter,
+        "burden_ledger": ledger,
+        "cross_review_packet": cross_review,
+        "lean4": {
+            "file": str(_LEAN4_FILE.relative_to(_ROOT)),
+            "exists": _LEAN4_FILE.exists(),
+            "theorem_count": theorem_count,
+            "expected_theorem_count": _EXPECTED_THEOREM_COUNT,
+            "semantic_markers": marker_hits,
+        },
+        "substack_article": {
+            "path": str(_SUBSTACK_POST.relative_to(_ROOT)),
+            "exists": _SUBSTACK_POST.exists(),
+        },
+        "final_verdict": "still_open",
+        "valid": valid,
+    }

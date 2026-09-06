@@ -96,7 +96,7 @@ Related reading outside this product folder:
 - `GET /api/merlin/training-artifacts` exports the training architecture, competitive benchmark plan, open-science registry, and Stage A baseline as one governed bundle.
 - `GET /api/merlin/promotion-packet` preserves the legacy promotion-packet contract while `replacement-readiness` exposes the new concrete receipt-backed surface.
 - Program discovery includes `getMerlinProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
-- Mentorship sprint discovery surfaces are now first-class: `getMerlinMentorshipSprintCharter`, `getMerlinFacultyMatrix`, `getMerlinKnowledgeTransferCycles`, `getMerlinLibraryAndStudy`, `getMerlinExchangeProtocol`, and `getMerlinMentorshipClosureContract`.
+- Mentorship sprint discovery surfaces are now first-class: `getMerlinMentorshipSprintCharter`, `getMerlinFacultyMatrix`, `getMerlinKnowledgeTransferCycles`, `getMerlinLibraryAndStudy`, `getMerlinExchangeProtocol`, `getMerlinMentorshipClosureContract`, `getMerlinProofFirstClosureCharter`, `getMerlinKawamuraBurdenLedger`, and `getMerlinCrossReviewPacket`.
 - `POST /api/agentInvoke` routes one safe tool call at a time.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading plus fail-closed trajectory preflight contracts for high-risk chains.
 - Toolkit entries include typed argument schema, capability class, risk level, and human-gate metadata; runtime now enforces tool allowlists and schema checks, and emits replay artifacts for invoke/orchestrate runs.

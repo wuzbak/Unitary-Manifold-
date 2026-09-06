@@ -138,6 +138,7 @@ This document records the implemented execution blueprint for making Merlin the 
 - Structured knowledge-transfer cycles now require each specialist to deposit playbooks, failure counterexamples, decision criteria, and benchmark-aligned exemplars into Merlin's governed back room.
 - Library + Study assets are now explicit governed contracts covering canonical source curation, typed provenance registry linkage, benchmark corpora, active training queue surface, contradiction log, replay packs, and mentorship session ledger schema.
 - Cross-model exchange protocol now requires at least one peer review per specialist, reconciliation, and explicit unresolved-conflict risk logging (silent merge forbidden).
+- Proof-first closure sprint surfaces now expose a single-target Kawamura residual charter, a machine-readable burden ledger, and a Merlin/Copilot cross-review packet that defaults unresolved work to `still_open`.
 - Control-tower responses now include a mentorship-to-runtime closure block with fail-closed checks and explicit evidence requirements for exchange-cycle completion and unresolved-risk counts.
 
 ## Merlin Sovereignty Roadmap checklist

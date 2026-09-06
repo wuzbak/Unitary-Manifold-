@@ -592,10 +592,13 @@ def test_route_tool_program_office_and_control_tower():
     assert mentorship['charter']['mode'] == 'full_rigor_no_partial_delivery'
     assert len(mentorship['faculty_matrix']['faculty']) == 5
     assert mentorship['completion_contract']['gate_policy'] == 'fail_closed'
+    assert mentorship['proof_first_closure_target']['target_gap_id'] == 'KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS'
+    assert mentorship['burden_ledger']['final_verdict_if_executed_today'] == 'still_open'
     dual_loop = office['result']['data']['dual_loop_operations']
     assert dual_loop['learning_contract']['loops']['kitty_loop_pentad']['role'] == 'merlin_as_human_node'
     assert dual_loop['mirrored_training_cycle']['sequence'][1]['phase'] == 'production_governed_pass'
     assert dual_loop['deterministic_proof_closure']['allowed_verdict_classes'][0] == 'closed_now'
+    assert dual_loop['cross_review_packet']['reconciliation_policy']['final_verdict_if_unresolved_objection'] == 'still_open'
 
     control = route_tool('getMerlinControlTower', {'limit': 1})
     assert control['ok'] is True
@@ -645,6 +648,18 @@ def test_route_tool_mentorship_surfaces():
     closure = route_tool('getMerlinMentorshipClosureContract', {})
     assert closure['ok'] is True
     assert closure['result']['data']['name'] == 'mentorship_to_runtime_closure'
+
+    proof_first = route_tool('getMerlinProofFirstClosureCharter', {})
+    assert proof_first['ok'] is True
+    assert proof_first['result']['data']['target_gap_id'] == 'KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS'
+
+    ledger = route_tool('getMerlinKawamuraBurdenLedger', {})
+    assert ledger['ok'] is True
+    assert ledger['result']['data']['final_verdict_if_executed_today'] == 'still_open'
+
+    cross_review = route_tool('getMerlinCrossReviewPacket', {})
+    assert cross_review['ok'] is True
+    assert cross_review['result']['data']['reconciliation_policy']['silent_merge_forbidden'] is True
 
     dual_loop = route_tool('getMerlinDualLoopContract', {})
     assert dual_loop['ok'] is True
@@ -1445,6 +1460,8 @@ def test_server_merlin_endpoints():
             assert toolkit.status_code == 200
             assert toolkit.json()['view'] == 'state'
             assert toolkit.json()['mentorship']['closure_contract']['name'] == 'mentorship_to_runtime_closure'
+            assert toolkit.json()['mentorship']['proof_first_closure_target']['target_gap_id'] == 'KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS'
+            assert toolkit.json()['mentorship']['cross_review_packet']['reconciliation_policy']['final_verdict_if_unresolved_objection'] == 'still_open'
 
             invoke = client.post('/api/agentInvoke', json={'tool': 'fetchRepoContext', 'args': {}})
             assert invoke.status_code == 200

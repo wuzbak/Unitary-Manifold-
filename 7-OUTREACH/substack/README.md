@@ -34,6 +34,7 @@ the Unitary Manifold framework to a general audience.
 - `posts/post-300-s04e003-axiomzero-apps-spaces-complete-2026-state.md`
 - `posts/post-301-s04e004-merlin-and-dnd-adoption-workflow.md`
 - `posts/post-302-s04e005-v36-2-parallel-audit-remediation.md`
+- `posts/post-320-s04e023-merlin-proof-first-kawamura-sprint.md`
 
 ## Substack Visuals
 

@@ -527,6 +527,218 @@ def get_deterministic_proof_closure_contract() -> dict[str, Any]:
     }
 
 
+def get_proof_first_closure_charter() -> dict[str, Any]:
+    return {
+        "name": "Merlin Proof-First Closure Sprint",
+        "mode": "single_target_proof_first",
+        "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+        "target_statement": (
+            "Referee-grade Kawamura-independence functional-analysis closure proof "
+            "remains the active target and is not yet discharged."
+        ),
+        "scope_rule": "One proof burden, one closure map, one decision standard.",
+        "stewardship": {
+            "hard_conclusions_require_steward_gate": True,
+            "promotion_policy": "fail_closed",
+            "default_final_verdict_until_residual_is_discharged": "still_open",
+        },
+        "source_surfaces": [
+            "proof/TIER_1_FORMAL.md",
+            "proof/README.md",
+            "1-THEORY/DERIVATION_STATUS.md",
+            "lean4/UnitaryManifold/SprintCAFormalTraceability.lean",
+            "lean4/UnitaryManifold/SprintCBDeterministicClosure.lean",
+        ],
+        "merlin_pentad_roles": {
+            "kernel_s": "repository physics synthesis and source reconciliation",
+            "kernel_p": "formal obligation tracing and Lean-oriented proof support",
+            "kernel_r": "schema-precise routing of proof tasks and evidence packets",
+            "kernel_a": "counterexample search, contradiction audit, and missing-assumption detection",
+            "kernel_g": "boundary enforcement and no-unearned-closure veto",
+        },
+        "required_deliverables": [
+            "closure_charter",
+            "machine_readable_burden_ledger",
+            "cross_review_packet",
+            "targeted_lean4_strengthening",
+            "substack_article",
+            "final_verdict",
+        ],
+        "article_contract": {
+            "path": "7-OUTREACH/substack/posts/post-320-s04e023-merlin-proof-first-kawamura-sprint.md",
+            "required_sections": [
+                "target_gap",
+                "method",
+                "merlin_contribution",
+                "cross_audit_result",
+                "remaining_residuals",
+            ],
+            "tone": "professional_sober_honest",
+        },
+    }
+
+
+def get_kawamura_closure_burden_ledger() -> dict[str, Any]:
+    return {
+        "name": "kawamura_independence_closure_burden_ledger",
+        "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+        "current_state": "burden_reduced_not_closed",
+        "final_verdict_if_executed_today": "still_open",
+        "classification_buckets": {
+            "already_proved_or_formalized": [
+                {
+                    "item": "Kawamura parity arithmetic proxy coverage exists in Lean4 artifacts.",
+                    "status": "PROVED_PROXY",
+                    "sources": [
+                        "lean4/UnitaryManifold/SU5OrbifoldWeylParity.lean",
+                        "lean4/UnitaryManifold/SU5WeylParityFull.lean",
+                    ],
+                },
+                {
+                    "item": "Tier-1 formal scope and theorem-label boundary are explicit for technical review.",
+                    "status": "BOUNDARY_FORMALIZED",
+                    "sources": [
+                        "proof/TIER_1_FORMAL.md",
+                        "proof/README.md",
+                    ],
+                },
+            ],
+            "derived_or_conditional": [
+                {
+                    "item": "The n_w = 5 candidate-set/boundary-phase rule remains conditional rather than action-derived.",
+                    "status": "CONDITIONAL",
+                    "sources": [
+                        "proof/TIER_1_FORMAL.md",
+                    ],
+                },
+                {
+                    "item": "Identifying SU(5) from species count is geometrically motivated, not an independence theorem.",
+                    "status": "GEOMETRICALLY_MOTIVATED",
+                    "sources": [
+                        "proof/TIER_1_FORMAL.md",
+                    ],
+                },
+            ],
+            "traceability_only": [
+                {
+                    "item": "Sprint CA made claim-label, artifact, and Lean-status traceability explicit without claiming full closure.",
+                    "status": "TRACEABILITY_ONLY",
+                    "sources": [
+                        "lean4/UnitaryManifold/SprintCAFormalTraceability.lean",
+                        "7-OUTREACH/substack/posts/post-307-s04e010-sprint-ca-lean4-formal-burden.md",
+                    ],
+                },
+                {
+                    "item": "Sprint CB preserved deterministic no-unearned-closure routing while keeping the final residual open.",
+                    "status": "TRACEABILITY_ONLY",
+                    "sources": [
+                        "lean4/UnitaryManifold/SprintCBDeterministicClosure.lean",
+                        "src/core/pillar1052_targeted_closure_deterministic_rigor.py",
+                        "7-OUTREACH/substack/posts/post-309-s04e012-sprint-cb-targeted-closure-rigor.md",
+                    ],
+                },
+            ],
+            "open_residuals": [
+                {
+                    "item": "Referee-grade Kawamura-independence functional-analysis closure proof.",
+                    "status": "OPEN",
+                    "blocking_reason": "Existing artifacts tighten bookkeeping and traceability but do not discharge the final independence burden.",
+                    "required_for_closure": [
+                        "explicit functional-analysis argument",
+                        "independence from external narrative import",
+                        "cross-loop verdict agreement",
+                    ],
+                },
+            ],
+            "external_imports_and_boundaries": [
+                {
+                    "item": "Kawamura SU(5)/Z₂ orbifold mechanism remains an imported route whose full independence closure is still under review.",
+                    "status": "DECLARED_EXTERNAL_IMPORT",
+                    "sources": [
+                        "lean4/UnitaryManifold/SU3InternalDerivationAttempt.lean",
+                        "7-OUTREACH/substack/posts/post-307-s04e010-sprint-ca-lean4-formal-burden.md",
+                    ],
+                },
+            ],
+        },
+        "theorem_obligations": [
+            {
+                "id": "K-1",
+                "obligation": "Preserve the final functional-analysis residual explicitly across all ledgers and reports.",
+                "failure_mode": "Narrative closure inflation",
+            },
+            {
+                "id": "K-2",
+                "obligation": "Keep candidate-set and boundary-phase assumptions explicit whenever n_w = 5 selection is cited.",
+                "failure_mode": "Hidden assumption import",
+            },
+            {
+                "id": "K-3",
+                "obligation": "Separate parity arithmetic formalization from full physical closure claims.",
+                "failure_mode": "Proxy proof overreach",
+            },
+            {
+                "id": "K-4",
+                "obligation": "Route unresolved objections to still_open unless both loops agree on a stronger earned verdict.",
+                "failure_mode": "Cross-loop disagreement ignored",
+            },
+        ],
+        "allowed_verdicts": ["closure_earned", "burden_reduced", "still_open"],
+        "promotion_blocker": "No closure_earned verdict is allowed until the final functional-analysis residual is discharged.",
+    }
+
+
+def get_merlin_cross_review_packet() -> dict[str, Any]:
+    return {
+        "name": "merlin_kawamura_cross_review_packet",
+        "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+        "human_copilot_loop": {
+            "responsibilities": [
+                "formal_problem_framing",
+                "burden_decomposition",
+                "proof_path_selection",
+                "final_steward_ready_judgment",
+            ],
+            "required_outputs": [
+                "closure_ledger_update",
+                "assumption_map",
+                "response_to_objections",
+            ],
+        },
+        "merlin_loop": {
+            "responsibilities": [
+                "alternative_derivation_attempts",
+                "counterexample_search",
+                "missing_assumption_detection",
+                "provenance_collation",
+                "boundary_enforcement_self_check",
+            ],
+            "required_outputs": [
+                "counterexample_digest",
+                "contradiction_audit",
+                "candidate_evidence_packet",
+            ],
+        },
+        "cross_review_questions": [
+            "Which assumptions are still imported rather than derived?",
+            "Which Lean4 statements are traceability-only rather than closure-bearing?",
+            "What exact objection would still defeat a closure_earned verdict today?",
+            "Which surviving residual must remain visible in the article and ledger?",
+        ],
+        "reconciliation_policy": {
+            "peer_review_required": True,
+            "silent_merge_forbidden": True,
+            "unresolved_objections_enter_risk_ledger": True,
+            "final_verdict_if_unresolved_objection": "still_open",
+        },
+        "adversarial_requirements": [
+            "generate_counterexample_candidates_against_preferred_proof_path",
+            "preserve_unresolved_objections_verbatim_until_answered",
+            "block_promotion_on_cross_loop_verdict_mismatch",
+        ],
+    }
+
+
 def get_dual_loop_sprint_command_rhythm() -> dict[str, Any]:
     return {
         "name": "dual_loop_sprint_command_rhythm",
@@ -690,11 +902,14 @@ def get_program_office() -> dict[str, Any]:
             "library_and_study": get_mentorship_library_and_study_assets(),
             "cross_model_exchange_protocol": get_cross_model_exchange_protocol(),
             "completion_contract": get_mentorship_completion_contract(),
+            "proof_first_closure_target": get_proof_first_closure_charter(),
+            "burden_ledger": get_kawamura_closure_burden_ledger(),
         },
         "dual_loop_operations": {
             "learning_contract": get_dual_loop_learning_contract(),
             "mirrored_training_cycle": get_mirrored_training_cycle_contract(),
             "deterministic_proof_closure": get_deterministic_proof_closure_contract(),
+            "cross_review_packet": get_merlin_cross_review_packet(),
             "sprint_command_rhythm": get_dual_loop_sprint_command_rhythm(),
         },
         "updated_at": _utcnow(),
