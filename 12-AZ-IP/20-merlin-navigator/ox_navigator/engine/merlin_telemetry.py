@@ -78,10 +78,10 @@ def _kernel_profile(router_decision: dict[str, Any], *, context_source: str, que
         kernel_id = "kernel_g"
     elif lane == "small_fast_router":
         kernel_id = "kernel_r"
-    elif any(term in query_sample for term in ("memory", "audit", "contradiction", "recall", "drift")):
-        kernel_id = "kernel_a"
     elif lane == "heavy_reasoner_exception":
         kernel_id = "kernel_p"
+    elif any(term in query_sample for term in ("memory", "audit", "contradiction", "recall", "drift")):
+        kernel_id = "kernel_a"
     else:
         kernel_id = "kernel_s"
     role = {

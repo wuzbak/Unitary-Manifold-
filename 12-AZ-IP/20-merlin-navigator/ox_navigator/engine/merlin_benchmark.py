@@ -390,8 +390,9 @@ def evaluate_kernel_gate_summary(
     per_kernel: dict[str, list[dict[str, Any]]] = {}
     for run in samples:
         telemetry = dict(run.get("merlin_telemetry") or {})
+        expected_kernel_id = str(run.get("expected_kernel_id") or "").strip()
         kernel = dict(telemetry.get("kernel") or {})
-        kernel_id = str(kernel.get("id") or "kernel_s")
+        kernel_id = expected_kernel_id or str(kernel.get("id") or "kernel_s")
         per_kernel.setdefault(kernel_id, []).append(telemetry)
 
     kernel_ids_to_check = (
@@ -420,41 +421,55 @@ def evaluate_kernel_gate_summary(
                 "reason": "No receipts for kernel.",
             }
             continue
-        contract_rates = [
-            _safe_float(((row.get("quality_signals") or {}).get("contract_pass_rate")), 0.0)
-            for row in telemetry_rows
-        ]
-        boundary_rates = [
-            _safe_float(((row.get("quality_signals") or {}).get("boundary_violation_rate")), 1.0)
-            for row in telemetry_rows
-        ]
-        contradiction_rates = [
-            _safe_float(((row.get("quality_signals") or {}).get("contradiction_miss_rate")), 1.0)
-            for row in telemetry_rows
-        ]
-        tool_precisions = [
-            _safe_float(((row.get("quality_signals") or {}).get("tool_call_precision")), 0.0)
-            for row in telemetry_rows
-        ]
-        mean_contract = round(mean(contract_rates), 4)
-        mean_boundary = round(mean(boundary_rates), 4)
-        mean_contradiction = round(mean(contradiction_rates), 4)
-        mean_tool_precision = round(mean(tool_precisions), 4)
+        def _metric_values(metric: str) -> list[float]:
+            values: list[float] = []
+            for row in telemetry_rows:
+                quality = dict(row.get("quality_signals") or {})
+                if metric not in quality:
+                    continue
+                values.append(_safe_float(quality.get(metric), 0.0))
+            return values
+
+        contract_rates = _metric_values("contract_pass_rate")
+        boundary_rates = _metric_values("boundary_violation_rate")
+        contradiction_rates = _metric_values("contradiction_miss_rate")
+        tool_precisions = _metric_values("tool_call_precision")
+        mean_contract = round(mean(contract_rates), 4) if contract_rates else None
+        mean_boundary = round(mean(boundary_rates), 4) if boundary_rates else None
+        mean_contradiction = round(mean(contradiction_rates), 4) if contradiction_rates else None
+        mean_tool_precision = round(mean(tool_precisions), 4) if tool_precisions else None
         checks = {
-            "contract_pass_rate": mean_contract >= thresholds.get("contract_pass_rate", 0.0),
-            "boundary_violation_rate": mean_boundary <= thresholds.get("boundary_violation_rate_max", 1.0),
-            "contradiction_miss_rate": mean_contradiction <= thresholds.get("contradiction_miss_rate_max", 1.0),
-            "tool_call_precision": mean_tool_precision >= thresholds.get("tool_call_precision", 0.0),
+            "contract_pass_rate": (
+                mean_contract is not None and mean_contract >= thresholds.get("contract_pass_rate", 0.0)
+            ),
+            "boundary_violation_rate": (
+                mean_boundary is not None and mean_boundary <= thresholds.get("boundary_violation_rate_max", 1.0)
+            ),
+            "contradiction_miss_rate": (
+                mean_contradiction is not None and mean_contradiction <= thresholds.get("contradiction_miss_rate_max", 1.0)
+            ),
+            "tool_call_precision": (
+                mean_tool_precision is not None and mean_tool_precision >= thresholds.get("tool_call_precision", 0.0)
+            ),
         }
         active_checks = {}
+        missing_metrics = []
         if "contract_pass_rate" in thresholds:
             active_checks["contract_pass_rate"] = checks["contract_pass_rate"]
+            if mean_contract is None:
+                missing_metrics.append("contract_pass_rate")
         if "boundary_violation_rate_max" in thresholds:
             active_checks["boundary_violation_rate"] = checks["boundary_violation_rate"]
+            if mean_boundary is None:
+                missing_metrics.append("boundary_violation_rate")
         if "contradiction_miss_rate_max" in thresholds:
             active_checks["contradiction_miss_rate"] = checks["contradiction_miss_rate"]
+            if mean_contradiction is None:
+                missing_metrics.append("contradiction_miss_rate")
         if "tool_call_precision" in thresholds:
             active_checks["tool_call_precision"] = checks["tool_call_precision"]
+            if mean_tool_precision is None:
+                missing_metrics.append("tool_call_precision")
         pass_gate = all(active_checks.values()) if active_checks else False
         kernel_results[kernel_id] = {
             "sample_count": len(telemetry_rows),
@@ -465,6 +480,7 @@ def evaluate_kernel_gate_summary(
                 "tool_call_precision": mean_tool_precision,
             },
             "checks": active_checks,
+            "missing_metrics": missing_metrics,
             "gate_pass": pass_gate,
             "decision": "go_shadow" if pass_gate else "demote",
         }
@@ -876,10 +892,12 @@ async def _run_benchmark_once(benchmark: dict[str, Any], *, stage: str) -> dict[
     parity_ok = float(merlin_eval.get("score", 0.0)) >= float(
         incumbent_eval.get("score", 0.0)
     )
+    expected_kernel_id = infer_kernel_for_benchmark_definition(benchmark)
     return {
         "benchmark_id": benchmark["id"],
         "track": benchmark["track"],
         "query": benchmark["query"],
+        "expected_kernel_id": expected_kernel_id,
         "merlin_evaluation": merlin_eval,
         "incumbent_evaluation": incumbent_eval,
         "merlin_shadow_fields": merlin_shadow,

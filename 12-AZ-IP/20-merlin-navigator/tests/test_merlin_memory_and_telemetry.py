@@ -243,6 +243,23 @@ def test_build_run_telemetry_maps_memory_audit_queries_to_auditor_kernel():
     assert run["kernel"]["role"] == "Auditor"
 
 
+def test_build_run_telemetry_respects_heavy_lane_for_prover():
+    run = build_run_telemetry(
+        query="Audit contradiction evidence and produce formal proof trace.",
+        answer="OPEN_GAP\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={"provider": "sovereign_local", "lane": "heavy_reasoner_exception"},
+        context_source="sovereign_local_model",
+        tool_rounds=0,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "policy"}]},
+        gate_badges=["OPEN_GAP"],
+        memory_hits=0,
+        contradiction_events=0,
+        latency_ms=5.0,
+    )
+    assert run["kernel"]["id"] == "kernel_p"
+
+
 def test_kernel_gate_summary_scopes_to_required_kernels_only():
     runs = [
         {
@@ -285,6 +302,12 @@ def test_build_run_telemetry_coerces_invalid_override_metrics():
         contract_pass_rate="bad",  # type: ignore[arg-type]
     )
     assert run["quality_signals"]["contract_pass_rate"] == 1.0
+
+
+def test_kernel_gate_summary_marks_missing_metrics_explicitly():
+    runs = [{"expected_kernel_id": "kernel_p", "merlin_telemetry": {"kernel": {"id": "kernel_p"}, "quality_signals": {"contract_pass_rate": 1.0}}}]
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(runs, required_kernel_ids=["kernel_p"])
+    assert "contradiction_miss_rate" in summary["kernels"]["kernel_p"]["missing_metrics"]
 
 
 def test_match_benchmark_for_query_uses_keywords():
