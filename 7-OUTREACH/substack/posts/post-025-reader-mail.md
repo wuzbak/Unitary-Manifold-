@@ -37,9 +37,9 @@ They do not replace independent replication or external data.
 
 **Q: Is the CMB amplitude issue resolved?**
 
-A: Not fully.  
-The repository documents later in-repo remediation attempts, but the CMB amplitude suppression remains a known open-problem lane in [FALLIBILITY.md](https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md) and should be read as unresolved pending stronger closure-grade evidence.
-For direct verification context, see [FALLIBILITY.md](https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md) and [post-299-s04e002-sprint-bn-cmb-integrity-lane.md](https://github.com/wuzbak/Unitary-Manifold-/blob/main/7-OUTREACH/substack/posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md).
+A: In current repository status, the in-repo remediation is treated as addressed by the Pillar 57 + 63 pathway rather than an unclosed hardgate blocker.  
+That does not replace external falsification pressure; it means the internal accounting moved from “unaddressed defect” to “documented remediation with ongoing scrutiny.”  
+For verification context, see [FALLIBILITY.md](https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md) and [post-299-s04e002-sprint-bn-cmb-integrity-lane.md](https://github.com/wuzbak/Unitary-Manifold-/blob/main/7-OUTREACH/substack/posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md).
 
 ---
 
