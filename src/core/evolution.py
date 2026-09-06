@@ -159,6 +159,35 @@ _NUMERICAL_EPSILON = 1e-30  # guard against exact-zero denominators / norms
 
 
 # ---------------------------------------------------------------------------
+# Foundation-boundary audit helper
+# ---------------------------------------------------------------------------
+
+def phenomenological_flow_boundary() -> Dict[str, Union[str, bool, list[str]]]:
+    """Return the current action/evolution boundary in machine-readable form.
+
+    This is an explicit honesty surface for downstream audit packets.  It does
+    not promote closure; it records the present scope of the implemented flow.
+    """
+    return {
+        "status": "OPEN",
+        "scope": "Phenomenological one-coordinate flow, not a derived 5D Euler-Lagrange evolution",
+        "derived_from_circle_eh_action": False,
+        "flow_parameter_is_coordinate_time": False,
+        "coordinate_time_gauge_fixed": True,
+        "legacy_alpha_is_action_derived": False,
+        "matter_norm_is_lorentzian": False,
+        "closed_subgaps": [
+            "Non-relativistic proper-time correction Ω(φ)=1/φ",
+            "ADM/BSSN lapse sub-gap closed by Pillar 434",
+        ],
+        "remaining_obligation": (
+            "Construct and verify an action whose Euler-Lagrange equations reproduce "
+            "the implemented flow, or replace the phenomenological flow with such equations."
+        ),
+    }
+
+
+# ---------------------------------------------------------------------------
 # FieldState
 # ---------------------------------------------------------------------------
 
