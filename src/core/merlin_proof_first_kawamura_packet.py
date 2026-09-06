@@ -127,12 +127,16 @@ def _substack_state(article_path: Path, article_sections: dict[str, bool]) -> di
 
 def _fail_closed_packet(*, target_gap_id: str = "", charter: dict[str, Any] | None = None, ledger: dict[str, Any] | None = None, cross_review: dict[str, Any] | None = None, article_path: Path | None = None, article_sections: dict[str, bool] | None = None) -> Dict[str, Any]:
     resolved_article_path = article_path or _SUBSTACK_POST
+    ledger_payload = ledger or {}
+    classification_buckets = ledger_payload.get("classification_buckets") or {}
+    open_residuals = classification_buckets.get("open_residuals") if isinstance(classification_buckets, dict) else None
+    open_residual_count = len(open_residuals) if isinstance(open_residuals, list) else 0
     return {
         "target_gap_id": target_gap_id,
         "charter": charter or {},
-        "burden_ledger": ledger or {},
+        "burden_ledger": ledger_payload,
         "cross_review_packet": cross_review or {},
-        "open_residual_count": 0,
+        "open_residual_count": open_residual_count,
         "lean4": _lean4_state(_read_text(_LEAN4_FILE)),
         "substack_article": _substack_state(resolved_article_path, article_sections or {}),
         "final_verdict": "still_open",
