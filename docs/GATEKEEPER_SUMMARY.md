@@ -10,8 +10,8 @@
 > Sprint CI isolates the metric/coupling bookkeeping, but photon origin, action-to-evolution equivalence, flavor uniqueness, CMB predictivity, and the shared UV object remain open.
 > See [the precise findings and verification scope](TRUTH_LAYER.md#foundation-reassessment).
 > Historical test/theorem totals must not be read as discharged physics obligations.
-> Verified full regression in the current branch: **63,513 passed, 46 skipped,
-> 18 deselected, 0 failed**. CodeQL analysis was skipped for database size;
+> Verified full regression in the current branch: **63,513 passed · 46 skipped ·
+> 18 deselected · 0 failed**. CodeQL analysis was skipped for database size;
 > manual review and secret scans do not replace the missing automated analysis.
 
 *Concise, auditable summary for scientific referees, journal editors,
