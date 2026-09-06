@@ -395,7 +395,7 @@ def evaluate_kernel_gate_summary(
         per_kernel.setdefault(kernel_id, []).append(telemetry)
 
     kernel_ids_to_check = (
-        sorted(per_kernel.keys())
+        sorted(KERNEL_GATE_THRESHOLDS.keys())
         if required_kernel_ids is None
         else requested_kernel_ids
     )

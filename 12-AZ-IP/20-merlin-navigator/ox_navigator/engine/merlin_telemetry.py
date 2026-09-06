@@ -55,6 +55,13 @@ def _contract_compliant(answer: str) -> bool:
     return bool(sample.strip()) and "FOLLOWUPS:" in sample and "Sources:" in sample
 
 
+def _safe_float(value: Any, default: float) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
 def _kernel_profile(router_decision: dict[str, Any], *, context_source: str, query: str) -> dict[str, Any]:
     lane = str(router_decision.get("lane") or "medium_reasoner_default")
     kernel_hint = str(router_decision.get("kernel_hint") or "").strip().lower()
@@ -120,10 +127,10 @@ def build_run_telemetry(
     kernel = _kernel_profile(router_decision, context_source=context_source, query=query)
     provenance_sources = list(provenance.get("sources") or [])
     contract_ok = _contract_compliant(answer)
-    contract_rate = float(contract_pass_rate) if contract_pass_rate is not None else (1.0 if contract_ok else 0.0)
-    boundary_rate = float(boundary_violation_rate) if boundary_violation_rate is not None else 0.0
-    contradiction_rate = float(contradiction_miss_rate) if contradiction_miss_rate is not None else 0.0
-    tool_precision = float(tool_call_precision) if tool_call_precision is not None else 0.5
+    contract_rate = _safe_float(contract_pass_rate, 1.0 if contract_ok else 0.0) if contract_pass_rate is not None else (1.0 if contract_ok else 0.0)
+    boundary_rate = _safe_float(boundary_violation_rate, 0.0) if boundary_violation_rate is not None else 0.0
+    contradiction_rate = _safe_float(contradiction_miss_rate, 0.0) if contradiction_miss_rate is not None else 0.0
+    tool_precision = _safe_float(tool_call_precision, 0.5) if tool_call_precision is not None else 0.5
     return {
         "recorded_at": _utcnow(),
         "query": query,

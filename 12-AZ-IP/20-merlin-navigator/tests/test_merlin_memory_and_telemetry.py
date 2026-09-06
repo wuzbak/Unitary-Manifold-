@@ -269,6 +269,24 @@ def test_kernel_gate_summary_preserves_required_scope_without_receipts():
     assert summary["kernels"]["kernel_a"]["decision"] == "hold"
 
 
+def test_build_run_telemetry_coerces_invalid_override_metrics():
+    run = build_run_telemetry(
+        query="status",
+        answer="HARDGATE\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={"provider": "sovereign_local", "lane": "small_fast_router"},
+        context_source="sovereign_local_model",
+        tool_rounds=0,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "knowledge_base"}]},
+        gate_badges=["HARDGATE"],
+        memory_hits=0,
+        contradiction_events=0,
+        latency_ms=1.0,
+        contract_pass_rate="bad",  # type: ignore[arg-type]
+    )
+    assert run["quality_signals"]["contract_pass_rate"] == 1.0
+
+
 def test_match_benchmark_for_query_uses_keywords():
     match = match_benchmark_for_query('What is the birefringence prediction and how could LiteBIRD falsify it?')
     assert match is not None
