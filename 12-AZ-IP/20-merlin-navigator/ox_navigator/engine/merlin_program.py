@@ -1503,7 +1503,6 @@ def build_training_dataset_bundle(
                 "duplicate_of": dedupe_registry[key],
             })
             return False
-        dedupe_registry[key] = str(record.get("record_id") or record.get("benchmark_id") or "")
         if kind == "training":
             if not _passes_training_quality_filter(record):
                 quality_rejections.append({
@@ -1531,6 +1530,7 @@ def build_training_dataset_bundle(
                 "errors": errors,
             })
             return False
+        dedupe_registry[key] = str(record.get("record_id") or record.get("benchmark_id") or "")
         return True
 
     for example in seed_examples:
