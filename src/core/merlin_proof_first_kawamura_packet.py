@@ -64,7 +64,9 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     theorem_count = _count_theorems(lean_text)
     marker_hits = {marker: marker in lean_text for marker in _SEMANTIC_MARKERS}
     target_gap_id = str(charter.get("target_gap_id", ""))
-    required_sections = list(charter.get("article_contract", {}).get("required_sections") or [])
+    required_sections_raw = (charter.get("article_contract") or {}).get("required_sections")
+    required_sections = required_sections_raw if isinstance(required_sections_raw, list) else []
+    required_sections_valid = isinstance(required_sections_raw, list)
     article_sections = _article_section_hits(article_text, required_sections)
     classification_buckets_raw = ledger.get("classification_buckets")
     classification_buckets = (
@@ -79,6 +81,7 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
 
     valid = bool(
         bool(target_gap_id)
+        and required_sections_valid
         and open_items_valid
         and stewardship.get("default_final_verdict_until_residual_is_discharged") == "still_open"
         and ledger.get("target_gap_id") == target_gap_id
