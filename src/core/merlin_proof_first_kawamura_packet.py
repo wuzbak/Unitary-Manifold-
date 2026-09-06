@@ -69,14 +69,16 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     classification_buckets = ledger.get("classification_buckets") or {}
     open_items = list(classification_buckets.get("open_residuals") or [])
     residual_match = any(str(item.get("gap_id", "")) == target_gap_id for item in open_items)
+    stewardship = charter.get("stewardship") or {}
+    reconciliation_policy = cross_review.get("reconciliation_policy") or {}
 
     valid = bool(
         bool(target_gap_id)
-        and charter["stewardship"]["default_final_verdict_until_residual_is_discharged"] == "still_open"
+        and stewardship.get("default_final_verdict_until_residual_is_discharged") == "still_open"
         and ledger.get("target_gap_id") == target_gap_id
-        and ledger["final_verdict_if_executed_today"] == "still_open"
+        and ledger.get("final_verdict_if_executed_today") == "still_open"
         and residual_match
-        and cross_review["reconciliation_policy"]["final_verdict_if_unresolved_objection"] == "still_open"
+        and reconciliation_policy.get("final_verdict_if_unresolved_objection") == "still_open"
         and _LEAN4_FILE.exists()
         and theorem_count == _EXPECTED_THEOREM_COUNT
         and all(marker_hits.values())

@@ -162,3 +162,32 @@ def test_missing_ledger_structure_fails_closed(monkeypatch) -> None:
     packet = merlin_proof_first_kawamura_packet()
     assert packet["burden_ledger"]["target_gap_id"] == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
     assert packet["valid"] is False
+
+
+def test_missing_nested_policy_fields_fail_closed(monkeypatch) -> None:
+    class _FakeProgram:
+        @staticmethod
+        def get_proof_first_closure_charter():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "article_contract": {"required_sections": []},
+            }
+
+        @staticmethod
+        def get_kawamura_closure_burden_ledger():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "classification_buckets": {
+                    "open_residuals": [{"gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"}]
+                },
+                "final_verdict_if_executed_today": "still_open",
+            }
+
+        @staticmethod
+        def get_merlin_cross_review_packet():
+            return {}
+
+    monkeypatch.setattr(packet_mod, "_load_program_module", lambda: _FakeProgram())
+    packet = merlin_proof_first_kawamura_packet()
+    assert packet["target_gap_id"] == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
+    assert packet["valid"] is False
