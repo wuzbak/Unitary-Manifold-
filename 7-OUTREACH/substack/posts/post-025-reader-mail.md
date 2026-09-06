@@ -99,7 +99,8 @@ A: Serious and professional, with enough self-awareness to avoid pretending unce
 **→ GitHub:** [github.com/wuzbak/Unitary-Manifold-](https://github.com/wuzbak/Unitary-Manifold-)  
 **→ Zenodo DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)  
 **→ Prerequisite setup:** install dependencies first via `pip install -r requirements.txt` (or use the repository [README quickstart](https://github.com/wuzbak/Unitary-Manifold-/blob/main/README.md)).  
-**→ Quick check path:** `python VERIFY.py`
+**→ Lightweight quick check:** `python VERIFY.py`  
+**→ Canonical verification:** `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
 
 ---
 
