@@ -1431,6 +1431,30 @@ def test_server_training_export_validation_failures_return_422(monkeypatch):
         thread.join(timeout=2)
 
 
+def test_server_training_curation_malformed_tool_payload_returns_500(monkeypatch):
+    from ox_navigator.app import server as server_module
+
+    monkeypatch.setattr(
+        server_module,
+        'route_tool',
+        lambda tool, args=None, session=None: {'ok': True, 'result': {'data': {}}},
+    )
+
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        port = httpd.server_address[1]
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+            training_curation = client.get('/api/merlin/training-curation?limit=4')
+            assert training_curation.status_code == 500
+            assert training_curation.json()['ok'] is False
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
 def test_route_tool_schema_validation_blocks_invalid_args():
     payload = route_tool('getPillar', {'pillar_id': 'not-int'})
     assert payload['ok'] is False

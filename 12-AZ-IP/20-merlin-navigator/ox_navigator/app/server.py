@@ -527,6 +527,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._persist_session(session_id, merlin_session)
                     return
                 curation_payload = dict(((routed.get('result') or {}).get('data') or {}))
+                if 'ok' not in curation_payload or 'curation_ledger' not in curation_payload:
+                    self._json({'ok': False, 'error': 'Merlin tool returned malformed curation payload.'}, status=500)
+                    self._persist_session(session_id, merlin_session)
+                    return
                 self._json({
                     'ok': bool(curation_payload.get('ok')),
                     'training_curation': dict(curation_payload.get('curation_ledger') or {}),
