@@ -63,6 +63,18 @@ def test_empty_evidence_reviewed_fails_closed(monkeypatch) -> None:
     assert report["valid"] is False
 
 
+def test_mismatched_blocker_state_after_fails_closed(monkeypatch) -> None:
+    packet = p1083.foundation_first_photon_action_audit()
+    packet["merlin_handoff"] = {
+        **packet["merlin_handoff"],
+        "blocker_state_after": ["wrong blocker"],
+    }
+    monkeypatch.setattr(p1083, "foundation_first_photon_action_audit", lambda: packet)
+    report = sprint_ci_foundation_certificate()
+    assert report["merlin_handoff_ok"] is False
+    assert report["valid"] is False
+
+
 def test_summary() -> None:
     summary = pillar1083_summary()
     assert summary["status"] == PILLAR_STATUS

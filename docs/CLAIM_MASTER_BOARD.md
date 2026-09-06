@@ -21,7 +21,7 @@ Detailed assumptions, counterexamples, and verification record:
 [TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment).
 All observational falsifiers remain unchanged, including the closed forbidden
 birefringence gap [0.29°, 0.31°].
-Sprint CI targeted validation passed 51 tests with zero failures, and the
+Sprint CI targeted validation passed 123 tests with zero failures, and the
 verified full regression in the current branch is 63,513 passed · 46 skipped ·
 18 deselected · 0 failed. This verifies neither empirical agreement nor the
 still-open physical obligations in the table.
