@@ -403,6 +403,15 @@ class TestMetricVolumePreservation:
         g_proj = _project_metric_volume(g)
         np.testing.assert_allclose(g_proj, g, atol=1e-14)
 
+    def test_project_falls_back_to_minkowski_on_wrong_sign_det(self):
+        """Positive-determinant inputs must not produce NaNs."""
+        eta = np.diag([-1.0, 1.0, 1.0, 1.0])
+        g = np.tile(eta, (2, 1, 1))
+        g[1] = np.eye(4)
+        g_proj = _project_metric_volume(g)
+        np.testing.assert_allclose(g_proj[0], eta, atol=1e-14)
+        np.testing.assert_allclose(g_proj[1], eta, atol=1e-14)
+
     def test_step_det_pinned_after_rk4(self, flat_state_small):
         """After step(), det(g) must equal −1 at every grid point."""
         s1 = step(flat_state_small, 1e-3)
