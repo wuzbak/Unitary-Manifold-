@@ -20,18 +20,42 @@ NEXT_PILLAR_SLOT: int = 1084
 PRIMARY_LANE: str = "FOUNDATION_PHOTON_ACTION"
 
 _ROOT = Path(__file__).resolve().parents[2]
-PUBLICATION_PACKET = {
-    "findings_report": _ROOT
-    / "7-OUTREACH/self-run-reports/FINDINGS_REPORT_2026-09-06_SRR-20260906-P1083-R1.md",
-    "execution_report": _ROOT
-    / "7-OUTREACH/substack/posts/post-321-s04e024-sprint-ci-foundation-lane-execution.md",
-    "findings_post": _ROOT
-    / "7-OUTREACH/substack/posts/post-322-s04e025-sprint-ci-photon-action-findings.md",
-    "merlin_handoff_post": _ROOT
-    / "7-OUTREACH/substack/posts/post-323-s04e026-sprint-ci-merlin-handoff-and-next-sprint-map.md",
-    "closeout_post": _ROOT
-    / "7-OUTREACH/substack/posts/post-324-s04e027-sprint-ci-closeout-verdict.md",
-}
+_TRACKER_PATH = _ROOT / "docs/mas_tracker.yml"
+_TRACKER_KEY = "v36_5_sprint_ci"
+
+
+def _load_publication_packet() -> Dict[str, Path]:
+    lines = _TRACKER_PATH.read_text(encoding="utf-8").splitlines()
+    in_sprint = False
+    in_packet = False
+    packet: Dict[str, Path] = {}
+
+    for line in lines:
+        if not in_sprint:
+            if line == f"{_TRACKER_KEY}:":
+                in_sprint = True
+            continue
+
+        if line and not line.startswith(" "):
+            break
+
+        if not in_packet:
+            if line.strip() == "publication_packet:":
+                in_packet = True
+            continue
+
+        if not line.startswith("    "):
+            break
+
+        key, _, raw_value = line.strip().partition(":")
+        value = raw_value.strip().strip('"')
+        if key and value:
+            packet[key] = _ROOT / value
+
+    return packet
+
+
+PUBLICATION_PACKET = _load_publication_packet()
 
 
 def _publication_packet_check() -> Dict[str, Any]:

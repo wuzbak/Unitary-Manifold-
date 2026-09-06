@@ -64,6 +64,12 @@ v36_5_sprint_ci:
     - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
   regression: "63,513 passed · 46 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
   focused_regression: "Sprint CI targeted tests 123 passed · 0 failed"
+  publication_packet:
+    findings_report: "7-OUTREACH/self-run-reports/FINDINGS_REPORT_2026-09-06_SRR-20260906-P1083-R1.md"
+    execution_report: "7-OUTREACH/substack/posts/post-321-s04e024-sprint-ci-foundation-lane-execution.md"
+    findings_post: "7-OUTREACH/substack/posts/post-322-s04e025-sprint-ci-photon-action-findings.md"
+    merlin_handoff_post: "7-OUTREACH/substack/posts/post-323-s04e026-sprint-ci-merlin-handoff-and-next-sprint-map.md"
+    closeout_post: "7-OUTREACH/substack/posts/post-324-s04e027-sprint-ci-closeout-verdict.md"
   next_pillar_slot: 1084
 
 v36_4_sprint_ch:
