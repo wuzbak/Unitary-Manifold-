@@ -34,15 +34,21 @@ Work order is newest → oldest so we can repair the highest-visibility surfaces
 - `posts/post-302-s04e005-v36-2-parallel-audit-remediation.md` (kept; already aligned)
 - `posts/post-301-s04e004-v35-1-repository-status-sanity-check.md` (kept as historical incident report)
 - `posts/post-300-s04e003-axiomzero-apps-spaces-complete-2026-state.md` (kept; already aligned)
+- `posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md` (rewritten)
+- `posts/post-298-s04e001-sprint-bn-one-shared-state-full-attempt.md` (rewritten)
+- `posts/post-297-s03e075-where-we-are-september-2026.md` (rewritten)
+- `posts/post-296-s03e074-sprint-bi-fallibility-closures.md` (rewritten)
+- `posts/post-295-s03e073-sprint-bh-g4-explicit-architecture-confirmation.md` (rewritten)
+- `posts/post-294-s03e072-sprint-bg-g4-flux-lattice.md` (rewritten)
 
 ### Rewritten high-risk legacy voice surfaces
 - `posts/post-025-reader-mail.md` (full rewrite for current honesty/tone contract)
 - `posts/post-we-were-just-going-to-check-one-thing.md` (opening voice/positioning rewrite)
-- `books/book-we-were-just-going-to-check-one-thing.md` (opening voice/positioning rewrite)
+- `books/book-we-were-just-going-to-check-one-thing.md` (restored to original anchor voice opening)
 
 ## Next starting point (continue backward)
 
-- Resume strict reverse order at: `posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md`
+- Resume strict reverse order at: `posts/post-293-s03e071-sprint-bf-rung10-nl-parity-matter-curve.md`
 - Then continue descending through all remaining `posts/post-*.md` down to `post-026-*`
 - After `post-026-*`, continue from `post-024-*` and older
 - After posts sweep, continue newest → oldest in `books/`
