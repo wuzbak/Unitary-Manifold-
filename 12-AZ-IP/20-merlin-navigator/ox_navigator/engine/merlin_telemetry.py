@@ -132,6 +132,8 @@ def build_run_telemetry(
     provenance_sources = list(provenance.get("sources") or [])
     contract_ok = _contract_compliant(answer)
     contract_rate = _safe_float(contract_pass_rate, 1.0 if contract_ok else 0.0) if contract_pass_rate is not None else (1.0 if contract_ok else 0.0)
+    if not contract_ok:
+        contract_rate = 0.0
     boundary_rate = _safe_float(boundary_violation_rate, 0.0) if boundary_violation_rate is not None else 0.0
     contradiction_rate = _safe_float(contradiction_miss_rate, 0.0) if contradiction_miss_rate is not None else 0.0
     tool_precision = _safe_float(tool_call_precision, 0.5) if tool_call_precision is not None else 0.5

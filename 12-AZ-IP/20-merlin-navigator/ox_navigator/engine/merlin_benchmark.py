@@ -385,7 +385,7 @@ def evaluate_kernel_gate_summary(
         per_kernel.setdefault(kernel_id, []).append(telemetry)
 
     kernel_ids_to_check = (
-        sorted(KERNEL_GATE_THRESHOLDS.keys())
+        sorted(per_kernel.keys())
         if required_kernel_ids is None
         else requested_kernel_ids
     )
@@ -500,7 +500,8 @@ def evaluate_kernel_gate_summary(
 def _build_lane_shadow_deployment(kernel_gate_summary: dict[str, Any]) -> dict[str, Any]:
     kernels = dict(kernel_gate_summary.get("kernels") or {})
     lanes = []
-    for kernel_id, payload in kernels.items():
+    for kernel_id in sorted(kernels.keys()):
+        payload = dict(kernels.get(kernel_id) or {})
         gate_pass = bool(payload.get("gate_pass"))
         lanes.append(
             {
@@ -808,7 +809,10 @@ def build_promotion_packet(
     empirical = evaluate_empirical_gate(comparable_runs)
     kernel_gates = dict(kernel_gate_summary or {})
     if not kernel_gates:
-        kernel_gates = evaluate_kernel_gate_summary(comparable_runs)
+        kernel_gates = evaluate_kernel_gate_summary(
+            comparable_runs,
+            required_kernel_ids=sorted(KERNEL_GATE_THRESHOLDS.keys()),
+        )
     evidence_present = bool(comparable_runs)
     sync_gate = bool(sync_checks_ok) if sync_checks_ok is not None else True
     kernel_gate_pass = bool(kernel_gates.get("gate_pass"))

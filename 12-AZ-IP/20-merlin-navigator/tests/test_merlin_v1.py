@@ -482,6 +482,8 @@ def test_route_tool_program_office_and_control_tower():
     assert 'deployment_eligibility' in data
     assert 'drift_alerts' in data
     assert 'lane_shadow_deployment' in data
+    lane_ids = [item['kernel_id'] for item in data['lane_shadow_deployment']['lanes']]
+    assert lane_ids == sorted(lane_ids)
     assert 'mentorship_to_runtime' in data
     assert data['mentorship_to_runtime']['checks']['faculty_artifacts_landed'] is True
     assert data['mentorship_to_runtime']['checks']['exchange_cycle_complete'] is False

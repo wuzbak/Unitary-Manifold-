@@ -304,6 +304,24 @@ def test_build_run_telemetry_coerces_invalid_override_metrics():
     assert run["quality_signals"]["contract_pass_rate"] == 1.0
 
 
+def test_build_run_telemetry_contract_override_cannot_bypass_failed_contract():
+    run = build_run_telemetry(
+        query="status",
+        answer="no contract sections",
+        router_decision={"provider": "sovereign_local", "lane": "small_fast_router"},
+        context_source="sovereign_local_model",
+        tool_rounds=0,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "knowledge_base"}]},
+        gate_badges=["HARDGATE"],
+        memory_hits=0,
+        contradiction_events=0,
+        latency_ms=1.0,
+        contract_pass_rate=1.0,
+    )
+    assert run["quality_signals"]["contract_pass_rate"] == 0.0
+
+
 def test_kernel_gate_summary_marks_missing_metrics_explicitly():
     runs = [{"expected_kernel_id": "kernel_p", "merlin_telemetry": {"kernel": {"id": "kernel_p"}, "quality_signals": {"contract_pass_rate": 1.0}}}]
     summary = merlin_benchmark.evaluate_kernel_gate_summary(runs, required_kernel_ids=["kernel_p"])
