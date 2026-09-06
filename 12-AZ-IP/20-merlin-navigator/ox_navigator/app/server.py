@@ -508,7 +508,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({'ok': False, 'error': error}, status=400)
                     return
                 compiled = merlin_session.get_compiled_training_insights()
-                self._json(build_training_dataset_bundle(limit=limit, compiled_insights=compiled))
+                dataset_payload = build_training_dataset_bundle(limit=limit, compiled_insights=compiled)
+                self._json(dataset_payload, status=200 if dataset_payload.get('ok') else 422)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/training-curation':
