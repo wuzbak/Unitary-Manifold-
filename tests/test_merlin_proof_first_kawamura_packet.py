@@ -263,7 +263,9 @@ def test_missing_nested_policy_fields_fail_closed(monkeypatch) -> None:
 
         @staticmethod
         def get_merlin_cross_review_packet():
-            return {}
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+            }
 
     monkeypatch.setattr(packet_mod, "_load_program_module", lambda: _FakeProgram())
     packet = merlin_proof_first_kawamura_packet()
