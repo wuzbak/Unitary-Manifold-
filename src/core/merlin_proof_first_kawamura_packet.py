@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import importlib
 from pathlib import Path
-from typing import Any, Dict, Protocol
+from typing import Any, Callable, Dict, Protocol
 
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 
@@ -32,11 +32,9 @@ _SECTION_HEADINGS = {
 
 
 class _MerlinProgramProtocol(Protocol):
-    def get_proof_first_closure_charter(self) -> dict[str, Any]: ...
-
-    def get_kawamura_closure_burden_ledger(self) -> dict[str, Any]: ...
-
-    def get_merlin_cross_review_packet(self) -> dict[str, Any]: ...
+    get_proof_first_closure_charter: Callable[[], dict[str, Any]]
+    get_kawamura_closure_burden_ledger: Callable[[], dict[str, Any]]
+    get_merlin_cross_review_packet: Callable[[], dict[str, Any]]
 
 
 def _load_program_module() -> _MerlinProgramProtocol:
@@ -45,7 +43,12 @@ def _load_program_module() -> _MerlinProgramProtocol:
 
 
 def _read_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8") if path.exists() else ""
+    if not path.exists():
+        return ""
+    try:
+        return path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError):
+        return ""
 
 
 def _count_theorems(text: str) -> int:
