@@ -20,42 +20,21 @@ NEXT_PILLAR_SLOT: int = 1084
 PRIMARY_LANE: str = "FOUNDATION_PHOTON_ACTION"
 
 _ROOT = Path(__file__).resolve().parents[2]
-_TRACKER_PATH = _ROOT / "docs/mas_tracker.yml"
+_PUBLICATION_PACKET_PATH = _ROOT / "docs/sprint_publication_packets.yml"
 _TRACKER_KEY = "v36_5_sprint_ci"
 
 
 def _load_publication_packet() -> Dict[str, Path]:
-    lines = _TRACKER_PATH.read_text(encoding="utf-8").splitlines()
-    in_sprint = False
-    in_packet = False
-    packet: Dict[str, Path] = {}
+    try:
+        import yaml  # type: ignore[import]
+    except ImportError:
+        return {}
 
-    for line in lines:
-        if not in_sprint:
-            if line == f"{_TRACKER_KEY}:":
-                in_sprint = True
-            continue
-
-        if line and not line.startswith(" "):
-            break
-
-        if not in_packet:
-            if line.strip() == "publication_packet:":
-                in_packet = True
-            continue
-
-        indent = len(line) - len(line.lstrip(" "))
-        if indent < 4:
-            break
-        if indent != 4:
-            continue
-
-        key, _, raw_value = line.strip().partition(":")
-        value = raw_value.strip().strip('"')
-        if key and value:
-            packet[key] = _ROOT / value
-
-    return packet
+    data = yaml.safe_load(_PUBLICATION_PACKET_PATH.read_text(encoding="utf-8")) or {}
+    packet = data.get(_TRACKER_KEY, {}) if isinstance(data, dict) else {}
+    if not isinstance(packet, dict):
+        return {}
+    return {name: _ROOT / str(path) for name, path in packet.items()}
 
 
 PUBLICATION_PACKET = _load_publication_packet()
