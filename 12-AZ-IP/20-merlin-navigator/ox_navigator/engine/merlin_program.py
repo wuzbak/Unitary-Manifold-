@@ -1565,7 +1565,7 @@ def _build_training_curation_ledger(
         reason = str(item.get("reason") or "unknown")
         rejection_reasons[reason] = rejection_reasons.get(reason, 0) + 1
     for item in quality_rejections:
-        rejected_token_estimate += _estimate_sample_tokens({"instruction": item.get("record_id", "")})
+        rejected_token_estimate += int(item.get("token_estimate", 0) or 0)
     accepted_by_source_family: dict[str, int] = {}
     accepted_by_kernel: dict[str, int] = {kernel_id: 0 for kernel_id in MERLIN_PENTAD_KERNELS}
     for record in accepted_training:
@@ -1647,6 +1647,7 @@ def build_training_dataset_bundle(
                 "record_id": str(record.get("record_id") or record.get("benchmark_id") or ""),
                 "reason": "deduplicated_duplicate",
                 "duplicate_of": dedupe_registry[key],
+                "token_estimate": _estimate_sample_tokens(record),
             })
             return False
         if kind == "training":
@@ -1664,6 +1665,7 @@ def build_training_dataset_bundle(
                     "kind": kind,
                     "record_id": str(record.get("record_id") or ""),
                     "reason": "quality_filter_failed",
+                    "token_estimate": _estimate_sample_tokens(record),
                 })
                 return False
         else:
@@ -1682,6 +1684,7 @@ def build_training_dataset_bundle(
                     "record_id": str(record.get("benchmark_id") or ""),
                     "reason": "quality_filter_failed",
                     "stage": stage,
+                    "token_estimate": _estimate_sample_tokens(record),
                 })
                 return False
         dedupe_registry[key] = str(record.get("record_id") or record.get("benchmark_id") or key)
