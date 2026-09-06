@@ -1,21 +1,21 @@
 {
-  "version": "v36.4",
-  "tests_passed": 63892,
-  "tests_skipped": 23,
-  "tests_deselected": 12,
+  "version": "v36.5",
+  "tests_passed": 63962,
+  "tests_skipped": 33,
+  "tests_deselected": 18,
   "tests_failed": 0,
   "lean4_theorems": 4080,
   "pillars_hardgate": 208,
-  "pillars_total": 1081,
-  "next_pillar_slot": 1082,
-  "primary_falsifier": "LiteBIRD \u03b2 \u2208 {0.273\u00b0, 0.331\u00b0} (~2032)",
+  "pillars_total": 1083,
+  "next_pillar_slot": 1084,
+  "primary_falsifier": "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)",
   "open_tensions": [
     {
       "name": "Flavor family boundary",
       "status": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED / FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED / JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED"
     },
     {
-      "name": "\u03b1_s Type-B floor",
+      "name": "α_s Type-B floor",
       "status": "ALPHA_S_TYPE_B_FLOOR"
     },
     {
@@ -34,7 +34,7 @@
   "epistemic_status": "foundation reassessment: historical test and theorem counts do not establish physical derivations; photon origin, flavor uniqueness, independent CMB normalization and UV predictivity remain open; external empirical confirmation pending",
   "organization": "AxiomZero Technologies & Consulting, SPC",
   "ubi": "606 239 876",
-  "date": "2026-09-05",
+  "date": "2026-09-06",
   "predictions": {
     "r": {
       "um": 0.0315,
