@@ -4,6 +4,8 @@ This roadmap is the operational build plan for turning Merlin from a retrieval-f
 
 It is deliberately strict: no capability claim is accepted without benchmark receipts, and no promotion is accepted without fail-closed governance checks.
 
+If you want the concise version first, read `MERLIN_SMART_ROADMAP.md` before this full plan.
+
 ---
 
 ## 0) Baseline and constraints (starting point)

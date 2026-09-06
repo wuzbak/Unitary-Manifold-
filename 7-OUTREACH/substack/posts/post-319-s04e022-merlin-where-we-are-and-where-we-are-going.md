@@ -6,6 +6,16 @@ This matters because most model narratives optimize for impressive demos first a
 
 ---
 
+## If you are new: fastest research path
+
+Use the canonical start-here path in:
+
+- [`12-AZ-IP/20-merlin-navigator/MERLIN_SMART_ROADMAP.md`](../../../12-AZ-IP/20-merlin-navigator/MERLIN_SMART_ROADMAP.md)
+
+That document is the maintained short-to-deep reading sequence.
+
+---
+
 ## Where Merlin is now
 
 Merlin already has several meaningful foundations in place:
@@ -85,6 +95,17 @@ The budget strategy is disciplined:
 - and measure token spend per accepted training sample.
 
 The objective is not zero token use; it is **high signal per token** and sustainable iteration.
+
+---
+
+## What we are deliberately deprioritizing
+
+- Broad "frontier" rhetoric without receipts
+- Token-expensive default pipelines
+- One-shot benchmark wins used as promotion evidence
+- Scope expansion that weakens governance controls
+
+The immediate priority is disciplined, auditable capability growth in a narrow domain.
 
 ---
 

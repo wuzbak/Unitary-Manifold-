@@ -1,120 +1,83 @@
-# The CMB Integrity Line
+# Sprint BN: The CMB Integrity Line
 
-**Unitary Manifold — S04E002 · v34.4 · Sprint BN**
-
----
-
-The claim of this post is that the repository now distinguishes, in executable form, between a calibrated CMB scalar amplitude and a predicted one. This claim would fail if λ_COBE in the current code stopped depending on an external A_s target and produced the observed normalization from first principles alone. It does not.
-
-That distinction sounds technical. It is actually ethical.
-
-If a theory chooses a parameter so that the answer matches the sky, that is calibration. If the theory produces the answer before seeing the sky, that is prediction. The two are not interchangeable.
-
-Sprint BN makes that boundary machine-checkable in **Pillar 999**.
+**Unitary Manifold — S04E002 · v34.4**
 
 ---
 
-## What Pillar 999 does
+This post makes one claim and one boundary.
 
-Pillar 999 asks a brutally simple question:
+**Claim:** Sprint BN formalized an executable distinction between calibrated amplitude and predicted amplitude in the CMB lane.  
+**Boundary:** that lane remains open unless the normalization is derived without borrowing observational target values.
 
-If you double the input target amplitude, what happens to the COBE-normalization parameter?
+If either statement becomes false in code, this post is obsolete and should be corrected.
 
-In the checked-in lane, λ_COBE scales with the supplied target. That means the pivot normalization is being fit to an observational input. It is not emerging independently from the geometry.
+---
 
-The pillar therefore labels the result exactly as it should be labeled:
+## Why this lane matters
+
+CMB amplitude language is where overclaim can quietly enter a project.
+
+If a pipeline receives an observed target and back-solves a normalization constant, that is calibration.
+If the same constant is generated before comparison, that is prediction.
+
+Both are useful. They are not interchangeable.
+
+Sprint BN keeps that line explicit.
+
+---
+
+## What Pillar 999 actually tests
+
+Pillar 999 applies a simple stress test:
+
+- perturb the supplied scalar-amplitude target,
+- observe how λ_COBE responds,
+- check whether response is independent or target-coupled.
+
+In the current lane, λ_COBE scales with the supplied target. That means the normalization is calibrated in this architecture.
+
+The registered label is therefore:
 
 `CALIBRATED_NOT_PREDICTED`
 
-That single phrase removes a large amount of ambiguity.
+That is not a rhetorical downgrade. It is the correct technical label.
 
 ---
 
-## Why this was necessary
+## What remains true at the same time
 
-The CMB amplitude problem has been the hardest quantitative issue in the repository for a long time.
+The repository still carries strong results in adjacent CMB-relevant lanes:
 
-The framework gets the spectral index n_s right.
-It keeps the braided tensor ratio viable.
-It has a clean birefringence falsifier.
+- spectral index agreement pathway,
+- braided tensor-ratio viability,
+- explicit birefringence falsifier windows.
 
-But the acoustic peak amplitude remains off by a factor of about 4–7 in the checked-in EFT architecture.
-
-That gap should not be blurred by the fact that one can always choose a normalization parameter after the fact.
-
-Pillar 999 prevents that blur.
+Those do not erase the amplitude status. The amplitude lane stands on its own evidence.
 
 ---
 
-## What the pillar links together
+## What would change this label
 
-It does not just correct a label. It also connects the calibration boundary to the terminal evidence chain:
+Not wording. Mechanism.
 
-- KK tower correction,
-- brane backreaction,
-- rolling-radion route,
-- Wess-Zumino cross-check,
-- residual-budget accounting.
+A closure-grade upgrade requires a route that:
 
-All four EFT routes remain exhausted.
+1. derives normalization without fitted observational amplitude targets,
+2. survives transfer-chain propagation to multipole space,
+3. remains stable under branch reruns,
+4. passes the same gate logic without hidden rescue parameters.
 
-So the sprint does not say, "maybe the answer is hiding in one more small correction."
-
-It says:
-
-inside the current architecture, the answer is not there.
+Until then, the open-lane status remains explicit in truth surfaces.
 
 ---
 
-## What would change the status
+## Why this is a credibility gain
 
-Not a new sentence.
+Research trust increases when a repository refuses to count fitted agreement as predictive closure.
 
-A new mechanism.
+Sprint BN did not “solve” this lane. It made the lane harder to misstate.
 
-The CMB amplitude lane can only be upgraded if the repository derives the normalization and transfer response without an observational A_s target or an equivalent fitted substitute.
-
-In other words, a future UV/global completion has to do real work:
-
-- produce the amplitude,
-- propagate it through the acoustic transfer chain,
-- survive comparison with the observed multipoles,
-- do all of that without borrowing the answer from the data.
-
-Until then, the honest status remains:
-
-`CMB_AMP_CONFIRMED_IRREDUCIBLE`
-
----
-
-## Why this is not a retreat
-
-Because removing a false positive is not retreat.
-
-A framework becomes more credible, not less, when it refuses to count calibration as prediction.
-
-That is especially true in cosmology, where normalization tricks are easy to hide in prose and much harder to hide in executable code.
-
-Pillar 999 moves the repository in the right direction:
-
-- less ambiguity,
-- less accidental overclaim,
-- more explicit dependency on external inputs,
-- more pressure on any future UV completion to earn the label "prediction."
-
----
-
-## The larger Sprint BN picture
-
-Sprint BN had two jobs:
-
-1. run the strongest shared-state UV/flavor completion attempt now;
-2. keep the hardest cosmology gap honest in its own dedicated lane.
-
-That second job is what this pillar does.
-
-The theory does not get credit for the number it was handed.
-It only gets credit for the number it derives.
+That is exactly what a mature status system should do.
 
 ---
 
