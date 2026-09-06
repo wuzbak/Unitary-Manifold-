@@ -63,18 +63,16 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     article_text = _SUBSTACK_POST.read_text(encoding="utf-8") if _SUBSTACK_POST.exists() else ""
     theorem_count = _count_theorems(lean_text)
     marker_hits = {marker: marker in lean_text for marker in _SEMANTIC_MARKERS}
+    target_gap_id = str(charter.get("target_gap_id", ""))
     required_sections = list(charter.get("article_contract", {}).get("required_sections") or [])
     article_sections = _article_section_hits(article_text, required_sections)
     open_items = ledger["classification_buckets"]["open_residuals"]
-    residual_match = any(
-        str(item.get("gap_id", "")) == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
-        for item in open_items
-    )
+    residual_match = any(str(item.get("gap_id", "")) == target_gap_id for item in open_items)
 
     valid = bool(
-        charter["target_gap_id"] == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
+        bool(target_gap_id)
         and charter["stewardship"]["default_final_verdict_until_residual_is_discharged"] == "still_open"
-        and ledger.get("target_gap_id") == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
+        and ledger.get("target_gap_id") == target_gap_id
         and ledger["final_verdict_if_executed_today"] == "still_open"
         and residual_match
         and cross_review["reconciliation_policy"]["final_verdict_if_unresolved_objection"] == "still_open"
