@@ -37,8 +37,8 @@ They do not replace independent replication or external data.
 
 **Q: Is the CMB amplitude issue resolved?**
 
-A: Not as a full closure claim.  
-The repository documents known CMB amplitude tension and continuing architecture-limit handling in `FALLIBILITY.md`.  
+A: The repository records an in-repo mechanism path through Pillars 57 and 63, but this lane remains part of ongoing external-pressure accounting and architecture-limit discussion in current truth surfaces.  
+So the honest phrasing is: **addressed in-repo, still treated with explicit residual scrutiny until external decisiveness matures**.  
 Any statement stronger than that requires new evidence.
 
 ---
