@@ -66,14 +66,20 @@ def _article_section_hits(article_text: str, required_sections: list[str]) -> di
     }
 
 
-def _normalize_article_contract(charter: dict[str, Any], article_text: str) -> tuple[str, dict[str, bool], bool]:
+def _normalize_article_contract(charter: dict[str, Any]) -> tuple[str, Path, bool, list[str], bool]:
     target_gap_id = str(charter.get("target_gap_id", ""))
     article_contract = charter.get("article_contract") or {}
+    configured_path_raw = article_contract.get("path")
+    configured_path = (
+        _ROOT / configured_path_raw
+        if isinstance(configured_path_raw, str) and configured_path_raw
+        else _SUBSTACK_POST
+    )
+    configured_path_valid = isinstance(configured_path_raw, str) and configured_path_raw == _display_path(configured_path)
     required_sections_raw = article_contract.get("required_sections")
     required_sections = required_sections_raw if isinstance(required_sections_raw, list) else []
     required_sections_valid = isinstance(required_sections_raw, list)
-    article_sections = _article_section_hits(article_text, required_sections)
-    return target_gap_id, article_sections, required_sections_valid
+    return target_gap_id, configured_path, configured_path_valid, required_sections, required_sections_valid
 
 
 def _normalize_ledger(ledger: dict[str, Any], target_gap_id: str) -> tuple[list[dict[str, Any]], bool, bool]:
@@ -100,10 +106,10 @@ def _lean4_state(lean_text: str) -> dict[str, Any]:
     }
 
 
-def _substack_state(article_sections: dict[str, bool]) -> dict[str, Any]:
+def _substack_state(article_path: Path, article_sections: dict[str, bool]) -> dict[str, Any]:
     return {
-        "path": _display_path(_SUBSTACK_POST),
-        "exists": _SUBSTACK_POST.exists(),
+        "path": _display_path(article_path),
+        "exists": article_path.exists(),
         "required_sections": article_sections,
     }
 
@@ -114,24 +120,25 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     ledger = program.get_kawamura_closure_burden_ledger()
     cross_review = program.get_merlin_cross_review_packet()
     lean_text = _read_text(_LEAN4_FILE)
-    article_text = _read_text(_SUBSTACK_POST)
-    target_gap_id, article_sections, required_sections_valid = _normalize_article_contract(
-        charter, article_text
-    )
+    target_gap_id, article_path, article_path_valid, required_sections, required_sections_valid = _normalize_article_contract(charter)
+    article_text = _read_text(article_path)
+    article_sections = _article_section_hits(article_text, required_sections)
     open_items, open_items_valid, residual_match = _normalize_ledger(ledger, target_gap_id)
     lean4 = _lean4_state(lean_text)
-    substack_article = _substack_state(article_sections)
+    substack_article = _substack_state(article_path, article_sections)
     stewardship = charter.get("stewardship") or {}
     reconciliation_policy = cross_review.get("reconciliation_policy") or {}
 
     valid = bool(
         bool(target_gap_id)
+        and article_path_valid
         and required_sections_valid
         and open_items_valid
         and stewardship.get("default_final_verdict_until_residual_is_discharged") == "still_open"
         and ledger.get("target_gap_id") == target_gap_id
         and ledger.get("final_verdict_if_executed_today") == "still_open"
         and residual_match
+        and cross_review.get("target_gap_id") == target_gap_id
         and reconciliation_policy.get("final_verdict_if_unresolved_objection") == "still_open"
         and lean4["exists"]
         and lean4["theorem_count"] == lean4["expected_theorem_count"]

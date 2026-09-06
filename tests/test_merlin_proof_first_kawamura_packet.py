@@ -24,7 +24,47 @@ def test_open_residual_is_preserved() -> None:
 
 def test_missing_article_fails_closed(monkeypatch, tmp_path) -> None:
     missing = tmp_path / "missing.md"
-    monkeypatch.setattr(packet_mod, "_SUBSTACK_POST", missing)
+
+    class _FakeProgram:
+        @staticmethod
+        def get_proof_first_closure_charter():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "stewardship": {
+                    "default_final_verdict_until_residual_is_discharged": "still_open",
+                },
+                "article_contract": {
+                    "path": str(missing),
+                    "required_sections": [
+                        "target_gap",
+                        "method",
+                        "merlin_contribution",
+                        "cross_audit_result",
+                        "remaining_residuals",
+                    ],
+                },
+            }
+
+        @staticmethod
+        def get_kawamura_closure_burden_ledger():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "classification_buckets": {
+                    "open_residuals": [{"gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"}]
+                },
+                "final_verdict_if_executed_today": "still_open",
+            }
+
+        @staticmethod
+        def get_merlin_cross_review_packet():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "reconciliation_policy": {
+                    "final_verdict_if_unresolved_objection": "still_open",
+                },
+            }
+
+    monkeypatch.setattr(packet_mod, "_load_program_module", lambda: _FakeProgram())
     packet = merlin_proof_first_kawamura_packet()
     assert packet["substack_article"]["exists"] is False
     assert packet["valid"] is False
@@ -65,7 +105,45 @@ def test_empty_open_residuals_fail_closed(monkeypatch) -> None:
 def test_missing_required_article_section_fails_closed(monkeypatch, tmp_path) -> None:
     article = tmp_path / "article.md"
     article.write_text("# Draft\n\n## The target gap\n\n## The method\n", encoding="utf-8")
-    monkeypatch.setattr(packet_mod, "_SUBSTACK_POST", article)
+
+    class _FakeProgram:
+        @staticmethod
+        def get_proof_first_closure_charter():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "stewardship": {
+                    "default_final_verdict_until_residual_is_discharged": "still_open",
+                },
+                "article_contract": {
+                    "path": str(article),
+                    "required_sections": [
+                        "target_gap",
+                        "method",
+                        "merlin_contribution",
+                    ],
+                },
+            }
+
+        @staticmethod
+        def get_kawamura_closure_burden_ledger():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "classification_buckets": {
+                    "open_residuals": [{"gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"}]
+                },
+                "final_verdict_if_executed_today": "still_open",
+            }
+
+        @staticmethod
+        def get_merlin_cross_review_packet():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "reconciliation_policy": {
+                    "final_verdict_if_unresolved_objection": "still_open",
+                },
+            }
+
+    monkeypatch.setattr(packet_mod, "_load_program_module", lambda: _FakeProgram())
     packet = merlin_proof_first_kawamura_packet()
     assert packet["substack_article"]["required_sections"]["merlin_contribution"] is False
     assert packet["valid"] is False
