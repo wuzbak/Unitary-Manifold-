@@ -22,6 +22,14 @@ _SEMANTIC_MARKERS = [
     "ExternalImportBoundaryPreserved",
 ]
 
+_SECTION_HEADINGS = {
+    "target_gap": "## The target gap",
+    "method": "## The method",
+    "merlin_contribution": "## What Merlin contributed",
+    "cross_audit_result": "## What survived cross-audit",
+    "remaining_residuals": "## What remains unresolved",
+}
+
 
 def _load_program_module():
     ensure_merlin_package_loaded(_PRODUCT_ROOT)
@@ -39,18 +47,29 @@ def _display_path(path: Path) -> str:
         return str(path)
 
 
+def _article_section_hits(article_text: str, required_sections: list[str]) -> dict[str, bool]:
+    return {
+        section: _SECTION_HEADINGS.get(section, f"## {section.replace('_', ' ')}") in article_text
+        for section in required_sections
+    }
+
+
 def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     program = _load_program_module()
     charter = program.get_proof_first_closure_charter()
     ledger = program.get_kawamura_closure_burden_ledger()
     cross_review = program.get_merlin_cross_review_packet()
     lean_text = _LEAN4_FILE.read_text(encoding="utf-8") if _LEAN4_FILE.exists() else ""
+    article_text = _SUBSTACK_POST.read_text(encoding="utf-8") if _SUBSTACK_POST.exists() else ""
     theorem_count = _count_theorems(lean_text)
     marker_hits = {marker: marker in lean_text for marker in _SEMANTIC_MARKERS}
+    required_sections = list(charter.get("article_contract", {}).get("required_sections") or [])
+    article_sections = _article_section_hits(article_text, required_sections)
     open_items = ledger["classification_buckets"]["open_residuals"]
-    residual_match = bool(
-        len(open_items) == 1
-        and "functional-analysis" in str(open_items[0].get("item", "")).lower()
+    residual_match = any(
+        str(item.get("gap_id", "")) == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
+        or "functional-analysis" in str(item.get("item", "")).lower()
+        for item in open_items
     )
 
     valid = bool(
@@ -63,6 +82,7 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
         and theorem_count == _EXPECTED_THEOREM_COUNT
         and all(marker_hits.values())
         and _SUBSTACK_POST.exists()
+        and all(article_sections.values())
     )
 
     return {
@@ -80,6 +100,7 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
         "substack_article": {
             "path": _display_path(_SUBSTACK_POST),
             "exists": _SUBSTACK_POST.exists(),
+            "required_sections": article_sections,
         },
         "final_verdict": "still_open",
         "valid": valid,

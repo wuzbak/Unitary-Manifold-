@@ -640,6 +640,7 @@ def get_kawamura_closure_burden_ledger() -> dict[str, Any]:
             ],
             "open_residuals": [
                 {
+                    "gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
                     "item": "Referee-grade Kawamura-independence functional-analysis closure proof.",
                     "status": "OPEN",
                     "blocking_reason": "Existing artifacts tighten bookkeeping and traceability but do not discharge the final independence burden.",

@@ -17,8 +17,8 @@ def test_packet_is_valid_and_still_open() -> None:
 def test_open_residual_is_preserved() -> None:
     packet = merlin_proof_first_kawamura_packet()
     open_items = packet["burden_ledger"]["classification_buckets"]["open_residuals"]
-    assert len(open_items) == 1
-    assert "functional-analysis" in open_items[0]["item"].lower()
+    assert any(item.get("gap_id") == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS" for item in open_items)
+    assert any("functional-analysis" in item["item"].lower() for item in open_items)
     assert packet["burden_ledger"]["final_verdict_if_executed_today"] == "still_open"
 
 
@@ -59,4 +59,37 @@ def test_empty_open_residuals_fail_closed(monkeypatch) -> None:
     monkeypatch.setattr(packet_mod, "_load_program_module", lambda: _FakeProgram())
     packet = merlin_proof_first_kawamura_packet()
     assert packet["burden_ledger"]["classification_buckets"]["open_residuals"] == []
+    assert packet["valid"] is False
+
+
+def test_missing_required_article_section_fails_closed(monkeypatch, tmp_path) -> None:
+    article = tmp_path / "article.md"
+    article.write_text("# Draft\n\n## The target gap\n\n## The method\n", encoding="utf-8")
+    monkeypatch.setattr(packet_mod, "_SUBSTACK_POST", article)
+    packet = merlin_proof_first_kawamura_packet()
+    assert packet["substack_article"]["required_sections"]["merlin_contribution"] is False
+    assert packet["valid"] is False
+
+
+def test_missing_lean_marker_fails_closed(monkeypatch, tmp_path) -> None:
+    lean = tmp_path / "MerlinProofFirstKawamuraLedger.lean"
+    lean.write_text(
+        "namespace UnitaryManifold\n"
+        "axiom KawamuraResidualStillOpen : Prop\n"
+        "axiom NoTraceabilityEqualsClosure : Prop\n"
+        "axiom DualLoopVerdictAgreementRequired : Prop\n"
+        "theorem mpf_kawamura_kernel_1 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
+        "theorem mpf_kawamura_kernel_2 : NoTraceabilityEqualsClosure := by exact NoTraceabilityEqualsClosure\n"
+        "theorem mpf_kawamura_kernel_3 : DualLoopVerdictAgreementRequired := by exact DualLoopVerdictAgreementRequired\n"
+        "theorem mpf_kawamura_kernel_4 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
+        "theorem mpf_kawamura_kernel_5 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
+        "theorem mpf_kawamura_kernel_6 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
+        "theorem mpf_kawamura_kernel_7 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
+        "theorem mpf_kawamura_kernel_8 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(packet_mod, "_LEAN4_FILE", lean)
+    packet = merlin_proof_first_kawamura_packet()
+    assert packet["lean4"]["theorem_count"] == 8
+    assert packet["lean4"]["semantic_markers"]["ExternalImportBoundaryPreserved"] is False
     assert packet["valid"] is False
