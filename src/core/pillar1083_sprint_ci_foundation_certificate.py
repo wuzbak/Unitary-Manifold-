@@ -17,6 +17,7 @@ PILLAR_STATUS: str = "SPRINT_CI_FOUNDATION_CERTIFICATE_COMPLETE"
 VERSION: str = "v36.5"
 SPRINT: str = "CI"
 NEXT_PILLAR_SLOT: int = 1084
+PRIMARY_LANE: str = "FOUNDATION_PHOTON_ACTION"
 
 _ROOT = Path(__file__).resolve().parents[2]
 PUBLICATION_PACKET = {
@@ -43,7 +44,7 @@ def sprint_ci_foundation_certificate() -> Dict[str, Any]:
     pubs = _publication_packet_check()
     handoff = packet["merlin_handoff"]
     handoff_ok = bool(
-        handoff.get("primary_lane")
+        handoff.get("primary_lane") == PRIMARY_LANE
         and isinstance(handoff.get("evidence_reviewed"), list)
         and len(handoff["evidence_reviewed"]) > 0
         and "blocker_state_before" in handoff

@@ -6,6 +6,7 @@ import src.core.pillar1083_sprint_ci_foundation_certificate as p1083
 from src.core.pillar1083_sprint_ci_foundation_certificate import (
     PILLAR_GATE,
     PILLAR_NUMBER,
+    PRIMARY_LANE,
     PILLAR_STATUS,
     PILLAR_VALID,
     pillar1083_summary,
@@ -17,6 +18,7 @@ def test_identity() -> None:
     assert PILLAR_NUMBER == 1083
     assert PILLAR_GATE == "SPRINT_CI_FOUNDATION_CERTIFICATE"
     assert PILLAR_STATUS == "SPRINT_CI_FOUNDATION_CERTIFICATE_COMPLETE"
+    assert PRIMARY_LANE == "FOUNDATION_PHOTON_ACTION"
     assert isinstance(PILLAR_VALID, bool)
 
 
@@ -38,6 +40,18 @@ def test_missing_publication_packet_fails_closed(monkeypatch, tmp_path) -> None:
 
 
 def test_incomplete_merlin_handoff_fails_closed(monkeypatch) -> None:
+    packet = p1083.foundation_first_photon_action_audit()
+    packet["merlin_handoff"] = {
+        **packet["merlin_handoff"],
+        "primary_lane": "WRONG_LANE",
+    }
+    monkeypatch.setattr(p1083, "foundation_first_photon_action_audit", lambda: packet)
+    report = sprint_ci_foundation_certificate()
+    assert report["merlin_handoff_ok"] is False
+    assert report["valid"] is False
+
+
+def test_empty_evidence_reviewed_fails_closed(monkeypatch) -> None:
     packet = p1083.foundation_first_photon_action_audit()
     packet["merlin_handoff"] = {
         **packet["merlin_handoff"],
