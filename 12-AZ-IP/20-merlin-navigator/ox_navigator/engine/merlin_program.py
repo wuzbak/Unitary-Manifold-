@@ -1569,16 +1569,14 @@ def _build_training_curation_ledger(
     accepted_by_source_family: dict[str, int] = {}
     accepted_by_kernel: dict[str, int] = {kernel_id: 0 for kernel_id in MERLIN_PENTAD_KERNELS}
     for record in accepted_training:
-        accepted_by_source_family[_source_family_for_record(record, kind="training")] = (
-            accepted_by_source_family.get(_source_family_for_record(record, kind="training"), 0) + 1
-        )
+        source_family = _source_family_for_record(record, kind="training")
+        accepted_by_source_family[source_family] = accepted_by_source_family.get(source_family, 0) + 1
         kernel_id = str(record.get("kernel_id") or "")
         if kernel_id in accepted_by_kernel:
             accepted_by_kernel[kernel_id] += 1
     for record in accepted_benchmarks:
-        accepted_by_source_family[_source_family_for_record(record, kind="benchmark")] = (
-            accepted_by_source_family.get(_source_family_for_record(record, kind="benchmark"), 0) + 1
-        )
+        source_family = _source_family_for_record(record, kind="benchmark")
+        accepted_by_source_family[source_family] = accepted_by_source_family.get(source_family, 0) + 1
         kernel_id = str(record.get("kernel_id") or "")
         if kernel_id in accepted_by_kernel:
             accepted_by_kernel[kernel_id] += 1
