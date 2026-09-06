@@ -345,6 +345,23 @@ def test_kernel_gate_summary_deduplicates_required_kernel_ids():
     assert summary["required_kernel_ids"] == ["kernel_s"]
 
 
+def test_kernel_gate_summary_reports_assignment_mismatches():
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(
+        [
+            {
+                "benchmark_id": "b1",
+                "expected_kernel_id": "kernel_p",
+                "merlin_telemetry": {
+                    "kernel": {"id": "kernel_a"},
+                    "quality_signals": {"contract_pass_rate": 1.0},
+                },
+            }
+        ],
+        required_kernel_ids=["kernel_p"],
+    )
+    assert summary["assignment_mismatch_count"] == 1
+
+
 def test_match_benchmark_for_query_uses_keywords():
     match = match_benchmark_for_query('What is the birefringence prediction and how could LiteBIRD falsify it?')
     assert match is not None

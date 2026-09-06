@@ -9,7 +9,7 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-from .merlin_kernel_routing import infer_merlin_kernel_id
+from .merlin_kernel_routing import infer_runtime_kernel_id
 
 try:  # pragma: no cover - platform-dependent
     import resource
@@ -74,20 +74,12 @@ def _kernel_profile(router_decision: dict[str, Any], *, context_source: str, que
         or "deterministic_retrieval"
     )
     query_sample = str(query or "").lower()
-    if kernel_hint in {"kernel_s", "kernel_p", "kernel_r", "kernel_a", "kernel_g"}:
-        kernel_id = kernel_hint
-    elif context_source in {"policy_block", "privilege_block"}:
-        kernel_id = "kernel_g"
-    elif lane == "small_fast_router":
-        kernel_id = "kernel_r"
-    elif lane == "heavy_reasoner_exception":
-        kernel_id = "kernel_p"
-    else:
-        kernel_id = infer_merlin_kernel_id(
-            track=lane,
-            instruction=query_sample,
-            default_kernel="kernel_s",
-        )
+    kernel_id = infer_runtime_kernel_id(
+        lane=lane,
+        query=query_sample,
+        context_source=context_source,
+        kernel_hint=kernel_hint,
+    )
     role = {
         "kernel_s": "Sage",
         "kernel_p": "Prover",

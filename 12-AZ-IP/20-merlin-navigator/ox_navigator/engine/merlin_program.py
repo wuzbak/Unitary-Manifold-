@@ -1037,6 +1037,78 @@ def get_open_science_resource_registry() -> dict[str, Any]:
     }
 
 
+def get_frontier_open_weight_stack() -> dict[str, Any]:
+    return {
+        "objective": "Train Merlin toward frontier-grade domain performance using local-first open weights plus open-source execution kernels.",
+        "open_weight_models": [
+            {
+                "name": "DeepSeek-R1",
+                "license": "MIT",
+                "roles": ["reasoning", "coding", "distilled_local_variants"],
+                "admission_path": "evaluateMerlinModelAdmission",
+            },
+            {
+                "name": "Qwen 3",
+                "license": "Apache-2.0",
+                "roles": ["multilingual", "high_capability_general_reasoning"],
+                "admission_path": "evaluateMerlinModelAdmission",
+            },
+            {
+                "name": "Gemma 4",
+                "license": "Apache-2.0",
+                "roles": ["edge_local_serving", "low_vram_inference"],
+                "admission_path": "evaluateMerlinModelAdmission",
+            },
+            {
+                "name": "Llama 4",
+                "license": "Community",
+                "roles": ["multimodal_extension_lane", "general_reasoning"],
+                "admission_path": "evaluateMerlinModelAdmission",
+            },
+        ],
+        "execution_kernels": [
+            {
+                "name": "vLLM_PagedAttention",
+                "layer": "high_throughput_serving",
+                "primary_use": "long_context_batch_serving",
+            },
+            {
+                "name": "Triton",
+                "layer": "custom_gpu_kernel_compilation",
+                "primary_use": "critical-path kernel optimization",
+            },
+            {
+                "name": "huggingface_python_kernels",
+                "layer": "portable_kernel_runtime",
+                "primary_use": "downloadable open-source acceleration kernels",
+            },
+            {
+                "name": "huggingface_webgpu_kernels",
+                "layer": "browser_gpu_execution",
+                "primary_use": "client-side local acceleration",
+            },
+            {
+                "name": "ollama_local_runtime",
+                "layer": "operator_bootstrap",
+                "primary_use": "single-node offline local serving path",
+            },
+        ],
+        "governance_gates": [
+            "model_admission_pass_required",
+            "typed_provenance_and_contract_visibility_required",
+            "kernel_gate_summary_pass_required_before_promotion",
+            "openrouter_compatibility_fallback_only",
+        ],
+        "phase_order": [
+            "local_open_weight_baseline",
+            "kernel_instrumentation_and_telemetry",
+            "lane_specific_finetuning",
+            "shadow_lane_rollout_with_demotion",
+            "promotion_after_longitudinal_clean_windows",
+        ],
+    }
+
+
 def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
     seed_examples = _build_seed_training_examples(limit=limit)
     track_counts: dict[str, int] = {}
@@ -1131,6 +1203,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "dataset_bundle": "getMerlinTrainingDataset",
             "mlflow_manifests": "getMerlinMLflowManifests",
             "artifact_bundle": "getMerlinTrainingArtifacts",
+            "frontier_open_weight_stack": "getMerlinFrontierStack",
         },
     }
 
@@ -2005,6 +2078,7 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "training_dataset": build_training_dataset_bundle(limit=12),
         "mlflow_manifests": get_mlflow_experiment_manifests(limit=12),
         "open_science_registry": get_open_science_resource_registry(),
+        "frontier_open_weight_stack": get_frontier_open_weight_stack(),
         "competitive_benchmark_plan": get_competitive_benchmark_plan(),
         "energy_optimization": get_energy_optimization_track(),
         "backend_expansion": get_backend_expansion_policy(),

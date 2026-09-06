@@ -320,6 +320,7 @@ def test_route_tool_merlin_program_blueprint():
     assert 'model_admission_policy' in payload
     assert 'workspace_policy' in payload
     assert 'pentad_contract' in payload
+    assert 'frontier_open_weight_stack' in payload
     assert payload['pentad_contract']['kernel_count'] == 5
     assert 'sovereignty_roadmap' in payload
     assert payload['sync_checks']['ok'] is True
@@ -364,6 +365,10 @@ def test_route_tool_training_architecture_and_artifacts():
     registry = route_tool('getMerlinOpenScienceRegistry', {})
     assert registry['ok'] is True
     assert any(item['resource_id'] == 'hugging_face_datasets' for item in registry['result']['data']['resources'])
+    frontier = route_tool('getMerlinFrontierStack', {})
+    assert frontier['ok'] is True
+    assert any(model['name'] == 'DeepSeek-R1' for model in frontier['result']['data']['open_weight_models'])
+    assert any(kernel['name'] == 'vLLM_PagedAttention' for kernel in frontier['result']['data']['execution_kernels'])
 
     benchmarks = route_tool('getMerlinCompetitiveBenchmarkPlan', {})
     assert benchmarks['ok'] is True

@@ -377,11 +377,20 @@ def evaluate_kernel_gate_summary(
             "thresholds": KERNEL_GATE_THRESHOLDS,
         }
     per_kernel: dict[str, list[dict[str, Any]]] = {}
+    kernel_mismatches: list[dict[str, str]] = []
     for run in samples:
         telemetry = dict(run.get("merlin_telemetry") or {})
         expected_kernel_id = str(run.get("expected_kernel_id") or "").strip()
         kernel = dict(telemetry.get("kernel") or {})
-        kernel_id = expected_kernel_id or str(kernel.get("id") or "kernel_s")
+        kernel_id = str(kernel.get("id") or "kernel_s")
+        if expected_kernel_id and expected_kernel_id != kernel_id:
+            kernel_mismatches.append(
+                {
+                    "benchmark_id": str(run.get("benchmark_id") or ""),
+                    "expected_kernel_id": expected_kernel_id,
+                    "observed_kernel_id": kernel_id,
+                }
+            )
         per_kernel.setdefault(kernel_id, []).append(telemetry)
 
     kernel_ids_to_check = (
@@ -488,12 +497,20 @@ def evaluate_kernel_gate_summary(
             "gate_pass": pass_gate,
             "decision": "go_shadow" if pass_gate else "demote",
         }
+    gates_ok = all(item.get("gate_pass") for item in kernel_results.values())
+    assignment_ok = len(kernel_mismatches) == 0
     return {
         "ok": True,
         "thresholds": KERNEL_GATE_THRESHOLDS,
         "required_kernel_ids": kernel_ids_to_check,
         "kernels": kernel_results,
-        "gate_pass": all(item.get("gate_pass") for item in kernel_results.values()),
+        "kernel_assignment_mismatches": kernel_mismatches,
+        "assignment_mismatch_count": len(kernel_mismatches),
+        "checks": {
+            "kernel_thresholds_pass": gates_ok,
+            "kernel_assignment_consistent": assignment_ok,
+        },
+        "gate_pass": bool(gates_ok and assignment_ok),
     }
 
 
@@ -917,6 +934,8 @@ async def _run_benchmark_once(benchmark: dict[str, Any], *, stage: str) -> dict[
         "incumbent_telemetry": dict(incumbent_result.get("telemetry") or {}),
         "head_to_head_run": {
             "id": str(benchmark["id"]),
+            "expected_kernel_id": expected_kernel_id,
+            "merlin_telemetry": dict(merlin_result.get("telemetry") or {}),
             "merlin": _run_summary(merlin_result, merlin_eval, shadow_ok=merlin_shadow_ok),
             "incumbent": _run_summary(
                 incumbent_result,
