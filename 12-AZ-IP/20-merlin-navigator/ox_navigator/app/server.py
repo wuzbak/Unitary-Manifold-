@@ -522,7 +522,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     session=merlin_session,
                 ))
                 curation_payload = dict(payload.get('data') or {})
-                response_status = status if bool(curation_payload.get('ok')) else 500
+                validation_failed = bool(curation_payload.get('ok')) is False
+                response_status = 422 if validation_failed else status
                 self._json({
                     'ok': bool(curation_payload.get('ok')),
                     'training_curation': dict(curation_payload.get('curation_ledger') or {}),
