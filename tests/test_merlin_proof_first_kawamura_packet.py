@@ -93,3 +93,39 @@ def test_missing_lean_marker_fails_closed(monkeypatch, tmp_path) -> None:
     assert packet["lean4"]["theorem_count"] == 8
     assert packet["lean4"]["semantic_markers"]["ExternalImportBoundaryPreserved"] is False
     assert packet["valid"] is False
+
+
+def test_mismatched_ledger_target_fails_closed(monkeypatch) -> None:
+    class _FakeProgram:
+        @staticmethod
+        def get_proof_first_closure_charter():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "stewardship": {
+                    "default_final_verdict_until_residual_is_discharged": "still_open",
+                },
+                "article_contract": {"required_sections": []},
+            }
+
+        @staticmethod
+        def get_kawamura_closure_burden_ledger():
+            return {
+                "target_gap_id": "SOME_OTHER_TARGET",
+                "classification_buckets": {
+                    "open_residuals": [{"gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"}]
+                },
+                "final_verdict_if_executed_today": "still_open",
+            }
+
+        @staticmethod
+        def get_merlin_cross_review_packet():
+            return {
+                "reconciliation_policy": {
+                    "final_verdict_if_unresolved_objection": "still_open",
+                },
+            }
+
+    monkeypatch.setattr(packet_mod, "_load_program_module", lambda: _FakeProgram())
+    packet = merlin_proof_first_kawamura_packet()
+    assert packet["burden_ledger"]["target_gap_id"] == "SOME_OTHER_TARGET"
+    assert packet["valid"] is False

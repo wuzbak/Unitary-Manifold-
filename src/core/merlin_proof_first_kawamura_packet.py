@@ -74,6 +74,7 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     valid = bool(
         charter["target_gap_id"] == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
         and charter["stewardship"]["default_final_verdict_until_residual_is_discharged"] == "still_open"
+        and ledger.get("target_gap_id") == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
         and ledger["final_verdict_if_executed_today"] == "still_open"
         and residual_match
         and cross_review["reconciliation_policy"]["final_verdict_if_unresolved_objection"] == "still_open"
