@@ -167,7 +167,7 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
         state.charter = program.get_proof_first_closure_charter()
         state.ledger = program.get_kawamura_closure_burden_ledger()
         state.cross_review = program.get_merlin_cross_review_packet()
-    except AttributeError:
+    except Exception:
         return _fail_closed_packet(state)
 
     lean_text = _read_text(_LEAN4_FILE)
