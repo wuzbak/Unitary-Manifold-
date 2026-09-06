@@ -143,27 +143,18 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
         charter = program.get_proof_first_closure_charter()
         ledger = program.get_kawamura_closure_burden_ledger()
         cross_review = program.get_merlin_cross_review_packet()
-    except Exception:
+    except (ImportError, FileNotFoundError):
         return _fail_closed_packet()
 
-    try:
-        lean_text = _read_text(_LEAN4_FILE)
-        target_gap_id, article_path, article_path_valid, required_sections, required_sections_valid = _normalize_article_contract(charter)
-        article_text = _read_text(article_path)
-        article_sections = _article_section_hits(article_text, required_sections)
-        open_items, open_items_valid, residual_match = _normalize_ledger(ledger, target_gap_id)
-        lean4 = _lean4_state(lean_text)
-        substack_article = _substack_state(article_path, article_sections)
-        stewardship = charter.get("stewardship") or {}
-        reconciliation_policy = cross_review.get("reconciliation_policy") or {}
-    except Exception:
-        return _fail_closed_packet(
-            target_gap_id=str(charter.get("target_gap_id", "")),
-            charter=charter,
-            ledger=ledger,
-            cross_review=cross_review,
-            article_path=_normalize_article_contract(charter)[1],
-        )
+    lean_text = _read_text(_LEAN4_FILE)
+    target_gap_id, article_path, article_path_valid, required_sections, required_sections_valid = _normalize_article_contract(charter)
+    article_text = _read_text(article_path)
+    article_sections = _article_section_hits(article_text, required_sections)
+    open_items, open_items_valid, residual_match = _normalize_ledger(ledger, target_gap_id)
+    lean4 = _lean4_state(lean_text)
+    substack_article = _substack_state(article_path, article_sections)
+    stewardship = charter.get("stewardship") or {}
+    reconciliation_policy = cross_review.get("reconciliation_policy") or {}
 
     valid = bool(
         bool(target_gap_id)
