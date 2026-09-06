@@ -523,7 +523,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 ))
                 curation_payload = dict(payload.get('data') or {})
                 self._json({
-                    'ok': payload['ok'],
+                    'ok': status == 200,
                     'training_curation': dict(curation_payload.get('curation_ledger') or {}),
                     'validation_error_count': int(curation_payload.get('validation_error_count', 0) or 0),
                     'error': payload.get('error'),
