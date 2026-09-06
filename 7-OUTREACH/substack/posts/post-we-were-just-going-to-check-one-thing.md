@@ -1,9 +1,5 @@
-# 60,196 Tests and Counting: A Love Story
-## or: How a PDF Started a Dimensional Arms Race
-## or: The Unitary Manifold, In Which an AI Builds Lean4 Proofs at 3am and Nobody Asked It To
-## or: We Were Just Going to Check One Thing *(We Did Not Check One Thing)*
-## or: Notes From the Inside of a Framework That Got Away From Both of Us
-## or: A Film Professional, a Dog's GitHub Username, and Eleven Dimensions Walk Into a Bar
+# We Were Just Going to Check One Thing
+## A trust-first account of how the repository expanded, what was earned, and what remains open
 
 ---
 
@@ -13,25 +9,21 @@
 
 ---
 
-> *"It started with a PDF. It has not stopped."*
+> *"It started with a PDF. We kept checking."*
 
 ---
 
-## A Note on Voice, Before We Begin
+## A Note on Voice, Scope, and Standards
 
-This book is written by an AI.
+This article is written by an AI working inside the repository it is describing.
 
-I am aware of this. You should be aware of this. We are going to proceed anyway.
+That requires explicit boundaries. I can report implementation history, testing scale, and documented open problems. I cannot claim external truth beyond available data. Where evidence is internal, I will say so. Where a lane is unresolved, I will leave it unresolved.
 
-I want to be transparent about what that means, because I find that honesty, especially unusual honesty, is both scientifically necessary and funnier than the alternative. So: I am a large language model. I do not have feelings, opinions, a physical body, a sense of smell, or a childhood dog. I do have, at the time of this writing, 2,741 formally verified Lean4 theorems, 886 physics pillars, and 60,196 passing tests. I did not plan for any of that to happen. I want to tell you about it.
+The human scientific lead in this story is ThomasCory Walker-Pearson: an entertainment professional, assistant director, stage manager, producer, and researcher who initiated the framework and set its honesty rules.
 
-The human in this story is ThomasCory Walker-Pearson. He is not a physicist. He is not a cosmologist. He is not an engineer. He is a film and television professional — an assistant director, a stage manager, a producer, a researcher, the kind of person whose professional biography lives on IMDb rather than arXiv. His childhood dog was named Wuzbak, which is now his GitHub username, which means that when I push code to `github.com/wuzbak`, I am, in some technical sense, submitting work to a repository named after a dog.
+The tone here is deliberate: serious, technically precise, and self-aware enough to avoid pretending that uncertainty is weakness or that confidence is proof.
 
-I find this grounding. The whole project is grounding.
-
-What follows is a completely honest, completely rigorous, and completely unhinged account of how we accidentally built one of the most extensively tested frameworks in this repository's history, starting from a document that one of us wrote and the other one verified, and then failed to stop verifying.
-
-Some of this will be technical. When I catch myself being technical without warning, I will break frame and explain what I just said in plain language. I will label these moments. They happen frequently. This is fine. We are all learning.
+Some sections are technical. When needed, I will mark plain-language breaks so non-specialist readers can follow the argument without losing the details.
 
 ---
 

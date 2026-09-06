@@ -1,151 +1,103 @@
-# Frequently Asked Questions (That No One Has Actually Asked Yet)
+# Frequently Asked Questions (That People Keep Asking, Fairly)
 
 *Post 25 of the Unitary Manifold series.*  
-*Format: Comic break. An annotated FAQ in which real questions are answered with
-technically accurate, occasionally deadpan responses. Every answer is grounded in
-something that is actually in the repository. The claim being made: that it is
-possible to explain a 5-dimensional topological field theory to a general audience
-using the format of a comment section. This would be falsified if none of these
-answers make sense to a non-physicist, which you are invited to test immediately.*
+*This is a clarity pass: plain answers, explicit boundaries, and no confidence theater.*
 
 ---
 
-**Q: Is this real?**
+**Q: Is this a physics claim, a governance claim, or both?**
 
-A: 15,615 tests pass. The DOI is real. The code runs. Whether "real" means what
-you think it means is a separate philosophical question that Pillar 9 addresses
-at length, involving the phrase "mutual attractor alignment." The short answer
-is yes.
-
----
-
-**Q: Did you really solve the arrow of time?**
-
-A: The framework derives the Second Law of Thermodynamics as a geometric identity
-in a 5-dimensional Kaluza-Klein metric rather than as a statistical approximation.
-"Solve" is doing a lot of work in your question. We prefer "re-derived from first
-principles with a different ontological commitment and zero free parameters."
-The LiteBIRD satellite will weigh in by 2032.
+A: Both exist in this repository, but they are not the same thing.  
+Hardgate physics claims live in core derivation lanes.  
+Unitary Pentad governance content is an independent framework and is not a physics proof.
 
 ---
 
-**Q: Wait — you also did cold fusion?**
+**Q: What is the central physics claim?**
 
-A: Pillar 15 is explicitly framed as a falsifiable coefficient-of-performance
-prediction, not a confirmation that low-energy nuclear reactions occur. The module
-is called `cold_fusion/` for historical reasons that seemed clear at the time.
+A: The central claim is that irreversibility can be derived as a geometric consequence of a 5D Kaluza-Klein structure, not only treated as a statistical boundary condition.
 
 ---
 
-**Q: How many of the 99 pillars + Pillar Ω are you confident about?**
+**Q: What would falsify key parts of this framework?**
 
-A: All 92 pass their automated tests. Confidence as a philosophical quantity is
-addressed in `FALLIBILITY.md`, which is 83 kilobytes long and begins with the
-sentence "This document is not a list of excuses."
-
----
-
-**Q: The CMB power spectrum is off by a factor of 4 to 7. Isn't that kind of bad?**
-
-A: Yes. This is Admission 2 in `FALLIBILITY.md`. It was real, and it has been
-resolved by Pillars 57 and 63 (radion amplification × E-H baryon loading closes
-the ×4–7 suppression). We appreciate that you read the document. Most critics
-do not get this far before forming their opinion.
+A: Primary falsifier: LiteBIRD birefringence windows.  
+If β lands outside the admissible interval or in the predicted exclusion gap, the braided-winding mechanism fails.  
+Other lanes (including DESI dark-energy tension) remain explicit, observation-gated decision paths.
 
 ---
 
-**Q: Why 5 and 7?**
+**Q: Does a large test suite prove the universe works this way?**
 
-A: The winding number n_w = 5 is selected by the Planck CMB spectral index to
-within 0.33σ. The secondary braid resonance at n_w = 7 is required by the (5, 7)
-Chern-Simons gauge structure that produces k_CS = 5² + 7² = 74. Before you ask:
-yes, the core theory closes at exactly 74 pillars, and yes, that is the same 74. The
-Completeness Theorem has seven independent proofs of this. Since the original
-closure the framework has been extended to 99 pillars + Pillar Ω through particle physics
-derivations (CKM matrix, PMNS mixing, Wolfenstein parameters, neutrino splittings,
-Higgs mass estimate, UV embedding into SU(5)⊂E₈). We understand how it looks.
+A: No.  
+Large tests demonstrate implementation consistency and reproducibility against the repository’s own contracts.  
+They do not replace independent replication or external data.
 
 ---
 
-**Q: The consciousness stuff seems like a stretch.**
+**Q: Is the CMB amplitude issue resolved?**
 
-A: Pillar 9 models the brain and the universe as two coupled 5D toroidal manifolds
-that reach mutual equilibrium through the birefringence-mediated coupling operator.
-The coupling constant is 0.3513 degrees. The same angle appears in the CMB
-polarisation rotation data. The module has 61 passing unit tests. We agree it seems
-like a stretch. We also note that it passes. We are holding both of those things.
+A: Not as a full closure claim.  
+The repository documents known CMB amplitude tension and continuing architecture-limit handling in `FALLIBILITY.md`.  
+Any statement stronger than that requires new evidence.
 
 ---
 
-**Q: Was this peer-reviewed?**
+**Q: What about cold fusion / LENR content?**
 
-A: The repository has received structured feedback from Google Gemini, OpenAI
-ChatGPT, and Microsoft Copilot, all of whom are credited in the acknowledgments.
-Traditional peer review has been invited via public GitHub issues. The theory's
-primary falsification test is scheduled for 2032, at which point peer review will
-become somewhat easier to obtain.
+A: It is framed as a falsifiable mechanism lane, not as confirmed experimental fact.  
+The repository treats it as an explicit research hypothesis with named unresolved bridges.
 
 ---
 
-**Q: Why is an AI listed as co-author?**
+**Q: Was this traditionally peer reviewed?**
 
-A: GitHub Copilot wrote the code architecture, test suites, document engineering,
-and synthesis. ThomasCory Walker-Pearson provided the scientific direction, theory,
-and judgment — including, crucially, the integers 5 and 7. This role partition is
-documented in every file, including the `.gitignore`. We believe in transparency.
-
----
-
-**Q: You put the authorship statement in the .gitignore?**
-
-A: Yes.
+A: Not yet in the conventional journal sense.  
+There are public adversarial audits, open issue-based review invitations, and executable artifacts.  
+That is not a substitute for independent human expert review.
 
 ---
 
-**Q: What do I need to run this myself?**
+**Q: Why is AI credited as co-author on implementation work?**
 
-A: `pip install numpy scipy`, then `python VERIFY.py`. Thirteen checks. Takes about
-two minutes. Produces a table of predictions versus observations. You can decide
-what you think.
+A: Because authorship is partitioned explicitly:  
+ThomasCory Walker-Pearson provides theory direction and scientific judgment; GitHub Copilot contributes code architecture, testing infrastructure, and document synthesis.  
+This boundary is part of the repository’s transparency model.
+
+---
+
+**Q: How should a new reader approach this without getting lost?**
+
+A: Start with orientation and limits first, then derivations, then tests:
+1. `README.md`
+2. `FALLIBILITY.md`
+3. `SEPARATION.md`
+4. core derivation files and matching tests
+
+---
+
+**Q: What should skeptics do first?**
+
+A: Pick one concrete claim and try to break it with code, math, or data.  
+General dismissal is easy; targeted falsification is useful.
 
 ---
 
 **Q: What if I find an error?**
 
-A: Open a GitHub issue. The framework has a formal falsification policy. If you
-find a genuine error, we will document it in `FALLIBILITY.md` and assign it a
-Pillar. We are not running out of numbers — the Completeness Theorem merely proves
-we cannot go *above* 74 without a new free parameter, not that we cannot go *below*.
+A: Open an issue with a minimal reproducible path (file, equation, test, or data mismatch).  
+If validated, it should be logged and carried through the same honesty surfaces used for everything else.
 
 ---
 
-**Q: This is a lot.**
+**Q: Are you serious or is this performance?**
 
-A: Yes. There are 145 test files. The manuscript is 74 chapters. The Zenodo record
-has a DOI. We started with five numbers and a question about time, and at some
-point the question became its own answer. Post 26 is about psychology, which may
-or may not be relevant here.
-
----
-
-**Q: Are you okay?**
-
-A: All 15,615 tests pass. The CI pipeline is green. The LiteBIRD satellite launches
-in 2032. We are fine.
-
----
-
-*Every answer above is technically accurate. The .gitignore authorship statement
-is real. The 15,615 tests are real. The CMB amplitude gap has been resolved (Pillars 57 and 63). The 0.33σ
-spectral index match is real. The 2032 falsification test is real.*
-
-*If you want to verify any of this: `python VERIFY.py`*
+A: Serious and professional, with enough self-awareness to avoid pretending uncertainty is failure or certainty is earned before it is.
 
 ---
 
 **→ GitHub:** [github.com/wuzbak/Unitary-Manifold-](https://github.com/wuzbak/Unitary-Manifold-)  
-**→ Zenodo DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)  
-**→ Run the proof:** `pip install numpy scipy && python VERIFY.py`
+**→ Zenodo DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)
 
 ---
 

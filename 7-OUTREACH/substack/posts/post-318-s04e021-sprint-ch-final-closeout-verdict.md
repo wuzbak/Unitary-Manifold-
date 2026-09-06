@@ -1,6 +1,7 @@
 # Post 318 (S04E021): Sprint CH Final Closeout Verdict
 
 Sprint CH result: **critique handling upgraded from narrative response to executable routing artifacts**.
+This statement is falsified if unresolved boundaries are relabeled as closed without new executable evidence.
 
 ## Final verdict
 
@@ -11,7 +12,7 @@ Sprint CH result: **critique handling upgraded from narrative response to execut
 - Sprint certificate requires matrix + packet + publication packet integrity.
 - Open boundaries remain open where no closure evidence exists.
 
-## Approval condition met
+## Approval condition met (scope-limited)
 
 This PR now contains additive technical artifacts, tests, synchronized truth-surface updates, and professional publication outputs tied to real execution work.
 
