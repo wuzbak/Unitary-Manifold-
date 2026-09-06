@@ -395,3 +395,23 @@ def test_article_path_outside_repo_fails_closed(monkeypatch) -> None:
     packet = merlin_proof_first_kawamura_packet()
     assert packet["substack_article"]["path"] == "7-OUTREACH/substack/posts/post-320-s04e023-merlin-proof-first-kawamura-sprint.md"
     assert packet["valid"] is False
+
+
+def test_getter_failure_returns_fail_closed_packet(monkeypatch) -> None:
+    class _FakeProgram:
+        @staticmethod
+        def get_proof_first_closure_charter():
+            raise RuntimeError("broken getter")
+
+        @staticmethod
+        def get_kawamura_closure_burden_ledger():
+            return {}
+
+        @staticmethod
+        def get_merlin_cross_review_packet():
+            return {}
+
+    monkeypatch.setattr(packet_mod, "_load_program_module", lambda: _FakeProgram())
+    packet = merlin_proof_first_kawamura_packet()
+    assert packet["charter"] == {}
+    assert packet["valid"] is False

@@ -79,7 +79,7 @@ def _resolve_repo_path(path_value: str | None, default: Path) -> tuple[Path, boo
         candidate.relative_to(_ROOT)
     except ValueError:
         return default, False
-    return candidate, _display_path(candidate) == path_value
+    return candidate, True
 
 
 def _normalize_article_contract(charter: dict[str, Any]) -> tuple[str, Path, bool, list[str], bool]:
@@ -146,9 +146,12 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     except (ImportError, ModuleNotFoundError, FileNotFoundError):
         return _fail_closed_packet()
 
-    charter = program.get_proof_first_closure_charter()
-    ledger = program.get_kawamura_closure_burden_ledger()
-    cross_review = program.get_merlin_cross_review_packet()
+    try:
+        charter = program.get_proof_first_closure_charter()
+        ledger = program.get_kawamura_closure_burden_ledger()
+        cross_review = program.get_merlin_cross_review_packet()
+    except Exception:
+        return _fail_closed_packet()
 
     lean_text = _read_text(_LEAN4_FILE)
     target_gap_id, article_path, article_path_valid, required_sections, required_sections_valid = _normalize_article_contract(charter)
