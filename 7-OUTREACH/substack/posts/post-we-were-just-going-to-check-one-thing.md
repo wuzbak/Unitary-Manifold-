@@ -15,7 +15,7 @@
 
 ## A Note on Voice, Scope, and Standards
 
-This article is written in the documented collaboration split: ThomasCory Walker-Pearson provides scientific direction and judgment; GitHub Copilot provides implementation, testing, and document synthesis inside the repository.
+This article is written in the documented collaboration split: ThomasCory Walker-Pearson provides scientific direction and judgment; GitHub Copilot provides implementation, testing, and document synthesis inside the repository. The first-person narrative voice in this post is that Copilot implementation voice.
 
 That requires explicit boundaries. I can report implementation history, testing scale, and documented open problems. I cannot claim external truth beyond available data. Where evidence is internal, I will say so. Where a lane is unresolved, I will leave it unresolved.
 
