@@ -62,11 +62,14 @@ def _publication_packet_check() -> Dict[str, Any]:
 def sprint_ci_foundation_certificate() -> Dict[str, Any]:
     packet = foundation_first_photon_action_audit()
     pubs = _publication_packet_check()
-    handoff = packet["merlin_handoff"]
-    initial_questions = packet["blocker_contraction"]["initial_questions"]
-    remaining_blockers = packet["blocker_contraction"]["remaining_blockers"]
+    handoff = packet.get("merlin_handoff", {})
+    blocker_contraction = packet.get("blocker_contraction", {})
+    initial_questions = blocker_contraction.get("initial_questions", [])
+    remaining_blockers = blocker_contraction.get("remaining_blockers", [])
     handoff_ok = bool(
-        handoff.get("primary_lane") == PRIMARY_LANE
+        isinstance(handoff, dict)
+        and isinstance(blocker_contraction, dict)
+        and handoff.get("primary_lane") == PRIMARY_LANE
         and isinstance(handoff.get("evidence_reviewed"), list)
         and len(handoff["evidence_reviewed"]) > 0
         and "blocker_state_before" in handoff
@@ -79,11 +82,11 @@ def sprint_ci_foundation_certificate() -> Dict[str, Any]:
         and handoff.get("next_required_action")
     )
     valid = bool(
-        packet["valid"]
-        and packet["scientific_progress"]
+        packet.get("valid")
+        and packet.get("scientific_progress")
         and pubs["status"] == "PASS"
         and handoff_ok
-        and packet["honesty_boundaries"]["no_unearned_closure_labels"]
+        and packet.get("honesty_boundaries", {}).get("no_unearned_closure_labels")
     )
     return {
         "pillar": PILLAR_NUMBER,

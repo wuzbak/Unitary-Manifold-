@@ -96,6 +96,16 @@ def test_mismatched_blocker_state_before_fails_closed(monkeypatch) -> None:
     assert report["valid"] is False
 
 
+def test_missing_handoff_sections_fail_closed(monkeypatch) -> None:
+    packet = p1083.foundation_first_photon_action_audit()
+    packet.pop("merlin_handoff")
+    packet.pop("blocker_contraction")
+    monkeypatch.setattr(p1083, "foundation_first_photon_action_audit", lambda: packet)
+    report = sprint_ci_foundation_certificate()
+    assert report["merlin_handoff_ok"] is False
+    assert report["valid"] is False
+
+
 def test_summary() -> None:
     summary = pillar1083_summary()
     assert summary["status"] == PILLAR_STATUS
