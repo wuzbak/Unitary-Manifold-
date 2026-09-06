@@ -32,8 +32,11 @@ _REQUIRED_PUBLICATION_KEYS = (
 )
 
 
-def _repo_file_path(raw_path: str) -> Path | None:
-    candidate = (_ROOT / raw_path).resolve()
+def _repo_file_path(raw_path: str | Path) -> Path | None:
+    candidate = Path(raw_path)
+    if not candidate.is_absolute():
+        candidate = _ROOT / candidate
+    candidate = candidate.resolve()
     try:
         candidate.relative_to(_ROOT)
     except ValueError:
@@ -62,7 +65,7 @@ def _load_publication_packet() -> Dict[str, Path]:
 def _publication_packet_check() -> Dict[str, Any]:
     packet = _load_publication_packet()
     exists = {
-        name: bool(packet.get(name))
+        name: _repo_file_path(packet.get(name, "")) is not None
         for name in _REQUIRED_PUBLICATION_KEYS
     }
     return {
