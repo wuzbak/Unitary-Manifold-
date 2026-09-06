@@ -32,6 +32,15 @@ _REQUIRED_PUBLICATION_KEYS = (
 )
 
 
+def _repo_file_path(raw_path: str) -> Path | None:
+    candidate = (_ROOT / raw_path).resolve()
+    try:
+        candidate.relative_to(_ROOT)
+    except ValueError:
+        return None
+    return candidate if candidate.is_file() else None
+
+
 def _load_publication_packet() -> Dict[str, Path]:
     try:
         data = json.loads(_PUBLICATION_PACKET_PATH.read_text(encoding="utf-8"))
@@ -40,13 +49,20 @@ def _load_publication_packet() -> Dict[str, Path]:
     packet = data.get(_TRACKER_KEY, {}) if isinstance(data, dict) else {}
     if not isinstance(packet, dict):
         return {}
-    return {name: _ROOT / str(path) for name, path in packet.items()}
+    normalized: Dict[str, Path] = {}
+    for name, path in packet.items():
+        if not isinstance(path, str):
+            continue
+        file_path = _repo_file_path(path)
+        if file_path is not None:
+            normalized[name] = file_path
+    return normalized
 
 
 def _publication_packet_check() -> Dict[str, Any]:
     packet = _load_publication_packet()
     exists = {
-        name: bool(packet.get(name)) and packet[name].exists()
+        name: bool(packet.get(name))
         for name in _REQUIRED_PUBLICATION_KEYS
     }
     return {

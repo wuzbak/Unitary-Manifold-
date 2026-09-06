@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
+from pathlib import Path
+
 import src.core.pillar1083_sprint_ci_foundation_certificate as p1083
 
 from src.core.pillar1083_sprint_ci_foundation_certificate import (
@@ -112,6 +114,25 @@ def test_missing_handoff_sections_fail_closed(monkeypatch) -> None:
     monkeypatch.setattr(p1083, "foundation_first_photon_action_audit", lambda: packet)
     report = sprint_ci_foundation_certificate()
     assert report["merlin_handoff_ok"] is False
+    assert report["valid"] is False
+
+
+def test_manifest_path_escape_fails_closed(monkeypatch) -> None:
+    packet = p1083._load_publication_packet()
+    packet["findings_report"] = Path("/etc/hosts")
+    monkeypatch.setattr(p1083, "_load_publication_packet", lambda: packet)
+    report = sprint_ci_foundation_certificate()
+    assert report["findings_report_ok"] is False
+    assert report["publication_packet"]["status"] == "FAIL"
+    assert report["valid"] is False
+
+
+def test_manifest_directory_target_fails_closed(monkeypatch) -> None:
+    packet = p1083._load_publication_packet()
+    packet["execution_report"] = p1083._ROOT
+    monkeypatch.setattr(p1083, "_load_publication_packet", lambda: packet)
+    report = sprint_ci_foundation_certificate()
+    assert report["publication_packet"]["status"] == "FAIL"
     assert report["valid"] is False
 
 
