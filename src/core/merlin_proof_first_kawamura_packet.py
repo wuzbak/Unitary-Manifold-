@@ -66,14 +66,20 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     target_gap_id = str(charter.get("target_gap_id", ""))
     required_sections = list(charter.get("article_contract", {}).get("required_sections") or [])
     article_sections = _article_section_hits(article_text, required_sections)
-    classification_buckets = ledger.get("classification_buckets") or {}
-    open_items = list(classification_buckets.get("open_residuals") or [])
+    classification_buckets_raw = ledger.get("classification_buckets")
+    classification_buckets = (
+        classification_buckets_raw if isinstance(classification_buckets_raw, dict) else {}
+    )
+    open_residuals_raw = classification_buckets.get("open_residuals")
+    open_items = open_residuals_raw if isinstance(open_residuals_raw, list) else []
+    open_items_valid = isinstance(classification_buckets_raw, dict) and isinstance(open_residuals_raw, list)
     residual_match = any(str(item.get("gap_id", "")) == target_gap_id for item in open_items)
     stewardship = charter.get("stewardship") or {}
     reconciliation_policy = cross_review.get("reconciliation_policy") or {}
 
     valid = bool(
         bool(target_gap_id)
+        and open_items_valid
         and stewardship.get("default_final_verdict_until_residual_is_discharged") == "still_open"
         and ledger.get("target_gap_id") == target_gap_id
         and ledger.get("final_verdict_if_executed_today") == "still_open"
