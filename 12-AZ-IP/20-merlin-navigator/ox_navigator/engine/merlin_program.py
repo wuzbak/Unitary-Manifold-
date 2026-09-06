@@ -135,6 +135,11 @@ MERLIN_KERNEL_TRACK_DEFAULTS: dict[str, str] = {
     "specialist_mentorship_artifact_deposits": "kernel_a",
 }
 
+COMPILED_FIXTURE_STAGES = (
+    "stage_b_sovereign_takeover",
+    "stage_c_capability_expansion",
+)
+
 
 def get_merlin_pentad_contract() -> dict[str, Any]:
     return {
@@ -1629,7 +1634,7 @@ def build_training_dataset_bundle(
             continue
         splits[record["split"]].append(record)
         kernel_splits[kernel_id][record["split"]].append(record)
-    for stage_name in ("stage_b_sovereign_takeover", "stage_c_capability_expansion"):
+    for stage_name in COMPILED_FIXTURE_STAGES:
         fixtures = list(compiled_fixtures.get(stage_name) or [])
         for fixture in fixtures:
             fixture_kind = str(fixture.get("kind", ""))
@@ -1729,6 +1734,8 @@ def build_training_dataset_bundle(
                 "record_count": len(compiled_records),
                 "stage_b_fixture_count": len(compiled_fixtures["stage_b_sovereign_takeover"]),
                 "stage_c_fixture_count": len(compiled_fixtures["stage_c_capability_expansion"]),
+                "fixture_stage_scope": list(COMPILED_FIXTURE_STAGES),
+                "fixture_stage_scope_policy": "Compiled memory fixtures intentionally target Stage B/C memory and orchestration expansion lanes.",
             },
             "quality_filters": {
                 "applied": [

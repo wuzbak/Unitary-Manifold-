@@ -425,6 +425,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert 'stage_e_external_decommission' in dataset_payload['benchmark_corpora']
     assert counts['benchmark_records']['stage_d_replacement_gates'] >= 3
     assert counts['benchmark_records']['stage_e_external_decommission'] >= 3
+    assert dataset_payload['compile_time_memory']['fixture_stage_scope'] == [
+        'stage_b_sovereign_takeover',
+        'stage_c_capability_expansion',
+    ]
 
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
     assert mlflow['ok'] is True
