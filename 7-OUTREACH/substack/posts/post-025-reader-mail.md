@@ -39,6 +39,7 @@ They do not replace independent replication or external data.
 
 A: Not fully.  
 The repository documents later in-repo remediation attempts, but the CMB amplitude suppression remains a known open-problem lane in `FALLIBILITY.md` and should be read as unresolved pending stronger closure-grade evidence.
+For direct verification context, see `FALLIBILITY.md` and `7-OUTREACH/substack/posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md`.
 
 ---
 
@@ -96,7 +97,8 @@ A: Serious and professional, with enough self-awareness to avoid pretending unce
 ---
 
 **→ GitHub:** [github.com/wuzbak/Unitary-Manifold-](https://github.com/wuzbak/Unitary-Manifold-)  
-**→ Zenodo DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)
+**→ Zenodo DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)  
+**→ Quick check path:** `python VERIFY.py`
 
 ---
 
