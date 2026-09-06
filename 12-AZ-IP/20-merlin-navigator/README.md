@@ -21,7 +21,7 @@
 1. `MERLIN_SMART_ROADMAP.md` (one-page plan)
 2. `MERLIN_FRONTIER_ROADMAP.md` (full execution roadmap)
 3. `MERLIN_PROGRAM.md` (implemented surfaces + ledger)
-4. `../../7-OUTREACH/substack/posts/post-319-s04e022-merlin-where-we-are-and-where-we-are-going.md` (reader-facing narrative)
+4. `../../../7-OUTREACH/substack/posts/post-319-s04e022-merlin-where-we-are-and-where-we-are-going.md` (reader-facing narrative)
 
 This order is optimized for people who need to read quickly, understand clearly, and then verify details.
 
