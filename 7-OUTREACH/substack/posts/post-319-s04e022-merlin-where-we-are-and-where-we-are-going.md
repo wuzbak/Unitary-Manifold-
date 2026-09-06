@@ -8,12 +8,11 @@ This matters because most model narratives optimize for impressive demos first a
 
 ## If you are new: fastest research path
 
-1. [`12-AZ-IP/20-merlin-navigator/MERLIN_SMART_ROADMAP.md`](../../../12-AZ-IP/20-merlin-navigator/MERLIN_SMART_ROADMAP.md) (one-page orientation)
-2. [`12-AZ-IP/20-merlin-navigator/MERLIN_FRONTIER_ROADMAP.md`](../../../12-AZ-IP/20-merlin-navigator/MERLIN_FRONTIER_ROADMAP.md) (full plan)
-3. [`12-AZ-IP/20-merlin-navigator/MERLIN_PROGRAM.md`](../../../12-AZ-IP/20-merlin-navigator/MERLIN_PROGRAM.md) (implementation ledger)
-4. [`12-AZ-IP/20-merlin-navigator/README.md`](../../../12-AZ-IP/20-merlin-navigator/README.md) (runtime/API details)
+Use the canonical start-here path in:
 
-This sequence is the shortest path from summary to verifiable technical detail.
+- [`12-AZ-IP/20-merlin-navigator/MERLIN_SMART_ROADMAP.md`](../../../12-AZ-IP/20-merlin-navigator/MERLIN_SMART_ROADMAP.md)
+
+That document is the maintained short-to-deep reading sequence.
 
 ---
 
