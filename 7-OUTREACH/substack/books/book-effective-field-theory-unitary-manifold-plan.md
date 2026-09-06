@@ -1,66 +1,48 @@
-# Completion Plan — Effective Field Theory in the Unitary Manifold
+# Companion Scope Note — Effective Field Theory in the Unitary Manifold
 
-**Target manuscript:**  
+**Primary manuscript:**  
 `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/7-OUTREACH/substack/books/book-effective-field-theory-unitary-manifold.md`
 
-**Objective:** Deliver a publication-ready academic draft that is technically accurate to repository state, epistemically explicit, and ready for PR merge.
+This file should not be read as a second book or as a draft pretending to be finished literature. Its proper role is narrower and more useful: it is the editorial scope note for the main EFT manuscript, written so readers and future editors can see exactly what that manuscript is trying to do, what it is not trying to do, and where its honesty boundaries must remain firm.
 
----
+## What the main manuscript is for
 
-## 1) Scope Lock
+The main EFT volume is the bounded academic statement of the Unitary Manifold's effective-field-theory layer. It is the place where the repository tries to say, as cleanly as possible, what follows inside the 5D ansatz, what can be treated as controlled EFT structure, and where the theory runs into open ultraviolet or observational burdens.
 
-- Keep manuscript scoped to the 5D EFT layer and clearly label boundaries with adjacent tracks.
-- Avoid unsupported universality claims; route unresolved items to open-problem ledgers.
-- Preserve hard distinction between derivation, bounded mechanism, and architecture limit.
+That scope matters. A good EFT manuscript is not a place to smuggle in every attractive implication of the larger project. It is a place to keep the derivation chain, the reduction logic, the named quantities, and the falsification boundaries readable enough that a skeptical technical reader can tell what is being asserted.
 
----
+## What it must stay anchored to
 
-## 2) Accuracy Pass
+Any editorial pass on the EFT book should remain consistent with the repository's canonical truth surfaces:
 
-- Verify constants and named quantities against current repository references.
-- Ensure all status-sensitive statements align with `STATUS.md` and `FALLIBILITY.md`.
-- Remove or rephrase any line that implies closure where repository labels say partial/open.
+- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/STATUS.md`
+- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/FALLIBILITY.md`
+- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/1-THEORY/DERIVATION_STATUS.md`
+- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/docs/TRUTH_LAYER.md`
 
----
+Those files are not decorative references. They are the guardrails that keep the book from claiming closure where the repository itself still records tension, architecture limits, or observational dependence.
 
-## 3) Structural Pass
+## What the manuscript should not do
 
-- Confirm chapter order creates a complete argument: setup → reduction → derived outputs → limits → falsification.
-- Keep each chapter single-purpose and cross-reference only canonical files.
-- Ensure appendices include absolute-path pointers for reproducible navigation in this environment.
+It should not rely on score-style branding, celebratory phrasing, or vague talk of “proof” where the live repository now records a narrower result. It should not blur hardgate physics, bounded frontier work, and adjacent-track analogy into a single undifferentiated success narrative. And it should not confuse passing tests with independent empirical confirmation.
 
----
+## How to read it well
 
-## 4) Editorial Integrity Pass
+The best way to approach the main EFT book is in five questions:
 
-- Enforce plain epistemic language (no score-style branding or inflated certainty).
-- Maintain consistent role attribution:
-  - Theory/scientific direction: ThomasCory Walker-Pearson
-  - Technical synthesis/document engineering: GitHub Copilot (AI)
-- Keep tone technical and audit-friendly.
+1. What does the 5D ansatz actually commit the framework to?
+2. Which 4D structures are claimed as reductions rather than fitted insertions?
+3. Which outputs are internal consistency results, and which remain observation-dependent?
+4. Where does the manuscript hand off to the falsification ledger rather than forcing a happy ending?
+5. Which open problems remain real even if the software implementation is internally consistent?
 
----
+If the book answers those questions cleanly, it is doing its job.
 
-## 5) PR Readiness Pass
+## Editorial standard
 
-- Run final consistency review over both manuscript and this plan file.
-- Confirm no credentials/secrets introduced in changed files.
-- Prepare concise PR summary focused on:
-  - New manuscript creation
-  - Companion completion plan
-  - Validation performed
+The correct tone for this companion and for the main manuscript is sober, intelligible, and audit-friendly. The goal is not to impress a sympathetic reader. The goal is to leave a skeptical one with a clear map of the claims, the assumptions, and the unresolved burdens.
 
----
-
-## 6) Merge Criteria
-
-Merge when all conditions are true:
-
-1. Manuscript is complete and coherent as a standalone EFT text.
-2. Claims are aligned with current repository status labels.
-3. No contradictory statements against current open-problem registry.
-4. No secret-scan findings.
-5. PR description clearly communicates scope and limitations.
+That is the purpose of this companion note: not to replace the EFT book, but to keep its scope explicit.
 
 ---
 
