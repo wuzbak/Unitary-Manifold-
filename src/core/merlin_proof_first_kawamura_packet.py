@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import importlib
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Protocol
 
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 
@@ -31,9 +31,21 @@ _SECTION_HEADINGS = {
 }
 
 
-def _load_program_module():
+class _MerlinProgramProtocol(Protocol):
+    def get_proof_first_closure_charter(self) -> dict[str, Any]: ...
+
+    def get_kawamura_closure_burden_ledger(self) -> dict[str, Any]: ...
+
+    def get_merlin_cross_review_packet(self) -> dict[str, Any]: ...
+
+
+def _load_program_module() -> _MerlinProgramProtocol:
     ensure_merlin_package_loaded(_PRODUCT_ROOT)
     return importlib.import_module("ox_navigator.engine.merlin_program")
+
+
+def _read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8") if path.exists() else ""
 
 
 def _count_theorems(text: str) -> int:
@@ -54,20 +66,17 @@ def _article_section_hits(article_text: str, required_sections: list[str]) -> di
     }
 
 
-def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
-    program = _load_program_module()
-    charter = program.get_proof_first_closure_charter()
-    ledger = program.get_kawamura_closure_burden_ledger()
-    cross_review = program.get_merlin_cross_review_packet()
-    lean_text = _LEAN4_FILE.read_text(encoding="utf-8") if _LEAN4_FILE.exists() else ""
-    article_text = _SUBSTACK_POST.read_text(encoding="utf-8") if _SUBSTACK_POST.exists() else ""
-    theorem_count = _count_theorems(lean_text)
-    marker_hits = {marker: marker in lean_text for marker in _SEMANTIC_MARKERS}
+def _normalize_article_contract(charter: dict[str, Any], article_text: str) -> tuple[str, dict[str, bool], bool]:
     target_gap_id = str(charter.get("target_gap_id", ""))
-    required_sections_raw = (charter.get("article_contract") or {}).get("required_sections")
+    article_contract = charter.get("article_contract") or {}
+    required_sections_raw = article_contract.get("required_sections")
     required_sections = required_sections_raw if isinstance(required_sections_raw, list) else []
     required_sections_valid = isinstance(required_sections_raw, list)
     article_sections = _article_section_hits(article_text, required_sections)
+    return target_gap_id, article_sections, required_sections_valid
+
+
+def _normalize_ledger(ledger: dict[str, Any], target_gap_id: str) -> tuple[list[dict[str, Any]], bool, bool]:
     classification_buckets_raw = ledger.get("classification_buckets")
     classification_buckets = (
         classification_buckets_raw if isinstance(classification_buckets_raw, dict) else {}
@@ -76,6 +85,42 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     open_items = open_residuals_raw if isinstance(open_residuals_raw, list) else []
     open_items_valid = isinstance(classification_buckets_raw, dict) and isinstance(open_residuals_raw, list)
     residual_match = any(str(item.get("gap_id", "")) == target_gap_id for item in open_items)
+    return open_items, open_items_valid, residual_match
+
+
+def _lean4_state(lean_text: str) -> dict[str, Any]:
+    theorem_count = _count_theorems(lean_text)
+    marker_hits = {marker: marker in lean_text for marker in _SEMANTIC_MARKERS}
+    return {
+        "file": _display_path(_LEAN4_FILE),
+        "exists": _LEAN4_FILE.exists(),
+        "theorem_count": theorem_count,
+        "expected_theorem_count": _EXPECTED_THEOREM_COUNT,
+        "semantic_markers": marker_hits,
+    }
+
+
+def _substack_state(article_sections: dict[str, bool]) -> dict[str, Any]:
+    return {
+        "path": _display_path(_SUBSTACK_POST),
+        "exists": _SUBSTACK_POST.exists(),
+        "required_sections": article_sections,
+    }
+
+
+def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
+    program = _load_program_module()
+    charter = program.get_proof_first_closure_charter()
+    ledger = program.get_kawamura_closure_burden_ledger()
+    cross_review = program.get_merlin_cross_review_packet()
+    lean_text = _read_text(_LEAN4_FILE)
+    article_text = _read_text(_SUBSTACK_POST)
+    target_gap_id, article_sections, required_sections_valid = _normalize_article_contract(
+        charter, article_text
+    )
+    open_items, open_items_valid, residual_match = _normalize_ledger(ledger, target_gap_id)
+    lean4 = _lean4_state(lean_text)
+    substack_article = _substack_state(article_sections)
     stewardship = charter.get("stewardship") or {}
     reconciliation_policy = cross_review.get("reconciliation_policy") or {}
 
@@ -88,11 +133,11 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
         and ledger.get("final_verdict_if_executed_today") == "still_open"
         and residual_match
         and reconciliation_policy.get("final_verdict_if_unresolved_objection") == "still_open"
-        and _LEAN4_FILE.exists()
-        and theorem_count == _EXPECTED_THEOREM_COUNT
-        and all(marker_hits.values())
-        and _SUBSTACK_POST.exists()
-        and all(article_sections.values())
+        and lean4["exists"]
+        and lean4["theorem_count"] == lean4["expected_theorem_count"]
+        and all(lean4["semantic_markers"].values())
+        and substack_article["exists"]
+        and all(substack_article["required_sections"].values())
     )
 
     return {
@@ -100,18 +145,9 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
         "charter": charter,
         "burden_ledger": ledger,
         "cross_review_packet": cross_review,
-        "lean4": {
-            "file": _display_path(_LEAN4_FILE),
-            "exists": _LEAN4_FILE.exists(),
-            "theorem_count": theorem_count,
-            "expected_theorem_count": _EXPECTED_THEOREM_COUNT,
-            "semantic_markers": marker_hits,
-        },
-        "substack_article": {
-            "path": _display_path(_SUBSTACK_POST),
-            "exists": _SUBSTACK_POST.exists(),
-            "required_sections": article_sections,
-        },
+        "open_residual_count": len(open_items),
+        "lean4": lean4,
+        "substack_article": substack_article,
         "final_verdict": "still_open",
         "valid": valid,
     }
