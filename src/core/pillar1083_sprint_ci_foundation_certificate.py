@@ -99,7 +99,7 @@ def sprint_ci_foundation_certificate() -> Dict[str, Any]:
         "publication_packet": pubs,
         "merlin_handoff_ok": handoff_ok,
         "sprint_success": valid,
-        "scientific_progress": packet["scientific_progress"],
+        "scientific_progress": bool(packet.get("scientific_progress")),
         "valid": valid,
         "packet_valid": valid,
     }
