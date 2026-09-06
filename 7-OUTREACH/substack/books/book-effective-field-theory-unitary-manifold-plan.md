@@ -1,7 +1,7 @@
 # Completion Plan — Effective Field Theory in the Unitary Manifold
 
 **Target manuscript:**  
-`/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/7-OUTREACH/substack/books/book-effective-field-theory-unitary-manifold.md`
+`7-OUTREACH/substack/books/book-effective-field-theory-unitary-manifold.md`
 
 **Objective:** Deliver a publication-ready academic draft that is technically accurate to repository state, epistemically explicit, and ready for PR merge.
 

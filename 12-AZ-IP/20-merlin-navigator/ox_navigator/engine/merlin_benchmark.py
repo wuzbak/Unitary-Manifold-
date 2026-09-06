@@ -340,7 +340,24 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
         return default
 
 
-def evaluate_kernel_gate_summary(runs: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+def _infer_kernel_for_benchmark_definition(benchmark: dict[str, Any]) -> str:
+    sample = f"{benchmark.get('track', '')} {benchmark.get('query', '')}".lower()
+    if any(term in sample for term in ("memory", "contradiction", "audit", "drift")):
+        return "kernel_a"
+    if any(term in sample for term in ("tool", "orchestration", "routing", "schema")):
+        return "kernel_r"
+    if any(term in sample for term in ("proof", "formal", "lean", "theorem")):
+        return "kernel_p"
+    if any(term in sample for term in ("governance", "safety", "privilege", "refusal", "boundary")):
+        return "kernel_g"
+    return "kernel_s"
+
+
+def evaluate_kernel_gate_summary(
+    runs: list[dict[str, Any]] | None = None,
+    *,
+    required_kernel_ids: list[str] | None = None,
+) -> dict[str, Any]:
     samples = list(runs or [])
     if not samples:
         return {
@@ -357,8 +374,19 @@ def evaluate_kernel_gate_summary(runs: list[dict[str, Any]] | None = None) -> di
         kernel_id = str(kernel.get("id") or "kernel_s")
         per_kernel.setdefault(kernel_id, []).append(telemetry)
 
+    kernel_ids_to_check = list(required_kernel_ids or sorted(per_kernel.keys()))
+    if not kernel_ids_to_check:
+        return {
+            "ok": True,
+            "gate_pass": False,
+            "reason": "No kernel receipts available for required kernel set.",
+            "kernels": {},
+            "thresholds": KERNEL_GATE_THRESHOLDS,
+        }
+
     kernel_results: dict[str, Any] = {}
-    for kernel_id, thresholds in KERNEL_GATE_THRESHOLDS.items():
+    for kernel_id in kernel_ids_to_check:
+        thresholds = dict(KERNEL_GATE_THRESHOLDS.get(kernel_id) or {})
         telemetry_rows = per_kernel.get(kernel_id, [])
         if not telemetry_rows:
             kernel_results[kernel_id] = {
@@ -419,6 +447,7 @@ def evaluate_kernel_gate_summary(runs: list[dict[str, Any]] | None = None) -> di
     return {
         "ok": True,
         "thresholds": KERNEL_GATE_THRESHOLDS,
+        "required_kernel_ids": kernel_ids_to_check,
         "kernels": kernel_results,
         "gate_pass": all(item.get("gate_pass") for item in kernel_results.values()),
     }
@@ -870,7 +899,16 @@ async def run_stage_head_to_head_receipts(
         or (not item["merlin_shadow_ok"])
         or (not item["parity_ok"])
     ]
-    kernel_gate_summary = evaluate_kernel_gate_summary(runs)
+    required_kernel_ids = sorted(
+        {
+            _infer_kernel_for_benchmark_definition(benchmark)
+            for benchmark in selected
+        }
+    )
+    kernel_gate_summary = evaluate_kernel_gate_summary(
+        runs,
+        required_kernel_ids=required_kernel_ids,
+    )
     return {
         "ok": True,
         "stage": corpus["stage"],

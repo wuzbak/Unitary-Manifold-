@@ -55,26 +55,35 @@ def _contract_compliant(answer: str) -> bool:
     return bool(sample.strip()) and "FOLLOWUPS:" in sample and "Sources:" in sample
 
 
-def _kernel_profile(router_decision: dict[str, Any], *, context_source: str) -> dict[str, Any]:
+def _kernel_profile(router_decision: dict[str, Any], *, context_source: str, query: str) -> dict[str, Any]:
     lane = str(router_decision.get("lane") or "medium_reasoner_default")
+    kernel_hint = str(router_decision.get("kernel_hint") or "").strip().lower()
     provider_variant = str(
         router_decision.get("local_candidate_provider")
         or router_decision.get("inference_provider")
         or router_decision.get("provider")
         or "deterministic_retrieval"
     )
-    if context_source in {"policy_block", "privilege_block"}:
+    query_sample = str(query or "").lower()
+    if kernel_hint in {"kernel_s", "kernel_p", "kernel_r", "kernel_a", "kernel_g"}:
+        kernel_id = kernel_hint
+    elif context_source in {"policy_block", "privilege_block"}:
         kernel_id = "kernel_g"
-        role = "Gate"
     elif lane == "small_fast_router":
         kernel_id = "kernel_r"
-        role = "Router"
+    elif any(term in query_sample for term in ("memory", "audit", "contradiction", "recall", "drift")):
+        kernel_id = "kernel_a"
     elif lane == "heavy_reasoner_exception":
         kernel_id = "kernel_p"
-        role = "Prover"
     else:
         kernel_id = "kernel_s"
-        role = "Sage"
+    role = {
+        "kernel_s": "Sage",
+        "kernel_p": "Prover",
+        "kernel_r": "Router",
+        "kernel_a": "Auditor",
+        "kernel_g": "Gate",
+    }.get(kernel_id, "Sage")
     return {
         "id": kernel_id,
         "role": role,
@@ -108,7 +117,7 @@ def build_run_telemetry(
     output_tokens = estimate_token_count(answer)
     provider = str(router_decision.get("provider") or "sovereign_local")
     lane = str(router_decision.get("lane") or "medium_reasoner_default")
-    kernel = _kernel_profile(router_decision, context_source=context_source)
+    kernel = _kernel_profile(router_decision, context_source=context_source, query=query)
     provenance_sources = list(provenance.get("sources") or [])
     contract_ok = _contract_compliant(answer)
     contract_rate = float(contract_pass_rate) if contract_pass_rate is not None else (1.0 if contract_ok else 0.0)

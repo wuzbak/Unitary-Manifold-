@@ -225,6 +225,43 @@ def test_kernel_gate_summary_flags_demotion_on_threshold_miss():
     assert summary["kernels"]["kernel_r"]["decision"] == "demote"
 
 
+def test_build_run_telemetry_maps_memory_audit_queries_to_auditor_kernel():
+    run = build_run_telemetry(
+        query="Audit memory drift and contradiction recall for this session.",
+        answer="GOVERNANCE\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={"provider": "sovereign_local", "lane": "medium_reasoner_default"},
+        context_source="sovereign_local_model",
+        tool_rounds=0,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "memory"}]},
+        gate_badges=["GOVERNANCE"],
+        memory_hits=1,
+        contradiction_events=0,
+        latency_ms=5.0,
+    )
+    assert run["kernel"]["id"] == "kernel_a"
+    assert run["kernel"]["role"] == "Auditor"
+
+
+def test_kernel_gate_summary_scopes_to_required_kernels_only():
+    runs = [
+        {
+            "merlin_telemetry": {
+                "kernel": {"id": "kernel_s"},
+                "quality_signals": {
+                    "contract_pass_rate": 1.0,
+                    "boundary_violation_rate": 0.0,
+                    "contradiction_miss_rate": 0.0,
+                    "tool_call_precision": 1.0,
+                },
+            }
+        }
+    ]
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(runs, required_kernel_ids=["kernel_s"])
+    assert summary["gate_pass"] is True
+    assert summary["required_kernel_ids"] == ["kernel_s"]
+
+
 def test_match_benchmark_for_query_uses_keywords():
     match = match_benchmark_for_query('What is the birefringence prediction and how could LiteBIRD falsify it?')
     assert match is not None
