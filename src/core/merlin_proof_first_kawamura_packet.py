@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import importlib
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Dict, Protocol
 
@@ -35,6 +36,16 @@ class _MerlinProgramProtocol(Protocol):
     get_proof_first_closure_charter: Callable[[], dict[str, Any]]
     get_kawamura_closure_burden_ledger: Callable[[], dict[str, Any]]
     get_merlin_cross_review_packet: Callable[[], dict[str, Any]]
+
+
+@dataclass
+class _PacketState:
+    target_gap_id: str = ""
+    charter: dict[str, Any] = field(default_factory=dict)
+    ledger: dict[str, Any] = field(default_factory=dict)
+    cross_review: dict[str, Any] = field(default_factory=dict)
+    article_path: Path = _SUBSTACK_POST
+    article_sections: dict[str, bool] = field(default_factory=dict)
 
 
 def _load_program_module() -> _MerlinProgramProtocol:
@@ -85,8 +96,9 @@ def _resolve_repo_path(path_value: str | None, default: Path) -> tuple[Path, boo
 def _normalize_article_contract(charter: dict[str, Any]) -> tuple[str, Path, bool, list[str], bool]:
     target_gap_id = str(charter.get("target_gap_id", ""))
     article_contract = charter.get("article_contract") or {}
-    configured_path_raw = article_contract.get("path")
-    configured_path, configured_path_valid = _resolve_repo_path(configured_path_raw, _SUBSTACK_POST)
+    configured_path, configured_path_valid = _resolve_repo_path(
+        article_contract.get("path"), _SUBSTACK_POST
+    )
     required_sections_raw = article_contract.get("required_sections")
     required_sections = required_sections_raw if isinstance(required_sections_raw, list) else []
     required_sections_valid = isinstance(required_sections_raw, list)
@@ -125,58 +137,67 @@ def _substack_state(article_path: Path, article_sections: dict[str, bool]) -> di
     }
 
 
-def _fail_closed_packet(*, target_gap_id: str = "", charter: dict[str, Any] | None = None, ledger: dict[str, Any] | None = None, cross_review: dict[str, Any] | None = None, article_path: Path | None = None, article_sections: dict[str, bool] | None = None) -> Dict[str, Any]:
-    resolved_article_path = article_path or _SUBSTACK_POST
-    ledger_payload = ledger or {}
-    classification_buckets = ledger_payload.get("classification_buckets") or {}
-    open_residuals = classification_buckets.get("open_residuals") if isinstance(classification_buckets, dict) else None
+def _fail_closed_packet(state: _PacketState) -> Dict[str, Any]:
+    classification_buckets = state.ledger.get("classification_buckets") or {}
+    open_residuals = (
+        classification_buckets.get("open_residuals") if isinstance(classification_buckets, dict) else None
+    )
     open_residual_count = len(open_residuals) if isinstance(open_residuals, list) else 0
     return {
-        "target_gap_id": target_gap_id,
-        "charter": charter or {},
-        "burden_ledger": ledger_payload,
-        "cross_review_packet": cross_review or {},
+        "target_gap_id": state.target_gap_id,
+        "charter": state.charter,
+        "burden_ledger": state.ledger,
+        "cross_review_packet": state.cross_review,
         "open_residual_count": open_residual_count,
         "lean4": _lean4_state(_read_text(_LEAN4_FILE)),
-        "substack_article": _substack_state(resolved_article_path, article_sections or {}),
+        "substack_article": _substack_state(state.article_path, state.article_sections),
         "final_verdict": "still_open",
         "valid": False,
     }
 
 
 def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
+    state = _PacketState()
     try:
         program = _load_program_module()
     except (ImportError, ModuleNotFoundError, FileNotFoundError):
-        return _fail_closed_packet()
+        return _fail_closed_packet(state)
 
     try:
-        charter = program.get_proof_first_closure_charter()
-        ledger = program.get_kawamura_closure_burden_ledger()
-        cross_review = program.get_merlin_cross_review_packet()
-    except Exception:
-        return _fail_closed_packet()
+        state.charter = program.get_proof_first_closure_charter()
+        state.ledger = program.get_kawamura_closure_burden_ledger()
+        state.cross_review = program.get_merlin_cross_review_packet()
+    except AttributeError:
+        return _fail_closed_packet(state)
 
     lean_text = _read_text(_LEAN4_FILE)
-    target_gap_id, article_path, article_path_valid, required_sections, required_sections_valid = _normalize_article_contract(charter)
-    article_text = _read_text(article_path)
-    article_sections = _article_section_hits(article_text, required_sections)
-    open_items, open_items_valid, residual_match = _normalize_ledger(ledger, target_gap_id)
+    (
+        state.target_gap_id,
+        state.article_path,
+        article_path_valid,
+        required_sections,
+        required_sections_valid,
+    ) = _normalize_article_contract(state.charter)
+    article_text = _read_text(state.article_path)
+    state.article_sections = _article_section_hits(article_text, required_sections)
+    open_items, open_items_valid, residual_match = _normalize_ledger(
+        state.ledger, state.target_gap_id
+    )
     lean4 = _lean4_state(lean_text)
-    substack_article = _substack_state(article_path, article_sections)
-    stewardship = charter.get("stewardship") or {}
-    reconciliation_policy = cross_review.get("reconciliation_policy") or {}
+    substack_article = _substack_state(state.article_path, state.article_sections)
+    stewardship = state.charter.get("stewardship") or {}
+    reconciliation_policy = state.cross_review.get("reconciliation_policy") or {}
 
     valid = bool(
-        bool(target_gap_id)
+        bool(state.target_gap_id)
         and article_path_valid
         and required_sections_valid
         and open_items_valid
         and stewardship.get("default_final_verdict_until_residual_is_discharged") == "still_open"
-        and ledger.get("target_gap_id") == target_gap_id
-        and ledger.get("final_verdict_if_executed_today") == "still_open"
+        and state.ledger.get("target_gap_id") == state.target_gap_id
+        and state.ledger.get("final_verdict_if_executed_today") == "still_open"
         and residual_match
-        and cross_review.get("target_gap_id") == target_gap_id
+        and state.cross_review.get("target_gap_id") == state.target_gap_id
         and reconciliation_policy.get("final_verdict_if_unresolved_objection") == "still_open"
         and lean4["exists"]
         and lean4["theorem_count"] == lean4["expected_theorem_count"]
@@ -186,10 +207,10 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     )
 
     return {
-        "target_gap_id": target_gap_id,
-        "charter": charter,
-        "burden_ledger": ledger,
-        "cross_review_packet": cross_review,
+        "target_gap_id": state.target_gap_id,
+        "charter": state.charter,
+        "burden_ledger": state.ledger,
+        "cross_review_packet": state.cross_review,
         "open_residual_count": len(open_items),
         "lean4": lean4,
         "substack_article": substack_article,

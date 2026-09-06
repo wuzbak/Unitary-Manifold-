@@ -401,7 +401,7 @@ def test_getter_failure_returns_fail_closed_packet(monkeypatch) -> None:
     class _FakeProgram:
         @staticmethod
         def get_proof_first_closure_charter():
-            raise RuntimeError("broken getter")
+            raise AttributeError("missing getter")
 
         @staticmethod
         def get_kawamura_closure_burden_ledger():
