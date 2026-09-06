@@ -341,3 +341,15 @@ def test_non_list_required_sections_fail_closed(monkeypatch) -> None:
     packet = merlin_proof_first_kawamura_packet()
     assert packet["substack_article"]["required_sections"] == {}
     assert packet["valid"] is False
+
+
+def test_loader_failure_returns_fail_closed_packet(monkeypatch) -> None:
+    def _boom():
+        raise ImportError("missing merlin package")
+
+    monkeypatch.setattr(packet_mod, "_load_program_module", _boom)
+    packet = merlin_proof_first_kawamura_packet()
+    assert packet["charter"] == {}
+    assert packet["burden_ledger"] == {}
+    assert packet["cross_review_packet"] == {}
+    assert packet["valid"] is False

@@ -117,11 +117,28 @@ def _substack_state(article_path: Path, article_sections: dict[str, bool]) -> di
     }
 
 
+def _fail_closed_packet(*, target_gap_id: str = "", charter: dict[str, Any] | None = None, ledger: dict[str, Any] | None = None, cross_review: dict[str, Any] | None = None, article_sections: dict[str, bool] | None = None) -> Dict[str, Any]:
+    return {
+        "target_gap_id": target_gap_id,
+        "charter": charter or {},
+        "burden_ledger": ledger or {},
+        "cross_review_packet": cross_review or {},
+        "open_residual_count": 0,
+        "lean4": _lean4_state(_read_text(_LEAN4_FILE)),
+        "substack_article": _substack_state(_SUBSTACK_POST, article_sections or {}),
+        "final_verdict": "still_open",
+        "valid": False,
+    }
+
+
 def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
-    program = _load_program_module()
-    charter = program.get_proof_first_closure_charter()
-    ledger = program.get_kawamura_closure_burden_ledger()
-    cross_review = program.get_merlin_cross_review_packet()
+    try:
+        program = _load_program_module()
+        charter = program.get_proof_first_closure_charter()
+        ledger = program.get_kawamura_closure_burden_ledger()
+        cross_review = program.get_merlin_cross_review_packet()
+    except Exception:
+        return _fail_closed_packet()
     lean_text = _read_text(_LEAN4_FILE)
     target_gap_id, article_path, article_path_valid, required_sections, required_sections_valid = _normalize_article_contract(charter)
     article_text = _read_text(article_path)
