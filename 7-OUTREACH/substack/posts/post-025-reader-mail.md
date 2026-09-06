@@ -37,9 +37,8 @@ They do not replace independent replication or external data.
 
 **Q: Is the CMB amplitude issue resolved?**
 
-A: No—this lane remains explicitly open in current truth surfaces as an architecture-limit pressure point.  
-There are documented in-repo attempts and residual accounting paths, but not a closure-grade outcome.  
-Any statement stronger than “still open” requires new executable evidence.
+A: In the repository record, the original ×4–7 suppression admission was addressed by later closure work (Pillars 57 and 63) and is not treated as an active standalone open-problem item in this FAQ context.  
+That does not remove broader external falsification pressure across cosmology lanes; it means this specific prior admission is recorded as handled in-repo.
 
 ---
 
