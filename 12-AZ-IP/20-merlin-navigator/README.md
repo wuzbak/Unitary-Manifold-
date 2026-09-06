@@ -6,13 +6,24 @@
 - **Folder:** `12-AZ-IP/20-merlin-navigator/`
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
--- **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
+- **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
 - **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/competitive-benchmarks`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/telemetry`
 - **Program endpoints:** `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/runtime`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/competitive-benchmarks`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
+
+---
+
+## Start here (short → deep)
+
+1. `MERLIN_SMART_ROADMAP.md` (one-page plan)
+2. `MERLIN_FRONTIER_ROADMAP.md` (full execution roadmap)
+3. `MERLIN_PROGRAM.md` (implemented surfaces + ledger)
+4. `../../7-OUTREACH/substack/posts/post-319-s04e022-merlin-where-we-are-and-where-we-are-going.md` (reader-facing narrative)
+
+This order is optimized for people who need to read quickly, understand clearly, and then verify details.
 
 ---
 
