@@ -147,7 +147,7 @@ class TestRichardsonConvergenceParametric:
     _GRIDS  = [8, 16, 32]
     _T0     = 0.1
     _MULTS  = [1, 2, 4]
-    _CFL    = 0.1
+    _CFL    = 0.05
     _A_SINE = 0.1
 
     # -------------------------------------------------------------------

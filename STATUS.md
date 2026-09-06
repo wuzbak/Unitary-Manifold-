@@ -8,8 +8,9 @@
 > action-to-evolution equivalence, and joint UV predictivity remain open.
 > The interrupted session's pre-change baseline was 63,430 passed, 43 skipped,
 > 12 deselected, 0 failed; the headline below is a historical regression record.
-> Resumed combined regression: **63,952 passed, 33 skipped, 18 deselected,
-> 0 failed** (443.43 s). Five real CAMB integrations were also run explicitly.
+> Resumed combined regression record: **63,952 / 33 / 18 / 0**
+> (passed / skipped / deselected / failed; 443.43 s). Five real CAMB
+> integrations were also run explicitly.
 > The two audited Lean modules compile warning-free; the full formal build
 > remains unverified. Final reporting repairs passed separate targeted suites.
 > See [the current reassessment](docs/TRUTH_LAYER.md#foundation-reassessment)
