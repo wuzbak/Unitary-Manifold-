@@ -513,6 +513,9 @@ def test_training_dataset_validation_and_quality_rejections(monkeypatch):
     reasons = [item["reason"] for item in payload["dataset"]["quality_filters"]["rejections"]]
     assert "deduplicated_duplicate" in reasons
     assert "quality_filter_failed" in reasons
+    curation = merlin_program.get_training_curation_ledger(limit=10)
+    assert curation["ok"] is False
+    assert curation["validation_error_count"] >= 1
 
 
 def test_route_tool_training_dataset_includes_compiled_insights():

@@ -523,10 +523,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 ))
                 curation_payload = dict(payload.get('data') or {})
                 self._json({
-                    'ok': status == 200,
+                    'ok': bool(curation_payload.get('ok')),
                     'training_curation': dict(curation_payload.get('curation_ledger') or {}),
                     'validation_error_count': int(curation_payload.get('validation_error_count', 0) or 0),
-                    'error': payload.get('error'),
+                    'error': curation_payload.get('error'),
                 }, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
