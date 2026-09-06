@@ -429,6 +429,11 @@ def _advance_fields(state: FieldState,
     """Return a new FieldState with each field advanced by dt * derivative."""
     g_new = state.g + dt * dg
     g_new = 0.5 * (g_new + g_new.transpose(0, 2, 1))
+    cond = np.linalg.cond(g_new)
+    bad = (~np.isfinite(cond)) | (cond > 1e12)
+    if np.any(bad):
+        g_new = np.array(g_new, copy=True)
+        g_new[bad] = np.diag([-1.0, 1.0, 1.0, 1.0])
     return FieldState(g=g_new,
                       B=state.B + dt * dB,
                       phi=state.phi + dt * dphi,
