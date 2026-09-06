@@ -380,6 +380,7 @@ def _tool_manifest() -> dict[str, Any]:
                 },
                 "additionalProperties": False,
             },
+            "risk_level": "medium",
         },
         "runMerlinStageBReceipts": {
             "args_schema": {
@@ -389,6 +390,7 @@ def _tool_manifest() -> dict[str, Any]:
                 },
                 "additionalProperties": False,
             },
+            "risk_level": "medium",
         },
         "runMerlinStageCReceipts": {
             "args_schema": {
@@ -398,6 +400,7 @@ def _tool_manifest() -> dict[str, Any]:
                 },
                 "additionalProperties": False,
             },
+            "risk_level": "medium",
         },
         "evaluateMerlinEmpiricalGate": {
             "args_schema": {
