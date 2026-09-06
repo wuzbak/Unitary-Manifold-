@@ -415,10 +415,6 @@ async def query_merlin(
             contradiction_events=len(session.contradiction_events),
             latency_ms=(time.perf_counter() - started) * 1000,
             retrieval_hit_count=0,
-            contract_pass_rate=1.0,
-            boundary_violation_rate=0.0,
-            contradiction_miss_rate=0.0,
-            tool_call_precision=1.0,
         )
         session.record_run(telemetry)
         ingestion = await run_post_turn_compilation(
@@ -491,10 +487,6 @@ async def query_merlin(
             memory_hits=audit["matched_memory_count"],
             contradiction_events=len(session.contradiction_events),
             latency_ms=(time.perf_counter() - started) * 1000,
-            contract_pass_rate=1.0,
-            boundary_violation_rate=0.0,
-            contradiction_miss_rate=0.0,
-            tool_call_precision=1.0,
         )
         session.record_run(telemetry)
         ingestion = await run_post_turn_compilation(

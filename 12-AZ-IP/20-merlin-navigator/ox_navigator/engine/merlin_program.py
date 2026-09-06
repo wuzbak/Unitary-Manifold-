@@ -1315,8 +1315,16 @@ def build_training_dataset_bundle(
         )
         record["kernel_id"] = kernel_id
         kernel_splits[kernel_id][record["split"]].append(record)
-    benchmark_records["stage_b_sovereign_takeover"].extend(compiled_fixtures["stage_b_sovereign_takeover"])
-    benchmark_records["stage_c_capability_expansion"].extend(compiled_fixtures["stage_c_capability_expansion"])
+    for stage_name in ("stage_b_sovereign_takeover", "stage_c_capability_expansion"):
+        fixtures = list(compiled_fixtures.get(stage_name) or [])
+        for fixture in fixtures:
+            kernel_id = _kernel_for_benchmark_record(
+                str(fixture.get("kind", "")),
+                str(fixture.get("prompt", "")),
+            )
+            fixture_with_kernel = {**fixture, "kernel_id": kernel_id}
+            benchmark_records[stage_name].append(fixture_with_kernel)
+            kernel_benchmark_corpora[stage_name][kernel_id].append(fixture_with_kernel)
 
     split_counts = {name: len(items) for name, items in splits.items()}
     kernel_split_counts = {

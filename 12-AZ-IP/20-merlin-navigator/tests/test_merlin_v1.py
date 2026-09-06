@@ -419,8 +419,11 @@ def test_route_tool_training_dataset_includes_compiled_insights():
     })
     dataset = route_tool('getMerlinTrainingDataset', {'limit': 2}, session=session)
     assert dataset['ok'] is True
-    counts = dataset['result']['data']['dataset']['counts']
+    payload = dataset['result']['data']['dataset']
+    counts = payload['counts']
     assert counts['compile_time_insight_records'] >= 1
+    for stage_name, per_kernel in counts['kernel_benchmark_records'].items():
+        assert sum(per_kernel.values()) == counts['benchmark_records'][stage_name]
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
