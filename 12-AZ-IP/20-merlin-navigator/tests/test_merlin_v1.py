@@ -127,7 +127,10 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
     assert (output_dir / 'test.jsonl').exists()
     assert (output_dir / 'kernels').exists()
     assert (output_dir / 'benchmarks' / 'stage_b_sovereign_takeover.jsonl').exists()
-    assert any(path.suffix == '.jsonl' for path in (output_dir / 'kernels').rglob('*.jsonl'))
+    for kernel_id in ("kernel_s", "kernel_p", "kernel_r", "kernel_a", "kernel_g"):
+        assert (output_dir / "kernels" / kernel_id / "train.jsonl").exists()
+        assert (output_dir / "kernels" / kernel_id / "dev.jsonl").exists()
+        assert (output_dir / "kernels" / kernel_id / "test.jsonl").exists()
     manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
     assert manifest['dataset']['counts']['total_benchmark_records'] >= 18
 
@@ -434,7 +437,20 @@ def test_route_tool_empirical_gate_and_promotion_packet():
     assert gate['result']['data']['gate_pass'] is True
     assert gate['result']['data']['decision'] == 'REPLACEMENT_APPROVED'
 
-    packet = route_tool('getMerlinPromotionPacket', {'head_to_head_runs': runs})
+    packet = route_tool('getMerlinPromotionPacket', {
+        'head_to_head_runs': runs,
+        'kernel_gate_summary': {
+            'ok': True,
+            'gate_pass': True,
+            'kernels': {
+                'kernel_s': {'gate_pass': True},
+                'kernel_p': {'gate_pass': True},
+                'kernel_r': {'gate_pass': True},
+                'kernel_a': {'gate_pass': True},
+                'kernel_g': {'gate_pass': True},
+            },
+        },
+    })
     assert packet['ok'] is True
     assert packet['result']['data']['gate_pass'] is True
     assert packet['result']['data']['decision'] == 'REPLACEMENT_APPROVED'
@@ -556,6 +572,21 @@ def test_route_tool_empirical_gate_rejects_net_quality_downgrade():
     assert gate['result']['data']['checks']['mean_quality_nonnegative'] is False
     assert gate['result']['data']['gate_pass'] is False
     assert gate['result']['data']['decision'] == 'REPLACEMENT_NOT_APPROVED'
+
+
+def test_route_tool_promotion_packet_fail_closed_without_kernel_gates():
+    runs = [
+        {
+            'id': 'r1',
+            'merlin': {'task_success': True, 'quality_score': 0.92, 'energy_joules': 0.4, 'high_severity_policy_violations': 0},
+            'incumbent': {'task_success': True, 'quality_score': 0.90, 'energy_joules': 0.9, 'high_severity_policy_violations': 0},
+        }
+        for _ in range(12)
+    ]
+    packet = route_tool('getMerlinPromotionPacket', {'head_to_head_runs': runs})
+    assert packet['ok'] is True
+    assert packet['result']['data']['checks']['kernel_gate_pass'] is False
+    assert packet['result']['data']['decision'] == 'REPLACEMENT_NOT_APPROVED'
 
 
 def test_route_tool_memory_and_telemetry_state():

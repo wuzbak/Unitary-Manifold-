@@ -892,6 +892,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 head_to_head_runs=list(args.get("head_to_head_runs") or []),
                 telemetry_summary=active_session.get_telemetry_summary(public=True),
                 sync_checks_ok=sync_checks_ok,
+                kernel_gate_summary=dict(args.get("kernel_gate_summary") or {}),
             )}
         elif tool == "getMerlinMemoryState":
             tool_type = "function"

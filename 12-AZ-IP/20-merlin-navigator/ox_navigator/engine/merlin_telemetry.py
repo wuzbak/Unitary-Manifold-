@@ -114,7 +114,7 @@ def build_run_telemetry(
     contract_rate = float(contract_pass_rate) if contract_pass_rate is not None else (1.0 if contract_ok else 0.0)
     boundary_rate = float(boundary_violation_rate) if boundary_violation_rate is not None else 0.0
     contradiction_rate = float(contradiction_miss_rate) if contradiction_miss_rate is not None else (1.0 if contradiction_events else 0.0)
-    tool_precision = float(tool_call_precision) if tool_call_precision is not None else (1.0 if tool_rounds >= 0 else 0.0)
+    tool_precision = float(tool_call_precision) if tool_call_precision is not None else 0.5
     return {
         "recorded_at": _utcnow(),
         "query": query,

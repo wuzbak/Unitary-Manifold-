@@ -169,7 +169,7 @@ def get_merlin_pentad_contract() -> dict[str, Any]:
             ],
             "hardware_kernel_policy": {
                 "status": "deferred_optimization_track",
-                "projects": ["@huggingface/kernels", "Modular MAX", "AutoKernel"],
+                "projects": ["huggingface_webgpu_kernels", "Modular MAX", "AutoKernel"],
                 "activation_rule": "Only after Pentad benchmark and governance stability is sustained.",
             },
         },

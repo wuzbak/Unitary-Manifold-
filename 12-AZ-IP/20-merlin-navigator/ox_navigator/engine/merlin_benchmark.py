@@ -735,15 +735,7 @@ def build_promotion_packet(
     empirical = evaluate_empirical_gate(comparable_runs)
     kernel_gates = dict(kernel_gate_summary or {})
     if not kernel_gates:
-        if comparable_runs:
-            kernel_gates = {
-                "ok": True,
-                "gate_pass": True,
-                "kernels": {},
-                "compatibility_mode": "legacy_head_to_head_runs_without_kernel_receipts",
-            }
-        else:
-            kernel_gates = evaluate_kernel_gate_summary([])
+        kernel_gates = evaluate_kernel_gate_summary(comparable_runs)
     evidence_present = bool(comparable_runs)
     sync_gate = bool(sync_checks_ok) if sync_checks_ok is not None else True
     kernel_gate_pass = bool(kernel_gates.get("gate_pass"))

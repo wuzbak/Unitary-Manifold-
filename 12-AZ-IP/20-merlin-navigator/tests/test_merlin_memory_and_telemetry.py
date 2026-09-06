@@ -64,6 +64,7 @@ def test_merlin_memory_audit_and_telemetry_summary():
     assert summary['latest']['quality_signals']['retrieval_hit_count'] == 0
     assert summary['latest']['kernel']['id'] == 'kernel_s'
     assert summary['latest']['quality_signals']['contract_pass_rate'] == 1.0
+    assert summary['latest']['quality_signals']['tool_call_precision'] == 0.5
 
 
 def test_merlin_memory_does_not_duplicate_seeded_state():
