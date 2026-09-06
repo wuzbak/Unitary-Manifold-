@@ -522,12 +522,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     session=merlin_session,
                 ))
                 curation_payload = dict(payload.get('data') or {})
+                response_status = status if bool(curation_payload.get('ok')) else 500
                 self._json({
                     'ok': bool(curation_payload.get('ok')),
                     'training_curation': dict(curation_payload.get('curation_ledger') or {}),
                     'validation_error_count': int(curation_payload.get('validation_error_count', 0) or 0),
                     'error': curation_payload.get('error'),
-                }, status=status)
+                }, status=response_status)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/open-science-registry':
