@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any, Dict
 
@@ -20,7 +21,7 @@ NEXT_PILLAR_SLOT: int = 1084
 PRIMARY_LANE: str = "FOUNDATION_PHOTON_ACTION"
 
 _ROOT = Path(__file__).resolve().parents[2]
-_PUBLICATION_PACKET_PATH = _ROOT / "docs/sprint_publication_packets.yml"
+_PUBLICATION_PACKET_PATH = _ROOT / "docs/sprint_publication_packets.json"
 _TRACKER_KEY = "v36_5_sprint_ci"
 _REQUIRED_PUBLICATION_KEYS = (
     "findings_report",
@@ -33,13 +34,8 @@ _REQUIRED_PUBLICATION_KEYS = (
 
 def _load_publication_packet() -> Dict[str, Path]:
     try:
-        import yaml  # type: ignore[import]
-    except ImportError:
-        return {}
-
-    try:
-        data = yaml.safe_load(_PUBLICATION_PACKET_PATH.read_text(encoding="utf-8")) or {}
-    except (OSError, yaml.YAMLError):
+        data = json.loads(_PUBLICATION_PACKET_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
         return {}
     packet = data.get(_TRACKER_KEY, {}) if isinstance(data, dict) else {}
     if not isinstance(packet, dict):
