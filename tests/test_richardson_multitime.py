@@ -21,7 +21,7 @@ Design (pseudocode specification)
 -----------------------------------------------------------------------
     DOMAIN  = 1.6
     grids   = [8, 16, 32]      dx(N) = DOMAIN / N
-    T0      = 0.1              dt(N) = CFL * dx²   (CFL = 0.1)
+    T0      = 0.1              dt(N) = CFL * dx²   (CFL = 0.05)
     times   = [T0, 2·T0, 4·T0]
     A_sine  = 0.1              phi₀ = 1 + A·sin(2π x / DOMAIN)
 
@@ -50,8 +50,8 @@ Over-diffusion diagnostic
 
 Estimated wall-clock time
 -------------------------
-    ~115 s on a single core (cumulative RK4 steps: N=8→99, N=16→399,
-    N=32→1599 at CFL=0.1).  Marked ``slow`` so the normal CI suite
+    ~230 s on a single core (cumulative RK4 steps: N=8→199, N=16→799,
+    N=32→3199 at CFL=0.05).  Marked ``slow`` so the normal CI suite
     is not affected (see ``pytest.ini``).
 """
 
@@ -147,7 +147,7 @@ class TestRichardsonConvergenceParametric:
     _GRIDS  = [8, 16, 32]
     _T0     = 0.1
     _MULTS  = [1, 2, 4]
-    _CFL    = 0.1
+    _CFL    = 0.05
     _A_SINE = 0.1
 
     # -------------------------------------------------------------------
