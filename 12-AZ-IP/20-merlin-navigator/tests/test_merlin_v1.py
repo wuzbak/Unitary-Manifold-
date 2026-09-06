@@ -1382,6 +1382,55 @@ def test_server_merlin_endpoints():
         thread.join(timeout=2)
 
 
+def test_server_training_export_validation_failures_return_422(monkeypatch):
+    from ox_navigator.app import server as server_module
+
+    monkeypatch.setattr(
+        server_module,
+        'build_training_dataset_bundle',
+        lambda limit=None, compiled_insights=None: {
+            'ok': False,
+            'error': 'Dataset validation failed.',
+            'validation_error_count': 1,
+            'dataset': {'counts': {}, 'curation_ledger': {}},
+        },
+    )
+    monkeypatch.setattr(
+        server_module,
+        'route_tool',
+        lambda tool, args=None, session=None: {
+            'ok': True,
+            'result': {
+                'data': {
+                    'ok': False,
+                    'error': 'Dataset validation failed.',
+                    'validation_error_count': 1,
+                    'curation_ledger': {},
+                }
+            },
+        },
+    )
+
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        port = httpd.server_address[1]
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+            training_dataset = client.get('/api/merlin/training-dataset?limit=4')
+            assert training_dataset.status_code == 422
+            assert training_dataset.json()['ok'] is False
+
+            training_curation = client.get('/api/merlin/training-curation?limit=4')
+            assert training_curation.status_code == 422
+            assert training_curation.json()['ok'] is False
+            assert training_curation.json()['validation_error_count'] == 1
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
 def test_route_tool_schema_validation_blocks_invalid_args():
     payload = route_tool('getPillar', {'pillar_id': 'not-int'})
     assert payload['ok'] is False

@@ -508,7 +508,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({'ok': False, 'error': error}, status=400)
                     return
                 compiled = merlin_session.get_compiled_training_insights()
-                self._json(build_training_dataset_bundle(limit=limit, compiled_insights=compiled))
+                dataset_payload = build_training_dataset_bundle(limit=limit, compiled_insights=compiled)
+                self._json(dataset_payload, status=200 if dataset_payload.get('ok') else 422)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/training-curation':
@@ -531,7 +532,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     'training_curation': dict(curation_payload.get('curation_ledger') or {}),
                     'validation_error_count': int(curation_payload.get('validation_error_count', 0) or 0),
                     'error': curation_payload.get('error'),
-                })
+                }, status=200 if curation_payload.get('ok') else 422)
                 self._persist_session(session_id, merlin_session)
                 return
             if parsed.path == '/api/merlin/open-science-registry':

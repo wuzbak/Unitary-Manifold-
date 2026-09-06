@@ -79,8 +79,8 @@ Related reading outside this product folder:
 - `GET /api/merlin/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
 - `GET /api/merlin/benchmarks` exposes benchmark harness tracks and promotion gates.
 - `GET /api/merlin/training-architecture` exposes the full Merlin training stack, dataset families, curriculum, and governed seed corpus manifest.
-- `GET /api/merlin/training-dataset` exposes an actual JSONL-ready train/dev/test bundle plus benchmark records for export pipelines.
-- `GET /api/merlin/training-curation` exposes deterministic low-token curation, deduplication, structural-quality, and budget-gate metrics for the current export cycle.
+- `GET /api/merlin/training-dataset` exposes an actual JSONL-ready train/dev/test bundle plus benchmark records for export pipelines; validation failures return HTTP `422` with `ok: false`.
+- `GET /api/merlin/training-curation` exposes deterministic low-token curation, deduplication, structural-quality, and budget-gate metrics for the current export cycle; validation failures return HTTP `422` with `ok: false`.
 - `GET /api/merlin/mlflow-manifests` exposes MLflow-ready experiment manifests for SFT, preference optimization, and Stage B/C gate evaluations.
 - `GET /api/merlin/open-science-registry` exposes curated external open-science resources allowed for controlled augmentation.
 - `GET /api/merlin/competitive-benchmarks` exposes the competitive benchmark families Merlin must clear before broader promotion.
