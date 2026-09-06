@@ -44,8 +44,11 @@ def _load_publication_packet() -> Dict[str, Path]:
                 in_packet = True
             continue
 
-        if not line.startswith("    "):
+        indent = len(line) - len(line.lstrip(" "))
+        if indent < 4:
             break
+        if indent != 4:
+            continue
 
         key, _, raw_value = line.strip().partition(":")
         value = raw_value.strip().strip('"')
@@ -60,7 +63,10 @@ PUBLICATION_PACKET = _load_publication_packet()
 
 def _publication_packet_check() -> Dict[str, Any]:
     exists = {name: path.exists() for name, path in PUBLICATION_PACKET.items()}
-    return {"exists": exists, "status": "PASS" if all(exists.values()) else "FAIL"}
+    return {
+        "exists": exists,
+        "status": "PASS" if exists and all(exists.values()) else "FAIL",
+    }
 
 
 def sprint_ci_foundation_certificate() -> Dict[str, Any]:
