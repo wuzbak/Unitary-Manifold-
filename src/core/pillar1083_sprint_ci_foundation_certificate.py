@@ -30,7 +30,10 @@ def _load_publication_packet() -> Dict[str, Path]:
     except ImportError:
         return {}
 
-    data = yaml.safe_load(_PUBLICATION_PACKET_PATH.read_text(encoding="utf-8")) or {}
+    try:
+        data = yaml.safe_load(_PUBLICATION_PACKET_PATH.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return {}
     packet = data.get(_TRACKER_KEY, {}) if isinstance(data, dict) else {}
     if not isinstance(packet, dict):
         return {}
