@@ -1621,6 +1621,7 @@ def build_training_dataset_bundle(
             kernel_benchmark_corpora[stage_name][kernel_id].append(benchmark_record)
 
     compiled_records, compiled_fixtures = _build_compiled_insight_records(compiled_insights)
+    accepted_compiled_records = 0
     for record in compiled_records:
         kernel_id = _kernel_for_training_record(
             str(record.get("task_family", "")),
@@ -1634,6 +1635,7 @@ def build_training_dataset_bundle(
             continue
         splits[record["split"]].append(record)
         kernel_splits[kernel_id][record["split"]].append(record)
+        accepted_compiled_records += 1
     for stage_name in COMPILED_FIXTURE_STAGES:
         fixtures = list(compiled_fixtures.get(stage_name) or [])
         for fixture in fixtures:
@@ -1696,7 +1698,7 @@ def build_training_dataset_bundle(
                 "kernel_benchmark_records": kernel_benchmark_counts,
                 "total_training_records": sum(split_counts.values()),
                 "total_benchmark_records": sum(benchmark_counts.values()),
-                "compile_time_insight_records": len(compiled_records),
+                "compile_time_insight_records": accepted_compiled_records,
             },
             "schema": {
                 "training_fields": [
@@ -1731,7 +1733,7 @@ def build_training_dataset_bundle(
             },
             "compile_time_memory": {
                 "source": "MerlinSession.compiled_insights",
-                "record_count": len(compiled_records),
+                "record_count": accepted_compiled_records,
                 "stage_b_fixture_count": len(compiled_fixtures["stage_b_sovereign_takeover"]),
                 "stage_c_fixture_count": len(compiled_fixtures["stage_c_capability_expansion"]),
                 "fixture_stage_scope": list(COMPILED_FIXTURE_STAGES),
