@@ -290,6 +290,7 @@ def test_toolkit_state_view_shape():
     assert 'MerlinSession' in payload['entities']
     assert 'memory' in payload
     assert 'telemetry' in payload
+    assert payload['mentorship']['dual_loop']['loops']['hils_loop_pentad']['role'] == 'merlin_as_governed_participant'
 
 
 def test_route_tool_fetch_repo_context():
@@ -328,6 +329,13 @@ def test_route_tool_merlin_program_blueprint():
     assert payload['identity_and_trust']['canonical_identity'] == CANONICAL_IDENTITY
     assert payload['sentinel_policy']['first_violation_action'] == 'warn_and_refuse'
     assert payload['program_office']['authority_model']['rollback'] == 'program office + stewards'
+    assert payload['dual_loop_learning_contract']['promotion_policy']['promotion_requires_hils_validation'] is True
+    assert payload['deterministic_proof_closure']['allowed_verdict_classes'] == [
+        'closed_now',
+        'tightened_with_explicit_blocker',
+        'external_wait_only',
+    ]
+    assert payload['dual_loop_sprint_command_rhythm']['cadence'][0]['phase'] == 'kickoff'
 
 
 def test_route_tool_benchmark_corpus_and_policy_metadata():
@@ -584,6 +592,10 @@ def test_route_tool_program_office_and_control_tower():
     assert mentorship['charter']['mode'] == 'full_rigor_no_partial_delivery'
     assert len(mentorship['faculty_matrix']['faculty']) == 5
     assert mentorship['completion_contract']['gate_policy'] == 'fail_closed'
+    dual_loop = office['result']['data']['dual_loop_operations']
+    assert dual_loop['learning_contract']['loops']['kitty_loop_pentad']['role'] == 'merlin_as_human_node'
+    assert dual_loop['mirrored_training_cycle']['sequence'][1]['phase'] == 'production_governed_pass'
+    assert dual_loop['deterministic_proof_closure']['allowed_verdict_classes'][0] == 'closed_now'
 
     control = route_tool('getMerlinControlTower', {'limit': 1})
     assert control['ok'] is True
@@ -633,6 +645,22 @@ def test_route_tool_mentorship_surfaces():
     closure = route_tool('getMerlinMentorshipClosureContract', {})
     assert closure['ok'] is True
     assert closure['result']['data']['name'] == 'mentorship_to_runtime_closure'
+
+    dual_loop = route_tool('getMerlinDualLoopContract', {})
+    assert dual_loop['ok'] is True
+    assert dual_loop['result']['data']['promotion_policy']['kitty_loop_wins'] == 'candidate_evidence_only'
+
+    mirrored = route_tool('getMerlinMirroredTrainingCycle', {})
+    assert mirrored['ok'] is True
+    assert mirrored['result']['data']['sequence'][0]['loop'] == 'kitty_loop_pentad'
+
+    closure_contract = route_tool('getMerlinDeterministicClosureContract', {})
+    assert closure_contract['ok'] is True
+    assert closure_contract['result']['data']['promotion_guardrail'].startswith('No escalation')
+
+    rhythm = route_tool('getMerlinDualLoopSprintRhythm', {})
+    assert rhythm['ok'] is True
+    assert rhythm['result']['data']['cadence'][-1]['phase'] == 'closeout'
 
 
 def test_route_tool_control_tower_clamps_non_positive_limit():
@@ -945,6 +973,37 @@ def test_orchestrate_blocks_privilege_tool():
         raise AssertionError('Expected orchestration to block privileged tool')
 
 
+def test_orchestrate_high_risk_chain_requires_trajectory_contract():
+    blocked = orchestrate_steps([
+        {'tool': 'runMerlinSyncChecks', 'args': {}},
+    ])
+    assert blocked['ok'] is False
+    assert blocked['trajectory_preflight']['error'] == 'trajectory_contract_required_for_high_risk_chain'
+
+    allowed = orchestrate_steps([
+        {
+            'tool': 'runMerlinSyncChecks',
+            'args': {},
+            'trajectory_contract': {
+                'id': 'sync_checks_read_only_guard',
+                'invariants': ['no_repo_mutation', 'no_external_write'],
+                'lean4_hook_enabled': False,
+            },
+        },
+    ])
+    assert allowed['ok'] is True
+    assert allowed['trajectory_preflight']['ok'] is True
+    invalid = orchestrate_steps([
+        {
+            'tool': 'runMerlinSyncChecks',
+            'args': {},
+            'trajectory_contract': {'id': 'bad', 'invariants': 'no_repo_mutation'},
+        },
+    ])
+    assert invalid['ok'] is False
+    assert invalid['trajectory_preflight']['error'] == 'trajectory_contract_invalid'
+
+
 def test_query_merlin_returns_provenance_memory_and_telemetry():
     session = MerlinSession()
     payload = asyncio.run(query_merlin(text='What is the birefringence prediction?', session=session))
@@ -956,6 +1015,38 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert payload['max_rigor']['graph'] == 'merlin_max_rigor_execution'
     assert payload['max_rigor']['all_green'] is True
     assert payload['compile_time_ingestion']['compiled_count'] >= 1
+    assert payload['active_kernel']['kernel_id']
+    assert 'count' in payload['accumulated_learnings']
+
+
+def test_route_tool_observatory_and_proof_probe_record_training_artifacts():
+    session = MerlinSession()
+    observatory = route_tool(
+        'empiricalObservatoryCheck',
+        {'observed': {'w_a': 0.2, 'beta_deg': 0.35, 'delta_m2_21_sigma': 1.1}},
+        session=session,
+    )
+    assert observatory['ok'] is True
+    assert observatory['result']['data']['ok'] is False
+    assert observatory['result']['data']['ruptures']
+    observatory_nan = route_tool(
+        'empiricalObservatoryCheck',
+        {'observed': {'w_a': float('nan'), 'beta_deg': 0.35, 'delta_m2_21_sigma': 1.1}},
+        session=session,
+    )
+    assert observatory_nan['ok'] is True
+    assert observatory_nan['result']['data']['ok'] is False
+    assert any(item.get('status') == 'invalid' for item in observatory_nan['result']['data']['records'])
+
+    proof_probe = route_tool(
+        'kernelPProofProbe',
+        {'conjecture': 'derive n_w = 5 from first principles', 'context': 'open gap'},
+        session=session,
+    )
+    assert proof_probe['ok'] is True
+    state = session.get_memory_state()
+    assert state['proof_attempt_count'] >= 1
+    assert state['observatory_event_count'] >= 1
 
 
 def test_post_turn_compilation_flags_contradictions():
@@ -1309,6 +1400,9 @@ def test_server_merlin_endpoints():
             assert payload['sentinel']['mode'] == 'MONITOR'
             assert payload['provenance']['complete'] is True
             assert payload['telemetry']['quality_signals']['provenance_source_count'] >= 1
+            assert payload['active_kernel']['kernel_id']
+            assert 'count' in payload['accumulated_learnings']
+            assert 'executed' in payload['observatory_poll']
             handshake_challenge = assistant.headers.get('X-Merlin-Handshake-Challenge', handshake_challenge)
             handshake_receipt = assistant.headers.get('X-Merlin-Handshake-Receipt', handshake_receipt)
             memory_profile_token = assistant.headers.get('Set-Cookie', f"merlin_profile_id={memory_profile_token}").split("merlin_profile_id=", 1)[-1].split(";", 1)[0]
@@ -1326,6 +1420,7 @@ def test_server_merlin_endpoints():
             assert blocked_payload['context_source'] == 'policy_block'
             assert blocked_payload['sentinel']['warning_number'] >= 1
             assert blocked_payload['provenance']['complete'] is True
+            assert blocked_payload['active_kernel']['kernel_id'] == 'kernel_g'
             handshake_challenge = blocked.headers.get('X-Merlin-Handshake-Challenge', handshake_challenge)
             handshake_receipt = blocked.headers.get('X-Merlin-Handshake-Receipt', handshake_receipt)
             memory_profile_token = blocked.headers.get('Set-Cookie', f"merlin_profile_id={memory_profile_token}").split("merlin_profile_id=", 1)[-1].split(";", 1)[0]

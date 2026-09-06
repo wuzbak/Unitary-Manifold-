@@ -198,6 +198,27 @@
       background: rgba(167,139,250,0.07); border: 1px solid rgba(167,139,250,0.2);
       border-radius: 6px; font-size: 0.8rem; color: #c4b5fd;
     }
+    .ox-telemetry-pane {
+      margin-top: 0.85rem;
+      background: #080c14;
+      border: 1px solid var(--ox-border);
+      border-radius: 8px;
+      padding: 0.7rem 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.73rem;
+      color: #94a3b8;
+      white-space: pre-wrap;
+    }
+    .ox-visually-hidden {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
     .ox-section-title {
       margin-top: 1rem; margin-bottom: 0.5rem;
       font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
@@ -335,6 +356,8 @@
       </div>
       <div class="ox-answer" id="ox-answer"></div>
       <div class="ox-gate-strip" id="ox-gate-strip"></div>
+      <div class="ox-telemetry-pane" id="ox-telemetry-pane">kernel: pending</div>
+      <div class="ox-visually-hidden" id="ox-telemetry-live" role="status" aria-live="polite"></div>
       <div class="ox-section-title">Follow-ups</div>
       <div class="ox-followups" id="ox-followups"></div>
       <div class="ox-section-title">Sources</div>

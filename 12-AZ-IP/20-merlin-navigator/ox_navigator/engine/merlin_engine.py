@@ -28,7 +28,7 @@ from .merlin_persona import (
 from .merlin_router import choose_runtime
 from .merlin_rag import build_rag_context, closest_pillar, lookup_kb, retrieve_context
 from .merlin_rag import build_status_response
-from .merlin_runtime import run_post_turn_compilation
+from .merlin_runtime import run_kernel_p_lean_proof_probe, run_post_turn_compilation
 from .merlin_sentinel import evaluate_query, render_block_message
 from .merlin_telemetry import build_run_telemetry
 from .merlin_tools import route_tool
@@ -375,10 +375,31 @@ async def query_merlin(
     force_websearch: bool | None = None,
     temperature: float = DEFAULT_TEMPERATURE,
     runtime_mode: str = "merlin",
+    context_envelope: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Run a Merlin query and return a structured response."""
     started = time.perf_counter()
     live_status = live_status or build_status_response()
+    normalized_envelope = dict(context_envelope or {})
+    if normalized_envelope:
+        session.register_context_envelope(normalized_envelope)
+    proof_intent = any(token in text.lower() for token in ("proof", "theorem", "lean", "hardgate", "derive", "conjecture"))
+    target_namespace = "physics_hardgate" if proof_intent else "general"
+    learned = session.build_accumulated_learnings(
+        text,
+        page_context=page_context,
+        user_context=user_context,
+        context_envelope=normalized_envelope,
+        target_namespace=target_namespace,
+    )
+    proof_probe = None
+    if target_namespace == "physics_hardgate" and proof_intent:
+        proof_probe = run_kernel_p_lean_proof_probe(
+            conjecture=text,
+            context=f"{page_context}\n{user_context}",
+            enable_repl=False,
+        )
+        session.register_proof_attempt(dict(proof_probe))
     sentinel = evaluate_query(text, policy_strikes=session.policy_strikes)
     session.set_sentinel_mode(sentinel.mode)
     if sentinel.blocked:
@@ -449,6 +470,9 @@ async def query_merlin(
             "telemetry": telemetry,
             "compile_time_ingestion": ingestion,
             "max_rigor": max_rigor,
+            "active_kernel": {"kernel_id": "kernel_g", "role": "Gate", "lane": "small_fast_router", "provider_variant": "policy_block"},
+            "accumulated_learnings": learned,
+            "proof_probe": proof_probe,
         }
 
     privilege = authorize_privileged_request(
@@ -516,6 +540,9 @@ async def query_merlin(
             "telemetry": telemetry,
             "compile_time_ingestion": ingestion,
             "max_rigor": max_rigor,
+            "active_kernel": {"kernel_id": "kernel_g", "role": "Gate", "lane": "small_fast_router", "provider_variant": "privilege_block"},
+            "accumulated_learnings": learned,
+            "proof_probe": proof_probe,
         }
 
     persona_mode = detect_persona_mode(text)
@@ -538,6 +565,14 @@ async def query_merlin(
     compressed = session.compressed(text, matched_memory=audit.get("matched_memory"))
     messages = [
         {"role": "system", "content": system_prompt},
+        {
+            "role": "system",
+            "content": (
+                "[YOUR ACCUMULATED LEARNINGS]\n"
+                f"{learned['text']}\n"
+                f"[CONTEXT ENVELOPE]\n{learned['envelope_summary']}"
+            ),
+        },
         {"role": "system", "content": f"[EARLIER CONVERSATION SUMMARY]\n{compressed['summary']}"},
         {"role": "system", "content": rag_context},
     ]
@@ -696,6 +731,7 @@ async def query_merlin(
         tool_call_precision=1.0,
     )
     session.record_run(telemetry)
+    kernel = dict(telemetry.get("kernel") or {})
     return {
         **processed,
         "persona_mode": persona_mode,
@@ -718,4 +754,13 @@ async def query_merlin(
         "compile_time_ingestion": ingestion,
         "benchmark_eval": None,
         "max_rigor": max_rigor,
+        "active_kernel": {
+            "kernel_id": str(kernel.get("id") or "kernel_s"),
+            "role": str(kernel.get("role") or "Sage"),
+            "lane": str(telemetry.get("lane") or router_decision.get("lane") or "medium_reasoner_default"),
+            "provider_variant": str(kernel.get("variant") or telemetry.get("provider_variant") or "deterministic_retrieval"),
+            "model_variant": str(kernel.get("model_variant") or ""),
+        },
+        "accumulated_learnings": learned,
+        "proof_probe": proof_probe,
     }

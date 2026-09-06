@@ -44,6 +44,7 @@ def build_counterexample_digest(*, session: MerlinSession, limit: int = 10) -> d
             "query": str(event.get("query", "")),
             "detected_at": str(event.get("detected_at", "")),
             "conflicts": list(event.get("conflicts") or []),
+            "epistemic_uncertainty": dict(event.get("epistemic_uncertainty") or {}),
         }
         items.append(
             {
@@ -51,6 +52,7 @@ def build_counterexample_digest(*, session: MerlinSession, limit: int = 10) -> d
                 **payload,
                 "source": "contradiction_event",
                 "training_signal_class": "counterexample",
+                "epistemic_uncertainty": payload["epistemic_uncertainty"],
             }
         )
 
@@ -63,6 +65,7 @@ def build_counterexample_digest(*, session: MerlinSession, limit: int = 10) -> d
             "query": str(insight.get("source_query", "")),
             "detected_at": str(insight.get("ingested_at", "")),
             "conflicts": conflicts,
+            "epistemic_uncertainty": dict(insight.get("epistemic_uncertainty") or {}),
         }
         items.append(
             {
@@ -71,6 +74,7 @@ def build_counterexample_digest(*, session: MerlinSession, limit: int = 10) -> d
                 "source": "quarantined_insight",
                 "training_signal_class": "counterexample",
                 "status": str(insight.get("status", "")),
+                "epistemic_uncertainty": payload["epistemic_uncertainty"],
             }
         )
 

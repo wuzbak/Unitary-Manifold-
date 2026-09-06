@@ -412,6 +412,163 @@ def get_mentorship_completion_contract() -> dict[str, Any]:
     }
 
 
+def get_dual_loop_learning_contract() -> dict[str, Any]:
+    return {
+        "name": "merlin_dual_loop_learning_contract",
+        "loops": {
+            "kitty_loop_pentad": {
+                "role": "merlin_as_human_node",
+                "classification": "practice_and_skill_internalization",
+                "authority": "no_claim_promotion_authority",
+                "required_outputs": [
+                    "candidate_evidence_packet",
+                    "proof_artifact_template",
+                    "governance_signal_self_check",
+                ],
+            },
+            "hils_loop_pentad": {
+                "role": "merlin_as_governed_participant",
+                "classification": "production_governed_execution",
+                "authority": "bounded_by_steward_and_program_office_gates",
+                "required_outputs": [
+                    "governed_execution_packet",
+                    "counterexample_digest",
+                    "decision_ledger_entry_ready",
+                ],
+            },
+        },
+        "transfer_contract": {
+            "allowed_transfers": [
+                "skills_playbooks",
+                "proof_structure_templates",
+                "governance_signal_calibration",
+            ],
+            "forbidden_transfers": [
+                "claim_promotion_authority",
+                "gate_override_tokens",
+                "unreviewed_exceptions",
+            ],
+            "required_invariants": [
+                "typed_provenance_required",
+                "candidate_vs_closure_labeling_explicit",
+                "contradictions_route_to_auditor",
+            ],
+        },
+        "promotion_policy": {
+            "kitty_loop_wins": "candidate_evidence_only",
+            "promotion_requires_hils_validation": True,
+            "policy": "No claim promotion without HILS-side validation and gate-board receipt.",
+        },
+    }
+
+
+def get_mirrored_training_cycle_contract() -> dict[str, Any]:
+    return {
+        "name": "merlin_mirrored_training_cycle",
+        "sequence": [
+            {
+                "step": 1,
+                "phase": "practice_pass",
+                "loop": "kitty_loop_pentad",
+                "required_artifacts": [
+                    "practice_execution_log",
+                    "candidate_evidence_packet",
+                ],
+            },
+            {
+                "step": 2,
+                "phase": "production_governed_pass",
+                "loop": "hils_loop_pentad",
+                "required_artifacts": [
+                    "governed_execution_log",
+                    "decision_ledger_row",
+                ],
+            },
+            {
+                "step": 3,
+                "phase": "delta_review",
+                "loop": "cross_loop",
+                "required_artifacts": [
+                    "improvement_delta",
+                    "drift_delta",
+                    "contradiction_routing_actions",
+                ],
+            },
+        ],
+        "delta_policy": "Every sprint task must compare kitty-loop and HILS-loop outputs before escalation.",
+        "fail_closed_conditions": [
+            "missing_production_governed_pass",
+            "unrouted_contradiction_delta",
+        ],
+    }
+
+
+def get_deterministic_proof_closure_contract() -> dict[str, Any]:
+    return {
+        "name": "merlin_deterministic_proof_closure",
+        "required_packet_fields": [
+            "target",
+            "assumptions",
+            "executable_checks",
+            "falsifier",
+            "stop_condition",
+            "verdict_class",
+        ],
+        "allowed_verdict_classes": [
+            "closed_now",
+            "tightened_with_explicit_blocker",
+            "external_wait_only",
+        ],
+        "cross_loop_verdict_rule": (
+            "Merlin must emit the same verdict_class in kitty-loop and HILS-loop packets "
+            "before escalation to promotion gates."
+        ),
+        "promotion_guardrail": "No escalation if verdict classes differ across loops.",
+    }
+
+
+def get_dual_loop_sprint_command_rhythm() -> dict[str, Any]:
+    return {
+        "name": "dual_loop_sprint_command_rhythm",
+        "cadence": [
+            {
+                "phase": "kickoff",
+                "required_actions": [
+                    "objective_lock",
+                    "blocker_map_lock",
+                    "dual_loop_task_registration",
+                ],
+            },
+            {
+                "phase": "mid_sprint_execution",
+                "required_actions": [
+                    "kitty_loop_practice_pass",
+                    "hils_loop_governed_pass",
+                    "discrepancy_review",
+                ],
+            },
+            {
+                "phase": "closeout",
+                "required_actions": [
+                    "single_coherence_report",
+                    "status_truth_governance_surface_sync_check",
+                    "next_sprint_handoff_packet",
+                ],
+                "coherence_surfaces": [
+                    "STATUS.md",
+                    "docs/mas_tracker.yml",
+                    "FALLIBILITY.md",
+                    "docs/CLAIM_MASTER_BOARD.md",
+                    "docs/GATEKEEPER_SUMMARY.md",
+                    "docs/TRUTH_LAYER.md",
+                    "docs/WAVE_CHANGELOG.md",
+                    "docs/SPRINT_PLAN.md",
+                ],
+            },
+        ],
+    }
+
+
 def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -450,6 +607,7 @@ def get_program_charter() -> dict[str, Any]:
             "openrouter_policy": "compatibility_fallback_only",
             "branding_excluded_from_gate_decisions": True,
         },
+        "dual_loop_architecture": get_dual_loop_learning_contract(),
         "frontier_done_criteria": {
             "frozen": True,
             "required": [
@@ -532,6 +690,12 @@ def get_program_office() -> dict[str, Any]:
             "library_and_study": get_mentorship_library_and_study_assets(),
             "cross_model_exchange_protocol": get_cross_model_exchange_protocol(),
             "completion_contract": get_mentorship_completion_contract(),
+        },
+        "dual_loop_operations": {
+            "learning_contract": get_dual_loop_learning_contract(),
+            "mirrored_training_cycle": get_mirrored_training_cycle_contract(),
+            "deterministic_proof_closure": get_deterministic_proof_closure_contract(),
+            "sprint_command_rhythm": get_dual_loop_sprint_command_rhythm(),
         },
         "updated_at": _utcnow(),
     }
@@ -2454,6 +2618,11 @@ def get_program_doctrine() -> dict[str, Any]:
             "uncertainty_statement",
             "provenance_sources",
         ],
+        "dual_loop_rules": [
+            "kitty_loop_outputs_are_candidate_evidence_only",
+            "hils_loop_validation_required_for_promotion",
+            "cross_loop_verdict_class_must_match_before_escalation",
+        ],
         "openness_tiers": ["fully_open_science", "partially_open", "proprietary"],
         "non_negotiable": "Boundary labels and epistemic honesty cannot be relaxed by persona or routing mode.",
     }
@@ -2508,6 +2677,10 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "mentorship_sprint_charter": get_mentorship_sprint_charter(),
         "program_office": get_program_office(),
         "doctrine": get_program_doctrine(),
+        "dual_loop_learning_contract": get_dual_loop_learning_contract(),
+        "mirrored_training_cycle": get_mirrored_training_cycle_contract(),
+        "deterministic_proof_closure": get_deterministic_proof_closure_contract(),
+        "dual_loop_sprint_command_rhythm": get_dual_loop_sprint_command_rhythm(),
         "replacement_scope": get_replacement_scope(),
         "current_stack_baseline": get_current_stack_baseline(),
         "weights_and_measures": get_weights_and_measures(),
