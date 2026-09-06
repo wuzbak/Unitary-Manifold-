@@ -34,6 +34,7 @@ def test_packet_contracts_foundation_blocker_set() -> None:
 
 def test_remaining_blockers_are_explicit() -> None:
     report = foundation_first_photon_action_audit()
+    assert report["blocker_contraction"]["initial_questions"] == report["merlin_handoff"]["blocker_state_before"]
     remaining = report["blocker_contraction"]["remaining_blockers"]
     assert len(remaining) == 2
     assert any("gauge sector" in item for item in remaining)

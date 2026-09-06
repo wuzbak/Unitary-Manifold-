@@ -43,6 +43,7 @@ def sprint_ci_foundation_certificate() -> Dict[str, Any]:
     packet = foundation_first_photon_action_audit()
     pubs = _publication_packet_check()
     handoff = packet["merlin_handoff"]
+    initial_questions = packet["blocker_contraction"]["initial_questions"]
     remaining_blockers = packet["blocker_contraction"]["remaining_blockers"]
     handoff_ok = bool(
         handoff.get("primary_lane") == PRIMARY_LANE
@@ -50,6 +51,7 @@ def sprint_ci_foundation_certificate() -> Dict[str, Any]:
         and len(handoff["evidence_reviewed"]) > 0
         and "blocker_state_before" in handoff
         and isinstance(handoff["blocker_state_before"], list)
+        and handoff["blocker_state_before"] == initial_questions
         and "blocker_state_after" in handoff
         and isinstance(handoff["blocker_state_after"], list)
         and len(handoff["blocker_state_after"]) > 0

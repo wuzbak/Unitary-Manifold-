@@ -145,6 +145,7 @@ def foundation_first_photon_action_audit() -> Dict[str, Any]:
             else "FOUNDATION_AUDIT_INVALID"
         ),
         "blocker_contraction": {
+            "initial_questions": list(_INITIAL_AUDIT_QUESTIONS),
             "before_count": len(_INITIAL_AUDIT_QUESTIONS),
             "after_count": len(remaining),
             "resolved_or_isolated": isolated,
