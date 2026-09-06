@@ -37,8 +37,8 @@ They do not replace independent replication or external data.
 
 **Q: Is the CMB amplitude issue resolved?**
 
-A: In the repository record, the original ×4–7 suppression admission was addressed by later closure work (Pillars 57 and 63) and is not treated as an active standalone open-problem item in this FAQ context.  
-That does not remove broader external falsification pressure across cosmology lanes; it means this specific prior admission is recorded as handled in-repo.
+A: Not fully.  
+The repository documents later in-repo remediation attempts, but the CMB amplitude suppression remains a known open-problem lane in `FALLIBILITY.md` and should be read as unresolved pending stronger closure-grade evidence.
 
 ---
 
