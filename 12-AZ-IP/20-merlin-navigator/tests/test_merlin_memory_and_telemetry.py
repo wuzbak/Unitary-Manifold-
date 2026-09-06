@@ -62,6 +62,9 @@ def test_merlin_memory_audit_and_telemetry_summary():
     assert summary['average_energy_joules'] > 0
     assert summary['latest']['quality_signals']['typed_provenance_complete'] is True
     assert summary['latest']['quality_signals']['retrieval_hit_count'] == 0
+    assert summary['latest']['kernel']['id'] == 'kernel_g'
+    assert summary['latest']['quality_signals']['contract_pass_rate'] == 1.0
+    assert summary['latest']['quality_signals']['tool_call_precision'] == 0.5
 
 
 def test_merlin_memory_does_not_duplicate_seeded_state():
@@ -200,6 +203,163 @@ def test_merlin_telemetry_estimators_and_summary():
     assert ledger['ok'] is True
     assert ledger['summary']['count'] == 1
     assert ledger['entries'][0]['incumbent_baseline_joules'] >= ledger['entries'][0]['merlin_energy_joules']
+
+
+def test_kernel_gate_summary_flags_demotion_on_threshold_miss():
+    runs = [
+        {
+            "merlin_telemetry": {
+                "kernel": {"id": "kernel_r"},
+                "quality_signals": {
+                    "contract_pass_rate": 1.0,
+                    "boundary_violation_rate": 0.0,
+                    "contradiction_miss_rate": 0.0,
+                    "tool_call_precision": 0.5,
+                },
+            }
+        }
+    ]
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(runs)
+    assert summary["ok"] is True
+    assert summary["kernels"]["kernel_r"]["gate_pass"] is False
+    assert summary["kernels"]["kernel_r"]["decision"] == "demote"
+
+
+def test_build_run_telemetry_maps_memory_audit_queries_to_auditor_kernel():
+    run = build_run_telemetry(
+        query="Audit memory drift and contradiction recall for this session.",
+        answer="GOVERNANCE\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={"provider": "sovereign_local", "lane": "medium_reasoner_default"},
+        context_source="sovereign_local_model",
+        tool_rounds=0,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "memory"}]},
+        gate_badges=["GOVERNANCE"],
+        memory_hits=1,
+        contradiction_events=0,
+        latency_ms=5.0,
+    )
+    assert run["kernel"]["id"] == "kernel_a"
+    assert run["kernel"]["role"] == "Auditor"
+
+
+def test_build_run_telemetry_respects_heavy_lane_for_prover():
+    run = build_run_telemetry(
+        query="Audit contradiction evidence and produce formal proof trace.",
+        answer="OPEN_GAP\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={"provider": "sovereign_local", "lane": "heavy_reasoner_exception"},
+        context_source="sovereign_local_model",
+        tool_rounds=0,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "policy"}]},
+        gate_badges=["OPEN_GAP"],
+        memory_hits=0,
+        contradiction_events=0,
+        latency_ms=5.0,
+    )
+    assert run["kernel"]["id"] == "kernel_p"
+
+
+def test_kernel_gate_summary_scopes_to_required_kernels_only():
+    runs = [
+        {
+            "merlin_telemetry": {
+                "kernel": {"id": "kernel_s"},
+                "quality_signals": {
+                    "contract_pass_rate": 1.0,
+                    "boundary_violation_rate": 0.0,
+                    "contradiction_miss_rate": 0.0,
+                    "tool_call_precision": 1.0,
+                },
+            }
+        }
+    ]
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(runs, required_kernel_ids=["kernel_s"])
+    assert summary["gate_pass"] is True
+    assert summary["required_kernel_ids"] == ["kernel_s"]
+
+
+def test_kernel_gate_summary_preserves_required_scope_without_receipts():
+    summary = merlin_benchmark.evaluate_kernel_gate_summary([], required_kernel_ids=["kernel_a"])
+    assert summary["gate_pass"] is False
+    assert summary["required_kernel_ids"] == ["kernel_a"]
+    assert summary["kernels"]["kernel_a"]["decision"] == "demote"
+
+
+def test_build_run_telemetry_coerces_invalid_override_metrics():
+    run = build_run_telemetry(
+        query="status",
+        answer="HARDGATE\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={"provider": "sovereign_local", "lane": "small_fast_router"},
+        context_source="sovereign_local_model",
+        tool_rounds=0,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "knowledge_base"}]},
+        gate_badges=["HARDGATE"],
+        memory_hits=0,
+        contradiction_events=0,
+        latency_ms=1.0,
+        contract_pass_rate="bad",  # type: ignore[arg-type]
+    )
+    assert run["quality_signals"]["contract_pass_rate"] == 1.0
+
+
+def test_build_run_telemetry_contract_override_cannot_bypass_failed_contract():
+    run = build_run_telemetry(
+        query="status",
+        answer="no contract sections",
+        router_decision={"provider": "sovereign_local", "lane": "small_fast_router"},
+        context_source="sovereign_local_model",
+        tool_rounds=0,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "knowledge_base"}]},
+        gate_badges=["HARDGATE"],
+        memory_hits=0,
+        contradiction_events=0,
+        latency_ms=1.0,
+        contract_pass_rate=1.0,
+    )
+    assert run["quality_signals"]["contract_pass_rate"] == 0.0
+
+
+def test_kernel_gate_summary_marks_missing_metrics_explicitly():
+    runs = [{"expected_kernel_id": "kernel_p", "merlin_telemetry": {"kernel": {"id": "kernel_p"}, "quality_signals": {"contract_pass_rate": 1.0}}}]
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(runs, required_kernel_ids=["kernel_p"])
+    assert "contradiction_miss_rate" in summary["kernels"]["kernel_p"]["missing_metrics"]
+
+
+def test_kernel_gate_summary_rejects_unknown_kernel_ids():
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(
+        [{"merlin_telemetry": {"kernel": {"id": "kernel_s"}, "quality_signals": {"contract_pass_rate": 1.0}}}],
+        required_kernel_ids=["kernel_unknown"],
+    )
+    assert summary["gate_pass"] is False
+    assert summary["unsupported_kernel_ids"] == ["kernel_unknown"]
+
+
+def test_kernel_gate_summary_deduplicates_required_kernel_ids():
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(
+        [{"merlin_telemetry": {"kernel": {"id": "kernel_s"}, "quality_signals": {"contract_pass_rate": 1.0, "boundary_violation_rate": 0.0}}}],
+        required_kernel_ids=["kernel_s", "kernel_s"],
+    )
+    assert summary["required_kernel_ids"] == ["kernel_s"]
+
+
+def test_kernel_gate_summary_reports_assignment_mismatches():
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(
+        [
+            {
+                "benchmark_id": "b1",
+                "expected_kernel_id": "kernel_p",
+                "merlin_telemetry": {
+                    "kernel": {"id": "kernel_a"},
+                    "quality_signals": {"contract_pass_rate": 1.0},
+                },
+            }
+        ],
+        required_kernel_ids=["kernel_p"],
+    )
+    assert summary["assignment_mismatch_count"] == 1
 
 
 def test_match_benchmark_for_query_uses_keywords():

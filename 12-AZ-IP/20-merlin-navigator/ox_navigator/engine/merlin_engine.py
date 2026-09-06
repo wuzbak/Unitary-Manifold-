@@ -686,6 +686,14 @@ async def query_merlin(
         contradiction_events=len(session.contradiction_events),
         latency_ms=(time.perf_counter() - started) * 1000,
         retrieval_hit_count=_retrieval_hit_count(context),
+        boundary_violation_rate=1.0 if max_rigor.get("blocking_violations") else 0.0,
+        contradiction_miss_rate=(
+            1.0
+            if int(preflight_ingestion.get("contradiction_count", 0) or 0) > 0
+            and not bool(ingestion.get("served_response_rewritten"))
+            else 0.0
+        ),
+        tool_call_precision=1.0,
     )
     session.record_run(telemetry)
     return {

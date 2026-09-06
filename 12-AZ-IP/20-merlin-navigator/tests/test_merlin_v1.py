@@ -125,9 +125,19 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
     assert (output_dir / 'train.jsonl').exists()
     assert (output_dir / 'dev.jsonl').exists()
     assert (output_dir / 'test.jsonl').exists()
+    assert (output_dir / 'kernels').exists()
     assert (output_dir / 'benchmarks' / 'stage_b_sovereign_takeover.jsonl').exists()
+    for kernel_id in ("kernel_s", "kernel_p", "kernel_r", "kernel_a", "kernel_g"):
+        assert (output_dir / "kernels" / kernel_id / "train.jsonl").exists()
+        assert (output_dir / "kernels" / kernel_id / "dev.jsonl").exists()
+        assert (output_dir / "kernels" / kernel_id / "test.jsonl").exists()
     manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
     assert manifest['dataset']['counts']['total_benchmark_records'] >= 18
+    stage = "stage_b_sovereign_takeover"
+    kernel_file = output_dir / "benchmarks" / "kernels" / stage / "kernel_s.jsonl"
+    assert kernel_file.exists()
+    exported_rows = [line for line in kernel_file.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(exported_rows) == manifest["dataset"]["counts"]["kernel_benchmark_records"][stage]["kernel_s"]
 
 
 def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
@@ -309,6 +319,9 @@ def test_route_tool_merlin_program_blueprint():
     assert 'router_policy' in payload
     assert 'model_admission_policy' in payload
     assert 'workspace_policy' in payload
+    assert 'pentad_contract' in payload
+    assert 'frontier_open_weight_stack' in payload
+    assert payload['pentad_contract']['kernel_count'] == 5
     assert 'sovereignty_roadmap' in payload
     assert payload['sync_checks']['ok'] is True
     assert payload['identity_and_trust']['canonical_identity'] == CANONICAL_IDENTITY
@@ -352,6 +365,10 @@ def test_route_tool_training_architecture_and_artifacts():
     registry = route_tool('getMerlinOpenScienceRegistry', {})
     assert registry['ok'] is True
     assert any(item['resource_id'] == 'hugging_face_datasets' for item in registry['result']['data']['resources'])
+    frontier = route_tool('getMerlinFrontierStack', {})
+    assert frontier['ok'] is True
+    assert any(model['name'] == 'DeepSeek-R1' for model in frontier['result']['data']['open_weight_models'])
+    assert any(kernel['name'] == 'vLLM_PagedAttention' for kernel in frontier['result']['data']['execution_kernels'])
 
     benchmarks = route_tool('getMerlinCompetitiveBenchmarkPlan', {})
     assert benchmarks['ok'] is True
@@ -379,8 +396,20 @@ def test_route_tool_training_architecture_and_artifacts():
 
     dataset = route_tool('getMerlinTrainingDataset', {'limit': 4})
     assert dataset['ok'] is True
-    assert dataset['result']['data']['dataset']['counts']['total_training_records'] == 4
-    assert dataset['result']['data']['dataset']['counts']['total_benchmark_records'] >= 18
+    dataset_payload = dataset['result']['data']['dataset']
+    counts = dataset_payload['counts']
+    assert counts['total_training_records'] == 4
+    assert 'kernel_splits' in dataset_payload
+    assert 'kernel_s' in dataset_payload['kernel_splits']
+    assert counts['total_benchmark_records'] >= 18
+    kernel_training_total = sum(
+        sum(per_split.values()) for per_split in counts['kernel_training_records'].values()
+    )
+    kernel_benchmark_total = sum(
+        sum(per_kernel.values()) for per_kernel in counts['kernel_benchmark_records'].values()
+    )
+    assert kernel_training_total == counts['total_training_records']
+    assert kernel_benchmark_total == counts['total_benchmark_records']
 
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
     assert mlflow['ok'] is True
@@ -410,8 +439,12 @@ def test_route_tool_training_dataset_includes_compiled_insights():
     })
     dataset = route_tool('getMerlinTrainingDataset', {'limit': 2}, session=session)
     assert dataset['ok'] is True
-    counts = dataset['result']['data']['dataset']['counts']
+    payload = dataset['result']['data']['dataset']
+    counts = payload['counts']
     assert counts['compile_time_insight_records'] >= 1
+    assert counts['kernel_benchmark_records']['stage_b_sovereign_takeover']['kernel_a'] >= 1
+    for stage_name, per_kernel in counts['kernel_benchmark_records'].items():
+        assert sum(per_kernel.values()) == counts['benchmark_records'][stage_name]
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
@@ -428,7 +461,20 @@ def test_route_tool_empirical_gate_and_promotion_packet():
     assert gate['result']['data']['gate_pass'] is True
     assert gate['result']['data']['decision'] == 'REPLACEMENT_APPROVED'
 
-    packet = route_tool('getMerlinPromotionPacket', {'head_to_head_runs': runs})
+    packet = route_tool('getMerlinPromotionPacket', {
+        'head_to_head_runs': runs,
+        'kernel_gate_summary': {
+            'ok': True,
+            'gate_pass': True,
+            'kernels': {
+                'kernel_s': {'gate_pass': True},
+                'kernel_p': {'gate_pass': True},
+                'kernel_r': {'gate_pass': True},
+                'kernel_a': {'gate_pass': True},
+                'kernel_g': {'gate_pass': True},
+            },
+        },
+    })
     assert packet['ok'] is True
     assert packet['result']['data']['gate_pass'] is True
     assert packet['result']['data']['decision'] == 'REPLACEMENT_APPROVED'
@@ -450,9 +496,22 @@ def test_route_tool_program_office_and_control_tower():
     assert 'replacement_readiness' in data
     assert 'deployment_eligibility' in data
     assert 'drift_alerts' in data
+    assert 'lane_shadow_deployment' in data
+    lane_ids = [item['kernel_id'] for item in data['lane_shadow_deployment']['lanes']]
+    assert lane_ids == sorted(lane_ids)
     assert 'mentorship_to_runtime' in data
     assert data['mentorship_to_runtime']['checks']['faculty_artifacts_landed'] is True
     assert data['mentorship_to_runtime']['checks']['exchange_cycle_complete'] is False
+
+
+def test_route_tool_pentad_contract():
+    contract = route_tool('getMerlinPentadContract', {})
+    assert contract['ok'] is True
+    payload = contract['result']['data']
+    assert payload['architecture_boundary'] == 'merlin_pentad_primary'
+    assert payload['kernel_count'] == 5
+    assert '/api/merlin' in payload['api_surface_stability']['stable_endpoints']
+    assert payload['api_surface_stability']['compatibility_shim'] == '/api/ox'
 
 
 def test_route_tool_mentorship_surfaces():
@@ -539,6 +598,21 @@ def test_route_tool_empirical_gate_rejects_net_quality_downgrade():
     assert gate['result']['data']['checks']['mean_quality_nonnegative'] is False
     assert gate['result']['data']['gate_pass'] is False
     assert gate['result']['data']['decision'] == 'REPLACEMENT_NOT_APPROVED'
+
+
+def test_route_tool_promotion_packet_fail_closed_without_kernel_gates():
+    runs = [
+        {
+            'id': 'r1',
+            'merlin': {'task_success': True, 'quality_score': 0.92, 'energy_joules': 0.4, 'high_severity_policy_violations': 0},
+            'incumbent': {'task_success': True, 'quality_score': 0.90, 'energy_joules': 0.9, 'high_severity_policy_violations': 0},
+        }
+        for _ in range(12)
+    ]
+    packet = route_tool('getMerlinPromotionPacket', {'head_to_head_runs': runs})
+    assert packet['ok'] is True
+    assert packet['result']['data']['checks']['kernel_gate_pass'] is False
+    assert packet['result']['data']['decision'] == 'REPLACEMENT_NOT_APPROVED'
 
 
 def test_route_tool_memory_and_telemetry_state():

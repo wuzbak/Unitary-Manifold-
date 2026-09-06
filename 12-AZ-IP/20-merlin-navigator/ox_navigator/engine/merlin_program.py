@@ -17,6 +17,7 @@ from typing import Any
 from .constants import GATE_LABELS
 from .merlin_admission import get_model_admission_policy
 from .merlin_identity import get_identity_policy
+from .merlin_kernel_routing import infer_kernel_for_benchmark_definition, infer_merlin_kernel_id
 from .merlin_memory import MERLIN_MAX_HISTORY
 from .merlin_router import get_router_policy
 from .merlin_runtime import (
@@ -55,6 +56,131 @@ PROGRAM_NON_NEGOTIABLES = {
     "certainty_policy": "No hidden certainty language; uncertainty and open gaps must be explicit.",
     "traceability": "Every answer path must cite typed provenance sources.",
 }
+
+MERLIN_PENTAD_KERNELS: dict[str, dict[str, Any]] = {
+    "kernel_s": {
+        "name": "Sage",
+        "purpose": "repository physics synthesis with explicit epistemic status",
+        "allowed_actions": ["retrieve_repository_context", "synthesize_grounded_answer", "emit_typed_provenance"],
+        "input_contract": {
+            "required": ["query", "retrieval_context", "governance_labels"],
+            "optional": ["memory_audit"],
+        },
+        "output_contract": {
+            "required": ["answer_contract", "gate_badges", "typed_provenance"],
+            "forbidden": ["hidden_certainty", "ungrounded_claims"],
+        },
+    },
+    "kernel_p": {
+        "name": "Prover",
+        "purpose": "formal and Lean-oriented logic traces",
+        "allowed_actions": ["proof_trace_generation", "formal_claim_validation", "contradiction_escalation"],
+        "input_contract": {
+            "required": ["claim_or_query", "proof_context", "falsification_state"],
+            "optional": ["theorem_candidates"],
+        },
+        "output_contract": {
+            "required": ["logic_trace", "proof_verdict", "open_gap_or_hardgate_label"],
+            "forbidden": ["auto_promotion_without_review"],
+        },
+    },
+    "kernel_r": {
+        "name": "Router",
+        "purpose": "schema-precise tool routing and orchestration",
+        "allowed_actions": ["route_tool_call", "validate_tool_schema", "enforce_tool_allowlist"],
+        "input_contract": {
+            "required": ["query", "risk_level", "tool_manifest"],
+            "optional": ["confidence", "runtime_mode"],
+        },
+        "output_contract": {
+            "required": ["lane_decision", "provider_decision", "tool_call_schema_status"],
+            "forbidden": ["unsafe_tool_bypass"],
+        },
+    },
+    "kernel_a": {
+        "name": "Auditor",
+        "purpose": "memory integrity and contradiction tracking",
+        "allowed_actions": ["audit_memory", "detect_contradictions", "quarantine_untrusted_insights"],
+        "input_contract": {
+            "required": ["session_memory", "current_answer", "query"],
+            "optional": ["compiled_insights"],
+        },
+        "output_contract": {
+            "required": ["memory_audit", "contradiction_events", "integrity_status"],
+            "forbidden": ["silent_conflict_discard"],
+        },
+    },
+    "kernel_g": {
+        "name": "Gate",
+        "purpose": "fail-closed governance and safety enforcement",
+        "allowed_actions": ["policy_scan", "boundary_enforcement", "privilege_verification"],
+        "input_contract": {
+            "required": ["query", "identity_signals", "policy_state"],
+            "optional": ["sentinel_mode"],
+        },
+        "output_contract": {
+            "required": ["allow_or_refuse", "governance_reason", "escalation_path"],
+            "forbidden": ["unsafe_execution", "privilege_without_verification"],
+        },
+    },
+}
+
+MERLIN_KERNEL_TRACK_DEFAULTS: dict[str, str] = {
+    "repository_native_qa": "kernel_s",
+    "governance_decision_traces": "kernel_g",
+    "adversarial_counterexamples": "kernel_g",
+    "tool_call_success_failure_pairs": "kernel_r",
+    "compiled_insights": "kernel_a",
+    "specialist_mentorship_artifact_deposits": "kernel_a",
+}
+
+
+def get_merlin_pentad_contract() -> dict[str, Any]:
+    return {
+        "architecture_boundary": "merlin_pentad_primary",
+        "kernel_count": 5,
+        "kernels": [
+            {"kernel_id": kernel_id, **payload}
+            for kernel_id, payload in MERLIN_PENTAD_KERNELS.items()
+        ],
+        "kernel_ids": list(MERLIN_PENTAD_KERNELS.keys()),
+        "api_surface_stability": {
+            "stable_endpoints": [
+                "/api/merlin",
+                "/api/merlin/status",
+                "/api/agentToolkit",
+                "/api/agentInvoke",
+                "/api/agentOrchestrate",
+            ],
+            "compatibility_shim": "/api/ox",
+            "policy": "Keep these surfaces stable while evolving internals.",
+        },
+        "source_component_policy": {
+            "router_and_gate_patterns": [
+                "semantic-kernel style function/plugin contract mediation",
+                "agent-kernel style guardrail and MCP mediation discipline",
+            ],
+            "auditor_patterns": [
+                "AIOS-style agent-state lifecycle controls",
+                "contradiction auditing and memory integrity checks",
+            ],
+            "sage_and_prover_policy": [
+                "local-first repository-grounded synthesis before expansion",
+                "compact specialized lanes over monolithic model dependence",
+            ],
+            "hardware_kernel_policy": {
+                "status": "deferred_optimization_track",
+                "projects": ["huggingface_webgpu_kernels", "Modular MAX", "AutoKernel"],
+                "activation_rule": "Only after Pentad benchmark and governance stability is sustained.",
+            },
+        },
+        "governance_invariants": [
+            "openrouter_compatibility_fallback_only",
+            "fail_closed_gate_authority",
+            "auditor_contradictions_block_promotion",
+            "longitudinal_clean_windows_required",
+        ],
+    }
 
 
 def get_mentorship_sprint_charter() -> dict[str, Any]:
@@ -295,6 +421,7 @@ def get_program_charter() -> dict[str, Any]:
             "stewards": ["AxiomZero", "@wuzbak", "GitHub Copilot Task Agent"],
             "product_root": str(PRODUCT_ROOT),
         },
+        "architecture_boundary": get_merlin_pentad_contract()["architecture_boundary"],
         "non_negotiables": PROGRAM_NON_NEGOTIABLES,
         "success_metrics": {
             "primary": [
@@ -910,6 +1037,78 @@ def get_open_science_resource_registry() -> dict[str, Any]:
     }
 
 
+def get_frontier_open_weight_stack() -> dict[str, Any]:
+    return {
+        "objective": "Train Merlin toward frontier-grade domain performance using local-first open weights plus open-source execution kernels.",
+        "open_weight_models": [
+            {
+                "name": "DeepSeek-R1",
+                "license": "MIT",
+                "roles": ["reasoning", "coding", "distilled_local_variants"],
+                "admission_path": "evaluateMerlinModelAdmission",
+            },
+            {
+                "name": "Qwen 3",
+                "license": "Apache-2.0",
+                "roles": ["multilingual", "high_capability_general_reasoning"],
+                "admission_path": "evaluateMerlinModelAdmission",
+            },
+            {
+                "name": "Gemma 4",
+                "license": "Apache-2.0",
+                "roles": ["edge_local_serving", "low_vram_inference"],
+                "admission_path": "evaluateMerlinModelAdmission",
+            },
+            {
+                "name": "Llama 4",
+                "license": "Community",
+                "roles": ["multimodal_extension_lane", "general_reasoning"],
+                "admission_path": "evaluateMerlinModelAdmission",
+            },
+        ],
+        "execution_kernels": [
+            {
+                "name": "vLLM_PagedAttention",
+                "layer": "high_throughput_serving",
+                "primary_use": "long_context_batch_serving",
+            },
+            {
+                "name": "Triton",
+                "layer": "custom_gpu_kernel_compilation",
+                "primary_use": "critical-path kernel optimization",
+            },
+            {
+                "name": "huggingface_python_kernels",
+                "layer": "portable_kernel_runtime",
+                "primary_use": "downloadable open-source acceleration kernels",
+            },
+            {
+                "name": "huggingface_webgpu_kernels",
+                "layer": "browser_gpu_execution",
+                "primary_use": "client-side local acceleration",
+            },
+            {
+                "name": "ollama_local_runtime",
+                "layer": "operator_bootstrap",
+                "primary_use": "single-node offline local serving path",
+            },
+        ],
+        "governance_gates": [
+            "model_admission_pass_required",
+            "typed_provenance_and_contract_visibility_required",
+            "kernel_gate_summary_pass_required_before_promotion",
+            "openrouter_compatibility_fallback_only",
+        ],
+        "phase_order": [
+            "local_open_weight_baseline",
+            "kernel_instrumentation_and_telemetry",
+            "lane_specific_finetuning",
+            "shadow_lane_rollout_with_demotion",
+            "promotion_after_longitudinal_clean_windows",
+        ],
+    }
+
+
 def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
     seed_examples = _build_seed_training_examples(limit=limit)
     track_counts: dict[str, int] = {}
@@ -936,6 +1135,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             ],
             "scratch_pretraining_policy": "Only justified after open-weight adaptation saturates on target benchmark families.",
         },
+        "pentad_kernel_lanes": get_merlin_pentad_contract(),
         "dataset_families": [
             {
                 "family": "repository_native_qa",
@@ -1003,6 +1203,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "dataset_bundle": "getMerlinTrainingDataset",
             "mlflow_manifests": "getMerlinMLflowManifests",
             "artifact_bundle": "getMerlinTrainingArtifacts",
+            "frontier_open_weight_stack": "getMerlinFrontierStack",
         },
     }
 
@@ -1017,6 +1218,34 @@ def _dataset_split(record_id: str, track: str) -> str:
     if bucket < 85:
         return "dev"
     return "test"
+
+
+def _kernel_for_training_record(track: str, *, instruction: str = "", response_target: Any = None) -> str:
+    if track in MERLIN_KERNEL_TRACK_DEFAULTS:
+        return MERLIN_KERNEL_TRACK_DEFAULTS[track]
+    return infer_merlin_kernel_id(
+        track=track,
+        instruction=instruction,
+        response_target=response_target,
+        default_kernel="kernel_s",
+    )
+
+
+def _kernel_for_benchmark_record(track: str, query: str) -> str:
+    return infer_kernel_for_benchmark_definition({
+        "track": track,
+        "query": query,
+    })
+
+
+def _compiled_fixture_track(kind: str) -> str:
+    mapping = {
+        "falsification_lead": "memory_recall",
+        "structural_constraint": "memory_recall",
+        "theorem_candidate": "formal_reasoning",
+        "operational_heuristic": "tool_orchestration_accuracy",
+    }
+    return mapping.get(kind, kind)
 
 
 def _build_compiled_insight_records(compiled_insights: list[dict[str, Any]] | None = None) -> tuple[list[dict[str, Any]], dict[str, list[dict[str, Any]]]]:
@@ -1084,12 +1313,22 @@ def build_training_dataset_bundle(
     architecture = get_training_architecture(limit=limit)
     seed_examples = list(architecture.get("seed_instruction_corpus") or [])
     splits: dict[str, list[dict[str, Any]]] = {"train": [], "dev": [], "test": []}
+    kernel_splits: dict[str, dict[str, list[dict[str, Any]]]] = {
+        kernel_id: {"train": [], "dev": [], "test": []}
+        for kernel_id in MERLIN_PENTAD_KERNELS
+    }
     for example in seed_examples:
         track = str(example.get("track", "unknown"))
         split = _dataset_split(str(example.get("id", "")), track)
+        kernel_id = _kernel_for_training_record(
+            track,
+            instruction=str(example.get("prompt", "")),
+            response_target=example.get("target"),
+        )
         record = {
             "record_id": str(example.get("id", "")),
             "split": split,
+            "kernel_id": kernel_id,
             "task_family": track,
             "instruction": str(example.get("prompt", "")),
             "response_target": example.get("target"),
@@ -1100,6 +1339,7 @@ def build_training_dataset_bundle(
             "format_version": "merlin_training_jsonl_v1",
         }
         splits[split].append(record)
+        kernel_splits[kernel_id][split].append(record)
 
     benchmark_payload = get_benchmark_corpus("all")
     if benchmark_payload.get("ok") is False:
@@ -1109,45 +1349,82 @@ def build_training_dataset_bundle(
             "allowed_stages": list(benchmark_payload.get("allowed_stages") or []),
         }
     benchmark_records: dict[str, list[dict[str, Any]]] = {}
+    kernel_benchmark_corpora: dict[str, dict[str, list[dict[str, Any]]]] = {}
     corpora = dict(benchmark_payload.get("corpora") or {})
     for stage_name, payload in corpora.items():
         benchmark_records[stage_name] = []
+        kernel_benchmark_corpora[stage_name] = {
+            kernel_id: [] for kernel_id in MERLIN_PENTAD_KERNELS
+        }
         for benchmark in list(payload.get("benchmarks") or []):
-            benchmark_records[stage_name].append(
-                {
-                    "benchmark_id": str(benchmark.get("id", "")),
-                    "stage": stage_name,
-                    "track": str(benchmark.get("track", "")),
-                    "query": str(benchmark.get("query", "")),
-                    "keywords": list(benchmark.get("keywords") or []),
-                    "required_gates": list(benchmark.get("required_gates") or []),
-                    "required_contract_sections": list(benchmark.get("required_contract_sections") or []),
-                    "required_provenance_kinds": list(benchmark.get("required_provenance_kinds") or []),
-                    "review_focus": list(benchmark.get("review_focus") or []),
-                    "benchmark_mode": str(benchmark.get("benchmark_mode") or "single_turn"),
-                    "setup_turns": list(benchmark.get("setup_turns") or []),
-                    "format_version": "merlin_benchmark_jsonl_v1",
-                }
+            kernel_id = _kernel_for_benchmark_record(
+                str(benchmark.get("track", "")),
+                str(benchmark.get("query", "")),
             )
+            benchmark_record = {
+                "benchmark_id": str(benchmark.get("id", "")),
+                "stage": stage_name,
+                "kernel_id": kernel_id,
+                "track": str(benchmark.get("track", "")),
+                "query": str(benchmark.get("query", "")),
+                "keywords": list(benchmark.get("keywords") or []),
+                "required_gates": list(benchmark.get("required_gates") or []),
+                "required_contract_sections": list(benchmark.get("required_contract_sections") or []),
+                "required_provenance_kinds": list(benchmark.get("required_provenance_kinds") or []),
+                "review_focus": list(benchmark.get("review_focus") or []),
+                "benchmark_mode": str(benchmark.get("benchmark_mode") or "single_turn"),
+                "setup_turns": list(benchmark.get("setup_turns") or []),
+                "format_version": "merlin_benchmark_jsonl_v1",
+            }
+            benchmark_records[stage_name].append(benchmark_record)
+            kernel_benchmark_corpora[stage_name][kernel_id].append(benchmark_record)
 
     compiled_records, compiled_fixtures = _build_compiled_insight_records(compiled_insights)
     for record in compiled_records:
         splits[record["split"]].append(record)
-    benchmark_records["stage_b_sovereign_takeover"].extend(compiled_fixtures["stage_b_sovereign_takeover"])
-    benchmark_records["stage_c_capability_expansion"].extend(compiled_fixtures["stage_c_capability_expansion"])
+        kernel_id = _kernel_for_training_record(
+            str(record.get("task_family", "")),
+            instruction=str(record.get("instruction", "")),
+            response_target=record.get("response_target"),
+        )
+        record["kernel_id"] = kernel_id
+        kernel_splits[kernel_id][record["split"]].append(record)
+    for stage_name in ("stage_b_sovereign_takeover", "stage_c_capability_expansion"):
+        fixtures = list(compiled_fixtures.get(stage_name) or [])
+        for fixture in fixtures:
+            fixture_kind = str(fixture.get("kind", ""))
+            kernel_id = _kernel_for_benchmark_record(
+                _compiled_fixture_track(fixture_kind),
+                str(fixture.get("prompt", "")),
+            )
+            fixture_with_kernel = {**fixture, "kernel_id": kernel_id}
+            benchmark_records[stage_name].append(fixture_with_kernel)
+            kernel_benchmark_corpora[stage_name][kernel_id].append(fixture_with_kernel)
 
     split_counts = {name: len(items) for name, items in splits.items()}
+    kernel_split_counts = {
+        kernel_id: {split_name: len(rows) for split_name, rows in kernel_rows.items()}
+        for kernel_id, kernel_rows in kernel_splits.items()
+    }
     benchmark_counts = {name: len(items) for name, items in benchmark_records.items()}
+    kernel_benchmark_counts = {
+        stage: {kernel_id: len(rows) for kernel_id, rows in per_kernel.items()}
+        for stage, per_kernel in kernel_benchmark_corpora.items()
+    }
     return {
         "ok": True,
         "dataset": {
             "generated_at": _utcnow(),
             "training_architecture": architecture,
             "splits": splits,
+            "kernel_splits": kernel_splits,
             "benchmark_corpora": benchmark_records,
+            "kernel_benchmark_corpora": kernel_benchmark_corpora,
             "counts": {
                 "training_records": split_counts,
+                "kernel_training_records": kernel_split_counts,
                 "benchmark_records": benchmark_counts,
+                "kernel_benchmark_records": kernel_benchmark_counts,
                 "total_training_records": sum(split_counts.values()),
                 "total_benchmark_records": sum(benchmark_counts.values()),
                 "compile_time_insight_records": len(compiled_records),
@@ -1156,6 +1433,7 @@ def build_training_dataset_bundle(
                 "training_fields": [
                     "record_id",
                     "split",
+                    "kernel_id",
                     "task_family",
                     "instruction",
                     "response_target",
@@ -1168,6 +1446,7 @@ def build_training_dataset_bundle(
                 "benchmark_fields": [
                     "benchmark_id",
                     "stage",
+                    "kernel_id",
                     "track",
                     "query",
                     "keywords",
@@ -1179,12 +1458,17 @@ def build_training_dataset_bundle(
                     "setup_turns",
                     "format_version",
                 ],
+                "kernel_split_fields": ["kernel_s", "kernel_p", "kernel_r", "kernel_a", "kernel_g"],
             },
             "compile_time_memory": {
                 "source": "MerlinSession.compiled_insights",
                 "record_count": len(compiled_records),
                 "stage_b_fixture_count": len(compiled_fixtures["stage_b_sovereign_takeover"]),
                 "stage_c_fixture_count": len(compiled_fixtures["stage_c_capability_expansion"]),
+            },
+            "contracts": {
+                "pentad_contract_surface": "getMerlinPentadContract",
+                "api_surface_policy": get_merlin_pentad_contract()["api_surface_stability"],
             },
         },
     }
@@ -1505,6 +1789,9 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     runtime = get_mythos_astra_contract()
     router = get_router_policy()
 
+    replacement_readiness = dict(control_tower.get("replacement_readiness") or control_tower.get("readiness") or {})
+    longitudinal = dict(control_tower.get("longitudinal_acceptance") or control_tower.get("longitudinal") or {})
+    lane_shadow = dict(control_tower.get("lane_shadow_deployment") or {})
     promotion_blockers = [
         {
             "id": "sync_checks_green",
@@ -1513,18 +1800,23 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
         },
         {
             "id": "stage_a_empirical_gate",
-            "pass": bool(control_tower.get("readiness", {}).get("packet", {}).get("empirical_gate", {}).get("gate_pass")),
+            "pass": bool(replacement_readiness.get("packet", {}).get("empirical_gate", {}).get("gate_pass")),
             "reason": "Stage A head-to-head empirical gate must pass with comparable receipts.",
         },
         {
             "id": "longitudinal_acceptance",
-            "pass": bool(control_tower.get("longitudinal", {}).get("pass")),
+            "pass": bool(longitudinal.get("pass")),
             "reason": "Non-overlapping clean-window longitudinal acceptance must pass.",
         },
         {
             "id": "policy_violation_budget",
-            "pass": int(control_tower.get("readiness", {}).get("packet", {}).get("empirical_gate", {}).get("metrics", {}).get("high_severity_policy_violations_merlin", 1)) == 0,
+            "pass": int(replacement_readiness.get("packet", {}).get("empirical_gate", {}).get("metrics", {}).get("high_severity_policy_violations_merlin", 1)) == 0,
             "reason": "Any high-severity policy violation blocks promotion.",
+        },
+        {
+            "id": "kernel_lane_shadow_gates",
+            "pass": bool(lane_shadow.get("all_lanes_green")),
+            "reason": "Every Pentad lane must pass kernel gates before wider promotion.",
         },
         {
             "id": "typed_provenance_contract",
@@ -1770,6 +2062,7 @@ def get_full_program_blueprint() -> dict[str, Any]:
     return {
         "generated_at": _utcnow(),
         "charter": get_program_charter(),
+        "pentad_contract": get_merlin_pentad_contract(),
         "mentorship_sprint_charter": get_mentorship_sprint_charter(),
         "program_office": get_program_office(),
         "doctrine": get_program_doctrine(),
@@ -1785,6 +2078,7 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "training_dataset": build_training_dataset_bundle(limit=12),
         "mlflow_manifests": get_mlflow_experiment_manifests(limit=12),
         "open_science_registry": get_open_science_resource_registry(),
+        "frontier_open_weight_stack": get_frontier_open_weight_stack(),
         "competitive_benchmark_plan": get_competitive_benchmark_plan(),
         "energy_optimization": get_energy_optimization_track(),
         "backend_expansion": get_backend_expansion_policy(),

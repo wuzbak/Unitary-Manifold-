@@ -9,6 +9,8 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
+from .merlin_kernel_routing import infer_runtime_kernel_id
+
 try:  # pragma: no cover - platform-dependent
     import resource
 except ImportError:  # pragma: no cover - platform-dependent
@@ -50,6 +52,51 @@ def estimate_energy_joules(*, provider: str, lane: str, input_tokens: int, outpu
     return round(((input_tokens + output_tokens) * lane_factor + (tool_rounds * 0.35)) * provider_factor, 6)
 
 
+def _contract_compliant(answer: str) -> bool:
+    sample = str(answer or "")
+    return bool(sample.strip()) and "FOLLOWUPS:" in sample and "Sources:" in sample
+
+
+def _safe_float(value: Any, default: float) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _kernel_profile(router_decision: dict[str, Any], *, context_source: str, query: str) -> dict[str, Any]:
+    lane = str(router_decision.get("lane") or "medium_reasoner_default")
+    kernel_hint = str(router_decision.get("kernel_hint") or "").strip().lower()
+    provider_variant = str(
+        router_decision.get("local_candidate_provider")
+        or router_decision.get("inference_provider")
+        or router_decision.get("provider")
+        or "deterministic_retrieval"
+    )
+    query_sample = str(query or "").lower()
+    kernel_id = infer_runtime_kernel_id(
+        lane=lane,
+        query=query_sample,
+        context_source=context_source,
+        kernel_hint=kernel_hint,
+    )
+    role = {
+        "kernel_s": "Sage",
+        "kernel_p": "Prover",
+        "kernel_r": "Router",
+        "kernel_a": "Auditor",
+        "kernel_g": "Gate",
+    }.get(kernel_id, "Sage")
+    return {
+        "id": kernel_id,
+        "role": role,
+        "variant": provider_variant,
+        "quantization": str(router_decision.get("quantization") or "unknown"),
+        "adapter_id": str(router_decision.get("adapter_id") or "none"),
+        "degraded_mode": bool(router_decision.get("degraded_mode", False)),
+    }
+
+
 def build_run_telemetry(
     *,
     query: str,
@@ -64,18 +111,31 @@ def build_run_telemetry(
     contradiction_events: int,
     latency_ms: float,
     retrieval_hit_count: int = 0,
+    contract_pass_rate: float | None = None,
+    boundary_violation_rate: float | None = None,
+    contradiction_miss_rate: float | None = None,
+    tool_call_precision: float | None = None,
 ) -> dict[str, Any]:
     input_tokens = estimate_token_count(query)
     output_tokens = estimate_token_count(answer)
     provider = str(router_decision.get("provider") or "sovereign_local")
     lane = str(router_decision.get("lane") or "medium_reasoner_default")
+    kernel = _kernel_profile(router_decision, context_source=context_source, query=query)
     provenance_sources = list(provenance.get("sources") or [])
+    contract_ok = _contract_compliant(answer)
+    contract_rate = _safe_float(contract_pass_rate, 1.0 if contract_ok else 0.0) if contract_pass_rate is not None else (1.0 if contract_ok else 0.0)
+    if not contract_ok:
+        contract_rate = 0.0
+    boundary_rate = _safe_float(boundary_violation_rate, 0.0) if boundary_violation_rate is not None else 0.0
+    contradiction_rate = _safe_float(contradiction_miss_rate, 0.0) if contradiction_miss_rate is not None else 0.0
+    tool_precision = _safe_float(tool_call_precision, 0.5) if tool_call_precision is not None else 0.5
     return {
         "recorded_at": _utcnow(),
         "query": query,
         "provider": provider,
         "provider_variant": str(router_decision.get("local_candidate_provider") or router_decision.get("inference_provider") or provider),
         "lane": lane,
+        "kernel": kernel,
         "context_source": context_source,
         "tool_rounds": int(tool_rounds),
         "used_websearch": bool(used_websearch),
@@ -108,6 +168,10 @@ def build_run_telemetry(
             "memory_hits": int(memory_hits),
             "contradiction_events": int(contradiction_events),
             "retrieval_hit_count": int(retrieval_hit_count),
+            "contract_pass_rate": round(max(0.0, min(contract_rate, 1.0)), 4),
+            "boundary_violation_rate": round(max(0.0, min(boundary_rate, 1.0)), 4),
+            "contradiction_miss_rate": round(max(0.0, min(contradiction_rate, 1.0)), 4),
+            "tool_call_precision": round(max(0.0, min(tool_precision, 1.0)), 4),
         },
     }
 
