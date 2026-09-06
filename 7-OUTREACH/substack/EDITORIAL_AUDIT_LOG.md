@@ -42,9 +42,15 @@ Work order is newest → oldest so we can repair the highest-visibility surfaces
 
 ## Next starting point (continue backward)
 
-- Resume at: `posts/post-304-s04e007-sprint-ca-flavor-closure-blockers.md`
-- Then continue descending through all remaining `posts/post-*.md`
+- Resume strict reverse order at: `posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md`
+- Then continue descending through all remaining `posts/post-*.md` down to `post-026-*`
+- After `post-026-*`, continue from `post-024-*` and older
 - After posts sweep, continue newest → oldest in `books/`
+
+### Gap note (intentional jump in this batch)
+
+- `post-025-reader-mail.md` and the two “we were just going to check one thing” pieces were rewritten early because they are high-risk voice anchors used by newer writing.
+- The range `post-299` down through `post-026` remains queued in strict reverse order.
 
 ## Notes for next pass
 
