@@ -117,7 +117,8 @@ def _substack_state(article_path: Path, article_sections: dict[str, bool]) -> di
     }
 
 
-def _fail_closed_packet(*, target_gap_id: str = "", charter: dict[str, Any] | None = None, ledger: dict[str, Any] | None = None, cross_review: dict[str, Any] | None = None, article_sections: dict[str, bool] | None = None) -> Dict[str, Any]:
+def _fail_closed_packet(*, target_gap_id: str = "", charter: dict[str, Any] | None = None, ledger: dict[str, Any] | None = None, cross_review: dict[str, Any] | None = None, article_path: Path | None = None, article_sections: dict[str, bool] | None = None) -> Dict[str, Any]:
+    resolved_article_path = article_path or _SUBSTACK_POST
     return {
         "target_gap_id": target_gap_id,
         "charter": charter or {},
@@ -125,7 +126,7 @@ def _fail_closed_packet(*, target_gap_id: str = "", charter: dict[str, Any] | No
         "cross_review_packet": cross_review or {},
         "open_residual_count": 0,
         "lean4": _lean4_state(_read_text(_LEAN4_FILE)),
-        "substack_article": _substack_state(_SUBSTACK_POST, article_sections or {}),
+        "substack_article": _substack_state(resolved_article_path, article_sections or {}),
         "final_verdict": "still_open",
         "valid": False,
     }
@@ -139,15 +140,25 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
         cross_review = program.get_merlin_cross_review_packet()
     except Exception:
         return _fail_closed_packet()
-    lean_text = _read_text(_LEAN4_FILE)
-    target_gap_id, article_path, article_path_valid, required_sections, required_sections_valid = _normalize_article_contract(charter)
-    article_text = _read_text(article_path)
-    article_sections = _article_section_hits(article_text, required_sections)
-    open_items, open_items_valid, residual_match = _normalize_ledger(ledger, target_gap_id)
-    lean4 = _lean4_state(lean_text)
-    substack_article = _substack_state(article_path, article_sections)
-    stewardship = charter.get("stewardship") or {}
-    reconciliation_policy = cross_review.get("reconciliation_policy") or {}
+
+    try:
+        lean_text = _read_text(_LEAN4_FILE)
+        target_gap_id, article_path, article_path_valid, required_sections, required_sections_valid = _normalize_article_contract(charter)
+        article_text = _read_text(article_path)
+        article_sections = _article_section_hits(article_text, required_sections)
+        open_items, open_items_valid, residual_match = _normalize_ledger(ledger, target_gap_id)
+        lean4 = _lean4_state(lean_text)
+        substack_article = _substack_state(article_path, article_sections)
+        stewardship = charter.get("stewardship") or {}
+        reconciliation_policy = cross_review.get("reconciliation_policy") or {}
+    except Exception:
+        return _fail_closed_packet(
+            target_gap_id=str(charter.get("target_gap_id", "")),
+            charter=charter,
+            ledger=ledger,
+            cross_review=cross_review,
+            article_path=_normalize_article_contract(charter)[1],
+        )
 
     valid = bool(
         bool(target_gap_id)
