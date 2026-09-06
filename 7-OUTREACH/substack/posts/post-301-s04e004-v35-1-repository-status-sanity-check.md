@@ -4,7 +4,7 @@
 
 ---
 
-**Historical note:** this post preserves a branch-state check from Sprint BU/BV-era work. It is useful as a record of how coherence failures were identified, but it is not the current repository verdict. Current scope corrections and open obligations are tracked in `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/docs/TRUTH_LAYER.md`, `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/STATUS.md`, and `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/FALLIBILITY.md`.
+**Historical note:** this post preserves a branch-state check from Sprint BU/BV-era work. It is useful as a record of how coherence failures were identified, but it is not the current repository verdict. Current scope corrections and open obligations are tracked in `docs/TRUTH_LAYER.md`, `STATUS.md`, and `FALLIBILITY.md`.
 
 A public technical project needs occasional plain status reports. Not because raw logs are elegant reading, but because integrity failures often show up first as mismatches between ledgers, metadata, and tests rather than as dramatic numerical explosions. That is what this post recorded.
 

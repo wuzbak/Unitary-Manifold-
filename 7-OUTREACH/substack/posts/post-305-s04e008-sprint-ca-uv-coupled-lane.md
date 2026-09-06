@@ -1,6 +1,6 @@
 # S04E008 — Sprint CA: The Coupled UV Lane (α_s and Higgs Together)
 
-**Historical note:** this article documents how Sprint CA described the shared UV bottleneck in v35.7. The current repository reassessment narrows the evidentiary scope of these inherited residual figures: the `0.93` and `0.95` continuation scales are carried forward as historical assigned inputs, not new independently derived contractions. See `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/docs/TRUTH_LAYER.md#what-cannot-be-counted-as-progress`.
+**Historical note:** this article documents how Sprint CA described the shared UV bottleneck in v35.7. The current repository reassessment narrows the evidentiary scope of these inherited residual figures: the `0.93` and `0.95` continuation scales are carried forward as historical assigned inputs, not new independently derived contractions. See `docs/TRUTH_LAYER.md#what-cannot-be-counted-as-progress`.
 
 The useful idea in this lane is still real even after that narrowing: if two problems depend on the same missing ultraviolet object, they should not be narrated as independent victories. In this repository, the α_s lane and the Higgs lane are linked by exactly that kind of shared burden.
 

@@ -1,7 +1,7 @@
 # Companion Scope Note — Effective Field Theory in the Unitary Manifold
 
 **Primary manuscript:**  
-`/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/7-OUTREACH/substack/books/book-effective-field-theory-unitary-manifold.md`
+`7-OUTREACH/substack/books/book-effective-field-theory-unitary-manifold.md`
 
 This file should not be read as a second book or as a draft pretending to be finished literature. Its proper role is narrower and more useful: it is the editorial scope note for the main EFT manuscript, written so readers and future editors can see exactly what that manuscript is trying to do, what it is not trying to do, and where its honesty boundaries must remain firm.
 
@@ -15,10 +15,10 @@ That scope matters. A good EFT manuscript is not a place to smuggle in every att
 
 Any editorial pass on the EFT book should remain consistent with the repository's canonical truth surfaces:
 
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/STATUS.md`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/FALLIBILITY.md`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/1-THEORY/DERIVATION_STATUS.md`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/docs/TRUTH_LAYER.md`
+- `STATUS.md`
+- `FALLIBILITY.md`
+- `1-THEORY/DERIVATION_STATUS.md`
+- `docs/TRUTH_LAYER.md`
 
 Those files are not decorative references. They are the guardrails that keep the book from claiming closure where the repository itself still records tension, architecture limits, or observational dependence.
 
