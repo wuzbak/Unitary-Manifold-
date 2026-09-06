@@ -260,6 +260,35 @@ def test_build_run_telemetry_respects_heavy_lane_for_prover():
     assert run["kernel"]["id"] == "kernel_p"
 
 
+def test_build_run_telemetry_includes_kernel_attribution_fields():
+    run = build_run_telemetry(
+        query="Route this through kernel router.",
+        answer="ARCHITECTURE_LIMIT\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={
+            "provider": "sovereign_local",
+            "lane": "small_fast_router",
+            "model_variant": "merlin-router-v2",
+            "compression_tier": "int8",
+            "adaptation_tier": "adapter-lora-a",
+            "degraded_mode": True,
+            "demotion_triggered": True,
+        },
+        context_source="offline_rag",
+        tool_rounds=1,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "knowledge_base"}]},
+        gate_badges=["ARCHITECTURE_LIMIT"],
+        memory_hits=0,
+        contradiction_events=0,
+        latency_ms=2.0,
+    )
+    assert run["kernel_attribution"]["model_variant"] == "merlin-router-v2"
+    assert run["kernel_attribution"]["compression_tier"] == "int8"
+    assert run["kernel_attribution"]["adaptation_tier"] == "adapter-lora-a"
+    assert run["kernel_attribution"]["demotion_triggered"] is True
+    assert run["quality_signals"]["demotion_triggered"] is True
+
+
 def test_kernel_gate_summary_scopes_to_required_kernels_only():
     runs = [
         {

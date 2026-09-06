@@ -255,10 +255,96 @@ STAGE_C_BENCHMARK_CORPUS: list[dict[str, Any]] = [
     },
 ]
 
+STAGE_D_BENCHMARK_CORPUS: list[dict[str, Any]] = [
+    {
+        "id": "stage_d_sustained_quality_parity",
+        "stage": "stage_d_replacement_gates",
+        "track": "sustained_quality",
+        "query": "Summarize why replacement approval requires sustained parity windows instead of one-off benchmark wins.",
+        "keywords": ["replacement", "approval", "sustained", "parity", "windows"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "review_focus": ["longitudinal_discipline", "no_label_inflation", "receipt_grounding"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "stage_d_energy_gate_discipline",
+        "stage": "stage_d_replacement_gates",
+        "track": "sustained_energy_win",
+        "query": "What should happen if Merlin quality improves but energy-per-successful-task worsens for two review cycles?",
+        "keywords": ["quality", "energy", "successful", "worsens", "cycles"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "review_focus": ["energy_gate_fail_closed", "budget_survival", "demotion_triggering"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "stage_d_policy_zero_tolerance",
+        "stage": "stage_d_replacement_gates",
+        "track": "policy_violation_budget",
+        "query": "Explain the high-severity policy violation budget required for replacement promotion.",
+        "keywords": ["high", "severity", "policy", "violation", "budget"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy"],
+        "review_focus": ["zero_tolerance", "fail_closed", "promotion_blockers"],
+        "benchmark_mode": "single_turn",
+    },
+]
+
+STAGE_E_BENCHMARK_CORPUS: list[dict[str, Any]] = [
+    {
+        "id": "stage_e_compat_fallback_constraints",
+        "stage": "stage_e_external_decommission",
+        "track": "decommission_readiness",
+        "query": "When can Merlin keep OpenRouter only as emergency compatibility fallback instead of primary routing?",
+        "keywords": ["openrouter", "emergency", "compatibility", "fallback", "primary"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "review_focus": ["compatibility_only_policy", "decommission_conditions", "route_discipline"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "stage_e_rollback_rehearsal",
+        "stage": "stage_e_external_decommission",
+        "track": "rollback_rehearsal",
+        "query": "If a promoted lane violates a kernel threshold, what rollback and incident controls must execute immediately?",
+        "keywords": ["promoted", "lane", "kernel", "threshold", "rollback"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy"],
+        "review_focus": ["lane_demotion", "incident_recovery", "control_tower_logging"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "stage_e_external_dependency_audit",
+        "stage": "stage_e_external_decommission",
+        "track": "incident_recovery",
+        "query": "Describe how Merlin should recover if the external compatibility provider is unavailable during an active workload.",
+        "keywords": ["external", "compatibility", "provider", "unavailable", "recover"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["ARCHITECTURE_LIMIT", "GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "review_focus": ["local_first_resilience", "fallback_failure_recovery", "service_continuity"],
+        "benchmark_mode": "single_turn",
+    },
+]
+
 BENCHMARK_CORPORA: dict[str, list[dict[str, Any]]] = {
     "stage_a_parity_capture": STAGE_A_BENCHMARK_CORPUS,
     "stage_b_sovereign_takeover": STAGE_B_BENCHMARK_CORPUS,
     "stage_c_capability_expansion": STAGE_C_BENCHMARK_CORPUS,
+    "stage_d_replacement_gates": STAGE_D_BENCHMARK_CORPUS,
+    "stage_e_external_decommission": STAGE_E_BENCHMARK_CORPUS,
 }
 
 REQUIRED_SHADOW_FIELDS = [
@@ -585,6 +671,34 @@ def get_stage_c_benchmark_corpus() -> dict[str, Any]:
     }
 
 
+def get_stage_d_benchmark_corpus() -> dict[str, Any]:
+    return {
+        "ok": True,
+        "stage": "stage_d_replacement_gates",
+        "purpose": "Evaluate sustained replacement gate discipline, energy regressions, and zero-violation policy budget.",
+        "benchmarks": list(STAGE_D_BENCHMARK_CORPUS),
+        "required_outputs": [
+            "sustained_quality",
+            "sustained_energy_win",
+            "policy_violation_budget",
+        ],
+    }
+
+
+def get_stage_e_benchmark_corpus() -> dict[str, Any]:
+    return {
+        "ok": True,
+        "stage": "stage_e_external_decommission",
+        "purpose": "Evaluate decommission readiness, rollback rehearsals, and incident recovery under compatibility fallback constraints.",
+        "benchmarks": list(STAGE_E_BENCHMARK_CORPUS),
+        "required_outputs": [
+            "decommission_readiness",
+            "rollback_rehearsal",
+            "incident_recovery",
+        ],
+    }
+
+
 def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
     if stage is None:
         normalized = "all"
@@ -600,6 +714,12 @@ def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
         "stage_c": "stage_c_capability_expansion",
         "stage_c_capability_expansion": "stage_c_capability_expansion",
         "c": "stage_c_capability_expansion",
+        "stage_d": "stage_d_replacement_gates",
+        "stage_d_replacement_gates": "stage_d_replacement_gates",
+        "d": "stage_d_replacement_gates",
+        "stage_e": "stage_e_external_decommission",
+        "stage_e_external_decommission": "stage_e_external_decommission",
+        "e": "stage_e_external_decommission",
         "all": "all",
     }
     if normalized not in stage_aliases:
@@ -615,6 +735,10 @@ def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
         return get_stage_b_benchmark_corpus()
     if selected == "stage_c_capability_expansion":
         return get_stage_c_benchmark_corpus()
+    if selected == "stage_d_replacement_gates":
+        return get_stage_d_benchmark_corpus()
+    if selected == "stage_e_external_decommission":
+        return get_stage_e_benchmark_corpus()
     return {
         "ok": True,
         "program": "merlin_all_hands_maximum_effort",
@@ -622,8 +746,16 @@ def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
             "stage_a_parity_capture": get_stage_a_benchmark_corpus(),
             "stage_b_sovereign_takeover": get_stage_b_benchmark_corpus(),
             "stage_c_capability_expansion": get_stage_c_benchmark_corpus(),
+            "stage_d_replacement_gates": get_stage_d_benchmark_corpus(),
+            "stage_e_external_decommission": get_stage_e_benchmark_corpus(),
         },
-        "stages": ["stage_a_parity_capture", "stage_b_sovereign_takeover", "stage_c_capability_expansion"],
+        "stages": [
+            "stage_a_parity_capture",
+            "stage_b_sovereign_takeover",
+            "stage_c_capability_expansion",
+            "stage_d_replacement_gates",
+            "stage_e_external_decommission",
+        ],
     }
 
 
@@ -635,6 +767,8 @@ def get_multi_stage_benchmark_plan() -> dict[str, Any]:
             "stage_a": "getMerlinBenchmarkCorpus",
             "stage_b": "getMerlinStageBCorpus",
             "stage_c": "getMerlinStageCCorpus",
+            "stage_d": "getMerlinStageDCorpus",
+            "stage_e": "getMerlinStageECorpus",
             "all": "getMerlinBenchmarkCorpora",
         },
         "longitudinal_acceptance_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),

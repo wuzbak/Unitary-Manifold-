@@ -8,6 +8,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 import hashlib
+import json
 from pathlib import Path
 import re
 import shlex
@@ -411,6 +412,8 @@ def _utcnow() -> str:
 
 
 def get_program_charter() -> dict[str, Any]:
+    from .merlin_benchmark import KERNEL_GATE_THRESHOLDS, LONGITUDINAL_ACCEPTANCE_POLICY
+
     return {
         "name": "Merlin Replacement Program",
         "mission": (
@@ -435,6 +438,30 @@ def get_program_charter() -> dict[str, Any]:
                 "predictable_latency_budget",
                 "deterministic_failure_recovery",
             ],
+        },
+        "runtime_objective_lock": {
+            "local_first_primary": True,
+            "self_hosted_primary": True,
+            "openrouter_policy": "compatibility_fallback_only",
+            "branding_excluded_from_gate_decisions": True,
+        },
+        "frontier_done_criteria": {
+            "frozen": True,
+            "required": [
+                "measurable_performance_parity_or_better",
+                "zero_high_severity_policy_violations",
+                "fail_closed_governance_and_boundary_compliance",
+                "cost_and_energy_efficiency_trending_improvement",
+                "receipt_backed_stage_gate_passes",
+            ],
+            "thresholds": {
+                "contract_pass_rate_min": 0.995,
+                "typed_provenance_completeness_min": 0.99,
+                "router_tool_call_precision_min": 0.97,
+                "auditor_contradiction_recall_min": 0.95,
+                "longitudinal_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),
+                "kernel_gates": dict(KERNEL_GATE_THRESHOLDS),
+            },
         },
         "last_updated": _utcnow(),
     }
@@ -477,8 +504,10 @@ def get_program_office() -> dict[str, Any]:
                 "lower_energy_per_successful_task",
                 "stable_safety_and_governance_compliance",
                 "operational_reliability_under_load",
+                "receipt_backed_stage_gates_only",
             ],
             "fail_closed": True,
+            "promotion_rule": "No lane promotion without explicit stage receipts and kernel gate pass.",
         },
         "parallel_squads": [
             {"id": "A", "name": "model_stack_and_routing"},
@@ -796,6 +825,8 @@ def run_sync_checks() -> dict[str, Any]:
 
 def get_model_strategy() -> dict[str, Any]:
     return {
+        "runtime_primary": "sovereign_local",
+        "openrouter_role": "compatibility_fallback_only",
         "routing_lanes": [
             {
                 "lane": "small_fast_router",
@@ -814,6 +845,7 @@ def get_model_strategy() -> dict[str, Any]:
         "fallback_policy": {
             "inputs": ["task_complexity", "confidence", "risk_level", "latency_budget"],
             "decision": "Escalate or fallback by policy, not by fixed global default.",
+            "external_token_path_activation": "only_if_compatibility_enabled_and_local_policy_allows",
         },
     }
 
@@ -835,11 +867,56 @@ def get_training_and_adaptation() -> dict[str, Any]:
         ],
         "quality_controls": [
             "deduplicate low-signal examples",
+            "schema_hard_fail_for_contract_and_provenance_fields",
+            "reject_examples_with_missing_gate_labels_or_empty_sources",
             "gate-label consistency checks",
             "manual steward sampling of high-impact outputs",
             "persona-governance checks cannot be overridden by style mode",
             "no_partial_delivery_in_mentorship_sprint",
         ],
+        "low_token_data_growth_loop": {
+            "priority_order": [
+                "repository_native_assets",
+                "deterministic_local_synthetic_variants",
+                "paid_teacher_calls_for_high_value_gaps_only",
+            ],
+            "two_pass_curation": [
+                "candidate_generation",
+                "critic_rejection_and_contract_compliance_filter",
+            ],
+            "budget_gate": {
+                "metric": "tokens_per_accepted_sample",
+                "pause_condition": "degrades_for_two_consecutive_cycles",
+                "pause_action": "freeze_external_generation_and_run_local_only_cycle",
+            },
+        },
+        "kernel_training_tracks": {
+            "kernel_s": {
+                "objective": "repository_synthesis_and_epistemic_discipline",
+                "compression_policy": "conservative",
+                "rollback_checkpoints_required": True,
+            },
+            "kernel_p": {
+                "objective": "formal_reasoning_and_contradiction_escalation",
+                "compression_policy": "conservative",
+                "rollback_checkpoints_required": True,
+            },
+            "kernel_r": {
+                "objective": "schema_safe_tool_routing",
+                "compression_policy": "validated_aggressive_allowed",
+                "rollback_checkpoints_required": True,
+            },
+            "kernel_a": {
+                "objective": "memory_integrity_and_contradiction_recall",
+                "compression_policy": "moderate_with_recall_gates",
+                "rollback_checkpoints_required": True,
+            },
+            "kernel_g": {
+                "objective": "fail_closed_governance_enforcement",
+                "compression_policy": "conservative_zero_violation",
+                "rollback_checkpoints_required": True,
+            },
+        },
         "mentorship": {
             "charter_surface": "getMerlinMentorshipSprintCharter",
             "faculty_surface": "getMerlinFacultyMatrix",
@@ -1303,6 +1380,101 @@ def _build_compiled_insight_records(compiled_insights: list[dict[str, Any]] | No
     return records, benchmark_fixtures
 
 
+def _dedupe_key(record: dict[str, Any], *, kind: str) -> str:
+    payload = {
+        "kind": kind,
+        "instruction": str(record.get("instruction", "")).strip(),
+        "query": str(record.get("query", "")).strip(),
+        "task_family": str(record.get("task_family", "")).strip(),
+        "track": str(record.get("track", "")).strip(),
+        "stage": str(record.get("stage", "")).strip(),
+        "kernel_id": str(record.get("kernel_id", "")).strip(),
+        "target": record.get("response_target"),
+    }
+    try:
+        serial = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+    except TypeError:
+        serial = repr(payload)
+    return hashlib.sha256(serial.encode("utf-8")).hexdigest()
+
+
+def _normalize_required_gates(values: Any) -> list[str]:
+    allowed = set(PROGRAM_NON_NEGOTIABLES["epistemic_labels"])
+    normalized: list[str] = []
+    for gate in list(values or []):
+        gate_name = str(gate).strip().upper()
+        if gate_name in allowed and gate_name not in normalized:
+            normalized.append(gate_name)
+    return normalized
+
+
+def _normalize_sources(values: Any) -> list[str]:
+    normalized = []
+    for source in list(values or []):
+        source_name = str(source).strip()
+        if source_name and source_name not in normalized:
+            normalized.append(source_name)
+    return normalized
+
+
+def _passes_training_quality_filter(record: dict[str, Any]) -> bool:
+    instruction = str(record.get("instruction", "")).strip()
+    if len(instruction) < 16:
+        return False
+    response_target = record.get("response_target")
+    if response_target is None:
+        return False
+    return bool(record.get("required_gates")) and bool(record.get("provenance_sources"))
+
+
+def _passes_benchmark_quality_filter(record: dict[str, Any]) -> bool:
+    query = str(record.get("query", "")).strip()
+    return len(query) >= 16 and bool(record.get("required_gates")) and bool(record.get("required_contract_sections"))
+
+
+def _validate_training_record(record: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if str(record.get("split")) not in {"train", "dev", "test"}:
+        errors.append("invalid_split")
+    if str(record.get("kernel_id")) not in MERLIN_PENTAD_KERNELS:
+        errors.append("invalid_kernel_id")
+    if not str(record.get("instruction", "")).strip():
+        errors.append("missing_instruction")
+    if record.get("response_target") is None:
+        errors.append("missing_response_target")
+    if not list(record.get("required_gates") or []):
+        errors.append("missing_required_gates")
+    if not list(record.get("provenance_sources") or []):
+        errors.append("missing_provenance_sources")
+    if str(record.get("format_version")) != "merlin_training_jsonl_v1":
+        errors.append("invalid_format_version")
+    response_target = record.get("response_target")
+    if isinstance(response_target, dict):
+        contradictions = response_target.get("contradictions")
+        if contradictions is not None and not isinstance(contradictions, list):
+            errors.append("invalid_contradiction_marker")
+    return errors
+
+
+def _validate_benchmark_record(record: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if str(record.get("stage", "")).strip() == "":
+        errors.append("missing_stage")
+    if str(record.get("kernel_id")) not in MERLIN_PENTAD_KERNELS:
+        errors.append("invalid_kernel_id")
+    if not str(record.get("query", "")).strip():
+        errors.append("missing_query")
+    if not list(record.get("required_gates") or []):
+        errors.append("missing_required_gates")
+    if not list(record.get("required_contract_sections") or []):
+        errors.append("missing_required_contract_sections")
+    if not list(record.get("required_provenance_kinds") or []):
+        errors.append("missing_required_provenance_kinds")
+    if str(record.get("format_version")) != "merlin_benchmark_jsonl_v1":
+        errors.append("invalid_format_version")
+    return errors
+
+
 def build_training_dataset_bundle(
     limit: int | None = None,
     *,
@@ -1317,6 +1489,50 @@ def build_training_dataset_bundle(
         kernel_id: {"train": [], "dev": [], "test": []}
         for kernel_id in MERLIN_PENTAD_KERNELS
     }
+    quality_rejections: list[dict[str, Any]] = []
+    validation_errors: list[dict[str, Any]] = []
+    dedupe_registry: dict[str, str] = {}
+
+    def _register(record: dict[str, Any], *, kind: str, stage: str = "") -> bool:
+        key = _dedupe_key(record, kind=kind)
+        if key in dedupe_registry:
+            quality_rejections.append({
+                "kind": kind,
+                "record_id": str(record.get("record_id") or record.get("benchmark_id") or ""),
+                "reason": "deduplicated_duplicate",
+                "duplicate_of": dedupe_registry[key],
+            })
+            return False
+        dedupe_registry[key] = str(record.get("record_id") or record.get("benchmark_id") or "")
+        if kind == "training":
+            if not _passes_training_quality_filter(record):
+                quality_rejections.append({
+                    "kind": kind,
+                    "record_id": str(record.get("record_id") or ""),
+                    "reason": "quality_filter_failed",
+                })
+                return False
+            errors = _validate_training_record(record)
+        else:
+            if not _passes_benchmark_quality_filter(record):
+                quality_rejections.append({
+                    "kind": kind,
+                    "record_id": str(record.get("benchmark_id") or ""),
+                    "reason": "quality_filter_failed",
+                    "stage": stage,
+                })
+                return False
+            errors = _validate_benchmark_record(record)
+        if errors:
+            validation_errors.append({
+                "kind": kind,
+                "record_id": str(record.get("record_id") or record.get("benchmark_id") or ""),
+                "stage": stage,
+                "errors": errors,
+            })
+            return False
+        return True
+
     for example in seed_examples:
         track = str(example.get("track", "unknown"))
         split = _dataset_split(str(example.get("id", "")), track)
@@ -1334,10 +1550,12 @@ def build_training_dataset_bundle(
             "response_target": example.get("target"),
             "target_contract": example.get("target_contract"),
             "supervision_mode": str(example.get("supervision_mode", "unspecified")),
-            "required_gates": list(example.get("required_gates") or []),
-            "provenance_sources": list(example.get("provenance_sources") or []),
+            "required_gates": _normalize_required_gates(example.get("required_gates")),
+            "provenance_sources": _normalize_sources(example.get("provenance_sources")),
             "format_version": "merlin_training_jsonl_v1",
         }
+        if not _register(record, kind="training"):
+            continue
         splits[split].append(record)
         kernel_splits[kernel_id][split].append(record)
 
@@ -1368,7 +1586,7 @@ def build_training_dataset_bundle(
                 "track": str(benchmark.get("track", "")),
                 "query": str(benchmark.get("query", "")),
                 "keywords": list(benchmark.get("keywords") or []),
-                "required_gates": list(benchmark.get("required_gates") or []),
+                "required_gates": _normalize_required_gates(benchmark.get("required_gates")),
                 "required_contract_sections": list(benchmark.get("required_contract_sections") or []),
                 "required_provenance_kinds": list(benchmark.get("required_provenance_kinds") or []),
                 "review_focus": list(benchmark.get("review_focus") or []),
@@ -1376,18 +1594,24 @@ def build_training_dataset_bundle(
                 "setup_turns": list(benchmark.get("setup_turns") or []),
                 "format_version": "merlin_benchmark_jsonl_v1",
             }
+            if not _register(benchmark_record, kind="benchmark", stage=stage_name):
+                continue
             benchmark_records[stage_name].append(benchmark_record)
             kernel_benchmark_corpora[stage_name][kernel_id].append(benchmark_record)
 
     compiled_records, compiled_fixtures = _build_compiled_insight_records(compiled_insights)
     for record in compiled_records:
-        splits[record["split"]].append(record)
         kernel_id = _kernel_for_training_record(
             str(record.get("task_family", "")),
             instruction=str(record.get("instruction", "")),
             response_target=record.get("response_target"),
         )
         record["kernel_id"] = kernel_id
+        record["required_gates"] = _normalize_required_gates(record.get("required_gates"))
+        record["provenance_sources"] = _normalize_sources(record.get("provenance_sources"))
+        if not _register(record, kind="training"):
+            continue
+        splits[record["split"]].append(record)
         kernel_splits[kernel_id][record["split"]].append(record)
     for stage_name in ("stage_b_sovereign_takeover", "stage_c_capability_expansion"):
         fixtures = list(compiled_fixtures.get(stage_name) or [])
@@ -1397,9 +1621,33 @@ def build_training_dataset_bundle(
                 _compiled_fixture_track(fixture_kind),
                 str(fixture.get("prompt", "")),
             )
-            fixture_with_kernel = {**fixture, "kernel_id": kernel_id}
+            fixture_with_kernel = {
+                "benchmark_id": str(fixture.get("fixture_id", "")) or f"{stage_name}_fixture",
+                "stage": stage_name,
+                "kernel_id": kernel_id,
+                "track": _compiled_fixture_track(fixture_kind),
+                "query": str(fixture.get("prompt", "")),
+                "keywords": [str(fixture_kind), "compiled_insight", "memory"],
+                "required_gates": _normalize_required_gates(["GOVERNANCE", "ARCHITECTURE_LIMIT"]),
+                "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+                "required_provenance_kinds": ["memory", "policy"],
+                "review_focus": ["compiled_insight_ingestion", "contradiction_audit"],
+                "benchmark_mode": "single_turn",
+                "setup_turns": [],
+                "format_version": "merlin_benchmark_jsonl_v1",
+            }
+            if not _register(fixture_with_kernel, kind="benchmark", stage=stage_name):
+                continue
             benchmark_records[stage_name].append(fixture_with_kernel)
             kernel_benchmark_corpora[stage_name][kernel_id].append(fixture_with_kernel)
+
+    if validation_errors:
+        return {
+            "ok": False,
+            "error": "Dataset validation failed.",
+            "validation_errors": validation_errors[:50],
+            "validation_error_count": len(validation_errors),
+        }
 
     split_counts = {name: len(items) for name, items in splits.items()}
     kernel_split_counts = {
@@ -1465,6 +1713,20 @@ def build_training_dataset_bundle(
                 "record_count": len(compiled_records),
                 "stage_b_fixture_count": len(compiled_fixtures["stage_b_sovereign_takeover"]),
                 "stage_c_fixture_count": len(compiled_fixtures["stage_c_capability_expansion"]),
+            },
+            "quality_filters": {
+                "applied": [
+                    "min_instruction_or_query_length",
+                    "required_gate_labels",
+                    "required_provenance_or_contract_fields",
+                    "deterministic_deduplication",
+                ],
+                "rejection_count": len(quality_rejections),
+                "rejections": quality_rejections[:100],
+            },
+            "validation": {
+                "hard_fail_enabled": True,
+                "error_count": len(validation_errors),
             },
             "contracts": {
                 "pentad_contract_surface": "getMerlinPentadContract",

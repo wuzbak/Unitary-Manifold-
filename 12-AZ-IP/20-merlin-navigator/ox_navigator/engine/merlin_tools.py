@@ -27,8 +27,12 @@ from .merlin_benchmark import (
     get_multi_stage_benchmark_plan,
     get_stage_b_benchmark_corpus,
     get_stage_c_benchmark_corpus,
+    get_stage_d_benchmark_corpus,
+    get_stage_e_benchmark_corpus,
     get_stage_a_benchmark_corpus,
     run_stage_a_head_to_head_receipts_sync,
+    run_stage_b_head_to_head_receipts_sync,
+    run_stage_c_head_to_head_receipts_sync,
 )
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
@@ -213,10 +217,14 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinBenchmarkCorpus", "summary": "Return Stage A benchmark prompt corpus", "domain": "functions"},
             {"name": "getMerlinStageBCorpus", "summary": "Return Stage B benchmark corpus", "domain": "functions"},
             {"name": "getMerlinStageCCorpus", "summary": "Return Stage C benchmark corpus", "domain": "functions"},
+            {"name": "getMerlinStageDCorpus", "summary": "Return Stage D benchmark corpus", "domain": "functions"},
+            {"name": "getMerlinStageECorpus", "summary": "Return Stage E benchmark corpus", "domain": "functions"},
             {"name": "getMerlinBenchmarkCorpora", "summary": "Return all Merlin benchmark corpora or a selected stage", "domain": "functions"},
             {"name": "getMerlinMultiStageBenchmarks", "summary": "Return multi-stage benchmark batteries and acceptance cadence", "domain": "functions"},
             {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Merlin benchmark", "domain": "functions"},
             {"name": "runMerlinStageAReceipts", "summary": "Run self-hosted Stage A receipt set", "domain": "functions"},
+            {"name": "runMerlinStageBReceipts", "summary": "Run self-hosted Stage B receipt set", "domain": "functions"},
+            {"name": "runMerlinStageCReceipts", "summary": "Run self-hosted Stage C receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
             {"name": "evaluateMerlinLongitudinalAcceptance", "summary": "Evaluate sustained clean-window promotion cadence over gate history", "domain": "functions"},
             {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
@@ -287,6 +295,12 @@ def _tool_manifest() -> dict[str, Any]:
                             "stage_c",
                             "stage_c_capability_expansion",
                             "c",
+                            "stage_d",
+                            "stage_d_replacement_gates",
+                            "d",
+                            "stage_e",
+                            "stage_e_external_decommission",
+                            "e",
                         ],
                     }
                 },
@@ -334,6 +348,12 @@ def _tool_manifest() -> dict[str, Any]:
                             "stage_c",
                             "stage_c_capability_expansion",
                             "c",
+                            "stage_d",
+                            "stage_d_replacement_gates",
+                            "d",
+                            "stage_e",
+                            "stage_e_external_decommission",
+                            "e",
                         ],
                     },
                 },
@@ -353,6 +373,24 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "runMerlinStageAReceipts": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+        },
+        "runMerlinStageBReceipts": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+        },
+        "runMerlinStageCReceipts": {
             "args_schema": {
                 "type": "object",
                 "properties": {
@@ -674,9 +712,13 @@ _FUNCTIONS = {
     "getMerlinBenchmarkSuite": lambda **args: {"data": get_merlin_benchmark_suite()},
     "getMerlinStageBCorpus": lambda **args: {"data": get_stage_b_benchmark_corpus()},
     "getMerlinStageCCorpus": lambda **args: {"data": get_stage_c_benchmark_corpus()},
+    "getMerlinStageDCorpus": lambda **args: {"data": get_stage_d_benchmark_corpus()},
+    "getMerlinStageECorpus": lambda **args: {"data": get_stage_e_benchmark_corpus()},
     "getMerlinBenchmarkCorpora": lambda **args: {"data": get_benchmark_corpus(stage=args.get("stage"))},
     "getMerlinMultiStageBenchmarks": lambda **args: {"data": get_multi_stage_benchmark_plan()},
     "runMerlinStageAReceipts": lambda **args: {"data": run_stage_a_head_to_head_receipts_sync(limit=args.get("limit"))},
+    "runMerlinStageBReceipts": lambda **args: {"data": run_stage_b_head_to_head_receipts_sync(limit=args.get("limit"))},
+    "runMerlinStageCReceipts": lambda **args: {"data": run_stage_c_head_to_head_receipts_sync(limit=args.get("limit"))},
     "getMerlinReplacementReadiness": lambda **args: {"data": build_stage_a_replacement_readiness(
         limit=args.get("limit"),
         sync_checks_ok=args.get("sync_checks_ok"),
