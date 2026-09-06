@@ -37,8 +37,8 @@ They do not replace independent replication or external data.
 
 **Q: Is the CMB amplitude issue resolved?**
 
-A: In current repository status, the in-repo remediation is treated as addressed by the Pillar 57 + 63 pathway rather than an unclosed hardgate blocker.  
-That does not replace external falsification pressure; it means the internal accounting moved from “unaddressed defect” to “documented remediation with ongoing scrutiny.”  
+A: The current lane is still open in closure-grade terms.  
+Sprint BN’s explicit boundary is that amplitude remains `CALIBRATED_NOT_PREDICTED` unless normalization is derived without observational target values.  
 For verification context, see [FALLIBILITY.md](https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md) and [post-299-s04e002-sprint-bn-cmb-integrity-lane.md](https://github.com/wuzbak/Unitary-Manifold-/blob/main/7-OUTREACH/substack/posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md).
 
 ---
