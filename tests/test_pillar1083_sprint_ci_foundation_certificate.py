@@ -48,6 +48,15 @@ def test_empty_publication_packet_fails_closed(monkeypatch) -> None:
     assert report["valid"] is False
 
 
+def test_missing_findings_report_fails_closed(monkeypatch, tmp_path) -> None:
+    packet = p1083._load_publication_packet()
+    packet["findings_report"] = tmp_path / "missing.md"
+    monkeypatch.setattr(p1083, "_load_publication_packet", lambda: packet)
+    report = sprint_ci_foundation_certificate()
+    assert report["findings_report_ok"] is False
+    assert report["valid"] is False
+
+
 def test_incomplete_merlin_handoff_fails_closed(monkeypatch) -> None:
     packet = p1083.foundation_first_photon_action_audit()
     packet["merlin_handoff"] = {

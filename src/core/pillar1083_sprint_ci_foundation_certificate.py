@@ -58,6 +58,7 @@ def _publication_packet_check() -> Dict[str, Any]:
 def sprint_ci_foundation_certificate() -> Dict[str, Any]:
     packet = foundation_first_photon_action_audit()
     pubs = _publication_packet_check()
+    findings_report_ok = pubs["exists"].get("findings_report", False)
     handoff = packet.get("merlin_handoff", {})
     blocker_contraction = packet.get("blocker_contraction", {})
     initial_questions = blocker_contraction.get("initial_questions", [])
@@ -81,6 +82,7 @@ def sprint_ci_foundation_certificate() -> Dict[str, Any]:
         packet.get("valid")
         and packet.get("scientific_progress")
         and pubs["status"] == "PASS"
+        and findings_report_ok
         and handoff_ok
         and packet.get("honesty_boundaries", {}).get("no_unearned_closure_labels")
     )
@@ -93,6 +95,7 @@ def sprint_ci_foundation_certificate() -> Dict[str, Any]:
         "next_pillar_slot": NEXT_PILLAR_SLOT,
         "dependencies": {"pillar1082": packet},
         "publication_packet": pubs,
+        "findings_report_ok": findings_report_ok,
         "merlin_handoff_ok": handoff_ok,
         "sprint_success": valid,
         "scientific_progress": bool(packet.get("scientific_progress")),
