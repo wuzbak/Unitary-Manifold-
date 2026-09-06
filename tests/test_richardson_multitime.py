@@ -105,9 +105,8 @@ def _run_grid(N: int, *,
     alphas:   dict[int, float | None] = {}
     unstable: dict[int, bool]         = {}
 
-    original_project = evolution._project_metric_volume
-    evolution._project_metric_volume = lambda g, det_target=-1.0: g
-    try:
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(evolution, "_project_metric_volume", lambda g, det_target=-1.0: g)
         cur_step    = 0
         is_unstable = False
 
@@ -128,8 +127,6 @@ def _run_grid(N: int, *,
                 None if is_unstable
                 else float(np.mean(1.0 / state.phi**2))
             )
-    finally:
-        evolution._project_metric_volume = original_project
 
     return alphas, unstable
 
