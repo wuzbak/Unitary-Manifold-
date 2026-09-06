@@ -32,6 +32,13 @@ def _count_theorems(text: str) -> int:
     return sum(1 for line in text.splitlines() if line.strip().startswith("theorem mpf_kawamura_kernel_"))
 
 
+def _display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(_ROOT))
+    except ValueError:
+        return str(path)
+
+
 def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     program = _load_program_module()
     charter = program.get_proof_first_closure_charter()
@@ -61,14 +68,14 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
         "burden_ledger": ledger,
         "cross_review_packet": cross_review,
         "lean4": {
-            "file": str(_LEAN4_FILE.relative_to(_ROOT)),
+            "file": _display_path(_LEAN4_FILE),
             "exists": _LEAN4_FILE.exists(),
             "theorem_count": theorem_count,
             "expected_theorem_count": _EXPECTED_THEOREM_COUNT,
             "semantic_markers": marker_hits,
         },
         "substack_article": {
-            "path": str(_SUBSTACK_POST.relative_to(_ROOT)),
+            "path": _display_path(_SUBSTACK_POST),
             "exists": _SUBSTACK_POST.exists(),
         },
         "final_verdict": "still_open",
