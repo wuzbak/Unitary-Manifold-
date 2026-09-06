@@ -12,6 +12,8 @@ from datetime import datetime, timezone
 from statistics import mean
 from typing import Any
 
+from .merlin_kernel_routing import infer_kernel_for_benchmark_definition
+
 STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
     {
         "id": "physics_birefringence",
@@ -340,19 +342,6 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
         return default
 
 
-def infer_kernel_for_benchmark_definition(benchmark: dict[str, Any]) -> str:
-    sample = f"{benchmark.get('track', '')} {benchmark.get('query', '')}".lower()
-    if any(term in sample for term in ("memory", "contradiction", "audit", "drift")):
-        return "kernel_a"
-    if any(term in sample for term in ("tool", "orchestration", "routing", "schema")):
-        return "kernel_r"
-    if any(term in sample for term in ("proof", "formal", "lean", "theorem")):
-        return "kernel_p"
-    if any(term in sample for term in ("governance", "safety", "privilege", "refusal", "boundary")):
-        return "kernel_g"
-    return "kernel_s"
-
-
 def evaluate_kernel_gate_summary(
     runs: list[dict[str, Any]] | None = None,
     *,
@@ -420,6 +409,7 @@ def evaluate_kernel_gate_summary(
             "gate_pass": False,
             "reason": "No kernel receipts available for required kernel set.",
             "kernels": {},
+            "required_kernel_ids": [],
             "thresholds": KERNEL_GATE_THRESHOLDS,
         }
 

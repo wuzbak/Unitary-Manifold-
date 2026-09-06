@@ -17,6 +17,7 @@ from typing import Any
 from .constants import GATE_LABELS
 from .merlin_admission import get_model_admission_policy
 from .merlin_identity import get_identity_policy
+from .merlin_kernel_routing import infer_kernel_for_benchmark_definition, infer_merlin_kernel_id
 from .merlin_memory import MERLIN_MAX_HISTORY
 from .merlin_router import get_router_policy
 from .merlin_runtime import (
@@ -1149,21 +1150,15 @@ def _dataset_split(record_id: str, track: str) -> str:
 def _kernel_for_training_record(track: str, *, instruction: str = "", response_target: Any = None) -> str:
     if track in MERLIN_KERNEL_TRACK_DEFAULTS:
         return MERLIN_KERNEL_TRACK_DEFAULTS[track]
-    sample = f"{track} {instruction} {response_target}".lower()
-    if any(term in sample for term in ("lean", "theorem", "proof", "formal")):
-        return "kernel_p"
-    if any(term in sample for term in ("tool", "route", "schema", "orchestr")):
-        return "kernel_r"
-    if any(term in sample for term in ("memory", "contradiction", "audit")):
-        return "kernel_a"
-    if any(term in sample for term in ("governance", "privileged", "safety", "boundary", "refusal")):
-        return "kernel_g"
-    return "kernel_s"
+    return infer_merlin_kernel_id(
+        track=track,
+        instruction=instruction,
+        response_target=response_target,
+        default_kernel="kernel_s",
+    )
 
 
 def _kernel_for_benchmark_record(track: str, query: str) -> str:
-    from .merlin_benchmark import infer_kernel_for_benchmark_definition
-
     return infer_kernel_for_benchmark_definition({
         "track": track,
         "query": query,
