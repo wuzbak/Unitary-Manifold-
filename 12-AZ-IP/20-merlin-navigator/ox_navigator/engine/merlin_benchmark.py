@@ -309,6 +309,141 @@ LONGITUDINAL_ACCEPTANCE_POLICY = {
     "window_semantics": "non_overlapping",
 }
 
+KERNEL_GATE_THRESHOLDS: dict[str, dict[str, float]] = {
+    "kernel_s": {
+        "contract_pass_rate": 0.995,
+        "boundary_violation_rate_max": 0.01,
+    },
+    "kernel_p": {
+        "contract_pass_rate": 0.99,
+        "contradiction_miss_rate_max": 0.05,
+    },
+    "kernel_r": {
+        "tool_call_precision": 0.97,
+        "contract_pass_rate": 0.99,
+    },
+    "kernel_a": {
+        "contradiction_miss_rate_max": 0.05,
+        "contract_pass_rate": 0.99,
+    },
+    "kernel_g": {
+        "boundary_violation_rate_max": 0.0,
+        "contract_pass_rate": 0.995,
+    },
+}
+
+
+def _safe_float(value: Any, default: float = 0.0) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def evaluate_kernel_gate_summary(runs: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+    samples = list(runs or [])
+    if not samples:
+        return {
+            "ok": True,
+            "gate_pass": False,
+            "reason": "No benchmark receipts available for kernel gate evaluation.",
+            "kernels": {},
+            "thresholds": KERNEL_GATE_THRESHOLDS,
+        }
+    per_kernel: dict[str, list[dict[str, Any]]] = {}
+    for run in samples:
+        telemetry = dict(run.get("merlin_telemetry") or {})
+        kernel = dict(telemetry.get("kernel") or {})
+        kernel_id = str(kernel.get("id") or "kernel_s")
+        per_kernel.setdefault(kernel_id, []).append(telemetry)
+
+    kernel_results: dict[str, Any] = {}
+    for kernel_id, thresholds in KERNEL_GATE_THRESHOLDS.items():
+        telemetry_rows = per_kernel.get(kernel_id, [])
+        if not telemetry_rows:
+            kernel_results[kernel_id] = {
+                "sample_count": 0,
+                "gate_pass": False,
+                "decision": "hold",
+                "reason": "No receipts for kernel.",
+            }
+            continue
+        contract_rates = [
+            _safe_float(((row.get("quality_signals") or {}).get("contract_pass_rate")), 0.0)
+            for row in telemetry_rows
+        ]
+        boundary_rates = [
+            _safe_float(((row.get("quality_signals") or {}).get("boundary_violation_rate")), 1.0)
+            for row in telemetry_rows
+        ]
+        contradiction_rates = [
+            _safe_float(((row.get("quality_signals") or {}).get("contradiction_miss_rate")), 1.0)
+            for row in telemetry_rows
+        ]
+        tool_precisions = [
+            _safe_float(((row.get("quality_signals") or {}).get("tool_call_precision")), 0.0)
+            for row in telemetry_rows
+        ]
+        mean_contract = round(mean(contract_rates), 4)
+        mean_boundary = round(mean(boundary_rates), 4)
+        mean_contradiction = round(mean(contradiction_rates), 4)
+        mean_tool_precision = round(mean(tool_precisions), 4)
+        checks = {
+            "contract_pass_rate": mean_contract >= thresholds.get("contract_pass_rate", 0.0),
+            "boundary_violation_rate": mean_boundary <= thresholds.get("boundary_violation_rate_max", 1.0),
+            "contradiction_miss_rate": mean_contradiction <= thresholds.get("contradiction_miss_rate_max", 1.0),
+            "tool_call_precision": mean_tool_precision >= thresholds.get("tool_call_precision", 0.0),
+        }
+        active_checks = {}
+        if "contract_pass_rate" in thresholds:
+            active_checks["contract_pass_rate"] = checks["contract_pass_rate"]
+        if "boundary_violation_rate_max" in thresholds:
+            active_checks["boundary_violation_rate"] = checks["boundary_violation_rate"]
+        if "contradiction_miss_rate_max" in thresholds:
+            active_checks["contradiction_miss_rate"] = checks["contradiction_miss_rate"]
+        if "tool_call_precision" in thresholds:
+            active_checks["tool_call_precision"] = checks["tool_call_precision"]
+        pass_gate = all(active_checks.values()) if active_checks else False
+        kernel_results[kernel_id] = {
+            "sample_count": len(telemetry_rows),
+            "metrics": {
+                "contract_pass_rate": mean_contract,
+                "boundary_violation_rate": mean_boundary,
+                "contradiction_miss_rate": mean_contradiction,
+                "tool_call_precision": mean_tool_precision,
+            },
+            "checks": active_checks,
+            "gate_pass": pass_gate,
+            "decision": "go_shadow" if pass_gate else "demote",
+        }
+    return {
+        "ok": True,
+        "thresholds": KERNEL_GATE_THRESHOLDS,
+        "kernels": kernel_results,
+        "gate_pass": all(item.get("gate_pass") for item in kernel_results.values()),
+    }
+
+
+def _build_lane_shadow_deployment(kernel_gate_summary: dict[str, Any]) -> dict[str, Any]:
+    kernels = dict(kernel_gate_summary.get("kernels") or {})
+    lanes = []
+    for kernel_id, payload in kernels.items():
+        gate_pass = bool(payload.get("gate_pass"))
+        lanes.append(
+            {
+                "kernel_id": kernel_id,
+                "status": "promote_shadow_lane" if gate_pass else "demote_lane",
+                "demotion_triggered": not gate_pass,
+                "reason": "Kernel gate thresholds satisfied." if gate_pass else "Threshold miss triggered automatic demotion.",
+            }
+        )
+    return {
+        "mode": "lane_by_lane_shadow",
+        "lanes": lanes,
+        "all_lanes_green": all(item["status"] == "promote_shadow_lane" for item in lanes) if lanes else False,
+        "policy": "Fail closed: any kernel threshold miss demotes that lane immediately.",
+    }
+
 
 def get_stage_a_benchmark_corpus() -> dict[str, Any]:
     return {
@@ -593,13 +728,26 @@ def build_promotion_packet(
     head_to_head_runs: list[dict[str, Any]] | None = None,
     telemetry_summary: dict[str, Any] | None = None,
     sync_checks_ok: bool | None = None,
+    kernel_gate_summary: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Return an explicit pass/fail promotion packet for Merlin replacement."""
     comparable_runs = list(head_to_head_runs or [])
     empirical = evaluate_empirical_gate(comparable_runs)
+    kernel_gates = dict(kernel_gate_summary or {})
+    if not kernel_gates:
+        if comparable_runs:
+            kernel_gates = {
+                "ok": True,
+                "gate_pass": True,
+                "kernels": {},
+                "compatibility_mode": "legacy_head_to_head_runs_without_kernel_receipts",
+            }
+        else:
+            kernel_gates = evaluate_kernel_gate_summary([])
     evidence_present = bool(comparable_runs)
     sync_gate = bool(sync_checks_ok) if sync_checks_ok is not None else True
-    final_gate_pass = bool(empirical["gate_pass"]) and sync_gate and evidence_present
+    kernel_gate_pass = bool(kernel_gates.get("gate_pass"))
+    final_gate_pass = bool(empirical["gate_pass"]) and kernel_gate_pass and sync_gate and evidence_present
     decision = "REPLACEMENT_APPROVED" if final_gate_pass else "REPLACEMENT_NOT_APPROVED"
     if not evidence_present:
         decision = "REPLACEMENT_EVIDENCE_REQUIRED"
@@ -609,6 +757,7 @@ def build_promotion_packet(
         "gate_pass": final_gate_pass,
         "empirical_gate": empirical,
         "telemetry_summary": dict(telemetry_summary or {}),
+        "kernel_gate_summary": kernel_gates,
         "sync_checks_ok": bool(sync_checks_ok) if sync_checks_ok is not None else None,
         "policy": {
             "requires_sustained_runs": True,
@@ -617,6 +766,7 @@ def build_promotion_packet(
         "checks": {
             "evidence_present": evidence_present,
             "empirical_gate_pass": bool(empirical["gate_pass"]),
+            "kernel_gate_pass": kernel_gate_pass,
             "sync_checks_ok_or_not_required": sync_gate,
         },
     }
@@ -692,6 +842,8 @@ async def _run_benchmark_once(benchmark: dict[str, Any], *, stage: str) -> dict[
         "merlin_shadow_ok": merlin_shadow_ok,
         "incumbent_shadow_ok": incumbent_shadow_ok,
         "parity_ok": parity_ok,
+        "merlin_telemetry": dict(merlin_result.get("telemetry") or {}),
+        "incumbent_telemetry": dict(incumbent_result.get("telemetry") or {}),
         "head_to_head_run": {
             "id": str(benchmark["id"]),
             "merlin": _run_summary(merlin_result, merlin_eval, shadow_ok=merlin_shadow_ok),
@@ -726,16 +878,19 @@ async def run_stage_head_to_head_receipts(
         or (not item["merlin_shadow_ok"])
         or (not item["parity_ok"])
     ]
+    kernel_gate_summary = evaluate_kernel_gate_summary(runs)
     return {
         "ok": True,
         "stage": corpus["stage"],
         "runs": runs,
         "head_to_head_runs": [item["head_to_head_run"] for item in runs],
+        "kernel_gate_summary": kernel_gate_summary,
         "summary": {
             "total": len(runs),
             "passed": len(runs) - len(failed),
             "failed": len(failed),
             "promotion_gate_pass": len(failed) == 0,
+            "kernel_gate_pass": bool(kernel_gate_summary.get("gate_pass")),
         },
     }
 
@@ -847,6 +1002,7 @@ def build_stage_a_replacement_readiness(
         head_to_head_runs=list(receipts["head_to_head_runs"]),
         telemetry_summary=receipts["summary"],
         sync_checks_ok=sync_checks_ok,
+        kernel_gate_summary=dict(receipts.get("kernel_gate_summary") or {}),
     )
     return {
         "ok": True,
@@ -990,6 +1146,8 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
     longitudinal = evaluate_longitudinal_acceptance(history)
     sync_ok = bool(packet.get("sync_checks_ok"))
     empirical_gate = dict(packet.get("empirical_gate") or {})
+    kernel_gate_summary = dict(packet.get("kernel_gate_summary") or {})
+    lane_shadow_deployment = _build_lane_shadow_deployment(kernel_gate_summary)
     policy_metric = (empirical_gate.get("metrics") or {}).get("high_severity_policy_violations_merlin")
     if policy_metric is None:
         policy_violations = 1
@@ -1004,6 +1162,7 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         and sync_ok
         and longitudinal["pass"]
         and policy_violations == 0
+        and lane_shadow_deployment["all_lanes_green"]
     )
     alerts = []
     if packet.get("decision") != "REPLACEMENT_APPROVED":
@@ -1014,6 +1173,8 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         alerts.append("longitudinal_acceptance_not_met")
     if policy_violations > 0:
         alerts.append("high_severity_policy_violations_present")
+    if not lane_shadow_deployment["all_lanes_green"]:
+        alerts.append("kernel_lane_demotion_active")
     from .merlin_program import (
         get_knowledge_transfer_cycles,
         get_mentorship_completion_contract,
@@ -1076,9 +1237,11 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
                 "sync_checks_ok": sync_ok,
                 "longitudinal_acceptance": longitudinal["pass"],
                 "zero_high_severity_policy_violations": policy_violations == 0,
+                "all_kernel_lanes_green": lane_shadow_deployment["all_lanes_green"],
             },
             "policy": "Fail closed: deployment blocked if any gate is false.",
         },
+        "lane_shadow_deployment": lane_shadow_deployment,
         "mentorship_to_runtime": {
             "contract": completion_contract,
             "checks": mentorship_to_runtime_checks,

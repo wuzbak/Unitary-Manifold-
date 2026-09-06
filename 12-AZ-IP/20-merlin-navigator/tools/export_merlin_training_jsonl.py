@@ -37,6 +37,9 @@ def main() -> int:
 
     for split_name, rows in dict(dataset.get("splits") or {}).items():
         _write_jsonl(out_dir / f"{split_name}.jsonl", list(rows or []))
+    for kernel_id, per_split in dict(dataset.get("kernel_splits") or {}).items():
+        for split_name, rows in dict(per_split or {}).items():
+            _write_jsonl(out_dir / "kernels" / kernel_id / f"{split_name}.jsonl", list(rows or []))
 
     benchmark_dir = out_dir / "benchmarks"
     for stage_name, rows in dict(dataset.get("benchmark_corpora") or {}).items():

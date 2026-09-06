@@ -125,7 +125,9 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
     assert (output_dir / 'train.jsonl').exists()
     assert (output_dir / 'dev.jsonl').exists()
     assert (output_dir / 'test.jsonl').exists()
+    assert (output_dir / 'kernels').exists()
     assert (output_dir / 'benchmarks' / 'stage_b_sovereign_takeover.jsonl').exists()
+    assert any(path.suffix == '.jsonl' for path in (output_dir / 'kernels').rglob('*.jsonl'))
     manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
     assert manifest['dataset']['counts']['total_benchmark_records'] >= 18
 
@@ -309,6 +311,8 @@ def test_route_tool_merlin_program_blueprint():
     assert 'router_policy' in payload
     assert 'model_admission_policy' in payload
     assert 'workspace_policy' in payload
+    assert 'pentad_contract' in payload
+    assert payload['pentad_contract']['kernel_count'] == 5
     assert 'sovereignty_roadmap' in payload
     assert payload['sync_checks']['ok'] is True
     assert payload['identity_and_trust']['canonical_identity'] == CANONICAL_IDENTITY
@@ -380,6 +384,8 @@ def test_route_tool_training_architecture_and_artifacts():
     dataset = route_tool('getMerlinTrainingDataset', {'limit': 4})
     assert dataset['ok'] is True
     assert dataset['result']['data']['dataset']['counts']['total_training_records'] == 4
+    assert 'kernel_splits' in dataset['result']['data']['dataset']
+    assert 'kernel_s' in dataset['result']['data']['dataset']['kernel_splits']
     assert dataset['result']['data']['dataset']['counts']['total_benchmark_records'] >= 18
 
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
@@ -450,9 +456,20 @@ def test_route_tool_program_office_and_control_tower():
     assert 'replacement_readiness' in data
     assert 'deployment_eligibility' in data
     assert 'drift_alerts' in data
+    assert 'lane_shadow_deployment' in data
     assert 'mentorship_to_runtime' in data
     assert data['mentorship_to_runtime']['checks']['faculty_artifacts_landed'] is True
     assert data['mentorship_to_runtime']['checks']['exchange_cycle_complete'] is False
+
+
+def test_route_tool_pentad_contract():
+    contract = route_tool('getMerlinPentadContract', {})
+    assert contract['ok'] is True
+    payload = contract['result']['data']
+    assert payload['architecture_boundary'] == 'merlin_pentad_primary'
+    assert payload['kernel_count'] == 5
+    assert '/api/merlin' in payload['api_surface_stability']['stable_endpoints']
+    assert payload['api_surface_stability']['compatibility_shim'] == '/api/ox'
 
 
 def test_route_tool_mentorship_surfaces():

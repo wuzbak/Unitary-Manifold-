@@ -62,6 +62,8 @@ def test_merlin_memory_audit_and_telemetry_summary():
     assert summary['average_energy_joules'] > 0
     assert summary['latest']['quality_signals']['typed_provenance_complete'] is True
     assert summary['latest']['quality_signals']['retrieval_hit_count'] == 0
+    assert summary['latest']['kernel']['id'] == 'kernel_s'
+    assert summary['latest']['quality_signals']['contract_pass_rate'] == 1.0
 
 
 def test_merlin_memory_does_not_duplicate_seeded_state():
@@ -200,6 +202,26 @@ def test_merlin_telemetry_estimators_and_summary():
     assert ledger['ok'] is True
     assert ledger['summary']['count'] == 1
     assert ledger['entries'][0]['incumbent_baseline_joules'] >= ledger['entries'][0]['merlin_energy_joules']
+
+
+def test_kernel_gate_summary_flags_demotion_on_threshold_miss():
+    runs = [
+        {
+            "merlin_telemetry": {
+                "kernel": {"id": "kernel_r"},
+                "quality_signals": {
+                    "contract_pass_rate": 1.0,
+                    "boundary_violation_rate": 0.0,
+                    "contradiction_miss_rate": 0.0,
+                    "tool_call_precision": 0.5,
+                },
+            }
+        }
+    ]
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(runs)
+    assert summary["ok"] is True
+    assert summary["kernels"]["kernel_r"]["gate_pass"] is False
+    assert summary["kernels"]["kernel_r"]["decision"] == "demote"
 
 
 def test_match_benchmark_for_query_uses_keywords():
