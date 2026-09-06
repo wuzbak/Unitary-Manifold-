@@ -66,19 +66,24 @@ def _article_section_hits(article_text: str, required_sections: list[str]) -> di
     }
 
 
+def _resolve_repo_path(path_value: str | None, default: Path) -> tuple[Path, bool]:
+    if path_value is None:
+        return default, True
+    if not isinstance(path_value, str) or not path_value:
+        return default, False
+    candidate = (_ROOT / path_value).resolve()
+    try:
+        candidate.relative_to(_ROOT)
+    except ValueError:
+        return default, False
+    return candidate, _display_path(candidate) == path_value
+
+
 def _normalize_article_contract(charter: dict[str, Any]) -> tuple[str, Path, bool, list[str], bool]:
     target_gap_id = str(charter.get("target_gap_id", ""))
     article_contract = charter.get("article_contract") or {}
     configured_path_raw = article_contract.get("path")
-    configured_path = (
-        _ROOT / configured_path_raw
-        if isinstance(configured_path_raw, str) and configured_path_raw
-        else _SUBSTACK_POST
-    )
-    configured_path_valid = (
-        configured_path_raw is None
-        or (isinstance(configured_path_raw, str) and configured_path_raw == _display_path(configured_path))
-    )
+    configured_path, configured_path_valid = _resolve_repo_path(configured_path_raw, _SUBSTACK_POST)
     required_sections_raw = article_contract.get("required_sections")
     required_sections = required_sections_raw if isinstance(required_sections_raw, list) else []
     required_sections_valid = isinstance(required_sections_raw, list)
