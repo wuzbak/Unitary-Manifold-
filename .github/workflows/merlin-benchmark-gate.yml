@@ -44,6 +44,18 @@ jobs:
       - name: Stage A benchmark promotion gate
         run: python tools/run_merlin_stage_a_benchmarks.py --json
 
+      - name: Stage B benchmark receipts
+        run: python tools/run_merlin_stage_bc_benchmarks.py --stage stage_b --limit 3 --json --output /tmp/merlin-stage-b-receipts.json
+
+      - name: Stage C benchmark receipts
+        run: python tools/run_merlin_stage_bc_benchmarks.py --stage stage_c --limit 3 --json --output /tmp/merlin-stage-c-receipts.json
+
+      - name: Stage D benchmark receipts
+        run: python tools/run_merlin_stage_bc_benchmarks.py --stage stage_d --limit 2 --json --output /tmp/merlin-stage-d-receipts.json
+
+      - name: Stage E benchmark receipts
+        run: python tools/run_merlin_stage_bc_benchmarks.py --stage stage_e --limit 2 --json --output /tmp/merlin-stage-e-receipts.json
+
       - name: Export Stage A artifact bundle
         run: python tools/export_merlin_stage_a_artifacts.py --limit 3 --output /tmp/merlin-stage-a-artifacts.json
 
@@ -61,6 +73,30 @@ jobs:
         with:
           name: merlin-stage-a-artifacts
           path: /tmp/merlin-stage-a-artifacts.json
+
+      - name: Upload Stage B receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: merlin-stage-b-receipts
+          path: /tmp/merlin-stage-b-receipts.json
+
+      - name: Upload Stage C receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: merlin-stage-c-receipts
+          path: /tmp/merlin-stage-c-receipts.json
+
+      - name: Upload Stage D receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: merlin-stage-d-receipts
+          path: /tmp/merlin-stage-d-receipts.json
+
+      - name: Upload Stage E receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: merlin-stage-e-receipts
+          path: /tmp/merlin-stage-e-receipts.json
 
       - name: Upload Merlin training artifact bundle
         uses: actions/upload-artifact@v4

@@ -24,6 +24,12 @@ def main() -> int:
     args = parser.parse_args()
 
     payload = get_mlflow_experiment_manifests(limit=args.limit)
+    if not payload.get("ok"):
+        print(json.dumps({
+            "ok": False,
+            "error": payload.get("error", "Unable to build MLflow manifests."),
+        }, ensure_ascii=False))
+        return 1
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     output_path = out_dir / "mlflow_manifests.json"

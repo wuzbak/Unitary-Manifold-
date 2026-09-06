@@ -17,12 +17,14 @@ if str(PRODUCT_ROOT) not in sys.path:
 from ox_navigator.engine.merlin_benchmark import (
     run_stage_b_head_to_head_receipts_sync,
     run_stage_c_head_to_head_receipts_sync,
+    run_stage_d_head_to_head_receipts_sync,
+    run_stage_e_head_to_head_receipts_sync,
 )
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run Merlin Stage B/C benchmark receipts.")
-    parser.add_argument("--stage", choices=["stage_b", "stage_c"], required=True)
+    parser = argparse.ArgumentParser(description="Run Merlin Stage B/C/D/E benchmark receipts.")
+    parser.add_argument("--stage", choices=["stage_b", "stage_c", "stage_d", "stage_e"], required=True)
     parser.add_argument("--limit", type=int, default=None, help="Optional benchmark limit")
     parser.add_argument("--output", type=str, help="Optional output JSON path")
     parser.add_argument("--json", action="store_true", help="Emit compact JSON")
@@ -30,8 +32,12 @@ def main() -> int:
 
     if args.stage == "stage_b":
         payload = run_stage_b_head_to_head_receipts_sync(limit=args.limit)
-    else:
+    elif args.stage == "stage_c":
         payload = run_stage_c_head_to_head_receipts_sync(limit=args.limit)
+    elif args.stage == "stage_d":
+        payload = run_stage_d_head_to_head_receipts_sync(limit=args.limit)
+    else:
+        payload = run_stage_e_head_to_head_receipts_sync(limit=args.limit)
 
     serial = json.dumps(payload, ensure_ascii=False) if args.json else json.dumps(payload, ensure_ascii=False, indent=2)
     if args.output:

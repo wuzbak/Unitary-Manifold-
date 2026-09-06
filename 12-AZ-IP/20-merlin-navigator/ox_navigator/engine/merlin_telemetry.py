@@ -91,7 +91,10 @@ def _kernel_profile(router_decision: dict[str, Any], *, context_source: str, que
         "id": kernel_id,
         "role": role,
         "variant": provider_variant,
+        "model_variant": str(router_decision.get("model_variant") or provider_variant),
         "quantization": str(router_decision.get("quantization") or "unknown"),
+        "compression_tier": str(router_decision.get("compression_tier") or "unspecified"),
+        "adaptation_tier": str(router_decision.get("adaptation_tier") or "unspecified"),
         "adapter_id": str(router_decision.get("adapter_id") or "none"),
         "degraded_mode": bool(router_decision.get("degraded_mode", False)),
     }
@@ -129,6 +132,7 @@ def build_run_telemetry(
     boundary_rate = _safe_float(boundary_violation_rate, 0.0) if boundary_violation_rate is not None else 0.0
     contradiction_rate = _safe_float(contradiction_miss_rate, 0.0) if contradiction_miss_rate is not None else 0.0
     tool_precision = _safe_float(tool_call_precision, 0.5) if tool_call_precision is not None else 0.5
+    demotion_triggered = bool(router_decision.get("demotion_triggered", False))
     return {
         "recorded_at": _utcnow(),
         "query": query,
@@ -136,6 +140,14 @@ def build_run_telemetry(
         "provider_variant": str(router_decision.get("local_candidate_provider") or router_decision.get("inference_provider") or provider),
         "lane": lane,
         "kernel": kernel,
+        "kernel_attribution": {
+            "kernel_id": kernel["id"],
+            "model_variant": kernel["model_variant"],
+            "compression_tier": kernel["compression_tier"],
+            "adaptation_tier": kernel["adaptation_tier"],
+            "degraded_mode": kernel["degraded_mode"],
+            "demotion_triggered": demotion_triggered,
+        },
         "context_source": context_source,
         "tool_rounds": int(tool_rounds),
         "used_websearch": bool(used_websearch),
@@ -172,6 +184,7 @@ def build_run_telemetry(
             "boundary_violation_rate": round(max(0.0, min(boundary_rate, 1.0)), 4),
             "contradiction_miss_rate": round(max(0.0, min(contradiction_rate, 1.0)), 4),
             "tool_call_precision": round(max(0.0, min(tool_precision, 1.0)), 4),
+            "demotion_triggered": demotion_triggered,
         },
     }
 

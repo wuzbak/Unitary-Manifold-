@@ -83,7 +83,7 @@ Related reading outside this product folder:
 - `GET /api/merlin/mlflow-manifests` exposes MLflow-ready experiment manifests for SFT, preference optimization, and Stage B/C gate evaluations.
 - `GET /api/merlin/open-science-registry` exposes curated external open-science resources allowed for controlled augmentation.
 - `GET /api/merlin/competitive-benchmarks` exposes the competitive benchmark families Merlin must clear before broader promotion.
-- `GET /api/merlin/benchmark-corpora` exposes Stage A/B/C corpora directly, with stage selection support.
+- `GET /api/merlin/benchmark-corpora` exposes Stage A/B/C/D/E corpora directly, with stage selection support.
 - `GET /api/merlin/stage-a-receipts` runs the self-hosted Stage A receipt set and returns comparable Merlin/incumbent runs.
 - `GET /api/merlin/replacement-readiness` turns the receipt set into a concrete readiness packet instead of an evidence-empty placeholder.
 - `GET /api/merlin/frontier-readiness` merges sync checks, control-tower gates, benchmark cadence, and fail-closed promotion blockers in one packet.
@@ -119,6 +119,7 @@ Related reading outside this product folder:
 - MLflow experiment receipt runner: `python tools/run_merlin_mlflow_experiment.py --experiment merlin_stage_b_shadow_eval --limit 3 --output /tmp/merlin-stage-b-receipts.json`.
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).
+- Stage B/C/D/E receipt runner: `python tools/run_merlin_stage_bc_benchmarks.py --stage stage_d --json`.
 - Multi-stage replacement batteries now define Stage A→E acceptance tracks with sustained clean-window cadence checks for promotion discipline.
 - Longitudinal acceptance windows are explicitly **non-overlapping** to avoid counting one streak multiple times as separate gate windows.
 

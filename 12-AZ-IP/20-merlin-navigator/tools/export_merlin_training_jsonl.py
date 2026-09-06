@@ -31,6 +31,13 @@ def main() -> int:
     args = parser.parse_args()
 
     payload = build_training_dataset_bundle(limit=args.limit)
+    if not payload.get("ok"):
+        print(json.dumps({
+            "ok": False,
+            "error": payload.get("error", "Dataset validation failed."),
+            "validation_error_count": payload.get("validation_error_count", 0),
+        }, ensure_ascii=False))
+        return 1
     dataset = dict(payload.get("dataset") or {})
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)

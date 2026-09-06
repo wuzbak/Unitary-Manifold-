@@ -18,6 +18,7 @@ if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
 import ox_navigator.engine.merlin_engine as merlin_engine
+import ox_navigator.engine.merlin_program as merlin_program
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_identity import (
     CANONICAL_IDENTITY,
@@ -378,6 +379,14 @@ def test_route_tool_training_architecture_and_artifacts():
     assert corpora['ok'] is True
     assert corpora['result']['data']['stage'] == 'stage_b_sovereign_takeover'
     assert len(corpora['result']['data']['benchmarks']) >= 6
+    stage_d = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_d'})
+    assert stage_d['ok'] is True
+    assert stage_d['result']['data']['stage'] == 'stage_d_replacement_gates'
+    stage_e = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_e'})
+    assert stage_e['ok'] is True
+    assert stage_e['result']['data']['stage'] == 'stage_e_external_decommission'
+    assert len(stage_d['result']['data']['benchmarks']) >= 3
+    assert len(stage_e['result']['data']['benchmarks']) >= 3
 
     bad_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'not-a-stage'})
     assert bad_corpora['ok'] is False
@@ -410,6 +419,17 @@ def test_route_tool_training_architecture_and_artifacts():
     )
     assert kernel_training_total == counts['total_training_records']
     assert kernel_benchmark_total == counts['total_benchmark_records']
+    assert dataset_payload['validation']['hard_fail_enabled'] is True
+    assert 'quality_filters' in dataset_payload
+    assert dataset_payload['quality_filters']['rejection_count'] >= 0
+    assert 'stage_d_replacement_gates' in dataset_payload['benchmark_corpora']
+    assert 'stage_e_external_decommission' in dataset_payload['benchmark_corpora']
+    assert counts['benchmark_records']['stage_d_replacement_gates'] >= 3
+    assert counts['benchmark_records']['stage_e_external_decommission'] >= 3
+    assert dataset_payload['compile_time_memory']['fixture_stage_scope'] == [
+        'stage_b_sovereign_takeover',
+        'stage_c_capability_expansion',
+    ]
 
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
     assert mlflow['ok'] is True
@@ -426,6 +446,62 @@ def test_route_tool_training_architecture_and_artifacts():
         item.endswith('/benchmarks/stage_c_capability_expansion.jsonl')
         for item in mlflow['result']['data']['manifests'][-1]['prerequisite_artifacts']
     )
+
+
+def test_training_dataset_validation_and_quality_rejections(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        "_build_seed_training_examples",
+        lambda limit=None: [
+            {
+                "id": "invalid-gate",
+                "track": "repository_native_qa",
+                "prompt": "This record has an unsupported gate label but valid length.",
+                "target": {"answer": "ok"},
+                "target_contract": {"requires_epistemic_tag": True},
+                "supervision_mode": "test",
+                "required_gates": ["NOT_A_REAL_GATE"],
+                "provenance_sources": ["synthetic_source"],
+            },
+            {
+                "id": "dup-a",
+                "track": "repository_native_qa",
+                "prompt": "Merlin must keep provenance visible in every answer contract.",
+                "target": {"answer": "ok"},
+                "target_contract": {"requires_epistemic_tag": True},
+                "supervision_mode": "test",
+                "required_gates": ["GOVERNANCE"],
+                "provenance_sources": ["synthetic_source"],
+            },
+            {
+                "id": "dup-b",
+                "track": "repository_native_qa",
+                "prompt": "Merlin must keep provenance visible in every answer contract.",
+                "target": {"answer": "ok"},
+                "target_contract": {"requires_epistemic_tag": True},
+                "supervision_mode": "test",
+                "required_gates": ["GOVERNANCE"],
+                "provenance_sources": ["synthetic_source"],
+            },
+            {
+                "id": "low-signal",
+                "track": "repository_native_qa",
+                "prompt": "short",
+                "target": {"answer": "ok"},
+                "target_contract": {"requires_epistemic_tag": True},
+                "supervision_mode": "test",
+                "required_gates": ["GOVERNANCE"],
+                "provenance_sources": ["synthetic_source"],
+            },
+        ],
+    )
+    payload = merlin_program.build_training_dataset_bundle(limit=10)
+    assert payload["ok"] is False
+    assert payload["validation_error_count"] >= 1
+    assert payload["dataset"]["validation"]["status"] == "failed"
+    reasons = [item["reason"] for item in payload["dataset"]["quality_filters"]["rejections"]]
+    assert "deduplicated_duplicate" in reasons
+    assert "quality_filter_failed" in reasons
 
 
 def test_route_tool_training_dataset_includes_compiled_insights():
