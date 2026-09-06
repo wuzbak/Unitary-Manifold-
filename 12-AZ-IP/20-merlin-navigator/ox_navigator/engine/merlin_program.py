@@ -1170,6 +1170,16 @@ def _kernel_for_benchmark_record(track: str, query: str) -> str:
     })
 
 
+def _compiled_fixture_track(kind: str) -> str:
+    mapping = {
+        "falsification_lead": "memory_recall",
+        "structural_constraint": "memory_recall",
+        "theorem_candidate": "formal_reasoning",
+        "operational_heuristic": "tool_orchestration_accuracy",
+    }
+    return mapping.get(kind, kind)
+
+
 def _build_compiled_insight_records(compiled_insights: list[dict[str, Any]] | None = None) -> tuple[list[dict[str, Any]], dict[str, list[dict[str, Any]]]]:
     records: list[dict[str, Any]] = []
     benchmark_fixtures: dict[str, list[dict[str, Any]]] = {
@@ -1314,8 +1324,9 @@ def build_training_dataset_bundle(
     for stage_name in ("stage_b_sovereign_takeover", "stage_c_capability_expansion"):
         fixtures = list(compiled_fixtures.get(stage_name) or [])
         for fixture in fixtures:
+            fixture_kind = str(fixture.get("kind", ""))
             kernel_id = _kernel_for_benchmark_record(
-                str(fixture.get("kind", "")),
+                _compiled_fixture_track(fixture_kind),
                 str(fixture.get("prompt", "")),
             )
             fixture_with_kernel = {**fixture, "kernel_id": kernel_id}

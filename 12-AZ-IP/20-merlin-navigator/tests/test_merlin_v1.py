@@ -427,6 +427,7 @@ def test_route_tool_training_dataset_includes_compiled_insights():
     payload = dataset['result']['data']['dataset']
     counts = payload['counts']
     assert counts['compile_time_insight_records'] >= 1
+    assert counts['kernel_benchmark_records']['stage_b_sovereign_takeover']['kernel_a'] >= 1
     for stage_name, per_kernel in counts['kernel_benchmark_records'].items():
         assert sum(per_kernel.values()) == counts['benchmark_records'][stage_name]
 

@@ -359,12 +359,32 @@ def evaluate_kernel_gate_summary(
     required_kernel_ids: list[str] | None = None,
 ) -> dict[str, Any]:
     samples = list(runs or [])
+    requested_kernel_ids = list(required_kernel_ids or [])
     if not samples:
+        empty_scope = requested_kernel_ids
+        if empty_scope:
+            return {
+                "ok": True,
+                "gate_pass": False,
+                "reason": "No benchmark receipts available for required kernel scope.",
+                "required_kernel_ids": empty_scope,
+                "kernels": {
+                    kernel_id: {
+                        "sample_count": 0,
+                        "gate_pass": False,
+                        "decision": "hold",
+                        "reason": "No receipts for required kernel.",
+                    }
+                    for kernel_id in empty_scope
+                },
+                "thresholds": KERNEL_GATE_THRESHOLDS,
+            }
         return {
             "ok": True,
             "gate_pass": False,
             "reason": "No benchmark receipts available for kernel gate evaluation.",
             "kernels": {},
+            "required_kernel_ids": [],
             "thresholds": KERNEL_GATE_THRESHOLDS,
         }
     per_kernel: dict[str, list[dict[str, Any]]] = {}
@@ -377,7 +397,7 @@ def evaluate_kernel_gate_summary(
     kernel_ids_to_check = (
         sorted(per_kernel.keys())
         if required_kernel_ids is None
-        else list(required_kernel_ids)
+        else requested_kernel_ids
     )
     if not kernel_ids_to_check:
         return {

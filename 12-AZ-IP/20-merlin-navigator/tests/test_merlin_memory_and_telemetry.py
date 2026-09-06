@@ -262,6 +262,13 @@ def test_kernel_gate_summary_scopes_to_required_kernels_only():
     assert summary["required_kernel_ids"] == ["kernel_s"]
 
 
+def test_kernel_gate_summary_preserves_required_scope_without_receipts():
+    summary = merlin_benchmark.evaluate_kernel_gate_summary([], required_kernel_ids=["kernel_a"])
+    assert summary["gate_pass"] is False
+    assert summary["required_kernel_ids"] == ["kernel_a"]
+    assert summary["kernels"]["kernel_a"]["decision"] == "hold"
+
+
 def test_match_benchmark_for_query_uses_keywords():
     match = match_benchmark_for_query('What is the birefringence prediction and how could LiteBIRD falsify it?')
     assert match is not None
