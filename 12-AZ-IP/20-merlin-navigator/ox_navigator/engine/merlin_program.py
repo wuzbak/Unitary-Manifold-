@@ -1538,7 +1538,7 @@ def build_training_dataset_bundle(
                 "errors": errors,
             })
             return False
-        dedupe_registry[key] = str(record.get("record_id") or record.get("benchmark_id") or "")
+        dedupe_registry[key] = str(record.get("record_id") or record.get("benchmark_id") or key)
         return True
 
     for example in seed_examples:
