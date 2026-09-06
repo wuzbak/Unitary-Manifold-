@@ -290,6 +290,7 @@ def test_toolkit_state_view_shape():
     assert 'MerlinSession' in payload['entities']
     assert 'memory' in payload
     assert 'telemetry' in payload
+    assert payload['mentorship']['dual_loop']['loops']['hils_loop_pentad']['role'] == 'merlin_as_governed_participant'
 
 
 def test_route_tool_fetch_repo_context():
@@ -328,6 +329,13 @@ def test_route_tool_merlin_program_blueprint():
     assert payload['identity_and_trust']['canonical_identity'] == CANONICAL_IDENTITY
     assert payload['sentinel_policy']['first_violation_action'] == 'warn_and_refuse'
     assert payload['program_office']['authority_model']['rollback'] == 'program office + stewards'
+    assert payload['dual_loop_learning_contract']['promotion_policy']['promotion_requires_hils_validation'] is True
+    assert payload['deterministic_proof_closure']['allowed_verdict_classes'] == [
+        'closed_now',
+        'tightened_with_explicit_blocker',
+        'external_wait_only',
+    ]
+    assert payload['dual_loop_sprint_command_rhythm']['cadence'][0]['phase'] == 'kickoff'
 
 
 def test_route_tool_benchmark_corpus_and_policy_metadata():
@@ -584,6 +592,10 @@ def test_route_tool_program_office_and_control_tower():
     assert mentorship['charter']['mode'] == 'full_rigor_no_partial_delivery'
     assert len(mentorship['faculty_matrix']['faculty']) == 5
     assert mentorship['completion_contract']['gate_policy'] == 'fail_closed'
+    dual_loop = office['result']['data']['dual_loop_operations']
+    assert dual_loop['learning_contract']['loops']['kitty_loop_pentad']['role'] == 'merlin_as_human_node'
+    assert dual_loop['mirrored_training_cycle']['sequence'][1]['phase'] == 'production_governed_pass'
+    assert dual_loop['deterministic_proof_closure']['allowed_verdict_classes'][0] == 'closed_now'
 
     control = route_tool('getMerlinControlTower', {'limit': 1})
     assert control['ok'] is True
@@ -633,6 +645,22 @@ def test_route_tool_mentorship_surfaces():
     closure = route_tool('getMerlinMentorshipClosureContract', {})
     assert closure['ok'] is True
     assert closure['result']['data']['name'] == 'mentorship_to_runtime_closure'
+
+    dual_loop = route_tool('getMerlinDualLoopContract', {})
+    assert dual_loop['ok'] is True
+    assert dual_loop['result']['data']['promotion_policy']['kitty_loop_wins'] == 'candidate_evidence_only'
+
+    mirrored = route_tool('getMerlinMirroredTrainingCycle', {})
+    assert mirrored['ok'] is True
+    assert mirrored['result']['data']['sequence'][0]['loop'] == 'kitty_loop_pentad'
+
+    closure_contract = route_tool('getMerlinDeterministicClosureContract', {})
+    assert closure_contract['ok'] is True
+    assert closure_contract['result']['data']['promotion_guardrail'].startswith('No escalation')
+
+    rhythm = route_tool('getMerlinDualLoopSprintRhythm', {})
+    assert rhythm['ok'] is True
+    assert rhythm['result']['data']['cadence'][-1]['phase'] == 'closeout'
 
 
 def test_route_tool_control_tower_clamps_non_positive_limit():
