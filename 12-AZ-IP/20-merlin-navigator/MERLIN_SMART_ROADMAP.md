@@ -99,7 +99,7 @@ Any miss blocks promotion.
 2. Read full strategy ([`MERLIN_FRONTIER_ROADMAP.md`](./MERLIN_FRONTIER_ROADMAP.md))
 3. Inspect implementation surfaces ([`MERLIN_PROGRAM.md`](./MERLIN_PROGRAM.md))
 4. Verify runtime/API behavior ([`README.md`](./README.md))
-5. Run receipts (after setup in [`README.md`](./README.md): install requirements, then run `python 12-AZ-IP/20-merlin-navigator/tools/run_merlin_stage_a_benchmarks.py --json`)
+5. Run receipts (`cd 12-AZ-IP/20-merlin-navigator && pip install -r requirements.txt && python tools/run_merlin_stage_a_benchmarks.py --json`)
 
 This path is intentionally short-to-deep so readers can orient first, then verify.
 
