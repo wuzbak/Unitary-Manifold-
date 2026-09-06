@@ -361,7 +361,7 @@ def evaluate_kernel_gate_summary(
                     kernel_id: {
                         "sample_count": 0,
                         "gate_pass": False,
-                        "decision": "hold",
+                        "decision": "demote",
                         "reason": "No receipts for required kernel.",
                     }
                     for kernel_id in empty_scope
@@ -430,7 +430,7 @@ def evaluate_kernel_gate_summary(
             kernel_results[kernel_id] = {
                 "sample_count": 0,
                 "gate_pass": False,
-                "decision": "hold",
+                "decision": "demote",
                 "reason": "No receipts for kernel.",
             }
             continue

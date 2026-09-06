@@ -396,10 +396,20 @@ def test_route_tool_training_architecture_and_artifacts():
 
     dataset = route_tool('getMerlinTrainingDataset', {'limit': 4})
     assert dataset['ok'] is True
-    assert dataset['result']['data']['dataset']['counts']['total_training_records'] == 4
-    assert 'kernel_splits' in dataset['result']['data']['dataset']
-    assert 'kernel_s' in dataset['result']['data']['dataset']['kernel_splits']
-    assert dataset['result']['data']['dataset']['counts']['total_benchmark_records'] >= 18
+    dataset_payload = dataset['result']['data']['dataset']
+    counts = dataset_payload['counts']
+    assert counts['total_training_records'] == 4
+    assert 'kernel_splits' in dataset_payload
+    assert 'kernel_s' in dataset_payload['kernel_splits']
+    assert counts['total_benchmark_records'] >= 18
+    kernel_training_total = sum(
+        sum(per_split.values()) for per_split in counts['kernel_training_records'].values()
+    )
+    kernel_benchmark_total = sum(
+        sum(per_kernel.values()) for per_kernel in counts['kernel_benchmark_records'].values()
+    )
+    assert kernel_training_total == counts['total_training_records']
+    assert kernel_benchmark_total == counts['total_benchmark_records']
 
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
     assert mlflow['ok'] is True

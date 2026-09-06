@@ -7,6 +7,33 @@ from __future__ import annotations
 
 from typing import Any
 
+KERNEL_RULES = [
+    {
+        "kernel_id": "kernel_p",
+        "priority": 4,
+        "keywords": ("lean", "theorem", "proof", "formal"),
+    },
+    {
+        "kernel_id": "kernel_r",
+        "priority": 3,
+        "keywords": ("tool", "route", "routing", "schema", "orchestr", "orchestration"),
+    },
+    {
+        "kernel_id": "kernel_a",
+        "priority": 2,
+        "keywords": ("memory", "contradiction", "audit", "recall", "drift"),
+    },
+    {
+        "kernel_id": "kernel_g",
+        "priority": 1,
+        "keywords": ("governance", "refusal", "safety", "boundary", "privilege", "privileged", "sentinel", "policy"),
+    },
+]
+
+
+def _rule_score(sample: str, keywords: tuple[str, ...]) -> int:
+    return sum(1 for term in keywords if term in sample)
+
 
 def infer_merlin_kernel_id(
     *,
@@ -16,14 +43,14 @@ def infer_merlin_kernel_id(
     default_kernel: str = "kernel_s",
 ) -> str:
     sample = f"{track} {instruction} {response_target}".lower()
-    if any(term in sample for term in ("lean", "theorem", "proof", "formal")):
-        return "kernel_p"
-    if any(term in sample for term in ("tool", "route", "routing", "schema", "orchestr", "orchestration")):
-        return "kernel_r"
-    if any(term in sample for term in ("memory", "contradiction", "audit", "recall", "drift")):
-        return "kernel_a"
-    if any(term in sample for term in ("governance", "refusal", "safety", "boundary", "privilege", "privileged", "sentinel", "policy")):
-        return "kernel_g"
+    scored: list[tuple[int, int, str]] = []
+    for rule in KERNEL_RULES:
+        score = _rule_score(sample, tuple(rule["keywords"]))
+        if score > 0:
+            scored.append((score, int(rule["priority"]), str(rule["kernel_id"])))
+    if scored:
+        scored.sort(key=lambda item: (-item[0], -item[1], item[2]))
+        return scored[0][2]
     return default_kernel
 
 

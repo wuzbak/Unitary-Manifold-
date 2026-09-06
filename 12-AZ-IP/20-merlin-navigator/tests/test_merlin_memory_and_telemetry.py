@@ -283,7 +283,7 @@ def test_kernel_gate_summary_preserves_required_scope_without_receipts():
     summary = merlin_benchmark.evaluate_kernel_gate_summary([], required_kernel_ids=["kernel_a"])
     assert summary["gate_pass"] is False
     assert summary["required_kernel_ids"] == ["kernel_a"]
-    assert summary["kernels"]["kernel_a"]["decision"] == "hold"
+    assert summary["kernels"]["kernel_a"]["decision"] == "demote"
 
 
 def test_build_run_telemetry_coerces_invalid_override_metrics():
