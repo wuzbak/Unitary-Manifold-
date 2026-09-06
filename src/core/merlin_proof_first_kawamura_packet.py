@@ -68,7 +68,6 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     open_items = ledger["classification_buckets"]["open_residuals"]
     residual_match = any(
         str(item.get("gap_id", "")) == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
-        or "functional-analysis" in str(item.get("item", "")).lower()
         for item in open_items
     )
 
