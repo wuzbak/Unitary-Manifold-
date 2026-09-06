@@ -44,8 +44,11 @@ def sprint_ci_foundation_certificate() -> Dict[str, Any]:
     handoff = packet["merlin_handoff"]
     handoff_ok = bool(
         handoff.get("primary_lane")
-        and handoff.get("evidence_reviewed")
-        and handoff.get("blocker_state_after")
+        and isinstance(handoff.get("evidence_reviewed"), list)
+        and "blocker_state_before" in handoff
+        and isinstance(handoff["blocker_state_before"], list)
+        and "blocker_state_after" in handoff
+        and isinstance(handoff["blocker_state_after"], list)
         and handoff.get("next_required_action")
     )
     valid = bool(
