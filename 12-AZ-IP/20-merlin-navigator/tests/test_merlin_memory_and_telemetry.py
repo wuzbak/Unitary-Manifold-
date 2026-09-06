@@ -62,7 +62,7 @@ def test_merlin_memory_audit_and_telemetry_summary():
     assert summary['average_energy_joules'] > 0
     assert summary['latest']['quality_signals']['typed_provenance_complete'] is True
     assert summary['latest']['quality_signals']['retrieval_hit_count'] == 0
-    assert summary['latest']['kernel']['id'] == 'kernel_s'
+    assert summary['latest']['kernel']['id'] == 'kernel_g'
     assert summary['latest']['quality_signals']['contract_pass_rate'] == 1.0
     assert summary['latest']['quality_signals']['tool_call_precision'] == 0.5
 
@@ -317,6 +317,14 @@ def test_kernel_gate_summary_rejects_unknown_kernel_ids():
     )
     assert summary["gate_pass"] is False
     assert summary["unsupported_kernel_ids"] == ["kernel_unknown"]
+
+
+def test_kernel_gate_summary_deduplicates_required_kernel_ids():
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(
+        [{"merlin_telemetry": {"kernel": {"id": "kernel_s"}, "quality_signals": {"contract_pass_rate": 1.0, "boundary_violation_rate": 0.0}}}],
+        required_kernel_ids=["kernel_s", "kernel_s"],
+    )
+    assert summary["required_kernel_ids"] == ["kernel_s"]
 
 
 def test_match_benchmark_for_query_uses_keywords():

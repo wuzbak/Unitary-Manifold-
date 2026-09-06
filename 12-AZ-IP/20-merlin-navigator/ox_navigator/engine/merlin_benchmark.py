@@ -348,7 +348,7 @@ def evaluate_kernel_gate_summary(
     required_kernel_ids: list[str] | None = None,
 ) -> dict[str, Any]:
     samples = list(runs or [])
-    requested_kernel_ids = list(required_kernel_ids or [])
+    requested_kernel_ids = list(dict.fromkeys(required_kernel_ids or []))
     if not samples:
         empty_scope = requested_kernel_ids
         if empty_scope:
