@@ -421,6 +421,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert dataset_payload['validation']['hard_fail_enabled'] is True
     assert 'quality_filters' in dataset_payload
     assert dataset_payload['quality_filters']['rejection_count'] >= 0
+    assert 'stage_d_replacement_gates' in dataset_payload['benchmark_corpora']
+    assert 'stage_e_external_decommission' in dataset_payload['benchmark_corpora']
+    assert counts['benchmark_records']['stage_d_replacement_gates'] >= 3
+    assert counts['benchmark_records']['stage_e_external_decommission'] >= 3
 
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
     assert mlflow['ok'] is True

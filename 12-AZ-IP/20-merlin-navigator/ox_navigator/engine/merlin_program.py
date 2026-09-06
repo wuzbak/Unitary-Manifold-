@@ -1512,6 +1512,15 @@ def build_training_dataset_bundle(
             })
             return False
         if kind == "training":
+            errors = _validate_training_record(record)
+            if errors:
+                validation_errors.append({
+                    "kind": kind,
+                    "record_id": str(record.get("record_id") or record.get("benchmark_id") or ""),
+                    "stage": stage,
+                    "errors": errors,
+                })
+                return False
             if not _passes_training_quality_filter(record):
                 quality_rejections.append({
                     "kind": kind,
@@ -1519,8 +1528,16 @@ def build_training_dataset_bundle(
                     "reason": "quality_filter_failed",
                 })
                 return False
-            errors = _validate_training_record(record)
         else:
+            errors = _validate_benchmark_record(record)
+            if errors:
+                validation_errors.append({
+                    "kind": kind,
+                    "record_id": str(record.get("record_id") or record.get("benchmark_id") or ""),
+                    "stage": stage,
+                    "errors": errors,
+                })
+                return False
             if not _passes_benchmark_quality_filter(record):
                 quality_rejections.append({
                     "kind": kind,
@@ -1529,15 +1546,6 @@ def build_training_dataset_bundle(
                     "stage": stage,
                 })
                 return False
-            errors = _validate_benchmark_record(record)
-        if errors:
-            validation_errors.append({
-                "kind": kind,
-                "record_id": str(record.get("record_id") or record.get("benchmark_id") or ""),
-                "stage": stage,
-                "errors": errors,
-            })
-            return False
         dedupe_registry[key] = str(record.get("record_id") or record.get("benchmark_id") or key)
         return True
 
