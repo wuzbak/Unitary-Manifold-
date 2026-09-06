@@ -11,8 +11,8 @@
     "regression_provenance": "Historical headline record; see docs/TRUTH_LAYER.md for this environment's verification."
   },
   "tests": {
-    "passed": 63962,
-    "skipped": 33,
+    "passed": 63513,
+    "skipped": 46,
     "deselected": 18,
     "failed": 0
   },

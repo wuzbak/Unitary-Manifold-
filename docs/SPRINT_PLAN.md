@@ -60,7 +60,7 @@ Proceed only when all three agree.
 | Pillars | **1082-1083** |
 | Next pillar slot | **1084** |
 | Lean4 theorems | **4080** |
-| Verified full regression | **63,962 passed · 33 skipped · 18 deselected · 0 failed** |
+| Verified full regression | **63,513 passed · 46 skipped · 18 deselected · 0 failed** |
 | Sprint theme | **Foundation-first photon/action audit + Merlin handoff** |
 | Primary target | **Attack the combined photon-origin/action-to-evolution obligation as one executable lane** |
 | Binary outcome | **Either closure earned or blocker set contracted with explicit surviving obligations and fail-closed handoff** |

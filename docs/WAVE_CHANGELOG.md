@@ -34,7 +34,7 @@ or empirical closure.
 
 This file is the required wave-level changelog ledger.
 **Current version: v36.5 (2026-09-06)**
-**Regression:** 63,962 passed · 33 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
+**Regression:** 63,513 passed · 46 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
 **Next pillar slot:** 1084
 
 ## v36.5 (2026-09-06 — Sprint CI: Pillars 1082–1083)
@@ -58,7 +58,7 @@ Reduce one broad unresolved foundation obligation into the exact remaining block
 **Residual unknowns:** Photon origin under the stated orbifold assumptions, action-to-evolution equivalence for the implemented flow, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
 
 **Lean4:** 4080 → 4080 (+0)
-**Regression:** Sprint CI targeted tests 123 passed · 0 failed; full regression 63,962 passed · 33 skipped · 18 deselected · 0 failed
+**Regression:** Sprint CI targeted tests 123 passed · 0 failed; full regression 63,513 passed · 46 skipped · 18 deselected · 0 failed
 **Next pillar slot:** 1084
 
 ## v36.4 (2026-09-05 — Sprint CH: Pillars 1079–1081)

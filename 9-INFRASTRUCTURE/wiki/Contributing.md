@@ -1,6 +1,6 @@
 # Contributing
 
-> Canonical regression marker: 63,962 passed · 33 skipped · 18 deselected · 0 failed.
+> Canonical regression marker: 63,513 passed · 46 skipped · 18 deselected · 0 failed.
 
 Thank you for your interest in contributing to the Unitary Manifold project. Contributions of all kinds are welcome — mathematical review, code improvements, documentation, and independent verification.
 

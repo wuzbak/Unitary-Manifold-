@@ -1,7 +1,7 @@
 {
   "version": "v36.5",
-  "tests_passed": 63962,
-  "tests_skipped": 33,
+  "tests_passed": 63513,
+  "tests_skipped": 46,
   "tests_deselected": 18,
   "tests_failed": 0,
   "lean4_theorems": 4080,
@@ -37,7 +37,7 @@
   "generated": "2026-09-06",
   "pillars": 208,
   "adjacent_tracks": 875,
-  "regression": "63,962 passed · 33 skipped · 18 deselected · 0 failed",
+  "regression": "63,513 passed · 46 skipped · 18 deselected · 0 failed",
   "predictions": {
     "n_s": {
       "um": 0.9635,

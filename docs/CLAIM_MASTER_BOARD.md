@@ -24,7 +24,7 @@ birefringence gap [0.29°, 0.31°].
 The resumed combined software regression passed 63,952 tests, with 33 skipped,
 18 deselected and zero failures. Sprint CI targeted validation then passed 123
 tests, zero failures, and the latest verified full regression in the current
-branch history is 63,962 passed · 33 skipped · 18 deselected · 0 failed. This
+branch history is 63,513 passed · 46 skipped · 18 deselected · 0 failed. This
 verifies neither empirical agreement nor the still-open physical obligations in
 the table.
 

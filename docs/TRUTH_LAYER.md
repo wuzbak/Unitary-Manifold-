@@ -271,7 +271,7 @@ prediction. Future observations do not repair invalid internal implications.
 Every claim, every gap, every tension, every falsifier — stated completely.*
 
 *v36.5 sync note (Sprint CI — 2026-09-06):*
-*(1) Auditable checked-in branch state now includes Pillars 1082–1083; Lean4 remains 4080; next pillar slot 1084; latest verified full regression in current branch history is 63,962 passed · 33 skipped · 18 deselected · 0 failed.*
+*(1) Auditable checked-in branch state now includes Pillars 1082–1083; Lean4 remains 4080; next pillar slot 1084; latest verified full regression in current branch history is 63,513 passed · 46 skipped · 18 deselected · 0 failed.*
 *(2) P1082 executes one foundation-first photon/action audit lane and contracts four audited questions to two surviving physical blockers without claiming hardgate closure.*
 *(3) P1083 fail-closes sprint validity unless the audit packet, Merlin handoff, findings report, and four publication documents all exist together.*
 *(4) The remaining physical blockers are now stated bluntly: photon origin under the stated orbifold assumptions, and action-to-evolution equivalence for the implemented flow.*
