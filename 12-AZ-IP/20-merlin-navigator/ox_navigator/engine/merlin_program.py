@@ -1434,6 +1434,7 @@ def _passes_benchmark_quality_filter(record: dict[str, Any]) -> bool:
 
 def _validate_training_record(record: dict[str, Any]) -> list[str]:
     errors: list[str] = []
+    allowed_gates = set(PROGRAM_NON_NEGOTIABLES["epistemic_labels"])
     if str(record.get("split")) not in {"train", "dev", "test"}:
         errors.append("invalid_split")
     if str(record.get("kernel_id")) not in MERLIN_PENTAD_KERNELS:
@@ -1442,8 +1443,11 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
         errors.append("missing_instruction")
     if record.get("response_target") is None:
         errors.append("missing_response_target")
-    if not list(record.get("required_gates") or []):
+    required_gates = [str(item).strip().upper() for item in list(record.get("required_gates") or []) if str(item).strip()]
+    if not required_gates:
         errors.append("missing_required_gates")
+    elif any(gate not in allowed_gates for gate in required_gates):
+        errors.append("invalid_required_gate_labels")
     if not list(record.get("provenance_sources") or []):
         errors.append("missing_provenance_sources")
     if str(record.get("format_version")) != "merlin_training_jsonl_v1":
@@ -1458,14 +1462,18 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
 
 def _validate_benchmark_record(record: dict[str, Any]) -> list[str]:
     errors: list[str] = []
+    allowed_gates = set(PROGRAM_NON_NEGOTIABLES["epistemic_labels"])
     if str(record.get("stage", "")).strip() == "":
         errors.append("missing_stage")
     if str(record.get("kernel_id")) not in MERLIN_PENTAD_KERNELS:
         errors.append("invalid_kernel_id")
     if not str(record.get("query", "")).strip():
         errors.append("missing_query")
-    if not list(record.get("required_gates") or []):
+    required_gates = [str(item).strip().upper() for item in list(record.get("required_gates") or []) if str(item).strip()]
+    if not required_gates:
         errors.append("missing_required_gates")
+    elif any(gate not in allowed_gates for gate in required_gates):
+        errors.append("invalid_required_gate_labels")
     if not list(record.get("required_contract_sections") or []):
         errors.append("missing_required_contract_sections")
     if not list(record.get("required_provenance_kinds") or []):
