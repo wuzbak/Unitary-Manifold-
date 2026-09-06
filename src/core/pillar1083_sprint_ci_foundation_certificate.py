@@ -45,6 +45,7 @@ def sprint_ci_foundation_certificate() -> Dict[str, Any]:
     handoff_ok = bool(
         handoff.get("primary_lane")
         and isinstance(handoff.get("evidence_reviewed"), list)
+        and len(handoff["evidence_reviewed"]) > 0
         and "blocker_state_before" in handoff
         and isinstance(handoff["blocker_state_before"], list)
         and "blocker_state_after" in handoff

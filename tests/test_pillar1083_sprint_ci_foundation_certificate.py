@@ -41,7 +41,7 @@ def test_incomplete_merlin_handoff_fails_closed(monkeypatch) -> None:
     packet = p1083.foundation_first_photon_action_audit()
     packet["merlin_handoff"] = {
         **packet["merlin_handoff"],
-        "next_required_action": "",
+        "evidence_reviewed": [],
     }
     monkeypatch.setattr(p1083, "foundation_first_photon_action_audit", lambda: packet)
     report = sprint_ci_foundation_certificate()
