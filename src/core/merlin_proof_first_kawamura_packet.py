@@ -75,7 +75,10 @@ def _normalize_article_contract(charter: dict[str, Any]) -> tuple[str, Path, boo
         if isinstance(configured_path_raw, str) and configured_path_raw
         else _SUBSTACK_POST
     )
-    configured_path_valid = isinstance(configured_path_raw, str) and configured_path_raw == _display_path(configured_path)
+    configured_path_valid = (
+        configured_path_raw is None
+        or (isinstance(configured_path_raw, str) and configured_path_raw == _display_path(configured_path))
+    )
     required_sections_raw = article_contract.get("required_sections")
     required_sections = required_sections_raw if isinstance(required_sections_raw, list) else []
     required_sections_valid = isinstance(required_sections_raw, list)
