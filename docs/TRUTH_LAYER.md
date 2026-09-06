@@ -176,7 +176,7 @@ closure certificate. The full-run receipt above precedes these final repairs.
 Potential impacts now require review rather than automatic retraction;
 passing internal checks still cannot establish physical closure.
 
-Sprint CI targeted validation passed **123 tests** across `tests/test_pillar1082_foundation_first_photon_action_audit.py`, `tests/test_pillar1083_sprint_ci_foundation_certificate.py`, `tests/test_metric.py`, and `tests/test_evolution.py`. Those tests validate fail-closed publication/handoff requirements and the explicit open-boundary API for the evolution flow; they do not close the surviving physics blockers.
+Sprint CI targeted validation passed **132 tests** across `tests/test_pillar1082_foundation_first_photon_action_audit.py`, `tests/test_pillar1083_sprint_ci_foundation_certificate.py`, `tests/test_metric.py`, and `tests/test_evolution.py`. Those tests validate fail-closed publication/handoff requirements and the explicit open-boundary API for the evolution flow; they do not close the surviving physics blockers.
 
 The completed CMB-specific validation passed **201 tests**, including five
 real CAMB integration tests with the slow-test selection explicitly enabled
@@ -271,7 +271,7 @@ prediction. Future observations do not repair invalid internal implications.
 Every claim, every gap, every tension, every falsifier — stated completely.*
 
 *v36.5 sync note (Sprint CI — 2026-09-06):*
-*(1) Auditable checked-in branch state now includes Pillars 1082–1083; Lean4 remains 4080; next pillar slot 1084; latest verified full regression in current branch history is 63,513 passed · 46 skipped · 18 deselected · 0 failed.*
+*(1) Auditable checked-in branch state now includes Pillars 1082–1083; Lean4 remains 4080; next pillar slot 1084; latest verified full regression in current branch history is 64,088 passed · 22 skipped · 18 deselected · 0 failed.*
 *(2) P1082 executes one foundation-first photon/action audit lane and contracts four audited questions to two surviving physical blockers without claiming hardgate closure.*
 *(3) P1083 fail-closes sprint validity unless the audit packet, Merlin handoff, findings report, and four publication documents all exist together.*
 *(4) The remaining physical blockers are now stated bluntly: photon origin under the stated orbifold assumptions, and action-to-evolution equivalence for the implemented flow.*

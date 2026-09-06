@@ -29,21 +29,40 @@ jobs:
         id: frontier
         run: |
           python3 - <<'EOF'
-          import re, os, json, datetime
+          import datetime
+          import os
+          import re
+          import sys
 
-          # --- Read next pillar slot from STATUS.md ---
-          with open("STATUS.md", "r") as f:
-              status = f.read()
-
-          # Find "Next pillar slot: NNN" — take the first (most recent) occurrence
-          matches = re.findall(r"Next pillar slot:\s*(\d+)", status)
-          next_slot = int(matches[0]) if matches else "UNKNOWN"
-
-          # --- Read version from mas_tracker.yml ---
+          # --- Read machine-readable frontier state from mas_tracker.yml ---
           with open("docs/mas_tracker.yml", "r") as f:
               tracker = f.read()
+
           version_match = re.search(r'version:\s*"([^"]+)"', tracker)
-          version = version_match.group(1) if version_match else "UNKNOWN"
+          if not version_match:
+              sys.exit("Could not extract current version from docs/mas_tracker.yml")
+          version = version_match.group(1)
+
+          version_key_prefix = f"{version.replace('.', '_')}_"
+          lines = tracker.splitlines()
+          block_start = None
+          for i, line in enumerate(lines):
+              if line.startswith(version_key_prefix) and line.endswith(":"):
+                  block_start = i + 1
+                  break
+          if block_start is None:
+              sys.exit(f"Could not locate current sprint block for {version} in docs/mas_tracker.yml")
+
+          next_slot = None
+          for line in lines[block_start:]:
+              if line and not line.startswith(" "):
+                  break
+              match = re.match(r"\s{2}next_pillar_slot:\s*(\d+)\s*$", line)
+              if match:
+                  next_slot = int(match.group(1))
+                  break
+          if next_slot is None:
+              sys.exit(f"Could not extract next_pillar_slot for {version} from docs/mas_tracker.yml")
 
           # --- Derive week label ---
           today = datetime.date.today()

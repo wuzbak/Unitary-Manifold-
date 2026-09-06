@@ -1,7 +1,7 @@
 {
   "version": "v36.5",
-  "tests_passed": 63513,
-  "tests_skipped": 46,
+  "tests_passed": 64088,
+  "tests_skipped": 22,
   "tests_deselected": 18,
   "tests_failed": 0,
   "lean4_theorems": 4080,
