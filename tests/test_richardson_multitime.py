@@ -64,7 +64,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 import numpy as np
 import pytest
 
-import src.core.evolution as evolution
 from src.core.evolution import FieldState, step as rk4_step
 
 # ---------------------------------------------------------------------------
@@ -105,28 +104,26 @@ def _run_grid(N: int, *,
     alphas:   dict[int, float | None] = {}
     unstable: dict[int, bool]         = {}
 
-    with pytest.MonkeyPatch.context() as mp:
-        mp.setattr(evolution, "_project_metric_volume", lambda g, det_target=-1.0: g)
-        cur_step    = 0
-        is_unstable = False
+    cur_step    = 0
+    is_unstable = False
 
-        for mult in sorted(mults):
-            n_target = int(mult * t0 / dt)
+    for mult in sorted(mults):
+        n_target = int(mult * t0 / dt)
 
-            if not is_unstable:
-                while cur_step < n_target:
-                    state = rk4_step(state, dt)
-                    cur_step += 1
-                    if not (np.all(np.isfinite(state.phi)) and
-                            np.all(np.isfinite(state.g))):
-                        is_unstable = True
-                        break
+        if not is_unstable:
+            while cur_step < n_target:
+                state = rk4_step(state, dt, project_metric_volume=False)
+                cur_step += 1
+                if not (np.all(np.isfinite(state.phi)) and
+                        np.all(np.isfinite(state.g))):
+                    is_unstable = True
+                    break
 
-            unstable[mult] = is_unstable
-            alphas[mult]   = (
-                None if is_unstable
-                else float(np.mean(1.0 / state.phi**2))
-            )
+        unstable[mult] = is_unstable
+        alphas[mult]   = (
+            None if is_unstable
+            else float(np.mean(1.0 / state.phi**2))
+        )
 
     return alphas, unstable
 

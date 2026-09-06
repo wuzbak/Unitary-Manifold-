@@ -75,10 +75,11 @@ FieldState.initialize_dynamic_braid(N, n_w_initial, dx, amplitude, phi_offset)
 FieldState.get_winding_number()
     Instance method: return the topological braid winding number of the state.
 
-step(state, dt)
+step(state, dt, project_metric_volume=True)
     Advance state by one RK4 timestep dt.  O(dt⁴) local truncation error.
-    A metric volume-preservation projection is applied after each step to
-    suppress numerical drift of the spacetime volume element (det g).
+    A metric volume-preservation projection is applied after each step by
+    default to suppress numerical drift of the spacetime volume element
+    (det g); diagnostics can disable that post-step projection explicitly.
 
 step_euler(state, dt)
     Advance state by one first-order Euler timestep (for benchmarking).
@@ -480,7 +481,12 @@ def _project_metric_volume(g: np.ndarray,
 # Integrators
 # ---------------------------------------------------------------------------
 
-def step(state: FieldState, dt: float) -> FieldState:
+def step(
+    state: FieldState,
+    dt: float,
+    *,
+    project_metric_volume: bool = True,
+) -> FieldState:
     """Advance *state* by one RK4 timestep dt.
 
     Uses the classical fourth-order Runge–Kutta method, giving O(dt⁴) local
@@ -496,6 +502,9 @@ def step(state: FieldState, dt: float) -> FieldState:
     ----------
     state : FieldState
     dt    : float  — timestep
+    project_metric_volume : bool, default True
+        Apply the post-step determinant projection. Set False only for
+        diagnostics that need the raw RK4 update without the renormalization.
 
     Returns
     -------
@@ -522,7 +531,8 @@ def step(state: FieldState, dt: float) -> FieldState:
     result = _advance_fields(state, dg, dB, dphi, dt, t0 + dt)
     # Enforce metric volume conservation to separate physical irreversibility
     # from numerical dissipation (det-drift).
-    out = FieldState(g=_project_metric_volume(result.g),
+    g_out = _project_metric_volume(result.g) if project_metric_volume else result.g
+    out = FieldState(g=g_out,
                      B=result.B, phi=result.phi, t=result.t,
                      dx=result.dx, lam=result.lam, alpha=result.alpha,
                      phi0=result.phi0, m_phi=result.m_phi,
