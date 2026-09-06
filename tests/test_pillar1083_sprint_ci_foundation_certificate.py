@@ -32,7 +32,9 @@ def test_publication_packet_exists() -> None:
 
 
 def test_missing_publication_packet_fails_closed(monkeypatch, tmp_path) -> None:
-    monkeypatch.setitem(p1083.PUBLICATION_PACKET, "execution_report", tmp_path / "missing.md")
+    packet = p1083._load_publication_packet()
+    packet["execution_report"] = tmp_path / "missing.md"
+    monkeypatch.setattr(p1083, "_load_publication_packet", lambda: packet)
     report = sprint_ci_foundation_certificate()
     assert report["publication_packet"]["status"] == "FAIL"
     assert report["sprint_success"] is False
@@ -40,7 +42,7 @@ def test_missing_publication_packet_fails_closed(monkeypatch, tmp_path) -> None:
 
 
 def test_empty_publication_packet_fails_closed(monkeypatch) -> None:
-    monkeypatch.setattr(p1083, "PUBLICATION_PACKET", {})
+    monkeypatch.setattr(p1083, "_load_publication_packet", lambda: {})
     report = sprint_ci_foundation_certificate()
     assert report["publication_packet"]["status"] == "FAIL"
     assert report["valid"] is False

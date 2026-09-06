@@ -22,6 +22,13 @@ PRIMARY_LANE: str = "FOUNDATION_PHOTON_ACTION"
 _ROOT = Path(__file__).resolve().parents[2]
 _PUBLICATION_PACKET_PATH = _ROOT / "docs/sprint_publication_packets.yml"
 _TRACKER_KEY = "v36_5_sprint_ci"
+_REQUIRED_PUBLICATION_KEYS = (
+    "findings_report",
+    "execution_report",
+    "findings_post",
+    "merlin_handoff_post",
+    "closeout_post",
+)
 
 
 def _load_publication_packet() -> Dict[str, Path]:
@@ -40,11 +47,12 @@ def _load_publication_packet() -> Dict[str, Path]:
     return {name: _ROOT / str(path) for name, path in packet.items()}
 
 
-PUBLICATION_PACKET = _load_publication_packet()
-
-
 def _publication_packet_check() -> Dict[str, Any]:
-    exists = {name: path.exists() for name, path in PUBLICATION_PACKET.items()}
+    packet = _load_publication_packet()
+    exists = {
+        name: bool(packet.get(name)) and packet[name].exists()
+        for name in _REQUIRED_PUBLICATION_KEYS
+    }
     return {
         "exists": exists,
         "status": "PASS" if exists and all(exists.values()) else "FAIL",
