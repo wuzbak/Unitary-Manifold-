@@ -56,7 +56,7 @@ Work order is newest → oldest so we can repair the highest-visibility surfaces
 ### Gap note (intentional jump in this batch)
 
 - `post-025-reader-mail.md` and the two “we were just going to check one thing” pieces were rewritten early because they are high-risk voice anchors used by newer writing.
-- The range `post-299` down through `post-026` remains queued in strict reverse order.
+- The range `post-293` down through `post-026` remains queued in strict reverse order.
 
 ## Notes for next pass
 
