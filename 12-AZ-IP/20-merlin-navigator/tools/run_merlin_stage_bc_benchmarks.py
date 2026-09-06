@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import argparse
-import asyncio
 import json
 import sys
 from pathlib import Path
@@ -18,7 +17,8 @@ if str(PRODUCT_ROOT) not in sys.path:
 from ox_navigator.engine.merlin_benchmark import (
     run_stage_b_head_to_head_receipts_sync,
     run_stage_c_head_to_head_receipts_sync,
-    run_stage_head_to_head_receipts,
+    run_stage_d_head_to_head_receipts_sync,
+    run_stage_e_head_to_head_receipts_sync,
 )
 
 
@@ -35,9 +35,9 @@ def main() -> int:
     elif args.stage == "stage_c":
         payload = run_stage_c_head_to_head_receipts_sync(limit=args.limit)
     elif args.stage == "stage_d":
-        payload = asyncio.run(run_stage_head_to_head_receipts("stage_d_replacement_gates", limit=args.limit))
+        payload = run_stage_d_head_to_head_receipts_sync(limit=args.limit)
     else:
-        payload = asyncio.run(run_stage_head_to_head_receipts("stage_e_external_decommission", limit=args.limit))
+        payload = run_stage_e_head_to_head_receipts_sync(limit=args.limit)
 
     serial = json.dumps(payload, ensure_ascii=False) if args.json else json.dumps(payload, ensure_ascii=False, indent=2)
     if args.output:

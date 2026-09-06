@@ -1664,20 +1664,6 @@ def build_training_dataset_bundle(
             benchmark_records[stage_name].append(fixture_with_kernel)
             kernel_benchmark_corpora[stage_name][kernel_id].append(fixture_with_kernel)
 
-    if validation_errors:
-        splits = {"train": [], "dev": [], "test": []}
-        kernel_splits = {
-            kernel_id: {"train": [], "dev": [], "test": []}
-            for kernel_id in MERLIN_PENTAD_KERNELS
-        }
-        for stage_name in list(benchmark_records.keys()):
-            benchmark_records[stage_name] = []
-        for stage_name in list(kernel_benchmark_corpora.keys()):
-            kernel_benchmark_corpora[stage_name] = {
-                kernel_id: [] for kernel_id in MERLIN_PENTAD_KERNELS
-            }
-        accepted_compiled_records = 0
-
     split_counts = {name: len(items) for name, items in splits.items()}
     kernel_split_counts = {
         kernel_id: {split_name: len(rows) for split_name, rows in kernel_rows.items()}

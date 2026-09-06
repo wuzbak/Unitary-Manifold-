@@ -24,6 +24,12 @@ def main() -> int:
     args = parser.parse_args()
 
     payload = build_training_artifact_bundle(limit=args.limit)
+    if not payload.get("ok"):
+        print(json.dumps({
+            "ok": False,
+            "error": payload.get("error", "Unable to build training artifact bundle."),
+        }, ensure_ascii=False))
+        return 1
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

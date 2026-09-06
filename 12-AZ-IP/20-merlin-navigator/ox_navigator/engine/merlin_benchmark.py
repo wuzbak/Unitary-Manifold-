@@ -1220,6 +1220,62 @@ def run_stage_c_head_to_head_receipts_sync(
     return result
 
 
+def run_stage_d_head_to_head_receipts_sync(
+    *,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    """Synchronous wrapper for Stage D receipts."""
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(run_stage_head_to_head_receipts("stage_d_replacement_gates", limit=limit))
+
+    result: dict[str, Any] = {}
+    error: BaseException | None = None
+
+    def _runner() -> None:
+        nonlocal result, error
+        try:
+            result = asyncio.run(run_stage_head_to_head_receipts("stage_d_replacement_gates", limit=limit))
+        except BaseException as exc:  # pragma: no cover
+            error = exc
+
+    thread = threading.Thread(target=_runner, daemon=True)
+    thread.start()
+    thread.join()
+    if error is not None:
+        raise error
+    return result
+
+
+def run_stage_e_head_to_head_receipts_sync(
+    *,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    """Synchronous wrapper for Stage E receipts."""
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(run_stage_head_to_head_receipts("stage_e_external_decommission", limit=limit))
+
+    result: dict[str, Any] = {}
+    error: BaseException | None = None
+
+    def _runner() -> None:
+        nonlocal result, error
+        try:
+            result = asyncio.run(run_stage_head_to_head_receipts("stage_e_external_decommission", limit=limit))
+        except BaseException as exc:  # pragma: no cover
+            error = exc
+
+    thread = threading.Thread(target=_runner, daemon=True)
+    thread.start()
+    thread.join()
+    if error is not None:
+        raise error
+    return result
+
+
 def build_stage_a_replacement_readiness(
     *,
     limit: int | None = None,
