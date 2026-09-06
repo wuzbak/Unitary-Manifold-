@@ -1,116 +1,79 @@
-# One Shared State, One Honest Attempt
+# Sprint BN: One Shared State, One Honest Attempt
 
-**Unitary Manifold — S04E001 · v34.4 · Sprint BN**
-
----
-
-The claim of this post is simple: the repository has now executed its strongest in-branch UV/global-geometry + flavor closure attempt using one shared parent state and zero per-lane rescue parameters. This claim would fail if the same checked-in architecture already contained an honest shared-state route that closed α_s, CKM shadow, fermion magnitude/radii, Higgs-window, and Jarlskog without introducing new missing objects. It does not.
-
-This matters because "we tried hard" is not an argument. A real closure attempt has to be executable, inspectable, and narrow enough that failure teaches something.
-
-Sprint BN adds that attempt as **Pillar 998**.
+**Unitary Manifold — S04E001 · v34.4**
 
 ---
 
-## What Pillar 998 actually does
+This post records a full-attempt result, not a celebratory fragment.
 
-It takes the surviving UV/flavor problem cluster and forces it through one gate:
+**Claim:** Sprint BN executed a unified UV/flavor closure attempt under one shared parent state and zero per-lane rescue knobs.  
+**Result:** the attempt tightened structure but did not earn full closure labels.
 
-- one shared parent-state search over the compactification variables,
-- zero per-lane emergency knobs,
-- one joint score across the still-open lanes,
-- one final verdict.
-
-That means the framework is not allowed to save α_s with one trick, CKM with another, fermion radii with a third, and Higgs with a fourth. Either a shared object carries the load, or the load remains named and open.
-
-The result is not closure.
-
-The result is a sharper architecture limit.
+If future evidence shows this lane was already closed in the checked-in architecture, this post should be retired.
 
 ---
 
-## What remained open after the full attempt
+## What “one shared state” means
 
-The best joint point still returns:
+The sprint forced unresolved UV/flavor lanes through one common gate:
+
+- one parent-state search,
+- one shared objective pressure,
+- no lane-specific emergency tuning,
+- one terminal verdict.
+
+That design removes a common failure mode: fixing each lane with a different patch and calling the bundle “closure.”
+
+---
+
+## What the attempt produced
+
+The checked-in verdict remained:
 
 `UNIFIED_UV_FLAVOR_ARCHITECTURE_LIMIT_CERTIFIED`
 
-That is not a defeat disguised as a win. It is a stronger statement than the earlier looser version of the problem. The surviving burden is now concentrated around named missing objects:
+That is a useful outcome. It collapses vague dissatisfaction into a concrete missing-object list and narrows where additional architecture is required.
 
-- a full compactification threshold map at the PDG α_s scale,
-- a global flavor bundle with nonlocal overlap tensor,
-- species-resolved R_i geometry with bundle/moduli lock,
-- a UV Higgs mass-generating operator,
-- a global CKM phase geometry beyond the current in-EFT cap.
-
-This is what progress looks like when the answer is not yet yes: the fog turns into a parts list.
+Named burdens remained explicit, including shared UV/flavor structures and unresolved global-phase geometry.
 
 ---
 
-## Why this is better than another optimistic partial
+## Why publishing a non-closure matters
 
-Before a unified attempt, every unresolved lane can pretend it is only one clever correction away from closure.
+Because this is where trust is usually lost.
 
-After a unified attempt, that excuse gets weaker.
+Most projects publish optimistic sub-results and understate integrated failure pressure.
+Sprint BN did the opposite:
 
-Pillar 998 shows that inside the current checked-in architecture:
+- ran the integrated attempt,
+- preserved no-label-inflation semantics,
+- carried unresolved burden forward in plain language.
 
-- the open lanes are correlated,
-- the correlation is not enough to close them,
-- the missing structures are upstream and shared,
-- the right next task is model-building, not wording.
-
-That is exactly the kind of negative result a serious repository should want to earn.
+That behavior is not “negative branding.” It is scientific hygiene.
 
 ---
 
-## The role of Pillar 1000
+## Relationship to Pillar 1000
 
-Sprint BN also adds **Pillar 1000**, the sprint certificate.
+Pillar 1000 functions as narrative-drift containment:
 
-Its job is not to create new physics. Its job is to prevent narrative drift. It ties together:
+- it binds the unified attempt,
+- keeps the CMB integrity lane separate and explicit,
+- and preserves the canonical open set across status surfaces.
 
-- the UV/flavor full attempt,
-- the separate CMB integrity lane,
-- the unchanged explicit open set.
-
-So the branch does not get to tell one story in code and another in prose.
+So code and prose cannot diverge quietly.
 
 ---
 
-## What did not change
+## Bottom line
 
-The open set is still the open set:
+Sprint BN earned a disciplined no:
 
-1. `CMB_AMP_CONFIRMED_IRREDUCIBLE`
-2. `ALPHA_S_TYPE_B_FLOOR`
-3. `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`
-4. `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`
-5. `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`
-6. `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`
-7. `DESI_DR3_MONITORING`
-8. `LITEBIRD_BIREFRINGENCE`
+- strongest in-branch unified attempt executed,
+- no hidden rescue tuning,
+- unresolved architecture map sharper than before.
 
-Nothing was removed by rhetoric.
-
----
-
-## Why this sprint is worth publishing
-
-Because most speculative projects know how to publish positive-looking fragments.
-
-Very few know how to publish a full-attempt failure honestly enough that the failure becomes useful.
-
-Sprint BN does that.
-
-It says:
-
-- here is the strongest internal attempt we could execute now,
-- here is what it did improve,
-- here is what it still could not close,
-- here are the exact objects a future extension must supply.
-
-That is not grandiosity. That is research discipline.
+That is exactly the kind of result that helps the next sprint do real work instead of rhetorical work.
 
 ---
 
