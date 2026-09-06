@@ -310,6 +310,15 @@ def test_kernel_gate_summary_marks_missing_metrics_explicitly():
     assert "contradiction_miss_rate" in summary["kernels"]["kernel_p"]["missing_metrics"]
 
 
+def test_kernel_gate_summary_rejects_unknown_kernel_ids():
+    summary = merlin_benchmark.evaluate_kernel_gate_summary(
+        [{"merlin_telemetry": {"kernel": {"id": "kernel_s"}, "quality_signals": {"contract_pass_rate": 1.0}}}],
+        required_kernel_ids=["kernel_unknown"],
+    )
+    assert summary["gate_pass"] is False
+    assert summary["unsupported_kernel_ids"] == ["kernel_unknown"]
+
+
 def test_match_benchmark_for_query_uses_keywords():
     match = match_benchmark_for_query('What is the birefringence prediction and how could LiteBIRD falsify it?')
     assert match is not None

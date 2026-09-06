@@ -400,6 +400,20 @@ def evaluate_kernel_gate_summary(
         if required_kernel_ids is None
         else requested_kernel_ids
     )
+    unsupported_kernel_ids = [
+        kernel_id for kernel_id in kernel_ids_to_check
+        if kernel_id not in KERNEL_GATE_THRESHOLDS
+    ]
+    if unsupported_kernel_ids:
+        return {
+            "ok": True,
+            "gate_pass": False,
+            "reason": "Unsupported kernel id requested for gate evaluation.",
+            "required_kernel_ids": kernel_ids_to_check,
+            "unsupported_kernel_ids": unsupported_kernel_ids,
+            "kernels": {},
+            "thresholds": KERNEL_GATE_THRESHOLDS,
+        }
     if not kernel_ids_to_check:
         return {
             "ok": True,
