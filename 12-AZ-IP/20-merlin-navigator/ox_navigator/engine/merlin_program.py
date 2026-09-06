@@ -1664,14 +1664,6 @@ def build_training_dataset_bundle(
             benchmark_records[stage_name].append(fixture_with_kernel)
             kernel_benchmark_corpora[stage_name][kernel_id].append(fixture_with_kernel)
 
-    if validation_errors:
-        return {
-            "ok": False,
-            "error": "Dataset validation failed.",
-            "validation_errors": validation_errors[:50],
-            "validation_error_count": len(validation_errors),
-        }
-
     split_counts = {name: len(items) for name, items in splits.items()}
     kernel_split_counts = {
         kernel_id: {split_name: len(rows) for split_name, rows in kernel_rows.items()}
@@ -1683,7 +1675,10 @@ def build_training_dataset_bundle(
         for stage, per_kernel in kernel_benchmark_corpora.items()
     }
     return {
-        "ok": True,
+        "ok": len(validation_errors) == 0,
+        "error": "Dataset validation failed." if validation_errors else None,
+        "validation_errors": validation_errors[:50],
+        "validation_error_count": len(validation_errors),
         "dataset": {
             "generated_at": _utcnow(),
             "training_architecture": architecture,
@@ -1752,6 +1747,8 @@ def build_training_dataset_bundle(
             "validation": {
                 "hard_fail_enabled": True,
                 "error_count": len(validation_errors),
+                "status": "failed" if validation_errors else "passed",
+                "errors": validation_errors[:50],
             },
             "contracts": {
                 "pentad_contract_surface": "getMerlinPentadContract",
