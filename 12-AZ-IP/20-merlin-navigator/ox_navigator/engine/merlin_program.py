@@ -1488,6 +1488,139 @@ def _validate_benchmark_record(record: dict[str, Any]) -> list[str]:
     return errors
 
 
+def _estimate_sample_tokens(record: dict[str, Any]) -> int:
+    text_parts = [
+        str(record.get("instruction", "")).strip(),
+        str(record.get("query", "")).strip(),
+        json.dumps(record.get("response_target"), ensure_ascii=False, sort_keys=True)
+        if record.get("response_target") is not None
+        else "",
+    ]
+    total_chars = sum(len(part) for part in text_parts if part)
+    if total_chars <= 0:
+        return 0
+    return max(1, round(total_chars / 4))
+
+
+def _estimate_structural_quality(record: dict[str, Any], *, kind: str) -> float:
+    score = 0.0
+    if kind == "training":
+        if str(record.get("instruction", "")).strip():
+            score += 0.3
+        if record.get("response_target") is not None:
+            score += 0.25
+        if list(record.get("required_gates") or []):
+            score += 0.15
+        if list(record.get("provenance_sources") or []):
+            score += 0.15
+        if record.get("target_contract"):
+            score += 0.1
+        if str(record.get("format_version")) == "merlin_training_jsonl_v1":
+            score += 0.05
+    else:
+        if str(record.get("query", "")).strip():
+            score += 0.3
+        if list(record.get("required_gates") or []):
+            score += 0.15
+        if list(record.get("required_contract_sections") or []):
+            score += 0.2
+        if list(record.get("required_provenance_kinds") or []):
+            score += 0.15
+        if list(record.get("review_focus") or []):
+            score += 0.1
+        if str(record.get("format_version")) == "merlin_benchmark_jsonl_v1":
+            score += 0.1
+    return round(min(score, 1.0), 4)
+
+
+def _source_family_for_record(record: dict[str, Any], *, kind: str) -> str:
+    if kind == "benchmark":
+        if "compiled_insight" in " ".join(str(item) for item in list(record.get("keywords") or [])):
+            return "compiled_benchmark_fixture"
+        return "benchmark_corpus"
+    if str(record.get("task_family", "")).strip() == "compiled_insights":
+        return "compiled_insight"
+    return "seed_instruction_corpus"
+
+
+def _build_training_curation_ledger(
+    *,
+    splits: dict[str, list[dict[str, Any]]],
+    benchmark_records: dict[str, list[dict[str, Any]]],
+    quality_rejections: list[dict[str, Any]],
+    validation_errors: list[dict[str, Any]],
+) -> dict[str, Any]:
+    accepted_training = [row for rows in splits.values() for row in rows]
+    accepted_benchmarks = [row for rows in benchmark_records.values() for row in rows]
+    accepted_total = len(accepted_training) + len(accepted_benchmarks)
+    local_token_estimate = sum(_estimate_sample_tokens(row) for row in accepted_training + accepted_benchmarks)
+    external_token_spend = 0
+    structural_scores = (
+        [_estimate_structural_quality(row, kind="training") for row in accepted_training]
+        + [_estimate_structural_quality(row, kind="benchmark") for row in accepted_benchmarks]
+    )
+    rejection_reasons: dict[str, int] = {}
+    rejected_token_estimate = 0
+    for item in quality_rejections:
+        reason = str(item.get("reason") or "unknown")
+        rejection_reasons[reason] = rejection_reasons.get(reason, 0) + 1
+    for item in quality_rejections:
+        rejected_token_estimate += _estimate_sample_tokens({"instruction": item.get("record_id", "")})
+    accepted_by_source_family: dict[str, int] = {}
+    accepted_by_kernel: dict[str, int] = {kernel_id: 0 for kernel_id in MERLIN_PENTAD_KERNELS}
+    for record in accepted_training:
+        accepted_by_source_family[_source_family_for_record(record, kind="training")] = (
+            accepted_by_source_family.get(_source_family_for_record(record, kind="training"), 0) + 1
+        )
+        kernel_id = str(record.get("kernel_id") or "")
+        if kernel_id in accepted_by_kernel:
+            accepted_by_kernel[kernel_id] += 1
+    for record in accepted_benchmarks:
+        accepted_by_source_family[_source_family_for_record(record, kind="benchmark")] = (
+            accepted_by_source_family.get(_source_family_for_record(record, kind="benchmark"), 0) + 1
+        )
+        kernel_id = str(record.get("kernel_id") or "")
+        if kernel_id in accepted_by_kernel:
+            accepted_by_kernel[kernel_id] += 1
+    dedupe_collapses = rejection_reasons.get("deduplicated_duplicate", 0)
+    quality_mean = round(sum(structural_scores) / len(structural_scores), 4) if structural_scores else 0.0
+    tokens_per_accepted = round(external_token_spend / accepted_total, 4) if accepted_total else 0.0
+    return {
+        "measurement_mode": "deterministic_structural_proxy",
+        "budget_doctrine": {
+            "priority_order": [
+                "repository_native_assets",
+                "deterministic_local_synthetic_variants",
+                "paid_teacher_calls_for_high_value_gaps_only",
+            ],
+            "current_cycle_mode": "local_only",
+            "external_teacher_calls_used": 0,
+        },
+        "accepted_sample_count": accepted_total,
+        "accepted_training_count": len(accepted_training),
+        "accepted_benchmark_count": len(accepted_benchmarks),
+        "accepted_sample_quality_mean": quality_mean,
+        "accepted_by_source_family": accepted_by_source_family,
+        "accepted_by_kernel": accepted_by_kernel,
+        "rejection_reasons_distribution": rejection_reasons,
+        "near_duplicate_collapse_count": dedupe_collapses,
+        "validation_block_count": len(validation_errors),
+        "token_budget": {
+            "tokens_spent_total": external_token_spend,
+            "tokens_spent_per_accepted_sample": tokens_per_accepted,
+            "local_processing_token_estimate": local_token_estimate,
+            "rejected_token_estimate": rejected_token_estimate,
+            "budget_gate_state": "local_only_green" if external_token_spend == 0 else "teacher_spend_active",
+            "freeze_external_generation": False,
+        },
+        "gate_policy": {
+            "pause_condition": "degrades_for_two_consecutive_cycles",
+            "pause_action": "freeze_external_generation_and_run_local_only_cycle",
+            "current_cycle_triggered": False,
+        },
+    }
+
+
 def build_training_dataset_bundle(
     limit: int | None = None,
     *,
@@ -1674,6 +1807,12 @@ def build_training_dataset_bundle(
         stage: {kernel_id: len(rows) for kernel_id, rows in per_kernel.items()}
         for stage, per_kernel in kernel_benchmark_corpora.items()
     }
+    curation_ledger = _build_training_curation_ledger(
+        splits=splits,
+        benchmark_records=benchmark_records,
+        quality_rejections=quality_rejections,
+        validation_errors=validation_errors,
+    )
     return {
         "ok": len(validation_errors) == 0,
         "error": "Dataset validation failed." if validation_errors else None,
@@ -1744,6 +1883,7 @@ def build_training_dataset_bundle(
                 "rejection_count": len(quality_rejections),
                 "rejections": quality_rejections[:100],
             },
+            "curation_ledger": curation_ledger,
             "validation": {
                 "hard_fail_enabled": True,
                 "error_count": len(validation_errors),
@@ -1755,6 +1895,21 @@ def build_training_dataset_bundle(
                 "api_surface_policy": get_merlin_pentad_contract()["api_surface_stability"],
             },
         },
+    }
+
+
+def get_training_curation_ledger(
+    limit: int | None = None,
+    *,
+    compiled_insights: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    dataset_bundle = build_training_dataset_bundle(limit=limit, compiled_insights=compiled_insights)
+    dataset = dict(dataset_bundle.get("dataset") or {})
+    return {
+        "ok": bool(dataset_bundle.get("ok")),
+        "error": dataset_bundle.get("error"),
+        "validation_error_count": int(dataset_bundle.get("validation_error_count", 0) or 0),
+        "curation_ledger": dict(dataset.get("curation_ledger") or {}),
     }
 
 
@@ -2149,6 +2304,7 @@ def build_training_artifact_bundle(
             "generated_at": _utcnow(),
             "training_architecture": training_architecture,
             "training_dataset": dataset_bundle["dataset"],
+            "training_curation": dict(((dataset_bundle.get("dataset") or {}).get("curation_ledger") or {})),
             "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit, compiled_insights=compiled_insights),
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),

@@ -430,6 +430,17 @@ def test_route_tool_training_architecture_and_artifacts():
         'stage_b_sovereign_takeover',
         'stage_c_capability_expansion',
     ]
+    assert dataset_payload['curation_ledger']['accepted_sample_count'] == (
+        counts['total_training_records'] + counts['total_benchmark_records']
+    )
+    assert dataset_payload['curation_ledger']['token_budget']['tokens_spent_total'] == 0
+    assert dataset_payload['curation_ledger']['accepted_sample_quality_mean'] > 0
+
+    curation = route_tool('getMerlinTrainingCuration', {'limit': 4})
+    assert curation['ok'] is True
+    curation_payload = curation['result']['data']['curation_ledger']
+    assert curation_payload['accepted_training_count'] == counts['total_training_records']
+    assert curation_payload['budget_doctrine']['current_cycle_mode'] == 'local_only'
 
     mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
     assert mlflow['ok'] is True
@@ -521,6 +532,9 @@ def test_route_tool_training_dataset_includes_compiled_insights():
     assert counts['kernel_benchmark_records']['stage_b_sovereign_takeover']['kernel_a'] >= 1
     for stage_name, per_kernel in counts['kernel_benchmark_records'].items():
         assert sum(per_kernel.values()) == counts['benchmark_records'][stage_name]
+    curation = route_tool('getMerlinTrainingCuration', {'limit': 2}, session=session)
+    assert curation['ok'] is True
+    assert curation['result']['data']['curation_ledger']['accepted_by_source_family']['compiled_insight'] >= 1
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
@@ -1093,6 +1107,13 @@ def test_server_merlin_endpoints():
             assert training_dataset.json()['ok'] is True
             assert training_dataset.json()['dataset']['counts']['total_training_records'] == 4
             assert 'compile_time_insight_records' in training_dataset.json()['dataset']['counts']
+            assert training_dataset.json()['dataset']['curation_ledger']['accepted_sample_quality_mean'] > 0
+
+            training_curation = client.get('/api/merlin/training-curation?limit=4')
+            assert training_curation.status_code == 200
+            assert training_curation.json()['ok'] is True
+            assert training_curation.json()['training_curation']['budget_doctrine']['current_cycle_mode'] == 'local_only'
+            assert training_curation.json()['training_curation']['token_budget']['tokens_spent_total'] == 0
 
             open_science_registry = client.get('/api/merlin/open-science-registry')
             assert open_science_registry.status_code == 200
@@ -1172,6 +1193,10 @@ def test_server_merlin_endpoints():
             bad_training_dataset_limit = client.get('/api/merlin/training-dataset?limit=abc')
             assert bad_training_dataset_limit.status_code == 400
             assert bad_training_dataset_limit.json()['ok'] is False
+
+            bad_training_curation_limit = client.get('/api/merlin/training-curation?limit=abc')
+            assert bad_training_curation_limit.status_code == 400
+            assert bad_training_curation_limit.json()['ok'] is False
 
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200

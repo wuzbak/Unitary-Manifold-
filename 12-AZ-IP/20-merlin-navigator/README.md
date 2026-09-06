@@ -7,7 +7,7 @@
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/competitive-benchmarks`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/training-curation`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/competitive-benchmarks`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/telemetry`
 - **Program endpoints note:** use the `/api/merlin/program*` and readiness/benchmark endpoints listed in the canonical **API endpoints** line above.
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
@@ -80,6 +80,7 @@ Related reading outside this product folder:
 - `GET /api/merlin/benchmarks` exposes benchmark harness tracks and promotion gates.
 - `GET /api/merlin/training-architecture` exposes the full Merlin training stack, dataset families, curriculum, and governed seed corpus manifest.
 - `GET /api/merlin/training-dataset` exposes an actual JSONL-ready train/dev/test bundle plus benchmark records for export pipelines.
+- `GET /api/merlin/training-curation` exposes deterministic low-token curation, deduplication, structural-quality, and budget-gate metrics for the current export cycle.
 - `GET /api/merlin/mlflow-manifests` exposes MLflow-ready experiment manifests for SFT, preference optimization, and Stage B/C gate evaluations.
 - `GET /api/merlin/open-science-registry` exposes curated external open-science resources allowed for controlled augmentation.
 - `GET /api/merlin/competitive-benchmarks` exposes the competitive benchmark families Merlin must clear before broader promotion.
