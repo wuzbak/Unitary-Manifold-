@@ -28,3 +28,35 @@ def test_missing_article_fails_closed(monkeypatch, tmp_path) -> None:
     packet = merlin_proof_first_kawamura_packet()
     assert packet["substack_article"]["exists"] is False
     assert packet["valid"] is False
+
+
+def test_empty_open_residuals_fail_closed(monkeypatch) -> None:
+    class _FakeProgram:
+        @staticmethod
+        def get_proof_first_closure_charter():
+            return {
+                "target_gap_id": "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS",
+                "stewardship": {
+                    "default_final_verdict_until_residual_is_discharged": "still_open",
+                },
+            }
+
+        @staticmethod
+        def get_kawamura_closure_burden_ledger():
+            return {
+                "classification_buckets": {"open_residuals": []},
+                "final_verdict_if_executed_today": "still_open",
+            }
+
+        @staticmethod
+        def get_merlin_cross_review_packet():
+            return {
+                "reconciliation_policy": {
+                    "final_verdict_if_unresolved_objection": "still_open",
+                },
+            }
+
+    monkeypatch.setattr(packet_mod, "_load_program_module", lambda: _FakeProgram())
+    packet = merlin_proof_first_kawamura_packet()
+    assert packet["burden_ledger"]["classification_buckets"]["open_residuals"] == []
+    assert packet["valid"] is False

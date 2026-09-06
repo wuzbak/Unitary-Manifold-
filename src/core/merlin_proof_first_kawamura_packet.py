@@ -48,13 +48,16 @@ def merlin_proof_first_kawamura_packet() -> Dict[str, Any]:
     theorem_count = _count_theorems(lean_text)
     marker_hits = {marker: marker in lean_text for marker in _SEMANTIC_MARKERS}
     open_items = ledger["classification_buckets"]["open_residuals"]
+    residual_match = bool(
+        len(open_items) == 1
+        and "functional-analysis" in str(open_items[0].get("item", "")).lower()
+    )
 
     valid = bool(
         charter["target_gap_id"] == "KAWAMURA_INDEPENDENCE_FUNCTIONAL_ANALYSIS"
         and charter["stewardship"]["default_final_verdict_until_residual_is_discharged"] == "still_open"
         and ledger["final_verdict_if_executed_today"] == "still_open"
-        and len(open_items) == 1
-        and "functional-analysis" in open_items[0]["item"].lower()
+        and residual_match
         and cross_review["reconciliation_policy"]["final_verdict_if_unresolved_objection"] == "still_open"
         and _LEAN4_FILE.exists()
         and theorem_count == _EXPECTED_THEOREM_COUNT
