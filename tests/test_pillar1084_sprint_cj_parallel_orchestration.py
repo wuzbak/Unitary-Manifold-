@@ -200,3 +200,33 @@ def test_invalid_if_benchmark_plan_is_nondict(monkeypatch) -> None:
     report = sprint_cj_parallel_orchestration()
     assert report["lane_2"]["stage_sequence"] == []
     assert report["valid"] is False
+
+
+def test_invalid_if_benchmark_plan_has_mixed_stage_rows(monkeypatch) -> None:
+    benchmark_mod = p1084._load("ox_navigator.engine.merlin_benchmark")
+    original = benchmark_mod.get_multi_stage_benchmark_plan
+
+    def _mixed_rows():
+        plan = original()
+        plan["stages"] = [plan["stages"][0], "bad-row", plan["stages"][1]]
+        return plan
+
+    monkeypatch.setattr(benchmark_mod, "get_multi_stage_benchmark_plan", _mixed_rows)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_stage_list_shape_ok"] is False
+    assert report["valid"] is False
+
+
+def test_invalid_if_frontier_control_tower_payload_missing(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _broken_frontier(limit=3):
+        packet = original(limit=limit)
+        packet["control_tower"] = {}
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _broken_frontier)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_frontier_packet_ok"] is False
+    assert report["valid"] is False

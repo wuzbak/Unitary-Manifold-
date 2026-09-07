@@ -119,11 +119,13 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     mirrored_cycle = _as_dict(_json_safe(merlin_program.get_mirrored_training_cycle_contract()))
     proof_contract = _as_dict(_json_safe(merlin_program.get_deterministic_proof_closure_contract()))
 
-    plan_stages = [
-        row.get("stage")
-        for row in list(benchmark_plan.get("stages") or [])
-        if isinstance(row, dict)
-    ]
+    stage_rows = benchmark_plan.get("stages")
+    stage_list_shape_ok = (
+        isinstance(stage_rows, list)
+        and len(stage_rows) > 0
+        and all(isinstance(row, dict) and isinstance(row.get("stage"), str) for row in stage_rows)
+    )
+    plan_stages = [row["stage"] for row in stage_rows] if stage_list_shape_ok else []
     promotion_blockers = list(frontier.get("promotion_blockers") or [])
     blockers_all_clear_raw = frontier.get("promotion_blockers_all_clear", None)
     blockers_all_clear_declared = (
@@ -152,7 +154,12 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and isinstance(frontier.get("sync_checks"), dict)
         and frontier.get("sync_checks", {}).get("ok") is True
         and isinstance(frontier.get("control_tower"), dict)
+        and len(frontier.get("control_tower", {})) > 0
+        and isinstance(frontier.get("control_tower", {}).get("replacement_readiness"), dict)
+        and isinstance(frontier.get("control_tower", {}).get("longitudinal_acceptance"), dict)
         and isinstance(frontier.get("multi_stage_plan"), dict)
+        and isinstance(frontier.get("multi_stage_plan", {}).get("stages"), list)
+        and len(frontier.get("multi_stage_plan", {}).get("stages") or []) > 0
         and promotion_blockers_declared
         and policy_declares_fail_closed
     )
@@ -230,6 +237,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_1_requires_foundation_packet_valid": bool(foundation.get("valid")),
             "lane_1_requires_sprint_ci_certificate": bool(sprint_ci.get("valid")),
             "lane_2_requires_stage_sequence_a_to_e": plan_stages == _EXPECTED_STAGE_SEQUENCE,
+            "lane_2_stage_list_shape_ok": stage_list_shape_ok,
             "lane_2_requires_promotion_blockers_declared": promotion_blockers_declared,
             "lane_2_frontier_packet_ok": frontier_packet_ok,
             "lane_2_blocker_consistency_ok": blocker_consistency_pass,
@@ -264,6 +272,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and sprint_ci.get("valid")
         and lane_two["sovereign_local_primary"]
         and lane_two["external_token_path_compatibility_only"]
+        and stage_list_shape_ok
         and plan_stages == _EXPECTED_STAGE_SEQUENCE
         and frontier_packet_ok
         and blocker_consistency_pass

@@ -41,7 +41,7 @@ v36_6_sprint_cj:
   date: "2026-09-07"
   pillars: 1084-1084
   new_pillars: 1
-  new_tests: 16
+  new_tests: 18
   lean4_start: 4080
   lean4_end: 4080
   lean4_delta: 0
@@ -62,7 +62,7 @@ v36_6_sprint_cj:
     - LITEBIRD_BIREFRINGENCE
     - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
   regression: "64,088 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
-  focused_regression: "Sprint CJ orchestration targeted tests 35 passed · 0 failed"
+  focused_regression: "Sprint CJ orchestration targeted tests 37 passed · 0 failed"
   next_pillar_slot: 1085
 
 v36_5_sprint_ci:
@@ -93,7 +93,7 @@ v36_5_sprint_ci:
     - LITEBIRD_BIREFRINGENCE
     - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
   regression: "64,088 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
-  focused_regression: "Sprint CI targeted tests 135 passed · 0 failed"
+  focused_regression: "Sprint CI targeted tests 137 passed · 0 failed"
   next_pillar_slot: 1084
 
 v36_4_sprint_ch:
@@ -134,7 +134,7 @@ v36_3_sprint_cg:
   date: "2026-09-05"
   pillars: 1078-1078
   new_pillars: 1
-  new_tests: 16
+  new_tests: 18
   lean4_start: 4080
   lean4_end: 4080
   lean4_delta: 0
@@ -645,7 +645,7 @@ v34_7_sprint_bq:
   date: "2026-09-03"
   pillars: 1008-1010
   new_pillars: 3
-  new_tests: 16
+  new_tests: 18
   lean4_start: 3912
   lean4_end: 3912
   lean4_delta: 0
@@ -1409,7 +1409,7 @@ v20_7_sprint_k:
     - "620: NP_BC6_SUBGAP_R_EREPR_BRIDGE_PROVED — NPBC6SubgapR.lean 12 theorems; ER=EPR bridge kernel; all_np_bc_chains_proved=true; total Lean4 342; ~30 tests"
     - "621: NP_BC6_CERTIFICATE_ALL_CHAINS_COMPLETE — NP-BC-6 closure; 34 sub-gap theorems; 203 cumulative; 6 chains complete; ~30 tests"
     - "622: LEAN4_342_SPRINT_K_MILESTONE — Lean4 342 milestone; all 6 NP-BC chains; 18 sub-gaps proved; ~30 tests"
-    - "623: V207_REGRESSION_CERTIFICATE_SPRINT_K — v20.7 regression; Lean4 342; ~50,835 passed · 0 failed; ~30 tests"
+    - "623: V207_REGRESSION_CERTIFICATE_SPRINT_K — v20.7 regression; Lean4 342; ~50,837 passed · 0 failed; ~30 tests"
   tests_added: 180
   regression: "57,927 passed · 47 skipped · 12 deselected · 0 failed"
   next_pillar_slot: 624
@@ -2397,7 +2397,7 @@ v15_4_frontier_proof_lane_certificate:
     - "README.md and truth surfaces: v15.4 proof-lane status note"
     - "docs/WAVE_CHANGELOG.md: v15.4 entry"
     - "docs/mas_tracker.yml: v15.4 tracker block and regression checkpoint"
-  focused_regression: "235 passed · 0 failed (proof-lane focused tests)"
+  focused_regression: "237 passed · 0 failed (proof-lane focused tests)"
   full_regression: "57,927 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 508
@@ -2974,7 +2974,7 @@ v12_3_spectral_envelope_sprint:
   next_pillar_slot: 357
   pillars_added:
     - 356  # Spectral Envelope of Z_φ(k): braid β-function γ_eff, 3-peak consistency, Bessel ansatz ruling
-  new_tests: 167
+  new_tests: 187
   regression_result: "38,568 passed · 2 skipped · 0 failed"
   key_result:
     gamma_theory: "Z_φ^(0) × α × Σ_{n=1}^∞ exp(−n²/K_CS) / (16π²) ≈ 0.242"
@@ -3188,7 +3188,7 @@ adjacent_track_checkpoint:
       fh_braid_ring: "9-INFRASTRUCTURE/provenance/fh_braid_ring_v11.7_simulation_results.json — (5,7) braid ring simulation, first concrete quantum lane output"
       cmbs4_drill: "9-INFRASTRUCTURE/provenance/cmbs4_routing_drill_v11.7_receipts.json — 6 synthetic sigma scenarios"
       xdiag_script: "9-INFRASTRUCTURE/provenance/xdiag_integration_test.sh — XDiag 0.2.x KAT + parity check"
-    total_new_tests: 165
+    total_new_tests: 185
     sparse_numbering_note: "Next available adjacent pillar slot: 309"
   previous_checkpoint: "v11.6-desi-correction"
   v11_5_residual_tightening_wave:
@@ -5625,7 +5625,7 @@ v15_4_frontier_proof_lane_certificate:
     - "README.md and truth surfaces: v15.4 proof-lane status note"
     - "docs/WAVE_CHANGELOG.md: v15.4 entry"
     - "docs/mas_tracker.yml: v15.4 tracker block and regression checkpoint"
-  focused_regression: "235 passed · 0 failed (proof-lane focused tests)"
+  focused_regression: "237 passed · 0 failed (proof-lane focused tests)"
   full_regression: "57,927 passed · 47 skipped · 12 deselected · 0 failed"
   failures: 0
   next_pillar_slot: 508
@@ -6202,7 +6202,7 @@ v12_3_spectral_envelope_sprint:
   next_pillar_slot: 357
   pillars_added:
     - 356  # Spectral Envelope of Z_φ(k): braid β-function γ_eff, 3-peak consistency, Bessel ansatz ruling
-  new_tests: 167
+  new_tests: 187
   regression_result: "38,568 passed · 2 skipped · 0 failed"
   key_result:
     gamma_theory: "Z_φ^(0) × α × Σ_{n=1}^∞ exp(−n²/K_CS) / (16π²) ≈ 0.242"
@@ -6416,7 +6416,7 @@ adjacent_track_checkpoint:
       fh_braid_ring: "9-INFRASTRUCTURE/provenance/fh_braid_ring_v11.7_simulation_results.json — (5,7) braid ring simulation, first concrete quantum lane output"
       cmbs4_drill: "9-INFRASTRUCTURE/provenance/cmbs4_routing_drill_v11.7_receipts.json — 6 synthetic sigma scenarios"
       xdiag_script: "9-INFRASTRUCTURE/provenance/xdiag_integration_test.sh — XDiag 0.2.x KAT + parity check"
-    total_new_tests: 165
+    total_new_tests: 185
     sparse_numbering_note: "Next available adjacent pillar slot: 309"
   previous_checkpoint: "v11.6-desi-correction"
   v11_5_residual_tightening_wave:
