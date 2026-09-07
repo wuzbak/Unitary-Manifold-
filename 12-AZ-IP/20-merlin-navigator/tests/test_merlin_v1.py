@@ -344,6 +344,8 @@ def test_route_tool_merlin_program_blueprint():
     assert payload['dual_loop_sprint_command_rhythm']['cadence'][0]['phase'] == 'kickoff'
     assert payload['trust_source_library']['domains'][0]['domain_id'] == 'business_office_management'
     assert payload['knowledge_unknowns_ledger']['domains'][0]['domain_id'] == 'business_office_management'
+    assert payload['domain_research_missions']['domains'][0]['domain_id'] == 'business_office_management'
+    assert payload['expert_mastery_program']['levels'][0]['level'] == 'L1_foundational'
     assert payload['regulatory_change_watch']['watch_targets'][0]['target_id'] == 'irs_news_and_forms'
 
 
@@ -923,6 +925,14 @@ def test_route_tool_mentorship_surfaces():
     watch = route_tool('getMerlinRegulatoryChangeWatch', {})
     assert watch['ok'] is True
     assert watch['result']['data']['watch_cadence']['daily'][0] == 'high_priority_regulator_bulletins'
+
+    missions = route_tool('getMerlinDomainResearchMissions', {})
+    assert missions['ok'] is True
+    assert missions['result']['data']['mission_states'][0] == 'queued'
+
+    mastery = route_tool('getMerlinExpertMasteryProgram', {})
+    assert mastery['ok'] is True
+    assert mastery['result']['data']['assessment_contract']['minimum_confidence_for_closed_claims'] == 0.9
 
 
 def test_route_tool_control_tower_clamps_non_positive_limit():
@@ -1648,6 +1658,16 @@ def test_server_merlin_endpoints():
             assert change_watch.status_code == 200
             assert change_watch.json()['ok'] is True
             assert 'daily' in change_watch.json()['regulatory_change_watch']['watch_cadence']
+
+            missions = client.get('/api/merlin/domain-research-missions')
+            assert missions.status_code == 200
+            assert missions.json()['ok'] is True
+            assert missions.json()['domain_research_missions']['mission_states'][0] == 'queued'
+
+            mastery = client.get('/api/merlin/expert-mastery-program')
+            assert mastery.status_code == 200
+            assert mastery.json()['ok'] is True
+            assert mastery.json()['expert_mastery_program']['levels'][0]['level'] == 'L1_foundational'
 
             mlflow_manifests = client.get('/api/merlin/mlflow-manifests?limit=4')
             assert mlflow_manifests.status_code == 200

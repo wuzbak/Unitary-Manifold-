@@ -32,6 +32,8 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinTrustSourceLibrary`
   - `getMerlinKnowledgeUnknownsLedger`
   - `getMerlinRegulatoryChangeWatch`
+  - `getMerlinDomainResearchMissions`
+  - `getMerlinExpertMasteryProgram`
   - `runMerlinSyncChecks`
   - `getMerlinModelStrategy`
   - `getMerlinTrainingPlan`
@@ -97,6 +99,8 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/trust-source-library`
   - `GET /api/merlin/knowledge-unknowns`
   - `GET /api/merlin/regulatory-change-watch`
+  - `GET /api/merlin/domain-research-missions`
+  - `GET /api/merlin/expert-mastery-program`
   - `GET /api/merlin/competitive-benchmarks`
   - `GET /api/merlin/benchmark-corpora`
   - `GET /api/merlin/stage-a-receipts`

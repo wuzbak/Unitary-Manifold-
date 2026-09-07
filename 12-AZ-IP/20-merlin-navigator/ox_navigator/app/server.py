@@ -35,6 +35,8 @@ from ox_navigator.engine.merlin_program import (
     get_merlin_benchmark_suite,
     get_merlin_execution_graph,
     get_merlin_optimization_priorities,
+    get_domain_research_missions,
+    get_expert_mastery_program,
     get_mythos_astra_contract,
     get_knowledge_unknowns_ledger,
     get_open_science_resource_registry,
@@ -651,6 +653,20 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'regulatory_change_watch': get_regulatory_change_watch(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/domain-research-missions':
+                self._json({
+                'ok': True,
+                'domain_research_missions': get_domain_research_missions(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/expert-mastery-program':
+                self._json({
+                'ok': True,
+                'expert_mastery_program': get_expert_mastery_program(),
                 })
                 self._persist_session(session_id, merlin_session)
                 return
