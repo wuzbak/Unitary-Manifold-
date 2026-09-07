@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v36.5
+# Unitary Manifold v36.6
 
 ## Foundation reassessment
 
@@ -75,6 +75,13 @@ Sprint CI attacked the combined photon/action obligation as one audit lane. The 
 | Smooth-circle tree-level EH coupling content | `circle_eh_rh2_coefficient()` keeps the absent tree-level `R H^2` statement explicit; the historical inverse-radius diagnostic is not an extracted action coupling | Executable / conditional |
 | Orbifold photon origin | A regular odd composite still has zero fixed-plane value and no massless photon zero mode under the stated assumptions | OPEN |
 | Action-to-evolution equivalence | The implemented flow remains phenomenological and still lacks an Euler-Lagrange matching derivation | OPEN |
+
+
+### Sprint CJ orchestration implementation
+
+Sprint CJ adds a fail-closed orchestration packet that binds two simultaneous lanes under one decision board without widening scientific claims. Lane 1 stays one-target and anti-loop constrained: exactly one new object/evidence class attempt is allowed next (admissible photon-sector construction or Euler-Lagrange matching derivation), otherwise the lane remains open. Lane 2 keeps Merlin sovereign-local primary, OpenRouter compatibility-only fallback, and Stage A→E benchmark/training progression with explicit promotion blockers, dual-loop governance, typed provenance requirements, and rollback readiness.
+
+The packet adds execution discipline, not new physics closure. Open-lane labels and falsifier windows remain unchanged.
 
 ### What cannot be counted as progress
 

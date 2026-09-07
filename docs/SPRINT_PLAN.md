@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-06 (v36.5 Sprint CI COMPLETE — Pillars 1082–1083; Lean4 4080→4080; next slot 1084)*
+*Last updated: 2026-09-07 (v36.6 Sprint CJ COMPLETE — Pillar 1084; Lean4 4080→4080; next slot 1085)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.5 — Sprint CI)
+## CURRENT AUDITABLE STATE (v36.6 — Sprint CJ)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.5** |
-| Sprint | **Sprint CI** |
-| Pillars | **1082-1083** |
-| Next pillar slot | **1084** |
+| Version | **v36.6** |
+| Sprint | **Sprint CJ** |
+| Pillars | **1084-1084** |
+| Next pillar slot | **1085** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,088 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **Foundation-first photon/action audit + Merlin handoff** |
-| Primary target | **Attack the combined photon-origin/action-to-evolution obligation as one executable lane** |
-| Binary outcome | **Either closure earned or blocker set contracted with explicit surviving obligations and fail-closed handoff** |
+| Sprint theme | **Parallel orchestration: one foundation target + Merlin sovereign acceleration** |
+| Primary target | **Execute one new-object foundation attempt while running Merlin Stage A→E benchmark/training cycle in parallel** |
+| Binary outcome | **Either one-lane closure/tightening plus governed Merlin evidence progression, or explicit blocker carry-forward with no promotion drift** |
 
+Historical continuity: v36.5 Sprint CI (Pillars 1082–1083; next slot 1084) remains the canonical foundation-first audit layer directly below Sprint CJ.
 Historical continuity: v36.4 Sprint CH (Pillars 1079–1081; next slot 1082) remains the canonical critique-to-proof execution layer directly below Sprint CI.
 Historical continuity: v36.3 Sprint CG (Pillar 1078; next slot 1079) remains the canonical post-merge audit/remediation layer directly below Sprint CH.
 Historical continuity: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical theorem/extension/falsifier execution layer directly below Sprint CG.
@@ -76,6 +77,23 @@ Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) rem
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
 
 ---
+
+## SPRINT CJ PARALLEL ORCHESTRATION PROTOCOL (Executed)
+
+1. Run one fail-closed board for two simultaneous lanes.
+2. Lane 1 must execute exactly one new object/evidence class attempt (photon-sector or action-to-evolution), not both.
+3. Lane 1 reruns are blocked without genuinely new object/evidence class.
+4. Lane 2 must keep sovereign-local primary and external token path compatibility-only fallback.
+5. Lane 2 promotion requires Stage A→E benchmark progression, explicit promotion blockers, dual-loop governance, and rollback readiness.
+6. Promotion language is frozen unless both scientific and governance receipts pass together.
+7. Keep canonical truth surfaces lockstep synchronized.
+8. Keep targeted and full verification gates zero-fail.
+
+### Sprint CJ blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| None — no new physics closure claimed | Two-lane fail-closed orchestration now executable; one-target anti-loop foundation policy locked; Merlin Stage A→E and blocker-gated sovereignty policy locked | Photon origin/action-to-evolution still open until new evidence object lands; architecture-limit and external-wait lanes unchanged |
 
 ## FOUNDATION-FIRST PHOTON/ACTION EXECUTION PROTOCOL (Sprint CI, Executed)
 

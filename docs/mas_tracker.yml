@@ -1,6 +1,6 @@
-version: "v36.5"
-date: "2026-09-06"
-updated: "2026-09-06"
+version: "v36.6"
+date: "2026-09-07"
+updated: "2026-09-07"
 
 foundation_reassessment:
   date: "2026-09-05"
@@ -34,6 +34,36 @@ foundation_reassessment:
     - "Joint UV/Higgs matching, moduli fixing and stability"
     - "Nonperturbative quantum gravity"
   observational_falsifiers_unchanged: true
+
+v36_6_sprint_cj:
+  sprint: CJ
+  version: v36.6
+  date: "2026-09-07"
+  pillars: 1084-1084
+  new_pillars: 1
+  new_tests: 6
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures:
+    - SPRINT_CJ_PARALLEL_ORCHESTRATION_COMPLETE
+  advances:
+    - TWO_LANE_FAIL_CLOSED_BOARD_NOW_BINDS_FOUNDATION_SINGLE_OBJECT_EXECUTION_AND_MERLIN_SOVEREIGN_STAGE_A_TO_E_GATING
+    - MERLIN_PROMOTION_LANGUAGE_NOW_REQUIRES_PARALLEL_EVIDENCE_ACROSS_FOUNDATION_AND_GOVERNANCE_RECEIPTS
+    - IMMEDIATE_EXECUTION_ORDER_IS_LOCKED_TO_ONE_NEW_OBJECT_ATTEMPT_PLUS_PARALLEL_MERLIN_BENCHMARK_TRAINING_CYCLE
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "64,088 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
+  focused_regression: "Sprint CJ orchestration targeted tests 25 passed · 0 failed"
+  next_pillar_slot: 1085
 
 v36_5_sprint_ci:
   sprint: CI
