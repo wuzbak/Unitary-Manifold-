@@ -99,6 +99,7 @@ def test_invalid_if_frontier_packet_reports_failure(monkeypatch) -> None:
     monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _failed_frontier)
     report = sprint_cj_parallel_orchestration()
     assert report["integrated_board"]["dependencies"]["lane_2_frontier_packet_ok"] is False
+    assert report["promotion_policy_state"] == "INVALID"
     assert report["valid"] is False
 
 

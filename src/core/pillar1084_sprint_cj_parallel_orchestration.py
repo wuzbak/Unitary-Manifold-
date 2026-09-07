@@ -166,7 +166,13 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     )
     if not frontier_packet_ok or not blocker_consistency_pass:
         promotion_policy_state = "INVALID"
-    elif blockers_all_clear_effective and bool(foundation.get("valid")) and bool(sprint_ci.get("valid")):
+    elif (
+        frontier_packet_ok
+        and blocker_consistency_pass
+        and blockers_all_clear_effective
+        and bool(foundation.get("valid"))
+        and bool(sprint_ci.get("valid"))
+    ):
         promotion_policy_state = "PASS"
     elif not blockers_all_clear_effective:
         promotion_policy_state = "FREEZE"
