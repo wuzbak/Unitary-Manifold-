@@ -132,7 +132,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
     if blockers_all_clear_declared is None:
         blocker_consistency_pass = blockers_are_dicts and promotion_blockers_declared
-        blockers_all_clear_effective = bool(promotion_blockers) and derived_all_clear
+        blockers_all_clear_effective = derived_all_clear
     else:
         blocker_consistency_pass = (
             blockers_are_dicts

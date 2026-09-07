@@ -135,6 +135,23 @@ def test_empty_blockers_all_clear_is_consistent(monkeypatch) -> None:
     assert report["outcome"] == "SPRINT_CJ_PARALLEL_ORCHESTRATION_READY"
 
 
+def test_empty_blockers_without_declared_all_clear_is_consistent(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _empty_implicit_clear_frontier(limit=3):
+        packet = original(limit=limit)
+        packet["promotion_blockers"] = []
+        packet.pop("promotion_blockers_all_clear", None)
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _empty_implicit_clear_frontier)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is True
+    assert report["lane_2"]["promotion_blockers_all_clear"] is True
+    assert report["valid"] is True
+
+
 def test_summary() -> None:
     summary = pillar1084_summary()
     assert summary["status"] == PILLAR_STATUS
