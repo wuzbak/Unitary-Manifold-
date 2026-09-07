@@ -1445,6 +1445,7 @@ def get_merlin_teacher_trace_policy() -> dict[str, Any]:
     return {
         "clone_definition": "Clone means behavior compactification and distillation, never direct model copying.",
         "required_metadata_fields": [
+            "trace_metadata.trace_type=teacher_trace_distillation",
             "trace_metadata.license",
             "trace_metadata.source_category",
             "trace_metadata.collection_method",
@@ -1655,6 +1656,7 @@ def _seed_teacher_trace_distillation_examples() -> list[dict[str, Any]]:
             "target_contract": {"requires_epistemic_tag": True, "requires_contradiction_check": True},
             "supervision_mode": "teacher_trace_distillation",
             "trace_metadata": {
+                "trace_type": "teacher_trace_distillation",
                 "license": "MIT",
                 "source_category": "public_repository",
                 "collection_method": "manual_summary",
@@ -2249,11 +2251,14 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
     task_track = str(record.get("task_track", "")).strip().lower()
     track = str(record.get("track", "")).strip().lower()
     supervision_mode = str(record.get("supervision_mode", "")).strip().lower()
-    has_trace_metadata = isinstance(record.get("trace_metadata"), dict) and bool(record.get("trace_metadata"))
+    trace_metadata = record.get("trace_metadata")
+    metadata_trace_type = ""
+    if isinstance(trace_metadata, dict):
+        metadata_trace_type = str(trace_metadata.get("trace_type", "")).strip().lower()
     requires_teacher_trace_checks = any(
         value == "teacher_trace_distillation"
         for value in (task_family, task_track, track, supervision_mode)
-    ) or has_trace_metadata
+    ) or metadata_trace_type == "teacher_trace_distillation"
     if requires_teacher_trace_checks:
         trace_status = evaluate_teacher_trace_admission(record)
         if not trace_status.get("ok"):

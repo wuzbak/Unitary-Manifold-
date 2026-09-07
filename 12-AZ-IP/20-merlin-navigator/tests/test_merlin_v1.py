@@ -585,6 +585,7 @@ def test_training_dataset_teacher_trace_validation_rejects_unlicensed_samples(mo
                 "provenance_sources": ["unknown"],
                 "supervision_mode": "teacher_trace_distillation",
                 "trace_metadata": {
+                    "trace_type": "teacher_trace_distillation",
                     "license": "unknown",
                     "source_category": "public_repository",
                     "collection_method": "manual_summary",
@@ -601,7 +602,7 @@ def test_training_dataset_teacher_trace_validation_rejects_unlicensed_samples(mo
     assert any("missing_trace_provenance_pointer" in item.get("errors", []) for item in validation_errors)
 
 
-def test_training_record_trace_metadata_triggers_teacher_trace_validation_without_track_marker():
+def test_training_record_trace_metadata_teacher_marker_triggers_validation():
     errors = merlin_program._validate_training_record(
         {
             "record_id": "metadata-only",
@@ -614,6 +615,7 @@ def test_training_record_trace_metadata_triggers_teacher_trace_validation_withou
             "required_gates": ["GOVERNANCE"],
             "provenance_sources": ["synthetic_source"],
             "trace_metadata": {
+                "trace_type": "teacher_trace_distillation",
                 "license": "unknown",
                 "source_category": "public_repository",
                 "collection_method": "manual_summary",
