@@ -119,6 +119,14 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
     blocker_consistency_pass = blockers_are_dicts and blockers_all_clear == derived_all_clear
     promotion_blockers_declared = isinstance(frontier.get("promotion_blockers"), list) and len(promotion_blockers) >= 1
+    policy_text = str(frontier.get("policy", ""))
+    promotion_language_gate_pass = (
+        blocker_consistency_pass
+        and blockers_all_clear
+        and bool(foundation.get("valid"))
+        and bool(sprint_ci.get("valid"))
+    )
+    promotion_language_freeze_enforced = blocker_consistency_pass and (promotion_language_gate_pass or not blockers_all_clear)
     frontier_packet_ok = bool(
         isinstance(frontier, dict)
         and isinstance(frontier.get("sync_checks"), dict)
@@ -126,8 +134,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and isinstance(frontier.get("control_tower"), dict)
         and isinstance(frontier.get("multi_stage_plan"), dict)
         and promotion_blockers_declared
-        and isinstance(frontier.get("policy"), str)
-        and "Fail closed" in frontier.get("policy", "")
+        and "fail closed" in policy_text.lower()
     )
     corpora_payload = corpora.get("corpora") if isinstance(corpora.get("corpora"), dict) else {}
     corpora_stage_coverage_pass = (
@@ -196,13 +203,8 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_2_blocker_consistency_ok": blocker_consistency_pass,
             "lane_2_requires_nonempty_stage_corpora": corpora_stage_coverage_pass,
             "truth_surfaces_synchronized_to_v36_6": bool(truth_sync.get("all_pass")),
-            "promotion_language_gate_respected": (
-                blocker_consistency_pass
-                and (
-                    (blockers_all_clear and bool(foundation.get("valid")) and bool(sprint_ci.get("valid")))
-                    or (not blockers_all_clear)
-                )
-            ),
+            "promotion_language_gate_pass": promotion_language_gate_pass,
+            "promotion_language_freeze_enforced": promotion_language_freeze_enforced,
         },
         "stop_conditions": [
             "if_no_new_object_evidence_class_lane_1_stays_open",
@@ -235,7 +237,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and blocker_consistency_pass
         and corpora_stage_coverage_pass
         and bool(truth_sync.get("all_pass"))
-        and bool(integrated_board["dependencies"]["promotion_language_gate_respected"])
+        and bool(integrated_board["dependencies"]["promotion_language_freeze_enforced"])
         and proof_contract.get("name") == "merlin_deterministic_proof_closure"
         and len(_CANONICAL_SYNC_PATHS) == 9
     )
