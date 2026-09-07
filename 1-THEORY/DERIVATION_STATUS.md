@@ -6,12 +6,14 @@
 > In particular, the odd-composite photon argument is invalid, the old
 > mixed-block convention is not the stated canonical KK metric away from
 > unit radion, and parity alone does not establish flavor or internal
-> gauge-involution uniqueness. No new physics closure is claimed.
+> gauge-involution uniqueness. Sprint CI isolates the conditional metric and
+> circle-EH coupling bookkeeping but leaves photon origin and action-to-evolution
+> equivalence open. No new physics closure is claimed.
 
-**The Unitary Manifold v36.4 — Unambiguous Record**  
+**The Unitary Manifold v36.5 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-05 (v36.4 — Sprint CH: Pillars 1079–1081; executable critique-to-proof matrix + deterministic internal lane resolution packet + fail-closed sprint certificate; Lean4 4080→4080; 63,892 passed · 23 skipped · 12 deselected · 0 failed; next slot 1082.)*
-*Latest verified full regression: 63,892 passed · 23 skipped · 12 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-05).*
+*Last updated: 2026-09-06 (v36.5 — Sprint CI: Pillars 1082–1083; foundation-first photon/action audit packet + Merlin handoff + fail-closed sprint certificate; Lean4 4080→4080; 64,088 passed · 22 skipped · 18 deselected · 0 failed; next slot 1084.)*
+*Latest verified full regression: 64,088 passed · 22 skipped · 18 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-06).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

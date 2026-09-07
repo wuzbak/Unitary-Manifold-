@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v36.4
+# Unitary Manifold v36.5
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -7,11 +7,11 @@
 > functional-analysis proofs; the odd-field photon construction fails under
 > regularity; and the proposed CMB reciprocal bound has the wrong implication.
 > The prior metric convention also fails the intended horizontal-metric identity.
-> Flavor uniqueness, CMB predictivity, and the shared UV object remain open.
+> Sprint CI isolates the metric/coupling bookkeeping, but photon origin, action-to-evolution equivalence, flavor uniqueness, CMB predictivity, and the shared UV object remain open.
 > See [the precise findings and verification scope](TRUTH_LAYER.md#foundation-reassessment).
 > Historical test/theorem totals must not be read as discharged physics obligations.
-> Resumed combined software regression: **63,952 passed, 33 skipped,
-> 18 deselected, 0 failed**. CodeQL analysis was skipped for database size;
+> Verified full regression in the current branch: **64,088 passed · 22 skipped ·
+> 18 deselected · 0 failed**. CodeQL analysis was skipped for database size;
 > manual review and secret scans do not replace the missing automated analysis.
 
 *Concise, auditable summary for scientific referees, journal editors,
@@ -20,6 +20,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CI (v36.5 — 2026-09-06):** 2 pillars (1082–1083). P1082 executes a foundation-first single-lane audit of the combined photon/action obligation: the conditional KK block parameterization and smooth-circle tree-level EH coupling content are isolated as executable bookkeeping results, while photon origin and action-to-evolution equivalence remain the two surviving physical blockers. P1083 fail-closes sprint validity unless the audit packet, Merlin handoff, findings report, and four-part publication packet all pass together. Open-lane labels remain unchanged and explicit. Lean4 4080→4080 (+0). Verified full regression is 64,088 passed · 22 skipped · 18 deselected · 0 failed. Next slot 1084.
+>
 
 > **Sprint CH (v36.4 — 2026-09-05):** 3 pillars (1079–1081). P1079 turns Gemini external critique handling into an executable matrix with claim-level evidence labels, required work obligations, stop conditions/falsifiers, and a confabulation register for outdated claims. P1080 executes deterministic four-lane routing (flavor/c_L, shared UV object, CMB amplitude boundary, neutrino dependency hardening) with explicit blockers and no unearned closure labels. P1081 fail-closes sprint validity unless matrix + lane packet + four-article publication packet all pass. Open-lane labels remain unchanged and explicit. Lean4 4080→4080 (+0). Verified full regression is 63,892 passed · 23 skipped · 12 deselected · 0 failed. Next slot 1082.
 >
@@ -89,7 +92,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-05 (v36.4 — Sprint CH: Pillars 1079–1081; critique-to-proof execution matrix + deterministic internal lane routing + fail-closed sprint certificate; Lean4 4080; next pillar slot 1082; verified full regression 63,892 passed · 23 skipped · 12 deselected · 0 failed; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
+*Last updated: 2026-09-06 (v36.5 — Sprint CI: Pillars 1082–1083; foundation-first photon/action audit + Merlin handoff + fail-closed sprint certificate; Lean4 4080; next pillar slot 1084; verified full regression 64,088 passed · 22 skipped · 18 deselected · 0 failed; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

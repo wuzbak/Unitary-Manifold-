@@ -33,9 +33,33 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.4 (2026-09-05)**
-**Regression:** 63,892 passed · 23 skipped · 12 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1082
+**Current version: v36.5 (2026-09-06)**
+**Regression:** 64,088 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1084
+
+## v36.5 (2026-09-06 — Sprint CI: Pillars 1082–1083)
+
+**What changed:**
+Sprint CI attacks one live foundation lane only. Pillar 1082 publishes a foundation-first photon/action audit packet that checks the conditional KK block parameterization, the orbifold photon obstruction, the smooth-circle tree-level Einstein-Hilbert coupling content, and the evolution-flow honesty boundary. It isolates the metric/coupling bookkeeping and leaves two surviving physical blockers explicit: photon origin and action-to-evolution equivalence. Pillar 1083 integrates the audit packet, Merlin handoff, findings report, and four-document publication packet into one fail-closed sprint certificate.
+
+**Why:**
+Reduce one broad unresolved foundation obligation into the exact remaining blockers, prevent wheel-spinning, and leave a clean next-step map for Merlin.
+
+**Epistemic label deltas:**
+- `FOUNDATION_FIRST_PHOTON_ACTION_AUDIT_COMPLETE`
+- `SPRINT_CI_FOUNDATION_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin under the stated orbifold assumptions, action-to-evolution equivalence for the implemented flow, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Sprint CI targeted tests 132 passed · 0 failed; full regression 64,088 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1084
 
 ## v36.4 (2026-09-05 — Sprint CH: Pillars 1079–1081)
 

@@ -151,47 +151,47 @@ OPEN_GATES = [
     {
         "gate": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED",
         "description": "Flavor shared-root blocker remains open; assigned blocker contraction is not scientific progress.",
-        "pillar": 1081,
+        "pillar": 1083,
     },
     {
         "gate": "FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED",
         "description": "Species-resolved RI geometry with bundle-moduli lock remains unresolved.",
-        "pillar": 1081,
+        "pillar": 1083,
     },
     {
         "gate": "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
         "description": "Global CKM phase geometry remains unresolved; no derived contraction or universal limit is established.",
-        "pillar": 1081,
+        "pillar": 1083,
     },
     {
         "gate": "ALPHA_S_TYPE_B_FLOOR",
         "description": "Joint α_s/Higgs prediction requires a specified compactification and matching calculation.",
-        "pillar": 1081,
+        "pillar": 1083,
     },
     {
         "gate": "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
         "description": "Joint α_s/Higgs prediction requires a specified compactification and matching calculation.",
-        "pillar": 1081,
+        "pillar": 1083,
     },
     {
         "gate": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
         "description": "Independent CMB normalization and UM transfer corrections remain open; the reciprocal-bound irreducibility inference is invalid.",
-        "pillar": 1081,
+        "pillar": 1083,
     },
     {
         "gate": "NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
         "description": "Non-perturbative QG remains unresolved; declared O1–O4 obligations are not a universal impossibility theorem.",
-        "pillar": 1081,
+        "pillar": 1083,
     },
     {
         "gate": "DESI_DR3_MONITORING",
         "description": "External wait only; frozen-radion dark-energy lane awaits DESI DR3.",
-        "pillar": 1081,
+        "pillar": 1083,
     },
     {
         "gate": "LITEBIRD_BIREFRINGENCE",
         "description": "External wait only; birefringence lane awaits LiteBIRD.",
-        "pillar": 1081,
+        "pillar": 1083,
     },
 ]
 
@@ -295,6 +295,7 @@ def build_live_status() -> dict:
             "cmb_normalization": "CALIBRATED: primordial normalization and transfer-spectrum errors are separate questions.",
             "flavor_uniqueness": "UNESTABLISHED: parity alone does not fix bulk masses or the internal gauge involution.",
             "uv_predictivity": "UNESTABLISHED: an empty declared parameter list is not a derivation.",
+            "action_to_evolution": "OPEN: the implemented flow is phenomenological and still lacks a verified Euler-Lagrange matching derivation.",
         },
         "predictions": PREDICTIONS,
         "open_gates": OPEN_GATES,

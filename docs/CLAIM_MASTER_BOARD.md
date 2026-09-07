@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v36.4
+# Unitary Manifold v36.5
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -15,20 +15,22 @@ No new pillar or overall physics closure is claimed.
 | Flavor / internal gauge selection | Uniqueness not established by parity | Action/domain specification plus uniqueness proof or explicit countermodels |
 | CMB | Calibration and transfer errors must be separated | Backend-labelled spectra, error budget, covariance scope, action-derived corrections |
 | UV/Higgs | Predictivity unestablished; zero parameter cost not inferred from an empty list | Joint matching calculation with moduli and stability accounted for |
+| Action-to-evolution equivalence | Implemented flow remains phenomenological, not a derived circle-EH Euler-Lagrange system | A verified action-level matching derivation or replacement equations |
 
 Detailed assumptions, counterexamples, and verification record:
 [TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment).
 All observational falsifiers remain unchanged, including the closed forbidden
 birefringence gap [0.29°, 0.31°].
-The resumed combined software regression passed 63,952 tests, with 33 skipped,
-18 deselected and zero failures. This verifies neither empirical agreement
-nor the still-open physical obligations in the table.
+Sprint CI targeted validation passed 132 tests with zero failures, and the
+verified full regression in the current branch is 64,088 passed · 22 skipped ·
+18 deselected · 0 failed. This verifies neither empirical agreement nor the
+still-open physical obligations in the table.
 
 ## Historical claim registry
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-05 (v36.4 — Sprint CH: Pillars 1079–1081. This sprint converts external Gemini critique handling into executable artifacts: P1079 publishes a claim-level critique-to-proof matrix with evidence labels, executable work obligations, stop conditions/falsifiers, and a confabulation register for outdated claims; P1080 executes deterministic four-lane routing (flavor/c_L, shared UV object, CMB amplitude boundary, neutrino dependency) with named blockers and no unearned closure relabeling; P1081 fail-closes sprint validity unless matrix, lane packet, and publication packet all pass. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1082. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-06 (v36.5 — Sprint CI: Pillars 1082–1083. This sprint attacks one live foundation lane only: P1082 turns the combined photon/action obligation into an executable audit packet that isolates two bookkeeping questions and leaves two surviving physical blockers explicit; P1083 fail-closes sprint validity unless the audit packet, Merlin handoff, findings report, and four-part publication packet all pass together. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1084. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
 
@@ -37,6 +39,10 @@ nor the still-open physical obligations in the table.
 *Historical continuity note: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer directly below Sprint BZ.*
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
+
+*P1082 (v36.5): Foundation-First Photon/Action Audit — FOUNDATION_FIRST_PHOTON_ACTION_AUDIT_COMPLETE. `src/core/pillar1082_foundation_first_photon_action_audit.py` executes a single-lane audit packet across KK block parameterization, orbifold photon obstruction, smooth-circle tree-level EH coupling content, and evolution-flow honesty. It contracts four audited questions to two surviving physical blockers — photon origin and action-to-evolution equivalence — without claiming new hardgate closure.*
+
+*P1083 (v36.5): Sprint CI Foundation Certificate — SPRINT_CI_FOUNDATION_CERTIFICATE_COMPLETE. `src/core/pillar1083_sprint_ci_foundation_certificate.py` fail-closes sprint validity unless P1082, the Merlin handoff fields, the findings report, and the four-part Sprint CI publication packet are all present and scientifically honest.*
 
 *P1081 (v36.4): Sprint CH Critique Resolution Certificate — SPRINT_CH_CRITIQUE_RESOLUTION_CERTIFICATE_COMPLETE. `src/core/pillar1081_sprint_ch_critique_resolution_certificate.py` integrates P1079 and P1080 and fail-closes sprint validity unless critique matrix integrity, deterministic lane routing integrity, and the four-article publication packet all pass while preserving explicit no-unearned-closure boundaries.*
 

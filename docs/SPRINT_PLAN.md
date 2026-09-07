@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-05 (v36.4 Sprint CH COMPLETE — Pillars 1079–1081; Lean4 4080→4080; next slot 1082)*
+*Last updated: 2026-09-06 (v36.5 Sprint CI COMPLETE — Pillars 1082–1083; Lean4 4080→4080; next slot 1084)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.4 — Sprint CH)
+## CURRENT AUDITABLE STATE (v36.5 — Sprint CI)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.4** |
-| Sprint | **Sprint CH** |
-| Pillars | **1079-1081** |
-| Next pillar slot | **1082** |
+| Version | **v36.5** |
+| Sprint | **Sprint CI** |
+| Pillars | **1082-1083** |
+| Next pillar slot | **1084** |
 | Lean4 theorems | **4080** |
-| Verified full regression | **63,892 passed · 23 skipped · 12 deselected · 0 failed** |
-| Sprint theme | **Critique-to-proof execution + internal lane resolution packet** |
-| Primary target | **Convert Gemini external critique into executable matrix and deterministic lane routing with explicit blockers/falsifiers** |
-| Binary outcome | **No unearned closure relabeling; fail-closed certificate requires matrix + lane packet + publication packet integrity** |
+| Verified full regression | **64,088 passed · 22 skipped · 18 deselected · 0 failed** |
+| Sprint theme | **Foundation-first photon/action audit + Merlin handoff** |
+| Primary target | **Attack the combined photon-origin/action-to-evolution obligation as one executable lane** |
+| Binary outcome | **Either closure earned or blocker set contracted with explicit surviving obligations and fail-closed handoff** |
 
+Historical continuity: v36.4 Sprint CH (Pillars 1079–1081; next slot 1082) remains the canonical critique-to-proof execution layer directly below Sprint CI.
 Historical continuity: v36.3 Sprint CG (Pillar 1078; next slot 1079) remains the canonical post-merge audit/remediation layer directly below Sprint CH.
 Historical continuity: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical theorem/extension/falsifier execution layer directly below Sprint CG.
 Historical continuity: v36.1 Sprint CE (Pillar 1061; next slot 1062) remains the proof-first internal closure layer directly below Sprint CF.
@@ -75,6 +76,22 @@ Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) rem
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
 
 ---
+
+## FOUNDATION-FIRST PHOTON/ACTION EXECUTION PROTOCOL (Sprint CI, Executed)
+
+1. Attack one live foundation lane only: photon origin + action-to-evolution.
+2. Audit four exact questions instead of repeating one broad unresolved narrative.
+3. Count progress only if executable bookkeeping isolates real surviving blockers.
+4. Keep no-unearned-closure discipline across code, findings report, and public packet.
+5. Leave Merlin one explicit next-action map requiring a genuinely new object/evidence class.
+6. Keep canonical truth surfaces lockstep synchronized.
+7. Keep targeted and full verification gates zero-fail.
+
+### Sprint CI blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| None — no new physics closure was claimed | Conditional KK block parameterization isolated; smooth-circle tree-level EH coupling content isolated; Merlin handoff made fail-closed | Photon origin under stated orbifold assumptions; action-to-evolution equivalence; existing external waits and architecture-limit lanes unchanged |
 
 ## CRITIQUE-RESOLUTION EXECUTION PROTOCOL (Sprint CH, Executed)
 
