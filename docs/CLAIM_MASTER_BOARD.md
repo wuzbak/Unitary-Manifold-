@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v36.5
+# Unitary Manifold v36.6
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -30,7 +30,7 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-06 (v36.5 — Sprint CI: Pillars 1082–1083. This sprint attacks one live foundation lane only: P1082 turns the combined photon/action obligation into an executable audit packet that isolates two bookkeeping questions and leaves two surviving physical blockers explicit; P1083 fail-closes sprint validity unless the audit packet, Merlin handoff, findings report, and four-part publication packet all pass together. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1084. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-07 (v36.6 — Sprint CJ: Pillar 1084. This sprint implements one integrated fail-closed parallel board with Merlin as active co-runner: lane one executes exactly one new-object foundation attempt with anti-loop gating and explicit closure classes; lane two executes sovereign Merlin Stage A→E benchmark/training acceleration with promotion blockers, dual-loop governance, and rollback readiness. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1085. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
 
 *Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
 
@@ -39,6 +39,8 @@ still-open physical obligations in the table.
 *Historical continuity note: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer directly below Sprint BZ.*
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
+
+*P1084 (v36.6): Sprint CJ Parallel Orchestration — SPRINT_CJ_PARALLEL_ORCHESTRATION_COMPLETE. `src/core/pillar1084_sprint_cj_parallel_orchestration.py` integrates one fail-closed two-lane board: lane one remains single-target foundation execution with anti-loop no-rerun gating, lane two remains sovereign Merlin acceleration with Stage A→E benchmark and promotion-blocker discipline, and promotion wording is frozen unless both lanes pass auditable receipts.*
 
 *P1082 (v36.5): Foundation-First Photon/Action Audit — FOUNDATION_FIRST_PHOTON_ACTION_AUDIT_COMPLETE. `src/core/pillar1082_foundation_first_photon_action_audit.py` executes a single-lane audit packet across KK block parameterization, orbifold photon obstruction, smooth-circle tree-level EH coupling content, and evolution-flow honesty. It contracts four audited questions to two surviving physical blockers — photon origin and action-to-evolution equivalence — without claiming new hardgate closure.*
 

@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v36.5
+# Unitary Manifold v36.6
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -20,6 +20,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CJ (v36.6 — 2026-09-07):** 1 pillar (1084). P1084 implements a fail-closed two-lane orchestration board: lane one is constrained to exactly one new-object foundation attempt (photon-sector construction or action-to-evolution Euler-Lagrange matching) with anti-loop gating, while lane two runs Merlin sovereign acceleration under Stage A→E benchmark sequencing, promotion blockers, dual-loop training, and rollback-readiness discipline. Promotion language is frozen unless both scientific and governance receipts pass together. Open-lane labels remain unchanged and explicit. Lean4 4080→4080 (+0). Verified full regression remains 64,088 passed · 22 skipped · 18 deselected · 0 failed. Next slot 1085.
+>
 
 > **Sprint CI (v36.5 — 2026-09-06):** 2 pillars (1082–1083). P1082 executes a foundation-first single-lane audit of the combined photon/action obligation: the conditional KK block parameterization and smooth-circle tree-level EH coupling content are isolated as executable bookkeeping results, while photon origin and action-to-evolution equivalence remain the two surviving physical blockers. P1083 fail-closes sprint validity unless the audit packet, Merlin handoff, findings report, and four-part publication packet all pass together. Open-lane labels remain unchanged and explicit. Lean4 4080→4080 (+0). Verified full regression is 64,088 passed · 22 skipped · 18 deselected · 0 failed. Next slot 1084.
 >

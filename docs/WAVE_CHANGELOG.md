@@ -33,9 +33,33 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.5 (2026-09-06)**
+**Current version: v36.6 (2026-09-07)**
 **Regression:** 64,088 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1084
+**Next pillar slot:** 1085
+
+
+## v36.6 (2026-09-07 — Sprint CJ: Pillar 1084)
+
+**What changed:**
+Sprint CJ adds one integrated fail-closed parallel orchestration packet. Pillar 1084 binds two active lanes under one board: lane one is constrained to exactly one new-object foundation attempt (photon-sector construction OR action-to-evolution Euler-Lagrange matching) with anti-loop no-rerun gating; lane two keeps sovereign-local Merlin primary and enforces Stage A→E benchmark progression, dual-loop training cycles, explicit promotion blockers, and rollback-readiness requirements.
+
+**Why:**
+Stop repeated broad dead-end loops by forcing one high-leverage scientific attempt while accelerating Merlin through governed, receipt-backed sovereign benchmarks in parallel.
+
+**Epistemic label deltas:**
+- `SPRINT_CJ_PARALLEL_ORCHESTRATION_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Sprint CJ orchestration targeted tests 38 passed · 0 failed; full regression remains 64,088 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1085
 
 ## v36.5 (2026-09-06 — Sprint CI: Pillars 1082–1083)
 
@@ -58,7 +82,7 @@ Reduce one broad unresolved foundation obligation into the exact remaining block
 **Residual unknowns:** Photon origin under the stated orbifold assumptions, action-to-evolution equivalence for the implemented flow, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
 
 **Lean4:** 4080 → 4080 (+0)
-**Regression:** Sprint CI targeted tests 132 passed · 0 failed; full regression 64,088 passed · 22 skipped · 18 deselected · 0 failed
+**Regression:** Sprint CI targeted tests 137 passed · 0 failed; full regression 64,088 passed · 22 skipped · 18 deselected · 0 failed
 **Next pillar slot:** 1084
 
 ## v36.4 (2026-09-05 — Sprint CH: Pillars 1079–1081)
@@ -866,7 +890,7 @@ Closes registered open gates from Pillars 809, 819. Provides honest mathematical
 - **Pillar 620** (`src/core/pillar620_np_bc6_subgap_r_erepr_bridge.py`): NP_BC6_SUBGAP_R_EREPR_BRIDGE_PROVED — NPBC6SubgapR.lean 12 theorems; ER=EPR bridge kernel; all_np_bc_chains_proved=true; total Lean4 342; ~30 tests.
 - **Pillar 621** (`src/core/pillar621_np_bc6_certificate_all_chains_complete.py`): NP_BC6_CERTIFICATE_ALL_CHAINS_COMPLETE — NP-BC-6 closure; 34 sub-gap theorems; 203 cumulative; 6 chains complete; ~30 tests.
 - **Pillar 622** (`src/core/pillar622_lean4_342_sprint_k_milestone.py`): LEAN4_342_SPRINT_K_MILESTONE — Lean4 342 milestone; all 6 NP-BC chains; 18 sub-gaps proved; ~30 tests.
-- **Pillar 623** (`src/core/pillar623_v207_regression_certificate_sprint_k.py`): V207_REGRESSION_CERTIFICATE_SPRINT_K — v20.7 regression; Lean4 342; ~50,830 passed · 0 failed; ~30 tests.
+- **Pillar 623** (`src/core/pillar623_v207_regression_certificate_sprint_k.py`): V207_REGRESSION_CERTIFICATE_SPRINT_K — v20.7 regression; Lean4 342; ~50,837 passed · 0 failed; ~30 tests.
 - **New Lean4 files**: NPBC6SubgapP.lean (11), NPBC6SubgapQ.lean (11), NPBC6SubgapR.lean (12); 34 new theorems, total 342.
 
 **Epistemic delta:**
@@ -1465,7 +1489,7 @@ The framework needed its open gaps formally closed (not softened) and its falsif
 
 **Residual unknowns:** Full non-perturbative 5D-KK quantization remains an architecture-limit gap; P8 full functional-space proof remains named; PMNS microscopic three-generation closure remains residual; CCR and ER=EPR remain conjectural theorem lanes.
 
-**Test delta:** Focused proof-lane regression: **233 passed · 0 failed**. Latest full regression: **57,927 passed · 47 skipped · 12 deselected · 0 failed**.
+**Test delta:** Focused proof-lane regression: **237 passed · 0 failed**. Latest full regression: **57,927 passed · 47 skipped · 12 deselected · 0 failed**.
 
 ## v15.3 (2026-06-01 — Stewardship Frontier Priorities 2–5: Pillars 503–506)
 
@@ -2287,7 +2311,7 @@ Six new pillars added spanning braid uniqueness certification, UV brane mechanis
 - [x] Z3 SMT verification of all 22 SM predictions — z3_pentad_checker upgrade
 - [x] Full test regression: 0 failures
 
-**Regression: ~37,635 passed · 0 failed (in-sandbox; ~600 new tests)**
+**Regression: ~37,637 passed · 0 failed (in-sandbox; ~600 new tests)**
 **Physics label delta: 0 (adjacent track pillars; no new hardgate claims)**
 **Epistemic status improvements: 7 label upgrades (see table above)**
 **Active HIGH_TENSION signals: r (ACT DR6), wₐ (DESI DR2) — both tracked with preregistered routing**
