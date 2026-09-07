@@ -652,6 +652,27 @@ def test_training_record_teacher_trace_type_triggers_validation_without_track_ma
     assert "missing_trace_provenance_pointer" in errors
 
 
+def test_training_record_trace_type_without_top_level_marker_is_rejected():
+    errors = merlin_program._validate_training_record(
+        {
+            "record_id": "teacher-type-only",
+            "split": "train",
+            "kernel_id": "kernel_s",
+            "task_family": "repository_native_qa",
+            "instruction": "Validate marker mismatch handling.",
+            "response_target": {"answer": "ok"},
+            "supervision_mode": "grounded_supervised_finetuning",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["synthetic_source"],
+            "trace_metadata": {
+                "trace_type": "teacher_trace_distillation",
+            },
+            "format_version": "merlin_training_jsonl_v1",
+        }
+    )
+    assert "missing_teacher_trace_marker" in errors
+
+
 def test_training_record_teacher_track_requires_trace_metadata():
     errors = merlin_program._validate_training_record(
         {

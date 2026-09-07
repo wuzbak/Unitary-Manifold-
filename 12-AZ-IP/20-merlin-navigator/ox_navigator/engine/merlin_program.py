@@ -2270,7 +2270,7 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
         value == "teacher_trace_distillation"
         for value in (task_family, task_track, track, supervision_mode)
     )
-    if has_teacher_trace_metadata_fields and not has_teacher_trace_marker:
+    if (has_teacher_trace_metadata_fields or metadata_trace_type == "teacher_trace_distillation") and not has_teacher_trace_marker:
         errors.append("missing_teacher_trace_marker")
     requires_teacher_trace_checks = (
         has_teacher_trace_marker
