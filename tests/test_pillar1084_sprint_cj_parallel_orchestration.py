@@ -29,6 +29,8 @@ def test_parallel_packet_contract() -> None:
     assert report["lane_2"]["external_token_path_compatibility_only"] is True
     assert report["integrated_board"]["mode"] == "parallel_fail_closed"
     assert len(report["integrated_board"]["truth_surface_sync_paths"]) == 9
+    assert report["benchmark_corpora_check"]["stage_coverage_pass"] is True
+    assert report["truth_surface_sync"]["all_pass"] is True
 
 
 def test_stage_sequence_is_a_to_e() -> None:
@@ -60,6 +62,28 @@ def test_invalid_if_stage_order_breaks(monkeypatch) -> None:
     report = sprint_cj_parallel_orchestration()
     assert report["valid"] is False
     assert report["integrated_board"]["dependencies"]["lane_2_requires_stage_sequence_a_to_e"] is False
+
+
+def test_invalid_if_corpora_stage_missing(monkeypatch) -> None:
+    benchmark_mod = p1084._load("ox_navigator.engine.merlin_benchmark")
+    original = benchmark_mod.get_benchmark_corpus
+    monkeypatch.setattr(
+        benchmark_mod,
+        "get_benchmark_corpus",
+        lambda stage="all": {"ok": True, "corpora": {}} if stage == "all" else original(stage),
+    )
+    report = sprint_cj_parallel_orchestration()
+    assert report["benchmark_corpora_check"]["stage_coverage_pass"] is False
+    assert report["integrated_board"]["dependencies"]["lane_2_requires_nonempty_stage_corpora"] is False
+    assert report["valid"] is False
+
+
+def test_invalid_if_truth_surface_sync_breaks(monkeypatch) -> None:
+    monkeypatch.setattr(p1084, "_truth_surface_sync_status", lambda: {"all_pass": False, "files": []})
+    report = sprint_cj_parallel_orchestration()
+    assert report["truth_surface_sync"]["all_pass"] is False
+    assert report["integrated_board"]["dependencies"]["truth_surfaces_synchronized_to_v36_6"] is False
+    assert report["valid"] is False
 
 
 def test_summary() -> None:

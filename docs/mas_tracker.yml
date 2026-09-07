@@ -62,7 +62,7 @@ v36_6_sprint_cj:
     - LITEBIRD_BIREFRINGENCE
     - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
   regression: "64,088 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
-  focused_regression: "Sprint CJ orchestration targeted tests 25 passed · 0 failed"
+  focused_regression: "Sprint CJ orchestration targeted tests 27 passed · 0 failed"
   next_pillar_slot: 1085
 
 v36_5_sprint_ci:

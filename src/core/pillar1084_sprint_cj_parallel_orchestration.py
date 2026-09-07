@@ -62,6 +62,38 @@ def _json_safe(value: Any) -> Any:
     return json.loads(json.dumps(value))
 
 
+def _truth_surface_sync_status() -> Dict[str, Any]:
+    checks = {
+        (_ROOT / "STATUS.md").resolve().as_posix(): ["v36.6 Sprint CJ", "next slot 1085"],
+        (_ROOT / "docs" / "mas_tracker.yml").resolve().as_posix(): ['version: "v36.6"', "next_pillar_slot: 1085"],
+        (_ROOT / "FALLIBILITY.md").resolve().as_posix(): ["Unitary Manifold v36.6", "Next pillar slot 1085"],
+        (_ROOT / "docs" / "CLAIM_MASTER_BOARD.md").resolve().as_posix(): ["# Unitary Manifold v36.6", "Next slot 1085"],
+        (_ROOT / "docs" / "GATEKEEPER_SUMMARY.md").resolve().as_posix(): ["# Unitary Manifold v36.6", "Next slot 1085"],
+        (_ROOT / "docs" / "TRUTH_LAYER.md").resolve().as_posix(): ["# Unitary Manifold v36.6"],
+        (_ROOT / "docs" / "WAVE_CHANGELOG.md").resolve().as_posix(): ["**Current version: v36.6", "**Next pillar slot:** 1085"],
+        (_ROOT / "docs" / "SPRINT_PLAN.md").resolve().as_posix(): ["v36.6 Sprint CJ COMPLETE", "| Next pillar slot | **1085** |"],
+        (_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json").resolve().as_posix(): ['"version": "36.6"', '"next_slot": 1085'],
+    }
+    file_checks = []
+    for file_path, required_fragments in checks.items():
+        candidate = Path(file_path)
+        exists = candidate.is_file()
+        content = candidate.read_text(encoding="utf-8") if exists else ""
+        fragments_pass = all(fragment in content for fragment in required_fragments)
+        file_checks.append(
+            {
+                "path": file_path,
+                "exists": exists,
+                "required_fragments": list(required_fragments),
+                "pass": exists and fragments_pass,
+            }
+        )
+    return {
+        "all_pass": all(item["pass"] for item in file_checks),
+        "files": file_checks,
+    }
+
+
 def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     foundation = foundation_first_photon_action_audit()
     sprint_ci = sprint_ci_foundation_certificate()
@@ -83,6 +115,17 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     ]
     promotion_blockers = list(frontier.get("promotion_blockers") or [])
     blockers_all_clear = bool(frontier.get("promotion_blockers_all_clear"))
+    corpora_payload = corpora.get("corpora") if isinstance(corpora.get("corpora"), dict) else {}
+    corpora_stage_coverage_pass = (
+        isinstance(corpora_payload, dict)
+        and all(stage in corpora_payload for stage in _EXPECTED_STAGE_SEQUENCE)
+        and all(
+            isinstance((corpora_payload.get(stage) or {}).get("benchmarks"), list)
+            and len((corpora_payload.get(stage) or {}).get("benchmarks") or []) > 0
+            for stage in _EXPECTED_STAGE_SEQUENCE
+        )
+    )
+    truth_sync = _truth_surface_sync_status()
 
     lane_one = {
         "lane_id": "LANE_1_PHYSICS_CLOSURE",
@@ -135,6 +178,8 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_1_requires_sprint_ci_certificate": bool(sprint_ci.get("valid")),
             "lane_2_requires_stage_sequence_a_to_e": plan_stages == _EXPECTED_STAGE_SEQUENCE,
             "lane_2_requires_promotion_blockers_declared": len(promotion_blockers) >= 1,
+            "lane_2_requires_nonempty_stage_corpora": corpora_stage_coverage_pass,
+            "truth_surfaces_synchronized_to_v36_6": bool(truth_sync.get("all_pass")),
             "promotion_language_requires_both_lanes_evidence": (
                 bool(foundation.get("valid")) and bool(sprint_ci.get("valid")) and blockers_all_clear
             ),
@@ -167,7 +212,8 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and lane_two["external_token_path_compatibility_only"]
         and plan_stages == _EXPECTED_STAGE_SEQUENCE
         and len(promotion_blockers) >= 1
-        and isinstance(corpora.get("corpora"), dict)
+        and corpora_stage_coverage_pass
+        and bool(truth_sync.get("all_pass"))
         and proof_contract.get("name") == "merlin_deterministic_proof_closure"
         and len(_CANONICAL_SYNC_PATHS) == 9
     )
@@ -186,6 +232,11 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         "lane_1": lane_one,
         "lane_2": lane_two,
         "integrated_board": integrated_board,
+        "truth_surface_sync": truth_sync,
+        "benchmark_corpora_check": {
+            "expected_stages": list(_EXPECTED_STAGE_SEQUENCE),
+            "stage_coverage_pass": corpora_stage_coverage_pass,
+        },
         "benchmark_corpora_available": sorted((corpora.get("corpora") or {}).keys()),
         "proof_first_contract": proof_contract,
         "immediate_execution_order": immediate_execution_order,
