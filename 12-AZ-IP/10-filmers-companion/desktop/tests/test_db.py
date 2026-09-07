@@ -171,3 +171,65 @@ def test_get_conn_context_manager(db):
     with get_conn(db) as c:
         result = c.execute("SELECT 1").fetchone()
     assert result[0] == 1
+
+
+def test_init_db_deduplicates_case_variant_characters(tmp_path):
+    import sqlite3
+    from desktop.app.db.schema import get_conn, init_db
+
+    db_path = tmp_path / "dedupe.db"
+    init_db(db_path)
+    raw = sqlite3.connect(str(db_path))
+    try:
+        raw.execute("DROP INDEX IF EXISTS idx_characters_project_name_ci")
+        raw.execute(
+            "INSERT INTO characters (id, project_id, name, performer, notes) VALUES (?, ?, ?, ?, ?)",
+            ("char-1", "p-1", "NOVA", "", "Detected from screenplay import"),
+        )
+        raw.execute(
+            "INSERT INTO characters (id, project_id, name, performer, notes) VALUES (?, ?, ?, ?, ?)",
+            ("char-2", "p-1", "Nova", "", "Detected from screenplay import"),
+        )
+        raw.commit()
+    finally:
+        raw.close()
+
+    init_db(db_path)
+    with get_conn(db_path) as conn:
+        count = conn.execute("SELECT COUNT(*) FROM characters WHERE project_id='p-1'").fetchone()[0]
+        indexes = {
+            row[1]
+            for row in conn.execute("PRAGMA index_list('characters')").fetchall()
+        }
+    assert count == 1
+    assert "idx_characters_project_name_ci" in indexes
+
+
+def test_init_db_dedup_prefers_enriched_character_rows(tmp_path):
+    import sqlite3
+    from desktop.app.db.schema import get_conn, init_db
+
+    db_path = tmp_path / "dedupe_quality.db"
+    init_db(db_path)
+    raw = sqlite3.connect(str(db_path))
+    try:
+        raw.execute("DROP INDEX IF EXISTS idx_characters_project_name_ci")
+        raw.execute(
+            "INSERT INTO characters (id, project_id, name, performer, notes) VALUES (?, ?, ?, ?, ?)",
+            ("auto-row", "p-2", "MIRA", "", "Detected from screenplay import"),
+        )
+        raw.execute(
+            "INSERT INTO characters (id, project_id, name, performer, notes) VALUES (?, ?, ?, ?, ?)",
+            ("enriched-row", "p-2", "Mira", "Lead Actor", "Custom casting"),
+        )
+        raw.commit()
+    finally:
+        raw.close()
+
+    init_db(db_path)
+    with get_conn(db_path) as conn:
+        rows = conn.execute(
+            "SELECT id, performer, notes FROM characters WHERE project_id='p-2'"
+        ).fetchall()
+    assert len(rows) == 1
+    assert rows[0]["id"] == "enriched-row"

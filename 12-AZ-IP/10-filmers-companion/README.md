@@ -29,7 +29,7 @@ FilmersCompanion is a **dual-platform** (Python desktop + Android) AI production
 | Module | Function |
 |--------|----------|
 | 🧭 **Producer / UPM Dashboard** | Unified health, red flags, approvals, blockers, and cross-department readiness |
-| ✍️ **Script Studio** | Script import, revisions, character extraction, scene parsing, and prep artifact generation |
+| ✍️ **Script Studio** | Script import/export (text/Fountain/FDX), revisions, diagnostics, reports, character extraction, scene parsing, and prep artifact generation |
 | 🧩 **Breakdown + Departments** | Breakdown elements, department boards, crew, assets, and approval queues |
 | 📅 **Scheduling + DOOD** | Shoot-day planning, strips, one-liners, turnaround risk detection, and cast work/hold views |
 | 🎞️ **Post + Delivery** | Dailies/review status, assets, approvals, and delivery tracking |
@@ -77,7 +77,7 @@ apps/filmmakers-companion/
 │   │   ├── requirements.txt
 │   │   ├── install.sh
 │   │   └── install.py
-│   └── tests/                  ← 105 pytest tests (7 files)
+│   └── tests/                  ← 122 pytest tests (8 files)
 │       ├── conftest.py
 │       ├── test_config.py      ← 10 tests
 │       ├── test_db.py          ← 20 tests
@@ -254,6 +254,22 @@ POST /api/ad-suite/one-liner            Body: {"scenes":[...]}
 POST /api/ad-suite/dept-note            Body: {"project_id":"...", "dept":"...", "note":"..."}
 ```
 
+### Production Suite — Screenwriting Upgrade
+
+```
+POST /api/production-suite/script/import-text
+POST /api/production-suite/script/import-fountain
+POST /api/production-suite/script/import-fdx
+POST /api/production-suite/script/revision
+
+GET  /api/production-suite/{project_id}/script/overview
+GET  /api/production-suite/{project_id}/script/diagnostics
+GET  /api/production-suite/{project_id}/script/reports
+GET  /api/production-suite/{project_id}/script/export-fountain
+GET  /api/production-suite/{project_id}/script/export-fdx
+GET  /api/production-suite/{project_id}/script/master-plan
+```
+
 ---
 
 ## 6. Production Modules
@@ -267,7 +283,10 @@ POST /api/ad-suite/dept-note            Body: {"project_id":"...", "dept":"...",
 ### ✍️ Script Studio
 
 - **Plain-text screenplay import** with scene parsing and revision metadata
+- **Fountain + Final Draft XML interchange** for import/export workflows
 - **Automatic character detection** and scene page estimates
+- **Revision workflow** for draft color/name and change summaries
+- **Diagnostics + reports** (script/scene/location/character) for production readiness
 - **Prep artifact generation**: placeholder storyboard panels plus cross-department breakdown seeds
 
 ### 🧩 Breakdown + Departments

@@ -1,13 +1,13 @@
 """Unified production-suite router."""
 from __future__ import annotations
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 router = APIRouter(prefix="/production-suite", tags=["production_suite"])
 
 
 def _service():
-    from ...config import get_config
+    from ..config import get_config
     from .service import FilmProductionSuiteService
 
     cfg = get_config()
@@ -29,15 +29,95 @@ def script_overview(project_id: str):
 @router.post("/script/import-text")
 def import_script_text(body: dict):
     """Import a plain-text screenplay and build production artifacts."""
-    return _service().import_script_text(
-        project_id=body.get("project_id", "imported-project"),
-        title=body.get("title", "Untitled Script"),
-        content=body.get("content", ""),
-        script_format=body.get("format", "feature"),
-        revision_name=body.get("revision_name", "White Draft"),
-        revision_color=body.get("revision_color", "White"),
-        replace_existing=bool(body.get("replace_existing", False)),
-    )
+    try:
+        return _service().import_script_text(
+            project_id=body.get("project_id", "imported-project"),
+            title=body.get("title", "Untitled Script"),
+            content=body.get("content", ""),
+            script_format=body.get("format", "feature"),
+            revision_name=body.get("revision_name", "White Draft"),
+            revision_color=body.get("revision_color", "White"),
+            replace_existing=bool(body.get("replace_existing", False)),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@router.post("/script/import-fountain")
+def import_script_fountain(body: dict):
+    """Import a Fountain screenplay and build production artifacts."""
+    try:
+        return _service().import_script_fountain(
+            project_id=body.get("project_id", "imported-project"),
+            title=body.get("title", "Untitled Script"),
+            content=body.get("content", ""),
+            revision_name=body.get("revision_name", "Blue Draft"),
+            revision_color=body.get("revision_color", "Blue"),
+            replace_existing=bool(body.get("replace_existing", False)),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@router.post("/script/import-fdx")
+def import_script_fdx(body: dict):
+    """Import a Final Draft XML screenplay and build production artifacts."""
+    try:
+        return _service().import_script_fdx(
+            project_id=body.get("project_id", "imported-project"),
+            title=body.get("title", "Untitled Script"),
+            content=body.get("content", ""),
+            revision_name=body.get("revision_name", "Pink Draft"),
+            revision_color=body.get("revision_color", "Pink"),
+            replace_existing=bool(body.get("replace_existing", False)),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@router.get("/{project_id}/script/export-fountain")
+def export_script_fountain(project_id: str):
+    """Export screenplay in Fountain format."""
+    return _service().export_script_fountain(project_id)
+
+
+@router.get("/{project_id}/script/export-fdx")
+def export_script_fdx(project_id: str):
+    """Export screenplay in Final Draft XML format."""
+    return _service().export_script_fdx(project_id)
+
+
+@router.post("/script/revision")
+def create_script_revision(body: dict):
+    """Create a script revision record and update current script content."""
+    try:
+        return _service().create_script_revision(
+            project_id=body.get("project_id", ""),
+            revision_name=body.get("revision_name", "Revision"),
+            revision_color=body.get("revision_color", "White"),
+            change_summary=body.get("change_summary", "Revision update"),
+            content=body.get("content"),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@router.get("/{project_id}/script/diagnostics")
+def script_diagnostics(project_id: str):
+    """Return screenplay diagnostics for quality and continuity checks."""
+    return _service().script_diagnostics(project_id)
+
+
+@router.get("/{project_id}/script/reports")
+def screenplay_reports(project_id: str):
+    """Return script, scene, location, and character reports."""
+    return _service().screenplay_reports(project_id)
+
+
+@router.get("/{project_id}/script/master-plan")
+def script_master_plan(project_id: str, objective: str = "Complete screenwriting upgrade"):
+    """Return Merlin-guided screenwriting upgrade master-plan packet."""
+    return _service().merlin_screenwriting_master_plan(project_id, objective=objective)
 
 
 @router.get("/{project_id}/breakdown")

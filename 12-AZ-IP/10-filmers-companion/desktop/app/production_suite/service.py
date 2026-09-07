@@ -5,7 +5,9 @@ import re
 import uuid
 from collections import Counter, defaultdict
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 from ..agents.ad_suite import ADChief
 from ..agents.finance import FinanceOfficer
@@ -46,6 +48,17 @@ DEPARTMENT_KEYWORDS: dict[str, tuple[str, ...]] = {
 
 SCENE_HEADING_RE = re.compile(r"^(INT\.?|EXT\.?|INT/EXT\.?|I/E\.?)\s*(.+)$", re.IGNORECASE)
 CHARACTER_RE = re.compile(r"^[A-Z][A-Z0-9 '\-().]{1,40}$")
+FOUNTAIN_SCENE_RE = re.compile(r"^\.*\s*(INT\.?|EXT\.?|INT/EXT\.?|I/E\.?|EST\.?)\s+.+$", re.IGNORECASE)
+PARENTHETICAL_RE = re.compile(r"^\(.+\)$")
+
+TRELBY_CAPABILITY_PACKET = {
+    "project": "trelby/trelby",
+    "research_basis": ["README.md", "doc/manual.xml", "trelby/screenplay.py", "trelby/reports.py"],
+    "import_formats": ["Formatted ASCII", "Final Draft XML (.fdx)", "Celtx (.celtx)", "Adobe Story (.astx)", "Fountain (.fountain)", "Fade In Pro (.fadein)"],
+    "export_formats": ["PDF", "RTF", "Formatted ASCII", "HTML", "Final Draft XML (.fdx)", "Fountain (.fountain)"],
+    "reports": ["Script report", "Scene report", "Location report", "Character report"],
+    "editor_functions": ["Auto-completion", "Spell-check dictionary", "Pagination", "Draft/Write view modes"],
+}
 
 
 @dataclass
@@ -151,58 +164,7 @@ class FilmProductionSuiteService:
                     content,
                 ),
             )
-            imported_scene_ids: list[str] = []
-            characters_seen: set[str] = set()
-            for parsed in parsed_scenes:
-                scene_id = str(uuid.uuid4())
-                imported_scene_ids.append(scene_id)
-                conn.execute(
-                    """INSERT INTO scenes
-                       (id, project_id, scene_number, location_id, int_ext, day_night, synopsis, page_count, status, shoot_date)
-                       VALUES (?, ?, ?, NULL, ?, ?, ?, ?, 'draft', NULL)""",
-                    (
-                        scene_id,
-                        project_id,
-                        parsed.scene_number,
-                        parsed.int_ext,
-                        parsed.day_night,
-                        parsed.synopsis[:500],
-                        parsed.page_count,
-                    ),
-                )
-                self._seed_storyboard_placeholders(conn, project_id, scene_id, parsed)
-                for element in self._build_scene_breakdown(project_id, scene_id, parsed):
-                    conn.execute(
-                        """INSERT INTO breakdown_elements
-                           (id, project_id, scene_id, department, element_type, name, quantity, status, notes)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                        (
-                            element["id"],
-                            project_id,
-                            scene_id,
-                            element["department"],
-                            element["element_type"],
-                            element["name"],
-                            element["quantity"],
-                            element["status"],
-                            element["notes"],
-                        ),
-                    )
-                for character_name in parsed.characters:
-                    if character_name in characters_seen:
-                        continue
-                    characters_seen.add(character_name)
-                    conn.execute(
-                        """INSERT OR IGNORE INTO characters (id, project_id, name, performer, notes)
-                           VALUES (?, ?, ?, ?, ?)""",
-                        (
-                            str(uuid.uuid4()),
-                            project_id,
-                            character_name,
-                            "",
-                            "Detected from screenplay import",
-                        ),
-                    )
+            self._replace_scene_derivatives(conn, project_id, parsed_scenes)
 
         return {
             "project_id": project_id,
@@ -212,6 +174,231 @@ class FilmProductionSuiteService:
             "character_count": len({c for scene in parsed_scenes for c in scene.characters}),
             "storyboard_panels_created": len(parsed_scenes) * 2,
             "breakdown_elements_created": sum(len(self._build_scene_breakdown(project_id, "preview", s)) for s in parsed_scenes),
+        }
+
+    def import_script_fountain(
+        self,
+        project_id: str,
+        title: str,
+        content: str,
+        revision_name: str = "Blue Draft",
+        revision_color: str = "Blue",
+        replace_existing: bool = False,
+    ) -> dict:
+        normalized = self._normalize_fountain_to_plaintext(content)
+        summary = self.import_script_text(
+            project_id=project_id,
+            title=title,
+            content=normalized,
+            script_format="fountain",
+            revision_name=revision_name,
+            revision_color=revision_color,
+            replace_existing=replace_existing,
+        )
+        return {
+            **summary,
+            "import_format": "fountain",
+            "source_line_count": len([line for line in content.splitlines() if line.strip()]),
+        }
+
+    def import_script_fdx(
+        self,
+        project_id: str,
+        title: str,
+        content: str,
+        revision_name: str = "Pink Draft",
+        revision_color: str = "Pink",
+        replace_existing: bool = False,
+    ) -> dict:
+        normalized = self._normalize_fdx_to_plaintext(content)
+        summary = self.import_script_text(
+            project_id=project_id,
+            title=title,
+            content=normalized,
+            script_format="fdx",
+            revision_name=revision_name,
+            revision_color=revision_color,
+            replace_existing=replace_existing,
+        )
+        return {
+            **summary,
+            "import_format": "fdx",
+            "source_line_count": len([line for line in content.splitlines() if line.strip()]),
+        }
+
+    def create_script_revision(
+        self,
+        project_id: str,
+        revision_name: str,
+        revision_color: str,
+        change_summary: str,
+        content: str | None = None,
+    ) -> dict:
+        with get_conn(self.db_path) as conn:
+            script = self._latest_script_record(conn, project_id)
+            if not script:
+                raise ValueError("No script exists for this project.")
+            script_id = script["id"]
+            next_content = content if isinstance(content, str) and content.strip() else str(script.get("content") or "")
+            parsed_scenes = self._parse_script(next_content)
+            conn.execute(
+                "UPDATE scripts SET content=?, current_revision=? WHERE id=?",
+                (next_content, revision_color, script_id),
+            )
+            conn.execute(
+                """INSERT INTO script_versions
+                   (id, script_id, revision_name, revision_color, change_summary, content)
+                   VALUES (?, ?, ?, ?, ?, ?)""",
+                (str(uuid.uuid4()), script_id, revision_name, revision_color, change_summary, next_content),
+            )
+            self._replace_scene_derivatives(conn, project_id, parsed_scenes)
+        return {
+            "project_id": project_id,
+            "script_id": script_id,
+            "revision_name": revision_name,
+            "revision_color": revision_color,
+            "scene_count": len(parsed_scenes),
+            "status": "created",
+        }
+
+    def export_script_fountain(self, project_id: str) -> dict:
+        with get_conn(self.db_path) as conn:
+            script = self._latest_script_record(conn, project_id)
+        if not script:
+            return {"project_id": project_id, "format": "fountain", "content": "", "line_count": 0}
+        content = self._normalize_plaintext_to_fountain(str(script.get("content") or ""))
+        return {
+            "project_id": project_id,
+            "script_id": script.get("id"),
+            "title": script.get("title"),
+            "format": "fountain",
+            "content": content,
+            "line_count": len(content.splitlines()),
+        }
+
+    def export_script_fdx(self, project_id: str) -> dict:
+        with get_conn(self.db_path) as conn:
+            script = self._latest_script_record(conn, project_id)
+        if not script:
+            return {"project_id": project_id, "format": "fdx", "content": "", "line_count": 0}
+        content = self._normalize_plaintext_to_fdx(str(script.get("content") or ""))
+        return {
+            "project_id": project_id,
+            "script_id": script.get("id"),
+            "title": script.get("title"),
+            "format": "fdx",
+            "content": content,
+            "line_count": len(content.splitlines()),
+        }
+
+    def script_diagnostics(self, project_id: str) -> dict:
+        with get_conn(self.db_path) as conn:
+            script = self._latest_script_record(conn, project_id)
+            scenes = _fetch_all(conn, "SELECT * FROM scenes WHERE project_id=? ORDER BY scene_number", (project_id,))
+        content = str(script.get("content") if script else "")
+        non_empty_lines = [line.rstrip() for line in content.splitlines() if line.strip()]
+        issues: list[dict] = []
+        heading_count = 0
+        for idx, line in enumerate(non_empty_lines, start=1):
+            if FOUNTAIN_SCENE_RE.match(line):
+                heading_count += 1
+            if len(line) > 120:
+                issues.append({"line": idx, "severity": "warning", "message": "Line exceeds 120 characters."})
+        if non_empty_lines and heading_count == 0:
+            issues.append({"line": 1, "severity": "error", "message": "No screenplay scene headings detected."})
+        dialogue_stats = self._extract_dialogue_stats(content)
+        est_pages = round(max(1.0, len(content.split()) / 125.0), 2) if content.strip() else 0.0
+        return {
+            "project_id": project_id,
+            "script_id": script.get("id") if script else None,
+            "scene_count": len(scenes),
+            "scene_heading_count": heading_count,
+            "estimated_pages": est_pages,
+            "dialogue_character_count": len(dialogue_stats),
+            "issue_count": len(issues),
+            "issues": issues[:50],
+        }
+
+    def screenplay_reports(self, project_id: str) -> dict:
+        with get_conn(self.db_path) as conn:
+            scenes = _fetch_all(conn, "SELECT * FROM scenes WHERE project_id=? ORDER BY scene_number", (project_id,))
+            locations = _fetch_all(conn, "SELECT * FROM locations WHERE project_id=?", (project_id,))
+            script = self._latest_script_record(conn, project_id)
+        location_lookup = {str(loc.get("id")): str(loc.get("name")) for loc in locations}
+        location_counter: Counter[str] = Counter()
+        scene_report = []
+        for scene in scenes:
+            scene_id = str(scene.get("id") or "")
+            location_name = location_lookup.get(str(scene.get("location_id") or ""), "UNASSIGNED")
+            location_counter[location_name] += 1
+            scene_report.append(
+                {
+                    "scene_id": scene_id,
+                    "scene_number": scene.get("scene_number"),
+                    "int_ext": scene.get("int_ext"),
+                    "day_night": scene.get("day_night"),
+                    "location": location_name,
+                    "synopsis": scene.get("synopsis"),
+                    "page_count": float(scene.get("page_count") or 0.0),
+                }
+            )
+        dialogue_stats = self._extract_dialogue_stats(str(script.get("content") if script else ""))
+        character_report = [
+            {
+                "character": name,
+                "dialogue_lines": row["dialogue_lines"],
+                "dialogue_words": row["dialogue_words"],
+            }
+            for name, row in sorted(dialogue_stats.items(), key=lambda item: (-item[1]["dialogue_lines"], item[0]))
+        ]
+        return {
+            "project_id": project_id,
+            "scene_report": scene_report,
+            "location_report": [{"location": location, "scene_count": count} for location, count in sorted(location_counter.items())],
+            "character_report": character_report,
+            "script_report": {
+                "total_scenes": len(scene_report),
+                "total_locations": len(location_counter),
+                "speaking_characters": len(character_report),
+                "total_pages": round(sum(item["page_count"] for item in scene_report), 2),
+            },
+        }
+
+    def merlin_screenwriting_master_plan(self, project_id: str, objective: str = "Complete screenwriting upgrade") -> dict:
+        diagnostics = self.script_diagnostics(project_id)
+        overview = self.script_overview(project_id)
+        reports = self.screenplay_reports(project_id)
+        has_project_script = overview["script_count"] > 0
+        return {
+            "product": "AxiomZero Screenwriting Upgrade",
+            "project_id": project_id,
+            "objective": objective,
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "trelby_research": TRELBY_CAPABILITY_PACKET,
+            "service_capabilities": {
+                "plain_text_import": True,
+                "fountain_import": True,
+                "fdx_import": True,
+                "fountain_export": True,
+                "fdx_export": True,
+                "revision_workflow": True,
+                "scene_location_character_reports": True,
+                "script_diagnostics": True,
+                "production_suite_integration": True,
+            },
+            "project_state": {
+                "has_script": has_project_script,
+                "ready_for_upgrade_workflow": has_project_script,
+                "note": "" if has_project_script else "No script exists for this project yet. Import screenplay content to activate project-level outputs.",
+            },
+            "completion_status": {
+                "scripts": overview["script_count"],
+                "scenes": overview["scene_count"],
+                "revisions": overview["revision_count"],
+                "diagnostics_issue_count": diagnostics["issue_count"],
+                "speaking_characters": reports["script_report"]["speaking_characters"],
+            },
+            "delivery_assertion": "Screenwriting upgrade services are implemented and integrated; project-level completion requires screenplay ingestion for the target project.",
         }
 
     def script_overview(self, project_id: str) -> dict:
@@ -228,12 +415,20 @@ class FilmProductionSuiteService:
             )
             characters = _fetch_all(conn, "SELECT * FROM characters WHERE project_id=? ORDER BY name", (project_id,))
         total_pages = round(sum(float(scene.get("page_count") or 0.0) for scene in scenes), 2)
+        latest_content = str(scripts[0].get("content") or "") if scripts else ""
+        parsed_scenes = self._parse_script(latest_content) if latest_content.strip() else []
+        inferred_characters = {
+            name
+            for scene in parsed_scenes
+            for name in scene.characters
+        }
+        inferred_characters |= set(self._extract_dialogue_stats(latest_content).keys())
         return {
             "project_id": project_id,
             "script_count": len(scripts),
             "revision_count": len(versions),
             "scene_count": len(scenes),
-            "character_count": len(characters),
+            "character_count": len(inferred_characters) if scripts else len({str(row.get("name") or "").lower() for row in characters if row.get("name")}),
             "total_pages": total_pages,
             "current_script": scripts[0]["title"] if scripts else None,
             "revision_colors": [v.get("revision_color") for v in versions[:5]],
@@ -635,6 +830,271 @@ class FilmProductionSuiteService:
         conn.execute("DELETE FROM scripts WHERE project_id=?", (project_id,))
         conn.execute("DELETE FROM characters WHERE project_id=?", (project_id,))
 
+    def _latest_script_record(self, conn, project_id: str) -> dict | None:
+        row = conn.execute(
+            "SELECT * FROM scripts WHERE project_id=? ORDER BY created_at DESC, rowid DESC LIMIT 1",
+            (project_id,),
+        ).fetchone()
+        return dict(row) if row else None
+
+    def _normalize_fountain_to_plaintext(self, content: str) -> str:
+        lines = [line.rstrip() for line in str(content or "").splitlines()]
+        cleaned: list[str] = []
+        for raw in lines:
+            line = raw.strip()
+            if not line:
+                cleaned.append("")
+                continue
+            lowered = line.lower()
+            if lowered.startswith("title:") or lowered.startswith("author:") or lowered.startswith("credit:"):
+                continue
+            if line.startswith("[[") and line.endswith("]]"):
+                line = line[2:-2].strip()
+            if line.startswith("> "):
+                line = line[2:].strip()
+            if line.startswith(".") and FOUNTAIN_SCENE_RE.match(line[1:].strip()):
+                line = line[1:].strip()
+            cleaned.append(line)
+        return "\n".join(cleaned).strip()
+
+    def _normalize_fdx_to_plaintext(self, content: str) -> str:
+        def local_tag(value: str) -> str:
+            tag = str(value or "")
+            if "}" in tag:
+                tag = tag.split("}", 1)[1]
+            return tag.lower()
+
+        text = str(content or "")
+        try:
+            root = ET.fromstring(text)
+        except ET.ParseError as exc:
+            raise ValueError("Invalid FDX payload: XML parsing failed.") from exc
+        root_tag = local_tag(root.tag)
+        if "finaldraft" not in root_tag:
+            raise ValueError("Invalid FDX payload: root element is not FinalDraft.")
+        content_node = None
+        for node in root.iter():
+            if local_tag(node.tag) == "content":
+                content_node = node
+                break
+        if content_node is None:
+            raise ValueError("Invalid FDX payload: missing Content element.")
+        lines: list[str] = []
+        for paragraph in content_node.iter():
+            if local_tag(paragraph.tag) != "paragraph":
+                continue
+            paragraph_type = str(paragraph.attrib.get("Type") or "").strip().lower()
+            text_nodes = [
+                node.text.strip()
+                for node in paragraph.iter()
+                if local_tag(node.tag) == "text" and node.text and node.text.strip()
+            ]
+            paragraph_text = " ".join(text_nodes).strip()
+            if not paragraph_text:
+                continue
+            if paragraph_type == "scene heading":
+                lines.append(paragraph_text.upper())
+            elif paragraph_type == "character":
+                lines.append(paragraph_text.upper())
+            else:
+                lines.append(paragraph_text)
+        if not lines:
+            raise ValueError("Invalid FDX payload: no screenplay paragraphs found.")
+        return "\n".join(lines).strip()
+
+    def _normalize_plaintext_to_fountain(self, content: str) -> str:
+        lines = [line.rstrip() for line in str(content or "").splitlines()]
+        normalized: list[str] = []
+        for line in lines:
+            stripped = line.strip()
+            if not stripped:
+                normalized.append("")
+                continue
+            if FOUNTAIN_SCENE_RE.match(stripped):
+                normalized.append(stripped.upper())
+            elif CHARACTER_RE.match(stripped) and len(stripped.split()) <= 4:
+                normalized.append(stripped.upper())
+            else:
+                normalized.append(stripped)
+        return "\n".join(normalized).strip()
+
+    def _normalize_plaintext_to_fdx(self, content: str) -> str:
+        lines = [line.rstrip() for line in str(content or "").splitlines()]
+        root = ET.Element("FinalDraft")
+        root.set("DocumentType", "Script")
+        root.set("Template", "No")
+        content_node = ET.SubElement(root, "Content")
+
+        previous_type = "Action"
+        for line in lines:
+            stripped = line.strip()
+            if not stripped:
+                previous_type = "Action"
+                continue
+            if FOUNTAIN_SCENE_RE.match(stripped):
+                paragraph_type = "Scene Heading"
+            elif previous_type in {"Character", "Dialogue", "Parenthetical"} and PARENTHETICAL_RE.match(stripped):
+                paragraph_type = "Parenthetical"
+            elif CHARACTER_RE.match(stripped) and len(stripped.split()) <= 4:
+                paragraph_type = "Character"
+            elif previous_type in {"Character", "Dialogue", "Parenthetical"}:
+                paragraph_type = "Dialogue"
+            else:
+                paragraph_type = "Action"
+            paragraph = ET.SubElement(content_node, "Paragraph")
+            paragraph.set("Type", paragraph_type)
+            text_node = ET.SubElement(paragraph, "Text")
+            text_node.text = stripped
+            previous_type = paragraph_type
+        xml_payload = ET.tostring(root, encoding="unicode")
+        return '<?xml version="1.0" encoding="UTF-8"?>\n' + xml_payload
+
+    def _extract_dialogue_stats(self, content: str) -> dict[str, dict[str, int]]:
+        lines = [line.rstrip() for line in str(content or "").splitlines()]
+        stats: dict[str, dict[str, int]] = defaultdict(lambda: {"dialogue_lines": 0, "dialogue_words": 0})
+        active_character = ""
+        expecting_dialogue = False
+        for raw in lines:
+            stripped = raw.strip()
+            if not stripped:
+                expecting_dialogue = False
+                active_character = ""
+                continue
+            if FOUNTAIN_SCENE_RE.match(stripped):
+                expecting_dialogue = False
+                active_character = ""
+                continue
+            if CHARACTER_RE.match(stripped) and len(stripped.split()) <= 4:
+                active_character = stripped
+                expecting_dialogue = True
+                continue
+            if expecting_dialogue and active_character:
+                if PARENTHETICAL_RE.match(stripped):
+                    continue
+                stats[active_character]["dialogue_lines"] += 1
+                stats[active_character]["dialogue_words"] += len(stripped.split())
+            else:
+                active_character = ""
+        return dict(stats)
+
+    def _replace_scene_derivatives(self, conn, project_id: str, parsed_scenes: list[ParsedScene]) -> None:
+        scene_ids = [row[0] for row in conn.execute("SELECT id FROM scenes WHERE project_id=?", (project_id,)).fetchall()]
+        if scene_ids:
+            placeholders = ",".join("?" for _ in scene_ids)
+            conn.execute(f"DELETE FROM shot_lists WHERE scene_id IN ({placeholders})", scene_ids)
+        conn.execute("DELETE FROM storyboard_panels WHERE project_id=?", (project_id,))
+        conn.execute("DELETE FROM breakdown_elements WHERE project_id=?", (project_id,))
+        conn.execute("DELETE FROM schedule_strips WHERE project_id=?", (project_id,))
+        conn.execute("DELETE FROM assets WHERE project_id=? AND scene_id IS NOT NULL", (project_id,))
+        conn.execute("DELETE FROM scenes WHERE project_id=?", (project_id,))
+
+        character_targets: dict[str, str] = {}
+        for parsed in parsed_scenes:
+            scene_id = str(uuid.uuid4())
+            conn.execute(
+                """INSERT INTO scenes
+                   (id, project_id, scene_number, location_id, int_ext, day_night, synopsis, page_count, status, shoot_date)
+                   VALUES (?, ?, ?, NULL, ?, ?, ?, ?, 'draft', NULL)""",
+                (
+                    scene_id,
+                    project_id,
+                    parsed.scene_number,
+                    parsed.int_ext,
+                    parsed.day_night,
+                    parsed.synopsis[:500],
+                    parsed.page_count,
+                ),
+            )
+            self._seed_storyboard_placeholders(conn, project_id, scene_id, parsed)
+            for element in self._build_scene_breakdown(project_id, scene_id, parsed):
+                conn.execute(
+                    """INSERT INTO breakdown_elements
+                       (id, project_id, scene_id, department, element_type, name, quantity, status, notes)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        element["id"],
+                        project_id,
+                        scene_id,
+                        element["department"],
+                        element["element_type"],
+                        element["name"],
+                        element["quantity"],
+                        element["status"],
+                        element["notes"],
+                    ),
+                )
+            for character_name in parsed.characters:
+                canonical_name = str(character_name or "").strip()
+                if not canonical_name:
+                    continue
+                character_key = canonical_name.lower()
+                character_targets[character_key] = canonical_name
+        self._reconcile_characters(conn, project_id, character_targets)
+
+    def _reconcile_characters(self, conn, project_id: str, character_targets: dict[str, str]) -> None:
+        if not character_targets:
+            conn.execute(
+                """
+                DELETE FROM characters
+                WHERE project_id=?
+                  AND trim(COALESCE(performer, ''))=''
+                  AND COALESCE(notes, '') IN ('', 'Detected from screenplay import')
+                """,
+                (project_id,),
+            )
+            return
+        existing = _fetch_all(
+            conn,
+            "SELECT id, name, performer, notes FROM characters WHERE project_id=?",
+            (project_id,),
+        )
+        by_key: dict[str, list[dict]] = defaultdict(list)
+        for row in existing:
+            key = str(row.get("name") or "").strip().lower()
+            if key:
+                by_key[key].append(row)
+
+        for character_key, canonical_name in character_targets.items():
+            rows = by_key.get(character_key, [])
+            if not rows:
+                conn.execute(
+                    """INSERT OR IGNORE INTO characters (id, project_id, name, performer, notes)
+                       VALUES (?, ?, ?, ?, ?)""",
+                    (
+                        str(uuid.uuid4()),
+                        project_id,
+                        canonical_name,
+                        "",
+                        "Detected from screenplay import",
+                    ),
+                )
+                continue
+
+            keep_row = rows[0]
+            for row in rows:
+                note_value = str(row.get("notes") or "").strip()
+                performer_value = str(row.get("performer") or "").strip()
+                if performer_value or note_value not in {"", "Detected from screenplay import"}:
+                    keep_row = row
+                    break
+
+            for row in rows:
+                if row["id"] == keep_row["id"]:
+                    continue
+                note_value = str(row.get("notes") or "").strip()
+                performer_value = str(row.get("performer") or "").strip()
+                if performer_value or note_value not in {"", "Detected from screenplay import"}:
+                    continue
+                conn.execute("DELETE FROM characters WHERE id=?", (row["id"],))
+
+            if str(keep_row.get("name") or "") != canonical_name:
+                conn.execute("UPDATE characters SET name=? WHERE id=?", (canonical_name, keep_row["id"]))
+
+            note_value = str(keep_row.get("notes") or "").strip()
+            performer_value = str(keep_row.get("performer") or "").strip()
+            if not performer_value and note_value == "":
+                conn.execute("UPDATE characters SET notes=? WHERE id=?", ("Detected from screenplay import", keep_row["id"]))
+
     def _parse_script(self, content: str) -> list[ParsedScene]:
         lines = [line.rstrip() for line in content.splitlines()]
         parsed: list[ParsedScene] = []
@@ -680,7 +1140,7 @@ class FilmProductionSuiteService:
             if heading is None:
                 continue
             if CHARACTER_RE.match(stripped) and len(stripped.split()) <= 4:
-                characters.add(stripped.title())
+                characters.add(stripped)
             else:
                 body_lines.append(stripped)
         finalize()
