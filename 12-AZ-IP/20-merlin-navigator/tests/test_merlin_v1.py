@@ -1030,6 +1030,19 @@ def test_route_tool_phase_abc_policy_surfaces():
             }
         },
     )
+    trace_invalid_source_and_method = route_tool(
+        'evaluateMerlinTeacherTrace',
+        {
+            'trace': {
+                'trace_metadata': {
+                    'license': 'MIT',
+                    'source_category': 'blog_post',
+                    'collection_method': 'scrape',
+                    'provenance_citations': ['https://example.com'],
+                }
+            }
+        },
+    )
     assert ethics['ok'] is True
     assert ontology['ok'] is True
     assert teacher_policy['ok'] is True
@@ -1039,7 +1052,10 @@ def test_route_tool_phase_abc_policy_surfaces():
     assert trace_blocked['result']['data']['admitted'] is False
     assert trace_single_citation['result']['data']['admitted'] is True
     assert trace_invalid_citations_type['result']['data']['admitted'] is False
+    assert trace_invalid_source_and_method['result']['data']['admitted'] is False
     assert 'invalid_trace_provenance_citations_type' in trace_invalid_citations_type['result']['data']['violations']
+    assert 'disallowed_trace_source_category' in trace_invalid_source_and_method['result']['data']['violations']
+    assert 'invalid_trace_collection_method' in trace_invalid_source_and_method['result']['data']['violations']
     assert 'disallowed_trace_license' in trace_blocked['result']['data']['violations']
     assert 'missing_trace_provenance_pointer' in trace_blocked['result']['data']['violations']
     assert 'no_weight_extraction_or_reverse_engineering' in ethics['result']['data']['non_negotiable_rules']
