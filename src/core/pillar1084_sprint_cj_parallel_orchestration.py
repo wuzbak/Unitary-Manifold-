@@ -196,8 +196,11 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_2_requires_nonempty_stage_corpora": corpora_stage_coverage_pass,
             "truth_surfaces_synchronized_to_v36_6": bool(truth_sync.get("all_pass")),
             "promotion_language_gate_respected": (
-                (blockers_all_clear and bool(foundation.get("valid")) and bool(sprint_ci.get("valid")))
-                or (not blockers_all_clear)
+                blocker_consistency_pass
+                and (
+                    (blockers_all_clear and bool(foundation.get("valid")) and bool(sprint_ci.get("valid")))
+                    or (not blockers_all_clear)
+                )
             ),
         },
         "stop_conditions": [
