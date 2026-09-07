@@ -1457,6 +1457,7 @@ def get_merlin_teacher_trace_policy() -> dict[str, Any]:
             "track=teacher_trace_distillation",
             "trace_metadata.trace_type=teacher_trace_distillation",
         ],
+        "identifier_rule": "Any single identifier is sufficient to opt into teacher-trace admission checks.",
         "allowed_licenses": sorted(MERLIN_TEACHER_TRACE_LICENSE_ALLOWLIST),
         "allowed_source_categories": sorted(MERLIN_TEACHER_TRACE_SOURCE_ALLOWLIST),
         "allowed_collection_methods": sorted(MERLIN_TEACHER_TRACE_COLLECTION_METHODS),
