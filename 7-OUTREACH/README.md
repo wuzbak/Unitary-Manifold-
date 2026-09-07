@@ -14,6 +14,17 @@
 
 ## What is here
 
+### MERLIN_EDITORIAL_CONSTITUTION.md — Editorial Governance Standard (new)
+
+[`MERLIN_EDITORIAL_CONSTITUTION.md`](MERLIN_EDITORIAL_CONSTITUTION.md) defines the standing
+editorial charter for all major narrative outputs: default Merlin voice, permanent
+voice canon, mandatory quality gates, phased growth cycle, user-controlled approval
+loop, and anti-drift evolution rules.
+
+This constitution is active unless the user explicitly overrides it for a specific piece.
+
+---
+
 ### FROM_THE_FIXED_POINT_OPED.md — Repository-wide OP-ED (new)
 
 [`FROM_THE_FIXED_POINT_OPED.md`](FROM_THE_FIXED_POINT_OPED.md) is a long-form OP-ED
