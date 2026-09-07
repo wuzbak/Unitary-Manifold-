@@ -161,7 +161,6 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             and promotion_blockers_declared
             and blockers_all_clear_type_ok
             and blockers_all_clear_declared == declared_all_clear_semantics
-            and declared_matches_effective
         )
         blockers_all_clear_effective = effective_all_clear
     policy_text = str(frontier.get("policy", ""))
