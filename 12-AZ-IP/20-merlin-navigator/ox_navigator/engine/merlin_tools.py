@@ -25,15 +25,19 @@ from .merlin_benchmark import (
     evaluate_geometric_longitudinal_acceptance,
     evaluate_benchmark_response,
     evaluate_empirical_gate,
+    evaluate_domain_gate_summary,
+    get_domain_gate_contract,
     get_multi_stage_benchmark_plan,
     get_stage_b_benchmark_corpus,
     get_stage_c_benchmark_corpus,
     get_stage_d_benchmark_corpus,
     get_stage_e_benchmark_corpus,
+    get_expert_domain_benchmark_corpus,
     get_stage_a_benchmark_corpus,
     run_stage_a_head_to_head_receipts_sync,
     run_stage_b_head_to_head_receipts_sync,
     run_stage_c_head_to_head_receipts_sync,
+    run_stage_domain_head_to_head_receipts_sync,
 )
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
@@ -262,13 +266,17 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinStageCCorpus", "summary": "Return Stage C benchmark corpus", "domain": "functions"},
             {"name": "getMerlinStageDCorpus", "summary": "Return Stage D benchmark corpus", "domain": "functions"},
             {"name": "getMerlinStageECorpus", "summary": "Return Stage E benchmark corpus", "domain": "functions"},
+            {"name": "getMerlinExpertDomainCorpus", "summary": "Return expert-domain benchmark corpus expansion from mission tracks", "domain": "functions"},
             {"name": "getMerlinBenchmarkCorpora", "summary": "Return all Merlin benchmark corpora or a selected stage", "domain": "functions"},
             {"name": "getMerlinMultiStageBenchmarks", "summary": "Return multi-stage benchmark batteries and acceptance cadence", "domain": "functions"},
             {"name": "evaluateMerlinBenchmarkResponse", "summary": "Score one response against a Merlin benchmark", "domain": "functions"},
             {"name": "runMerlinStageAReceipts", "summary": "Run self-hosted Stage A receipt set", "domain": "functions"},
             {"name": "runMerlinStageBReceipts", "summary": "Run self-hosted Stage B receipt set", "domain": "functions"},
             {"name": "runMerlinStageCReceipts", "summary": "Run self-hosted Stage C receipt set", "domain": "functions"},
+            {"name": "runMerlinDomainReceipts", "summary": "Run self-hosted expert-domain mastery receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
+            {"name": "getMerlinDomainGateContract", "summary": "Return per-domain pass/fail threshold contract for expert mastery gates", "domain": "functions"},
+            {"name": "evaluateMerlinDomainGates", "summary": "Evaluate domain-by-domain mastery gates from benchmark runs", "domain": "functions"},
             {"name": "evaluateMerlinLongitudinalAcceptance", "summary": "Evaluate sustained clean-window promotion cadence over gate history", "domain": "functions"},
             {"name": "evaluateMerlinGeometricLongitudinalAcceptance", "summary": "Evaluate sustained geometric-memory acceptance cadence over gate history", "domain": "functions"},
             {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
@@ -368,6 +376,11 @@ def _tool_manifest() -> dict[str, Any]:
                             "stage_e",
                             "stage_e_external_decommission",
                             "e",
+                            "stage_domain",
+                            "stage_expert_domain_mastery",
+                            "domain",
+                            "expert",
+                            "expert_domain",
                         ],
                     }
                 },
@@ -481,6 +494,16 @@ def _tool_manifest() -> dict[str, Any]:
             },
             "risk_level": "medium",
         },
+        "runMerlinDomainReceipts": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
         "evaluateMerlinEmpiricalGate": {
             "args_schema": {
                 "type": "object",
@@ -490,6 +513,17 @@ def _tool_manifest() -> dict[str, Any]:
                     "max_quality_regressions": {"type": "integer"},
                 },
                 "required": ["head_to_head_runs"],
+            },
+            "risk_level": "medium",
+        },
+        "evaluateMerlinDomainGates": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "runs": {"type": "array"},
+                    "required_domains": {"type": "array"},
+                },
+                "additionalProperties": False,
             },
             "risk_level": "medium",
         },
@@ -882,11 +916,14 @@ _FUNCTIONS = {
     "getMerlinStageCCorpus": lambda **args: {"data": get_stage_c_benchmark_corpus()},
     "getMerlinStageDCorpus": lambda **args: {"data": get_stage_d_benchmark_corpus()},
     "getMerlinStageECorpus": lambda **args: {"data": get_stage_e_benchmark_corpus()},
+    "getMerlinExpertDomainCorpus": lambda **args: {"data": get_expert_domain_benchmark_corpus()},
     "getMerlinBenchmarkCorpora": lambda **args: {"data": get_benchmark_corpus(stage=args.get("stage"))},
     "getMerlinMultiStageBenchmarks": lambda **args: {"data": get_multi_stage_benchmark_plan()},
+    "getMerlinDomainGateContract": lambda **args: {"data": get_domain_gate_contract()},
     "runMerlinStageAReceipts": lambda **args: {"data": run_stage_a_head_to_head_receipts_sync(limit=args.get("limit"))},
     "runMerlinStageBReceipts": lambda **args: {"data": run_stage_b_head_to_head_receipts_sync(limit=args.get("limit"))},
     "runMerlinStageCReceipts": lambda **args: {"data": run_stage_c_head_to_head_receipts_sync(limit=args.get("limit"))},
+    "runMerlinDomainReceipts": lambda **args: {"data": run_stage_domain_head_to_head_receipts_sync(limit=args.get("limit"))},
     "getMerlinReplacementReadiness": lambda **args: {"data": build_stage_a_replacement_readiness(
         limit=args.get("limit"),
         sync_checks_ok=args.get("sync_checks_ok"),
@@ -1181,6 +1218,12 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 list(args.get("head_to_head_runs") or []),
                 min_runs=int(args.get("min_runs", 12)),
                 max_quality_regressions=int(args.get("max_quality_regressions", 0)),
+            )}
+        elif tool == "evaluateMerlinDomainGates":
+            tool_type = "function"
+            result = {"data": evaluate_domain_gate_summary(
+                list(args.get("runs") or []),
+                required_domains=list(args.get("required_domains") or []) or None,
             )}
         elif tool == "evaluateMerlinLongitudinalAcceptance":
             tool_type = "function"

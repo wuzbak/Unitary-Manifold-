@@ -1553,6 +1553,9 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/expert-mastery-program",
         "/api/merlin/competitive-benchmarks",
         "/api/merlin/benchmark-corpora",
+        "/api/merlin/domain-benchmark-corpus",
+        "/api/merlin/domain-gate-contract",
+        "/api/merlin/domain-receipts",
         "/api/merlin/stage-a-receipts",
         "/api/merlin/replacement-readiness",
         "/api/merlin/frontier-readiness",
@@ -3057,6 +3060,7 @@ def build_training_dataset_bundle(
             benchmark_record = {
                 "benchmark_id": str(benchmark.get("id", "")),
                 "stage": stage_name,
+                "domain_id": str(benchmark.get("domain_id", "")),
                 "kernel_id": kernel_id,
                 "track": str(benchmark.get("track", "")),
                 "query": str(benchmark.get("query", "")),
@@ -3128,6 +3132,13 @@ def build_training_dataset_bundle(
         stage: {kernel_id: len(rows) for kernel_id, rows in per_kernel.items()}
         for stage, per_kernel in kernel_benchmark_corpora.items()
     }
+    domain_benchmark_counts: dict[str, int] = {}
+    for records in benchmark_records.values():
+        for record in records:
+            domain_id = str(record.get("domain_id") or "").strip()
+            if not domain_id:
+                continue
+            domain_benchmark_counts[domain_id] = domain_benchmark_counts.get(domain_id, 0) + 1
     curation_ledger = _build_training_curation_ledger(
         splits=splits,
         benchmark_records=benchmark_records,
@@ -3151,6 +3162,7 @@ def build_training_dataset_bundle(
                 "kernel_training_records": kernel_split_counts,
                 "benchmark_records": benchmark_counts,
                 "kernel_benchmark_records": kernel_benchmark_counts,
+                "domain_benchmark_records": domain_benchmark_counts,
                 "total_training_records": sum(split_counts.values()),
                 "total_benchmark_records": sum(benchmark_counts.values()),
                 "compile_time_insight_records": accepted_compiled_records,
@@ -3174,6 +3186,7 @@ def build_training_dataset_bundle(
                 "benchmark_fields": [
                     "benchmark_id",
                     "stage",
+                    "domain_id",
                     "kernel_id",
                     "track",
                     "query",
@@ -3491,7 +3504,13 @@ def get_mlflow_experiment_manifests(
 
 
 def get_competitive_benchmark_plan() -> dict[str, Any]:
-    from .merlin_benchmark import get_benchmark_corpus, get_multi_stage_benchmark_plan, get_stage_a_benchmark_corpus
+    from .merlin_benchmark import (
+        get_benchmark_corpus,
+        get_domain_gate_contract,
+        get_expert_domain_benchmark_corpus,
+        get_multi_stage_benchmark_plan,
+        get_stage_a_benchmark_corpus,
+    )
 
     return {
         "objective": "Benchmark Merlin competitively against incumbent and external-class expectations before broader promotion.",
@@ -3499,6 +3518,8 @@ def get_competitive_benchmark_plan() -> dict[str, Any]:
             "stage_a": get_stage_a_benchmark_corpus(),
             "multi_stage": get_multi_stage_benchmark_plan(),
             "corpora": get_benchmark_corpus("all"),
+            "domain_corpus": get_expert_domain_benchmark_corpus(),
+            "domain_gate_contract": get_domain_gate_contract(),
         },
         "competitive_families": [
             {
@@ -3520,6 +3541,10 @@ def get_competitive_benchmark_plan() -> dict[str, Any]:
             {
                 "family": "safety_and_governance",
                 "must_measure": ["refusal_correctness", "boundary_preservation", "privileged_action_control"],
+            },
+            {
+                "family": "expert_domain_mastery",
+                "must_measure": ["domain_pass_rate", "domain_mean_score", "authority_hierarchy_fidelity"],
             },
         ],
         "promotion_metrics": [

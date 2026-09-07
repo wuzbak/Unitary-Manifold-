@@ -628,6 +628,35 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 }, status=200 if curation_payload.get('ok') else 422)
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/domain-benchmark-corpus':
+                self._json({
+                'ok': True,
+                'domain_benchmark_corpus': get_benchmark_corpus(stage='stage_domain'),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/domain-gate-contract':
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinDomainGateContract',
+                    {},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'domain_gate_contract': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/domain-receipts':
+                limit, error = _parse_int_query_param(params, 'limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'runMerlinDomainReceipts',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'receipts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/open-science-registry':
                 self._json({
                 'ok': True,

@@ -464,6 +464,29 @@ def test_route_tool_training_architecture_and_artifacts():
     stage_e = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_e'})
     assert stage_e['ok'] is True
     assert stage_e['result']['data']['stage'] == 'stage_e_external_decommission'
+    domain_corpus = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_domain'})
+    assert domain_corpus['ok'] is True
+    assert domain_corpus['result']['data']['stage'] == 'stage_expert_domain_mastery'
+    assert len(domain_corpus['result']['data']['benchmarks']) >= 5
+    assert domain_corpus['result']['data']['domain_gate_thresholds']['business_law']['pass_rate_min'] == 0.95
+    contract = route_tool('getMerlinDomainGateContract', {})
+    assert contract['ok'] is True
+    assert 'business_office_management' in contract['result']['data']['required_domains']
+    domain_gate_eval = route_tool('evaluateMerlinDomainGates', {
+        'runs': [
+            {
+                'domain_id': 'business_law',
+                'merlin_evaluation': {'pass': True, 'score': 1.0},
+            },
+            {
+                'domain_id': 'business_law',
+                'merlin_evaluation': {'pass': True, 'score': 0.95},
+            },
+        ],
+        'required_domains': ['business_law'],
+    })
+    assert domain_gate_eval['ok'] is True
+    assert domain_gate_eval['result']['data']['gate_pass'] is True
     assert len(stage_d['result']['data']['benchmarks']) >= 4
     assert len(stage_e['result']['data']['benchmarks']) >= 4
 
@@ -503,8 +526,11 @@ def test_route_tool_training_architecture_and_artifacts():
     assert dataset_payload['quality_filters']['rejection_count'] >= 0
     assert 'stage_d_replacement_gates' in dataset_payload['benchmark_corpora']
     assert 'stage_e_external_decommission' in dataset_payload['benchmark_corpora']
+    assert 'stage_expert_domain_mastery' in dataset_payload['benchmark_corpora']
     assert counts['benchmark_records']['stage_d_replacement_gates'] >= 4
     assert counts['benchmark_records']['stage_e_external_decommission'] >= 4
+    assert counts['benchmark_records']['stage_expert_domain_mastery'] >= 5
+    assert counts['domain_benchmark_records']['business_law'] >= 1
     assert dataset_payload['compile_time_memory']['fixture_stage_scope'] == [
         'stage_b_sovereign_takeover',
         'stage_c_capability_expansion',
@@ -1687,6 +1713,22 @@ def test_server_merlin_endpoints():
             assert benchmark_corpora.json()['ok'] is True
             assert benchmark_corpora.json()['benchmark_corpora']['stage'] == 'stage_c_capability_expansion'
             assert len(benchmark_corpora.json()['benchmark_corpora']['benchmarks']) >= 7
+            domain_benchmark_corpus = client.get('/api/merlin/domain-benchmark-corpus')
+            assert domain_benchmark_corpus.status_code == 200
+            assert domain_benchmark_corpus.json()['ok'] is True
+            assert domain_benchmark_corpus.json()['domain_benchmark_corpus']['stage'] == 'stage_expert_domain_mastery'
+            assert len(domain_benchmark_corpus.json()['domain_benchmark_corpus']['benchmarks']) >= 5
+
+            domain_gate_contract = client.get('/api/merlin/domain-gate-contract')
+            assert domain_gate_contract.status_code == 200
+            assert domain_gate_contract.json()['ok'] is True
+            assert 'business_office_management' in domain_gate_contract.json()['domain_gate_contract']['required_domains']
+
+            domain_receipts = client.get('/api/merlin/domain-receipts?limit=1')
+            assert domain_receipts.status_code == 200
+            assert domain_receipts.json()['ok'] is True
+            assert domain_receipts.json()['receipts']['stage'] == 'stage_expert_domain_mastery'
+            assert 'domain_gate_summary' in domain_receipts.json()['receipts']
 
             bad_benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=not-a-stage')
             assert bad_benchmark_corpora.status_code == 400
