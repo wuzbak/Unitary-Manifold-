@@ -120,3 +120,15 @@ def test_summary() -> None:
     summary = pillar1084_summary()
     assert summary["status"] == PILLAR_STATUS
     assert summary["valid"] is True
+
+
+def test_summary_reflects_invalid_packet(monkeypatch) -> None:
+    monkeypatch.setattr(
+        p1084,
+        "sprint_cj_parallel_orchestration",
+        lambda: {"status": PILLAR_STATUS, "outcome": "SPRINT_CJ_PARALLEL_ORCHESTRATION_BLOCKED", "valid": False},
+    )
+    summary = pillar1084_summary()
+    assert summary["status"] == PILLAR_STATUS
+    assert summary["outcome"] == "SPRINT_CJ_PARALLEL_ORCHESTRATION_BLOCKED"
+    assert summary["valid"] is False

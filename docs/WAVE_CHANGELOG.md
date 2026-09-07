@@ -58,7 +58,7 @@ Stop repeated broad dead-end loops by forcing one high-leverage scientific attem
 **Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
 
 **Lean4:** 4080 → 4080 (+0)
-**Regression:** Sprint CJ orchestration targeted tests 29 passed · 0 failed; full regression remains 64,088 passed · 22 skipped · 18 deselected · 0 failed
+**Regression:** Sprint CJ orchestration targeted tests 30 passed · 0 failed; full regression remains 64,088 passed · 22 skipped · 18 deselected · 0 failed
 **Next pillar slot:** 1085
 
 ## v36.5 (2026-09-06 — Sprint CI: Pillars 1082–1083)
