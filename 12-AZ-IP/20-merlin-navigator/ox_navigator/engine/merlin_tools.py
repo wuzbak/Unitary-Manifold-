@@ -37,6 +37,8 @@ from .merlin_benchmark import (
     run_stage_a_head_to_head_receipts_sync,
     run_stage_b_head_to_head_receipts_sync,
     run_stage_c_head_to_head_receipts_sync,
+    run_stage_d_head_to_head_receipts_sync,
+    run_stage_e_head_to_head_receipts_sync,
     run_stage_domain_head_to_head_receipts_sync,
 )
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
@@ -53,6 +55,7 @@ from .merlin_program import (
     get_merlin_ethics_contract,
     get_dual_loop_learning_contract,
     get_domain_research_missions,
+    get_dual_lane_master_sprint_plan,
     get_dual_loop_sprint_command_rhythm,
     get_energy_optimization_track,
     get_expert_mastery_program,
@@ -76,6 +79,7 @@ from .merlin_program import (
     get_model_strategy,
     get_mirrored_training_cycle_contract,
     get_open_science_resource_registry,
+    get_open_weight_acquisition_ledger,
     get_operating_rhythm,
     get_program_office,
     get_program_charter,
@@ -240,7 +244,9 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "evaluateMerlinTeacherTrace", "summary": "Evaluate one teacher trace sample for license/provenance admission", "domain": "functions"},
             {"name": "getMerlinTrainingArchitecture", "summary": "Return full Merlin training architecture and seed corpus manifest", "domain": "functions"},
             {"name": "getMerlinOpenScienceRegistry", "summary": "Return governed external open-science ingestion registry", "domain": "functions"},
+            {"name": "getMerlinOpenWeightAcquisitionLedger", "summary": "Return scored open-weight acquisition channels, candidate roster, and roster freeze policy", "domain": "functions"},
             {"name": "getMerlinFrontierStack", "summary": "Return open-weight model and kernel stack for frontier-local Merlin training", "domain": "functions"},
+            {"name": "getMerlinDualLaneMasterSprint", "summary": "Return governed dual-lane physics+Merlin sprint contract", "domain": "functions"},
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
@@ -273,6 +279,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "runMerlinStageAReceipts", "summary": "Run self-hosted Stage A receipt set", "domain": "functions"},
             {"name": "runMerlinStageBReceipts", "summary": "Run self-hosted Stage B receipt set", "domain": "functions"},
             {"name": "runMerlinStageCReceipts", "summary": "Run self-hosted Stage C receipt set", "domain": "functions"},
+            {"name": "runMerlinStageDReceipts", "summary": "Run self-hosted Stage D receipt set", "domain": "functions"},
+            {"name": "runMerlinStageEReceipts", "summary": "Run self-hosted Stage E receipt set", "domain": "functions"},
             {"name": "runMerlinDomainReceipts", "summary": "Run self-hosted expert-domain mastery receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
             {"name": "getMerlinDomainGateContract", "summary": "Return per-domain pass/fail threshold contract for expert mastery gates", "domain": "functions"},
@@ -343,6 +351,8 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinTrainingCuration": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinOpenWeightAcquisitionLedger": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinDualLaneMasterSprint": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinMemoryGeometry": {
             "args_schema": {
                 "type": "object",
@@ -485,6 +495,26 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "runMerlinStageCReceipts": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
+        "runMerlinStageDReceipts": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
+        "runMerlinStageEReceipts": {
             "args_schema": {
                 "type": "object",
                 "properties": {
@@ -883,7 +913,9 @@ _FUNCTIONS = {
     "getMerlinTrainingPlan": lambda **args: {"data": get_training_and_adaptation()},
     "getMerlinTrainingArchitecture": lambda **args: {"data": get_training_architecture(limit=args.get("limit"))},
     "getMerlinOpenScienceRegistry": lambda **args: {"data": get_open_science_resource_registry()},
+    "getMerlinOpenWeightAcquisitionLedger": lambda **args: {"data": get_open_weight_acquisition_ledger()},
     "getMerlinFrontierStack": lambda **args: {"data": get_frontier_open_weight_stack()},
+    "getMerlinDualLaneMasterSprint": lambda **args: {"data": get_dual_lane_master_sprint_plan()},
     "getMerlinCompetitiveBenchmarkPlan": lambda **args: {"data": get_competitive_benchmark_plan()},
     "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit"))},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
@@ -923,6 +955,8 @@ _FUNCTIONS = {
     "runMerlinStageAReceipts": lambda **args: {"data": run_stage_a_head_to_head_receipts_sync(limit=args.get("limit"))},
     "runMerlinStageBReceipts": lambda **args: {"data": run_stage_b_head_to_head_receipts_sync(limit=args.get("limit"))},
     "runMerlinStageCReceipts": lambda **args: {"data": run_stage_c_head_to_head_receipts_sync(limit=args.get("limit"))},
+    "runMerlinStageDReceipts": lambda **args: {"data": run_stage_d_head_to_head_receipts_sync(limit=args.get("limit"))},
+    "runMerlinStageEReceipts": lambda **args: {"data": run_stage_e_head_to_head_receipts_sync(limit=args.get("limit"))},
     "runMerlinDomainReceipts": lambda **args: {"data": run_stage_domain_head_to_head_receipts_sync(limit=args.get("limit"))},
     "getMerlinReplacementReadiness": lambda **args: {"data": build_stage_a_replacement_readiness(
         limit=args.get("limit"),

@@ -36,10 +36,12 @@ from ox_navigator.engine.merlin_program import (
     get_merlin_execution_graph,
     get_merlin_optimization_priorities,
     get_domain_research_missions,
+    get_dual_lane_master_sprint_plan,
     get_expert_mastery_program,
     get_mythos_astra_contract,
     get_knowledge_unknowns_ledger,
     get_open_science_resource_registry,
+    get_open_weight_acquisition_ledger,
     get_frontier_readiness_packet,
     get_frontier_open_weight_stack,
     get_full_program_blueprint,
@@ -664,6 +666,20 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/open-weight-acquisition':
+                self._json({
+                'ok': True,
+                'open_weight_acquisition_ledger': get_open_weight_acquisition_ledger(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/dual-lane-master-sprint':
+                self._json({
+                'ok': True,
+                'dual_lane_master_sprint': get_dual_lane_master_sprint_plan(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/trust-source-library':
                 self._json({
                 'ok': True,
@@ -749,6 +765,58 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     return
                 status, payload = _tool_data_or_error(route_tool(
                     'runMerlinStageAReceipts',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'receipts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/stage-b-receipts':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'runMerlinStageBReceipts',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'receipts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/stage-c-receipts':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'runMerlinStageCReceipts',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'receipts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/stage-d-receipts':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'runMerlinStageDReceipts',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'receipts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/stage-e-receipts':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'runMerlinStageEReceipts',
                     {'limit': limit},
                     session=merlin_session,
                 ))

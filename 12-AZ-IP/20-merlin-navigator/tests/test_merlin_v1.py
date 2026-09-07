@@ -329,6 +329,8 @@ def test_route_tool_merlin_program_blueprint():
     assert 'workspace_policy' in payload
     assert 'pentad_contract' in payload
     assert 'frontier_open_weight_stack' in payload
+    assert 'open_weight_acquisition_ledger' in payload
+    assert 'dual_lane_master_sprint' in payload
     assert payload['pentad_contract']['kernel_count'] == 5
     assert 'sovereignty_roadmap' in payload
     assert payload['sync_checks']['ok'] is True
@@ -347,6 +349,10 @@ def test_route_tool_merlin_program_blueprint():
     assert payload['domain_research_missions']['domains'][0]['domain_id'] == 'business_office_management'
     assert payload['expert_mastery_program']['levels'][0]['level'] == 'L1_foundational'
     assert payload['regulatory_change_watch']['watch_targets'][0]['target_id'] == 'irs_news_and_forms'
+    assert payload['dual_lane_master_sprint']['mode'] == 'parallel_fail_closed'
+    assert payload['open_weight_acquisition_ledger']['approved_training_roster_cycle']['freeze_rule'] == (
+        'approved_roster_is_frozen_per_sprint_cycle'
+    )
 
 
 def test_route_tool_benchmark_corpus_and_policy_metadata():
@@ -441,14 +447,35 @@ def test_route_tool_training_architecture_and_artifacts():
     assert architecture['ok'] is True
     assert architecture['result']['data']['seed_statistics']['total_examples'] == 5
     assert 'repository_assistant' in architecture['result']['data']['mission_profile']
+    assert architecture['result']['data']['two_engine_training_strategy']['rapid_ablation_lane']['engine'] == 'unsloth'
+    assert architecture['result']['data']['approved_training_roster_cycle']['freeze_rule'] == (
+        'approved_roster_is_frozen_per_sprint_cycle'
+    )
 
     registry = route_tool('getMerlinOpenScienceRegistry', {})
     assert registry['ok'] is True
     assert any(item['resource_id'] == 'hugging_face_datasets' for item in registry['result']['data']['resources'])
+    assert any(item['resource_id'] == 'hugging_face_models_hub' for item in registry['result']['data']['resources'])
+    assert any(item['resource_id'] == 'unsloth_engine' for item in registry['result']['data']['resources'])
+    assert any(item['resource_id'] == 'axolotl_engine' for item in registry['result']['data']['resources'])
+    acquisition = route_tool('getMerlinOpenWeightAcquisitionLedger', {})
+    assert acquisition['ok'] is True
+    assert acquisition['result']['data']['approved_training_roster_cycle']['freeze_rule'] == (
+        'approved_roster_is_frozen_per_sprint_cycle'
+    )
+    assert any(
+        item['channel_id'] == 'hugging_face_models_hub'
+        for item in acquisition['result']['data']['acquisition_channels']
+    )
+    dual_lane = route_tool('getMerlinDualLaneMasterSprint', {})
+    assert dual_lane['ok'] is True
+    assert dual_lane['result']['data']['cross_lane_acceptance']['promotion_language_frozen_unless_both_lanes_pass'] is True
     frontier = route_tool('getMerlinFrontierStack', {})
     assert frontier['ok'] is True
     assert any(model['name'] == 'DeepSeek-R1' for model in frontier['result']['data']['open_weight_models'])
     assert any(kernel['name'] == 'vLLM_PagedAttention' for kernel in frontier['result']['data']['execution_kernels'])
+    assert frontier['result']['data']['two_engine_training_strategy']['rapid_ablation_lane']['engine'] == 'unsloth'
+    assert frontier['result']['data']['two_engine_training_strategy']['production_training_lane']['engine'] == 'axolotl'
 
     benchmarks = route_tool('getMerlinCompetitiveBenchmarkPlan', {})
     assert benchmarks['ok'] is True
@@ -489,6 +516,16 @@ def test_route_tool_training_architecture_and_artifacts():
     assert domain_gate_eval['result']['data']['gate_pass'] is True
     assert len(stage_d['result']['data']['benchmarks']) >= 4
     assert len(stage_e['result']['data']['benchmarks']) >= 4
+
+    stage_d_receipts = route_tool('runMerlinStageDReceipts', {'limit': 1})
+    assert stage_d_receipts['ok'] is True
+    assert stage_d_receipts['result']['data']['stage'] == 'stage_d_replacement_gates'
+    assert stage_d_receipts['result']['data']['summary']['total'] == 1
+
+    stage_e_receipts = route_tool('runMerlinStageEReceipts', {'limit': 1})
+    assert stage_e_receipts['ok'] is True
+    assert stage_e_receipts['result']['data']['stage'] == 'stage_e_external_decommission'
+    assert stage_e_receipts['result']['data']['summary']['total'] == 1
 
     bad_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'not-a-stage'})
     assert bad_corpora['ok'] is False
@@ -1666,6 +1703,13 @@ def test_server_merlin_endpoints():
                 item['resource_id'] == 'mlflow'
                 for item in open_science_registry.json()['open_science_registry']['resources']
             )
+            open_weight_acquisition = client.get('/api/merlin/open-weight-acquisition')
+            assert open_weight_acquisition.status_code == 200
+            assert open_weight_acquisition.json()['ok'] is True
+            assert any(
+                item['channel_id'] == 'hugging_face_models_hub'
+                for item in open_weight_acquisition.json()['open_weight_acquisition_ledger']['acquisition_channels']
+            )
 
             trust_library = client.get('/api/merlin/trust-source-library')
             assert trust_library.status_code == 200
@@ -1707,6 +1751,10 @@ def test_server_merlin_endpoints():
                 item['family'] == 'scientific_reasoning'
                 for item in competitive_benchmarks.json()['competitive_benchmarks']['competitive_families']
             )
+            dual_lane_master = client.get('/api/merlin/dual-lane-master-sprint')
+            assert dual_lane_master.status_code == 200
+            assert dual_lane_master.json()['ok'] is True
+            assert dual_lane_master.json()['dual_lane_master_sprint']['mode'] == 'parallel_fail_closed'
 
             benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=stage_c')
             assert benchmark_corpora.status_code == 200
@@ -1742,6 +1790,22 @@ def test_server_merlin_endpoints():
             assert receipts.status_code == 200
             assert receipts.json()['ok'] is True
             assert receipts.json()['receipts']['summary']['total'] == 1
+            receipts_stage_b = client.get('/api/merlin/stage-b-receipts?limit=1')
+            assert receipts_stage_b.status_code == 200
+            assert receipts_stage_b.json()['ok'] is True
+            assert receipts_stage_b.json()['receipts']['stage'] == 'stage_b_sovereign_takeover'
+            receipts_stage_c = client.get('/api/merlin/stage-c-receipts?limit=1')
+            assert receipts_stage_c.status_code == 200
+            assert receipts_stage_c.json()['ok'] is True
+            assert receipts_stage_c.json()['receipts']['stage'] == 'stage_c_capability_expansion'
+            receipts_stage_d = client.get('/api/merlin/stage-d-receipts?limit=1')
+            assert receipts_stage_d.status_code == 200
+            assert receipts_stage_d.json()['ok'] is True
+            assert receipts_stage_d.json()['receipts']['stage'] == 'stage_d_replacement_gates'
+            receipts_stage_e = client.get('/api/merlin/stage-e-receipts?limit=1')
+            assert receipts_stage_e.status_code == 200
+            assert receipts_stage_e.json()['ok'] is True
+            assert receipts_stage_e.json()['receipts']['stage'] == 'stage_e_external_decommission'
 
             readiness = client.get('/api/merlin/replacement-readiness?limit=1')
             assert readiness.status_code == 200
