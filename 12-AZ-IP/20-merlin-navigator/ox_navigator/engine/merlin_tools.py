@@ -37,6 +37,8 @@ from .merlin_benchmark import (
     run_stage_a_head_to_head_receipts_sync,
     run_stage_b_head_to_head_receipts_sync,
     run_stage_c_head_to_head_receipts_sync,
+    run_stage_d_head_to_head_receipts_sync,
+    run_stage_e_head_to_head_receipts_sync,
     run_stage_domain_head_to_head_receipts_sync,
 )
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
@@ -277,6 +279,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "runMerlinStageAReceipts", "summary": "Run self-hosted Stage A receipt set", "domain": "functions"},
             {"name": "runMerlinStageBReceipts", "summary": "Run self-hosted Stage B receipt set", "domain": "functions"},
             {"name": "runMerlinStageCReceipts", "summary": "Run self-hosted Stage C receipt set", "domain": "functions"},
+            {"name": "runMerlinStageDReceipts", "summary": "Run self-hosted Stage D receipt set", "domain": "functions"},
+            {"name": "runMerlinStageEReceipts", "summary": "Run self-hosted Stage E receipt set", "domain": "functions"},
             {"name": "runMerlinDomainReceipts", "summary": "Run self-hosted expert-domain mastery receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
             {"name": "getMerlinDomainGateContract", "summary": "Return per-domain pass/fail threshold contract for expert mastery gates", "domain": "functions"},
@@ -491,6 +495,26 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "runMerlinStageCReceipts": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
+        "runMerlinStageDReceipts": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
+        "runMerlinStageEReceipts": {
             "args_schema": {
                 "type": "object",
                 "properties": {
@@ -931,6 +955,8 @@ _FUNCTIONS = {
     "runMerlinStageAReceipts": lambda **args: {"data": run_stage_a_head_to_head_receipts_sync(limit=args.get("limit"))},
     "runMerlinStageBReceipts": lambda **args: {"data": run_stage_b_head_to_head_receipts_sync(limit=args.get("limit"))},
     "runMerlinStageCReceipts": lambda **args: {"data": run_stage_c_head_to_head_receipts_sync(limit=args.get("limit"))},
+    "runMerlinStageDReceipts": lambda **args: {"data": run_stage_d_head_to_head_receipts_sync(limit=args.get("limit"))},
+    "runMerlinStageEReceipts": lambda **args: {"data": run_stage_e_head_to_head_receipts_sync(limit=args.get("limit"))},
     "runMerlinDomainReceipts": lambda **args: {"data": run_stage_domain_head_to_head_receipts_sync(limit=args.get("limit"))},
     "getMerlinReplacementReadiness": lambda **args: {"data": build_stage_a_replacement_readiness(
         limit=args.get("limit"),

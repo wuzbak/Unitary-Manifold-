@@ -7,7 +7,7 @@
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/training-curation`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/competitive-benchmarks`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/training-curation`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/open-weight-acquisition`, `/api/merlin/competitive-benchmarks`, `/api/merlin/dual-lane-master-sprint`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/stage-b-receipts`, `/api/merlin/stage-c-receipts`, `/api/merlin/stage-d-receipts`, `/api/merlin/stage-e-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/memory-geometry`, `/api/merlin/telemetry`
 - **Program endpoints note:** use the `/api/merlin/program*` and readiness/benchmark endpoints listed in the canonical **API endpoints** line above.
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
@@ -89,9 +89,15 @@ Related reading outside this product folder:
 - `GET /api/merlin/training-curation` exposes deterministic low-token curation, deduplication, structural-quality, and budget-gate metrics for the current export cycle; validation failures return HTTP `422` with `ok: false`.
 - `GET /api/merlin/mlflow-manifests` exposes MLflow-ready experiment manifests for SFT, preference optimization, and Stage B/C gate evaluations.
 - `GET /api/merlin/open-science-registry` exposes curated external open-science resources allowed for controlled augmentation.
+- `GET /api/merlin/open-weight-acquisition` exposes machine-readable open-weight acquisition channels, scoring rubric, and sprint-cycle roster freeze policy.
 - `GET /api/merlin/competitive-benchmarks` exposes the competitive benchmark families Merlin must clear before broader promotion.
+- `GET /api/merlin/dual-lane-master-sprint` exposes the governed dual-lane (physics closure + Merlin training) fail-closed sprint contract.
 - `GET /api/merlin/benchmark-corpora` exposes Stage A/B/C/D/E corpora directly, with stage selection support.
 - `GET /api/merlin/stage-a-receipts` runs the self-hosted Stage A receipt set and returns comparable Merlin/incumbent runs.
+- `GET /api/merlin/stage-b-receipts` runs the self-hosted Stage B receipt set and returns comparable Merlin/incumbent runs.
+- `GET /api/merlin/stage-c-receipts` runs the self-hosted Stage C receipt set and returns comparable Merlin/incumbent runs.
+- `GET /api/merlin/stage-d-receipts` runs the self-hosted Stage D receipt set and returns comparable Merlin/incumbent runs.
+- `GET /api/merlin/stage-e-receipts` runs the self-hosted Stage E receipt set and returns comparable Merlin/incumbent runs.
 - `GET /api/merlin/replacement-readiness` turns the receipt set into a concrete readiness packet instead of an evidence-empty placeholder.
 - `GET /api/merlin/frontier-readiness` merges sync checks, control-tower gates, benchmark cadence, and fail-closed promotion blockers in one packet.
 - `GET /api/merlin/benchmark-artifacts` exports the receipts plus readiness state as a CI-friendly artifact bundle.

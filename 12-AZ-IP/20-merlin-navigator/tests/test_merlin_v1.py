@@ -517,6 +517,16 @@ def test_route_tool_training_architecture_and_artifacts():
     assert len(stage_d['result']['data']['benchmarks']) >= 4
     assert len(stage_e['result']['data']['benchmarks']) >= 4
 
+    stage_d_receipts = route_tool('runMerlinStageDReceipts', {'limit': 1})
+    assert stage_d_receipts['ok'] is True
+    assert stage_d_receipts['result']['data']['stage'] == 'stage_d_replacement_gates'
+    assert stage_d_receipts['result']['data']['summary']['total'] == 1
+
+    stage_e_receipts = route_tool('runMerlinStageEReceipts', {'limit': 1})
+    assert stage_e_receipts['ok'] is True
+    assert stage_e_receipts['result']['data']['stage'] == 'stage_e_external_decommission'
+    assert stage_e_receipts['result']['data']['summary']['total'] == 1
+
     bad_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'not-a-stage'})
     assert bad_corpora['ok'] is False
 
@@ -1693,6 +1703,13 @@ def test_server_merlin_endpoints():
                 item['resource_id'] == 'mlflow'
                 for item in open_science_registry.json()['open_science_registry']['resources']
             )
+            open_weight_acquisition = client.get('/api/merlin/open-weight-acquisition')
+            assert open_weight_acquisition.status_code == 200
+            assert open_weight_acquisition.json()['ok'] is True
+            assert any(
+                item['channel_id'] == 'hugging_face_models_hub'
+                for item in open_weight_acquisition.json()['open_weight_acquisition_ledger']['acquisition_channels']
+            )
 
             trust_library = client.get('/api/merlin/trust-source-library')
             assert trust_library.status_code == 200
@@ -1734,6 +1751,10 @@ def test_server_merlin_endpoints():
                 item['family'] == 'scientific_reasoning'
                 for item in competitive_benchmarks.json()['competitive_benchmarks']['competitive_families']
             )
+            dual_lane_master = client.get('/api/merlin/dual-lane-master-sprint')
+            assert dual_lane_master.status_code == 200
+            assert dual_lane_master.json()['ok'] is True
+            assert dual_lane_master.json()['dual_lane_master_sprint']['mode'] == 'parallel_fail_closed'
 
             benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=stage_c')
             assert benchmark_corpora.status_code == 200
@@ -1769,6 +1790,22 @@ def test_server_merlin_endpoints():
             assert receipts.status_code == 200
             assert receipts.json()['ok'] is True
             assert receipts.json()['receipts']['summary']['total'] == 1
+            receipts_stage_b = client.get('/api/merlin/stage-b-receipts?limit=1')
+            assert receipts_stage_b.status_code == 200
+            assert receipts_stage_b.json()['ok'] is True
+            assert receipts_stage_b.json()['receipts']['stage'] == 'stage_b_sovereign_takeover'
+            receipts_stage_c = client.get('/api/merlin/stage-c-receipts?limit=1')
+            assert receipts_stage_c.status_code == 200
+            assert receipts_stage_c.json()['ok'] is True
+            assert receipts_stage_c.json()['receipts']['stage'] == 'stage_c_capability_expansion'
+            receipts_stage_d = client.get('/api/merlin/stage-d-receipts?limit=1')
+            assert receipts_stage_d.status_code == 200
+            assert receipts_stage_d.json()['ok'] is True
+            assert receipts_stage_d.json()['receipts']['stage'] == 'stage_d_replacement_gates'
+            receipts_stage_e = client.get('/api/merlin/stage-e-receipts?limit=1')
+            assert receipts_stage_e.status_code == 200
+            assert receipts_stage_e.json()['ok'] is True
+            assert receipts_stage_e.json()['receipts']['stage'] == 'stage_e_external_decommission'
 
             readiness = client.get('/api/merlin/replacement-readiness?limit=1')
             assert readiness.status_code == 200
