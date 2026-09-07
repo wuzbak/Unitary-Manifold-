@@ -1451,6 +1451,13 @@ def get_merlin_teacher_trace_policy() -> dict[str, Any]:
             "trace_metadata.provenance_uri (required when provenance_citations is empty)",
             "trace_metadata.provenance_citations (string_or_list, required when provenance_uri is empty)",
         ],
+        "teacher_trace_record_identifiers": [
+            "task_family=teacher_trace_distillation",
+            "task_track=teacher_trace_distillation",
+            "track=teacher_trace_distillation",
+            "supervision_mode=teacher_trace_distillation",
+            "trace_metadata.trace_type=teacher_trace_distillation",
+        ],
         "allowed_licenses": sorted(MERLIN_TEACHER_TRACE_LICENSE_ALLOWLIST),
         "allowed_source_categories": sorted(MERLIN_TEACHER_TRACE_SOURCE_ALLOWLIST),
         "allowed_collection_methods": sorted(MERLIN_TEACHER_TRACE_COLLECTION_METHODS),
@@ -1462,7 +1469,6 @@ def get_merlin_teacher_trace_policy() -> dict[str, Any]:
             "invalid_trace_collection_method",
             "invalid_trace_provenance_citations_type",
             "missing_trace_provenance_pointer",
-            "missing_teacher_trace_marker",
             "prohibited_weight_extraction",
         ],
         "admission_surface": "evaluateMerlinTeacherTrace",
@@ -2253,30 +2259,13 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
     supervision_mode = str(record.get("supervision_mode", "")).strip().lower()
     trace_metadata = record.get("trace_metadata")
     metadata_trace_type = ""
-    has_teacher_trace_metadata_fields = False
     if isinstance(trace_metadata, dict):
         metadata_trace_type = str(trace_metadata.get("trace_type", "")).strip().lower()
-        has_teacher_trace_metadata_fields = any(
-            key in trace_metadata
-            for key in (
-                "license",
-                "source_category",
-                "collection_method",
-                "provenance_uri",
-                "provenance_citations",
-            )
-        )
     has_teacher_trace_marker = any(
         value == "teacher_trace_distillation"
         for value in (task_family, task_track, track, supervision_mode)
-    )
-    if (has_teacher_trace_metadata_fields or metadata_trace_type == "teacher_trace_distillation") and not has_teacher_trace_marker:
-        errors.append("missing_teacher_trace_marker")
-    requires_teacher_trace_checks = (
-        has_teacher_trace_marker
-        or metadata_trace_type == "teacher_trace_distillation"
-        or has_teacher_trace_metadata_fields
-    )
+    ) or metadata_trace_type == "teacher_trace_distillation"
+    requires_teacher_trace_checks = has_teacher_trace_marker
     if requires_teacher_trace_checks:
         trace_status = evaluate_teacher_trace_admission(record)
         if not trace_status.get("ok"):

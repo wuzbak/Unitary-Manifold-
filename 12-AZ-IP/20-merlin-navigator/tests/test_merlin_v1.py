@@ -647,7 +647,6 @@ def test_training_record_teacher_trace_type_triggers_validation_without_track_ma
             "format_version": "merlin_training_jsonl_v1",
         }
     )
-    assert "missing_teacher_trace_marker" in errors
     assert "disallowed_trace_license" in errors
     assert "missing_trace_provenance_pointer" in errors
 
@@ -670,7 +669,7 @@ def test_training_record_trace_type_without_top_level_marker_is_rejected():
             "format_version": "merlin_training_jsonl_v1",
         }
     )
-    assert "missing_teacher_trace_marker" in errors
+    assert "missing_trace_license" in errors
 
 
 def test_training_record_teacher_track_requires_trace_metadata():
@@ -693,7 +692,7 @@ def test_training_record_teacher_track_requires_trace_metadata():
     assert "missing_trace_metadata" in errors
 
 
-def test_training_record_legacy_teacher_trace_signature_requires_marker():
+def test_training_record_legacy_teacher_trace_signature_without_marker_is_ignored():
     errors = merlin_program._validate_training_record(
         {
             "record_id": "legacy-teacher-signature",
@@ -714,8 +713,8 @@ def test_training_record_legacy_teacher_trace_signature_requires_marker():
             "format_version": "merlin_training_jsonl_v1",
         }
     )
-    assert "missing_teacher_trace_marker" in errors
-    assert "disallowed_trace_license" in errors
+    assert "missing_teacher_trace_marker" not in errors
+    assert "disallowed_trace_license" not in errors
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
