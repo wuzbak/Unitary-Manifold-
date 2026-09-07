@@ -10,7 +10,7 @@ Implements one integrated fail-closed board with two concurrent lanes:
 from __future__ import annotations
 
 import importlib
-import json
+from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict
 
@@ -59,7 +59,7 @@ def _load(module_name: str) -> Any:
 
 
 def _json_safe(value: Any) -> Any:
-    return json.loads(json.dumps(value))
+    return deepcopy(value)
 
 
 def _truth_surface_sync_status() -> Dict[str, Any]:
@@ -195,8 +195,9 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_2_blocker_consistency_ok": blocker_consistency_pass,
             "lane_2_requires_nonempty_stage_corpora": corpora_stage_coverage_pass,
             "truth_surfaces_synchronized_to_v36_6": bool(truth_sync.get("all_pass")),
-            "promotion_language_requires_both_lanes_evidence": (
-                bool(foundation.get("valid")) and bool(sprint_ci.get("valid")) and blockers_all_clear
+            "promotion_language_gate_respected": (
+                (blockers_all_clear and bool(foundation.get("valid")) and bool(sprint_ci.get("valid")))
+                or (not blockers_all_clear)
             ),
         },
         "stop_conditions": [
@@ -230,6 +231,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and blocker_consistency_pass
         and corpora_stage_coverage_pass
         and bool(truth_sync.get("all_pass"))
+        and bool(integrated_board["dependencies"]["promotion_language_gate_respected"])
         and proof_contract.get("name") == "merlin_deterministic_proof_closure"
         and len(_CANONICAL_SYNC_PATHS) == 9
     )
