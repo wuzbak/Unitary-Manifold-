@@ -41,7 +41,7 @@ v36_6_sprint_cj:
   date: "2026-09-07"
   pillars: 1084-1084
   new_pillars: 1
-  new_tests: 6
+  new_tests: 8
   lean4_start: 4080
   lean4_end: 4080
   lean4_delta: 0

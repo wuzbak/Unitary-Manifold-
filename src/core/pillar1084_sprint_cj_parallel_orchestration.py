@@ -53,7 +53,7 @@ _EXPECTED_STAGE_SEQUENCE = [
 ]
 
 
-def _load(module_name: str):
+def _load(module_name: str) -> Any:
     ensure_merlin_package_loaded(_PRODUCT_ROOT)
     return importlib.import_module(module_name)
 
@@ -115,8 +115,9 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     ]
     promotion_blockers = list(frontier.get("promotion_blockers") or [])
     blockers_all_clear = bool(frontier.get("promotion_blockers_all_clear"))
-    derived_all_clear = bool(promotion_blockers) and all(bool(item.get("pass")) for item in promotion_blockers if isinstance(item, dict))
-    blocker_consistency_pass = blockers_all_clear == derived_all_clear
+    blockers_are_dicts = bool(promotion_blockers) and all(isinstance(item, dict) for item in promotion_blockers)
+    derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
+    blocker_consistency_pass = blockers_are_dicts and blockers_all_clear == derived_all_clear
     frontier_packet_ok = bool(
         isinstance(frontier, dict)
         and isinstance(frontier.get("sync_checks"), dict)
