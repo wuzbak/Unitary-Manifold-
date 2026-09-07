@@ -1460,6 +1460,7 @@ def get_merlin_teacher_trace_policy() -> dict[str, Any]:
             "disallowed_trace_license",
             "disallowed_trace_source_category",
             "invalid_trace_collection_method",
+            "invalid_trace_provenance_citations_type",
             "missing_trace_provenance_pointer",
             "prohibited_weight_extraction",
         ],
@@ -1487,11 +1488,22 @@ def evaluate_teacher_trace_admission(trace: dict[str, Any]) -> dict[str, Any]:
     if collection_method not in MERLIN_TEACHER_TRACE_COLLECTION_METHODS:
         violations.append("invalid_trace_collection_method")
     provenance_uri = str(metadata.get("provenance_uri", "")).strip()
-    provenance_citations = [
-        str(item).strip()
-        for item in list(metadata.get("provenance_citations") or [])
-        if str(item).strip()
-    ]
+    raw_citations = metadata.get("provenance_citations")
+    provenance_citations: list[str]
+    if isinstance(raw_citations, str):
+        normalized = raw_citations.strip()
+        provenance_citations = [normalized] if normalized else []
+    elif isinstance(raw_citations, (list, tuple, set)):
+        provenance_citations = [
+            str(item).strip()
+            for item in raw_citations
+            if str(item).strip()
+        ]
+    elif raw_citations is None:
+        provenance_citations = []
+    else:
+        provenance_citations = []
+        violations.append("invalid_trace_provenance_citations_type")
     if not provenance_uri and not provenance_citations:
         violations.append("missing_trace_provenance_pointer")
     if bool(metadata.get("contains_model_weights")):

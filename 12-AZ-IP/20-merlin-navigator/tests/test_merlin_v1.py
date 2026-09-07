@@ -977,6 +977,19 @@ def test_route_tool_phase_abc_policy_surfaces():
             }
         },
     )
+    trace_single_citation = route_tool(
+        'evaluateMerlinTeacherTrace',
+        {
+            'trace': {
+                'trace_metadata': {
+                    'license': 'MIT',
+                    'source_category': 'public_repository',
+                    'collection_method': 'manual_summary',
+                    'provenance_citations': 'https://github.com/anthropics/anthropic-sdk-python',
+                }
+            }
+        },
+    )
     assert ethics['ok'] is True
     assert ontology['ok'] is True
     assert teacher_policy['ok'] is True
@@ -984,6 +997,7 @@ def test_route_tool_phase_abc_policy_surfaces():
     assert trace_ok['result']['data']['admitted'] is True
     assert trace_blocked['ok'] is True
     assert trace_blocked['result']['data']['admitted'] is False
+    assert trace_single_citation['result']['data']['admitted'] is True
     assert 'disallowed_trace_license' in trace_blocked['result']['data']['violations']
     assert 'missing_trace_provenance_pointer' in trace_blocked['result']['data']['violations']
     assert 'no_weight_extraction_or_reverse_engineering' in ethics['result']['data']['non_negotiable_rules']
