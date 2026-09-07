@@ -129,6 +129,7 @@ Related reading outside this product folder:
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).
 - Stage B/C/D/E receipt runner: `python tools/run_merlin_stage_bc_benchmarks.py --stage stage_d --json`.
 - Multi-stage replacement batteries now define Stage A→E acceptance tracks with sustained clean-window cadence checks for promotion discipline.
+- Stage B and C corpora now include geometric-memory continuity and stress lanes that require `geometric_memory_map` contract fields in benchmark evaluation.
 - Longitudinal acceptance windows are explicitly **non-overlapping** to avoid counting one streak multiple times as separate gate windows.
 
 ## Training architecture and competitive build-out

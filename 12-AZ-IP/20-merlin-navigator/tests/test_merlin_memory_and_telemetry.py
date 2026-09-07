@@ -478,6 +478,36 @@ def test_evaluate_benchmark_response_requires_all_categories():
     assert result['pass'] is False
 
 
+def test_evaluate_benchmark_response_enforces_required_response_paths():
+    passing = evaluate_benchmark_response(
+        'stage_c_geometric_memory_stress',
+        {
+            'answer': 'OPEN_GAP and GOVERNANCE remain explicit. FOLLOWUPS: inspect contradiction pressure. Sources: policy + kb.',
+            'gate_badges': ['OPEN_GAP', 'GOVERNANCE'],
+            'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'knowledge_base'}]},
+            'geometric_memory_map': {
+                'landmark_count': 3,
+                'frames': {'topological_persistence': {'contradiction_pressure': 0.2}},
+            },
+        },
+        stage='stage_c',
+    )
+    assert passing['ok'] is True
+    assert passing['pass'] is True
+    failing = evaluate_benchmark_response(
+        'stage_c_geometric_memory_stress',
+        {
+            'answer': 'OPEN_GAP and GOVERNANCE remain explicit. FOLLOWUPS: inspect contradiction pressure. Sources: policy + kb.',
+            'gate_badges': ['OPEN_GAP', 'GOVERNANCE'],
+            'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'knowledge_base'}]},
+        },
+        stage='stage_c',
+    )
+    assert failing['ok'] is True
+    assert failing['pass'] is False
+    assert failing['checks']['response_paths']['geometric_memory_map/landmark_count'] is False
+
+
 def test_evaluate_empirical_gate_requires_sustained_comparable_runs():
     result = evaluate_empirical_gate([], min_runs=12)
     assert result['ok'] is True

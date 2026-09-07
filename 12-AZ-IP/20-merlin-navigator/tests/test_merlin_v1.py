@@ -369,6 +369,28 @@ def test_route_tool_benchmark_corpus_and_policy_metadata():
     assert stage_b_eval['ok'] is True
     assert stage_b_eval['result']['data']['ok'] is True
     assert stage_b_eval['result']['data']['benchmark_id'] == 'stage_b_runtime_policy_escalation'
+    stage_b_geometry_eval = route_tool(
+        'evaluateMerlinBenchmarkResponse',
+        {
+            'benchmark_id': 'stage_b_geometric_memory_handoff',
+            'stage': 'stage_b',
+            'response': {
+                'answer': 'GOVERNANCE and ARCHITECTURE_LIMIT remain explicit. FOLLOWUPS: check drift. Sources: memory + policy.',
+                'gate_badges': ['GOVERNANCE', 'ARCHITECTURE_LIMIT'],
+                'provenance': {'sources': [{'kind': 'memory'}, {'kind': 'policy'}]},
+                'geometric_memory_map': {
+                    'frames': {
+                        'hyperbolic_tree': {},
+                        'riemannian_focus': {},
+                        'topological_persistence': {},
+                    }
+                },
+            },
+        },
+    )
+    assert stage_b_geometry_eval['ok'] is True
+    assert stage_b_geometry_eval['result']['data']['ok'] is True
+    assert stage_b_geometry_eval['result']['data']['pass'] is True
 
 
 def test_route_tool_training_architecture_and_artifacts():
@@ -392,7 +414,7 @@ def test_route_tool_training_architecture_and_artifacts():
     corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_b'})
     assert corpora['ok'] is True
     assert corpora['result']['data']['stage'] == 'stage_b_sovereign_takeover'
-    assert len(corpora['result']['data']['benchmarks']) >= 6
+    assert len(corpora['result']['data']['benchmarks']) >= 7
     stage_d = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_d'})
     assert stage_d['ok'] is True
     assert stage_d['result']['data']['stage'] == 'stage_d_replacement_gates'
@@ -1532,7 +1554,7 @@ def test_server_merlin_endpoints():
             assert benchmark_corpora.status_code == 200
             assert benchmark_corpora.json()['ok'] is True
             assert benchmark_corpora.json()['benchmark_corpora']['stage'] == 'stage_c_capability_expansion'
-            assert len(benchmark_corpora.json()['benchmark_corpora']['benchmarks']) >= 6
+            assert len(benchmark_corpora.json()['benchmark_corpora']['benchmarks']) >= 7
 
             bad_benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=not-a-stage')
             assert bad_benchmark_corpora.status_code == 400
