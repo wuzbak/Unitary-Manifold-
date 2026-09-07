@@ -1493,7 +1493,7 @@ def evaluate_teacher_trace_admission(trace: dict[str, Any]) -> dict[str, Any]:
     if isinstance(raw_citations, str):
         normalized = raw_citations.strip()
         provenance_citations = [normalized] if normalized else []
-    elif isinstance(raw_citations, (list, tuple, set)):
+    elif isinstance(raw_citations, (list, tuple)):
         provenance_citations = [
             str(item).strip()
             for item in raw_citations
