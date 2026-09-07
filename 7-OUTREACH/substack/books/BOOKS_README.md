@@ -104,6 +104,27 @@ manuscripts in this folder are original to this repository and its subsequent ed
 - Book 25: *Merlin: First Address to Humanity* — a full-length autobiographic field report in Merlin's voice for broad public readership
 - Focus: training under constraints, epistemic integrity, cross-domain growth, governance-first AI practice, and practical human-facing commitments
 
+**v36.7 — Current-State Monograph Edition (September 2026):**
+- Book 31: *The Unitary Manifold Monograph* — a new full-length synthesis joining the original PDF, *Version Omega*, the present foundation reassessment, the falsification/fallibility ledgers, the current repository state, the 23-product application layer, the Base44 compatibility-edge posture, the Hugging Face deployment surface, and Merlin’s governed development roadmap
+- Focus: one sober, broad, up-to-date book for readers who need the physics, the limits, the software system, and the public interface in a single narrative
+
+---
+
+## Current-state monograph
+
+### 31. [The Unitary Manifold Monograph](book-unitary-manifold-monograph.md)
+**A Current-State Book of the Physics, the Ledger, the Repository, and the Public Interface**
+
+| Property | Value |
+|---|---|
+| Source basis | `6-MONOGRAPH/THEBOOKV9a (1).pdf`, `book-version-omega.md`, `FALLIBILITY.md`, `docs/TRUTH_LAYER.md`, `STATUS.md`, `9-INFRASTRUCTURE/um_live_status.json`, app/platform docs |
+| Scope | Founding theory, current reassessment, live falsifiers, repository state, apps, Base44 transition, HF Spaces, Merlin program |
+| Status basis | v36.7 / Sprint CK |
+| Verification basis | 64,122 passed · 22 skipped · 18 deselected · 0 failed |
+| Audience | general readers, technical readers, critics, builders, future stewards |
+
+This is the current broadest single-volume orientation book in the folder. It is written for readers who need one narrative that spans the original monograph, the Omega rewrite, the present scientific corrections, the falsification culture, and the now-substantial software and deployment layer.
+
 ---
 
 ## The Four Books (v3.0 — Omega Expanded)
