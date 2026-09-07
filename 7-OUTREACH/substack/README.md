@@ -31,6 +31,7 @@ the Unitary Manifold framework to a general audience.
 
 ## Latest additions (Apps & Spaces sweep)
 
+- `books/book-unitary-manifold-monograph.md`
 - `posts/post-300-s04e003-axiomzero-apps-spaces-complete-2026-state.md`
 - `posts/post-301-s04e004-merlin-and-dnd-adoption-workflow.md`
 - `posts/post-302-s04e005-v36-2-parallel-audit-remediation.md`
@@ -47,6 +48,8 @@ source and the caveats in `FALLIBILITY.md`.
 ## The Canonical Book — Version Omega
 
 **[book-version-omega.md](books/book-version-omega.md)** — *The Unitary Manifold: Version Omega* — the complete 18-chapter rewrite of the original v9a monograph. All physics, all implications, all themes. Readable by anyone. This is the definitive single-document statement of the entire framework. Start here if you want the full picture in one place.
+
+**[book-unitary-manifold-monograph.md](books/book-unitary-manifold-monograph.md)** — *The Unitary Manifold Monograph* — the current-state synthesis that connects the original PDF, the Omega rewrite, the present foundation reassessment, the falsification/fallibility ledgers, the repository as it exists now, the 23-product app layer, the Base44 compatibility-edge posture, the Hugging Face deployment surfaces, and Merlin’s governed development program. Start here if you want the broadest up-to-date single-volume orientation.
 
 **[book-effective-field-theory-unitary-manifold.md](books/book-effective-field-theory-unitary-manifold.md)** — *Effective Field Theory in the Unitary Manifold* — the complete EFT-focused technical companion: 5D field content, dimensional reduction, observable chain, architecture limits, next-architecture paths, glossary appendices, and software/application notes. Start here if you want the bounded academic statement of the EFT layer.
 
