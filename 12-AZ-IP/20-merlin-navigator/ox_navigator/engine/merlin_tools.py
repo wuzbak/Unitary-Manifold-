@@ -835,27 +835,29 @@ _FUNCTIONS = {
     "runMerlinResearchCycle": lambda **args: {"data": run_research_cycle(
         question=str(args.get("question", "")),
         budget=_coerce_positive_int(args.get("budget"), 3),
-        session=MerlinSession(),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
     )},
     "getMerlinCounterexampleDigest": lambda **args: {"data": build_counterexample_digest(
-        session=MerlinSession(),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=_coerce_positive_int(args.get("limit"), 10),
     )},
     "getMerlinEnergyLedger": lambda **args: {"data": build_merlin_energy_ledger(
-        MerlinSession().telemetry,
+        (args.get("__session").telemetry if isinstance(args.get("__session"), MerlinSession) else MerlinSession().telemetry),
         limit=_coerce_positive_int(args.get("limit"), 10),
     )},
     "merlinConsolidateMemory": lambda **args: {"data": consolidate_memory(
-        session=MerlinSession(),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=_coerce_positive_int(args.get("limit"), 10),
     )},
-    "merlinSelfAudit": lambda **args: {"data": run_self_audit(session=MerlinSession())},
+    "merlinSelfAudit": lambda **args: {"data": run_self_audit(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession()
+    )},
     "generateFalsificationOracle": lambda **args: {"data": generate_falsification_oracle(
         domain=str(args.get("domain", "")),
-        session=MerlinSession(),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
     )},
     "merlinAnalyzeDepth": lambda **args: {"data": analyze_depth(
-        session=MerlinSession(),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=_coerce_positive_int(args.get("limit"), 25),
     )},
 "empiricalObservatoryCheck": lambda **args: {"data": {"delegated": "session_bound"}},
@@ -1063,7 +1065,19 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 active_session.register_proof_attempt(dict(probe))
                 result = {"data": probe}
             else:
-                result = _FUNCTIONS[tool](**args)
+                session_passthrough_tools = {
+                    "runMerlinResearchCycle",
+                    "getMerlinCounterexampleDigest",
+                    "getMerlinEnergyLedger",
+                    "merlinConsolidateMemory",
+                    "merlinSelfAudit",
+                    "generateFalsificationOracle",
+                    "merlinAnalyzeDepth",
+                }
+                if tool in session_passthrough_tools:
+                    result = _FUNCTIONS[tool](**{**args, "__session": active_session})
+                else:
+                    result = _FUNCTIONS[tool](**args)
         elif tool == "getMerlinBenchmarkCorpus":
             tool_type = "function"
             result = {"data": get_stage_a_benchmark_corpus()}

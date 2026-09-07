@@ -1199,6 +1199,7 @@ def run_sync_checks() -> dict[str, Any]:
         "ox_navigator/engine/merlin_inference_health.py",
         "ox_navigator/engine/merlin_research_cycle.py",
         "ox_navigator/engine/merlin_energy_ledger.py",
+        "ox_navigator/engine/merlin_meta_learning.py",
         "ox_navigator/engine/merlin_local_inference.py",
         "ox_navigator/engine/merlin_local_provider.py",
         "ox_navigator/engine/merlin_admission.py",
