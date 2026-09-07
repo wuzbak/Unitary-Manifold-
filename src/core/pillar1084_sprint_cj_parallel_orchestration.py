@@ -115,14 +115,14 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     ]
     promotion_blockers = list(frontier.get("promotion_blockers") or [])
     blockers_all_clear = bool(frontier.get("promotion_blockers_all_clear"))
+    promotion_blockers_declared = isinstance(frontier.get("promotion_blockers"), list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
     if not promotion_blockers:
         derived_all_clear = True
-        blocker_consistency_pass = bool(blockers_all_clear)
+        blocker_consistency_pass = promotion_blockers_declared and bool(blockers_all_clear)
     else:
         derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
         blocker_consistency_pass = blockers_are_dicts and blockers_all_clear == derived_all_clear
-    promotion_blockers_declared = isinstance(frontier.get("promotion_blockers"), list)
     policy_text = str(frontier.get("policy", ""))
     policy_declares_fail_closed = "fail closed" in policy_text.lower()
     promotion_language_gate_pass = (
