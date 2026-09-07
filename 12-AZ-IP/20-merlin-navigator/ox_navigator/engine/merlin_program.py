@@ -2272,7 +2272,11 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
     )
     if has_teacher_trace_metadata_fields and not has_teacher_trace_marker:
         errors.append("missing_teacher_trace_marker")
-    requires_teacher_trace_checks = has_teacher_trace_marker or metadata_trace_type == "teacher_trace_distillation"
+    requires_teacher_trace_checks = (
+        has_teacher_trace_marker
+        or metadata_trace_type == "teacher_trace_distillation"
+        or has_teacher_trace_metadata_fields
+    )
     if requires_teacher_trace_checks:
         trace_status = evaluate_teacher_trace_admission(record)
         if not trace_status.get("ok"):

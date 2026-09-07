@@ -694,7 +694,7 @@ def test_training_record_legacy_teacher_trace_signature_requires_marker():
         }
     )
     assert "missing_teacher_trace_marker" in errors
-    assert "disallowed_trace_license" not in errors
+    assert "disallowed_trace_license" in errors
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
