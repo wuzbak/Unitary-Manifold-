@@ -181,7 +181,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         promotion_policy_state = "INVALID"
 
     promotion_language_gate_pass = promotion_policy_state == "PASS"
-    promotion_language_freeze_enforced = promotion_policy_state in {"PASS", "FREEZE"}
+    promotion_language_freeze_enforced = promotion_policy_state == "FREEZE"
     corpora_payload = corpora.get("corpora") if isinstance(corpora.get("corpora"), dict) else {}
     corpora_stage_coverage_pass = (
         isinstance(corpora_payload, dict)
@@ -286,7 +286,10 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and blocker_consistency_pass
         and corpora_stage_coverage_pass
         and bool(truth_sync.get("all_pass"))
-        and bool(integrated_board["dependencies"]["promotion_language_freeze_enforced"])
+        and (
+            bool(integrated_board["dependencies"]["promotion_language_gate_pass"])
+            or bool(integrated_board["dependencies"]["promotion_language_freeze_enforced"])
+        )
         and (promotion_language_gate_pass or not blockers_all_clear_effective)
         and proof_contract.get("name") == "merlin_deterministic_proof_closure"
         and len(_CANONICAL_SYNC_PATHS) == 9
