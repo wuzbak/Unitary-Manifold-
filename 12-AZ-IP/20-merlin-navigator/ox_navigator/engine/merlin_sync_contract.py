@@ -35,3 +35,11 @@ REQUIRED_TOOLKIT_FUNCTIONS: tuple[str, ...] = (
     "generateFalsificationOracle",
     "merlinAnalyzeDepth",
 )
+
+REQUIRED_ARTIFACT_SURFACES: tuple[str, ...] = (
+    "training/training_artifacts/training_artifacts.json",
+    "training/training_jsonl/dataset_manifest.json",
+    "training/mlflow_manifests/mlflow_manifests.json",
+    "benchmarks/stage_b/receipts.json",
+    "benchmarks/stage_c/receipts.json",
+)

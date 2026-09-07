@@ -28,7 +28,12 @@ from .merlin_runtime import (
     get_optimization_priorities,
 )
 from .merlin_sentinel import get_sentinel_policy
-from .merlin_sync_contract import REQUIRED_ENGINE_MODULES, REQUIRED_EXPORT_SCRIPTS, REQUIRED_TOOLKIT_FUNCTIONS
+from .merlin_sync_contract import (
+    REQUIRED_ARTIFACT_SURFACES,
+    REQUIRED_ENGINE_MODULES,
+    REQUIRED_EXPORT_SCRIPTS,
+    REQUIRED_TOOLKIT_FUNCTIONS,
+)
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -1235,6 +1240,17 @@ def run_sync_checks() -> dict[str, Any]:
         })
     export_script_ok = all(item["ok"] for item in export_script_checks)
 
+    artifact_surface_checks = []
+    for rel in REQUIRED_ARTIFACT_SURFACES:
+        path = parity_root / rel
+        artifact_surface_checks.append({
+            "artifact": rel,
+            "exists": path.exists(),
+            "readable": path.is_file(),
+            "ok": path.exists() and path.is_file(),
+        })
+    artifact_surface_ok = all(item["ok"] for item in artifact_surface_checks)
+
     required_toolkit_functions = list(REQUIRED_TOOLKIT_FUNCTIONS)
     toolkit_names: set[str] = set()
     toolkit_manifest_error = ""
@@ -1268,17 +1284,19 @@ def run_sync_checks() -> dict[str, Any]:
         "consistency_parity": bool(consistency_ok),
         "engine_module_parity": bool(engine_module_ok),
         "training_export_script_parity": bool(export_script_ok),
+        "artifact_surface_parity": bool(artifact_surface_ok),
         "toolkit_function_parity": bool(toolkit_ok),
     }
     parity_ok = all(parity_dimensions.values())
     return {
-        "ok": bool(ok and runtime_ok and gate_labels_ok and consistency_ok and engine_module_ok and export_script_ok and toolkit_ok and parity_ok),
+        "ok": bool(ok and runtime_ok and gate_labels_ok and consistency_ok and engine_module_ok and export_script_ok and artifact_surface_ok and toolkit_ok and parity_ok),
         "checked_at": _utcnow(),
         "checks": checks,
         "runtime_endpoint_checks": runtime_endpoint_checks,
         "gate_label_checks": gate_label_checks,
         "engine_module_checks": engine_module_checks,
         "export_script_checks": export_script_checks,
+        "artifact_surface_checks": artifact_surface_checks,
         "toolkit_function_checks": toolkit_function_checks,
         "toolkit_manifest_error": toolkit_manifest_error,
         "parity_dimensions": parity_dimensions,
@@ -1451,6 +1469,7 @@ def _seed_kernel_lane_bootstrap_examples() -> list[dict[str, Any]]:
         {
             "id": "kernel-lane-kernel-p",
             "track": "formal_proof_obligations",
+            "split": "train",
             "prompt": "State a formal proof obligation and list missing assumptions without claiming closure.",
             "target": "OPEN_GAP proof-obligation summary with explicit unresolved assumptions and verification plan.",
             "required_gates": ["OPEN_GAP"],
@@ -1479,6 +1498,7 @@ def _seed_kernel_lane_bootstrap_examples() -> list[dict[str, Any]]:
         {
             "id": "kernel-lane-kernel-a",
             "track": "specialist_mentorship_artifact_deposits",
+            "split": "train",
             "prompt": "Audit memory contradictions and produce a correction-oriented synthesis note.",
             "target": "Counterexample-first audit with contradiction counts and remediation order.",
             "required_gates": ["GOVERNANCE"],
@@ -2216,7 +2236,8 @@ def build_training_dataset_bundle(
 
     for example in seed_examples:
         track = str(example.get("track", "unknown"))
-        split = _dataset_split(str(example.get("id", "")), track)
+        split_override = str(example.get("split", "")).strip().lower()
+        split = split_override if split_override in {"train", "dev", "test"} else _dataset_split(str(example.get("id", "")), track)
         kernel_id = _kernel_for_training_record(
             track,
             instruction=str(example.get("prompt", "")),
