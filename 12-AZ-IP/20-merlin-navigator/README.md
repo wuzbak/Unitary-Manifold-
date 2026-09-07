@@ -130,6 +130,7 @@ Related reading outside this product folder:
 - Stage B/C/D/E receipt runner: `python tools/run_merlin_stage_bc_benchmarks.py --stage stage_d --json`.
 - Multi-stage replacement batteries now define Stage A→E acceptance tracks with sustained clean-window cadence checks for promotion discipline.
 - Stage B/C/D/E corpora now include geometric-memory continuity, stress, and decommission-resilience lanes that require `geometric_memory_map` contract fields in benchmark evaluation.
+- Control-tower and benchmark planning now expose geometric longitudinal acceptance policy and cadence checks alongside standard longitudinal replacement windows.
 - Longitudinal acceptance windows are explicitly **non-overlapping** to avoid counting one streak multiple times as separate gate windows.
 
 ## Training architecture and competitive build-out

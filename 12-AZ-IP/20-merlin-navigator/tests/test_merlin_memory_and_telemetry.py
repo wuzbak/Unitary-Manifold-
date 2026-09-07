@@ -17,6 +17,7 @@ from ox_navigator.engine.merlin_benchmark import evaluate_benchmark_response
 from ox_navigator.engine.merlin_benchmark import evaluate_empirical_gate
 from ox_navigator.engine.merlin_benchmark import build_promotion_packet
 from ox_navigator.engine.merlin_benchmark import evaluate_longitudinal_acceptance
+from ox_navigator.engine.merlin_benchmark import evaluate_geometric_longitudinal_acceptance
 from ox_navigator.engine.merlin_benchmark import get_multi_stage_benchmark_plan
 from ox_navigator.engine.merlin_benchmark import build_merlin_control_tower
 from ox_navigator.engine.merlin_telemetry import (
@@ -589,6 +590,7 @@ def test_multi_stage_benchmark_plan_has_stage_e():
     assert stages[0] == 'stage_a_parity_capture'
     assert 'stage_e_external_decommission' in stages
     assert plan["longitudinal_acceptance_policy"]["window_semantics"] == "non_overlapping"
+    assert plan["geometric_longitudinal_policy"]["window_semantics"] == "non_overlapping"
 
 
 def test_longitudinal_acceptance_requires_clean_windows():
@@ -642,11 +644,42 @@ def test_longitudinal_acceptance_fails_closed_on_missing_policy_metric():
     assert result["pass"] is False
 
 
+def test_geometric_longitudinal_acceptance_requires_geometric_windows():
+    history = [
+        {
+            "packet": {
+                "decision": "REPLACEMENT_APPROVED",
+                "geometric_gate": {
+                    "data_present": True,
+                    "metrics": {
+                        "average_landmark_count": 2.0,
+                        "average_contradiction_pressure": 0.4,
+                        "lost_in_middle_shield_rate": 1.0,
+                    },
+                },
+            }
+        }
+        for _ in range(8)
+    ]
+    passing = evaluate_geometric_longitudinal_acceptance(history, window_size=4, min_clean_windows=2)
+    assert passing["data_present"] is True
+    assert passing["clean_windows"] == 2
+    assert passing["pass"] is True
+    failing = evaluate_geometric_longitudinal_acceptance(
+        [{"packet": {"decision": "REPLACEMENT_APPROVED"}} for _ in range(4)],
+        window_size=4,
+        min_clean_windows=1,
+    )
+    assert failing["data_present"] is False
+    assert failing["pass"] is False
+
+
 def test_control_tower_returns_gate_bundle():
     payload = build_merlin_control_tower(limit=1)
     assert payload["ok"] is True
     assert "replacement_readiness" in payload
     assert "deployment_eligibility" in payload
+    assert "geometric_longitudinal_acceptance" in payload
     assert "mentorship_to_runtime" in payload
     assert payload["mentorship_to_runtime"]["checks"]["exchange_cycle_complete"] is False
     assert "trendlines" in payload
@@ -673,6 +706,15 @@ def test_control_tower_longitudinal_pass_with_sufficient_clean_history(monkeypat
                         "incumbent_success_rate": 0.9,
                     }
                 },
+                "geometric_gate": {
+                    "data_present": True,
+                    "gate_pass": True,
+                    "metrics": {
+                        "average_landmark_count": 2.0,
+                        "average_contradiction_pressure": 0.3,
+                        "lost_in_middle_shield_rate": 1.0,
+                    },
+                },
             },
         }
 
@@ -680,3 +722,4 @@ def test_control_tower_longitudinal_pass_with_sufficient_clean_history(monkeypat
     history = [{"packet": _approved_readiness()["packet"]} for _ in range(11)]
     payload = build_merlin_control_tower(limit=1, gate_history=history)
     assert payload["longitudinal_acceptance"]["pass"] is True
+    assert payload["geometric_longitudinal_acceptance"]["pass"] is True

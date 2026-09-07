@@ -832,6 +832,7 @@ def test_route_tool_program_office_and_control_tower():
     data = control['result']['data']
     assert 'replacement_readiness' in data
     assert 'deployment_eligibility' in data
+    assert 'geometric_longitudinal_acceptance' in data
     assert 'drift_alerts' in data
     assert 'lane_shadow_deployment' in data
     lane_ids = [item['kernel_id'] for item in data['lane_shadow_deployment']['lanes']]
@@ -918,6 +919,7 @@ def test_route_tool_multi_stage_and_longitudinal():
     stages = [item['stage'] for item in plan['result']['data']['stages']]
     assert 'stage_d_replacement_gates' in stages
     assert 'stage_e_external_decommission' in stages
+    assert 'geometric_longitudinal_policy' in plan['result']['data']
 
     gate_history = [
         {'packet': {'decision': 'REPLACEMENT_APPROVED', 'empirical_gate': {'metrics': {'high_severity_policy_violations_merlin': 0}}}},
@@ -930,6 +932,41 @@ def test_route_tool_multi_stage_and_longitudinal():
     })
     assert longitudinal['ok'] is True
     assert longitudinal['result']['data']['pass'] is True
+    geometric_longitudinal = route_tool('evaluateMerlinGeometricLongitudinalAcceptance', {
+        'gate_history': [
+            {
+                'packet': {
+                    'decision': 'REPLACEMENT_APPROVED',
+                    'geometric_gate': {
+                        'data_present': True,
+                        'metrics': {
+                            'average_landmark_count': 2.0,
+                            'average_contradiction_pressure': 0.3,
+                            'lost_in_middle_shield_rate': 1.0,
+                        },
+                    },
+                },
+            },
+            {
+                'packet': {
+                    'decision': 'REPLACEMENT_APPROVED',
+                    'geometric_gate': {
+                        'data_present': True,
+                        'metrics': {
+                            'average_landmark_count': 2.0,
+                            'average_contradiction_pressure': 0.2,
+                            'lost_in_middle_shield_rate': 1.0,
+                        },
+                    },
+                },
+            },
+        ],
+        'window_size': 1,
+        'min_clean_windows': 2,
+    })
+    assert geometric_longitudinal['ok'] is True
+    assert geometric_longitudinal['result']['data']['data_present'] is True
+    assert geometric_longitudinal['result']['data']['pass'] is True
 
 
 def test_route_tool_stage_a_receipts_and_replacement_readiness():

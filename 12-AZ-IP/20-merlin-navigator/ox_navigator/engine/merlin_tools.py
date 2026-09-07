@@ -22,6 +22,7 @@ from .merlin_benchmark import (
     build_promotion_packet,
     get_benchmark_corpus,
     evaluate_longitudinal_acceptance,
+    evaluate_geometric_longitudinal_acceptance,
     evaluate_benchmark_response,
     evaluate_empirical_gate,
     get_multi_stage_benchmark_plan,
@@ -259,6 +260,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "runMerlinStageCReceipts", "summary": "Run self-hosted Stage C receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
             {"name": "evaluateMerlinLongitudinalAcceptance", "summary": "Evaluate sustained clean-window promotion cadence over gate history", "domain": "functions"},
+            {"name": "evaluateMerlinGeometricLongitudinalAcceptance", "summary": "Evaluate sustained geometric-memory acceptance cadence over gate history", "domain": "functions"},
             {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
             {"name": "getMerlinReplacementReadiness", "summary": "Return concrete self-hosted replacement readiness packet", "domain": "functions"},
             {"name": "getMerlinStageAArtifacts", "summary": "Return exportable Stage A artifact bundle", "domain": "functions"},
@@ -416,6 +418,18 @@ def _tool_manifest() -> dict[str, Any]:
             },
         },
         "evaluateMerlinLongitudinalAcceptance": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "gate_history": {"type": "array"},
+                    "window_size": {"type": "integer"},
+                    "min_clean_windows": {"type": "integer"},
+                },
+                "required": ["gate_history"],
+            },
+            "risk_level": "medium",
+        },
+        "evaluateMerlinGeometricLongitudinalAcceptance": {
             "args_schema": {
                 "type": "object",
                 "properties": {
@@ -1159,6 +1173,13 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 list(args.get("gate_history") or []),
                 window_size=_coerce_positive_int(args.get("window_size"), 4),
                 min_clean_windows=_coerce_positive_int(args.get("min_clean_windows"), 3),
+            )}
+        elif tool == "evaluateMerlinGeometricLongitudinalAcceptance":
+            tool_type = "function"
+            result = {"data": evaluate_geometric_longitudinal_acceptance(
+                list(args.get("gate_history") or []),
+                window_size=_coerce_positive_int(args.get("window_size"), 4),
+                min_clean_windows=_coerce_positive_int(args.get("min_clean_windows"), 2),
             )}
         elif tool == "getMerlinPromotionPacket":
             tool_type = "function"
