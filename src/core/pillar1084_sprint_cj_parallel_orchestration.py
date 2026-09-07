@@ -125,15 +125,6 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         blocker_consistency_pass = blockers_are_dicts and blockers_all_clear == derived_all_clear
     policy_text = str(frontier.get("policy", ""))
     policy_declares_fail_closed = "fail closed" in policy_text.lower()
-    promotion_language_gate_pass = (
-        blocker_consistency_pass
-        and blockers_all_clear
-        and bool(foundation.get("valid"))
-        and bool(sprint_ci.get("valid"))
-    )
-    promotion_language_freeze_enforced = blocker_consistency_pass and (
-        promotion_language_gate_pass or (not blockers_all_clear and policy_declares_fail_closed)
-    )
     frontier_packet_ok = bool(
         isinstance(frontier, dict)
         and isinstance(frontier.get("sync_checks"), dict)
@@ -142,6 +133,18 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and isinstance(frontier.get("multi_stage_plan"), dict)
         and promotion_blockers_declared
         and policy_declares_fail_closed
+    )
+    promotion_language_gate_pass = (
+        frontier_packet_ok
+        and blocker_consistency_pass
+        and blockers_all_clear
+        and bool(foundation.get("valid"))
+        and bool(sprint_ci.get("valid"))
+    )
+    promotion_language_freeze_enforced = (
+        frontier_packet_ok
+        and blocker_consistency_pass
+        and (promotion_language_gate_pass or not blockers_all_clear)
     )
     corpora_payload = corpora.get("corpora") if isinstance(corpora.get("corpora"), dict) else {}
     corpora_stage_coverage_pass = (

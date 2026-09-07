@@ -149,3 +149,15 @@ def test_summary_reflects_invalid_packet(monkeypatch) -> None:
     assert summary["status"] == PILLAR_STATUS
     assert summary["outcome"] == "SPRINT_CJ_PARALLEL_ORCHESTRATION_BLOCKED"
     assert summary["valid"] is False
+
+
+def test_invalid_if_proof_contract_name_changes(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    monkeypatch.setattr(
+        program_mod,
+        "get_deterministic_proof_closure_contract",
+        lambda: {"name": "wrong_contract"},
+    )
+    report = sprint_cj_parallel_orchestration()
+    assert report["proof_first_contract"]["name"] == "wrong_contract"
+    assert report["valid"] is False
