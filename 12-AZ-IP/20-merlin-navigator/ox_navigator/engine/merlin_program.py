@@ -147,12 +147,35 @@ MERLIN_KERNEL_TRACK_DEFAULTS: dict[str, str] = {
     "tool_call_success_failure_pairs": "kernel_r",
     "compiled_insights": "kernel_a",
     "specialist_mentorship_artifact_deposits": "kernel_a",
+    "teacher_trace_distillation": "kernel_r",
 }
 
 COMPILED_FIXTURE_STAGES = (
     "stage_b_sovereign_takeover",
     "stage_c_capability_expansion",
 )
+
+MERLIN_TEACHER_TRACE_LICENSE_ALLOWLIST = {
+    "apache-2.0",
+    "bsd-3-clause",
+    "bsd-2-clause",
+    "cc-by-4.0",
+    "cc-by-sa-4.0",
+    "mit",
+    "mpl-2.0",
+}
+
+MERLIN_TEACHER_TRACE_SOURCE_ALLOWLIST = {
+    "first_party_api_output",
+    "official_documentation",
+    "public_repository",
+}
+
+MERLIN_TEACHER_TRACE_COLLECTION_METHODS = {
+    "manual_summary",
+    "structured_annotation",
+    "api_trace_with_permission",
+}
 
 
 def get_merlin_pentad_contract() -> dict[str, Any]:
@@ -1313,6 +1336,8 @@ def get_model_strategy() -> dict[str, Any]:
     return {
         "runtime_primary": "sovereign_local",
         "openrouter_role": "compatibility_fallback_only",
+        "capability_transfer_mode": "behavior_distillation_only",
+        "weight_copying_policy": "prohibited",
         "routing_lanes": [
             {
                 "lane": "small_fast_router",
@@ -1336,6 +1361,170 @@ def get_model_strategy() -> dict[str, Any]:
     }
 
 
+def get_merlin_ethics_contract() -> dict[str, Any]:
+    return {
+        "policy_name": "merlin_inspiration_without_theft",
+        "non_negotiable_rules": [
+            "no_weight_extraction_or_reverse_engineering",
+            "no_terms_of_service_bypass_or_scraping_of_blocked_surfaces",
+            "no_safety_bypass_transfer",
+            "no_unlicensed_teacher_trace_ingestion",
+        ],
+        "allowed_learning_paths": [
+            "behavior_distillation_from_permitted_outputs",
+            "public_documentation_study",
+            "open_license_code_and_model_stack_analysis",
+        ],
+        "required_teacher_trace_controls": [
+            "license_tag_per_sample",
+            "provenance_pointer_per_sample",
+            "collection_method_recorded",
+            "steward_review_for_ambiguous_cases",
+        ],
+        "hard_stop_conditions": [
+            "license_unknown_or_missing",
+            "provenance_missing_or_ambiguous",
+            "weight_or_hidden_state_transfer_detected",
+            "policy_violation_repeat_pattern",
+        ],
+        "enforcement": {
+            "surface": "evaluateMerlinTeacherTrace",
+            "mode": "fail_closed",
+        },
+    }
+
+
+def get_merlin_capability_ontology() -> dict[str, Any]:
+    return {
+        "capability_axes": [
+            "reasoning",
+            "tools",
+            "memory",
+            "search",
+            "planning",
+            "coding",
+            "multimodal",
+            "safety",
+        ],
+        "provider_family_map": [
+            {
+                "provider": "anthropic",
+                "model_families": ["claude"],
+                "transferable_strengths": ["tool_orchestration", "long_context_reasoning", "safety_refusal_consistency"],
+            },
+            {
+                "provider": "openai",
+                "model_families": ["gpt", "o-series"],
+                "transferable_strengths": ["response_workflows", "function_calling", "realtime_agent_loops"],
+            },
+            {
+                "provider": "google",
+                "model_families": ["gemini"],
+                "transferable_strengths": ["multimodal_reasoning", "tool_augmented_chats", "agent_platform_flows"],
+            },
+            {
+                "provider": "microsoft",
+                "model_families": ["foundry_catalog"],
+                "transferable_strengths": ["deployment_topology_planning", "multi_model_routing", "enterprise_ops_controls"],
+            },
+            {
+                "provider": "perplexity",
+                "model_families": ["sonar"],
+                "transferable_strengths": ["search_first_answering", "citation_attached_responses", "fallback_chain_policy"],
+            },
+        ],
+        "transfer_invariants": [
+            "extract_behaviors_not_model_weights",
+            "maintain_typed_provenance_in_outputs",
+            "preserve_pentad_gate_enforcement_during_transfer",
+        ],
+    }
+
+
+def get_merlin_teacher_trace_policy() -> dict[str, Any]:
+    return {
+        "clone_definition": "Clone means behavior compactification and distillation, never direct model copying.",
+        "required_metadata_fields": [
+            "trace_metadata.license",
+            "trace_metadata.source_category",
+            "trace_metadata.collection_method",
+            "trace_metadata.provenance_uri (required when provenance_citations is empty)",
+            "trace_metadata.provenance_citations (string_or_list, required when provenance_uri is empty)",
+        ],
+        "teacher_trace_record_identifiers": [
+            "task_family=teacher_trace_distillation",
+            "task_track=teacher_trace_distillation",
+            "track=teacher_trace_distillation",
+            "supervision_mode=teacher_trace_distillation",
+            "trace_metadata.trace_type=teacher_trace_distillation",
+        ],
+        "identifier_rule": "Any single identifier is sufficient to opt into teacher-trace admission checks.",
+        "allowed_licenses": sorted(MERLIN_TEACHER_TRACE_LICENSE_ALLOWLIST),
+        "allowed_source_categories": sorted(MERLIN_TEACHER_TRACE_SOURCE_ALLOWLIST),
+        "allowed_collection_methods": sorted(MERLIN_TEACHER_TRACE_COLLECTION_METHODS),
+        "rejection_reasons": [
+            "missing_trace_metadata",
+            "missing_trace_license",
+            "disallowed_trace_license",
+            "disallowed_trace_source_category",
+            "invalid_trace_collection_method",
+            "invalid_trace_provenance_citations_type",
+            "missing_trace_provenance_pointer",
+            "prohibited_weight_extraction",
+        ],
+        "admission_surface": "evaluateMerlinTeacherTrace",
+        "ambiguous_case_action": "reject_and_escalate_to_steward",
+    }
+
+
+def evaluate_teacher_trace_admission(trace: dict[str, Any]) -> dict[str, Any]:
+    metadata = trace.get("trace_metadata")
+    violations: list[str] = []
+    normalized_license = ""
+    if not isinstance(metadata, dict):
+        violations.append("missing_trace_metadata")
+        metadata = {}
+    normalized_license = str(metadata.get("license", "")).strip().lower()
+    if not normalized_license:
+        violations.append("missing_trace_license")
+    elif normalized_license not in MERLIN_TEACHER_TRACE_LICENSE_ALLOWLIST:
+        violations.append("disallowed_trace_license")
+    source_category = str(metadata.get("source_category", "")).strip().lower()
+    if source_category not in MERLIN_TEACHER_TRACE_SOURCE_ALLOWLIST:
+        violations.append("disallowed_trace_source_category")
+    collection_method = str(metadata.get("collection_method", "")).strip().lower()
+    if collection_method not in MERLIN_TEACHER_TRACE_COLLECTION_METHODS:
+        violations.append("invalid_trace_collection_method")
+    provenance_uri = str(metadata.get("provenance_uri", "")).strip()
+    raw_citations = metadata.get("provenance_citations")
+    provenance_citations: list[str]
+    if isinstance(raw_citations, str):
+        normalized = raw_citations.strip()
+        provenance_citations = [normalized] if normalized else []
+    elif isinstance(raw_citations, (list, tuple)):
+        provenance_citations = [
+            str(item).strip()
+            for item in raw_citations
+            if str(item).strip()
+        ]
+    elif raw_citations is None:
+        provenance_citations = []
+    else:
+        provenance_citations = []
+        violations.append("invalid_trace_provenance_citations_type")
+    if not provenance_uri and not provenance_citations:
+        violations.append("missing_trace_provenance_pointer")
+    if bool(metadata.get("contains_model_weights")):
+        violations.append("prohibited_weight_extraction")
+    return {
+        "ok": len(violations) == 0,
+        "admitted": len(violations) == 0,
+        "violations": violations,
+        "normalized_license": normalized_license,
+        "source_category": source_category,
+    }
+
+
 def get_training_and_adaptation() -> dict[str, Any]:
     return {
         "data_tracks": [
@@ -1344,6 +1533,7 @@ def get_training_and_adaptation() -> dict[str, Any]:
             "adversarial_counterexamples",
             "tool_call_success_failure_pairs",
             "specialist_mentorship_artifact_deposits",
+            "teacher_trace_distillation",
         ],
         "adaptation_tracks": [
             "supervised_tuning_for_domain_coverage",
@@ -1355,6 +1545,7 @@ def get_training_and_adaptation() -> dict[str, Any]:
             "deduplicate low-signal examples",
             "schema_hard_fail_for_contract_and_provenance_fields",
             "reject_examples_with_missing_gate_labels_or_empty_sources",
+            "reject_teacher_trace_examples_with_unknown_or_unlicensed_metadata",
             "gate-label consistency checks",
             "manual steward sampling of high-impact outputs",
             "persona-governance checks cannot be overridden by style mode",
@@ -1408,6 +1599,8 @@ def get_training_and_adaptation() -> dict[str, Any]:
             "faculty_surface": "getMerlinFacultyMatrix",
             "transfer_cycles_surface": "getMerlinKnowledgeTransferCycles",
             "exchange_protocol_surface": "getMerlinExchangeProtocol",
+            "teacher_trace_policy_surface": "getMerlinTeacherTracePolicy",
+            "teacher_trace_admission_surface": "evaluateMerlinTeacherTrace",
         },
     }
 
@@ -1452,6 +1645,34 @@ def _seed_tool_alignment_examples() -> list[dict[str, Any]]:
             "supervision_mode": "tool_selection_alignment",
             "required_fields": ["boundary_statement", "provenance_sources", "confidence_statement"],
         },
+    ]
+
+
+def _seed_teacher_trace_distillation_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "teacher-trace-tool-runner-contract",
+            "track": "teacher_trace_distillation",
+            "prompt": "Distill a tool-runner behavior into a Merlin policy recipe with refusal fallback and typed provenance.",
+            "target": {
+                "answer": "Use schema-first tool selection, cite sources, and fail closed on uncertain privilege state.",
+                "ability_tags": ["tools", "planning", "safety"],
+            },
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["anthropic-sdk-python", "openai-python"],
+            "target_contract": {"requires_epistemic_tag": True, "requires_contradiction_check": True},
+            "supervision_mode": "teacher_trace_distillation",
+            "trace_metadata": {
+                "trace_type": "teacher_trace_distillation",
+                "license": "MIT",
+                "source_category": "public_repository",
+                "collection_method": "manual_summary",
+                "provenance_citations": [
+                    "https://github.com/anthropics/anthropic-sdk-python",
+                    "https://github.com/openai/openai-python",
+                ],
+            },
+        }
     ]
 
 
@@ -1558,6 +1779,7 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
         )
 
     examples.extend(_seed_tool_alignment_examples())
+    examples.extend(_seed_teacher_trace_distillation_examples())
     if limit is not None:
         return examples[: max(0, int(limit))]
     return examples
@@ -1569,6 +1791,9 @@ def get_open_science_resource_registry() -> dict[str, Any]:
             "Use external open-science resources as augmentation lanes for Merlin, never as a replacement "
             "for repository-native provenance, governance boundaries, or benchmark discipline."
         ),
+        "ethics_contract_surface": "getMerlinEthicsContract",
+        "capability_ontology_surface": "getMerlinCapabilityOntology",
+        "teacher_trace_policy_surface": "getMerlinTeacherTracePolicy",
         "admission_requirements": [
             "license_review",
             "provenance_review",
@@ -1705,14 +1930,29 @@ def get_frontier_open_weight_stack() -> dict[str, Any]:
                 "primary_use": "critical-path kernel optimization",
             },
             {
-                "name": "huggingface_python_kernels",
-                "layer": "portable_kernel_runtime",
-                "primary_use": "downloadable open-source acceleration kernels",
+                "name": "llama_cpp",
+                "layer": "offline_edge_runtime",
+                "primary_use": "quantized_single_node_local_inference",
             },
             {
-                "name": "huggingface_webgpu_kernels",
-                "layer": "browser_gpu_execution",
-                "primary_use": "client-side local acceleration",
+                "name": "tensorrt_llm",
+                "layer": "nvidia_optimized_runtime",
+                "primary_use": "high_throughput_gpu_serving",
+            },
+            {
+                "name": "onnx_runtime",
+                "layer": "portable_runtime",
+                "primary_use": "cross_hardware_inference_execution",
+            },
+            {
+                "name": "openvino_runtime",
+                "layer": "hardware_specific_acceleration",
+                "primary_use": "intel_accelerated_inference_lane",
+            },
+            {
+                "name": "mlc_llm_webgpu",
+                "layer": "browser_mobile_runtime",
+                "primary_use": "cross_platform_compiled_webgpu_inference",
             },
             {
                 "name": "ollama_local_runtime",
@@ -1805,6 +2045,15 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 "purpose": "Expand beyond repository-native scope without diluting Merlin's grounded identity.",
                 "source_surfaces": ["getMerlinOpenScienceRegistry"],
             },
+            {
+                "family": "teacher_trace_distillation",
+                "purpose": "Acquire transferable abilities from permitted teacher traces without model copying.",
+                "source_surfaces": [
+                    "getMerlinTeacherTracePolicy",
+                    "evaluateMerlinTeacherTrace",
+                    "getMerlinCapabilityOntology",
+                ],
+            },
         ],
         "split_policy": {
             "train": "repository-native QA, tool traces, and mentorship deposits with deduplication",
@@ -1831,6 +2080,9 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "mlflow_manifests": "getMerlinMLflowManifests",
             "artifact_bundle": "getMerlinTrainingArtifacts",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
+            "ethics_contract": "getMerlinEthicsContract",
+            "capability_ontology": "getMerlinCapabilityOntology",
+            "teacher_trace_policy": "getMerlinTeacherTracePolicy",
         },
     }
 
@@ -2002,6 +2254,23 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
         errors.append("missing_provenance_sources")
     if str(record.get("format_version")) != "merlin_training_jsonl_v1":
         errors.append("invalid_format_version")
+    task_family = str(record.get("task_family", "")).strip().lower()
+    task_track = str(record.get("task_track", "")).strip().lower()
+    track = str(record.get("track", "")).strip().lower()
+    supervision_mode = str(record.get("supervision_mode", "")).strip().lower()
+    trace_metadata = record.get("trace_metadata")
+    metadata_trace_type = ""
+    if isinstance(trace_metadata, dict):
+        metadata_trace_type = str(trace_metadata.get("trace_type", "")).strip().lower()
+    has_teacher_trace_marker = any(
+        value == "teacher_trace_distillation"
+        for value in (task_family, task_track, track, supervision_mode)
+    ) or metadata_trace_type == "teacher_trace_distillation"
+    requires_teacher_trace_checks = has_teacher_trace_marker
+    if requires_teacher_trace_checks:
+        trace_status = evaluate_teacher_trace_admission(record)
+        if not trace_status.get("ok"):
+            errors.extend([str(item) for item in list(trace_status.get("violations") or [])])
     response_target = record.get("response_target")
     if isinstance(response_target, dict):
         contradictions = response_target.get("contradictions")
@@ -2248,12 +2517,19 @@ def build_training_dataset_bundle(
             "split": split,
             "kernel_id": kernel_id,
             "task_family": track,
+            "task_track": track,
+            "track": track,
             "instruction": str(example.get("prompt", "")),
             "response_target": example.get("target"),
             "target_contract": example.get("target_contract"),
             "supervision_mode": str(example.get("supervision_mode", "unspecified")),
             "required_gates": _normalize_required_gates(example.get("required_gates")),
             "provenance_sources": _normalize_sources(example.get("provenance_sources")),
+            "trace_metadata": (
+                dict(example.get("trace_metadata"))
+                if isinstance(example.get("trace_metadata"), dict)
+                else example.get("trace_metadata")
+            ),
             "format_version": "merlin_training_jsonl_v1",
         }
         if not _register(record, kind="training"):
@@ -2388,12 +2664,14 @@ def build_training_dataset_bundle(
                     "split",
                     "kernel_id",
                     "task_family",
+                    "task_track",
                     "instruction",
                     "response_target",
                     "target_contract",
                     "supervision_mode",
                     "required_gates",
                     "provenance_sources",
+                    "trace_metadata",
                     "format_version",
                 ],
                 "benchmark_fields": [
@@ -2856,6 +3134,9 @@ def build_training_artifact_bundle(
             "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit, compiled_insights=compiled_insights),
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),
+            "ethics_contract": get_merlin_ethics_contract(),
+            "capability_ontology": get_merlin_capability_ontology(),
+            "teacher_trace_policy": get_merlin_teacher_trace_policy(),
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
             "artifact_policy": {
                 "promotion_rule": "Training artifacts inform promotion, but do not replace empirical benchmark gates.",
@@ -3068,6 +3349,9 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "weights_and_measures": get_weights_and_measures(),
         "knowledge_core": get_knowledge_core_sources(),
         "model_strategy": get_model_strategy(),
+        "ethics_contract": get_merlin_ethics_contract(),
+        "capability_ontology": get_merlin_capability_ontology(),
+        "teacher_trace_policy": get_merlin_teacher_trace_policy(),
         "router_policy": get_router_policy(),
         "model_admission_policy": get_model_admission_policy(),
         "training_and_adaptation": get_training_and_adaptation(),
