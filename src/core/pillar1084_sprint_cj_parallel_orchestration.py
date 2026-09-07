@@ -129,21 +129,19 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     raw_promotion_blockers = frontier.get("promotion_blockers")
     promotion_blockers = list(raw_promotion_blockers) if isinstance(raw_promotion_blockers, list) else []
     blockers_all_clear_raw = frontier.get("promotion_blockers_all_clear", None)
-    blockers_all_clear_declared = (
-        bool(blockers_all_clear_raw)
-        if blockers_all_clear_raw is not None
-        else None
-    )
+    blockers_all_clear_type_ok = blockers_all_clear_raw is None or isinstance(blockers_all_clear_raw, bool)
+    blockers_all_clear_declared = blockers_all_clear_raw if isinstance(blockers_all_clear_raw, bool) else None
     promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
     derived_all_clear = blockers_are_dicts and len(promotion_blockers) == 0
     if blockers_all_clear_declared is None:
-        blocker_consistency_pass = blockers_are_dicts and promotion_blockers_declared
+        blocker_consistency_pass = blockers_are_dicts and promotion_blockers_declared and blockers_all_clear_type_ok
         blockers_all_clear_effective = derived_all_clear
     else:
         blocker_consistency_pass = (
             blockers_are_dicts
             and promotion_blockers_declared
+            and blockers_all_clear_type_ok
             and blockers_all_clear_declared == derived_all_clear
         )
         blockers_all_clear_effective = blockers_all_clear_declared
@@ -164,6 +162,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and isinstance(frontier.get("multi_stage_plan", {}).get("stages"), list)
         and len(frontier.get("multi_stage_plan", {}).get("stages") or []) > 0
         and promotion_blockers_declared
+        and blockers_all_clear_type_ok
         and policy_declares_fail_closed
     )
     if not frontier_packet_ok or not blocker_consistency_pass:
@@ -247,6 +246,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_2_requires_stage_sequence_a_to_e": plan_stages == _EXPECTED_STAGE_SEQUENCE,
             "lane_2_stage_list_shape_ok": stage_list_shape_ok,
             "lane_2_requires_promotion_blockers_declared": promotion_blockers_declared,
+            "lane_2_blockers_all_clear_type_ok": blockers_all_clear_type_ok,
             "lane_2_frontier_packet_ok": frontier_packet_ok,
             "lane_2_blocker_consistency_ok": blocker_consistency_pass,
             "lane_2_requires_nonempty_stage_corpora": corpora_stage_coverage_pass,
