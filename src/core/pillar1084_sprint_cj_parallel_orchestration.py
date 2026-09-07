@@ -259,6 +259,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and corpora_stage_coverage_pass
         and bool(truth_sync.get("all_pass"))
         and bool(integrated_board["dependencies"]["promotion_language_freeze_enforced"])
+        and (promotion_language_gate_pass or not blockers_all_clear_effective)
         and proof_contract.get("name") == "merlin_deterministic_proof_closure"
         and len(_CANONICAL_SYNC_PATHS) == 9
     )
