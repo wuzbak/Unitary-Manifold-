@@ -475,6 +475,12 @@ def _tool_manifest() -> dict[str, Any]:
             },
             "risk_level": "medium",
         },
+        "runMerlinSyncChecks": {
+            "capability_class": "verification",
+            "risk_level": "high",
+            "sync_required": True,
+            "args_schema": {"type": "object", "properties": {}, "additionalProperties": False},
+        },
         "runMerlinMemoryAudit": {
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
             "capability_class": "state_read",
@@ -484,6 +490,7 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinInferenceProviders": {"capability_class": "state_read"},
         "getMerlinInferenceHealth": {
             "capability_class": "state_read",
+            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"provider": {"type": "string"}},
@@ -502,6 +509,7 @@ def _tool_manifest() -> dict[str, Any]:
             },
         },
         "runMerlinResearchCycle": {
+            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {
@@ -515,6 +523,7 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinCounterexampleDigest": {
             "capability_class": "state_read",
+            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"limit": {"type": "integer", "minimum": 1}},
@@ -523,6 +532,7 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinEnergyLedger": {
             "capability_class": "state_read",
+            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"limit": {"type": "integer", "minimum": 1}},
@@ -531,6 +541,7 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "merlinConsolidateMemory": {
             "capability_class": "state_read",
+            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"limit": {"type": "integer", "minimum": 1}},
@@ -539,11 +550,13 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "merlinSelfAudit": {
             "capability_class": "state_read",
+            "sync_required": True,
             "args_schema": {"type": "object", "properties": {}, "additionalProperties": False},
         },
         "generateFalsificationOracle": {
             "capability_class": "verification",
             "risk_level": "medium",
+            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"domain": {"type": "string"}},
@@ -553,6 +566,7 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "merlinAnalyzeDepth": {
             "capability_class": "state_read",
+            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"limit": {"type": "integer", "minimum": 1}},

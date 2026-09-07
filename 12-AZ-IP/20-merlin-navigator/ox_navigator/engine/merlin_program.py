@@ -28,6 +28,7 @@ from .merlin_runtime import (
     get_optimization_priorities,
 )
 from .merlin_sentinel import get_sentinel_policy
+from .merlin_sync_contract import REQUIRED_ENGINE_MODULES, REQUIRED_EXPORT_SCRIPTS
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -1201,18 +1202,8 @@ def run_sync_checks() -> dict[str, Any]:
     no_derived_drift = "DERIVED" not in ui_text
     consistency_ok = all(item["ok"] for item in endpoint_checks) and all(item["ok"] for item in gate_checks) and no_derived_drift
 
-    required_engine_modules = [
-        "ox_navigator/engine/merlin_kernel_routing.py",
-        "ox_navigator/engine/merlin_inference_health.py",
-        "ox_navigator/engine/merlin_research_cycle.py",
-        "ox_navigator/engine/merlin_energy_ledger.py",
-        "ox_navigator/engine/merlin_meta_learning.py",
-        "ox_navigator/engine/merlin_local_inference.py",
-        "ox_navigator/engine/merlin_local_provider.py",
-        "ox_navigator/engine/merlin_admission.py",
-    ]
     engine_module_checks = []
-    for rel in required_engine_modules:
+    for rel in REQUIRED_ENGINE_MODULES:
         path = PRODUCT_ROOT / rel
         engine_module_checks.append({
             "module": rel,
@@ -1222,13 +1213,8 @@ def run_sync_checks() -> dict[str, Any]:
         })
     engine_module_ok = all(item["ok"] for item in engine_module_checks)
 
-    required_export_scripts = [
-        "tools/export_merlin_training_artifacts.py",
-        "tools/export_merlin_training_jsonl.py",
-        "tools/export_merlin_mlflow_manifests.py",
-    ]
     export_script_checks = []
-    for rel in required_export_scripts:
+    for rel in REQUIRED_EXPORT_SCRIPTS:
         path = PRODUCT_ROOT / rel
         export_script_checks.append({
             "script": rel,
@@ -1238,24 +1224,20 @@ def run_sync_checks() -> dict[str, Any]:
         })
     export_script_ok = all(item["ok"] for item in export_script_checks)
 
-    required_toolkit_functions = [
-        "runMerlinSyncChecks",
-        "getMerlinInferenceHealth",
-        "runMerlinResearchCycle",
-        "getMerlinCounterexampleDigest",
-        "getMerlinEnergyLedger",
-        "merlinConsolidateMemory",
-        "merlinSelfAudit",
-        "generateFalsificationOracle",
-        "merlinAnalyzeDepth",
-    ]
+    required_toolkit_functions: list[str] = []
     toolkit_names: set[str] = set()
     toolkit_manifest_error = ""
     try:
         from .merlin_tools import get_toolkit_view
 
         full_manifest = get_toolkit_view("full")
-        toolkit_names = {str(item.get("name", "")) for item in list(full_manifest.get("functions") or [])}
+        function_items = list(full_manifest.get("functions") or [])
+        toolkit_names = {str(item.get("name", "")) for item in function_items}
+        required_toolkit_functions = [
+            str(item.get("name", ""))
+            for item in function_items
+            if bool(item.get("sync_required"))
+        ]
     except (ImportError, AttributeError, TypeError, ValueError) as exc:
         toolkit_manifest_error = f"{type(exc).__name__}: {exc}"
         toolkit_names = set()
