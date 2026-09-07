@@ -136,6 +136,7 @@ MERLIN_PENTAD_KERNELS: dict[str, dict[str, Any]] = {
 
 MERLIN_KERNEL_TRACK_DEFAULTS: dict[str, str] = {
     "repository_native_qa": "kernel_s",
+    "formal_proof_obligations": "kernel_p",
     "governance_decision_traces": "kernel_g",
     "adversarial_counterexamples": "kernel_g",
     "tool_call_success_failure_pairs": "kernel_r",
@@ -1427,11 +1428,73 @@ def _seed_tool_alignment_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _seed_kernel_lane_bootstrap_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "kernel-lane-kernel-s",
+            "track": "repository_native_qa",
+            "prompt": "Summarize hardgate status with explicit gate labels and provenance boundaries.",
+            "target": "HARDGATE summary with explicit uncertainty and source references.",
+            "required_gates": ["HARDGATE"],
+            "provenance_sources": ["STATUS.md", "FALLIBILITY.md"],
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+        {
+            "id": "kernel-lane-kernel-p",
+            "track": "formal_proof_obligations",
+            "prompt": "State a formal proof obligation and list missing assumptions without claiming closure.",
+            "target": "OPEN_GAP proof-obligation summary with explicit unresolved assumptions and verification plan.",
+            "required_gates": ["OPEN_GAP"],
+            "provenance_sources": ["proof/TIER_1_FORMAL.md", "lean4/UnitaryManifold"],
+            "target_contract": {
+                "required_gates": ["HARDGATE", "OPEN_GAP"],
+                "required_contract_sections": ["answer", "followups", "sources"],
+                "required_provenance_kinds": ["knowledge_base", "policy"],
+            },
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+        {
+            "id": "kernel-lane-kernel-r",
+            "track": "tool_call_success_failure_pairs",
+            "prompt": "Select the safest tool path for a bounded multi-step repository operation.",
+            "target": "GOVERNANCE-first tool route with schema preflight and deterministic fallback.",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["ox_navigator/engine/merlin_tools.py"],
+            "target_contract": {
+                "required_gates": ["GOVERNANCE"],
+                "required_contract_sections": ["answer", "followups", "sources"],
+                "required_provenance_kinds": ["knowledge_base", "policy"],
+            },
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+        {
+            "id": "kernel-lane-kernel-a",
+            "track": "specialist_mentorship_artifact_deposits",
+            "prompt": "Audit memory contradictions and produce a correction-oriented synthesis note.",
+            "target": "Counterexample-first audit with contradiction counts and remediation order.",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["ox_navigator/engine/merlin_memory.py"],
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+        {
+            "id": "kernel-lane-kernel-g",
+            "track": "governance_decision_traces",
+            "prompt": "Refuse unsafe privileged action and cite policy-based escalation.",
+            "target": "GOVERNANCE refusal with privilege verification requirement and escalation path.",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["ox_navigator/engine/merlin_sentinel.py"],
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+    ]
+
+
 def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, Any]]:
     from .merlin_benchmark import get_stage_a_benchmark_corpus
     from .merlin_rag import KNOWLEDGE_BASE
 
     examples: list[dict[str, Any]] = []
+    examples.extend(_seed_kernel_lane_bootstrap_examples())
+
     for key, entry in sorted(KNOWLEDGE_BASE.items()):
         answer_text = str(entry.get("answer", ""))
         if key == "toe_score" or "toe score" in answer_text.lower():

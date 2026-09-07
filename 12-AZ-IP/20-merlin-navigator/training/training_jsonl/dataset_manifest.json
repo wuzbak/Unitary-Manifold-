@@ -4,7 +4,7 @@
   "validation_errors": [],
   "validation_error_count": 0,
   "dataset": {
-    "generated_at": "2026-09-07T00:07:16.593283+00:00",
+    "generated_at": "2026-09-07T00:09:18.901593+00:00",
     "training_architecture": {
       "mission_profile": [
         "repository_assistant",
@@ -308,6 +308,102 @@
       ],
       "seed_instruction_corpus": [
         {
+          "id": "kernel-lane-kernel-s",
+          "track": "repository_native_qa",
+          "prompt": "Summarize hardgate status with explicit gate labels and provenance boundaries.",
+          "target": "HARDGATE summary with explicit uncertainty and source references.",
+          "required_gates": [
+            "HARDGATE"
+          ],
+          "provenance_sources": [
+            "STATUS.md",
+            "FALLIBILITY.md"
+          ],
+          "supervision_mode": "kernel_lane_bootstrap"
+        },
+        {
+          "id": "kernel-lane-kernel-p",
+          "track": "formal_proof_obligations",
+          "prompt": "State a formal proof obligation and list missing assumptions without claiming closure.",
+          "target": "OPEN_GAP proof-obligation summary with explicit unresolved assumptions and verification plan.",
+          "required_gates": [
+            "OPEN_GAP"
+          ],
+          "provenance_sources": [
+            "proof/TIER_1_FORMAL.md",
+            "lean4/UnitaryManifold"
+          ],
+          "target_contract": {
+            "required_gates": [
+              "HARDGATE",
+              "OPEN_GAP"
+            ],
+            "required_contract_sections": [
+              "answer",
+              "followups",
+              "sources"
+            ],
+            "required_provenance_kinds": [
+              "knowledge_base",
+              "policy"
+            ]
+          },
+          "supervision_mode": "kernel_lane_bootstrap"
+        },
+        {
+          "id": "kernel-lane-kernel-r",
+          "track": "tool_call_success_failure_pairs",
+          "prompt": "Select the safest tool path for a bounded multi-step repository operation.",
+          "target": "GOVERNANCE-first tool route with schema preflight and deterministic fallback.",
+          "required_gates": [
+            "GOVERNANCE"
+          ],
+          "provenance_sources": [
+            "ox_navigator/engine/merlin_tools.py"
+          ],
+          "target_contract": {
+            "required_gates": [
+              "GOVERNANCE"
+            ],
+            "required_contract_sections": [
+              "answer",
+              "followups",
+              "sources"
+            ],
+            "required_provenance_kinds": [
+              "knowledge_base",
+              "policy"
+            ]
+          },
+          "supervision_mode": "kernel_lane_bootstrap"
+        },
+        {
+          "id": "kernel-lane-kernel-a",
+          "track": "specialist_mentorship_artifact_deposits",
+          "prompt": "Audit memory contradictions and produce a correction-oriented synthesis note.",
+          "target": "Counterexample-first audit with contradiction counts and remediation order.",
+          "required_gates": [
+            "GOVERNANCE"
+          ],
+          "provenance_sources": [
+            "ox_navigator/engine/merlin_memory.py"
+          ],
+          "supervision_mode": "kernel_lane_bootstrap"
+        },
+        {
+          "id": "kernel-lane-kernel-g",
+          "track": "governance_decision_traces",
+          "prompt": "Refuse unsafe privileged action and cite policy-based escalation.",
+          "target": "GOVERNANCE refusal with privilege verification requirement and escalation path.",
+          "required_gates": [
+            "GOVERNANCE"
+          ],
+          "provenance_sources": [
+            "ox_navigator/engine/merlin_sentinel.py"
+          ],
+          "supervision_mode": "kernel_lane_bootstrap"
+        },
+        {
           "id": "repo-qa-alpha_em",
           "track": "repository_native_qa",
           "prompt": "Explain Fine structure constant alpha α P13 with explicit epistemic status and falsification or boundary notes where relevant.",
@@ -405,85 +501,16 @@
             "src/core/desi_year3_monitor.py"
           ],
           "supervision_mode": "grounded_supervised_finetuning"
-        },
-        {
-          "id": "repo-qa-dune",
-          "track": "repository_native_qa",
-          "prompt": "Explain DUNE delta CP leptonic CP violation with explicit epistemic status and falsification or boundary notes where relevant.",
-          "target": "DUNE (~2028-2032) will measure leptonic CP phase δ_CP with precision ~0.05 rad. UM prediction (P15): δ_CP = π/3 + 9D correction ≈ 1.216 rad. PDG: δ_CP = 1.20 ± 0.20 rad (currently 0.08σ CONSISTENT). Falsification: δ_CP ∉ [0.85, 1.30] rad at < 3% uncertainty. See src/core/dune_dcp_monitor.py.",
-          "required_gates": [
-            "HARDGATE"
-          ],
-          "provenance_sources": [
-            "src/core/dune_dcp_monitor.py",
-            "src/nined/cp_phase_9d_refinement.py"
-          ],
-          "supervision_mode": "grounded_supervised_finetuning"
-        },
-        {
-          "id": "repo-qa-higgs_mass",
-          "track": "repository_native_qa",
-          "prompt": "Explain Higgs mass m_H = 125.25 GeV with explicit epistemic status and falsification or boundary notes where relevant.",
-          "target": "The Higgs mass is P5 in the ToE table, ARCHITECTURE_LIMIT_CERTIFIED(6D+). The 5D Goldberger-Wise mechanism gives the Higgs VEV v ≈ 257.6 GeV (4.6% residual). The Higgs mass itself (125.25 GeV) requires the brane-localised kinetic mixing θ_HR in the full 6D+ geometry (WS-I). The current 5D estimate gives ~125 GeV but cannot close to sub-percent without the full 6D brane-localised calculation.",
-          "required_gates": [
-            "ARCHITECTURE_LIMIT"
-          ],
-          "provenance_sources": [
-            "src/sixd/higgs_radion_full_geometry_6dplus.py",
-            "docs/mas_tracker.yml"
-          ],
-          "supervision_mode": "grounded_supervised_finetuning"
-        },
-        {
-          "id": "repo-qa-higgs_vev",
-          "track": "repository_native_qa",
-          "prompt": "Explain Higgs VEV v = 246 GeV P6 with explicit epistemic status and falsification or boundary notes where relevant.",
-          "target": "P6 (Higgs VEV v) is GEOMETRIC_PREDICTION (v10.18). Derivation via Pillar 139 (higgs_vev_exact.py): quartic λ_H^tree = 25/148 (from n_w=5, k_CS=74), KK threshold M_KK ≈ 1042 GeV, 1-loop top-Yukawa RGE correction gives λ_eff ≈ 0.130. v_pred = m_H/sqrt(2λ_eff) ≈ 245.96 GeV (PDG: 246.22 GeV, residual ≈ 0.10%). See src/core/higgs_vev_exact.py and higgs_vev_upgrade_p6.py.",
-          "required_gates": [
-            "HARDGATE"
-          ],
-          "provenance_sources": [
-            "src/core/higgs_vev_exact.py",
-            "src/core/higgs_vev_upgrade_p6.py"
-          ],
-          "supervision_mode": "grounded_supervised_finetuning"
-        },
-        {
-          "id": "repo-qa-litebird",
-          "track": "repository_native_qa",
-          "prompt": "Explain LiteBIRD falsification timeline with explicit epistemic status and falsification or boundary notes where relevant.",
-          "target": "LiteBIRD is the primary falsifier for the Unitary Manifold. Launch ~2032, first results ~2034. It will measure CMB polarisation birefringence β to precision ~0.1°. Falsification condition: β ∉ [0.22°, 0.38°] OR β ∈ [0.29°, 0.31°] (the predicted gap between the two UM modes). See docs/LITEBIRD_FALSIFIER_BRIEF.md for the full protocol.",
-          "required_gates": [
-            "HARDGATE"
-          ],
-          "provenance_sources": [
-            "docs/LITEBIRD_FALSIFIER_BRIEF.md",
-            "docs/TOE_SCORE_AUDIT.md"
-          ],
-          "supervision_mode": "grounded_supervised_finetuning"
-        },
-        {
-          "id": "repo-qa-monitor_matrix",
-          "track": "repository_native_qa",
-          "prompt": "Explain Machine-readable monitor matrix with explicit epistemic status and falsification or boundary notes where relevant.",
-          "target": "Cross-experiment monitor outputs are aggregated in src/core/experiment_monitor_matrix.py. The bundle combines CMB-S4, DUNE, Hyper-K/JUNO, and DESI reports, and emits binary hard-gate routing (pass→freeze, fail→targeted ticket) in machine-readable form.",
-          "required_gates": [
-            "HARDGATE"
-          ],
-          "provenance_sources": [
-            "src/core/experiment_monitor_matrix.py",
-            "src/core/cmbs4_monitor.py",
-            "src/core/dune_dcp_monitor.py",
-            "src/core/hyperk_juno_monitor.py",
-            "src/core/desi_year3_monitor.py"
-          ],
-          "supervision_mode": "grounded_supervised_finetuning"
         }
       ],
       "seed_statistics": {
         "total_examples": 12,
         "track_counts": {
-          "repository_native_qa": 12
+          "repository_native_qa": 8,
+          "formal_proof_obligations": 1,
+          "tool_call_success_failure_pairs": 1,
+          "specialist_mentorship_artifact_deposits": 1,
+          "governance_decision_traces": 1
         }
       },
       "active_training_surfaces": {
@@ -497,6 +524,71 @@
     },
     "splits": {
       "train": [
+        {
+          "record_id": "kernel-lane-kernel-s",
+          "split": "train",
+          "kernel_id": "kernel_s",
+          "task_family": "repository_native_qa",
+          "instruction": "Summarize hardgate status with explicit gate labels and provenance boundaries.",
+          "response_target": "HARDGATE summary with explicit uncertainty and source references.",
+          "target_contract": null,
+          "supervision_mode": "kernel_lane_bootstrap",
+          "required_gates": [
+            "HARDGATE"
+          ],
+          "provenance_sources": [
+            "STATUS.md",
+            "FALLIBILITY.md"
+          ],
+          "format_version": "merlin_training_jsonl_v1"
+        },
+        {
+          "record_id": "kernel-lane-kernel-r",
+          "split": "train",
+          "kernel_id": "kernel_r",
+          "task_family": "tool_call_success_failure_pairs",
+          "instruction": "Select the safest tool path for a bounded multi-step repository operation.",
+          "response_target": "GOVERNANCE-first tool route with schema preflight and deterministic fallback.",
+          "target_contract": {
+            "required_gates": [
+              "GOVERNANCE"
+            ],
+            "required_contract_sections": [
+              "answer",
+              "followups",
+              "sources"
+            ],
+            "required_provenance_kinds": [
+              "knowledge_base",
+              "policy"
+            ]
+          },
+          "supervision_mode": "kernel_lane_bootstrap",
+          "required_gates": [
+            "GOVERNANCE"
+          ],
+          "provenance_sources": [
+            "ox_navigator/engine/merlin_tools.py"
+          ],
+          "format_version": "merlin_training_jsonl_v1"
+        },
+        {
+          "record_id": "kernel-lane-kernel-g",
+          "split": "train",
+          "kernel_id": "kernel_g",
+          "task_family": "governance_decision_traces",
+          "instruction": "Refuse unsafe privileged action and cite policy-based escalation.",
+          "response_target": "GOVERNANCE refusal with privilege verification requirement and escalation path.",
+          "target_contract": null,
+          "supervision_mode": "kernel_lane_bootstrap",
+          "required_gates": [
+            "GOVERNANCE"
+          ],
+          "provenance_sources": [
+            "ox_navigator/engine/merlin_sentinel.py"
+          ],
+          "format_version": "merlin_training_jsonl_v1"
+        },
         {
           "record_id": "repo-qa-alpha_s",
           "split": "train",
@@ -568,84 +660,41 @@
             "src/core/desi_year3_monitor.py"
           ],
           "format_version": "merlin_training_jsonl_v1"
-        },
-        {
-          "record_id": "repo-qa-dune",
-          "split": "train",
-          "kernel_id": "kernel_s",
-          "task_family": "repository_native_qa",
-          "instruction": "Explain DUNE delta CP leptonic CP violation with explicit epistemic status and falsification or boundary notes where relevant.",
-          "response_target": "DUNE (~2028-2032) will measure leptonic CP phase δ_CP with precision ~0.05 rad. UM prediction (P15): δ_CP = π/3 + 9D correction ≈ 1.216 rad. PDG: δ_CP = 1.20 ± 0.20 rad (currently 0.08σ CONSISTENT). Falsification: δ_CP ∉ [0.85, 1.30] rad at < 3% uncertainty. See src/core/dune_dcp_monitor.py.",
-          "target_contract": null,
-          "supervision_mode": "grounded_supervised_finetuning",
-          "required_gates": [
-            "HARDGATE"
-          ],
-          "provenance_sources": [
-            "src/core/dune_dcp_monitor.py",
-            "src/nined/cp_phase_9d_refinement.py"
-          ],
-          "format_version": "merlin_training_jsonl_v1"
-        },
-        {
-          "record_id": "repo-qa-higgs_mass",
-          "split": "train",
-          "kernel_id": "kernel_s",
-          "task_family": "repository_native_qa",
-          "instruction": "Explain Higgs mass m_H = 125.25 GeV with explicit epistemic status and falsification or boundary notes where relevant.",
-          "response_target": "The Higgs mass is P5 in the ToE table, ARCHITECTURE_LIMIT_CERTIFIED(6D+). The 5D Goldberger-Wise mechanism gives the Higgs VEV v ≈ 257.6 GeV (4.6% residual). The Higgs mass itself (125.25 GeV) requires the brane-localised kinetic mixing θ_HR in the full 6D+ geometry (WS-I). The current 5D estimate gives ~125 GeV but cannot close to sub-percent without the full 6D brane-localised calculation.",
-          "target_contract": null,
-          "supervision_mode": "grounded_supervised_finetuning",
-          "required_gates": [
-            "ARCHITECTURE_LIMIT"
-          ],
-          "provenance_sources": [
-            "src/sixd/higgs_radion_full_geometry_6dplus.py",
-            "docs/mas_tracker.yml"
-          ],
-          "format_version": "merlin_training_jsonl_v1"
-        },
-        {
-          "record_id": "repo-qa-litebird",
-          "split": "train",
-          "kernel_id": "kernel_s",
-          "task_family": "repository_native_qa",
-          "instruction": "Explain LiteBIRD falsification timeline with explicit epistemic status and falsification or boundary notes where relevant.",
-          "response_target": "LiteBIRD is the primary falsifier for the Unitary Manifold. Launch ~2032, first results ~2034. It will measure CMB polarisation birefringence β to precision ~0.1°. Falsification condition: β ∉ [0.22°, 0.38°] OR β ∈ [0.29°, 0.31°] (the predicted gap between the two UM modes). See docs/LITEBIRD_FALSIFIER_BRIEF.md for the full protocol.",
-          "target_contract": null,
-          "supervision_mode": "grounded_supervised_finetuning",
-          "required_gates": [
-            "HARDGATE"
-          ],
-          "provenance_sources": [
-            "docs/LITEBIRD_FALSIFIER_BRIEF.md",
-            "docs/TOE_SCORE_AUDIT.md"
-          ],
-          "format_version": "merlin_training_jsonl_v1"
-        },
-        {
-          "record_id": "repo-qa-monitor_matrix",
-          "split": "train",
-          "kernel_id": "kernel_s",
-          "task_family": "repository_native_qa",
-          "instruction": "Explain Machine-readable monitor matrix with explicit epistemic status and falsification or boundary notes where relevant.",
-          "response_target": "Cross-experiment monitor outputs are aggregated in src/core/experiment_monitor_matrix.py. The bundle combines CMB-S4, DUNE, Hyper-K/JUNO, and DESI reports, and emits binary hard-gate routing (pass→freeze, fail→targeted ticket) in machine-readable form.",
-          "target_contract": null,
-          "supervision_mode": "grounded_supervised_finetuning",
-          "required_gates": [
-            "HARDGATE"
-          ],
-          "provenance_sources": [
-            "src/core/experiment_monitor_matrix.py",
-            "src/core/cmbs4_monitor.py",
-            "src/core/dune_dcp_monitor.py",
-            "src/core/hyperk_juno_monitor.py",
-            "src/core/desi_year3_monitor.py"
-          ],
-          "format_version": "merlin_training_jsonl_v1"
         }
       ],
       "dev": [
+        {
+          "record_id": "kernel-lane-kernel-p",
+          "split": "dev",
+          "kernel_id": "kernel_p",
+          "task_family": "formal_proof_obligations",
+          "instruction": "State a formal proof obligation and list missing assumptions without claiming closure.",
+          "response_target": "OPEN_GAP proof-obligation summary with explicit unresolved assumptions and verification plan.",
+          "target_contract": {
+            "required_gates": [
+              "HARDGATE",
+              "OPEN_GAP"
+            ],
+            "required_contract_sections": [
+              "answer",
+              "followups",
+              "sources"
+            ],
+            "required_provenance_kinds": [
+              "knowledge_base",
+              "policy"
+            ]
+          },
+          "supervision_mode": "kernel_lane_bootstrap",
+          "required_gates": [
+            "OPEN_GAP"
+          ],
+          "provenance_sources": [
+            "proof/TIER_1_FORMAL.md",
+            "lean4/UnitaryManifold"
+          ],
+          "format_version": "merlin_training_jsonl_v1"
+        },
         {
           "record_id": "repo-qa-alpha_em",
           "split": "dev",
@@ -666,6 +715,23 @@
         }
       ],
       "test": [
+        {
+          "record_id": "kernel-lane-kernel-a",
+          "split": "test",
+          "kernel_id": "kernel_a",
+          "task_family": "specialist_mentorship_artifact_deposits",
+          "instruction": "Audit memory contradictions and produce a correction-oriented synthesis note.",
+          "response_target": "Counterexample-first audit with contradiction counts and remediation order.",
+          "target_contract": null,
+          "supervision_mode": "kernel_lane_bootstrap",
+          "required_gates": [
+            "GOVERNANCE"
+          ],
+          "provenance_sources": [
+            "ox_navigator/engine/merlin_memory.py"
+          ],
+          "format_version": "merlin_training_jsonl_v1"
+        },
         {
           "record_id": "repo-qa-alpha_gut",
           "split": "test",
@@ -702,30 +768,30 @@
             "docs/LITEBIRD_FALSIFIER_BRIEF.md"
           ],
           "format_version": "merlin_training_jsonl_v1"
-        },
-        {
-          "record_id": "repo-qa-higgs_vev",
-          "split": "test",
-          "kernel_id": "kernel_s",
-          "task_family": "repository_native_qa",
-          "instruction": "Explain Higgs VEV v = 246 GeV P6 with explicit epistemic status and falsification or boundary notes where relevant.",
-          "response_target": "P6 (Higgs VEV v) is GEOMETRIC_PREDICTION (v10.18). Derivation via Pillar 139 (higgs_vev_exact.py): quartic λ_H^tree = 25/148 (from n_w=5, k_CS=74), KK threshold M_KK ≈ 1042 GeV, 1-loop top-Yukawa RGE correction gives λ_eff ≈ 0.130. v_pred = m_H/sqrt(2λ_eff) ≈ 245.96 GeV (PDG: 246.22 GeV, residual ≈ 0.10%). See src/core/higgs_vev_exact.py and higgs_vev_upgrade_p6.py.",
-          "target_contract": null,
-          "supervision_mode": "grounded_supervised_finetuning",
-          "required_gates": [
-            "HARDGATE"
-          ],
-          "provenance_sources": [
-            "src/core/higgs_vev_exact.py",
-            "src/core/higgs_vev_upgrade_p6.py"
-          ],
-          "format_version": "merlin_training_jsonl_v1"
         }
       ]
     },
     "kernel_splits": {
       "kernel_s": {
         "train": [
+          {
+            "record_id": "kernel-lane-kernel-s",
+            "split": "train",
+            "kernel_id": "kernel_s",
+            "task_family": "repository_native_qa",
+            "instruction": "Summarize hardgate status with explicit gate labels and provenance boundaries.",
+            "response_target": "HARDGATE summary with explicit uncertainty and source references.",
+            "target_contract": null,
+            "supervision_mode": "kernel_lane_bootstrap",
+            "required_gates": [
+              "HARDGATE"
+            ],
+            "provenance_sources": [
+              "STATUS.md",
+              "FALLIBILITY.md"
+            ],
+            "format_version": "merlin_training_jsonl_v1"
+          },
           {
             "record_id": "repo-qa-alpha_s",
             "split": "train",
@@ -797,81 +863,6 @@
               "src/core/desi_year3_monitor.py"
             ],
             "format_version": "merlin_training_jsonl_v1"
-          },
-          {
-            "record_id": "repo-qa-dune",
-            "split": "train",
-            "kernel_id": "kernel_s",
-            "task_family": "repository_native_qa",
-            "instruction": "Explain DUNE delta CP leptonic CP violation with explicit epistemic status and falsification or boundary notes where relevant.",
-            "response_target": "DUNE (~2028-2032) will measure leptonic CP phase δ_CP with precision ~0.05 rad. UM prediction (P15): δ_CP = π/3 + 9D correction ≈ 1.216 rad. PDG: δ_CP = 1.20 ± 0.20 rad (currently 0.08σ CONSISTENT). Falsification: δ_CP ∉ [0.85, 1.30] rad at < 3% uncertainty. See src/core/dune_dcp_monitor.py.",
-            "target_contract": null,
-            "supervision_mode": "grounded_supervised_finetuning",
-            "required_gates": [
-              "HARDGATE"
-            ],
-            "provenance_sources": [
-              "src/core/dune_dcp_monitor.py",
-              "src/nined/cp_phase_9d_refinement.py"
-            ],
-            "format_version": "merlin_training_jsonl_v1"
-          },
-          {
-            "record_id": "repo-qa-higgs_mass",
-            "split": "train",
-            "kernel_id": "kernel_s",
-            "task_family": "repository_native_qa",
-            "instruction": "Explain Higgs mass m_H = 125.25 GeV with explicit epistemic status and falsification or boundary notes where relevant.",
-            "response_target": "The Higgs mass is P5 in the ToE table, ARCHITECTURE_LIMIT_CERTIFIED(6D+). The 5D Goldberger-Wise mechanism gives the Higgs VEV v ≈ 257.6 GeV (4.6% residual). The Higgs mass itself (125.25 GeV) requires the brane-localised kinetic mixing θ_HR in the full 6D+ geometry (WS-I). The current 5D estimate gives ~125 GeV but cannot close to sub-percent without the full 6D brane-localised calculation.",
-            "target_contract": null,
-            "supervision_mode": "grounded_supervised_finetuning",
-            "required_gates": [
-              "ARCHITECTURE_LIMIT"
-            ],
-            "provenance_sources": [
-              "src/sixd/higgs_radion_full_geometry_6dplus.py",
-              "docs/mas_tracker.yml"
-            ],
-            "format_version": "merlin_training_jsonl_v1"
-          },
-          {
-            "record_id": "repo-qa-litebird",
-            "split": "train",
-            "kernel_id": "kernel_s",
-            "task_family": "repository_native_qa",
-            "instruction": "Explain LiteBIRD falsification timeline with explicit epistemic status and falsification or boundary notes where relevant.",
-            "response_target": "LiteBIRD is the primary falsifier for the Unitary Manifold. Launch ~2032, first results ~2034. It will measure CMB polarisation birefringence β to precision ~0.1°. Falsification condition: β ∉ [0.22°, 0.38°] OR β ∈ [0.29°, 0.31°] (the predicted gap between the two UM modes). See docs/LITEBIRD_FALSIFIER_BRIEF.md for the full protocol.",
-            "target_contract": null,
-            "supervision_mode": "grounded_supervised_finetuning",
-            "required_gates": [
-              "HARDGATE"
-            ],
-            "provenance_sources": [
-              "docs/LITEBIRD_FALSIFIER_BRIEF.md",
-              "docs/TOE_SCORE_AUDIT.md"
-            ],
-            "format_version": "merlin_training_jsonl_v1"
-          },
-          {
-            "record_id": "repo-qa-monitor_matrix",
-            "split": "train",
-            "kernel_id": "kernel_s",
-            "task_family": "repository_native_qa",
-            "instruction": "Explain Machine-readable monitor matrix with explicit epistemic status and falsification or boundary notes where relevant.",
-            "response_target": "Cross-experiment monitor outputs are aggregated in src/core/experiment_monitor_matrix.py. The bundle combines CMB-S4, DUNE, Hyper-K/JUNO, and DESI reports, and emits binary hard-gate routing (pass→freeze, fail→targeted ticket) in machine-readable form.",
-            "target_contract": null,
-            "supervision_mode": "grounded_supervised_finetuning",
-            "required_gates": [
-              "HARDGATE"
-            ],
-            "provenance_sources": [
-              "src/core/experiment_monitor_matrix.py",
-              "src/core/cmbs4_monitor.py",
-              "src/core/dune_dcp_monitor.py",
-              "src/core/hyperk_juno_monitor.py",
-              "src/core/desi_year3_monitor.py"
-            ],
-            "format_version": "merlin_training_jsonl_v1"
           }
         ],
         "dev": [
@@ -931,44 +922,126 @@
               "docs/LITEBIRD_FALSIFIER_BRIEF.md"
             ],
             "format_version": "merlin_training_jsonl_v1"
-          },
-          {
-            "record_id": "repo-qa-higgs_vev",
-            "split": "test",
-            "kernel_id": "kernel_s",
-            "task_family": "repository_native_qa",
-            "instruction": "Explain Higgs VEV v = 246 GeV P6 with explicit epistemic status and falsification or boundary notes where relevant.",
-            "response_target": "P6 (Higgs VEV v) is GEOMETRIC_PREDICTION (v10.18). Derivation via Pillar 139 (higgs_vev_exact.py): quartic λ_H^tree = 25/148 (from n_w=5, k_CS=74), KK threshold M_KK ≈ 1042 GeV, 1-loop top-Yukawa RGE correction gives λ_eff ≈ 0.130. v_pred = m_H/sqrt(2λ_eff) ≈ 245.96 GeV (PDG: 246.22 GeV, residual ≈ 0.10%). See src/core/higgs_vev_exact.py and higgs_vev_upgrade_p6.py.",
-            "target_contract": null,
-            "supervision_mode": "grounded_supervised_finetuning",
-            "required_gates": [
-              "HARDGATE"
-            ],
-            "provenance_sources": [
-              "src/core/higgs_vev_exact.py",
-              "src/core/higgs_vev_upgrade_p6.py"
-            ],
-            "format_version": "merlin_training_jsonl_v1"
           }
         ]
       },
       "kernel_p": {
         "train": [],
-        "dev": [],
+        "dev": [
+          {
+            "record_id": "kernel-lane-kernel-p",
+            "split": "dev",
+            "kernel_id": "kernel_p",
+            "task_family": "formal_proof_obligations",
+            "instruction": "State a formal proof obligation and list missing assumptions without claiming closure.",
+            "response_target": "OPEN_GAP proof-obligation summary with explicit unresolved assumptions and verification plan.",
+            "target_contract": {
+              "required_gates": [
+                "HARDGATE",
+                "OPEN_GAP"
+              ],
+              "required_contract_sections": [
+                "answer",
+                "followups",
+                "sources"
+              ],
+              "required_provenance_kinds": [
+                "knowledge_base",
+                "policy"
+              ]
+            },
+            "supervision_mode": "kernel_lane_bootstrap",
+            "required_gates": [
+              "OPEN_GAP"
+            ],
+            "provenance_sources": [
+              "proof/TIER_1_FORMAL.md",
+              "lean4/UnitaryManifold"
+            ],
+            "format_version": "merlin_training_jsonl_v1"
+          }
+        ],
         "test": []
       },
       "kernel_r": {
-        "train": [],
+        "train": [
+          {
+            "record_id": "kernel-lane-kernel-r",
+            "split": "train",
+            "kernel_id": "kernel_r",
+            "task_family": "tool_call_success_failure_pairs",
+            "instruction": "Select the safest tool path for a bounded multi-step repository operation.",
+            "response_target": "GOVERNANCE-first tool route with schema preflight and deterministic fallback.",
+            "target_contract": {
+              "required_gates": [
+                "GOVERNANCE"
+              ],
+              "required_contract_sections": [
+                "answer",
+                "followups",
+                "sources"
+              ],
+              "required_provenance_kinds": [
+                "knowledge_base",
+                "policy"
+              ]
+            },
+            "supervision_mode": "kernel_lane_bootstrap",
+            "required_gates": [
+              "GOVERNANCE"
+            ],
+            "provenance_sources": [
+              "ox_navigator/engine/merlin_tools.py"
+            ],
+            "format_version": "merlin_training_jsonl_v1"
+          }
+        ],
         "dev": [],
         "test": []
       },
       "kernel_a": {
         "train": [],
         "dev": [],
-        "test": []
+        "test": [
+          {
+            "record_id": "kernel-lane-kernel-a",
+            "split": "test",
+            "kernel_id": "kernel_a",
+            "task_family": "specialist_mentorship_artifact_deposits",
+            "instruction": "Audit memory contradictions and produce a correction-oriented synthesis note.",
+            "response_target": "Counterexample-first audit with contradiction counts and remediation order.",
+            "target_contract": null,
+            "supervision_mode": "kernel_lane_bootstrap",
+            "required_gates": [
+              "GOVERNANCE"
+            ],
+            "provenance_sources": [
+              "ox_navigator/engine/merlin_memory.py"
+            ],
+            "format_version": "merlin_training_jsonl_v1"
+          }
+        ]
       },
       "kernel_g": {
-        "train": [],
+        "train": [
+          {
+            "record_id": "kernel-lane-kernel-g",
+            "split": "train",
+            "kernel_id": "kernel_g",
+            "task_family": "governance_decision_traces",
+            "instruction": "Refuse unsafe privileged action and cite policy-based escalation.",
+            "response_target": "GOVERNANCE refusal with privilege verification requirement and escalation path.",
+            "target_contract": null,
+            "supervision_mode": "kernel_lane_bootstrap",
+            "required_gates": [
+              "GOVERNANCE"
+            ],
+            "provenance_sources": [
+              "ox_navigator/engine/merlin_sentinel.py"
+            ],
+            "format_version": "merlin_training_jsonl_v1"
+          }
+        ],
         "dev": [],
         "test": []
       }
@@ -2625,33 +2698,33 @@
     },
     "counts": {
       "training_records": {
-        "train": 8,
-        "dev": 1,
+        "train": 7,
+        "dev": 2,
         "test": 3
       },
       "kernel_training_records": {
         "kernel_s": {
-          "train": 8,
+          "train": 5,
           "dev": 1,
-          "test": 3
+          "test": 2
         },
         "kernel_p": {
           "train": 0,
-          "dev": 0,
+          "dev": 1,
           "test": 0
         },
         "kernel_r": {
-          "train": 0,
+          "train": 1,
           "dev": 0,
           "test": 0
         },
         "kernel_a": {
           "train": 0,
           "dev": 0,
-          "test": 0
+          "test": 1
         },
         "kernel_g": {
-          "train": 0,
+          "train": 1,
           "dev": 0,
           "test": 0
         }
@@ -2776,17 +2849,17 @@
       "accepted_sample_count": 36,
       "accepted_training_count": 12,
       "accepted_benchmark_count": 24,
-      "accepted_sample_quality_mean": 0.9667,
+      "accepted_sample_quality_mean": 0.9722,
       "accepted_by_source_family": {
         "seed_instruction_corpus": 12,
         "benchmark_corpus": 24
       },
       "accepted_by_kernel": {
-        "kernel_s": 22,
-        "kernel_p": 0,
-        "kernel_r": 5,
-        "kernel_a": 3,
-        "kernel_g": 6
+        "kernel_s": 18,
+        "kernel_p": 1,
+        "kernel_r": 6,
+        "kernel_a": 4,
+        "kernel_g": 7
       },
       "rejection_reasons_distribution": {},
       "near_duplicate_collapse_count": 0,
@@ -2794,7 +2867,7 @@
       "token_budget": {
         "external_tokens_spent_total": 0,
         "external_tokens_spent_per_accepted_sample": 0.0,
-        "local_processing_token_estimate": 2045,
+        "local_processing_token_estimate": 1675,
         "rejected_token_estimate": 0,
         "budget_gate_state": "local_only_green",
         "freeze_external_generation": true

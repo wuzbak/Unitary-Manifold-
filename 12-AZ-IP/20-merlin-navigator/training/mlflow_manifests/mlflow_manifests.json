@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generated_at": "2026-09-07T00:07:17.065421+00:00",
+  "generated_at": "2026-09-07T00:09:19.371679+00:00",
   "manifests": [
     {
       "experiment_name": "merlin_sft_repository_mastery",
@@ -13,8 +13,8 @@
         "mission_profile": "repository_assistant+scientific_reasoning+autonomous_research"
       },
       "datasets": {
-        "train_split_records": 8,
-        "dev_split_records": 1,
+        "train_split_records": 7,
+        "dev_split_records": 2,
         "test_split_records": 3,
         "compile_time_insight_records": 0
       },

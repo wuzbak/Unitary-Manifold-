@@ -11,6 +11,8 @@ REQUIRED_ENGINE_MODULES: tuple[str, ...] = (
     "ox_navigator/engine/merlin_research_cycle.py",
     "ox_navigator/engine/merlin_energy_ledger.py",
     "ox_navigator/engine/merlin_meta_learning.py",
+    "ox_navigator/engine/merlin_sync_contract.py",
+    "ox_navigator/engine/merlin_tools.py",
     "ox_navigator/engine/merlin_local_inference.py",
     "ox_navigator/engine/merlin_local_provider.py",
     "ox_navigator/engine/merlin_admission.py",
