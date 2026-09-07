@@ -148,7 +148,8 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     blockers_all_clear_declared = blockers_all_clear_raw if isinstance(blockers_all_clear_raw, bool) else None
     promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
-    effective_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
+    blocker_pass_field_types_ok = blockers_are_dicts and all(isinstance(item.get("pass"), bool) for item in promotion_blockers)
+    effective_all_clear = blocker_pass_field_types_ok and all(item.get("pass") is True for item in promotion_blockers)
     declared_all_clear_semantics = effective_all_clear
     declared_matches_effective = (
         blockers_all_clear_declared == effective_all_clear
@@ -156,11 +157,17 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         else True
     )
     if blockers_all_clear_declared is None:
-        blocker_consistency_pass = blockers_are_dicts and promotion_blockers_declared and blockers_all_clear_type_ok
+        blocker_consistency_pass = (
+            blockers_are_dicts
+            and blocker_pass_field_types_ok
+            and promotion_blockers_declared
+            and blockers_all_clear_type_ok
+        )
         blockers_all_clear_effective = effective_all_clear
     else:
         blocker_consistency_pass = (
             blockers_are_dicts
+            and blocker_pass_field_types_ok
             and promotion_blockers_declared
             and blockers_all_clear_type_ok
             and blockers_all_clear_declared == declared_all_clear_semantics
@@ -183,6 +190,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and frontier_stage_list_shape_ok
         and frontier_stage_sequence_ok
         and promotion_blockers_declared
+        and blocker_pass_field_types_ok
         and blockers_all_clear_type_ok
         and policy_declares_fail_closed
     )
@@ -270,6 +278,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_2_frontier_stage_sequence_ok": frontier_stage_sequence_ok,
             "lane_2_requires_promotion_blockers_declared": promotion_blockers_declared,
             "lane_2_blockers_all_clear_type_ok": blockers_all_clear_type_ok,
+            "lane_2_blocker_pass_fields_are_boolean": blocker_pass_field_types_ok,
             "lane_2_declared_all_clear_matches_effective_semantics": declared_matches_effective,
             "lane_2_frontier_packet_ok": frontier_packet_ok,
             "lane_2_blocker_consistency_ok": blocker_consistency_pass,

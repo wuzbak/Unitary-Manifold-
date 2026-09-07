@@ -153,6 +153,25 @@ def test_invalid_if_blockers_all_clear_type_is_non_boolean(monkeypatch) -> None:
     assert report["valid"] is False
 
 
+def test_invalid_if_blocker_pass_field_is_non_boolean(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _invalid_blocker_pass_type(limit=3):
+        packet = original(limit=limit)
+        packet["promotion_blockers"] = [{"name": "quality_floor", "pass": "false"}]
+        packet["promotion_blockers_all_clear"] = False
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _invalid_blocker_pass_type)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_blocker_pass_fields_are_boolean"] is False
+    assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is False
+    assert report["integrated_board"]["dependencies"]["lane_2_frontier_packet_ok"] is False
+    assert report["promotion_policy_state"] == "INVALID"
+    assert report["valid"] is False
+
+
 def test_empty_blockers_all_clear_is_consistent(monkeypatch) -> None:
     program_mod = p1084._load("ox_navigator.engine.merlin_program")
     original = program_mod.get_frontier_readiness_packet
