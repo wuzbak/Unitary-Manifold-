@@ -1448,7 +1448,8 @@ def get_merlin_teacher_trace_policy() -> dict[str, Any]:
             "trace_metadata.license",
             "trace_metadata.source_category",
             "trace_metadata.collection_method",
-            "trace_metadata.provenance_uri_or_citations",
+            "trace_metadata.provenance_uri",
+            "trace_metadata.provenance_citations",
         ],
         "allowed_licenses": sorted(MERLIN_TEACHER_TRACE_LICENSE_ALLOWLIST),
         "allowed_source_categories": sorted(MERLIN_TEACHER_TRACE_SOURCE_ALLOWLIST),
@@ -2234,6 +2235,8 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
         errors.append("invalid_format_version")
     requires_teacher_trace_checks = (
         str(record.get("task_family", "")).strip() == "teacher_trace_distillation"
+        or str(record.get("task_track", "")).strip() == "teacher_trace_distillation"
+        or str(record.get("track", "")).strip() == "teacher_trace_distillation"
         or str(record.get("supervision_mode", "")).strip() == "teacher_trace_distillation"
     )
     if requires_teacher_trace_checks:
