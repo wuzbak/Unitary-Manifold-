@@ -136,7 +136,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     )
     promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
-    derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
+    derived_all_clear = blockers_are_dicts and len(promotion_blockers) == 0
     if blockers_all_clear_declared is None:
         blocker_consistency_pass = blockers_are_dicts and promotion_blockers_declared
         blockers_all_clear_effective = derived_all_clear

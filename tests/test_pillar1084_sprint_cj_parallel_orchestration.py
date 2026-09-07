@@ -152,6 +152,25 @@ def test_empty_blockers_without_declared_all_clear_is_consistent(monkeypatch) ->
     assert report["valid"] is True
 
 
+def test_nonempty_passing_blockers_do_not_imply_all_clear(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _nonempty_passing_blockers(limit=3):
+        packet = original(limit=limit)
+        packet["promotion_blockers"] = [{"name": "info_only", "pass": True}]
+        packet.pop("promotion_blockers_all_clear", None)
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _nonempty_passing_blockers)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is True
+    assert report["lane_2"]["promotion_blockers_all_clear"] is False
+    assert report["promotion_policy_state"] == "FREEZE"
+    assert report["integrated_board"]["dependencies"]["promotion_language_gate_pass"] is False
+    assert report["integrated_board"]["dependencies"]["promotion_language_freeze_enforced"] is True
+
+
 def test_summary() -> None:
     summary = pillar1084_summary()
     assert summary["status"] == PILLAR_STATUS
