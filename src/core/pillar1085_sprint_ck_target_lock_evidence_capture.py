@@ -115,7 +115,7 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
 def _candidate_rows() -> List[Dict[str, Any]]:
     action_target = {
         "target_id": SELECTED_TARGET_ID,
-        "label": "Action-to-evolution Euler-Lagrange matching derivation",
+        "label": "Action-to-evolution Euler-Lagrange derivation",
         "existing_machine_readable_surface": 5,
         "architecture_leverage": 5,
         "evidence_boundary_clarity": 5,

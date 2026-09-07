@@ -34,7 +34,7 @@ or empirical closure.
 
 This file is the required wave-level changelog ledger.
 **Current version: v36.7 (2026-09-07)**
-**Regression:** 64,088 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
+**Regression:** 64,122 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
 **Next pillar slot:** 1086
 
 
@@ -58,7 +58,7 @@ Stop carrying two scientific options forward at once, force one auditable next t
 **Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
 
 **Lean4:** 4080 → 4080 (+0)
-**Regression:** Sprint CK target-lock/evidence-capture targeted tests pending current-branch execution; full regression remains 64,088 passed · 22 skipped · 18 deselected · 0 failed
+**Regression:** Sprint CK targeted validation suite 142 passed · 0 failed; full regression is 64,122 passed · 22 skipped · 18 deselected · 0 failed
 **Next pillar slot:** 1086
 
 ## v36.6 (2026-09-07 — Sprint CJ: Pillar 1084)

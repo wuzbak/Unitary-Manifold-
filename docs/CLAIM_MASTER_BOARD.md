@@ -22,7 +22,7 @@ Detailed assumptions, counterexamples, and verification record:
 All observational falsifiers remain unchanged, including the closed forbidden
 birefringence gap [0.29°, 0.31°].
 Sprint CI targeted validation passed 132 tests with zero failures, and the
-verified full regression in the current branch is 64,088 passed · 22 skipped ·
+verified full regression in the current branch is 64,122 passed · 22 skipped ·
 18 deselected · 0 failed. This verifies neither empirical agreement nor the
 still-open physical obligations in the table.
 
@@ -30,7 +30,7 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-07 (v36.7 — Sprint CK: Pillar 1085. This sprint executes the immediate next-step lock from Sprint CJ without claiming new closure: lane one performs a leverage audit, selects the action-to-evolution Euler-Lagrange route as the sole next foundation target, and turns that choice into an exact evidence-class contract; lane two captures Merlin Stage A→E receipts plus governed artifact bundles while promotion language remains frozen because the scientific lane is not closed. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1086. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032.)*
+*Last updated: 2026-09-07 (v36.7 — Sprint CK: Pillar 1085. This sprint executes the immediate next-step lock from Sprint CJ without claiming new closure: lane one performs a leverage audit, selects the action-to-evolution Euler-Lagrange route as the sole next foundation target, and turns that choice into an exact evidence-class contract; lane two captures Merlin Stage A→E receipts plus governed artifact bundles while promotion language remains frozen because the scientific lane is not closed. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1086. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history: 64,122 passed · 22 skipped · 18 deselected · 0 failed; focused regression: 142 passed · 0 failed.)*
 
 *Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
 

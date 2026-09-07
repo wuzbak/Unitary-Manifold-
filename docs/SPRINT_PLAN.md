@@ -60,7 +60,7 @@ Proceed only when all three agree.
 | Pillars | **1085-1085** |
 | Next pillar slot | **1086** |
 | Lean4 theorems | **4080** |
-| Verified full regression | **64,088 passed · 22 skipped · 18 deselected · 0 failed** |
+| Verified full regression | **64,122 passed · 22 skipped · 18 deselected · 0 failed** |
 | Sprint theme | **Single-target foundation lock + Merlin Stage A→E evidence capture** |
 | Primary target | **Lock Lane 1 to action-to-evolution Euler-Lagrange matching and capture Merlin Stage A→E receipts/artifacts without promotion release** |
 | Binary outcome | **Either one exact evidence-class target is locked with governed Merlin evidence capture, or the sprint remains blocked with explicit cause** |

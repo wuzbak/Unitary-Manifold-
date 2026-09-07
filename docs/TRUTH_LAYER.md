@@ -284,7 +284,7 @@ prediction. Future observations do not repair invalid internal implications.
 Every claim, every gap, every tension, every falsifier — stated completely.*
 
 *v36.7 sync note (Sprint CK — 2026-09-07):*
-*(1) Auditable checked-in branch state now includes Pillar 1085; Lean4 remains 4080; next pillar slot 1086; latest verified full regression in current branch history is 64,088 passed · 22 skipped · 18 deselected · 0 failed.*
+*(1) Auditable checked-in branch state now includes Pillar 1085; Lean4 remains 4080; next pillar slot 1086; latest verified full regression in current branch history is 64,122 passed · 22 skipped · 18 deselected · 0 failed.*
 *(2) P1085 performs a leverage audit across the two admissible foundation targets and locks the next execution pass to the action-to-evolution Euler-Lagrange route rather than carrying both targets forward in parallel.*
 *(3) The remaining action blocker is now stated as one exact evidence-class contract: action functional, Euler-Lagrange equations, side-by-side residual checks, and machine-readable boundary update.*
 *(4) Merlin Stage A→E receipts plus governed artifact bundles are captured, but promotion language remains frozen because the scientific lane is tightened rather than closed.*
