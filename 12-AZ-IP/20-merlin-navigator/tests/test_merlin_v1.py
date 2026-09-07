@@ -601,6 +601,31 @@ def test_training_dataset_teacher_trace_validation_rejects_unlicensed_samples(mo
     assert any("missing_trace_provenance_pointer" in item.get("errors", []) for item in validation_errors)
 
 
+def test_training_record_trace_metadata_triggers_teacher_trace_validation_without_track_marker():
+    errors = merlin_program._validate_training_record(
+        {
+            "record_id": "metadata-only",
+            "split": "train",
+            "kernel_id": "kernel_s",
+            "task_family": "repository_native_qa",
+            "instruction": "Validate metadata-triggered teacher trace checks.",
+            "response_target": {"answer": "ok"},
+            "supervision_mode": "grounded_supervised_finetuning",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["synthetic_source"],
+            "trace_metadata": {
+                "license": "unknown",
+                "source_category": "public_repository",
+                "collection_method": "manual_summary",
+                "provenance_citations": [],
+            },
+            "format_version": "merlin_training_jsonl_v1",
+        }
+    )
+    assert "disallowed_trace_license" in errors
+    assert "missing_trace_provenance_pointer" in errors
+
+
 def test_route_tool_empirical_gate_and_promotion_packet():
     runs = [
         {

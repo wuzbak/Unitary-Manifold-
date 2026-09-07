@@ -2249,10 +2249,11 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
     task_track = str(record.get("task_track", "")).strip().lower()
     track = str(record.get("track", "")).strip().lower()
     supervision_mode = str(record.get("supervision_mode", "")).strip().lower()
+    has_trace_metadata = isinstance(record.get("trace_metadata"), dict) and bool(record.get("trace_metadata"))
     requires_teacher_trace_checks = any(
         value == "teacher_trace_distillation"
         for value in (task_family, task_track, track, supervision_mode)
-    )
+    ) or has_trace_metadata
     if requires_teacher_trace_checks:
         trace_status = evaluate_teacher_trace_admission(record)
         if not trace_status.get("ok"):
