@@ -33,10 +33,33 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.6 (2026-09-07)**
+**Current version: v36.7 (2026-09-07)**
 **Regression:** 64,088 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1085
+**Next pillar slot:** 1086
 
+
+## v36.7 (2026-09-07 — Sprint CK: Pillar 1085)
+
+**What changed:**
+Sprint CK converts the Sprint CJ choice point into one executable commitment. Pillar 1085 performs a leverage audit across the two admissible foundation targets, locks lane one to the action-to-evolution Euler-Lagrange route, and turns the remaining obligation into one exact evidence-class contract. In parallel, lane two captures Merlin Stage A→E receipts plus Stage A and training artifact bundles while keeping sovereign-local primary, compatibility-only fallback, and frozen promotion language.
+
+**Why:**
+Stop carrying two scientific options forward at once, force one auditable next target, and gather governed Merlin evidence without pretending the scientific lane is closed.
+
+**Epistemic label deltas:**
+- `SPRINT_CK_TARGET_LOCK_AND_EVIDENCE_CAPTURE_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Sprint CK target-lock/evidence-capture targeted tests pending current-branch execution; full regression remains 64,088 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1086
 
 ## v36.6 (2026-09-07 — Sprint CJ: Pillar 1084)
 
