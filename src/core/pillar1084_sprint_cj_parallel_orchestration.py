@@ -126,6 +126,18 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and all(isinstance(row, dict) and isinstance(row.get("stage"), str) for row in stage_rows)
     )
     plan_stages = [row["stage"] for row in stage_rows] if stage_list_shape_ok else []
+    frontier_stage_rows = (
+        frontier.get("multi_stage_plan", {}).get("stages")
+        if isinstance(frontier.get("multi_stage_plan", {}), dict)
+        else []
+    )
+    frontier_stage_list_shape_ok = (
+        isinstance(frontier_stage_rows, list)
+        and len(frontier_stage_rows) > 0
+        and all(isinstance(row, dict) and isinstance(row.get("stage"), str) for row in frontier_stage_rows)
+    )
+    frontier_stage_sequence = [row["stage"] for row in frontier_stage_rows] if frontier_stage_list_shape_ok else []
+    frontier_stage_sequence_ok = frontier_stage_sequence == _EXPECTED_STAGE_SEQUENCE
     raw_promotion_blockers = frontier.get("promotion_blockers")
     promotion_blockers = list(raw_promotion_blockers) if isinstance(raw_promotion_blockers, list) else []
     blockers_all_clear_raw = frontier.get("promotion_blockers_all_clear", None)
@@ -159,8 +171,8 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and isinstance(frontier.get("control_tower", {}).get("longitudinal_acceptance"), dict)
         and len(frontier.get("control_tower", {}).get("longitudinal_acceptance", {})) > 0
         and isinstance(frontier.get("multi_stage_plan"), dict)
-        and isinstance(frontier.get("multi_stage_plan", {}).get("stages"), list)
-        and len(frontier.get("multi_stage_plan", {}).get("stages") or []) > 0
+        and frontier_stage_list_shape_ok
+        and frontier_stage_sequence_ok
         and promotion_blockers_declared
         and blockers_all_clear_type_ok
         and policy_declares_fail_closed
@@ -245,6 +257,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_1_requires_sprint_ci_certificate": bool(sprint_ci.get("valid")),
             "lane_2_requires_stage_sequence_a_to_e": plan_stages == _EXPECTED_STAGE_SEQUENCE,
             "lane_2_stage_list_shape_ok": stage_list_shape_ok,
+            "lane_2_frontier_stage_sequence_ok": frontier_stage_sequence_ok,
             "lane_2_requires_promotion_blockers_declared": promotion_blockers_declared,
             "lane_2_blockers_all_clear_type_ok": blockers_all_clear_type_ok,
             "lane_2_frontier_packet_ok": frontier_packet_ok,

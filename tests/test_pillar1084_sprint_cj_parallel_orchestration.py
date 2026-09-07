@@ -65,6 +65,23 @@ def test_invalid_if_stage_order_breaks(monkeypatch) -> None:
     assert report["integrated_board"]["dependencies"]["lane_2_requires_stage_sequence_a_to_e"] is False
 
 
+def test_invalid_if_frontier_stage_order_breaks(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _bad_frontier(limit=3):
+        packet = original(limit=limit)
+        packet["multi_stage_plan"]["stages"] = list(reversed(packet["multi_stage_plan"]["stages"]))
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _bad_frontier)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_frontier_stage_sequence_ok"] is False
+    assert report["integrated_board"]["dependencies"]["lane_2_frontier_packet_ok"] is False
+    assert report["promotion_policy_state"] == "INVALID"
+    assert report["valid"] is False
+
+
 def test_invalid_if_corpora_stage_missing(monkeypatch) -> None:
     benchmark_mod = p1084._load("ox_navigator.engine.merlin_benchmark")
     original = benchmark_mod.get_benchmark_corpus
