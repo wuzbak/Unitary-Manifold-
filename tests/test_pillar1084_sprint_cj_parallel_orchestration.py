@@ -117,6 +117,22 @@ def test_invalid_if_frontier_blocker_consistency_breaks(monkeypatch) -> None:
     assert report["valid"] is False
 
 
+def test_empty_blockers_all_clear_is_consistent(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _empty_clear_frontier(limit=3):
+        packet = original(limit=limit)
+        packet["promotion_blockers"] = []
+        packet["promotion_blockers_all_clear"] = True
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _empty_clear_frontier)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_requires_promotion_blockers_declared"] is True
+    assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is True
+
+
 def test_summary() -> None:
     summary = pillar1084_summary()
     assert summary["status"] == PILLAR_STATUS
