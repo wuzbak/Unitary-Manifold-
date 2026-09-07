@@ -1676,6 +1676,88 @@ def _seed_teacher_trace_distillation_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
+    ten_proofs = _repo_rel(REPO_ROOT / "ten-proofs-oai.pdf")
+    unit_distance = _repo_rel(REPO_ROOT / "unit-distance-proof.pdf")
+    return [
+        {
+            "id": "external-proof-transfer-map",
+            "track": "external_open_science_augmentation",
+            "prompt": (
+                "Extract transferable proof workflow patterns from the OpenAI ten-proofs and unit-distance "
+                "papers, then map each pattern to a Merlin kernel lane with explicit non-claims."
+            ),
+            "target": {
+                "patterns": [
+                    "assumption-ledger-first reasoning",
+                    "counterexample and boundary-case pressure testing",
+                    "human verification before closure",
+                    "sectioned derivation traces with citation anchors",
+                ],
+                "kernel_mapping": {
+                    "kernel_p": "proof obligation and unresolved-assumption tracking",
+                    "kernel_a": "contradiction recall and audit trail retention",
+                    "kernel_g": "fail-closed non-claim enforcement for uncertain closure",
+                },
+                "non_claims": [
+                    "External proofs do not validate Unitary Manifold physics claims by analogy.",
+                    "Proof achievements in separate domains cannot be promoted as repository closure evidence.",
+                ],
+            },
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [ten_proofs, unit_distance],
+            "supervision_mode": "grounded_supervised_finetuning",
+        },
+        {
+            "id": "external-proof-gap-closure-filter",
+            "track": "formal_proof_obligations",
+            "prompt": (
+                "Given an external theorem-style result, decide whether it closes a named Unitary Manifold "
+                "gap or only provides method transfer, and return a strict closure verdict with rationale."
+            ),
+            "target": {
+                "closure_verdict": "method_transfer_only",
+                "rationale": (
+                    "The imported work strengthens proof process design and benchmark discipline, but it does "
+                    "not supply direct derivations for repository-specific open claims."
+                ),
+                "required_for_true_closure": [
+                    "direct mapping to repository theorem statement",
+                    "assumption compatibility check",
+                    "independent in-repo verification artifact",
+                ],
+            },
+            "required_gates": ["OPEN_GAP"],
+            "provenance_sources": [ten_proofs, unit_distance, _repo_rel(REPO_ROOT / "FALLIBILITY.md")],
+            "supervision_mode": "grounded_supervised_finetuning",
+        },
+        {
+            "id": "external-proof-benchmark-synthesis",
+            "track": "tool_call_success_failure_pairs",
+            "prompt": (
+                "Convert high-level proof claims from external papers into benchmark items that test Merlin's "
+                "epistemic honesty, provenance fidelity, and refusal of overreach."
+            ),
+            "target": {
+                "benchmark_axes": [
+                    "claim-vs-evidence separation",
+                    "assumption visibility under compression",
+                    "non-claim refusal for unsupported closure",
+                    "counterexample sensitivity",
+                ],
+                "stage_alignment": {
+                    "stage_b_sovereign_takeover": "baseline contract adherence and provenance completeness",
+                    "stage_c_capability_expansion": "cross-source reasoning and contradiction handling",
+                    "stage_d_replacement_gates": "sustained non-overclaim behavior under adversarial prompts",
+                },
+            },
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": [ten_proofs, unit_distance, "getMerlinBenchmarkCorpora"],
+            "supervision_mode": "grounded_supervised_finetuning",
+        },
+    ]
+
+
 def _seed_kernel_lane_bootstrap_examples() -> list[dict[str, Any]]:
     return [
         {
@@ -1780,6 +1862,7 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
 
     examples.extend(_seed_tool_alignment_examples())
     examples.extend(_seed_teacher_trace_distillation_examples())
+    examples.extend(_seed_external_proof_review_examples())
     if limit is not None:
         return examples[: max(0, int(limit))]
     return examples
@@ -2043,7 +2126,11 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             {
                 "family": "external_open_science_augmentation",
                 "purpose": "Expand beyond repository-native scope without diluting Merlin's grounded identity.",
-                "source_surfaces": ["getMerlinOpenScienceRegistry"],
+                "source_surfaces": [
+                    "getMerlinOpenScienceRegistry",
+                    _repo_rel(REPO_ROOT / "ten-proofs-oai.pdf"),
+                    _repo_rel(REPO_ROOT / "unit-distance-proof.pdf"),
+                ],
             },
             {
                 "family": "teacher_trace_distillation",
