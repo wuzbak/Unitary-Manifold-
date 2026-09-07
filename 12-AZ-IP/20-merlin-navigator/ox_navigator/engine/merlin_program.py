@@ -1450,7 +1450,6 @@ def get_merlin_teacher_trace_policy() -> dict[str, Any]:
             "trace_metadata.collection_method",
             "trace_metadata.provenance_uri (required when provenance_citations is empty)",
             "trace_metadata.provenance_citations (string_or_list, required when provenance_uri is empty)",
-            "trace_metadata.trace_type (required when teacher-trace metadata fields are present)",
         ],
         "allowed_licenses": sorted(MERLIN_TEACHER_TRACE_LICENSE_ALLOWLIST),
         "allowed_source_categories": sorted(MERLIN_TEACHER_TRACE_SOURCE_ALLOWLIST),
@@ -2267,12 +2266,13 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
                 "provenance_citations",
             )
         )
-    requires_teacher_trace_checks = any(
+    has_teacher_trace_marker = any(
         value == "teacher_trace_distillation"
         for value in (task_family, task_track, track, supervision_mode)
-    ) or metadata_trace_type == "teacher_trace_distillation"
-    if has_teacher_trace_metadata_fields and not requires_teacher_trace_checks:
+    )
+    if has_teacher_trace_metadata_fields and not has_teacher_trace_marker:
         errors.append("missing_teacher_trace_marker")
+    requires_teacher_trace_checks = has_teacher_trace_marker or metadata_trace_type == "teacher_trace_distillation"
     if requires_teacher_trace_checks:
         trace_status = evaluate_teacher_trace_admission(record)
         if not trace_status.get("ok"):

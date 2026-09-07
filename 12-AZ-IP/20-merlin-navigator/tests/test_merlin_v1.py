@@ -647,6 +647,7 @@ def test_training_record_teacher_trace_type_triggers_validation_without_track_ma
             "format_version": "merlin_training_jsonl_v1",
         }
     )
+    assert "missing_teacher_trace_marker" in errors
     assert "disallowed_trace_license" in errors
     assert "missing_trace_provenance_pointer" in errors
 
