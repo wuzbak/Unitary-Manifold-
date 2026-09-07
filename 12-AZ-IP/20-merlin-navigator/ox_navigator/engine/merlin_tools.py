@@ -22,6 +22,7 @@ from .merlin_benchmark import (
     build_promotion_packet,
     get_benchmark_corpus,
     evaluate_longitudinal_acceptance,
+    evaluate_geometric_longitudinal_acceptance,
     evaluate_benchmark_response,
     evaluate_empirical_gate,
     get_multi_stage_benchmark_plan,
@@ -259,6 +260,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "runMerlinStageCReceipts", "summary": "Run self-hosted Stage C receipt set", "domain": "functions"},
             {"name": "evaluateMerlinEmpiricalGate", "summary": "Evaluate sustained Merlin-vs-incumbent replacement gate", "domain": "functions"},
             {"name": "evaluateMerlinLongitudinalAcceptance", "summary": "Evaluate sustained clean-window promotion cadence over gate history", "domain": "functions"},
+            {"name": "evaluateMerlinGeometricLongitudinalAcceptance", "summary": "Evaluate sustained geometric-memory acceptance cadence over gate history", "domain": "functions"},
             {"name": "getMerlinPromotionPacket", "summary": "Return explicit replacement promotion packet", "domain": "functions"},
             {"name": "getMerlinReplacementReadiness", "summary": "Return concrete self-hosted replacement readiness packet", "domain": "functions"},
             {"name": "getMerlinStageAArtifacts", "summary": "Return exportable Stage A artifact bundle", "domain": "functions"},
@@ -268,6 +270,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinTrainingCuration", "summary": "Return low-token Merlin curation ledger and budget metrics", "domain": "functions"},
             {"name": "getMerlinMLflowManifests", "summary": "Return MLflow-ready experiment manifests for Merlin training and gates", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
+            {"name": "getMerlinMemoryGeometry", "summary": "Return geometry-constrained memory landmark map", "domain": "functions"},
             {"name": "runMerlinMemoryAudit", "summary": "Audit which durable memories match a query", "domain": "functions"},
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
             {"name": "getMerlinInferenceProviders", "summary": "Return sovereign local inference provider registry", "domain": "functions"},
@@ -322,6 +325,16 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinTrainingCuration": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinMemoryGeometry": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            }
+        },
         "getMerlinBenchmarkCorpora": {
             "args_schema": {
                 "type": "object",
@@ -416,6 +429,18 @@ def _tool_manifest() -> dict[str, Any]:
             },
             "risk_level": "medium",
         },
+        "evaluateMerlinGeometricLongitudinalAcceptance": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "gate_history": {"type": "array"},
+                    "window_size": {"type": "integer"},
+                    "min_clean_windows": {"type": "integer"},
+                },
+                "required": ["gate_history"],
+            },
+            "risk_level": "medium",
+        },
         "runMerlinStageAReceipts": {
             "args_schema": {
                 "type": "object",
@@ -498,6 +523,17 @@ def _tool_manifest() -> dict[str, Any]:
             "capability_class": "state_read",
         },
         "getMerlinMemoryState": {"capability_class": "state_read"},
+        "getMerlinMemoryGeometry": {
+            "capability_class": "state_read",
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+        },
         "getMerlinTelemetrySummary": {"capability_class": "state_read"},
         "getMerlinInferenceProviders": {"capability_class": "state_read"},
         "getMerlinInferenceHealth": {
@@ -868,6 +904,17 @@ _FUNCTIONS = {
         (args.get("__session").telemetry if isinstance(args.get("__session"), MerlinSession) else MerlinSession().telemetry),
         limit=_coerce_positive_int(args.get("limit"), 10),
     )},
+    "getMerlinMemoryGeometry": lambda **args: {"data": (
+        args.get("__session").get_geometric_memory_map(
+            str(args.get("query", "")),
+            limit=_coerce_positive_int(args.get("limit"), 12),
+        )
+        if isinstance(args.get("__session"), MerlinSession)
+        else MerlinSession().get_geometric_memory_map(
+            str(args.get("query", "")),
+            limit=_coerce_positive_int(args.get("limit"), 12),
+        )
+    )},
     "merlinConsolidateMemory": lambda **args: {"data": consolidate_memory(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=_coerce_positive_int(args.get("limit"), 10),
@@ -995,6 +1042,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
         "getMerlinBenchmarkCorpus",
         "evaluateMerlinBenchmarkResponse",
         "getMerlinMemoryState",
+        "getMerlinMemoryGeometry",
         "runMerlinMemoryAudit",
         "getMerlinTelemetrySummary",
         "connector.github",
@@ -1019,7 +1067,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 ok = False
                 error = "Human gate approval required for this tool."
                 raise ValueError(error)
-        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "merlinConsolidateMemory", "merlinSelfAudit", "generateFalsificationOracle", "merlinAnalyzeDepth", "empiricalObservatoryCheck", "kernelPProofProbe"}:
+        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "getMerlinMemoryGeometry", "merlinConsolidateMemory", "merlinSelfAudit", "generateFalsificationOracle", "merlinAnalyzeDepth", "empiricalObservatoryCheck", "kernelPProofProbe"}:
             tool_type = "function"
             if tool == "getMerlinTrainingDataset":
                 result = {"data": build_training_dataset_bundle(
@@ -1092,6 +1140,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "runMerlinResearchCycle",
                     "getMerlinCounterexampleDigest",
                     "getMerlinEnergyLedger",
+                    "getMerlinMemoryGeometry",
                     "merlinConsolidateMemory",
                     "merlinSelfAudit",
                     "generateFalsificationOracle",
@@ -1124,6 +1173,13 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 list(args.get("gate_history") or []),
                 window_size=_coerce_positive_int(args.get("window_size"), 4),
                 min_clean_windows=_coerce_positive_int(args.get("min_clean_windows"), 3),
+            )}
+        elif tool == "evaluateMerlinGeometricLongitudinalAcceptance":
+            tool_type = "function"
+            result = {"data": evaluate_geometric_longitudinal_acceptance(
+                list(args.get("gate_history") or []),
+                window_size=_coerce_positive_int(args.get("window_size"), 4),
+                min_clean_windows=_coerce_positive_int(args.get("min_clean_windows"), 2),
             )}
         elif tool == "getMerlinPromotionPacket":
             tool_type = "function"

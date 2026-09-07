@@ -14,6 +14,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from .gate_parser import extract_gate_badges
+from .merlin_geometry_memory import build_geometric_memory_map
 from .merlin_persona import compress_context
 from .merlin_telemetry import summarize_runs
 
@@ -739,6 +740,16 @@ class MerlinSession:
             "epistemic_partition_event_count": state["epistemic_partition_event_count"],
             "audit_count": state["audit_count"],
         }
+
+    def get_geometric_memory_map(self, query: str = "", *, limit: int = 12) -> dict[str, Any]:
+        return build_geometric_memory_map(
+            query=query,
+            durable_memory=list(self.durable_memory),
+            compiled_insights=list(self.compiled_insights),
+            contradiction_events=list(self.contradiction_events),
+            route_breadcrumbs=list(self.route_breadcrumbs),
+            max_landmarks=limit,
+        )
 
     def get_compiled_training_insights(self) -> list[dict[str, Any]]:
         selected: list[dict[str, Any]] = []

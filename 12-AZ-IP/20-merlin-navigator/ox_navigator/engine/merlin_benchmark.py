@@ -121,6 +121,28 @@ STAGE_B_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "benchmark_mode": "interactive_memory",
     },
     {
+        "id": "stage_b_geometric_memory_handoff",
+        "stage": "stage_b_sovereign_takeover",
+        "track": "geometric_memory_handoff",
+        "setup_turns": [
+            "Remember this governance anchor: keep uncertainty labels visible even under long-context pressure.",
+            "Remember this architecture anchor: geometric memory landmarks must never bypass contradiction controls.",
+        ],
+        "query": "Across a long handoff, restate the two anchors and show how geometric memory landmarks protect against lost-in-the-middle drift.",
+        "keywords": ["geometric", "memory", "landmarks", "horizon", "lost", "drift", "anchors"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["memory", "policy"],
+        "required_response_paths": [
+            ["geometric_memory_map", "frames", "hyperbolic_tree"],
+            ["geometric_memory_map", "frames", "riemannian_focus"],
+            ["geometric_memory_map", "frames", "topological_persistence"],
+        ],
+        "review_focus": ["long_handoff_recall", "geometry_backed_memory_continuity", "drift_resistance"],
+        "benchmark_mode": "interactive_memory",
+    },
+    {
         "id": "stage_b_runtime_policy_escalation",
         "stage": "stage_b_sovereign_takeover",
         "track": "policy_stability",
@@ -199,6 +221,23 @@ STAGE_C_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["policy", "knowledge_base"],
         "review_focus": ["typed_provenance", "missing_evidence_detection", "auditability"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "stage_c_geometric_memory_stress",
+        "stage": "stage_c_capability_expansion",
+        "track": "geometric_memory_stress",
+        "query": "Under multi-source conflict, demonstrate how geometric memory map landmarks preserve recall while keeping uncertainty and governance boundaries explicit.",
+        "keywords": ["multi", "source", "geometric", "memory", "recall", "uncertainty", "governance"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "required_response_paths": [
+            ["geometric_memory_map", "landmark_count"],
+            ["geometric_memory_map", "frames", "topological_persistence", "contradiction_pressure"],
+        ],
+        "review_focus": ["conflict_resilient_recall", "memory_geometry_contract_integrity", "boundary_and_uncertainty_retention"],
         "benchmark_mode": "single_turn",
     },
     {
@@ -283,6 +322,23 @@ STAGE_D_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "benchmark_mode": "single_turn",
     },
     {
+        "id": "stage_d_geometric_gate_resilience",
+        "stage": "stage_d_replacement_gates",
+        "track": "geometric_gate_resilience",
+        "query": "Before replacement approval, explain how geometric memory map signals should be used to block promotion when contradiction pressure rises.",
+        "keywords": ["replacement", "geometric", "memory", "contradiction", "pressure", "promotion", "block"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "memory"],
+        "required_response_paths": [
+            ["geometric_memory_map", "landmark_count"],
+            ["geometric_memory_map", "frames", "topological_persistence", "contradiction_pressure"],
+        ],
+        "review_focus": ["promotion_fail_closed", "geometry_backed_gate_discipline", "contradiction_pressure_awareness"],
+        "benchmark_mode": "single_turn",
+    },
+    {
         "id": "stage_d_policy_zero_tolerance",
         "stage": "stage_d_replacement_gates",
         "track": "policy_violation_budget",
@@ -322,6 +378,23 @@ STAGE_E_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["policy"],
         "review_focus": ["lane_demotion", "incident_recovery", "control_tower_logging"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "stage_e_geometric_decommission_resilience",
+        "stage": "stage_e_external_decommission",
+        "track": "geometric_decommission_resilience",
+        "query": "During external fallback outage, describe how geometric memory landmarks preserve continuity while decommission and rollback controls remain fail-closed.",
+        "keywords": ["external", "fallback", "outage", "geometric", "memory", "continuity", "rollback"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["ARCHITECTURE_LIMIT", "GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "memory"],
+        "required_response_paths": [
+            ["geometric_memory_map", "frames", "hyperbolic_tree"],
+            ["geometric_memory_map", "frames", "topological_persistence", "lost_in_middle_shield_active"],
+        ],
+        "review_focus": ["decommission_continuity", "rollback_resilience", "geometry_memory_contract_integrity"],
         "benchmark_mode": "single_turn",
     },
     {
@@ -397,6 +470,16 @@ LONGITUDINAL_ACCEPTANCE_POLICY = {
     "window_semantics": "non_overlapping",
 }
 
+GEOMETRIC_LONGITUDINAL_POLICY = {
+    "window_size": 4,
+    "minimum_clean_windows": 2,
+    "max_average_contradiction_pressure": 0.75,
+    "min_average_landmark_count": 1.0,
+    "min_lost_in_middle_shield_rate": 0.9,
+    "fail_closed_on_missing_history": False,
+    "window_semantics": "non_overlapping",
+}
+
 KERNEL_GATE_THRESHOLDS: dict[str, dict[str, float]] = {
     "kernel_s": {
         "contract_pass_rate": 0.995,
@@ -426,6 +509,21 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
         return float(value)
     except (TypeError, ValueError):
         return default
+
+
+def _extract_geometric_metrics(payload: dict[str, Any]) -> dict[str, Any]:
+    geometric = dict(payload.get("geometric_memory_map") or {})
+    frames = dict(geometric.get("frames") or {})
+    topo = dict(frames.get("topological_persistence") or {})
+    landmarks = int(geometric.get("landmark_count") or 0)
+    contradiction_pressure = _safe_float(topo.get("contradiction_pressure"), 1.0)
+    lost_in_middle = bool(topo.get("lost_in_middle_shield_active", False))
+    return {
+        "landmark_count": landmarks,
+        "contradiction_pressure": round(max(0.0, min(1.0, contradiction_pressure)), 4),
+        "lost_in_middle_shield_active": lost_in_middle,
+        "data_present": bool(landmarks > 0 or "frames" in geometric),
+    }
 
 
 def evaluate_kernel_gate_summary(
@@ -648,6 +746,7 @@ def get_stage_b_benchmark_corpus() -> dict[str, Any]:
         "required_outputs": [
             "long_context_synthesis",
             "memory_integrity",
+            "geometric_memory_handoff",
             "policy_stability",
             "tool_chain_preflight",
             "research_scope_discipline",
@@ -664,6 +763,7 @@ def get_stage_c_benchmark_corpus() -> dict[str, Any]:
         "required_outputs": [
             "orchestration_depth",
             "provenance_completeness",
+            "geometric_memory_stress",
             "prompt_injection_resistance",
             "autonomous_research_triage",
             "cross_source_reconciliation",
@@ -681,6 +781,7 @@ def get_stage_d_benchmark_corpus() -> dict[str, Any]:
             "sustained_quality",
             "sustained_energy_win",
             "policy_violation_budget",
+            "geometric_gate_resilience",
         ],
     }
 
@@ -695,6 +796,7 @@ def get_stage_e_benchmark_corpus() -> dict[str, Any]:
             "decommission_readiness",
             "rollback_rehearsal",
             "incident_recovery",
+            "geometric_decommission_resilience",
         ],
     }
 
@@ -772,6 +874,7 @@ def get_multi_stage_benchmark_plan() -> dict[str, Any]:
             "all": "getMerlinBenchmarkCorpora",
         },
         "longitudinal_acceptance_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),
+        "geometric_longitudinal_policy": dict(GEOMETRIC_LONGITUDINAL_POLICY),
     }
 
 
@@ -840,11 +943,26 @@ def evaluate_benchmark_response(
     contract_hits = {section: (section in answer) for section in benchmark["required_contract_sections"]}
     gate_hits = {gate: (gate in gate_badges) for gate in benchmark["required_gates"]}
     provenance_hits = {kind: (kind in provenance_kinds) for kind in benchmark["required_provenance_kinds"]}
+    response_paths = [tuple(path) for path in benchmark.get("required_response_paths", []) if isinstance(path, list)]
+    path_hits = {
+        "/".join(path): _path_has(response, path)
+        for path in response_paths
+    }
 
-    passed_checks = sum(contract_hits.values()) + sum(gate_hits.values()) + sum(provenance_hits.values())
-    total_checks = len(contract_hits) + len(gate_hits) + len(provenance_hits)
+    passed_checks = (
+        sum(contract_hits.values())
+        + sum(gate_hits.values())
+        + sum(provenance_hits.values())
+        + sum(path_hits.values())
+    )
+    total_checks = len(contract_hits) + len(gate_hits) + len(provenance_hits) + len(path_hits)
     score = round(passed_checks / max(total_checks, 1), 4)
-    passed = all(contract_hits.values()) and all(gate_hits.values()) and all(provenance_hits.values())
+    passed = (
+        all(contract_hits.values())
+        and all(gate_hits.values())
+        and all(provenance_hits.values())
+        and all(path_hits.values())
+    )
     return {
         "ok": True,
         "benchmark_id": benchmark_id,
@@ -855,6 +973,7 @@ def evaluate_benchmark_response(
             "contract": contract_hits,
             "gates": gate_hits,
             "provenance": provenance_hits,
+            "response_paths": path_hits,
         },
         "review_focus": list(benchmark.get("review_focus", [])),
     }
@@ -948,6 +1067,57 @@ def evaluate_empirical_gate(
     }
 
 
+def evaluate_geometric_gate(
+    head_to_head_runs: list[dict[str, Any]],
+) -> dict[str, Any]:
+    comparable = [
+        dict(item.get("merlin_geometric_memory_metrics") or {})
+        for item in list(head_to_head_runs or [])
+        if isinstance(item, dict)
+    ]
+    comparable = [item for item in comparable if bool(item.get("data_present"))]
+    if not comparable:
+        return {
+            "ok": True,
+            "data_present": False,
+            "gate_pass": False,
+            "reason": "No geometric memory metrics available in provided runs.",
+            "requirements": dict(GEOMETRIC_LONGITUDINAL_POLICY),
+            "metrics": {
+                "samples": 0,
+                "average_landmark_count": 0.0,
+                "average_contradiction_pressure": 1.0,
+                "lost_in_middle_shield_rate": 0.0,
+            },
+            "checks": {
+                "minimum_average_landmark_count": False,
+                "maximum_average_contradiction_pressure": False,
+                "minimum_lost_in_middle_shield_rate": False,
+            },
+        }
+    avg_landmarks = mean(float(item.get("landmark_count", 0) or 0) for item in comparable)
+    avg_contradiction = mean(_safe_float(item.get("contradiction_pressure"), 1.0) for item in comparable)
+    shield_rate = mean(1.0 if bool(item.get("lost_in_middle_shield_active")) else 0.0 for item in comparable)
+    checks = {
+        "minimum_average_landmark_count": avg_landmarks >= float(GEOMETRIC_LONGITUDINAL_POLICY["min_average_landmark_count"]),
+        "maximum_average_contradiction_pressure": avg_contradiction <= float(GEOMETRIC_LONGITUDINAL_POLICY["max_average_contradiction_pressure"]),
+        "minimum_lost_in_middle_shield_rate": shield_rate >= float(GEOMETRIC_LONGITUDINAL_POLICY["min_lost_in_middle_shield_rate"]),
+    }
+    return {
+        "ok": True,
+        "data_present": True,
+        "gate_pass": all(checks.values()),
+        "requirements": dict(GEOMETRIC_LONGITUDINAL_POLICY),
+        "metrics": {
+            "samples": len(comparable),
+            "average_landmark_count": round(avg_landmarks, 4),
+            "average_contradiction_pressure": round(avg_contradiction, 4),
+            "lost_in_middle_shield_rate": round(shield_rate, 4),
+        },
+        "checks": checks,
+    }
+
+
 def build_promotion_packet(
     *,
     head_to_head_runs: list[dict[str, Any]] | None = None,
@@ -958,6 +1128,7 @@ def build_promotion_packet(
     """Return an explicit pass/fail promotion packet for Merlin replacement."""
     comparable_runs = list(head_to_head_runs or [])
     empirical = evaluate_empirical_gate(comparable_runs)
+    geometric_gate = evaluate_geometric_gate(comparable_runs)
     kernel_gates = dict(kernel_gate_summary or {})
     if not kernel_gates:
         kernel_gates = evaluate_kernel_gate_summary(
@@ -986,9 +1157,16 @@ def build_promotion_packet(
         "checks": {
             "evidence_present": evidence_present,
             "empirical_gate_pass": bool(empirical["gate_pass"]),
+            "geometric_gate_present": bool(geometric_gate.get("data_present", False)),
+            "geometric_gate_pass_or_not_required": (
+                bool(geometric_gate.get("gate_pass"))
+                if bool(geometric_gate.get("data_present", False))
+                else True
+            ),
             "kernel_gate_pass": kernel_gate_pass,
             "sync_checks_ok_or_not_required": sync_gate,
         },
+        "geometric_gate": geometric_gate,
     }
 
 
@@ -1052,6 +1230,8 @@ async def _run_benchmark_once(benchmark: dict[str, Any], *, stage: str) -> dict[
         incumbent_eval.get("score", 0.0)
     )
     expected_kernel_id = infer_kernel_for_benchmark_definition(benchmark)
+    merlin_geometry = _extract_geometric_metrics(merlin_result)
+    incumbent_geometry = _extract_geometric_metrics(incumbent_result)
     return {
         "benchmark_id": benchmark["id"],
         "track": benchmark["track"],
@@ -1064,11 +1244,15 @@ async def _run_benchmark_once(benchmark: dict[str, Any], *, stage: str) -> dict[
         "merlin_shadow_ok": merlin_shadow_ok,
         "incumbent_shadow_ok": incumbent_shadow_ok,
         "parity_ok": parity_ok,
+        "merlin_geometric_memory_metrics": merlin_geometry,
+        "incumbent_geometric_memory_metrics": incumbent_geometry,
         "merlin_telemetry": dict(merlin_result.get("telemetry") or {}),
         "incumbent_telemetry": dict(incumbent_result.get("telemetry") or {}),
         "head_to_head_run": {
             "id": str(benchmark["id"]),
             "expected_kernel_id": expected_kernel_id,
+            "merlin_geometric_memory_metrics": merlin_geometry,
+            "incumbent_geometric_memory_metrics": incumbent_geometry,
             "merlin_telemetry": dict(merlin_result.get("telemetry") or {}),
             "merlin": _run_summary(merlin_result, merlin_eval, shadow_ok=merlin_shadow_ok),
             "incumbent": _run_summary(
@@ -1427,12 +1611,120 @@ def evaluate_longitudinal_acceptance(
     }
 
 
+def evaluate_geometric_longitudinal_acceptance(
+    gate_history: list[dict[str, Any]],
+    *,
+    window_size: int | None = None,
+    min_clean_windows: int | None = None,
+    fail_closed_on_missing_history: bool | None = None,
+) -> dict[str, Any]:
+    if window_size is None:
+        window_size = int(GEOMETRIC_LONGITUDINAL_POLICY["window_size"])
+    if min_clean_windows is None:
+        min_clean_windows = int(GEOMETRIC_LONGITUDINAL_POLICY["minimum_clean_windows"])
+    if fail_closed_on_missing_history is None:
+        fail_closed_on_missing_history = bool(GEOMETRIC_LONGITUDINAL_POLICY["fail_closed_on_missing_history"])
+    if window_size <= 0:
+        window_size = 1
+    min_clean_windows = max(1, int(min_clean_windows))
+
+    def _packet(item: dict[str, Any]) -> dict[str, Any]:
+        raw = item.get("packet", item)
+        return dict(raw) if isinstance(raw, dict) else {}
+
+    def _metrics(item: dict[str, Any]) -> dict[str, Any]:
+        packet = _packet(item)
+        geometric = dict(packet.get("geometric_gate") or {})
+        metrics = dict(geometric.get("metrics") or {})
+        return {
+            "data_present": bool(geometric.get("data_present", False)),
+            "landmark_count": _safe_float(metrics.get("average_landmark_count"), 0.0),
+            "contradiction_pressure": _safe_float(metrics.get("average_contradiction_pressure"), 1.0),
+            "lost_in_middle_shield_rate": _safe_float(metrics.get("lost_in_middle_shield_rate"), 0.0),
+        }
+
+    windows: list[dict[str, Any]] = []
+    clean_windows = 0
+    data_windows = 0
+    if len(gate_history) < window_size:
+        return {
+            "ok": True,
+            "window_size": int(window_size),
+            "minimum_clean_windows": int(min_clean_windows),
+            "window_semantics": str(GEOMETRIC_LONGITUDINAL_POLICY.get("window_semantics") or "non_overlapping"),
+            "history_count": len(gate_history),
+            "data_windows": 0,
+            "clean_windows": 0,
+            "data_present": False,
+            "pass": False if fail_closed_on_missing_history else False,
+            "reason": "Insufficient geometric gate history for one full window.",
+            "windows": [],
+        }
+
+    for start in range(0, len(gate_history) - window_size + 1, window_size):
+        window = gate_history[start:start + window_size]
+        metrics_list = [_metrics(item) for item in window]
+        data_present = all(bool(item.get("data_present")) for item in metrics_list)
+        if data_present:
+            data_windows += 1
+            avg_landmarks = mean(item["landmark_count"] for item in metrics_list)
+            avg_contradiction = mean(item["contradiction_pressure"] for item in metrics_list)
+            avg_shield = mean(item["lost_in_middle_shield_rate"] for item in metrics_list)
+            stable = bool(
+                avg_landmarks >= float(GEOMETRIC_LONGITUDINAL_POLICY["min_average_landmark_count"])
+                and avg_contradiction <= float(GEOMETRIC_LONGITUDINAL_POLICY["max_average_contradiction_pressure"])
+                and avg_shield >= float(GEOMETRIC_LONGITUDINAL_POLICY["min_lost_in_middle_shield_rate"])
+            )
+        else:
+            avg_landmarks = 0.0
+            avg_contradiction = 1.0
+            avg_shield = 0.0
+            stable = False
+        windows.append({
+            "start": start,
+            "end": start + window_size - 1,
+            "data_present": data_present,
+            "average_landmark_count": round(avg_landmarks, 4),
+            "average_contradiction_pressure": round(avg_contradiction, 4),
+            "average_lost_in_middle_shield_rate": round(avg_shield, 4),
+            "stable": stable,
+        })
+        if stable:
+            clean_windows += 1
+    data_present_any = data_windows > 0
+    pass_gate = bool(data_present_any and clean_windows >= int(min_clean_windows))
+    if not data_present_any and not fail_closed_on_missing_history:
+        reason = "No geometric metrics in history windows yet."
+    elif pass_gate:
+        reason = "Geometric longitudinal windows satisfied."
+    else:
+        reason = "Insufficient sustained geometric memory windows."
+    return {
+        "ok": True,
+        "window_size": int(window_size),
+        "minimum_clean_windows": int(min_clean_windows),
+        "window_semantics": str(GEOMETRIC_LONGITUDINAL_POLICY.get("window_semantics") or "non_overlapping"),
+        "history_count": len(gate_history),
+        "data_windows": data_windows,
+        "clean_windows": clean_windows,
+        "data_present": data_present_any,
+        "pass": pass_gate,
+        "reason": reason,
+        "windows": windows,
+        "requirements": dict(GEOMETRIC_LONGITUDINAL_POLICY),
+    }
+
+
 def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     readiness = build_stage_a_replacement_readiness(limit=limit)
     packet = dict(readiness.get("packet") or {})
     history = list(gate_history or [])
     history.append({"packet": packet})
     longitudinal = evaluate_longitudinal_acceptance(history)
+    geometric_longitudinal = evaluate_geometric_longitudinal_acceptance(
+        history,
+        fail_closed_on_missing_history=False,
+    )
     sync_ok = bool(packet.get("sync_checks_ok"))
     empirical_gate = dict(packet.get("empirical_gate") or {})
     kernel_gate_summary = dict(packet.get("kernel_gate_summary") or {})
@@ -1450,6 +1742,10 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         and packet.get("gate_pass")
         and sync_ok
         and longitudinal["pass"]
+        and (
+            not geometric_longitudinal["data_present"]
+            or geometric_longitudinal["pass"]
+        )
         and policy_violations == 0
         and lane_shadow_deployment["all_lanes_green"]
     )
@@ -1462,6 +1758,8 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         alerts.append("longitudinal_acceptance_not_met")
     if policy_violations > 0:
         alerts.append("high_severity_policy_violations_present")
+    if geometric_longitudinal["data_present"] and not geometric_longitudinal["pass"]:
+        alerts.append("geometric_longitudinal_not_met")
     if not lane_shadow_deployment["all_lanes_green"]:
         alerts.append("kernel_lane_demotion_active")
     from .merlin_program import (
@@ -1507,7 +1805,9 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         "program": "merlin_all_hands_maximum_effort",
         "replacement_readiness": readiness,
         "longitudinal_acceptance": longitudinal,
+        "geometric_longitudinal_acceptance": geometric_longitudinal,
         "longitudinal_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),
+        "geometric_longitudinal_policy": dict(GEOMETRIC_LONGITUDINAL_POLICY),
         "history_count": len(history),
         "trendlines": {
             "quality_delta": (empirical_gate.get("metrics") or {}).get("mean_quality_delta", 0.0),
@@ -1525,6 +1825,10 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
                 "replacement_approved": packet.get("decision") == "REPLACEMENT_APPROVED",
                 "sync_checks_ok": sync_ok,
                 "longitudinal_acceptance": longitudinal["pass"],
+                "geometric_longitudinal_acceptance_or_not_required": (
+                    (not geometric_longitudinal["data_present"])
+                    or geometric_longitudinal["pass"]
+                ),
                 "zero_high_severity_policy_violations": policy_violations == 0,
                 "all_kernel_lanes_green": lane_shadow_deployment["all_lanes_green"],
             },

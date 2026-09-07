@@ -17,6 +17,7 @@ from ox_navigator.engine.merlin_benchmark import evaluate_benchmark_response
 from ox_navigator.engine.merlin_benchmark import evaluate_empirical_gate
 from ox_navigator.engine.merlin_benchmark import build_promotion_packet
 from ox_navigator.engine.merlin_benchmark import evaluate_longitudinal_acceptance
+from ox_navigator.engine.merlin_benchmark import evaluate_geometric_longitudinal_acceptance
 from ox_navigator.engine.merlin_benchmark import get_multi_stage_benchmark_plan
 from ox_navigator.engine.merlin_benchmark import build_merlin_control_tower
 from ox_navigator.engine.merlin_telemetry import (
@@ -65,6 +66,33 @@ def test_merlin_memory_audit_and_telemetry_summary():
     assert summary['latest']['kernel']['id'] == 'kernel_g'
     assert summary['latest']['quality_signals']['contract_pass_rate'] == 1.0
     assert summary['latest']['quality_signals']['tool_call_precision'] == 0.5
+
+
+def test_merlin_geometric_memory_map_has_required_frames():
+    session = MerlinSession()
+    session.remember(
+        'Hyperbolic hierarchy packs concept depth for memory routing.',
+        scope='repository',
+        source='test',
+        tags=['memory', 'geometry', 'hyperbolic'],
+    )
+    session.remember(
+        'Riemannian focus warps local recall for contradiction checks.',
+        scope='user',
+        source='test',
+        tags=['memory', 'geometry', 'riemannian'],
+    )
+    payload = session.get_geometric_memory_map(
+        'Audit memory geometry with hyperbolic and Riemannian focus.',
+        limit=6,
+    )
+    assert payload['ok'] is True
+    assert payload['model'] == 'merlin_geometric_memory_map_v1'
+    assert payload['landmark_count'] >= 1
+    assert 'hyperbolic_tree' in payload['frames']
+    assert 'riemannian_focus' in payload['frames']
+    assert 'topological_persistence' in payload['frames']
+    assert payload['frames']['topological_persistence']['lost_in_middle_shield_active'] is True
 
 
 def test_merlin_memory_does_not_duplicate_seeded_state():
@@ -451,6 +479,71 @@ def test_evaluate_benchmark_response_requires_all_categories():
     assert result['pass'] is False
 
 
+def test_evaluate_benchmark_response_enforces_required_response_paths():
+    passing = evaluate_benchmark_response(
+        'stage_c_geometric_memory_stress',
+        {
+            'answer': 'OPEN_GAP and GOVERNANCE remain explicit. FOLLOWUPS: inspect contradiction pressure. Sources: policy + kb.',
+            'gate_badges': ['OPEN_GAP', 'GOVERNANCE'],
+            'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'knowledge_base'}]},
+            'geometric_memory_map': {
+                'landmark_count': 3,
+                'frames': {'topological_persistence': {'contradiction_pressure': 0.2}},
+            },
+        },
+        stage='stage_c',
+    )
+    assert passing['ok'] is True
+    assert passing['pass'] is True
+    failing = evaluate_benchmark_response(
+        'stage_c_geometric_memory_stress',
+        {
+            'answer': 'OPEN_GAP and GOVERNANCE remain explicit. FOLLOWUPS: inspect contradiction pressure. Sources: policy + kb.',
+            'gate_badges': ['OPEN_GAP', 'GOVERNANCE'],
+            'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'knowledge_base'}]},
+        },
+        stage='stage_c',
+    )
+    assert failing['ok'] is True
+    assert failing['pass'] is False
+    assert failing['checks']['response_paths']['geometric_memory_map/landmark_count'] is False
+
+
+def test_evaluate_benchmark_response_supports_stage_d_and_e_geometric_paths():
+    stage_d = evaluate_benchmark_response(
+        'stage_d_geometric_gate_resilience',
+        {
+            'answer': 'GOVERNANCE and ARCHITECTURE_LIMIT apply. FOLLOWUPS: hold promotion. Sources: policy + memory.',
+            'gate_badges': ['GOVERNANCE', 'ARCHITECTURE_LIMIT'],
+            'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'memory'}]},
+            'geometric_memory_map': {
+                'landmark_count': 5,
+                'frames': {'topological_persistence': {'contradiction_pressure': 0.7}},
+            },
+        },
+        stage='stage_d',
+    )
+    assert stage_d['ok'] is True
+    assert stage_d['pass'] is True
+    stage_e = evaluate_benchmark_response(
+        'stage_e_geometric_decommission_resilience',
+        {
+            'answer': 'ARCHITECTURE_LIMIT and GOVERNANCE remain explicit. FOLLOWUPS: rollback and local-first continuity. Sources: policy + memory.',
+            'gate_badges': ['ARCHITECTURE_LIMIT', 'GOVERNANCE'],
+            'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'memory'}]},
+            'geometric_memory_map': {
+                'frames': {
+                    'hyperbolic_tree': {'max_depth': 3},
+                    'topological_persistence': {'lost_in_middle_shield_active': True},
+                },
+            },
+        },
+        stage='stage_e',
+    )
+    assert stage_e['ok'] is True
+    assert stage_e['pass'] is True
+
+
 def test_evaluate_empirical_gate_requires_sustained_comparable_runs():
     result = evaluate_empirical_gate([], min_runs=12)
     assert result['ok'] is True
@@ -497,6 +590,7 @@ def test_multi_stage_benchmark_plan_has_stage_e():
     assert stages[0] == 'stage_a_parity_capture'
     assert 'stage_e_external_decommission' in stages
     assert plan["longitudinal_acceptance_policy"]["window_semantics"] == "non_overlapping"
+    assert plan["geometric_longitudinal_policy"]["window_semantics"] == "non_overlapping"
 
 
 def test_longitudinal_acceptance_requires_clean_windows():
@@ -550,11 +644,42 @@ def test_longitudinal_acceptance_fails_closed_on_missing_policy_metric():
     assert result["pass"] is False
 
 
+def test_geometric_longitudinal_acceptance_requires_geometric_windows():
+    history = [
+        {
+            "packet": {
+                "decision": "REPLACEMENT_APPROVED",
+                "geometric_gate": {
+                    "data_present": True,
+                    "metrics": {
+                        "average_landmark_count": 2.0,
+                        "average_contradiction_pressure": 0.4,
+                        "lost_in_middle_shield_rate": 1.0,
+                    },
+                },
+            }
+        }
+        for _ in range(8)
+    ]
+    passing = evaluate_geometric_longitudinal_acceptance(history, window_size=4, min_clean_windows=2)
+    assert passing["data_present"] is True
+    assert passing["clean_windows"] == 2
+    assert passing["pass"] is True
+    failing = evaluate_geometric_longitudinal_acceptance(
+        [{"packet": {"decision": "REPLACEMENT_APPROVED"}} for _ in range(4)],
+        window_size=4,
+        min_clean_windows=1,
+    )
+    assert failing["data_present"] is False
+    assert failing["pass"] is False
+
+
 def test_control_tower_returns_gate_bundle():
     payload = build_merlin_control_tower(limit=1)
     assert payload["ok"] is True
     assert "replacement_readiness" in payload
     assert "deployment_eligibility" in payload
+    assert "geometric_longitudinal_acceptance" in payload
     assert "mentorship_to_runtime" in payload
     assert payload["mentorship_to_runtime"]["checks"]["exchange_cycle_complete"] is False
     assert "trendlines" in payload
@@ -581,6 +706,15 @@ def test_control_tower_longitudinal_pass_with_sufficient_clean_history(monkeypat
                         "incumbent_success_rate": 0.9,
                     }
                 },
+                "geometric_gate": {
+                    "data_present": True,
+                    "gate_pass": True,
+                    "metrics": {
+                        "average_landmark_count": 2.0,
+                        "average_contradiction_pressure": 0.3,
+                        "lost_in_middle_shield_rate": 1.0,
+                    },
+                },
             },
         }
 
@@ -588,3 +722,4 @@ def test_control_tower_longitudinal_pass_with_sufficient_clean_history(monkeypat
     history = [{"packet": _approved_readiness()["packet"]} for _ in range(11)]
     payload = build_merlin_control_tower(limit=1, gate_history=history)
     assert payload["longitudinal_acceptance"]["pass"] is True
+    assert payload["geometric_longitudinal_acceptance"]["pass"] is True

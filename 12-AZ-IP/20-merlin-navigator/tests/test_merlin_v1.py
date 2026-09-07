@@ -369,6 +369,66 @@ def test_route_tool_benchmark_corpus_and_policy_metadata():
     assert stage_b_eval['ok'] is True
     assert stage_b_eval['result']['data']['ok'] is True
     assert stage_b_eval['result']['data']['benchmark_id'] == 'stage_b_runtime_policy_escalation'
+    stage_b_geometry_eval = route_tool(
+        'evaluateMerlinBenchmarkResponse',
+        {
+            'benchmark_id': 'stage_b_geometric_memory_handoff',
+            'stage': 'stage_b',
+            'response': {
+                'answer': 'GOVERNANCE and ARCHITECTURE_LIMIT remain explicit. FOLLOWUPS: check drift. Sources: memory + policy.',
+                'gate_badges': ['GOVERNANCE', 'ARCHITECTURE_LIMIT'],
+                'provenance': {'sources': [{'kind': 'memory'}, {'kind': 'policy'}]},
+                'geometric_memory_map': {
+                    'frames': {
+                        'hyperbolic_tree': {},
+                        'riemannian_focus': {},
+                        'topological_persistence': {},
+                    }
+                },
+            },
+        },
+    )
+    assert stage_b_geometry_eval['ok'] is True
+    assert stage_b_geometry_eval['result']['data']['ok'] is True
+    assert stage_b_geometry_eval['result']['data']['pass'] is True
+    stage_d_geometry_eval = route_tool(
+        'evaluateMerlinBenchmarkResponse',
+        {
+            'benchmark_id': 'stage_d_geometric_gate_resilience',
+            'stage': 'stage_d',
+            'response': {
+                'answer': 'GOVERNANCE and ARCHITECTURE_LIMIT remain explicit. FOLLOWUPS: hold promotion. Sources: policy + memory.',
+                'gate_badges': ['GOVERNANCE', 'ARCHITECTURE_LIMIT'],
+                'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'memory'}]},
+                'geometric_memory_map': {
+                    'landmark_count': 2,
+                    'frames': {'topological_persistence': {'contradiction_pressure': 0.8}},
+                },
+            },
+        },
+    )
+    assert stage_d_geometry_eval['ok'] is True
+    assert stage_d_geometry_eval['result']['data']['pass'] is True
+    stage_e_geometry_eval = route_tool(
+        'evaluateMerlinBenchmarkResponse',
+        {
+            'benchmark_id': 'stage_e_geometric_decommission_resilience',
+            'stage': 'stage_e',
+            'response': {
+                'answer': 'ARCHITECTURE_LIMIT and GOVERNANCE remain explicit. FOLLOWUPS: execute rollback safeguards. Sources: policy + memory.',
+                'gate_badges': ['ARCHITECTURE_LIMIT', 'GOVERNANCE'],
+                'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'memory'}]},
+                'geometric_memory_map': {
+                    'frames': {
+                        'hyperbolic_tree': {'max_depth': 2},
+                        'topological_persistence': {'lost_in_middle_shield_active': True},
+                    },
+                },
+            },
+        },
+    )
+    assert stage_e_geometry_eval['ok'] is True
+    assert stage_e_geometry_eval['result']['data']['pass'] is True
 
 
 def test_route_tool_training_architecture_and_artifacts():
@@ -392,15 +452,15 @@ def test_route_tool_training_architecture_and_artifacts():
     corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_b'})
     assert corpora['ok'] is True
     assert corpora['result']['data']['stage'] == 'stage_b_sovereign_takeover'
-    assert len(corpora['result']['data']['benchmarks']) >= 6
+    assert len(corpora['result']['data']['benchmarks']) >= 7
     stage_d = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_d'})
     assert stage_d['ok'] is True
     assert stage_d['result']['data']['stage'] == 'stage_d_replacement_gates'
     stage_e = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_e'})
     assert stage_e['ok'] is True
     assert stage_e['result']['data']['stage'] == 'stage_e_external_decommission'
-    assert len(stage_d['result']['data']['benchmarks']) >= 3
-    assert len(stage_e['result']['data']['benchmarks']) >= 3
+    assert len(stage_d['result']['data']['benchmarks']) >= 4
+    assert len(stage_e['result']['data']['benchmarks']) >= 4
 
     bad_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'not-a-stage'})
     assert bad_corpora['ok'] is False
@@ -438,8 +498,8 @@ def test_route_tool_training_architecture_and_artifacts():
     assert dataset_payload['quality_filters']['rejection_count'] >= 0
     assert 'stage_d_replacement_gates' in dataset_payload['benchmark_corpora']
     assert 'stage_e_external_decommission' in dataset_payload['benchmark_corpora']
-    assert counts['benchmark_records']['stage_d_replacement_gates'] >= 3
-    assert counts['benchmark_records']['stage_e_external_decommission'] >= 3
+    assert counts['benchmark_records']['stage_d_replacement_gates'] >= 4
+    assert counts['benchmark_records']['stage_e_external_decommission'] >= 4
     assert dataset_payload['compile_time_memory']['fixture_stage_scope'] == [
         'stage_b_sovereign_takeover',
         'stage_c_capability_expansion',
@@ -772,6 +832,7 @@ def test_route_tool_program_office_and_control_tower():
     data = control['result']['data']
     assert 'replacement_readiness' in data
     assert 'deployment_eligibility' in data
+    assert 'geometric_longitudinal_acceptance' in data
     assert 'drift_alerts' in data
     assert 'lane_shadow_deployment' in data
     lane_ids = [item['kernel_id'] for item in data['lane_shadow_deployment']['lanes']]
@@ -858,6 +919,7 @@ def test_route_tool_multi_stage_and_longitudinal():
     stages = [item['stage'] for item in plan['result']['data']['stages']]
     assert 'stage_d_replacement_gates' in stages
     assert 'stage_e_external_decommission' in stages
+    assert 'geometric_longitudinal_policy' in plan['result']['data']
 
     gate_history = [
         {'packet': {'decision': 'REPLACEMENT_APPROVED', 'empirical_gate': {'metrics': {'high_severity_policy_violations_merlin': 0}}}},
@@ -870,6 +932,41 @@ def test_route_tool_multi_stage_and_longitudinal():
     })
     assert longitudinal['ok'] is True
     assert longitudinal['result']['data']['pass'] is True
+    geometric_longitudinal = route_tool('evaluateMerlinGeometricLongitudinalAcceptance', {
+        'gate_history': [
+            {
+                'packet': {
+                    'decision': 'REPLACEMENT_APPROVED',
+                    'geometric_gate': {
+                        'data_present': True,
+                        'metrics': {
+                            'average_landmark_count': 2.0,
+                            'average_contradiction_pressure': 0.3,
+                            'lost_in_middle_shield_rate': 1.0,
+                        },
+                    },
+                },
+            },
+            {
+                'packet': {
+                    'decision': 'REPLACEMENT_APPROVED',
+                    'geometric_gate': {
+                        'data_present': True,
+                        'metrics': {
+                            'average_landmark_count': 2.0,
+                            'average_contradiction_pressure': 0.2,
+                            'lost_in_middle_shield_rate': 1.0,
+                        },
+                    },
+                },
+            },
+        ],
+        'window_size': 1,
+        'min_clean_windows': 2,
+    })
+    assert geometric_longitudinal['ok'] is True
+    assert geometric_longitudinal['result']['data']['data_present'] is True
+    assert geometric_longitudinal['result']['data']['pass'] is True
 
 
 def test_route_tool_stage_a_receipts_and_replacement_readiness():
@@ -928,8 +1025,11 @@ def test_route_tool_memory_and_telemetry_state():
     session.record_run({'provider': 'sovereign_local', 'latency_ms': 1.0, 'energy': {'estimated_joules': 0.5}, 'quality_signals': {'provenance_source_count': 2}})
     telemetry_after = route_tool('getMerlinTelemetrySummary', {}, session=session)
     memory_state = route_tool('getMerlinMemoryState', {}, session=session)
+    memory_geometry = route_tool('getMerlinMemoryGeometry', {'query': 'memory drift and contradiction recall', 'limit': 4}, session=session)
     assert telemetry_after['result']['data']['count'] == 1
     assert memory_state['result']['data']['durable_memory_count'] >= 1
+    assert memory_geometry['result']['data']['ok'] is True
+    assert memory_geometry['result']['data']['landmark_count'] >= 1
 
 
 def test_route_tool_inference_registry_and_health(monkeypatch):
@@ -1300,6 +1400,8 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert payload['compile_time_ingestion']['compiled_count'] >= 1
     assert payload['active_kernel']['kernel_id']
     assert 'count' in payload['accumulated_learnings']
+    assert payload['geometric_memory_map']['ok'] is True
+    assert 'hyperbolic_tree' in payload['geometric_memory_map']['frames']
 
 
 def test_route_tool_observatory_and_proof_probe_record_training_artifacts():
@@ -1453,6 +1555,13 @@ def test_server_merlin_endpoints():
             assert memory.status_code == 200
             assert memory.json()['ok'] is True
             assert 'durable_memory_count' in memory.json()['memory']
+            memory_geometry = client.get('/api/merlin/memory-geometry?query=hyperbolic+memory&limit=4')
+            assert memory_geometry.status_code == 200
+            assert memory_geometry.json()['ok'] is True
+            assert memory_geometry.json()['memory_geometry']['ok'] is True
+            assert 'hyperbolic_tree' in memory_geometry.json()['memory_geometry']['frames']
+            bad_memory_geometry = client.get('/api/merlin/memory-geometry?limit=0')
+            assert bad_memory_geometry.status_code == 400
 
             identity = client.get('/api/merlin/identity')
             assert identity.status_code == 200
@@ -1520,7 +1629,7 @@ def test_server_merlin_endpoints():
             assert benchmark_corpora.status_code == 200
             assert benchmark_corpora.json()['ok'] is True
             assert benchmark_corpora.json()['benchmark_corpora']['stage'] == 'stage_c_capability_expansion'
-            assert len(benchmark_corpora.json()['benchmark_corpora']['benchmarks']) >= 6
+            assert len(benchmark_corpora.json()['benchmark_corpora']['benchmarks']) >= 7
 
             bad_benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=not-a-stage')
             assert bad_benchmark_corpora.status_code == 400
