@@ -145,18 +145,19 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     blockers_all_clear_declared = blockers_all_clear_raw if isinstance(blockers_all_clear_raw, bool) else None
     promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
-    derived_all_clear = blockers_are_dicts and len(promotion_blockers) == 0
+    declared_all_clear_semantics = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
+    effective_all_clear = blockers_are_dicts and len(promotion_blockers) == 0
     if blockers_all_clear_declared is None:
         blocker_consistency_pass = blockers_are_dicts and promotion_blockers_declared and blockers_all_clear_type_ok
-        blockers_all_clear_effective = derived_all_clear
+        blockers_all_clear_effective = effective_all_clear
     else:
         blocker_consistency_pass = (
             blockers_are_dicts
             and promotion_blockers_declared
             and blockers_all_clear_type_ok
-            and blockers_all_clear_declared == derived_all_clear
+            and blockers_all_clear_declared == declared_all_clear_semantics
         )
-        blockers_all_clear_effective = blockers_all_clear_declared
+        blockers_all_clear_effective = effective_all_clear
     policy_text = str(frontier.get("policy", ""))
     policy_normalized = policy_text.lower().replace("-", " ")
     policy_declares_fail_closed = "fail closed" in policy_normalized
