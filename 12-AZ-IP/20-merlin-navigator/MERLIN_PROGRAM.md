@@ -29,6 +29,11 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinStackBaseline`
   - `getMerlinWeightsAndMeasures`
   - `getMerlinKnowledgeCore`
+  - `getMerlinTrustSourceLibrary`
+  - `getMerlinKnowledgeUnknownsLedger`
+  - `getMerlinRegulatoryChangeWatch`
+  - `getMerlinDomainResearchMissions`
+  - `getMerlinExpertMasteryProgram`
   - `runMerlinSyncChecks`
   - `getMerlinModelStrategy`
   - `getMerlinTrainingPlan`
@@ -40,6 +45,7 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinTrainingArtifacts`
   - `getMerlinStageBCorpus`
   - `getMerlinStageCCorpus`
+  - `getMerlinExpertDomainCorpus`
   - `getMerlinBenchmarkCorpora`
   - `getMerlinEnergyPlan`
   - `getMerlinBackendPolicy`
@@ -59,6 +65,8 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinBenchmarkSuite`
   - `getMerlinMultiStageBenchmarks`
   - `evaluateMerlinEmpiricalGate`
+  - `getMerlinDomainGateContract`
+  - `evaluateMerlinDomainGates`
   - `evaluateMerlinLongitudinalAcceptance`
   - `getMerlinPromotionPacket`
   - `runMerlinStageAReceipts`
@@ -91,8 +99,16 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/training-dataset`
   - `GET /api/merlin/mlflow-manifests`
   - `GET /api/merlin/open-science-registry`
+  - `GET /api/merlin/trust-source-library`
+  - `GET /api/merlin/knowledge-unknowns`
+  - `GET /api/merlin/regulatory-change-watch`
+  - `GET /api/merlin/domain-research-missions`
+  - `GET /api/merlin/expert-mastery-program`
   - `GET /api/merlin/competitive-benchmarks`
   - `GET /api/merlin/benchmark-corpora`
+  - `GET /api/merlin/domain-benchmark-corpus`
+  - `GET /api/merlin/domain-gate-contract`
+  - `GET /api/merlin/domain-receipts`
   - `GET /api/merlin/stage-a-receipts`
   - `GET /api/merlin/replacement-readiness`
   - `GET /api/merlin/training-artifacts`

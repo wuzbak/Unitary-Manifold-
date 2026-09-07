@@ -342,6 +342,11 @@ def test_route_tool_merlin_program_blueprint():
         'external_wait_only',
     ]
     assert payload['dual_loop_sprint_command_rhythm']['cadence'][0]['phase'] == 'kickoff'
+    assert payload['trust_source_library']['domains'][0]['domain_id'] == 'business_office_management'
+    assert payload['knowledge_unknowns_ledger']['domains'][0]['domain_id'] == 'business_office_management'
+    assert payload['domain_research_missions']['domains'][0]['domain_id'] == 'business_office_management'
+    assert payload['expert_mastery_program']['levels'][0]['level'] == 'L1_foundational'
+    assert payload['regulatory_change_watch']['watch_targets'][0]['target_id'] == 'irs_news_and_forms'
 
 
 def test_route_tool_benchmark_corpus_and_policy_metadata():
@@ -459,6 +464,29 @@ def test_route_tool_training_architecture_and_artifacts():
     stage_e = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_e'})
     assert stage_e['ok'] is True
     assert stage_e['result']['data']['stage'] == 'stage_e_external_decommission'
+    domain_corpus = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_domain'})
+    assert domain_corpus['ok'] is True
+    assert domain_corpus['result']['data']['stage'] == 'stage_expert_domain_mastery'
+    assert len(domain_corpus['result']['data']['benchmarks']) >= 5
+    assert domain_corpus['result']['data']['domain_gate_thresholds']['business_law']['pass_rate_min'] == 0.95
+    contract = route_tool('getMerlinDomainGateContract', {})
+    assert contract['ok'] is True
+    assert 'business_office_management' in contract['result']['data']['required_domains']
+    domain_gate_eval = route_tool('evaluateMerlinDomainGates', {
+        'runs': [
+            {
+                'domain_id': 'business_law',
+                'merlin_evaluation': {'pass': True, 'score': 1.0},
+            },
+            {
+                'domain_id': 'business_law',
+                'merlin_evaluation': {'pass': True, 'score': 0.95},
+            },
+        ],
+        'required_domains': ['business_law'],
+    })
+    assert domain_gate_eval['ok'] is True
+    assert domain_gate_eval['result']['data']['gate_pass'] is True
     assert len(stage_d['result']['data']['benchmarks']) >= 4
     assert len(stage_e['result']['data']['benchmarks']) >= 4
 
@@ -498,8 +526,11 @@ def test_route_tool_training_architecture_and_artifacts():
     assert dataset_payload['quality_filters']['rejection_count'] >= 0
     assert 'stage_d_replacement_gates' in dataset_payload['benchmark_corpora']
     assert 'stage_e_external_decommission' in dataset_payload['benchmark_corpora']
+    assert 'stage_expert_domain_mastery' in dataset_payload['benchmark_corpora']
     assert counts['benchmark_records']['stage_d_replacement_gates'] >= 4
     assert counts['benchmark_records']['stage_e_external_decommission'] >= 4
+    assert counts['benchmark_records']['stage_expert_domain_mastery'] >= 5
+    assert counts['domain_benchmark_records']['business_law'] >= 1
     assert dataset_payload['compile_time_memory']['fixture_stage_scope'] == [
         'stage_b_sovereign_takeover',
         'stage_c_capability_expansion',
@@ -868,6 +899,7 @@ def test_route_tool_mentorship_surfaces():
     library = route_tool('getMerlinLibraryAndStudy', {})
     assert library['ok'] is True
     assert library['result']['data']['library']['typed_provenance_registry_surface'] == 'getMerlinKnowledgeCore'
+    assert library['result']['data']['library']['expert_tracks_trust_library_surface'] == 'getMerlinTrustSourceLibrary'
 
     exchange = route_tool('getMerlinExchangeProtocol', {})
     assert exchange['ok'] is True
@@ -904,6 +936,29 @@ def test_route_tool_mentorship_surfaces():
     rhythm = route_tool('getMerlinDualLoopSprintRhythm', {})
     assert rhythm['ok'] is True
     assert rhythm['result']['data']['cadence'][-1]['phase'] == 'closeout'
+
+    trust_library = route_tool('getMerlinTrustSourceLibrary', {})
+    assert trust_library['ok'] is True
+    assert any(
+        item['domain_id'] == 'washington_social_purpose_corporations'
+        for item in trust_library['result']['data']['domains']
+    )
+
+    unknowns = route_tool('getMerlinKnowledgeUnknownsLedger', {})
+    assert unknowns['ok'] is True
+    assert unknowns['result']['data']['closure_contract']['states'][0] == 'open'
+
+    watch = route_tool('getMerlinRegulatoryChangeWatch', {})
+    assert watch['ok'] is True
+    assert watch['result']['data']['watch_cadence']['daily'][0] == 'high_priority_regulator_bulletins'
+
+    missions = route_tool('getMerlinDomainResearchMissions', {})
+    assert missions['ok'] is True
+    assert missions['result']['data']['mission_states'][0] == 'queued'
+
+    mastery = route_tool('getMerlinExpertMasteryProgram', {})
+    assert mastery['ok'] is True
+    assert mastery['result']['data']['assessment_contract']['minimum_confidence_for_closed_claims'] == 0.9
 
 
 def test_route_tool_control_tower_clamps_non_positive_limit():
@@ -1612,6 +1667,34 @@ def test_server_merlin_endpoints():
                 for item in open_science_registry.json()['open_science_registry']['resources']
             )
 
+            trust_library = client.get('/api/merlin/trust-source-library')
+            assert trust_library.status_code == 200
+            assert trust_library.json()['ok'] is True
+            assert any(
+                item['domain_id'] == 'labor_practices_and_human_resources'
+                for item in trust_library.json()['trust_source_library']['domains']
+            )
+
+            knowledge_unknowns = client.get('/api/merlin/knowledge-unknowns')
+            assert knowledge_unknowns.status_code == 200
+            assert knowledge_unknowns.json()['ok'] is True
+            assert knowledge_unknowns.json()['knowledge_unknowns']['closure_contract']['states'][0] == 'open'
+
+            change_watch = client.get('/api/merlin/regulatory-change-watch')
+            assert change_watch.status_code == 200
+            assert change_watch.json()['ok'] is True
+            assert 'daily' in change_watch.json()['regulatory_change_watch']['watch_cadence']
+
+            missions = client.get('/api/merlin/domain-research-missions')
+            assert missions.status_code == 200
+            assert missions.json()['ok'] is True
+            assert missions.json()['domain_research_missions']['mission_states'][0] == 'queued'
+
+            mastery = client.get('/api/merlin/expert-mastery-program')
+            assert mastery.status_code == 200
+            assert mastery.json()['ok'] is True
+            assert mastery.json()['expert_mastery_program']['levels'][0]['level'] == 'L1_foundational'
+
             mlflow_manifests = client.get('/api/merlin/mlflow-manifests?limit=4')
             assert mlflow_manifests.status_code == 200
             assert mlflow_manifests.json()['ok'] is True
@@ -1630,6 +1713,22 @@ def test_server_merlin_endpoints():
             assert benchmark_corpora.json()['ok'] is True
             assert benchmark_corpora.json()['benchmark_corpora']['stage'] == 'stage_c_capability_expansion'
             assert len(benchmark_corpora.json()['benchmark_corpora']['benchmarks']) >= 7
+            domain_benchmark_corpus = client.get('/api/merlin/domain-benchmark-corpus')
+            assert domain_benchmark_corpus.status_code == 200
+            assert domain_benchmark_corpus.json()['ok'] is True
+            assert domain_benchmark_corpus.json()['domain_benchmark_corpus']['stage'] == 'stage_expert_domain_mastery'
+            assert len(domain_benchmark_corpus.json()['domain_benchmark_corpus']['benchmarks']) >= 5
+
+            domain_gate_contract = client.get('/api/merlin/domain-gate-contract')
+            assert domain_gate_contract.status_code == 200
+            assert domain_gate_contract.json()['ok'] is True
+            assert 'business_office_management' in domain_gate_contract.json()['domain_gate_contract']['required_domains']
+
+            domain_receipts = client.get('/api/merlin/domain-receipts?limit=1')
+            assert domain_receipts.status_code == 200
+            assert domain_receipts.json()['ok'] is True
+            assert domain_receipts.json()['receipts']['stage'] == 'stage_expert_domain_mastery'
+            assert 'domain_gate_summary' in domain_receipts.json()['receipts']
 
             bad_benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=not-a-stage')
             assert bad_benchmark_corpora.status_code == 400

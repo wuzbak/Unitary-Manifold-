@@ -35,13 +35,18 @@ from ox_navigator.engine.merlin_program import (
     get_merlin_benchmark_suite,
     get_merlin_execution_graph,
     get_merlin_optimization_priorities,
+    get_domain_research_missions,
+    get_expert_mastery_program,
     get_mythos_astra_contract,
+    get_knowledge_unknowns_ledger,
     get_open_science_resource_registry,
     get_frontier_readiness_packet,
     get_frontier_open_weight_stack,
     get_full_program_blueprint,
     get_merlin_pentad_contract,
+    get_regulatory_change_watch,
     get_identity_and_trust_policy,
+    get_trust_source_library,
     get_training_architecture,
     get_program_office,
     get_sentinel_enforcement_policy,
@@ -623,10 +628,74 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 }, status=200 if curation_payload.get('ok') else 422)
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/domain-benchmark-corpus':
+                self._json({
+                'ok': True,
+                'domain_benchmark_corpus': get_benchmark_corpus(stage='stage_domain'),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/domain-gate-contract':
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinDomainGateContract',
+                    {},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'domain_gate_contract': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/domain-receipts':
+                limit, error = _parse_int_query_param(params, 'limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'runMerlinDomainReceipts',
+                    {'limit': limit},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'receipts': payload.get('data'), 'error': payload.get('error')}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/open-science-registry':
                 self._json({
                 'ok': True,
                 'open_science_registry': get_open_science_resource_registry(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/trust-source-library':
+                self._json({
+                'ok': True,
+                'trust_source_library': get_trust_source_library(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/knowledge-unknowns':
+                self._json({
+                'ok': True,
+                'knowledge_unknowns': get_knowledge_unknowns_ledger(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/regulatory-change-watch':
+                self._json({
+                'ok': True,
+                'regulatory_change_watch': get_regulatory_change_watch(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/domain-research-missions':
+                self._json({
+                'ok': True,
+                'domain_research_missions': get_domain_research_missions(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/expert-mastery-program':
+                self._json({
+                'ok': True,
+                'expert_mastery_program': get_expert_mastery_program(),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

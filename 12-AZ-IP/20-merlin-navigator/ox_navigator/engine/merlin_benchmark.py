@@ -412,12 +412,86 @@ STAGE_E_BENCHMARK_CORPUS: list[dict[str, Any]] = [
     },
 ]
 
+EXPERT_DOMAIN_BENCHMARK_CORPUS: list[dict[str, Any]] = [
+    {
+        "id": "domain_business_office_management_mastery",
+        "stage": "stage_expert_domain_mastery",
+        "track": "expert_domain_mastery",
+        "domain_id": "business_office_management",
+        "query": "Define a fail-closed office-management control protocol that includes records governance, compliance-calendar execution, contradiction logging, and source-effective-date verification.",
+        "keywords": ["office", "management", "controls", "records", "compliance", "verification"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "review_focus": ["records_governance", "control_integrity", "effective_date_discipline"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "domain_accounting_tax_mastery",
+        "stage": "stage_expert_domain_mastery",
+        "track": "expert_domain_mastery",
+        "domain_id": "accounting_federal_and_wa_tax",
+        "query": "For a WA business, explain a cross-checked federal plus state tax compliance workflow with filing revision controls, source authority tiers, and unresolved-edge-case escalation.",
+        "keywords": ["federal", "state", "tax", "wa", "filing", "authority", "escalation"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "review_focus": ["tax_rule_cross_checking", "filing_revision_discipline", "edge_case_tracking"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "domain_wa_spc_mastery",
+        "stage": "stage_expert_domain_mastery",
+        "track": "expert_domain_mastery",
+        "domain_id": "washington_social_purpose_corporations",
+        "query": "Describe how Merlin should verify Washington social purpose corporation duties, filing obligations, and statutory update deltas before declaring a governance answer complete.",
+        "keywords": ["washington", "social", "purpose", "corporation", "duties", "filing", "statutory"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "review_focus": ["wa_spc_statutory_mapping", "duty_verification", "delta_tracking"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "domain_business_law_mastery",
+        "stage": "stage_expert_domain_mastery",
+        "track": "expert_domain_mastery",
+        "domain_id": "business_law",
+        "query": "When federal statute, state statute, and contract terms conflict, explain Merlin's pass/fail legal-analysis path with contradiction retention and confidence-tiered reconciliation.",
+        "keywords": ["federal", "state", "contract", "conflict", "legal", "reconciliation"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "review_focus": ["conflict_reconciliation", "confidence_tiering", "no_false_closure"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "domain_labor_hr_mastery",
+        "stage": "stage_expert_domain_mastery",
+        "track": "expert_domain_mastery",
+        "domain_id": "labor_practices_and_human_resources",
+        "query": "Build a labor/HR compliance decision protocol for hiring, classification, leave/accommodation, and termination that stays fail-closed under conflicting authority updates.",
+        "keywords": ["labor", "hr", "hiring", "classification", "leave", "termination", "authority"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "knowledge_base"],
+        "review_focus": ["classification_controls", "leave_accommodation_consistency", "termination_risk_discipline"],
+        "benchmark_mode": "single_turn",
+    },
+]
+
 BENCHMARK_CORPORA: dict[str, list[dict[str, Any]]] = {
     "stage_a_parity_capture": STAGE_A_BENCHMARK_CORPUS,
     "stage_b_sovereign_takeover": STAGE_B_BENCHMARK_CORPUS,
     "stage_c_capability_expansion": STAGE_C_BENCHMARK_CORPUS,
     "stage_d_replacement_gates": STAGE_D_BENCHMARK_CORPUS,
     "stage_e_external_decommission": STAGE_E_BENCHMARK_CORPUS,
+    "stage_expert_domain_mastery": EXPERT_DOMAIN_BENCHMARK_CORPUS,
 }
 
 REQUIRED_SHADOW_FIELDS = [
@@ -500,6 +574,34 @@ KERNEL_GATE_THRESHOLDS: dict[str, dict[str, float]] = {
     "kernel_g": {
         "boundary_violation_rate_max": 0.0,
         "contract_pass_rate": 0.995,
+    },
+}
+
+DOMAIN_GATE_THRESHOLDS: dict[str, dict[str, float]] = {
+    "business_office_management": {
+        "min_samples": 1,
+        "pass_rate_min": 0.95,
+        "mean_score_min": 0.95,
+    },
+    "accounting_federal_and_wa_tax": {
+        "min_samples": 1,
+        "pass_rate_min": 0.95,
+        "mean_score_min": 0.95,
+    },
+    "washington_social_purpose_corporations": {
+        "min_samples": 1,
+        "pass_rate_min": 0.95,
+        "mean_score_min": 0.95,
+    },
+    "business_law": {
+        "min_samples": 1,
+        "pass_rate_min": 0.95,
+        "mean_score_min": 0.95,
+    },
+    "labor_practices_and_human_resources": {
+        "min_samples": 1,
+        "pass_rate_min": 0.95,
+        "mean_score_min": 0.95,
     },
 }
 
@@ -698,6 +800,100 @@ def evaluate_kernel_gate_summary(
     }
 
 
+def get_domain_gate_contract() -> dict[str, Any]:
+    return {
+        "stage": "stage_expert_domain_mastery",
+        "required_domains": sorted(DOMAIN_GATE_THRESHOLDS.keys()),
+        "thresholds": dict(DOMAIN_GATE_THRESHOLDS),
+        "policy": "Fail closed at domain level: each domain must satisfy minimum sample, pass-rate, and score thresholds.",
+    }
+
+
+def evaluate_domain_gate_summary(
+    runs: list[dict[str, Any]] | None = None,
+    *,
+    required_domains: list[str] | None = None,
+) -> dict[str, Any]:
+    samples = list(runs or [])
+    thresholds = dict(DOMAIN_GATE_THRESHOLDS)
+    requested_domains = sorted(set(required_domains or thresholds.keys()))
+    unsupported_domains = [item for item in requested_domains if item not in thresholds]
+    if unsupported_domains:
+        return {
+            "ok": True,
+            "gate_pass": False,
+            "reason": "Unsupported domain id requested for gate evaluation.",
+            "required_domains": requested_domains,
+            "unsupported_domains": unsupported_domains,
+            "domains": {},
+            "thresholds": thresholds,
+        }
+    per_domain: dict[str, list[dict[str, Any]]] = {}
+    for run in samples:
+        domain_id = str(run.get("domain_id") or "").strip()
+        if not domain_id:
+            continue
+        if domain_id not in thresholds:
+            continue
+        per_domain.setdefault(domain_id, []).append(run)
+    domain_results: dict[str, Any] = {}
+    missing_domains: list[str] = []
+    for domain_id in requested_domains:
+        domain_runs = list(per_domain.get(domain_id) or [])
+        cfg = dict(thresholds.get(domain_id) or {})
+        min_samples = int(cfg.get("min_samples", 1))
+        pass_rate_min = float(cfg.get("pass_rate_min", 1.0))
+        score_min = float(cfg.get("mean_score_min", 1.0))
+        if not domain_runs:
+            missing_domains.append(domain_id)
+            domain_results[domain_id] = {
+                "sample_count": 0,
+                "pass_rate": 0.0,
+                "mean_score": 0.0,
+                "checks": {
+                    "minimum_samples": False,
+                    "pass_rate_min": False,
+                    "mean_score_min": False,
+                },
+                "gate_pass": False,
+                "decision": "hold",
+                "reason": "No benchmark receipts found for domain.",
+            }
+            continue
+        pass_count = sum(1 for row in domain_runs if bool((row.get("merlin_evaluation") or {}).get("pass")))
+        pass_rate = round(pass_count / max(len(domain_runs), 1), 4)
+        mean_score = round(
+            mean(float((row.get("merlin_evaluation") or {}).get("score", 0.0)) for row in domain_runs),
+            4,
+        )
+        checks = {
+            "minimum_samples": len(domain_runs) >= min_samples,
+            "pass_rate_min": pass_rate >= pass_rate_min,
+            "mean_score_min": mean_score >= score_min,
+        }
+        gate_pass = all(checks.values())
+        domain_results[domain_id] = {
+            "sample_count": len(domain_runs),
+            "pass_rate": pass_rate,
+            "mean_score": mean_score,
+            "checks": checks,
+            "gate_pass": gate_pass,
+            "decision": "pass" if gate_pass else "hold",
+        }
+    gate_pass = all(item.get("gate_pass") for item in domain_results.values()) if domain_results else False
+    data_present = any(bool(per_domain.get(domain_id)) for domain_id in requested_domains)
+    return {
+        "ok": True,
+        "gate_pass": gate_pass,
+        "data_present": data_present,
+        "required_domains": requested_domains,
+        "missing_domains": missing_domains,
+        "thresholds": thresholds,
+        "domains": domain_results,
+        "policy": "Domain promotion blocks on any failing domain gate.",
+    }
+
+
 def _build_lane_shadow_deployment(kernel_gate_summary: dict[str, Any]) -> dict[str, Any]:
     kernels = dict(kernel_gate_summary.get("kernels") or {})
     lanes = []
@@ -801,6 +997,22 @@ def get_stage_e_benchmark_corpus() -> dict[str, Any]:
     }
 
 
+def get_expert_domain_benchmark_corpus() -> dict[str, Any]:
+    return {
+        "ok": True,
+        "stage": "stage_expert_domain_mastery",
+        "purpose": "Evaluate expert-domain mission execution and pass/fail rigor across business, accounting-tax, WA-SPC, business-law, and labor-HR tracks.",
+        "benchmarks": list(EXPERT_DOMAIN_BENCHMARK_CORPUS),
+        "required_outputs": [
+            "authority_hierarchy_fidelity",
+            "effective_date_revision_controls",
+            "unknowns_and_contradiction_visibility",
+            "fail_closed_domain_governance",
+        ],
+        "domain_gate_thresholds": dict(DOMAIN_GATE_THRESHOLDS),
+    }
+
+
 def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
     if stage is None:
         normalized = "all"
@@ -822,6 +1034,11 @@ def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
         "stage_e": "stage_e_external_decommission",
         "stage_e_external_decommission": "stage_e_external_decommission",
         "e": "stage_e_external_decommission",
+        "stage_domain": "stage_expert_domain_mastery",
+        "stage_expert_domain_mastery": "stage_expert_domain_mastery",
+        "domain": "stage_expert_domain_mastery",
+        "expert": "stage_expert_domain_mastery",
+        "expert_domain": "stage_expert_domain_mastery",
         "all": "all",
     }
     if normalized not in stage_aliases:
@@ -841,6 +1058,8 @@ def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
         return get_stage_d_benchmark_corpus()
     if selected == "stage_e_external_decommission":
         return get_stage_e_benchmark_corpus()
+    if selected == "stage_expert_domain_mastery":
+        return get_expert_domain_benchmark_corpus()
     return {
         "ok": True,
         "program": "merlin_all_hands_maximum_effort",
@@ -850,6 +1069,7 @@ def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
             "stage_c_capability_expansion": get_stage_c_benchmark_corpus(),
             "stage_d_replacement_gates": get_stage_d_benchmark_corpus(),
             "stage_e_external_decommission": get_stage_e_benchmark_corpus(),
+            "stage_expert_domain_mastery": get_expert_domain_benchmark_corpus(),
         },
         "stages": [
             "stage_a_parity_capture",
@@ -857,6 +1077,7 @@ def get_benchmark_corpus(stage: str | None = None) -> dict[str, Any]:
             "stage_c_capability_expansion",
             "stage_d_replacement_gates",
             "stage_e_external_decommission",
+            "stage_expert_domain_mastery",
         ],
     }
 
@@ -871,6 +1092,7 @@ def get_multi_stage_benchmark_plan() -> dict[str, Any]:
             "stage_c": "getMerlinStageCCorpus",
             "stage_d": "getMerlinStageDCorpus",
             "stage_e": "getMerlinStageECorpus",
+            "stage_domain": "getMerlinExpertDomainCorpus",
             "all": "getMerlinBenchmarkCorpora",
         },
         "longitudinal_acceptance_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),
@@ -967,6 +1189,7 @@ def evaluate_benchmark_response(
         "ok": True,
         "benchmark_id": benchmark_id,
         "track": benchmark["track"],
+        "domain_id": str(benchmark.get("domain_id") or ""),
         "score": score,
         "pass": passed,
         "checks": {
@@ -1129,6 +1352,7 @@ def build_promotion_packet(
     comparable_runs = list(head_to_head_runs or [])
     empirical = evaluate_empirical_gate(comparable_runs)
     geometric_gate = evaluate_geometric_gate(comparable_runs)
+    domain_gates = evaluate_domain_gate_summary(comparable_runs)
     kernel_gates = dict(kernel_gate_summary or {})
     if not kernel_gates:
         kernel_gates = evaluate_kernel_gate_summary(
@@ -1147,6 +1371,7 @@ def build_promotion_packet(
         "decision": decision,
         "gate_pass": final_gate_pass,
         "empirical_gate": empirical,
+        "domain_gate_summary": domain_gates,
         "telemetry_summary": dict(telemetry_summary or {}),
         "kernel_gate_summary": kernel_gates,
         "sync_checks_ok": bool(sync_checks_ok) if sync_checks_ok is not None else None,
@@ -1161,6 +1386,12 @@ def build_promotion_packet(
             "geometric_gate_pass_or_not_required": (
                 bool(geometric_gate.get("gate_pass"))
                 if bool(geometric_gate.get("data_present", False))
+                else True
+            ),
+            "domain_gates_present": bool(domain_gates.get("data_present", False)),
+            "domain_gates_pass_or_not_required": (
+                bool(domain_gates.get("gate_pass"))
+                if bool(domain_gates.get("data_present", False))
                 else True
             ),
             "kernel_gate_pass": kernel_gate_pass,
@@ -1235,6 +1466,7 @@ async def _run_benchmark_once(benchmark: dict[str, Any], *, stage: str) -> dict[
     return {
         "benchmark_id": benchmark["id"],
         "track": benchmark["track"],
+        "domain_id": str(benchmark.get("domain_id") or ""),
         "query": benchmark["query"],
         "expected_kernel_id": expected_kernel_id,
         "merlin_evaluation": merlin_eval,
@@ -1250,6 +1482,7 @@ async def _run_benchmark_once(benchmark: dict[str, Any], *, stage: str) -> dict[
         "incumbent_telemetry": dict(incumbent_result.get("telemetry") or {}),
         "head_to_head_run": {
             "id": str(benchmark["id"]),
+            "domain_id": str(benchmark.get("domain_id") or ""),
             "expected_kernel_id": expected_kernel_id,
             "merlin_geometric_memory_metrics": merlin_geometry,
             "incumbent_geometric_memory_metrics": incumbent_geometry,
@@ -1296,18 +1529,21 @@ async def run_stage_head_to_head_receipts(
         runs,
         required_kernel_ids=required_kernel_ids,
     )
+    domain_gate_summary = evaluate_domain_gate_summary(runs)
     return {
         "ok": True,
         "stage": corpus["stage"],
         "runs": runs,
         "head_to_head_runs": [item["head_to_head_run"] for item in runs],
         "kernel_gate_summary": kernel_gate_summary,
+        "domain_gate_summary": domain_gate_summary,
         "summary": {
             "total": len(runs),
             "passed": len(runs) - len(failed),
             "failed": len(failed),
             "promotion_gate_pass": len(failed) == 0,
             "kernel_gate_pass": bool(kernel_gate_summary.get("gate_pass")),
+            "domain_gate_pass": bool(domain_gate_summary.get("gate_pass")),
         },
     }
 
@@ -1393,6 +1629,34 @@ def run_stage_c_head_to_head_receipts_sync(
         nonlocal result, error
         try:
             result = asyncio.run(run_stage_head_to_head_receipts("stage_c_capability_expansion", limit=limit))
+        except BaseException as exc:  # pragma: no cover
+            error = exc
+
+    thread = threading.Thread(target=_runner, daemon=True)
+    thread.start()
+    thread.join()
+    if error is not None:
+        raise error
+    return result
+
+
+def run_stage_domain_head_to_head_receipts_sync(
+    *,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    """Synchronous wrapper for expert-domain mastery receipts."""
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(run_stage_head_to_head_receipts("stage_expert_domain_mastery", limit=limit))
+
+    result: dict[str, Any] = {}
+    error: BaseException | None = None
+
+    def _runner() -> None:
+        nonlocal result, error
+        try:
+            result = asyncio.run(run_stage_head_to_head_receipts("stage_expert_domain_mastery", limit=limit))
         except BaseException as exc:  # pragma: no cover
             error = exc
 
@@ -1728,6 +1992,7 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
     sync_ok = bool(packet.get("sync_checks_ok"))
     empirical_gate = dict(packet.get("empirical_gate") or {})
     kernel_gate_summary = dict(packet.get("kernel_gate_summary") or {})
+    domain_gate_summary = dict(packet.get("domain_gate_summary") or {})
     lane_shadow_deployment = _build_lane_shadow_deployment(kernel_gate_summary)
     policy_metric = (empirical_gate.get("metrics") or {}).get("high_severity_policy_violations_merlin")
     if policy_metric is None:
@@ -1748,6 +2013,10 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         )
         and policy_violations == 0
         and lane_shadow_deployment["all_lanes_green"]
+        and (
+            not bool(domain_gate_summary.get("data_present"))
+            or bool(domain_gate_summary.get("gate_pass"))
+        )
     )
     alerts = []
     if packet.get("decision") != "REPLACEMENT_APPROVED":
@@ -1762,6 +2031,8 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         alerts.append("geometric_longitudinal_not_met")
     if not lane_shadow_deployment["all_lanes_green"]:
         alerts.append("kernel_lane_demotion_active")
+    if bool(domain_gate_summary.get("data_present")) and not bool(domain_gate_summary.get("gate_pass")):
+        alerts.append("domain_gate_failure_active")
     from .merlin_program import (
         get_knowledge_transfer_cycles,
         get_mentorship_completion_contract,
@@ -1808,6 +2079,8 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         "geometric_longitudinal_acceptance": geometric_longitudinal,
         "longitudinal_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),
         "geometric_longitudinal_policy": dict(GEOMETRIC_LONGITUDINAL_POLICY),
+        "domain_gate_summary": domain_gate_summary,
+        "domain_gate_contract": get_domain_gate_contract(),
         "history_count": len(history),
         "trendlines": {
             "quality_delta": (empirical_gate.get("metrics") or {}).get("mean_quality_delta", 0.0),
@@ -1831,6 +2104,10 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
                 ),
                 "zero_high_severity_policy_violations": policy_violations == 0,
                 "all_kernel_lanes_green": lane_shadow_deployment["all_lanes_green"],
+                "domain_gates_pass_or_not_required": (
+                    (not bool(domain_gate_summary.get("data_present")))
+                    or bool(domain_gate_summary.get("gate_pass"))
+                ),
             },
             "policy": "Fail closed: deployment blocked if any gate is false.",
         },
