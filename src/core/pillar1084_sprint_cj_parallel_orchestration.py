@@ -273,14 +273,18 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     }
 
 
-def _safe_pillar_valid() -> bool:
-    try:
-        return bool(sprint_cj_parallel_orchestration().get("valid"))
-    except Exception:
-        return False
+class _PillarValidProxy:
+    def __bool__(self) -> bool:
+        try:
+            return bool(sprint_cj_parallel_orchestration().get("valid"))
+        except Exception:
+            return False
+
+    def __repr__(self) -> str:
+        return str(bool(self))
 
 
-PILLAR_VALID: bool = _safe_pillar_valid()
+PILLAR_VALID = _PillarValidProxy()
 
 
 def pillar1084_summary() -> Dict[str, Any]:

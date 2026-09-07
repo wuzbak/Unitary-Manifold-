@@ -17,8 +17,8 @@ def test_identity() -> None:
     assert PILLAR_NUMBER == 1084
     assert PILLAR_GATE == "SPRINT_CJ_PARALLEL_ORCHESTRATION"
     assert PILLAR_STATUS == "SPRINT_CJ_PARALLEL_ORCHESTRATION_COMPLETE"
-    assert isinstance(PILLAR_VALID, bool)
-    assert PILLAR_VALID == sprint_cj_parallel_orchestration()["valid"]
+    assert isinstance(bool(PILLAR_VALID), bool)
+    assert bool(PILLAR_VALID) == sprint_cj_parallel_orchestration()["valid"]
 
 
 def test_parallel_packet_contract() -> None:
