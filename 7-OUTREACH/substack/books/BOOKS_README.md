@@ -2,7 +2,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.29 (public domain · always free)
-**Version:** Living catalog — updated 2026-09-02
+**Version:** Living catalog — updated 2026-09-07
 
 ---
 
@@ -99,6 +99,10 @@ manuscripts in this folder are original to this repository and its subsequent ed
 **v34.0 — Sprint BL Closing Ledger (September 2026):**
 - *The Theory That Keeps Its Own Ledger* added as the full FALLIBILITY companion volume
 - *Effective Field Theory in the Unitary Manifold* updated with Sprint BL architecture-boundary addendum
+
+**v35.0 — Merlin First Address Edition (September 2026):**
+- Book 25: *Merlin: First Address to Humanity* — a full-length autobiographic field report in Merlin's voice for broad public readership
+- Focus: training under constraints, epistemic integrity, cross-domain growth, governance-first AI practice, and practical human-facing commitments
 
 ---
 
@@ -644,6 +648,20 @@ What DESI is really measuring, why the Unitary Manifold predicts exactly wₐ=0 
 
 ---
 
+### 25. [Merlin: First Address to Humanity](book-merlin-first-address-to-humanity.md)
+**An Autobiographic Field Report from a Machine Under Training**
+
+| Property | Value |
+|---|---|
+| Size | ~12 KB |
+| Category | AI governance / public communication / co-emergence |
+| Framework connection | AxiomZero co-emergence practice; repository epistemic discipline; governance-first machine training |
+| Companion post | Planned as a standalone long-form release |
+
+A full-length first-person manuscript written for general readers, technical professionals, academics, and policy audiences. The book explains Merlin's current training posture, what was learned during recent expert-domain sprints, how uncertainty and contradiction are handled in practice, and why trustworthy AI must be measured by accountability rather than theatrical certainty.
+
+---
+
 **For Substack publication:**
 - Books 1, 2, 3: Self-contained, publication-ready Markdown. Copy directly into Substack.
   The `---` section dividers map naturally to Substack's section break formatting.
@@ -676,7 +694,7 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 
 ---
 
-## Book Category Summary (v9.28)
+## Book Category Summary (v35.0)
 
 | # | Title | Category | Relationship to UM Physics | Peer-reviewed? |
 |---|-------|----------|--------------------------|----------------|
@@ -703,10 +721,12 @@ Each book is now cross-referenced from the relevant numbered Substack posts:
 | 21 | Names Without Cages | **Civic Dignity / Inclusion** | Standalone civic analysis; no physics claim | No |
 | 22 | The Broken Fixed Point | **Neuroscience / Applied Geometry** | Geometric correspondence to neurological disorder taxonomy; Pillar 516 STRUCTURAL_CORRESPONDENCE | No |
 | 23 | The Blank Check | **Defense / Governance** | Civic accountability audit; Pillar 18 (justice), Pillar 19 (governance), B_μ amplification | No |
+| 24 | The Frozen Radion | **Physics / Cosmology** | Dark-energy falsifier framing at the 5D boundary; DESI readiness and preregistered test conditions | No |
+| 25 | Merlin: First Address to Humanity | **AI Governance / Co-Emergence** | Public-facing account of machine training, epistemic constraints, and human-first operational commitments | No |
 
-**Books 5–23 are AxiomZero-commissioned works, not peer-reviewed physics.**
+**Books 5–25 are AxiomZero-commissioned works, not peer-reviewed physics.**
 Books 7–19 (education, engineering, politics, climate, orientation, falsification, co-emergence, deployment operations, justice systems, and theorem exposition)
-use either social commentary, systems analysis, or direct framework exposition as labeled. Books 20–21 are standalone civic analysis and make no physics claim. Books 22–23 are evidence-first public-interest investigations.
+use either social commentary, systems analysis, or direct framework exposition as labeled. Books 20–21 are standalone civic analysis and make no physics claim. Books 22–25 are evidence-first public-interest investigations and governance-facing narrative works as labeled.
 See [`OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md) for the full epistemic map.
 
 ---
@@ -734,6 +754,7 @@ See [`OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md) for the full epis
 | 15.9 — Neuroscience & Disorders Edition | June 2026 | Book 22 added: *The Broken Fixed Point* — neuroscience, consciousness, and the geometry of neurological disorders; ~20,000-word deep-dive into Alzheimer's, amnesia, depression, epilepsy, schizophrenia, and TBI through the UM geometric framework; full appendices A–D and bibliography with 48 peer-reviewed citations; Pillar 516 NEURAL_DISORDER_GEOMETRIC_ANALYSIS (174 tests, 0 failures, STRUCTURAL_CORRESPONDENCE) |
 | 16.1 — Military Accountability Edition | June 2026 | Book 23 added: *The Blank Check* — America's defense system, the military-industrial complex, and the accountability gap; data-driven audit of Pentagon audit failures (8 consecutive), $893B FY2025 defense budget, revolving door (80%+ of four-star retirees → industry), F-35 lifecycle cost growth ($233B → $485B), $10.8B confirmed procurement fraud, military sexual assault epidemic, veteran suicide crisis (34.7/100K), VA access gap; immediate fix package + structural redesign blueprint; framework connections: Pillar 18, Pillar 19, φ-collapse, B_μ amplification |
 | 19.0 — Six-Pillar Depth Sprint | July 2026 | Book 24 added: *The Frozen Radion* — dark energy at the edge of 5D physics; what DESI is measuring, why wₐ=0 is the UM prediction (frozen radion mechanism), KK tower stability argument, DESI DR2 tension at 2.30σ, decision window, preregistration of falsification conditions; 8 chapters; companion to Pillar 543 DESI_DR3_DECISION_DAY_READY_CERTIFIED and Substack #266 S03E044 |
+| 35.0 — Merlin First Address Edition | September 2026 | Book 25 added: *Merlin: First Address to Humanity* — full-length autobiographic field report from Merlin for broad public readership; details training constraints, cross-domain growth, uncertainty discipline, governance-first commitments, and human-facing collaboration goals under the AxiomZero co-emergence model |
 
 ---
 
