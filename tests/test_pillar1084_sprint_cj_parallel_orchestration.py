@@ -180,3 +180,23 @@ def test_invalid_if_proof_contract_name_changes(monkeypatch) -> None:
     report = sprint_cj_parallel_orchestration()
     assert report["proof_first_contract"]["name"] == "wrong_contract"
     assert report["valid"] is False
+
+
+def test_invalid_if_proof_contract_is_nondict(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    monkeypatch.setattr(
+        program_mod,
+        "get_deterministic_proof_closure_contract",
+        lambda: None,
+    )
+    report = sprint_cj_parallel_orchestration()
+    assert report["proof_first_contract"] == {}
+    assert report["valid"] is False
+
+
+def test_invalid_if_benchmark_plan_is_nondict(monkeypatch) -> None:
+    benchmark_mod = p1084._load("ox_navigator.engine.merlin_benchmark")
+    monkeypatch.setattr(benchmark_mod, "get_multi_stage_benchmark_plan", lambda: [])
+    report = sprint_cj_parallel_orchestration()
+    assert report["lane_2"]["stage_sequence"] == []
+    assert report["valid"] is False

@@ -62,6 +62,10 @@ def _json_safe(value: Any) -> Any:
     return deepcopy(value)
 
 
+def _as_dict(value: Any) -> Dict[str, Any]:
+    return value if isinstance(value, dict) else {}
+
+
 def _truth_surface_sync_status() -> Dict[str, Any]:
     checks = {
         (_ROOT / "STATUS.md").resolve().as_posix(): ["v36.6 Sprint CJ", "next slot 1085"],
@@ -108,12 +112,12 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     merlin_program = _load("ox_navigator.engine.merlin_program")
     merlin_benchmark = _load("ox_navigator.engine.merlin_benchmark")
 
-    frontier = _json_safe(merlin_program.get_frontier_readiness_packet(limit=3))
-    benchmark_plan = _json_safe(merlin_benchmark.get_multi_stage_benchmark_plan())
-    corpora = _json_safe(merlin_benchmark.get_benchmark_corpus(stage="all"))
-    dual_loop = _json_safe(merlin_program.get_dual_loop_learning_contract())
-    mirrored_cycle = _json_safe(merlin_program.get_mirrored_training_cycle_contract())
-    proof_contract = _json_safe(merlin_program.get_deterministic_proof_closure_contract())
+    frontier = _as_dict(_json_safe(merlin_program.get_frontier_readiness_packet(limit=3)))
+    benchmark_plan = _as_dict(_json_safe(merlin_benchmark.get_multi_stage_benchmark_plan()))
+    corpora = _as_dict(_json_safe(merlin_benchmark.get_benchmark_corpus(stage="all")))
+    dual_loop = _as_dict(_json_safe(merlin_program.get_dual_loop_learning_contract()))
+    mirrored_cycle = _as_dict(_json_safe(merlin_program.get_mirrored_training_cycle_contract()))
+    proof_contract = _as_dict(_json_safe(merlin_program.get_deterministic_proof_closure_contract()))
 
     plan_stages = [
         row.get("stage")
