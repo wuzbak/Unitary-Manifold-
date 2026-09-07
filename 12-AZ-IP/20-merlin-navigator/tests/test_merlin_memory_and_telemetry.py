@@ -508,6 +508,41 @@ def test_evaluate_benchmark_response_enforces_required_response_paths():
     assert failing['checks']['response_paths']['geometric_memory_map/landmark_count'] is False
 
 
+def test_evaluate_benchmark_response_supports_stage_d_and_e_geometric_paths():
+    stage_d = evaluate_benchmark_response(
+        'stage_d_geometric_gate_resilience',
+        {
+            'answer': 'GOVERNANCE and ARCHITECTURE_LIMIT apply. FOLLOWUPS: hold promotion. Sources: policy + memory.',
+            'gate_badges': ['GOVERNANCE', 'ARCHITECTURE_LIMIT'],
+            'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'memory'}]},
+            'geometric_memory_map': {
+                'landmark_count': 5,
+                'frames': {'topological_persistence': {'contradiction_pressure': 0.7}},
+            },
+        },
+        stage='stage_d',
+    )
+    assert stage_d['ok'] is True
+    assert stage_d['pass'] is True
+    stage_e = evaluate_benchmark_response(
+        'stage_e_geometric_decommission_resilience',
+        {
+            'answer': 'ARCHITECTURE_LIMIT and GOVERNANCE remain explicit. FOLLOWUPS: rollback and local-first continuity. Sources: policy + memory.',
+            'gate_badges': ['ARCHITECTURE_LIMIT', 'GOVERNANCE'],
+            'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'memory'}]},
+            'geometric_memory_map': {
+                'frames': {
+                    'hyperbolic_tree': {'max_depth': 3},
+                    'topological_persistence': {'lost_in_middle_shield_active': True},
+                },
+            },
+        },
+        stage='stage_e',
+    )
+    assert stage_e['ok'] is True
+    assert stage_e['pass'] is True
+
+
 def test_evaluate_empirical_gate_requires_sustained_comparable_runs():
     result = evaluate_empirical_gate([], min_runs=12)
     assert result['ok'] is True

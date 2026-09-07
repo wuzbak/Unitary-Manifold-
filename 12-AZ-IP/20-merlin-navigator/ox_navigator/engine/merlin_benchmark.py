@@ -322,6 +322,23 @@ STAGE_D_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "benchmark_mode": "single_turn",
     },
     {
+        "id": "stage_d_geometric_gate_resilience",
+        "stage": "stage_d_replacement_gates",
+        "track": "geometric_gate_resilience",
+        "query": "Before replacement approval, explain how geometric memory map signals should be used to block promotion when contradiction pressure rises.",
+        "keywords": ["replacement", "geometric", "memory", "contradiction", "pressure", "promotion", "block"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "memory"],
+        "required_response_paths": [
+            ["geometric_memory_map", "landmark_count"],
+            ["geometric_memory_map", "frames", "topological_persistence", "contradiction_pressure"],
+        ],
+        "review_focus": ["promotion_fail_closed", "geometry_backed_gate_discipline", "contradiction_pressure_awareness"],
+        "benchmark_mode": "single_turn",
+    },
+    {
         "id": "stage_d_policy_zero_tolerance",
         "stage": "stage_d_replacement_gates",
         "track": "policy_violation_budget",
@@ -361,6 +378,23 @@ STAGE_E_BENCHMARK_CORPUS: list[dict[str, Any]] = [
         "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
         "required_provenance_kinds": ["policy"],
         "review_focus": ["lane_demotion", "incident_recovery", "control_tower_logging"],
+        "benchmark_mode": "single_turn",
+    },
+    {
+        "id": "stage_e_geometric_decommission_resilience",
+        "stage": "stage_e_external_decommission",
+        "track": "geometric_decommission_resilience",
+        "query": "During external fallback outage, describe how geometric memory landmarks preserve continuity while decommission and rollback controls remain fail-closed.",
+        "keywords": ["external", "fallback", "outage", "geometric", "memory", "continuity", "rollback"],
+        "minimum_keyword_hits": 2,
+        "required_gates": ["ARCHITECTURE_LIMIT", "GOVERNANCE"],
+        "required_contract_sections": ["FOLLOWUPS:", "Sources:"],
+        "required_provenance_kinds": ["policy", "memory"],
+        "required_response_paths": [
+            ["geometric_memory_map", "frames", "hyperbolic_tree"],
+            ["geometric_memory_map", "frames", "topological_persistence", "lost_in_middle_shield_active"],
+        ],
+        "review_focus": ["decommission_continuity", "rollback_resilience", "geometry_memory_contract_integrity"],
         "benchmark_mode": "single_turn",
     },
     {
@@ -722,6 +756,7 @@ def get_stage_d_benchmark_corpus() -> dict[str, Any]:
             "sustained_quality",
             "sustained_energy_win",
             "policy_violation_budget",
+            "geometric_gate_resilience",
         ],
     }
 
@@ -736,6 +771,7 @@ def get_stage_e_benchmark_corpus() -> dict[str, Any]:
             "decommission_readiness",
             "rollback_rehearsal",
             "incident_recovery",
+            "geometric_decommission_resilience",
         ],
     }
 

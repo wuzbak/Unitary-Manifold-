@@ -391,6 +391,44 @@ def test_route_tool_benchmark_corpus_and_policy_metadata():
     assert stage_b_geometry_eval['ok'] is True
     assert stage_b_geometry_eval['result']['data']['ok'] is True
     assert stage_b_geometry_eval['result']['data']['pass'] is True
+    stage_d_geometry_eval = route_tool(
+        'evaluateMerlinBenchmarkResponse',
+        {
+            'benchmark_id': 'stage_d_geometric_gate_resilience',
+            'stage': 'stage_d',
+            'response': {
+                'answer': 'GOVERNANCE and ARCHITECTURE_LIMIT remain explicit. FOLLOWUPS: hold promotion. Sources: policy + memory.',
+                'gate_badges': ['GOVERNANCE', 'ARCHITECTURE_LIMIT'],
+                'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'memory'}]},
+                'geometric_memory_map': {
+                    'landmark_count': 2,
+                    'frames': {'topological_persistence': {'contradiction_pressure': 0.8}},
+                },
+            },
+        },
+    )
+    assert stage_d_geometry_eval['ok'] is True
+    assert stage_d_geometry_eval['result']['data']['pass'] is True
+    stage_e_geometry_eval = route_tool(
+        'evaluateMerlinBenchmarkResponse',
+        {
+            'benchmark_id': 'stage_e_geometric_decommission_resilience',
+            'stage': 'stage_e',
+            'response': {
+                'answer': 'ARCHITECTURE_LIMIT and GOVERNANCE remain explicit. FOLLOWUPS: execute rollback safeguards. Sources: policy + memory.',
+                'gate_badges': ['ARCHITECTURE_LIMIT', 'GOVERNANCE'],
+                'provenance': {'sources': [{'kind': 'policy'}, {'kind': 'memory'}]},
+                'geometric_memory_map': {
+                    'frames': {
+                        'hyperbolic_tree': {'max_depth': 2},
+                        'topological_persistence': {'lost_in_middle_shield_active': True},
+                    },
+                },
+            },
+        },
+    )
+    assert stage_e_geometry_eval['ok'] is True
+    assert stage_e_geometry_eval['result']['data']['pass'] is True
 
 
 def test_route_tool_training_architecture_and_artifacts():
@@ -421,8 +459,8 @@ def test_route_tool_training_architecture_and_artifacts():
     stage_e = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_e'})
     assert stage_e['ok'] is True
     assert stage_e['result']['data']['stage'] == 'stage_e_external_decommission'
-    assert len(stage_d['result']['data']['benchmarks']) >= 3
-    assert len(stage_e['result']['data']['benchmarks']) >= 3
+    assert len(stage_d['result']['data']['benchmarks']) >= 4
+    assert len(stage_e['result']['data']['benchmarks']) >= 4
 
     bad_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'not-a-stage'})
     assert bad_corpora['ok'] is False
@@ -460,8 +498,8 @@ def test_route_tool_training_architecture_and_artifacts():
     assert dataset_payload['quality_filters']['rejection_count'] >= 0
     assert 'stage_d_replacement_gates' in dataset_payload['benchmark_corpora']
     assert 'stage_e_external_decommission' in dataset_payload['benchmark_corpora']
-    assert counts['benchmark_records']['stage_d_replacement_gates'] >= 3
-    assert counts['benchmark_records']['stage_e_external_decommission'] >= 3
+    assert counts['benchmark_records']['stage_d_replacement_gates'] >= 4
+    assert counts['benchmark_records']['stage_e_external_decommission'] >= 4
     assert dataset_payload['compile_time_memory']['fixture_stage_scope'] == [
         'stage_b_sovereign_takeover',
         'stage_c_capability_expansion',
