@@ -131,6 +131,8 @@ def test_empty_blockers_all_clear_is_consistent(monkeypatch) -> None:
     report = sprint_cj_parallel_orchestration()
     assert report["integrated_board"]["dependencies"]["lane_2_requires_promotion_blockers_declared"] is True
     assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is True
+    assert report["valid"] is True
+    assert report["outcome"] == "SPRINT_CJ_PARALLEL_ORCHESTRATION_READY"
 
 
 def test_summary() -> None:

@@ -78,14 +78,21 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
     for file_path, required_fragments in checks.items():
         candidate = Path(file_path)
         exists = candidate.is_file()
-        content = candidate.read_text(encoding="utf-8") if exists else ""
+        read_ok = True
+        content = ""
+        if exists:
+            try:
+                content = candidate.read_text(encoding="utf-8")
+            except (OSError, UnicodeDecodeError):
+                read_ok = False
         fragments_pass = all(fragment in content for fragment in required_fragments)
         file_checks.append(
             {
                 "path": file_path,
                 "exists": exists,
+                "read_ok": read_ok,
                 "required_fragments": list(required_fragments),
-                "pass": exists and fragments_pass,
+                "pass": exists and read_ok and fragments_pass,
             }
         )
     return {
@@ -125,7 +132,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
     if blockers_all_clear_declared is None:
         blocker_consistency_pass = blockers_are_dicts and promotion_blockers_declared
-        blockers_all_clear_effective = derived_all_clear
+        blockers_all_clear_effective = bool(promotion_blockers) and derived_all_clear
     else:
         blocker_consistency_pass = (
             blockers_are_dicts
