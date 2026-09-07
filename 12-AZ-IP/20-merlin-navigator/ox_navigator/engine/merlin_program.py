@@ -2245,11 +2245,13 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
         errors.append("missing_provenance_sources")
     if str(record.get("format_version")) != "merlin_training_jsonl_v1":
         errors.append("invalid_format_version")
-    requires_teacher_trace_checks = (
-        str(record.get("task_family", "")).strip() == "teacher_trace_distillation"
-        or str(record.get("task_track", "")).strip() == "teacher_trace_distillation"
-        or str(record.get("track", "")).strip() == "teacher_trace_distillation"
-        or str(record.get("supervision_mode", "")).strip() == "teacher_trace_distillation"
+    task_family = str(record.get("task_family", "")).strip().lower()
+    task_track = str(record.get("task_track", "")).strip().lower()
+    track = str(record.get("track", "")).strip().lower()
+    supervision_mode = str(record.get("supervision_mode", "")).strip().lower()
+    requires_teacher_trace_checks = any(
+        value == "teacher_trace_distillation"
+        for value in (task_family, task_track, track, supervision_mode)
     )
     if requires_teacher_trace_checks:
         trace_status = evaluate_teacher_trace_admission(record)
