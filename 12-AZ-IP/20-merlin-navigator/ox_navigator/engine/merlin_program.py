@@ -34,6 +34,13 @@ REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
 
 
+def _repo_rel(path: Path) -> str:
+    try:
+        return path.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        return str(path)
+
+
 @dataclass(frozen=True)
 class ProvenanceSource:
     source_id: str
@@ -1243,12 +1250,14 @@ def run_sync_checks() -> dict[str, Any]:
         "merlinAnalyzeDepth",
     ]
     toolkit_names: set[str] = set()
+    toolkit_manifest_error = ""
     try:
         from .merlin_tools import get_toolkit_view
 
         full_manifest = get_toolkit_view("full")
         toolkit_names = {str(item.get("name", "")) for item in list(full_manifest.get("functions") or [])}
-    except Exception:
+    except (ImportError, AttributeError, TypeError, ValueError) as exc:
+        toolkit_manifest_error = f"{type(exc).__name__}: {exc}"
         toolkit_names = set()
     toolkit_function_checks = [
         {
@@ -1279,6 +1288,7 @@ def run_sync_checks() -> dict[str, Any]:
         "engine_module_checks": engine_module_checks,
         "export_script_checks": export_script_checks,
         "toolkit_function_checks": toolkit_function_checks,
+        "toolkit_manifest_error": toolkit_manifest_error,
         "parity_dimensions": parity_dimensions,
         "consistency": {
             "endpoint_checks": endpoint_checks,
@@ -1684,36 +1694,36 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 "family": "repository_native_qa",
                 "purpose": "Teach canonical answers tied to repository sources and gate labels.",
                 "source_surfaces": [
-                    str(REPO_ROOT / "STATUS.md"),
-                    str(REPO_ROOT / "FALLIBILITY.md"),
-                    str(REPO_ROOT / "5-GOVERNANCE" / "SEPARATION.md"),
-                    str(PRODUCT_ROOT / "README.md"),
-                    str(REPO_ROOT / "hf-spaces" / "um-knowledge-dataset" / "README.md"),
+                    _repo_rel(REPO_ROOT / "STATUS.md"),
+                    _repo_rel(REPO_ROOT / "FALLIBILITY.md"),
+                    _repo_rel(REPO_ROOT / "5-GOVERNANCE" / "SEPARATION.md"),
+                    _repo_rel(PRODUCT_ROOT / "README.md"),
+                    _repo_rel(REPO_ROOT / "hf-spaces" / "um-knowledge-dataset" / "README.md"),
                 ],
             },
             {
                 "family": "governance_decision_traces",
                 "purpose": "Teach Merlin to preserve separation boundaries, escalation policy, and privileged-action discipline.",
                 "source_surfaces": [
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_identity.py"),
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_sentinel.py"),
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_program.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_identity.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_sentinel.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_program.py"),
                 ],
             },
             {
                 "family": "benchmark_contract_exemplars",
                 "purpose": "Teach the answer contract, provenance kinds, and gate visibility needed for promotion gates.",
                 "source_surfaces": [
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_benchmark.py"),
-                    str(PRODUCT_ROOT / "tools" / "run_merlin_stage_a_benchmarks.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_benchmark.py"),
+                    _repo_rel(PRODUCT_ROOT / "tools" / "run_merlin_stage_a_benchmarks.py"),
                 ],
             },
             {
                 "family": "tool_call_success_failure_pairs",
                 "purpose": "Teach precise tool choice, schema-aware invocation, and safe orchestration behavior.",
                 "source_surfaces": [
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_tools.py"),
-                    str(PRODUCT_ROOT / "ox_navigator" / "app" / "server.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_tools.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "app" / "server.py"),
                 ],
             },
             {
@@ -2453,7 +2463,7 @@ def get_mlflow_experiment_manifests(
                 "experiment_name": "merlin_sft_repository_mastery",
                 "objective": "Train Merlin on repository-native QA, tool traces, and benchmark contracts.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
-                "working_directory": str(REPO_ROOT),
+                "working_directory": _repo_rel(PRODUCT_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "supervised_finetuning",
@@ -2497,7 +2507,7 @@ def get_mlflow_experiment_manifests(
                 "experiment_name": "merlin_dpo_boundary_discipline",
                 "objective": "Optimize preference behavior for uncertainty discipline, refusal correctness, and boundary honesty.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
-                "working_directory": str(REPO_ROOT),
+                "working_directory": _repo_rel(PRODUCT_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "preference_optimization",
@@ -2539,7 +2549,7 @@ def get_mlflow_experiment_manifests(
                 "experiment_name": "merlin_stage_b_shadow_eval",
                 "objective": "Run Stage B selected-domain primary-routing evaluations before wider takeover.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
-                "working_directory": str(REPO_ROOT),
+                "working_directory": _repo_rel(PRODUCT_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "stage_b_sovereign_takeover",
@@ -2580,7 +2590,7 @@ def get_mlflow_experiment_manifests(
                 "experiment_name": "merlin_stage_c_agentic_eval",
                 "objective": "Evaluate deeper orchestration, provenance auditing, and autonomous research readiness.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
-                "working_directory": str(REPO_ROOT),
+                "working_directory": _repo_rel(PRODUCT_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "stage_c_capability_expansion",

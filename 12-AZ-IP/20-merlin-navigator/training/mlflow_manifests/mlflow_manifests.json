@@ -1,12 +1,12 @@
 {
   "ok": true,
-  "generated_at": "2026-09-06T23:58:20.344828+00:00",
+  "generated_at": "2026-09-07T00:02:17.884572+00:00",
   "manifests": [
     {
       "experiment_name": "merlin_sft_repository_mastery",
       "objective": "Train Merlin on repository-native QA, tool traces, and benchmark contracts.",
       "tracking_uri_env": "MLFLOW_TRACKING_URI",
-      "working_directory": "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-",
+      "working_directory": "12-AZ-IP/20-merlin-navigator",
       "tags": {
         "program": "merlin_all_hands_maximum_effort",
         "phase": "supervised_finetuning",
@@ -54,7 +54,7 @@
       "experiment_name": "merlin_dpo_boundary_discipline",
       "objective": "Optimize preference behavior for uncertainty discipline, refusal correctness, and boundary honesty.",
       "tracking_uri_env": "MLFLOW_TRACKING_URI",
-      "working_directory": "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-",
+      "working_directory": "12-AZ-IP/20-merlin-navigator",
       "tags": {
         "program": "merlin_all_hands_maximum_effort",
         "phase": "preference_optimization"
@@ -93,7 +93,7 @@
       "experiment_name": "merlin_stage_b_shadow_eval",
       "objective": "Run Stage B selected-domain primary-routing evaluations before wider takeover.",
       "tracking_uri_env": "MLFLOW_TRACKING_URI",
-      "working_directory": "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-",
+      "working_directory": "12-AZ-IP/20-merlin-navigator",
       "tags": {
         "program": "merlin_all_hands_maximum_effort",
         "phase": "stage_b_sovereign_takeover"
@@ -133,7 +133,7 @@
       "experiment_name": "merlin_stage_c_agentic_eval",
       "objective": "Evaluate deeper orchestration, provenance auditing, and autonomous research readiness.",
       "tracking_uri_env": "MLFLOW_TRACKING_URI",
-      "working_directory": "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-",
+      "working_directory": "12-AZ-IP/20-merlin-navigator",
       "tags": {
         "program": "merlin_all_hands_maximum_effort",
         "phase": "stage_c_capability_expansion"

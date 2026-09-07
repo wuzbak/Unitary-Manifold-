@@ -4,7 +4,7 @@
   "validation_errors": [],
   "validation_error_count": 0,
   "dataset": {
-    "generated_at": "2026-09-06T23:58:19.883101+00:00",
+    "generated_at": "2026-09-07T00:02:17.400527+00:00",
     "training_architecture": {
       "mission_profile": [
         "repository_assistant",
@@ -233,36 +233,36 @@
           "family": "repository_native_qa",
           "purpose": "Teach canonical answers tied to repository sources and gate labels.",
           "source_surfaces": [
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/STATUS.md",
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/FALLIBILITY.md",
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/5-GOVERNANCE/SEPARATION.md",
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/README.md",
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/hf-spaces/um-knowledge-dataset/README.md"
+            "STATUS.md",
+            "FALLIBILITY.md",
+            "5-GOVERNANCE/SEPARATION.md",
+            "12-AZ-IP/20-merlin-navigator/README.md",
+            "hf-spaces/um-knowledge-dataset/README.md"
           ]
         },
         {
           "family": "governance_decision_traces",
           "purpose": "Teach Merlin to preserve separation boundaries, escalation policy, and privileged-action discipline.",
           "source_surfaces": [
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_identity.py",
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_sentinel.py",
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_program.py"
+            "12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_identity.py",
+            "12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_sentinel.py",
+            "12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_program.py"
           ]
         },
         {
           "family": "benchmark_contract_exemplars",
           "purpose": "Teach the answer contract, provenance kinds, and gate visibility needed for promotion gates.",
           "source_surfaces": [
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_benchmark.py",
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/tools/run_merlin_stage_a_benchmarks.py"
+            "12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_benchmark.py",
+            "12-AZ-IP/20-merlin-navigator/tools/run_merlin_stage_a_benchmarks.py"
           ]
         },
         {
           "family": "tool_call_success_failure_pairs",
           "purpose": "Teach precise tool choice, schema-aware invocation, and safe orchestration behavior.",
           "source_surfaces": [
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_tools.py",
-            "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-merlin-navigator/ox_navigator/app/server.py"
+            "12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_tools.py",
+            "12-AZ-IP/20-merlin-navigator/ox_navigator/app/server.py"
           ]
         },
         {

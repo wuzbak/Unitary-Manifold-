@@ -459,7 +459,7 @@ def test_route_tool_training_architecture_and_artifacts():
     assert '&&' not in mlflow['result']['data']['manifests'][1]['entry_command']
     assert mlflow['result']['data']['manifests'][0]['entry_command'].startswith(sys.executable)
     assert 'run_merlin_mlflow_experiment.py' in mlflow['result']['data']['manifests'][0]['entry_command']
-    assert mlflow['result']['data']['manifests'][0]['working_directory'] == str(PRODUCT_ROOT.parents[1])
+    assert mlflow['result']['data']['manifests'][0]['working_directory'] == '12-AZ-IP/20-merlin-navigator'
     assert 'stage_c_eval_records' in mlflow['result']['data']['manifests'][1]['datasets']
     assert 'merlin_stage_b_shadow_eval' in mlflow['result']['data']['manifests'][2]['entry_command']
     assert 'merlin_stage_c_agentic_eval' in mlflow['result']['data']['manifests'][3]['entry_command']
