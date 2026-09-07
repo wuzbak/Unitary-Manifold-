@@ -67,16 +67,19 @@ def _as_dict(value: Any) -> Dict[str, Any]:
 
 
 def _truth_surface_sync_status() -> Dict[str, Any]:
+    version_numeric = VERSION.removeprefix("v")
+    sprint_tag = f"{VERSION} Sprint {SPRINT}"
+    next_slot_text = str(NEXT_PILLAR_SLOT)
     checks = {
-        (_ROOT / "STATUS.md").resolve().as_posix(): ["v36.6 Sprint CJ", "next slot 1085"],
-        (_ROOT / "docs" / "mas_tracker.yml").resolve().as_posix(): ['version: "v36.6"', "next_pillar_slot: 1085"],
-        (_ROOT / "FALLIBILITY.md").resolve().as_posix(): ["Unitary Manifold v36.6", "Next pillar slot 1085"],
-        (_ROOT / "docs" / "CLAIM_MASTER_BOARD.md").resolve().as_posix(): ["# Unitary Manifold v36.6", "Next slot 1085"],
-        (_ROOT / "docs" / "GATEKEEPER_SUMMARY.md").resolve().as_posix(): ["# Unitary Manifold v36.6", "Next slot 1085"],
-        (_ROOT / "docs" / "TRUTH_LAYER.md").resolve().as_posix(): ["# Unitary Manifold v36.6"],
-        (_ROOT / "docs" / "WAVE_CHANGELOG.md").resolve().as_posix(): ["**Current version: v36.6", "**Next pillar slot:** 1085"],
-        (_ROOT / "docs" / "SPRINT_PLAN.md").resolve().as_posix(): ["v36.6 Sprint CJ COMPLETE", "| Next pillar slot | **1085** |"],
-        (_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json").resolve().as_posix(): ['"version": "36.6"', '"next_slot": 1085'],
+        (_ROOT / "STATUS.md").resolve().as_posix(): [sprint_tag, f"next slot {next_slot_text}"],
+        (_ROOT / "docs" / "mas_tracker.yml").resolve().as_posix(): [f'version: "{VERSION}"', f"next_pillar_slot: {next_slot_text}"],
+        (_ROOT / "FALLIBILITY.md").resolve().as_posix(): [f"Unitary Manifold {VERSION}", f"Next pillar slot {next_slot_text}"],
+        (_ROOT / "docs" / "CLAIM_MASTER_BOARD.md").resolve().as_posix(): [f"# Unitary Manifold {VERSION}", f"Next slot {next_slot_text}"],
+        (_ROOT / "docs" / "GATEKEEPER_SUMMARY.md").resolve().as_posix(): [f"# Unitary Manifold {VERSION}", f"Next slot {next_slot_text}"],
+        (_ROOT / "docs" / "TRUTH_LAYER.md").resolve().as_posix(): [f"# Unitary Manifold {VERSION}"],
+        (_ROOT / "docs" / "WAVE_CHANGELOG.md").resolve().as_posix(): [f"**Current version: {VERSION}", f"**Next pillar slot:** {next_slot_text}"],
+        (_ROOT / "docs" / "SPRINT_PLAN.md").resolve().as_posix(): [f"{sprint_tag} COMPLETE", f"| Next pillar slot | **{next_slot_text}** |"],
+        (_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json").resolve().as_posix(): [f'"version": "{version_numeric}"', f'"next_slot": {next_slot_text}'],
     }
     file_checks = []
     for file_path, required_fragments in checks.items():
@@ -145,7 +148,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     blockers_all_clear_declared = blockers_all_clear_raw if isinstance(blockers_all_clear_raw, bool) else None
     promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
-    effective_all_clear = blockers_are_dicts and len(promotion_blockers) == 0
+    effective_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
     declared_all_clear_semantics = effective_all_clear
     declared_matches_effective = (
         blockers_all_clear_declared == effective_all_clear

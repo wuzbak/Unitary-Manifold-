@@ -188,7 +188,7 @@ def test_empty_blockers_without_declared_all_clear_is_consistent(monkeypatch) ->
     assert report["valid"] is True
 
 
-def test_nonempty_passing_blockers_do_not_imply_all_clear(monkeypatch) -> None:
+def test_nonempty_passing_blockers_imply_all_clear(monkeypatch) -> None:
     program_mod = p1084._load("ox_navigator.engine.merlin_program")
     original = program_mod.get_frontier_readiness_packet
 
@@ -201,13 +201,13 @@ def test_nonempty_passing_blockers_do_not_imply_all_clear(monkeypatch) -> None:
     monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _nonempty_passing_blockers)
     report = sprint_cj_parallel_orchestration()
     assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is True
-    assert report["lane_2"]["promotion_blockers_all_clear"] is False
-    assert report["promotion_policy_state"] == "FREEZE"
-    assert report["integrated_board"]["dependencies"]["promotion_language_gate_pass"] is False
-    assert report["integrated_board"]["dependencies"]["promotion_language_freeze_enforced"] is True
+    assert report["lane_2"]["promotion_blockers_all_clear"] is True
+    assert report["promotion_policy_state"] == "PASS"
+    assert report["integrated_board"]["dependencies"]["promotion_language_gate_pass"] is True
+    assert report["integrated_board"]["dependencies"]["promotion_language_freeze_enforced"] is False
 
 
-def test_nonempty_passing_blockers_declared_true_fails_consistency(monkeypatch) -> None:
+def test_nonempty_passing_blockers_declared_true_is_consistent(monkeypatch) -> None:
     program_mod = p1084._load("ox_navigator.engine.merlin_program")
     original = program_mod.get_frontier_readiness_packet
 
@@ -220,11 +220,31 @@ def test_nonempty_passing_blockers_declared_true_fails_consistency(monkeypatch) 
     monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _declared_true_frontier)
     report = sprint_cj_parallel_orchestration()
     assert report["lane_2"]["promotion_blockers_all_clear_declared"] is True
+    assert report["lane_2"]["promotion_blockers_all_clear"] is True
+    assert report["integrated_board"]["dependencies"]["lane_2_declared_all_clear_matches_effective_semantics"] is True
+    assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is True
+    assert report["promotion_policy_state"] == "PASS"
+    assert report["valid"] is True
+
+
+def test_nonempty_failing_blockers_enforce_freeze(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _failing_blockers_frontier(limit=3):
+        packet = original(limit=limit)
+        packet["promotion_blockers"] = [{"name": "quality_floor", "pass": False}]
+        packet["promotion_blockers_all_clear"] = False
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _failing_blockers_frontier)
+    report = sprint_cj_parallel_orchestration()
     assert report["lane_2"]["promotion_blockers_all_clear"] is False
-    assert report["integrated_board"]["dependencies"]["lane_2_declared_all_clear_matches_effective_semantics"] is False
-    assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is False
-    assert report["promotion_policy_state"] == "INVALID"
-    assert report["valid"] is False
+    assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is True
+    assert report["promotion_policy_state"] == "FREEZE"
+    assert report["integrated_board"]["dependencies"]["promotion_language_gate_pass"] is False
+    assert report["integrated_board"]["dependencies"]["promotion_language_freeze_enforced"] is True
+    assert report["valid"] is True
 
 
 def test_summary() -> None:
