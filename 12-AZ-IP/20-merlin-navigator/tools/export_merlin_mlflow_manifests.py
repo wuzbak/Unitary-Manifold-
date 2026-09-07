@@ -20,7 +20,12 @@ from ox_navigator.engine.merlin_program import get_mlflow_experiment_manifests
 def main() -> int:
     parser = argparse.ArgumentParser(description="Export Merlin MLflow experiment manifests.")
     parser.add_argument("--limit", type=int, default=12, help="Optional seed example limit")
-    parser.add_argument("--output-dir", type=str, required=True, help="Output directory")
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=str(ROOT / "training" / "mlflow_manifests"),
+        help="Output directory",
+    )
     args = parser.parse_args()
 
     payload = get_mlflow_experiment_manifests(limit=args.limit)

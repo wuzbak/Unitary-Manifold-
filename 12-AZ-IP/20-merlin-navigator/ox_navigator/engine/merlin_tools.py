@@ -86,7 +86,14 @@ from .merlin_program import (
     build_training_artifact_bundle,
     run_sync_checks,
 )
-from .merlin_local_inference import get_inference_health, get_inference_providers
+from .merlin_inference_health import get_merlin_inference_health
+from .merlin_local_inference import get_inference_providers
+from .merlin_meta_learning import (
+    analyze_depth,
+    consolidate_memory,
+    generate_falsification_oracle,
+    run_self_audit,
+)
 from .merlin_reasoning_graph import get_reasoning_chain
 from .merlin_research_cycle import run_research_cycle
 from .merlin_counterexample import build_counterexample_digest
@@ -99,7 +106,8 @@ from .merlin_rag import (
     build_status_response,
     lookup_kb,
 )
-from .merlin_telemetry import build_energy_ledger
+from .merlin_energy_ledger import build_merlin_energy_ledger
+from .merlin_sync_contract import REQUIRED_TOOLKIT_FUNCTIONS
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 _LIMIT_SYNC_ARGS_SCHEMA = {
@@ -260,6 +268,10 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "runMerlinResearchCycle", "summary": "Run a bounded repository-grounded Merlin research cycle", "domain": "functions"},
             {"name": "getMerlinCounterexampleDigest", "summary": "Return typed contradiction and counterexample digest artifacts", "domain": "functions"},
             {"name": "getMerlinEnergyLedger", "summary": "Return Merlin-vs-incumbent energy ledger entries", "domain": "functions"},
+            {"name": "merlinConsolidateMemory", "summary": "Synthesize memory tiers and detect governed training gaps", "domain": "functions"},
+            {"name": "merlinSelfAudit", "summary": "Return calibration and contradiction audit for recent telemetry", "domain": "functions"},
+            {"name": "generateFalsificationOracle", "summary": "Generate domain kill-conditions and persist trusted oracle notes", "domain": "functions"},
+            {"name": "merlinAnalyzeDepth", "summary": "Recommend deterministic reasoning depth from telemetry trends", "domain": "functions"},
             {"name": "empiricalObservatoryCheck", "summary": "Evaluate DESI/JUNO/LiteBIRD tripwires and rupture events", "domain": "functions"},
             {"name": "kernelPProofProbe", "summary": "Run gated KERNEL_P Lean4 proof probe with fallback", "domain": "functions"},
         ]
@@ -464,6 +476,11 @@ def _tool_manifest() -> dict[str, Any]:
             },
             "risk_level": "medium",
         },
+        "runMerlinSyncChecks": {
+            "capability_class": "verification",
+            "risk_level": "high",
+            "args_schema": {"type": "object", "properties": {}, "additionalProperties": False},
+        },
         "runMerlinMemoryAudit": {
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
             "capability_class": "state_read",
@@ -518,6 +535,36 @@ def _tool_manifest() -> dict[str, Any]:
                 "additionalProperties": False,
             },
         },
+        "merlinConsolidateMemory": {
+            "capability_class": "state_read",
+            "args_schema": {
+                "type": "object",
+                "properties": {"limit": {"type": "integer", "minimum": 1}},
+                "additionalProperties": False,
+            },
+        },
+        "merlinSelfAudit": {
+            "capability_class": "state_read",
+            "args_schema": {"type": "object", "properties": {}, "additionalProperties": False},
+        },
+        "generateFalsificationOracle": {
+            "capability_class": "verification",
+            "risk_level": "medium",
+            "args_schema": {
+                "type": "object",
+                "properties": {"domain": {"type": "string"}},
+                "required": ["domain"],
+                "additionalProperties": False,
+            },
+        },
+        "merlinAnalyzeDepth": {
+            "capability_class": "state_read",
+            "args_schema": {
+                "type": "object",
+                "properties": {"limit": {"type": "integer", "minimum": 1}},
+                "additionalProperties": False,
+            },
+        },
         "empiricalObservatoryCheck": {
             "capability_class": "verification",
             "risk_level": "high",
@@ -548,6 +595,7 @@ def _tool_manifest() -> dict[str, Any]:
             "capability_class": "read",
             "risk_level": "low",
             "requires_human_gate": False,
+            "sync_required": item["name"] in REQUIRED_TOOLKIT_FUNCTIONS,
             "args_schema": {"type": "object", "properties": {}, "additionalProperties": False},
             **item,
             **policy_overrides.get(item["name"], {}),
@@ -789,11 +837,36 @@ _FUNCTIONS = {
     "getMerlinTrainingCuration": lambda **args: {"data": get_training_curation_ledger(limit=args.get("limit"))},
     "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(limit=args.get("limit"))},
     "getMerlinInferenceProviders": lambda **args: {"data": {"providers": get_inference_providers()}},
-    "getMerlinInferenceHealth": lambda **args: {"data": get_inference_health(provider_name=str(args.get("provider", "")).strip() or None)},
+    "getMerlinInferenceHealth": lambda **args: {"data": get_merlin_inference_health(provider_name=str(args.get("provider", "")).strip() or None)},
 "getMerlinReasoningChain": lambda **args: {"data": get_reasoning_chain(str(args.get("query", "")), max_hops=args.get("max_hops", 3))},
-"runMerlinResearchCycle": lambda **args: {"data": {"delegated": "session_bound"}},
-"getMerlinCounterexampleDigest": lambda **args: {"data": {"delegated": "session_bound"}},
-"getMerlinEnergyLedger": lambda **args: {"data": {"delegated": "session_bound"}},
+    "runMerlinResearchCycle": lambda **args: {"data": run_research_cycle(
+        question=str(args.get("question", "")),
+        budget=_coerce_positive_int(args.get("budget"), 3),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+    )},
+    "getMerlinCounterexampleDigest": lambda **args: {"data": build_counterexample_digest(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=_coerce_positive_int(args.get("limit"), 10),
+    )},
+    "getMerlinEnergyLedger": lambda **args: {"data": build_merlin_energy_ledger(
+        (args.get("__session").telemetry if isinstance(args.get("__session"), MerlinSession) else MerlinSession().telemetry),
+        limit=_coerce_positive_int(args.get("limit"), 10),
+    )},
+    "merlinConsolidateMemory": lambda **args: {"data": consolidate_memory(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=_coerce_positive_int(args.get("limit"), 10),
+    )},
+    "merlinSelfAudit": lambda **args: {"data": run_self_audit(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession()
+    )},
+    "generateFalsificationOracle": lambda **args: {"data": generate_falsification_oracle(
+        domain=str(args.get("domain", "")),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+    )},
+    "merlinAnalyzeDepth": lambda **args: {"data": analyze_depth(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=_coerce_positive_int(args.get("limit"), 25),
+    )},
 "empiricalObservatoryCheck": lambda **args: {"data": {"delegated": "session_bound"}},
 "kernelPProofProbe": lambda **args: {"data": {"delegated": "session_bound"}},
 }
@@ -852,7 +925,7 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
                 "policy": get_router_policy(),
                 "openrouter_compat_enabled": bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT")),
             },
-            "inference": get_inference_health(),
+            "inference": get_merlin_inference_health(),
             "reasoning_graph": {
                 "multi_hop": True,
                 "surface": "getMerlinReasoningChain",
@@ -930,7 +1003,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 ok = False
                 error = "Human gate approval required for this tool."
                 raise ValueError(error)
-        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "empiricalObservatoryCheck", "kernelPProofProbe"}:
+        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "merlinConsolidateMemory", "merlinSelfAudit", "generateFalsificationOracle", "merlinAnalyzeDepth", "empiricalObservatoryCheck", "kernelPProofProbe"}:
             tool_type = "function"
             if tool == "getMerlinTrainingDataset":
                 result = {"data": build_training_dataset_bundle(
@@ -964,9 +1037,26 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     limit=_coerce_positive_int(args.get("limit"), 10),
                 )}
             elif tool == "getMerlinEnergyLedger":
-                result = {"data": build_energy_ledger(
+                result = {"data": build_merlin_energy_ledger(
                     active_session.telemetry,
                     limit=_coerce_positive_int(args.get("limit"), 10),
+                )}
+            elif tool == "merlinConsolidateMemory":
+                result = {"data": consolidate_memory(
+                    session=active_session,
+                    limit=_coerce_positive_int(args.get("limit"), 10),
+                )}
+            elif tool == "merlinSelfAudit":
+                result = {"data": run_self_audit(session=active_session)}
+            elif tool == "generateFalsificationOracle":
+                result = {"data": generate_falsification_oracle(
+                    domain=str(args.get("domain", "")),
+                    session=active_session,
+                )}
+            elif tool == "merlinAnalyzeDepth":
+                result = {"data": analyze_depth(
+                    session=active_session,
+                    limit=_coerce_positive_int(args.get("limit"), 25),
                 )}
             elif tool == "empiricalObservatoryCheck":
                 observatory = empirical_observatory_check(dict(args.get("observed") or {}))
@@ -982,7 +1072,19 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 active_session.register_proof_attempt(dict(probe))
                 result = {"data": probe}
             else:
-                result = _FUNCTIONS[tool](**args)
+                session_passthrough_tools = {
+                    "runMerlinResearchCycle",
+                    "getMerlinCounterexampleDigest",
+                    "getMerlinEnergyLedger",
+                    "merlinConsolidateMemory",
+                    "merlinSelfAudit",
+                    "generateFalsificationOracle",
+                    "merlinAnalyzeDepth",
+                }
+                if tool in session_passthrough_tools:
+                    result = _FUNCTIONS[tool](**{**args, "__session": active_session})
+                else:
+                    result = _FUNCTIONS[tool](**args)
         elif tool == "getMerlinBenchmarkCorpus":
             tool_type = "function"
             result = {"data": get_stage_a_benchmark_corpus()}

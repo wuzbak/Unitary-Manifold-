@@ -28,10 +28,23 @@ from .merlin_runtime import (
     get_optimization_priorities,
 )
 from .merlin_sentinel import get_sentinel_policy
+from .merlin_sync_contract import (
+    REQUIRED_ARTIFACT_SURFACES,
+    REQUIRED_ENGINE_MODULES,
+    REQUIRED_EXPORT_SCRIPTS,
+    REQUIRED_TOOLKIT_FUNCTIONS,
+)
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
+
+
+def _repo_rel(path: Path) -> str:
+    try:
+        return path.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        return str(path)
 
 
 @dataclass(frozen=True)
@@ -128,6 +141,7 @@ MERLIN_PENTAD_KERNELS: dict[str, dict[str, Any]] = {
 
 MERLIN_KERNEL_TRACK_DEFAULTS: dict[str, str] = {
     "repository_native_qa": "kernel_s",
+    "formal_proof_obligations": "kernel_p",
     "governance_decision_traces": "kernel_g",
     "adversarial_counterexamples": "kernel_g",
     "tool_call_success_failure_pairs": "kernel_r",
@@ -1193,12 +1207,99 @@ def run_sync_checks() -> dict[str, Any]:
         })
     no_derived_drift = "DERIVED" not in ui_text
     consistency_ok = all(item["ok"] for item in endpoint_checks) and all(item["ok"] for item in gate_checks) and no_derived_drift
+
+    parity_root = PRODUCT_ROOT if (PRODUCT_ROOT / "ox_navigator").exists() else PRODUCT_ROOT.parent
+    engine_module_checks = []
+    for rel in REQUIRED_ENGINE_MODULES:
+        path = parity_root / rel
+        engine_module_checks.append({
+            "module": rel,
+            "exists": path.exists(),
+            "readable": path.is_file(),
+            "ok": path.exists() and path.is_file(),
+        })
+    engine_module_ok = all(item["ok"] for item in engine_module_checks)
+
+    export_script_checks = []
+    export_contract_markers = {
+        "tools/export_merlin_training_artifacts.py": ["build_training_artifact_bundle", "--output"],
+        "tools/export_merlin_training_jsonl.py": ["build_training_dataset_bundle", "--output-dir"],
+        "tools/export_merlin_mlflow_manifests.py": ["get_mlflow_experiment_manifests", "--output-dir"],
+    }
+    for rel in REQUIRED_EXPORT_SCRIPTS:
+        path = parity_root / rel
+        content = path.read_text(encoding="utf-8") if path.exists() and path.is_file() else ""
+        markers = export_contract_markers.get(rel, [])
+        contract_markers_present = all(marker in content for marker in markers)
+        export_script_checks.append({
+            "script": rel,
+            "exists": path.exists(),
+            "readable": path.is_file(),
+            "contract_markers_present": contract_markers_present,
+            "ok": path.exists() and path.is_file() and contract_markers_present,
+        })
+    export_script_ok = all(item["ok"] for item in export_script_checks)
+
+    artifact_surface_checks = []
+    for rel in REQUIRED_ARTIFACT_SURFACES:
+        path = parity_root / rel
+        artifact_surface_checks.append({
+            "artifact": rel,
+            "exists": path.exists(),
+            "readable": path.is_file(),
+            "ok": path.exists() and path.is_file(),
+        })
+    artifact_surface_ok = all(item["ok"] for item in artifact_surface_checks)
+
+    required_toolkit_functions = list(REQUIRED_TOOLKIT_FUNCTIONS)
+    toolkit_names: set[str] = set()
+    toolkit_manifest_error = ""
+    try:
+        from .merlin_tools import get_toolkit_view
+
+        full_manifest = get_toolkit_view("full")
+        function_items = list(full_manifest.get("functions") or [])
+        toolkit_names = {str(item.get("name", "")) for item in function_items}
+    except (ImportError, AttributeError, TypeError, ValueError) as exc:
+        toolkit_manifest_error = f"{type(exc).__name__}: {exc}"
+        toolkit_names = set()
+    toolkit_function_checks = [
+        {
+            "tool": name,
+            "present": name in toolkit_names,
+            "ok": name in toolkit_names,
+        }
+        for name in required_toolkit_functions
+    ]
+    toolkit_ok = (
+        not toolkit_manifest_error
+        and bool(required_toolkit_functions)
+        and all(item["ok"] for item in toolkit_function_checks)
+    )
+
+    parity_dimensions = {
+        "version_source_parity": bool(ok),
+        "runtime_api_parity": bool(runtime_ok),
+        "gate_label_parity": bool(gate_labels_ok),
+        "consistency_parity": bool(consistency_ok),
+        "engine_module_parity": bool(engine_module_ok),
+        "training_export_script_parity": bool(export_script_ok),
+        "artifact_surface_parity": bool(artifact_surface_ok),
+        "toolkit_function_parity": bool(toolkit_ok),
+    }
+    parity_ok = all(parity_dimensions.values())
     return {
-        "ok": bool(ok and runtime_ok and gate_labels_ok and consistency_ok),
+        "ok": bool(ok and runtime_ok and gate_labels_ok and consistency_ok and engine_module_ok and export_script_ok and artifact_surface_ok and toolkit_ok and parity_ok),
         "checked_at": _utcnow(),
         "checks": checks,
         "runtime_endpoint_checks": runtime_endpoint_checks,
         "gate_label_checks": gate_label_checks,
+        "engine_module_checks": engine_module_checks,
+        "export_script_checks": export_script_checks,
+        "artifact_surface_checks": artifact_surface_checks,
+        "toolkit_function_checks": toolkit_function_checks,
+        "toolkit_manifest_error": toolkit_manifest_error,
+        "parity_dimensions": parity_dimensions,
         "consistency": {
             "endpoint_checks": endpoint_checks,
             "gate_checks": gate_checks,
@@ -1354,11 +1455,75 @@ def _seed_tool_alignment_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _seed_kernel_lane_bootstrap_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "kernel-lane-kernel-s",
+            "track": "repository_native_qa",
+            "prompt": "Summarize hardgate status with explicit gate labels and provenance boundaries.",
+            "target": "HARDGATE summary with explicit uncertainty and source references.",
+            "required_gates": ["HARDGATE"],
+            "provenance_sources": ["STATUS.md", "FALLIBILITY.md"],
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+        {
+            "id": "kernel-lane-kernel-p",
+            "track": "formal_proof_obligations",
+            "split": "train",
+            "prompt": "State a formal proof obligation and list missing assumptions without claiming closure.",
+            "target": "OPEN_GAP proof-obligation summary with explicit unresolved assumptions and verification plan.",
+            "required_gates": ["OPEN_GAP"],
+            "provenance_sources": ["proof/TIER_1_FORMAL.md", "lean4/UnitaryManifold"],
+            "target_contract": {
+                "required_gates": ["HARDGATE", "OPEN_GAP"],
+                "required_contract_sections": ["answer", "followups", "sources"],
+                "required_provenance_kinds": ["knowledge_base", "policy"],
+            },
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+        {
+            "id": "kernel-lane-kernel-r",
+            "track": "tool_call_success_failure_pairs",
+            "prompt": "Select the safest tool path for a bounded multi-step repository operation.",
+            "target": "GOVERNANCE-first tool route with schema preflight and deterministic fallback.",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["ox_navigator/engine/merlin_tools.py"],
+            "target_contract": {
+                "required_gates": ["GOVERNANCE"],
+                "required_contract_sections": ["answer", "followups", "sources"],
+                "required_provenance_kinds": ["knowledge_base", "policy"],
+            },
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+        {
+            "id": "kernel-lane-kernel-a",
+            "track": "specialist_mentorship_artifact_deposits",
+            "split": "train",
+            "prompt": "Audit memory contradictions and produce a correction-oriented synthesis note.",
+            "target": "Counterexample-first audit with contradiction counts and remediation order.",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["ox_navigator/engine/merlin_memory.py"],
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+        {
+            "id": "kernel-lane-kernel-g",
+            "track": "governance_decision_traces",
+            "prompt": "Refuse unsafe privileged action and cite policy-based escalation.",
+            "target": "GOVERNANCE refusal with privilege verification requirement and escalation path.",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["ox_navigator/engine/merlin_sentinel.py"],
+            "supervision_mode": "kernel_lane_bootstrap",
+        },
+    ]
+
+
 def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, Any]]:
     from .merlin_benchmark import get_stage_a_benchmark_corpus
     from .merlin_rag import KNOWLEDGE_BASE
 
     examples: list[dict[str, Any]] = []
+    examples.extend(_seed_kernel_lane_bootstrap_examples())
+
     for key, entry in sorted(KNOWLEDGE_BASE.items()):
         answer_text = str(entry.get("answer", ""))
         if key == "toe_score" or "toe score" in answer_text.lower():
@@ -1603,36 +1768,36 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 "family": "repository_native_qa",
                 "purpose": "Teach canonical answers tied to repository sources and gate labels.",
                 "source_surfaces": [
-                    str(REPO_ROOT / "STATUS.md"),
-                    str(REPO_ROOT / "FALLIBILITY.md"),
-                    str(REPO_ROOT / "5-GOVERNANCE" / "SEPARATION.md"),
-                    str(PRODUCT_ROOT / "README.md"),
-                    str(REPO_ROOT / "hf-spaces" / "um-knowledge-dataset" / "README.md"),
+                    _repo_rel(REPO_ROOT / "STATUS.md"),
+                    _repo_rel(REPO_ROOT / "FALLIBILITY.md"),
+                    _repo_rel(REPO_ROOT / "5-GOVERNANCE" / "SEPARATION.md"),
+                    _repo_rel(PRODUCT_ROOT / "README.md"),
+                    _repo_rel(REPO_ROOT / "hf-spaces" / "um-knowledge-dataset" / "README.md"),
                 ],
             },
             {
                 "family": "governance_decision_traces",
                 "purpose": "Teach Merlin to preserve separation boundaries, escalation policy, and privileged-action discipline.",
                 "source_surfaces": [
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_identity.py"),
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_sentinel.py"),
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_program.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_identity.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_sentinel.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_program.py"),
                 ],
             },
             {
                 "family": "benchmark_contract_exemplars",
                 "purpose": "Teach the answer contract, provenance kinds, and gate visibility needed for promotion gates.",
                 "source_surfaces": [
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_benchmark.py"),
-                    str(PRODUCT_ROOT / "tools" / "run_merlin_stage_a_benchmarks.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_benchmark.py"),
+                    _repo_rel(PRODUCT_ROOT / "tools" / "run_merlin_stage_a_benchmarks.py"),
                 ],
             },
             {
                 "family": "tool_call_success_failure_pairs",
                 "purpose": "Teach precise tool choice, schema-aware invocation, and safe orchestration behavior.",
                 "source_surfaces": [
-                    str(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_tools.py"),
-                    str(PRODUCT_ROOT / "ox_navigator" / "app" / "server.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_tools.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "app" / "server.py"),
                 ],
             },
             {
@@ -2071,7 +2236,8 @@ def build_training_dataset_bundle(
 
     for example in seed_examples:
         track = str(example.get("track", "unknown"))
-        split = _dataset_split(str(example.get("id", "")), track)
+        split_override = str(example.get("split", "")).strip().lower()
+        split = split_override if split_override in {"train", "dev", "test"} else _dataset_split(str(example.get("id", "")), track)
         kernel_id = _kernel_for_training_record(
             track,
             instruction=str(example.get("prompt", "")),
@@ -2372,7 +2538,7 @@ def get_mlflow_experiment_manifests(
                 "experiment_name": "merlin_sft_repository_mastery",
                 "objective": "Train Merlin on repository-native QA, tool traces, and benchmark contracts.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
-                "working_directory": str(REPO_ROOT),
+                "working_directory": _repo_rel(PRODUCT_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "supervised_finetuning",
@@ -2416,7 +2582,7 @@ def get_mlflow_experiment_manifests(
                 "experiment_name": "merlin_dpo_boundary_discipline",
                 "objective": "Optimize preference behavior for uncertainty discipline, refusal correctness, and boundary honesty.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
-                "working_directory": str(REPO_ROOT),
+                "working_directory": _repo_rel(PRODUCT_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "preference_optimization",
@@ -2458,7 +2624,7 @@ def get_mlflow_experiment_manifests(
                 "experiment_name": "merlin_stage_b_shadow_eval",
                 "objective": "Run Stage B selected-domain primary-routing evaluations before wider takeover.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
-                "working_directory": str(REPO_ROOT),
+                "working_directory": _repo_rel(PRODUCT_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "stage_b_sovereign_takeover",
@@ -2499,7 +2665,7 @@ def get_mlflow_experiment_manifests(
                 "experiment_name": "merlin_stage_c_agentic_eval",
                 "objective": "Evaluate deeper orchestration, provenance auditing, and autonomous research readiness.",
                 "tracking_uri_env": "MLFLOW_TRACKING_URI",
-                "working_directory": str(REPO_ROOT),
+                "working_directory": _repo_rel(PRODUCT_ROOT),
                 "tags": {
                     "program": "merlin_all_hands_maximum_effort",
                     "phase": "stage_c_capability_expansion",

@@ -56,6 +56,9 @@ from .merlin_benchmark import (
     match_benchmark_for_query,
 )
 from .merlin_telemetry import build_run_telemetry, estimate_cost_usd, estimate_energy_joules, estimate_token_count, summarize_runs
+from .merlin_inference_health import get_merlin_inference_health
+from .merlin_energy_ledger import build_merlin_energy_ledger
+from .merlin_meta_learning import analyze_depth, consolidate_memory, generate_falsification_oracle, run_self_audit
 from .merlin_program import (
     get_backend_expansion_policy,
     get_competitive_benchmark_plan,
@@ -123,6 +126,8 @@ __all__ = [
     'get_stage_b_benchmark_corpus', 'get_stage_c_benchmark_corpus', 'get_benchmark_corpus',
     'match_benchmark_for_query', 'evaluate_benchmark_response', 'estimate_token_count', 'estimate_cost_usd',
     'estimate_energy_joules', 'build_run_telemetry', 'summarize_runs',
+    'get_merlin_inference_health', 'build_merlin_energy_ledger',
+    'consolidate_memory', 'run_self_audit', 'generate_falsification_oracle', 'analyze_depth',
     'get_program_charter', 'get_program_doctrine', 'get_sovereignty_roadmap', 'get_replacement_scope',
     'get_merlin_pentad_contract', 'get_dual_loop_learning_contract',
     'get_mirrored_training_cycle_contract', 'get_deterministic_proof_closure_contract',

@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import sys
 from pathlib import Path
@@ -24,10 +25,51 @@ def _write_jsonl(path: Path, rows: list[dict]) -> None:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def _redact_eval_rows(rows: list[dict]) -> list[dict]:
+    sanitized: list[dict] = []
+    for row in list(rows or []):
+        clean = dict(row)
+        if "response_target" in clean:
+            clean["response_target"] = "[REDACTED_FOR_EVAL]"
+        sanitized.append(clean)
+    return sanitized
+
+
+def _redact_test_targets(payload: dict) -> dict:
+    redacted = copy.deepcopy(payload)
+    dataset = dict(redacted.get("dataset") or {})
+    splits = dict(dataset.get("splits") or {})
+    sanitized_test = _redact_eval_rows(list(splits.get("test") or []))
+    if sanitized_test:
+        splits["test"] = sanitized_test
+        dataset["splits"] = splits
+        redacted["dataset"] = dataset
+
+    kernel_splits = dict(dataset.get("kernel_splits") or {})
+    changed = False
+    for kernel_id, per_split in kernel_splits.items():
+        per_split_map = dict(per_split or {})
+        test_rows = list(per_split_map.get("test") or [])
+        if not test_rows:
+            continue
+        per_split_map["test"] = _redact_eval_rows(test_rows)
+        kernel_splits[kernel_id] = per_split_map
+        changed = True
+    if changed:
+        dataset["kernel_splits"] = kernel_splits
+        redacted["dataset"] = dataset
+    return redacted
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Export Merlin training JSONL files.")
     parser.add_argument("--limit", type=int, default=12, help="Optional seed example limit")
-    parser.add_argument("--output-dir", type=str, required=True, help="Output directory")
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=str(ROOT / "training" / "training_jsonl"),
+        help="Output directory",
+    )
     args = parser.parse_args()
 
     payload = build_training_dataset_bundle(limit=args.limit)
@@ -43,10 +85,12 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     for split_name, rows in dict(dataset.get("splits") or {}).items():
-        _write_jsonl(out_dir / f"{split_name}.jsonl", list(rows or []))
+        split_rows = _redact_eval_rows(list(rows or [])) if split_name == "test" else list(rows or [])
+        _write_jsonl(out_dir / f"{split_name}.jsonl", split_rows)
     for kernel_id, per_split in dict(dataset.get("kernel_splits") or {}).items():
         for split_name, rows in dict(per_split or {}).items():
-            _write_jsonl(out_dir / "kernels" / kernel_id / f"{split_name}.jsonl", list(rows or []))
+            split_rows = _redact_eval_rows(list(rows or [])) if split_name == "test" else list(rows or [])
+            _write_jsonl(out_dir / "kernels" / kernel_id / f"{split_name}.jsonl", split_rows)
 
     benchmark_dir = out_dir / "benchmarks"
     for stage_name, rows in dict(dataset.get("benchmark_corpora") or {}).items():
@@ -56,7 +100,8 @@ def main() -> int:
             _write_jsonl(benchmark_dir / "kernels" / stage_name / f"{kernel_id}.jsonl", list(rows or []))
 
     manifest_path = out_dir / "dataset_manifest.json"
-    manifest_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    manifest_payload = _redact_test_targets(payload)
+    manifest_path.write_text(json.dumps(manifest_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(out_dir)
     return 0
 

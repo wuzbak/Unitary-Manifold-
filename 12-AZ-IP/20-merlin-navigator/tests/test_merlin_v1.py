@@ -134,6 +134,12 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
         assert (output_dir / "kernels" / kernel_id / "test.jsonl").exists()
     manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
     assert manifest['dataset']['counts']['total_benchmark_records'] >= 18
+    assert all(
+        row.get('response_target') == '[REDACTED_FOR_EVAL]'
+        for row in manifest['dataset']['splits']['test']
+    )
+    test_rows = [json.loads(line) for line in (output_dir / 'test.jsonl').read_text().splitlines() if line.strip()]
+    assert all(row.get('response_target') == '[REDACTED_FOR_EVAL]' for row in test_rows)
     stage = "stage_b_sovereign_takeover"
     kernel_file = output_dir / "benchmarks" / "kernels" / stage / "kernel_s.jsonl"
     assert kernel_file.exists()
@@ -459,7 +465,7 @@ def test_route_tool_training_architecture_and_artifacts():
     assert '&&' not in mlflow['result']['data']['manifests'][1]['entry_command']
     assert mlflow['result']['data']['manifests'][0]['entry_command'].startswith(sys.executable)
     assert 'run_merlin_mlflow_experiment.py' in mlflow['result']['data']['manifests'][0]['entry_command']
-    assert mlflow['result']['data']['manifests'][0]['working_directory'] == str(PRODUCT_ROOT.parents[1])
+    assert mlflow['result']['data']['manifests'][0]['working_directory'] == '12-AZ-IP/20-merlin-navigator'
     assert 'stage_c_eval_records' in mlflow['result']['data']['manifests'][1]['datasets']
     assert 'merlin_stage_b_shadow_eval' in mlflow['result']['data']['manifests'][2]['entry_command']
     assert 'merlin_stage_c_agentic_eval' in mlflow['result']['data']['manifests'][3]['entry_command']
@@ -812,6 +818,19 @@ def test_route_tool_keystone_surfaces():
 
     bad_budget = route_tool('runMerlinResearchCycle', {'question': 'Explain birefringence.', 'budget': 0}, session=session)
     assert bad_budget['ok'] is False
+
+
+def test_route_tool_meta_learning_surfaces():
+    session = MerlinSession()
+    consolidated = route_tool('merlinConsolidateMemory', {'limit': 5}, session=session)
+    audit = route_tool('merlinSelfAudit', {}, session=session)
+    oracle = route_tool('generateFalsificationOracle', {'domain': 'journalism'}, session=session)
+    depth = route_tool('merlinAnalyzeDepth', {'limit': 5}, session=session)
+    assert consolidated['ok'] is True
+    assert audit['ok'] is True
+    assert oracle['ok'] is True
+    assert depth['ok'] is True
+    assert oracle['result']['data']['domain'] == 'journalism'
 
 
 def test_route_tool_entity_state_rejects_unexpected_args():
@@ -1579,3 +1598,6 @@ def test_run_sync_checks_has_consistency_contract():
     assert checks['consistency']['no_derived_drift_in_ui_gate_labels'] is True
     assert all(item['ok'] for item in checks['consistency']['endpoint_checks'])
     assert all(item['ok'] for item in checks['consistency']['gate_checks'])
+    assert checks['parity_dimensions']['engine_module_parity'] is True
+    assert checks['parity_dimensions']['training_export_script_parity'] is True
+    assert checks['parity_dimensions']['toolkit_function_parity'] is True
