@@ -157,7 +157,9 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and isinstance(frontier.get("control_tower"), dict)
         and len(frontier.get("control_tower", {})) > 0
         and isinstance(frontier.get("control_tower", {}).get("replacement_readiness"), dict)
+        and len(frontier.get("control_tower", {}).get("replacement_readiness", {})) > 0
         and isinstance(frontier.get("control_tower", {}).get("longitudinal_acceptance"), dict)
+        and len(frontier.get("control_tower", {}).get("longitudinal_acceptance", {})) > 0
         and isinstance(frontier.get("multi_stage_plan"), dict)
         and isinstance(frontier.get("multi_stage_plan", {}).get("stages"), list)
         and len(frontier.get("multi_stage_plan", {}).get("stages") or []) > 0

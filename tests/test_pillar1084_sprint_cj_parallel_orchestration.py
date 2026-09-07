@@ -250,3 +250,20 @@ def test_invalid_if_frontier_control_tower_payload_missing(monkeypatch) -> None:
     report = sprint_cj_parallel_orchestration()
     assert report["integrated_board"]["dependencies"]["lane_2_frontier_packet_ok"] is False
     assert report["valid"] is False
+
+
+def test_invalid_if_frontier_control_tower_nested_payloads_empty(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _broken_frontier(limit=3):
+        packet = original(limit=limit)
+        packet["control_tower"]["replacement_readiness"] = {}
+        packet["control_tower"]["longitudinal_acceptance"] = {}
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _broken_frontier)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_frontier_packet_ok"] is False
+    assert report["promotion_policy_state"] == "INVALID"
+    assert report["valid"] is False
