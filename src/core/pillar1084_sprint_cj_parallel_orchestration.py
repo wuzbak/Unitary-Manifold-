@@ -147,6 +147,11 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
     declared_all_clear_semantics = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
     effective_all_clear = blockers_are_dicts and len(promotion_blockers) == 0
+    declared_matches_effective = (
+        blockers_all_clear_declared == effective_all_clear
+        if blockers_all_clear_declared is not None
+        else True
+    )
     if blockers_all_clear_declared is None:
         blocker_consistency_pass = blockers_are_dicts and promotion_blockers_declared and blockers_all_clear_type_ok
         blockers_all_clear_effective = effective_all_clear
@@ -156,6 +161,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             and promotion_blockers_declared
             and blockers_all_clear_type_ok
             and blockers_all_clear_declared == declared_all_clear_semantics
+            and declared_matches_effective
         )
         blockers_all_clear_effective = effective_all_clear
     policy_text = str(frontier.get("policy", ""))
@@ -237,6 +243,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         "external_token_path_compatibility_only": bool(frontier.get("openrouter_fallback_only")),
         "stage_sequence": plan_stages,
         "promotion_blockers": promotion_blockers,
+        "promotion_blockers_all_clear_declared": blockers_all_clear_declared,
         "promotion_blockers_all_clear": blockers_all_clear_effective,
         "dual_loop_training": dual_loop,
         "mirrored_training_cycle": mirrored_cycle,
@@ -261,6 +268,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_2_frontier_stage_sequence_ok": frontier_stage_sequence_ok,
             "lane_2_requires_promotion_blockers_declared": promotion_blockers_declared,
             "lane_2_blockers_all_clear_type_ok": blockers_all_clear_type_ok,
+            "lane_2_declared_all_clear_matches_effective_semantics": declared_matches_effective,
             "lane_2_frontier_packet_ok": frontier_packet_ok,
             "lane_2_blocker_consistency_ok": blocker_consistency_pass,
             "lane_2_requires_nonempty_stage_corpora": corpora_stage_coverage_pass,
