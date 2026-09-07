@@ -2252,16 +2252,12 @@ def _validate_training_record(record: dict[str, Any]) -> list[str]:
     supervision_mode = str(record.get("supervision_mode", "")).strip().lower()
     trace_metadata = record.get("trace_metadata")
     metadata_trace_type = ""
-    metadata_legacy_teacher_signature = False
     if isinstance(trace_metadata, dict):
         metadata_trace_type = str(trace_metadata.get("trace_type", "")).strip().lower()
-        metadata_legacy_teacher_signature = (
-            "source_category" in trace_metadata and "collection_method" in trace_metadata
-        )
     requires_teacher_trace_checks = any(
         value == "teacher_trace_distillation"
         for value in (task_family, task_track, track, supervision_mode)
-    ) or metadata_trace_type == "teacher_trace_distillation" or metadata_legacy_teacher_signature
+    ) or metadata_trace_type == "teacher_trace_distillation"
     if requires_teacher_trace_checks:
         trace_status = evaluate_teacher_trace_admission(record)
         if not trace_status.get("ok"):

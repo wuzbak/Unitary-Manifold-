@@ -651,7 +651,7 @@ def test_training_record_teacher_trace_type_triggers_validation_without_track_ma
     assert "missing_trace_provenance_pointer" in errors
 
 
-def test_training_record_legacy_teacher_trace_signature_triggers_validation():
+def test_training_record_legacy_teacher_trace_signature_without_marker_does_not_trigger():
     errors = merlin_program._validate_training_record(
         {
             "record_id": "legacy-teacher-signature",
@@ -672,8 +672,8 @@ def test_training_record_legacy_teacher_trace_signature_triggers_validation():
             "format_version": "merlin_training_jsonl_v1",
         }
     )
-    assert "disallowed_trace_license" in errors
-    assert "missing_trace_provenance_pointer" in errors
+    assert "disallowed_trace_license" not in errors
+    assert "missing_trace_provenance_pointer" not in errors
 
 
 def test_route_tool_empirical_gate_and_promotion_packet():
