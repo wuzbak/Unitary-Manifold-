@@ -342,6 +342,9 @@ def test_route_tool_merlin_program_blueprint():
         'external_wait_only',
     ]
     assert payload['dual_loop_sprint_command_rhythm']['cadence'][0]['phase'] == 'kickoff'
+    assert payload['trust_source_library']['domains'][0]['domain_id'] == 'business_office_management'
+    assert payload['knowledge_unknowns_ledger']['domains'][0]['domain_id'] == 'business_office_management'
+    assert payload['regulatory_change_watch']['watch_targets'][0]['target_id'] == 'irs_news_and_forms'
 
 
 def test_route_tool_benchmark_corpus_and_policy_metadata():
@@ -868,6 +871,7 @@ def test_route_tool_mentorship_surfaces():
     library = route_tool('getMerlinLibraryAndStudy', {})
     assert library['ok'] is True
     assert library['result']['data']['library']['typed_provenance_registry_surface'] == 'getMerlinKnowledgeCore'
+    assert library['result']['data']['library']['expert_tracks_trust_library_surface'] == 'getMerlinTrustSourceLibrary'
 
     exchange = route_tool('getMerlinExchangeProtocol', {})
     assert exchange['ok'] is True
@@ -904,6 +908,21 @@ def test_route_tool_mentorship_surfaces():
     rhythm = route_tool('getMerlinDualLoopSprintRhythm', {})
     assert rhythm['ok'] is True
     assert rhythm['result']['data']['cadence'][-1]['phase'] == 'closeout'
+
+    trust_library = route_tool('getMerlinTrustSourceLibrary', {})
+    assert trust_library['ok'] is True
+    assert any(
+        item['domain_id'] == 'washington_social_purpose_corporations'
+        for item in trust_library['result']['data']['domains']
+    )
+
+    unknowns = route_tool('getMerlinKnowledgeUnknownsLedger', {})
+    assert unknowns['ok'] is True
+    assert unknowns['result']['data']['closure_contract']['states'][0] == 'open'
+
+    watch = route_tool('getMerlinRegulatoryChangeWatch', {})
+    assert watch['ok'] is True
+    assert watch['result']['data']['watch_cadence']['daily'][0] == 'high_priority_regulator_bulletins'
 
 
 def test_route_tool_control_tower_clamps_non_positive_limit():
@@ -1611,6 +1630,24 @@ def test_server_merlin_endpoints():
                 item['resource_id'] == 'mlflow'
                 for item in open_science_registry.json()['open_science_registry']['resources']
             )
+
+            trust_library = client.get('/api/merlin/trust-source-library')
+            assert trust_library.status_code == 200
+            assert trust_library.json()['ok'] is True
+            assert any(
+                item['domain_id'] == 'labor_practices_and_human_resources'
+                for item in trust_library.json()['trust_source_library']['domains']
+            )
+
+            knowledge_unknowns = client.get('/api/merlin/knowledge-unknowns')
+            assert knowledge_unknowns.status_code == 200
+            assert knowledge_unknowns.json()['ok'] is True
+            assert knowledge_unknowns.json()['knowledge_unknowns']['closure_contract']['states'][0] == 'open'
+
+            change_watch = client.get('/api/merlin/regulatory-change-watch')
+            assert change_watch.status_code == 200
+            assert change_watch.json()['ok'] is True
+            assert 'daily' in change_watch.json()['regulatory_change_watch']['watch_cadence']
 
             mlflow_manifests = client.get('/api/merlin/mlflow-manifests?limit=4')
             assert mlflow_manifests.status_code == 200

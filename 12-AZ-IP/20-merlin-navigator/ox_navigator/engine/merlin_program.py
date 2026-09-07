@@ -369,6 +369,9 @@ def get_knowledge_transfer_cycles() -> dict[str, Any]:
             "failure_patterns_and_counterexamples",
             "decision_criteria",
             "benchmark_aligned_exemplars",
+            "trust_source_library_updates",
+            "unknowns_ledger_updates",
+            "regulatory_change_receipts",
         ],
         "cycle_phases": [
             "specialist_prepare",
@@ -399,6 +402,9 @@ def get_mentorship_library_and_study_assets() -> dict[str, Any]:
                 "getMerlinBenchmarkCorpus",
                 "getMerlinMultiStageBenchmarks",
             ],
+            "expert_tracks_trust_library_surface": "getMerlinTrustSourceLibrary",
+            "unknowns_ledger_surface": "getMerlinKnowledgeUnknownsLedger",
+            "regulatory_change_watch_surface": "getMerlinRegulatoryChangeWatch",
         },
         "study": {
             "active_training_queue_surface": "getMerlinTrainingPlan",
@@ -415,6 +421,7 @@ def get_mentorship_library_and_study_assets() -> dict[str, Any]:
                     "timestamp",
                 ],
             },
+            "expertise_closure_standard": "professional_escalation_allowed_but_internal_research_continues_until_unknowns_are_closed_or_superseded",
         },
     }
 
@@ -884,6 +891,13 @@ def get_program_office() -> dict[str, Any]:
     return {
         "name": "Merlin Program Office",
         "mode": "replacement_program_not_feature_work",
+        "expertise_tracks": [
+            "business_office_management",
+            "accounting_federal_and_wa_tax",
+            "washington_social_purpose_corporations",
+            "business_law",
+            "labor_practices_and_human_resources",
+        ],
         "authority_model": {
             "approve": "promotion gate board",
             "hold": "program office",
@@ -938,6 +952,9 @@ def get_program_office() -> dict[str, Any]:
             "faculty_matrix": get_specialized_model_faculty_matrix(),
             "knowledge_transfer_cycles": get_knowledge_transfer_cycles(),
             "library_and_study": get_mentorship_library_and_study_assets(),
+            "trust_source_library": get_trust_source_library(),
+            "knowledge_unknowns_ledger": get_knowledge_unknowns_ledger(),
+            "regulatory_change_watch": get_regulatory_change_watch(),
             "cross_model_exchange_protocol": get_cross_model_exchange_protocol(),
             "completion_contract": get_mentorship_completion_contract(),
             "proof_first_closure_target": get_proof_first_closure_charter(),
@@ -1107,7 +1124,182 @@ def get_knowledge_core_sources() -> dict[str, Any]:
         "typed_provenance_schema": {
             "fields": ["source_id", "path", "claim_class", "confidence_tier", "gate", "purpose"],
         },
+        "external_trust_library_surface": "getMerlinTrustSourceLibrary",
+        "knowledge_unknowns_surface": "getMerlinKnowledgeUnknownsLedger",
+        "regulatory_change_watch_surface": "getMerlinRegulatoryChangeWatch",
         "sources": [asdict(item) for item in sources],
+    }
+
+
+def get_trust_source_library() -> dict[str, Any]:
+    return {
+        "policy": (
+            "Authoritative-first source hierarchy for Merlin expert tracks. "
+            "Primary authority sources must be checked before secondary commentary."
+        ),
+        "evidence_standard": {
+            "authority_order": [
+                "binding_law_and_primary_regulator_publications",
+                "official_agency_guidance_and_forms",
+                "court_or_adjudicative_materials",
+                "professional_standards_bodies",
+                "secondary_analysis_and_commentary",
+            ],
+            "required_fields_per_claim": [
+                "jurisdiction",
+                "effective_date",
+                "last_verified_at",
+                "citation_pointer",
+                "authority_tier",
+            ],
+            "fail_closed_rule": "No uncited legal/tax/compliance answer may be marked complete.",
+        },
+        "domains": [
+            {
+                "domain_id": "business_office_management",
+                "scope": "Corporate operations, records, controls, workflows, and governance execution discipline.",
+                "sources": [
+                    {"source_id": "sba_learning_platform", "url": "https://www.sba.gov/", "authority_tier": "federal_agency"},
+                    {"source_id": "osha_general_business", "url": "https://www.osha.gov/", "authority_tier": "federal_regulator"},
+                    {"source_id": "wa_secretary_of_state_business", "url": "https://www.sos.wa.gov/corporations-charities", "authority_tier": "state_regulator"},
+                ],
+            },
+            {
+                "domain_id": "accounting_federal_and_wa_tax",
+                "scope": "Accounting controls, federal taxation, Washington state taxation, filings, and compliance obligations.",
+                "sources": [
+                    {"source_id": "irs", "url": "https://www.irs.gov/", "authority_tier": "federal_tax_authority"},
+                    {"source_id": "us_treasury", "url": "https://home.treasury.gov/", "authority_tier": "federal_treasury_authority"},
+                    {"source_id": "wa_department_of_revenue", "url": "https://dor.wa.gov/", "authority_tier": "state_tax_authority"},
+                    {"source_id": "fasb", "url": "https://www.fasb.org/", "authority_tier": "accounting_standards_body"},
+                    {"source_id": "aicpa", "url": "https://www.aicpa-cima.com/", "authority_tier": "professional_standards_body"},
+                ],
+            },
+            {
+                "domain_id": "washington_social_purpose_corporations",
+                "scope": "Formation, governance, duties, reporting, and statutory constraints for WA social purpose corporations.",
+                "sources": [
+                    {"source_id": "wa_rcw", "url": "https://app.leg.wa.gov/rcw/", "authority_tier": "state_statute"},
+                    {"source_id": "wa_wac", "url": "https://app.leg.wa.gov/wac/", "authority_tier": "state_regulation"},
+                    {"source_id": "wa_sos_corporate_filings", "url": "https://www.sos.wa.gov/corporations-charities", "authority_tier": "state_filing_authority"},
+                    {"source_id": "wa_courts", "url": "https://www.courts.wa.gov/", "authority_tier": "state_judicial_authority"},
+                ],
+            },
+            {
+                "domain_id": "business_law",
+                "scope": "Contracts, governance, fiduciary duties, entity risk, and dispute pathways relevant to operations.",
+                "sources": [
+                    {"source_id": "wa_legislature", "url": "https://leg.wa.gov/", "authority_tier": "state_legislature"},
+                    {"source_id": "us_code_house", "url": "https://uscode.house.gov/", "authority_tier": "federal_statute"},
+                    {"source_id": "sec", "url": "https://www.sec.gov/", "authority_tier": "federal_regulator"},
+                    {"source_id": "ftc", "url": "https://www.ftc.gov/", "authority_tier": "federal_regulator"},
+                ],
+            },
+            {
+                "domain_id": "labor_practices_and_human_resources",
+                "scope": "Hiring, wage-hour compliance, anti-discrimination, leave, termination, benefits, and workforce policies.",
+                "sources": [
+                    {"source_id": "us_dol", "url": "https://www.dol.gov/", "authority_tier": "federal_labor_authority"},
+                    {"source_id": "eeoc", "url": "https://www.eeoc.gov/", "authority_tier": "federal_employment_authority"},
+                    {"source_id": "nlrb", "url": "https://www.nlrb.gov/", "authority_tier": "federal_labor_relations_authority"},
+                    {"source_id": "wa_lni", "url": "https://www.lni.wa.gov/", "authority_tier": "state_labor_authority"},
+                    {"source_id": "wa_esd", "url": "https://esd.wa.gov/", "authority_tier": "state_employment_authority"},
+                ],
+            },
+        ],
+        "secondary_sources_policy": {
+            "allowed": True,
+            "constraints": [
+                "secondary_material_must_link_back_to_primary_authority",
+                "secondary_material_cannot_override_primary_law_or_regulatory_text",
+                "conflicts_default_to_primary_authority_until_reconciled",
+            ],
+        },
+        "updated_at": _utcnow(),
+    }
+
+
+def get_knowledge_unknowns_ledger() -> dict[str, Any]:
+    return {
+        "policy": (
+            "Unknowns are explicit work queues, not stop-points. "
+            "Professional consultation may be recommended, but unresolved questions remain active research obligations."
+        ),
+        "domains": [
+            {
+                "domain_id": "business_office_management",
+                "unknowns": [
+                    "jurisdiction_specific_record_retention_deltas_by_industry",
+                    "cross-state_operational_control_obligations_for_remote_teams",
+                    "high-risk_internal_control_failure_signatures_and_early_indicators",
+                ],
+            },
+            {
+                "domain_id": "accounting_federal_and_wa_tax",
+                "unknowns": [
+                    "multi-jurisdiction_nexus_and_apportionment_edge_cases",
+                    "entity_structure_specific_federal_state_tax_interaction_traps",
+                    "change-propagation_rules_for_forms_schedules_and_due-date_exceptions",
+                ],
+            },
+            {
+                "domain_id": "washington_social_purpose_corporations",
+                "unknowns": [
+                    "case-law-level_interpretation_deltas_for_social_purpose_duties",
+                    "conversion_and_reorganization_edge_cases_under_wa_statutory_updates",
+                    "governance_disclosure_patterns_that_trigger_enforcement_or_litigation_risk",
+                ],
+            },
+            {
+                "domain_id": "business_law",
+                "unknowns": [
+                    "conflict_resolution_priority_when_federal_state_and_contract_terms_compete",
+                    "emerging_enforcement_patterns_relevant_to_small_private_entities",
+                    "latest_precedent_shifts_affecting_standard_business_contract_clauses",
+                ],
+            },
+            {
+                "domain_id": "labor_practices_and_human_resources",
+                "unknowns": [
+                    "rapidly_evolving_leave_and_accommodation_interaction_rules",
+                    "wage_and_hour_classification_edge_cases_for_hybrid_roles",
+                    "discipline_termination_process_patterns_most_prone_to_wrongful-action_claims",
+                ],
+            },
+        ],
+        "closure_contract": {
+            "requirement": "Every unknown must map to a source-backed research task and verification receipt.",
+            "states": ["open", "researched_pending_reconciliation", "verified", "superseded"],
+            "escalation_policy": "If authorities conflict, log contradiction and preserve both interpretations with confidence tiers.",
+        },
+    }
+
+
+def get_regulatory_change_watch() -> dict[str, Any]:
+    return {
+        "name": "merlin_regulatory_change_watch",
+        "objective": "Continuously detect and reconcile legal, tax, compliance, and protocol changes impacting expert tracks.",
+        "watch_cadence": {
+            "daily": ["high_priority_regulator_bulletins", "critical_alert_feeds"],
+            "weekly": ["federal_and_state_rulemaking_pages", "agency_forms_and_instructions_diff_checks"],
+            "monthly": ["case_law_trend_scan", "cross-domain_policy_conflict_review"],
+        },
+        "watch_targets": [
+            {"target_id": "irs_news_and_forms", "url": "https://www.irs.gov/newsroom", "domain_id": "accounting_federal_and_wa_tax"},
+            {"target_id": "wa_dor_tax_updates", "url": "https://dor.wa.gov/", "domain_id": "accounting_federal_and_wa_tax"},
+            {"target_id": "wa_legislation_feed", "url": "https://app.leg.wa.gov/", "domain_id": "washington_social_purpose_corporations"},
+            {"target_id": "federal_register", "url": "https://www.federalregister.gov/", "domain_id": "business_law"},
+            {"target_id": "wa_lni_updates", "url": "https://www.lni.wa.gov/", "domain_id": "labor_practices_and_human_resources"},
+            {"target_id": "us_dol_guidance", "url": "https://www.dol.gov/newsroom", "domain_id": "labor_practices_and_human_resources"},
+        ],
+        "detection_protocol": [
+            "capture_snapshot_with_timestamp_and_source_hash",
+            "compare_to_prior_snapshot_for_requirement_or_rule_delta",
+            "classify_delta_by_severity_and_affected_domain",
+            "open_or_update_unknowns_ledger_tasks",
+            "publish_change_receipt_to_program_office_risk_ledger",
+        ],
+        "fail_closed_policy": "If a tracked authority cannot be revalidated, answers in affected scope must include freshness warning.",
     }
 
 
@@ -1149,6 +1341,9 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/training-dataset",
         "/api/merlin/mlflow-manifests",
         "/api/merlin/open-science-registry",
+        "/api/merlin/trust-source-library",
+        "/api/merlin/knowledge-unknowns",
+        "/api/merlin/regulatory-change-watch",
         "/api/merlin/competitive-benchmarks",
         "/api/merlin/benchmark-corpora",
         "/api/merlin/stage-a-receipts",
@@ -1534,6 +1729,9 @@ def get_training_and_adaptation() -> dict[str, Any]:
             "tool_call_success_failure_pairs",
             "specialist_mentorship_artifact_deposits",
             "teacher_trace_distillation",
+            "expert_track_trust_sources",
+            "regulatory_delta_receipts",
+            "unknowns_resolution_receipts",
         ],
         "adaptation_tracks": [
             "supervised_tuning_for_domain_coverage",
@@ -1601,6 +1799,9 @@ def get_training_and_adaptation() -> dict[str, Any]:
             "exchange_protocol_surface": "getMerlinExchangeProtocol",
             "teacher_trace_policy_surface": "getMerlinTeacherTracePolicy",
             "teacher_trace_admission_surface": "evaluateMerlinTeacherTrace",
+            "trust_library_surface": "getMerlinTrustSourceLibrary",
+            "unknowns_surface": "getMerlinKnowledgeUnknownsLedger",
+            "regulatory_watch_surface": "getMerlinRegulatoryChangeWatch",
         },
     }
 
@@ -3335,6 +3536,7 @@ def get_rollout_plan() -> dict[str, Any]:
 
 def get_operating_rhythm() -> dict[str, Any]:
     return {
+        "daily": "Regulatory watch sweep for priority authorities with freshness and contradiction checks.",
         "weekly": "Model/perf/energy review with fixed decision log.",
         "monthly": "Capability gate review to approve additional replacement scope.",
         "quarterly": "Architecture review of model stack, infra cost, energy curves, and incidents.",
@@ -3435,6 +3637,9 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "current_stack_baseline": get_current_stack_baseline(),
         "weights_and_measures": get_weights_and_measures(),
         "knowledge_core": get_knowledge_core_sources(),
+        "trust_source_library": get_trust_source_library(),
+        "knowledge_unknowns_ledger": get_knowledge_unknowns_ledger(),
+        "regulatory_change_watch": get_regulatory_change_watch(),
         "model_strategy": get_model_strategy(),
         "ethics_contract": get_merlin_ethics_contract(),
         "capability_ontology": get_merlin_capability_ontology(),

@@ -29,6 +29,9 @@ This document records the implemented execution blueprint for making Merlin the 
   - `getMerlinStackBaseline`
   - `getMerlinWeightsAndMeasures`
   - `getMerlinKnowledgeCore`
+  - `getMerlinTrustSourceLibrary`
+  - `getMerlinKnowledgeUnknownsLedger`
+  - `getMerlinRegulatoryChangeWatch`
   - `runMerlinSyncChecks`
   - `getMerlinModelStrategy`
   - `getMerlinTrainingPlan`
@@ -91,6 +94,9 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/training-dataset`
   - `GET /api/merlin/mlflow-manifests`
   - `GET /api/merlin/open-science-registry`
+  - `GET /api/merlin/trust-source-library`
+  - `GET /api/merlin/knowledge-unknowns`
+  - `GET /api/merlin/regulatory-change-watch`
   - `GET /api/merlin/competitive-benchmarks`
   - `GET /api/merlin/benchmark-corpora`
   - `GET /api/merlin/stage-a-receipts`
