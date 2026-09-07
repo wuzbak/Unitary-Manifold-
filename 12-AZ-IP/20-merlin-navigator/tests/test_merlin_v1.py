@@ -652,6 +652,26 @@ def test_training_record_teacher_trace_type_triggers_validation_without_track_ma
     assert "missing_trace_provenance_pointer" in errors
 
 
+def test_training_record_teacher_track_requires_trace_metadata():
+    errors = merlin_program._validate_training_record(
+        {
+            "record_id": "teacher-track-metadata-required",
+            "split": "train",
+            "kernel_id": "kernel_r",
+            "task_family": "teacher_trace_distillation",
+            "task_track": "teacher_trace_distillation",
+            "track": "teacher_trace_distillation",
+            "instruction": "Teacher-trace entries must include explicit metadata.",
+            "response_target": {"answer": "ok"},
+            "supervision_mode": "teacher_trace_distillation",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["synthetic_source"],
+            "format_version": "merlin_training_jsonl_v1",
+        }
+    )
+    assert "missing_trace_metadata" in errors
+
+
 def test_training_record_legacy_teacher_trace_signature_requires_marker():
     errors = merlin_program._validate_training_record(
         {

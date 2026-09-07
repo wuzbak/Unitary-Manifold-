@@ -2531,7 +2531,11 @@ def build_training_dataset_bundle(
             "supervision_mode": str(example.get("supervision_mode", "unspecified")),
             "required_gates": _normalize_required_gates(example.get("required_gates")),
             "provenance_sources": _normalize_sources(example.get("provenance_sources")),
-            "trace_metadata": dict(example.get("trace_metadata") or {}),
+            "trace_metadata": (
+                dict(example.get("trace_metadata"))
+                if isinstance(example.get("trace_metadata"), dict)
+                else example.get("trace_metadata")
+            ),
             "format_version": "merlin_training_jsonl_v1",
         }
         if not _register(record, kind="training"):
