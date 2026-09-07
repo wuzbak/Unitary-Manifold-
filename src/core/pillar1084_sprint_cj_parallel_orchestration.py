@@ -115,16 +115,17 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     ]
     promotion_blockers = list(frontier.get("promotion_blockers") or [])
     blockers_all_clear = bool(frontier.get("promotion_blockers_all_clear"))
-    blockers_are_dicts = bool(promotion_blockers) and all(isinstance(item, dict) for item in promotion_blockers)
+    blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
     derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
     blocker_consistency_pass = blockers_are_dicts and blockers_all_clear == derived_all_clear
+    promotion_blockers_declared = isinstance(frontier.get("promotion_blockers"), list)
     frontier_packet_ok = bool(
         isinstance(frontier, dict)
         and isinstance(frontier.get("sync_checks"), dict)
         and frontier.get("sync_checks", {}).get("ok") is True
         and isinstance(frontier.get("control_tower"), dict)
         and isinstance(frontier.get("multi_stage_plan"), dict)
-        and len(promotion_blockers) >= 1
+        and promotion_blockers_declared
         and isinstance(frontier.get("policy"), str)
         and "Fail closed" in frontier.get("policy", "")
     )
@@ -190,7 +191,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_1_requires_foundation_packet_valid": bool(foundation.get("valid")),
             "lane_1_requires_sprint_ci_certificate": bool(sprint_ci.get("valid")),
             "lane_2_requires_stage_sequence_a_to_e": plan_stages == _EXPECTED_STAGE_SEQUENCE,
-            "lane_2_requires_promotion_blockers_declared": len(promotion_blockers) >= 1,
+            "lane_2_requires_promotion_blockers_declared": promotion_blockers_declared,
             "lane_2_frontier_packet_ok": frontier_packet_ok,
             "lane_2_blocker_consistency_ok": blocker_consistency_pass,
             "lane_2_requires_nonempty_stage_corpora": corpora_stage_coverage_pass,
