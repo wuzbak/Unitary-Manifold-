@@ -19,6 +19,7 @@ from ox_navigator.engine.merlin_meta_learning import (
     generate_falsification_oracle,
     run_self_audit,
 )
+from ox_navigator.engine.merlin_tools import route_tool
 
 
 def test_merlin_inference_health_surface():
@@ -52,6 +53,20 @@ def test_merlin_meta_learning_oracle_idempotent():
     session = MerlinSession()
     first = generate_falsification_oracle(domain="journalism", session=session)
     second = generate_falsification_oracle(domain="journalism", session=session)
+    assert first["ok"] is True
+    assert second["ok"] is True
+    matching = [
+        item
+        for item in session.compiled_insights
+        if item.get("source_query") == "generate_falsification_oracle:journalism"
+    ]
+    assert len(matching) == 1
+
+
+def test_merlin_meta_learning_oracle_idempotent_via_route_tool():
+    session = MerlinSession()
+    first = route_tool("generateFalsificationOracle", {"domain": "journalism"}, session=session)
+    second = route_tool("generateFalsificationOracle", {"domain": "journalism"}, session=session)
     assert first["ok"] is True
     assert second["ok"] is True
     matching = [

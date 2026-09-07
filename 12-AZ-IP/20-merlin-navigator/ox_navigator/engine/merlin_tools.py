@@ -107,6 +107,7 @@ from .merlin_rag import (
     lookup_kb,
 )
 from .merlin_energy_ledger import build_merlin_energy_ledger
+from .merlin_sync_contract import REQUIRED_TOOLKIT_FUNCTIONS
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 _LIMIT_SYNC_ARGS_SCHEMA = {
@@ -478,7 +479,6 @@ def _tool_manifest() -> dict[str, Any]:
         "runMerlinSyncChecks": {
             "capability_class": "verification",
             "risk_level": "high",
-            "sync_required": True,
             "args_schema": {"type": "object", "properties": {}, "additionalProperties": False},
         },
         "runMerlinMemoryAudit": {
@@ -490,7 +490,6 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinInferenceProviders": {"capability_class": "state_read"},
         "getMerlinInferenceHealth": {
             "capability_class": "state_read",
-            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"provider": {"type": "string"}},
@@ -509,7 +508,6 @@ def _tool_manifest() -> dict[str, Any]:
             },
         },
         "runMerlinResearchCycle": {
-            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {
@@ -523,7 +521,6 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinCounterexampleDigest": {
             "capability_class": "state_read",
-            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"limit": {"type": "integer", "minimum": 1}},
@@ -532,7 +529,6 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinEnergyLedger": {
             "capability_class": "state_read",
-            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"limit": {"type": "integer", "minimum": 1}},
@@ -541,7 +537,6 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "merlinConsolidateMemory": {
             "capability_class": "state_read",
-            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"limit": {"type": "integer", "minimum": 1}},
@@ -550,13 +545,11 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "merlinSelfAudit": {
             "capability_class": "state_read",
-            "sync_required": True,
             "args_schema": {"type": "object", "properties": {}, "additionalProperties": False},
         },
         "generateFalsificationOracle": {
             "capability_class": "verification",
             "risk_level": "medium",
-            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"domain": {"type": "string"}},
@@ -566,7 +559,6 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "merlinAnalyzeDepth": {
             "capability_class": "state_read",
-            "sync_required": True,
             "args_schema": {
                 "type": "object",
                 "properties": {"limit": {"type": "integer", "minimum": 1}},
@@ -603,6 +595,7 @@ def _tool_manifest() -> dict[str, Any]:
             "capability_class": "read",
             "risk_level": "low",
             "requires_human_gate": False,
+            "sync_required": item["name"] in REQUIRED_TOOLKIT_FUNCTIONS,
             "args_schema": {"type": "object", "properties": {}, "additionalProperties": False},
             **item,
             **policy_overrides.get(item["name"], {}),

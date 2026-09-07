@@ -21,3 +21,15 @@ REQUIRED_EXPORT_SCRIPTS: tuple[str, ...] = (
     "tools/export_merlin_training_jsonl.py",
     "tools/export_merlin_mlflow_manifests.py",
 )
+
+REQUIRED_TOOLKIT_FUNCTIONS: tuple[str, ...] = (
+    "runMerlinSyncChecks",
+    "getMerlinInferenceHealth",
+    "runMerlinResearchCycle",
+    "getMerlinCounterexampleDigest",
+    "getMerlinEnergyLedger",
+    "merlinConsolidateMemory",
+    "merlinSelfAudit",
+    "generateFalsificationOracle",
+    "merlinAnalyzeDepth",
+)

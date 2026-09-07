@@ -28,7 +28,7 @@ from .merlin_runtime import (
     get_optimization_priorities,
 )
 from .merlin_sentinel import get_sentinel_policy
-from .merlin_sync_contract import REQUIRED_ENGINE_MODULES, REQUIRED_EXPORT_SCRIPTS
+from .merlin_sync_contract import REQUIRED_ENGINE_MODULES, REQUIRED_EXPORT_SCRIPTS, REQUIRED_TOOLKIT_FUNCTIONS
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -1225,7 +1225,7 @@ def run_sync_checks() -> dict[str, Any]:
         })
     export_script_ok = all(item["ok"] for item in export_script_checks)
 
-    required_toolkit_functions: list[str] = []
+    required_toolkit_functions = list(REQUIRED_TOOLKIT_FUNCTIONS)
     toolkit_names: set[str] = set()
     toolkit_manifest_error = ""
     try:
@@ -1234,11 +1234,6 @@ def run_sync_checks() -> dict[str, Any]:
         full_manifest = get_toolkit_view("full")
         function_items = list(full_manifest.get("functions") or [])
         toolkit_names = {str(item.get("name", "")) for item in function_items}
-        required_toolkit_functions = [
-            str(item.get("name", ""))
-            for item in function_items
-            if bool(item.get("sync_required"))
-        ]
     except (ImportError, AttributeError, TypeError, ValueError) as exc:
         toolkit_manifest_error = f"{type(exc).__name__}: {exc}"
         toolkit_names = set()
