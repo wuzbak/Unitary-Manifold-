@@ -138,6 +138,8 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
         row.get('response_target') == '[REDACTED_FOR_EVAL]'
         for row in manifest['dataset']['splits']['test']
     )
+    test_rows = [json.loads(line) for line in (output_dir / 'test.jsonl').read_text().splitlines() if line.strip()]
+    assert all(row.get('response_target') == '[REDACTED_FOR_EVAL]' for row in test_rows)
     stage = "stage_b_sovereign_takeover"
     kernel_file = output_dir / "benchmarks" / "kernels" / stage / "kernel_s.jsonl"
     assert kernel_file.exists()

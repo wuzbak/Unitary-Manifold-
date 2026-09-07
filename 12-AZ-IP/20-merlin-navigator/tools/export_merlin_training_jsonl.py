@@ -25,16 +25,21 @@ def _write_jsonl(path: Path, rows: list[dict]) -> None:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def _redact_eval_rows(rows: list[dict]) -> list[dict]:
+    sanitized: list[dict] = []
+    for row in list(rows or []):
+        clean = dict(row)
+        if "response_target" in clean:
+            clean["response_target"] = "[REDACTED_FOR_EVAL]"
+        sanitized.append(clean)
+    return sanitized
+
+
 def _redact_test_targets(payload: dict) -> dict:
     redacted = copy.deepcopy(payload)
     dataset = dict(redacted.get("dataset") or {})
     splits = dict(dataset.get("splits") or {})
-    sanitized_test = []
-    for row in list(splits.get("test") or []):
-        clean = dict(row)
-        if "response_target" in clean:
-            clean["response_target"] = "[REDACTED_FOR_EVAL]"
-        sanitized_test.append(clean)
+    sanitized_test = _redact_eval_rows(list(splits.get("test") or []))
     if sanitized_test:
         splits["test"] = sanitized_test
         dataset["splits"] = splits
@@ -47,13 +52,7 @@ def _redact_test_targets(payload: dict) -> dict:
         test_rows = list(per_split_map.get("test") or [])
         if not test_rows:
             continue
-        updated_rows = []
-        for row in test_rows:
-            clean = dict(row)
-            if "response_target" in clean:
-                clean["response_target"] = "[REDACTED_FOR_EVAL]"
-            updated_rows.append(clean)
-        per_split_map["test"] = updated_rows
+        per_split_map["test"] = _redact_eval_rows(test_rows)
         kernel_splits[kernel_id] = per_split_map
         changed = True
     if changed:
@@ -86,10 +85,12 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     for split_name, rows in dict(dataset.get("splits") or {}).items():
-        _write_jsonl(out_dir / f"{split_name}.jsonl", list(rows or []))
+        split_rows = _redact_eval_rows(list(rows or [])) if split_name == "test" else list(rows or [])
+        _write_jsonl(out_dir / f"{split_name}.jsonl", split_rows)
     for kernel_id, per_split in dict(dataset.get("kernel_splits") or {}).items():
         for split_name, rows in dict(per_split or {}).items():
-            _write_jsonl(out_dir / "kernels" / kernel_id / f"{split_name}.jsonl", list(rows or []))
+            split_rows = _redact_eval_rows(list(rows or [])) if split_name == "test" else list(rows or [])
+            _write_jsonl(out_dir / "kernels" / kernel_id / f"{split_name}.jsonl", split_rows)
 
     benchmark_dir = out_dir / "benchmarks"
     for stage_name, rows in dict(dataset.get("benchmark_corpora") or {}).items():
