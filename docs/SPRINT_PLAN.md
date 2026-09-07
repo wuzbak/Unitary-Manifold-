@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-07 (v36.6 Sprint CJ COMPLETE — Pillar 1084; Lean4 4080→4080; next slot 1085)*
+*Last updated: 2026-09-07 (v36.7 Sprint CK COMPLETE — Pillar 1085; Lean4 4080→4080; next slot 1086)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.6 — Sprint CJ)
+## CURRENT AUDITABLE STATE (v36.7 — Sprint CK)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.6** |
-| Sprint | **Sprint CJ** |
-| Pillars | **1084-1084** |
-| Next pillar slot | **1085** |
+| Version | **v36.7** |
+| Sprint | **Sprint CK** |
+| Pillars | **1085-1085** |
+| Next pillar slot | **1086** |
 | Lean4 theorems | **4080** |
-| Verified full regression | **64,088 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **Parallel orchestration: one foundation target + Merlin sovereign acceleration** |
-| Primary target | **Execute one new-object foundation attempt while running Merlin Stage A→E benchmark/training cycle in parallel** |
-| Binary outcome | **Either one-lane closure/tightening plus governed Merlin evidence progression, or explicit blocker carry-forward with no promotion drift** |
+| Verified full regression | **64,122 passed · 22 skipped · 18 deselected · 0 failed** |
+| Sprint theme | **Single-target foundation lock + Merlin Stage A→E evidence capture** |
+| Primary target | **Lock Lane 1 to action-to-evolution Euler-Lagrange matching and capture Merlin Stage A→E receipts/artifacts without promotion release** |
+| Binary outcome | **Either one exact evidence-class target is locked with governed Merlin evidence capture, or the sprint remains blocked with explicit cause** |
 
+Historical continuity: v36.6 Sprint CJ (Pillar 1084; next slot 1085) remains the canonical parallel-orchestration layer directly below Sprint CK.
 Historical continuity: v36.5 Sprint CI (Pillars 1082–1083; next slot 1084) remains the canonical foundation-first audit layer directly below Sprint CJ.
 Historical continuity: v36.4 Sprint CH (Pillars 1079–1081; next slot 1082) remains the canonical critique-to-proof execution layer directly below Sprint CI.
 Historical continuity: v36.3 Sprint CG (Pillar 1078; next slot 1079) remains the canonical post-merge audit/remediation layer directly below Sprint CH.
@@ -77,6 +78,23 @@ Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) rem
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
 
 ---
+
+## SPRINT CK TARGET LOCK + EVIDENCE CAPTURE PROTOCOL (Executed)
+
+1. Perform one executable leverage audit across the two admissible foundation targets.
+2. Lock Lane 1 to exactly one target; do not carry both photon-sector and action-to-evolution attempts forward together.
+3. Require one exact evidence class for the selected target: action functional, Euler-Lagrange equations, side-by-side residual checks, and machine-readable boundary update.
+4. Capture Merlin Stage A→E receipts plus governed Stage A and training artifact bundles.
+5. Keep sovereign-local Merlin primary and external token routing compatibility-only.
+6. Keep promotion language frozen unless both scientific and governance lanes pass together.
+7. Keep canonical truth surfaces lockstep synchronized.
+8. Keep targeted and full verification gates zero-fail.
+
+### Sprint CK blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| None — no new physics closure claimed | Lane 1 locked to the action-to-evolution Euler-Lagrange evidence class; Merlin Stage A→E receipts and artifact bundles captured without promotion release | Photon origin remains open; action-to-evolution derivation remains unearned; architecture-limit and external-wait lanes unchanged |
 
 ## SPRINT CJ PARALLEL ORCHESTRATION PROTOCOL (Executed)
 

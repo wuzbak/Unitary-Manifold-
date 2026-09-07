@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v36.6
+# Unitary Manifold v36.7
 
 ## Foundation reassessment
 
@@ -82,6 +82,12 @@ Sprint CI attacked the combined photon/action obligation as one audit lane. The 
 Sprint CJ adds a fail-closed orchestration packet that binds two simultaneous lanes under one decision board without widening scientific claims. Lane 1 stays one-target and anti-loop constrained: exactly one new object/evidence class attempt is allowed next (admissible photon-sector construction or Euler-Lagrange matching derivation), otherwise the lane remains open. Lane 2 keeps Merlin sovereign-local primary, OpenRouter compatibility-only fallback, and Stage A→E benchmark/training progression with explicit promotion blockers, dual-loop governance, typed provenance requirements, and rollback readiness.
 
 The packet adds execution discipline, not new physics closure. Open-lane labels and falsifier windows remain unchanged.
+
+### Sprint CK target lock and governed evidence capture
+
+Sprint CK executes the immediate next step implied by Sprint CJ rather than widening the lane count. The leverage audit compares the two admissible foundation targets and selects action-to-evolution Euler-Lagrange matching as the single next target because it already has a machine-readable honesty surface, a tighter evidence-class boundary, and higher downstream leverage than a fresh photon-sector construction.
+
+The scientific lane is therefore tightened, not closed. The exact new evidence class is now explicit: an action functional, verified Euler-Lagrange equations, side-by-side residual checks against the implemented flow, and a machine-readable boundary update if and only if the derivation is actually verified. In parallel, Merlin Stage A→E head-to-head receipts plus Stage A/training artifact bundles are captured under sovereign-local primary with promotion language still frozen because the scientific lane is not closed.
 
 ### What cannot be counted as progress
 
@@ -276,6 +282,13 @@ prediction. Future observations do not repair invalid internal implications.
 
 *This document contains everything. No gatekeeping. No minimizing language.
 Every claim, every gap, every tension, every falsifier — stated completely.*
+
+*v36.7 sync note (Sprint CK — 2026-09-07):*
+*(1) Auditable checked-in branch state now includes Pillar 1085; Lean4 remains 4080; next pillar slot 1086; latest verified full regression in current branch history is 64,122 passed · 22 skipped · 18 deselected · 0 failed.*
+*(2) P1085 performs a leverage audit across the two admissible foundation targets and locks the next execution pass to the action-to-evolution Euler-Lagrange route rather than carrying both targets forward in parallel.*
+*(3) The remaining action blocker is now stated as one exact evidence-class contract: action functional, Euler-Lagrange equations, side-by-side residual checks, and machine-readable boundary update.*
+*(4) Merlin Stage A→E receipts plus governed artifact bundles are captured, but promotion language remains frozen because the scientific lane is tightened rather than closed.*
+*(5) Open-lane labels, falsifier windows, and external-wait discipline remain unchanged and explicit.*
 
 *v36.5 sync note (Sprint CI — 2026-09-06):*
 *(1) Auditable checked-in branch state now includes Pillars 1082–1083; Lean4 remains 4080; next pillar slot 1084; latest verified full regression in current branch history is 64,088 passed · 22 skipped · 18 deselected · 0 failed.*

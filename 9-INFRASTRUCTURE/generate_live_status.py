@@ -151,47 +151,47 @@ OPEN_GATES = [
     {
         "gate": "CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED",
         "description": "Flavor shared-root blocker remains open; assigned blocker contraction is not scientific progress.",
-        "pillar": 1084,
+        "pillar": 1085,
     },
     {
         "gate": "FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED",
         "description": "Species-resolved RI geometry with bundle-moduli lock remains unresolved.",
-        "pillar": 1084,
+        "pillar": 1085,
     },
     {
         "gate": "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED",
         "description": "Global CKM phase geometry remains unresolved; no derived contraction or universal limit is established.",
-        "pillar": 1084,
+        "pillar": 1085,
     },
     {
         "gate": "ALPHA_S_TYPE_B_FLOOR",
         "description": "Joint α_s/Higgs prediction requires a specified compactification and matching calculation.",
-        "pillar": 1084,
+        "pillar": 1085,
     },
     {
         "gate": "HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW",
         "description": "Joint α_s/Higgs prediction requires a specified compactification and matching calculation.",
-        "pillar": 1084,
+        "pillar": 1085,
     },
     {
         "gate": "CMB_AMP_CONFIRMED_IRREDUCIBLE",
         "description": "Independent CMB normalization and UM transfer corrections remain open; the reciprocal-bound irreducibility inference is invalid.",
-        "pillar": 1084,
+        "pillar": 1085,
     },
     {
         "gate": "NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT",
         "description": "Non-perturbative QG remains unresolved; declared O1–O4 obligations are not a universal impossibility theorem.",
-        "pillar": 1084,
+        "pillar": 1085,
     },
     {
         "gate": "DESI_DR3_MONITORING",
         "description": "External wait only; frozen-radion dark-energy lane awaits DESI DR3.",
-        "pillar": 1084,
+        "pillar": 1085,
     },
     {
         "gate": "LITEBIRD_BIREFRINGENCE",
         "description": "External wait only; birefringence lane awaits LiteBIRD.",
-        "pillar": 1084,
+        "pillar": 1085,
     },
 ]
 
