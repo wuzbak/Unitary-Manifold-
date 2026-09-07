@@ -4,76 +4,19 @@
 
 ---
 
-This post records a full-attempt result, not a celebratory fragment.
+Sprint BN was built around one discipline rule: stop patching unresolved UV/flavor lanes one by one, force them through one shared parent state, and accept the integrated verdict whether we like it or not.
 
-**Claim:** Sprint BN executed a unified UV/flavor closure attempt under one shared parent state and zero per-lane rescue knobs.  
-**Result:** the attempt tightened structure but did not earn full closure labels.
+That sounds procedural, but it matters. A common failure mode in technical programs is local rescue: each lane gets its own tuning trick, each sub-result looks acceptable in isolation, and the bundle is later narrated as closure. Sprint BN was designed to remove that escape hatch. One search surface, one objective pressure, no lane-specific emergency knobs, one terminal decision.
 
-If future evidence shows this lane was already closed in the checked-in architecture, this post should be retired.
+The result was not full closure. The result was a cleaner boundary. The checked-in verdict remained `UNIFIED_UV_FLAVOR_ARCHITECTURE_LIMIT_CERTIFIED`, which is useful precisely because it refuses to pretend that structural pressure disappeared. Several burdens remained explicit, including shared UV/flavor constraints and unresolved global-phase geometry.
 
----
+In plain language, Sprint BN earned a disciplined no. That is not failure theater; it is scientific hygiene. The sprint reduced ambiguity and made the missing objects easier to name, test, and target next.
 
-## What “one shared state” means
+This is also where trust is either preserved or spent. Publishing non-closure honestly is harder than publishing optimistic fragments, but it keeps code and narrative on the same page. Pillar 1000’s role in this lane is exactly that containment: bind the unified attempt, keep CMB integrity separation explicit, and prevent quiet drift between what tests say and what public prose implies.
 
-The sprint forced unresolved UV/flavor lanes through one common gate:
+So the bottom line is straightforward: strongest in-branch unified attempt executed, no hidden rescue tuning, unresolved architecture map sharper than before, lane still open.
 
-- one parent-state search,
-- one shared objective pressure,
-- no lane-specific emergency tuning,
-- one terminal verdict.
-
-That design removes a common failure mode: fixing each lane with a different patch and calling the bundle “closure.”
-
----
-
-## What the attempt produced
-
-The checked-in verdict remained:
-
-`UNIFIED_UV_FLAVOR_ARCHITECTURE_LIMIT_CERTIFIED`
-
-That is a useful outcome. It collapses vague dissatisfaction into a concrete missing-object list and narrows where additional architecture is required.
-
-Named burdens remained explicit, including shared UV/flavor structures and unresolved global-phase geometry.
-
----
-
-## Why publishing a non-closure matters
-
-Because this is where trust is usually lost.
-
-Most projects publish optimistic sub-results and understate integrated failure pressure.
-Sprint BN did the opposite:
-
-- ran the integrated attempt,
-- preserved no-label-inflation semantics,
-- carried unresolved burden forward in plain language.
-
-That behavior is not “negative branding.” It is scientific hygiene.
-
----
-
-## Relationship to Pillar 1000
-
-Pillar 1000 functions as narrative-drift containment:
-
-- it binds the unified attempt,
-- keeps the CMB integrity lane separate and explicit,
-- and preserves the canonical open set across status surfaces.
-
-So code and prose cannot diverge quietly.
-
----
-
-## Bottom line
-
-Sprint BN earned a disciplined no:
-
-- strongest in-branch unified attempt executed,
-- no hidden rescue tuning,
-- unresolved architecture map sharper than before.
-
-That is exactly the kind of result that helps the next sprint do real work instead of rhetorical work.
+And open means open.
 
 ---
 

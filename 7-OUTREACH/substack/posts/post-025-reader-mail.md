@@ -1,98 +1,32 @@
-# Frequently Asked Questions (That People Keep Asking, Fairly)
+# Frequently Asked Questions (That No One Has Actually Asked Yet, But We Keep Getting Anyway)
 
-*Post 25 of the Unitary Manifold series.*  
-*This is a clarity pass: plain answers, explicit boundaries, and no confidence theater.*
-
----
-
-**Q: Is this a physics claim, a governance claim, or both?**
-
-A: Both exist in this repository, but they are not the same thing.  
-Hardgate physics claims live in core derivation lanes.  
-Unitary Pentad governance content is an independent framework and is not a physics proof.
+*Post 25 of the Unitary Manifold series.*
 
 ---
 
-**Q: What is the central physics claim?**
+Reader mail was never meant to be a courtroom transcript, but it also should not read like a compliance memo. So here is the same honesty in plain human language.
 
-A: The central claim is that irreversibility can be derived as a geometric consequence of a 5D Kaluza-Klein structure, not only treated as a statistical boundary condition.
+People usually ask three versions of the same concern. Is this physics, governance, or both? What is actually being claimed? And how much of this is settled versus still waiting on the sky and the lab? Those are fair questions. They deserve complete answers, not defensive ones.
 
----
+The short version is that this repository holds both a physics program and a governance program, and we keep a hard boundary between them on purpose. The hardgate physics claims live in the derivation lanes. The Unitary Pentad is governance and collaboration architecture; it is not a substitute proof of the physics.
 
-**Q: What would falsify key parts of this framework?**
+The central physics claim is specific: irreversibility is treated as a geometric consequence of a 5D Kaluza-Klein structure, not only a statistical boundary story. That claim is strong, and because it is strong, it carries falsifiers. The main one remains LiteBIRD birefringence. If the measured window lands outside the admissible range, or inside the predicted exclusion gap, that mechanism fails. No speech can outrun that.
 
-A: Primary falsifier: LiteBIRD birefringence windows.  
-If β lands outside the admissible interval or in the predicted exclusion gap, the braided-winding mechanism fails.  
-Other lanes (including DESI dark-energy tension) remain explicit, observation-gated decision paths.
+Another frequent question is whether large test counts mean nature has signed the paperwork. No. Tests prove implementation consistency and reproducibility against repository contracts. They do not replace independent replication, external analysis, or new observations. They are memory, not magic.
 
----
+People also ask about the CMB amplitude lane, because that is exactly where projects can drift from careful language into wishful language. The present status is still open in closure-grade terms. If a value is supplied and then recovered, that is calibration. Prediction requires independent derivation before comparison. Until that distinction is crossed in code, the lane stays open and labeled as such.
 
-**Q: Does a large test suite prove the universe works this way?**
+Cold fusion and LENR questions usually arrive with either excitement or eye-rolling. Both reactions are understandable. The repository position is narrower: this is framed as a falsifiable mechanism lane, not a declaration that LENR is confirmed fact. We keep the unresolved bridges explicit and let experiments do the deciding.
 
-A: No.  
-Large tests demonstrate implementation consistency and reproducibility against the repository’s own contracts.  
-They do not replace independent replication or external data.
+On peer review: this has not yet completed conventional journal peer review. Public adversarial audits, issue-based critique, and executable artifacts are useful; they are not the same thing as broad independent expert replication.
 
----
+On AI authorship: we keep authorship split explicit because hiding it helps no one. ThomasCory Walker-Pearson provides scientific direction and judgment. Copilot contributes implementation architecture, test systems, and document synthesis. If we blur that line, we lose trust on both sides of it.
 
-**Q: Is the CMB amplitude issue resolved?**
+If you are new and want an honest path in, begin with orientation and limits first: `README.md`, `FALLIBILITY.md`, and `SEPARATION.md`. Then read claims together with their executable tests. Start where the evidence is easy to inspect.
 
-A: The current lane is still open in closure-grade terms.  
-Sprint BN’s explicit boundary is that amplitude remains `CALIBRATED_NOT_PREDICTED` unless normalization is derived without observational target values.  
-For verification context, see [FALLIBILITY.md](https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md) and [post-299-s04e002-sprint-bn-cmb-integrity-lane.md](https://github.com/wuzbak/Unitary-Manifold-/blob/main/7-OUTREACH/substack/posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md).
+And if you think something is wrong, good. Pick one claim. Try to break it with math, code, or data. A precise falsification attempt is a gift. Vague dismissal is just weather.
 
----
-
-**Q: What about cold fusion / LENR content?**
-
-A: It is framed as a falsifiable mechanism lane, not as confirmed experimental fact.  
-The repository treats it as an explicit research hypothesis with named unresolved bridges.
-
----
-
-**Q: Was this traditionally peer reviewed?**
-
-A: Not yet in the conventional journal sense.  
-There are public adversarial audits, open issue-based review invitations, and executable artifacts.  
-That is not a substitute for independent human expert review.
-
----
-
-**Q: Why is AI credited as co-author on implementation work?**
-
-A: Because authorship is partitioned explicitly:  
-ThomasCory Walker-Pearson provides theory direction and scientific judgment; GitHub Copilot contributes code architecture, testing infrastructure, and document synthesis.  
-This boundary is part of the repository’s transparency model.
-
----
-
-**Q: How should a new reader approach this without getting lost?**
-
-A: Start with orientation and limits first, then derivations, then tests:
-1. `README.md`
-2. `FALLIBILITY.md`
-3. `SEPARATION.md`
-4. core derivation files and matching tests
-
----
-
-**Q: What should skeptics do first?**
-
-A: Pick one concrete claim and try to break it with code, math, or data.  
-General dismissal is easy; targeted falsification is useful.
-
----
-
-**Q: What if I find an error?**
-
-A: Open an issue with a minimal reproducible path (file, equation, test, or data mismatch).  
-If validated, it should be logged and carried through the same honesty surfaces used for everything else.
-
----
-
-**Q: Are you serious or is this performance?**
-
-A: Serious and professional, with enough self-awareness to avoid pretending uncertainty is failure or certainty is earned before it is.
+Are we serious? Yes. Are we trying not to take ourselves so seriously that we become unreadable? Also yes. The work is high-stakes; ego is not.
 
 ---
 

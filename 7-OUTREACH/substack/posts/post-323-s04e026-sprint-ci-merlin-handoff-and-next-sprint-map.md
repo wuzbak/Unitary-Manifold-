@@ -1,32 +1,14 @@
 # Post 323 (S04E026): Sprint CI Merlin Handoff — Next-Sprint Map Without Wheel-Spinning
 
-Merlin is only useful here if the handoff is precise enough to stop the next sprint from rediscovering the same ambiguity.
+Merlin handoff only matters if it prevents the next sprint from rephrasing the same ambiguity.
 
-## What changed
+Sprint CI now leaves four concrete evidence anchors in place: `metric_ansatz_derivation_certificate()`, `z2_parity_clarification()`, `circle_eh_rh2_coefficient()`, and `phenomenological_flow_boundary()`. More importantly, it leaves one behavioral rule: the next pass must introduce a genuinely new evidence class or derivation object, not another polished restatement.
 
-The sprint now leaves Merlin four explicit evidence anchors:
+This lane is not asking Merlin to solve multiple unrelated fronts at once, and it is not allowing documentation polish to impersonate scientific progress. The next move is intentionally narrow: either produce an admissible photon-sector construction with action, boundary conditions, and spectrum, or produce an Euler–Lagrange matching derivation for the implemented flow.
 
-- `metric_ansatz_derivation_certificate()`
-- `z2_parity_clarification()`
-- `circle_eh_rh2_coefficient()`
-- `phenomenological_flow_boundary()`
+If neither object appears, the honest action is not a bigger sprint title. The honest action is to keep the lane open.
 
-It also leaves one exact next-step rule: bring a genuinely new object or evidence class, not another restatement.
-
-## What did not change
-
-Merlin is not being asked to solve multiple major lanes at once.
-
-Merlin is not being asked to convert documentation polish into scientific progress.
-
-## Next action
-
-Attempt exactly one of the following next:
-
-1. an admissible photon-sector construction with action, boundary conditions, and spectrum, or
-2. an Euler-Lagrange matching derivation for the implemented flow.
-
-If neither new object appears, the correct action is not another broad sprint. It is to keep the lane open.
+That is not pessimism. That is workflow maturity.
 
 ---
 

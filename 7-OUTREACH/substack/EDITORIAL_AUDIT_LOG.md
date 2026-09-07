@@ -42,13 +42,21 @@ Work order is newest → oldest so we can repair the highest-visibility surfaces
 - `posts/post-294-s03e072-sprint-bg-g4-flux-lattice.md` (rewritten)
 
 ### Rewritten high-risk legacy voice surfaces
-- `posts/post-025-reader-mail.md` (full rewrite for current honesty/tone contract)
-- `posts/post-we-were-just-going-to-check-one-thing.md` (opening voice/positioning rewrite)
-- `books/book-we-were-just-going-to-check-one-thing.md` (restored to original anchor voice opening)
+- `posts/post-025-reader-mail.md` (rewritten again to restore narrative reader-mail voice and remove memo cadence)
+- `posts/post-we-were-just-going-to-check-one-thing.md` (opening voice/positioning rewrite refreshed to human-first narrative tone)
+- `books/book-we-were-just-going-to-check-one-thing.md` (book opener re-aligned to trust-first, self-aware, reader-guided voice)
+
+
+### Rewritten recent sprint-era memo-style posts (voice recovery pass)
+- `posts/post-297-s03e075-where-we-are-september-2026.md`
+- `posts/post-298-s04e001-sprint-bn-one-shared-state-full-attempt.md`
+- `posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md`
+- `posts/post-320-s04e023-merlin-proof-first-kawamura-sprint.md`
+- `posts/post-323-s04e026-sprint-ci-merlin-handoff-and-next-sprint-map.md`
 
 ## Next starting point (continue backward)
 
-- Resume strict reverse order at: `posts/post-293-s03e071-sprint-bf-rung10-nl-parity-matter-curve.md`
+- Resume strict reverse order at: `posts/post-322-s04e025-sprint-ci-photon-action-findings.md`
 - Then continue descending through all remaining `posts/post-*.md` down to `post-026-*`
 - After `post-026-*`, continue from `post-024-*` and older
 - After posts sweep, continue newest → oldest in `books/`
