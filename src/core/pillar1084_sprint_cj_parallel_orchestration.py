@@ -126,14 +126,15 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and all(isinstance(row, dict) and isinstance(row.get("stage"), str) for row in stage_rows)
     )
     plan_stages = [row["stage"] for row in stage_rows] if stage_list_shape_ok else []
-    promotion_blockers = list(frontier.get("promotion_blockers") or [])
+    raw_promotion_blockers = frontier.get("promotion_blockers")
+    promotion_blockers = list(raw_promotion_blockers) if isinstance(raw_promotion_blockers, list) else []
     blockers_all_clear_raw = frontier.get("promotion_blockers_all_clear", None)
     blockers_all_clear_declared = (
         bool(blockers_all_clear_raw)
         if blockers_all_clear_raw is not None
         else None
     )
-    promotion_blockers_declared = isinstance(frontier.get("promotion_blockers"), list)
+    promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
     derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
     if blockers_all_clear_declared is None:
@@ -163,18 +164,17 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and promotion_blockers_declared
         and policy_declares_fail_closed
     )
-    promotion_language_gate_pass = (
-        frontier_packet_ok
-        and blocker_consistency_pass
-        and blockers_all_clear_effective
-        and bool(foundation.get("valid"))
-        and bool(sprint_ci.get("valid"))
-    )
-    promotion_language_freeze_enforced = (
-        frontier_packet_ok
-        and blocker_consistency_pass
-        and (promotion_language_gate_pass or not blockers_all_clear_effective)
-    )
+    if not frontier_packet_ok or not blocker_consistency_pass:
+        promotion_policy_state = "INVALID"
+    elif blockers_all_clear_effective and bool(foundation.get("valid")) and bool(sprint_ci.get("valid")):
+        promotion_policy_state = "PASS"
+    elif not blockers_all_clear_effective:
+        promotion_policy_state = "FREEZE"
+    else:
+        promotion_policy_state = "INVALID"
+
+    promotion_language_gate_pass = promotion_policy_state == "PASS"
+    promotion_language_freeze_enforced = promotion_policy_state in {"PASS", "FREEZE"}
     corpora_payload = corpora.get("corpora") if isinstance(corpora.get("corpora"), dict) else {}
     corpora_stage_coverage_pass = (
         isinstance(corpora_payload, dict)
@@ -298,6 +298,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         "lane_1": lane_one,
         "lane_2": lane_two,
         "integrated_board": integrated_board,
+        "promotion_policy_state": promotion_policy_state,
         "truth_surface_sync": truth_sync,
         "benchmark_corpora_check": {
             "expected_stages": list(_EXPECTED_STAGE_SEQUENCE),
