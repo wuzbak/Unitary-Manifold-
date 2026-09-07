@@ -615,10 +615,8 @@ def test_training_record_non_teacher_trace_metadata_does_not_trigger_teacher_adm
             "required_gates": ["GOVERNANCE"],
             "provenance_sources": ["synthetic_source"],
             "trace_metadata": {
-                "license": "unknown",
-                "source_category": "public_repository",
-                "collection_method": "manual_summary",
-                "provenance_citations": [],
+                "note": "auxiliary annotation",
+                "confidence": 0.4,
             },
             "format_version": "merlin_training_jsonl_v1",
         }
@@ -641,6 +639,31 @@ def test_training_record_teacher_trace_type_triggers_validation_without_track_ma
             "provenance_sources": ["synthetic_source"],
             "trace_metadata": {
                 "trace_type": "teacher_trace_distillation",
+                "license": "unknown",
+                "source_category": "public_repository",
+                "collection_method": "manual_summary",
+                "provenance_citations": [],
+            },
+            "format_version": "merlin_training_jsonl_v1",
+        }
+    )
+    assert "disallowed_trace_license" in errors
+    assert "missing_trace_provenance_pointer" in errors
+
+
+def test_training_record_legacy_teacher_trace_signature_triggers_validation():
+    errors = merlin_program._validate_training_record(
+        {
+            "record_id": "legacy-teacher-signature",
+            "split": "train",
+            "kernel_id": "kernel_s",
+            "task_family": "repository_native_qa",
+            "instruction": "Validate legacy teacher signature checks.",
+            "response_target": {"answer": "ok"},
+            "supervision_mode": "grounded_supervised_finetuning",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["synthetic_source"],
+            "trace_metadata": {
                 "license": "unknown",
                 "source_category": "public_repository",
                 "collection_method": "manual_summary",
