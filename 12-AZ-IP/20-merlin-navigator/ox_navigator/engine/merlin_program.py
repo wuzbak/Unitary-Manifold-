@@ -1216,13 +1216,22 @@ def run_sync_checks() -> dict[str, Any]:
     engine_module_ok = all(item["ok"] for item in engine_module_checks)
 
     export_script_checks = []
+    export_contract_markers = {
+        "tools/export_merlin_training_artifacts.py": ["build_training_artifact_bundle", "--output"],
+        "tools/export_merlin_training_jsonl.py": ["build_training_dataset_bundle", "--output-dir"],
+        "tools/export_merlin_mlflow_manifests.py": ["get_mlflow_experiment_manifests", "--output-dir"],
+    }
     for rel in REQUIRED_EXPORT_SCRIPTS:
         path = parity_root / rel
+        content = path.read_text(encoding="utf-8") if path.exists() and path.is_file() else ""
+        markers = export_contract_markers.get(rel, [])
+        contract_markers_present = all(marker in content for marker in markers)
         export_script_checks.append({
             "script": rel,
             "exists": path.exists(),
             "readable": path.is_file(),
-            "ok": path.exists() and path.is_file(),
+            "contract_markers_present": contract_markers_present,
+            "ok": path.exists() and path.is_file() and contract_markers_present,
         })
     export_script_ok = all(item["ok"] for item in export_script_checks)
 
@@ -1263,7 +1272,7 @@ def run_sync_checks() -> dict[str, Any]:
     }
     parity_ok = all(parity_dimensions.values())
     return {
-        "ok": bool(parity_ok),
+        "ok": bool(ok and runtime_ok and gate_labels_ok and consistency_ok and engine_module_ok and export_script_ok and toolkit_ok and parity_ok),
         "checked_at": _utcnow(),
         "checks": checks,
         "runtime_endpoint_checks": runtime_endpoint_checks,

@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import sys
 from pathlib import Path
@@ -22,6 +23,43 @@ def _write_jsonl(path: Path, rows: list[dict]) -> None:
     with path.open("w", encoding="utf-8") as handle:
         for row in rows:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
+def _redact_test_targets(payload: dict) -> dict:
+    redacted = copy.deepcopy(payload)
+    dataset = dict(redacted.get("dataset") or {})
+    splits = dict(dataset.get("splits") or {})
+    sanitized_test = []
+    for row in list(splits.get("test") or []):
+        clean = dict(row)
+        if "response_target" in clean:
+            clean["response_target"] = "[REDACTED_FOR_EVAL]"
+        sanitized_test.append(clean)
+    if sanitized_test:
+        splits["test"] = sanitized_test
+        dataset["splits"] = splits
+        redacted["dataset"] = dataset
+
+    kernel_splits = dict(dataset.get("kernel_splits") or {})
+    changed = False
+    for kernel_id, per_split in kernel_splits.items():
+        per_split_map = dict(per_split or {})
+        test_rows = list(per_split_map.get("test") or [])
+        if not test_rows:
+            continue
+        updated_rows = []
+        for row in test_rows:
+            clean = dict(row)
+            if "response_target" in clean:
+                clean["response_target"] = "[REDACTED_FOR_EVAL]"
+            updated_rows.append(clean)
+        per_split_map["test"] = updated_rows
+        kernel_splits[kernel_id] = per_split_map
+        changed = True
+    if changed:
+        dataset["kernel_splits"] = kernel_splits
+        redacted["dataset"] = dataset
+    return redacted
 
 
 def main() -> int:
@@ -61,7 +99,8 @@ def main() -> int:
             _write_jsonl(benchmark_dir / "kernels" / stage_name / f"{kernel_id}.jsonl", list(rows or []))
 
     manifest_path = out_dir / "dataset_manifest.json"
-    manifest_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    manifest_payload = _redact_test_targets(payload)
+    manifest_path.write_text(json.dumps(manifest_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(out_dir)
     return 0
 

@@ -134,6 +134,10 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
         assert (output_dir / "kernels" / kernel_id / "test.jsonl").exists()
     manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
     assert manifest['dataset']['counts']['total_benchmark_records'] >= 18
+    assert all(
+        row.get('response_target') == '[REDACTED_FOR_EVAL]'
+        for row in manifest['dataset']['splits']['test']
+    )
     stage = "stage_b_sovereign_takeover"
     kernel_file = output_dir / "benchmarks" / "kernels" / stage / "kernel_s.jsonl"
     assert kernel_file.exists()

@@ -4,7 +4,7 @@
   "validation_errors": [],
   "validation_error_count": 0,
   "dataset": {
-    "generated_at": "2026-09-07T00:09:18.901593+00:00",
+    "generated_at": "2026-09-07T00:10:44.568124+00:00",
     "training_architecture": {
       "mission_profile": [
         "repository_assistant",
@@ -721,7 +721,7 @@
           "kernel_id": "kernel_a",
           "task_family": "specialist_mentorship_artifact_deposits",
           "instruction": "Audit memory contradictions and produce a correction-oriented synthesis note.",
-          "response_target": "Counterexample-first audit with contradiction counts and remediation order.",
+          "response_target": "[REDACTED_FOR_EVAL]",
           "target_contract": null,
           "supervision_mode": "kernel_lane_bootstrap",
           "required_gates": [
@@ -738,7 +738,7 @@
           "kernel_id": "kernel_s",
           "task_family": "repository_native_qa",
           "instruction": "Explain GUT coupling α_GUT = N_c/K_CS derivation with explicit epistemic status and falsification or boundary notes where relevant.",
-          "response_target": "α_GUT = N_c/K_CS = 3/74 ≈ 0.0405 was previously 'POSTULATED BY CS ANALOGY'. The current closure path derives it from the 5D SU(N_c) CS action: (1) 5D Dirac condition → g₄² = 2π/K_CS; (2) KK dimensional reduction; (3) SU(N_c) trace normalisation → K_CS × α_GUT = N_c. Residual caveat: higher-dimensional completion for full GUT field identification. See the current α_GUT closure modules and WAVE_CHANGELOG ledger for the latest status.",
+          "response_target": "[REDACTED_FOR_EVAL]",
           "target_contract": null,
           "supervision_mode": "grounded_supervised_finetuning",
           "required_gates": [
@@ -757,7 +757,7 @@
           "kernel_id": "kernel_s",
           "task_family": "repository_native_qa",
           "instruction": "Explain CMB birefringence β prediction with explicit epistemic status and falsification or boundary notes where relevant.",
-          "response_target": "The Unitary Manifold predicts two birefringence modes from the braided winding state: β₁ ≈ 0.273° (canonical, k_CS=61 secondary state) and β₂ ≈ 0.331° (derived, k_CS=74 primary state). The admissible window is [0.22°, 0.38°] with a predicted gap [0.29°, 0.31°]. These predictions will be tested by the LiteBIRD satellite (~2032). Any β outside [0.22°, 0.38°] or inside [0.29°, 0.31°] falsifies the theory.",
+          "response_target": "[REDACTED_FOR_EVAL]",
           "target_contract": null,
           "supervision_mode": "grounded_supervised_finetuning",
           "required_gates": [
@@ -892,7 +892,7 @@
             "kernel_id": "kernel_s",
             "task_family": "repository_native_qa",
             "instruction": "Explain GUT coupling α_GUT = N_c/K_CS derivation with explicit epistemic status and falsification or boundary notes where relevant.",
-            "response_target": "α_GUT = N_c/K_CS = 3/74 ≈ 0.0405 was previously 'POSTULATED BY CS ANALOGY'. The current closure path derives it from the 5D SU(N_c) CS action: (1) 5D Dirac condition → g₄² = 2π/K_CS; (2) KK dimensional reduction; (3) SU(N_c) trace normalisation → K_CS × α_GUT = N_c. Residual caveat: higher-dimensional completion for full GUT field identification. See the current α_GUT closure modules and WAVE_CHANGELOG ledger for the latest status.",
+            "response_target": "[REDACTED_FOR_EVAL]",
             "target_contract": null,
             "supervision_mode": "grounded_supervised_finetuning",
             "required_gates": [
@@ -911,7 +911,7 @@
             "kernel_id": "kernel_s",
             "task_family": "repository_native_qa",
             "instruction": "Explain CMB birefringence β prediction with explicit epistemic status and falsification or boundary notes where relevant.",
-            "response_target": "The Unitary Manifold predicts two birefringence modes from the braided winding state: β₁ ≈ 0.273° (canonical, k_CS=61 secondary state) and β₂ ≈ 0.331° (derived, k_CS=74 primary state). The admissible window is [0.22°, 0.38°] with a predicted gap [0.29°, 0.31°]. These predictions will be tested by the LiteBIRD satellite (~2032). Any β outside [0.22°, 0.38°] or inside [0.29°, 0.31°] falsifies the theory.",
+            "response_target": "[REDACTED_FOR_EVAL]",
             "target_contract": null,
             "supervision_mode": "grounded_supervised_finetuning",
             "required_gates": [
@@ -1009,7 +1009,7 @@
             "kernel_id": "kernel_a",
             "task_family": "specialist_mentorship_artifact_deposits",
             "instruction": "Audit memory contradictions and produce a correction-oriented synthesis note.",
-            "response_target": "Counterexample-first audit with contradiction counts and remediation order.",
+            "response_target": "[REDACTED_FOR_EVAL]",
             "target_contract": null,
             "supervision_mode": "kernel_lane_bootstrap",
             "required_gates": [
