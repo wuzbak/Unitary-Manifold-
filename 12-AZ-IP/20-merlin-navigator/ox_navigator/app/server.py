@@ -501,6 +501,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({'ok': True, 'memory': merlin_session.get_public_memory_state()})
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/memory-geometry':
+                query = str(params.get('query', [''])[0] or '')
+                limit, error = _parse_positive_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({'ok': True, 'memory_geometry': merlin_session.get_geometric_memory_map(query, limit=limit)})
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/telemetry':
                 self._json({'ok': True, 'telemetry': merlin_session.get_telemetry_summary(public=True)})
                 self._persist_session(session_id, merlin_session)

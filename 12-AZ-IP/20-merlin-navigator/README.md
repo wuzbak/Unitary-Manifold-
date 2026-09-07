@@ -8,7 +8,7 @@
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
 - **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/training-curation`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/competitive-benchmarks`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
-- **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/telemetry`
+- **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/memory-geometry`, `/api/merlin/telemetry`
 - **Program endpoints note:** use the `/api/merlin/program*` and readiness/benchmark endpoints listed in the canonical **API endpoints** line above.
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
 - **Temperature range:** `0.0`–`1.0`
@@ -65,6 +65,7 @@ Related reading outside this product folder:
 - Every `/api/merlin` response now also returns:
   - `active_kernel` attribution (`kernel_id`, role, lane, provider variant)
   - `accumulated_learnings` (ranked memory/insight/contradiction injection ledger)
+  - `geometric_memory_map` (hyperbolic hierarchy, Riemannian focus weights, topological persistence loops)
   - `observatory_poll` (scheduled empirical tripwire polling status)
 - The frontend renders follow-up chips and typed source cards from that structure.
 - If a live model response omits the structure, Merlin fills the gaps before rendering.
@@ -74,6 +75,7 @@ Related reading outside this product folder:
 
 - `GET /api/agentToolkit` exposes discovery views: `index`, `domain`, `tool`, `full`, `state`.
 - `GET /api/merlin/memory` exposes multi-tier memory state, contradictions, and recall audits.
+- `GET /api/merlin/memory-geometry` exposes geometry-constrained memory landmarks (`hyperbolic_tree`, `riemannian_focus`, `topological_persistence`) for long-horizon recall diagnostics.
 - `GET /api/merlin/telemetry` exposes recent run summaries for measurement and rollout gating.
 - `GET /api/merlin/status` now returns `memory_profile_token`; cross-device resume via `X-Merlin-Profile-Token` also requires `X-Merlin-Profile-Key` matching server-side `MERLIN_PROFILE_SHARED_KEY`.
 - `GET /api/merlin/program-office` exposes command authority, decision/risk ledgers, and squad ownership for replacement governance.

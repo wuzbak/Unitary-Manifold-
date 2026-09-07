@@ -392,6 +392,16 @@ async def query_merlin(
         context_envelope=normalized_envelope,
         target_namespace=target_namespace,
     )
+    geometric_memory = session.get_geometric_memory_map(text, limit=8)
+    landmark_lines = [
+        (
+            f"- ({str(item.get('namespace') or 'general')}) "
+            f"{str(item.get('fact') or '').strip()} | "
+            f"focus={float(item.get('riemannian_focus_weight', 0.0)):.3f}"
+        )
+        for item in list(geometric_memory.get("landmarks") or [])[:3]
+    ]
+    geometric_summary = "\n".join(landmark_lines) if landmark_lines else "- No geometric landmarks matched this query."
     proof_probe = None
     if target_namespace == "physics_hardgate" and proof_intent:
         proof_probe = run_kernel_p_lean_proof_probe(
@@ -472,6 +482,7 @@ async def query_merlin(
             "max_rigor": max_rigor,
             "active_kernel": {"kernel_id": "kernel_g", "role": "Gate", "lane": "small_fast_router", "provider_variant": "policy_block"},
             "accumulated_learnings": learned,
+            "geometric_memory_map": geometric_memory,
             "proof_probe": proof_probe,
         }
 
@@ -542,6 +553,7 @@ async def query_merlin(
             "max_rigor": max_rigor,
             "active_kernel": {"kernel_id": "kernel_g", "role": "Gate", "lane": "small_fast_router", "provider_variant": "privilege_block"},
             "accumulated_learnings": learned,
+            "geometric_memory_map": geometric_memory,
             "proof_probe": proof_probe,
         }
 
@@ -571,6 +583,14 @@ async def query_merlin(
                 "[YOUR ACCUMULATED LEARNINGS]\n"
                 f"{learned['text']}\n"
                 f"[CONTEXT ENVELOPE]\n{learned['envelope_summary']}"
+            ),
+        },
+        {
+            "role": "system",
+            "content": (
+                "[GEOMETRIC MEMORY LANDMARKS]\n"
+                f"{geometric_summary}\n"
+                f"[GEOMETRIC MEMORY MODEL]\n{str(geometric_memory.get('model') or 'unknown')}"
             ),
         },
         {"role": "system", "content": f"[EARLIER CONVERSATION SUMMARY]\n{compressed['summary']}"},
@@ -754,6 +774,7 @@ async def query_merlin(
         "compile_time_ingestion": ingestion,
         "benchmark_eval": None,
         "max_rigor": max_rigor,
+        "geometric_memory_map": geometric_memory,
         "active_kernel": {
             "kernel_id": str(kernel.get("id") or "kernel_s"),
             "role": str(kernel.get("role") or "Sage"),

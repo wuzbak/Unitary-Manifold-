@@ -67,6 +67,33 @@ def test_merlin_memory_audit_and_telemetry_summary():
     assert summary['latest']['quality_signals']['tool_call_precision'] == 0.5
 
 
+def test_merlin_geometric_memory_map_has_required_frames():
+    session = MerlinSession()
+    session.remember(
+        'Hyperbolic hierarchy packs concept depth for memory routing.',
+        scope='repository',
+        source='test',
+        tags=['memory', 'geometry', 'hyperbolic'],
+    )
+    session.remember(
+        'Riemannian focus warps local recall for contradiction checks.',
+        scope='user',
+        source='test',
+        tags=['memory', 'geometry', 'riemannian'],
+    )
+    payload = session.get_geometric_memory_map(
+        'Audit memory geometry with hyperbolic and Riemannian focus.',
+        limit=6,
+    )
+    assert payload['ok'] is True
+    assert payload['model'] == 'merlin_geometric_memory_map_v1'
+    assert payload['landmark_count'] >= 1
+    assert 'hyperbolic_tree' in payload['frames']
+    assert 'riemannian_focus' in payload['frames']
+    assert 'topological_persistence' in payload['frames']
+    assert payload['frames']['topological_persistence']['lost_in_middle_shield_active'] is True
+
+
 def test_merlin_memory_does_not_duplicate_seeded_state():
     session = MerlinSession(durable_memory=[{
         'fact': 'Existing fact',

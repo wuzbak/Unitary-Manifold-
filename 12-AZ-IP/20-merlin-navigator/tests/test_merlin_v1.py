@@ -928,8 +928,11 @@ def test_route_tool_memory_and_telemetry_state():
     session.record_run({'provider': 'sovereign_local', 'latency_ms': 1.0, 'energy': {'estimated_joules': 0.5}, 'quality_signals': {'provenance_source_count': 2}})
     telemetry_after = route_tool('getMerlinTelemetrySummary', {}, session=session)
     memory_state = route_tool('getMerlinMemoryState', {}, session=session)
+    memory_geometry = route_tool('getMerlinMemoryGeometry', {'query': 'memory drift and contradiction recall', 'limit': 4}, session=session)
     assert telemetry_after['result']['data']['count'] == 1
     assert memory_state['result']['data']['durable_memory_count'] >= 1
+    assert memory_geometry['result']['data']['ok'] is True
+    assert memory_geometry['result']['data']['landmark_count'] >= 1
 
 
 def test_route_tool_inference_registry_and_health(monkeypatch):
@@ -1300,6 +1303,8 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert payload['compile_time_ingestion']['compiled_count'] >= 1
     assert payload['active_kernel']['kernel_id']
     assert 'count' in payload['accumulated_learnings']
+    assert payload['geometric_memory_map']['ok'] is True
+    assert 'hyperbolic_tree' in payload['geometric_memory_map']['frames']
 
 
 def test_route_tool_observatory_and_proof_probe_record_training_artifacts():
@@ -1453,6 +1458,13 @@ def test_server_merlin_endpoints():
             assert memory.status_code == 200
             assert memory.json()['ok'] is True
             assert 'durable_memory_count' in memory.json()['memory']
+            memory_geometry = client.get('/api/merlin/memory-geometry?query=hyperbolic+memory&limit=4')
+            assert memory_geometry.status_code == 200
+            assert memory_geometry.json()['ok'] is True
+            assert memory_geometry.json()['memory_geometry']['ok'] is True
+            assert 'hyperbolic_tree' in memory_geometry.json()['memory_geometry']['frames']
+            bad_memory_geometry = client.get('/api/merlin/memory-geometry?limit=0')
+            assert bad_memory_geometry.status_code == 400
 
             identity = client.get('/api/merlin/identity')
             assert identity.status_code == 200
