@@ -114,17 +114,28 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         if isinstance(row, dict)
     ]
     promotion_blockers = list(frontier.get("promotion_blockers") or [])
-    blockers_all_clear = bool(frontier.get("promotion_blockers_all_clear"))
+    blockers_all_clear_raw = frontier.get("promotion_blockers_all_clear", None)
+    blockers_all_clear_declared = (
+        bool(blockers_all_clear_raw)
+        if blockers_all_clear_raw is not None
+        else None
+    )
     promotion_blockers_declared = isinstance(frontier.get("promotion_blockers"), list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
-    if not promotion_blockers:
-        derived_all_clear = True
-        blocker_consistency_pass = promotion_blockers_declared and bool(blockers_all_clear)
+    derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
+    if blockers_all_clear_declared is None:
+        blocker_consistency_pass = blockers_are_dicts and promotion_blockers_declared
+        blockers_all_clear_effective = derived_all_clear
     else:
-        derived_all_clear = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
-        blocker_consistency_pass = blockers_are_dicts and blockers_all_clear == derived_all_clear
+        blocker_consistency_pass = (
+            blockers_are_dicts
+            and promotion_blockers_declared
+            and blockers_all_clear_declared == derived_all_clear
+        )
+        blockers_all_clear_effective = blockers_all_clear_declared
     policy_text = str(frontier.get("policy", ""))
-    policy_declares_fail_closed = "fail closed" in policy_text.lower()
+    policy_normalized = policy_text.lower().replace("-", " ")
+    policy_declares_fail_closed = "fail closed" in policy_normalized
     frontier_packet_ok = bool(
         isinstance(frontier, dict)
         and isinstance(frontier.get("sync_checks"), dict)
@@ -137,14 +148,14 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     promotion_language_gate_pass = (
         frontier_packet_ok
         and blocker_consistency_pass
-        and blockers_all_clear
+        and blockers_all_clear_effective
         and bool(foundation.get("valid"))
         and bool(sprint_ci.get("valid"))
     )
     promotion_language_freeze_enforced = (
         frontier_packet_ok
         and blocker_consistency_pass
-        and (promotion_language_gate_pass or not blockers_all_clear)
+        and (promotion_language_gate_pass or not blockers_all_clear_effective)
     )
     corpora_payload = corpora.get("corpora") if isinstance(corpora.get("corpora"), dict) else {}
     corpora_stage_coverage_pass = (
@@ -188,7 +199,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         "external_token_path_compatibility_only": bool(frontier.get("openrouter_fallback_only")),
         "stage_sequence": plan_stages,
         "promotion_blockers": promotion_blockers,
-        "promotion_blockers_all_clear": blockers_all_clear,
+        "promotion_blockers_all_clear": blockers_all_clear_effective,
         "dual_loop_training": dual_loop,
         "mirrored_training_cycle": mirrored_cycle,
         "required_benchmark_metrics": [
