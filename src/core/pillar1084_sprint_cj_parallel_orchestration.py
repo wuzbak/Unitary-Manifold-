@@ -115,6 +115,18 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     ]
     promotion_blockers = list(frontier.get("promotion_blockers") or [])
     blockers_all_clear = bool(frontier.get("promotion_blockers_all_clear"))
+    derived_all_clear = bool(promotion_blockers) and all(bool(item.get("pass")) for item in promotion_blockers if isinstance(item, dict))
+    blocker_consistency_pass = blockers_all_clear == derived_all_clear
+    frontier_packet_ok = bool(
+        isinstance(frontier, dict)
+        and isinstance(frontier.get("sync_checks"), dict)
+        and frontier.get("sync_checks", {}).get("ok") is True
+        and isinstance(frontier.get("control_tower"), dict)
+        and isinstance(frontier.get("multi_stage_plan"), dict)
+        and len(promotion_blockers) >= 1
+        and isinstance(frontier.get("policy"), str)
+        and "Fail closed" in frontier.get("policy", "")
+    )
     corpora_payload = corpora.get("corpora") if isinstance(corpora.get("corpora"), dict) else {}
     corpora_stage_coverage_pass = (
         isinstance(corpora_payload, dict)
@@ -178,6 +190,8 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "lane_1_requires_sprint_ci_certificate": bool(sprint_ci.get("valid")),
             "lane_2_requires_stage_sequence_a_to_e": plan_stages == _EXPECTED_STAGE_SEQUENCE,
             "lane_2_requires_promotion_blockers_declared": len(promotion_blockers) >= 1,
+            "lane_2_frontier_packet_ok": frontier_packet_ok,
+            "lane_2_blocker_consistency_ok": blocker_consistency_pass,
             "lane_2_requires_nonempty_stage_corpora": corpora_stage_coverage_pass,
             "truth_surfaces_synchronized_to_v36_6": bool(truth_sync.get("all_pass")),
             "promotion_language_requires_both_lanes_evidence": (
@@ -211,7 +225,8 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
         and lane_two["sovereign_local_primary"]
         and lane_two["external_token_path_compatibility_only"]
         and plan_stages == _EXPECTED_STAGE_SEQUENCE
-        and len(promotion_blockers) >= 1
+        and frontier_packet_ok
+        and blocker_consistency_pass
         and corpora_stage_coverage_pass
         and bool(truth_sync.get("all_pass"))
         and proof_contract.get("name") == "merlin_deterministic_proof_closure"

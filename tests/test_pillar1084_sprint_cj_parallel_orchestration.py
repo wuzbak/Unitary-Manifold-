@@ -86,6 +86,36 @@ def test_invalid_if_truth_surface_sync_breaks(monkeypatch) -> None:
     assert report["valid"] is False
 
 
+def test_invalid_if_frontier_packet_reports_failure(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _failed_frontier(limit=3):
+        packet = original(limit=limit)
+        packet["sync_checks"] = {"ok": False}
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _failed_frontier)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_frontier_packet_ok"] is False
+    assert report["valid"] is False
+
+
+def test_invalid_if_frontier_blocker_consistency_breaks(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _inconsistent_frontier(limit=3):
+        packet = original(limit=limit)
+        packet["promotion_blockers_all_clear"] = True
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _inconsistent_frontier)
+    report = sprint_cj_parallel_orchestration()
+    assert report["integrated_board"]["dependencies"]["lane_2_blocker_consistency_ok"] is False
+    assert report["valid"] is False
+
+
 def test_summary() -> None:
     summary = pillar1084_summary()
     assert summary["status"] == PILLAR_STATUS
