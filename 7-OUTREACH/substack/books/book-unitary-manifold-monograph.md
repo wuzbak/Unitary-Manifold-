@@ -375,6 +375,8 @@ That governance posture is paired with a visible dual-use and safety layer. The 
 
 If you are a general reader, use this book as orientation and discipline. Let it teach you what the project claims, what it does not claim, where the pressure points are, and why the apps and public surfaces exist.
 
+If you are a skeptic or critic, start with the failure ledger and the kill conditions. Read `FALLIBILITY.md`, `docs/TRUTH_LAYER.md`, and `3-FALSIFICATION/` before reading any celebratory or wide-angle narrative. The fastest way to test this repository is not to ask what it hopes to become. It is to ask where it says it can break.
+
 If you are a physicist or technical reviewer, use this book only as a map. Then go to the ledgers, the derivation files, the falsification documents, the test surfaces, and the current truth layer. The project should be judged there.
 
 If you are a software builder, pay attention to how the repository turns abstract claims into status feeds, datasets, interfaces, and user-facing tools without pretending those tools certify the science. Also pay attention to the maturity gradient: some surfaces are closer to robust tools, others remain research-stage, and the repository usually says so if you read it carefully.
@@ -446,6 +448,8 @@ It is scientific adulthood.
 | HL-LHC KK graviton | PASS |
 | nEDM@SNS | PASS |
 | XENON-nT dark matter | PASS |
+
+`PASS` in this table means **not currently excluded by available data under the repository's declared threshold**, not experimentally confirmed.
 
 ---
 
