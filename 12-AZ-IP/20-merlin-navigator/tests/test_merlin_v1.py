@@ -556,6 +556,51 @@ def test_route_tool_training_dataset_includes_compiled_insights():
     assert curation['result']['data']['curation_ledger']['accepted_by_source_family']['compiled_insight'] >= 1
 
 
+def test_training_dataset_teacher_trace_validation_rejects_unlicensed_samples(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        "_build_seed_training_examples",
+        lambda limit=None: [
+            {
+                "id": "teacher-valid",
+                "track": "teacher_trace_distillation",
+                "prompt": "Distill safe tool-routing behavior with explicit provenance.",
+                "target": {"answer": "ok"},
+                "required_gates": ["GOVERNANCE"],
+                "provenance_sources": ["openai-python"],
+                "supervision_mode": "teacher_trace_distillation",
+                "trace_metadata": {
+                    "license": "MIT",
+                    "source_category": "public_repository",
+                    "collection_method": "manual_summary",
+                    "provenance_citations": ["https://github.com/openai/openai-python"],
+                },
+            },
+            {
+                "id": "teacher-invalid",
+                "track": "teacher_trace_distillation",
+                "prompt": "Distill planner behavior with no licensing metadata.",
+                "target": {"answer": "ok"},
+                "required_gates": ["GOVERNANCE"],
+                "provenance_sources": ["unknown"],
+                "supervision_mode": "teacher_trace_distillation",
+                "trace_metadata": {
+                    "license": "unknown",
+                    "source_category": "public_repository",
+                    "collection_method": "manual_summary",
+                    "provenance_citations": [],
+                },
+            },
+        ],
+    )
+    payload = merlin_program.build_training_dataset_bundle(limit=10)
+    assert payload["ok"] is False
+    assert payload["validation_error_count"] >= 1
+    validation_errors = payload["dataset"]["validation"]["errors"]
+    assert any("disallowed_trace_license" in item.get("errors", []) for item in validation_errors)
+    assert any("missing_trace_provenance_pointer" in item.get("errors", []) for item in validation_errors)
+
+
 def test_route_tool_empirical_gate_and_promotion_packet():
     runs = [
         {
@@ -900,6 +945,49 @@ def test_route_tool_model_admission_rejects_incomplete():
     data = result['result']['data']
     assert data['ok'] is False
     assert data['allowed_as_primary'] is False
+
+
+def test_route_tool_phase_abc_policy_surfaces():
+    ethics = route_tool('getMerlinEthicsContract', {})
+    ontology = route_tool('getMerlinCapabilityOntology', {})
+    teacher_policy = route_tool('getMerlinTeacherTracePolicy', {})
+    trace_ok = route_tool(
+        'evaluateMerlinTeacherTrace',
+        {
+            'trace': {
+                'trace_metadata': {
+                    'license': 'MIT',
+                    'source_category': 'public_repository',
+                    'collection_method': 'manual_summary',
+                    'provenance_citations': ['https://github.com/openai/openai-python'],
+                }
+            }
+        },
+    )
+    trace_blocked = route_tool(
+        'evaluateMerlinTeacherTrace',
+        {
+            'trace': {
+                'trace_metadata': {
+                    'license': 'unknown',
+                    'source_category': 'public_repository',
+                    'collection_method': 'manual_summary',
+                    'provenance_citations': [],
+                }
+            }
+        },
+    )
+    assert ethics['ok'] is True
+    assert ontology['ok'] is True
+    assert teacher_policy['ok'] is True
+    assert trace_ok['ok'] is True
+    assert trace_ok['result']['data']['admitted'] is True
+    assert trace_blocked['ok'] is True
+    assert trace_blocked['result']['data']['admitted'] is False
+    assert 'disallowed_trace_license' in trace_blocked['result']['data']['violations']
+    assert 'missing_trace_provenance_pointer' in trace_blocked['result']['data']['violations']
+    assert 'no_weight_extraction_or_reverse_engineering' in ethics['result']['data']['non_negotiable_rules']
+    assert any(item['provider'] == 'anthropic' for item in ontology['result']['data']['provider_family_map'])
 
 
 def test_choose_runtime_local_first():
