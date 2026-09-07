@@ -145,8 +145,8 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     blockers_all_clear_declared = blockers_all_clear_raw if isinstance(blockers_all_clear_raw, bool) else None
     promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
-    declared_all_clear_semantics = blockers_are_dicts and all(bool(item.get("pass")) for item in promotion_blockers)
     effective_all_clear = blockers_are_dicts and len(promotion_blockers) == 0
+    declared_all_clear_semantics = effective_all_clear
     declared_matches_effective = (
         blockers_all_clear_declared == effective_all_clear
         if blockers_all_clear_declared is not None
