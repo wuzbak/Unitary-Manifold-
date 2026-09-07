@@ -1202,9 +1202,10 @@ def run_sync_checks() -> dict[str, Any]:
     no_derived_drift = "DERIVED" not in ui_text
     consistency_ok = all(item["ok"] for item in endpoint_checks) and all(item["ok"] for item in gate_checks) and no_derived_drift
 
+    parity_root = PRODUCT_ROOT if (PRODUCT_ROOT / "ox_navigator").exists() else PRODUCT_ROOT.parent
     engine_module_checks = []
     for rel in REQUIRED_ENGINE_MODULES:
-        path = PRODUCT_ROOT / rel
+        path = parity_root / rel
         engine_module_checks.append({
             "module": rel,
             "exists": path.exists(),
@@ -1215,7 +1216,7 @@ def run_sync_checks() -> dict[str, Any]:
 
     export_script_checks = []
     for rel in REQUIRED_EXPORT_SCRIPTS:
-        path = PRODUCT_ROOT / rel
+        path = parity_root / rel
         export_script_checks.append({
             "script": rel,
             "exists": path.exists(),
@@ -1249,7 +1250,11 @@ def run_sync_checks() -> dict[str, Any]:
         }
         for name in required_toolkit_functions
     ]
-    toolkit_ok = all(item["ok"] for item in toolkit_function_checks)
+    toolkit_ok = (
+        not toolkit_manifest_error
+        and bool(required_toolkit_functions)
+        and all(item["ok"] for item in toolkit_function_checks)
+    )
 
     parity_dimensions = {
         "version_source_parity": bool(ok),
