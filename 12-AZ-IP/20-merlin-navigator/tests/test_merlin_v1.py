@@ -329,6 +329,8 @@ def test_route_tool_merlin_program_blueprint():
     assert 'workspace_policy' in payload
     assert 'pentad_contract' in payload
     assert 'frontier_open_weight_stack' in payload
+    assert 'open_weight_acquisition_ledger' in payload
+    assert 'dual_lane_master_sprint' in payload
     assert payload['pentad_contract']['kernel_count'] == 5
     assert 'sovereignty_roadmap' in payload
     assert payload['sync_checks']['ok'] is True
@@ -347,6 +349,10 @@ def test_route_tool_merlin_program_blueprint():
     assert payload['domain_research_missions']['domains'][0]['domain_id'] == 'business_office_management'
     assert payload['expert_mastery_program']['levels'][0]['level'] == 'L1_foundational'
     assert payload['regulatory_change_watch']['watch_targets'][0]['target_id'] == 'irs_news_and_forms'
+    assert payload['dual_lane_master_sprint']['mode'] == 'parallel_fail_closed'
+    assert payload['open_weight_acquisition_ledger']['approved_training_roster_cycle']['freeze_rule'] == (
+        'approved_roster_is_frozen_per_sprint_cycle'
+    )
 
 
 def test_route_tool_benchmark_corpus_and_policy_metadata():
@@ -441,14 +447,35 @@ def test_route_tool_training_architecture_and_artifacts():
     assert architecture['ok'] is True
     assert architecture['result']['data']['seed_statistics']['total_examples'] == 5
     assert 'repository_assistant' in architecture['result']['data']['mission_profile']
+    assert architecture['result']['data']['two_engine_training_strategy']['rapid_ablation_lane']['engine'] == 'unsloth'
+    assert architecture['result']['data']['approved_training_roster_cycle']['freeze_rule'] == (
+        'approved_roster_is_frozen_per_sprint_cycle'
+    )
 
     registry = route_tool('getMerlinOpenScienceRegistry', {})
     assert registry['ok'] is True
     assert any(item['resource_id'] == 'hugging_face_datasets' for item in registry['result']['data']['resources'])
+    assert any(item['resource_id'] == 'hugging_face_models_hub' for item in registry['result']['data']['resources'])
+    assert any(item['resource_id'] == 'unsloth_engine' for item in registry['result']['data']['resources'])
+    assert any(item['resource_id'] == 'axolotl_engine' for item in registry['result']['data']['resources'])
+    acquisition = route_tool('getMerlinOpenWeightAcquisitionLedger', {})
+    assert acquisition['ok'] is True
+    assert acquisition['result']['data']['approved_training_roster_cycle']['freeze_rule'] == (
+        'approved_roster_is_frozen_per_sprint_cycle'
+    )
+    assert any(
+        item['channel_id'] == 'hugging_face_models_hub'
+        for item in acquisition['result']['data']['acquisition_channels']
+    )
+    dual_lane = route_tool('getMerlinDualLaneMasterSprint', {})
+    assert dual_lane['ok'] is True
+    assert dual_lane['result']['data']['cross_lane_acceptance']['promotion_language_frozen_unless_both_lanes_pass'] is True
     frontier = route_tool('getMerlinFrontierStack', {})
     assert frontier['ok'] is True
     assert any(model['name'] == 'DeepSeek-R1' for model in frontier['result']['data']['open_weight_models'])
     assert any(kernel['name'] == 'vLLM_PagedAttention' for kernel in frontier['result']['data']['execution_kernels'])
+    assert frontier['result']['data']['two_engine_training_strategy']['rapid_ablation_lane']['engine'] == 'unsloth'
+    assert frontier['result']['data']['two_engine_training_strategy']['production_training_lane']['engine'] == 'axolotl'
 
     benchmarks = route_tool('getMerlinCompetitiveBenchmarkPlan', {})
     assert benchmarks['ok'] is True

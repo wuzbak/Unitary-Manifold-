@@ -1766,6 +1766,104 @@ def get_model_strategy() -> dict[str, Any]:
     }
 
 
+def get_open_weight_acquisition_ledger() -> dict[str, Any]:
+    return {
+        "policy": (
+            "Acquire and train open-weight models under license/provenance discipline, "
+            "with fully-open-science candidates preferred for primary routing."
+        ),
+        "acquisition_channels": [
+            {
+                "channel_id": "hugging_face_models_hub",
+                "url": "https://huggingface.co/models",
+                "interfaces": ["huggingface_hub_python_api", "huggingface_cli", "git_lfs_clone"],
+                "supported_weight_formats": [".safetensors", ".gguf"],
+                "role": "primary_open_weight_discovery_and_download",
+            },
+            {
+                "channel_id": "xigh_open_weight_models",
+                "url": "https://github.com/xigh/open-weight-models",
+                "interfaces": ["git_repository", "machine_readable_markdown_ledger"],
+                "role": "curated_candidate_shortlist_and_resource_constraints",
+            },
+            {
+                "channel_id": "hugging_face_transformers_docs",
+                "url": "https://huggingface.co/docs/transformers/index",
+                "interfaces": ["developer_documentation"],
+                "role": "reference_for_loading_inference_and_training_pipelines",
+            },
+            {
+                "channel_id": "unsloth_finetuning_guide",
+                "url": "https://docs.unsloth.ai/",
+                "interfaces": ["developer_documentation"],
+                "role": "memory_efficient_finetuning_mechanics_and_practice_guidance",
+            },
+            {
+                "channel_id": "unsloth_training_engine",
+                "url": "https://github.com/unslothai/unsloth",
+                "interfaces": ["git_repository", "python_package"],
+                "role": "rapid_lora_qlora_ablation_lane",
+            },
+            {
+                "channel_id": "axolotl_training_engine",
+                "url": "https://github.com/axolotl-ai-cloud/axolotl",
+                "interfaces": ["git_repository", "yaml_config_driven_cli"],
+                "role": "multi_gpu_production_grade_training_lane",
+            },
+        ],
+        "candidate_scoring_rubric": {
+            "dimensions": [
+                "license_permissiveness",
+                "reproducibility_disclosure",
+                "inference_fit",
+                "training_fit",
+                "hardware_fit",
+            ],
+            "scores": "0_to_5_per_dimension",
+            "minimum_score_for_shortlist": 16,
+            "hard_reject_conditions": [
+                "license_unknown",
+                "provenance_ambiguous",
+                "weights_unavailable_for_declared_tier",
+            ],
+        },
+        "candidate_roster": [
+            {
+                "model_family": "Qwen 3.x",
+                "openness_tier_target": "fully_open_science",
+                "preferred_formats": [".safetensors", ".gguf"],
+                "status": "candidate",
+            },
+            {
+                "model_family": "GLM 5.x",
+                "openness_tier_target": "fully_open_science",
+                "preferred_formats": [".safetensors", ".gguf"],
+                "status": "candidate",
+            },
+            {
+                "model_family": "DeepSeek reasoning family",
+                "openness_tier_target": "fully_open_science",
+                "preferred_formats": [".safetensors", ".gguf"],
+                "status": "candidate",
+            },
+        ],
+        "approved_training_roster_cycle": {
+            "cycle_id": "active_cycle",
+            "freeze_rule": "approved_roster_is_frozen_per_sprint_cycle",
+            "unfreeze_triggers": [
+                "critical_license_or_safety_issue",
+                "hard_runtime_incompatibility",
+                "explicit_steward_override_with_receipt",
+            ],
+            "requirements_before_training": [
+                "evaluateMerlinModelAdmission_pass",
+                "license_and_provenance_review_pass",
+                "candidate_score_above_shortlist_threshold",
+            ],
+        },
+    }
+
+
 def get_merlin_ethics_contract() -> dict[str, Any]:
     return {
         "policy_name": "merlin_inspiration_without_theft",
@@ -2299,6 +2397,67 @@ def get_open_science_resource_registry() -> dict[str, Any]:
         ],
         "resources": [
             {
+                "resource_id": "hugging_face_models_hub",
+                "category": "programmatic_open_weight_hub",
+                "url": "https://huggingface.co/models",
+                "recommended_role": [
+                    "open_weight_discovery",
+                    "open_weight_download",
+                    "model_card_and_license_review",
+                ],
+                "priority": "highest_external",
+            },
+            {
+                "resource_id": "xigh_open_weight_models",
+                "category": "curated_open_weight_ledger",
+                "url": "https://github.com/xigh/open-weight-models",
+                "recommended_role": [
+                    "candidate_roster_curation",
+                    "resource_limit_and_precision_reference",
+                ],
+                "priority": "high",
+            },
+            {
+                "resource_id": "hugging_face_transformers_docs",
+                "category": "developer_reference",
+                "url": "https://huggingface.co/docs/transformers/index",
+                "recommended_role": [
+                    "loading_and_serving_reference",
+                    "pipeline_implementation_reference",
+                ],
+                "priority": "high",
+            },
+            {
+                "resource_id": "unsloth_finetuning_guide",
+                "category": "training_reference",
+                "url": "https://docs.unsloth.ai/",
+                "recommended_role": [
+                    "finetuning_mechanics_reference",
+                    "memory_optimization_reference",
+                ],
+                "priority": "high",
+            },
+            {
+                "resource_id": "unsloth_engine",
+                "category": "training_engine",
+                "url": "https://github.com/unslothai/unsloth",
+                "recommended_role": [
+                    "rapid_lora_qlora_ablation",
+                    "high_iteration_experimentation",
+                ],
+                "priority": "highest_ops",
+            },
+            {
+                "resource_id": "axolotl_engine",
+                "category": "training_engine",
+                "url": "https://github.com/axolotl-ai-cloud/axolotl",
+                "recommended_role": [
+                    "yaml_config_driven_training_orchestration",
+                    "multi_gpu_production_runs",
+                ],
+                "priority": "highest_ops",
+            },
+            {
                 "resource_id": "hugging_face_datasets",
                 "category": "programmatic_dataset_hub",
                 "url": "https://huggingface.co/datasets",
@@ -2386,8 +2545,15 @@ def get_open_science_resource_registry() -> dict[str, Any]:
 
 
 def get_frontier_open_weight_stack() -> dict[str, Any]:
+    acquisition = get_open_weight_acquisition_ledger()
     return {
         "objective": "Train Merlin toward frontier-grade domain performance using local-first open weights plus open-source execution kernels.",
+        "acquisition_surfaces": {
+            "primary_discovery": "hugging_face_models_hub",
+            "candidate_ledger": "xigh_open_weight_models",
+            "model_admission_surface": "evaluateMerlinModelAdmission",
+            "admission_policy_surface": "getMerlinModelAdmissionPolicy",
+        },
         "open_weight_models": [
             {
                 "name": "DeepSeek-R1",
@@ -2462,6 +2628,18 @@ def get_frontier_open_weight_stack() -> dict[str, Any]:
             "kernel_gate_summary_pass_required_before_promotion",
             "openrouter_compatibility_fallback_only",
         ],
+        "two_engine_training_strategy": {
+            "rapid_ablation_lane": {
+                "engine": "unsloth",
+                "objective": "fast_lora_qlora_iteration_and_hyperparameter_pruning",
+            },
+            "production_training_lane": {
+                "engine": "axolotl",
+                "objective": "stable_multi_gpu_reproducible_runs_for_shortlisted_configs",
+            },
+            "single_promotion_board": "Both lanes converge to one fail-closed promotion verdict.",
+        },
+        "approved_training_roster_cycle": acquisition["approved_training_roster_cycle"],
         "phase_order": [
             "local_open_weight_baseline",
             "kernel_instrumentation_and_telemetry",
@@ -2474,6 +2652,7 @@ def get_frontier_open_weight_stack() -> dict[str, Any]:
 
 def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
     seed_examples = _build_seed_training_examples(limit=limit)
+    acquisition = get_open_weight_acquisition_ledger()
     track_counts: dict[str, int] = {}
     for item in seed_examples:
         track = str(item.get("track", "unknown"))
@@ -2580,10 +2759,26 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "mlflow_manifests": "getMerlinMLflowManifests",
             "artifact_bundle": "getMerlinTrainingArtifacts",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
+            "open_weight_acquisition_ledger": "getMerlinOpenWeightAcquisitionLedger",
+            "dual_lane_master_sprint": "getMerlinDualLaneMasterSprint",
             "ethics_contract": "getMerlinEthicsContract",
             "capability_ontology": "getMerlinCapabilityOntology",
             "teacher_trace_policy": "getMerlinTeacherTracePolicy",
         },
+        "two_engine_training_strategy": {
+            "rapid_ablation_lane": {
+                "engine": "unsloth",
+                "training_modes": ["lora", "qlora"],
+                "goal": "high_iteration_ablation_and_hyperparameter_pruning",
+            },
+            "production_training_lane": {
+                "engine": "axolotl",
+                "training_modes": ["lora", "qlora", "full_finetune"],
+                "goal": "shortlisted_configuration_scaleout_with_reproducible_yaml_runs",
+            },
+            "shared_promotion_gate": "frontier_control_tower_fail_closed",
+        },
+        "approved_training_roster_cycle": acquisition["approved_training_roster_cycle"],
     }
 
 
@@ -3656,9 +3851,11 @@ def build_training_artifact_bundle(
             "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit, compiled_insights=compiled_insights),
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),
+            "open_weight_acquisition_ledger": get_open_weight_acquisition_ledger(),
             "ethics_contract": get_merlin_ethics_contract(),
             "capability_ontology": get_merlin_capability_ontology(),
             "teacher_trace_policy": get_merlin_teacher_trace_policy(),
+            "dual_lane_master_sprint": get_dual_lane_master_sprint_plan(),
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
             "artifact_policy": {
                 "promotion_rule": "Training artifacts inform promotion, but do not replace empirical benchmark gates.",
@@ -3855,6 +4052,63 @@ def get_merlin_benchmark_suite() -> dict[str, Any]:
     return get_benchmark_suite()
 
 
+def get_dual_lane_master_sprint_plan() -> dict[str, Any]:
+    return {
+        "name": "dual_lane_master_sprint",
+        "mode": "parallel_fail_closed",
+        "lanes": [
+            {
+                "lane_id": "lane_1_physics_closure",
+                "lock_target": "action_to_evolution_euler_lagrange_evidence_class",
+                "required_evidence": [
+                    "explicit_action_functional",
+                    "verified_euler_lagrange_equations",
+                    "shared_initial_data_residual_comparison",
+                    "machine_readable_evolution_boundary_update",
+                ],
+                "closure_policy": "scientific_promotion_requires_evidence_not_narrative",
+            },
+            {
+                "lane_id": "lane_2_merlin_open_weight_training",
+                "acquisition_surface": "getMerlinOpenWeightAcquisitionLedger",
+                "benchmark_surface": "getMerlinMultiStageBenchmarks",
+                "required_stage_sequence": [
+                    "stage_a_parity_capture",
+                    "stage_b_sovereign_takeover",
+                    "stage_c_capability_expansion",
+                    "stage_d_replacement_gates",
+                    "stage_e_external_decommission",
+                ],
+                "training_engines": ["unsloth", "axolotl"],
+                "governance_policy": "sovereign_local_primary_openrouter_compatibility_only",
+            },
+        ],
+        "cross_lane_acceptance": {
+            "required_scoreboard_dimensions": [
+                "task_success_parity_or_better",
+                "quality_non_regression",
+                "energy_per_successful_task",
+                "policy_violation_budget",
+                "typed_provenance_completeness",
+                "uncertainty_and_boundary_retention",
+            ],
+            "longitudinal_clean_windows_required": True,
+            "promotion_language_frozen_unless_both_lanes_pass": True,
+        },
+        "cadence": {
+            "daily": "dual_lane_board_update_with_blocker_deltas_and_receipts",
+            "mid_sprint": "hard_gate_review_continue_narrow_or_block",
+            "closeout": [
+                "evidence_backed_advance",
+                "explicit_blocker_carry_forward",
+                "blocked_with_cause",
+            ],
+        },
+        "truth_surface_sync_required": True,
+        "artifact_traceability_required": True,
+    }
+
+
 def get_full_program_blueprint() -> dict[str, Any]:
     return {
         "generated_at": _utcnow(),
@@ -3887,7 +4141,9 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "training_dataset": build_training_dataset_bundle(limit=12),
         "mlflow_manifests": get_mlflow_experiment_manifests(limit=12),
         "open_science_registry": get_open_science_resource_registry(),
+        "open_weight_acquisition_ledger": get_open_weight_acquisition_ledger(),
         "frontier_open_weight_stack": get_frontier_open_weight_stack(),
+        "dual_lane_master_sprint": get_dual_lane_master_sprint_plan(),
         "competitive_benchmark_plan": get_competitive_benchmark_plan(),
         "energy_optimization": get_energy_optimization_track(),
         "backend_expansion": get_backend_expansion_policy(),
