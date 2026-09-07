@@ -26,8 +26,8 @@
 - [ ] PDF call sheet and storyboard export
 - [ ] Budget export to CSV/Excel
 - [ ] SQLite FTS5 search across scripts, tasks, notes, and assets
-- [ ] FDX import/export and richer interchange
-- [ ] Investor / studio summary reports and daily production report packets
+- [x] FDX import/export and richer screenplay interchange (with Fountain support)
+- [x] Script, scene, location, and character reporting surfaces
 
 ## v2.2 — Collaboration, Permissions, and Sync
 

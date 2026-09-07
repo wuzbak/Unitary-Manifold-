@@ -292,6 +292,44 @@ def init_db(db_path: Path) -> None:
     conn = sqlite3.connect(str(db_path))
     try:
         conn.executescript(SCHEMA_SQL)
+        conn.execute(
+            """
+            DELETE FROM characters
+            WHERE rowid IN (
+                WITH ranked AS (
+                    SELECT
+                        rowid,
+                        project_id,
+                        lower(name) AS name_key,
+                        CASE
+                            WHEN trim(COALESCE(performer, '')) <> ''
+                                 OR trim(COALESCE(notes, '')) NOT IN ('', 'Detected from screenplay import')
+                            THEN 0
+                            ELSE 1
+                        END AS quality_rank,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY project_id, lower(name)
+                            ORDER BY
+                                CASE
+                                    WHEN trim(COALESCE(performer, '')) <> ''
+                                         OR trim(COALESCE(notes, '')) NOT IN ('', 'Detected from screenplay import')
+                                    THEN 0
+                                    ELSE 1
+                                END ASC,
+                                rowid ASC
+                        ) AS rn
+                    FROM characters
+                )
+                SELECT rowid FROM ranked WHERE rn > 1
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_characters_project_name_ci
+            ON characters(project_id, lower(name))
+            """
+        )
         conn.commit()
     finally:
         conn.close()
