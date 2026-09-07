@@ -237,7 +237,7 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
             "expected_stages": list(_EXPECTED_STAGE_SEQUENCE),
             "stage_coverage_pass": corpora_stage_coverage_pass,
         },
-        "benchmark_corpora_available": sorted((corpora.get("corpora") or {}).keys()),
+        "benchmark_corpora_available": sorted(corpora_payload.keys()),
         "proof_first_contract": proof_contract,
         "immediate_execution_order": immediate_execution_order,
         "outcome": "SPRINT_CJ_PARALLEL_ORCHESTRATION_READY" if valid else "SPRINT_CJ_PARALLEL_ORCHESTRATION_BLOCKED",
