@@ -7,7 +7,7 @@
 
 > ⚠️ **Historical snapshot notice:** Test counts, pillar counts, and version numbers mentioned
 > within individual post drafts reflect the state of the repository **at the time of writing**.
-> The current verified totals are: **64,122 passed · 22 skipped · 18 deselected · 0 failed · next pillar slot 1086 (v36.7 Sprint CK)**.
+> The current verified totals are: **64,138 passed · 22 skipped · 18 deselected · 0 failed · next pillar slot 1088 (v36.9 Sprint CM)**.
 > Individual posts have not been retroactively updated to preserve their historical authenticity.
 
 ## Directory Structure

@@ -1,6 +1,6 @@
 # Getting Started
 
-> Canonical regression marker: 64,122 passed · 22 skipped · 18 deselected · 0 failed.
+> Canonical regression marker: 64,138 passed · 22 skipped · 18 deselected · 0 failed.
 
 This page covers installing the Unitary Manifold package and running the built-in examples.
 
@@ -48,7 +48,7 @@ python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
 # Full repository (takes ~130 s):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 64,122 passed · 22 skipped · 18 deselected · 0 failed
+# Expected: 64,138 passed · 22 skipped · 18 deselected · 0 failed
 
 # Slow tests (Richardson extrapolation, ~2 min):
 python -m pytest tests/ -m slow

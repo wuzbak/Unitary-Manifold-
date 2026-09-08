@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v36.8
+# Unitary Manifold v36.9
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -22,7 +22,7 @@ Detailed assumptions, counterexamples, and verification record:
 All observational falsifiers remain unchanged, including the closed forbidden
 birefringence gap [0.29°, 0.31°].
 Sprint CI targeted validation passed 132 tests with zero failures, and the
-verified full regression in the current branch is 64,122 passed · 22 skipped ·
+verified full regression in the current branch is 64,138 passed · 22 skipped ·
 18 deselected · 0 failed. This verifies neither empirical agreement nor the
 still-open physical obligations in the table.
 
@@ -30,7 +30,7 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-08 (v36.8 — Sprint CL: Pillar 1086. This sprint adds an all-hands fail-closed rigor packet that operationalizes one bounded train-and-work evidence pass: retained training-cycle receipts, Stage A→E benchmark receipts, and frontier blockers in a single canonical call while preserving Sprint CK foundation target lock continuity and no-unearned-closure discipline. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1087. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history: 64,122 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Sprint CL targeted validation suites + full regression executed in-branch.)*
+*Last updated: 2026-09-08 (v36.9 — Sprint CM: Pillar 1087. This sprint executes a full physics-first fail-closed packet with three parallel lanes: locked action-to-evolution evidence-class execution, scoped last-merge math verification, and Merlin train/remediation for prior-sprint misses. Lane-level outcomes are explicitly bounded: closure earned only with complete evidence class, merge math marked pass/fix-required by scoped checks, and Merlin promotion held on any blocker. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1088. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history: 64,138 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Sprint CM targeted validation suite 25 passed · 0 failed; full combined regression 64,138 passed · 22 skipped · 18 deselected · 0 failed.)*
 
 *Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
 
@@ -40,6 +40,8 @@ still-open physical obligations in the table.
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
+
+*P1087 (v36.9): Sprint CM Full Physics Parallel Execution — SPRINT_CM_FULL_PHYSICS_PARALLEL_EXECUTION_COMPLETE. `src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py` executes three parallel lanes under one fail-closed board: Lane A runs the locked action-to-evolution evidence contract with component-level completion accounting; Lane B re-audits the latest merge commit across theory-sensitive touched files and marks exact pass/fix-required scope; Lane C runs Merlin targeted train-and-work while exporting explicit misses/remediation focus from prior-sprint gaps.*
 
 *P1086 (v36.8): Sprint CL All-Hands Rigor Packet — SPRINT_CL_ALL_HANDS_RIGOR_PACKET_COMPLETE. `src/core/pillar1086_sprint_cl_all_hands_rigor_packet.py` integrates Sprint CK foundation-lock continuity with the canonical PsiCat targeted-rigor packet (`run_merlin_targeted_rigor_sprint` / `/api/psicat/targeted-rigor-sprint`) so training-cycle receipts, Stage A→E gates, frontier blockers, and fail-closed hold/clear verdict are emitted as one bounded auditable surface.*
 
