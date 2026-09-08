@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -152,3 +153,45 @@ def test_health_report_flags_unhealthy_preferred_model():
     report = MODULE.health_report(config, FakeAPI(), datetime(2026, 9, 3, 12, 0, tzinfo=timezone.utc))
     assert report["preferred_model_healthy"] is False
     assert report["ranked_models"][0] == "claude-fable-5"
+
+
+def test_main_returns_success_when_orchestration_is_pending(monkeypatch, tmp_path: Path):
+    config_path = tmp_path / "copilot-review-fallback.json"
+    config_path.write_text(
+        json.dumps(
+            {
+                "preferred_model": "claude-sonnet-5",
+                "fallback_models": ["claude-fable-5"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    event_path = tmp_path / "event.json"
+    event_path.write_text(json.dumps({"pull_request": {"number": 886}}), encoding="utf-8")
+
+    monkeypatch.setenv("GITHUB_REPOSITORY", "wuzbak/Unitary-Manifold-")
+    monkeypatch.setenv("GITHUB_TOKEN", "test-token")
+    monkeypatch.setenv("GITHUB_EVENT_PATH", str(event_path))
+
+    class FakeAPI:
+        def __init__(self, repo: str, token: str) -> None:
+            self.repo = repo
+            self.token = token
+
+        def get_pull(self, pr_number: int) -> dict:
+            return {"draft": False, "head": {"sha": "deadbeef"}}
+
+        def list_pull_reviews(self, pr_number: int, per_page: int) -> list[dict]:
+            return []
+
+        def list_issue_comments(self, pr_number: int, per_page: int) -> list[dict]:
+            return []
+
+        def list_recent_repo_issue_comments(self, since, per_page: int) -> list[dict]:
+            return []
+
+        def post_issue_comment(self, pr_number: int, body: str) -> dict:
+            return {"id": 1, "body": body}
+
+    monkeypatch.setattr(MODULE, "GitHubAPI", FakeAPI)
+    assert MODULE.main(["orchestrate", "--config", str(config_path)]) == 0

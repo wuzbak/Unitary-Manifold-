@@ -10,9 +10,9 @@
 > circle-EH coupling bookkeeping but leaves photon origin and action-to-evolution
 > equivalence open. No new physics closure is claimed.
 
-**The Unitary Manifold v36.9 — Unambiguous Record**  
+**The Unitary Manifold v37.1 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-08 (v36.9 — Sprint CM: Pillar 1087; full physics parallel execution with action-to-evolution evidence gating, last-merge math verification, and Merlin remediation lane; Lean4 4080→4080; 64,138 passed · 22 skipped · 18 deselected · 0 failed; next slot 1088.)*
+*Last updated: 2026-09-08 (v37.1 — Sprint CO: Pillars 1089-1096; proof-foundry hardening, PsiCat continuous formal training integration, validation resilience, and enterprise runtime deployment hardening; Lean4 4080→4080; 64,138 passed · 22 skipped · 18 deselected · 0 failed; next slot 1097.)*
 *Latest verified full regression: 64,138 passed · 22 skipped · 18 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-08).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
@@ -21,7 +21,7 @@
 >  
 > **Live-ledger note (anti-staleness):** For the latest wave-level status, treat
 > `STATUS.md`, `FALLIBILITY.md`, and `src/core/sm_free_parameters.py` as canonical.
-> Adjacent operational/governance additions (e.g., Pillar 273 autonomous community/security stewardship with Pentad-governed control routing)
+> Adjacent operational/governance additions (e.g., Pillar 273 autonomous community/security stewardship with Pentad-governed control routing, and Sprint CO proof-foundry / PsiCat / validation hardening pillars 1089-1096)
 > are explicitly non-hardgate and do not change claim statuses in this ledger.
 > Historical sections in this document are preserved for audit traceability.
 
