@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v36.8
+# Unitary Manifold v36.9
 
 ## Foundation reassessment
 
@@ -94,6 +94,14 @@ The scientific lane is therefore tightened, not closed. The exact new evidence c
 Sprint CL adds one all-hands fail-closed orchestration layer that executes PsiCat's new targeted-rigor packet as the canonical train-and-work evidence surface. The packet merges retained training-cycle receipts, Stage A→E benchmark gates, frontier blocker review, and deterministic hold/clear verdict in one bounded call so blocker truth cannot be skipped while reporting progress.
 
 This is a rigor and integration step, not a physics-closure step. Lane one continuity remains the Sprint CK lock on action-to-evolution Euler-Lagrange evidence-class obligations; lane two remains promotion-blocker gated. External falsifier windows and open-lane labels remain unchanged.
+
+### Sprint CM full physics parallel execution
+
+Sprint CM executes one full physics-first fail-closed packet with three explicit parallel lanes. Lane A runs the locked action-to-evolution evidence class as the primary closure attempt and now reports component-level completion across the required action/equation/residual/boundary artifacts. The current run keeps the obligation open unless all evidence components are present and verified.
+
+Lane B performs last-merge math verification on the most recent merge commit by checking theory-sensitive files touched in that merge against scoped honesty/math constraints. The lane reports binary pass/fix-required output with exact file scope so merge-level math drift cannot be hidden in narrative status updates.
+
+Lane C runs Merlin targeted train-and-work execution while converting prior-sprint misses into explicit remediation focus items. The sprint now exposes both what Merlin missed and what Merlin now handles under the Stage A→E and training-cycle gates, with promotion held on any unresolved blocker.
 
 ### What cannot be counted as progress
 

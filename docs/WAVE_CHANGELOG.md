@@ -33,10 +33,33 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.8 (2026-09-08)**
-**Regression:** 64,122 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1087
+**Current version: v36.9 (2026-09-08)**
+**Regression:** 64,138 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1088
 
+
+## v36.9 (2026-09-08 — Sprint CM: Pillar 1087)
+
+**What changed:**
+Sprint CM executes the full approved physics-first packet in parallel lanes. P1087 binds three auditable workstreams into one fail-closed board: (1) action-to-evolution evidence-class execution with component-level completion accounting, (2) scoped last-merge math verification over the latest merge’s theory-sensitive touched files, and (3) Merlin train-and-work remediation with explicit miss-to-remediation mapping from the prior sprint.
+
+**Why:**
+Complete the full sprint with explicit physics execution, merge-level math accountability, and governed Merlin remediation in one integrated packet instead of isolated status narratives.
+
+**Epistemic label deltas:**
+- `SPRINT_CM_FULL_PHYSICS_PARALLEL_EXECUTION_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Sprint CM targeted validation suite 25 passed · 0 failed; full combined regression 64,138 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1088
 
 ## v36.8 (2026-09-08 — Sprint CL: Pillar 1086)
 

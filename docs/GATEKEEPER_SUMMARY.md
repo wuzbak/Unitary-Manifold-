@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v36.8
+# Unitary Manifold v36.9
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -20,6 +20,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CM (v36.9 — 2026-09-08):** 1 pillar (1087). P1087 executes the full physics-first sprint packet in three parallel lanes. Lane A executes the locked action-to-evolution evidence class with explicit component-level completion accounting and fail-closed blocker carry-forward when closure is unearned. Lane B re-audits the latest merge commit for theory-surface math integrity with exact scoped pass/fix-required checks. Lane C runs Merlin targeted train-and-work and exports explicit misses/remediation focus for what should have been caught in the prior sprint. This is full execution hardening, not a new hardgate closure claim; open-lane labels remain explicit and unchanged. Lean4 4080→4080 (+0). Verified full regression in current branch history: 64,138 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CM targeted validation suite 25 passed · 0 failed. Next slot 1088.
+>
 
 > **Sprint CL (v36.8 — 2026-09-08):** 1 pillar (1086). P1086 executes one all-hands fail-closed rigor packet that binds Sprint CK lane-one target-lock continuity to the new PsiCat targeted-rigor train-and-work packet. The packet requires one bounded receipt surface with retained training-cycle execution, Stage A→E benchmark gates, frontier blocker register, and deterministic hold/clear verdict. This is process and evidence-orchestration hardening only; no new physics closure is claimed and open-lane labels remain explicit and unchanged. Lean4 4080→4080 (+0). Verified full regression in current branch history: 64,122 passed · 22 skipped · 18 deselected · 0 failed. Next slot 1087.
 >
@@ -101,7 +104,7 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 > Historical snapshot scope: Parts 1–6 are pre-v11.0 context unless an
 > explicit override callout is shown.
 
-*Last updated: 2026-09-07 (v36.7 — Sprint CK: Pillar 1085; Lane 1 target locked to the action-to-evolution Euler-Lagrange evidence class; Merlin Stage A→E receipts plus artifact bundles captured; Lean4 4080; next pillar slot 1086; verified full regression in current branch history 64,122 passed · 22 skipped · 18 deselected · 0 failed; focused regression 142 passed · 0 failed; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
+*Last updated: 2026-09-08 (v36.9 — Sprint CM: Pillar 1087; full physics packet executed in parallel lanes across action-to-evolution evidence, last-merge math verification, and Merlin train/remediation; Lean4 4080; next pillar slot 1088; verified full regression in current branch history 64,138 passed · 22 skipped · 18 deselected · 0 failed; focused regression Sprint CM targeted validation suite 25 passed · 0 failed; remaining open: CMB_AMP_CONFIRMED_IRREDUCIBLE, ALPHA_S_TYPE_B_FLOOR, HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW, CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED, FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED, JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED, DESI_DR3_MONITORING, LITEBIRD_BIREFRINGENCE, NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT.)*
 
 > **Repository sync guardrail (v34.7):** Sprint BQ artifacts are present in this checkout and define the canonical checked-in branch state. Future status claims must stay locked to the files actually present in-branch.
 

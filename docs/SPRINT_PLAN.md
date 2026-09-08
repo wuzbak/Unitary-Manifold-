@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-08 (v36.8 Sprint CL COMPLETE — Pillar 1086; Lean4 4080→4080; next slot 1087)*
+*Last updated: 2026-09-08 (v36.9 Sprint CM COMPLETE — Pillar 1087; Lean4 4080→4080; next slot 1088)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.8 — Sprint CL)
+## CURRENT AUDITABLE STATE (v36.9 — Sprint CM)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.8** |
-| Sprint | **Sprint CL** |
-| Pillars | **1086-1086** |
-| Next pillar slot | **1087** |
+| Version | **v36.9** |
+| Sprint | **Sprint CM** |
+| Pillars | **1087-1087** |
+| Next pillar slot | **1088** |
 | Lean4 theorems | **4080** |
-| Verified full regression | **64,122 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **All-hands targeted rigor packet for PsiCat train-and-work evidence orchestration** |
-| Primary target | **Bind Sprint CK foundation lock continuity to one canonical targeted-rigor train-and-work packet with fail-closed blocker register** |
-| Binary outcome | **Either targeted-rigor packet proves train-and-work execution with explicit blockers, or sprint remains blocked with deterministic failure cause** |
+| Verified full regression | **64,138 passed · 22 skipped · 18 deselected · 0 failed** |
+| Sprint theme | **Full physics-first parallel execution with merge-math accountability and Merlin remediation** |
+| Primary target | **Execute action-to-evolution evidence class, re-audit last merge math scope, and run Merlin remediation packet in one fail-closed sprint board** |
+| Binary outcome | **Either all three lanes pass scoped gates with explicit blockers, or sprint remains blocked with deterministic failure cause** |
 
+Historical continuity: v36.9 Sprint CM (Pillar 1087; next slot 1088) remains the canonical full physics parallel execution layer directly above Sprint CL.
 Historical continuity: v36.8 Sprint CL (Pillar 1086; next slot 1087) remains the canonical all-hands targeted-rigor orchestration layer directly above Sprint CK.
 Historical continuity: v36.6 Sprint CJ (Pillar 1084; next slot 1085) remains the canonical parallel-orchestration layer directly below Sprint CK.
 Historical continuity: v36.5 Sprint CI (Pillars 1082–1083; next slot 1084) remains the canonical foundation-first audit layer directly below Sprint CJ.
@@ -79,6 +80,23 @@ Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) rem
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
 
 ---
+
+## SPRINT CM FULL PHYSICS PARALLEL EXECUTION PROTOCOL (Executed)
+
+1. Keep the Sprint CK lane-one target lock explicit: action-to-evolution evidence class remains primary.
+2. Execute one full physics lane with component-level evidence accounting for action/equation/residual/boundary artifacts.
+3. Execute one scoped last-merge math verification lane on theory-sensitive touched files with binary pass/fix-required outcome.
+4. Execute one Merlin train-and-work lane with explicit remediation focus for misses from the prior sprint.
+5. Merge all three lanes into one fail-closed board (closed, tightened/corrected, blocked/external wait).
+6. Keep promotion language frozen whenever any blocker remains unresolved.
+7. Keep canonical truth surfaces lockstep synchronized.
+8. Keep targeted and full verification gates zero-fail.
+
+### Sprint CM blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| Last-merge scoped math verification lane completed with explicit pass/fix-required contract | Action-to-evolution evidence components now tracked at component level; Merlin miss-to-remediation mapping is explicit | Photon origin and full action-to-evolution derivation remain open; architecture-limit and external-wait lanes unchanged |
 
 ## SPRINT CL ALL-HANDS TARGETED RIGOR PROTOCOL (Executed)
 

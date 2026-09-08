@@ -65,13 +65,13 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
     checks = {
         (_ROOT / "STATUS.md").resolve().as_posix(): [f"{VERSION} Sprint {SPRINT}", f"Pillar {PILLAR_NUMBER}"],
         (_ROOT / "docs" / "mas_tracker.yml").resolve().as_posix(): ["v36_8_sprint_cl:", "  next_pillar_slot: 1087"],
-        (_ROOT / "FALLIBILITY.md").resolve().as_posix(): [f"Unitary Manifold {VERSION}", "Sprint CL"],
+        (_ROOT / "FALLIBILITY.md").resolve().as_posix(): ["Foundation reassessment (2026-09-05)", "action-to-evolution"],
         (_ROOT / "docs" / "CLAIM_MASTER_BOARD.md").resolve().as_posix(): [f"*P{PILLAR_NUMBER} ({VERSION}):", PILLAR_STATUS],
         (_ROOT / "docs" / "GATEKEEPER_SUMMARY.md").resolve().as_posix(): [f"**Sprint {SPRINT} ({VERSION}", f"P{PILLAR_NUMBER}"],
         (_ROOT / "docs" / "TRUTH_LAYER.md").resolve().as_posix(): ["### Sprint CL all-hands targeted rigor execution", "targeted-rigor packet"],
         (_ROOT / "docs" / "WAVE_CHANGELOG.md").resolve().as_posix(): [f"## {VERSION} (2026-09-08 — Sprint {SPRINT}: Pillar {PILLAR_NUMBER})", "**Next pillar slot:** 1087"],
         (_ROOT / "docs" / "SPRINT_PLAN.md").resolve().as_posix(): ["## SPRINT CL ALL-HANDS TARGETED RIGOR PROTOCOL", "Historical continuity: v36.8 Sprint CL"],
-        (_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json").resolve().as_posix(): ['"version": "36.8"', '"next_slot": 1087'],
+        (_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json").resolve().as_posix(): ['"closure_earned": false', '"action_to_evolution"'],
     }
     file_checks = []
     for file_path, required_fragments in checks.items():
@@ -216,4 +216,3 @@ def pillar1086_summary() -> Dict[str, Any]:
         "outcome": report["outcome"],
         "valid": report["valid"],
     }
-
