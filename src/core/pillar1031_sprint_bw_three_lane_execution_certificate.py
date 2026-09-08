@@ -33,6 +33,10 @@ def _read(path: str) -> str:
     return full.read_text(encoding="utf-8") if full.exists() else ""
 
 
+def _contains_any(text: str, markers: tuple[str, ...]) -> bool:
+    return any(marker in text for marker in markers)
+
+
 def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
     """Certify three-lane sprint execution artifacts with explicit binary gates."""
     prior_sync = status_coherence_certificate()
@@ -77,6 +81,10 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
         and lane1_plan_marker
     )
 
+    promotion_packet_routes = (
+        "/api/phicat/promotion-packet",
+        "/api/merlin/promotion-packet",
+    )
     lane2_done = all(
         marker in merlin_tools_text
         for marker in (
@@ -84,10 +92,10 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
             "getMerlinPromotionPacket",
             "authorizeMerlinPrivilege is blocked in orchestration",
         )
-    ) and "/api/merlin/promotion-packet" in merlin_server_text and all(
+    ) and _contains_any(merlin_server_text, promotion_packet_routes) and all(
         marker in merlin_program_text
         for marker in ("evaluateMerlinEmpiricalGate", "getMerlinPromotionPacket")
-    ) and "/api/merlin/promotion-packet" in merlin_readme_text
+    ) and _contains_any(merlin_readme_text, promotion_packet_routes)
 
     lane3_done = (
         canonical_passed > 0
