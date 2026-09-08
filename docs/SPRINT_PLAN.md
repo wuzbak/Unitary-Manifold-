@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-08 (v36.9 Sprint CM COMPLETE — Pillar 1087; Lean4 4080→4080; next slot 1088)*
+*Last updated: 2026-09-08 (v37.0 Sprint CN COMPLETE — Pillar 1088; Lean4 4080→4080; next slot 1089)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.9 — Sprint CM)
+## CURRENT AUDITABLE STATE (v37.0 — Sprint CN)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.9** |
-| Sprint | **Sprint CM** |
-| Pillars | **1087-1087** |
-| Next pillar slot | **1088** |
+| Version | **v37.0** |
+| Sprint | **Sprint CN** |
+| Pillars | **1088-1088** |
+| Next pillar slot | **1089** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,138 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **Full physics-first parallel execution with merge-math accountability and Merlin remediation** |
-| Primary target | **Execute action-to-evolution evidence class, re-audit last merge math scope, and run Merlin remediation packet in one fail-closed sprint board** |
-| Binary outcome | **Either all three lanes pass scoped gates with explicit blockers, or sprint remains blocked with deterministic failure cause** |
+| Sprint theme | **Mechanistic irreversibility mapping with controlled interaction decomposition and PsiCat-ready assist surfaces** |
+| Primary target | **Build a practical map showing whether asymmetry lives in singleton dynamics, pairwise couplings, triplets, or larger collective residual structure** |
+| Binary outcome | **Either controlled benchmarks stay separable under deterministic decomposition, or the diagnostic map is not ready for broader use** |
 
+Historical continuity: v37.0 Sprint CN (Pillar 1088; next slot 1089) is the canonical mechanistic irreversibility mapping layer directly above Sprint CM.
 Historical continuity: v36.9 Sprint CM (Pillar 1087; next slot 1088) remains the canonical full physics parallel execution layer directly above Sprint CL.
 Historical continuity: v36.8 Sprint CL (Pillar 1086; next slot 1087) remains the canonical all-hands targeted-rigor orchestration layer directly above Sprint CK.
 Historical continuity: v36.6 Sprint CJ (Pillar 1084; next slot 1085) remains the canonical parallel-orchestration layer directly below Sprint CK.
@@ -80,6 +81,23 @@ Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) rem
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
 
 ---
+
+## SPRINT CN MECHANISTIC IRREVERSIBILITY MAP PROTOCOL (Executed)
+
+1. Keep the interpretation boundary explicit: this is an adjacent diagnostic layer, not a new hardgate closure claim.
+2. Compute local irreversibility by comparing forward and reverse transition statistics on controlled trajectories.
+3. Decompose the signal into singleton, pairwise, triplet, and higher-order residual channels.
+4. Require benchmarks that separate reversible, singleton-driven, pair-coupled, and triplet-only mechanisms.
+5. Rank dominant arrow-carrying interactions deterministically so comparison is auditable.
+6. Emit PsiCat-ready summaries for training, assist, and cross-case comparison.
+7. Keep canonical truth surfaces lockstep synchronized.
+8. Keep targeted verification gates zero-fail.
+
+### Sprint CN blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| Adjacent mechanistic irreversibility map is now available as a tested diagnostic surface | Forward-vs-reverse asymmetry is now localized by interaction order with deterministic ranked outputs and PsiCat-ready assist packets | Final ontological origin of time's arrow and all existing open hardgate lanes remain unresolved/unchanged |
 
 ## SPRINT CM FULL PHYSICS PARALLEL EXECUTION PROTOCOL (Executed)
 

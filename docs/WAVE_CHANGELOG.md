@@ -33,10 +33,33 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.9 (2026-09-08)**
+**Current version: v37.0 (2026-09-08)**
 **Regression:** 64,138 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1088
+**Next pillar slot:** 1089
 
+
+## v37.0 (2026-09-08 — Sprint CN: Pillar 1088)
+
+**What changed:**
+Pillar 1088 adds an adjacent, benchmark-first mechanistic irreversibility map. The new surface decomposes local forward-vs-reverse asymmetry into singleton, pairwise, triplet, and higher-order residual channels, ranks the strongest arrow-carrying interactions, and emits PsiCat-ready summaries for training, assist, and cross-case comparison.
+
+**Why:**
+Turn abstract arrow-of-time talk into a usable diagnostic instrument that shows where irreversibility lives in an interacting system and whether the mechanism is intrinsic, pairwise, or genuinely collective.
+
+**Epistemic label deltas:**
+- `ADJACENT_MECHANISTIC_IRREVERSIBILITY_MAP_READY`
+
+**Physics label delta:** None — this is an adjacent diagnostic layer, not a new hardgate closure claim.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Final ontological origin of time's arrow, photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Pillar 1088 targeted irreversibility suites 94 passed · 1 skipped · 0 failed; latest verified full regression in branch history remains 64,138 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1089
 
 ## v36.9 (2026-09-08 — Sprint CM: Pillar 1087)
 

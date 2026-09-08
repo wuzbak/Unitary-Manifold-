@@ -1,4 +1,4 @@
-version: "v36.9"
+version: "v37.0"
 date: "2026-09-08"
 updated: "2026-09-08"
 
@@ -34,6 +34,36 @@ foundation_reassessment:
     - "Joint UV/Higgs matching, moduli fixing and stability"
     - "Nonperturbative quantum gravity"
   observational_falsifiers_unchanged: true
+
+v37_0_sprint_cn:
+  sprint: CN
+  version: v37.0
+  date: "2026-09-08"
+  pillars: 1088-1088
+  new_pillars: 1
+  new_tests: 16
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures:
+    - ADJACENT_MECHANISTIC_IRREVERSIBILITY_MAP_READY
+  advances:
+    - LOCAL_IRREVERSIBILITY_IS_NOW_DECOMPOSED_INTO_SINGLETON_PAIRWISE_TRIPLET_AND_HIGHER_ORDER_RESIDUAL_CHANNELS
+    - CONTROLLED_SYNTHETIC_BENCHMARKS_SEPARATE_REVERSIBLE_SINGLETON_PAIRWISE_AND_TRIPLET_DOMINATED_MECHANISMS
+    - PSICAT_READY_SUMMARIES_AND_CASE_COMPARISON_SURFACES_NOW_EXIST_FOR_TRAINING_AND_ASSIST
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "64,138 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
+  focused_regression: "Pillar 1088 targeted irreversibility suites 94 passed · 1 skipped · 0 failed"
+  next_pillar_slot: 1089
 
 v36_9_sprint_cm:
   sprint: CM

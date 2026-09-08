@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v36.9
+# Unitary Manifold v37.0
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -10,7 +10,7 @@
 > Sprint CI isolates the metric/coupling bookkeeping, but photon origin, action-to-evolution equivalence, flavor uniqueness, CMB predictivity, and the shared UV object remain open.
 > See [the precise findings and verification scope](TRUTH_LAYER.md#foundation-reassessment).
 > Historical test/theorem totals must not be read as discharged physics obligations.
-> Verified full regression in the current branch: **64,088 passed · 22 skipped ·
+> Verified full regression in the current branch: **64,138 passed · 22 skipped ·
 > 18 deselected · 0 failed**. CodeQL analysis was skipped for database size;
 > manual review and secret scans do not replace the missing automated analysis.
 
@@ -20,6 +20,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CN (v37.0 — 2026-09-08):** 1 pillar (1088). P1088 adds an adjacent mechanistic irreversibility map that decomposes local arrow-of-time signal into singleton, pairwise, triplet, and higher-order residual channels under controlled synthetic benchmarks. The new surface is diagnostic and benchmark-first, not a new hardgate closure claim: it identifies which interactions carry asymmetry, preserves explicit interpretation boundaries, and emits PsiCat-ready summaries for training, assist, and case comparison. Lean4 4080→4080 (+0). Verified full regression in current branch history: 64,138 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Pillar 1088 targeted irreversibility suites 94 passed · 1 skipped · 0 failed. Next slot 1089.
+>
 
 > **Sprint CM (v36.9 — 2026-09-08):** 1 pillar (1087). P1087 executes the full physics-first sprint packet in three parallel lanes. Lane A executes the locked action-to-evolution evidence class with explicit component-level completion accounting and fail-closed blocker carry-forward when closure is unearned. Lane B re-audits the latest merge commit for theory-surface math integrity with exact scoped pass/fix-required checks. Lane C runs Merlin targeted train-and-work and exports explicit misses/remediation focus for what should have been caught in the prior sprint. This is full execution hardening, not a new hardgate closure claim; open-lane labels remain explicit and unchanged. Lean4 4080→4080 (+0). Verified full regression in current branch history: 64,138 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CM targeted validation suite 25 passed · 0 failed. Next slot 1088.
 >
