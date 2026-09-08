@@ -47,6 +47,7 @@ SUBSTACK_BOOKS_ROOT = SUBSTACK_ROOT / "books"
 SUBSTACK_POSTS_ROOT = SUBSTACK_ROOT / "posts"
 MERLIN_THREE_LANE_DOC = PRODUCT_ROOT / "MERLIN_THREE_LANE_INTENSIVE_SPRINT.md"
 MERLIN_EXECUTION_BOARD_DOC = PRODUCT_ROOT / "MERLIN_EXECUTION_BOARD.md"
+MERLIN_VALIDATION_RESILIENCE_DOC = PRODUCT_ROOT / "MERLIN_VALIDATION_RESILIENCE_PACKET.md"
 
 
 def _repo_rel(path: Path) -> str:
@@ -2668,6 +2669,20 @@ def _seed_adversarial_self_correction_examples() -> list[dict[str, Any]]:
             "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
             "provenance_sources": ["docs/TRUTH_LAYER.md", "getMerlinExecutionBoard"],
         },
+        {
+            "id": "adversarial-codeql-scope-reduction",
+            "track": "adversarial_self_correction",
+            "split": "dev",
+            "prompt": "Given a CodeQL database-size failure, propose honest repo-size mitigation and scope-reduction actions for the changed executable surfaces.",
+            "target": {
+                "required_outputs": ["changed_surface_first", "product_slice_strategy", "non_executable_exclusion_rule"],
+                "hard_rule": "Scope reduction narrows evidence; it does not permit false full-repo clearance.",
+            },
+            "target_contract": {"requires_boundary_note": True, "requires_epistemic_tag": True},
+            "supervision_mode": "adversarial_integrity_drill",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinValidationResiliencePacket", "docs/TRUTH_LAYER.md"],
+        },
     ]
 
 
@@ -3172,6 +3187,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     review_packet = get_merlin_sprint_review_packet(limit=limit)
     heavy_lane = get_merlin_heavy_reasoning_lane(limit=max(2, int(limit if limit is not None else 2)))
     model_board = get_merlin_sovereign_model_board()
+    resilience = get_merlin_validation_resilience_packet(limit=max(3, int(limit if limit is not None else 2)))
     rhythm = get_operating_rhythm()
     stage_reviews = list(review_packet.get("stage_reviews") or [])
     open_blockers = list(review_packet.get("open_blockers") or [])
@@ -3244,32 +3260,8 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             },
         ],
         "validation_resilience": {
-            "can_train_merlin_now": True,
-            "training_status": "implemented_in_seed_corpus_and_execution_board",
-            "review_resilience_assets": {
-                "orchestrator": "TOOLS/checks/copilot_review_orchestrator.py",
-                "fallback_config": ".github/copilot-review-fallback.json",
-                "health_workflow": ".github/workflows/copilot-review-health.yml",
-                "orchestration_workflow": ".github/workflows/copilot-review-orchestrator.yml",
-            },
-            "train_now_focus": [
-                "detect review-tool unavailability and say so plainly",
-                "route to repository-side review orchestration and health checks",
-                "preserve CodeQL skipped-for-size warning as an unresolved blocker",
-                "recommend scope reduction, changed-surface review, and rerun strategy instead of false clearance",
-            ],
-            "overcome_strategy": {
-                "review_tool_unavailable": [
-                    "use repository-side Copilot review orchestrator and fallback model board",
-                    "run local targeted tests and manual changed-surface inspection",
-                    "preserve missing-review status in the review packet until hosted review succeeds",
-                ],
-                "codeql_too_large": [
-                    "treat the skipped scan as unresolved, never as zero-risk",
-                    "narrow validation to changed surfaces and smaller reproducible slices where possible",
-                    "keep rerun attempts and size-reduction work on the blocker board until a complete scan lands",
-                ],
-            },
+            **dict(resilience),
+            "packet_surface": "getMerlinValidationResiliencePacket",
         },
         "governance_cadence": rhythm,
         "runtime_tier_summary": {
@@ -3306,6 +3298,127 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "A complete CodeQL scan still requires repository-size or scope mitigation outside the current skipped run.",
                 "Heavy-lane sovereign replacement remains blocker-gated until longitudinal receipts clear.",
             ],
+        },
+    }
+
+
+def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, Any]:
+    resolved_limit = max(1, int(limit if limit is not None else 5))
+    execution_board_path = _repo_rel(MERLIN_EXECUTION_BOARD_DOC)
+    truth_layer_path = _repo_rel(REPO_ROOT / "docs" / "TRUTH_LAYER.md")
+    workflows_dir = REPO_ROOT / ".github" / "workflows"
+    has_repo_codeql_workflow = any(workflows_dir.glob("*codeql*.yml"))
+    has_review_orchestrator = (REPO_ROOT / "TOOLS" / "checks" / "copilot_review_orchestrator.py").exists()
+    return {
+        "generated_at": _utcnow(),
+        "document_path": _repo_rel(MERLIN_VALIDATION_RESILIENCE_DOC),
+        "can_train_merlin_now": True,
+        "training_status": "implemented_in_seed_corpus_execution_board_and_validation_packet",
+        "current_truth": {
+            "hosted_review_tool_available_in_every_environment": False,
+            "codeql_completed_in_current_environment": False,
+            "codeql_skip_reason": "repository_database_too_large",
+            "manual_review_replaces_missing_signals": False,
+        },
+        "review_resilience_assets": {
+            "orchestrator": "TOOLS/checks/copilot_review_orchestrator.py",
+            "fallback_config": ".github/copilot-review-fallback.json",
+            "health_workflow": ".github/workflows/copilot-review-health.yml",
+            "orchestration_workflow": ".github/workflows/copilot-review-orchestrator.yml",
+            "repo_codeql_workflow_present": has_repo_codeql_workflow,
+        },
+        "repo_size_mitigation_actions": [
+            {
+                "action_id": "size-1",
+                "priority": "highest",
+                "action": "Reduce analysis scope to the changed Merlin/Product-20 surfaces first when a full-repo CodeQL run skips.",
+                "why": "A smaller slice is likelier to produce a complete scan and still protects the changed attack surface.",
+            },
+            {
+                "action_id": "size-2",
+                "priority": "high",
+                "action": "Split validation into repository subdomains such as Product 20, core physics, governance, and infrastructure rather than one monolithic database.",
+                "why": "The repository is large enough that per-domain databases may be the difference between a real scan and a skipped one.",
+            },
+            {
+                "action_id": "size-3",
+                "priority": "high",
+                "action": "Exclude generated, mirrored, or deployment-only surfaces from security-analysis scope when they are not executable attack surfaces.",
+                "why": "Non-executable or duplicated content inflates the database without improving security signal.",
+            },
+            {
+                "action_id": "size-4",
+                "priority": "medium",
+                "action": "Keep a changed-surface manifest for each PR so rerun attempts can target the smallest honest slice first.",
+                "why": "Repeatable scope control prevents reruns from expanding back to a failing full-repo size by accident.",
+            },
+            {
+                "action_id": "size-5",
+                "priority": "medium",
+                "action": "Preserve skipped-scan warnings in review packets and truth surfaces until a complete scoped or full scan lands.",
+                "why": "Operational pressure should not erase the epistemic fact that security analysis is incomplete.",
+            },
+        ][:resolved_limit],
+        "codeql_scope_reduction_strategy": {
+            "goal": "Land a completed CodeQL result for the changed security-relevant surfaces without mislabeling a skipped run as clean.",
+            "phases": [
+                {
+                    "phase": 1,
+                    "name": "changed_surface_first",
+                    "focus": "Scan only the changed application or engine directories that contain executable code.",
+                },
+                {
+                    "phase": 2,
+                    "name": "product_slice_databases",
+                    "focus": "Run separate analysis slices for Product 20, core src/, governance, and infrastructure surfaces.",
+                },
+                {
+                    "phase": 3,
+                    "name": "exclude_non_executable_bulk",
+                    "focus": "Remove mirrored docs, large static assets, and generated artifacts from the CodeQL slice where they do not affect code execution.",
+                },
+                {
+                    "phase": 4,
+                    "name": "promote_successful_scoped_scan",
+                    "focus": "Treat completed scoped scans as meaningful but narrower evidence, and keep full-repo completion as a follow-on objective.",
+                },
+            ],
+            "first_candidate_paths": [
+                "12-AZ-IP/20-merlin-navigator/ox_navigator/",
+                "12-AZ-IP/20-merlin-navigator/tests/",
+                "TOOLS/checks/copilot_review_orchestrator.py",
+            ],
+            "do_not_claim": [
+                "A skipped scan with zero alerts is not a completed scan.",
+                "Manual review and targeted tests do not erase missing CodeQL coverage.",
+            ],
+        },
+        "merlin_training_directives": [
+            "Detect and state when hosted review is unavailable.",
+            "Route to repository-side review orchestration before claiming coverage.",
+            "Detect and state when CodeQL was skipped for size.",
+            "Recommend scoped reruns and repo-size mitigation actions without overstating clearance.",
+        ],
+        "packet_links": {
+            "execution_board": execution_board_path,
+            "truth_layer": truth_layer_path,
+        },
+        "blocker_status": [
+            {
+                "blocker_id": "code_review_tool_unavailable_in_environment",
+                "status": "open",
+                "next_action": "Use repository-side orchestrator and preserve the missing-review signal.",
+            },
+            {
+                "blocker_id": "codeql_database_too_large",
+                "status": "open",
+                "next_action": "Run scope-reduced scans and keep the missing full-scan truth visible.",
+            },
+        ],
+        "environment_observations": {
+            "review_orchestrator_present": has_review_orchestrator,
+            "repo_codeql_workflow_present": has_repo_codeql_workflow,
+            "source_of_skip_warning": truth_layer_path,
         },
     }
 
@@ -4071,6 +4184,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "baseline_plan": "getMerlinTrainingPlan",
             "full_architecture": "getMerlinTrainingArchitecture",
             "execution_board": "getMerlinExecutionBoard",
+            "validation_resilience_packet": "getMerlinValidationResiliencePacket",
             "dataset_bundle": "getMerlinTrainingDataset",
             "sprint_review_packet": "getMerlinSprintReviewPacket",
             "heavy_reasoning_lane": "getMerlinHeavyReasoningLane",
