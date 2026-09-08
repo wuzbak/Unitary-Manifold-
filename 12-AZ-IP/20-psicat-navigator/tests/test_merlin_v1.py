@@ -474,6 +474,11 @@ def test_route_tool_training_architecture_and_artifacts():
         item['family'] == 'books_articles_mastery'
         for item in architecture['result']['data']['dataset_families']
     )
+    assert any(
+        item['family'] == 'formal_proof_foundry'
+        for item in architecture['result']['data']['dataset_families']
+    )
+    assert architecture['result']['data']['formal_proof_foundry']['program'] == 'FORMAL_PROOF_FOUNDRY'
     assert architecture['result']['data']['active_training_surfaces']['three_lane_intensive_sprint'] == (
         'getMerlinThreeLaneIntensiveSprint'
     )
@@ -539,6 +544,10 @@ def test_route_tool_training_architecture_and_artifacts():
     challenge_pack = route_tool('getMerlinTrainingChallengePack', {'limit': 4}, session=session)
     assert challenge_pack['ok'] is True
     assert challenge_pack['result']['data']['challenge_count'] == 4
+    assert any(
+        item['lane_id'] == 'lane_d_formal_proof_foundry'
+        for item in route_tool('getMerlinTrainingExecutionQueue', {'limit': 20}, session=session)['result']['data']['items']
+    )
     frontier = route_tool('getMerlinFrontierStack', {})
     assert frontier['ok'] is True
     assert any(model['name'] == 'DeepSeek-R1' for model in frontier['result']['data']['open_weight_models'])
@@ -605,6 +614,7 @@ def test_route_tool_training_architecture_and_artifacts():
     artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4})
     assert artifacts['ok'] is True
     assert artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
+    assert artifacts['result']['data']['artifact_bundle']['formal_proof_foundry_bundle']['program'] == 'FORMAL_PROOF_FOUNDRY'
 
     empty_artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 0})
     assert empty_artifacts['ok'] is True

@@ -33,6 +33,7 @@ def test_merlin_training_cycle_executes_round_robin_receipts():
         "lane_a_applications_tools_mastery",
         "lane_b_books_articles_mastery",
         "lane_c_adversarial_self_correction",
+        "lane_d_formal_proof_foundry",
     }
 
     queue_after = build_merlin_training_execution_queue(session=session, limit=6)
@@ -81,3 +82,11 @@ def test_merlin_training_execution_bundle_reuses_retained_state():
     assert second["ok"] is True
     assert second["execution_cycle"]["processed_count"] == 0
     assert second["execution_cycle"]["mode"] == "reuse_retained_training_state"
+
+
+def test_merlin_training_queue_includes_proof_foundry_lane() -> None:
+    session = MerlinSession()
+    queue = build_merlin_training_execution_queue(session=session, limit=20)
+    assert queue["mode"] == "active_execution_queue"
+    assert "four-lane Merlin training work" in queue["objective"]
+    assert any(item["lane_id"] == "lane_d_formal_proof_foundry" for item in queue["items"])

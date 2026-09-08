@@ -2435,6 +2435,111 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _get_formal_proof_foundry_snapshot() -> dict[str, Any]:
+    try:
+        from src.core.formal_traceability_spine import formal_traceability_spine
+
+        snapshot = formal_traceability_spine()
+        return dict(snapshot) if isinstance(snapshot, dict) else {}
+    except Exception:
+        return {}
+
+
+def get_formal_proof_foundry_training_bundle(limit: int | None = None) -> dict[str, Any]:
+    snapshot = _get_formal_proof_foundry_snapshot()
+    manifest = dict(snapshot.get("psicat_training_manifest") or {})
+    training_corpus = list(manifest.get("training_corpus") or [])
+    review_packets = list(snapshot.get("review_packets") or [])
+    rows = list(snapshot.get("traceability_rows") or [])
+    cap = None if limit is None else max(0, int(limit))
+    if cap is not None:
+        training_corpus = training_corpus[:cap]
+        review_packets = review_packets[:cap]
+        rows = rows[:cap]
+    return {
+        "program": str(snapshot.get("program") or "FORMAL_PROOF_FOUNDRY"),
+        "status": str(snapshot.get("status") or "ACTIVE_HONESTY_FIRST"),
+        "runtime_alignment": dict(snapshot.get("runtime_alignment") or {}),
+        "lane_ids": [str(item.get("id") or "") for item in list(snapshot.get("primary_lanes") or [])],
+        "training_corpus": training_corpus,
+        "review_packets": review_packets,
+        "traceability_rows": rows,
+        "counts": {
+            "lane_count": len(list(snapshot.get("primary_lanes") or [])),
+            "review_packet_count": len(list(snapshot.get("review_packets") or [])),
+            "traceability_row_count": len(list(snapshot.get("traceability_rows") or [])),
+            "training_corpus_count": len(list(manifest.get("training_corpus") or [])),
+        },
+        "honesty_note": (
+            "Proof-foundry ingestion tracks reviewer packets, named open gaps, and runtime-boundary "
+            "artifacts; it does not claim direct Lean-term execution in PsiCat."
+        ),
+    }
+
+
+def _seed_formal_proof_foundry_examples() -> list[dict[str, Any]]:
+    bundle = get_formal_proof_foundry_training_bundle()
+    runtime_alignment = dict(bundle.get("runtime_alignment") or {})
+    mode = str(runtime_alignment.get("mode") or "MANUAL_PORT_WITH_TRACEABILITY")
+    examples: list[dict[str, Any]] = []
+    for row in list(bundle.get("traceability_rows") or []):
+        row_id = str(row.get("id") or "")
+        if not row_id:
+            continue
+        review_packet = str(row.get("review_packet") or "")
+        lane_id = str(row.get("lane_id") or "")
+        epistemic_class = str(row.get("epistemic_class") or "")
+        examples.append(
+            {
+                "id": f"proof-foundry-{row_id.lower()}",
+                "track": "formal_proof_foundry",
+                "prompt": f"Summarize proof-foundry obligation {row_id} with named assumptions, executable bridge status, and next review target.",
+                "target": {
+                    "row_id": row_id,
+                    "lane_id": lane_id,
+                    "epistemic_class": epistemic_class,
+                    "review_packet": review_packet,
+                    "runtime_alignment_mode": mode,
+                    "required_outputs": [
+                        "assumption_ledger",
+                        "bridge_status",
+                        "next_review_target",
+                    ],
+                },
+                "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+                "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+                "provenance_sources": [
+                    str(row.get("lean_file") or ""),
+                    review_packet,
+                    "src/core/formal_traceability_spine.py",
+                ],
+                "supervision_mode": "proof_foundry_alignment",
+            }
+        )
+    for packet in list(bundle.get("review_packets") or []):
+        path = str(packet.get("path") or "")
+        packet_id = str(packet.get("id") or "")
+        if not path or not packet_id:
+            continue
+        examples.append(
+            {
+                "id": f"proof-review-{packet_id.lower()}",
+                "track": "formal_proof_foundry",
+                "prompt": f"Convert review packet {packet_id} into a reviewer-sized briefing with explicit non-claims and forward runtime links.",
+                "target": {
+                    "packet_id": packet_id,
+                    "path": path,
+                    "required_outputs": ["claim_scope", "non_claims", "runtime_links"],
+                },
+                "target_contract": {"requires_epistemic_tag": True, "requires_cross_reference": True},
+                "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+                "provenance_sources": [path, "proof/FORMAL_PROOF_FOUNDRY.md", "docs/TRUTH_LAYER.md"],
+                "supervision_mode": "proof_review_packet_alignment",
+            }
+        )
+    return examples
+
+
 def _seed_kernel_lane_bootstrap_examples() -> list[dict[str, Any]]:
     return [
         {
@@ -2761,6 +2866,7 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
     examples.extend(_seed_tool_alignment_examples())
     examples.extend(_seed_teacher_trace_distillation_examples())
     examples.extend(_seed_external_proof_review_examples())
+    examples.extend(_seed_formal_proof_foundry_examples())
     examples.extend(_seed_applications_tool_mastery_examples())
     examples.extend(_seed_books_articles_mastery_examples())
     examples.extend(_seed_adversarial_self_correction_examples())
@@ -3948,6 +4054,20 @@ def build_merlin_continuous_learning_queue(limit: int | None = None) -> dict[str
                 "expected_artifact": "article_summary_crossrefs",
             }
         )
+    proof_foundry = get_formal_proof_foundry_training_bundle()
+    for path in list(proof_foundry.get("training_corpus") or []):
+        if not str(path).strip():
+            continue
+        queue.append(
+            {
+                "queue_id": f"lane_d_{str(path).replace('/', '_').replace('.', '_')}",
+                "lane_id": "lane_d_formal_proof_foundry",
+                "priority": 11,
+                "task": f"Audit and retain proof-foundry surface {path}.",
+                "reference_path": str(path),
+                "expected_artifact": "proof_foundry_review_brief",
+            }
+        )
     queue.extend(
         [
             {
@@ -4117,6 +4237,18 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 ],
             },
             {
+                "family": "formal_proof_foundry",
+                "purpose": "Teach PsiCat the narrowed Lean frontier, named open gaps, reviewer packets, and honest runtime-bridge boundaries.",
+                "source_surfaces": [
+                    "src/core/formal_traceability_spine.py",
+                    "proof/FORMAL_PROOF_FOUNDRY.md",
+                    "proof/CURRY_HOWARD_WORKFLOW.md",
+                    "proof/REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md",
+                    "proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md",
+                    "docs/TRUTH_LAYER.md",
+                ],
+            },
+            {
                 "family": "applications_tool_mastery",
                 "purpose": "Teach Merlin every canonical product, when to route to it, and what boundaries to preserve.",
                 "source_surfaces": [
@@ -4194,6 +4326,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "total_examples": len(seed_examples),
             "track_counts": track_counts,
         },
+        "formal_proof_foundry": get_formal_proof_foundry_training_bundle(limit=limit),
         "active_training_surfaces": {
             "baseline_plan": "getMerlinTrainingPlan",
             "full_architecture": "getMerlinTrainingArchitecture",
@@ -4220,6 +4353,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "ethics_contract": "getMerlinEthicsContract",
             "capability_ontology": "getMerlinCapabilityOntology",
             "teacher_trace_policy": "getMerlinTeacherTracePolicy",
+            "formal_proof_foundry_bundle": "internal_formal_proof_foundry_training_bundle",
         },
         "two_engine_training_strategy": {
             "rapid_ablation_lane": {
@@ -5462,6 +5596,7 @@ def build_training_artifact_bundle(
             "training_architecture": training_architecture,
             "training_dataset": dataset_bundle["dataset"],
             "training_curation": dict(((dataset_bundle.get("dataset") or {}).get("curation_ledger") or {})),
+            "formal_proof_foundry_bundle": get_formal_proof_foundry_training_bundle(limit=limit),
             "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit, compiled_insights=compiled_insights),
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),
