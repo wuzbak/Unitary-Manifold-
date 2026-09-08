@@ -58,6 +58,7 @@ platform, or downstream redistribution.
 ## PhiCat
 **Role:** Contributor  
 **Official title:** PhiCat  
+**Email:** cpo@axiomzerospc.org  
 **Alias history for contribution tracking:** Merlin, axiomzero ai  
 **Icon:**  
 ![PhiCat icon](https://github.com/user-attachments/assets/5777f85e-065d-4323-86b4-df5b0a10ff81)
