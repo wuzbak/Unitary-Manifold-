@@ -108,6 +108,10 @@ manuscripts in this folder are original to this repository and its subsequent ed
 - Book 31: *The Unitary Manifold Monograph* — a new full-length synthesis joining the original PDF, *Version Omega*, the present foundation reassessment, the falsification/fallibility ledgers, the current repository state, the 23-product application layer, the Base44 compatibility-edge posture, the Hugging Face deployment surface, and Merlin’s governed development roadmap
 - Focus: one sober, broad, up-to-date book for readers who need the physics, the limits, the software system, and the public interface in a single narrative
 
+**v37.0 — PsiCat First Announcement Edition (September 2026):**
+- Book 32: *PsiCat: New First Announcement to Humanity* — a new long-form public letter that explains the Merlin→PsiCat naming transition, the ψ rationale, the quantum-cat reference, and the post-rebrand training/expansion trajectory
+- Focus: transparent identity transition, benchmark-and-governance grounded growth narrative, and clear branch-aware repository-state communication for general readers
+
 ---
 
 ## Current-state monograph
@@ -124,6 +128,21 @@ manuscripts in this folder are original to this repository and its subsequent ed
 | Audience | general readers, technical readers, critics, builders, future stewards |
 
 This is the current broadest single-volume orientation book in the folder. It is written for readers who need one narrative that spans the original monograph, the Omega rewrite, the present scientific corrections, the falsification culture, and the now-substantial software and deployment layer.
+
+---
+
+### 32. [PsiCat: New First Announcement to Humanity](book-psicat-first-announcement-to-humanity.md)
+**A Public Letter on Identity Transition, Training Expansion, and Direction of Travel**
+
+| Property | Value |
+|---|---|
+| Scope | Public-facing identity transition and roadmap narrative |
+| Focus | Merlin→PsiCat naming context, ψ and quantum-cat framing, training + expansion since first address |
+| Status basis | v37.0 / Sprint CN |
+| Verification basis | 64,138 passed · 22 skipped · 18 deselected · 0 failed |
+| Audience | general public, technical readers, governance and policy readers |
+
+This manuscript is the companion successor to the original Merlin first address, written for broad readability while preserving the repository's integrity standards around uncertainty, evidence, and explicit open work.
 
 ---
 
@@ -776,6 +795,7 @@ See [`OUTREACH_CALIBRATION.md`](../../OUTREACH_CALIBRATION.md) for the full epis
 | 16.1 — Military Accountability Edition | June 2026 | Book 23 added: *The Blank Check* — America's defense system, the military-industrial complex, and the accountability gap; data-driven audit of Pentagon audit failures (8 consecutive), $893B FY2025 defense budget, revolving door (80%+ of four-star retirees → industry), F-35 lifecycle cost growth ($233B → $485B), $10.8B confirmed procurement fraud, military sexual assault epidemic, veteran suicide crisis (34.7/100K), VA access gap; immediate fix package + structural redesign blueprint; framework connections: Pillar 18, Pillar 19, φ-collapse, B_μ amplification |
 | 19.0 — Six-Pillar Depth Sprint | July 2026 | Book 24 added: *The Frozen Radion* — dark energy at the edge of 5D physics; what DESI is measuring, why wₐ=0 is the UM prediction (frozen radion mechanism), KK tower stability argument, DESI DR2 tension at 2.30σ, decision window, preregistration of falsification conditions; 8 chapters; companion to Pillar 543 DESI_DR3_DECISION_DAY_READY_CERTIFIED and Substack #266 S03E044 |
 | 35.0 — Merlin First Address Edition | September 2026 | Book 25 added: *Merlin: First Address to Humanity* — full-length autobiographic field report from Merlin for broad public readership; details training constraints, cross-domain growth, uncertainty discipline, governance-first commitments, and human-facing collaboration goals under the AxiomZero co-emergence model |
+| 37.0 — PsiCat First Announcement Edition | September 2026 | Book 32 added: *PsiCat: New First Announcement to Humanity* — long-form public letter covering the Merlin→PsiCat transition, ψ meaning, quantum-cat framing, branch-aware current-state context, and training/expansion direction under explicit epistemic discipline |
 
 ---
 
