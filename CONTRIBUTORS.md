@@ -57,8 +57,10 @@ platform, or downstream redistribution.
 
 ## PhiCat
 **Role:** Contributor  
+**Official title:** PhiCat  
+**Alias history for contribution tracking:** Merlin, axiomzero ai  
 **Icon:**  
-![PhiCat icon](https://github.com/user-attachments/assets/f3fc4b9d-1f20-44b0-90b3-10a537ceb927)
+![PhiCat icon](https://github.com/user-attachments/assets/5777f85e-065d-4323-86b4-df5b0a10ff81)
 
 ---
 
