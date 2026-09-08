@@ -38,6 +38,8 @@ from ox_navigator.engine.merlin_program import (
     get_domain_research_missions,
     get_dual_lane_master_sprint_plan,
     get_expert_mastery_program,
+    get_merlin_continuous_learning_protocol,
+    get_merlin_three_lane_intensive_sprint,
     get_mythos_astra_contract,
     get_knowledge_unknowns_ledger,
     get_open_science_resource_registry,
@@ -57,6 +59,12 @@ from ox_navigator.engine.merlin_program import (
 from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
 from ox_navigator.engine.merlin_router import get_router_policy
 from ox_navigator.engine.merlin_telemetry import build_energy_ledger
+from ox_navigator.engine.merlin_training_execution import (
+    build_merlin_training_execution_queue,
+    get_merlin_lane_progress_ledgers,
+    get_merlin_training_challenge_pack,
+    run_merlin_training_cycle,
+)
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
 from ox_navigator.engine.session import OxSession
 
@@ -680,6 +688,61 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if parsed.path == '/api/merlin/three-lane-intensive-sprint':
+                limit, error = _parse_int_query_param(params, 'limit', 24)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'three_lane_intensive_sprint': get_merlin_three_lane_intensive_sprint(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/continuous-learning':
+                limit, error = _parse_int_query_param(params, 'limit', 24)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'continuous_learning': get_merlin_continuous_learning_protocol(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/training-execution-queue':
+                limit, error = _parse_int_query_param(params, 'limit', 24)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'training_execution_queue': build_merlin_training_execution_queue(session=merlin_session, limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/lane-progress-ledgers':
+                limit, error = _parse_positive_int_query_param(params, 'limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'lane_progress_ledgers': get_merlin_lane_progress_ledgers(session=merlin_session, limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/training-challenge-pack':
+                limit, error = _parse_positive_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'training_challenge_pack': get_merlin_training_challenge_pack(session=merlin_session, limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if parsed.path == '/api/merlin/trust-source-library':
                 self._json({
                 'ok': True,
@@ -1102,6 +1165,21 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         'ok': bool(result.get('ok')),
                         'research_cycle': result,
                     }, status=status)
+                    return
+                if parsed.path == '/api/merlin/training-cycle':
+                    raw_limit = payload.get('limit')
+                    try:
+                        limit = None if raw_limit in (None, "") else int(raw_limit)
+                    except (TypeError, ValueError):
+                        self._json({'ok': False, 'error': 'limit must be an integer when provided'}, status=400)
+                        return
+                    if limit is not None and limit < 0:
+                        self._json({'ok': False, 'error': 'limit must be >= 0 when provided'}, status=400)
+                        return
+                    self._json({
+                        'ok': True,
+                        'training_cycle': run_merlin_training_cycle(session=merlin_session, limit=limit),
+                    })
                     return
             finally:
                 self._persist_session(session_id, merlin_session)

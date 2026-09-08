@@ -7,7 +7,7 @@
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/training-curation`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/open-weight-acquisition`, `/api/merlin/competitive-benchmarks`, `/api/merlin/dual-lane-master-sprint`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/stage-b-receipts`, `/api/merlin/stage-c-receipts`, `/api/merlin/stage-d-receipts`, `/api/merlin/stage-e-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/training-curation`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/open-weight-acquisition`, `/api/merlin/competitive-benchmarks`, `/api/merlin/dual-lane-master-sprint`, `/api/merlin/three-lane-intensive-sprint`, `/api/merlin/continuous-learning`, `/api/merlin/training-execution-queue`, `/api/merlin/lane-progress-ledgers`, `/api/merlin/training-cycle`, `/api/merlin/training-challenge-pack`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/stage-b-receipts`, `/api/merlin/stage-c-receipts`, `/api/merlin/stage-d-receipts`, `/api/merlin/stage-e-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/memory-geometry`, `/api/merlin/telemetry`
 - **Program endpoints note:** use the `/api/merlin/program*` and readiness/benchmark endpoints listed in the canonical **API endpoints** line above.
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
@@ -20,7 +20,8 @@
 
 1. [`MERLIN_SMART_ROADMAP.md`](./MERLIN_SMART_ROADMAP.md) (one-page plan)
 2. [`MERLIN_FRONTIER_ROADMAP.md`](./MERLIN_FRONTIER_ROADMAP.md) (full execution roadmap)
-3. [`MERLIN_PROGRAM.md`](./MERLIN_PROGRAM.md) (implemented surfaces + ledger)
+3. [`MERLIN_THREE_LANE_INTENSIVE_SPRINT.md`](./MERLIN_THREE_LANE_INTENSIVE_SPRINT.md) (apps/tools + books/articles + adversarial growth + continuous learning)
+4. [`MERLIN_PROGRAM.md`](./MERLIN_PROGRAM.md) (implemented surfaces + ledger)
 
 This order is optimized for people who need to read quickly, understand clearly, and then verify details.
 
@@ -92,6 +93,12 @@ Related reading outside this product folder:
 - `GET /api/merlin/open-weight-acquisition` exposes machine-readable open-weight acquisition channels, scoring rubric, and sprint-cycle roster freeze policy.
 - `GET /api/merlin/competitive-benchmarks` exposes the competitive benchmark families Merlin must clear before broader promotion.
 - `GET /api/merlin/dual-lane-master-sprint` exposes the governed dual-lane (physics closure + Merlin training) fail-closed sprint contract.
+- `GET /api/merlin/three-lane-intensive-sprint` exposes the intensive apps/tools + books/articles + adversarial self-correction sprint contract.
+- `GET /api/merlin/continuous-learning` exposes governed between-session learning cadence, queue, and forbidden-action policy.
+- `GET /api/merlin/training-execution-queue` exposes the live retained-training queue state across all three lanes.
+- `GET /api/merlin/lane-progress-ledgers` exposes automated per-lane completion ledgers and recent retained receipts.
+- `POST /api/merlin/training-cycle` executes queued three-lane training work and retains auditable receipts in Merlin session memory.
+- `GET /api/merlin/training-challenge-pack` converts retained receipts into deterministic follow-up drills, prioritizing stale or review-required work first.
 - `GET /api/merlin/benchmark-corpora` exposes Stage A/B/C/D/E corpora directly, with stage selection support.
 - `GET /api/merlin/stage-a-receipts` runs the self-hosted Stage A receipt set and returns comparable Merlin/incumbent runs.
 - `GET /api/merlin/stage-b-receipts` runs the self-hosted Stage B receipt set and returns comparable Merlin/incumbent runs.
@@ -130,6 +137,7 @@ Related reading outside this product folder:
 - Training artifact export: `python tools/export_merlin_training_artifacts.py` (default output: `training/training_artifacts/training_artifacts.json`).
 - JSONL dataset export: `python tools/export_merlin_training_jsonl.py` (default output: `training/training_jsonl/`).
 - MLflow manifest export: `python tools/export_merlin_mlflow_manifests.py` (default output: `training/mlflow_manifests/mlflow_manifests.json`).
+- Retained training execution export: `python tools/export_merlin_training_execution.py` (default output: `training/training_execution/three_lane_execution_bundle.json`).
 - MLflow experiment receipt runner: `python tools/run_merlin_mlflow_experiment.py --experiment merlin_stage_b_shadow_eval --limit 3 --output /tmp/merlin-stage-b-receipts.json`.
 - The benchmark contract is designed for side-by-side Merlin vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).

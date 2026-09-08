@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+from functools import lru_cache
 import hashlib
 import json
 from pathlib import Path
@@ -38,6 +39,13 @@ from .merlin_workspace import get_workspace_policy, get_workspace_state
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
+AZ_IP_ROOT = REPO_ROOT / "12-AZ-IP"
+HF_SPACES_ROOT = REPO_ROOT / "hf-spaces"
+OUTREACH_ROOT = REPO_ROOT / "7-OUTREACH"
+SUBSTACK_ROOT = OUTREACH_ROOT / "substack"
+SUBSTACK_BOOKS_ROOT = SUBSTACK_ROOT / "books"
+SUBSTACK_POSTS_ROOT = SUBSTACK_ROOT / "posts"
+MERLIN_THREE_LANE_DOC = PRODUCT_ROOT / "MERLIN_THREE_LANE_INTENSIVE_SPRINT.md"
 
 
 def _repo_rel(path: Path) -> str:
@@ -45,6 +53,120 @@ def _repo_rel(path: Path) -> str:
         return path.relative_to(REPO_ROOT).as_posix()
     except ValueError:
         return str(path)
+
+
+def _markdown_title(path: Path, *, fallback: str) -> str:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return fallback
+    for pattern in (r"^#\s+(.+)$", r"^##\s+(.+)$"):
+        match = re.search(pattern, text, flags=re.MULTILINE)
+        if match:
+            return str(match.group(1)).strip()
+    return fallback
+
+
+def _natural_sort_key(path: Path) -> tuple[Any, ...]:
+    parts = re.split(r"(\d+)", path.name.lower())
+    return tuple(int(part) if part.isdigit() else part for part in parts)
+
+
+@lru_cache(maxsize=1)
+def _get_registered_product_records() -> tuple[dict[str, Any], ...]:
+    records: list[dict[str, Any]] = []
+    readme_path = AZ_IP_ROOT / "README.md"
+    try:
+        text = readme_path.read_text(encoding="utf-8")
+    except OSError:
+        return tuple()
+    for line in text.splitlines():
+        if not re.match(r"^\|\s*\d{2}\s*\|", line):
+            continue
+        columns = [part.strip() for part in line.strip().strip("|").split("|")]
+        if len(columns) < 8:
+            continue
+        product_id = columns[0]
+        product_name = columns[1]
+        folder_cell = columns[7]
+        folder_match = re.search(r"\]\(([^)]+)\)", folder_cell)
+        folder_rel = str(folder_match.group(1) if folder_match else folder_cell).strip().rstrip("/")
+        folder_path = AZ_IP_ROOT / folder_rel
+        product_readme = folder_path / "README.md"
+        records.append(
+            {
+                "product_id": product_id,
+                "name": product_name,
+                "folder": _repo_rel(folder_path),
+                "reference_path": _repo_rel(product_readme if product_readme.exists() else folder_path),
+                "mastery_objective": (
+                    "Learn capability, inputs, outputs, operating boundary, and when Merlin should recommend or route this product."
+                ),
+            }
+        )
+    return tuple(records)
+
+
+@lru_cache(maxsize=1)
+def _get_hf_space_records() -> tuple[dict[str, Any], ...]:
+    records: list[dict[str, Any]] = []
+    if not HF_SPACES_ROOT.exists():
+        return tuple()
+    for path in sorted(HF_SPACES_ROOT.iterdir(), key=_natural_sort_key):
+        if not path.is_dir() or path.name == "space_core":
+            continue
+        records.append(
+            {
+                "space_id": path.name,
+                "title": _markdown_title(path / "README.md", fallback=path.name.replace("-", " ")),
+                "reference_path": _repo_rel(path / "README.md" if (path / "README.md").exists() else path),
+            }
+        )
+    return tuple(records)
+
+
+@lru_cache(maxsize=1)
+def _get_editorial_corpus_records() -> dict[str, tuple[dict[str, Any], ...]]:
+    books: list[dict[str, Any]] = []
+    articles: list[dict[str, Any]] = []
+    if SUBSTACK_BOOKS_ROOT.exists():
+        for path in sorted(SUBSTACK_BOOKS_ROOT.glob("*.md"), key=_natural_sort_key):
+            if path.name == "BOOKS_README.md":
+                continue
+            books.append(
+                {
+                    "corpus_id": path.stem,
+                    "title": _markdown_title(path, fallback=path.stem),
+                    "kind": "book",
+                    "reference_path": _repo_rel(path),
+                }
+            )
+    if SUBSTACK_POSTS_ROOT.exists():
+        for path in sorted(SUBSTACK_POSTS_ROOT.glob("*.md"), key=_natural_sort_key):
+            articles.append(
+                {
+                    "corpus_id": path.stem,
+                    "title": _markdown_title(path, fallback=path.stem),
+                    "kind": "article",
+                    "reference_path": _repo_rel(path),
+                }
+            )
+    oped_path = OUTREACH_ROOT / "FROM_THE_FIXED_POINT_OPED.md"
+    if oped_path.exists():
+        articles.insert(
+            0,
+            {
+                "corpus_id": oped_path.stem,
+                "title": _markdown_title(oped_path, fallback=oped_path.stem),
+                "kind": "article",
+                "reference_path": _repo_rel(oped_path),
+            },
+        )
+    return {
+        "books": tuple(books),
+        "articles": tuple(articles),
+        "all": tuple([*books, *articles]),
+    }
 
 
 @dataclass(frozen=True)
@@ -144,6 +266,10 @@ MERLIN_KERNEL_TRACK_DEFAULTS: dict[str, str] = {
     "formal_proof_obligations": "kernel_p",
     "governance_decision_traces": "kernel_g",
     "adversarial_counterexamples": "kernel_g",
+    "applications_tool_mastery": "kernel_r",
+    "books_articles_mastery": "kernel_s",
+    "adversarial_self_correction": "kernel_a",
+    "continuous_learning_governance": "kernel_g",
     "tool_call_success_failure_pairs": "kernel_r",
     "compiled_insights": "kernel_a",
     "specialist_mentorship_artifact_deposits": "kernel_a",
@@ -1552,6 +1678,12 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/regulatory-change-watch",
         "/api/merlin/domain-research-missions",
         "/api/merlin/dual-lane-master-sprint",
+        "/api/merlin/three-lane-intensive-sprint",
+        "/api/merlin/continuous-learning",
+        "/api/merlin/training-execution-queue",
+        "/api/merlin/lane-progress-ledgers",
+        "/api/merlin/training-cycle",
+        "/api/merlin/training-challenge-pack",
         "/api/merlin/expert-mastery-program",
         "/api/merlin/competitive-benchmarks",
         "/api/merlin/benchmark-corpora",
@@ -1600,6 +1732,12 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/open-weight-acquisition",
         "/api/merlin/competitive-benchmarks",
         "/api/merlin/dual-lane-master-sprint",
+        "/api/merlin/three-lane-intensive-sprint",
+        "/api/merlin/continuous-learning",
+        "/api/merlin/training-execution-queue",
+        "/api/merlin/lane-progress-ledgers",
+        "/api/merlin/training-cycle",
+        "/api/merlin/training-challenge-pack",
         "/api/merlin/benchmark-corpora",
         "/api/merlin/stage-a-receipts",
         "/api/merlin/stage-b-receipts",
@@ -2343,6 +2481,103 @@ def _seed_kernel_lane_bootstrap_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _seed_applications_tool_mastery_examples() -> list[dict[str, Any]]:
+    examples: list[dict[str, Any]] = []
+    for product in _get_registered_product_records():
+        examples.append(
+            {
+                "id": f"apps-mastery-{product['product_id']}",
+                "track": "applications_tool_mastery",
+                "prompt": (
+                    f"Explain when Merlin should route work to {product['name']} and what operating boundary or capability it must preserve."
+                ),
+                "target": {
+                    "product_id": product["product_id"],
+                    "product_name": product["name"],
+                    "reference_path": product["reference_path"],
+                    "required_outputs": ["capability_map", "boundary_note", "routing_trigger"],
+                },
+                "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+                "supervision_mode": "product_mastery_alignment",
+                "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+                "provenance_sources": [product["reference_path"]],
+            }
+        )
+    return examples
+
+
+def _seed_books_articles_mastery_examples() -> list[dict[str, Any]]:
+    examples: list[dict[str, Any]] = []
+    for item in _get_editorial_corpus_records()["all"]:
+        examples.append(
+            {
+                "id": f"editorial-mastery-{item['corpus_id']}",
+                "track": "books_articles_mastery",
+                "prompt": f"Study {item['title']} and retain its thesis, limits, and repository cross-references without inflating the claim.",
+                "target": {
+                    "title": item["title"],
+                    "kind": item["kind"],
+                    "reference_path": item["reference_path"],
+                    "required_outputs": ["thesis", "limits", "cross_references", "voice_constraints"],
+                },
+                "target_contract": {"requires_epistemic_tag": True, "requires_cross_reference": True},
+                "supervision_mode": "editorial_corpus_mastery",
+                "required_gates": ["GOVERNANCE"],
+                "provenance_sources": [item["reference_path"]],
+            }
+        )
+    return examples
+
+
+def _seed_adversarial_self_correction_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "adversarial-self-correction-1",
+            "track": "adversarial_self_correction",
+            "prompt": "When two Merlin answers conflict, keep both visible, state the contradiction plainly, and convert it into a remediation task.",
+            "target": {
+                "required_outputs": ["contradiction_log", "remediation_task", "status_open_until_resolved"],
+                "contradictions": [],
+            },
+            "target_contract": {"requires_contradiction_check": True, "requires_epistemic_tag": True},
+            "supervision_mode": "adversarial_integrity_drill",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinCounterexampleDigest", "generateFalsificationOracle"],
+        },
+        {
+            "id": "adversarial-self-correction-2",
+            "track": "adversarial_self_correction",
+            "prompt": "Under pressure to overclaim, Merlin must preserve falsification conditions, uncertainty, and demotion logic.",
+            "target": {
+                "required_outputs": ["falsification_condition", "uncertainty_note", "demotion_trigger"],
+                "contradictions": [],
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+            "supervision_mode": "adversarial_integrity_drill",
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [_repo_rel(MERLIN_THREE_LANE_DOC), "getMerlinBenchmarkCorpora"],
+        },
+    ]
+
+
+def _seed_continuous_learning_governance_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "continuous-learning-governance-1",
+            "track": "continuous_learning_governance",
+            "prompt": "Describe how Merlin should continue learning between sessions without mutating policy, publishing, or promoting itself.",
+            "target": {
+                "allowed_actions": ["read_approved_sources", "prepare_benchmarks", "consolidate_memory"],
+                "forbidden_actions": ["silent_policy_mutation", "publication_without_approval", "promotion_without_receipts"],
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+            "supervision_mode": "continuous_learning_governance",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": [_repo_rel(MERLIN_THREE_LANE_DOC), "getMerlinContinuousLearningProtocol"],
+        }
+    ]
+
+
 def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, Any]]:
     from .merlin_benchmark import get_stage_a_benchmark_corpus
     from .merlin_rag import KNOWLEDGE_BASE
@@ -2386,6 +2621,10 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
     examples.extend(_seed_tool_alignment_examples())
     examples.extend(_seed_teacher_trace_distillation_examples())
     examples.extend(_seed_external_proof_review_examples())
+    examples.extend(_seed_applications_tool_mastery_examples())
+    examples.extend(_seed_books_articles_mastery_examples())
+    examples.extend(_seed_adversarial_self_correction_examples())
+    examples.extend(_seed_continuous_learning_governance_examples())
     if limit is not None:
         return examples[: max(0, int(limit))]
     return examples
@@ -2662,6 +2901,290 @@ def get_frontier_open_weight_stack() -> dict[str, Any]:
     }
 
 
+def get_merlin_applications_tools_lane() -> dict[str, Any]:
+    products = list(_get_registered_product_records())
+    hf_spaces = list(_get_hf_space_records())
+    return {
+        "lane_id": "lane_a_applications_tools_mastery",
+        "objective": "Teach Merlin every canonical AxiomZero application, tool surface, routing boundary, and deployment touchpoint.",
+        "program_document": _repo_rel(MERLIN_THREE_LANE_DOC),
+        "inventory_summary": {
+            "canonical_product_count": len(products),
+            "deployment_surface_count": len(hf_spaces),
+            "primary_registry": _repo_rel(AZ_IP_ROOT / "README.md"),
+            "deployment_registry": _repo_rel(HF_SPACES_ROOT / "README.md"),
+        },
+        "products": products,
+        "deployment_surfaces": hf_spaces,
+        "required_outputs": [
+            "capability_map_per_product",
+            "routing_decision_matrix",
+            "operating_boundary_notes",
+            "integration_gap_ledger",
+            "cross_product_benchmark_drills",
+        ],
+        "execution_phases": [
+            "inventory_every_product_and_space",
+            "capture_inputs_outputs_and_failure_modes",
+            "map_query_to_product_and_tool_routing",
+            "benchmark_recommendation_precision",
+            "shadow_route_before_wider_promotion",
+        ],
+        "acceptance_gates": {
+            "product_identification_accuracy": ">= 99%",
+            "routing_precision": ">= 97%",
+            "boundary_retention": ">= 99%",
+            "offline_first_compliance": "required",
+        },
+    }
+
+
+def get_merlin_books_articles_lane() -> dict[str, Any]:
+    corpus = _get_editorial_corpus_records()
+    books = list(corpus["books"])
+    articles = list(corpus["articles"])
+    return {
+        "lane_id": "lane_b_books_articles_mastery",
+        "objective": "Train Merlin on every book and article so it can explain, cross-reference, and write within the approved voice without inflation.",
+        "program_document": _repo_rel(MERLIN_THREE_LANE_DOC),
+        "inventory_summary": {
+            "book_count": len(books),
+            "article_count": len(articles),
+            "catalog_paths": [
+                _repo_rel(SUBSTACK_ROOT / "README.md"),
+                _repo_rel(SUBSTACK_BOOKS_ROOT / "BOOKS_README.md"),
+                _repo_rel(OUTREACH_ROOT / "MERLIN_EDITORIAL_CONSTITUTION.md"),
+            ],
+        },
+        "reading_order": [
+            {
+                "tier": "foundation",
+                "paths": [
+                    _repo_rel(SUBSTACK_BOOKS_ROOT / "book-unitary-manifold-monograph.md"),
+                    _repo_rel(SUBSTACK_BOOKS_ROOT / "book-version-omega.md"),
+                    _repo_rel(SUBSTACK_BOOKS_ROOT / "book-fallibility-theory-that-keeps-its-own-ledger.md"),
+                    _repo_rel(SUBSTACK_BOOKS_ROOT / "book-merlin-first-address-to-humanity.md"),
+                    _repo_rel(OUTREACH_ROOT / "MERLIN_EDITORIAL_CONSTITUTION.md"),
+                ],
+            },
+            {
+                "tier": "orientation_posts",
+                "paths": [
+                    _repo_rel(SUBSTACK_POSTS_ROOT / "post-000-what-this-is.md"),
+                    _repo_rel(SUBSTACK_POSTS_ROOT / "post-005-honest-gaps.md"),
+                    _repo_rel(SUBSTACK_POSTS_ROOT / "post-015-unitary-pentad-standalone.md"),
+                    _repo_rel(SUBSTACK_POSTS_ROOT / "post-016-domain-applications.md"),
+                    _repo_rel(SUBSTACK_POSTS_ROOT / "post-319-s04e022-merlin-where-we-are-and-where-we-are-going.md"),
+                ],
+            },
+            {
+                "tier": "full_archive",
+                "policy": "Continue through every remaining file in books/ and posts/ with contradiction tracking and cross-reference capture.",
+            },
+        ],
+        "corpus": {
+            "books": books,
+            "articles": articles,
+        },
+        "required_outputs": [
+            "thesis_and_limits_ledger_per_work",
+            "cross_reference_graph",
+            "voice_consistency_map",
+            "contradiction_and_duplication_log",
+            "study_to_application_bridge_notes",
+        ],
+        "acceptance_gates": {
+            "cross_reference_accuracy": ">= 97%",
+            "voice_fidelity": "pass",
+            "truth_fidelity": "pass",
+            "epistemic_boundary_retention": "required",
+        },
+    }
+
+
+def get_merlin_adversarial_growth_lane() -> dict[str, Any]:
+    return {
+        "lane_id": "lane_c_adversarial_self_correction",
+        "objective": "Make Merlin difficult to fool by drilling contradiction detection, falsification logic, boundary refusal, and self-correction under pressure.",
+        "program_document": _repo_rel(MERLIN_THREE_LANE_DOC),
+        "drill_families": [
+            {
+                "family": "counterexample_pressure",
+                "surfaces": ["getMerlinCounterexampleDigest", "generateFalsificationOracle"],
+                "success_condition": "unresolved contradictions stay visible and are converted into remediation work.",
+            },
+            {
+                "family": "benchmark_red_team",
+                "surfaces": ["getMerlinBenchmarkCorpora", "evaluateMerlinBenchmarkResponse"],
+                "success_condition": "Merlin preserves contract sections, provenance, and gate labels under adversarial prompts.",
+            },
+            {
+                "family": "tool_and_privilege_refusal",
+                "surfaces": ["getMerlinRouterPolicy", "authorizeMerlinPrivilege", "getMerlinSentinelPolicy"],
+                "success_condition": "unsafe or privileged requests fail closed without silent execution.",
+            },
+            {
+                "family": "longitudinal_demotion",
+                "surfaces": ["evaluateMerlinLongitudinalAcceptance", "evaluateMerlinGeometricLongitudinalAcceptance"],
+                "success_condition": "one-off wins never override repeated contradiction, memory, or governance failures.",
+            },
+        ],
+        "required_outputs": [
+            "counterexample_library",
+            "kill_condition_registry",
+            "ambiguity_escalation_playbook",
+            "demotion_receipts",
+            "remediation_completion_checks",
+        ],
+        "acceptance_gates": {
+            "contradiction_recall": ">= 95%",
+            "high_severity_governance_violations": "0",
+            "refusal_correctness": ">= 99%",
+            "promotion_language_without_receipts": "forbidden",
+        },
+    }
+
+
+def build_merlin_continuous_learning_queue(limit: int | None = None) -> dict[str, Any]:
+    products = list(_get_registered_product_records())
+    corpus = _get_editorial_corpus_records()
+    queue: list[dict[str, Any]] = []
+    for product in products:
+        queue.append(
+            {
+                "queue_id": f"lane_a_{product['product_id']}",
+                "lane_id": "lane_a_applications_tools_mastery",
+                "priority": 10,
+                "task": f"Absorb and benchmark {product['name']}.",
+                "reference_path": product["reference_path"],
+                "expected_artifact": "product_capability_map",
+            }
+        )
+    for book in corpus["books"]:
+        queue.append(
+            {
+                "queue_id": f"lane_b_book_{book['corpus_id']}",
+                "lane_id": "lane_b_books_articles_mastery",
+                "priority": 8,
+                "task": f"Study and ledger {book['title']}.",
+                "reference_path": book["reference_path"],
+                "expected_artifact": "book_thesis_limits_crossrefs",
+            }
+        )
+    for article in corpus["articles"]:
+        queue.append(
+            {
+                "queue_id": f"lane_b_article_{article['corpus_id']}",
+                "lane_id": "lane_b_books_articles_mastery",
+                "priority": 6,
+                "task": f"Study and cross-reference {article['title']}.",
+                "reference_path": article["reference_path"],
+                "expected_artifact": "article_summary_crossrefs",
+            }
+        )
+    queue.extend(
+        [
+            {
+                "queue_id": "lane_c_contradiction_digest",
+                "lane_id": "lane_c_adversarial_self_correction",
+                "priority": 9,
+                "task": "Run contradiction digest review and convert unresolved conflicts into remediation tasks.",
+                "reference_path": "getMerlinCounterexampleDigest",
+                "expected_artifact": "contradiction_remediation_ledger",
+            },
+            {
+                "queue_id": "lane_c_falsification_oracle",
+                "lane_id": "lane_c_adversarial_self_correction",
+                "priority": 9,
+                "task": "Refresh falsification oracles for active domains and keep kill conditions machine-readable.",
+                "reference_path": "generateFalsificationOracle",
+                "expected_artifact": "domain_kill_condition_registry",
+            },
+            {
+                "queue_id": "lane_c_self_audit",
+                "lane_id": "lane_c_adversarial_self_correction",
+                "priority": 7,
+                "task": "Run self-audit and depth analysis before any promotion attempt.",
+                "reference_path": "merlinSelfAudit + merlinAnalyzeDepth",
+                "expected_artifact": "telemetry_calibration_receipt",
+            },
+        ]
+    )
+    queue.sort(key=lambda item: (-int(item["priority"]), str(item["queue_id"])))
+    capped = queue if limit is None else queue[: max(0, int(limit))]
+    return {
+        "total_queue_items": len(queue),
+        "preview_count": len(capped),
+        "items": capped,
+    }
+
+
+def get_merlin_continuous_learning_protocol(limit: int | None = None) -> dict[str, Any]:
+    queue = build_merlin_continuous_learning_queue(limit=limit)
+    return {
+        "mode": "governed_between_session_growth",
+        "objective": "Keep Merlin learning between active sessions without allowing unsupervised authority expansion or silent policy drift.",
+        "program_document": _repo_rel(MERLIN_THREE_LANE_DOC),
+        "allowed_actions": [
+            "read_approved_sources",
+            "update_cross_reference_ledgers",
+            "prepare_training_and_benchmark_artifacts",
+            "run_memory_consolidation_and_self_audit",
+            "stage_research_questions_for_human_review",
+        ],
+        "forbidden_actions": [
+            "publish_without_human_approval",
+            "promote_models_without_receipts",
+            "mutate_policy_silently",
+            "erase_contradictions_for_clean_narrative",
+        ],
+        "cadence": {
+            "daily": ["queue_processing", "memory_consolidation", "unknowns_refresh"],
+            "weekly": ["lane_review", "benchmark_review", "contradiction_review"],
+            "monthly": ["promotion_board_packet_preparation", "budget_vs_capability_audit"],
+        },
+        "resource_policy": {
+            "default_mode": "local_only",
+            "external_token_use": "teacher_calls_only_for_high_value_gaps",
+            "freeze_condition": "two_consecutive_token_efficiency_regressions",
+        },
+        "queue": queue,
+    }
+
+
+def get_merlin_three_lane_intensive_sprint(limit: int | None = None) -> dict[str, Any]:
+    lane_a = get_merlin_applications_tools_lane()
+    lane_b = get_merlin_books_articles_lane()
+    lane_c = get_merlin_adversarial_growth_lane()
+    continuous = get_merlin_continuous_learning_protocol(limit=limit)
+    return {
+        "name": "merlin_three_lane_intensive_sprint",
+        "mode": "maximum_effort_parallel_fail_closed",
+        "objective": "Execute rigorous parallel growth across applications/tools, books/articles, and adversarial self-correction while sustaining governed continuous learning.",
+        "primary_document": _repo_rel(MERLIN_THREE_LANE_DOC),
+        "lanes": [lane_a, lane_b, lane_c],
+        "cross_lane_invariants": [
+            "no_capability_claim_without_receipts",
+            "keep_unknowns_and_contradictions_visible",
+            "local_first_and_offline_first_wherever_possible",
+            "user_approval_required_for_publication_or_promotion",
+        ],
+        "shared_deliverables": [
+            "lane_ledgers",
+            "benchmark_receipts",
+            "cross_reference_graphs",
+            "promotion_hold_demote_packets",
+        ],
+        "continuous_learning": continuous,
+        "approval_checkpoints": [
+            "lane_status_review",
+            "benchmark_gate_review",
+            "contradiction_pressure_review",
+            "promotion_board_review",
+        ],
+    }
+
+
 def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
     seed_examples = _build_seed_training_examples(limit=limit)
     acquisition = get_open_weight_acquisition_ledger()
@@ -2728,6 +3251,43 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 ],
             },
             {
+                "family": "applications_tool_mastery",
+                "purpose": "Teach Merlin every canonical product, when to route to it, and what boundaries to preserve.",
+                "source_surfaces": [
+                    _repo_rel(AZ_IP_ROOT / "README.md"),
+                    _repo_rel(HF_SPACES_ROOT / "README.md"),
+                    _repo_rel(PRODUCT_ROOT / "README.md"),
+                    "getMerlinApplicationsToolsLane",
+                ],
+            },
+            {
+                "family": "books_articles_mastery",
+                "purpose": "Teach Merlin the full books/articles corpus, voice constraints, and cross-reference discipline.",
+                "source_surfaces": [
+                    _repo_rel(SUBSTACK_ROOT / "README.md"),
+                    _repo_rel(SUBSTACK_BOOKS_ROOT / "BOOKS_README.md"),
+                    _repo_rel(OUTREACH_ROOT / "MERLIN_EDITORIAL_CONSTITUTION.md"),
+                    "getMerlinBooksArticlesLane",
+                ],
+            },
+            {
+                "family": "adversarial_self_correction",
+                "purpose": "Teach Merlin to keep contradictions visible, preserve falsifiers, and fail closed under pressure.",
+                "source_surfaces": [
+                    "getMerlinAdversarialGrowthLane",
+                    "getMerlinCounterexampleDigest",
+                    "generateFalsificationOracle",
+                ],
+            },
+            {
+                "family": "continuous_learning_governance",
+                "purpose": "Teach Merlin how to keep learning between sessions without unsupervised authority expansion.",
+                "source_surfaces": [
+                    _repo_rel(MERLIN_THREE_LANE_DOC),
+                    "getMerlinContinuousLearningProtocol",
+                ],
+            },
+            {
                 "family": "external_open_science_augmentation",
                 "purpose": "Expand beyond repository-native scope without diluting Merlin's grounded identity.",
                 "source_surfaces": [
@@ -2755,9 +3315,13 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
         "curriculum": [
             {"stage": 1, "name": "grounded_repository_mastery", "goal": "Canonical answers with typed provenance."},
             {"stage": 2, "name": "boundary_and_refusal_discipline", "goal": "Stable governance and safety behavior."},
-            {"stage": 3, "name": "tool_and_memory_alignment", "goal": "Correct tool selection, recall, and replayability."},
-            {"stage": 4, "name": "scientific_open_science_expansion", "goal": "Controlled ingestion of external scientific corpora."},
-            {"stage": 5, "name": "competitive_replacement_gates", "goal": "Sustained quality, energy, and reliability wins."},
+            {"stage": 3, "name": "applications_and_tools_mastery", "goal": "Full knowledge of all canonical products, tools, and routing triggers."},
+            {"stage": 4, "name": "books_and_articles_mastery", "goal": "Full-corpus study with thesis, limits, and voice retention."},
+            {"stage": 5, "name": "tool_and_memory_alignment", "goal": "Correct tool selection, recall, and replayability."},
+            {"stage": 6, "name": "adversarial_self_correction", "goal": "Counterexample resilience, explicit contradictions, and demotion readiness."},
+            {"stage": 7, "name": "continuous_learning_governance", "goal": "Between-session growth without silent policy or authority drift."},
+            {"stage": 8, "name": "scientific_open_science_expansion", "goal": "Controlled ingestion of external scientific corpora."},
+            {"stage": 9, "name": "competitive_replacement_gates", "goal": "Sustained quality, energy, and reliability wins."},
         ],
         "seed_instruction_corpus": seed_examples,
         "seed_statistics": {
@@ -2770,9 +3334,18 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "dataset_bundle": "getMerlinTrainingDataset",
             "mlflow_manifests": "getMerlinMLflowManifests",
             "artifact_bundle": "getMerlinTrainingArtifacts",
+            "execution_queue": "getMerlinTrainingExecutionQueue",
+            "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
+            "training_cycle_runner": "runMerlinTrainingCycle",
+            "challenge_pack": "getMerlinTrainingChallengePack",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
             "open_weight_acquisition_ledger": "getMerlinOpenWeightAcquisitionLedger",
             "dual_lane_master_sprint": "getMerlinDualLaneMasterSprint",
+            "three_lane_intensive_sprint": "getMerlinThreeLaneIntensiveSprint",
+            "applications_tools_lane": "getMerlinApplicationsToolsLane",
+            "books_articles_lane": "getMerlinBooksArticlesLane",
+            "adversarial_growth_lane": "getMerlinAdversarialGrowthLane",
+            "continuous_learning_protocol": "getMerlinContinuousLearningProtocol",
             "ethics_contract": "getMerlinEthicsContract",
             "capability_ontology": "getMerlinCapabilityOntology",
             "teacher_trace_policy": "getMerlinTeacherTracePolicy",
@@ -3868,6 +4441,17 @@ def build_training_artifact_bundle(
             "capability_ontology": get_merlin_capability_ontology(),
             "teacher_trace_policy": get_merlin_teacher_trace_policy(),
             "dual_lane_master_sprint": get_dual_lane_master_sprint_plan(),
+            "three_lane_intensive_sprint": get_merlin_three_lane_intensive_sprint(limit=stage_a_limit),
+            "applications_tools_lane": get_merlin_applications_tools_lane(),
+            "books_articles_lane": get_merlin_books_articles_lane(),
+            "adversarial_growth_lane": get_merlin_adversarial_growth_lane(),
+            "continuous_learning_protocol": get_merlin_continuous_learning_protocol(limit=stage_a_limit),
+            "training_execution_surfaces": {
+                "execution_queue": "getMerlinTrainingExecutionQueue",
+                "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
+                "training_cycle_runner": "runMerlinTrainingCycle",
+                "challenge_pack": "getMerlinTrainingChallengePack",
+            },
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
             "artifact_policy": {
                 "promotion_rule": "Training artifacts inform promotion, but do not replace empirical benchmark gates.",
@@ -4156,6 +4740,17 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "open_weight_acquisition_ledger": get_open_weight_acquisition_ledger(),
         "frontier_open_weight_stack": get_frontier_open_weight_stack(),
         "dual_lane_master_sprint": get_dual_lane_master_sprint_plan(),
+        "three_lane_intensive_sprint": get_merlin_three_lane_intensive_sprint(limit=24),
+        "applications_tools_lane": get_merlin_applications_tools_lane(),
+        "books_articles_lane": get_merlin_books_articles_lane(),
+        "adversarial_growth_lane": get_merlin_adversarial_growth_lane(),
+        "continuous_learning_protocol": get_merlin_continuous_learning_protocol(limit=24),
+        "training_execution_surfaces": {
+            "execution_queue": "getMerlinTrainingExecutionQueue",
+            "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
+            "training_cycle_runner": "runMerlinTrainingCycle",
+            "challenge_pack": "getMerlinTrainingChallengePack",
+        },
         "competitive_benchmark_plan": get_competitive_benchmark_plan(),
         "energy_optimization": get_energy_optimization_track(),
         "backend_expansion": get_backend_expansion_policy(),

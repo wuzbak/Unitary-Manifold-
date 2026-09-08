@@ -45,13 +45,17 @@ from .merlin_identity import authorize_privileged_request, verify_identity_signa
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
     get_backend_expansion_policy,
+    get_merlin_adversarial_growth_lane,
+    get_merlin_applications_tools_lane,
     get_competitive_benchmark_plan,
     get_cross_model_exchange_protocol,
     get_current_stack_baseline,
     get_deterministic_proof_closure_contract,
     get_kawamura_closure_burden_ledger,
+    get_merlin_books_articles_lane,
     get_merlin_cross_review_packet,
     get_merlin_capability_ontology,
+    get_merlin_continuous_learning_protocol,
     get_merlin_ethics_contract,
     get_dual_loop_learning_contract,
     get_domain_research_missions,
@@ -68,6 +72,7 @@ from .merlin_program import (
     get_frontier_readiness_packet,
     get_full_program_blueprint,
     get_frontier_open_weight_stack,
+    get_merlin_three_lane_intensive_sprint,
     get_governance_integration_policy,
     get_identity_and_trust_policy,
     get_knowledge_core_sources,
@@ -103,6 +108,12 @@ from .merlin_program import (
     build_training_artifact_bundle,
     evaluate_teacher_trace_admission,
     run_sync_checks,
+)
+from .merlin_training_execution import (
+    build_merlin_training_execution_queue,
+    get_merlin_lane_progress_ledgers,
+    get_merlin_training_challenge_pack,
+    run_merlin_training_cycle,
 )
 from .merlin_inference_health import get_merlin_inference_health
 from .merlin_local_inference import get_inference_providers
@@ -247,6 +258,15 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinOpenWeightAcquisitionLedger", "summary": "Return scored open-weight acquisition channels, candidate roster, and roster freeze policy", "domain": "functions"},
             {"name": "getMerlinFrontierStack", "summary": "Return open-weight model and kernel stack for frontier-local Merlin training", "domain": "functions"},
             {"name": "getMerlinDualLaneMasterSprint", "summary": "Return governed dual-lane physics+Merlin sprint contract", "domain": "functions"},
+            {"name": "getMerlinThreeLaneIntensiveSprint", "summary": "Return rigorous three-lane Merlin sprint across apps, books, and adversarial self-correction", "domain": "functions"},
+            {"name": "getMerlinApplicationsToolsLane", "summary": "Return Lane A applications/tools mastery inventory and gates", "domain": "functions"},
+            {"name": "getMerlinBooksArticlesLane", "summary": "Return Lane B books/articles mastery inventory and study gates", "domain": "functions"},
+            {"name": "getMerlinAdversarialGrowthLane", "summary": "Return Lane C contradiction, falsification, and self-correction drills", "domain": "functions"},
+            {"name": "getMerlinContinuousLearningProtocol", "summary": "Return governed between-session learning cadence and queue", "domain": "functions"},
+            {"name": "getMerlinTrainingExecutionQueue", "summary": "Return active retained-training queue state across all three lanes", "domain": "functions"},
+            {"name": "getMerlinLaneProgressLedgers", "summary": "Return automated lane-by-lane progress ledgers and retained receipt summaries", "domain": "functions"},
+            {"name": "runMerlinTrainingCycle", "summary": "Execute queued three-lane training work and retain auditable receipts in session memory", "domain": "functions"},
+            {"name": "getMerlinTrainingChallengePack", "summary": "Return deterministic challenge drills prioritized by stale or review-required training work", "domain": "functions"},
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
@@ -353,6 +373,15 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinOpenWeightAcquisitionLedger": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinDualLaneMasterSprint": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinThreeLaneIntensiveSprint": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinApplicationsToolsLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinBooksArticlesLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinAdversarialGrowthLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinContinuousLearningProtocol": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinLaneProgressLedgers": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "runMerlinTrainingCycle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingChallengePack": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMemoryGeometry": {
             "args_schema": {
                 "type": "object",
@@ -916,6 +945,27 @@ _FUNCTIONS = {
     "getMerlinOpenWeightAcquisitionLedger": lambda **args: {"data": get_open_weight_acquisition_ledger()},
     "getMerlinFrontierStack": lambda **args: {"data": get_frontier_open_weight_stack()},
     "getMerlinDualLaneMasterSprint": lambda **args: {"data": get_dual_lane_master_sprint_plan()},
+    "getMerlinThreeLaneIntensiveSprint": lambda **args: {"data": get_merlin_three_lane_intensive_sprint(limit=args.get("limit"))},
+    "getMerlinApplicationsToolsLane": lambda **args: {"data": get_merlin_applications_tools_lane()},
+    "getMerlinBooksArticlesLane": lambda **args: {"data": get_merlin_books_articles_lane()},
+    "getMerlinAdversarialGrowthLane": lambda **args: {"data": get_merlin_adversarial_growth_lane()},
+    "getMerlinContinuousLearningProtocol": lambda **args: {"data": get_merlin_continuous_learning_protocol(limit=args.get("limit"))},
+    "getMerlinTrainingExecutionQueue": lambda **args: {"data": build_merlin_training_execution_queue(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+    )},
+    "getMerlinLaneProgressLedgers": lambda **args: {"data": get_merlin_lane_progress_ledgers(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=_coerce_positive_int(args.get("limit"), 5),
+    )},
+    "runMerlinTrainingCycle": lambda **args: {"data": run_merlin_training_cycle(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+    )},
+    "getMerlinTrainingChallengePack": lambda **args: {"data": get_merlin_training_challenge_pack(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=_coerce_positive_int(args.get("limit"), 12),
+    )},
     "getMerlinCompetitiveBenchmarkPlan": lambda **args: {"data": get_competitive_benchmark_plan()},
     "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit"))},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
@@ -1153,7 +1203,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 ok = False
                 error = "Human gate approval required for this tool."
                 raise ValueError(error)
-        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "getMerlinMemoryGeometry", "merlinConsolidateMemory", "merlinSelfAudit", "generateFalsificationOracle", "merlinAnalyzeDepth", "empiricalObservatoryCheck", "kernelPProofProbe"}:
+        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "getMerlinMemoryGeometry", "merlinConsolidateMemory", "merlinSelfAudit", "generateFalsificationOracle", "merlinAnalyzeDepth", "empiricalObservatoryCheck", "kernelPProofProbe", "getMerlinTrainingExecutionQueue", "getMerlinLaneProgressLedgers", "runMerlinTrainingCycle", "getMerlinTrainingChallengePack"}:
             tool_type = "function"
             if tool == "getMerlinTrainingDataset":
                 result = {"data": build_training_dataset_bundle(
@@ -1231,6 +1281,10 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "merlinSelfAudit",
                     "generateFalsificationOracle",
                     "merlinAnalyzeDepth",
+                    "getMerlinTrainingExecutionQueue",
+                    "getMerlinLaneProgressLedgers",
+                    "runMerlinTrainingCycle",
+                    "getMerlinTrainingChallengePack",
                 }
                 if tool in session_passthrough_tools:
                     result = _FUNCTIONS[tool](**{**args, "__session": active_session})

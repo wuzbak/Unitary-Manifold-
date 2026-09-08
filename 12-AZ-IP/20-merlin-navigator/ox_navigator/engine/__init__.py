@@ -59,6 +59,13 @@ from .merlin_telemetry import build_run_telemetry, estimate_cost_usd, estimate_e
 from .merlin_inference_health import get_merlin_inference_health
 from .merlin_energy_ledger import build_merlin_energy_ledger
 from .merlin_meta_learning import analyze_depth, consolidate_memory, generate_falsification_oracle, run_self_audit
+from .merlin_training_execution import (
+    build_merlin_training_execution_bundle,
+    build_merlin_training_execution_queue,
+    get_merlin_lane_progress_ledgers,
+    get_merlin_training_challenge_pack,
+    run_merlin_training_cycle,
+)
 from .merlin_program import (
     get_backend_expansion_policy,
     get_competitive_benchmark_plan,
@@ -130,6 +137,8 @@ __all__ = [
     'estimate_energy_joules', 'build_run_telemetry', 'summarize_runs',
     'get_merlin_inference_health', 'build_merlin_energy_ledger',
     'consolidate_memory', 'run_self_audit', 'generate_falsification_oracle', 'analyze_depth',
+    'build_merlin_training_execution_bundle', 'build_merlin_training_execution_queue',
+    'get_merlin_lane_progress_ledgers', 'get_merlin_training_challenge_pack', 'run_merlin_training_cycle',
     'get_program_charter', 'get_program_doctrine', 'get_sovereignty_roadmap', 'get_replacement_scope',
     'get_merlin_pentad_contract', 'get_dual_loop_learning_contract',
     'get_dual_lane_master_sprint_plan',
