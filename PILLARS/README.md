@@ -1,6 +1,6 @@
 # PILLARS — Master Index
 
-**Unitary Manifold v20.9 | Generated: 2026-08-18 | Total pillars: 475**
+**Unitary Manifold v37.1 | Generated: 2026-09-08 | Total pillars: 483**
 
 This is the auto-generated master navigation index for all pillars.
 For full claim details, see [`docs/mas_tracker.yml`](../docs/mas_tracker.yml).
@@ -84,12 +84,20 @@ These 64 pillars are formally closed (hardgate). Each has passing test suite.
 
 ## Adjacent Research Tracks (P209+)
 
-These 411 pillars are 🔵 ADJACENT TRACK — **not hardgate physics claims**.
+These 419 pillars are 🔵 ADJACENT TRACK — **not hardgate physics claims**.
 They are quantitative explorations connecting UM geometry to applied domains.
 They have full test suites and markdown documentation but do NOT affect the hardgate physics claim labels.
 
 | Pillar # | Name / Claim | Status | Primary Source |
 |---|---|---|---|
+| [1089](P1089/README.md) | Sprint CO Master Evolution Matrix | 🟡 ADJACENT | `src/core/pillar1089_sprint_co_master_evolution_matrix.py` |
+| [1090](P1090/README.md) | Lean Burden Ledger | 🟡 ADJACENT | `src/core/pillar1090_lean_burden_ledger.py` |
+| [1091](P1091/README.md) | Lean→Python Bridge Hardening | 🟡 ADJACENT | `src/core/pillar1091_lean_python_bridge_hardening.py` |
+| [1092](P1092/README.md) | PsiCat Formal Training Integration | 🟡 ADJACENT | `src/core/pillar1092_psicat_formal_training_integration.py` |
+| [1093](P1093/README.md) | Validation Resilience Scoped Security | 🟡 ADJACENT | `src/core/pillar1093_validation_resilience_scoped_security.py` |
+| [1094](P1094/README.md) | Enterprise Runtime Deployment Hardening | 🟡 ADJACENT | `src/core/pillar1094_enterprise_runtime_deployment_hardening.py` |
+| [1095](P1095/README.md) | Sprint CO Status Coherence Certificate | 🟡 ADJACENT | `src/core/pillar1095_sprint_co_status_coherence_certificate.py` |
+| [1096](P1096/README.md) | Sprint CO Master Integration Certificate | 🟡 ADJACENT | `src/core/pillar1096_sprint_co_master_integration_certificate.py` |
 | [209](P209/README.md) | universal_yukawa_bc | 🟡 ADJACENT | `src/core/pillar209_universal_yukawa_bc.py` |
 | [210](P210/README.md) | neutrino_mass_splittings | 🟡 ADJACENT | `src/core/pillar210_neutrino_mass_splittings.py` |
 | [211](P211/README.md) | higgs_mass_geometric | 🟡 ADJACENT | `src/core/pillar211_higgs_mass_geometric.py` |
@@ -123,8 +131,8 @@ They have full test suites and markdown documentation but do NOT affect the hard
 | [239](P239/README.md) | autonomous_infrastructure_stability_engine | 🟡 ADJACENT | `src/core/pillar239_autonomous_infrastructure_stability_engine.py` |
 | [240](P240/README.md) | precision_agriculture_food_security_command | 🟡 ADJACENT | `src/core/pillar240_precision_agriculture_food_security_command.py` |
 | [241](P241/README.md) | planetary_early_warning_response_grid | 🟡 ADJACENT | `src/core/pillar241_planetary_early_warning_response_grid.py` |
-| [242](P242/README.md) | planetary_coherence_cascade_resilience_engine | 🟡 ADJACENT | `src/core/pillar242_planetary_coherence_cascade_resilience_engine.py` |
-| [243](P243/README.md) | unified_scientific_interoperability_validation_fabric | 🟡 ADJACENT | `src/core/pillar243_unified_scientific_interoperability_validation_fabric.py` |
+| [242](P242/README.md) | — | 🟡 ADJACENT | `—` |
+| [243](P243/README.md) | — | 🟡 ADJACENT | `—` |
 | [244](P244/README.md) | tend_branch_completion_engine | 🟡 ADJACENT | `src/core/pillar244_tend_branch_completion_engine.py` |
 | [245](P245/README.md) | eleventd_full_closure | 🟡 ADJACENT | `src/core/pillar245_eleventd_full_closure.py` |
 | [246](P246/README.md) | sm_28of28_geometric_closure_track | 🟡 ADJACENT | `src/core/pillar246_sm_28of28_geometric_closure_track.py` |

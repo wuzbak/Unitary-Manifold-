@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v37.0
+# Unitary Manifold v37.1
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -20,6 +20,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CO (v37.1 — 2026-09-08):** 1 sprint packet (1089-1096). P1089-P1096 convert the current narrowed frontier into one fail-closed master evolution packet: the Lean burden ledger, Lean→Python bridge hardening, PsiCat formal-training integration, validation resilience/scoped security doctrine, enterprise runtime hardening, status coherence, and final integration certificate all land together. This sprint strengthens proof, provenance, training, and operational readiness without claiming new hardgate closure. Lean4 4080→4080 (+0). Verified full regression in current branch history remains 64,138 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CO targeted master packet suites 31 passed · 0 failed. Next slot 1097.
+>
 
 > **Sprint CN (v37.0 — 2026-09-08):** 1 pillar (1088). P1088 adds an adjacent mechanistic irreversibility map that decomposes local arrow-of-time signal into singleton, pairwise, triplet, and higher-order residual channels under controlled synthetic benchmarks. The new surface is diagnostic and benchmark-first, not a new hardgate closure claim: it identifies which interactions carry asymmetry, preserves explicit interpretation boundaries, and emits PsiCat-ready summaries for training, assist, and case comparison. Lean4 4080→4080 (+0). Verified full regression in current branch history: 64,138 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Pillar 1088 targeted irreversibility suites 94 passed · 1 skipped · 0 failed. Next slot 1089.
 >

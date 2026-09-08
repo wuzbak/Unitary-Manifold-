@@ -33,10 +33,40 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v37.0 (2026-09-08)**
+**Current version: v37.1 (2026-09-08)**
 **Regression:** 64,138 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1089
+**Next pillar slot:** 1097
 
+
+## v37.1 (2026-09-08 — Sprint CO: Pillars 1089-1096)
+
+**What changed:**
+Sprint CO turns the current repository-wide evolution moment into one governed proof-foundry hardening packet. The new surfaces make the Lean burden ledger explicit, harden the Lean→Python provenance bridge, upgrade PsiCat so the proof-foundry corpus and retained sprint receipts become first-class training artifacts, codify changed-surface-first validation and missing-signal honesty, bind runtime/deployment surfaces into one enterprise risk ledger, and certify cross-surface coherence plus final integration together.
+
+**Why:**
+Strengthen the narrowed formal frontier without widening claims, keep PsiCat continuously trained on auditable repository advances, and make sprint progress restart-safe and reviewer-ready instead of memory-only.
+
+**Epistemic label deltas:**
+- `SPRINT_CO_MASTER_EVOLUTION_MATRIX_COMPLETE`
+- `LEAN_BURDEN_LEDGER_COMPLETE`
+- `LEAN_PYTHON_BRIDGE_HARDENING_COMPLETE`
+- `PSICAT_FORMAL_TRAINING_INTEGRATION_COMPLETE`
+- `VALIDATION_RESILIENCE_SCOPED_SECURITY_COMPLETE`
+- `ENTERPRISE_RUNTIME_DEPLOYMENT_HARDENING_COMPLETE`
+- `SPRINT_CO_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+- `SPRINT_CO_MASTER_INTEGRATION_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — this is proof/process/runtime hardening, not new hardgate closure.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, non-perturbative QG, and all external-wait observational lanes.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Focused regression: Sprint CO targeted master packet suites 31 passed · 0 failed; latest verified full regression in branch history remains 64,138 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1097
 
 ## v37.0 (2026-09-08 — Sprint CN: Pillar 1088)
 

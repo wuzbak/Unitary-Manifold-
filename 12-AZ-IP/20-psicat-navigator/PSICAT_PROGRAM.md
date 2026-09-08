@@ -174,10 +174,10 @@ This document records the implemented execution blueprint for making Merlin the 
   - Lane B: books/articles mastery
   - Lane C: adversarial self-correction and falsification discipline
 - `getMerlinThreeLaneIntensiveSprint`, `getMerlinApplicationsToolsLane`, `getMerlinBooksArticlesLane`, `getMerlinAdversarialGrowthLane`, and `getMerlinContinuousLearningProtocol` now expose those lanes as machine-readable runtime surfaces.
-- Training architecture and dataset seeding now include product-mastery, editorial-corpus, adversarial-integrity, and governed between-session learning records so the sprint is not only descriptive but executable.
+- Training architecture and dataset seeding now include product-mastery, editorial-corpus, adversarial-integrity, formal proof-foundry, and governed between-session learning records so the sprint is not only descriptive but executable.
 - `/api/merlin/three-lane-intensive-sprint` and `/api/merlin/continuous-learning` now expose the maximum-effort sprint and governed inactive-learning cadence directly.
-- `getMerlinTrainingExecutionQueue`, `getMerlinLaneProgressLedgers`, and `runMerlinTrainingCycle` now convert the three-lane plan into active, retained execution receipts instead of queue descriptions alone.
-- `/api/merlin/training-execution-queue`, `/api/merlin/lane-progress-ledgers`, and `/api/merlin/training-cycle` now expose live queue state, per-lane progress ledgers, and auditable retained training work.
+- `getMerlinTrainingExecutionQueue`, `getMerlinLaneProgressLedgers`, and `runMerlinTrainingCycle` now convert the retained training plan into active receipts across applications/tools, books/articles, adversarial self-correction, and the formal proof-foundry lane instead of queue descriptions alone.
+- `/api/merlin/training-execution-queue`, `/api/merlin/lane-progress-ledgers`, and `/api/merlin/training-cycle` now expose live queue state, per-lane progress ledgers, and auditable retained training work, including proof-foundry reviewer packets and bridge-audit surfaces.
 - `tools/export_merlin_training_execution.py` now materializes a deterministic execution bundle at `training/training_execution/three_lane_execution_bundle.json` so the current sprint state can be reviewed without hidden memory.
 - Training execution now detects stale source changes, surfaces review-required queue items when mastery scores fall short, and emits deterministic challenge packs so completed work becomes reusable follow-up training rather than a dead ledger.
 

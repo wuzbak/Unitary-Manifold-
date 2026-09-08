@@ -7,4 +7,14 @@ second copy. Executable algebra and regression checks are not a proof of the
 entire physical theory. The [foundation reassessment](../docs/TRUTH_LAYER.md#foundation-reassessment)
 records corrected implications and the remaining derivation obligations.
 
+For the current narrowed formal frontier, use the proof-foundry surface:
+
+- [`FORMAL_PROOF_FOUNDRY.md`](FORMAL_PROOF_FOUNDRY.md)
+- [`CURRY_HOWARD_WORKFLOW.md`](CURRY_HOWARD_WORKFLOW.md)
+- [`REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md`](REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md)
+- [`REVIEW_PACKET_ACTION_TO_EVOLUTION.md`](REVIEW_PACKET_ACTION_TO_EVOLUTION.md)
+
+These packets keep the current review burden small and explicit instead of
+asking reviewers to infer it from theorem totals or historical sprint language.
+
 The broader repository includes adjacent applied tracks and independent governance material. Those components are downstream or orthogonal to this formal core and should not be used as the primary basis for classifying the Tier-1 mathematical claims.

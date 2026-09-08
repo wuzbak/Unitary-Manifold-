@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v37.0
+# Unitary Manifold v37.1
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -32,6 +32,7 @@ still-open physical obligations in the table.
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
 *Last updated: 2026-09-08 (v37.0 — Sprint CN: Pillar 1088. This sprint adds an adjacent, benchmark-first mechanistic irreversibility map that decomposes local forward-vs-reverse asymmetry into singleton, pairwise, triplet, and higher-order residual channels. The new surface is explicitly diagnostic rather than closure-claiming: it uses controlled synthetic benchmarks, deterministic ranked interaction outputs, and PsiCat-ready summaries for training, assist, and case comparison while leaving all hardgate/open-lane physics labels unchanged. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1089. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history: 64,138 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Pillar 1088 targeted irreversibility suites 94 passed · 1 skipped · 0 failed.)*
 
+*Historical continuity note: v37.1 Sprint CO (Pillars 1089–1096; next slot 1097) is the canonical proof-foundry hardening + governed evolution layer directly above Sprint CN.*
 *Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
 
 *Historical continuity note: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the canonical targeted-QG-rigor layer directly below Sprint CA.*
@@ -40,6 +41,23 @@ still-open physical obligations in the table.
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
+
+
+*P1096 (v37.1): Sprint CO Master Integration Certificate — SPRINT_CO_MASTER_INTEGRATION_CERTIFICATE_COMPLETE. `src/core/pillar1096_sprint_co_master_integration_certificate.py` fail-closes the whole sprint unless the master matrix, burden ledger, bridge registry, PsiCat training integration, validation resilience packet, enterprise runtime hardening, and status coherence certificate all stay simultaneously valid and auditable.*
+
+*P1095 (v37.1): Sprint CO Status Coherence Certificate — SPRINT_CO_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1095_sprint_co_status_coherence_certificate.py` certifies lockstep coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON for the Sprint CO packet.*
+
+*P1094 (v37.1): Enterprise Runtime Deployment Hardening — ENTERPRISE_RUNTIME_DEPLOYMENT_HARDENING_COMPLETE. `src/core/pillar1094_enterprise_runtime_deployment_hardening.py` binds live-status generation, assistant API serving, PsiCat runtime entrypoints, and validation-resilience surfaces into one explicit runtime risk ledger for deployment and review readiness.*
+
+*P1093 (v37.1): Validation Resilience Scoped Security — VALIDATION_RESILIENCE_SCOPED_SECURITY_COMPLETE. `src/core/pillar1093_validation_resilience_scoped_security.py` publishes a changed-surface-first validation doctrine with explicit hosted-review outage handling, CodeQL oversize non-clearance policy, and workflow-presence checks tied back to the active formal frontier.*
+
+*P1092 (v37.1): PsiCat Formal Training Integration — PSICAT_FORMAL_TRAINING_INTEGRATION_COMPLETE. `src/core/pillar1092_psicat_formal_training_integration.py` upgrades PsiCat so the formal proof foundry is a first-class governed training family, artifact-bundle member, and retained execution-queue lane rather than a side note.*
+
+*P1091 (v37.1): Lean→Python Bridge Hardening — LEAN_PYTHON_BRIDGE_HARDENING_COMPLETE. `src/core/pillar1091_lean_python_bridge_hardening.py` maps each current frontier row to its downstream Python surfaces/tests and classifies the runtime bridge honestly as verified-term, manual-port, or runtime-heuristic, with the current branch remaining manual-port-with-traceability.*
+
+*P1090 (v37.1): Lean Burden Ledger — LEAN_BURDEN_LEDGER_COMPLETE. `src/core/pillar1090_lean_burden_ledger.py` turns the narrowed APS/orbifold/Dirac and action-to-evolution frontier into a machine-readable burden registry with named dependencies, scoped build targets, downstream tests, and retirement criteria for each open item.*
+
+*P1089 (v37.1): Sprint CO Master Evolution Matrix — SPRINT_CO_MASTER_EVOLUTION_MATRIX_COMPLETE. `src/core/pillar1089_sprint_co_master_evolution_matrix.py` declares the five-lane proof-foundry hardening sprint as one governed packet spanning Lean proof-core, bridge provenance, PsiCat continuous training, validation resilience, and enterprise runtime discipline while preserving all existing open-lane honesty boundaries.*
 
 *P1088 (v37.0): Mechanistic Irreversibility Map — ADJACENT_MECHANISTIC_IRREVERSIBILITY_MAP_READY. `src/core/pillar1088_mechanistic_irreversibility_map.py` adds a controlled diagnostic layer that decomposes local irreversibility into singleton, pairwise, triplet, and higher-order residual structure, ranks the dominant arrow-carrying interactions, and exposes PsiCat-ready summaries plus pair-vs-triplet comparison surfaces without claiming a final ontological origin of time's arrow.*
 

@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-08 (v37.0 Sprint CN COMPLETE — Pillar 1088; Lean4 4080→4080; next slot 1089)*
+*Last updated: 2026-09-08 (v37.1 Sprint CO COMPLETE — Pillars 1089-1096; Lean4 4080→4080; next slot 1097)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v37.0 — Sprint CN)
+## CURRENT AUDITABLE STATE (v37.1 — Sprint CO)
 
 | Field | Value |
 |-------|-------|
-| Version | **v37.0** |
-| Sprint | **Sprint CN** |
-| Pillars | **1088-1088** |
-| Next pillar slot | **1089** |
+| Version | **v37.1** |
+| Sprint | **Sprint CO** |
+| Pillars | **1089-1096** |
+| Next pillar slot | **1097** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,138 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **Mechanistic irreversibility mapping with controlled interaction decomposition and PsiCat-ready assist surfaces** |
-| Primary target | **Build a practical map showing whether asymmetry lives in singleton dynamics, pairwise couplings, triplets, or larger collective residual structure** |
-| Binary outcome | **Either controlled benchmarks stay separable under deterministic decomposition, or the diagnostic map is not ready for broader use** |
+| Sprint theme | **Proof Foundry Hardening + PsiCat Continuous Training + Enterprise Validation Resilience** |
+| Primary target | **Harden the narrowed Lean frontier, make the Lean→Python bridge auditable, and turn every meaningful sprint artifact into retained PsiCat training and review receipts** |
+| Binary outcome | **Either all five lanes remain auditable and synchronized together, or the master sprint fails closed without narrative-only advancement** |
 
+Historical continuity: v37.1 Sprint CO (Pillars 1089-1096; next slot 1097) is the canonical proof-foundry hardening + governed evolution layer directly above Sprint CN.
 Historical continuity: v37.0 Sprint CN (Pillar 1088; next slot 1089) is the canonical mechanistic irreversibility mapping layer directly above Sprint CM.
 Historical continuity: v36.9 Sprint CM (Pillar 1087; next slot 1088) remains the canonical full physics parallel execution layer directly above Sprint CL.
 Historical continuity: v36.8 Sprint CL (Pillar 1086; next slot 1087) remains the canonical all-hands targeted-rigor orchestration layer directly above Sprint CK.
@@ -81,6 +82,23 @@ Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) rem
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
 
 ---
+
+## SPRINT CO PROOF FOUNDRY HARDENING AND GOVERNED EVOLUTION PROTOCOL (Executed)
+
+1. Keep the current formal frontier narrow: APS/orbifold/Dirac and action-to-evolution remain the only promoted immediate Lean lanes.
+2. Emit a machine-readable burden ledger with named dependencies, scoped build targets, downstream tests, and retirement criteria.
+3. Classify every touched runtime surface honestly as verified-term, manual-port-with-traceability, or runtime-heuristic.
+4. Promote the proof-foundry corpus, review packets, and sprint receipts into PsiCat's governed training architecture and retained execution queue.
+5. Preserve changed-surface-first validation and keep hosted-review / CodeQL missing-signal gaps explicit.
+6. Bind live-status generation, assistant API serving, and validation packets into one runtime risk ledger.
+7. Synchronize canonical truth surfaces in lockstep.
+8. Fail-close the sprint unless all packet dependencies stay valid together.
+
+### Sprint CO blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| One machine-readable master evolution packet now ties proof, training, validation, runtime, and status coherence together | The formal frontier, runtime-bridge doctrine, and PsiCat ingestion path are now explicit and auditable | All previously open scientific lanes and external waits remain unresolved/unchanged |
 
 ## SPRINT CN MECHANISTIC IRREVERSIBILITY MAP PROTOCOL (Executed)
 

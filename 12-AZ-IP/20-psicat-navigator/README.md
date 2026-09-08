@@ -98,11 +98,11 @@ Related reading outside this product folder:
 - `GET /api/psicat/open-weight-acquisition` exposes machine-readable open-weight acquisition channels, scoring rubric, and sprint-cycle roster freeze policy.
 - `GET /api/psicat/competitive-benchmarks` exposes the competitive benchmark families PsiCat must clear before broader promotion.
 - `GET /api/psicat/dual-lane-master-sprint` exposes the governed dual-lane (physics closure + PsiCat training) fail-closed sprint contract.
-- `GET /api/psicat/three-lane-intensive-sprint` exposes the intensive apps/tools + books/articles + adversarial self-correction sprint contract.
+- `GET /api/psicat/three-lane-intensive-sprint` exposes the intensive apps/tools + books/articles + adversarial self-correction sprint contract, while the retained execution queue now also carries a formal proof-foundry lane for proof packets and bridge audits.
 - `GET /api/psicat/continuous-learning` exposes governed between-session learning cadence, queue, and forbidden-action policy.
-- `GET /api/psicat/training-execution-queue` exposes the live retained-training queue state across all three lanes.
+- `GET /api/psicat/training-execution-queue` exposes the live retained-training queue state across applications/tools, books/articles, adversarial self-correction, and the formal proof-foundry lane.
 - `GET /api/psicat/lane-progress-ledgers` exposes automated per-lane completion ledgers and recent retained receipts.
-- `POST /api/psicat/training-cycle` executes queued three-lane training work and retains auditable receipts in PsiCat session memory.
+- `POST /api/psicat/training-cycle` executes queued multi-lane training work, including proof-foundry ingestion, and retains auditable receipts in PsiCat session memory.
 - `GET /api/psicat/training-challenge-pack` converts retained receipts into deterministic follow-up drills, prioritizing stale or review-required work first.
 - `GET /api/psicat/benchmark-corpora` exposes Stage A/B/C/D/E corpora directly, with stage selection support.
 - `GET /api/psicat/stage-a-receipts` runs the self-hosted Stage A receipt set and returns comparable PsiCat/incumbent runs.

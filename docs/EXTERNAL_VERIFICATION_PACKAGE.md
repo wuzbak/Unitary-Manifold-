@@ -1,6 +1,13 @@
 # External Mathematical Verification Package
 ## Unitary Manifold — v11.19 — Three Independently Checkable Claims
 
+> **Current intake note (2026-09-08):** this document is a historical external-review
+> package, not the canonical current honesty boundary. For the present intake
+> surface, start with `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/proof/README.md`,
+> `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/proof/TIER_1_FORMAL.md`,
+> `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/proof/FORMAL_PROOF_FOUNDRY.md`,
+> and `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/docs/TRUTH_LAYER.md`.
+
 *Compiled: May 2026*  
 *Repository: wuzbak/Unitary-Manifold-, v11.19*  
 *Theory, framework, scientific direction: ThomasCory Walker-Pearson*  

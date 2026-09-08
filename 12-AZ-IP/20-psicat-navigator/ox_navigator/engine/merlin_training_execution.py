@@ -25,16 +25,19 @@ LANE_ORDER = (
     "lane_a_applications_tools_mastery",
     "lane_b_books_articles_mastery",
     "lane_c_adversarial_self_correction",
+    "lane_d_formal_proof_foundry",
 )
 LANE_NAMES = {
     "lane_a_applications_tools_mastery": "Lane A — Applications and Tools Mastery",
     "lane_b_books_articles_mastery": "Lane B — Books and Articles Mastery",
     "lane_c_adversarial_self_correction": "Lane C — Adversarial Self-Correction",
+    "lane_d_formal_proof_foundry": "Lane D — Formal Proof Foundry",
 }
 LANE_MASTERY_THRESHOLDS = {
     "lane_a_applications_tools_mastery": 0.25,
     "lane_b_books_articles_mastery": 0.22,
     "lane_c_adversarial_self_correction": 0.5,
+    "lane_d_formal_proof_foundry": 0.35,
 }
 
 
@@ -167,7 +170,11 @@ def _path_file_inventory(path: Path) -> list[Path]:
 def _build_source_snapshot(item: dict[str, Any], *, session: MerlinSession | None = None) -> dict[str, Any]:
     lane_id = str(item.get("lane_id") or "")
     reference_path = str(item.get("reference_path") or "")
-    if lane_id in {"lane_a_applications_tools_mastery", "lane_b_books_articles_mastery"}:
+    if lane_id in {
+        "lane_a_applications_tools_mastery",
+        "lane_b_books_articles_mastery",
+        "lane_d_formal_proof_foundry",
+    }:
         target = _relative_target(reference_path)
         files = _path_file_inventory(target if target.exists() else target.parent)
         entries: list[str] = []
@@ -259,7 +266,7 @@ def _score_lane_receipt(lane_id: str, metrics: dict[str, Any]) -> tuple[float, s
         )
         if float(metrics.get("word_count", 0) or 0) == 0:
             blockers.append("empty_editorial_surface")
-    else:
+    elif lane_id == "lane_c_adversarial_self_correction":
         contract_pass_rate = float(metrics.get("contract_pass_rate", 0.0) or 0.0)
         audit_sample_count = float(metrics.get("audit_sample_count", 0) or 0)
         effective_contract_pass_rate = contract_pass_rate if audit_sample_count > 0 else 0.9
@@ -274,6 +281,19 @@ def _score_lane_receipt(lane_id: str, metrics: dict[str, Any]) -> tuple[float, s
         )
         if audit_sample_count > 0 and contract_pass_rate < 0.9:
             blockers.append("contract_pass_rate_below_target")
+    else:
+        score = min(
+            1.0,
+            (
+                min(float(metrics.get("word_count", 0) or 0) / 500.0, 1.0) * 0.3
+                + min(float(metrics.get("heading_count", 0) or 0) / 5.0, 1.0) * 0.2
+                + min(float(metrics.get("review_packet_mentions", 0) or 0) / 1.0, 1.0) * 0.25
+                + min(float(metrics.get("open_gap_mentions", 0) or 0) / 2.0, 1.0) * 0.15
+                + min(float(metrics.get("internal_link_count", 0) or 0) / 3.0, 1.0) * 0.1
+            ),
+        )
+        if float(metrics.get("review_packet_mentions", 0) or 0) == 0 and float(metrics.get("open_gap_mentions", 0) or 0) == 0:
+            blockers.append("missing_review_packet_reference")
     threshold = float(LANE_MASTERY_THRESHOLDS.get(lane_id, 0.6))
     verdict = "pass" if score >= threshold and not blockers else "needs_review"
     return round(score, 4), verdict, blockers
@@ -441,6 +461,43 @@ def _build_lane_c_receipt(item: dict[str, Any], *, session: MerlinSession) -> tu
     return artifact, metrics, fact
 
 
+def _build_lane_d_receipt(item: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], str]:
+    target = _relative_target(str(item.get("reference_path") or ""))
+    text = _read_text(target)
+    headings = [match.strip() for match in re.findall(r"^#{1,6}\s+(.+)$", text, flags=re.MULTILINE)]
+    internal_links = _extract_internal_links(text)
+    words = re.findall(r"\b[\w'’/-]+\b", text)
+    review_packet_mentions = len(re.findall(r"REVIEW_PACKET|review packet", text))
+    open_gap_mentions = len(re.findall(r"OPEN_GAP|open gap|boundary", text, flags=re.IGNORECASE))
+    artifact = {
+        "artifact_type": str(item.get("expected_artifact") or "proof_foundry_review_brief"),
+        "training_mode": "formal_proof_foundry_ingestion",
+        "honesty_note": "This receipt captures auditable proof-foundry intake surfaces and reviewer packets, not direct proof execution.",
+        "reference_path": _repo_rel(target),
+        "title": _markdown_title(text, fallback=target.stem.replace("_", " ")),
+        "heading_count": len(headings),
+        "heading_preview": headings[:10],
+        "internal_link_count": len(internal_links),
+        "internal_link_preview": internal_links[:12],
+        "word_count": len(words),
+        "review_packet_mentions": review_packet_mentions,
+        "open_gap_markers": open_gap_mentions,
+        "gate_markers": [label for label in GATE_LABELS if label in text],
+    }
+    metrics = {
+        "heading_count": artifact["heading_count"],
+        "internal_link_count": artifact["internal_link_count"],
+        "word_count": artifact["word_count"],
+        "review_packet_mentions": review_packet_mentions,
+        "open_gap_mentions": open_gap_mentions,
+    }
+    fact = (
+        f"{artifact['title']} retained {_repo_rel(target)} with {artifact['word_count']} words, "
+        f"{review_packet_mentions} review-packet markers, and {open_gap_mentions} boundary markers."
+    )
+    return artifact, metrics, fact
+
+
 def _execute_queue_item(item: dict[str, Any], *, session: MerlinSession) -> dict[str, Any]:
     lane_id = str(item.get("lane_id") or "")
     started_at = _utcnow()
@@ -449,8 +506,10 @@ def _execute_queue_item(item: dict[str, Any], *, session: MerlinSession) -> dict
         artifact, metrics, fact = _build_lane_a_receipt(item)
     elif lane_id == "lane_b_books_articles_mastery":
         artifact, metrics, fact = _build_lane_b_receipt(item)
-    else:
+    elif lane_id == "lane_c_adversarial_self_correction":
         artifact, metrics, fact = _build_lane_c_receipt(item, session=session)
+    else:
+        artifact, metrics, fact = _build_lane_d_receipt(item)
     mastery_score, gate_verdict, blockers = _score_lane_receipt(lane_id, metrics)
     base_receipt = {
         "queue_id": str(item.get("queue_id") or ""),
@@ -478,7 +537,13 @@ def _execute_queue_item(item: dict[str, Any], *, session: MerlinSession) -> dict
         source_query=f"training_cycle:{base_receipt['queue_id']}",
         fact=fact,
         tags=["training_execution", lane_id, str(item.get("expected_artifact") or "")],
-        namespace="governance" if lane_id == "lane_c_adversarial_self_correction" else "general",
+        namespace=(
+            "governance"
+            if lane_id == "lane_c_adversarial_self_correction"
+            else "formal"
+            if lane_id == "lane_d_formal_proof_foundry"
+            else "general"
+        ),
     )
     return base_receipt
 
@@ -543,6 +608,10 @@ def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 1
             prompt = (
                 f"Summarize the thesis, limits, and cross-reference obligations of {item.get('reference_path')}."
             )
+        elif lane_id == "lane_d_formal_proof_foundry":
+            prompt = (
+                f"Summarize the proof-foundry obligation, reviewer packet, and non-claim boundary for {item.get('reference_path')}."
+            )
         else:
             prompt = (
                 f"State the contradiction, falsification, or calibration discipline required for {item.get('queue_id')}."
@@ -598,7 +667,7 @@ def build_merlin_training_execution_queue(*, session: MerlinSession, limit: int 
     selected = items if limit is None else items[: _coerce_limit(limit)]
     return {
         "mode": "active_execution_queue",
-        "objective": "Execute and retain three-lane Merlin training work with auditable per-item receipts.",
+        "objective": "Execute and retain four-lane Merlin training work with auditable per-item receipts.",
         "artifact_export_path": _repo_rel(EXECUTION_ARTIFACT_PATH),
         "total_queue_items": len(items),
         "completed_count": completed,
