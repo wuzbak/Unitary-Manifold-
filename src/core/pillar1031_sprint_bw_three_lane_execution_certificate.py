@@ -26,6 +26,10 @@ PILLAR_GATE: str = "SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE"
 PILLAR_STATUS: str = "SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE_COMPLETE"
 
 _ROOT = Path(__file__).resolve().parents[2]
+_PROMOTION_PACKET_ENDPOINTS = (
+    "/api/merlin/promotion-packet",
+    "/api/phicat/promotion-packet",
+)
 
 
 def _read(path: str) -> str:
@@ -81,10 +85,6 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
         and lane1_plan_marker
     )
 
-    promotion_packet_routes = (
-        "/api/phicat/promotion-packet",
-        "/api/merlin/promotion-packet",
-    )
     lane2_done = all(
         marker in merlin_tools_text
         for marker in (
@@ -92,10 +92,10 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
             "getMerlinPromotionPacket",
             "authorizeMerlinPrivilege is blocked in orchestration",
         )
-    ) and _contains_any(merlin_server_text, promotion_packet_routes) and all(
+    ) and _contains_any(merlin_server_text, _PROMOTION_PACKET_ENDPOINTS) and all(
         marker in merlin_program_text
         for marker in ("evaluateMerlinEmpiricalGate", "getMerlinPromotionPacket")
-    ) and _contains_any(merlin_readme_text, promotion_packet_routes)
+    ) and _contains_any(merlin_readme_text, _PROMOTION_PACKET_ENDPOINTS)
 
     lane3_done = (
         canonical_passed > 0

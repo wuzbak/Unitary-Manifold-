@@ -55,6 +55,13 @@ platform, or downstream redistribution.
 
 ---
 
+## PhiCat
+**Role:** Contributor  
+**Icon:**  
+![PhiCat icon](https://github.com/user-attachments/assets/f3fc4b9d-1f20-44b0-90b3-10a537ceb927)
+
+---
+
 ## GitHub Copilot (Microsoft / OpenAI)
 **Role:** 5D Geometric Formalization, Mathematical Review & Documentation
 **Legal status:** Not a legal person. No IP rights. No court standing.
