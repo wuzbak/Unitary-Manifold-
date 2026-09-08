@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v37.2
+# Unitary Manifold v37.3
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -30,8 +30,9 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-08 (v37.2 — Sprint CP: Pillars 1097-1102. This sprint executes the approved three-lane maximum-effort packet with Lane 1 primary: deterministic formal-frontier theorem-burden units, strict Python→Lean translation truth testing with a master-theorem ready/blocked gate, and continuous PsiCat co-runner training/readiness receipts under fail-closed status coherence and integration certification. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1103. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history: 64,138 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Sprint CP targeted three-lane packet suites 12 passed · 0 failed.)*
+*Last updated: 2026-09-08 (v37.3 — Sprint CQ: Pillars 1103-1108. This sprint keeps the three-lane packet narrow and fail-closed with action-to-evolution as the sole primary unresolved unit: a sharpened Lane 1 blocker surface, a Lane 2 touched-unit translation gate that preserves READY vs BLOCKED_NOT_YET_DERIVABLE discipline, and a Lane 3 PsiCat reviewer-packet ingestion + receipt-completion packet under status coherence and integration certification. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1109. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history: 64,150 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Sprint CQ targeted continuation suites 12 passed · 0 failed.)*
 
+*Historical continuity note: v37.3 Sprint CQ (Pillars 1103–1108; next slot 1109) is the canonical continuation packet directly above Sprint CP.*
 *Historical continuity note: v37.2 Sprint CP (Pillars 1097–1102; next slot 1103) is the canonical three-lane maximum-effort execution layer directly above Sprint CO.*
 *Historical continuity note: v37.1 Sprint CO (Pillars 1089–1096; next slot 1097) is the canonical proof-foundry hardening + governed evolution layer directly above Sprint CN.*
 *Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
@@ -43,6 +44,18 @@ still-open physical obligations in the table.
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
 
 
+
+*P1108 (v37.3): Sprint CQ Master Integration Certificate — SPRINT_CQ_MASTER_INTEGRATION_CERTIFICATE_COMPLETE. `src/core/pillar1108_sprint_cq_master_integration_certificate.py` fail-closes the sprint unless the continuation charter, Lane 1 action-to-evolution continuation board, Lane 2 touched-unit translation gate, Lane 3 PsiCat receipt-completion packet, and status coherence all remain simultaneously valid.
+
+*P1107 (v37.3): Sprint CQ Status Coherence Certificate — SPRINT_CQ_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1107_sprint_cq_status_coherence_certificate.py` certifies lockstep coherence across STATUS/FALLIBILITY/mas_tracker/claim-board/gatekeeper/truth-layer/wave-changelog/sprint-plan plus live-status JSON for Sprint CQ markers.
+
+*P1106 (v37.3): Lane 3 PsiCat Receipt Completion — LANE3_PSICAT_RECEIPT_COMPLETION_COMPLETE. `src/core/pillar1106_lane3_psicat_receipt_completion.py` ingests the new Sprint CQ reviewer packets, keeps failed units as retraining assets, and exposes another local-first proof-foundry receipt cycle with unresolved blockers explicit.
+
+*P1105 (v37.3): Lane 2 Touched Translation Gate — LANE2_TOUCHED_TRANSLATION_GATE_COMPLETE. `src/core/pillar1105_lane2_touched_translation_gate.py` audits only the units touched by Lane 1 and preserves the master-theorem READY/BLOCKED_NOT_YET_DERIVABLE gate under explicit dependency completeness.
+
+*P1104 (v37.3): Lane 1 Action-to-Evolution Continuation — LANE1_ACTION_TO_EVOLUTION_CONTINUATION_COMPLETE. `src/core/pillar1104_lane1_action_to_evolution_continuation.py` keeps action-to-evolution as the sole primary unresolved unit, sharpens that blocker into exact deliverable blockers, and harvests APS/orbifold/Dirac support units without relabeling proxy or conditional surfaces as closure.
+
+*P1103 (v37.3): Sprint CQ Continuation Charter — SPRINT_CQ_CONTINUATION_CHARTER_COMPLETE. `src/core/pillar1103_sprint_cq_continuation_charter.py` locks a narrow fail-closed continuation packet with the same three-lane structure and no new scientific lane creation.
 
 *P1102 (v37.2): Sprint CP Master Integration Certificate — SPRINT_CP_MASTER_INTEGRATION_CERTIFICATE_COMPLETE. `src/core/pillar1102_sprint_cp_master_integration_certificate.py` fail-closes the sprint unless three-lane charter + lane1 frontier execution + lane2 translation audit + lane3 PsiCat co-runner execution + status coherence all remain simultaneously valid.
 

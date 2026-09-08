@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-08 (v37.2 Sprint CP COMPLETE — Pillars 1097-1102; Lean4 4080→4080; next slot 1103)*
+*Last updated: 2026-09-08 (v37.3 Sprint CQ COMPLETE — Pillars 1103-1108; Lean4 4080→4080; next slot 1109)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v37.2 — Sprint CP)
+## CURRENT AUDITABLE STATE (v37.3 — Sprint CQ)
 
 | Field | Value |
 |-------|-------|
-| Version | **v37.2** |
-| Sprint | **Sprint CP** |
-| Pillars | **1097-1102** |
-| Next pillar slot | **1103** |
+| Version | **v37.3** |
+| Sprint | **Sprint CQ** |
+| Pillars | **1103-1108** |
+| Next pillar slot | **1109** |
 | Lean4 theorems | **4080** |
-| Verified full regression | **64,138 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **Three-Lane Maximum-Effort Execution: Primary Physics/Lean + Python→Lean Audit + PsiCat Co-Runner** |
-| Primary target | **Execute the approved three-lane packet with Lane 1 primary, deterministic translation auditing, and continuous PsiCat co-runner receipts under fail-closed gates** |
-| Binary outcome | **Either all three lanes plus status coherence pass together, or Sprint CP fails closed without narrative-only advancement** |
+| Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed** |
+| Sprint theme | **Action-to-Evolution Primary Push + Translation Promotion Gate + PsiCat Receipt Completion** |
+| Primary target | **Keep the same three-lane packet narrow and fail-closed, with action-to-evolution as the sole primary unresolved unit** |
+| Binary outcome | **Either the continuation packet stays coherent across all three lanes plus status sync, or Sprint CQ fails closed without narrative-only advancement** |
 
+Historical continuity: v37.3 Sprint CQ (Pillars 1103-1108; next slot 1109) is the canonical continuation packet directly above Sprint CP.
 Historical continuity: v37.2 Sprint CP (Pillars 1097-1102; next slot 1103) is the canonical three-lane maximum-effort execution layer directly above Sprint CO.
 Historical continuity: v37.1 Sprint CO (Pillars 1089-1096; next slot 1097) is the canonical proof-foundry hardening + governed evolution layer directly above Sprint CN.
 Historical continuity: v37.0 Sprint CN (Pillar 1088; next slot 1089) is the canonical mechanistic irreversibility mapping layer directly above Sprint CM.
@@ -84,6 +85,23 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 
 ---
 
+
+## SPRINT CQ CONTINUATION PROTOCOL (Executed)
+
+1. Keep the same fail-closed three-lane sprint structure; do not open new scientific lanes.
+2. Make action-to-evolution equivalence the sole primary unresolved Lane 1 unit.
+3. Convert the broad action-to-evolution blocker into exact deliverable blockers: action functional, Euler-Lagrange match, and time/domain boundary.
+4. Touch APS/orbifold/Dirac only as secondary harvest support and do not relabel proxy or conditional results as closure.
+5. Audit only the Lane 1 touched units in Lane 2 and preserve the master-theorem gate as READY or BLOCKED_NOT_YET_DERIVABLE.
+6. In Lane 3, ingest the new Sprint CQ reviewer packets, retain failed units for retraining, and expose another explicit receipt cycle under local-first runtime.
+7. Keep canonical truth surfaces synchronized in lockstep.
+8. Fail-close sprint validity unless all packet surfaces and status coherence remain valid together.
+
+### Sprint CQ blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| The continuation packet is now machine-readable and fail-closed end to end | Action-to-evolution is narrowed to exact deliverable blockers; translation scope now matches touched units; PsiCat receipt ingestion now points at the new reviewer packets | Hardgate scientific open lanes and external observational waits remain unchanged and explicit |
 
 ## SPRINT CP THREE-LANE MAXIMUM-EFFORT PROTOCOL (Executed)
 

@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v37.2
+# Unitary Manifold v37.3
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -21,6 +21,9 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+
+> **Sprint CQ (v37.3 — 2026-09-08):** 1 sprint packet (1103-1108). P1103-P1108 keeps the three-lane packet narrow and fail-closed with action-to-evolution as the sole primary unresolved unit: Lane 1 sharpens the blocker surface into exact deliverable blockers, Lane 2 audits only the touched translation units while preserving the strict master-theorem READY/BLOCKED gate, and Lane 3 ingests the new reviewer packets while exposing another local-first receipt cycle and retaining failed units for retraining. This sprint hardens blocker precision, translation-scope discipline, and governed co-runner traceability without claiming new hardgate closure. Lean4 4080→4080 (+0). Verified full regression in current branch history is 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CQ targeted continuation suites 12 passed · 0 failed. Next slot 1109.
+>
 
 > **Sprint CP (v37.2 — 2026-09-08):** 1 sprint packet (1097-1102). P1097-P1102 executes the approved three-lane maximum-effort sprint with Lane 1 primary: deterministic formal-frontier theorem-burden execution with reviewer packet mapping, strict Python→Lean translation truth matrix and master-theorem READY/BLOCKED gate, and continuous PsiCat co-runner training queue/ledger/readiness surfaces under explicit fail-closed blockers, with pass units harvested independently and failed units preserved as blocker certificates. This sprint hardens rigor, traceability, and governed co-runner execution without claiming new hardgate closure. Lean4 4080→4080 (+0). Verified full regression in current branch history remains 64,138 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CP targeted three-lane packet suites 12 passed · 0 failed. Next slot 1103.
 >
