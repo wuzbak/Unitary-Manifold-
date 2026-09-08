@@ -114,6 +114,7 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/review-packet`
   - `GET /api/merlin/heavy-lane`
   - `GET /api/merlin/model-board`
+  - `GET /api/merlin/execution-board`
   - `GET /api/merlin/training-artifacts`
   - `GET /api/merlin/promotion-packet`
 
@@ -151,6 +152,8 @@ This document records the implemented execution blueprint for making Merlin the 
 `getMerlinProgramOffice()` now declares a formal command structure with explicit approve/hold/rollback authority, one decision ledger, one risk ledger, and one gate board. `getMerlinMultiStageBenchmarks()` defines Stage A→E batteries with minimum sustained-run thresholds, `evaluateMerlinLongitudinalAcceptance()` enforces clean-window cadence checks, and `getMerlinControlTower()` surfaces deployment eligibility with fail-closed gate logic.
 
 `getMerlinSprintReviewPacket()` now consolidates Stage A→E receipts, stage-by-stage failure reasons, open promotion blockers, and the current longitudinal discipline state into one canonical review surface. `getMerlinHeavyReasoningLane()` isolates the hardest sovereign long-context lane with provider comparison, benchmark pack, failure taxonomy, and a tuning agenda, while `getMerlinSovereignModelBoard()` converts the open-weight roster into runtime-tier shortlists with explicit adaptation-vs-abandonment policy.
+
+`getMerlinExecutionBoard()` now turns those surfaces into one follow-on operating board inside the repo, with immediate tasks, a blocker register, validation-resilience doctrine, and a Sprint CL blunt board. The same board explicitly treats hosted-review outages and CodeQL oversize skips as trainable Merlin behaviors rather than invisible external inconveniences.
 
 ## Mentorship sprint implementation
 

@@ -7,7 +7,7 @@
 - **Version:** `v23.2`
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
-- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/training-curation`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/open-weight-acquisition`, `/api/merlin/competitive-benchmarks`, `/api/merlin/dual-lane-master-sprint`, `/api/merlin/three-lane-intensive-sprint`, `/api/merlin/continuous-learning`, `/api/merlin/training-execution-queue`, `/api/merlin/lane-progress-ledgers`, `/api/merlin/training-cycle`, `/api/merlin/training-challenge-pack`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/stage-b-receipts`, `/api/merlin/stage-c-receipts`, `/api/merlin/stage-d-receipts`, `/api/merlin/stage-e-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/review-packet`, `/api/merlin/heavy-lane`, `/api/merlin/model-board`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **API endpoints:** `/api/merlin`, `/api/merlin/status`, `/api/merlin/identity`, `/api/merlin/policy`, `/api/merlin/runtime`, `/api/merlin/program`, `/api/merlin/program-office`, `/api/merlin/control-tower`, `/api/merlin/sync-checks`, `/api/merlin/benchmarks`, `/api/merlin/training-architecture`, `/api/merlin/training-dataset`, `/api/merlin/training-curation`, `/api/merlin/mlflow-manifests`, `/api/merlin/open-science-registry`, `/api/merlin/open-weight-acquisition`, `/api/merlin/competitive-benchmarks`, `/api/merlin/dual-lane-master-sprint`, `/api/merlin/three-lane-intensive-sprint`, `/api/merlin/continuous-learning`, `/api/merlin/training-execution-queue`, `/api/merlin/lane-progress-ledgers`, `/api/merlin/training-cycle`, `/api/merlin/training-challenge-pack`, `/api/merlin/benchmark-corpora`, `/api/merlin/stage-a-receipts`, `/api/merlin/stage-b-receipts`, `/api/merlin/stage-c-receipts`, `/api/merlin/stage-d-receipts`, `/api/merlin/stage-e-receipts`, `/api/merlin/replacement-readiness`, `/api/merlin/frontier-readiness`, `/api/merlin/review-packet`, `/api/merlin/heavy-lane`, `/api/merlin/model-board`, `/api/merlin/execution-board`, `/api/merlin/benchmark-artifacts`, `/api/merlin/training-artifacts`, `/api/merlin/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/merlin/memory`, `/api/merlin/memory-geometry`, `/api/merlin/telemetry`
 - **Program endpoints note:** use the `/api/merlin/program*` and readiness/benchmark endpoints listed in the canonical **API endpoints** line above.
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier Merlin memory profiles with contradiction tracking and telemetry continuity
@@ -19,9 +19,10 @@
 ## Start here (short → deep)
 
 1. [`MERLIN_SMART_ROADMAP.md`](./MERLIN_SMART_ROADMAP.md) (one-page plan)
-2. [`MERLIN_FRONTIER_ROADMAP.md`](./MERLIN_FRONTIER_ROADMAP.md) (full execution roadmap)
-3. [`MERLIN_THREE_LANE_INTENSIVE_SPRINT.md`](./MERLIN_THREE_LANE_INTENSIVE_SPRINT.md) (apps/tools + books/articles + adversarial growth + continuous learning)
-4. [`MERLIN_PROGRAM.md`](./MERLIN_PROGRAM.md) (implemented surfaces + ledger)
+2. [`MERLIN_EXECUTION_BOARD.md`](./MERLIN_EXECUTION_BOARD.md) (immediate tasks + blockers + Sprint CL blunt board)
+3. [`MERLIN_FRONTIER_ROADMAP.md`](./MERLIN_FRONTIER_ROADMAP.md) (full execution roadmap)
+4. [`MERLIN_THREE_LANE_INTENSIVE_SPRINT.md`](./MERLIN_THREE_LANE_INTENSIVE_SPRINT.md) (apps/tools + books/articles + adversarial growth + continuous learning)
+5. [`MERLIN_PROGRAM.md`](./MERLIN_PROGRAM.md) (implemented surfaces + ledger)
 
 This order is optimized for people who need to read quickly, understand clearly, and then verify details.
 
@@ -110,6 +111,7 @@ Related reading outside this product folder:
 - `GET /api/merlin/review-packet` consolidates Stage A→E receipts, failure reasons, blocker state, and longitudinal discipline into one canonical sprint review surface.
 - `GET /api/merlin/heavy-lane` exposes the heavy-lane benchmark pack, provider comparison, failure taxonomy, and tuning agenda for sovereign long-context work.
 - `GET /api/merlin/model-board` exposes the runtime-tier shortlist, scoring board, and adaptation-vs-abandonment policy for sovereign model selection.
+- `GET /api/merlin/execution-board` exposes the follow-on execution board with immediate tasks, blocker register, validation resilience, and Sprint CL blunt board.
 - `GET /api/merlin/benchmark-artifacts` exports the receipts plus readiness state as a CI-friendly artifact bundle.
 - `GET /api/merlin/training-artifacts` exports the training architecture, competitive benchmark plan, open-science registry, and Stage A baseline as one governed bundle.
 - `GET /api/merlin/promotion-packet` preserves the legacy promotion-packet contract while `replacement-readiness` exposes the new concrete receipt-backed surface.

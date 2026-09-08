@@ -1279,12 +1279,15 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     review = route_tool('getMerlinSprintReviewPacket', {'limit': 1})
     heavy = route_tool('getMerlinHeavyReasoningLane', {'limit': 2})
     board = route_tool('getMerlinSovereignModelBoard', {})
+    execution = route_tool('getMerlinExecutionBoard', {'limit': 1})
     assert review['ok'] is True
     assert heavy['ok'] is True
     assert board['ok'] is True
+    assert execution['ok'] is True
     review_data = review['result']['data']
     heavy_data = heavy['result']['data']
     board_data = board['result']['data']
+    execution_data = execution['result']['data']
     assert len(review_data['stage_reviews']) == 5
     assert review_data['open_blockers']
     assert any(stage['failure_reasons'] for stage in review_data['stage_reviews'])
@@ -1292,6 +1295,9 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert any(item['failure_id'] == 'cross_source_conflict_collapse' for item in heavy_data['failure_taxonomy'])
     assert 'heavy_reasoning_tier' in board_data['tier_shortlists']
     assert board_data['tier_shortlists']['heavy_reasoning_tier'][0]['status'] == 'shortlist_for_heavy_shadow'
+    assert execution_data['validation_resilience']['can_train_merlin_now'] is True
+    assert execution_data['blunt_board']['title'] == 'Sprint CL blunt board'
+    assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
 
 
 def test_route_tool_model_admission_policy():
@@ -1932,6 +1938,10 @@ def test_server_merlin_endpoints():
             assert model_board.status_code == 200
             assert model_board.json()['ok'] is True
             assert 'default_reasoning_tier' in model_board.json()['model_board']['tier_shortlists']
+            execution_board = client.get('/api/merlin/execution-board?limit=1')
+            assert execution_board.status_code == 200
+            assert execution_board.json()['ok'] is True
+            assert execution_board.json()['execution_board']['validation_resilience']['can_train_merlin_now'] is True
 
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200

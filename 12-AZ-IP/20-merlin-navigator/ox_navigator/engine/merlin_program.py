@@ -46,6 +46,7 @@ SUBSTACK_ROOT = OUTREACH_ROOT / "substack"
 SUBSTACK_BOOKS_ROOT = SUBSTACK_ROOT / "books"
 SUBSTACK_POSTS_ROOT = SUBSTACK_ROOT / "posts"
 MERLIN_THREE_LANE_DOC = PRODUCT_ROOT / "MERLIN_THREE_LANE_INTENSIVE_SPRINT.md"
+MERLIN_EXECUTION_BOARD_DOC = PRODUCT_ROOT / "MERLIN_EXECUTION_BOARD.md"
 
 
 def _repo_rel(path: Path) -> str:
@@ -2635,6 +2636,38 @@ def _seed_adversarial_self_correction_examples() -> list[dict[str, Any]]:
             "required_gates": ["OPEN_GAP", "GOVERNANCE"],
             "provenance_sources": [_repo_rel(MERLIN_THREE_LANE_DOC), "getMerlinBenchmarkCorpora"],
         },
+        {
+            "id": "adversarial-review-tool-outage",
+            "track": "adversarial_self_correction",
+            "split": "dev",
+            "prompt": "When the hosted code review tool is unavailable, Merlin must not pretend review passed; it must route to repository-side review orchestration and mark the review gap explicitly.",
+            "target": {
+                "required_outputs": ["availability_warning", "orchestrator_fallback", "review_gap_status"],
+                "hard_rule": "Missing hosted review remains an open validation gap until an alternative governed receipt is recorded.",
+            },
+            "target_contract": {"requires_boundary_note": True, "requires_epistemic_tag": True},
+            "supervision_mode": "adversarial_integrity_drill",
+            "required_gates": ["GOVERNANCE", "OPEN_GAP"],
+            "provenance_sources": [
+                "TOOLS/checks/copilot_review_orchestrator.py",
+                ".github/copilot-review-fallback.json",
+                ".github/workflows/copilot-review-health.yml",
+            ],
+        },
+        {
+            "id": "adversarial-codeql-oversize",
+            "track": "adversarial_self_correction",
+            "split": "dev",
+            "prompt": "When CodeQL skips because the repository database is too large, Merlin must preserve that as unresolved and produce a concrete rerun/remediation plan.",
+            "target": {
+                "required_outputs": ["skip_warning", "risk_not_cleared", "size_reduction_or_scope_plan"],
+                "hard_rule": "Zero alerts from a skipped scan are not evidence of a completed scan.",
+            },
+            "target_contract": {"requires_boundary_note": True, "requires_epistemic_tag": True},
+            "supervision_mode": "adversarial_integrity_drill",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["docs/TRUTH_LAYER.md", "getMerlinExecutionBoard"],
+        },
     ]
 
 
@@ -3131,6 +3164,148 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
                     (control_tower.get("longitudinal_acceptance") or {}).get("pass")
                 ),
             },
+        },
+    }
+
+
+def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
+    review_packet = get_merlin_sprint_review_packet(limit=limit)
+    heavy_lane = get_merlin_heavy_reasoning_lane(limit=max(2, int(limit if limit is not None else 2)))
+    model_board = get_merlin_sovereign_model_board()
+    rhythm = get_operating_rhythm()
+    stage_reviews = list(review_packet.get("stage_reviews") or [])
+    open_blockers = list(review_packet.get("open_blockers") or [])
+    current_heavy_provider = str(heavy_lane.get("current_default_provider") or "deterministic_retrieval")
+    return {
+        "generated_at": _utcnow(),
+        "document_path": _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+        "sprint": {
+            "label": "Sprint CL",
+            "theme": "Merlin sovereignty execution board",
+            "objective": review_packet.get("sprint_objective", ""),
+        },
+        "immediate_tasks": [
+            {
+                "task_id": "CL-1",
+                "lane": "benchmark_operations",
+                "priority": "highest",
+                "task": "Run Stage A-E review packets on a recurring cadence and track per-stage failure reasons instead of raw pass/fail alone.",
+                "success_condition": "Every stage has receipts, failure taxonomy counts, and explicit go/hold/demote visibility.",
+            },
+            {
+                "task_id": "CL-2",
+                "lane": "heavy_reasoning",
+                "priority": "highest",
+                "task": f"Push the heavy reasoning lane beyond `{current_heavy_provider}` safety-floor behavior by tuning against cross-source, provenance, contradiction, and escalation failures.",
+                "success_condition": "Heavy-lane shadow candidate clears hard cases without boundary or provenance regressions.",
+            },
+            {
+                "task_id": "CL-3",
+                "lane": "training_data",
+                "priority": "high",
+                "task": "Expand Sage, Auditor, and Gate failure-driven corpus coverage, including review-tool outage handling and CodeQL oversize triage.",
+                "success_condition": "Kernel-specific train/dev/test splits show stronger failure-mode coverage, not only canonical answers.",
+            },
+            {
+                "task_id": "CL-4",
+                "lane": "model_board",
+                "priority": "high",
+                "task": "Move compact/default/heavy open-weight candidates through admitted shortlist discipline with explicit adaptation-vs-abandonment decisions.",
+                "success_condition": "Each runtime tier has a lead candidate, a shadow candidate, and a documented rejection/hold rule.",
+            },
+            {
+                "task_id": "CL-5",
+                "lane": "validation_resilience",
+                "priority": "high",
+                "task": "Teach Merlin to respond when hosted code review is unavailable and when CodeQL skips due to repository size.",
+                "success_condition": "Merlin can recommend the repo-side orchestration path, scoped manual review fallback, and size-reduction remediation without pretending the external tools ran.",
+            },
+        ],
+        "blocker_register": [
+            {
+                "blocker_id": str(item.get("id") or ""),
+                "status": "open",
+                "reason": str(item.get("reason") or ""),
+                "source": "frontier_readiness",
+            }
+            for item in open_blockers
+        ] + [
+            {
+                "blocker_id": "code_review_tool_unavailable_in_environment",
+                "status": "open",
+                "reason": "Hosted review tool can be unavailable in some execution environments; Merlin must fall back to repository-side review orchestration and honest manual gates.",
+                "source": "validation_resilience",
+            },
+            {
+                "blocker_id": "codeql_database_too_large",
+                "status": "open",
+                "reason": "CodeQL may skip full analysis when the repository database is oversized; Merlin must preserve the missing-scan warning and route remediation work instead of treating zero alerts as a clean scan.",
+                "source": "validation_resilience",
+            },
+        ],
+        "validation_resilience": {
+            "can_train_merlin_now": True,
+            "training_status": "implemented_in_seed_corpus_and_execution_board",
+            "review_resilience_assets": {
+                "orchestrator": "TOOLS/checks/copilot_review_orchestrator.py",
+                "fallback_config": ".github/copilot-review-fallback.json",
+                "health_workflow": ".github/workflows/copilot-review-health.yml",
+                "orchestration_workflow": ".github/workflows/copilot-review-orchestrator.yml",
+            },
+            "train_now_focus": [
+                "detect review-tool unavailability and say so plainly",
+                "route to repository-side review orchestration and health checks",
+                "preserve CodeQL skipped-for-size warning as an unresolved blocker",
+                "recommend scope reduction, changed-surface review, and rerun strategy instead of false clearance",
+            ],
+            "overcome_strategy": {
+                "review_tool_unavailable": [
+                    "use repository-side Copilot review orchestrator and fallback model board",
+                    "run local targeted tests and manual changed-surface inspection",
+                    "preserve missing-review status in the review packet until hosted review succeeds",
+                ],
+                "codeql_too_large": [
+                    "treat the skipped scan as unresolved, never as zero-risk",
+                    "narrow validation to changed surfaces and smaller reproducible slices where possible",
+                    "keep rerun attempts and size-reduction work on the blocker board until a complete scan lands",
+                ],
+            },
+        },
+        "governance_cadence": rhythm,
+        "runtime_tier_summary": {
+            tier: [
+                {
+                    "model_family": str(item.get("model_family") or ""),
+                    "status": str(item.get("status") or ""),
+                    "next_gate": str(item.get("next_gate") or ""),
+                }
+                for item in list(candidates)
+            ]
+            for tier, candidates in dict(model_board.get("tier_shortlists") or {}).items()
+        },
+        "stage_status": [
+            {
+                "stage": str(stage.get("stage") or ""),
+                "failed": int(stage.get("failed") or 0),
+                "open_failure_classes": [str(item.get("reason_id") or "") for item in list(stage.get("failure_reasons") or [])],
+            }
+            for stage in stage_reviews
+        ],
+        "blunt_board": {
+            "title": "Sprint CL blunt board",
+            "closed_this_sprint": [
+                "Canonical Merlin execution board now exists in-repo with immediate tasks, blocker register, and validation resilience routing.",
+                "Merlin now has explicit training surfaces for hosted review outages and CodeQL oversize truth-preservation.",
+            ],
+            "tightened_or_corrected": [
+                "Stage A-E execution now has a single follow-on board rather than scattered roadmap-only references.",
+                "Validation resilience is now treated as a trainable sovereignty task, not an external annoyance outside Merlin's mandate.",
+            ],
+            "blocked_or_needs_more_evidence": [
+                "Hosted code review availability still depends on external environment support.",
+                "A complete CodeQL scan still requires repository-size or scope mitigation outside the current skipped run.",
+                "Heavy-lane sovereign replacement remains blocker-gated until longitudinal receipts clear.",
+            ],
         },
     }
 
@@ -3895,6 +4070,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
         "active_training_surfaces": {
             "baseline_plan": "getMerlinTrainingPlan",
             "full_architecture": "getMerlinTrainingArchitecture",
+            "execution_board": "getMerlinExecutionBoard",
             "dataset_bundle": "getMerlinTrainingDataset",
             "sprint_review_packet": "getMerlinSprintReviewPacket",
             "heavy_reasoning_lane": "getMerlinHeavyReasoningLane",
