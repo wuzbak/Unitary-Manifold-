@@ -46,6 +46,11 @@ from ox_navigator.engine.merlin_program import (
     get_open_weight_acquisition_ledger,
     get_frontier_readiness_packet,
     get_frontier_open_weight_stack,
+    get_merlin_execution_board,
+    get_merlin_heavy_reasoning_lane,
+    get_merlin_sovereign_model_board,
+    get_merlin_sprint_review_packet,
+    get_merlin_validation_resilience_packet,
     get_full_program_blueprint,
     get_merlin_pentad_contract,
     get_regulatory_change_watch,
@@ -907,6 +912,57 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'frontier_readiness': get_frontier_readiness_packet(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/review-packet':
+                limit, error = _parse_int_query_param(params, 'limit', 2)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'review_packet': get_merlin_sprint_review_packet(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/heavy-lane':
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'heavy_lane': get_merlin_heavy_reasoning_lane(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/model-board':
+                self._json({
+                'ok': True,
+                'model_board': get_merlin_sovereign_model_board(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/execution-board':
+                limit, error = _parse_int_query_param(params, 'limit', 2)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'execution_board': get_merlin_execution_board(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/validation-resilience':
+                limit, error = _parse_int_query_param(params, 'limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'validation_resilience': get_merlin_validation_resilience_packet(limit=limit),
                 })
                 self._persist_session(session_id, merlin_session)
                 return
