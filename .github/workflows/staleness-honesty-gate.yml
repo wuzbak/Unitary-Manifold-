@@ -34,7 +34,6 @@ jobs:
               "FALLIBILITY.md"
               "README.md"
               "1-THEORY/DERIVATION_STATUS.md"
-              "src/core/sm_free_parameters.py"
               "docs/WAVE_CHANGELOG.md"
             )
 
@@ -93,4 +92,3 @@ jobs:
           if [ "$missing" -ne 0 ]; then
             exit 1
           fi
-
