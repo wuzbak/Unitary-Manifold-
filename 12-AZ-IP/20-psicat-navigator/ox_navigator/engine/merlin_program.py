@@ -5282,6 +5282,164 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     }
 
 
+def run_merlin_targeted_rigor_sprint(
+    *,
+    session: Any | None = None,
+    limit: int | None = 2,
+    training_limit: int | None = 9,
+) -> dict[str, Any]:
+    from .merlin_benchmark import (
+        run_stage_a_head_to_head_receipts_sync,
+        run_stage_b_head_to_head_receipts_sync,
+        run_stage_c_head_to_head_receipts_sync,
+        run_stage_d_head_to_head_receipts_sync,
+        run_stage_e_head_to_head_receipts_sync,
+    )
+    from .merlin_memory import MerlinSession
+    from .merlin_training_execution import (
+        build_merlin_training_execution_queue,
+        get_merlin_lane_progress_ledgers,
+        get_merlin_training_challenge_pack,
+        run_merlin_training_cycle,
+    )
+
+    resolved_limit = _coerce_frontier_limit(limit, default=2)
+    resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
+    active_session = session if isinstance(session, MerlinSession) else MerlinSession()
+
+    queue_before = build_merlin_training_execution_queue(
+        session=active_session,
+        limit=max(resolved_training_limit, 6),
+    )
+    training_cycle = run_merlin_training_cycle(
+        session=active_session,
+        limit=resolved_training_limit,
+    )
+    lane_progress = get_merlin_lane_progress_ledgers(session=active_session, limit=5)
+    challenge_pack = get_merlin_training_challenge_pack(
+        session=active_session,
+        limit=max(4, resolved_limit * 2),
+    )
+
+    stage_receipts = {
+        "stage_a_parity_capture": run_stage_a_head_to_head_receipts_sync(limit=resolved_limit),
+        "stage_b_sovereign_takeover": run_stage_b_head_to_head_receipts_sync(limit=resolved_limit),
+        "stage_c_capability_expansion": run_stage_c_head_to_head_receipts_sync(limit=resolved_limit),
+        "stage_d_replacement_gates": run_stage_d_head_to_head_receipts_sync(limit=resolved_limit),
+        "stage_e_external_decommission": run_stage_e_head_to_head_receipts_sync(limit=resolved_limit),
+    }
+    stage_gate_summary = []
+    for stage_id, receipts in stage_receipts.items():
+        summary = dict(receipts.get("summary") or {})
+        stage_gate_summary.append(
+            {
+                "stage": stage_id,
+                "run_count": len(list(receipts.get("runs") or [])),
+                "passed": int(summary.get("passed", 0)),
+                "failed": int(summary.get("failed", 0)),
+                "promotion_gate_pass": bool(summary.get("promotion_gate_pass")),
+                "kernel_gate_pass": bool(summary.get("kernel_gate_pass")),
+                "domain_gate_pass": bool(summary.get("domain_gate_pass")),
+            }
+        )
+
+    frontier = get_frontier_readiness_packet(limit=resolved_limit)
+    frontier_blockers = [
+        {
+            "blocker_id": str(item.get("id") or ""),
+            "reason": str(item.get("reason") or ""),
+            "source": "frontier_readiness",
+        }
+        for item in list(frontier.get("promotion_blockers") or [])
+        if not bool(item.get("pass"))
+    ]
+    stage_blockers = [
+        {
+            "blocker_id": f"{row['stage']}_gate_failure",
+            "reason": "Stage gate failed (promotion/kernel/domain).",
+            "source": "stage_receipts",
+        }
+        for row in stage_gate_summary
+        if (not row["promotion_gate_pass"]) or (not row["kernel_gate_pass"]) or (not row["domain_gate_pass"])
+    ]
+    training_blockers: list[dict[str, str]] = []
+    if int(queue_before.get("queued_count", 0) or 0) > 0 and int(training_cycle.get("processed_count", 0) or 0) == 0:
+        training_blockers.append(
+            {
+                "blocker_id": "training_cycle_no_progress",
+                "reason": "Training queue had pending work but processed_count remained zero.",
+                "source": "training_cycle",
+            }
+        )
+    queue_after = dict(training_cycle.get("queue_after") or {})
+    if int(queue_after.get("stale_retrain_count", 0) or 0) > 0:
+        training_blockers.append(
+            {
+                "blocker_id": "stale_retrain_required",
+                "reason": "At least one retained receipt is stale and requires retraining.",
+                "source": "training_cycle",
+            }
+        )
+    if int(queue_after.get("needs_review_count", 0) or 0) > 0:
+        training_blockers.append(
+            {
+                "blocker_id": "training_receipts_need_review",
+                "reason": "At least one retained receipt remains in needs_review status.",
+                "source": "training_cycle",
+            }
+        )
+
+    blocker_register = frontier_blockers + stage_blockers + training_blockers
+    all_stage_gates_green = all(
+        row["promotion_gate_pass"] and row["kernel_gate_pass"] and row["domain_gate_pass"]
+        for row in stage_gate_summary
+    )
+    all_gates_green = (
+        bool(frontier.get("promotion_blockers_all_clear"))
+        and all_stage_gates_green
+        and not training_blockers
+    )
+
+    return {
+        "generated_at": _utcnow(),
+        "mode": "targeted_full_rigor_sprint",
+        "objective": (
+            "Execute a fail-closed, receipt-backed sprint proving PsiCat both trains and works "
+            "across the retained three-lane training loop and Stage A→E benchmark gates."
+        ),
+        "inputs": {
+            "stage_limit": resolved_limit,
+            "training_limit": resolved_training_limit,
+        },
+        "training": {
+            "queue_before": queue_before,
+            "cycle": training_cycle,
+            "lane_progress_ledgers": lane_progress,
+            "challenge_pack": challenge_pack,
+        },
+        "stage_receipts": stage_receipts,
+        "stage_gate_summary": stage_gate_summary,
+        "frontier_readiness": frontier,
+        "blocker_register": blocker_register,
+        "all_gates_green": all_gates_green,
+        "verdict": (
+            "TARGETED_RIGOR_SPRINT_CLEAR"
+            if all_gates_green
+            else "TARGETED_RIGOR_SPRINT_HOLD_REMEDIATE"
+        ),
+        "policy": "Fail closed: any training, stage, or frontier blocker holds promotion.",
+        "documentation_surfaces": [
+            _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+            _repo_rel(MERLIN_VALIDATION_RESILIENCE_DOC),
+            _repo_rel(PRODUCT_ROOT / "README.md"),
+        ],
+        "honesty_note": (
+            "This packet reports deterministic repository-backed training receipts and benchmark runs; "
+            "it does not claim hidden-weight learning or promotion beyond the visible gates."
+        ),
+    }
+
+
 def build_training_artifact_bundle(
     limit: int | None = None,
     *,

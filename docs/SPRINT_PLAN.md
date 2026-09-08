@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-07 (v36.7 Sprint CK COMPLETE — Pillar 1085; Lean4 4080→4080; next slot 1086)*
+*Last updated: 2026-09-08 (v36.8 Sprint CL COMPLETE — Pillar 1086; Lean4 4080→4080; next slot 1087)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v36.7 — Sprint CK)
+## CURRENT AUDITABLE STATE (v36.8 — Sprint CL)
 
 | Field | Value |
 |-------|-------|
-| Version | **v36.7** |
-| Sprint | **Sprint CK** |
-| Pillars | **1085-1085** |
-| Next pillar slot | **1086** |
+| Version | **v36.8** |
+| Sprint | **Sprint CL** |
+| Pillars | **1086-1086** |
+| Next pillar slot | **1087** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,122 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **Single-target foundation lock + Merlin Stage A→E evidence capture** |
-| Primary target | **Lock Lane 1 to action-to-evolution Euler-Lagrange matching and capture Merlin Stage A→E receipts/artifacts without promotion release** |
-| Binary outcome | **Either one exact evidence-class target is locked with governed Merlin evidence capture, or the sprint remains blocked with explicit cause** |
+| Sprint theme | **All-hands targeted rigor packet for PsiCat train-and-work evidence orchestration** |
+| Primary target | **Bind Sprint CK foundation lock continuity to one canonical targeted-rigor train-and-work packet with fail-closed blocker register** |
+| Binary outcome | **Either targeted-rigor packet proves train-and-work execution with explicit blockers, or sprint remains blocked with deterministic failure cause** |
 
+Historical continuity: v36.8 Sprint CL (Pillar 1086; next slot 1087) remains the canonical all-hands targeted-rigor orchestration layer directly above Sprint CK.
 Historical continuity: v36.6 Sprint CJ (Pillar 1084; next slot 1085) remains the canonical parallel-orchestration layer directly below Sprint CK.
 Historical continuity: v36.5 Sprint CI (Pillars 1082–1083; next slot 1084) remains the canonical foundation-first audit layer directly below Sprint CJ.
 Historical continuity: v36.4 Sprint CH (Pillars 1079–1081; next slot 1082) remains the canonical critique-to-proof execution layer directly below Sprint CI.
@@ -78,6 +79,21 @@ Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) rem
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
 
 ---
+
+## SPRINT CL ALL-HANDS TARGETED RIGOR PROTOCOL (Executed)
+
+1. Keep Sprint CK lane-one target lock continuity explicit (no widening of physics claims).
+2. Execute one bounded targeted-rigor packet that combines retained training-cycle receipts, Stage A→E benchmark receipts, and frontier blocker review.
+3. Require deterministic fail-closed hold/clear verdict and blocker register output in one merged board.
+4. Keep promotion language frozen whenever blocker register is non-empty.
+5. Keep canonical truth surfaces lockstep synchronized.
+6. Keep targeted and full verification gates zero-fail.
+
+### Sprint CL blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| None — no new physics closure claimed | PsiCat train-and-work evidence is now emitted in one canonical targeted-rigor packet; all-hands blocker visibility is fail-closed and deterministic | Photon origin and action-to-evolution derivation remain open; architecture-limit and external-wait lanes unchanged |
 
 ## SPRINT CK TARGET LOCK + EVIDENCE CAPTURE PROTOCOL (Executed)
 

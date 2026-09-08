@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v36.7
+# Unitary Manifold v36.8
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -20,6 +20,9 @@ and peer reviewers.*
 *This document provides the minimum necessary context for a gatekeeper verdict.
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
+
+> **Sprint CL (v36.8 — 2026-09-08):** 1 pillar (1086). P1086 executes one all-hands fail-closed rigor packet that binds Sprint CK lane-one target-lock continuity to the new PsiCat targeted-rigor train-and-work packet. The packet requires one bounded receipt surface with retained training-cycle execution, Stage A→E benchmark gates, frontier blocker register, and deterministic hold/clear verdict. This is process and evidence-orchestration hardening only; no new physics closure is claimed and open-lane labels remain explicit and unchanged. Lean4 4080→4080 (+0). Verified full regression in current branch history: 64,122 passed · 22 skipped · 18 deselected · 0 failed. Next slot 1087.
+>
 
 > **Sprint CK (v36.7 — 2026-09-07):** 1 pillar (1085). P1085 turns the Sprint CJ choice point into one executable commitment. Lane one performs a leverage audit across the two admissible targets and selects action-to-evolution Euler-Lagrange matching as the sole next target because it has the clearest evidence boundary, the strongest existing machine-readable surface, and the highest downstream leverage. Lane two captures Merlin Stage A→E head-to-head receipts plus Stage A and training artifact bundles under sovereign-local primary and compatibility-only fallback. Promotion language remains frozen because the scientific lane is tightened, not closed. Open-lane labels remain unchanged and explicit. Lean4 4080→4080 (+0). Verified full regression in current branch history is 64,122 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: 142 passed · 0 failed. Next slot 1086.
 >

@@ -521,6 +521,18 @@ def test_route_tool_training_architecture_and_artifacts():
     training_cycle = route_tool('runMerlinTrainingCycle', {'limit': 3}, session=session)
     assert training_cycle['ok'] is True
     assert training_cycle['result']['data']['processed_count'] == 3
+    targeted_rigor = route_tool(
+        'runMerlinTargetedRigorSprint',
+        {'limit': 1, 'training_limit': 3},
+        session=session,
+    )
+    assert targeted_rigor['ok'] is True
+    assert targeted_rigor['result']['data']['mode'] == 'targeted_full_rigor_sprint'
+    assert len(targeted_rigor['result']['data']['stage_gate_summary']) == 5
+    assert targeted_rigor['result']['data']['verdict'] in {
+        'TARGETED_RIGOR_SPRINT_CLEAR',
+        'TARGETED_RIGOR_SPRINT_HOLD_REMEDIATE',
+    }
     lane_ledgers = route_tool('getMerlinLaneProgressLedgers', {'limit': 3}, session=session)
     assert lane_ledgers['ok'] is True
     assert lane_ledgers['result']['data']['overall']['completed_count'] == 3
@@ -1938,6 +1950,11 @@ def test_server_merlin_endpoints():
             assert review_packet.status_code == 200
             assert review_packet.json()['ok'] is True
             assert len(review_packet.json()['review_packet']['stage_reviews']) == 5
+            targeted_rigor_sprint = client.get('/api/merlin/targeted-rigor-sprint?limit=1&training_limit=3')
+            assert targeted_rigor_sprint.status_code == 200
+            assert targeted_rigor_sprint.json()['ok'] is True
+            assert targeted_rigor_sprint.json()['targeted_rigor_sprint']['mode'] == 'targeted_full_rigor_sprint'
+            assert len(targeted_rigor_sprint.json()['targeted_rigor_sprint']['stage_gate_summary']) == 5
             heavy_lane = client.get('/api/merlin/heavy-lane?limit=2')
             assert heavy_lane.status_code == 200
             assert heavy_lane.json()['ok'] is True

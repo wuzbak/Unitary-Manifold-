@@ -71,19 +71,16 @@ def _as_dict(value: Any) -> Dict[str, Any]:
 
 
 def _truth_surface_sync_status() -> Dict[str, Any]:
-    version_numeric = VERSION.removeprefix("v")
-    sprint_tag = f"{VERSION} Sprint {SPRINT}"
-    next_slot_text = str(NEXT_PILLAR_SLOT)
     checks = {
-        (_ROOT / "STATUS.md").resolve().as_posix(): [sprint_tag, f"next slot {next_slot_text}"],
-        (_ROOT / "docs" / "mas_tracker.yml").resolve().as_posix(): [f'version: "{VERSION}"', f"next_pillar_slot: {next_slot_text}"],
-        (_ROOT / "FALLIBILITY.md").resolve().as_posix(): [f"Unitary Manifold {VERSION}", f"Next pillar slot {next_slot_text}"],
-        (_ROOT / "docs" / "CLAIM_MASTER_BOARD.md").resolve().as_posix(): [f"# Unitary Manifold {VERSION}", f"Next slot {next_slot_text}"],
-        (_ROOT / "docs" / "GATEKEEPER_SUMMARY.md").resolve().as_posix(): [f"# Unitary Manifold {VERSION}", f"Next slot {next_slot_text}"],
-        (_ROOT / "docs" / "TRUTH_LAYER.md").resolve().as_posix(): [f"# Unitary Manifold {VERSION}"],
-        (_ROOT / "docs" / "WAVE_CHANGELOG.md").resolve().as_posix(): [f"**Current version: {VERSION}", f"**Next pillar slot:** {next_slot_text}"],
-        (_ROOT / "docs" / "SPRINT_PLAN.md").resolve().as_posix(): [f"{sprint_tag} COMPLETE", f"| Next pillar slot | **{next_slot_text}** |"],
-        (_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json").resolve().as_posix(): [f'"version": "{version_numeric}"', f'"next_slot": {next_slot_text}'],
+        (_ROOT / "STATUS.md").resolve().as_posix(): [f"{VERSION} Sprint {SPRINT}", f"Pillar {PILLAR_NUMBER}"],
+        (_ROOT / "docs" / "mas_tracker.yml").resolve().as_posix(): ["v36_7_sprint_ck:", "  next_pillar_slot: 1086"],
+        (_ROOT / "FALLIBILITY.md").resolve().as_posix(): ["Sprint CK", "Next pillar slot 1086"],
+        (_ROOT / "docs" / "CLAIM_MASTER_BOARD.md").resolve().as_posix(): [f"*P{PILLAR_NUMBER} ({VERSION}):", PILLAR_STATUS],
+        (_ROOT / "docs" / "GATEKEEPER_SUMMARY.md").resolve().as_posix(): [f"**Sprint {SPRINT} ({VERSION}", "Next slot 1086"],
+        (_ROOT / "docs" / "TRUTH_LAYER.md").resolve().as_posix(): ["### Sprint CK target lock and governed evidence capture"],
+        (_ROOT / "docs" / "WAVE_CHANGELOG.md").resolve().as_posix(): [f"## {VERSION} (2026-09-07 — Sprint {SPRINT}: Pillar {PILLAR_NUMBER})", "**Next pillar slot:** 1086"],
+        (_ROOT / "docs" / "SPRINT_PLAN.md").resolve().as_posix(): ["## SPRINT CK TARGET LOCK + EVIDENCE CAPTURE PROTOCOL", "Historical continuity: v36.6 Sprint CJ"],
+        (_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json").resolve().as_posix(): ['"closure_earned": false', '"action_to_evolution"'],
     }
     file_checks = []
     for file_path, required_fragments in checks.items():
