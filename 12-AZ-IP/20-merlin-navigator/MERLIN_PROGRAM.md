@@ -157,6 +157,16 @@ This document records the implemented execution blueprint for making Merlin the 
 - Proof-first closure sprint surfaces now expose a single-target Kawamura residual charter, a machine-readable burden ledger, and a Merlin/Copilot cross-review packet that defaults unresolved work to `still_open`.
 - Control-tower responses now include a mentorship-to-runtime closure block with fail-closed checks and explicit evidence requirements for exchange-cycle completion and unresolved-risk counts.
 
+## Three-lane intensive sprint implementation
+
+- `MERLIN_THREE_LANE_INTENSIVE_SPRINT.md` now records the governed master sprint for:
+  - Lane A: applications/tools mastery
+  - Lane B: books/articles mastery
+  - Lane C: adversarial self-correction and falsification discipline
+- `getMerlinThreeLaneIntensiveSprint`, `getMerlinApplicationsToolsLane`, `getMerlinBooksArticlesLane`, `getMerlinAdversarialGrowthLane`, and `getMerlinContinuousLearningProtocol` now expose those lanes as machine-readable runtime surfaces.
+- Training architecture and dataset seeding now include product-mastery, editorial-corpus, adversarial-integrity, and governed between-session learning records so the sprint is not only descriptive but executable.
+- `/api/merlin/three-lane-intensive-sprint` and `/api/merlin/continuous-learning` now expose the maximum-effort sprint and governed inactive-learning cadence directly.
+
 ## Merlin Sovereignty Roadmap checklist
 
 - [x] Program doctrine defined (reproducible, auditable, self-hostable, governance-aligned, higher task success).

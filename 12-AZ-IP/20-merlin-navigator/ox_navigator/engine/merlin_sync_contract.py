@@ -34,6 +34,11 @@ REQUIRED_TOOLKIT_FUNCTIONS: tuple[str, ...] = (
     "merlinSelfAudit",
     "generateFalsificationOracle",
     "merlinAnalyzeDepth",
+    "getMerlinThreeLaneIntensiveSprint",
+    "getMerlinApplicationsToolsLane",
+    "getMerlinBooksArticlesLane",
+    "getMerlinAdversarialGrowthLane",
+    "getMerlinContinuousLearningProtocol",
 )
 
 REQUIRED_ARTIFACT_SURFACES: tuple[str, ...] = (
