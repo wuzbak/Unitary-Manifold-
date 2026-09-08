@@ -10,8 +10,8 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 def test_sprint_cp_pillar_navigation_stubs_exist() -> None:
     for pillar in range(1097, 1103):
         readme = REPO_ROOT / "PILLARS" / f"P{pillar}" / "README.md"
-        text = readme.read_text(encoding="utf-8")
         assert readme.exists()
+        text = readme.read_text(encoding="utf-8")
         assert f"# Pillar {pillar} —" in text
         assert "**Framework version:** v37.2" in text
         assert "docs/mas_tracker.yml" in text

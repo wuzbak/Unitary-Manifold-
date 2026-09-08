@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict
 
@@ -59,16 +58,6 @@ MASTER_LANES = [
         'goal': 'Run proof artifacts and training receipts continuously with fail-closed readiness gating.',
     },
 ]
-
-
-def _json_safe(value: Any) -> Any:
-    return deepcopy(value)
-
-
-def _as_dict(value: Any) -> Dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
 def build_truth_surface_sync_status(required_fragments: dict[str, list[str]]) -> Dict[str, Any]:
     file_checks = []
     for file_path, fragments in required_fragments.items():

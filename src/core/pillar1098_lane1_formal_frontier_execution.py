@@ -83,7 +83,14 @@ def lane1_formal_frontier_execution() -> Dict[str, Any]:
         for unit in units
         if unit['lane_id'] in {'LANE_A_APS_ORBIFOLD_DIRAC', 'LANE_B_ACTION_TO_EVOLUTION'}
     ]
-    valid = bool(P1097_VALID) and bool(truth_sync.get('all_pass')) and len(units) >= 4 and len(reviewer_packets) >= 2
+    burden_registry_present = bool(ledger.get('dependencies', {}).get('burden_rows_present'))
+    valid = (
+        bool(P1097_VALID)
+        and bool(truth_sync.get('all_pass'))
+        and burden_registry_present
+        and len(units) >= 4
+        and len(reviewer_packets) >= 2
+    )
     return {
         'pillar': PILLAR_NUMBER,
         'gate': PILLAR_GATE,
@@ -94,7 +101,7 @@ def lane1_formal_frontier_execution() -> Dict[str, Any]:
         'dependencies': {
             'pillar1097_valid': bool(P1097_VALID),
             'truth_surfaces_synchronized_to_v37_2': bool(truth_sync.get('all_pass')),
-            'burden_registry_present': bool(ledger.get('dependencies', {}).get('burden_rows_present')),
+            'burden_registry_present': burden_registry_present,
         },
         'primary_frontier': ['LANE_A_APS_ORBIFOLD_DIRAC', 'LANE_B_ACTION_TO_EVOLUTION'],
         'theorem_burden_units': units,
