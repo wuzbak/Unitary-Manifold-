@@ -6,6 +6,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 
 - Rebrand label: **REBRAND-2026-09-PHICAT**
 - Legal separation notice: [`BRAND_SEPARATION_NOTICE_PHICAT.md`](./BRAND_SEPARATION_NOTICE_PHICAT.md)
+- Internal/steward-facing identity for ThomasCory remains **Merlin**.
 
 ## Product registry (23 canonical software products / surfaces)
 

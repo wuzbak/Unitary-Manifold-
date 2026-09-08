@@ -7,6 +7,8 @@ PhiCat DM Guide & Player Assistant is an offline-first Dungeons & Dragons **5e /
 > **Scope status:** educational / gameplay support tool. This product does not make physics claims; it applies repository design rigor, structured state, and explicit source grounding to tabletop play.
 >
 > **Rebrand label:** `REBRAND-2026-09-PHICAT` · **Legal separation notice:** [`../BRAND_SEPARATION_NOTICE_PHICAT.md`](../BRAND_SEPARATION_NOTICE_PHICAT.md)
+>
+> **Internal identity policy:** product/legal name is **PhiCat**; internal steward-facing assistant identity for ThomasCory remains **Merlin**.
 
 ---
 

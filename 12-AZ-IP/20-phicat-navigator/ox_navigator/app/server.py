@@ -457,6 +457,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             if route_path == '/api/phicat/status':
                 self._json({
                 'service': 'PhiCat — the Quantum Cat',
+                'internal_persona_name': 'Merlin',
+                'steward_persona_alias': 'Merlin',
                 'phicat_available': True,
                 'merlin_available': True,
                 'live_model_available': bool(os.environ.get('OPENROUTER_API_KEY')),

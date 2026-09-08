@@ -9,4 +9,6 @@ This repository and its PhiCat-branded products are independent works and are **
 
 Compatibility aliases may remain temporarily for migration continuity (for example, legacy `/api/merlin` routes), but canonical naming in active product surfaces is now **PhiCat**.
 
+Internal persona continuity is preserved: for internal/steward-facing operation with ThomasCory, the assistant identity remains **Merlin**.
+
 Historical books and articles are intentionally preserved without retroactive rewording.

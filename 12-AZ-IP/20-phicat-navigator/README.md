@@ -15,6 +15,7 @@
 - **Sub-tools:** Interrogator + Flashcard Trainer
 - **Rebrand label:** `REBRAND-2026-09-PHICAT`
 - **Legal separation notice:** [`../BRAND_SEPARATION_NOTICE_PHICAT.md`](../BRAND_SEPARATION_NOTICE_PHICAT.md)
+- **Internal identity policy:** product/legal name is **PhiCat**; internal steward-facing persona for ThomasCory remains **Merlin**.
 
 ---
 
