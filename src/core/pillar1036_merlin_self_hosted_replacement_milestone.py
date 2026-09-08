@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 _ROOT = Path(__file__).resolve().parents[2]
-_PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-merlin-navigator"
+_PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-phicat-navigator"
 
 __all__ = [
     "PILLAR_NUMBER",

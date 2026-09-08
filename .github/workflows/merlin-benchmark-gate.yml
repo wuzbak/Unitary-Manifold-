@@ -3,13 +3,13 @@ name: merlin-benchmark-gate
 on:
   pull_request:
     paths:
-      - "12-AZ-IP/20-merlin-navigator/**"
+      - "12-AZ-IP/20-phicat-navigator/**"
       - ".github/workflows/merlin-benchmark-gate.yml"
   push:
     branches:
       - main
     paths:
-      - "12-AZ-IP/20-merlin-navigator/**"
+      - "12-AZ-IP/20-phicat-navigator/**"
       - ".github/workflows/merlin-benchmark-gate.yml"
   schedule:
     - cron: "0 6 * * 1"
@@ -23,7 +23,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: 12-AZ-IP/20-merlin-navigator
+        working-directory: 12-AZ-IP/20-phicat-navigator
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -109,10 +109,10 @@ hf-spaces/
 
 - Canonical product registry and naming authority: `12-AZ-IP/README.md` (Products 01–23).
 - HF spaces provide direct hosted coverage for Products 01–20 plus portal/dataset surfaces.
-- Products 21 (UM Geophysical Monitor), 22 (AxiomZero SGE), and 23 (Merlin DM Guide & Player Assistant) are linked through:
+- Products 21 (UM Geophysical Monitor), 22 (AxiomZero SGE), and 23 (PhiCat DM Guide & Player Assistant) are linked through:
   - `public-site/az-apps/index.html`
   - `docs/APPS_SPACES_FINALIZATION_MATRIX.md`
-  - product folders under `12-AZ-IP/21-geo-monitor/`, `12-AZ-IP/22-az-sge/`, `12-AZ-IP/23-merlin-dm-assistant/`
+  - product folders under `12-AZ-IP/21-geo-monitor/`, `12-AZ-IP/22-az-sge/`, `12-AZ-IP/23-phicat-dm-assistant/`
 
 ## Epistemic Notes
 
