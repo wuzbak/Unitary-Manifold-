@@ -39,10 +39,10 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
     status_text = _read("STATUS.md")
     plan_text = _read("docs/SPRINT_PLAN.md")
     tracker_text = _read("docs/mas_tracker.yml")
-    merlin_tools_text = _read("12-AZ-IP/20-merlin-navigator/ox_navigator/engine/merlin_tools.py")
-    merlin_server_text = _read("12-AZ-IP/20-merlin-navigator/ox_navigator/app/server.py")
-    merlin_program_text = _read("12-AZ-IP/20-merlin-navigator/MERLIN_PROGRAM.md")
-    merlin_readme_text = _read("12-AZ-IP/20-merlin-navigator/README.md")
+    merlin_tools_text = _read("12-AZ-IP/20-phicat-navigator/ox_navigator/engine/merlin_tools.py")
+    merlin_server_text = _read("12-AZ-IP/20-phicat-navigator/ox_navigator/app/server.py")
+    merlin_program_text = _read("12-AZ-IP/20-phicat-navigator/PHICAT_PROGRAM.md")
+    merlin_readme_text = _read("12-AZ-IP/20-phicat-navigator/README.md")
     outreach_readme_text = _read("7-OUTREACH/substack/README.md")
     article_path = _ROOT / "7-OUTREACH/substack/posts/post-302-s04e005-sprint-bw-three-lane-rigor.md"
     canonical_match = re.search(

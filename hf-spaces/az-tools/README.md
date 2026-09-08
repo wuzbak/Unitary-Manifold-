@@ -33,7 +33,7 @@ tags:
 | 17 | Falsification Observatory | 7-experiment tracker |
 | 18 | Interrogator | Physics Q&A knowledge base |
 | 19 | Flashcard Trainer | Physics education |
-| 20 | Merlin Navigator (OX-compatible) | Extended AI navigation with compatibility routing |
+| 20 | PhiCat Navigator (OX-compatible) | Extended AI navigation with compatibility routing |
 
 Canonical full product registry (Products 01–23): `12-AZ-IP/README.md`.
 Note: this HF tools space remains a hosted legacy utility lane for slots 17–19; canonical Product 17/18/19 surfaces are managed in the current AZ product hub and registry.

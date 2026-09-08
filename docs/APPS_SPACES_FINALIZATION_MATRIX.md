@@ -19,8 +19,8 @@ Purpose: one reconciliation view across product registry, HF Spaces, public-site
 | `hf-spaces/az-tools/README.md` | Clarified HF-hosted legacy utility slots (17–19) and Merlin/OX wording | Keeps canonical Product 20 compatibility semantics without mislabeling hosted legacy tools |
 | `hf-spaces/az-ip/README.md` | Updated short description to canonical 23-product authority links | Avoids stale “20 products” phrasing |
 | `public-site/az-apps/index.html` | Hub updated for 23-product framing + Merlin naming consistency | Includes Product 22 and Product 23 visibility |
-| `public-site/az-apps/19-ox-navigator.html` | Updated as Merlin Navigator (OX-compatible) | Keeps compatibility-route wording |
-| `public-site/az-apps/23-merlin-dm-assistant.html` | Added | Public-facing entry for Product 23 |
+| `public-site/az-apps/19-ox-navigator.html` | Updated as PhiCat Navigator (OX-compatible) | Keeps compatibility-route wording |
+| `public-site/az-apps/23-phicat-dm-assistant.html` | Added | Public-facing entry for Product 23 |
 | `public-site/ip/index.html` | Cross-link corrected to 23 products; stale static pillar count removed | Uses canonical-status-first wording |
 | `DOWNLOAD_GUIDE.md` | Updated to non-stale, status-linked workflow | Removed fixed legacy release naming |
 | `DEPLOY.md` | Updated to canonical status-source wording + 23-product references | Reduced stale snapshot drift |
