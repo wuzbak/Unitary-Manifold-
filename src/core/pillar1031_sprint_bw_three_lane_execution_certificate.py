@@ -26,11 +26,19 @@ PILLAR_GATE: str = "SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE"
 PILLAR_STATUS: str = "SPRINT_BW_THREE_LANE_EXECUTION_CERTIFICATE_COMPLETE"
 
 _ROOT = Path(__file__).resolve().parents[2]
+_PROMOTION_PACKET_ENDPOINTS = (
+    "/api/merlin/promotion-packet",
+    "/api/phicat/promotion-packet",
+)
 
 
 def _read(path: str) -> str:
     full = _ROOT / path
     return full.read_text(encoding="utf-8") if full.exists() else ""
+
+
+def _contains_any(text: str, markers: tuple[str, ...]) -> bool:
+    return any(marker in text for marker in markers)
 
 
 def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
@@ -84,10 +92,10 @@ def sprint_bw_three_lane_certificate() -> Dict[str, Any]:
             "getMerlinPromotionPacket",
             "authorizeMerlinPrivilege is blocked in orchestration",
         )
-    ) and "/api/merlin/promotion-packet" in merlin_server_text and all(
+    ) and _contains_any(merlin_server_text, _PROMOTION_PACKET_ENDPOINTS) and all(
         marker in merlin_program_text
         for marker in ("evaluateMerlinEmpiricalGate", "getMerlinPromotionPacket")
-    ) and "/api/merlin/promotion-packet" in merlin_readme_text
+    ) and _contains_any(merlin_readme_text, _PROMOTION_PACKET_ENDPOINTS)
 
     lane3_done = (
         canonical_passed > 0
