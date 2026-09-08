@@ -105,6 +105,7 @@ from .merlin_program import (
     get_mlflow_experiment_manifests,
     get_merlin_sovereign_model_board,
     get_merlin_sprint_review_packet,
+    run_merlin_targeted_rigor_sprint,
     build_training_dataset_bundle,
     get_training_architecture,
     get_training_and_adaptation,
@@ -271,6 +272,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinTrainingExecutionQueue", "summary": "Return active retained-training queue state across all three lanes", "domain": "functions"},
             {"name": "getMerlinLaneProgressLedgers", "summary": "Return automated lane-by-lane progress ledgers and retained receipt summaries", "domain": "functions"},
             {"name": "runMerlinTrainingCycle", "summary": "Execute queued three-lane training work and retain auditable receipts in session memory", "domain": "functions"},
+            {"name": "runMerlinTargetedRigorSprint", "summary": "Execute bounded full-rigor sprint packet: retained training cycle + Stage A-E receipts + fail-closed blockers", "domain": "functions"},
             {"name": "getMerlinTrainingChallengePack", "summary": "Return deterministic challenge drills prioritized by stale or review-required training work", "domain": "functions"},
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
@@ -396,6 +398,16 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinLaneProgressLedgers": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "runMerlinTrainingCycle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "runMerlinTargetedRigorSprint": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                    "training_limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+        },
         "getMerlinTrainingChallengePack": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMemoryGeometry": {
             "args_schema": {
@@ -1037,6 +1049,11 @@ _FUNCTIONS = {
         gate_history=list(args.get("gate_history") or []) or None,
     )},
     "getMerlinSprintReviewPacket": lambda **args: {"data": get_merlin_sprint_review_packet(limit=args.get("limit"))},
+    "runMerlinTargetedRigorSprint": lambda **args: {"data": run_merlin_targeted_rigor_sprint(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+        training_limit=args.get("training_limit"),
+    )},
     "getMerlinHeavyReasoningLane": lambda **args: {"data": get_merlin_heavy_reasoning_lane(limit=args.get("limit"))},
     "getMerlinSovereignModelBoard": lambda **args: {"data": get_merlin_sovereign_model_board()},
     "getMerlinExecutionBoard": lambda **args: {"data": get_merlin_execution_board(limit=args.get("limit"))},

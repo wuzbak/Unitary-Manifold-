@@ -86,6 +86,19 @@ and CodeQL scope-reduction strategy.
 - **Monthly:** heavy-lane capability review, replacement-scope review, external-dependency retirement review
 - **Quarterly:** architecture review, training engine review, model roster review, sovereignty verdict review
 
+## Targeted full-rigor sprint packet
+
+Use `/api/merlin/targeted-rigor-sprint` (or `/api/psicat/targeted-rigor-sprint`) when the objective is explicit proof that PsiCat both trains and works in one bounded run.
+
+The packet executes:
+
+1. retained three-lane training cycle receipts,
+2. Stage A→E benchmark receipts,
+3. frontier blocker check,
+4. one merged fail-closed blocker register and hold/clear verdict.
+
+This surface does not grant promotion by itself; it compresses evidence gathering and keeps every blocker visible.
+
 ---
 
 ## Sprint CL blunt board
