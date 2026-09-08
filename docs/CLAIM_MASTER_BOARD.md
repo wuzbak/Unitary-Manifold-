@@ -50,7 +50,7 @@ still-open physical obligations in the table.
 
 *P1100 (v37.2): Lane 3 PsiCat Continuous Training Execution — LANE3_PSICAT_CONTINUOUS_TRAINING_EXECUTION_COMPLETE. `src/core/pillar1100_lane3_psicat_continuous_training_execution.py` binds proof-foundry ingestion, retained training queue/ledgers, benchmark-receipt visibility, and fail-closed readiness packet output with unresolved blockers explicit.
 
-*P1099 (v37.2): Lane 2 Python→Lean Translation Audit — LANE2_PYTHON_LEAN_TRANSLATION_AUDIT_COMPLETE. `src/core/pillar1099_lane2_python_lean_translation_audit.py` emits a deterministic translation contract matrix and master-theorem READY/BLOCKED gate with explicit dependency-completeness blockers.
+*P1099 (v37.2): Lane 2 Python→Lean Translation Audit — LANE2_PYTHON_LEAN_TRANSLATION_AUDIT_COMPLETE. `src/core/pillar1099_lane2_python_lean_translation_audit.py` emits a deterministic translation contract matrix and master-theorem READY/BLOCKED gate with explicit dependency-completeness blockers and per-unit Blocker & Fallibility Certificates for failed translations.
 
 *P1098 (v37.2): Lane 1 Formal Frontier Execution — LANE1_FORMAL_FRONTIER_EXECUTION_COMPLETE. `src/core/pillar1098_lane1_formal_frontier_execution.py` structures APS/orbifold/Dirac + action-to-evolution work into deterministic theorem-burden units with linked runtime/tests/truth-layer obligations and reviewer packets.
 

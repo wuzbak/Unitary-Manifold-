@@ -90,6 +90,11 @@ def lane3_psicat_continuous_training_execution() -> Dict[str, Any]:
             'lane_count': len(list(ledgers.get('lane_ledgers') or [])),
         },
         'benchmark_receipt_visibility': stage_receipt_visibility,
+        'work_preservation_policy': {
+            'successful_units_promoted_immediately': True,
+            'failed_units_retained_as_blocker_assets': True,
+            'deletion_policy': 'no_drop_no_delete_keep_for_retraining_and_review',
+        },
         'readiness_packet': {
             'go_hold_demote_mode': 'FAIL_CLOSED',
             'unresolved_blockers': [

@@ -41,7 +41,7 @@ def lane2_python_lean_translation_audit() -> Dict[str, Any]:
             'EXECUTABLE_PYTHON_VALIDATION',
         }
         deterministic_pass = mapping_ok and statement_equivalence_ok and boundary_units_ok and lean_file.exists() and all(p.exists() for p in [*runtime_paths, *test_paths])
-        units.append({
+        unit = {
             'unit_id': str(row.get('id') or ''),
             'symbol_assumption_mapping': {
                 'lean_symbols': list(row.get('lean_symbols') or []),
@@ -62,8 +62,21 @@ def lane2_python_lean_translation_audit() -> Dict[str, Any]:
                 'tests': list(row.get('tests') or []),
             },
             'verdict': 'PASS' if deterministic_pass else 'FAIL',
-        })
+        }
+        if not deterministic_pass:
+            unit['blocker_fallibility_certificate'] = {
+                'boundary_condition': 'Symbol mapping + statement equivalence + boundary consistency + artifact existence.',
+                'failure_reason': 'Lean4 kernel rejects or translation surface mismatches the Python companion contract.',
+                'verified_perimeter': 'Translation remains valid only on the explicitly passing sub-contract dimensions.',
+            }
+        units.append(unit)
 
+    harvested_units = [item['unit_id'] for item in units if item.get('verdict') == 'PASS']
+    blocker_certificates = [
+        {'unit_id': item['unit_id'], **dict(item.get('blocker_fallibility_certificate') or {})}
+        for item in units
+        if item.get('verdict') == 'FAIL'
+    ]
     all_pass = all(item['verdict'] == 'PASS' for item in units)
     master_candidate = _ROOT / 'lean4' / 'UnitaryManifold' / 'MasterTheoremDimensionalChain.lean'
     root_import = (_ROOT / 'lean4' / 'UnitaryManifold.lean').read_text(encoding='utf-8') if (_ROOT / 'lean4' / 'UnitaryManifold.lean').exists() else ''
@@ -87,6 +100,11 @@ def lane2_python_lean_translation_audit() -> Dict[str, Any]:
             'translation_units_present': len(units) >= 4,
         },
         'translation_verdict_matrix': units,
+        'compartmentalized_harvest': {
+            'promoted_units': harvested_units,
+            'blocked_units': [item['unit_id'] for item in blocker_certificates],
+            'blocker_fallibility_certificates': blocker_certificates,
+        },
         'summary': {
             'units_passed': sum(1 for item in units if item['verdict'] == 'PASS'),
             'units_failed': sum(1 for item in units if item['verdict'] == 'FAIL'),

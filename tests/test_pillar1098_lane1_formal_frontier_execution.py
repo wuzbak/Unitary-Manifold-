@@ -23,3 +23,5 @@ def test_lane1_contract() -> None:
     assert set(report['primary_frontier']) == {'LANE_A_APS_ORBIFOLD_DIRAC', 'LANE_B_ACTION_TO_EVOLUTION'}
     assert len(report['theorem_burden_units']) >= 4
     assert len(report['reviewer_packets']) >= 2
+    assert 'compartmentalized_harvest' in report
+    assert isinstance(report['compartmentalized_harvest']['blocker_fallibility_certificates'], list)

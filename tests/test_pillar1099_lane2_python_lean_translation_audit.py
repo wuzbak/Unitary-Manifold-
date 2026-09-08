@@ -26,3 +26,5 @@ def test_lane2_translation_contract() -> None:
         'MASTER_THEOREM_BLOCKED_NOT_YET_DERIVABLE',
     }
     assert report['summary']['units_passed'] + report['summary']['units_failed'] == len(report['translation_verdict_matrix'])
+    assert 'compartmentalized_harvest' in report
+    assert isinstance(report['compartmentalized_harvest']['blocker_fallibility_certificates'], list)

@@ -116,7 +116,7 @@ PsiCat integration is kept practical and bounded: the pillar emits compact assis
 
 Sprint CP executes the approved three-lane packet without widening claim scope. P1097 fixes one fail-closed charter: all lanes must remain auditable together, and sprint success is blocked unless status synchronization and zero-failure discipline are preserved.
 
-Lane 1 (P1098) converts the current formal frontier into deterministic theorem-burden units tied to explicit epistemic class, Lean file, runtime companion, tests, and truth-layer update obligations. It prioritizes APS/orbifold/Dirac and action-to-evolution surfaces, preserves reviewer packet routing, and records blocker carry-forward explicitly instead of blending closure language with count growth.
+Lane 1 (P1098) converts the current formal frontier into deterministic theorem-burden units tied to explicit epistemic class, Lean file, runtime companion, tests, and truth-layer update obligations. It prioritizes APS/orbifold/Dirac and action-to-evolution surfaces, preserves reviewer packet routing, and records blocker carry-forward explicitly instead of blending closure language with count growth. Passing units are promoted independently, and failing units emit machine-readable Blocker & Fallibility Certificates.
 
 Lane 2 (P1099) runs a strict Python→Lean translation truth test on proof-critical units: symbol/assumption mapping, statement-equivalence checks, boundary/units consistency, and deterministic pass/fail verdicts per unit. The lane includes a master-theorem gate; in the current branch the candidate remains blocked as not-yet-derivable when dependency completeness is not satisfied, and this blocker is reported explicitly rather than hidden behind a proxy theorem count.
 

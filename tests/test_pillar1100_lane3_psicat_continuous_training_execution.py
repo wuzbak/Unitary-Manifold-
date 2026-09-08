@@ -23,3 +23,4 @@ def test_lane3_contract() -> None:
     assert report['dependencies']['formal_proof_foundry_queue_items_present'] is True
     assert report['dependencies']['stage_receipt_visibility_present'] is True
     assert report['co_runner_mode']['openrouter_compatibility_only'] is True
+    assert report['work_preservation_policy']['failed_units_retained_as_blocker_assets'] is True

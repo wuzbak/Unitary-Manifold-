@@ -36,13 +36,16 @@ def lane1_formal_frontier_execution() -> Dict[str, Any]:
     ledger = lean_burden_ledger()
     units = []
     for row in list(spine.get('traceability_rows') or []):
-        units.append({
+        runtime_companion = list(row.get('python_modules') or [])
+        tests = list(row.get('tests') or [])
+        deterministic_pass = bool(str(row.get('lean_file') or '').strip()) and bool(runtime_companion) and bool(tests)
+        unit = {
             'unit_id': str(row.get('id') or ''),
             'lane_id': str(row.get('lane_id') or ''),
             'epistemic_class': str(row.get('epistemic_class') or ''),
             'lean_file': str(row.get('lean_file') or ''),
-            'runtime_companion': list(row.get('python_modules') or []),
-            'tests': list(row.get('tests') or []),
+            'runtime_companion': runtime_companion,
+            'tests': tests,
             'truth_layer_update_required': 'docs/TRUTH_LAYER.md#foundation-reassessment',
             'retirement_criteria': [
                 'named assumption boundary remains explicit',
@@ -50,7 +53,15 @@ def lane1_formal_frontier_execution() -> Dict[str, Any]:
                 'runtime companion and tests remain linked',
             ],
             'deterministic_priority': 0 if str(row.get('lane_id') or '') == 'LANE_A_APS_ORBIFOLD_DIRAC' else 1,
-        })
+            'verdict': 'PASS' if deterministic_pass else 'FAIL',
+        }
+        if not deterministic_pass:
+            unit['blocker_fallibility_certificate'] = {
+                'boundary_condition': 'Lean/runtime/test linkage must be present for promotion.',
+                'failure_reason': 'Missing Lean mapping or missing runtime/test companion surface.',
+                'verified_perimeter': 'Unit can remain as scoped evidence but cannot be promoted as closure evidence.',
+            }
+        units.append(unit)
     units = sorted(units, key=lambda item: (int(item['deterministic_priority']), str(item['unit_id'])))
     reviewer_packets = [
         packet.get('path')
@@ -58,6 +69,15 @@ def lane1_formal_frontier_execution() -> Dict[str, Any]:
         if isinstance(packet, dict)
     ]
     truth_sync = _truth_surface_sync_status()
+    harvested_units = [unit['unit_id'] for unit in units if unit.get('verdict') == 'PASS']
+    blocker_certificates = [
+        {
+            'unit_id': unit['unit_id'],
+            **dict(unit.get('blocker_fallibility_certificate') or {}),
+        }
+        for unit in units
+        if unit.get('verdict') == 'FAIL'
+    ]
     tightened = [
         unit['unit_id']
         for unit in units
@@ -78,6 +98,11 @@ def lane1_formal_frontier_execution() -> Dict[str, Any]:
         },
         'primary_frontier': ['LANE_A_APS_ORBIFOLD_DIRAC', 'LANE_B_ACTION_TO_EVOLUTION'],
         'theorem_burden_units': units,
+        'compartmentalized_harvest': {
+            'promoted_units': harvested_units,
+            'blocked_units': [item['unit_id'] for item in blocker_certificates],
+            'blocker_fallibility_certificates': blocker_certificates,
+        },
         'reviewer_packets': reviewer_packets,
         'lane1_evidence_board': {
             'closed': [],
