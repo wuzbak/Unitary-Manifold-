@@ -329,7 +329,7 @@
       "status": "REGISTERED",
       "updated": "2026-08-18",
       "sha256": "d61256789a5a8ec40d6054d378e8d4cf3069007d80ebbd4506ca74a82ab9df69",
-      "size_bytes": 7934
+      "size_bytes": 8172
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",
