@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v37.1
+# Unitary Manifold v37.2
 
 ## Foundation reassessment
 
@@ -110,6 +110,17 @@ Sprint CN adds an adjacent, benchmark-first diagnostic layer for irreversibility
 The implementation answers that question with controlled synthetic trajectories and a deterministic information-theoretic decomposition. Exact subset contributions are computed up to triplets, the remaining mass is carried as a higher-order residual, and the resulting report ranks the strongest arrow-carrying interactions. This creates an auditable bridge from the repository's existing entropy/irreversibility surfaces to a usable interaction map without claiming that the map itself is the final ontological explanation of time's arrow.
 
 PsiCat integration is kept practical and bounded: the pillar emits compact assist packets summarizing dominant order, top interaction, internal-vs-external balance, and the next diagnostic question to ask. That makes the new surface useful for training, comparison, and follow-up analysis while preserving the existing open physics obligations unchanged.
+
+
+### Sprint CP three-lane maximum-effort execution
+
+Sprint CP executes the approved three-lane packet without widening claim scope. P1097 fixes one fail-closed charter: all lanes must remain auditable together, and sprint success is blocked unless status synchronization and zero-failure discipline are preserved.
+
+Lane 1 (P1098) converts the current formal frontier into deterministic theorem-burden units tied to explicit epistemic class, Lean file, runtime companion, tests, and truth-layer update obligations. It prioritizes APS/orbifold/Dirac and action-to-evolution surfaces, preserves reviewer packet routing, and records blocker carry-forward explicitly instead of blending closure language with count growth. Passing units are promoted independently, and failing units emit machine-readable Blocker & Fallibility Certificates.
+
+Lane 2 (P1099) runs a strict Python→Lean translation truth test on proof-critical units: symbol/assumption mapping, statement-equivalence checks, boundary/units consistency, and deterministic pass/fail verdicts per unit. The lane includes a master-theorem gate; in the current branch the candidate remains blocked as not-yet-derivable when dependency completeness is not satisfied, and this blocker is reported explicitly rather than hidden behind a proxy theorem count.
+
+Lane 3 (P1100) keeps PsiCat as an active co-runner by binding formal-proof-foundry ingestion, retained execution queue/ledgers, benchmark receipt visibility, and fail-closed readiness packets with unresolved blockers preserved. P1101 and P1102 then certify truth-surface coherence and sprint-level integration. No hardgate/open-lane physics label is promoted in this sprint.
 
 ### Sprint CO proof foundry hardening and governed evolution sprint
 
