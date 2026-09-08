@@ -16,6 +16,7 @@ This registry does three things:
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -237,8 +238,77 @@ INTAKE_SURFACE: List[str] = [
     "proof/README.md",
     "proof/TIER_1_FORMAL.md",
     "proof/FORMAL_PROOF_FOUNDRY.md",
+    "proof/CURRY_HOWARD_WORKFLOW.md",
     "docs/TRUTH_LAYER.md",
 ]
+
+CurryHowardRow = Dict[str, str]
+
+CURRY_HOWARD_MATRIX: List[CurryHowardRow] = [
+    {
+        "logic_side": "Proposition",
+        "program_side": "Type",
+        "lean_surface": "Prop",
+        "repository_example": "lean4/UnitaryManifold/NWUniquenessHonest.lean::proof_distance_map",
+    },
+    {
+        "logic_side": "Proof",
+        "program_side": "Term / value",
+        "lean_surface": "theorem body / exact term",
+        "repository_example": "lean4/UnitaryManifold/SprintCAFormalTraceability.lean::ca_trace_kernel_02",
+    },
+    {
+        "logic_side": "Implication",
+        "program_side": "Function type",
+        "lean_surface": "A → B",
+        "repository_example": "lean4/UnitaryManifold/SprintCAFormalTraceability.lean::ca_trace_kernel_02",
+    },
+    {
+        "logic_side": "Conjunction",
+        "program_side": "Product type",
+        "lean_surface": "A ∧ B",
+        "repository_example": "lean4/UnitaryManifold/NWUniquenessHonest.lean::proof_distance_map",
+    },
+    {
+        "logic_side": "Disjunction",
+        "program_side": "Sum type",
+        "lean_surface": "A ∨ B",
+        "repository_example": "lean4/UnitaryManifold/SprintCAFormalTraceability.lean::ca_trace_kernel_06",
+    },
+    {
+        "logic_side": "Falsehood",
+        "program_side": "Empty type",
+        "lean_surface": "False / ¬ (p ∧ ¬ p)",
+        "repository_example": "lean4/UnitaryManifold/SprintCAFormalTraceability.lean::ca_trace_kernel_07",
+    },
+]
+
+PSICAT_TRAINING_MANIFEST: Dict[str, Any] = {
+    "target_product": "12-AZ-IP/20-psicat-navigator",
+    "training_corpus": [
+        "proof/README.md",
+        "proof/TIER_1_FORMAL.md",
+        "proof/FORMAL_PROOF_FOUNDRY.md",
+        "proof/CURRY_HOWARD_WORKFLOW.md",
+        "proof/REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md",
+        "proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md",
+        "docs/TRUTH_LAYER.md",
+    ],
+    "registry_sources": [
+        "src/core/formal_traceability_spine.py",
+        "tests/test_formal_traceability_spine.py",
+    ],
+    "export_tools": [
+        "12-AZ-IP/20-psicat-navigator/tools/export_merlin_stage_a_artifacts.py",
+        "12-AZ-IP/20-psicat-navigator/tools/export_merlin_training_artifacts.py",
+        "12-AZ-IP/20-psicat-navigator/tools/export_merlin_training_jsonl.py",
+        "12-AZ-IP/20-psicat-navigator/tools/export_merlin_mlflow_manifests.py",
+    ],
+    "benchmark_tools": [
+        "12-AZ-IP/20-psicat-navigator/tools/run_merlin_stage_a_benchmarks.py",
+        "12-AZ-IP/20-psicat-navigator/tools/run_merlin_stage_bc_benchmarks.py",
+    ],
+}
 
 
 def _path_exists(rel_path: str) -> bool:
@@ -261,6 +331,43 @@ def _packet_claim_ids_exist(packet: Dict[str, Any]) -> bool:
     return all(claim_id in known for claim_id in packet["claim_ids"])
 
 
+def _detect_runtime_alignment() -> Dict[str, Any]:
+    patterns = [
+        re.compile(r"import\s+Lean\b"),
+        re.compile(r"from\s+Lean\b"),
+        re.compile(r"subprocess\..*lake"),
+        re.compile(r"subprocess\..*lean"),
+        re.compile(r"['\"]lake build['\"]"),
+        re.compile(r"['\"].+\.lean['\"]"),
+    ]
+    search_roots = [
+        _ROOT / "src",
+        _ROOT / "12-AZ-IP",
+    ]
+    hits: List[str] = []
+    for base in search_roots:
+        if not base.exists():
+            continue
+        for path in base.rglob("*.py"):
+            try:
+                text = path.read_text(encoding="utf-8")
+            except OSError:
+                continue
+            if any(pattern.search(text) for pattern in patterns):
+                hits.append(path.relative_to(_ROOT).as_posix())
+    direct = bool(hits)
+    return {
+        "mode": "DIRECT_OR_HYBRID_INTEGRATION" if direct else "MANUAL_PORT_WITH_TRACEABILITY",
+        "direct_lean_runtime_detected": direct,
+        "evidence_files": hits,
+        "summary": (
+            "Python runtime appears to invoke or reference Lean build/runtime artifacts directly."
+            if direct
+            else "No direct Lean-term runtime invocation was detected in Python; the current bridge is manual porting with explicit traceability."
+        ),
+    }
+
+
 def formal_traceability_spine() -> Dict[str, Any]:
     """Return the canonical formal frontier registry."""
     rows = [dict(row, paths_exist=_row_paths_exist(row)) for row in TRACEABILITY_ROWS]
@@ -276,24 +383,56 @@ def formal_traceability_spine() -> Dict[str, Any]:
         {"path": path, "exists": _path_exists(path)}
         for path in INTAKE_SURFACE
     ]
+    runtime_alignment = _detect_runtime_alignment()
+    psicat_training = {
+        "target_product": PSICAT_TRAINING_MANIFEST["target_product"],
+        "training_corpus": [
+            {"path": path, "exists": _path_exists(path)}
+            for path in PSICAT_TRAINING_MANIFEST["training_corpus"]
+        ],
+        "registry_sources": [
+            {"path": path, "exists": _path_exists(path)}
+            for path in PSICAT_TRAINING_MANIFEST["registry_sources"]
+        ],
+        "export_tools": [
+            {"path": path, "exists": _path_exists(path)}
+            for path in PSICAT_TRAINING_MANIFEST["export_tools"]
+        ],
+        "benchmark_tools": [
+            {"path": path, "exists": _path_exists(path)}
+            for path in PSICAT_TRAINING_MANIFEST["benchmark_tools"]
+        ],
+        "training_ready": True,
+    }
+    psicat_training["training_ready"] = bool(
+        all(item["exists"] for item in psicat_training["training_corpus"])
+        and all(item["exists"] for item in psicat_training["registry_sources"])
+        and all(item["exists"] for item in psicat_training["export_tools"])
+        and all(item["exists"] for item in psicat_training["benchmark_tools"])
+    )
     valid = bool(
         len(PRIMARY_LANES) == 2
         and len(PROOF_CLASSES) == 3
         and all(row["paths_exist"] for row in rows)
         and all(packet["path_exists"] and packet["claim_ids_exist"] for packet in packets)
         and all(item["exists"] for item in intake_surface)
+        and psicat_training["training_ready"]
     )
     return {
         "program": PROGRAM_ID,
         "status": PROGRAM_STATUS,
         "primary_lanes": PRIMARY_LANES,
         "proof_classes": PROOF_CLASSES,
+        "curry_howard_matrix": CURRY_HOWARD_MATRIX,
+        "runtime_alignment": runtime_alignment,
         "traceability_rows": rows,
         "review_packets": packets,
         "intake_surface": intake_surface,
+        "psicat_training_manifest": psicat_training,
         "counts": {
             "lane_count": len(PRIMARY_LANES),
             "proof_class_count": len(PROOF_CLASSES),
+            "curry_howard_row_count": len(CURRY_HOWARD_MATRIX),
             "traceability_row_count": len(rows),
             "review_packet_count": len(packets),
         },
@@ -314,5 +453,7 @@ __all__ = [
     "TRACEABILITY_ROWS",
     "REVIEW_PACKETS",
     "INTAKE_SURFACE",
+    "CURRY_HOWARD_MATRIX",
+    "PSICAT_TRAINING_MANIFEST",
     "formal_traceability_spine",
 ]

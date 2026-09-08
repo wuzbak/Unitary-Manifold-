@@ -10,6 +10,7 @@ records corrected implications and the remaining derivation obligations.
 For the current narrowed formal frontier, use the proof-foundry surface:
 
 - [`FORMAL_PROOF_FOUNDRY.md`](FORMAL_PROOF_FOUNDRY.md)
+- [`CURRY_HOWARD_WORKFLOW.md`](CURRY_HOWARD_WORKFLOW.md)
 - [`REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md`](REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md)
 - [`REVIEW_PACKET_ACTION_TO_EVOLUTION.md`](REVIEW_PACKET_ACTION_TO_EVOLUTION.md)
 

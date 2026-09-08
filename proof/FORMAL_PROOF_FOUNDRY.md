@@ -43,6 +43,7 @@ For a first-pass review of the current honesty boundary, use:
 
 - `proof/REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md`
 - `proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md`
+- `proof/CURRY_HOWARD_WORKFLOW.md`
 
 Each packet is deliberately small:
 
@@ -55,3 +56,15 @@ Each packet is deliberately small:
 ## What this surface is for
 
 This surface is for honest proof work and external review. It is not a claim that the whole formal build is closed. It is a way to expose the present frontier without mixing arithmetic proxies, conditional theorems, and executable validations into one undifferentiated count.
+
+## PsiCat training and workflow upgrade
+
+PsiCat should ingest this proof-foundry surface as a canonical corpus for train-and-work:
+
+- the proof intake docs,
+- the Curry-Howard workflow note,
+- the focused review packets,
+- the current truth-layer reassessment,
+- and the machine-readable registry in `src/core/formal_traceability_spine.py`.
+
+That keeps training aligned to the current honesty boundary instead of older closure phrasing alone.
