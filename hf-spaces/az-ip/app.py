@@ -268,10 +268,10 @@ PRODUCTS = {
         "sha256_prefix": "d9e0f1a2",
     },
     "20": {
-        "name": "PhiCat Navigator (OX-compatible)",
+        "name": "PsiCat Navigator (OX-compatible)",
         "category": "apps",
         "description": "Extended AI memory via OX Alpha (stealth/ox-alpha) — full UM context ~85k tokens",
-        "path": "12-AZ-IP/20-phicat-navigator/",
+        "path": "12-AZ-IP/20-psicat-navigator/",
         "key_files": ["ox-navigator.js", "ox-navigator.py"],
         "trl": "TRL 6",
         "status": "REGISTERED",

@@ -12,7 +12,7 @@ from typing import Any, Callable, Dict, Protocol
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 
 _ROOT = Path(__file__).resolve().parents[2]
-_PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-phicat-navigator"
+_PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-psicat-navigator"
 _LEAN4_FILE = _ROOT / "lean4" / "UnitaryManifold" / "MerlinProofFirstKawamuraLedger.lean"
 _SUBSTACK_POST = _ROOT / "7-OUTREACH" / "substack" / "posts" / "post-320-s04e023-merlin-proof-first-kawamura-sprint.md"
 _EXPECTED_THEOREM_COUNT = 8

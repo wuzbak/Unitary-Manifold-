@@ -22,8 +22,8 @@ TARGETED_SUITES: List[str] = [
     "python -m pytest tests/test_pillar1051_merge_gate_baseline_lock.py -q",
     "python -m pytest tests/test_pillar1052_targeted_closure_deterministic_rigor.py -q",
     "python -m pytest tests/test_pillar1053_merlin_frontier_development.py -q",
-    "python -m pytest 12-AZ-IP/20-phicat-navigator/tests/test_merlin_v1.py -q",
-    "python -m pytest 12-AZ-IP/20-phicat-navigator/tests/test_merlin_memory_and_telemetry.py -q",
+    "python -m pytest 12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py -q",
+    "python -m pytest 12-AZ-IP/20-psicat-navigator/tests/test_merlin_memory_and_telemetry.py -q",
 ]
 FULL_REGRESSION_SUITE: str = "python3 -m pytest tests/ recycling/ \"5-GOVERNANCE/Unitary Pentad/\" -q"
 
@@ -70,12 +70,12 @@ def sprint_cb_verification_release_discipline() -> Dict[str, Any]:
         for line in workflow_lines
     )
     artifacts_scripts = [
-        "12-AZ-IP/20-phicat-navigator/tools/export_merlin_stage_a_artifacts.py",
-        "12-AZ-IP/20-phicat-navigator/tools/export_merlin_training_artifacts.py",
-        "12-AZ-IP/20-phicat-navigator/tools/export_merlin_training_jsonl.py",
-        "12-AZ-IP/20-phicat-navigator/tools/export_merlin_mlflow_manifests.py",
-        "12-AZ-IP/20-phicat-navigator/tools/run_merlin_stage_a_benchmarks.py",
-        "12-AZ-IP/20-phicat-navigator/tools/run_merlin_stage_bc_benchmarks.py",
+        "12-AZ-IP/20-psicat-navigator/tools/export_merlin_stage_a_artifacts.py",
+        "12-AZ-IP/20-psicat-navigator/tools/export_merlin_training_artifacts.py",
+        "12-AZ-IP/20-psicat-navigator/tools/export_merlin_training_jsonl.py",
+        "12-AZ-IP/20-psicat-navigator/tools/export_merlin_mlflow_manifests.py",
+        "12-AZ-IP/20-psicat-navigator/tools/run_merlin_stage_a_benchmarks.py",
+        "12-AZ-IP/20-psicat-navigator/tools/run_merlin_stage_bc_benchmarks.py",
     ]
     script_checks = {p: (_ROOT / p).exists() for p in artifacts_scripts}
 

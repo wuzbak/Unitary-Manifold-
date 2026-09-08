@@ -12,7 +12,7 @@ from typing import Any, Dict
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 
 _ROOT = Path(__file__).resolve().parents[2]
-_PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-phicat-navigator"
+_PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-psicat-navigator"
 WORKFLOW_PATH = _ROOT / ".github" / "workflows" / "merlin-benchmark-gate.yml"
 
 PILLAR_NUMBER: int = 1045
