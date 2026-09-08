@@ -112,6 +112,7 @@ from .merlin_program import (
 from .merlin_training_execution import (
     build_merlin_training_execution_queue,
     get_merlin_lane_progress_ledgers,
+    get_merlin_training_challenge_pack,
     run_merlin_training_cycle,
 )
 from .merlin_inference_health import get_merlin_inference_health
@@ -265,6 +266,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinTrainingExecutionQueue", "summary": "Return active retained-training queue state across all three lanes", "domain": "functions"},
             {"name": "getMerlinLaneProgressLedgers", "summary": "Return automated lane-by-lane progress ledgers and retained receipt summaries", "domain": "functions"},
             {"name": "runMerlinTrainingCycle", "summary": "Execute queued three-lane training work and retain auditable receipts in session memory", "domain": "functions"},
+            {"name": "getMerlinTrainingChallengePack", "summary": "Return deterministic challenge drills prioritized by stale or review-required training work", "domain": "functions"},
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
@@ -379,6 +381,7 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinLaneProgressLedgers": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "runMerlinTrainingCycle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingChallengePack": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMemoryGeometry": {
             "args_schema": {
                 "type": "object",
@@ -959,6 +962,10 @@ _FUNCTIONS = {
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=args.get("limit"),
     )},
+    "getMerlinTrainingChallengePack": lambda **args: {"data": get_merlin_training_challenge_pack(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=_coerce_positive_int(args.get("limit"), 12),
+    )},
     "getMerlinCompetitiveBenchmarkPlan": lambda **args: {"data": get_competitive_benchmark_plan()},
     "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit"))},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
@@ -1196,7 +1203,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 ok = False
                 error = "Human gate approval required for this tool."
                 raise ValueError(error)
-        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "getMerlinMemoryGeometry", "merlinConsolidateMemory", "merlinSelfAudit", "generateFalsificationOracle", "merlinAnalyzeDepth", "empiricalObservatoryCheck", "kernelPProofProbe", "getMerlinTrainingExecutionQueue", "getMerlinLaneProgressLedgers", "runMerlinTrainingCycle"}:
+        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "getMerlinMemoryGeometry", "merlinConsolidateMemory", "merlinSelfAudit", "generateFalsificationOracle", "merlinAnalyzeDepth", "empiricalObservatoryCheck", "kernelPProofProbe", "getMerlinTrainingExecutionQueue", "getMerlinLaneProgressLedgers", "runMerlinTrainingCycle", "getMerlinTrainingChallengePack"}:
             tool_type = "function"
             if tool == "getMerlinTrainingDataset":
                 result = {"data": build_training_dataset_bundle(
@@ -1277,6 +1284,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "getMerlinTrainingExecutionQueue",
                     "getMerlinLaneProgressLedgers",
                     "runMerlinTrainingCycle",
+                    "getMerlinTrainingChallengePack",
                 }
                 if tool in session_passthrough_tools:
                     result = _FUNCTIONS[tool](**{**args, "__session": active_session})

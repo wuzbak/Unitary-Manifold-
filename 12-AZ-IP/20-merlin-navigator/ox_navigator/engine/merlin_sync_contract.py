@@ -44,6 +44,7 @@ REQUIRED_TOOLKIT_FUNCTIONS: tuple[str, ...] = (
     "getMerlinTrainingExecutionQueue",
     "getMerlinLaneProgressLedgers",
     "runMerlinTrainingCycle",
+    "getMerlinTrainingChallengePack",
 )
 
 REQUIRED_ARTIFACT_SURFACES: tuple[str, ...] = (

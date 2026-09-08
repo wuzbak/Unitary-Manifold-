@@ -15,6 +15,7 @@ from ox_navigator.engine.merlin_training_execution import (
     build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
     get_merlin_lane_progress_ledgers,
+    get_merlin_training_challenge_pack,
     run_merlin_training_cycle,
 )
 
@@ -37,6 +38,7 @@ def test_merlin_training_cycle_executes_round_robin_receipts():
     queue_after = build_merlin_training_execution_queue(session=session, limit=6)
     assert queue_after["completed_count"] == 6
     assert queue_after["completion_ratio"] > 0.0
+    assert queue_after["stale_retrain_count"] == 0
     assert session.get_public_memory_state()["training_execution_receipt_count"] == 6
 
 
@@ -48,14 +50,34 @@ def test_merlin_lane_progress_ledgers_report_retained_receipts():
     assert ledgers["overall"]["retained_training_receipts"] == 6
     assert len(ledgers["lane_ledgers"]) == 3
     assert all(item["completed_count"] >= 1 for item in ledgers["lane_ledgers"])
+    assert all("gate_summary" in item for item in ledgers["lane_ledgers"])
+
+
+def test_merlin_training_queue_detects_stale_receipts():
+    session = MerlinSession()
+    run_merlin_training_cycle(session=session, limit=1)
+    session.training_execution_receipts[0]["source_snapshot"]["content_digest"] = "stale-digest"
+    queue = build_merlin_training_execution_queue(session=session, limit=3)
+    assert queue["stale_retrain_count"] >= 1
+    assert queue["items"][0]["status"] == "stale_retrain_required"
+
+
+def test_merlin_training_challenge_pack_prioritizes_rework():
+    session = MerlinSession()
+    run_merlin_training_cycle(session=session, limit=2)
+    session.training_execution_receipts[0]["source_snapshot"]["content_digest"] = "stale-digest"
+    challenges = get_merlin_training_challenge_pack(session=session, limit=4)
+    assert challenges["challenge_count"] == 4
+    assert challenges["challenges"][0]["status"] == "stale_retrain_required"
 
 
 def test_merlin_training_execution_bundle_reuses_retained_state():
     session = MerlinSession()
-    first = build_merlin_training_execution_bundle(session=session, limit=3)
-    assert first["execution_cycle"]["processed_count"] == 3
+    first = build_merlin_training_execution_bundle(session=session)
+    assert first["execution_cycle"]["processed_count"] >= 1
+    assert first["training_challenge_pack"]["challenge_count"] >= 1
 
-    second = build_merlin_training_execution_bundle(session=session, limit=3)
+    second = build_merlin_training_execution_bundle(session=session)
     assert second["ok"] is True
     assert second["execution_cycle"]["processed_count"] == 0
     assert second["execution_cycle"]["mode"] == "reuse_retained_training_state"

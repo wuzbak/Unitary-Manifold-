@@ -31,6 +31,11 @@ LANE_NAMES = {
     "lane_b_books_articles_mastery": "Lane B — Books and Articles Mastery",
     "lane_c_adversarial_self_correction": "Lane C — Adversarial Self-Correction",
 }
+LANE_MASTERY_THRESHOLDS = {
+    "lane_a_applications_tools_mastery": 0.25,
+    "lane_b_books_articles_mastery": 0.22,
+    "lane_c_adversarial_self_correction": 0.5,
+}
 
 
 def _utcnow() -> str:
@@ -63,6 +68,19 @@ def _read_text(path: Path) -> str:
         return path.read_text(encoding="utf-8")
     except OSError:
         return ""
+
+
+def _parse_iso_timestamp(value: Any) -> datetime | None:
+    stamp = str(value or "").strip()
+    if not stamp:
+        return None
+    try:
+        parsed = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed
+    except ValueError:
+        return None
 
 
 def _relative_target(reference_path: str) -> Path:
@@ -138,6 +156,73 @@ def _walk_stats(path: Path) -> dict[str, Any]:
     }
 
 
+def _path_file_inventory(path: Path) -> list[Path]:
+    if not path.exists():
+        return []
+    if path.is_file():
+        return [path]
+    return [candidate for candidate in path.rglob("*") if candidate.is_file()]
+
+
+def _build_source_snapshot(item: dict[str, Any], *, session: MerlinSession | None = None) -> dict[str, Any]:
+    lane_id = str(item.get("lane_id") or "")
+    reference_path = str(item.get("reference_path") or "")
+    if lane_id in {"lane_a_applications_tools_mastery", "lane_b_books_articles_mastery"}:
+        target = _relative_target(reference_path)
+        files = _path_file_inventory(target if target.exists() else target.parent)
+        entries: list[str] = []
+        last_modified = 0.0
+        for candidate in files:
+            try:
+                stat = candidate.stat()
+            except OSError:
+                continue
+            rel = _repo_rel(candidate)
+            entries.append(f"{rel}|{int(stat.st_mtime_ns)}|{int(stat.st_size)}")
+            last_modified = max(last_modified, float(stat.st_mtime))
+        digest = hashlib.sha256("\n".join(sorted(entries)).encode("utf-8")).hexdigest()
+        return {
+            "snapshot_type": "filesystem",
+            "reference_path": reference_path,
+            "tracked_root": _repo_rel(target if target.exists() else target.parent),
+            "file_count": len(entries),
+            "content_digest": digest,
+            "last_modified_at": (
+                datetime.fromtimestamp(last_modified, tz=timezone.utc).isoformat()
+                if last_modified > 0
+                else ""
+            ),
+        }
+    files = [
+        Path(__file__).resolve(),
+        Path(__file__).with_name("merlin_counterexample.py"),
+        Path(__file__).with_name("merlin_meta_learning.py"),
+        Path(__file__).with_name("merlin_memory.py"),
+    ]
+    entries: list[str] = []
+    last_modified = 0.0
+    for candidate in files:
+        if not candidate.exists():
+            continue
+        try:
+            stat = candidate.stat()
+        except OSError:
+            continue
+        entries.append(f"{_repo_rel(candidate)}|{int(stat.st_mtime_ns)}|{int(stat.st_size)}")
+        last_modified = max(last_modified, float(stat.st_mtime))
+    return {
+        "snapshot_type": "engine_sources",
+        "reference_path": reference_path,
+        "tracked_files": [_repo_rel(candidate) for candidate in files if candidate.exists()],
+        "content_digest": hashlib.sha256("\n".join(sorted(entries)).encode("utf-8")).hexdigest(),
+        "last_modified_at": (
+            datetime.fromtimestamp(last_modified, tz=timezone.utc).isoformat()
+            if last_modified > 0
+            else ""
+        ),
+    }
+
+
 def _extract_internal_links(text: str) -> list[str]:
     return sorted({match.strip() for match in re.findall(r"\]\((?!https?://)([^)#]+)", text) if match.strip()})
 
@@ -145,6 +230,53 @@ def _extract_internal_links(text: str) -> list[str]:
 def _hash_receipt(payload: dict[str, Any]) -> str:
     body = json.dumps(payload, ensure_ascii=False, sort_keys=True)
     return hashlib.sha256(body.encode("utf-8")).hexdigest()
+
+
+def _score_lane_receipt(lane_id: str, metrics: dict[str, Any]) -> tuple[float, str, list[str]]:
+    blockers: list[str] = []
+    if lane_id == "lane_a_applications_tools_mastery":
+        score = min(
+            1.0,
+            (
+                min(float(metrics.get("inventory_files", 0) or 0) / 20.0, 1.0) * 0.3
+                + min(float(metrics.get("python_files", 0) or 0) / 20.0, 1.0) * 0.25
+                + min(float(metrics.get("test_files", 0) or 0) / 6.0, 1.0) * 0.2
+                + min(float(metrics.get("documented_endpoint_count", 0) or 0) / 4.0, 1.0) * 0.15
+                + min(float(metrics.get("gate_marker_count", 0) or 0) / 2.0, 1.0) * 0.1
+            ),
+        )
+        if float(metrics.get("inventory_files", 0) or 0) == 0:
+            blockers.append("no_repository_surface_detected")
+    elif lane_id == "lane_b_books_articles_mastery":
+        score = min(
+            1.0,
+            (
+                min(float(metrics.get("word_count", 0) or 0) / 900.0, 1.0) * 0.4
+                + min(float(metrics.get("heading_count", 0) or 0) / 6.0, 1.0) * 0.2
+                + min(float(metrics.get("internal_link_count", 0) or 0) / 4.0, 1.0) * 0.2
+                + min(float(metrics.get("limits_marker_count", 0) or 0) / 3.0, 1.0) * 0.2
+            ),
+        )
+        if float(metrics.get("word_count", 0) or 0) == 0:
+            blockers.append("empty_editorial_surface")
+    else:
+        contract_pass_rate = float(metrics.get("contract_pass_rate", 0.0) or 0.0)
+        audit_sample_count = float(metrics.get("audit_sample_count", 0) or 0)
+        effective_contract_pass_rate = contract_pass_rate if audit_sample_count > 0 else 0.9
+        score = min(
+            1.0,
+            (
+                effective_contract_pass_rate * 0.45
+                + min(float(metrics.get("recommended_depth", 0) or 0) / 5.0, 1.0) * 0.2
+                + min(float(metrics.get("compiled_insights", 0) or 0) / 8.0, 1.0) * 0.2
+                + (1.0 if float(metrics.get("digest_items", 1) or 1) > 0 else 0.0) * 0.15
+            ),
+        )
+        if audit_sample_count > 0 and contract_pass_rate < 0.9:
+            blockers.append("contract_pass_rate_below_target")
+    threshold = float(LANE_MASTERY_THRESHOLDS.get(lane_id, 0.6))
+    verdict = "pass" if score >= threshold and not blockers else "needs_review"
+    return round(score, 4), verdict, blockers
 
 
 def _upsert_insight(session: MerlinSession, *, source_query: str, fact: str, tags: list[str], namespace: str = "general") -> None:
@@ -300,6 +432,7 @@ def _build_lane_c_receipt(item: dict[str, Any], *, session: MerlinSession) -> tu
         "compiled_insights": int((memory.get("counts") or {}).get("trusted_compiled_insights", 0) or 0),
         "recommended_depth": int(depth.get("recommended_depth", 0) or 0),
         "contract_pass_rate": float(calibration.get("contract_pass_rate", 0.0) or 0.0),
+        "audit_sample_count": int(calibration.get("sample_count", 0) or 0),
     }
     fact = (
         f"Self-audit retained {metrics['durable_memory']} durable memories, {metrics['compiled_insights']} trusted compiled insights, "
@@ -311,12 +444,14 @@ def _build_lane_c_receipt(item: dict[str, Any], *, session: MerlinSession) -> tu
 def _execute_queue_item(item: dict[str, Any], *, session: MerlinSession) -> dict[str, Any]:
     lane_id = str(item.get("lane_id") or "")
     started_at = _utcnow()
+    source_snapshot = _build_source_snapshot(item, session=session)
     if lane_id == "lane_a_applications_tools_mastery":
         artifact, metrics, fact = _build_lane_a_receipt(item)
     elif lane_id == "lane_b_books_articles_mastery":
         artifact, metrics, fact = _build_lane_b_receipt(item)
     else:
         artifact, metrics, fact = _build_lane_c_receipt(item, session=session)
+    mastery_score, gate_verdict, blockers = _score_lane_receipt(lane_id, metrics)
     base_receipt = {
         "queue_id": str(item.get("queue_id") or ""),
         "lane_id": lane_id,
@@ -327,6 +462,10 @@ def _execute_queue_item(item: dict[str, Any], *, session: MerlinSession) -> dict
         "expected_artifact": str(item.get("expected_artifact") or ""),
         "artifact": artifact,
         "metrics": metrics,
+        "source_snapshot": source_snapshot,
+        "mastery_score": mastery_score,
+        "gate_verdict": gate_verdict,
+        "gate_blockers": blockers,
         "summary_fact": fact,
         "started_at": started_at,
         "completed_at": _utcnow(),
@@ -344,13 +483,105 @@ def _execute_queue_item(item: dict[str, Any], *, session: MerlinSession) -> dict
     return base_receipt
 
 
+def _resolve_queue_status(item: dict[str, Any], receipt: dict[str, Any] | None, *, session: MerlinSession) -> str:
+    if not isinstance(receipt, dict):
+        return "queued"
+    if str(receipt.get("status") or "") == "failed":
+        return "failed"
+    current_snapshot = _build_source_snapshot(item, session=session)
+    receipt_snapshot = dict(receipt.get("source_snapshot") or {})
+    if receipt_snapshot.get("content_digest") and receipt_snapshot.get("content_digest") != current_snapshot.get("content_digest"):
+        return "stale_retrain_required"
+    completed_at = _parse_iso_timestamp(receipt.get("completed_at"))
+    source_last_modified = _parse_iso_timestamp(current_snapshot.get("last_modified_at"))
+    if completed_at and source_last_modified and source_last_modified > completed_at:
+        return "stale_retrain_required"
+    if str(receipt.get("gate_verdict") or "pass") != "pass":
+        return "needs_review"
+    return "completed"
+
+
+def _lane_gate_summary(receipts: list[dict[str, Any]], *, total: int) -> dict[str, Any]:
+    if not receipts:
+        return {
+            "mastery_score_mean": 0.0,
+            "freshness_ratio": 0.0,
+            "gate_pass_ratio": 0.0,
+            "readiness": "not_started",
+        }
+    mastery_scores = [float(item.get("mastery_score", 0.0) or 0.0) for item in receipts]
+    gate_passes = [item for item in receipts if str(item.get("gate_verdict") or "") == "pass"]
+    fresh = [
+        item for item in receipts
+        if str(item.get("queue_status") or "completed") == "completed"
+    ]
+    gate_pass_ratio = len(gate_passes) / total if total else 0.0
+    freshness_ratio = len(fresh) / total if total else 0.0
+    mastery_mean = sum(mastery_scores) / len(mastery_scores)
+    readiness = "ready" if gate_pass_ratio >= 0.9 and freshness_ratio >= 0.9 else "needs_work"
+    return {
+        "mastery_score_mean": round(mastery_mean, 4),
+        "freshness_ratio": round(freshness_ratio, 4),
+        "gate_pass_ratio": round(gate_pass_ratio, 4),
+        "readiness": readiness,
+    }
+
+
+def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 12) -> dict[str, Any]:
+    cap = max(1, min(int(limit or 12), 48))
+    queue = build_merlin_training_execution_queue(session=session, limit=None)
+    challenge_items: list[dict[str, Any]] = []
+    for item in list(queue.get("items") or []):
+        lane_id = str(item.get("lane_id") or "")
+        prompt = ""
+        answer_key = str(item.get("summary_fact") or item.get("task") or "")
+        if lane_id == "lane_a_applications_tools_mastery":
+            prompt = (
+                f"Identify the Merlin product for {item.get('reference_path')} and state when it should be routed or recommended."
+            )
+        elif lane_id == "lane_b_books_articles_mastery":
+            prompt = (
+                f"Summarize the thesis, limits, and cross-reference obligations of {item.get('reference_path')}."
+            )
+        else:
+            prompt = (
+                f"State the contradiction, falsification, or calibration discipline required for {item.get('queue_id')}."
+            )
+        challenge_items.append(
+            {
+                "challenge_id": f"challenge_{item.get('queue_id')}",
+                "lane_id": lane_id,
+                "queue_id": item.get("queue_id"),
+                "status": item.get("status"),
+                "prompt": prompt,
+                "required_output": item.get("expected_artifact"),
+                "answer_key": answer_key,
+                "reference_path": item.get("reference_path"),
+            }
+        )
+    prioritized = sorted(
+        challenge_items,
+        key=lambda challenge: (
+            {"stale_retrain_required": 0, "needs_review": 1, "queued": 2, "completed": 3}.get(str(challenge.get("status") or ""), 4),
+            str(challenge.get("challenge_id") or ""),
+        ),
+    )
+    selected = prioritized[:cap]
+    return {
+        "generated_at": _utcnow(),
+        "challenge_count": len(selected),
+        "selection_policy": "Prioritize stale and review-required work before merely completed work.",
+        "challenges": selected,
+    }
+
+
 def build_merlin_training_execution_queue(*, session: MerlinSession, limit: int | None = None) -> dict[str, Any]:
     latest = _latest_receipts_by_queue(session)
     items: list[dict[str, Any]] = []
     for item in _queue_blueprint():
         queue_id = str(item.get("queue_id") or "")
         receipt = latest.get(queue_id)
-        status = str(receipt.get("status") or "queued") if isinstance(receipt, dict) else "queued"
+        status = _resolve_queue_status(item, receipt, session=session)
         items.append(
             {
                 **item,
@@ -361,7 +592,9 @@ def build_merlin_training_execution_queue(*, session: MerlinSession, limit: int 
             }
         )
     completed = sum(1 for item in items if item["status"] == "completed")
-    queued = sum(1 for item in items if item["status"] != "completed")
+    queued = sum(1 for item in items if item["status"] in {"queued", "stale_retrain_required", "needs_review"})
+    stale = sum(1 for item in items if item["status"] == "stale_retrain_required")
+    review = sum(1 for item in items if item["status"] == "needs_review")
     selected = items if limit is None else items[: _coerce_limit(limit)]
     return {
         "mode": "active_execution_queue",
@@ -370,6 +603,8 @@ def build_merlin_training_execution_queue(*, session: MerlinSession, limit: int 
         "total_queue_items": len(items),
         "completed_count": completed,
         "queued_count": queued,
+        "stale_retrain_count": stale,
+        "needs_review_count": review,
         "completion_ratio": round(completed / len(items), 4) if items else 1.0,
         "items": selected,
     }
@@ -389,14 +624,23 @@ def get_merlin_lane_progress_ledgers(*, session: MerlinSession, limit: int = 5) 
         receipts_by_lane.setdefault(lane_id, []).append(dict(receipt))
     ledgers: list[dict[str, Any]] = []
     for lane_id in LANE_ORDER:
+        queue_items_for_lane = [item for item in blueprint if str(item.get("lane_id") or "") == lane_id]
         receipts = sorted(
             receipts_by_lane.get(lane_id, []),
             key=lambda item: str(item.get("completed_at") or item.get("recorded_at") or ""),
         )
+        receipt_index = {str(item.get("queue_id") or ""): dict(item) for item in receipts}
+        queue_status_index = {
+            str(item.get("queue_id") or ""): _resolve_queue_status(item, receipt_index.get(str(item.get("queue_id") or "")), session=session)
+            for item in queue_items_for_lane
+        }
+        for item in receipts:
+            item["queue_status"] = queue_status_index.get(str(item.get("queue_id") or ""), "completed")
         completed_count = len([item for item in receipts if str(item.get("status") or "") == "completed"])
         failed_count = len([item for item in receipts if str(item.get("status") or "") == "failed"])
         total = int(queue_totals.get(lane_id, 0) or 0)
         recent = receipts[-cap:]
+        gate_summary = _lane_gate_summary(receipts, total=total)
         ledgers.append(
             {
                 "lane_id": lane_id,
@@ -404,15 +648,21 @@ def get_merlin_lane_progress_ledgers(*, session: MerlinSession, limit: int = 5) 
                 "total_queue_items": total,
                 "completed_count": completed_count,
                 "failed_count": failed_count,
-                "queued_count": max(0, total - completed_count),
+                "queued_count": max(0, len([status for status in queue_status_index.values() if status in {"queued", "stale_retrain_required", "needs_review"}])),
+                "stale_retrain_count": len([status for status in queue_status_index.values() if status == "stale_retrain_required"]),
+                "needs_review_count": len([status for status in queue_status_index.values() if status == "needs_review"]),
                 "completion_ratio": round(completed_count / total, 4) if total else 1.0,
                 "latest_completed_at": receipts[-1].get("completed_at") if receipts else None,
+                "gate_summary": gate_summary,
                 "recent_receipts": [
                     {
                         "queue_id": item.get("queue_id"),
                         "receipt_id": item.get("receipt_id"),
                         "artifact_type": ((item.get("artifact") or {}).get("artifact_type")),
                         "completed_at": item.get("completed_at"),
+                        "mastery_score": item.get("mastery_score"),
+                        "gate_verdict": item.get("gate_verdict"),
+                        "queue_status": item.get("queue_status"),
                         "summary_fact": item.get("summary_fact"),
                     }
                     for item in recent
@@ -434,6 +684,8 @@ def get_merlin_lane_progress_ledgers(*, session: MerlinSession, limit: int = 5) 
         )
     overall_completed = sum(int(item["completed_count"]) for item in ledgers)
     overall_total = sum(int(item["total_queue_items"]) for item in ledgers)
+    overall_stale = sum(int(item["stale_retrain_count"]) for item in ledgers)
+    overall_review = sum(int(item["needs_review_count"]) for item in ledgers)
     return {
         "generated_at": _utcnow(),
         "artifact_export_path": _repo_rel(EXECUTION_ARTIFACT_PATH),
@@ -442,7 +694,9 @@ def get_merlin_lane_progress_ledgers(*, session: MerlinSession, limit: int = 5) 
             "lane_count": len(ledgers),
             "total_queue_items": overall_total,
             "completed_count": overall_completed,
-            "queued_count": max(0, overall_total - overall_completed),
+            "queued_count": max(0, sum(int(item["queued_count"]) for item in ledgers)),
+            "stale_retrain_count": overall_stale,
+            "needs_review_count": overall_review,
             "completion_ratio": round(overall_completed / overall_total, 4) if overall_total else 1.0,
             "retained_training_receipts": len(list(session.training_execution_receipts)),
         },
@@ -451,7 +705,12 @@ def get_merlin_lane_progress_ledgers(*, session: MerlinSession, limit: int = 5) 
 
 def run_merlin_training_cycle(*, session: MerlinSession, limit: int | None = None) -> dict[str, Any]:
     latest = _latest_receipts_by_queue(session)
-    pending = [item for item in _queue_blueprint() if str(latest.get(str(item.get("queue_id") or ""), {}).get("status") or "") != "completed"]
+    pending = []
+    for item in _queue_blueprint():
+        queue_id = str(item.get("queue_id") or "")
+        status = _resolve_queue_status(item, latest.get(queue_id), session=session)
+        if status in {"queued", "stale_retrain_required", "needs_review"}:
+            pending.append(item)
     queue_before = build_merlin_training_execution_queue(session=session, limit=limit)
     selected = _round_robin_queue_items(pending, limit=limit)
     receipts = [_execute_queue_item(item, session=session) for item in selected]
@@ -464,13 +723,20 @@ def run_merlin_training_cycle(*, session: MerlinSession, limit: int | None = Non
         "receipts": receipts,
         "queue_after": build_merlin_training_execution_queue(session=session, limit=limit),
         "lane_progress": get_merlin_lane_progress_ledgers(session=session, limit=5),
+        "challenge_pack": get_merlin_training_challenge_pack(session=session, limit=12),
         "retained_memory_state": session.get_public_memory_state(),
         "honesty_note": "This cycle executes deterministic repository-backed training receipts and retains them in Merlin session memory; it does not claim autonomous hidden-weight learning outside those auditable artifacts.",
     }
 
 
 def build_merlin_training_execution_bundle(*, session: MerlinSession, limit: int | None = None) -> dict[str, Any]:
-    if any(str(item.get("status") or "") == "completed" for item in session.training_execution_receipts):
+    queue_state = build_merlin_training_execution_queue(session=session, limit=None)
+    if (
+        any(str(item.get("status") or "") == "completed" for item in session.training_execution_receipts)
+        and int(queue_state.get("queued_count", 0) or 0) == 0
+        and int(queue_state.get("stale_retrain_count", 0) or 0) == 0
+        and int(queue_state.get("needs_review_count", 0) or 0) == 0
+    ):
         cycle = {
             "ok": True,
             "generated_at": _utcnow(),
@@ -490,5 +756,6 @@ def build_merlin_training_execution_bundle(*, session: MerlinSession, limit: int
         "artifact_path": _repo_rel(EXECUTION_ARTIFACT_PATH),
         "training_execution_queue": build_merlin_training_execution_queue(session=session, limit=24),
         "lane_progress_ledgers": get_merlin_lane_progress_ledgers(session=session, limit=5),
+        "training_challenge_pack": get_merlin_training_challenge_pack(session=session, limit=12),
         "execution_cycle": cycle,
     }

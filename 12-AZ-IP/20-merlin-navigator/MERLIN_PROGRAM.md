@@ -169,6 +169,7 @@ This document records the implemented execution blueprint for making Merlin the 
 - `getMerlinTrainingExecutionQueue`, `getMerlinLaneProgressLedgers`, and `runMerlinTrainingCycle` now convert the three-lane plan into active, retained execution receipts instead of queue descriptions alone.
 - `/api/merlin/training-execution-queue`, `/api/merlin/lane-progress-ledgers`, and `/api/merlin/training-cycle` now expose live queue state, per-lane progress ledgers, and auditable retained training work.
 - `tools/export_merlin_training_execution.py` now materializes a deterministic execution bundle at `training/training_execution/three_lane_execution_bundle.json` so the current sprint state can be reviewed without hidden memory.
+- Training execution now detects stale source changes, surfaces review-required queue items when mastery scores fall short, and emits deterministic challenge packs so completed work becomes reusable follow-up training rather than a dead ledger.
 
 ## Merlin Sovereignty Roadmap checklist
 

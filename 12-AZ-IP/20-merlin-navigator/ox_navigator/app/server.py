@@ -62,6 +62,7 @@ from ox_navigator.engine.merlin_telemetry import build_energy_ledger
 from ox_navigator.engine.merlin_training_execution import (
     build_merlin_training_execution_queue,
     get_merlin_lane_progress_ledgers,
+    get_merlin_training_challenge_pack,
     run_merlin_training_cycle,
 )
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
@@ -728,6 +729,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'lane_progress_ledgers': get_merlin_lane_progress_ledgers(session=merlin_session, limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if parsed.path == '/api/merlin/training-challenge-pack':
+                limit, error = _parse_positive_int_query_param(params, 'limit', 12)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'training_challenge_pack': get_merlin_training_challenge_pack(session=merlin_session, limit=limit),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

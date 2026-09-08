@@ -524,6 +524,9 @@ def test_route_tool_training_architecture_and_artifacts():
     lane_ledgers = route_tool('getMerlinLaneProgressLedgers', {'limit': 3}, session=session)
     assert lane_ledgers['ok'] is True
     assert lane_ledgers['result']['data']['overall']['completed_count'] == 3
+    challenge_pack = route_tool('getMerlinTrainingChallengePack', {'limit': 4}, session=session)
+    assert challenge_pack['ok'] is True
+    assert challenge_pack['result']['data']['challenge_count'] == 4
     frontier = route_tool('getMerlinFrontierStack', {})
     assert frontier['ok'] is True
     assert any(model['name'] == 'DeepSeek-R1' for model in frontier['result']['data']['open_weight_models'])
@@ -1831,6 +1834,10 @@ def test_server_merlin_endpoints():
             assert lane_progress.status_code == 200
             assert lane_progress.json()['ok'] is True
             assert lane_progress.json()['lane_progress_ledgers']['overall']['completed_count'] == 3
+            challenge_pack = client.get('/api/merlin/training-challenge-pack?limit=4')
+            assert challenge_pack.status_code == 200
+            assert challenge_pack.json()['ok'] is True
+            assert challenge_pack.json()['training_challenge_pack']['challenge_count'] == 4
 
             benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=stage_c')
             assert benchmark_corpora.status_code == 200
