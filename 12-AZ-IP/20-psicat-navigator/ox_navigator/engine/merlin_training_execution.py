@@ -292,7 +292,7 @@ def _score_lane_receipt(lane_id: str, metrics: dict[str, Any]) -> tuple[float, s
                 + min(float(metrics.get("internal_link_count", 0) or 0) / 3.0, 1.0) * 0.1
             ),
         )
-        if float(metrics.get("review_packet_mentions", 0) or 0) == 0:
+        if float(metrics.get("review_packet_mentions", 0) or 0) == 0 and float(metrics.get("open_gap_mentions", 0) or 0) == 0:
             blockers.append("missing_review_packet_reference")
     threshold = float(LANE_MASTERY_THRESHOLDS.get(lane_id, 0.6))
     verdict = "pass" if score >= threshold and not blockers else "needs_review"

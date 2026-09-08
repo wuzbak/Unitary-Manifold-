@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v37.0
+# Unitary Manifold v37.1
 
 ## Foundation reassessment
 
@@ -110,6 +110,16 @@ Sprint CN adds an adjacent, benchmark-first diagnostic layer for irreversibility
 The implementation answers that question with controlled synthetic trajectories and a deterministic information-theoretic decomposition. Exact subset contributions are computed up to triplets, the remaining mass is carried as a higher-order residual, and the resulting report ranks the strongest arrow-carrying interactions. This creates an auditable bridge from the repository's existing entropy/irreversibility surfaces to a usable interaction map without claiming that the map itself is the final ontological explanation of time's arrow.
 
 PsiCat integration is kept practical and bounded: the pillar emits compact assist packets summarizing dominant order, top interaction, internal-vs-external balance, and the next diagnostic question to ask. That makes the new surface useful for training, comparison, and follow-up analysis while preserving the existing open physics obligations unchanged.
+
+### Sprint CO proof foundry hardening and governed evolution sprint
+
+Sprint CO converts the current repository-wide evolution moment into one governed packet rather than another isolated patch. The new master evolution matrix (P1089) makes five lanes explicit: Lean4 proof-core strengthening, Lean→Python bridge hardening, PsiCat continuous training, validation/scoped-security resilience, and enterprise runtime discipline. The intent is narrower and stronger proof work, not wider theorem-count growth.
+
+P1090 turns the current formal frontier into a machine-readable burden ledger with named dependencies, downstream tests, scoped build targets, and retirement criteria. P1091 then hardens the Lean→Python bridge by classifying touched runtime surfaces as verified-term, manual-port-with-traceability, or runtime-heuristic. In the current branch, the honest runtime classification remains manual-port-with-traceability overall, with the implemented evolution flow still explicitly treated as a heuristic boundary until action-level matching is verified.
+
+P1092 upgrades PsiCat so the proof-foundry corpus, review packets, and retained sprint receipts are no longer downstream narrative byproducts; they are part of the governed training architecture, artifact bundle, and retained execution queue. P1093 codifies changed-surface-first validation, hosted-review outage handling, and CodeQL oversize non-clearance as explicit doctrine. P1094 binds live-status generation, assistant API serving, and validation packet surfaces into one runtime risk ledger so deployment discipline can harden without relaxing epistemic boundaries.
+
+P1095 and P1096 then fail-close the sprint at the status and integration layers. No new hardgate physics closure is claimed. Photon origin, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, non-perturbative QG, and the external-wait observational lanes all remain open.
 
 ### What cannot be counted as progress
 

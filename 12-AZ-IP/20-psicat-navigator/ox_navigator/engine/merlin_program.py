@@ -2448,7 +2448,11 @@ def _get_formal_proof_foundry_snapshot() -> dict[str, Any]:
 def get_formal_proof_foundry_training_bundle(limit: int | None = None) -> dict[str, Any]:
     snapshot = _get_formal_proof_foundry_snapshot()
     manifest = dict(snapshot.get("psicat_training_manifest") or {})
-    training_corpus = list(manifest.get("training_corpus") or [])
+    training_corpus = [
+        str(item.get("path") if isinstance(item, dict) else item)
+        for item in list(manifest.get("training_corpus") or [])
+        if str(item.get("path") if isinstance(item, dict) else item).strip()
+    ]
     review_packets = list(snapshot.get("review_packets") or [])
     rows = list(snapshot.get("traceability_rows") or [])
     cap = None if limit is None else max(0, int(limit))

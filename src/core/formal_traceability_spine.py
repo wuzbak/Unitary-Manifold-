@@ -338,17 +338,17 @@ def _detect_runtime_alignment() -> Dict[str, Any]:
         re.compile(r"subprocess\..*lake"),
         re.compile(r"subprocess\..*lean"),
         re.compile(r"['\"]lake build['\"]"),
-        re.compile(r"['\"].+\.lean['\"]"),
     ]
     search_roots = [
-        _ROOT / "src",
+        _ROOT / "src" / "core" / "evolution.py",
         _ROOT / "12-AZ-IP",
     ]
     hits: List[str] = []
     for base in search_roots:
         if not base.exists():
             continue
-        for path in base.rglob("*.py"):
+        candidate_paths = [base] if base.is_file() else list(base.rglob("*.py"))
+        for path in candidate_paths:
             try:
                 text = path.read_text(encoding="utf-8")
             except OSError:
