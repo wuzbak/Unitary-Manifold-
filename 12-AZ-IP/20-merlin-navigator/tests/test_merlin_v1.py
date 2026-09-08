@@ -1275,6 +1275,25 @@ def test_route_tool_runtime_and_benchmarks():
     assert benchmarks['result']['data']['stage_a_corpus']['stage'] == 'stage_a_parity_capture'
 
 
+def test_route_tool_sprint_review_and_sovereign_boards():
+    review = route_tool('getMerlinSprintReviewPacket', {'limit': 1})
+    heavy = route_tool('getMerlinHeavyReasoningLane', {'limit': 2})
+    board = route_tool('getMerlinSovereignModelBoard', {})
+    assert review['ok'] is True
+    assert heavy['ok'] is True
+    assert board['ok'] is True
+    review_data = review['result']['data']
+    heavy_data = heavy['result']['data']
+    board_data = board['result']['data']
+    assert len(review_data['stage_reviews']) == 5
+    assert review_data['open_blockers']
+    assert any(stage['failure_reasons'] for stage in review_data['stage_reviews'])
+    assert heavy_data['lane'] == 'heavy_reasoner_exception'
+    assert any(item['failure_id'] == 'cross_source_conflict_collapse' for item in heavy_data['failure_taxonomy'])
+    assert 'heavy_reasoning_tier' in board_data['tier_shortlists']
+    assert board_data['tier_shortlists']['heavy_reasoning_tier'][0]['status'] == 'shortlist_for_heavy_shadow'
+
+
 def test_route_tool_model_admission_policy():
     result = route_tool('evaluateMerlinModelAdmission', {
         'model': {
@@ -1901,6 +1920,18 @@ def test_server_merlin_endpoints():
             assert frontier.json()['frontier_readiness']['sovereign_primary'] is True
             assert frontier.json()['frontier_readiness']['openrouter_fallback_only'] is True
             assert len(frontier.json()['frontier_readiness']['promotion_blockers']) >= 4
+            review_packet = client.get('/api/merlin/review-packet?limit=1')
+            assert review_packet.status_code == 200
+            assert review_packet.json()['ok'] is True
+            assert len(review_packet.json()['review_packet']['stage_reviews']) == 5
+            heavy_lane = client.get('/api/merlin/heavy-lane?limit=2')
+            assert heavy_lane.status_code == 200
+            assert heavy_lane.json()['ok'] is True
+            assert heavy_lane.json()['heavy_lane']['lane'] == 'heavy_reasoner_exception'
+            model_board = client.get('/api/merlin/model-board')
+            assert model_board.status_code == 200
+            assert model_board.json()['ok'] is True
+            assert 'default_reasoning_tier' in model_board.json()['model_board']['tier_shortlists']
 
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200

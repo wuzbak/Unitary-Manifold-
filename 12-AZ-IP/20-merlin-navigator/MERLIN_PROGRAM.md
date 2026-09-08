@@ -111,6 +111,9 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/domain-receipts`
   - `GET /api/merlin/stage-a-receipts`
   - `GET /api/merlin/replacement-readiness`
+  - `GET /api/merlin/review-packet`
+  - `GET /api/merlin/heavy-lane`
+  - `GET /api/merlin/model-board`
   - `GET /api/merlin/training-artifacts`
   - `GET /api/merlin/promotion-packet`
 
@@ -146,6 +149,8 @@ This document records the implemented execution blueprint for making Merlin the 
 `build_training_dataset_bundle()` now materializes actual train/dev/test records with deterministic split policy plus Stage A/B/C benchmark corpora suitable for JSONL export. `get_training_curation_ledger()` exposes deterministic low-token curation, deduplication, structural-quality, and budget metrics, and the HTTP `/api/merlin/training-dataset` plus `/api/merlin/training-curation` surfaces fail closed with HTTP `422` when dataset validation fails. `get_mlflow_experiment_manifests()` now emits experiment-ready tracking manifests for supervised tuning, preference optimization, Stage B shadow evaluation, and Stage C agentic evaluation, and those manifests now resolve to runnable receipt commands instead of export-only placeholders.
 
 `getMerlinProgramOffice()` now declares a formal command structure with explicit approve/hold/rollback authority, one decision ledger, one risk ledger, and one gate board. `getMerlinMultiStageBenchmarks()` defines Stage A→E batteries with minimum sustained-run thresholds, `evaluateMerlinLongitudinalAcceptance()` enforces clean-window cadence checks, and `getMerlinControlTower()` surfaces deployment eligibility with fail-closed gate logic.
+
+`getMerlinSprintReviewPacket()` now consolidates Stage A→E receipts, stage-by-stage failure reasons, open promotion blockers, and the current longitudinal discipline state into one canonical review surface. `getMerlinHeavyReasoningLane()` isolates the hardest sovereign long-context lane with provider comparison, benchmark pack, failure taxonomy, and a tuning agenda, while `getMerlinSovereignModelBoard()` converts the open-weight roster into runtime-tier shortlists with explicit adaptation-vs-abandonment policy.
 
 ## Mentorship sprint implementation
 
