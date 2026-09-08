@@ -115,6 +115,7 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/heavy-lane`
   - `GET /api/merlin/model-board`
   - `GET /api/merlin/execution-board`
+  - `GET /api/merlin/validation-resilience`
   - `GET /api/merlin/training-artifacts`
   - `GET /api/merlin/promotion-packet`
 
@@ -138,6 +139,7 @@ This document records the implemented execution blueprint for making Merlin the 
 16. Actual train/dev/test JSONL-ready dataset generation is implemented in `build_training_dataset_bundle()`.
 17. MLflow-ready experiment manifests are implemented in `get_mlflow_experiment_manifests()`, with runnable receipt execution in `tools/run_merlin_mlflow_experiment.py`.
 18. Broader Stage B/C benchmark corpora are implemented in `get_stage_b_benchmark_corpus()`, `get_stage_c_benchmark_corpus()`, and `get_benchmark_corpus()`.
+19. Validation resilience is implemented as a first-class packet in `get_merlin_validation_resilience_packet()`, with repo-size mitigation actions, scoped CodeQL doctrine, and hosted-review outage handling linked back into the execution board.
 
 ## Continuous sync controls
 

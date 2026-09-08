@@ -1280,14 +1280,17 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     heavy = route_tool('getMerlinHeavyReasoningLane', {'limit': 2})
     board = route_tool('getMerlinSovereignModelBoard', {})
     execution = route_tool('getMerlinExecutionBoard', {'limit': 1})
+    resilience = route_tool('getMerlinValidationResiliencePacket', {'limit': 3})
     assert review['ok'] is True
     assert heavy['ok'] is True
     assert board['ok'] is True
     assert execution['ok'] is True
+    assert resilience['ok'] is True
     review_data = review['result']['data']
     heavy_data = heavy['result']['data']
     board_data = board['result']['data']
     execution_data = execution['result']['data']
+    resilience_data = resilience['result']['data']
     assert len(review_data['stage_reviews']) == 5
     assert review_data['open_blockers']
     assert any(stage['failure_reasons'] for stage in review_data['stage_reviews'])
@@ -1296,8 +1299,13 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert 'heavy_reasoning_tier' in board_data['tier_shortlists']
     assert board_data['tier_shortlists']['heavy_reasoning_tier'][0]['status'] == 'shortlist_for_heavy_shadow'
     assert execution_data['validation_resilience']['can_train_merlin_now'] is True
+    assert execution_data['validation_resilience']['packet_surface'] == 'getMerlinValidationResiliencePacket'
     assert execution_data['blunt_board']['title'] == 'Sprint CL blunt board'
     assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
+    assert resilience_data['current_truth']['codeql_skip_reason'] == 'repository_database_too_large'
+    assert resilience_data['review_resilience_assets']['orchestrator'] == 'TOOLS/checks/copilot_review_orchestrator.py'
+    assert resilience_data['codeql_scope_reduction_strategy']['phases'][0]['name'] == 'changed_surface_first'
+    assert len(resilience_data['repo_size_mitigation_actions']) == 3
 
 
 def test_route_tool_model_admission_policy():
@@ -1942,6 +1950,11 @@ def test_server_merlin_endpoints():
             assert execution_board.status_code == 200
             assert execution_board.json()['ok'] is True
             assert execution_board.json()['execution_board']['validation_resilience']['can_train_merlin_now'] is True
+            validation_resilience = client.get('/api/merlin/validation-resilience?limit=2')
+            assert validation_resilience.status_code == 200
+            assert validation_resilience.json()['ok'] is True
+            assert validation_resilience.json()['validation_resilience']['current_truth']['codeql_completed_in_current_environment'] is False
+            assert len(validation_resilience.json()['validation_resilience']['repo_size_mitigation_actions']) == 2
 
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200

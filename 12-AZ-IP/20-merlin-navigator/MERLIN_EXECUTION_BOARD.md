@@ -71,6 +71,12 @@ Merlin can and should be trained to:
 4. Merlin must route remediation work and keep the blocker visible until the
    missing signal is replaced or completed.
 
+### Packet surface
+
+Use `MERLIN_VALIDATION_RESILIENCE_PACKET.md` and `/api/merlin/validation-resilience`
+as the canonical packet when Merlin needs explicit repo-size mitigation actions
+and CodeQL scope-reduction strategy.
+
 ---
 
 ## Cadence
