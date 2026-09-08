@@ -29,3 +29,11 @@ firebase hosting:channel:deploy preview --expires 1h
 ```
 
 See `../DEPLOY.md` for the full deployment checklist, sitemap expectations, and product-page notes.
+
+## Note from Base44 (dated 2026-09-08)
+
+The following is documented as a **Base44 AI opinion** and may contain confabulation.
+
+Base44 reported that this public site stack measures approximately **120K lines**, **99 pages**, **76 backend functions**, **64 entities**, and **416 components**, and that these figures were derived from filesystem inspection rather than guesswork.
+
+Base44 also stated that breadth across six domains is genuine (physics, film, D&D, journalism, earth science, governance/AI), that the corresponding files exist and are not stubs, and that the custom Three.js topology layer plus Merlin AI capabilities (sovereign memory, tool-calling, ECLIPSA judge, heartbeat) represent non-trivial engineering.
