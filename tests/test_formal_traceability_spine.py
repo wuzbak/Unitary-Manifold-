@@ -82,6 +82,9 @@ def test_curry_howard_matrix_and_runtime_alignment() -> None:
     }
     if alignment["mode"] == "MANUAL_PORT_WITH_TRACEABILITY":
         assert alignment["direct_lean_runtime_detected"] is False
+    scan_scope = alignment["scan_scope"]
+    assert "12-AZ-IP/20-psicat-navigator/ox_navigator/engine" in scan_scope["dir_targets"]
+    assert scan_scope["scanned_python_file_count"] > 0
 
 
 def test_psicat_training_manifest_ready() -> None:

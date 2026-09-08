@@ -31,6 +31,14 @@ PROOF_CLASS_CONDITIONAL = "LEAN_CONDITIONAL_WITH_NAMED_AXIOMS"
 PROOF_CLASS_EXECUTABLE = "EXECUTABLE_PYTHON_VALIDATION"
 
 _ROOT = Path(__file__).resolve().parents[2]
+_RUNTIME_ALIGNMENT_FILE_TARGETS: List[str] = [
+    "src/core/evolution.py",
+]
+_RUNTIME_ALIGNMENT_DIR_TARGETS: List[str] = [
+    "12-AZ-IP/20-psicat-navigator/ox_navigator/engine",
+    "12-AZ-IP/20-psicat-navigator/ox_navigator/app",
+    "12-AZ-IP/20-psicat-navigator/tools",
+]
 
 PROOF_CLASSES: List[Dict[str, Any]] = [
     {
@@ -331,6 +339,27 @@ def _packet_claim_ids_exist(packet: Dict[str, Any]) -> bool:
     return all(claim_id in known for claim_id in packet["claim_ids"])
 
 
+def _iter_runtime_alignment_candidates() -> List[Path]:
+    candidates: List[Path] = []
+    seen: set[Path] = set()
+    for rel_path in _RUNTIME_ALIGNMENT_FILE_TARGETS:
+        file_path = (_ROOT / rel_path).resolve()
+        if file_path.is_file() and file_path not in seen:
+            candidates.append(file_path)
+            seen.add(file_path)
+    for rel_dir in _RUNTIME_ALIGNMENT_DIR_TARGETS:
+        base = (_ROOT / rel_dir).resolve()
+        if not base.is_dir():
+            continue
+        for file_path in sorted(base.rglob("*.py")):
+            resolved = file_path.resolve()
+            if resolved in seen:
+                continue
+            candidates.append(resolved)
+            seen.add(resolved)
+    return candidates
+
+
 def _detect_runtime_alignment() -> Dict[str, Any]:
     patterns = [
         re.compile(r"import\s+Lean\b"),
@@ -339,27 +368,27 @@ def _detect_runtime_alignment() -> Dict[str, Any]:
         re.compile(r"subprocess\..*lean"),
         re.compile(r"['\"]lake build['\"]"),
     ]
-    search_roots = [
-        _ROOT / "src" / "core" / "evolution.py",
-        _ROOT / "12-AZ-IP",
-    ]
+    scan_paths = _iter_runtime_alignment_candidates()
     hits: List[str] = []
-    for base in search_roots:
-        if not base.exists():
+    for path in scan_paths:
+        if not path.exists():
             continue
-        candidate_paths = [base] if base.is_file() else list(base.rglob("*.py"))
-        for path in candidate_paths:
-            try:
-                text = path.read_text(encoding="utf-8")
-            except OSError:
-                continue
-            if any(pattern.search(text) for pattern in patterns):
-                hits.append(path.relative_to(_ROOT).as_posix())
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        if any(pattern.search(text) for pattern in patterns):
+            hits.append(path.relative_to(_ROOT).as_posix())
     direct = bool(hits)
     return {
         "mode": "DIRECT_OR_HYBRID_INTEGRATION" if direct else "MANUAL_PORT_WITH_TRACEABILITY",
         "direct_lean_runtime_detected": direct,
         "evidence_files": hits,
+        "scan_scope": {
+            "file_targets": list(_RUNTIME_ALIGNMENT_FILE_TARGETS),
+            "dir_targets": list(_RUNTIME_ALIGNMENT_DIR_TARGETS),
+            "scanned_python_file_count": len(scan_paths),
+        },
         "summary": (
             "Python runtime appears to invoke or reference Lean build/runtime artifacts directly."
             if direct
