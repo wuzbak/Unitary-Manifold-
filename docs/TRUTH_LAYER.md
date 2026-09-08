@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v36.7
+# Unitary Manifold v36.8
 
 ## Foundation reassessment
 
@@ -88,6 +88,12 @@ The packet adds execution discipline, not new physics closure. Open-lane labels 
 Sprint CK executes the immediate next step implied by Sprint CJ rather than widening the lane count. The leverage audit compares the two admissible foundation targets and selects action-to-evolution Euler-Lagrange matching as the single next target because it already has a machine-readable honesty surface, a tighter evidence-class boundary, and higher downstream leverage than a fresh photon-sector construction.
 
 The scientific lane is therefore tightened, not closed. The exact new evidence class is now explicit: an action functional, verified Euler-Lagrange equations, side-by-side residual checks against the implemented flow, and a machine-readable boundary update if and only if the derivation is actually verified. In parallel, Merlin Stage A→E head-to-head receipts plus Stage A/training artifact bundles are captured under sovereign-local primary with promotion language still frozen because the scientific lane is not closed.
+
+### Sprint CL all-hands targeted rigor execution
+
+Sprint CL adds one all-hands fail-closed orchestration layer that executes PsiCat's new targeted-rigor packet as the canonical train-and-work evidence surface. The packet merges retained training-cycle receipts, Stage A→E benchmark gates, frontier blocker review, and deterministic hold/clear verdict in one bounded call so blocker truth cannot be skipped while reporting progress.
+
+This is a rigor and integration step, not a physics-closure step. Lane one continuity remains the Sprint CK lock on action-to-evolution Euler-Lagrange evidence-class obligations; lane two remains promotion-blocker gated. External falsifier windows and open-lane labels remain unchanged.
 
 ### What cannot be counted as progress
 

@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v36.7
+# Unitary Manifold v36.8
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -30,7 +30,7 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-07 (v36.7 — Sprint CK: Pillar 1085. This sprint executes the immediate next-step lock from Sprint CJ without claiming new closure: lane one performs a leverage audit, selects the action-to-evolution Euler-Lagrange route as the sole next foundation target, and turns that choice into an exact evidence-class contract; lane two captures Merlin Stage A→E receipts plus governed artifact bundles while promotion language remains frozen because the scientific lane is not closed. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1086. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history: 64,122 passed · 22 skipped · 18 deselected · 0 failed; focused regression: 142 passed · 0 failed.)*
+*Last updated: 2026-09-08 (v36.8 — Sprint CL: Pillar 1086. This sprint adds an all-hands fail-closed rigor packet that operationalizes one bounded train-and-work evidence pass: retained training-cycle receipts, Stage A→E benchmark receipts, and frontier blockers in a single canonical call while preserving Sprint CK foundation target lock continuity and no-unearned-closure discipline. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1087. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history: 64,122 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Sprint CL targeted validation suites + full regression executed in-branch.)*
 
 *Historical continuity note: v36.2 Sprint CF (Pillars 1062–1077; next slot 1078) remains the canonical parallel theorem/extension/falsifier layer directly below Sprint CG.*
 
@@ -39,6 +39,9 @@ still-open physical obligations in the table.
 *Historical continuity note: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer directly below Sprint BZ.*
 *Historical continuity note: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the canonical first parallel-closure layer directly below Sprint BY.*
 *Historical continuity note: v35.1 Sprint BU covered Pillars 1021–1024 with next slot 1025 before the Sprint BV closure-program implementation update.*
+
+
+*P1086 (v36.8): Sprint CL All-Hands Rigor Packet — SPRINT_CL_ALL_HANDS_RIGOR_PACKET_COMPLETE. `src/core/pillar1086_sprint_cl_all_hands_rigor_packet.py` integrates Sprint CK foundation-lock continuity with the canonical PsiCat targeted-rigor packet (`run_merlin_targeted_rigor_sprint` / `/api/psicat/targeted-rigor-sprint`) so training-cycle receipts, Stage A→E gates, frontier blockers, and fail-closed hold/clear verdict are emitted as one bounded auditable surface.*
 
 *P1085 (v36.7): Sprint CK Target Lock and Merlin Evidence Capture — SPRINT_CK_TARGET_LOCK_AND_EVIDENCE_CAPTURE_COMPLETE. `src/core/pillar1085_sprint_ck_target_lock_evidence_capture.py` performs an executable leverage audit across the two admissible foundation targets, locks the next scientific attempt to the action-to-evolution Euler-Lagrange derivation route with one exact evidence-class contract, and captures Merlin Stage A→E receipts plus Stage A/training artifact bundles without releasing promotion language.*
 

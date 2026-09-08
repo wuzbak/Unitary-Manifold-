@@ -33,10 +33,33 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v36.7 (2026-09-07)**
+**Current version: v36.8 (2026-09-08)**
 **Regression:** 64,122 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1086
+**Next pillar slot:** 1087
 
+
+## v36.8 (2026-09-08 — Sprint CL: Pillar 1086)
+
+**What changed:**
+Sprint CL adds one all-hands rigor packet that makes the new PsiCat targeted-rigor surface canonical at sprint level. P1086 binds Sprint CK foundation lock continuity to one bounded train-and-work execution call (`run_merlin_targeted_rigor_sprint` / `/api/psicat/targeted-rigor-sprint`) and requires deterministic reporting of training-cycle receipts, Stage A→E receipt gates, frontier blockers, and fail-closed hold/clear verdict in one merged board.
+
+**Why:**
+Convert broad “full sprint” intent into one executable and auditable orchestration unit that proves PsiCat both trains and works without hiding blockers.
+
+**Epistemic label deltas:**
+- `SPRINT_CL_ALL_HANDS_RIGOR_PACKET_COMPLETE`
+
+**Physics label delta:** None — open-lane labels remain explicit and unchanged.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Sprint CL targeted validation suites + full regression run recorded in this branch
+**Next pillar slot:** 1087
 
 ## v36.7 (2026-09-07 — Sprint CK: Pillar 1085)
 

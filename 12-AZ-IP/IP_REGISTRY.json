@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-08-26",
+  "updated": "2026-09-08",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -328,7 +328,7 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-08-18",
-      "sha256": "d61256789a5a8ec40d6054d378e8d4cf3069007d80ebbd4506ca74a82ab9df69",
+      "sha256": "98e9d69a29586bf925dd78f99b4eb982b7b7e60c8bc2819bd2672f06b9d0c8d3",
       "size_bytes": 8172
     },
     "12-AZ-IP/NOTICE": {

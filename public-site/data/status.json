@@ -1,13 +1,13 @@
 {
-  "version": "v36.7",
+  "version": "v36.8",
   "tests_passed": 64122,
   "tests_skipped": 22,
   "tests_deselected": 18,
   "tests_failed": 0,
   "lean4_theorems": 4080,
   "pillars_hardgate": 208,
-  "pillars_total": 1085,
-  "next_pillar_slot": 1086,
+  "pillars_total": 1086,
+  "next_pillar_slot": 1087,
   "primary_falsifier": "LiteBIRD β ∈ {0.273°, 0.331°} (~2032)",
   "open_tensions": [
     {
@@ -34,7 +34,7 @@
   "epistemic_status": "foundation reassessment: historical test and theorem counts do not establish physical derivations; photon origin, flavor uniqueness, independent CMB normalization and UV predictivity remain open; external empirical confirmation pending",
   "organization": "AxiomZero Technologies & Consulting, SPC",
   "ubi": "606 239 876",
-  "date": "2026-09-07",
+  "date": "2026-09-08",
   "predictions": {
     "r": {
       "um": 0.0315,
