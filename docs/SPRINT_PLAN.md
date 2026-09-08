@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-08 (v37.1 Sprint CO COMPLETE — Pillars 1089-1096; Lean4 4080→4080; next slot 1097)*
+*Last updated: 2026-09-08 (v37.2 Sprint CP COMPLETE — Pillars 1097-1102; Lean4 4080→4080; next slot 1103)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v37.1 — Sprint CO)
+## CURRENT AUDITABLE STATE (v37.2 — Sprint CP)
 
 | Field | Value |
 |-------|-------|
-| Version | **v37.1** |
-| Sprint | **Sprint CO** |
-| Pillars | **1089-1096** |
-| Next pillar slot | **1097** |
+| Version | **v37.2** |
+| Sprint | **Sprint CP** |
+| Pillars | **1097-1102** |
+| Next pillar slot | **1103** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,138 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **Proof Foundry Hardening + PsiCat Continuous Training + Enterprise Validation Resilience** |
-| Primary target | **Harden the narrowed Lean frontier, make the Lean→Python bridge auditable, and turn every meaningful sprint artifact into retained PsiCat training and review receipts** |
-| Binary outcome | **Either all five lanes remain auditable and synchronized together, or the master sprint fails closed without narrative-only advancement** |
+| Sprint theme | **Three-Lane Maximum-Effort Execution: Primary Physics/Lean + Python→Lean Audit + PsiCat Co-Runner** |
+| Primary target | **Execute the approved three-lane packet with Lane 1 primary, deterministic translation auditing, and continuous PsiCat co-runner receipts under fail-closed gates** |
+| Binary outcome | **Either all three lanes plus status coherence pass together, or Sprint CP fails closed without narrative-only advancement** |
 
+Historical continuity: v37.2 Sprint CP (Pillars 1097-1102; next slot 1103) is the canonical three-lane maximum-effort execution layer directly above Sprint CO.
 Historical continuity: v37.1 Sprint CO (Pillars 1089-1096; next slot 1097) is the canonical proof-foundry hardening + governed evolution layer directly above Sprint CN.
 Historical continuity: v37.0 Sprint CN (Pillar 1088; next slot 1089) is the canonical mechanistic irreversibility mapping layer directly above Sprint CM.
 Historical continuity: v36.9 Sprint CM (Pillar 1087; next slot 1088) remains the canonical full physics parallel execution layer directly above Sprint CL.
@@ -82,6 +83,24 @@ Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) rem
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
 
 ---
+
+
+## SPRINT CP THREE-LANE MAXIMUM-EFFORT PROTOCOL (Executed)
+
+1. Lock one fail-closed three-lane charter with Lane 1 primary and explicit done gates.
+2. Execute Lane 1 on the narrowed formal frontier via deterministic theorem-burden units and reviewer packets.
+3. Execute Lane 2 as strict Python→Lean translation truth testing with per-unit pass/fail contract checks.
+4. Emit master-theorem status as READY or BLOCKED_NOT_YET_DERIVABLE from dependency completeness gates.
+5. Execute Lane 3 as continuous PsiCat co-runner ingestion/queue/ledger/readiness flow with unresolved blockers explicit.
+6. Keep token discipline by machine-readable lane packets and changed-surface-first verification.
+7. Keep canonical truth surfaces synchronized in lockstep.
+8. Fail-close sprint validity unless all lane packets and status coherence remain valid together.
+
+### Sprint CP blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| Approved three-lane plan is now fully executable as one machine-readable, fail-closed sprint packet | Lane-1 burden execution, Lane-2 translation audit contract, and Lane-3 co-runner receipts are now deterministic and auditable | Hardgate scientific open lanes and external observational waits remain unchanged and explicit |
 
 ## SPRINT CO PROOF FOUNDRY HARDENING AND GOVERNED EVOLUTION PROTOCOL (Executed)
 

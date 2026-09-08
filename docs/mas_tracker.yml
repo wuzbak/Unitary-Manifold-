@@ -1,4 +1,4 @@
-version: "v37.1"
+version: "v37.2"
 date: "2026-09-08"
 updated: "2026-09-08"
 
@@ -34,6 +34,42 @@ foundation_reassessment:
     - "Joint UV/Higgs matching, moduli fixing and stability"
     - "Nonperturbative quantum gravity"
   observational_falsifiers_unchanged: true
+
+v37_2_sprint_cp:
+  sprint: CP
+  version: v37.2
+  date: "2026-09-08"
+  pillars: 1097-1102
+  new_pillars: 6
+  new_tests: 12
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures:
+    - SPRINT_CP_THREE_LANE_CHARTER_COMPLETE
+    - LANE1_FORMAL_FRONTIER_EXECUTION_COMPLETE
+    - LANE2_PYTHON_LEAN_TRANSLATION_AUDIT_COMPLETE
+    - LANE3_PSICAT_CONTINUOUS_TRAINING_EXECUTION_COMPLETE
+    - SPRINT_CP_STATUS_COHERENCE_CERTIFICATE_COMPLETE
+    - SPRINT_CP_MASTER_INTEGRATION_CERTIFICATE_COMPLETE
+  advances:
+    - LANE_1_PRIMARY_FRONTIER_WORK_IS_NOW_TRACKED_AS_DETERMINISTIC_THEOREM_BURDEN_UNITS_WITH_REVIEW_PACKET_LINKAGE
+    - PYTHON_TO_LEAN_TRANSLATION_NOW_HAS_A_UNIT_LEVEL_TRUTH_MATRIX_AND_MASTER_THEOREM_READY_VS_BLOCKED_GATE
+    - PSICAT_CO_RUNNER_EXECUTION_NOW_BINDS_FORMAL_PROOF_FOUNDRY_INGESTION_TO_QUEUE_LEDGERS_AND_FAIL_CLOSED_READINESS
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "64,138 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
+  focused_regression: "Sprint CP targeted three-lane packet suites 12 passed · 0 failed"
+  next_pillar_slot: 1103
+
 
 v37_1_sprint_co:
   sprint: CO
