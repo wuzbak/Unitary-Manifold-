@@ -13,7 +13,7 @@ from typing import Any, Dict, List
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 
 _ROOT = Path(__file__).resolve().parents[2]
-_PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-phicat-navigator"
+_PRODUCT_ROOT = _ROOT / "12-AZ-IP" / "20-psicat-navigator"
 
 PILLAR_NUMBER: int = 1040
 PILLAR_GATE: str = "SPRINT_BY_PRECISION_LOCK"

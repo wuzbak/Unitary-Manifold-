@@ -137,7 +137,7 @@ bleaching threshold, bleaching occurs.
 The marine module (`src/marine/` — 72 tests) formalises the marine ecosystem φ-attractor
 and its stability bounds as a function of pH, temperature, and nutrient availability.
 The same bifurcation structure that describes coral bleaching (a transition to a
-lower-φ algae-dominated attractor) describes eutrophication in coastal waters and dead
+lower-φ algae-dominated attractor) describes eutropsication in coastal waters and dead
 zones in agricultural runoff zones.
 
 ---
