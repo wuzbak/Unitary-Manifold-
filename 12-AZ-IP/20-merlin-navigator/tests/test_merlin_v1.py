@@ -160,6 +160,21 @@ def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
     assert len(payload['manifests']) >= 4
 
 
+def test_export_training_execution_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_training_execution.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_training_execution', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'training_execution.json'
+    monkeypatch.setattr(sys, 'argv', ['export_merlin_training_execution.py', '--limit', '3', '--output', str(output_path)])
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['execution_cycle']['processed_count'] == 3
+    assert payload['lane_progress_ledgers']['overall']['completed_count'] == 3
+
+
 def test_run_mlflow_experiment_script(tmp_path, monkeypatch):
     script_path = PRODUCT_ROOT / 'tools' / 'run_merlin_mlflow_experiment.py'
     spec = importlib.util.spec_from_file_location('run_merlin_mlflow_experiment', script_path)
@@ -499,6 +514,16 @@ def test_route_tool_training_architecture_and_artifacts():
     assert continuous['ok'] is True
     assert continuous['result']['data']['queue']['preview_count'] == 4
     assert 'publish_without_human_approval' in continuous['result']['data']['forbidden_actions']
+    session = MerlinSession()
+    execution_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 4}, session=session)
+    assert execution_queue['ok'] is True
+    assert execution_queue['result']['data']['queued_count'] >= 4
+    training_cycle = route_tool('runMerlinTrainingCycle', {'limit': 3}, session=session)
+    assert training_cycle['ok'] is True
+    assert training_cycle['result']['data']['processed_count'] == 3
+    lane_ledgers = route_tool('getMerlinLaneProgressLedgers', {'limit': 3}, session=session)
+    assert lane_ledgers['ok'] is True
+    assert lane_ledgers['result']['data']['overall']['completed_count'] == 3
     frontier = route_tool('getMerlinFrontierStack', {})
     assert frontier['ok'] is True
     assert any(model['name'] == 'DeepSeek-R1' for model in frontier['result']['data']['open_weight_models'])
@@ -1794,6 +1819,18 @@ def test_server_merlin_endpoints():
             assert continuous_learning.json()['ok'] is True
             assert continuous_learning.json()['continuous_learning']['queue']['preview_count'] == 4
             assert 'publish_without_human_approval' in continuous_learning.json()['continuous_learning']['forbidden_actions']
+            training_execution_queue = client.get('/api/merlin/training-execution-queue?limit=4')
+            assert training_execution_queue.status_code == 200
+            assert training_execution_queue.json()['ok'] is True
+            assert training_execution_queue.json()['training_execution_queue']['queued_count'] >= 4
+            training_cycle = client.post('/api/merlin/training-cycle', json={'limit': 3})
+            assert training_cycle.status_code == 200
+            assert training_cycle.json()['ok'] is True
+            assert training_cycle.json()['training_cycle']['processed_count'] == 3
+            lane_progress = client.get('/api/merlin/lane-progress-ledgers?limit=3')
+            assert lane_progress.status_code == 200
+            assert lane_progress.json()['ok'] is True
+            assert lane_progress.json()['lane_progress_ledgers']['overall']['completed_count'] == 3
 
             benchmark_corpora = client.get('/api/merlin/benchmark-corpora?stage=stage_c')
             assert benchmark_corpora.status_code == 200

@@ -25,6 +25,7 @@ MERLIN_MAX_INTENTS = 100
 MERLIN_MAX_TELEMETRY = 100
 MERLIN_MAX_AUDITS = 100
 MERLIN_MAX_BREADCRUMBS = 120
+MERLIN_MAX_EXECUTION_RECEIPTS = 400
 
 _NORMALIZE_RE = re.compile(r"[^a-z0-9]+")
 _NUMERIC_ASSIGNMENT_RE = re.compile(r"(k[\s_\-]*cs|n[\s_\-]*w|w[\s_\-]*a)\s*=\s*([\-]?\d+(?:\.\d+)?)", re.IGNORECASE)
@@ -177,6 +178,7 @@ class MerlinSession:
     observatory_events: list[dict[str, Any]] = field(default_factory=list)
     proof_attempts: list[dict[str, Any]] = field(default_factory=list)
     epistemic_partition_events: list[dict[str, Any]] = field(default_factory=list)
+    training_execution_receipts: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         self.turns = list(self.turns)[-MERLIN_MAX_HISTORY:] if isinstance(self.turns, list) else []
@@ -206,6 +208,11 @@ class MerlinSession:
             if isinstance(self.epistemic_partition_events, list)
             else []
         )
+        self.training_execution_receipts = (
+            list(self.training_execution_receipts)[-MERLIN_MAX_EXECUTION_RECEIPTS:]
+            if isinstance(self.training_execution_receipts, list)
+            else []
+        )
         if not self.durable_memory:
             for item in DEFAULT_DURABLE_MEMORIES:
                 self.remember(item["fact"], scope=item["scope"], source=item["source"], tags=item["tags"])
@@ -220,6 +227,7 @@ class MerlinSession:
         self.observatory_events = list(self.observatory_events)[-MERLIN_MAX_AUDITS:]
         self.proof_attempts = list(self.proof_attempts)[-MERLIN_MAX_AUDITS:]
         self.epistemic_partition_events = list(self.epistemic_partition_events)[-MERLIN_MAX_AUDITS:]
+        self.training_execution_receipts = list(self.training_execution_receipts)[-MERLIN_MAX_EXECUTION_RECEIPTS:]
 
     def _semantic_hardgate_conflicts(self, text: str) -> list[str]:
         sample = str(text or "")
@@ -704,6 +712,7 @@ class MerlinSession:
             "observatory_event_count": len(self.observatory_events),
             "proof_attempt_count": len(self.proof_attempts),
             "epistemic_partition_event_count": len(self.epistemic_partition_events),
+            "training_execution_receipt_count": len(self.training_execution_receipts),
             "audit_count": len(self.memory_audits),
             "recent_memory_audits": self.memory_audits[-5:],
             "recent_contradictions": self.contradiction_events[-5:],
@@ -738,6 +747,7 @@ class MerlinSession:
             "observatory_event_count": state["observatory_event_count"],
             "proof_attempt_count": state["proof_attempt_count"],
             "epistemic_partition_event_count": state["epistemic_partition_event_count"],
+            "training_execution_receipt_count": state["training_execution_receipt_count"],
             "audit_count": state["audit_count"],
         }
 
@@ -801,6 +811,14 @@ class MerlinSession:
         base["matched_memory"] = matched
         return base
 
+    def record_training_execution_receipt(self, receipt: dict[str, Any]) -> dict[str, Any]:
+        item = dict(receipt or {})
+        item["recorded_at"] = _utcnow()
+        self.training_execution_receipts.append(item)
+        if len(self.training_execution_receipts) > MERLIN_MAX_EXECUTION_RECEIPTS:
+            self.training_execution_receipts = self.training_execution_receipts[-MERLIN_MAX_EXECUTION_RECEIPTS:]
+        return item
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "turns": list(self.turns),
@@ -819,6 +837,7 @@ class MerlinSession:
             "observatory_events": list(self.observatory_events),
             "proof_attempts": list(self.proof_attempts),
             "epistemic_partition_events": list(self.epistemic_partition_events),
+            "training_execution_receipts": list(self.training_execution_receipts),
         }
 
     def to_persistence_dict(self) -> dict[str, Any]:
@@ -912,6 +931,7 @@ class MerlinSession:
         payload["observatory_events"] = list(self.observatory_events)[-MERLIN_MAX_AUDITS:]
         payload["proof_attempts"] = list(self.proof_attempts)[-MERLIN_MAX_AUDITS:]
         payload["epistemic_partition_events"] = list(self.epistemic_partition_events)[-MERLIN_MAX_AUDITS:]
+        payload["training_execution_receipts"] = list(self.training_execution_receipts)[-MERLIN_MAX_EXECUTION_RECEIPTS:]
         return payload
 
     @classmethod
@@ -934,4 +954,5 @@ class MerlinSession:
             observatory_events=list(data.get("observatory_events") or []),
             proof_attempts=list(data.get("proof_attempts") or []),
             epistemic_partition_events=list(data.get("epistemic_partition_events") or []),
+            training_execution_receipts=list(data.get("training_execution_receipts") or []),
         )

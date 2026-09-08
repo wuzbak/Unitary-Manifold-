@@ -44,7 +44,6 @@ from .merlin_benchmark import (
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
-    build_merlin_continuous_learning_queue,
     get_backend_expansion_policy,
     get_merlin_adversarial_growth_lane,
     get_merlin_applications_tools_lane,
@@ -109,6 +108,11 @@ from .merlin_program import (
     build_training_artifact_bundle,
     evaluate_teacher_trace_admission,
     run_sync_checks,
+)
+from .merlin_training_execution import (
+    build_merlin_training_execution_queue,
+    get_merlin_lane_progress_ledgers,
+    run_merlin_training_cycle,
 )
 from .merlin_inference_health import get_merlin_inference_health
 from .merlin_local_inference import get_inference_providers
@@ -258,6 +262,9 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinBooksArticlesLane", "summary": "Return Lane B books/articles mastery inventory and study gates", "domain": "functions"},
             {"name": "getMerlinAdversarialGrowthLane", "summary": "Return Lane C contradiction, falsification, and self-correction drills", "domain": "functions"},
             {"name": "getMerlinContinuousLearningProtocol", "summary": "Return governed between-session learning cadence and queue", "domain": "functions"},
+            {"name": "getMerlinTrainingExecutionQueue", "summary": "Return active retained-training queue state across all three lanes", "domain": "functions"},
+            {"name": "getMerlinLaneProgressLedgers", "summary": "Return automated lane-by-lane progress ledgers and retained receipt summaries", "domain": "functions"},
+            {"name": "runMerlinTrainingCycle", "summary": "Execute queued three-lane training work and retain auditable receipts in session memory", "domain": "functions"},
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
@@ -369,6 +376,9 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinBooksArticlesLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinAdversarialGrowthLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinContinuousLearningProtocol": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinLaneProgressLedgers": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "runMerlinTrainingCycle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMemoryGeometry": {
             "args_schema": {
                 "type": "object",
@@ -937,6 +947,18 @@ _FUNCTIONS = {
     "getMerlinBooksArticlesLane": lambda **args: {"data": get_merlin_books_articles_lane()},
     "getMerlinAdversarialGrowthLane": lambda **args: {"data": get_merlin_adversarial_growth_lane()},
     "getMerlinContinuousLearningProtocol": lambda **args: {"data": get_merlin_continuous_learning_protocol(limit=args.get("limit"))},
+    "getMerlinTrainingExecutionQueue": lambda **args: {"data": build_merlin_training_execution_queue(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+    )},
+    "getMerlinLaneProgressLedgers": lambda **args: {"data": get_merlin_lane_progress_ledgers(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=_coerce_positive_int(args.get("limit"), 5),
+    )},
+    "runMerlinTrainingCycle": lambda **args: {"data": run_merlin_training_cycle(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+    )},
     "getMerlinCompetitiveBenchmarkPlan": lambda **args: {"data": get_competitive_benchmark_plan()},
     "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit"))},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
@@ -1174,7 +1196,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 ok = False
                 error = "Human gate approval required for this tool."
                 raise ValueError(error)
-        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "getMerlinMemoryGeometry", "merlinConsolidateMemory", "merlinSelfAudit", "generateFalsificationOracle", "merlinAnalyzeDepth", "empiricalObservatoryCheck", "kernelPProofProbe"}:
+        if tool in _FUNCTIONS or tool in {"runMerlinResearchCycle", "getMerlinCounterexampleDigest", "getMerlinEnergyLedger", "getMerlinMemoryGeometry", "merlinConsolidateMemory", "merlinSelfAudit", "generateFalsificationOracle", "merlinAnalyzeDepth", "empiricalObservatoryCheck", "kernelPProofProbe", "getMerlinTrainingExecutionQueue", "getMerlinLaneProgressLedgers", "runMerlinTrainingCycle"}:
             tool_type = "function"
             if tool == "getMerlinTrainingDataset":
                 result = {"data": build_training_dataset_bundle(
@@ -1252,6 +1274,9 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "merlinSelfAudit",
                     "generateFalsificationOracle",
                     "merlinAnalyzeDepth",
+                    "getMerlinTrainingExecutionQueue",
+                    "getMerlinLaneProgressLedgers",
+                    "runMerlinTrainingCycle",
                 }
                 if tool in session_passthrough_tools:
                     result = _FUNCTIONS[tool](**{**args, "__session": active_session})

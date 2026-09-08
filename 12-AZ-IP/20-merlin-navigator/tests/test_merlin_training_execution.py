@@ -1,0 +1,61 @@
+# SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+PRODUCT_ROOT = Path(__file__).resolve().parents[1]
+if str(PRODUCT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PRODUCT_ROOT))
+
+from ox_navigator.engine.merlin_memory import MerlinSession
+from ox_navigator.engine.merlin_training_execution import (
+    build_merlin_training_execution_bundle,
+    build_merlin_training_execution_queue,
+    get_merlin_lane_progress_ledgers,
+    run_merlin_training_cycle,
+)
+
+
+def test_merlin_training_cycle_executes_round_robin_receipts():
+    session = MerlinSession()
+    queue_before = build_merlin_training_execution_queue(session=session, limit=6)
+    assert queue_before["queued_count"] >= 6
+
+    result = run_merlin_training_cycle(session=session, limit=6)
+    assert result["ok"] is True
+    assert result["processed_count"] == 6
+    assert len(result["receipts"]) == 6
+    assert {item["lane_id"] for item in result["receipts"]} == {
+        "lane_a_applications_tools_mastery",
+        "lane_b_books_articles_mastery",
+        "lane_c_adversarial_self_correction",
+    }
+
+    queue_after = build_merlin_training_execution_queue(session=session, limit=6)
+    assert queue_after["completed_count"] == 6
+    assert queue_after["completion_ratio"] > 0.0
+    assert session.get_public_memory_state()["training_execution_receipt_count"] == 6
+
+
+def test_merlin_lane_progress_ledgers_report_retained_receipts():
+    session = MerlinSession()
+    run_merlin_training_cycle(session=session, limit=6)
+    ledgers = get_merlin_lane_progress_ledgers(session=session, limit=3)
+    assert ledgers["overall"]["completed_count"] == 6
+    assert ledgers["overall"]["retained_training_receipts"] == 6
+    assert len(ledgers["lane_ledgers"]) == 3
+    assert all(item["completed_count"] >= 1 for item in ledgers["lane_ledgers"])
+
+
+def test_merlin_training_execution_bundle_reuses_retained_state():
+    session = MerlinSession()
+    first = build_merlin_training_execution_bundle(session=session, limit=3)
+    assert first["execution_cycle"]["processed_count"] == 3
+
+    second = build_merlin_training_execution_bundle(session=session, limit=3)
+    assert second["ok"] is True
+    assert second["execution_cycle"]["processed_count"] == 0
+    assert second["execution_cycle"]["mode"] == "reuse_retained_training_state"

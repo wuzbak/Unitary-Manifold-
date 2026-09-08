@@ -3326,6 +3326,9 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "dataset_bundle": "getMerlinTrainingDataset",
             "mlflow_manifests": "getMerlinMLflowManifests",
             "artifact_bundle": "getMerlinTrainingArtifacts",
+            "execution_queue": "getMerlinTrainingExecutionQueue",
+            "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
+            "training_cycle_runner": "runMerlinTrainingCycle",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
             "open_weight_acquisition_ledger": "getMerlinOpenWeightAcquisitionLedger",
             "dual_lane_master_sprint": "getMerlinDualLaneMasterSprint",
@@ -4434,6 +4437,11 @@ def build_training_artifact_bundle(
             "books_articles_lane": get_merlin_books_articles_lane(),
             "adversarial_growth_lane": get_merlin_adversarial_growth_lane(),
             "continuous_learning_protocol": get_merlin_continuous_learning_protocol(limit=stage_a_limit),
+            "training_execution_surfaces": {
+                "execution_queue": "getMerlinTrainingExecutionQueue",
+                "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
+                "training_cycle_runner": "runMerlinTrainingCycle",
+            },
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
             "artifact_policy": {
                 "promotion_rule": "Training artifacts inform promotion, but do not replace empirical benchmark gates.",
@@ -4727,6 +4735,11 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "books_articles_lane": get_merlin_books_articles_lane(),
         "adversarial_growth_lane": get_merlin_adversarial_growth_lane(),
         "continuous_learning_protocol": get_merlin_continuous_learning_protocol(limit=24),
+        "training_execution_surfaces": {
+            "execution_queue": "getMerlinTrainingExecutionQueue",
+            "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
+            "training_cycle_runner": "runMerlinTrainingCycle",
+        },
         "competitive_benchmark_plan": get_competitive_benchmark_plan(),
         "energy_optimization": get_energy_optimization_track(),
         "backend_expansion": get_backend_expansion_policy(),
