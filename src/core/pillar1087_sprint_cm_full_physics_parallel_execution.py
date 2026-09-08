@@ -196,7 +196,11 @@ def physics_core_lane() -> Dict[str, Any]:
 
 def last_merge_math_verification_lane() -> Dict[str, Any]:
     merge_sha = _latest_merge_commit()
+    if not merge_sha:
+        merge_sha = _run_git(["rev-parse", "HEAD"])
     touched = _latest_merge_touched_files(merge_sha)
+    if not touched:
+        touched = sorted(_MERGE_AUDIT_RULES.keys())
     touched_set = set(touched)
 
     rule_rows = []
@@ -226,9 +230,8 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
     scoped_rows = [row for row in rule_rows if row["applies"]]
     scoped_failures = [row["path"] for row in scoped_rows if not row["pass"]]
 
-    has_scope = bool(merge_sha and touched)
     prior_merge_audit = pillar1078_parallel_audit_report()
-    valid = has_scope and not scoped_failures
+    valid = bool(merge_sha and touched) and not scoped_failures
 
     return {
         "lane_id": "LANE_B_LAST_MERGE_MATH_AUDIT",
