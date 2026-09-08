@@ -32,6 +32,7 @@ the Unitary Manifold framework to a general audience.
 ## Latest additions (Apps & Spaces sweep)
 
 - `books/book-unitary-manifold-monograph.md`
+- `books/book-psicat-first-announcement-to-humanity.md`
 - `posts/post-300-s04e003-axiomzero-apps-spaces-complete-2026-state.md`
 - `posts/post-301-s04e004-merlin-and-dnd-adoption-workflow.md`
 - `posts/post-302-s04e005-v36-2-parallel-audit-remediation.md`
