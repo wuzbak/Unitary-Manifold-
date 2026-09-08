@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v36.9
+# Unitary Manifold v37.0
 
 ## Foundation reassessment
 
@@ -102,6 +102,14 @@ Sprint CM executes one full physics-first fail-closed packet with three explicit
 Lane B performs last-merge math verification on the most recent merge commit by checking theory-sensitive files touched in that merge against scoped honesty/math constraints. The lane reports binary pass/fix-required output with exact file scope so merge-level math drift cannot be hidden in narrative status updates.
 
 Lane C runs Merlin targeted train-and-work execution while converting prior-sprint misses into explicit remediation focus items. The sprint now exposes both what Merlin missed and what Merlin now handles under the Stage A→E and training-cycle gates, with promotion held on any unresolved blocker.
+
+### Sprint CN mechanistic irreversibility map
+
+Sprint CN adds an adjacent, benchmark-first diagnostic layer for irreversibility mechanics rather than a new hardgate closure claim. Pillar 1088 asks a narrower practical question: where does forward-vs-reverse asymmetry actually live inside an interacting system, and does it reside in single components, pairwise couplings, triplets, or a larger collective residual?
+
+The implementation answers that question with controlled synthetic trajectories and a deterministic information-theoretic decomposition. Exact subset contributions are computed up to triplets, the remaining mass is carried as a higher-order residual, and the resulting report ranks the strongest arrow-carrying interactions. This creates an auditable bridge from the repository's existing entropy/irreversibility surfaces to a usable interaction map without claiming that the map itself is the final ontological explanation of time's arrow.
+
+PsiCat integration is kept practical and bounded: the pillar emits compact assist packets summarizing dominant order, top interaction, internal-vs-external balance, and the next diagnostic question to ask. That makes the new surface useful for training, comparison, and follow-up analysis while preserving the existing open physics obligations unchanged.
 
 ### What cannot be counted as progress
 

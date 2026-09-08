@@ -139,7 +139,8 @@ def test_ranked_interactions_are_sorted_deterministically() -> None:
     scores = [row["exact_contribution"] for row in ranked]
     assert scores == sorted(scores, reverse=True)
     assert ranked[0]["subset_label"] == "alpha × beta"
-    assert ranked[-1]["subset_label"] == "gamma"
+    assert ranked[1]["subset_label"] == "alpha"
+    assert ranked[-1]["subset_label"] == "alpha × beta × gamma"
 
 
 def test_report_schema_stability() -> None:
