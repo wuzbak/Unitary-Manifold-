@@ -48,6 +48,7 @@ from .merlin_program import (
     get_merlin_adversarial_growth_lane,
     get_merlin_applications_tools_lane,
     get_merlin_performance_lane,
+    evaluate_merlin_performance_gate,
     get_competitive_benchmark_plan,
     get_cross_model_exchange_protocol,
     get_current_stack_baseline,
@@ -271,6 +272,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinAdversarialGrowthLane", "summary": "Return Lane C contradiction, falsification, and self-correction drills", "domain": "functions"},
             {"name": "getMerlinContinuousLearningProtocol", "summary": "Return governed between-session learning cadence and queue", "domain": "functions"},
             {"name": "getMerlinPerformanceLane", "summary": "Return Lane E performance contract with throughput gates and profiler workflow", "domain": "functions"},
+            {"name": "evaluateMerlinPerformanceGate", "summary": "Evaluate baseline vs candidate training receipts against Lane E speed gates", "domain": "functions"},
             {"name": "getMerlinTrainingExecutionQueue", "summary": "Return active retained-training queue state across all lanes", "domain": "functions"},
             {"name": "getMerlinLaneProgressLedgers", "summary": "Return automated lane-by-lane progress ledgers and retained receipt summaries", "domain": "functions"},
             {"name": "runMerlinTrainingCycle", "summary": "Execute queued multi-lane training work and retain auditable receipts in session memory", "domain": "functions"},
@@ -397,6 +399,33 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinBooksArticlesLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinAdversarialGrowthLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinPerformanceLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "evaluateMerlinPerformanceGate": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "baseline": {
+                        "type": "object",
+                        "properties": {
+                            "stage": {"type": "string"},
+                            "metrics": {"type": "object"},
+                        },
+                        "required": ["metrics"],
+                        "additionalProperties": False,
+                    },
+                    "candidate": {
+                        "type": "object",
+                        "properties": {
+                            "stage": {"type": "string"},
+                            "metrics": {"type": "object"},
+                        },
+                        "required": ["metrics"],
+                        "additionalProperties": False,
+                    },
+                },
+                "required": ["baseline", "candidate"],
+                "additionalProperties": False,
+            },
+        },
         "getMerlinContinuousLearningProtocol": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinLaneProgressLedgers": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
@@ -980,6 +1009,10 @@ _FUNCTIONS = {
     "getMerlinBooksArticlesLane": lambda **args: {"data": get_merlin_books_articles_lane()},
     "getMerlinAdversarialGrowthLane": lambda **args: {"data": get_merlin_adversarial_growth_lane()},
     "getMerlinPerformanceLane": lambda **args: {"data": get_merlin_performance_lane()},
+    "evaluateMerlinPerformanceGate": lambda **args: {"data": evaluate_merlin_performance_gate(
+        baseline=dict(args.get("baseline") or {}),
+        candidate=dict(args.get("candidate") or {}),
+    )},
     "getMerlinContinuousLearningProtocol": lambda **args: {"data": get_merlin_continuous_learning_protocol(limit=args.get("limit"))},
     "getMerlinTrainingExecutionQueue": lambda **args: {"data": build_merlin_training_execution_queue(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),

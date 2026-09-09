@@ -4213,6 +4213,18 @@ def get_merlin_performance_lane() -> dict[str, Any]:
                 "vram_peak_gb",
                 "cost_per_accepted_sample",
             ],
+            "gate_thresholds": {
+                "gpu_utilization_percent_min": 70.0,
+                "dataloader_stall_percent_max": 12.0,
+                "vram_peak_growth_percent_max": 10.0,
+                "cost_per_accepted_sample_growth_percent_max": 0.0,
+            },
+            "relative_improvement_requirements": {
+                "tokens_per_second": "non_decreasing",
+                "samples_per_second": "non_decreasing",
+                "step_time_p50_ms": "non_increasing",
+                "step_time_p95_ms": "non_increasing",
+            },
             "receipt_policy": "No optimization is accepted without baseline_and_after receipts per stage.",
             "hard_failure_triggers": [
                 "throughput_regression_vs_baseline",
@@ -4317,6 +4329,103 @@ def get_merlin_performance_lane() -> dict[str, Any]:
             "All optimizations must reinforce local-first self-hosted Merlin and reduce dependency on "
             "token-paid external fallback paths."
         ),
+    }
+
+
+def _coerce_metric_float(value: Any) -> float | None:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def evaluate_merlin_performance_gate(
+    *,
+    baseline: dict[str, Any] | None = None,
+    candidate: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    lane = get_merlin_performance_lane()
+    speed_contract = dict(lane.get("speed_contract") or {})
+    required_metrics = [str(metric) for metric in list(speed_contract.get("required_metrics") or []) if str(metric).strip()]
+    thresholds = dict(speed_contract.get("gate_thresholds") or {})
+    baseline_metrics = dict((baseline or {}).get("metrics") or {})
+    candidate_metrics = dict((candidate or {}).get("metrics") or {})
+    missing_baseline = sorted(metric for metric in required_metrics if _coerce_metric_float(baseline_metrics.get(metric)) is None)
+    missing_candidate = sorted(metric for metric in required_metrics if _coerce_metric_float(candidate_metrics.get(metric)) is None)
+    receipt_policy_ok = not missing_baseline and not missing_candidate
+    checks: list[dict[str, Any]] = []
+
+    def _add_check(name: str, passed: bool, details: dict[str, Any]) -> None:
+        checks.append({"name": name, "pass": bool(passed), "details": details})
+
+    if not receipt_policy_ok:
+        _add_check(
+            "before_after_receipts_present",
+            False,
+            {
+                "missing_baseline_metrics": missing_baseline,
+                "missing_candidate_metrics": missing_candidate,
+            },
+        )
+    else:
+        _add_check("before_after_receipts_present", True, {})
+        for metric in ("tokens_per_second", "samples_per_second"):
+            base = _coerce_metric_float(baseline_metrics.get(metric))
+            cand = _coerce_metric_float(candidate_metrics.get(metric))
+            _add_check(
+                f"{metric}_non_decreasing",
+                bool(cand is not None and base is not None and cand >= base),
+                {"baseline": base, "candidate": cand},
+            )
+        for metric in ("step_time_p50_ms", "step_time_p95_ms"):
+            base = _coerce_metric_float(baseline_metrics.get(metric))
+            cand = _coerce_metric_float(candidate_metrics.get(metric))
+            _add_check(
+                f"{metric}_non_increasing",
+                bool(cand is not None and base is not None and cand <= base),
+                {"baseline": base, "candidate": cand},
+            )
+        gpu_util = _coerce_metric_float(candidate_metrics.get("gpu_utilization_percent"))
+        _add_check(
+            "gpu_utilization_percent_min",
+            bool(gpu_util is not None and gpu_util >= float(thresholds.get("gpu_utilization_percent_min", 70.0))),
+            {"candidate": gpu_util, "threshold_min": float(thresholds.get("gpu_utilization_percent_min", 70.0))},
+        )
+        stall = _coerce_metric_float(candidate_metrics.get("dataloader_stall_percent"))
+        _add_check(
+            "dataloader_stall_percent_max",
+            bool(stall is not None and stall <= float(thresholds.get("dataloader_stall_percent_max", 12.0))),
+            {"candidate": stall, "threshold_max": float(thresholds.get("dataloader_stall_percent_max", 12.0))},
+        )
+        base_vram = _coerce_metric_float(baseline_metrics.get("vram_peak_gb"))
+        cand_vram = _coerce_metric_float(candidate_metrics.get("vram_peak_gb"))
+        allowed_vram = (base_vram or 0.0) * (1.0 + (float(thresholds.get("vram_peak_growth_percent_max", 10.0)) / 100.0))
+        _add_check(
+            "vram_peak_growth_within_budget",
+            bool(base_vram is not None and cand_vram is not None and cand_vram <= allowed_vram),
+            {"baseline": base_vram, "candidate": cand_vram, "threshold_max": allowed_vram},
+        )
+        base_cost = _coerce_metric_float(baseline_metrics.get("cost_per_accepted_sample"))
+        cand_cost = _coerce_metric_float(candidate_metrics.get("cost_per_accepted_sample"))
+        allowed_cost = (base_cost or 0.0) * (1.0 + (float(thresholds.get("cost_per_accepted_sample_growth_percent_max", 0.0)) / 100.0))
+        _add_check(
+            "cost_per_accepted_sample_within_budget",
+            bool(base_cost is not None and cand_cost is not None and cand_cost <= allowed_cost),
+            {"baseline": base_cost, "candidate": cand_cost, "threshold_max": allowed_cost},
+        )
+
+    failed_checks = [check["name"] for check in checks if not check["pass"]]
+    gate_pass = bool(receipt_policy_ok and not failed_checks)
+    return {
+        "ok": True,
+        "lane_id": "lane_e_training_performance",
+        "gate_verdict": "pass" if gate_pass else "hold",
+        "policy": speed_contract.get("receipt_policy"),
+        "checks": checks,
+        "failed_checks": failed_checks,
+        "baseline_receipt": {"stage": str((baseline or {}).get("stage") or ""), "metrics": baseline_metrics},
+        "candidate_receipt": {"stage": str((candidate or {}).get("stage") or ""), "metrics": candidate_metrics},
+        "promotion_rule": "Promote only when capability and speed both improve under governance constraints.",
     }
 
 
@@ -4687,6 +4796,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "adversarial_growth_lane": "getMerlinAdversarialGrowthLane",
             "continuous_learning_protocol": "getMerlinContinuousLearningProtocol",
             "performance_lane": "getMerlinPerformanceLane",
+            "performance_gate_evaluator": "evaluateMerlinPerformanceGate",
             "ethics_contract": "getMerlinEthicsContract",
             "capability_ontology": "getMerlinCapabilityOntology",
             "teacher_trace_policy": "getMerlinTeacherTracePolicy",

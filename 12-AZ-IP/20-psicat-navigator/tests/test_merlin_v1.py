@@ -523,6 +523,36 @@ def test_route_tool_training_architecture_and_artifacts():
     assert performance_lane['ok'] is True
     assert performance_lane['result']['data']['lane_id'] == 'lane_e_training_performance'
     assert len(performance_lane['result']['data']['speed_contract']['required_metrics']) >= 8
+    perf_gate = route_tool('evaluateMerlinPerformanceGate', {
+        'baseline': {
+            'stage': 'stage_a',
+            'metrics': {
+                'tokens_per_second': 100.0,
+                'samples_per_second': 50.0,
+                'gpu_utilization_percent': 72.0,
+                'dataloader_stall_percent': 10.0,
+                'step_time_p50_ms': 200.0,
+                'step_time_p95_ms': 320.0,
+                'vram_peak_gb': 12.0,
+                'cost_per_accepted_sample': 0.2,
+            },
+        },
+        'candidate': {
+            'stage': 'stage_b',
+            'metrics': {
+                'tokens_per_second': 130.0,
+                'samples_per_second': 65.0,
+                'gpu_utilization_percent': 84.0,
+                'dataloader_stall_percent': 8.0,
+                'step_time_p50_ms': 180.0,
+                'step_time_p95_ms': 290.0,
+                'vram_peak_gb': 12.4,
+                'cost_per_accepted_sample': 0.19,
+            },
+        },
+    })
+    assert perf_gate['ok'] is True
+    assert perf_gate['result']['data']['gate_verdict'] == 'pass'
     session = MerlinSession()
     execution_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 4}, session=session)
     assert execution_queue['ok'] is True
@@ -1894,6 +1924,37 @@ def test_server_merlin_endpoints():
             assert performance_lane.status_code == 200
             assert performance_lane.json()['ok'] is True
             assert performance_lane.json()['performance_lane']['lane_id'] == 'lane_e_training_performance'
+            performance_gate = client.post('/api/merlin/performance-gate-evaluate', json={
+                'baseline': {
+                    'stage': 'stage_a',
+                    'metrics': {
+                        'tokens_per_second': 90.0,
+                        'samples_per_second': 45.0,
+                        'gpu_utilization_percent': 71.0,
+                        'dataloader_stall_percent': 11.0,
+                        'step_time_p50_ms': 240.0,
+                        'step_time_p95_ms': 350.0,
+                        'vram_peak_gb': 10.0,
+                        'cost_per_accepted_sample': 0.25,
+                    },
+                },
+                'candidate': {
+                    'stage': 'stage_b',
+                    'metrics': {
+                        'tokens_per_second': 110.0,
+                        'samples_per_second': 58.0,
+                        'gpu_utilization_percent': 82.0,
+                        'dataloader_stall_percent': 7.0,
+                        'step_time_p50_ms': 205.0,
+                        'step_time_p95_ms': 300.0,
+                        'vram_peak_gb': 10.6,
+                        'cost_per_accepted_sample': 0.24,
+                    },
+                },
+            })
+            assert performance_gate.status_code == 200
+            assert performance_gate.json()['ok'] is True
+            assert performance_gate.json()['performance_gate']['gate_verdict'] == 'pass'
             training_execution_queue = client.get('/api/merlin/training-execution-queue?limit=4')
             assert training_execution_queue.status_code == 200
             assert training_execution_queue.json()['ok'] is True
@@ -2293,6 +2354,10 @@ def test_route_tool_schema_validation_blocks_invalid_args():
     payload = route_tool('getPillar', {'pillar_id': 'not-int'})
     assert payload['ok'] is False
     assert "Invalid type" in payload['error']
+    perf_payload = route_tool('evaluateMerlinPerformanceGate', {'baseline': {}, 'candidate': {}})
+    assert perf_payload['ok'] is True
+    assert perf_payload['result']['data']['gate_verdict'] == 'hold'
+    assert "before_after_receipts_present" in perf_payload['result']['data']['failed_checks']
 
 
 def test_run_sync_checks_has_consistency_contract():

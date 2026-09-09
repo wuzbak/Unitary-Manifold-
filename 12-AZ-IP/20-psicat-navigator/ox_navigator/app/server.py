@@ -40,6 +40,7 @@ from ox_navigator.engine.merlin_program import (
     get_expert_mastery_program,
     get_merlin_continuous_learning_protocol,
     get_merlin_performance_lane,
+    evaluate_merlin_performance_gate,
     get_merlin_three_lane_intensive_sprint,
     get_mythos_astra_contract,
     get_knowledge_unknowns_ledger,
@@ -1283,6 +1284,20 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({
                         'ok': True,
                         'training_cycle': run_merlin_training_cycle(session=merlin_session, limit=limit),
+                    })
+                    return
+                if route_path == '/api/psicat/performance-gate-evaluate':
+                    baseline = payload.get('baseline')
+                    candidate = payload.get('candidate')
+                    if not isinstance(baseline, dict) or not isinstance(candidate, dict):
+                        self._json({'ok': False, 'error': 'baseline and candidate object payloads are required'}, status=400)
+                        return
+                    self._json({
+                        'ok': True,
+                        'performance_gate': evaluate_merlin_performance_gate(
+                            baseline=baseline,
+                            candidate=candidate,
+                        ),
                     })
                     return
             finally:
