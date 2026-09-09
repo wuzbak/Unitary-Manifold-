@@ -669,6 +669,7 @@ def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 1
         challenge_items,
         key=lambda challenge: (
             {"stale_retrain_required": 0, "needs_review": 1, "queued": 2, "completed": 3}.get(str(challenge.get("status") or ""), 4),
+            0 if _navier_stokes_packet_kind(str(challenge.get("reference_path") or "")) else 1,
             str(challenge.get("challenge_id") or ""),
         ),
     )
