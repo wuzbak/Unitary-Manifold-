@@ -11,6 +11,7 @@ Start with:
 - `proof/TIER_1_FORMAL.md`
 - `proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md`
 - `docs/TRUTH_LAYER.md`
+- `src/core/action_to_evolution_contract.py`
 - `src/core/evolution.py`
 - `src/core/pillar1104_lane1_action_to_evolution_continuation.py`
 

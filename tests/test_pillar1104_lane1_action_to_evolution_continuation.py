@@ -24,3 +24,5 @@ def test_lane1_contract() -> None:
     assert report['primary_frontier'] == [PRIMARY_UNIT_ID]
     assert len(report['reviewer_packets']) == 2
     assert report['action_to_evolution_blocker_certificate']['tightened_scope'] is True
+    assert len(report['action_to_evolution_deliverable_contract']['primary_deliverables']) == 3
+    assert report['action_to_evolution_blocker_certificate']['sharpened_open_surface'] == report['action_to_evolution_deliverable_contract']['remaining_blockers']

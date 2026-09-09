@@ -137,7 +137,7 @@ __provenance__ = {
 }
 
 from dataclasses import dataclass
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 
@@ -163,6 +163,48 @@ _NUMERICAL_EPSILON = 1e-30  # guard against exact-zero denominators / norms
 # ---------------------------------------------------------------------------
 # Foundation-boundary audit helper
 # ---------------------------------------------------------------------------
+
+def implemented_flow_equation_surface() -> Dict[str, Any]:
+    """Return the implemented flow equations and boundary assumptions."""
+    return {
+        "status": "PHENOMENOLOGICAL_FLOW_IMPLEMENTATION",
+        "equations": {
+            "metric": {
+                "lhs": "∂_t g_μν",
+                "rhs_terms": ["-2 R_μν", "T_μν[B, φ]"],
+                "classification": "implemented_flow_term_list",
+            },
+            "gauge": {
+                "lhs": "∂_t B_μ",
+                "rhs_terms": ["∇_ν (λ² H^νμ)"],
+                "classification": "implemented_flow_term_list",
+            },
+            "scalar": {
+                "lhs": "∂_t φ",
+                "rhs_terms": ["□φ", "α R φ", "S[H]", "-m²_φ (φ − φ₀)"],
+                "classification": "implemented_flow_term_list",
+            },
+        },
+        "time_domain_boundary": {
+            "flow_parameter_symbol": "t",
+            "flow_parameter_role": "irreversibility flow parameter λ-like evolution variable",
+            "coordinate_time_symbol": "x⁰",
+            "identified_with_coordinate_time": False,
+            "coordinate_time_gauge_fixed": True,
+            "domain": "symmetry-reduced 1-D spatial grid with geometric derivative sampling only along x (index 1)",
+        },
+        "structural_assumptions": [
+            "R denotes the legacy contraction g^μν R^(5)_μν, not R4 or R5.",
+            "alpha is supplied independently rather than derived from a checked action.",
+            "Matter sources use Euclidean component norms, not Lorentzian contractions.",
+            "The numerical evolution tracks only the zero-mode sector.",
+        ],
+        "promotion_guard": (
+            "Do not promote this implementation surface as action-derived until a checked action, "
+            "Euler-Lagrange match, and fixed time/domain boundary are all verified."
+        ),
+    }
+
 
 def phenomenological_flow_boundary() -> Dict[str, Union[str, bool, list[str]]]:
     """Return the current action/evolution boundary in machine-readable form.

@@ -25,4 +25,5 @@ def test_lane2_translation_contract() -> None:
         'MASTER_THEOREM_READY',
         'MASTER_THEOREM_BLOCKED_NOT_YET_DERIVABLE',
     }
+    assert report['master_theorem_attempt']['action_to_evolution_deliverables_complete'] is False
     assert report['summary']['touched_unit_count'] == len(report['translation_verdict_matrix'])
