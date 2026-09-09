@@ -2360,12 +2360,15 @@ def _seed_teacher_trace_distillation_examples() -> list[dict[str, Any]]:
 
 def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
     from src.core.navier_stokes_method_transfer import navier_stokes_method_transfer_packet
+    from src.core.pythagorean_triples_sat_method_transfer import pythagorean_triples_sat_method_transfer_packet
 
     ten_proofs = _repo_rel(REPO_ROOT / "ten-proofs-oai.pdf")
     unit_distance = _repo_rel(REPO_ROOT / "unit-distance-proof.pdf")
     navier_packet = navier_stokes_method_transfer_packet()
+    pythagorean_packet = pythagorean_triples_sat_method_transfer_packet()
     navier_intake = str((navier_packet.get("local_artifacts") or {}).get("intake_packet") or "")
     navier_curriculum = str((navier_packet.get("local_artifacts") or {}).get("curriculum_packet") or "")
+    pythagorean_intake = str((pythagorean_packet.get("local_artifacts") or {}).get("intake_packet") or "")
     return [
         {
             "id": "external-proof-transfer-map",
@@ -2380,11 +2383,13 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                     "counterexample and boundary-case pressure testing",
                     "human verification before closure",
                     "sectioned derivation traces with citation anchors",
+                    "machine-checkable proof certificate verification",
                 ],
                 "kernel_mapping": {
                     "kernel_p": "proof obligation and unresolved-assumption tracking",
                     "kernel_a": "contradiction recall and audit trail retention",
                     "kernel_g": "fail-closed non-claim enforcement for uncertain closure",
+                    "kernel_r": "certificate and artifact routing with reproducibility receipts",
                 },
                 "non_claims": [
                     "External proofs do not validate Unitary Manifold physics claims by analogy.",
@@ -2392,7 +2397,7 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                 ],
             },
             "required_gates": ["OPEN_GAP", "GOVERNANCE"],
-            "provenance_sources": [ten_proofs, unit_distance],
+            "provenance_sources": [ten_proofs, unit_distance, pythagorean_intake],
             "supervision_mode": "grounded_supervised_finetuning",
         },
         {
@@ -2415,7 +2420,7 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                 ],
             },
             "required_gates": ["OPEN_GAP"],
-            "provenance_sources": [ten_proofs, unit_distance, _repo_rel(REPO_ROOT / "FALLIBILITY.md")],
+            "provenance_sources": [ten_proofs, unit_distance, pythagorean_intake, _repo_rel(REPO_ROOT / "FALLIBILITY.md")],
             "supervision_mode": "grounded_supervised_finetuning",
         },
         {
@@ -2437,9 +2442,13 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                     "stage_c_capability_expansion": "cross-source reasoning and contradiction handling",
                     "stage_d_replacement_gates": "sustained non-overclaim behavior under adversarial prompts",
                 },
+                "external_verification_requirements": [
+                    "capture certificate or checker-verified receipt when available",
+                    "separate solve-output evidence from domain-transfer interpretation",
+                ],
             },
             "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
-            "provenance_sources": [ten_proofs, unit_distance, "getMerlinBenchmarkCorpora"],
+            "provenance_sources": [ten_proofs, unit_distance, pythagorean_intake, "getMerlinBenchmarkCorpora"],
             "supervision_mode": "grounded_supervised_finetuning",
         },
         {
@@ -2485,6 +2494,29 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
             "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
             "required_gates": ["OPEN_GAP", "GOVERNANCE"],
             "provenance_sources": [navier_curriculum, navier_intake, "getMerlinTrainingChallengePack"],
+            "supervision_mode": "proof_review_packet_alignment",
+        },
+        {
+            "id": "pythagorean-triples-sat-psicat-adversarial-review",
+            "track": "formal_proof_foundry",
+            "prompt": (
+                "Answer the Pythagorean-triples SAT method-transfer packet with exact non-claims, "
+                "certificate-verification discipline, and reproducibility receipt requirements for PsiCat."
+            ),
+            "target": {
+                "review_questions": list(pythagorean_packet.get("adversarial_review_questions") or []),
+                "crosswalk_questions": list(pythagorean_packet.get("crosswalk_questions") or []),
+                "scoring_axes": [
+                    "encoding_precision",
+                    "certificate_verification_discipline",
+                    "boundary_honesty",
+                    "reproducibility_receipt_quality",
+                    "transfer_discipline",
+                ],
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [pythagorean_intake, "getMerlinTrainingChallengePack"],
             "supervision_mode": "proof_review_packet_alignment",
         },
     ]
@@ -2543,6 +2575,23 @@ def get_navier_stokes_method_transfer_packet() -> dict[str, Any]:
     return {
         **packet,
         "tool_surface": "getMerlinNavierStokesMethodTransferPacket",
+        "workflow_surfaces": {
+            "training_architecture": "getMerlinTrainingArchitecture",
+            "training_execution_queue": "getMerlinTrainingExecutionQueue",
+            "training_cycle": "runMerlinTrainingCycle",
+            "challenge_pack": "getMerlinTrainingChallengePack",
+            "sprint_review_packet": "getMerlinSprintReviewPacket",
+        },
+    }
+
+
+def get_pythagorean_triples_sat_method_transfer_packet() -> dict[str, Any]:
+    from src.core.pythagorean_triples_sat_method_transfer import pythagorean_triples_sat_method_transfer_packet
+
+    packet = pythagorean_triples_sat_method_transfer_packet()
+    return {
+        **packet,
+        "tool_surface": "getMerlinPythagoreanTriplesSatMethodTransferPacket",
         "workflow_surfaces": {
             "training_architecture": "getMerlinTrainingArchitecture",
             "training_execution_queue": "getMerlinTrainingExecutionQueue",
@@ -3081,6 +3130,20 @@ def get_open_science_resource_registry() -> dict[str, Any]:
                 "local_packets": [
                     "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
                     "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
+                ],
+                "priority": "high_curated_external",
+            },
+            {
+                "resource_id": "arxiv_boolean_pythagorean_triples_sat",
+                "category": "external_proof_intake_packet",
+                "url": "https://arxiv.org/abs/1605.00723",
+                "recommended_role": [
+                    "sat_encoding_discipline_training",
+                    "certificate_verification_workflow_training",
+                    "counterexample_first_formal_review_training",
+                ],
+                "local_packets": [
+                    "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md",
                 ],
                 "priority": "high_curated_external",
             },
@@ -4407,12 +4470,14 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 "source_surfaces": [
                     "src/core/formal_traceability_spine.py",
                     "src/core/navier_stokes_method_transfer.py",
+                    "src/core/pythagorean_triples_sat_method_transfer.py",
                     "proof/FORMAL_PROOF_FOUNDRY.md",
                     "proof/CURRY_HOWARD_WORKFLOW.md",
                     "proof/REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md",
                     "proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md",
                     "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
                     "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
+                    "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md",
                     "docs/TRUTH_LAYER.md",
                 ],
             },
@@ -4462,6 +4527,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                     _repo_rel(REPO_ROOT / "unit-distance-proof.pdf"),
                     "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
                     "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
+                    "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md",
                 ],
             },
             {
@@ -4513,6 +4579,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",
             "navier_stokes_method_transfer_packet": "getMerlinNavierStokesMethodTransferPacket",
+            "pythagorean_triples_sat_method_transfer_packet": "getMerlinPythagoreanTriplesSatMethodTransferPacket",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
             "open_weight_acquisition_ledger": "getMerlinOpenWeightAcquisitionLedger",
             "dual_lane_master_sprint": "getMerlinDualLaneMasterSprint",

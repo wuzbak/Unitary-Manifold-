@@ -559,8 +559,16 @@ def test_route_tool_training_architecture_and_artifacts():
         and 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in item['source_surfaces']
         for item in architecture['result']['data']['dataset_families']
     )
+    assert any(
+        item['family'] == 'external_open_science_augmentation'
+        and 'proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md' in item['source_surfaces']
+        for item in architecture['result']['data']['dataset_families']
+    )
     full_architecture = route_tool('getMerlinTrainingArchitecture', {})
     assert 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in (
+        full_architecture['result']['data']['formal_proof_foundry']['training_corpus']
+    )
+    assert 'proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md' in (
         full_architecture['result']['data']['formal_proof_foundry']['training_corpus']
     )
     assert architecture['result']['data']['active_training_surfaces']['three_lane_intensive_sprint'] == (
@@ -569,12 +577,23 @@ def test_route_tool_training_architecture_and_artifacts():
     assert full_architecture['result']['data']['active_training_surfaces']['navier_stokes_method_transfer_packet'] == (
         'getMerlinNavierStokesMethodTransferPacket'
     )
+    assert full_architecture['result']['data']['active_training_surfaces']['pythagorean_triples_sat_method_transfer_packet'] == (
+        'getMerlinPythagoreanTriplesSatMethodTransferPacket'
+    )
 
     navier_packet = route_tool('getMerlinNavierStokesMethodTransferPacket', {})
     assert navier_packet['ok'] is True
     assert navier_packet['result']['data']['program'] == 'NAVIER_STOKES_METHOD_TRANSFER'
     assert 'analogy alone' in navier_packet['result']['data']['source_basis']['non_transfer_clause']
     assert navier_packet['result']['data']['workflow_surfaces']['challenge_pack'] == 'getMerlinTrainingChallengePack'
+
+    pythagorean_packet = route_tool('getMerlinPythagoreanTriplesSatMethodTransferPacket', {})
+    assert pythagorean_packet['ok'] is True
+    assert pythagorean_packet['result']['data']['program'] == 'PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER'
+    assert (
+        pythagorean_packet['result']['data']['source_basis']['primary_paper']['arxiv_abs_url']
+        == 'https://arxiv.org/abs/1605.00723'
+    )
 
     registry = route_tool('getMerlinOpenScienceRegistry', {})
     assert registry['ok'] is True
@@ -584,6 +603,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert any(item['resource_id'] == 'axolotl_engine' for item in registry['result']['data']['resources'])
     assert any(
         item['resource_id'] == 'openai_navier_stokes_method_transfer'
+        for item in registry['result']['data']['resources']
+    )
+    assert any(
+        item['resource_id'] == 'arxiv_boolean_pythagorean_triples_sat'
         for item in registry['result']['data']['resources']
     )
     acquisition = route_tool('getMerlinOpenWeightAcquisitionLedger', {})

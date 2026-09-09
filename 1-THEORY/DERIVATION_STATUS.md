@@ -10,10 +10,10 @@
 > circle-EH coupling bookkeeping but leaves photon origin and action-to-evolution
 > equivalence open. No new physics closure is claimed.
 
-**The Unitary Manifold v37.3 — Unambiguous Record**  
+**The Unitary Manifold v37.4 — Unambiguous Record**
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-08 (v37.3 — Sprint CQ: Pillars 1103-1108; narrow continuation packet with action-to-evolution as the sole primary unresolved unit, touched-unit translation gating, and PsiCat reviewer-packet receipt completion; Lean4 4080→4080; 64,150 passed · 22 skipped · 18 deselected · 0 failed; next slot 1109.)*
-*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-08).*
+*Last updated: 2026-09-09 (v37.4 — Sprint CR: Pillars 1109-1118; master proof-first fail-closed packet with scope lock, burden board, execution lanes 1-5, documentation packet, status coherence, and integration certificate; Lean4 4080→4080; 64,150 passed · 22 skipped · 18 deselected · 0 failed; next slot 1119.)*
+*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-09).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.

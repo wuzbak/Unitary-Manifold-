@@ -120,7 +120,7 @@ jobs:
                   {
                       "slice_id": item["slice_id"],
                       "language": item["language"],
-                      "paths_yaml": "\n".join(item["paths"]),
+                      "paths_inline": json.dumps(item["paths"]),
                   }
               )
 
@@ -247,8 +247,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           config: |
-            paths:
-              ${{ matrix.paths_yaml }}
+            paths: ${{ matrix.paths_inline }}
             paths-ignore:
               - "**/*.md"
               - "**/*.txt"
