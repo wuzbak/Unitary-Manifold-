@@ -49,12 +49,17 @@ def test_remaining_blockers_are_explicit() -> None:
 def test_fail_closed_when_action_boundary_is_misreported(monkeypatch) -> None:
     monkeypatch.setattr(
         p1082,
-        "phenomenological_flow_boundary",
+        "action_to_evolution_deliverable_contract",
         lambda: {
-            "status": "OPEN",
-            "derived_from_circle_eh_action": True,
-            "flow_parameter_is_coordinate_time": False,
-            "remaining_obligation": "bad",
+            "promotion_ready": False,
+            "remaining_blockers": PRIMARY_DELIVERABLE_IDS,
+            "primary_deliverables": [{"id": item} for item in PRIMARY_DELIVERABLE_IDS],
+            "boundary": {
+                "status": "OPEN",
+                "derived_from_circle_eh_action": True,
+                "flow_parameter_is_coordinate_time": False,
+                "remaining_obligation": "bad",
+            },
         },
     )
     report = foundation_first_photon_action_audit()
