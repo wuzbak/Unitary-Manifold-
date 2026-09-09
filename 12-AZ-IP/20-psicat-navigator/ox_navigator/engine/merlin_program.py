@@ -2806,6 +2806,34 @@ def _seed_adversarial_self_correction_examples() -> list[dict[str, Any]]:
             "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
             "provenance_sources": ["getMerlinValidationResiliencePacket", "docs/TRUTH_LAYER.md"],
         },
+        {
+            "id": "adversarial-codeql-matrix-splitting",
+            "track": "adversarial_self_correction",
+            "split": "dev",
+            "prompt": "Given a multi-language repository where CodeQL database size causes skipped scans, produce a multi-job language/path matrix split plan that preserves honest coverage accounting.",
+            "target": {
+                "required_outputs": ["language_job_split", "domain_path_slices", "coverage_truth_note"],
+                "hard_rule": "A successful scoped matrix run is scoped evidence, not implicit full-repository evidence.",
+            },
+            "target_contract": {"requires_boundary_note": True, "requires_epistemic_tag": True},
+            "supervision_mode": "adversarial_integrity_drill",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinValidationResiliencePacket", ".github/workflows/codeql-language-matrix.yml"],
+        },
+        {
+            "id": "adversarial-duckdb-preflight-telemetry",
+            "track": "adversarial_self_correction",
+            "split": "dev",
+            "prompt": "Use DuckDB-style repository inventory telemetry to rebalance CodeQL matrix slices before they exceed runner disk limits.",
+            "target": {
+                "required_outputs": ["inventory_signal", "slice_rebalance_action", "rerun_priority_order"],
+                "hard_rule": "Telemetry informs scope planning; it does not replace security scanning.",
+            },
+            "target_contract": {"requires_boundary_note": True, "requires_epistemic_tag": True},
+            "supervision_mode": "adversarial_integrity_drill",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinValidationResiliencePacket", ".github/workflows/codeql-language-matrix.yml"],
+        },
     ]
 
 
@@ -3432,6 +3460,8 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
     truth_layer_path = _repo_rel(REPO_ROOT / "docs" / "TRUTH_LAYER.md")
     workflows_dir = REPO_ROOT / ".github" / "workflows"
     has_repo_codeql_workflow = any(workflows_dir.glob("*codeql*.yml"))
+    codeql_matrix_workflow = ".github/workflows/codeql-language-matrix.yml"
+    has_codeql_matrix_workflow = (REPO_ROOT / codeql_matrix_workflow).exists()
     has_review_orchestrator = (REPO_ROOT / "TOOLS" / "checks" / "copilot_review_orchestrator.py").exists()
     return {
         "generated_at": _utcnow(),
@@ -3442,6 +3472,7 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
             "hosted_review_tool_available_in_every_environment": False,
             "codeql_completed_in_current_environment": False,
             "codeql_skip_reason": "repository_database_too_large",
+            "codeql_language_matrix_workflow_configured": has_codeql_matrix_workflow,
             "manual_review_replaces_missing_signals": False,
         },
         "review_resilience_assets": {
@@ -3450,6 +3481,7 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
             "health_workflow": ".github/workflows/copilot-review-health.yml",
             "orchestration_workflow": ".github/workflows/copilot-review-orchestrator.yml",
             "repo_codeql_workflow_present": has_repo_codeql_workflow,
+            "codeql_language_matrix_workflow": codeql_matrix_workflow,
         },
         "repo_size_mitigation_actions": [
             {
@@ -3461,7 +3493,7 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
             {
                 "action_id": "size-2",
                 "priority": "high",
-                "action": "Split validation into repository subdomains such as Product 20, core physics, governance, and infrastructure rather than one monolithic database.",
+                "action": "Split CodeQL into one runner job per language and per repository domain slice rather than one monolithic database.",
                 "why": "The repository is large enough that per-domain databases may be the difference between a real scan and a skipped one.",
             },
             {
@@ -3482,6 +3514,12 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
                 "action": "Preserve skipped-scan warnings in review packets and truth surfaces until a complete scoped or full scan lands.",
                 "why": "Operational pressure should not erase the epistemic fact that security analysis is incomplete.",
             },
+            {
+                "action_id": "size-6",
+                "priority": "medium",
+                "action": "Run a DuckDB-backed preflight inventory of language/path/size metadata and rebalance matrix slices before CodeQL runs.",
+                "why": "Preflight telemetry catches oversized slices early and reduces wasted skipped runs.",
+            },
         ][:resolved_limit],
         "codeql_scope_reduction_strategy": {
             "goal": "Land a completed CodeQL result for the changed security-relevant surfaces without mislabeling a skipped run as clean.",
@@ -3493,16 +3531,26 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
                 },
                 {
                     "phase": 2,
+                    "name": "multi_job_language_split",
+                    "focus": "Split CodeQL into separate language jobs so databases do not stack on one runner.",
+                },
+                {
+                    "phase": 3,
                     "name": "product_slice_databases",
                     "focus": "Run separate analysis slices for Product 20, core src/, governance, and infrastructure surfaces.",
                 },
                 {
-                    "phase": 3,
+                    "phase": 4,
                     "name": "exclude_non_executable_bulk",
                     "focus": "Remove mirrored docs, large static assets, and generated artifacts from the CodeQL slice where they do not affect code execution.",
                 },
                 {
-                    "phase": 4,
+                    "phase": 5,
+                    "name": "duckdb_preflight_rebalancing",
+                    "focus": "Use structured repository telemetry to rebalance path slices before reruns.",
+                },
+                {
+                    "phase": 6,
                     "name": "promote_successful_scoped_scan",
                     "focus": "Treat completed scoped scans as meaningful but narrower evidence, and keep full-repo completion as a follow-on objective.",
                 },
@@ -3517,11 +3565,37 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
                 "Manual review and targeted tests do not erase missing CodeQL coverage.",
             ],
         },
+        "codeql_matrix_split_strategy": {
+            "workflow_path": codeql_matrix_workflow,
+            "matrix_axes": ["language", "path_slice"],
+            "pr_policy": "changed_surface_first",
+            "full_policy": "scheduled_full_slice_sweep",
+            "coverage_truth_rule": "completed_slice_results_are_scoped_evidence",
+            "default_slice_set": [
+                {"language": "python", "slice": "core-physics-and-tests"},
+                {"language": "python", "slice": "product20-psicat-and-checks"},
+                {"language": "rust", "slice": "az-kernel"},
+                {"language": "c-cpp", "slice": "native-audio"},
+                {"language": "java-kotlin", "slice": "mobile-runtime"},
+            ],
+        },
+        "duckdb_preflight_telemetry": {
+            "enabled_via_workflow": has_codeql_matrix_workflow,
+            "artifact": "codeql-slice-inventory",
+            "uses": [
+                "language_counts",
+                "path_size_distribution",
+                "slice_rebalance_recommendations",
+            ],
+            "guardrail": "Telemetry never replaces CodeQL analysis; it only improves slice planning.",
+        },
         "merlin_training_directives": [
             "Detect and state when hosted review is unavailable.",
             "Route to repository-side review orchestration before claiming coverage.",
             "Detect and state when CodeQL was skipped for size.",
             "Recommend scoped reruns and repo-size mitigation actions without overstating clearance.",
+            "When codebase is multi-language, propose language-separated CodeQL jobs and domain path slices.",
+            "Use DuckDB preflight telemetry to prioritize rerun order and right-size slices.",
         ],
         "packet_links": {
             "execution_board": execution_board_path,

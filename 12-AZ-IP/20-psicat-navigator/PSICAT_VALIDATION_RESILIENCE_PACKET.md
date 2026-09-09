@@ -12,10 +12,12 @@ This packet defines the fail-closed operating doctrine for Merlin whenever valid
 ## Repo-size mitigation actions
 
 1. **Changed-surface-first scanning.** Start with the executable surfaces touched by the change set, especially Product 20 application and engine paths.
-2. **Subdomain slicing.** Run smaller validation slices for Product 20, core `src/`, governance, and infrastructure instead of one oversized repository database.
-3. **Non-executable bulk exclusion.** Remove mirrored documentation, large static assets, and generated artifacts from security-analysis scope when they do not affect execution.
-4. **PR scope manifest.** Retain a small manifest of changed executable paths so reruns stay targeted and reproducible.
-5. **Persistent blocker visibility.** Keep the missing-scan warning open until a complete scoped or full scan lands.
+2. **Language-separated matrix jobs.** Run one CodeQL job per language so Python, Rust, C/C++, and Java/Kotlin databases do not stack on one runner disk.
+3. **Subdomain slicing.** Run smaller validation slices for Product 20, core `src/`, governance, and infrastructure instead of one oversized repository database.
+4. **DuckDB preflight inventory.** Generate fast language/path/size telemetry before CodeQL to rebalance matrix slices proactively.
+5. **Non-executable bulk exclusion.** Remove mirrored documentation, large static assets, and generated artifacts from security-analysis scope when they do not affect execution.
+6. **PR scope manifest.** Retain a small manifest of changed executable paths so reruns stay targeted and reproducible.
+7. **Persistent blocker visibility.** Keep the missing-scan warning open until a complete scoped or full scan lands.
 
 ## CodeQL scope-reduction strategy
 
@@ -56,6 +58,14 @@ This is a scope-control action, not a truth-suppression action.
 - Preserve the reason for the previous skip.
 - Distinguish **completed scoped scan** from **pending full-repository scan**.
 - Do not promote a lane to “clean” while the full-scope signal is still missing.
+
+## Matrix workflow + telemetry
+
+- Workflow path: `.github/workflows/codeql-language-matrix.yml`
+- Matrix axes: `language` × `path_slice`
+- PR mode: changed-surface-first
+- Scheduled mode: broad slice sweep
+- DuckDB artifact: `codeql-slice-inventory` (language/domain size telemetry used to rebalance future slices)
 
 ## Hosted review outage doctrine
 
