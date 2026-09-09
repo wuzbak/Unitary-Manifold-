@@ -6889,7 +6889,7 @@ def build_training_artifact_bundle(
             "ok": False,
             "error": dataset_bundle.get("error", "Unable to build training dataset bundle."),
         }
-    stage_a_limit = limit if limit is None else max(0, int(limit))
+    stage_a_limit = None if limit is not None and int(limit) <= 0 else limit
     training_execution_bundle = build_merlin_training_execution_bundle(
         session=MerlinSession(),
         limit=stage_a_limit,

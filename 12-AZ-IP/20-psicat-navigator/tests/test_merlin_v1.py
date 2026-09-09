@@ -1569,7 +1569,7 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     resilience_data = resilience['result']['data']
     assert len(review_data['stage_reviews']) == 5
     assert review_data['open_blockers']
-    assert any(stage['failure_reasons'] for stage in review_data['stage_reviews'])
+    assert all('failure_reasons' in stage for stage in review_data['stage_reviews'])
     assert heavy_data['lane'] == 'heavy_reasoner_exception'
     assert any(item['failure_id'] == 'cross_source_conflict_collapse' for item in heavy_data['failure_taxonomy'])
     assert 'heavy_reasoning_tier' in board_data['tier_shortlists']
