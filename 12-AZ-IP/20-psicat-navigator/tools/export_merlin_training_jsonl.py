@@ -63,7 +63,7 @@ def _redact_test_targets(payload: dict) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Export Merlin training JSONL files.")
-    parser.add_argument("--limit", type=int, default=12, help="Optional seed example limit")
+    parser.add_argument("--limit", type=int, default=0, help="Optional seed example limit; 0 exports the full governed corpus")
     parser.add_argument(
         "--output-dir",
         type=str,

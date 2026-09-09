@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 42377.35185510814,
-        "samples_per_second": 175.83963425356077,
+        "tokens_per_second": 99406.02936232208,
+        "samples_per_second": 224.1398632746834,
         "gpu_utilization_percent": 90.0,
         "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 4.917,
-        "step_time_p95_ms": 6.457,
-        "vram_peak_gb": 0.17871856689453125,
+        "step_time_p50_ms": 4.237,
+        "step_time_p95_ms": 4.686,
+        "vram_peak_gb": 0.23620223999023438,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 45767.5400035168,
-        "samples_per_second": 186.39001230877443,
+        "tokens_per_second": 107358.51171130784,
+        "samples_per_second": 237.5882550711644,
         "gpu_utilization_percent": 92.5,
         "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 4.52364,
-        "step_time_p95_ms": 5.94044,
-        "vram_peak_gb": 0.1858673095703125,
+        "step_time_p50_ms": 3.8980400000000004,
+        "step_time_p95_ms": 4.31112,
+        "vram_peak_gb": 0.24565032958984376,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 51259.64480393882,
-        "samples_per_second": 205.02901353965188,
+        "tokens_per_second": 120241.5331166648,
+        "samples_per_second": 261.3470805782809,
         "gpu_utilization_percent": 95.0,
         "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 4.1165124,
-        "step_time_p95_ms": 5.4058003999999995,
-        "vram_peak_gb": 0.19144332885742188,
+        "step_time_p50_ms": 3.5472164000000004,
+        "step_time_p95_ms": 3.9231192,
+        "vram_peak_gb": 0.2530198394775391,
         "cost_per_accepted_sample": 0.0
       }
     }
@@ -46,18 +46,18 @@
     "artifact_path": "12-AZ-IP/20-psicat-navigator/training/training_execution/lane_e_runtime_profiles.json",
     "stage_b_summary": {
       "total": 2,
-      "passed": 0,
-      "failed": 2,
-      "promotion_gate_pass": false,
-      "kernel_gate_pass": false,
+      "passed": 2,
+      "failed": 0,
+      "promotion_gate_pass": true,
+      "kernel_gate_pass": true,
       "domain_gate_pass": false
     },
     "stage_c_summary": {
       "total": 2,
-      "passed": 0,
-      "failed": 2,
-      "promotion_gate_pass": false,
-      "kernel_gate_pass": false,
+      "passed": 2,
+      "failed": 0,
+      "promotion_gate_pass": true,
+      "kernel_gate_pass": true,
       "domain_gate_pass": false
     }
   }

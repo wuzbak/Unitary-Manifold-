@@ -19,7 +19,7 @@ from ox_navigator.engine.merlin_program import get_mlflow_experiment_manifests
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Export Merlin MLflow experiment manifests.")
-    parser.add_argument("--limit", type=int, default=12, help="Optional seed example limit")
+    parser.add_argument("--limit", type=int, default=0, help="Optional seed example limit; 0 exports the full governed corpus")
     parser.add_argument(
         "--output-dir",
         type=str,

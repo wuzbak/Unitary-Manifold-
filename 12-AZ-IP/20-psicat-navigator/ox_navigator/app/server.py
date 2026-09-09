@@ -621,7 +621,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/training-architecture':
-                limit, error = _parse_int_query_param(params, 'limit', 12)
+                limit, error = _parse_int_query_param(params, 'limit', 0)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
@@ -632,7 +632,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/training-dataset':
-                limit, error = _parse_int_query_param(params, 'limit', 12)
+                limit, error = _parse_int_query_param(params, 'limit', 0)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
@@ -642,7 +642,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/training-curation':
-                limit, error = _parse_int_query_param(params, 'limit', 12)
+                limit, error = _parse_int_query_param(params, 'limit', 0)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
@@ -855,7 +855,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/mlflow-manifests':
-                limit, error = _parse_int_query_param(params, 'limit', 12)
+                limit, error = _parse_int_query_param(params, 'limit', 0)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
@@ -1121,7 +1121,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/training-artifacts':
-                limit, error = _parse_int_query_param(params, 'limit', 12)
+                limit, error = _parse_int_query_param(params, 'limit', 0)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return

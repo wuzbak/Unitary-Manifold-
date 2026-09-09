@@ -192,6 +192,7 @@ def _build_grounded_prompt(
     persona_mode: str,
     fourth_wall: bool,
     deterministic_body: str,
+    lane: str,
 ) -> str:
     context_blocks: list[str] = []
     kb_match = dict(context.get("kb_match") or {})
@@ -220,11 +221,17 @@ def _build_grounded_prompt(
     grounded_context = "\n\n".join(context_blocks) if context_blocks else "No retrieved context was available for this turn."
     persona_line = f"Persona mode: {persona_mode}."
     fourth_wall_line = "Fourth-wall explanations requested." if fourth_wall else "No fourth-wall framing requested."
+    lane_guidance = (
+        "Heavy-lane policy: reconcile conflicting evidence, preserve typed provenance, keep escalation bounded, and state rollback or demotion triggers explicitly."
+        if lane == "heavy_reasoner_exception"
+        else "Lane policy: stay concise, grounded, and contract-complete."
+    )
     return "\n\n".join(
         [
             "You are Merlin running in sovereign local mode. Stay grounded in repository evidence and preserve explicit gate labels and uncertainty.",
             persona_line,
             fourth_wall_line,
+            lane_guidance,
             f"User query:\n{query}",
             f"Repository context:\n{grounded_context}",
             f"Deterministic fallback baseline:\n{deterministic_body}",
@@ -281,6 +288,7 @@ async def generate_inference_response(
                 persona_mode=persona_mode,
                 fourth_wall=fourth_wall,
                 deterministic_body=str(deterministic.get("body") or ""),
+                lane=lane,
             ),
             temperature=temperature,
         )

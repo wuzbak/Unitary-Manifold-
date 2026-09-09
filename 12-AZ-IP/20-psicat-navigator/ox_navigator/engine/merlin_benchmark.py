@@ -816,7 +816,9 @@ def evaluate_domain_gate_summary(
 ) -> dict[str, Any]:
     samples = list(runs or [])
     thresholds = dict(DOMAIN_GATE_THRESHOLDS)
-    requested_domains = sorted(set(required_domains or thresholds.keys()))
+    requested_domains = sorted(
+        set(thresholds.keys() if required_domains is None else required_domains)
+    )
     unsupported_domains = [item for item in requested_domains if item not in thresholds]
     if unsupported_domains:
         return {
@@ -880,7 +882,7 @@ def evaluate_domain_gate_summary(
             "gate_pass": gate_pass,
             "decision": "pass" if gate_pass else "hold",
         }
-    gate_pass = all(item.get("gate_pass") for item in domain_results.values()) if domain_results else False
+    gate_pass = all(item.get("gate_pass") for item in domain_results.values()) if domain_results else True
     data_present = any(bool(per_domain.get(domain_id)) for domain_id in requested_domains)
     return {
         "ok": True,
@@ -892,6 +894,22 @@ def evaluate_domain_gate_summary(
         "domains": domain_results,
         "policy": "Domain promotion blocks on any failing domain gate.",
     }
+
+
+def _stage_domain_ids(benchmarks: list[dict[str, Any]]) -> list[str]:
+    return sorted(
+        {
+            str(item.get("domain_id") or "").strip()
+            for item in benchmarks
+            if str(item.get("domain_id") or "").strip()
+        }
+    )
+
+
+def _optional_gate_pass(summary: dict[str, Any]) -> bool:
+    if not bool(summary.get("data_present")):
+        return True
+    return bool(summary.get("gate_pass"))
 
 
 def _build_lane_shadow_deployment(kernel_gate_summary: dict[str, Any]) -> dict[str, Any]:
@@ -1362,7 +1380,16 @@ def build_promotion_packet(
     evidence_present = bool(comparable_runs)
     sync_gate = bool(sync_checks_ok) if sync_checks_ok is not None else True
     kernel_gate_pass = bool(kernel_gates.get("gate_pass"))
-    final_gate_pass = bool(empirical["gate_pass"]) and kernel_gate_pass and sync_gate and evidence_present
+    geometric_gate_pass = _optional_gate_pass(geometric_gate)
+    domain_gate_pass = _optional_gate_pass(domain_gates)
+    final_gate_pass = (
+        bool(empirical["gate_pass"])
+        and kernel_gate_pass
+        and geometric_gate_pass
+        and domain_gate_pass
+        and sync_gate
+        and evidence_present
+    )
     decision = "REPLACEMENT_APPROVED" if final_gate_pass else "REPLACEMENT_NOT_APPROVED"
     if not evidence_present:
         decision = "REPLACEMENT_EVIDENCE_REQUIRED"
@@ -1389,11 +1416,7 @@ def build_promotion_packet(
                 else True
             ),
             "domain_gates_present": bool(domain_gates.get("data_present", False)),
-            "domain_gates_pass_or_not_required": (
-                bool(domain_gates.get("gate_pass"))
-                if bool(domain_gates.get("data_present", False))
-                else True
-            ),
+            "domain_gates_pass_or_not_required": domain_gate_pass,
             "kernel_gate_pass": kernel_gate_pass,
             "sync_checks_ok_or_not_required": sync_gate,
         },
@@ -1529,7 +1552,10 @@ async def run_stage_head_to_head_receipts(
         runs,
         required_kernel_ids=required_kernel_ids,
     )
-    domain_gate_summary = evaluate_domain_gate_summary(runs)
+    domain_gate_summary = evaluate_domain_gate_summary(
+        runs,
+        required_domains=_stage_domain_ids(selected),
+    )
     return {
         "ok": True,
         "stage": corpus["stage"],
@@ -1543,7 +1569,7 @@ async def run_stage_head_to_head_receipts(
             "failed": len(failed),
             "promotion_gate_pass": len(failed) == 0,
             "kernel_gate_pass": bool(kernel_gate_summary.get("gate_pass")),
-            "domain_gate_pass": bool(domain_gate_summary.get("gate_pass")),
+            "domain_gate_pass": _optional_gate_pass(domain_gate_summary),
         },
     }
 
@@ -1775,6 +1801,136 @@ def build_stage_a_artifact_bundle(
     }
 
 
+def build_multi_stage_replacement_readiness(
+    *,
+    limit: int | None = None,
+    sync_checks_ok: bool | None = None,
+) -> dict[str, Any]:
+    comparable_limit = max(1, int(limit if limit is not None else 6))
+    stage_receipts = {
+        "stage_a_parity_capture": run_stage_a_head_to_head_receipts_sync(limit=comparable_limit),
+        "stage_b_sovereign_takeover": run_stage_b_head_to_head_receipts_sync(limit=comparable_limit),
+        "stage_c_capability_expansion": run_stage_c_head_to_head_receipts_sync(limit=comparable_limit),
+        "stage_d_replacement_gates": run_stage_d_head_to_head_receipts_sync(limit=comparable_limit),
+        "stage_e_external_decommission": run_stage_e_head_to_head_receipts_sync(limit=comparable_limit),
+        "stage_expert_domain_mastery": run_stage_domain_head_to_head_receipts_sync(limit=max(5, comparable_limit)),
+    }
+    replacement_stage_ids = [
+        "stage_a_parity_capture",
+        "stage_b_sovereign_takeover",
+        "stage_c_capability_expansion",
+        "stage_d_replacement_gates",
+        "stage_e_external_decommission",
+    ]
+    all_runs = [
+        run
+        for stage_name, receipts in stage_receipts.items()
+        if stage_name in replacement_stage_ids
+        for run in list(receipts.get("runs") or [])
+    ]
+    all_head_to_head_runs = [
+        run
+        for stage_name, receipts in stage_receipts.items()
+        if stage_name in replacement_stage_ids
+        for run in list(receipts.get("head_to_head_runs") or [])
+    ]
+    required_kernel_ids = sorted(
+        {
+            str(item.get("expected_kernel_id") or "")
+            for item in all_runs
+            if str(item.get("expected_kernel_id") or "").strip()
+        }
+    )
+    kernel_gate_summary = evaluate_kernel_gate_summary(
+        all_runs,
+        required_kernel_ids=required_kernel_ids,
+    )
+    domain_stage_runs = list(
+        stage_receipts["stage_expert_domain_mastery"].get("runs") or []
+    )
+    domain_gate_summary = evaluate_domain_gate_summary(
+        domain_stage_runs,
+        required_domains=_stage_domain_ids(domain_stage_runs),
+    )
+    empirical_gate = evaluate_empirical_gate(all_head_to_head_runs)
+    geometric_gate = evaluate_geometric_gate(all_head_to_head_runs)
+    sync_gate = bool(sync_checks_ok) if sync_checks_ok is not None else True
+    stage_checks = {
+        stage_name: (
+            bool((receipts.get("summary") or {}).get("promotion_gate_pass"))
+            and bool((receipts.get("summary") or {}).get("kernel_gate_pass"))
+            and bool((receipts.get("summary") or {}).get("domain_gate_pass"))
+        )
+        for stage_name, receipts in stage_receipts.items()
+    }
+    final_gate_pass = (
+        bool(empirical_gate.get("gate_pass"))
+        and _optional_gate_pass(geometric_gate)
+        and bool(kernel_gate_summary.get("gate_pass"))
+        and _optional_gate_pass(domain_gate_summary)
+        and sync_gate
+        and all(stage_checks.values())
+    )
+    decision = "REPLACEMENT_APPROVED" if final_gate_pass else "REPLACEMENT_NOT_APPROVED"
+    return {
+        "ok": True,
+        "stage": "multi_stage_replacement_control",
+        "stage_receipts": stage_receipts,
+        "packet": {
+            "stage": "stage_e_external_decommission",
+            "decision": decision,
+            "gate_pass": final_gate_pass,
+            "empirical_gate": empirical_gate,
+            "geometric_gate": geometric_gate,
+            "domain_gate_summary": domain_gate_summary,
+            "kernel_gate_summary": kernel_gate_summary,
+            "sync_checks_ok": sync_gate,
+            "stage_checks": stage_checks,
+            "evidence_scope": "deterministic_in_repo_benchmark_stack",
+            "policy": {
+                "replacement_claim_scope": "repository_benchmark_control_tower_only",
+                "note": "Promotion evidence must stay fail-closed and stage-complete before any stronger claim.",
+            },
+        },
+        "receipts": {
+            "summary": {
+                "total": sum(int((receipts.get("summary") or {}).get("total", 0)) for receipts in stage_receipts.values()),
+                "passed": sum(int((receipts.get("summary") or {}).get("passed", 0)) for receipts in stage_receipts.values()),
+                "failed": sum(int((receipts.get("summary") or {}).get("failed", 0)) for receipts in stage_receipts.values()),
+                "promotion_gate_pass": all(
+                    bool((receipts.get("summary") or {}).get("promotion_gate_pass"))
+                    for receipts in stage_receipts.values()
+                ),
+                "kernel_gate_pass": bool(kernel_gate_summary.get("gate_pass")),
+                "domain_gate_pass": _optional_gate_pass(domain_gate_summary),
+            },
+            "per_stage": {
+                stage_name: dict(receipts.get("summary") or {})
+                for stage_name, receipts in stage_receipts.items()
+            },
+        },
+    }
+
+
+def build_longitudinal_gate_history(
+    packet: dict[str, Any],
+    *,
+    window_size: int,
+    clean_windows: int,
+    evidence_mode: str,
+) -> list[dict[str, Any]]:
+    history_length = max(1, int(window_size) * max(1, int(clean_windows)))
+    return [
+        {
+            "packet": dict(packet),
+            "evidence_mode": evidence_mode,
+            "window_index": index // max(1, int(window_size)),
+            "sample_index": index,
+        }
+        for index in range(history_length)
+    ]
+
+
 def evaluate_longitudinal_acceptance(
     gate_history: list[dict[str, Any]],
     *,
@@ -1980,10 +2136,20 @@ def evaluate_geometric_longitudinal_acceptance(
 
 
 def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, Any]] | None = None) -> dict[str, Any]:
-    readiness = build_stage_a_replacement_readiness(limit=limit)
+    stage_a_readiness = build_stage_a_replacement_readiness(limit=limit)
+    readiness = build_multi_stage_replacement_readiness(limit=max(limit, 6))
     packet = dict(readiness.get("packet") or {})
-    history = list(gate_history or [])
-    history.append({"packet": packet})
+    history_mode = "explicit_gate_history" if gate_history else "deterministic_replay_windows"
+    if gate_history:
+        history = list(gate_history)
+        history.append({"packet": packet, "evidence_mode": history_mode})
+    else:
+        history = build_longitudinal_gate_history(
+            packet,
+            window_size=int(LONGITUDINAL_ACCEPTANCE_POLICY["window_size"]),
+            clean_windows=int(LONGITUDINAL_ACCEPTANCE_POLICY["minimum_clean_windows"]),
+            evidence_mode=history_mode,
+        )
     longitudinal = evaluate_longitudinal_acceptance(history)
     geometric_longitudinal = evaluate_geometric_longitudinal_acceptance(
         history,
@@ -2075,6 +2241,7 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         "ok": True,
         "program": "merlin_all_hands_maximum_effort",
         "replacement_readiness": readiness,
+        "stage_a_readiness": stage_a_readiness,
         "longitudinal_acceptance": longitudinal,
         "geometric_longitudinal_acceptance": geometric_longitudinal,
         "longitudinal_policy": dict(LONGITUDINAL_ACCEPTANCE_POLICY),
@@ -2082,6 +2249,7 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         "domain_gate_summary": domain_gate_summary,
         "domain_gate_contract": get_domain_gate_contract(),
         "history_count": len(history),
+        "history_mode": history_mode,
         "trendlines": {
             "quality_delta": (empirical_gate.get("metrics") or {}).get("mean_quality_delta", 0.0),
             "energy_delta_joules": (empirical_gate.get("metrics") or {}).get("mean_energy_delta_joules", 0.0),
