@@ -758,9 +758,18 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
+                refresh_raw = str((params.get('refresh_lane_e_profiles') or ['false'])[0]).strip().lower()
+                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
+                    self._json({'ok': False, 'error': "Parameter 'refresh_lane_e_profiles' must be a boolean-like value."}, status=400)
+                    return
+                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
                 self._json({
                 'ok': True,
-                'training_execution_bundle': build_merlin_training_execution_bundle(session=merlin_session, limit=limit),
+                'training_execution_bundle': build_merlin_training_execution_bundle(
+                    session=merlin_session,
+                    limit=limit,
+                    refresh_lane_e_profiles=refresh,
+                ),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

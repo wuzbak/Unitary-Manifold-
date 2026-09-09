@@ -79,9 +79,10 @@ def test_merlin_training_challenge_pack_prioritizes_rework():
 
 def test_merlin_training_execution_bundle_reuses_retained_state():
     session = MerlinSession()
-    first = build_merlin_training_execution_bundle(session=session)
+    first = build_merlin_training_execution_bundle(session=session, refresh_lane_e_profiles=True)
     assert first["execution_cycle"]["processed_count"] >= 1
     assert first["training_challenge_pack"]["challenge_count"] >= 1
+    assert first["lane_e_profile_refresh_requested"] is True
     assert first["lane_e_runtime_profile_artifact_path"].endswith("lane_e_runtime_profiles.json")
     assert "lane_e_runtime_profiles" in first
 

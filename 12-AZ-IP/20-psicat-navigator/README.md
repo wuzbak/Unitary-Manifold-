@@ -104,6 +104,7 @@ Related reading outside this product folder:
 - `POST /api/psicat/performance-gate-evaluate` evaluates baseline vs candidate training receipts and returns pass/hold against Lane E throughput and regression gates.
 - `GET /api/psicat/training-execution-queue` exposes the live retained-training queue state across applications/tools, books/articles, adversarial self-correction, the formal proof-foundry lane, and the performance lane.
 - `GET /api/psicat/training-execution-bundle` exposes the retained training execution bundle directly, including lane progress, challenge pack, execution-cycle snapshot, and Lane E runtime profile evidence payload.
+- `GET /api/psicat/training-execution-bundle` accepts optional `refresh_lane_e_profiles=true` to force fresh Lane E runtime profile recapture in that bundle.
 - `GET /api/psicat/lane-e-runtime-profiles` exposes Lane E runtime profile artifact metadata/payload directly, with optional `refresh` recapture mode (`true/false`).
 - `GET /api/psicat/lane-progress-ledgers` exposes automated per-lane completion ledgers and recent retained receipts.
 - `POST /api/psicat/training-cycle` executes queued multi-lane training work, including proof-foundry ingestion, and retains auditable receipts in PsiCat session memory.
@@ -154,7 +155,7 @@ Related reading outside this product folder:
 - Training artifact export: `python tools/export_merlin_training_artifacts.py` (default output: `training/training_artifacts/training_artifacts.json`).
 - JSONL dataset export: `python tools/export_merlin_training_jsonl.py` (default output: `training/training_jsonl/`).
 - MLflow manifest export: `python tools/export_merlin_mlflow_manifests.py` (default output: `training/mlflow_manifests/mlflow_manifests.json`).
-- Retained training execution export: `python tools/export_merlin_training_execution.py` (default output: `training/training_execution/three_lane_execution_bundle.json`).
+- Retained training execution export: `python tools/export_merlin_training_execution.py` (default output: `training/training_execution/three_lane_execution_bundle.json`; add `--refresh-lane-e-profiles` to force profile recapture).
 - Lane E runtime profile export: `python tools/export_merlin_lane_e_runtime_profiles.py` (default output: `training/training_execution/lane_e_runtime_profiles.json`; add `--refresh` to force recapture).
 - Lane E runtime benchmark profile artifact is persisted at `training/training_execution/lane_e_runtime_profiles.json` for cross-session evidence reuse.
 - MLflow experiment receipt runner: `python tools/run_merlin_mlflow_experiment.py --experiment merlin_stage_b_shadow_eval --limit 3 --output /tmp/merlin-stage-b-receipts.json`.

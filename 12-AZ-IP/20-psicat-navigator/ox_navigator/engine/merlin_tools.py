@@ -157,6 +157,14 @@ _LIMIT_SYNC_ARGS_SCHEMA = {
     },
     "additionalProperties": False,
 }
+_LIMIT_REFRESH_ARGS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "limit": {"type": "integer"},
+        "refresh_lane_e_profiles": {"type": "boolean"},
+    },
+    "additionalProperties": False,
+}
 
 MERLIN_SESSION_SCHEMA = {
     "title": "MerlinSession",
@@ -432,7 +440,7 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinContinuousLearningProtocol": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinTrainingExecutionBundle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingExecutionBundle": {"args_schema": _LIMIT_REFRESH_ARGS_SCHEMA},
         "getMerlinLaneERuntimeProfiles": {
             "args_schema": {
                 "type": "object",
@@ -1035,6 +1043,7 @@ _FUNCTIONS = {
     "getMerlinTrainingExecutionBundle": lambda **args: {"data": build_merlin_training_execution_bundle(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=args.get("limit"),
+        refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
     )},
     "getMerlinLaneERuntimeProfiles": lambda **args: {"data": get_merlin_lane_e_runtime_profiles(
         refresh=bool(args.get("refresh", False)),

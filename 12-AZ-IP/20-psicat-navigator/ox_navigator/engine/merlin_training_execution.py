@@ -1202,8 +1202,14 @@ def run_merlin_training_cycle(*, session: MerlinSession, limit: int | None = Non
     }
 
 
-def build_merlin_training_execution_bundle(*, session: MerlinSession, limit: int | None = None) -> dict[str, Any]:
-    lane_e_runtime_profiles = _build_lane_e_runtime_profiles()
+def build_merlin_training_execution_bundle(
+    *,
+    session: MerlinSession,
+    limit: int | None = None,
+    refresh_lane_e_profiles: bool = False,
+) -> dict[str, Any]:
+    lane_e_profile_payload = get_merlin_lane_e_runtime_profiles(refresh=bool(refresh_lane_e_profiles))
+    lane_e_runtime_profiles = dict(lane_e_profile_payload.get("runtime_profiles") or {})
     queue_state = build_merlin_training_execution_queue(session=session, limit=None)
     if (
         any(str(item.get("status") or "") == "completed" for item in session.training_execution_receipts)
@@ -1228,8 +1234,9 @@ def build_merlin_training_execution_bundle(*, session: MerlinSession, limit: int
         "ok": True,
         "generated_at": _utcnow(),
         "artifact_path": _repo_rel(EXECUTION_ARTIFACT_PATH),
-        "lane_e_runtime_profile_artifact_path": _repo_rel(LANE_E_PROFILE_ARTIFACT_PATH),
-        "lane_e_runtime_profile_artifact_exists": LANE_E_PROFILE_ARTIFACT_PATH.exists(),
+        "lane_e_profile_refresh_requested": bool(refresh_lane_e_profiles),
+        "lane_e_runtime_profile_artifact_path": str(lane_e_profile_payload.get("artifact_path") or _repo_rel(LANE_E_PROFILE_ARTIFACT_PATH)),
+        "lane_e_runtime_profile_artifact_exists": bool(lane_e_profile_payload.get("artifact_exists", LANE_E_PROFILE_ARTIFACT_PATH.exists())),
         "lane_e_runtime_profiles": lane_e_runtime_profiles,
         "training_execution_queue": build_merlin_training_execution_queue(session=session, limit=24),
         "lane_progress_ledgers": get_merlin_lane_progress_ledgers(session=session, limit=5),

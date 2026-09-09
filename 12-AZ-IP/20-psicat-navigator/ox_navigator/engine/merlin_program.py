@@ -1823,7 +1823,7 @@ def run_sync_checks() -> dict[str, Any]:
         "tools/export_merlin_training_artifacts.py": ["build_training_artifact_bundle", "--output"],
         "tools/export_merlin_training_jsonl.py": ["build_training_dataset_bundle", "--output-dir"],
         "tools/export_merlin_mlflow_manifests.py": ["get_mlflow_experiment_manifests", "--output-dir"],
-        "tools/export_merlin_training_execution.py": ["build_merlin_training_execution_bundle", "--output"],
+        "tools/export_merlin_training_execution.py": ["build_merlin_training_execution_bundle", "--output", "--refresh-lane-e-profiles"],
         "tools/export_merlin_lane_e_runtime_profiles.py": ["get_merlin_lane_e_runtime_profiles", "--output"],
     }
     for rel in REQUIRED_EXPORT_SCRIPTS:

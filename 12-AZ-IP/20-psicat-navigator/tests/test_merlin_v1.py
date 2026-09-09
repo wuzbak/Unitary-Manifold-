@@ -171,12 +171,17 @@ def test_export_training_execution_script(tmp_path, monkeypatch):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     output_path = tmp_path / 'training_execution.json'
-    monkeypatch.setattr(sys, 'argv', ['export_merlin_training_execution.py', '--limit', '3', '--output', str(output_path)])
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_merlin_training_execution.py', '--limit', '3', '--refresh-lane-e-profiles', '--output', str(output_path)],
+    )
     assert module.main() == 0
     payload = json.loads(output_path.read_text())
     assert payload['ok'] is True
     assert payload['execution_cycle']['processed_count'] == 3
     assert payload['lane_progress_ledgers']['overall']['completed_count'] == 3
+    assert payload['lane_e_profile_refresh_requested'] is True
 
 
 def test_export_lane_e_runtime_profiles_script(tmp_path, monkeypatch):
@@ -580,10 +585,15 @@ def test_route_tool_training_architecture_and_artifacts():
     execution_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 4}, session=session)
     assert execution_queue['ok'] is True
     assert execution_queue['result']['data']['queued_count'] >= 4
-    execution_bundle = route_tool('getMerlinTrainingExecutionBundle', {'limit': 3}, session=session)
+    execution_bundle = route_tool(
+        'getMerlinTrainingExecutionBundle',
+        {'limit': 3, 'refresh_lane_e_profiles': True},
+        session=session,
+    )
     assert execution_bundle['ok'] is True
     assert execution_bundle['result']['data']['ok'] is True
     assert execution_bundle['result']['data']['execution_cycle']['processed_count'] == 3
+    assert execution_bundle['result']['data']['lane_e_profile_refresh_requested'] is True
     assert execution_bundle['result']['data']['lane_e_runtime_profile_artifact_path'].endswith(
         'lane_e_runtime_profiles.json'
     )
@@ -1994,14 +2004,17 @@ def test_server_merlin_endpoints():
             assert training_execution_queue.status_code == 200
             assert training_execution_queue.json()['ok'] is True
             assert training_execution_queue.json()['training_execution_queue']['queued_count'] >= 4
-            training_execution_bundle = client.get('/api/merlin/training-execution-bundle?limit=3')
+            training_execution_bundle = client.get('/api/merlin/training-execution-bundle?limit=3&refresh_lane_e_profiles=true')
             assert training_execution_bundle.status_code == 200
             assert training_execution_bundle.json()['ok'] is True
             assert training_execution_bundle.json()['training_execution_bundle']['ok'] is True
             assert training_execution_bundle.json()['training_execution_bundle']['execution_cycle']['processed_count'] == 3
+            assert training_execution_bundle.json()['training_execution_bundle']['lane_e_profile_refresh_requested'] is True
             assert training_execution_bundle.json()['training_execution_bundle']['lane_e_runtime_profile_artifact_path'].endswith(
                 'lane_e_runtime_profiles.json'
             )
+            bad_training_execution_bundle_refresh = client.get('/api/merlin/training-execution-bundle?refresh_lane_e_profiles=maybe')
+            assert bad_training_execution_bundle_refresh.status_code == 400
             lane_e_runtime_profiles = client.get('/api/merlin/lane-e-runtime-profiles')
             assert lane_e_runtime_profiles.status_code == 200
             assert lane_e_runtime_profiles.json()['ok'] is True
