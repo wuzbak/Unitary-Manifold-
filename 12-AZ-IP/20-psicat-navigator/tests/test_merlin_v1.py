@@ -112,6 +112,10 @@ def test_export_training_artifacts_script(tmp_path, monkeypatch):
     payload = json.loads(output_path.read_text())
     assert payload['ok'] is True
     assert payload['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
+    assert payload['artifact_bundle']['training_execution_bundle_preview']['ok'] is True
+    assert payload['artifact_bundle']['training_execution_bundle_preview']['lane_e_runtime_profile_artifact_path'].endswith(
+        'lane_e_runtime_profiles.json'
+    )
 
 
 def test_export_training_jsonl_script(tmp_path, monkeypatch):
@@ -2073,6 +2077,10 @@ def test_server_merlin_endpoints():
             assert training_artifacts.status_code == 200
             assert training_artifacts.json()['ok'] is True
             assert training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 4
+            assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview']['ok'] is True
+            assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview'][
+                'lane_e_runtime_profile_artifact_path'
+            ].endswith('lane_e_runtime_profiles.json')
 
             empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
             assert empty_training_artifacts.status_code == 200

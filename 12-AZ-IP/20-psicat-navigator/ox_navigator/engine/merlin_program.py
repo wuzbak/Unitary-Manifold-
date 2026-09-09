@@ -6027,6 +6027,8 @@ def build_training_artifact_bundle(
     compiled_insights: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     from .merlin_benchmark import build_stage_a_artifact_bundle
+    from .merlin_memory import MerlinSession
+    from .merlin_training_execution import build_merlin_training_execution_bundle
 
     training_architecture = get_training_architecture(limit=limit)
     dataset_bundle = build_training_dataset_bundle(limit=limit, compiled_insights=compiled_insights)
@@ -6036,6 +6038,10 @@ def build_training_artifact_bundle(
             "error": dataset_bundle.get("error", "Unable to build training dataset bundle."),
         }
     stage_a_limit = limit if limit is None else max(0, int(limit))
+    training_execution_bundle = build_merlin_training_execution_bundle(
+        session=MerlinSession(),
+        limit=stage_a_limit,
+    )
     return {
         "ok": True,
         "artifact_bundle": {
@@ -6063,6 +6069,7 @@ def build_training_artifact_bundle(
                 "training_cycle_runner": "runMerlinTrainingCycle",
                 "challenge_pack": "getMerlinTrainingChallengePack",
             },
+            "training_execution_bundle_preview": training_execution_bundle,
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
             "artifact_policy": {
                 "promotion_rule": "Training artifacts inform promotion, but do not replace empirical benchmark gates.",

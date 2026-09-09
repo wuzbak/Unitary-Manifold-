@@ -135,7 +135,7 @@ This document records the implemented execution blueprint for making Merlin the 
 12. Weekly/monthly/quarterly governance rhythm is implemented in `get_operating_rhythm()`.
 13. Hard replacement exit criteria are implemented in `get_exit_criteria()`.
 14. Competitive benchmark families and promotion metrics are implemented in `get_competitive_benchmark_plan()`.
-15. External open-science augmentation registry and governed training artifact bundle are implemented in `get_open_science_resource_registry()` and `build_training_artifact_bundle()`.
+15. External open-science augmentation registry and governed training artifact bundle are implemented in `get_open_science_resource_registry()` and `build_training_artifact_bundle()`, now including retained training-execution preview payloads with Lane E evidence visibility.
 16. Actual train/dev/test JSONL-ready dataset generation is implemented in `build_training_dataset_bundle()`.
 17. MLflow-ready experiment manifests are implemented in `get_mlflow_experiment_manifests()`, with runnable receipt execution in `tools/run_merlin_mlflow_experiment.py`.
 18. Broader Stage B/C benchmark corpora are implemented in `get_stage_b_benchmark_corpus()`, `get_stage_c_benchmark_corpus()`, and `get_benchmark_corpus()`.

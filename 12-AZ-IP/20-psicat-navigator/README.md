@@ -123,7 +123,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/execution-board` exposes the follow-on execution board with immediate tasks, blocker register, validation resilience, and Sprint CL blunt board.
 - `GET /api/psicat/validation-resilience` exposes the dedicated validation resilience packet with repo-size mitigation actions, CodeQL scope-reduction phases, and fail-closed review doctrine.
 - `GET /api/psicat/benchmark-artifacts` exports the receipts plus readiness state as a CI-friendly artifact bundle.
-- `GET /api/psicat/training-artifacts` exports the training architecture, competitive benchmark plan, open-science registry, and Stage A baseline as one governed bundle.
+- `GET /api/psicat/training-artifacts` exports the training architecture, competitive benchmark plan, open-science registry, Stage A baseline, and a retained training-execution bundle preview (including Lane E runtime profile evidence) as one governed bundle.
 - `GET /api/psicat/promotion-packet` preserves the legacy promotion-packet contract while `replacement-readiness` exposes the new concrete receipt-backed surface.
 - Program discovery includes `getPsiCatProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
 - Mentorship sprint discovery surfaces are now first-class: `getPsiCatMentorshipSprintCharter`, `getPsiCatFacultyMatrix`, `getPsiCatKnowledgeTransferCycles`, `getPsiCatLibraryAndStudy`, `getPsiCatExchangeProtocol`, `getPsiCatMentorshipClosureContract`, `getPsiCatProofFirstClosureCharter`, `getPsiCatKawamuraBurdenLedger`, and `getPsiCatCrossReviewPacket`.
