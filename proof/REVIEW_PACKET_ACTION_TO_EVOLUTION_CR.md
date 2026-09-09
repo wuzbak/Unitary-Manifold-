@@ -21,11 +21,11 @@ Key honesty boundary:
 
 ## Specific current blockers (non-trivial)
 
-1. **Checkable action functional is missing** — no explicit candidate action with boundary terms is currently validated.
+1. **Checkable action functional is now surfaced** — a bounded candidate action with explicit fields, assumptions, and boundary terms is now machine-readable.
 2. **Verified Euler-Lagrange match is missing** — no term-by-term derivation currently reproduces implemented metric/gauge/scalar flow terms.
 3. **Fixed time/domain promotion boundary is missing** — assumptions are explicit but not yet fixed for promotion.
 
-These are theorem-grade scientific blockers, not paperwork blockers.
+The remaining blockers are theorem-grade scientific blockers, not paperwork blockers.
 
 ## Dead-ends and retained wins
 
@@ -34,6 +34,7 @@ Dead-end / no-go paths already learned:
 - Partial term overlap without a residual table is insufficient for promotion.
 
 Wins to retain:
+- Candidate action surface is now explicit and checkable (without claiming closure).
 - Blockers are now exact and machine-readable.
 - Failure routes produce blocker certificates instead of narrative drift.
 - Support-track evidence can still be harvested without closure inflation.

@@ -6,6 +6,10 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
+from src.core.action_to_evolution_action_candidate import (
+    candidate_action_surface_receipt,
+    checkable_action_functional_candidate,
+)
 from src.core.evolution import implemented_flow_equation_surface, phenomenological_flow_boundary
 
 PRIMARY_DELIVERABLE_IDS: List[str] = [
@@ -24,18 +28,28 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
     """Return the exact open contract for promotion-grade action/evolution work."""
     boundary = phenomenological_flow_boundary()
     flow_surface = implemented_flow_equation_surface()
+    action_candidate = checkable_action_functional_candidate()
+    action_receipt = candidate_action_surface_receipt()
+
     deliverables = [
         {
             "id": PRIMARY_DELIVERABLE_IDS[0],
             "label": "Checkable action functional",
-            "earned": False,
-            "status": "OPEN_BLOCKER",
+            "earned": bool(action_receipt["checkable_action_deliverable_earned"]),
+            "status": "EVIDENCE_SURFACED" if action_receipt["checkable_action_deliverable_earned"] else "OPEN_BLOCKER",
             "required_evidence": [
                 "Explicit action density for the implemented fields",
                 "Named dynamical variables and boundary terms",
                 "Stated assumptions for every nonminimal coupling and source term",
             ],
-            "current_gap": "No checked action functional is currently surfaced for the implemented flow.",
+            "current_gap": (
+                "Checkable action surface is now explicit; full closure still requires Euler-Lagrange match "
+                "and fixed promotion boundary."
+                if action_receipt["checkable_action_deliverable_earned"]
+                else "No checked action functional is currently surfaced for the implemented flow."
+            ),
+            "candidate_action_surface": action_candidate,
+            "candidate_action_receipt": action_receipt,
         },
         {
             "id": PRIMARY_DELIVERABLE_IDS[1],
@@ -68,8 +82,10 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
             ),
         },
     ]
+    remaining_blockers = [item["id"] for item in deliverables if not item["earned"]]
+    promotion_ready = len(remaining_blockers) == 0
     return {
-        "status": "OPEN",
+        "status": "OPEN" if not promotion_ready else "CLOSURE_READY",
         "focus": "ACTION_TO_EVOLUTION_EQUIVALENCE",
         "primary_deliverables": deliverables,
         "implemented_flow_surface": flow_surface,
@@ -82,8 +98,8 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
             "Promotion is allowed only if the three primary deliverables are all earned and the "
             "verified perimeter is stated without proxy or closure inflation."
         ),
-        "remaining_blockers": list(PRIMARY_DELIVERABLE_IDS),
-        "promotion_ready": False,
+        "remaining_blockers": remaining_blockers,
+        "promotion_ready": promotion_ready,
     }
 
 

@@ -27,8 +27,9 @@ def test_blocking_analysis_is_specific_and_non_trivial() -> None:
     report = lane1_action_to_evolution_closure_attempt()
     analysis = report['blocking_analysis']
     assert analysis['non_triviality_guard']['all_blockers_non_trivial'] is True
-    assert analysis['non_triviality_guard']['blocker_count'] == 3
+    assert analysis['non_triviality_guard']['blocker_count'] == 2
     assert len(analysis['specific_blockers']) == 3
+    assert analysis['non_triviality_guard']['evidence_gap_count'] == 2
     for item in analysis['specific_blockers']:
         assert item['is_trivial_block'] is False
         assert item['required_evidence']

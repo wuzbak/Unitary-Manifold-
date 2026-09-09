@@ -88,8 +88,8 @@ def lane1_action_to_evolution_closure_attempt() -> Dict[str, Any]:
             'specific_blockers': diagnostics,
             'non_triviality_guard': {
                 'all_blockers_non_trivial': all(not item['is_trivial_block'] for item in diagnostics),
-                'blocker_count': len(diagnostics),
-                'evidence_gap_count': sum(1 for item in diagnostics if not item['earned']),
+                'blocker_count': len(list(contract.get('remaining_blockers') or [])),
+                'evidence_gap_count': sum(1 for item in diagnostics if item.get('status') == 'OPEN_BLOCKER'),
             },
         },
         'process_progress': {
