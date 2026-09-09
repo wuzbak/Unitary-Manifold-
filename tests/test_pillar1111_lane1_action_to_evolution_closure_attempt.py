@@ -22,7 +22,7 @@ def test_contract() -> None:
     assert report['outcome'] in {'LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_READY', 'LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_BLOCKED'}
     assert report['unit_outcome'] in {'CLOSED_NOW', 'TIGHTENED_WITH_EXPLICIT_BLOCKER'}
     assert report['closure_attempt']['candidate_action_status'] == 'EVIDENCE_SURFACED'
-    assert report['closure_attempt']['euler_lagrange_match_status'] == 'EVIDENCE_SURFACED_NOT_VERIFIED'
+    assert report['closure_attempt']['euler_lagrange_match_status'] == 'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED'
     assert report['closure_attempt']['domain_boundary_status'] == 'EVIDENCE_SURFACED'
 
 

@@ -32,8 +32,8 @@ def test_deliverable_contract_tracks_evidence_and_remaining_single_blocker() -> 
 
     second = deliverables[1]
     assert second["earned"] is False
-    assert second["status"] == "EVIDENCE_SURFACED_NOT_VERIFIED"
-    assert second["residual_receipt"]["status"] == "RECEIPT_READY"
+    assert second["status"] == "DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED"
+    assert second["euler_lagrange_mismatch_receipt"]["status"] == "RECEIPT_READY"
 
     third = deliverables[2]
     assert third["earned"] is True

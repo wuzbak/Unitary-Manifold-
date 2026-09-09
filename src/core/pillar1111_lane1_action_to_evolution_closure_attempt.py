@@ -83,7 +83,7 @@ def lane1_action_to_evolution_closure_attempt() -> Dict[str, Any]:
         'closure_attempt': {
             'candidate_action_status': str(by_id.get('ACTION_FUNCTIONAL_NOT_YET_WRITTEN_DOWN_IN_CHECKABLE_FORM', {}).get('status') or 'UNKNOWN'),
             'euler_lagrange_match_status': str(by_id.get('EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED', {}).get('status') or 'UNKNOWN'),
-            'residual_comparison_status': str(by_id.get('EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED', {}).get('status') or 'UNKNOWN'),
+            'residual_comparison_status': 'CERTIFICATE_SCAFFOLD_PRESENT_BUT_DERIVATION_UNVERIFIED',
             'domain_boundary_status': str(by_id.get('TIME_IDENTIFICATION_AND_DOMAIN_ASSUMPTIONS_NOT_YET_FIXED_FOR_PROMOTION', {}).get('status') or 'UNKNOWN'),
         },
         'blocking_analysis': {
@@ -97,12 +97,12 @@ def lane1_action_to_evolution_closure_attempt() -> Dict[str, Any]:
         'process_progress': {
             'victories': [
                 'Checkable candidate action is now explicit and machine-readable with assumptions and boundary terms.',
-                'Side-by-side deterministic template residual table is now surfaced for metric/gauge/scalar sectors.',
+                'Derivation-grade mismatch-certificate scaffold is now surfaced with per-sector deterministic verdicts.',
                 'Failure is represented as explicit blocker certificates instead of narrative-only delay.',
                 'Support-unit harvesting remains available without inflating closure claims.',
             ],
             'no_go_or_dead_end_learnings': [
-                'Template alignment alone cannot be promoted as Euler-Lagrange verification.',
+                'Mismatch-certificate scaffolding alone cannot be promoted as Euler-Lagrange verification.',
                 'A missing derivation-level residual mismatch proof is a hard stop for closure promotion.',
                 'Promotion must remain blocked until derivation and boundary proofs are simultaneously satisfied.',
             ],

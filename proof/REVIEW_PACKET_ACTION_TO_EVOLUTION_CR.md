@@ -11,7 +11,7 @@ Start with:
 - `proof/TIER_1_FORMAL.md`
 - `src/core/action_to_evolution_contract.py`
 - `src/core/pillar1111_lane1_action_to_evolution_closure_attempt.py`
-- `src/core/action_to_evolution_residual_table.py`
+- `src/core/action_to_evolution_el_mismatch_certificate.py`
 - `docs/TRUTH_LAYER.md`
 
 Key honesty boundary:
@@ -23,7 +23,7 @@ Key honesty boundary:
 ## Specific current blockers (non-trivial)
 
 1. **Checkable action functional is surfaced** — bounded candidate action with explicit fields, assumptions, and boundary terms is now machine-readable.
-2. **Deterministic side-by-side template table is surfaced** — metric/gauge/scalar sector alignment is explicit, but this is not yet an Euler-Lagrange derivation.
+2. **Derivation-grade mismatch-certificate scaffold is surfaced** — metric/gauge/scalar sector alignment is explicit, but this is not yet an Euler-Lagrange derivation.
 3. **Fixed time/domain boundary is surfaced** — time-identification and domain assumptions are machine-readable and explicit for promotion boundaries.
 
 **Remaining blocker for closure:** verified Euler-Lagrange derivation + residual-mismatch proof on the stated domain.

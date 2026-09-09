@@ -11,9 +11,9 @@ from src.core.action_to_evolution_action_candidate import (
     checkable_action_functional_candidate,
     time_domain_boundary_receipt,
 )
-from src.core.action_to_evolution_residual_table import (
-    action_to_evolution_residual_receipt,
-    action_to_evolution_residual_table,
+from src.core.action_to_evolution_el_mismatch_certificate import (
+    euler_lagrange_mismatch_certificate,
+    euler_lagrange_mismatch_receipt,
 )
 from src.core.evolution import implemented_flow_equation_surface, phenomenological_flow_boundary
 
@@ -35,8 +35,8 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
     flow_surface = implemented_flow_equation_surface()
     action_candidate = checkable_action_functional_candidate()
     action_receipt = candidate_action_surface_receipt()
-    residual_table = action_to_evolution_residual_table()
-    residual_receipt = action_to_evolution_residual_receipt()
+    el_certificate = euler_lagrange_mismatch_certificate()
+    el_receipt = euler_lagrange_mismatch_receipt()
     time_receipt = time_domain_boundary_receipt()
 
     deliverables = [
@@ -63,18 +63,18 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
             "id": PRIMARY_DELIVERABLE_IDS[1],
             "label": "Verified Euler-Lagrange match to the implemented flow",
             "earned": False,
-            "status": "EVIDENCE_SURFACED_NOT_VERIFIED" if residual_receipt["status"] == "RECEIPT_READY" else "OPEN_BLOCKER",
+            "status": "DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED" if el_receipt["status"] == "RECEIPT_READY" else "OPEN_BLOCKER",
             "required_evidence": [
                 "Euler-Lagrange equations derived from the candidate action",
                 "Per-equation side-by-side comparison for metric, gauge, and scalar flow equations",
                 "Residual or mismatch report on the stated domain",
             ],
             "current_gap": (
-                "Side-by-side deterministic template alignment is now surfaced, but a true Euler-Lagrange derivation "
+                "Deterministic derivation scaffold is now surfaced, but a true Euler-Lagrange derivation "
                 "and residual-mismatch proof are still missing."
             ),
-            "residual_table": residual_table,
-            "residual_receipt": residual_receipt,
+            "euler_lagrange_mismatch_certificate": el_certificate,
+            "euler_lagrange_mismatch_receipt": el_receipt,
         },
         {
             "id": PRIMARY_DELIVERABLE_IDS[2],
