@@ -19,6 +19,25 @@ Key honesty boundary:
 - support units cannot substitute primary closure,
 - unresolved deliverables remain explicit blockers.
 
+## Specific current blockers (non-trivial)
+
+1. **Checkable action functional is missing** — no explicit candidate action with boundary terms is currently validated.
+2. **Verified Euler-Lagrange match is missing** — no term-by-term derivation currently reproduces implemented metric/gauge/scalar flow terms.
+3. **Fixed time/domain promotion boundary is missing** — assumptions are explicit but not yet fixed for promotion.
+
+These are theorem-grade scientific blockers, not paperwork blockers.
+
+## Dead-ends and retained wins
+
+Dead-end / no-go paths already learned:
+- Claiming action-to-evolution closure without an explicit checked action is invalid.
+- Partial term overlap without a residual table is insufficient for promotion.
+
+Wins to retain:
+- Blockers are now exact and machine-readable.
+- Failure routes produce blocker certificates instead of narrative drift.
+- Support-track evidence can still be harvested without closure inflation.
+
 ## Exact review question
 
 1. Is the action/equation/residual/domain package complete and checkable?

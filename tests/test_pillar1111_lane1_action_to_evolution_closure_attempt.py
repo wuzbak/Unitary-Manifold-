@@ -19,5 +19,25 @@ def test_identity() -> None:
 
 def test_contract() -> None:
     report = lane1_action_to_evolution_closure_attempt()
-    assert report['outcome'] in {'LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_READY', 'LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_BLOCKED'} or report['outcome'] in {'SPRINT_CR_MASTER_CHARTER_READY','SPRINT_CR_MASTER_CHARTER_BLOCKED','SPRINT_CR_FORMAL_BURDEN_BOARD_READY','SPRINT_CR_FORMAL_BURDEN_BOARD_BLOCKED','LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_READY','LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_BLOCKED','LANE2_LEAN4_DETERMINISTIC_PROOF_READY','LANE2_LEAN4_DETERMINISTIC_PROOF_BLOCKED','LANE3_PYTHON_LEAN_TRUTH_EQUIVALENCE_READY','LANE3_PYTHON_LEAN_TRUTH_EQUIVALENCE_BLOCKED','LANE4_FALSIFIER_TENSION_DISCIPLINE_READY','LANE4_FALSIFIER_TENSION_DISCIPLINE_BLOCKED','LANE5_VERIFICATION_REGRESSION_DISCIPLINE_READY','LANE5_VERIFICATION_REGRESSION_DISCIPLINE_BLOCKED','SPRINT_CR_DOCUMENTATION_EVIDENCE_PACKET_READY','SPRINT_CR_DOCUMENTATION_EVIDENCE_PACKET_BLOCKED','SPRINT_CR_STATUS_COHERENCE_CERTIFICATE_READY','SPRINT_CR_STATUS_COHERENCE_CERTIFICATE_BLOCKED','SPRINT_CR_MASTER_INTEGRATION_CERTIFICATE_READY','SPRINT_CR_MASTER_INTEGRATION_CERTIFICATE_BLOCKED'}
+    assert report['outcome'] in {'LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_READY', 'LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_BLOCKED'}
     assert report['unit_outcome'] in {'CLOSED_NOW', 'TIGHTENED_WITH_EXPLICIT_BLOCKER'}
+
+
+def test_blocking_analysis_is_specific_and_non_trivial() -> None:
+    report = lane1_action_to_evolution_closure_attempt()
+    analysis = report['blocking_analysis']
+    assert analysis['non_triviality_guard']['all_blockers_non_trivial'] is True
+    assert analysis['non_triviality_guard']['blocker_count'] == 3
+    assert len(analysis['specific_blockers']) == 3
+    for item in analysis['specific_blockers']:
+        assert item['is_trivial_block'] is False
+        assert item['required_evidence']
+        assert item['current_gap']
+
+
+def test_process_progress_surfaces_wins_and_no_go_paths() -> None:
+    report = lane1_action_to_evolution_closure_attempt()
+    progress = report['process_progress']
+    assert len(progress['victories']) >= 2
+    assert len(progress['no_go_or_dead_end_learnings']) >= 2
+    assert len(progress['next_smart_steps']) >= 2

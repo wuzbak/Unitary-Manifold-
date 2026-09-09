@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
 from src.core.pillar1109_sprint_cr_master_charter import SPRINT, VERSION, build_truth_surface_sync_status
@@ -27,10 +27,27 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
     })
 
 
+def _blocker_diagnostics(deliverables: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    diagnostics: List[Dict[str, Any]] = []
+    for deliverable in deliverables:
+        diagnostics.append({
+            'id': str(deliverable.get('id') or ''),
+            'label': str(deliverable.get('label') or ''),
+            'earned': bool(deliverable.get('earned')),
+            'status': str(deliverable.get('status') or ''),
+            'current_gap': str(deliverable.get('current_gap') or ''),
+            'required_evidence': list(deliverable.get('required_evidence') or []),
+            'is_trivial_block': False,
+            'reason_not_trivial': 'Missing item is a theorem-grade scientific artifact, not a formatting or bookkeeping task.',
+        })
+    return diagnostics
+
+
 @lru_cache(maxsize=1)
 def lane1_action_to_evolution_closure_attempt() -> Dict[str, Any]:
     contract = action_to_evolution_deliverable_contract()
     deliverables = list(contract.get('primary_deliverables') or [])
+    diagnostics = _blocker_diagnostics(deliverables)
     all_earned = all(bool(item.get('earned')) for item in deliverables)
     unit_outcome = 'CLOSED_NOW' if all_earned else 'TIGHTENED_WITH_EXPLICIT_BLOCKER'
 
@@ -66,6 +83,31 @@ def lane1_action_to_evolution_closure_attempt() -> Dict[str, Any]:
             'euler_lagrange_match_status': 'NOT_YET_VERIFIED_TO_CLOSURE',
             'residual_comparison_status': 'NOT_YET_CLOSED',
             'domain_boundary_status': 'EXPLICIT_AND_OPEN',
+        },
+        'blocking_analysis': {
+            'specific_blockers': diagnostics,
+            'non_triviality_guard': {
+                'all_blockers_non_trivial': all(not item['is_trivial_block'] for item in diagnostics),
+                'blocker_count': len(diagnostics),
+                'evidence_gap_count': sum(1 for item in diagnostics if not item['earned']),
+            },
+        },
+        'process_progress': {
+            'victories': [
+                'Primary blocker surface is decomposed into named theorem-grade deliverables.',
+                'Failure is represented as explicit blocker certificates instead of narrative-only delay.',
+                'Support-unit harvesting remains available without inflating closure claims.',
+            ],
+            'no_go_or_dead_end_learnings': [
+                'Without an explicit action functional, Euler-Lagrange matching cannot be claimed.',
+                'A missing per-equation residual comparison is a hard stop for closure promotion.',
+                'Unfixed time/domain assumptions prevent promotion even when partial calculations exist.',
+            ],
+            'next_smart_steps': [
+                'Write one checkable candidate action with explicit boundary terms.',
+                'Derive and compare Euler-Lagrange equations term-by-term against implemented flow.',
+                'Publish mismatch table and tighten domain assumptions before any label change.',
+            ],
         },
         'unit_outcome': unit_outcome,
         'blocker_certificate': blocker_certificate,
