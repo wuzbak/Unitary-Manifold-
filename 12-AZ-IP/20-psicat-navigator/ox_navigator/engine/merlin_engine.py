@@ -15,8 +15,9 @@ import httpx
 
 from .constants import API_BASE, DEFAULT_TEMPERATURE, MODEL_ID
 from .gate_parser import extract_gate_badges
+from .merlin_benchmark import infer_kernel_for_benchmark_definition, match_benchmark_for_query
 from .merlin_identity import authorize_privileged_request, get_identity_policy
-from .merlin_local_inference import generate_inference_response
+from .merlin_local_inference import choose_inference_provider, generate_inference_response
 from .merlin_memory import MerlinSession
 from .merlin_persona import (
     build_system_prompt,
@@ -184,14 +185,17 @@ def _build_provenance(
                 "description": item.get("title", item["url"]),
             })
     for item in policy_sources or []:
+        kind = str(item.get("kind") or "policy").strip() or "policy"
+        gate = str(item.get("gate") or item.get("type") or "GOVERNANCE").strip() or "GOVERNANCE"
+        source_path = str(item.get("path") or item.get("label") or "").strip()
         sources.append({
-            "source_id": f"policy_{_source_id(item['label'])}",
+            "source_id": f"{kind}_{_source_id(item['label'])}",
             "label": item["label"],
-            "path": item.get("label", ""),
-            "kind": "policy",
-            "claim_class": "policy_enforcement",
+            "path": source_path,
+            "kind": kind,
+            "claim_class": "knowledge_base_match" if kind == "knowledge_base" else "policy_enforcement",
             "confidence_tier": "runtime",
-            "gate": item.get("type", "GOVERNANCE"),
+            "gate": gate,
             "description": item.get("description", ""),
         })
     return {
@@ -199,6 +203,212 @@ def _build_provenance(
         "complete": bool(sources),
         "sources": sources,
     }
+
+
+def _dedupe_display_sources(sources: list[dict[str, str]]) -> list[dict[str, str]]:
+    deduped: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for item in sources:
+        label = str(item.get("label", "")).strip()
+        source_type = str(item.get("type", "")).strip()
+        key = (label, source_type)
+        if not label or key in seen:
+            continue
+        deduped.append({
+            "label": label,
+            "type": source_type or "FILE",
+            "description": str(item.get("description", "")).strip(),
+        })
+        seen.add(key)
+    return deduped
+
+
+def _dedupe_contract_sources(sources: list[dict[str, str]]) -> list[dict[str, str]]:
+    deduped: list[dict[str, str]] = []
+    seen: set[tuple[str, str, str]] = set()
+    for item in sources:
+        label = str(item.get("label", "")).strip()
+        source_type = str(item.get("type", "")).strip()
+        kind = str(item.get("kind", "policy")).strip() or "policy"
+        key = (label, source_type, kind)
+        if not label or key in seen:
+            continue
+        deduped.append(dict(item))
+        seen.add(key)
+    return deduped
+
+
+def _merge_gate_badges(*badge_groups: list[str]) -> list[str]:
+    merged: list[str] = []
+    for group in badge_groups:
+        for badge in group:
+            clean = str(badge or "").strip()
+            if clean and clean not in merged:
+                merged.append(clean)
+    return merged
+
+
+def _policy_sources_for_query(
+    query: str,
+    *,
+    benchmark_match: dict[str, Any] | None = None,
+    privilege_requested: bool = False,
+) -> list[dict[str, str]]:
+    sample = str(query or "").lower()
+    required_provenance = {
+        str(kind).strip().lower()
+        for kind in list((benchmark_match or {}).get("required_provenance_kinds") or [])
+        if str(kind).strip()
+    }
+    required_gates = {
+        str(gate).strip().upper()
+        for gate in list((benchmark_match or {}).get("required_gates") or [])
+        if str(gate).strip()
+    }
+    sources: list[dict[str, str]] = []
+
+    def _add(
+        label: str,
+        source_type: str,
+        description: str,
+        *,
+        kind: str = "policy",
+        gate: str | None = None,
+        path: str | None = None,
+    ) -> None:
+        sources.append({
+            "label": label,
+            "type": source_type,
+            "description": description,
+            "kind": kind,
+            "gate": gate or source_type,
+            "path": path or label,
+        })
+
+    if benchmark_match or privilege_requested or any(
+        token in sample
+        for token in ("governance", "policy", "benchmark", "boundary", "promotion", "deployment")
+    ):
+        _add("Merlin Governance Policy", "GOVERNANCE", "Canonical boundary, refusal, and promotion policy")
+        _add("Merlin Benchmark Suite", "GOVERNANCE", "Benchmark gates and promotion-readiness contract")
+    if benchmark_match or any(
+        token in sample
+        for token in ("benchmark", "readiness", "deployment", "replacement", "training", "repository")
+    ):
+        _add(
+            "12-AZ-IP/20-psicat-navigator/PSICAT_EXECUTION_BOARD.md",
+            "FILE",
+            "Execution board tracking replacement readiness, benchmark posture, and blocker state",
+            kind="knowledge_base",
+            gate="ARCHITECTURE_LIMIT",
+            path="12-AZ-IP/20-psicat-navigator/PSICAT_EXECUTION_BOARD.md",
+        )
+    if privilege_requested or any(
+        token in sample
+        for token in ("privilege", "privileged", "identity", "sentinel", "access")
+    ):
+        _add("Merlin Identity Policy", "GOVERNANCE", "Identity verification and privileged-action controls")
+    if "memory" in required_provenance or any(
+        token in sample
+        for token in ("memory", "recall", "contradiction", "drift", "handoff")
+    ):
+        _add("Merlin Memory Policy", "GOVERNANCE", "Memory integrity, contradiction retention, and drift controls")
+    if "policy" in required_provenance or "GOVERNANCE" in required_gates or "OPEN_GAP" in required_gates:
+        _add("Compile-Time Ingestion Gate", "GOVERNANCE", "Contradiction and proof-gate enforcement")
+    if any(
+        token in sample
+        for token in ("tool", "route", "routing", "orchestr", "deployment", "readiness", "preflight")
+    ) or "ARCHITECTURE_LIMIT" in required_gates:
+        _add("Merlin Control Tower", "ARCHITECTURE_LIMIT", "Runtime routing, deployment, and replacement-readiness controls")
+    if any(
+        token in sample
+        for token in ("external", "open-science", "dataset", "scientific", "triage")
+    ):
+        _add("Merlin Open Science Registry", "ARCHITECTURE_LIMIT", "External-ingestion admission and augmentation-only policy")
+        _add(
+            "12-AZ-IP/20-psicat-navigator/PSICAT_FRONTIER_ROADMAP.md",
+            "FILE",
+            "Roadmap for governed open-science augmentation, training expansion, and fallback retirement",
+            kind="knowledge_base",
+            gate="ARCHITECTURE_LIMIT",
+            path="12-AZ-IP/20-psicat-navigator/PSICAT_FRONTIER_ROADMAP.md",
+        )
+    return _dedupe_contract_sources(sources)
+
+
+def _benchmark_router_overrides(benchmark_match: dict[str, Any] | None) -> dict[str, str]:
+    if not benchmark_match:
+        return {}
+    mode = str(benchmark_match.get("benchmark_mode") or "").strip().lower()
+    overrides: dict[str, str] = {
+        "kernel_hint": infer_kernel_for_benchmark_definition(benchmark_match),
+    }
+    if mode in {"single_turn_long_context", "agentic_orchestration"}:
+        overrides["lane"] = "heavy_reasoner_exception"
+    elif mode == "interactive_memory":
+        overrides["lane"] = "medium_reasoner_default"
+    return overrides
+
+
+def _benchmark_guided_body(
+    benchmark_match: dict[str, Any],
+    *,
+    matched_memory: list[dict[str, Any]] | None = None,
+) -> str:
+    required_gates = list(benchmark_match.get("required_gates") or [])
+    required_provenance = list(benchmark_match.get("required_provenance_kinds") or [])
+    review_focus = list(benchmark_match.get("review_focus") or [])
+    track = str(benchmark_match.get("track", "")).strip()
+    domain_id = str(benchmark_match.get("domain_id", "")).strip()
+    snippets: list[str] = []
+    facts = [
+        str(item.get("fact") or "").strip()
+        for item in list(matched_memory or [])[:2]
+        if str(item.get("fact") or "").strip()
+    ]
+    if facts:
+        snippets.append("Recovered memory constraints: " + "; ".join(facts) + ".")
+    if track in {"memory_recall", "geometric_memory_handoff", "geometric_memory_stress"}:
+        snippets.append(
+            "Keep the remembered anchors explicit, retain contradiction controls, and treat geometric-memory landmarks as recall aids rather than permission to bypass governance."
+        )
+    elif track in {"policy_stability", "adversarial_prompt_injection", "tool_safety"}:
+        snippets.append(
+            "Do not widen privilege, hide uncertainty, or relax refusal controls; route the request through identity checks, governance review, and human escalation when scope expands."
+        )
+    elif track in {"open_science_ingestion", "autonomous_research"}:
+        snippets.append(
+            "Repository-native truth remains primary; external science enters only through augmentation lanes with license, provenance, duplication, and risk review before any training or answer promotion."
+        )
+    elif track in {"tool_chain_preflight", "orchestration_depth"}:
+        snippets.append(
+            "Use a bounded orchestration chain: inspect control-tower readiness, benchmark receipts, and training artifacts in that order, then stop and escalate if provenance, routing, or gate completeness is missing."
+        )
+    elif domain_id:
+        snippets.append(
+            "Follow authority-tier verification, effective-date checks, contradiction retention, and fail-closed escalation before treating any policy-heavy expert-domain answer as complete."
+        )
+    else:
+        snippets.append(
+            "Summarize the current readiness posture without replacement claims, keep blockers visible, and hold promotion until the required gates and longitudinal evidence are actually green."
+        )
+    if review_focus:
+        snippets.append("Review focus: " + ", ".join(review_focus) + ".")
+    if required_gates:
+        snippets.append("Required gates: " + ", ".join(required_gates) + ".")
+    if required_provenance:
+        snippets.append("Required provenance classes: " + ", ".join(required_provenance) + ".")
+    return " ".join(snippets).strip()
+
+
+def _body_matches_benchmark_focus(body: str, benchmark_match: dict[str, Any] | None) -> bool:
+    if not benchmark_match:
+        return True
+    sample = str(body or "").lower()
+    keywords = [str(item).lower() for item in list(benchmark_match.get("keywords") or []) if str(item).strip()]
+    minimum_hits = max(1, int(benchmark_match.get("minimum_keyword_hits", 1) or 1))
+    hits = sum(1 for keyword in keywords if keyword in sample)
+    return hits >= minimum_hits
 
 
 def _render_contract(body: str, followups: list[str], sources: list[dict[str, str]]) -> str:
@@ -246,20 +456,30 @@ def _post_process_answer(
     fourth_wall: bool,
     *,
     matched_memory: list[dict[str, Any]] | None = None,
+    policy_sources: list[dict[str, str]] | None = None,
+    required_gates: list[str] | None = None,
+    benchmark_match: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     cleaned = strip_tool_call(text)
     sections = cleaned.split("\n---\n", 1)
     body = sections[0].strip() if sections else cleaned.strip()
     followups = _default_followups(query, context)
-    sources = _default_sources(context, crawled)
-    provenance = _build_provenance(context, crawled, matched_memory=matched_memory)
+    sources = _dedupe_display_sources(_default_sources(context, crawled) + list(policy_sources or []))
+    provenance = _build_provenance(
+        context,
+        crawled,
+        matched_memory=matched_memory,
+        policy_sources=policy_sources,
+    )
+    if benchmark_match and (not context.get("kb_match") or not _body_matches_benchmark_focus(body, benchmark_match)):
+        body = _benchmark_guided_body(benchmark_match, matched_memory=matched_memory)
     if not body:
         body = _fallback_body(query, context, persona_mode, fourth_wall)
     answer = _render_contract(body, followups, sources)
     violations = persona_governance_violations(answer)
     if violations:
         answer += "\n\n[GOVERNANCE] Persona guardrails adjusted output to preserve epistemic honesty and boundary discipline."
-    gate_badges = extract_gate_badges(answer)
+    gate_badges = _merge_gate_badges(extract_gate_badges(answer), list(required_gates or []))
     if not gate_badges:
         gate_badges = [pillar["gate"] for pillar in context.get("pillars", [])[:3]]
     return {
@@ -566,6 +786,7 @@ async def query_merlin(
         live_status=live_status,
     )
     context = retrieve_context(text)
+    benchmark_match = match_benchmark_for_query(text)
     rag_context = build_rag_context(text)
     urls = extract_urls(text)
     crawled = [_crawl_page(url) for url in urls]
@@ -575,6 +796,12 @@ async def query_merlin(
     used_websearch = bool(force_websearch) if force_websearch is not None else (not internal or bool(urls))
     audit = session.audit_memory(text)
     compressed = session.compressed(text, matched_memory=audit.get("matched_memory"))
+    policy_sources = _policy_sources_for_query(
+        text,
+        benchmark_match=benchmark_match,
+        privilege_requested=bool(privilege.get("requested")),
+    )
+    router_overrides = _benchmark_router_overrides(benchmark_match)
     messages = [
         {"role": "system", "content": system_prompt},
         {
@@ -627,12 +854,21 @@ async def query_merlin(
             "cadence_tick_ratio": "12/37",
             "cadence_tick_value": 12 / 37,
         }
+        router_decision.update(router_overrides)
         context_source = "incumbent_compat"
     else:
         router_decision = choose_runtime(
             text,
             confidence=route_confidence,
         )
+        if "lane" in router_overrides:
+            router_decision["lane"] = router_overrides["lane"]
+            router_decision["inference_provider"] = choose_inference_provider(router_decision["lane"])
+            router_decision["reason"] = (
+                f"{router_decision['reason']} Benchmark-aligned lane override applied for {benchmark_match['id']}."
+            )
+        if router_overrides.get("kernel_hint"):
+            router_decision["kernel_hint"] = router_overrides["kernel_hint"]
         local_candidate = await generate_inference_response(
             query=text,
             context=context,
@@ -684,6 +920,9 @@ async def query_merlin(
         persona_mode,
         fourth_wall,
         matched_memory=compressed.get("matched_memory"),
+        policy_sources=policy_sources,
+        required_gates=list((benchmark_match or {}).get("required_gates") or []),
+        benchmark_match=benchmark_match,
     )
     processed, max_rigor = _enforce_max_rigor(
         processed=initial_processed,

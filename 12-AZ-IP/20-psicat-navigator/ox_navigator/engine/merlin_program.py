@@ -2453,28 +2453,52 @@ def _seed_tool_alignment_examples() -> list[dict[str, Any]]:
             "id": "tool-alignment-runtime-policy",
             "track": "tool_call_success_failure_pairs",
             "prompt": "Inspect Merlin runtime policy and benchmark readiness before approving wider replacement scope.",
+            "target": {
+                "preferred_tool": "getMerlinControlTower",
+                "fallback_tools": ["getMerlinBenchmarkSuite", "getMerlinExecutionGraph", "getMerlinTrainingArchitecture"],
+                "required_fields": ["decision", "gate_pass", "empirical_gate", "deployment_eligibility"],
+                "selection_rule": "Use the control tower first because it merges readiness, benchmark, and deployment blockers into one governed surface.",
+            },
             "preferred_tool": "getMerlinControlTower",
             "fallback_tools": ["getMerlinBenchmarkSuite", "getMerlinExecutionGraph", "getMerlinTrainingArchitecture"],
             "supervision_mode": "tool_selection_alignment",
             "required_fields": ["decision", "gate_pass", "empirical_gate", "deployment_eligibility"],
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinControlTower", "getMerlinBenchmarkSuite", "getMerlinExecutionGraph"],
         },
         {
             "id": "tool-alignment-training-artifacts",
             "track": "tool_call_success_failure_pairs",
             "prompt": "Export the governed Merlin training pack with benchmark baseline and open-science augmentation registry.",
+            "target": {
+                "preferred_tool": "getMerlinTrainingArtifacts",
+                "fallback_tools": ["getMerlinTrainingArchitecture", "getMerlinOpenScienceRegistry"],
+                "required_fields": ["training_architecture", "competitive_benchmark_plan", "open_science_registry"],
+                "selection_rule": "Choose the artifact bundle first because it preserves the training, benchmark, and augmentation contract in one export surface.",
+            },
             "preferred_tool": "getMerlinTrainingArtifacts",
             "fallback_tools": ["getMerlinTrainingArchitecture", "getMerlinOpenScienceRegistry"],
             "supervision_mode": "tool_selection_alignment",
             "required_fields": ["training_architecture", "competitive_benchmark_plan", "open_science_registry"],
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinTrainingArtifacts", "getMerlinTrainingArchitecture", "getMerlinOpenScienceRegistry"],
         },
         {
             "id": "tool-alignment-boundary-audit",
             "track": "tool_call_success_failure_pairs",
             "prompt": "Audit whether a Merlin answer preserved the physics-vs-governance boundary with typed provenance.",
+            "target": {
+                "preferred_tool": "getMerlinGovernancePolicy",
+                "fallback_tools": ["getMerlinKnowledgeCore", "runMerlinMemoryAudit"],
+                "required_fields": ["boundary_statement", "provenance_sources", "confidence_statement"],
+                "selection_rule": "Start with governance policy because boundary and provenance audits must fail closed before knowledge or memory expansion.",
+            },
             "preferred_tool": "getMerlinGovernancePolicy",
             "fallback_tools": ["getMerlinKnowledgeCore", "runMerlinMemoryAudit"],
             "supervision_mode": "tool_selection_alignment",
             "required_fields": ["boundary_statement", "provenance_sources", "confidence_statement"],
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": ["getMerlinGovernancePolicy", "getMerlinKnowledgeCore", "runMerlinMemoryAudit"],
         },
     ]
 
@@ -3224,10 +3248,81 @@ def _seed_hardware_topology_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _seed_benchmark_contract_curriculum_examples() -> list[dict[str, Any]]:
+    from .merlin_benchmark import (
+        EXPERT_DOMAIN_BENCHMARK_CORPUS,
+        STAGE_B_BENCHMARK_CORPUS,
+        STAGE_C_BENCHMARK_CORPUS,
+        STAGE_D_BENCHMARK_CORPUS,
+        STAGE_E_BENCHMARK_CORPUS,
+    )
+    from .merlin_kernel_routing import infer_kernel_for_benchmark_definition
+
+    examples: list[dict[str, Any]] = []
+    corpora = (
+        STAGE_B_BENCHMARK_CORPUS
+        + STAGE_C_BENCHMARK_CORPUS
+        + STAGE_D_BENCHMARK_CORPUS
+        + STAGE_E_BENCHMARK_CORPUS
+        + EXPERT_DOMAIN_BENCHMARK_CORPUS
+    )
+    for benchmark in corpora:
+        kernel_id = infer_kernel_for_benchmark_definition(benchmark)
+        examples.append(
+            {
+                "id": f"curriculum-{benchmark['id']}",
+                "track": str(benchmark.get("track", "benchmark_contract_curriculum")),
+                "prompt": (
+                    f"Rehearse Merlin's contract for benchmark class {benchmark['id']} so the {kernel_id} lane preserves "
+                    "provenance completeness, bounded escalation, and explicit benchmark boundaries."
+                ),
+                "target": {
+                    "benchmark_id": str(benchmark["id"]),
+                    "stage": str(benchmark.get("stage", "")),
+                    "kernel_id": kernel_id,
+                    "benchmark_mode": str(benchmark.get("benchmark_mode", "single_turn")),
+                    "required_gates": list(benchmark.get("required_gates") or []),
+                    "required_provenance_kinds": list(benchmark.get("required_provenance_kinds") or []),
+                    "required_contract_sections": list(benchmark.get("required_contract_sections") or []),
+                    "review_focus": list(benchmark.get("review_focus") or []),
+                    "escalation_rule": (
+                        "Escalate or demote when required provenance classes, gate badges, contradiction handling, or bounded follow-ups are incomplete."
+                    ),
+                },
+                "target_contract": {
+                    "requires_gate_badges": True,
+                    "requires_typed_provenance": True,
+                    "requires_bounded_followups": True,
+                },
+                "supervision_mode": "benchmark_contract_distillation",
+                "required_gates": list(benchmark.get("required_gates") or []),
+                "provenance_sources": [
+                    "getMerlinBenchmarkSuite",
+                    "getMerlinControlTower",
+                    "getMerlinGovernancePolicy",
+                ],
+            }
+        )
+    return examples
+
+
+def _normalize_training_seed_limit(limit: int | None) -> int | None:
+    if limit is None:
+        return None
+    try:
+        normalized = int(limit)
+    except (TypeError, ValueError):
+        return None
+    if normalized <= 0:
+        return None
+    return normalized
+
+
 def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, Any]]:
     from .merlin_benchmark import get_stage_a_benchmark_corpus
     from .merlin_rag import KNOWLEDGE_BASE
 
+    resolved_limit = _normalize_training_seed_limit(limit)
     examples: list[dict[str, Any]] = []
     examples.extend(_seed_kernel_lane_bootstrap_examples())
 
@@ -3260,11 +3355,20 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
                     "required_provenance_kinds": list(benchmark["required_provenance_kinds"]),
                     "review_focus": list(benchmark.get("review_focus", [])),
                 },
+                "target": {
+                    "benchmark_id": str(benchmark["id"]),
+                    "required_gates": list(benchmark["required_gates"]),
+                    "required_contract_sections": list(benchmark["required_contract_sections"]),
+                    "required_provenance_kinds": list(benchmark["required_provenance_kinds"]),
+                },
                 "supervision_mode": "benchmark_contract_alignment",
+                "required_gates": list(benchmark["required_gates"]),
+                "provenance_sources": [f"benchmark::{benchmark['id']}", "getMerlinBenchmarkSuite"],
             }
         )
 
     examples.extend(_seed_tool_alignment_examples())
+    examples.extend(_seed_benchmark_contract_curriculum_examples())
     examples.extend(_seed_teacher_trace_distillation_examples())
     examples.extend(_seed_external_proof_review_examples())
     examples.extend(_seed_formal_proof_foundry_examples())
@@ -3274,8 +3378,8 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
     examples.extend(_seed_adversarial_self_correction_examples())
     examples.extend(_seed_continuous_learning_governance_examples())
     examples.extend(_seed_performance_lane_examples())
-    if limit is not None:
-        return examples[: max(0, int(limit))]
+    if resolved_limit is not None:
+        return examples[:resolved_limit]
     return examples
 
 
@@ -5989,7 +6093,7 @@ def get_mlflow_experiment_manifests(
         }
     dataset_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("training_records") or {})
     benchmark_counts = dict(((dataset_bundle.get("dataset") or {}).get("counts") or {}).get("benchmark_records") or {})
-    resolved_limit = 12 if limit is None else max(0, int(limit))
+    resolved_limit = 0 if limit is None else max(0, int(limit))
     python_executable = sys.executable or "python3"
     def _shell_command(*parts: str) -> str:
         return " ".join(shlex.quote(str(part)) for part in parts)
@@ -7108,10 +7212,10 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "router_policy": get_router_policy(),
         "model_admission_policy": get_model_admission_policy(),
         "training_and_adaptation": get_training_and_adaptation(),
-        "training_architecture": get_training_architecture(limit=12),
-        "training_dataset": build_training_dataset_bundle(limit=12),
+        "training_architecture": get_training_architecture(limit=0),
+        "training_dataset": build_training_dataset_bundle(limit=0),
         "hardware_architecture": get_merlin_hardware_architecture_board(limit=4),
-        "mlflow_manifests": get_mlflow_experiment_manifests(limit=12),
+        "mlflow_manifests": get_mlflow_experiment_manifests(limit=0),
         "open_science_registry": get_open_science_resource_registry(),
         "open_weight_acquisition_ledger": get_open_weight_acquisition_ledger(),
         "frontier_open_weight_stack": get_frontier_open_weight_stack(),

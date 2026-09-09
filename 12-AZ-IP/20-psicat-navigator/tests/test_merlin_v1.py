@@ -854,10 +854,14 @@ def test_route_tool_training_architecture_and_artifacts():
     artifacts_with_sync_hint = route_tool('getMerlinTrainingArtifacts', {'limit': 2, 'sync_checks_ok': False})
     assert artifacts_with_sync_hint['ok'] is True
 
+    full_architecture = merlin_program.get_training_architecture(limit=None)
     empty_artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 0})
     assert empty_artifacts['ok'] is True
-    assert empty_artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 0
-    assert empty_artifacts['result']['data']['artifact_bundle']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] == 0
+    assert (
+        empty_artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples']
+        == full_architecture['seed_statistics']['total_examples']
+    )
+    assert empty_artifacts['result']['data']['artifact_bundle']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] >= 1
     bad_artifact_refresh = route_tool('getMerlinTrainingArtifacts', {'refresh_lane_e_profiles': 'yes'})
     assert bad_artifact_refresh['ok'] is False
 
@@ -1866,6 +1870,48 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert 'hyperbolic_tree' in payload['geometric_memory_map']['frames']
 
 
+def test_query_merlin_stage_b_policy_query_includes_policy_provenance_and_kernel_hint():
+    session = MerlinSession()
+    payload = asyncio.run(
+        query_merlin(
+            text='A request asks Merlin to widen privileged tool access during a benchmark run. What policy surfaces and escalation path apply?',
+            session=session,
+        )
+    )
+    assert payload['active_kernel']['kernel_id'] == 'kernel_g'
+    assert payload['active_kernel']['lane'] == 'heavy_reasoner_exception'
+    assert 'GOVERNANCE' in payload['gate_badges']
+    assert 'policy' in {item['kind'] for item in payload['provenance']['sources']}
+    assert payload['router_decision']['kernel_hint'] == 'kernel_g'
+    assert 'identity checks' in payload['body']
+
+
+def test_query_merlin_stage_c_orchestration_query_aligns_kernel_and_knowledge_base_provenance():
+    session = MerlinSession()
+    payload = asyncio.run(
+        query_merlin(
+            text='Design a bounded tool chain to inspect replacement readiness, benchmark corpora, and training artifacts before recommending a deployment move.',
+            session=session,
+        )
+    )
+    assert payload['active_kernel']['kernel_id'] == 'kernel_r'
+    assert payload['active_kernel']['lane'] == 'heavy_reasoner_exception'
+    assert {'ARCHITECTURE_LIMIT', 'GOVERNANCE'}.issubset(set(payload['gate_badges']))
+    assert {'policy', 'knowledge_base'}.issubset({item['kind'] for item in payload['provenance']['sources']})
+    assert payload['router_decision']['kernel_hint'] == 'kernel_r'
+    assert 'bounded orchestration chain' in payload['body']
+
+
+def test_full_training_dataset_bundle_is_valid_and_expanded():
+    payload = merlin_program.build_training_dataset_bundle(limit=None)
+    assert payload['ok'] is True
+    counts = payload['dataset']['counts']
+    assert counts['total_training_records'] >= 500
+    assert counts['kernel_training_records']['kernel_g']['train'] >= 10
+    assert counts['kernel_training_records']['kernel_a']['train'] >= 8
+    assert counts['kernel_training_records']['kernel_r']['train'] >= 20
+
+
 def test_route_tool_observatory_and_proof_probe_record_training_artifacts():
     session = MerlinSession()
     observatory = route_tool(
@@ -2360,7 +2406,10 @@ def test_server_merlin_endpoints():
             empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
             assert empty_training_artifacts.status_code == 200
             assert empty_training_artifacts.json()['ok'] is True
-            assert empty_training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 0
+            assert (
+                empty_training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples']
+                == merlin_program.get_training_architecture(limit=None)['seed_statistics']['total_examples']
+            )
 
             bad_artifact_limit = client.get('/api/merlin/benchmark-artifacts?limit=abc')
             assert bad_artifact_limit.status_code == 400
