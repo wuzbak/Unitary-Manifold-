@@ -113,8 +113,12 @@ def test_merlin_training_cycle_emits_performance_gate_receipts() -> None:
     ]
     assert len(lane_e_receipts) == 3
     evidence = dict((lane_e_receipts[0].get("artifact") or {}).get("performance_receipt_evidence") or {})
-    assert evidence.get("source") in {"stage_b_stage_c_head_to_head_receipts", "fallback_static_profiles"}
-    assert evidence.get("status") in {"captured", "fallback"}
+    assert evidence.get("source") in {
+        "stage_b_stage_c_head_to_head_receipts",
+        "persisted_lane_e_runtime_profiles",
+        "fallback_static_profiles",
+    }
+    assert evidence.get("status") in {"captured", "persisted_reuse", "fallback"}
 
 
 def test_lane_e_runtime_profiles_persist_and_reuse(tmp_path, monkeypatch) -> None:

@@ -44,6 +44,7 @@ REQUIRED_TOOLKIT_FUNCTIONS: tuple[str, ...] = (
     "evaluateMerlinPerformanceGate",
     "getMerlinContinuousLearningProtocol",
     "getMerlinTrainingExecutionQueue",
+    "getMerlinTrainingExecutionBundle",
     "getMerlinLaneProgressLedgers",
     "runMerlinTrainingCycle",
     "getMerlinTrainingChallengePack",
@@ -54,6 +55,7 @@ REQUIRED_ARTIFACT_SURFACES: tuple[str, ...] = (
     "training/training_jsonl/dataset_manifest.json",
     "training/mlflow_manifests/mlflow_manifests.json",
     "training/training_execution/three_lane_execution_bundle.json",
+    "training/training_execution/lane_e_runtime_profiles.json",
     "benchmarks/stage_b/receipts.json",
     "benchmarks/stage_c/receipts.json",
 )

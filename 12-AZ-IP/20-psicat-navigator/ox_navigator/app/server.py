@@ -68,6 +68,7 @@ from ox_navigator.engine.merlin_counterexample import build_counterexample_diges
 from ox_navigator.engine.merlin_router import get_router_policy
 from ox_navigator.engine.merlin_telemetry import build_energy_ledger
 from ox_navigator.engine.merlin_training_execution import (
+    build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
     get_merlin_lane_progress_ledgers,
     get_merlin_training_challenge_pack,
@@ -748,6 +749,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'training_execution_queue': build_merlin_training_execution_queue(session=merlin_session, limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/training-execution-bundle':
+                limit, error = _parse_int_query_param(params, 'limit', 24)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'training_execution_bundle': build_merlin_training_execution_bundle(session=merlin_session, limit=limit),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

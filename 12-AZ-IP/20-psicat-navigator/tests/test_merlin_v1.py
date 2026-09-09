@@ -561,6 +561,13 @@ def test_route_tool_training_architecture_and_artifacts():
     execution_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 4}, session=session)
     assert execution_queue['ok'] is True
     assert execution_queue['result']['data']['queued_count'] >= 4
+    execution_bundle = route_tool('getMerlinTrainingExecutionBundle', {'limit': 3}, session=session)
+    assert execution_bundle['ok'] is True
+    assert execution_bundle['result']['data']['ok'] is True
+    assert execution_bundle['result']['data']['execution_cycle']['processed_count'] == 3
+    assert execution_bundle['result']['data']['lane_e_runtime_profile_artifact_path'].endswith(
+        'lane_e_runtime_profiles.json'
+    )
     training_cycle = route_tool('runMerlinTrainingCycle', {'limit': 3}, session=session)
     assert training_cycle['ok'] is True
     assert training_cycle['result']['data']['processed_count'] == 3
@@ -1964,6 +1971,14 @@ def test_server_merlin_endpoints():
             assert training_execution_queue.status_code == 200
             assert training_execution_queue.json()['ok'] is True
             assert training_execution_queue.json()['training_execution_queue']['queued_count'] >= 4
+            training_execution_bundle = client.get('/api/merlin/training-execution-bundle?limit=3')
+            assert training_execution_bundle.status_code == 200
+            assert training_execution_bundle.json()['ok'] is True
+            assert training_execution_bundle.json()['training_execution_bundle']['ok'] is True
+            assert training_execution_bundle.json()['training_execution_bundle']['execution_cycle']['processed_count'] == 3
+            assert training_execution_bundle.json()['training_execution_bundle']['lane_e_runtime_profile_artifact_path'].endswith(
+                'lane_e_runtime_profiles.json'
+            )
             training_cycle = client.post('/api/merlin/training-cycle', json={'limit': 3})
             assert training_cycle.status_code == 200
             assert training_cycle.json()['ok'] is True
@@ -1972,7 +1987,7 @@ def test_server_merlin_endpoints():
             lane_progress = client.get('/api/merlin/lane-progress-ledgers?limit=3')
             assert lane_progress.status_code == 200
             assert lane_progress.json()['ok'] is True
-            assert lane_progress.json()['lane_progress_ledgers']['overall']['completed_count'] == 3
+            assert lane_progress.json()['lane_progress_ledgers']['overall']['completed_count'] >= 3
             challenge_pack = client.get('/api/merlin/training-challenge-pack?limit=4')
             assert challenge_pack.status_code == 200
             assert challenge_pack.json()['ok'] is True

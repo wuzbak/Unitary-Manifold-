@@ -118,6 +118,7 @@ from .merlin_program import (
     run_sync_checks,
 )
 from .merlin_training_execution import (
+    build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
     get_merlin_lane_progress_ledgers,
     get_merlin_training_challenge_pack,
@@ -274,6 +275,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinPerformanceLane", "summary": "Return Lane E performance contract with throughput gates and profiler workflow", "domain": "functions"},
             {"name": "evaluateMerlinPerformanceGate", "summary": "Evaluate baseline vs candidate training receipts against Lane E speed gates", "domain": "functions"},
             {"name": "getMerlinTrainingExecutionQueue", "summary": "Return active retained-training queue state across all lanes", "domain": "functions"},
+            {"name": "getMerlinTrainingExecutionBundle", "summary": "Return retained training execution bundle with Lane E runtime profile evidence", "domain": "functions"},
             {"name": "getMerlinLaneProgressLedgers", "summary": "Return automated lane-by-lane progress ledgers and retained receipt summaries", "domain": "functions"},
             {"name": "runMerlinTrainingCycle", "summary": "Execute queued multi-lane training work and retain auditable receipts in session memory", "domain": "functions"},
             {"name": "runMerlinTargetedRigorSprint", "summary": "Execute bounded full-rigor sprint packet: retained training cycle + Stage A-E receipts + fail-closed blockers", "domain": "functions"},
@@ -428,6 +430,7 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinContinuousLearningProtocol": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingExecutionBundle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinLaneProgressLedgers": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "runMerlinTrainingCycle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "runMerlinTargetedRigorSprint": {
@@ -1015,6 +1018,10 @@ _FUNCTIONS = {
     )},
     "getMerlinContinuousLearningProtocol": lambda **args: {"data": get_merlin_continuous_learning_protocol(limit=args.get("limit"))},
     "getMerlinTrainingExecutionQueue": lambda **args: {"data": build_merlin_training_execution_queue(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+    )},
+    "getMerlinTrainingExecutionBundle": lambda **args: {"data": build_merlin_training_execution_bundle(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=args.get("limit"),
     )},

@@ -1692,6 +1692,7 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/three-lane-intensive-sprint",
         "/api/merlin/continuous-learning",
         "/api/merlin/training-execution-queue",
+        "/api/merlin/training-execution-bundle",
         "/api/merlin/lane-progress-ledgers",
         "/api/merlin/training-cycle",
         "/api/merlin/training-challenge-pack",
@@ -1746,6 +1747,7 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/three-lane-intensive-sprint",
         "/api/merlin/continuous-learning",
         "/api/merlin/training-execution-queue",
+        "/api/merlin/training-execution-bundle",
         "/api/merlin/lane-progress-ledgers",
         "/api/merlin/training-cycle",
         "/api/merlin/training-challenge-pack",
@@ -4727,6 +4729,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 "source_surfaces": [
                     "getMerlinPerformanceLane",
                     "getMerlinTrainingExecutionQueue",
+                    "getMerlinTrainingExecutionBundle",
                     _repo_rel(PRODUCT_ROOT / "tools" / "run_merlin_mlflow_experiment.py"),
                 ],
             },
@@ -4784,6 +4787,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "mlflow_manifests": "getMerlinMLflowManifests",
             "artifact_bundle": "getMerlinTrainingArtifacts",
             "execution_queue": "getMerlinTrainingExecutionQueue",
+            "execution_bundle": "getMerlinTrainingExecutionBundle",
             "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",
@@ -6065,6 +6069,7 @@ def build_training_artifact_bundle(
             "continuous_learning_protocol": get_merlin_continuous_learning_protocol(limit=stage_a_limit),
             "training_execution_surfaces": {
                 "execution_queue": "getMerlinTrainingExecutionQueue",
+                "execution_bundle": "getMerlinTrainingExecutionBundle",
                 "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
                 "training_cycle_runner": "runMerlinTrainingCycle",
                 "challenge_pack": "getMerlinTrainingChallengePack",
@@ -6365,6 +6370,7 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "continuous_learning_protocol": get_merlin_continuous_learning_protocol(limit=24),
         "training_execution_surfaces": {
             "execution_queue": "getMerlinTrainingExecutionQueue",
+            "execution_bundle": "getMerlinTrainingExecutionBundle",
             "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",
