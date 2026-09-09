@@ -105,7 +105,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/training-execution-queue` exposes the live retained-training queue state across applications/tools, books/articles, adversarial self-correction, the formal proof-foundry lane, and the performance lane.
 - `GET /api/psicat/lane-progress-ledgers` exposes automated per-lane completion ledgers and recent retained receipts.
 - `POST /api/psicat/training-cycle` executes queued multi-lane training work, including proof-foundry ingestion, and retains auditable receipts in PsiCat session memory.
-- `POST /api/psicat/training-cycle` now also emits an automatic Lane E performance-gate verdict and promotion blockers derived from retained before/after performance receipts, and each Lane E receipt carries benchmark-evidence provenance (`stage_b/stage_c` capture or explicit fallback marker).
+- `POST /api/psicat/training-cycle` now also emits an automatic Lane E performance-gate verdict and promotion blockers derived from retained before/after performance receipts, and each Lane E receipt carries benchmark-evidence provenance (`stage_b/stage_c` capture, persisted profile reuse, or explicit fallback marker).
 - `GET /api/psicat/training-challenge-pack` converts retained receipts into deterministic follow-up drills, prioritizing stale or review-required work first.
 - `GET /api/psicat/benchmark-corpora` exposes Stage A/B/C/D/E corpora directly, with stage selection support.
 - `GET /api/psicat/stage-a-receipts` runs the self-hosted Stage A receipt set and returns comparable PsiCat/incumbent runs.
@@ -152,6 +152,7 @@ Related reading outside this product folder:
 - JSONL dataset export: `python tools/export_merlin_training_jsonl.py` (default output: `training/training_jsonl/`).
 - MLflow manifest export: `python tools/export_merlin_mlflow_manifests.py` (default output: `training/mlflow_manifests/mlflow_manifests.json`).
 - Retained training execution export: `python tools/export_merlin_training_execution.py` (default output: `training/training_execution/three_lane_execution_bundle.json`).
+- Lane E runtime benchmark profile artifact is persisted at `training/training_execution/lane_e_runtime_profiles.json` for cross-session evidence reuse.
 - MLflow experiment receipt runner: `python tools/run_merlin_mlflow_experiment.py --experiment merlin_stage_b_shadow_eval --limit 3 --output /tmp/merlin-stage-b-receipts.json`.
 - The benchmark contract is designed for side-by-side PsiCat vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -11,6 +12,7 @@ if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
 from ox_navigator.engine.merlin_memory import MerlinSession
+from ox_navigator.engine import merlin_training_execution as training_execution
 from ox_navigator.engine.merlin_training_execution import (
     build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
@@ -111,3 +113,86 @@ def test_merlin_training_cycle_emits_performance_gate_receipts() -> None:
     evidence = dict((lane_e_receipts[0].get("artifact") or {}).get("performance_receipt_evidence") or {})
     assert evidence.get("source") in {"stage_b_stage_c_head_to_head_receipts", "fallback_static_profiles"}
     assert evidence.get("status") in {"captured", "fallback"}
+
+
+def test_lane_e_runtime_profiles_persist_and_reuse(tmp_path, monkeypatch) -> None:
+    artifact_path = tmp_path / "lane_e_runtime_profiles.json"
+    monkeypatch.setattr(training_execution, "LANE_E_PROFILE_ARTIFACT_PATH", artifact_path)
+    monkeypatch.setattr(training_execution, "_LANE_E_RUNTIME_PROFILE_CACHE", None)
+
+    def _receipt_payload() -> dict:
+        return {
+            "ok": True,
+            "summary": {"total": 2, "passed": 2, "failed": 0},
+            "runs": [
+                {
+                    "merlin_telemetry": {
+                        "latency_ms": 10.0,
+                        "tokens": {"total_estimate": 300},
+                        "rss_peak_kb": 1_600_000,
+                        "cost": {"estimated_usd": 0.0},
+                        "quality_signals": {"contract_pass_rate": 1.0},
+                    }
+                },
+                {
+                    "merlin_telemetry": {
+                        "latency_ms": 12.0,
+                        "tokens": {"total_estimate": 330},
+                        "rss_peak_kb": 1_650_000,
+                        "cost": {"estimated_usd": 0.0},
+                        "quality_signals": {"contract_pass_rate": 1.0},
+                    }
+                },
+            ],
+        }
+
+    monkeypatch.setattr(training_execution, "run_stage_b_head_to_head_receipts_sync", lambda limit=2: _receipt_payload())
+    monkeypatch.setattr(training_execution, "run_stage_c_head_to_head_receipts_sync", lambda limit=2: _receipt_payload())
+    first = run_merlin_training_cycle(session=MerlinSession(), limit=20)
+    first_lane_e = [
+        receipt for receipt in list(first.get("receipts") or [])
+        if receipt.get("queue_id") == "lane_e_speed_contract"
+    ][0]
+    first_evidence = dict((first_lane_e.get("artifact") or {}).get("performance_receipt_evidence") or {})
+    assert first_evidence.get("source") == "stage_b_stage_c_head_to_head_receipts"
+    assert artifact_path.exists()
+    persisted = json.loads(artifact_path.read_text(encoding="utf-8"))
+    assert "profiles" in persisted
+
+    monkeypatch.setattr(training_execution, "_LANE_E_RUNTIME_PROFILE_CACHE", None)
+
+    def _should_not_run(*args, **kwargs):
+        raise AssertionError("benchmark recapture should not run when persisted profiles are available")
+
+    monkeypatch.setattr(training_execution, "run_stage_b_head_to_head_receipts_sync", _should_not_run)
+    monkeypatch.setattr(training_execution, "run_stage_c_head_to_head_receipts_sync", _should_not_run)
+    second = run_merlin_training_cycle(session=MerlinSession(), limit=20)
+    second_lane_e = [
+        receipt for receipt in list(second.get("receipts") or [])
+        if receipt.get("queue_id") == "lane_e_speed_contract"
+    ][0]
+    second_evidence = dict((second_lane_e.get("artifact") or {}).get("performance_receipt_evidence") or {})
+    assert second_evidence.get("source") == "persisted_lane_e_runtime_profiles"
+    assert second_evidence.get("status") == "persisted_reuse"
+
+
+def test_lane_e_runtime_profiles_invalid_artifact_uses_fallback(tmp_path, monkeypatch) -> None:
+    artifact_path = tmp_path / "lane_e_runtime_profiles.json"
+    artifact_path.parent.mkdir(parents=True, exist_ok=True)
+    artifact_path.write_text("{not-json", encoding="utf-8")
+    monkeypatch.setattr(training_execution, "LANE_E_PROFILE_ARTIFACT_PATH", artifact_path)
+    monkeypatch.setattr(training_execution, "_LANE_E_RUNTIME_PROFILE_CACHE", None)
+
+    def _raise_capture(*args, **kwargs):
+        raise RuntimeError("capture unavailable")
+
+    monkeypatch.setattr(training_execution, "run_stage_b_head_to_head_receipts_sync", _raise_capture)
+    monkeypatch.setattr(training_execution, "run_stage_c_head_to_head_receipts_sync", _raise_capture)
+    payload = run_merlin_training_cycle(session=MerlinSession(), limit=20)
+    lane_e = [
+        receipt for receipt in list(payload.get("receipts") or [])
+        if receipt.get("queue_id") == "lane_e_speed_contract"
+    ][0]
+    evidence = dict((lane_e.get("artifact") or {}).get("performance_receipt_evidence") or {})
+    assert evidence.get("source") == "fallback_static_profiles"
+    assert evidence.get("status") == "fallback"

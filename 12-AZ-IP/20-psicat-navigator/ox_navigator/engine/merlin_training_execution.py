@@ -28,6 +28,7 @@ from .merlin_program import (
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
 EXECUTION_ARTIFACT_PATH = PRODUCT_ROOT / "training" / "training_execution" / "three_lane_execution_bundle.json"
+LANE_E_PROFILE_ARTIFACT_PATH = PRODUCT_ROOT / "training" / "training_execution" / "lane_e_runtime_profiles.json"
 GATE_LABELS = ("HARDGATE", "ADJACENT_TRACK", "OPEN_GAP", "ARCHITECTURE_LIMIT", "GOVERNANCE")
 LANE_ORDER = (
     "lane_a_applications_tools_mastery",
@@ -669,11 +670,61 @@ def _build_lane_e_runtime_profiles() -> dict[str, Any]:
     global _LANE_E_RUNTIME_PROFILE_CACHE
     if isinstance(_LANE_E_RUNTIME_PROFILE_CACHE, dict):
         return dict(_LANE_E_RUNTIME_PROFILE_CACHE)
+
+    def _persist(payload: dict[str, Any]) -> None:
+        try:
+            LANE_E_PROFILE_ARTIFACT_PATH.parent.mkdir(parents=True, exist_ok=True)
+            LANE_E_PROFILE_ARTIFACT_PATH.write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+        except OSError:
+            return
+
+    def _load_persisted() -> dict[str, Any] | None:
+        if not LANE_E_PROFILE_ARTIFACT_PATH.exists():
+            return None
+        try:
+            payload = json.loads(LANE_E_PROFILE_ARTIFACT_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
+        profiles = dict(payload.get("profiles") or {})
+        required_profile_keys = {
+            "lane_e_speed_contract",
+            "lane_e_profiler_pass",
+            "lane_e_roi_execution",
+        }
+        if not required_profile_keys.issubset(set(profiles)):
+            return None
+        baseline = dict((profiles.get("lane_e_speed_contract") or {}).get("metrics") or {})
+        candidate = dict((profiles.get("lane_e_profiler_pass") or {}).get("metrics") or {})
+        verdict = evaluate_merlin_performance_gate(
+            baseline={"stage": "persisted_baseline", "metrics": baseline},
+            candidate={"stage": "persisted_candidate", "metrics": candidate},
+        )
+        if str(verdict.get("gate_verdict") or "") != "pass":
+            return None
+        evidence = dict(payload.get("evidence") or {})
+        evidence.update(
+            {
+                "source": "persisted_lane_e_runtime_profiles",
+                "status": "persisted_reuse",
+                "artifact_path": _repo_rel(LANE_E_PROFILE_ARTIFACT_PATH),
+            }
+        )
+        return {"profiles": profiles, "evidence": evidence}
+
+    persisted = _load_persisted()
+    if isinstance(persisted, dict):
+        _LANE_E_RUNTIME_PROFILE_CACHE = dict(persisted)
+        return dict(persisted)
+
     fallback = _default_lane_e_stage_profiles()
     stage_profiles = dict(fallback)
     evidence = {
         "source": "fallback_static_profiles",
         "status": "fallback",
+        "artifact_path": _repo_rel(LANE_E_PROFILE_ARTIFACT_PATH),
         "stage_b_summary": {},
         "stage_c_summary": {},
     }
@@ -714,6 +765,7 @@ def _build_lane_e_runtime_profiles() -> dict[str, Any]:
             evidence = {
                 "source": "stage_b_stage_c_head_to_head_receipts",
                 "status": "captured",
+                "artifact_path": _repo_rel(LANE_E_PROFILE_ARTIFACT_PATH),
                 "stage_b_summary": dict(stage_b.get("summary") or {}),
                 "stage_c_summary": dict(stage_c.get("summary") or {}),
             }
@@ -721,6 +773,7 @@ def _build_lane_e_runtime_profiles() -> dict[str, Any]:
         evidence = {
             "source": "fallback_static_profiles",
             "status": "fallback",
+            "artifact_path": _repo_rel(LANE_E_PROFILE_ARTIFACT_PATH),
             "reason": f"{type(exc).__name__}: {exc}",
             "stage_b_summary": {},
             "stage_c_summary": {},
@@ -729,6 +782,7 @@ def _build_lane_e_runtime_profiles() -> dict[str, Any]:
         "profiles": stage_profiles,
         "evidence": evidence,
     }
+    _persist(payload)
     _LANE_E_RUNTIME_PROFILE_CACHE = dict(payload)
     return dict(payload)
 
