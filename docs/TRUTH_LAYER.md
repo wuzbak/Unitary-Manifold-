@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v37.3
+# Unitary Manifold v37.4
 
 ## Foundation reassessment
 
@@ -111,6 +111,17 @@ The implementation answers that question with controlled synthetic trajectories 
 
 PsiCat integration is kept practical and bounded: the pillar emits compact assist packets summarizing dominant order, top interaction, internal-vs-external balance, and the next diagnostic question to ask. That makes the new surface useful for training, comparison, and follow-up analysis while preserving the existing open physics obligations unchanged.
 
+
+
+### Sprint CR master implementation packet
+
+Sprint CR implements the full ten-step master plan as one fail-closed packet without widening claim scope. The charter locks action-to-evolution as the primary closure target and keeps APS/orbifold/Dirac as support-only surfaces. The burden board then converts the remaining action/equation/domain blockers into deterministic units with explicit evidence gates.
+
+Lane 1 executes the promotion-grade action/equation/residual/domain package attempt and keeps an explicit blocker certificate whenever closure is unearned. Lane 2 routes touched units through deterministic Lean criteria and only allows unconditional rows to count as closure evidence. Lane 3 enforces strict Python↔Lean symbol/assumption/statement/boundary equivalence on the touched scope, preserving READY vs BLOCKED_NOT_YET_DERIVABLE outcomes.
+
+Lane 4 preserves falsifier/tension discipline by keeping external waits explicit (DESI/LiteBIRD/CMB-S4) and forbidding label flips without earned evidence. Lane 5 binds targeted and full regression doctrine with explicit scoped-vs-full formal reporting. The documentation packet publishes assumptions boundaries and blocker requests, and final status/integration certificates fail-close sprint validity unless all packet surfaces stay synchronized.
+
+Result: action-to-evolution closure attempt remains fail-closed and blocker-explicit; rigor and traceability are tightened; no new hardgate closure is claimed.
 
 ### Sprint CQ continuation packet
 

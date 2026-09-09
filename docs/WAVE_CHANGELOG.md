@@ -33,11 +33,44 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v37.3 (2026-09-08)**
+**Current version: v37.4 (2026-09-09)**
 **Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1109
+**Next pillar slot:** 1119
 
 
+
+
+## v37.4 (2026-09-09 — Sprint CR: Pillars 1109-1118)
+
+**What changed:**
+Sprint CR implements the full master-plan packet in one fail-closed execution: scope/success lock, deterministic burden board, Lane 1 action-to-evolution closure attempt, Lane 2 Lean deterministic proof routing, Lane 3 Python↔Lean truth-equivalence gating, Lane 4 falsifier/tension discipline, Lane 5 verification/regression discipline, documentation evidence packet, status coherence certificate, and final integration certificate.
+
+**Why:**
+Put the whole preparation stack into one rigorous closure-oriented sprint while keeping explicit blocker truth and no unearned claim promotion.
+
+**Epistemic label deltas:**
+- `SPRINT_CR_MASTER_CHARTER_COMPLETE`
+- `SPRINT_CR_FORMAL_BURDEN_BOARD_COMPLETE`
+- `LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_COMPLETE`
+- `LANE2_LEAN4_DETERMINISTIC_PROOF_COMPLETE`
+- `LANE3_PYTHON_LEAN_TRUTH_EQUIVALENCE_COMPLETE`
+- `LANE4_FALSIFIER_TENSION_DISCIPLINE_COMPLETE`
+- `LANE5_VERIFICATION_REGRESSION_DISCIPLINE_COMPLETE`
+- `SPRINT_CR_DOCUMENTATION_EVIDENCE_PACKET_COMPLETE`
+- `SPRINT_CR_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+- `SPRINT_CR_MASTER_INTEGRATION_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — this sprint tightens proof/translation/falsifier/verification discipline and blocker precision; no new hardgate closure is claimed.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external windows remain explicit and unchanged.
+
+**Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Focused regression: Sprint CR targeted implementation + continuity suites 32 passed · 0 failed; latest verified full regression in branch history is 64,150 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1119
 
 ## v37.3 (2026-09-08 — Sprint CQ: Pillars 1103-1108)
 

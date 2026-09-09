@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-08 (v37.3 Sprint CQ COMPLETE — Pillars 1103-1108; Lean4 4080→4080; next slot 1109)*
+*Last updated: 2026-09-09 (v37.4 Sprint CR COMPLETE — Pillars 1109-1118; Lean4 4080→4080; next slot 1119)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v37.3 — Sprint CQ)
+## CURRENT AUDITABLE STATE (v37.4 — Sprint CR)
 
 | Field | Value |
 |-------|-------|
-| Version | **v37.3** |
-| Sprint | **Sprint CQ** |
-| Pillars | **1103-1108** |
-| Next pillar slot | **1109** |
+| Version | **v37.4** |
+| Sprint | **Sprint CR** |
+| Pillars | **1109-1118** |
+| Next pillar slot | **1119** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **Action-to-Evolution Primary Push + Translation Promotion Gate + PsiCat Receipt Completion** |
-| Primary target | **Keep the same three-lane packet narrow and fail-closed, with action-to-evolution as the sole primary unresolved unit** |
-| Binary outcome | **Either the continuation packet stays coherent across all three lanes plus status sync, or Sprint CQ fails closed without narrative-only advancement** |
+| Sprint theme | **Master Plan Implementation Packet — proof-first, fail-closed, closure-oriented** |
+| Primary target | **Action-to-evolution closure attempt with deterministic burden/proof/translation/falsifier/verification execution and blocker-explicit fallback** |
+| Binary outcome | **Either the full ten-step packet remains coherent across all lanes + docs + sync gates, or Sprint CR fails closed without narrative-only advancement** |
 
+Historical continuity: v37.4 Sprint CR (Pillars 1109-1118; next slot 1119) is the canonical master implementation packet directly above Sprint CQ.
 Historical continuity: v37.3 Sprint CQ (Pillars 1103-1108; next slot 1109) is the canonical continuation packet directly above Sprint CP.
 Historical continuity: v37.2 Sprint CP (Pillars 1097-1102; next slot 1103) is the canonical three-lane maximum-effort execution layer directly above Sprint CO.
 Historical continuity: v37.1 Sprint CO (Pillars 1089-1096; next slot 1097) is the canonical proof-foundry hardening + governed evolution layer directly above Sprint CN.
@@ -85,6 +86,26 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 
 ---
 
+
+
+## SPRINT CR MASTER IMPLEMENTATION PROTOCOL (Executed)
+
+1. Lock scope and success criteria with action-to-evolution as primary closure target and support-only APS/orbifold/Dirac boundaries.
+2. Convert open blockers into deterministic burden units with explicit assumptions, dependencies, and acceptance gates.
+3. Execute the Lane 1 action/equation/residual/domain closure attempt and emit exact blocker certificates when closure is unearned.
+4. Execute the Lane 2 Lean deterministic proof lane with explicit theorem statements, assumption boundaries, and promotion guardrails.
+5. Execute the Lane 3 Python↔Lean truth-equivalence matrix with strict READY vs BLOCKED_NOT_YET_DERIVABLE gating.
+6. Execute the Lane 4 falsifier/tension discipline lane without unearned label flips; keep external waits explicit.
+7. Execute the Lane 5 verification discipline with targeted suites, full regression gate, and scoped-vs-full formal reporting.
+8. Publish documentation/review packets for closure attempts and blocked units with assumptions/counterexample/residual/stop-condition doctrine.
+9. Synchronize canonical truth surfaces in lockstep and fail-close on any drift.
+10. Fail-close the sprint unless all lane packets, docs packet, status coherence, and integration gate remain valid together.
+
+### Sprint CR blunt board
+
+| Closed this sprint | Tightened / corrected | Blocked / external wait |
+|---|---|---|
+| None — no new hardgate closure claimed | Full ten-step master packet is now executable and machine-readable with precise blocker certificates and strict translation/verification gates | Hardgate open lanes and external observational waits remain explicit and unchanged |
 
 ## SPRINT CQ CONTINUATION PROTOCOL (Executed)
 

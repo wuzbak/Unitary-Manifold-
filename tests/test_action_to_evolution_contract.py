@@ -19,14 +19,27 @@ def test_implemented_flow_surface_stays_explicit() -> None:
     assert surface["time_domain_boundary"]["coordinate_time_gauge_fixed"] is True
 
 
-def test_deliverable_contract_matches_exact_three_blockers() -> None:
+def test_deliverable_contract_tracks_evidence_and_remaining_single_blocker() -> None:
     contract = action_to_evolution_deliverable_contract()
     deliverables = contract["primary_deliverables"]
     assert contract["status"] == "OPEN"
     assert len(deliverables) == 3
     assert [item["id"] for item in deliverables] == PRIMARY_DELIVERABLE_IDS
-    assert contract["remaining_blockers"] == PRIMARY_DELIVERABLE_IDS
-    assert all(item["earned"] is False for item in deliverables)
+
+    first = deliverables[0]
+    assert first["earned"] is True
+    assert first["status"] == "EVIDENCE_SURFACED"
+
+    second = deliverables[1]
+    assert second["earned"] is False
+    assert second["status"] == "DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED"
+    assert second["euler_lagrange_mismatch_receipt"]["status"] == "RECEIPT_READY"
+
+    third = deliverables[2]
+    assert third["earned"] is True
+    assert third["status"] == "EVIDENCE_SURFACED"
+
+    assert contract["remaining_blockers"] == [PRIMARY_DELIVERABLE_IDS[1]]
     assert contract["promotion_ready"] is False
 
 
