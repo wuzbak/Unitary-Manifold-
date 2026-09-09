@@ -560,6 +560,7 @@ def test_route_tool_training_architecture_and_artifacts():
     training_cycle = route_tool('runMerlinTrainingCycle', {'limit': 3}, session=session)
     assert training_cycle['ok'] is True
     assert training_cycle['result']['data']['processed_count'] == 3
+    assert training_cycle['result']['data']['performance_gate']['gate_verdict'] in {'pass', 'hold'}
     targeted_rigor = route_tool(
         'runMerlinTargetedRigorSprint',
         {'limit': 1, 'training_limit': 3},
@@ -1963,6 +1964,7 @@ def test_server_merlin_endpoints():
             assert training_cycle.status_code == 200
             assert training_cycle.json()['ok'] is True
             assert training_cycle.json()['training_cycle']['processed_count'] == 3
+            assert training_cycle.json()['training_cycle']['performance_gate']['gate_verdict'] in {'pass', 'hold'}
             lane_progress = client.get('/api/merlin/lane-progress-ledgers?limit=3')
             assert lane_progress.status_code == 200
             assert lane_progress.json()['ok'] is True

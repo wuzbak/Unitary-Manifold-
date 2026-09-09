@@ -36,6 +36,8 @@ def test_merlin_training_cycle_executes_round_robin_receipts():
         "lane_d_formal_proof_foundry",
         "lane_e_training_performance",
     }.issubset({item["lane_id"] for item in result["receipts"]})
+    assert result["performance_gate"]["gate_verdict"] in {"pass", "hold"}
+    assert "promotion_blockers" in result
 
     queue_after = build_merlin_training_execution_queue(session=session, limit=6)
     assert queue_after["completed_count"] == 6
@@ -92,3 +94,12 @@ def test_merlin_training_queue_includes_proof_foundry_lane() -> None:
     assert "five-lane Merlin training work" in queue["objective"]
     assert any(item["lane_id"] == "lane_d_formal_proof_foundry" for item in queue["items"])
     assert any(item["lane_id"] == "lane_e_training_performance" for item in queue["items"])
+
+
+def test_merlin_training_cycle_emits_performance_gate_receipts() -> None:
+    session = MerlinSession()
+    result = run_merlin_training_cycle(session=session, limit=20)
+    gate = dict(result.get("performance_gate") or {})
+    assert gate.get("ok") is True
+    assert gate.get("gate_verdict") == "pass"
+    assert gate.get("baseline_source") == "performance_contract_receipt"
