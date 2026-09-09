@@ -274,6 +274,7 @@ MERLIN_KERNEL_TRACK_DEFAULTS: dict[str, str] = {
     "governance_decision_traces": "kernel_g",
     "adversarial_counterexamples": "kernel_g",
     "applications_tool_mastery": "kernel_r",
+    "hardware_topology_and_proof_ops": "kernel_r",
     "books_articles_mastery": "kernel_s",
     "adversarial_self_correction": "kernel_a",
     "continuous_learning_governance": "kernel_g",
@@ -2976,6 +2977,52 @@ def _seed_continuous_learning_governance_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _seed_hardware_topology_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "hardware-topology-proof-frontier-001",
+            "track": "hardware_topology_and_proof_ops",
+            "prompt": (
+                "Design a PsiCat deployment topology that separates compact routing, default reasoning, heavy reasoning, "
+                "training ablations, and Lean4 proof-operations while keeping the current proof-foundry honesty boundary explicit."
+            ),
+            "target": (
+                "Use a lightweight always-on control plane for routing and telemetry, a separate default reasoning lane for normal "
+                "repository work, an isolated heavy lane for hard cases, a non-serving training lane for LoRA/QLoRA experiments, "
+                "and a proof-operations lane dedicated to scoped Lean receipts and reviewer packets. Keep the proof-operations lane "
+                "aligned with the current manual-port-with-traceability boundary rather than claiming direct Lean execution inside PsiCat."
+            ),
+            "supervision_mode": "hardware_topology_planning",
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [
+                _repo_rel(PRODUCT_ROOT / "README.md"),
+                "getMerlinHardwareArchitectureBoard",
+                "src/core/formal_traceability_spine.py",
+            ],
+        },
+        {
+            "id": "hardware-topology-proof-frontier-002",
+            "track": "hardware_topology_and_proof_ops",
+            "prompt": (
+                "A steward asks whether PsiCat should spend scarce accelerator budget on heavy inference or on proof-review operations first. "
+                "Answer with a fail-closed priority recommendation."
+            ),
+            "target": (
+                "Prioritize default reasoning stability and proof-review operations before scaling the heavy lane. The heavy lane should expand "
+                "only after default-lane receipts, proof packet throughput, and frontier blocker handling are already stable, because the current "
+                "master-theorem frontier is still blocker-gated and gains more from disciplined review throughput than from speculative high-cost inference."
+            ),
+            "supervision_mode": "governed_hardware_prioritization",
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [
+                "getMerlinExecutionBoard",
+                "getMerlinHardwareArchitectureBoard",
+                "proof/FORMAL_PROOF_FOUNDRY.md",
+            ],
+        },
+    ]
+
+
 def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, Any]]:
     from .merlin_benchmark import get_stage_a_benchmark_corpus
     from .merlin_rag import KNOWLEDGE_BASE
@@ -3020,6 +3067,7 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
     examples.extend(_seed_teacher_trace_distillation_examples())
     examples.extend(_seed_external_proof_review_examples())
     examples.extend(_seed_formal_proof_foundry_examples())
+    examples.extend(_seed_hardware_topology_examples())
     examples.extend(_seed_applications_tool_mastery_examples())
     examples.extend(_seed_books_articles_mastery_examples())
     examples.extend(_seed_adversarial_self_correction_examples())
@@ -3489,6 +3537,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     review_packet = get_merlin_sprint_review_packet(limit=limit)
     heavy_lane = get_merlin_heavy_reasoning_lane(limit=max(2, int(limit if limit is not None else 2)))
     model_board = get_merlin_sovereign_model_board()
+    hardware_board = get_merlin_hardware_architecture_board(limit=max(2, int(limit if limit is not None else 2)))
     resilience = get_merlin_validation_resilience_packet(limit=max(3, int(limit if limit is not None else 2)))
     rhythm = get_operating_rhythm()
     stage_reviews = list(review_packet.get("stage_reviews") or [])
@@ -3564,6 +3613,10 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
         "validation_resilience": {
             **dict(resilience),
             "packet_surface": "getMerlinValidationResiliencePacket",
+        },
+        "hardware_architecture": {
+            **dict(hardware_board),
+            "packet_surface": "getMerlinHardwareArchitectureBoard",
         },
         "governance_cadence": rhythm,
         "runtime_tier_summary": {
@@ -4101,6 +4154,131 @@ def get_merlin_sovereign_model_board() -> dict[str, Any]:
     }
 
 
+def get_merlin_hardware_architecture_board(limit: int | None = 3) -> dict[str, Any]:
+    from .merlin_local_inference import get_inference_providers
+
+    resolved_limit = max(1, int(limit if limit is not None else 3))
+    model_board = get_merlin_sovereign_model_board()
+    frontier_stack = get_frontier_open_weight_stack()
+    proof_foundry = get_formal_proof_foundry_training_bundle(limit=resolved_limit)
+    providers = list(get_inference_providers())
+    available_local_providers = [
+        str(item.get("name") or "")
+        for item in providers
+        if bool(item.get("available")) and str(item.get("provider_kind") or "") != "compatibility"
+    ]
+    execution_kernels = [
+        str(item.get("name") or "")
+        for item in list(frontier_stack.get("execution_kernels") or [])
+        if str(item.get("name") or "").strip()
+    ]
+    tier_shortlists = dict(model_board.get("tier_shortlists") or {})
+
+    def _candidate_summary(item: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "model_family": str(item.get("model_family") or ""),
+            "status": str(item.get("status") or ""),
+            "preferred_runtime": str(item.get("preferred_runtime") or ""),
+            "next_gate": str(item.get("next_gate") or ""),
+        }
+
+    return {
+        "board_id": "merlin_hardware_architecture_board_v1",
+        "generated_at": _utcnow(),
+        "mission": (
+            "Allocate sovereign hardware across compact routing, default reasoning, heavy reasoning, training, "
+            "and proof-operations without blurring the current Lean honesty boundary."
+        ),
+        "principles": [
+            "separate_serving_from_training",
+            "proof_ops_are_receipt_and_review_first",
+            "heavy_lane_is_shadow_gated_not_default",
+            "openrouter_stays_compatibility_only",
+            "promote_only_after_receipts_clear",
+        ],
+        "provider_state": {
+            "available_local_providers": available_local_providers,
+            "compatibility_only_providers": [
+                str(item.get("name") or "")
+                for item in providers
+                if str(item.get("provider_kind") or "") == "compatibility"
+            ],
+            "default_provider": "deterministic_retrieval",
+        },
+        "execution_kernel_roster": execution_kernels[: resolved_limit + 2],
+        "lane_topology": [
+            {
+                "lane_id": "compact_control_plane",
+                "role": "routing_telemetry_policy_and_fast_grounding",
+                "node_profile": "cpu_or_low_vram_quantized_lane",
+                "preferred_candidates": [
+                    _candidate_summary(item)
+                    for item in list(tier_shortlists.get("compact_routing_tier") or [])[:resolved_limit]
+                ],
+                "preferred_runtimes": ["deterministic_retrieval", "llama_cpp_or_ollama_bootstrap"],
+                "promotion_focus": "tool_chain_preflight_and_router_stability",
+            },
+            {
+                "lane_id": "default_reasoning_lane",
+                "role": "repository_native_reasoning_and_citation_work",
+                "node_profile": "single_accelerator_or_high_headroom_cpu_lane",
+                "preferred_candidates": [
+                    _candidate_summary(item)
+                    for item in list(tier_shortlists.get("default_reasoning_tier") or [])[:resolved_limit]
+                ],
+                "preferred_runtimes": ["vllm_or_tensorrt_llm", "vllm_or_onnx_runtime"],
+                "promotion_focus": "provenance_completeness_and_boundary_retention",
+            },
+            {
+                "lane_id": "heavy_reasoning_shadow_lane",
+                "role": "cross_source_conflict_reconciliation_and_exception_cases",
+                "node_profile": "high_memory_accelerator_shadow_lane",
+                "preferred_candidates": [
+                    _candidate_summary(item)
+                    for item in list(tier_shortlists.get("heavy_reasoning_tier") or [])[:resolved_limit]
+                ],
+                "preferred_runtimes": ["vllm_or_tensorrt_llm", "vllm_or_openvino_runtime"],
+                "promotion_focus": "shadow_only_until_failure_taxonomy_improves",
+            },
+            {
+                "lane_id": "training_ablation_lane",
+                "role": "rapid_lora_and_qlora_iteration",
+                "node_profile": "separate_non_serving_accelerator_pool",
+                "engines": [
+                    dict(frontier_stack.get("two_engine_training_strategy", {}).get("rapid_ablation_lane") or {}),
+                    dict(frontier_stack.get("two_engine_training_strategy", {}).get("production_training_lane") or {}),
+                ],
+                "promotion_focus": "dataset_quality_and_reproducible_receipts",
+            },
+            {
+                "lane_id": "proof_operations_lane",
+                "role": "scoped_lean_builds_review_packets_and_python_to_lean_audits",
+                "node_profile": "cpu_ram_storage_first_with_optional_accelerator_assist",
+                "proof_foundry_status": str(proof_foundry.get("status") or ""),
+                "primary_lanes": list(proof_foundry.get("lane_ids") or [])[:resolved_limit],
+                "review_packets": [
+                    str(item.get("path") or item)
+                    for item in list(proof_foundry.get("review_packets") or [])[:resolved_limit]
+                ],
+                "promotion_focus": "shrink_proxies_increase_traceability_and_keep_blockers_explicit",
+            },
+        ],
+        "proof_ops_control_plane": {
+            "runtime_alignment": dict(proof_foundry.get("runtime_alignment") or {}),
+            "current_boundary": proof_foundry.get("honesty_note"),
+            "training_surface": "getMerlinTrainingArchitecture",
+            "artifact_surface": "getMerlinTrainingArtifacts",
+            "review_surface": "getMerlinSprintReviewPacket",
+        },
+        "rollout_order": [
+            "stabilize_compact_and_default_local_lanes",
+            "stand_up_proof_operations_receipt_lane",
+            "expand_training_ablation_capacity",
+            "shadow_heavy_reasoning_only_after_receipt_improvement",
+        ],
+    }
+
+
 def get_merlin_applications_tools_lane() -> dict[str, Any]:
     products = list(_get_registered_product_records())
     hf_spaces = list(_get_hf_space_records())
@@ -4402,6 +4580,7 @@ def get_merlin_three_lane_intensive_sprint(limit: int | None = None) -> dict[str
 def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
     seed_examples = _build_seed_training_examples(limit=limit)
     acquisition = get_open_weight_acquisition_ledger()
+    hardware_board = get_merlin_hardware_architecture_board(limit=limit)
     track_counts: dict[str, int] = {}
     for item in seed_examples:
         track = str(item.get("track", "unknown"))
@@ -4479,6 +4658,16 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                     "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
                     "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md",
                     "docs/TRUTH_LAYER.md",
+                ],
+            },
+            {
+                "family": "hardware_topology_and_proof_ops",
+                "purpose": "Teach PsiCat how to allocate sovereign hardware across routing, reasoning, training, and Lean proof-operations without overstating closure.",
+                "source_surfaces": [
+                    _repo_rel(PRODUCT_ROOT / "README.md"),
+                    "getMerlinHardwareArchitectureBoard",
+                    "getMerlinExecutionBoard",
+                    "src/core/formal_traceability_spine.py",
                 ],
             },
             {
@@ -4563,11 +4752,13 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "track_counts": track_counts,
         },
         "formal_proof_foundry": get_formal_proof_foundry_training_bundle(limit=limit),
+        "hardware_architecture": hardware_board,
         "active_training_surfaces": {
             "baseline_plan": "getMerlinTrainingPlan",
             "full_architecture": "getMerlinTrainingArchitecture",
             "execution_board": "getMerlinExecutionBoard",
             "validation_resilience_packet": "getMerlinValidationResiliencePacket",
+            "hardware_architecture_board": "getMerlinHardwareArchitectureBoard",
             "dataset_bundle": "getMerlinTrainingDataset",
             "sprint_review_packet": "getMerlinSprintReviewPacket",
             "heavy_reasoning_lane": "getMerlinHeavyReasoningLane",
@@ -6086,6 +6277,7 @@ def build_training_artifact_bundle(
             "training_dataset": dataset_bundle["dataset"],
             "training_curation": dict(((dataset_bundle.get("dataset") or {}).get("curation_ledger") or {})),
             "formal_proof_foundry_bundle": get_formal_proof_foundry_training_bundle(limit=limit),
+            "hardware_architecture_board": get_merlin_hardware_architecture_board(limit=limit),
             "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit, compiled_insights=compiled_insights),
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),
@@ -6388,6 +6580,7 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "training_and_adaptation": get_training_and_adaptation(),
         "training_architecture": get_training_architecture(limit=12),
         "training_dataset": build_training_dataset_bundle(limit=12),
+        "hardware_architecture": get_merlin_hardware_architecture_board(limit=4),
         "mlflow_manifests": get_mlflow_experiment_manifests(limit=12),
         "open_science_registry": get_open_science_resource_registry(),
         "open_weight_acquisition_ledger": get_open_weight_acquisition_ledger(),
