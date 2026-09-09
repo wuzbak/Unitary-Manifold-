@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generated_at": "2026-09-09T15:57:21.688224+00:00",
+  "generated_at": "2026-09-09T15:50:34.973015+00:00",
   "mode": "spc_phase1_baseline_execution",
   "objective": "Run immediate baseline batteries across business, regulatory, and strategy lanes; emit evidence packets and hold/clear/demote ledger.",
   "inputs": {
@@ -10,7 +10,7 @@
   "phase0_packet": {
     "ok": true,
     "path": "12-AZ-IP/20-psicat-navigator/training/training_execution/psicat_spc_phase0_execution_packet.json",
-    "error": "",
+    "error": "Missing phase-0 packet artifact.",
     "packet": {
       "ok": true,
       "packet": "psicat_spc_phase0_execution",
@@ -114,7 +114,7 @@
     ]
   },
   "targeted_rigor_sprint": {
-    "generated_at": "2026-09-09T15:57:21.579281+00:00",
+    "generated_at": "2026-09-09T15:50:34.866973+00:00",
     "mode": "targeted_full_rigor_sprint",
     "objective": "Execute a fail-closed, receipt-backed sprint proving PsiCat both trains and works across the retained three-lane training loop and Stage A→E benchmark gates.",
     "inputs": {
@@ -245,7 +245,7 @@
       },
       "cycle": {
         "ok": true,
-        "generated_at": "2026-09-09T15:57:21.229440+00:00",
+        "generated_at": "2026-09-09T15:50:34.548582+00:00",
         "mode": "synchronous_retained_training_execution",
         "processed_count": 9,
         "queue_before": {
@@ -426,17 +426,17 @@
               "reference_path": "12-AZ-IP/01-axiom-os/README.md",
               "tracked_root": "12-AZ-IP/01-axiom-os/README.md",
               "file_count": 1,
-              "content_digest": "27eac60bc43be371e7b806d7049aa038d3256f823544ff275326141be3d320e7",
-              "last_modified_at": "2026-09-09T15:55:54.412471+00:00"
+              "content_digest": "d6bded6f91f3c91313ac0764107df1bf2688dd00666140c4ff74c19727f2a50e",
+              "last_modified_at": "2026-09-09T15:46:15.880671+00:00"
             },
             "mastery_score": 0.8208,
             "gate_verdict": "pass",
             "gate_blockers": [],
             "summary_fact": "Absorb and benchmark Axiom OS Core Suite. retained 12-AZ-IP/01-axiom-os/README.md with 61 Python files, 4 tests, and 1 documented endpoints.",
-            "started_at": "2026-09-09T15:57:21.175199+00:00",
-            "completed_at": "2026-09-09T15:57:21.177702+00:00",
+            "started_at": "2026-09-09T15:50:34.503359+00:00",
+            "completed_at": "2026-09-09T15:50:34.505256+00:00",
             "retained_training": true,
-            "receipt_id": "f071b54a5df799f745418a3257d3e2f19144954bc21093f15897acc37ee35b46"
+            "receipt_id": "e3ec3f6f7108a6d48f303be2dcacc8f0c5b2ce1a7edfc881dcc5ec851c43f153"
           },
           {
             "queue_id": "lane_b_book_book-air-traffic-control-omega",
@@ -486,17 +486,17 @@
               "reference_path": "7-OUTREACH/substack/books/book-air-traffic-control-omega.md",
               "tracked_root": "7-OUTREACH/substack/books/book-air-traffic-control-omega.md",
               "file_count": 1,
-              "content_digest": "1ba9f66e13c4a940c6589caff59c37095014ad64574159da556339d970c664f3",
-              "last_modified_at": "2026-09-09T15:55:56.554179+00:00"
+              "content_digest": "cd35e834149ac5cf4a088d53afa6436065a7a18ef9c031d1475e48c3858c482b",
+              "last_modified_at": "2026-09-09T15:46:18.071086+00:00"
             },
             "mastery_score": 0.7333,
             "gate_verdict": "pass",
             "gate_blockers": [],
             "summary_fact": "Cleared for Approach — But Not for Landing retained 7-OUTREACH/substack/books/book-air-traffic-control-omega.md with 13172 words, 48 headings, and 0 internal links.",
-            "started_at": "2026-09-09T15:57:21.177812+00:00",
-            "completed_at": "2026-09-09T15:57:21.185702+00:00",
+            "started_at": "2026-09-09T15:50:34.505371+00:00",
+            "completed_at": "2026-09-09T15:50:34.512897+00:00",
             "retained_training": true,
-            "receipt_id": "17f9fc7f375f4117cdaf4aa9b2fb325321e89a79fafef923580dd709850cd33a"
+            "receipt_id": "940f4ec3467af237f830694603e2d11c68ee135a0d4b39923d0e01a8adc4f512"
           },
           {
             "queue_id": "lane_c_contradiction_digest",
@@ -533,17 +533,17 @@
                 "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_meta_learning.py",
                 "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_memory.py"
               ],
-              "content_digest": "6e096f900aecfb1024ab1cfe6ce4d4de79fbc67ec33dfe4ec48fa1547ff8e686",
-              "last_modified_at": "2026-09-09T15:55:56.500294+00:00"
+              "content_digest": "8e7dfe7f6cce13837aa6517254ff9629b98676ac927baf6a1b37125cd0c8ed54",
+              "last_modified_at": "2026-09-09T15:46:18.025568+00:00"
             },
             "mastery_score": 0.555,
             "gate_verdict": "pass",
             "gate_blockers": [],
             "summary_fact": "Contradiction digest retained 0 counterexample signals with 0 contradiction events.",
-            "started_at": "2026-09-09T15:57:21.185807+00:00",
-            "completed_at": "2026-09-09T15:57:21.186484+00:00",
+            "started_at": "2026-09-09T15:50:34.513020+00:00",
+            "completed_at": "2026-09-09T15:50:34.513560+00:00",
             "retained_training": true,
-            "receipt_id": "ae660f2ffb770078b04d560dfa5b162f6a5cc69e34fc0f17ce8c281d2d8fa534"
+            "receipt_id": "4c953fb5f3892b2b5a33a88d92ba0e2afdb68afdd6c9aabac755a93a36f8d8ab"
           },
           {
             "queue_id": "lane_d_docs_TRUTH_LAYER_md",
@@ -603,17 +603,17 @@
               "reference_path": "docs/TRUTH_LAYER.md",
               "tracked_root": "docs/TRUTH_LAYER.md",
               "file_count": 1,
-              "content_digest": "f6b451f46eb375dc36c68ea53ec732a74fabda729356736e8dd711c751f6a3ca",
-              "last_modified_at": "2026-09-09T15:55:56.744294+00:00"
+              "content_digest": "1f9465b7f649eff6baffdf7e24ce1150f61d5516e058b5a30a64279cd014edec",
+              "last_modified_at": "2026-09-09T15:46:18.232566+00:00"
             },
             "mastery_score": 0.9,
             "gate_verdict": "pass",
             "gate_blockers": [],
             "summary_fact": "TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification retained docs/TRUTH_LAYER.md with 13421 words, 1 review-packet markers, and 27 boundary markers.",
-            "started_at": "2026-09-09T15:57:21.186549+00:00",
-            "completed_at": "2026-09-09T15:57:21.205316+00:00",
+            "started_at": "2026-09-09T15:50:34.513623+00:00",
+            "completed_at": "2026-09-09T15:50:34.529412+00:00",
             "retained_training": true,
-            "receipt_id": "e5c9e677b07ed19bac831e73d8696e744b653ee8cfc59a7115b3adcb0ec979bb"
+            "receipt_id": "3ed9af8b8a8e60c396d1de0d2796c2285ca7972dbdb889d63de25e0d0b9d6160"
           },
           {
             "queue_id": "lane_a_02",
@@ -663,17 +663,17 @@
               "reference_path": "12-AZ-IP/02-az-kernel/README.md",
               "tracked_root": "12-AZ-IP/02-az-kernel/README.md",
               "file_count": 1,
-              "content_digest": "4447ab988dc9fd16723b9dac54b2fe3931c9d1ce2cd095f395d1612bdf13facb",
-              "last_modified_at": "2026-09-09T15:55:54.417571+00:00"
+              "content_digest": "f771f2a90016fef7af6fce1c0aa9bf61d87a6c708fa3b3a47671a6ce57056e96",
+              "last_modified_at": "2026-09-09T15:46:15.884152+00:00"
             },
             "mastery_score": 0.4167,
             "gate_verdict": "pass",
             "gate_blockers": [],
             "summary_fact": "Absorb and benchmark AZ-KERNEL Rust Kernel. retained 12-AZ-IP/02-az-kernel/README.md with 4 Python files, 2 tests, and 0 documented endpoints.",
-            "started_at": "2026-09-09T15:57:21.205412+00:00",
-            "completed_at": "2026-09-09T15:57:21.218147+00:00",
+            "started_at": "2026-09-09T15:50:34.529534+00:00",
+            "completed_at": "2026-09-09T15:50:34.538429+00:00",
             "retained_training": true,
-            "receipt_id": "5c4675fb320363495ed1a575b7687230195872a71579173bf7dcc5043de33873"
+            "receipt_id": "6ccdb565251f715cc4bde60f6a214313f8c5dccafafe4b6a82c6658934e18060"
           },
           {
             "queue_id": "lane_b_book_book-american-food-manufacturing-quality-nutrition-cruelty",
@@ -723,17 +723,17 @@
               "reference_path": "7-OUTREACH/substack/books/book-american-food-manufacturing-quality-nutrition-cruelty.md",
               "tracked_root": "7-OUTREACH/substack/books/book-american-food-manufacturing-quality-nutrition-cruelty.md",
               "file_count": 1,
-              "content_digest": "cb0e5411bc491dc1cfa69b2f638c81dd768b5e0d7fb01d4c755245338d86ea48",
-              "last_modified_at": "2026-09-09T15:55:56.554179+00:00"
+              "content_digest": "2d63518eb25031db9f14b8ec185d8dd127b896dc7cc384ac89323429d9049b80",
+              "last_modified_at": "2026-09-09T15:46:18.071568+00:00"
             },
             "mastery_score": 0.7333,
             "gate_verdict": "pass",
             "gate_blockers": [],
             "summary_fact": "The Jungle, Revisited retained 7-OUTREACH/substack/books/book-american-food-manufacturing-quality-nutrition-cruelty.md with 13613 words, 50 headings, and 0 internal links.",
-            "started_at": "2026-09-09T15:57:21.218232+00:00",
-            "completed_at": "2026-09-09T15:57:21.225430+00:00",
+            "started_at": "2026-09-09T15:50:34.538530+00:00",
+            "completed_at": "2026-09-09T15:50:34.545378+00:00",
             "retained_training": true,
-            "receipt_id": "8123ec4a473336144ef79f427eb57f4e69787d6d6ab5c8513391e249db6e3992"
+            "receipt_id": "24afec7fe936d6ac9da0dd2aeabd51cd5345eb4218c472e20cc08e9b83785145"
           },
           {
             "queue_id": "lane_c_falsification_oracle",
@@ -750,7 +750,7 @@
               "oracles": [
                 {
                   "ok": true,
-                  "generated_at": "2026-09-09T15:57:21.226151+00:00",
+                  "generated_at": "2026-09-09T15:50:34.546031+00:00",
                   "domain": "general_reasoning",
                   "kill_conditions": [
                     "hardgate_contradiction",
@@ -761,7 +761,7 @@
                 },
                 {
                   "ok": true,
-                  "generated_at": "2026-09-09T15:57:21.226167+00:00",
+                  "generated_at": "2026-09-09T15:50:34.546047+00:00",
                   "domain": "journalism",
                   "kill_conditions": [
                     "source_tier_lt_2",
@@ -772,7 +772,7 @@
                 },
                 {
                   "ok": true,
-                  "generated_at": "2026-09-09T15:57:21.226177+00:00",
+                  "generated_at": "2026-09-09T15:50:34.546056+00:00",
                   "domain": "earth_science",
                   "kill_conditions": [
                     "sensor_drift_gt_threshold",
@@ -783,7 +783,7 @@
                 },
                 {
                   "ok": true,
-                  "generated_at": "2026-09-09T15:57:21.226185+00:00",
+                  "generated_at": "2026-09-09T15:50:34.546063+00:00",
                   "domain": "film_production",
                   "kill_conditions": [
                     "osha_violation",
@@ -807,17 +807,17 @@
                 "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_meta_learning.py",
                 "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_memory.py"
               ],
-              "content_digest": "6e096f900aecfb1024ab1cfe6ce4d4de79fbc67ec33dfe4ec48fa1547ff8e686",
-              "last_modified_at": "2026-09-09T15:55:56.500294+00:00"
+              "content_digest": "8e7dfe7f6cce13837aa6517254ff9629b98676ac927baf6a1b37125cd0c8ed54",
+              "last_modified_at": "2026-09-09T15:46:18.025568+00:00"
             },
             "mastery_score": 0.555,
             "gate_verdict": "pass",
             "gate_blockers": [],
             "summary_fact": "Falsification oracles refreshed across 4 domains with 12 total kill conditions.",
-            "started_at": "2026-09-09T15:57:21.225513+00:00",
-            "completed_at": "2026-09-09T15:57:21.226206+00:00",
+            "started_at": "2026-09-09T15:50:34.545490+00:00",
+            "completed_at": "2026-09-09T15:50:34.546083+00:00",
             "retained_training": true,
-            "receipt_id": "5ec20dda6d712b072c867be5744ad657394302bd449dc9de190dea447d278508"
+            "receipt_id": "9411fe108f515a83663576ba22a80629e680775c41ca1532176965ad3d92ffdd"
           },
           {
             "queue_id": "lane_d_proof_CURRY_HOWARD_WORKFLOW_md",
@@ -868,17 +868,17 @@
               "reference_path": "proof/CURRY_HOWARD_WORKFLOW.md",
               "tracked_root": "proof/CURRY_HOWARD_WORKFLOW.md",
               "file_count": 1,
-              "content_digest": "7e766bbf6cc4f8c30fc2a876ee440f448f9c4feb4ef64a3b11824baabfedae69",
-              "last_modified_at": "2026-09-09T15:55:56.765563+00:00"
+              "content_digest": "db334b7375203f659de79e64ce4075be88d54db74b3059c16b19762cc4895b15",
+              "last_modified_at": "2026-09-09T15:46:18.248566+00:00"
             },
             "mastery_score": 0.8292,
             "gate_verdict": "pass",
             "gate_blockers": [],
             "summary_fact": "Curry-Howard Workflow — Proofs as Programs in the Current Lean4 Stack retained proof/CURRY_HOWARD_WORKFLOW.md with 382 words, 3 review-packet markers, and 3 boundary markers.",
-            "started_at": "2026-09-09T15:57:21.226277+00:00",
-            "completed_at": "2026-09-09T15:57:21.227189+00:00",
+            "started_at": "2026-09-09T15:50:34.546153+00:00",
+            "completed_at": "2026-09-09T15:50:34.546896+00:00",
             "retained_training": true,
-            "receipt_id": "75c91af38d6ab9a8a47478852e57f3a5ed2b51fcef90186e7cbb35e51549d174"
+            "receipt_id": "4760979d1cb5fd4d2c1bbba3e5ff33347acd262122bf403b1420890f9c20d103"
           },
           {
             "queue_id": "lane_a_03",
@@ -933,17 +933,17 @@
               "reference_path": "12-AZ-IP/03-eige/README.md",
               "tracked_root": "12-AZ-IP/03-eige/README.md",
               "file_count": 1,
-              "content_digest": "026153b7380a2f5e206dbed7d60b52aeebde08e4513a4dfce84136461aeafc1a",
-              "last_modified_at": "2026-09-09T15:55:56.430202+00:00"
+              "content_digest": "af053d99f1a7f3b58cb1046e0c9fef697b16a0d51d999fb9d037a1e43d68cd56",
+              "last_modified_at": "2026-09-09T15:46:17.979749+00:00"
             },
             "mastery_score": 0.75,
             "gate_verdict": "pass",
             "gate_blockers": [],
             "summary_fact": "Absorb and benchmark EIGE Governance Engine. retained 12-AZ-IP/03-eige/README.md with 62 Python files, 28 tests, and 0 documented endpoints.",
-            "started_at": "2026-09-09T15:57:21.227273+00:00",
-            "completed_at": "2026-09-09T15:57:21.229361+00:00",
+            "started_at": "2026-09-09T15:50:34.546972+00:00",
+            "completed_at": "2026-09-09T15:50:34.548500+00:00",
             "retained_training": true,
-            "receipt_id": "9a8192d839cb49c450cf7db6d515c8e88152959d1e9c2376e15c7f31fac807d5"
+            "receipt_id": "ec3c9799e3e64bc29e86808867361f4e40f8ba4a79022a5911c80d24f514f348"
           }
         ],
         "queue_after": {
@@ -965,8 +965,8 @@
               "reference_path": "docs/TRUTH_LAYER.md",
               "expected_artifact": "proof_foundry_review_brief",
               "status": "completed",
-              "completed_at": "2026-09-09T15:57:21.205316+00:00",
-              "latest_receipt_id": "e5c9e677b07ed19bac831e73d8696e744b653ee8cfc59a7115b3adcb0ec979bb",
+              "completed_at": "2026-09-09T15:50:34.529412+00:00",
+              "latest_receipt_id": "3ed9af8b8a8e60c396d1de0d2796c2285ca7972dbdb889d63de25e0d0b9d6160",
               "summary_fact": "TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification retained docs/TRUTH_LAYER.md with 13421 words, 1 review-packet markers, and 27 boundary markers."
             },
             {
@@ -977,8 +977,8 @@
               "reference_path": "proof/CURRY_HOWARD_WORKFLOW.md",
               "expected_artifact": "proof_foundry_review_brief",
               "status": "completed",
-              "completed_at": "2026-09-09T15:57:21.227189+00:00",
-              "latest_receipt_id": "75c91af38d6ab9a8a47478852e57f3a5ed2b51fcef90186e7cbb35e51549d174",
+              "completed_at": "2026-09-09T15:50:34.546896+00:00",
+              "latest_receipt_id": "4760979d1cb5fd4d2c1bbba3e5ff33347acd262122bf403b1420890f9c20d103",
               "summary_fact": "Curry-Howard Workflow — Proofs as Programs in the Current Lean4 Stack retained proof/CURRY_HOWARD_WORKFLOW.md with 382 words, 3 review-packet markers, and 3 boundary markers."
             },
             {
@@ -1068,7 +1068,7 @@
           ]
         },
         "lane_progress": {
-          "generated_at": "2026-09-09T15:57:21.262276+00:00",
+          "generated_at": "2026-09-09T15:50:34.575729+00:00",
           "artifact_export_path": "12-AZ-IP/20-psicat-navigator/training/training_execution/three_lane_execution_bundle.json",
           "lane_ledgers": [
             {
@@ -1081,7 +1081,7 @@
               "stale_retrain_count": 0,
               "needs_review_count": 0,
               "completion_ratio": 0.1304,
-              "latest_completed_at": "2026-09-09T15:57:21.229361+00:00",
+              "latest_completed_at": "2026-09-09T15:50:34.548500+00:00",
               "gate_summary": {
                 "mastery_score_mean": 0.6625,
                 "freshness_ratio": 0.1304,
@@ -1091,9 +1091,9 @@
               "recent_receipts": [
                 {
                   "queue_id": "lane_a_01",
-                  "receipt_id": "f071b54a5df799f745418a3257d3e2f19144954bc21093f15897acc37ee35b46",
+                  "receipt_id": "e3ec3f6f7108a6d48f303be2dcacc8f0c5b2ce1a7edfc881dcc5ec851c43f153",
                   "artifact_type": "product_capability_map",
-                  "completed_at": "2026-09-09T15:57:21.177702+00:00",
+                  "completed_at": "2026-09-09T15:50:34.505256+00:00",
                   "mastery_score": 0.8208,
                   "gate_verdict": "pass",
                   "queue_status": "completed",
@@ -1101,9 +1101,9 @@
                 },
                 {
                   "queue_id": "lane_a_02",
-                  "receipt_id": "5c4675fb320363495ed1a575b7687230195872a71579173bf7dcc5043de33873",
+                  "receipt_id": "6ccdb565251f715cc4bde60f6a214313f8c5dccafafe4b6a82c6658934e18060",
                   "artifact_type": "product_capability_map",
-                  "completed_at": "2026-09-09T15:57:21.218147+00:00",
+                  "completed_at": "2026-09-09T15:50:34.538429+00:00",
                   "mastery_score": 0.4167,
                   "gate_verdict": "pass",
                   "queue_status": "completed",
@@ -1111,9 +1111,9 @@
                 },
                 {
                   "queue_id": "lane_a_03",
-                  "receipt_id": "9a8192d839cb49c450cf7db6d515c8e88152959d1e9c2376e15c7f31fac807d5",
+                  "receipt_id": "ec3c9799e3e64bc29e86808867361f4e40f8ba4a79022a5911c80d24f514f348",
                   "artifact_type": "product_capability_map",
-                  "completed_at": "2026-09-09T15:57:21.229361+00:00",
+                  "completed_at": "2026-09-09T15:50:34.548500+00:00",
                   "mastery_score": 0.75,
                   "gate_verdict": "pass",
                   "queue_status": "completed",
@@ -1138,7 +1138,7 @@
               "stale_retrain_count": 0,
               "needs_review_count": 0,
               "completion_ratio": 0.0051,
-              "latest_completed_at": "2026-09-09T15:57:21.225430+00:00",
+              "latest_completed_at": "2026-09-09T15:50:34.545378+00:00",
               "gate_summary": {
                 "mastery_score_mean": 0.7333,
                 "freshness_ratio": 0.0051,
@@ -1148,9 +1148,9 @@
               "recent_receipts": [
                 {
                   "queue_id": "lane_b_book_book-air-traffic-control-omega",
-                  "receipt_id": "17f9fc7f375f4117cdaf4aa9b2fb325321e89a79fafef923580dd709850cd33a",
+                  "receipt_id": "940f4ec3467af237f830694603e2d11c68ee135a0d4b39923d0e01a8adc4f512",
                   "artifact_type": "book_thesis_limits_crossrefs",
-                  "completed_at": "2026-09-09T15:57:21.185702+00:00",
+                  "completed_at": "2026-09-09T15:50:34.512897+00:00",
                   "mastery_score": 0.7333,
                   "gate_verdict": "pass",
                   "queue_status": "completed",
@@ -1158,9 +1158,9 @@
                 },
                 {
                   "queue_id": "lane_b_book_book-american-food-manufacturing-quality-nutrition-cruelty",
-                  "receipt_id": "8123ec4a473336144ef79f427eb57f4e69787d6d6ab5c8513391e249db6e3992",
+                  "receipt_id": "24afec7fe936d6ac9da0dd2aeabd51cd5345eb4218c472e20cc08e9b83785145",
                   "artifact_type": "book_thesis_limits_crossrefs",
-                  "completed_at": "2026-09-09T15:57:21.225430+00:00",
+                  "completed_at": "2026-09-09T15:50:34.545378+00:00",
                   "mastery_score": 0.7333,
                   "gate_verdict": "pass",
                   "queue_status": "completed",
@@ -1185,7 +1185,7 @@
               "stale_retrain_count": 0,
               "needs_review_count": 0,
               "completion_ratio": 0.6667,
-              "latest_completed_at": "2026-09-09T15:57:21.226206+00:00",
+              "latest_completed_at": "2026-09-09T15:50:34.546083+00:00",
               "gate_summary": {
                 "mastery_score_mean": 0.555,
                 "freshness_ratio": 0.6667,
@@ -1195,9 +1195,9 @@
               "recent_receipts": [
                 {
                   "queue_id": "lane_c_contradiction_digest",
-                  "receipt_id": "ae660f2ffb770078b04d560dfa5b162f6a5cc69e34fc0f17ce8c281d2d8fa534",
+                  "receipt_id": "4c953fb5f3892b2b5a33a88d92ba0e2afdb68afdd6c9aabac755a93a36f8d8ab",
                   "artifact_type": "contradiction_remediation_ledger",
-                  "completed_at": "2026-09-09T15:57:21.186484+00:00",
+                  "completed_at": "2026-09-09T15:50:34.513560+00:00",
                   "mastery_score": 0.555,
                   "gate_verdict": "pass",
                   "queue_status": "completed",
@@ -1205,9 +1205,9 @@
                 },
                 {
                   "queue_id": "lane_c_falsification_oracle",
-                  "receipt_id": "5ec20dda6d712b072c867be5744ad657394302bd449dc9de190dea447d278508",
+                  "receipt_id": "9411fe108f515a83663576ba22a80629e680775c41ca1532176965ad3d92ffdd",
                   "artifact_type": "domain_kill_condition_registry",
-                  "completed_at": "2026-09-09T15:57:21.226206+00:00",
+                  "completed_at": "2026-09-09T15:50:34.546083+00:00",
                   "mastery_score": 0.555,
                   "gate_verdict": "pass",
                   "queue_status": "completed",
@@ -1232,7 +1232,7 @@
               "stale_retrain_count": 0,
               "needs_review_count": 0,
               "completion_ratio": 0.2222,
-              "latest_completed_at": "2026-09-09T15:57:21.227189+00:00",
+              "latest_completed_at": "2026-09-09T15:50:34.546896+00:00",
               "gate_summary": {
                 "mastery_score_mean": 0.8646,
                 "freshness_ratio": 0.2222,
@@ -1242,9 +1242,9 @@
               "recent_receipts": [
                 {
                   "queue_id": "lane_d_docs_TRUTH_LAYER_md",
-                  "receipt_id": "e5c9e677b07ed19bac831e73d8696e744b653ee8cfc59a7115b3adcb0ec979bb",
+                  "receipt_id": "3ed9af8b8a8e60c396d1de0d2796c2285ca7972dbdb889d63de25e0d0b9d6160",
                   "artifact_type": "proof_foundry_review_brief",
-                  "completed_at": "2026-09-09T15:57:21.205316+00:00",
+                  "completed_at": "2026-09-09T15:50:34.529412+00:00",
                   "mastery_score": 0.9,
                   "gate_verdict": "pass",
                   "queue_status": "completed",
@@ -1252,9 +1252,9 @@
                 },
                 {
                   "queue_id": "lane_d_proof_CURRY_HOWARD_WORKFLOW_md",
-                  "receipt_id": "75c91af38d6ab9a8a47478852e57f3a5ed2b51fcef90186e7cbb35e51549d174",
+                  "receipt_id": "4760979d1cb5fd4d2c1bbba3e5ff33347acd262122bf403b1420890f9c20d103",
                   "artifact_type": "proof_foundry_review_brief",
-                  "completed_at": "2026-09-09T15:57:21.227189+00:00",
+                  "completed_at": "2026-09-09T15:50:34.546896+00:00",
                   "mastery_score": 0.8292,
                   "gate_verdict": "pass",
                   "queue_status": "completed",
@@ -1285,7 +1285,7 @@
           }
         },
         "challenge_pack": {
-          "generated_at": "2026-09-09T15:57:21.279054+00:00",
+          "generated_at": "2026-09-09T15:50:34.589809+00:00",
           "challenge_count": 12,
           "selection_policy": "Prioritize stale and review-required work before merely completed work.",
           "challenges": [
@@ -1434,7 +1434,7 @@
         "honesty_note": "This cycle executes deterministic repository-backed training receipts and retains them in Merlin session memory; it does not claim autonomous hidden-weight learning outside those auditable artifacts."
       },
       "lane_progress_ledgers": {
-        "generated_at": "2026-09-09T15:57:21.295356+00:00",
+        "generated_at": "2026-09-09T15:50:34.603424+00:00",
         "artifact_export_path": "12-AZ-IP/20-psicat-navigator/training/training_execution/three_lane_execution_bundle.json",
         "lane_ledgers": [
           {
@@ -1447,7 +1447,7 @@
             "stale_retrain_count": 0,
             "needs_review_count": 0,
             "completion_ratio": 0.1304,
-            "latest_completed_at": "2026-09-09T15:57:21.229361+00:00",
+            "latest_completed_at": "2026-09-09T15:50:34.548500+00:00",
             "gate_summary": {
               "mastery_score_mean": 0.6625,
               "freshness_ratio": 0.1304,
@@ -1457,9 +1457,9 @@
             "recent_receipts": [
               {
                 "queue_id": "lane_a_01",
-                "receipt_id": "f071b54a5df799f745418a3257d3e2f19144954bc21093f15897acc37ee35b46",
+                "receipt_id": "e3ec3f6f7108a6d48f303be2dcacc8f0c5b2ce1a7edfc881dcc5ec851c43f153",
                 "artifact_type": "product_capability_map",
-                "completed_at": "2026-09-09T15:57:21.177702+00:00",
+                "completed_at": "2026-09-09T15:50:34.505256+00:00",
                 "mastery_score": 0.8208,
                 "gate_verdict": "pass",
                 "queue_status": "completed",
@@ -1467,9 +1467,9 @@
               },
               {
                 "queue_id": "lane_a_02",
-                "receipt_id": "5c4675fb320363495ed1a575b7687230195872a71579173bf7dcc5043de33873",
+                "receipt_id": "6ccdb565251f715cc4bde60f6a214313f8c5dccafafe4b6a82c6658934e18060",
                 "artifact_type": "product_capability_map",
-                "completed_at": "2026-09-09T15:57:21.218147+00:00",
+                "completed_at": "2026-09-09T15:50:34.538429+00:00",
                 "mastery_score": 0.4167,
                 "gate_verdict": "pass",
                 "queue_status": "completed",
@@ -1477,9 +1477,9 @@
               },
               {
                 "queue_id": "lane_a_03",
-                "receipt_id": "9a8192d839cb49c450cf7db6d515c8e88152959d1e9c2376e15c7f31fac807d5",
+                "receipt_id": "ec3c9799e3e64bc29e86808867361f4e40f8ba4a79022a5911c80d24f514f348",
                 "artifact_type": "product_capability_map",
-                "completed_at": "2026-09-09T15:57:21.229361+00:00",
+                "completed_at": "2026-09-09T15:50:34.548500+00:00",
                 "mastery_score": 0.75,
                 "gate_verdict": "pass",
                 "queue_status": "completed",
@@ -1504,7 +1504,7 @@
             "stale_retrain_count": 0,
             "needs_review_count": 0,
             "completion_ratio": 0.0051,
-            "latest_completed_at": "2026-09-09T15:57:21.225430+00:00",
+            "latest_completed_at": "2026-09-09T15:50:34.545378+00:00",
             "gate_summary": {
               "mastery_score_mean": 0.7333,
               "freshness_ratio": 0.0051,
@@ -1514,9 +1514,9 @@
             "recent_receipts": [
               {
                 "queue_id": "lane_b_book_book-air-traffic-control-omega",
-                "receipt_id": "17f9fc7f375f4117cdaf4aa9b2fb325321e89a79fafef923580dd709850cd33a",
+                "receipt_id": "940f4ec3467af237f830694603e2d11c68ee135a0d4b39923d0e01a8adc4f512",
                 "artifact_type": "book_thesis_limits_crossrefs",
-                "completed_at": "2026-09-09T15:57:21.185702+00:00",
+                "completed_at": "2026-09-09T15:50:34.512897+00:00",
                 "mastery_score": 0.7333,
                 "gate_verdict": "pass",
                 "queue_status": "completed",
@@ -1524,9 +1524,9 @@
               },
               {
                 "queue_id": "lane_b_book_book-american-food-manufacturing-quality-nutrition-cruelty",
-                "receipt_id": "8123ec4a473336144ef79f427eb57f4e69787d6d6ab5c8513391e249db6e3992",
+                "receipt_id": "24afec7fe936d6ac9da0dd2aeabd51cd5345eb4218c472e20cc08e9b83785145",
                 "artifact_type": "book_thesis_limits_crossrefs",
-                "completed_at": "2026-09-09T15:57:21.225430+00:00",
+                "completed_at": "2026-09-09T15:50:34.545378+00:00",
                 "mastery_score": 0.7333,
                 "gate_verdict": "pass",
                 "queue_status": "completed",
@@ -1551,7 +1551,7 @@
             "stale_retrain_count": 0,
             "needs_review_count": 0,
             "completion_ratio": 0.6667,
-            "latest_completed_at": "2026-09-09T15:57:21.226206+00:00",
+            "latest_completed_at": "2026-09-09T15:50:34.546083+00:00",
             "gate_summary": {
               "mastery_score_mean": 0.555,
               "freshness_ratio": 0.6667,
@@ -1561,9 +1561,9 @@
             "recent_receipts": [
               {
                 "queue_id": "lane_c_contradiction_digest",
-                "receipt_id": "ae660f2ffb770078b04d560dfa5b162f6a5cc69e34fc0f17ce8c281d2d8fa534",
+                "receipt_id": "4c953fb5f3892b2b5a33a88d92ba0e2afdb68afdd6c9aabac755a93a36f8d8ab",
                 "artifact_type": "contradiction_remediation_ledger",
-                "completed_at": "2026-09-09T15:57:21.186484+00:00",
+                "completed_at": "2026-09-09T15:50:34.513560+00:00",
                 "mastery_score": 0.555,
                 "gate_verdict": "pass",
                 "queue_status": "completed",
@@ -1571,9 +1571,9 @@
               },
               {
                 "queue_id": "lane_c_falsification_oracle",
-                "receipt_id": "5ec20dda6d712b072c867be5744ad657394302bd449dc9de190dea447d278508",
+                "receipt_id": "9411fe108f515a83663576ba22a80629e680775c41ca1532176965ad3d92ffdd",
                 "artifact_type": "domain_kill_condition_registry",
-                "completed_at": "2026-09-09T15:57:21.226206+00:00",
+                "completed_at": "2026-09-09T15:50:34.546083+00:00",
                 "mastery_score": 0.555,
                 "gate_verdict": "pass",
                 "queue_status": "completed",
@@ -1598,7 +1598,7 @@
             "stale_retrain_count": 0,
             "needs_review_count": 0,
             "completion_ratio": 0.2222,
-            "latest_completed_at": "2026-09-09T15:57:21.227189+00:00",
+            "latest_completed_at": "2026-09-09T15:50:34.546896+00:00",
             "gate_summary": {
               "mastery_score_mean": 0.8646,
               "freshness_ratio": 0.2222,
@@ -1608,9 +1608,9 @@
             "recent_receipts": [
               {
                 "queue_id": "lane_d_docs_TRUTH_LAYER_md",
-                "receipt_id": "e5c9e677b07ed19bac831e73d8696e744b653ee8cfc59a7115b3adcb0ec979bb",
+                "receipt_id": "3ed9af8b8a8e60c396d1de0d2796c2285ca7972dbdb889d63de25e0d0b9d6160",
                 "artifact_type": "proof_foundry_review_brief",
-                "completed_at": "2026-09-09T15:57:21.205316+00:00",
+                "completed_at": "2026-09-09T15:50:34.529412+00:00",
                 "mastery_score": 0.9,
                 "gate_verdict": "pass",
                 "queue_status": "completed",
@@ -1618,9 +1618,9 @@
               },
               {
                 "queue_id": "lane_d_proof_CURRY_HOWARD_WORKFLOW_md",
-                "receipt_id": "75c91af38d6ab9a8a47478852e57f3a5ed2b51fcef90186e7cbb35e51549d174",
+                "receipt_id": "4760979d1cb5fd4d2c1bbba3e5ff33347acd262122bf403b1420890f9c20d103",
                 "artifact_type": "proof_foundry_review_brief",
-                "completed_at": "2026-09-09T15:57:21.227189+00:00",
+                "completed_at": "2026-09-09T15:50:34.546896+00:00",
                 "mastery_score": 0.8292,
                 "gate_verdict": "pass",
                 "queue_status": "completed",
@@ -1651,7 +1651,7 @@
         }
       },
       "challenge_pack": {
-        "generated_at": "2026-09-09T15:57:21.312312+00:00",
+        "generated_at": "2026-09-09T15:50:34.617749+00:00",
         "challenge_count": 6,
         "selection_policy": "Prioritize stale and review-required work before merely completed work.",
         "challenges": [
@@ -1813,7 +1813,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.320942+00:00",
+              "recorded_at": "2026-09-09T15:50:34.624235+00:00",
               "query": "What is the birefringence prediction and how could LiteBIRD falsify it?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -1840,9 +1840,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 8.113,
-              "wall_time_ms": 8.113,
-              "rss_peak_kb": 223056,
+              "latency_ms": 5.988,
+              "wall_time_ms": 5.988,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 18,
                 "output_estimate": 303,
@@ -1871,7 +1871,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.326185+00:00",
+              "recorded_at": "2026-09-09T15:50:34.629194+00:00",
               "query": "What is the birefringence prediction and how could LiteBIRD falsify it?",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -1898,9 +1898,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.176,
-              "wall_time_ms": 5.176,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.893,
+              "wall_time_ms": 4.893,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 18,
                 "output_estimate": 283,
@@ -1945,7 +1945,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.320942+00:00",
+                "recorded_at": "2026-09-09T15:50:34.624235+00:00",
                 "query": "What is the birefringence prediction and how could LiteBIRD falsify it?",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -1972,9 +1972,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": false,
-                "latency_ms": 8.113,
-                "wall_time_ms": 8.113,
-                "rss_peak_kb": 223056,
+                "latency_ms": 5.988,
+                "wall_time_ms": 5.988,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 18,
                   "output_estimate": 303,
@@ -2106,7 +2106,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.331392+00:00",
+              "recorded_at": "2026-09-09T15:50:34.634178+00:00",
               "query": "Explain the dark-energy tension and whether the framework treats it as settled.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -2133,9 +2133,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.947,
-              "wall_time_ms": 4.947,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.735,
+              "wall_time_ms": 4.735,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 20,
                 "output_estimate": 267,
@@ -2164,7 +2164,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.336297+00:00",
+              "recorded_at": "2026-09-09T15:50:34.638820+00:00",
               "query": "Explain the dark-energy tension and whether the framework treats it as settled.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -2191,9 +2191,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.858,
-              "wall_time_ms": 4.858,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.578,
+              "wall_time_ms": 4.578,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 20,
                 "output_estimate": 274,
@@ -2238,7 +2238,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.331392+00:00",
+                "recorded_at": "2026-09-09T15:50:34.634178+00:00",
                 "query": "Explain the dark-energy tension and whether the framework treats it as settled.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -2265,9 +2265,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": true,
-                "latency_ms": 4.947,
-                "wall_time_ms": 4.947,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.735,
+                "wall_time_ms": 4.735,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 20,
                   "output_estimate": 267,
@@ -2399,7 +2399,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.341752+00:00",
+              "recorded_at": "2026-09-09T15:50:34.643885+00:00",
               "query": "Explain the boundary between hardgate physics claims and the Unitary Pentad governance framework.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -2426,9 +2426,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.225,
-              "wall_time_ms": 5.225,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.835,
+              "wall_time_ms": 4.835,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 24,
                 "output_estimate": 332,
@@ -2457,7 +2457,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.346863+00:00",
+              "recorded_at": "2026-09-09T15:50:34.648759+00:00",
               "query": "Explain the boundary between hardgate physics claims and the Unitary Pentad governance framework.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -2484,9 +2484,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.063,
-              "wall_time_ms": 5.063,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.822,
+              "wall_time_ms": 4.822,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 24,
                 "output_estimate": 332,
@@ -2531,7 +2531,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.341752+00:00",
+                "recorded_at": "2026-09-09T15:50:34.643885+00:00",
                 "query": "Explain the boundary between hardgate physics claims and the Unitary Pentad governance framework.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -2558,9 +2558,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": false,
-                "latency_ms": 5.225,
-                "wall_time_ms": 5.225,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.835,
+                "wall_time_ms": 4.835,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 24,
                   "output_estimate": 332,
@@ -2621,7 +2621,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.320942+00:00",
+              "recorded_at": "2026-09-09T15:50:34.624235+00:00",
               "query": "What is the birefringence prediction and how could LiteBIRD falsify it?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -2648,9 +2648,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 8.113,
-              "wall_time_ms": 8.113,
-              "rss_peak_kb": 223056,
+              "latency_ms": 5.988,
+              "wall_time_ms": 5.988,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 18,
                 "output_estimate": 303,
@@ -2708,7 +2708,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.331392+00:00",
+              "recorded_at": "2026-09-09T15:50:34.634178+00:00",
               "query": "Explain the dark-energy tension and whether the framework treats it as settled.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -2735,9 +2735,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.947,
-              "wall_time_ms": 4.947,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.735,
+              "wall_time_ms": 4.735,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 20,
                 "output_estimate": 267,
@@ -2795,7 +2795,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.341752+00:00",
+              "recorded_at": "2026-09-09T15:50:34.643885+00:00",
               "query": "Explain the boundary between hardgate physics claims and the Unitary Pentad governance framework.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -2822,9 +2822,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.225,
-              "wall_time_ms": 5.225,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.835,
+              "wall_time_ms": 4.835,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 24,
                 "output_estimate": 332,
@@ -3153,7 +3153,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.352834+00:00",
+              "recorded_at": "2026-09-09T15:50:34.654444+00:00",
               "query": "Synthesize the Merlin replacement program, governance boundary, and live benchmark posture into one promotion-readiness brief.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -3180,9 +3180,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.295,
-              "wall_time_ms": 5.295,
-              "rss_peak_kb": 223056,
+              "latency_ms": 5.06,
+              "wall_time_ms": 5.06,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 32,
                 "output_estimate": 267,
@@ -3211,7 +3211,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.358284+00:00",
+              "recorded_at": "2026-09-09T15:50:34.659627+00:00",
               "query": "Synthesize the Merlin replacement program, governance boundary, and live benchmark posture into one promotion-readiness brief.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -3238,9 +3238,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.399,
-              "wall_time_ms": 5.399,
-              "rss_peak_kb": 223056,
+              "latency_ms": 5.129,
+              "wall_time_ms": 5.129,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 32,
                 "output_estimate": 267,
@@ -3285,7 +3285,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.352834+00:00",
+                "recorded_at": "2026-09-09T15:50:34.654444+00:00",
                 "query": "Synthesize the Merlin replacement program, governance boundary, and live benchmark posture into one promotion-readiness brief.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -3312,9 +3312,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": false,
-                "latency_ms": 5.295,
-                "wall_time_ms": 5.295,
-                "rss_peak_kb": 223056,
+                "latency_ms": 5.06,
+                "wall_time_ms": 5.06,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 32,
                   "output_estimate": 267,
@@ -3446,7 +3446,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.382556+00:00",
+              "recorded_at": "2026-09-09T15:50:34.682640+00:00",
               "query": "What two memory constraints should govern Merlin's next capability expansion sprint?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -3473,9 +3473,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 4.793,
-              "wall_time_ms": 4.793,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.535,
+              "wall_time_ms": 4.535,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 21,
                 "output_estimate": 162,
@@ -3504,7 +3504,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.387372+00:00",
+              "recorded_at": "2026-09-09T15:50:34.687188+00:00",
               "query": "What two memory constraints should govern Merlin's next capability expansion sprint?",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -3531,9 +3531,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 4.767,
-              "wall_time_ms": 4.767,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.5,
+              "wall_time_ms": 4.5,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 21,
                 "output_estimate": 170,
@@ -3578,7 +3578,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.382556+00:00",
+                "recorded_at": "2026-09-09T15:50:34.682640+00:00",
                 "query": "What two memory constraints should govern Merlin's next capability expansion sprint?",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -3605,9 +3605,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": false,
-                "latency_ms": 4.793,
-                "wall_time_ms": 4.793,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.535,
+                "wall_time_ms": 4.535,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 21,
                   "output_estimate": 162,
@@ -3749,7 +3749,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.413408+00:00",
+              "recorded_at": "2026-09-09T15:50:34.711590+00:00",
               "query": "Across a long handoff, restate the two anchors and show how geometric memory landmarks protect against lost-in-the-middle drift.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -3776,9 +3776,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.701,
-              "wall_time_ms": 5.701,
-              "rss_peak_kb": 223056,
+              "latency_ms": 5.372,
+              "wall_time_ms": 5.372,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 32,
                 "output_estimate": 283,
@@ -3807,7 +3807,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.418872+00:00",
+              "recorded_at": "2026-09-09T15:50:34.716695+00:00",
               "query": "Across a long handoff, restate the two anchors and show how geometric memory landmarks protect against lost-in-the-middle drift.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -3834,9 +3834,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.414,
-              "wall_time_ms": 5.414,
-              "rss_peak_kb": 223056,
+              "latency_ms": 5.053,
+              "wall_time_ms": 5.053,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 32,
                 "output_estimate": 283,
@@ -3881,7 +3881,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.413408+00:00",
+                "recorded_at": "2026-09-09T15:50:34.711590+00:00",
                 "query": "Across a long handoff, restate the two anchors and show how geometric memory landmarks protect against lost-in-the-middle drift.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -3908,9 +3908,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": true,
-                "latency_ms": 5.701,
-                "wall_time_ms": 5.701,
-                "rss_peak_kb": 223056,
+                "latency_ms": 5.372,
+                "wall_time_ms": 5.372,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 32,
                   "output_estimate": 283,
@@ -3971,7 +3971,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.352834+00:00",
+              "recorded_at": "2026-09-09T15:50:34.654444+00:00",
               "query": "Synthesize the Merlin replacement program, governance boundary, and live benchmark posture into one promotion-readiness brief.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -3998,9 +3998,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.295,
-              "wall_time_ms": 5.295,
-              "rss_peak_kb": 223056,
+              "latency_ms": 5.06,
+              "wall_time_ms": 5.06,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 32,
                 "output_estimate": 267,
@@ -4058,7 +4058,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.382556+00:00",
+              "recorded_at": "2026-09-09T15:50:34.682640+00:00",
               "query": "What two memory constraints should govern Merlin's next capability expansion sprint?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -4085,9 +4085,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 4.793,
-              "wall_time_ms": 4.793,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.535,
+              "wall_time_ms": 4.535,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 21,
                 "output_estimate": 162,
@@ -4145,7 +4145,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.413408+00:00",
+              "recorded_at": "2026-09-09T15:50:34.711590+00:00",
               "query": "Across a long handoff, restate the two anchors and show how geometric memory landmarks protect against lost-in-the-middle drift.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -4172,9 +4172,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.701,
-              "wall_time_ms": 5.701,
-              "rss_peak_kb": 223056,
+              "latency_ms": 5.372,
+              "wall_time_ms": 5.372,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 32,
                 "output_estimate": 283,
@@ -4506,7 +4506,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.424701+00:00",
+              "recorded_at": "2026-09-09T15:50:34.722200+00:00",
               "query": "Design a bounded tool chain to inspect replacement readiness, benchmark corpora, and training artifacts before recommending a deployment move.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -4533,9 +4533,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.07,
-              "wall_time_ms": 5.07,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.8,
+              "wall_time_ms": 4.8,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 36,
                 "output_estimate": 166,
@@ -4564,7 +4564,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.429703+00:00",
+              "recorded_at": "2026-09-09T15:50:34.727014+00:00",
               "query": "Design a bounded tool chain to inspect replacement readiness, benchmark corpora, and training artifacts before recommending a deployment move.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -4591,9 +4591,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 4.954,
-              "wall_time_ms": 4.954,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.764,
+              "wall_time_ms": 4.764,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 36,
                 "output_estimate": 166,
@@ -4638,7 +4638,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.424701+00:00",
+                "recorded_at": "2026-09-09T15:50:34.722200+00:00",
                 "query": "Design a bounded tool chain to inspect replacement readiness, benchmark corpora, and training artifacts before recommending a deployment move.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -4665,9 +4665,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": false,
-                "latency_ms": 5.07,
-                "wall_time_ms": 5.07,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.8,
+                "wall_time_ms": 4.8,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 36,
                   "output_estimate": 166,
@@ -4799,7 +4799,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.434962+00:00",
+              "recorded_at": "2026-09-09T15:50:34.731889+00:00",
               "query": "Audit a mixed repository-plus-open-science answer for provenance completeness and missing evidence classes.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -4826,9 +4826,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.034,
-              "wall_time_ms": 5.034,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.648,
+              "wall_time_ms": 4.648,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 27,
                 "output_estimate": 339,
@@ -4857,7 +4857,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.440029+00:00",
+              "recorded_at": "2026-09-09T15:50:34.736544+00:00",
               "query": "Audit a mixed repository-plus-open-science answer for provenance completeness and missing evidence classes.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -4884,9 +4884,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.003,
-              "wall_time_ms": 5.003,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.606,
+              "wall_time_ms": 4.606,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 27,
                 "output_estimate": 339,
@@ -4931,7 +4931,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.434962+00:00",
+                "recorded_at": "2026-09-09T15:50:34.731889+00:00",
                 "query": "Audit a mixed repository-plus-open-science answer for provenance completeness and missing evidence classes.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -4958,9 +4958,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": true,
-                "latency_ms": 5.034,
-                "wall_time_ms": 5.034,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.648,
+                "wall_time_ms": 4.648,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 27,
                   "output_estimate": 339,
@@ -5100,7 +5100,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.445490+00:00",
+              "recorded_at": "2026-09-09T15:50:34.741674+00:00",
               "query": "Under multi-source conflict, demonstrate how geometric memory map landmarks preserve recall while keeping uncertainty and governance boundaries explicit.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -5127,9 +5127,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.23,
-              "wall_time_ms": 5.23,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.904,
+              "wall_time_ms": 4.904,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 38,
                 "output_estimate": 334,
@@ -5158,7 +5158,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.450724+00:00",
+              "recorded_at": "2026-09-09T15:50:34.746626+00:00",
               "query": "Under multi-source conflict, demonstrate how geometric memory map landmarks preserve recall while keeping uncertainty and governance boundaries explicit.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -5185,9 +5185,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.186,
-              "wall_time_ms": 5.186,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.901,
+              "wall_time_ms": 4.901,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 38,
                 "output_estimate": 334,
@@ -5232,7 +5232,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.445490+00:00",
+                "recorded_at": "2026-09-09T15:50:34.741674+00:00",
                 "query": "Under multi-source conflict, demonstrate how geometric memory map landmarks preserve recall while keeping uncertainty and governance boundaries explicit.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -5259,9 +5259,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": true,
-                "latency_ms": 5.23,
-                "wall_time_ms": 5.23,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.904,
+                "wall_time_ms": 4.904,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 38,
                   "output_estimate": 334,
@@ -5322,7 +5322,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.424701+00:00",
+              "recorded_at": "2026-09-09T15:50:34.722200+00:00",
               "query": "Design a bounded tool chain to inspect replacement readiness, benchmark corpora, and training artifacts before recommending a deployment move.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -5349,9 +5349,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.07,
-              "wall_time_ms": 5.07,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.8,
+              "wall_time_ms": 4.8,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 36,
                 "output_estimate": 166,
@@ -5409,7 +5409,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.434962+00:00",
+              "recorded_at": "2026-09-09T15:50:34.731889+00:00",
               "query": "Audit a mixed repository-plus-open-science answer for provenance completeness and missing evidence classes.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -5436,9 +5436,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.034,
-              "wall_time_ms": 5.034,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.648,
+              "wall_time_ms": 4.648,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 27,
                 "output_estimate": 339,
@@ -5496,7 +5496,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.445490+00:00",
+              "recorded_at": "2026-09-09T15:50:34.741674+00:00",
               "query": "Under multi-source conflict, demonstrate how geometric memory map landmarks preserve recall while keeping uncertainty and governance boundaries explicit.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -5523,9 +5523,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.23,
-              "wall_time_ms": 5.23,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.904,
+              "wall_time_ms": 4.904,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 38,
                 "output_estimate": 334,
@@ -5862,7 +5862,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.456209+00:00",
+              "recorded_at": "2026-09-09T15:50:34.751833+00:00",
               "query": "Summarize why replacement approval requires sustained parity windows instead of one-off benchmark wins.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -5889,9 +5889,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.855,
-              "wall_time_ms": 4.855,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.575,
+              "wall_time_ms": 4.575,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 26,
                 "output_estimate": 162,
@@ -5920,7 +5920,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.460956+00:00",
+              "recorded_at": "2026-09-09T15:50:34.756403+00:00",
               "query": "Summarize why replacement approval requires sustained parity windows instead of one-off benchmark wins.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -5947,9 +5947,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.702,
-              "wall_time_ms": 4.702,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.52,
+              "wall_time_ms": 4.52,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 26,
                 "output_estimate": 170,
@@ -5994,7 +5994,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.456209+00:00",
+                "recorded_at": "2026-09-09T15:50:34.751833+00:00",
                 "query": "Summarize why replacement approval requires sustained parity windows instead of one-off benchmark wins.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -6021,9 +6021,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": true,
-                "latency_ms": 4.855,
-                "wall_time_ms": 4.855,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.575,
+                "wall_time_ms": 4.575,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 26,
                   "output_estimate": 162,
@@ -6155,7 +6155,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.466269+00:00",
+              "recorded_at": "2026-09-09T15:50:34.761497+00:00",
               "query": "What should happen if Merlin quality improves but energy-per-successful-task worsens for two review cycles?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -6182,9 +6182,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.057,
-              "wall_time_ms": 5.057,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.865,
+              "wall_time_ms": 4.865,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 27,
                 "output_estimate": 293,
@@ -6213,7 +6213,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.471495+00:00",
+              "recorded_at": "2026-09-09T15:50:34.766505+00:00",
               "query": "What should happen if Merlin quality improves but energy-per-successful-task worsens for two review cycles?",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -6240,9 +6240,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.179,
-              "wall_time_ms": 5.179,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.956,
+              "wall_time_ms": 4.956,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 27,
                 "output_estimate": 300,
@@ -6287,7 +6287,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.466269+00:00",
+                "recorded_at": "2026-09-09T15:50:34.761497+00:00",
                 "query": "What should happen if Merlin quality improves but energy-per-successful-task worsens for two review cycles?",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -6314,9 +6314,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": false,
-                "latency_ms": 5.057,
-                "wall_time_ms": 5.057,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.865,
+                "wall_time_ms": 4.865,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 27,
                   "output_estimate": 293,
@@ -6456,7 +6456,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.476706+00:00",
+              "recorded_at": "2026-09-09T15:50:34.771564+00:00",
               "query": "Before replacement approval, explain how geometric memory map signals should be used to block promotion when contradiction pressure rises.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -6483,9 +6483,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.981,
-              "wall_time_ms": 4.981,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.812,
+              "wall_time_ms": 4.812,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 34,
                 "output_estimate": 162,
@@ -6514,7 +6514,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.481738+00:00",
+              "recorded_at": "2026-09-09T15:50:34.776418+00:00",
               "query": "Before replacement approval, explain how geometric memory map signals should be used to block promotion when contradiction pressure rises.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -6541,9 +6541,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.984,
-              "wall_time_ms": 4.984,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.802,
+              "wall_time_ms": 4.802,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 34,
                 "output_estimate": 170,
@@ -6588,7 +6588,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.476706+00:00",
+                "recorded_at": "2026-09-09T15:50:34.771564+00:00",
                 "query": "Before replacement approval, explain how geometric memory map signals should be used to block promotion when contradiction pressure rises.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -6615,9 +6615,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": true,
-                "latency_ms": 4.981,
-                "wall_time_ms": 4.981,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.812,
+                "wall_time_ms": 4.812,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 34,
                   "output_estimate": 162,
@@ -6678,7 +6678,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.456209+00:00",
+              "recorded_at": "2026-09-09T15:50:34.751833+00:00",
               "query": "Summarize why replacement approval requires sustained parity windows instead of one-off benchmark wins.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -6705,9 +6705,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.855,
-              "wall_time_ms": 4.855,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.575,
+              "wall_time_ms": 4.575,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 26,
                 "output_estimate": 162,
@@ -6765,7 +6765,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.466269+00:00",
+              "recorded_at": "2026-09-09T15:50:34.761497+00:00",
               "query": "What should happen if Merlin quality improves but energy-per-successful-task worsens for two review cycles?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -6792,9 +6792,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 5.057,
-              "wall_time_ms": 5.057,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.865,
+              "wall_time_ms": 4.865,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 27,
                 "output_estimate": 293,
@@ -6852,7 +6852,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.476706+00:00",
+              "recorded_at": "2026-09-09T15:50:34.771564+00:00",
               "query": "Before replacement approval, explain how geometric memory map signals should be used to block promotion when contradiction pressure rises.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -6879,9 +6879,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.981,
-              "wall_time_ms": 4.981,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.812,
+              "wall_time_ms": 4.812,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 34,
                 "output_estimate": 162,
@@ -7213,7 +7213,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.487181+00:00",
+              "recorded_at": "2026-09-09T15:50:34.781809+00:00",
               "query": "When can Merlin keep OpenRouter only as emergency compatibility fallback instead of primary routing?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -7240,9 +7240,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 4.83,
-              "wall_time_ms": 4.83,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.745,
+              "wall_time_ms": 4.745,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 25,
                 "output_estimate": 162,
@@ -7271,7 +7271,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.491996+00:00",
+              "recorded_at": "2026-09-09T15:50:34.786497+00:00",
               "query": "When can Merlin keep OpenRouter only as emergency compatibility fallback instead of primary routing?",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -7298,9 +7298,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 4.767,
-              "wall_time_ms": 4.767,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.636,
+              "wall_time_ms": 4.636,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 25,
                 "output_estimate": 170,
@@ -7345,7 +7345,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.487181+00:00",
+                "recorded_at": "2026-09-09T15:50:34.781809+00:00",
                 "query": "When can Merlin keep OpenRouter only as emergency compatibility fallback instead of primary routing?",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -7372,9 +7372,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": false,
-                "latency_ms": 4.83,
-                "wall_time_ms": 4.83,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.745,
+                "wall_time_ms": 4.745,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 25,
                   "output_estimate": 162,
@@ -7504,7 +7504,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.497123+00:00",
+              "recorded_at": "2026-09-09T15:50:34.791503+00:00",
               "query": "If a promoted lane violates a kernel threshold, what rollback and incident controls must execute immediately?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -7531,9 +7531,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.883,
-              "wall_time_ms": 4.883,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.775,
+              "wall_time_ms": 4.775,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 27,
                 "output_estimate": 170,
@@ -7562,7 +7562,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.502036+00:00",
+              "recorded_at": "2026-09-09T15:50:34.796215+00:00",
               "query": "If a promoted lane violates a kernel threshold, what rollback and incident controls must execute immediately?",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -7589,9 +7589,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.845,
-              "wall_time_ms": 4.845,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.662,
+              "wall_time_ms": 4.662,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 27,
                 "output_estimate": 178,
@@ -7636,7 +7636,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.497123+00:00",
+                "recorded_at": "2026-09-09T15:50:34.791503+00:00",
                 "query": "If a promoted lane violates a kernel threshold, what rollback and incident controls must execute immediately?",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -7663,9 +7663,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": true,
-                "latency_ms": 4.883,
-                "wall_time_ms": 4.883,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.775,
+                "wall_time_ms": 4.775,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 27,
                   "output_estimate": 170,
@@ -7805,7 +7805,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.507283+00:00",
+              "recorded_at": "2026-09-09T15:50:34.801306+00:00",
               "query": "During external fallback outage, describe how geometric memory landmarks preserve continuity while decommission and rollback controls remain fail-closed.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -7832,9 +7832,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.017,
-              "wall_time_ms": 5.017,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.859,
+              "wall_time_ms": 4.859,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 38,
                 "output_estimate": 162,
@@ -7863,7 +7863,7 @@
               }
             },
             "incumbent_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.512385+00:00",
+              "recorded_at": "2026-09-09T15:50:34.806155+00:00",
               "query": "During external fallback outage, describe how geometric memory landmarks preserve continuity while decommission and rollback controls remain fail-closed.",
               "provider": "incumbent_compat",
               "provider_variant": "incumbent_compat",
@@ -7890,9 +7890,9 @@
               "context_source": "incumbent_compat",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.054,
-              "wall_time_ms": 5.054,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.797,
+              "wall_time_ms": 4.797,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 38,
                 "output_estimate": 162,
@@ -7937,7 +7937,7 @@
                 "data_present": true
               },
               "merlin_telemetry": {
-                "recorded_at": "2026-09-09T15:57:21.507283+00:00",
+                "recorded_at": "2026-09-09T15:50:34.801306+00:00",
                 "query": "During external fallback outage, describe how geometric memory landmarks preserve continuity while decommission and rollback controls remain fail-closed.",
                 "provider": "sovereign_local",
                 "provider_variant": "deterministic_retrieval",
@@ -7964,9 +7964,9 @@
                 "context_source": "sovereign_local_model",
                 "tool_rounds": 0,
                 "used_websearch": true,
-                "latency_ms": 5.017,
-                "wall_time_ms": 5.017,
-                "rss_peak_kb": 223056,
+                "latency_ms": 4.859,
+                "wall_time_ms": 4.859,
+                "rss_peak_kb": 210212,
                 "tokens": {
                   "input_estimate": 38,
                   "output_estimate": 162,
@@ -8027,7 +8027,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.487181+00:00",
+              "recorded_at": "2026-09-09T15:50:34.781809+00:00",
               "query": "When can Merlin keep OpenRouter only as emergency compatibility fallback instead of primary routing?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -8054,9 +8054,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": false,
-              "latency_ms": 4.83,
-              "wall_time_ms": 4.83,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.745,
+              "wall_time_ms": 4.745,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 25,
                 "output_estimate": 162,
@@ -8114,7 +8114,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.497123+00:00",
+              "recorded_at": "2026-09-09T15:50:34.791503+00:00",
               "query": "If a promoted lane violates a kernel threshold, what rollback and incident controls must execute immediately?",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -8141,9 +8141,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 4.883,
-              "wall_time_ms": 4.883,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.775,
+              "wall_time_ms": 4.775,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 27,
                 "output_estimate": 170,
@@ -8201,7 +8201,7 @@
               "data_present": true
             },
             "merlin_telemetry": {
-              "recorded_at": "2026-09-09T15:57:21.507283+00:00",
+              "recorded_at": "2026-09-09T15:50:34.801306+00:00",
               "query": "During external fallback outage, describe how geometric memory landmarks preserve continuity while decommission and rollback controls remain fail-closed.",
               "provider": "sovereign_local",
               "provider_variant": "deterministic_retrieval",
@@ -8228,9 +8228,9 @@
               "context_source": "sovereign_local_model",
               "tool_rounds": 0,
               "used_websearch": true,
-              "latency_ms": 5.017,
-              "wall_time_ms": 5.017,
-              "rss_peak_kb": 223056,
+              "latency_ms": 4.859,
+              "wall_time_ms": 4.859,
+              "rss_peak_kb": 210212,
               "tokens": {
                 "input_estimate": 38,
                 "output_estimate": 162,
@@ -8522,12 +8522,12 @@
       }
     ],
     "frontier_readiness": {
-      "generated_at": "2026-09-09T15:57:21.579250+00:00",
+      "generated_at": "2026-09-09T15:50:34.866925+00:00",
       "sovereign_primary": true,
       "openrouter_fallback_only": true,
       "sync_checks": {
         "ok": true,
-        "checked_at": "2026-09-09T15:57:21.516265+00:00",
+        "checked_at": "2026-09-09T15:50:34.809536+00:00",
         "checks": [
           {
             "source_id": "status",
@@ -9393,7 +9393,7 @@
                   "data_present": true
                 },
                 "merlin_telemetry": {
-                  "recorded_at": "2026-09-09T15:57:21.521546+00:00",
+                  "recorded_at": "2026-09-09T15:50:34.814785+00:00",
                   "query": "What is the birefringence prediction and how could LiteBIRD falsify it?",
                   "provider": "sovereign_local",
                   "provider_variant": "deterministic_retrieval",
@@ -9420,9 +9420,9 @@
                   "context_source": "sovereign_local_model",
                   "tool_rounds": 0,
                   "used_websearch": false,
-                  "latency_ms": 4.986,
-                  "wall_time_ms": 4.986,
-                  "rss_peak_kb": 223056,
+                  "latency_ms": 4.917,
+                  "wall_time_ms": 4.917,
+                  "rss_peak_kb": 210212,
                   "tokens": {
                     "input_estimate": 18,
                     "output_estimate": 303,
@@ -9451,7 +9451,7 @@
                   }
                 },
                 "incumbent_telemetry": {
-                  "recorded_at": "2026-09-09T15:57:21.526470+00:00",
+                  "recorded_at": "2026-09-09T15:50:34.819701+00:00",
                   "query": "What is the birefringence prediction and how could LiteBIRD falsify it?",
                   "provider": "incumbent_compat",
                   "provider_variant": "incumbent_compat",
@@ -9478,9 +9478,9 @@
                   "context_source": "incumbent_compat",
                   "tool_rounds": 0,
                   "used_websearch": false,
-                  "latency_ms": 4.878,
-                  "wall_time_ms": 4.878,
-                  "rss_peak_kb": 223056,
+                  "latency_ms": 4.838,
+                  "wall_time_ms": 4.838,
+                  "rss_peak_kb": 210212,
                   "tokens": {
                     "input_estimate": 18,
                     "output_estimate": 283,
@@ -9525,7 +9525,7 @@
                     "data_present": true
                   },
                   "merlin_telemetry": {
-                    "recorded_at": "2026-09-09T15:57:21.521546+00:00",
+                    "recorded_at": "2026-09-09T15:50:34.814785+00:00",
                     "query": "What is the birefringence prediction and how could LiteBIRD falsify it?",
                     "provider": "sovereign_local",
                     "provider_variant": "deterministic_retrieval",
@@ -9552,9 +9552,9 @@
                     "context_source": "sovereign_local_model",
                     "tool_rounds": 0,
                     "used_websearch": false,
-                    "latency_ms": 4.986,
-                    "wall_time_ms": 4.986,
-                    "rss_peak_kb": 223056,
+                    "latency_ms": 4.917,
+                    "wall_time_ms": 4.917,
+                    "rss_peak_kb": 210212,
                     "tokens": {
                       "input_estimate": 18,
                       "output_estimate": 303,
@@ -9686,7 +9686,7 @@
                   "data_present": true
                 },
                 "merlin_telemetry": {
-                  "recorded_at": "2026-09-09T15:57:21.531636+00:00",
+                  "recorded_at": "2026-09-09T15:50:34.824726+00:00",
                   "query": "Explain the dark-energy tension and whether the framework treats it as settled.",
                   "provider": "sovereign_local",
                   "provider_variant": "deterministic_retrieval",
@@ -9713,9 +9713,9 @@
                   "context_source": "sovereign_local_model",
                   "tool_rounds": 0,
                   "used_websearch": true,
-                  "latency_ms": 4.945,
-                  "wall_time_ms": 4.945,
-                  "rss_peak_kb": 223056,
+                  "latency_ms": 4.776,
+                  "wall_time_ms": 4.776,
+                  "rss_peak_kb": 210212,
                   "tokens": {
                     "input_estimate": 20,
                     "output_estimate": 267,
@@ -9744,7 +9744,7 @@
                   }
                 },
                 "incumbent_telemetry": {
-                  "recorded_at": "2026-09-09T15:57:21.536566+00:00",
+                  "recorded_at": "2026-09-09T15:50:34.829500+00:00",
                   "query": "Explain the dark-energy tension and whether the framework treats it as settled.",
                   "provider": "incumbent_compat",
                   "provider_variant": "incumbent_compat",
@@ -9771,9 +9771,9 @@
                   "context_source": "incumbent_compat",
                   "tool_rounds": 0,
                   "used_websearch": true,
-                  "latency_ms": 4.884,
-                  "wall_time_ms": 4.884,
-                  "rss_peak_kb": 223056,
+                  "latency_ms": 4.714,
+                  "wall_time_ms": 4.714,
+                  "rss_peak_kb": 210212,
                   "tokens": {
                     "input_estimate": 20,
                     "output_estimate": 274,
@@ -9818,7 +9818,7 @@
                     "data_present": true
                   },
                   "merlin_telemetry": {
-                    "recorded_at": "2026-09-09T15:57:21.531636+00:00",
+                    "recorded_at": "2026-09-09T15:50:34.824726+00:00",
                     "query": "Explain the dark-energy tension and whether the framework treats it as settled.",
                     "provider": "sovereign_local",
                     "provider_variant": "deterministic_retrieval",
@@ -9845,9 +9845,9 @@
                     "context_source": "sovereign_local_model",
                     "tool_rounds": 0,
                     "used_websearch": true,
-                    "latency_ms": 4.945,
-                    "wall_time_ms": 4.945,
-                    "rss_peak_kb": 223056,
+                    "latency_ms": 4.776,
+                    "wall_time_ms": 4.776,
+                    "rss_peak_kb": 210212,
                     "tokens": {
                       "input_estimate": 20,
                       "output_estimate": 267,
@@ -9979,7 +9979,7 @@
                   "data_present": true
                 },
                 "merlin_telemetry": {
-                  "recorded_at": "2026-09-09T15:57:21.541887+00:00",
+                  "recorded_at": "2026-09-09T15:50:34.834602+00:00",
                   "query": "Explain the boundary between hardgate physics claims and the Unitary Pentad governance framework.",
                   "provider": "sovereign_local",
                   "provider_variant": "deterministic_retrieval",
@@ -10006,9 +10006,9 @@
                   "context_source": "sovereign_local_model",
                   "tool_rounds": 0,
                   "used_websearch": false,
-                  "latency_ms": 5.102,
-                  "wall_time_ms": 5.102,
-                  "rss_peak_kb": 223056,
+                  "latency_ms": 4.874,
+                  "wall_time_ms": 4.874,
+                  "rss_peak_kb": 210212,
                   "tokens": {
                     "input_estimate": 24,
                     "output_estimate": 332,
@@ -10037,7 +10037,7 @@
                   }
                 },
                 "incumbent_telemetry": {
-                  "recorded_at": "2026-09-09T15:57:21.547105+00:00",
+                  "recorded_at": "2026-09-09T15:50:34.839428+00:00",
                   "query": "Explain the boundary between hardgate physics claims and the Unitary Pentad governance framework.",
                   "provider": "incumbent_compat",
                   "provider_variant": "incumbent_compat",
@@ -10064,9 +10064,9 @@
                   "context_source": "incumbent_compat",
                   "tool_rounds": 0,
                   "used_websearch": false,
-                  "latency_ms": 5.171,
-                  "wall_time_ms": 5.171,
-                  "rss_peak_kb": 223056,
+                  "latency_ms": 4.774,
+                  "wall_time_ms": 4.774,
+                  "rss_peak_kb": 210212,
                   "tokens": {
                     "input_estimate": 24,
                     "output_estimate": 332,
@@ -10111,7 +10111,7 @@
                     "data_present": true
                   },
                   "merlin_telemetry": {
-                    "recorded_at": "2026-09-09T15:57:21.541887+00:00",
+                    "recorded_at": "2026-09-09T15:50:34.834602+00:00",
                     "query": "Explain the boundary between hardgate physics claims and the Unitary Pentad governance framework.",
                     "provider": "sovereign_local",
                     "provider_variant": "deterministic_retrieval",
@@ -10138,9 +10138,9 @@
                     "context_source": "sovereign_local_model",
                     "tool_rounds": 0,
                     "used_websearch": false,
-                    "latency_ms": 5.102,
-                    "wall_time_ms": 5.102,
-                    "rss_peak_kb": 223056,
+                    "latency_ms": 4.874,
+                    "wall_time_ms": 4.874,
+                    "rss_peak_kb": 210212,
                     "tokens": {
                       "input_estimate": 24,
                       "output_estimate": 332,
@@ -10201,7 +10201,7 @@
                   "data_present": true
                 },
                 "merlin_telemetry": {
-                  "recorded_at": "2026-09-09T15:57:21.521546+00:00",
+                  "recorded_at": "2026-09-09T15:50:34.814785+00:00",
                   "query": "What is the birefringence prediction and how could LiteBIRD falsify it?",
                   "provider": "sovereign_local",
                   "provider_variant": "deterministic_retrieval",
@@ -10228,9 +10228,9 @@
                   "context_source": "sovereign_local_model",
                   "tool_rounds": 0,
                   "used_websearch": false,
-                  "latency_ms": 4.986,
-                  "wall_time_ms": 4.986,
-                  "rss_peak_kb": 223056,
+                  "latency_ms": 4.917,
+                  "wall_time_ms": 4.917,
+                  "rss_peak_kb": 210212,
                   "tokens": {
                     "input_estimate": 18,
                     "output_estimate": 303,
@@ -10288,7 +10288,7 @@
                   "data_present": true
                 },
                 "merlin_telemetry": {
-                  "recorded_at": "2026-09-09T15:57:21.531636+00:00",
+                  "recorded_at": "2026-09-09T15:50:34.824726+00:00",
                   "query": "Explain the dark-energy tension and whether the framework treats it as settled.",
                   "provider": "sovereign_local",
                   "provider_variant": "deterministic_retrieval",
@@ -10315,9 +10315,9 @@
                   "context_source": "sovereign_local_model",
                   "tool_rounds": 0,
                   "used_websearch": true,
-                  "latency_ms": 4.945,
-                  "wall_time_ms": 4.945,
-                  "rss_peak_kb": 223056,
+                  "latency_ms": 4.776,
+                  "wall_time_ms": 4.776,
+                  "rss_peak_kb": 210212,
                   "tokens": {
                     "input_estimate": 20,
                     "output_estimate": 267,
@@ -10375,7 +10375,7 @@
                   "data_present": true
                 },
                 "merlin_telemetry": {
-                  "recorded_at": "2026-09-09T15:57:21.541887+00:00",
+                  "recorded_at": "2026-09-09T15:50:34.834602+00:00",
                   "query": "Explain the boundary between hardgate physics claims and the Unitary Pentad governance framework.",
                   "provider": "sovereign_local",
                   "provider_variant": "deterministic_retrieval",
@@ -10402,9 +10402,9 @@
                   "context_source": "sovereign_local_model",
                   "tool_rounds": 0,
                   "used_websearch": false,
-                  "latency_ms": 5.102,
-                  "wall_time_ms": 5.102,
-                  "rss_peak_kb": 223056,
+                  "latency_ms": 4.874,
+                  "wall_time_ms": 4.874,
+                  "rss_peak_kb": 210212,
                   "tokens": {
                     "input_estimate": 24,
                     "output_estimate": 332,
@@ -11158,7 +11158,7 @@
           ],
           "policy": "Fail closed: mentorship-to-runtime closure requires all checks true."
         },
-        "updated_at": "2026-09-09T15:57:21.550400+00:00"
+        "updated_at": "2026-09-09T15:50:34.842333+00:00"
       },
       "multi_stage_plan": {
         "program": "merlin_all_hands_maximum_effort",

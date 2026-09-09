@@ -5758,6 +5758,7 @@ def get_psicat_spc_phase0_execution_packet() -> dict[str, Any]:
         payload["error"] = f"Unable to load phase-0 packet artifact: {exc}"
         return payload
     payload["ok"] = True
+    payload["error"] = ""
     payload["packet"] = parsed
     payload["sources"] = [
         _repo_rel(PSICAT_SPC_PLAN_DOC),

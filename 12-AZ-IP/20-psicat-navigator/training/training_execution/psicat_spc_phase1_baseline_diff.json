@@ -1,0 +1,42 @@
+{
+  "ok": true,
+  "previous_generated_at": "2026-09-09T15:50:34.973015+00:00",
+  "current_generated_at": "2026-09-09T15:57:21.688224+00:00",
+  "previous_phase_verdict": "PHASE1_HOLD_REMEDIATE",
+  "current_phase_verdict": "PHASE1_HOLD_REMEDIATE",
+  "lane_deltas": [
+    {
+      "lane_id": "lane_business_management",
+      "previous_verdict": "hold",
+      "current_verdict": "hold",
+      "previous_mean_score_100": 73.34,
+      "current_mean_score_100": 73.34,
+      "mean_score_delta": 0.0,
+      "previous_hard_fail_count": 0,
+      "current_hard_fail_count": 0
+    },
+    {
+      "lane_id": "lane_regulatory_governance",
+      "previous_verdict": "demote",
+      "current_verdict": "demote",
+      "previous_mean_score_100": 46.67,
+      "current_mean_score_100": 46.67,
+      "mean_score_delta": 0.0,
+      "previous_hard_fail_count": 2,
+      "current_hard_fail_count": 2
+    },
+    {
+      "lane_id": "lane_strategy_resilience",
+      "previous_verdict": "demote",
+      "current_verdict": "demote",
+      "previous_mean_score_100": 66.0,
+      "current_mean_score_100": 66.0,
+      "mean_score_delta": 0.0,
+      "previous_hard_fail_count": 2,
+      "current_hard_fail_count": 2
+    }
+  ],
+  "blockers_added": [],
+  "blockers_removed": [],
+  "blocker_count_delta": 0
+}

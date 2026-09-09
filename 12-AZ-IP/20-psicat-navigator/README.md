@@ -30,7 +30,8 @@
 7. [`PSICAT_SPC_BENCHMARK_GATES.md`](./PSICAT_SPC_BENCHMARK_GATES.md) (hard fail conditions + promotion gates + evidence packet requirements)
 8. [`training/training_execution/psicat_spc_phase0_execution_packet.json`](./training/training_execution/psicat_spc_phase0_execution_packet.json) (machine-readable immediate action board)
 9. [`training/training_execution/psicat_spc_phase1_baseline_receipts.json`](./training/training_execution/psicat_spc_phase1_baseline_receipts.json) (first baseline batteries with hold/clear/demote ledger and gate verdict)
-10. [`PSICAT_PROGRAM.md`](./PSICAT_PROGRAM.md) (implemented surfaces + ledger)
+10. [`training/training_execution/psicat_spc_phase1_baseline_diff.json`](./training/training_execution/psicat_spc_phase1_baseline_diff.json) (delta report vs prior baseline run)
+11. [`PSICAT_PROGRAM.md`](./PSICAT_PROGRAM.md) (implemented surfaces + ledger)
 
 This order is optimized for people who need to read quickly, understand clearly, and then verify details.
 
