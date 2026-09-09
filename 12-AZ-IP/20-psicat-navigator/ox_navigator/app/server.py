@@ -39,6 +39,7 @@ from ox_navigator.engine.merlin_program import (
     get_dual_lane_master_sprint_plan,
     get_expert_mastery_program,
     get_merlin_continuous_learning_protocol,
+    get_merlin_performance_lane,
     get_merlin_three_lane_intensive_sprint,
     get_mythos_astra_contract,
     get_knowledge_unknowns_ledger,
@@ -728,6 +729,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'continuous_learning': get_merlin_continuous_learning_protocol(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/performance-lane':
+                self._json({
+                'ok': True,
+                'performance_lane': get_merlin_performance_lane(),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

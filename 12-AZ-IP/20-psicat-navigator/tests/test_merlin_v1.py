@@ -519,6 +519,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert continuous['ok'] is True
     assert continuous['result']['data']['queue']['preview_count'] == 4
     assert 'publish_without_human_approval' in continuous['result']['data']['forbidden_actions']
+    performance_lane = route_tool('getMerlinPerformanceLane', {})
+    assert performance_lane['ok'] is True
+    assert performance_lane['result']['data']['lane_id'] == 'lane_e_training_performance'
+    assert len(performance_lane['result']['data']['speed_contract']['required_metrics']) >= 8
     session = MerlinSession()
     execution_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 4}, session=session)
     assert execution_queue['ok'] is True
@@ -546,6 +550,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert challenge_pack['result']['data']['challenge_count'] == 4
     assert any(
         item['lane_id'] == 'lane_d_formal_proof_foundry'
+        for item in route_tool('getMerlinTrainingExecutionQueue', {'limit': 20}, session=session)['result']['data']['items']
+    )
+    assert any(
+        item['lane_id'] == 'lane_e_training_performance'
         for item in route_tool('getMerlinTrainingExecutionQueue', {'limit': 20}, session=session)['result']['data']['items']
     )
     frontier = route_tool('getMerlinFrontierStack', {})
@@ -1882,6 +1890,10 @@ def test_server_merlin_endpoints():
             assert continuous_learning.json()['ok'] is True
             assert continuous_learning.json()['continuous_learning']['queue']['preview_count'] == 4
             assert 'publish_without_human_approval' in continuous_learning.json()['continuous_learning']['forbidden_actions']
+            performance_lane = client.get('/api/merlin/performance-lane')
+            assert performance_lane.status_code == 200
+            assert performance_lane.json()['ok'] is True
+            assert performance_lane.json()['performance_lane']['lane_id'] == 'lane_e_training_performance'
             training_execution_queue = client.get('/api/merlin/training-execution-queue?limit=4')
             assert training_execution_queue.status_code == 200
             assert training_execution_queue.json()['ok'] is True

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
-"""Active three-lane training execution queues and retained progress ledgers for Merlin."""
+"""Active multi-lane training execution queues and retained progress ledgers for Merlin."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from typing import Any
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_memory import MerlinSession
 from .merlin_meta_learning import analyze_depth, consolidate_memory, generate_falsification_oracle, run_self_audit
-from .merlin_program import build_merlin_continuous_learning_queue
+from .merlin_program import build_merlin_continuous_learning_queue, get_merlin_performance_lane
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
@@ -26,18 +26,21 @@ LANE_ORDER = (
     "lane_b_books_articles_mastery",
     "lane_c_adversarial_self_correction",
     "lane_d_formal_proof_foundry",
+    "lane_e_training_performance",
 )
 LANE_NAMES = {
     "lane_a_applications_tools_mastery": "Lane A — Applications and Tools Mastery",
     "lane_b_books_articles_mastery": "Lane B — Books and Articles Mastery",
     "lane_c_adversarial_self_correction": "Lane C — Adversarial Self-Correction",
     "lane_d_formal_proof_foundry": "Lane D — Formal Proof Foundry",
+    "lane_e_training_performance": "Lane E — Training Performance",
 }
 LANE_MASTERY_THRESHOLDS = {
     "lane_a_applications_tools_mastery": 0.25,
     "lane_b_books_articles_mastery": 0.22,
     "lane_c_adversarial_self_correction": 0.5,
     "lane_d_formal_proof_foundry": 0.35,
+    "lane_e_training_performance": 0.65,
 }
 
 
@@ -174,6 +177,7 @@ def _build_source_snapshot(item: dict[str, Any], *, session: MerlinSession | Non
         "lane_a_applications_tools_mastery",
         "lane_b_books_articles_mastery",
         "lane_d_formal_proof_foundry",
+        "lane_e_training_performance",
     }:
         target = _relative_target(reference_path)
         files = _path_file_inventory(target if target.exists() else target.parent)
@@ -281,7 +285,7 @@ def _score_lane_receipt(lane_id: str, metrics: dict[str, Any]) -> tuple[float, s
         )
         if audit_sample_count > 0 and contract_pass_rate < 0.9:
             blockers.append("contract_pass_rate_below_target")
-    else:
+    elif lane_id == "lane_d_formal_proof_foundry":
         score = min(
             1.0,
             (
@@ -294,6 +298,24 @@ def _score_lane_receipt(lane_id: str, metrics: dict[str, Any]) -> tuple[float, s
         )
         if float(metrics.get("review_packet_mentions", 0) or 0) == 0 and float(metrics.get("open_gap_mentions", 0) or 0) == 0:
             blockers.append("missing_review_packet_reference")
+    elif lane_id == "lane_e_training_performance":
+        score = min(
+            1.0,
+            (
+                min(float(metrics.get("required_metric_count", 0) or 0) / 8.0, 1.0) * 0.25
+                + min(float(metrics.get("profiler_tool_count", 0) or 0) / 3.0, 1.0) * 0.2
+                + min(float(metrics.get("roi_step_count", 0) or 0) / 6.0, 1.0) * 0.2
+                + (1.0 if float(metrics.get("ci_fail_condition_count", 0) or 0) >= 3 else 0.0) * 0.15
+                + (1.0 if float(metrics.get("has_sovereignty_constraint", 0) or 0) >= 1 else 0.0) * 0.2
+            ),
+        )
+        if float(metrics.get("required_metric_count", 0) or 0) < 8:
+            blockers.append("incomplete_speed_contract")
+        if float(metrics.get("profiler_tool_count", 0) or 0) < 2:
+            blockers.append("profiler_workflow_incomplete")
+    else:
+        score = 0.0
+        blockers.append("unknown_lane_id")
     threshold = float(LANE_MASTERY_THRESHOLDS.get(lane_id, 0.6))
     verdict = "pass" if score >= threshold and not blockers else "needs_review"
     return round(score, 4), verdict, blockers
@@ -498,6 +520,45 @@ def _build_lane_d_receipt(item: dict[str, Any]) -> tuple[dict[str, Any], dict[st
     return artifact, metrics, fact
 
 
+def _build_lane_e_receipt(item: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], str]:
+    lane = get_merlin_performance_lane()
+    speed_contract = dict(lane.get("speed_contract") or {})
+    profiler = dict(lane.get("profiler_first_workflow") or {})
+    roi_order = list(lane.get("roi_execution_order") or [])
+    ci_guards = dict(lane.get("ci_regression_guards") or {})
+    required_metrics = [str(entry) for entry in list(speed_contract.get("required_metrics") or []) if str(entry).strip()]
+    profiler_tools = [str(entry) for entry in list(profiler.get("required_pass_per_stage") or []) if str(entry).strip()]
+    ci_fail_conditions = [str(entry) for entry in list(ci_guards.get("fail_conditions") or []) if str(entry).strip()]
+    artifact = {
+        "artifact_type": str(item.get("expected_artifact") or "performance_contract_receipt"),
+        "training_mode": "performance_lane_optimization_governance",
+        "honesty_note": "This receipt tracks explicit throughput contracts and optimization policies; it does not claim benchmark gains without before/after stage evidence.",
+        "reference_path": str(item.get("reference_path") or ""),
+        "speed_contract": speed_contract,
+        "profiler_first_workflow": profiler,
+        "data_ingress_policy": dict(lane.get("data_ingress_policy") or {}),
+        "mixed_precision_policy": dict(lane.get("mixed_precision_policy") or {}),
+        "compile_and_fusion_policy": dict(lane.get("compile_and_fusion_policy") or {}),
+        "memory_efficiency_stack": dict(lane.get("memory_efficiency_stack") or {}),
+        "ci_regression_guards": ci_guards,
+        "roi_execution_order": roi_order,
+        "formal_corpus_fast_path": dict(lane.get("formal_corpus_fast_path") or {}),
+        "sovereignty_constraint": str(lane.get("sovereignty_constraint") or ""),
+    }
+    metrics = {
+        "required_metric_count": len(required_metrics),
+        "profiler_tool_count": len(profiler_tools),
+        "roi_step_count": len(roi_order),
+        "ci_fail_condition_count": len(ci_fail_conditions),
+        "has_sovereignty_constraint": 1 if artifact["sovereignty_constraint"] else 0,
+    }
+    fact = (
+        f"Performance lane retained {metrics['required_metric_count']} speed metrics, "
+        f"{metrics['profiler_tool_count']} profiler tools, and {metrics['roi_step_count']} ROI-ordered optimization steps."
+    )
+    return artifact, metrics, fact
+
+
 def _execute_queue_item(item: dict[str, Any], *, session: MerlinSession) -> dict[str, Any]:
     lane_id = str(item.get("lane_id") or "")
     started_at = _utcnow()
@@ -508,6 +569,10 @@ def _execute_queue_item(item: dict[str, Any], *, session: MerlinSession) -> dict
         artifact, metrics, fact = _build_lane_b_receipt(item)
     elif lane_id == "lane_c_adversarial_self_correction":
         artifact, metrics, fact = _build_lane_c_receipt(item, session=session)
+    elif lane_id == "lane_d_formal_proof_foundry":
+        artifact, metrics, fact = _build_lane_d_receipt(item)
+    elif lane_id == "lane_e_training_performance":
+        artifact, metrics, fact = _build_lane_e_receipt(item)
     else:
         artifact, metrics, fact = _build_lane_d_receipt(item)
     mastery_score, gate_verdict, blockers = _score_lane_receipt(lane_id, metrics)
@@ -542,6 +607,8 @@ def _execute_queue_item(item: dict[str, Any], *, session: MerlinSession) -> dict
             if lane_id == "lane_c_adversarial_self_correction"
             else "formal"
             if lane_id == "lane_d_formal_proof_foundry"
+            else "operations"
+            if lane_id == "lane_e_training_performance"
             else "general"
         ),
     )
@@ -612,6 +679,10 @@ def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 1
             prompt = (
                 f"Summarize the proof-foundry obligation, reviewer packet, and non-claim boundary for {item.get('reference_path')}."
             )
+        elif lane_id == "lane_e_training_performance":
+            prompt = (
+                f"Summarize performance-lane throughput gates, profiler workflow, and ROI optimization order for {item.get('reference_path')}."
+            )
         else:
             prompt = (
                 f"State the contradiction, falsification, or calibration discipline required for {item.get('queue_id')}."
@@ -667,7 +738,7 @@ def build_merlin_training_execution_queue(*, session: MerlinSession, limit: int 
     selected = items if limit is None else items[: _coerce_limit(limit)]
     return {
         "mode": "active_execution_queue",
-        "objective": "Execute and retain four-lane Merlin training work with auditable per-item receipts.",
+        "objective": "Execute and retain five-lane Merlin training work with auditable per-item receipts.",
         "artifact_export_path": _repo_rel(EXECUTION_ARTIFACT_PATH),
         "total_queue_items": len(items),
         "completed_count": completed,

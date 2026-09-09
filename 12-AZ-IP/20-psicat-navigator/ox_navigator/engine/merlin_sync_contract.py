@@ -40,6 +40,7 @@ REQUIRED_TOOLKIT_FUNCTIONS: tuple[str, ...] = (
     "getMerlinApplicationsToolsLane",
     "getMerlinBooksArticlesLane",
     "getMerlinAdversarialGrowthLane",
+    "getMerlinPerformanceLane",
     "getMerlinContinuousLearningProtocol",
     "getMerlinTrainingExecutionQueue",
     "getMerlinLaneProgressLedgers",

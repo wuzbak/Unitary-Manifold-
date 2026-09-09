@@ -29,12 +29,13 @@ def test_merlin_training_cycle_executes_round_robin_receipts():
     assert result["ok"] is True
     assert result["processed_count"] == 6
     assert len(result["receipts"]) == 6
-    assert {item["lane_id"] for item in result["receipts"]} == {
+    assert {
         "lane_a_applications_tools_mastery",
         "lane_b_books_articles_mastery",
         "lane_c_adversarial_self_correction",
         "lane_d_formal_proof_foundry",
-    }
+        "lane_e_training_performance",
+    }.issubset({item["lane_id"] for item in result["receipts"]})
 
     queue_after = build_merlin_training_execution_queue(session=session, limit=6)
     assert queue_after["completed_count"] == 6
@@ -49,7 +50,7 @@ def test_merlin_lane_progress_ledgers_report_retained_receipts():
     ledgers = get_merlin_lane_progress_ledgers(session=session, limit=3)
     assert ledgers["overall"]["completed_count"] == 6
     assert ledgers["overall"]["retained_training_receipts"] == 6
-    assert len(ledgers["lane_ledgers"]) == 4
+    assert len(ledgers["lane_ledgers"]) == 5
     assert sum(item["completed_count"] for item in ledgers["lane_ledgers"]) == 6
     assert all("gate_summary" in item for item in ledgers["lane_ledgers"])
 
@@ -88,5 +89,6 @@ def test_merlin_training_queue_includes_proof_foundry_lane() -> None:
     session = MerlinSession()
     queue = build_merlin_training_execution_queue(session=session, limit=20)
     assert queue["mode"] == "active_execution_queue"
-    assert "four-lane Merlin training work" in queue["objective"]
+    assert "five-lane Merlin training work" in queue["objective"]
     assert any(item["lane_id"] == "lane_d_formal_proof_foundry" for item in queue["items"])
+    assert any(item["lane_id"] == "lane_e_training_performance" for item in queue["items"])

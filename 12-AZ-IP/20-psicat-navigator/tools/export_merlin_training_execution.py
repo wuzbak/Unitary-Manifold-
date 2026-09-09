@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
-"""Export retained three-lane Merlin training execution artifacts as JSON."""
+"""Export retained multi-lane Merlin training execution artifacts as JSON."""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from ox_navigator.engine.merlin_training_execution import build_merlin_training_
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Export retained Merlin three-lane training execution bundle.")
+    parser = argparse.ArgumentParser(description="Export retained Merlin multi-lane training execution bundle.")
     parser.add_argument("--limit", type=int, default=0, help="Optional item cap; 0 means execute the full queue.")
     parser.add_argument(
         "--output",
