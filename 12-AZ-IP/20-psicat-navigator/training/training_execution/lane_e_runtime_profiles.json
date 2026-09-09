@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 59794.070214613566,
-        "samples_per_second": 248.10817516437166,
+        "tokens_per_second": 58895.405669599226,
+        "samples_per_second": 244.37927663734118,
         "gpu_utilization_percent": 90.0,
         "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 3.193,
-        "step_time_p95_ms": 4.868,
-        "vram_peak_gb": 0.1,
+        "step_time_p50_ms": 3.831,
+        "step_time_p95_ms": 4.353,
+        "vram_peak_gb": 0.16663360595703125,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 64577.59583178266,
-        "samples_per_second": 262.994665674234,
+        "tokens_per_second": 63607.03812316717,
+        "samples_per_second": 259.04203323558164,
         "gpu_utilization_percent": 92.5,
         "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 2.9375600000000004,
-        "step_time_p95_ms": 4.478560000000001,
-        "vram_peak_gb": 0.10400000000000001,
+        "step_time_p50_ms": 3.5245200000000003,
+        "step_time_p95_ms": 4.00476,
+        "vram_peak_gb": 0.1732989501953125,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 72326.90733159658,
-        "samples_per_second": 289.29413224165745,
+        "tokens_per_second": 71239.88269794724,
+        "samples_per_second": 284.94623655913983,
         "gpu_utilization_percent": 95.0,
         "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 2.6731796000000005,
-        "step_time_p95_ms": 4.075489600000001,
-        "vram_peak_gb": 0.10712,
+        "step_time_p50_ms": 3.2073132,
+        "step_time_p95_ms": 3.6443316,
+        "vram_peak_gb": 0.17849791870117188,
         "cost_per_accepted_sample": 0.0
       }
     }
