@@ -170,10 +170,19 @@ def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     output_dir = tmp_path / 'mlflow'
-    monkeypatch.setattr(sys, 'argv', ['export_merlin_mlflow_manifests.py', '--limit', '4', '--output-dir', str(output_dir)])
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_merlin_mlflow_manifests.py', '--limit', '4', '--output-dir', str(output_dir), '--refresh-lane-e-profiles'],
+    )
     assert module.main() == 0
     payload = json.loads((output_dir / 'mlflow_manifests.json').read_text())
     assert len(payload['manifests']) >= 4
+    assert any(
+        '--refresh-lane-e-profiles' in cmd
+        for manifest in payload['manifests']
+        for cmd in manifest.get('prerequisite_commands', [])
+    )
 
 
 def test_export_training_execution_script(tmp_path, monkeypatch):
@@ -763,10 +772,15 @@ def test_route_tool_training_architecture_and_artifacts():
     assert curation_payload['budget_doctrine']['current_cycle_mode'] == 'local_only'
     assert curation_payload['token_budget']['freeze_external_generation'] is True
 
-    mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
+    mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4, 'refresh_lane_e_profiles': True})
     assert mlflow['ok'] is True
     assert len(mlflow['result']['data']['manifests']) >= 4
     assert '{limit}' not in mlflow['result']['data']['manifests'][0]['entry_command']
+    assert any(
+        '--refresh-lane-e-profiles' in cmd
+        for manifest in mlflow['result']['data']['manifests']
+        for cmd in manifest.get('prerequisite_commands', [])
+    )
     assert '&&' not in mlflow['result']['data']['manifests'][1]['entry_command']
     assert mlflow['result']['data']['manifests'][0]['entry_command'].startswith(sys.executable)
     assert 'run_merlin_mlflow_experiment.py' in mlflow['result']['data']['manifests'][0]['entry_command']
@@ -1954,10 +1968,17 @@ def test_server_merlin_endpoints():
             assert mastery.json()['ok'] is True
             assert mastery.json()['expert_mastery_program']['levels'][0]['level'] == 'L1_foundational'
 
-            mlflow_manifests = client.get('/api/merlin/mlflow-manifests?limit=4')
+            mlflow_manifests = client.get('/api/merlin/mlflow-manifests?limit=4&refresh_lane_e_profiles=true')
             assert mlflow_manifests.status_code == 200
             assert mlflow_manifests.json()['ok'] is True
             assert len(mlflow_manifests.json()['mlflow_manifests']['manifests']) >= 4
+            assert any(
+                '--refresh-lane-e-profiles' in cmd
+                for manifest in mlflow_manifests.json()['mlflow_manifests']['manifests']
+                for cmd in manifest.get('prerequisite_commands', [])
+            )
+            bad_mlflow_refresh = client.get('/api/merlin/mlflow-manifests?refresh_lane_e_profiles=maybe')
+            assert bad_mlflow_refresh.status_code == 400
 
             competitive_benchmarks = client.get('/api/merlin/competitive-benchmarks')
             assert competitive_benchmarks.status_code == 200

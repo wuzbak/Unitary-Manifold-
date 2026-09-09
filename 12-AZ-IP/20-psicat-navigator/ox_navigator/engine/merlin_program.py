@@ -1822,7 +1822,7 @@ def run_sync_checks() -> dict[str, Any]:
     export_contract_markers = {
         "tools/export_merlin_training_artifacts.py": ["build_training_artifact_bundle", "--output", "--refresh-lane-e-profiles"],
         "tools/export_merlin_training_jsonl.py": ["build_training_dataset_bundle", "--output-dir"],
-        "tools/export_merlin_mlflow_manifests.py": ["get_mlflow_experiment_manifests", "--output-dir"],
+        "tools/export_merlin_mlflow_manifests.py": ["get_mlflow_experiment_manifests", "--output-dir", "--refresh-lane-e-profiles"],
         "tools/export_merlin_training_execution.py": ["build_merlin_training_execution_bundle", "--output", "--refresh-lane-e-profiles"],
         "tools/export_merlin_lane_e_runtime_profiles.py": ["get_merlin_lane_e_runtime_profiles", "--output"],
     }
@@ -5494,6 +5494,7 @@ def get_mlflow_experiment_manifests(
     limit: int | None = None,
     *,
     compiled_insights: list[dict[str, Any]] | None = None,
+    refresh_lane_e_profiles: bool = False,
 ) -> dict[str, Any]:
     dataset_bundle = build_training_dataset_bundle(limit=limit, compiled_insights=compiled_insights)
     if dataset_bundle.get("ok") is False:
@@ -5526,6 +5527,7 @@ def get_mlflow_experiment_manifests(
             str(resolved_limit),
             "--output-dir",
             "/tmp/merlin-mlflow",
+            *(["--refresh-lane-e-profiles"] if refresh_lane_e_profiles else []),
         )
     )
     training_artifact_command = (
@@ -5536,6 +5538,7 @@ def get_mlflow_experiment_manifests(
             str(resolved_limit),
             "--output",
             "/tmp/merlin-training-artifacts.json",
+            *(["--refresh-lane-e-profiles"] if refresh_lane_e_profiles else []),
         )
     )
     stage_a_artifact_command = (
@@ -6061,7 +6064,11 @@ def build_training_artifact_bundle(
             "training_dataset": dataset_bundle["dataset"],
             "training_curation": dict(((dataset_bundle.get("dataset") or {}).get("curation_ledger") or {})),
             "formal_proof_foundry_bundle": get_formal_proof_foundry_training_bundle(limit=limit),
-            "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit, compiled_insights=compiled_insights),
+            "mlflow_manifests": get_mlflow_experiment_manifests(
+                limit=limit,
+                compiled_insights=compiled_insights,
+                refresh_lane_e_profiles=bool(refresh_lane_e_profiles),
+            ),
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),
             "open_weight_acquisition_ledger": get_open_weight_acquisition_ledger(),

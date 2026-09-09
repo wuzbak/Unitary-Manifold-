@@ -397,7 +397,7 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_REFRESH_ARGS_SCHEMA},
         "getMerlinTrainingDataset": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingCuration": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinMLflowManifests": {"args_schema": _LIMIT_REFRESH_ARGS_SCHEMA},
         "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinSprintReviewPacket": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinHeavyReasoningLane": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
@@ -1130,7 +1130,10 @@ _FUNCTIONS = {
     "getMerlinValidationResiliencePacket": lambda **args: {"data": get_merlin_validation_resilience_packet(limit=args.get("limit"))},
     "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(limit=args.get("limit"))},
     "getMerlinTrainingCuration": lambda **args: {"data": get_training_curation_ledger(limit=args.get("limit"))},
-    "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(limit=args.get("limit"))},
+    "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(
+        limit=args.get("limit"),
+        refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
+    )},
     "getMerlinInferenceProviders": lambda **args: {"data": {"providers": get_inference_providers()}},
     "getMerlinInferenceHealth": lambda **args: {"data": get_merlin_inference_health(provider_name=str(args.get("provider", "")).strip() or None)},
 "getMerlinReasoningChain": lambda **args: {"data": get_reasoning_chain(str(args.get("query", "")), max_hops=args.get("max_hops", 3))},
@@ -1332,6 +1335,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 result = {"data": get_mlflow_experiment_manifests(
                     limit=args.get("limit"),
                     compiled_insights=active_session.get_compiled_training_insights(),
+                    refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
                 )}
             elif tool == "runMerlinResearchCycle":
                 result = {"data": run_research_cycle(
