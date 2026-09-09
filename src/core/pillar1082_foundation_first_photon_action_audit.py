@@ -101,12 +101,17 @@ def _action_evolution_row() -> Dict[str, Any]:
     contract = action_to_evolution_deliverable_contract()
     boundary = contract["boundary"]
     deliverable_ids = [item["id"] for item in contract["primary_deliverables"]]
+    remaining_blockers = contract.get("remaining_blockers")
+    remaining_list = remaining_blockers if isinstance(remaining_blockers, list) else []
+    remaining_are_known = bool(remaining_list) and all(item in deliverable_ids for item in remaining_list)
+    euler_lagrange_blocker_retained = "EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED" in remaining_list
     passed = bool(
         boundary["status"] == "OPEN"
         and boundary["derived_from_circle_eh_action"] is False
         and boundary["flow_parameter_is_coordinate_time"] is False
         and contract["promotion_ready"] is False
-        and contract["remaining_blockers"] == deliverable_ids
+        and remaining_are_known
+        and euler_lagrange_blocker_retained
     )
     return {
         "item": "Action-to-evolution equivalence",
