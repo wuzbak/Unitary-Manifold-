@@ -90,3 +90,27 @@ def test_merlin_training_queue_includes_proof_foundry_lane() -> None:
     assert queue["mode"] == "active_execution_queue"
     assert "four-lane Merlin training work" in queue["objective"]
     assert any(item["lane_id"] == "lane_d_formal_proof_foundry" for item in queue["items"])
+
+
+def test_merlin_training_queue_and_challenge_pack_include_navier_packets() -> None:
+    session = MerlinSession()
+    queue = build_merlin_training_execution_queue(session=session, limit=80)
+    navier_items = [
+        item for item in queue["items"]
+        if item["reference_path"] in {
+            "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+            "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
+        }
+    ]
+    assert len(navier_items) == 2
+
+    challenges = get_merlin_training_challenge_pack(session=session, limit=80)
+    navier_challenges = [
+        item for item in challenges["challenges"]
+        if item["reference_path"] in {
+            "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+            "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
+        }
+    ]
+    assert len(navier_challenges) == 2
+    assert all("non-transfer clause" in item["prompt"] for item in navier_challenges)

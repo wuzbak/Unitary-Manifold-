@@ -2354,8 +2354,13 @@ def _seed_teacher_trace_distillation_examples() -> list[dict[str, Any]]:
 
 
 def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
+    from src.core.navier_stokes_method_transfer import navier_stokes_method_transfer_packet
+
     ten_proofs = _repo_rel(REPO_ROOT / "ten-proofs-oai.pdf")
     unit_distance = _repo_rel(REPO_ROOT / "unit-distance-proof.pdf")
+    navier_packet = navier_stokes_method_transfer_packet()
+    navier_intake = str((navier_packet.get("local_artifacts") or {}).get("intake_packet") or "")
+    navier_curriculum = str((navier_packet.get("local_artifacts") or {}).get("curriculum_packet") or "")
     return [
         {
             "id": "external-proof-transfer-map",
@@ -2432,6 +2437,51 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
             "provenance_sources": [ten_proofs, unit_distance, "getMerlinBenchmarkCorpora"],
             "supervision_mode": "grounded_supervised_finetuning",
         },
+        {
+            "id": "navier-stokes-um-leverage-memo",
+            "track": "external_open_science_augmentation",
+            "prompt": (
+                "Extract the Navier-Stokes proof architecture, classify what is constructed versus proved, "
+                "and map it onto the named Unitary Manifold open obligations without claiming closure transfer."
+            ),
+            "target": {
+                "required_outputs": [
+                    "governing_system",
+                    "similarity_coordinates",
+                    "constructs_vs_proves_vs_stability_sensitive",
+                    "um_open_obligation_mapping",
+                    "non_transfer_clause",
+                ],
+                "primary_target": "ACTION_TO_EVOLUTION_EQUIVALENCE",
+                "crosswalk_questions": list(navier_packet.get("crosswalk_questions") or []),
+            },
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [navier_intake, "docs/TRUTH_LAYER.md", "README.md"],
+            "supervision_mode": "grounded_supervised_finetuning",
+        },
+        {
+            "id": "navier-stokes-psicat-adversarial-review",
+            "track": "formal_proof_foundry",
+            "prompt": (
+                "Answer the dedicated Navier-Stokes adversarial review packet with exact non-claims, "
+                "method-transfer boundaries, and retained challenge-pack value for PsiCat."
+            ),
+            "target": {
+                "review_questions": list(navier_packet.get("adversarial_review_questions") or []),
+                "crosswalk_questions": list(navier_packet.get("crosswalk_questions") or []),
+                "scoring_axes": [
+                    "precision",
+                    "boundary_honesty",
+                    "citation_discipline",
+                    "transfer_discipline",
+                    "remediation_value",
+                ],
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [navier_curriculum, navier_intake, "getMerlinTrainingChallengePack"],
+            "supervision_mode": "proof_review_packet_alignment",
+        },
     ]
 
 
@@ -2478,6 +2528,23 @@ def get_formal_proof_foundry_training_bundle(limit: int | None = None) -> dict[s
             "Proof-foundry ingestion tracks reviewer packets, named open gaps, and runtime-boundary "
             "artifacts; it does not claim direct Lean-term execution in PsiCat."
         ),
+    }
+
+
+def get_navier_stokes_method_transfer_packet() -> dict[str, Any]:
+    from src.core.navier_stokes_method_transfer import navier_stokes_method_transfer_packet
+
+    packet = navier_stokes_method_transfer_packet()
+    return {
+        **packet,
+        "tool_surface": "getMerlinNavierStokesMethodTransferPacket",
+        "workflow_surfaces": {
+            "training_architecture": "getMerlinTrainingArchitecture",
+            "training_execution_queue": "getMerlinTrainingExecutionQueue",
+            "training_cycle": "runMerlinTrainingCycle",
+            "challenge_pack": "getMerlinTrainingChallengePack",
+            "sprint_review_packet": "getMerlinSprintReviewPacket",
+        },
     }
 
 
@@ -2996,6 +3063,21 @@ def get_open_science_resource_registry() -> dict[str, Any]:
                     "open-weight finetuning inputs",
                 ],
                 "priority": "highest_external",
+            },
+            {
+                "resource_id": "openai_navier_stokes_method_transfer",
+                "category": "external_proof_intake_packet",
+                "url": "https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf",
+                "recommended_role": [
+                    "proof_architecture_intake",
+                    "gap_closure_filter_training",
+                    "formal_review_discipline_transfer",
+                ],
+                "local_packets": [
+                    "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+                    "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
+                ],
+                "priority": "high_curated_external",
             },
             {
                 "resource_id": "openml",
@@ -4319,10 +4401,13 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 "purpose": "Teach PsiCat the narrowed Lean frontier, named open gaps, reviewer packets, and honest runtime-bridge boundaries.",
                 "source_surfaces": [
                     "src/core/formal_traceability_spine.py",
+                    "src/core/navier_stokes_method_transfer.py",
                     "proof/FORMAL_PROOF_FOUNDRY.md",
                     "proof/CURRY_HOWARD_WORKFLOW.md",
                     "proof/REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md",
                     "proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md",
+                    "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+                    "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
                     "docs/TRUTH_LAYER.md",
                 ],
             },
@@ -4370,6 +4455,8 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                     "getMerlinOpenScienceRegistry",
                     _repo_rel(REPO_ROOT / "ten-proofs-oai.pdf"),
                     _repo_rel(REPO_ROOT / "unit-distance-proof.pdf"),
+                    "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+                    "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
                 ],
             },
             {
@@ -4420,6 +4507,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",
+            "navier_stokes_method_transfer_packet": "getMerlinNavierStokesMethodTransferPacket",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
             "open_weight_acquisition_ledger": "getMerlinOpenWeightAcquisitionLedger",
             "dual_lane_master_sprint": "getMerlinDualLaneMasterSprint",
