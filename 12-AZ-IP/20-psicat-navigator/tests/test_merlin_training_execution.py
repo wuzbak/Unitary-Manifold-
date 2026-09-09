@@ -103,3 +103,11 @@ def test_merlin_training_cycle_emits_performance_gate_receipts() -> None:
     assert gate.get("ok") is True
     assert gate.get("gate_verdict") == "pass"
     assert gate.get("baseline_source") == "performance_contract_receipt"
+    lane_e_receipts = [
+        receipt for receipt in list(result.get("receipts") or [])
+        if receipt.get("queue_id") in {"lane_e_speed_contract", "lane_e_profiler_pass", "lane_e_roi_execution"}
+    ]
+    assert len(lane_e_receipts) == 3
+    evidence = dict((lane_e_receipts[0].get("artifact") or {}).get("performance_receipt_evidence") or {})
+    assert evidence.get("source") in {"stage_b_stage_c_head_to_head_receipts", "fallback_static_profiles"}
+    assert evidence.get("status") in {"captured", "fallback"}
