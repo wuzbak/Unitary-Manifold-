@@ -97,7 +97,7 @@ def lane1_action_to_evolution_closure_attempt() -> Dict[str, Any]:
         'process_progress': {
             'victories': [
                 'Checkable candidate action is now explicit and machine-readable with assumptions and boundary terms.',
-                'Derivation-grade mismatch-certificate scaffold is now surfaced with per-sector deterministic verdicts.',
+                'Derivation-grade mismatch-certificate scaffold now includes symbolic term-mapping with signed mismatch fields and deterministic per-sector verdicts.',
                 'Failure is represented as explicit blocker certificates instead of narrative-only delay.',
                 'Support-unit harvesting remains available without inflating closure claims.',
             ],

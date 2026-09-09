@@ -12,6 +12,7 @@ def test_el_mismatch_certificate_scaffold_is_explicit() -> None:
     assert cert['status'] == 'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED'
     assert cert['summary']['sectors_covered'] == 3
     assert cert['summary']['template_alignment_available'] is True
+    assert cert['summary']['symbolic_mapping_receipt_ready'] is True
     assert cert['summary']['euler_lagrange_deliverable_earned'] is False
     assert cert['summary']['closure_earned'] is False
 

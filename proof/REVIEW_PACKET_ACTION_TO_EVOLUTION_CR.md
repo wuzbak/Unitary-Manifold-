@@ -23,7 +23,7 @@ Key honesty boundary:
 ## Specific current blockers (non-trivial)
 
 1. **Checkable action functional is surfaced** — bounded candidate action with explicit fields, assumptions, and boundary terms is now machine-readable.
-2. **Derivation-grade mismatch-certificate scaffold is surfaced** — metric/gauge/scalar sector alignment is explicit, but this is not yet an Euler-Lagrange derivation.
+2. **Derivation-grade mismatch-certificate scaffold is surfaced with symbolic term-mapping, signed mismatch placeholders, and deterministic per-sector verdicts** — metric/gauge/scalar sector alignment is explicit, but this is not yet an Euler-Lagrange derivation.
 3. **Fixed time/domain boundary is surfaced** — time-identification and domain assumptions are machine-readable and explicit for promotion boundaries.
 
 **Remaining blocker for closure:** verified Euler-Lagrange derivation + residual-mismatch proof on the stated domain.
@@ -31,7 +31,7 @@ Key honesty boundary:
 ## Dead-ends and retained wins
 
 Dead-end / no-go paths already learned:
-- Template alignment alone cannot be promoted as Euler-Lagrange verification.
+- Symbolic/template mapping alone cannot be promoted as Euler-Lagrange verification.
 - Partial overlap claims without derivation-level mismatch accounting remain insufficient for closure.
 
 Wins to retain:
