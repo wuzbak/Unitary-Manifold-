@@ -10,6 +10,7 @@ Start with:
 
 - `proof/TIER_1_FORMAL.md`
 - `docs/TRUTH_LAYER.md`
+- `src/core/action_to_evolution_contract.py`
 - `src/core/evolution.py`
 - `src/core/pillar1082_foundation_first_photon_action_audit.py`
 

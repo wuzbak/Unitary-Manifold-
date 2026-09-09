@@ -5,6 +5,7 @@ import pytest
 
 import src.core.pillar1085_sprint_ck_target_lock_evidence_capture as p1085
 
+from src.core.action_to_evolution_contract import PRIMARY_DELIVERABLE_IDS
 from src.core.pillar1085_sprint_ck_target_lock_evidence_capture import (
     PILLAR_GATE,
     PILLAR_NUMBER,
@@ -48,9 +49,10 @@ def test_leverage_audit_selects_action_target(report) -> None:
 def test_lane_one_contract_is_exact(report) -> None:
     lane = report["lane_1"]
     assert lane["selected_target_id"] == SELECTED_TARGET_ID
-    assert len(lane["new_object_evidence_class_required"]) == 4
+    assert len(lane["new_object_evidence_class_required"]) == 3
+    assert [row["id"] for row in lane["new_object_evidence_class_required"]] == PRIMARY_DELIVERABLE_IDS
     assert "Euler-Lagrange derivation" in lane["selected_target_label"]
-    assert "No verified action-level Euler-Lagrange derivation" in lane["next_exact_blocker"]
+    assert "No verified Euler-Lagrange derivation" in lane["next_exact_blocker"]
 
 
 def test_lane_two_captures_stage_a_to_e_evidence(report) -> None:

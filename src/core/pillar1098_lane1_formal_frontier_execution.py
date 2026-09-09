@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from typing import Any, Dict
 
+from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
 from src.core.formal_traceability_spine import formal_traceability_spine
 from src.core.pillar1090_lean_burden_ledger import lean_burden_ledger
 from src.core.pillar1097_sprint_cp_three_lane_charter import (
@@ -34,6 +35,7 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
 def lane1_formal_frontier_execution() -> Dict[str, Any]:
     spine = formal_traceability_spine()
     ledger = lean_burden_ledger()
+    contract = action_to_evolution_deliverable_contract()
     units = []
     for row in list(spine.get('traceability_rows') or []):
         runtime_companion = list(row.get('python_modules') or [])
@@ -111,10 +113,11 @@ def lane1_formal_frontier_execution() -> Dict[str, Any]:
             'blocker_fallibility_certificates': blocker_certificates,
         },
         'reviewer_packets': reviewer_packets,
+        'action_to_evolution_deliverable_contract': contract,
         'lane1_evidence_board': {
             'closed': [],
             'tightened': tightened,
-            'blocked': ['ACTION_TO_EVOLUTION_BOUNDARY', 'APS_MATHLIB_FORMALIZATION_GAP'],
+            'blocked': [*list(contract.get('remaining_blockers') or []), 'APS_MATHLIB_FORMALIZATION_GAP'],
         },
         'outcome': 'LANE1_FORMAL_FRONTIER_EXECUTION_READY' if valid else 'LANE1_FORMAL_FRONTIER_EXECUTION_BLOCKED',
         'truth_surface_sync': truth_sync,

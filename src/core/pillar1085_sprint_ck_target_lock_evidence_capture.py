@@ -18,6 +18,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict, List
 
+from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 from src.core.pillar1082_foundation_first_photon_action_audit import (
     foundation_first_photon_action_audit,
@@ -172,30 +173,19 @@ def _candidate_rows() -> List[Dict[str, Any]]:
 
 
 def _selected_target_contract() -> Dict[str, Any]:
+    contract = action_to_evolution_deliverable_contract()
     return {
         "target_id": SELECTED_TARGET_ID,
         "verdict_class_if_executed_now": "TIGHTENED_WITH_EXPLICIT_BLOCKER",
         "required_new_object_evidence_class": [
             {
-                "id": "explicit_action_functional",
-                "acceptance": "Provide an action S[g,B,phi] with declared couplings and source prescription.",
-            },
-            {
-                "id": "verified_euler_lagrange_equations",
-                "acceptance": "Derive and check the g_mu_nu, B_mu, and phi equations against the implemented flow terms.",
-            },
-            {
-                "id": "reproducible_side_by_side_residual_check",
-                "acceptance": "Run action-derived and implemented flows on shared initial data and report residual norms.",
-            },
-            {
-                "id": "machine_readable_boundary_update",
-                "acceptance": "Update the evolution-boundary surface only if the derivation is verified or explicitly narrowed.",
-            },
+                "id": item["id"],
+                "acceptance": "; ".join(item["required_evidence"]),
+            }
+            for item in contract["primary_deliverables"]
         ],
-        "next_exact_blocker": (
-            "No verified action-level Euler-Lagrange derivation currently reproduces the implemented flow."
-        ),
+        "next_exact_blocker": contract["primary_deliverables"][1]["current_gap"],
+        "shared_deliverable_contract": contract,
     }
 
 
