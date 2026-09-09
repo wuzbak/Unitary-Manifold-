@@ -394,6 +394,45 @@ def compute_curvature(g, B, phi, dx, lam=1.0, coordinate_index=1):
     return Gamma, Riemann, Ricci, R
 
 
+def compute_curvature_backend(
+    g,
+    B,
+    phi,
+    dx,
+    lam=1.0,
+    coordinate_index=1,
+    *,
+    backend: str = "python",
+    use_cuda: bool = False,
+    fallback_to_python: bool = True,
+):
+    """Backend-dispatched curvature pipeline preserving legacy output contract."""
+    selected = str(backend).strip().lower()
+    if selected == "python":
+        return compute_curvature(g, B, phi, dx, lam=lam, coordinate_index=coordinate_index)
+    if selected == "julia":
+        from .julia_acceleration import compute_curvature_julia
+
+        try:
+            return compute_curvature_julia(
+                g,
+                B,
+                phi,
+                dx,
+                lam,
+                coordinate_index,
+                python_reference=compute_curvature,
+                use_cuda=use_cuda,
+            )
+        except RuntimeError:
+            if not fallback_to_python:
+                raise
+            return compute_curvature(
+                g, B, phi, dx, lam=lam, coordinate_index=coordinate_index
+            )
+    raise ValueError(f"Unsupported backend '{backend}'. Expected 'python' or 'julia'.")
+
+
 # ---------------------------------------------------------------------------
 # α derivation from 5D Riemann cross-block term
 # ---------------------------------------------------------------------------

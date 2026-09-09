@@ -36,6 +36,10 @@ dependencies = [
     "numpy>=1.24,<3",
     "scipy>=1.11,<2",
     "mpmath>=1.3,<2",
+    "duckdb>=1.5",
+    "polars>=1.44",
+    "pyarrow>=25.0",
+    "zarr>=3.3",
 ]
 
 [project.optional-dependencies]
@@ -89,6 +93,13 @@ ai = [
     "chromadb>=0.5",
     "sentence-transformers>=2.7",
 ]
+polyglot = [
+    "juliacall>=0.9.35",
+    "duckdb>=1.5.5",
+    "polars>=1.44.1",
+    "pyarrow>=25.0.1",
+    "zarr>=3.3.0",
+]
 observability = [
     "opentelemetry-api>=1.24",
     "opentelemetry-sdk>=1.24",
@@ -101,7 +112,7 @@ android = [
     "rich>=13.7",
 ]
 full = [
-    "unitary-manifold[dev,notebooks,symbolic,um_sos,api,ai,observability]",
+    "unitary-manifold[dev,notebooks,symbolic,um_sos,api,ai,observability,polyglot]",
 ]
 all = [
     "unitary-manifold[full]",

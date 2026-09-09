@@ -1,0 +1,44 @@
+{
+  "test": "polyglot_wave1_backend_lock",
+  "date": "2026-09-09T00:39:00+00:00",
+  "backend_config": {
+    "core_backend": "python",
+    "use_cuda": false,
+    "parity_rtol": 1e-07,
+    "parity_atol": 1e-10,
+    "min_speedup_target": 1.1
+  },
+  "julia_runtime": {
+    "requested_cuda": false,
+    "juliacall_available": false,
+    "backend": "julia",
+    "status": "UNAVAILABLE"
+  },
+  "parity": {
+    "curvature": {
+      "parity_passed": true,
+      "rtol": 1e-07,
+      "atol": 1e-10,
+      "max_abs_error": 0.0
+    },
+    "rhs": {
+      "parity_passed": true,
+      "rtol": 1e-07,
+      "atol": 1e-10,
+      "max_abs_error": 0.0
+    }
+  },
+  "benchmarks_seconds": {
+    "python_curvature": {
+      "min_seconds": 0.014354938999986189,
+      "mean_seconds": 0.014432339999984833,
+      "max_seconds": 0.014554640999961066
+    },
+    "python_rhs": {
+      "min_seconds": 0.014821479999966414,
+      "mean_seconds": 0.014827722333336624,
+      "max_seconds": 0.01483377400001018
+    }
+  },
+  "status": "PASS"
+}

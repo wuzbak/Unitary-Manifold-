@@ -142,7 +142,9 @@ from typing import Callable, Dict, List, Optional, Tuple, Union
 import numpy as np
 
 from .kk_backreaction import kk_tower_stress_energy
-from .metric import compute_curvature, field_strength
+from .metric import compute_curvature, compute_curvature_backend, field_strength
+from .julia_acceleration import compute_rhs_julia
+from .polyglot_execution_matrix import load_polyglot_execution_config
 
 
 # ---------------------------------------------------------------------------
@@ -412,13 +414,36 @@ def _compute_rhs(state: FieldState) -> tuple:
     dB   : ndarray, shape (N, 4)   — ∂_t B_μ
     dphi : ndarray, shape (N,)     — ∂_t φ
     """
+    cfg = load_polyglot_execution_config()
+    if cfg.core_backend == "julia":
+        try:
+            return compute_rhs_julia(
+                state=state,
+                python_reference=_compute_rhs_python_reference,
+                use_cuda=cfg.use_cuda,
+            )
+        except RuntimeError:
+            return _compute_rhs_python_reference(state)
+    return _compute_rhs_python_reference(state)
+
+
+def _compute_rhs_python_reference(state: FieldState) -> tuple:
+    """Reference RHS forced to Python curvature backend for parity checks."""
     g, B, phi = state.g, state.B, state.phi
     dx, lam, alpha = state.dx, state.lam, state.alpha
     phi0, m_phi = state.phi0, state.m_phi
     n_kk_modes = state.n_kk_modes
     kk_backreaction_coupling = state.kk_backreaction_coupling
-
-    _, _, Ricci, R = compute_curvature(g, B, phi, dx, lam)
+    _, _, Ricci, R = compute_curvature_backend(
+        g,
+        B,
+        phi,
+        dx,
+        lam=lam,
+        coordinate_index=1,
+        backend="python",
+        use_cuda=False,
+    )
     H = field_strength(B, dx)
 
     # ∂_t g_μν = −2 R_μν + T_μν
@@ -448,6 +473,44 @@ def _compute_rhs(state: FieldState) -> tuple:
     )
 
     return dg, dB, dphi
+
+
+def rhs_backend_report(state: FieldState) -> Dict[str, object]:
+    """Return backend + parity metadata for current RHS evaluation settings."""
+    cfg = load_polyglot_execution_config()
+    payload = {
+        "backend": cfg.core_backend,
+        "use_cuda": cfg.use_cuda,
+        "parity_rtol": cfg.parity_rtol,
+        "parity_atol": cfg.parity_atol,
+    }
+    if cfg.core_backend != "julia":
+        payload["effective_backend"] = "python"
+        payload["fallback_used"] = False
+        payload["parity_checked"] = False
+        payload["parity_passed"] = None
+        return payload
+    from .julia_acceleration import julia_runtime_status, parity_report
+
+    runtime = julia_runtime_status(use_cuda=cfg.use_cuda)
+    ref = _compute_rhs_python_reference(state)
+    got = _compute_rhs(state)
+    fallback_used = not (
+        runtime.juliacall_available and (not cfg.use_cuda or runtime.cuda_functional)
+    )
+    effective_backend = "python_fallback" if fallback_used else "julia"
+    verdict = parity_report(ref, got, rtol=cfg.parity_rtol, atol=cfg.parity_atol)
+    payload.update(
+        {
+            "effective_backend": effective_backend,
+            "fallback_used": fallback_used,
+            "parity_checked": True,
+            "parity_passed": verdict["parity_passed"],
+            "parity_max_abs_error": verdict["max_abs_error"],
+        }
+    )
+    return payload
+
 
 
 def _advance_fields(state: FieldState,
