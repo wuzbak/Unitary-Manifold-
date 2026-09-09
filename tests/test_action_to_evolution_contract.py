@@ -19,7 +19,7 @@ def test_implemented_flow_surface_stays_explicit() -> None:
     assert surface["time_domain_boundary"]["coordinate_time_gauge_fixed"] is True
 
 
-def test_deliverable_contract_tracks_earned_action_surface_without_overclaim() -> None:
+def test_deliverable_contract_tracks_evidence_and_remaining_single_blocker() -> None:
     contract = action_to_evolution_deliverable_contract()
     deliverables = contract["primary_deliverables"]
     assert contract["status"] == "OPEN"
@@ -29,11 +29,17 @@ def test_deliverable_contract_tracks_earned_action_surface_without_overclaim() -
     first = deliverables[0]
     assert first["earned"] is True
     assert first["status"] == "EVIDENCE_SURFACED"
-    assert first["candidate_action_receipt"]["checkable_action_deliverable_earned"] is True
 
-    assert deliverables[1]["earned"] is False
-    assert deliverables[2]["earned"] is False
-    assert contract["remaining_blockers"] == PRIMARY_DELIVERABLE_IDS[1:]
+    second = deliverables[1]
+    assert second["earned"] is False
+    assert second["status"] == "EVIDENCE_SURFACED_NOT_VERIFIED"
+    assert second["residual_receipt"]["status"] == "RECEIPT_READY"
+
+    third = deliverables[2]
+    assert third["earned"] is True
+    assert third["status"] == "EVIDENCE_SURFACED"
+
+    assert contract["remaining_blockers"] == [PRIMARY_DELIVERABLE_IDS[1]]
     assert contract["promotion_ready"] is False
 
 

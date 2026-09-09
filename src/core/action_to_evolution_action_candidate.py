@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
-from src.core.evolution import implemented_flow_equation_surface
+from src.core.evolution import implemented_flow_equation_surface, phenomenological_flow_boundary
 
 
 def checkable_action_functional_candidate() -> Dict[str, Any]:
@@ -73,7 +73,32 @@ def candidate_action_surface_receipt() -> Dict[str, Any]:
     }
 
 
+def time_domain_boundary_receipt() -> Dict[str, Any]:
+    """Return receipt for fixed time-identification/domain boundary surface."""
+    flow_surface = implemented_flow_equation_surface()
+    boundary = phenomenological_flow_boundary()
+    time_boundary = dict(flow_surface.get('time_domain_boundary') or {})
+
+    checks = {
+        'flow_parameter_symbol_explicit': bool(time_boundary.get('flow_parameter_symbol')),
+        'coordinate_time_symbol_explicit': bool(time_boundary.get('coordinate_time_symbol')),
+        'time_identification_explicit': bool(time_boundary.get('identified_with_coordinate_time') in {True, False}),
+        'coordinate_time_gauge_fixed': bool(time_boundary.get('coordinate_time_gauge_fixed') is True),
+        'domain_explicit': bool(str(time_boundary.get('domain') or '').strip()),
+        'boundary_scope_explicit': bool(boundary.get('scope')),
+        'promotion_boundary_note_explicit': bool(boundary.get('remaining_obligation')),
+    }
+
+    return {
+        'status': 'RECEIPT_READY' if all(checks.values()) else 'RECEIPT_INCOMPLETE',
+        'checks': checks,
+        'time_domain_deliverable_earned': all(checks.values()),
+        'closure_earned': False,
+    }
+
+
 __all__: List[str] = [
     'checkable_action_functional_candidate',
     'candidate_action_surface_receipt',
+    'time_domain_boundary_receipt',
 ]

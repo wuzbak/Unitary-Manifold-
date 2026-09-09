@@ -4,6 +4,7 @@
 from src.core.action_to_evolution_action_candidate import (
     candidate_action_surface_receipt,
     checkable_action_functional_candidate,
+    time_domain_boundary_receipt,
 )
 
 
@@ -21,3 +22,11 @@ def test_candidate_receipt_marks_non_trivial_progress_without_closure() -> None:
     assert receipt['status'] == 'RECEIPT_READY'
     assert receipt['checkable_action_deliverable_earned'] is True
     assert receipt['closure_earned'] is False
+
+
+def test_time_domain_boundary_receipt_is_explicit() -> None:
+    receipt = time_domain_boundary_receipt()
+    assert receipt['status'] == 'RECEIPT_READY'
+    assert receipt['checks']['time_identification_explicit'] is True
+    assert receipt['checks']['domain_explicit'] is True
+    assert receipt['time_domain_deliverable_earned'] is True
