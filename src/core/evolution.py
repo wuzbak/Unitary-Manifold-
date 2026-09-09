@@ -142,7 +142,8 @@ from typing import Callable, Dict, List, Optional, Tuple, Union
 import numpy as np
 
 from .kk_backreaction import kk_tower_stress_energy
-from .metric import compute_curvature, field_strength
+from .metric import compute_curvature, compute_curvature_backend, field_strength
+from .polyglot_execution_matrix import load_polyglot_execution_config
 
 
 # ---------------------------------------------------------------------------
@@ -418,7 +419,17 @@ def _compute_rhs(state: FieldState) -> tuple:
     n_kk_modes = state.n_kk_modes
     kk_backreaction_coupling = state.kk_backreaction_coupling
 
-    _, _, Ricci, R = compute_curvature(g, B, phi, dx, lam)
+    cfg = load_polyglot_execution_config()
+    _, _, Ricci, R = compute_curvature_backend(
+        g,
+        B,
+        phi,
+        dx,
+        lam=lam,
+        coordinate_index=1,
+        backend=cfg.core_backend,
+        use_cuda=cfg.use_cuda,
+    )
     H = field_strength(B, dx)
 
     # ∂_t g_μν = −2 R_μν + T_μν
@@ -447,6 +458,66 @@ def _compute_rhs(state: FieldState) -> tuple:
         phi0=phi0,  # R_KK = φ₀ in UM Planck-unit convention
     )
 
+    return dg, dB, dphi
+
+
+def rhs_backend_report(state: FieldState) -> Dict[str, object]:
+    """Return backend + parity metadata for current RHS evaluation settings."""
+    cfg = load_polyglot_execution_config()
+    payload = {
+        "backend": cfg.core_backend,
+        "use_cuda": cfg.use_cuda,
+        "parity_rtol": cfg.parity_rtol,
+        "parity_atol": cfg.parity_atol,
+    }
+    if cfg.core_backend != "julia":
+        payload["parity_checked"] = False
+        payload["parity_passed"] = None
+        return payload
+    from .julia_acceleration import parity_report
+
+    ref = _compute_rhs_python_reference(state)
+    got = _compute_rhs(state)
+    verdict = parity_report(ref, got, rtol=cfg.parity_rtol, atol=cfg.parity_atol)
+    payload.update(
+        {
+            "parity_checked": True,
+            "parity_passed": verdict["parity_passed"],
+            "parity_max_abs_error": verdict["max_abs_error"],
+        }
+    )
+    return payload
+
+
+def _compute_rhs_python_reference(state: FieldState) -> tuple:
+    """Reference RHS forced to Python curvature backend for parity checks."""
+    g, B, phi = state.g, state.B, state.phi
+    dx, lam, alpha = state.dx, state.lam, state.alpha
+    phi0, m_phi = state.phi0, state.m_phi
+    n_kk_modes = state.n_kk_modes
+    kk_backreaction_coupling = state.kk_backreaction_coupling
+
+    _, _, Ricci, R = compute_curvature(g, B, phi, dx, lam)
+    H = field_strength(B, dx)
+
+    T = _stress_energy(B, phi, H, lam)
+    dg = -2.0 * Ricci + T
+    dg = 0.5 * (dg + dg.transpose(0, 2, 1))
+
+    g_inv = np.linalg.inv(g)
+    H_up = np.einsum('nai,nbj,nij->nab', g_inv, g_inv, H)
+    dB = np.zeros_like(B)
+    for mu in range(4):
+        dB[:, mu] = _divergence_vec(lam**2 * H_up[:, :, mu], dx)
+
+    dphi = (_laplacian(phi, dx) + alpha * R * phi + _source_scalar(H)
+            - m_phi**2 * (phi - phi0))
+    dphi += _kk_backreaction_source(
+        phi=phi,
+        n_kk_modes=n_kk_modes,
+        kk_backreaction_coupling=kk_backreaction_coupling,
+        phi0=phi0,
+    )
     return dg, dB, dphi
 
 
