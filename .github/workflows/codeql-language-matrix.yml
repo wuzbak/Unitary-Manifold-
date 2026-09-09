@@ -40,11 +40,13 @@ jobs:
               {
                   "slice_id": "python-core",
                   "language": "python",
+                  "build_mode": "none",
                   "paths": ["src", "tests", "recycling", "claims"],
               },
               {
                   "slice_id": "python-psicat-runtime",
                   "language": "python",
+                  "build_mode": "none",
                   "paths": [
                       "12-AZ-IP/20-psicat-navigator/ox_navigator/app",
                       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine",
@@ -53,6 +55,7 @@ jobs:
               {
                   "slice_id": "python-psicat-tests-tools",
                   "language": "python",
+                  "build_mode": "none",
                   "paths": [
                       "12-AZ-IP/20-psicat-navigator/tests",
                       "12-AZ-IP/20-psicat-navigator/tools",
@@ -61,16 +64,19 @@ jobs:
               {
                   "slice_id": "python-product20",
                   "language": "python",
+                  "build_mode": "none",
                   "paths": ["12-AZ-IP/20-psicat-navigator", "TOOLS/checks"],
               },
               {
                   "slice_id": "rust-kernel",
                   "language": "rust",
+                  "build_mode": "autobuild",
                   "paths": ["11-AZ-OS/ax-kernel", "12-AZ-IP/02-az-kernel"],
               },
               {
                   "slice_id": "c-cpp-audio",
                   "language": "c-cpp",
+                  "build_mode": "none",
                   "paths": [
                       "12-AZ-IP/14-sdam/app/core/audio/src/main/cpp",
                       "12-AZ-IP/15-pentacorder/core/audio/src/main/cpp",
@@ -79,6 +85,7 @@ jobs:
               {
                   "slice_id": "java-kotlin-mobile",
                   "language": "java-kotlin",
+                  "build_mode": "none",
                   "paths": [
                       "12-AZ-IP/14-sdam/app/core/security/src/main/java",
                       "12-AZ-IP/15-pentacorder",
@@ -121,6 +128,7 @@ jobs:
                   {
                       "slice_id": item["slice_id"],
                       "language": item["language"],
+                      "build_mode": item["build_mode"],
                       "paths_yaml": paths_yaml,
                   }
               )
@@ -247,6 +255,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build_mode }}
           config: |
             paths:
             ${{ matrix.paths_yaml }}
@@ -262,6 +271,7 @@ jobs:
               - "public-site/**"
               - "9-INFRASTRUCTURE/repomix-output.xml"
       - name: Autobuild
+        if: matrix.build_mode == 'autobuild'
         uses: github/codeql-action/autobuild@v3
       - name: Analyze
         uses: github/codeql-action/analyze@v3

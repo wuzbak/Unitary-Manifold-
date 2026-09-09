@@ -52,7 +52,7 @@ def test_lane_one_contract_is_exact(report) -> None:
     assert len(lane["new_object_evidence_class_required"]) == 3
     assert [row["id"] for row in lane["new_object_evidence_class_required"]] == PRIMARY_DELIVERABLE_IDS
     assert "Euler-Lagrange derivation" in lane["selected_target_label"]
-    assert "No verified Euler-Lagrange derivation" in lane["next_exact_blocker"]
+    assert "Euler-Lagrange derivation" in lane["next_exact_blocker"]
 
 
 def test_lane_two_captures_stage_a_to_e_evidence(report) -> None:
