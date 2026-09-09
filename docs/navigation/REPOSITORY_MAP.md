@@ -10,6 +10,7 @@ This map separates current canonical surfaces from historical records, tools, ar
 | Current status | [`../../STATUS.md`](../../STATUS.md) |
 | Limits and non-claims | [`../../FALLIBILITY.md`](../../FALLIBILITY.md) |
 | Formal proof gate | [`../../proof/TIER_1_FORMAL.md`](../../proof/TIER_1_FORMAL.md) |
+| Canonical braid lane memo | [`../../1-THEORY/BRAID_DOSSIER.md`](../../1-THEORY/BRAID_DOSSIER.md) |
 | AI ingest order | [`../../AGENTS.md`](../../AGENTS.md) |
 | Tool/provenance inventory | [`../../9-INFRASTRUCTURE/provenance/README.md`](../../9-INFRASTRUCTURE/provenance/README.md) |
 

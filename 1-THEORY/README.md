@@ -18,6 +18,7 @@ corresponds directly to code in `src/core/`, `src/holography/`, `src/multiverse/
 | [`UNIFICATION_PROOF.md`](UNIFICATION_PROOF.md) | Formal derivation: QM, EM, and the Standard Model as projections of the 5D geometry. |
 | [`QUANTUM_THEOREMS.md`](QUANTUM_THEOREMS.md) | New theorems: BH information conservation, CCR, Hawking temperature, ER=EPR from 5D geometry. |
 | [`WINDING_NUMBER_DERIVATION.md`](WINDING_NUMBER_DERIVATION.md) | Why n_w = 5: the topological argument from Z₂ orbifold through APS η-invariant. |
+| [`BRAID_DOSSIER.md`](BRAID_DOSSIER.md) | **Canonical braid lane memo** — separates standard braid mathematics, the repository's executable (5,7) chain, and external topology/cosmology correspondences; includes a strict status table and closure target. |
 | [`BRAID_TWIN_DUALITY.md`](BRAID_TWIN_DUALITY.md) | **The (5,7)/(5,6) twin braid states** — why they are the only two viable pairs, how they relate as lossless ground state and lossy metastable twin, and what LiteBIRD will measure to discriminate them. |
 | [`LAB_SCALE_CP_VIOLATION_57_BRAID.md`](LAB_SCALE_CP_VIOLATION_57_BRAID.md) | **Immediate lab program:** concrete mathematical and experimental route to test (5,7)-geometry CP asymmetry in condensed matter at CKM/Jarlskog scale, without waiting for 2032. |
 | [`COMPLETION_REPORT.md`](COMPLETION_REPORT.md) | The full 101-pillar claim record with status labels and test references. |
