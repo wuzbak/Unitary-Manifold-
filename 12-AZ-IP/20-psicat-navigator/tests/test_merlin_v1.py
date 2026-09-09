@@ -1860,6 +1860,20 @@ def test_server_merlin_endpoints():
                 item['channel_id'] == 'hugging_face_models_hub'
                 for item in open_weight_acquisition.json()['open_weight_acquisition_ledger']['acquisition_channels']
             )
+            training_framework_stack = client.get('/api/merlin/training-framework-stack')
+            assert training_framework_stack.status_code == 200
+            assert training_framework_stack.json()['ok'] is True
+            categories = training_framework_stack.json()['training_framework_stack']['categories']
+            category_ids = {item['category_id'] for item in categories}
+            assert {
+                'distributed_enterprise_scale',
+                'fine_tuning_alignment_primary',
+                'education_mechanics_foundation',
+            }.issubset(category_ids)
+            fine_tuning = next(item for item in categories if item['category_id'] == 'fine_tuning_alignment_primary')
+            framework_names = {row['name'] for row in fine_tuning['frameworks']}
+            assert {'Hugging Face Transformers', 'PEFT', 'TRL', 'bitsandbytes', 'LitGPT'}.issubset(framework_names)
+            assert training_framework_stack.json()['training_framework_stack']['integration_policy']['fail_closed'] is True
 
             trust_library = client.get('/api/merlin/trust-source-library')
             assert trust_library.status_code == 200

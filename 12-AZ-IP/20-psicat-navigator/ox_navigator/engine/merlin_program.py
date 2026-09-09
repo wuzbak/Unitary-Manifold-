@@ -2195,6 +2195,7 @@ def evaluate_teacher_trace_admission(trace: dict[str, Any]) -> dict[str, Any]:
 
 
 def get_training_and_adaptation() -> dict[str, Any]:
+    framework_stack = get_training_framework_stack()
     return {
         "data_tracks": [
             "repository_native_qa",
@@ -2279,6 +2280,135 @@ def get_training_and_adaptation() -> dict[str, Any]:
             "research_missions_surface": "getMerlinDomainResearchMissions",
             "mastery_program_surface": "getMerlinExpertMasteryProgram",
         },
+        "framework_stack": framework_stack,
+    }
+
+
+def get_training_framework_stack() -> dict[str, Any]:
+    return {
+        "name": "psi_cat_repository_training_framework_stack",
+        "objective": (
+            "Upgrade PsiCat and repository training intelligence with governed framework selection, "
+            "branch-safe integration, and fail-closed promotion gates."
+        ),
+        "categories": [
+            {
+                "category_id": "distributed_enterprise_scale",
+                "primary_use": "multi_gpu_distributed_training_for_large_models",
+                "frameworks": [
+                    {
+                        "name": "DeepSpeed",
+                        "owner": "Microsoft",
+                        "role": "ZeRO-optimized distributed training and memory efficiency at scale",
+                        "activation_rule": "enable when model size or context objectives exceed single-node practical limits",
+                    },
+                    {
+                        "name": "Megatron-LM",
+                        "owner": "NVIDIA",
+                        "role": "tensor/pipeline model-parallel training on NVIDIA clusters",
+                        "activation_rule": "enable for cluster-scale transformer training with explicit model-parallel requirements",
+                    },
+                    {
+                        "name": "TorchTitan",
+                        "owner": "PyTorch",
+                        "role": "PyTorch-native 3D parallel foundation-model training",
+                        "activation_rule": "enable when native PyTorch distributed orchestration is preferred over heavier external stacks",
+                    },
+                ],
+                "entry_gates": [
+                    "documented_multi_gpu_need",
+                    "reproducible_cluster_receipt_plan",
+                    "cost_energy_budget_approval",
+                    "no_regression_vs_primary_finetune_lane",
+                ],
+            },
+            {
+                "category_id": "fine_tuning_alignment_primary",
+                "primary_use": "open_weight_adaptation_and_alignment_for_product_evolution",
+                "frameworks": [
+                    {
+                        "name": "Hugging Face Transformers",
+                        "owner": "Hugging Face",
+                        "role": "base training/inference stack for open-weight adaptation",
+                        "activation_rule": "default for supervised adaptation, evaluation, and export-ready model operations",
+                    },
+                    {
+                        "name": "PEFT",
+                        "owner": "Hugging Face",
+                        "role": "parameter-efficient adaptation with LoRA/DoRA workflows",
+                        "activation_rule": "default low-footprint adaptation strategy before full finetuning",
+                    },
+                    {
+                        "name": "TRL",
+                        "owner": "Hugging Face",
+                        "role": "alignment and preference-optimization training",
+                        "activation_rule": "enable when honesty, refusal quality, and boundary behavior need targeted reinforcement",
+                    },
+                    {
+                        "name": "bitsandbytes",
+                        "owner": "bitsandbytes maintainers",
+                        "role": "4-bit/8-bit quantization for constrained-VRAM training",
+                        "activation_rule": "enable for memory-constrained adaptation with measurable quality retention",
+                    },
+                    {
+                        "name": "LitGPT",
+                        "owner": "Lightning AI",
+                        "role": "clean recipe framework for pretraining/fine-tuning/deployment paths",
+                        "activation_rule": "enable when recipe reproducibility and rapid baseline iteration are priority",
+                    },
+                ],
+                "entry_gates": [
+                    "open_weight_license_and_provenance_clear",
+                    "dataset_contracts_pass",
+                    "benchmark_receipts_present",
+                    "governance_boundary_compliance",
+                ],
+            },
+            {
+                "category_id": "education_mechanics_foundation",
+                "primary_use": "mechanistic_understanding_and_low_level_training_intuition",
+                "frameworks": [
+                    {
+                        "name": "nanoGPT",
+                        "owner": "Andrej Karpathy",
+                        "role": "minimal transformer training reference for architecture understanding",
+                        "activation_rule": "use for educational ablations and architecture sanity checks",
+                    },
+                    {
+                        "name": "llm.c",
+                        "owner": "Andrej Karpathy",
+                        "role": "pure C/CUDA training path for memory/compute-level profiling",
+                        "activation_rule": "use for GPU-level reasoning and systems profiling insights",
+                    },
+                ],
+                "entry_gates": [
+                    "learning_objective_documented",
+                    "insight_capture_into_primary_training_lane",
+                    "no_claim_of_direct_production_readiness",
+                ],
+            },
+        ],
+        "integration_policy": {
+            "default_primary_category": "fine_tuning_alignment_primary",
+            "scale_escalation_policy": "Escalate to distributed_enterprise_scale only when primary lane saturates and workload evidence requires scale-out.",
+            "branch_collision_policy": {
+                "mode": "operator_paced_branch_by_branch",
+                "requirements": [
+                    "surface_overlap_check_before_merge",
+                    "contract_diff_review_for_shared_endpoints",
+                    "explicit_partial_or_full_promotion_label",
+                    "hold_on_unresolved_blockers",
+                ],
+            },
+            "fail_closed": True,
+            "promotion_rule": "No framework promotion without receipts, benchmark evidence, and governance-pass status.",
+        },
+        "psi_cat_alignment_targets": [
+            "stronger_tool_routing_precision",
+            "higher_provenance_completeness",
+            "better_contradiction_retention",
+            "more_reliable_long_context_judgment",
+        ],
     }
 
 
@@ -4334,6 +4464,7 @@ def get_merlin_three_lane_intensive_sprint(limit: int | None = None) -> dict[str
 def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
     seed_examples = _build_seed_training_examples(limit=limit)
     acquisition = get_open_weight_acquisition_ledger()
+    framework_stack = get_training_framework_stack()
     track_counts: dict[str, int] = {}
     for item in seed_examples:
         track = str(item.get("track", "unknown"))
@@ -4358,6 +4489,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             ],
             "scratch_pretraining_policy": "Only justified after open-weight adaptation saturates on target benchmark families.",
         },
+        "framework_stack": framework_stack,
         "pentad_kernel_lanes": get_merlin_pentad_contract(),
         "dataset_families": [
             {
@@ -4510,6 +4642,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "navier_stokes_method_transfer_packet": "getMerlinNavierStokesMethodTransferPacket",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
             "open_weight_acquisition_ledger": "getMerlinOpenWeightAcquisitionLedger",
+            "training_framework_stack": "getMerlinTrainingFrameworkStack",
             "dual_lane_master_sprint": "getMerlinDualLaneMasterSprint",
             "three_lane_intensive_sprint": "getMerlinThreeLaneIntensiveSprint",
             "applications_tools_lane": "getMerlinApplicationsToolsLane",
@@ -5767,6 +5900,7 @@ def build_training_artifact_bundle(
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),
             "open_weight_acquisition_ledger": get_open_weight_acquisition_ledger(),
+            "training_framework_stack": get_training_framework_stack(),
             "ethics_contract": get_merlin_ethics_contract(),
             "capability_ontology": get_merlin_capability_ontology(),
             "teacher_trace_policy": get_merlin_teacher_trace_policy(),
