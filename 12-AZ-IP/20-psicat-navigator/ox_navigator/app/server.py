@@ -51,7 +51,9 @@ from ox_navigator.engine.merlin_program import (
     get_merlin_heavy_reasoning_lane,
     get_merlin_sovereign_model_board,
     get_merlin_sprint_review_packet,
+    get_psicat_spc_phase0_execution_packet,
     run_merlin_targeted_rigor_sprint,
+    run_psicat_spc_phase1_baseline,
     get_merlin_validation_resilience_packet,
     get_full_program_blueprint,
     get_merlin_pentad_contract,
@@ -956,6 +958,32 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'targeted_rigor_sprint': run_merlin_targeted_rigor_sprint(
+                    session=merlin_session,
+                    limit=limit,
+                    training_limit=training_limit,
+                ),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/spc-phase0-packet':
+                self._json({
+                'ok': True,
+                'spc_phase0_packet': get_psicat_spc_phase0_execution_packet(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/spc-phase1-baseline':
+                limit, error = _parse_int_query_param(params, 'limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                training_limit, training_error = _parse_int_query_param(params, 'training_limit', 9)
+                if training_error:
+                    self._json({'ok': False, 'error': training_error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'spc_phase1_baseline': run_psicat_spc_phase1_baseline(
                     session=merlin_session,
                     limit=limit,
                     training_limit=training_limit,
