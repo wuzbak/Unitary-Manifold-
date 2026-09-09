@@ -1,4 +1,4 @@
-version: "v37.4"
+version: "v37.5"
 date: "2026-09-09"
 updated: "2026-09-09"
 
@@ -34,6 +34,36 @@ foundation_reassessment:
     - "Joint UV/Higgs matching, moduli fixing and stability"
     - "Nonperturbative quantum gravity"
   observational_falsifiers_unchanged: true
+
+v37_5_sprint_cs:
+  sprint: CS
+  version: v37.5
+  date: "2026-09-09"
+  pillars: 1119-1119
+  new_pillars: 1
+  new_tests: 1
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures:
+    - PSICAT_ACHIEVEMENT_BENCHMARK_PROMOTION_SPRINT_COMPLETE
+  advances:
+    - PSICAT_ACHIEVEMENT_AND_PROMOTION_LANGUAGE_ARE_NOW_BOUND_TO_ONE_RECEIPT_BACKED_PACKET
+    - BENCHMARK_POSTURE_AND_SPC_PHASE1_LANE_VERDICTS_ARE_EXPOSED_TOGETHER_FOR_PROMOTION_DECISIONS
+    - CURRENT_PACKET_ROUTES_NEXT_WORK_TO_PHASE2_APPLIED_PRESSURE_PROMOTION_WITHOUT_CLAIMING_NEW_PHYSICS_CLOSURE
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "64,150 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
+  focused_regression: "PsiCat achievement/benchmark/promotion sprint suites 9 passed · 0 failed"
+  next_pillar_slot: 1120
 
 v37_4_sprint_cr:
   sprint: CR

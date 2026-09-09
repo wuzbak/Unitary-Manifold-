@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v37.4
+# Unitary Manifold v37.5
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -10,7 +10,7 @@
 > Sprint CI isolates the metric/coupling bookkeeping, but photon origin, action-to-evolution equivalence, flavor uniqueness, CMB predictivity, and the shared UV object remain open.
 > See [the precise findings and verification scope](TRUTH_LAYER.md#foundation-reassessment).
 > Historical test/theorem totals must not be read as discharged physics obligations.
-> Verified full regression in the current branch: **64,138 passed · 22 skipped ·
+> Verified full regression in the current branch: **64,150 passed · 22 skipped ·
 > 18 deselected · 0 failed**. CodeQL analysis was skipped for database size;
 > manual review and secret scans do not replace the missing automated analysis.
 
@@ -21,6 +21,9 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+
+> **Sprint CS (v37.5 — 2026-09-09):** 1 pillar (1119). P1119 adds a fail-closed PsiCat achievement/benchmark/promotion packet that consolidates earned surfaces, live benchmark posture, and the next appropriate promotion sprint in one governed board. The current packet keeps promotion language tied to visible receipts: targeted-rigor gates clear, frontier blockers clear, and SPC phase-1 baseline lanes clear, so the next step is phase-2 applied-pressure promotion work rather than a narrative-only status jump. Lean4 4080→4080 (+0). Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: PsiCat achievement/benchmark/promotion sprint suites 9 passed · 0 failed. Next slot 1120.
+>
 
 > **Sprint CR (v37.4 — 2026-09-09):** 1 sprint packet (1109-1118). P1109-P1118 implements the full master-plan packet with fail-closed discipline: scope lock and success criteria, deterministic burden board, primary action-to-evolution closure attempt, deterministic Lean routing, Python↔Lean truth-equivalence gating, falsifier/tension discipline, verification/regression discipline, documentation evidence packet, status coherence, and final integration certificate. The sprint tightens rigor and traceability without claiming unearned hardgate closure; open-lane labels remain explicit and unchanged. Lean4 4080→4080 (+0). Verified full regression in current branch history is 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CR targeted implementation + continuity suites 32 passed · 0 failed. Next slot 1119.
 >

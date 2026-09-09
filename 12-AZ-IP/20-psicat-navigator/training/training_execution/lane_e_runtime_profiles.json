@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 99406.02936232208,
-        "samples_per_second": 224.1398632746834,
+        "tokens_per_second": 91793.43889061367,
+        "samples_per_second": 206.9750595053296,
         "gpu_utilization_percent": 90.0,
         "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 4.237,
-        "step_time_p95_ms": 4.686,
-        "vram_peak_gb": 0.23620223999023438,
+        "step_time_p50_ms": 4.558,
+        "step_time_p95_ms": 5.105,
+        "vram_peak_gb": 0.20781326293945312,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 107358.51171130784,
-        "samples_per_second": 237.5882550711644,
+        "tokens_per_second": 99136.91400186278,
+        "samples_per_second": 219.39356307564938,
         "gpu_utilization_percent": 92.5,
         "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 3.8980400000000004,
-        "step_time_p95_ms": 4.31112,
-        "vram_peak_gb": 0.24565032958984376,
+        "step_time_p50_ms": 4.19336,
+        "step_time_p95_ms": 4.696600000000001,
+        "vram_peak_gb": 0.21612579345703126,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 120241.5331166648,
-        "samples_per_second": 261.3470805782809,
+        "tokens_per_second": 111033.34368208633,
+        "samples_per_second": 241.33291938321435,
         "gpu_utilization_percent": 95.0,
         "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 3.5472164000000004,
-        "step_time_p95_ms": 3.9231192,
-        "vram_peak_gb": 0.2530198394775391,
+        "step_time_p50_ms": 3.8159576000000004,
+        "step_time_p95_ms": 4.273906000000001,
+        "vram_peak_gb": 0.2226095672607422,
         "cost_per_accepted_sample": 0.0
       }
     }
@@ -50,7 +50,7 @@
       "failed": 0,
       "promotion_gate_pass": true,
       "kernel_gate_pass": true,
-      "domain_gate_pass": false
+      "domain_gate_pass": true
     },
     "stage_c_summary": {
       "total": 2,
@@ -58,7 +58,7 @@
       "failed": 0,
       "promotion_gate_pass": true,
       "kernel_gate_pass": true,
-      "domain_gate_pass": false
+      "domain_gate_pass": true
     }
   }
 }

@@ -7132,6 +7132,188 @@ def run_psicat_spc_phase1_baseline(
     }
 
 
+def get_psicat_achievement_benchmark_promotion_sprint(
+    *,
+    limit: int | None = 3,
+    training_limit: int | None = 9,
+) -> dict[str, Any]:
+    from .merlin_memory import MerlinSession
+
+    resolved_limit = _coerce_frontier_limit(limit, default=3)
+    resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
+    active_session = MerlinSession()
+
+    phase0_packet = get_psicat_spc_phase0_execution_packet()
+    spc_phase1 = run_psicat_spc_phase1_baseline(
+        session=active_session,
+        limit=max(5, resolved_limit),
+        training_limit=resolved_training_limit,
+    )
+    targeted_rigor = dict(spc_phase1.get("targeted_rigor_sprint") or {})
+    frontier = dict(
+        targeted_rigor.get("frontier_readiness")
+        or get_frontier_readiness_packet(limit=resolved_limit)
+    )
+    competitive = get_competitive_benchmark_plan()
+
+    stage_gate_summary = list(targeted_rigor.get("stage_gate_summary") or [])
+    spc_lanes = list(spc_phase1.get("lane_receipts") or [])
+    stage_failures = [
+        str(row.get("stage") or "")
+        for row in stage_gate_summary
+        if not (
+            bool(row.get("promotion_gate_pass"))
+            and bool(row.get("kernel_gate_pass"))
+            and bool(row.get("domain_gate_pass"))
+        )
+    ]
+    frontier_blockers = [
+        dict(item)
+        for item in list(frontier.get("promotion_blockers") or [])
+        if not bool(item.get("pass"))
+    ]
+    spc_lane_blockers = [
+        {
+            "id": f"{lane['lane_id']}_lane_gate",
+            "reason": (
+                f"{lane['lane_name']} remains `{lane['lane_verdict']}` "
+                f"(holds={lane['hold_count']}, demotes={lane['demote_count']}, hard_fails={lane['hard_fail_count']})."
+            ),
+        }
+        for lane in spc_lanes
+        if str(lane.get("lane_verdict") or "hold") != "clear"
+    ]
+
+    targeted_clear = bool(targeted_rigor.get("all_gates_green"))
+    phase1_clear = str(spc_phase1.get("phase_verdict") or "") == "PHASE1_CLEAR_ADVANCE_TO_PHASE2"
+    frontier_clear = bool(frontier.get("promotion_blockers_all_clear"))
+
+    achievement_board = [
+        {
+            "achievement_id": "psicat_targeted_rigor_packet",
+            "earned": str(targeted_rigor.get("mode") or "") == "targeted_full_rigor_sprint",
+            "evidence": "A canonical bounded train-and-work sprint packet is callable in one surface.",
+            "source": "/api/psicat/targeted-rigor-sprint",
+        },
+        {
+            "achievement_id": "stage_a_to_e_receipt_visibility",
+            "earned": len(stage_gate_summary) == 5,
+            "evidence": "Stage A→E benchmark receipts are visible together with per-stage gate summaries.",
+            "source": "/api/psicat/review-packet",
+        },
+        {
+            "achievement_id": "frontier_promotion_blocker_visibility",
+            "earned": isinstance(frontier.get("promotion_blockers"), list) and len(list(frontier.get("promotion_blockers") or [])) >= 4,
+            "evidence": "Promotion blockers are fail-closed and machine-readable rather than narrative-only.",
+            "source": "/api/psicat/frontier-readiness",
+        },
+        {
+            "achievement_id": "spc_phase0_execution_packet",
+            "earned": bool(phase0_packet.get("ok")),
+            "evidence": "The immediate SPC execution packet exists as a governed repository artifact.",
+            "source": "/api/psicat/spc-phase0-packet",
+        },
+        {
+            "achievement_id": "spc_phase1_lane_battery",
+            "earned": len(spc_lanes) == 3,
+            "evidence": "Business, regulatory, and strategy baseline lanes all emit evidence packets and verdicts.",
+            "source": "/api/psicat/spc-phase1-baseline",
+        },
+    ]
+
+    if not targeted_clear:
+        sprint_id = "TARGETED_RIGOR_REMEDIATION_SPRINT"
+        objective = "Clear targeted-rigor training, stage, or frontier blockers before any promotion language advances."
+        exit_gate = "run_merlin_targeted_rigor_sprint.verdict == TARGETED_RIGOR_SPRINT_CLEAR"
+        next_step = "Remediate targeted-rigor blocker register items and rerun the bounded packet."
+    elif not phase1_clear:
+        sprint_id = "SPC_PHASE1_REMEDIATION_SPRINT"
+        objective = "Clear held or demoted SPC expert lanes before advancing to applied-pressure promotion work."
+        exit_gate = "run_psicat_spc_phase1_baseline.phase_verdict == PHASE1_CLEAR_ADVANCE_TO_PHASE2"
+        next_step = "Repair non-clear SPC lanes and rerun the baseline battery until all three lanes clear."
+    else:
+        sprint_id = "PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT"
+        objective = "Advance from baseline receipts to applied-pressure promotion drills while keeping every decision receipt-backed."
+        exit_gate = "Phase 2 receipts stay clear and promotion remains evidence-backed under fail-closed review."
+        next_step = "Start the next applied-pressure promotion sprint immediately with the current baseline packet as the entry receipt."
+
+    return {
+        "generated_at": _utcnow(),
+        "mode": "achievement_benchmark_promotion_sprint",
+        "inputs": {
+            "limit": resolved_limit,
+            "training_limit": resolved_training_limit,
+        },
+        "achievement_board": achievement_board,
+        "benchmark_board": {
+            "competitive_families": [
+                str(item.get("family") or "")
+                for item in list(competitive.get("competitive_families") or [])
+            ],
+            "promotion_metrics": list(competitive.get("promotion_metrics") or []),
+            "stage_gate_summary": stage_gate_summary,
+            "stage_failure_count": len(stage_failures),
+            "stage_failures": stage_failures,
+            "frontier_blockers_clear": frontier_clear,
+            "frontier_open_blockers": frontier_blockers,
+            "spc_phase1_lane_receipts": spc_lanes,
+            "spc_phase1_clear_to_advance": phase1_clear,
+            "spc_phase1_open_lanes": spc_lane_blockers,
+        },
+        "promotion_readiness": {
+            "targeted_rigor_clear": targeted_clear,
+            "frontier_blockers_all_clear": frontier_clear,
+            "spc_phase1_clear_to_advance": phase1_clear,
+            "decision": (
+                "PROMOTION_SPRINT_ADVANCE_ALLOWED"
+                if targeted_clear and phase1_clear and frontier_clear
+                else "PROMOTION_NOT_EARNED_YET"
+            ),
+            "promotion_language": (
+                "ADVANCE_WITH_RECEIPTS_ONLY"
+                if targeted_clear and phase1_clear and frontier_clear
+                else "FROZEN_PENDING_VISIBLE_GATES"
+            ),
+        },
+        "appropriate_promotion_sprint": {
+            "sprint_id": sprint_id,
+            "objective": objective,
+            "lanes": [
+                {
+                    "lane_id": "lane_1_benchmark_gate_discipline",
+                    "focus": "Stage A→E receipt review, benchmark failure taxonomy, and targeted-rigor blocker clearance.",
+                    "evidence_surface": "/api/psicat/targeted-rigor-sprint",
+                },
+                {
+                    "lane_id": "lane_2_spc_expert_promotion",
+                    "focus": "Business, regulatory, and strategy lane evidence packets with hold/clear/demote discipline.",
+                    "evidence_surface": "/api/psicat/spc-phase1-baseline",
+                },
+                {
+                    "lane_id": "lane_3_governed_promotion_decision",
+                    "focus": "Promotion language freeze/advance state, frontier blockers, and explicit next-step routing.",
+                    "evidence_surface": "/api/psicat/frontier-readiness",
+                },
+            ],
+            "exit_gate": exit_gate,
+            "next_step": next_step,
+            "blocker_register": frontier_blockers + spc_lane_blockers,
+            "documentation_surfaces": [
+                _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+                _repo_rel(PRODUCT_ROOT / "README.md"),
+                _repo_rel(PRODUCT_ROOT / "PSICAT_PROGRAM.md"),
+            ],
+        },
+        "phase0_packet": phase0_packet,
+        "targeted_rigor_sprint": targeted_rigor,
+        "spc_phase1_baseline": spc_phase1,
+        "honesty_note": (
+            "This packet reports earned surfaces, benchmark posture, and the next governed sprint only; "
+            "it does not promote PsiCat beyond the visible receipts and gates."
+        ),
+    }
+
+
 def build_training_artifact_bundle(
     limit: int | None = None,
     *,

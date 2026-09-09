@@ -25,6 +25,7 @@ For immediate PsiCat SPC expert uplift, this board now runs:
 
 These artifacts execute three parallel lanes (business operations, regulatory policy, and strategy resilience) with hard fail-closed gates and evidence-packet requirements.
 Live API surfaces: `/api/psicat/spc-phase0-packet` and `/api/psicat/spc-phase1-baseline`.
+Promotion conversation surface: `/api/psicat/achievement-benchmark-promotion-sprint`.
 
 ---
 
@@ -111,6 +112,8 @@ The packet executes:
 4. one merged fail-closed blocker register and hold/clear verdict.
 
 This surface does not grant promotion by itself; it compresses evidence gathering and keeps every blocker visible.
+
+When the question is “what has PsiCat actually earned and what sprint should come next?”, use `/api/psicat/achievement-benchmark-promotion-sprint`. It keeps achievements, benchmark posture, and next-sprint routing in one fail-closed packet so promotion conversations stay evidence-backed.
 
 ---
 
