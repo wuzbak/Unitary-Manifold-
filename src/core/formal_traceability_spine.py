@@ -251,6 +251,8 @@ INTAKE_SURFACE: List[str] = [
     "proof/TIER_1_FORMAL.md",
     "proof/FORMAL_PROOF_FOUNDRY.md",
     "proof/CURRY_HOWARD_WORKFLOW.md",
+    "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+    "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
     "docs/TRUTH_LAYER.md",
 ]
 
@@ -304,10 +306,13 @@ PSICAT_TRAINING_MANIFEST: Dict[str, Any] = {
         "proof/CURRY_HOWARD_WORKFLOW.md",
         "proof/REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md",
         "proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md",
+        "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+        "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
         "docs/TRUTH_LAYER.md",
     ],
     "registry_sources": [
         "src/core/formal_traceability_spine.py",
+        "src/core/navier_stokes_method_transfer.py",
         "tests/test_formal_traceability_spine.py",
     ],
     "export_tools": [

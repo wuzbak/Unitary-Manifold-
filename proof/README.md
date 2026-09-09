@@ -13,6 +13,8 @@ For the current narrowed formal frontier, use the proof-foundry surface:
 - [`CURRY_HOWARD_WORKFLOW.md`](CURRY_HOWARD_WORKFLOW.md)
 - [`REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md`](REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md)
 - [`REVIEW_PACKET_ACTION_TO_EVOLUTION.md`](REVIEW_PACKET_ACTION_TO_EVOLUTION.md)
+- [`NAVIER_STOKES_METHOD_TRANSFER_PACKET.md`](NAVIER_STOKES_METHOD_TRANSFER_PACKET.md)
+- [`PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md`](PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md)
 
 These packets keep the current review burden small and explicit instead of
 asking reviewers to infer it from theorem totals or historical sprint language.

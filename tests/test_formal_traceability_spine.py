@@ -69,6 +69,8 @@ def test_intake_surface_exists() -> None:
     assert intake_paths == INTAKE_SURFACE
     assert "proof/FORMAL_PROOF_FOUNDRY.md" in intake_paths
     assert "proof/CURRY_HOWARD_WORKFLOW.md" in intake_paths
+    assert "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md" in intake_paths
+    assert "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md" in intake_paths
 
 
 def test_curry_howard_matrix_and_runtime_alignment() -> None:
@@ -92,4 +94,16 @@ def test_psicat_training_manifest_ready() -> None:
     assert manifest["target_product"] == "12-AZ-IP/20-psicat-navigator"
     assert manifest["training_ready"] is True
     assert all(item["exists"] is True for item in manifest["training_corpus"])
+    assert any(
+        item["path"] == "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md"
+        for item in manifest["training_corpus"]
+    )
+    assert any(
+        item["path"] == "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md"
+        for item in manifest["training_corpus"]
+    )
+    assert any(
+        item["path"] == "src/core/navier_stokes_method_transfer.py"
+        for item in manifest["registry_sources"]
+    )
     assert all(item["exists"] is True for item in manifest["export_tools"])

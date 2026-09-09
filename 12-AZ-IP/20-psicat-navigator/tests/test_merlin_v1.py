@@ -479,6 +479,14 @@ def test_route_tool_training_architecture_and_artifacts():
         for item in architecture['result']['data']['dataset_families']
     )
     assert architecture['result']['data']['formal_proof_foundry']['program'] == 'FORMAL_PROOF_FOUNDRY'
+    assert 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in (
+        architecture['result']['data']['formal_proof_foundry']['training_corpus']
+    )
+    assert any(
+        item['family'] == 'external_open_science_augmentation'
+        and 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in item['source_surfaces']
+        for item in architecture['result']['data']['dataset_families']
+    )
     assert architecture['result']['data']['active_training_surfaces']['three_lane_intensive_sprint'] == (
         'getMerlinThreeLaneIntensiveSprint'
     )
@@ -489,6 +497,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert any(item['resource_id'] == 'hugging_face_models_hub' for item in registry['result']['data']['resources'])
     assert any(item['resource_id'] == 'unsloth_engine' for item in registry['result']['data']['resources'])
     assert any(item['resource_id'] == 'axolotl_engine' for item in registry['result']['data']['resources'])
+    assert any(
+        item['resource_id'] == 'openai_navier_stokes_method_transfer'
+        for item in registry['result']['data']['resources']
+    )
     acquisition = route_tool('getMerlinOpenWeightAcquisitionLedger', {})
     assert acquisition['ok'] is True
     assert acquisition['result']['data']['approved_training_roster_cycle']['freeze_rule'] == (
