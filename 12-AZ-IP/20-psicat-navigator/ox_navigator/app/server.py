@@ -46,6 +46,7 @@ from ox_navigator.engine.merlin_program import (
     get_knowledge_unknowns_ledger,
     get_open_science_resource_registry,
     get_open_weight_acquisition_ledger,
+    get_training_framework_stack,
     get_frontier_readiness_packet,
     get_frontier_open_weight_stack,
     get_merlin_execution_board,
@@ -707,6 +708,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'open_weight_acquisition_ledger': get_open_weight_acquisition_ledger(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/training-framework-stack':
+                self._json({
+                'ok': True,
+                'training_framework_stack': get_training_framework_stack(),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

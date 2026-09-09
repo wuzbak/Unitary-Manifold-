@@ -116,11 +116,12 @@ jobs:
 
           include = []
           for item in selected:
+              paths_yaml = "\n".join(f"  - {path}" for path in item["paths"])
               include.append(
                   {
                       "slice_id": item["slice_id"],
                       "language": item["language"],
-                      "paths_inline": json.dumps(item["paths"]),
+                      "paths_yaml": paths_yaml,
                   }
               )
 
@@ -247,7 +248,8 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           config: |
-            paths: ${{ matrix.paths_inline }}
+            paths:
+            ${{ matrix.paths_yaml }}
             paths-ignore:
               - "**/*.md"
               - "**/*.txt"

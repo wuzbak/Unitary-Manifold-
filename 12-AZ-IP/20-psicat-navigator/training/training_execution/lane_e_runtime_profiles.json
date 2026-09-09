@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 59794.070214613566,
-        "samples_per_second": 248.10817516437166,
+        "tokens_per_second": 42377.35185510814,
+        "samples_per_second": 175.83963425356077,
         "gpu_utilization_percent": 90.0,
         "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 3.193,
-        "step_time_p95_ms": 4.868,
-        "vram_peak_gb": 0.1,
+        "step_time_p50_ms": 4.917,
+        "step_time_p95_ms": 6.457,
+        "vram_peak_gb": 0.17871856689453125,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 64577.59583178266,
-        "samples_per_second": 262.994665674234,
+        "tokens_per_second": 45767.5400035168,
+        "samples_per_second": 186.39001230877443,
         "gpu_utilization_percent": 92.5,
         "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 2.9375600000000004,
-        "step_time_p95_ms": 4.478560000000001,
-        "vram_peak_gb": 0.10400000000000001,
+        "step_time_p50_ms": 4.52364,
+        "step_time_p95_ms": 5.94044,
+        "vram_peak_gb": 0.1858673095703125,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 72326.90733159658,
-        "samples_per_second": 289.29413224165745,
+        "tokens_per_second": 51259.64480393882,
+        "samples_per_second": 205.02901353965188,
         "gpu_utilization_percent": 95.0,
         "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 2.6731796000000005,
-        "step_time_p95_ms": 4.075489600000001,
-        "vram_peak_gb": 0.10712,
+        "step_time_p50_ms": 4.1165124,
+        "step_time_p95_ms": 5.4058003999999995,
+        "vram_peak_gb": 0.19144332885742188,
         "cost_per_accepted_sample": 0.0
       }
     }
