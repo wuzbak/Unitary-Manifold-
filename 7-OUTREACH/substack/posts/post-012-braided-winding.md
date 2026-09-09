@@ -9,6 +9,15 @@ angle β falls outside the predicted window β ∈ {≈0.273°, ≈0.331°}.*
 
 ---
 
+> **Historical-outreach note (2026-09):** This post remains a narrative explanation
+> of the braid lane. For current canonical status, β-path distinctions, and the
+> present honesty/fallibility framing, defer to
+> `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/1-THEORY/BRAID_DOSSIER.md`,
+> `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md`,
+> and `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/3-FALSIFICATION/BRAID_FALSIFIER_PACKET.md`.
+
+---
+
 In the previous posts I described a five-dimensional geometric framework that derives
 two cosmological predictions: the spectral tilt nₛ ≈ 0.9635 and the birefringence
 angle β ≈ 0.331°. Both are consistent with current satellite data.

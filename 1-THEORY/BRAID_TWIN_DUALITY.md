@@ -12,6 +12,15 @@ action ordering and eigenvalue-gap analysis — not from an independent axiomati
 
 ---
 
+> **Current-scope note (2026-09):** Use this file for the two-sector braid exposition.
+> For current β values, gap-domain rules, and repository-wide braid status, defer to
+> [`BRAID_DOSSIER.md`](BRAID_DOSSIER.md),
+> [`BRAID_HISTORY_AUDIT.md`](BRAID_HISTORY_AUDIT.md),
+> [`../3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md`](../3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md),
+> and [`../3-FALSIFICATION/BRAID_FALSIFIER_PACKET.md`](../3-FALSIFICATION/BRAID_FALSIFIER_PACKET.md).
+
+---
+
 ## 0 · One-Paragraph Summary
 
 Sweep every integer braid pair (n₁, n₂) with n₁ < n₂ over all pairs up to n₁, n₂ ≤ 20.

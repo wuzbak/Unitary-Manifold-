@@ -18,7 +18,11 @@ corresponds directly to code in `src/core/`, `src/holography/`, `src/multiverse/
 | [`UNIFICATION_PROOF.md`](UNIFICATION_PROOF.md) | Formal derivation: QM, EM, and the Standard Model as projections of the 5D geometry. |
 | [`QUANTUM_THEOREMS.md`](QUANTUM_THEOREMS.md) | New theorems: BH information conservation, CCR, Hawking temperature, ER=EPR from 5D geometry. |
 | [`WINDING_NUMBER_DERIVATION.md`](WINDING_NUMBER_DERIVATION.md) | Why n_w = 5: the topological argument from Z₂ orbifold through APS η-invariant. |
+| [`BRAID_DOSSIER.md`](BRAID_DOSSIER.md) | **Canonical braid lane memo** — separates standard braid mathematics, the repository's executable (5,7) chain, and external topology/cosmology correspondences; includes a strict status table and closure target. |
+| [`BRAID_CORRESPONDENCE_AUDIT.md`](BRAID_CORRESPONDENCE_AUDIT.md) | **Correspondence ledger** — audits external braid/topology objects against the repository's canonical (5,7) machinery and marks each mapping as strong, partial, open, or model-distinct. |
+| [`BRAID_HISTORY_AUDIT.md`](BRAID_HISTORY_AUDIT.md) | **Document-usage audit** — distinguishes canonical, historical-useful, and superseded braid-facing files so future edits do not reintroduce overclaim. |
 | [`BRAID_TWIN_DUALITY.md`](BRAID_TWIN_DUALITY.md) | **The (5,7)/(5,6) twin braid states** — why they are the only two viable pairs, how they relate as lossless ground state and lossy metastable twin, and what LiteBIRD will measure to discriminate them. |
+| [`BRIESKORN_BRIDGE_AUDIT.md`](BRIESKORN_BRIDGE_AUDIT.md) | **External-topology bridge memo** — evaluates Σ(2,5,7), Brieskorn, and Poincaré-style correspondences against the canonical 5D/orbifold braid lane and states what would count as a real bridge. |
 | [`LAB_SCALE_CP_VIOLATION_57_BRAID.md`](LAB_SCALE_CP_VIOLATION_57_BRAID.md) | **Immediate lab program:** concrete mathematical and experimental route to test (5,7)-geometry CP asymmetry in condensed matter at CKM/Jarlskog scale, without waiting for 2032. |
 | [`COMPLETION_REPORT.md`](COMPLETION_REPORT.md) | The full 101-pillar claim record with status labels and test references. |
 | [`CONSTANTS_CONVERGENCE.md`](CONSTANTS_CONVERGENCE.md) | How all key constants (φ₀, c_s, k_CS, α_NM, n_w) converge to consistent values. |

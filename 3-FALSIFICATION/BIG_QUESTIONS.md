@@ -19,6 +19,15 @@
 > qualitative claim; both values are within the Minami & Komatsu 1σ hint.
 > The preregistered prediction for LiteBIRD is 0.331°.
 
+> **Braid-lane scope note (2026-09):** Braid-facing entries in this file are a
+> historical synthesis surface, not the primary current-status ledger. For current
+> braid-lane framing, correspondences, and falsifiers, defer to
+> `1-THEORY/BRAID_DOSSIER.md`,
+> `1-THEORY/BRAID_HISTORY_AUDIT.md`,
+> `1-THEORY/BRIESKORN_BRIDGE_AUDIT.md`,
+> `3-FALSIFICATION/BIREFRINGENCE_CLARIFICATION.md`, and
+> `3-FALSIFICATION/BRAID_FALSIFIER_PACKET.md`.
+
 
 **Author:** ThomasCory Walker-Pearson  
 **Synthesis:** GitHub Copilot (AI)  
