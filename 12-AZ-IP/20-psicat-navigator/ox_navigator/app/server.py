@@ -39,6 +39,8 @@ from ox_navigator.engine.merlin_program import (
     get_dual_lane_master_sprint_plan,
     get_expert_mastery_program,
     get_merlin_continuous_learning_protocol,
+    get_merlin_performance_lane,
+    evaluate_merlin_performance_gate,
     get_merlin_three_lane_intensive_sprint,
     get_mythos_astra_contract,
     get_knowledge_unknowns_ledger,
@@ -69,7 +71,9 @@ from ox_navigator.engine.merlin_counterexample import build_counterexample_diges
 from ox_navigator.engine.merlin_router import get_router_policy
 from ox_navigator.engine.merlin_telemetry import build_energy_ledger
 from ox_navigator.engine.merlin_training_execution import (
+    build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
+    get_merlin_lane_e_runtime_profiles,
     get_merlin_lane_progress_ledgers,
     get_merlin_training_challenge_pack,
     run_merlin_training_cycle,
@@ -735,6 +739,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/performance-lane':
+                self._json({
+                'ok': True,
+                'performance_lane': get_merlin_performance_lane(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/training-execution-queue':
                 limit, error = _parse_int_query_param(params, 'limit', 24)
                 if error:
@@ -743,6 +754,38 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'training_execution_queue': build_merlin_training_execution_queue(session=merlin_session, limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/training-execution-bundle':
+                limit, error = _parse_int_query_param(params, 'limit', 24)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                refresh_raw = str((params.get('refresh_lane_e_profiles') or ['false'])[0]).strip().lower()
+                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
+                    self._json({'ok': False, 'error': "Parameter 'refresh_lane_e_profiles' must be a boolean-like value."}, status=400)
+                    return
+                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
+                self._json({
+                'ok': True,
+                'training_execution_bundle': build_merlin_training_execution_bundle(
+                    session=merlin_session,
+                    limit=limit,
+                    refresh_lane_e_profiles=refresh,
+                ),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/lane-e-runtime-profiles':
+                refresh_raw = str((params.get('refresh') or ['false'])[0]).strip().lower()
+                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
+                    self._json({'ok': False, 'error': "Parameter 'refresh' must be a boolean-like value."}, status=400)
+                    return
+                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
+                self._json({
+                'ok': True,
+                'lane_e_runtime_profiles': get_merlin_lane_e_runtime_profiles(refresh=refresh),
                 })
                 self._persist_session(session_id, merlin_session)
                 return
@@ -808,9 +851,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
+                refresh_raw = str((params.get('refresh_lane_e_profiles') or ['false'])[0]).strip().lower()
+                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
+                    self._json({'ok': False, 'error': "Parameter 'refresh_lane_e_profiles' must be a boolean-like value."}, status=400)
+                    return
+                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
                 payload = get_mlflow_experiment_manifests(
                     limit=limit,
                     compiled_insights=merlin_session.get_compiled_training_insights(),
+                    refresh_lane_e_profiles=refresh,
                 )
                 if payload.get('ok') is False:
                     self._json({'ok': False, 'error': payload.get('error', 'Unable to build MLflow manifests.')}, status=500)
@@ -1068,9 +1117,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
+                refresh_raw = str((params.get('refresh_lane_e_profiles') or ['false'])[0]).strip().lower()
+                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
+                    self._json({'ok': False, 'error': "Parameter 'refresh_lane_e_profiles' must be a boolean-like value."}, status=400)
+                    return
+                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
                 payload = build_training_artifact_bundle(
                     limit=limit,
                     compiled_insights=merlin_session.get_compiled_training_insights(),
+                    refresh_lane_e_profiles=refresh,
                 )
                 if not payload.get('ok'):
                     self._json({'ok': False, 'error': payload.get('error', 'Unable to build training artifacts.')}, status=500)
@@ -1316,6 +1371,20 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({
                         'ok': True,
                         'training_cycle': run_merlin_training_cycle(session=merlin_session, limit=limit),
+                    })
+                    return
+                if route_path == '/api/psicat/performance-gate-evaluate':
+                    baseline = payload.get('baseline')
+                    candidate = payload.get('candidate')
+                    if not isinstance(baseline, dict) or not isinstance(candidate, dict):
+                        self._json({'ok': False, 'error': 'baseline and candidate object payloads are required'}, status=400)
+                        return
+                    self._json({
+                        'ok': True,
+                        'performance_gate': evaluate_merlin_performance_gate(
+                            baseline=baseline,
+                            candidate=candidate,
+                        ),
                     })
                     return
             finally:

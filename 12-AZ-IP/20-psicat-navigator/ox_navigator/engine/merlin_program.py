@@ -1698,6 +1698,8 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/three-lane-intensive-sprint",
         "/api/merlin/continuous-learning",
         "/api/merlin/training-execution-queue",
+        "/api/merlin/training-execution-bundle",
+        "/api/merlin/lane-e-runtime-profiles",
         "/api/merlin/lane-progress-ledgers",
         "/api/merlin/training-cycle",
         "/api/merlin/training-challenge-pack",
@@ -1752,6 +1754,8 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/three-lane-intensive-sprint",
         "/api/merlin/continuous-learning",
         "/api/merlin/training-execution-queue",
+        "/api/merlin/training-execution-bundle",
+        "/api/merlin/lane-e-runtime-profiles",
         "/api/merlin/lane-progress-ledgers",
         "/api/merlin/training-cycle",
         "/api/merlin/training-challenge-pack",
@@ -1822,9 +1826,11 @@ def run_sync_checks() -> dict[str, Any]:
 
     export_script_checks = []
     export_contract_markers = {
-        "tools/export_merlin_training_artifacts.py": ["build_training_artifact_bundle", "--output"],
+        "tools/export_merlin_training_artifacts.py": ["build_training_artifact_bundle", "--output", "--refresh-lane-e-profiles"],
         "tools/export_merlin_training_jsonl.py": ["build_training_dataset_bundle", "--output-dir"],
-        "tools/export_merlin_mlflow_manifests.py": ["get_mlflow_experiment_manifests", "--output-dir"],
+        "tools/export_merlin_mlflow_manifests.py": ["get_mlflow_experiment_manifests", "--output-dir", "--refresh-lane-e-profiles"],
+        "tools/export_merlin_training_execution.py": ["build_merlin_training_execution_bundle", "--output", "--refresh-lane-e-profiles"],
+        "tools/export_merlin_lane_e_runtime_profiles.py": ["get_merlin_lane_e_runtime_profiles", "--output"],
     }
     for rel in REQUIRED_EXPORT_SCRIPTS:
         path = parity_root / rel
@@ -1982,6 +1988,12 @@ def get_open_weight_acquisition_ledger() -> dict[str, Any]:
                 "interfaces": ["git_repository", "yaml_config_driven_cli"],
                 "role": "multi_gpu_production_grade_training_lane",
             },
+            {
+                "channel_id": "ifm_k2_horizon_fleet",
+                "url": "https://thenewstack.io/k2-horizon-fully-open/",
+                "interfaces": ["open_weights", "training_code", "data_recipes", "checkpoints", "developer_logs"],
+                "role": "fully_open_fleet_for_reproducible_lane_specific_finetuning_and_audit",
+            },
         ],
         "candidate_scoring_rubric": {
             "dimensions": [
@@ -2014,6 +2026,12 @@ def get_open_weight_acquisition_ledger() -> dict[str, Any]:
             },
             {
                 "model_family": "DeepSeek reasoning family",
+                "openness_tier_target": "fully_open_science",
+                "preferred_formats": [".safetensors", ".gguf"],
+                "status": "candidate",
+            },
+            {
+                "model_family": "K2 Horizon fleet",
                 "openness_tier_target": "fully_open_science",
                 "preferred_formats": [".safetensors", ".gguf"],
                 "status": "candidate",
@@ -2365,6 +2383,7 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
 
     ten_proofs = _repo_rel(REPO_ROOT / "ten-proofs-oai.pdf")
     unit_distance = _repo_rel(REPO_ROOT / "unit-distance-proof.pdf")
+    isa_afp = "https://isa-afp.org/"
     navier_packet = navier_stokes_method_transfer_packet()
     pythagorean_packet = pythagorean_triples_sat_method_transfer_packet()
     navier_intake = str((navier_packet.get("local_artifacts") or {}).get("intake_packet") or "")
@@ -2398,7 +2417,7 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                 ],
             },
             "required_gates": ["OPEN_GAP", "GOVERNANCE"],
-            "provenance_sources": [ten_proofs, unit_distance, pythagorean_intake],
+            "provenance_sources": [ten_proofs, unit_distance, isa_afp, pythagorean_intake],
             "supervision_mode": "grounded_supervised_finetuning",
         },
         {
@@ -2421,7 +2440,7 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                 ],
             },
             "required_gates": ["OPEN_GAP"],
-            "provenance_sources": [ten_proofs, unit_distance, pythagorean_intake, _repo_rel(REPO_ROOT / "FALLIBILITY.md")],
+            "provenance_sources": [ten_proofs, unit_distance, isa_afp, pythagorean_intake, _repo_rel(REPO_ROOT / "FALLIBILITY.md")],
             "supervision_mode": "grounded_supervised_finetuning",
         },
         {
@@ -2977,6 +2996,58 @@ def _seed_continuous_learning_governance_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _seed_performance_lane_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "performance-lane-speed-contract",
+            "track": "performance_optimization_receipts",
+            "prompt": "Emit the current speed contract with hard throughput gates and fail conditions.",
+            "target": {
+                "required_metrics": [
+                    "tokens_per_second",
+                    "samples_per_second",
+                    "gpu_utilization_percent",
+                    "dataloader_stall_percent",
+                    "step_time_p50_ms",
+                    "step_time_p95_ms",
+                    "vram_peak_gb",
+                    "cost_per_accepted_sample",
+                ],
+                "hard_rule": "No optimization promotion without before_after_receipts.",
+                "regression_triggers": [
+                    "throughput_drop",
+                    "stall_time_increase",
+                    "memory_regression",
+                ],
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+            "supervision_mode": "performance_contract_alignment",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinPerformanceLane", "getMerlinTrainingExecutionQueue", "getMerlinLaneERuntimeProfiles"],
+        },
+        {
+            "id": "performance-lane-profiler-first",
+            "track": "performance_optimization_receipts",
+            "split": "dev",
+            "prompt": "Return profiler-first triage for one training stage and classify bottleneck class.",
+            "target": {
+                "required_tools": ["torch_profiler", "nsight_systems", "nsight_compute"],
+                "bottleneck_classes": [
+                    "input_pipeline",
+                    "kernel_launch_overhead",
+                    "memory_bandwidth",
+                    "communication",
+                ],
+                "required_outputs": ["baseline_receipt", "bottleneck_label", "next_optimization_set"],
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_cross_reference": True},
+            "supervision_mode": "performance_contract_alignment",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinPerformanceLane", "tools/run_merlin_mlflow_experiment.py"],
+        },
+    ]
+
+
 def _seed_hardware_topology_examples() -> list[dict[str, Any]]:
     return [
         {
@@ -3072,6 +3143,7 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
     examples.extend(_seed_books_articles_mastery_examples())
     examples.extend(_seed_adversarial_self_correction_examples())
     examples.extend(_seed_continuous_learning_governance_examples())
+    examples.extend(_seed_performance_lane_examples())
     if limit is not None:
         return examples[: max(0, int(limit))]
     return examples
@@ -3094,6 +3166,28 @@ def get_open_science_resource_registry() -> dict[str, Any]:
             "benchmark_impact_review",
         ],
         "resources": [
+            {
+                "resource_id": "isabelle_afp",
+                "category": "formal_proof_corpus",
+                "url": "https://isa-afp.org/",
+                "recommended_role": [
+                    "formal_pattern_ingestion_for_lane_d",
+                    "assumption_boundary_comparison",
+                    "proof_method_transfer_without_closure_inflation",
+                ],
+                "priority": "high",
+            },
+            {
+                "resource_id": "ifm_k2_horizon",
+                "category": "open_model_fleet_and_training_recipes",
+                "url": "https://thenewstack.io/k2-horizon-fully-open/",
+                "recommended_role": [
+                    "reproducible_training_loop_reference",
+                    "lane_specific_model_sizing_from_edge_to_enterprise",
+                    "checkpoint_and_data_recipe_transfer_for_sovereign_finetuning",
+                ],
+                "priority": "highest_ops",
+            },
             {
                 "resource_id": "hugging_face_models_hub",
                 "category": "programmatic_open_weight_hub",
@@ -3304,6 +3398,17 @@ def get_frontier_open_weight_stack() -> dict[str, Any]:
                 "name": "Llama 4",
                 "license": "Community",
                 "roles": ["multimodal_extension_lane", "general_reasoning"],
+                "admission_path": "evaluateMerlinModelAdmission",
+            },
+            {
+                "name": "K2 Horizon 0.9B/3.7B/7B/32B/36B/375B",
+                "license": "Apache-2.0",
+                "roles": [
+                    "edge_tool_calling_and_agent_actions",
+                    "single_node_coding_and_repository_work",
+                    "heavy_local_reasoning_and_formal_assistance",
+                    "long_horizon_multi_step_agent_orchestration",
+                ],
                 "admission_path": "evaluateMerlinModelAdmission",
             },
         ],
@@ -4423,6 +4528,241 @@ def get_merlin_adversarial_growth_lane() -> dict[str, Any]:
     }
 
 
+def get_merlin_performance_lane() -> dict[str, Any]:
+    return {
+        "lane_id": "lane_e_training_performance",
+        "objective": (
+            "Maximize training throughput for PsiCat/Merlin without relaxing governance, provenance, "
+            "or epistemic boundary discipline."
+        ),
+        "program_document": _repo_rel(PRODUCT_ROOT / "PSICAT_FRONTIER_ROADMAP.md"),
+        "speed_contract": {
+            "required_metrics": [
+                "tokens_per_second",
+                "samples_per_second",
+                "gpu_utilization_percent",
+                "dataloader_stall_percent",
+                "step_time_p50_ms",
+                "step_time_p95_ms",
+                "vram_peak_gb",
+                "cost_per_accepted_sample",
+            ],
+            "gate_thresholds": {
+                "gpu_utilization_percent_min": 70.0,
+                "dataloader_stall_percent_max": 12.0,
+                "vram_peak_growth_percent_max": 10.0,
+                "cost_per_accepted_sample_growth_percent_max": 0.0,
+            },
+            "relative_improvement_requirements": {
+                "tokens_per_second": "non_decreasing",
+                "samples_per_second": "non_decreasing",
+                "step_time_p50_ms": "non_increasing",
+                "step_time_p95_ms": "non_increasing",
+            },
+            "receipt_policy": "No optimization is accepted without baseline_and_after receipts per stage.",
+            "hard_failure_triggers": [
+                "throughput_regression_vs_baseline",
+                "dataloader_idle_increase",
+                "vram_regression_above_threshold",
+            ],
+        },
+        "profiler_first_workflow": {
+            "required_pass_per_stage": ["torch_profiler", "nsight_systems", "nsight_compute"],
+            "required_bottleneck_labels": [
+                "input_pipeline",
+                "kernel_launch_overhead",
+                "memory_bandwidth",
+                "communication",
+            ],
+            "promotion_rule": "Label bottleneck class before optimization changes.",
+        },
+        "data_ingress_policy": {
+            "required_controls": [
+                "dataloader_workers_and_persistent_workers",
+                "pin_memory_plus_non_blocking_transfer",
+                "async_prefetch",
+                "memory_mapped_or_sharded_dataset_layout",
+                "staged_cache_for_jsonl_decode",
+            ],
+            "goal": "Prevent GPU starvation from CPU or filesystem stalls.",
+        },
+        "mixed_precision_policy": {
+            "default": "bf16_autocast_where_stable",
+            "fallback": "fp16_plus_gradscaler_when_required",
+            "numerical_safety": [
+                "retain_sensitive_ops_in_fp32",
+                "loss_nan_watchdog",
+                "overflow_underflow_event_logging",
+            ],
+        },
+        "compile_and_fusion_policy": {
+            "primary": ["torch_compile_for_stable_shapes", "fused_optimizer_and_kernel_paths"],
+            "fallback": "fail_open_to_eager_path_for_dynamic_graph_segments",
+        },
+        "memory_efficiency_stack": {
+            "required_controls": [
+                "gradient_accumulation",
+                "activation_checkpointing",
+                "optimizer_state_sharding_fsdp_or_zero_style",
+                "optional_low_bit_adapters_by_lane",
+            ],
+            "target": "Increase effective batch size without violating VRAM gates.",
+        },
+        "lane_specific_model_sizing": {
+            "larger_capacity_lanes": ["kernel_s", "kernel_p"],
+            "smaller_faster_lanes": ["kernel_r", "kernel_a", "kernel_g"],
+            "policy": "Optimize and benchmark each kernel lane independently, never as a single monolithic loop.",
+        },
+        "formal_corpus_fast_path": {
+            "lane": "lane_d_formal_proof_foundry",
+            "source": "isabelle_afp",
+            "integration_rule": "Treat AFP-derived artifacts as first-class training shards with explicit non-claim boundaries.",
+            "evaluation_metric": "formal_traceability_gain_per_gpu_hour",
+        },
+        "k2_horizon_utilization_plan": {
+            "fleet_policy": "Admit K2 lanes only through license, provenance, and benchmark gates.",
+            "lane_mapping": {
+                "0.9B": "kernel_r_and_kernel_g_edge_tool_calling_and_guardrail_enforcement",
+                "3.7B": "mobile_or_single_node_kernel_r_router_assist",
+                "7B": "default_local_coding_and_terminal_assist_lane",
+                "32B": "kernel_s_and_kernel_p_heavy_local_reasoning",
+                "36B": "sparse_production_shadow_evaluation_lane",
+                "375B": "long_horizon_orchestration_research_lane_under_fail_closed_controls",
+            },
+            "required_artifacts": [
+                "weight_hash_receipts",
+                "data_recipe_traceability",
+                "checkpoint_lineage",
+                "developer_log_audit",
+            ],
+            "non_claim_rule": "K2 adoption evidence cannot be promoted as physics closure evidence.",
+        },
+        "ci_regression_guards": {
+            "fail_conditions": [
+                "throughput_drop_beyond_threshold",
+                "dataloader_stall_increase_beyond_threshold",
+                "memory_peak_regression_beyond_threshold",
+            ],
+            "policy": "Performance regressions fail CI even when functional tests pass.",
+        },
+        "sprint_cadence": {
+            "pass_1": "profile_baseline",
+            "pass_2": "apply_one_constrained_optimization_set",
+            "pass_3": "rebenchmark_against_governance_and_epistemic_gates",
+            "promotion_rule": "Promote only when both capability and speed improve.",
+        },
+        "roi_execution_order": [
+            "data_pipeline_overlap",
+            "amp_bf16_policy",
+            "zero_grad_set_to_none_plus_fused_optimizer",
+            "compile_and_kernel_fusion",
+            "sharding_and_checkpointing",
+            "lane_specific_compression",
+        ],
+        "sovereignty_constraint": (
+            "All optimizations must reinforce local-first self-hosted Merlin and reduce dependency on "
+            "token-paid external fallback paths."
+        ),
+    }
+
+
+def _coerce_metric_float(value: Any) -> float | None:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def evaluate_merlin_performance_gate(
+    *,
+    baseline: dict[str, Any] | None = None,
+    candidate: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    lane = get_merlin_performance_lane()
+    speed_contract = dict(lane.get("speed_contract") or {})
+    required_metrics = [str(metric) for metric in list(speed_contract.get("required_metrics") or []) if str(metric).strip()]
+    thresholds = dict(speed_contract.get("gate_thresholds") or {})
+    baseline_metrics = dict((baseline or {}).get("metrics") or {})
+    candidate_metrics = dict((candidate or {}).get("metrics") or {})
+    missing_baseline = sorted(metric for metric in required_metrics if _coerce_metric_float(baseline_metrics.get(metric)) is None)
+    missing_candidate = sorted(metric for metric in required_metrics if _coerce_metric_float(candidate_metrics.get(metric)) is None)
+    receipt_policy_ok = not missing_baseline and not missing_candidate
+    checks: list[dict[str, Any]] = []
+
+    def _add_check(name: str, passed: bool, details: dict[str, Any]) -> None:
+        checks.append({"name": name, "pass": bool(passed), "details": details})
+
+    if not receipt_policy_ok:
+        _add_check(
+            "before_after_receipts_present",
+            False,
+            {
+                "missing_baseline_metrics": missing_baseline,
+                "missing_candidate_metrics": missing_candidate,
+            },
+        )
+    else:
+        _add_check("before_after_receipts_present", True, {})
+        for metric in ("tokens_per_second", "samples_per_second"):
+            base = _coerce_metric_float(baseline_metrics.get(metric))
+            cand = _coerce_metric_float(candidate_metrics.get(metric))
+            _add_check(
+                f"{metric}_non_decreasing",
+                bool(cand is not None and base is not None and cand >= base),
+                {"baseline": base, "candidate": cand},
+            )
+        for metric in ("step_time_p50_ms", "step_time_p95_ms"):
+            base = _coerce_metric_float(baseline_metrics.get(metric))
+            cand = _coerce_metric_float(candidate_metrics.get(metric))
+            _add_check(
+                f"{metric}_non_increasing",
+                bool(cand is not None and base is not None and cand <= base),
+                {"baseline": base, "candidate": cand},
+            )
+        gpu_util = _coerce_metric_float(candidate_metrics.get("gpu_utilization_percent"))
+        _add_check(
+            "gpu_utilization_percent_min",
+            bool(gpu_util is not None and gpu_util >= float(thresholds.get("gpu_utilization_percent_min", 70.0))),
+            {"candidate": gpu_util, "threshold_min": float(thresholds.get("gpu_utilization_percent_min", 70.0))},
+        )
+        stall = _coerce_metric_float(candidate_metrics.get("dataloader_stall_percent"))
+        _add_check(
+            "dataloader_stall_percent_max",
+            bool(stall is not None and stall <= float(thresholds.get("dataloader_stall_percent_max", 12.0))),
+            {"candidate": stall, "threshold_max": float(thresholds.get("dataloader_stall_percent_max", 12.0))},
+        )
+        base_vram = _coerce_metric_float(baseline_metrics.get("vram_peak_gb"))
+        cand_vram = _coerce_metric_float(candidate_metrics.get("vram_peak_gb"))
+        allowed_vram = (base_vram or 0.0) * (1.0 + (float(thresholds.get("vram_peak_growth_percent_max", 10.0)) / 100.0))
+        _add_check(
+            "vram_peak_growth_within_budget",
+            bool(base_vram is not None and cand_vram is not None and cand_vram <= allowed_vram),
+            {"baseline": base_vram, "candidate": cand_vram, "threshold_max": allowed_vram},
+        )
+        base_cost = _coerce_metric_float(baseline_metrics.get("cost_per_accepted_sample"))
+        cand_cost = _coerce_metric_float(candidate_metrics.get("cost_per_accepted_sample"))
+        allowed_cost = (base_cost or 0.0) * (1.0 + (float(thresholds.get("cost_per_accepted_sample_growth_percent_max", 0.0)) / 100.0))
+        _add_check(
+            "cost_per_accepted_sample_within_budget",
+            bool(base_cost is not None and cand_cost is not None and cand_cost <= allowed_cost),
+            {"baseline": base_cost, "candidate": cand_cost, "threshold_max": allowed_cost},
+        )
+
+    failed_checks = [check["name"] for check in checks if not check["pass"]]
+    gate_pass = bool(receipt_policy_ok and not failed_checks)
+    return {
+        "ok": True,
+        "lane_id": "lane_e_training_performance",
+        "gate_verdict": "pass" if gate_pass else "hold",
+        "policy": speed_contract.get("receipt_policy"),
+        "checks": checks,
+        "failed_checks": failed_checks,
+        "baseline_receipt": {"stage": str((baseline or {}).get("stage") or ""), "metrics": baseline_metrics},
+        "candidate_receipt": {"stage": str((candidate or {}).get("stage") or ""), "metrics": candidate_metrics},
+        "promotion_rule": "Promote only when capability and speed both improve under governance constraints.",
+    }
+
+
 def build_merlin_continuous_learning_queue(limit: int | None = None) -> dict[str, Any]:
     products = list(_get_registered_product_records())
     corpus = _get_editorial_corpus_records()
@@ -4499,6 +4839,30 @@ def build_merlin_continuous_learning_queue(limit: int | None = None) -> dict[str
                 "task": "Run self-audit and depth analysis before any promotion attempt.",
                 "reference_path": "merlinSelfAudit + merlinAnalyzeDepth",
                 "expected_artifact": "telemetry_calibration_receipt",
+            },
+            {
+                "queue_id": "lane_e_speed_contract",
+                "lane_id": "lane_e_training_performance",
+                "priority": 12,
+                "task": "Refresh training speed contract, thresholds, and regression fail conditions.",
+                "reference_path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py",
+                "expected_artifact": "performance_contract_receipt",
+            },
+            {
+                "queue_id": "lane_e_profiler_pass",
+                "lane_id": "lane_e_training_performance",
+                "priority": 12,
+                "task": "Run profiler-first stage review and classify current primary bottleneck before optimization changes.",
+                "reference_path": "12-AZ-IP/20-psicat-navigator/PSICAT_FRONTIER_ROADMAP.md",
+                "expected_artifact": "performance_profiler_receipt",
+            },
+            {
+                "queue_id": "lane_e_roi_execution",
+                "lane_id": "lane_e_training_performance",
+                "priority": 10,
+                "task": "Apply and benchmark one constrained high-ROI optimization set with before/after receipts.",
+                "reference_path": "12-AZ-IP/20-psicat-navigator/tools/run_merlin_mlflow_experiment.py",
+                "expected_artifact": "performance_roi_iteration_receipt",
             },
         ]
     )
@@ -4708,6 +5072,16 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 ],
             },
             {
+                "family": "performance_optimization_receipts",
+                "purpose": "Teach profiler-first throughput optimization with hard speed gates and fail-closed regression policy.",
+                "source_surfaces": [
+                    "getMerlinPerformanceLane",
+                    "getMerlinTrainingExecutionQueue",
+                    "getMerlinTrainingExecutionBundle",
+                    _repo_rel(PRODUCT_ROOT / "tools" / "run_merlin_mlflow_experiment.py"),
+                ],
+            },
+            {
                 "family": "external_open_science_augmentation",
                 "purpose": "Expand beyond repository-native scope without diluting Merlin's grounded identity.",
                 "source_surfaces": [
@@ -4766,6 +5140,8 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "mlflow_manifests": "getMerlinMLflowManifests",
             "artifact_bundle": "getMerlinTrainingArtifacts",
             "execution_queue": "getMerlinTrainingExecutionQueue",
+            "execution_bundle": "getMerlinTrainingExecutionBundle",
+            "lane_e_runtime_profiles": "getMerlinLaneERuntimeProfiles",
             "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",
@@ -4779,6 +5155,8 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "books_articles_lane": "getMerlinBooksArticlesLane",
             "adversarial_growth_lane": "getMerlinAdversarialGrowthLane",
             "continuous_learning_protocol": "getMerlinContinuousLearningProtocol",
+            "performance_lane": "getMerlinPerformanceLane",
+            "performance_gate_evaluator": "evaluateMerlinPerformanceGate",
             "ethics_contract": "getMerlinEthicsContract",
             "capability_ontology": "getMerlinCapabilityOntology",
             "teacher_trace_policy": "getMerlinTeacherTracePolicy",
@@ -5467,6 +5845,7 @@ def get_mlflow_experiment_manifests(
     limit: int | None = None,
     *,
     compiled_insights: list[dict[str, Any]] | None = None,
+    refresh_lane_e_profiles: bool = False,
 ) -> dict[str, Any]:
     dataset_bundle = build_training_dataset_bundle(limit=limit, compiled_insights=compiled_insights)
     if dataset_bundle.get("ok") is False:
@@ -5499,6 +5878,7 @@ def get_mlflow_experiment_manifests(
             str(resolved_limit),
             "--output-dir",
             "/tmp/merlin-mlflow",
+            *(["--refresh-lane-e-profiles"] if refresh_lane_e_profiles else []),
         )
     )
     training_artifact_command = (
@@ -5509,6 +5889,7 @@ def get_mlflow_experiment_manifests(
             str(resolved_limit),
             "--output",
             "/tmp/merlin-training-artifacts.json",
+            *(["--refresh-lane-e-profiles"] if refresh_lane_e_profiles else []),
         )
     )
     stage_a_artifact_command = (
@@ -6258,8 +6639,11 @@ def build_training_artifact_bundle(
     limit: int | None = None,
     *,
     compiled_insights: list[dict[str, Any]] | None = None,
+    refresh_lane_e_profiles: bool = False,
 ) -> dict[str, Any]:
     from .merlin_benchmark import build_stage_a_artifact_bundle
+    from .merlin_memory import MerlinSession
+    from .merlin_training_execution import build_merlin_training_execution_bundle
 
     training_architecture = get_training_architecture(limit=limit)
     dataset_bundle = build_training_dataset_bundle(limit=limit, compiled_insights=compiled_insights)
@@ -6269,6 +6653,11 @@ def build_training_artifact_bundle(
             "error": dataset_bundle.get("error", "Unable to build training dataset bundle."),
         }
     stage_a_limit = limit if limit is None else max(0, int(limit))
+    training_execution_bundle = build_merlin_training_execution_bundle(
+        session=MerlinSession(),
+        limit=stage_a_limit,
+        refresh_lane_e_profiles=bool(refresh_lane_e_profiles),
+    )
     return {
         "ok": True,
         "artifact_bundle": {
@@ -6278,7 +6667,11 @@ def build_training_artifact_bundle(
             "training_curation": dict(((dataset_bundle.get("dataset") or {}).get("curation_ledger") or {})),
             "formal_proof_foundry_bundle": get_formal_proof_foundry_training_bundle(limit=limit),
             "hardware_architecture_board": get_merlin_hardware_architecture_board(limit=limit),
-            "mlflow_manifests": get_mlflow_experiment_manifests(limit=limit, compiled_insights=compiled_insights),
+            "mlflow_manifests": get_mlflow_experiment_manifests(
+                limit=limit,
+                compiled_insights=compiled_insights,
+                refresh_lane_e_profiles=bool(refresh_lane_e_profiles),
+            ),
             "competitive_benchmark_plan": get_competitive_benchmark_plan(),
             "open_science_registry": get_open_science_resource_registry(),
             "open_weight_acquisition_ledger": get_open_weight_acquisition_ledger(),
@@ -6293,10 +6686,13 @@ def build_training_artifact_bundle(
             "continuous_learning_protocol": get_merlin_continuous_learning_protocol(limit=stage_a_limit),
             "training_execution_surfaces": {
                 "execution_queue": "getMerlinTrainingExecutionQueue",
+                "execution_bundle": "getMerlinTrainingExecutionBundle",
+                "lane_e_runtime_profiles": "getMerlinLaneERuntimeProfiles",
                 "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
                 "training_cycle_runner": "runMerlinTrainingCycle",
                 "challenge_pack": "getMerlinTrainingChallengePack",
             },
+            "training_execution_bundle_preview": training_execution_bundle,
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
             "artifact_policy": {
                 "promotion_rule": "Training artifacts inform promotion, but do not replace empirical benchmark gates.",
@@ -6593,6 +6989,8 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "continuous_learning_protocol": get_merlin_continuous_learning_protocol(limit=24),
         "training_execution_surfaces": {
             "execution_queue": "getMerlinTrainingExecutionQueue",
+            "execution_bundle": "getMerlinTrainingExecutionBundle",
+            "lane_e_runtime_profiles": "getMerlinLaneERuntimeProfiles",
             "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",

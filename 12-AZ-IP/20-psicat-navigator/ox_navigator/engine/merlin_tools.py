@@ -47,6 +47,8 @@ from .merlin_program import (
     get_backend_expansion_policy,
     get_merlin_adversarial_growth_lane,
     get_merlin_applications_tools_lane,
+    get_merlin_performance_lane,
+    evaluate_merlin_performance_gate,
     get_competitive_benchmark_plan,
     get_cross_model_exchange_protocol,
     get_current_stack_baseline,
@@ -121,7 +123,9 @@ from .merlin_program import (
     run_sync_checks,
 )
 from .merlin_training_execution import (
+    build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
+    get_merlin_lane_e_runtime_profiles,
     get_merlin_lane_progress_ledgers,
     get_merlin_training_challenge_pack,
     run_merlin_training_cycle,
@@ -155,6 +159,23 @@ _LIMIT_SYNC_ARGS_SCHEMA = {
     "properties": {
         "limit": {"type": "integer"},
         "sync_checks_ok": {"type": "boolean"},
+    },
+    "additionalProperties": False,
+}
+_LIMIT_REFRESH_ARGS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "limit": {"type": "integer"},
+        "refresh_lane_e_profiles": {"type": "boolean"},
+    },
+    "additionalProperties": False,
+}
+_LIMIT_SYNC_REFRESH_ARGS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "limit": {"type": "integer"},
+        "sync_checks_ok": {"type": "boolean"},
+        "refresh_lane_e_profiles": {"type": "boolean"},
     },
     "additionalProperties": False,
 }
@@ -276,9 +297,13 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinBooksArticlesLane", "summary": "Return Lane B books/articles mastery inventory and study gates", "domain": "functions"},
             {"name": "getMerlinAdversarialGrowthLane", "summary": "Return Lane C contradiction, falsification, and self-correction drills", "domain": "functions"},
             {"name": "getMerlinContinuousLearningProtocol", "summary": "Return governed between-session learning cadence and queue", "domain": "functions"},
-            {"name": "getMerlinTrainingExecutionQueue", "summary": "Return active retained-training queue state across all three lanes", "domain": "functions"},
+            {"name": "getMerlinPerformanceLane", "summary": "Return Lane E performance contract with throughput gates and profiler workflow", "domain": "functions"},
+            {"name": "evaluateMerlinPerformanceGate", "summary": "Evaluate baseline vs candidate training receipts against Lane E speed gates", "domain": "functions"},
+            {"name": "getMerlinTrainingExecutionQueue", "summary": "Return active retained-training queue state across all lanes", "domain": "functions"},
+            {"name": "getMerlinTrainingExecutionBundle", "summary": "Return retained training execution bundle with Lane E runtime profile evidence", "domain": "functions"},
+            {"name": "getMerlinLaneERuntimeProfiles", "summary": "Return Lane E runtime profile artifact payload with optional refresh recapture", "domain": "functions"},
             {"name": "getMerlinLaneProgressLedgers", "summary": "Return automated lane-by-lane progress ledgers and retained receipt summaries", "domain": "functions"},
-            {"name": "runMerlinTrainingCycle", "summary": "Execute queued three-lane training work and retain auditable receipts in session memory", "domain": "functions"},
+            {"name": "runMerlinTrainingCycle", "summary": "Execute queued multi-lane training work and retain auditable receipts in session memory", "domain": "functions"},
             {"name": "runMerlinTargetedRigorSprint", "summary": "Execute bounded full-rigor sprint packet: retained training cycle + Stage A-E receipts + fail-closed blockers", "domain": "functions"},
             {"name": "getPsiCatSpcPhase0ExecutionPacket", "summary": "Return immediate SPC phase-0 execution packet artifact", "domain": "functions"},
             {"name": "runPsiCatSpcPhase1Baseline", "summary": "Run immediate SPC phase-1 baseline batteries with lane verdict ledger", "domain": "functions"},
@@ -388,12 +413,12 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_REFRESH_ARGS_SCHEMA},
         "getMerlinNavierStokesMethodTransferPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinPythagoreanTriplesSatMethodTransferPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
-        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingDataset": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingCuration": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_REFRESH_ARGS_SCHEMA},
         "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinSprintReviewPacket": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinHeavyReasoningLane": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
@@ -407,8 +432,46 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinApplicationsToolsLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinBooksArticlesLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinAdversarialGrowthLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinPerformanceLane": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "evaluateMerlinPerformanceGate": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "baseline": {
+                        "type": "object",
+                        "properties": {
+                            "stage": {"type": "string"},
+                            "metrics": {"type": "object"},
+                        },
+                        "required": ["metrics"],
+                        "additionalProperties": False,
+                    },
+                    "candidate": {
+                        "type": "object",
+                        "properties": {
+                            "stage": {"type": "string"},
+                            "metrics": {"type": "object"},
+                        },
+                        "required": ["metrics"],
+                        "additionalProperties": False,
+                    },
+                },
+                "required": ["baseline", "candidate"],
+                "additionalProperties": False,
+            },
+        },
         "getMerlinContinuousLearningProtocol": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingExecutionBundle": {"args_schema": _LIMIT_REFRESH_ARGS_SCHEMA},
+        "getMerlinLaneERuntimeProfiles": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "refresh": {"type": "boolean"},
+                },
+                "additionalProperties": False,
+            }
+        },
         "getMerlinLaneProgressLedgers": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "runMerlinTrainingCycle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "runMerlinTargetedRigorSprint": {
@@ -1003,10 +1066,23 @@ _FUNCTIONS = {
     "getMerlinApplicationsToolsLane": lambda **args: {"data": get_merlin_applications_tools_lane()},
     "getMerlinBooksArticlesLane": lambda **args: {"data": get_merlin_books_articles_lane()},
     "getMerlinAdversarialGrowthLane": lambda **args: {"data": get_merlin_adversarial_growth_lane()},
+    "getMerlinPerformanceLane": lambda **args: {"data": get_merlin_performance_lane()},
+    "evaluateMerlinPerformanceGate": lambda **args: {"data": evaluate_merlin_performance_gate(
+        baseline=dict(args.get("baseline") or {}),
+        candidate=dict(args.get("candidate") or {}),
+    )},
     "getMerlinContinuousLearningProtocol": lambda **args: {"data": get_merlin_continuous_learning_protocol(limit=args.get("limit"))},
     "getMerlinTrainingExecutionQueue": lambda **args: {"data": build_merlin_training_execution_queue(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=args.get("limit"),
+    )},
+    "getMerlinTrainingExecutionBundle": lambda **args: {"data": build_merlin_training_execution_bundle(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+        refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
+    )},
+    "getMerlinLaneERuntimeProfiles": lambda **args: {"data": get_merlin_lane_e_runtime_profiles(
+        refresh=bool(args.get("refresh", False)),
     )},
     "getMerlinLaneProgressLedgers": lambda **args: {"data": get_merlin_lane_progress_ledgers(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
@@ -1021,7 +1097,10 @@ _FUNCTIONS = {
         limit=_coerce_positive_int(args.get("limit"), 12),
     )},
     "getMerlinCompetitiveBenchmarkPlan": lambda **args: {"data": get_competitive_benchmark_plan()},
-    "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit"))},
+    "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(
+        limit=args.get("limit"),
+        refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
+    )},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
     "getMerlinBackendPolicy": lambda **args: {"data": get_backend_expansion_policy()},
     "getMerlinWorkspacePolicy": lambda **args: {"data": get_workspace_policy()},
@@ -1094,7 +1173,10 @@ _FUNCTIONS = {
     "getMerlinValidationResiliencePacket": lambda **args: {"data": get_merlin_validation_resilience_packet(limit=args.get("limit"))},
     "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(limit=args.get("limit"))},
     "getMerlinTrainingCuration": lambda **args: {"data": get_training_curation_ledger(limit=args.get("limit"))},
-    "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(limit=args.get("limit"))},
+    "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(
+        limit=args.get("limit"),
+        refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
+    )},
     "getMerlinInferenceProviders": lambda **args: {"data": {"providers": get_inference_providers()}},
     "getMerlinInferenceHealth": lambda **args: {"data": get_merlin_inference_health(provider_name=str(args.get("provider", "")).strip() or None)},
 "getMerlinReasoningChain": lambda **args: {"data": get_reasoning_chain(str(args.get("query", "")), max_hops=args.get("max_hops", 3))},
@@ -1285,6 +1367,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 result = {"data": build_training_artifact_bundle(
                     limit=args.get("limit"),
                     compiled_insights=active_session.get_compiled_training_insights(),
+                    refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
                 )}
             elif tool == "getMerlinTrainingCuration":
                 result = {"data": get_training_curation_ledger(
@@ -1295,6 +1378,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 result = {"data": get_mlflow_experiment_manifests(
                     limit=args.get("limit"),
                     compiled_insights=active_session.get_compiled_training_insights(),
+                    refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
                 )}
             elif tool == "runMerlinResearchCycle":
                 result = {"data": run_research_cycle(

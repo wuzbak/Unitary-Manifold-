@@ -139,7 +139,7 @@ This document records the implemented execution blueprint for making Merlin the 
 12. Weekly/monthly/quarterly governance rhythm is implemented in `get_operating_rhythm()`.
 13. Hard replacement exit criteria are implemented in `get_exit_criteria()`.
 14. Competitive benchmark families and promotion metrics are implemented in `get_competitive_benchmark_plan()`.
-15. External open-science augmentation registry and governed training artifact bundle are implemented in `get_open_science_resource_registry()` and `build_training_artifact_bundle()`.
+15. External open-science augmentation registry and governed training artifact bundle are implemented in `get_open_science_resource_registry()` and `build_training_artifact_bundle()`, now including retained training-execution preview payloads with Lane E evidence visibility.
 16. Actual train/dev/test JSONL-ready dataset generation is implemented in `build_training_dataset_bundle()`.
 17. MLflow-ready experiment manifests are implemented in `get_mlflow_experiment_manifests()`, with runnable receipt execution in `tools/run_merlin_mlflow_experiment.py`.
 18. Broader Stage B/C benchmark corpora are implemented in `get_stage_b_benchmark_corpus()`, `get_stage_c_benchmark_corpus()`, and `get_benchmark_corpus()`.
@@ -179,10 +179,20 @@ This document records the implemented execution blueprint for making Merlin the 
   - Lane C: adversarial self-correction and falsification discipline
 - `getMerlinThreeLaneIntensiveSprint`, `getMerlinApplicationsToolsLane`, `getMerlinBooksArticlesLane`, `getMerlinAdversarialGrowthLane`, and `getMerlinContinuousLearningProtocol` now expose those lanes as machine-readable runtime surfaces.
 - Training architecture and dataset seeding now include product-mastery, editorial-corpus, adversarial-integrity, formal proof-foundry, and governed between-session learning records so the sprint is not only descriptive but executable.
-- `/api/merlin/three-lane-intensive-sprint` and `/api/merlin/continuous-learning` now expose the maximum-effort sprint and governed inactive-learning cadence directly.
-- `getMerlinTrainingExecutionQueue`, `getMerlinLaneProgressLedgers`, and `runMerlinTrainingCycle` now convert the retained training plan into active receipts across applications/tools, books/articles, adversarial self-correction, and the formal proof-foundry lane instead of queue descriptions alone.
-- `/api/merlin/training-execution-queue`, `/api/merlin/lane-progress-ledgers`, and `/api/merlin/training-cycle` now expose live queue state, per-lane progress ledgers, and auditable retained training work, including proof-foundry reviewer packets and bridge-audit surfaces.
+- `/api/merlin/three-lane-intensive-sprint` and `/api/merlin/continuous-learning` now expose the maximum-effort sprint and governed inactive-learning cadence directly, while `/api/merlin/performance-lane` exposes the dedicated throughput optimization contract.
+- `evaluateMerlinPerformanceGate` and `POST /api/merlin/performance-gate-evaluate` now enforce the before/after receipt policy and compute pass/hold verdicts for Lane E throughput and regression gates.
+- `runMerlinTrainingCycle` now emits an automatic performance-gate evaluation from retained Lane E baseline/candidate receipts and reports promotion blockers when the gate is not clear.
+- Lane E training receipts now capture runtime benchmark telemetry-derived stage profiles from Stage B/C receipt runs when available and attach explicit provenance/fallback evidence metadata to each retained receipt.
+- Captured Lane E runtime profiles are now persisted to `training/training_execution/lane_e_runtime_profiles.json` and reused across sessions when still valid, with fail-closed fallback when the artifact is missing/corrupt.
+- Training execution bundles now surface the Lane E runtime-profile artifact path/existence and embedded runtime-profile payload to keep evidence provenance inspectable in exported review artifacts.
+- `getMerlinTrainingExecutionQueue`, `getMerlinTrainingExecutionBundle`, `getMerlinLaneERuntimeProfiles`, `getMerlinLaneProgressLedgers`, and `runMerlinTrainingCycle` now convert the retained training plan into active receipts across applications/tools, books/articles, adversarial self-correction, the formal proof-foundry lane, and the performance lane instead of queue descriptions alone.
+- `getMerlinTrainingExecutionBundle` now exposes the retained bundle directly for tool/API consumers, including execution-cycle state and embedded Lane E runtime profile evidence.
+- `/api/merlin/training-execution-queue`, `/api/merlin/training-execution-bundle`, `/api/merlin/lane-e-runtime-profiles`, `/api/merlin/lane-progress-ledgers`, and `/api/merlin/training-cycle` now expose live queue state, retained execution bundles, direct Lane E runtime profile evidence payloads, per-lane progress ledgers, and auditable retained training work, including proof-foundry reviewer packets, bridge-audit surfaces, and performance-gate receipts.
+- `/api/merlin/training-execution-bundle` now supports explicit Lane E profile refresh control (`refresh_lane_e_profiles=true`) for forced recapture workflows, mirrored by tool and export-script flags.
+- `/api/merlin/training-artifacts` now supports the same explicit Lane E profile refresh control (`refresh_lane_e_profiles=true`) so governed artifact exports can force fresh execution-preview evidence in one call.
+- `/api/merlin/mlflow-manifests` now supports `refresh_lane_e_profiles=true` so emitted prerequisite commands can force fresh Lane E evidence recapture for artifact-dependent benchmark workflows.
 - `tools/export_merlin_training_execution.py` now materializes a deterministic execution bundle at `training/training_execution/three_lane_execution_bundle.json` so the current sprint state can be reviewed without hidden memory.
+- `tools/export_merlin_lane_e_runtime_profiles.py` now exports the Lane E runtime profile payload directly and supports `--refresh` recapture when a new runtime evidence snapshot is required.
 - Training execution now detects stale source changes, surfaces review-required queue items when mastery scores fall short, and emits deterministic challenge packs so completed work becomes reusable follow-up training rather than a dead ledger.
 
 ## Merlin Sovereignty Roadmap checklist
