@@ -103,6 +103,10 @@ def test_merlin_training_queue_and_challenge_pack_include_navier_packets() -> No
         }
     ]
     assert len(navier_items) == 2
+    assert any(
+        item["reference_path"] == "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md"
+        for item in queue["items"]
+    )
 
     challenges = get_merlin_training_challenge_pack(session=session, limit=80)
     navier_challenges = [
@@ -114,3 +118,13 @@ def test_merlin_training_queue_and_challenge_pack_include_navier_packets() -> No
     ]
     assert len(navier_challenges) == 2
     assert all("non-transfer clause" in item["prompt"] for item in navier_challenges)
+    assert any(
+        item["reference_path"] == "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md"
+        for item in challenges["challenges"]
+    )
+    sat_challenges = [
+        item for item in challenges["challenges"]
+        if item["reference_path"] == "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md"
+    ]
+    assert sat_challenges
+    assert all("certificate verification requirements" in item["prompt"] for item in sat_challenges)
