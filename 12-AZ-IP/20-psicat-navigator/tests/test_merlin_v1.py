@@ -1325,8 +1325,13 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert execution_data['blunt_board']['title'] == 'Sprint CL blunt board'
     assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
     assert resilience_data['current_truth']['codeql_skip_reason'] == 'repository_database_too_large'
+    assert resilience_data['current_truth']['codeql_language_matrix_workflow_configured'] is True
     assert resilience_data['review_resilience_assets']['orchestrator'] == 'TOOLS/checks/copilot_review_orchestrator.py'
+    assert resilience_data['review_resilience_assets']['codeql_language_matrix_workflow'] == '.github/workflows/codeql-language-matrix.yml'
     assert resilience_data['codeql_scope_reduction_strategy']['phases'][0]['name'] == 'changed_surface_first'
+    assert any(phase['name'] == 'multi_job_language_split' for phase in resilience_data['codeql_scope_reduction_strategy']['phases'])
+    assert resilience_data['codeql_matrix_split_strategy']['matrix_axes'] == ['language', 'path_slice']
+    assert resilience_data['duckdb_preflight_telemetry']['artifact'] == 'codeql-slice-inventory'
     assert len(resilience_data['repo_size_mitigation_actions']) == 3
 
 
@@ -1981,6 +1986,7 @@ def test_server_merlin_endpoints():
             assert validation_resilience.status_code == 200
             assert validation_resilience.json()['ok'] is True
             assert validation_resilience.json()['validation_resilience']['current_truth']['codeql_completed_in_current_environment'] is False
+            assert validation_resilience.json()['validation_resilience']['current_truth']['codeql_language_matrix_workflow_configured'] is True
             assert len(validation_resilience.json()['validation_resilience']['repo_size_mitigation_actions']) == 2
 
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')

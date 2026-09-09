@@ -1,0 +1,237 @@
+name: CodeQL Language Matrix
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  plan-matrix:
+    name: Plan changed-surface matrix
+    runs-on: ubuntu-latest
+    outputs:
+      has_work: ${{ steps.plan.outputs.has_work }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build language/slice matrix
+        id: plan
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          all_slices = [
+              {
+                  "slice_id": "python-core",
+                  "language": "python",
+                  "paths": ["src", "tests", "recycling", "claims"],
+              },
+              {
+                  "slice_id": "python-product20",
+                  "language": "python",
+                  "paths": ["12-AZ-IP/20-psicat-navigator", "TOOLS/checks"],
+              },
+              {
+                  "slice_id": "rust-kernel",
+                  "language": "rust",
+                  "paths": ["11-AZ-OS/ax-kernel", "12-AZ-IP/02-az-kernel"],
+              },
+              {
+                  "slice_id": "c-cpp-audio",
+                  "language": "c-cpp",
+                  "paths": [
+                      "12-AZ-IP/14-sdam/app/core/audio/src/main/cpp",
+                      "12-AZ-IP/15-pentacorder/core/audio/src/main/cpp",
+                  ],
+              },
+              {
+                  "slice_id": "java-kotlin-mobile",
+                  "language": "java-kotlin",
+                  "paths": [
+                      "12-AZ-IP/14-sdam/app/core/security/src/main/java",
+                      "12-AZ-IP/15-pentacorder",
+                  ],
+              },
+          ]
+
+          event_name = os.environ.get("EVENT_NAME", "")
+          changed_files: list[str] = []
+
+          def git_changed(args: list[str]) -> list[str]:
+              result = subprocess.run(["git", "diff", "--name-only", *args], capture_output=True, text=True, check=False)
+              if result.returncode != 0:
+                  return []
+              return [line.strip() for line in result.stdout.splitlines() if line.strip()]
+
+          if event_name == "pull_request":
+              base_ref = os.environ.get("BASE_REF", "")
+              if base_ref:
+                  subprocess.run(["git", "fetch", "origin", base_ref, "--depth=1"], check=False, capture_output=True)
+                  changed_files = git_changed([f"origin/{base_ref}...HEAD"])
+          elif event_name == "push":
+              before = os.environ.get("BEFORE_SHA", "")
+              if before and set(before) != {"0"}:
+                  changed_files = git_changed([before, "HEAD"])
+
+          selected = []
+          if changed_files:
+              for item in all_slices:
+                  prefixes = tuple(item["paths"])
+                  if any(path.startswith(prefixes) for path in changed_files):
+                      selected.append(item)
+          else:
+              selected = list(all_slices)
+
+          include = []
+          for item in selected:
+              include.append(
+                  {
+                      "slice_id": item["slice_id"],
+                      "language": item["language"],
+                      "paths_yaml": "\n".join(item["paths"]),
+                  }
+              )
+
+          payload = {"include": include}
+          github_output = Path(os.environ["GITHUB_OUTPUT"])
+          with github_output.open("a", encoding="utf-8") as fh:
+              fh.write(f"has_work={'true' if include else 'false'}\n")
+              fh.write(f"matrix={json.dumps(payload)}\n")
+          PY
+
+  duckdb-preflight:
+    name: DuckDB preflight inventory
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build code inventory telemetry
+        run: |
+          python -m pip install --upgrade pip
+          pip install duckdb
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          import duckdb
+
+          root = Path(".")
+          tracked = []
+          for path in root.rglob("*"):
+              if not path.is_file():
+                  continue
+              rel = path.as_posix()
+              if rel.startswith(".git/"):
+                  continue
+              tracked.append((rel, path.suffix.lower(), path.stat().st_size))
+
+          con = duckdb.connect()
+          con.execute("CREATE TABLE files(path VARCHAR, ext VARCHAR, bytes BIGINT)")
+          con.executemany("INSERT INTO files VALUES (?, ?, ?)", tracked)
+
+          language = con.execute(
+              """
+              SELECT
+                CASE
+                  WHEN ext = '.py' THEN 'python'
+                  WHEN ext IN ('.rs', '.toml') THEN 'rust'
+                  WHEN ext IN ('.c', '.cc', '.cpp', '.cxx', '.h', '.hpp') THEN 'c-cpp'
+                  WHEN ext IN ('.java', '.kt', '.kts') THEN 'java-kotlin'
+                  ELSE 'other'
+                END AS language,
+                COUNT(*) AS file_count,
+                SUM(bytes) AS total_bytes
+              FROM files
+              GROUP BY 1
+              ORDER BY total_bytes DESC
+              """
+          ).fetchall()
+
+          domains = con.execute(
+              """
+              SELECT
+                split_part(path, '/', 1) AS top_domain,
+                COUNT(*) AS file_count,
+                SUM(bytes) AS total_bytes
+              FROM files
+              GROUP BY 1
+              ORDER BY total_bytes DESC
+              LIMIT 20
+              """
+          ).fetchall()
+
+          payload = {
+              "language_summary": [
+                  {"language": row[0], "file_count": int(row[1]), "total_bytes": int(row[2] or 0)}
+                  for row in language
+              ],
+              "domain_summary": [
+                  {"top_domain": row[0], "file_count": int(row[1]), "total_bytes": int(row[2] or 0)}
+                  for row in domains
+              ],
+          }
+          Path("codeql_slice_inventory.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+          print("Generated codeql_slice_inventory.json")
+          PY
+      - name: Upload preflight artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-slice-inventory
+          path: codeql_slice_inventory.json
+          if-no-files-found: error
+
+  analyze:
+    name: Analyze ${{ matrix.language }} · ${{ matrix.slice_id }}
+    needs: [plan-matrix, duckdb-preflight]
+    if: needs.plan-matrix.outputs.has_work == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan-matrix.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          config: |
+            paths:
+              ${{ matrix.paths_yaml }}
+            paths-ignore:
+              - "**/*.md"
+              - "**/*.txt"
+              - "**/*.html"
+              - "**/*.xml"
+              - "**/*.pdf"
+              - "**/target/**"
+              - "**/node_modules/**"
+              - "**/.venv/**"
+              - "public-site/**"
+              - "9-INFRASTRUCTURE/repomix-output.xml"
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}/slice:${{ matrix.slice_id }}"
