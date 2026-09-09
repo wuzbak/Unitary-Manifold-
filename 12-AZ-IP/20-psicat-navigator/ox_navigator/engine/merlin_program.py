@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import ast
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from functools import lru_cache
@@ -53,6 +54,16 @@ PSICAT_SPC_GATES_DOC = PRODUCT_ROOT / "PSICAT_SPC_BENCHMARK_GATES.md"
 PSICAT_SPC_PHASE0_PACKET_PATH = (
     PRODUCT_ROOT / "training" / "training_execution" / "psicat_spc_phase0_execution_packet.json"
 )
+_AST_CONTEXT_SKIP_PARTS = {
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "venv",
+    "node_modules",
+}
 
 
 def _repo_rel(path: Path) -> str:
@@ -5226,6 +5237,15 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 ],
             },
             {
+                "family": "ast_context_density",
+                "purpose": "Generate deterministic AST-symbol context and tool-definition loops to minimize token inflation and maximize executable grounding.",
+                "source_surfaces": [
+                    _repo_rel(PRODUCT_ROOT / "tools" / "export_psicat_ast_context.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_program.py"),
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_sync_contract.py"),
+                ],
+            },
+            {
                 "family": "teacher_trace_distillation",
                 "purpose": "Acquire transferable abilities from permitted teacher traces without model copying.",
                 "source_surfaces": [
@@ -5266,6 +5286,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "validation_resilience_packet": "getMerlinValidationResiliencePacket",
             "hardware_architecture_board": "getMerlinHardwareArchitectureBoard",
             "dataset_bundle": "getMerlinTrainingDataset",
+            "dataset_bundle_ast_context": "getMerlinTrainingDataset?include_ast_context=true",
             "sprint_review_packet": "getMerlinSprintReviewPacket",
             "heavy_reasoning_lane": "getMerlinHeavyReasoningLane",
             "sovereign_model_board": "getMerlinSovereignModelBoard",
@@ -5405,6 +5426,115 @@ def _build_compiled_insight_records(compiled_insights: list[dict[str, Any]] | No
                 "prompt": fact,
             })
     return records, benchmark_fixtures
+
+
+def _iter_ast_context_python_paths(file_limit: int | None = None) -> list[Path]:
+    files: list[Path] = []
+    for path in sorted(REPO_ROOT.rglob("*.py"), key=_repo_rel):
+        if any(part in _AST_CONTEXT_SKIP_PARTS for part in path.parts):
+            continue
+        files.append(path)
+        if file_limit is not None and len(files) >= max(0, int(file_limit)):
+            break
+    return files
+
+
+def _compact_ast_symbol_table(path: Path) -> dict[str, Any] | None:
+    try:
+        source = path.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return None
+    functions: list[str] = []
+    classes: list[str] = []
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            functions.append(node.name)
+        elif isinstance(node, ast.ClassDef):
+            classes.append(node.name)
+    return {
+        "functions": functions,
+        "classes": classes,
+        "module_doc": (ast.get_docstring(tree) or "").strip(),
+    }
+
+
+def build_ast_context_training_records(file_limit: int | None = None) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for path in _iter_ast_context_python_paths(file_limit=file_limit):
+        rel = _repo_rel(path)
+        symbol_table = _compact_ast_symbol_table(path)
+        if not isinstance(symbol_table, dict):
+            continue
+        functions = list(symbol_table.get("functions") or [])
+        classes = list(symbol_table.get("classes") or [])
+        if not functions and not classes:
+            continue
+        record_id = f"ast:{hashlib.sha256(rel.encode('utf-8')).hexdigest()[:16]}"
+        deterministic_loop = (
+            f"path:{rel} "
+            f"fn:{','.join(functions[:36]) or 'none'} "
+            f"cls:{','.join(classes[:24]) or 'none'}"
+        )
+        split = _dataset_split(record_id, "ast_context_density")
+        records.append({
+            "record_id": record_id,
+            "split": split,
+            "task_family": "ast_context_density",
+            "task_track": "ast_context_density",
+            "track": "ast_context_density",
+            "instruction": f"Use deterministic AST context for {rel} and preserve governance boundaries.",
+            "response_target": {
+                "path": rel,
+                "function_names": functions[:64],
+                "class_names": classes[:64],
+                "symbol_counts": {"functions": len(functions), "classes": len(classes)},
+                "deterministic_token_loop": deterministic_loop,
+                "module_doc_excerpt": str(symbol_table.get("module_doc") or "")[:180],
+            },
+            "target_contract": {
+                "requires_epistemic_tag": True,
+                "requires_boundary_note": True,
+            },
+            "supervision_mode": "deterministic_ast_context_ingestion",
+            "required_gates": ["GOVERNANCE", "ADJACENT_TRACK"],
+            "provenance_sources": [rel],
+            "trace_metadata": {"trace_type": "ast_context_density"},
+            "format_version": "merlin_training_jsonl_v1",
+        })
+
+    for tool_name in REQUIRED_TOOLKIT_FUNCTIONS:
+        normalized = str(tool_name).strip()
+        if not normalized:
+            continue
+        record_id = f"tool:{hashlib.sha256(normalized.encode('utf-8')).hexdigest()[:16]}"
+        split = _dataset_split(record_id, "ast_context_density")
+        records.append({
+            "record_id": record_id,
+            "split": split,
+            "task_family": "ast_context_density",
+            "task_track": "ast_context_density",
+            "track": "ast_context_density",
+            "instruction": f"Route `{normalized}` with strict schema validation and fail-closed governance.",
+            "response_target": {
+                "tool_name": normalized,
+                "kind": "axiomzero_tool_definition",
+                "required_contract": ["FOLLOWUPS:", "Sources:"],
+            },
+            "target_contract": {
+                "requires_epistemic_tag": True,
+                "requires_boundary_note": True,
+            },
+            "supervision_mode": "deterministic_ast_context_ingestion",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": [_repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_sync_contract.py")],
+            "trace_metadata": {"trace_type": "tool_definition_context"},
+            "format_version": "merlin_training_jsonl_v1",
+        })
+    return records
 
 
 def _dedupe_key(record: dict[str, Any], *, kind: str) -> str:
@@ -5577,6 +5707,8 @@ def _source_family_for_record(record: dict[str, Any], *, kind: str) -> str:
         if "compiled_insight" in " ".join(str(item) for item in list(record.get("keywords") or [])):
             return "compiled_benchmark_fixture"
         return "benchmark_corpus"
+    if str(record.get("task_family", "")).strip() == "ast_context_density":
+        return "ast_context_bundle"
     if str(record.get("task_family", "")).strip() == "compiled_insights":
         return "compiled_insight"
     return "seed_instruction_corpus"
@@ -5663,6 +5795,8 @@ def build_training_dataset_bundle(
     limit: int | None = None,
     *,
     compiled_insights: list[dict[str, Any]] | None = None,
+    include_ast_context: bool = False,
+    ast_file_limit: int | None = None,
 ) -> dict[str, Any]:
     from .merlin_benchmark import get_benchmark_corpus
 
@@ -5676,6 +5810,7 @@ def build_training_dataset_bundle(
     quality_rejections: list[dict[str, Any]] = []
     validation_errors: list[dict[str, Any]] = []
     dedupe_registry: dict[str, str] = {}
+    accepted_ast_context_records = 0
 
     def _register(record: dict[str, Any], *, kind: str, stage: str = "") -> bool:
         key = _dedupe_key(record, kind=kind)
@@ -5761,6 +5896,27 @@ def build_training_dataset_bundle(
             continue
         splits[split].append(record)
         kernel_splits[kernel_id][split].append(record)
+
+    if include_ast_context:
+        ast_records = build_ast_context_training_records(file_limit=ast_file_limit)
+        for record in ast_records:
+            kernel_id = _kernel_for_training_record(
+                str(record.get("track", "")),
+                instruction=str(record.get("instruction", "")),
+                response_target=record.get("response_target"),
+            )
+            record["kernel_id"] = kernel_id
+            record["required_gates"] = _normalize_required_gates(record.get("required_gates"))
+            record["provenance_sources"] = _normalize_sources(record.get("provenance_sources"))
+            if not _register(record, kind="training"):
+                continue
+            split_name = str(record.get("split", "train"))
+            if split_name not in splits:
+                split_name = _dataset_split(str(record.get("record_id", "")), str(record.get("track", "")))
+                record["split"] = split_name
+            splits[split_name].append(record)
+            kernel_splits[kernel_id][split_name].append(record)
+            accepted_ast_context_records += 1
 
     benchmark_payload = get_benchmark_corpus("all")
     if benchmark_payload.get("ok") is False:
@@ -5891,6 +6047,7 @@ def build_training_dataset_bundle(
                 "total_training_records": sum(split_counts.values()),
                 "total_benchmark_records": sum(benchmark_counts.values()),
                 "compile_time_insight_records": accepted_compiled_records,
+                "ast_context_records": accepted_ast_context_records,
             },
             "schema": {
                 "training_fields": [
@@ -5934,6 +6091,12 @@ def build_training_dataset_bundle(
                 "fixture_stage_scope": list(COMPILED_FIXTURE_STAGES),
                 "fixture_stage_scope_policy": "Compiled memory fixtures intentionally target Stage B/C memory and orchestration expansion lanes.",
             },
+            "ast_context_density": {
+                "enabled": bool(include_ast_context),
+                "record_count": accepted_ast_context_records,
+                "file_limit": ast_file_limit,
+                "source": "build_ast_context_training_records",
+            },
             "quality_filters": {
                 "applied": [
                     "min_instruction_or_query_length",
@@ -5963,8 +6126,15 @@ def get_training_curation_ledger(
     limit: int | None = None,
     *,
     compiled_insights: list[dict[str, Any]] | None = None,
+    include_ast_context: bool = False,
+    ast_file_limit: int | None = None,
 ) -> dict[str, Any]:
-    dataset_bundle = build_training_dataset_bundle(limit=limit, compiled_insights=compiled_insights)
+    dataset_bundle = build_training_dataset_bundle(
+        limit=limit,
+        compiled_insights=compiled_insights,
+        include_ast_context=bool(include_ast_context),
+        ast_file_limit=ast_file_limit,
+    )
     dataset = dict(dataset_bundle.get("dataset") or {})
     return {
         "ok": bool(dataset_bundle.get("ok")),
@@ -6773,13 +6943,20 @@ def build_training_artifact_bundle(
     *,
     compiled_insights: list[dict[str, Any]] | None = None,
     refresh_lane_e_profiles: bool = False,
+    include_ast_context: bool = False,
+    ast_file_limit: int | None = None,
 ) -> dict[str, Any]:
     from .merlin_benchmark import build_stage_a_artifact_bundle
     from .merlin_memory import MerlinSession
     from .merlin_training_execution import build_merlin_training_execution_bundle
 
     training_architecture = get_training_architecture(limit=limit)
-    dataset_bundle = build_training_dataset_bundle(limit=limit, compiled_insights=compiled_insights)
+    dataset_bundle = build_training_dataset_bundle(
+        limit=limit,
+        compiled_insights=compiled_insights,
+        include_ast_context=bool(include_ast_context),
+        ast_file_limit=ast_file_limit,
+    )
     if dataset_bundle.get("ok") is False:
         return {
             "ok": False,

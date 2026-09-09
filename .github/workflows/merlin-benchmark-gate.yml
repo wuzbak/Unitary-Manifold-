@@ -63,7 +63,7 @@ jobs:
         run: python tools/export_merlin_training_artifacts.py --limit 12 --output /tmp/merlin-training-artifacts.json
 
       - name: Export Merlin training JSONL pack
-        run: python tools/export_merlin_training_jsonl.py --limit 12 --output-dir /tmp/merlin-training-jsonl
+        run: python tools/export_merlin_training_jsonl.py --limit 12 --include-ast-context --ast-file-limit 240 --output-dir /tmp/merlin-training-jsonl
 
       - name: Export PsiCat AST context pack
         run: python tools/export_psicat_ast_context.py --output /tmp/psicat-ast-context.jsonl

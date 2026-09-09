@@ -117,6 +117,9 @@ def test_export_training_artifacts_script(tmp_path, monkeypatch):
             '--output',
             str(output_path),
             '--refresh-lane-e-profiles',
+            '--include-ast-context',
+            '--ast-file-limit',
+            '20',
         ],
     )
     assert module.main() == 0
@@ -128,6 +131,8 @@ def test_export_training_artifacts_script(tmp_path, monkeypatch):
     assert payload['artifact_bundle']['training_execution_bundle_preview']['lane_e_runtime_profile_artifact_path'].endswith(
         'lane_e_runtime_profiles.json'
     )
+    assert payload['artifact_bundle']['training_dataset']['ast_context_density']['enabled'] is True
+    assert payload['artifact_bundle']['training_dataset']['counts']['ast_context_records'] > 0
 
 
 def test_export_training_jsonl_script(tmp_path, monkeypatch):
@@ -161,6 +166,33 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
     assert kernel_file.exists()
     exported_rows = [line for line in kernel_file.read_text(encoding="utf-8").splitlines() if line.strip()]
     assert len(exported_rows) == manifest["dataset"]["counts"]["kernel_benchmark_records"][stage]["kernel_s"]
+
+
+def test_export_training_jsonl_script_with_ast_context(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_training_jsonl.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_training_jsonl', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_dir = tmp_path / 'training_jsonl_ast'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'export_merlin_training_jsonl.py',
+            '--limit',
+            '4',
+            '--include-ast-context',
+            '--ast-file-limit',
+            '18',
+            '--output-dir',
+            str(output_dir),
+        ],
+    )
+    assert module.main() == 0
+    manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
+    assert manifest['dataset']['ast_context_density']['enabled'] is True
+    assert manifest['dataset']['counts']['ast_context_records'] > 0
 
 
 def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
@@ -259,8 +291,8 @@ def test_export_psicat_ast_context_script(tmp_path, monkeypatch):
     lines = [line for line in output_path.read_text(encoding='utf-8').splitlines() if line.strip()]
     assert len(lines) > 10
     rows = [json.loads(line) for line in lines]
-    assert any(row.get('record_type') == 'repository_ast_symbol_context' for row in rows)
-    assert any(row.get('record_type') == 'axiomzero_tool_definition_context' for row in rows)
+    assert any(row.get('task_family') == 'ast_context_density' for row in rows)
+    assert any((row.get('response_target') or {}).get('kind') == 'axiomzero_tool_definition' for row in rows)
 
 
 def test_dynamic_batch_sweep_script(tmp_path, monkeypatch):
@@ -2129,6 +2161,13 @@ def test_server_merlin_endpoints():
             assert training_dataset.json()['dataset']['counts']['total_training_records'] == 4
             assert 'compile_time_insight_records' in training_dataset.json()['dataset']['counts']
             assert training_dataset.json()['dataset']['curation_ledger']['accepted_sample_quality_mean'] > 0
+            training_dataset_ast = client.get('/api/merlin/training-dataset?limit=4&include_ast_context=true&ast_file_limit=20')
+            assert training_dataset_ast.status_code == 200
+            assert training_dataset_ast.json()['ok'] is True
+            assert training_dataset_ast.json()['dataset']['ast_context_density']['enabled'] is True
+            assert training_dataset_ast.json()['dataset']['counts']['ast_context_records'] > 0
+            bad_dataset_ast_toggle = client.get('/api/merlin/training-dataset?include_ast_context=maybe')
+            assert bad_dataset_ast_toggle.status_code == 400
 
             training_curation = client.get('/api/merlin/training-curation?limit=4')
             assert training_curation.status_code == 200
@@ -2136,6 +2175,15 @@ def test_server_merlin_endpoints():
             assert training_curation.json()['training_curation']['budget_doctrine']['current_cycle_mode'] == 'local_only'
             assert training_curation.json()['training_curation']['token_budget']['external_tokens_spent_total'] == 0
             assert training_curation.json()['training_curation']['token_budget']['freeze_external_generation'] is True
+            training_curation_ast = client.get('/api/merlin/training-curation?limit=4&include_ast_context=true&ast_file_limit=20')
+            assert training_curation_ast.status_code == 200
+            assert training_curation_ast.json()['ok'] is True
+
+            ast_context_records = client.get('/api/merlin/ast-context-records?file_limit=18')
+            assert ast_context_records.status_code == 200
+            assert ast_context_records.json()['ok'] is True
+            assert ast_context_records.json()['ast_context_records']['record_count'] > 0
+            assert ast_context_records.json()['ast_context_records']['file_limit'] == 18
 
             open_science_registry = client.get('/api/merlin/open-science-registry')
             assert open_science_registry.status_code == 200
@@ -2423,8 +2471,17 @@ def test_server_merlin_endpoints():
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview'][
                 'lane_e_runtime_profile_artifact_path'
             ].endswith('lane_e_runtime_profiles.json')
+            training_artifacts_ast = client.get(
+                '/api/merlin/training-artifacts?limit=4&refresh_lane_e_profiles=true&include_ast_context=true&ast_file_limit=24'
+            )
+            assert training_artifacts_ast.status_code == 200
+            assert training_artifacts_ast.json()['ok'] is True
+            assert training_artifacts_ast.json()['training_artifacts']['training_dataset']['ast_context_density']['enabled'] is True
+            assert training_artifacts_ast.json()['training_artifacts']['training_dataset']['counts']['ast_context_records'] > 0
             bad_training_artifact_refresh = client.get('/api/merlin/training-artifacts?refresh_lane_e_profiles=maybe')
             assert bad_training_artifact_refresh.status_code == 400
+            bad_training_artifact_ast = client.get('/api/merlin/training-artifacts?include_ast_context=maybe')
+            assert bad_training_artifact_ast.status_code == 400
             assert 'hardware_architecture_board' in training_artifacts.json()['training_artifacts']
 
             empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
@@ -2447,6 +2504,9 @@ def test_server_merlin_endpoints():
             bad_training_curation_limit = client.get('/api/merlin/training-curation?limit=abc')
             assert bad_training_curation_limit.status_code == 400
             assert bad_training_curation_limit.json()['ok'] is False
+            bad_ast_limit = client.get('/api/merlin/ast-context-records?file_limit=0')
+            assert bad_ast_limit.status_code == 400
+            assert bad_ast_limit.json()['ok'] is False
 
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200
