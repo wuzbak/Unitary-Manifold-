@@ -118,13 +118,28 @@ def test_merlin_training_queue_and_challenge_pack_include_navier_packets() -> No
     ]
     assert len(navier_challenges) == 2
     assert all("non-transfer clause" in item["prompt"] for item in navier_challenges)
-    assert any(
-        item["reference_path"] == "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md"
-        for item in challenges["challenges"]
-    )
-    sat_challenges = [
-        item for item in challenges["challenges"]
-        if item["reference_path"] == "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md"
-    ]
-    assert sat_challenges
-    assert all("certificate verification requirements" in item["prompt"] for item in sat_challenges)
+
+
+def test_merlin_training_challenge_pack_formats_sat_method_transfer_prompt(monkeypatch) -> None:
+    from ox_navigator.engine import merlin_training_execution as training_execution
+
+    session = MerlinSession()
+
+    def _stub_queue(*, session: MerlinSession, limit: int | None = None) -> dict:
+        return {
+            "items": [
+                {
+                    "lane_id": "lane_d_formal_proof_foundry",
+                    "queue_id": "lane_d_sat_packet",
+                    "status": "queued",
+                    "task": "Audit SAT method-transfer packet",
+                    "reference_path": "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md",
+                    "expected_artifact": "proof_foundry_review_brief",
+                }
+            ]
+        }
+
+    monkeypatch.setattr(training_execution, "build_merlin_training_execution_queue", _stub_queue)
+    challenges = get_merlin_training_challenge_pack(session=session, limit=4)
+    assert challenges["challenge_count"] == 1
+    assert "certificate verification requirements" in challenges["challenges"][0]["prompt"]
