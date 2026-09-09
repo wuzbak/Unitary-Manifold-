@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -94,7 +95,7 @@ def _build_unit(row: Dict[str, Any]) -> Dict[str, Any]:
     return unit
 
 
-
+@lru_cache(maxsize=1)
 def lane1_action_to_evolution_continuation() -> Dict[str, Any]:
     spine = formal_traceability_spine()
     ledger = lean_burden_ledger()

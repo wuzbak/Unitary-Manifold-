@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict
 
@@ -27,7 +28,7 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
     })
 
 
-
+@lru_cache(maxsize=1)
 def lane2_touched_translation_gate() -> Dict[str, Any]:
     lane1 = lane1_action_to_evolution_continuation()
     touched_ids = set(lane1.get('touched_unit_ids') or [])

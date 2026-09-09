@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from functools import lru_cache
 from typing import Dict
 
 from src.core.pillar1103_sprint_cq_continuation_charter import PILLAR_VALID as P1103_VALID, SPRINT, VERSION
@@ -18,7 +19,7 @@ PILLAR_STATUS: str = 'SPRINT_CQ_MASTER_INTEGRATION_CERTIFICATE_COMPLETE'
 NEXT_PILLAR_SLOT: int = 1109
 
 
-
+@lru_cache(maxsize=1)
 def sprint_cq_master_integration_certificate() -> Dict[str, object]:
     lane_packets = {
         'lane1_action_to_evolution': lane1_action_to_evolution_continuation(),

@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import importlib
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict
 
@@ -36,7 +37,7 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
     })
 
 
-
+@lru_cache(maxsize=1)
 def lane3_psicat_receipt_completion() -> Dict[str, Any]:
     lane1 = lane1_action_to_evolution_continuation()
     lane2 = lane2_touched_translation_gate()

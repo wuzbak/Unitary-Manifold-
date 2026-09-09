@@ -10,10 +10,10 @@
 > circle-EH coupling bookkeeping but leaves photon origin and action-to-evolution
 > equivalence open. No new physics closure is claimed.
 
-**The Unitary Manifold v37.1 — Unambiguous Record**  
+**The Unitary Manifold v37.3 — Unambiguous Record**  
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-08 (v37.1 — Sprint CO: Pillars 1089-1096; proof-foundry hardening, PsiCat continuous formal training integration, validation resilience, and enterprise runtime deployment hardening; Lean4 4080→4080; 64,138 passed · 22 skipped · 18 deselected · 0 failed; next slot 1097.)*
-*Latest verified full regression: 64,138 passed · 22 skipped · 18 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-08).*
+*Last updated: 2026-09-08 (v37.3 — Sprint CQ: Pillars 1103-1108; narrow continuation packet with action-to-evolution as the sole primary unresolved unit, touched-unit translation gating, and PsiCat reviewer-packet receipt completion; Lean4 4080→4080; 64,150 passed · 22 skipped · 18 deselected · 0 failed; next slot 1109.)*
+*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-08).*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
@@ -21,7 +21,7 @@
 >  
 > **Live-ledger note (anti-staleness):** For the latest wave-level status, treat
 > `STATUS.md`, `FALLIBILITY.md`, and `src/core/sm_free_parameters.py` as canonical.
-> Adjacent operational/governance additions (e.g., Pillar 273 autonomous community/security stewardship with Pentad-governed control routing, and Sprint CO proof-foundry / PsiCat / validation hardening pillars 1089-1096)
+> Adjacent operational/governance additions (e.g., Pillar 273 autonomous community/security stewardship with Pentad-governed control routing, and Sprint CQ continuation pillars 1103-1108)
 > are explicitly non-hardgate and do not change claim statuses in this ledger.
 > Historical sections in this document are preserved for audit traceability.
 

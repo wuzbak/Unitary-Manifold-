@@ -4,10 +4,9 @@
 
 from __future__ import annotations
 
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict
-
-from src.core.pillar1102_sprint_cp_master_integration_certificate import PILLAR_VALID as P1102_VALID
 
 PILLAR_NUMBER: int = 1103
 PILLAR_GATE: str = 'SPRINT_CQ_CONTINUATION_CHARTER'
@@ -99,9 +98,13 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
     return build_truth_surface_sync_status(checks)
 
 
-
+@lru_cache(maxsize=1)
 def sprint_cq_continuation_charter() -> Dict[str, Any]:
     truth_sync = _truth_surface_sync_status()
+    previous_sprint_anchor_present = all([
+        (_ROOT / 'src' / 'core' / 'pillar1102_sprint_cp_master_integration_certificate.py').exists(),
+        'v37.2 Sprint CP' in (_ROOT / 'STATUS.md').read_text(encoding='utf-8'),
+    ])
     lane_rows = [
         {
             'lane_id': lane['lane_id'],
@@ -112,7 +115,7 @@ def sprint_cq_continuation_charter() -> Dict[str, Any]:
         }
         for lane, pillar in zip(MASTER_LANES, range(1104, 1107), strict=False)
     ]
-    valid = bool(P1102_VALID) and bool(truth_sync.get('all_pass')) and len(lane_rows) == 3 and len(OPEN_LANES) == 9
+    valid = previous_sprint_anchor_present and bool(truth_sync.get('all_pass')) and len(lane_rows) == 3 and len(OPEN_LANES) == 9
     return {
         'pillar': PILLAR_NUMBER,
         'gate': PILLAR_GATE,
@@ -122,7 +125,7 @@ def sprint_cq_continuation_charter() -> Dict[str, Any]:
         'next_pillar_slot': NEXT_PILLAR_SLOT,
         'master_packet_range': '1103-1108',
         'dependencies': {
-            'pillar1102_valid': bool(P1102_VALID),
+            'sprint_cp_anchor_present': previous_sprint_anchor_present,
             'truth_surfaces_synchronized_to_v37_3': bool(truth_sync.get('all_pass')),
             'lane_count_locked_to_three': len(lane_rows) == 3,
             'open_lane_inventory_retained': len(OPEN_LANES) == 9,

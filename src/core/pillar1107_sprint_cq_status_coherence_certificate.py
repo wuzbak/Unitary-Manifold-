@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict
 
@@ -39,7 +40,7 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
     })
 
 
-
+@lru_cache(maxsize=1)
 def sprint_cq_status_coherence_certificate() -> Dict[str, Any]:
     truth_sync = _truth_surface_sync_status()
     dependencies = {
