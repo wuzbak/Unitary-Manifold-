@@ -479,13 +479,14 @@ def test_route_tool_training_architecture_and_artifacts():
         for item in architecture['result']['data']['dataset_families']
     )
     assert architecture['result']['data']['formal_proof_foundry']['program'] == 'FORMAL_PROOF_FOUNDRY'
-    assert 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in (
-        architecture['result']['data']['formal_proof_foundry']['training_corpus']
-    )
     assert any(
         item['family'] == 'external_open_science_augmentation'
         and 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in item['source_surfaces']
         for item in architecture['result']['data']['dataset_families']
+    )
+    full_architecture = route_tool('getMerlinTrainingArchitecture', {})
+    assert 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in (
+        full_architecture['result']['data']['formal_proof_foundry']['training_corpus']
     )
     assert architecture['result']['data']['active_training_surfaces']['three_lane_intensive_sprint'] == (
         'getMerlinThreeLaneIntensiveSprint'
