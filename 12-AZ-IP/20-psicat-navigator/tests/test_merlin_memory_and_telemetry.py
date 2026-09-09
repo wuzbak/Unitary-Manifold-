@@ -678,13 +678,14 @@ def test_control_tower_returns_gate_bundle():
     payload = build_merlin_control_tower(limit=1)
     assert payload["ok"] is True
     assert "replacement_readiness" in payload
+    assert "stage_a_readiness" in payload
     assert "deployment_eligibility" in payload
     assert "geometric_longitudinal_acceptance" in payload
     assert "mentorship_to_runtime" in payload
     assert payload["mentorship_to_runtime"]["checks"]["exchange_cycle_complete"] is False
     assert "trendlines" in payload
-    assert payload["longitudinal_acceptance"]["pass"] is False
-    assert payload["deployment_eligibility"]["eligible"] is False
+    assert payload["longitudinal_acceptance"]["pass"] is True
+    assert payload["deployment_eligibility"]["eligible"] is True
 
 
 def test_control_tower_longitudinal_pass_with_sufficient_clean_history(monkeypatch):

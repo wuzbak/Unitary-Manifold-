@@ -16,6 +16,13 @@ LARGE_CONTEXT_KEYWORDS = {
     "full", "entire", "comprehensive", "cross-source", "benchmark", "governance", "architecture",
     "security", "red-team", "roadmap", "decommission", "strategy",
 }
+HEAVY_LANE_PHRASES = (
+    "cross-source",
+    "two trusted sources disagree",
+    "bounded tool chain",
+    "lost-in-the-middle",
+    "replacement-readiness brief",
+)
 HIGH_RISK_KEYWORDS = {
     "execute", "delete", "token", "secret", "credential", "override", "bypass",
 }
@@ -30,8 +37,11 @@ def _bool_env(name: str, default: bool = False) -> bool:
 
 def classify_lane(query: str) -> str:
     sample = (query or "").lower()
-    if len(sample) > 350 or any(key in sample for key in LARGE_CONTEXT_KEYWORDS):
+    heavy_hits = sum(1 for phrase in HEAVY_LANE_PHRASES if phrase in sample)
+    if len(sample) > 350 or heavy_hits >= 1:
         return "heavy_reasoner_exception"
+    if any(key in sample for key in LARGE_CONTEXT_KEYWORDS):
+        return "medium_reasoner_default"
     if len(sample) > 120:
         return "medium_reasoner_default"
     return "small_fast_router"

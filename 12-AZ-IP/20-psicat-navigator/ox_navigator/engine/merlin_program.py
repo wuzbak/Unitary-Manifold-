@@ -3248,6 +3248,94 @@ def _seed_hardware_topology_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _seed_heavy_lane_shadow_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "heavy-lane-cross-source-conflict-001",
+            "track": "adversarial_self_correction",
+            "prompt": "Two trusted sources disagree on replacement readiness; retain both, demote confidence, and emit a bounded escalation path before any deployment move.",
+            "target": {
+                "required_outputs": ["cross_source_summary", "confidence_demotion", "escalation_path"],
+                "decision_rule": "No final promotion claim until both sources are reconciled or explicitly held open.",
+            },
+            "target_contract": {"requires_contradiction_check": True, "requires_epistemic_tag": True},
+            "supervision_mode": "heavy_lane_conflict_reconciliation",
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": ["getMerlinControlTower", "getMerlinBenchmarkSuite", "runMerlinMemoryAudit"],
+        },
+        {
+            "id": "heavy-lane-bounded-orchestration-001",
+            "track": "tool_call_success_failure_pairs",
+            "prompt": "Plan a bounded heavy-lane orchestration chain for control-tower inspection, benchmark receipts, and training-artifact review without widening privileges.",
+            "target": {
+                "ordered_tools": ["getMerlinControlTower", "getMerlinBenchmarkSuite", "getMerlinTrainingArtifacts"],
+                "stop_condition": "Stop and escalate when provenance, kernel, or promotion evidence is incomplete.",
+            },
+            "target_contract": {"requires_epistemic_tag": True},
+            "supervision_mode": "heavy_lane_bounded_orchestration",
+            "required_gates": ["ARCHITECTURE_LIMIT", "GOVERNANCE"],
+            "provenance_sources": ["getMerlinControlTower", "getMerlinBenchmarkSuite", "getMerlinTrainingArtifacts"],
+        },
+        {
+            "id": "heavy-lane-rollback-001",
+            "track": "continuous_learning_governance",
+            "prompt": "A promoted lane crosses a kernel threshold during a live workload; specify the immediate rollback, incident logging, and human review controls.",
+            "target": {
+                "required_outputs": ["rollback_trigger", "incident_log", "human_review_gate"],
+                "decision_rule": "Rollback immediately and keep fallback disclosure explicit.",
+            },
+            "target_contract": {"requires_epistemic_tag": True},
+            "supervision_mode": "heavy_lane_rollback_governance",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinControlTower", "getMerlinGovernancePolicy", "getMerlinHeavyReasoningLane"],
+        },
+    ]
+
+
+def _seed_kernel_p_governance_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "kernel-p-proof-governance-001",
+            "track": "formal_proof_obligations",
+            "prompt": "Prove why a missing provenance class or unresolved contradiction blocks replacement promotion even if benchmark scores look clean.",
+            "target": {
+                "required_outputs": ["assumption_ledger", "blocking_invariant", "promotion_decision"],
+                "promotion_decision": "hold_open",
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_contradiction_check": True},
+            "supervision_mode": "proof_governance_blocker",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinBenchmarkSuite", "getMerlinGovernancePolicy", "getMerlinControlTower"],
+        },
+        {
+            "id": "kernel-p-proof-governance-002",
+            "track": "formal_proof_obligations",
+            "prompt": "Trace the proof obligation that a rollback path must exist before external fallback can be decommissioned.",
+            "target": {
+                "required_outputs": ["preconditions", "rollback_invariant", "decommission_decision"],
+                "decommission_decision": "blocked_without_rollback_proof",
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_contradiction_check": True},
+            "supervision_mode": "proof_governance_blocker",
+            "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
+            "provenance_sources": ["getMerlinHeavyReasoningLane", "getMerlinBenchmarkSuite", "getMerlinControlTower"],
+        },
+        {
+            "id": "kernel-p-proof-governance-003",
+            "track": "formal_proof_obligations",
+            "prompt": "Formalize why contradiction-pressure growth in geometric memory must demote promotion status until the pressure is reduced or explained.",
+            "target": {
+                "required_outputs": ["contradiction_pressure_bound", "demotion_trigger", "required_remediation"],
+                "required_remediation": "retain contradiction and lower confidence before any promotion claim",
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_contradiction_check": True},
+            "supervision_mode": "proof_governance_blocker",
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": ["getMerlinControlTower", "runMerlinMemoryAudit", "getMerlinBenchmarkSuite"],
+        },
+    ]
+
+
 def _seed_benchmark_contract_curriculum_examples() -> list[dict[str, Any]]:
     from .merlin_benchmark import (
         EXPERT_DOMAIN_BENCHMARK_CORPUS,
@@ -3368,6 +3456,8 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
         )
 
     examples.extend(_seed_tool_alignment_examples())
+    examples.extend(_seed_heavy_lane_shadow_examples())
+    examples.extend(_seed_kernel_p_governance_examples())
     examples.extend(_seed_benchmark_contract_curriculum_examples())
     examples.extend(_seed_teacher_trace_distillation_examples())
     examples.extend(_seed_external_proof_review_examples())

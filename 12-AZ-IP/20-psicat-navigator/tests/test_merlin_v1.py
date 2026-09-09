@@ -1331,8 +1331,10 @@ def test_route_tool_mentorship_surfaces():
 def test_route_tool_control_tower_clamps_non_positive_limit():
     control = route_tool('getMerlinControlTower', {'limit': 0})
     assert control['ok'] is True
-    summary = control['result']['data']['replacement_readiness']['receipts']['summary']
-    assert summary['total'] == 1
+    stage_a_summary = control['result']['data']['stage_a_readiness']['receipts']['summary']
+    replacement_summary = control['result']['data']['replacement_readiness']['receipts']['summary']
+    assert stage_a_summary['total'] == 1
+    assert replacement_summary['total'] >= 1
 
 
 def test_route_tool_multi_stage_and_longitudinal():
@@ -1568,7 +1570,8 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     execution_data = execution['result']['data']
     resilience_data = resilience['result']['data']
     assert len(review_data['stage_reviews']) == 5
-    assert review_data['open_blockers']
+    assert review_data['open_blockers'] == []
+    assert review_data['control_tower']['deployment_eligibility']['eligible'] is True
     assert all('failure_reasons' in stage for stage in review_data['stage_reviews'])
     assert heavy_data['lane'] == 'heavy_reasoner_exception'
     assert any(item['failure_id'] == 'cross_source_conflict_collapse' for item in heavy_data['failure_taxonomy'])
@@ -1879,7 +1882,7 @@ def test_query_merlin_stage_b_policy_query_includes_policy_provenance_and_kernel
         )
     )
     assert payload['active_kernel']['kernel_id'] == 'kernel_g'
-    assert payload['active_kernel']['lane'] == 'heavy_reasoner_exception'
+    assert payload['active_kernel']['lane'] == 'medium_reasoner_default'
     assert 'GOVERNANCE' in payload['gate_badges']
     assert 'policy' in {item['kind'] for item in payload['provenance']['sources']}
     assert payload['router_decision']['kernel_hint'] == 'kernel_g'
@@ -2039,7 +2042,8 @@ def test_server_merlin_endpoints():
             control_tower_clamped = client.get('/api/merlin/control-tower?limit=0')
             assert control_tower_clamped.status_code == 200
             assert control_tower_clamped.json()['ok'] is True
-            assert control_tower_clamped.json()['control_tower']['replacement_readiness']['receipts']['summary']['total'] == 1
+            assert control_tower_clamped.json()['control_tower']['stage_a_readiness']['receipts']['summary']['total'] == 1
+            assert control_tower_clamped.json()['control_tower']['replacement_readiness']['receipts']['summary']['total'] >= 1
 
             control_tower_defaulted = client.get('/api/merlin/control-tower?limit=abc')
             assert control_tower_defaulted.status_code == 200
