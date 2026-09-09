@@ -27,6 +27,17 @@ class PolyglotExecutionConfig:
     require_zero_failures: bool = True
 
 
+@dataclass(frozen=True)
+class PromotionGateResult:
+    passed: bool
+    reasons: tuple[str, ...]
+    speedup: float
+    parity_passed: bool
+    pytest_failures: int
+    cuda_required: bool
+    cuda_available: bool
+
+
 def _truthy_env(name: str) -> bool:
     return os.getenv(name, "").strip().lower() in {"1", "true", "yes", "on"}
 
@@ -55,16 +66,20 @@ def _module_available(module_name: str) -> bool:
 def polyglot_lane_matrix() -> Dict[str, Dict[str, object]]:
     """Return machine-readable readiness for each polyglot lane."""
     cfg = load_polyglot_execution_config()
+    from .julia_acceleration import julia_runtime_status
+
+    jl = julia_runtime_status(use_cuda=cfg.use_cuda)
     return {
         "julia_acceleration": {
-            "stage": "ACTIVE_SCAFFOLD",
+            "stage": "ACTIVE_WAVE2",
             "default_backend": cfg.core_backend,
-            "available": _module_available("juliacall"),
+            "available": jl.juliacall_available,
+            "status": jl.status,
         },
         "julia_cuda_scaling": {
-            "stage": "STAGED",
+            "stage": "ACTIVE_GATED",
             "requested": cfg.use_cuda,
-            "available": _module_available("juliacall"),
+            "available": jl.cuda_functional if cfg.use_cuda else jl.juliacall_available,
         },
         "lean4_formal_lane": {
             "stage": "ACTIVE",
@@ -110,3 +125,32 @@ def no_regression_gate(pytest_failures: int) -> bool:
         return pytest_failures >= 0
     return pytest_failures == 0
 
+
+def evaluate_promotion_gate(
+    *,
+    parity_passed: bool,
+    speedup: float,
+    pytest_failures: int,
+    cuda_required: bool,
+    cuda_available: bool,
+) -> PromotionGateResult:
+    """Evaluate deterministic backend-promotion gates for Wave-2 rollout."""
+    cfg = load_polyglot_execution_config()
+    reasons: list[str] = []
+    if not parity_passed:
+        reasons.append("parity_failed")
+    if speedup < cfg.min_speedup_target:
+        reasons.append("speedup_below_target")
+    if not no_regression_gate(pytest_failures):
+        reasons.append("regression_gate_failed")
+    if cuda_required and not cuda_available:
+        reasons.append("cuda_unavailable")
+    return PromotionGateResult(
+        passed=len(reasons) == 0,
+        reasons=tuple(reasons),
+        speedup=float(speedup),
+        parity_passed=bool(parity_passed),
+        pytest_failures=int(pytest_failures),
+        cuda_required=bool(cuda_required),
+        cuda_available=bool(cuda_available),
+    )

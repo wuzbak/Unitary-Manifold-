@@ -1,0 +1,156 @@
+{
+  "test": "polyglot_wave2_julia_cuda_promotion",
+  "date": "2026-09-09T00:52:10+00:00",
+  "backend_config": {
+    "core_backend": "python",
+    "use_cuda": false,
+    "parity_rtol": 1e-07,
+    "parity_atol": 1e-10,
+    "min_speedup_target": 1.1,
+    "require_zero_failures": true
+  },
+  "julia_runtime": {
+    "requested_cuda": false,
+    "juliacall_available": false,
+    "cuda_functional": false,
+    "backend": "julia",
+    "status": "UNAVAILABLE",
+    "error": "<urlopen error [Errno -5] No address associated with hostname>"
+  },
+  "rhs_parity": {
+    "parity_passed": true,
+    "rtol": 1e-07,
+    "atol": 1e-10,
+    "max_abs_error": 0.0
+  },
+  "benchmarks_seconds": {
+    "python_rhs": {
+      "min_seconds": 0.014588305999950535,
+      "mean_seconds": 0.01465119766665642,
+      "max_seconds": 0.014726195000093867
+    },
+    "accelerated_rhs": {
+      "min_seconds": 0.014588305999950535,
+      "mean_seconds": 0.01465119766665642,
+      "max_seconds": 0.014726195000093867
+    },
+    "speedup": 1.0
+  },
+  "promotion_gate": {
+    "passed": false,
+    "reasons": [
+      "speedup_below_target"
+    ],
+    "speedup": 1.0,
+    "parity_passed": true,
+    "pytest_failures": 0,
+    "cuda_required": false,
+    "cuda_available": false
+  },
+  "stack_health": {
+    "languages": {
+      "python": {
+        "available": true,
+        "path": "/usr/bin/python",
+        "version": "Python 3.12.3"
+      },
+      "julia": {
+        "available": true,
+        "path": "/usr/bin/julia",
+        "version": "julia version 1.12.7"
+      },
+      "mojo": {
+        "available": false,
+        "path": null
+      },
+      "rust": {
+        "available": true,
+        "path": "/home/runner/.cargo/bin/rustc",
+        "version": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+      },
+      "zig": {
+        "available": false,
+        "path": null
+      },
+      "lean4": {
+        "available": false,
+        "path": null
+      },
+      "typescript": {
+        "available": true,
+        "path": "/usr/local/bin/tsc",
+        "version": "Version 7.0.2"
+      }
+    },
+    "data_storage": {
+      "zarr": {
+        "available": true,
+        "version": "3.3.0"
+      },
+      "pyarrow": {
+        "available": true,
+        "version": "25.0.1"
+      },
+      "duckdb": {
+        "available": true,
+        "version": "1.5.5"
+      },
+      "polars": {
+        "available": true,
+        "version": "1.44.1"
+      },
+      "parquet": {
+        "supported_via_pyarrow": true,
+        "supported_via_polars": true
+      }
+    },
+    "execution_compute": {
+      "jax": {
+        "available": true,
+        "version": "0.10.2"
+      },
+      "wasm_runtime": {
+        "available": false,
+        "path": null
+      },
+      "wasm_pack": {
+        "available": false,
+        "path": null
+      },
+      "webgpu_shader_tools": {
+        "available": false,
+        "path": null
+      }
+    },
+    "verification_logic": {
+      "z3": {
+        "available": true,
+        "version": "unknown"
+      },
+      "lean4": {
+        "available": false,
+        "path": null
+      }
+    },
+    "docs_pipelines": {
+      "quarto": {
+        "available": false,
+        "path": null
+      },
+      "latex": {
+        "available": false,
+        "path": null
+      },
+      "dvc": {
+        "available": true,
+        "path": "/home/runner/.local/bin/dvc",
+        "version": "3.67.1"
+      },
+      "wandb": {
+        "available": true,
+        "version": "0.30.0"
+      }
+    }
+  },
+  "status": "HOLD"
+}

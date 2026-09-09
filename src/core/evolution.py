@@ -143,6 +143,7 @@ import numpy as np
 
 from .kk_backreaction import kk_tower_stress_energy
 from .metric import compute_curvature, compute_curvature_backend, field_strength
+from .julia_acceleration import compute_rhs_julia
 from .polyglot_execution_matrix import load_polyglot_execution_config
 
 
@@ -413,13 +414,23 @@ def _compute_rhs(state: FieldState) -> tuple:
     dB   : ndarray, shape (N, 4)   — ∂_t B_μ
     dphi : ndarray, shape (N,)     — ∂_t φ
     """
+    cfg = load_polyglot_execution_config()
+    if cfg.core_backend == "julia":
+        return compute_rhs_julia(
+            state=state,
+            python_reference=_compute_rhs_python_reference,
+            use_cuda=cfg.use_cuda,
+        )
+    return _compute_rhs_python_reference(state)
+
+
+def _compute_rhs_python_reference(state: FieldState) -> tuple:
+    """Reference RHS forced to Python curvature backend for parity checks."""
     g, B, phi = state.g, state.B, state.phi
     dx, lam, alpha = state.dx, state.lam, state.alpha
     phi0, m_phi = state.phi0, state.m_phi
     n_kk_modes = state.n_kk_modes
     kk_backreaction_coupling = state.kk_backreaction_coupling
-
-    cfg = load_polyglot_execution_config()
     _, _, Ricci, R = compute_curvature_backend(
         g,
         B,
@@ -427,8 +438,8 @@ def _compute_rhs(state: FieldState) -> tuple:
         dx,
         lam=lam,
         coordinate_index=1,
-        backend=cfg.core_backend,
-        use_cuda=cfg.use_cuda,
+        backend="python",
+        use_cuda=False,
     )
     H = field_strength(B, dx)
 
@@ -488,37 +499,6 @@ def rhs_backend_report(state: FieldState) -> Dict[str, object]:
     )
     return payload
 
-
-def _compute_rhs_python_reference(state: FieldState) -> tuple:
-    """Reference RHS forced to Python curvature backend for parity checks."""
-    g, B, phi = state.g, state.B, state.phi
-    dx, lam, alpha = state.dx, state.lam, state.alpha
-    phi0, m_phi = state.phi0, state.m_phi
-    n_kk_modes = state.n_kk_modes
-    kk_backreaction_coupling = state.kk_backreaction_coupling
-
-    _, _, Ricci, R = compute_curvature(g, B, phi, dx, lam)
-    H = field_strength(B, dx)
-
-    T = _stress_energy(B, phi, H, lam)
-    dg = -2.0 * Ricci + T
-    dg = 0.5 * (dg + dg.transpose(0, 2, 1))
-
-    g_inv = np.linalg.inv(g)
-    H_up = np.einsum('nai,nbj,nij->nab', g_inv, g_inv, H)
-    dB = np.zeros_like(B)
-    for mu in range(4):
-        dB[:, mu] = _divergence_vec(lam**2 * H_up[:, :, mu], dx)
-
-    dphi = (_laplacian(phi, dx) + alpha * R * phi + _source_scalar(H)
-            - m_phi**2 * (phi - phi0))
-    dphi += _kk_backreaction_source(
-        phi=phi,
-        n_kk_modes=n_kk_modes,
-        kk_backreaction_coupling=kk_backreaction_coupling,
-        phi0=phi0,
-    )
-    return dg, dB, dphi
 
 
 def _advance_fields(state: FieldState,

@@ -13,6 +13,11 @@ jaxlib>=0.4,<1
 z3-solver>=4.12.0
 wandb>=0.18.0
 dvc>=3.0.0
+juliacall>=0.9.35
+duckdb>=1.5.5
+polars>=1.44.1
+pyarrow>=25.0.1
+zarr>=3.3.0
 
 # Security: minimum patched versions for transitive dependencies
 # These are not used directly but must be >= the patched version to
