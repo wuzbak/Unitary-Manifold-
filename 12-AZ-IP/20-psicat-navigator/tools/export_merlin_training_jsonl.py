@@ -70,9 +70,24 @@ def main() -> int:
         default=str(ROOT / "training" / "training_jsonl"),
         help="Output directory",
     )
+    parser.add_argument(
+        "--include-ast-context",
+        action="store_true",
+        help="Include AST-context density records in exported training splits.",
+    )
+    parser.add_argument(
+        "--ast-file-limit",
+        type=int,
+        default=None,
+        help="Optional file limit for AST-context extraction.",
+    )
     args = parser.parse_args()
 
-    payload = build_training_dataset_bundle(limit=args.limit)
+    payload = build_training_dataset_bundle(
+        limit=args.limit,
+        include_ast_context=bool(args.include_ast_context),
+        ast_file_limit=args.ast_file_limit,
+    )
     if not payload.get("ok"):
         print(json.dumps({
             "ok": False,

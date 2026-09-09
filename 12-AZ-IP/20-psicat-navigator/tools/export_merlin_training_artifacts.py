@@ -31,11 +31,24 @@ def main() -> int:
         action="store_true",
         help="Force fresh Lane E runtime profile recapture in the embedded execution-bundle preview",
     )
+    parser.add_argument(
+        "--include-ast-context",
+        action="store_true",
+        help="Include AST-context density records in the exported training dataset bundle.",
+    )
+    parser.add_argument(
+        "--ast-file-limit",
+        type=int,
+        default=None,
+        help="Optional file limit for AST-context extraction.",
+    )
     args = parser.parse_args()
 
     payload = build_training_artifact_bundle(
         limit=args.limit,
         refresh_lane_e_profiles=bool(args.refresh_lane_e_profiles),
+        include_ast_context=bool(args.include_ast_context),
+        ast_file_limit=args.ast_file_limit,
     )
     if not payload.get("ok"):
         print(json.dumps({

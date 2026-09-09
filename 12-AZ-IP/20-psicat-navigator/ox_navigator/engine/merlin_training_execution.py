@@ -20,6 +20,7 @@ from .merlin_counterexample import build_counterexample_digest
 from .merlin_memory import MerlinSession
 from .merlin_meta_learning import analyze_depth, consolidate_memory, generate_falsification_oracle, run_self_audit
 from .merlin_program import (
+    build_training_dataset_bundle,
     build_merlin_continuous_learning_queue,
     evaluate_merlin_performance_gate,
     get_merlin_performance_lane,
@@ -31,6 +32,8 @@ REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
 EXECUTION_ARTIFACT_PATH = PRODUCT_ROOT / "training" / "training_execution" / "three_lane_execution_bundle.json"
 LANE_E_PROFILE_ARTIFACT_PATH = PRODUCT_ROOT / "training" / "training_execution" / "lane_e_runtime_profiles.json"
+PERFORMANCE_GATE_HISTORY_PATH = PRODUCT_ROOT / "training" / "training_execution" / "performance_gate_history.json"
+PERFORMANCE_GATE_HISTORY_MAX_ENTRIES = 180
 GATE_LABELS = ("HARDGATE", "ADJACENT_TRACK", "OPEN_GAP", "ARCHITECTURE_LIMIT", "GOVERNANCE")
 LANE_ORDER = (
     "lane_a_applications_tools_mastery",
@@ -71,6 +74,14 @@ def _repo_rel(path: Path) -> str:
         return path.relative_to(REPO_ROOT).as_posix()
     except ValueError:
         return str(path)
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    except OSError:
+        return
 
 
 def _markdown_title(text: str, *, fallback: str) -> str:
@@ -708,14 +719,7 @@ def _build_lane_e_runtime_profiles(*, allow_persisted: bool = True) -> dict[str,
         return dict(_LANE_E_RUNTIME_PROFILE_CACHE)
 
     def _persist(payload: dict[str, Any]) -> None:
-        try:
-            LANE_E_PROFILE_ARTIFACT_PATH.parent.mkdir(parents=True, exist_ok=True)
-            LANE_E_PROFILE_ARTIFACT_PATH.write_text(
-                json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-                encoding="utf-8",
-            )
-        except OSError:
-            return
+        _write_json(LANE_E_PROFILE_ARTIFACT_PATH, payload)
 
     def _load_persisted() -> dict[str, Any] | None:
         if not LANE_E_PROFILE_ARTIFACT_PATH.exists():
@@ -837,6 +841,103 @@ def get_merlin_lane_e_runtime_profiles(*, refresh: bool = False) -> dict[str, An
         "artifact_exists": LANE_E_PROFILE_ARTIFACT_PATH.exists(),
         "profile_keys": sorted(list((payload.get("profiles") or {}).keys())),
         "runtime_profiles": payload,
+    }
+
+
+def _load_performance_gate_history() -> list[dict[str, Any]]:
+    if not PERFORMANCE_GATE_HISTORY_PATH.exists():
+        return []
+    try:
+        payload = json.loads(PERFORMANCE_GATE_HISTORY_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    entries = list(payload.get("entries") or [])
+    cleaned: list[dict[str, Any]] = []
+    for item in entries:
+        if isinstance(item, dict):
+            cleaned.append(dict(item))
+    return cleaned
+
+
+def _build_cadence_windows(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    if not entries:
+        return []
+    windows: list[dict[str, Any]] = []
+    for idx, item in enumerate(entries, start=1):
+        cadence = dict(item.get("cadence_window") or {})
+        start_cycle = int(cadence.get("start_cycle") or idx)
+        end_cycle = int(cadence.get("end_cycle") or idx)
+        windows.append(
+            {
+                "window_id": f"window_{idx:04d}",
+                "index": idx,
+                "start_cycle": start_cycle,
+                "end_cycle": end_cycle,
+                "generated_at": str(item.get("generated_at") or ""),
+                "gate_verdict": str(item.get("gate_verdict") or "hold"),
+                "non_overlapping": True,
+            }
+        )
+    return windows
+
+
+def _record_performance_gate_history(
+    *,
+    performance_gate: dict[str, Any],
+    include_ast_context: bool,
+    ast_file_limit: int | None,
+    processed_count: int,
+    dataset_summary: dict[str, Any] | None,
+) -> dict[str, Any]:
+    entries = _load_performance_gate_history()
+    cycle_id = len(entries) + 1
+    entry = {
+        "generated_at": _utcnow(),
+        "cycle_id": cycle_id,
+        "gate_verdict": str(performance_gate.get("gate_verdict") or "hold"),
+        "ok": bool(performance_gate.get("ok")),
+        "failed_checks": list(performance_gate.get("failed_checks") or []),
+        "reason": str(performance_gate.get("reason") or ""),
+        "baseline_source": str(performance_gate.get("baseline_source") or "unknown"),
+        "processed_count": int(processed_count),
+        "ast_context": {
+            "enabled": bool(include_ast_context),
+            "file_limit": ast_file_limit,
+            "dataset_rows": int((dataset_summary or {}).get("total_rows", 0) or 0),
+            "ast_context_records": int((dataset_summary or {}).get("ast_context_records", 0) or 0),
+        },
+        "cadence_window": {
+            "start_cycle": cycle_id,
+            "end_cycle": cycle_id,
+            "non_overlapping": True,
+        },
+    }
+    entries.append(entry)
+    if len(entries) > PERFORMANCE_GATE_HISTORY_MAX_ENTRIES:
+        entries = entries[-PERFORMANCE_GATE_HISTORY_MAX_ENTRIES:]
+    payload = {
+        "ok": True,
+        "artifact_path": _repo_rel(PERFORMANCE_GATE_HISTORY_PATH),
+        "entry_count": len(entries),
+        "entries": entries,
+    }
+    _write_json(PERFORMANCE_GATE_HISTORY_PATH, payload)
+    return _performance_gate_history_snapshot(entries=entries, recent_limit=12)
+
+
+def _performance_gate_history_snapshot(
+    *,
+    entries: list[dict[str, Any]] | None = None,
+    recent_limit: int = 12,
+) -> dict[str, Any]:
+    source_entries = entries if entries is not None else _load_performance_gate_history()
+    recent_entries = [dict(item) for item in source_entries[-max(1, int(recent_limit)):]]
+    return {
+        "artifact_path": _repo_rel(PERFORMANCE_GATE_HISTORY_PATH),
+        "entry_count": len(source_entries),
+        "recent_entries": recent_entries,
+        "cadence_windows": _build_cadence_windows(recent_entries),
+        "latest": dict(recent_entries[-1]) if recent_entries else {},
     }
 
 
@@ -1218,7 +1319,13 @@ def get_merlin_lane_progress_ledgers(*, session: MerlinSession, limit: int = 5) 
     }
 
 
-def run_merlin_training_cycle(*, session: MerlinSession, limit: int | None = None) -> dict[str, Any]:
+def run_merlin_training_cycle(
+    *,
+    session: MerlinSession,
+    limit: int | None = None,
+    include_ast_context: bool = False,
+    ast_file_limit: int | None = None,
+) -> dict[str, Any]:
     latest = _latest_receipts_by_queue(session)
     pending = []
     for item in _queue_blueprint():
@@ -1229,7 +1336,28 @@ def run_merlin_training_cycle(*, session: MerlinSession, limit: int | None = Non
     queue_before = build_merlin_training_execution_queue(session=session, limit=limit)
     selected = _round_robin_queue_items(pending, limit=limit)
     receipts = [_execute_queue_item(item, session=session) for item in selected]
+    dataset_summary: dict[str, Any] = {}
+    if bool(include_ast_context):
+        dataset_bundle = build_training_dataset_bundle(
+            limit=limit,
+            compiled_insights=session.get_compiled_training_insights(),
+            include_ast_context=True,
+            ast_file_limit=ast_file_limit,
+        )
+        dataset_summary = {
+            "ok": bool(dataset_bundle.get("ok")),
+            "total_rows": int(dataset_bundle.get("total_rows", 0) or 0),
+            "family_count": int(dataset_bundle.get("family_count", 0) or 0),
+            "ast_context_records": int(dataset_bundle.get("ast_context_records", 0) or 0),
+        }
     performance_gate = _build_performance_gate_from_receipts(session)
+    gate_history = _record_performance_gate_history(
+        performance_gate=performance_gate,
+        include_ast_context=bool(include_ast_context),
+        ast_file_limit=ast_file_limit,
+        processed_count=len(receipts),
+        dataset_summary=dataset_summary,
+    )
     promotion_blockers = list(performance_gate.get("failed_checks") or [])
     if not performance_gate.get("ok"):
         promotion_blockers.append(str(performance_gate.get("reason") or "performance_gate_not_ready"))
@@ -1242,6 +1370,12 @@ def run_merlin_training_cycle(*, session: MerlinSession, limit: int | None = Non
         "receipts": receipts,
         "queue_after": build_merlin_training_execution_queue(session=session, limit=limit),
         "performance_gate": performance_gate,
+        "performance_gate_history": gate_history,
+        "ast_context": {
+            "enabled": bool(include_ast_context),
+            "file_limit": ast_file_limit,
+            "dataset_summary": dataset_summary,
+        },
         "promotion_blockers": sorted({item for item in promotion_blockers if str(item).strip()}),
         "lane_progress": get_merlin_lane_progress_ledgers(session=session, limit=5),
         "challenge_pack": get_merlin_training_challenge_pack(session=session, limit=12),
@@ -1255,6 +1389,8 @@ def build_merlin_training_execution_bundle(
     session: MerlinSession,
     limit: int | None = None,
     refresh_lane_e_profiles: bool = False,
+    include_ast_context: bool = False,
+    ast_file_limit: int | None = None,
 ) -> dict[str, Any]:
     lane_e_profile_payload = get_merlin_lane_e_runtime_profiles(refresh=bool(refresh_lane_e_profiles))
     lane_e_runtime_profiles = dict(lane_e_profile_payload.get("runtime_profiles") or {})
@@ -1274,10 +1410,21 @@ def build_merlin_training_execution_bundle(
             "queue_after": build_merlin_training_execution_queue(session=session, limit=limit),
             "lane_progress": get_merlin_lane_progress_ledgers(session=session, limit=5),
             "retained_memory_state": session.get_public_memory_state(),
+            "performance_gate_history": _performance_gate_history_snapshot(recent_limit=12),
+            "ast_context": {
+                "enabled": bool(include_ast_context),
+                "file_limit": ast_file_limit,
+                "dataset_summary": {},
+            },
             "honesty_note": "Previously retained training receipts were reused for this export bundle.",
         }
     else:
-        cycle = run_merlin_training_cycle(session=session, limit=limit)
+        cycle = run_merlin_training_cycle(
+            session=session,
+            limit=limit,
+            include_ast_context=bool(include_ast_context),
+            ast_file_limit=ast_file_limit,
+        )
     return {
         "ok": True,
         "generated_at": _utcnow(),
@@ -1285,6 +1432,8 @@ def build_merlin_training_execution_bundle(
         "lane_e_profile_refresh_requested": bool(refresh_lane_e_profiles),
         "lane_e_runtime_profile_artifact_path": str(lane_e_profile_payload.get("artifact_path") or _repo_rel(LANE_E_PROFILE_ARTIFACT_PATH)),
         "lane_e_runtime_profile_artifact_exists": bool(lane_e_profile_payload.get("artifact_exists", LANE_E_PROFILE_ARTIFACT_PATH.exists())),
+        "performance_gate_history_artifact_path": _repo_rel(PERFORMANCE_GATE_HISTORY_PATH),
+        "performance_gate_history_artifact_exists": PERFORMANCE_GATE_HISTORY_PATH.exists(),
         "lane_e_runtime_profiles": lane_e_runtime_profiles,
         "training_execution_queue": build_merlin_training_execution_queue(session=session, limit=24),
         "lane_progress_ledgers": get_merlin_lane_progress_ledgers(session=session, limit=5),

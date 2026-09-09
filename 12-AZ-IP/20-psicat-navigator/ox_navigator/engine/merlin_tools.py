@@ -44,6 +44,7 @@ from .merlin_benchmark import (
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
+    build_ast_context_training_records,
     get_backend_expansion_policy,
     get_merlin_adversarial_growth_lane,
     get_merlin_applications_tools_lane,
@@ -177,6 +178,26 @@ _LIMIT_SYNC_REFRESH_ARGS_SCHEMA = {
         "limit": {"type": "integer"},
         "sync_checks_ok": {"type": "boolean"},
         "refresh_lane_e_profiles": {"type": "boolean"},
+    },
+    "additionalProperties": False,
+}
+_LIMIT_AST_ARGS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "limit": {"type": "integer"},
+        "include_ast_context": {"type": "boolean"},
+        "ast_file_limit": {"type": "integer"},
+    },
+    "additionalProperties": False,
+}
+_LIMIT_SYNC_REFRESH_AST_ARGS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "limit": {"type": "integer"},
+        "sync_checks_ok": {"type": "boolean"},
+        "refresh_lane_e_profiles": {"type": "boolean"},
+        "include_ast_context": {"type": "boolean"},
+        "ast_file_limit": {"type": "integer"},
     },
     "additionalProperties": False,
 }
@@ -363,6 +384,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinValidationResiliencePacket", "summary": "Return repo-size mitigation actions and CodeQL scope-reduction strategy for validation resilience", "domain": "functions"},
             {"name": "getMerlinTrainingDataset", "summary": "Return structured Merlin JSONL-ready training and benchmark dataset bundle", "domain": "functions"},
             {"name": "getMerlinTrainingCuration", "summary": "Return low-token Merlin curation ledger and budget metrics", "domain": "functions"},
+            {"name": "getMerlinAstContextRecords", "summary": "Return deterministic AST-context density training records", "domain": "functions"},
             {"name": "getMerlinMLflowManifests", "summary": "Return MLflow-ready experiment manifests for Merlin training and gates", "domain": "functions"},
             {"name": "getMerlinMemoryState", "summary": "Return Merlin multi-tier memory state", "domain": "functions"},
             {"name": "getMerlinMemoryGeometry", "summary": "Return geometry-constrained memory landmark map", "domain": "functions"},
@@ -415,11 +437,12 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_REFRESH_ARGS_SCHEMA},
+        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_REFRESH_AST_ARGS_SCHEMA},
         "getMerlinNavierStokesMethodTransferPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinPythagoreanTriplesSatMethodTransferPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
-        "getMerlinTrainingDataset": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinTrainingCuration": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingDataset": {"args_schema": _LIMIT_AST_ARGS_SCHEMA},
+        "getMerlinTrainingCuration": {"args_schema": _LIMIT_AST_ARGS_SCHEMA},
+        "getMerlinAstContextRecords": {"args_schema": {"type": "object", "properties": {"file_limit": {"type": "integer"}}, "additionalProperties": False}},
         "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_REFRESH_ARGS_SCHEMA},
         "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinSprintReviewPacket": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
@@ -465,7 +488,7 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinContinuousLearningProtocol": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinTrainingExecutionBundle": {"args_schema": _LIMIT_REFRESH_ARGS_SCHEMA},
+        "getMerlinTrainingExecutionBundle": {"args_schema": _LIMIT_SYNC_REFRESH_AST_ARGS_SCHEMA},
         "getMerlinLaneERuntimeProfiles": {
             "args_schema": {
                 "type": "object",
@@ -476,7 +499,7 @@ def _tool_manifest() -> dict[str, Any]:
             }
         },
         "getMerlinLaneProgressLedgers": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "runMerlinTrainingCycle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "runMerlinTrainingCycle": {"args_schema": _LIMIT_AST_ARGS_SCHEMA},
         "runMerlinTargetedRigorSprint": {
             "args_schema": {
                 "type": "object",
@@ -1011,6 +1034,11 @@ def get_flashcard_categories() -> dict[str, Any]:
     return {"data": {"categories": get_categories(load_flashcards())}}
 
 
+def get_ast_context_records(file_limit: int | None = None) -> dict[str, Any]:
+    records = build_ast_context_training_records(file_limit=file_limit)
+    return {"data": {"record_count": len(records), "records": records}}
+
+
 _FUNCTIONS = {
     "fetchRepoContext": fetch_repo_context,
     "listPillars": list_pillars,
@@ -1084,6 +1112,8 @@ _FUNCTIONS = {
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=args.get("limit"),
         refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
+        include_ast_context=bool(args.get("include_ast_context", False)),
+        ast_file_limit=args.get("ast_file_limit"),
     )},
     "getMerlinLaneERuntimeProfiles": lambda **args: {"data": get_merlin_lane_e_runtime_profiles(
         refresh=bool(args.get("refresh", False)),
@@ -1095,6 +1125,8 @@ _FUNCTIONS = {
     "runMerlinTrainingCycle": lambda **args: {"data": run_merlin_training_cycle(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=args.get("limit"),
+        include_ast_context=bool(args.get("include_ast_context", False)),
+        ast_file_limit=args.get("ast_file_limit"),
     )},
     "getMerlinTrainingChallengePack": lambda **args: {"data": get_merlin_training_challenge_pack(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
@@ -1104,6 +1136,8 @@ _FUNCTIONS = {
     "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(
         limit=args.get("limit"),
         refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
+        include_ast_context=bool(args.get("include_ast_context", False)),
+        ast_file_limit=args.get("ast_file_limit"),
     )},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
     "getMerlinBackendPolicy": lambda **args: {"data": get_backend_expansion_policy()},
@@ -1175,8 +1209,17 @@ _FUNCTIONS = {
     "getMerlinHardwareArchitectureBoard": lambda **args: {"data": get_merlin_hardware_architecture_board(limit=args.get("limit"))},
     "getMerlinExecutionBoard": lambda **args: {"data": get_merlin_execution_board(limit=args.get("limit"))},
     "getMerlinValidationResiliencePacket": lambda **args: {"data": get_merlin_validation_resilience_packet(limit=args.get("limit"))},
-    "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(limit=args.get("limit"))},
-    "getMerlinTrainingCuration": lambda **args: {"data": get_training_curation_ledger(limit=args.get("limit"))},
+    "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(
+        limit=args.get("limit"),
+        include_ast_context=bool(args.get("include_ast_context", False)),
+        ast_file_limit=args.get("ast_file_limit"),
+    )},
+    "getMerlinTrainingCuration": lambda **args: {"data": get_training_curation_ledger(
+        limit=args.get("limit"),
+        include_ast_context=bool(args.get("include_ast_context", False)),
+        ast_file_limit=args.get("ast_file_limit"),
+    )},
+    "getMerlinAstContextRecords": lambda **args: get_ast_context_records(file_limit=args.get("file_limit")),
     "getMerlinMLflowManifests": lambda **args: {"data": get_mlflow_experiment_manifests(
         limit=args.get("limit"),
         refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),

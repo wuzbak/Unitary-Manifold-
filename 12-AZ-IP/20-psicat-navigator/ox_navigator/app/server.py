@@ -28,6 +28,7 @@ from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
 from ox_navigator.engine.merlin_runtime import empirical_observatory_check, get_client_blind_ingestion_contract, get_observatory_ingestion_lane
 from ox_navigator.engine.merlin_research_cycle import run_research_cycle
 from ox_navigator.engine.merlin_program import (
+    build_ast_context_training_records,
     build_training_artifact_bundle,
     build_training_dataset_bundle,
     get_mlflow_experiment_manifests,
@@ -63,6 +64,7 @@ from ox_navigator.engine.merlin_program import (
     get_regulatory_change_watch,
     get_identity_and_trust_policy,
     get_trust_source_library,
+    get_training_curation_ledger,
     get_training_architecture,
     get_program_office,
     get_sentinel_enforcement_policy,
@@ -154,6 +156,19 @@ def _parse_positive_int_query_param(
     if value is None or value < 1:
         return None, f"Query parameter '{name}' must be >= 1."
     return value, None
+
+
+def _parse_bool_query_param(
+    params: dict[str, list[str]],
+    name: str,
+    default: bool,
+) -> tuple[bool | None, str | None]:
+    raw = str((params.get(name) or [str(default).lower()])[0]).strip().lower()
+    if raw in {'1', 'true', 'yes', 'on'}:
+        return True, None
+    if raw in {'0', 'false', 'no', 'off', ''}:
+        return False, None
+    return None, f"Parameter '{name}' must be a boolean-like value."
 
 
 def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
@@ -636,8 +651,23 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
+                include_ast_context, include_error = _parse_bool_query_param(params, 'include_ast_context', False)
+                if include_error:
+                    self._json({'ok': False, 'error': include_error}, status=400)
+                    return
+                ast_file_limit = None
+                if include_ast_context and 'ast_file_limit' in params:
+                    ast_file_limit, ast_error = _parse_positive_int_query_param(params, 'ast_file_limit', 120)
+                    if ast_error:
+                        self._json({'ok': False, 'error': ast_error}, status=400)
+                        return
                 compiled = merlin_session.get_compiled_training_insights()
-                dataset_payload = build_training_dataset_bundle(limit=limit, compiled_insights=compiled)
+                dataset_payload = build_training_dataset_bundle(
+                    limit=limit,
+                    compiled_insights=compiled,
+                    include_ast_context=bool(include_ast_context),
+                    ast_file_limit=ast_file_limit,
+                )
                 self._json(dataset_payload, status=200 if dataset_payload.get('ok') else 422)
                 self._persist_session(session_id, merlin_session)
                 return
@@ -646,16 +676,22 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                routed = route_tool(
-                    'getMerlinTrainingCuration',
-                    {'limit': limit},
-                    session=merlin_session,
-                )
-                if not routed.get('ok'):
-                    self._json({'ok': False, 'error': routed.get('error', 'Merlin tool call failed.')}, status=500)
-                    self._persist_session(session_id, merlin_session)
+                include_ast_context, include_error = _parse_bool_query_param(params, 'include_ast_context', False)
+                if include_error:
+                    self._json({'ok': False, 'error': include_error}, status=400)
                     return
-                curation_payload = dict(((routed.get('result') or {}).get('data') or {}))
+                ast_file_limit = None
+                if include_ast_context and 'ast_file_limit' in params:
+                    ast_file_limit, ast_error = _parse_positive_int_query_param(params, 'ast_file_limit', 120)
+                    if ast_error:
+                        self._json({'ok': False, 'error': ast_error}, status=400)
+                        return
+                curation_payload = get_training_curation_ledger(
+                    limit=limit,
+                    compiled_insights=merlin_session.get_compiled_training_insights(),
+                    include_ast_context=bool(include_ast_context),
+                    ast_file_limit=ast_file_limit,
+                )
                 if 'ok' not in curation_payload or 'curation_ledger' not in curation_payload:
                     self._json({'ok': False, 'error': 'Merlin tool returned malformed curation payload.'}, status=500)
                     self._persist_session(session_id, merlin_session)
@@ -666,6 +702,22 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     'validation_error_count': int(curation_payload.get('validation_error_count', 0) or 0),
                     'error': curation_payload.get('error'),
                 }, status=200 if curation_payload.get('ok') else 422)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/ast-context-records':
+                file_limit, error = _parse_positive_int_query_param(params, 'file_limit', 120)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                records = build_ast_context_training_records(file_limit=file_limit)
+                self._json({
+                    'ok': True,
+                    'ast_context_records': {
+                        'record_count': len(records),
+                        'file_limit': file_limit,
+                        'preview': records[:25],
+                    },
+                })
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/domain-benchmark-corpus':
@@ -770,17 +822,28 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                refresh_raw = str((params.get('refresh_lane_e_profiles') or ['false'])[0]).strip().lower()
-                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
-                    self._json({'ok': False, 'error': "Parameter 'refresh_lane_e_profiles' must be a boolean-like value."}, status=400)
+                refresh, refresh_error = _parse_bool_query_param(params, 'refresh_lane_e_profiles', False)
+                if refresh_error:
+                    self._json({'ok': False, 'error': refresh_error}, status=400)
                     return
-                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
+                include_ast_context, include_error = _parse_bool_query_param(params, 'include_ast_context', False)
+                if include_error:
+                    self._json({'ok': False, 'error': include_error}, status=400)
+                    return
+                ast_file_limit = None
+                if include_ast_context and 'ast_file_limit' in params:
+                    ast_file_limit, ast_error = _parse_positive_int_query_param(params, 'ast_file_limit', 120)
+                    if ast_error:
+                        self._json({'ok': False, 'error': ast_error}, status=400)
+                        return
                 self._json({
                 'ok': True,
                 'training_execution_bundle': build_merlin_training_execution_bundle(
                     session=merlin_session,
                     limit=limit,
-                    refresh_lane_e_profiles=refresh,
+                    refresh_lane_e_profiles=bool(refresh),
+                    include_ast_context=bool(include_ast_context),
+                    ast_file_limit=ast_file_limit,
                 ),
                 })
                 self._persist_session(session_id, merlin_session)
@@ -1125,15 +1188,26 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                refresh_raw = str((params.get('refresh_lane_e_profiles') or ['false'])[0]).strip().lower()
-                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
-                    self._json({'ok': False, 'error': "Parameter 'refresh_lane_e_profiles' must be a boolean-like value."}, status=400)
+                refresh, refresh_error = _parse_bool_query_param(params, 'refresh_lane_e_profiles', False)
+                if refresh_error:
+                    self._json({'ok': False, 'error': refresh_error}, status=400)
                     return
-                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
+                include_ast_context, include_error = _parse_bool_query_param(params, 'include_ast_context', False)
+                if include_error:
+                    self._json({'ok': False, 'error': include_error}, status=400)
+                    return
+                ast_file_limit = None
+                if include_ast_context and 'ast_file_limit' in params:
+                    ast_file_limit, ast_error = _parse_positive_int_query_param(params, 'ast_file_limit', 120)
+                    if ast_error:
+                        self._json({'ok': False, 'error': ast_error}, status=400)
+                        return
                 payload = build_training_artifact_bundle(
                     limit=limit,
                     compiled_insights=merlin_session.get_compiled_training_insights(),
-                    refresh_lane_e_profiles=refresh,
+                    refresh_lane_e_profiles=bool(refresh),
+                    include_ast_context=bool(include_ast_context),
+                    ast_file_limit=ast_file_limit,
                 )
                 if not payload.get('ok'):
                     self._json({'ok': False, 'error': payload.get('error', 'Unable to build training artifacts.')}, status=500)
@@ -1376,9 +1450,26 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     if limit is not None and limit < 0:
                         self._json({'ok': False, 'error': 'limit must be >= 0 when provided'}, status=400)
                         return
+                    include_ast_context = bool(payload.get('include_ast_context', False))
+                    raw_ast_file_limit = payload.get('ast_file_limit')
+                    ast_file_limit = None
+                    if include_ast_context and raw_ast_file_limit not in (None, ""):
+                        try:
+                            ast_file_limit = int(raw_ast_file_limit)
+                        except (TypeError, ValueError):
+                            self._json({'ok': False, 'error': 'ast_file_limit must be an integer when provided'}, status=400)
+                            return
+                        if ast_file_limit <= 0:
+                            self._json({'ok': False, 'error': 'ast_file_limit must be >= 1 when provided'}, status=400)
+                            return
                     self._json({
                         'ok': True,
-                        'training_cycle': run_merlin_training_cycle(session=merlin_session, limit=limit),
+                        'training_cycle': run_merlin_training_cycle(
+                            session=merlin_session,
+                            limit=limit,
+                            include_ast_context=include_ast_context,
+                            ast_file_limit=ast_file_limit,
+                        ),
                     })
                     return
                 if route_path == '/api/psicat/performance-gate-evaluate':

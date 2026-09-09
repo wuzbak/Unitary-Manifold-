@@ -117,6 +117,9 @@ def test_export_training_artifacts_script(tmp_path, monkeypatch):
             '--output',
             str(output_path),
             '--refresh-lane-e-profiles',
+            '--include-ast-context',
+            '--ast-file-limit',
+            '20',
         ],
     )
     assert module.main() == 0
@@ -128,6 +131,8 @@ def test_export_training_artifacts_script(tmp_path, monkeypatch):
     assert payload['artifact_bundle']['training_execution_bundle_preview']['lane_e_runtime_profile_artifact_path'].endswith(
         'lane_e_runtime_profiles.json'
     )
+    assert payload['artifact_bundle']['training_dataset']['ast_context_density']['enabled'] is True
+    assert payload['artifact_bundle']['training_dataset']['counts']['ast_context_records'] > 0
 
 
 def test_export_training_jsonl_script(tmp_path, monkeypatch):
@@ -163,6 +168,33 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
     assert len(exported_rows) == manifest["dataset"]["counts"]["kernel_benchmark_records"][stage]["kernel_s"]
 
 
+def test_export_training_jsonl_script_with_ast_context(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_training_jsonl.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_training_jsonl', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_dir = tmp_path / 'training_jsonl_ast'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'export_merlin_training_jsonl.py',
+            '--limit',
+            '4',
+            '--include-ast-context',
+            '--ast-file-limit',
+            '18',
+            '--output-dir',
+            str(output_dir),
+        ],
+    )
+    assert module.main() == 0
+    manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
+    assert manifest['dataset']['ast_context_density']['enabled'] is True
+    assert manifest['dataset']['counts']['ast_context_records'] > 0
+
+
 def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
     script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_mlflow_manifests.py'
     spec = importlib.util.spec_from_file_location('export_merlin_mlflow_manifests', script_path)
@@ -195,7 +227,17 @@ def test_export_training_execution_script(tmp_path, monkeypatch):
     monkeypatch.setattr(
         sys,
         'argv',
-        ['export_merlin_training_execution.py', '--limit', '3', '--refresh-lane-e-profiles', '--output', str(output_path)],
+        [
+            'export_merlin_training_execution.py',
+            '--limit',
+            '3',
+            '--refresh-lane-e-profiles',
+            '--include-ast-context',
+            '--ast-file-limit',
+            '25',
+            '--output',
+            str(output_path),
+        ],
     )
     assert module.main() == 0
     payload = json.loads(output_path.read_text())
@@ -203,6 +245,8 @@ def test_export_training_execution_script(tmp_path, monkeypatch):
     assert payload['execution_cycle']['processed_count'] == 3
     assert payload['lane_progress_ledgers']['overall']['completed_count'] == 3
     assert payload['lane_e_profile_refresh_requested'] is True
+    assert payload['execution_cycle']['ast_context']['enabled'] is True
+    assert payload['execution_cycle']['ast_context']['file_limit'] == 25
 
 
 def test_export_lane_e_runtime_profiles_script(tmp_path, monkeypatch):
@@ -241,6 +285,76 @@ def test_export_psicat_spc_phase1_baseline_script(tmp_path, monkeypatch):
     assert payload['ok'] is True
     assert payload['mode'] == 'spc_phase1_baseline_execution'
     assert len(payload['lane_receipts']) == 3
+
+
+def test_export_psicat_ast_context_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_psicat_ast_context.py'
+    spec = importlib.util.spec_from_file_location('export_psicat_ast_context', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'ast_context.jsonl'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_psicat_ast_context.py', '--output', str(output_path), '--file-limit', '30'],
+    )
+    assert module.main() == 0
+    lines = [line for line in output_path.read_text(encoding='utf-8').splitlines() if line.strip()]
+    assert len(lines) > 10
+    rows = [json.loads(line) for line in lines]
+    assert any(row.get('task_family') == 'ast_context_density' for row in rows)
+    assert any((row.get('response_target') or {}).get('kind') == 'axiomzero_tool_definition' for row in rows)
+
+
+def test_dynamic_batch_sweep_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'run_psicat_dynamic_batch_sweeps.py'
+    spec = importlib.util.spec_from_file_location('run_psicat_dynamic_batch_sweeps', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'sweep.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'run_psicat_dynamic_batch_sweeps.py',
+            '--batch-sizes',
+            '8,16',
+            '--grad-accum-steps',
+            '1,2',
+            '--limit',
+            '1',
+            '--output',
+            str(output_path),
+        ],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text(encoding='utf-8'))
+    assert payload['ok'] is True
+    assert payload['final_gate']['gate_verdict'] == 'pass'
+    assert payload['sweep_summary']['total_rows'] == 4
+
+
+def test_training_execution_trace_scan_script(tmp_path):
+    script_path = PRODUCT_ROOT / 'tools' / 'check_training_execution_traces.py'
+    spec = importlib.util.spec_from_file_location('check_training_execution_traces', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    clean = tmp_path / 'clean.json'
+    clean.write_text('{"ok":true}\n', encoding='utf-8')
+    dirty = tmp_path / 'dirty.json'
+    dirty.write_text('{"token":"OPENROUTER_API_KEY"}\n', encoding='utf-8')
+    assert module.main.__call__ is not None
+    old_argv = list(sys.argv)
+    try:
+        sys.argv = ['check_training_execution_traces.py', str(clean)]
+        assert module.main() == 0
+        sys.argv = ['check_training_execution_traces.py', str(clean), str(dirty)]
+        assert module.main() == 1
+    finally:
+        sys.argv = old_argv
 
 
 def test_diff_psicat_spc_phase1_receipts_script(tmp_path, monkeypatch):
@@ -2109,6 +2223,13 @@ def test_server_merlin_endpoints():
             assert training_dataset.json()['dataset']['counts']['total_training_records'] == 4
             assert 'compile_time_insight_records' in training_dataset.json()['dataset']['counts']
             assert training_dataset.json()['dataset']['curation_ledger']['accepted_sample_quality_mean'] > 0
+            training_dataset_ast = client.get('/api/merlin/training-dataset?limit=4&include_ast_context=true&ast_file_limit=20')
+            assert training_dataset_ast.status_code == 200
+            assert training_dataset_ast.json()['ok'] is True
+            assert training_dataset_ast.json()['dataset']['ast_context_density']['enabled'] is True
+            assert training_dataset_ast.json()['dataset']['counts']['ast_context_records'] > 0
+            bad_dataset_ast_toggle = client.get('/api/merlin/training-dataset?include_ast_context=maybe')
+            assert bad_dataset_ast_toggle.status_code == 400
 
             training_curation = client.get('/api/merlin/training-curation?limit=4')
             assert training_curation.status_code == 200
@@ -2116,6 +2237,15 @@ def test_server_merlin_endpoints():
             assert training_curation.json()['training_curation']['budget_doctrine']['current_cycle_mode'] == 'local_only'
             assert training_curation.json()['training_curation']['token_budget']['external_tokens_spent_total'] == 0
             assert training_curation.json()['training_curation']['token_budget']['freeze_external_generation'] is True
+            training_curation_ast = client.get('/api/merlin/training-curation?limit=4&include_ast_context=true&ast_file_limit=20')
+            assert training_curation_ast.status_code == 200
+            assert training_curation_ast.json()['ok'] is True
+
+            ast_context_records = client.get('/api/merlin/ast-context-records?file_limit=18')
+            assert ast_context_records.status_code == 200
+            assert ast_context_records.json()['ok'] is True
+            assert ast_context_records.json()['ast_context_records']['record_count'] > 0
+            assert ast_context_records.json()['ast_context_records']['file_limit'] == 18
 
             open_science_registry = client.get('/api/merlin/open-science-registry')
             assert open_science_registry.status_code == 200
@@ -2246,17 +2376,25 @@ def test_server_merlin_endpoints():
             assert training_execution_queue.status_code == 200
             assert training_execution_queue.json()['ok'] is True
             assert training_execution_queue.json()['training_execution_queue']['queued_count'] >= 4
-            training_execution_bundle = client.get('/api/merlin/training-execution-bundle?limit=3&refresh_lane_e_profiles=true')
+            training_execution_bundle = client.get(
+                '/api/merlin/training-execution-bundle?limit=3&refresh_lane_e_profiles=true&include_ast_context=true&ast_file_limit=20'
+            )
             assert training_execution_bundle.status_code == 200
             assert training_execution_bundle.json()['ok'] is True
             assert training_execution_bundle.json()['training_execution_bundle']['ok'] is True
             assert training_execution_bundle.json()['training_execution_bundle']['execution_cycle']['processed_count'] == 3
             assert training_execution_bundle.json()['training_execution_bundle']['lane_e_profile_refresh_requested'] is True
+            assert training_execution_bundle.json()['training_execution_bundle']['execution_cycle']['ast_context']['enabled'] is True
             assert training_execution_bundle.json()['training_execution_bundle']['lane_e_runtime_profile_artifact_path'].endswith(
                 'lane_e_runtime_profiles.json'
             )
+            assert training_execution_bundle.json()['training_execution_bundle']['performance_gate_history_artifact_path'].endswith(
+                'performance_gate_history.json'
+            )
             bad_training_execution_bundle_refresh = client.get('/api/merlin/training-execution-bundle?refresh_lane_e_profiles=maybe')
             assert bad_training_execution_bundle_refresh.status_code == 400
+            bad_training_execution_bundle_ast = client.get('/api/merlin/training-execution-bundle?include_ast_context=true&ast_file_limit=0')
+            assert bad_training_execution_bundle_ast.status_code == 400
             lane_e_runtime_profiles = client.get('/api/merlin/lane-e-runtime-profiles')
             assert lane_e_runtime_profiles.status_code == 200
             assert lane_e_runtime_profiles.json()['ok'] is True
@@ -2266,11 +2404,16 @@ def test_server_merlin_endpoints():
             )
             bad_lane_e_runtime_profiles = client.get('/api/merlin/lane-e-runtime-profiles?refresh=maybe')
             assert bad_lane_e_runtime_profiles.status_code == 400
-            training_cycle = client.post('/api/merlin/training-cycle', json={'limit': 3})
+            training_cycle = client.post(
+                '/api/merlin/training-cycle',
+                json={'limit': 3, 'include_ast_context': True, 'ast_file_limit': 16},
+            )
             assert training_cycle.status_code == 200
             assert training_cycle.json()['ok'] is True
             assert training_cycle.json()['training_cycle']['processed_count'] == 3
             assert training_cycle.json()['training_cycle']['performance_gate']['gate_verdict'] in {'pass', 'hold'}
+            assert training_cycle.json()['training_cycle']['ast_context']['enabled'] is True
+            assert training_cycle.json()['training_cycle']['performance_gate_history']['entry_count'] >= 1
             lane_progress = client.get('/api/merlin/lane-progress-ledgers?limit=3')
             assert lane_progress.status_code == 200
             assert lane_progress.json()['ok'] is True
@@ -2403,8 +2546,17 @@ def test_server_merlin_endpoints():
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview'][
                 'lane_e_runtime_profile_artifact_path'
             ].endswith('lane_e_runtime_profiles.json')
+            training_artifacts_ast = client.get(
+                '/api/merlin/training-artifacts?limit=4&refresh_lane_e_profiles=true&include_ast_context=true&ast_file_limit=24'
+            )
+            assert training_artifacts_ast.status_code == 200
+            assert training_artifacts_ast.json()['ok'] is True
+            assert training_artifacts_ast.json()['training_artifacts']['training_dataset']['ast_context_density']['enabled'] is True
+            assert training_artifacts_ast.json()['training_artifacts']['training_dataset']['counts']['ast_context_records'] > 0
             bad_training_artifact_refresh = client.get('/api/merlin/training-artifacts?refresh_lane_e_profiles=maybe')
             assert bad_training_artifact_refresh.status_code == 400
+            bad_training_artifact_ast = client.get('/api/merlin/training-artifacts?include_ast_context=maybe')
+            assert bad_training_artifact_ast.status_code == 400
             assert 'hardware_architecture_board' in training_artifacts.json()['training_artifacts']
 
             empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
@@ -2430,6 +2582,9 @@ def test_server_merlin_endpoints():
             bad_training_curation_limit = client.get('/api/merlin/training-curation?limit=abc')
             assert bad_training_curation_limit.status_code == 400
             assert bad_training_curation_limit.json()['ok'] is False
+            bad_ast_limit = client.get('/api/merlin/ast-context-records?file_limit=0')
+            assert bad_ast_limit.status_code == 400
+            assert bad_ast_limit.json()['ok'] is False
 
             packet = client.get('/api/merlin/promotion-packet')
             assert packet.status_code == 200
@@ -2621,7 +2776,7 @@ def test_server_training_export_validation_failures_return_422(monkeypatch):
     monkeypatch.setattr(
         server_module,
         'build_training_dataset_bundle',
-        lambda limit=None, compiled_insights=None: {
+        lambda limit=None, compiled_insights=None, include_ast_context=False, ast_file_limit=None: {
             'ok': False,
             'error': 'Dataset validation failed.',
             'validation_error_count': 1,
@@ -2630,17 +2785,12 @@ def test_server_training_export_validation_failures_return_422(monkeypatch):
     )
     monkeypatch.setattr(
         server_module,
-        'route_tool',
-        lambda tool, args=None, session=None: {
-            'ok': True,
-            'result': {
-                'data': {
-                    'ok': False,
-                    'error': 'Dataset validation failed.',
-                    'validation_error_count': 1,
-                    'curation_ledger': {},
-                }
-            },
+        'get_training_curation_ledger',
+        lambda limit=None, compiled_insights=None, include_ast_context=False, ast_file_limit=None: {
+            'ok': False,
+            'error': 'Dataset validation failed.',
+            'validation_error_count': 1,
+            'curation_ledger': {},
         },
     )
 
@@ -2669,8 +2819,8 @@ def test_server_training_curation_malformed_tool_payload_returns_500(monkeypatch
 
     monkeypatch.setattr(
         server_module,
-        'route_tool',
-        lambda tool, args=None, session=None: {'ok': True, 'result': {'data': {}}},
+        'get_training_curation_ledger',
+        lambda limit=None, compiled_insights=None, include_ast_context=False, ast_file_limit=None: {},
     )
 
     httpd = serve(port=0)
