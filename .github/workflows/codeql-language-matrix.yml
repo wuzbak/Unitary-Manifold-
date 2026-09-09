@@ -43,6 +43,22 @@ jobs:
                   "paths": ["src", "tests", "recycling", "claims"],
               },
               {
+                  "slice_id": "python-psicat-runtime",
+                  "language": "python",
+                  "paths": [
+                      "12-AZ-IP/20-psicat-navigator/ox_navigator/app",
+                      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine",
+                  ],
+              },
+              {
+                  "slice_id": "python-psicat-tests-tools",
+                  "language": "python",
+                  "paths": [
+                      "12-AZ-IP/20-psicat-navigator/tests",
+                      "12-AZ-IP/20-psicat-navigator/tools",
+                  ],
+              },
+              {
                   "slice_id": "python-product20",
                   "language": "python",
                   "paths": ["12-AZ-IP/20-psicat-navigator", "TOOLS/checks"],
@@ -100,20 +116,36 @@ jobs:
 
           include = []
           for item in selected:
+              paths_yaml = "\n".join(f"  - {path}" for path in item["paths"])
               include.append(
                   {
                       "slice_id": item["slice_id"],
                       "language": item["language"],
-                      "paths_yaml": "\n".join(item["paths"]),
+                      "paths_yaml": paths_yaml,
                   }
               )
 
           payload = {"include": include}
+          scope_manifest = {
+              "event_name": event_name,
+              "base_ref": os.environ.get("BASE_REF", ""),
+              "before_sha": os.environ.get("BEFORE_SHA", ""),
+              "changed_files_count": len(changed_files),
+              "changed_files": changed_files,
+              "selected_slice_ids": [item["slice_id"] for item in include],
+          }
+          Path("codeql_pr_scope_manifest.json").write_text(json.dumps(scope_manifest, indent=2), encoding="utf-8")
           github_output = Path(os.environ["GITHUB_OUTPUT"])
           with github_output.open("a", encoding="utf-8") as fh:
               fh.write(f"has_work={'true' if include else 'false'}\n")
               fh.write(f"matrix={json.dumps(payload)}\n")
           PY
+      - name: Upload PR scope manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-pr-scope-manifest
+          path: codeql_pr_scope_manifest.json
+          if-no-files-found: error
 
   duckdb-preflight:
     name: DuckDB preflight inventory
@@ -217,7 +249,7 @@ jobs:
           languages: ${{ matrix.language }}
           config: |
             paths:
-              ${{ matrix.paths_yaml }}
+            ${{ matrix.paths_yaml }}
             paths-ignore:
               - "**/*.md"
               - "**/*.txt"

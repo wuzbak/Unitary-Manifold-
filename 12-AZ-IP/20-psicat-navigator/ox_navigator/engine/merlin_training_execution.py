@@ -17,6 +17,7 @@ from .merlin_memory import MerlinSession
 from .merlin_meta_learning import analyze_depth, consolidate_memory, generate_falsification_oracle, run_self_audit
 from .merlin_program import build_merlin_continuous_learning_queue
 from src.core.navier_stokes_method_transfer import CURRICULUM_PACKET_PATH, INTAKE_PACKET_PATH
+from src.core.pythagorean_triples_sat_method_transfer import INTAKE_PACKET_PATH as SAT_INTAKE_PACKET_PATH
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
@@ -98,6 +99,10 @@ def _navier_stokes_packet_kind(reference_path: str) -> str | None:
     if target == CURRICULUM_PACKET_PATH:
         return "curriculum_packet"
     return None
+
+
+def _sat_method_transfer_packet(reference_path: str) -> bool:
+    return str(reference_path or "").strip() == SAT_INTAKE_PACKET_PATH
 
 
 def _latest_receipts_by_queue(session: MerlinSession) -> dict[str, dict[str, Any]]:
@@ -644,6 +649,11 @@ def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 1
                 prompt = (
                     f"Summarize the Navier-Stokes method-transfer packet for {item.get('reference_path')}, "
                     "including the non-transfer clause and the four crosswalk questions."
+                )
+            elif _sat_method_transfer_packet(str(item.get("reference_path") or "")):
+                prompt = (
+                    f"Summarize the SAT method-transfer packet for {item.get('reference_path')}, "
+                    "including non-transfer boundaries, certificate verification requirements, and reproducibility receipts."
                 )
             else:
                 prompt = (

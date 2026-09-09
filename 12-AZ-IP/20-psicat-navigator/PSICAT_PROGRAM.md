@@ -78,6 +78,8 @@ This document records the implemented execution blueprint for making Merlin the 
   - `runMerlinResearchCycle`
   - `getMerlinCounterexampleDigest`
   - `getMerlinEnergyLedger`
+  - `getPsiCatSpcPhase0ExecutionPacket`
+  - `runPsiCatSpcPhase1Baseline`
   - Direct API views:
   - `GET /api/merlin/program`
   - `GET /api/merlin/program-office`
@@ -112,6 +114,8 @@ This document records the implemented execution blueprint for making Merlin the 
   - `GET /api/merlin/stage-a-receipts`
   - `GET /api/merlin/replacement-readiness`
   - `GET /api/merlin/review-packet`
+  - `GET /api/merlin/spc-phase0-packet`
+  - `GET /api/merlin/spc-phase1-baseline`
   - `GET /api/merlin/heavy-lane`
   - `GET /api/merlin/model-board`
   - `GET /api/merlin/execution-board`
