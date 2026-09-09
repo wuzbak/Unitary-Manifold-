@@ -14,6 +14,15 @@ term would falsify the radion pressure calculation.*
 
 ---
 
+> **Historical-outreach note (2026-09):** This post is explanatory prose, not the
+> canonical braid-status surface. For current braid-lane scope, external-topology
+> caution, and the primary falsifier packet, defer to
+> `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/1-THEORY/BRAID_DOSSIER.md`,
+> `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/1-THEORY/BRIESKORN_BRIDGE_AUDIT.md`,
+> and `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/3-FALSIFICATION/BRAID_FALSIFIER_PACKET.md`.
+
+---
+
 The first seventeen posts in this series covered the framework's structure. The
 middle stretch — Posts 17 through 29 — explored the domain applications: cold
 fusion, recycling, neuroscience, climate, psychology, genetics, materials, stars.

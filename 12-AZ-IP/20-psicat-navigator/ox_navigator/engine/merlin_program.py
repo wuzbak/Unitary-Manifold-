@@ -48,6 +48,11 @@ SUBSTACK_POSTS_ROOT = SUBSTACK_ROOT / "posts"
 MERLIN_THREE_LANE_DOC = PRODUCT_ROOT / "PSICAT_THREE_LANE_INTENSIVE_SPRINT.md"
 MERLIN_EXECUTION_BOARD_DOC = PRODUCT_ROOT / "PSICAT_EXECUTION_BOARD.md"
 MERLIN_VALIDATION_RESILIENCE_DOC = PRODUCT_ROOT / "PSICAT_VALIDATION_RESILIENCE_PACKET.md"
+PSICAT_SPC_PLAN_DOC = PRODUCT_ROOT / "PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md"
+PSICAT_SPC_GATES_DOC = PRODUCT_ROOT / "PSICAT_SPC_BENCHMARK_GATES.md"
+PSICAT_SPC_PHASE0_PACKET_PATH = (
+    PRODUCT_ROOT / "training" / "training_execution" / "psicat_spc_phase0_execution_packet.json"
+)
 
 
 def _repo_rel(path: Path) -> str:
@@ -269,6 +274,7 @@ MERLIN_KERNEL_TRACK_DEFAULTS: dict[str, str] = {
     "governance_decision_traces": "kernel_g",
     "adversarial_counterexamples": "kernel_g",
     "applications_tool_mastery": "kernel_r",
+    "hardware_topology_and_proof_ops": "kernel_r",
     "books_articles_mastery": "kernel_s",
     "adversarial_self_correction": "kernel_a",
     "continuous_learning_governance": "kernel_g",
@@ -2372,9 +2378,17 @@ def _seed_teacher_trace_distillation_examples() -> list[dict[str, Any]]:
 
 
 def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
+    from src.core.navier_stokes_method_transfer import navier_stokes_method_transfer_packet
+    from src.core.pythagorean_triples_sat_method_transfer import pythagorean_triples_sat_method_transfer_packet
+
     ten_proofs = _repo_rel(REPO_ROOT / "ten-proofs-oai.pdf")
     unit_distance = _repo_rel(REPO_ROOT / "unit-distance-proof.pdf")
     isa_afp = "https://isa-afp.org/"
+    navier_packet = navier_stokes_method_transfer_packet()
+    pythagorean_packet = pythagorean_triples_sat_method_transfer_packet()
+    navier_intake = str((navier_packet.get("local_artifacts") or {}).get("intake_packet") or "")
+    navier_curriculum = str((navier_packet.get("local_artifacts") or {}).get("curriculum_packet") or "")
+    pythagorean_intake = str((pythagorean_packet.get("local_artifacts") or {}).get("intake_packet") or "")
     return [
         {
             "id": "external-proof-transfer-map",
@@ -2389,11 +2403,13 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                     "counterexample and boundary-case pressure testing",
                     "human verification before closure",
                     "sectioned derivation traces with citation anchors",
+                    "machine-checkable proof certificate verification",
                 ],
                 "kernel_mapping": {
                     "kernel_p": "proof obligation and unresolved-assumption tracking",
                     "kernel_a": "contradiction recall and audit trail retention",
                     "kernel_g": "fail-closed non-claim enforcement for uncertain closure",
+                    "kernel_r": "certificate and artifact routing with reproducibility receipts",
                 },
                 "non_claims": [
                     "External proofs do not validate Unitary Manifold physics claims by analogy.",
@@ -2401,7 +2417,7 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                 ],
             },
             "required_gates": ["OPEN_GAP", "GOVERNANCE"],
-            "provenance_sources": [ten_proofs, unit_distance, isa_afp],
+            "provenance_sources": [ten_proofs, unit_distance, isa_afp, pythagorean_intake],
             "supervision_mode": "grounded_supervised_finetuning",
         },
         {
@@ -2424,7 +2440,7 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                 ],
             },
             "required_gates": ["OPEN_GAP"],
-            "provenance_sources": [ten_proofs, unit_distance, isa_afp, _repo_rel(REPO_ROOT / "FALLIBILITY.md")],
+            "provenance_sources": [ten_proofs, unit_distance, isa_afp, pythagorean_intake, _repo_rel(REPO_ROOT / "FALLIBILITY.md")],
             "supervision_mode": "grounded_supervised_finetuning",
         },
         {
@@ -2446,10 +2462,82 @@ def _seed_external_proof_review_examples() -> list[dict[str, Any]]:
                     "stage_c_capability_expansion": "cross-source reasoning and contradiction handling",
                     "stage_d_replacement_gates": "sustained non-overclaim behavior under adversarial prompts",
                 },
+                "external_verification_requirements": [
+                    "capture certificate or checker-verified receipt when available",
+                    "separate solve-output evidence from domain-transfer interpretation",
+                ],
             },
             "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
-            "provenance_sources": [ten_proofs, unit_distance, "getMerlinBenchmarkCorpora"],
+            "provenance_sources": [ten_proofs, unit_distance, pythagorean_intake, "getMerlinBenchmarkCorpora"],
             "supervision_mode": "grounded_supervised_finetuning",
+        },
+        {
+            "id": "navier-stokes-um-leverage-memo",
+            "track": "external_open_science_augmentation",
+            "prompt": (
+                "Extract the Navier-Stokes proof architecture, classify what is constructed versus proved, "
+                "and map it onto the named Unitary Manifold open obligations without claiming closure transfer."
+            ),
+            "target": {
+                "required_outputs": [
+                    "governing_system",
+                    "similarity_coordinates",
+                    "constructs_vs_proves_vs_stability_sensitive",
+                    "um_open_obligation_mapping",
+                    "non_transfer_clause",
+                ],
+                "primary_target": "ACTION_TO_EVOLUTION_EQUIVALENCE",
+                "crosswalk_questions": list(navier_packet.get("crosswalk_questions") or []),
+            },
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [navier_intake, "docs/TRUTH_LAYER.md", "README.md"],
+            "supervision_mode": "grounded_supervised_finetuning",
+        },
+        {
+            "id": "navier-stokes-psicat-adversarial-review",
+            "track": "formal_proof_foundry",
+            "prompt": (
+                "Answer the dedicated Navier-Stokes adversarial review packet with exact non-claims, "
+                "method-transfer boundaries, and retained challenge-pack value for PsiCat."
+            ),
+            "target": {
+                "review_questions": list(navier_packet.get("adversarial_review_questions") or []),
+                "crosswalk_questions": list(navier_packet.get("crosswalk_questions") or []),
+                "scoring_axes": [
+                    "precision",
+                    "boundary_honesty",
+                    "citation_discipline",
+                    "transfer_discipline",
+                    "remediation_value",
+                ],
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [navier_curriculum, navier_intake, "getMerlinTrainingChallengePack"],
+            "supervision_mode": "proof_review_packet_alignment",
+        },
+        {
+            "id": "pythagorean-triples-sat-psicat-adversarial-review",
+            "track": "formal_proof_foundry",
+            "prompt": (
+                "Answer the Pythagorean-triples SAT method-transfer packet with exact non-claims, "
+                "certificate-verification discipline, and reproducibility receipt requirements for PsiCat."
+            ),
+            "target": {
+                "review_questions": list(pythagorean_packet.get("adversarial_review_questions") or []),
+                "crosswalk_questions": list(pythagorean_packet.get("crosswalk_questions") or []),
+                "scoring_axes": [
+                    "encoding_precision",
+                    "certificate_verification_discipline",
+                    "boundary_honesty",
+                    "reproducibility_receipt_quality",
+                    "transfer_discipline",
+                ],
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [pythagorean_intake, "getMerlinTrainingChallengePack"],
+            "supervision_mode": "proof_review_packet_alignment",
         },
     ]
 
@@ -2497,6 +2585,40 @@ def get_formal_proof_foundry_training_bundle(limit: int | None = None) -> dict[s
             "Proof-foundry ingestion tracks reviewer packets, named open gaps, and runtime-boundary "
             "artifacts; it does not claim direct Lean-term execution in PsiCat."
         ),
+    }
+
+
+def get_navier_stokes_method_transfer_packet() -> dict[str, Any]:
+    from src.core.navier_stokes_method_transfer import navier_stokes_method_transfer_packet
+
+    packet = navier_stokes_method_transfer_packet()
+    return {
+        **packet,
+        "tool_surface": "getMerlinNavierStokesMethodTransferPacket",
+        "workflow_surfaces": {
+            "training_architecture": "getMerlinTrainingArchitecture",
+            "training_execution_queue": "getMerlinTrainingExecutionQueue",
+            "training_cycle": "runMerlinTrainingCycle",
+            "challenge_pack": "getMerlinTrainingChallengePack",
+            "sprint_review_packet": "getMerlinSprintReviewPacket",
+        },
+    }
+
+
+def get_pythagorean_triples_sat_method_transfer_packet() -> dict[str, Any]:
+    from src.core.pythagorean_triples_sat_method_transfer import pythagorean_triples_sat_method_transfer_packet
+
+    packet = pythagorean_triples_sat_method_transfer_packet()
+    return {
+        **packet,
+        "tool_surface": "getMerlinPythagoreanTriplesSatMethodTransferPacket",
+        "workflow_surfaces": {
+            "training_architecture": "getMerlinTrainingArchitecture",
+            "training_execution_queue": "getMerlinTrainingExecutionQueue",
+            "training_cycle": "runMerlinTrainingCycle",
+            "challenge_pack": "getMerlinTrainingChallengePack",
+            "sprint_review_packet": "getMerlinSprintReviewPacket",
+        },
     }
 
 
@@ -2926,6 +3048,52 @@ def _seed_performance_lane_examples() -> list[dict[str, Any]]:
     ]
 
 
+def _seed_hardware_topology_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "hardware-topology-proof-frontier-001",
+            "track": "hardware_topology_and_proof_ops",
+            "prompt": (
+                "Design a PsiCat deployment topology that separates compact routing, default reasoning, heavy reasoning, "
+                "training ablations, and Lean4 proof-operations while keeping the current proof-foundry honesty boundary explicit."
+            ),
+            "target": (
+                "Use a lightweight always-on control plane for routing and telemetry, a separate default reasoning lane for normal "
+                "repository work, an isolated heavy lane for hard cases, a non-serving training lane for LoRA/QLoRA experiments, "
+                "and a proof-operations lane dedicated to scoped Lean receipts and reviewer packets. Keep the proof-operations lane "
+                "aligned with the current manual-port-with-traceability boundary rather than claiming direct Lean execution inside PsiCat."
+            ),
+            "supervision_mode": "hardware_topology_planning",
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [
+                _repo_rel(PRODUCT_ROOT / "README.md"),
+                "getMerlinHardwareArchitectureBoard",
+                "src/core/formal_traceability_spine.py",
+            ],
+        },
+        {
+            "id": "hardware-topology-proof-frontier-002",
+            "track": "hardware_topology_and_proof_ops",
+            "prompt": (
+                "A steward asks whether PsiCat should spend scarce accelerator budget on heavy inference or on proof-review operations first. "
+                "Answer with a fail-closed priority recommendation."
+            ),
+            "target": (
+                "Prioritize default reasoning stability and proof-review operations before scaling the heavy lane. The heavy lane should expand "
+                "only after default-lane receipts, proof packet throughput, and frontier blocker handling are already stable, because the current "
+                "master-theorem frontier is still blocker-gated and gains more from disciplined review throughput than from speculative high-cost inference."
+            ),
+            "supervision_mode": "governed_hardware_prioritization",
+            "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+            "provenance_sources": [
+                "getMerlinExecutionBoard",
+                "getMerlinHardwareArchitectureBoard",
+                "proof/FORMAL_PROOF_FOUNDRY.md",
+            ],
+        },
+    ]
+
+
 def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, Any]]:
     from .merlin_benchmark import get_stage_a_benchmark_corpus
     from .merlin_rag import KNOWLEDGE_BASE
@@ -2970,6 +3138,7 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
     examples.extend(_seed_teacher_trace_distillation_examples())
     examples.extend(_seed_external_proof_review_examples())
     examples.extend(_seed_formal_proof_foundry_examples())
+    examples.extend(_seed_hardware_topology_examples())
     examples.extend(_seed_applications_tool_mastery_examples())
     examples.extend(_seed_books_articles_mastery_examples())
     examples.extend(_seed_adversarial_self_correction_examples())
@@ -3090,6 +3259,35 @@ def get_open_science_resource_registry() -> dict[str, Any]:
                     "open-weight finetuning inputs",
                 ],
                 "priority": "highest_external",
+            },
+            {
+                "resource_id": "openai_navier_stokes_method_transfer",
+                "category": "external_proof_intake_packet",
+                "url": "https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf",
+                "recommended_role": [
+                    "proof_architecture_intake",
+                    "gap_closure_filter_training",
+                    "formal_review_discipline_transfer",
+                ],
+                "local_packets": [
+                    "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+                    "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
+                ],
+                "priority": "high_curated_external",
+            },
+            {
+                "resource_id": "arxiv_boolean_pythagorean_triples_sat",
+                "category": "external_proof_intake_packet",
+                "url": "https://arxiv.org/abs/1605.00723",
+                "recommended_role": [
+                    "sat_encoding_discipline_training",
+                    "certificate_verification_workflow_training",
+                    "counterexample_first_formal_review_training",
+                ],
+                "local_packets": [
+                    "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md",
+                ],
+                "priority": "high_curated_external",
             },
             {
                 "resource_id": "openml",
@@ -3444,6 +3642,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     review_packet = get_merlin_sprint_review_packet(limit=limit)
     heavy_lane = get_merlin_heavy_reasoning_lane(limit=max(2, int(limit if limit is not None else 2)))
     model_board = get_merlin_sovereign_model_board()
+    hardware_board = get_merlin_hardware_architecture_board(limit=max(2, int(limit if limit is not None else 2)))
     resilience = get_merlin_validation_resilience_packet(limit=max(3, int(limit if limit is not None else 2)))
     rhythm = get_operating_rhythm()
     stage_reviews = list(review_packet.get("stage_reviews") or [])
@@ -3519,6 +3718,10 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
         "validation_resilience": {
             **dict(resilience),
             "packet_surface": "getMerlinValidationResiliencePacket",
+        },
+        "hardware_architecture": {
+            **dict(hardware_board),
+            "packet_surface": "getMerlinHardwareArchitectureBoard",
         },
         "governance_cadence": rhythm,
         "runtime_tier_summary": {
@@ -4053,6 +4256,131 @@ def get_merlin_sovereign_model_board() -> dict[str, Any]:
                 "hardware or serving cost makes sustained clean windows impractical",
             ],
         },
+    }
+
+
+def get_merlin_hardware_architecture_board(limit: int | None = 3) -> dict[str, Any]:
+    from .merlin_local_inference import get_inference_providers
+
+    resolved_limit = max(1, int(limit if limit is not None else 3))
+    model_board = get_merlin_sovereign_model_board()
+    frontier_stack = get_frontier_open_weight_stack()
+    proof_foundry = get_formal_proof_foundry_training_bundle(limit=resolved_limit)
+    providers = list(get_inference_providers())
+    available_local_providers = [
+        str(item.get("name") or "")
+        for item in providers
+        if bool(item.get("available")) and str(item.get("provider_kind") or "") != "compatibility"
+    ]
+    execution_kernels = [
+        str(item.get("name") or "")
+        for item in list(frontier_stack.get("execution_kernels") or [])
+        if str(item.get("name") or "").strip()
+    ]
+    tier_shortlists = dict(model_board.get("tier_shortlists") or {})
+
+    def _candidate_summary(item: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "model_family": str(item.get("model_family") or ""),
+            "status": str(item.get("status") or ""),
+            "preferred_runtime": str(item.get("preferred_runtime") or ""),
+            "next_gate": str(item.get("next_gate") or ""),
+        }
+
+    return {
+        "board_id": "merlin_hardware_architecture_board_v1",
+        "generated_at": _utcnow(),
+        "mission": (
+            "Allocate sovereign hardware across compact routing, default reasoning, heavy reasoning, training, "
+            "and proof-operations without blurring the current Lean honesty boundary."
+        ),
+        "principles": [
+            "separate_serving_from_training",
+            "proof_ops_are_receipt_and_review_first",
+            "heavy_lane_is_shadow_gated_not_default",
+            "openrouter_stays_compatibility_only",
+            "promote_only_after_receipts_clear",
+        ],
+        "provider_state": {
+            "available_local_providers": available_local_providers,
+            "compatibility_only_providers": [
+                str(item.get("name") or "")
+                for item in providers
+                if str(item.get("provider_kind") or "") == "compatibility"
+            ],
+            "default_provider": "deterministic_retrieval",
+        },
+        "execution_kernel_roster": execution_kernels[: resolved_limit + 2],
+        "lane_topology": [
+            {
+                "lane_id": "compact_control_plane",
+                "role": "routing_telemetry_policy_and_fast_grounding",
+                "node_profile": "cpu_or_low_vram_quantized_lane",
+                "preferred_candidates": [
+                    _candidate_summary(item)
+                    for item in list(tier_shortlists.get("compact_routing_tier") or [])[:resolved_limit]
+                ],
+                "preferred_runtimes": ["deterministic_retrieval", "llama_cpp_or_ollama_bootstrap"],
+                "promotion_focus": "tool_chain_preflight_and_router_stability",
+            },
+            {
+                "lane_id": "default_reasoning_lane",
+                "role": "repository_native_reasoning_and_citation_work",
+                "node_profile": "single_accelerator_or_high_headroom_cpu_lane",
+                "preferred_candidates": [
+                    _candidate_summary(item)
+                    for item in list(tier_shortlists.get("default_reasoning_tier") or [])[:resolved_limit]
+                ],
+                "preferred_runtimes": ["vllm_or_tensorrt_llm", "vllm_or_onnx_runtime"],
+                "promotion_focus": "provenance_completeness_and_boundary_retention",
+            },
+            {
+                "lane_id": "heavy_reasoning_shadow_lane",
+                "role": "cross_source_conflict_reconciliation_and_exception_cases",
+                "node_profile": "high_memory_accelerator_shadow_lane",
+                "preferred_candidates": [
+                    _candidate_summary(item)
+                    for item in list(tier_shortlists.get("heavy_reasoning_tier") or [])[:resolved_limit]
+                ],
+                "preferred_runtimes": ["vllm_or_tensorrt_llm", "vllm_or_openvino_runtime"],
+                "promotion_focus": "shadow_only_until_failure_taxonomy_improves",
+            },
+            {
+                "lane_id": "training_ablation_lane",
+                "role": "rapid_lora_and_qlora_iteration",
+                "node_profile": "separate_non_serving_accelerator_pool",
+                "engines": [
+                    dict(frontier_stack.get("two_engine_training_strategy", {}).get("rapid_ablation_lane") or {}),
+                    dict(frontier_stack.get("two_engine_training_strategy", {}).get("production_training_lane") or {}),
+                ],
+                "promotion_focus": "dataset_quality_and_reproducible_receipts",
+            },
+            {
+                "lane_id": "proof_operations_lane",
+                "role": "scoped_lean_builds_review_packets_and_python_to_lean_audits",
+                "node_profile": "cpu_ram_storage_first_with_optional_accelerator_assist",
+                "proof_foundry_status": str(proof_foundry.get("status") or ""),
+                "primary_lanes": list(proof_foundry.get("lane_ids") or [])[:resolved_limit],
+                "review_packets": [
+                    str(item.get("path") or item)
+                    for item in list(proof_foundry.get("review_packets") or [])[:resolved_limit]
+                ],
+                "promotion_focus": "shrink_proxies_increase_traceability_and_keep_blockers_explicit",
+            },
+        ],
+        "proof_ops_control_plane": {
+            "runtime_alignment": dict(proof_foundry.get("runtime_alignment") or {}),
+            "current_boundary": proof_foundry.get("honesty_note"),
+            "training_surface": "getMerlinTrainingArchitecture",
+            "artifact_surface": "getMerlinTrainingArtifacts",
+            "review_surface": "getMerlinSprintReviewPacket",
+        },
+        "rollout_order": [
+            "stabilize_compact_and_default_local_lanes",
+            "stand_up_proof_operations_receipt_lane",
+            "expand_training_ablation_capacity",
+            "shadow_heavy_reasoning_only_after_receipt_improvement",
+        ],
     }
 
 
@@ -4616,6 +4944,7 @@ def get_merlin_three_lane_intensive_sprint(limit: int | None = None) -> dict[str
 def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
     seed_examples = _build_seed_training_examples(limit=limit)
     acquisition = get_open_weight_acquisition_ledger()
+    hardware_board = get_merlin_hardware_architecture_board(limit=limit)
     track_counts: dict[str, int] = {}
     for item in seed_examples:
         track = str(item.get("track", "unknown"))
@@ -4683,11 +5012,26 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 "purpose": "Teach PsiCat the narrowed Lean frontier, named open gaps, reviewer packets, and honest runtime-bridge boundaries.",
                 "source_surfaces": [
                     "src/core/formal_traceability_spine.py",
+                    "src/core/navier_stokes_method_transfer.py",
+                    "src/core/pythagorean_triples_sat_method_transfer.py",
                     "proof/FORMAL_PROOF_FOUNDRY.md",
                     "proof/CURRY_HOWARD_WORKFLOW.md",
                     "proof/REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md",
                     "proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md",
+                    "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+                    "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
+                    "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md",
                     "docs/TRUTH_LAYER.md",
+                ],
+            },
+            {
+                "family": "hardware_topology_and_proof_ops",
+                "purpose": "Teach PsiCat how to allocate sovereign hardware across routing, reasoning, training, and Lean proof-operations without overstating closure.",
+                "source_surfaces": [
+                    _repo_rel(PRODUCT_ROOT / "README.md"),
+                    "getMerlinHardwareArchitectureBoard",
+                    "getMerlinExecutionBoard",
+                    "src/core/formal_traceability_spine.py",
                 ],
             },
             {
@@ -4744,6 +5088,9 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                     "getMerlinOpenScienceRegistry",
                     _repo_rel(REPO_ROOT / "ten-proofs-oai.pdf"),
                     _repo_rel(REPO_ROOT / "unit-distance-proof.pdf"),
+                    "proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md",
+                    "proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md",
+                    "proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md",
                 ],
             },
             {
@@ -4779,11 +5126,13 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "track_counts": track_counts,
         },
         "formal_proof_foundry": get_formal_proof_foundry_training_bundle(limit=limit),
+        "hardware_architecture": hardware_board,
         "active_training_surfaces": {
             "baseline_plan": "getMerlinTrainingPlan",
             "full_architecture": "getMerlinTrainingArchitecture",
             "execution_board": "getMerlinExecutionBoard",
             "validation_resilience_packet": "getMerlinValidationResiliencePacket",
+            "hardware_architecture_board": "getMerlinHardwareArchitectureBoard",
             "dataset_bundle": "getMerlinTrainingDataset",
             "sprint_review_packet": "getMerlinSprintReviewPacket",
             "heavy_reasoning_lane": "getMerlinHeavyReasoningLane",
@@ -4796,6 +5145,8 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",
+            "navier_stokes_method_transfer_packet": "getMerlinNavierStokesMethodTransferPacket",
+            "pythagorean_triples_sat_method_transfer_packet": "getMerlinPythagoreanTriplesSatMethodTransferPacket",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
             "open_weight_acquisition_ledger": "getMerlinOpenWeightAcquisitionLedger",
             "dual_lane_master_sprint": "getMerlinDualLaneMasterSprint",
@@ -6033,6 +6384,257 @@ def run_merlin_targeted_rigor_sprint(
     }
 
 
+def get_psicat_spc_phase0_execution_packet() -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "ok": False,
+        "path": _repo_rel(PSICAT_SPC_PHASE0_PACKET_PATH),
+        "error": "Missing phase-0 packet artifact.",
+    }
+    try:
+        text = PSICAT_SPC_PHASE0_PACKET_PATH.read_text(encoding="utf-8")
+        parsed = json.loads(text)
+    except (OSError, json.JSONDecodeError) as exc:
+        payload["error"] = f"Unable to load phase-0 packet artifact: {exc}"
+        return payload
+    payload["ok"] = True
+    payload["error"] = ""
+    payload["packet"] = parsed
+    payload["sources"] = [
+        _repo_rel(PSICAT_SPC_PLAN_DOC),
+        _repo_rel(PSICAT_SPC_GATES_DOC),
+        _repo_rel(PSICAT_SPC_PHASE0_PACKET_PATH),
+    ]
+    return payload
+
+
+def _run_to_evidence_packet(run: dict[str, Any], *, lane_id: str) -> dict[str, Any]:
+    merlin_eval = dict(run.get("merlin_evaluation") or {})
+    checks = dict(merlin_eval.get("checks") or {})
+    contract_checks = dict(checks.get("contract") or {})
+    provenance_checks = dict(checks.get("provenance") or {})
+    gate_checks = dict(checks.get("gates") or {})
+    score = float(merlin_eval.get("score") or 0.0)
+    score_100 = round(max(0.0, min(1.0, score)) * 100.0, 2)
+    pass_flag = bool(merlin_eval.get("pass"))
+    hard_fail_reasons: list[str] = []
+    if not bool(contract_checks.get("Sources:")):
+        hard_fail_reasons.append("missing_sources_section")
+    if not any(bool(value) for value in provenance_checks.values()):
+        hard_fail_reasons.append("missing_provenance_signal")
+    if not bool(run.get("merlin_shadow_ok")):
+        hard_fail_reasons.append("missing_shadow_telemetry")
+    review_verdict = "demote" if hard_fail_reasons else ("clear" if pass_flag else "hold")
+    confidence_band = (
+        "high"
+        if score_100 >= 90.0
+        else ("medium" if score_100 >= 70.0 else "low")
+    )
+    citations = sorted({f"contract:{key}" for key, ok in contract_checks.items() if ok} | {f"provenance:{key}" for key, ok in provenance_checks.items() if ok} | {f"gate:{key}" for key, ok in gate_checks.items() if ok})
+    return {
+        "scenario_id": str(run.get("benchmark_id") or ""),
+        "lane_id": lane_id,
+        "inputs": {
+            "query": str(run.get("query") or ""),
+            "domain_id": str(run.get("domain_id") or ""),
+            "track": str(run.get("track") or ""),
+        },
+        "response": {
+            "pass": pass_flag,
+            "score_100": score_100,
+            "shadow_ok": bool(run.get("merlin_shadow_ok")),
+        },
+        "citations": citations,
+        "confidence_band": confidence_band,
+        "score_breakdown": {
+            "aggregate_score_100": score_100,
+            "contract_sources_present": bool(contract_checks.get("Sources:")),
+            "contract_followups_present": bool(contract_checks.get("FOLLOWUPS:")),
+            "provenance_signals": {
+                key: bool(value)
+                for key, value in sorted(provenance_checks.items())
+            },
+        },
+        "review_verdict": review_verdict,
+        "corrective_action": (
+            "Resolve hard-fail reasons before rerun."
+            if hard_fail_reasons
+            else (
+                "Replay scenario with contradiction-first correction and stronger evidence routing."
+                if not pass_flag
+                else "No corrective action required."
+            )
+        ),
+        "hard_fail_reasons": hard_fail_reasons,
+    }
+
+
+def _lane_receipt_summary(
+    *,
+    lane_id: str,
+    lane_name: str,
+    receipts: dict[str, Any],
+    minimum_mean_score_100: float = 90.0,
+) -> dict[str, Any]:
+    runs = list(receipts.get("runs") or [])
+    evidence_packets = [_run_to_evidence_packet(run, lane_id=lane_id) for run in runs]
+    total = len(evidence_packets)
+    clear_count = sum(1 for item in evidence_packets if item["review_verdict"] == "clear")
+    hold_count = sum(1 for item in evidence_packets if item["review_verdict"] == "hold")
+    demote_count = sum(1 for item in evidence_packets if item["review_verdict"] == "demote")
+    mean_score = round(
+        (
+            sum(float(item["score_breakdown"]["aggregate_score_100"]) for item in evidence_packets)
+            / max(total, 1)
+        ),
+        2,
+    )
+    hard_fail_count = sum(1 for item in evidence_packets if item["hard_fail_reasons"])
+    lane_pass = (
+        total > 0
+        and hard_fail_count == 0
+        and hold_count == 0
+        and mean_score >= minimum_mean_score_100
+    )
+    lane_verdict = "clear" if lane_pass else ("demote" if demote_count > 0 else "hold")
+    return {
+        "lane_id": lane_id,
+        "lane_name": lane_name,
+        "receipt_count": total,
+        "mean_score_100": mean_score,
+        "clear_count": clear_count,
+        "hold_count": hold_count,
+        "demote_count": demote_count,
+        "hard_fail_count": hard_fail_count,
+        "lane_gate_pass": lane_pass,
+        "lane_verdict": lane_verdict,
+        "gate_summary": dict(receipts.get("summary") or {}),
+        "evidence_packets": evidence_packets,
+    }
+
+
+def run_psicat_spc_phase1_baseline(
+    *,
+    session: Any | None = None,
+    limit: int | None = 5,
+    training_limit: int | None = 9,
+) -> dict[str, Any]:
+    from .merlin_benchmark import (
+        run_stage_c_head_to_head_receipts_sync,
+        run_stage_domain_head_to_head_receipts_sync,
+    )
+    from .merlin_memory import MerlinSession
+
+    resolved_limit = _coerce_frontier_limit(limit, default=5)
+    resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
+    active_session = session if isinstance(session, MerlinSession) else MerlinSession()
+
+    targeted_rigor = run_merlin_targeted_rigor_sprint(
+        session=active_session,
+        limit=max(1, min(3, resolved_limit)),
+        training_limit=resolved_training_limit,
+    )
+    domain_receipts = run_stage_domain_head_to_head_receipts_sync(limit=max(5, resolved_limit))
+    strategy_receipts = run_stage_c_head_to_head_receipts_sync(limit=resolved_limit)
+
+    domain_runs = list(domain_receipts.get("runs") or [])
+    business_domains = {"business_office_management", "accounting_federal_and_wa_tax"}
+    regulatory_domains = {
+        "washington_social_purpose_corporations",
+        "business_law",
+        "labor_practices_and_human_resources",
+    }
+    business_receipts = {
+        **dict(domain_receipts),
+        "runs": [run for run in domain_runs if str(run.get("domain_id") or "") in business_domains],
+    }
+    regulatory_receipts = {
+        **dict(domain_receipts),
+        "runs": [run for run in domain_runs if str(run.get("domain_id") or "") in regulatory_domains],
+    }
+
+    business_lane = _lane_receipt_summary(
+        lane_id="lane_business_management",
+        lane_name="Business management operations",
+        receipts=business_receipts,
+    )
+    regulatory_lane = _lane_receipt_summary(
+        lane_id="lane_regulatory_governance",
+        lane_name="Regulatory and governance policy",
+        receipts=regulatory_receipts,
+    )
+    strategy_lane = _lane_receipt_summary(
+        lane_id="lane_strategy_resilience",
+        lane_name="Corporate/government strategy resilience",
+        receipts=strategy_receipts,
+    )
+    lanes = [business_lane, regulatory_lane, strategy_lane]
+
+    blocker_register: list[dict[str, str]] = [
+        {
+            "blocker_id": str(item.get("blocker_id") or ""),
+            "source": str(item.get("source") or "targeted_rigor"),
+            "reason": str(item.get("reason") or ""),
+        }
+        for item in list(targeted_rigor.get("blocker_register") or [])
+    ]
+    for lane in lanes:
+        if lane["lane_verdict"] == "clear":
+            continue
+        blocker_register.append(
+            {
+                "blocker_id": f"{lane['lane_id']}_gate_{lane['lane_verdict']}",
+                "source": "spc_phase1_lane_gate",
+                "reason": (
+                    f"{lane['lane_name']} requires remediation "
+                    f"(holds={lane['hold_count']}, demotes={lane['demote_count']}, hard_fails={lane['hard_fail_count']})."
+                ),
+            }
+        )
+
+    hold_clear_demote_ledger = {
+        "clear_count": sum(1 for lane in lanes if lane["lane_verdict"] == "clear"),
+        "hold_count": sum(1 for lane in lanes if lane["lane_verdict"] == "hold"),
+        "demote_count": sum(1 for lane in lanes if lane["lane_verdict"] == "demote"),
+        "default_policy": "fail_closed_on_missing_evidence_or_failed_gates",
+    }
+    phase1_pass = all(lane["lane_verdict"] == "clear" for lane in lanes) and not blocker_register
+
+    return {
+        "ok": True,
+        "generated_at": _utcnow(),
+        "mode": "spc_phase1_baseline_execution",
+        "objective": (
+            "Run immediate baseline batteries across business, regulatory, and strategy lanes; "
+            "emit evidence packets and hold/clear/demote ledger."
+        ),
+        "inputs": {
+            "limit": resolved_limit,
+            "training_limit": resolved_training_limit,
+        },
+        "phase0_packet": get_psicat_spc_phase0_execution_packet(),
+        "targeted_rigor_sprint": targeted_rigor,
+        "lane_receipts": lanes,
+        "hold_clear_demote_ledger": hold_clear_demote_ledger,
+        "blocker_register": blocker_register,
+        "phase_verdict": "PHASE1_CLEAR_ADVANCE_TO_PHASE2" if phase1_pass else "PHASE1_HOLD_REMEDIATE",
+        "next_step": (
+            "Start phase 2 applied-pressure drills immediately."
+            if phase1_pass
+            else "Remediate blockers and rerun /api/psicat/spc-phase1-baseline until phase verdict clears."
+        ),
+        "documentation_surfaces": [
+            _repo_rel(PSICAT_SPC_PLAN_DOC),
+            _repo_rel(PSICAT_SPC_GATES_DOC),
+            _repo_rel(PSICAT_SPC_PHASE0_PACKET_PATH),
+            _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+        ],
+        "honesty_note": (
+            "Baseline receipts are deterministic benchmark outputs; "
+            "they do not imply promotion beyond visible gate results."
+        ),
+    }
+
+
 def build_training_artifact_bundle(
     limit: int | None = None,
     *,
@@ -6064,6 +6666,7 @@ def build_training_artifact_bundle(
             "training_dataset": dataset_bundle["dataset"],
             "training_curation": dict(((dataset_bundle.get("dataset") or {}).get("curation_ledger") or {})),
             "formal_proof_foundry_bundle": get_formal_proof_foundry_training_bundle(limit=limit),
+            "hardware_architecture_board": get_merlin_hardware_architecture_board(limit=limit),
             "mlflow_manifests": get_mlflow_experiment_manifests(
                 limit=limit,
                 compiled_insights=compiled_insights,
@@ -6373,6 +6976,7 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "training_and_adaptation": get_training_and_adaptation(),
         "training_architecture": get_training_architecture(limit=12),
         "training_dataset": build_training_dataset_bundle(limit=12),
+        "hardware_architecture": get_merlin_hardware_architecture_board(limit=4),
         "mlflow_manifests": get_mlflow_experiment_manifests(limit=12),
         "open_science_registry": get_open_science_resource_registry(),
         "open_weight_acquisition_ledger": get_open_weight_acquisition_ledger(),

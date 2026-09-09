@@ -7,6 +7,17 @@
 
 ---
 
+> **Current-scope note (2026-09):** This file is a detailed historical and technical
+> walkthrough of the winding-number argument. For current braid-lane framing and
+> document priority, read it together with
+> [`BRAID_DOSSIER.md`](BRAID_DOSSIER.md),
+> [`BRAID_CORRESPONDENCE_AUDIT.md`](BRAID_CORRESPONDENCE_AUDIT.md),
+> [`BRAID_HISTORY_AUDIT.md`](BRAID_HISTORY_AUDIT.md),
+> [`DERIVATION_STATUS.md`](DERIVATION_STATUS.md), and
+> [`../FALLIBILITY.md`](../FALLIBILITY.md).
+
+---
+
 ## 1 · The Question
 
 The Unitary Manifold is a 5D Kaluza-Klein framework whose compact fifth dimension is

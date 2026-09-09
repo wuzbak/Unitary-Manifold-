@@ -224,6 +224,81 @@ def test_export_lane_e_runtime_profiles_script(tmp_path, monkeypatch):
     assert 'runtime_profiles' in payload
 
 
+def test_export_psicat_spc_phase1_baseline_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_psicat_spc_phase1_baseline.py'
+    spec = importlib.util.spec_from_file_location('export_psicat_spc_phase1_baseline', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'psicat_spc_phase1_baseline_receipts.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_psicat_spc_phase1_baseline.py', '--limit', '5', '--training-limit', '3', '--output', str(output_path)],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['mode'] == 'spc_phase1_baseline_execution'
+    assert len(payload['lane_receipts']) == 3
+
+
+def test_diff_psicat_spc_phase1_receipts_script(tmp_path, monkeypatch):
+    baseline_path = tmp_path / 'baseline.json'
+    baseline_path.write_text(
+        json.dumps(
+            {
+                "generated_at": "2026-09-09T00:00:00+00:00",
+                "phase_verdict": "PHASE1_HOLD_REMEDIATE",
+                "lane_receipts": [
+                    {"lane_id": "lane_business_management", "lane_verdict": "hold", "mean_score_100": 80, "hard_fail_count": 1},
+                ],
+                "blocker_register": [{"blocker_id": "a"}],
+            }
+        ),
+        encoding='utf-8',
+    )
+    current_path = tmp_path / 'current.json'
+    current_path.write_text(
+        json.dumps(
+            {
+                "generated_at": "2026-09-09T01:00:00+00:00",
+                "phase_verdict": "PHASE1_CLEAR_ADVANCE_TO_PHASE2",
+                "lane_receipts": [
+                    {"lane_id": "lane_business_management", "lane_verdict": "clear", "mean_score_100": 95, "hard_fail_count": 0},
+                ],
+                "blocker_register": [],
+            }
+        ),
+        encoding='utf-8',
+    )
+    script_path = PRODUCT_ROOT / 'tools' / 'diff_psicat_spc_phase1_receipts.py'
+    spec = importlib.util.spec_from_file_location('diff_psicat_spc_phase1_receipts', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'diff.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'diff_psicat_spc_phase1_receipts.py',
+            '--previous',
+            str(baseline_path),
+            '--current',
+            str(current_path),
+            '--output',
+            str(output_path),
+        ],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['previous_phase_verdict'] == 'PHASE1_HOLD_REMEDIATE'
+    assert payload['current_phase_verdict'] == 'PHASE1_CLEAR_ADVANCE_TO_PHASE2'
+    assert payload['blockers_removed'] == ['a']
+
+
 def test_run_mlflow_experiment_script(tmp_path, monkeypatch):
     script_path = PRODUCT_ROOT / 'tools' / 'run_merlin_mlflow_experiment.py'
     spec = importlib.util.spec_from_file_location('run_merlin_mlflow_experiment', script_path)
@@ -528,8 +603,45 @@ def test_route_tool_training_architecture_and_artifacts():
         for item in architecture['result']['data']['dataset_families']
     )
     assert architecture['result']['data']['formal_proof_foundry']['program'] == 'FORMAL_PROOF_FOUNDRY'
+    assert any(
+        item['family'] == 'external_open_science_augmentation'
+        and 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in item['source_surfaces']
+        for item in architecture['result']['data']['dataset_families']
+    )
+    assert any(
+        item['family'] == 'external_open_science_augmentation'
+        and 'proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md' in item['source_surfaces']
+        for item in architecture['result']['data']['dataset_families']
+    )
+    full_architecture = route_tool('getMerlinTrainingArchitecture', {})
+    assert 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in (
+        full_architecture['result']['data']['formal_proof_foundry']['training_corpus']
+    )
+    assert 'proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md' in (
+        full_architecture['result']['data']['formal_proof_foundry']['training_corpus']
+    )
     assert architecture['result']['data']['active_training_surfaces']['three_lane_intensive_sprint'] == (
         'getMerlinThreeLaneIntensiveSprint'
+    )
+    assert full_architecture['result']['data']['active_training_surfaces']['navier_stokes_method_transfer_packet'] == (
+        'getMerlinNavierStokesMethodTransferPacket'
+    )
+    assert full_architecture['result']['data']['active_training_surfaces']['pythagorean_triples_sat_method_transfer_packet'] == (
+        'getMerlinPythagoreanTriplesSatMethodTransferPacket'
+    )
+
+    navier_packet = route_tool('getMerlinNavierStokesMethodTransferPacket', {})
+    assert navier_packet['ok'] is True
+    assert navier_packet['result']['data']['program'] == 'NAVIER_STOKES_METHOD_TRANSFER'
+    assert 'analogy alone' in navier_packet['result']['data']['source_basis']['non_transfer_clause']
+    assert navier_packet['result']['data']['workflow_surfaces']['challenge_pack'] == 'getMerlinTrainingChallengePack'
+
+    pythagorean_packet = route_tool('getMerlinPythagoreanTriplesSatMethodTransferPacket', {})
+    assert pythagorean_packet['ok'] is True
+    assert pythagorean_packet['result']['data']['program'] == 'PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER'
+    assert (
+        pythagorean_packet['result']['data']['source_basis']['primary_paper']['arxiv_abs_url']
+        == 'https://arxiv.org/abs/1605.00723'
     )
 
     registry = route_tool('getMerlinOpenScienceRegistry', {})
@@ -538,6 +650,14 @@ def test_route_tool_training_architecture_and_artifacts():
     assert any(item['resource_id'] == 'hugging_face_models_hub' for item in registry['result']['data']['resources'])
     assert any(item['resource_id'] == 'unsloth_engine' for item in registry['result']['data']['resources'])
     assert any(item['resource_id'] == 'axolotl_engine' for item in registry['result']['data']['resources'])
+    assert any(
+        item['resource_id'] == 'openai_navier_stokes_method_transfer'
+        for item in registry['result']['data']['resources']
+    )
+    assert any(
+        item['resource_id'] == 'arxiv_boolean_pythagorean_triples_sat'
+        for item in registry['result']['data']['resources']
+    )
     acquisition = route_tool('getMerlinOpenWeightAcquisitionLedger', {})
     assert acquisition['ok'] is True
     assert acquisition['result']['data']['approved_training_roster_cycle']['freeze_rule'] == (
@@ -651,6 +771,17 @@ def test_route_tool_training_architecture_and_artifacts():
     assert any(
         item['lane_id'] == 'lane_e_training_performance'
         for item in route_tool('getMerlinTrainingExecutionQueue', {'limit': 20}, session=session)['result']['data']['items']
+    )
+    navier_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 80}, session=session)
+    assert any(
+        item['reference_path'] == 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md'
+        for item in navier_queue['result']['data']['items']
+    )
+    navier_challenge_pack = route_tool('getMerlinTrainingChallengePack', {'limit': 80}, session=session)
+    assert any(
+        item['reference_path'] == 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md'
+        and 'four crosswalk questions' in item['prompt']
+        for item in navier_challenge_pack['result']['data']['challenges']
     )
     frontier = route_tool('getMerlinFrontierStack', {})
     assert frontier['ok'] is True
@@ -1417,16 +1548,19 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     review = route_tool('getMerlinSprintReviewPacket', {'limit': 1})
     heavy = route_tool('getMerlinHeavyReasoningLane', {'limit': 2})
     board = route_tool('getMerlinSovereignModelBoard', {})
+    hardware = route_tool('getMerlinHardwareArchitectureBoard', {'limit': 2})
     execution = route_tool('getMerlinExecutionBoard', {'limit': 1})
     resilience = route_tool('getMerlinValidationResiliencePacket', {'limit': 3})
     assert review['ok'] is True
     assert heavy['ok'] is True
     assert board['ok'] is True
+    assert hardware['ok'] is True
     assert execution['ok'] is True
     assert resilience['ok'] is True
     review_data = review['result']['data']
     heavy_data = heavy['result']['data']
     board_data = board['result']['data']
+    hardware_data = hardware['result']['data']
     execution_data = execution['result']['data']
     resilience_data = resilience['result']['data']
     assert len(review_data['stage_reviews']) == 5
@@ -1436,7 +1570,10 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert any(item['failure_id'] == 'cross_source_conflict_collapse' for item in heavy_data['failure_taxonomy'])
     assert 'heavy_reasoning_tier' in board_data['tier_shortlists']
     assert board_data['tier_shortlists']['heavy_reasoning_tier'][0]['status'] == 'shortlist_for_heavy_shadow'
+    assert hardware_data['lane_topology'][-1]['lane_id'] == 'proof_operations_lane'
+    assert hardware_data['proof_ops_control_plane']['training_surface'] == 'getMerlinTrainingArchitecture'
     assert execution_data['validation_resilience']['can_train_merlin_now'] is True
+    assert execution_data['hardware_architecture']['packet_surface'] == 'getMerlinHardwareArchitectureBoard'
     assert execution_data['validation_resilience']['packet_surface'] == 'getMerlinValidationResiliencePacket'
     assert execution_data['blunt_board']['title'] == 'Sprint CL blunt board'
     assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
@@ -1903,6 +2040,7 @@ def test_server_merlin_endpoints():
             assert runtime.json()['ok'] is True
             assert runtime.json()['runtime']['optimization_priorities']['order'][0]['rank'] == 1
             assert runtime.json()['runtime']['client_blind_ingestion_contract']['mode'] == 'unidirectional_client_blind_ingestion'
+            assert runtime.json()['runtime']['hardware_architecture_board']['lane_topology'][0]['lane_id'] == 'compact_control_plane'
 
             benchmarks = client.get('/api/merlin/benchmarks')
             assert benchmarks.status_code == 200
@@ -2149,6 +2287,20 @@ def test_server_merlin_endpoints():
             assert targeted_rigor_sprint.json()['ok'] is True
             assert targeted_rigor_sprint.json()['targeted_rigor_sprint']['mode'] == 'targeted_full_rigor_sprint'
             assert len(targeted_rigor_sprint.json()['targeted_rigor_sprint']['stage_gate_summary']) == 5
+            spc_phase0_packet = client.get('/api/merlin/spc-phase0-packet')
+            assert spc_phase0_packet.status_code == 200
+            assert spc_phase0_packet.json()['ok'] is True
+            assert spc_phase0_packet.json()['spc_phase0_packet']['ok'] is True
+            assert spc_phase0_packet.json()['spc_phase0_packet']['error'] == ''
+            spc_phase1_baseline = client.get('/api/merlin/spc-phase1-baseline?limit=5&training_limit=3')
+            assert spc_phase1_baseline.status_code == 200
+            assert spc_phase1_baseline.json()['ok'] is True
+            assert spc_phase1_baseline.json()['spc_phase1_baseline']['mode'] == 'spc_phase1_baseline_execution'
+            assert len(spc_phase1_baseline.json()['spc_phase1_baseline']['lane_receipts']) == 3
+            assert 'phase_verdict' in spc_phase1_baseline.json()['spc_phase1_baseline']
+            bad_spc_phase1_limit = client.get('/api/merlin/spc-phase1-baseline?limit=abc')
+            assert bad_spc_phase1_limit.status_code == 400
+            assert bad_spc_phase1_limit.json()['ok'] is False
             heavy_lane = client.get('/api/merlin/heavy-lane?limit=2')
             assert heavy_lane.status_code == 200
             assert heavy_lane.json()['ok'] is True
@@ -2157,10 +2309,15 @@ def test_server_merlin_endpoints():
             assert model_board.status_code == 200
             assert model_board.json()['ok'] is True
             assert 'default_reasoning_tier' in model_board.json()['model_board']['tier_shortlists']
+            hardware_board = client.get('/api/merlin/hardware-board?limit=2')
+            assert hardware_board.status_code == 200
+            assert hardware_board.json()['ok'] is True
+            assert hardware_board.json()['hardware_board']['lane_topology'][-1]['lane_id'] == 'proof_operations_lane'
             execution_board = client.get('/api/merlin/execution-board?limit=1')
             assert execution_board.status_code == 200
             assert execution_board.json()['ok'] is True
             assert execution_board.json()['execution_board']['validation_resilience']['can_train_merlin_now'] is True
+            assert execution_board.json()['execution_board']['hardware_architecture']['packet_surface'] == 'getMerlinHardwareArchitectureBoard'
             validation_resilience = client.get('/api/merlin/validation-resilience?limit=2')
             assert validation_resilience.status_code == 200
             assert validation_resilience.json()['ok'] is True
@@ -2184,6 +2341,7 @@ def test_server_merlin_endpoints():
             ].endswith('lane_e_runtime_profiles.json')
             bad_training_artifact_refresh = client.get('/api/merlin/training-artifacts?refresh_lane_e_profiles=maybe')
             assert bad_training_artifact_refresh.status_code == 400
+            assert 'hardware_architecture_board' in training_artifacts.json()['training_artifacts']
 
             empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
             assert empty_training_artifacts.status_code == 200

@@ -44,6 +44,9 @@ For a first-pass review of the current honesty boundary, use:
 - `proof/REVIEW_PACKET_APS_ORBIFOLD_DIRAC.md`
 - `proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md`
 - `proof/CURRY_HOWARD_WORKFLOW.md`
+- `proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md`
+- `proof/PSICAT_NAVIER_STOKES_CURRICULUM_PACKET.md`
+- `proof/PYTHAGOREAN_TRIPLES_SAT_METHOD_TRANSFER_PACKET.md`
 
 Each packet is deliberately small:
 
@@ -64,6 +67,8 @@ PsiCat should ingest this proof-foundry surface as a canonical corpus for train-
 - the proof intake docs,
 - the Curry-Howard workflow note,
 - the focused review packets,
+- the Navier-Stokes method-transfer intake and curriculum packets,
+- the Pythagorean-triples SAT method-transfer packet (arXiv:1605.00723) for certificate-grade SAT workflow discipline,
 - the current truth-layer reassessment,
 - and the machine-readable registry in `src/core/formal_traceability_spine.py`.
 

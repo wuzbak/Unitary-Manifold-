@@ -8,6 +8,7 @@
 - **Local URL:** `http://127.0.0.1:8020/ox-navigator.html`
 - **Model transport:** self-hosted sovereign local model lane is primary; `stealth/ox-alpha` via OpenRouter is optional compatibility-only fallback
 - **API endpoints:** `/api/psicat`, `/api/psicat/status`, `/api/psicat/identity`, `/api/psicat/policy`, `/api/psicat/runtime`, `/api/psicat/program`, `/api/psicat/program-office`, `/api/psicat/control-tower`, `/api/psicat/sync-checks`, `/api/psicat/benchmarks`, `/api/psicat/training-architecture`, `/api/psicat/training-dataset`, `/api/psicat/training-curation`, `/api/psicat/mlflow-manifests`, `/api/psicat/open-science-registry`, `/api/psicat/open-weight-acquisition`, `/api/psicat/competitive-benchmarks`, `/api/psicat/dual-lane-master-sprint`, `/api/psicat/three-lane-intensive-sprint`, `/api/psicat/continuous-learning`, `/api/psicat/performance-lane`, `/api/psicat/training-execution-queue`, `/api/psicat/training-execution-bundle`, `/api/psicat/lane-e-runtime-profiles`, `/api/psicat/lane-progress-ledgers`, `/api/psicat/training-cycle`, `/api/psicat/performance-gate-evaluate`, `/api/psicat/training-challenge-pack`, `/api/psicat/benchmark-corpora`, `/api/psicat/stage-a-receipts`, `/api/psicat/stage-b-receipts`, `/api/psicat/stage-c-receipts`, `/api/psicat/stage-d-receipts`, `/api/psicat/stage-e-receipts`, `/api/psicat/replacement-readiness`, `/api/psicat/frontier-readiness`, `/api/psicat/review-packet`, `/api/psicat/targeted-rigor-sprint`, `/api/psicat/heavy-lane`, `/api/psicat/model-board`, `/api/psicat/execution-board`, `/api/psicat/validation-resilience`, `/api/psicat/benchmark-artifacts`, `/api/psicat/training-artifacts`, `/api/psicat/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
+- **API endpoints:** `/api/psicat`, `/api/psicat/status`, `/api/psicat/identity`, `/api/psicat/policy`, `/api/psicat/runtime`, `/api/psicat/program`, `/api/psicat/program-office`, `/api/psicat/control-tower`, `/api/psicat/sync-checks`, `/api/psicat/benchmarks`, `/api/psicat/training-architecture`, `/api/psicat/training-dataset`, `/api/psicat/training-curation`, `/api/psicat/mlflow-manifests`, `/api/psicat/open-science-registry`, `/api/psicat/open-weight-acquisition`, `/api/psicat/competitive-benchmarks`, `/api/psicat/dual-lane-master-sprint`, `/api/psicat/three-lane-intensive-sprint`, `/api/psicat/continuous-learning`, `/api/psicat/performance-lane`, `/api/psicat/training-execution-queue`, `/api/psicat/training-execution-bundle`, `/api/psicat/lane-e-runtime-profiles`, `/api/psicat/lane-progress-ledgers`, `/api/psicat/training-cycle`, `/api/psicat/performance-gate-evaluate`, `/api/psicat/training-challenge-pack`, `/api/psicat/benchmark-corpora`, `/api/psicat/stage-a-receipts`, `/api/psicat/stage-b-receipts`, `/api/psicat/stage-c-receipts`, `/api/psicat/stage-d-receipts`, `/api/psicat/stage-e-receipts`, `/api/psicat/replacement-readiness`, `/api/psicat/frontier-readiness`, `/api/psicat/review-packet`, `/api/psicat/targeted-rigor-sprint`, `/api/psicat/spc-phase0-packet`, `/api/psicat/spc-phase1-baseline`, `/api/psicat/heavy-lane`, `/api/psicat/model-board`, `/api/psicat/hardware-board`, `/api/psicat/execution-board`, `/api/psicat/validation-resilience`, `/api/psicat/benchmark-artifacts`, `/api/psicat/training-artifacts`, `/api/psicat/promotion-packet`, `/api/agentToolkit`, `/api/agentInvoke`, `/api/agentOrchestrate`
 - **Memory + telemetry endpoints:** `/api/psicat/memory`, `/api/psicat/memory-geometry`, `/api/psicat/telemetry`
 - **Program endpoints note:** use the `/api/psicat/program*` and readiness/benchmark endpoints listed in the canonical **API endpoints** line above.
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier PsiCat memory profiles with contradiction tracking and telemetry continuity
@@ -26,7 +27,12 @@
 3. [`PSICAT_VALIDATION_RESILIENCE_PACKET.md`](./PSICAT_VALIDATION_RESILIENCE_PACKET.md) (repo-size mitigation + CodeQL scope-reduction doctrine)
 4. [`PSICAT_FRONTIER_ROADMAP.md`](./PSICAT_FRONTIER_ROADMAP.md) (full execution roadmap)
 5. [`PSICAT_THREE_LANE_INTENSIVE_SPRINT.md`](./PSICAT_THREE_LANE_INTENSIVE_SPRINT.md) (apps/tools + books/articles + adversarial growth + continuous learning)
-6. [`PSICAT_PROGRAM.md`](./PSICAT_PROGRAM.md) (implemented surfaces + ledger)
+6. [`PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md`](./PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md) (immediate three-phase parallel expert uplift for SPC operations)
+7. [`PSICAT_SPC_BENCHMARK_GATES.md`](./PSICAT_SPC_BENCHMARK_GATES.md) (hard fail conditions + promotion gates + evidence packet requirements)
+8. [`training/training_execution/psicat_spc_phase0_execution_packet.json`](./training/training_execution/psicat_spc_phase0_execution_packet.json) (machine-readable immediate action board)
+9. [`training/training_execution/psicat_spc_phase1_baseline_receipts.json`](./training/training_execution/psicat_spc_phase1_baseline_receipts.json) (first baseline batteries with hold/clear/demote ledger and gate verdict)
+10. [`training/training_execution/psicat_spc_phase1_baseline_diff.json`](./training/training_execution/psicat_spc_phase1_baseline_diff.json) (delta report vs prior baseline run)
+11. [`PSICAT_PROGRAM.md`](./PSICAT_PROGRAM.md) (implemented surfaces + ledger)
 
 This order is optimized for people who need to read quickly, understand clearly, and then verify details.
 
@@ -89,6 +95,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/identity` exposes canonical identity/alias and privileged-action verification policy.
 - `GET /api/psicat/policy` exposes combined identity-trust and Sentinel enforcement policies.
 - `GET /api/psicat/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
+- `GET /api/psicat/runtime` now also embeds the sovereign hardware architecture board so routing, proof-ops, and training topology stay in one runtime surface.
 - `GET /api/psicat/benchmarks` exposes benchmark harness tracks and promotion gates.
 - `GET /api/psicat/training-architecture` exposes the full PsiCat training stack, dataset families, curriculum, and governed seed corpus manifest.
 - `GET /api/psicat/training-dataset` exposes an actual JSONL-ready train/dev/test bundle plus benchmark records for export pipelines; validation failures return HTTP `422` with `ok: false`.
@@ -125,6 +132,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/targeted-rigor-sprint` executes a bounded full-rigor packet in one call (retained training cycle + Stage A→E receipts + frontier blockers) and reports fail-closed hold/clear verdict.
 - `GET /api/psicat/heavy-lane` exposes the heavy-lane benchmark pack, provider comparison, failure taxonomy, and tuning agenda for sovereign long-context work.
 - `GET /api/psicat/model-board` exposes the runtime-tier shortlist, scoring board, and adaptation-vs-abandonment policy for sovereign model selection.
+- `GET /api/psicat/hardware-board` exposes the sovereign hardware topology for compact routing, default reasoning, heavy-lane shadow work, training ablations, and Lean4 proof-operations.
 - `GET /api/psicat/execution-board` exposes the follow-on execution board with immediate tasks, blocker register, validation resilience, and Sprint CL blunt board.
 - `GET /api/psicat/validation-resilience` exposes the dedicated validation resilience packet with repo-size mitigation actions, CodeQL scope-reduction phases, and fail-closed review doctrine.
 - `GET /api/psicat/benchmark-artifacts` exports the receipts plus readiness state as a CI-friendly artifact bundle.
@@ -172,6 +180,7 @@ Related reading outside this product folder:
 ## Training architecture and competitive build-out
 
 - PsiCat now exposes a governed training architecture covering repository-native QA, governance traces, tool-use alignment, adversarial counterexamples, and controlled open-science augmentation.
+- The training architecture now includes a dedicated hardware/proof-operations family so PsiCat can study deployment topology and Lean review throughput without pretending the master theorem is already closed.
 - PsiCat now generates actual train/dev/test JSONL-ready records plus Stage A/B/C benchmark JSONL corpora for downstream fine-tuning and evaluation jobs.
 - PsiCat now emits MLflow-ready experiment manifests for supervised tuning, preference optimization, Stage B shadow evaluation, and Stage C agentic evaluation.
 - Those manifests now point to runnable receipt commands rather than artifact-export placeholders, so Stage B/C tracking can execute governed benchmark jobs directly.

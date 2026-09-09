@@ -24,6 +24,8 @@ from .merlin_program import (
     evaluate_merlin_performance_gate,
     get_merlin_performance_lane,
 )
+from src.core.navier_stokes_method_transfer import CURRICULUM_PACKET_PATH, INTAKE_PACKET_PATH
+from src.core.pythagorean_triples_sat_method_transfer import INTAKE_PACKET_PATH as SAT_INTAKE_PACKET_PATH
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
@@ -101,6 +103,19 @@ def _parse_iso_timestamp(value: Any) -> datetime | None:
 
 def _relative_target(reference_path: str) -> Path:
     return REPO_ROOT / str(reference_path or "").strip()
+
+
+def _navier_stokes_packet_kind(reference_path: str) -> str | None:
+    target = str(reference_path or "").strip()
+    if target == INTAKE_PACKET_PATH:
+        return "intake_packet"
+    if target == CURRICULUM_PACKET_PATH:
+        return "curriculum_packet"
+    return None
+
+
+def _sat_method_transfer_packet(reference_path: str) -> bool:
+    return str(reference_path or "").strip() == SAT_INTAKE_PACKET_PATH
 
 
 def _latest_receipts_by_queue(session: MerlinSession) -> dict[str, dict[str, Any]]:
@@ -496,11 +511,19 @@ def _build_lane_c_receipt(item: dict[str, Any], *, session: MerlinSession) -> tu
 def _build_lane_d_receipt(item: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], str]:
     target = _relative_target(str(item.get("reference_path") or ""))
     text = _read_text(target)
+    navier_kind = _navier_stokes_packet_kind(str(item.get("reference_path") or ""))
     headings = [match.strip() for match in re.findall(r"^#{1,6}\s+(.+)$", text, flags=re.MULTILINE)]
     internal_links = _extract_internal_links(text)
     words = re.findall(r"\b[\w'’/-]+\b", text)
     review_packet_mentions = len(re.findall(r"REVIEW_PACKET|review packet", text))
     open_gap_mentions = len(re.findall(r"OPEN_GAP|open gap|boundary", text, flags=re.IGNORECASE))
+    crosswalk_question_count = len(
+        re.findall(r"what is structurally analogous|what is only metaphorically similar|what is mathematically reusable|what is completely non-transferable", text, flags=re.IGNORECASE)
+    )
+    adversarial_review_question_count = len(
+        re.findall(r"precise blowup quantity|finite kinetic energy|smooth forcing|axisymmetry|perturbation|proved versus arranged", text, flags=re.IGNORECASE)
+    )
+    non_transfer_clause_present = bool(re.search(r"non-transfer clause|by analogy alone", text, flags=re.IGNORECASE))
     artifact = {
         "artifact_type": str(item.get("expected_artifact") or "proof_foundry_review_brief"),
         "training_mode": "formal_proof_foundry_ingestion",
@@ -515,6 +538,10 @@ def _build_lane_d_receipt(item: dict[str, Any]) -> tuple[dict[str, Any], dict[st
         "review_packet_mentions": review_packet_mentions,
         "open_gap_markers": open_gap_mentions,
         "gate_markers": [label for label in GATE_LABELS if label in text],
+        "packet_kind": navier_kind or "standard_proof_foundry_surface",
+        "non_transfer_clause_present": non_transfer_clause_present,
+        "crosswalk_question_count": crosswalk_question_count,
+        "adversarial_review_question_count": adversarial_review_question_count,
     }
     metrics = {
         "heading_count": artifact["heading_count"],
@@ -522,11 +549,20 @@ def _build_lane_d_receipt(item: dict[str, Any]) -> tuple[dict[str, Any], dict[st
         "word_count": artifact["word_count"],
         "review_packet_mentions": review_packet_mentions,
         "open_gap_mentions": open_gap_mentions,
+        "non_transfer_clause_present": 1 if non_transfer_clause_present else 0,
+        "crosswalk_question_count": crosswalk_question_count,
+        "adversarial_review_question_count": adversarial_review_question_count,
     }
-    fact = (
-        f"{artifact['title']} retained {_repo_rel(target)} with {artifact['word_count']} words, "
-        f"{review_packet_mentions} review-packet markers, and {open_gap_mentions} boundary markers."
-    )
+    if navier_kind:
+        fact = (
+            f"{artifact['title']} retained {_repo_rel(target)} as Navier-Stokes {navier_kind} with "
+            f"{crosswalk_question_count} crosswalk questions and {adversarial_review_question_count} adversarial review prompts."
+        )
+    else:
+        fact = (
+            f"{artifact['title']} retained {_repo_rel(target)} with {artifact['word_count']} words, "
+            f"{review_packet_mentions} review-packet markers, and {open_gap_mentions} boundary markers."
+        )
     return artifact, metrics, fact
 
 
@@ -1003,9 +1039,20 @@ def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 1
                 f"Summarize the thesis, limits, and cross-reference obligations of {item.get('reference_path')}."
             )
         elif lane_id == "lane_d_formal_proof_foundry":
-            prompt = (
-                f"Summarize the proof-foundry obligation, reviewer packet, and non-claim boundary for {item.get('reference_path')}."
-            )
+            if _navier_stokes_packet_kind(str(item.get("reference_path") or "")):
+                prompt = (
+                    f"Summarize the Navier-Stokes method-transfer packet for {item.get('reference_path')}, "
+                    "including the non-transfer clause and the four crosswalk questions."
+                )
+            elif _sat_method_transfer_packet(str(item.get("reference_path") or "")):
+                prompt = (
+                    f"Summarize the SAT method-transfer packet for {item.get('reference_path')}, "
+                    "including non-transfer boundaries, certificate verification requirements, and reproducibility receipts."
+                )
+            else:
+                prompt = (
+                    f"Summarize the proof-foundry obligation, reviewer packet, and non-claim boundary for {item.get('reference_path')}."
+                )
         elif lane_id == "lane_e_training_performance":
             prompt = (
                 f"Summarize performance-lane throughput gates, profiler workflow, and ROI optimization order for {item.get('reference_path')}."
@@ -1030,6 +1077,7 @@ def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 1
         challenge_items,
         key=lambda challenge: (
             {"stale_retrain_required": 0, "needs_review": 1, "queued": 2, "completed": 3}.get(str(challenge.get("status") or ""), 4),
+            0 if _navier_stokes_packet_kind(str(challenge.get("reference_path") or "")) else 1,
             str(challenge.get("challenge_id") or ""),
         ),
     )
