@@ -1,0 +1,114 @@
+name: psicat-performance-gate
+
+on:
+  pull_request:
+    paths:
+      - "12-AZ-IP/20-psicat-navigator/**"
+      - ".github/workflows/psicat-performance-gate.yml"
+  push:
+    branches: ["**"]
+    paths:
+      - "12-AZ-IP/20-psicat-navigator/**"
+      - ".github/workflows/psicat-performance-gate.yml"
+  workflow_dispatch:
+
+jobs:
+  lane-e-dynamic-batch-sweep:
+    name: lane-e sweep (bs=${{ matrix.batch_size }}, ga=${{ matrix.grad_accum }})
+    runs-on: [self-hosted, linux, x64, psicat]
+    strategy:
+      fail-fast: false
+      matrix:
+        batch_size: [8, 12, 16, 24]
+        grad_accum: [1, 2, 4]
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: 12-AZ-IP/20-psicat-navigator
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+
+      - name: Run dynamic batch sweep
+        run: |
+          python tools/run_psicat_dynamic_batch_sweeps.py \
+            --batch-sizes "${{ matrix.batch_size }}" \
+            --grad-accum-steps "${{ matrix.grad_accum }}" \
+            --target-samples-per-second 205.0 \
+            --target-tokens-per-second 51300.0 \
+            --limit 3 \
+            --output /tmp/psicat-sweep-${{ matrix.batch_size }}-${{ matrix.grad_accum }}.json
+
+      - name: Start PsiCat API
+        run: |
+          python run.py --host 127.0.0.1 --port 8020 --no-open >/tmp/psicat-server.log 2>&1 &
+          echo $! >/tmp/psicat-server.pid
+          sleep 3
+
+      - name: POST performance gate evaluate (fail-closed)
+        run: |
+          python - <<'PY'
+          import json
+          import urllib.request
+          from pathlib import Path
+
+          sweep = json.loads(Path("/tmp/psicat-sweep-${{ matrix.batch_size }}-${{ matrix.grad_accum }}.json").read_text())
+          payload = {
+              "baseline": sweep["baseline_receipt"],
+              "candidate": sweep["best_candidate_receipt"],
+          }
+          req = urllib.request.Request(
+              "http://127.0.0.1:8020/api/psicat/performance-gate-evaluate",
+              data=json.dumps(payload).encode("utf-8"),
+              headers={"Content-Type": "application/json"},
+              method="POST",
+          )
+          with urllib.request.urlopen(req, timeout=30) as response:
+              result = json.loads(response.read().decode("utf-8"))
+          gate = ((result.get("performance_gate") or {}).get("gate_verdict") or "").strip()
+          if gate != "pass":
+              raise SystemExit(f"Performance gate failed: {gate} :: {json.dumps(result, ensure_ascii=False)}")
+          print(json.dumps(result, ensure_ascii=False))
+          PY
+
+      - name: Cadence windows (non-overlapping)
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          sweep = json.loads(Path("/tmp/psicat-sweep-${{ matrix.batch_size }}-${{ matrix.grad_accum }}.json").read_text())
+          rows = list(sweep.get("rows") or [])
+          windows = [{"start": i * 15, "end": (i + 1) * 15} for i in range(min(6, len(rows)))]
+          for i in range(1, len(windows)):
+              if windows[i]["start"] < windows[i - 1]["end"]:
+                  raise SystemExit("cadence windows overlap")
+          if len(windows) < 3:
+              raise SystemExit("insufficient cadence windows")
+          print(json.dumps({"ok": True, "window_count": len(windows), "windows": windows}))
+          PY
+
+      - name: Stop PsiCat API
+        if: always()
+        run: |
+          if [ -f /tmp/psicat-server.pid ]; then
+            kill "$(cat /tmp/psicat-server.pid)" || true
+          fi
+
+      - name: Upload sweep artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: psicat-sweep-${{ matrix.batch_size }}-${{ matrix.grad_accum }}
+          path: /tmp/psicat-sweep-${{ matrix.batch_size }}-${{ matrix.grad_accum }}.json

@@ -168,9 +168,13 @@ Related reading outside this product folder:
 - Retained training execution export: `python tools/export_merlin_training_execution.py` (default output: `training/training_execution/three_lane_execution_bundle.json`; add `--refresh-lane-e-profiles` to force profile recapture).
 - Lane E runtime profile export: `python tools/export_merlin_lane_e_runtime_profiles.py` (default output: `training/training_execution/lane_e_runtime_profiles.json`; add `--refresh` to force recapture).
 - Lane E runtime benchmark profile artifact is persisted at `training/training_execution/lane_e_runtime_profiles.json` for cross-session evidence reuse.
+- Dynamic batch sweep matrix runner: `python tools/run_psicat_dynamic_batch_sweeps.py --output /tmp/psicat-sweep.json` (generates baseline/candidate receipts aligned to Lane E speed targets and fail-closed gate checks).
+- AST context export runner: `python tools/export_psicat_ast_context.py --output /tmp/psicat-ast-context.jsonl` (deterministic repository AST symbol loops plus AxiomZero tool-definition records for training ingestion).
+- Training execution trace scanner: `python tools/check_training_execution_traces.py` (fail-closed scan for session traces/credential markers before commit).
 - MLflow experiment receipt runner: `python tools/run_merlin_mlflow_experiment.py --experiment merlin_stage_b_shadow_eval --limit 3 --output /tmp/merlin-stage-b-receipts.json`.
 - The benchmark contract is designed for side-by-side PsiCat vs incumbent comparisons on identical prompt sets.
 - Stage A benchmark promotion gate runner: `python tools/run_merlin_stage_a_benchmarks.py --json` (fails closed if any critical benchmark or shadow field gate fails).
+- CI lane: `.github/workflows/psicat-performance-gate.yml` runs the self-hosted Lane E batch-sweep matrix and triggers `POST /api/psicat/performance-gate-evaluate` on each PR/push.
 - Stage B/C/D/E receipt runner: `python tools/run_merlin_stage_bc_benchmarks.py --stage stage_d --json`.
 - Multi-stage replacement batteries now define Stage A→E acceptance tracks with sustained clean-window cadence checks for promotion discipline.
 - Stage B/C/D/E corpora now include geometric-memory continuity, stress, and decommission-resilience lanes that require `geometric_memory_map` contract fields in benchmark evaluation.

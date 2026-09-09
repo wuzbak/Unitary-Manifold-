@@ -41,3 +41,11 @@ repos:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
         exclude: "tests/"
+
+  - repo: local
+    hooks:
+      - id: psicat-training-execution-trace-scan
+        name: PsiCat training_execution trace scan
+        entry: python 12-AZ-IP/20-psicat-navigator/tools/check_training_execution_traces.py
+        language: system
+        pass_filenames: false

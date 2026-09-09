@@ -208,6 +208,48 @@ class _MockAsyncClient:
         return _MockResponse({'data': [{'id': constants.MODEL_ID}, {'id': 'other/model'}]})
 
 
+class _MockLocalAsyncClient:
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc, tb):
+        return False
+
+    async def post(self, path, json=None, headers=None):
+        assert path == '/chat/completions'
+        assert isinstance(json.get('messages'), list)
+        return _MockResponse({'choices': [{'message': {'content': 'local runtime response'}}]})
+
+    async def get(self, path, headers=None):
+        assert path == '/models'
+        return _MockResponse({'data': [{'id': constants.MODEL_ID}]})
+
+
+class _MockFlashinferAsyncClient:
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc, tb):
+        return False
+
+    async def post(self, path, json=None, headers=None):
+        assert path == '/generate'
+        assert 'prompt' in json
+        return _MockResponse({'text': 'flashinfer response'})
+
+    async def get(self, path, headers=None):
+        assert path == '/health'
+        return _MockResponse({'ok': True})
+
+
 def test_ox_client_query_mocked():
     client = OxClient(api_key='test-key')
     session = OxSession()
@@ -222,6 +264,27 @@ def test_ox_client_check_status_mocked():
         status = asyncio.run(client.check_status())
     assert status['ok'] is True
     assert status['model'] == constants.MODEL_ID
+
+
+def test_ox_client_local_vllm_without_openrouter_key():
+    with patch.dict(os.environ, {'OPENROUTER_API_KEY': ''}, clear=False):
+        client = OxClient(backend='vllm', endpoint='http://127.0.0.1:8000/v1')
+    with patch('ox_navigator.engine.client.httpx.AsyncClient', _MockLocalAsyncClient):
+        answer = asyncio.run(client.query('Explain P4.', 0.2, OxSession()))
+        status = asyncio.run(client.check_status())
+    assert answer == 'local runtime response'
+    assert status['ok'] is True
+    assert status['backend'] == 'vllm'
+
+
+def test_ox_client_flashinfer_path():
+    client = OxClient(backend='flashinfer', endpoint='http://127.0.0.1:8010')
+    with patch('ox_navigator.engine.client.httpx.AsyncClient', _MockFlashinferAsyncClient):
+        answer = asyncio.run(client.query('Explain kernel routing.', 0.1, OxSession()))
+        status = asyncio.run(client.check_status())
+    assert answer == 'flashinfer response'
+    assert status['ok'] is True
+    assert status['backend'] == 'flashinfer'
 
 
 def test_load_kb_returns_list(entries):

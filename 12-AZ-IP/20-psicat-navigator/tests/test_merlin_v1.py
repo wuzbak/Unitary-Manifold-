@@ -243,6 +243,76 @@ def test_export_psicat_spc_phase1_baseline_script(tmp_path, monkeypatch):
     assert len(payload['lane_receipts']) == 3
 
 
+def test_export_psicat_ast_context_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_psicat_ast_context.py'
+    spec = importlib.util.spec_from_file_location('export_psicat_ast_context', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'ast_context.jsonl'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_psicat_ast_context.py', '--output', str(output_path), '--file-limit', '30'],
+    )
+    assert module.main() == 0
+    lines = [line for line in output_path.read_text(encoding='utf-8').splitlines() if line.strip()]
+    assert len(lines) > 10
+    rows = [json.loads(line) for line in lines]
+    assert any(row.get('record_type') == 'repository_ast_symbol_context' for row in rows)
+    assert any(row.get('record_type') == 'axiomzero_tool_definition_context' for row in rows)
+
+
+def test_dynamic_batch_sweep_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'run_psicat_dynamic_batch_sweeps.py'
+    spec = importlib.util.spec_from_file_location('run_psicat_dynamic_batch_sweeps', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'sweep.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'run_psicat_dynamic_batch_sweeps.py',
+            '--batch-sizes',
+            '8,16',
+            '--grad-accum-steps',
+            '1,2',
+            '--limit',
+            '1',
+            '--output',
+            str(output_path),
+        ],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text(encoding='utf-8'))
+    assert payload['ok'] is True
+    assert payload['final_gate']['gate_verdict'] == 'pass'
+    assert payload['sweep_summary']['total_rows'] == 4
+
+
+def test_training_execution_trace_scan_script(tmp_path):
+    script_path = PRODUCT_ROOT / 'tools' / 'check_training_execution_traces.py'
+    spec = importlib.util.spec_from_file_location('check_training_execution_traces', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    clean = tmp_path / 'clean.json'
+    clean.write_text('{"ok":true}\n', encoding='utf-8')
+    dirty = tmp_path / 'dirty.json'
+    dirty.write_text('{"token":"OPENROUTER_API_KEY"}\n', encoding='utf-8')
+    assert module.main.__call__ is not None
+    old_argv = list(sys.argv)
+    try:
+        sys.argv = ['check_training_execution_traces.py', str(clean)]
+        assert module.main() == 0
+        sys.argv = ['check_training_execution_traces.py', str(clean), str(dirty)]
+        assert module.main() == 1
+    finally:
+        sys.argv = old_argv
+
+
 def test_diff_psicat_spc_phase1_receipts_script(tmp_path, monkeypatch):
     baseline_path = tmp_path / 'baseline.json'
     baseline_path.write_text(
