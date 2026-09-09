@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
-"""Export retained three-lane Merlin training execution artifacts as JSON."""
+"""Export retained multi-lane Merlin training execution artifacts as JSON."""
 
 from __future__ import annotations
 
@@ -19,8 +19,13 @@ from ox_navigator.engine.merlin_training_execution import build_merlin_training_
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Export retained Merlin three-lane training execution bundle.")
+    parser = argparse.ArgumentParser(description="Export retained Merlin multi-lane training execution bundle.")
     parser.add_argument("--limit", type=int, default=0, help="Optional item cap; 0 means execute the full queue.")
+    parser.add_argument(
+        "--refresh-lane-e-profiles",
+        action="store_true",
+        help="Force Lane E runtime profile recapture before building the bundle.",
+    )
     parser.add_argument(
         "--output",
         type=str,
@@ -31,7 +36,11 @@ def main() -> int:
 
     session = MerlinSession()
     limit = None if int(args.limit or 0) == 0 else int(args.limit)
-    payload = build_merlin_training_execution_bundle(session=session, limit=limit)
+    payload = build_merlin_training_execution_bundle(
+        session=session,
+        limit=limit,
+        refresh_lane_e_profiles=bool(args.refresh_lane_e_profiles),
+    )
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

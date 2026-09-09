@@ -26,9 +26,17 @@ def main() -> int:
         default=str(ROOT / "training" / "mlflow_manifests"),
         help="Output directory",
     )
+    parser.add_argument(
+        "--refresh-lane-e-profiles",
+        action="store_true",
+        help="Emit manifest prerequisite commands that force fresh Lane E runtime profile recapture.",
+    )
     args = parser.parse_args()
 
-    payload = get_mlflow_experiment_manifests(limit=args.limit)
+    payload = get_mlflow_experiment_manifests(
+        limit=args.limit,
+        refresh_lane_e_profiles=bool(args.refresh_lane_e_profiles),
+    )
     if not payload.get("ok"):
         print(json.dumps({
             "ok": False,

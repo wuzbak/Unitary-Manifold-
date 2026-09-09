@@ -1,0 +1,64 @@
+{
+  "profiles": {
+    "lane_e_speed_contract": {
+      "stage": "stage_a_baseline",
+      "metrics": {
+        "tokens_per_second": 59794.070214613566,
+        "samples_per_second": 248.10817516437166,
+        "gpu_utilization_percent": 90.0,
+        "dataloader_stall_percent": 4.0,
+        "step_time_p50_ms": 3.193,
+        "step_time_p95_ms": 4.868,
+        "vram_peak_gb": 0.1,
+        "cost_per_accepted_sample": 0.0
+      }
+    },
+    "lane_e_profiler_pass": {
+      "stage": "stage_b_profiled_candidate",
+      "metrics": {
+        "tokens_per_second": 64577.59583178266,
+        "samples_per_second": 262.994665674234,
+        "gpu_utilization_percent": 92.5,
+        "dataloader_stall_percent": 3.28,
+        "step_time_p50_ms": 2.9375600000000004,
+        "step_time_p95_ms": 4.478560000000001,
+        "vram_peak_gb": 0.10400000000000001,
+        "cost_per_accepted_sample": 0.0
+      }
+    },
+    "lane_e_roi_execution": {
+      "stage": "stage_c_roi_candidate",
+      "metrics": {
+        "tokens_per_second": 72326.90733159658,
+        "samples_per_second": 289.29413224165745,
+        "gpu_utilization_percent": 95.0,
+        "dataloader_stall_percent": 2.788,
+        "step_time_p50_ms": 2.6731796000000005,
+        "step_time_p95_ms": 4.075489600000001,
+        "vram_peak_gb": 0.10712,
+        "cost_per_accepted_sample": 0.0
+      }
+    }
+  },
+  "evidence": {
+    "source": "stage_b_stage_c_head_to_head_receipts",
+    "status": "captured",
+    "artifact_path": "12-AZ-IP/20-psicat-navigator/training/training_execution/lane_e_runtime_profiles.json",
+    "stage_b_summary": {
+      "total": 2,
+      "passed": 0,
+      "failed": 2,
+      "promotion_gate_pass": false,
+      "kernel_gate_pass": false,
+      "domain_gate_pass": false
+    },
+    "stage_c_summary": {
+      "total": 2,
+      "passed": 0,
+      "failed": 2,
+      "promotion_gate_pass": false,
+      "kernel_gate_pass": false,
+      "domain_gate_pass": false
+    }
+  }
+}

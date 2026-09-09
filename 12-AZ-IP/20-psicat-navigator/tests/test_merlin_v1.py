@@ -107,11 +107,27 @@ def test_export_training_artifacts_script(tmp_path, monkeypatch):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     output_path = tmp_path / 'training_artifacts.json'
-    monkeypatch.setattr(sys, 'argv', ['export_merlin_training_artifacts.py', '--limit', '4', '--output', str(output_path)])
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'export_merlin_training_artifacts.py',
+            '--limit',
+            '4',
+            '--output',
+            str(output_path),
+            '--refresh-lane-e-profiles',
+        ],
+    )
     assert module.main() == 0
     payload = json.loads(output_path.read_text())
     assert payload['ok'] is True
     assert payload['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
+    assert payload['artifact_bundle']['training_execution_bundle_preview']['ok'] is True
+    assert payload['artifact_bundle']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
+    assert payload['artifact_bundle']['training_execution_bundle_preview']['lane_e_runtime_profile_artifact_path'].endswith(
+        'lane_e_runtime_profiles.json'
+    )
 
 
 def test_export_training_jsonl_script(tmp_path, monkeypatch):
@@ -154,10 +170,19 @@ def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     output_dir = tmp_path / 'mlflow'
-    monkeypatch.setattr(sys, 'argv', ['export_merlin_mlflow_manifests.py', '--limit', '4', '--output-dir', str(output_dir)])
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_merlin_mlflow_manifests.py', '--limit', '4', '--output-dir', str(output_dir), '--refresh-lane-e-profiles'],
+    )
     assert module.main() == 0
     payload = json.loads((output_dir / 'mlflow_manifests.json').read_text())
     assert len(payload['manifests']) >= 4
+    assert any(
+        '--refresh-lane-e-profiles' in cmd
+        for manifest in payload['manifests']
+        for cmd in manifest.get('prerequisite_commands', [])
+    )
 
 
 def test_export_training_execution_script(tmp_path, monkeypatch):
@@ -167,12 +192,36 @@ def test_export_training_execution_script(tmp_path, monkeypatch):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     output_path = tmp_path / 'training_execution.json'
-    monkeypatch.setattr(sys, 'argv', ['export_merlin_training_execution.py', '--limit', '3', '--output', str(output_path)])
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_merlin_training_execution.py', '--limit', '3', '--refresh-lane-e-profiles', '--output', str(output_path)],
+    )
     assert module.main() == 0
     payload = json.loads(output_path.read_text())
     assert payload['ok'] is True
     assert payload['execution_cycle']['processed_count'] == 3
     assert payload['lane_progress_ledgers']['overall']['completed_count'] == 3
+    assert payload['lane_e_profile_refresh_requested'] is True
+
+
+def test_export_lane_e_runtime_profiles_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_lane_e_runtime_profiles.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_lane_e_runtime_profiles', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'lane_e_runtime_profiles.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_merlin_lane_e_runtime_profiles.py', '--output', str(output_path)],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['artifact_path'].endswith('lane_e_runtime_profiles.json')
+    assert 'runtime_profiles' in payload
 
 
 def test_export_psicat_spc_phase1_baseline_script(tmp_path, monkeypatch):
@@ -639,13 +688,64 @@ def test_route_tool_training_architecture_and_artifacts():
     assert continuous['ok'] is True
     assert continuous['result']['data']['queue']['preview_count'] == 4
     assert 'publish_without_human_approval' in continuous['result']['data']['forbidden_actions']
+    performance_lane = route_tool('getMerlinPerformanceLane', {})
+    assert performance_lane['ok'] is True
+    assert performance_lane['result']['data']['lane_id'] == 'lane_e_training_performance'
+    assert len(performance_lane['result']['data']['speed_contract']['required_metrics']) >= 8
+    perf_gate = route_tool('evaluateMerlinPerformanceGate', {
+        'baseline': {
+            'stage': 'stage_a',
+            'metrics': {
+                'tokens_per_second': 100.0,
+                'samples_per_second': 50.0,
+                'gpu_utilization_percent': 72.0,
+                'dataloader_stall_percent': 10.0,
+                'step_time_p50_ms': 200.0,
+                'step_time_p95_ms': 320.0,
+                'vram_peak_gb': 12.0,
+                'cost_per_accepted_sample': 0.2,
+            },
+        },
+        'candidate': {
+            'stage': 'stage_b',
+            'metrics': {
+                'tokens_per_second': 130.0,
+                'samples_per_second': 65.0,
+                'gpu_utilization_percent': 84.0,
+                'dataloader_stall_percent': 8.0,
+                'step_time_p50_ms': 180.0,
+                'step_time_p95_ms': 290.0,
+                'vram_peak_gb': 12.4,
+                'cost_per_accepted_sample': 0.19,
+            },
+        },
+    })
+    assert perf_gate['ok'] is True
+    assert perf_gate['result']['data']['gate_verdict'] == 'pass'
     session = MerlinSession()
     execution_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 4}, session=session)
     assert execution_queue['ok'] is True
     assert execution_queue['result']['data']['queued_count'] >= 4
+    execution_bundle = route_tool(
+        'getMerlinTrainingExecutionBundle',
+        {'limit': 3, 'refresh_lane_e_profiles': True},
+        session=session,
+    )
+    assert execution_bundle['ok'] is True
+    assert execution_bundle['result']['data']['ok'] is True
+    assert execution_bundle['result']['data']['execution_cycle']['processed_count'] == 3
+    assert execution_bundle['result']['data']['lane_e_profile_refresh_requested'] is True
+    assert execution_bundle['result']['data']['lane_e_runtime_profile_artifact_path'].endswith(
+        'lane_e_runtime_profiles.json'
+    )
+    lane_e_profiles = route_tool('getMerlinLaneERuntimeProfiles', {}, session=session)
+    assert lane_e_profiles['ok'] is True
+    assert lane_e_profiles['result']['data']['ok'] is True
+    assert lane_e_profiles['result']['data']['artifact_path'].endswith('lane_e_runtime_profiles.json')
     training_cycle = route_tool('runMerlinTrainingCycle', {'limit': 3}, session=session)
     assert training_cycle['ok'] is True
     assert training_cycle['result']['data']['processed_count'] == 3
+    assert training_cycle['result']['data']['performance_gate']['gate_verdict'] in {'pass', 'hold'}
     targeted_rigor = route_tool(
         'runMerlinTargetedRigorSprint',
         {'limit': 1, 'training_limit': 3},
@@ -666,6 +766,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert challenge_pack['result']['data']['challenge_count'] == 4
     assert any(
         item['lane_id'] == 'lane_d_formal_proof_foundry'
+        for item in route_tool('getMerlinTrainingExecutionQueue', {'limit': 20}, session=session)['result']['data']['items']
+    )
+    assert any(
+        item['lane_id'] == 'lane_e_training_performance'
         for item in route_tool('getMerlinTrainingExecutionQueue', {'limit': 20}, session=session)['result']['data']['items']
     )
     navier_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 80}, session=session)
@@ -742,15 +846,20 @@ def test_route_tool_training_architecture_and_artifacts():
     extra_arg_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_b', 'limit': 1})
     assert extra_arg_corpora['ok'] is False
 
-    artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4})
+    artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4, 'refresh_lane_e_profiles': True})
     assert artifacts['ok'] is True
     assert artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
     assert artifacts['result']['data']['artifact_bundle']['formal_proof_foundry_bundle']['program'] == 'FORMAL_PROOF_FOUNDRY'
+    assert artifacts['result']['data']['artifact_bundle']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
+    artifacts_with_sync_hint = route_tool('getMerlinTrainingArtifacts', {'limit': 2, 'sync_checks_ok': False})
+    assert artifacts_with_sync_hint['ok'] is True
 
     empty_artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 0})
     assert empty_artifacts['ok'] is True
     assert empty_artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 0
     assert empty_artifacts['result']['data']['artifact_bundle']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] == 0
+    bad_artifact_refresh = route_tool('getMerlinTrainingArtifacts', {'refresh_lane_e_profiles': 'yes'})
+    assert bad_artifact_refresh['ok'] is False
 
     dataset = route_tool('getMerlinTrainingDataset', {'limit': 4})
     assert dataset['ok'] is True
@@ -796,10 +905,17 @@ def test_route_tool_training_architecture_and_artifacts():
     assert curation_payload['budget_doctrine']['current_cycle_mode'] == 'local_only'
     assert curation_payload['token_budget']['freeze_external_generation'] is True
 
-    mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4})
+    mlflow = route_tool('getMerlinMLflowManifests', {'limit': 4, 'refresh_lane_e_profiles': True})
     assert mlflow['ok'] is True
     assert len(mlflow['result']['data']['manifests']) >= 4
     assert '{limit}' not in mlflow['result']['data']['manifests'][0]['entry_command']
+    assert any(
+        '--refresh-lane-e-profiles' in cmd
+        for manifest in mlflow['result']['data']['manifests']
+        for cmd in manifest.get('prerequisite_commands', [])
+    )
+    mlflow_with_sync_hint = route_tool('getMerlinMLflowManifests', {'limit': 2, 'sync_checks_ok': True})
+    assert mlflow_with_sync_hint['ok'] is True
     assert '&&' not in mlflow['result']['data']['manifests'][1]['entry_command']
     assert mlflow['result']['data']['manifests'][0]['entry_command'].startswith(sys.executable)
     assert 'run_merlin_mlflow_experiment.py' in mlflow['result']['data']['manifests'][0]['entry_command']
@@ -2008,10 +2124,17 @@ def test_server_merlin_endpoints():
             assert mastery.json()['ok'] is True
             assert mastery.json()['expert_mastery_program']['levels'][0]['level'] == 'L1_foundational'
 
-            mlflow_manifests = client.get('/api/merlin/mlflow-manifests?limit=4')
+            mlflow_manifests = client.get('/api/merlin/mlflow-manifests?limit=4&refresh_lane_e_profiles=true')
             assert mlflow_manifests.status_code == 200
             assert mlflow_manifests.json()['ok'] is True
             assert len(mlflow_manifests.json()['mlflow_manifests']['manifests']) >= 4
+            assert any(
+                '--refresh-lane-e-profiles' in cmd
+                for manifest in mlflow_manifests.json()['mlflow_manifests']['manifests']
+                for cmd in manifest.get('prerequisite_commands', [])
+            )
+            bad_mlflow_refresh = client.get('/api/merlin/mlflow-manifests?refresh_lane_e_profiles=maybe')
+            assert bad_mlflow_refresh.status_code == 400
 
             competitive_benchmarks = client.get('/api/merlin/competitive-benchmarks')
             assert competitive_benchmarks.status_code == 200
@@ -2034,18 +2157,74 @@ def test_server_merlin_endpoints():
             assert continuous_learning.json()['ok'] is True
             assert continuous_learning.json()['continuous_learning']['queue']['preview_count'] == 4
             assert 'publish_without_human_approval' in continuous_learning.json()['continuous_learning']['forbidden_actions']
+            performance_lane = client.get('/api/merlin/performance-lane')
+            assert performance_lane.status_code == 200
+            assert performance_lane.json()['ok'] is True
+            assert performance_lane.json()['performance_lane']['lane_id'] == 'lane_e_training_performance'
+            performance_gate = client.post('/api/merlin/performance-gate-evaluate', json={
+                'baseline': {
+                    'stage': 'stage_a',
+                    'metrics': {
+                        'tokens_per_second': 90.0,
+                        'samples_per_second': 45.0,
+                        'gpu_utilization_percent': 71.0,
+                        'dataloader_stall_percent': 11.0,
+                        'step_time_p50_ms': 240.0,
+                        'step_time_p95_ms': 350.0,
+                        'vram_peak_gb': 10.0,
+                        'cost_per_accepted_sample': 0.25,
+                    },
+                },
+                'candidate': {
+                    'stage': 'stage_b',
+                    'metrics': {
+                        'tokens_per_second': 110.0,
+                        'samples_per_second': 58.0,
+                        'gpu_utilization_percent': 82.0,
+                        'dataloader_stall_percent': 7.0,
+                        'step_time_p50_ms': 205.0,
+                        'step_time_p95_ms': 300.0,
+                        'vram_peak_gb': 10.6,
+                        'cost_per_accepted_sample': 0.24,
+                    },
+                },
+            })
+            assert performance_gate.status_code == 200
+            assert performance_gate.json()['ok'] is True
+            assert performance_gate.json()['performance_gate']['gate_verdict'] == 'pass'
             training_execution_queue = client.get('/api/merlin/training-execution-queue?limit=4')
             assert training_execution_queue.status_code == 200
             assert training_execution_queue.json()['ok'] is True
             assert training_execution_queue.json()['training_execution_queue']['queued_count'] >= 4
+            training_execution_bundle = client.get('/api/merlin/training-execution-bundle?limit=3&refresh_lane_e_profiles=true')
+            assert training_execution_bundle.status_code == 200
+            assert training_execution_bundle.json()['ok'] is True
+            assert training_execution_bundle.json()['training_execution_bundle']['ok'] is True
+            assert training_execution_bundle.json()['training_execution_bundle']['execution_cycle']['processed_count'] == 3
+            assert training_execution_bundle.json()['training_execution_bundle']['lane_e_profile_refresh_requested'] is True
+            assert training_execution_bundle.json()['training_execution_bundle']['lane_e_runtime_profile_artifact_path'].endswith(
+                'lane_e_runtime_profiles.json'
+            )
+            bad_training_execution_bundle_refresh = client.get('/api/merlin/training-execution-bundle?refresh_lane_e_profiles=maybe')
+            assert bad_training_execution_bundle_refresh.status_code == 400
+            lane_e_runtime_profiles = client.get('/api/merlin/lane-e-runtime-profiles')
+            assert lane_e_runtime_profiles.status_code == 200
+            assert lane_e_runtime_profiles.json()['ok'] is True
+            assert lane_e_runtime_profiles.json()['lane_e_runtime_profiles']['ok'] is True
+            assert lane_e_runtime_profiles.json()['lane_e_runtime_profiles']['artifact_path'].endswith(
+                'lane_e_runtime_profiles.json'
+            )
+            bad_lane_e_runtime_profiles = client.get('/api/merlin/lane-e-runtime-profiles?refresh=maybe')
+            assert bad_lane_e_runtime_profiles.status_code == 400
             training_cycle = client.post('/api/merlin/training-cycle', json={'limit': 3})
             assert training_cycle.status_code == 200
             assert training_cycle.json()['ok'] is True
             assert training_cycle.json()['training_cycle']['processed_count'] == 3
+            assert training_cycle.json()['training_cycle']['performance_gate']['gate_verdict'] in {'pass', 'hold'}
             lane_progress = client.get('/api/merlin/lane-progress-ledgers?limit=3')
             assert lane_progress.status_code == 200
             assert lane_progress.json()['ok'] is True
-            assert lane_progress.json()['lane_progress_ledgers']['overall']['completed_count'] == 3
+            assert lane_progress.json()['lane_progress_ledgers']['overall']['completed_count'] >= 3
             challenge_pack = client.get('/api/merlin/training-challenge-pack?limit=4')
             assert challenge_pack.status_code == 200
             assert challenge_pack.json()['ok'] is True
@@ -2165,10 +2344,17 @@ def test_server_merlin_endpoints():
             assert artifacts.json()['ok'] is True
             assert artifacts.json()['artifacts']['receipts']['summary']['total'] == 1
 
-            training_artifacts = client.get('/api/merlin/training-artifacts?limit=4')
+            training_artifacts = client.get('/api/merlin/training-artifacts?limit=4&refresh_lane_e_profiles=true')
             assert training_artifacts.status_code == 200
             assert training_artifacts.json()['ok'] is True
             assert training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 4
+            assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview']['ok'] is True
+            assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
+            assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview'][
+                'lane_e_runtime_profile_artifact_path'
+            ].endswith('lane_e_runtime_profiles.json')
+            bad_training_artifact_refresh = client.get('/api/merlin/training-artifacts?refresh_lane_e_profiles=maybe')
+            assert bad_training_artifact_refresh.status_code == 400
             assert 'hardware_architecture_board' in training_artifacts.json()['training_artifacts']
 
             empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
@@ -2453,6 +2639,10 @@ def test_route_tool_schema_validation_blocks_invalid_args():
     payload = route_tool('getPillar', {'pillar_id': 'not-int'})
     assert payload['ok'] is False
     assert "Invalid type" in payload['error']
+    perf_payload = route_tool('evaluateMerlinPerformanceGate', {'baseline': {}, 'candidate': {}})
+    assert perf_payload['ok'] is True
+    assert perf_payload['result']['data']['gate_verdict'] == 'hold'
+    assert "before_after_receipts_present" in perf_payload['result']['data']['failed_checks']
 
 
 def test_run_sync_checks_has_consistency_contract():
