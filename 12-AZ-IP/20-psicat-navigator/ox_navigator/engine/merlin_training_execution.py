@@ -666,7 +666,7 @@ def _apply_profile_transform(
     }
 
 
-def _build_lane_e_runtime_profiles() -> dict[str, Any]:
+def _build_lane_e_runtime_profiles(*, allow_persisted: bool = True) -> dict[str, Any]:
     global _LANE_E_RUNTIME_PROFILE_CACHE
     if isinstance(_LANE_E_RUNTIME_PROFILE_CACHE, dict):
         return dict(_LANE_E_RUNTIME_PROFILE_CACHE)
@@ -714,10 +714,11 @@ def _build_lane_e_runtime_profiles() -> dict[str, Any]:
         )
         return {"profiles": profiles, "evidence": evidence}
 
-    persisted = _load_persisted()
-    if isinstance(persisted, dict):
-        _LANE_E_RUNTIME_PROFILE_CACHE = dict(persisted)
-        return dict(persisted)
+    if allow_persisted:
+        persisted = _load_persisted()
+        if isinstance(persisted, dict):
+            _LANE_E_RUNTIME_PROFILE_CACHE = dict(persisted)
+            return dict(persisted)
 
     fallback = _default_lane_e_stage_profiles()
     stage_profiles = dict(fallback)
@@ -785,6 +786,22 @@ def _build_lane_e_runtime_profiles() -> dict[str, Any]:
     _persist(payload)
     _LANE_E_RUNTIME_PROFILE_CACHE = dict(payload)
     return dict(payload)
+
+
+def get_merlin_lane_e_runtime_profiles(*, refresh: bool = False) -> dict[str, Any]:
+    global _LANE_E_RUNTIME_PROFILE_CACHE
+    if bool(refresh):
+        _LANE_E_RUNTIME_PROFILE_CACHE = None
+        payload = _build_lane_e_runtime_profiles(allow_persisted=False)
+    else:
+        payload = _build_lane_e_runtime_profiles()
+    return {
+        "ok": True,
+        "artifact_path": _repo_rel(LANE_E_PROFILE_ARTIFACT_PATH),
+        "artifact_exists": LANE_E_PROFILE_ARTIFACT_PATH.exists(),
+        "profile_keys": sorted(list((payload.get("profiles") or {}).keys())),
+        "runtime_profiles": payload,
+    }
 
 
 def _build_lane_e_receipt(item: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], str]:

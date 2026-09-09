@@ -1693,6 +1693,7 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/continuous-learning",
         "/api/merlin/training-execution-queue",
         "/api/merlin/training-execution-bundle",
+        "/api/merlin/lane-e-runtime-profiles",
         "/api/merlin/lane-progress-ledgers",
         "/api/merlin/training-cycle",
         "/api/merlin/training-challenge-pack",
@@ -1748,6 +1749,7 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/continuous-learning",
         "/api/merlin/training-execution-queue",
         "/api/merlin/training-execution-bundle",
+        "/api/merlin/lane-e-runtime-profiles",
         "/api/merlin/lane-progress-ledgers",
         "/api/merlin/training-cycle",
         "/api/merlin/training-challenge-pack",
@@ -1821,6 +1823,8 @@ def run_sync_checks() -> dict[str, Any]:
         "tools/export_merlin_training_artifacts.py": ["build_training_artifact_bundle", "--output"],
         "tools/export_merlin_training_jsonl.py": ["build_training_dataset_bundle", "--output-dir"],
         "tools/export_merlin_mlflow_manifests.py": ["get_mlflow_experiment_manifests", "--output-dir"],
+        "tools/export_merlin_training_execution.py": ["build_merlin_training_execution_bundle", "--output"],
+        "tools/export_merlin_lane_e_runtime_profiles.py": ["get_merlin_lane_e_runtime_profiles", "--output"],
     }
     for rel in REQUIRED_EXPORT_SCRIPTS:
         path = parity_root / rel
@@ -2897,7 +2901,7 @@ def _seed_performance_lane_examples() -> list[dict[str, Any]]:
             "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
             "supervision_mode": "performance_contract_alignment",
             "required_gates": ["GOVERNANCE", "ARCHITECTURE_LIMIT"],
-            "provenance_sources": ["getMerlinPerformanceLane", "getMerlinTrainingExecutionQueue"],
+            "provenance_sources": ["getMerlinPerformanceLane", "getMerlinTrainingExecutionQueue", "getMerlinLaneERuntimeProfiles"],
         },
         {
             "id": "performance-lane-profiler-first",
@@ -4788,6 +4792,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "artifact_bundle": "getMerlinTrainingArtifacts",
             "execution_queue": "getMerlinTrainingExecutionQueue",
             "execution_bundle": "getMerlinTrainingExecutionBundle",
+            "lane_e_runtime_profiles": "getMerlinLaneERuntimeProfiles",
             "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",
@@ -6070,6 +6075,7 @@ def build_training_artifact_bundle(
             "training_execution_surfaces": {
                 "execution_queue": "getMerlinTrainingExecutionQueue",
                 "execution_bundle": "getMerlinTrainingExecutionBundle",
+                "lane_e_runtime_profiles": "getMerlinLaneERuntimeProfiles",
                 "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
                 "training_cycle_runner": "runMerlinTrainingCycle",
                 "challenge_pack": "getMerlinTrainingChallengePack",
@@ -6371,6 +6377,7 @@ def get_full_program_blueprint() -> dict[str, Any]:
         "training_execution_surfaces": {
             "execution_queue": "getMerlinTrainingExecutionQueue",
             "execution_bundle": "getMerlinTrainingExecutionBundle",
+            "lane_e_runtime_profiles": "getMerlinLaneERuntimeProfiles",
             "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",

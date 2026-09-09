@@ -62,6 +62,7 @@ from .merlin_meta_learning import analyze_depth, consolidate_memory, generate_fa
 from .merlin_training_execution import (
     build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
+    get_merlin_lane_e_runtime_profiles,
     get_merlin_lane_progress_ledgers,
     get_merlin_training_challenge_pack,
     run_merlin_training_cycle,
@@ -144,6 +145,7 @@ __all__ = [
     'get_merlin_inference_health', 'build_merlin_energy_ledger',
     'consolidate_memory', 'run_self_audit', 'generate_falsification_oracle', 'analyze_depth',
     'build_merlin_training_execution_bundle', 'build_merlin_training_execution_queue',
+    'get_merlin_lane_e_runtime_profiles',
     'get_merlin_lane_progress_ledgers', 'get_merlin_training_challenge_pack', 'run_merlin_training_cycle',
     'get_program_charter', 'get_program_doctrine', 'get_sovereignty_roadmap', 'get_replacement_scope',
     'get_merlin_pentad_contract', 'get_dual_loop_learning_contract',

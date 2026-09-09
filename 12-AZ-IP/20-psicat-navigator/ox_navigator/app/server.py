@@ -70,6 +70,7 @@ from ox_navigator.engine.merlin_telemetry import build_energy_ledger
 from ox_navigator.engine.merlin_training_execution import (
     build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
+    get_merlin_lane_e_runtime_profiles,
     get_merlin_lane_progress_ledgers,
     get_merlin_training_challenge_pack,
     run_merlin_training_cycle,
@@ -760,6 +761,18 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'training_execution_bundle': build_merlin_training_execution_bundle(session=merlin_session, limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/lane-e-runtime-profiles':
+                refresh_raw = str((params.get('refresh') or ['false'])[0]).strip().lower()
+                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
+                    self._json({'ok': False, 'error': "Parameter 'refresh' must be a boolean-like value."}, status=400)
+                    return
+                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
+                self._json({
+                'ok': True,
+                'lane_e_runtime_profiles': get_merlin_lane_e_runtime_profiles(refresh=refresh),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

@@ -179,6 +179,25 @@ def test_export_training_execution_script(tmp_path, monkeypatch):
     assert payload['lane_progress_ledgers']['overall']['completed_count'] == 3
 
 
+def test_export_lane_e_runtime_profiles_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_lane_e_runtime_profiles.py'
+    spec = importlib.util.spec_from_file_location('export_merlin_lane_e_runtime_profiles', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'lane_e_runtime_profiles.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_merlin_lane_e_runtime_profiles.py', '--output', str(output_path)],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['artifact_path'].endswith('lane_e_runtime_profiles.json')
+    assert 'runtime_profiles' in payload
+
+
 def test_run_mlflow_experiment_script(tmp_path, monkeypatch):
     script_path = PRODUCT_ROOT / 'tools' / 'run_merlin_mlflow_experiment.py'
     spec = importlib.util.spec_from_file_location('run_merlin_mlflow_experiment', script_path)
@@ -568,6 +587,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert execution_bundle['result']['data']['lane_e_runtime_profile_artifact_path'].endswith(
         'lane_e_runtime_profiles.json'
     )
+    lane_e_profiles = route_tool('getMerlinLaneERuntimeProfiles', {}, session=session)
+    assert lane_e_profiles['ok'] is True
+    assert lane_e_profiles['result']['data']['ok'] is True
+    assert lane_e_profiles['result']['data']['artifact_path'].endswith('lane_e_runtime_profiles.json')
     training_cycle = route_tool('runMerlinTrainingCycle', {'limit': 3}, session=session)
     assert training_cycle['ok'] is True
     assert training_cycle['result']['data']['processed_count'] == 3
@@ -1979,6 +2002,15 @@ def test_server_merlin_endpoints():
             assert training_execution_bundle.json()['training_execution_bundle']['lane_e_runtime_profile_artifact_path'].endswith(
                 'lane_e_runtime_profiles.json'
             )
+            lane_e_runtime_profiles = client.get('/api/merlin/lane-e-runtime-profiles')
+            assert lane_e_runtime_profiles.status_code == 200
+            assert lane_e_runtime_profiles.json()['ok'] is True
+            assert lane_e_runtime_profiles.json()['lane_e_runtime_profiles']['ok'] is True
+            assert lane_e_runtime_profiles.json()['lane_e_runtime_profiles']['artifact_path'].endswith(
+                'lane_e_runtime_profiles.json'
+            )
+            bad_lane_e_runtime_profiles = client.get('/api/merlin/lane-e-runtime-profiles?refresh=maybe')
+            assert bad_lane_e_runtime_profiles.status_code == 400
             training_cycle = client.post('/api/merlin/training-cycle', json={'limit': 3})
             assert training_cycle.status_code == 200
             assert training_cycle.json()['ok'] is True
