@@ -394,7 +394,7 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_REFRESH_ARGS_SCHEMA},
         "getMerlinTrainingDataset": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingCuration": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
@@ -1061,7 +1061,10 @@ _FUNCTIONS = {
         limit=_coerce_positive_int(args.get("limit"), 12),
     )},
     "getMerlinCompetitiveBenchmarkPlan": lambda **args: {"data": get_competitive_benchmark_plan()},
-    "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(limit=args.get("limit"))},
+    "getMerlinTrainingArtifacts": lambda **args: {"data": build_training_artifact_bundle(
+        limit=args.get("limit"),
+        refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
+    )},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
     "getMerlinBackendPolicy": lambda **args: {"data": get_backend_expansion_policy()},
     "getMerlinWorkspacePolicy": lambda **args: {"data": get_workspace_policy()},
@@ -1318,6 +1321,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                 result = {"data": build_training_artifact_bundle(
                     limit=args.get("limit"),
                     compiled_insights=active_session.get_compiled_training_insights(),
+                    refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
                 )}
             elif tool == "getMerlinTrainingCuration":
                 result = {"data": get_training_curation_ledger(

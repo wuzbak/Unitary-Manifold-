@@ -26,9 +26,17 @@ def main() -> int:
         default=str(ROOT / "training" / "training_artifacts" / "training_artifacts.json"),
         help="Output JSON path",
     )
+    parser.add_argument(
+        "--refresh-lane-e-profiles",
+        action="store_true",
+        help="Force fresh Lane E runtime profile recapture in the embedded execution-bundle preview",
+    )
     args = parser.parse_args()
 
-    payload = build_training_artifact_bundle(limit=args.limit)
+    payload = build_training_artifact_bundle(
+        limit=args.limit,
+        refresh_lane_e_profiles=bool(args.refresh_lane_e_profiles),
+    )
     if not payload.get("ok"):
         print(json.dumps({
             "ok": False,

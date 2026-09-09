@@ -1820,7 +1820,7 @@ def run_sync_checks() -> dict[str, Any]:
 
     export_script_checks = []
     export_contract_markers = {
-        "tools/export_merlin_training_artifacts.py": ["build_training_artifact_bundle", "--output"],
+        "tools/export_merlin_training_artifacts.py": ["build_training_artifact_bundle", "--output", "--refresh-lane-e-profiles"],
         "tools/export_merlin_training_jsonl.py": ["build_training_dataset_bundle", "--output-dir"],
         "tools/export_merlin_mlflow_manifests.py": ["get_mlflow_experiment_manifests", "--output-dir"],
         "tools/export_merlin_training_execution.py": ["build_merlin_training_execution_bundle", "--output", "--refresh-lane-e-profiles"],
@@ -6034,6 +6034,7 @@ def build_training_artifact_bundle(
     limit: int | None = None,
     *,
     compiled_insights: list[dict[str, Any]] | None = None,
+    refresh_lane_e_profiles: bool = False,
 ) -> dict[str, Any]:
     from .merlin_benchmark import build_stage_a_artifact_bundle
     from .merlin_memory import MerlinSession
@@ -6050,6 +6051,7 @@ def build_training_artifact_bundle(
     training_execution_bundle = build_merlin_training_execution_bundle(
         session=MerlinSession(),
         limit=stage_a_limit,
+        refresh_lane_e_profiles=bool(refresh_lane_e_profiles),
     )
     return {
         "ok": True,

@@ -1070,9 +1070,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
+                refresh_raw = str((params.get('refresh_lane_e_profiles') or ['false'])[0]).strip().lower()
+                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
+                    self._json({'ok': False, 'error': "Parameter 'refresh_lane_e_profiles' must be a boolean-like value."}, status=400)
+                    return
+                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
                 payload = build_training_artifact_bundle(
                     limit=limit,
                     compiled_insights=merlin_session.get_compiled_training_insights(),
+                    refresh_lane_e_profiles=refresh,
                 )
                 if not payload.get('ok'):
                     self._json({'ok': False, 'error': payload.get('error', 'Unable to build training artifacts.')}, status=500)

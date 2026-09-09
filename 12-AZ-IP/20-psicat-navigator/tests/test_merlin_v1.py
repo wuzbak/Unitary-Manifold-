@@ -107,12 +107,24 @@ def test_export_training_artifacts_script(tmp_path, monkeypatch):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     output_path = tmp_path / 'training_artifacts.json'
-    monkeypatch.setattr(sys, 'argv', ['export_merlin_training_artifacts.py', '--limit', '4', '--output', str(output_path)])
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'export_merlin_training_artifacts.py',
+            '--limit',
+            '4',
+            '--output',
+            str(output_path),
+            '--refresh-lane-e-profiles',
+        ],
+    )
     assert module.main() == 0
     payload = json.loads(output_path.read_text())
     assert payload['ok'] is True
     assert payload['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
     assert payload['artifact_bundle']['training_execution_bundle_preview']['ok'] is True
+    assert payload['artifact_bundle']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
     assert payload['artifact_bundle']['training_execution_bundle_preview']['lane_e_runtime_profile_artifact_path'].endswith(
         'lane_e_runtime_profiles.json'
     )
@@ -694,15 +706,18 @@ def test_route_tool_training_architecture_and_artifacts():
     extra_arg_corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_b', 'limit': 1})
     assert extra_arg_corpora['ok'] is False
 
-    artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4})
+    artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4, 'refresh_lane_e_profiles': True})
     assert artifacts['ok'] is True
     assert artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
     assert artifacts['result']['data']['artifact_bundle']['formal_proof_foundry_bundle']['program'] == 'FORMAL_PROOF_FOUNDRY'
+    assert artifacts['result']['data']['artifact_bundle']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
 
     empty_artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 0})
     assert empty_artifacts['ok'] is True
     assert empty_artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 0
     assert empty_artifacts['result']['data']['artifact_bundle']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] == 0
+    bad_artifact_refresh = route_tool('getMerlinTrainingArtifacts', {'refresh_lane_e_profiles': 'yes'})
+    assert bad_artifact_refresh['ok'] is False
 
     dataset = route_tool('getMerlinTrainingDataset', {'limit': 4})
     assert dataset['ok'] is True
@@ -2133,14 +2148,17 @@ def test_server_merlin_endpoints():
             assert artifacts.json()['ok'] is True
             assert artifacts.json()['artifacts']['receipts']['summary']['total'] == 1
 
-            training_artifacts = client.get('/api/merlin/training-artifacts?limit=4')
+            training_artifacts = client.get('/api/merlin/training-artifacts?limit=4&refresh_lane_e_profiles=true')
             assert training_artifacts.status_code == 200
             assert training_artifacts.json()['ok'] is True
             assert training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 4
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview']['ok'] is True
+            assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview'][
                 'lane_e_runtime_profile_artifact_path'
             ].endswith('lane_e_runtime_profiles.json')
+            bad_training_artifact_refresh = client.get('/api/merlin/training-artifacts?refresh_lane_e_profiles=maybe')
+            assert bad_training_artifact_refresh.status_code == 400
 
             empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
             assert empty_training_artifacts.status_code == 200
