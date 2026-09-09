@@ -2698,7 +2698,7 @@ def test_server_training_export_validation_failures_return_422(monkeypatch):
     monkeypatch.setattr(
         server_module,
         'build_training_dataset_bundle',
-        lambda limit=None, compiled_insights=None: {
+        lambda limit=None, compiled_insights=None, include_ast_context=False, ast_file_limit=None: {
             'ok': False,
             'error': 'Dataset validation failed.',
             'validation_error_count': 1,
@@ -2707,17 +2707,12 @@ def test_server_training_export_validation_failures_return_422(monkeypatch):
     )
     monkeypatch.setattr(
         server_module,
-        'route_tool',
-        lambda tool, args=None, session=None: {
-            'ok': True,
-            'result': {
-                'data': {
-                    'ok': False,
-                    'error': 'Dataset validation failed.',
-                    'validation_error_count': 1,
-                    'curation_ledger': {},
-                }
-            },
+        'get_training_curation_ledger',
+        lambda limit=None, compiled_insights=None, include_ast_context=False, ast_file_limit=None: {
+            'ok': False,
+            'error': 'Dataset validation failed.',
+            'validation_error_count': 1,
+            'curation_ledger': {},
         },
     )
 
@@ -2746,8 +2741,8 @@ def test_server_training_curation_malformed_tool_payload_returns_500(monkeypatch
 
     monkeypatch.setattr(
         server_module,
-        'route_tool',
-        lambda tool, args=None, session=None: {'ok': True, 'result': {'data': {}}},
+        'get_training_curation_ledger',
+        lambda limit=None, compiled_insights=None, include_ast_context=False, ast_file_limit=None: {},
     )
 
     httpd = serve(port=0)
