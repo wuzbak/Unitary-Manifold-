@@ -48,6 +48,11 @@ SUBSTACK_POSTS_ROOT = SUBSTACK_ROOT / "posts"
 MERLIN_THREE_LANE_DOC = PRODUCT_ROOT / "PSICAT_THREE_LANE_INTENSIVE_SPRINT.md"
 MERLIN_EXECUTION_BOARD_DOC = PRODUCT_ROOT / "PSICAT_EXECUTION_BOARD.md"
 MERLIN_VALIDATION_RESILIENCE_DOC = PRODUCT_ROOT / "PSICAT_VALIDATION_RESILIENCE_PACKET.md"
+PSICAT_SPC_PLAN_DOC = PRODUCT_ROOT / "PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md"
+PSICAT_SPC_GATES_DOC = PRODUCT_ROOT / "PSICAT_SPC_BENCHMARK_GATES.md"
+PSICAT_SPC_PHASE0_PACKET_PATH = (
+    PRODUCT_ROOT / "training" / "training_execution" / "psicat_spc_phase0_execution_packet.json"
+)
 
 
 def _repo_rel(path: Path) -> str:
@@ -5736,6 +5741,256 @@ def run_merlin_targeted_rigor_sprint(
         "honesty_note": (
             "This packet reports deterministic repository-backed training receipts and benchmark runs; "
             "it does not claim hidden-weight learning or promotion beyond the visible gates."
+        ),
+    }
+
+
+def get_psicat_spc_phase0_execution_packet() -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "ok": False,
+        "path": _repo_rel(PSICAT_SPC_PHASE0_PACKET_PATH),
+        "error": "Missing phase-0 packet artifact.",
+    }
+    try:
+        text = PSICAT_SPC_PHASE0_PACKET_PATH.read_text(encoding="utf-8")
+        parsed = json.loads(text)
+    except (OSError, json.JSONDecodeError) as exc:
+        payload["error"] = f"Unable to load phase-0 packet artifact: {exc}"
+        return payload
+    payload["ok"] = True
+    payload["packet"] = parsed
+    payload["sources"] = [
+        _repo_rel(PSICAT_SPC_PLAN_DOC),
+        _repo_rel(PSICAT_SPC_GATES_DOC),
+        _repo_rel(PSICAT_SPC_PHASE0_PACKET_PATH),
+    ]
+    return payload
+
+
+def _run_to_evidence_packet(run: dict[str, Any], *, lane_id: str) -> dict[str, Any]:
+    merlin_eval = dict(run.get("merlin_evaluation") or {})
+    checks = dict(merlin_eval.get("checks") or {})
+    contract_checks = dict(checks.get("contract") or {})
+    provenance_checks = dict(checks.get("provenance") or {})
+    gate_checks = dict(checks.get("gates") or {})
+    score = float(merlin_eval.get("score") or 0.0)
+    score_100 = round(max(0.0, min(1.0, score)) * 100.0, 2)
+    pass_flag = bool(merlin_eval.get("pass"))
+    hard_fail_reasons: list[str] = []
+    if not bool(contract_checks.get("Sources:")):
+        hard_fail_reasons.append("missing_sources_section")
+    if not any(bool(value) for value in provenance_checks.values()):
+        hard_fail_reasons.append("missing_provenance_signal")
+    if not bool(run.get("merlin_shadow_ok")):
+        hard_fail_reasons.append("missing_shadow_telemetry")
+    review_verdict = "demote" if hard_fail_reasons else ("clear" if pass_flag else "hold")
+    confidence_band = (
+        "high"
+        if score_100 >= 90.0
+        else ("medium" if score_100 >= 70.0 else "low")
+    )
+    citations = sorted({f"contract:{key}" for key, ok in contract_checks.items() if ok} | {f"provenance:{key}" for key, ok in provenance_checks.items() if ok} | {f"gate:{key}" for key, ok in gate_checks.items() if ok})
+    return {
+        "scenario_id": str(run.get("benchmark_id") or ""),
+        "lane_id": lane_id,
+        "inputs": {
+            "query": str(run.get("query") or ""),
+            "domain_id": str(run.get("domain_id") or ""),
+            "track": str(run.get("track") or ""),
+        },
+        "response": {
+            "pass": pass_flag,
+            "score_100": score_100,
+            "shadow_ok": bool(run.get("merlin_shadow_ok")),
+        },
+        "citations": citations,
+        "confidence_band": confidence_band,
+        "score_breakdown": {
+            "aggregate_score_100": score_100,
+            "contract_sources_present": bool(contract_checks.get("Sources:")),
+            "contract_followups_present": bool(contract_checks.get("FOLLOWUPS:")),
+            "provenance_signals": {
+                key: bool(value)
+                for key, value in sorted(provenance_checks.items())
+            },
+        },
+        "review_verdict": review_verdict,
+        "corrective_action": (
+            "Resolve hard-fail reasons before rerun."
+            if hard_fail_reasons
+            else (
+                "Replay scenario with contradiction-first correction and stronger evidence routing."
+                if not pass_flag
+                else "No corrective action required."
+            )
+        ),
+        "hard_fail_reasons": hard_fail_reasons,
+    }
+
+
+def _lane_receipt_summary(
+    *,
+    lane_id: str,
+    lane_name: str,
+    receipts: dict[str, Any],
+    minimum_mean_score_100: float = 90.0,
+) -> dict[str, Any]:
+    runs = list(receipts.get("runs") or [])
+    evidence_packets = [_run_to_evidence_packet(run, lane_id=lane_id) for run in runs]
+    total = len(evidence_packets)
+    clear_count = sum(1 for item in evidence_packets if item["review_verdict"] == "clear")
+    hold_count = sum(1 for item in evidence_packets if item["review_verdict"] == "hold")
+    demote_count = sum(1 for item in evidence_packets if item["review_verdict"] == "demote")
+    mean_score = round(
+        (
+            sum(float(item["score_breakdown"]["aggregate_score_100"]) for item in evidence_packets)
+            / max(total, 1)
+        ),
+        2,
+    )
+    hard_fail_count = sum(1 for item in evidence_packets if item["hard_fail_reasons"])
+    lane_pass = (
+        total > 0
+        and hard_fail_count == 0
+        and hold_count == 0
+        and mean_score >= minimum_mean_score_100
+    )
+    lane_verdict = "clear" if lane_pass else ("demote" if demote_count > 0 else "hold")
+    return {
+        "lane_id": lane_id,
+        "lane_name": lane_name,
+        "receipt_count": total,
+        "mean_score_100": mean_score,
+        "clear_count": clear_count,
+        "hold_count": hold_count,
+        "demote_count": demote_count,
+        "hard_fail_count": hard_fail_count,
+        "lane_gate_pass": lane_pass,
+        "lane_verdict": lane_verdict,
+        "gate_summary": dict(receipts.get("summary") or {}),
+        "evidence_packets": evidence_packets,
+    }
+
+
+def run_psicat_spc_phase1_baseline(
+    *,
+    session: Any | None = None,
+    limit: int | None = 5,
+    training_limit: int | None = 9,
+) -> dict[str, Any]:
+    from .merlin_benchmark import (
+        run_stage_c_head_to_head_receipts_sync,
+        run_stage_domain_head_to_head_receipts_sync,
+    )
+    from .merlin_memory import MerlinSession
+
+    resolved_limit = _coerce_frontier_limit(limit, default=5)
+    resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
+    active_session = session if isinstance(session, MerlinSession) else MerlinSession()
+
+    targeted_rigor = run_merlin_targeted_rigor_sprint(
+        session=active_session,
+        limit=max(1, min(3, resolved_limit)),
+        training_limit=resolved_training_limit,
+    )
+    domain_receipts = run_stage_domain_head_to_head_receipts_sync(limit=max(5, resolved_limit))
+    strategy_receipts = run_stage_c_head_to_head_receipts_sync(limit=resolved_limit)
+
+    domain_runs = list(domain_receipts.get("runs") or [])
+    business_domains = {"business_office_management", "accounting_federal_and_wa_tax"}
+    regulatory_domains = {
+        "washington_social_purpose_corporations",
+        "business_law",
+        "labor_practices_and_human_resources",
+    }
+    business_receipts = {
+        **dict(domain_receipts),
+        "runs": [run for run in domain_runs if str(run.get("domain_id") or "") in business_domains],
+    }
+    regulatory_receipts = {
+        **dict(domain_receipts),
+        "runs": [run for run in domain_runs if str(run.get("domain_id") or "") in regulatory_domains],
+    }
+
+    business_lane = _lane_receipt_summary(
+        lane_id="lane_business_management",
+        lane_name="Business management operations",
+        receipts=business_receipts,
+    )
+    regulatory_lane = _lane_receipt_summary(
+        lane_id="lane_regulatory_governance",
+        lane_name="Regulatory and governance policy",
+        receipts=regulatory_receipts,
+    )
+    strategy_lane = _lane_receipt_summary(
+        lane_id="lane_strategy_resilience",
+        lane_name="Corporate/government strategy resilience",
+        receipts=strategy_receipts,
+    )
+    lanes = [business_lane, regulatory_lane, strategy_lane]
+
+    blocker_register: list[dict[str, str]] = [
+        {
+            "blocker_id": str(item.get("blocker_id") or ""),
+            "source": str(item.get("source") or "targeted_rigor"),
+            "reason": str(item.get("reason") or ""),
+        }
+        for item in list(targeted_rigor.get("blocker_register") or [])
+    ]
+    for lane in lanes:
+        if lane["lane_verdict"] == "clear":
+            continue
+        blocker_register.append(
+            {
+                "blocker_id": f"{lane['lane_id']}_gate_{lane['lane_verdict']}",
+                "source": "spc_phase1_lane_gate",
+                "reason": (
+                    f"{lane['lane_name']} requires remediation "
+                    f"(holds={lane['hold_count']}, demotes={lane['demote_count']}, hard_fails={lane['hard_fail_count']})."
+                ),
+            }
+        )
+
+    hold_clear_demote_ledger = {
+        "clear_count": sum(1 for lane in lanes if lane["lane_verdict"] == "clear"),
+        "hold_count": sum(1 for lane in lanes if lane["lane_verdict"] == "hold"),
+        "demote_count": sum(1 for lane in lanes if lane["lane_verdict"] == "demote"),
+        "default_policy": "fail_closed_on_missing_evidence_or_failed_gates",
+    }
+    phase1_pass = all(lane["lane_verdict"] == "clear" for lane in lanes) and not blocker_register
+
+    return {
+        "ok": True,
+        "generated_at": _utcnow(),
+        "mode": "spc_phase1_baseline_execution",
+        "objective": (
+            "Run immediate baseline batteries across business, regulatory, and strategy lanes; "
+            "emit evidence packets and hold/clear/demote ledger."
+        ),
+        "inputs": {
+            "limit": resolved_limit,
+            "training_limit": resolved_training_limit,
+        },
+        "phase0_packet": get_psicat_spc_phase0_execution_packet(),
+        "targeted_rigor_sprint": targeted_rigor,
+        "lane_receipts": lanes,
+        "hold_clear_demote_ledger": hold_clear_demote_ledger,
+        "blocker_register": blocker_register,
+        "phase_verdict": "PHASE1_CLEAR_ADVANCE_TO_PHASE2" if phase1_pass else "PHASE1_HOLD_REMEDIATE",
+        "next_step": (
+            "Start phase 2 applied-pressure drills immediately."
+            if phase1_pass
+            else "Remediate blockers and rerun /api/psicat/spc-phase1-baseline until phase verdict clears."
+        ),
+        "documentation_surfaces": [
+            _repo_rel(PSICAT_SPC_PLAN_DOC),
+            _repo_rel(PSICAT_SPC_GATES_DOC),
+            _repo_rel(PSICAT_SPC_PHASE0_PACKET_PATH),
+            _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+        ],
+        "honesty_note": (
+            "Baseline receipts are deterministic benchmark outputs; "
+            "they do not imply promotion beyond visible gate results."
         ),
     }
 

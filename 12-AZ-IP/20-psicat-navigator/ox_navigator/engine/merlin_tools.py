@@ -106,7 +106,9 @@ from .merlin_program import (
     get_merlin_sovereign_model_board,
     get_merlin_sprint_review_packet,
     get_navier_stokes_method_transfer_packet,
+    get_psicat_spc_phase0_execution_packet,
     run_merlin_targeted_rigor_sprint,
+    run_psicat_spc_phase1_baseline,
     build_training_dataset_bundle,
     get_training_architecture,
     get_training_and_adaptation,
@@ -275,6 +277,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinLaneProgressLedgers", "summary": "Return automated lane-by-lane progress ledgers and retained receipt summaries", "domain": "functions"},
             {"name": "runMerlinTrainingCycle", "summary": "Execute queued three-lane training work and retain auditable receipts in session memory", "domain": "functions"},
             {"name": "runMerlinTargetedRigorSprint", "summary": "Execute bounded full-rigor sprint packet: retained training cycle + Stage A-E receipts + fail-closed blockers", "domain": "functions"},
+            {"name": "getPsiCatSpcPhase0ExecutionPacket", "summary": "Return immediate SPC phase-0 execution packet artifact", "domain": "functions"},
+            {"name": "runPsiCatSpcPhase1Baseline", "summary": "Run immediate SPC phase-1 baseline batteries with lane verdict ledger", "domain": "functions"},
             {"name": "getMerlinTrainingChallengePack", "summary": "Return deterministic challenge drills prioritized by stale or review-required training work", "domain": "functions"},
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
@@ -410,6 +414,18 @@ def _tool_manifest() -> dict[str, Any]:
                 },
                 "additionalProperties": False,
             },
+        },
+        "getPsiCatSpcPhase0ExecutionPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "runPsiCatSpcPhase1Baseline": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                    "training_limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
         },
         "getMerlinTrainingChallengePack": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinMemoryGeometry": {
@@ -1054,6 +1070,12 @@ _FUNCTIONS = {
     )},
     "getMerlinSprintReviewPacket": lambda **args: {"data": get_merlin_sprint_review_packet(limit=args.get("limit"))},
     "runMerlinTargetedRigorSprint": lambda **args: {"data": run_merlin_targeted_rigor_sprint(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+        training_limit=args.get("training_limit"),
+    )},
+    "getPsiCatSpcPhase0ExecutionPacket": lambda **args: {"data": get_psicat_spc_phase0_execution_packet()},
+    "runPsiCatSpcPhase1Baseline": lambda **args: {"data": run_psicat_spc_phase1_baseline(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=args.get("limit"),
         training_limit=args.get("training_limit"),

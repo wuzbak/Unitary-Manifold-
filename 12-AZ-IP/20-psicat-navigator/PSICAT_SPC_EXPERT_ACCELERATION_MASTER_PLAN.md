@@ -77,6 +77,7 @@ All three lanes run in parallel under one command board, one risk ledger, one ev
 
 - `PSICAT_SPC_BENCHMARK_GATES.md` (benchmark architecture and pass/fail gates)
 - `training/training_execution/psicat_spc_phase0_execution_packet.json` (immediate action board and receipts contract)
+- `training/training_execution/psicat_spc_phase1_baseline_receipts.json` (first baseline battery receipts, lane verdicts, and blocker register)
 - `PSICAT_EXECUTION_BOARD.md` update linking this acceleration package as active work
 
 ---

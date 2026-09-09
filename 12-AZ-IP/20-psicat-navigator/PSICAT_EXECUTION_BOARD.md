@@ -20,8 +20,10 @@ For immediate PsiCat SPC expert uplift, this board now runs:
 - `PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md`
 - `PSICAT_SPC_BENCHMARK_GATES.md`
 - `training/training_execution/psicat_spc_phase0_execution_packet.json`
+- `training/training_execution/psicat_spc_phase1_baseline_receipts.json`
 
 These artifacts execute three parallel lanes (business operations, regulatory policy, and strategy resilience) with hard fail-closed gates and evidence-packet requirements.
+Live API surfaces: `/api/psicat/spc-phase0-packet` and `/api/psicat/spc-phase1-baseline`.
 
 ---
 
