@@ -7,6 +7,18 @@
 
 ---
 
+> **Current-scope note (2026-09):** This document remains an important braid-facing
+> reference, but current repository-wide claim scope must be read together with
+> [`BRAID_DOSSIER.md`](BRAID_DOSSIER.md),
+> [`BRAID_HISTORY_AUDIT.md`](BRAID_HISTORY_AUDIT.md),
+> [`DERIVATION_STATUS.md`](DERIVATION_STATUS.md),
+> [`../FALLIBILITY.md`](../FALLIBILITY.md), and
+> [`../docs/TRUTH_LAYER.md`](../docs/TRUTH_LAYER.md).
+> Where this file's closure language is stronger than the current honesty layer,
+> the latter controls the repository-wide status framing.
+
+---
+
 > **Purpose of this document:** Provide a single authoritative table of what each
 > pillar proves, what it contributes to n_w = 5 uniqueness, and what the remaining
 > gap is.  This is the document a journal referee or AI agent should read to
