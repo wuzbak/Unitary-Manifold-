@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
-from src.core.evolution import phenomenological_flow_boundary
+from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
 from src.core.metric import circle_eh_rh2_coefficient, z2_parity_clarification
 from src.core.metric_ansatz_derivation import metric_ansatz_derivation_certificate
 
@@ -98,11 +98,15 @@ def _circle_action_coupling_row() -> Dict[str, Any]:
 
 
 def _action_evolution_row() -> Dict[str, Any]:
-    boundary = phenomenological_flow_boundary()
+    contract = action_to_evolution_deliverable_contract()
+    boundary = contract["boundary"]
+    deliverable_ids = [item["id"] for item in contract["primary_deliverables"]]
     passed = bool(
         boundary["status"] == "OPEN"
         and boundary["derived_from_circle_eh_action"] is False
         and boundary["flow_parameter_is_coordinate_time"] is False
+        and contract["promotion_ready"] is False
+        and contract["remaining_blockers"] == deliverable_ids
     )
     return {
         "item": "Action-to-evolution equivalence",
@@ -110,8 +114,9 @@ def _action_evolution_row() -> Dict[str, Any]:
         "audit_pass": passed,
         "resolved_or_isolated": False,
         "closure_claimed": False,
-        "source": "src/core/evolution.py::phenomenological_flow_boundary",
+        "source": "src/core/action_to_evolution_contract.py::action_to_evolution_deliverable_contract",
         "finding": boundary["remaining_obligation"],
+        "exact_deliverable_blockers": deliverable_ids,
         "remaining_blocker": boundary["remaining_obligation"],
     }
 

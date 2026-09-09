@@ -8,6 +8,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, List
 
+from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
 from src.core.formal_traceability_spine import formal_traceability_spine
 from src.core.pillar1090_lean_burden_ledger import lean_burden_ledger
 from src.core.pillar1103_sprint_cq_continuation_charter import (
@@ -67,19 +68,15 @@ def _build_unit(row: Dict[str, Any]) -> Dict[str, Any]:
         'verdict': 'PASS' if deterministic_pass else 'FAIL',
     }
     if unit_id == PRIMARY_UNIT_ID:
+        contract = action_to_evolution_deliverable_contract()
         unit['evidence_contract'] = {
             'required_artifacts': [
-                'candidate action functional',
-                'Euler-Lagrange equations on the stated boundary/domain',
-                'side-by-side residual comparison against the implemented flow',
-                'time-identification and assumption boundary note',
+                deliverable['label'] for deliverable in contract['primary_deliverables']
             ],
             'current_state': 'TIGHTENED_WITH_EXPLICIT_BLOCKER',
-            'sharpened_blockers': [
-                'ACTION_FUNCTIONAL_NOT_YET_WRITTEN_DOWN_IN_CHECKABLE_FORM',
-                'EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED',
-                'TIME_IDENTIFICATION_AND_DOMAIN_ASSUMPTIONS_NOT_YET_FIXED_FOR_PROMOTION',
-            ],
+            'sharpened_blockers': list(contract['remaining_blockers']),
+            'deliverables': list(contract['primary_deliverables']),
+            'implemented_flow_surface': dict(contract['implemented_flow_surface']),
         }
     elif unit_id in SECONDARY_HARVEST_UNIT_IDS:
         unit['harvest_contract'] = {
@@ -99,6 +96,7 @@ def _build_unit(row: Dict[str, Any]) -> Dict[str, Any]:
 def lane1_action_to_evolution_continuation() -> Dict[str, Any]:
     spine = formal_traceability_spine()
     ledger = lean_burden_ledger()
+    contract = action_to_evolution_deliverable_contract()
     row_map = {str(row.get('id') or ''): row for row in list(spine.get('traceability_rows') or [])}
     units = [_build_unit(row_map[unit_id]) for unit_id in TOUCHED_UNIT_IDS if unit_id in row_map]
     reviewer_packets = [path for path in NEW_REVIEWER_PACKETS if (_ROOT / path).exists()]
@@ -152,24 +150,16 @@ def lane1_action_to_evolution_continuation() -> Dict[str, Any]:
         'action_to_evolution_blocker_certificate': {
             'root_blocker': PRIMARY_UNIT_ID,
             'prior_open_surface': ['ACTION_TO_EVOLUTION_BOUNDARY'],
-            'sharpened_open_surface': [
-                'ACTION_FUNCTIONAL_NOT_YET_WRITTEN_DOWN_IN_CHECKABLE_FORM',
-                'EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED',
-                'TIME_IDENTIFICATION_AND_DOMAIN_ASSUMPTIONS_NOT_YET_FIXED_FOR_PROMOTION',
-            ],
+            'sharpened_open_surface': list(contract['remaining_blockers']),
             'surface_reduction_mode': 'broad blocker decomposed into exact deliverable blockers',
             'tightened_scope': True,
         },
+        'action_to_evolution_deliverable_contract': contract,
         'reviewer_packets': reviewer_packets,
         'lane1_evidence_board': {
             'closed': independently_promotable_units,
             'tightened': [PRIMARY_UNIT_ID, *SECONDARY_HARVEST_UNIT_IDS],
-            'blocked': [
-                'ACTION_FUNCTIONAL_NOT_YET_WRITTEN_DOWN_IN_CHECKABLE_FORM',
-                'EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED',
-                'TIME_IDENTIFICATION_AND_DOMAIN_ASSUMPTIONS_NOT_YET_FIXED_FOR_PROMOTION',
-                'APS_MATHLIB_FORMALIZATION_GAP',
-            ],
+            'blocked': [*list(contract['remaining_blockers']), 'APS_MATHLIB_FORMALIZATION_GAP'],
         },
         'outcome': 'LANE1_ACTION_TO_EVOLUTION_CONTINUATION_READY' if valid else 'LANE1_ACTION_TO_EVOLUTION_CONTINUATION_BLOCKED',
         'truth_surface_sync': truth_sync,

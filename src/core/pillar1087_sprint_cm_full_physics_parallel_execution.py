@@ -16,7 +16,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict, List
 
-from src.core.evolution import phenomenological_flow_boundary
+from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 from src.core.pillar1078_parallel_audit_remediation import pillar1078_parallel_audit_report
 from src.core.pillar1085_sprint_ck_target_lock_evidence_capture import (
@@ -147,31 +147,27 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
 
 def physics_core_lane() -> Dict[str, Any]:
     leverage = foundation_target_leverage_audit()
-    boundary = phenomenological_flow_boundary()
+    contract = action_to_evolution_deliverable_contract()
+    boundary = contract["boundary"]
     required = list(_as_dict(leverage.get("selected_target_contract")).get("required_new_object_evidence_class") or [])
-
-    evidence_checks = [
-        {
-            "id": "explicit_action_functional",
-            "pass": bool(boundary.get("derived_from_circle_eh_action")),
-            "reason": "No verified explicit action functional is surfaced for the implemented flow.",
-        },
-        {
-            "id": "verified_euler_lagrange_equations",
-            "pass": bool(boundary.get("derived_from_circle_eh_action")),
-            "reason": "Euler-Lagrange matching remains an open obligation in the boundary contract.",
-        },
-        {
-            "id": "reproducible_side_by_side_residual_check",
-            "pass": False,
-            "reason": "No checked-in side-by-side action-vs-flow residual packet is present yet.",
-        },
-        {
-            "id": "machine_readable_boundary_update",
-            "pass": isinstance(boundary.get("remaining_obligation"), str) and bool(boundary.get("remaining_obligation")),
-            "reason": "Boundary update exists and keeps the unresolved obligation machine-readable.",
-        },
-    ]
+    evidence_checks = []
+    for deliverable in list(contract.get("primary_deliverables") or []):
+        deliverable_id = str(deliverable.get("id") or "")
+        passed = False
+        if deliverable_id == "ACTION_FUNCTIONAL_NOT_YET_WRITTEN_DOWN_IN_CHECKABLE_FORM":
+            passed = bool(boundary.get("derived_from_circle_eh_action"))
+        elif deliverable_id == "EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED":
+            passed = bool(boundary.get("derived_from_circle_eh_action"))
+        elif deliverable_id == "TIME_IDENTIFICATION_AND_DOMAIN_ASSUMPTIONS_NOT_YET_FIXED_FOR_PROMOTION":
+            passed = bool(boundary.get("flow_parameter_is_coordinate_time"))
+        evidence_checks.append(
+            {
+                "id": deliverable_id,
+                "pass": passed,
+                "reason": str(deliverable.get("current_gap") or ""),
+                "required_evidence": list(deliverable.get("required_evidence") or []),
+            }
+        )
 
     completed = sum(1 for row in evidence_checks if row["pass"])
     total = len(evidence_checks)
@@ -184,6 +180,7 @@ def physics_core_lane() -> Dict[str, Any]:
         "target_locked": bool(leverage.get("valid")) and str(_as_dict(leverage.get("selected_target")).get("target_id")) == SELECTED_TARGET_ID,
         "required_evidence_class": required,
         "evidence_checks": evidence_checks,
+        "shared_deliverable_contract": contract,
         "completed_evidence_components": completed,
         "total_evidence_components": total,
         "completion_ratio": completion_ratio,

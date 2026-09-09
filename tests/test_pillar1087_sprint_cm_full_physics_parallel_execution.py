@@ -48,7 +48,8 @@ def test_lane_a_keeps_honest_open_blocker() -> None:
     assert lane_a["status"] in {"CLOSED_NOW", "TIGHTENED_WITH_EXPLICIT_BLOCKER"}
     assert lane_a["verdict"] in {"EVIDENCE_CLASS_COMPLETE", "EVIDENCE_CLASS_INCOMPLETE"}
     assert isinstance(lane_a["next_exact_blocker"], str)
-    assert lane_a["total_evidence_components"] == 4
+    assert lane_a["total_evidence_components"] == 3
+    assert len(lane_a["shared_deliverable_contract"]["primary_deliverables"]) == 3
 
 
 def test_lane_b_latest_merge_math_verification_scope() -> None:

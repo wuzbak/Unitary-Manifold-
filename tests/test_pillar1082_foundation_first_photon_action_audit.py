@@ -3,6 +3,7 @@
 
 import src.core.pillar1082_foundation_first_photon_action_audit as p1082
 
+from src.core.action_to_evolution_contract import PRIMARY_DELIVERABLE_IDS
 from src.core.evolution import phenomenological_flow_boundary
 from src.core.pillar1082_foundation_first_photon_action_audit import (
     PILLAR_GATE,
@@ -39,6 +40,8 @@ def test_remaining_blockers_are_explicit() -> None:
     assert len(remaining) == 2
     assert any("gauge sector" in item for item in remaining)
     assert any("Euler-Lagrange" in item for item in remaining)
+    action_row = next(row for row in report["rows"] if row["item"] == "Action-to-evolution equivalence")
+    assert action_row["exact_deliverable_blockers"] == PRIMARY_DELIVERABLE_IDS
     assert report["merlin_handoff"]["primary_lane"] == "FOUNDATION_PHOTON_ACTION"
     assert len(report["merlin_handoff"]["evidence_reviewed"]) == 4
 
@@ -46,12 +49,17 @@ def test_remaining_blockers_are_explicit() -> None:
 def test_fail_closed_when_action_boundary_is_misreported(monkeypatch) -> None:
     monkeypatch.setattr(
         p1082,
-        "phenomenological_flow_boundary",
+        "action_to_evolution_deliverable_contract",
         lambda: {
-            "status": "OPEN",
-            "derived_from_circle_eh_action": True,
-            "flow_parameter_is_coordinate_time": False,
-            "remaining_obligation": "bad",
+            "promotion_ready": False,
+            "remaining_blockers": PRIMARY_DELIVERABLE_IDS,
+            "primary_deliverables": [{"id": item} for item in PRIMARY_DELIVERABLE_IDS],
+            "boundary": {
+                "status": "OPEN",
+                "derived_from_circle_eh_action": True,
+                "flow_parameter_is_coordinate_time": False,
+                "remaining_obligation": "bad",
+            },
         },
     )
     report = foundation_first_photon_action_audit()

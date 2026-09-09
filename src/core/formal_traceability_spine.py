@@ -97,10 +97,12 @@ PRIMARY_LANES: List[Dict[str, Any]] = [
             "lean4/UnitaryManifold/SprintCAFormalTraceability.lean",
         ],
         "primary_python_modules": [
+            "src/core/action_to_evolution_contract.py",
             "src/core/evolution.py",
             "src/core/pillar1082_foundation_first_photon_action_audit.py",
         ],
         "primary_tests": [
+            "tests/test_action_to_evolution_contract.py",
             "tests/test_evolution.py",
             "tests/test_pillar1082_foundation_first_photon_action_audit.py",
         ],
@@ -202,10 +204,12 @@ TRACEABILITY_ROWS: List[Dict[str, Any]] = [
             "ca_trace_kernel_12",
         ],
         "python_modules": [
+            "src/core/action_to_evolution_contract.py",
             "src/core/evolution.py",
             "src/core/pillar1082_foundation_first_photon_action_audit.py",
         ],
         "tests": [
+            "tests/test_action_to_evolution_contract.py",
             "tests/test_evolution.py",
             "tests/test_pillar1082_foundation_first_photon_action_audit.py",
         ],

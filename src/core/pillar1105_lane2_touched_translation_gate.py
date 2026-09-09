@@ -8,6 +8,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict
 
+from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
 from src.core.formal_traceability_spine import formal_traceability_spine
 from src.core.pillar1103_sprint_cq_continuation_charter import SPRINT, VERSION, build_truth_surface_sync_status
 from src.core.pillar1104_lane1_action_to_evolution_continuation import PILLAR_VALID as P1104_VALID, lane1_action_to_evolution_continuation
@@ -31,6 +32,7 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
 @lru_cache(maxsize=1)
 def lane2_touched_translation_gate() -> Dict[str, Any]:
     lane1 = lane1_action_to_evolution_continuation()
+    contract = action_to_evolution_deliverable_contract()
     touched_ids = set(lane1.get('touched_unit_ids') or [])
     spine = formal_traceability_spine()
     units = []
@@ -129,6 +131,9 @@ def lane2_touched_translation_gate() -> Dict[str, Any]:
             'imported_into_root_library': imported_into_root,
             'classified_as_proxy': proxy_marker_present,
             'dependency_completeness': dependency_completeness,
+            'action_to_evolution_deliverables_complete': all(
+                bool(item.get('earned')) for item in contract['primary_deliverables']
+            ),
             'outcome': master_outcome,
             'blockers': [] if dependency_completeness else [
                 'candidate_remains_proxy_or_not_root_imported',
