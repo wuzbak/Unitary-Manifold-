@@ -13,6 +13,16 @@ Operationalize Merlin's benchmark ladder, deepen kernel-specific training
 coverage, harden the heavy reasoning lane, and preserve honest fail-closed
 validation when hosted review or CodeQL coverage is unavailable.
 
+## Active acceleration package (this PR)
+
+For immediate PsiCat SPC expert uplift, this board now runs:
+
+- `PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md`
+- `PSICAT_SPC_BENCHMARK_GATES.md`
+- `training/training_execution/psicat_spc_phase0_execution_packet.json`
+
+These artifacts execute three parallel lanes (business operations, regulatory policy, and strategy resilience) with hard fail-closed gates and evidence-packet requirements.
+
 ---
 
 ## Immediate tasks

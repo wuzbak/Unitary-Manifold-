@@ -26,7 +26,10 @@
 3. [`PSICAT_VALIDATION_RESILIENCE_PACKET.md`](./PSICAT_VALIDATION_RESILIENCE_PACKET.md) (repo-size mitigation + CodeQL scope-reduction doctrine)
 4. [`PSICAT_FRONTIER_ROADMAP.md`](./PSICAT_FRONTIER_ROADMAP.md) (full execution roadmap)
 5. [`PSICAT_THREE_LANE_INTENSIVE_SPRINT.md`](./PSICAT_THREE_LANE_INTENSIVE_SPRINT.md) (apps/tools + books/articles + adversarial growth + continuous learning)
-6. [`PSICAT_PROGRAM.md`](./PSICAT_PROGRAM.md) (implemented surfaces + ledger)
+6. [`PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md`](./PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md) (immediate three-phase parallel expert uplift for SPC operations)
+7. [`PSICAT_SPC_BENCHMARK_GATES.md`](./PSICAT_SPC_BENCHMARK_GATES.md) (hard fail conditions + promotion gates + evidence packet requirements)
+8. [`training/training_execution/psicat_spc_phase0_execution_packet.json`](./training/training_execution/psicat_spc_phase0_execution_packet.json) (machine-readable immediate action board)
+9. [`PSICAT_PROGRAM.md`](./PSICAT_PROGRAM.md) (implemented surfaces + ledger)
 
 This order is optimized for people who need to read quickly, understand clearly, and then verify details.
 
