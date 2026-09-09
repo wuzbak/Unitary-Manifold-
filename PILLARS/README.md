@@ -1,6 +1,6 @@
 # PILLARS — Master Index
 
-**Unitary Manifold v37.2 | Generated: 2026-09-08 | Total pillars: 489**
+**Unitary Manifold v37.3 | Generated: 2026-09-08 | Total pillars: 495**
 
 This is the auto-generated master navigation index for all pillars.
 For full claim details, see [`docs/mas_tracker.yml`](../docs/mas_tracker.yml).
@@ -84,7 +84,7 @@ These 64 pillars are formally closed (hardgate). Each has passing test suite.
 
 ## Adjacent Research Tracks (P209+)
 
-These 425 pillars are 🔵 ADJACENT TRACK — **not hardgate physics claims**.
+These 431 pillars are 🔵 ADJACENT TRACK — **not hardgate physics claims**.
 They are quantitative explorations connecting UM geometry to applied domains.
 They have full test suites and markdown documentation but do NOT affect the hardgate physics claim labels.
 
@@ -104,6 +104,12 @@ They have full test suites and markdown documentation but do NOT affect the hard
 | [1100](P1100/README.md) | Lane 3 PsiCat Continuous Training Execution | 🟡 ADJACENT | `src/core/pillar1100_lane3_psicat_continuous_training_execution.py` |
 | [1101](P1101/README.md) | Sprint CP Status Coherence Certificate | 🟡 ADJACENT | `src/core/pillar1101_sprint_cp_status_coherence_certificate.py` |
 | [1102](P1102/README.md) | Sprint CP Master Integration Certificate | 🟡 ADJACENT | `src/core/pillar1102_sprint_cp_master_integration_certificate.py` |
+| [1103](P1103/README.md) | Sprint CQ Continuation Charter | 🟡 ADJACENT | `src/core/pillar1103_sprint_cq_continuation_charter.py` |
+| [1104](P1104/README.md) | Lane 1 Action-to-Evolution Continuation | 🟡 ADJACENT | `src/core/pillar1104_lane1_action_to_evolution_continuation.py` |
+| [1105](P1105/README.md) | Lane 2 Touched Translation Gate | 🟡 ADJACENT | `src/core/pillar1105_lane2_touched_translation_gate.py` |
+| [1106](P1106/README.md) | Lane 3 PsiCat Receipt Completion | 🟡 ADJACENT | `src/core/pillar1106_lane3_psicat_receipt_completion.py` |
+| [1107](P1107/README.md) | Sprint CQ Status Coherence Certificate | 🟡 ADJACENT | `src/core/pillar1107_sprint_cq_status_coherence_certificate.py` |
+| [1108](P1108/README.md) | Sprint CQ Master Integration Certificate | 🟡 ADJACENT | `src/core/pillar1108_sprint_cq_master_integration_certificate.py` |
 | [209](P209/README.md) | universal_yukawa_bc | 🟡 ADJACENT | `src/core/pillar209_universal_yukawa_bc.py` |
 | [210](P210/README.md) | neutrino_mass_splittings | 🟡 ADJACENT | `src/core/pillar210_neutrino_mass_splittings.py` |
 | [211](P211/README.md) | higgs_mass_geometric | 🟡 ADJACENT | `src/core/pillar211_higgs_mass_geometric.py` |

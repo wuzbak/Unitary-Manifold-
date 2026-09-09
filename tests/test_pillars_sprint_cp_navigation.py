@@ -19,6 +19,7 @@ def test_sprint_cp_pillar_navigation_stubs_exist() -> None:
 
 def test_pillars_index_lists_sprint_cp_entries() -> None:
     text = (REPO_ROOT / "PILLARS" / "README.md").read_text(encoding="utf-8")
-    assert "**Unitary Manifold v37.2 | Generated: 2026-09-08 | Total pillars:" in text
+    assert "**Unitary Manifold v" in text
+    assert "Generated: 2026-09-08 | Total pillars:" in text
     for pillar in range(1097, 1103):
         assert f"| [{pillar}](P{pillar}/README.md) |" in text

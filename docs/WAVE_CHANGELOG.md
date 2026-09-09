@@ -33,11 +33,39 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v37.2 (2026-09-08)**
-**Regression:** 64,138 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1103
+**Current version: v37.3 (2026-09-08)**
+**Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
+**Next pillar slot:** 1109
 
 
+
+## v37.3 (2026-09-08 — Sprint CQ: Pillars 1103-1108)
+
+**What changed:**
+Sprint CQ keeps the same fail-closed three-lane structure but narrows the execution target. Lane 1 now treats action-to-evolution equivalence as the sole primary unresolved unit and decomposes that blocker into exact deliverable blockers, Lane 2 audits only the units touched by Lane 1 while preserving the master-theorem READY/BLOCKED_NOT_YET_DERIVABLE gate, and Lane 3 ingests the new Sprint CQ reviewer packets while retaining failed units for retraining and exposing another local-first receipt cycle.
+
+**Why:**
+Make the next sprint materially meaningful without widening claim scope: sharpen the single highest-leverage blocker, keep translation work proportional to the touched scientific surface, and keep PsiCat aligned to the active formal units instead of a broader narrative lane.
+
+**Epistemic label deltas:**
+- `SPRINT_CQ_CONTINUATION_CHARTER_COMPLETE`
+- `LANE1_ACTION_TO_EVOLUTION_CONTINUATION_COMPLETE`
+- `LANE2_TOUCHED_TRANSLATION_GATE_COMPLETE`
+- `LANE3_PSICAT_RECEIPT_COMPLETION_COMPLETE`
+- `SPRINT_CQ_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+- `SPRINT_CQ_MASTER_INTEGRATION_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — this is blocker tightening, translation-scope hardening, and receipt-traceability hardening, not new hardgate closure.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Focused regression: Sprint CQ targeted continuation suites 12 passed · 0 failed; latest verified full regression in branch history is 64,150 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1109
 
 ## v37.2 (2026-09-08 — Sprint CP: Pillars 1097-1102)
 

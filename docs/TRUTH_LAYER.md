@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v37.2
+# Unitary Manifold v37.3
 
 ## Foundation reassessment
 
@@ -111,6 +111,14 @@ The implementation answers that question with controlled synthetic trajectories 
 
 PsiCat integration is kept practical and bounded: the pillar emits compact assist packets summarizing dominant order, top interaction, internal-vs-external balance, and the next diagnostic question to ask. That makes the new surface useful for training, comparison, and follow-up analysis while preserving the existing open physics obligations unchanged.
 
+
+### Sprint CQ continuation packet
+
+Sprint CQ keeps the Sprint CP three-lane packet but narrows the next action. Lane 1 now makes action-to-evolution equivalence the sole primary unresolved unit, while APS/orbifold/Dirac work is touched only as secondary harvest support. P1104 therefore replaces one broad blocker with three exact deliverable blockers: a checkable action functional, a verified Euler-Lagrange match to the implemented flow, and a fixed time-identification/domain boundary for promotion. This is blocker sharpening, not closure.
+
+Lane 2 (P1105) now audits only the Lane 1 touched units. That keeps translation work proportional to the scientific focus and preserves the strict master-theorem `READY` vs `BLOCKED_NOT_YET_DERIVABLE` gate without hiding dependency incompleteness behind wider truth matrices.
+
+Lane 3 (P1106) uses PsiCat as a support surface for the active formal units rather than as a separate widening lane. The new Sprint CQ reviewer packets are explicitly ingested, failed units remain retraining assets, and receipt visibility stays local-first with OpenRouter compatibility-only. P1107 then certifies that these narrower packet surfaces remain synchronized across the canonical truth documents.
 
 ### Sprint CP three-lane maximum-effort execution
 
