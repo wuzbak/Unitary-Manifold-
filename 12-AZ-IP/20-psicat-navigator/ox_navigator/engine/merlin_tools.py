@@ -165,6 +165,15 @@ _LIMIT_REFRESH_ARGS_SCHEMA = {
     },
     "additionalProperties": False,
 }
+_LIMIT_SYNC_REFRESH_ARGS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "limit": {"type": "integer"},
+        "sync_checks_ok": {"type": "boolean"},
+        "refresh_lane_e_profiles": {"type": "boolean"},
+    },
+    "additionalProperties": False,
+}
 
 MERLIN_SESSION_SCHEMA = {
     "title": "MerlinSession",
@@ -394,10 +403,10 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_REFRESH_ARGS_SCHEMA},
+        "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_REFRESH_ARGS_SCHEMA},
         "getMerlinTrainingDataset": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingCuration": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinMLflowManifests": {"args_schema": _LIMIT_REFRESH_ARGS_SCHEMA},
+        "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_REFRESH_ARGS_SCHEMA},
         "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinSprintReviewPacket": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinHeavyReasoningLane": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},

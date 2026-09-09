@@ -720,6 +720,8 @@ def test_route_tool_training_architecture_and_artifacts():
     assert artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
     assert artifacts['result']['data']['artifact_bundle']['formal_proof_foundry_bundle']['program'] == 'FORMAL_PROOF_FOUNDRY'
     assert artifacts['result']['data']['artifact_bundle']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
+    artifacts_with_sync_hint = route_tool('getMerlinTrainingArtifacts', {'limit': 2, 'sync_checks_ok': False})
+    assert artifacts_with_sync_hint['ok'] is True
 
     empty_artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 0})
     assert empty_artifacts['ok'] is True
@@ -781,6 +783,8 @@ def test_route_tool_training_architecture_and_artifacts():
         for manifest in mlflow['result']['data']['manifests']
         for cmd in manifest.get('prerequisite_commands', [])
     )
+    mlflow_with_sync_hint = route_tool('getMerlinMLflowManifests', {'limit': 2, 'sync_checks_ok': True})
+    assert mlflow_with_sync_hint['ok'] is True
     assert '&&' not in mlflow['result']['data']['manifests'][1]['entry_command']
     assert mlflow['result']['data']['manifests'][0]['entry_command'].startswith(sys.executable)
     assert 'run_merlin_mlflow_experiment.py' in mlflow['result']['data']['manifests'][0]['entry_command']
