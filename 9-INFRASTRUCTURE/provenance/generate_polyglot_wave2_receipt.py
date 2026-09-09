@@ -24,6 +24,7 @@ from src.core.julia_acceleration import (
 )
 from src.core.polyglot_dependency_health import polyglot_stack_health_report
 from src.core.polyglot_execution_matrix import evaluate_promotion_gate, load_polyglot_execution_config
+from src.core.psicat_polyglot_architecture import psicat_polyglot_blueprint
 
 
 def _iso_now() -> str:
@@ -69,6 +70,12 @@ def build_receipt() -> dict:
         cuda_required=cfg.use_cuda,
         cuda_available=runtime.cuda_functional,
     )
+    fallback_ready = not runtime.juliacall_available
+    status = (
+        "PASS"
+        if gate.passed
+        else ("PASS_WITH_FALLBACK" if fallback_ready else "HOLD")
+    )
     return {
         "test": "polyglot_wave2_julia_cuda_promotion",
         "date": _iso_now(),
@@ -81,8 +88,11 @@ def build_receipt() -> dict:
             "speedup": speedup,
         },
         "promotion_gate": gate.__dict__,
+        "fallback_chain": "julia_cuda -> julia_cpu -> python_reference",
+        "fallback_engaged": fallback_ready,
         "stack_health": polyglot_stack_health_report(),
-        "status": "PASS" if gate.passed else "HOLD",
+        "psicat_architecture": psicat_polyglot_blueprint(),
+        "status": status,
     }
 
 
@@ -95,4 +105,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

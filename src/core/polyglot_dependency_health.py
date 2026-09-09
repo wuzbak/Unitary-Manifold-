@@ -5,9 +5,24 @@
 from __future__ import annotations
 
 import importlib
+import os
 import shutil
 import subprocess
 from typing import Dict
+
+
+_EXTRA_PATHS = [
+    str(os.path.expanduser("~/.local/bin")),
+    str(os.path.expanduser("~/.cargo/bin")),
+]
+
+
+def _env_with_extra_path() -> dict:
+    base = dict(os.environ)
+    current = base.get("PATH", "")
+    prefix = ":".join(p for p in _EXTRA_PATHS if p)
+    base["PATH"] = f"{prefix}:{current}" if current else prefix
+    return base
 
 
 def _import_probe(module_name: str) -> Dict[str, object]:
@@ -22,7 +37,8 @@ def _import_probe(module_name: str) -> Dict[str, object]:
 
 
 def _binary_probe(binary: str, *args: str) -> Dict[str, object]:
-    exe = shutil.which(binary)
+    env = _env_with_extra_path()
+    exe = shutil.which(binary, path=env.get("PATH"))
     if exe is None:
         return {"available": False, "path": None}
     try:
@@ -32,6 +48,7 @@ def _binary_probe(binary: str, *args: str) -> Dict[str, object]:
             capture_output=True,
             text=True,
             timeout=12,
+            env=env,
         )
         out = (proc.stdout or proc.stderr or "").strip().splitlines()
         version = out[0] if out else ""
@@ -44,6 +61,22 @@ def _binary_probe(binary: str, *args: str) -> Dict[str, object]:
         return {"available": False, "path": exe, "error": str(exc)}
 
 
+def _zig_probe() -> Dict[str, object]:
+    direct = _binary_probe("zig", "version")
+    if direct.get("available"):
+        return direct
+    # pip ziglang installs a `python-zig` executable in ~/.local/bin
+    alt = _binary_probe("python-zig", "version")
+    if alt.get("available"):
+        return {
+            "available": True,
+            "path": alt.get("path"),
+            "version": alt.get("version"),
+            "invocation": "python-zig",
+        }
+    return direct
+
+
 def polyglot_stack_health_report() -> Dict[str, object]:
     """Return machine-readable readiness for requested language+data stack."""
     languages = {
@@ -51,7 +84,7 @@ def polyglot_stack_health_report() -> Dict[str, object]:
         "julia": _binary_probe("julia", "--version"),
         "mojo": _binary_probe("mojo", "--version"),
         "rust": _binary_probe("rustc", "--version"),
-        "zig": _binary_probe("zig", "version"),
+        "zig": _zig_probe(),
         "lean4": _binary_probe("lean", "--version"),
         "typescript": _binary_probe("tsc", "--version"),
     }
@@ -88,4 +121,3 @@ def polyglot_stack_health_report() -> Dict[str, object]:
         "verification_logic": verification_logic,
         "docs_pipelines": docs_pipelines,
     }
-

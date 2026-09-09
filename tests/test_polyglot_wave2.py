@@ -1,5 +1,6 @@
 import importlib.util
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 import pytest
@@ -13,6 +14,7 @@ from src.core.julia_acceleration import (
 from src.core.metric import assemble_5d_metric, field_strength
 from src.core.polyglot_dependency_health import polyglot_stack_health_report
 from src.core.polyglot_execution_matrix import evaluate_promotion_gate
+from src.core.psicat_polyglot_architecture import psicat_polyglot_blueprint
 
 
 def test_julia_runtime_status_has_cuda_field():
@@ -97,6 +99,16 @@ def test_compute_rhs_python_backend_default(monkeypatch):
     assert dphi.shape == (8,)
 
 
+def test_compute_rhs_julia_falls_back_to_python(monkeypatch):
+    monkeypatch.setenv("UM_CORE_BACKEND", "julia")
+    s = FieldState.flat(N=8, dx=0.1, rng=np.random.default_rng(7))
+    with patch("src.core.evolution.compute_rhs_julia", side_effect=RuntimeError("no julia")):
+        dg, dB, dphi = _compute_rhs(s)
+    assert dg.shape == (8, 4, 4)
+    assert dB.shape == (8, 4)
+    assert dphi.shape == (8,)
+
+
 def test_wave2_receipt_builder_has_gate():
     script_path = Path(__file__).resolve().parents[1] / "9-INFRASTRUCTURE" / "provenance" / "generate_polyglot_wave2_receipt.py"
     spec = importlib.util.spec_from_file_location("generate_polyglot_wave2_receipt", script_path)
@@ -107,3 +119,18 @@ def test_wave2_receipt_builder_has_gate():
     assert payload["test"] == "polyglot_wave2_julia_cuda_promotion"
     assert "promotion_gate" in payload
     assert "stack_health" in payload
+    assert "fallback_chain" in payload
+    assert "psicat_architecture" in payload
+
+
+def test_psicat_blueprint_has_core_roles():
+    bp = psicat_polyglot_blueprint()
+    roles = bp["psicat_role_map"]
+    assert "high_performance_compute_core" in roles
+    assert "orchestration_interface_layer" in roles
+    assert "formal_analytic_verification" in roles
+
+
+def test_polyglot_stack_health_reports_wasm_runtime():
+    report = polyglot_stack_health_report()
+    assert "wasm_runtime" in report["execution_compute"]

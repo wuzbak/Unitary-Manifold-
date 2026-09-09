@@ -416,11 +416,14 @@ def _compute_rhs(state: FieldState) -> tuple:
     """
     cfg = load_polyglot_execution_config()
     if cfg.core_backend == "julia":
-        return compute_rhs_julia(
-            state=state,
-            python_reference=_compute_rhs_python_reference,
-            use_cuda=cfg.use_cuda,
-        )
+        try:
+            return compute_rhs_julia(
+                state=state,
+                python_reference=_compute_rhs_python_reference,
+                use_cuda=cfg.use_cuda,
+            )
+        except RuntimeError:
+            return _compute_rhs_python_reference(state)
     return _compute_rhs_python_reference(state)
 
 
@@ -482,16 +485,25 @@ def rhs_backend_report(state: FieldState) -> Dict[str, object]:
         "parity_atol": cfg.parity_atol,
     }
     if cfg.core_backend != "julia":
+        payload["effective_backend"] = "python"
+        payload["fallback_used"] = False
         payload["parity_checked"] = False
         payload["parity_passed"] = None
         return payload
-    from .julia_acceleration import parity_report
+    from .julia_acceleration import julia_runtime_status, parity_report
 
+    runtime = julia_runtime_status(use_cuda=cfg.use_cuda)
     ref = _compute_rhs_python_reference(state)
     got = _compute_rhs(state)
+    fallback_used = not (
+        runtime.juliacall_available and (not cfg.use_cuda or runtime.cuda_functional)
+    )
+    effective_backend = "python_fallback" if fallback_used else "julia"
     verdict = parity_report(ref, got, rtol=cfg.parity_rtol, atol=cfg.parity_atol)
     payload.update(
         {
+            "effective_backend": effective_backend,
+            "fallback_used": fallback_used,
             "parity_checked": True,
             "parity_passed": verdict["parity_passed"],
             "parity_max_abs_error": verdict["max_abs_error"],

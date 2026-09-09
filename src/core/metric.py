@@ -404,6 +404,7 @@ def compute_curvature_backend(
     *,
     backend: str = "python",
     use_cuda: bool = False,
+    fallback_to_python: bool = True,
 ):
     """Backend-dispatched curvature pipeline preserving legacy output contract."""
     selected = str(backend).strip().lower()
@@ -412,16 +413,23 @@ def compute_curvature_backend(
     if selected == "julia":
         from .julia_acceleration import compute_curvature_julia
 
-        return compute_curvature_julia(
-            g,
-            B,
-            phi,
-            dx,
-            lam,
-            coordinate_index,
-            python_reference=compute_curvature,
-            use_cuda=use_cuda,
-        )
+        try:
+            return compute_curvature_julia(
+                g,
+                B,
+                phi,
+                dx,
+                lam,
+                coordinate_index,
+                python_reference=compute_curvature,
+                use_cuda=use_cuda,
+            )
+        except RuntimeError:
+            if not fallback_to_python:
+                raise
+            return compute_curvature(
+                g, B, phi, dx, lam=lam, coordinate_index=coordinate_index
+            )
     raise ValueError(f"Unsupported backend '{backend}'. Expected 'python' or 'julia'.")
 
 

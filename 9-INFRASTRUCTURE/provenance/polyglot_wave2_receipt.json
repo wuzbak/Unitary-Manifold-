@@ -1,6 +1,6 @@
 {
   "test": "polyglot_wave2_julia_cuda_promotion",
-  "date": "2026-09-09T00:52:10+00:00",
+  "date": "2026-09-09T01:14:09+00:00",
   "backend_config": {
     "core_backend": "python",
     "use_cuda": false,
@@ -25,14 +25,14 @@
   },
   "benchmarks_seconds": {
     "python_rhs": {
-      "min_seconds": 0.014588305999950535,
-      "mean_seconds": 0.01465119766665642,
-      "max_seconds": 0.014726195000093867
+      "min_seconds": 0.013464687999885427,
+      "mean_seconds": 0.013551008333327749,
+      "max_seconds": 0.01360423900018759
     },
     "accelerated_rhs": {
-      "min_seconds": 0.014588305999950535,
-      "mean_seconds": 0.01465119766665642,
-      "max_seconds": 0.014726195000093867
+      "min_seconds": 0.013464687999885427,
+      "mean_seconds": 0.013551008333327749,
+      "max_seconds": 0.01360423900018759
     },
     "speedup": 1.0
   },
@@ -47,6 +47,8 @@
     "cuda_required": false,
     "cuda_available": false
   },
+  "fallback_chain": "julia_cuda -> julia_cpu -> python_reference",
+  "fallback_engaged": true,
   "stack_health": {
     "languages": {
       "python": {
@@ -69,8 +71,10 @@
         "version": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
       },
       "zig": {
-        "available": false,
-        "path": null
+        "available": true,
+        "path": "/home/runner/.local/bin/python-zig",
+        "version": "0.16.0",
+        "invocation": "python-zig"
       },
       "lean4": {
         "available": false,
@@ -110,16 +114,19 @@
         "version": "0.10.2"
       },
       "wasm_runtime": {
-        "available": false,
-        "path": null
+        "available": true,
+        "path": "/home/runner/.cargo/bin/wasmtime",
+        "version": "wasmtime 48.0.1"
       },
       "wasm_pack": {
-        "available": false,
-        "path": null
+        "available": true,
+        "path": "/home/runner/.cargo/bin/wasm-pack",
+        "version": "wasm-pack 0.15.0"
       },
       "webgpu_shader_tools": {
-        "available": false,
-        "path": null
+        "available": true,
+        "path": "/home/runner/.cargo/bin/naga",
+        "version": "30.0.1"
       }
     },
     "verification_logic": {
@@ -134,8 +141,9 @@
     },
     "docs_pipelines": {
       "quarto": {
-        "available": false,
-        "path": null
+        "available": true,
+        "path": "/home/runner/.local/bin/quarto",
+        "version": "1.10.18"
       },
       "latex": {
         "available": false,
@@ -152,5 +160,97 @@
       }
     }
   },
-  "status": "HOLD"
+  "psicat_architecture": {
+    "psicat_role_map": {
+      "high_performance_compute_core": {
+        "role": "4D\u21925D\u21924D tensors, Christoffel/Ricci, PDE integrators",
+        "primary_stack": [
+          "julia",
+          "mojo",
+          "c++/cuda"
+        ],
+        "fallback_chain": [
+          "julia_cpu",
+          "python_reference"
+        ],
+        "available_now": false,
+        "status": "UNAVAILABLE"
+      },
+      "orchestration_interface_layer": {
+        "role": "API compatibility and workflow dispatch",
+        "primary_stack": [
+          "python"
+        ],
+        "fallback_chain": [
+          "python"
+        ],
+        "available_now": true,
+        "status": "ACTIVE"
+      },
+      "formal_analytic_verification": {
+        "role": "Lean4/Wolfram/SymPy/Z3 proof + symbolic checks",
+        "primary_stack": [
+          "lean4",
+          "wolfram",
+          "sympy",
+          "z3"
+        ],
+        "fallback_chain": [
+          "sympy",
+          "z3"
+        ],
+        "available_now": true,
+        "status": "ACTIVE_WITH_FALLBACK"
+      },
+      "safety_monitoring_runtime_guards": {
+        "role": "memory-safe sidecar guards and sentinels",
+        "primary_stack": [
+          "rust",
+          "pyo3"
+        ],
+        "fallback_chain": [
+          "python_threaded_guards"
+        ],
+        "available_now": true,
+        "status": "STAGED"
+      },
+      "frontend_visualization": {
+        "role": "typed dashboard + shader rendering + web delivery",
+        "primary_stack": [
+          "typescript",
+          "wgsl/glsl",
+          "wasm"
+        ],
+        "fallback_chain": [
+          "typescript_canvas_fallback"
+        ],
+        "available_now": true,
+        "status": "ACTIVE_PARTIAL"
+      },
+      "data_storage_relational_auditing": {
+        "role": "parameter ledgers, scan outputs, binary array persistence",
+        "primary_stack": [
+          "duckdb",
+          "polars",
+          "arrow",
+          "zarr",
+          "parquet"
+        ],
+        "fallback_chain": [
+          "duckdb",
+          "pyarrow"
+        ],
+        "available_now": true,
+        "status": "ACTIVE_OPTIONAL"
+      }
+    },
+    "graceful_degradation_policy": {
+      "compute": "julia_cuda -> julia_cpu -> python_reference",
+      "verification": "lean4/wolfram -> sympy/z3",
+      "visualization": "wasm+shaders -> typed dashboard fallback",
+      "docs_pipeline": "quarto -> markdown/plaintext"
+    },
+    "bootstrap_ready": true
+  },
+  "status": "PASS_WITH_FALLBACK"
 }
