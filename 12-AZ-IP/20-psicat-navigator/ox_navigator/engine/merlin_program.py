@@ -2531,6 +2531,23 @@ def get_formal_proof_foundry_training_bundle(limit: int | None = None) -> dict[s
     }
 
 
+def get_navier_stokes_method_transfer_packet() -> dict[str, Any]:
+    from src.core.navier_stokes_method_transfer import navier_stokes_method_transfer_packet
+
+    packet = navier_stokes_method_transfer_packet()
+    return {
+        **packet,
+        "tool_surface": "getMerlinNavierStokesMethodTransferPacket",
+        "workflow_surfaces": {
+            "training_architecture": "getMerlinTrainingArchitecture",
+            "training_execution_queue": "getMerlinTrainingExecutionQueue",
+            "training_cycle": "runMerlinTrainingCycle",
+            "challenge_pack": "getMerlinTrainingChallengePack",
+            "sprint_review_packet": "getMerlinSprintReviewPacket",
+        },
+    }
+
+
 def _seed_formal_proof_foundry_examples() -> list[dict[str, Any]]:
     bundle = get_formal_proof_foundry_training_bundle()
     runtime_alignment = dict(bundle.get("runtime_alignment") or {})
@@ -4490,6 +4507,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
             "training_cycle_runner": "runMerlinTrainingCycle",
             "challenge_pack": "getMerlinTrainingChallengePack",
+            "navier_stokes_method_transfer_packet": "getMerlinNavierStokesMethodTransferPacket",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
             "open_weight_acquisition_ledger": "getMerlinOpenWeightAcquisitionLedger",
             "dual_lane_master_sprint": "getMerlinDualLaneMasterSprint",
