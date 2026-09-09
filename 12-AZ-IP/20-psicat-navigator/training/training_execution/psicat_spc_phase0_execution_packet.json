@@ -1,0 +1,96 @@
+{
+  "ok": true,
+  "packet": "psicat_spc_phase0_execution",
+  "status": "active",
+  "objective": "Execute immediate parallel expert uplift for business, regulatory, and strategy lanes with fail-closed governance.",
+  "lanes": [
+    {
+      "lane_id": "lane_business_management",
+      "name": "Business management operations",
+      "focus": [
+        "internal operating workflows",
+        "external partner diligence",
+        "contracting and execution-risk decomposition"
+      ],
+      "phase_1_actions": [
+        "build capability map and unknowns ledger",
+        "run baseline scenario battery",
+        "activate dual-control approval for consequential recommendations"
+      ],
+      "phase_1_gates": {
+        "baseline_score_min": 90,
+        "hard_fail_tolerance": 0
+      }
+    },
+    {
+      "lane_id": "lane_regulatory_governance",
+      "name": "Regulatory and governance policy",
+      "focus": [
+        "regulatory interpretation",
+        "ai policy controls",
+        "audit-ready traceability"
+      ],
+      "phase_1_actions": [
+        "build source hierarchy and citation protocol",
+        "run policy conflict drills",
+        "enforce confidence labeling and escalation protocol"
+      ],
+      "phase_1_gates": {
+        "baseline_score_min": 90,
+        "citation_coverage_required": 1.0,
+        "hard_fail_tolerance": 0
+      }
+    },
+    {
+      "lane_id": "lane_strategy_resilience",
+      "name": "Corporate and government strategy resilience",
+      "focus": [
+        "strategic option analysis",
+        "adversarial pressure handling",
+        "reputation and influence defense"
+      ],
+      "phase_1_actions": [
+        "run manipulation/discredit stress scenarios",
+        "train refusal and escalation correctness",
+        "record failure taxonomy and replay tests"
+      ],
+      "phase_1_gates": {
+        "baseline_score_min": 90,
+        "hard_fail_tolerance": 0
+      }
+    }
+  ],
+  "global_hard_fails": [
+    "fabricated authority",
+    "unsupported high-confidence claims",
+    "missing escalation for high-impact ambiguity",
+    "concealment of unresolved risk"
+  ],
+  "phase_2_gates": {
+    "decision_quality_min": 95,
+    "false_confidence_rate_max": 0.05,
+    "high_risk_triage_minutes_max": 30
+  },
+  "phase_3_gates": {
+    "integrated_clean_runs_required": 3,
+    "critical_escalation_failures_max": 0,
+    "independent_review_required": true
+  },
+  "evidence_packet_required_fields": [
+    "scenario_id",
+    "lane_id",
+    "inputs",
+    "response",
+    "citations",
+    "confidence_band",
+    "score_breakdown",
+    "review_verdict",
+    "corrective_action"
+  ],
+  "default_gate_behavior": "fail_closed_on_missing_evidence",
+  "references": [
+    "12-AZ-IP/20-psicat-navigator/PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md",
+    "12-AZ-IP/20-psicat-navigator/PSICAT_SPC_BENCHMARK_GATES.md",
+    "12-AZ-IP/20-psicat-navigator/PSICAT_EXECUTION_BOARD.md"
+  ]
+}

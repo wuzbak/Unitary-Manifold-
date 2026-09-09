@@ -175,6 +175,81 @@ def test_export_training_execution_script(tmp_path, monkeypatch):
     assert payload['lane_progress_ledgers']['overall']['completed_count'] == 3
 
 
+def test_export_psicat_spc_phase1_baseline_script(tmp_path, monkeypatch):
+    script_path = PRODUCT_ROOT / 'tools' / 'export_psicat_spc_phase1_baseline.py'
+    spec = importlib.util.spec_from_file_location('export_psicat_spc_phase1_baseline', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'psicat_spc_phase1_baseline_receipts.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        ['export_psicat_spc_phase1_baseline.py', '--limit', '5', '--training-limit', '3', '--output', str(output_path)],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['mode'] == 'spc_phase1_baseline_execution'
+    assert len(payload['lane_receipts']) == 3
+
+
+def test_diff_psicat_spc_phase1_receipts_script(tmp_path, monkeypatch):
+    baseline_path = tmp_path / 'baseline.json'
+    baseline_path.write_text(
+        json.dumps(
+            {
+                "generated_at": "2026-09-09T00:00:00+00:00",
+                "phase_verdict": "PHASE1_HOLD_REMEDIATE",
+                "lane_receipts": [
+                    {"lane_id": "lane_business_management", "lane_verdict": "hold", "mean_score_100": 80, "hard_fail_count": 1},
+                ],
+                "blocker_register": [{"blocker_id": "a"}],
+            }
+        ),
+        encoding='utf-8',
+    )
+    current_path = tmp_path / 'current.json'
+    current_path.write_text(
+        json.dumps(
+            {
+                "generated_at": "2026-09-09T01:00:00+00:00",
+                "phase_verdict": "PHASE1_CLEAR_ADVANCE_TO_PHASE2",
+                "lane_receipts": [
+                    {"lane_id": "lane_business_management", "lane_verdict": "clear", "mean_score_100": 95, "hard_fail_count": 0},
+                ],
+                "blocker_register": [],
+            }
+        ),
+        encoding='utf-8',
+    )
+    script_path = PRODUCT_ROOT / 'tools' / 'diff_psicat_spc_phase1_receipts.py'
+    spec = importlib.util.spec_from_file_location('diff_psicat_spc_phase1_receipts', script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output_path = tmp_path / 'diff.json'
+    monkeypatch.setattr(
+        sys,
+        'argv',
+        [
+            'diff_psicat_spc_phase1_receipts.py',
+            '--previous',
+            str(baseline_path),
+            '--current',
+            str(current_path),
+            '--output',
+            str(output_path),
+        ],
+    )
+    assert module.main() == 0
+    payload = json.loads(output_path.read_text())
+    assert payload['ok'] is True
+    assert payload['previous_phase_verdict'] == 'PHASE1_HOLD_REMEDIATE'
+    assert payload['current_phase_verdict'] == 'PHASE1_CLEAR_ADVANCE_TO_PHASE2'
+    assert payload['blockers_removed'] == ['a']
+
+
 def test_run_mlflow_experiment_script(tmp_path, monkeypatch):
     script_path = PRODUCT_ROOT / 'tools' / 'run_merlin_mlflow_experiment.py'
     spec = importlib.util.spec_from_file_location('run_merlin_mlflow_experiment', script_path)
@@ -2026,6 +2101,20 @@ def test_server_merlin_endpoints():
             assert targeted_rigor_sprint.json()['ok'] is True
             assert targeted_rigor_sprint.json()['targeted_rigor_sprint']['mode'] == 'targeted_full_rigor_sprint'
             assert len(targeted_rigor_sprint.json()['targeted_rigor_sprint']['stage_gate_summary']) == 5
+            spc_phase0_packet = client.get('/api/merlin/spc-phase0-packet')
+            assert spc_phase0_packet.status_code == 200
+            assert spc_phase0_packet.json()['ok'] is True
+            assert spc_phase0_packet.json()['spc_phase0_packet']['ok'] is True
+            assert spc_phase0_packet.json()['spc_phase0_packet']['error'] == ''
+            spc_phase1_baseline = client.get('/api/merlin/spc-phase1-baseline?limit=5&training_limit=3')
+            assert spc_phase1_baseline.status_code == 200
+            assert spc_phase1_baseline.json()['ok'] is True
+            assert spc_phase1_baseline.json()['spc_phase1_baseline']['mode'] == 'spc_phase1_baseline_execution'
+            assert len(spc_phase1_baseline.json()['spc_phase1_baseline']['lane_receipts']) == 3
+            assert 'phase_verdict' in spc_phase1_baseline.json()['spc_phase1_baseline']
+            bad_spc_phase1_limit = client.get('/api/merlin/spc-phase1-baseline?limit=abc')
+            assert bad_spc_phase1_limit.status_code == 400
+            assert bad_spc_phase1_limit.json()['ok'] is False
             heavy_lane = client.get('/api/merlin/heavy-lane?limit=2')
             assert heavy_lane.status_code == 200
             assert heavy_lane.json()['ok'] is True
