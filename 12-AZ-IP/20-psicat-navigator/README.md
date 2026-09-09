@@ -106,6 +106,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/lane-progress-ledgers` exposes automated per-lane completion ledgers and recent retained receipts.
 - `POST /api/psicat/training-cycle` executes queued multi-lane training work, including proof-foundry ingestion, and retains auditable receipts in PsiCat session memory.
 - `POST /api/psicat/training-cycle` now also emits an automatic Lane E performance-gate verdict and promotion blockers derived from retained before/after performance receipts, and each Lane E receipt carries benchmark-evidence provenance (`stage_b/stage_c` capture, persisted profile reuse, or explicit fallback marker).
+- `GET /api/psicat/training-artifacts` and retained training execution bundles now include Lane E runtime profile payload visibility so benchmark-evidence provenance is inspectable at bundle level.
 - `GET /api/psicat/training-challenge-pack` converts retained receipts into deterministic follow-up drills, prioritizing stale or review-required work first.
 - `GET /api/psicat/benchmark-corpora` exposes Stage A/B/C/D/E corpora directly, with stage selection support.
 - `GET /api/psicat/stage-a-receipts` runs the self-hosted Stage A receipt set and returns comparable PsiCat/incumbent runs.

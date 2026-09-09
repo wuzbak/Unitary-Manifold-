@@ -82,6 +82,8 @@ def test_merlin_training_execution_bundle_reuses_retained_state():
     first = build_merlin_training_execution_bundle(session=session)
     assert first["execution_cycle"]["processed_count"] >= 1
     assert first["training_challenge_pack"]["challenge_count"] >= 1
+    assert first["lane_e_runtime_profile_artifact_path"].endswith("lane_e_runtime_profiles.json")
+    assert "lane_e_runtime_profiles" in first
 
     second = build_merlin_training_execution_bundle(session=session)
     assert second["ok"] is True
@@ -196,3 +198,22 @@ def test_lane_e_runtime_profiles_invalid_artifact_uses_fallback(tmp_path, monkey
     evidence = dict((lane_e.get("artifact") or {}).get("performance_receipt_evidence") or {})
     assert evidence.get("source") == "fallback_static_profiles"
     assert evidence.get("status") == "fallback"
+
+
+def test_training_execution_bundle_exposes_lane_e_runtime_profiles(tmp_path, monkeypatch) -> None:
+    artifact_path = tmp_path / "lane_e_runtime_profiles.json"
+    monkeypatch.setattr(training_execution, "LANE_E_PROFILE_ARTIFACT_PATH", artifact_path)
+    monkeypatch.setattr(training_execution, "_LANE_E_RUNTIME_PROFILE_CACHE", None)
+
+    def _raise_capture(*args, **kwargs):
+        raise RuntimeError("capture unavailable")
+
+    monkeypatch.setattr(training_execution, "run_stage_b_head_to_head_receipts_sync", _raise_capture)
+    monkeypatch.setattr(training_execution, "run_stage_c_head_to_head_receipts_sync", _raise_capture)
+    bundle = build_merlin_training_execution_bundle(session=MerlinSession(), limit=6)
+    assert bundle["lane_e_runtime_profile_artifact_path"].endswith("lane_e_runtime_profiles.json")
+    assert bundle["lane_e_runtime_profile_artifact_exists"] is True
+    lane_e_profiles = dict(bundle.get("lane_e_runtime_profiles") or {})
+    assert "profiles" in lane_e_profiles
+    evidence = dict(lane_e_profiles.get("evidence") or {})
+    assert evidence.get("source") == "fallback_static_profiles"
