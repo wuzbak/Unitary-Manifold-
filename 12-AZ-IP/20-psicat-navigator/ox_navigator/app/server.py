@@ -822,17 +822,28 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                refresh_raw = str((params.get('refresh_lane_e_profiles') or ['false'])[0]).strip().lower()
-                if refresh_raw not in {'1', 'true', 'yes', 'on', '0', 'false', 'no', 'off', ''}:
-                    self._json({'ok': False, 'error': "Parameter 'refresh_lane_e_profiles' must be a boolean-like value."}, status=400)
+                refresh, refresh_error = _parse_bool_query_param(params, 'refresh_lane_e_profiles', False)
+                if refresh_error:
+                    self._json({'ok': False, 'error': refresh_error}, status=400)
                     return
-                refresh = refresh_raw in {'1', 'true', 'yes', 'on'}
+                include_ast_context, include_error = _parse_bool_query_param(params, 'include_ast_context', False)
+                if include_error:
+                    self._json({'ok': False, 'error': include_error}, status=400)
+                    return
+                ast_file_limit = None
+                if include_ast_context and 'ast_file_limit' in params:
+                    ast_file_limit, ast_error = _parse_positive_int_query_param(params, 'ast_file_limit', 120)
+                    if ast_error:
+                        self._json({'ok': False, 'error': ast_error}, status=400)
+                        return
                 self._json({
                 'ok': True,
                 'training_execution_bundle': build_merlin_training_execution_bundle(
                     session=merlin_session,
                     limit=limit,
-                    refresh_lane_e_profiles=refresh,
+                    refresh_lane_e_profiles=bool(refresh),
+                    include_ast_context=bool(include_ast_context),
+                    ast_file_limit=ast_file_limit,
                 ),
                 })
                 self._persist_session(session_id, merlin_session)
@@ -1439,9 +1450,26 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     if limit is not None and limit < 0:
                         self._json({'ok': False, 'error': 'limit must be >= 0 when provided'}, status=400)
                         return
+                    include_ast_context = bool(payload.get('include_ast_context', False))
+                    raw_ast_file_limit = payload.get('ast_file_limit')
+                    ast_file_limit = None
+                    if include_ast_context and raw_ast_file_limit not in (None, ""):
+                        try:
+                            ast_file_limit = int(raw_ast_file_limit)
+                        except (TypeError, ValueError):
+                            self._json({'ok': False, 'error': 'ast_file_limit must be an integer when provided'}, status=400)
+                            return
+                        if ast_file_limit <= 0:
+                            self._json({'ok': False, 'error': 'ast_file_limit must be >= 1 when provided'}, status=400)
+                            return
                     self._json({
                         'ok': True,
-                        'training_cycle': run_merlin_training_cycle(session=merlin_session, limit=limit),
+                        'training_cycle': run_merlin_training_cycle(
+                            session=merlin_session,
+                            limit=limit,
+                            include_ast_context=include_ast_context,
+                            ast_file_limit=ast_file_limit,
+                        ),
                     })
                     return
                 if route_path == '/api/psicat/performance-gate-evaluate':

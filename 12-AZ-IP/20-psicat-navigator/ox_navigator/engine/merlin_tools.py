@@ -488,7 +488,7 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinContinuousLearningProtocol": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "getMerlinTrainingExecutionBundle": {"args_schema": _LIMIT_REFRESH_ARGS_SCHEMA},
+        "getMerlinTrainingExecutionBundle": {"args_schema": _LIMIT_SYNC_REFRESH_AST_ARGS_SCHEMA},
         "getMerlinLaneERuntimeProfiles": {
             "args_schema": {
                 "type": "object",
@@ -499,7 +499,7 @@ def _tool_manifest() -> dict[str, Any]:
             }
         },
         "getMerlinLaneProgressLedgers": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
-        "runMerlinTrainingCycle": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "runMerlinTrainingCycle": {"args_schema": _LIMIT_AST_ARGS_SCHEMA},
         "runMerlinTargetedRigorSprint": {
             "args_schema": {
                 "type": "object",
@@ -1112,6 +1112,8 @@ _FUNCTIONS = {
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=args.get("limit"),
         refresh_lane_e_profiles=bool(args.get("refresh_lane_e_profiles", False)),
+        include_ast_context=bool(args.get("include_ast_context", False)),
+        ast_file_limit=args.get("ast_file_limit"),
     )},
     "getMerlinLaneERuntimeProfiles": lambda **args: {"data": get_merlin_lane_e_runtime_profiles(
         refresh=bool(args.get("refresh", False)),
@@ -1123,6 +1125,8 @@ _FUNCTIONS = {
     "runMerlinTrainingCycle": lambda **args: {"data": run_merlin_training_cycle(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
         limit=args.get("limit"),
+        include_ast_context=bool(args.get("include_ast_context", False)),
+        ast_file_limit=args.get("ast_file_limit"),
     )},
     "getMerlinTrainingChallengePack": lambda **args: {"data": get_merlin_training_challenge_pack(
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),

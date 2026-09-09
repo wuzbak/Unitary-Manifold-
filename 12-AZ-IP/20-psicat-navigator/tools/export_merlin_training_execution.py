@@ -27,6 +27,17 @@ def main() -> int:
         help="Force Lane E runtime profile recapture before building the bundle.",
     )
     parser.add_argument(
+        "--include-ast-context",
+        action="store_true",
+        help="Include AST-context dataset enrichment in the execution cycle output.",
+    )
+    parser.add_argument(
+        "--ast-file-limit",
+        type=int,
+        default=0,
+        help="Optional positive AST file cap when --include-ast-context is enabled.",
+    )
+    parser.add_argument(
         "--output",
         type=str,
         default=str(ROOT / "training" / "training_execution" / "three_lane_execution_bundle.json"),
@@ -40,6 +51,8 @@ def main() -> int:
         session=session,
         limit=limit,
         refresh_lane_e_profiles=bool(args.refresh_lane_e_profiles),
+        include_ast_context=bool(args.include_ast_context),
+        ast_file_limit=(None if int(args.ast_file_limit or 0) <= 0 else int(args.ast_file_limit)),
     )
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)

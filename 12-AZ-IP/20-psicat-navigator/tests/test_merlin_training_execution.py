@@ -224,6 +224,40 @@ def test_training_execution_bundle_exposes_lane_e_runtime_profiles(tmp_path, mon
     assert evidence.get("source") == "fallback_static_profiles"
 
 
+def test_training_cycle_persists_gate_history_and_ast_context(tmp_path, monkeypatch) -> None:
+    profile_path = tmp_path / "lane_e_runtime_profiles.json"
+    history_path = tmp_path / "performance_gate_history.json"
+    monkeypatch.setattr(training_execution, "LANE_E_PROFILE_ARTIFACT_PATH", profile_path)
+    monkeypatch.setattr(training_execution, "PERFORMANCE_GATE_HISTORY_PATH", history_path)
+    monkeypatch.setattr(training_execution, "_LANE_E_RUNTIME_PROFILE_CACHE", None)
+    monkeypatch.setattr(
+        training_execution,
+        "build_training_dataset_bundle",
+        lambda **kwargs: {
+            "ok": True,
+            "total_rows": 42,
+            "family_count": 7,
+            "ast_context_records": 11,
+        },
+    )
+
+    payload = run_merlin_training_cycle(
+        session=MerlinSession(),
+        limit=4,
+        include_ast_context=True,
+        ast_file_limit=33,
+    )
+    assert payload["ok"] is True
+    assert payload["ast_context"]["enabled"] is True
+    assert payload["ast_context"]["file_limit"] == 33
+    assert payload["ast_context"]["dataset_summary"]["ast_context_records"] == 11
+    history = dict(payload.get("performance_gate_history") or {})
+    assert history["entry_count"] >= 1
+    assert history["latest"]["ast_context"]["enabled"] is True
+    assert history["latest"]["cadence_window"]["non_overlapping"] is True
+    assert history_path.exists()
+
+
 def test_merlin_training_queue_and_challenge_pack_include_navier_packets() -> None:
     session = MerlinSession()
     queue = build_merlin_training_execution_queue(session=session, limit=80)

@@ -227,7 +227,17 @@ def test_export_training_execution_script(tmp_path, monkeypatch):
     monkeypatch.setattr(
         sys,
         'argv',
-        ['export_merlin_training_execution.py', '--limit', '3', '--refresh-lane-e-profiles', '--output', str(output_path)],
+        [
+            'export_merlin_training_execution.py',
+            '--limit',
+            '3',
+            '--refresh-lane-e-profiles',
+            '--include-ast-context',
+            '--ast-file-limit',
+            '25',
+            '--output',
+            str(output_path),
+        ],
     )
     assert module.main() == 0
     payload = json.loads(output_path.read_text())
@@ -235,6 +245,8 @@ def test_export_training_execution_script(tmp_path, monkeypatch):
     assert payload['execution_cycle']['processed_count'] == 3
     assert payload['lane_progress_ledgers']['overall']['completed_count'] == 3
     assert payload['lane_e_profile_refresh_requested'] is True
+    assert payload['execution_cycle']['ast_context']['enabled'] is True
+    assert payload['execution_cycle']['ast_context']['file_limit'] == 25
 
 
 def test_export_lane_e_runtime_profiles_script(tmp_path, monkeypatch):
@@ -2314,17 +2326,25 @@ def test_server_merlin_endpoints():
             assert training_execution_queue.status_code == 200
             assert training_execution_queue.json()['ok'] is True
             assert training_execution_queue.json()['training_execution_queue']['queued_count'] >= 4
-            training_execution_bundle = client.get('/api/merlin/training-execution-bundle?limit=3&refresh_lane_e_profiles=true')
+            training_execution_bundle = client.get(
+                '/api/merlin/training-execution-bundle?limit=3&refresh_lane_e_profiles=true&include_ast_context=true&ast_file_limit=20'
+            )
             assert training_execution_bundle.status_code == 200
             assert training_execution_bundle.json()['ok'] is True
             assert training_execution_bundle.json()['training_execution_bundle']['ok'] is True
             assert training_execution_bundle.json()['training_execution_bundle']['execution_cycle']['processed_count'] == 3
             assert training_execution_bundle.json()['training_execution_bundle']['lane_e_profile_refresh_requested'] is True
+            assert training_execution_bundle.json()['training_execution_bundle']['execution_cycle']['ast_context']['enabled'] is True
             assert training_execution_bundle.json()['training_execution_bundle']['lane_e_runtime_profile_artifact_path'].endswith(
                 'lane_e_runtime_profiles.json'
             )
+            assert training_execution_bundle.json()['training_execution_bundle']['performance_gate_history_artifact_path'].endswith(
+                'performance_gate_history.json'
+            )
             bad_training_execution_bundle_refresh = client.get('/api/merlin/training-execution-bundle?refresh_lane_e_profiles=maybe')
             assert bad_training_execution_bundle_refresh.status_code == 400
+            bad_training_execution_bundle_ast = client.get('/api/merlin/training-execution-bundle?include_ast_context=true&ast_file_limit=0')
+            assert bad_training_execution_bundle_ast.status_code == 400
             lane_e_runtime_profiles = client.get('/api/merlin/lane-e-runtime-profiles')
             assert lane_e_runtime_profiles.status_code == 200
             assert lane_e_runtime_profiles.json()['ok'] is True
@@ -2334,11 +2354,16 @@ def test_server_merlin_endpoints():
             )
             bad_lane_e_runtime_profiles = client.get('/api/merlin/lane-e-runtime-profiles?refresh=maybe')
             assert bad_lane_e_runtime_profiles.status_code == 400
-            training_cycle = client.post('/api/merlin/training-cycle', json={'limit': 3})
+            training_cycle = client.post(
+                '/api/merlin/training-cycle',
+                json={'limit': 3, 'include_ast_context': True, 'ast_file_limit': 16},
+            )
             assert training_cycle.status_code == 200
             assert training_cycle.json()['ok'] is True
             assert training_cycle.json()['training_cycle']['processed_count'] == 3
             assert training_cycle.json()['training_cycle']['performance_gate']['gate_verdict'] in {'pass', 'hold'}
+            assert training_cycle.json()['training_cycle']['ast_context']['enabled'] is True
+            assert training_cycle.json()['training_cycle']['performance_gate_history']['entry_count'] >= 1
             lane_progress = client.get('/api/merlin/lane-progress-ledgers?limit=3')
             assert lane_progress.status_code == 200
             assert lane_progress.json()['ok'] is True
