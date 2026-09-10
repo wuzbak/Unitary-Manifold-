@@ -87,10 +87,16 @@ def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypat
             assert good.status_code == 200
             assert good.json()["ok"] is True
             assert good.json()["local_execution"]["execution"]["returncode"] == 0
+            good_canonical = client.post("/api/psicat/local-execution/run", json={"command": 'python -c "print(12)"'})
+            assert good_canonical.status_code == 200
+            assert good_canonical.json()["ok"] is True
 
             bad_phase0 = client.get("/api/merlin/spc-phase0-packet")
             assert bad_phase0.status_code == 422
             assert bad_phase0.json()["ok"] is False
+            bad_phase0_canonical = client.get("/api/psicat/spc-phase0-packet")
+            assert bad_phase0_canonical.status_code == 422
+            assert bad_phase0_canonical.json()["ok"] is False
     finally:
         if original_env is None:
             os.environ.pop("MERLIN_LOCAL_EXECUTION_ENABLED", None)

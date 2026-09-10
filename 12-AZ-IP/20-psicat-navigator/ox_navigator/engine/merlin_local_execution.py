@@ -18,8 +18,6 @@ _DEFAULT_ALLOWED_COMMANDS = (
     "python",
     "python3",
     "pytest",
-    "pip",
-    "pip3",
     "ruff",
     "mypy",
 )
