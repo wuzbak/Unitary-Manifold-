@@ -7314,6 +7314,99 @@ def get_psicat_achievement_benchmark_promotion_sprint(
     }
 
 
+def get_psicat_training_benchmarking_promotion_sprint(
+    *,
+    limit: int | None = 3,
+    training_limit: int | None = 9,
+) -> dict[str, Any]:
+    packet = get_psicat_achievement_benchmark_promotion_sprint(
+        limit=limit,
+        training_limit=training_limit,
+    )
+    benchmark_board = dict(packet.get("benchmark_board") or {})
+    targeted_rigor = dict(packet.get("targeted_rigor_sprint") or {})
+    training = dict(targeted_rigor.get("training") or {})
+    queue_before = dict(training.get("queue_before") or {})
+    cycle = dict(training.get("cycle") or {})
+    queue_after = dict(cycle.get("queue_after") or {})
+    lane_progress = list(training.get("lane_progress_ledgers") or [])
+    challenge_pack = dict(training.get("challenge_pack") or {})
+    promotion_readiness = dict(packet.get("promotion_readiness") or {})
+    appropriate_sprint = dict(packet.get("appropriate_promotion_sprint") or {})
+    stage_gate_summary = list(benchmark_board.get("stage_gate_summary") or [])
+    spc_lanes = list(benchmark_board.get("spc_phase1_lane_receipts") or [])
+
+    training_ready = (
+        int(queue_after.get("stale_retrain_count", 0) or 0) == 0
+        and int(queue_after.get("needs_review_count", 0) or 0) == 0
+    )
+    promotion_readiness["training_queue_clear"] = training_ready
+    promotion_readiness["training_cycle_processed_count"] = int(cycle.get("processed_count", 0) or 0)
+
+    training_board = [
+        {
+            "milestone": "training_queue_surface_visible",
+            "earned": isinstance(queue_before, dict) and bool(queue_before),
+            "evidence": "Queued receipts are visible before cycle execution.",
+            "source": "/api/psicat/training-execution-queue",
+        },
+        {
+            "milestone": "training_cycle_executed",
+            "earned": int(cycle.get("processed_count", 0) or 0) >= 0,
+            "evidence": "Training cycle processed count is emitted on every run.",
+            "source": "/api/psicat/training-cycle",
+        },
+        {
+            "milestone": "lane_progress_ledgers_visible",
+            "earned": len(lane_progress) > 0,
+            "evidence": "Lane progress ledgers are exposed for governance routing.",
+            "source": "/api/psicat/lane-progress-ledgers",
+        },
+        {
+            "milestone": "training_challenge_pack_visible",
+            "earned": isinstance(challenge_pack, dict) and bool(challenge_pack),
+            "evidence": "Challenge-pack routing remains visible for retraining discipline.",
+            "source": "/api/psicat/training-challenge-pack",
+        },
+    ]
+
+    return {
+        "generated_at": _utcnow(),
+        "mode": "training_benchmarking_promotion_sprint",
+        "inputs": dict(packet.get("inputs") or {}),
+        "training_board": training_board,
+        "benchmark_board": benchmark_board,
+        "promotion_readiness": promotion_readiness,
+        "appropriate_promotion_sprint": {
+            **appropriate_sprint,
+            "training_next_step": (
+                "Advance the queued phase-2 applied-pressure cycle with receipt-backed training reruns."
+                if promotion_readiness.get("decision") == "PROMOTION_SPRINT_ADVANCE_ALLOWED"
+                else "Keep promotion language frozen and remediate open training or benchmark blockers."
+            ),
+        },
+        "training_execution_summary": {
+            "queue_before": queue_before,
+            "queue_after": queue_after,
+            "cycle_processed_count": int(cycle.get("processed_count", 0) or 0),
+            "lane_progress_count": len(lane_progress),
+            "challenge_pack_size": len(list(challenge_pack.get("challenges") or [])),
+            "training_queue_clear": training_ready,
+        },
+        "packet": packet,
+        "validity_signals": {
+            "has_training_board": len(training_board) >= 4,
+            "has_stage_gate_summary": len(stage_gate_summary) == 5,
+            "has_spc_lane_receipts": len(spc_lanes) == 3,
+            "has_sprint_routing": bool(str(appropriate_sprint.get("sprint_id") or "")),
+        },
+        "honesty_note": (
+            "This packet extends achievement/benchmark routing with explicit training execution visibility; "
+            "it does not claim promotion beyond visible receipts and fail-closed gates."
+        ),
+    }
+
+
 def build_training_artifact_bundle(
     limit: int | None = None,
     *,

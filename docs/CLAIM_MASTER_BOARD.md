@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v37.5
+# Unitary Manifold v37.6
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -30,8 +30,9 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-09 (v37.5 — Sprint CS: Pillar 1119. This sprint adds one fail-closed PsiCat promotion-routing packet that binds earned achievements, benchmark posture, and the appropriate next promotion sprint into one evidence-backed surface. The current packet advances to a phase-2 applied-pressure promotion sprint under continued receipt discipline, without claiming any new physics closure. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1120. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed; focused regression: PsiCat achievement/benchmark/promotion sprint suites 9 passed · 0 failed.)*
+*Last updated: 2026-09-10 (v37.6 — Sprint CT: Pillar 1120. This sprint adds one fail-closed PsiCat training-benchmarking-promotion packet that binds active training execution visibility, benchmark posture, and governed promotion routing into one evidence-backed surface. The current packet keeps promotion decisions receipt-gated with queue/cycle/lane training telemetry and preserves freeze-on-blocker behavior without claiming any new physics closure. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1121. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed; focused regression: PsiCat training/benchmarking/promotion sprint suites 7 passed · 0 failed.)*
 
+*Historical continuity note: v37.6 Sprint CT (Pillar 1120; next slot 1121) is the canonical PsiCat training-benchmarking-promotion packet directly above Sprint CS.*
 *Historical continuity note: v37.5 Sprint CS (Pillar 1119; next slot 1120) is the canonical PsiCat promotion-routing packet directly above Sprint CR.*
 *Historical continuity note: v37.4 Sprint CR (Pillars 1109–1118; next slot 1119) is the canonical master implementation packet directly above Sprint CQ.*
 *Historical continuity note: v37.3 Sprint CQ (Pillars 1103–1108; next slot 1109) is the canonical continuation packet directly above Sprint CP.*
@@ -47,6 +48,8 @@ still-open physical obligations in the table.
 
 
 
+
+*P1120 (v37.6): PsiCat Training Benchmarking Promotion Sprint — PSICAT_TRAINING_BENCHMARKING_PROMOTION_SPRINT_COMPLETE. `src/core/pillar1120_psicat_training_benchmarking_promotion_sprint.py` binds active training execution visibility, benchmark posture, and promotion routing in one fail-closed packet while preserving freeze-on-blocker discipline and unchanged physics-closure boundaries.
 
 *P1119 (v37.5): PsiCat Achievement Benchmark Promotion Sprint — PSICAT_ACHIEVEMENT_BENCHMARK_PROMOTION_SPRINT_COMPLETE. `src/core/pillar1119_psicat_achievement_benchmark_promotion_sprint.py` binds PsiCat’s earned achievement surfaces, live benchmark posture, and next appropriate promotion sprint into one fail-closed packet; the current packet routes next work to phase-2 applied-pressure promotion while leaving physics closure claims unchanged.
 

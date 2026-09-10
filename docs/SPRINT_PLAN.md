@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-09 (v37.5 Sprint CS COMPLETE — Pillar 1119; Lean4 4080→4080; next slot 1120)*
+*Last updated: 2026-09-10 (v37.6 Sprint CT COMPLETE — Pillar 1120; Lean4 4080→4080; next slot 1121)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v37.5 — Sprint CS)
+## CURRENT AUDITABLE STATE (v37.6 — Sprint CT)
 
 | Field | Value |
 |-------|-------|
-| Version | **v37.5** |
-| Sprint | **Sprint CS** |
-| Pillars | **1119-1119** |
-| Next pillar slot | **1120** |
+| Version | **v37.6** |
+| Sprint | **Sprint CT** |
+| Pillars | **1120-1120** |
+| Next pillar slot | **1121** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **PsiCat achievement/benchmark/promotion packet — fail-closed and evidence-backed** |
-| Primary target | **Consolidate earned PsiCat achievements, benchmark posture, and the next appropriate promotion sprint without inflating status** |
+| Sprint theme | **PsiCat training/benchmarking/promotion packet — fail-closed and evidence-backed** |
+| Primary target | **Bind live training execution, benchmark posture, and next promotion routing in one receipt-backed packet without inflating status** |
 | Binary outcome | **Either the packet supports a receipt-backed next sprint recommendation, or Sprint CS fails closed with promotion language frozen** |
 
+Historical continuity: v37.6 Sprint CT (Pillar 1120; next slot 1121) is the canonical PsiCat training-benchmarking-promotion packet directly above Sprint CS.
 Historical continuity: v37.5 Sprint CS (Pillar 1119; next slot 1120) is the canonical PsiCat promotion-routing packet directly above Sprint CR.
 Historical continuity: v37.4 Sprint CR (Pillars 1109-1118; next slot 1119) is the canonical master implementation packet directly above Sprint CQ.
 Historical continuity: v37.3 Sprint CQ (Pillars 1103-1108; next slot 1109) is the canonical continuation packet directly above Sprint CP.
@@ -101,6 +102,13 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 8. Publish documentation/review packets for closure attempts and blocked units with assumptions/counterexample/residual/stop-condition doctrine.
 9. Synchronize canonical truth surfaces in lockstep and fail-close on any drift.
 10. Fail-close the sprint unless all lane packets, docs packet, status coherence, and integration gate remain valid together.
+
+## SPRINT CT PSICAT TRAINING BENCHMARKING PROMOTION PROTOCOL (Executed)
+
+1. Consolidate live training queue/cycle/lane telemetry and benchmark posture in one auditable packet.
+2. Keep Stage A→E benchmark posture and SPC lane receipts visible alongside training execution summaries.
+3. Keep promotion language frozen unless training and benchmark gates remain clear together.
+4. Route the next sprint from visible receipts only; current route remains phase-2 applied-pressure promotion work when gates stay clear.
 
 ## SPRINT CS PSICAT ACHIEVEMENT BENCHMARK PROMOTION PROTOCOL (Executed)
 

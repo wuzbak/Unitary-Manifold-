@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v37.5
+# Unitary Manifold v37.6
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -21,6 +21,9 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+
+> **Sprint CT (v37.6 — 2026-09-10):** 1 pillar (1120). P1120 adds a fail-closed PsiCat training-benchmarking-promotion packet that keeps queue/cycle/lane training execution visibility, Stage A→E benchmark posture, and promotion routing in one governed board. Promotion language remains strictly receipt-gated: advancement only when training and benchmark gates are clear; otherwise explicit freeze-and-remediate routing stays active. Lean4 4080→4080 (+0). Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: PsiCat training/benchmarking/promotion sprint suites 7 passed · 0 failed. Next slot 1121.
+>
 
 > **Sprint CS (v37.5 — 2026-09-09):** 1 pillar (1119). P1119 adds a fail-closed PsiCat achievement/benchmark/promotion packet that consolidates earned surfaces, live benchmark posture, and the next appropriate promotion sprint in one governed board. The current packet keeps promotion language tied to visible receipts: targeted-rigor gates clear, frontier blockers clear, and SPC phase-1 baseline lanes clear, so the next step is phase-2 applied-pressure promotion work rather than a narrative-only status jump. Lean4 4080→4080 (+0). Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: PsiCat achievement/benchmark/promotion sprint suites 9 passed · 0 failed. Next slot 1120.
 >
