@@ -151,6 +151,40 @@ def test_phase0_packet_schema_validation_success_contract_fields():
     assert payload["validation_errors"] == []
 
 
+def test_phase0_packet_schema_validation_rejects_partial_lane_corruption(tmp_path, monkeypatch):
+    from ox_navigator.engine import merlin_program as program
+
+    canonical = get_psicat_spc_phase0_execution_packet()
+    packet = dict(canonical["packet"])
+    lanes = list(packet["lanes"])
+    first = dict(lanes[0])
+    first["focus"] = []
+    lanes[0] = first
+    packet["lanes"] = lanes
+    bad_packet = tmp_path / "psicat_spc_phase0_execution_packet.json"
+    bad_packet.write_text(json.dumps(packet), encoding="utf-8")
+    monkeypatch.setattr(program, "PSICAT_SPC_PHASE0_PACKET_PATH", bad_packet)
+    payload = get_psicat_spc_phase0_execution_packet()
+    assert payload["ok"] is False
+    assert payload["validation_error_count"] >= 1
+    assert any("Lane[0] field 'focus'" in item for item in payload["validation_errors"])
+
+
+def test_phase0_packet_schema_validation_rejects_missing_evidence_field(tmp_path, monkeypatch):
+    from ox_navigator.engine import merlin_program as program
+
+    canonical = get_psicat_spc_phase0_execution_packet()
+    packet = dict(canonical["packet"])
+    packet["evidence_packet_required_fields"] = [field for field in packet["evidence_packet_required_fields"] if field != "review_verdict"]
+    bad_packet = tmp_path / "psicat_spc_phase0_execution_packet.json"
+    bad_packet.write_text(json.dumps(packet), encoding="utf-8")
+    monkeypatch.setattr(program, "PSICAT_SPC_PHASE0_PACKET_PATH", bad_packet)
+    payload = get_psicat_spc_phase0_execution_packet()
+    assert payload["ok"] is False
+    assert payload["validation_error_count"] >= 1
+    assert any("evidence_packet_required_fields missing required entries" in item for item in payload["validation_errors"])
+
+
 def test_route_tool_psicat_achievement_session_passthrough(monkeypatch):
     from ox_navigator.engine import merlin_tools as tools
 
@@ -179,7 +213,7 @@ def test_route_tool_psicat_achievement_session_passthrough(monkeypatch):
     captured.clear()
     without_session = route_tool("getPsiCatAchievementBenchmarkPromotionSprint", {"limit": 2})
     assert without_session["ok"] is True
-    assert captured["session"] is None
+    assert isinstance(captured["session"], MerlinSession)
 
 
 def test_run_py_local_execution_flags_wire_environment(monkeypatch):

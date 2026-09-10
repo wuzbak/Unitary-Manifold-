@@ -1512,8 +1512,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "getPsiCatAchievementBenchmarkPromotionSprint",
                 }
                 if tool in session_passthrough_tools:
-                    passthrough_session = active_session if session is not None else None
-                    result = _FUNCTIONS[tool](**{**args, "__session": passthrough_session})
+                    result = _FUNCTIONS[tool](**{**args, "__session": active_session})
                 else:
                     result = _FUNCTIONS[tool](**args)
         elif tool == "getMerlinBenchmarkCorpus":
