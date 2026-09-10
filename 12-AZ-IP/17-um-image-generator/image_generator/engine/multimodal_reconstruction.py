@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from uuid import uuid4
 
 import numpy as np
 
@@ -241,6 +242,11 @@ def build_multimodal_scene_bundle(
     cloud_path = base / f"{scene_id}.pointcloud.ply"
     stl_path = base / f"{scene_id}.mesh.stl"
     metadata_path = base / f"{scene_id}.metadata.json"
+    temp_tag = uuid4().hex
+    gaussian_tmp = base / f".{scene_id}.{temp_tag}.gaussian.json.tmp"
+    cloud_tmp = base / f".{scene_id}.{temp_tag}.pointcloud.ply.tmp"
+    stl_tmp = base / f".{scene_id}.{temp_tag}.mesh.stl.tmp"
+    metadata_tmp = base / f".{scene_id}.{temp_tag}.metadata.json.tmp"
 
     gaussian_payload = {
         "scene_id": scene_id,
@@ -253,24 +259,34 @@ def build_multimodal_scene_bundle(
             "colors_rgb": splats["colors_rgb"].tolist(),
         },
     }
-    gaussian_path.write_text(json.dumps(gaussian_payload, indent=2), encoding="utf-8")
+    cleanup_targets = [gaussian_tmp, cloud_tmp, stl_tmp, metadata_tmp]
+    try:
+        gaussian_tmp.write_text(json.dumps(gaussian_payload, indent=2), encoding="utf-8")
+        export_point_cloud_ply(points, cloud_tmp, colors_rgb=np.asarray(splats["colors_rgb"], dtype=float))
+        export_mesh_stl(mesh["vertices"], mesh["faces"], stl_tmp, solid_name=scene_id)
 
-    export_point_cloud_ply(points, cloud_path, colors_rgb=np.asarray(splats["colors_rgb"], dtype=float))
-    export_mesh_stl(mesh["vertices"], mesh["faces"], stl_path, solid_name=scene_id)
-
-    metadata = {
-        "scene_id": scene_id,
-        "calibration_scale_meters": scale_meters,
-        "units": "meters",
-        "source_of_truth": "point_cloud",
-        "artifacts": {
-            "gaussian_render": gaussian_path.name,
-            "point_cloud_measurement": cloud_path.name,
-            "stl_mesh": stl_path.name,
-        },
-        "quality": quality,
-    }
-    metadata_path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+        metadata = {
+            "scene_id": scene_id,
+            "calibration_scale_meters": scale_meters,
+            "units": "meters",
+            "source_of_truth": "point_cloud",
+            "artifacts": {
+                "gaussian_render": gaussian_path.name,
+                "point_cloud_measurement": cloud_path.name,
+                "stl_mesh": stl_path.name,
+            },
+            "quality": quality,
+        }
+        metadata_tmp.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+        gaussian_tmp.replace(gaussian_path)
+        cloud_tmp.replace(cloud_path)
+        stl_tmp.replace(stl_path)
+        metadata_tmp.replace(metadata_path)
+    except Exception:
+        for target in cleanup_targets:
+            if target.exists():
+                target.unlink()
+        raise
 
     return {
         "gaussian_path": str(gaussian_path),

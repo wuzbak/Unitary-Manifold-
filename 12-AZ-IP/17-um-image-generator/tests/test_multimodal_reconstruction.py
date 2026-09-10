@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 if str(PRODUCT_ROOT) not in sys.path:
@@ -21,6 +22,7 @@ from image_generator.engine.multimodal_reconstruction import (
     generate_calibrated_point_cloud,
     generate_gaussian_splats,
 )
+from image_generator.engine import multimodal_reconstruction as mm
 
 
 def test_generate_calibrated_point_cloud_shape_and_bounds() -> None:
@@ -99,3 +101,17 @@ def test_build_multimodal_scene_bundle_outputs_all_artifacts(tmp_path: Path) -> 
     assert len(gaussian["splats"]["sigmas_xyz"]) == 81
     assert len(gaussian["splats"]["opacities"]) == 81
     assert len(gaussian["splats"]["colors_rgb"]) == 81
+
+
+def test_bundle_write_failure_does_not_leave_partial_files(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    def fail_stl(*args, **kwargs):
+        raise RuntimeError("forced stl failure")
+
+    monkeypatch.setattr(mm, "export_mesh_stl", fail_stl)
+    with pytest.raises(RuntimeError):
+        build_multimodal_scene_bundle(tmp_path, scene_id="broken", grid_size=7, scale_meters=1.0)
+
+    assert not (tmp_path / "broken.gaussian.json").exists()
+    assert not (tmp_path / "broken.pointcloud.ply").exists()
+    assert not (tmp_path / "broken.mesh.stl").exists()
+    assert not (tmp_path / "broken.metadata.json").exists()
