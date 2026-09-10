@@ -1132,7 +1132,10 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 }, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
-            if route_path == '/api/psicat/training-benchmarking-promotion-sprint':
+            if route_path in {
+                '/api/psicat/training-benchmarking-promotion-sprint',
+                '/api/merlin/training-benchmarking-promotion-sprint',
+            }:
                 limit, error = _parse_int_query_param(params, 'limit', 3)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
