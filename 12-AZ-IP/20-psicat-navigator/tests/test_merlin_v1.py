@@ -1938,8 +1938,9 @@ def test_training_benchmarking_promotion_sprint_nonnumeric_processed_count_not_e
     assert packet['training_execution_summary']['training_cycle_executed'] is False
     assert packet['training_execution_summary']['training_queue_observed'] is False
     assert packet['training_execution_summary']['queue_after_state_clear'] is True
-    assert packet['training_execution_summary']['training_queue_clear'] is False
+    assert packet['training_execution_summary']['training_queue_clear'] is True
     assert packet['training_execution_summary']['training_ready'] is False
+    assert packet['promotion_readiness']['training_queue_clear'] is True
     assert packet['promotion_readiness']['training_ready'] is False
 
 

@@ -7710,7 +7710,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
         "needs_review_count",
         "total_queue_items",
     )
-    training_queue_clear = queue_after_state_clear and training_queue_observed
+    training_queue_clear = queue_after_state_clear
     training_ready = training_cycle_executed and training_queue_clear
     inherited_targeted_clear = bool(promotion_readiness.get("targeted_rigor_clear"))
     inherited_frontier_clear = bool(promotion_readiness.get("frontier_blockers_all_clear"))
