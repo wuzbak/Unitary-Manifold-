@@ -35,6 +35,7 @@ import time
 import hashlib
 import logging
 import importlib.util
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -144,12 +145,15 @@ Primary falsifier: birefringence β — LiteBIRD ~2032
 # Simple in-memory cache
 _cache: dict[str, tuple[float, dict]] = {}
 _rag_index: RAGIndex | None = None
+_rag_index_lock = threading.Lock()
 
 
 def _get_rag_index() -> RAGIndex:
     global _rag_index
     if _rag_index is None:
-        _rag_index = RAGIndex.build(repo_root=REPO_ROOT)
+        with _rag_index_lock:
+            if _rag_index is None:
+                _rag_index = RAGIndex.build(repo_root=REPO_ROOT)
     return _rag_index
 
 

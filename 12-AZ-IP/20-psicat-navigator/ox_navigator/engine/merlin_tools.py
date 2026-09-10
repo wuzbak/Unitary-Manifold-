@@ -155,6 +155,7 @@ from .merlin_rag import (
     build_rag_context,
     build_status_response,
     lookup_kb,
+    _rag_index,
 )
 from .merlin_energy_ledger import build_merlin_energy_ledger
 from .merlin_sync_contract import REQUIRED_TOOLKIT_FUNCTIONS
@@ -1062,7 +1063,7 @@ def search_knowledge_base(query: str) -> dict[str, Any]:
 
 def get_context_scaffold(query: str, ast_file_limit: int | None = None) -> dict[str, Any]:
     scaffold = build_context_scaffold(query, ast_file_limit=ast_file_limit or 5)
-    return {"data": {"context_scaffold": scaffold, "prompt_context": build_rag_context(query, ast_file_limit=ast_file_limit or 5)}}
+    return {"data": {"context_scaffold": scaffold, "prompt_context": _rag_index.render_context_scaffold(scaffold)}}
 
 
 def search_interrogator(query: str) -> dict[str, Any]:

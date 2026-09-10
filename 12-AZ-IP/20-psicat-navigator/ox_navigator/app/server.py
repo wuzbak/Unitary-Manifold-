@@ -73,7 +73,7 @@ from ox_navigator.engine.merlin_program import (
     run_sync_checks,
 )
 from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
-from ox_navigator.engine.merlin_rag import build_context_scaffold, build_rag_context
+from ox_navigator.engine.merlin_rag import build_context_scaffold, _rag_index
 from ox_navigator.engine.merlin_router import get_router_policy
 from ox_navigator.engine.merlin_telemetry import build_energy_ledger
 from ox_navigator.engine.merlin_testing_stack import get_psicat_prompt_contracts, get_psicat_testing_stack
@@ -612,7 +612,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                     'ok': True,
                     'context_scaffold': scaffold,
-                    'prompt_context': build_rag_context(query, session=merlin_session, ast_file_limit=ast_file_limit),
+                    'prompt_context': _rag_index.render_context_scaffold(scaffold),
                 })
                 self._persist_session(session_id, merlin_session)
                 return
