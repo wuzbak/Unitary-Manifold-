@@ -269,14 +269,14 @@ def _parse_historical_continuity() -> list[dict[str, object]]:
     entries: list[dict[str, object]] = []
     pattern = re.compile(
         r"Historical continuity:\s+v(?P<version>[\d.]+)\s+Sprint\s+(?P<sprint>\w+)\s+"
-        r"\((?P<pillars_label>Pillar|Pillars)\s+(?P<pillars>[\d-]+);\s+next slot\s+(?P<next_slot>\d+)\)"
+        r"\((?P<pillars_label>Pillar|Pillars)\s+(?P<pillars>[\d\-–]+);\s+next slot\s+(?P<next_slot>\d+)\)"
     )
     for match in pattern.finditer(text):
         entries.append(
             {
                 "version": match.group("version"),
                 "sprint": match.group("sprint"),
-                "pillars": match.group("pillars"),
+                "pillars": match.group("pillars").replace("–", "-"),
                 "next_slot": int(match.group("next_slot")),
             }
         )

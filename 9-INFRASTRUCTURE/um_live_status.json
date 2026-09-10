@@ -88,10 +88,28 @@
       "next_slot": 1085
     },
     {
+      "version": "36.5",
+      "sprint": "CI",
+      "pillars": "1082-1083",
+      "next_slot": 1084
+    },
+    {
+      "version": "36.4",
+      "sprint": "CH",
+      "pillars": "1079-1081",
+      "next_slot": 1082
+    },
+    {
       "version": "36.3",
       "sprint": "CG",
       "pillars": "1078",
       "next_slot": 1079
+    },
+    {
+      "version": "36.2",
+      "sprint": "CF",
+      "pillars": "1062-1077",
+      "next_slot": 1078
     },
     {
       "version": "36.1",
@@ -100,10 +118,34 @@
       "next_slot": 1062
     },
     {
+      "version": "35.8",
+      "sprint": "CB",
+      "pillars": "1051-1057",
+      "next_slot": 1058
+    },
+    {
+      "version": "35.7",
+      "sprint": "CA",
+      "pillars": "1049-1050",
+      "next_slot": 1051
+    },
+    {
       "version": "35.6",
       "sprint": "BZ",
       "pillars": "1048",
       "next_slot": 1049
+    },
+    {
+      "version": "35.5",
+      "sprint": "BY",
+      "pillars": "1040-1047",
+      "next_slot": 1048
+    },
+    {
+      "version": "35.4",
+      "sprint": "BX",
+      "pillars": "1032-1039",
+      "next_slot": 1040
     }
   ],
   "physics": {

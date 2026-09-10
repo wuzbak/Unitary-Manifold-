@@ -88,6 +88,24 @@ def test_invalid_if_truth_sync_breaks(monkeypatch) -> None:
     assert report['valid'] is False
 
 
+def test_invalid_if_historical_continuity_breaks(monkeypatch) -> None:
+    root = '/home/runner/work/Unitary-Manifold-/Unitary-Manifold-'
+    monkeypatch.setattr(
+        p1120,
+        '_truth_surface_sync_status',
+        lambda: {
+            'all_pass': True,
+            'files': [
+                {'path': f'{root}/docs/SPRINT_PLAN.md', 'pass': True},
+                {'path': f'{root}/9-INFRASTRUCTURE/um_live_status.json', 'pass': False},
+            ],
+        },
+    )
+    report = p1120.psicat_training_benchmarking_promotion_sprint.__wrapped__()
+    assert report['dependencies']['historical_continuity_declared_from_sprint_cs'] is False
+    assert report['valid'] is False
+
+
 def test_summary_contract(report) -> None:
     summary = pillar1120_summary()
     assert summary['pillar'] == 1120

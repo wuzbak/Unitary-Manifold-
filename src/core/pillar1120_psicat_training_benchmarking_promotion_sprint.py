@@ -37,9 +37,17 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
         (_ROOT / 'docs' / 'GATEKEEPER_SUMMARY.md').resolve().as_posix(): [f'**Sprint {SPRINT} ({VERSION}', f'P{PILLAR_NUMBER}', 'Next slot 1121'],
         (_ROOT / 'docs' / 'TRUTH_LAYER.md').resolve().as_posix(): ['### Sprint CT PsiCat training, benchmarking, and promotion sprint', 'training-benchmarking-promotion packet'],
         (_ROOT / 'docs' / 'WAVE_CHANGELOG.md').resolve().as_posix(): [f'## {VERSION} ({SPRINT_DATE} — Sprint {SPRINT}: Pillar {PILLAR_NUMBER})', '**Next pillar slot:** 1121'],
-        (_ROOT / 'docs' / 'SPRINT_PLAN.md').resolve().as_posix(): ['## SPRINT CT PSICAT TRAINING BENCHMARKING PROMOTION PROTOCOL', 'Historical continuity: v37.6 Sprint CT'],
-        (_ROOT / '9-INFRASTRUCTURE' / 'um_live_status.json').resolve().as_posix(): ['"version": "37.6"', '"sprint": "CT"', '"next_slot": 1121'],
+        (_ROOT / 'docs' / 'SPRINT_PLAN.md').resolve().as_posix(): ['## SPRINT CT PSICAT TRAINING BENCHMARKING PROMOTION PROTOCOL', 'Historical continuity: v37.6 Sprint CT', 'Historical continuity: v37.5 Sprint CS'],
+        (_ROOT / '9-INFRASTRUCTURE' / 'um_live_status.json').resolve().as_posix(): ['"version": "37.6"', '"sprint": "CT"', '"next_slot": 1121', '"historical_continuity"', '"version": "37.5"', '"sprint": "CS"', '"next_slot": 1120'],
     })
+
+
+def _truth_surface_file_pass(truth_sync: Dict[str, Any], relative_path: str) -> bool:
+    expected_path = (_ROOT / relative_path).resolve().as_posix()
+    for file_check in truth_sync.get('files') or []:
+        if file_check.get('path') == expected_path:
+            return bool(file_check.get('pass'))
+    return False
 
 
 @lru_cache(maxsize=1)
@@ -52,6 +60,10 @@ def psicat_training_benchmarking_promotion_sprint() -> Dict[str, Any]:
     benchmark_board = dict(packet.get('benchmark_board') or {})
     promotion_readiness = dict(packet.get('promotion_readiness') or {})
     next_sprint = dict(packet.get('appropriate_promotion_sprint') or {})
+    historical_continuity_declared = (
+        _truth_surface_file_pass(truth_sync, 'docs/SPRINT_PLAN.md')
+        and _truth_surface_file_pass(truth_sync, '9-INFRASTRUCTURE/um_live_status.json')
+    )
 
     valid = bool(
         bool(truth_sync.get('all_pass'))
@@ -61,6 +73,7 @@ def psicat_training_benchmarking_promotion_sprint() -> Dict[str, Any]:
         and len(list(benchmark_board.get('spc_phase1_lane_receipts') or [])) == 3
         and str(next_sprint.get('sprint_id') or '')
         and str(promotion_readiness.get('promotion_language') or '')
+        and historical_continuity_declared
     )
     return {
         'pillar': PILLAR_NUMBER,
@@ -75,7 +88,7 @@ def psicat_training_benchmarking_promotion_sprint() -> Dict[str, Any]:
             'benchmark_stage_coverage_complete': len(list(benchmark_board.get('stage_gate_summary') or [])) == 5,
             'spc_lane_coverage_complete': len(list(benchmark_board.get('spc_phase1_lane_receipts') or [])) == 3,
             'truth_surfaces_synchronized_to_v37_6': bool(truth_sync.get('all_pass')),
-            'historical_continuity_declared_from_sprint_cs': True,
+            'historical_continuity_declared_from_sprint_cs': historical_continuity_declared,
         },
         'packet': packet,
         'training_board': training_board,
