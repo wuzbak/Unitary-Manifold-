@@ -327,7 +327,7 @@ def run_kernel_p_lean_proof_probe(
         and bool(local_runtime.get("lean4_root_exists"))
     )
     external_backend_available = any(bool(item.get("available")) for item in external_backends)
-    repl_available = local_scoped_build_available or external_backend_available
+    repl_available = bool(local_runtime.get("lean_available")) or external_backend_available
     scoped_build = dict(bridge_receipt.get("scoped_build_receipt") or {})
     repl_used = repl_enabled and scoped_build.get("status") == "PASS"
     repl_output = (

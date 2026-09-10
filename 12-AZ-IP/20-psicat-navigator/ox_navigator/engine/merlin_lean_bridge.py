@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-from functools import lru_cache
 import importlib.util
 import json
 import re
@@ -72,7 +71,6 @@ def get_live_theorem_count_receipt() -> dict[str, Any]:
     }
 
 
-@lru_cache(maxsize=1)
 def detect_lean_bridge_backends() -> dict[str, Any]:
     candidates = []
     for spec in _EXTERNAL_BACKEND_SPECS:
@@ -107,7 +105,6 @@ def detect_lean_bridge_backends() -> dict[str, Any]:
     }
 
 
-@lru_cache(maxsize=1)
 def _formal_bridge_snapshot() -> tuple[dict[str, Any], dict[str, Any]]:
     from src.core.formal_traceability_spine import formal_traceability_spine
     from src.core.lean_python_bridge_ir import build_python_lean_bridge_contract
