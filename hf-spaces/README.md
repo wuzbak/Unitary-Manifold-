@@ -16,7 +16,7 @@ Canonical AZ product count is 24; HF spaces currently host Products 01–20 dire
 | `az-tools/` | Gradio | 11–20 | Terra-OS, Lithos-OS, DelPhi, SDAM, Pentacorder, Oracle, + legacy utility trio (Falsification Obs, Interrogator, Flashcard) and Merlin/OX-compatible navigator |
 | `vqe-sandbox/` | Gradio | Quantum | VQE + Fermi-Hubbard simulation — JW encoding + KK φ-weighted ansatz |
 | `az-os/` | Gradio | 01, 11, 12 | AxiomOS + Terra-OS + Lithos-OS unified OS environment |
-| `az-ip/` | Gradio | IP Catalog | IP registry browser (legacy in-space snapshot + canonical links to current 23-product registry) |
+| `az-ip/` | Gradio | IP Catalog | IP registry browser (legacy in-space snapshot + canonical links to current 24-product registry) |
 | `um-knowledge-dataset/` | Dataset | RAG | pillars.jsonl, theorems.jsonl, claims.jsonl, fallibility.jsonl, apps.jsonl, docs.jsonl |
 
 ## Deploy to Hugging Face

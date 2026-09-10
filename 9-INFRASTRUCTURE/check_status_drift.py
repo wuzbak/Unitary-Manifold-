@@ -62,7 +62,10 @@ FORBIDDEN_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"\b57,927\b"),
     re.compile(r"\b59,167\b"),
     re.compile(r"\bv15\.8\b"),
-    re.compile(r"Products 01–23"),
+    re.compile(r"canonical[^\n]{0,120}23-product", re.IGNORECASE),
+    re.compile(r"canonical[^\n]{0,120}products\s*01[–-]23", re.IGNORECASE),
+    re.compile(r"23-product registry", re.IGNORECASE),
+    re.compile(r"products\s*01[–-]23", re.IGNORECASE),
     re.compile(r"Status snapshot:\s*\*\*v\d+\.\d+"),
     re.compile(r"Current public snapshot:\s*v\d+\.\d+\s*·\s*[\d,]+\s*passing tests"),
 ]
