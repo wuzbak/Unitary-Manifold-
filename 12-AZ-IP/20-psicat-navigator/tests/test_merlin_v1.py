@@ -1727,6 +1727,36 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert len(resilience_data['repo_size_mitigation_actions']) == 3
 
 
+def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        'get_psicat_achievement_benchmark_promotion_sprint',
+        lambda **_kwargs: {
+            'generated_at': '2026-09-10T00:00:00Z',
+            'inputs': {'limit': 1, 'training_limit': 1},
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+            },
+            'promotion_readiness': {'decision': 'PROMOTION_NOT_EARNED_YET'},
+            'appropriate_promotion_sprint': {'sprint_id': 'TARGETED_RIGOR_REMEDIATION_SPRINT'},
+            'targeted_rigor_sprint': {
+                'training': {
+                    'queue_before': {'ready_count': 1},
+                    'cycle': {'processed_count': 0, 'queue_after': {'stale_retrain_count': 1, 'needs_review_count': 0}},
+                    'lane_progress_ledgers': [{'lane_id': 'lane_a'}],
+                    'challenge_pack': {'challenges': [{'id': 'c1'}]},
+                }
+            },
+        },
+    )
+    packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
+    cycle_milestone = next(item for item in packet['training_board'] if item['milestone'] == 'training_cycle_executed')
+    assert cycle_milestone['earned'] is False
+    assert packet['training_execution_summary']['cycle_processed_count'] == 0
+    assert packet['training_execution_summary']['training_queue_clear'] is False
+
+
 def test_route_tool_model_admission_policy():
     result = route_tool('evaluateMerlinModelAdmission', {
         'model': {

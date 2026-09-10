@@ -32,13 +32,12 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
     return build_truth_surface_sync_status({
         (_ROOT / 'STATUS.md').resolve().as_posix(): [f'{VERSION} Sprint {SPRINT}', f'Pillar {PILLAR_NUMBER}', 'next slot 1120'],
         (_ROOT / 'docs' / 'mas_tracker.yml').resolve().as_posix(): ['v37_5_sprint_cs:', '  pillars: 1119-1119', '  next_pillar_slot: 1120'],
-        (_ROOT / 'FALLIBILITY.md').resolve().as_posix(): ['Unitary Manifold v37.6', 'Sprint CT', 'Pillars 1120-1120'],
+        (_ROOT / 'FALLIBILITY.md').resolve().as_posix(): ['Historical continuity note: v37.5 Sprint CS', 'Pillar 1119', 'next slot 1120'],
         (_ROOT / 'docs' / 'CLAIM_MASTER_BOARD.md').resolve().as_posix(): [f'*P{PILLAR_NUMBER} ({VERSION}):', PILLAR_STATUS],
         (_ROOT / 'docs' / 'GATEKEEPER_SUMMARY.md').resolve().as_posix(): [f'**Sprint {SPRINT} ({VERSION}', f'P{PILLAR_NUMBER}', 'Next slot 1120'],
         (_ROOT / 'docs' / 'TRUTH_LAYER.md').resolve().as_posix(): ['### Sprint CS PsiCat achievement benchmark promotion sprint', 'appropriate promotion sprint'],
         (_ROOT / 'docs' / 'WAVE_CHANGELOG.md').resolve().as_posix(): [f'## {VERSION} ({SPRINT_DATE} — Sprint {SPRINT}: Pillar {PILLAR_NUMBER})', '**Next pillar slot:** 1120'],
         (_ROOT / 'docs' / 'SPRINT_PLAN.md').resolve().as_posix(): ['## SPRINT CS PSICAT ACHIEVEMENT BENCHMARK PROMOTION PROTOCOL', 'Historical continuity: v37.5 Sprint CS'],
-        (_ROOT / '9-INFRASTRUCTURE' / 'um_live_status.json').resolve().as_posix(): ['"version": "37.6"', '"sprint": "CT"', '"next_slot": 1121'],
     })
 
 

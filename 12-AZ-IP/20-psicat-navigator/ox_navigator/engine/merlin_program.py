@@ -7352,7 +7352,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
         },
         {
             "milestone": "training_cycle_executed",
-            "earned": int(cycle.get("processed_count", 0) or 0) >= 0,
+            "earned": int(cycle.get("processed_count", 0) or 0) > 0,
             "evidence": "Training cycle processed count is emitted on every run.",
             "source": "/api/psicat/training-cycle",
         },
