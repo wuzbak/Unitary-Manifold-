@@ -649,7 +649,6 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'ok': True,
                 'testing_stack': get_psicat_testing_stack(),
                 'prompt_contracts': get_psicat_prompt_contracts(),
-                'telemetry': merlin_session.get_telemetry_summary(public=True),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

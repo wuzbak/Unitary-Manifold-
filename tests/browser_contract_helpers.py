@@ -49,6 +49,7 @@ def running_server(server_factory, *, ready_path: str = "/", timeout: float = 20
         server.server_activate()
         sockname = server.socket.getsockname()[:2]
     host, port = (sockname or server.server_address)[:2]
+    host = _normalize_loopback_host(host)
     base_url = f"http://{host}:{port}/"
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -67,3 +68,11 @@ def launch_browser_or_skip(playwright, browser_name: str):
         return browser_type.launch(headless=True)
     except Exception as exc:  # pragma: no cover - environment dependent
         pytest.skip(f"{browser_name} browser unavailable for Playwright contract test: {exc}")
+
+
+def _normalize_loopback_host(host: str) -> str:
+    if host == "0.0.0.0":
+        return "127.0.0.1"
+    if host == "::":
+        return "[::1]"
+    return host
