@@ -7328,7 +7328,8 @@ def get_psicat_training_benchmarking_promotion_sprint(
     training = dict(targeted_rigor.get("training") or {})
     queue_before = dict(training.get("queue_before") or {})
     cycle = dict(training.get("cycle") or {})
-    queue_after = dict(cycle.get("queue_after") or {})
+    raw_queue_after = cycle.get("queue_after")
+    queue_after = dict(raw_queue_after) if isinstance(raw_queue_after, dict) else {}
     lane_progress = list(training.get("lane_progress_ledgers") or [])
     challenge_pack = dict(training.get("challenge_pack") or {})
     promotion_readiness = dict(packet.get("promotion_readiness") or {})
@@ -7338,10 +7339,11 @@ def get_psicat_training_benchmarking_promotion_sprint(
 
     processed_count = int(cycle.get("processed_count", 0) or 0)
     training_cycle_executed = processed_count > 0
-    has_queue_after_state = all(key in queue_after for key in ("stale_retrain_count", "needs_review_count"))
+    has_queue_after_state = isinstance(raw_queue_after, dict) and all(
+        key in raw_queue_after for key in ("stale_retrain_count", "needs_review_count")
+    )
     training_queue_clear = (
-        isinstance(queue_after, dict)
-        and has_queue_after_state
+        has_queue_after_state
         and int(queue_after.get("stale_retrain_count", 0) or 0) == 0
         and int(queue_after.get("needs_review_count", 0) or 0) == 0
     )
