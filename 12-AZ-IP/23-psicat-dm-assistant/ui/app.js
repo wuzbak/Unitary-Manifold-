@@ -27,8 +27,10 @@ async function request(path, options = {}) {
 }
 
 function characterPayloadFromForm(prefix) {
+  const nameField = document.getElementById(`${prefix}-name`);
+  const fallbackNameField = document.getElementById(`${prefix}-character-name`);
   return {
-    name: document.getElementById(`${prefix}-name`).value,
+    name: (nameField && nameField.value) || (fallbackNameField && fallbackNameField.value) || 'Explorer',
     species: prefix === 'player' ? 'human' : 'elf',
     klass: document.getElementById(`${prefix}-class`).value,
     level: Number(document.getElementById(`${prefix}-level`).value || 1),

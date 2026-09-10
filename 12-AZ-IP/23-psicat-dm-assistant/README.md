@@ -76,6 +76,7 @@ python run.py demo
 - **Grounded prompting:** the image brief generator pulls campaign setting, active quest, party anchor, and layout anchor into every prompt.
 - **PsiCat role:** PsiCat is embedded as the domain expert and returns rules-aware guidance, not just a generic chatbot answer.
 - **Solo use:** standalone player dashboard mode supports isolated character/inventory play without a DM host.
+- **Testing lane:** browser workflow regression is now tracked with Playwright-style product contract tests for DM, player, invite, and solo flows, while the embedded PsiCat lane stays separate from deterministic dashboard coverage.
 
 ## File structure
 

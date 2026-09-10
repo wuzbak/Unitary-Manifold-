@@ -119,6 +119,14 @@ audit infrastructure, CI/CD automation, and AI assistant integrations.
 | **Status** | REGISTERED |
 | **Category** | Integration Tool |
 
+### 14 · Browser & AI Testing Doctrine
+| Field | Value |
+|-------|-------|
+| **Source path** | `12-AZ-IP/tools/BROWSER_TESTING_DOCTRINE.md`, `12-AZ-IP/tools/testing_stack_manifest.json`, `12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_testing_stack.py` |
+| **Description** | Shared testing-stack registry for AxiomZero browser/static apps, PsiCat, and mobile/native separation. Declares Playwright as the canonical browser automation layer, classifies products into Class A/B/C rollout lanes, and exposes a machine-readable PsiCat testing surface for browser, API, AI-evaluation, and observability alignment. |
+| **Status** | REGISTERED |
+| **Category** | Validation Tool |
+
 ---
 
 ## Assets Pending Integration from `wuzbak/Private`

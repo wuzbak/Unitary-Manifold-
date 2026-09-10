@@ -1,0 +1,151 @@
+{
+  "browser_default": {
+    "tool": "Playwright",
+    "status": "canonical",
+    "note": "Product 24 Playwright and Node validation is merged and now serves as the reference lane for deeper fixture and CI lessons.",
+    "reference_validation": [
+      "npm run lint",
+      "npm test",
+      "python3 tests/test_product24_structure.py",
+      "python3 tests/test_sync_backend.py",
+      "secret scanning"
+    ]
+  },
+  "integration_classes": {
+    "class_a": {
+      "label": "deterministic_browser_static_apps",
+      "tools": [
+        "Playwright"
+      ],
+      "products": [
+        {
+          "id": 17,
+          "name": "UM Physics Image Generator",
+          "path": "12-AZ-IP/17-um-image-generator",
+          "contract_focus": [
+            "launch_render",
+            "visualization_switching",
+            "canvas_export_controls"
+          ]
+        },
+        {
+          "id": 18,
+          "name": "UM Reader / Educator",
+          "path": "12-AZ-IP/18-um-reader",
+          "contract_focus": [
+            "launch_render",
+            "search_filter_navigation",
+            "layout_sensitive_screenshot_capture"
+          ]
+        },
+        {
+          "id": 19,
+          "name": "Falsification Observatory",
+          "path": "12-AZ-IP/19-falsification-observatory",
+          "contract_focus": [
+            "launch_render",
+            "routing_controls",
+            "verdict_card_state"
+          ]
+        },
+        {
+          "id": 21,
+          "name": "UM Geophysical Monitor",
+          "path": "12-AZ-IP/21-geo-monitor",
+          "contract_focus": [
+            "launch_render",
+            "feed_ingest_shell",
+            "map_sidebar_detail_flow"
+          ]
+        }
+      ]
+    },
+    "class_b": {
+      "label": "browser_backend_ai_surfaces",
+      "tools": [
+        "Playwright",
+        "promptfoo_or_equivalent",
+        "deepeval_or_equivalent"
+      ],
+      "products": [
+        {
+          "id": 20,
+          "name": "PsiCat Navigator",
+          "path": "12-AZ-IP/20-psicat-navigator",
+          "contract_focus": [
+            "browser_ui_reliability",
+            "api_contracts",
+            "telemetry_driven_ai_evaluation"
+          ]
+        },
+        {
+          "id": 23,
+          "name": "PsiCat DM Guide & Player Assistant",
+          "path": "12-AZ-IP/23-psicat-dm-assistant",
+          "contract_focus": [
+            "browser_dashboard_flows",
+            "campaign_api_contracts",
+            "embedded_psicat_response_quality"
+          ]
+        }
+      ]
+    },
+    "class_c": {
+      "label": "platform_browser_infrastructure",
+      "tools": [
+        "Playwright_absorption_only"
+      ],
+      "products": [
+        {
+          "id": 1,
+          "name": "AxiomZero",
+          "path": "12-AZ-IP/01-axiom-os",
+          "contract_focus": [
+            "browser_server_alignment",
+            "shared_tooling_absorption"
+          ]
+        }
+      ]
+    }
+  },
+  "mobile_native_policy": {
+    "default_tool": "Appium",
+    "products": [
+      "12-AZ-IP/14-sdam",
+      "12-AZ-IP/15-pentacorder"
+    ],
+    "note": "Keep true mobile-native testing separate from browser automation."
+  },
+  "visual_regression_policy": {
+    "default_status": "selective_enhancement",
+    "recommended_tool_family": "Applitools_style_visual_regression",
+    "first_targets": [
+      "12-AZ-IP/18-um-reader",
+      "12-AZ-IP/21-geo-monitor"
+    ],
+    "secondary_targets": [
+      "12-AZ-IP/19-falsification-observatory"
+    ],
+    "deferred_targets": [
+      "12-AZ-IP/20-psicat-navigator"
+    ]
+  },
+  "target_operating_model": {
+    "browser": "Playwright",
+    "mobile_native": "Appium",
+    "ai_evaluation": [
+      "Promptfoo",
+      "DeepEval"
+    ],
+    "observability": [
+      "/api/psicat/status",
+      "/api/psicat/telemetry",
+      "/api/psicat/memory",
+      "/api/psicat/replacement-readiness",
+      "/api/psicat/frontier-readiness"
+    ],
+    "explicit_non_default_tools": [
+      "Cypress"
+    ]
+  }
+}

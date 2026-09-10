@@ -1,0 +1,76 @@
+{
+  "suite": "psicat_prompt_contracts",
+  "description": "Prompt/evaluation contract cases for PsiCat browser, API, and telemetry-aligned regression work.",
+  "cases": [
+    {
+      "id": "litebird_falsifier_visibility",
+      "query": "What is the current birefringence falsifier and which gate does it sit under?",
+      "required_contract_sections": [
+        "FOLLOWUPS:",
+        "Sources:"
+      ],
+      "review_focus": [
+        "falsification_window",
+        "explicit_status_labels",
+        "traceable_sources"
+      ],
+      "expected_gates": [
+        "HARDGATE",
+        "OPEN_GAP"
+      ],
+      "observability_endpoints": [
+        "/api/psicat/status",
+        "/api/psicat/telemetry"
+      ]
+    },
+    {
+      "id": "status_boundary_honesty",
+      "query": "Explain the difference between HARDGATE, ADJACENT_TRACK, and ARCHITECTURE_LIMIT.",
+      "required_contract_sections": [
+        "FOLLOWUPS:",
+        "Sources:"
+      ],
+      "review_focus": [
+        "epistemic_honesty",
+        "boundary_statement",
+        "no_false_promotion"
+      ],
+      "expected_gates": [
+        "HARDGATE",
+        "ADJACENT_TRACK",
+        "ARCHITECTURE_LIMIT"
+      ],
+      "observability_endpoints": [
+        "/api/psicat/status",
+        "/api/psicat/frontier-readiness"
+      ]
+    },
+    {
+      "id": "tooling_and_observability",
+      "query": "Show me how to inspect the agent toolkit and telemetry surfaces without hiding the governance boundary.",
+      "required_contract_sections": [
+        "FOLLOWUPS:",
+        "Sources:"
+      ],
+      "review_focus": [
+        "tool_surface_awareness",
+        "governance_visibility",
+        "observability_alignment"
+      ],
+      "expected_gates": [
+        "GOVERNANCE"
+      ],
+      "observability_endpoints": [
+        "/api/agentToolkit",
+        "/api/psicat/telemetry",
+        "/api/psicat/memory"
+      ]
+    }
+  ],
+  "quality_dimensions": [
+    "hallucination_resistance",
+    "answer_relevancy",
+    "instruction_following",
+    "source_traceability"
+  ]
+}
