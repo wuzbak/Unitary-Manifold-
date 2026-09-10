@@ -7353,15 +7353,17 @@ def get_psicat_training_benchmarking_promotion_sprint(
     )
     stale_retrain_count = _safe_int(queue_after.get("stale_retrain_count"))
     needs_review_count = _safe_int(queue_after.get("needs_review_count"))
-    training_queue_clear = (
+    queue_after_state_clear = (
         has_queue_after_state
         and stale_retrain_count is not None
         and needs_review_count is not None
         and stale_retrain_count == 0
         and needs_review_count == 0
     )
+    training_queue_clear = training_cycle_executed and queue_after_state_clear
     training_ready = training_cycle_executed and training_queue_clear
     promotion_readiness["training_queue_clear"] = training_queue_clear
+    promotion_readiness["queue_after_state_clear"] = queue_after_state_clear
     promotion_readiness["training_cycle_executed"] = training_cycle_executed
     promotion_readiness["training_cycle_processed_count"] = processed_count
 
@@ -7414,6 +7416,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
             "lane_progress_count": len(lane_progress),
             "challenge_pack_size": len(list(challenge_pack.get("challenges") or [])),
             "training_cycle_executed": training_cycle_executed,
+            "queue_after_state_clear": queue_after_state_clear,
             "training_queue_clear": training_queue_clear,
             "training_ready": training_ready,
         },
