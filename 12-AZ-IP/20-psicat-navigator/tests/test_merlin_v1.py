@@ -1714,6 +1714,13 @@ def test_route_tool_sprint_review_and_sovereign_boards():
         assert promotion_sprint_data['appropriate_promotion_sprint']['sprint_id'] == 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'
     else:
         assert promotion_sprint_data['promotion_readiness']['promotion_language'] == 'FROZEN_PENDING_VISIBLE_GATES'
+    training_promotion_sprint = route_tool('getPsiCatTrainingBenchmarkingPromotionSprint', {'limit': 2, 'training_limit': 4})
+    assert training_promotion_sprint['ok'] is True
+    training_promotion_sprint_data = training_promotion_sprint['result']['data']
+    assert training_promotion_sprint_data['mode'] == 'training_benchmarking_promotion_sprint'
+    assert len(training_promotion_sprint_data['training_board']) == 4
+    assert training_promotion_sprint_data['training_execution_summary']['lane_progress_count'] >= 1
+    assert training_promotion_sprint_data['training_execution_summary']['challenge_pack_size'] >= 1
     assert any(phase['name'] == 'multi_job_language_split' for phase in resilience_data['codeql_scope_reduction_strategy']['phases'])
     assert resilience_data['codeql_matrix_split_strategy']['matrix_axes'] == ['language', 'path_slice']
     assert resilience_data['duckdb_preflight_telemetry']['artifact'] == 'codeql-slice-inventory'
@@ -2522,6 +2529,16 @@ def test_server_merlin_endpoints():
             assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['mode'] == 'achievement_benchmark_promotion_sprint'
             assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['achievement_board']) == 5
             assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['benchmark_board']['spc_phase1_lane_receipts']) == 3
+            training_promotion_sprint = client.get('/api/merlin/training-benchmarking-promotion-sprint?limit=2&training_limit=4')
+            assert training_promotion_sprint.status_code == 200
+            assert training_promotion_sprint.json()['ok'] is True
+            assert training_promotion_sprint.json()['training_benchmarking_promotion_sprint']['mode'] == 'training_benchmarking_promotion_sprint'
+            assert len(training_promotion_sprint.json()['training_benchmarking_promotion_sprint']['training_board']) == 4
+            assert training_promotion_sprint.json()['training_benchmarking_promotion_sprint']['training_execution_summary']['lane_progress_count'] >= 1
+            bad_training_promotion_limit = client.get('/api/merlin/training-benchmarking-promotion-sprint?limit=abc')
+            assert bad_training_promotion_limit.status_code == 400
+            bad_training_promotion_training_limit = client.get('/api/merlin/training-benchmarking-promotion-sprint?training_limit=abc')
+            assert bad_training_promotion_training_limit.status_code == 400
             bad_promotion_limit = client.get('/api/merlin/achievement-benchmark-promotion-sprint?limit=abc')
             assert bad_promotion_limit.status_code == 400
             bad_promotion_training_limit = client.get('/api/merlin/achievement-benchmark-promotion-sprint?training_limit=abc')
