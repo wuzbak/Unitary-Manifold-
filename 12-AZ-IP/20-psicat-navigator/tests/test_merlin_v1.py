@@ -716,7 +716,12 @@ def test_route_tool_training_architecture_and_artifacts():
         item['family'] == 'formal_proof_foundry'
         for item in architecture['result']['data']['dataset_families']
     )
+    assert any(
+        item['family'] == 'arc_agi_abstraction_generalization'
+        for item in architecture['result']['data']['dataset_families']
+    )
     assert architecture['result']['data']['formal_proof_foundry']['program'] == 'FORMAL_PROOF_FOUNDRY'
+    assert architecture['result']['data']['arc_agi_integration']['program'] == 'ARC_AGI_SHADOW_INTEGRATION'
     assert any(
         item['family'] == 'external_open_science_augmentation'
         and 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md' in item['source_surfaces']
@@ -743,6 +748,12 @@ def test_route_tool_training_architecture_and_artifacts():
     assert full_architecture['result']['data']['active_training_surfaces']['pythagorean_triples_sat_method_transfer_packet'] == (
         'getMerlinPythagoreanTriplesSatMethodTransferPacket'
     )
+    assert full_architecture['result']['data']['active_training_surfaces']['arc_agi_program'] == 'getMerlinArcAgiProgram'
+
+    arc_agi_packet = route_tool('getMerlinArcAgiProgram', {})
+    assert arc_agi_packet['ok'] is True
+    assert arc_agi_packet['result']['data']['program'] == 'ARC_AGI_SHADOW_INTEGRATION'
+    assert arc_agi_packet['result']['data']['benchmark_lane']['family'] == 'arc_agi_abstraction_generalization'
 
     navier_packet = route_tool('getMerlinNavierStokesMethodTransferPacket', {})
     assert navier_packet['ok'] is True
@@ -764,6 +775,8 @@ def test_route_tool_training_architecture_and_artifacts():
     assert any(item['resource_id'] == 'hugging_face_models_hub' for item in registry['result']['data']['resources'])
     assert any(item['resource_id'] == 'unsloth_engine' for item in registry['result']['data']['resources'])
     assert any(item['resource_id'] == 'axolotl_engine' for item in registry['result']['data']['resources'])
+    assert any(item['resource_id'] == 'arc_agi_repository' for item in registry['result']['data']['resources'])
+    assert any(item['resource_id'] == 'arc_prize_guide' for item in registry['result']['data']['resources'])
     assert any(
         item['resource_id'] == 'openai_navier_stokes_method_transfer'
         for item in registry['result']['data']['resources']
@@ -840,6 +853,12 @@ def test_route_tool_training_architecture_and_artifacts():
     execution_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 4}, session=session)
     assert execution_queue['ok'] is True
     assert execution_queue['result']['data']['queued_count'] >= 4
+    full_execution_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 80}, session=session)
+    assert any(
+        item['queue_id'] == 'lane_a_arc_agi_shadow_program'
+        and item['expected_artifact'] == 'arc_agi_shadow_program_receipt'
+        for item in full_execution_queue['result']['data']['items']
+    )
     execution_bundle = route_tool(
         'getMerlinTrainingExecutionBundle',
         {'limit': 3, 'refresh_lane_e_profiles': True},
@@ -878,24 +897,26 @@ def test_route_tool_training_architecture_and_artifacts():
     challenge_pack = route_tool('getMerlinTrainingChallengePack', {'limit': 4}, session=session)
     assert challenge_pack['ok'] is True
     assert challenge_pack['result']['data']['challenge_count'] == 4
-    assert any(
-        item['lane_id'] == 'lane_d_formal_proof_foundry'
-        for item in route_tool('getMerlinTrainingExecutionQueue', {'limit': 20}, session=session)['result']['data']['items']
-    )
+    assert any(item['lane_id'] == 'lane_d_formal_proof_foundry' for item in full_execution_queue['result']['data']['items'])
     assert any(
         item['lane_id'] == 'lane_e_training_performance'
-        for item in route_tool('getMerlinTrainingExecutionQueue', {'limit': 20}, session=session)['result']['data']['items']
+        for item in full_execution_queue['result']['data']['items']
     )
-    navier_queue = route_tool('getMerlinTrainingExecutionQueue', {'limit': 80}, session=session)
     assert any(
         item['reference_path'] == 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md'
-        for item in navier_queue['result']['data']['items']
+        for item in full_execution_queue['result']['data']['items']
     )
     navier_challenge_pack = route_tool('getMerlinTrainingChallengePack', {'limit': 80}, session=session)
     assert any(
         item['reference_path'] == 'proof/NAVIER_STOKES_METHOD_TRANSFER_PACKET.md'
         and 'four crosswalk questions' in item['prompt']
         for item in navier_challenge_pack['result']['data']['challenges']
+    )
+    fresh_arc_agi_challenge_pack = route_tool('getMerlinTrainingChallengePack', {'limit': 80}, session=MerlinSession())
+    assert any(
+        item['queue_id'] == 'lane_a_arc_agi_shadow_program'
+        and 'holdout discipline' in item['prompt']
+        for item in fresh_arc_agi_challenge_pack['result']['data']['challenges']
     )
     frontier = route_tool('getMerlinFrontierStack', {})
     assert frontier['ok'] is True
@@ -907,6 +928,11 @@ def test_route_tool_training_architecture_and_artifacts():
     benchmarks = route_tool('getMerlinCompetitiveBenchmarkPlan', {})
     assert benchmarks['ok'] is True
     assert any(item['family'] == 'autonomous_research' for item in benchmarks['result']['data']['competitive_families'])
+    assert any(
+        item['family'] == 'arc_agi_abstraction_generalization'
+        for item in benchmarks['result']['data']['competitive_families']
+    )
+    assert benchmarks['result']['data']['arc_agi_shadow_lane']['family'] == 'arc_agi_abstraction_generalization'
 
     corpora = route_tool('getMerlinBenchmarkCorpora', {'stage': 'stage_b'})
     assert corpora['ok'] is True
@@ -963,8 +989,15 @@ def test_route_tool_training_architecture_and_artifacts():
     artifacts = route_tool('getMerlinTrainingArtifacts', {'limit': 4, 'refresh_lane_e_profiles': True})
     assert artifacts['ok'] is True
     assert artifacts['result']['data']['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
+    assert artifacts['result']['data']['artifact_bundle']['arc_agi_program']['program'] == 'ARC_AGI_SHADOW_INTEGRATION'
     assert artifacts['result']['data']['artifact_bundle']['formal_proof_foundry_bundle']['program'] == 'FORMAL_PROOF_FOUNDRY'
     assert artifacts['result']['data']['artifact_bundle']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
+    assert artifacts['result']['data']['artifact_bundle']['training_execution_surfaces']['arc_agi_surface'] == (
+        'getMerlinArcAgiProgram'
+    )
+    assert 'ARC-AGI stays a shadow lane' in artifacts['result']['data']['artifact_bundle']['artifact_policy'][
+        'arc_agi_holdout_rule'
+    ]
     artifacts_with_sync_hint = route_tool('getMerlinTrainingArtifacts', {'limit': 2, 'sync_checks_ok': False})
     assert artifacts_with_sync_hint['ok'] is True
 
@@ -1001,6 +1034,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert 'stage_d_replacement_gates' in dataset_payload['benchmark_corpora']
     assert 'stage_e_external_decommission' in dataset_payload['benchmark_corpora']
     assert 'stage_expert_domain_mastery' in dataset_payload['benchmark_corpora']
+    assert any(
+        record['benchmark_id'] == 'stage_c_arc_agi_shadow_integration'
+        for record in dataset_payload['benchmark_corpora']['stage_c_capability_expansion']
+    )
     assert counts['benchmark_records']['stage_d_replacement_gates'] >= 4
     assert counts['benchmark_records']['stage_e_external_decommission'] >= 4
     assert counts['benchmark_records']['stage_expert_domain_mastery'] >= 5
@@ -1700,6 +1737,7 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert execution_data['hardware_architecture']['packet_surface'] == 'getMerlinHardwareArchitectureBoard'
     assert execution_data['validation_resilience']['packet_surface'] == 'getMerlinValidationResiliencePacket'
     assert execution_data['blunt_board']['title'] == 'Sprint CL blunt board'
+    assert any(item['task_id'] == 'CL-6' and item['lane'] == 'arc_agi_shadow' for item in execution_data['immediate_tasks'])
     assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
     assert resilience_data['current_truth']['codeql_skip_reason'] == 'repository_database_too_large'
     assert resilience_data['current_truth']['codeql_language_matrix_workflow_configured'] is True
@@ -2227,6 +2265,12 @@ def test_server_merlin_endpoints():
             assert training_architecture.status_code == 200
             assert training_architecture.json()['ok'] is True
             assert training_architecture.json()['training_architecture']['seed_statistics']['total_examples'] == 5
+            assert training_architecture.json()['training_architecture']['arc_agi_integration']['program'] == 'ARC_AGI_SHADOW_INTEGRATION'
+
+            arc_agi = client.get('/api/merlin/arc-agi')
+            assert arc_agi.status_code == 200
+            assert arc_agi.json()['ok'] is True
+            assert arc_agi.json()['arc_agi']['benchmark_lane']['family'] == 'arc_agi_abstraction_generalization'
 
             training_dataset = client.get('/api/merlin/training-dataset?limit=4')
             assert training_dataset.status_code == 200
@@ -2263,6 +2307,10 @@ def test_server_merlin_endpoints():
             assert open_science_registry.json()['ok'] is True
             assert any(
                 item['resource_id'] == 'mlflow'
+                for item in open_science_registry.json()['open_science_registry']['resources']
+            )
+            assert any(
+                item['resource_id'] == 'arc_agi_repository'
                 for item in open_science_registry.json()['open_science_registry']['resources']
             )
             open_weight_acquisition = client.get('/api/merlin/open-weight-acquisition')
@@ -2332,6 +2380,10 @@ def test_server_merlin_endpoints():
             assert competitive_benchmarks.json()['ok'] is True
             assert any(
                 item['family'] == 'scientific_reasoning'
+                for item in competitive_benchmarks.json()['competitive_benchmarks']['competitive_families']
+            )
+            assert any(
+                item['family'] == 'arc_agi_abstraction_generalization'
                 for item in competitive_benchmarks.json()['competitive_benchmarks']['competitive_families']
             )
             dual_lane_master = client.get('/api/merlin/dual-lane-master-sprint')
@@ -2546,6 +2598,10 @@ def test_server_merlin_endpoints():
             assert execution_board.json()['ok'] is True
             assert execution_board.json()['execution_board']['validation_resilience']['can_train_merlin_now'] is True
             assert execution_board.json()['execution_board']['hardware_architecture']['packet_surface'] == 'getMerlinHardwareArchitectureBoard'
+            assert any(
+                item['task_id'] == 'CL-6'
+                for item in execution_board.json()['execution_board']['immediate_tasks']
+            )
             validation_resilience = client.get('/api/merlin/validation-resilience?limit=2')
             assert validation_resilience.status_code == 200
             assert validation_resilience.json()['ok'] is True
@@ -2562,6 +2618,7 @@ def test_server_merlin_endpoints():
             assert training_artifacts.status_code == 200
             assert training_artifacts.json()['ok'] is True
             assert training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 4
+            assert training_artifacts.json()['training_artifacts']['arc_agi_program']['program'] == 'ARC_AGI_SHADOW_INTEGRATION'
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview']['ok'] is True
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview'][
@@ -2579,6 +2636,9 @@ def test_server_merlin_endpoints():
             bad_training_artifact_ast = client.get('/api/merlin/training-artifacts?include_ast_context=maybe')
             assert bad_training_artifact_ast.status_code == 400
             assert 'hardware_architecture_board' in training_artifacts.json()['training_artifacts']
+            assert training_artifacts.json()['training_artifacts']['training_execution_surfaces']['arc_agi_surface'] == (
+                'getMerlinArcAgiProgram'
+            )
 
             empty_training_artifacts = client.get('/api/merlin/training-artifacts?limit=0')
             assert empty_training_artifacts.status_code == 200

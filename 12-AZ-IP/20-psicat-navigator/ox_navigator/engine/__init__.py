@@ -68,6 +68,7 @@ from .merlin_training_execution import (
     run_merlin_training_cycle,
 )
 from .merlin_program import (
+    get_arc_agi_training_integration,
     get_backend_expansion_policy,
     get_competitive_benchmark_plan,
     get_current_stack_baseline,
@@ -155,6 +156,7 @@ __all__ = [
     'get_current_stack_baseline', 'get_weights_and_measures', 'get_knowledge_core_sources',
     'run_sync_checks', 'get_model_strategy', 'get_training_and_adaptation',
     'get_training_architecture', 'get_open_science_resource_registry',
+    'get_arc_agi_training_integration',
     'get_open_weight_acquisition_ledger',
     'get_frontier_open_weight_stack', 'get_merlin_execution_board', 'get_merlin_heavy_reasoning_lane',
     'get_merlin_sovereign_model_board', 'get_merlin_sprint_review_packet', 'run_merlin_targeted_rigor_sprint',

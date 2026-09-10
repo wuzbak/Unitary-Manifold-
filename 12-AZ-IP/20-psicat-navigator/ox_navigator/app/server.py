@@ -28,6 +28,7 @@ from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
 from ox_navigator.engine.merlin_runtime import empirical_observatory_check, get_client_blind_ingestion_contract, get_observatory_ingestion_lane
 from ox_navigator.engine.merlin_research_cycle import run_research_cycle
 from ox_navigator.engine.merlin_program import (
+    get_arc_agi_training_integration,
     build_ast_context_training_records,
     build_training_artifact_bundle,
     build_training_dataset_bundle,
@@ -643,6 +644,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'training_architecture': get_training_architecture(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/arc-agi':
+                self._json({
+                'ok': True,
+                'arc_agi': get_arc_agi_training_integration(),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

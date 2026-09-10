@@ -45,6 +45,7 @@ from .merlin_identity import authorize_privileged_request, verify_identity_signa
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
     build_ast_context_training_records,
+    get_arc_agi_training_integration,
     get_backend_expansion_policy,
     get_merlin_adversarial_growth_lane,
     get_psicat_achievement_benchmark_promotion_sprint,
@@ -309,6 +310,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinTeacherTracePolicy", "summary": "Return governed teacher-trace distillation and admission policy", "domain": "functions"},
             {"name": "evaluateMerlinTeacherTrace", "summary": "Evaluate one teacher trace sample for license/provenance admission", "domain": "functions"},
             {"name": "getMerlinTrainingArchitecture", "summary": "Return full Merlin training architecture and seed corpus manifest", "domain": "functions"},
+            {"name": "getMerlinArcAgiProgram", "summary": "Return ARC-AGI training, benchmark, and shadow-integration contract for PsiCat", "domain": "functions"},
             {"name": "getMerlinNavierStokesMethodTransferPacket", "summary": "Return the governed Navier-Stokes method-transfer packet for UM/PsiCat", "domain": "functions"},
             {"name": "getMerlinPythagoreanTriplesSatMethodTransferPacket", "summary": "Return the governed Pythagorean-triples SAT method-transfer packet for UM/PsiCat", "domain": "functions"},
             {"name": "getMerlinOpenScienceRegistry", "summary": "Return governed external open-science ingestion registry", "domain": "functions"},
@@ -439,6 +441,7 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinArcAgiProgram": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_REFRESH_AST_ARGS_SCHEMA},
         "getMerlinNavierStokesMethodTransferPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinPythagoreanTriplesSatMethodTransferPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
@@ -1100,6 +1103,7 @@ _FUNCTIONS = {
     "evaluateMerlinTeacherTrace": lambda **args: {"data": evaluate_teacher_trace_admission(dict(args.get("trace") or {}))},
     "getMerlinTrainingPlan": lambda **args: {"data": get_training_and_adaptation()},
     "getMerlinTrainingArchitecture": lambda **args: {"data": get_training_architecture(limit=args.get("limit"))},
+    "getMerlinArcAgiProgram": lambda **args: {"data": get_arc_agi_training_integration()},
     "getMerlinNavierStokesMethodTransferPacket": lambda **args: {"data": get_navier_stokes_method_transfer_packet()},
     "getMerlinPythagoreanTriplesSatMethodTransferPacket": lambda **args: {"data": get_pythagorean_triples_sat_method_transfer_packet()},
     "getMerlinOpenScienceRegistry": lambda **args: {"data": get_open_science_resource_registry()},
