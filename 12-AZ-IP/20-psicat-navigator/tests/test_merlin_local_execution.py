@@ -68,6 +68,9 @@ def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypat
             assert status.status_code == 200
             assert status.json()["ok"] is True
             assert status.json()["local_execution_status"]["enabled"] is True
+            canonical_status = client.get("/api/psicat/local-execution/status")
+            assert canonical_status.status_code == 200
+            assert canonical_status.json()["ok"] is True
 
             blocked = client.post("/api/merlin/local-execution/run", json={"command": "cat /etc/hosts"})
             assert blocked.status_code == 403

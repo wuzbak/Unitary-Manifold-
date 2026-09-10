@@ -131,9 +131,17 @@ def _validate_psicat_phase0_packet(packet: dict[str, Any]) -> list[str]:
             for field in ("lane_id", "name"):
                 if not isinstance(lane.get(field), str) or not str(lane.get(field) or "").strip():
                     errors.append(f"Lane[{idx}] field '{field}' must be a non-empty string.")
-            if not isinstance(lane.get("focus"), list) or not all(isinstance(item, str) and item.strip() for item in lane.get("focus", [])):
+            if (
+                not isinstance(lane.get("focus"), list)
+                or not lane.get("focus")
+                or not all(isinstance(item, str) and item.strip() for item in lane.get("focus", []))
+            ):
                 errors.append(f"Lane[{idx}] field 'focus' must be a non-empty string array.")
-            if not isinstance(lane.get("phase_1_actions"), list) or not all(isinstance(item, str) and item.strip() for item in lane.get("phase_1_actions", [])):
+            if (
+                not isinstance(lane.get("phase_1_actions"), list)
+                or not lane.get("phase_1_actions")
+                or not all(isinstance(item, str) and item.strip() for item in lane.get("phase_1_actions", []))
+            ):
                 errors.append(f"Lane[{idx}] field 'phase_1_actions' must be a non-empty string array.")
             gates = lane.get("phase_1_gates")
             if not isinstance(gates, dict):
