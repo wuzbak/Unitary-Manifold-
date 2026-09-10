@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from functools import lru_cache
 import importlib.util
 import json
 import re
@@ -105,6 +106,7 @@ def detect_lean_bridge_backends() -> dict[str, Any]:
     }
 
 
+@lru_cache(maxsize=1)
 def _formal_bridge_snapshot() -> tuple[dict[str, Any], dict[str, Any]]:
     from src.core.formal_traceability_spine import formal_traceability_spine
     from src.core.lean_python_bridge_ir import build_python_lean_bridge_contract
@@ -156,7 +158,7 @@ def _resolve_formal_unit(*, unit_id: str = "", text: str = "") -> dict[str, Any]
     return dict(best_unit) if best_score > 0 else {}
 
 
-def _run_scoped_build(*, execution_target: str, timeout_seconds: int = 45) -> dict[str, Any]:
+def _run_scoped_build(*, build_target: str, timeout_seconds: int = 45) -> dict[str, Any]:
     runtime = detect_lean_bridge_backends()["local_runtime"]
     lake_binary = str(runtime.get("lake_binary") or "")
     if not lake_binary:
@@ -166,14 +168,14 @@ def _run_scoped_build(*, execution_target: str, timeout_seconds: int = 45) -> di
             "reason": "lake_not_available",
             "invocation": [],
         }
-    if not execution_target:
+    if not build_target:
         return {
             "status": "SKIPPED",
             "ok": False,
-            "reason": "missing_execution_target",
+            "reason": "missing_build_target",
             "invocation": [],
         }
-    lean_file = LEAN4_ROOT / execution_target
+    lean_file = LEAN4_ROOT / build_target
     if not lean_file.is_file():
         return {
             "status": "SKIPPED",
@@ -181,7 +183,7 @@ def _run_scoped_build(*, execution_target: str, timeout_seconds: int = 45) -> di
             "reason": "missing_lean_file",
             "invocation": [],
         }
-    command = [lake_binary, "env", "lean", execution_target]
+    command = [lake_binary, "env", "lean", build_target]
     try:
         completed = subprocess.run(
             command,
@@ -260,7 +262,7 @@ def run_python_to_lean_bridge_receipt(
     }
     if run_build and unit:
         build_receipt = _run_scoped_build(
-            execution_target=str(((unit.get("lean") or {}).get("execution_target") or ""))
+            build_target=str(((unit.get("lean") or {}).get("build_target") or ""))
         )
     return {
         "receipt_id": "python_lean_bridge_receipt_v1",

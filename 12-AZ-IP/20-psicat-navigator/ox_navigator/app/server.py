@@ -637,7 +637,6 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
                     return
-                self._persist_session(session_id, merlin_session)
                 self._json({
                     'ok': True,
                     'lean_bridge': get_merlin_lean_bridge_artifact(limit=limit),

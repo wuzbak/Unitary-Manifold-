@@ -94,8 +94,7 @@ def build_formal_unit_ir(
                 "file": lean_file,
                 "module_name": lean_module,
                 "project_relative_file": _lean_project_relative_file(lean_file),
-                "build_target": lean_module,
-                "execution_target": _lean_project_relative_file(lean_file),
+                "build_target": _lean_project_relative_file(lean_file),
                 "symbols": list(row.get("lean_symbols") or []),
             },
             "translation_contract": {
