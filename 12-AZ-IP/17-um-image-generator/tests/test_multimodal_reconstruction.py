@@ -82,3 +82,4 @@ def test_build_multimodal_scene_bundle_outputs_all_artifacts(tmp_path: Path) -> 
     assert metadata["source_of_truth"] == "point_cloud"
     assert metadata["quality"]["is_watertight"] is True
     assert metadata["quality"]["registration_rmse_mm"] >= 0.0
+    assert metadata["quality"]["registration_rmse_mm"] < 1e-6

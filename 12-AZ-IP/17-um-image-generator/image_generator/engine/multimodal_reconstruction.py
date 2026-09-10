@@ -133,11 +133,20 @@ def evaluate_multimodal_quality(
     cloud = np.asarray(point_cloud, dtype=float)
     vertices = np.asarray(mesh_vertices, dtype=float)
     faces = np.asarray(mesh_faces, dtype=int)
+    z_floor = float(vertices[:, 2].min())
+    top_surface = vertices[vertices[:, 2] > (z_floor + 1e-12)]
     try:
+        from scipy.interpolate import LinearNDInterpolator  # type: ignore
         from scipy.spatial import cKDTree  # type: ignore
 
-        tree = cKDTree(vertices)
-        nearest = tree.query(cloud, workers=-1)[0]
+        interpolator = LinearNDInterpolator(top_surface[:, :2], top_surface[:, 2], fill_value=np.nan)
+        z_surface = interpolator(cloud[:, 0], cloud[:, 1])
+        if np.isnan(z_surface).any():
+            tree = cKDTree(vertices)
+            nearest = tree.query(cloud, workers=-1)[0]
+        else:
+            projected = np.column_stack((cloud[:, 0], cloud[:, 1], z_surface))
+            nearest = np.linalg.norm(cloud - projected, axis=1)
     except Exception:
         nearest_sq = np.sum((cloud[:, None, :] - vertices[None, :, :]) ** 2, axis=2).min(axis=1)
         nearest = np.sqrt(nearest_sq)
