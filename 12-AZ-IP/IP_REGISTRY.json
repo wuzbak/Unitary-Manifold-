@@ -400,16 +400,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "bef9158eaaff3779fa3b8e8c8ed7f49e16e630a798a098741509cccef69381fe",
-      "size_bytes": 15669
+      "sha256": "38f0d79d60a647e5b4242d6ed43be8632ed5a021715b853436137870fcfdf40f",
+      "size_bytes": 15667
     },
     "12-AZ-IP/24-psicat-web-browser/extension/manifest.json": {
       "description": "Product 24 Chrome/Edge extension manifest with side panel companion",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "ba1a9cdd7ca71b6d44269091948b293258b830c7f3da58131319efcbdf4b0d1a",
-      "size_bytes": 697
+      "sha256": "9d56243a8bf187323fe7f50c187c356f793835c657568de76e391e9ac48d888c",
+      "size_bytes": 550
     },
     "12-AZ-IP/24-psicat-web-browser/android/app/src/main/AndroidManifest.xml": {
       "description": "Product 24 Android native-tab browser manifest",

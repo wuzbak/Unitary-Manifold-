@@ -7,7 +7,16 @@ async function captureActivePage() {
   const tab = await getActiveTab();
   if (!tab || !tab.id) return null;
   try {
-    return await chrome.tabs.sendMessage(tab.id, { type: 'PSICAT_CAPTURE_PAGE' });
+    const results = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: () => ({
+        title: document.title,
+        url: location.href,
+        selection: String(window.getSelection ? window.getSelection() : '').trim(),
+        text: document.body ? document.body.innerText.slice(0, 12000) : '',
+      }),
+    });
+    return results?.[0]?.result || null;
   } catch (_error) {
     return null;
   }

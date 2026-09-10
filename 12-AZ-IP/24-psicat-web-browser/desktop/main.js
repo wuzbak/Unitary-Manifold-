@@ -56,7 +56,7 @@ function broadcastState() {
 function createBrowserView(tab) {
   const view = new BrowserView({
     webPreferences: {
-      partition: tab.private ? `private-${tab.id}` : undefined,
+      partition: tab.private ? `memory:${tab.id}` : undefined,
       contextIsolation: true,
       sandbox: true,
     },
@@ -342,7 +342,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
-      sandbox: false,
+      sandbox: true,
     },
   });
   mainWindow.loadFile(UI_ENTRY);

@@ -21,3 +21,19 @@ test('rememberPage deduplicates by url and caps recent memory', () => {
   assert.equal(state.rememberedPages.length, 1);
   assert.equal(state.rememberedPages[0].title, 'B');
 });
+
+test('addTab preserves private-tab flag for in-memory browsing state', () => {
+  const state = core.addTab(core.createInitialState(), 'example.org', { private: true });
+  const active = state.tabs.find((tab) => tab.id === state.activeTabId);
+  assert.equal(active.private, true);
+  assert.equal(active.url, 'https://example.org');
+});
+
+test('importResearchItems caps imported research corpus', () => {
+  let state = core.createInitialState();
+  state = core.importResearchItems(
+    state,
+    Array.from({ length: 140 }, (_, index) => ({ title: `Item ${index}`, text: `Text ${index}`, source: 'test' })),
+  );
+  assert.equal(state.importedResearch.length, 120);
+});

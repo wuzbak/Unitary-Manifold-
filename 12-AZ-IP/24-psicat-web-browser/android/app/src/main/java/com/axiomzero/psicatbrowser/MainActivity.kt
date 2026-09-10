@@ -233,8 +233,13 @@ class MainActivity : AppCompatActivity() {
         val statusConnection = URL("$endpoint/api/psicat/status").openConnection() as HttpURLConnection
         val statusBody = statusConnection.inputStream.bufferedReader().use(BufferedReader::readText)
         val statusJson = JSONObject(statusBody)
-        val challenge = statusConnection.getHeaderField("X-PsiCat-Handshake-Challenge") ?: throw IllegalStateException("Missing challenge")
-        val receipt = statusConnection.getHeaderField("X-PsiCat-Handshake-Receipt") ?: throw IllegalStateException("Missing receipt")
+        val handshake = statusJson.optJSONObject("session_contract")?.optJSONObject("handshake")
+        val challenge = statusConnection.getHeaderField("X-PsiCat-Handshake-Challenge")
+            ?: handshake?.optString("challenge")
+            ?: throw IllegalStateException("Missing challenge")
+        val receipt = statusConnection.getHeaderField("X-PsiCat-Handshake-Receipt")
+            ?: handshake?.optString("receipt")
+            ?: throw IllegalStateException("Missing receipt")
         val token = statusJson.optString("memory_profile_token")
         val proof = sha256("$challenge:$token")
         val connection = URL("$endpoint/api/psicat").openConnection() as HttpURLConnection
