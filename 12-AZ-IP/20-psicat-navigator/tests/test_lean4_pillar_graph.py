@@ -25,7 +25,7 @@ from ox_navigator.engine.pillar_graph import (
 
 
 def test_theorem_count_constant():
-    assert LEAN4_THEOREM_COUNT == 2186
+    assert LEAN4_THEOREM_COUNT == 4080
 
 
 def test_get_theorem_count_matches_constant():

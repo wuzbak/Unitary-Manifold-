@@ -29,6 +29,7 @@ from .merlin_runtime import (
     get_mythos_astra_runtime_contract,
     get_optimization_priorities,
 )
+from .merlin_lean_bridge import get_merlin_lean_bridge_artifact
 from .merlin_sentinel import get_sentinel_policy
 from .merlin_sync_contract import (
     REQUIRED_ARTIFACT_SURFACES,
@@ -2848,6 +2849,7 @@ def _get_formal_proof_foundry_snapshot() -> dict[str, Any]:
 def get_formal_proof_foundry_training_bundle(limit: int | None = None) -> dict[str, Any]:
     snapshot = _get_formal_proof_foundry_snapshot()
     manifest = dict(snapshot.get("psicat_training_manifest") or {})
+    bridge_contract = dict(snapshot.get("python_lean_bridge_contract") or {})
     training_corpus = [
         str(item.get("path") if isinstance(item, dict) else item)
         for item in list(manifest.get("training_corpus") or [])
@@ -2864,6 +2866,8 @@ def get_formal_proof_foundry_training_bundle(limit: int | None = None) -> dict[s
         "program": str(snapshot.get("program") or "FORMAL_PROOF_FOUNDRY"),
         "status": str(snapshot.get("status") or "ACTIVE_HONESTY_FIRST"),
         "runtime_alignment": dict(snapshot.get("runtime_alignment") or {}),
+        "python_lean_bridge_contract": bridge_contract,
+        "formal_units": list(bridge_contract.get("formal_units") or []),
         "lane_ids": [str(item.get("id") or "") for item in list(snapshot.get("primary_lanes") or [])],
         "training_corpus": training_corpus,
         "review_packets": review_packets,
@@ -2950,8 +2954,35 @@ def _seed_formal_proof_foundry_examples() -> list[dict[str, Any]]:
                     str(row.get("lean_file") or ""),
                     review_packet,
                     "src/core/formal_traceability_spine.py",
+                    "src/core/lean_python_bridge_ir.py",
                 ],
                 "supervision_mode": "proof_foundry_alignment",
+            }
+        )
+    for unit in list(bundle.get("formal_units") or []):
+        unit_id = str(unit.get("unit_id") or "")
+        if not unit_id:
+            continue
+        examples.append(
+            {
+                "id": f"python-lean-bridge-{unit_id.lower()}",
+                "track": "python_lean_bridge_contracts",
+                "prompt": f"Convert formal unit {unit_id} into a Python→Lean→Python receipt contract without inflating its proof class.",
+                "target": {
+                    "unit_id": unit_id,
+                    "lane_id": str(unit.get("lane_id") or ""),
+                    "proof_class": str(unit.get("proof_class") or ""),
+                    "lean_target": str(((unit.get("lean") or {}).get("build_target") or "")),
+                    "required_outputs": ["formal_unit_ir", "lean_receipt", "python_reingestion_boundary"],
+                },
+                "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+                "required_gates": ["OPEN_GAP", "GOVERNANCE"],
+                "provenance_sources": [
+                    str(((unit.get("lean") or {}).get("file") or "")),
+                    str(unit.get("review_packet") or ""),
+                    "src/core/lean_python_bridge_ir.py",
+                ],
+                "supervision_mode": "python_lean_bridge_contract",
             }
         )
     for packet in list(bundle.get("review_packets") or []):
@@ -5688,6 +5719,16 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 ],
             },
             {
+                "family": "python_lean_bridge_contracts",
+                "purpose": "Teach PsiCat the deterministic formal-unit IR, hybrid LSP/REPL bridge strategy, and receipt-only return path.",
+                "source_surfaces": [
+                    "src/core/lean_python_bridge_ir.py",
+                    "src/core/formal_traceability_spine.py",
+                    _repo_rel(PRODUCT_ROOT / "ox_navigator" / "engine" / "merlin_lean_bridge.py"),
+                    _repo_rel(PRODUCT_ROOT / "tools" / "export_merlin_lean_bridge_artifact.py"),
+                ],
+            },
+            {
                 "family": "hardware_topology_and_proof_ops",
                 "purpose": "Teach PsiCat how to allocate sovereign hardware across routing, reasoning, training, and Lean proof-operations without overstating closure.",
                 "source_surfaces": [
@@ -5837,6 +5878,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "capability_ontology": "getMerlinCapabilityOntology",
             "teacher_trace_policy": "getMerlinTeacherTracePolicy",
             "formal_proof_foundry_bundle": "internal_formal_proof_foundry_training_bundle",
+            "lean_bridge_artifact": "getMerlinLeanBridgeArtifact",
         },
         "two_engine_training_strategy": {
             "rapid_ablation_lane": {
@@ -7901,6 +7943,7 @@ def build_training_artifact_bundle(
             "training_curation": dict(((dataset_bundle.get("dataset") or {}).get("curation_ledger") or {})),
             "arc_agi_program": get_arc_agi_training_integration(),
             "formal_proof_foundry_bundle": get_formal_proof_foundry_training_bundle(limit=limit),
+            "lean_bridge_artifact": get_merlin_lean_bridge_artifact(limit=limit),
             "hardware_architecture_board": get_merlin_hardware_architecture_board(limit=limit),
             "mlflow_manifests": get_mlflow_experiment_manifests(
                 limit=limit,
@@ -7928,6 +7971,7 @@ def build_training_artifact_bundle(
                 "training_cycle_runner": "runMerlinTrainingCycle",
                 "challenge_pack": "getMerlinTrainingChallengePack",
                 "arc_agi_surface": "getMerlinArcAgiProgram",
+                "lean_bridge_artifact": "getMerlinLeanBridgeArtifact",
             },
             "training_execution_bundle_preview": training_execution_bundle,
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),

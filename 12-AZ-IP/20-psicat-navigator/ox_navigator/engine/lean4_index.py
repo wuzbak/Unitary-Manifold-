@@ -4,7 +4,24 @@
 """Lean4 theorem index helpers for OX Navigator."""
 from __future__ import annotations
 
-LEAN4_THEOREM_COUNT = 2186
+import json
+from pathlib import Path
+
+_REPO_ROOT = Path(__file__).resolve().parents[4]
+_LIVE_STATUS_PATH = _REPO_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json"
+
+
+def _load_live_status_theorem_count() -> int:
+    try:
+        payload = json.loads(_LIVE_STATUS_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return 2186
+    lean4 = payload.get("lean4") if isinstance(payload, dict) else {}
+    count = lean4.get("theorem_count") if isinstance(lean4, dict) else None
+    return count if isinstance(count, int) and count >= 0 else 2186
+
+
+LEAN4_THEOREM_COUNT = _load_live_status_theorem_count()
 LEAN4_THEOREM_SAMPLE = [
     'APS_T2Z2_NgenBridge',
     'APSEtaInvariantBridge',

@@ -23,6 +23,7 @@ from ox_navigator.engine.merlin_engine import query_merlin
 from ox_navigator.engine.merlin_identity import get_identity_policy
 from ox_navigator.engine.merlin_local_execution import get_local_execution_status, run_local_execution_loop
 from ox_navigator.engine.merlin_local_inference import get_inference_health, get_inference_providers
+from ox_navigator.engine.merlin_lean_bridge import get_merlin_lean_bridge_artifact
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
 from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
@@ -627,8 +628,20 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                     'inference_health': get_inference_health(),
+                    'lean_bridge_artifact': get_merlin_lean_bridge_artifact(limit=4),
                 },
                 })
+                return
+            if route_path == '/api/psicat/lean-bridge':
+                limit, error = _parse_int_query_param(params, 'limit', 0)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'lean_bridge': get_merlin_lean_bridge_artifact(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/local-execution/status':
                 self._json({
