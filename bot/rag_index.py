@@ -614,7 +614,7 @@ def build_context_scaffold(
         if hint is not None:
             ast_hints.append(hint)
     normalized_gates = [
-        _normalize_gate_label(kb_entry.get("status", "")),
+        *([_normalize_gate_label(kb_entry.get("status", ""))] if kb_entry is not None else []),
         *[item["gate"] for item in provenance_sources if item.get("gate")],
     ]
     dominant_gate = sorted(
