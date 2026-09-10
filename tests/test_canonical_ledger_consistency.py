@@ -33,7 +33,11 @@ def test_core_versions_are_present():
 
 def test_consistency_report_passes():
     report = canonical_ledger_consistency_report()
-    assert report["version_consistent"] is True
+    assert report["version_consistent"] is True, (
+        "Core ledger versions drifted: "
+        f"{report['core_versions']}. Keep STATUS.md, FALLIBILITY.md, and "
+        "1-THEORY/DERIVATION_STATUS.md on the same version."
+    )
     assert report["regression_consistent"] is True
     assert report["public_version_consistent"] is True
     assert report["public_regression_consistent"] is True
