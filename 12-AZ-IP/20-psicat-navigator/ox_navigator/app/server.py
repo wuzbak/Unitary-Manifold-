@@ -1140,6 +1140,30 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 }, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path in {
+                '/api/psicat/training-benchmarking-promotion-sprint',
+                '/api/merlin/training-benchmarking-promotion-sprint',
+            }:
+                limit, error = _parse_int_query_param(params, 'limit', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                training_limit, training_error = _parse_int_query_param(params, 'training_limit', 9)
+                if training_error:
+                    self._json({'ok': False, 'error': training_error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'getPsiCatTrainingBenchmarkingPromotionSprint',
+                    {'limit': limit, 'training_limit': training_limit},
+                    session=merlin_session,
+                ))
+                self._json({
+                    'ok': payload['ok'],
+                    'training_benchmarking_promotion_sprint': payload.get('data'),
+                    'error': payload.get('error'),
+                }, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/heavy-lane':
                 limit, error = _parse_int_query_param(params, 'limit', 3)
                 if error:

@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v37.4
+# Unitary Manifold v37.6
 
 ## Foundation reassessment
 
@@ -112,6 +112,13 @@ The implementation answers that question with controlled synthetic trajectories 
 PsiCat integration is kept practical and bounded: the pillar emits compact assist packets summarizing dominant order, top interaction, internal-vs-external balance, and the next diagnostic question to ask. That makes the new surface useful for training, comparison, and follow-up analysis while preserving the existing open physics obligations unchanged.
 
 
+
+
+### Sprint CT PsiCat training, benchmarking, and promotion sprint
+
+Sprint CT adds a training-benchmarking-promotion packet that extends the prior achievement board with explicit training execution telemetry: queue-before/queue-after state, cycle processing counts, lane-progress ledger visibility, and challenge-pack readiness. Benchmark and promotion routing remain fail-closed and receipt-bound; the packet does not advance status when blockers remain visible.
+
+The current route keeps phase-2 applied-pressure promotion contingent on clear training and benchmark gates, with freeze-and-remediate behavior preserved whenever any gate fails. This is governance/process hardening only and does not alter hardgate physics closure status.
 
 ### Sprint CR master implementation packet
 

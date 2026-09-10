@@ -35,6 +35,36 @@ foundation_reassessment:
     - "Nonperturbative quantum gravity"
   observational_falsifiers_unchanged: true
 
+v37_6_sprint_ct:
+  sprint: CT
+  version: v37.6
+  date: "2026-09-10"
+  pillars: 1120-1120
+  new_pillars: 1
+  new_tests: 1
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures:
+    - PSICAT_TRAINING_BENCHMARKING_PROMOTION_SPRINT_COMPLETE
+  advances:
+    - TRAINING_QUEUE_AND_CYCLE_VISIBILITY_ARE_NOW_BOUND_DIRECTLY_TO_PROMOTION_ROUTING
+    - STAGE_A_TO_E_AND_SPC_LANE_BENCHMARK_SURFACES_REMAIN_RECEIPT_GATED_WITHOUT_STATUS_INFLATION
+    - NEXT_WORK_REMAINS_PHASE2_APPLIED_PRESSURE_PROMOTION_WHEN_AND_ONLY_WHEN_VISIBLE_GATES_CLEAR
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "64,150 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
+  focused_regression: "PsiCat training/benchmarking/promotion sprint suites 7 passed · 0 failed"
+  next_pillar_slot: 1121
+
 v37_5_sprint_cs:
   sprint: CS
   version: v37.5
