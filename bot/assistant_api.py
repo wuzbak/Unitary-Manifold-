@@ -520,8 +520,21 @@ if FASTAPI_AVAILABLE:
         if len(query) > 2000:
             raise HTTPException(status_code=400, detail="query too long (max 2000 chars)")
 
+        context_scaffold = build_assistant_context_scaffold(query)
+        scaffold_cache_fingerprint = hashlib.md5(
+            json.dumps(context_scaffold, ensure_ascii=False, sort_keys=True).encode("utf-8")
+        ).hexdigest()
+
         # Cache check
-        cache_key = hashlib.md5((query + str(req.websearch)).encode()).hexdigest()
+        cache_key = hashlib.md5(
+            (
+                query
+                + str(req.websearch)
+                + req.page_ctx
+                + req.system
+                + scaffold_cache_fingerprint
+            ).encode("utf-8")
+        ).hexdigest()
         with _cache_lock:
             cached_entry = _cache.get(cache_key)
         if cached_entry is not None:
@@ -533,7 +546,6 @@ if FASTAPI_AVAILABLE:
 
         # Retrieve context
         context = retrieve_context(query)
-        context_scaffold = build_assistant_context_scaffold(query)
         scaffold_text = render_context_scaffold(context_scaffold)
 
         # Websearch

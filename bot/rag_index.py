@@ -483,15 +483,18 @@ def _normalize_gate_label(status: str) -> str:
 
 
 def detect_query_lane(query: str) -> Dict[str, str]:
-    sample = str(query or "").lower()
+    query_tokens = _tokenize(query)
     best_lane = "physics_navigation"
     best_score = -1
     for lane_id, config in _LANE_HINTS.items():
-        score = sum(1 for keyword in config["keywords"] if keyword in sample)
+        score = sum(1 for keyword in config["keywords"] if _normalize_token(keyword) in query_tokens)
         if score > best_score:
             best_lane = lane_id
             best_score = score
-    matched_keywords = sorted([keyword for keyword in _LANE_HINTS[best_lane]["keywords"] if keyword in sample])[:6]
+    matched_keywords = sorted([
+        keyword for keyword in _LANE_HINTS[best_lane]["keywords"]
+        if _normalize_token(keyword) in query_tokens
+    ])[:6]
     return {
         "lane_id": best_lane,
         "label": _LANE_HINTS[best_lane]["label"],

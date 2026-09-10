@@ -9,6 +9,7 @@ import importlib.util
 import os
 import re
 import sys
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -21,6 +22,7 @@ PRODUCT_ROOT = Path(__file__).resolve().parents[2]
 UI_ROOT = PRODUCT_ROOT / "ui"
 INTERROGATOR_KB_PATH = UI_ROOT / "interrogator-kb.json"
 _RAG_INDEX_CACHE = None
+_RAG_INDEX_LOCK = threading.Lock()
 
 
 def _load_module(name: str, path: Path):
@@ -52,7 +54,9 @@ def _tokens(text: str) -> set[str]:
 def _default_index():
     global _RAG_INDEX_CACHE
     if _RAG_INDEX_CACHE is None:
-        _RAG_INDEX_CACHE = _rag_index.RAGIndex.build(repo_root=REPO_ROOT)
+        with _RAG_INDEX_LOCK:
+            if _RAG_INDEX_CACHE is None:
+                _RAG_INDEX_CACHE = _rag_index.RAGIndex.build(repo_root=REPO_ROOT)
     return _RAG_INDEX_CACHE
 
 
