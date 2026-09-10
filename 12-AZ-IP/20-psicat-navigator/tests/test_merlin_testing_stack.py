@@ -51,7 +51,7 @@ def test_psicat_testing_stack_endpoint_exposes_machine_readable_doctrine() -> No
 
 
 def test_shared_testing_manifest_and_prompt_contract_files_are_valid_json() -> None:
-    manifest = PRODUCT_ROOT.parents[0] / "tools" / "testing_stack_manifest.json"
+    manifest = REPO_ROOT / "12-AZ-IP" / "tools" / "testing_stack_manifest.json"
     prompt_contracts = PRODUCT_ROOT / "testing" / "psicat_prompt_contracts.json"
     assert json.loads(manifest.read_text(encoding="utf-8"))["browser_default"]["tool"] == "Playwright"
     assert len(json.loads(prompt_contracts.read_text(encoding="utf-8"))["cases"]) >= 3
