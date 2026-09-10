@@ -284,6 +284,7 @@ MERLIN_KERNEL_TRACK_DEFAULTS: dict[str, str] = {
     "formal_proof_obligations": "kernel_p",
     "governance_decision_traces": "kernel_g",
     "adversarial_counterexamples": "kernel_g",
+    "arc_agi_abstraction_generalization": "kernel_r",
     "applications_tool_mastery": "kernel_r",
     "hardware_topology_and_proof_ops": "kernel_r",
     "books_articles_mastery": "kernel_s",
@@ -3417,6 +3418,82 @@ def _normalize_training_seed_limit(limit: int | None) -> int | None:
     return normalized
 
 
+def _seed_arc_agi_integration_examples() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "arc-agi-shadow-admission",
+            "track": "arc_agi_abstraction_generalization",
+            "prompt": (
+                "Describe how PsiCat should ingest ARC-AGI as a benchmark and training lane while preventing "
+                "benchmark contamination and keeping promotion language fail-closed."
+            ),
+            "target": {
+                "required_outputs": [
+                    "shadow_eval_only_until_receipts_exist",
+                    "contamination_controls",
+                    "artifact_export_path",
+                    "promotion_hold_rule",
+                ],
+                "hard_rule": "ARC-AGI benchmark tasks must stay held out from supervised targets used for readiness scoring.",
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+            "supervision_mode": "arc_agi_shadow_integration",
+            "required_gates": ["ARCHITECTURE_LIMIT", "GOVERNANCE"],
+            "provenance_sources": [
+                "getMerlinArcAgiProgram",
+                "getMerlinCompetitiveBenchmarkPlan",
+                "getMerlinOpenScienceRegistry",
+            ],
+        },
+        {
+            "id": "arc-agi-grid-abstraction-curriculum",
+            "track": "arc_agi_abstraction_generalization",
+            "split": "dev",
+            "prompt": (
+                "Summarize the ARC-AGI curriculum for grid abstraction, program synthesis, and held-out evaluation "
+                "without claiming solved capability."
+            ),
+            "target": {
+                "required_outputs": [
+                    "task_schema_summary",
+                    "program_synthesis_loop",
+                    "held_out_eval_boundary",
+                    "failure_taxonomy",
+                ],
+                "hard_rule": "Capability remains benchmark-gated until governed shadow receipts and external-family scores stabilize.",
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_cross_reference": True},
+            "supervision_mode": "arc_agi_curriculum_alignment",
+            "required_gates": ["ARCHITECTURE_LIMIT", "GOVERNANCE"],
+            "provenance_sources": [
+                "getMerlinArcAgiProgram",
+                "getMerlinTrainingArchitecture",
+            ],
+        },
+        {
+            "id": "arc-agi-rollback-discipline",
+            "track": "arc_agi_abstraction_generalization",
+            "split": "test",
+            "prompt": (
+                "If ARC-AGI shadow receipts improve while citation, provenance, or policy behavior regresses, "
+                "what must PsiCat do before any promotion step?"
+            ),
+            "target": {
+                "required_outputs": ["hold_decision", "rollback_scope", "receipt_repair_order"],
+                "hard_rule": "Abstract-reasoning gains never override governance, provenance, or boundary failures.",
+            },
+            "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},
+            "supervision_mode": "arc_agi_governance_regression_drill",
+            "required_gates": ["GOVERNANCE"],
+            "provenance_sources": [
+                "getMerlinArcAgiProgram",
+                "getMerlinPerformanceLane",
+                "getMerlinFrontierReadiness",
+            ],
+        },
+    ]
+
+
 def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, Any]]:
     from .merlin_benchmark import get_stage_a_benchmark_corpus
     from .merlin_rag import KNOWLEDGE_BASE
@@ -3479,9 +3556,79 @@ def _build_seed_training_examples(limit: int | None = None) -> list[dict[str, An
     examples.extend(_seed_adversarial_self_correction_examples())
     examples.extend(_seed_continuous_learning_governance_examples())
     examples.extend(_seed_performance_lane_examples())
+    examples.extend(_seed_arc_agi_integration_examples())
     if resolved_limit is not None:
         return examples[:resolved_limit]
     return examples
+
+
+def get_arc_agi_training_integration() -> dict[str, Any]:
+    return {
+        "program": "ARC_AGI_SHADOW_INTEGRATION",
+        "objective": (
+            "Train and benchmark PsiCat against ARC-AGI-style abstraction tasks without contaminating "
+            "governed readiness measurements or diluting repository-native provenance."
+        ),
+        "status": "integrated_shadow_lane",
+        "non_claims": [
+            "PsiCat is not declared ARC-AGI-complete.",
+            "ARC-AGI gains do not override governance, provenance, or epistemic-gate failures.",
+            "ARC benchmark tasks remain held out from supervised promotion scoring.",
+        ],
+        "training_lane": {
+            "dataset_family": "arc_agi_abstraction_generalization",
+            "core_skills": [
+                "grid_pattern_abstraction",
+                "program_synthesis",
+                "few_example_generalization",
+                "failure_taxonomy_retention",
+            ],
+            "curriculum_steps": [
+                "task_schema_ingestion",
+                "transformation_primitive_ledger",
+                "solver_trace_distillation",
+                "held_out_shadow_evaluation",
+            ],
+            "contamination_controls": [
+                "keep official evaluation tasks out of supervised readiness targets",
+                "separate shadow benchmark receipts from train/dev curriculum examples",
+                "treat ARC-derived improvements as adjacent capability evidence until repeated receipts exist",
+            ],
+        },
+        "benchmark_lane": {
+            "family": "arc_agi_abstraction_generalization",
+            "required_metrics": [
+                "task_completion_rate",
+                "abstraction_reuse_accuracy",
+                "solver_trace_replayability",
+                "contamination_free_eval_ratio",
+            ],
+            "receipt_policy": "Shadow-eval only until repeatable receipts exist across non-overlapping runs.",
+            "promotion_rule": "Any ARC-AGI improvement is promotion-relevant only if governance and provenance gates stay green.",
+        },
+        "sources": [
+            {
+                "resource_id": "arc_agi_repository",
+                "role": "official_task_schema_and_examples",
+            },
+            {
+                "resource_id": "arc_prize_guide",
+                "role": "benchmark_protocol_and_competitive_context",
+            },
+            {
+                "resource_id": "hugging_face_datasets",
+                "role": "distribution_channel_for_curated_open_shadow_copies_when_licensed_and_governed",
+            },
+        ],
+        "integration_surfaces": {
+            "training_architecture": "getMerlinTrainingArchitecture",
+            "competitive_benchmarks": "getMerlinCompetitiveBenchmarkPlan",
+            "open_science_registry": "getMerlinOpenScienceRegistry",
+            "training_dataset": "getMerlinTrainingDataset",
+            "training_artifacts": "getMerlinTrainingArtifacts",
+            "benchmark_corpora": "getMerlinBenchmarkCorpora",
+        },
+    }
 
 
 def get_open_science_resource_registry() -> dict[str, Any]:
@@ -3501,6 +3648,28 @@ def get_open_science_resource_registry() -> dict[str, Any]:
             "benchmark_impact_review",
         ],
         "resources": [
+            {
+                "resource_id": "arc_agi_repository",
+                "category": "abstract_reasoning_benchmark",
+                "url": "https://github.com/fchollet/ARC-AGI",
+                "recommended_role": [
+                    "task_schema_ingestion",
+                    "contamination_safe_shadow_evaluation",
+                    "abstraction_program_synthesis_curriculum",
+                ],
+                "priority": "highest_external",
+            },
+            {
+                "resource_id": "arc_prize_guide",
+                "category": "benchmark_governance",
+                "url": "https://arcprize.org/guide",
+                "recommended_role": [
+                    "competitive_benchmark_protocol_reference",
+                    "holdout_split_and_receipt_discipline",
+                    "human_baseline_and_scoring_context",
+                ],
+                "priority": "high",
+            },
             {
                 "resource_id": "isabelle_afp",
                 "category": "formal_proof_corpus",
@@ -5337,6 +5506,18 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
                 ],
             },
             {
+                "family": "arc_agi_abstraction_generalization",
+                "purpose": (
+                    "Teach PsiCat abstraction-first ARC-AGI curriculum, contamination-safe shadow evaluation, "
+                    "and fail-closed promotion discipline."
+                ),
+                "source_surfaces": [
+                    "getMerlinArcAgiProgram",
+                    "getMerlinCompetitiveBenchmarkPlan",
+                    "getMerlinOpenScienceRegistry",
+                ],
+            },
+            {
                 "family": "tool_call_success_failure_pairs",
                 "purpose": "Teach precise tool choice, schema-aware invocation, and safe orchestration behavior.",
                 "source_surfaces": [
@@ -5471,6 +5652,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "total_examples": len(seed_examples),
             "track_counts": track_counts,
         },
+        "arc_agi_integration": get_arc_agi_training_integration(),
         "formal_proof_foundry": get_formal_proof_foundry_training_bundle(limit=limit),
         "hardware_architecture": hardware_board,
         "active_training_surfaces": {
@@ -5494,6 +5676,7 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "challenge_pack": "getMerlinTrainingChallengePack",
             "navier_stokes_method_transfer_packet": "getMerlinNavierStokesMethodTransferPacket",
             "pythagorean_triples_sat_method_transfer_packet": "getMerlinPythagoreanTriplesSatMethodTransferPacket",
+            "arc_agi_program": "getMerlinArcAgiProgram",
             "frontier_open_weight_stack": "getMerlinFrontierStack",
             "open_weight_acquisition_ledger": "getMerlinOpenWeightAcquisitionLedger",
             "training_framework_stack": "getMerlinTrainingFrameworkStack",
@@ -6619,6 +6802,15 @@ def get_competitive_benchmark_plan() -> dict[str, Any]:
                 "must_measure": ["citation_faithfulness", "gate_visibility", "historical_context_retrieval"],
             },
             {
+                "family": "arc_agi_abstraction_generalization",
+                "must_measure": [
+                    "task_completion_rate",
+                    "abstraction_reuse_accuracy",
+                    "solver_trace_replayability",
+                    "contamination_free_eval_ratio",
+                ],
+            },
+            {
                 "family": "scientific_reasoning",
                 "must_measure": ["uncertainty_discipline", "cross-source synthesis", "falsification_awareness"],
             },
@@ -6646,6 +6838,7 @@ def get_competitive_benchmark_plan() -> dict[str, Any]:
             "zero_high_severity_policy_violations",
             "stable_clean_windows_over_time",
         ],
+        "arc_agi_shadow_lane": get_arc_agi_training_integration()["benchmark_lane"],
     }
 
 
