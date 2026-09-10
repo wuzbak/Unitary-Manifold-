@@ -6,9 +6,11 @@
 > In particular, the odd-composite photon argument is invalid, the old
 > mixed-block convention is not the stated canonical KK metric away from
 > unit radion, and parity alone does not establish flavor or internal
-> gauge-involution uniqueness. Sprint CI isolates the conditional metric and
-> circle-EH coupling bookkeeping but leaves photon origin and action-to-evolution
-> equivalence open. No new physics closure is claimed.
+> gauge-involution uniqueness. Sprint CI isolated the conditional metric and
+> circle-EH coupling bookkeeping, and Sprint CT now adds a governed PsiCat
+> training/benchmarking/promotion status packet above that foundation without
+> changing the underlying physics claim state. Photon origin and
+> action-to-evolution equivalence remain open. No new physics closure is claimed.
 
 **The Unitary Manifold v37.6 — Unambiguous Record**
 *This is the document a PRL referee should read first.*

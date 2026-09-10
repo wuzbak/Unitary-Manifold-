@@ -7690,8 +7690,8 @@ def get_psicat_training_benchmarking_promotion_sprint(
     if processed_count is None:
         processed_count = 0
     training_cycle_executed = processed_count > 0
-    queue_after_observed = isinstance(raw_queue_after, dict)
-    has_queue_after_state = queue_after_observed and all(
+    queue_after_observed = raw_queue_after is not None
+    has_queue_after_state = isinstance(raw_queue_after, dict) and all(
         key in raw_queue_after for key in ("stale_retrain_count", "needs_review_count")
     )
     stale_retrain_count = _safe_int(queue_after.get("stale_retrain_count"))
@@ -7703,6 +7703,14 @@ def get_psicat_training_benchmarking_promotion_sprint(
         and stale_retrain_count == 0
         and needs_review_count == 0
     )
+    queue_before_zero_fields = [
+        _safe_int(queue_before.get(key))
+        for key in ("queued_count", "ready_count", "stale_retrain_count", "needs_review_count", "total_queue_items")
+        if isinstance(queue_before, dict) and key in queue_before
+    ]
+    queue_before_state_clear = bool(queue_before_zero_fields) and all(
+        value is not None and value == 0 for value in queue_before_zero_fields
+    )
     training_queue_observed = queue_after_observed or training_cycle_executed or _has_positive_counter(
         queue_before,
         "queued_count",
@@ -7711,7 +7719,8 @@ def get_psicat_training_benchmarking_promotion_sprint(
         "needs_review_count",
         "total_queue_items",
     )
-    training_queue_clear = queue_after_state_clear
+    training_queue_observed = training_queue_observed or (not queue_after_observed and queue_before_state_clear)
+    training_queue_clear = queue_after_state_clear or (not queue_after_observed and queue_before_state_clear)
     training_ready = training_cycle_executed and training_queue_clear
     inherited_targeted_clear = bool(promotion_readiness.get("targeted_rigor_clear"))
     inherited_frontier_clear = bool(promotion_readiness.get("frontier_blockers_all_clear"))

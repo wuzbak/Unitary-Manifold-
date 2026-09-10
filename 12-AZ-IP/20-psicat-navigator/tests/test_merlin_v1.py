@@ -1820,7 +1820,7 @@ def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatc
     assert packet['validity_signals']['has_sprint_routing'] is True
 
 
-def test_training_benchmarking_promotion_sprint_missing_queue_after_not_clear(monkeypatch):
+def test_training_benchmarking_promotion_sprint_missing_queue_after_zero_counts_clear(monkeypatch):
     monkeypatch.setattr(
         merlin_program,
         'get_psicat_achievement_benchmark_promotion_sprint',
@@ -1844,8 +1844,9 @@ def test_training_benchmarking_promotion_sprint_missing_queue_after_not_clear(mo
         },
     )
     packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
-    assert packet['training_execution_summary']['training_queue_clear'] is False
-    assert packet['promotion_readiness']['training_queue_clear'] is False
+    assert packet['training_execution_summary']['training_queue_observed'] is True
+    assert packet['training_execution_summary']['training_queue_clear'] is True
+    assert packet['promotion_readiness']['training_queue_clear'] is True
 
 
 def test_training_benchmarking_promotion_sprint_preserves_parent_block(monkeypatch):
@@ -1907,6 +1908,7 @@ def test_training_benchmarking_promotion_sprint_malformed_queue_after_not_clear(
     )
     packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
     assert packet['training_execution_summary']['training_cycle_executed'] is True
+    assert packet['training_execution_summary']['training_queue_observed'] is True
     assert packet['training_execution_summary']['training_queue_clear'] is False
     assert packet['promotion_readiness']['training_queue_clear'] is False
 
@@ -1939,6 +1941,7 @@ def test_training_benchmarking_promotion_sprint_nonnumeric_queue_after_not_clear
     )
     packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
     assert packet['training_execution_summary']['training_cycle_executed'] is True
+    assert packet['training_execution_summary']['training_queue_observed'] is True
     assert packet['training_execution_summary']['training_queue_clear'] is False
     assert packet['promotion_readiness']['training_queue_clear'] is False
 
