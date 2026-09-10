@@ -75,6 +75,7 @@ from ox_navigator.engine.merlin_program import (
 from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
 from ox_navigator.engine.merlin_router import get_router_policy
 from ox_navigator.engine.merlin_telemetry import build_energy_ledger
+from ox_navigator.engine.merlin_testing_stack import get_psicat_prompt_contracts, get_psicat_testing_stack
 from ox_navigator.engine.merlin_training_execution import (
     build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
@@ -639,6 +640,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'benchmarks': get_merlin_benchmark_suite(),
+                'telemetry': merlin_session.get_telemetry_summary(public=True),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/testing-stack':
+                self._json({
+                'ok': True,
+                'testing_stack': get_psicat_testing_stack(),
+                'prompt_contracts': get_psicat_prompt_contracts(),
                 'telemetry': merlin_session.get_telemetry_summary(public=True),
                 })
                 self._persist_session(session_id, merlin_session)
