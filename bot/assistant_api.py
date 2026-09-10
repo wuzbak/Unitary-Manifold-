@@ -615,9 +615,6 @@ if FASTAPI_AVAILABLE:
             parsed_ast_file_limit = int(ast_file_limit)
         except (TypeError, ValueError):
             parsed_ast_file_limit = ast_file_limit
-        else:
-            if parsed_ast_file_limit < 1:
-                raise HTTPException(status_code=400, detail="ast_file_limit must be >= 1")
         scaffold = build_assistant_context_scaffold(query, ast_file_limit=parsed_ast_file_limit)
         return {
             "ok": True,

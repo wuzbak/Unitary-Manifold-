@@ -48,3 +48,14 @@ def test_context_scaffold_endpoint_falls_back_on_invalid_ast_limit():
     assert response.status_code == 200
     payload = response.json()
     assert payload["context_scaffold"]["ast"]["file_limit"] == 3
+
+
+@pytest.mark.skipif(not assistant_api.FASTAPI_AVAILABLE, reason="FastAPI not installed")
+def test_context_scaffold_endpoint_clamps_negative_ast_limit():
+    from fastapi.testclient import TestClient
+
+    client = TestClient(assistant_api.app)
+    response = client.get("/api/context-scaffold", params={"query": "birefringence routing", "ast_file_limit": -5})
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["context_scaffold"]["ast"]["file_limit"] == 1
