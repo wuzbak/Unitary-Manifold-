@@ -40,6 +40,7 @@ from typing import Any
 
 import httpx
 import numpy as np
+from bot.rag_index import RAGIndex, build_context_scaffold, render_context_scaffold
 
 try:
     from fastapi import FastAPI, HTTPException
@@ -142,6 +143,14 @@ Primary falsifier: birefringence β — LiteBIRD ~2032
 
 # Simple in-memory cache
 _cache: dict[str, tuple[float, dict]] = {}
+_rag_index: RAGIndex | None = None
+
+
+def _get_rag_index() -> RAGIndex:
+    global _rag_index
+    if _rag_index is None:
+        _rag_index = RAGIndex.build(repo_root=REPO_ROOT)
+    return _rag_index
 
 
 def _read_json_file(path: Path) -> dict[str, Any] | None:
@@ -289,6 +298,23 @@ def retrieve_context(query: str) -> str:
     chunks.append(FALLIBILITY_TEXT)
 
     return "\n\n".join(chunks)
+
+
+def build_assistant_context_scaffold(query: str, *, ast_file_limit: int = 3) -> dict[str, Any]:
+    scaffold = build_context_scaffold(
+        _get_rag_index(),
+        query,
+        repo_root=REPO_ROOT,
+        top_k=3,
+        ast_file_limit=ast_file_limit,
+    )
+    scaffold["assistant_runtime"] = {
+        "service": "AxiomZero Open Science Assistant",
+        "status_endpoint": "/api/status",
+        "assistant_endpoint": "/api/assistant",
+        "ox_endpoint": "/api/ox",
+    }
+    return scaffold
 
 
 # ── Websearch ──────────────────────────────────────────────────────────────────
@@ -447,6 +473,7 @@ if FASTAPI_AVAILABLE:
         sources: list[dict]
         epistemic_note: str
         pillar_ids: list[int]
+        context_scaffold: dict[str, Any] | None = None
         cached: bool = False
 
     @app.get("/")
@@ -498,6 +525,8 @@ if FASTAPI_AVAILABLE:
 
         # Retrieve context
         context = retrieve_context(query)
+        context_scaffold = build_assistant_context_scaffold(query)
+        scaffold_text = render_context_scaffold(context_scaffold)
 
         # Websearch
         search_results: list[dict] = []
@@ -514,6 +543,7 @@ if FASTAPI_AVAILABLE:
 
         prompt = (
             f"<s>[INST] {system}{page_ctx_note}\n\n"
+            f"Relevant context scaffold:\n{scaffold_text}\n\n"
             f"Relevant knowledge base context:\n{context}{search_note}\n\n"
             f"User question: {query} [/INST]"
         )
@@ -544,10 +574,26 @@ if FASTAPI_AVAILABLE:
             "sources": sources,
             "epistemic_note": epistemic_note,
             "pillar_ids": ids,
+            "context_scaffold": context_scaffold,
             "cached": False,
         }
         _cache[cache_key] = (time.time(), result.copy())
         return AssistantResponse(**result)
+
+    @app.get("/api/context-scaffold")
+    async def get_context_scaffold(query: str, ast_file_limit: int = 3):
+        """Return a typed architectural context scaffold for a query."""
+        query = (query or "").strip()
+        if not query:
+            raise HTTPException(status_code=400, detail="query must not be empty")
+        if ast_file_limit < 1:
+            raise HTTPException(status_code=400, detail="ast_file_limit must be >= 1")
+        scaffold = build_assistant_context_scaffold(query, ast_file_limit=ast_file_limit)
+        return {
+            "ok": True,
+            "context_scaffold": scaffold,
+            "prompt_context": render_context_scaffold(scaffold),
+        }
 
     @app.post("/api/kk-mass")
     async def kk_mass(payload: dict):
@@ -631,7 +677,14 @@ if FASTAPI_AVAILABLE:
         if len(query) > 8000:
             raise HTTPException(status_code=400, detail="query too long (max 8000 chars for OX)")
 
-        context_override = None if req.use_full_context else retrieve_context(query)
+        context_override = None
+        if not req.use_full_context:
+            scaffold = build_assistant_context_scaffold(query)
+            context_override = (
+                render_context_scaffold(scaffold)
+                + "\n\n"
+                + retrieve_context(query)
+            )
         if req.use_full_context and OX_CONTEXT_PACK.exists():
             context_source = "ox_full_context.md (full-repository pack)"
         elif req.use_full_context and not OX_CONTEXT_PACK.exists():

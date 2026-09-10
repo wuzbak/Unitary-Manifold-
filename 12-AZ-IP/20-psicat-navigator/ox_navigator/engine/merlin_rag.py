@@ -6,17 +6,21 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 import re
 import sys
 from pathlib import Path
 from typing import Any
 
+from .merlin_counterexample import build_counterexample_digest
+from .merlin_training_execution import get_merlin_lane_e_runtime_profiles
 from .interrogator import load_kb, search_kb
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
 UI_ROOT = PRODUCT_ROOT / "ui"
 INTERROGATOR_KB_PATH = UI_ROOT / "interrogator-kb.json"
+_RAG_INDEX_CACHE = None
 
 
 def _load_module(name: str, path: Path):
@@ -43,6 +47,13 @@ TOKEN_RE = re.compile(r"[a-z0-9_ΔβΩ²³⁴⁵]+", re.IGNORECASE)
 
 def _tokens(text: str) -> set[str]:
     return {token.lower() for token in TOKEN_RE.findall(text or "")}
+
+
+def _default_index():
+    global _RAG_INDEX_CACHE
+    if _RAG_INDEX_CACHE is None:
+        _RAG_INDEX_CACHE = _rag_index.RAGIndex.build(repo_root=REPO_ROOT)
+    return _RAG_INDEX_CACHE
 
 
 def lookup_kb(query: str) -> dict[str, Any] | None:
@@ -99,10 +110,75 @@ def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
     }
 
 
-def build_rag_context(query: str) -> str:
+def build_context_scaffold(
+    query: str,
+    *,
+    session: Any | None = None,
+    max_chunks: int = 5,
+    ast_file_limit: int = 5,
+) -> dict[str, Any]:
+    """Build the typed Merlin/PsiCat context scaffold."""
+    generic = _rag_index.build_context_scaffold(
+        _default_index(),
+        query,
+        repo_root=REPO_ROOT,
+        top_k=max_chunks,
+        ast_file_limit=ast_file_limit,
+    )
+    context = retrieve_context(query, max_chunks=max_chunks)
+    contradiction_digest = (
+        build_counterexample_digest(session=session, limit=8)
+        if session is not None
+        else {"ok": True, "total_events": 0, "quarantined_insight_count": 0, "kind_counts": {}, "items": []}
+    )
+    memory_geometry = (
+        session.get_geometric_memory_map(query, limit=6)
+        if session is not None
+        else {"ok": True, "model": "merlin_geometric_memory_map_v1", "landmark_count": 0, "frames": {}}
+    )
+    runtime_alignment = {
+        "local_first": True,
+        "openrouter_compat_enabled": bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT")),
+        "suggested_agent_endpoints": list(generic.get("tooling", {}).get("suggested_endpoints", [])),
+        "agent_toolkit_path": "/api/agentToolkit",
+        "invoke_path": "/api/agentInvoke",
+        "orchestrate_path": "/api/agentOrchestrate",
+    }
+    if generic.get("lane", {}).get("lane_id") == "runtime_performance":
+        lane_e_payload = get_merlin_lane_e_runtime_profiles(refresh=False)
+        runtime_alignment["lane_e_runtime_profiles"] = {
+            "artifact_path": lane_e_payload.get("artifact_path"),
+            "artifact_exists": lane_e_payload.get("artifact_exists"),
+            "profile_keys": lane_e_payload.get("profile_keys", []),
+        }
+    return {
+        **generic,
+        "schema_version": "merlin_context_scaffold_v1",
+        "retrieval": {
+            **dict(generic.get("retrieval") or {}),
+            "pillars": list(context.get("pillars") or []),
+            "interrogator_hits": list(context.get("interrogator_hits") or []),
+            "predictions": PREDICTIONS_TEXT,
+            "fallibility": FALLIBILITY_TEXT,
+        },
+        "contradiction_ledger": {
+            "digest": contradiction_digest,
+            "memory_geometry_model": str(memory_geometry.get("model") or "unknown"),
+            "contradiction_pressure": float(
+                ((memory_geometry.get("frames") or {}).get("topological_persistence") or {}).get("contradiction_pressure", 0.0)
+            ),
+            "landmark_count": int(memory_geometry.get("landmark_count", 0) or 0),
+        },
+        "runtime_alignment": runtime_alignment,
+    }
+
+
+def build_rag_context(query: str, *, session: Any | None = None, ast_file_limit: int = 5) -> str:
     """Build the Merlin prompt context blocks."""
+    scaffold = build_context_scaffold(query, session=session, ast_file_limit=ast_file_limit)
     context = retrieve_context(query)
     blocks = []
+    blocks.append(_rag_index.render_context_scaffold(scaffold))
     if context["kb_match"]:
         kb = context["kb_match"]
         blocks.append(
@@ -127,6 +203,21 @@ def build_rag_context(query: str) -> str:
                 f"{hit.get('claim', hit.get('prediction', ''))}"
             )
         blocks.append("[INTERROGATOR MATCHES]\n" + "\n".join(hit_lines))
+    contradiction = dict(scaffold.get("contradiction_ledger") or {})
+    digest = dict(contradiction.get("digest") or {})
+    blocks.append(
+        "[CONTRADICTION LEDGER]\n"
+        f"events={int(digest.get('total_events', 0) or 0)} | "
+        f"quarantined={int(digest.get('quarantined_insight_count', 0) or 0)} | "
+        f"pressure={float(contradiction.get('contradiction_pressure', 0.0)):.3f}"
+    )
+    runtime = dict(scaffold.get("runtime_alignment") or {})
+    blocks.append(
+        "[RUNTIME ALIGNMENT]\n"
+        f"local_first={bool(runtime.get('local_first'))} | "
+        f"openrouter_compat_enabled={bool(runtime.get('openrouter_compat_enabled'))} | "
+        f"agent_paths={runtime.get('agent_toolkit_path')}, {runtime.get('invoke_path')}, {runtime.get('orchestrate_path')}"
+    )
     blocks.append("[PREDICTIONS]\n" + context["predictions"].strip())
     blocks.append("[FALLIBILITY]\n" + context["fallibility"].strip())
     return "\n\n".join(blocks)

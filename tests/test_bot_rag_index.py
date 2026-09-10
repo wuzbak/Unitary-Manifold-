@@ -11,8 +11,11 @@ from bot.rag_index import (
     DocumentChunk,
     RAGIndex,
     answer_question,
+    build_context_scaffold,
     build_default_index,
     build_runtime_knowledge_base,
+    detect_query_lane,
+    render_context_scaffold,
     retrieve_intent,
     build_intent_index,
 )
@@ -65,6 +68,28 @@ def test_runtime_knowledge_base_has_repo_state():
     kb = build_runtime_knowledge_base(Path(__file__).parent.parent)
     assert "repo_state" in kb
     assert "sources" in kb["repo_state"]
+
+
+def test_detect_query_lane_prefers_runtime_performance():
+    lane = detect_query_lane("Review runtime benchmark latency and training profile behavior.")
+    assert lane["lane_id"] == "runtime_performance"
+
+
+def test_build_context_scaffold_includes_ast_and_tool_hints():
+    idx = RAGIndex()
+    scaffold = build_context_scaffold(idx, "How is alpha_gut derived?", repo_root=Path(__file__).parent.parent)
+    assert scaffold["schema_version"] == "rag_context_scaffold_v1"
+    assert scaffold["boundary"]["dominant_gate"] in {"HARDGATE", "DERIVED", "ARCHITECTURE_LIMIT"}
+    assert scaffold["ast"]["enabled"] is True
+    assert scaffold["tooling"]["suggested_endpoints"]
+
+
+def test_render_context_scaffold_contains_structural_sections():
+    idx = RAGIndex()
+    scaffold = build_context_scaffold(idx, "Inspect tool routing and agentToolkit orchestration.", repo_root=Path(__file__).parent.parent)
+    rendered = render_context_scaffold(scaffold)
+    assert "[CONTEXT SCAFFOLD]" in rendered
+    assert "[TOOL/RUNTIME HINTS]" in rendered
 
 
 # ---------------------------------------------------------------------------
@@ -197,6 +222,7 @@ def test_answer_question_source_type():
     idx = RAGIndex()
     result = answer_question(idx, "birefringence litebird prediction")
     assert result["source_type"] in ("knowledge_base", "document_retrieval", "no_result")
+    assert result["context_scaffold"]["schema_version"] == "rag_context_scaffold_v1"
 
 
 def test_answer_question_repo_state():

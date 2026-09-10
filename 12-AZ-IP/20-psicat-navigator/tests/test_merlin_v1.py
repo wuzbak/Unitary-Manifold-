@@ -37,7 +37,7 @@ from ox_navigator.engine.merlin_persona import detect_persona_mode, extract_urls
 from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
 from ox_navigator.engine.merlin_research_cycle import run_research_cycle
 from ox_navigator.engine.merlin_router import choose_runtime
-from ox_navigator.engine.merlin_rag import build_rag_context, lookup_kb, retrieve_context
+from ox_navigator.engine.merlin_rag import build_context_scaffold, build_rag_context, lookup_kb, retrieve_context
 from ox_navigator.engine.merlin_runtime import run_post_turn_compilation
 from ox_navigator.engine.merlin_sentinel import MODE_MONITOR, evaluate_query, get_sentinel_policy
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
@@ -507,7 +507,21 @@ def test_build_rag_context_contains_sections():
     context = build_rag_context('Explain LiteBIRD and birefringence.')
     assert '[KNOWLEDGE BASE MATCH]' in context
     assert '[RETRIEVED PILLAR CONTEXT]' in context
+    assert '[CONTRADICTION LEDGER]' in context
     assert '[FALLIBILITY]' in context
+
+
+def test_build_context_scaffold_contains_runtime_and_contradiction_packets():
+    session = MerlinSession()
+    scaffold = build_context_scaffold(
+        'Design a bounded tool chain to inspect training runtime profiles and orchestration state.',
+        session=session,
+        ast_file_limit=4,
+    )
+    assert scaffold['schema_version'] == 'merlin_context_scaffold_v1'
+    assert scaffold['runtime_alignment']['agent_toolkit_path'] == '/api/agentToolkit'
+    assert 'suggested_agent_endpoints' in scaffold['runtime_alignment']
+    assert scaffold['contradiction_ledger']['digest']['ok'] is True
 
 
 def test_sentinel_clean_query_stays_monitor():
@@ -2288,6 +2302,7 @@ def test_query_merlin_returns_provenance_memory_and_telemetry():
     assert payload['compile_time_ingestion']['compiled_count'] >= 1
     assert payload['active_kernel']['kernel_id']
     assert 'count' in payload['accumulated_learnings']
+    assert payload['context_scaffold']['schema_version'] == 'merlin_context_scaffold_v1'
     assert payload['geometric_memory_map']['ok'] is True
     assert 'hyperbolic_tree' in payload['geometric_memory_map']['frames']
 
@@ -2510,6 +2525,15 @@ def test_server_merlin_endpoints():
             assert runtime.json()['runtime']['optimization_priorities']['order'][0]['rank'] == 1
             assert runtime.json()['runtime']['client_blind_ingestion_contract']['mode'] == 'unidirectional_client_blind_ingestion'
             assert runtime.json()['runtime']['hardware_architecture_board']['lane_topology'][0]['lane_id'] == 'compact_control_plane'
+
+            context_scaffold = client.get('/api/merlin/context-scaffold?query=birefringence+tool+routing&ast_file_limit=3')
+            assert context_scaffold.status_code == 200
+            assert context_scaffold.json()['ok'] is True
+            assert context_scaffold.json()['context_scaffold']['schema_version'] == 'merlin_context_scaffold_v1'
+            assert '[CONTEXT SCAFFOLD]' in context_scaffold.json()['prompt_context']
+
+            bad_context_scaffold = client.get('/api/psicat/context-scaffold?query=birefringence&ast_file_limit=0')
+            assert bad_context_scaffold.status_code == 400
 
             benchmarks = client.get('/api/merlin/benchmarks')
             assert benchmarks.status_code == 200

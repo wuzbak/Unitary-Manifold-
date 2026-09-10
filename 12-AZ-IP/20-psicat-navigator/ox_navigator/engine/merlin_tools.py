@@ -151,6 +151,7 @@ from .merlin_runtime import empirical_observatory_check, run_kernel_p_lean_proof
 from .merlin_rag import (
     INTERROGATOR_ENTRIES,
     PILLAR_KNOWLEDGE,
+    build_context_scaffold,
     build_rag_context,
     build_status_response,
     lookup_kb,
@@ -268,6 +269,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "listPillars", "summary": "List representative pillar records", "domain": "functions"},
             {"name": "getPillar", "summary": "Return one pillar by id", "domain": "functions"},
             {"name": "searchKnowledgeBase", "summary": "Search canonical Merlin KB", "domain": "functions"},
+            {"name": "getMerlinContextScaffold", "summary": "Return typed RAG context scaffold with AST/runtime hints", "domain": "functions"},
             {"name": "searchInterrogator", "summary": "Search bundled interrogator KB", "domain": "functions"},
             {"name": "getTensionMap", "summary": "Return interrogator sigma/confidence points", "domain": "functions"},
             {"name": "loadFlashcards", "summary": "Return Merlin flashcard deck", "domain": "functions"},
@@ -420,6 +422,17 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "searchKnowledgeBase": {
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
+        },
+        "getMerlinContextScaffold": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "ast_file_limit": {"type": "integer"},
+                },
+                "required": ["query"],
+                "additionalProperties": False,
+            },
         },
         "searchInterrogator": {
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
@@ -1043,7 +1056,13 @@ def get_pillar(pillar_id: int) -> dict[str, Any]:
 
 
 def search_knowledge_base(query: str) -> dict[str, Any]:
-    return {"data": {"match": lookup_kb(query), "context": build_rag_context(query)}}
+    scaffold = build_context_scaffold(query)
+    return {"data": {"match": lookup_kb(query), "context": build_rag_context(query), "context_scaffold": scaffold}}
+
+
+def get_context_scaffold(query: str, ast_file_limit: int | None = None) -> dict[str, Any]:
+    scaffold = build_context_scaffold(query, ast_file_limit=ast_file_limit or 5)
+    return {"data": {"context_scaffold": scaffold, "prompt_context": build_rag_context(query, ast_file_limit=ast_file_limit or 5)}}
 
 
 def search_interrogator(query: str) -> dict[str, Any]:
@@ -1073,6 +1092,10 @@ _FUNCTIONS = {
     "listPillars": list_pillars,
     "getPillar": lambda **args: get_pillar(int(args.get("pillar_id", args.get("id", 0)))),
     "searchKnowledgeBase": lambda **args: search_knowledge_base(str(args.get("query", ""))),
+    "getMerlinContextScaffold": lambda **args: get_context_scaffold(
+        str(args.get("query", "")),
+        int(args.get("ast_file_limit", 5) or 5),
+    ),
     "searchInterrogator": lambda **args: search_interrogator(str(args.get("query", ""))),
     "getTensionMap": lambda **args: get_tension_map(),
     "loadFlashcards": lambda **args: load_flashcards_tool(),
