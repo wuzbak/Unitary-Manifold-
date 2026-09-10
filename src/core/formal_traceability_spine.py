@@ -20,8 +20,6 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List
 
-from src.core.lean_python_bridge_ir import build_python_lean_bridge_contract
-
 PROGRAM_ID = "FORMAL_PROOF_FOUNDRY"
 PROGRAM_STATUS = "ACTIVE_HONESTY_FIRST"
 
@@ -414,6 +412,7 @@ def _detect_runtime_alignment() -> Dict[str, Any]:
 
 
 def formal_traceability_spine() -> Dict[str, Any]:
+    from src.core.lean_python_bridge_ir import build_python_lean_bridge_contract
     """Return the canonical formal frontier registry."""
     rows = [dict(row, paths_exist=_row_paths_exist(row)) for row in TRACEABILITY_ROWS]
     packets = [
