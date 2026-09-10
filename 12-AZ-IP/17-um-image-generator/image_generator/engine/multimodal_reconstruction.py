@@ -164,7 +164,7 @@ def evaluate_multimodal_quality(
             from scipy.spatial import cKDTree  # type: ignore
 
             tree = cKDTree(top_surface if top_surface.size else vertices)
-            nearest = tree.query(cloud, workers=-1)[0]
+            nearest = tree.query(cloud)[0]
         except Exception:
             nearest = _nearest_vertex_distances_chunked(cloud, top_surface if top_surface.size else vertices)
 
