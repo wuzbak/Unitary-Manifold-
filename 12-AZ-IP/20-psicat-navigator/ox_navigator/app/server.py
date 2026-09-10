@@ -1147,9 +1147,9 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     session=merlin_session,
                 ))
                 self._json({
-                'ok': payload['ok'],
-                'training_benchmarking_promotion_sprint': payload.get('data'),
-                'error': payload.get('error'),
+                    'ok': payload['ok'],
+                    'training_benchmarking_promotion_sprint': payload.get('data'),
+                    'error': payload.get('error'),
                 }, status=status)
                 self._persist_session(session_id, merlin_session)
                 return

@@ -38,6 +38,7 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
         (_ROOT / 'docs' / 'TRUTH_LAYER.md').resolve().as_posix(): ['### Sprint CS PsiCat achievement benchmark promotion sprint', 'appropriate promotion sprint'],
         (_ROOT / 'docs' / 'WAVE_CHANGELOG.md').resolve().as_posix(): [f'## {VERSION} ({SPRINT_DATE} — Sprint {SPRINT}: Pillar {PILLAR_NUMBER})', '**Next pillar slot:** 1120'],
         (_ROOT / 'docs' / 'SPRINT_PLAN.md').resolve().as_posix(): ['## SPRINT CS PSICAT ACHIEVEMENT BENCHMARK PROMOTION PROTOCOL', 'Historical continuity: v37.5 Sprint CS'],
+        (_ROOT / '9-INFRASTRUCTURE' / 'um_live_status.json').resolve().as_posix(): ['"historical_continuity"', '"version": "37.5"', '"sprint": "CS"', '"next_slot": 1120'],
     })
 
 

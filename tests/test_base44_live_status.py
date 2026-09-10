@@ -105,6 +105,20 @@ def test_generated_live_status_file_is_current(live_status_module):
     assert repo_json == live_status_module.build_live_status()
 
 
+def test_live_status_includes_historical_continuity(live_status_module):
+    data = live_status_module.build_live_status()
+    assert data["historical_continuity"][0] == {
+        "version": data["meta"]["version"],
+        "sprint": data["meta"]["sprint"],
+        "pillars": "1120",
+        "next_slot": data["pillars"]["next_slot"],
+    }
+    assert any(
+        entry == {"version": "37.5", "sprint": "CS", "pillars": "1119", "next_slot": 1120}
+        for entry in data["historical_continuity"]
+    )
+
+
 def test_generated_live_status_has_no_keys():
     assert LIVE_STATUS_PATH.exists(), "um_live_status.json not found — run 9-INFRASTRUCTURE/generate_live_status.py"
     text = LIVE_STATUS_PATH.read_text(encoding="utf-8")

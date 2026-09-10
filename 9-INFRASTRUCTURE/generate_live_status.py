@@ -40,6 +40,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
 STATUS_PATH = REPO_ROOT / "STATUS.md"
+SPRINT_PLAN_PATH = REPO_ROOT / "docs" / "SPRINT_PLAN.md"
 OUTPUT_PATH = REPO_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json"
 
 # ---------------------------------------------------------------------------
@@ -258,6 +259,30 @@ def _parse_status_md() -> dict:
     }
 
 
+def _parse_historical_continuity() -> list[dict[str, object]]:
+    """Extract historical continuity entries from docs/SPRINT_PLAN.md."""
+    try:
+        text = SPRINT_PLAN_PATH.read_text(encoding="utf-8")
+    except OSError:
+        return []
+
+    entries: list[dict[str, object]] = []
+    pattern = re.compile(
+        r"Historical continuity:\s+v(?P<version>[\d.]+)\s+Sprint\s+(?P<sprint>\w+)\s+"
+        r"\((?P<pillars_label>Pillar|Pillars)\s+(?P<pillars>[\d-]+);\s+next slot\s+(?P<next_slot>\d+)\)"
+    )
+    for match in pattern.finditer(text):
+        entries.append(
+            {
+                "version": match.group("version"),
+                "sprint": match.group("sprint"),
+                "pillars": match.group("pillars"),
+                "next_slot": int(match.group("next_slot")),
+            }
+        )
+    return entries
+
+
 def build_live_status() -> dict:
     """Assemble the full live status document."""
     parsed = _parse_status_md()
@@ -285,6 +310,7 @@ def build_live_status() -> dict:
             "hardgate_count": 208,
             "total_slots": parsed["next_pillar_slot"] - 1,
         },
+        "historical_continuity": _parse_historical_continuity(),
         "physics": PHYSICS_CONSTANTS,
         "scientific_assessment": {
             "scope": "FOUNDATION_REASSESSMENT",
