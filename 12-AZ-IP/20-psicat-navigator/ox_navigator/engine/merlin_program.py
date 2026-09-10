@@ -7716,8 +7716,10 @@ def get_psicat_training_benchmarking_promotion_sprint(
     inherited_targeted_clear = bool(promotion_readiness.get("targeted_rigor_clear"))
     inherited_frontier_clear = bool(promotion_readiness.get("frontier_blockers_all_clear"))
     inherited_phase1_clear = bool(promotion_readiness.get("spc_phase1_clear_to_advance"))
+    inherited_decision = str(promotion_readiness.get("decision") or "")
     inherited_decision_allowed = (
-        inherited_targeted_clear
+        inherited_decision == "PROMOTION_SPRINT_ADVANCE_ALLOWED"
+        and inherited_targeted_clear
         and inherited_frontier_clear
         and inherited_phase1_clear
     )
