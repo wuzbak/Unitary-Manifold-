@@ -114,6 +114,13 @@ def test_build_context_scaffold_clamps_negative_ast_limit():
     assert scaffold["tooling"]["ast_file_limit"] == 1
 
 
+def test_build_context_scaffold_falls_back_on_invalid_ast_limit():
+    idx = RAGIndex()
+    scaffold = build_context_scaffold(idx, "How is alpha_gut derived?", repo_root=Path(__file__).parent.parent, ast_file_limit="oops")
+    assert scaffold["ast"]["file_limit"] == 3
+    assert scaffold["tooling"]["ast_file_limit"] == 3
+
+
 def test_render_context_scaffold_contains_structural_sections():
     idx = RAGIndex()
     scaffold = build_context_scaffold(idx, "Inspect tool routing and agentToolkit orchestration.", repo_root=Path(__file__).parent.parent)

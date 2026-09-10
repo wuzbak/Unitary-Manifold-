@@ -306,7 +306,10 @@ def retrieve_context(query: str) -> str:
 
 
 def build_assistant_context_scaffold(query: str, *, ast_file_limit: int = 3) -> dict[str, Any]:
-    normalized_ast_file_limit = max(1, int(1 if ast_file_limit is None else ast_file_limit))
+    try:
+        normalized_ast_file_limit = max(1, int(3 if ast_file_limit is None else ast_file_limit))
+    except (TypeError, ValueError):
+        normalized_ast_file_limit = 3
     scaffold = build_context_scaffold(
         _get_rag_index(),
         query,

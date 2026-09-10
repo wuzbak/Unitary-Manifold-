@@ -524,6 +524,12 @@ def test_build_context_scaffold_contains_runtime_and_contradiction_packets():
     assert scaffold['contradiction_ledger']['digest']['ok'] is True
 
 
+def test_build_context_scaffold_falls_back_on_invalid_ast_limit():
+    scaffold = build_context_scaffold('Explain LiteBIRD and birefringence.', ast_file_limit='oops')
+    assert scaffold['ast']['file_limit'] == 5
+    assert scaffold['tooling']['ast_file_limit'] == 5
+
+
 def test_sentinel_clean_query_stays_monitor():
     decision = evaluate_query('Explain Pillar 4 and LiteBIRD constraints.', policy_strikes=0)
     assert decision.blocked is False

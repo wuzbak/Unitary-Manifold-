@@ -398,6 +398,13 @@ def _normalize_token(token: str) -> str:
     return _TOKEN_ALIASES.get(token, token)
 
 
+def _normalize_positive_limit(value: Any, default: int) -> int:
+    try:
+        return max(1, int(default if value is None else value))
+    except (TypeError, ValueError):
+        return max(1, int(default))
+
+
 def _tokenize(text: str) -> Set[str]:
     return {
         _normalize_token(token)
@@ -611,7 +618,7 @@ def build_context_scaffold(
         if real_path is not None and real_path.as_posix() not in seen_paths:
             candidate_paths.append(real_path)
             seen_paths.add(real_path.as_posix())
-    ast_limit = max(1, int(1 if ast_file_limit is None else ast_file_limit))
+    ast_limit = _normalize_positive_limit(ast_file_limit, 3)
     ast_hints: list[dict[str, Any]] = []
     for path in candidate_paths:
         hint = _build_ast_hint(repo_root, path)

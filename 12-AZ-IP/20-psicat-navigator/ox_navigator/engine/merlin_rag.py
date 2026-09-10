@@ -122,12 +122,16 @@ def build_context_scaffold(
     ast_file_limit: int = 5,
 ) -> dict[str, Any]:
     """Build the typed Merlin/PsiCat context scaffold."""
+    try:
+        normalized_ast_file_limit = max(1, int(5 if ast_file_limit is None else ast_file_limit))
+    except (TypeError, ValueError):
+        normalized_ast_file_limit = 5
     generic = _rag_index.build_context_scaffold(
         _default_index(),
         query,
         repo_root=REPO_ROOT,
         top_k=max_chunks,
-        ast_file_limit=ast_file_limit,
+        ast_file_limit=normalized_ast_file_limit,
     )
     context = retrieve_context(query, max_chunks=max_chunks)
     contradiction_digest = (
