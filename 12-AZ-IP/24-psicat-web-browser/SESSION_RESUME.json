@@ -1,8 +1,8 @@
 {
   "product": 24,
   "name": "PsiCat Web Browser",
-  "status": "foundation_in_progress",
-  "updated": "2026-09-10T03:58:30Z",
+  "status": "workspace_and_sync_scaffold_in_progress",
+  "updated": "2026-09-10T04:05:33Z",
   "completed": [
     "requirements mapped for Electron desktop, Android native-tab shell, and Chrome/Edge extension",
     "npm/electron scaffold created",
@@ -14,11 +14,14 @@
     "desktop sidecar readiness and extension host-scope hardening landed after validation review",
     "desktop foundation now includes reopen-closed-tab flow, sync packet import/export, and richer daily-driver side panels",
     "android foundation now persists session, bookmarks, history, sync metadata, and importable/exportable sync packets",
-    "android packaging now includes backup/data transfer and local cleartext network config for localhost PsiCat access"
+    "android packaging now includes backup/data transfer and local cleartext network config for localhost PsiCat access",
+    "desktop foundation now includes split-workspace layout controls and saved workspaces",
+    "desktop and android now target a shared local sync backend scaffold with push/pull packet exchange"
   ],
   "next_steps": [
     "run a live Electron smoke session on a desktop host beyond sandbox constraints",
-    "replace Android shared-preferences sync packets with a real authenticated sync backend when available",
+    "harden the local sync scaffold into an authenticated multi-device backend when available",
+    "extend split-workspace parity beyond Electron into Android/extension surfaces if required",
     "add true Android isolated private browsing storage instead of standard WebView persistence"
   ],
   "resume_entrypoint": "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/24-psicat-web-browser/README.md"

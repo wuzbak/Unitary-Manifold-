@@ -7,10 +7,11 @@ PsiCat Web Browser is the canonical **Product 24** browser surface for AxiomZero
 
 ## What ships in this foundation
 
-- **Desktop Electron browser shell** with tabs, navigation, settings, bookmarks, history, downloads, session restore, reopen-closed-tab flow, sync packet import/export, and embedded PsiCat research sidebar.
+- **Desktop Electron browser shell** with tabs, navigation, settings, bookmarks, history, downloads, session restore, reopen-closed-tab flow, split-workspace controls, saved workspaces, sync packet import/export, and embedded PsiCat research sidebar.
 - **Advanced PsiCat sidebar** with live active-page awareness, remembered page context, multi-page summary/interrogation, notebook entries, and import/export.
-- **Android native-tab browser foundation** with toolbar navigation, tab strip, settings screen, notebook drawer, session restore, bookmark/history persistence, sync packet import/export, and contextual page capture.
+- **Android native-tab browser foundation** with toolbar navigation, tab strip, settings screen, notebook drawer, session restore, bookmark/history persistence, sync packet import/export, backend sync buttons, and contextual page capture.
 - **Chrome/Edge extension foundation** with side panel, local notebook, page capture, import/export, and optional local PsiCat endpoint integration.
+- **Local sync backend scaffold** shared by desktop and Android for account-scoped push/pull packet exchange.
 - **Resume ledger** so implementation state is visible if work is interrupted.
 
 ## Folder structure
@@ -18,6 +19,7 @@ PsiCat Web Browser is the canonical **Product 24** browser surface for AxiomZero
 - `desktop/` — Electron desktop browser runtime
 - `extension/` — Chrome/Edge extension companion
 - `android/` — native Android browser shell
+- `sync_backend/` — local Python sync scaffold for desktop + Android packet exchange
 - `tests/` — Node unit tests for shared browser-state and page-context logic
 - `SESSION_RESUME.json` — interruption-safe execution ledger
 
@@ -34,6 +36,8 @@ npm start
 - Electron provides the Chromium shell.
 - The desktop app attempts to launch Product 20 locally from:
   `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/run.py`
+- The desktop app also launches a local sync scaffold from:
+  `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/24-psicat-web-browser/sync_backend/server.py`
 - If Product 20 is unavailable, PsiCat falls back to clearly labeled local research summarization.
 
 ## Android structure
@@ -45,7 +49,7 @@ The Android app is a native-tab shell intended for Android Studio / Gradle impor
 - notebook drawer with local persistence
 - import/export via Android document pickers
 - session/bookmark/history persistence in shared preferences
-- sync account metadata carried in exported packets
+- sync account metadata carried in exported packets plus backend push/pull scaffold hooks
 - active page capture for PsiCat-style research workflows
 
 ## Extension structure
@@ -60,14 +64,15 @@ The extension is designed for **Chrome and Edge** using Manifest V3 side-panel A
 ## Honesty boundary
 
 Implemented now:
-- desktop tabs, navigation, settings, notebook, bookmarks/history/download visibility, import/export, sync packet flows, local research memory, and Product 20 sidecar handshake client
-- Android native browser foundation with settings, notebook, import/export, session restore, bookmark/history persistence, sync metadata, and page-context capture
+- desktop tabs, navigation, settings, notebook, bookmarks/history/download visibility, import/export, split-workspace layouts, saved workspaces, backend sync push/pull, local research memory, and Product 20 sidecar handshake client
+- Android native browser foundation with settings, notebook, import/export, session restore, bookmark/history persistence, sync metadata, backend sync hooks, and page-context capture
 - Chrome/Edge extension foundation with side panel and local/page-aware research tools
+- local Python sync service scaffold for desktop/Android packet exchange on a trusted endpoint
 
 Not yet fully implemented in this foundation:
-- cloud sync service backend
+- hardened production-grade cloud sync service backend
 - cross-device authenticated account service
-- true multi-pane split rendering parity across all shells
+- true multi-pane split rendering parity across all shells (desktop now has a first scaffold; Android/extension do not)
 - on-device large-model inference packaged inside the browser itself
 - Android-grade isolated private browsing storage separate from standard WebView persistence
 

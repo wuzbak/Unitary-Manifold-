@@ -380,12 +380,12 @@
       "size_bytes": 14029
     },
     "12-AZ-IP/24-psicat-web-browser/README.md": {
-      "description": "Product 24 documentation \u2014 desktop, Android, and extension PsiCat browser foundation",
+      "description": "Product 24 documentation \u2014 desktop, Android, extension, workspace, and sync scaffold",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "268f5374de3c8c2e32c1b9d9e4470934020992b9b30a6638d1533e89504db600",
-      "size_bytes": 4102
+      "sha256": "5568226942263cea9835573eb72ccc590a20a727cebc58b925926fcf11ff41f0",
+      "size_bytes": 4825
     },
     "12-AZ-IP/24-psicat-web-browser/package.json": {
       "description": "Product 24 Electron package manifest and test scripts",
@@ -396,12 +396,12 @@
       "size_bytes": 595
     },
     "12-AZ-IP/24-psicat-web-browser/desktop/main.js": {
-      "description": "Product 24 Electron runtime \u2014 tabs, BrowserView orchestration, PsiCat sidecar integration",
+      "description": "Product 24 Electron runtime \u2014 tabs, split workspaces, PsiCat sidecar, sync backend integration",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "96b5a0beae214d957d34b2b846305344508f71c9c49b6088b1166649305a376d",
-      "size_bytes": 20644
+      "sha256": "69e4e078ea20f6fd72c1fb21f408f200b65a9b2a0af658bfcd28f537288d096a",
+      "size_bytes": 26918
     },
     "12-AZ-IP/24-psicat-web-browser/extension/manifest.json": {
       "description": "Product 24 Chrome/Edge extension manifest with side panel companion",
@@ -424,8 +424,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "ef823b261e69dda3ac8e47a96b74fe83270cb4de849c0523132a59a2705c8fc8",
-      "size_bytes": 1683
+      "sha256": "c9ef12f9c0806b849a1b30aa1f864eb4205709cb294be14dc08525c75048a21c",
+      "size_bytes": 1982
+    },
+    "12-AZ-IP/24-psicat-web-browser/sync_backend/server.py": {
+      "description": "Product 24 local sync backend scaffold for account-scoped packet push and pull",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-09-10",
+      "sha256": "13eef1c48bcdfe8a04a8b0f79564017d828f9045bace53c40b4e3ad958de00cf",
+      "size_bytes": 3839
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
