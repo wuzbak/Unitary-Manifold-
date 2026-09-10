@@ -3,7 +3,7 @@
 **Status source:** `https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json` (canonical live metrics for version/tests/Lean4/pillars)
 
 Full Hugging Face deployment surfaces for the [axiomzerospc.org](https://axiomzerospc.org) webspace.
-Canonical AZ product count is 23; HF spaces currently host Products 01–20 directly, while Products 21–23 are linked via the public AZ app hub / repository.
+Canonical AZ product count is 24; HF spaces currently host Products 01–20 directly, while Products 21–24 are linked via the public AZ app hub / repository.
 
 ## Spaces
 
@@ -107,9 +107,9 @@ hf-spaces/
 
 ## Coverage notes
 
-- Canonical product registry and naming authority: `12-AZ-IP/README.md` (Products 01–23).
+- Canonical product registry and naming authority: `12-AZ-IP/README.md` (Products 01–24).
 - HF spaces provide direct hosted coverage for Products 01–20 plus portal/dataset surfaces.
-- Products 21 (UM Geophysical Monitor), 22 (AxiomZero SGE), and 23 (PsiCat DM Guide & Player Assistant) are linked through:
+- Products 21 (UM Geophysical Monitor), 22 (AxiomZero SGE), 23 (PsiCat DM Guide & Player Assistant), and 24 (PsiCat Web Browser) are linked through:
   - `public-site/az-apps/index.html`
   - `docs/APPS_SPACES_FINALIZATION_MATRIX.md`
   - product folders under `12-AZ-IP/21-geo-monitor/`, `12-AZ-IP/22-az-sge/`, `12-AZ-IP/23-psicat-dm-assistant/`
