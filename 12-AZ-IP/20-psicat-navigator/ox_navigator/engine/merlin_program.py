@@ -7690,7 +7690,8 @@ def get_psicat_training_benchmarking_promotion_sprint(
     if processed_count is None:
         processed_count = 0
     training_cycle_executed = processed_count > 0
-    has_queue_after_state = isinstance(raw_queue_after, dict) and all(
+    queue_after_observed = isinstance(raw_queue_after, dict)
+    has_queue_after_state = queue_after_observed and all(
         key in raw_queue_after for key in ("stale_retrain_count", "needs_review_count")
     )
     stale_retrain_count = _safe_int(queue_after.get("stale_retrain_count"))
@@ -7702,7 +7703,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
         and stale_retrain_count == 0
         and needs_review_count == 0
     )
-    training_queue_observed = has_queue_after_state or training_cycle_executed or _has_positive_counter(
+    training_queue_observed = queue_after_observed or training_cycle_executed or _has_positive_counter(
         queue_before,
         "queued_count",
         "ready_count",
