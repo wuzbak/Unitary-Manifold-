@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 import os
 from pathlib import Path
 import shlex
+import shutil
 import subprocess
 from typing import Any
 
@@ -167,6 +168,23 @@ def run_local_execution_loop(
             },
         }
     command_name = Path(argv[0]).name.lower()
+    if Path(argv[0]).name != argv[0]:
+        return {
+            "ok": False,
+            "error": "Path-qualified executables are not allowed.",
+            "governance": {"fail_closed": True, "reason": "path_qualified_executable_forbidden"},
+            "status": status,
+            "contract": {
+                "body": "Local execution denied: executable must be referenced by allowlisted command name only.",
+                "followups": [
+                    "Use an allowlisted executable name (for example `python` or `pytest`).",
+                    "Do not pass absolute or relative executable paths.",
+                ],
+                "sources": [
+                    "runtime:local_execution | GOVERNANCE | executable path hardening",
+                ],
+            },
+        }
     allowed = set(_allowed_commands())
     if command_name not in allowed:
         return {
@@ -182,6 +200,24 @@ def run_local_execution_loop(
                 ],
                 "sources": [
                     "env:MERLIN_LOCAL_EXECUTION_ALLOWED_COMMANDS | GOVERNANCE | command allowlist",
+                ],
+            },
+        }
+    resolved_exec = shutil.which(command_name)
+    if not resolved_exec:
+        return {
+            "ok": False,
+            "error": f"Executable not available on PATH: {command_name}",
+            "governance": {"fail_closed": True, "reason": "executable_not_found"},
+            "status": status,
+            "contract": {
+                "body": f"Local execution denied: `{command_name}` is not available on PATH.",
+                "followups": [
+                    "Install the required tool in the local environment.",
+                    "Retry once the executable is available.",
+                ],
+                "sources": [
+                    "runtime:local_execution | GOVERNANCE | executable availability check",
                 ],
             },
         }

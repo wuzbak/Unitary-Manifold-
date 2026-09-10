@@ -42,6 +42,13 @@ def test_local_execution_loop_blocks_unallowlisted_command():
     assert result["governance"]["fail_closed"] is True
 
 
+def test_local_execution_loop_blocks_path_qualified_command():
+    result = run_local_execution_loop(command='/usr/bin/python3 -c "print(1)"')
+    assert result["ok"] is False
+    assert "Path-qualified executables" in result["error"]
+    assert result["governance"]["reason"] == "path_qualified_executable_forbidden"
+
+
 def test_local_execution_loop_rejects_out_of_repo_cwd():
     result = run_local_execution_loop(command='python -c "print(1)"', cwd="/tmp")
     assert result["ok"] is False
@@ -89,6 +96,29 @@ def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypat
             os.environ.pop("MERLIN_LOCAL_EXECUTION_ENABLED", None)
         else:
             os.environ["MERLIN_LOCAL_EXECUTION_ENABLED"] = original_env
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
+def test_server_phase0_packet_backend_failure_returns_500(monkeypatch):
+    from ox_navigator.app import server as server_module
+
+    monkeypatch.setattr(
+        server_module,
+        "get_psicat_spc_phase0_execution_packet",
+        lambda: {"ok": False, "error": "Unable to load phase-0 packet artifact: boom"},
+    )
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        port = httpd.server_address[1]
+        with httpx.Client(base_url=f"http://127.0.0.1:{port}", timeout=10.0) as client:
+            response = client.get("/api/merlin/spc-phase0-packet")
+            assert response.status_code == 500
+            assert response.json()["ok"] is False
+    finally:
         httpd.shutdown()
         httpd.server_close()
         thread.join(timeout=2)

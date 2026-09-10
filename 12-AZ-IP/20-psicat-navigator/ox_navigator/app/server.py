@@ -1102,10 +1102,16 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 return
             if route_path == '/api/psicat/spc-phase0-packet':
                 packet = get_psicat_spc_phase0_execution_packet()
+                if packet.get('ok'):
+                    status_code = 200
+                elif int(packet.get('validation_error_count') or 0) > 0:
+                    status_code = 422
+                else:
+                    status_code = 500
                 self._json({
                 'ok': bool(packet.get('ok')),
                 'spc_phase0_packet': packet,
-                }, status=200 if packet.get('ok') else 422)
+                }, status=status_code)
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/spc-phase1-baseline':
@@ -1547,7 +1553,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     reason = str((result.get('governance') or {}).get('reason') or '').strip().lower()
                     if result.get('ok'):
                         status_code = 200
-                    elif reason in {'local_execution_disabled', 'command_not_allowlisted', 'cwd_outside_repo'}:
+                    elif reason in {'local_execution_disabled', 'command_not_allowlisted', 'cwd_outside_repo', 'path_qualified_executable_forbidden'}:
                         status_code = 403
                     else:
                         status_code = 422
