@@ -173,31 +173,21 @@ def build_context_scaffold(
     }
 
 
-def build_rag_context(query: str, *, session: Any | None = None, ast_file_limit: int = 5) -> str:
-    """Build the Merlin prompt context blocks."""
-    scaffold = build_context_scaffold(query, session=session, ast_file_limit=ast_file_limit)
-    context = retrieve_context(query)
-    blocks = []
-    blocks.append(_rag_index.render_context_scaffold(scaffold))
-    if context["kb_match"]:
-        kb = context["kb_match"]
-        blocks.append(
-            "[KNOWLEDGE BASE MATCH]\n"
-            f"Topic: {kb['topic']}\n"
-            f"Status: {kb['status']}\n"
-            f"Answer: {kb['answer']}\n"
-            f"Sources: {', '.join(kb.get('sources', []))}"
-        )
+def render_context_scaffold(scaffold: dict[str, Any]) -> str:
+    """Render the Merlin scaffold without appending the larger prediction/fallibility packs."""
+    retrieval = dict(scaffold.get("retrieval") or {})
+    blocks = [_rag_index.render_context_scaffold(scaffold)]
     pillar_lines = []
-    for pillar in context["pillars"]:
+    for pillar in list(retrieval.get("pillars") or [])[:5]:
         pillar_lines.append(
             f"Pillar {pillar['id']} | {pillar['gate']} | {pillar['name']} | {pillar['text']}"
         )
     if pillar_lines:
         blocks.append("[RETRIEVED PILLAR CONTEXT]\n" + "\n".join(pillar_lines))
-    if context["interrogator_hits"]:
+    interrogator_hits = list(retrieval.get("interrogator_hits") or [])
+    if interrogator_hits:
         hit_lines = []
-        for hit in context["interrogator_hits"]:
+        for hit in interrogator_hits[:3]:
             hit_lines.append(
                 f"{hit.get('id', 'unknown')} | {hit.get('gate', hit.get('status', 'UNKNOWN'))} | "
                 f"{hit.get('claim', hit.get('prediction', ''))}"
@@ -218,8 +208,17 @@ def build_rag_context(query: str, *, session: Any | None = None, ast_file_limit:
         f"openrouter_compat_enabled={bool(runtime.get('openrouter_compat_enabled'))} | "
         f"agent_paths={runtime.get('agent_toolkit_path')}, {runtime.get('invoke_path')}, {runtime.get('orchestrate_path')}"
     )
-    blocks.append("[PREDICTIONS]\n" + context["predictions"].strip())
-    blocks.append("[FALLIBILITY]\n" + context["fallibility"].strip())
+    return "\n\n".join(blocks)
+
+
+def build_rag_context(query: str, *, session: Any | None = None, ast_file_limit: int = 5) -> str:
+    """Build the Merlin prompt context blocks."""
+    scaffold = build_context_scaffold(query, session=session, ast_file_limit=ast_file_limit)
+    context = retrieve_context(query)
+    retrieval = dict(scaffold.get("retrieval") or {})
+    blocks = [render_context_scaffold(scaffold)]
+    blocks.append("[PREDICTIONS]\n" + str(retrieval.get("predictions") or context["predictions"]).strip())
+    blocks.append("[FALLIBILITY]\n" + str(retrieval.get("fallibility") or context["fallibility"]).strip())
     return "\n\n".join(blocks)
 
 

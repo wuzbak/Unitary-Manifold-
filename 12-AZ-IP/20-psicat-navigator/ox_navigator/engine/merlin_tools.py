@@ -155,7 +155,7 @@ from .merlin_rag import (
     build_rag_context,
     build_status_response,
     lookup_kb,
-    _rag_index,
+    render_context_scaffold,
 )
 from .merlin_energy_ledger import build_merlin_energy_ledger
 from .merlin_sync_contract import REQUIRED_TOOLKIT_FUNCTIONS
@@ -1078,7 +1078,7 @@ def get_context_scaffold(query: str, ast_file_limit: int | None = None) -> dict[
         query,
         ast_file_limit=_require_positive_int(ast_file_limit, field_name="ast_file_limit", default=5),
     )
-    return {"data": {"context_scaffold": scaffold, "prompt_context": _rag_index.render_context_scaffold(scaffold)}}
+    return {"data": {"context_scaffold": scaffold, "prompt_context": render_context_scaffold(scaffold)}}
 
 
 def search_interrogator(query: str) -> dict[str, Any]:

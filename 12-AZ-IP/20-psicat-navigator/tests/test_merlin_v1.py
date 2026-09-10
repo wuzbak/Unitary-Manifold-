@@ -580,6 +580,8 @@ def test_route_tool_context_scaffold_returns_scaffold_only_prompt():
     payload = result['result']['data']
     assert payload['context_scaffold']['schema_version'] == 'merlin_context_scaffold_v1'
     assert '[CONTEXT SCAFFOLD]' in payload['prompt_context']
+    assert '[CONTRADICTION LEDGER]' in payload['prompt_context']
+    assert '[RUNTIME ALIGNMENT]' in payload['prompt_context']
     assert '[FALLIBILITY]' not in payload['prompt_context']
 
 
@@ -2546,6 +2548,8 @@ def test_server_merlin_endpoints():
             assert context_scaffold.json()['ok'] is True
             assert context_scaffold.json()['context_scaffold']['schema_version'] == 'merlin_context_scaffold_v1'
             assert '[CONTEXT SCAFFOLD]' in context_scaffold.json()['prompt_context']
+            assert '[CONTRADICTION LEDGER]' in context_scaffold.json()['prompt_context']
+            assert '[RUNTIME ALIGNMENT]' in context_scaffold.json()['prompt_context']
             assert '[FALLIBILITY]' not in context_scaffold.json()['prompt_context']
 
             bad_context_scaffold = client.get('/api/psicat/context-scaffold?query=birefringence&ast_file_limit=0')
