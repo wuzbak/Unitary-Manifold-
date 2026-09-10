@@ -79,6 +79,7 @@ LIVE_STATUS_GENERATOR_PATH = REPO_ROOT / "9-INFRASTRUCTURE" / "generate_live_sta
 MAX_CONTEXT_CHUNKS = 5
 CHUNK_TOKEN_LIMIT  = 400   # approximate chars
 CACHE_TTL_SECONDS  = 300
+REPO_STATE_FINGERPRINT_TTL_SECONDS = 5
 _ASSISTANT_CACHE_STATE_FILES = tuple(sorted({
     "README.md",
     "FALLIBILITY.md",
@@ -163,6 +164,8 @@ _cache: dict[str, tuple[float, dict]] = {}
 _cache_lock = threading.Lock()
 _rag_index: RAGIndex | None = None
 _rag_index_lock = threading.Lock()
+_repo_state_fingerprint_lock = threading.Lock()
+_repo_state_fingerprint_cache: tuple[float, str] = (0.0, "")
 
 
 def _get_rag_index() -> RAGIndex:
@@ -175,15 +178,28 @@ def _get_rag_index() -> RAGIndex:
 
 
 def _assistant_repo_state_fingerprint() -> str:
-    digest_input: list[str] = []
-    for rel_path in _ASSISTANT_CACHE_STATE_FILES:
-        path = REPO_ROOT / rel_path
-        try:
-            stat = path.stat()
-            digest_input.append(f"{rel_path}:{stat.st_mtime_ns}:{stat.st_size}")
-        except OSError:
-            digest_input.append(f"{rel_path}:missing")
-    return hashlib.md5("|".join(digest_input).encode("utf-8")).hexdigest()
+    global _repo_state_fingerprint_cache
+    now = time.time()
+    cached_at, cached_fingerprint = _repo_state_fingerprint_cache
+    if cached_fingerprint and now - cached_at < REPO_STATE_FINGERPRINT_TTL_SECONDS:
+        return cached_fingerprint
+
+    with _repo_state_fingerprint_lock:
+        cached_at, cached_fingerprint = _repo_state_fingerprint_cache
+        if cached_fingerprint and now - cached_at < REPO_STATE_FINGERPRINT_TTL_SECONDS:
+            return cached_fingerprint
+
+        digest_input: list[str] = []
+        for rel_path in _ASSISTANT_CACHE_STATE_FILES:
+            path = REPO_ROOT / rel_path
+            try:
+                stat = path.stat()
+                digest_input.append(f"{rel_path}:{stat.st_mtime_ns}:{stat.st_size}")
+            except OSError:
+                digest_input.append(f"{rel_path}:missing")
+        fingerprint = hashlib.md5("|".join(digest_input).encode("utf-8")).hexdigest()
+        _repo_state_fingerprint_cache = (now, fingerprint)
+        return fingerprint
 
 
 def _read_json_file(path: Path) -> dict[str, Any] | None:

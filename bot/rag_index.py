@@ -643,10 +643,11 @@ def build_context_scaffold(
         *([_normalize_gate_label(kb_entry.get("status", ""))] if kb_entry is not None else []),
         *[item["gate"] for item in provenance_sources if item.get("gate")],
     ]
+    gate_candidates = {gate for gate in normalized_gates if gate}
     dominant_gate = sorted(
-        {gate for gate in normalized_gates if gate},
+        gate_candidates,
         key=lambda item: (-_GATE_PRIORITY.get(item, -1), item),
-    )[0] if normalized_gates else "ARCHITECTURE_LIMIT"
+    )[0] if gate_candidates else "ARCHITECTURE_LIMIT"
     guardrails = {
         "context_role": "architectural_scaffold",
         "do_not_treat_as": "raw_core_memory_dump",
