@@ -142,6 +142,13 @@ def test_phase0_packet_schema_validation_fails_closed(tmp_path, monkeypatch):
     assert "fail-closed schema validation" in payload["error"]
 
 
+def test_phase0_packet_schema_validation_success_contract_fields():
+    payload = get_psicat_spc_phase0_execution_packet()
+    assert payload["ok"] is True
+    assert payload["validation_error_count"] == 0
+    assert payload["validation_errors"] == []
+
+
 def test_run_py_local_execution_flags_wire_environment(monkeypatch):
     script_path = PRODUCT_ROOT / "run.py"
     spec = importlib.util.spec_from_file_location("psicat_run", script_path)
