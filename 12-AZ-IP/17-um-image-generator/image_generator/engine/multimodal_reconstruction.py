@@ -169,11 +169,7 @@ def evaluate_multimodal_quality(
             nearest = _nearest_vertex_distances_chunked(cloud, top_surface if top_surface.size else vertices)
 
     nearest_sq = np.square(nearest)
-    x_span = float(vertices[:, 0].max() - vertices[:, 0].min())
-    y_span = float(vertices[:, 1].max() - vertices[:, 1].min())
-    reference_span = max(x_span, y_span, 1e-12)
-    meters_per_unit = float(calibration_scale_meters) / reference_span
-    scale_mm = 1000.0 * meters_per_unit
+    scale_mm = 1000.0
     manifold = _edge_manifold_stats(faces)
     return {
         "calibration_scale_meters": float(calibration_scale_meters),
