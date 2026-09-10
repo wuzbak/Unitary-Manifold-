@@ -11,8 +11,11 @@ const PRODUCT_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(PRODUCT_ROOT, '..', '..');
 const UI_ENTRY = path.join(__dirname, 'ui', 'index.html');
 const PSICAT_RUN_PATH = path.resolve(PRODUCT_ROOT, '..', '20-psicat-navigator', 'run.py');
+const SYNC_BACKEND_RUN_PATH = path.join(PRODUCT_ROOT, 'sync_backend', 'server.py');
 const PSICAT_HOST = '127.0.0.1';
 const PSICAT_PORT = 8020;
+const SYNC_HOST = '127.0.0.1';
+const SYNC_PORT = 8787;
 
 let mainWindow;
 let statePath;
@@ -21,6 +24,8 @@ let state = core.createInitialState();
 let tabViews = new Map();
 let psiCatSidecar = { status: 'not_started', pid: null, baseUrl: `http://${PSICAT_HOST}:${PSICAT_PORT}`, error: '' };
 let psiCatProcess = null;
+let syncBackend = { status: 'not_started', pid: null, baseUrl: `http://${SYNC_HOST}:${SYNC_PORT}`, error: '' };
+let syncBackendProcess = null;
 const trackedSessions = new WeakSet();
 
 function sha256(text) {
@@ -46,7 +51,7 @@ function getActiveTab() {
 }
 
 function serializeState() {
-  return { ...state, psiCatSidecar };
+  return { ...state, psiCatSidecar, syncBackend };
 }
 
 function delay(ms) {
@@ -174,12 +179,28 @@ function layoutViews() {
   const toolbarHeight = 96;
   const sidebarWidth = Math.max(320, Math.min(640, Number(state.settings.sidebarWidth || 420)));
   const active = getActiveTab();
+  const secondaryId = state.workspace?.layout === 'single' ? null : state.workspace?.secondaryTabId;
+  const secondaryView = secondaryId ? tabViews.get(secondaryId) : null;
+  const leftWidth = bounds.width - sidebarWidth;
+  const splitVertical = state.workspace?.layout === 'split-vertical' && secondaryView;
+  const splitHorizontal = state.workspace?.layout === 'split-horizontal' && secondaryView;
   for (const [tabId, view] of tabViews.entries()) {
-    if (tabId !== active.id) {
+    if (tabId !== active.id && tabId !== secondaryId) {
       view.setBounds({ x: 0, y: 0, width: 0, height: 0 });
       continue;
     }
-    view.setBounds({ x: 0, y: toolbarHeight, width: bounds.width - sidebarWidth, height: Math.max(200, bounds.height - toolbarHeight) });
+    const fullHeight = Math.max(200, bounds.height - toolbarHeight);
+    if (splitVertical) {
+      const paneWidth = Math.max(200, Math.floor(leftWidth / 2));
+      const isSecondary = tabId === secondaryId;
+      view.setBounds({ x: isSecondary ? paneWidth : 0, y: toolbarHeight, width: paneWidth, height: fullHeight });
+    } else if (splitHorizontal) {
+      const paneHeight = Math.max(160, Math.floor(fullHeight / 2));
+      const isSecondary = tabId === secondaryId;
+      view.setBounds({ x: 0, y: toolbarHeight + (isSecondary ? paneHeight : 0), width: leftWidth, height: paneHeight });
+    } else {
+      view.setBounds({ x: 0, y: toolbarHeight, width: leftWidth, height: fullHeight });
+    }
     view.setAutoResize({ width: true, height: true });
   }
 }
@@ -208,6 +229,7 @@ async function closeTab(tabId) {
   state = core.closeTab(state, tabId);
   const active = getActiveTab();
   if (active && !tabViews.has(active.id)) mountTab(active);
+  ensureWorkspaceViews();
   await persistState();
   layoutViews();
   broadcastState();
@@ -250,6 +272,22 @@ function ipcCreateTab(url, options = {}) {
   mountTab(getActiveTab());
 }
 
+function ensureWorkspaceViews() {
+  const active = getActiveTab();
+  if (active && !tabViews.has(active.id)) mountTab(active);
+  const secondaryId = state.workspace?.secondaryTabId;
+  if (secondaryId) {
+    const secondary = state.tabs.find((tab) => tab.id === secondaryId);
+    if (secondary && !tabViews.has(secondary.id)) {
+      let view = createBrowserView(secondary);
+      tabViews.set(secondary.id, view);
+      mainWindow.addBrowserView(view);
+      view.webContents.loadURL(secondary.url);
+    }
+  }
+  layoutViews();
+}
+
 async function reopenClosedTab() {
   const reopened = core.reopenLastClosedTab(state);
   if (reopened.activeTabId === state.activeTabId && reopened.tabs.length === state.tabs.length) {
@@ -257,6 +295,36 @@ async function reopenClosedTab() {
   }
   state = reopened;
   mountTab(getActiveTab());
+  ensureWorkspaceViews();
+  await persistState();
+  broadcastState();
+  return serializeState();
+}
+
+async function updateWorkspaceLayout(layout, secondaryTabId = null) {
+  state = core.setWorkspaceLayout(state, layout);
+  state = core.setWorkspaceSecondaryTab(state, secondaryTabId);
+  ensureWorkspaceViews();
+  await persistState();
+  broadcastState();
+  return serializeState();
+}
+
+async function saveWorkspace(name) {
+  state = core.saveCurrentWorkspace(state, name);
+  await persistState();
+  broadcastState();
+  return serializeState();
+}
+
+async function applyWorkspace(workspaceId) {
+  state = core.applySavedWorkspace(state, workspaceId);
+  for (const [tabId, view] of tabViews.entries()) {
+    if (mainWindow) mainWindow.removeBrowserView(view);
+    view.webContents.close();
+    tabViews.delete(tabId);
+  }
+  ensureWorkspaceViews();
   await persistState();
   broadcastState();
   return serializeState();
@@ -324,6 +392,42 @@ async function startPsiCatSidecar() {
     await delay(500);
   }
   psiCatSidecar = { ...psiCatSidecar, status: 'degraded', error: 'PsiCat sidecar did not become ready in time' };
+  broadcastState();
+}
+
+async function startSyncBackend() {
+  if (!fs.existsSync(SYNC_BACKEND_RUN_PATH)) {
+    syncBackend = { ...syncBackend, status: 'disabled', error: 'Sync backend server.py not found' };
+    broadcastState();
+    return;
+  }
+  syncBackend = { ...syncBackend, status: 'starting', error: '' };
+  broadcastState();
+  syncBackendProcess = spawn('python3', [SYNC_BACKEND_RUN_PATH, '--host', SYNC_HOST, '--port', String(SYNC_PORT)], {
+    cwd: path.dirname(SYNC_BACKEND_RUN_PATH),
+    env: process.env,
+    stdio: 'ignore',
+    detached: false,
+  });
+  syncBackend = { ...syncBackend, pid: syncBackendProcess.pid };
+  syncBackendProcess.on('exit', (code) => {
+    syncBackend = { ...syncBackend, status: 'stopped', error: code === 0 ? '' : `Sync backend exited with code ${code}` };
+    broadcastState();
+  });
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    try {
+      const response = await fetch(`${syncBackend.baseUrl}/api/sync/health`);
+      if (response.ok) {
+        syncBackend = { ...syncBackend, status: 'ready', error: '' };
+        broadcastState();
+        return;
+      }
+    } catch (_error) {
+      // wait for backend readiness
+    }
+    await delay(500);
+  }
+  syncBackend = { ...syncBackend, status: 'degraded', error: 'Sync backend did not become ready in time' };
   broadcastState();
 }
 
@@ -420,6 +524,55 @@ async function writeSyncMirror(source = 'local-mirror') {
   return { path: syncMirrorPath, exportedAt: packet.exportedAt };
 }
 
+async function pushSyncToBackend() {
+  if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
+  const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
+  const packet = core.createSyncPacket(state);
+  const response = await fetch(`${endpoint}/api/sync/push`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      account_email: state.sync.accountEmail,
+      packet,
+    }),
+  });
+  if (!response.ok) throw new Error(`Sync push failed with status ${response.status}`);
+  const payload = await response.json();
+  state = core.normalizeState({
+    ...state,
+    sync: {
+      ...state.sync,
+      lastSyncAt: payload.updated_at || packet.exportedAt,
+      lastSyncSource: 'backend-push',
+    },
+  });
+  await persistState();
+  broadcastState();
+  return payload;
+}
+
+async function pullSyncFromBackend() {
+  if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
+  const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
+  const response = await fetch(`${endpoint}/api/sync/pull?account_email=${encodeURIComponent(state.sync.accountEmail)}`);
+  if (response.status === 404) throw new Error('No backend sync packet found for this account.');
+  if (!response.ok) throw new Error(`Sync pull failed with status ${response.status}`);
+  const payload = await response.json();
+  state = core.mergeSyncPacket(state, payload.packet || {});
+  state = core.normalizeState({
+    ...state,
+    sync: {
+      ...state.sync,
+      lastSyncAt: payload.updated_at || new Date().toISOString(),
+      lastSyncSource: 'backend-pull',
+    },
+  });
+  ensureWorkspaceViews();
+  await persistState();
+  broadcastState();
+  return payload;
+}
+
 async function handleExportSyncPacket() {
   const packet = core.createSyncPacket(state);
   const result = await dialog.showSaveDialog(mainWindow, {
@@ -449,6 +602,7 @@ async function handleImportSyncPacket() {
   if (result.canceled || !result.filePaths[0]) return serializeState();
   const packet = JSON.parse(await fsp.readFile(result.filePaths[0], 'utf-8'));
   state = core.mergeSyncPacket(state, packet);
+  ensureWorkspaceViews();
   await persistState();
   broadcastState();
   return serializeState();
@@ -492,6 +646,9 @@ function installIpc() {
   ipcMain.handle('browser:reload', async () => navigateActive('reload'));
   ipcMain.handle('browser:stop', async () => navigateActive('stop'));
   ipcMain.handle('browser:reopen-closed-tab', async () => reopenClosedTab());
+  ipcMain.handle('browser:update-workspace-layout', async (_event, layout, secondaryTabId) => updateWorkspaceLayout(layout, secondaryTabId));
+  ipcMain.handle('browser:save-workspace', async (_event, name) => saveWorkspace(name));
+  ipcMain.handle('browser:apply-workspace', async (_event, workspaceId) => applyWorkspace(workspaceId));
   ipcMain.handle('browser:add-bookmark', async () => { await addBookmark(); return serializeState(); });
   ipcMain.handle('browser:remember-active-page', async () => rememberActivePage());
   ipcMain.handle('browser:add-notebook-entry', async (_event, entry) => {
@@ -519,7 +676,11 @@ function installIpc() {
   ipcMain.handle('browser:export-research-bundle', async () => handleExportResearchBundle());
   ipcMain.handle('browser:export-sync-packet', async () => handleExportSyncPacket());
   ipcMain.handle('browser:import-sync-packet', async () => handleImportSyncPacket());
-  ipcMain.handle('browser:sync-now', async () => writeSyncMirror('local-mirror'));
+  ipcMain.handle('browser:sync-now', async () => {
+    if (state.sync.mode === 'local-only' || !state.sync.accountEmail) return writeSyncMirror('local-mirror');
+    return pushSyncToBackend();
+  });
+  ipcMain.handle('browser:sync-pull', async () => pullSyncFromBackend());
   ipcMain.handle('browser:open-external', async (_event, url) => shell.openExternal(url));
   ipcMain.handle('browser:open-download', async (_event, downloadPath) => shell.openPath(downloadPath));
 }
@@ -532,19 +693,14 @@ app.whenReady().then(async () => {
   buildMenu();
   installIpc();
   await startPsiCatSidecar();
-  for (const tab of state.tabs) {
-    if (tab.id === state.activeTabId) {
-      mountTab(tab);
-      break;
-    }
-  }
-  const active = getActiveTab();
-  if (active && !tabViews.has(active.id)) mountTab(active);
+  await startSyncBackend();
+  ensureWorkspaceViews();
   registerDownloadTracking(session.defaultSession);
   broadcastState();
 });
 
 app.on('window-all-closed', () => {
   if (psiCatProcess && !psiCatProcess.killed) psiCatProcess.kill();
+  if (syncBackendProcess && !syncBackendProcess.killed) syncBackendProcess.kill();
   if (process.platform !== 'darwin') app.quit();
 });

@@ -12,6 +12,7 @@ test('createInitialState starts with one active tab and settings', () => {
   assert.equal(state.tabs.length, 1);
   assert.equal(state.activeTabId, state.tabs[0].id);
   assert.equal(state.settings.livePageCapture, true);
+  assert.equal(state.settings.syncBackendEndpoint, 'http://127.0.0.1:8787');
 });
 
 test('rememberPage deduplicates by url and caps recent memory', () => {
@@ -68,9 +69,28 @@ test('createSyncPacket and mergeSyncPacket preserve imported browser state', () 
   let state = core.createInitialState();
   state = core.addBookmark(state, { title: 'Example', url: 'https://example.com' });
   state = core.addNotebookEntry(state, { title: 'Memo', text: 'Sync me' });
+  state = core.addTab(state, 'docs.python.org');
+  state = core.setWorkspaceLayout(state, 'split-vertical');
+  state = core.setWorkspaceSecondaryTab(state, state.tabs[0].id);
   const packet = core.createSyncPacket(state);
   const merged = core.mergeSyncPacket(core.createInitialState(), packet);
   assert.equal(merged.bookmarks[0].url, 'https://example.com');
   assert.equal(merged.notebookEntries[0].title, 'Memo');
   assert.equal(merged.sync.lastSyncSource, 'imported-packet');
+  assert.equal(merged.workspace.layout, 'split-vertical');
+  assert.ok(merged.workspace.secondaryTabId);
+});
+
+test('workspace helpers save and restore a split layout', () => {
+  let state = core.createInitialState();
+  state = core.addTab(state, 'example.net');
+  const secondaryTabId = state.tabs[0].id;
+  state = core.setWorkspaceLayout(state, 'split-horizontal');
+  state = core.setWorkspaceSecondaryTab(state, secondaryTabId);
+  state = core.saveCurrentWorkspace(state, 'Research');
+  const workspaceId = state.workspace.savedLayouts[0].id;
+  const restored = core.applySavedWorkspace(state, workspaceId);
+  assert.equal(restored.workspace.layout, 'split-horizontal');
+  assert.ok(restored.workspace.secondaryTabId);
+  assert.equal(restored.tabs.length, 2);
 });

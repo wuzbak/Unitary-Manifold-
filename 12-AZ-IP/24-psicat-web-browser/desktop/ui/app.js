@@ -34,7 +34,7 @@ function renderTabs() {
   strip.innerHTML = '';
   state.tabs.forEach((tab) => {
     const div = document.createElement('div');
-    div.className = `tab ${tab.id === state.activeTabId ? 'active' : ''}`;
+    div.className = `tab ${tab.id === state.activeTabId ? 'active' : ''} ${tab.id === state.workspace?.secondaryTabId ? 'workspace-secondary' : ''}`;
     const title = document.createElement('span');
     title.textContent = `${tab.private ? '🕶️ ' : ''}${tab.title || tab.url}`;
     const button = document.createElement('button');
@@ -85,11 +85,29 @@ function renderSettings() {
   byId('setting-sidebarWidth').value = settings.sidebarWidth;
   byId('setting-trackProtection').value = settings.trackProtection;
   byId('setting-psicatEndpoint').value = settings.psicatEndpoint;
+  byId('setting-syncBackendEndpoint').value = settings.syncBackendEndpoint || '';
   byId('setting-accountEmail').value = state.sync.accountEmail || '';
   byId('setting-syncMode').value = state.sync.mode || 'local+account';
   byId('setting-autoStartPsiCat').checked = settings.autoStartPsiCat;
   byId('setting-livePageCapture').checked = settings.livePageCapture;
+  byId('workspace-layout').value = state.workspace?.layout || 'single';
   document.documentElement.style.setProperty('--sidebar-width', `${settings.sidebarWidth}px`);
+}
+
+function renderWorkspaceControls() {
+  const select = byId('workspace-secondary');
+  select.innerHTML = '';
+  const empty = document.createElement('option');
+  empty.value = '';
+  empty.textContent = 'No secondary tab';
+  select.appendChild(empty);
+  state.tabs.filter((tab) => tab.id !== state.activeTabId).forEach((tab) => {
+    const option = document.createElement('option');
+    option.value = tab.id;
+    option.textContent = tab.title || tab.url;
+    select.appendChild(option);
+  });
+  select.value = state.workspace?.secondaryTabId || '';
 }
 
 function renderBookmarkList() {
@@ -131,8 +149,16 @@ function renderSyncProfile() {
   renderList('sync-profile', [{
     title: sync.accountEmail || 'Local-only profile',
     body: `Mode: ${sync.mode || 'local+account'}`,
-    meta: `Last sync: ${sync.lastSyncAt || 'Never'} · Source: ${sync.lastSyncSource || 'never'}`,
+    meta: `Last sync: ${sync.lastSyncAt || 'Never'} · Source: ${sync.lastSyncSource || 'never'} · Backend: ${state.syncBackend?.status || 'unknown'}`,
   }], (entry) => itemCard(entry.title, entry.body, entry.meta));
+}
+
+function renderSavedWorkspaces() {
+  renderList('saved-workspaces', state.workspace?.savedLayouts || [], (entry) => {
+    const card = itemCard(entry.name, `Layout: ${entry.layout} · Tabs: ${(entry.tabUrls || []).length}`, entry.createdAt);
+    card.appendChild(actionButton('Open', () => window.psicatBrowser.applyWorkspace(entry.id)));
+    return card;
+  });
 }
 
 function render() {
@@ -140,10 +166,12 @@ function render() {
   renderTabs();
   renderCurrentPage();
   renderSettings();
-  byId('sidecar-status').textContent = `PsiCat status: ${state.psiCatSidecar.status}${state.psiCatSidecar.error ? ` — ${state.psiCatSidecar.error}` : ''}`;
+  renderWorkspaceControls();
+  byId('sidecar-status').textContent = `PsiCat: ${state.psiCatSidecar.status}${state.psiCatSidecar.error ? ` — ${state.psiCatSidecar.error}` : ''} | Sync backend: ${state.syncBackend?.status || 'unknown'}${state.syncBackend?.error ? ` — ${state.syncBackend.error}` : ''}`;
   renderList('notebook-list', state.notebookEntries || [], (entry) => itemCard(entry.title || 'Note', entry.text.slice(0, 240), entry.createdAt));
   renderList('remembered-pages', state.rememberedPages || [], (entry) => itemCard(entry.title || entry.url, (entry.selection || entry.text || '').slice(0, 220), entry.url));
   renderSyncProfile();
+  renderSavedWorkspaces();
   renderBookmarkList();
   renderHistoryList();
   renderDownloadsList();
@@ -176,12 +204,24 @@ async function boot() {
   byId('remember-page').onclick = () => window.psicatBrowser.rememberActivePage();
   byId('sync-now').onclick = async () => {
     const result = await window.psicatBrowser.syncNow();
-    byId('answer').textContent = `Sync mirror updated: ${result.path}`;
+    byId('answer').textContent = result.path
+      ? `Sync mirror updated: ${result.path}`
+      : `Backend sync pushed at ${result.updated_at || new Date().toISOString()}`;
+  };
+  byId('sync-pull').onclick = async () => {
+    const result = await window.psicatBrowser.syncPull();
+    byId('answer').textContent = `Backend sync pulled from ${result.updated_at || 'remote store'}`;
   };
   byId('import-research').onclick = () => window.psicatBrowser.importResearchFiles();
   byId('export-research').onclick = () => window.psicatBrowser.exportResearchBundle();
   byId('import-sync').onclick = () => window.psicatBrowser.importSyncPacket();
   byId('export-sync').onclick = () => window.psicatBrowser.exportSyncPacket();
+  byId('workspace-layout').onchange = () => window.psicatBrowser.updateWorkspaceLayout(byId('workspace-layout').value, byId('workspace-secondary').value || null);
+  byId('workspace-secondary').onchange = () => window.psicatBrowser.updateWorkspaceLayout(byId('workspace-layout').value, byId('workspace-secondary').value || null);
+  byId('save-workspace').onclick = async () => {
+    const name = window.prompt('Workspace name', 'Research split');
+    if (name !== null) await window.psicatBrowser.saveWorkspace(name);
+  };
   byId('ask-psicat').onclick = async () => {
     const question = byId('question').value.trim();
     if (!question) return;
@@ -197,6 +237,7 @@ async function boot() {
         sidebarWidth: Number(byId('setting-sidebarWidth').value || 420),
         trackProtection: byId('setting-trackProtection').value,
         psicatEndpoint: byId('setting-psicatEndpoint').value.trim(),
+        syncBackendEndpoint: byId('setting-syncBackendEndpoint').value.trim(),
         autoStartPsiCat: byId('setting-autoStartPsiCat').checked,
         livePageCapture: byId('setting-livePageCapture').checked,
       },

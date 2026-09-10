@@ -19,6 +19,7 @@ function createDefaultSettings() {
     notebookAutosave: true,
     localResearchRetention: 'persistent',
     psicatEndpoint: 'http://127.0.0.1:8020',
+    syncBackendEndpoint: 'http://127.0.0.1:8787',
     autoStartPsiCat: true,
     livePageCapture: true,
   };
@@ -59,6 +60,11 @@ function createInitialState() {
       lastSyncAt: null,
       lastSyncSource: 'never',
     },
+    workspace: {
+      layout: 'single',
+      secondaryTabId: null,
+      savedLayouts: [],
+    },
     recentlyClosedTabs: [],
   };
 }
@@ -80,7 +86,14 @@ function normalizeState(state) {
       mode: 'local+account',
       accountEmail: '',
       lastSyncAt: null,
+      lastSyncSource: 'never',
       ...(state.sync || {}),
+    },
+    workspace: {
+      layout: 'single',
+      secondaryTabId: null,
+      savedLayouts: [],
+      ...(state.workspace || {}),
     },
   };
   if (!Array.isArray(merged.tabs) || !merged.tabs.length) {
@@ -90,6 +103,9 @@ function normalizeState(state) {
   }
   if (!merged.tabs.some((tab) => tab.id === merged.activeTabId)) {
     merged.activeTabId = merged.tabs[0].id;
+  }
+  if (!merged.tabs.some((tab) => tab.id === merged.workspace.secondaryTabId)) {
+    merged.workspace.secondaryTabId = null;
   }
   return merged;
 }
@@ -132,6 +148,10 @@ function closeTab(state, tabId) {
   ].slice(0, MAX_RECENTLY_CLOSED_TABS);
   if (next.activeTabId === tabId) {
     next.activeTabId = next.tabs[Math.max(0, index - 1)].id;
+  }
+  if (next.workspace.secondaryTabId === tabId) {
+    next.workspace.secondaryTabId = null;
+    next.workspace.layout = 'single';
   }
   return next;
 }
@@ -243,6 +263,61 @@ function dedupeBy(items, keyBuilder) {
   });
 }
 
+function setWorkspaceLayout(state, layout) {
+  const next = normalizeState(state);
+  const allowed = new Set(['single', 'split-vertical', 'split-horizontal']);
+  next.workspace.layout = allowed.has(layout) ? layout : 'single';
+  if (next.workspace.layout === 'single') next.workspace.secondaryTabId = null;
+  return next;
+}
+
+function setWorkspaceSecondaryTab(state, tabId) {
+  const next = normalizeState(state);
+  if (!tabId || tabId === next.activeTabId) {
+    next.workspace.secondaryTabId = null;
+    next.workspace.layout = 'single';
+    return next;
+  }
+  if (next.tabs.some((tab) => tab.id === tabId)) {
+    next.workspace.secondaryTabId = tabId;
+    if (next.workspace.layout === 'single') next.workspace.layout = 'split-vertical';
+  }
+  return next;
+}
+
+function saveCurrentWorkspace(state, name) {
+  const next = normalizeState(state);
+  const saved = {
+    id: crypto.randomUUID(),
+    name: String(name || '').trim() || 'Workspace',
+    layout: next.workspace.layout,
+    activeTabId: next.activeTabId,
+    secondaryTabId: next.workspace.secondaryTabId,
+    tabUrls: next.tabs.map((tab) => ({ id: tab.id, url: tab.url, title: tab.title, private: Boolean(tab.private) })),
+    createdAt: new Date().toISOString(),
+  };
+  next.workspace.savedLayouts = [saved, ...(next.workspace.savedLayouts || [])].slice(0, 12);
+  return next;
+}
+
+function applySavedWorkspace(state, workspaceId) {
+  const next = normalizeState(state);
+  const saved = (next.workspace.savedLayouts || []).find((entry) => entry.id === workspaceId);
+  if (!saved) return next;
+  const tabs = (saved.tabUrls || []).map((entry) => createTab(sanitizeUrl(entry.url || DEFAULT_HOME, next.settings), {
+    title: entry.title || 'Workspace Tab',
+    private: Boolean(entry.private),
+  }));
+  if (!tabs.length) return next;
+  next.tabs = tabs;
+  const activeIndex = (saved.tabUrls || []).findIndex((entry) => entry.id === saved.activeTabId);
+  next.activeTabId = tabs[activeIndex >= 0 ? activeIndex : 0].id;
+  next.workspace.layout = saved.layout || 'single';
+  const secondaryIndex = (saved.tabUrls || []).findIndex((entry) => entry.id === saved.secondaryTabId);
+  next.workspace.secondaryTabId = tabs[secondaryIndex]?.id || null;
+  return next;
+}
+
 function createSyncPacket(state) {
   const next = normalizeState(state);
   return {
@@ -258,6 +333,7 @@ function createSyncPacket(state) {
       trackProtection: next.settings.trackProtection,
       sidebarWidth: next.settings.sidebarWidth,
       psicatEndpoint: next.settings.psicatEndpoint,
+      syncBackendEndpoint: next.settings.syncBackendEndpoint,
       livePageCapture: next.settings.livePageCapture,
     },
     tabs: next.tabs.map((tab) => ({
@@ -266,6 +342,11 @@ function createSyncPacket(state) {
       private: Boolean(tab.private),
       lastSnapshot: tab.lastSnapshot || null,
     })),
+    workspace: {
+      ...next.workspace,
+      activeTabUrl: (next.tabs.find((tab) => tab.id === next.activeTabId) || next.tabs[0] || {}).url || DEFAULT_HOME,
+      secondaryTabUrl: (next.tabs.find((tab) => tab.id === next.workspace.secondaryTabId) || {}).url || null,
+    },
     activeTabUrl: (next.tabs.find((tab) => tab.id === next.activeTabId) || next.tabs[0] || {}).url || DEFAULT_HOME,
     bookmarks: next.bookmarks,
     history: next.history.slice(0, 100),
@@ -316,6 +397,15 @@ function mergeSyncPacket(state, packet) {
       lastSyncAt: new Date().toISOString(),
       lastSyncSource: 'imported-packet',
     },
+    workspace: (() => {
+      const incomingWorkspace = packet.workspace || {};
+      const secondaryTab = tabs.find((tab) => tab.url === incomingWorkspace.secondaryTabUrl);
+      return {
+        ...next.workspace,
+        ...incomingWorkspace,
+        secondaryTabId: secondaryTab ? secondaryTab.id : null,
+      };
+    })(),
   });
 }
 
@@ -337,6 +427,10 @@ module.exports = {
   addDownload,
   importResearchItems,
   reopenLastClosedTab,
+  setWorkspaceLayout,
+  setWorkspaceSecondaryTab,
+  saveCurrentWorkspace,
+  applySavedWorkspace,
   createSyncPacket,
   mergeSyncPacket,
 };

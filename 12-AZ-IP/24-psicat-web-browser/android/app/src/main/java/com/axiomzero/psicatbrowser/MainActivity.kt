@@ -90,6 +90,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<android.view.View>(R.id.importButton).setOnClickListener { importLauncher.launch(arrayOf("text/*", "application/json")) }
         findViewById<android.view.View>(R.id.exportButton).setOnClickListener { exportLauncher.launch("psicat-browser-notebook.json") }
         findViewById<android.view.View>(R.id.askButton).setOnClickListener { interrogate() }
+        findViewById<android.view.View>(R.id.pushSyncButton).setOnClickListener { pushSyncToBackend() }
+        findViewById<android.view.View>(R.id.pullSyncButton).setOnClickListener { pullSyncFromBackend() }
 
         addressBar.imeOptions = EditorInfo.IME_ACTION_GO
         addressBar.setRawInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
@@ -300,48 +302,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun exportNotebook(uri: Uri) {
-        val payload = JSONObject().apply {
-            put("exportedAt", timestamp())
-            put("syncAccountEmail", prefs().getString("sync_account_email", ""))
-            put("syncMode", prefs().getString("sync_mode", "local+account"))
-            put("tabs", JSONArray().apply {
-                tabs.forEach { tab ->
-                    put(JSONObject().apply {
-                        put("id", tab.id)
-                        put("title", tab.title)
-                        put("url", tab.url)
-                    })
-                }
-            })
-            put("activeTabId", activeTabId)
-            put("bookmarks", JSONArray().apply {
-                bookmarks.forEach { bookmark ->
-                    put(JSONObject().apply {
-                        put("title", bookmark.title)
-                        put("url", bookmark.url)
-                        put("createdAt", bookmark.createdAt)
-                    })
-                }
-            })
-            put("history", JSONArray().apply {
-                history.forEach { entry ->
-                    put(JSONObject().apply {
-                        put("title", entry.title)
-                        put("url", entry.url)
-                        put("visitedAt", entry.visitedAt)
-                    })
-                }
-            })
-            put("notebook", JSONArray().apply {
-                notebook.forEach {
-                    put(JSONObject().apply {
-                        put("title", it.title)
-                        put("text", it.text)
-                        put("createdAt", it.createdAt)
-                    })
-                }
-            })
-        }
+        val payload = buildSyncPacket()
         contentResolver.openOutputStream(uri)?.bufferedWriter()?.use { it.write(payload.toString(2)) }
         prefs().edit().putString("last_sync_at", timestamp()).apply()
         renderNotebook()
@@ -411,7 +372,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun restoreFromSyncPacket(packet: JSONObject) {
         val importedNotebook = mutableListOf<NotebookEntry>()
-        packet.optJSONArray("notebook")?.let { array ->
+        (packet.optJSONArray("notebook") ?: packet.optJSONArray("notebookEntries"))?.let { array ->
             for (index in 0 until array.length()) {
                 val item = array.getJSONObject(index)
                 importedNotebook += NotebookEntry(item.optString("title"), item.optString("text"), item.optString("createdAt"))
@@ -454,9 +415,16 @@ class MainActivity : AppCompatActivity() {
             webContainer.removeAllViews()
             packetTabs.forEach { addTab(it) }
             packet.optString("activeTabId").takeIf { it.isNotBlank() }?.let { switchTo(it) }
+                ?: packet.optString("activeTabUrl").takeIf { it.isNotBlank() }?.let { activeUrl ->
+                    tabs.firstOrNull { it.url == activeUrl }?.let { switchTo(it.id) }
+                }
         }
+        val syncObject = packet.optJSONObject("sync")
         val syncAccountEmail = packet.optString("syncAccountEmail")
-        val syncMode = packet.optString("syncMode").ifBlank { "local+account" }
+            .ifBlank { syncObject?.optString("accountEmail").orEmpty() }
+        val syncMode = packet.optString("syncMode")
+            .ifBlank { syncObject?.optString("mode").orEmpty() }
+            .ifBlank { "local+account" }
         prefs().edit()
             .putString("sync_account_email", syncAccountEmail)
             .putString("sync_mode", syncMode)
@@ -464,5 +432,135 @@ class MainActivity : AppCompatActivity() {
             .apply()
         persistSessionState()
         renderNotebook()
+    }
+
+    private fun buildSyncPacket(): JSONObject = JSONObject().apply {
+        put("product", 24)
+        put("exportedAt", timestamp())
+        put("sync", JSONObject().apply {
+            put("accountEmail", prefs().getString("sync_account_email", ""))
+            put("mode", prefs().getString("sync_mode", "local+account"))
+            put("lastSyncAt", prefs().getString("last_sync_at", ""))
+            put("lastSyncSource", prefs().getString("last_sync_source", "android-export"))
+        })
+        put("syncAccountEmail", prefs().getString("sync_account_email", ""))
+        put("syncMode", prefs().getString("sync_mode", "local+account"))
+        put("tabs", JSONArray().apply {
+            tabs.forEach { tab ->
+                put(JSONObject().apply {
+                    put("id", tab.id)
+                    put("title", tab.title)
+                    put("url", tab.url)
+                    put("private", false)
+                    tab.lastSnapshot?.let { snapshot ->
+                        put("lastSnapshot", JSONObject().apply {
+                            put("title", snapshot.title)
+                            put("url", snapshot.url)
+                            put("selection", snapshot.selection)
+                            put("text", snapshot.text)
+                            put("capturedAt", snapshot.capturedAt)
+                        })
+                    }
+                })
+            }
+        })
+        put("activeTabId", activeTabId)
+        put("bookmarks", JSONArray().apply {
+            bookmarks.forEach { bookmark ->
+                put(JSONObject().apply {
+                    put("title", bookmark.title)
+                    put("url", bookmark.url)
+                    put("createdAt", bookmark.createdAt)
+                })
+            }
+        })
+        put("history", JSONArray().apply {
+            history.forEach { entry ->
+                put(JSONObject().apply {
+                    put("title", entry.title)
+                    put("url", entry.url)
+                    put("visitedAt", entry.visitedAt)
+                })
+            }
+        })
+        put("notebook", JSONArray().apply {
+            notebook.forEach {
+                put(JSONObject().apply {
+                    put("title", it.title)
+                    put("text", it.text)
+                    put("createdAt", it.createdAt)
+                })
+            }
+        })
+        put("notebookEntries", getJSONArray("notebook"))
+        put("settings", JSONObject().apply {
+            put("homePage", prefs().getString("home_page", "https://example.com"))
+            put("searchEngine", prefs().getString("search_engine", "https://duckduckgo.com/?q=%s"))
+            put("psicatEndpoint", prefs().getString("psicat_endpoint", "http://127.0.0.1:8020"))
+            put("syncBackendEndpoint", prefs().getString("sync_backend_endpoint", "http://127.0.0.1:8787"))
+            put("livePageCapture", prefs().getBoolean("live_capture", true))
+        })
+    }
+
+    private fun pushSyncToBackend() {
+        val accountEmail = prefs().getString("sync_account_email", "").orEmpty().trim()
+        if (accountEmail.isBlank()) {
+            contextSummary.text = "Set Sync account email before backend sync."
+            return
+        }
+        contextSummary.text = "Pushing sync packet…"
+        lifecycleScope.launch(Dispatchers.IO) {
+            val endpoint = prefs().getString("sync_backend_endpoint", "http://127.0.0.1:8787") ?: "http://127.0.0.1:8787"
+            val connection = URL("$endpoint/api/sync/push").openConnection() as HttpURLConnection
+            connection.requestMethod = "POST"
+            connection.doOutput = true
+            connection.setRequestProperty("Content-Type", "application/json")
+            val payload = JSONObject().apply {
+                put("account_email", accountEmail)
+                put("packet", buildSyncPacket())
+            }
+            connection.outputStream.bufferedWriter().use { it.write(payload.toString()) }
+            val body = (if (connection.responseCode in 200..299) connection.inputStream else connection.errorStream)
+                ?.bufferedReader()?.use(BufferedReader::readText).orEmpty()
+            if (connection.responseCode !in 200..299) throw IllegalStateException(body.ifBlank { "Sync push failed" })
+            prefs().edit()
+                .putString("last_sync_at", timestamp())
+                .putString("last_sync_source", "backend-push")
+                .apply()
+            withContext(Dispatchers.Main) {
+                contextSummary.text = "Sync push complete.\n$body"
+                renderNotebook()
+            }
+        }.invokeOnCompletion { error ->
+            if (error != null) runOnUiThread { contextSummary.text = "Sync push failed: ${error.message}" }
+        }
+    }
+
+    private fun pullSyncFromBackend() {
+        val accountEmail = prefs().getString("sync_account_email", "").orEmpty().trim()
+        if (accountEmail.isBlank()) {
+            contextSummary.text = "Set Sync account email before backend sync."
+            return
+        }
+        contextSummary.text = "Pulling sync packet…"
+        lifecycleScope.launch(Dispatchers.IO) {
+            val endpoint = prefs().getString("sync_backend_endpoint", "http://127.0.0.1:8787") ?: "http://127.0.0.1:8787"
+            val connection = URL("$endpoint/api/sync/pull?account_email=${Uri.encode(accountEmail)}").openConnection() as HttpURLConnection
+            val body = (if (connection.responseCode in 200..299) connection.inputStream else connection.errorStream)
+                ?.bufferedReader()?.use(BufferedReader::readText).orEmpty()
+            if (connection.responseCode !in 200..299) throw IllegalStateException(body.ifBlank { "Sync pull failed" })
+            val packet = JSONObject(body).optJSONObject("packet") ?: throw IllegalStateException("Missing packet")
+            withContext(Dispatchers.Main) {
+                restoreFromSyncPacket(packet)
+                prefs().edit()
+                    .putString("last_sync_at", timestamp())
+                    .putString("last_sync_source", "backend-pull")
+                    .apply()
+                contextSummary.text = "Sync pull complete."
+                renderNotebook()
+            }
+        }.invokeOnCompletion { error ->
+            if (error != null) runOnUiThread { contextSummary.text = "Sync pull failed: ${error.message}" }
+        }
     }
 }

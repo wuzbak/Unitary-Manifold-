@@ -22,6 +22,13 @@
         <button id="private-tab" aria-label="Open private tab">Private</button>
         <button id="reopen-tab" aria-label="Reopen last closed tab">Reopen</button>
         <button id="bookmark" aria-label="Bookmark current page">★</button>
+        <select id="workspace-layout" aria-label="Workspace layout">
+          <option value="single">Single</option>
+          <option value="split-vertical">Split vertical</option>
+          <option value="split-horizontal">Split horizontal</option>
+        </select>
+        <select id="workspace-secondary" aria-label="Secondary workspace tab"></select>
+        <button id="save-workspace">Save workspace</button>
         <button id="toggle-settings">Settings</button>
       </div>
       <div id="tab-strip" class="tab-strip"></div>
@@ -44,6 +51,7 @@
             <button id="ask-psicat">Interrogate</button>
             <button id="remember-page">Remember page</button>
             <button id="sync-now">Sync now</button>
+            <button id="sync-pull">Pull sync</button>
           </div>
           <pre id="answer">No query yet.</pre>
         </section>
@@ -71,6 +79,8 @@
         <section class="panel history-panel">
           <h2>Sync profile</h2>
           <div id="sync-profile" class="list compact"></div>
+          <h2>Saved workspaces</h2>
+          <div id="saved-workspaces" class="list compact"></div>
           <h2>Bookmarks</h2>
           <div id="bookmarks" class="list compact"></div>
           <h2>History</h2>
@@ -93,6 +103,7 @@
             </select>
           </label>
           <label>PsiCat endpoint <input id="setting-psicatEndpoint"></label>
+          <label>Sync backend endpoint <input id="setting-syncBackendEndpoint"></label>
           <label>Sync account email <input id="setting-accountEmail" type="email"></label>
           <label>Sync mode
             <select id="setting-syncMode">

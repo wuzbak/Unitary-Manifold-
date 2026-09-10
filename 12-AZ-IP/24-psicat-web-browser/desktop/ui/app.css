@@ -14,6 +14,7 @@ body { margin: 0; font-family: Inter, system-ui, sans-serif; background: var(--b
 .toolbar { padding: 10px 12px; border-bottom: 1px solid var(--border); background: rgba(7, 9, 14, 0.98); }
 .nav-row, .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 #address-form { flex: 1; }
+select#workspace-layout, select#workspace-secondary { width: auto; min-width: 140px; }
 input, textarea, select, button, pre {
   width: 100%;
   border-radius: 10px;
@@ -29,6 +30,7 @@ button { width: auto; background: linear-gradient(135deg, #7c3aed, var(--accent)
   padding: 8px 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); cursor: pointer;
 }
 .tab.active { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(167,139,250,0.35); }
+.tab.workspace-secondary { border-color: #38bdf8; box-shadow: 0 0 0 1px rgba(56,189,248,0.35); }
 .workspace { display: grid; grid-template-columns: 1fr var(--sidebar-width); min-height: calc(100vh - 96px); }
 .browser-stage { border-right: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); }
 .sidebar { overflow: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
