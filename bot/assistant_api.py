@@ -306,12 +306,13 @@ def retrieve_context(query: str) -> str:
 
 
 def build_assistant_context_scaffold(query: str, *, ast_file_limit: int = 3) -> dict[str, Any]:
+    normalized_ast_file_limit = max(1, int(1 if ast_file_limit is None else ast_file_limit))
     scaffold = build_context_scaffold(
         _get_rag_index(),
         query,
         repo_root=REPO_ROOT,
         top_k=3,
-        ast_file_limit=ast_file_limit,
+        ast_file_limit=normalized_ast_file_limit,
     )
     scaffold["assistant_runtime"] = {
         "service": "AxiomZero Open Science Assistant",

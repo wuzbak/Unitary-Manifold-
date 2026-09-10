@@ -611,7 +611,7 @@ def build_context_scaffold(
         if real_path is not None and real_path.as_posix() not in seen_paths:
             candidate_paths.append(real_path)
             seen_paths.add(real_path.as_posix())
-    ast_limit = max(1, int(ast_file_limit or 1))
+    ast_limit = max(1, int(1 if ast_file_limit is None else ast_file_limit))
     ast_hints: list[dict[str, Any]] = []
     for path in candidate_paths:
         hint = _build_ast_hint(repo_root, path)

@@ -14,6 +14,12 @@ def test_build_assistant_context_scaffold_has_runtime_and_ast_hints():
     assert scaffold["ast"]["enabled"] is True
 
 
+def test_build_assistant_context_scaffold_clamps_negative_ast_limit():
+    scaffold = assistant_api.build_assistant_context_scaffold("How is alpha_gut derived?", ast_file_limit=-4)
+    assert scaffold["ast"]["file_limit"] == 1
+    assert scaffold["tooling"]["ast_file_limit"] == 1
+
+
 @pytest.mark.skipif(not assistant_api.FASTAPI_AVAILABLE, reason="FastAPI not installed")
 def test_context_scaffold_endpoint_returns_prompt_context():
     from fastapi.testclient import TestClient
