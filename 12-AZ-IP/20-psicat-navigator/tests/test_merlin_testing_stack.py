@@ -5,15 +5,18 @@ from __future__ import annotations
 
 import json
 import sys
-import threading
 from pathlib import Path
 
 from httpx import Client
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = PRODUCT_ROOT.parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
+from browser_contract_helpers import running_server
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_testing_stack import get_psicat_prompt_contracts, get_psicat_testing_stack
 
@@ -36,11 +39,8 @@ def test_psicat_prompt_contracts_manifest_shape() -> None:
 
 
 def test_psicat_testing_stack_endpoint_exposes_machine_readable_doctrine() -> None:
-    httpd = serve(port=0)
-    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
-    thread.start()
-    try:
-        with Client(base_url=f"http://127.0.0.1:{httpd.server_port}") as client:
+    with running_server(lambda: serve(port=0)) as base_url:
+        with Client(base_url=base_url.rstrip("/")) as client:
             response = client.get("/api/psicat/testing-stack")
             assert response.status_code == 200
             payload = response.json()
@@ -48,10 +48,6 @@ def test_psicat_testing_stack_endpoint_exposes_machine_readable_doctrine() -> No
             assert payload["testing_stack"]["browser_default"]["tool"] == "Playwright"
             assert payload["testing_stack"]["psicat"]["ai_evaluation_lane"]["prompt_contract_case_count"] >= 3
             assert payload["prompt_contracts"]["suite"] == "psicat_prompt_contracts"
-    finally:
-        httpd.shutdown()
-        httpd.server_close()
-        thread.join(timeout=2)
 
 
 def test_shared_testing_manifest_and_prompt_contract_files_are_valid_json() -> None:
