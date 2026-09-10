@@ -57,6 +57,13 @@ def test_local_execution_loop_rejects_out_of_repo_cwd():
     assert "outside repository" in result["contract"]["body"]
 
 
+def test_local_execution_loop_sanitizes_environment(monkeypatch):
+    monkeypatch.setenv("OPENROUTER_API_KEY", "secret-value")
+    result = run_local_execution_loop(command='python -c "import os; print(os.getenv(\'OPENROUTER_API_KEY\', \'\'))"')
+    assert result["ok"] is True
+    assert result["execution"]["stdout"].strip() == ""
+
+
 def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypatch):
     from ox_navigator.app import server as server_module
 

@@ -70,6 +70,24 @@ def _resolve_cwd(candidate: str | None) -> Path:
     return path
 
 
+def _safe_subprocess_env() -> dict[str, str]:
+    keep = {
+        "PATH",
+        "HOME",
+        "LANG",
+        "LC_ALL",
+        "LC_CTYPE",
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "VIRTUAL_ENV",
+    }
+    return {
+        key: value
+        for key, value in os.environ.items()
+        if key in keep and isinstance(value, str)
+    }
+
+
 def get_local_execution_status() -> dict[str, Any]:
     enabled = _env_bool("MERLIN_LOCAL_EXECUTION_ENABLED", True)
     return {
@@ -252,6 +270,7 @@ def run_local_execution_loop(
             capture_output=True,
             text=True,
             timeout=timeout,
+            env=_safe_subprocess_env(),
         )
         stdout = str(completed.stdout or "")
         stderr = str(completed.stderr or "")

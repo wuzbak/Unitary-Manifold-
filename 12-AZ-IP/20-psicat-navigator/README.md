@@ -140,7 +140,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/review-packet` consolidates Stage A→E receipts, failure reasons, blocker state, and longitudinal discipline into one canonical sprint review surface.
 - `GET /api/psicat/targeted-rigor-sprint` executes a bounded full-rigor packet in one call (retained training cycle + Stage A→E receipts + frontier blockers) and reports fail-closed hold/clear verdict.
 - `GET /api/psicat/achievement-benchmark-promotion-sprint` consolidates what PsiCat has actually earned, the live benchmark posture, and the next appropriate promotion sprint without inflating promotion status.
-- `GET /api/psicat/spc-phase0-packet` now validates the phase-0 execution packet schema and fails closed (`422`) when required governance fields are missing.
+- `GET /api/psicat/spc-phase0-packet` now validates the phase-0 execution packet schema and fails closed (`422`) when required governance fields are missing; backend artifact load/parse failures return `500`.
 - `GET /api/psicat/heavy-lane` exposes the heavy-lane benchmark pack, provider comparison, failure taxonomy, and tuning agenda for sovereign long-context work.
 - `GET /api/psicat/model-board` exposes the runtime-tier shortlist, scoring board, and adaptation-vs-abandonment policy for sovereign model selection.
 - `GET /api/psicat/hardware-board` exposes the sovereign hardware topology for compact routing, default reasoning, heavy-lane shadow work, training ablations, and Lean4 proof-operations.
