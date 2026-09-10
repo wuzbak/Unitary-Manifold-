@@ -7360,12 +7360,13 @@ def get_psicat_training_benchmarking_promotion_sprint(
         and stale_retrain_count == 0
         and needs_review_count == 0
     )
-    training_queue_clear = training_cycle_executed and queue_after_state_clear
+    training_queue_clear = queue_after_state_clear
     training_ready = training_cycle_executed and training_queue_clear
     promotion_readiness["training_queue_clear"] = training_queue_clear
     promotion_readiness["queue_after_state_clear"] = queue_after_state_clear
     promotion_readiness["training_cycle_executed"] = training_cycle_executed
     promotion_readiness["training_cycle_processed_count"] = processed_count
+    promotion_readiness["training_ready"] = training_ready
 
     training_board = [
         {
