@@ -7465,7 +7465,7 @@ def get_psicat_achievement_benchmark_promotion_sprint(
     *,
     limit: int | None = 3,
     training_limit: int | None = 9,
-    session: Any | None = None,
+    session: "MerlinSession | None" = None,
 ) -> dict[str, Any]:
     from .merlin_memory import MerlinSession
 
