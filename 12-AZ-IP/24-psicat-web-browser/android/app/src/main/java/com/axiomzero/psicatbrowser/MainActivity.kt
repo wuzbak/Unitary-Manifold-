@@ -12,6 +12,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,12 +30,13 @@ import java.util.Date
 import java.util.Locale
 import java.util.UUID
 import org.json.JSONObject
+import org.json.JSONTokener
 
 class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toolbar: MaterialToolbar
     private lateinit var tabStrip: LinearLayout
-    private lateinit var webContainer: LinearLayout
+    private lateinit var webContainer: FrameLayout
     private lateinit var addressBar: EditText
     private lateinit var contextSummary: TextView
     private lateinit var notebookList: TextView
@@ -142,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         activeTabId = tabId
         webContainer.removeAllViews()
         val active = webViews[tabId] ?: return
-        webContainer.addView(active, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT))
+        webContainer.addView(active, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
         addressBar.setText(tabs.firstOrNull { it.id == tabId }?.url.orEmpty())
     }
 
@@ -169,7 +171,7 @@ class MainActivity : AppCompatActivity() {
         activeWebView()?.evaluateJavascript(
             "(() => JSON.stringify({ title: document.title, url: location.href, selection: String(window.getSelection ? window.getSelection() : ''), text: document.body ? document.body.innerText.slice(0, 8000) : '' }))()"
         ) { raw ->
-            val cleaned = raw.trim().trim('"').replace("\\\"", "\"")
+            val cleaned = JSONTokener(raw).nextValue() as? String ?: return@evaluateJavascript
             runCatching {
                 val payload = JSONObject(cleaned)
                 val snapshot = PageSnapshot(

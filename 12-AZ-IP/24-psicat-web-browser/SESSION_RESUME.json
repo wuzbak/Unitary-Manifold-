@@ -2,19 +2,19 @@
   "product": 24,
   "name": "PsiCat Web Browser",
   "status": "foundation_in_progress",
-  "updated": "2026-09-10T03:28:47Z",
+  "updated": "2026-09-10T03:36:30Z",
   "completed": [
     "requirements mapped for Electron desktop, Android native-tab shell, and Chrome/Edge extension",
     "npm/electron scaffold created",
     "desktop foundation includes tab/session/settings/notebook/import-export architecture",
     "android foundation includes native-tab shell, settings activity, notebook/import-export, page capture plan",
-    "extension foundation includes side-panel notebook and page-context capture"
+    "extension foundation includes side-panel notebook and page-context capture",
+    "targeted Node and Python validation passed; Android Gradle wrapper generation hit hosted plugin-resolution limits"
   ],
   "next_steps": [
-    "run Electron lint/test and fix any runtime issues",
-    "run targeted Python validation for Product 24 registry/docs",
-    "complete registry updates and hashes",
-    "run secret scan and parallel validation"
+    "run Electron with --no-sandbox in this sandbox or on a desktop host for live smoke validation",
+    "complete secret scan and parallel validation",
+    "wire real sync backend and broader Android packaging in a follow-on pass"
   ],
   "resume_entrypoint": "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/24-psicat-web-browser/README.md"
 }
