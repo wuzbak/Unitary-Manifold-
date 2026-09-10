@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 100772.55169279709,
-        "samples_per_second": 227.22108611679164,
+        "tokens_per_second": 99305.86654724585,
+        "samples_per_second": 223.91401701746528,
         "gpu_utilization_percent": 90.0,
         "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 4.205,
-        "step_time_p95_ms": 4.597,
-        "vram_peak_gb": 0.24239730834960938,
+        "step_time_p50_ms": 4.179,
+        "step_time_p95_ms": 4.753,
+        "vram_peak_gb": 0.2423248291015625,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 108834.35582822087,
-        "samples_per_second": 240.85435128379916,
+        "tokens_per_second": 107250.33587102553,
+        "samples_per_second": 237.3488580385132,
         "gpu_utilization_percent": 92.5,
         "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 3.8686000000000003,
-        "step_time_p95_ms": 4.229240000000001,
-        "vram_peak_gb": 0.25209320068359375,
+        "step_time_p50_ms": 3.8446800000000003,
+        "step_time_p95_ms": 4.37276,
+        "vram_peak_gb": 0.252017822265625,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 121894.47852760738,
-        "samples_per_second": 264.9397864121791,
+        "tokens_per_second": 120120.3761755486,
+        "samples_per_second": 261.0837438423646,
         "gpu_utilization_percent": 95.0,
         "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 3.5204260000000005,
-        "step_time_p95_ms": 3.8486084000000007,
-        "vram_peak_gb": 0.25965599670410155,
+        "step_time_p50_ms": 3.4986588000000003,
+        "step_time_p95_ms": 3.9792116000000006,
+        "vram_peak_gb": 0.25957835693359377,
         "cost_per_accepted_sample": 0.0
       }
     }

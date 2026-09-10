@@ -639,8 +639,8 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     return
                 self._persist_session(session_id, merlin_session)
                 self._json({
-                'ok': True,
-                'lean_bridge': get_merlin_lean_bridge_artifact(limit=limit),
+                    'ok': True,
+                    'lean_bridge': get_merlin_lean_bridge_artifact(limit=limit),
                 })
                 return
             if route_path == '/api/psicat/local-execution/status':
