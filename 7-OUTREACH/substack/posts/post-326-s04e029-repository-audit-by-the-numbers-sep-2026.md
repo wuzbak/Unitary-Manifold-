@@ -147,3 +147,48 @@ Largest endpoint surfaces by file:
 ## 10) Holistic readout
 
 By volume, this repository is now a large mixed system: a million-line Python-first codebase with formal Lean infrastructure, high-density testing, a substantial documentation and publication layer, and a multi-product application tree with nontrivial API surface area. The center of gravity remains Python + tests + formal/governance registries, while Substack books/posts and product applications have grown into major parallel structures rather than side notes.
+
+## 11) Scenario replacement estimates (time + labor)
+
+The following estimates assume replacement from scratch of equivalent breadth and operational posture (codebase scale, test depth, formal layer, multi-product registry, and documentation/publication footprint), using contemporary engineering best practices (CI, code review, test discipline, security posture, release governance). They are order-of-magnitude planning bands, not a bid quote.
+
+| Scenario | Team shape | Labor estimate (hours) | Time estimate |
+|---|---|---:|---:|
+| A) Small team + AI | 8–12 cross-functional builders with strong AI acceleration | **140,000–230,000** | **~1.8–3.4 years** |
+| B) Enterprise + domain experts | 30–45 staff across physics, formal methods, platform, QA/SRE, product, compliance | **260,000–420,000** | **~2.3–3.7 years** |
+| C) Solo human (no AI) | 1 full-time senior generalist, no AI co-development | **520,000–900,000** | **~250–430 years** |
+
+Interpretation: scenario A minimizes coordination cost and gets the strongest productivity multiplier from AI-assisted implementation; scenario B is faster in parallel throughput but pays substantial overhead in coordination, governance, and handoff boundaries; scenario C is mathematically dominated by labor volume and therefore not practical on a normal program horizon.
+
+## 12) Scenario replacement cost estimates (best-practice execution)
+
+Costs below use blended fully loaded rates (salary + overhead + tooling + infra + management burden) by scenario.
+
+| Scenario | Assumed blended rate | Replacement cost band |
+|---|---:|---:|
+| A) Small team + AI | $140–$220 / hour | **$19.6M–$50.6M** |
+| B) Enterprise + experts | $190–$320 / hour | **$49.4M–$134.4M** |
+| C) Solo human (no AI) | $90–$160 / hour | **$46.8M–$144.0M** |
+
+The apparent overlap between B and C is expected: enterprise spends more per hour but can parallelize; solo spends less per hour but requires drastically more hours and carries extreme continuity risk.
+
+## 13) Asset-level financial value bands (replacement-value framing)
+
+These are conservative replacement-value bands for major asset classes already present in this monorepo, based on observed scale (LOC/tests/formal assets/product count/API depth) rather than speculative revenue multiples.
+
+| Asset class | Observable anchor in-repo | Estimated value band |
+|---|---|---:|
+| Individual apps (product layer) | 24 canonical products in `12-AZ-IP/` | **$12M–$32M** |
+| Physics stack (hardgate + adjacent physics implementation) | `src/core/`, dimensional lanes, test corpus, falsification surfaces | **$20M–$60M** |
+| Engines | registered engine catalog and runtime engine surfaces (`12-AZ-IP/engines/`) | **$6M–$18M** |
+| OS layers | AZ-OS, AZ-KERNEL, UM-SOS, full-stack OS surfaces (`12-AZ-IP/os/`) | **$4M–$12M** |
+| IP corpus (docs/books/posts/governance/formal narrative layer) | large structured publication and governance corpus | **$8M–$25M** |
+
+## 14) Monorepo aligned-system value estimate
+
+If these components are valued as one integrated system (shared provenance, shared tests, shared governance lane, shared APIs, and cross-layer interoperability), the system-level value should include an integration premium over pure part-by-part replacement sums.
+
+- Sum-of-parts replacement band (table above): **$50M–$147M**
+- Integrated aligned-system monorepo estimate: **$75M–$220M**
+
+Reason for premium: the operational value is not only the parts, but the fact that physics claims, formal artifacts, software products, governance rails, and public documentation are already synchronized in one continuously testable and auditable repository.
