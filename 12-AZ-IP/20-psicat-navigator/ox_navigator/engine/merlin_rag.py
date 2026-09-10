@@ -211,10 +211,21 @@ def render_context_scaffold(scaffold: dict[str, Any]) -> str:
     return "\n\n".join(blocks)
 
 
-def build_rag_context(query: str, *, session: Any | None = None, ast_file_limit: int = 5) -> str:
+def build_rag_context(
+    query: str,
+    *,
+    session: Any | None = None,
+    ast_file_limit: int = 5,
+    max_chunks: int = 5,
+) -> str:
     """Build the Merlin prompt context blocks."""
-    scaffold = build_context_scaffold(query, session=session, ast_file_limit=ast_file_limit)
-    context = retrieve_context(query)
+    scaffold = build_context_scaffold(
+        query,
+        session=session,
+        ast_file_limit=ast_file_limit,
+        max_chunks=max_chunks,
+    )
+    context = retrieve_context(query, max_chunks=max_chunks)
     retrieval = dict(scaffold.get("retrieval") or {})
     blocks = [render_context_scaffold(scaffold)]
     blocks.append("[PREDICTIONS]\n" + str(retrieval.get("predictions") or context["predictions"]).strip())

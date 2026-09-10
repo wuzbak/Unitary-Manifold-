@@ -144,6 +144,7 @@ Primary falsifier: birefringence β — LiteBIRD ~2032
 
 # Simple in-memory cache
 _cache: dict[str, tuple[float, dict]] = {}
+_cache_lock = threading.Lock()
 _rag_index: RAGIndex | None = None
 _rag_index_lock = threading.Lock()
 
@@ -521,9 +522,12 @@ if FASTAPI_AVAILABLE:
 
         # Cache check
         cache_key = hashlib.md5((query + str(req.websearch)).encode()).hexdigest()
-        if cache_key in _cache:
-            ts, cached = _cache[cache_key]
+        with _cache_lock:
+            cached_entry = _cache.get(cache_key)
+        if cached_entry is not None:
+            ts, cached = cached_entry
             if time.time() - ts < CACHE_TTL_SECONDS:
+                cached = dict(cached)
                 cached["cached"] = True
                 return AssistantResponse(**cached)
 
@@ -581,7 +585,8 @@ if FASTAPI_AVAILABLE:
             "context_scaffold": context_scaffold,
             "cached": False,
         }
-        _cache[cache_key] = (time.time(), result.copy())
+        with _cache_lock:
+            _cache[cache_key] = (time.time(), result.copy())
         return AssistantResponse(**result)
 
     @app.get("/api/context-scaffold")
