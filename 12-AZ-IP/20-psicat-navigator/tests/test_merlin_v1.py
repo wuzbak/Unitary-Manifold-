@@ -912,10 +912,11 @@ def test_route_tool_training_architecture_and_artifacts():
         and 'four crosswalk questions' in item['prompt']
         for item in navier_challenge_pack['result']['data']['challenges']
     )
+    fresh_arc_agi_challenge_pack = route_tool('getMerlinTrainingChallengePack', {'limit': 80}, session=MerlinSession())
     assert any(
         item['queue_id'] == 'lane_a_arc_agi_shadow_program'
         and 'holdout discipline' in item['prompt']
-        for item in navier_challenge_pack['result']['data']['challenges']
+        for item in fresh_arc_agi_challenge_pack['result']['data']['challenges']
     )
     frontier = route_tool('getMerlinFrontierStack', {})
     assert frontier['ok'] is True
