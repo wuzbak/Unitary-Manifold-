@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import importlib
-from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict
 
@@ -31,6 +30,7 @@ def _load(module_name: str) -> Any:
 def _truth_surface_sync_status() -> Dict[str, Any]:
     return build_truth_surface_sync_status({
         (_ROOT / 'STATUS.md').resolve().as_posix(): [f'{VERSION} Sprint {SPRINT}', f'Pillar {PILLAR_NUMBER}', 'next slot 1121'],
+        (_ROOT / '1-THEORY' / 'DERIVATION_STATUS.md').resolve().as_posix(): [f'Unitary Manifold {VERSION}', f'Last updated: {SPRINT_DATE} ({VERSION} — Sprint {SPRINT}', 'next slot 1121'],
         (_ROOT / 'docs' / 'mas_tracker.yml').resolve().as_posix(): ['v37_6_sprint_ct:', '  pillars: 1120-1120', '  next_pillar_slot: 1121'],
         (_ROOT / 'FALLIBILITY.md').resolve().as_posix(): [f'Unitary Manifold {VERSION}', 'Sprint CT', 'Pillars 1120-1120'],
         (_ROOT / 'docs' / 'CLAIM_MASTER_BOARD.md').resolve().as_posix(): [f'*P{PILLAR_NUMBER} ({VERSION}):', PILLAR_STATUS],
@@ -50,7 +50,6 @@ def _truth_surface_file_pass(truth_sync: Dict[str, Any], relative_path: str) -> 
     return False
 
 
-@lru_cache(maxsize=1)
 def psicat_training_benchmarking_promotion_sprint() -> Dict[str, Any]:
     merlin_program = _load('ox_navigator.engine.merlin_program')
     packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=2, training_limit=4)

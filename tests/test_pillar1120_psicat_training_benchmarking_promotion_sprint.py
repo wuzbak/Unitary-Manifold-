@@ -76,14 +76,14 @@ def test_invalid_if_packet_mode_breaks(monkeypatch) -> None:
             }
 
     monkeypatch.setattr(p1120, '_load', lambda _name: StubProgram())
-    report = p1120.psicat_training_benchmarking_promotion_sprint.__wrapped__()
+    report = p1120.psicat_training_benchmarking_promotion_sprint()
     assert report['valid'] is False
     assert report['dependencies']['training_packet_mode_ok'] is False
 
 
 def test_invalid_if_truth_sync_breaks(monkeypatch) -> None:
     monkeypatch.setattr(p1120, '_truth_surface_sync_status', lambda: {'all_pass': False, 'files': []})
-    report = p1120.psicat_training_benchmarking_promotion_sprint.__wrapped__()
+    report = p1120.psicat_training_benchmarking_promotion_sprint()
     assert report['truth_surface_sync']['all_pass'] is False
     assert report['valid'] is False
 
@@ -101,9 +101,46 @@ def test_invalid_if_historical_continuity_breaks(monkeypatch) -> None:
             ],
         },
     )
-    report = p1120.psicat_training_benchmarking_promotion_sprint.__wrapped__()
+    report = p1120.psicat_training_benchmarking_promotion_sprint()
     assert report['dependencies']['historical_continuity_declared_from_sprint_cs'] is False
     assert report['valid'] is False
+
+
+def test_report_recomputes_without_module_cache(monkeypatch) -> None:
+    class StubProgram:
+        @staticmethod
+        def get_psicat_training_benchmarking_promotion_sprint(**kwargs):
+            return {
+                'mode': 'training_benchmarking_promotion_sprint',
+                'training_board': [{}] * 4,
+                'benchmark_board': {
+                    'stage_gate_summary': [{}] * 5,
+                    'spc_phase1_lane_receipts': [{}] * 3,
+                },
+                'promotion_readiness': {'decision': 'PROMOTION_SPRINT_ADVANCE_ALLOWED'},
+                'appropriate_promotion_sprint': {'sprint_id': 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'},
+            }
+
+    state = {'calls': 0}
+
+    def fake_truth_sync():
+        state['calls'] += 1
+        return {
+            'all_pass': state['calls'] > 1,
+            'files': [
+                {'path': f"{p1120._ROOT.resolve().as_posix()}/docs/SPRINT_PLAN.md", 'pass': True},
+                {'path': f"{p1120._ROOT.resolve().as_posix()}/9-INFRASTRUCTURE/um_live_status.json", 'pass': state['calls'] > 1},
+            ],
+        }
+
+    monkeypatch.setattr(p1120, '_load', lambda _name: StubProgram())
+    monkeypatch.setattr(p1120, '_truth_surface_sync_status', fake_truth_sync)
+
+    first = p1120.psicat_training_benchmarking_promotion_sprint()
+    second = p1120.psicat_training_benchmarking_promotion_sprint()
+
+    assert first['valid'] is False
+    assert second['valid'] is True
 
 
 def test_summary_contract(report) -> None:

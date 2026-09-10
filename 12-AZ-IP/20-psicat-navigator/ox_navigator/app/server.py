@@ -21,6 +21,7 @@ from ox_navigator.engine.constants import DEFAULT_TEMPERATURE, MODEL_ID
 from ox_navigator.engine.merlin_benchmark import get_benchmark_corpus
 from ox_navigator.engine.merlin_engine import query_merlin
 from ox_navigator.engine.merlin_identity import get_identity_policy
+from ox_navigator.engine.merlin_local_execution import get_local_execution_status, run_local_execution_loop
 from ox_navigator.engine.merlin_local_inference import get_inference_health, get_inference_providers
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
@@ -628,6 +629,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 },
                 })
                 return
+            if route_path == '/api/psicat/local-execution/status':
+                self._json({
+                'ok': True,
+                'local_execution_status': get_local_execution_status(),
+                })
+                return
             if route_path == '/api/psicat/benchmarks':
                 self._json({
                 'ok': True,
@@ -1094,10 +1101,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/spc-phase0-packet':
+                packet = get_psicat_spc_phase0_execution_packet()
+                if packet.get('ok'):
+                    status_code = 200
+                elif int(packet.get('validation_error_count') or 0) > 0:
+                    status_code = 422
+                else:
+                    status_code = 500
                 self._json({
-                'ok': True,
-                'spc_phase0_packet': get_psicat_spc_phase0_execution_packet(),
-                })
+                'ok': bool(packet.get('ok')),
+                'spc_phase0_packet': packet,
+                }, status=status_code)
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/spc-phase1-baseline':
@@ -1538,6 +1552,40 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                             candidate=candidate,
                         ),
                     })
+                    return
+                if route_path in {'/api/psicat/local-execution/run', '/api/merlin/local-execution/run'}:
+                    command = str(payload.get('command') or '').strip()
+                    if not command:
+                        self._json({'ok': False, 'error': 'command is required'}, status=400)
+                        return
+                    timeout_seconds = None
+                    raw_timeout = payload.get('timeout_seconds')
+                    if raw_timeout not in (None, ''):
+                        try:
+                            timeout_seconds = int(raw_timeout)
+                        except (TypeError, ValueError):
+                            self._json({'ok': False, 'error': 'timeout_seconds must be an integer when provided'}, status=400)
+                            return
+                        if timeout_seconds < 1:
+                            self._json({'ok': False, 'error': 'timeout_seconds must be >= 1 when provided'}, status=400)
+                            return
+                    result = run_local_execution_loop(
+                        command=command,
+                        cwd=str(payload.get('cwd') or '').strip() or None,
+                        timeout_seconds=timeout_seconds,
+                    )
+                    reason = str((result.get('governance') or {}).get('reason') or '').strip().lower()
+                    if result.get('ok'):
+                        status_code = 200
+                    elif reason in {'local_execution_disabled', 'command_not_allowlisted', 'cwd_outside_repo', 'path_qualified_executable_forbidden'}:
+                        status_code = 403
+                    else:
+                        status_code = 422
+                    self._json({
+                        'ok': bool(result.get('ok')),
+                        'local_execution': result,
+                    }, status=status_code)
+                    self._persist_session(session_id, merlin_session)
                     return
             finally:
                 self._persist_session(session_id, merlin_session)

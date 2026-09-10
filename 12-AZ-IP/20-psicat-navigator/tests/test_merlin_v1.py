@@ -1760,6 +1760,19 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert len(training_promotion_sprint_data['training_board']) == 4
     assert training_promotion_sprint_data['training_execution_summary']['lane_progress_count'] >= 1
     assert training_promotion_sprint_data['training_execution_summary']['challenge_pack_size'] >= 1
+    assert training_promotion_sprint_data['promotion_readiness']['training_cycle_executed'] is True
+    assert training_promotion_sprint_data['promotion_readiness']['training_cycle_processed_count'] > 0
+    assert training_promotion_sprint_data['promotion_readiness']['training_ready'] is True
+    assert training_promotion_sprint_data['promotion_readiness']['promotion_language'] == 'PROMOTION_SPRINT_ADVANCE_ALLOWED'
+    assert training_promotion_sprint_data['promotion_readiness']['promotion_receipt_policy'] == 'ADVANCE_WITH_RECEIPTS_ONLY'
+    assert (
+        training_promotion_sprint_data['promotion_readiness']['training_queue_clear']
+        == training_promotion_sprint_data['training_execution_summary']['training_queue_clear']
+    )
+    assert (
+        training_promotion_sprint_data['promotion_readiness']['training_ready']
+        == training_promotion_sprint_data['training_execution_summary']['training_ready']
+    )
     assert any(phase['name'] == 'multi_job_language_split' for phase in resilience_data['codeql_scope_reduction_strategy']['phases'])
     assert resilience_data['codeql_matrix_split_strategy']['matrix_axes'] == ['language', 'path_slice']
     assert resilience_data['duckdb_preflight_telemetry']['artifact'] == 'codeql-slice-inventory'
@@ -1804,9 +1817,10 @@ def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatc
     assert packet['promotion_readiness']['decision'] == 'PROMOTION_NOT_EARNED_YET'
     assert packet['promotion_readiness']['promotion_language'] == 'FROZEN_PENDING_VISIBLE_GATES'
     assert packet['appropriate_promotion_sprint']['sprint_id'] == 'TRAINING_EXECUTION_REMEDIATION_SPRINT'
+    assert packet['validity_signals']['has_sprint_routing'] is True
 
 
-def test_training_benchmarking_promotion_sprint_missing_queue_after_not_clear(monkeypatch):
+def test_training_benchmarking_promotion_sprint_missing_queue_after_zero_counts_clear(monkeypatch):
     monkeypatch.setattr(
         merlin_program,
         'get_psicat_achievement_benchmark_promotion_sprint',
@@ -1830,8 +1844,43 @@ def test_training_benchmarking_promotion_sprint_missing_queue_after_not_clear(mo
         },
     )
     packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
-    assert packet['training_execution_summary']['training_queue_clear'] is False
-    assert packet['promotion_readiness']['training_queue_clear'] is False
+    assert packet['training_execution_summary']['training_queue_observed'] is True
+    assert packet['training_execution_summary']['training_queue_clear'] is True
+    assert packet['promotion_readiness']['training_queue_clear'] is True
+
+
+def test_training_benchmarking_promotion_sprint_preserves_parent_block(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        'get_psicat_achievement_benchmark_promotion_sprint',
+        lambda **_kwargs: {
+            'generated_at': '2026-09-10T00:00:00Z',
+            'inputs': {'limit': 1, 'training_limit': 1},
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+            },
+            'promotion_readiness': {
+                'decision': 'PROMOTION_NOT_EARNED_YET',
+                'targeted_rigor_clear': True,
+                'frontier_blockers_all_clear': True,
+                'spc_phase1_clear_to_advance': True,
+            },
+            'appropriate_promotion_sprint': {'sprint_id': 'TARGETED_RIGOR_REMEDIATION_SPRINT'},
+            'targeted_rigor_sprint': {
+                'training': {
+                    'queue_before': {'ready_count': 1},
+                    'cycle': {'processed_count': 1, 'queue_after': {'stale_retrain_count': 0, 'needs_review_count': 0}},
+                    'lane_progress_ledgers': [{'lane_id': 'lane_a'}],
+                    'challenge_pack': {'challenges': [{'id': 'c1'}]},
+                }
+            },
+        },
+    )
+    packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
+    assert packet['training_execution_summary']['training_ready'] is True
+    assert packet['promotion_readiness']['decision'] == 'PROMOTION_NOT_EARNED_YET'
+    assert packet['appropriate_promotion_sprint']['sprint_id'] == 'TARGETED_RIGOR_REMEDIATION_SPRINT'
 
 
 def test_training_benchmarking_promotion_sprint_malformed_queue_after_not_clear(monkeypatch):
@@ -1859,6 +1908,7 @@ def test_training_benchmarking_promotion_sprint_malformed_queue_after_not_clear(
     )
     packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
     assert packet['training_execution_summary']['training_cycle_executed'] is True
+    assert packet['training_execution_summary']['training_queue_observed'] is True
     assert packet['training_execution_summary']['training_queue_clear'] is False
     assert packet['promotion_readiness']['training_queue_clear'] is False
 
@@ -1891,6 +1941,7 @@ def test_training_benchmarking_promotion_sprint_nonnumeric_queue_after_not_clear
     )
     packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
     assert packet['training_execution_summary']['training_cycle_executed'] is True
+    assert packet['training_execution_summary']['training_queue_observed'] is True
     assert packet['training_execution_summary']['training_queue_clear'] is False
     assert packet['promotion_readiness']['training_queue_clear'] is False
 
@@ -1924,10 +1975,12 @@ def test_training_benchmarking_promotion_sprint_nonnumeric_processed_count_not_e
     packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
     assert packet['training_execution_summary']['cycle_processed_count'] == 0
     assert packet['training_execution_summary']['training_cycle_executed'] is False
-    assert packet['training_execution_summary']['training_queue_observed'] is False
+    assert packet['training_execution_summary']['training_queue_observed'] is True
     assert packet['training_execution_summary']['queue_after_state_clear'] is True
-    assert packet['training_execution_summary']['training_queue_clear'] is False
+    assert packet['training_execution_summary']['training_queue_clear'] is True
     assert packet['training_execution_summary']['training_ready'] is False
+    assert packet['promotion_readiness']['training_queue_observed'] is True
+    assert packet['promotion_readiness']['training_queue_clear'] is True
     assert packet['promotion_readiness']['training_ready'] is False
 
 

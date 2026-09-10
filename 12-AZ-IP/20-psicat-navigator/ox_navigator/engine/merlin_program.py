@@ -54,6 +54,19 @@ PSICAT_SPC_GATES_DOC = PRODUCT_ROOT / "PSICAT_SPC_BENCHMARK_GATES.md"
 PSICAT_SPC_PHASE0_PACKET_PATH = (
     PRODUCT_ROOT / "training" / "training_execution" / "psicat_spc_phase0_execution_packet.json"
 )
+_PSICAT_PHASE0_REQUIRED_TOP_LEVEL = {
+    "ok",
+    "packet",
+    "status",
+    "objective",
+    "lanes",
+    "global_hard_fails",
+    "phase_2_gates",
+    "phase_3_gates",
+    "evidence_packet_required_fields",
+    "default_gate_behavior",
+    "references",
+}
 _AST_CONTEXT_SKIP_PARTS = {
     ".git",
     "__pycache__",
@@ -103,6 +116,105 @@ def _has_positive_counter(mapping: dict[str, Any], *keys: str) -> bool:
 def _natural_sort_key(path: Path) -> tuple[Any, ...]:
     parts = re.split(r"(\d+)", path.name.lower())
     return tuple(int(part) if part.isdigit() else part for part in parts)
+
+
+def _validate_psicat_phase0_packet(packet: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(packet, dict):
+        return ["Packet payload must be an object."]
+    missing = sorted(_PSICAT_PHASE0_REQUIRED_TOP_LEVEL.difference(packet.keys()))
+    if missing:
+        errors.append(f"Missing required top-level fields: {', '.join(missing)}")
+
+    if not isinstance(packet.get("ok"), bool):
+        errors.append("Field 'ok' must be boolean.")
+    if not isinstance(packet.get("packet"), str):
+        errors.append("Field 'packet' must be string.")
+    if not isinstance(packet.get("status"), str):
+        errors.append("Field 'status' must be string.")
+    if not isinstance(packet.get("objective"), str) or not str(packet.get("objective") or "").strip():
+        errors.append("Field 'objective' must be a non-empty string.")
+
+    lanes = packet.get("lanes")
+    if not isinstance(lanes, list) or not lanes:
+        errors.append("Field 'lanes' must be a non-empty array.")
+    else:
+        for idx, lane in enumerate(lanes):
+            if not isinstance(lane, dict):
+                errors.append(f"Lane[{idx}] must be an object.")
+                continue
+            for field in ("lane_id", "name"):
+                if not isinstance(lane.get(field), str) or not str(lane.get(field) or "").strip():
+                    errors.append(f"Lane[{idx}] field '{field}' must be a non-empty string.")
+            if (
+                not isinstance(lane.get("focus"), list)
+                or not lane.get("focus")
+                or not all(isinstance(item, str) and item.strip() for item in lane.get("focus", []))
+            ):
+                errors.append(f"Lane[{idx}] field 'focus' must be a non-empty string array.")
+            if (
+                not isinstance(lane.get("phase_1_actions"), list)
+                or not lane.get("phase_1_actions")
+                or not all(isinstance(item, str) and item.strip() for item in lane.get("phase_1_actions", []))
+            ):
+                errors.append(f"Lane[{idx}] field 'phase_1_actions' must be a non-empty string array.")
+            gates = lane.get("phase_1_gates")
+            if not isinstance(gates, dict):
+                errors.append(f"Lane[{idx}] field 'phase_1_gates' must be an object.")
+            else:
+                if not isinstance(gates.get("baseline_score_min"), (int, float)):
+                    errors.append(f"Lane[{idx}] phase_1_gates.baseline_score_min must be numeric.")
+                if not isinstance(gates.get("hard_fail_tolerance"), int):
+                    errors.append(f"Lane[{idx}] phase_1_gates.hard_fail_tolerance must be integer.")
+
+    hard_fails = packet.get("global_hard_fails")
+    if not isinstance(hard_fails, list) or not hard_fails or not all(isinstance(item, str) and item.strip() for item in hard_fails):
+        errors.append("Field 'global_hard_fails' must be a non-empty string array.")
+
+    phase_2 = packet.get("phase_2_gates")
+    if not isinstance(phase_2, dict):
+        errors.append("Field 'phase_2_gates' must be an object.")
+    else:
+        for key in ("decision_quality_min", "false_confidence_rate_max", "high_risk_triage_minutes_max"):
+            if key not in phase_2:
+                errors.append(f"Missing phase_2_gates.{key}")
+
+    phase_3 = packet.get("phase_3_gates")
+    if not isinstance(phase_3, dict):
+        errors.append("Field 'phase_3_gates' must be an object.")
+    else:
+        for key in ("integrated_clean_runs_required", "critical_escalation_failures_max"):
+            if key not in phase_3:
+                errors.append(f"Missing phase_3_gates.{key}")
+        if not isinstance(phase_3.get("independent_review_required"), bool):
+            errors.append("phase_3_gates.independent_review_required must be boolean.")
+
+    evidence = packet.get("evidence_packet_required_fields")
+    required_fields = {
+        "scenario_id",
+        "lane_id",
+        "inputs",
+        "response",
+        "citations",
+        "confidence_band",
+        "score_breakdown",
+        "review_verdict",
+        "corrective_action",
+    }
+    if not isinstance(evidence, list) or not all(isinstance(item, str) and item.strip() for item in evidence):
+        errors.append("Field 'evidence_packet_required_fields' must be a non-empty string array.")
+    elif not required_fields.issubset(set(evidence)):
+        missing_required = sorted(required_fields.difference(set(evidence)))
+        errors.append(f"evidence_packet_required_fields missing required entries: {', '.join(missing_required)}")
+
+    if str(packet.get("default_gate_behavior") or "") != "fail_closed_on_missing_evidence":
+        errors.append("default_gate_behavior must be 'fail_closed_on_missing_evidence'.")
+
+    refs = packet.get("references")
+    if not isinstance(refs, list) or not refs or not all(isinstance(item, str) and item.strip() for item in refs):
+        errors.append("Field 'references' must be a non-empty string array.")
+
+    return errors
 
 
 @lru_cache(maxsize=1)
@@ -7122,6 +7234,12 @@ def get_psicat_spc_phase0_execution_packet() -> dict[str, Any]:
     payload["ok"] = True
     payload["error"] = ""
     payload["packet"] = parsed
+    validation_errors = _validate_psicat_phase0_packet(parsed if isinstance(parsed, dict) else {})
+    payload["validation_errors"] = validation_errors
+    payload["validation_error_count"] = len(validation_errors)
+    if validation_errors:
+        payload["ok"] = False
+        payload["error"] = "Phase-0 packet failed fail-closed schema validation."
     payload["sources"] = [
         _repo_rel(PSICAT_SPC_PLAN_DOC),
         _repo_rel(PSICAT_SPC_GATES_DOC),
@@ -7572,6 +7690,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
     if processed_count is None:
         processed_count = 0
     training_cycle_executed = processed_count > 0
+    queue_after_observed = raw_queue_after is not None
     has_queue_after_state = isinstance(raw_queue_after, dict) and all(
         key in raw_queue_after for key in ("stale_retrain_count", "needs_review_count")
     )
@@ -7584,7 +7703,15 @@ def get_psicat_training_benchmarking_promotion_sprint(
         and stale_retrain_count == 0
         and needs_review_count == 0
     )
-    training_queue_observed = training_cycle_executed or _has_positive_counter(
+    queue_before_zero_fields = [
+        _safe_int(queue_before.get(key))
+        for key in ("queued_count", "ready_count", "stale_retrain_count", "needs_review_count", "total_queue_items")
+        if isinstance(queue_before, dict) and key in queue_before
+    ]
+    queue_before_state_clear = bool(queue_before_zero_fields) and all(
+        value is not None and value == 0 for value in queue_before_zero_fields
+    )
+    training_queue_observed = queue_after_observed or training_cycle_executed or _has_positive_counter(
         queue_before,
         "queued_count",
         "ready_count",
@@ -7592,13 +7719,16 @@ def get_psicat_training_benchmarking_promotion_sprint(
         "needs_review_count",
         "total_queue_items",
     )
-    training_queue_clear = queue_after_state_clear and training_queue_observed
+    training_queue_observed = training_queue_observed or (not queue_after_observed and queue_before_state_clear)
+    training_queue_clear = queue_after_state_clear or (not queue_after_observed and queue_before_state_clear)
     training_ready = training_cycle_executed and training_queue_clear
     inherited_targeted_clear = bool(promotion_readiness.get("targeted_rigor_clear"))
     inherited_frontier_clear = bool(promotion_readiness.get("frontier_blockers_all_clear"))
     inherited_phase1_clear = bool(promotion_readiness.get("spc_phase1_clear_to_advance"))
+    inherited_decision = str(promotion_readiness.get("decision") or "")
     inherited_decision_allowed = (
-        inherited_targeted_clear
+        inherited_decision == "PROMOTION_SPRINT_ADVANCE_ALLOWED"
+        and inherited_targeted_clear
         and inherited_frontier_clear
         and inherited_phase1_clear
     )
@@ -7644,6 +7774,11 @@ def get_psicat_training_benchmarking_promotion_sprint(
         else "PROMOTION_NOT_EARNED_YET"
     )
     promotion_readiness["promotion_language"] = (
+        "PROMOTION_SPRINT_ADVANCE_ALLOWED"
+        if final_decision_allowed
+        else "FROZEN_PENDING_VISIBLE_GATES"
+    )
+    promotion_readiness["promotion_receipt_policy"] = (
         "ADVANCE_WITH_RECEIPTS_ONLY"
         if final_decision_allowed
         else "FROZEN_PENDING_VISIBLE_GATES"
@@ -7718,7 +7853,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
             "has_training_board": len(training_board) >= 4,
             "has_stage_gate_summary": len(stage_gate_summary) == 5,
             "has_spc_lane_receipts": len(spc_lanes) == 3,
-            "has_sprint_routing": bool(str(appropriate_sprint.get("sprint_id") or "")),
+            "has_sprint_routing": bool(str(sprint_id or "")),
         },
         "honesty_note": (
             "This packet extends achievement/benchmark routing with explicit training execution visibility; "

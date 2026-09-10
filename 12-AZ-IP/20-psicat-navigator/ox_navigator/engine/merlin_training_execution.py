@@ -931,7 +931,14 @@ def _record_performance_gate_history(
     dataset_summary: dict[str, Any] | None,
 ) -> dict[str, Any]:
     entries = _load_performance_gate_history()
-    cycle_id = len(entries) + 1
+    cycle_id = max(
+        (
+            int(item.get("cycle_id"))
+            for item in entries
+            if isinstance(item, dict) and isinstance(item.get("cycle_id"), int)
+        ),
+        default=0,
+    ) + 1
     entry = {
         "generated_at": _utcnow(),
         "cycle_id": cycle_id,

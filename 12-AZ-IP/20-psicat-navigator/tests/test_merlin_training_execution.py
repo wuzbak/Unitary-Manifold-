@@ -258,6 +258,38 @@ def test_training_cycle_persists_gate_history_and_ast_context(tmp_path, monkeypa
     assert history_path.exists()
 
 
+def test_performance_gate_history_cycle_ids_remain_unique_when_capped(tmp_path, monkeypatch) -> None:
+    history_path = tmp_path / "performance_gate_history.json"
+    monkeypatch.setattr(training_execution, "PERFORMANCE_GATE_HISTORY_PATH", history_path)
+    entries = [
+        {
+            "generated_at": f"2026-09-10T00:00:{idx:02d}Z",
+            "cycle_id": idx,
+            "gate_verdict": "hold",
+            "ok": False,
+            "failed_checks": [],
+            "reason": "",
+            "baseline_source": "test",
+            "processed_count": 0,
+            "ast_context": {"enabled": False, "file_limit": None, "dataset_rows": 0, "ast_context_records": 0},
+            "cadence_window": {"start_cycle": idx, "end_cycle": idx, "non_overlapping": True},
+        }
+        for idx in range(1, training_execution.PERFORMANCE_GATE_HISTORY_MAX_ENTRIES + 1)
+    ]
+    history_path.write_text(json.dumps({"ok": True, "artifact_path": "x", "entry_count": len(entries), "entries": entries}), encoding="utf-8")
+
+    history = training_execution._record_performance_gate_history(
+        performance_gate={"gate_verdict": "pass", "ok": True, "failed_checks": [], "reason": "", "baseline_source": "test"},
+        include_ast_context=False,
+        ast_file_limit=None,
+        processed_count=1,
+        dataset_summary=None,
+    )
+
+    assert history["entry_count"] == training_execution.PERFORMANCE_GATE_HISTORY_MAX_ENTRIES
+    assert history["latest"]["cycle_id"] == training_execution.PERFORMANCE_GATE_HISTORY_MAX_ENTRIES + 1
+
+
 def test_merlin_training_queue_and_challenge_pack_include_navier_packets() -> None:
     session = MerlinSession()
     queue = build_merlin_training_execution_queue(session=session, limit=80)
