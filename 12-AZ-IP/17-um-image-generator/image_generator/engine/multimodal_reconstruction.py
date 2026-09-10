@@ -133,8 +133,15 @@ def evaluate_multimodal_quality(
     cloud = np.asarray(point_cloud, dtype=float)
     vertices = np.asarray(mesh_vertices, dtype=float)
     faces = np.asarray(mesh_faces, dtype=int)
-    nearest_sq = np.sum((cloud[:, None, :] - vertices[None, :, :]) ** 2, axis=2).min(axis=1)
-    nearest = np.sqrt(nearest_sq)
+    try:
+        from scipy.spatial import cKDTree  # type: ignore
+
+        tree = cKDTree(vertices)
+        nearest = tree.query(cloud, workers=-1)[0]
+    except Exception:
+        nearest_sq = np.sum((cloud[:, None, :] - vertices[None, :, :]) ** 2, axis=2).min(axis=1)
+        nearest = np.sqrt(nearest_sq)
+    nearest_sq = np.square(nearest)
     scale_mm = 1000.0
     manifold = _edge_manifold_stats(faces)
     return {
