@@ -4,7 +4,7 @@
 """Lean4 theorem index helpers for OX Navigator."""
 from __future__ import annotations
 
-LEAN4_THEOREM_COUNT = 2186
+LEAN4_THEOREM_COUNT = 4080
 LEAN4_THEOREM_SAMPLE = [
     'APS_T2Z2_NgenBridge',
     'APSEtaInvariantBridge',

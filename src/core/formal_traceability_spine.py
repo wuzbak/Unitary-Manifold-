@@ -314,12 +314,14 @@ PSICAT_TRAINING_MANIFEST: Dict[str, Any] = {
     ],
     "registry_sources": [
         "src/core/formal_traceability_spine.py",
+        "src/core/lean_python_bridge_ir.py",
         "src/core/navier_stokes_method_transfer.py",
         "src/core/pythagorean_triples_sat_method_transfer.py",
         "tests/test_formal_traceability_spine.py",
     ],
     "export_tools": [
         "12-AZ-IP/20-psicat-navigator/tools/export_merlin_stage_a_artifacts.py",
+        "12-AZ-IP/20-psicat-navigator/tools/export_merlin_lean_bridge_artifact.py",
         "12-AZ-IP/20-psicat-navigator/tools/export_merlin_training_artifacts.py",
         "12-AZ-IP/20-psicat-navigator/tools/export_merlin_training_jsonl.py",
         "12-AZ-IP/20-psicat-navigator/tools/export_merlin_mlflow_manifests.py",
@@ -411,6 +413,8 @@ def _detect_runtime_alignment() -> Dict[str, Any]:
 
 def formal_traceability_spine() -> Dict[str, Any]:
     """Return the canonical formal frontier registry."""
+    from src.core.lean_python_bridge_ir import build_python_lean_bridge_contract
+
     rows = [dict(row, paths_exist=_row_paths_exist(row)) for row in TRACEABILITY_ROWS]
     packets = [
         dict(
@@ -425,6 +429,11 @@ def formal_traceability_spine() -> Dict[str, Any]:
         for path in INTAKE_SURFACE
     ]
     runtime_alignment = _detect_runtime_alignment()
+    bridge_contract = build_python_lean_bridge_contract(
+        rows=rows,
+        primary_lanes=PRIMARY_LANES,
+        runtime_alignment=runtime_alignment,
+    )
     psicat_training = {
         "target_product": PSICAT_TRAINING_MANIFEST["target_product"],
         "training_corpus": [
@@ -466,6 +475,7 @@ def formal_traceability_spine() -> Dict[str, Any]:
         "proof_classes": PROOF_CLASSES,
         "curry_howard_matrix": CURRY_HOWARD_MATRIX,
         "runtime_alignment": runtime_alignment,
+        "python_lean_bridge_contract": bridge_contract,
         "traceability_rows": rows,
         "review_packets": packets,
         "intake_surface": intake_surface,

@@ -9,12 +9,11 @@ import hashlib
 import math
 import os
 import re
-import shutil
-import subprocess
 from datetime import datetime, timezone
 from typing import Any
 
 from .lean4_index import LEAN4_THEOREM_SAMPLE, search_theorems
+from .merlin_lean_bridge import run_python_to_lean_bridge_receipt
 from .merlin_benchmark import get_stage_a_benchmark_corpus
 
 _EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
@@ -312,32 +311,40 @@ def run_kernel_p_lean_proof_probe(
     statement = _sanitize_text(conjecture)[:420]
     target = f"{statement}\n{_sanitize_text(context)[:420]}".strip()
     verdict, theorem_hits = _proof_verdict(target)
+    bridge_receipt = run_python_to_lean_bridge_receipt(
+        conjecture=statement,
+        context=_sanitize_text(context)[:420],
+        run_build=bool(enable_repl),
+    )
     repl_requested = bool(enable_repl)
+    backend_state = dict(bridge_receipt.get("backend_state") or {})
+    external_backends = list(backend_state.get("external_backends") or [])
+    local_runtime = dict(backend_state.get("local_runtime") or {})
     repl_enabled = repl_requested and str(os.environ.get("MERLIN_ENABLE_LEAN_BRIDGE") or "").strip().lower() in {"1", "true", "yes", "on"}
-    lean_binary = shutil.which("lean")
-    repl_available = bool(lean_binary)
-    repl_used = False
-    repl_output = ""
-    if repl_enabled and repl_available:
-        try:
-            completed = subprocess.run(
-                [lean_binary, "--version"],
-                check=False,
-                capture_output=True,
-                text=True,
-                timeout=4,
-            )
-            repl_used = True
-            repl_output = (completed.stdout or completed.stderr or "").strip()[:220]
-        except Exception as exc:  # pragma: no cover - environment-dependent
-            repl_output = f"lean_repl_probe_failed: {exc}"
+    local_scoped_build_available = (
+        bool(local_runtime.get("lake_available"))
+        and bool(local_runtime.get("lean_available"))
+        and bool(local_runtime.get("lean4_root_exists"))
+    )
+    external_backend_available = any(bool(item.get("available")) for item in external_backends)
+    repl_available = bool(local_runtime.get("lean_available")) or external_backend_available
+    scoped_build = dict(bridge_receipt.get("scoped_build_receipt") or {})
+    repl_used = repl_enabled and scoped_build.get("status") == "PASS"
+    repl_output = (
+        str(scoped_build.get("stdout_tail") or scoped_build.get("stderr_tail") or "")[:220]
+        if repl_used
+        else ""
+    )
     return {
         "conjecture": statement,
         "proof_verdict": verdict,
         "theorem_hits": theorem_hits,
+        "bridge_receipt": bridge_receipt,
         "repl_requested": repl_requested,
         "repl_enabled": repl_enabled,
         "repl_available": repl_available,
+        "local_scoped_build_available": local_scoped_build_available,
+        "external_backend_available": external_backend_available,
         "repl_used": repl_used,
         "repl_output": repl_output,
         "promotion_allowed": False,

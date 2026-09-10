@@ -85,9 +85,19 @@ def test_curry_howard_matrix_and_runtime_alignment() -> None:
     }
     if alignment["mode"] == "MANUAL_PORT_WITH_TRACEABILITY":
         assert alignment["direct_lean_runtime_detected"] is False
+    else:
+        assert any(path.endswith("merlin_lean_bridge.py") for path in alignment["evidence_files"])
     scan_scope = alignment["scan_scope"]
     assert "12-AZ-IP/20-psicat-navigator/ox_navigator/engine" in scan_scope["dir_targets"]
     assert scan_scope["scanned_python_file_count"] > 0
+
+
+def test_python_lean_bridge_contract_present() -> None:
+    contract = formal_traceability_spine()["python_lean_bridge_contract"]
+    assert contract["contract_id"] == "python_lean_hybrid_bridge_v1"
+    assert contract["strategy"] == "LSP_PLUS_REPL_HYBRID"
+    assert contract["counts"]["formal_unit_count"] == len(contract["formal_units"])
+    assert any(unit["unit_id"] == "ACTION_TO_EVOLUTION_BOUNDARY" for unit in contract["formal_units"])
 
 
 def test_psicat_training_manifest_ready() -> None:

@@ -2397,6 +2397,7 @@ def test_route_tool_observatory_and_proof_probe_record_training_artifacts():
         session=session,
     )
     assert proof_probe['ok'] is True
+    assert proof_probe['result']['data']['bridge_receipt']['strategy'] == 'LSP_PLUS_REPL_HYBRID'
     state = session.get_memory_state()
     assert state['proof_attempt_count'] >= 1
     assert state['observatory_event_count'] >= 1
@@ -2935,6 +2936,7 @@ def test_server_merlin_endpoints():
             assert training_artifacts.json()['ok'] is True
             assert training_artifacts.json()['training_artifacts']['training_architecture']['seed_statistics']['total_examples'] == 4
             assert training_artifacts.json()['training_artifacts']['arc_agi_program']['program'] == 'ARC_AGI_SHADOW_INTEGRATION'
+            assert training_artifacts.json()['training_artifacts']['lean_bridge_artifact']['strategy'] == 'LSP_PLUS_REPL_HYBRID'
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview']['ok'] is True
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview']['lane_e_profile_refresh_requested'] is True
             assert training_artifacts.json()['training_artifacts']['training_execution_bundle_preview'][
@@ -3010,6 +3012,11 @@ def test_server_merlin_endpoints():
             assert inference_health.status_code == 200
             assert inference_health.json()['ok'] is True
             assert inference_health.json()['default_provider'] == 'deterministic_retrieval'
+            lean_bridge = client.get('/api/merlin/lean-bridge?limit=2')
+            assert lean_bridge.status_code == 200
+            assert lean_bridge.json()['ok'] is True
+            assert lean_bridge.json()['lean_bridge']['strategy'] == 'LSP_PLUS_REPL_HYBRID'
+            assert len(lean_bridge.json()['lean_bridge']['formal_units']) == 2
 
             unknown_inference = client.get('/api/merlin/inference/health?provider=missing')
             assert unknown_inference.status_code == 404

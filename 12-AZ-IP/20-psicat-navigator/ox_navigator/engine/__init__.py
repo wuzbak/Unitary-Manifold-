@@ -47,6 +47,12 @@ from .merlin_runtime import (
     get_optimization_priorities,
     run_kernel_p_lean_proof_probe,
 )
+from .merlin_lean_bridge import (
+    detect_lean_bridge_backends,
+    get_live_theorem_count_receipt,
+    get_merlin_lean_bridge_artifact,
+    run_python_to_lean_bridge_receipt,
+)
 from .merlin_benchmark import (
     evaluate_benchmark_response,
     get_benchmark_corpus,
@@ -140,6 +146,8 @@ __all__ = [
     'get_mythos_astra_runtime_contract', 'get_optimization_priorities',
     'get_advanced_execution_graph', 'get_benchmark_suite', 'empirical_observatory_check',
     'run_kernel_p_lean_proof_probe', 'get_stage_a_benchmark_corpus',
+    'detect_lean_bridge_backends', 'get_live_theorem_count_receipt',
+    'get_merlin_lean_bridge_artifact', 'run_python_to_lean_bridge_receipt',
     'get_stage_b_benchmark_corpus', 'get_stage_c_benchmark_corpus', 'get_benchmark_corpus',
     'match_benchmark_for_query', 'evaluate_benchmark_response', 'estimate_token_count', 'estimate_cost_usd',
     'estimate_energy_joules', 'build_run_telemetry', 'summarize_runs',

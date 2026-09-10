@@ -20,5 +20,5 @@ def test_identity() -> None:
 def test_bridge_registry_contract() -> None:
     report = lean_python_bridge_hardening()
     assert report['outcome'] in {'LEAN_PYTHON_BRIDGE_HARDENING_READY', 'LEAN_PYTHON_BRIDGE_HARDENING_BLOCKED'}
-    assert report['dependencies']['runtime_alignment_manual_port_visible'] is True
+    assert report['runtime_alignment']['mode'] in {'MANUAL_PORT_WITH_TRACEABILITY', 'DIRECT_OR_HYBRID_INTEGRATION'}
     assert any(row['bridge_class'] == 'runtime_heuristic' for row in report['bridge_registry'])

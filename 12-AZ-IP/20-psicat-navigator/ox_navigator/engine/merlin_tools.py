@@ -146,6 +146,7 @@ from .merlin_meta_learning import (
 from .merlin_reasoning_graph import get_reasoning_chain
 from .merlin_research_cycle import run_research_cycle
 from .merlin_counterexample import build_counterexample_digest
+from .merlin_lean_bridge import get_merlin_lean_bridge_artifact
 from .merlin_router import choose_runtime, get_router_policy
 from .merlin_runtime import empirical_observatory_check, run_kernel_p_lean_proof_probe
 from .merlin_rag import (
@@ -401,6 +402,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinTelemetrySummary", "summary": "Return measurable run summary for recent Merlin turns", "domain": "functions"},
             {"name": "getMerlinInferenceProviders", "summary": "Return sovereign local inference provider registry", "domain": "functions"},
             {"name": "getMerlinInferenceHealth", "summary": "Return inference provider availability and health", "domain": "functions"},
+            {"name": "getMerlinLeanBridgeArtifact", "summary": "Return the deterministic Python↔Lean bridge contract and runtime artifact", "domain": "functions"},
             {"name": "getMerlinReasoningChain", "summary": "Return a multi-hop pillar reasoning chain with Lean4 hits", "domain": "functions"},
             {"name": "runMerlinResearchCycle", "summary": "Run a bounded repository-grounded Merlin research cycle", "domain": "functions"},
             {"name": "getMerlinCounterexampleDigest", "summary": "Return typed contradiction and counterexample digest artifacts", "domain": "functions"},
@@ -472,6 +474,7 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinHardwareArchitectureBoard": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinExecutionBoard": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinValidationResiliencePacket": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinLeanBridgeArtifact": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinOpenWeightAcquisitionLedger": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinTrainingFrameworkStack": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinDualLaneMasterSprint": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
@@ -1305,7 +1308,8 @@ _FUNCTIONS = {
     )},
     "getMerlinInferenceProviders": lambda **args: {"data": {"providers": get_inference_providers()}},
     "getMerlinInferenceHealth": lambda **args: {"data": get_merlin_inference_health(provider_name=str(args.get("provider", "")).strip() or None)},
-"getMerlinReasoningChain": lambda **args: {"data": get_reasoning_chain(str(args.get("query", "")), max_hops=args.get("max_hops", 3))},
+    "getMerlinLeanBridgeArtifact": lambda **args: {"data": get_merlin_lean_bridge_artifact(limit=args.get("limit"))},
+    "getMerlinReasoningChain": lambda **args: {"data": get_reasoning_chain(str(args.get("query", "")), max_hops=args.get("max_hops", 3))},
     "runMerlinResearchCycle": lambda **args: {"data": run_research_cycle(
         question=str(args.get("question", "")),
         budget=_coerce_positive_int(args.get("budget"), 3),
