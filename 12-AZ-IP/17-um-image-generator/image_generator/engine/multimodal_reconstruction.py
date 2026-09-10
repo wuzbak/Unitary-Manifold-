@@ -176,7 +176,14 @@ def export_point_cloud_ply(points: np.ndarray, destination: str | Path, colors_r
         color_input = np.asarray(colors_rgb, dtype=float)
         if color_input.shape != (pts.shape[0], 3):
             raise ValueError("colors_rgb must be shaped (N, 3)")
-        colors = np.clip(np.rint(color_input * 255.0), 0, 255).astype(np.uint8)
+        max_value = float(np.max(color_input))
+        min_value = float(np.min(color_input))
+        if 0.0 <= min_value and max_value <= 1.0:
+            colors = np.clip(np.rint(color_input * 255.0), 0, 255).astype(np.uint8)
+        elif 0.0 <= min_value and max_value <= 255.0:
+            colors = np.clip(np.rint(color_input), 0, 255).astype(np.uint8)
+        else:
+            raise ValueError("colors_rgb must be in 0..1 or 0..255 range")
 
     out = Path(destination)
     out.parent.mkdir(parents=True, exist_ok=True)

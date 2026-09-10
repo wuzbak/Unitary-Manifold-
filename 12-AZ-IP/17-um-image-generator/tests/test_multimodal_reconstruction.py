@@ -63,6 +63,14 @@ def test_export_point_cloud_ply_writes_ascii_ply(tmp_path: Path) -> None:
     assert "element vertex 25" in text
 
 
+def test_export_point_cloud_ply_accepts_255_color_space(tmp_path: Path) -> None:
+    cloud = generate_calibrated_point_cloud(grid_size=3, scale_meters=1.0)
+    colors = np.full((9, 3), [10.0, 20.0, 30.0], dtype=float)
+    ply_path = export_point_cloud_ply(cloud["points"], tmp_path / "scene-255.ply", colors_rgb=colors)
+    lines = ply_path.read_text(encoding="utf-8").splitlines()
+    assert lines[-1].endswith("10 20 30")
+
+
 def test_export_mesh_stl_writes_ascii_stl(tmp_path: Path) -> None:
     cloud = generate_calibrated_point_cloud(grid_size=5, scale_meters=1.0)
     mesh = build_extruded_mesh(cloud["points"], grid_size=5)
@@ -83,3 +91,11 @@ def test_build_multimodal_scene_bundle_outputs_all_artifacts(tmp_path: Path) -> 
     assert metadata["quality"]["is_watertight"] is True
     assert metadata["quality"]["registration_rmse_mm"] >= 0.0
     assert metadata["quality"]["registration_rmse_mm"] < 1e-6
+
+    gaussian = json.loads(Path(bundle["gaussian_path"]).read_text(encoding="utf-8"))
+    assert gaussian["scene_id"] == "demo"
+    assert gaussian["point_count"] == 81
+    assert len(gaussian["splats"]["centers"]) == 81
+    assert len(gaussian["splats"]["sigmas_xyz"]) == 81
+    assert len(gaussian["splats"]["opacities"]) == 81
+    assert len(gaussian["splats"]["colors_rgb"]) == 81
