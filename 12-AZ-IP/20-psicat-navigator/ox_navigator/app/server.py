@@ -634,6 +634,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'ok': True,
                 'local_execution_status': get_local_execution_status(),
                 })
+                self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/benchmarks':
                 self._json({
@@ -1553,7 +1554,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         ),
                     })
                     return
-                if route_path in {'/api/psicat/local-execution/run', '/api/merlin/local-execution/run'}:
+                if route_path == '/api/psicat/local-execution/run':
                     command = str(payload.get('command') or '').strip()
                     if not command:
                         self._json({'ok': False, 'error': 'command is required'}, status=400)

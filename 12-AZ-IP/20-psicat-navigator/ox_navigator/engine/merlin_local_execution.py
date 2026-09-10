@@ -238,6 +238,7 @@ def run_local_execution_loop(
                 ],
             },
         }
+    argv = [resolved_exec, *argv[1:]]
     try:
         exec_cwd = _resolve_cwd(cwd)
     except Exception:

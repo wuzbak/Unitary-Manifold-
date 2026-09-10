@@ -7224,6 +7224,8 @@ def get_psicat_spc_phase0_execution_packet() -> dict[str, Any]:
         "ok": False,
         "path": _repo_rel(PSICAT_SPC_PHASE0_PACKET_PATH),
         "error": "Missing phase-0 packet artifact.",
+        "validation_errors": [],
+        "validation_error_count": 0,
     }
     try:
         text = PSICAT_SPC_PHASE0_PACKET_PATH.read_text(encoding="utf-8")

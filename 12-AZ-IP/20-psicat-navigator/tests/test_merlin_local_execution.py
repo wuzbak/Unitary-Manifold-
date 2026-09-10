@@ -92,6 +92,29 @@ def test_local_execution_loop_timeout_fails_closed():
     assert "timeout" in result["contract"]["body"].lower()
 
 
+def test_local_execution_loop_uses_resolved_executable(monkeypatch):
+    from ox_navigator.engine import merlin_local_execution as local_execution
+
+    captured: dict[str, object] = {}
+
+    class _Completed:
+        returncode = 0
+        stdout = "13\n"
+        stderr = ""
+
+    monkeypatch.setattr(local_execution.shutil, "which", lambda name: sys.executable if name == "python" else None)
+
+    def _fake_run(argv, **kwargs):
+        captured["argv"] = list(argv)
+        return _Completed()
+
+    monkeypatch.setattr(local_execution.subprocess, "run", _fake_run)
+    result = run_local_execution_loop(command='Python -c "print(13)"')
+    assert result["ok"] is True
+    assert captured["argv"][0] == sys.executable
+    assert result["execution"]["argv"][0] == sys.executable
+
+
 def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypatch):
     from ox_navigator.app import server as server_module
 
@@ -150,7 +173,12 @@ def test_server_phase0_packet_backend_failure_returns_500(monkeypatch):
     monkeypatch.setattr(
         server_module,
         "get_psicat_spc_phase0_execution_packet",
-        lambda: {"ok": False, "error": "Unable to load phase-0 packet artifact: boom"},
+        lambda: {
+            "ok": False,
+            "error": "Unable to load phase-0 packet artifact: boom",
+            "validation_error_count": 0,
+            "validation_errors": [],
+        },
     )
     httpd = serve(port=0)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
@@ -161,6 +189,32 @@ def test_server_phase0_packet_backend_failure_returns_500(monkeypatch):
             response = client.get("/api/merlin/spc-phase0-packet")
             assert response.status_code == 500
             assert response.json()["ok"] is False
+            assert response.json()["spc_phase0_packet"]["validation_error_count"] == 0
+            assert response.json()["spc_phase0_packet"]["validation_errors"] == []
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
+def test_server_local_execution_status_persists_session(monkeypatch):
+    from ox_navigator.app import server as server_module
+
+    saved: list[str] = []
+
+    def _save_profile(profile_id, session):
+        saved.append(profile_id)
+
+    monkeypatch.setattr(server_module._PROFILE_STORE, "save_profile", _save_profile)
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        port = httpd.server_address[1]
+        with httpx.Client(base_url=f"http://127.0.0.1:{port}", timeout=10.0) as client:
+            response = client.get("/api/psicat/local-execution/status")
+            assert response.status_code == 200
+        assert saved
     finally:
         httpd.shutdown()
         httpd.server_close()
@@ -177,6 +231,18 @@ def test_phase0_packet_schema_validation_fails_closed(tmp_path, monkeypatch):
     assert payload["ok"] is False
     assert payload["validation_error_count"] > 0
     assert "fail-closed schema validation" in payload["error"]
+
+
+def test_phase0_packet_backend_failure_includes_empty_validation_shape(tmp_path, monkeypatch):
+    from ox_navigator.engine import merlin_program as program
+
+    bad_packet = tmp_path / "psicat_spc_phase0_execution_packet.json"
+    bad_packet.write_text("{", encoding="utf-8")
+    monkeypatch.setattr(program, "PSICAT_SPC_PHASE0_PACKET_PATH", bad_packet)
+    payload = get_psicat_spc_phase0_execution_packet()
+    assert payload["ok"] is False
+    assert payload["validation_error_count"] == 0
+    assert payload["validation_errors"] == []
 
 
 def test_phase0_packet_schema_validation_success_contract_fields():
