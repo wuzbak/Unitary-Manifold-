@@ -1,0 +1,44 @@
+package com.axiomzero.psicatbrowser
+
+data class BrowserTab(
+    val id: String,
+    var title: String,
+    var url: String,
+    val isPrivate: Boolean = false,
+    var lastSnapshot: PageSnapshot? = null,
+)
+
+data class PageSnapshot(
+    val title: String,
+    val url: String,
+    val selection: String,
+    val text: String,
+    val capturedAt: String,
+)
+
+data class NotebookEntry(
+    val title: String,
+    val text: String,
+    val createdAt: String,
+)
+
+data class BookmarkEntry(
+    val title: String,
+    val url: String,
+    val createdAt: String,
+)
+
+data class HistoryEntry(
+    val title: String,
+    val url: String,
+    val visitedAt: String,
+)
+
+data class BrowserSessionSnapshot(
+    val tabs: List<BrowserTab>,
+    val activeTabId: String?,
+    val bookmarks: List<BookmarkEntry>,
+    val history: List<HistoryEntry>,
+    val syncAccountEmail: String,
+    val syncMode: String,
+)

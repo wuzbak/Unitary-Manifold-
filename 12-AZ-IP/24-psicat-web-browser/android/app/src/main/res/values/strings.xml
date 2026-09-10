@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PsiCat Browser</string>
+    <string-array name="sync_mode_entries">
+        <item>Local + account</item>
+        <item>Local only</item>
+    </string-array>
+    <string-array name="sync_mode_values">
+        <item>local+account</item>
+        <item>local-only</item>
+    </string-array>
+</resources>

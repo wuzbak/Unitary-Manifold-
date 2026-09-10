@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="home_page"
+        android:title="Home page"
+        android:defaultValue="https://example.com" />
+    <EditTextPreference
+        android:key="search_engine"
+        android:title="Search engine"
+        android:defaultValue="https://duckduckgo.com/?q=%s" />
+    <EditTextPreference
+        android:key="psicat_endpoint"
+        android:title="PsiCat endpoint"
+        android:defaultValue="http://127.0.0.1:8020" />
+    <EditTextPreference
+        android:key="sync_backend_endpoint"
+        android:title="Sync backend endpoint"
+        android:defaultValue="http://127.0.0.1:8787" />
+    <EditTextPreference
+        android:key="sync_access_token"
+        android:title="Sync access token" />
+    <EditTextPreference
+        android:key="sync_account_email"
+        android:title="Sync account email"
+        android:useSimpleSummaryProvider="true" />
+    <ListPreference
+        android:key="sync_mode"
+        android:title="Sync mode"
+        android:defaultValue="local+account"
+        android:entries="@array/sync_mode_entries"
+        android:entryValues="@array/sync_mode_values" />
+    <SwitchPreferenceCompat
+        android:key="live_capture"
+        android:title="Live page capture"
+        android:defaultValue="true" />
+</PreferenceScreen>

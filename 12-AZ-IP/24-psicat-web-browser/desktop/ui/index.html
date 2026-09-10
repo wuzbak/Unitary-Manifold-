@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PsiCat Web Browser</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="toolbar">
+      <div class="nav-row">
+        <button id="back" aria-label="Back">←</button>
+        <button id="forward" aria-label="Forward">→</button>
+        <button id="reload" aria-label="Reload">⟳</button>
+        <button id="home" aria-label="Go to home page">⌂</button>
+        <button id="stop" aria-label="Stop loading">✕</button>
+        <form id="address-form">
+          <input id="address" aria-label="Address or search" autocomplete="off" placeholder="Search or enter address">
+        </form>
+        <button id="new-tab" aria-label="Open new tab">＋ Tab</button>
+        <button id="private-tab" aria-label="Open private tab">Private</button>
+        <button id="reopen-tab" aria-label="Reopen last closed tab">Reopen</button>
+        <button id="bookmark" aria-label="Bookmark current page">★</button>
+        <select id="workspace-layout" aria-label="Workspace layout">
+          <option value="single">Single</option>
+          <option value="split-vertical">Split vertical</option>
+          <option value="split-horizontal">Split horizontal</option>
+        </select>
+        <select id="workspace-secondary" aria-label="Secondary workspace tab"></select>
+        <button id="save-workspace">Save workspace</button>
+        <button id="toggle-settings">Settings</button>
+      </div>
+      <div id="tab-strip" class="tab-strip"></div>
+    </header>
+    <main class="workspace">
+      <section class="browser-stage">
+        <div class="empty-state">
+          <h1>PsiCat Browser</h1>
+          <p>Chromium renders on the left. PsiCat research tools live on the right.</p>
+        </div>
+      </section>
+      <aside class="sidebar">
+        <section class="panel status-panel">
+          <h2>PsiCat live context</h2>
+          <div id="sidecar-status" class="muted"></div>
+          <div id="current-page"></div>
+          <label for="question">PsiCat question</label>
+          <textarea id="question" placeholder="Ask PsiCat about this page, remembered pages, notebook notes, or imported research"></textarea>
+          <div class="row">
+            <button id="ask-psicat">Interrogate</button>
+            <button id="remember-page">Remember page</button>
+            <button id="sync-now">Sync now</button>
+            <button id="sync-pull">Pull sync</button>
+          </div>
+          <pre id="answer">No query yet.</pre>
+        </section>
+        <section class="panel notebook-panel">
+          <h2>Notebook</h2>
+          <label for="note-title">Notebook title</label>
+          <input id="note-title" placeholder="Notebook title">
+          <label for="note-text">Notebook body</label>
+          <textarea id="note-text" placeholder="Capture insights, quotes, questions, or research digests"></textarea>
+          <div class="row">
+            <button id="save-note">Save note</button>
+            <button id="import-research">Import</button>
+            <button id="export-research">Export</button>
+          </div>
+          <div class="row">
+            <button id="import-sync">Import sync</button>
+            <button id="export-sync">Export sync</button>
+          </div>
+          <div id="notebook-list" class="list"></div>
+        </section>
+        <section class="panel memory-panel">
+          <h2>Remembered pages</h2>
+          <div id="remembered-pages" class="list"></div>
+        </section>
+        <section class="panel history-panel">
+          <h2>Sync profile</h2>
+          <div id="sync-profile" class="list compact"></div>
+          <h2>Saved workspaces</h2>
+          <div id="saved-workspaces" class="list compact"></div>
+          <h2>Bookmarks</h2>
+          <div id="bookmarks" class="list compact"></div>
+          <h2>History</h2>
+          <div id="history" class="list compact"></div>
+          <h2>Downloads</h2>
+          <div id="downloads" class="list compact"></div>
+          <h2>Imported research</h2>
+          <div id="imported-research" class="list compact"></div>
+        </section>
+        <section id="settings-panel" class="panel settings-panel hidden">
+          <h2>Settings</h2>
+          <label>Home page <input id="setting-homePage"></label>
+          <label>Search engine <input id="setting-searchEngine"></label>
+          <label>Sidebar width <input id="setting-sidebarWidth" type="number" min="320" max="640"></label>
+          <label>Tracking protection
+            <select id="setting-trackProtection">
+              <option value="standard">Standard</option>
+              <option value="strict">Strict</option>
+              <option value="custom">Custom</option>
+            </select>
+          </label>
+          <label>PsiCat endpoint <input id="setting-psicatEndpoint"></label>
+          <label>Sync backend endpoint <input id="setting-syncBackendEndpoint"></label>
+          <label>Sync access token <input id="setting-syncAccessToken" autocomplete="off"></label>
+          <label>Sync account email <input id="setting-accountEmail" type="email"></label>
+          <label>Sync mode
+            <select id="setting-syncMode">
+              <option value="local+account">Local + account</option>
+              <option value="local-only">Local only</option>
+            </select>
+          </label>
+          <label class="checkbox"><input id="setting-autoStartPsiCat" type="checkbox"> Auto-start embedded PsiCat sidecar</label>
+          <label class="checkbox"><input id="setting-livePageCapture" type="checkbox"> Live page capture for contextual research</label>
+          <button id="save-settings">Save settings</button>
+        </section>
+      </aside>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
