@@ -124,7 +124,8 @@ async function boot() {
 
   document.getElementById('export-notes').addEventListener('click', async () => {
     storage = await getStorage();
-    const blob = new Blob([JSON.stringify(storage.notebook || [], null, 2)], { type: 'application/json' });
+    const exportable = (storage.notebook || []).filter((entry) => !entry.private);
+    const blob = new Blob([JSON.stringify(exportable, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     await chrome.downloads.download({ url, filename: 'psicat-extension-notebook.json', saveAs: true });
     setTimeout(() => URL.revokeObjectURL(url), 1000);

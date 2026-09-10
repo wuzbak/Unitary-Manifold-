@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "PsiCat notebook, page capture, and interrogation companion for Chrome and Edge.",
   "permissions": ["storage", "tabs", "activeTab", "scripting", "downloads", "contextMenus", "sidePanel"],
-  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"],
+  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*", "http://10.0.2.2/*"],
   "background": {
     "service_worker": "background.js"
   },

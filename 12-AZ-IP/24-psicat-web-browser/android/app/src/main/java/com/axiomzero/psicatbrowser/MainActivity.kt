@@ -503,6 +503,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun pushSyncToBackend() {
+        if (prefs().getString("sync_mode", "local+account") == "local-only") {
+            contextSummary.text = "Sync mode is local-only; backend push skipped."
+            return
+        }
         val accountEmail = prefs().getString("sync_account_email", "").orEmpty().trim()
         val accessToken = prefs().getString("sync_access_token", "").orEmpty().trim()
         if (accountEmail.isBlank()) {
@@ -543,6 +547,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun pullSyncFromBackend() {
+        if (prefs().getString("sync_mode", "local+account") == "local-only") {
+            contextSummary.text = "Sync mode is local-only; backend pull skipped."
+            return
+        }
         val accountEmail = prefs().getString("sync_account_email", "").orEmpty().trim()
         val accessToken = prefs().getString("sync_access_token", "").orEmpty().trim()
         if (accountEmail.isBlank()) {

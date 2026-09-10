@@ -50,12 +50,14 @@ class BrowserStateStore(context: Context) {
     }
 
     fun saveSession(snapshot: BrowserSessionSnapshot) {
+        val persistedTabs = snapshot.tabs.filterNot { it.isPrivate }
+        val persistedActiveTabId = snapshot.activeTabId?.takeIf { tabId -> persistedTabs.any { it.id == tabId } }
         val payload = JSONObject().apply {
-            put("activeTabId", snapshot.activeTabId)
+            put("activeTabId", persistedActiveTabId)
             put("syncAccountEmail", snapshot.syncAccountEmail)
             put("syncMode", snapshot.syncMode)
             put("tabs", JSONArray().apply {
-                snapshot.tabs.forEach { tab ->
+                persistedTabs.forEach { tab ->
                     put(JSONObject().apply {
                         put("id", tab.id)
                         put("title", tab.title)
