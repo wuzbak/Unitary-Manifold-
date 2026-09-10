@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .multimodal_reconstruction import build_multimodal_scene_bundle
 from .visualizations import (
     generate_birefringence_window_data,
     generate_braided_sound_speed_data,
@@ -153,6 +154,20 @@ def export_visualization(name: str, output_path: str | Path, **kwargs) -> Path:
     return exporter(output_path)
 
 
+def export_multimodal_bundle(
+    output_dir: str | Path,
+    scene_id: str = "um_scene",
+    grid_size: int = 41,
+    scale_meters: float = 1.0,
+) -> dict[str, str | dict[str, float | bool | int]]:
+    return build_multimodal_scene_bundle(
+        output_dir=output_dir,
+        scene_id=scene_id,
+        grid_size=grid_size,
+        scale_meters=scale_meters,
+    )
+
+
 __all__ = [
     "EXPORTERS",
     "export_visualization",
@@ -164,4 +179,5 @@ __all__ = [
     "export_penrose_entropy_png",
     "export_holographic_boundary_png",
     "export_braided_sound_speed_png",
+    "export_multimodal_bundle",
 ]

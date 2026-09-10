@@ -18,6 +18,7 @@ if str(PRODUCT_ROOT) not in sys.path:
 
 import image_generator
 from image_generator.app.server import ImageGeneratorRequestHandler, UI_ROOT, create_server
+from image_generator.engine import export_multimodal_bundle
 from image_generator.engine import export as export_mod
 from image_generator.engine.constants import (
     AREA_TO_ENTROPY_RATIO,
@@ -416,6 +417,19 @@ def test_generic_export_uses_registered_exporter() -> None:
     sentinel = PRODUCT_ROOT / 'tests' / 'dummy.png'
     with patch.dict(export_mod.EXPORTERS, {'cmb': lambda output_path: sentinel}):
         assert export_mod.export_visualization('cmb', sentinel) == sentinel
+
+
+def test_export_module_multimodal_bundle_wrapper(tmp_path: Path) -> None:
+    bundle = export_mod.export_multimodal_bundle(tmp_path, scene_id="wrapper", grid_size=7, scale_meters=1.0)
+    assert Path(bundle["gaussian_path"]).exists()
+    assert Path(bundle["point_cloud_path"]).exists()
+    assert Path(bundle["stl_path"]).exists()
+    assert Path(bundle["metadata_path"]).exists()
+
+
+def test_package_reexport_multimodal_bundle(tmp_path: Path) -> None:
+    bundle = export_multimodal_bundle(tmp_path, scene_id="reexport", grid_size=7, scale_meters=1.0)
+    assert Path(bundle["metadata_path"]).exists()
 
 
 def test_export_cmb_plane_png_with_fake_matplotlib(tmp_path: Path) -> None:
