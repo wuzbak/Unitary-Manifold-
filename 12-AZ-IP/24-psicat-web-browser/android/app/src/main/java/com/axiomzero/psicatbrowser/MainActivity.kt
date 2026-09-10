@@ -168,7 +168,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun capturePageContext(tab: BrowserTab) {
         if (!prefs().getBoolean("live_capture", true)) return
-        activeWebView()?.evaluateJavascript(
+        webViews[tab.id]?.evaluateJavascript(
             "(() => JSON.stringify({ title: document.title, url: location.href, selection: String(window.getSelection ? window.getSelection() : ''), text: document.body ? document.body.innerText.slice(0, 8000) : '' }))()"
         ) { raw ->
             val cleaned = JSONTokener(raw).nextValue() as? String ?: return@evaluateJavascript

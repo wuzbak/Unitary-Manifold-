@@ -56,7 +56,7 @@ function broadcastState() {
 function createBrowserView(tab) {
   const view = new BrowserView({
     webPreferences: {
-      partition: tab.private ? `persist:private-${tab.id}` : undefined,
+      partition: tab.private ? `private-${tab.id}` : undefined,
       contextIsolation: true,
       sandbox: true,
     },
@@ -398,11 +398,13 @@ app.whenReady().then(async () => {
   installIpc();
   await startPsiCatSidecar();
   for (const tab of state.tabs) {
-    mountTab(tab);
-    if (tab.id !== state.activeTabId) break;
+    if (tab.id === state.activeTabId) {
+      mountTab(tab);
+      break;
+    }
   }
   const active = getActiveTab();
-  if (!tabViews.has(active.id)) mountTab(active);
+  if (active && !tabViews.has(active.id)) mountTab(active);
   session.defaultSession.on('will-download', (_event, item) => {
     state = core.addDownload(state, {
       url: item.getURL(),

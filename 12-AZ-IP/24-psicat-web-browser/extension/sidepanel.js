@@ -20,7 +20,11 @@ function renderNotebook(entries) {
   entries.forEach((entry) => {
     const div = document.createElement('div');
     div.className = 'note';
-    div.innerHTML = `<strong>${entry.title}</strong><div>${entry.text.slice(0, 240)}</div>`;
+    const title = document.createElement('strong');
+    title.textContent = entry.title;
+    const body = document.createElement('div');
+    body.textContent = entry.text.slice(0, 240);
+    div.append(title, body);
     wrap.appendChild(div);
   });
 }
@@ -71,11 +75,12 @@ async function askPsiCat(question, page) {
 }
 
 async function boot() {
-  const storage = await getStorage();
+  let storage = await getStorage();
   renderNotebook(storage.notebook || []);
 
   document.getElementById('capture-page').addEventListener('click', async () => {
     const page = await capturePage();
+    storage = await getStorage();
     const current = (storage.rememberedPages || []);
     current.unshift({ ...page, capturedAt: new Date().toISOString() });
     await setStorage({ rememberedPages: current.slice(0, 24) });
@@ -83,11 +88,13 @@ async function boot() {
   });
 
   document.getElementById('save-note').addEventListener('click', async () => {
+    storage = await getStorage();
     const title = document.getElementById('note-title').value.trim() || 'Notebook note';
     const text = document.getElementById('note-text').value.trim();
     if (!text) return;
     const fresh = [{ title, text, createdAt: new Date().toISOString() }, ...(storage.notebook || [])].slice(0, 100);
     await setStorage({ notebook: fresh });
+    storage = { ...storage, notebook: fresh };
     renderNotebook(fresh);
   });
 
@@ -99,6 +106,7 @@ async function boot() {
 
   document.getElementById('import-notes').addEventListener('click', () => document.getElementById('import-file').click());
   document.getElementById('import-file').addEventListener('change', async (event) => {
+    storage = await getStorage();
     const file = event.target.files[0];
     if (!file) return;
     const text = await file.text();
@@ -110,10 +118,12 @@ async function boot() {
     }
     const merged = [...entries, ...(storage.notebook || [])].slice(0, 100);
     await setStorage({ notebook: merged });
+    storage = { ...storage, notebook: merged };
     renderNotebook(merged);
   });
 
   document.getElementById('export-notes').addEventListener('click', async () => {
+    storage = await getStorage();
     const blob = new Blob([JSON.stringify(storage.notebook || [], null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     await chrome.downloads.download({ url, filename: 'psicat-extension-notebook.json', saveAs: true });

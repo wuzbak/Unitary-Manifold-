@@ -4,7 +4,7 @@ import json
 import unittest
 from pathlib import Path
 
-PRODUCT_ROOT = Path('/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/24-psicat-web-browser')
+PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 
 
 class Product24StructureTests(unittest.TestCase):

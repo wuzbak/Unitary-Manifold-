@@ -11,12 +11,15 @@
     <h1>PsiCat</h1>
     <p class="sub">Page-aware notebook and interrogation companion.</p>
     <button id="capture-page">Capture active page</button>
+    <label for="question">PsiCat question</label>
     <textarea id="question" placeholder="Ask about the active page, remembered pages, or imported notes"></textarea>
     <button id="ask-psicat">Summarize / interrogate</button>
     <pre id="answer">No query yet.</pre>
     <section>
       <h2>Notebook</h2>
+      <label for="note-title">Note title</label>
       <input id="note-title" placeholder="Note title">
+      <label for="note-text">Note body</label>
       <textarea id="note-text" placeholder="Type a note or use capture/import"></textarea>
       <div class="row">
         <button id="save-note">Save note</button>

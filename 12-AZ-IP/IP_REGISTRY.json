@@ -400,8 +400,8 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "ea10d24c3e4979e641c2f989b495d791192983d793ea5a13c6a032ebab727189",
-      "size_bytes": 15651
+      "sha256": "bef9158eaaff3779fa3b8e8c8ed7f49e16e630a798a098741509cccef69381fe",
+      "size_bytes": 15669
     },
     "12-AZ-IP/24-psicat-web-browser/extension/manifest.json": {
       "description": "Product 24 Chrome/Edge extension manifest with side panel companion",
@@ -424,8 +424,8 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "2b30b30132eb3f595fda1fcbcba2ab3ec25b57678dc99f5bc70cb9182f88d905",
-      "size_bytes": 932
+      "sha256": "f658d06d73f159c279b1f25734e0302a87c31e4a1c186d86b6f96cb49c07154a",
+      "size_bytes": 1154
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",

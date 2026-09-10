@@ -5,7 +5,20 @@ function byId(id) {
 }
 
 function itemCard(title, body, meta = '') {
-  return `<div class="list-item"><strong>${title}</strong><div>${body}</div>${meta ? `<div class="muted">${meta}</div>` : ''}</div>`;
+  const div = document.createElement('div');
+  div.className = 'list-item';
+  const strong = document.createElement('strong');
+  strong.textContent = title;
+  const bodyDiv = document.createElement('div');
+  bodyDiv.textContent = body;
+  div.append(strong, bodyDiv);
+  if (meta) {
+    const metaDiv = document.createElement('div');
+    metaDiv.className = 'muted';
+    metaDiv.textContent = meta;
+    div.appendChild(metaDiv);
+  }
+  return div;
 }
 
 function renderTabs() {
@@ -14,12 +27,18 @@ function renderTabs() {
   state.tabs.forEach((tab) => {
     const div = document.createElement('div');
     div.className = `tab ${tab.id === state.activeTabId ? 'active' : ''}`;
-    div.innerHTML = `<span>${tab.private ? '🕶️ ' : ''}${tab.title || tab.url}</span><button data-close="${tab.id}">×</button>`;
+    const title = document.createElement('span');
+    title.textContent = `${tab.private ? '🕶️ ' : ''}${tab.title || tab.url}`;
+    const button = document.createElement('button');
+    button.dataset.close = tab.id;
+    button.textContent = '×';
+    button.setAttribute('aria-label', `Close ${tab.title || tab.url}`);
+    div.append(title, button);
     div.addEventListener('click', async (event) => {
       if (event.target.dataset.close) return;
       await window.psicatBrowser.activateTab(tab.id);
     });
-    div.querySelector('button').addEventListener('click', async (event) => {
+    button.addEventListener('click', async (event) => {
       event.stopPropagation();
       await window.psicatBrowser.closeTab(tab.id);
     });
@@ -31,14 +50,24 @@ function renderCurrentPage() {
   const active = state.tabs.find((tab) => tab.id === state.activeTabId);
   byId('address').value = active?.url || '';
   const snapshot = active?.lastSnapshot;
-  byId('current-page').innerHTML = snapshot
+  const wrap = byId('current-page');
+  wrap.innerHTML = '';
+  wrap.appendChild(snapshot
     ? itemCard(snapshot.title || active.title, (snapshot.selection || snapshot.text || '').slice(0, 420), snapshot.url)
-    : itemCard(active?.title || 'New Tab', 'No captured page context yet.', active?.url || '');
+    : itemCard(active?.title || 'New Tab', 'No captured page context yet.', active?.url || ''));
 }
 
 function renderList(id, entries, mapper) {
   const wrap = byId(id);
-  wrap.innerHTML = entries.length ? entries.map(mapper).join('') : '<div class="muted">Nothing here yet.</div>';
+  wrap.innerHTML = '';
+  if (!entries.length) {
+    const empty = document.createElement('div');
+    empty.className = 'muted';
+    empty.textContent = 'Nothing here yet.';
+    wrap.appendChild(empty);
+    return;
+  }
+  entries.forEach((entry) => wrap.appendChild(mapper(entry)));
 }
 
 function renderSettings() {
