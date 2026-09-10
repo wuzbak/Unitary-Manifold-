@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from uuid import uuid4
 
@@ -135,6 +136,13 @@ def _nearest_vertex_distances_chunked(points: np.ndarray, vertices: np.ndarray, 
     return result
 
 
+def _sanitize_scene_id(scene_id: str) -> str:
+    candidate = Path(scene_id).name.strip()
+    normalized = re.sub(r"[^A-Za-z0-9._-]+", "_", candidate)
+    safe = normalized.strip("._-")
+    return safe or "um_scene"
+
+
 def evaluate_multimodal_quality(
     point_cloud: np.ndarray,
     mesh_vertices: np.ndarray,
@@ -246,6 +254,7 @@ def build_multimodal_scene_bundle(
     grid_size: int = 41,
     scale_meters: float = 1.0,
 ) -> dict[str, str | dict[str, float | bool | int]]:
+    safe_scene_id = _sanitize_scene_id(scene_id)
     cloud = generate_calibrated_point_cloud(grid_size=grid_size, scale_meters=scale_meters)
     points = np.asarray(cloud["points"], dtype=float)
     spacing = float(cloud["spacing_meters"])
@@ -255,18 +264,18 @@ def build_multimodal_scene_bundle(
 
     base = Path(output_dir)
     base.mkdir(parents=True, exist_ok=True)
-    gaussian_path = base / f"{scene_id}.gaussian.json"
-    cloud_path = base / f"{scene_id}.pointcloud.ply"
-    stl_path = base / f"{scene_id}.mesh.stl"
-    metadata_path = base / f"{scene_id}.metadata.json"
     temp_tag = uuid4().hex
-    gaussian_tmp = base / f".{scene_id}.{temp_tag}.gaussian.json.tmp"
-    cloud_tmp = base / f".{scene_id}.{temp_tag}.pointcloud.ply.tmp"
-    stl_tmp = base / f".{scene_id}.{temp_tag}.mesh.stl.tmp"
-    metadata_tmp = base / f".{scene_id}.{temp_tag}.metadata.json.tmp"
+    version_dir = base / f"{safe_scene_id}.{temp_tag}"
+    gaussian_path = version_dir / f"{safe_scene_id}.gaussian.json"
+    cloud_path = version_dir / f"{safe_scene_id}.pointcloud.ply"
+    stl_path = version_dir / f"{safe_scene_id}.mesh.stl"
+    metadata_path = version_dir / f"{safe_scene_id}.metadata.json"
+    manifest_path = base / f"{safe_scene_id}.bundle.json"
+    manifest_tmp = base / f".{safe_scene_id}.{temp_tag}.bundle.json.tmp"
+    version_dir.mkdir(parents=True, exist_ok=True)
 
     gaussian_payload = {
-        "scene_id": scene_id,
+        "scene_id": safe_scene_id,
         "calibration_scale_meters": scale_meters,
         "point_count": int(points.shape[0]),
         "splats": {
@@ -276,16 +285,14 @@ def build_multimodal_scene_bundle(
             "colors_rgb": splats["colors_rgb"].tolist(),
         },
     }
-    cleanup_targets = [gaussian_tmp, cloud_tmp, stl_tmp, metadata_tmp]
-    backups: list[tuple[Path, Path]] = []
-    promoted: list[Path] = []
+    cleanup_targets = [manifest_tmp]
     try:
-        gaussian_tmp.write_text(json.dumps(gaussian_payload, indent=2), encoding="utf-8")
-        export_point_cloud_ply(points, cloud_tmp, colors_rgb=np.asarray(splats["colors_rgb"], dtype=float))
-        export_mesh_stl(mesh["vertices"], mesh["faces"], stl_tmp, solid_name=scene_id)
+        gaussian_path.write_text(json.dumps(gaussian_payload, indent=2), encoding="utf-8")
+        export_point_cloud_ply(points, cloud_path, colors_rgb=np.asarray(splats["colors_rgb"], dtype=float))
+        export_mesh_stl(mesh["vertices"], mesh["faces"], stl_path, solid_name=safe_scene_id)
 
         metadata = {
-            "scene_id": scene_id,
+            "scene_id": safe_scene_id,
             "calibration_scale_meters": scale_meters,
             "units": "meters",
             "source_of_truth": "point_cloud",
@@ -296,43 +303,36 @@ def build_multimodal_scene_bundle(
             },
             "quality": quality,
         }
-        metadata_tmp.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
-        replacements = [
-            (gaussian_tmp, gaussian_path),
-            (cloud_tmp, cloud_path),
-            (stl_tmp, stl_path),
-            (metadata_tmp, metadata_path),
-        ]
-        for _, final_path in replacements:
-            if final_path.exists():
-                backup = base / f".{final_path.name}.{temp_tag}.bak"
-                final_path.replace(backup)
-                backups.append((final_path, backup))
-
-        for temp_path, final_path in replacements:
-            temp_path.replace(final_path)
-            promoted.append(final_path)
+        metadata_path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+        manifest = {
+            "scene_id": safe_scene_id,
+            "version": version_dir.name,
+            "artifacts": {
+                "gaussian_path": str(gaussian_path),
+                "point_cloud_path": str(cloud_path),
+                "stl_path": str(stl_path),
+                "metadata_path": str(metadata_path),
+            },
+            "quality": quality,
+        }
+        manifest_tmp.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+        manifest_tmp.replace(manifest_path)
     except Exception:
-        for final_path in promoted:
-            if final_path.exists():
-                final_path.unlink()
-        for final_path, backup in backups:
-            if backup.exists():
-                backup.replace(final_path)
+        if version_dir.exists():
+            for child in version_dir.iterdir():
+                child.unlink()
+            version_dir.rmdir()
         for target in cleanup_targets:
             if target.exists():
                 target.unlink()
         raise
-    finally:
-        for _, backup in backups:
-            if backup.exists():
-                backup.unlink()
 
     return {
         "gaussian_path": str(gaussian_path),
         "point_cloud_path": str(cloud_path),
         "stl_path": str(stl_path),
         "metadata_path": str(metadata_path),
+        "manifest_path": str(manifest_path),
         "quality": quality,
     }
 

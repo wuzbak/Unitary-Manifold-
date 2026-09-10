@@ -85,7 +85,7 @@ def test_export_mesh_stl_writes_ascii_stl(tmp_path: Path) -> None:
 
 def test_build_multimodal_scene_bundle_outputs_all_artifacts(tmp_path: Path) -> None:
     bundle = build_multimodal_scene_bundle(tmp_path, scene_id="demo", grid_size=9, scale_meters=1.5)
-    for key in ("gaussian_path", "point_cloud_path", "stl_path", "metadata_path"):
+    for key in ("gaussian_path", "point_cloud_path", "stl_path", "metadata_path", "manifest_path"):
         assert Path(bundle[key]).exists()
 
     metadata = json.loads(Path(bundle["metadata_path"]).read_text(encoding="utf-8"))
@@ -111,7 +111,25 @@ def test_bundle_write_failure_does_not_leave_partial_files(tmp_path: Path, monke
     with pytest.raises(RuntimeError):
         build_multimodal_scene_bundle(tmp_path, scene_id="broken", grid_size=7, scale_meters=1.0)
 
-    assert not (tmp_path / "broken.gaussian.json").exists()
-    assert not (tmp_path / "broken.pointcloud.ply").exists()
-    assert not (tmp_path / "broken.mesh.stl").exists()
-    assert not (tmp_path / "broken.metadata.json").exists()
+    assert not (tmp_path / "broken.bundle.json").exists()
+    assert not list(tmp_path.glob("broken.*"))
+
+
+def test_bundle_failure_preserves_previous_manifest(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    first = build_multimodal_scene_bundle(tmp_path, scene_id="stable", grid_size=7, scale_meters=1.0)
+    original_manifest = Path(first["manifest_path"]).read_text(encoding="utf-8")
+
+    def fail_stl(*args, **kwargs):
+        raise RuntimeError("forced stl failure")
+
+    monkeypatch.setattr(mm, "export_mesh_stl", fail_stl)
+    with pytest.raises(RuntimeError):
+        build_multimodal_scene_bundle(tmp_path, scene_id="stable", grid_size=9, scale_meters=1.5)
+
+    assert Path(first["manifest_path"]).read_text(encoding="utf-8") == original_manifest
+
+
+def test_scene_id_is_sanitized_for_safe_paths(tmp_path: Path) -> None:
+    bundle = build_multimodal_scene_bundle(tmp_path, scene_id="../unsafe/name", grid_size=5, scale_meters=1.0)
+    assert ".." not in Path(bundle["manifest_path"]).name
+    assert "/unsafe/" not in bundle["manifest_path"]
