@@ -19,6 +19,7 @@ if str(PRODUCT_ROOT) not in sys.path:
 
 import ox_navigator.engine.merlin_engine as merlin_engine
 import ox_navigator.engine.merlin_program as merlin_program
+import ox_navigator.engine.merlin_tools as merlin_tools
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_identity import (
     CANONICAL_IDENTITY,
