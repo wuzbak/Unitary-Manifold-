@@ -13,7 +13,7 @@ REPO_ROOT = PRODUCT_ROOT.parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from tests.browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, reserve_port, running_server
+from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, reserve_port, running_server
 
 
 @pytest.mark.parametrize("browser_name", ["chromium", "firefox", "webkit"])

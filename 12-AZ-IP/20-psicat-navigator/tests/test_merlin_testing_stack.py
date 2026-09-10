@@ -21,7 +21,7 @@ from ox_navigator.engine.merlin_testing_stack import get_psicat_prompt_contracts
 def test_psicat_testing_stack_engine_shape() -> None:
     payload = get_psicat_testing_stack()
     assert payload["browser_default"]["tool"] == "Playwright"
-    assert payload["product24_parallel_branch_role"].startswith("Product 24 is the Playwright proving ground")
+    assert payload["product24_parallel_branch_role"].startswith("Product 24's Playwright and Node validation lane is merged")
     assert payload["psicat"]["ai_evaluation_lane"]["prompt_contract_case_count"] >= 3
     assert "/api/psicat/testing-stack" in payload["psicat"]["api_lane"]["required_endpoints"]
     assert payload["integration_classes"]["class_a"]["products"][0]["id"] == 17
@@ -55,7 +55,7 @@ def test_psicat_testing_stack_endpoint_exposes_machine_readable_doctrine() -> No
 
 
 def test_shared_testing_manifest_and_prompt_contract_files_are_valid_json() -> None:
-    manifest = PRODUCT_ROOT.parents[1] / "tools" / "testing_stack_manifest.json"
+    manifest = PRODUCT_ROOT.parents[0] / "tools" / "testing_stack_manifest.json"
     prompt_contracts = PRODUCT_ROOT / "testing" / "psicat_prompt_contracts.json"
     assert json.loads(manifest.read_text(encoding="utf-8"))["browser_default"]["tool"] == "Playwright"
     assert len(json.loads(prompt_contracts.read_text(encoding="utf-8"))["cases"]) >= 3

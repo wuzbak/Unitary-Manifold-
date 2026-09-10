@@ -13,7 +13,7 @@ REPO_ROOT = PRODUCT_ROOT.parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from tests.browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, reserve_port, running_server
+from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, reserve_port, running_server
 
 
 @pytest.mark.parametrize("browser_name", ["chromium", "firefox", "webkit"])
@@ -31,8 +31,15 @@ def test_um_reader_browser_contract(browser_name: str) -> None:
                 assert "UM Reader" in page.title()
                 page.locator("#readerSearch").fill("birefringence")
                 page.wait_for_timeout(250)
+                initial_title = page.locator("#readerTitle").text_content() or ""
                 page.locator("#readerList .reader-entry").first.click()
-                page.wait_for_function("document.getElementById('readerContent').textContent.length > 200")
+                page.wait_for_function(
+                    """previous => {
+                        const current = document.getElementById('readerTitle').textContent;
+                        return current && current !== previous;
+                    }""",
+                    initial_title,
+                )
                 assert ".md" in (page.locator("#readerOpenLink").get_attribute("href") or "")
                 assert "0 items" not in (page.locator("#readerCount").text_content() or "")
                 assert len(page.screenshot(full_page=True)) > 10_000

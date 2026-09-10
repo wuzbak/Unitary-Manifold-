@@ -48,8 +48,8 @@ def get_psicat_testing_stack() -> dict[str, Any]:
         "shared_doctrine_path": "12-AZ-IP/tools/BROWSER_TESTING_DOCTRINE.md",
         "shared_manifest_path": "12-AZ-IP/tools/testing_stack_manifest.json",
         "product24_parallel_branch_role": (
-            "Product 24 is the Playwright proving ground on a parallel branch; "
-            "this branch integrates the shared doctrine into existing products."
+            "Product 24's Playwright and Node validation lane is merged and now "
+            "serves as the reference proving ground for conventions adopted here."
         ),
         "browser_default": dict(manifest.get("browser_default") or {}),
         "integration_classes": dict(manifest.get("integration_classes") or {}),

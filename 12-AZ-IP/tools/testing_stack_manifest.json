@@ -2,7 +2,14 @@
   "browser_default": {
     "tool": "Playwright",
     "status": "canonical",
-    "note": "Product 24 remains the parallel-branch proving ground for deeper fixture and CI lessons."
+    "note": "Product 24 Playwright and Node validation is merged and now serves as the reference lane for deeper fixture and CI lessons.",
+    "reference_validation": [
+      "npm run lint",
+      "npm test",
+      "python3 tests/test_product24_structure.py",
+      "python3 tests/test_sync_backend.py",
+      "secret scanning"
+    ]
   },
   "integration_classes": {
     "class_a": {

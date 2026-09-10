@@ -1,11 +1,11 @@
 # AxiomZero Browser & AI Testing Doctrine
 
-This doctrine defines how browser-facing AxiomZero products are tested on this branch while Product 24 develops deeper Playwright conventions on a parallel branch.
+This doctrine defines how browser-facing AxiomZero products are tested now that Product 24's Playwright and Node validation lane has been merged and can serve as the reference pattern for deeper fixture and CI conventions.
 
 ## Canonical defaults
 
 - **Playwright is the canonical browser automation layer** for AxiomZero browser products.
-- **Product 24** remains the proving ground for deeper fixture, browser-matrix, and CI lessons on the parallel branch.
+- **Product 24** has already validated the Playwright/Node baseline and now serves as the reference lane for deeper fixture, browser-matrix, and CI lessons.
 - **Cypress is not a default tool** in this repository-wide rollout.
 - **Appium is reserved for true mobile/native products** such as `12-AZ-IP/14-sdam/` and `12-AZ-IP/15-pentacorder/`.
 
@@ -65,7 +65,7 @@ Its testing stack should keep these lanes explicit:
 
 ## Rollout rule
 
-Adopt proven Product 24 lessons only after they are earned on the parallel branch. This branch establishes the shared doctrine, Class A browser contracts, and PsiCat-led layered validation without waiting for Product 24 to finish every experiment.
+Absorb proven Product 24 lessons as they are merged. This branch establishes the shared doctrine, Class A browser contracts, and PsiCat-led layered validation while remaining compatible with the Product 24 reference lane.
 
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).

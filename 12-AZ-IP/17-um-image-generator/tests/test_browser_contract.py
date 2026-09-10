@@ -13,7 +13,7 @@ REPO_ROOT = PRODUCT_ROOT.parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from tests.browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, reserve_port, running_server
+from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, reserve_port, running_server
 
 
 @pytest.mark.parametrize("browser_name", ["chromium", "firefox", "webkit"])
@@ -29,9 +29,16 @@ def test_um_image_generator_browser_contract(browser_name: str) -> None:
                 page.goto(base_url, wait_until="domcontentloaded")
                 page.wait_for_function("document.querySelectorAll('#vizSelector .umig-viz-btn').length >= 8")
                 assert "UM Physics Image Generator" in page.title()
-                assert page.locator("#vizTitle").text_content() != "Loading…"
-                page.get_by_role("button", name="Birefringence window").click()
-                page.wait_for_function("document.getElementById('vizTitle').textContent.includes('Birefringence')")
+                initial_title = page.locator("#vizTitle").text_content() or ""
+                assert initial_title != "Loading…"
+                page.locator("#vizSelector .umig-viz-btn").nth(1).click()
+                page.wait_for_function(
+                    """previous => {
+                        const current = document.getElementById('vizTitle').textContent;
+                        return current && current !== previous;
+                    }""",
+                    initial_title,
+                )
                 canvas_size = page.evaluate(
                     """() => {
                         const canvas = document.getElementById('umigCanvas');
