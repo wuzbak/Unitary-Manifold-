@@ -126,7 +126,8 @@ def test_invalid_if_frontier_blocker_consistency_breaks(monkeypatch) -> None:
 
     def _inconsistent_frontier(limit=3):
         packet = original(limit=limit)
-        packet["promotion_blockers_all_clear"] = not bool(packet.get("promotion_blockers_all_clear"))
+        packet["promotion_blockers"] = [{"name": "quality_floor", "pass": True}]
+        packet["promotion_blockers_all_clear"] = False
         return packet
 
     monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _inconsistent_frontier)
