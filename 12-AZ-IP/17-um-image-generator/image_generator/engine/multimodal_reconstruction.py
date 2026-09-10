@@ -125,6 +125,16 @@ def _edge_manifold_stats(faces: np.ndarray) -> dict[str, int | bool]:
     }
 
 
+def _nearest_vertex_distances_chunked(points: np.ndarray, vertices: np.ndarray, chunk_size: int = 2048) -> np.ndarray:
+    result = np.empty(points.shape[0], dtype=float)
+    for start in range(0, points.shape[0], chunk_size):
+        stop = min(points.shape[0], start + chunk_size)
+        block = points[start:stop]
+        sq = np.sum((block[:, None, :] - vertices[None, :, :]) ** 2, axis=2)
+        result[start:stop] = np.sqrt(np.min(sq, axis=1))
+    return result
+
+
 def evaluate_multimodal_quality(
     point_cloud: np.ndarray,
     mesh_vertices: np.ndarray,
@@ -136,23 +146,34 @@ def evaluate_multimodal_quality(
     faces = np.asarray(mesh_faces, dtype=int)
     z_floor = float(vertices[:, 2].min())
     top_surface = vertices[vertices[:, 2] > (z_floor + 1e-12)]
+    nearest: np.ndarray | None = None
+
     try:
         from scipy.interpolate import LinearNDInterpolator  # type: ignore
-        from scipy.spatial import cKDTree  # type: ignore
 
         interpolator = LinearNDInterpolator(top_surface[:, :2], top_surface[:, 2], fill_value=np.nan)
         z_surface = interpolator(cloud[:, 0], cloud[:, 1])
-        if np.isnan(z_surface).any():
-            tree = cKDTree(vertices)
-            nearest = tree.query(cloud, workers=-1)[0]
-        else:
+        if not np.isnan(z_surface).any():
             projected = np.column_stack((cloud[:, 0], cloud[:, 1], z_surface))
             nearest = np.linalg.norm(cloud - projected, axis=1)
     except Exception:
-        nearest_sq = np.sum((cloud[:, None, :] - vertices[None, :, :]) ** 2, axis=2).min(axis=1)
-        nearest = np.sqrt(nearest_sq)
+        nearest = None
+
+    if nearest is None:
+        try:
+            from scipy.spatial import cKDTree  # type: ignore
+
+            tree = cKDTree(top_surface if top_surface.size else vertices)
+            nearest = tree.query(cloud, workers=-1)[0]
+        except Exception:
+            nearest = _nearest_vertex_distances_chunked(cloud, top_surface if top_surface.size else vertices)
+
     nearest_sq = np.square(nearest)
-    scale_mm = 1000.0
+    x_span = float(vertices[:, 0].max() - vertices[:, 0].min())
+    y_span = float(vertices[:, 1].max() - vertices[:, 1].min())
+    reference_span = max(x_span, y_span, 1e-12)
+    meters_per_unit = float(calibration_scale_meters) / reference_span
+    scale_mm = 1000.0 * meters_per_unit
     manifold = _edge_manifold_stats(faces)
     return {
         "calibration_scale_meters": float(calibration_scale_meters),
@@ -260,6 +281,8 @@ def build_multimodal_scene_bundle(
         },
     }
     cleanup_targets = [gaussian_tmp, cloud_tmp, stl_tmp, metadata_tmp]
+    backups: list[tuple[Path, Path]] = []
+    promoted: list[Path] = []
     try:
         gaussian_tmp.write_text(json.dumps(gaussian_payload, indent=2), encoding="utf-8")
         export_point_cloud_ply(points, cloud_tmp, colors_rgb=np.asarray(splats["colors_rgb"], dtype=float))
@@ -278,15 +301,36 @@ def build_multimodal_scene_bundle(
             "quality": quality,
         }
         metadata_tmp.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
-        gaussian_tmp.replace(gaussian_path)
-        cloud_tmp.replace(cloud_path)
-        stl_tmp.replace(stl_path)
-        metadata_tmp.replace(metadata_path)
+        replacements = [
+            (gaussian_tmp, gaussian_path),
+            (cloud_tmp, cloud_path),
+            (stl_tmp, stl_path),
+            (metadata_tmp, metadata_path),
+        ]
+        for _, final_path in replacements:
+            if final_path.exists():
+                backup = base / f".{final_path.name}.{temp_tag}.bak"
+                final_path.replace(backup)
+                backups.append((final_path, backup))
+
+        for temp_path, final_path in replacements:
+            temp_path.replace(final_path)
+            promoted.append(final_path)
     except Exception:
+        for final_path in promoted:
+            if final_path.exists():
+                final_path.unlink()
+        for final_path, backup in backups:
+            if backup.exists():
+                backup.replace(final_path)
         for target in cleanup_targets:
             if target.exists():
                 target.unlink()
         raise
+    finally:
+        for _, backup in backups:
+            if backup.exists():
+                backup.unlink()
 
     return {
         "gaussian_path": str(gaussian_path),
