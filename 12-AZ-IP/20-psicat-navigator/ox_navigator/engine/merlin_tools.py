@@ -976,6 +976,18 @@ def _coerce_positive_int(value: Any, default: int) -> int:
         return max(1, int(default))
 
 
+def _require_positive_int(value: Any, *, field_name: str, default: int) -> int:
+    if value is None:
+        return max(1, int(default))
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"Argument '{field_name}' must be a positive integer.") from exc
+    if parsed < 1:
+        raise ValueError(f"Argument '{field_name}' must be >= 1.")
+    return parsed
+
+
 def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple[bool, str]:
     properties = dict(schema.get("properties") or {})
     required = list(schema.get("required") or [])
@@ -1062,7 +1074,10 @@ def search_knowledge_base(query: str) -> dict[str, Any]:
 
 
 def get_context_scaffold(query: str, ast_file_limit: int | None = None) -> dict[str, Any]:
-    scaffold = build_context_scaffold(query, ast_file_limit=ast_file_limit or 5)
+    scaffold = build_context_scaffold(
+        query,
+        ast_file_limit=_require_positive_int(ast_file_limit, field_name="ast_file_limit", default=5),
+    )
     return {"data": {"context_scaffold": scaffold, "prompt_context": _rag_index.render_context_scaffold(scaffold)}}
 
 
@@ -1095,7 +1110,7 @@ _FUNCTIONS = {
     "searchKnowledgeBase": lambda **args: search_knowledge_base(str(args.get("query", ""))),
     "getMerlinContextScaffold": lambda **args: get_context_scaffold(
         str(args.get("query", "")),
-        int(args.get("ast_file_limit", 5) or 5),
+        args.get("ast_file_limit", 5),
     ),
     "searchInterrogator": lambda **args: search_interrogator(str(args.get("query", ""))),
     "getTensionMap": lambda **args: get_tension_map(),

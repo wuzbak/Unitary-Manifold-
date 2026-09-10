@@ -581,6 +581,12 @@ def test_route_tool_context_scaffold_returns_scaffold_only_prompt():
     assert payload['context_scaffold']['schema_version'] == 'merlin_context_scaffold_v1'
     assert '[CONTEXT SCAFFOLD]' in payload['prompt_context']
     assert '[FALLIBILITY]' not in payload['prompt_context']
+
+
+def test_route_tool_context_scaffold_rejects_non_positive_limit():
+    result = route_tool('getMerlinContextScaffold', {'query': 'birefringence tool routing', 'ast_file_limit': 0})
+    assert result['ok'] is False
+    assert "ast_file_limit" in result['error']
     assert result['replay_artifact']['digest_sha256']
 
 
