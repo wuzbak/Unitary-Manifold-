@@ -1,0 +1,18 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="home_page"
+        android:title="Home page"
+        android:defaultValue="https://example.com" />
+    <EditTextPreference
+        android:key="search_engine"
+        android:title="Search engine"
+        android:defaultValue="https://duckduckgo.com/?q=%s" />
+    <EditTextPreference
+        android:key="psicat_endpoint"
+        android:title="PsiCat endpoint"
+        android:defaultValue="http://127.0.0.1:8020" />
+    <SwitchPreferenceCompat
+        android:key="live_capture"
+        android:title="Live page capture"
+        android:defaultValue="true" />
+</PreferenceScreen>

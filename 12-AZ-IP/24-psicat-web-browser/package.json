@@ -1,0 +1,17 @@
+{
+  "name": "psicat-web-browser",
+  "version": "1.0.0",
+  "description": "Product 24 PsiCat Web Browser",
+  "main": "desktop/main.js",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "electron .",
+    "lint": "node --check desktop/main.js && node --check desktop/preload.js && node --check desktop/ui/app.js && node --check extension/background.js && node --check extension/content.js && node --check extension/sidepanel.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "LicenseRef-DefensivePublicCommons-1.0",
+  "devDependencies": {
+    "electron": "44.3.0"
+  }
+}

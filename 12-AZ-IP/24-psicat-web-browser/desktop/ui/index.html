@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PsiCat Web Browser</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="toolbar">
+      <div class="nav-row">
+        <button id="back">←</button>
+        <button id="forward">→</button>
+        <button id="reload">⟳</button>
+        <button id="stop">✕</button>
+        <form id="address-form">
+          <input id="address" autocomplete="off" placeholder="Search or enter address">
+        </form>
+        <button id="new-tab">＋ Tab</button>
+        <button id="private-tab">Private</button>
+        <button id="bookmark">★</button>
+        <button id="toggle-settings">Settings</button>
+      </div>
+      <div id="tab-strip" class="tab-strip"></div>
+    </header>
+    <main class="workspace">
+      <section class="browser-stage">
+        <div class="empty-state">
+          <h1>PsiCat Browser</h1>
+          <p>Chromium renders on the left. PsiCat research tools live on the right.</p>
+        </div>
+      </section>
+      <aside class="sidebar">
+        <section class="panel status-panel">
+          <h2>PsiCat live context</h2>
+          <div id="sidecar-status" class="muted"></div>
+          <div id="current-page"></div>
+          <textarea id="question" placeholder="Ask PsiCat about this page, remembered pages, notebook notes, or imported research"></textarea>
+          <div class="row">
+            <button id="ask-psicat">Interrogate</button>
+            <button id="remember-page">Remember page</button>
+          </div>
+          <pre id="answer">No query yet.</pre>
+        </section>
+        <section class="panel notebook-panel">
+          <h2>Notebook</h2>
+          <input id="note-title" placeholder="Notebook title">
+          <textarea id="note-text" placeholder="Capture insights, quotes, questions, or research digests"></textarea>
+          <div class="row">
+            <button id="save-note">Save note</button>
+            <button id="import-research">Import</button>
+            <button id="export-research">Export</button>
+          </div>
+          <div id="notebook-list" class="list"></div>
+        </section>
+        <section class="panel memory-panel">
+          <h2>Remembered pages</h2>
+          <div id="remembered-pages" class="list"></div>
+        </section>
+        <section class="panel history-panel">
+          <h2>Bookmarks</h2>
+          <div id="bookmarks" class="list compact"></div>
+          <h2>History</h2>
+          <div id="history" class="list compact"></div>
+        </section>
+        <section id="settings-panel" class="panel settings-panel hidden">
+          <h2>Settings</h2>
+          <label>Home page <input id="setting-homePage"></label>
+          <label>Search engine <input id="setting-searchEngine"></label>
+          <label>Sidebar width <input id="setting-sidebarWidth" type="number" min="320" max="640"></label>
+          <label>Tracking protection
+            <select id="setting-trackProtection">
+              <option value="standard">Standard</option>
+              <option value="strict">Strict</option>
+              <option value="custom">Custom</option>
+            </select>
+          </label>
+          <label>PsiCat endpoint <input id="setting-psicatEndpoint"></label>
+          <label class="checkbox"><input id="setting-autoStartPsiCat" type="checkbox"> Auto-start embedded PsiCat sidecar</label>
+          <label class="checkbox"><input id="setting-livePageCapture" type="checkbox"> Live page capture for contextual research</label>
+          <button id="save-settings">Save settings</button>
+        </section>
+      </aside>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

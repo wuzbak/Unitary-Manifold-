@@ -1,0 +1,43 @@
+:root {
+  color-scheme: dark;
+  --bg: #07090e;
+  --panel: #0d1117;
+  --border: #1a2232;
+  --accent: #a78bfa;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.toolbar { padding: 10px 12px; border-bottom: 1px solid var(--border); background: rgba(7, 9, 14, 0.98); }
+.nav-row, .row { display: flex; gap: 8px; align-items: center; }
+#address-form { flex: 1; }
+input, textarea, select, button, pre {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  padding: 10px;
+}
+button { width: auto; background: linear-gradient(135deg, #7c3aed, var(--accent)); border: none; cursor: pointer; }
+.tab-strip { display: flex; gap: 8px; overflow-x: auto; padding-top: 10px; }
+.tab {
+  min-width: 180px; display: flex; justify-content: space-between; gap: 8px; align-items: center;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); cursor: pointer;
+}
+.tab.active { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(167,139,250,0.35); }
+.workspace { display: grid; grid-template-columns: 1fr 420px; min-height: calc(100vh - 96px); }
+.browser-stage { border-right: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); }
+.sidebar { overflow: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.panel { border: 1px solid var(--border); border-radius: 16px; padding: 12px; background: var(--panel); }
+.list { display: flex; flex-direction: column; gap: 8px; }
+.list-item { border: 1px solid var(--border); border-radius: 12px; padding: 8px 10px; }
+.compact .list-item { font-size: 0.9rem; }
+.hidden { display: none; }
+.checkbox { display: flex; gap: 8px; align-items: center; }
+.checkbox input { width: auto; }
+.muted { color: var(--muted); margin-bottom: 8px; }
+pre { white-space: pre-wrap; min-height: 120px; }
+textarea { min-height: 90px; resize: vertical; }
