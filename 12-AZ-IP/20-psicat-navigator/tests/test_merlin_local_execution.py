@@ -18,7 +18,9 @@ if str(PRODUCT_ROOT) not in sys.path:
 
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_local_execution import get_local_execution_status, run_local_execution_loop
+from ox_navigator.engine.merlin_memory import MerlinSession
 from ox_navigator.engine.merlin_program import get_psicat_spc_phase0_execution_packet
+from ox_navigator.engine.merlin_tools import route_tool
 
 
 def test_local_execution_status_includes_fail_closed_policy():
@@ -147,6 +149,37 @@ def test_phase0_packet_schema_validation_success_contract_fields():
     assert payload["ok"] is True
     assert payload["validation_error_count"] == 0
     assert payload["validation_errors"] == []
+
+
+def test_route_tool_psicat_achievement_session_passthrough(monkeypatch):
+    from ox_navigator.engine import merlin_tools as tools
+
+    captured: dict[str, object] = {}
+
+    def _fake_packet(*, limit=3, training_limit=9, session=None):
+        captured["session"] = session
+        return {"ok": True, "limit": limit, "training_limit": training_limit}
+
+    monkeypatch.setattr(tools, "get_psicat_achievement_benchmark_promotion_sprint", _fake_packet)
+    monkeypatch.setitem(
+        tools._FUNCTIONS,
+        "getPsiCatAchievementBenchmarkPromotionSprint",
+        lambda **args: {"data": tools.get_psicat_achievement_benchmark_promotion_sprint(
+            limit=args.get("limit"),
+            training_limit=args.get("training_limit"),
+            session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else None,
+        )},
+    )
+
+    active = MerlinSession()
+    with_session = route_tool("getPsiCatAchievementBenchmarkPromotionSprint", {"limit": 2}, session=active)
+    assert with_session["ok"] is True
+    assert captured["session"] is active
+
+    captured.clear()
+    without_session = route_tool("getPsiCatAchievementBenchmarkPromotionSprint", {"limit": 2})
+    assert without_session["ok"] is True
+    assert captured["session"] is None
 
 
 def test_run_py_local_execution_flags_wire_environment(monkeypatch):

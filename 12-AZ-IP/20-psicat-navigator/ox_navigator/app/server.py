@@ -1561,6 +1561,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         'ok': bool(result.get('ok')),
                         'local_execution': result,
                     }, status=status_code)
+                    self._persist_session(session_id, merlin_session)
                     return
             finally:
                 self._persist_session(session_id, merlin_session)
