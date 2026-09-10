@@ -320,7 +320,7 @@ def run_kernel_p_lean_proof_probe(
     backend_state = dict(bridge_receipt.get("backend_state") or {})
     local_runtime = dict(backend_state.get("local_runtime") or {})
     repl_enabled = repl_requested and str(os.environ.get("MERLIN_ENABLE_LEAN_BRIDGE") or "").strip().lower() in {"1", "true", "yes", "on"}
-    repl_available = bool(local_runtime.get("lean_available"))
+    repl_available = bool(local_runtime.get("lake_available")) and bool(local_runtime.get("lean4_root_exists"))
     scoped_build = dict(bridge_receipt.get("scoped_build_receipt") or {})
     repl_used = repl_enabled and scoped_build.get("status") == "PASS"
     repl_output = (

@@ -25,6 +25,15 @@ def test_theorem_count_receipt_falls_back_without_live_status(monkeypatch) -> No
     assert receipt["source"] == "lean4_index_fallback"
 
 
+def test_theorem_count_receipt_falls_back_for_invalid_payload(tmp_path, monkeypatch) -> None:
+    broken_status = tmp_path / "um_live_status.json"
+    broken_status.write_text('{"lean4": {"theorem_count": "broken"}}', encoding="utf-8")
+    monkeypatch.setattr(merlin_lean_bridge, "LIVE_STATUS_PATH", broken_status)
+    receipt = get_live_theorem_count_receipt()
+    assert receipt["theorem_count"] == 4080
+    assert receipt["source"] == "lean4_index_fallback"
+
+
 def test_merlin_lean_bridge_artifact_contains_formal_units() -> None:
     artifact = get_merlin_lean_bridge_artifact(limit=2)
     assert artifact["artifact_id"] == "merlin_lean_bridge_artifact_v1"

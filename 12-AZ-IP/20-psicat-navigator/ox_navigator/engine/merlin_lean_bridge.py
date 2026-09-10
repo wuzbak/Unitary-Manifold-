@@ -72,6 +72,7 @@ def get_live_theorem_count_receipt() -> dict[str, Any]:
     }
 
 
+@lru_cache(maxsize=1)
 def detect_lean_bridge_backends() -> dict[str, Any]:
     candidates = []
     for spec in _EXTERNAL_BACKEND_SPECS:
