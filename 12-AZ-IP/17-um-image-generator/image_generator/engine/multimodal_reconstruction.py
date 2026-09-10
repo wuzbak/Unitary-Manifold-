@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 from pathlib import Path
 from uuid import uuid4
 
@@ -143,6 +144,12 @@ def _sanitize_scene_id(scene_id: str) -> str:
     return safe or "um_scene"
 
 
+def _sanitize_stl_token(value: str) -> str:
+    token = re.sub(r"[^A-Za-z0-9_-]+", "_", value)
+    token = token.strip("_-")
+    return token or "um_multimodal"
+
+
 def evaluate_multimodal_quality(
     point_cloud: np.ndarray,
     mesh_vertices: np.ndarray,
@@ -227,10 +234,11 @@ def export_point_cloud_ply(points: np.ndarray, destination: str | Path, colors_r
 def export_mesh_stl(vertices: np.ndarray, faces: np.ndarray, destination: str | Path, solid_name: str = "um_multimodal") -> Path:
     verts = np.asarray(vertices, dtype=float)
     tris = np.asarray(faces, dtype=int)
+    safe_solid_name = _sanitize_stl_token(solid_name)
     out = Path(destination)
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", encoding="utf-8") as fh:
-        fh.write(f"solid {solid_name}\n")
+        fh.write(f"solid {safe_solid_name}\n")
         for tri in tris:
             p0, p1, p2 = verts[tri[0]], verts[tri[1]], verts[tri[2]]
             normal = np.cross(p1 - p0, p2 - p0)
@@ -244,7 +252,7 @@ def export_mesh_stl(vertices: np.ndarray, faces: np.ndarray, destination: str | 
             fh.write(f"      vertex {p2[0]:.8f} {p2[1]:.8f} {p2[2]:.8f}\n")
             fh.write("    endloop\n")
             fh.write("  endfacet\n")
-        fh.write(f"endsolid {solid_name}\n")
+        fh.write(f"endsolid {safe_solid_name}\n")
     return out
 
 
@@ -308,10 +316,10 @@ def build_multimodal_scene_bundle(
             "scene_id": safe_scene_id,
             "version": version_dir.name,
             "artifacts": {
-                "gaussian_path": str(gaussian_path),
-                "point_cloud_path": str(cloud_path),
-                "stl_path": str(stl_path),
-                "metadata_path": str(metadata_path),
+                "gaussian_path": gaussian_path.name,
+                "point_cloud_path": cloud_path.name,
+                "stl_path": stl_path.name,
+                "metadata_path": metadata_path.name,
             },
             "quality": quality,
         }
@@ -319,9 +327,7 @@ def build_multimodal_scene_bundle(
         manifest_tmp.replace(manifest_path)
     except Exception:
         if version_dir.exists():
-            for child in version_dir.iterdir():
-                child.unlink()
-            version_dir.rmdir()
+            shutil.rmtree(version_dir, ignore_errors=True)
         for target in cleanup_targets:
             if target.exists():
                 target.unlink()

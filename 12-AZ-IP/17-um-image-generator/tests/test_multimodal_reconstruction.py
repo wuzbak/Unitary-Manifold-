@@ -130,6 +130,13 @@ def test_bundle_failure_preserves_previous_manifest(tmp_path: Path, monkeypatch:
 
 
 def test_scene_id_is_sanitized_for_safe_paths(tmp_path: Path) -> None:
-    bundle = build_multimodal_scene_bundle(tmp_path, scene_id="../unsafe/name", grid_size=5, scale_meters=1.0)
+    bundle = build_multimodal_scene_bundle(tmp_path, scene_id="../unsafe/\nname", grid_size=5, scale_meters=1.0)
     assert ".." not in Path(bundle["manifest_path"]).name
     assert "/unsafe/" not in bundle["manifest_path"]
+
+
+def test_manifest_uses_relative_artifact_paths(tmp_path: Path) -> None:
+    bundle = build_multimodal_scene_bundle(tmp_path, scene_id="portable", grid_size=5, scale_meters=1.0)
+    manifest = json.loads(Path(bundle["manifest_path"]).read_text(encoding="utf-8"))
+    assert manifest["artifacts"]["gaussian_path"].endswith(".gaussian.json")
+    assert "/" not in manifest["artifacts"]["gaussian_path"]
