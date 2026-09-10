@@ -29,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import org.json.JSONArray
 import org.json.JSONTokener
 import java.time.Instant
 
@@ -46,6 +47,8 @@ class MainActivity : AppCompatActivity() {
     private val stateStore by lazy { BrowserStateStore(this) }
     private val tabs = mutableListOf<BrowserTab>()
     private val webViews = linkedMapOf<String, WebView>()
+    private val bookmarks = mutableListOf<BookmarkEntry>()
+    private val history = mutableListOf<HistoryEntry>()
     private var activeTabId: String? = null
     private var notebook = mutableListOf<NotebookEntry>()
 
@@ -74,6 +77,9 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         notebook = stateStore.loadNotebook()
+        val savedSession = stateStore.loadSession()
+        bookmarks += savedSession.bookmarks
+        history += savedSession.history
         renderNotebook()
 
         findViewById<android.view.View>(R.id.backButton).setOnClickListener { activeWebView()?.goBack() }
@@ -94,7 +100,7 @@ class MainActivity : AppCompatActivity() {
             } else false
         }
 
-        addTab()
+        restoreSession(savedSession)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -105,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_new_tab -> addTab()
-            R.id.action_bookmark -> saveNotebookEntry(prefixWithPage = true)
+            R.id.action_bookmark -> saveBookmarkForCurrentTab()
             R.id.action_sidebar -> drawerLayout.openDrawer(findViewById(R.id.sidebar))
             R.id.action_settings -> startActivity(Intent(this, SettingsActivity::class.java))
         }
@@ -114,7 +120,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun addTab() {
         val homePage = prefs().getString("home_page", "https://example.com") ?: "https://example.com"
-        val tab = BrowserTab(UUID.randomUUID().toString(), "New Tab", homePage, false)
+        addTab(BrowserTab(UUID.randomUUID().toString(), "New Tab", homePage, false))
+    }
+
+    private fun addTab(tab: BrowserTab) {
         tabs += tab
         val webView = WebView(this).apply {
             settings.javaScriptEnabled = true
@@ -126,12 +135,14 @@ class MainActivity : AppCompatActivity() {
                     tab.url = url ?: tab.url
                     tab.title = view?.title ?: tab.title
                     addressBar.setText(tab.url)
+                    pushHistory(tab)
                     capturePageContext(tab)
+                    persistSessionState()
                     renderTabs()
                 }
             }
             webChromeClient = WebChromeClient()
-            loadUrl(homePage)
+            loadUrl(tab.url)
         }
         webViews[tab.id] = webView
         activeTabId = tab.id
@@ -145,6 +156,8 @@ class MainActivity : AppCompatActivity() {
         val active = webViews[tabId] ?: return
         webContainer.addView(active, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
         addressBar.setText(tabs.firstOrNull { it.id == tabId }?.url.orEmpty())
+        persistSessionState()
+        renderNotebook()
     }
 
     private fun renderTabs() {
@@ -199,14 +212,26 @@ class MainActivity : AppCompatActivity() {
         notebook.add(0, NotebookEntry(title, body, timestamp()))
         notebook = notebook.take(100).toMutableList()
         stateStore.saveNotebook(notebook)
+        persistSessionState()
         renderNotebook()
     }
 
     private fun renderNotebook() {
-        notebookList.text = if (notebook.isEmpty()) {
-            "No notebook entries yet."
-        } else {
-            notebook.joinToString("\n\n") { "• ${it.title}\n${it.text.take(240)}\n${it.createdAt}" }
+        val bookmarkSummary = if (bookmarks.isEmpty()) "No bookmarks." else bookmarks.take(5).joinToString("\n") { "★ ${it.title} — ${it.url}" }
+        val historySummary = if (history.isEmpty()) "No history." else history.take(5).joinToString("\n") { "• ${it.title} — ${it.url}" }
+        val notes = if (notebook.isEmpty()) "No notebook entries yet." else notebook.joinToString("\n\n") { "• ${it.title}\n${it.text.take(240)}\n${it.createdAt}" }
+        notebookList.text = buildString {
+            appendLine("Sync account: ${prefs().getString("sync_account_email", "").orEmpty().ifBlank { "Local-only" }}")
+            appendLine("Sync mode: ${prefs().getString("sync_mode", "local+account")}")
+            appendLine()
+            appendLine("Bookmarks")
+            appendLine(bookmarkSummary)
+            appendLine()
+            appendLine("Recent history")
+            appendLine(historySummary)
+            appendLine()
+            appendLine("Notebook")
+            append(notes)
         }
     }
 
@@ -262,22 +287,64 @@ class MainActivity : AppCompatActivity() {
     private fun importDocument(uri: Uri) {
         val text = contentResolver.openInputStream(uri)?.bufferedReader()?.use(BufferedReader::readText).orEmpty()
         val title = queryName(uri)
-        notebook.add(0, NotebookEntry(title, text, timestamp()))
-        notebook = notebook.take(100).toMutableList()
-        stateStore.saveNotebook(notebook)
-        renderNotebook()
+        val restored = runCatching { JSONObject(text) }.getOrNull()
+        if (restored != null && (restored.has("notebook") || restored.has("tabs") || restored.has("history"))) {
+            restoreFromSyncPacket(restored)
+        } else {
+            notebook.add(0, NotebookEntry(title, text, timestamp()))
+            notebook = notebook.take(100).toMutableList()
+            stateStore.saveNotebook(notebook)
+            persistSessionState()
+            renderNotebook()
+        }
     }
 
     private fun exportNotebook(uri: Uri) {
         val payload = JSONObject().apply {
             put("exportedAt", timestamp())
-            put("notebook", notebook.map { JSONObject().apply {
-                put("title", it.title)
-                put("text", it.text)
-                put("createdAt", it.createdAt)
-            } })
+            put("syncAccountEmail", prefs().getString("sync_account_email", ""))
+            put("syncMode", prefs().getString("sync_mode", "local+account"))
+            put("tabs", JSONArray().apply {
+                tabs.forEach { tab ->
+                    put(JSONObject().apply {
+                        put("id", tab.id)
+                        put("title", tab.title)
+                        put("url", tab.url)
+                    })
+                }
+            })
+            put("activeTabId", activeTabId)
+            put("bookmarks", JSONArray().apply {
+                bookmarks.forEach { bookmark ->
+                    put(JSONObject().apply {
+                        put("title", bookmark.title)
+                        put("url", bookmark.url)
+                        put("createdAt", bookmark.createdAt)
+                    })
+                }
+            })
+            put("history", JSONArray().apply {
+                history.forEach { entry ->
+                    put(JSONObject().apply {
+                        put("title", entry.title)
+                        put("url", entry.url)
+                        put("visitedAt", entry.visitedAt)
+                    })
+                }
+            })
+            put("notebook", JSONArray().apply {
+                notebook.forEach {
+                    put(JSONObject().apply {
+                        put("title", it.title)
+                        put("text", it.text)
+                        put("createdAt", it.createdAt)
+                    })
+                }
+            })
         }
         contentResolver.openOutputStream(uri)?.bufferedWriter()?.use { it.write(payload.toString(2)) }
+        prefs().edit().putString("last_sync_at", timestamp()).apply()
+        renderNotebook()
     }
 
     private fun queryName(uri: Uri): String {
@@ -297,4 +364,105 @@ class MainActivity : AppCompatActivity() {
     private fun sha256(text: String): String = java.security.MessageDigest.getInstance("SHA-256")
         .digest(text.toByteArray())
         .joinToString("") { "%02x".format(it) }
+
+    private fun pushHistory(tab: BrowserTab) {
+        history.removeAll { it.url == tab.url }
+        history.add(0, HistoryEntry(tab.title, tab.url, timestamp()))
+        while (history.size > 100) history.removeLast()
+    }
+
+    private fun saveBookmarkForCurrentTab() {
+        val tab = currentTab() ?: return
+        bookmarks.removeAll { it.url == tab.url }
+        bookmarks.add(0, BookmarkEntry(tab.title, tab.url, timestamp()))
+        while (bookmarks.size > 100) bookmarks.removeLast()
+        persistSessionState()
+        renderNotebook()
+    }
+
+    private fun persistSessionState() {
+        stateStore.saveSession(
+            BrowserSessionSnapshot(
+                tabs = tabs,
+                activeTabId = activeTabId,
+                bookmarks = bookmarks,
+                history = history,
+                syncAccountEmail = prefs().getString("sync_account_email", "").orEmpty(),
+                syncMode = prefs().getString("sync_mode", "local+account").orEmpty(),
+            )
+        )
+    }
+
+    private fun restoreSession(snapshot: BrowserSessionSnapshot) {
+        if (snapshot.syncAccountEmail.isNotBlank()) {
+            prefs().edit()
+                .putString("sync_account_email", snapshot.syncAccountEmail)
+                .putString("sync_mode", snapshot.syncMode)
+                .apply()
+        }
+        if (snapshot.tabs.isEmpty()) {
+            addTab()
+            return
+        }
+        snapshot.tabs.forEach { tab -> addTab(tab.copy(isPrivate = false)) }
+        snapshot.activeTabId?.let { switchTo(it) }
+        renderNotebook()
+    }
+
+    private fun restoreFromSyncPacket(packet: JSONObject) {
+        val importedNotebook = mutableListOf<NotebookEntry>()
+        packet.optJSONArray("notebook")?.let { array ->
+            for (index in 0 until array.length()) {
+                val item = array.getJSONObject(index)
+                importedNotebook += NotebookEntry(item.optString("title"), item.optString("text"), item.optString("createdAt"))
+            }
+        }
+        if (importedNotebook.isNotEmpty()) {
+            notebook = (importedNotebook + notebook).distinctBy { "${it.title}:${it.createdAt}" }.take(100).toMutableList()
+            stateStore.saveNotebook(notebook)
+        }
+        bookmarks.clear()
+        packet.optJSONArray("bookmarks")?.let { array ->
+            for (index in 0 until array.length()) {
+                val item = array.getJSONObject(index)
+                bookmarks += BookmarkEntry(item.optString("title"), item.optString("url"), item.optString("createdAt"))
+            }
+        }
+        history.clear()
+        packet.optJSONArray("history")?.let { array ->
+            for (index in 0 until array.length()) {
+                val item = array.getJSONObject(index)
+                history += HistoryEntry(item.optString("title"), item.optString("url"), item.optString("visitedAt"))
+            }
+        }
+        val packetTabs = mutableListOf<BrowserTab>()
+        packet.optJSONArray("tabs")?.let { array ->
+            for (index in 0 until array.length()) {
+                val item = array.getJSONObject(index)
+                packetTabs += BrowserTab(
+                    id = item.optString("id").ifBlank { UUID.randomUUID().toString() },
+                    title = item.optString("title").ifBlank { "Imported Tab" },
+                    url = item.optString("url").ifBlank { "https://example.com" },
+                    isPrivate = false,
+                )
+            }
+        }
+        if (packetTabs.isNotEmpty()) {
+            tabs.clear()
+            webViews.values.forEach { it.destroy() }
+            webViews.clear()
+            webContainer.removeAllViews()
+            packetTabs.forEach { addTab(it) }
+            packet.optString("activeTabId").takeIf { it.isNotBlank() }?.let { switchTo(it) }
+        }
+        val syncAccountEmail = packet.optString("syncAccountEmail")
+        val syncMode = packet.optString("syncMode").ifBlank { "local+account" }
+        prefs().edit()
+            .putString("sync_account_email", syncAccountEmail)
+            .putString("sync_mode", syncMode)
+            .putString("last_sync_at", timestamp())
+            .apply()
+        persistSessionState()
+        renderNotebook()
+    }
 }

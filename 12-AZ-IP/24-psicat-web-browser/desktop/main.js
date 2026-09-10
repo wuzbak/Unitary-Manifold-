@@ -16,6 +16,7 @@ const PSICAT_PORT = 8020;
 
 let mainWindow;
 let statePath;
+let syncMirrorPath;
 let state = core.createInitialState();
 let tabViews = new Map();
 let psiCatSidecar = { status: 'not_started', pid: null, baseUrl: `http://${PSICAT_HOST}:${PSICAT_PORT}`, error: '' };
@@ -129,6 +130,24 @@ async function updateNavigationState(tabId) {
   broadcastState();
 }
 
+async function rememberActivePage() {
+  const active = getActiveTab();
+  if (!active) return serializeState();
+  if (active.lastSnapshot) {
+    state = core.rememberPage(state, active.lastSnapshot);
+    state = core.addNotebookEntry(state, {
+      title: `Remembered research — ${active.lastSnapshot.title || active.title}`,
+      text: (active.lastSnapshot.selection || active.lastSnapshot.text || '').slice(0, 2000),
+      tags: ['captured-page'],
+      url: active.lastSnapshot.url || active.url,
+    });
+    await persistState();
+    if (state.sync.accountEmail) await writeSyncMirror('local-mirror');
+    broadcastState();
+  }
+  return serializeState();
+}
+
 async function captureSnapshot(tabId) {
   const view = tabViews.get(tabId);
   if (!view || !state.settings.livePageCapture) return;
@@ -203,6 +222,8 @@ function buildMenu() {
         { label: 'New Private Tab', accelerator: 'CmdOrCtrl+Shift+P', click: () => ipcCreateTab(undefined, { private: true }) },
         { label: 'Import Research', click: () => handleImportResearchFiles() },
         { label: 'Export Research Packet', click: () => handleExportResearchBundle() },
+        { label: 'Import Sync Packet', click: () => handleImportSyncPacket() },
+        { label: 'Export Sync Packet', click: () => handleExportSyncPacket() },
         { type: 'separator' },
         { role: 'quit' },
       ],
@@ -214,6 +235,8 @@ function buildMenu() {
       submenu: [
         { label: 'Back', accelerator: 'Alt+Left', click: () => navigateActive('back') },
         { label: 'Forward', accelerator: 'Alt+Right', click: () => navigateActive('forward') },
+        { label: 'Home', accelerator: 'Alt+Home', click: () => navigateActive('load', state.settings.homePage) },
+        { label: 'Reopen Closed Tab', accelerator: 'CmdOrCtrl+Shift+T', click: () => reopenClosedTab() },
         { label: 'Bookmark Page', accelerator: 'CmdOrCtrl+D', click: () => addBookmark() },
         { label: 'Settings', accelerator: 'CmdOrCtrl+,', click: () => broadcastState() },
       ],
@@ -227,12 +250,25 @@ function ipcCreateTab(url, options = {}) {
   mountTab(getActiveTab());
 }
 
+async function reopenClosedTab() {
+  const reopened = core.reopenLastClosedTab(state);
+  if (reopened.activeTabId === state.activeTabId && reopened.tabs.length === state.tabs.length) {
+    return serializeState();
+  }
+  state = reopened;
+  mountTab(getActiveTab());
+  await persistState();
+  broadcastState();
+  return serializeState();
+}
+
 async function addBookmark() {
   const active = getActiveTab();
   if (!active) return;
   const snapshot = active.lastSnapshot || {};
   state = core.addBookmark(state, { title: snapshot.title || active.title, url: snapshot.url || active.url });
   await persistState();
+  if (state.sync.accountEmail) await writeSyncMirror('local-mirror');
   broadcastState();
 }
 
@@ -350,6 +386,7 @@ async function handleImportResearchFiles() {
   }
   state = core.importResearchItems(state, items);
   await persistState();
+  if (state.sync.accountEmail) await writeSyncMirror('local-mirror');
   broadcastState();
   return serializeState();
 }
@@ -367,6 +404,54 @@ async function handleExportResearchBundle() {
   };
   await fsp.writeFile(result.filePath, JSON.stringify(payload, null, 2));
   return result.filePath;
+}
+
+async function writeSyncMirror(source = 'local-mirror') {
+  const packet = core.createSyncPacket(state);
+  const syncState = {
+    ...state.sync,
+    lastSyncAt: packet.exportedAt,
+    lastSyncSource: source,
+  };
+  state = core.normalizeState({ ...state, sync: syncState });
+  await persistState();
+  await fsp.writeFile(syncMirrorPath, JSON.stringify(packet, null, 2));
+  broadcastState();
+  return { path: syncMirrorPath, exportedAt: packet.exportedAt };
+}
+
+async function handleExportSyncPacket() {
+  const packet = core.createSyncPacket(state);
+  const result = await dialog.showSaveDialog(mainWindow, {
+    defaultPath: 'psicat-browser-sync.json',
+    filters: [{ name: 'JSON', extensions: ['json'] }],
+  });
+  if (result.canceled || !result.filePath) return null;
+  await fsp.writeFile(result.filePath, JSON.stringify(packet, null, 2));
+  state = core.normalizeState({
+    ...state,
+    sync: {
+      ...state.sync,
+      lastSyncAt: packet.exportedAt,
+      lastSyncSource: 'exported-packet',
+    },
+  });
+  await persistState();
+  broadcastState();
+  return result.filePath;
+}
+
+async function handleImportSyncPacket() {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile'],
+    filters: [{ name: 'JSON', extensions: ['json'] }],
+  });
+  if (result.canceled || !result.filePaths[0]) return serializeState();
+  const packet = JSON.parse(await fsp.readFile(result.filePaths[0], 'utf-8'));
+  state = core.mergeSyncPacket(state, packet);
+  await persistState();
+  broadcastState();
+  return serializeState();
 }
 
 function createWindow() {
@@ -403,30 +488,45 @@ function installIpc() {
   ipcMain.handle('browser:navigate', async (_event, url) => navigateActive('load', url));
   ipcMain.handle('browser:go-back', async () => navigateActive('back'));
   ipcMain.handle('browser:go-forward', async () => navigateActive('forward'));
+  ipcMain.handle('browser:go-home', async () => navigateActive('load', state.settings.homePage));
   ipcMain.handle('browser:reload', async () => navigateActive('reload'));
   ipcMain.handle('browser:stop', async () => navigateActive('stop'));
+  ipcMain.handle('browser:reopen-closed-tab', async () => reopenClosedTab());
   ipcMain.handle('browser:add-bookmark', async () => { await addBookmark(); return serializeState(); });
+  ipcMain.handle('browser:remember-active-page', async () => rememberActivePage());
   ipcMain.handle('browser:add-notebook-entry', async (_event, entry) => {
     state = core.addNotebookEntry(state, entry || {});
     await persistState();
+    if (state.sync.accountEmail) await writeSyncMirror('local-mirror');
     broadcastState();
     return serializeState();
   });
   ipcMain.handle('browser:update-settings', async (_event, patch) => {
-    state = core.normalizeState({ ...state, settings: { ...state.settings, ...(patch || {}) } });
+    const nextPatch = patch || {};
+    state = core.normalizeState({
+      ...state,
+      settings: { ...state.settings, ...(nextPatch.settings || nextPatch) },
+      sync: nextPatch.sync ? { ...state.sync, ...nextPatch.sync } : state.sync,
+    });
     await persistState();
     layoutViews();
+    if (state.sync.accountEmail) await writeSyncMirror('local-mirror');
     broadcastState();
     return serializeState();
   });
   ipcMain.handle('browser:query-psicat', async (_event, payload) => callPsiCat(String((payload || {}).question || '')));
   ipcMain.handle('browser:import-research-files', async () => handleImportResearchFiles());
   ipcMain.handle('browser:export-research-bundle', async () => handleExportResearchBundle());
+  ipcMain.handle('browser:export-sync-packet', async () => handleExportSyncPacket());
+  ipcMain.handle('browser:import-sync-packet', async () => handleImportSyncPacket());
+  ipcMain.handle('browser:sync-now', async () => writeSyncMirror('local-mirror'));
   ipcMain.handle('browser:open-external', async (_event, url) => shell.openExternal(url));
+  ipcMain.handle('browser:open-download', async (_event, downloadPath) => shell.openPath(downloadPath));
 }
 
 app.whenReady().then(async () => {
   statePath = path.join(app.getPath('userData'), 'psicat-browser-state.json');
+  syncMirrorPath = path.join(app.getPath('userData'), 'psicat-browser-sync.json');
   await loadState();
   createWindow();
   buildMenu();

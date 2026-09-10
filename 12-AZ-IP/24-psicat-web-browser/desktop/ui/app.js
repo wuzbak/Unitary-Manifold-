@@ -21,6 +21,14 @@ function itemCard(title, body, meta = '') {
   return div;
 }
 
+function actionButton(label, handler) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = label;
+  button.addEventListener('click', handler);
+  return button;
+}
+
 function renderTabs() {
   const strip = byId('tab-strip');
   strip.innerHTML = '';
@@ -77,9 +85,54 @@ function renderSettings() {
   byId('setting-sidebarWidth').value = settings.sidebarWidth;
   byId('setting-trackProtection').value = settings.trackProtection;
   byId('setting-psicatEndpoint').value = settings.psicatEndpoint;
+  byId('setting-accountEmail').value = state.sync.accountEmail || '';
+  byId('setting-syncMode').value = state.sync.mode || 'local+account';
   byId('setting-autoStartPsiCat').checked = settings.autoStartPsiCat;
   byId('setting-livePageCapture').checked = settings.livePageCapture;
   document.documentElement.style.setProperty('--sidebar-width', `${settings.sidebarWidth}px`);
+}
+
+function renderBookmarkList() {
+  renderList('bookmarks', state.bookmarks || [], (entry) => {
+    const card = itemCard(entry.title || entry.url, entry.url);
+    card.appendChild(actionButton('Open', () => window.psicatBrowser.navigate(entry.url)));
+    return card;
+  });
+}
+
+function renderHistoryList() {
+  renderList('history', (state.history || []).slice(0, 20), (entry) => {
+    const card = itemCard(entry.title || entry.url, entry.url, entry.visitedAt);
+    card.appendChild(actionButton('Open', () => window.psicatBrowser.navigate(entry.url)));
+    return card;
+  });
+}
+
+function renderDownloadsList() {
+  renderList('downloads', (state.downloads || []).slice(0, 20), (entry) => {
+    const card = itemCard(entry.fileName || entry.url, entry.url, entry.savePath || entry.createdAt || '');
+    if (entry.savePath) card.appendChild(actionButton('Open file', () => window.psicatBrowser.openDownload(entry.savePath)));
+    return card;
+  });
+}
+
+function renderImportedResearch() {
+  renderList('imported-research', (state.importedResearch || []).slice(0, 16), (entry) => {
+    const card = itemCard(entry.title || 'Imported item', entry.text.slice(0, 220), entry.source || '');
+    if (entry.source && /^https?:/i.test(entry.source)) {
+      card.appendChild(actionButton('Open source', () => window.psicatBrowser.openExternal(entry.source)));
+    }
+    return card;
+  });
+}
+
+function renderSyncProfile() {
+  const sync = state.sync || {};
+  renderList('sync-profile', [{
+    title: sync.accountEmail || 'Local-only profile',
+    body: `Mode: ${sync.mode || 'local+account'}`,
+    meta: `Last sync: ${sync.lastSyncAt || 'Never'} · Source: ${sync.lastSyncSource || 'never'}`,
+  }], (entry) => itemCard(entry.title, entry.body, entry.meta));
 }
 
 function render() {
@@ -90,8 +143,11 @@ function render() {
   byId('sidecar-status').textContent = `PsiCat status: ${state.psiCatSidecar.status}${state.psiCatSidecar.error ? ` — ${state.psiCatSidecar.error}` : ''}`;
   renderList('notebook-list', state.notebookEntries || [], (entry) => itemCard(entry.title || 'Note', entry.text.slice(0, 240), entry.createdAt));
   renderList('remembered-pages', state.rememberedPages || [], (entry) => itemCard(entry.title || entry.url, (entry.selection || entry.text || '').slice(0, 220), entry.url));
-  renderList('bookmarks', state.bookmarks || [], (entry) => itemCard(entry.title || entry.url, entry.url));
-  renderList('history', (state.history || []).slice(0, 20), (entry) => itemCard(entry.title || entry.url, entry.url, entry.visitedAt));
+  renderSyncProfile();
+  renderBookmarkList();
+  renderHistoryList();
+  renderDownloadsList();
+  renderImportedResearch();
 }
 
 async function boot() {
@@ -108,16 +164,24 @@ async function boot() {
   });
   byId('back').onclick = () => window.psicatBrowser.goBack();
   byId('forward').onclick = () => window.psicatBrowser.goForward();
+  byId('home').onclick = () => window.psicatBrowser.goHome();
   byId('reload').onclick = () => window.psicatBrowser.reload();
   byId('stop').onclick = () => window.psicatBrowser.stop();
   byId('new-tab').onclick = () => window.psicatBrowser.createTab(state.settings.homePage, {});
   byId('private-tab').onclick = () => window.psicatBrowser.createTab(state.settings.homePage, { private: true });
+  byId('reopen-tab').onclick = () => window.psicatBrowser.reopenClosedTab();
   byId('bookmark').onclick = () => window.psicatBrowser.addBookmark();
   byId('toggle-settings').onclick = () => byId('settings-panel').classList.toggle('hidden');
   byId('save-note').onclick = () => window.psicatBrowser.addNotebookEntry({ title: byId('note-title').value.trim() || 'Notebook note', text: byId('note-text').value.trim() });
-  byId('remember-page').onclick = () => window.psicatBrowser.addNotebookEntry({ title: `Remembered research — ${new Date().toLocaleString()}`, text: (state.tabs.find((tab) => tab.id === state.activeTabId)?.lastSnapshot?.text || '').slice(0, 2000), tags: ['captured-page'] });
+  byId('remember-page').onclick = () => window.psicatBrowser.rememberActivePage();
+  byId('sync-now').onclick = async () => {
+    const result = await window.psicatBrowser.syncNow();
+    byId('answer').textContent = `Sync mirror updated: ${result.path}`;
+  };
   byId('import-research').onclick = () => window.psicatBrowser.importResearchFiles();
   byId('export-research').onclick = () => window.psicatBrowser.exportResearchBundle();
+  byId('import-sync').onclick = () => window.psicatBrowser.importSyncPacket();
+  byId('export-sync').onclick = () => window.psicatBrowser.exportSyncPacket();
   byId('ask-psicat').onclick = async () => {
     const question = byId('question').value.trim();
     if (!question) return;
@@ -127,13 +191,19 @@ async function boot() {
   };
   byId('save-settings').onclick = async () => {
     await window.psicatBrowser.updateSettings({
-      homePage: byId('setting-homePage').value.trim(),
-      searchEngine: byId('setting-searchEngine').value.trim(),
-      sidebarWidth: Number(byId('setting-sidebarWidth').value || 420),
-      trackProtection: byId('setting-trackProtection').value,
-      psicatEndpoint: byId('setting-psicatEndpoint').value.trim(),
-      autoStartPsiCat: byId('setting-autoStartPsiCat').checked,
-      livePageCapture: byId('setting-livePageCapture').checked,
+      settings: {
+        homePage: byId('setting-homePage').value.trim(),
+        searchEngine: byId('setting-searchEngine').value.trim(),
+        sidebarWidth: Number(byId('setting-sidebarWidth').value || 420),
+        trackProtection: byId('setting-trackProtection').value,
+        psicatEndpoint: byId('setting-psicatEndpoint').value.trim(),
+        autoStartPsiCat: byId('setting-autoStartPsiCat').checked,
+        livePageCapture: byId('setting-livePageCapture').checked,
+      },
+      sync: {
+        accountEmail: byId('setting-accountEmail').value.trim(),
+        mode: byId('setting-syncMode').value,
+      },
     });
   };
 }

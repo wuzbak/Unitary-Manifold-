@@ -21,3 +21,24 @@ data class NotebookEntry(
     val text: String,
     val createdAt: String,
 )
+
+data class BookmarkEntry(
+    val title: String,
+    val url: String,
+    val createdAt: String,
+)
+
+data class HistoryEntry(
+    val title: String,
+    val url: String,
+    val visitedAt: String,
+)
+
+data class BrowserSessionSnapshot(
+    val tabs: List<BrowserTab>,
+    val activeTabId: String?,
+    val bookmarks: List<BookmarkEntry>,
+    val history: List<HistoryEntry>,
+    val syncAccountEmail: String,
+    val syncMode: String,
+)

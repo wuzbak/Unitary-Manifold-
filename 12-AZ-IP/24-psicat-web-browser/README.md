@@ -7,9 +7,9 @@ PsiCat Web Browser is the canonical **Product 24** browser surface for AxiomZero
 
 ## What ships in this foundation
 
-- **Desktop Electron browser shell** with tabs, navigation, settings, bookmarks, history, downloads, session restore, private tabs, and embedded PsiCat research sidebar.
+- **Desktop Electron browser shell** with tabs, navigation, settings, bookmarks, history, downloads, session restore, reopen-closed-tab flow, sync packet import/export, and embedded PsiCat research sidebar.
 - **Advanced PsiCat sidebar** with live active-page awareness, remembered page context, multi-page summary/interrogation, notebook entries, and import/export.
-- **Android native-tab browser foundation** with toolbar navigation, tab strip, settings screen, notebook drawer, import/export, and contextual page capture.
+- **Android native-tab browser foundation** with toolbar navigation, tab strip, settings screen, notebook drawer, session restore, bookmark/history persistence, sync packet import/export, and contextual page capture.
 - **Chrome/Edge extension foundation** with side panel, local notebook, page capture, import/export, and optional local PsiCat endpoint integration.
 - **Resume ledger** so implementation state is visible if work is interrupted.
 
@@ -44,6 +44,8 @@ The Android app is a native-tab shell intended for Android Studio / Gradle impor
 - settings activity using industry-standard preferences
 - notebook drawer with local persistence
 - import/export via Android document pickers
+- session/bookmark/history persistence in shared preferences
+- sync account metadata carried in exported packets
 - active page capture for PsiCat-style research workflows
 
 ## Extension structure
@@ -58,8 +60,8 @@ The extension is designed for **Chrome and Edge** using Manifest V3 side-panel A
 ## Honesty boundary
 
 Implemented now:
-- desktop tabs, navigation, settings, notebook, import/export, local research memory, Product 20 sidecar handshake client
-- Android native browser foundation with settings, notebook, import/export, and page-context capture
+- desktop tabs, navigation, settings, notebook, bookmarks/history/download visibility, import/export, sync packet flows, local research memory, and Product 20 sidecar handshake client
+- Android native browser foundation with settings, notebook, import/export, session restore, bookmark/history persistence, sync metadata, and page-context capture
 - Chrome/Edge extension foundation with side panel and local/page-aware research tools
 
 Not yet fully implemented in this foundation:

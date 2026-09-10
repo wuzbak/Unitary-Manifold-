@@ -5,6 +5,7 @@ const MAX_REMEMBERED_PAGES = 48;
 const MAX_NOTEBOOK_ENTRIES = 200;
 const MAX_HISTORY_ENTRIES = 250;
 const MAX_IMPORT_ITEMS = 120;
+const MAX_RECENTLY_CLOSED_TABS = 12;
 
 function createDefaultSettings() {
   return {
@@ -56,7 +57,9 @@ function createInitialState() {
       mode: 'local+account',
       accountEmail: '',
       lastSyncAt: null,
+      lastSyncSource: 'never',
     },
+    recentlyClosedTabs: [],
   };
 }
 
@@ -121,10 +124,30 @@ function closeTab(state, tabId) {
   if (next.tabs.length === 1) return next;
   const index = next.tabs.findIndex((tab) => tab.id === tabId);
   if (index === -1) return next;
+  const closedTab = next.tabs[index];
   next.tabs.splice(index, 1);
+  next.recentlyClosedTabs = [
+    { ...closedTab, closedAt: new Date().toISOString() },
+    ...(next.recentlyClosedTabs || []),
+  ].slice(0, MAX_RECENTLY_CLOSED_TABS);
   if (next.activeTabId === tabId) {
     next.activeTabId = next.tabs[Math.max(0, index - 1)].id;
   }
+  return next;
+}
+
+function reopenLastClosedTab(state) {
+  const next = normalizeState(state);
+  const [lastClosed, ...remaining] = next.recentlyClosedTabs || [];
+  if (!lastClosed) return next;
+  const tab = createTab(lastClosed.url || DEFAULT_HOME, {
+    title: lastClosed.title || 'Restored Tab',
+    private: Boolean(lastClosed.private),
+  });
+  tab.lastSnapshot = lastClosed.lastSnapshot || null;
+  next.tabs.push(tab);
+  next.activeTabId = tab.id;
+  next.recentlyClosedTabs = remaining;
   return next;
 }
 
@@ -210,6 +233,92 @@ function importResearchItems(state, items) {
   return next;
 }
 
+function dedupeBy(items, keyBuilder) {
+  const seen = new Set();
+  return items.filter((item) => {
+    const key = keyBuilder(item);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function createSyncPacket(state) {
+  const next = normalizeState(state);
+  return {
+    product: 24,
+    exportedAt: new Date().toISOString(),
+    sync: {
+      ...next.sync,
+      lastSyncAt: new Date().toISOString(),
+    },
+    settings: {
+      homePage: next.settings.homePage,
+      searchEngine: next.settings.searchEngine,
+      trackProtection: next.settings.trackProtection,
+      sidebarWidth: next.settings.sidebarWidth,
+      psicatEndpoint: next.settings.psicatEndpoint,
+      livePageCapture: next.settings.livePageCapture,
+    },
+    tabs: next.tabs.map((tab) => ({
+      title: tab.title,
+      url: tab.url,
+      private: Boolean(tab.private),
+      lastSnapshot: tab.lastSnapshot || null,
+    })),
+    activeTabUrl: (next.tabs.find((tab) => tab.id === next.activeTabId) || next.tabs[0] || {}).url || DEFAULT_HOME,
+    bookmarks: next.bookmarks,
+    history: next.history.slice(0, 100),
+    downloads: next.downloads.slice(0, 40),
+    notebookEntries: next.notebookEntries.slice(0, 100),
+    rememberedPages: next.rememberedPages.slice(0, 40),
+    importedResearch: next.importedResearch.slice(0, 100),
+  };
+}
+
+function mergeSyncPacket(state, packet) {
+  const next = normalizeState(state);
+  if (!packet || typeof packet !== 'object') return next;
+  const incomingTabs = Array.isArray(packet.tabs)
+    ? packet.tabs.map((tab) => createTab(sanitizeUrl(tab.url || DEFAULT_HOME, next.settings), {
+      title: tab.title || 'Imported Tab',
+      private: Boolean(tab.private),
+    }))
+    : [];
+  incomingTabs.forEach((tab, index) => {
+    const raw = packet.tabs[index] || {};
+    tab.lastSnapshot = raw.lastSnapshot || null;
+  });
+  const tabs = dedupeBy([...next.tabs, ...incomingTabs], (tab) => `${tab.private ? 'p' : 'n'}:${tab.url}`);
+  const bookmarks = dedupeBy([...(packet.bookmarks || []), ...next.bookmarks], (item) => item.url).slice(0, MAX_HISTORY_ENTRIES);
+  const history = dedupeBy([...(packet.history || []), ...next.history], (item) => `${item.url}:${item.title || ''}`).slice(0, MAX_HISTORY_ENTRIES);
+  const downloads = dedupeBy([...(packet.downloads || []), ...next.downloads], (item) => `${item.url}:${item.fileName || ''}`).slice(0, MAX_HISTORY_ENTRIES);
+  const notebookEntries = dedupeBy([...(packet.notebookEntries || []), ...next.notebookEntries], (item) => `${item.title}:${item.createdAt || item.text?.slice(0, 80) || ''}`).slice(0, MAX_NOTEBOOK_ENTRIES);
+  const rememberedPages = dedupeBy([...(packet.rememberedPages || []), ...next.rememberedPages], (item) => item.url).slice(0, MAX_REMEMBERED_PAGES);
+  const importedResearch = dedupeBy([...(packet.importedResearch || []), ...next.importedResearch], (item) => `${item.title}:${item.source || ''}`).slice(0, MAX_IMPORT_ITEMS);
+  return normalizeState({
+    ...next,
+    tabs: tabs.length ? tabs : next.tabs,
+    activeTabId: (tabs.find((tab) => tab.url === packet.activeTabUrl) || tabs[0] || next.tabs[0]).id,
+    bookmarks,
+    history,
+    downloads,
+    notebookEntries,
+    rememberedPages,
+    importedResearch,
+    settings: {
+      ...next.settings,
+      ...(packet.settings || {}),
+    },
+    sync: {
+      ...next.sync,
+      ...(packet.sync || {}),
+      lastSyncAt: new Date().toISOString(),
+      lastSyncSource: 'imported-packet',
+    },
+  });
+}
+
 module.exports = {
   DEFAULT_HOME,
   MAX_REMEMBERED_PAGES,
@@ -227,4 +336,7 @@ module.exports = {
   addBookmark,
   addDownload,
   importResearchItems,
+  reopenLastClosedTab,
+  createSyncPacket,
+  mergeSyncPacket,
 };

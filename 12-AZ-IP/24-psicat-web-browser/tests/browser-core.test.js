@@ -52,3 +52,25 @@ test('closeTab keeps one tab alive and reassigns the active tab', () => {
   assert.equal(state.tabs.length, 1);
   assert.equal(state.activeTabId, firstTabId);
 });
+
+test('closeTab tracks recently closed tabs and reopenLastClosedTab restores one', () => {
+  let state = core.createInitialState();
+  state = core.addTab(state, 'example.net');
+  const closedUrl = state.tabs.find((tab) => tab.id === state.activeTabId).url;
+  state = core.closeTab(state, state.activeTabId);
+  assert.equal(state.recentlyClosedTabs.length, 1);
+  state = core.reopenLastClosedTab(state);
+  assert.equal(state.recentlyClosedTabs.length, 0);
+  assert.equal(state.tabs.find((tab) => tab.id === state.activeTabId).url, closedUrl);
+});
+
+test('createSyncPacket and mergeSyncPacket preserve imported browser state', () => {
+  let state = core.createInitialState();
+  state = core.addBookmark(state, { title: 'Example', url: 'https://example.com' });
+  state = core.addNotebookEntry(state, { title: 'Memo', text: 'Sync me' });
+  const packet = core.createSyncPacket(state);
+  const merged = core.mergeSyncPacket(core.createInitialState(), packet);
+  assert.equal(merged.bookmarks[0].url, 'https://example.com');
+  assert.equal(merged.notebookEntries[0].title, 'Memo');
+  assert.equal(merged.sync.lastSyncSource, 'imported-packet');
+});

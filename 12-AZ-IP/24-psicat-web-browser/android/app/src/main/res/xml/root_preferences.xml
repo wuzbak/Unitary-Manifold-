@@ -11,6 +11,16 @@
         android:key="psicat_endpoint"
         android:title="PsiCat endpoint"
         android:defaultValue="http://127.0.0.1:8020" />
+    <EditTextPreference
+        android:key="sync_account_email"
+        android:title="Sync account email"
+        android:useSimpleSummaryProvider="true" />
+    <ListPreference
+        android:key="sync_mode"
+        android:title="Sync mode"
+        android:defaultValue="local+account"
+        android:entries="@array/sync_mode_entries"
+        android:entryValues="@array/sync_mode_values" />
     <SwitchPreferenceCompat
         android:key="live_capture"
         android:title="Live page capture"
