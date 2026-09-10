@@ -81,6 +81,13 @@ def test_detect_query_lane_defaults_to_physics_navigation_without_keyword_hits()
     assert lane["lane_id"] == "physics_navigation"
 
 
+def test_detect_query_lane_supports_multiword_keywords(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setitem(rag_index_module._LANE_HINTS["formal_proof"], "keywords", {"formal proof"})
+    lane = detect_query_lane("Please assemble a formal proof for this claim.")
+    assert lane["lane_id"] == "formal_proof"
+    assert lane["matched_keywords"] == "formal proof"
+
+
 def test_build_context_scaffold_includes_ast_and_tool_hints():
     idx = RAGIndex()
     scaffold = build_context_scaffold(idx, "How is alpha_gut derived?", repo_root=Path(__file__).parent.parent)
@@ -124,6 +131,19 @@ def test_build_context_scaffold_falls_back_on_invalid_ast_limit():
     scaffold = build_context_scaffold(idx, "How is alpha_gut derived?", repo_root=Path(__file__).parent.parent, ast_file_limit="oops")
     assert scaffold["ast"]["file_limit"] == 3
     assert scaffold["tooling"]["ast_file_limit"] == 3
+
+
+def test_build_context_scaffold_deduplicates_provenance_sources(monkeypatch: pytest.MonkeyPatch):
+    idx = RAGIndex()
+    repo_root = Path(__file__).parent.parent
+    shared_chunk = DocumentChunk("README.md", "Readme", "physics navigation")
+
+    monkeypatch.setattr(idx, "lookup_kb", lambda _query: {"status": "hardgate", "sources": ["README.md"]})
+    monkeypatch.setattr(idx, "search", lambda _query, top_k=3: [(0.9, shared_chunk)])
+
+    scaffold = build_context_scaffold(idx, "physics navigation", repo_root=repo_root)
+    assert scaffold["provenance"]["source_count"] == 1
+    assert scaffold["provenance"]["sources"][0]["label"] == "README.md"
 
 
 def test_render_context_scaffold_contains_structural_sections():

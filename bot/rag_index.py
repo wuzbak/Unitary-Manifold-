@@ -413,6 +413,16 @@ def _tokenize(text: str) -> Set[str]:
     }
 
 
+def _matches_lane_keyword(query_tokens: Set[str], normalized_query: str, keyword: str) -> bool:
+    normalized_keyword = str(keyword or "").strip().lower()
+    if not normalized_keyword:
+        return False
+    if " " in normalized_keyword:
+        pattern = r"\b" + re.escape(normalized_keyword).replace(r"\ ", r"\s+") + r"\b"
+        return re.search(pattern, normalized_query) is not None
+    return _normalize_token(normalized_keyword) in query_tokens
+
+
 def _safe_read_text(path: Path) -> str:
     try:
         return path.read_text(encoding="utf-8", errors="replace")
@@ -490,17 +500,18 @@ def _normalize_gate_label(status: str) -> str:
 
 
 def detect_query_lane(query: str) -> Dict[str, str]:
+    normalized_query = str(query or "").lower()
     query_tokens = _tokenize(query)
     best_lane = "physics_navigation"
     best_score = 0
     for lane_id, config in _LANE_HINTS.items():
-        score = sum(1 for keyword in config["keywords"] if _normalize_token(keyword) in query_tokens)
+        score = sum(1 for keyword in config["keywords"] if _matches_lane_keyword(query_tokens, normalized_query, keyword))
         if score > best_score:
             best_lane = lane_id
             best_score = score
     matched_keywords = sorted([
         keyword for keyword in _LANE_HINTS[best_lane]["keywords"]
-        if _normalize_token(keyword) in query_tokens
+        if _matches_lane_keyword(query_tokens, normalized_query, keyword)
     ])[:6]
     return {
         "lane_id": best_lane,
@@ -588,32 +599,34 @@ def build_context_scaffold(
         if score > 0.0
     ]
     provenance_sources: list[dict[str, Any]] = []
+    seen_provenance_labels: set[str] = set()
     seen_paths: set[str] = set()
     candidate_paths: list[Path] = []
+
+    def append_provenance(label: str, *, kind: str, gate: str, confidence_tier: str = "retrieved") -> None:
+        if label in seen_provenance_labels:
+            return
+        seen_provenance_labels.add(label)
+        provenance_sources.append({
+            "label": label,
+            "path": label,
+            "kind": kind,
+            "gate": gate,
+            "confidence_tier": confidence_tier,
+        })
+
     if kb_entry is not None:
         gate = _normalize_gate_label(kb_entry.get("status", ""))
         for source in kb_entry.get("sources", [])[:6]:
             label = str(source)
-            provenance_sources.append({
-                "label": label,
-                "path": label,
-                "kind": "knowledge_base",
-                "gate": gate,
-                "confidence_tier": "retrieved",
-            })
+            append_provenance(label, kind="knowledge_base", gate=gate)
             real_path = _existing_source_path(repo_root, label)
             if real_path is not None and real_path.as_posix() not in seen_paths:
                 candidate_paths.append(real_path)
                 seen_paths.add(real_path.as_posix())
     for item in top_chunks:
         label = str(item["source"])
-        provenance_sources.append({
-            "label": label,
-            "path": label,
-            "kind": "document_chunk",
-            "gate": "ARCHITECTURE_LIMIT",
-            "confidence_tier": "retrieved",
-        })
+        append_provenance(label, kind="document_chunk", gate="ARCHITECTURE_LIMIT")
         real_path = _existing_source_path(repo_root, label)
         if real_path is not None and real_path.as_posix() not in seen_paths:
             candidate_paths.append(real_path)
