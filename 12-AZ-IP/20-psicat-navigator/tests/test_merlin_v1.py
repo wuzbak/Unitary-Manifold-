@@ -1834,7 +1834,7 @@ def test_training_benchmarking_promotion_sprint_nonnumeric_queue_after_not_clear
                     'queue_before': {'ready_count': 0},
                     'cycle': {
                         'processed_count': 1,
-                        'queue_after': {'stale_retrain_count': 'unknown', 'needs_review_count': object()},
+                        'queue_after': {'stale_retrain_count': '', 'needs_review_count': object()},
                     },
                     'lane_progress_ledgers': [{'lane_id': 'lane_a'}],
                     'challenge_pack': {'challenges': [{'id': 'c1'}]},
