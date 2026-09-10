@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+from functools import lru_cache
 import json
 from pathlib import Path
 from typing import Any
@@ -20,12 +21,22 @@ def _load_json(path: Path) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def get_psicat_prompt_contracts() -> dict[str, Any]:
+@lru_cache(maxsize=1)
+def _load_manifest() -> dict[str, Any]:
+    return _load_json(MANIFEST_PATH)
+
+
+@lru_cache(maxsize=1)
+def _load_prompt_contracts() -> dict[str, Any]:
     return _load_json(PROMPT_CONTRACTS_PATH)
 
 
+def get_psicat_prompt_contracts() -> dict[str, Any]:
+    return dict(_load_prompt_contracts())
+
+
 def get_psicat_testing_stack() -> dict[str, Any]:
-    manifest = _load_json(MANIFEST_PATH)
+    manifest = _load_manifest()
     prompt_contracts = get_psicat_prompt_contracts()
     cases = list(prompt_contracts.get("cases") or [])
     required_sections = sorted(

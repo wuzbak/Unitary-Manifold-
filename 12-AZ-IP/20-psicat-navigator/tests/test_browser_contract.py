@@ -13,21 +13,21 @@ REPO_ROOT = PRODUCT_ROOT.parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, reserve_port, running_server
+from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, running_server
+from ox_navigator.app.server import serve
 
 
 @pytest.mark.parametrize("browser_name", ["chromium", "firefox", "webkit"])
 def test_psicat_browser_contract(browser_name: str) -> None:
     sync_api = playwright_sync_api()
-    port = reserve_port()
-    base_url = f"http://127.0.0.1:{port}"
-    with running_server(PRODUCT_ROOT, ["run.py", "--port", str(port), "--no-open"], base_url=f"{base_url}/"):
+    with running_server(lambda: serve(port=0)) as base_url:
         with sync_api.sync_playwright() as playwright:
             browser = launch_browser_or_skip(playwright, browser_name)
             page = browser.new_page(viewport={"width": 1440, "height": 1100})
             try:
+                base_root = base_url.rstrip("/")
                 page.route(
-                    f"{base_url}/api/merlin/status",
+                    f"{base_root}/api/merlin/status",
                     lambda route: route.fulfill(
                         status=200,
                         content_type="application/json",
@@ -38,7 +38,7 @@ def test_psicat_browser_contract(browser_name: str) -> None:
                     ),
                 )
                 page.route(
-                    f"{base_url}/api/merlin",
+                    f"{base_root}/api/merlin",
                     lambda route: route.fulfill(
                         status=200,
                         content_type="application/json",
@@ -59,7 +59,7 @@ def test_psicat_browser_contract(browser_name: str) -> None:
                         }""",
                     ),
                 )
-                page.goto(f"{base_url}/ox-navigator.html", wait_until="domcontentloaded")
+                page.goto(f"{base_root}/ox-navigator.html", wait_until="domcontentloaded")
                 page.wait_for_function("document.getElementById('ox-status-text').textContent.includes('Merlin available')")
                 page.locator("#ox-query-input").fill("Explain the birefringence falsifier.")
                 page.get_by_role("button", name="Ask Merlin ↗").click()

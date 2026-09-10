@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+from functools import partial
+from http.server import ThreadingHTTPServer
 import json
 import sys
 from pathlib import Path
@@ -14,7 +16,8 @@ REPO_ROOT = PRODUCT_ROOT.parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, reserve_port, running_server
+from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, running_server
+from geo_monitor.app.server import UIRequestHandler, ui_directory
 
 
 USGS_FIXTURE = {
@@ -105,9 +108,9 @@ window.maplibregl = {
 @pytest.mark.parametrize("browser_name", ["chromium", "firefox", "webkit"])
 def test_geo_monitor_browser_contract(browser_name: str) -> None:
     sync_api = playwright_sync_api()
-    port = reserve_port()
-    base_url = f"http://127.0.0.1:{port}/"
-    with running_server(PRODUCT_ROOT, ["run.py", "serve", "--port", str(port), "--no-open"], base_url=base_url):
+    with running_server(
+        lambda: ThreadingHTTPServer(("127.0.0.1", 0), partial(UIRequestHandler, directory=str(ui_directory())))
+    ) as base_url:
         with sync_api.sync_playwright() as playwright:
             browser = launch_browser_or_skip(playwright, browser_name)
             page = browser.new_page(viewport={"width": 1440, "height": 1100})

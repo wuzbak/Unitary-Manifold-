@@ -5,12 +5,8 @@ from __future__ import annotations
 
 import contextlib
 import http.client
-import os
-import socket
-import subprocess
-import sys
+import threading
 import time
-from pathlib import Path
 from urllib.parse import urlparse
 
 import pytest
@@ -18,12 +14,6 @@ import pytest
 
 def playwright_sync_api():
     return pytest.importorskip("playwright.sync_api")
-
-
-def reserve_port() -> int:
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.bind(("127.0.0.1", 0))
-        return int(sock.getsockname()[1])
 
 
 def _wait_for_http(base_url: str, ready_path: str = "/", timeout: float = 20.0) -> None:
@@ -48,55 +38,20 @@ def _wait_for_http(base_url: str, ready_path: str = "/", timeout: float = 20.0) 
     raise AssertionError(f"Server at {base_url}{ready_path} did not become ready: {last_error}")
 
 
-def _terminate_process(process: subprocess.Popen[str]) -> None:
-    if process.poll() is None:
-        process.terminate()
-        try:
-            process.wait(timeout=5)
-        except subprocess.TimeoutExpired:  # pragma: no cover - defensive
-            process.kill()
-            process.wait(timeout=5)
-
-
 @contextlib.contextmanager
-def running_server(
-    product_root: Path,
-    command_args: list[str],
-    *,
-    base_url: str,
-    ready_path: str = "/",
-    timeout: float = 20.0,
-    env: dict[str, str] | None = None,
-):
-    merged_env = os.environ.copy()
-    merged_env.setdefault("PYTHONUNBUFFERED", "1")
-    if env:
-        merged_env.update(env)
-    process = subprocess.Popen(
-        [sys.executable, *command_args],
-        cwd=str(product_root),
-        env=merged_env,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-    )
+def running_server(server_factory, *, ready_path: str = "/", timeout: float = 20.0):
+    server = server_factory()
+    host, port = server.server_address[:2]
+    base_url = f"http://{host}:{port}/"
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
     try:
         _wait_for_http(base_url, ready_path=ready_path, timeout=timeout)
-    except Exception:
-        _terminate_process(process)
-        output = ""
-        if process.stdout:
-            try:
-                output = process.stdout.read()
-            except Exception:  # pragma: no cover - defensive
-                output = ""
-        raise AssertionError(f"Server failed for {product_root}.\n{output}") from None
-    try:
         yield base_url
     finally:
-        _terminate_process(process)
-        if process.stdout:
-            process.stdout.close()
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)
 
 
 def launch_browser_or_skip(playwright, browser_name: str):

@@ -10,18 +10,19 @@ import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = PRODUCT_ROOT.parents[1]
+if str(PRODUCT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PRODUCT_ROOT))
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, reserve_port, running_server
+from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, running_server
+from merlin_dnd.server import serve
 
 
 @pytest.mark.parametrize("browser_name", ["chromium", "firefox", "webkit"])
 def test_psicat_dm_assistant_browser_contract(browser_name: str) -> None:
     sync_api = playwright_sync_api()
-    port = reserve_port()
-    base_url = f"http://127.0.0.1:{port}/"
-    with running_server(PRODUCT_ROOT, ["run.py", "serve", "--port", str(port)], base_url=base_url):
+    with running_server(lambda: serve(port=0)) as base_url:
         with sync_api.sync_playwright() as playwright:
             browser = launch_browser_or_skip(playwright, browser_name)
             page = browser.new_page(viewport={"width": 1360, "height": 1024})
