@@ -20,6 +20,7 @@ let state = core.createInitialState();
 let tabViews = new Map();
 let psiCatSidecar = { status: 'not_started', pid: null, baseUrl: `http://${PSICAT_HOST}:${PSICAT_PORT}`, error: '' };
 let psiCatProcess = null;
+const trackedSessions = new WeakSet();
 
 function sha256(text) {
   return crypto.createHash('sha256').update(text).digest('hex');
@@ -47,6 +48,10 @@ function serializeState() {
   return { ...state, psiCatSidecar };
 }
 
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function broadcastState() {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send('browser:state', serializeState());
@@ -61,6 +66,7 @@ function createBrowserView(tab) {
       sandbox: true,
     },
   });
+  registerDownloadTracking(view.webContents.session);
   view.webContents.setWindowOpenHandler(({ url }) => {
     state = core.addTab(state, url, { title: 'New Tab' });
     const nextTab = getActiveTab();
@@ -93,6 +99,20 @@ function createBrowserView(tab) {
     persistState().then(broadcastState);
   });
   return view;
+}
+
+function registerDownloadTracking(targetSession) {
+  if (!targetSession || trackedSessions.has(targetSession)) return;
+  trackedSessions.add(targetSession);
+  targetSession.on('will-download', (_event, item) => {
+    state = core.addDownload(state, {
+      url: item.getURL(),
+      fileName: item.getFilename(),
+      savePath: item.getSavePath(),
+      totalBytes: item.getTotalBytes(),
+    });
+    persistState().then(broadcastState);
+  });
 }
 
 async function updateNavigationState(tabId) {
@@ -249,11 +269,26 @@ async function startPsiCatSidecar() {
     stdio: 'ignore',
     detached: false,
   });
-  psiCatSidecar = { ...psiCatSidecar, status: 'ready', pid: psiCatProcess.pid };
+  psiCatSidecar = { ...psiCatSidecar, pid: psiCatProcess.pid };
   psiCatProcess.on('exit', (code) => {
     psiCatSidecar = { ...psiCatSidecar, status: 'stopped', error: code === 0 ? '' : `PsiCat sidecar exited with code ${code}` };
     broadcastState();
   });
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    try {
+      const response = await fetch(`${psiCatSidecar.baseUrl}/api/psicat/status`);
+      if (response.ok) {
+        psiCatSidecar = { ...psiCatSidecar, status: 'ready', error: '' };
+        broadcastState();
+        return;
+      }
+    } catch (_error) {
+      // wait for sidecar readiness
+    }
+    await delay(500);
+  }
+  psiCatSidecar = { ...psiCatSidecar, status: 'degraded', error: 'PsiCat sidecar did not become ready in time' };
+  broadcastState();
 }
 
 async function callPsiCat(question) {
@@ -405,15 +440,7 @@ app.whenReady().then(async () => {
   }
   const active = getActiveTab();
   if (active && !tabViews.has(active.id)) mountTab(active);
-  session.defaultSession.on('will-download', (_event, item) => {
-    state = core.addDownload(state, {
-      url: item.getURL(),
-      fileName: item.getFilename(),
-      savePath: item.getSavePath(),
-      totalBytes: item.getTotalBytes(),
-    });
-    persistState().then(broadcastState);
-  });
+  registerDownloadTracking(session.defaultSession);
   broadcastState();
 });
 

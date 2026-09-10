@@ -67,6 +67,7 @@ Not yet fully implemented in this foundation:
 - cross-device authenticated account service
 - true multi-pane split rendering parity across all shells
 - on-device large-model inference packaged inside the browser itself
+- Android-grade isolated private browsing storage separate from standard WebView persistence
 
 These are intentionally left explicit rather than implied.
 

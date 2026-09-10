@@ -35,7 +35,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 21 | UM Geophysical Monitor | 1.0.0 | TRL-5 | Browser / static | 121 | Live globe disaster monitor with USGS + NASA EONET feeds and UM φ-overlay (P806/P786/P16). | [21-geo-monitor/](21-geo-monitor/) |
 | 22 | AxiomZero SGE | 1.0.0 | TRL-7 | http://localhost:7622 | 229 | Next-gen system security governance engine for anti-malware, zero-day detection, IDS, firewall, anti-surveillance, and governed protection workflows. | [22-az-sge/](22-az-sge/) |
 | 23 | PsiCat DM Guide & Player Assistant | 1.1.0 | TRL-3 | http://localhost:8033 | 17 | Offline-first Dungeons & Dragons 5e / 5.5e campaign assistant with separate DM/player dashboards, invite-code joins, character import, XP/treasure/gold/item tracking, maps, NPCs, image pushes, and PsiCat expert guidance. | [23-psicat-dm-assistant/](23-psicat-dm-assistant/) |
-| 24 | PsiCat Web Browser | 1.0.0 | TRL-3 | Electron / Android / Extension | 9 | Chromium-based next-gen browser foundation with Electron desktop, native-tab Android shell, embedded PsiCat research sidebar, notebook, and import/export workflows. | [24-psicat-web-browser/](24-psicat-web-browser/) |
+| 24 | PsiCat Web Browser | 1.0.0 | TRL-3 | Electron / Android / Extension | 13 | Chromium-based next-gen browser foundation with Electron desktop, native-tab Android shell, embedded PsiCat research sidebar, notebook, and import/export workflows. | [24-psicat-web-browser/](24-psicat-web-browser/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 

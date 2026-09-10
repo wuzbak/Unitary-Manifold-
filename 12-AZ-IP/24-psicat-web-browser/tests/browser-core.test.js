@@ -37,3 +37,18 @@ test('importResearchItems caps imported research corpus', () => {
   );
   assert.equal(state.importedResearch.length, 120);
 });
+
+test('normalizeState restores a valid active tab when persisted state is malformed', () => {
+  const state = core.normalizeState({ tabs: [{ id: 'a', url: 'https://example.com', title: 'A' }], activeTabId: 'missing' });
+  assert.equal(state.activeTabId, 'a');
+});
+
+test('closeTab keeps one tab alive and reassigns the active tab', () => {
+  let state = core.createInitialState();
+  state = core.addTab(state, 'example.net');
+  const firstTabId = state.tabs[0].id;
+  const secondTabId = state.activeTabId;
+  state = core.closeTab(state, secondTabId);
+  assert.equal(state.tabs.length, 1);
+  assert.equal(state.activeTabId, firstTabId);
+});

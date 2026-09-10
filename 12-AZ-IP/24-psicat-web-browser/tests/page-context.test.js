@@ -12,7 +12,11 @@ test('buildContextEnvelope includes current page and notebook entries', () => {
   let state = core.createInitialState();
   state = core.updateTab(state, state.activeTabId, { lastSnapshot: { title: 'Doc', url: 'https://example.com', text: 'Browser context for research notebook.' } });
   state = core.addNotebookEntry(state, { title: 'Memo', text: 'Notebook memory' });
+  state = core.rememberPage(state, { title: 'Saved Page', url: 'https://saved.example', text: 'Remembered text' });
+  state = core.importResearchItems(state, [{ title: 'Imported', text: 'Imported research text', source: 'fixture' }]);
   const envelope = context.buildContextEnvelope(state);
   assert.equal(envelope.current_page.title, 'Doc');
   assert.equal(envelope.notebook_entries[0].title, 'Memo');
+  assert.equal(envelope.remembered_pages[0].title, 'Saved Page');
+  assert.equal(envelope.imported_research[0].title, 'Imported');
 });

@@ -17,20 +17,20 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.edit
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.appbar.MaterialToolbar
 import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import java.util.UUID
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.json.JSONTokener
+import java.time.Instant
 
 class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
             } else false
         }
 
-        addTab(isPrivate = false)
+        addTab()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -104,8 +104,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_new_tab -> addTab(false)
-            R.id.action_private_tab -> addTab(true)
+            R.id.action_new_tab -> addTab()
             R.id.action_bookmark -> saveNotebookEntry(prefixWithPage = true)
             R.id.action_sidebar -> drawerLayout.openDrawer(findViewById(R.id.sidebar))
             R.id.action_settings -> startActivity(Intent(this, SettingsActivity::class.java))
@@ -113,9 +112,9 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun addTab(isPrivate: Boolean) {
+    private fun addTab() {
         val homePage = prefs().getString("home_page", "https://example.com") ?: "https://example.com"
-        val tab = BrowserTab(UUID.randomUUID().toString(), if (isPrivate) "Private Tab" else "New Tab", homePage, isPrivate)
+        val tab = BrowserTab(UUID.randomUUID().toString(), "New Tab", homePage, false)
         tabs += tab
         val webView = WebView(this).apply {
             settings.javaScriptEnabled = true
@@ -152,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         tabStrip.removeAllViews()
         tabs.forEach { tab ->
             val chip = com.google.android.material.button.MaterialButton(this).apply {
-                text = if (tab.isPrivate) "🕶 ${tab.title}" else tab.title
+                text = tab.title
                 setOnClickListener { switchTo(tab.id) }
             }
             tabStrip.addView(chip)
@@ -216,7 +215,7 @@ class MainActivity : AppCompatActivity() {
         if (question.isBlank()) return
         val snapshot = currentTab()?.lastSnapshot
         contextSummary.text = "Thinking…"
-        Thread {
+        lifecycleScope.launch(Dispatchers.IO) {
             val local = buildString {
                 appendLine("[Local Android PsiCat mode]")
                 appendLine("Question: $question")
@@ -224,8 +223,8 @@ class MainActivity : AppCompatActivity() {
                 if (notebook.isNotEmpty()) appendLine("Notebook topics: ${notebook.take(5).joinToString { it.title }}")
             }
             val answer = runCatching { remotePsiCat(question, snapshot) }.getOrElse { local }
-            runOnUiThread { contextSummary.text = answer }
-        }.start()
+            withContext(Dispatchers.Main) { contextSummary.text = answer }
+        }
     }
 
     private fun remotePsiCat(question: String, snapshot: PageSnapshot?): String {
@@ -293,7 +292,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun prefs() = PreferenceManager.getDefaultSharedPreferences(this)
 
-    private fun timestamp(): String = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US).format(Date())
+    private fun timestamp(): String = Instant.now().toString()
 
     private fun sha256(text: String): String = java.security.MessageDigest.getInstance("SHA-256")
         .digest(text.toByteArray())

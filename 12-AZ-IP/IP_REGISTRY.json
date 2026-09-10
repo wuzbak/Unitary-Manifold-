@@ -384,8 +384,8 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "014cbae798c644d36febe32afa94ea4a6d3456890ba72bbe1c57ad63d895eb7c",
-      "size_bytes": 3676
+      "sha256": "40078f2e0ae39dea30512a02b56422d11900305018ffea84b8450ce3478cd635",
+      "size_bytes": 3769
     },
     "12-AZ-IP/24-psicat-web-browser/package.json": {
       "description": "Product 24 Electron package manifest and test scripts",
@@ -400,8 +400,8 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "38f0d79d60a647e5b4242d6ed43be8632ed5a021715b853436137870fcfdf40f",
-      "size_bytes": 15667
+      "sha256": "56be138c06911976757dbd324ec732f5d3c1f7e87b53823fca379b3530bc8fb5",
+      "size_bytes": 16550
     },
     "12-AZ-IP/24-psicat-web-browser/extension/manifest.json": {
       "description": "Product 24 Chrome/Edge extension manifest with side panel companion",
@@ -424,8 +424,8 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "f658d06d73f159c279b1f25734e0302a87c31e4a1c186d86b6f96cb49c07154a",
-      "size_bytes": 1154
+      "sha256": "73e811aa14ca39692eb1699c64b3ef4a7dcb7d802085bd08ab076fac8149896f",
+      "size_bytes": 1253
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
