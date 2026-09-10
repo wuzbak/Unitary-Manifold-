@@ -322,7 +322,7 @@ def run_kernel_p_lean_proof_probe(
     repl_enabled = repl_requested and str(os.environ.get("MERLIN_ENABLE_LEAN_BRIDGE") or "").strip().lower() in {"1", "true", "yes", "on"}
     repl_available = bool(local_runtime.get("lean_available"))
     scoped_build = dict(bridge_receipt.get("scoped_build_receipt") or {})
-    repl_used = repl_enabled and scoped_build.get("status") not in {"SKIPPED", "ENVIRONMENT_BLOCKED"}
+    repl_used = repl_enabled and scoped_build.get("status") == "PASS"
     repl_output = (
         str(scoped_build.get("stdout_tail") or scoped_build.get("stderr_tail") or "")[:220]
         if repl_used

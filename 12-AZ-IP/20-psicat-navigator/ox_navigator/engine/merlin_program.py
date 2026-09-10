@@ -2972,7 +2972,7 @@ def _seed_formal_proof_foundry_examples() -> list[dict[str, Any]]:
                     "unit_id": unit_id,
                     "lane_id": str(unit.get("lane_id") or ""),
                     "proof_class": str(unit.get("proof_class") or ""),
-                    "lean_target": str(((unit.get("lean") or {}).get("build_target") or "")),
+                    "lean_target": str(((unit.get("lean") or {}).get("check_target") or "")),
                     "required_outputs": ["formal_unit_ir", "lean_receipt", "python_reingestion_boundary"],
                 },
                 "target_contract": {"requires_epistemic_tag": True, "requires_boundary_note": True},

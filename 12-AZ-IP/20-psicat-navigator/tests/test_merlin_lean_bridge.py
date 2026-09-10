@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
+from pathlib import Path
+
+import ox_navigator.engine.merlin_lean_bridge as merlin_lean_bridge
 from ox_navigator.engine.merlin_lean_bridge import (
     detect_lean_bridge_backends,
     get_live_theorem_count_receipt,
@@ -13,6 +16,13 @@ def test_theorem_count_receipt_uses_live_status() -> None:
     receipt = get_live_theorem_count_receipt()
     assert receipt["theorem_count"] == 4080
     assert receipt["source"] == "9-INFRASTRUCTURE/um_live_status.json"
+
+
+def test_theorem_count_receipt_falls_back_without_live_status(monkeypatch) -> None:
+    monkeypatch.setattr(merlin_lean_bridge, "LIVE_STATUS_PATH", Path("/tmp/missing-um-live-status.json"))
+    receipt = get_live_theorem_count_receipt()
+    assert receipt["theorem_count"] == 4080
+    assert receipt["source"] == "lean4_index_fallback"
 
 
 def test_merlin_lean_bridge_artifact_contains_formal_units() -> None:

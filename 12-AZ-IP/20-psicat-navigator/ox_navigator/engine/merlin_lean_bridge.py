@@ -158,7 +158,7 @@ def _resolve_formal_unit(*, unit_id: str = "", text: str = "") -> dict[str, Any]
     return dict(best_unit) if best_score > 0 else {}
 
 
-def _run_scoped_build(*, build_target: str, timeout_seconds: int = 45) -> dict[str, Any]:
+def _run_scoped_build(*, check_target: str, timeout_seconds: int = 45) -> dict[str, Any]:
     runtime = detect_lean_bridge_backends()["local_runtime"]
     lake_binary = str(runtime.get("lake_binary") or "")
     if not lake_binary:
@@ -168,14 +168,14 @@ def _run_scoped_build(*, build_target: str, timeout_seconds: int = 45) -> dict[s
             "reason": "lake_not_available",
             "invocation": [],
         }
-    if not build_target:
+    if not check_target:
         return {
             "status": "SKIPPED",
             "ok": False,
-            "reason": "missing_build_target",
+            "reason": "missing_check_target",
             "invocation": [],
         }
-    lean_file = LEAN4_ROOT / build_target
+    lean_file = LEAN4_ROOT / check_target
     if not lean_file.is_file():
         return {
             "status": "SKIPPED",
@@ -183,7 +183,7 @@ def _run_scoped_build(*, build_target: str, timeout_seconds: int = 45) -> dict[s
             "reason": "missing_lean_file",
             "invocation": [],
         }
-    command = [lake_binary, "env", "lean", build_target]
+    command = [lake_binary, "env", "lean", check_target]
     try:
         completed = subprocess.run(
             command,
@@ -262,7 +262,7 @@ def run_python_to_lean_bridge_receipt(
     }
     if run_build and unit:
         build_receipt = _run_scoped_build(
-            build_target=str(((unit.get("lean") or {}).get("build_target") or ""))
+            check_target=str(((unit.get("lean") or {}).get("check_target") or ""))
         )
     return {
         "receipt_id": "python_lean_bridge_receipt_v1",
