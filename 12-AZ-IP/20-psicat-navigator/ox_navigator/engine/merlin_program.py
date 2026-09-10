@@ -7702,7 +7702,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
         and stale_retrain_count == 0
         and needs_review_count == 0
     )
-    training_queue_observed = training_cycle_executed or _has_positive_counter(
+    training_queue_observed = has_queue_after_state or training_cycle_executed or _has_positive_counter(
         queue_before,
         "queued_count",
         "ready_count",
