@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from functools import lru_cache
 import json
 from pathlib import Path
@@ -32,11 +33,11 @@ def _load_prompt_contracts() -> dict[str, Any]:
 
 
 def get_psicat_prompt_contracts() -> dict[str, Any]:
-    return dict(_load_prompt_contracts())
+    return deepcopy(_load_prompt_contracts())
 
 
 def get_psicat_testing_stack() -> dict[str, Any]:
-    manifest = _load_manifest()
+    manifest = deepcopy(_load_manifest())
     prompt_contracts = get_psicat_prompt_contracts()
     cases = list(prompt_contracts.get("cases") or [])
     required_sections = sorted(
@@ -62,11 +63,11 @@ def get_psicat_testing_stack() -> dict[str, Any]:
             "Product 24's Playwright and Node validation lane is merged and now "
             "serves as the reference proving ground for conventions adopted here."
         ),
-        "browser_default": dict(manifest.get("browser_default") or {}),
-        "integration_classes": dict(manifest.get("integration_classes") or {}),
-        "visual_regression_policy": dict(manifest.get("visual_regression_policy") or {}),
-        "mobile_native_policy": dict(manifest.get("mobile_native_policy") or {}),
-        "target_operating_model": dict(manifest.get("target_operating_model") or {}),
+        "browser_default": deepcopy(manifest.get("browser_default") or {}),
+        "integration_classes": deepcopy(manifest.get("integration_classes") or {}),
+        "visual_regression_policy": deepcopy(manifest.get("visual_regression_policy") or {}),
+        "mobile_native_policy": deepcopy(manifest.get("mobile_native_policy") or {}),
+        "target_operating_model": deepcopy(manifest.get("target_operating_model") or {}),
         "psicat": {
             "browser_lane": {
                 "product_path": "12-AZ-IP/20-psicat-navigator",

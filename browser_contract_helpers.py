@@ -41,10 +41,12 @@ def _wait_for_http(base_url: str, ready_path: str = "/", timeout: float = 20.0) 
 @contextlib.contextmanager
 def running_server(server_factory, *, ready_path: str = "/", timeout: float = 20.0):
     server = server_factory()
-    if server.server_address[1] == 0:
+    with contextlib.suppress(AttributeError, OSError, ValueError):
+        host, port = server.socket.getsockname()[:2]
+    if "port" not in locals() or port == 0:
         server.server_bind()
         server.server_activate()
-    host, port = server.server_address[:2]
+        host, port = server.socket.getsockname()[:2]
     base_url = f"http://{host}:{port}/"
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
