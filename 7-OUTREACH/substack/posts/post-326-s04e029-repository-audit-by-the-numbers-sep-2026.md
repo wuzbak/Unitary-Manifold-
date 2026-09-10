@@ -186,9 +186,9 @@ These are conservative replacement-value bands for major asset classes already p
 
 ## 14) Monorepo aligned-system value estimate
 
-If these components are valued as one integrated system (shared provenance, shared tests, shared governance lane, shared APIs, and cross-layer interoperability), the system-level value should include an integration premium over pure part-by-part replacement sums.
+If these components are valued as one integrated system (shared provenance, shared tests, shared governance lane, shared APIs, and cross-layer interoperability), the system-level value should include an integration premium over category-level estimates. Because apps, engines, OS layers, and IP corpus overlap materially, the prior table is **non-additive** and should be read as indicative category bands, not strict sum-of-parts arithmetic.
 
-- Sum-of-parts replacement band (table above): **$50M–$147M**
-- Integrated aligned-system monorepo estimate: **$75M–$220M**
+- Non-additive category-level replacement-value envelope: **~$50M–$147M** (illustrative only)
+- Integrated aligned-system monorepo estimate (best-practice replacement framing): **$75M–$220M**
 
 Reason for premium: the operational value is not only the parts, but the fact that physics claims, formal artifacts, software products, governance rails, and public documentation are already synchronized in one continuously testable and auditable repository.
