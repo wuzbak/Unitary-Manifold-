@@ -6,6 +6,7 @@ from __future__ import annotations
 import pytest
 from pathlib import Path
 
+import bot.rag_index as rag_index_module
 from bot.rag_index import (
     KNOWLEDGE_BASE,
     DocumentChunk,
@@ -82,6 +83,28 @@ def test_build_context_scaffold_includes_ast_and_tool_hints():
     assert scaffold["boundary"]["dominant_gate"] in {"HARDGATE", "DERIVED", "ARCHITECTURE_LIMIT"}
     assert scaffold["ast"]["enabled"] is True
     assert scaffold["tooling"]["suggested_endpoints"]
+
+
+def test_build_context_scaffold_collects_ast_hints_until_limit(monkeypatch: pytest.MonkeyPatch):
+    idx = RAGIndex()
+    repo_root = Path(__file__).parent.parent
+
+    python_path = repo_root / "src/core/metric.py"
+    ignored_path = repo_root / "README.md"
+
+    monkeypatch.setattr(idx, "lookup_kb", lambda _query: {"status": "hardgate", "sources": ["README.md", "src/core/metric.py"]})
+    monkeypatch.setattr(idx, "search", lambda _query, top_k=5: [])
+
+    def fake_build_ast_hint(_repo_root: Path, path: Path):
+        if path == python_path:
+            return {"path": "src/core/metric.py", "symbol_density": 3, "symbols": ["Metric", "curvature", "ricci"]}
+        return None
+
+    monkeypatch.setattr(rag_index_module, "_build_ast_hint", fake_build_ast_hint)
+    scaffold = build_context_scaffold(idx, "metric structure", repo_root=repo_root, ast_file_limit=1)
+    assert scaffold["ast"]["enabled"] is True
+    assert scaffold["ast"]["record_count"] == 1
+    assert scaffold["ast"]["files"][0]["path"] == "src/core/metric.py"
 
 
 def test_render_context_scaffold_contains_structural_sections():

@@ -2552,7 +2552,7 @@ def test_server_merlin_endpoints():
             assert '[RUNTIME ALIGNMENT]' in context_scaffold.json()['prompt_context']
             assert '[FALLIBILITY]' not in context_scaffold.json()['prompt_context']
 
-            bad_context_scaffold = client.get('/api/psicat/context-scaffold?query=birefringence&ast_file_limit=0')
+            bad_context_scaffold = client.get('/api/merlin/context-scaffold?query=birefringence&ast_file_limit=0')
             assert bad_context_scaffold.status_code == 400
 
             benchmarks = client.get('/api/merlin/benchmarks')

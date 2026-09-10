@@ -611,11 +611,14 @@ def build_context_scaffold(
         if real_path is not None and real_path.as_posix() not in seen_paths:
             candidate_paths.append(real_path)
             seen_paths.add(real_path.as_posix())
+    ast_limit = max(1, int(ast_file_limit or 1))
     ast_hints: list[dict[str, Any]] = []
-    for path in candidate_paths[: max(1, int(ast_file_limit or 1))]:
+    for path in candidate_paths:
         hint = _build_ast_hint(repo_root, path)
         if hint is not None:
             ast_hints.append(hint)
+            if len(ast_hints) >= ast_limit:
+                break
     normalized_gates = [
         *([_normalize_gate_label(kb_entry.get("status", ""))] if kb_entry is not None else []),
         *[item["gate"] for item in provenance_sources if item.get("gate")],
@@ -653,14 +656,14 @@ def build_context_scaffold(
         },
         "ast": {
             "enabled": bool(ast_hints),
-            "file_limit": max(1, int(ast_file_limit or 1)),
+            "file_limit": ast_limit,
             "record_count": len(ast_hints),
             "symbol_count_total": sum(int(item["symbol_density"]) for item in ast_hints),
             "files": ast_hints,
         },
         "tooling": {
             "suggested_endpoints": list(_LANE_HINTS.get(lane["lane_id"], {}).get("tool_hints", [])),
-            "ast_file_limit": max(1, int(ast_file_limit or 1)),
+            "ast_file_limit": ast_limit,
             "retrieval_mode": "scaffold_before_generation",
         },
         "provenance": {
