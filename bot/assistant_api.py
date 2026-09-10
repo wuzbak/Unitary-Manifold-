@@ -41,7 +41,7 @@ from typing import Any
 
 import httpx
 import numpy as np
-from bot.rag_index import RAGIndex, build_context_scaffold, render_context_scaffold
+from bot.rag_index import KNOWLEDGE_BASE, RAGIndex, build_context_scaffold, render_context_scaffold
 
 try:
     from fastapi import FastAPI, HTTPException
@@ -79,6 +79,22 @@ LIVE_STATUS_GENERATOR_PATH = REPO_ROOT / "9-INFRASTRUCTURE" / "generate_live_sta
 MAX_CONTEXT_CHUNKS = 5
 CHUNK_TOKEN_LIMIT  = 400   # approximate chars
 CACHE_TTL_SECONDS  = 300
+_ASSISTANT_CACHE_STATE_FILES = tuple(sorted({
+    "README.md",
+    "FALLIBILITY.md",
+    "STATUS.md",
+    "docs/TOE_SCORE_AUDIT.md",
+    "docs/LITEBIRD_FALSIFIER_BRIEF.md",
+    "docs/MAS_COMPLETION_CERTIFICATE.md",
+    "1-THEORY/UNIFICATION_PROOF.md",
+    "bot/rag_index.py",
+    "bot/assistant_api.py",
+    *(
+        str(source)
+        for entry in KNOWLEDGE_BASE.values()
+        for source in entry.get("sources", [])
+    ),
+}))
 
 # ── Anti-sycophancy system prompt ─────────────────────────────────────────────
 SYSTEM_PROMPT = """You are the AxiomZero Open Science Assistant, grounded in the Unitary Manifold \
@@ -156,6 +172,18 @@ def _get_rag_index() -> RAGIndex:
             if _rag_index is None:
                 _rag_index = RAGIndex.build(repo_root=REPO_ROOT)
     return _rag_index
+
+
+def _assistant_repo_state_fingerprint() -> str:
+    digest_input: list[str] = []
+    for rel_path in _ASSISTANT_CACHE_STATE_FILES:
+        path = REPO_ROOT / rel_path
+        try:
+            stat = path.stat()
+            digest_input.append(f"{rel_path}:{stat.st_mtime_ns}:{stat.st_size}")
+        except OSError:
+            digest_input.append(f"{rel_path}:missing")
+    return hashlib.md5("|".join(digest_input).encode("utf-8")).hexdigest()
 
 
 def _read_json_file(path: Path) -> dict[str, Any] | None:
@@ -524,11 +552,6 @@ if FASTAPI_AVAILABLE:
         if len(query) > 2000:
             raise HTTPException(status_code=400, detail="query too long (max 2000 chars)")
 
-        context_scaffold = build_assistant_context_scaffold(query)
-        scaffold_cache_fingerprint = hashlib.md5(
-            json.dumps(context_scaffold, ensure_ascii=False, sort_keys=True).encode("utf-8")
-        ).hexdigest()
-
         # Cache check
         cache_key = hashlib.md5(
             (
@@ -536,7 +559,7 @@ if FASTAPI_AVAILABLE:
                 + str(req.websearch)
                 + req.page_ctx
                 + req.system
-                + scaffold_cache_fingerprint
+                + _assistant_repo_state_fingerprint()
             ).encode("utf-8")
         ).hexdigest()
         with _cache_lock:
@@ -547,6 +570,8 @@ if FASTAPI_AVAILABLE:
                 cached = dict(cached)
                 cached["cached"] = True
                 return AssistantResponse(**cached)
+
+        context_scaffold = build_assistant_context_scaffold(query)
 
         # Retrieve context
         context = retrieve_context(query)
