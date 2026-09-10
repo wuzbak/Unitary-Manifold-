@@ -76,6 +76,11 @@ def test_detect_query_lane_prefers_runtime_performance():
     assert lane["lane_id"] == "runtime_performance"
 
 
+def test_detect_query_lane_defaults_to_physics_navigation_without_keyword_hits():
+    lane = detect_query_lane("Untethered umbrella harmonics without any indexed trigger words.")
+    assert lane["lane_id"] == "physics_navigation"
+
+
 def test_build_context_scaffold_includes_ast_and_tool_hints():
     idx = RAGIndex()
     scaffold = build_context_scaffold(idx, "How is alpha_gut derived?", repo_root=Path(__file__).parent.parent)
