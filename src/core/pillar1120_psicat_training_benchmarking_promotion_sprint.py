@@ -60,6 +60,11 @@ def psicat_training_benchmarking_promotion_sprint() -> Dict[str, Any]:
     benchmark_board = dict(packet.get('benchmark_board') or {})
     promotion_readiness = dict(packet.get('promotion_readiness') or {})
     next_sprint = dict(packet.get('appropriate_promotion_sprint') or {})
+    promotion_signal = str(
+        promotion_readiness.get('decision')
+        or promotion_readiness.get('promotion_language')
+        or ''
+    )
     historical_continuity_declared = (
         _truth_surface_file_pass(truth_sync, 'docs/SPRINT_PLAN.md')
         and _truth_surface_file_pass(truth_sync, '9-INFRASTRUCTURE/um_live_status.json')
@@ -72,7 +77,7 @@ def psicat_training_benchmarking_promotion_sprint() -> Dict[str, Any]:
         and len(list(benchmark_board.get('stage_gate_summary') or [])) == 5
         and len(list(benchmark_board.get('spc_phase1_lane_receipts') or [])) == 3
         and str(next_sprint.get('sprint_id') or '')
-        and str(promotion_readiness.get('promotion_language') or '')
+        and promotion_signal
         and historical_continuity_declared
     )
     return {
