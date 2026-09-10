@@ -41,7 +41,7 @@ def test_psicat_testing_stack_endpoint_exposes_machine_readable_doctrine() -> No
     thread.start()
     try:
         with Client(base_url=f"http://127.0.0.1:{httpd.server_port}") as client:
-            response = client.get("/api/merlin/testing-stack")
+            response = client.get("/api/psicat/testing-stack")
             assert response.status_code == 200
             payload = response.json()
             assert payload["ok"] is True

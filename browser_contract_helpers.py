@@ -48,6 +48,16 @@ def _wait_for_http(base_url: str, ready_path: str = "/", timeout: float = 20.0) 
     raise AssertionError(f"Server at {base_url}{ready_path} did not become ready: {last_error}")
 
 
+def _terminate_process(process: subprocess.Popen[str]) -> None:
+    if process.poll() is None:
+        process.terminate()
+        try:
+            process.wait(timeout=5)
+        except subprocess.TimeoutExpired:  # pragma: no cover - defensive
+            process.kill()
+            process.wait(timeout=5)
+
+
 @contextlib.contextmanager
 def running_server(
     product_root: Path,
@@ -73,6 +83,7 @@ def running_server(
     try:
         _wait_for_http(base_url, ready_path=ready_path, timeout=timeout)
     except Exception:
+        _terminate_process(process)
         output = ""
         if process.stdout:
             try:
@@ -83,13 +94,7 @@ def running_server(
     try:
         yield base_url
     finally:
-        if process.poll() is None:
-            process.terminate()
-            try:
-                process.wait(timeout=5)
-            except subprocess.TimeoutExpired:  # pragma: no cover - defensive
-                process.kill()
-                process.wait(timeout=5)
+        _terminate_process(process)
         if process.stdout:
             process.stdout.close()
 
