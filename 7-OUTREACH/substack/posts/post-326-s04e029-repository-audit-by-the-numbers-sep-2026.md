@@ -2,7 +2,8 @@
 
 This is a fresh quantitative audit of the full `wuzbak/Unitary-Manifold-` repository, prepared for Substack and scoped to code, documents, tests, pillars, formal work, products, dependencies, and API surfaces.
 
-Audit timestamp: 2026-09-10 (UTC)
+Audit timestamp: 2026-09-10 (UTC).  
+Method: repository-wide filesystem scan plus regex-based inventorying for tests, routes, and theorem/proof assets, cross-checked against `STATUS.md`, `docs/mas_tracker.yml`, and `.github/copilot-instructions.md` for live/declared governance totals.
 
 ## 1) Repository scale snapshot
 
@@ -19,10 +20,9 @@ Audit timestamp: 2026-09-10 (UTC)
 | Lean4 | 159 | 18,454 |
 | JavaScript | 37 | 14,150 |
 | C++ | 4 | 4,699 |
-| C/C++ Header | 4 | 3,580 |
+| C/C++ Headers (`.h` + `.hpp`) | 10 | 5,382 |
 | Kotlin Script | 47 | 2,335 |
 | Rust | 24 | 2,221 |
-| C++ Header | 6 | 1,802 |
 | Shell | 19 | 1,755 |
 | Batch | 6 | 848 |
 | TypeScript | 1 | 410 |
@@ -147,4 +147,3 @@ Largest endpoint surfaces by file:
 ## 10) Holistic readout
 
 By volume, this repository is now a large mixed system: a million-line Python-first codebase with formal Lean infrastructure, high-density testing, a substantial documentation and publication layer, and a multi-product application tree with nontrivial API surface area. The center of gravity remains Python + tests + formal/governance registries, while Substack books/posts and product applications have grown into major parallel structures rather than side notes.
-
