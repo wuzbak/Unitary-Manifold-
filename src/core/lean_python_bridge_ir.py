@@ -42,6 +42,13 @@ def _lean_module_name(lean_file: str) -> str:
     return stem.replace("/", ".")
 
 
+def _lean_project_relative_file(lean_file: str) -> str:
+    rel = str(lean_file or "").strip()
+    if not rel.startswith("lean4/"):
+        return ""
+    return rel[len("lean4/") :]
+
+
 def _allowed_result_classes(epistemic_class: str) -> list[str]:
     mapping = {
         "LEAN_UNCONDITIONAL": ["UNCONDITIONAL_THEOREM", "BUILD_FAILURE", "ENVIRONMENT_BLOCKED"],
@@ -86,7 +93,8 @@ def build_formal_unit_ir(
             "lean": {
                 "file": lean_file,
                 "module_name": lean_module,
-                "build_target": lean_module,
+                "project_relative_file": _lean_project_relative_file(lean_file),
+                "build_target": _lean_project_relative_file(lean_file),
                 "symbols": list(row.get("lean_symbols") or []),
             },
             "translation_contract": {
