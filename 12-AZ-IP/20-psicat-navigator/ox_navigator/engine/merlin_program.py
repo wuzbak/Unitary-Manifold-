@@ -7338,8 +7338,11 @@ def get_psicat_training_benchmarking_promotion_sprint(
 
     processed_count = int(cycle.get("processed_count", 0) or 0)
     training_cycle_executed = processed_count > 0
+    has_queue_after_state = all(key in queue_after for key in ("stale_retrain_count", "needs_review_count"))
     training_queue_clear = (
-        int(queue_after.get("stale_retrain_count", 0) or 0) == 0
+        isinstance(queue_after, dict)
+        and has_queue_after_state
+        and int(queue_after.get("stale_retrain_count", 0) or 0) == 0
         and int(queue_after.get("needs_review_count", 0) or 0) == 0
     )
     training_ready = training_cycle_executed and training_queue_clear
