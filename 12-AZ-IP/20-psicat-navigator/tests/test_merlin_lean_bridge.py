@@ -18,6 +18,16 @@ def test_theorem_count_receipt_uses_live_status() -> None:
     assert receipt["source"] == "9-INFRASTRUCTURE/um_live_status.json"
 
 
+def test_theorem_count_receipt_uses_valid_patched_live_status(tmp_path, monkeypatch) -> None:
+    live_status = tmp_path / "um_live_status.json"
+    live_status.write_text('{"lean4": {"theorem_count": 4091, "count_scope": "patched"}}', encoding="utf-8")
+    monkeypatch.setattr(merlin_lean_bridge, "LIVE_STATUS_PATH", live_status)
+    receipt = get_live_theorem_count_receipt()
+    assert receipt["theorem_count"] == 4091
+    assert receipt["source"] == "9-INFRASTRUCTURE/um_live_status.json"
+    assert receipt["count_scope"] == "patched"
+
+
 def test_theorem_count_receipt_falls_back_without_live_status(monkeypatch) -> None:
     monkeypatch.setattr(merlin_lean_bridge, "LIVE_STATUS_PATH", Path("/tmp/missing-um-live-status.json"))
     receipt = get_live_theorem_count_receipt()

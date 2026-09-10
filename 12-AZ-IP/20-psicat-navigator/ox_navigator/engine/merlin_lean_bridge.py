@@ -176,7 +176,7 @@ def _run_scoped_build(*, check_target: str, timeout_seconds: int = 45) -> dict[s
             "reason": "missing_check_target",
             "invocation": [],
         }
-    lean_file = LEAN4_ROOT / check_target
+    lean_file = (LEAN4_ROOT / check_target).resolve()
     if not lean_file.is_file():
         return {
             "status": "SKIPPED",
@@ -184,7 +184,8 @@ def _run_scoped_build(*, check_target: str, timeout_seconds: int = 45) -> dict[s
             "reason": "missing_lean_file",
             "invocation": [],
         }
-    command = [lake_binary, "env", "lean", check_target]
+    command_target = str(lean_file.relative_to(LEAN4_ROOT))
+    command = [lake_binary, "env", "lean", command_target]
     try:
         completed = subprocess.run(
             command,
