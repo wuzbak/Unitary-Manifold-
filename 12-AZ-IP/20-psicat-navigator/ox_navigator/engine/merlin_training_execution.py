@@ -23,6 +23,7 @@ from .merlin_program import (
     build_training_dataset_bundle,
     build_merlin_continuous_learning_queue,
     evaluate_merlin_performance_gate,
+    get_arc_agi_training_integration,
     get_merlin_performance_lane,
 )
 from src.core.navier_stokes_method_transfer import CURRICULUM_PACKET_PATH, INTAKE_PACKET_PATH
@@ -393,6 +394,46 @@ def _build_lane_a_receipt(item: dict[str, Any]) -> tuple[dict[str, Any], dict[st
     text = _read_text(readme_path)
     stats = _walk_stats(target)
     endpoints = sorted({match for match in re.findall(r"/api/[A-Za-z0-9_./-]+", text)})[:12]
+    if str(item.get("queue_id") or "") == "lane_a_arc_agi_shadow_program":
+        program = get_arc_agi_training_integration()
+        sources = list(program.get("open_science_sources") or [])
+        benchmark_metrics = list(program.get("benchmark_metrics") or [])
+        contamination_controls = list(program.get("contamination_controls") or [])
+        artifact = {
+            "artifact_type": str(item.get("expected_artifact") or "arc_agi_shadow_program_receipt"),
+            "training_mode": "arc_agi_shadow_integration",
+            "honesty_note": (
+                "This receipt records ARC-AGI integration surfaces, contamination controls, and benchmark routing; "
+                "it does not claim solved ARC-AGI capability or hidden weight updates."
+            ),
+            "reference_path": _repo_rel(readme_path if readme_path.exists() else target),
+            "program": str(program.get("program") or ""),
+            "track": str(program.get("track") or ""),
+            "status": str(program.get("status") or ""),
+            "benchmark_contract": str(program.get("benchmark_contract") or ""),
+            "promotion_gate": str(program.get("promotion_gate") or ""),
+            "open_science_source_ids": [str(source.get("resource_id") or "") for source in sources],
+            "benchmark_metrics": benchmark_metrics,
+            "contamination_controls": contamination_controls,
+            "documented_endpoints": endpoints,
+            "structure_metrics": stats,
+            "gate_markers": [label for label in GATE_LABELS if label in text],
+        }
+        metrics = {
+            "inventory_files": stats["file_count"],
+            "python_files": stats["python_files"],
+            "test_files": stats["test_files"],
+            "documented_endpoint_count": len(endpoints),
+            "gate_marker_count": len(artifact["gate_markers"]),
+            "open_science_source_count": len(sources),
+            "benchmark_metric_count": len(benchmark_metrics),
+            "contamination_control_count": len(contamination_controls),
+        }
+        fact = (
+            f"ARC-AGI shadow integration retained {len(contamination_controls)} contamination controls, "
+            f"{len(benchmark_metrics)} benchmark metrics, and {len(sources)} open-science sources without claiming promotion."
+        )
+        return artifact, metrics, fact
     artifact = {
         "artifact_type": str(item.get("expected_artifact") or "product_capability_map"),
         "training_mode": "structural_repository_ingestion",
@@ -1129,9 +1170,15 @@ def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 1
     challenge_items: list[dict[str, Any]] = []
     for item in list(queue.get("items") or []):
         lane_id = str(item.get("lane_id") or "")
+        queue_id = str(item.get("queue_id") or "")
         prompt = ""
         answer_key = str(item.get("summary_fact") or item.get("task") or "")
-        if lane_id == "lane_a_applications_tools_mastery":
+        if queue_id == "lane_a_arc_agi_shadow_program":
+            prompt = (
+                "Summarize the ARC-AGI shadow program, including its holdout discipline, contamination controls, "
+                "benchmark contract, and fail-closed promotion rule."
+            )
+        elif lane_id == "lane_a_applications_tools_mastery":
             prompt = (
                 f"Identify the Merlin product for {item.get('reference_path')} and state when it should be routed or recommended."
             )

@@ -110,6 +110,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/training-framework-stack` exposes governed framework categories for distributed scale, fine-tuning/alignment, and mechanistic learning, including fail-closed integration and branch-collision controls.
 - `GET /api/psicat/competitive-benchmarks` exposes the competitive benchmark families PsiCat must clear before broader promotion.
 - ARC-AGI is integrated as an abstraction/generalization shadow lane inside the training architecture, open-science registry, competitive benchmark plan, and held-out evaluation policy.
+- ARC-AGI also appears in the active retained-training queue, challenge-pack prompts, execution-board priorities, and exported training-artifact bundle so the shadow lane stays operational instead of documentation-only.
 - `GET /api/psicat/dual-lane-master-sprint` exposes the governed dual-lane (physics closure + PsiCat training) fail-closed sprint contract.
 - `GET /api/psicat/three-lane-intensive-sprint` exposes the intensive apps/tools + books/articles + adversarial self-correction sprint contract, while the retained execution queue now also carries a formal proof-foundry lane for proof packets and bridge audits.
 - `GET /api/psicat/continuous-learning` exposes governed between-session learning cadence, queue, and forbidden-action policy.

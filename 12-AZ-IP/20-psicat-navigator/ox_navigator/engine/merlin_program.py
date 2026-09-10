@@ -4196,6 +4196,13 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "task": "Teach Merlin to respond when hosted code review is unavailable and when CodeQL skips due to repository size.",
                 "success_condition": "Merlin can recommend the repo-side orchestration path, scoped manual review fallback, and size-reduction remediation without pretending the external tools ran.",
             },
+            {
+                "task_id": "CL-6",
+                "lane": "arc_agi_shadow",
+                "priority": "high",
+                "task": "Keep ARC-AGI as a shadow holdout lane with contamination controls, benchmark receipts, and fail-closed promotion gates.",
+                "success_condition": "ARC-AGI surfaces stay integrated, benchmarked, and explicitly non-promoted unless holdout, provenance, and gate receipts stay green together.",
+            },
         ],
         "blocker_register": [
             {
@@ -4261,6 +4268,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "Hosted code review availability still depends on external environment support.",
                 "A complete CodeQL scan still requires repository-size or scope mitigation outside the current skipped run.",
                 "Heavy-lane sovereign replacement remains blocker-gated until longitudinal receipts clear.",
+                "ARC-AGI remains a shadow lane until holdout, provenance, and benchmark receipts clear together.",
             ],
         },
     }
@@ -5318,6 +5326,16 @@ def build_merlin_continuous_learning_queue(limit: int | None = None) -> dict[str
                 "expected_artifact": "proof_foundry_review_brief",
             }
         )
+    queue.append(
+        {
+            "queue_id": "lane_a_arc_agi_shadow_program",
+            "lane_id": "lane_a_applications_tools_mastery",
+            "priority": 11,
+            "task": "Absorb ARC-AGI shadow training, holdout discipline, and benchmark integration surfaces before any promotion claim.",
+            "reference_path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py",
+            "expected_artifact": "arc_agi_shadow_program_receipt",
+        }
+    )
     queue.extend(
         [
             {
@@ -7544,6 +7562,7 @@ def build_training_artifact_bundle(
             "training_architecture": training_architecture,
             "training_dataset": dataset_bundle["dataset"],
             "training_curation": dict(((dataset_bundle.get("dataset") or {}).get("curation_ledger") or {})),
+            "arc_agi_program": get_arc_agi_training_integration(),
             "formal_proof_foundry_bundle": get_formal_proof_foundry_training_bundle(limit=limit),
             "hardware_architecture_board": get_merlin_hardware_architecture_board(limit=limit),
             "mlflow_manifests": get_mlflow_experiment_manifests(
@@ -7571,6 +7590,7 @@ def build_training_artifact_bundle(
                 "lane_progress_ledgers": "getMerlinLaneProgressLedgers",
                 "training_cycle_runner": "runMerlinTrainingCycle",
                 "challenge_pack": "getMerlinTrainingChallengePack",
+                "arc_agi_surface": "getMerlinArcAgiProgram",
             },
             "training_execution_bundle_preview": training_execution_bundle,
             "stage_a_baseline": build_stage_a_artifact_bundle(limit=stage_a_limit),
@@ -7578,6 +7598,9 @@ def build_training_artifact_bundle(
                 "promotion_rule": "Training artifacts inform promotion, but do not replace empirical benchmark gates.",
                 "primary_store": "repository_governed_json_bundle",
                 "external_distribution_candidate": "hugging_face_datasets",
+                "arc_agi_holdout_rule": (
+                    "ARC-AGI stays a shadow lane until contamination, provenance, and benchmark gates are all green."
+                ),
             },
         },
     }
