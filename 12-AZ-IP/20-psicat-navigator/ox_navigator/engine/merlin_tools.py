@@ -1224,6 +1224,7 @@ _FUNCTIONS = {
     "getPsiCatAchievementBenchmarkPromotionSprint": lambda **args: {"data": get_psicat_achievement_benchmark_promotion_sprint(
         limit=args.get("limit"),
         training_limit=args.get("training_limit"),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
     )},
     "getMerlinHeavyReasoningLane": lambda **args: {"data": get_merlin_heavy_reasoning_lane(limit=args.get("limit"))},
     "getMerlinSovereignModelBoard": lambda **args: {"data": get_merlin_sovereign_model_board()},
@@ -1508,6 +1509,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "getMerlinLaneProgressLedgers",
                     "runMerlinTrainingCycle",
                     "getMerlinTrainingChallengePack",
+                    "getPsiCatAchievementBenchmarkPromotionSprint",
                 }
                 if tool in session_passthrough_tools:
                     result = _FUNCTIONS[tool](**{**args, "__session": active_session})

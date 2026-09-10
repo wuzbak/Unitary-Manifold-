@@ -7457,12 +7457,13 @@ def get_psicat_achievement_benchmark_promotion_sprint(
     *,
     limit: int | None = 3,
     training_limit: int | None = 9,
+    session: Any | None = None,
 ) -> dict[str, Any]:
     from .merlin_memory import MerlinSession
 
     resolved_limit = _coerce_frontier_limit(limit, default=3)
     resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
-    active_session = MerlinSession()
+    active_session = session if isinstance(session, MerlinSession) else MerlinSession()
 
     phase0_packet = get_psicat_spc_phase0_execution_packet()
     spc_phase1 = run_psicat_spc_phase1_baseline(

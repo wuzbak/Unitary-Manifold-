@@ -1544,7 +1544,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         cwd=str(payload.get('cwd') or '').strip() or None,
                         timeout_seconds=timeout_seconds,
                     )
-                    status_code = 200 if result.get('ok') else (403 if 'allowlisted' in str(result.get('error') or '') else 422)
+                    reason = str((result.get('governance') or {}).get('reason') or '').strip().lower()
+                    if result.get('ok'):
+                        status_code = 200
+                    elif reason in {'local_execution_disabled', 'command_not_allowlisted', 'cwd_outside_repo'}:
+                        status_code = 403
+                    else:
+                        status_code = 422
                     self._json({
                         'ok': bool(result.get('ok')),
                         'local_execution': result,

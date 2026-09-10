@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import os
+import importlib.util
 import sys
 import threading
 from pathlib import Path
@@ -100,3 +101,52 @@ def test_phase0_packet_schema_validation_fails_closed(tmp_path, monkeypatch):
     assert payload["ok"] is False
     assert payload["validation_error_count"] > 0
     assert "fail-closed schema validation" in payload["error"]
+
+
+def test_run_py_local_execution_flags_wire_environment(monkeypatch):
+    script_path = PRODUCT_ROOT / "run.py"
+    spec = importlib.util.spec_from_file_location("psicat_run", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    class _DummyServer:
+        def serve_forever(self):
+            raise KeyboardInterrupt
+
+        def server_close(self):
+            return None
+
+    monkeypatch.setattr(module, "serve", lambda **kwargs: _DummyServer())
+    monkeypatch.setenv("MERLIN_LOCAL_EXECUTION_ENABLED", "1")
+    monkeypatch.delenv("MERLIN_LOCAL_EXECUTION_ALLOWED_COMMANDS", raising=False)
+    rc = module.main([
+        "--local-execution", "off",
+        "--local-execution-timeout", "33",
+        "--local-execution-allowlist", "python,pytest",
+        "--no-open",
+    ])
+    assert rc == 0
+    assert os.environ["MERLIN_LOCAL_EXECUTION_ENABLED"] == "0"
+    assert os.environ["MERLIN_LOCAL_EXECUTION_MAX_TIMEOUT"] == "33"
+    assert os.environ["MERLIN_LOCAL_EXECUTION_ALLOWED_COMMANDS"] == "python,pytest"
+
+
+def test_run_py_local_execution_timeout_has_lower_bound(monkeypatch):
+    script_path = PRODUCT_ROOT / "run.py"
+    spec = importlib.util.spec_from_file_location("psicat_run", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    class _DummyServer:
+        def serve_forever(self):
+            raise KeyboardInterrupt
+
+        def server_close(self):
+            return None
+
+    monkeypatch.setattr(module, "serve", lambda **kwargs: _DummyServer())
+    rc = module.main(["--local-execution-timeout", "1", "--no-open"])
+    assert rc == 0
+    assert os.environ["MERLIN_LOCAL_EXECUTION_MAX_TIMEOUT"] == "5"
