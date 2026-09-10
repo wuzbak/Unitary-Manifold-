@@ -67,7 +67,7 @@ def _resolve_cwd(candidate: str | None) -> Path:
         return base
     raw = Path(candidate).expanduser()
     if raw.is_absolute():
-        raw = raw.relative_to(base)
+        raw = Path(os.path.relpath(str(raw), str(base)))
     path = (base / raw).resolve()
     path.relative_to(base)
     return path
