@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 from pathlib import Path
@@ -137,6 +138,40 @@ def _nearest_vertex_distances_chunked(points: np.ndarray, vertices: np.ndarray, 
     return result
 
 
+def _nearest_top_surface_vertical_distances(points: np.ndarray, top_surface: np.ndarray) -> np.ndarray | None:
+    x_vals = np.unique(top_surface[:, 0])
+    y_vals = np.unique(top_surface[:, 1])
+    if x_vals.size < 2 or y_vals.size < 2:
+        return None
+    if x_vals.size * y_vals.size != top_surface.shape[0]:
+        return None
+
+    z_grid = np.empty((y_vals.size, x_vals.size), dtype=float)
+    xi = np.searchsorted(x_vals, top_surface[:, 0])
+    yi = np.searchsorted(y_vals, top_surface[:, 1])
+    z_grid[yi, xi] = top_surface[:, 2]
+
+    dx = float(x_vals[1] - x_vals[0])
+    dy = float(y_vals[1] - y_vals[0])
+    if dx <= 0.0 or dy <= 0.0:
+        return None
+
+    u = (points[:, 0] - x_vals[0]) / dx
+    v = (points[:, 1] - y_vals[0]) / dy
+    j = np.clip(np.floor(u).astype(int), 0, x_vals.size - 2)
+    i = np.clip(np.floor(v).astype(int), 0, y_vals.size - 2)
+    tx = np.clip(u - j, 0.0, 1.0)
+    ty = np.clip(v - i, 0.0, 1.0)
+
+    z00 = z_grid[i, j]
+    z10 = z_grid[i, j + 1]
+    z01 = z_grid[i + 1, j]
+    z11 = z_grid[i + 1, j + 1]
+    z_interp = ((1.0 - tx) * (1.0 - ty) * z00) + (tx * (1.0 - ty) * z10) + ((1.0 - tx) * ty * z01) + (tx * ty * z11)
+    projected = np.column_stack((points[:, 0], points[:, 1], z_interp))
+    return np.linalg.norm(points - projected, axis=1)
+
+
 def _sanitize_scene_id(scene_id: str) -> str:
     candidate = Path(scene_id).name.strip()
     normalized = re.sub(r"[^A-Za-z0-9._-]+", "_", candidate)
@@ -181,7 +216,9 @@ def evaluate_multimodal_quality(
             tree = cKDTree(top_surface if top_surface.size else vertices)
             nearest = tree.query(cloud)[0]
         except Exception:
-            nearest = _nearest_vertex_distances_chunked(cloud, top_surface if top_surface.size else vertices)
+            nearest = _nearest_top_surface_vertical_distances(cloud, top_surface if top_surface.size else vertices)
+            if nearest is None:
+                nearest = _nearest_vertex_distances_chunked(cloud, top_surface if top_surface.size else vertices)
 
     nearest_sq = np.square(nearest)
     scale_mm = 1000.0
@@ -272,6 +309,12 @@ def build_multimodal_scene_bundle(
 
     base = Path(output_dir)
     base.mkdir(parents=True, exist_ok=True)
+    lock_path = base / f".{safe_scene_id}.lock"
+    lock_fd = None
+    try:
+        lock_fd = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError as exc:
+        raise RuntimeError(f"scene_id '{safe_scene_id}' is currently being exported") from exc
     temp_tag = uuid4().hex
     version_dir = base / f"{safe_scene_id}.{temp_tag}"
     gaussian_path = version_dir / f"{safe_scene_id}.gaussian.json"
@@ -332,6 +375,11 @@ def build_multimodal_scene_bundle(
             if target.exists():
                 target.unlink()
         raise
+    finally:
+        if lock_fd is not None:
+            os.close(lock_fd)
+        if lock_path.exists():
+            lock_path.unlink()
 
     return {
         "gaussian_path": str(gaussian_path),

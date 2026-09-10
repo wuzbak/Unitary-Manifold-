@@ -43,6 +43,11 @@ def test_generate_gaussian_splats_shape_matches_cloud() -> None:
     assert splats["colors_rgb"].shape == (49, 3)
 
 
+def test_generate_gaussian_splats_rejects_invalid_shape() -> None:
+    with pytest.raises(ValueError):
+        generate_gaussian_splats(np.array([1.0, 2.0, 3.0]), spacing_meters=0.01)
+
+
 def test_build_extruded_mesh_is_watertight() -> None:
     cloud = generate_calibrated_point_cloud(grid_size=11, scale_meters=1.0)
     mesh = build_extruded_mesh(cloud["points"], grid_size=11)
@@ -55,6 +60,12 @@ def test_build_extruded_mesh_is_watertight() -> None:
     assert quality["is_watertight"] is True
     assert quality["boundary_edge_count"] == 0
     assert quality["non_manifold_edge_count"] == 0
+
+
+def test_build_extruded_mesh_rejects_mismatched_grid() -> None:
+    cloud = generate_calibrated_point_cloud(grid_size=5, scale_meters=1.0)
+    with pytest.raises(ValueError):
+        build_extruded_mesh(cloud["points"], grid_size=4)
 
 
 def test_export_point_cloud_ply_writes_ascii_ply(tmp_path: Path) -> None:
@@ -71,6 +82,13 @@ def test_export_point_cloud_ply_accepts_255_color_space(tmp_path: Path) -> None:
     ply_path = export_point_cloud_ply(cloud["points"], tmp_path / "scene-255.ply", colors_rgb=colors)
     lines = ply_path.read_text(encoding="utf-8").splitlines()
     assert lines[-1].endswith("10 20 30")
+
+
+def test_export_point_cloud_ply_rejects_invalid_color_range(tmp_path: Path) -> None:
+    cloud = generate_calibrated_point_cloud(grid_size=3, scale_meters=1.0)
+    colors = np.full((9, 3), [300.0, 20.0, 30.0], dtype=float)
+    with pytest.raises(ValueError):
+        export_point_cloud_ply(cloud["points"], tmp_path / "bad-colors.ply", colors_rgb=colors)
 
 
 def test_export_mesh_stl_writes_ascii_stl(tmp_path: Path) -> None:
@@ -127,6 +145,13 @@ def test_bundle_failure_preserves_previous_manifest(tmp_path: Path, monkeypatch:
         build_multimodal_scene_bundle(tmp_path, scene_id="stable", grid_size=9, scale_meters=1.5)
 
     assert Path(first["manifest_path"]).read_text(encoding="utf-8") == original_manifest
+
+
+def test_bundle_rejects_parallel_same_scene_export(tmp_path: Path) -> None:
+    lock = tmp_path / ".locked.lock"
+    lock.write_text("1", encoding="utf-8")
+    with pytest.raises(RuntimeError):
+        build_multimodal_scene_bundle(tmp_path, scene_id="locked", grid_size=5, scale_meters=1.0)
 
 
 def test_scene_id_is_sanitized_for_safe_paths(tmp_path: Path) -> None:
