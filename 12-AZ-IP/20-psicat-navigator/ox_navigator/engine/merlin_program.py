@@ -78,18 +78,18 @@ def _markdown_title(path: Path, *, fallback: str) -> str:
         text = path.read_text(encoding="utf-8")
     except OSError:
         return fallback
-
-
-def _safe_int(value: Any) -> int | None:
-        try:
-            return int(value)
-        except (TypeError, ValueError):
-            return None
     for pattern in (r"^#\s+(.+)$", r"^##\s+(.+)$"):
         match = re.search(pattern, text, flags=re.MULTILINE)
         if match:
             return str(match.group(1)).strip()
     return fallback
+
+
+def _safe_int(value: Any) -> int | None:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
 
 
 def _natural_sort_key(path: Path) -> tuple[Any, ...]:
