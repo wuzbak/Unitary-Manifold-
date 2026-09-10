@@ -1760,6 +1760,17 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert len(training_promotion_sprint_data['training_board']) == 4
     assert training_promotion_sprint_data['training_execution_summary']['lane_progress_count'] >= 1
     assert training_promotion_sprint_data['training_execution_summary']['challenge_pack_size'] >= 1
+    assert training_promotion_sprint_data['promotion_readiness']['training_cycle_executed'] is True
+    assert training_promotion_sprint_data['promotion_readiness']['training_cycle_processed_count'] > 0
+    assert training_promotion_sprint_data['promotion_readiness']['training_ready'] is True
+    assert (
+        training_promotion_sprint_data['promotion_readiness']['training_queue_clear']
+        == training_promotion_sprint_data['training_execution_summary']['training_queue_clear']
+    )
+    assert (
+        training_promotion_sprint_data['promotion_readiness']['training_ready']
+        == training_promotion_sprint_data['training_execution_summary']['training_ready']
+    )
     assert any(phase['name'] == 'multi_job_language_split' for phase in resilience_data['codeql_scope_reduction_strategy']['phases'])
     assert resilience_data['codeql_matrix_split_strategy']['matrix_axes'] == ['language', 'path_slice']
     assert resilience_data['duckdb_preflight_telemetry']['artifact'] == 'codeql-slice-inventory'
