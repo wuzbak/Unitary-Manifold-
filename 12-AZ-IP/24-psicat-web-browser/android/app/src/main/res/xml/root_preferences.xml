@@ -16,6 +16,9 @@
         android:title="Sync backend endpoint"
         android:defaultValue="http://127.0.0.1:8787" />
     <EditTextPreference
+        android:key="sync_access_token"
+        android:title="Sync access token" />
+    <EditTextPreference
         android:key="sync_account_email"
         android:title="Sync account email"
         android:useSimpleSummaryProvider="true" />

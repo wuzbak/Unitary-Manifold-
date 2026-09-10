@@ -384,8 +384,8 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "5568226942263cea9835573eb72ccc590a20a727cebc58b925926fcf11ff41f0",
-      "size_bytes": 4825
+      "sha256": "cbd7b69694a8e1261810d433de1d5d5950811935c177fab9fd6d1347c26960b1",
+      "size_bytes": 5335
     },
     "12-AZ-IP/24-psicat-web-browser/package.json": {
       "description": "Product 24 Electron package manifest and test scripts",
@@ -400,8 +400,8 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "69e4e078ea20f6fd72c1fb21f408f200b65a9b2a0af658bfcd28f537288d096a",
-      "size_bytes": 26918
+      "sha256": "0dc2029692b56e75e2769b216222918f6b3fea091643d2d46b5a79299e22974e",
+      "size_bytes": 27286
     },
     "12-AZ-IP/24-psicat-web-browser/extension/manifest.json": {
       "description": "Product 24 Chrome/Edge extension manifest with side panel companion",
@@ -424,16 +424,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "c9ef12f9c0806b849a1b30aa1f864eb4205709cb294be14dc08525c75048a21c",
-      "size_bytes": 1982
+      "sha256": "857d4d9728a5099f8a5c93631ec49288a3fee00f50d954b6cb6c51e717586b50",
+      "size_bytes": 2100
     },
     "12-AZ-IP/24-psicat-web-browser/sync_backend/server.py": {
       "description": "Product 24 local sync backend scaffold for account-scoped packet push and pull",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "13eef1c48bcdfe8a04a8b0f79564017d828f9045bace53c40b4e3ad958de00cf",
-      "size_bytes": 3839
+      "sha256": "867d86ff0b7d7dc4fa785cd1592b4d32c541e3735ce7204780eb36c9b1b9f54f",
+      "size_bytes": 5086
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",

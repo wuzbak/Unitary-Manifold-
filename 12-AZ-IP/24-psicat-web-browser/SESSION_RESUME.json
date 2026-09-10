@@ -16,7 +16,8 @@
     "android foundation now persists session, bookmarks, history, sync metadata, and importable/exportable sync packets",
     "android packaging now includes backup/data transfer and local cleartext network config for localhost PsiCat access",
     "desktop foundation now includes split-workspace layout controls and saved workspaces",
-    "desktop and android now target a shared local sync backend scaffold with push/pull packet exchange"
+    "desktop and android now target a shared local sync backend scaffold with token-guarded push/pull packet exchange",
+    "android backup is disabled while notebook/history/sync metadata still live in shared preferences"
   ],
   "next_steps": [
     "run a live Electron smoke session on a desktop host beyond sandbox constraints",

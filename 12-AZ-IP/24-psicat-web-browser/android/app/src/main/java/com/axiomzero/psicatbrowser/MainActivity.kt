@@ -504,8 +504,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun pushSyncToBackend() {
         val accountEmail = prefs().getString("sync_account_email", "").orEmpty().trim()
+        val accessToken = prefs().getString("sync_access_token", "").orEmpty().trim()
         if (accountEmail.isBlank()) {
             contextSummary.text = "Set Sync account email before backend sync."
+            return
+        }
+        if (accessToken.isBlank()) {
+            contextSummary.text = "Set Sync access token before backend sync."
             return
         }
         contextSummary.text = "Pushing sync packet…"
@@ -515,6 +520,7 @@ class MainActivity : AppCompatActivity() {
             connection.requestMethod = "POST"
             connection.doOutput = true
             connection.setRequestProperty("Content-Type", "application/json")
+            connection.setRequestProperty("X-Sync-Token", accessToken)
             val payload = JSONObject().apply {
                 put("account_email", accountEmail)
                 put("packet", buildSyncPacket())
@@ -538,14 +544,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun pullSyncFromBackend() {
         val accountEmail = prefs().getString("sync_account_email", "").orEmpty().trim()
+        val accessToken = prefs().getString("sync_access_token", "").orEmpty().trim()
         if (accountEmail.isBlank()) {
             contextSummary.text = "Set Sync account email before backend sync."
+            return
+        }
+        if (accessToken.isBlank()) {
+            contextSummary.text = "Set Sync access token before backend sync."
             return
         }
         contextSummary.text = "Pulling sync packet…"
         lifecycleScope.launch(Dispatchers.IO) {
             val endpoint = prefs().getString("sync_backend_endpoint", "http://127.0.0.1:8787") ?: "http://127.0.0.1:8787"
             val connection = URL("$endpoint/api/sync/pull?account_email=${Uri.encode(accountEmail)}").openConnection() as HttpURLConnection
+            connection.setRequestProperty("X-Sync-Token", accessToken)
             val body = (if (connection.responseCode in 200..299) connection.inputStream else connection.errorStream)
                 ?.bufferedReader()?.use(BufferedReader::readText).orEmpty()
             if (connection.responseCode !in 200..299) throw IllegalStateException(body.ifBlank { "Sync pull failed" })

@@ -86,6 +86,7 @@ function renderSettings() {
   byId('setting-trackProtection').value = settings.trackProtection;
   byId('setting-psicatEndpoint').value = settings.psicatEndpoint;
   byId('setting-syncBackendEndpoint').value = settings.syncBackendEndpoint || '';
+  byId('setting-syncAccessToken').value = settings.syncAccessToken || '';
   byId('setting-accountEmail').value = state.sync.accountEmail || '';
   byId('setting-syncMode').value = state.sync.mode || 'local+account';
   byId('setting-autoStartPsiCat').checked = settings.autoStartPsiCat;
@@ -238,6 +239,7 @@ async function boot() {
         trackProtection: byId('setting-trackProtection').value,
         psicatEndpoint: byId('setting-psicatEndpoint').value.trim(),
         syncBackendEndpoint: byId('setting-syncBackendEndpoint').value.trim(),
+        syncAccessToken: byId('setting-syncAccessToken').value.trim(),
         autoStartPsiCat: byId('setting-autoStartPsiCat').checked,
         livePageCapture: byId('setting-livePageCapture').checked,
       },

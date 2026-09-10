@@ -7,6 +7,10 @@ const MAX_HISTORY_ENTRIES = 250;
 const MAX_IMPORT_ITEMS = 120;
 const MAX_RECENTLY_CLOSED_TABS = 12;
 
+function createSyncAccessToken() {
+  return crypto.randomUUID().replace(/-/g, '');
+}
+
 function createDefaultSettings() {
   return {
     homePage: DEFAULT_HOME,
@@ -20,6 +24,7 @@ function createDefaultSettings() {
     localResearchRetention: 'persistent',
     psicatEndpoint: 'http://127.0.0.1:8020',
     syncBackendEndpoint: 'http://127.0.0.1:8787',
+    syncAccessToken: createSyncAccessToken(),
     autoStartPsiCat: true,
     livePageCapture: true,
   };
@@ -103,6 +108,12 @@ function normalizeState(state) {
   }
   if (!merged.tabs.some((tab) => tab.id === merged.activeTabId)) {
     merged.activeTabId = merged.tabs[0].id;
+  }
+  if (!merged.settings.syncAccessToken) {
+    merged.settings.syncAccessToken = createSyncAccessToken();
+  }
+  if (!merged.settings.syncBackendEndpoint) {
+    merged.settings.syncBackendEndpoint = 'http://127.0.0.1:8787';
   }
   if (!merged.tabs.some((tab) => tab.id === merged.workspace.secondaryTabId)) {
     merged.workspace.secondaryTabId = null;

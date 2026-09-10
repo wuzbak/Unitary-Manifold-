@@ -38,6 +38,7 @@ npm start
   `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/run.py`
 - The desktop app also launches a local sync scaffold from:
   `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/24-psicat-web-browser/sync_backend/server.py`
+- Backend sync requires both a sync account email and a sync access token; the scaffold uses that token to guard account-scoped packet push/pull on the trusted endpoint.
 - If Product 20 is unavailable, PsiCat falls back to clearly labeled local research summarization.
 
 ## Android structure
@@ -50,6 +51,7 @@ The Android app is a native-tab shell intended for Android Studio / Gradle impor
 - import/export via Android document pickers
 - session/bookmark/history persistence in shared preferences
 - sync account metadata carried in exported packets plus backend push/pull scaffold hooks
+- Android backup is intentionally disabled for now because notebook, history, and sync metadata still live in shared preferences in this scaffold
 - active page capture for PsiCat-style research workflows
 
 ## Extension structure
@@ -68,11 +70,13 @@ Implemented now:
 - Android native browser foundation with settings, notebook, import/export, session restore, bookmark/history persistence, sync metadata, backend sync hooks, and page-context capture
 - Chrome/Edge extension foundation with side panel and local/page-aware research tools
 - local Python sync service scaffold for desktop/Android packet exchange on a trusted endpoint
+- account-scoped sync token checks in the scaffold rather than open unauthenticated packet reads/writes
 
 Not yet fully implemented in this foundation:
 - hardened production-grade cloud sync service backend
 - cross-device authenticated account service
 - true multi-pane split rendering parity across all shells (desktop now has a first scaffold; Android/extension do not)
+- secure secret storage / rotation beyond editable local settings and Android preferences
 - on-device large-model inference packaged inside the browser itself
 - Android-grade isolated private browsing storage separate from standard WebView persistence
 

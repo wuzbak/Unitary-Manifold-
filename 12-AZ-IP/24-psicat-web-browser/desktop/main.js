@@ -526,11 +526,15 @@ async function writeSyncMirror(source = 'local-mirror') {
 
 async function pushSyncToBackend() {
   if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
+  if (!state.settings.syncAccessToken) throw new Error('Sync access token is required before backend sync.');
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
   const packet = core.createSyncPacket(state);
   const response = await fetch(`${endpoint}/api/sync/push`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Sync-Token': state.settings.syncAccessToken,
+    },
     body: JSON.stringify({
       account_email: state.sync.accountEmail,
       packet,
@@ -553,8 +557,13 @@ async function pushSyncToBackend() {
 
 async function pullSyncFromBackend() {
   if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
+  if (!state.settings.syncAccessToken) throw new Error('Sync access token is required before backend sync.');
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
-  const response = await fetch(`${endpoint}/api/sync/pull?account_email=${encodeURIComponent(state.sync.accountEmail)}`);
+  const response = await fetch(`${endpoint}/api/sync/pull?account_email=${encodeURIComponent(state.sync.accountEmail)}`, {
+    headers: {
+      'X-Sync-Token': state.settings.syncAccessToken,
+    },
+  });
   if (response.status === 404) throw new Error('No backend sync packet found for this account.');
   if (!response.ok) throw new Error(`Sync pull failed with status ${response.status}`);
   const payload = await response.json();
