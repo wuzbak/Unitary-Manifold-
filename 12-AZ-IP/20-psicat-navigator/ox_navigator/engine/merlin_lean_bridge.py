@@ -149,7 +149,7 @@ def _resolve_formal_unit(*, unit_id: str = "", text: str = "") -> dict[str, Any]
         score += len(tokens & haystack_tokens)
         joined = " ".join(haystacks).lower()
         if "n_w" in text.lower() or "first principles" in text.lower():
-            if "nw" in joined or "uniqueness" in joined:
+            if "n_w" in joined or "nw" in haystack_tokens or "uniqueness" in joined:
                 score += 3
         if "action" in text.lower() and "evolution" in text.lower() and "action_to_evolution" in str(unit.get("unit_id", "")).lower():
             score += 4
