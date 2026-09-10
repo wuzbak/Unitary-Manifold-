@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v37.4
+# Unitary Manifold v37.5
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -30,8 +30,9 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-09 (v37.4 — Sprint CR: Pillars 1109-1118. This sprint implements the master proof-first fail-closed packet: scope lock and success criteria, deterministic formal burden board, Lane 1 action-to-evolution closure attempt with blocker-certificate fallback, Lane 2 Lean deterministic proof routing, Lane 3 Python↔Lean truth-equivalence gate, Lane 4 falsifier/tension discipline, Lane 5 verification/regression discipline, documentation evidence packet, status coherence, and final integration certificate. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1119. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history: 64,150 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Sprint CR targeted implementation + continuity suites 32 passed · 0 failed.)*
+*Last updated: 2026-09-09 (v37.5 — Sprint CS: Pillar 1119. This sprint adds one fail-closed PsiCat promotion-routing packet that binds earned achievements, benchmark posture, and the appropriate next promotion sprint into one evidence-backed surface. The current packet advances to a phase-2 applied-pressure promotion sprint under continued receipt discipline, without claiming any new physics closure. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1120. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed; focused regression: PsiCat achievement/benchmark/promotion sprint suites 9 passed · 0 failed.)*
 
+*Historical continuity note: v37.5 Sprint CS (Pillar 1119; next slot 1120) is the canonical PsiCat promotion-routing packet directly above Sprint CR.*
 *Historical continuity note: v37.4 Sprint CR (Pillars 1109–1118; next slot 1119) is the canonical master implementation packet directly above Sprint CQ.*
 *Historical continuity note: v37.3 Sprint CQ (Pillars 1103–1108; next slot 1109) is the canonical continuation packet directly above Sprint CP.*
 *Historical continuity note: v37.2 Sprint CP (Pillars 1097–1102; next slot 1103) is the canonical three-lane maximum-effort execution layer directly above Sprint CO.*
@@ -46,6 +47,8 @@ still-open physical obligations in the table.
 
 
 
+
+*P1119 (v37.5): PsiCat Achievement Benchmark Promotion Sprint — PSICAT_ACHIEVEMENT_BENCHMARK_PROMOTION_SPRINT_COMPLETE. `src/core/pillar1119_psicat_achievement_benchmark_promotion_sprint.py` binds PsiCat’s earned achievement surfaces, live benchmark posture, and next appropriate promotion sprint into one fail-closed packet; the current packet routes next work to phase-2 applied-pressure promotion while leaving physics closure claims unchanged.
 
 *P1118 (v37.4): Sprint CR Master Integration Certificate — SPRINT_CR_MASTER_INTEGRATION_CERTIFICATE_COMPLETE. `src/core/pillar1118_sprint_cr_master_integration_certificate.py` fail-closes the sprint unless the charter, burden board, five execution lanes, documentation packet, and status coherence remain simultaneously valid.
 

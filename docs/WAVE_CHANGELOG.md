@@ -33,12 +33,35 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v37.4 (2026-09-09)**
+**Current version: v37.5 (2026-09-09)**
 **Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1119
+**Next pillar slot:** 1120
 
 
 
+
+## v37.5 (2026-09-09 — Sprint CS: Pillar 1119)
+
+**What changed:**
+Sprint CS adds one fail-closed PsiCat achievement/benchmark/promotion packet. The new surface consolidates earned achievement markers, Stage A→E and frontier benchmark posture, SPC phase-0/phase-1 expert-lane evidence, and the next appropriate promotion sprint in one governed board.
+
+**Why:**
+Keep PsiCat promotion language tied to visible evidence. The point is not to claim broader advancement, but to show what has actually been earned and route the next sprint accordingly.
+
+**Epistemic label deltas:**
+- `PSICAT_ACHIEVEMENT_BENCHMARK_PROMOTION_SPRINT_COMPLETE`
+
+**Physics label delta:** None — this is promotion-discipline and benchmark-routing hardening only.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Focused regression: PsiCat achievement/benchmark/promotion sprint suites 9 passed · 0 failed; latest verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1120
 
 ## v37.4 (2026-09-09 — Sprint CR: Pillars 1109-1118)
 

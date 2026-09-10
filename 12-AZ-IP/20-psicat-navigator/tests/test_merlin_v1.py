@@ -1671,18 +1671,21 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     hardware = route_tool('getMerlinHardwareArchitectureBoard', {'limit': 2})
     execution = route_tool('getMerlinExecutionBoard', {'limit': 1})
     resilience = route_tool('getMerlinValidationResiliencePacket', {'limit': 3})
+    promotion_sprint = route_tool('getPsiCatAchievementBenchmarkPromotionSprint', {'limit': 1, 'training_limit': 3})
     assert review['ok'] is True
     assert heavy['ok'] is True
     assert board['ok'] is True
     assert hardware['ok'] is True
     assert execution['ok'] is True
     assert resilience['ok'] is True
+    assert promotion_sprint['ok'] is True
     review_data = review['result']['data']
     heavy_data = heavy['result']['data']
     board_data = board['result']['data']
     hardware_data = hardware['result']['data']
     execution_data = execution['result']['data']
     resilience_data = resilience['result']['data']
+    promotion_sprint_data = promotion_sprint['result']['data']
     assert len(review_data['stage_reviews']) == 5
     assert review_data['open_blockers'] == []
     assert review_data['control_tower']['deployment_eligibility']['eligible'] is True
@@ -1703,6 +1706,14 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert resilience_data['review_resilience_assets']['orchestrator'] == 'TOOLS/checks/copilot_review_orchestrator.py'
     assert resilience_data['review_resilience_assets']['codeql_language_matrix_workflow'] == '.github/workflows/codeql-language-matrix.yml'
     assert resilience_data['codeql_scope_reduction_strategy']['phases'][0]['name'] == 'changed_surface_first'
+    assert promotion_sprint_data['mode'] == 'achievement_benchmark_promotion_sprint'
+    assert len(promotion_sprint_data['achievement_board']) == 5
+    assert len(promotion_sprint_data['benchmark_board']['stage_gate_summary']) == 5
+    assert len(promotion_sprint_data['benchmark_board']['spc_phase1_lane_receipts']) == 3
+    if promotion_sprint_data['promotion_readiness']['decision'] == 'PROMOTION_SPRINT_ADVANCE_ALLOWED':
+        assert promotion_sprint_data['appropriate_promotion_sprint']['sprint_id'] == 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'
+    else:
+        assert promotion_sprint_data['promotion_readiness']['promotion_language'] == 'FROZEN_PENDING_VISIBLE_GATES'
     assert any(phase['name'] == 'multi_job_language_split' for phase in resilience_data['codeql_scope_reduction_strategy']['phases'])
     assert resilience_data['codeql_matrix_split_strategy']['matrix_axes'] == ['language', 'path_slice']
     assert resilience_data['duckdb_preflight_telemetry']['artifact'] == 'codeql-slice-inventory'
@@ -2505,6 +2516,16 @@ def test_server_merlin_endpoints():
             assert spc_phase1_baseline.json()['spc_phase1_baseline']['mode'] == 'spc_phase1_baseline_execution'
             assert len(spc_phase1_baseline.json()['spc_phase1_baseline']['lane_receipts']) == 3
             assert 'phase_verdict' in spc_phase1_baseline.json()['spc_phase1_baseline']
+            promotion_sprint = client.get('/api/merlin/achievement-benchmark-promotion-sprint?limit=2&training_limit=3')
+            assert promotion_sprint.status_code == 200
+            assert promotion_sprint.json()['ok'] is True
+            assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['mode'] == 'achievement_benchmark_promotion_sprint'
+            assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['achievement_board']) == 5
+            assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['benchmark_board']['spc_phase1_lane_receipts']) == 3
+            bad_promotion_limit = client.get('/api/merlin/achievement-benchmark-promotion-sprint?limit=abc')
+            assert bad_promotion_limit.status_code == 400
+            bad_promotion_training_limit = client.get('/api/merlin/achievement-benchmark-promotion-sprint?training_limit=abc')
+            assert bad_promotion_training_limit.status_code == 400
             bad_spc_phase1_limit = client.get('/api/merlin/spc-phase1-baseline?limit=abc')
             assert bad_spc_phase1_limit.status_code == 400
             assert bad_spc_phase1_limit.json()['ok'] is False

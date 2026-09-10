@@ -3,8 +3,8 @@
   "_fetch_url": "https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json",
   "_cache_ttl_seconds": 3600,
   "meta": {
-    "version": "37.4",
-    "sprint": "CR",
+    "version": "37.5",
+    "sprint": "CS",
     "date": "2026-09-09",
     "source_of_truth": "https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md",
     "generated_by": "9-INFRASTRUCTURE/generate_live_status.py",
@@ -22,9 +22,9 @@
     "physical_proof_count": null
   },
   "pillars": {
-    "next_slot": 1119,
+    "next_slot": 1120,
     "hardgate_count": 208,
-    "total_slots": 1118
+    "total_slots": 1119
   },
   "physics": {
     "winding_number_n_w": 5,

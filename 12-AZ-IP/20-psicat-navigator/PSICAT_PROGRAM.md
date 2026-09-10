@@ -163,6 +163,8 @@ This document records the implemented execution blueprint for making Merlin the 
 
 `getMerlinExecutionBoard()` now turns those surfaces into one follow-on operating board inside the repo, with immediate tasks, a blocker register, validation-resilience doctrine, and a Sprint CL blunt board. The same board explicitly treats hosted-review outages and CodeQL oversize skips as trainable Merlin behaviors rather than invisible external inconveniences.
 
+`getPsiCatAchievementBenchmarkPromotionSprint()` now binds the earned-surface ledger, benchmark posture, and next appropriate promotion sprint into one governed packet. The point is not to force a promotion claim but to keep achievement and promotion language tethered to visible receipts, live blockers, and the actual next lane of work.
+
 ## Mentorship sprint implementation
 
 - Formal mentorship sprint charter is now first-class under Program Office with non-negotiables for full rigor, no partial delivery, auditable decisions, and fail-closed promotion gates.

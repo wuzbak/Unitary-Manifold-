@@ -123,6 +123,14 @@ Lane 4 preserves falsifier/tension discipline by keeping external waits explicit
 
 Result: action-to-evolution closure attempt remains fail-closed and blocker-explicit; rigor and traceability are tightened; no new hardgate closure is claimed.
 
+### Sprint CS PsiCat achievement benchmark promotion sprint
+
+Sprint CS does not widen the scientific claim surface. Instead it adds one governed PsiCat packet that answers a narrower operational question: what has PsiCat actually earned, what do the visible benchmark surfaces currently say, and what sprint is appropriate next?
+
+The new packet binds five already-existing evidence families into one fail-closed promotion board: targeted-rigor train-and-work receipts, frontier promotion blockers, SPC phase-0 artifact visibility, SPC phase-1 lane verdicts, and competitive benchmark doctrine. In the current branch state the packet reads cleanly: targeted-rigor gates are clear, frontier blockers are clear, and all three SPC phase-1 lanes are clear to advance.
+
+That does not count as automatic promotion. It means the appropriate promotion sprint is now phase-2 applied-pressure work under continued receipt discipline, not a narrative-only declaration. The packet therefore hardens achievement language and next-step routing while leaving every open physics obligation unchanged.
+
 ### Sprint CQ continuation packet
 
 Sprint CQ keeps the Sprint CP three-lane packet but narrows the next action. Lane 1 now makes action-to-evolution equivalence the sole primary unresolved unit, while APS/orbifold/Dirac work is touched only as secondary harvest support. P1104 therefore replaces one broad blocker with three exact deliverable blockers: a checkable action functional, a verified Euler-Lagrange match to the implemented flow, and a fixed time-identification/domain boundary for promotion. This is blocker sharpening, not closure.
