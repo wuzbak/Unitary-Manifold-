@@ -3,7 +3,7 @@
 **Status source:** `https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json` (canonical live metrics for version/tests/Lean4/pillars)
 
 Full Hugging Face deployment surfaces for the [axiomzerospc.org](https://axiomzerospc.org) webspace.
-Canonical AZ product count is 23; HF spaces currently host Products 01–20 directly, while Products 21–23 are linked via the public AZ app hub / repository.
+Canonical AZ product count is 24; HF spaces currently host Products 01–20 directly, while Products 21–24 are linked via the public AZ app hub / repository.
 
 ## Spaces
 
@@ -16,7 +16,7 @@ Canonical AZ product count is 23; HF spaces currently host Products 01–20 dire
 | `az-tools/` | Gradio | 11–20 | Terra-OS, Lithos-OS, DelPhi, SDAM, Pentacorder, Oracle, + legacy utility trio (Falsification Obs, Interrogator, Flashcard) and Merlin/OX-compatible navigator |
 | `vqe-sandbox/` | Gradio | Quantum | VQE + Fermi-Hubbard simulation — JW encoding + KK φ-weighted ansatz |
 | `az-os/` | Gradio | 01, 11, 12 | AxiomOS + Terra-OS + Lithos-OS unified OS environment |
-| `az-ip/` | Gradio | IP Catalog | IP registry browser (legacy in-space snapshot + canonical links to current 23-product registry) |
+| `az-ip/` | Gradio | IP Catalog | IP registry browser (legacy in-space snapshot + canonical links to current 24-product registry) |
 | `um-knowledge-dataset/` | Dataset | RAG | pillars.jsonl, theorems.jsonl, claims.jsonl, fallibility.jsonl, apps.jsonl, docs.jsonl |
 
 ## Deploy to Hugging Face
@@ -107,9 +107,9 @@ hf-spaces/
 
 ## Coverage notes
 
-- Canonical product registry and naming authority: `12-AZ-IP/README.md` (Products 01–23).
+- Canonical product registry and naming authority: `12-AZ-IP/README.md` (Products 01–24).
 - HF spaces provide direct hosted coverage for Products 01–20 plus portal/dataset surfaces.
-- Products 21 (UM Geophysical Monitor), 22 (AxiomZero SGE), and 23 (PsiCat DM Guide & Player Assistant) are linked through:
+- Products 21 (UM Geophysical Monitor), 22 (AxiomZero SGE), 23 (PsiCat DM Guide & Player Assistant), and 24 (PsiCat Web Browser) are linked through:
   - `public-site/az-apps/index.html`
   - `docs/APPS_SPACES_FINALIZATION_MATRIX.md`
   - product folders under `12-AZ-IP/21-geo-monitor/`, `12-AZ-IP/22-az-sge/`, `12-AZ-IP/23-psicat-dm-assistant/`

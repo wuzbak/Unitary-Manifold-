@@ -126,5 +126,11 @@ jobs:
         run: pip install numpy scipy pytest pytest-xdist
       - name: Run canonical ledger + onboarding consistency checks
         run: python -m pytest tests/test_canonical_ledger_consistency.py -v
+      - name: Run status-sync and registry-integrity sweeps
+        run: |
+          python -m pytest \
+            tests/test_pillar1078_parallel_audit_remediation.py::test_public_status_sync_check \
+            tests/test_pillar536_axiomzero_ip_registry.py::TestVerifyAgainstRegistry::test_verify_no_tampered \
+            -v
       - name: Guard large directory entry counts
         run: python TOOLS/checks/check_large_directories.py
