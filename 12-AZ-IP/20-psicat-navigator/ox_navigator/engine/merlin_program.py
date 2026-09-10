@@ -7337,12 +7337,14 @@ def get_psicat_training_benchmarking_promotion_sprint(
     spc_lanes = list(benchmark_board.get("spc_phase1_lane_receipts") or [])
 
     processed_count = int(cycle.get("processed_count", 0) or 0)
-    training_ready = (
-        processed_count > 0
-        and int(queue_after.get("stale_retrain_count", 0) or 0) == 0
+    training_cycle_executed = processed_count > 0
+    training_queue_clear = (
+        int(queue_after.get("stale_retrain_count", 0) or 0) == 0
         and int(queue_after.get("needs_review_count", 0) or 0) == 0
     )
-    promotion_readiness["training_queue_clear"] = training_ready
+    training_ready = training_cycle_executed and training_queue_clear
+    promotion_readiness["training_queue_clear"] = training_queue_clear
+    promotion_readiness["training_cycle_executed"] = training_cycle_executed
     promotion_readiness["training_cycle_processed_count"] = processed_count
 
     training_board = [
@@ -7354,7 +7356,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
         },
         {
             "milestone": "training_cycle_executed",
-            "earned": processed_count > 0,
+            "earned": training_cycle_executed,
             "evidence": "Training cycle processed count is emitted on every run.",
             "source": "/api/psicat/training-cycle",
         },
@@ -7393,7 +7395,9 @@ def get_psicat_training_benchmarking_promotion_sprint(
             "cycle_processed_count": processed_count,
             "lane_progress_count": len(lane_progress),
             "challenge_pack_size": len(list(challenge_pack.get("challenges") or [])),
-            "training_queue_clear": training_ready,
+            "training_cycle_executed": training_cycle_executed,
+            "training_queue_clear": training_queue_clear,
+            "training_ready": training_ready,
         },
         "packet": packet,
         "validity_signals": {

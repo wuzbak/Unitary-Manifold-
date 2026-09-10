@@ -1754,7 +1754,9 @@ def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatc
     cycle_milestone = next(item for item in packet['training_board'] if item['milestone'] == 'training_cycle_executed')
     assert cycle_milestone['earned'] is False
     assert packet['training_execution_summary']['cycle_processed_count'] == 0
+    assert packet['training_execution_summary']['training_cycle_executed'] is False
     assert packet['training_execution_summary']['training_queue_clear'] is False
+    assert packet['training_execution_summary']['training_ready'] is False
 
 
 def test_route_tool_model_admission_policy():
