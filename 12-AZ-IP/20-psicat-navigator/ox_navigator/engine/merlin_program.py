@@ -7151,12 +7151,13 @@ def get_psicat_achievement_benchmark_promotion_sprint(
     *,
     limit: int | None = 3,
     training_limit: int | None = 9,
+    session: MerlinSession | None = None,
 ) -> dict[str, Any]:
     from .merlin_memory import MerlinSession
 
     resolved_limit = _coerce_frontier_limit(limit, default=3)
     resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
-    active_session = MerlinSession()
+    active_session = session if isinstance(session, MerlinSession) else MerlinSession()
 
     phase0_packet = get_psicat_spc_phase0_execution_packet()
     spc_phase1 = run_psicat_spc_phase1_baseline(
@@ -7333,10 +7334,14 @@ def get_psicat_training_benchmarking_promotion_sprint(
     *,
     limit: int | None = 3,
     training_limit: int | None = 9,
+    session: MerlinSession | None = None,
 ) -> dict[str, Any]:
+    from .merlin_memory import MerlinSession
+
     packet = get_psicat_achievement_benchmark_promotion_sprint(
         limit=limit,
         training_limit=training_limit,
+        session=session if isinstance(session, MerlinSession) else None,
     )
     benchmark_board = dict(packet.get("benchmark_board") or {})
     targeted_rigor = dict(packet.get("targeted_rigor_sprint") or {})
@@ -7378,6 +7383,60 @@ def get_psicat_training_benchmarking_promotion_sprint(
     )
     training_queue_clear = queue_after_state_clear and training_queue_observed
     training_ready = training_cycle_executed and training_queue_clear
+    inherited_targeted_clear = bool(promotion_readiness.get("targeted_rigor_clear"))
+    inherited_frontier_clear = bool(promotion_readiness.get("frontier_blockers_all_clear"))
+    inherited_phase1_clear = bool(promotion_readiness.get("spc_phase1_clear_to_advance"))
+    inherited_decision_allowed = (
+        inherited_targeted_clear
+        and inherited_frontier_clear
+        and inherited_phase1_clear
+    )
+    final_decision_allowed = inherited_decision_allowed and training_ready
+
+    if not inherited_decision_allowed:
+        sprint_id = str(appropriate_sprint.get("sprint_id") or "TARGETED_RIGOR_REMEDIATION_SPRINT")
+        objective = str(
+            appropriate_sprint.get("objective")
+            or "Clear inherited benchmark, frontier, or SPC blockers before promotion."
+        )
+        exit_gate = str(
+            appropriate_sprint.get("exit_gate")
+            or "Inherited promotion gates must clear before Sprint CT can advance."
+        )
+        next_step = str(
+            appropriate_sprint.get("next_step")
+            or "Remediate inherited blockers and rerun the governing packet."
+        )
+    elif not training_ready:
+        sprint_id = "TRAINING_EXECUTION_REMEDIATION_SPRINT"
+        objective = "Clear training execution and post-cycle queue blockers before advancing to phase-2 promotion work."
+        exit_gate = "promotion_readiness.training_ready == true"
+        next_step = "Run or repair the training cycle until execution occurs and the post-cycle queue is verifiably clear."
+    else:
+        sprint_id = str(appropriate_sprint.get("sprint_id") or "PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT")
+        objective = str(
+            appropriate_sprint.get("objective")
+            or "Advance from baseline receipts to applied-pressure promotion drills while keeping every decision receipt-backed."
+        )
+        exit_gate = str(
+            appropriate_sprint.get("exit_gate")
+            or "Phase 2 receipts stay clear and promotion remains evidence-backed under fail-closed review."
+        )
+        next_step = str(
+            appropriate_sprint.get("next_step")
+            or "Start the next applied-pressure promotion sprint immediately with the current baseline packet as the entry receipt."
+        )
+
+    promotion_readiness["decision"] = (
+        "PROMOTION_SPRINT_ADVANCE_ALLOWED"
+        if final_decision_allowed
+        else "PROMOTION_NOT_EARNED_YET"
+    )
+    promotion_readiness["promotion_language"] = (
+        "ADVANCE_WITH_RECEIPTS_ONLY"
+        if final_decision_allowed
+        else "FROZEN_PENDING_VISIBLE_GATES"
+    )
     promotion_readiness["training_queue_clear"] = training_queue_clear
     promotion_readiness["queue_after_state_clear"] = queue_after_state_clear
     promotion_readiness["training_queue_observed"] = training_queue_observed
@@ -7421,9 +7480,13 @@ def get_psicat_training_benchmarking_promotion_sprint(
         "promotion_readiness": promotion_readiness,
         "appropriate_promotion_sprint": {
             **appropriate_sprint,
+            "sprint_id": sprint_id,
+            "objective": objective,
+            "exit_gate": exit_gate,
+            "next_step": next_step,
             "training_next_step": (
                 "Advance the queued phase-2 applied-pressure cycle with receipt-backed training reruns."
-                if promotion_readiness.get("decision") == "PROMOTION_SPRINT_ADVANCE_ALLOWED"
+                if final_decision_allowed
                 else "Keep promotion language frozen and remediate open training or benchmark blockers."
             ),
         },

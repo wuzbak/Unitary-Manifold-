@@ -1738,8 +1738,13 @@ def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatc
                 'stage_gate_summary': [{}] * 5,
                 'spc_phase1_lane_receipts': [{}] * 3,
             },
-            'promotion_readiness': {'decision': 'PROMOTION_NOT_EARNED_YET'},
-            'appropriate_promotion_sprint': {'sprint_id': 'TARGETED_RIGOR_REMEDIATION_SPRINT'},
+            'promotion_readiness': {
+                'decision': 'PROMOTION_SPRINT_ADVANCE_ALLOWED',
+                'targeted_rigor_clear': True,
+                'frontier_blockers_all_clear': True,
+                'spc_phase1_clear_to_advance': True,
+            },
+            'appropriate_promotion_sprint': {'sprint_id': 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'},
             'targeted_rigor_sprint': {
                 'training': {
                     'queue_before': {'ready_count': 1},
@@ -1757,6 +1762,9 @@ def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatc
     assert packet['training_execution_summary']['training_cycle_executed'] is False
     assert packet['training_execution_summary']['training_queue_clear'] is False
     assert packet['training_execution_summary']['training_ready'] is False
+    assert packet['promotion_readiness']['decision'] == 'PROMOTION_NOT_EARNED_YET'
+    assert packet['promotion_readiness']['promotion_language'] == 'FROZEN_PENDING_VISIBLE_GATES'
+    assert packet['appropriate_promotion_sprint']['sprint_id'] == 'TRAINING_EXECUTION_REMEDIATION_SPRINT'
 
 
 def test_training_benchmarking_promotion_sprint_missing_queue_after_not_clear(monkeypatch):
@@ -1882,6 +1890,36 @@ def test_training_benchmarking_promotion_sprint_nonnumeric_processed_count_not_e
     assert packet['training_execution_summary']['training_queue_clear'] is False
     assert packet['training_execution_summary']['training_ready'] is False
     assert packet['promotion_readiness']['training_ready'] is False
+
+
+def test_route_tool_training_benchmarking_promotion_sprint_passes_session(monkeypatch):
+    captured = {}
+
+    def fake_training_packet(**kwargs):
+        captured['session'] = kwargs.get('__session') if '__session' in kwargs else kwargs.get('session')
+        return {'mode': 'training_benchmarking_promotion_sprint'}
+
+    monkeypatch.setattr(merlin_tools, 'get_psicat_training_benchmarking_promotion_sprint', fake_training_packet)
+    session = MerlinSession()
+    result = route_tool('getPsiCatTrainingBenchmarkingPromotionSprint', {'limit': 1, 'training_limit': 1}, session=session)
+    assert result['ok'] is True
+    assert result['result']['data']['mode'] == 'training_benchmarking_promotion_sprint'
+    assert captured['session'] is session
+
+
+def test_route_tool_achievement_promotion_sprint_passes_session(monkeypatch):
+    captured = {}
+
+    def fake_achievement_packet(**kwargs):
+        captured['session'] = kwargs.get('session')
+        return {'mode': 'achievement_benchmark_promotion_sprint'}
+
+    monkeypatch.setattr(merlin_tools, 'get_psicat_achievement_benchmark_promotion_sprint', fake_achievement_packet)
+    session = MerlinSession()
+    result = route_tool('getPsiCatAchievementBenchmarkPromotionSprint', {'limit': 1, 'training_limit': 1}, session=session)
+    assert result['ok'] is True
+    assert result['result']['data']['mode'] == 'achievement_benchmark_promotion_sprint'
+    assert captured['session'] is session
 
 
 def test_route_tool_model_admission_policy():
