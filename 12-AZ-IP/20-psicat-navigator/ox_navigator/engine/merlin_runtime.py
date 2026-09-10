@@ -318,13 +318,16 @@ def run_kernel_p_lean_proof_probe(
     )
     repl_requested = bool(enable_repl)
     backend_state = dict(bridge_receipt.get("backend_state") or {})
+    external_backends = list(backend_state.get("external_backends") or [])
     local_runtime = dict(backend_state.get("local_runtime") or {})
     repl_enabled = repl_requested and str(os.environ.get("MERLIN_ENABLE_LEAN_BRIDGE") or "").strip().lower() in {"1", "true", "yes", "on"}
-    repl_available = (
+    local_scoped_build_available = (
         bool(local_runtime.get("lake_available"))
         and bool(local_runtime.get("lean_available"))
         and bool(local_runtime.get("lean4_root_exists"))
     )
+    external_backend_available = any(bool(item.get("available")) for item in external_backends)
+    repl_available = local_scoped_build_available or external_backend_available
     scoped_build = dict(bridge_receipt.get("scoped_build_receipt") or {})
     repl_used = repl_enabled and scoped_build.get("status") == "PASS"
     repl_output = (
@@ -340,6 +343,8 @@ def run_kernel_p_lean_proof_probe(
         "repl_requested": repl_requested,
         "repl_enabled": repl_enabled,
         "repl_available": repl_available,
+        "local_scoped_build_available": local_scoped_build_available,
+        "external_backend_available": external_backend_available,
         "repl_used": repl_used,
         "repl_output": repl_output,
         "promotion_allowed": False,

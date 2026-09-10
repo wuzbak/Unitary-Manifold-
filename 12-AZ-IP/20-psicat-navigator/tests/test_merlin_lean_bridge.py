@@ -5,6 +5,7 @@ from pathlib import Path
 
 import ox_navigator.engine.merlin_lean_bridge as merlin_lean_bridge
 from ox_navigator.engine.merlin_lean_bridge import (
+    _run_scoped_build,
     detect_lean_bridge_backends,
     get_live_theorem_count_receipt,
     get_merlin_lean_bridge_artifact,
@@ -67,3 +68,9 @@ def test_backend_detection_contract_present() -> None:
     payload = detect_lean_bridge_backends()
     assert payload["recommended_stack"] == "LSP_PLUS_REPL_HYBRID"
     assert any(item["backend_id"] == "leaninteract_repl" for item in payload["external_backends"])
+
+
+def test_scoped_build_rejects_targets_outside_lean4_root() -> None:
+    receipt = _run_scoped_build(check_target="../outside.lean")
+    assert receipt["status"] == "SKIPPED"
+    assert receipt["reason"] == "check_target_outside_lean4_root"
