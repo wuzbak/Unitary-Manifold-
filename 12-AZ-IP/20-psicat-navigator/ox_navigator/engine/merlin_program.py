@@ -7344,7 +7344,9 @@ def get_psicat_training_benchmarking_promotion_sprint(
     stage_gate_summary = list(benchmark_board.get("stage_gate_summary") or [])
     spc_lanes = list(benchmark_board.get("spc_phase1_lane_receipts") or [])
 
-    processed_count = int(cycle.get("processed_count", 0) or 0)
+    processed_count = _safe_int(cycle.get("processed_count", 0) or 0)
+    if processed_count is None:
+        processed_count = 0
     training_cycle_executed = processed_count > 0
     has_queue_after_state = isinstance(raw_queue_after, dict) and all(
         key in raw_queue_after for key in ("stale_retrain_count", "needs_review_count")
