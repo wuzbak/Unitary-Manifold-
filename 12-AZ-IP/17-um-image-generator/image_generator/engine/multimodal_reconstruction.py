@@ -316,10 +316,10 @@ def build_multimodal_scene_bundle(
             "scene_id": safe_scene_id,
             "version": version_dir.name,
             "artifacts": {
-                "gaussian_path": gaussian_path.name,
-                "point_cloud_path": cloud_path.name,
-                "stl_path": stl_path.name,
-                "metadata_path": metadata_path.name,
+                "gaussian_path": str(gaussian_path.relative_to(base)),
+                "point_cloud_path": str(cloud_path.relative_to(base)),
+                "stl_path": str(stl_path.relative_to(base)),
+                "metadata_path": str(metadata_path.relative_to(base)),
             },
             "quality": quality,
         }

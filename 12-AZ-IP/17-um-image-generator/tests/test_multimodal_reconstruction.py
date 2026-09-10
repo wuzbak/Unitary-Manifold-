@@ -137,6 +137,8 @@ def test_scene_id_is_sanitized_for_safe_paths(tmp_path: Path) -> None:
 
 def test_manifest_uses_relative_artifact_paths(tmp_path: Path) -> None:
     bundle = build_multimodal_scene_bundle(tmp_path, scene_id="portable", grid_size=5, scale_meters=1.0)
-    manifest = json.loads(Path(bundle["manifest_path"]).read_text(encoding="utf-8"))
-    assert manifest["artifacts"]["gaussian_path"].endswith(".gaussian.json")
-    assert "/" not in manifest["artifacts"]["gaussian_path"]
+    manifest_path = Path(bundle["manifest_path"])
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    for rel_path in manifest["artifacts"].values():
+        resolved = manifest_path.parent / rel_path
+        assert resolved.exists()
