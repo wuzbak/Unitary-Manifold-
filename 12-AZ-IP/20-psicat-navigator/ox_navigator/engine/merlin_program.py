@@ -92,6 +92,14 @@ def _safe_int(value: Any) -> int | None:
         return None
 
 
+def _has_positive_counter(mapping: dict[str, Any], *keys: str) -> bool:
+    for key in keys:
+        value = _safe_int(mapping.get(key))
+        if value is not None and value > 0:
+            return True
+    return False
+
+
 def _natural_sort_key(path: Path) -> tuple[Any, ...]:
     parts = re.split(r"(\d+)", path.name.lower())
     return tuple(int(part) if part.isdigit() else part for part in parts)
@@ -7360,10 +7368,19 @@ def get_psicat_training_benchmarking_promotion_sprint(
         and stale_retrain_count == 0
         and needs_review_count == 0
     )
-    training_queue_clear = queue_after_state_clear
+    training_queue_observed = training_cycle_executed or _has_positive_counter(
+        queue_before,
+        "queued_count",
+        "ready_count",
+        "stale_retrain_count",
+        "needs_review_count",
+        "total_queue_items",
+    )
+    training_queue_clear = queue_after_state_clear and training_queue_observed
     training_ready = training_cycle_executed and training_queue_clear
     promotion_readiness["training_queue_clear"] = training_queue_clear
     promotion_readiness["queue_after_state_clear"] = queue_after_state_clear
+    promotion_readiness["training_queue_observed"] = training_queue_observed
     promotion_readiness["training_cycle_executed"] = training_cycle_executed
     promotion_readiness["training_cycle_processed_count"] = processed_count
     promotion_readiness["training_ready"] = training_ready
@@ -7417,6 +7434,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
             "lane_progress_count": len(lane_progress),
             "challenge_pack_size": len(list(challenge_pack.get("challenges") or [])),
             "training_cycle_executed": training_cycle_executed,
+            "training_queue_observed": training_queue_observed,
             "queue_after_state_clear": queue_after_state_clear,
             "training_queue_clear": training_queue_clear,
             "training_ready": training_ready,
