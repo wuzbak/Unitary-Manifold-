@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node --test tests/*.test.js",
     "start": "electron .",
-    "lint": "node --check desktop/main.js && node --check desktop/preload.js && node --check desktop/ui/app.js && node --check extension/background.js && node --check extension/content.js && node --check extension/sidepanel.js"
+    "lint": "node --check desktop/main.js && node --check desktop/preload.js && node --check desktop/lib/browser-core.js && node --check desktop/lib/page-context.js && node --check desktop/lib/sync-policy.js && node --check desktop/ui/app.js && node --check extension/background.js && node --check extension/content.js && node --check extension/sidepanel.js"
   },
   "keywords": [],
   "author": "",

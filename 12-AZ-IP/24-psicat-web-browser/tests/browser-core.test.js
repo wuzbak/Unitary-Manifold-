@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const core = require('../desktop/lib/browser-core');
+const syncPolicy = require('../desktop/lib/sync-policy');
 
 test('sanitizeUrl converts hostnames to https and queries to search URLs', () => {
   assert.equal(core.sanitizeUrl('example.com'), 'https://example.com');
@@ -93,4 +94,27 @@ test('workspace helpers save and restore a split layout', () => {
   assert.equal(restored.workspace.layout, 'split-horizontal');
   assert.ok(restored.workspace.secondaryTabId);
   assert.equal(restored.tabs.length, 2);
+});
+
+test('createSyncPacket excludes private browsing artifacts', () => {
+  let state = core.createInitialState();
+  state = core.addTab(state, 'private.example', { private: true });
+  const privateTabId = state.activeTabId;
+  state = core.updateTab(state, privateTabId, { lastSnapshot: { url: 'https://private.example', title: 'Private', text: 'secret', private: true } });
+  state = core.pushHistory(state, { title: 'Private', url: 'https://private.example', private: true });
+  state = core.addBookmark(state, { title: 'Private', url: 'https://private.example', private: true });
+  state = core.addNotebookEntry(state, { title: 'Private note', text: 'secret', private: true });
+  state = core.rememberPage(state, { title: 'Private', url: 'https://private.example', text: 'secret', private: true });
+  const packet = core.createSyncPacket(state);
+  assert.equal(packet.tabs.some((tab) => tab.private), false);
+  assert.equal(packet.history.some((entry) => entry.private), false);
+  assert.equal(packet.bookmarks.some((entry) => entry.private), false);
+  assert.equal(packet.notebookEntries.some((entry) => entry.private), false);
+  assert.equal(packet.rememberedPages.some((entry) => entry.private), false);
+});
+
+test('sync policy only uses backend for account-enabled sync', () => {
+  assert.equal(syncPolicy.shouldUseBackendSync({ sync: { mode: 'local-only', accountEmail: 'user@example.com' } }), false);
+  assert.equal(syncPolicy.shouldUseBackendSync({ sync: { mode: 'local+account', accountEmail: '' } }), false);
+  assert.equal(syncPolicy.shouldUseBackendSync({ sync: { mode: 'local+account', accountEmail: 'user@example.com' } }), true);
 });

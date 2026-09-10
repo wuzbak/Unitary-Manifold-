@@ -331,6 +331,10 @@ function applySavedWorkspace(state, workspaceId) {
 
 function createSyncPacket(state) {
   const next = normalizeState(state);
+  const syncableTabs = next.tabs.filter((tab) => !tab.private);
+  const syncableUrls = new Set(syncableTabs.map((tab) => tab.url));
+  const activeTab = syncableTabs.find((tab) => tab.id === next.activeTabId) || syncableTabs[0];
+  const secondaryTab = syncableTabs.find((tab) => tab.id === next.workspace.secondaryTabId) || null;
   return {
     product: 24,
     exportedAt: new Date().toISOString(),
@@ -347,7 +351,7 @@ function createSyncPacket(state) {
       syncBackendEndpoint: next.settings.syncBackendEndpoint,
       livePageCapture: next.settings.livePageCapture,
     },
-    tabs: next.tabs.map((tab) => ({
+    tabs: syncableTabs.map((tab) => ({
       title: tab.title,
       url: tab.url,
       private: Boolean(tab.private),
@@ -355,15 +359,16 @@ function createSyncPacket(state) {
     })),
     workspace: {
       ...next.workspace,
-      activeTabUrl: (next.tabs.find((tab) => tab.id === next.activeTabId) || next.tabs[0] || {}).url || DEFAULT_HOME,
-      secondaryTabUrl: (next.tabs.find((tab) => tab.id === next.workspace.secondaryTabId) || {}).url || null,
+      layout: secondaryTab ? next.workspace.layout : 'single',
+      activeTabUrl: activeTab?.url || DEFAULT_HOME,
+      secondaryTabUrl: secondaryTab?.url || null,
     },
-    activeTabUrl: (next.tabs.find((tab) => tab.id === next.activeTabId) || next.tabs[0] || {}).url || DEFAULT_HOME,
-    bookmarks: next.bookmarks,
-    history: next.history.slice(0, 100),
+    activeTabUrl: activeTab?.url || DEFAULT_HOME,
+    bookmarks: next.bookmarks.filter((item) => !item.private).slice(0, MAX_HISTORY_ENTRIES),
+    history: next.history.filter((item) => !item.private).slice(0, 100),
     downloads: next.downloads.slice(0, 40),
-    notebookEntries: next.notebookEntries.slice(0, 100),
-    rememberedPages: next.rememberedPages.slice(0, 40),
+    notebookEntries: next.notebookEntries.filter((item) => !item.private).slice(0, 100),
+    rememberedPages: next.rememberedPages.filter((item) => !item.private && syncableUrls.has(item.url)).slice(0, 40),
     importedResearch: next.importedResearch.slice(0, 100),
   };
 }

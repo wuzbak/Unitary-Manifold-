@@ -6,6 +6,7 @@ const crypto = require('node:crypto');
 const { spawn } = require('node:child_process');
 const core = require('./lib/browser-core');
 const pageContext = require('./lib/page-context');
+const syncPolicy = require('./lib/sync-policy');
 
 const PRODUCT_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(PRODUCT_ROOT, '..', '..');
@@ -93,7 +94,7 @@ function createBrowserView(tab) {
   });
   view.webContents.on('did-navigate', (_event, url) => {
     state = core.updateTab(state, tab.id, { url });
-    state = core.pushHistory(state, { title: view.webContents.getTitle() || tab.title, url });
+    state = core.pushHistory(state, { title: view.webContents.getTitle() || tab.title, url, private: Boolean(tab.private) });
     persistState().then(broadcastState);
   });
   view.webContents.on('did-navigate-in-page', (_event, url) => {
@@ -145,6 +146,7 @@ async function rememberActivePage() {
       text: (active.lastSnapshot.selection || active.lastSnapshot.text || '').slice(0, 2000),
       tags: ['captured-page'],
       url: active.lastSnapshot.url || active.url,
+      private: Boolean(active.private),
     });
     await persistState();
     if (state.sync.accountEmail) await writeSyncMirror('local-mirror');
@@ -164,8 +166,10 @@ async function captureSnapshot(tabId) {
       text: document.body ? document.body.innerText.slice(0, 12000) : '',
       capturedAt: new Date().toISOString()
     }))()`);
-    state = core.updateTab(state, tabId, { lastSnapshot: snapshot });
-    state = core.rememberPage(state, snapshot);
+    const tab = state.tabs.find((entry) => entry.id === tabId);
+    const scopedSnapshot = { ...snapshot, private: Boolean(tab?.private) };
+    state = core.updateTab(state, tabId, { lastSnapshot: scopedSnapshot });
+    state = core.rememberPage(state, scopedSnapshot);
     await persistState();
     broadcastState();
   } catch (_error) {
@@ -334,7 +338,7 @@ async function addBookmark() {
   const active = getActiveTab();
   if (!active) return;
   const snapshot = active.lastSnapshot || {};
-  state = core.addBookmark(state, { title: snapshot.title || active.title, url: snapshot.url || active.url });
+  state = core.addBookmark(state, { title: snapshot.title || active.title, url: snapshot.url || active.url, private: Boolean(active.private) });
   await persistState();
   if (state.sync.accountEmail) await writeSyncMirror('local-mirror');
   broadcastState();
@@ -686,10 +690,13 @@ function installIpc() {
   ipcMain.handle('browser:export-sync-packet', async () => handleExportSyncPacket());
   ipcMain.handle('browser:import-sync-packet', async () => handleImportSyncPacket());
   ipcMain.handle('browser:sync-now', async () => {
-    if (state.sync.mode === 'local-only' || !state.sync.accountEmail) return writeSyncMirror('local-mirror');
+    if (!syncPolicy.shouldUseBackendSync(state)) return writeSyncMirror('local-mirror');
     return pushSyncToBackend();
   });
-  ipcMain.handle('browser:sync-pull', async () => pullSyncFromBackend());
+  ipcMain.handle('browser:sync-pull', async () => {
+    if (!syncPolicy.shouldUseBackendSync(state)) return writeSyncMirror('local-mirror');
+    return pullSyncFromBackend();
+  });
   ipcMain.handle('browser:open-external', async (_event, url) => shell.openExternal(url));
   ipcMain.handle('browser:open-download', async (_event, downloadPath) => shell.openPath(downloadPath));
 }

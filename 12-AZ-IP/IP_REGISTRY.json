@@ -392,16 +392,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "891178d6f04f7b935c85129797c5f43f7a26a88b980bf608903ab4ab22dab039",
-      "size_bytes": 595
+      "sha256": "34f443ccde681bb3d8d85ea4ade51bf747fd19a8f64bb63596391bf1942b2368",
+      "size_bytes": 726
     },
     "12-AZ-IP/24-psicat-web-browser/desktop/main.js": {
       "description": "Product 24 Electron runtime \u2014 tabs, split workspaces, PsiCat sidecar, sync backend integration",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "0dc2029692b56e75e2769b216222918f6b3fea091643d2d46b5a79299e22974e",
-      "size_bytes": 27286
+      "sha256": "3b8ffc1b064091bd04d1f16d744d451896a72e892d2fe7783cfa185e58cb9936",
+      "size_bytes": 27678
     },
     "12-AZ-IP/24-psicat-web-browser/extension/manifest.json": {
       "description": "Product 24 Chrome/Edge extension manifest with side panel companion",
