@@ -606,14 +606,19 @@ if FASTAPI_AVAILABLE:
         return AssistantResponse(**result)
 
     @app.get("/api/context-scaffold")
-    async def get_context_scaffold(query: str, ast_file_limit: int = 3):
+    async def get_context_scaffold(query: str, ast_file_limit: str | int = 3):
         """Return a typed architectural context scaffold for a query."""
         query = (query or "").strip()
         if not query:
             raise HTTPException(status_code=400, detail="query must not be empty")
-        if ast_file_limit < 1:
-            raise HTTPException(status_code=400, detail="ast_file_limit must be >= 1")
-        scaffold = build_assistant_context_scaffold(query, ast_file_limit=ast_file_limit)
+        try:
+            parsed_ast_file_limit = int(ast_file_limit)
+        except (TypeError, ValueError):
+            parsed_ast_file_limit = ast_file_limit
+        else:
+            if parsed_ast_file_limit < 1:
+                raise HTTPException(status_code=400, detail="ast_file_limit must be >= 1")
+        scaffold = build_assistant_context_scaffold(query, ast_file_limit=parsed_ast_file_limit)
         return {
             "ok": True,
             "context_scaffold": scaffold,
