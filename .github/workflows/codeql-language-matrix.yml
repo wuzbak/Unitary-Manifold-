@@ -70,7 +70,7 @@ jobs:
               {
                   "slice_id": "rust-kernel",
                   "language": "rust",
-                  "build_mode": "autobuild",
+                  "build_mode": "none",
                   "paths": ["11-AZ-OS/ax-kernel", "12-AZ-IP/02-az-kernel"],
               },
               {
