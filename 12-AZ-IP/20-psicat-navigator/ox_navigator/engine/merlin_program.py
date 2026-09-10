@@ -7836,7 +7836,7 @@ def get_psicat_training_benchmarking_promotion_sprint(
             "has_training_board": len(training_board) >= 4,
             "has_stage_gate_summary": len(stage_gate_summary) == 5,
             "has_spc_lane_receipts": len(spc_lanes) == 3,
-            "has_sprint_routing": bool(str(appropriate_sprint.get("sprint_id") or "")),
+            "has_sprint_routing": bool(str(sprint_id or "")),
         },
         "honesty_note": (
             "This packet extends achievement/benchmark routing with explicit training execution visibility; "

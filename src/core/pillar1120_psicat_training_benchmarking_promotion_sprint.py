@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import importlib
-from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict
 
@@ -50,7 +49,6 @@ def _truth_surface_file_pass(truth_sync: Dict[str, Any], relative_path: str) -> 
     return False
 
 
-@lru_cache(maxsize=1)
 def psicat_training_benchmarking_promotion_sprint() -> Dict[str, Any]:
     merlin_program = _load('ox_navigator.engine.merlin_program')
     packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=2, training_limit=4)

@@ -1815,6 +1815,7 @@ def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatc
     assert packet['promotion_readiness']['decision'] == 'PROMOTION_NOT_EARNED_YET'
     assert packet['promotion_readiness']['promotion_language'] == 'FROZEN_PENDING_VISIBLE_GATES'
     assert packet['appropriate_promotion_sprint']['sprint_id'] == 'TRAINING_EXECUTION_REMEDIATION_SPRINT'
+    assert packet['validity_signals']['has_sprint_routing'] is True
 
 
 def test_training_benchmarking_promotion_sprint_missing_queue_after_not_clear(monkeypatch):
