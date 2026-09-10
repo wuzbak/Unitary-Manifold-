@@ -78,6 +78,13 @@ def _markdown_title(path: Path, *, fallback: str) -> str:
         text = path.read_text(encoding="utf-8")
     except OSError:
         return fallback
+
+
+def _safe_int(value: Any) -> int | None:
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return None
     for pattern in (r"^#\s+(.+)$", r"^##\s+(.+)$"):
         match = re.search(pattern, text, flags=re.MULTILINE)
         if match:
@@ -7342,10 +7349,12 @@ def get_psicat_training_benchmarking_promotion_sprint(
     has_queue_after_state = isinstance(raw_queue_after, dict) and all(
         key in raw_queue_after for key in ("stale_retrain_count", "needs_review_count")
     )
+    stale_retrain_count = _safe_int(queue_after.get("stale_retrain_count", 0) or 0)
+    needs_review_count = _safe_int(queue_after.get("needs_review_count", 0) or 0)
     training_queue_clear = (
         has_queue_after_state
-        and int(queue_after.get("stale_retrain_count", 0) or 0) == 0
-        and int(queue_after.get("needs_review_count", 0) or 0) == 0
+        and stale_retrain_count == 0
+        and needs_review_count == 0
     )
     training_ready = training_cycle_executed and training_queue_clear
     promotion_readiness["training_queue_clear"] = training_queue_clear
