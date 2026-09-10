@@ -152,9 +152,11 @@ from .merlin_runtime import empirical_observatory_check, run_kernel_p_lean_proof
 from .merlin_rag import (
     INTERROGATOR_ENTRIES,
     PILLAR_KNOWLEDGE,
+    build_context_scaffold,
     build_rag_context,
     build_status_response,
     lookup_kb,
+    render_context_scaffold,
 )
 from .merlin_energy_ledger import build_merlin_energy_ledger
 from .merlin_sync_contract import REQUIRED_TOOLKIT_FUNCTIONS
@@ -269,6 +271,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "listPillars", "summary": "List representative pillar records", "domain": "functions"},
             {"name": "getPillar", "summary": "Return one pillar by id", "domain": "functions"},
             {"name": "searchKnowledgeBase", "summary": "Search canonical Merlin KB", "domain": "functions"},
+            {"name": "getMerlinContextScaffold", "summary": "Return typed RAG context scaffold with AST/runtime hints", "domain": "functions"},
             {"name": "searchInterrogator", "summary": "Search bundled interrogator KB", "domain": "functions"},
             {"name": "getTensionMap", "summary": "Return interrogator sigma/confidence points", "domain": "functions"},
             {"name": "loadFlashcards", "summary": "Return Merlin flashcard deck", "domain": "functions"},
@@ -422,6 +425,17 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "searchKnowledgeBase": {
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
+        },
+        "getMerlinContextScaffold": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "ast_file_limit": {"type": "integer"},
+                },
+                "required": ["query"],
+                "additionalProperties": False,
+            },
         },
         "searchInterrogator": {
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "required": ["query"]},
@@ -965,6 +979,18 @@ def _coerce_positive_int(value: Any, default: int) -> int:
         return max(1, int(default))
 
 
+def _require_positive_int(value: Any, *, field_name: str, default: int) -> int:
+    if value is None:
+        return max(1, int(default))
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"Argument '{field_name}' must be a positive integer.") from exc
+    if parsed < 1:
+        raise ValueError(f"Argument '{field_name}' must be >= 1.")
+    return parsed
+
+
 def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple[bool, str]:
     properties = dict(schema.get("properties") or {})
     required = list(schema.get("required") or [])
@@ -1046,7 +1072,16 @@ def get_pillar(pillar_id: int) -> dict[str, Any]:
 
 
 def search_knowledge_base(query: str) -> dict[str, Any]:
-    return {"data": {"match": lookup_kb(query), "context": build_rag_context(query)}}
+    scaffold = build_context_scaffold(query)
+    return {"data": {"match": lookup_kb(query), "context": build_rag_context(query), "context_scaffold": scaffold}}
+
+
+def get_context_scaffold(query: str, ast_file_limit: int | None = None) -> dict[str, Any]:
+    scaffold = build_context_scaffold(
+        query,
+        ast_file_limit=_require_positive_int(ast_file_limit, field_name="ast_file_limit", default=5),
+    )
+    return {"data": {"context_scaffold": scaffold, "prompt_context": render_context_scaffold(scaffold)}}
 
 
 def search_interrogator(query: str) -> dict[str, Any]:
@@ -1076,6 +1111,10 @@ _FUNCTIONS = {
     "listPillars": list_pillars,
     "getPillar": lambda **args: get_pillar(int(args.get("pillar_id", args.get("id", 0)))),
     "searchKnowledgeBase": lambda **args: search_knowledge_base(str(args.get("query", ""))),
+    "getMerlinContextScaffold": lambda **args: get_context_scaffold(
+        str(args.get("query", "")),
+        args.get("ast_file_limit", 5),
+    ),
     "searchInterrogator": lambda **args: search_interrogator(str(args.get("query", ""))),
     "getTensionMap": lambda **args: get_tension_map(),
     "loadFlashcards": lambda **args: load_flashcards_tool(),

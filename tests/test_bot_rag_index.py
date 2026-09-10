@@ -6,13 +6,17 @@ from __future__ import annotations
 import pytest
 from pathlib import Path
 
+import bot.rag_index as rag_index_module
 from bot.rag_index import (
     KNOWLEDGE_BASE,
     DocumentChunk,
     RAGIndex,
     answer_question,
+    build_context_scaffold,
     build_default_index,
     build_runtime_knowledge_base,
+    detect_query_lane,
+    render_context_scaffold,
     retrieve_intent,
     build_intent_index,
 )
@@ -65,6 +69,89 @@ def test_runtime_knowledge_base_has_repo_state():
     kb = build_runtime_knowledge_base(Path(__file__).parent.parent)
     assert "repo_state" in kb
     assert "sources" in kb["repo_state"]
+
+
+def test_detect_query_lane_prefers_runtime_performance():
+    lane = detect_query_lane("Review runtime benchmark latency and training profile behavior.")
+    assert lane["lane_id"] == "runtime_performance"
+
+
+def test_detect_query_lane_defaults_to_physics_navigation_without_keyword_hits():
+    lane = detect_query_lane("Untethered umbrella harmonics without any indexed trigger words.")
+    assert lane["lane_id"] == "physics_navigation"
+
+
+def test_detect_query_lane_supports_multiword_keywords(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setitem(rag_index_module._LANE_HINTS["formal_proof"], "keywords", {"formal proof"})
+    lane = detect_query_lane("Please assemble a formal proof for this claim.")
+    assert lane["lane_id"] == "formal_proof"
+    assert lane["matched_keywords"] == "formal proof"
+
+
+def test_build_context_scaffold_includes_ast_and_tool_hints():
+    idx = RAGIndex()
+    scaffold = build_context_scaffold(idx, "How is alpha_gut derived?", repo_root=Path(__file__).parent.parent)
+    assert scaffold["schema_version"] == "rag_context_scaffold_v1"
+    assert scaffold["boundary"]["dominant_gate"] in {"HARDGATE", "DERIVED", "ARCHITECTURE_LIMIT"}
+    assert scaffold["ast"]["enabled"] is True
+    assert scaffold["tooling"]["suggested_endpoints"]
+
+
+def test_build_context_scaffold_collects_ast_hints_until_limit(monkeypatch: pytest.MonkeyPatch):
+    idx = RAGIndex()
+    repo_root = Path(__file__).parent.parent
+
+    python_path = repo_root / "src/core/metric.py"
+    ignored_path = repo_root / "README.md"
+
+    monkeypatch.setattr(idx, "lookup_kb", lambda _query: {"status": "hardgate", "sources": ["README.md", "src/core/metric.py"]})
+    monkeypatch.setattr(idx, "search", lambda _query, top_k=5: [])
+
+    def fake_build_ast_hint(_repo_root: Path, path: Path):
+        if path == python_path:
+            return {"path": "src/core/metric.py", "symbol_density": 3, "symbols": ["Metric", "curvature", "ricci"]}
+        return None
+
+    monkeypatch.setattr(rag_index_module, "_build_ast_hint", fake_build_ast_hint)
+    scaffold = build_context_scaffold(idx, "metric structure", repo_root=repo_root, ast_file_limit=1)
+    assert scaffold["ast"]["enabled"] is True
+    assert scaffold["ast"]["record_count"] == 1
+    assert scaffold["ast"]["files"][0]["path"] == "src/core/metric.py"
+
+
+def test_build_context_scaffold_clamps_negative_ast_limit():
+    idx = RAGIndex()
+    scaffold = build_context_scaffold(idx, "How is alpha_gut derived?", repo_root=Path(__file__).parent.parent, ast_file_limit=-5)
+    assert scaffold["ast"]["file_limit"] == 1
+    assert scaffold["tooling"]["ast_file_limit"] == 1
+
+
+def test_build_context_scaffold_falls_back_on_invalid_ast_limit():
+    idx = RAGIndex()
+    scaffold = build_context_scaffold(idx, "How is alpha_gut derived?", repo_root=Path(__file__).parent.parent, ast_file_limit="oops")
+    assert scaffold["ast"]["file_limit"] == 3
+    assert scaffold["tooling"]["ast_file_limit"] == 3
+
+
+def test_build_context_scaffold_deduplicates_provenance_sources(monkeypatch: pytest.MonkeyPatch):
+    idx = RAGIndex()
+    repo_root = Path(__file__).parent.parent
+    shared_chunk = DocumentChunk("README.md", "Readme", "physics navigation")
+
+    monkeypatch.setattr(idx, "lookup_kb", lambda _query: {"status": "hardgate", "sources": ["README.md"]})
+    monkeypatch.setattr(idx, "search", lambda _query, top_k=3: [(0.9, shared_chunk)])
+
+    scaffold = build_context_scaffold(idx, "physics navigation", repo_root=repo_root)
+    assert scaffold["provenance"]["source_count"] == 1
+    assert scaffold["provenance"]["sources"][0]["label"] == "README.md"
+
+
+def test_render_context_scaffold_contains_structural_sections():
+    idx = RAGIndex()
+    scaffold = build_context_scaffold(idx, "Inspect tool routing and agentToolkit orchestration.", repo_root=Path(__file__).parent.parent)
+    rendered = render_context_scaffold(scaffold)
+    assert "[CONTEXT SCAFFOLD]" in rendered
+    assert "[TOOL/RUNTIME HINTS]" in rendered
 
 
 # ---------------------------------------------------------------------------
@@ -197,6 +284,7 @@ def test_answer_question_source_type():
     idx = RAGIndex()
     result = answer_question(idx, "birefringence litebird prediction")
     assert result["source_type"] in ("knowledge_base", "document_retrieval", "no_result")
+    assert result["context_scaffold"]["schema_version"] == "rag_context_scaffold_v1"
 
 
 def test_answer_question_repo_state():

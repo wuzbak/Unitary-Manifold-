@@ -24,11 +24,12 @@ GitHub Copilot (AI).
 """
 from __future__ import annotations
 
+import ast
 import os
 import re
 import math
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from bot.session_bootstrap import current_intent_snapshot
 
@@ -37,7 +38,10 @@ __all__ = [
     "DocumentChunk",
     "answer_question",
     "build_default_index",
+    "build_context_scaffold",
     "build_intent_index",
+    "detect_query_lane",
+    "render_context_scaffold",
     "retrieve_intent",
 ]
 
@@ -68,6 +72,55 @@ DOCS_WEIGHT = 1.10
 TITLE_BONUS_WEIGHT = 0.25
 PHRASE_MATCH_BONUS = 0.15
 KB_PHRASE_MATCH_BONUS = 0.20
+_AST_CONTEXT_SKIP_PARTS = {".git", "__pycache__", ".venv", "venv", "node_modules", "build", "dist"}
+_GATE_PRIORITY = {
+    "GOVERNANCE": 5,
+    "HARDGATE": 4,
+    "DERIVED": 3,
+    "OPEN_GAP": 2,
+    "ARCHITECTURE_LIMIT": 1,
+    "ADJACENT_TRACK": 0,
+}
+_LANE_PRIORITY = {
+    "formal_proof": 5,
+    "memory_audit": 4,
+    "tool_orchestration": 3,
+    "runtime_performance": 2,
+    "repository_state": 1,
+    "physics_navigation": 0,
+}
+_LANE_HINTS = {
+    "formal_proof": {
+        "label": "Formal proof / theorem lane",
+        "keywords": {"proof", "theorem", "derive", "derivation", "lean", "hardgate", "formal"},
+        "tool_hints": ["/api/psicat/reasoning-chain", "/api/psicat/ast-context-records", "/api/psicat/training-dataset"],
+    },
+    "memory_audit": {
+        "label": "Memory / contradiction lane",
+        "keywords": {"memory", "contradiction", "drift", "recall", "audit", "history"},
+        "tool_hints": ["/api/psicat/memory", "/api/psicat/memory-geometry", "/api/psicat/counterexample-digest"],
+    },
+    "tool_orchestration": {
+        "label": "Tool routing / orchestration lane",
+        "keywords": {"tool", "tools", "route", "routing", "orchestrate", "agenttoolkit", "agentinvoke", "agentorchestrate"},
+        "tool_hints": ["/api/agentToolkit", "/api/agentInvoke", "/api/agentOrchestrate"],
+    },
+    "runtime_performance": {
+        "label": "Runtime / performance lane",
+        "keywords": {"runtime", "performance", "throughput", "benchmark", "training", "latency", "telemetry", "profile"},
+        "tool_hints": ["/api/psicat/lane-e-runtime-profiles", "/api/psicat/training-execution-bundle", "/api/psicat/telemetry"],
+    },
+    "repository_state": {
+        "label": "Repository status lane",
+        "keywords": {"status", "wave", "regression", "tests", "changelog", "repo", "repository"},
+        "tool_hints": ["/api/status", "/api/pillars"],
+    },
+    "physics_navigation": {
+        "label": "Physics / repository navigation lane",
+        "keywords": {"pillar", "litebird", "birefringence", "desi", "metric", "boundary", "prediction", "physics"},
+        "tool_hints": ["/api/status", "/api/pillars", "/api/pillar/{pillar_id}"],
+    },
+}
 
 # ---------------------------------------------------------------------------
 # Structured knowledge base — key facts hard-coded for reliability
@@ -353,12 +406,29 @@ def _normalize_token(token: str) -> str:
     return _TOKEN_ALIASES.get(token, token)
 
 
+def _normalize_positive_limit(value: Any, default: int) -> int:
+    try:
+        return max(1, int(default if value is None else value))
+    except (TypeError, ValueError):
+        return max(1, int(default))
+
+
 def _tokenize(text: str) -> Set[str]:
     return {
         _normalize_token(token)
         for token in re.findall(r"\w+", text.lower())
         if token.strip()
     }
+
+
+def _matches_lane_keyword(query_tokens: Set[str], normalized_query: str, keyword: str) -> bool:
+    normalized_keyword = str(keyword or "").strip().lower()
+    if not normalized_keyword:
+        return False
+    if " " in normalized_keyword:
+        pattern = r"\b" + re.escape(normalized_keyword).replace(r"\ ", r"\s+") + r"\b"
+        return re.search(pattern, normalized_query) is not None
+    return _normalize_token(normalized_keyword) in query_tokens
 
 
 def _safe_read_text(path: Path) -> str:
@@ -418,6 +488,282 @@ def build_runtime_knowledge_base(repo_root: Optional[Path] = None) -> Dict[str, 
         }
 
     return kb
+
+
+def _normalize_gate_label(status: str) -> str:
+    sample = str(status or "").strip().upper()
+    if "GOVERNANCE" in sample:
+        return "GOVERNANCE"
+    if "ADJACENT" in sample:
+        return "ADJACENT_TRACK"
+    if "OPEN_GAP" in sample or "HONEST_OPEN_PROBLEM" in sample:
+        return "OPEN_GAP"
+    if "ARCHITECTURE_LIMIT" in sample or "CONSTRAINED" in sample or "PENDING" in sample:
+        return "ARCHITECTURE_LIMIT"
+    if "DERIVED" in sample:
+        return "DERIVED"
+    if "GEOMETRIC_PREDICTION" in sample or "HARDGATE" in sample or "CERTIFIED" in sample:
+        return "HARDGATE"
+    return "ARCHITECTURE_LIMIT"
+
+
+def detect_query_lane(query: str) -> Dict[str, str]:
+    normalized_query = str(query or "").lower()
+    query_tokens = _tokenize(query)
+    best_lane = "physics_navigation"
+    best_matches: list[str] = []
+    best_rank = (0, 0, 0, _LANE_PRIORITY[best_lane])
+    for lane_id, config in _LANE_HINTS.items():
+        matched = sorted([
+            keyword
+            for keyword in config["keywords"]
+            if _matches_lane_keyword(query_tokens, normalized_query, keyword)
+        ])
+        if not matched:
+            continue
+        lane_rank = (
+            len(matched),
+            max(len(keyword.split()) for keyword in matched),
+            max(len(keyword) for keyword in matched),
+            _LANE_PRIORITY.get(lane_id, 0),
+        )
+        if lane_rank > best_rank:
+            best_lane = lane_id
+            best_matches = matched
+            best_rank = lane_rank
+    matched_keywords = best_matches[:6]
+    return {
+        "lane_id": best_lane,
+        "label": _LANE_HINTS[best_lane]["label"],
+        "matched_keywords": ", ".join(matched_keywords) if matched_keywords else "none",
+        "tool_bias": "structural_context_first",
+    }
+
+
+def _existing_source_path(repo_root: Path, source: str) -> Path | None:
+    cleaned = str(source or "").strip()
+    if not cleaned or "://" in cleaned:
+        return None
+    cleaned = cleaned.split(" §", 1)[0].strip()
+    cleaned = cleaned.split(" line ", 1)[0].strip()
+    candidate = repo_root / cleaned
+    return candidate if candidate.exists() else None
+
+
+def _related_test_paths(repo_root: Path, path: Path) -> list[str]:
+    candidates = [
+        repo_root / "tests" / f"test_{path.stem}.py",
+        path.with_name(f"test_{path.stem}.py"),
+    ]
+    seen: list[str] = []
+    for candidate in candidates:
+        if candidate.exists():
+            rel = candidate.relative_to(repo_root).as_posix()
+            if rel not in seen:
+                seen.append(rel)
+    return seen[:3]
+
+
+def _build_ast_hint(repo_root: Path, path: Path) -> dict[str, Any] | None:
+    if path.suffix != ".py" or any(part in _AST_CONTEXT_SKIP_PARTS for part in path.parts):
+        return None
+    try:
+        source = path.read_text(encoding="utf-8")
+        tree = ast.parse(source)
+    except (OSError, SyntaxError):
+        return None
+    functions: list[str] = []
+    classes: list[str] = []
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            functions.append(node.name)
+        elif isinstance(node, ast.ClassDef):
+            classes.append(node.name)
+    if not functions and not classes:
+        return None
+    rel = path.relative_to(repo_root).as_posix()
+    return {
+        "path": rel,
+        "module_doc_excerpt": (ast.get_docstring(tree) or "").strip()[:180],
+        "function_count": len(functions),
+        "class_count": len(classes),
+        "function_names": functions[:12],
+        "class_names": classes[:12],
+        "symbol_density": len(functions) + len(classes),
+        "related_tests": _related_test_paths(repo_root, path),
+    }
+
+
+def build_context_scaffold(
+    index: "RAGIndex",
+    query: str,
+    *,
+    repo_root: Optional[Path] = None,
+    top_k: int = 3,
+    ast_file_limit: int = 3,
+) -> Dict[str, Any]:
+    if repo_root is None:
+        repo_root = Path(__file__).parent.parent
+    lane = detect_query_lane(query)
+    kb_entry = index.lookup_kb(query)
+    retrieval_results = index.search(query, top_k=top_k)
+    top_chunks = [
+        {
+            "score": round(float(score), 4),
+            "source": chunk.source,
+            "title": chunk.title,
+            "excerpt": chunk.text[:220],
+        }
+        for score, chunk in retrieval_results
+        if score > 0.0
+    ]
+    provenance_sources: list[dict[str, Any]] = []
+    seen_provenance_labels: set[str] = set()
+    seen_paths: set[str] = set()
+    candidate_paths: list[Path] = []
+
+    def append_provenance(label: str, *, kind: str, gate: str, confidence_tier: str = "retrieved") -> None:
+        if label in seen_provenance_labels:
+            return
+        seen_provenance_labels.add(label)
+        provenance_sources.append({
+            "label": label,
+            "path": label,
+            "kind": kind,
+            "gate": gate,
+            "confidence_tier": confidence_tier,
+        })
+
+    if kb_entry is not None:
+        gate = _normalize_gate_label(kb_entry.get("status", ""))
+        for source in kb_entry.get("sources", [])[:6]:
+            label = str(source)
+            append_provenance(label, kind="knowledge_base", gate=gate)
+            real_path = _existing_source_path(repo_root, label)
+            if real_path is not None and real_path.as_posix() not in seen_paths:
+                candidate_paths.append(real_path)
+                seen_paths.add(real_path.as_posix())
+    for item in top_chunks:
+        label = str(item["source"])
+        append_provenance(label, kind="document_chunk", gate="ARCHITECTURE_LIMIT")
+        real_path = _existing_source_path(repo_root, label)
+        if real_path is not None and real_path.as_posix() not in seen_paths:
+            candidate_paths.append(real_path)
+            seen_paths.add(real_path.as_posix())
+    ast_limit = _normalize_positive_limit(ast_file_limit, 3)
+    ast_hints: list[dict[str, Any]] = []
+    for path in candidate_paths:
+        hint = _build_ast_hint(repo_root, path)
+        if hint is not None:
+            ast_hints.append(hint)
+            if len(ast_hints) >= ast_limit:
+                break
+    normalized_gates = [
+        *([_normalize_gate_label(kb_entry.get("status", ""))] if kb_entry is not None else []),
+        *[item["gate"] for item in provenance_sources if item.get("gate")],
+    ]
+    gate_candidates = {gate for gate in normalized_gates if gate}
+    dominant_gate = sorted(
+        gate_candidates,
+        key=lambda item: (-_GATE_PRIORITY.get(item, -1), item),
+    )[0] if gate_candidates else "ARCHITECTURE_LIMIT"
+    guardrails = {
+        "context_role": "architectural_scaffold",
+        "do_not_treat_as": "raw_core_memory_dump",
+        "keep_primary_model_focus": "reason_over_scoped_context_only",
+        "dominant_gate": dominant_gate,
+    }
+    return {
+        "schema_version": "rag_context_scaffold_v1",
+        "query": str(query or ""),
+        "lane": lane,
+        "boundary": {
+            "dominant_gate": dominant_gate,
+            "guardrails": guardrails,
+        },
+        "retrieval": {
+            "knowledge_match": (
+                {
+                    "topic": kb_entry.get("topic", ""),
+                    "status": kb_entry.get("status", ""),
+                    "answer": kb_entry.get("answer", ""),
+                    "sources": list(kb_entry.get("sources", [])),
+                }
+                if kb_entry is not None
+                else None
+            ),
+            "top_chunks": top_chunks,
+        },
+        "ast": {
+            "enabled": bool(ast_hints),
+            "file_limit": ast_limit,
+            "record_count": len(ast_hints),
+            "symbol_count_total": sum(int(item["symbol_density"]) for item in ast_hints),
+            "files": ast_hints,
+        },
+        "tooling": {
+            "suggested_endpoints": list(_LANE_HINTS.get(lane["lane_id"], {}).get("tool_hints", [])),
+            "ast_file_limit": ast_limit,
+            "retrieval_mode": "scaffold_before_generation",
+        },
+        "provenance": {
+            "source_count": len(provenance_sources),
+            "sources": provenance_sources[:10],
+        },
+    }
+
+
+def render_context_scaffold(scaffold: Dict[str, Any]) -> str:
+    lane = dict(scaffold.get("lane") or {})
+    boundary = dict(scaffold.get("boundary") or {})
+    retrieval = dict(scaffold.get("retrieval") or {})
+    ast_payload = dict(scaffold.get("ast") or {})
+    tooling = dict(scaffold.get("tooling") or {})
+    lines = [
+        "[CONTEXT SCAFFOLD]",
+        f"Lane: {lane.get('lane_id', 'unknown')} | {lane.get('label', '')}",
+        f"Matched keywords: {lane.get('matched_keywords', 'none')}",
+        f"Dominant gate: {boundary.get('dominant_gate', 'ARCHITECTURE_LIMIT')}",
+        "Role: architectural scaffold; not a raw memory dump.",
+    ]
+    kb_match = retrieval.get("knowledge_match")
+    if isinstance(kb_match, dict):
+        lines.extend([
+            "",
+            "[KNOWLEDGE BASE MATCH]",
+            f"Topic: {kb_match.get('topic', '')}",
+            f"Status: {kb_match.get('status', '')}",
+            f"Answer: {kb_match.get('answer', '')}",
+            f"Sources: {', '.join(kb_match.get('sources', []))}",
+        ])
+    chunks = list(retrieval.get("top_chunks") or [])
+    if chunks:
+        lines.append("")
+        lines.append("[RETRIEVAL HITS]")
+        for item in chunks[:3]:
+            lines.append(
+                f"- {item.get('source', '')} | score={float(item.get('score', 0.0)):.3f} | {item.get('title', '')}"
+            )
+    ast_files = list(ast_payload.get("files") or [])
+    if ast_files:
+        lines.append("")
+        lines.append("[AST STRUCTURE]")
+        for item in ast_files[:3]:
+            fn_names = ",".join(item.get("function_names", [])[:6]) or "none"
+            cls_names = ",".join(item.get("class_names", [])[:4]) or "none"
+            lines.append(
+                f"- {item.get('path', '')} | fn={item.get('function_count', 0)} [{fn_names}] | "
+                f"cls={item.get('class_count', 0)} [{cls_names}]"
+            )
+    endpoints = list(tooling.get("suggested_endpoints") or [])
+    if endpoints:
+        lines.extend([
+            "",
+            "[TOOL/RUNTIME HINTS]",
+            f"Suggested endpoints: {', '.join(endpoints)}",
+            f"AST file limit: {tooling.get('ast_file_limit', 0)}",
+        ])
+    return "\n".join(lines)
 
 
 class DocumentChunk:
@@ -643,6 +989,7 @@ def answer_question(index: RAGIndex, query: str, top_k: int = 3) -> Dict:
     -------
     dict with 'answer', 'source_type', 'context_chunks', and 'query'.
     """
+    scaffold = build_context_scaffold(index, query)
     # Try KB lookup first
     kb_entry = index.lookup_kb(query)
     if kb_entry is not None:
@@ -654,6 +1001,7 @@ def answer_question(index: RAGIndex, query: str, top_k: int = 3) -> Dict:
             "status": kb_entry.get("status", ""),
             "sources": kb_entry.get("sources", []),
             "context_chunks": [],
+            "context_scaffold": scaffold,
         }
 
     # Fall back to document retrieval
@@ -668,6 +1016,7 @@ def answer_question(index: RAGIndex, query: str, top_k: int = 3) -> Dict:
             ),
             "source_type": "no_result",
             "context_chunks": [],
+            "context_scaffold": scaffold,
         }
 
     context_chunks = [
@@ -690,6 +1039,7 @@ def answer_question(index: RAGIndex, query: str, top_k: int = 3) -> Dict:
         "source_type": "document_retrieval",
         "context_chunks": context_chunks,
         "sources": [chunk["source"] for chunk in context_chunks],
+        "context_scaffold": scaffold,
     }
 
 

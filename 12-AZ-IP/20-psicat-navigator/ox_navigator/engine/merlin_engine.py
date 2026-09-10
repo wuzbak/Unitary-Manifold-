@@ -27,7 +27,7 @@ from .merlin_persona import (
     persona_governance_violations,
 )
 from .merlin_router import choose_runtime
-from .merlin_rag import build_rag_context, closest_pillar, lookup_kb, retrieve_context
+from .merlin_rag import build_context_scaffold, build_rag_context, closest_pillar, lookup_kb, retrieve_context
 from .merlin_rag import build_status_response
 from .merlin_runtime import run_kernel_p_lean_proof_probe, run_post_turn_compilation
 from .merlin_sentinel import evaluate_query, render_block_message
@@ -787,7 +787,8 @@ async def query_merlin(
     )
     context = retrieve_context(text)
     benchmark_match = match_benchmark_for_query(text)
-    rag_context = build_rag_context(text)
+    context_scaffold = build_context_scaffold(text, session=session)
+    rag_context = build_rag_context(text, session=session)
     urls = extract_urls(text)
     crawled = [_crawl_page(url) for url in urls]
     if on_status is not None:
@@ -818,6 +819,13 @@ async def query_merlin(
                 "[GEOMETRIC MEMORY LANDMARKS]\n"
                 f"{geometric_summary}\n"
                 f"[GEOMETRIC MEMORY MODEL]\n{str(geometric_memory.get('model') or 'unknown')}"
+            ),
+        },
+        {
+            "role": "system",
+            "content": (
+                "[TYPED CONTEXT SCAFFOLD]\n"
+                f"{json.dumps(context_scaffold, ensure_ascii=False)[:8000]}"
             ),
         },
         {"role": "system", "content": f"[EARLIER CONVERSATION SUMMARY]\n{compressed['summary']}"},
@@ -1013,6 +1021,7 @@ async def query_merlin(
         "compile_time_ingestion": ingestion,
         "benchmark_eval": None,
         "max_rigor": max_rigor,
+        "context_scaffold": context_scaffold,
         "geometric_memory_map": geometric_memory,
         "active_kernel": {
             "kernel_id": str(kernel.get("id") or "kernel_s"),

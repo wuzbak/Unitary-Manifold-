@@ -74,6 +74,7 @@ from ox_navigator.engine.merlin_program import (
     run_sync_checks,
 )
 from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
+from ox_navigator.engine.merlin_rag import build_context_scaffold, render_context_scaffold
 from ox_navigator.engine.merlin_router import get_router_policy
 from ox_navigator.engine.merlin_telemetry import build_energy_ledger
 from ox_navigator.engine.merlin_testing_stack import get_psicat_prompt_contracts, get_psicat_testing_stack
@@ -597,6 +598,23 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({'ok': False, 'error': error}, status=400)
                     return
                 self._json({'ok': True, 'reasoning_chain': get_reasoning_chain(query, max_hops=max_hops)})
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/context-scaffold':
+                query = str(params.get('query', [''])[0] or '').strip()
+                if not query:
+                    self._json({'ok': False, 'error': "Query parameter 'query' is required."}, status=400)
+                    return
+                ast_file_limit, error = _parse_positive_int_query_param(params, 'ast_file_limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                scaffold = build_context_scaffold(query, session=merlin_session, ast_file_limit=ast_file_limit)
+                self._json({
+                    'ok': True,
+                    'context_scaffold': scaffold,
+                    'prompt_context': render_context_scaffold(scaffold),
+                })
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/counterexample-digest':

@@ -122,7 +122,7 @@ from .merlin_program import (
 )
 from .merlin_admission import evaluate_model_admission, get_model_admission_policy
 from .merlin_router import choose_runtime, get_router_policy
-from .merlin_rag import build_rag_context, closest_pillar, lookup_kb, retrieve_context
+from .merlin_rag import build_context_scaffold, build_rag_context, closest_pillar, lookup_kb, retrieve_context
 from .merlin_tools import get_path, get_toolkit_view, orchestrate_steps, route_tool
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 from .pillar_graph import PILLAR_DEPENDENCY_GRAPH, find_critical_path, get_dependencies, get_dependents
@@ -138,7 +138,7 @@ __all__ = [
     'get_theorems_by_pillar', 'PILLAR_DEPENDENCY_GRAPH', 'get_dependencies', 'get_dependents',
     'find_critical_path', 'MerlinSession', 'MERLIN_ACTIVE_SESSION_KEY', 'MERLIN_CACHE_KEY',
     'MERLIN_MAX_HISTORY', 'build_persona_prompt', 'build_system_prompt', 'detect_persona_mode',
-    'extract_urls', 'is_internal_question', 'persona_governance_violations', 'lookup_kb', 'retrieve_context', 'build_rag_context',
+    'extract_urls', 'is_internal_question', 'persona_governance_violations', 'lookup_kb', 'retrieve_context', 'build_context_scaffold', 'build_rag_context',
     'closest_pillar', 'extract_tool_call', 'strip_tool_call', 'query_merlin', 'get_toolkit_view',
     'route_tool', 'orchestrate_steps', 'get_path', 'CANONICAL_IDENTITY', 'ALLOWED_ALIASES',
     'FORBIDDEN_ALIASES', 'TRUSTED_SOURCES_RANKED', 'get_identity_policy', 'detect_identity_mentions',
