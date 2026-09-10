@@ -64,6 +64,16 @@ def test_local_execution_loop_sanitizes_environment(monkeypatch):
     assert result["execution"]["stdout"].strip() == ""
 
 
+def test_local_execution_loop_timeout_fails_closed():
+    result = run_local_execution_loop(
+        command='python -c "import time; time.sleep(6)"',
+        timeout_seconds=5,
+    )
+    assert result["ok"] is False
+    assert result["governance"]["reason"] == "command_timeout"
+    assert "timeout" in result["contract"]["body"].lower()
+
+
 def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypatch):
     from ox_navigator.app import server as server_module
 

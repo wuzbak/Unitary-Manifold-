@@ -258,7 +258,7 @@ def run_local_execution_loop(
         }
 
     max_timeout = _max_timeout_seconds()
-    timeout = max_timeout if timeout_seconds is None else max(1, int(timeout_seconds))
+    timeout = max_timeout if timeout_seconds is None else max(5, int(timeout_seconds))
     timeout = min(timeout, max_timeout)
     started_at = _utcnow()
     try:
