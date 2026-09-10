@@ -205,6 +205,7 @@ def _run_scoped_build(*, module_name: str, timeout_seconds: int = 45) -> dict[st
 
 def get_merlin_lean_bridge_artifact(limit: int | None = None) -> dict[str, Any]:
     snapshot, bridge_contract = _formal_bridge_snapshot()
+    backend_state = detect_lean_bridge_backends()
     units = list(bridge_contract.get("formal_units") or [])
     resolved_limit = None if limit is None or int(limit) <= 0 else int(limit)
     if resolved_limit is not None:
@@ -213,7 +214,7 @@ def get_merlin_lean_bridge_artifact(limit: int | None = None) -> dict[str, Any]:
         "artifact_id": "merlin_lean_bridge_artifact_v1",
         "strategy": str(bridge_contract.get("strategy") or "LSP_PLUS_REPL_HYBRID"),
         "theorem_count_receipt": get_live_theorem_count_receipt(),
-        "backend_state": detect_lean_bridge_backends(),
+        "backend_state": backend_state,
         "runtime_alignment": dict(snapshot.get("runtime_alignment") or {}),
         "formal_units": units,
         "bridge_contract": {
@@ -225,7 +226,7 @@ def get_merlin_lean_bridge_artifact(limit: int | None = None) -> dict[str, Any]:
         "counts": {
             "formal_unit_count": len(units),
             "available_external_backend_count": sum(
-                1 for item in list((detect_lean_bridge_backends().get("external_backends") or [])) if item.get("available")
+                1 for item in list((backend_state.get("external_backends") or [])) if item.get("available")
             ),
         },
     }

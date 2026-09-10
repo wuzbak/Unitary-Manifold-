@@ -632,7 +632,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 },
                 })
                 return
-            if route_path == '/api/psicat/lean-bridge':
+            if route_path in {'/api/psicat/lean-bridge', '/api/merlin/lean-bridge'}:
                 limit, error = _parse_int_query_param(params, 'limit', 0)
                 if error:
                     self._json({'ok': False, 'error': error}, status=400)
