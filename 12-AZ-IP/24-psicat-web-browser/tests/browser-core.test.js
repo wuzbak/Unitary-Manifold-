@@ -105,12 +105,14 @@ test('createSyncPacket excludes private browsing artifacts', () => {
   state = core.addBookmark(state, { title: 'Private', url: 'https://private.example', private: true });
   state = core.addNotebookEntry(state, { title: 'Private note', text: 'secret', private: true });
   state = core.rememberPage(state, { title: 'Private', url: 'https://private.example', text: 'secret', private: true });
+  state = core.addDownload(state, { fileName: 'kept-download.bin', url: 'https://downloads.example/file.bin' });
   const packet = core.createSyncPacket(state);
   assert.equal(packet.tabs.some((tab) => tab.private), false);
   assert.equal(packet.history.some((entry) => entry.private), false);
   assert.equal(packet.bookmarks.some((entry) => entry.private), false);
   assert.equal(packet.notebookEntries.some((entry) => entry.private), false);
   assert.equal(packet.rememberedPages.some((entry) => entry.private), false);
+  assert.equal(packet.downloads[0].fileName, 'kept-download.bin');
 });
 
 test('sync policy only uses backend for account-enabled sync', () => {

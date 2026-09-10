@@ -24,6 +24,12 @@ class Product24StructureTests(unittest.TestCase):
         package_json = json.loads((PRODUCT_ROOT / 'package.json').read_text(encoding='utf-8'))
         self.assertEqual(package_json['main'], 'desktop/main.js')
         self.assertEqual(package_json['scripts']['start'], 'electron .')
+        self.assertIn('playwright test', package_json['scripts']['test'])
+
+    def test_playwright_config_exists_for_browser_proving_ground(self) -> None:
+        config = (PRODUCT_ROOT / 'playwright.config.js').read_text(encoding='utf-8')
+        self.assertIn("testDir: './tests/e2e'", config)
+        self.assertIn('python3 -m http.server', config)
 
     def test_resume_ledger_points_to_readme_entrypoint(self) -> None:
         resume = json.loads((PRODUCT_ROOT / 'SESSION_RESUME.json').read_text(encoding='utf-8'))

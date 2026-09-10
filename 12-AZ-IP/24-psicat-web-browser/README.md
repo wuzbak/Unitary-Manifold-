@@ -20,7 +20,7 @@ PsiCat Web Browser is the canonical **Product 24** browser surface for AxiomZero
 - `extension/` — Chrome/Edge extension companion
 - `android/` — native Android browser shell
 - `sync_backend/` — local Python sync scaffold for desktop + Android packet exchange
-- `tests/` — Node unit tests for shared browser-state and page-context logic
+- `tests/` — Playwright browser tests plus targeted Node/Python coverage for shared state and sync scaffolds
 - `SESSION_RESUME.json` — interruption-safe execution ledger
 
 ## Desktop quick start
@@ -40,6 +40,13 @@ npm start
   `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/24-psicat-web-browser/sync_backend/server.py`
 - Backend sync requires both a sync account email and a sync access token; the scaffold uses that token to guard account-scoped packet push/pull on the trusted endpoint.
 - If Product 20 is unavailable, PsiCat falls back to clearly labeled local research summarization.
+
+## Test standard
+
+- **Playwright is now the default browser test standard for Product 24.**
+- Run the proving ground first from:
+  `cd /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/24-psicat-web-browser && npm test`
+- The default test script now runs Playwright browser coverage before the targeted Node unit tests.
 
 ## Android structure
 
@@ -71,6 +78,7 @@ Implemented now:
 - Chrome/Edge extension foundation with side panel and local/page-aware research tools
 - local Python sync service scaffold for desktop/Android packet exchange on a trusted endpoint
 - account-scoped sync token checks in the scaffold rather than open unauthenticated packet reads/writes
+- Playwright browser-driven proving-ground tests for the desktop UI shell before PR-ready validation
 
 Not yet fully implemented in this foundation:
 - hardened production-grade cloud sync service backend

@@ -1,8 +1,8 @@
 {
   "product": 24,
   "name": "PsiCat Web Browser",
-  "status": "workspace_and_sync_scaffold_in_progress",
-  "updated": "2026-09-10T04:05:33Z",
+  "status": "playwright_browser_standard_in_progress",
+  "updated": "2026-09-10T04:22:28Z",
   "completed": [
     "requirements mapped for Electron desktop, Android native-tab shell, and Chrome/Edge extension",
     "npm/electron scaffold created",
@@ -17,7 +17,8 @@
     "android packaging now includes backup/data transfer and local cleartext network config for localhost PsiCat access",
     "desktop foundation now includes split-workspace layout controls and saved workspaces",
     "desktop and android now target a shared local sync backend scaffold with token-guarded push/pull packet exchange",
-    "android backup is disabled while notebook/history/sync metadata still live in shared preferences"
+    "android backup is disabled while notebook/history/sync metadata still live in shared preferences",
+    "Playwright is now the default browser test standard for Product 24 and runs before unit tests"
   ],
   "next_steps": [
     "run a live Electron smoke session on a desktop host beyond sandbox constraints",

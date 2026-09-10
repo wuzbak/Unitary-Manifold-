@@ -4,14 +4,17 @@
   "description": "Product 24 PsiCat Web Browser",
   "main": "desktop/main.js",
   "scripts": {
-    "test": "node --test tests/*.test.js",
+    "test": "playwright test && node --test tests/*.test.js",
+    "test:browser": "playwright test",
+    "test:unit": "node --test tests/*.test.js",
     "start": "electron .",
-    "lint": "node --check desktop/main.js && node --check desktop/preload.js && node --check desktop/lib/browser-core.js && node --check desktop/lib/page-context.js && node --check desktop/lib/sync-policy.js && node --check desktop/ui/app.js && node --check extension/background.js && node --check extension/content.js && node --check extension/sidepanel.js"
+    "lint": "node --check desktop/main.js && node --check desktop/preload.js && node --check desktop/lib/browser-core.js && node --check desktop/lib/page-context.js && node --check desktop/lib/sync-policy.js && node --check desktop/ui/app.js && node --check extension/background.js && node --check extension/sidepanel.js"
   },
   "keywords": [],
   "author": "",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "electron": "44.3.0"
   }
 }

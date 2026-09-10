@@ -211,7 +211,9 @@ async function boot() {
   };
   byId('sync-pull').onclick = async () => {
     const result = await window.psicatBrowser.syncPull();
-    byId('answer').textContent = `Backend sync pulled from ${result.updated_at || 'remote store'}`;
+    byId('answer').textContent = result.skipped
+      ? result.message
+      : `Backend sync pulled from ${result.updated_at || 'remote store'}`;
   };
   byId('import-research').onclick = () => window.psicatBrowser.importResearchFiles();
   byId('export-research').onclick = () => window.psicatBrowser.exportResearchBundle();

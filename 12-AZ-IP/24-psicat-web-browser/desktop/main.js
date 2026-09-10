@@ -694,7 +694,9 @@ function installIpc() {
     return pushSyncToBackend();
   });
   ipcMain.handle('browser:sync-pull', async () => {
-    if (!syncPolicy.shouldUseBackendSync(state)) return writeSyncMirror('local-mirror');
+    if (!syncPolicy.shouldUseBackendSync(state)) {
+      return { skipped: true, message: 'Local-only mode leaves remote pull disabled.' };
+    }
     return pullSyncFromBackend();
   });
   ipcMain.handle('browser:open-external', async (_event, url) => shell.openExternal(url));

@@ -420,6 +420,7 @@ class MainActivity : AppCompatActivity() {
                 }
         }
         val syncObject = packet.optJSONObject("sync")
+        val settingsObject = packet.optJSONObject("settings")
         val syncAccountEmail = packet.optString("syncAccountEmail")
             .ifBlank { syncObject?.optString("accountEmail").orEmpty() }
         val syncMode = packet.optString("syncMode")
@@ -428,6 +429,12 @@ class MainActivity : AppCompatActivity() {
         prefs().edit()
             .putString("sync_account_email", syncAccountEmail)
             .putString("sync_mode", syncMode)
+            .putString("sync_backend_endpoint", settingsObject?.optString("syncBackendEndpoint").orEmpty().ifBlank {
+                prefs().getString("sync_backend_endpoint", "http://127.0.0.1:8787")
+            })
+            .putString("psicat_endpoint", settingsObject?.optString("psicatEndpoint").orEmpty().ifBlank {
+                prefs().getString("psicat_endpoint", "http://127.0.0.1:8020")
+            })
             .putString("last_sync_at", timestamp())
             .apply()
         persistSessionState()

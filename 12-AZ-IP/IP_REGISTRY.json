@@ -384,24 +384,24 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "cbd7b69694a8e1261810d433de1d5d5950811935c177fab9fd6d1347c26960b1",
-      "size_bytes": 5335
+      "sha256": "ecd8903e70ff395b3115f54942e7ac3e857e8097634b9e61d1fcae5773bcbf43",
+      "size_bytes": 5802
     },
     "12-AZ-IP/24-psicat-web-browser/package.json": {
-      "description": "Product 24 Electron package manifest and test scripts",
+      "description": "Product 24 Electron package manifest and Playwright-first test scripts",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "34f443ccde681bb3d8d85ea4ade51bf747fd19a8f64bb63596391bf1942b2368",
-      "size_bytes": 726
+      "sha256": "a08625f00a0514c81e400c4beb849289c2c3760f9e65523eb506de76ea3a12c1",
+      "size_bytes": 830
     },
     "12-AZ-IP/24-psicat-web-browser/desktop/main.js": {
       "description": "Product 24 Electron runtime \u2014 tabs, split workspaces, PsiCat sidecar, sync backend integration",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "3b8ffc1b064091bd04d1f16d744d451896a72e892d2fe7783cfa185e58cb9936",
-      "size_bytes": 27678
+      "sha256": "db59a3f46485e24cd5868cbf9085911d05ab189de0f4c6dc13eef8e97861f119",
+      "size_bytes": 27735
     },
     "12-AZ-IP/24-psicat-web-browser/extension/manifest.json": {
       "description": "Product 24 Chrome/Edge extension manifest with side panel companion",
@@ -424,8 +424,8 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-09-10",
-      "sha256": "857d4d9728a5099f8a5c93631ec49288a3fee00f50d954b6cb6c51e717586b50",
-      "size_bytes": 2100
+      "sha256": "2b341b82d6500beadb9994d13ddc734776dbc375dded3fd9c4066b3982048cbf",
+      "size_bytes": 2201
     },
     "12-AZ-IP/24-psicat-web-browser/sync_backend/server.py": {
       "description": "Product 24 local sync backend scaffold for account-scoped packet push and pull",
@@ -434,6 +434,14 @@
       "updated": "2026-09-10",
       "sha256": "867d86ff0b7d7dc4fa785cd1592b4d32c541e3735ce7204780eb36c9b1b9f54f",
       "size_bytes": 5086
+    },
+    "12-AZ-IP/24-psicat-web-browser/playwright.config.js": {
+      "description": "Product 24 Playwright-first browser proving-ground test configuration",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-09-10",
+      "sha256": "29f508dc743f95bcddd890fa327c2592495e883e60b5c21aee5b830188e23c72",
+      "size_bytes": 399
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
