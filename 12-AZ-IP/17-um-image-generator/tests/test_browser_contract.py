@@ -37,7 +37,7 @@ def test_um_image_generator_browser_contract(browser_name: str) -> None:
                         const current = document.getElementById('vizTitle').textContent;
                         return current && current !== previous;
                     }""",
-                    initial_title,
+                    arg=initial_title,
                 )
                 canvas_size = page.evaluate(
                     """() => {

@@ -38,7 +38,7 @@ def test_um_reader_browser_contract(browser_name: str) -> None:
                         const current = document.getElementById('readerTitle').textContent;
                         return current && current !== previous;
                     }""",
-                    initial_title,
+                    arg=initial_title,
                 )
                 assert ".md" in (page.locator("#readerOpenLink").get_attribute("href") or "")
                 assert "0 items" not in (page.locator("#readerCount").text_content() or "")
