@@ -7763,6 +7763,11 @@ def get_psicat_training_benchmarking_promotion_sprint(
         else "PROMOTION_NOT_EARNED_YET"
     )
     promotion_readiness["promotion_language"] = (
+        "PROMOTION_SPRINT_ADVANCE_ALLOWED"
+        if final_decision_allowed
+        else "FROZEN_PENDING_VISIBLE_GATES"
+    )
+    promotion_readiness["promotion_receipt_policy"] = (
         "ADVANCE_WITH_RECEIPTS_ONLY"
         if final_decision_allowed
         else "FROZEN_PENDING_VISIBLE_GATES"

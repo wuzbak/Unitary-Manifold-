@@ -1763,6 +1763,8 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert training_promotion_sprint_data['promotion_readiness']['training_cycle_executed'] is True
     assert training_promotion_sprint_data['promotion_readiness']['training_cycle_processed_count'] > 0
     assert training_promotion_sprint_data['promotion_readiness']['training_ready'] is True
+    assert training_promotion_sprint_data['promotion_readiness']['promotion_language'] == 'PROMOTION_SPRINT_ADVANCE_ALLOWED'
+    assert training_promotion_sprint_data['promotion_readiness']['promotion_receipt_policy'] == 'ADVANCE_WITH_RECEIPTS_ONLY'
     assert (
         training_promotion_sprint_data['promotion_readiness']['training_queue_clear']
         == training_promotion_sprint_data['training_execution_summary']['training_queue_clear']
