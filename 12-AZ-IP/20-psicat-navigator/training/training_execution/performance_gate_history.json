@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "artifact_path": "12-AZ-IP/20-psicat-navigator/training/training_execution/performance_gate_history.json",
+  "entry_count": 2,
+  "entries": [
+    {
+      "generated_at": "2026-09-10T00:59:22.777524+00:00",
+      "cycle_id": 1,
+      "gate_verdict": "hold",
+      "ok": false,
+      "failed_checks": [],
+      "reason": "insufficient_lane_e_receipts",
+      "baseline_source": "unknown",
+      "processed_count": 3,
+      "ast_context": {
+        "enabled": false,
+        "file_limit": null,
+        "dataset_rows": 0,
+        "ast_context_records": 0
+      },
+      "cadence_window": {
+        "start_cycle": 1,
+        "end_cycle": 1,
+        "non_overlapping": true
+      }
+    },
+    {
+      "generated_at": "2026-09-10T00:59:23.756542+00:00",
+      "cycle_id": 2,
+      "gate_verdict": "hold",
+      "ok": false,
+      "failed_checks": [],
+      "reason": "insufficient_lane_e_receipts",
+      "baseline_source": "unknown",
+      "processed_count": 3,
+      "ast_context": {
+        "enabled": false,
+        "file_limit": null,
+        "dataset_rows": 0,
+        "ast_context_records": 0
+      },
+      "cadence_window": {
+        "start_cycle": 2,
+        "end_cycle": 2,
+        "non_overlapping": true
+      }
+    }
+  ]
+}
