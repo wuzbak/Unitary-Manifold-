@@ -19,6 +19,7 @@ if str(PRODUCT_ROOT) not in sys.path:
 
 import ox_navigator.engine.merlin_engine as merlin_engine
 import ox_navigator.engine.merlin_program as merlin_program
+import ox_navigator.engine.merlin_tools as merlin_tools
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_identity import (
     CANONICAL_IDENTITY,
@@ -1752,10 +1753,212 @@ def test_route_tool_sprint_review_and_sovereign_boards():
         assert promotion_sprint_data['appropriate_promotion_sprint']['sprint_id'] == 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'
     else:
         assert promotion_sprint_data['promotion_readiness']['promotion_language'] == 'FROZEN_PENDING_VISIBLE_GATES'
+    training_promotion_sprint = route_tool('getPsiCatTrainingBenchmarkingPromotionSprint', {'limit': 2, 'training_limit': 4})
+    assert training_promotion_sprint['ok'] is True
+    training_promotion_sprint_data = training_promotion_sprint['result']['data']
+    assert training_promotion_sprint_data['mode'] == 'training_benchmarking_promotion_sprint'
+    assert len(training_promotion_sprint_data['training_board']) == 4
+    assert training_promotion_sprint_data['training_execution_summary']['lane_progress_count'] >= 1
+    assert training_promotion_sprint_data['training_execution_summary']['challenge_pack_size'] >= 1
     assert any(phase['name'] == 'multi_job_language_split' for phase in resilience_data['codeql_scope_reduction_strategy']['phases'])
     assert resilience_data['codeql_matrix_split_strategy']['matrix_axes'] == ['language', 'path_slice']
     assert resilience_data['duckdb_preflight_telemetry']['artifact'] == 'codeql-slice-inventory'
     assert len(resilience_data['repo_size_mitigation_actions']) == 3
+
+
+def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        'get_psicat_achievement_benchmark_promotion_sprint',
+        lambda **_kwargs: {
+            'generated_at': '2026-09-10T00:00:00Z',
+            'inputs': {'limit': 1, 'training_limit': 1},
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+            },
+            'promotion_readiness': {
+                'decision': 'PROMOTION_SPRINT_ADVANCE_ALLOWED',
+                'targeted_rigor_clear': True,
+                'frontier_blockers_all_clear': True,
+                'spc_phase1_clear_to_advance': True,
+            },
+            'appropriate_promotion_sprint': {'sprint_id': 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'},
+            'targeted_rigor_sprint': {
+                'training': {
+                    'queue_before': {'ready_count': 1},
+                    'cycle': {'processed_count': 0, 'queue_after': {'stale_retrain_count': 1, 'needs_review_count': 0}},
+                    'lane_progress_ledgers': [{'lane_id': 'lane_a'}],
+                    'challenge_pack': {'challenges': [{'id': 'c1'}]},
+                }
+            },
+        },
+    )
+    packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
+    cycle_milestone = next(item for item in packet['training_board'] if item['milestone'] == 'training_cycle_executed')
+    assert cycle_milestone['earned'] is False
+    assert packet['training_execution_summary']['cycle_processed_count'] == 0
+    assert packet['training_execution_summary']['training_cycle_executed'] is False
+    assert packet['training_execution_summary']['training_queue_clear'] is False
+    assert packet['training_execution_summary']['training_ready'] is False
+    assert packet['promotion_readiness']['decision'] == 'PROMOTION_NOT_EARNED_YET'
+    assert packet['promotion_readiness']['promotion_language'] == 'FROZEN_PENDING_VISIBLE_GATES'
+    assert packet['appropriate_promotion_sprint']['sprint_id'] == 'TRAINING_EXECUTION_REMEDIATION_SPRINT'
+
+
+def test_training_benchmarking_promotion_sprint_missing_queue_after_not_clear(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        'get_psicat_achievement_benchmark_promotion_sprint',
+        lambda **_kwargs: {
+            'generated_at': '2026-09-10T00:00:00Z',
+            'inputs': {'limit': 1, 'training_limit': 1},
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+            },
+            'promotion_readiness': {'decision': 'PROMOTION_NOT_EARNED_YET'},
+            'appropriate_promotion_sprint': {'sprint_id': 'TARGETED_RIGOR_REMEDIATION_SPRINT'},
+            'targeted_rigor_sprint': {
+                'training': {
+                    'queue_before': {'ready_count': 0},
+                    'cycle': {'processed_count': 0},
+                    'lane_progress_ledgers': [{'lane_id': 'lane_a'}],
+                    'challenge_pack': {'challenges': [{'id': 'c1'}]},
+                }
+            },
+        },
+    )
+    packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
+    assert packet['training_execution_summary']['training_queue_clear'] is False
+    assert packet['promotion_readiness']['training_queue_clear'] is False
+
+
+def test_training_benchmarking_promotion_sprint_malformed_queue_after_not_clear(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        'get_psicat_achievement_benchmark_promotion_sprint',
+        lambda **_kwargs: {
+            'generated_at': '2026-09-10T00:00:00Z',
+            'inputs': {'limit': 1, 'training_limit': 1},
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+            },
+            'promotion_readiness': {'decision': 'PROMOTION_NOT_EARNED_YET'},
+            'appropriate_promotion_sprint': {'sprint_id': 'TARGETED_RIGOR_REMEDIATION_SPRINT'},
+            'targeted_rigor_sprint': {
+                'training': {
+                    'queue_before': {'ready_count': 0},
+                    'cycle': {'processed_count': 1, 'queue_after': []},
+                    'lane_progress_ledgers': [{'lane_id': 'lane_a'}],
+                    'challenge_pack': {'challenges': [{'id': 'c1'}]},
+                }
+            },
+        },
+    )
+    packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
+    assert packet['training_execution_summary']['training_cycle_executed'] is True
+    assert packet['training_execution_summary']['training_queue_clear'] is False
+    assert packet['promotion_readiness']['training_queue_clear'] is False
+
+
+def test_training_benchmarking_promotion_sprint_nonnumeric_queue_after_not_clear(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        'get_psicat_achievement_benchmark_promotion_sprint',
+        lambda **_kwargs: {
+            'generated_at': '2026-09-10T00:00:00Z',
+            'inputs': {'limit': 1, 'training_limit': 1},
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+            },
+            'promotion_readiness': {'decision': 'PROMOTION_NOT_EARNED_YET'},
+            'appropriate_promotion_sprint': {'sprint_id': 'TARGETED_RIGOR_REMEDIATION_SPRINT'},
+            'targeted_rigor_sprint': {
+                'training': {
+                    'queue_before': {'ready_count': 0},
+                    'cycle': {
+                        'processed_count': 1,
+                        'queue_after': {'stale_retrain_count': '', 'needs_review_count': object()},
+                    },
+                    'lane_progress_ledgers': [{'lane_id': 'lane_a'}],
+                    'challenge_pack': {'challenges': [{'id': 'c1'}]},
+                }
+            },
+        },
+    )
+    packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
+    assert packet['training_execution_summary']['training_cycle_executed'] is True
+    assert packet['training_execution_summary']['training_queue_clear'] is False
+    assert packet['promotion_readiness']['training_queue_clear'] is False
+
+
+def test_training_benchmarking_promotion_sprint_nonnumeric_processed_count_not_executed(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        'get_psicat_achievement_benchmark_promotion_sprint',
+        lambda **_kwargs: {
+            'generated_at': '2026-09-10T00:00:00Z',
+            'inputs': {'limit': 1, 'training_limit': 1},
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+            },
+            'promotion_readiness': {'decision': 'PROMOTION_NOT_EARNED_YET'},
+            'appropriate_promotion_sprint': {'sprint_id': 'TARGETED_RIGOR_REMEDIATION_SPRINT'},
+            'targeted_rigor_sprint': {
+                'training': {
+                    'queue_before': {'ready_count': 0},
+                    'cycle': {
+                        'processed_count': 'invalid',
+                        'queue_after': {'stale_retrain_count': 0, 'needs_review_count': 0},
+                    },
+                    'lane_progress_ledgers': [{'lane_id': 'lane_a'}],
+                    'challenge_pack': {'challenges': [{'id': 'c1'}]},
+                }
+            },
+        },
+    )
+    packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
+    assert packet['training_execution_summary']['cycle_processed_count'] == 0
+    assert packet['training_execution_summary']['training_cycle_executed'] is False
+    assert packet['training_execution_summary']['training_queue_observed'] is False
+    assert packet['training_execution_summary']['queue_after_state_clear'] is True
+    assert packet['training_execution_summary']['training_queue_clear'] is False
+    assert packet['training_execution_summary']['training_ready'] is False
+    assert packet['promotion_readiness']['training_ready'] is False
+
+
+def test_route_tool_training_benchmarking_promotion_sprint_passes_session(monkeypatch):
+    captured = {}
+
+    def fake_training_packet(**kwargs):
+        captured['session'] = kwargs.get('__session') if '__session' in kwargs else kwargs.get('session')
+        return {'mode': 'training_benchmarking_promotion_sprint'}
+
+    monkeypatch.setattr(merlin_tools, 'get_psicat_training_benchmarking_promotion_sprint', fake_training_packet)
+    session = MerlinSession()
+    result = route_tool('getPsiCatTrainingBenchmarkingPromotionSprint', {'limit': 1, 'training_limit': 1}, session=session)
+    assert result['ok'] is True
+    assert result['result']['data']['mode'] == 'training_benchmarking_promotion_sprint'
+    assert captured['session'] is session
+
+
+def test_route_tool_achievement_promotion_sprint_passes_session(monkeypatch):
+    captured = {}
+
+    def fake_achievement_packet(**kwargs):
+        captured['session'] = kwargs.get('session')
+        return {'mode': 'achievement_benchmark_promotion_sprint'}
+
+    monkeypatch.setattr(merlin_tools, 'get_psicat_achievement_benchmark_promotion_sprint', fake_achievement_packet)
+    session = MerlinSession()
+    result = route_tool('getPsiCatAchievementBenchmarkPromotionSprint', {'limit': 1, 'training_limit': 1}, session=session)
+    assert result['ok'] is True
+    assert result['result']['data']['mode'] == 'achievement_benchmark_promotion_sprint'
+    assert captured['session'] is session
 
 
 def test_route_tool_model_admission_policy():
@@ -2574,6 +2777,16 @@ def test_server_merlin_endpoints():
             assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['mode'] == 'achievement_benchmark_promotion_sprint'
             assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['achievement_board']) == 5
             assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['benchmark_board']['spc_phase1_lane_receipts']) == 3
+            training_promotion_sprint = client.get('/api/merlin/training-benchmarking-promotion-sprint?limit=2&training_limit=4')
+            assert training_promotion_sprint.status_code == 200
+            assert training_promotion_sprint.json()['ok'] is True
+            assert training_promotion_sprint.json()['training_benchmarking_promotion_sprint']['mode'] == 'training_benchmarking_promotion_sprint'
+            assert len(training_promotion_sprint.json()['training_benchmarking_promotion_sprint']['training_board']) == 4
+            assert training_promotion_sprint.json()['training_benchmarking_promotion_sprint']['training_execution_summary']['lane_progress_count'] >= 1
+            bad_training_promotion_limit = client.get('/api/merlin/training-benchmarking-promotion-sprint?limit=abc')
+            assert bad_training_promotion_limit.status_code == 400
+            bad_training_promotion_training_limit = client.get('/api/merlin/training-benchmarking-promotion-sprint?training_limit=abc')
+            assert bad_training_promotion_training_limit.status_code == 400
             bad_promotion_limit = client.get('/api/merlin/achievement-benchmark-promotion-sprint?limit=abc')
             assert bad_promotion_limit.status_code == 400
             bad_promotion_training_limit = client.get('/api/merlin/achievement-benchmark-promotion-sprint?training_limit=abc')

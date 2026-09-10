@@ -3,9 +3,9 @@
   "_fetch_url": "https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json",
   "_cache_ttl_seconds": 3600,
   "meta": {
-    "version": "37.5",
-    "sprint": "CS",
-    "date": "2026-09-09",
+    "version": "37.6",
+    "sprint": "CT",
+    "date": "2026-09-10",
     "source_of_truth": "https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md",
     "generated_by": "9-INFRASTRUCTURE/generate_live_status.py",
     "regression_provenance": "Historical headline record; see docs/TRUTH_LAYER.md for this environment's verification."
@@ -22,10 +22,132 @@
     "physical_proof_count": null
   },
   "pillars": {
-    "next_slot": 1120,
+    "next_slot": 1121,
     "hardgate_count": 208,
-    "total_slots": 1119
+    "total_slots": 1120
   },
+  "historical_continuity": [
+    {
+      "version": "37.6",
+      "sprint": "CT",
+      "pillars": "1120",
+      "next_slot": 1121
+    },
+    {
+      "version": "37.5",
+      "sprint": "CS",
+      "pillars": "1119",
+      "next_slot": 1120
+    },
+    {
+      "version": "37.4",
+      "sprint": "CR",
+      "pillars": "1109-1118",
+      "next_slot": 1119
+    },
+    {
+      "version": "37.3",
+      "sprint": "CQ",
+      "pillars": "1103-1108",
+      "next_slot": 1109
+    },
+    {
+      "version": "37.2",
+      "sprint": "CP",
+      "pillars": "1097-1102",
+      "next_slot": 1103
+    },
+    {
+      "version": "37.1",
+      "sprint": "CO",
+      "pillars": "1089-1096",
+      "next_slot": 1097
+    },
+    {
+      "version": "37.0",
+      "sprint": "CN",
+      "pillars": "1088",
+      "next_slot": 1089
+    },
+    {
+      "version": "36.9",
+      "sprint": "CM",
+      "pillars": "1087",
+      "next_slot": 1088
+    },
+    {
+      "version": "36.8",
+      "sprint": "CL",
+      "pillars": "1086",
+      "next_slot": 1087
+    },
+    {
+      "version": "36.6",
+      "sprint": "CJ",
+      "pillars": "1084",
+      "next_slot": 1085
+    },
+    {
+      "version": "36.5",
+      "sprint": "CI",
+      "pillars": "1082-1083",
+      "next_slot": 1084
+    },
+    {
+      "version": "36.4",
+      "sprint": "CH",
+      "pillars": "1079-1081",
+      "next_slot": 1082
+    },
+    {
+      "version": "36.3",
+      "sprint": "CG",
+      "pillars": "1078",
+      "next_slot": 1079
+    },
+    {
+      "version": "36.2",
+      "sprint": "CF",
+      "pillars": "1062-1077",
+      "next_slot": 1078
+    },
+    {
+      "version": "36.1",
+      "sprint": "CE",
+      "pillars": "1061",
+      "next_slot": 1062
+    },
+    {
+      "version": "35.8",
+      "sprint": "CB",
+      "pillars": "1051-1057",
+      "next_slot": 1058
+    },
+    {
+      "version": "35.7",
+      "sprint": "CA",
+      "pillars": "1049-1050",
+      "next_slot": 1051
+    },
+    {
+      "version": "35.6",
+      "sprint": "BZ",
+      "pillars": "1048",
+      "next_slot": 1049
+    },
+    {
+      "version": "35.5",
+      "sprint": "BY",
+      "pillars": "1040-1047",
+      "next_slot": 1048
+    },
+    {
+      "version": "35.4",
+      "sprint": "BX",
+      "pillars": "1032-1039",
+      "next_slot": 1040
+    }
+  ],
   "physics": {
     "winding_number_n_w": 5,
     "cs_level_k_cs": 74,

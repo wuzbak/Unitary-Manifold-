@@ -57,6 +57,15 @@ def test_local_execution_loop_rejects_out_of_repo_cwd():
     assert "outside repository" in result["contract"]["body"]
 
 
+def test_local_execution_loop_accepts_repo_relative_cwd():
+    result = run_local_execution_loop(
+        command='python -c "import pathlib; print(pathlib.Path.cwd().name)"',
+        cwd="12-AZ-IP/20-psicat-navigator",
+    )
+    assert result["ok"] is True
+    assert result["execution"]["stdout"].strip() == "20-psicat-navigator"
+
+
 def test_local_execution_loop_sanitizes_environment(monkeypatch):
     monkeypatch.setenv("OPENROUTER_API_KEY", "secret-value")
     result = run_local_execution_loop(command='python -c "import os; print(os.getenv(\'OPENROUTER_API_KEY\', \'\'))"')

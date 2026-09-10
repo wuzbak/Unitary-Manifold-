@@ -49,6 +49,7 @@ from .merlin_program import (
     get_backend_expansion_policy,
     get_merlin_adversarial_growth_lane,
     get_psicat_achievement_benchmark_promotion_sprint,
+    get_psicat_training_benchmarking_promotion_sprint,
     get_merlin_applications_tools_lane,
     get_merlin_performance_lane,
     evaluate_merlin_performance_gate,
@@ -334,6 +335,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getPsiCatSpcPhase0ExecutionPacket", "summary": "Return immediate SPC phase-0 execution packet artifact", "domain": "functions"},
             {"name": "runPsiCatSpcPhase1Baseline", "summary": "Run immediate SPC phase-1 baseline batteries with lane verdict ledger", "domain": "functions"},
             {"name": "getPsiCatAchievementBenchmarkPromotionSprint", "summary": "Return PsiCat achievements, benchmark posture, and the next appropriate promotion sprint", "domain": "functions"},
+            {"name": "getPsiCatTrainingBenchmarkingPromotionSprint", "summary": "Return PsiCat training execution visibility, benchmark posture, and governed promotion routing", "domain": "functions"},
             {"name": "getMerlinTrainingChallengePack", "summary": "Return deterministic challenge drills prioritized by stale or review-required training work", "domain": "functions"},
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
@@ -528,6 +530,17 @@ def _tool_manifest() -> dict[str, Any]:
             "risk_level": "medium",
         },
         "getPsiCatAchievementBenchmarkPromotionSprint": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                    "training_limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
+        "getPsiCatTrainingBenchmarkingPromotionSprint": {
             "args_schema": {
                 "type": "object",
                 "properties": {
@@ -1226,6 +1239,11 @@ _FUNCTIONS = {
         training_limit=args.get("training_limit"),
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else None,
     )},
+    "getPsiCatTrainingBenchmarkingPromotionSprint": lambda **args: {"data": get_psicat_training_benchmarking_promotion_sprint(
+        limit=args.get("limit"),
+        training_limit=args.get("training_limit"),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else None,
+    )},
     "getMerlinHeavyReasoningLane": lambda **args: {"data": get_merlin_heavy_reasoning_lane(limit=args.get("limit"))},
     "getMerlinSovereignModelBoard": lambda **args: {"data": get_merlin_sovereign_model_board()},
     "getMerlinHardwareArchitectureBoard": lambda **args: {"data": get_merlin_hardware_architecture_board(limit=args.get("limit"))},
@@ -1510,6 +1528,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "runMerlinTrainingCycle",
                     "getMerlinTrainingChallengePack",
                     "getPsiCatAchievementBenchmarkPromotionSprint",
+                    "getPsiCatTrainingBenchmarkingPromotionSprint",
                 }
                 if tool in session_passthrough_tools:
                     result = _FUNCTIONS[tool](**{**args, "__session": active_session})

@@ -65,7 +65,10 @@ def _resolve_cwd(candidate: str | None) -> Path:
     base = REPO_ROOT.resolve()
     if not candidate:
         return base
-    path = Path(candidate).expanduser().resolve()
+    raw = Path(candidate).expanduser()
+    if raw.is_absolute():
+        raise ValueError("cwd must be repository-relative")
+    path = (base / raw).resolve()
     path.relative_to(base)
     return path
 
