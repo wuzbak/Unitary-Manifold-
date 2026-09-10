@@ -569,13 +569,19 @@ if FASTAPI_AVAILABLE:
             raise HTTPException(status_code=400, detail="query too long (max 2000 chars)")
 
         # Cache check
+        request_cache_payload = (
+            req.model_dump(mode="json")
+            if hasattr(req, "model_dump")
+            else req.dict()
+        )
         cache_key = hashlib.md5(
-            (
-                query
-                + str(req.websearch)
-                + req.page_ctx
-                + req.system
-                + _assistant_repo_state_fingerprint()
+            json.dumps(
+                {
+                    "request": request_cache_payload,
+                    "repo_state": _assistant_repo_state_fingerprint(),
+                },
+                ensure_ascii=False,
+                sort_keys=True,
             ).encode("utf-8")
         ).hexdigest()
         with _cache_lock:

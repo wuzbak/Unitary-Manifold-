@@ -81,6 +81,14 @@ _GATE_PRIORITY = {
     "ARCHITECTURE_LIMIT": 1,
     "ADJACENT_TRACK": 0,
 }
+_LANE_PRIORITY = {
+    "formal_proof": 5,
+    "memory_audit": 4,
+    "tool_orchestration": 3,
+    "runtime_performance": 2,
+    "repository_state": 1,
+    "physics_navigation": 0,
+}
 _LANE_HINTS = {
     "formal_proof": {
         "label": "Formal proof / theorem lane",
@@ -503,16 +511,27 @@ def detect_query_lane(query: str) -> Dict[str, str]:
     normalized_query = str(query or "").lower()
     query_tokens = _tokenize(query)
     best_lane = "physics_navigation"
-    best_score = 0
+    best_matches: list[str] = []
+    best_rank = (0, 0, 0, _LANE_PRIORITY[best_lane])
     for lane_id, config in _LANE_HINTS.items():
-        score = sum(1 for keyword in config["keywords"] if _matches_lane_keyword(query_tokens, normalized_query, keyword))
-        if score > best_score:
+        matched = sorted([
+            keyword
+            for keyword in config["keywords"]
+            if _matches_lane_keyword(query_tokens, normalized_query, keyword)
+        ])
+        if not matched:
+            continue
+        lane_rank = (
+            len(matched),
+            max(len(keyword.split()) for keyword in matched),
+            max(len(keyword) for keyword in matched),
+            _LANE_PRIORITY.get(lane_id, 0),
+        )
+        if lane_rank > best_rank:
             best_lane = lane_id
-            best_score = score
-    matched_keywords = sorted([
-        keyword for keyword in _LANE_HINTS[best_lane]["keywords"]
-        if _matches_lane_keyword(query_tokens, normalized_query, keyword)
-    ])[:6]
+            best_matches = matched
+            best_rank = lane_rank
+    matched_keywords = best_matches[:6]
     return {
         "lane_id": best_lane,
         "label": _LANE_HINTS[best_lane]["label"],
