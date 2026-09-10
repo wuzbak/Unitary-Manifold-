@@ -41,12 +41,14 @@ def _wait_for_http(base_url: str, ready_path: str = "/", timeout: float = 20.0) 
 @contextlib.contextmanager
 def running_server(server_factory, *, ready_path: str = "/", timeout: float = 20.0):
     server = server_factory()
+    sockname = None
     with contextlib.suppress(AttributeError, OSError, ValueError):
-        host, port = server.socket.getsockname()[:2]
-    if "port" not in locals() or port == 0:
+        sockname = server.socket.getsockname()[:2]
+    if getattr(server, "_copilot_needs_bind", False):
         server.server_bind()
         server.server_activate()
-        host, port = server.socket.getsockname()[:2]
+        sockname = server.socket.getsockname()[:2]
+    host, port = (sockname or server.server_address)[:2]
     base_url = f"http://{host}:{port}/"
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
