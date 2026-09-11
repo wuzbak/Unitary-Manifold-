@@ -3,7 +3,7 @@ name: Lean 4 Formal Proofs
 on:
   push:
     branches:
-      - '**'
+      - main
   pull_request:
     branches:
       - '**'

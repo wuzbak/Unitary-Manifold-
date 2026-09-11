@@ -12,7 +12,8 @@ from src.core.pillar482_lean4_ci_full_activation import (
     CI_WORKFLOW_PATH,
     LEAN4_DIR,
     LAKEFILE_MATHLIB_TAG,
-    TRIGGER_BRANCHES,
+    PR_TRIGGER_BRANCHES,
+    PUSH_TRIGGER_BRANCHES,
     workflow_trigger_spec,
     workflow_steps_spec,
     ci_activation_certificate,
@@ -44,8 +45,11 @@ class TestConstants:
     def test_mathlib_tag_present(self):
         assert 'v4' in LAKEFILE_MATHLIB_TAG
 
-    def test_trigger_branches_all(self):
-        assert '**' in TRIGGER_BRANCHES
+    def test_push_trigger_branches_main(self):
+        assert PUSH_TRIGGER_BRANCHES == ['main']
+
+    def test_pr_trigger_branches_all(self):
+        assert PR_TRIGGER_BRANCHES == ['**']
 
 
 class TestWorkflowTriggerSpec:
@@ -64,11 +68,15 @@ class TestWorkflowTriggerSpec:
     def test_pr_trigger(self):
         assert 'pull_request' in self.spec['on']
 
-    def test_trigger_branches_all(self):
-        assert self.spec['on']['push']['branches'] == ['**']
+    def test_push_trigger_branches_main(self):
+        assert self.spec['on']['push']['branches'] == ['main']
 
-    def test_current_trigger_is_all_branches(self):
-        assert 'all branches' in self.spec['current_trigger']
+    def test_pr_trigger_branches_all(self):
+        assert self.spec['on']['pull_request']['branches'] == ['**']
+
+    def test_current_trigger_is_deduped(self):
+        assert 'main pushes' in self.spec['current_trigger']
+        assert 'all PRs' in self.spec['current_trigger']
 
     def test_previous_trigger_documented(self):
         assert 'previous_trigger' in self.spec
@@ -138,8 +146,8 @@ class TestCIActivationCertificate:
     def test_tier2_operational(self):
         assert self.cert['tier2_status'] == 'OPERATIONAL_VIA_WORKFLOW'
 
-    def test_trigger_all_branches(self):
-        assert 'ALL_BRANCHES' in self.cert['trigger']
+    def test_trigger_main_push_all_prs(self):
+        assert self.cert['trigger'] == 'MAIN_PUSH_ALL_PRS_ALL_PATHS'
 
     def test_epistemic_delta_documented(self):
         assert 'CI_BLOCKED' in self.cert['epistemic_delta']

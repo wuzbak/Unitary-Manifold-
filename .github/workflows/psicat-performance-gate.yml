@@ -6,7 +6,7 @@ on:
       - "12-AZ-IP/20-psicat-navigator/**"
       - ".github/workflows/psicat-performance-gate.yml"
   push:
-    branches: ["**"]
+    branches: ["main"]
     paths:
       - "12-AZ-IP/20-psicat-navigator/**"
       - ".github/workflows/psicat-performance-gate.yml"
