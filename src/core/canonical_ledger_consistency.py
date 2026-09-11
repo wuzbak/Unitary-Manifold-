@@ -141,8 +141,12 @@ def _parse_name_status_line(line: str) -> Dict[str, str] | None:
     status = parts[0].strip()
     if not status:
         return None
-    old_path = parts[1].strip() if len(parts) >= 2 else ""
-    new_path = parts[2].strip() if len(parts) >= 3 else old_path
+    if status.startswith(("R", "C")) and len(parts) >= 3:
+        old_path = parts[1].strip()
+        new_path = parts[2].strip()
+    else:
+        old_path = parts[1].strip() if len(parts) >= 2 else ""
+        new_path = old_path
     return {
         "status": status,
         "path": _normalize_changed_path(new_path),

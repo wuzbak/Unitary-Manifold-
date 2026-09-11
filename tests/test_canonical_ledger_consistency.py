@@ -163,3 +163,11 @@ class TestCanonicalLedgerSyncRequirement:
             name_status_lines=["M\tsrc/core/sm_free_parameters.py"],
         )
         assert report["requires_sync"] is True
+
+    def test_renamed_pillar_file_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1121_new_name.py"],
+            name_status_lines=["R100\tsrc/core/pillar1121_old_name.py\tsrc/core/pillar1121_new_name.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["matched_paths"] == ["src/core/pillar1121_new_name.py"]
