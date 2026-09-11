@@ -199,6 +199,7 @@ def test_lane_b_noop_merge_does_not_claim_history_unavailable(monkeypatch) -> No
         "_run_git_with_status",
         lambda args: ("", True) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
     )
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: sha == merge_sha)
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
 
     lane_b = p1087.last_merge_math_verification_lane()
@@ -219,6 +220,7 @@ def test_latest_merge_touched_files_does_not_emit_history_unavailable_for_empty_
         "_run_git_with_status",
         lambda args: ("", True) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
     )
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: sha == merge_sha)
     monkeypatch.setattr(
         p1087,
         "_run_git",
@@ -230,6 +232,20 @@ def test_latest_merge_touched_files_does_not_emit_history_unavailable_for_empty_
     touched = p1087._latest_merge_touched_files(merge_sha)
 
     assert touched == ([], False)
+
+
+def test_latest_merge_touched_files_marks_unverified_for_non_noop_empty_show(monkeypatch) -> None:
+    merge_sha = "a" * 40
+    monkeypatch.setattr(
+        p1087,
+        "_run_git_with_status",
+        lambda args: ("", True) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
+    )
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: False)
+
+    touched = p1087._latest_merge_touched_files(merge_sha)
+
+    assert touched == ([], True)
 
 
 def test_latest_merge_touched_files_marks_unverified_only_when_tree_available(monkeypatch) -> None:
