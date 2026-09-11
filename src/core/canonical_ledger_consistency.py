@@ -300,10 +300,19 @@ def canonical_ledger_sync_requirement(
     patch_lookup = {str(key): str(value) for key, value in dict(patch_by_path or {}).items()}
     matched_paths: List[str] = []
     reasons: List[str] = []
+    seen_matches: set[tuple[str, str, str]] = set()
     for entry in entries:
         path = str(entry.get("path") or "")
         if not path:
             continue
+        match_key = (
+            str(entry.get("status") or ""),
+            path,
+            str(entry.get("old_path") or ""),
+        )
+        if match_key in seen_matches:
+            continue
+        seen_matches.add(match_key)
         patch_text = patch_lookup.get(path, "")
         if not patch_text and str(entry.get("old_path") or "") != path:
             patch_text = patch_lookup.get(str(entry.get("old_path") or ""), "")

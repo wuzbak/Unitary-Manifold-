@@ -187,3 +187,14 @@ class TestCanonicalLedgerSyncRequirement:
         )
         assert report["requires_sync"] is True
         assert report["reasons"] == ["deleted pillar file src/core/pillar1121_copy.py"]
+
+    def test_duplicate_name_status_entries_do_not_duplicate_reasons(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1121_copy.py"],
+            name_status_lines=[
+                "D\tsrc/core/pillar1121_copy.py",
+                "D\tsrc/core/pillar1121_copy.py",
+            ],
+        )
+        assert report["matched_paths"] == ["src/core/pillar1121_copy.py"]
+        assert report["reasons"] == ["deleted pillar file src/core/pillar1121_copy.py"]

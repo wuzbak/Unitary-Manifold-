@@ -20,18 +20,30 @@ def ledger_sync_script_module():
     return module
 
 
-def test_tracked_patch_paths_include_rename_source_and_target(ledger_sync_script_module):
-    paths = ledger_sync_script_module._tracked_patch_paths(
-        [
-            "R100\tsrc/core/pillar1119_old_name.py\tsrc/core/pillar1119_new_name.py",
-            "M\tsrc/core/sm_free_parameters.py",
-        ]
+def test_split_patch_by_path_includes_rename_source_and_target(ledger_sync_script_module):
+    patches = ledger_sync_script_module._split_patch_by_path(
+        "\n".join(
+            [
+                "diff --git a/src/core/pillar1119_old_name.py b/src/core/pillar1119_new_name.py",
+                "--- a/src/core/pillar1119_old_name.py",
+                "+++ b/src/core/pillar1119_new_name.py",
+                "@@ -1 +1 @@",
+                "-PILLAR_STATUS = 'OLD'",
+                "+PILLAR_STATUS = 'NEW'",
+                "diff --git a/src/core/sm_free_parameters.py b/src/core/sm_free_parameters.py",
+                "--- a/src/core/sm_free_parameters.py",
+                "+++ b/src/core/sm_free_parameters.py",
+                "@@ -1 +1 @@",
+                "-x = 1",
+                "+x = 2",
+            ]
+        )
     )
-    assert paths == [
-        "src/core/pillar1119_new_name.py",
+    assert set(patches) == {
         "src/core/pillar1119_old_name.py",
+        "src/core/pillar1119_new_name.py",
         "src/core/sm_free_parameters.py",
-    ]
+    }
 
 
 def test_main_passes_when_sync_not_required(monkeypatch, capsys, ledger_sync_script_module):
@@ -40,7 +52,7 @@ def test_main_passes_when_sync_not_required(monkeypatch, capsys, ledger_sync_scr
         "_git_diff_lines",
         lambda *, base_sha, head_sha, name_only: ["src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py"] if name_only else ["M\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py"],
     )
-    monkeypatch.setattr(ledger_sync_script_module, "_git_patch_for_path", lambda **kwargs: "@@ harmless @@\n+value = 1\n")
+    monkeypatch.setattr(ledger_sync_script_module, "_git_full_patch", lambda **kwargs: "@@ harmless @@\n+value = 1\n")
     monkeypatch.setattr(sys, "argv", ["check_canonical_ledger_sync.py", "--base-sha", "base", "--head-sha", "head"])
 
     assert ledger_sync_script_module.main() == 0
@@ -54,7 +66,7 @@ def test_main_fails_when_required_ledgers_missing(monkeypatch, capsys, ledger_sy
         "_git_diff_lines",
         lambda *, base_sha, head_sha, name_only: ["src/core/pillar1121_new_name.py"] if name_only else ["A\tsrc/core/pillar1121_new_name.py"],
     )
-    monkeypatch.setattr(ledger_sync_script_module, "_git_patch_for_path", lambda **kwargs: "")
+    monkeypatch.setattr(ledger_sync_script_module, "_git_full_patch", lambda **kwargs: "")
     monkeypatch.setattr(sys, "argv", ["check_canonical_ledger_sync.py", "--base-sha", "base", "--head-sha", "head"])
 
     assert ledger_sync_script_module.main() == 1
@@ -77,7 +89,7 @@ def test_main_passes_when_required_ledgers_are_present(monkeypatch, capsys, ledg
         "_git_diff_lines",
         lambda *, base_sha, head_sha, name_only: changed if name_only else ["A\tsrc/core/pillar1121_new_name.py"],
     )
-    monkeypatch.setattr(ledger_sync_script_module, "_git_patch_for_path", lambda **kwargs: "")
+    monkeypatch.setattr(ledger_sync_script_module, "_git_full_patch", lambda **kwargs: "")
     monkeypatch.setattr(sys, "argv", ["check_canonical_ledger_sync.py", "--base-sha", "base", "--head-sha", "head"])
 
     assert ledger_sync_script_module.main() == 0
@@ -85,7 +97,7 @@ def test_main_passes_when_required_ledgers_are_present(monkeypatch, capsys, ledg
     assert "OK: canonical ledger sync present for status-bearing pillar changes." in out
 
 
-def test_git_patch_for_path_uses_rename_and_copy_detection(monkeypatch, ledger_sync_script_module):
+def test_git_full_patch_uses_rename_and_copy_detection(monkeypatch, ledger_sync_script_module):
     calls = {}
 
     class _Completed:
@@ -96,6 +108,6 @@ def test_git_patch_for_path_uses_rename_and_copy_detection(monkeypatch, ledger_s
         return _Completed()
 
     monkeypatch.setattr(ledger_sync_script_module.subprocess, "run", _fake_run)
-    ledger_sync_script_module._git_patch_for_path(base_sha="base", head_sha="head", path="src/core/pillar1.py")
+    ledger_sync_script_module._git_full_patch(base_sha="base", head_sha="head")
     assert "--find-renames" in calls["args"]
     assert "--find-copies" in calls["args"]
