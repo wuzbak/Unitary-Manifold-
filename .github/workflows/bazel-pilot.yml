@@ -46,7 +46,7 @@ jobs:
           path: |
             ~/.cache/bazel-repo
             ~/.cache/bazel-disk
-          key: bazel-pilot-${{ runner.os }}-${{ hashFiles('.bazelversion', 'MODULE.bazel', 'requirements-bazel.txt', '.bazelrc', 'src/core/BUILD.bazel', 'tests/BUILD.bazel', 'TOOLS/checks/BUILD.bazel', 'src/core/metric.py', 'tests/test_metric.py', 'TOOLS/checks/check_large_files.py', 'tests/test_check_large_files.py') }}
+          key: bazel-pilot-${{ runner.os }}-${{ hashFiles('BUILD.bazel', '.bazelversion', 'MODULE.bazel', 'requirements-bazel.txt', '.bazelrc', 'src/core/BUILD.bazel', 'tests/BUILD.bazel', 'TOOLS/checks/BUILD.bazel', 'src/core/metric.py', 'tests/test_metric.py', 'TOOLS/checks/check_large_files.py', 'tests/test_check_large_files.py') }}
           restore-keys: |
             bazel-pilot-${{ runner.os }}-
       - name: Run Bazel pilot target
