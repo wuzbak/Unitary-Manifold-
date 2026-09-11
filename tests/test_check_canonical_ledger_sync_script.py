@@ -127,3 +127,12 @@ def test_git_diff_lines_uses_rename_and_copy_detection(monkeypatch, ledger_sync_
     ledger_sync_script_module._git_diff_lines(base_sha="base", head_sha="head", name_only=False)
     assert "--find-renames" in calls["args"]
     assert "--find-copies" in calls["args"]
+
+
+def test_workflow_invokes_ledger_sync_script():
+    workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "staleness-honesty-gate.yml"
+    content = workflow_path.read_text(encoding="utf-8")
+    assert "Enforce canonical ledger sync for wave/pillar changes" in content
+    assert "python3 TOOLS/checks/check_canonical_ledger_sync.py" in content
+    assert "--base-sha" in content
+    assert "--head-sha" in content

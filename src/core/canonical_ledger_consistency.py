@@ -192,7 +192,9 @@ def _entry_requires_ledger_sync(entry: Dict[str, str], patch_text: str = "") -> 
         new_identity = _pillar_identity(path)
         return (bool(new_identity) and old_identity != new_identity) or _status_bearing_token_touched(patch_text)
     if status.startswith("R") and path != old_path:
-        return True
+        old_identity = _pillar_identity(old_path)
+        new_identity = _pillar_identity(path)
+        return (bool(new_identity) and old_identity != new_identity) or _status_bearing_token_touched(patch_text)
 
     return _status_bearing_token_touched(patch_text)
 
@@ -338,7 +340,7 @@ def canonical_ledger_sync_requirement(
         elif str(entry.get("status") or "").startswith("D"):
             reasons.append(f"deleted pillar file {path}")
         elif str(entry.get("status") or "").startswith("R") and str(entry.get("old_path") or "") != path:
-            reasons.append(f"renamed pillar file {path}")
+            reasons.append(f"renamed pillar file with new identity {path}")
         else:
             reasons.append(f"status-bearing pillar metadata changed in {path}")
 
