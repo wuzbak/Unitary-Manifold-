@@ -11,3 +11,13 @@ py_test(
         "@pip//scipy",
     ],
 )
+
+py_test(
+    name = "test_check_large_files_script_bazel",
+    srcs = ["test_check_large_files_script.py"],
+    imports = [".."],
+    deps = [
+        "@pip//numpy",
+        "@pip//pytest",
+    ],
+)

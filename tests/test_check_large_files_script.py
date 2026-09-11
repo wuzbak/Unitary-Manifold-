@@ -73,6 +73,23 @@ def test_main_uses_changed_paths_when_shas_provided(monkeypatch, capsys):
     assert "::error::delta.bin is 11 bytes" in out
 
 
+def test_changed_paths_includes_type_changes(monkeypatch):
+    module = _load_module()
+    calls = {}
+
+    class _Completed:
+        stdout = "file.bin\n"
+
+    def _fake_run(args, check, capture_output, text):
+        calls["args"] = args
+        return _Completed()
+
+    monkeypatch.setattr(module.subprocess, "run", _fake_run)
+    paths = module.changed_paths(base_sha="base", head_sha="head")
+    assert "--diff-filter=AMRT" in calls["args"]
+    assert paths == [Path("file.bin")]
+
+
 def test_workflow_invokes_large_file_guard():
     workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "tests.yml"
     content = workflow_path.read_text(encoding="utf-8")
@@ -80,3 +97,4 @@ def test_workflow_invokes_large_file_guard():
     assert "python TOOLS/checks/check_large_files.py" in content
     assert "--base-sha" in content
     assert "--head-sha" in content
+    assert "github.event.pull_request.head.sha" in content

@@ -46,4 +46,8 @@ jobs:
           restore-keys: |
             bazel-pilot-${{ runner.os }}-
       - name: Run Bazel pilot target
-        run: bazel test //tests:test_metric_bazel --test_output=errors
+        run: |
+          bazel test \
+            //tests:test_metric_bazel \
+            //tests:test_check_large_files_script_bazel \
+            --test_output=errors

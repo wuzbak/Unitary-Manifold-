@@ -137,7 +137,8 @@ jobs:
       - name: Enforce tracked-file size limit
         run: |
           BASE_SHA="${{ github.event.pull_request.base.sha || github.event.before }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha || github.sha }}"
           python TOOLS/checks/check_large_files.py \
             --max-bytes 5242880 \
             --base-sha "$BASE_SHA" \
-            --head-sha "${{ github.sha }}"
+            --head-sha "$HEAD_SHA"

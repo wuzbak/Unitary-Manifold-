@@ -60,7 +60,7 @@ def changed_paths(base_sha: str, head_sha: str) -> list[Path]:
             "git",
             "diff",
             "--name-only",
-            "--diff-filter=AMR",
+            "--diff-filter=AMRT",
             f"{base_sha}...{head_sha}",
         ],
         check=True,
