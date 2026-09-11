@@ -298,6 +298,7 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         merge_commit_available
         and selected_ref == merge_sha
         and (not metadata_available)
+        and (not metadata_unverified)
         and _is_true_noop_merge(merge_sha)
     )
     metadata_unverified = bool(metadata_unverified and not noop_verified)
