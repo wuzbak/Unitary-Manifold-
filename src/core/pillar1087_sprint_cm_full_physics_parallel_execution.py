@@ -124,7 +124,8 @@ def _latest_merge_touched_files(merge_sha: str) -> tuple[List[str], bool]:
         # In shallow clones, parent history may be unavailable, so `git show` can
         # return no changed-path metadata even when the commit object is present.
         tree_output, tree_ok = _run_git_with_status(["ls-tree", "-r", "--name-only", merge_sha])
-        if tree_ok:
+        tree_files = [line.strip() for line in tree_output.splitlines() if line.strip()]
+        if tree_ok and tree_files:
             return [], True
     return [], False
 
