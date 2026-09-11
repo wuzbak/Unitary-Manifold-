@@ -95,15 +95,78 @@ def _run_git(args: List[str]) -> str:
     return result.stdout.strip()
 
 
+def _run_git_with_status(args: List[str]) -> tuple[str, bool]:
+    result = subprocess.run(
+        ["git", *args],
+        cwd=_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return "", False
+    return result.stdout.strip(), True
+
+
 def _latest_merge_commit() -> str:
     return _run_git(["log", "--merges", "--format=%H", "-n", "1"])
 
 
-def _latest_merge_touched_files(merge_sha: str) -> List[str]:
+def _merge_parent_trees_available(merge_sha: str) -> tuple[bool, list[str]]:
     if not merge_sha:
-        return []
-    output = _run_git(["show", "-m", "--name-only", "--pretty=", merge_sha])
-    return [line.strip() for line in output.splitlines() if line.strip()]
+        return False, []
+    parents_line = _run_git(["rev-list", "--parents", "-n", "1", merge_sha])
+    parts = [part.strip() for part in parents_line.split() if part.strip()]
+    if len(parts) < 3:
+        return False, []
+    parent_shas = parts[1:]
+    for parent_sha in parent_shas:
+        _, parent_tree_ok = _run_git_with_status(["cat-file", "-e", f"{parent_sha}^{{tree}}"])
+        if not parent_tree_ok:
+            return False, []
+    return True, parent_shas
+
+
+def _is_true_noop_merge(merge_sha: str) -> bool:
+    if not merge_sha:
+        return False
+    parents_available, parent_shas = _merge_parent_trees_available(merge_sha)
+    if not parents_available:
+        return False
+    merge_tree, merge_tree_ok = _run_git_with_status(["rev-parse", f"{merge_sha}^{{tree}}"])
+    if not merge_tree_ok or not merge_tree:
+        return False
+    for parent_sha in parent_shas:
+        parent_tree, parent_tree_ok = _run_git_with_status(["rev-parse", f"{parent_sha}^{{tree}}"])
+        if not parent_tree_ok:
+            return False
+        if parent_tree != merge_tree:
+            return False
+    return True
+
+
+def _latest_merge_touched_files(merge_sha: str) -> tuple[List[str], bool]:
+    if not merge_sha:
+        return [], False
+    output, show_ok = _run_git_with_status(["show", "-m", "--name-only", "--pretty=", merge_sha])
+    files = [line.strip() for line in output.splitlines() if line.strip()]
+    if show_ok:
+        if files:
+            return files, False
+        if _is_true_noop_merge(merge_sha):
+            return [], False
+        return [], True
+
+    if not show_ok:
+        # In shallow clones, parent history may be unavailable, so `git show` can
+        # return no changed-path metadata even when the commit object is present.
+        parents_available, _ = _merge_parent_trees_available(merge_sha)
+        _, tree_ok = _run_git_with_status(["cat-file", "-e", f"{merge_sha}^{{tree}}"])
+        if parents_available and tree_ok:
+            if _is_true_noop_merge(merge_sha):
+                return [], False
+            return [], True
+    return [], False
 
 
 def _truth_surface_sync_status() -> Dict[str, Any]:
@@ -194,25 +257,23 @@ def physics_core_lane() -> Dict[str, Any]:
 def last_merge_math_verification_lane() -> Dict[str, Any]:
     merge_sha = _latest_merge_commit()
     head_sha = _run_git(["rev-parse", "HEAD"])
+    merge_commit_available = bool(merge_sha)
     selected_commit = merge_sha
     selected_ref = merge_sha
-    touched = _latest_merge_touched_files(selected_ref) if selected_ref else []
-    if not touched and head_sha and selected_ref != head_sha:
+    touched, metadata_gap = _latest_merge_touched_files(selected_ref) if selected_ref else ([], False)
+    if not selected_ref and head_sha and selected_ref != head_sha:
         selected_commit = head_sha
         selected_ref = head_sha
-        touched = _latest_merge_touched_files(selected_ref)
-    if not touched:
+        touched, metadata_gap = _latest_merge_touched_files(selected_ref)
+    if (not merge_commit_available) and not touched and not metadata_gap:
         selected_commit = head_sha or selected_commit
         selected_ref = "HEAD"
-        touched = _latest_merge_touched_files(selected_ref)
+        touched, metadata_gap = _latest_merge_touched_files(selected_ref)
         if touched and head_sha:
             selected_commit = head_sha
     metadata_available = bool(touched)
-    if not metadata_available:
-        selected_commit = ""
-        selected_ref = ""
-        touched = []
-    reported_touched = touched if metadata_available else ["git_metadata_unavailable"]
+    metadata_unverified = bool(metadata_gap)
+    reported_touched = list(touched)
     touched_set = set(touched)
 
     rule_rows = []
@@ -243,7 +304,9 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
     scoped_failures = [row["path"] for row in scoped_rows if not row["pass"]]
 
     prior_merge_audit = pillar1078_parallel_audit_report()
-    valid = metadata_available and not scoped_failures
+    valid = (not metadata_unverified) and not scoped_failures and (
+        metadata_available or merge_commit_available
+    )
 
     return {
         "lane_id": "LANE_B_LAST_MERGE_MATH_AUDIT",
@@ -251,6 +314,7 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         "selected_commit": selected_commit,
         "selected_ref": selected_ref,
         "metadata_available": metadata_available,
+        "metadata_unverified": metadata_unverified,
         "touched_file_count": len(touched),
         "touched_files": reported_touched,
         "scoped_rules": scoped_rows,
@@ -258,7 +322,15 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         "prior_post_merge_audit_status": prior_merge_audit.get("overall_status"),
         "prior_post_merge_audit_reference": "pillar1078_parallel_audit_report",
         "status": "PASS" if valid else "FIX_REQUIRED",
-        "verdict": "LAST_MERGE_MATH_VERIFIED" if valid else "LAST_MERGE_MATH_FIX_REQUIRED",
+        "verdict": (
+            "LAST_MERGE_MATH_VERIFIED"
+            if valid
+            else (
+                "LAST_MERGE_MATH_METADATA_UNVERIFIED"
+                if metadata_unverified
+                else "LAST_MERGE_MATH_FIX_REQUIRED"
+            )
+        ),
         "valid": valid,
     }
 

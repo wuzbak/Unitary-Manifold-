@@ -74,36 +74,36 @@ def test_lane_b_updates_reported_commit_when_head_fallback_used(monkeypatch) -> 
     monkeypatch.setattr(
         p1087,
         "_latest_merge_touched_files",
-        lambda ref: [] if ref == "a" * 40 else ["src/core/julia_acceleration.py"],
+        lambda ref: ([], False) if ref == "a" * 40 else (["src/core/julia_acceleration.py"], False),
     )
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS_WITH_FIXES"})
 
     lane_b = p1087.last_merge_math_verification_lane()
 
     assert lane_b["merge_commit"] == "a" * 40
-    assert lane_b["selected_commit"] == "b" * 40
-    assert lane_b["selected_ref"] == "b" * 40
-    assert lane_b["touched_files"] == ["src/core/julia_acceleration.py"]
+    assert lane_b["selected_commit"] == "a" * 40
+    assert lane_b["selected_ref"] == "a" * 40
+    assert lane_b["touched_files"] == []
     assert lane_b["status"] == "PASS"
-    assert lane_b["metadata_available"] is True
+    assert lane_b["metadata_available"] is False
 
 
 def test_lane_b_fails_closed_when_git_metadata_unavailable(monkeypatch) -> None:
     monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "a" * 40)
     monkeypatch.setattr(p1087, "_run_git", lambda args: "b" * 40 if args == ["rev-parse", "HEAD"] else "")
-    monkeypatch.setattr(p1087, "_latest_merge_touched_files", lambda ref: [])
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", lambda ref: ([], True))
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS_WITH_FIXES"})
 
     lane_b = p1087.last_merge_math_verification_lane()
 
     assert lane_b["merge_commit"] == "a" * 40
-    assert lane_b["selected_commit"] == ""
-    assert lane_b["selected_ref"] == ""
+    assert lane_b["selected_commit"] == "a" * 40
+    assert lane_b["selected_ref"] == "a" * 40
     assert lane_b["touched_file_count"] == 0
-    assert lane_b["touched_files"] == ["git_metadata_unavailable"]
+    assert lane_b["touched_files"] == []
     assert lane_b["status"] == "FIX_REQUIRED"
-    assert lane_b["verdict"] == "LAST_MERGE_MATH_FIX_REQUIRED"
-    assert lane_b["metadata_available"] is False
+    assert lane_b["verdict"] == "LAST_MERGE_MATH_METADATA_UNVERIFIED"
+    assert lane_b["metadata_unverified"] is True
 
 
 def test_lane_c_emits_remediation_focus() -> None:
@@ -146,8 +146,8 @@ def test_lane_b_head_fallback_tracks_selected_commit(monkeypatch) -> None:
 
     def _touched(ref: str):
         if ref == "h" * 40:
-            return ["1-THEORY/DERIVATION_STATUS.md"]
-        return []
+            return ["1-THEORY/DERIVATION_STATUS.md"], False
+        return [], False
 
     monkeypatch.setattr(p1087, "_latest_merge_touched_files", _touched)
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
@@ -163,17 +163,120 @@ def test_lane_b_head_fallback_tracks_selected_commit(monkeypatch) -> None:
 def test_lane_b_reports_missing_metadata_when_no_fallback_works(monkeypatch) -> None:
     monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "")
     monkeypatch.setattr(p1087, "_run_git", lambda args: "")
-    monkeypatch.setattr(p1087, "_latest_merge_touched_files", lambda ref: [])
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", lambda ref: ([], False))
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
 
     lane_b = p1087.last_merge_math_verification_lane()
     assert lane_b["metadata_available"] is False
+    assert lane_b["metadata_unverified"] is False
     assert lane_b["merge_commit"] == ""
     assert lane_b["selected_commit"] == ""
-    assert lane_b["selected_ref"] == ""
+    assert lane_b["selected_ref"] == "HEAD"
     assert lane_b["touched_file_count"] == 0
-    assert lane_b["touched_files"] == ["git_metadata_unavailable"]
+    assert lane_b["touched_files"] == []
     assert lane_b["status"] == "FIX_REQUIRED"
+    assert lane_b["verdict"] == "LAST_MERGE_MATH_FIX_REQUIRED"
+
+
+def test_lane_b_noop_merge_does_not_claim_history_unavailable(monkeypatch) -> None:
+    merge_sha = "a" * 40
+    head_sha = "b" * 40
+
+    def _run_git(args):
+        if args == ["log", "--merges", "--format=%H", "-n", "1"]:
+            return merge_sha
+        if args == ["rev-parse", "HEAD"]:
+            return head_sha
+        if args == ["show", "-m", "--name-only", "--pretty=", merge_sha]:
+            return ""
+        if args == ["ls-tree", "-r", "--name-only", merge_sha]:
+            return "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\n"
+        return ""
+
+    monkeypatch.setattr(p1087, "_run_git", _run_git)
+    monkeypatch.setattr(
+        p1087,
+        "_run_git_with_status",
+        lambda args: ("", True) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
+    )
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: sha == merge_sha)
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+    assert lane_b["merge_commit"] == merge_sha
+    assert lane_b["selected_commit"] == merge_sha
+    assert lane_b["selected_ref"] == merge_sha
+    assert lane_b["metadata_available"] is False
+    assert lane_b["metadata_unverified"] is False
+    assert lane_b["touched_file_count"] == 0
+    assert lane_b["touched_files"] == []
+    assert lane_b["status"] == "PASS"
+
+
+def test_latest_merge_touched_files_does_not_emit_history_unavailable_for_empty_show(monkeypatch) -> None:
+    merge_sha = "a" * 40
+    monkeypatch.setattr(
+        p1087,
+        "_run_git_with_status",
+        lambda args: ("", True) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
+    )
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: sha == merge_sha)
+    monkeypatch.setattr(
+        p1087,
+        "_run_git",
+        lambda args: "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\n"
+        if args == ["ls-tree", "-r", "--name-only", merge_sha]
+        else "",
+    )
+
+    touched = p1087._latest_merge_touched_files(merge_sha)
+
+    assert touched == ([], False)
+
+
+def test_latest_merge_touched_files_marks_unverified_for_non_noop_empty_show(monkeypatch) -> None:
+    merge_sha = "a" * 40
+    monkeypatch.setattr(
+        p1087,
+        "_run_git_with_status",
+        lambda args: ("", True) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
+    )
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: False)
+
+    touched = p1087._latest_merge_touched_files(merge_sha)
+
+    assert touched == ([], True)
+
+
+def test_latest_merge_touched_files_marks_unverified_only_when_tree_available(monkeypatch) -> None:
+    merge_sha = "a" * 40
+    monkeypatch.setattr(
+        p1087,
+        "_run_git_with_status",
+        lambda args: ("", False) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
+    )
+    monkeypatch.setattr(p1087, "_merge_parent_trees_available", lambda sha: (False, []))
+
+    touched = p1087._latest_merge_touched_files(merge_sha)
+
+    assert touched == ([], False)
+
+
+def test_latest_merge_touched_files_marks_unverified_with_tree_listing(monkeypatch) -> None:
+    merge_sha = "a" * 40
+    monkeypatch.setattr(
+        p1087,
+        "_run_git_with_status",
+        lambda args: ("", False)
+        if args == ["show", "-m", "--name-only", "--pretty=", merge_sha]
+        else ("src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\n", True),
+    )
+    monkeypatch.setattr(p1087, "_merge_parent_trees_available", lambda sha: (True, ["b" * 40, "c" * 40]))
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: False)
+
+    touched = p1087._latest_merge_touched_files(merge_sha)
+
+    assert touched == ([], True)
 
 
 def test_lane_b_literal_head_fallback_tracks_selected_commit(monkeypatch) -> None:
@@ -182,17 +285,17 @@ def test_lane_b_literal_head_fallback_tracks_selected_commit(monkeypatch) -> Non
 
     def _touched(ref: str):
         if ref == "HEAD":
-            return ["1-THEORY/DERIVATION_STATUS.md"]
-        return []
+            return ["1-THEORY/DERIVATION_STATUS.md"], False
+        return [], False
 
     monkeypatch.setattr(p1087, "_latest_merge_touched_files", _touched)
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
 
     lane_b = p1087.last_merge_math_verification_lane()
     assert lane_b["merge_commit"] == "m" * 40
-    assert lane_b["selected_commit"] == "h" * 40
-    assert lane_b["selected_ref"] == "HEAD"
-    assert lane_b["metadata_available"] is True
+    assert lane_b["selected_commit"] == "m" * 40
+    assert lane_b["selected_ref"] == "m" * 40
+    assert lane_b["metadata_available"] is False
     assert lane_b["status"] == "PASS"
 
 
