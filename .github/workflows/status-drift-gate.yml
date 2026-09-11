@@ -2,7 +2,7 @@ name: Status Drift Gate
 
 on:
   push:
-    branches: ["**"]
+    branches: ["main"]
   pull_request:
     branches: ["**"]
 
@@ -18,4 +18,3 @@ jobs:
           python-version: "3.12"
       - name: Canonical status drift check
         run: python3 9-INFRASTRUCTURE/check_status_drift.py
-

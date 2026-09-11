@@ -7304,6 +7304,15 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
         },
     ]
 
+    promotion_required_blockers_all_clear = all(
+        bool(item.get("blocking_pass", item.get("pass")))
+        for item in promotion_blockers
+    )
+    promotion_blocker_signals_all_present = all(
+        bool(item.get("pass"))
+        for item in promotion_blockers
+    )
+
     return {
         "generated_at": _utcnow(),
         "sovereign_primary": router.get("default_provider") == "sovereign_local",
@@ -7332,11 +7341,13 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
         },
         "paper_intake_lane": dict(get_frontier_open_weight_stack().get("paper_intake_lane") or {}),
         "promotion_blockers": promotion_blockers,
-        "promotion_blockers_all_clear": all(
-            bool(item.get("blocking_pass", item.get("pass")))
-            for item in promotion_blockers
+        "promotion_blockers_all_clear": promotion_required_blockers_all_clear,
+        "promotion_required_blockers_all_clear": promotion_required_blockers_all_clear,
+        "promotion_blocker_signals_all_present": promotion_blocker_signals_all_present,
+        "policy": (
+            "Fail closed: promotion blocked unless every promotion-blocking blocker passes. "
+            "Informational external signals may remain absent when required_for_promotion is false."
         ),
-        "policy": "Fail closed: promotion blocked unless every blocker passes.",
     }
 
 

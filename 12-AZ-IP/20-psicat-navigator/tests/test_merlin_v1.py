@@ -1775,6 +1775,10 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert external_blockers['hosted_review_signal_present_check']['signal_present'] is False
     assert external_blockers['security_scan_signal_present_check']['required_for_promotion'] is False
     assert external_blockers['security_scan_signal_present_check']['signal_present'] is False
+    assert review_data['frontier_readiness']['promotion_blockers_all_clear'] is True
+    assert review_data['frontier_readiness']['promotion_required_blockers_all_clear'] is True
+    assert review_data['frontier_readiness']['promotion_blocker_signals_all_present'] is False
+    assert 'promotion-blocking blocker passes' in review_data['frontier_readiness']['policy']
     assert review_data['control_tower']['deployment_eligibility']['eligible'] is True
     assert review_data['control_tower']['deployment_eligibility']['frontier_blocker_count'] == len(review_data['open_blockers'])
     assert (

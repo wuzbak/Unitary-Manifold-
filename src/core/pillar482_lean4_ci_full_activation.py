@@ -86,7 +86,8 @@ __all__ = [
     'CI_WORKFLOW_PATH',
     'LEAN4_DIR',
     'LAKEFILE_MATHLIB_TAG',
-    'TRIGGER_BRANCHES',
+    'PUSH_TRIGGER_BRANCHES',
+    'PR_TRIGGER_BRANCHES',
     'workflow_trigger_spec',
     'workflow_steps_spec',
     'ci_activation_certificate',
@@ -108,7 +109,8 @@ K_CS: int = 74
 CI_WORKFLOW_PATH: str = '.github/workflows/lean4-check.yml'
 LEAN4_DIR: str = 'lean4'
 LAKEFILE_MATHLIB_TAG: str = 'v4.22.0-rc2'
-TRIGGER_BRANCHES: List[str] = ['**']  # All branches
+PUSH_TRIGGER_BRANCHES: List[str] = ['main']
+PR_TRIGGER_BRANCHES: List[str] = ['**']
 
 # Workflow step names in canonical order
 WORKFLOW_STEP_NAMES: List[str] = [
@@ -127,25 +129,25 @@ def workflow_trigger_spec() -> Dict[str, Any]:
 
     Returns
     -------
-    dict : Trigger specification (push + pull_request on all branches).
+    dict : Trigger specification (push on main, pull_request on all branches).
     """
     return {
         'on': {
             'push': {
-                'branches': TRIGGER_BRANCHES,
-                'paths': [],  # No path filter — triggers on any change
+                'branches': PUSH_TRIGGER_BRANCHES,
+                'paths': [],  # No path filter — triggers on any main change
             },
             'pull_request': {
-                'branches': TRIGGER_BRANCHES,
+                'branches': PR_TRIGGER_BRANCHES,
             },
         },
         'note': (
-            'Triggers on every push/PR to any branch. '
+            'Triggers on every main push and every PR. '
             'Previously limited to lean4/** path changes (P458 CI_BLOCKED).'
         ),
         'previous_trigger': 'lean4/** path filter only',
-        'current_trigger': 'all branches, all paths',
-        'change_status': 'ACTIVATED_v14.2',
+        'current_trigger': 'main pushes, all PRs, all paths',
+        'change_status': 'ACTIVATED_v14.2__DEDUPED_v37.2',
     }
 
 
@@ -237,7 +239,7 @@ def ci_activation_certificate() -> Dict[str, Any]:
         'workflow': CI_WORKFLOW_PATH,
         'lean4_dir': LEAN4_DIR,
         'mathlib_tag': LAKEFILE_MATHLIB_TAG,
-        'trigger': 'ALL_BRANCHES_ALL_PATHS',
+        'trigger': 'MAIN_PUSH_ALL_PRS_ALL_PATHS',
         'previous_trigger': 'LEAN4_PATH_FILTER_ONLY',
         'tier1_status': 'OPERATIONAL',
         'tier2_status': 'OPERATIONAL_VIA_WORKFLOW',
@@ -302,7 +304,7 @@ def tier2_activation_status() -> Dict[str, Any]:
     return {
         'tier': 2,
         'mechanism': 'GitHub Actions — .github/workflows/lean4-check.yml',
-        'trigger': 'Every push and pull_request on all branches',
+        'trigger': 'Every main push and every pull_request',
         'previous_status': 'CI_BLOCKED (lean4/** path filter only)',
         'current_status': 'FULLY_ACTIVATED',
         'toolchain': f'leanprover/lean4:stable (via lean-toolchain file)',
@@ -312,8 +314,9 @@ def tier2_activation_status() -> Dict[str, Any]:
         'expected_wall_time_cached_minutes': 6,
         'blocking_issue_resolved': (
             'P458 named CI_BLOCKED because lean4-check.yml was only triggered by '
-            'lean4/** path changes. P482 updates the trigger to all branches, '
-            'making Tier 2 compilation a first-class CI gate.'
+            'lean4/** path changes. P482 broadened that to repository-wide CI, and '
+            'the trigger now keeps main pushes plus all PRs while avoiding duplicate '
+            'feature-branch push runs.'
         ),
     }
 
@@ -348,6 +351,6 @@ def full_ci_report() -> Dict[str, Any]:
         'verdict': (
             'Lean4 CI fully activated. Both Tier 1 (SHA-256 hash) and Tier 2 '
             '(lake build via CI workflow) are operational. '
-            'n_w=5 uniqueness proof compiles under lean4-check.yml on all branch pushes.'
+            'n_w=5 uniqueness proof compiles under lean4-check.yml on main pushes and all PRs.'
         ),
     }
