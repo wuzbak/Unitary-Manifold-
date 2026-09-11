@@ -179,7 +179,7 @@ def _entry_requires_ledger_sync(entry: Dict[str, str], patch_text: str = "") -> 
     if not (_is_pillar_path(path) or _is_pillar_path(old_path)):
         return False
 
-    if status.startswith(("A", "C")):
+    if status.startswith("A"):
         return True
     if status.startswith("R") and path != old_path:
         return True
@@ -312,7 +312,7 @@ def canonical_ledger_sync_requirement(
         matched_paths.append(path)
         if path == "src/core/sm_free_parameters.py":
             reasons.append("sm_free_parameters changed")
-        elif str(entry.get("status") or "").startswith(("A", "C")):
+        elif str(entry.get("status") or "").startswith("A"):
             reasons.append(f"new pillar file {path}")
         elif str(entry.get("status") or "").startswith("R") and str(entry.get("old_path") or "") != path:
             reasons.append(f"renamed pillar file {path}")
