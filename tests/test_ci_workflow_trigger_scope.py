@@ -24,7 +24,7 @@ def test_hosted_ci_workflows_run_pushes_only_on_main() -> None:
     ]:
         content = _read(workflow_name)
         assert 'branches: ["main"]' in content or "- main" in content
-        assert '"**"' in content
+        assert '"**"' in content or "- '**'" in content
 
 
 def test_psicat_performance_gate_limits_pushes_to_main() -> None:
