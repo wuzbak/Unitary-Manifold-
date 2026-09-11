@@ -6,11 +6,14 @@
 from __future__ import annotations
 
 import argparse
-import os
 import subprocess
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if not (REPO_ROOT / "src" / "core" / "canonical_ledger_consistency.py").is_file():
+    raise SystemExit(f"Repository root not found for ledger sync check: {REPO_ROOT}")
+sys.path.insert(0, str(REPO_ROOT))
 
 from src.core.canonical_ledger_consistency import canonical_ledger_sync_requirement
 
