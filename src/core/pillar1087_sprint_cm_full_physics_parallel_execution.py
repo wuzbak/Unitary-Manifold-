@@ -221,11 +221,11 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
     selected_commit = merge_sha
     selected_ref = merge_sha
     touched, metadata_gap = _latest_merge_touched_files(selected_ref) if selected_ref else ([], False)
-    if (not selected_ref or metadata_gap) and head_sha and selected_ref != head_sha:
+    if not selected_ref and head_sha and selected_ref != head_sha:
         selected_commit = head_sha
         selected_ref = head_sha
         touched, metadata_gap = _latest_merge_touched_files(selected_ref)
-    if (not selected_ref or metadata_gap) and not touched:
+    if not selected_ref and not touched:
         selected_commit = head_sha or selected_commit
         selected_ref = "HEAD"
         touched, metadata_gap = _latest_merge_touched_files(selected_ref)
