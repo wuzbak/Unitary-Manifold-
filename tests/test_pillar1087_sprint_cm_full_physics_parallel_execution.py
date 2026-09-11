@@ -174,7 +174,8 @@ def test_lane_b_reports_missing_metadata_when_no_fallback_works(monkeypatch) -> 
     assert lane_b["selected_ref"] == "HEAD"
     assert lane_b["touched_file_count"] == 0
     assert lane_b["touched_files"] == []
-    assert lane_b["status"] == "PASS"
+    assert lane_b["status"] == "FIX_REQUIRED"
+    assert lane_b["verdict"] == "LAST_MERGE_MATH_FIX_REQUIRED"
 
 
 def test_lane_b_noop_merge_does_not_claim_history_unavailable(monkeypatch) -> None:

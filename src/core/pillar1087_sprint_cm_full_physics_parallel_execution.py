@@ -264,7 +264,9 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
     scoped_failures = [row["path"] for row in scoped_rows if not row["pass"]]
 
     prior_merge_audit = pillar1078_parallel_audit_report()
-    valid = (not metadata_unverified) and not scoped_failures
+    valid = (not metadata_unverified) and not scoped_failures and (
+        metadata_available or merge_commit_available
+    )
 
     return {
         "lane_id": "LANE_B_LAST_MERGE_MATH_AUDIT",
