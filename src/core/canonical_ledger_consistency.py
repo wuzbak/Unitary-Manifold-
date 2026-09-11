@@ -60,6 +60,24 @@ STATUS_TOKEN_PATHS: Dict[str, Path] = {
 
 HARDGATE_REGISTRY_PATH: Path = ROOT / "docs" / "closure_hardgates.json"
 
+LEDGER_SYNC_REQUIRED_PATHS: tuple[str, ...] = (
+    "STATUS.md",
+    "FALLIBILITY.md",
+    "README.md",
+    "1-THEORY/DERIVATION_STATUS.md",
+    "docs/WAVE_CHANGELOG.md",
+)
+
+PILLAR_PATH_RE = re.compile(r"^src/core/pillar[0-9A-Za-z_.-]*\.py$")
+STATUS_BEARING_PILLAR_TOKENS: tuple[str, ...] = (
+    "PILLAR_NUMBER",
+    "PILLAR_GATE",
+    "PILLAR_STATUS",
+    "VERSION",
+    "SPRINT",
+    "NEXT_PILLAR_SLOT",
+)
+
 HISTORICAL_SNAPSHOT_PATHS: Dict[str, Path] = {
     "falsification_register": ROOT / "3-FALSIFICATION" / "FALSIFICATION_REGISTER.md",
     "mas_completion_certificate": ROOT / "docs" / "MAS_COMPLETION_CERTIFICATE.md",
@@ -91,9 +109,11 @@ REGRESSION_RE = re.compile(r"(\d+(?:[,\s]+\d{3})*) passed\s*[·,]\s*(\d+) skippe
 
 __all__ = [
     "LEDGER_PATHS",
+    "LEDGER_SYNC_REQUIRED_PATHS",
     "ONBOARDING_PATHS",
     "canonical_ledger_snapshot",
     "canonical_ledger_consistency_report",
+    "canonical_ledger_sync_requirement",
     "onboarding_docs_consistency_report",
     "canonical_status_token_report",
     "closure_gate_label_discipline_report",
@@ -103,6 +123,64 @@ __all__ = [
 
 def _read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
+
+
+def _is_pillar_path(path: str) -> bool:
+    return bool(PILLAR_PATH_RE.match(str(path or "").strip()))
+
+
+def _normalize_changed_path(entry: str) -> str:
+    return str(entry or "").strip()
+
+
+def _parse_name_status_line(line: str) -> Dict[str, str] | None:
+    raw = str(line or "").strip()
+    if not raw:
+        return None
+    parts = raw.split("\t")
+    status = parts[0].strip()
+    if not status:
+        return None
+    old_path = parts[1].strip() if len(parts) >= 2 else ""
+    new_path = parts[2].strip() if len(parts) >= 3 else old_path
+    return {
+        "status": status,
+        "path": _normalize_changed_path(new_path),
+        "old_path": _normalize_changed_path(old_path),
+    }
+
+
+def _parse_changed_path_line(line: str) -> str:
+    return _normalize_changed_path(line)
+
+
+def _status_bearing_token_touched(patch_text: str) -> bool:
+    text = str(patch_text or "")
+    for line in text.splitlines():
+        if not line.startswith(("+", "-")) or line.startswith(("+++", "---")):
+            continue
+        if any(token in line for token in STATUS_BEARING_PILLAR_TOKENS):
+            return True
+    return False
+
+
+def _entry_requires_ledger_sync(entry: Dict[str, str], patch_text: str = "") -> bool:
+    status = str(entry.get("status") or "")
+    path = str(entry.get("path") or "")
+    old_path = str(entry.get("old_path") or "")
+
+    if path == "src/core/sm_free_parameters.py" or old_path == "src/core/sm_free_parameters.py":
+        return True
+
+    if not (_is_pillar_path(path) or _is_pillar_path(old_path)):
+        return False
+
+    if status.startswith(("A", "C")):
+        return True
+    if status.startswith("R") and path != old_path:
+        return True
+
+    return _status_bearing_token_touched(patch_text)
 
 
 def _extract_version(text: str) -> str | None:
@@ -183,6 +261,70 @@ def canonical_ledger_consistency_report() -> Dict[str, object]:
             and public_version_consistent
             and public_regression_consistent
         ),
+    }
+
+
+def canonical_ledger_sync_requirement(
+    *,
+    changed_files: List[str],
+    name_status_lines: List[str] | None = None,
+    patch_by_path: Dict[str, str] | None = None,
+) -> Dict[str, object]:
+    """Determine whether changed files require canonical ledger synchronization.
+
+    Existing pillar maintenance edits should not fail the gate unless they touch
+    status-bearing pillar metadata. New pillar files, renamed pillar files, and
+    `sm_free_parameters.py` changes still require the ledger bundle.
+    """
+    normalized_changed = [
+        _parse_changed_path_line(line)
+        for line in list(changed_files or [])
+        if _parse_changed_path_line(line)
+    ]
+    changed_set = set(normalized_changed)
+    entries = [
+        parsed
+        for parsed in (
+            _parse_name_status_line(line)
+            for line in list(name_status_lines or [])
+        )
+        if parsed
+    ]
+    if not entries:
+        entries = [{"status": "M", "path": path, "old_path": path} for path in normalized_changed]
+
+    patch_lookup = {str(key): str(value) for key, value in dict(patch_by_path or {}).items()}
+    matched_paths: List[str] = []
+    reasons: List[str] = []
+    for entry in entries:
+        path = str(entry.get("path") or "")
+        if not path:
+            continue
+        patch_text = patch_lookup.get(path, "")
+        if not patch_text and str(entry.get("old_path") or "") != path:
+            patch_text = patch_lookup.get(str(entry.get("old_path") or ""), "")
+        if not _entry_requires_ledger_sync(entry, patch_text=patch_text):
+            continue
+        matched_paths.append(path)
+        if path == "src/core/sm_free_parameters.py":
+            reasons.append("sm_free_parameters changed")
+        elif str(entry.get("status") or "").startswith(("A", "C")):
+            reasons.append(f"new pillar file {path}")
+        elif str(entry.get("status") or "").startswith("R") and str(entry.get("old_path") or "") != path:
+            reasons.append(f"renamed pillar file {path}")
+        else:
+            reasons.append(f"status-bearing pillar metadata changed in {path}")
+
+    missing_required = [
+        path for path in LEDGER_SYNC_REQUIRED_PATHS if path not in changed_set
+    ]
+    return {
+        "requires_sync": bool(matched_paths),
+        "matched_paths": matched_paths,
+        "reasons": reasons,
+        "required_paths": list(LEDGER_SYNC_REQUIRED_PATHS),
+        "missing_required_paths": missing_required,
+        "all_required_paths_changed": len(missing_required) == 0,
     }
 
 

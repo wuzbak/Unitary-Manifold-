@@ -5,8 +5,10 @@ from __future__ import annotations
 
 from src.core.canonical_ledger_consistency import (
     LEDGER_PATHS,
+    LEDGER_SYNC_REQUIRED_PATHS,
     ONBOARDING_PATHS,
     canonical_ledger_consistency_report,
+    canonical_ledger_sync_requirement,
     canonical_status_token_report,
     canonical_ledger_snapshot,
     closure_gate_label_discipline_report,
@@ -106,3 +108,58 @@ class TestHistoricalSnapshotDisclaimers:
             "Historical ledger disclaimer markers missing: "
             f"{report['missing']}"
         )
+
+
+class TestCanonicalLedgerSyncRequirement:
+    def test_existing_pillar_maintenance_edit_does_not_require_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=[
+                "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py",
+                "tests/test_pillar1087_sprint_cm_full_physics_parallel_execution.py",
+            ],
+            name_status_lines=[
+                "M\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py",
+                "M\ttests/test_pillar1087_sprint_cm_full_physics_parallel_execution.py",
+            ],
+            patch_by_path={
+                "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py": (
+                    "@@ -195,0 +196,4 @@\n"
+                    "+    head_sha = _run_git([\"rev-parse\", \"HEAD\"])\n"
+                )
+            },
+        )
+        assert report["requires_sync"] is False
+        assert report["matched_paths"] == []
+
+    def test_new_pillar_file_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1121_new_thing.py"],
+            name_status_lines=["A\tsrc/core/pillar1121_new_thing.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["all_required_paths_changed"] is False
+        assert report["missing_required_paths"] == list(LEDGER_SYNC_REQUIRED_PATHS)
+
+    def test_status_bearing_metadata_edit_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py"],
+            name_status_lines=["M\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py"],
+            patch_by_path={
+                "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py": (
+                    "@@ -29,2 +29,2 @@\n"
+                    '-PILLAR_STATUS: str = "OLD"\n'
+                    '+PILLAR_STATUS: str = "NEW"\n'
+                )
+            },
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == [
+            "status-bearing pillar metadata changed in src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py"
+        ]
+
+    def test_sm_free_parameters_always_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/sm_free_parameters.py"],
+            name_status_lines=["M\tsrc/core/sm_free_parameters.py"],
+        )
+        assert report["requires_sync"] is True
