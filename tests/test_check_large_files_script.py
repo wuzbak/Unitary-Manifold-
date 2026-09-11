@@ -91,7 +91,7 @@ def test_changed_paths_includes_type_changes(monkeypatch):
     calls = {}
 
     class _Completed:
-        stdout = "file.bin\n"
+        stdout = b"file.bin\x00"
 
     def _fake_run(args, check, capture_output, text):
         calls["args"] = args
@@ -99,6 +99,7 @@ def test_changed_paths_includes_type_changes(monkeypatch):
 
     monkeypatch.setattr(module.subprocess, "run", _fake_run)
     paths = module.changed_paths(base_sha="base", head_sha="head")
+    assert "-z" in calls["args"]
     assert "--diff-filter=AMRT" in calls["args"]
     assert paths == [Path("file.bin")]
 

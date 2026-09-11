@@ -60,14 +60,15 @@ def changed_paths(base_sha: str, head_sha: str) -> list[Path]:
             "git",
             "diff",
             "--name-only",
+            "-z",
             "--diff-filter=AMRT",
             f"{base_sha}...{head_sha}",
         ],
         check=True,
         capture_output=True,
-        text=True,
+        text=False,
     )
-    raw = [p.strip() for p in result.stdout.splitlines() if p.strip()]
+    raw = [p for p in result.stdout.decode("utf-8").split("\x00") if p]
     return [Path(p) for p in raw]
 
 
