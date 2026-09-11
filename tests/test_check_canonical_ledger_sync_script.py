@@ -111,3 +111,19 @@ def test_git_full_patch_uses_rename_and_copy_detection(monkeypatch, ledger_sync_
     ledger_sync_script_module._git_full_patch(base_sha="base", head_sha="head")
     assert "--find-renames" in calls["args"]
     assert "--find-copies" in calls["args"]
+
+
+def test_git_diff_lines_uses_rename_and_copy_detection(monkeypatch, ledger_sync_script_module):
+    calls = {}
+
+    class _Completed:
+        stdout = ""
+
+    def _fake_run(args, check, capture_output, text):
+        calls["args"] = args
+        return _Completed()
+
+    monkeypatch.setattr(ledger_sync_script_module.subprocess, "run", _fake_run)
+    ledger_sync_script_module._git_diff_lines(base_sha="base", head_sha="head", name_only=False)
+    assert "--find-renames" in calls["args"]
+    assert "--find-copies" in calls["args"]

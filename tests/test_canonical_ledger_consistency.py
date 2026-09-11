@@ -179,6 +179,17 @@ class TestCanonicalLedgerSyncRequirement:
         )
         assert report["requires_sync"] is True
         assert report["matched_paths"] == ["src/core/pillar1121_copy.py"]
+        assert report["reasons"] == ["copied pillar file with new identity src/core/pillar1121_copy.py"]
+
+    def test_same_identity_copy_without_metadata_change_does_not_require_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1087_copy_variant.py"],
+            name_status_lines=["C100\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\tsrc/core/pillar1087_copy_variant.py"],
+            patch_by_path={
+                "src/core/pillar1087_copy_variant.py": "@@ -1 +1 @@\n+helper = 1\n",
+            },
+        )
+        assert report["requires_sync"] is False
 
     def test_deleted_pillar_file_requires_sync(self):
         report = canonical_ledger_sync_requirement(

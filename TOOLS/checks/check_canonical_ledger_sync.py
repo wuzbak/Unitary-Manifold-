@@ -20,7 +20,7 @@ from src.core.canonical_ledger_consistency import canonical_ledger_sync_requirem
 
 
 def _git_diff_lines(*, base_sha: str, head_sha: str, name_only: bool) -> list[str]:
-    args = ["git", "diff", "--name-only" if name_only else "--name-status", base_sha, head_sha]
+    args = ["git", "diff", "--find-renames", "--find-copies", "--name-only" if name_only else "--name-status", base_sha, head_sha]
     completed = subprocess.run(args, check=True, capture_output=True, text=True)
     return [line.strip() for line in completed.stdout.splitlines() if line.strip()]
 

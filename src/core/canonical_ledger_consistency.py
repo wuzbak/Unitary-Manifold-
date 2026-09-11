@@ -69,6 +69,7 @@ LEDGER_SYNC_REQUIRED_PATHS: tuple[str, ...] = (
 )
 
 PILLAR_PATH_RE = re.compile(r"^src/core/pillar[0-9A-Za-z_.-]*\.py$")
+PILLAR_IDENTITY_RE = re.compile(r"^src/core/pillar([0-9]+)")
 STATUS_BEARING_PILLAR_TOKENS: tuple[str, ...] = (
     "PILLAR_NUMBER",
     "PILLAR_GATE",
@@ -129,6 +130,11 @@ def _is_pillar_path(path: str) -> bool:
     return bool(PILLAR_PATH_RE.match(str(path or "").strip()))
 
 
+def _pillar_identity(path: str) -> str:
+    match = PILLAR_IDENTITY_RE.match(str(path or "").strip())
+    return match.group(1) if match else ""
+
+
 def _normalize_changed_path(entry: str) -> str:
     return str(entry or "").strip()
 
@@ -179,8 +185,12 @@ def _entry_requires_ledger_sync(entry: Dict[str, str], patch_text: str = "") -> 
     if not (_is_pillar_path(path) or _is_pillar_path(old_path)):
         return False
 
-    if status.startswith(("A", "C", "D")):
+    if status.startswith(("A", "D")):
         return True
+    if status.startswith("C"):
+        old_identity = _pillar_identity(old_path)
+        new_identity = _pillar_identity(path)
+        return (bool(new_identity) and old_identity != new_identity) or _status_bearing_token_touched(patch_text)
     if status.startswith("R") and path != old_path:
         return True
 
@@ -321,8 +331,10 @@ def canonical_ledger_sync_requirement(
         matched_paths.append(path)
         if path == "src/core/sm_free_parameters.py":
             reasons.append("sm_free_parameters changed")
-        elif str(entry.get("status") or "").startswith(("A", "C")):
+        elif str(entry.get("status") or "").startswith("A"):
             reasons.append(f"new pillar file {path}")
+        elif str(entry.get("status") or "").startswith("C"):
+            reasons.append(f"copied pillar file with new identity {path}")
         elif str(entry.get("status") or "").startswith("D"):
             reasons.append(f"deleted pillar file {path}")
         elif str(entry.get("status") or "").startswith("R") and str(entry.get("old_path") or "") != path:
