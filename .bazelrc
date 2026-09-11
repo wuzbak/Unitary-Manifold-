@@ -2,6 +2,7 @@
 # Keep pilot isolated and deterministic.
 common --announce_rc
 common --color=yes
+startup --output_user_root=~/.cache/bazel-output
 common --repository_cache=~/.cache/bazel-repo
 common --disk_cache=~/.cache/bazel-disk
 common --enable_bzlmod

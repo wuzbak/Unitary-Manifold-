@@ -4,12 +4,20 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 from pathlib import Path
 import sys
 
 
 def _load_module():
-    script_path = Path(__file__).resolve().parents[1] / "TOOLS" / "checks" / "check_large_files.py"
+    test_srcdir = os.environ.get("TEST_SRCDIR", "").strip()
+    test_workspace = os.environ.get("TEST_WORKSPACE", "").strip()
+    if test_srcdir and test_workspace:
+        script_path = (
+            Path(test_srcdir) / test_workspace / "TOOLS" / "checks" / "check_large_files.py"
+        )
+    else:
+        script_path = Path(__file__).resolve().parents[1] / "TOOLS" / "checks" / "check_large_files.py"
     spec = importlib.util.spec_from_file_location("check_large_files", script_path)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
