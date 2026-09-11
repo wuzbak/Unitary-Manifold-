@@ -31,6 +31,20 @@ def _git_patch_for_path(*, base_sha: str, head_sha: str, path: str) -> str:
     return completed.stdout
 
 
+def _tracked_patch_paths(name_status_lines: list[str]) -> list[str]:
+    tracked: list[str] = []
+    for line in name_status_lines:
+        parts = [part.strip() for part in line.split("\t") if part.strip()]
+        if not parts:
+            continue
+        status = parts[0]
+        candidate_paths = parts[1:3] if status.startswith(("R", "C")) else parts[1:2]
+        for path in candidate_paths:
+            if path.startswith("src/core/pillar") or path == "src/core/sm_free_parameters.py":
+                tracked.append(path)
+    return sorted(set(tracked))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Check canonical ledger sync requirements for a PR diff.")
     parser.add_argument("--base-sha", required=True)
@@ -41,8 +55,7 @@ def main() -> int:
     name_status_lines = _git_diff_lines(base_sha=args.base_sha, head_sha=args.head_sha, name_only=False)
     patch_by_path = {
         path: _git_patch_for_path(base_sha=args.base_sha, head_sha=args.head_sha, path=path)
-        for path in changed_files
-        if path.startswith("src/core/pillar") or path == "src/core/sm_free_parameters.py"
+        for path in _tracked_patch_paths(name_status_lines)
     }
     report = canonical_ledger_sync_requirement(
         changed_files=changed_files,
