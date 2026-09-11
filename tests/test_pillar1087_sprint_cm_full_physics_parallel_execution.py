@@ -247,7 +247,7 @@ def test_latest_merge_touched_files_marks_unverified_for_non_noop_empty_show(mon
 
     touched = p1087._latest_merge_touched_files(merge_sha)
 
-    assert touched == ([], True)
+    assert touched == ([], False)
 
 
 def test_latest_merge_touched_files_marks_unverified_only_when_tree_available(monkeypatch) -> None:

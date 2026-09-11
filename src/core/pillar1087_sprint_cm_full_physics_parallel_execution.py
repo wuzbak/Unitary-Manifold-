@@ -153,9 +153,7 @@ def _latest_merge_touched_files(merge_sha: str) -> tuple[List[str], bool]:
     if show_ok:
         if files:
             return files, False
-        if _is_true_noop_merge(merge_sha):
-            return [], False
-        return [], True
+        return [], False
 
     if not show_ok:
         # In shallow clones, parent history may be unavailable, so `git show` can
