@@ -14,7 +14,7 @@ WORKFLOWS = REPO_ROOT / ".github" / "workflows"
 
 def _load(name: str) -> dict:
     content = (WORKFLOWS / name).read_text(encoding="utf-8")
-    return yaml.load(content, Loader=yaml.BaseLoader)
+    return yaml.safe_load(content)
 
 
 def _extract_branches(workflow_name: str, event_name: str) -> list[str]:
