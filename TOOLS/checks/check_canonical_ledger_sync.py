@@ -26,7 +26,7 @@ def _git_diff_lines(*, base_sha: str, head_sha: str, name_only: bool) -> list[st
 
 def _git_patch_for_path(*, base_sha: str, head_sha: str, path: str) -> str:
     completed = subprocess.run(
-        ["git", "diff", "--unified=0", base_sha, head_sha, "--", path],
+        ["git", "diff", "--find-renames", "--find-copies", "--unified=0", base_sha, head_sha, "--", path],
         check=True,
         capture_output=True,
         text=True,

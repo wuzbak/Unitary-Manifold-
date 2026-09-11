@@ -83,3 +83,19 @@ def test_main_passes_when_required_ledgers_are_present(monkeypatch, capsys, ledg
     assert ledger_sync_script_module.main() == 0
     out = capsys.readouterr().out
     assert "OK: canonical ledger sync present for status-bearing pillar changes." in out
+
+
+def test_git_patch_for_path_uses_rename_and_copy_detection(monkeypatch, ledger_sync_script_module):
+    calls = {}
+
+    class _Completed:
+        stdout = ""
+
+    def _fake_run(args, check, capture_output, text):
+        calls["args"] = args
+        return _Completed()
+
+    monkeypatch.setattr(ledger_sync_script_module.subprocess, "run", _fake_run)
+    ledger_sync_script_module._git_patch_for_path(base_sha="base", head_sha="head", path="src/core/pillar1.py")
+    assert "--find-renames" in calls["args"]
+    assert "--find-copies" in calls["args"]
