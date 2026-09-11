@@ -119,18 +119,16 @@ def _is_true_noop_merge(merge_sha: str) -> bool:
     parts = [part.strip() for part in parents_line.split() if part.strip()]
     if len(parts) < 2:
         return False
+    merge_tree, merge_tree_ok = _run_git_with_status(["rev-parse", f"{merge_sha}^{{tree}}"])
+    if not merge_tree_ok or not merge_tree:
+        return False
     for parent_sha in parts[1:]:
-        _, parent_tree_ok = _run_git_with_status(["cat-file", "-e", f"{parent_sha}^{{tree}}"])
+        parent_tree, parent_tree_ok = _run_git_with_status(["rev-parse", f"{parent_sha}^{{tree}}"])
         if not parent_tree_ok:
             return False
-    result = subprocess.run(
-        ["git", "diff-tree", "--quiet", "-r", "-m", merge_sha],
-        cwd=_ROOT,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    return result.returncode == 0
+        if parent_tree != merge_tree:
+            return False
+    return True
 
 
 def _latest_merge_touched_files(merge_sha: str) -> tuple[List[str], bool]:
