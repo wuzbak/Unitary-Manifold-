@@ -1,0 +1,13 @@
+load("@rules_python//python:defs.bzl", "py_test")
+
+py_test(
+    name = "test_metric_bazel",
+    srcs = ["test_metric.py"],
+    imports = [".."],
+    deps = [
+        "//src/core:metric",
+        "@pip//numpy",
+        "@pip//pytest",
+        "@pip//scipy",
+    ],
+)

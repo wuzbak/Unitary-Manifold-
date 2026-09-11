@@ -134,3 +134,10 @@ jobs:
             -v
       - name: Guard large directory entry counts
         run: python TOOLS/checks/check_large_directories.py
+      - name: Enforce tracked-file size limit
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha || github.event.before }}"
+          python TOOLS/checks/check_large_files.py \
+            --max-bytes 5242880 \
+            --base-sha "$BASE_SHA" \
+            --head-sha "${{ github.sha }}"
