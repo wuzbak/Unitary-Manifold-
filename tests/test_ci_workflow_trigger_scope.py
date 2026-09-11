@@ -19,7 +19,8 @@ def _load(name: str) -> dict:
 
 def _extract_branches(workflow_name: str, event_name: str) -> list[str]:
     workflow = _load(workflow_name)
-    return list((workflow.get("on", {}).get(event_name, {}) or {}).get("branches", []))
+    on_block = workflow.get("on") or workflow.get(True) or {}
+    return list((on_block.get(event_name, {}) or {}).get("branches", []))
 
 
 def test_hosted_ci_workflows_run_pushes_only_on_main() -> None:
