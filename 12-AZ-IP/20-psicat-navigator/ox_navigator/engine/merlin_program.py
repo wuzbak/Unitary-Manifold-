@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from functools import lru_cache
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import shlex
@@ -52,6 +53,15 @@ MERLIN_EXECUTION_BOARD_DOC = PRODUCT_ROOT / "PSICAT_EXECUTION_BOARD.md"
 MERLIN_VALIDATION_RESILIENCE_DOC = PRODUCT_ROOT / "PSICAT_VALIDATION_RESILIENCE_PACKET.md"
 PSICAT_SPC_PLAN_DOC = PRODUCT_ROOT / "PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md"
 PSICAT_SPC_GATES_DOC = PRODUCT_ROOT / "PSICAT_SPC_BENCHMARK_GATES.md"
+COMBINED_GATE_REQUIRED_AXES = [
+    "factuality",
+    "provenance_completeness",
+    "boundary_compliance",
+    "contradiction_recovery",
+    "energy_efficiency",
+    "latency_efficiency",
+]
+COMBINED_GATE_POLICY = "Promotion is fail-closed unless combined quality, governance, and efficiency axes all pass."
 PSICAT_SPC_PHASE0_PACKET_PATH = (
     PRODUCT_ROOT / "training" / "training_execution" / "psicat_spc_phase0_execution_packet.json"
 )
@@ -2567,6 +2577,38 @@ def get_training_framework_stack() -> dict[str, Any]:
             "fail_closed": True,
             "promotion_rule": "No framework promotion without receipts, benchmark evidence, and governance-pass status.",
         },
+        "sovereign_multi_lane_architecture": [
+            {
+                "lane_id": "lane_a_fast_local_control",
+                "role": "compact_open_weight_routing_with_strict_gate_and_citation_enforcement",
+                "primary_runtimes": ["llama_cpp", "ollama_local_runtime"],
+                "promotion_rule": "Must preserve typed provenance and gate badges across benchmark receipts.",
+            },
+            {
+                "lane_id": "lane_b_default_reasoning",
+                "role": "open_weight_default_reasoning_with_peft_trl_alignment_loops",
+                "primary_runtimes": ["vLLM_PagedAttention", "tensorrt_llm", "onnx_runtime"],
+                "promotion_rule": "Default lane promotion requires Stage B/C receipts and longitudinal clean windows.",
+            },
+            {
+                "lane_id": "lane_c_heavy_shadow",
+                "role": "frontier_reasoning_shadow_lane_for_exception_cases_only",
+                "primary_runtimes": ["vLLM_PagedAttention", "tensorrt_llm"],
+                "promotion_rule": "Remain shadow-only until clean benchmark windows and blocker register both clear.",
+            },
+            {
+                "lane_id": "lane_d_physics_compute",
+                "role": "jax_first_differentiable_physics_expansion_for_ode_sde_pinn_workloads",
+                "primary_frameworks": ["JAX", "Diffrax", "DeepXDE"],
+                "promotion_rule": "No hardgate promotion claims from this lane without explicit closure receipts.",
+            },
+            {
+                "lane_id": "lane_e_quantum_adjacent",
+                "role": "xdiag_bridge_plus_many_body_learning_track_with_explicit_adjacent_labeling",
+                "primary_frameworks": ["XDiag_bridge", "NetKet"],
+                "non_claim_boundary": "Adjacent quantum engineering lane; not a hardgate physics-closure lane.",
+            },
+        ],
         "psi_cat_alignment_targets": [
             "stronger_tool_routing_precision",
             "higher_provenance_completeness",
@@ -4037,6 +4079,73 @@ def get_frontier_open_weight_stack() -> dict[str, Any]:
             "model_admission_surface": "evaluateMerlinModelAdmission",
             "admission_policy_surface": "getMerlinModelAdmissionPolicy",
         },
+        "paper_intake_lane": {
+            "lane_id": "frontier_paper_intake",
+            "paper_reference": {
+                "source": "arXiv",
+                "id": "2508.21593",
+                "url": "https://arxiv.org/abs/2508.21593",
+            },
+            "mode": "governed_intake_packet",
+            "transferability_axes": [
+                "reasoning_kernels",
+                "training_recipes",
+                "evaluation_doctrine",
+                "inference_efficiency",
+            ],
+            "bucket_policy": {
+                "adopt_now": "Directly compatible with existing contracts and immediately benchmarkable in Stage A/B.",
+                "adapt_in_shadow": "Promising but requires shadow-lane adaptation before primary routing.",
+                "research_lane": "Useful hypothesis material requiring deeper evaluation or missing implementation details.",
+                "reject": "Incompatible with governance, provenance, licensing, or fail-closed rules.",
+            },
+            "promotion_gate": {
+                "receipt_required": True,
+                "required_surfaces": [
+                    "runMerlinStageAReceipts",
+                    "runMerlinStageBReceipts",
+                    "runMerlinStageCReceipts",
+                    "runMerlinStageDReceipts",
+                    "runMerlinStageEReceipts",
+                    "evaluateMerlinModelAdmission",
+                ],
+                "policy": "No paper-derived capability may enter primary routing without receipt-backed evidence and admission-pass status.",
+            },
+            "current_status": "awaiting_claim_level_extraction",
+        },
+        "sovereign_multi_lane_architecture": [
+            {
+                "lane": "A",
+                "name": "fast_local_control",
+                "policy": "compact open-weight routing with strict gate/citation enforcement",
+                "primary_stack": ["Gemma 4", "llama_cpp", "ollama_local_runtime"],
+            },
+            {
+                "lane": "B",
+                "name": "default_reasoning",
+                "policy": "strong open-weight reasoning lane with PEFT/TRL alignment loops",
+                "primary_stack": ["Qwen 3", "PEFT", "TRL", "vLLM_PagedAttention"],
+            },
+            {
+                "lane": "C",
+                "name": "heavy_shadow",
+                "policy": "frontier reasoning models stay shadow-only until clean benchmark windows",
+                "primary_stack": ["DeepSeek-R1", "vLLM_PagedAttention", "tensorrt_llm"],
+            },
+            {
+                "lane": "D",
+                "name": "physics_compute",
+                "policy": "JAX-first differentiable physics expansion including Diffrax/PINN tracks",
+                "primary_stack": ["JAX", "Diffrax", "DeepXDE"],
+            },
+            {
+                "lane": "E",
+                "name": "quantum_adjacent",
+                "policy": "XDiag bridge and many-body learning with explicit non-hardgate labeling",
+                "primary_stack": ["XDiag_bridge", "NetKet"],
+                "boundary_label": "ADJACENT_TRACK",
+            },
+        ],
         "open_weight_models": [
             {
                 "name": "DeepSeek-R1",
@@ -4121,6 +4230,20 @@ def get_frontier_open_weight_stack() -> dict[str, Any]:
             "typed_provenance_and_contract_visibility_required",
             "kernel_gate_summary_pass_required_before_promotion",
             "openrouter_compatibility_fallback_only",
+        ],
+        "deep_integration_priorities": [
+            {
+                "priority_id": "priority_failure_driven_corpus",
+                "action": "Expand failure-driven corpus with cross-source conflict, uncertainty handling, and governance-boundary stress cases.",
+            },
+            {
+                "priority_id": "priority_specialized_benchmarks",
+                "action": "Add specialized benchmark packs for long-context synthesis, physics-law consistency, and legal/governance precision.",
+            },
+            {
+                "priority_id": "priority_external_provider_policy",
+                "action": "Keep OpenRouter and other external providers compatibility-only, never primary routing.",
+            },
         ],
         "two_engine_training_strategy": {
             "rapid_ablation_lane": {
@@ -4275,6 +4398,11 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
     frontier = get_frontier_readiness_packet(limit=resolved_limit)
     blockers = list(frontier.get("promotion_blockers") or [])
     open_blockers = [item for item in blockers if not bool(item.get("pass"))]
+    coherent_control_tower = dict(control_tower)
+    deployment_eligibility = dict(control_tower.get("deployment_eligibility") or {})
+    deployment_eligibility["frontier_blocker_count"] = len(open_blockers)
+    deployment_eligibility["frontier_blockers_clear"] = len(open_blockers) == 0
+    coherent_control_tower["deployment_eligibility"] = deployment_eligibility
     return {
         "generated_at": _utcnow(),
         "limit": resolved_limit,
@@ -4283,7 +4411,7 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
             "and harden heavy-lane sovereign reasoning before any replacement claim."
         ),
         "stage_reviews": stage_reviews,
-        "control_tower": control_tower,
+        "control_tower": coherent_control_tower,
         "frontier_readiness": frontier,
         "open_blockers": open_blockers,
         "stage_discipline": {
@@ -4319,6 +4447,13 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             "objective": review_packet.get("sprint_objective", ""),
         },
         "immediate_tasks": [
+            {
+                "task_id": "CL-0",
+                "lane": "paper_intake",
+                "priority": "highest",
+                "task": "Run arXiv:2508.21593 through the governed paper-intake lane and classify extracted assets into adopt-now, adapt-in-shadow, research-lane, or reject.",
+                "success_condition": "Every extracted claim has a bucket assignment, transferability axis tag, and receipt-gated promotion path.",
+            },
             {
                 "task_id": "CL-1",
                 "lane": "benchmark_operations",
@@ -4360,6 +4495,20 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "priority": "high",
                 "task": "Keep ARC-AGI as a shadow holdout lane with contamination controls, benchmark receipts, and fail-closed promotion gates.",
                 "success_condition": "ARC-AGI surfaces stay integrated, benchmarked, and explicitly non-promoted unless holdout, provenance, and gate receipts stay green together.",
+            },
+            {
+                "task_id": "CL-7",
+                "lane": "physics_compute",
+                "priority": "high",
+                "task": "Advance Lane D with JAX-first differentiable physics workloads (Diffrax/PINN track) under explicit non-closure governance.",
+                "success_condition": "Physics-compute receipts are reproducible, bounded, and never inflated into hardgate closure claims.",
+            },
+            {
+                "task_id": "CL-8",
+                "lane": "quantum_adjacent",
+                "priority": "high",
+                "task": "Advance Lane E with XDiag bridge and many-body learning benchmarks while keeping adjacent/non-hardgate labels explicit.",
+                "success_condition": "Quantum lane outputs retain ADJACENT_TRACK labeling with benchmark and provenance receipts attached.",
             },
         ],
         "blocker_register": [
@@ -4412,6 +4561,10 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             }
             for stage in stage_reviews
         ],
+        "combined_gate_contract": {
+            "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
+            "policy": "Promotion holds unless all required axes pass in the same receipt window.",
+        },
         "blunt_board": {
             "title": "Sprint CL blunt board",
             "closed_this_sprint": [
@@ -7037,9 +7190,21 @@ def _coerce_frontier_limit(value: Any, default: int = 3) -> int:
     return parsed if parsed > 0 else max(1, int(default))
 
 
+def _env_flag(name: str, default: bool = False) -> bool:
+    default_raw = "1" if default else "0"
+    return str(os.environ.get(name, default_raw)).strip().lower() in {"1", "true", "yes", "on"}
+
+
 def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     from .merlin_benchmark import build_merlin_control_tower, get_multi_stage_benchmark_plan
 
+    required_receipts = [
+        "stage_a_parity_capture",
+        "stage_b_sovereign_takeover",
+        "stage_c_capability_expansion",
+        "stage_d_replacement_gates",
+        "stage_e_external_decommission",
+    ]
     resolved_limit = _coerce_frontier_limit(limit, default=3)
     sync = run_sync_checks()
     control_tower = build_merlin_control_tower(limit=resolved_limit)
@@ -7047,10 +7212,36 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     training = get_training_architecture(limit=resolved_limit)
     runtime = get_mythos_astra_contract()
     router = get_router_policy()
+    resilience = get_merlin_validation_resilience_packet()
+    resilience_truth = dict(resilience.get("current_truth") or {})
+    hosted_review_signal_present = bool(resilience_truth.get("hosted_review_tool_available_in_every_environment"))
+    security_scan_signal_present = bool(resilience_truth.get("codeql_completed_in_current_environment"))
+    hosted_review_required_for_promotion = _env_flag("MERLIN_REQUIRE_HOSTED_REVIEW_SIGNAL")
+    security_scan_required_for_promotion = _env_flag("MERLIN_REQUIRE_SECURITY_SCAN_SIGNAL")
+    hosted_review_reason = (
+        "Promotion remains blocked while hosted review coverage is missing across active environments."
+        if hosted_review_required_for_promotion
+        else "Hosted review signal is tracked as informational in this environment and does not block promotion."
+    )
+    security_scan_reason = (
+        "Promotion remains blocked while the current CodeQL signal is incomplete or skipped."
+        if security_scan_required_for_promotion
+        else "Security scan signal is tracked as informational in this environment and does not block promotion."
+    )
 
     replacement_readiness = dict(control_tower.get("replacement_readiness") or control_tower.get("readiness") or {})
     longitudinal = dict(control_tower.get("longitudinal_acceptance") or control_tower.get("longitudinal") or {})
     lane_shadow = dict(control_tower.get("lane_shadow_deployment") or {})
+    effective_replacement_packet = dict(replacement_readiness.get("packet") or replacement_readiness)
+    stage_checks = dict(effective_replacement_packet.get("stage_checks") or {})
+    missing_required_receipts = [stage for stage in required_receipts if stage not in stage_checks]
+    stage_checks_available = not missing_required_receipts
+    required_receipts_all_clear = stage_checks_available and all(bool(stage_checks.get(stage)) for stage in required_receipts)
+    stage_checks_reason = (
+        "Required Stage A→E receipt checks must all pass under the multi-stage control packet."
+        if stage_checks_available
+        else f"Required stage-check payload is missing keys: {missing_required_receipts}; fail-closed receipt contract blocks promotion."
+    )
     promotion_blockers = [
         {
             "id": "sync_checks_green",
@@ -7061,6 +7252,14 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "id": "stage_a_empirical_gate",
             "pass": bool(replacement_readiness.get("packet", {}).get("empirical_gate", {}).get("gate_pass")),
             "reason": "Stage A head-to-head empirical gate must pass with comparable receipts.",
+        },
+        {
+            "id": "required_receipt_stage_checks",
+            "pass": required_receipts_all_clear,
+            "reason": stage_checks_reason,
+            "stage_checks": stage_checks,
+            "missing_required_receipts": missing_required_receipts,
+            "required_for_promotion": True,
         },
         {
             "id": "longitudinal_acceptance",
@@ -7087,6 +7286,22 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "pass": router.get("default_provider") == "sovereign_local" and router.get("gates", {}).get("primary_requires_fully_open_science") is True,
             "reason": "Sovereign local runtime remains primary with open-science policy guardrails.",
         },
+        {
+            "id": "hosted_review_signal_present_check",
+            "pass": hosted_review_signal_present,
+            "blocking_pass": hosted_review_signal_present if hosted_review_required_for_promotion else True,
+            "reason": hosted_review_reason,
+            "signal_present": hosted_review_signal_present,
+            "required_for_promotion": hosted_review_required_for_promotion,
+        },
+        {
+            "id": "security_scan_signal_present_check",
+            "pass": security_scan_signal_present,
+            "blocking_pass": security_scan_signal_present if security_scan_required_for_promotion else True,
+            "reason": security_scan_reason,
+            "signal_present": security_scan_signal_present,
+            "required_for_promotion": security_scan_required_for_promotion,
+        },
     ]
 
     return {
@@ -7097,8 +7312,30 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
         "control_tower": control_tower,
         "multi_stage_plan": benchmark_plan,
         "training_seed_examples": training.get("seed_statistics", {}),
+        "combined_gate_contract": {
+            "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
+            "required_receipts": [
+                *required_receipts,
+            ],
+            "policy": COMBINED_GATE_POLICY,
+        },
+        "external_validation_signal_policy": {
+            "hosted_review": {
+                "signal_present": hosted_review_signal_present,
+                "required_for_promotion": hosted_review_required_for_promotion,
+            },
+            "security_scan": {
+                "signal_present": security_scan_signal_present,
+                "required_for_promotion": security_scan_required_for_promotion,
+            },
+            "policy": "When marked required_for_promotion, missing external signals become fail-closed blockers.",
+        },
+        "paper_intake_lane": dict(get_frontier_open_weight_stack().get("paper_intake_lane") or {}),
         "promotion_blockers": promotion_blockers,
-        "promotion_blockers_all_clear": all(item["pass"] for item in promotion_blockers),
+        "promotion_blockers_all_clear": all(
+            bool(item.get("blocking_pass", item.get("pass")))
+            for item in promotion_blockers
+        ),
         "policy": "Fail closed: promotion blocked unless every blocker passes.",
     }
 

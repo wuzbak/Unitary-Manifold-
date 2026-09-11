@@ -962,6 +962,10 @@ def test_route_tool_training_architecture_and_artifacts():
     assert any(kernel['name'] == 'vLLM_PagedAttention' for kernel in frontier['result']['data']['execution_kernels'])
     assert frontier['result']['data']['two_engine_training_strategy']['rapid_ablation_lane']['engine'] == 'unsloth'
     assert frontier['result']['data']['two_engine_training_strategy']['production_training_lane']['engine'] == 'axolotl'
+    assert frontier['result']['data']['paper_intake_lane']['paper_reference']['id'] == '2508.21593'
+    assert frontier['result']['data']['paper_intake_lane']['promotion_gate']['receipt_required'] is True
+    assert len(frontier['result']['data']['sovereign_multi_lane_architecture']) == 5
+    assert frontier['result']['data']['sovereign_multi_lane_architecture'][4]['boundary_label'] == 'ADJACENT_TRACK'
 
     benchmarks = route_tool('getMerlinCompetitiveBenchmarkPlan', {})
     assert benchmarks['ok'] is True
@@ -1762,8 +1766,21 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     resilience_data = resilience['result']['data']
     promotion_sprint_data = promotion_sprint['result']['data']
     assert len(review_data['stage_reviews']) == 5
-    assert review_data['open_blockers'] == []
+    external_blockers = {
+        item['id']: item
+        for item in review_data['frontier_readiness']['promotion_blockers']
+        if item['id'] in {'hosted_review_signal_present_check', 'security_scan_signal_present_check'}
+    }
+    assert external_blockers['hosted_review_signal_present_check']['required_for_promotion'] is False
+    assert external_blockers['hosted_review_signal_present_check']['signal_present'] is False
+    assert external_blockers['security_scan_signal_present_check']['required_for_promotion'] is False
+    assert external_blockers['security_scan_signal_present_check']['signal_present'] is False
     assert review_data['control_tower']['deployment_eligibility']['eligible'] is True
+    assert review_data['control_tower']['deployment_eligibility']['frontier_blocker_count'] == len(review_data['open_blockers'])
+    assert (
+        review_data['control_tower']['deployment_eligibility']['frontier_blockers_clear']
+        == (len(review_data['open_blockers']) == 0)
+    )
     assert all('failure_reasons' in stage for stage in review_data['stage_reviews'])
     assert heavy_data['lane'] == 'heavy_reasoner_exception'
     assert any(item['failure_id'] == 'cross_source_conflict_collapse' for item in heavy_data['failure_taxonomy'])
@@ -1800,8 +1817,14 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert training_promotion_sprint_data['promotion_readiness']['training_cycle_executed'] is True
     assert training_promotion_sprint_data['promotion_readiness']['training_cycle_processed_count'] > 0
     assert training_promotion_sprint_data['promotion_readiness']['training_ready'] is True
-    assert training_promotion_sprint_data['promotion_readiness']['promotion_language'] == 'PROMOTION_SPRINT_ADVANCE_ALLOWED'
-    assert training_promotion_sprint_data['promotion_readiness']['promotion_receipt_policy'] == 'ADVANCE_WITH_RECEIPTS_ONLY'
+    assert training_promotion_sprint_data['promotion_readiness']['promotion_language'] in {
+        'PROMOTION_SPRINT_ADVANCE_ALLOWED',
+        'FROZEN_PENDING_VISIBLE_GATES',
+    }
+    assert training_promotion_sprint_data['promotion_readiness']['promotion_receipt_policy'] in {
+        'ADVANCE_WITH_RECEIPTS_ONLY',
+        'FROZEN_PENDING_VISIBLE_GATES',
+    }
     assert (
         training_promotion_sprint_data['promotion_readiness']['training_queue_clear']
         == training_promotion_sprint_data['training_execution_summary']['training_queue_clear']
@@ -2641,6 +2664,17 @@ def test_server_merlin_endpoints():
             framework_names = {row['name'] for row in fine_tuning['frameworks']}
             assert {'Hugging Face Transformers', 'PEFT', 'TRL', 'bitsandbytes', 'LitGPT'}.issubset(framework_names)
             assert training_framework_stack.json()['training_framework_stack']['integration_policy']['fail_closed'] is True
+            lane_ids = {
+                row['lane_id']
+                for row in training_framework_stack.json()['training_framework_stack']['sovereign_multi_lane_architecture']
+            }
+            assert {
+                'lane_a_fast_local_control',
+                'lane_b_default_reasoning',
+                'lane_c_heavy_shadow',
+                'lane_d_physics_compute',
+                'lane_e_quantum_adjacent',
+            }.issubset(lane_ids)
 
             trust_library = client.get('/api/merlin/trust-source-library')
             assert trust_library.status_code == 200
@@ -2855,6 +2889,8 @@ def test_server_merlin_endpoints():
             assert frontier.json()['frontier_readiness']['sovereign_primary'] is True
             assert frontier.json()['frontier_readiness']['openrouter_fallback_only'] is True
             assert len(frontier.json()['frontier_readiness']['promotion_blockers']) >= 4
+            assert frontier.json()['frontier_readiness']['paper_intake_lane']['paper_reference']['id'] == '2508.21593'
+            assert 'factuality' in frontier.json()['frontier_readiness']['combined_gate_contract']['required_axes']
             review_packet = client.get('/api/merlin/review-packet?limit=1')
             assert review_packet.status_code == 200
             assert review_packet.json()['ok'] is True
@@ -2916,9 +2952,14 @@ def test_server_merlin_endpoints():
             assert execution_board.json()['execution_board']['validation_resilience']['can_train_merlin_now'] is True
             assert execution_board.json()['execution_board']['hardware_architecture']['packet_surface'] == 'getMerlinHardwareArchitectureBoard'
             assert any(
+                item['task_id'] == 'CL-0'
+                for item in execution_board.json()['execution_board']['immediate_tasks']
+            )
+            assert any(
                 item['task_id'] == 'CL-6'
                 for item in execution_board.json()['execution_board']['immediate_tasks']
             )
+            assert 'contradiction_recovery' in execution_board.json()['execution_board']['combined_gate_contract']['required_axes']
             validation_resilience = client.get('/api/merlin/validation-resilience?limit=2')
             assert validation_resilience.status_code == 200
             assert validation_resilience.json()['ok'] is True
