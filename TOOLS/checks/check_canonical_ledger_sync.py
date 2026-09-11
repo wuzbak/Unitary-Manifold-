@@ -55,6 +55,11 @@ def _expanded_changed_files(name_only_lines: list[str], name_status_lines: list[
     return sorted(changed_paths)
 
 
+def _normalize_patch_path(path: str) -> str:
+    normalized = path.strip()
+    return "" if normalized in {"dev/null", "/dev/null"} else normalized
+
+
 def _split_patch_by_path(full_patch: str) -> dict[str, str]:
     sections: dict[str, str] = {}
     current_header = ""
@@ -68,13 +73,17 @@ def _split_patch_by_path(full_patch: str) -> dict[str, str]:
         paths: set[str] = set()
         match = _DIFF_HEADER_RE.match(current_header)
         if match:
-            paths.update({match.group(1), match.group(2)})
+            paths.update(
+                path
+                for path in (_normalize_patch_path(match.group(1)), _normalize_patch_path(match.group(2)))
+                if path
+            )
         for line in current_lines:
             marker_match = _FILE_MARKER_RE.match(line)
             if not marker_match:
                 continue
-            marker_path = marker_match.group(3)
-            if marker_path != "dev/null":
+            marker_path = _normalize_patch_path(marker_match.group(3))
+            if marker_path:
                 paths.add(marker_path)
         for path in paths:
             sections[path] = block

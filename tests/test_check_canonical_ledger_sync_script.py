@@ -62,6 +62,7 @@ def test_split_patch_by_path_maps_deleted_file_from_markers(ledger_sync_script_m
     assert patches["src/core/pillar1119_old_name.py"].startswith(
         "diff --git a/src/core/pillar1119_old_name.py b/dev/null"
     )
+    assert "dev/null" not in patches
 
 
 def test_expanded_changed_files_include_rename_source_and_target(ledger_sync_script_module):
