@@ -70,7 +70,7 @@ waves:
 
   - id: wave_10_verification_and_handoff
     status: in_progress
-    artifact: "tests/test_check_large_files_script.py"
+    artifact: "tests/test_check_large_files.py"
     checkpoints:
       - "Targeted test verification for new checks"
       - "Secret scan before commit"

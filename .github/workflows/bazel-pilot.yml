@@ -10,7 +10,7 @@ on:
       - 'requirements-bazel.txt'
       - 'src/core/**'
       - 'tests/test_metric.py'
-      - 'tests/test_check_large_files_script.py'
+      - 'tests/test_check_large_files.py'
       - 'tests/BUILD.bazel'
       - 'TOOLS/checks/check_large_files.py'
       - '.github/workflows/bazel-pilot.yml'
@@ -24,7 +24,7 @@ on:
       - 'requirements-bazel.txt'
       - 'src/core/**'
       - 'tests/test_metric.py'
-      - 'tests/test_check_large_files_script.py'
+      - 'tests/test_check_large_files.py'
       - 'tests/BUILD.bazel'
       - 'TOOLS/checks/check_large_files.py'
       - '.github/workflows/bazel-pilot.yml'
@@ -46,12 +46,12 @@ jobs:
           path: |
             ~/.cache/bazel-repo
             ~/.cache/bazel-disk
-          key: bazel-pilot-${{ runner.os }}-${{ hashFiles('.bazelversion', 'MODULE.bazel', 'requirements-bazel.txt', '.bazelrc', 'src/core/BUILD.bazel', 'tests/BUILD.bazel', 'TOOLS/checks/BUILD.bazel') }}
+          key: bazel-pilot-${{ runner.os }}-${{ hashFiles('.bazelversion', 'MODULE.bazel', 'requirements-bazel.txt', '.bazelrc', 'src/core/BUILD.bazel', 'tests/BUILD.bazel', 'TOOLS/checks/BUILD.bazel', 'src/core/metric.py', 'tests/test_metric.py', 'TOOLS/checks/check_large_files.py', 'tests/test_check_large_files.py') }}
           restore-keys: |
             bazel-pilot-${{ runner.os }}-
       - name: Run Bazel pilot target
         run: |
           bazel test \
             //tests:test_metric_bazel \
-            //tests:test_check_large_files_script_bazel \
+            //tests:test_check_large_files \
             --test_output=errors

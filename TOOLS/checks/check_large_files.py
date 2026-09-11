@@ -78,6 +78,9 @@ def main() -> int:
     allow = set(args.allow)
     base_sha = args.base_sha.strip()
     head_sha = args.head_sha.strip()
+    if bool(base_sha) != bool(head_sha):
+        print("::error::--base-sha and --head-sha must be provided together.")
+        return 1
 
     violations: list[tuple[str, int]] = []
     symlink_violations: list[str] = []

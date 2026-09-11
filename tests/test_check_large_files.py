@@ -73,6 +73,14 @@ def test_main_uses_changed_paths_when_shas_provided(monkeypatch, capsys):
     assert "::error::delta.bin is 11 bytes" in out
 
 
+def test_main_fails_when_only_one_sha_is_provided(monkeypatch, capsys):
+    module = _load_module()
+    monkeypatch.setattr(sys, "argv", ["check_large_files.py", "--base-sha", "base"])
+    assert module.main() == 1
+    out = capsys.readouterr().out
+    assert "--base-sha and --head-sha must be provided together" in out
+
+
 def test_main_fails_on_symlink_candidate(monkeypatch, capsys):
     module = _load_module()
 
@@ -117,5 +125,5 @@ def test_workflow_invokes_large_file_guard():
 def test_bazel_pilot_workflow_tracks_guard_files():
     workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "bazel-pilot.yml"
     content = workflow_path.read_text(encoding="utf-8")
-    assert "tests/test_check_large_files_script.py" in content
+    assert "tests/test_check_large_files.py" in content
     assert "TOOLS/checks/check_large_files.py" in content
