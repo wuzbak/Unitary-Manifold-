@@ -265,12 +265,6 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         selected_commit = head_sha
         selected_ref = head_sha
         touched, metadata_gap = _latest_merge_touched_files(selected_ref)
-    if (not merge_commit_available) and not touched and not metadata_gap:
-        selected_commit = head_sha or selected_commit
-        selected_ref = "HEAD"
-        touched, metadata_gap = _latest_merge_touched_files(selected_ref)
-        if touched and head_sha:
-            selected_commit = head_sha
     metadata_available = bool(touched)
     metadata_unverified = bool(metadata_gap and selected_ref != "HEAD")
     reported_touched = list(touched)
