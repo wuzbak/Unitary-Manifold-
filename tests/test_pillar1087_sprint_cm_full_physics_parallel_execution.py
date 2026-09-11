@@ -10,6 +10,7 @@ from src.core.pillar1087_sprint_cm_full_physics_parallel_execution import (
     PILLAR_STATUS,
     PILLAR_VALID,
     VERSION,
+    merlin_training_remediation_lane,
     pillar1087_summary,
     sprint_cm_full_physics_parallel_execution,
 )
@@ -130,7 +131,9 @@ def test_lane_b_reports_missing_metadata_when_no_fallback_works(monkeypatch) -> 
     assert lane_b["metadata_available"] is False
     assert lane_b["merge_commit"] == ""
     assert lane_b["selected_commit"] == ""
-    assert lane_b["touched_files"] == ["git_metadata_unavailable"]
+    assert lane_b["selected_ref"] == ""
+    assert lane_b["touched_file_count"] == 0
+    assert lane_b["touched_files"] == []
     assert lane_b["status"] == "FIX_REQUIRED"
 
 
@@ -152,6 +155,47 @@ def test_lane_b_literal_head_fallback_tracks_selected_commit(monkeypatch) -> Non
     assert lane_b["selected_ref"] == "HEAD"
     assert lane_b["metadata_available"] is True
     assert lane_b["status"] == "PASS"
+
+
+def test_lane_c_requires_green_gates_for_validity(monkeypatch) -> None:
+    class _Program:
+        @staticmethod
+        def run_merlin_targeted_rigor_sprint(*, session, limit, training_limit):
+            return {
+                "mode": "targeted_full_rigor_sprint",
+                "verdict": "TARGETED_RIGOR_SPRINT_HOLD_REMEDIATE",
+                "all_gates_green": False,
+                "stage_gate_summary": [{}, {}, {}, {}, {}],
+                "blocker_register": [],
+            }
+
+    class _Memory:
+        class MerlinSession:
+            pass
+
+    monkeypatch.setattr(
+        p1087,
+        "_load",
+        lambda dotted: _Program if dotted.endswith("merlin_program") else _Memory,
+    )
+    lane_c = merlin_training_remediation_lane(physics_lane={"evidence_checks": []}, merge_lane={"scoped_failures": []})
+    assert lane_c["status"] == "HOLD_REMEDIATE"
+    assert lane_c["valid"] is False
+
+
+def test_report_invalid_if_lane_c_holds(monkeypatch) -> None:
+    monkeypatch.setattr(
+        p1087,
+        "merlin_training_remediation_lane",
+        lambda **kwargs: {
+            "lane_id": "LANE_C_MERLIN_TRAINING_REMEDIATION",
+            "status": "HOLD_REMEDIATE",
+            "valid": False,
+        },
+    )
+    report = sprint_cm_full_physics_parallel_execution()
+    assert report["valid"] is False
+    assert report["outcome"] == "SPRINT_CM_FULL_PHYSICS_PARALLEL_EXECUTION_BLOCKED"
 
 
 def test_summary_contract() -> None:

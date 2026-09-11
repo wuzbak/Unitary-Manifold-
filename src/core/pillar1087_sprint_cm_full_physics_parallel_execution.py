@@ -210,7 +210,8 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
     metadata_available = bool(touched)
     if not metadata_available:
         selected_commit = ""
-        touched = ["git_metadata_unavailable"]
+        selected_ref = ""
+        touched = []
     touched_set = set(touched)
 
     rule_rows = []
@@ -319,7 +320,11 @@ def merlin_training_remediation_lane(
             if all_gates_green and all_stage_rows_present
             else "HOLD_REMEDIATE"
         ),
-        "valid": all_stage_rows_present and str(packet.get("mode")) == "targeted_full_rigor_sprint",
+        "valid": (
+            all_stage_rows_present
+            and all_gates_green
+            and str(packet.get("mode")) == "targeted_full_rigor_sprint"
+        ),
     }
 
 
