@@ -117,7 +117,7 @@ def _is_true_noop_merge(merge_sha: str) -> bool:
         return False
     parents_line = _run_git(["rev-list", "--parents", "-n", "1", merge_sha])
     parts = [part.strip() for part in parents_line.split() if part.strip()]
-    if len(parts) < 2:
+    if len(parts) < 3:
         return False
     merge_tree, merge_tree_ok = _run_git_with_status(["rev-parse", f"{merge_sha}^{{tree}}"])
     if not merge_tree_ok or not merge_tree:
