@@ -76,6 +76,14 @@ def test_julia_tensor_kernels_unavailable_without_juliacall():
         run_julia_tensor_kernels(g, B, phi, lam=1.0, dx=0.1, coordinate_index=1)
 
 
+def test_julia_tensor_kernels_require_minimum_grid_points():
+    g = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (2, 1, 1))
+    B = np.zeros((2, 4))
+    phi = np.ones(2)
+    with pytest.raises(ValueError, match="at least 3 grid points"):
+        run_julia_tensor_kernels(g, B, phi, lam=1.0, dx=0.1, coordinate_index=1)
+
+
 def test_julia_tensor_kernels_match_python_when_available():
     if not julia_runtime_status().juliacall_available:
         pytest.skip("juliacall runtime not available")
@@ -95,7 +103,7 @@ def test_julia_tensor_kernels_reject_small_grids(n_points):
     g = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (n_points, 1, 1))
     B = np.zeros((n_points, 4))
     phi = np.ones(n_points)
-    with pytest.raises(ValueError, match="Shape of array too small"):
+    with pytest.raises(ValueError, match="at least 3 grid points"):
         run_julia_tensor_kernels(g, B, phi, lam=1.0, dx=0.1, coordinate_index=1)
 
 

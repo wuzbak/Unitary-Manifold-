@@ -10,6 +10,7 @@ from src.core.pillar1087_sprint_cm_full_physics_parallel_execution import (
     PILLAR_STATUS,
     PILLAR_VALID,
     VERSION,
+    merlin_training_remediation_lane,
     pillar1087_summary,
     sprint_cm_full_physics_parallel_execution,
 )
@@ -58,7 +59,11 @@ def test_lane_b_latest_merge_math_verification_scope() -> None:
     assert lane_b["status"] == "PASS"
     assert lane_b["verdict"] == "LAST_MERGE_MATH_VERIFIED"
     assert isinstance(lane_b["merge_commit"], str)
-    assert len(lane_b["merge_commit"]) == 40
+    assert isinstance(lane_b["selected_commit"], str)
+    assert lane_b["metadata_available"] is True
+    if lane_b["merge_commit"]:
+        assert len(lane_b["merge_commit"]) == 40
+    assert len(lane_b["selected_commit"]) == 40
     assert lane_b["touched_file_count"] >= 1
     assert lane_b["metadata_available"] is True
 
@@ -75,7 +80,9 @@ def test_lane_b_updates_reported_commit_when_head_fallback_used(monkeypatch) -> 
 
     lane_b = p1087.last_merge_math_verification_lane()
 
-    assert lane_b["merge_commit"] == "b" * 40
+    assert lane_b["merge_commit"] == "a" * 40
+    assert lane_b["selected_commit"] == "b" * 40
+    assert lane_b["selected_ref"] == "b" * 40
     assert lane_b["touched_files"] == ["src/core/julia_acceleration.py"]
     assert lane_b["status"] == "PASS"
     assert lane_b["metadata_available"] is True
@@ -89,7 +96,9 @@ def test_lane_b_fails_closed_when_git_metadata_unavailable(monkeypatch) -> None:
 
     lane_b = p1087.last_merge_math_verification_lane()
 
-    assert lane_b["merge_commit"] == "b" * 40
+    assert lane_b["merge_commit"] == "a" * 40
+    assert lane_b["selected_commit"] == ""
+    assert lane_b["selected_ref"] == ""
     assert lane_b["touched_file_count"] == 0
     assert lane_b["touched_files"] == ["git_metadata_unavailable"]
     assert lane_b["status"] == "FIX_REQUIRED"
@@ -129,6 +138,103 @@ def test_invalid_if_truth_sync_breaks(monkeypatch) -> None:
     assert report["truth_surface_sync"]["all_pass"] is False
     assert report["dependencies"]["truth_surfaces_synchronized_to_v36_9"] is False
     assert report["valid"] is False
+
+
+def test_lane_b_head_fallback_tracks_selected_commit(monkeypatch) -> None:
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "")
+    monkeypatch.setattr(p1087, "_run_git", lambda args: "h" * 40 if args == ["rev-parse", "HEAD"] else "")
+
+    def _touched(ref: str):
+        if ref == "h" * 40:
+            return ["1-THEORY/DERIVATION_STATUS.md"]
+        return []
+
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", _touched)
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+    assert lane_b["merge_commit"] == ""
+    assert lane_b["selected_commit"] == "h" * 40
+    assert lane_b["selected_ref"] == "h" * 40
+    assert lane_b["metadata_available"] is True
+    assert lane_b["status"] == "PASS"
+
+
+def test_lane_b_reports_missing_metadata_when_no_fallback_works(monkeypatch) -> None:
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "")
+    monkeypatch.setattr(p1087, "_run_git", lambda args: "")
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", lambda ref: [])
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+    assert lane_b["metadata_available"] is False
+    assert lane_b["merge_commit"] == ""
+    assert lane_b["selected_commit"] == ""
+    assert lane_b["selected_ref"] == ""
+    assert lane_b["touched_file_count"] == 0
+    assert lane_b["touched_files"] == ["git_metadata_unavailable"]
+    assert lane_b["status"] == "FIX_REQUIRED"
+
+
+def test_lane_b_literal_head_fallback_tracks_selected_commit(monkeypatch) -> None:
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "m" * 40)
+    monkeypatch.setattr(p1087, "_run_git", lambda args: "h" * 40 if args == ["rev-parse", "HEAD"] else "")
+
+    def _touched(ref: str):
+        if ref == "HEAD":
+            return ["1-THEORY/DERIVATION_STATUS.md"]
+        return []
+
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", _touched)
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+    assert lane_b["merge_commit"] == "m" * 40
+    assert lane_b["selected_commit"] == "h" * 40
+    assert lane_b["selected_ref"] == "HEAD"
+    assert lane_b["metadata_available"] is True
+    assert lane_b["status"] == "PASS"
+
+
+def test_lane_c_requires_green_gates_for_validity(monkeypatch) -> None:
+    class _Program:
+        @staticmethod
+        def run_merlin_targeted_rigor_sprint(*, session, limit, training_limit):
+            return {
+                "mode": "targeted_full_rigor_sprint",
+                "verdict": "TARGETED_RIGOR_SPRINT_HOLD_REMEDIATE",
+                "all_gates_green": False,
+                "stage_gate_summary": [{}, {}, {}, {}, {}],
+                "blocker_register": [],
+            }
+
+    class _Memory:
+        class MerlinSession:
+            pass
+
+    monkeypatch.setattr(
+        p1087,
+        "_load",
+        lambda dotted: _Program if dotted.endswith("merlin_program") else _Memory,
+    )
+    lane_c = merlin_training_remediation_lane(physics_lane={"evidence_checks": []}, merge_lane={"scoped_failures": []})
+    assert lane_c["status"] == "HOLD_REMEDIATE"
+    assert lane_c["valid"] is False
+
+
+def test_report_invalid_if_lane_c_holds(monkeypatch) -> None:
+    monkeypatch.setattr(
+        p1087,
+        "merlin_training_remediation_lane",
+        lambda **kwargs: {
+            "lane_id": "LANE_C_MERLIN_TRAINING_REMEDIATION",
+            "status": "HOLD_REMEDIATE",
+            "valid": False,
+        },
+    )
+    report = sprint_cm_full_physics_parallel_execution()
+    assert report["valid"] is False
+    assert report["outcome"] == "SPRINT_CM_FULL_PHYSICS_PARALLEL_EXECUTION_BLOCKED"
 
 
 def test_summary_contract() -> None:

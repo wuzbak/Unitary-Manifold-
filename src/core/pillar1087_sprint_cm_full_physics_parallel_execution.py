@@ -194,15 +194,24 @@ def physics_core_lane() -> Dict[str, Any]:
 def last_merge_math_verification_lane() -> Dict[str, Any]:
     merge_sha = _latest_merge_commit()
     head_sha = _run_git(["rev-parse", "HEAD"])
-    selected_commit = merge_sha or head_sha
-    touched = _latest_merge_touched_files(selected_commit) if selected_commit else []
-    if not touched and head_sha and selected_commit != head_sha:
+    selected_commit = merge_sha
+    selected_ref = merge_sha
+    touched = _latest_merge_touched_files(selected_ref) if selected_ref else []
+    if not touched and head_sha and selected_ref != head_sha:
         selected_commit = head_sha
-        touched = _latest_merge_touched_files(selected_commit)
+        selected_ref = head_sha
+        touched = _latest_merge_touched_files(selected_ref)
     if not touched:
         selected_commit = head_sha or selected_commit
-        touched = _latest_merge_touched_files("HEAD")
+        selected_ref = "HEAD"
+        touched = _latest_merge_touched_files(selected_ref)
+        if touched and head_sha:
+            selected_commit = head_sha
     metadata_available = bool(touched)
+    if not metadata_available:
+        selected_commit = ""
+        selected_ref = ""
+        touched = []
     reported_touched = touched if metadata_available else ["git_metadata_unavailable"]
     touched_set = set(touched)
 
@@ -234,14 +243,16 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
     scoped_failures = [row["path"] for row in scoped_rows if not row["pass"]]
 
     prior_merge_audit = pillar1078_parallel_audit_report()
-    valid = bool(selected_commit and metadata_available) and not scoped_failures
+    valid = metadata_available and not scoped_failures
 
     return {
         "lane_id": "LANE_B_LAST_MERGE_MATH_AUDIT",
-        "merge_commit": selected_commit or "",
+        "merge_commit": merge_sha or "",
+        "selected_commit": selected_commit,
+        "selected_ref": selected_ref,
+        "metadata_available": metadata_available,
         "touched_file_count": len(touched),
         "touched_files": reported_touched,
-        "metadata_available": metadata_available,
         "scoped_rules": scoped_rows,
         "scoped_failures": scoped_failures,
         "prior_post_merge_audit_status": prior_merge_audit.get("overall_status"),
@@ -310,7 +321,11 @@ def merlin_training_remediation_lane(
             if all_gates_green and all_stage_rows_present
             else "HOLD_REMEDIATE"
         ),
-        "valid": all_stage_rows_present and str(packet.get("mode")) == "targeted_full_rigor_sprint",
+        "valid": (
+            all_stage_rows_present
+            and all_gates_green
+            and str(packet.get("mode")) == "targeted_full_rigor_sprint"
+        ),
     }
 
 
