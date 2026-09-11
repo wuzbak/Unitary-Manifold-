@@ -231,6 +231,19 @@ def test_latest_merge_touched_files_does_not_emit_history_unavailable_for_empty_
     assert touched == ([], False)
 
 
+def test_latest_merge_touched_files_marks_unverified_only_when_tree_available(monkeypatch) -> None:
+    merge_sha = "a" * 40
+    monkeypatch.setattr(
+        p1087,
+        "_run_git_with_status",
+        lambda args: ("", False) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
+    )
+
+    touched = p1087._latest_merge_touched_files(merge_sha)
+
+    assert touched == ([], False)
+
+
 def test_lane_b_literal_head_fallback_tracks_selected_commit(monkeypatch) -> None:
     monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "m" * 40)
     monkeypatch.setattr(p1087, "_run_git", lambda args: "h" * 40 if args == ["rev-parse", "HEAD"] else "")
