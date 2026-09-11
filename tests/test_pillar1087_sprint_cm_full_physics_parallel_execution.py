@@ -134,6 +134,26 @@ def test_lane_b_reports_missing_metadata_when_no_fallback_works(monkeypatch) -> 
     assert lane_b["status"] == "FIX_REQUIRED"
 
 
+def test_lane_b_literal_head_fallback_tracks_selected_commit(monkeypatch) -> None:
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "m" * 40)
+    monkeypatch.setattr(p1087, "_run_git", lambda args: "h" * 40 if args == ["rev-parse", "HEAD"] else "")
+
+    def _touched(ref: str):
+        if ref == "HEAD":
+            return ["1-THEORY/DERIVATION_STATUS.md"]
+        return []
+
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", _touched)
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+    assert lane_b["merge_commit"] == "m" * 40
+    assert lane_b["selected_commit"] == "h" * 40
+    assert lane_b["selected_ref"] == "HEAD"
+    assert lane_b["metadata_available"] is True
+    assert lane_b["status"] == "PASS"
+
+
 def test_summary_contract() -> None:
     summary = pillar1087_summary()
     assert summary["pillar"] == 1087

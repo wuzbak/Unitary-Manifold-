@@ -205,6 +205,8 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         selected_commit = head_sha or selected_commit
         selected_ref = "HEAD"
         touched = _latest_merge_touched_files(selected_ref)
+        if touched and head_sha:
+            selected_commit = head_sha
     metadata_available = bool(touched)
     if not metadata_available:
         selected_commit = ""
