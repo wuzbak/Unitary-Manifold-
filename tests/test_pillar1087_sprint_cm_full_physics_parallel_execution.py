@@ -59,6 +59,8 @@ def test_lane_b_latest_merge_math_verification_scope() -> None:
     assert lane_b["verdict"] == "LAST_MERGE_MATH_VERIFIED"
     assert isinstance(lane_b["merge_commit"], str)
     assert len(lane_b["merge_commit"]) == 40
+    assert isinstance(lane_b["selected_commit"], str)
+    assert lane_b["metadata_available"] is True
     assert lane_b["touched_file_count"] >= 1
 
 
@@ -94,6 +96,40 @@ def test_invalid_if_truth_sync_breaks(monkeypatch) -> None:
     assert report["truth_surface_sync"]["all_pass"] is False
     assert report["dependencies"]["truth_surfaces_synchronized_to_v36_9"] is False
     assert report["valid"] is False
+
+
+def test_lane_b_head_fallback_tracks_selected_commit(monkeypatch) -> None:
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "")
+    monkeypatch.setattr(p1087, "_run_git", lambda args: "h" * 40 if args == ["rev-parse", "HEAD"] else "")
+
+    def _touched(ref: str):
+        if ref == "h" * 40:
+            return ["1-THEORY/DERIVATION_STATUS.md"]
+        return []
+
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", _touched)
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+    assert lane_b["merge_commit"] == ""
+    assert lane_b["selected_commit"] == "h" * 40
+    assert lane_b["selected_ref"] == "h" * 40
+    assert lane_b["metadata_available"] is True
+    assert lane_b["status"] == "PASS"
+
+
+def test_lane_b_reports_missing_metadata_when_no_fallback_works(monkeypatch) -> None:
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "")
+    monkeypatch.setattr(p1087, "_run_git", lambda args: "")
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", lambda ref: [])
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+    assert lane_b["metadata_available"] is False
+    assert lane_b["merge_commit"] == ""
+    assert lane_b["selected_commit"] == ""
+    assert lane_b["touched_files"] == ["git_metadata_unavailable"]
+    assert lane_b["status"] == "FIX_REQUIRED"
 
 
 def test_summary_contract() -> None:

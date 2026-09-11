@@ -133,6 +133,8 @@ def run_julia_tensor_kernels(
     use_cuda: bool = False,
 ) -> Dict[str, np.ndarray]:
     """Execute Julia Wave-2 tensor kernels and return assembled tensors."""
+    if B.shape[0] < 3:
+        raise ValueError("second-order derivatives require at least 3 grid points")
     status = julia_runtime_status(use_cuda=use_cuda)
     if not status.juliacall_available:
         raise RuntimeError("Julia backend unavailable: install juliacall to enable.")
