@@ -304,8 +304,15 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
     scoped_failures = [row["path"] for row in scoped_rows if not row["pass"]]
 
     prior_merge_audit = pillar1078_parallel_audit_report()
+    noop_verified = bool(
+        merge_commit_available
+        and selected_ref == merge_sha
+        and (not metadata_available)
+        and (not metadata_unverified)
+        and _is_true_noop_merge(merge_sha)
+    )
     valid = (not metadata_unverified) and not scoped_failures and (
-        metadata_available or merge_commit_available
+        metadata_available or noop_verified
     )
 
     return {
@@ -315,6 +322,7 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         "selected_ref": selected_ref,
         "metadata_available": metadata_available,
         "metadata_unverified": metadata_unverified,
+        "noop_verified": noop_verified,
         "touched_file_count": len(touched),
         "touched_files": reported_touched,
         "scoped_rules": scoped_rows,

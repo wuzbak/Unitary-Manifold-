@@ -76,6 +76,7 @@ def test_lane_b_updates_reported_commit_when_head_fallback_used(monkeypatch) -> 
         "_latest_merge_touched_files",
         lambda ref: ([], False) if ref == "a" * 40 else (["src/core/julia_acceleration.py"], False),
     )
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: sha == "a" * 40)
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS_WITH_FIXES"})
 
     lane_b = p1087.last_merge_math_verification_lane()
@@ -150,6 +151,7 @@ def test_lane_b_head_fallback_tracks_selected_commit(monkeypatch) -> None:
         return [], False
 
     monkeypatch.setattr(p1087, "_latest_merge_touched_files", _touched)
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: sha == "m" * 40)
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
 
     lane_b = p1087.last_merge_math_verification_lane()
@@ -289,6 +291,7 @@ def test_lane_b_literal_head_fallback_tracks_selected_commit(monkeypatch) -> Non
         return [], False
 
     monkeypatch.setattr(p1087, "_latest_merge_touched_files", _touched)
+    monkeypatch.setattr(p1087, "_is_true_noop_merge", lambda sha: sha == "m" * 40)
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
 
     lane_b = p1087.last_merge_math_verification_lane()
