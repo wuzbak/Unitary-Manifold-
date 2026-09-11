@@ -218,6 +218,7 @@ def physics_core_lane() -> Dict[str, Any]:
 def last_merge_math_verification_lane() -> Dict[str, Any]:
     merge_sha = _latest_merge_commit()
     head_sha = _run_git(["rev-parse", "HEAD"])
+    merge_commit_available = bool(merge_sha)
     selected_commit = merge_sha
     selected_ref = merge_sha
     touched, metadata_gap = _latest_merge_touched_files(selected_ref) if selected_ref else ([], False)
@@ -225,7 +226,7 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         selected_commit = head_sha
         selected_ref = head_sha
         touched, metadata_gap = _latest_merge_touched_files(selected_ref)
-    if not selected_ref and not touched:
+    if (not merge_commit_available) and not touched and not metadata_gap:
         selected_commit = head_sha or selected_commit
         selected_ref = "HEAD"
         touched, metadata_gap = _latest_merge_touched_files(selected_ref)
@@ -233,10 +234,6 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
             selected_commit = head_sha
     metadata_available = bool(touched)
     metadata_unverified = bool(metadata_gap)
-    if metadata_unverified:
-        selected_commit = ""
-        selected_ref = ""
-        touched = []
     reported_touched = list(touched)
     touched_set = set(touched)
 

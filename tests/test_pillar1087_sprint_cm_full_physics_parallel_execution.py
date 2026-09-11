@@ -97,8 +97,8 @@ def test_lane_b_fails_closed_when_git_metadata_unavailable(monkeypatch) -> None:
     lane_b = p1087.last_merge_math_verification_lane()
 
     assert lane_b["merge_commit"] == "a" * 40
-    assert lane_b["selected_commit"] == ""
-    assert lane_b["selected_ref"] == ""
+    assert lane_b["selected_commit"] == "a" * 40
+    assert lane_b["selected_ref"] == "a" * 40
     assert lane_b["touched_file_count"] == 0
     assert lane_b["touched_files"] == []
     assert lane_b["status"] == "FIX_REQUIRED"
