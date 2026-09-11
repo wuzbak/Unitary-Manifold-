@@ -188,7 +188,7 @@ def _entry_requires_ledger_sync(entry: Dict[str, str], patch_text: str = "") -> 
     if status.startswith("A"):
         return True
     if status.startswith("D"):
-        return _status_bearing_token_touched(patch_text)
+        return True
     if status.startswith("C"):
         old_identity = _pillar_identity(old_path)
         new_identity = _pillar_identity(path)

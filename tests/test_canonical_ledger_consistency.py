@@ -222,25 +222,17 @@ class TestCanonicalLedgerSyncRequirement:
         report = canonical_ledger_sync_requirement(
             changed_files=["src/core/pillar1121_copy.py"],
             name_status_lines=["D\tsrc/core/pillar1121_copy.py"],
-            patch_by_path={
-                "src/core/pillar1121_copy.py": (
-                    "@@ -1 +0,0 @@\n"
-                    '-PILLAR_STATUS: str = "PROMOTED"\n'
-                )
-            },
         )
         assert report["requires_sync"] is True
         assert report["reasons"] == ["deleted pillar file src/core/pillar1121_copy.py"]
 
-    def test_deleted_same_identity_variant_without_metadata_change_does_not_require_sync(self):
+    def test_deleted_same_identity_variant_requires_sync(self):
         report = canonical_ledger_sync_requirement(
             changed_files=["src/core/pillar1087_history_variant.py"],
             name_status_lines=["D\tsrc/core/pillar1087_history_variant.py"],
-            patch_by_path={
-                "src/core/pillar1087_history_variant.py": "@@ -1 +0,0 @@\n-helper = 1\n",
-            },
         )
-        assert report["requires_sync"] is False
+        assert report["requires_sync"] is True
+        assert report["reasons"] == ["deleted pillar file src/core/pillar1087_history_variant.py"]
 
     def test_duplicate_name_status_entries_do_not_duplicate_reasons(self):
         report = canonical_ledger_sync_requirement(
@@ -249,12 +241,6 @@ class TestCanonicalLedgerSyncRequirement:
                 "D\tsrc/core/pillar1121_copy.py",
                 "D\tsrc/core/pillar1121_copy.py",
             ],
-            patch_by_path={
-                "src/core/pillar1121_copy.py": (
-                    "@@ -1 +0,0 @@\n"
-                    '-PILLAR_STATUS: str = "PROMOTED"\n'
-                )
-            },
         )
         assert report["matched_paths"] == ["src/core/pillar1121_copy.py"]
         assert report["reasons"] == ["deleted pillar file src/core/pillar1121_copy.py"]
