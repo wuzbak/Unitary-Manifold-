@@ -89,10 +89,10 @@ def main() -> int:
         rel = path.as_posix()
         if rel in allow:
             continue
-        if not path.exists() or path.is_dir():
-            continue
         if path.is_symlink():
             symlink_violations.append(rel)
+            continue
+        if not path.exists() or path.is_dir():
             continue
         size = os.path.getsize(path)
         if size > max_bytes:
