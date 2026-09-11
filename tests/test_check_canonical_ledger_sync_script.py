@@ -64,6 +64,14 @@ def test_split_patch_by_path_maps_deleted_file_from_markers(ledger_sync_script_m
     )
 
 
+def test_expanded_changed_files_include_rename_source_and_target(ledger_sync_script_module):
+    changed = ledger_sync_script_module._expanded_changed_files(
+        ["STATUS.md"],
+        ["R100\tSTATUS.md\tSTATUS_OLD.md"],
+    )
+    assert changed == ["STATUS.md", "STATUS_OLD.md"]
+
+
 def test_main_passes_when_sync_not_required(monkeypatch, capsys, ledger_sync_script_module):
     monkeypatch.setattr(
         ledger_sync_script_module,

@@ -16,7 +16,10 @@ if not (REPO_ROOT / "src" / "core" / "canonical_ledger_consistency.py").is_file(
     raise SystemExit(f"Repository root not found for ledger sync check: {REPO_ROOT}")
 sys.path.insert(0, str(REPO_ROOT))
 
-from src.core.canonical_ledger_consistency import canonical_ledger_sync_requirement
+from src.core.canonical_ledger_consistency import (
+    _parse_name_status_line,
+    canonical_ledger_sync_requirement,
+)
 
 
 def _git_diff_lines(*, base_sha: str, head_sha: str, name_only: bool) -> list[str]:
@@ -37,6 +40,19 @@ def _git_full_patch(*, base_sha: str, head_sha: str) -> str:
 
 _DIFF_HEADER_RE = re.compile(r"^diff --git a/(.+?) b/(.+)$")
 _FILE_MARKER_RE = re.compile(r"^(---|\+\+\+) (a|b)/(.*)$")
+
+
+def _expanded_changed_files(name_only_lines: list[str], name_status_lines: list[str]) -> list[str]:
+    changed_paths = {line.strip() for line in name_only_lines if line.strip()}
+    for line in name_status_lines:
+        entry = _parse_name_status_line(line)
+        if not entry:
+            continue
+        if entry["path"]:
+            changed_paths.add(entry["path"])
+        if entry["old_path"]:
+            changed_paths.add(entry["old_path"])
+    return sorted(changed_paths)
 
 
 def _split_patch_by_path(full_patch: str) -> dict[str, str]:
@@ -82,8 +98,11 @@ def main() -> int:
     parser.add_argument("--head-sha", required=True)
     args = parser.parse_args()
 
-    changed_files = _git_diff_lines(base_sha=args.base_sha, head_sha=args.head_sha, name_only=True)
     name_status_lines = _git_diff_lines(base_sha=args.base_sha, head_sha=args.head_sha, name_only=False)
+    changed_files = _expanded_changed_files(
+        _git_diff_lines(base_sha=args.base_sha, head_sha=args.head_sha, name_only=True),
+        name_status_lines,
+    )
     patch_by_path = _split_patch_by_path(_git_full_patch(base_sha=args.base_sha, head_sha=args.head_sha))
     report = canonical_ledger_sync_requirement(
         changed_files=changed_files,
