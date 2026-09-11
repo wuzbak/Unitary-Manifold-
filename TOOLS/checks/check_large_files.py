@@ -61,7 +61,7 @@ def changed_paths(base_sha: str, head_sha: str) -> list[Path]:
             "diff",
             "--name-only",
             "-z",
-            "--diff-filter=AMRT",
+            "--diff-filter=AMRCT",
             base_sha,
             head_sha,
         ],

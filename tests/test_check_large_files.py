@@ -94,7 +94,7 @@ def test_main_fails_on_symlink_candidate(monkeypatch, capsys):
     assert "::error::linked.bin is a symlink" in out
 
 
-def test_changed_paths_includes_type_changes(monkeypatch):
+def test_changed_paths_includes_type_and_copy_changes(monkeypatch):
     module = _load_module()
     calls = {}
 
@@ -108,7 +108,7 @@ def test_changed_paths_includes_type_changes(monkeypatch):
     monkeypatch.setattr(module.subprocess, "run", _fake_run)
     paths = module.changed_paths(base_sha="base", head_sha="head")
     assert "-z" in calls["args"]
-    assert "--diff-filter=AMRT" in calls["args"]
+    assert "--diff-filter=AMRCT" in calls["args"]
     assert paths == [Path("file.bin")]
 
 
