@@ -163,3 +163,4 @@ def test_workflow_invokes_ledger_sync_script():
     assert "python3 TOOLS/checks/check_canonical_ledger_sync.py" in content
     assert "--base-sha" in content
     assert "--head-sha" in content
+    assert '${{ github.sha }}' in content

@@ -183,6 +183,14 @@ class TestCanonicalLedgerSyncRequirement:
         )
         assert report["requires_sync"] is False
 
+    def test_rename_from_pillar_to_nonpillar_path_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/history_variant.py"],
+            name_status_lines=["R100\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\tsrc/core/history_variant.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == ["renamed pillar file with new identity src/core/history_variant.py"]
+
     def test_copied_pillar_file_requires_sync(self):
         report = canonical_ledger_sync_requirement(
             changed_files=["src/core/pillar1121_copy.py"],
@@ -201,6 +209,14 @@ class TestCanonicalLedgerSyncRequirement:
             },
         )
         assert report["requires_sync"] is False
+
+    def test_copy_from_pillar_to_nonpillar_path_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/history_variant.py"],
+            name_status_lines=["C100\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\tsrc/core/history_variant.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == ["copied pillar file with new identity src/core/history_variant.py"]
 
     def test_deleted_pillar_file_requires_sync(self):
         report = canonical_ledger_sync_requirement(
