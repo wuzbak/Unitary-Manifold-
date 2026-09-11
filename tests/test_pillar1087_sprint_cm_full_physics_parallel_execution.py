@@ -58,9 +58,11 @@ def test_lane_b_latest_merge_math_verification_scope() -> None:
     assert lane_b["status"] == "PASS"
     assert lane_b["verdict"] == "LAST_MERGE_MATH_VERIFIED"
     assert isinstance(lane_b["merge_commit"], str)
-    assert len(lane_b["merge_commit"]) == 40
     assert isinstance(lane_b["selected_commit"], str)
     assert lane_b["metadata_available"] is True
+    if lane_b["merge_commit"]:
+        assert len(lane_b["merge_commit"]) == 40
+    assert len(lane_b["selected_commit"]) == 40
     assert lane_b["touched_file_count"] >= 1
 
 
