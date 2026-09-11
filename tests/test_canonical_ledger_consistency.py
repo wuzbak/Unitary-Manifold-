@@ -5,8 +5,10 @@ from __future__ import annotations
 
 from src.core.canonical_ledger_consistency import (
     LEDGER_PATHS,
+    LEDGER_SYNC_REQUIRED_PATHS,
     ONBOARDING_PATHS,
     canonical_ledger_consistency_report,
+    canonical_ledger_sync_requirement,
     canonical_status_token_report,
     canonical_ledger_snapshot,
     closure_gate_label_discipline_report,
@@ -106,3 +108,155 @@ class TestHistoricalSnapshotDisclaimers:
             "Historical ledger disclaimer markers missing: "
             f"{report['missing']}"
         )
+
+
+class TestCanonicalLedgerSyncRequirement:
+    def test_existing_pillar_maintenance_edit_does_not_require_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=[
+                "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py",
+                "tests/test_pillar1087_sprint_cm_full_physics_parallel_execution.py",
+            ],
+            name_status_lines=[
+                "M\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py",
+                "M\ttests/test_pillar1087_sprint_cm_full_physics_parallel_execution.py",
+            ],
+            patch_by_path={
+                "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py": (
+                    "@@ -195,0 +196,4 @@\n"
+                    "+    head_sha = _run_git([\"rev-parse\", \"HEAD\"])\n"
+                )
+            },
+        )
+        assert report["requires_sync"] is False
+        assert report["matched_paths"] == []
+
+    def test_new_pillar_file_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1121_new_thing.py"],
+            name_status_lines=["A\tsrc/core/pillar1121_new_thing.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["all_required_paths_changed"] is False
+        assert report["missing_required_paths"] == list(LEDGER_SYNC_REQUIRED_PATHS)
+
+    def test_status_bearing_metadata_edit_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py"],
+            name_status_lines=["M\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py"],
+            patch_by_path={
+                "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py": (
+                    "@@ -29,2 +29,2 @@\n"
+                    '-PILLAR_STATUS: str = "OLD"\n'
+                    '+PILLAR_STATUS: str = "NEW"\n'
+                )
+            },
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == [
+            "status-bearing pillar metadata changed in src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py"
+        ]
+
+    def test_sm_free_parameters_always_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/sm_free_parameters.py"],
+            name_status_lines=["M\tsrc/core/sm_free_parameters.py"],
+        )
+        assert report["requires_sync"] is True
+
+    def test_renamed_pillar_file_with_new_identity_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1121_new_name.py"],
+            name_status_lines=["R100\tsrc/core/pillar1087_old_name.py\tsrc/core/pillar1121_new_name.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["matched_paths"] == ["src/core/pillar1121_new_name.py"]
+        assert report["reasons"] == ["renamed pillar file with new identity src/core/pillar1121_new_name.py"]
+
+    def test_same_identity_rename_without_metadata_change_does_not_require_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1087_history_variant.py"],
+            name_status_lines=["R100\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\tsrc/core/pillar1087_history_variant.py"],
+            patch_by_path={
+                "src/core/pillar1087_history_variant.py": "@@ -1 +1 @@\n+helper = 1\n",
+            },
+        )
+        assert report["requires_sync"] is False
+
+    def test_rename_from_pillar_to_nonpillar_path_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/history_variant.py"],
+            name_status_lines=["R100\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\tsrc/core/history_variant.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == ["renamed pillar file with new identity src/core/history_variant.py"]
+
+    def test_rename_from_nonpillar_to_pillar_path_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1087_history_variant.py"],
+            name_status_lines=["R100\tsrc/core/history_variant.py\tsrc/core/pillar1087_history_variant.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == ["renamed pillar file with new identity src/core/pillar1087_history_variant.py"]
+
+    def test_copied_pillar_file_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1121_copy.py"],
+            name_status_lines=["C100\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\tsrc/core/pillar1121_copy.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["matched_paths"] == ["src/core/pillar1121_copy.py"]
+        assert report["reasons"] == ["copied pillar file with new identity src/core/pillar1121_copy.py"]
+
+    def test_same_identity_copy_without_metadata_change_does_not_require_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1087_copy_variant.py"],
+            name_status_lines=["C100\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\tsrc/core/pillar1087_copy_variant.py"],
+            patch_by_path={
+                "src/core/pillar1087_copy_variant.py": "@@ -1 +1 @@\n+helper = 1\n",
+            },
+        )
+        assert report["requires_sync"] is False
+
+    def test_copy_from_pillar_to_nonpillar_path_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/history_variant.py"],
+            name_status_lines=["C100\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\tsrc/core/history_variant.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == ["copied pillar file with new identity src/core/history_variant.py"]
+
+    def test_copy_from_nonpillar_to_pillar_path_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1087_history_variant.py"],
+            name_status_lines=["C100\tsrc/core/history_variant.py\tsrc/core/pillar1087_history_variant.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == ["copied pillar file with new identity src/core/pillar1087_history_variant.py"]
+
+    def test_deleted_pillar_file_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1121_copy.py"],
+            name_status_lines=["D\tsrc/core/pillar1121_copy.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == ["deleted pillar file src/core/pillar1121_copy.py"]
+
+    def test_deleted_same_identity_variant_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1087_history_variant.py"],
+            name_status_lines=["D\tsrc/core/pillar1087_history_variant.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["reasons"] == ["deleted pillar file src/core/pillar1087_history_variant.py"]
+
+    def test_duplicate_name_status_entries_do_not_duplicate_reasons(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1121_copy.py"],
+            name_status_lines=[
+                "D\tsrc/core/pillar1121_copy.py",
+                "D\tsrc/core/pillar1121_copy.py",
+            ],
+        )
+        assert report["matched_paths"] == ["src/core/pillar1121_copy.py"]
+        assert report["reasons"] == ["deleted pillar file src/core/pillar1121_copy.py"]

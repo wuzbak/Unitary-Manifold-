@@ -20,36 +20,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-
-          BASE_SHA="${{ github.event.pull_request.base.sha }}"
-          HEAD_SHA="${{ github.sha }}"
-          CHANGED="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | tr -d '\r')"
-
-          echo "Changed files:"
-          echo "$CHANGED"
-
-          if echo "$CHANGED" | grep -Eq '^src/core/pillar[0-9A-Za-z_.-]*\.py$|^src/core/sm_free_parameters\.py$'; then
-            required=(
-              "STATUS.md"
-              "FALLIBILITY.md"
-              "README.md"
-              "1-THEORY/DERIVATION_STATUS.md"
-              "docs/WAVE_CHANGELOG.md"
-            )
-
-            missing=0
-            for f in "${required[@]}"; do
-              if ! echo "$CHANGED" | grep -qx "$f"; then
-                echo "::error::Missing required ledger update: $f"
-                missing=1
-              fi
-            done
-
-            if [ "$missing" -ne 0 ]; then
-              echo "::error::Wave/pillar changes require canonical ledger + changelog synchronization."
-              exit 1
-            fi
-          fi
+          python3 TOOLS/checks/check_canonical_ledger_sync.py \
+            --base-sha "${{ github.event.pull_request.base.sha }}" \
+            --head-sha "${{ github.sha }}"
 
       - name: Enforce onboarding docs consistency with STATUS.md
         shell: bash
