@@ -14,6 +14,46 @@ def _read(name: str) -> str:
     return (WORKFLOWS / name).read_text(encoding="utf-8")
 
 
+def _extract_branches(content: str, event_name: str) -> list[str]:
+    lines = content.splitlines()
+    event_indent = None
+    branches_indent = None
+    collecting = False
+    branches: list[str] = []
+
+    for line in lines:
+        stripped = line.strip()
+        indent = len(line) - len(line.lstrip(" "))
+
+        if event_indent is None:
+            if line.startswith(f"  {event_name}:"):
+                event_indent = indent
+            continue
+
+        if indent <= event_indent and stripped:
+            break
+
+        if branches_indent is None:
+            if stripped.startswith("branches:"):
+                branches_indent = indent
+                remainder = stripped.removeprefix("branches:").strip()
+                if remainder.startswith("[") and remainder.endswith("]"):
+                    items = remainder[1:-1].split(",")
+                    return [item.strip().strip("'\"") for item in items if item.strip()]
+            continue
+
+        if indent <= branches_indent and stripped:
+            break
+
+        if stripped.startswith("- "):
+            collecting = True
+            branches.append(stripped[2:].strip().strip("'\""))
+        elif collecting and stripped:
+            break
+
+    return branches
+
+
 def test_hosted_ci_workflows_run_pushes_only_on_main() -> None:
     for workflow_name in [
         "ci.yml",
@@ -23,11 +63,11 @@ def test_hosted_ci_workflows_run_pushes_only_on_main() -> None:
         "codeql-language-matrix.yml",
     ]:
         content = _read(workflow_name)
-        assert 'branches: ["main"]' in content or "- main" in content
-        assert '"**"' in content or "- '**'" in content
+        assert _extract_branches(content, "push") == ["main"]
+        assert _extract_branches(content, "pull_request") == ["**"]
 
 
 def test_psicat_performance_gate_limits_pushes_to_main() -> None:
     content = _read("psicat-performance-gate.yml")
-    assert 'branches: ["main"]' in content
-    assert 'pull_request:' in content
+    assert _extract_branches(content, "push") == ["main"]
+    assert _extract_branches(content, "pull_request") == ["**"]

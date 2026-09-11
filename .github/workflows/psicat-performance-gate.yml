@@ -2,6 +2,7 @@ name: psicat-performance-gate
 
 on:
   pull_request:
+    branches: ["**"]
     paths:
       - "12-AZ-IP/20-psicat-navigator/**"
       - ".github/workflows/psicat-performance-gate.yml"
