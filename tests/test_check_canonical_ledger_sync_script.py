@@ -46,6 +46,24 @@ def test_split_patch_by_path_includes_rename_source_and_target(ledger_sync_scrip
     }
 
 
+def test_split_patch_by_path_maps_deleted_file_from_markers(ledger_sync_script_module):
+    patches = ledger_sync_script_module._split_patch_by_path(
+        "\n".join(
+            [
+                "diff --git a/src/core/pillar1119_old_name.py b/dev/null",
+                "deleted file mode 100644",
+                "--- a/src/core/pillar1119_old_name.py",
+                "+++ /dev/null",
+                "@@ -1 +0,0 @@",
+                "-PILLAR_STATUS = 'OLD'",
+            ]
+        )
+    )
+    assert patches["src/core/pillar1119_old_name.py"].startswith(
+        "diff --git a/src/core/pillar1119_old_name.py b/dev/null"
+    )
+
+
 def test_main_passes_when_sync_not_required(monkeypatch, capsys, ledger_sync_script_module):
     monkeypatch.setattr(
         ledger_sync_script_module,

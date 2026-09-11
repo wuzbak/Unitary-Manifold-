@@ -36,6 +36,7 @@ def _git_full_patch(*, base_sha: str, head_sha: str) -> str:
 
 
 _DIFF_HEADER_RE = re.compile(r"^diff --git a/(.+?) b/(.+)$")
+_FILE_MARKER_RE = re.compile(r"^(---|\+\+\+) (a|b)/(.*)$")
 
 
 def _split_patch_by_path(full_patch: str) -> dict[str, str]:
@@ -48,10 +49,19 @@ def _split_patch_by_path(full_patch: str) -> dict[str, str]:
         if not current_header:
             return
         block = "\n".join([current_header, *current_lines]).strip()
+        paths: set[str] = set()
         match = _DIFF_HEADER_RE.match(current_header)
         if match:
-            for path in {match.group(1), match.group(2)}:
-                sections[path] = block
+            paths.update({match.group(1), match.group(2)})
+        for line in current_lines:
+            marker_match = _FILE_MARKER_RE.match(line)
+            if not marker_match:
+                continue
+            marker_path = marker_match.group(3)
+            if marker_path != "dev/null":
+                paths.add(marker_path)
+        for path in paths:
+            sections[path] = block
         current_header = ""
         current_lines = []
 
