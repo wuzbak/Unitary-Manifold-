@@ -79,6 +79,7 @@ def main() -> int:
     head_sha = args.head_sha.strip()
 
     violations: list[tuple[str, int]] = []
+    symlink_violations: list[str] = []
     candidate_paths = (
         changed_paths(base_sha=base_sha, head_sha=head_sha)
         if base_sha and head_sha
@@ -90,11 +91,21 @@ def main() -> int:
             continue
         if not path.exists() or path.is_dir():
             continue
+        if path.is_symlink():
+            symlink_violations.append(rel)
+            continue
         size = os.path.getsize(path)
         if size > max_bytes:
             violations.append((rel, size))
 
-    if violations:
+    if symlink_violations or violations:
+        for rel in sorted(symlink_violations):
+            print(
+                "::error::"
+                f"{rel} is a symlink in the changed/tracked set. "
+                "Symlink targets are not size-verified by this guard; replace with a regular file "
+                "or update policy tooling explicitly."
+            )
         for rel, size in sorted(violations, key=lambda item: item[1], reverse=True):
             print(
                 "::error::"

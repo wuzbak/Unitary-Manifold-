@@ -1,0 +1,5 @@
+filegroup(
+    name = "check_large_files_py",
+    srcs = ["check_large_files.py"],
+    visibility = ["//visibility:public"],
+)

@@ -15,6 +15,7 @@ py_test(
 py_test(
     name = "test_check_large_files_script_bazel",
     srcs = ["test_check_large_files_script.py"],
+    data = ["//TOOLS/checks:check_large_files_py"],
     imports = [".."],
     deps = [
         "@pip//numpy",

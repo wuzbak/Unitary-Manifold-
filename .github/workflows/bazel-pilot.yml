@@ -10,7 +10,9 @@ on:
       - 'requirements-bazel.txt'
       - 'src/core/**'
       - 'tests/test_metric.py'
+      - 'tests/test_check_large_files_script.py'
       - 'tests/BUILD.bazel'
+      - 'TOOLS/checks/check_large_files.py'
       - '.github/workflows/bazel-pilot.yml'
   push:
     branches: ["main"]
@@ -22,7 +24,9 @@ on:
       - 'requirements-bazel.txt'
       - 'src/core/**'
       - 'tests/test_metric.py'
+      - 'tests/test_check_large_files_script.py'
       - 'tests/BUILD.bazel'
+      - 'TOOLS/checks/check_large_files.py'
       - '.github/workflows/bazel-pilot.yml'
 
 jobs:
