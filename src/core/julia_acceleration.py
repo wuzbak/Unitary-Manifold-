@@ -95,10 +95,17 @@ def _load_julia_wave2_kernels(*, use_cuda: bool):
             H = zeros(eltype(B), N, D, D)
             dB = zeros(eltype(B), N, D)
             for nu in 1:D
-                for n in 1:N
-                    nprev = n == 1 ? N : n - 1
-                    nnext = n == N ? 1 : n + 1
-                    dB[n, nu] = (B[nnext, nu] - B[nprev, nu]) / (2 * dx)
+                if N >= 3
+                    dB[1, nu] = (-3 * B[1, nu] + 4 * B[2, nu] - B[3, nu]) / (2 * dx)
+                    for n in 2:(N - 1)
+                        dB[n, nu] = (B[n + 1, nu] - B[n - 1, nu]) / (2 * dx)
+                    end
+                    dB[N, nu] = (3 * B[N, nu] - 4 * B[N - 1, nu] + B[N - 2, nu]) / (2 * dx)
+                elseif N == 2
+                    dB[1, nu] = (B[2, nu] - B[1, nu]) / dx
+                    dB[2, nu] = (B[2, nu] - B[1, nu]) / dx
+                else
+                    dB[1, nu] = zero(eltype(B))
                 end
             end
             ci = coordinate_index + 1

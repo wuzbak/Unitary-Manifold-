@@ -195,9 +195,14 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
     merge_sha = _latest_merge_commit()
     if not merge_sha:
         merge_sha = _run_git(["rev-parse", "HEAD"])
+    head_sha = _run_git(["rev-parse", "HEAD"])
     touched = _latest_merge_touched_files(merge_sha)
+    if not touched and head_sha and merge_sha != head_sha:
+        touched = _latest_merge_touched_files(head_sha)
     if not touched:
-        touched = sorted(_MERGE_AUDIT_RULES.keys())
+        touched = _latest_merge_touched_files("HEAD")
+    if not touched:
+        touched = ["git_metadata_unavailable"]
     touched_set = set(touched)
 
     rule_rows = []
