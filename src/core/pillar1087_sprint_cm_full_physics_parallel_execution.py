@@ -161,8 +161,6 @@ def _latest_merge_touched_files(merge_sha: str) -> tuple[List[str], bool]:
         parents_available, _ = _merge_parent_trees_available(merge_sha)
         _, tree_ok = _run_git_with_status(["cat-file", "-e", f"{merge_sha}^{{tree}}"])
         if parents_available and tree_ok:
-            if _is_true_noop_merge(merge_sha):
-                return [], False
             return [], True
     return [], False
 
@@ -300,9 +298,9 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         merge_commit_available
         and selected_ref == merge_sha
         and (not metadata_available)
-        and (not metadata_unverified)
         and _is_true_noop_merge(merge_sha)
     )
+    metadata_unverified = bool(metadata_unverified and not noop_verified)
     valid = (not metadata_unverified) and not scoped_failures and (
         metadata_available or noop_verified
     )
