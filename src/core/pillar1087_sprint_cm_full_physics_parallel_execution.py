@@ -212,6 +212,7 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         selected_commit = ""
         selected_ref = ""
         touched = []
+    reported_touched = touched if metadata_available else ["git_metadata_unavailable"]
     touched_set = set(touched)
 
     rule_rows = []
@@ -246,12 +247,12 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
 
     return {
         "lane_id": "LANE_B_LAST_MERGE_MATH_AUDIT",
-        "merge_commit": merge_sha,
+        "merge_commit": merge_sha or "",
         "selected_commit": selected_commit,
         "selected_ref": selected_ref,
         "metadata_available": metadata_available,
         "touched_file_count": len(touched),
-        "touched_files": touched,
+        "touched_files": reported_touched,
         "scoped_rules": scoped_rows,
         "scoped_failures": scoped_failures,
         "prior_post_merge_audit_status": prior_merge_audit.get("overall_status"),
