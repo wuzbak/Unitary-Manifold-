@@ -95,6 +95,19 @@ def _run_git(args: List[str]) -> str:
     return result.stdout.strip()
 
 
+def _run_git_with_status(args: List[str]) -> tuple[str, bool]:
+    result = subprocess.run(
+        ["git", *args],
+        cwd=_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return "", False
+    return result.stdout.strip(), True
+
+
 def _latest_merge_commit() -> str:
     return _run_git(["log", "--merges", "--format=%H", "-n", "1"])
 
@@ -102,17 +115,18 @@ def _latest_merge_commit() -> str:
 def _latest_merge_touched_files(merge_sha: str) -> List[str]:
     if not merge_sha:
         return []
-    output = _run_git(["show", "-m", "--name-only", "--pretty=", merge_sha])
+    output, show_ok = _run_git_with_status(["show", "-m", "--name-only", "--pretty=", merge_sha])
     files = [line.strip() for line in output.splitlines() if line.strip()]
     if files:
         return files
 
-    # In shallow clones, parent history may be unavailable, so `git show` can
-    # return no changed-path metadata even when the commit object is present.
-    tree_output = _run_git(["ls-tree", "-r", "--name-only", merge_sha])
-    tree_files = [line.strip() for line in tree_output.splitlines() if line.strip()]
-    if tree_files:
-        return ["git_history_unavailable"]
+    if not show_ok:
+        # In shallow clones, parent history may be unavailable, so `git show` can
+        # return no changed-path metadata even when the commit object is present.
+        tree_output = _run_git(["ls-tree", "-r", "--name-only", merge_sha])
+        tree_files = [line.strip() for line in tree_output.splitlines() if line.strip()]
+        if tree_files:
+            return ["git_history_unavailable"]
     return []
 
 

@@ -192,6 +192,11 @@ def test_lane_b_passes_when_history_is_unavailable_but_tree_exists(monkeypatch) 
         return ""
 
     monkeypatch.setattr(p1087, "_run_git", _run_git)
+    monkeypatch.setattr(
+        p1087,
+        "_run_git_with_status",
+        lambda args: ("", False) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", True),
+    )
     monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
 
     lane_b = p1087.last_merge_math_verification_lane()
@@ -202,6 +207,26 @@ def test_lane_b_passes_when_history_is_unavailable_but_tree_exists(monkeypatch) 
     assert lane_b["touched_file_count"] == 1
     assert lane_b["touched_files"] == ["git_history_unavailable"]
     assert lane_b["status"] == "PASS"
+
+
+def test_latest_merge_touched_files_does_not_emit_history_unavailable_for_empty_show(monkeypatch) -> None:
+    merge_sha = "a" * 40
+    monkeypatch.setattr(
+        p1087,
+        "_run_git_with_status",
+        lambda args: ("", True) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
+    )
+    monkeypatch.setattr(
+        p1087,
+        "_run_git",
+        lambda args: "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\n"
+        if args == ["ls-tree", "-r", "--name-only", merge_sha]
+        else "",
+    )
+
+    touched = p1087._latest_merge_touched_files(merge_sha)
+
+    assert touched == []
 
 
 def test_lane_b_literal_head_fallback_tracks_selected_commit(monkeypatch) -> None:
