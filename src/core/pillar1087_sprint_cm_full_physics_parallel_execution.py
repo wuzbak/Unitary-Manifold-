@@ -193,16 +193,17 @@ def physics_core_lane() -> Dict[str, Any]:
 
 def last_merge_math_verification_lane() -> Dict[str, Any]:
     merge_sha = _latest_merge_commit()
-    if not merge_sha:
-        merge_sha = _run_git(["rev-parse", "HEAD"])
     head_sha = _run_git(["rev-parse", "HEAD"])
-    touched = _latest_merge_touched_files(merge_sha)
-    if not touched and head_sha and merge_sha != head_sha:
-        touched = _latest_merge_touched_files(head_sha)
+    selected_commit = merge_sha or head_sha
+    touched = _latest_merge_touched_files(selected_commit) if selected_commit else []
+    if not touched and head_sha and selected_commit != head_sha:
+        selected_commit = head_sha
+        touched = _latest_merge_touched_files(selected_commit)
     if not touched:
+        selected_commit = head_sha or selected_commit
         touched = _latest_merge_touched_files("HEAD")
-    if not touched:
-        touched = ["git_metadata_unavailable"]
+    metadata_available = bool(touched)
+    reported_touched = touched if metadata_available else ["git_metadata_unavailable"]
     touched_set = set(touched)
 
     rule_rows = []
@@ -233,13 +234,14 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
     scoped_failures = [row["path"] for row in scoped_rows if not row["pass"]]
 
     prior_merge_audit = pillar1078_parallel_audit_report()
-    valid = bool(merge_sha and touched) and not scoped_failures
+    valid = bool(selected_commit and metadata_available) and not scoped_failures
 
     return {
         "lane_id": "LANE_B_LAST_MERGE_MATH_AUDIT",
-        "merge_commit": merge_sha,
+        "merge_commit": selected_commit or "",
         "touched_file_count": len(touched),
-        "touched_files": touched,
+        "touched_files": reported_touched,
+        "metadata_available": metadata_available,
         "scoped_rules": scoped_rows,
         "scoped_failures": scoped_failures,
         "prior_post_merge_audit_status": prior_merge_audit.get("overall_status"),

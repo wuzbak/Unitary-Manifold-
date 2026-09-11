@@ -90,6 +90,15 @@ def test_julia_tensor_kernels_match_python_when_available():
     np.testing.assert_allclose(out["H"], field_strength(B, 0.1, coordinate_index=1), rtol=1e-9, atol=1e-12)
 
 
+@pytest.mark.parametrize("n_points", [1, 2])
+def test_julia_tensor_kernels_reject_small_grids(n_points):
+    g = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (n_points, 1, 1))
+    B = np.zeros((n_points, 4))
+    phi = np.ones(n_points)
+    with pytest.raises(ValueError, match="Shape of array too small"):
+        run_julia_tensor_kernels(g, B, phi, lam=1.0, dx=0.1, coordinate_index=1)
+
+
 def test_compute_rhs_python_backend_default(monkeypatch):
     monkeypatch.setenv("UM_CORE_BACKEND", "python")
     s = FieldState.flat(N=8, dx=0.1, rng=np.random.default_rng(5))

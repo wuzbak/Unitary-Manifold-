@@ -60,6 +60,41 @@ def test_lane_b_latest_merge_math_verification_scope() -> None:
     assert isinstance(lane_b["merge_commit"], str)
     assert len(lane_b["merge_commit"]) == 40
     assert lane_b["touched_file_count"] >= 1
+    assert lane_b["metadata_available"] is True
+
+
+def test_lane_b_updates_reported_commit_when_head_fallback_used(monkeypatch) -> None:
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "a" * 40)
+    monkeypatch.setattr(p1087, "_run_git", lambda args: "b" * 40 if args == ["rev-parse", "HEAD"] else "")
+    monkeypatch.setattr(
+        p1087,
+        "_latest_merge_touched_files",
+        lambda ref: [] if ref == "a" * 40 else ["src/core/julia_acceleration.py"],
+    )
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS_WITH_FIXES"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+
+    assert lane_b["merge_commit"] == "b" * 40
+    assert lane_b["touched_files"] == ["src/core/julia_acceleration.py"]
+    assert lane_b["status"] == "PASS"
+    assert lane_b["metadata_available"] is True
+
+
+def test_lane_b_fails_closed_when_git_metadata_unavailable(monkeypatch) -> None:
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "a" * 40)
+    monkeypatch.setattr(p1087, "_run_git", lambda args: "b" * 40 if args == ["rev-parse", "HEAD"] else "")
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", lambda ref: [])
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS_WITH_FIXES"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+
+    assert lane_b["merge_commit"] == "b" * 40
+    assert lane_b["touched_file_count"] == 0
+    assert lane_b["touched_files"] == ["git_metadata_unavailable"]
+    assert lane_b["status"] == "FIX_REQUIRED"
+    assert lane_b["verdict"] == "LAST_MERGE_MATH_FIX_REQUIRED"
+    assert lane_b["metadata_available"] is False
 
 
 def test_lane_c_emits_remediation_focus() -> None:

@@ -133,6 +133,11 @@ def run_julia_tensor_kernels(
     use_cuda: bool = False,
 ) -> Dict[str, np.ndarray]:
     """Execute Julia Wave-2 tensor kernels and return assembled tensors."""
+    if B.shape[0] < 3:
+        raise ValueError(
+            "Shape of array too small to calculate a numerical gradient, at least "
+            "(edge_order + 1) elements are required."
+        )
     status = julia_runtime_status(use_cuda=use_cuda)
     if not status.juliacall_available:
         raise RuntimeError("Julia backend unavailable: install juliacall to enable.")
