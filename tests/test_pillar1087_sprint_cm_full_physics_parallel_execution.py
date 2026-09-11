@@ -255,6 +255,7 @@ def test_latest_merge_touched_files_marks_unverified_only_when_tree_available(mo
         "_run_git_with_status",
         lambda args: ("", False) if args == ["show", "-m", "--name-only", "--pretty=", merge_sha] else ("", False),
     )
+    monkeypatch.setattr(p1087, "_merge_parent_trees_available", lambda sha: (False, []))
 
     touched = p1087._latest_merge_touched_files(merge_sha)
 
@@ -270,6 +271,7 @@ def test_latest_merge_touched_files_marks_unverified_with_tree_listing(monkeypat
         if args == ["show", "-m", "--name-only", "--pretty=", merge_sha]
         else ("src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\n", True),
     )
+    monkeypatch.setattr(p1087, "_merge_parent_trees_available", lambda sha: (True, ["b" * 40, "c" * 40]))
 
     touched = p1087._latest_merge_touched_files(merge_sha)
 

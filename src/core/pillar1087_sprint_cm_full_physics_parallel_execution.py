@@ -112,17 +112,31 @@ def _latest_merge_commit() -> str:
     return _run_git(["log", "--merges", "--format=%H", "-n", "1"])
 
 
-def _is_true_noop_merge(merge_sha: str) -> bool:
+def _merge_parent_trees_available(merge_sha: str) -> tuple[bool, list[str]]:
     if not merge_sha:
-        return False
+        return False, []
     parents_line = _run_git(["rev-list", "--parents", "-n", "1", merge_sha])
     parts = [part.strip() for part in parents_line.split() if part.strip()]
     if len(parts) < 3:
+        return False, []
+    parent_shas = parts[1:]
+    for parent_sha in parent_shas:
+        _, parent_tree_ok = _run_git_with_status(["cat-file", "-e", f"{parent_sha}^{{tree}}"])
+        if not parent_tree_ok:
+            return False, []
+    return True, parent_shas
+
+
+def _is_true_noop_merge(merge_sha: str) -> bool:
+    if not merge_sha:
+        return False
+    parents_available, parent_shas = _merge_parent_trees_available(merge_sha)
+    if not parents_available:
         return False
     merge_tree, merge_tree_ok = _run_git_with_status(["rev-parse", f"{merge_sha}^{{tree}}"])
     if not merge_tree_ok or not merge_tree:
         return False
-    for parent_sha in parts[1:]:
+    for parent_sha in parent_shas:
         parent_tree, parent_tree_ok = _run_git_with_status(["rev-parse", f"{parent_sha}^{{tree}}"])
         if not parent_tree_ok:
             return False
@@ -146,8 +160,9 @@ def _latest_merge_touched_files(merge_sha: str) -> tuple[List[str], bool]:
     if not show_ok:
         # In shallow clones, parent history may be unavailable, so `git show` can
         # return no changed-path metadata even when the commit object is present.
+        parents_available, _ = _merge_parent_trees_available(merge_sha)
         _, tree_ok = _run_git_with_status(["cat-file", "-e", f"{merge_sha}^{{tree}}"])
-        if tree_ok:
+        if parents_available and tree_ok:
             return [], True
     return [], False
 
