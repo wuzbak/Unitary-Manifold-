@@ -163,6 +163,8 @@ def _latest_merge_touched_files(merge_sha: str) -> tuple[List[str], bool]:
         parents_available, _ = _merge_parent_trees_available(merge_sha)
         _, tree_ok = _run_git_with_status(["cat-file", "-e", f"{merge_sha}^{{tree}}"])
         if parents_available and tree_ok:
+            if _is_true_noop_merge(merge_sha):
+                return [], False
             return [], True
     return [], False
 
