@@ -3,26 +3,14 @@
 
 from __future__ import annotations
 
-import importlib.util
-import os
+import importlib
 from pathlib import Path
 import sys
 
 
 def _load_module():
-    test_srcdir = os.environ.get("TEST_SRCDIR", "").strip()
-    test_workspace = os.environ.get("TEST_WORKSPACE", "").strip()
-    if test_srcdir and test_workspace:
-        script_path = (
-            Path(test_srcdir) / test_workspace / "TOOLS" / "checks" / "check_large_files.py"
-        )
-    else:
-        script_path = Path(__file__).resolve().parents[1] / "TOOLS" / "checks" / "check_large_files.py"
-    spec = importlib.util.spec_from_file_location("check_large_files", script_path)
-    assert spec is not None and spec.loader is not None
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
+    module = importlib.import_module("TOOLS.checks.check_large_files")
+    return importlib.reload(module)
 
 
 def test_main_fails_when_file_exceeds_limit(monkeypatch, capsys):
@@ -110,6 +98,7 @@ def test_changed_paths_includes_type_and_copy_changes(monkeypatch):
         stdout = b"file.bin\x00"
 
     def _fake_run(args, check, capture_output, text):
+        assert text is False
         calls["args"] = args
         return _Completed()
 

@@ -15,9 +15,9 @@ py_test(
 py_test(
     name = "test_check_large_files",
     srcs = ["test_check_large_files.py"],
-    data = ["//TOOLS/checks:check_large_files_py"],
     imports = [".."],
     deps = [
+        "//TOOLS/checks:check_large_files_lib",
         "@pip//numpy",
         "@pip//pytest",
     ],

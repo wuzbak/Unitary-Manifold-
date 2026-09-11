@@ -1,5 +1,13 @@
+load("@rules_python//python:defs.bzl", "py_library")
+
 filegroup(
     name = "check_large_files_py",
+    srcs = ["check_large_files.py"],
+    visibility = ["//visibility:public"],
+)
+
+py_library(
+    name = "check_large_files_lib",
     srcs = ["check_large_files.py"],
     visibility = ["//visibility:public"],
 )
