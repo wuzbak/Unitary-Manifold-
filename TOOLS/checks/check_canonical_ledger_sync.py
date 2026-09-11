@@ -39,7 +39,7 @@ def _git_full_patch(*, base_sha: str, head_sha: str) -> str:
 
 
 _DIFF_HEADER_RE = re.compile(r"^diff --git a/(.+?) b/(.+)$")
-_FILE_MARKER_RE = re.compile(r"^(---|\+\+\+) (a|b)/(.*)$")
+_FILE_MARKER_RE = re.compile(r"^(---|\+\+\+) (?:(a|b)/(.*)|(/dev/null))$")
 
 
 def _expanded_changed_files(name_only_lines: list[str], name_status_lines: list[str]) -> list[str]:
@@ -82,7 +82,7 @@ def _split_patch_by_path(full_patch: str) -> dict[str, str]:
             marker_match = _FILE_MARKER_RE.match(line)
             if not marker_match:
                 continue
-            marker_path = _normalize_patch_path(marker_match.group(3))
+            marker_path = _normalize_patch_path(marker_match.group(3) or marker_match.group(4) or "")
             if marker_path:
                 paths.add(marker_path)
         for path in paths:
