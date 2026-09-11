@@ -65,6 +65,16 @@ def test_split_patch_by_path_maps_deleted_file_from_markers(ledger_sync_script_m
     assert "dev/null" not in patches
 
 
+def test_split_patch_by_path_ignores_dev_null_header_paths(ledger_sync_script_module):
+    patches = ledger_sync_script_module._split_patch_by_path(
+        "diff --git a/src/core/pillar1119_old_name.py b/dev/null"
+    )
+    assert patches == {
+        "src/core/pillar1119_old_name.py": "diff --git a/src/core/pillar1119_old_name.py b/dev/null"
+    }
+    assert "dev/null" not in patches
+
+
 def test_expanded_changed_files_include_rename_source_and_target(ledger_sync_script_module):
     changed = ledger_sync_script_module._expanded_changed_files(
         ["STATUS.md"],
