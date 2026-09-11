@@ -103,7 +103,17 @@ def _latest_merge_touched_files(merge_sha: str) -> List[str]:
     if not merge_sha:
         return []
     output = _run_git(["show", "-m", "--name-only", "--pretty=", merge_sha])
-    return [line.strip() for line in output.splitlines() if line.strip()]
+    files = [line.strip() for line in output.splitlines() if line.strip()]
+    if files:
+        return files
+
+    # In shallow clones, parent history may be unavailable, so `git show` can
+    # return no changed-path metadata even when the commit object is present.
+    tree_output = _run_git(["ls-tree", "-r", "--name-only", merge_sha])
+    tree_files = [line.strip() for line in tree_output.splitlines() if line.strip()]
+    if tree_files:
+        return ["git_history_unavailable"]
+    return []
 
 
 def _truth_surface_sync_status() -> Dict[str, Any]:

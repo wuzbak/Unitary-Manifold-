@@ -176,6 +176,34 @@ def test_lane_b_reports_missing_metadata_when_no_fallback_works(monkeypatch) -> 
     assert lane_b["status"] == "FIX_REQUIRED"
 
 
+def test_lane_b_passes_when_history_is_unavailable_but_tree_exists(monkeypatch) -> None:
+    merge_sha = "a" * 40
+    head_sha = "b" * 40
+
+    def _run_git(args):
+        if args == ["log", "--merges", "--format=%H", "-n", "1"]:
+            return merge_sha
+        if args == ["rev-parse", "HEAD"]:
+            return head_sha
+        if args == ["show", "-m", "--name-only", "--pretty=", merge_sha]:
+            return ""
+        if args == ["ls-tree", "-r", "--name-only", merge_sha]:
+            return "src/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\n"
+        return ""
+
+    monkeypatch.setattr(p1087, "_run_git", _run_git)
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+
+    lane_b = p1087.last_merge_math_verification_lane()
+    assert lane_b["merge_commit"] == merge_sha
+    assert lane_b["selected_commit"] == merge_sha
+    assert lane_b["selected_ref"] == merge_sha
+    assert lane_b["metadata_available"] is True
+    assert lane_b["touched_file_count"] == 1
+    assert lane_b["touched_files"] == ["git_history_unavailable"]
+    assert lane_b["status"] == "PASS"
+
+
 def test_lane_b_literal_head_fallback_tracks_selected_commit(monkeypatch) -> None:
     monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "m" * 40)
     monkeypatch.setattr(p1087, "_run_git", lambda args: "h" * 40 if args == ["rev-parse", "HEAD"] else "")
