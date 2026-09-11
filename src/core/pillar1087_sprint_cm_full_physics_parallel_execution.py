@@ -115,6 +115,14 @@ def _latest_merge_commit() -> str:
 def _is_true_noop_merge(merge_sha: str) -> bool:
     if not merge_sha:
         return False
+    parents_line = _run_git(["rev-list", "--parents", "-n", "1", merge_sha])
+    parts = [part.strip() for part in parents_line.split() if part.strip()]
+    if len(parts) < 2:
+        return False
+    for parent_sha in parts[1:]:
+        _, parent_tree_ok = _run_git_with_status(["cat-file", "-e", f"{parent_sha}^{{tree}}"])
+        if not parent_tree_ok:
+            return False
     result = subprocess.run(
         ["git", "diff-tree", "--quiet", "-r", "-m", merge_sha],
         cwd=_ROOT,
