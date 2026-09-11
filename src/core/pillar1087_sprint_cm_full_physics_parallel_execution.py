@@ -272,7 +272,7 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
         if touched and head_sha:
             selected_commit = head_sha
     metadata_available = bool(touched)
-    metadata_unverified = bool(metadata_gap)
+    metadata_unverified = bool(metadata_gap and selected_ref != "HEAD")
     reported_touched = list(touched)
     touched_set = set(touched)
 
