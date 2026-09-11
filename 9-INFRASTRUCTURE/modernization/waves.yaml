@@ -1,7 +1,7 @@
 program: infra_modernization_waves
 version: 1
 last_updated_utc: "2026-09-11T23:36:17Z"
-resume_cursor: wave_10_verification_and_handoff
+resume_cursor: complete
 
 waves:
   - id: wave_1_targets_and_metrics
@@ -69,7 +69,7 @@ waves:
       - "Workflow wiring covered by automated test"
 
   - id: wave_10_verification_and_handoff
-    status: in_progress
+    status: completed_in_pr
     artifact: "tests/test_check_large_files.py"
     checkpoints:
       - "Targeted test verification for new checks"
