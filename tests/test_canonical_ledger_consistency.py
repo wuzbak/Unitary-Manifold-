@@ -171,3 +171,11 @@ class TestCanonicalLedgerSyncRequirement:
         )
         assert report["requires_sync"] is True
         assert report["matched_paths"] == ["src/core/pillar1121_new_name.py"]
+
+    def test_copied_pillar_file_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar1121_copy.py"],
+            name_status_lines=["C100\tsrc/core/pillar1087_sprint_cm_full_physics_parallel_execution.py\tsrc/core/pillar1121_copy.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["matched_paths"] == ["src/core/pillar1121_copy.py"]
