@@ -179,7 +179,11 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
         (_ROOT / "docs" / "TRUTH_LAYER.md").resolve().as_posix(): ["### Sprint CM full physics parallel execution", "last-merge math verification"],
         (_ROOT / "docs" / "WAVE_CHANGELOG.md").resolve().as_posix(): [f"## {VERSION} (2026-09-08 — Sprint {SPRINT}: Pillar {PILLAR_NUMBER})", "**Next pillar slot:** 1088"],
         (_ROOT / "docs" / "SPRINT_PLAN.md").resolve().as_posix(): ["## SPRINT CM FULL PHYSICS PARALLEL EXECUTION PROTOCOL", "Historical continuity: v36.9 Sprint CM"],
-        (_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json").resolve().as_posix(): ['"version": "36.9"', '"next_slot": 1088'],
+        (_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json").resolve().as_posix(): [
+            '"historical_continuity"',
+            '"version": "36.9"',
+            '"next_slot": 1088',
+        ],
     }
     file_checks = []
     for file_path, required_fragments in checks.items():

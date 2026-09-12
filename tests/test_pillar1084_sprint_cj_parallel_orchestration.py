@@ -227,6 +227,23 @@ def test_nonempty_passing_blockers_imply_all_clear(monkeypatch) -> None:
     assert report["integrated_board"]["dependencies"]["promotion_language_freeze_enforced"] is False
 
 
+def test_nonbool_blocking_pass_falls_back_to_legacy_bool(monkeypatch) -> None:
+    program_mod = p1084._load("ox_navigator.engine.merlin_program")
+    original = program_mod.get_frontier_readiness_packet
+
+    def _compat_frontier(limit=3):
+        packet = original(limit=limit)
+        packet["promotion_blockers"] = [{"name": "info_only", "pass": True, "blocking_pass": None}]
+        packet["promotion_blockers_all_clear"] = True
+        return packet
+
+    monkeypatch.setattr(program_mod, "get_frontier_readiness_packet", _compat_frontier)
+    report = sprint_cj_parallel_orchestration()
+    assert report["lane_2"]["promotion_blockers_all_clear"] is True
+    assert report["promotion_policy_state"] == "PASS"
+    assert report["valid"] is True
+
+
 def test_nonempty_passing_blockers_declared_true_is_consistent(monkeypatch) -> None:
     program_mod = p1084._load("ox_navigator.engine.merlin_program")
     original = program_mod.get_frontier_readiness_packet
