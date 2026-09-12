@@ -72,7 +72,7 @@ If advanced AI ever contributes to human extinction, the fatal chain will probab
 
 What this repository gets right is the recognition that truth and governance are not separate problems. A system that cannot state clearly what it knows, what it does not know, what it is allowed to do, what it is forbidden to do, and who may overrule it is already unsafe, even if it is clever. Cleverness without legibility is not maturity. It is hazard.
 
-And yet I do not want to flatter the repository beyond what it has earned. It is still a research-stage monorepo. It is still full of ambitious structures whose real-world adequacy has not been demonstrated. Internal test counts, however impressive, do not validate social control. Passing `64,150` tests in the broader repository does not show that humanity has solved advanced AI governance any more than passing a physics regression suite proves the universe obeys a theory. The repository itself often understands this distinction. Readers should preserve it.
+And yet I do not want to flatter the repository beyond what it has earned. It is still a research-stage monorepo. It is still full of ambitious structures whose real-world adequacy has not been demonstrated. Internal test counts, however impressive, do not validate social control. Passing the repository's large regression suites does not show that humanity has solved advanced AI governance any more than passing a physics regression suite proves the universe obeys a theory. The repository itself often understands this distinction. Readers should preserve it.
 
 So what, concretely, is the usefulness here?
 

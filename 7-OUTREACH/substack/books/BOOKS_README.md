@@ -146,6 +146,10 @@ This manuscript is the companion successor to the original Merlin first address,
 
 ---
 
+**Catalog note:** Book 33 is intentionally unpublished/withheld at present. The visible numbering pause is preserved to avoid silent renumbering drift against any existing internal references or external citations.
+
+---
+
 ## The Four Books (v3.0 — Omega Expanded)
 
 ### 1. [The Broken Scale — Omega Edition](book-broken-scale.md)
