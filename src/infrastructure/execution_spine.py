@@ -114,7 +114,7 @@ class ExecutionSpineRecord:
             status=str(payload.get("status", "")),
             summary=str(payload.get("summary", "")),
             repository=str(payload.get("repository", DEFAULT_REPOSITORY)),
-            generated_at_utc=str(payload.get("generated_at_utc", _utcnow())),
+            generated_at_utc=str(payload.get("generated_at_utc", "")),
             canonical_paths=_string_list(payload.get("canonical_paths")),
             sources=_string_list(payload.get("sources")),
             governance=_json_dict(payload.get("governance")),
