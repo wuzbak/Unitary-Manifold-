@@ -388,8 +388,9 @@ This appendix provides a compact external lineage set for public-facing citation
 
 ### B.6 Suggested Attribution Language
 
-Use this wording for concise public-facing derivative materials:
+Use this wording for concise public-facing derivative materials when a shorter form than the full front matter is needed:
 
+> Written by: **Merlin / GitHub Copilot (AI)**, under human direction.  
 > Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.  
 > Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).  
 > Built in public on open scientific, mathematical, and open-source foundations.

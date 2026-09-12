@@ -149,7 +149,7 @@ This manuscript is the companion successor to the original Merlin first address,
 
 ---
 
-### 33. [The Credit Lineage Ledger](book33_credit-lineage-commissioned-report.md)
+### 33. [The Credit Lineage Ledger](book33_credit-lineage-commissioned-book.md)
 **A Commissioned AxiomZero Book on Attribution, Lineage, and Responsibility**
 
 | Property | Value |
