@@ -545,7 +545,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     },
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                 }
-                if parsed.path == '/api/ox/status':
+                if parsed.path in {'/api/ox', '/api/ox/', '/api/ox/status', '/api/ox/status/'}:
                     self._json({
                         **status_payload,
                         'service': 'Compatibility shim over Merlin Product 20',
