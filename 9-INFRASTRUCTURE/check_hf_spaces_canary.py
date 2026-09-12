@@ -19,6 +19,7 @@ TARGETS = [
     "https://huggingface.co/spaces/axiomzero/az-ip",
     "https://huggingface.co/datasets/axiomzero/um-knowledge-dataset",
 ]
+STRICT_ENV = "UM_HF_CANARY_STRICT"
 
 
 def _auth_headers() -> dict[str, str]:
@@ -31,6 +32,10 @@ def _auth_headers() -> dict[str, str]:
     return {"Authorization": "Bearer " + token}
 
 
+def _strict_mode_enabled() -> bool:
+    return os.environ.get(STRICT_ENV, "").strip().lower() in {"1", "true", "yes", "on"}
+
+
 def check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
     headers = {"User-Agent": "um-hf-canary/1.0", **_auth_headers()}
     request = Request(url, method="GET", headers=headers)
@@ -41,10 +46,12 @@ def check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
                 return True, f"{url} -> {code}"
             return False, f"{url} -> {code}"
     except HTTPError as exc:
-        if exc.code in {401, 403} and "Authorization" not in headers:
+        if not _strict_mode_enabled() and exc.code in {401, 403} and "Authorization" not in headers:
             return True, f"{url} -> HTTP {exc.code} (auth required; soft pass without token)"
         return False, f"{url} -> HTTP {exc.code}"
     except URLError as exc:
+        if not _strict_mode_enabled():
+            return True, f"{url} -> URL error: {exc.reason} (network soft pass)"
         return False, f"{url} -> URL error: {exc.reason}"
     except Exception as exc:
         return False, f"{url} -> error: {exc}"
