@@ -97,6 +97,7 @@ NO_FLOAT_PROMOTION_POLICY: Dict[str, Any] = {
 }
 
 _CERTIFICATE_MAP = {item["id"]: item for item in CERTIFICATE_TYPES}
+_DEFAULT_CERTIFICATE_IDS = [item["id"] for item in CERTIFICATE_TYPES]
 
 _ROW_CERTIFICATE_REQUIREMENTS: Dict[str, List[str]] = {
     "APS_ETA_AXIOM_HALF_CLASS": ["EXTERNAL_OBSERVATION_DEPENDENCY"],
@@ -115,33 +116,12 @@ _ROW_CERTIFICATE_REQUIREMENTS: Dict[str, List[str]] = {
 
 def certificate_types_for_proof_class(epistemic_class: str) -> List[Dict[str, Any]]:
     """Return allowed certificate types for a proof class."""
-    if epistemic_class == PROOF_CLASS_UNCONDITIONAL:
-        ids = [
-            "EXACT_IDENTITY",
-            "INTERVAL_CERTIFIED_BOUND",
-            "MONOTONICITY_CERTIFICATE",
-            "RESIDUAL_CERTIFICATE",
-            "TRUNCATION_DISCRETIZATION_CERTIFICATE",
-            "EXTERNAL_OBSERVATION_DEPENDENCY",
-        ]
-    elif epistemic_class == PROOF_CLASS_CONDITIONAL:
-        ids = [
-            "EXACT_IDENTITY",
-            "INTERVAL_CERTIFIED_BOUND",
-            "MONOTONICITY_CERTIFICATE",
-            "RESIDUAL_CERTIFICATE",
-            "TRUNCATION_DISCRETIZATION_CERTIFICATE",
-            "EXTERNAL_OBSERVATION_DEPENDENCY",
-        ]
-    elif epistemic_class == PROOF_CLASS_EXECUTABLE:
-        ids = [
-            "EXACT_IDENTITY",
-            "INTERVAL_CERTIFIED_BOUND",
-            "MONOTONICITY_CERTIFICATE",
-            "RESIDUAL_CERTIFICATE",
-            "TRUNCATION_DISCRETIZATION_CERTIFICATE",
-            "EXTERNAL_OBSERVATION_DEPENDENCY",
-        ]
+    if epistemic_class in {
+        PROOF_CLASS_UNCONDITIONAL,
+        PROOF_CLASS_CONDITIONAL,
+        PROOF_CLASS_EXECUTABLE,
+    }:
+        ids = list(_DEFAULT_CERTIFICATE_IDS)
     else:
         raise ValueError(f"Unknown proof class: {epistemic_class}")
     return [dict(_CERTIFICATE_MAP[item_id]) for item_id in ids]
