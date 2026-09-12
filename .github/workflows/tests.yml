@@ -16,6 +16,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -33,6 +35,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -50,6 +54,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -134,3 +140,11 @@ jobs:
             -v
       - name: Guard large directory entry counts
         run: python TOOLS/checks/check_large_directories.py
+      - name: Enforce tracked-file size limit
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha || github.event.before }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha || github.sha }}"
+          python TOOLS/checks/check_large_files.py \
+            --max-bytes 5242880 \
+            --base-sha "$BASE_SHA" \
+            --head-sha "$HEAD_SHA"

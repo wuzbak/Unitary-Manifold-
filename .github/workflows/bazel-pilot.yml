@@ -1,0 +1,68 @@
+name: Bazel Pilot
+
+on:
+  pull_request:
+    paths:
+      - '.bazelrc'
+      - '.bazelversion'
+      - 'MODULE.bazel'
+      - 'BUILD.bazel'
+      - 'requirements-bazel.txt'
+      - 'src/core/**'
+      - 'tests/test_metric.py'
+      - 'tests/test_check_large_files.py'
+      - 'tests/BUILD.bazel'
+      - 'TOOLS/checks/check_large_files.py'
+      - '.github/workflows/bazel-pilot.yml'
+  push:
+    branches: ["main"]
+    paths:
+      - '.bazelrc'
+      - '.bazelversion'
+      - 'MODULE.bazel'
+      - 'BUILD.bazel'
+      - 'requirements-bazel.txt'
+      - 'src/core/**'
+      - 'tests/test_metric.py'
+      - 'tests/test_check_large_files.py'
+      - 'tests/BUILD.bazel'
+      - 'TOOLS/checks/check_large_files.py'
+      - '.github/workflows/bazel-pilot.yml'
+
+jobs:
+  bazel-metric-pilot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: bazelbuild/setup-bazelisk@v3
+      - name: Restore Bazel caches
+        id: bazel-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.cache/bazel-output
+            ~/.cache/bazel-repo
+            ~/.cache/bazel-disk
+          key: bazel-pilot-${{ runner.os }}-${{ hashFiles('BUILD.bazel', '.bazelversion', 'MODULE.bazel', 'requirements-bazel.txt', '.bazelrc', 'src/core/BUILD.bazel', 'tests/BUILD.bazel', 'TOOLS/checks/BUILD.bazel', 'src/core/metric.py', 'tests/test_metric.py', 'TOOLS/checks/check_large_files.py', 'tests/test_check_large_files.py') }}
+          restore-keys: |
+            bazel-pilot-${{ runner.os }}-
+      - name: Run Bazel pilot target
+        run: |
+          bazel test \
+            //tests:test_metric_bazel \
+            //tests:test_check_large_files \
+            --test_output=errors
+      - name: Save Bazel caches
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.cache/bazel-output
+            ~/.cache/bazel-repo
+            ~/.cache/bazel-disk
+          key: ${{ steps.bazel-cache-restore.outputs.cache-primary-key }}

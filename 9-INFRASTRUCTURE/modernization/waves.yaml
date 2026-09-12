@@ -1,0 +1,77 @@
+program: infra_modernization_waves
+version: 1
+last_updated_utc: "2026-09-11T23:36:17Z"
+resume_cursor: complete
+
+waves:
+  - id: wave_1_targets_and_metrics
+    status: completed_in_pr
+    artifact: ".github/workflows/bazel-pilot.yml"
+    checkpoints:
+      - "Bazel pilot target defined and executable in CI"
+      - "Cache keys pinned to Bazel module and target manifests"
+
+  - id: wave_2_bazel_pilot_lane
+    status: completed_in_pr
+    artifact: "MODULE.bazel"
+    checkpoints:
+      - "Bazel bzlmod initialized"
+      - "rules_python and pip parse configured"
+      - "Pilot test target: //tests:test_metric_bazel"
+
+  - id: wave_3_dependency_mapping_seed
+    status: completed_in_pr
+    artifact: "src/core/BUILD.bazel"
+    checkpoints:
+      - "src/core:metric declared as explicit library target"
+      - "tests:test_metric_bazel wired to explicit dependency"
+
+  - id: wave_4_ci_cache_upgrade
+    status: completed_in_pr
+    artifact: ".github/workflows/bazel-pilot.yml"
+    checkpoints:
+      - "Repository and disk caches configured"
+      - "Cache restore keys configured for incremental reuse"
+
+  - id: wave_5_asset_governance
+    status: completed_in_pr
+    artifact: "TOOLS/checks/check_large_files.py"
+    checkpoints:
+      - "Tracked-file hard limit check implemented"
+      - "Legacy large binaries permit-listed explicitly"
+
+  - id: wave_6_history_rewrite_governance
+    status: completed_in_pr
+    artifact: "9-INFRASTRUCTURE/modernization/waves.yaml"
+    checkpoints:
+      - "Rewrite separated as governed operation"
+      - "No history rewrite executed in active modernization commit"
+
+  - id: wave_7_polyglot_expansion_guardrails
+    status: completed_in_pr
+    artifact: "MODULE.bazel"
+    checkpoints:
+      - "Python toolchain pinned to 3.12"
+      - "Dependency ingestion centralized via requirements-bazel.txt"
+
+  - id: wave_8_ops_debt_controls
+    status: completed_in_pr
+    artifact: "TOOLS/checks/check_large_files.py"
+    checkpoints:
+      - "Anti-bloat debt gate in CI"
+      - "Explicit remediation instruction in failure output"
+
+  - id: wave_9_operational_governance
+    status: completed_in_pr
+    artifact: ".github/workflows/tests.yml"
+    checkpoints:
+      - "Core CI includes anti-bloat enforcement"
+      - "Workflow wiring covered by automated test"
+
+  - id: wave_10_verification_and_handoff
+    status: completed_in_pr
+    artifact: "tests/test_check_large_files.py"
+    checkpoints:
+      - "Targeted test verification for new checks"
+      - "Secret scan before commit"
+      - "Parallel validation before final handoff"

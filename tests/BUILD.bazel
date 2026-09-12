@@ -1,0 +1,24 @@
+load("@rules_python//python:defs.bzl", "py_test")
+
+py_test(
+    name = "test_metric_bazel",
+    srcs = ["test_metric.py"],
+    imports = [".."],
+    deps = [
+        "//src/core:metric",
+        "@pip//numpy",
+        "@pip//pytest",
+        "@pip//scipy",
+    ],
+)
+
+py_test(
+    name = "test_check_large_files",
+    srcs = ["test_check_large_files.py"],
+    imports = [".."],
+    deps = [
+        "//TOOLS/checks:check_large_files_lib",
+        "@pip//numpy",
+        "@pip//pytest",
+    ],
+)
