@@ -3343,7 +3343,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:10.130325+00:00",
+      "generated_at": "2026-09-12T00:40:39.901610+00:00",
       "cycle_id": 3487,
       "gate_verdict": "hold",
       "ok": false,
@@ -3364,7 +3364,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:11.738066+00:00",
+      "generated_at": "2026-09-12T00:40:41.520175+00:00",
       "cycle_id": 3488,
       "gate_verdict": "hold",
       "ok": false,
@@ -3385,7 +3385,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:13.251714+00:00",
+      "generated_at": "2026-09-12T00:40:43.029751+00:00",
       "cycle_id": 3489,
       "gate_verdict": "hold",
       "ok": false,
@@ -3406,7 +3406,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:13.449220+00:00",
+      "generated_at": "2026-09-12T00:40:43.224055+00:00",
       "cycle_id": 3490,
       "gate_verdict": "hold",
       "ok": false,
@@ -3427,7 +3427,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:18.343840+00:00",
+      "generated_at": "2026-09-12T00:40:48.089780+00:00",
       "cycle_id": 3491,
       "gate_verdict": "hold",
       "ok": false,
@@ -3448,7 +3448,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:18.507968+00:00",
+      "generated_at": "2026-09-12T00:40:48.257914+00:00",
       "cycle_id": 3492,
       "gate_verdict": "hold",
       "ok": false,
@@ -3469,7 +3469,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:18.635166+00:00",
+      "generated_at": "2026-09-12T00:40:48.388235+00:00",
       "cycle_id": 3493,
       "gate_verdict": "hold",
       "ok": false,
@@ -3490,7 +3490,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:20.582605+00:00",
+      "generated_at": "2026-09-12T00:40:50.388548+00:00",
       "cycle_id": 3494,
       "gate_verdict": "hold",
       "ok": false,
@@ -3511,7 +3511,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:21.213022+00:00",
+      "generated_at": "2026-09-12T00:40:51.022826+00:00",
       "cycle_id": 3495,
       "gate_verdict": "hold",
       "ok": false,
@@ -3532,7 +3532,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:22.556680+00:00",
+      "generated_at": "2026-09-12T00:40:52.360585+00:00",
       "cycle_id": 3496,
       "gate_verdict": "pass",
       "ok": true,
@@ -3553,7 +3553,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:31.465297+00:00",
+      "generated_at": "2026-09-12T00:41:01.225249+00:00",
       "cycle_id": 3497,
       "gate_verdict": "hold",
       "ok": false,
@@ -3574,7 +3574,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:33.942984+00:00",
+      "generated_at": "2026-09-12T00:41:03.691468+00:00",
       "cycle_id": 3498,
       "gate_verdict": "hold",
       "ok": false,
@@ -3595,7 +3595,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:46.040745+00:00",
+      "generated_at": "2026-09-12T00:41:16.054702+00:00",
       "cycle_id": 3499,
       "gate_verdict": "hold",
       "ok": false,
@@ -3616,7 +3616,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:46.616213+00:00",
+      "generated_at": "2026-09-12T00:41:16.615554+00:00",
       "cycle_id": 3500,
       "gate_verdict": "hold",
       "ok": false,
@@ -3637,7 +3637,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:51.346808+00:00",
+      "generated_at": "2026-09-12T00:41:21.562299+00:00",
       "cycle_id": 3501,
       "gate_verdict": "hold",
       "ok": false,
@@ -3658,7 +3658,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:52.962413+00:00",
+      "generated_at": "2026-09-12T00:41:23.181534+00:00",
       "cycle_id": 3502,
       "gate_verdict": "hold",
       "ok": false,
@@ -3679,7 +3679,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:55.484513+00:00",
+      "generated_at": "2026-09-12T00:41:25.702951+00:00",
       "cycle_id": 3503,
       "gate_verdict": "hold",
       "ok": false,
@@ -3700,7 +3700,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:39:58.051757+00:00",
+      "generated_at": "2026-09-12T00:41:28.286066+00:00",
       "cycle_id": 3504,
       "gate_verdict": "hold",
       "ok": false,
@@ -3721,7 +3721,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:40:03.740215+00:00",
+      "generated_at": "2026-09-12T00:41:34.012105+00:00",
       "cycle_id": 3505,
       "gate_verdict": "hold",
       "ok": false,
@@ -3742,7 +3742,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:40:04.917277+00:00",
+      "generated_at": "2026-09-12T00:41:35.206366+00:00",
       "cycle_id": 3506,
       "gate_verdict": "hold",
       "ok": false,
@@ -3763,7 +3763,7 @@
       }
     },
     {
-      "generated_at": "2026-09-12T00:40:06.403785+00:00",
+      "generated_at": "2026-09-12T00:41:36.673890+00:00",
       "cycle_id": 3507,
       "gate_verdict": "pass",
       "ok": true,
