@@ -1,0 +1,100 @@
+# SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+
+from __future__ import annotations
+
+import sys
+import threading
+from pathlib import Path
+
+import httpx
+
+PRODUCT_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = PRODUCT_ROOT.parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+if str(PRODUCT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PRODUCT_ROOT))
+
+from ox_navigator.app.server import _normalize_psicat_compat_route, serve
+from ox_navigator.engine.merlin_benchmark import build_stage_a_artifact_bundle
+from ox_navigator.engine.merlin_program import (
+    build_training_artifact_bundle,
+    get_merlin_execution_board,
+    get_psicat_convergence_charter,
+)
+
+
+def test_convergence_charter_surface_and_artifacts() -> None:
+    charter = get_psicat_convergence_charter()
+    assert charter["execution_spine"]["surface_id"] == "psicat_convergence_charter"
+    assert charter["execution_spine"]["promotion"]["eligible"] is False
+    assert charter["completion_maps"]["primary_targets"][0] == "12-AZ-IP/20-psicat-navigator"
+
+    stage_a = build_stage_a_artifact_bundle(limit=1)
+    assert stage_a["artifact_bundle"]["execution_spine"]["surface_kind"] == "benchmark_artifact_bundle"
+    assert stage_a["artifact_bundle"]["execution_spine"]["governance"]["fail_closed"] is True
+    assert stage_a["artifact_bundle"]["execution_spine"]["compatibility"]["legacy_endpoints"] == [
+        "/api/merlin/benchmark-artifacts",
+        "/api/ox/benchmark-artifacts",
+    ]
+    assert stage_a["artifact_bundle"]["execution_spine"]["health_checks"][0]["check_id"] == "stage_a_receipts_present"
+    assert stage_a["artifact_bundle"]["execution_spine"]["promotion"]["gate"] == "stage_a_only"
+
+    training = build_training_artifact_bundle(limit=1)
+    assert training["artifact_bundle"]["execution_spine"]["surface_kind"] == "training_artifact_bundle"
+    assert training["artifact_bundle"]["execution_spine"]["governance"]["fail_closed"] is True
+    assert training["artifact_bundle"]["execution_spine"]["compatibility"]["legacy_endpoints"] == [
+        "/api/merlin/training-artifacts",
+        "/api/ox/training-artifacts",
+    ]
+    assert training["artifact_bundle"]["execution_spine"]["health_checks"][0]["check_id"] == "dataset_bundle_ok"
+    assert training["artifact_bundle"]["execution_spine"]["promotion"]["gate"] == "benchmark_required"
+    assert training["artifact_bundle"]["convergence_charter"]["document_path"] == (
+        "9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md"
+    )
+    execution_board = get_merlin_execution_board()
+    assert execution_board["execution_spine"]["promotion"]["eligible"] is False
+
+
+def test_route_normalization_ignores_non_compat_prefixes() -> None:
+    assert _normalize_psicat_compat_route("/api/merlinx") == "/api/merlinx"
+
+
+def test_server_convergence_charter_endpoint() -> None:
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        port = httpd.server_address[1]
+        with httpx.Client(base_url=f"http://127.0.0.1:{port}", timeout=10.0) as client:
+            primary = client.get("/api/psicat/convergence-charter")
+            assert primary.status_code == 200
+            payload = primary.json()
+            assert payload["ok"] is True
+            assert payload["convergence_charter"]["document_path"] == (
+                "9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md"
+            )
+            ox_root = client.get("/api/ox")
+            assert ox_root.status_code == 200
+            assert ox_root.json()["service"] == "PsiCat — the Quantum Cat"
+            compat = client.get("/api/merlin/convergence-charter")
+            assert compat.status_code == 200
+            assert compat.json()["convergence_charter"]["execution_spine"]["compatibility"]["legacy_endpoints"] == [
+                "/api/merlin/*",
+                "/api/ox*",
+            ]
+            ox = client.get("/api/ox/convergence-charter")
+            assert ox.status_code == 200
+            ox_status = client.get("/api/ox/status")
+            assert ox_status.status_code == 200
+            assert ox_status.json()["service"] == "PsiCat — the Quantum Cat"
+            ox_benchmark = client.get("/api/ox/benchmark-artifacts?limit=1")
+            assert ox_benchmark.status_code == 200
+            ox_training = client.get("/api/ox/training-artifacts?limit=1")
+            assert ox_training.status_code == 200
+            ox_benchmark_slash = client.get("/api/ox/benchmark-artifacts/?limit=1")
+            assert ox_benchmark_slash.status_code == 200
+    finally:
+        httpd.shutdown()
+        thread.join(timeout=5)

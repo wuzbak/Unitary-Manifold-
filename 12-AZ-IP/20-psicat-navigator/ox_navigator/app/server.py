@@ -53,6 +53,7 @@ from ox_navigator.engine.merlin_program import (
     get_training_framework_stack,
     get_frontier_readiness_packet,
     get_frontier_open_weight_stack,
+    get_psicat_convergence_charter,
     get_merlin_execution_board,
     get_merlin_hardware_architecture_board,
     get_merlin_heavy_reasoning_lane,
@@ -123,8 +124,6 @@ _OBSERVATORY_INTERVAL_SECONDS = max(60.0, float(os.environ.get("MERLIN_OBSERVATO
 _OBSERVATORY_FAILURE_RETRY_SECONDS = max(10.0, float(os.environ.get("MERLIN_OBSERVATORY_FAILURE_RETRY_SECONDS", "60") or 60.0))
 _OBSERVATORY_LAST_RESULT: dict[str, object] = {"ok": True, "records": [], "ruptures": [], "fail_closed": False, "sources": []}
 _OBSERVATORY_POLL_IN_PROGRESS = False
-
-
 def _sign_session_id(session_id: str) -> str:
     signature = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
     return f'{session_id}.{signature}'
@@ -186,24 +185,18 @@ def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
 
 
 def _is_merlin_compat_route(path: str) -> bool:
-    return path == '/api/merlin' or path.startswith('/api/merlin/')
+    normalized = path if path == '/' else path.rstrip('/')
+    return normalized == '/api/merlin' or normalized.startswith('/api/merlin/')
 
 
 def _normalize_psicat_compat_route(path: str) -> str:
-    normalized = path
+    normalized = path if path == '/' else path.rstrip('/')
     if _is_merlin_compat_route(path):
-        suffix = path[len('/api/merlin'):]
-        normalized = '/api/psicat' if suffix == '/' else '/api/psicat' + suffix
-    elif path.startswith('/api/ox/'):
-        suffix = path[len('/api/ox'):]
-        if suffix == '/':
-            normalized = '/api/ox'
-        elif suffix in {'/status', '/status/'}:
-            normalized = '/api/ox/status'
-        else:
-            normalized = '/api/psicat' + suffix
-    if normalized.endswith('/') and normalized not in {'/', ''}:
-        normalized = normalized.rstrip('/')
+        return '/api/psicat' + normalized[len('/api/merlin'):]
+    if normalized in {'/api/ox', '/api/ox/status'}:
+        return normalized
+    if normalized.startswith('/api/ox/'):
+        return '/api/psicat' + normalized[len('/api/ox'):]
     return normalized
 
 
@@ -503,7 +496,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
         with merlin_lock:
-            if route_path in ('/api/psicat', '/api/psicat/', '/api/psicat/status', '/api/ox', '/api/ox/', '/api/ox/status'):
+            if route_path in ('/api/psicat', '/api/ox', '/api/psicat/status', '/api/ox/status'):
                 status_payload = {
                     'service': 'PsiCat — the Quantum Cat',
                     'internal_persona_name': 'Merlin',
@@ -548,7 +541,6 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if parsed.path in {'/api/ox', '/api/ox/', '/api/ox/status', '/api/ox/status/'}:
                     self._json({
                         **status_payload,
-                        'service': 'Compatibility shim over Merlin Product 20',
                         'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
                         'api_base': 'local',
                     })
@@ -1283,6 +1275,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'execution_board': get_merlin_execution_board(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/convergence-charter':
+                self._json({
+                'ok': True,
+                'convergence_charter': get_psicat_convergence_charter(),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

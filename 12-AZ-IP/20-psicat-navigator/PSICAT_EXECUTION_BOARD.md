@@ -26,6 +26,7 @@ For immediate PsiCat SPC expert uplift, this board now runs:
 These artifacts execute three parallel lanes (business operations, regulatory policy, and strategy resilience) with hard fail-closed gates and evidence-packet requirements.
 Live API surfaces: `/api/psicat/spc-phase0-packet` and `/api/psicat/spc-phase1-baseline`.
 Promotion conversation surface: `/api/psicat/achievement-benchmark-promotion-sprint`.
+Monorepo convergence charter: `/api/psicat/convergence-charter` and `9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`.
 
 ---
 
