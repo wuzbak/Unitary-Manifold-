@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 31960.508773826252,
-        "samples_per_second": 72.06428133895434,
+        "tokens_per_second": 102259.62646991009,
+        "samples_per_second": 230.57412958266085,
         "gpu_utilization_percent": 90.0,
         "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 10.338,
-        "step_time_p95_ms": 17.415,
-        "vram_peak_gb": 0.2978019714355469,
+        "step_time_p50_ms": 4.134,
+        "step_time_p95_ms": 4.54,
+        "vram_peak_gb": 0.2442169189453125,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 34517.34947573236,
-        "samples_per_second": 76.3881382192916,
+        "tokens_per_second": 110440.3965875029,
+        "samples_per_second": 244.40857735762052,
         "gpu_utilization_percent": 92.5,
         "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 9.510959999999999,
-        "step_time_p95_ms": 16.0218,
-        "vram_peak_gb": 0.3097140502929688,
+        "step_time_p50_ms": 3.8032800000000004,
+        "step_time_p95_ms": 4.1768,
+        "vram_peak_gb": 0.253985595703125,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 38659.431412820246,
-        "samples_per_second": 84.02695204122077,
+        "tokens_per_second": 123693.24417800325,
+        "samples_per_second": 268.84943509338257,
         "gpu_utilization_percent": 95.0,
         "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 8.6549736,
-        "step_time_p95_ms": 14.579837999999999,
-        "vram_peak_gb": 0.31900547180175787,
+        "step_time_p50_ms": 3.4609848000000003,
+        "step_time_p95_ms": 3.800888,
+        "vram_peak_gb": 0.26160516357421876,
         "cost_per_accepted_sample": 0.0
       }
     }
