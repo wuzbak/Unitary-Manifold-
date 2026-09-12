@@ -60,6 +60,15 @@ MERLIN_VALIDATION_RESILIENCE_DOC = PRODUCT_ROOT / "PSICAT_VALIDATION_RESILIENCE_
 EXECUTION_SPINE_CHARTER_DOC = REPO_ROOT / "9-INFRASTRUCTURE" / "EXECUTION_SPINE_CONVERGENCE_CHARTER.md"
 PSICAT_SPC_PLAN_DOC = PRODUCT_ROOT / "PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md"
 PSICAT_SPC_GATES_DOC = PRODUCT_ROOT / "PSICAT_SPC_BENCHMARK_GATES.md"
+PRIMARY_PSICAT_EXECUTION_SPINE_ENDPOINTS = (
+    "/api/psicat",
+    "/api/psicat/status",
+    "/api/psicat/execution-board",
+    "/api/psicat/convergence-charter",
+    "/api/psicat/validation-resilience",
+    "/api/psicat/benchmark-artifacts",
+    "/api/psicat/training-artifacts",
+)
 COMBINED_GATE_REQUIRED_AXES = [
     "factuality",
     "provenance_completeness",
@@ -1871,6 +1880,7 @@ def run_sync_checks() -> dict[str, Any]:
 
     runtime_endpoint_checks = []
     for endpoint in [
+        *PRIMARY_PSICAT_EXECUTION_SPINE_ENDPOINTS,
         "/api/merlin",
         "/api/merlin/status",
         "/api/merlin/program",
@@ -1932,6 +1942,7 @@ def run_sync_checks() -> dict[str, Any]:
     runtime_ok = all(item["present"] for item in runtime_endpoint_checks)
     gate_labels_ok = all(item["present"] for item in gate_label_checks)
     endpoint_targets = [
+        *PRIMARY_PSICAT_EXECUTION_SPINE_ENDPOINTS,
         "/api/merlin",
         "/api/merlin/status",
         "/api/merlin/program",

@@ -79,6 +79,13 @@ def repo_rel(path: str | Path, repo_root: Path) -> str:
     if not original.is_absolute():
         lexical = _lexical_repo_relative(original)
         if lexical is not None:
+            candidate = repo_root_resolved / lexical
+            if candidate.exists() or candidate.is_symlink():
+                resolved = candidate.resolve(strict=False)
+                try:
+                    return resolved.relative_to(repo_root_resolved).as_posix()
+                except ValueError:
+                    return lexical
             return lexical
         resolved = (repo_root_resolved / original).resolve(strict=False)
         return _sanitized_non_repo_marker(original, resolved)
