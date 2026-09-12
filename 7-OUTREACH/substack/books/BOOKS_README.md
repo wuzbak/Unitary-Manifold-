@@ -148,6 +148,8 @@ This manuscript is the companion successor to the original Merlin first address,
 
 ### 33. The Credit Lineage Ledger, Expanded *(removed from repository)*
 
+**Former subtitle:** *A Commissioned AxiomZero Report on Attribution, Influence, and Responsibility*
+
 **Catalog tombstone:** The prior Book 33 materials were removed from the repository. The numbering gap is being intentionally reserved rather than silently renumbered, so older internal references and outside citations can still be interpreted correctly.
 
 ---
