@@ -51,6 +51,17 @@ def _lexical_repo_relative(path: Path) -> str | None:
     return "/".join(collapsed)
 
 
+def _canonicalize_repo_relative(lexical: str, repo_root: Path) -> str:
+    candidate = repo_root / lexical
+    if candidate.exists() or candidate.is_symlink():
+        resolved = candidate.resolve(strict=False)
+        try:
+            return resolved.relative_to(repo_root).as_posix()
+        except ValueError:
+            return lexical
+    return lexical
+
+
 def _as_bool(value: Any) -> bool:
     if isinstance(value, bool):
         return value
@@ -79,16 +90,15 @@ def repo_rel(path: str | Path, repo_root: Path) -> str:
     if not original.is_absolute():
         lexical = _lexical_repo_relative(original)
         if lexical is not None:
-            candidate = repo_root_resolved / lexical
-            if candidate.exists() or candidate.is_symlink():
-                resolved = candidate.resolve(strict=False)
-                try:
-                    return resolved.relative_to(repo_root_resolved).as_posix()
-                except ValueError:
-                    return lexical
-            return lexical
+            return _canonicalize_repo_relative(lexical, repo_root_resolved)
         resolved = (repo_root_resolved / original).resolve(strict=False)
         return _sanitized_non_repo_marker(original, resolved)
+    try:
+        lexical_original = _lexical_repo_relative(original.relative_to(repo_root_resolved))
+    except ValueError:
+        lexical_original = None
+    if lexical_original is not None:
+        return _canonicalize_repo_relative(lexical_original, repo_root_resolved)
     resolved = original.resolve(strict=False)
     try:
         return resolved.relative_to(repo_root_resolved).as_posix()
