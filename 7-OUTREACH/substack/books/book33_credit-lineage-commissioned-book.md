@@ -282,10 +282,10 @@ This appendix identifies the main in-repository surfaces a reader can inspect to
 
 1. `README.md`  
 2. `CITATION.cff`  
-3. `PROVENANCE.md`  
-4. `AGENTS.md`  
-5. `SEPARATION.md`  
-6. `FALLIBILITY.md`
+3. `AGENTS.md`  
+4. `SEPARATION.md`  
+5. `FALLIBILITY.md`  
+6. `docs/navigation/REPOSITORY_MAP.md`
 
 ### A.2 Core Physics and Formal Structure Anchors
 
@@ -388,12 +388,7 @@ This appendix provides a compact external lineage set for public-facing citation
 
 ### B.6 Suggested Attribution Language
 
-Use this wording for concise public-facing derivative materials when a shorter form than the full front matter is needed:
-
-> Written in Merlin's editorial voice by: **GitHub Copilot (AI)**, under human direction.  
-> Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.  
-> Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).  
-> Built in public on open scientific, mathematical, and open-source foundations.
+For derivative materials, use the same credit wording that appears in this book's front matter. If a shorter form is necessary for space, preserve the exact theory line and the exact code-architecture line without rewriting their wording.
 
 ---
 
