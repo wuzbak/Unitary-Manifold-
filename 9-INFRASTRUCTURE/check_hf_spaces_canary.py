@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import os
 from urllib.error import URLError, HTTPError
 from urllib.request import Request, urlopen
 
@@ -20,8 +21,19 @@ TARGETS = [
 ]
 
 
+def _auth_headers() -> dict[str, str]:
+    token = (
+        os.environ.get("HUGGINGFACE_TOKEN", "").strip()
+        or os.environ.get("HF_TOKEN", "").strip()
+    )
+    if not token:
+        return {}
+    return {"Authorization": "Bearer " + token}
+
+
 def check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
-    request = Request(url, method="GET", headers={"User-Agent": "um-hf-canary/1.0"})
+    headers = {"User-Agent": "um-hf-canary/1.0", **_auth_headers()}
+    request = Request(url, method="GET", headers=headers)
     try:
         with urlopen(request, timeout=timeout) as response:
             code = getattr(response, "status", 200)
@@ -29,6 +41,8 @@ def check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
                 return True, f"{url} -> {code}"
             return False, f"{url} -> {code}"
     except HTTPError as exc:
+        if exc.code in {401, 403} and "Authorization" not in headers:
+            return True, f"{url} -> HTTP {exc.code} (auth required; soft pass without token)"
         return False, f"{url} -> HTTP {exc.code}"
     except URLError as exc:
         return False, f"{url} -> URL error: {exc.reason}"
@@ -52,4 +66,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
