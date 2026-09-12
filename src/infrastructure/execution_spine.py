@@ -75,6 +75,34 @@ def _relative_to_repo(path: Path, repo_root: Path) -> str | None:
     return Path(os.path.relpath(path, repo_root)).as_posix()
 
 
+def _repo_rel_from_base(original: Path, repo_root: Path, base_dir: Path) -> str:
+    base_dir_resolved = base_dir.resolve(strict=False)
+    base_dir_repo_relative_text = _relative_to_repo(base_dir_resolved, repo_root)
+    if base_dir_repo_relative_text is None:
+        return _sanitized_non_repo_marker(original, base_dir_resolved / original)
+    lexical = _lexical_repo_relative(Path(base_dir_repo_relative_text) / original)
+    if lexical is not None:
+        return _canonicalize_repo_relative(lexical, repo_root)
+    resolved = (base_dir_resolved / original).resolve(strict=False)
+    return _sanitized_non_repo_marker(original, resolved)
+
+
+def _repo_rel_relative(original: Path, repo_root: Path) -> str:
+    lexical = _lexical_repo_relative(original)
+    if lexical is not None:
+        return _canonicalize_repo_relative(lexical, repo_root)
+    resolved = (repo_root / original).resolve(strict=False)
+    return _sanitized_non_repo_marker(original, resolved)
+
+
+def _repo_rel_absolute(original: Path, repo_root: Path) -> str:
+    resolved = original.resolve(strict=False)
+    lexical = _relative_to_repo(resolved, repo_root)
+    if lexical is not None:
+        return _canonicalize_repo_relative(lexical, repo_root)
+    return _sanitized_non_repo_marker(original, resolved)
+
+
 def _as_bool(value: Any) -> bool:
     if isinstance(value, bool):
         return value
@@ -102,25 +130,9 @@ def repo_rel(path: str | Path, repo_root: Path, *, base_dir: str | Path | None =
     repo_root_resolved = repo_root.resolve(strict=False)
     if not original.is_absolute():
         if base_dir is not None:
-            base_dir_resolved = Path(base_dir).resolve(strict=False)
-            base_dir_repo_relative_text = _relative_to_repo(base_dir_resolved, repo_root_resolved)
-            if base_dir_repo_relative_text is None:
-                return _sanitized_non_repo_marker(original, base_dir_resolved / original)
-            lexical = _lexical_repo_relative(Path(base_dir_repo_relative_text) / original)
-            if lexical is not None:
-                return _canonicalize_repo_relative(lexical, repo_root_resolved)
-            resolved = (base_dir_resolved / original).resolve(strict=False)
-            return _sanitized_non_repo_marker(original, resolved)
-        lexical = _lexical_repo_relative(original)
-        if lexical is not None:
-            return _canonicalize_repo_relative(lexical, repo_root_resolved)
-        resolved = (repo_root_resolved / original).resolve(strict=False)
-        return _sanitized_non_repo_marker(original, resolved)
-    resolved = original.resolve(strict=False)
-    lexical = _relative_to_repo(resolved, repo_root_resolved)
-    if lexical is not None:
-        return _canonicalize_repo_relative(lexical, repo_root_resolved)
-    return _sanitized_non_repo_marker(original, resolved)
+            return _repo_rel_from_base(original, repo_root_resolved, Path(base_dir))
+        return _repo_rel_relative(original, repo_root_resolved)
+    return _repo_rel_absolute(original, repo_root_resolved)
 
 
 @dataclass(frozen=True)
