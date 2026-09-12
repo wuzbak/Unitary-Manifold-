@@ -3238,6 +3238,10 @@ def test_server_merlin_endpoints():
             assert legacy.status_code == 200
             assert 'FOLLOWUPS:' in legacy.json()['answer']
 
+            legacy_root = client.get('/api/ox')
+            assert legacy_root.status_code == 200
+            assert legacy_root.json()['psicat_available'] is True
+
             legacy_status = client.get('/api/ox/status')
             assert legacy_status.status_code == 200
             assert legacy_status.json()['psicat_available'] is True

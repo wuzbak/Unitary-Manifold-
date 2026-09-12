@@ -192,6 +192,8 @@ def _is_merlin_compat_route(path: str) -> bool:
 def _normalize_psicat_compat_route(path: str) -> str:
     if _is_merlin_compat_route(path):
         return '/api/psicat' + path[len('/api/merlin'):]
+    if path == '/api/ox':
+        return '/api/psicat'
     if path.startswith('/api/ox/'):
         return '/api/psicat' + path[len('/api/ox'):]
     return path
