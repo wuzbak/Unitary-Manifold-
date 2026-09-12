@@ -364,9 +364,11 @@ def _packet_claim_ids_exist(packet: Dict[str, Any]) -> bool:
 def _row_work_queue(row: Dict[str, Any]) -> List[Dict[str, Any]]:
     row_id = str(row.get("id") or "")
     if row_id == "ACTION_TO_EVOLUTION_BOUNDARY":
-        from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
+        from src.core.action_to_evolution_retirement_units import (
+            build_action_to_evolution_retirement_units,
+        )
 
-        return list(action_to_evolution_deliverable_contract().get("retirement_units") or [])
+        return build_action_to_evolution_retirement_units()
     if row_id == "APS_ETA_AXIOM_HALF_CLASS":
         return [
             {
