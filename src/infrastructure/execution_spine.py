@@ -10,6 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 import hashlib
+import os
 from pathlib import Path
 from typing import Any
 
@@ -55,11 +56,23 @@ def _canonicalize_repo_relative(lexical: str, repo_root: Path) -> str:
     candidate = repo_root / lexical
     if candidate.exists() or candidate.is_symlink():
         resolved = candidate.resolve(strict=False)
-        try:
-            return resolved.relative_to(repo_root).as_posix()
-        except ValueError:
+        relative = _relative_to_repo(resolved, repo_root)
+        if relative is not None:
+            return relative
+        else:
             return _sanitized_non_repo_marker(Path(lexical), resolved)
     return lexical
+
+
+def _relative_to_repo(path: Path, repo_root: Path) -> str | None:
+    path_text = os.path.normcase(str(path))
+    root_text = os.path.normcase(str(repo_root))
+    try:
+        if os.path.commonpath([root_text, path_text]) != root_text:
+            return None
+    except ValueError:
+        return None
+    return Path(os.path.relpath(path, repo_root)).as_posix()
 
 
 def _as_bool(value: Any) -> bool:
@@ -90,11 +103,10 @@ def repo_rel(path: str | Path, repo_root: Path, *, base_dir: str | Path | None =
     if not original.is_absolute():
         if base_dir is not None:
             base_dir_resolved = Path(base_dir).resolve(strict=False)
-            try:
-                base_dir_repo_relative = base_dir_resolved.relative_to(repo_root_resolved)
-            except ValueError:
+            base_dir_repo_relative_text = _relative_to_repo(base_dir_resolved, repo_root_resolved)
+            if base_dir_repo_relative_text is None:
                 return _sanitized_non_repo_marker(original, base_dir_resolved / original)
-            lexical = _lexical_repo_relative(Path(base_dir_repo_relative) / original)
+            lexical = _lexical_repo_relative(Path(base_dir_repo_relative_text) / original)
             if lexical is not None:
                 return _canonicalize_repo_relative(lexical, repo_root_resolved)
             resolved = (base_dir_resolved / original).resolve(strict=False)
@@ -105,11 +117,10 @@ def repo_rel(path: str | Path, repo_root: Path, *, base_dir: str | Path | None =
         resolved = (repo_root_resolved / original).resolve(strict=False)
         return _sanitized_non_repo_marker(original, resolved)
     resolved = original.resolve(strict=False)
-    try:
-        lexical = resolved.relative_to(repo_root_resolved).as_posix()
+    lexical = _relative_to_repo(resolved, repo_root_resolved)
+    if lexical is not None:
         return _canonicalize_repo_relative(lexical, repo_root_resolved)
-    except ValueError:
-        return _sanitized_non_repo_marker(original, resolved)
+    return _sanitized_non_repo_marker(original, resolved)
 
 
 @dataclass(frozen=True)
