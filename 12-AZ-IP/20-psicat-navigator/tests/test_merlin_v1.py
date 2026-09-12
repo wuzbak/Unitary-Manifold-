@@ -3268,6 +3268,11 @@ def test_server_merlin_endpoints():
             assert legacy_status_with_query.json()['api_base'] == 'local'
             assert legacy_status_with_query.headers.get('X-Merlin-Handshake-Challenge') is None
 
+            legacy_status_with_slash = client.get('/api/ox/status/')
+            assert legacy_status_with_slash.status_code == 200
+            assert legacy_status_with_slash.json()['ox_available'] is True
+            assert legacy_status_with_slash.headers.get('X-Merlin-Handshake-Challenge') is None
+
             legacy_memory = client.get('/api/ox/memory')
             assert legacy_memory.status_code == 200
             assert legacy_memory.headers.get('X-Merlin-Handshake-Challenge')
