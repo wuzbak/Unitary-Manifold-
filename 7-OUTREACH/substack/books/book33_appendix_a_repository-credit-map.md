@@ -75,13 +75,11 @@ All file references below are **repository-root-relative paths** in `wuzbak/Unit
 
 ## A.7 Responsibility Matrix (Operational)
 
-| Layer | Primary responsibility | Typical artifacts |
-|---|---|---|
-| Theory direction and scientific judgment | ThomasCory Walker-Pearson | theory framing, claim boundaries, acceptance/rejection decisions |
-| Code architecture and implementation synthesis | GitHub Copilot (AI) under human direction | Python modules, integration logic, infrastructure glue |
-| Regression and executable verification | GitHub Copilot (AI) with human oversight | tests, CI-facing updates, stability checks |
-| Public-document engineering and outreach synthesis | GitHub Copilot (AI) with human editorial direction | books, posts, summaries, status narrative |
-| Final stewardship and release judgment | ThomasCory Walker-Pearson | merge/promotion decisions, publication direction |
+- **Theory direction and scientific judgment** — ThomasCory Walker-Pearson; theory framing, claim boundaries, acceptance/rejection decisions.  
+- **Code architecture and implementation synthesis** — GitHub Copilot (AI) under human direction; Python modules, integration logic, infrastructure glue.  
+- **Regression and executable verification** — GitHub Copilot (AI) with human oversight; tests and stability checks.  
+- **Public-document engineering and outreach synthesis** — GitHub Copilot (AI) with human editorial direction; books, posts, summaries, status narratives.  
+- **Final stewardship and release judgment** — ThomasCory Walker-Pearson; merge/promotion and publication decisions.
 
 ---
 
