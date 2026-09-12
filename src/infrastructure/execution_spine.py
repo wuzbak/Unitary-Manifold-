@@ -78,7 +78,7 @@ class ExecutionSpineRecord:
     summary: str
     repository: str = DEFAULT_REPOSITORY
     schema_version: str = EXECUTION_SPINE_SCHEMA_VERSION
-    generated_at_utc: str = field(default_factory=_utcnow)
+    generated_at_utc: str | None = field(default_factory=_utcnow)
     canonical_paths: list[str] = field(default_factory=list)
     sources: list[str] = field(default_factory=list)
     governance: dict[str, Any] = field(default_factory=dict)
@@ -106,26 +106,30 @@ class ExecutionSpineRecord:
 
     @classmethod
     def from_dict(cls, payload: dict[str, Any]) -> "ExecutionSpineRecord":
-        return cls(
-            schema_version=str(payload.get("schema_version", EXECUTION_SPINE_SCHEMA_VERSION)),
-            surface_id=str(payload.get("surface_id", "")),
-            surface_kind=str(payload.get("surface_kind", "")),
-            lane=str(payload.get("lane", "")),
-            status=str(payload.get("status", "")),
-            summary=str(payload.get("summary", "")),
-            repository=str(payload.get("repository", DEFAULT_REPOSITORY)),
-            generated_at_utc=str(payload.get("generated_at_utc", "")),
-            canonical_paths=_string_list(payload.get("canonical_paths")),
-            sources=_string_list(payload.get("sources")),
-            governance=_json_dict(payload.get("governance")),
-            compatibility=_json_dict(payload.get("compatibility")),
-            health_checks=[
+        kwargs: dict[str, Any] = {
+            "schema_version": str(payload.get("schema_version", EXECUTION_SPINE_SCHEMA_VERSION)),
+            "surface_id": str(payload.get("surface_id", "")),
+            "surface_kind": str(payload.get("surface_kind", "")),
+            "lane": str(payload.get("lane", "")),
+            "status": str(payload.get("status", "")),
+            "summary": str(payload.get("summary", "")),
+            "repository": str(payload.get("repository", DEFAULT_REPOSITORY)),
+            "canonical_paths": _string_list(payload.get("canonical_paths")),
+            "sources": _string_list(payload.get("sources")),
+            "governance": _json_dict(payload.get("governance")),
+            "compatibility": _json_dict(payload.get("compatibility")),
+            "health_checks": [
                 ExecutionSpineHealthCheck.from_dict(item)
                 for item in list(payload.get("health_checks") or [])
                 if isinstance(item, dict)
             ],
-            promotion=_json_dict(payload.get("promotion")),
-        )
+            "promotion": _json_dict(payload.get("promotion")),
+        }
+        if "generated_at_utc" in payload:
+            kwargs["generated_at_utc"] = payload.get("generated_at_utc")
+        else:
+            kwargs["generated_at_utc"] = None
+        return cls(**kwargs)
 
 
 def build_fail_closed_governance(

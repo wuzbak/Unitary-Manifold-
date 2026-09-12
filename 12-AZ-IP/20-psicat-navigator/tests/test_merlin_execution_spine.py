@@ -28,9 +28,15 @@ def test_convergence_charter_surface_and_artifacts() -> None:
 
     stage_a = build_stage_a_artifact_bundle(limit=1)
     assert stage_a["artifact_bundle"]["execution_spine"]["surface_kind"] == "benchmark_artifact_bundle"
+    assert stage_a["artifact_bundle"]["execution_spine"]["governance"]["fail_closed"] is True
+    assert stage_a["artifact_bundle"]["execution_spine"]["health_checks"][0]["check_id"] == "stage_a_receipts_present"
+    assert stage_a["artifact_bundle"]["execution_spine"]["promotion"]["gate"] == "stage_a_only"
 
     training = build_training_artifact_bundle(limit=1)
     assert training["artifact_bundle"]["execution_spine"]["surface_kind"] == "training_artifact_bundle"
+    assert training["artifact_bundle"]["execution_spine"]["governance"]["fail_closed"] is True
+    assert training["artifact_bundle"]["execution_spine"]["health_checks"][0]["check_id"] == "dataset_bundle_ok"
+    assert training["artifact_bundle"]["execution_spine"]["promotion"]["gate"] == "benchmark_required"
     assert training["artifact_bundle"]["convergence_charter"]["document_path"] == (
         "9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md"
     )

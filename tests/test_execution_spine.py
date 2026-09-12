@@ -49,6 +49,19 @@ def test_execution_spine_record_roundtrip() -> None:
     assert restored.governance["fail_closed"] is True
 
 
+def test_execution_spine_record_from_dict_preserves_missing_timestamp() -> None:
+    restored = ExecutionSpineRecord.from_dict(
+        {
+            "surface_id": "surface-2",
+            "surface_kind": "artifact",
+            "lane": "psicat_control_plane",
+            "status": "READY",
+            "summary": "No timestamp payload.",
+        }
+    )
+    assert restored.generated_at_utc is None
+
+
 def test_quantum_run_artifact_contains_execution_spine(tmp_path: Path) -> None:
     model = build_fermi_hubbard_1d(n_sites=2, hopping_t=1.0, interaction_u=2.0)
     cfg = ExecutionConfig(total_time=0.1, trotter_steps=2)

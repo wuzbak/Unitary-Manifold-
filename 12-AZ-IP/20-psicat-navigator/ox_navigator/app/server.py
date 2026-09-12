@@ -124,6 +124,9 @@ _OBSERVATORY_INTERVAL_SECONDS = max(60.0, float(os.environ.get("MERLIN_OBSERVATO
 _OBSERVATORY_FAILURE_RETRY_SECONDS = max(10.0, float(os.environ.get("MERLIN_OBSERVATORY_FAILURE_RETRY_SECONDS", "60") or 60.0))
 _OBSERVATORY_LAST_RESULT: dict[str, object] = {"ok": True, "records": [], "ruptures": [], "fail_closed": False, "sources": []}
 _OBSERVATORY_POLL_IN_PROGRESS = False
+_PSICAT_COMPAT_ROUTE_ALIASES = {
+    "/api/ox/convergence-charter": "/api/psicat/convergence-charter",
+}
 
 
 def _sign_session_id(session_id: str) -> str:
@@ -184,6 +187,12 @@ def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
     if not isinstance(result, dict) or "data" not in result:
         return 500, {"ok": False, "error": "Merlin tool returned no data payload."}
     return 200, {"ok": True, "data": result["data"]}
+
+
+def _normalize_psicat_compat_route(path: str) -> str:
+    if path.startswith('/api/merlin'):
+        return '/api/psicat' + path[len('/api/merlin'):]
+    return _PSICAT_COMPAT_ROUTE_ALIASES.get(path, path)
 
 
 def _secure_cookie_required(host: str) -> bool:
@@ -473,9 +482,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):  # noqa: N802
         parsed = urlparse(self.path)
-        route_path = parsed.path
-        if route_path.startswith('/api/merlin'):
-            route_path = '/api/psicat' + route_path[len('/api/merlin'):]
+        route_path = _normalize_psicat_compat_route(parsed.path)
         params = parse_qs(parsed.query)
         profile_hint = self._profile_hint(params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
@@ -1258,10 +1265,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
-            normalized_route_path = route_path
-            if parsed.path in {'/api/merlin/convergence-charter', '/api/ox/convergence-charter'}:
-                normalized_route_path = '/api/psicat/convergence-charter'
-            if normalized_route_path == '/api/psicat/convergence-charter':
+            if route_path == '/api/psicat/convergence-charter':
                 self._json({
                 'ok': True,
                 'convergence_charter': get_psicat_convergence_charter(),
@@ -1403,9 +1407,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):  # noqa: N802
         parsed = urlparse(self.path)
-        route_path = parsed.path
-        if route_path.startswith('/api/merlin'):
-            route_path = '/api/psicat' + route_path[len('/api/merlin'):]
+        route_path = _normalize_psicat_compat_route(parsed.path)
         params = parse_qs(parsed.query)
         length = int(self.headers.get('Content-Length', '0'))
         raw = self.rfile.read(length)
