@@ -53,6 +53,31 @@ Please answer one or more of the following:
 3. Is any part of the current evolution surface overstated relative to what is actually derived?
 4. Is there a simpler falsifying mismatch between the implemented flow and any admissible 5D action candidate?
 
+## Active work queue
+
+Treat this packet as the live Lane B retirement board. The current exact units are:
+
+1. variable identification
+2. time / flow-parameter interpretation
+3. action functional
+4. variation rules
+5. boundary terms
+6. admissible function spaces
+7. residual / error comparison
+
+For each unit, the only acceptable end states are:
+
+- `CLOSED_NOW`
+- `CONDITIONAL_ONLY`
+- `BLOCKED_NOT_YET_DERIVABLE`
+
+The current doctrine is:
+
+- action-to-evolution remains the **primary closure program**,
+- no global master-theorem attempt should outrun these unit-level gates,
+- and no floating-point comparison may strengthen the claim class without an
+  explicit certificate surface.
+
 ## Explicit falsifier / blocker request
 
 A successful review packet response is one that either:

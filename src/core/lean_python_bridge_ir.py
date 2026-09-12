@@ -6,6 +6,16 @@ from __future__ import annotations
 
 from typing import Any
 
+from src.core.formal_bridge_schema import (
+    BRIDGE_ARCHITECTURE_LAYERS,
+    CANONICAL_NORMALIZATION_FIELDS,
+    CERTIFICATE_TYPES,
+    NO_FLOAT_PROMOTION_POLICY,
+    build_normalization_contract,
+    certificate_requirements_for_row,
+    certificate_types_for_proof_class,
+)
+
 _BACKEND_COMPARISON: list[dict[str, str]] = [
     {
         "backend_id": "leanclient_lsp",
@@ -77,6 +87,8 @@ def build_formal_unit_ir(
         lean_module = _lean_module_name(lean_file)
         proof_class = str(row.get("epistemic_class") or "")
         lane_id = str(row.get("lane_id") or "")
+        normalization_contract = dict(row.get("normalization_contract") or build_normalization_contract(row))
+        certificate_requirements = list(row.get("certificate_requirements") or certificate_requirements_for_row(row))
         unit = {
             "unit_id": unit_id,
             "lane_id": lane_id,
@@ -85,6 +97,7 @@ def build_formal_unit_ir(
             "proof_class": proof_class,
             "summary": str(row.get("summary") or ""),
             "review_packet": str(row.get("review_packet") or ""),
+            "work_queue": list(row.get("work_queue") or []),
             "python": {
                 "modules": list(row.get("python_modules") or []),
                 "tests": list(row.get("tests") or []),
@@ -99,6 +112,7 @@ def build_formal_unit_ir(
                 "symbols": list(row.get("lean_symbols") or []),
             },
             "translation_contract": {
+                "bridge_layers": list(BRIDGE_ARCHITECTURE_LAYERS),
                 "source_plane": "python_formal_unit_contract",
                 "target_plane": "lean_checked_artifact",
                 "return_plane": "python_receipt_reingestion",
@@ -108,6 +122,12 @@ def build_formal_unit_ir(
                     else "lsp_plus_scoped_build"
                 ),
                 "allowed_result_classes": _allowed_result_classes(proof_class),
+                "normalization_contract": normalization_contract,
+                "certificate_contract": {
+                    "required_certificate_types": certificate_requirements,
+                    "allowed_certificate_types_for_proof_class": certificate_types_for_proof_class(proof_class),
+                    "no_float_promotion_rule": dict(NO_FLOAT_PROMOTION_POLICY),
+                },
                 "promotion_guardrail": (
                     "Returned Python receipts must preserve the exact Lean proof class and may not inflate "
                     "closure beyond the checked artifact."
@@ -131,6 +151,13 @@ def build_python_lean_bridge_contract(
         "contract_id": "python_lean_hybrid_bridge_v1",
         "strategy": "LSP_PLUS_REPL_HYBRID",
         "runtime_alignment_mode": str(alignment.get("mode") or "MANUAL_PORT_WITH_TRACEABILITY"),
+        "bridge_architecture": list(BRIDGE_ARCHITECTURE_LAYERS),
+        "normalization_dictionary": {
+            "field_registry": list(CANONICAL_NORMALIZATION_FIELDS),
+            "silent_aliasing_forbidden": True,
+        },
+        "certificate_types": list(CERTIFICATE_TYPES),
+        "no_float_promotion_rule": dict(NO_FLOAT_PROMOTION_POLICY),
         "tiers": [
             {
                 "tier": "A",
@@ -158,6 +185,8 @@ def build_python_lean_bridge_contract(
         "counts": {
             "formal_unit_count": len(units),
             "lane_count": len(list(primary_lanes or [])),
+            "bridge_architecture_layer_count": len(BRIDGE_ARCHITECTURE_LAYERS),
+            "certificate_type_count": len(CERTIFICATE_TYPES),
         },
     }
 

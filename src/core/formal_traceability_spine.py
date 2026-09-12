@@ -20,6 +20,14 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List
 
+from src.core.formal_bridge_schema import (
+    BRIDGE_ARCHITECTURE_LAYERS,
+    CERTIFICATE_TYPES,
+    NO_FLOAT_PROMOTION_POLICY,
+    build_normalization_contract,
+    certificate_requirements_for_row,
+)
+
 PROGRAM_ID = "FORMAL_PROOF_FOUNDRY"
 PROGRAM_STATUS = "ACTIVE_HONESTY_FIRST"
 
@@ -353,6 +361,83 @@ def _packet_claim_ids_exist(packet: Dict[str, Any]) -> bool:
     return all(claim_id in known for claim_id in packet["claim_ids"])
 
 
+def _row_work_queue(row: Dict[str, Any]) -> List[Dict[str, Any]]:
+    row_id = str(row.get("id") or "")
+    if row_id == "ACTION_TO_EVOLUTION_BOUNDARY":
+        from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
+
+        return list(action_to_evolution_deliverable_contract().get("retirement_units") or [])
+    if row_id == "APS_ETA_AXIOM_HALF_CLASS":
+        return [
+            {
+                "claim_id": "APS_HALF_CLASS_VALUE",
+                "title": "η-class value classification",
+                "lean_target": "UnitaryManifold.NWUniquenessHonest",
+                "status": "CONDITIONAL_ONLY",
+                "retirement_condition": "Replace the named APS axiom with a genuine formalized boundary-operator statement or keep it explicit as external frontier.",
+                "current_reason": "The half-class selection is named honestly, but APS index theory is not yet formalized in Mathlib.",
+            },
+            {
+                "claim_id": "APS_ZERO_CLASS_EXCLUSION",
+                "title": "η = 0 exclusion branch",
+                "lean_target": "UnitaryManifold.NWUniquenessHonest",
+                "status": "CONDITIONAL_ONLY",
+                "retirement_condition": "Show why the excluded η-class follows from the stated boundary machinery rather than from an arithmetic proxy.",
+                "current_reason": "The current Lean surface keeps the class split explicit but still axiom-level.",
+            },
+        ]
+    if row_id == "APS_MATHLIB_FORMALIZATION_GAP":
+        return [
+            {
+                "claim_id": "APS_BOUNDARY_OPERATOR_SURFACE",
+                "title": "Boundary operator surface",
+                "lean_target": "UnitaryManifold.NWUniquenessHonest",
+                "status": "BLOCKED_NOT_YET_DERIVABLE",
+                "retirement_condition": "Define the manifolds-with-boundary and Dirac spectral objects needed for APS statements.",
+                "current_reason": "This remains a Mathlib frontier, not a hidden local failure.",
+            },
+            {
+                "claim_id": "NGEN_DEPENDENCY_BOUNDARY",
+                "title": "N_gen dependency boundary",
+                "lean_target": "UnitaryManifold.NWUniquenessHonest",
+                "status": "BLOCKED_NOT_YET_DERIVABLE",
+                "retirement_condition": "Either derive N_gen = 3 from admissible geometry or keep it isolated as external input.",
+                "current_reason": "The repository is already honest that N_gen = 3 is not derived from first principles here.",
+            },
+        ]
+    if row_id == "DIRAC_ORBIFOLD_PROXY_BOUNDARY":
+        return [
+            {
+                "claim_id": "ORBIFOLD_PARITY_FACTS",
+                "title": "Orbifold parity facts",
+                "lean_target": "UnitaryManifold.DiracOrbifoldSpectrum",
+                "status": "CONDITIONAL_ONLY",
+                "retirement_condition": "Promote only the parity facts that can be stated independently of the full spectral proof.",
+                "current_reason": "Some parity structure is isolatable even while the analytic boundary-value proof remains absent.",
+            },
+            {
+                "claim_id": "DIRAC_SPECTRUM_STRUCTURAL_LEMMAS",
+                "title": "Dirac-spectrum structural lemmas",
+                "lean_target": "UnitaryManifold.DiracOrbifoldSpectrum",
+                "status": "BLOCKED_NOT_YET_DERIVABLE",
+                "retirement_condition": "Separate genuine operator/spectrum lemmas from arithmetic stand-ins and promote only the former.",
+                "current_reason": "The file is still explicitly classified as arithmetic proxy only.",
+            },
+        ]
+    return []
+
+
+def _enrich_traceability_row(row: Dict[str, Any]) -> Dict[str, Any]:
+    return dict(
+        row,
+        paths_exist=_row_paths_exist(row),
+        normalization_contract=build_normalization_contract(row),
+        certificate_requirements=certificate_requirements_for_row(row),
+        no_float_promotion_rule=dict(NO_FLOAT_PROMOTION_POLICY),
+        work_queue=_row_work_queue(row),
+    )
+
+
 def _iter_runtime_alignment_candidates() -> List[Path]:
     candidates: List[Path] = []
     seen: set[Path] = set()
@@ -415,7 +500,7 @@ def formal_traceability_spine() -> Dict[str, Any]:
     """Return the canonical formal frontier registry."""
     from src.core.lean_python_bridge_ir import build_python_lean_bridge_contract
 
-    rows = [dict(row, paths_exist=_row_paths_exist(row)) for row in TRACEABILITY_ROWS]
+    rows = [_enrich_traceability_row(row) for row in TRACEABILITY_ROWS]
     packets = [
         dict(
             packet,
@@ -473,6 +558,9 @@ def formal_traceability_spine() -> Dict[str, Any]:
         "status": PROGRAM_STATUS,
         "primary_lanes": PRIMARY_LANES,
         "proof_classes": PROOF_CLASSES,
+        "bridge_architecture": list(BRIDGE_ARCHITECTURE_LAYERS),
+        "certificate_types": list(CERTIFICATE_TYPES),
+        "no_float_promotion_rule": dict(NO_FLOAT_PROMOTION_POLICY),
         "curry_howard_matrix": CURRY_HOWARD_MATRIX,
         "runtime_alignment": runtime_alignment,
         "python_lean_bridge_contract": bridge_contract,
@@ -483,6 +571,8 @@ def formal_traceability_spine() -> Dict[str, Any]:
         "counts": {
             "lane_count": len(PRIMARY_LANES),
             "proof_class_count": len(PROOF_CLASSES),
+            "bridge_architecture_layer_count": len(BRIDGE_ARCHITECTURE_LAYERS),
+            "certificate_type_count": len(CERTIFICATE_TYPES),
             "curry_howard_row_count": len(CURRY_HOWARD_MATRIX),
             "traceability_row_count": len(rows),
             "review_packet_count": len(packets),
@@ -504,6 +594,9 @@ __all__ = [
     "TRACEABILITY_ROWS",
     "REVIEW_PACKETS",
     "INTAKE_SURFACE",
+    "BRIDGE_ARCHITECTURE_LAYERS",
+    "CERTIFICATE_TYPES",
+    "NO_FLOAT_PROMOTION_POLICY",
     "CURRY_HOWARD_MATRIX",
     "PSICAT_TRAINING_MANIFEST",
     "formal_traceability_spine",

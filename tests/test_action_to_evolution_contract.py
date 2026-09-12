@@ -22,9 +22,13 @@ def test_implemented_flow_surface_stays_explicit() -> None:
 def test_deliverable_contract_tracks_evidence_and_remaining_single_blocker() -> None:
     contract = action_to_evolution_deliverable_contract()
     deliverables = contract["primary_deliverables"]
+    retirement_units = contract["retirement_units"]
     assert contract["status"] == "OPEN"
     assert len(deliverables) == 3
+    assert len(retirement_units) == 7
     assert [item["id"] for item in deliverables] == PRIMARY_DELIVERABLE_IDS
+    assert retirement_units[0]["claim_id"] == "A2E_VARIABLE_IDENTIFICATION"
+    assert retirement_units[-1]["claim_id"] == "A2E_RESIDUAL_ERROR_COMPARISON"
 
     first = deliverables[0]
     assert first["earned"] is True
@@ -41,6 +45,9 @@ def test_deliverable_contract_tracks_evidence_and_remaining_single_blocker() -> 
 
     assert contract["remaining_blockers"] == [PRIMARY_DELIVERABLE_IDS[1]]
     assert contract["promotion_ready"] is False
+    assert {
+        item["status"] for item in retirement_units
+    } <= {"EVIDENCE_SURFACED", "BLOCKED_NOT_YET_DERIVABLE", "CLOSED_NOW"}
 
 
 def test_deliverable_contract_keeps_support_surfaces_secondary_only() -> None:
