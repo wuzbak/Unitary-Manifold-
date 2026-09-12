@@ -15,6 +15,7 @@ from src.core.action_to_evolution_el_mismatch_certificate import (
     euler_lagrange_mismatch_certificate,
     euler_lagrange_mismatch_receipt,
 )
+from src.core.action_to_evolution_retirement_units import build_action_to_evolution_retirement_units
 from src.core.evolution import implemented_flow_equation_surface, phenomenological_flow_boundary
 
 PRIMARY_DELIVERABLE_IDS: List[str] = [
@@ -38,6 +39,7 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
     el_certificate = euler_lagrange_mismatch_certificate()
     el_receipt = euler_lagrange_mismatch_receipt()
     time_receipt = time_domain_boundary_receipt()
+    retirement_units = build_action_to_evolution_retirement_units()
 
     deliverables = [
         {
@@ -99,6 +101,7 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
     return {
         "status": "OPEN" if not promotion_ready else "CLOSURE_READY",
         "focus": "ACTION_TO_EVOLUTION_EQUIVALENCE",
+        "retirement_units": retirement_units,
         "primary_deliverables": deliverables,
         "implemented_flow_surface": flow_surface,
         "boundary": boundary,

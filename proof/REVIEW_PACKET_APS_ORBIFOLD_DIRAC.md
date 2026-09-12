@@ -57,6 +57,31 @@ Please answer one or more of the following:
 3. Is there a cleaner decomposition of the remaining orbifold/APS proof distance?
 4. Is there an overlooked counterexample to the current conditional chain?
 
+## Active work queue
+
+Treat this packet as the live Lane A boundary-theory board, not a theorem-count
+board. The current decomposition target is:
+
+1. orbifold parity facts,
+2. Dirac-spectrum structural lemmas,
+3. η-class classification statements,
+4. separation between arithmetic proxies and genuine operator arguments,
+5. the dependency boundary around `N_gen = 3`.
+
+For each unit, the only acceptable end states are:
+
+- `CLOSED_NOW`
+- `CONDITIONAL_ONLY`
+- `BLOCKED_NOT_YET_DERIVABLE`
+
+Promotion doctrine:
+
+- promote only the pieces that genuinely move from proxy to conditional or from
+  conditional to unconditional,
+- keep APS/Mathlib frontier gaps named rather than hidden in theorem totals,
+- and do not let arithmetic stand-ins masquerade as analytic boundary-value
+  proofs.
+
 ## Explicit falsifier / blocker request
 
 A successful review packet response is one that either:

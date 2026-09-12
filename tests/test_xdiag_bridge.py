@@ -115,11 +115,11 @@ def test_save_bridge_artifact_writes_json(tmp_path: Path) -> None:
     path = save_bridge_artifact(artifact, str(tmp_path))
     parsed = json.loads(path.read_text(encoding="utf-8"))
     assert path.name.endswith(".xdiag_bridge.json")
-    assert set(parsed) == {"backend_payload", "manifest", "observables", "spectra"}
+    assert set(parsed) == {"backend_payload", "execution_spine", "manifest", "observables", "spectra"}
     assert parsed["manifest"]["run_id"] == payload.run_id
     assert parsed["spectra"] == artifact.spectra
     assert parsed["observables"] == artifact.observables
-    assert "execution_spine" not in parsed
+    assert parsed["execution_spine"]["surface_kind"] == "xdiag_bridge_artifact"
 
 
 def test_production_health_check_reports_schema_roundtrip() -> None:

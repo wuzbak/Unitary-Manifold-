@@ -9,6 +9,46 @@ The immediate formal program is intentionally narrowed to **two lanes only**:
 
 The purpose of this narrowing is simple: theorem counts are no longer the right measure of progress. The right measures are which assumptions were retired, how much proof distance was reduced, which claims moved from proxy to conditional to checked, and how cleanly a claim traces from Lean to Python to tests to current status surfaces.
 
+## Bridge architecture
+
+The canonical Python↔Lean bridge now has **four mandatory layers**:
+
+1. **Exact mathematical specification**
+2. **Normalization / translation**
+3. **Certificate layer**
+4. **Lean checking layer**
+
+This means Python is not allowed to hand raw floating-point conclusions to Lean
+as if they were proof objects. Every promoted claim must pass through a
+normalization surface that fixes symbols, parameter meanings, units,
+domains/regularity assumptions, and theorem statement shape, then through a
+certificate surface that states what kind of evidence is actually being passed.
+
+## Certificate doctrine
+
+The canonical certificate vocabulary is:
+
+- exact identity
+- interval-certified bound
+- residual certificate
+- monotonicity certificate
+- truncation/discretization certificate
+- external-observation dependency
+
+These are promotion-bearing objects. A Python run, a floating-point fit, or a
+symbolic convenience layer is not.
+
+## No-float promotion rule
+
+Raw floating-point output may guide exploration, but it may not strengthen a
+claim class. Promotion requires at least one explicit certificate surface:
+
+- exact symbolic normalization,
+- rational reconstruction,
+- interval enclosure,
+- a formally stated perturbation theorem,
+- or an explicit residual bound against a named operator.
+
 ## Proof classes
 
 Use the following proof classes consistently:
@@ -55,6 +95,13 @@ Each packet is deliberately small:
 - one Lean file or small Lean cluster
 - one executable verification path
 - one explicit falsifier or blocker request
+
+Each packet should also function as a live work queue:
+
+- every blocker gets a minimal retirement condition,
+- every surviving blocker gets an explicit current reason,
+- and every closure attempt ends in `CLOSED_NOW`, `CONDITIONAL_ONLY`, or
+  `BLOCKED_NOT_YET_DERIVABLE`.
 
 ## What this surface is for
 

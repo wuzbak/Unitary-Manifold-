@@ -37,11 +37,18 @@ def test_run_artifact_written(tmp_path: Path) -> None:
 
     assert path.exists()
     assert path.suffix == ".json"
-    assert set(payload) == {"manifest", "wall_clock_seconds", "backend_payload", "times", "observables"}
+    assert set(payload) == {
+        "manifest",
+        "wall_clock_seconds",
+        "backend_payload",
+        "execution_spine",
+        "times",
+        "observables",
+    }
     assert payload["manifest"]["run_id"] == result.manifest.run_id
     assert payload["times"] == result.times.tolist()
     assert len(payload["observables"]) == len(result.observable_history)
-    assert "execution_spine" not in payload
+    assert payload["execution_spine"]["surface_kind"] == "quantum_run_artifact"
 
 
 def test_hardware_run_artifact_written(tmp_path: Path) -> None:
@@ -53,4 +60,4 @@ def test_hardware_run_artifact_written(tmp_path: Path) -> None:
 
     assert payload["manifest"]["backend"] == "hardware"
     assert payload["backend_payload"]["hardware_emulated"] is True
-    assert "execution_spine" not in payload
+    assert payload["execution_spine"]["surface_kind"] == "quantum_run_artifact"

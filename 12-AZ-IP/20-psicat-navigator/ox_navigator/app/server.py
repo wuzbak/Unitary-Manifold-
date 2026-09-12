@@ -189,6 +189,11 @@ def _is_merlin_compat_route(path: str) -> bool:
     return normalized == '/api/merlin' or normalized.startswith('/api/merlin/')
 
 
+def _is_ox_compat_route(path: str) -> bool:
+    normalized = path if path == '/' else path.rstrip('/')
+    return normalized == '/api/ox' or normalized.startswith('/api/ox/')
+
+
 def _normalize_psicat_compat_route(path: str) -> str:
     normalized = path if path == '/' else path.rstrip('/')
     if _is_merlin_compat_route(path):
@@ -487,12 +492,20 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):  # noqa: N802
         parsed = urlparse(self.path)
+        normalized_path = parsed.path if parsed.path == '/' else parsed.path.rstrip('/')
         route_path = _normalize_psicat_compat_route(parsed.path)
         params = parse_qs(parsed.query)
         profile_hint = self._profile_hint(params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
         self._handshake_state = "not_issued"
-        if parsed.path.startswith('/api/psicat') or _is_merlin_compat_route(parsed.path) or parsed.path.startswith('/api/ox'):
+        self._handshake_challenge = None
+        self._handshake_receipt = None
+        ox_root_or_status = normalized_path in {'/api/ox', '/api/ox/status'}
+        if (
+            route_path.startswith('/api/psicat')
+            or _is_merlin_compat_route(parsed.path)
+            or (_is_ox_compat_route(parsed.path) and not ox_root_or_status)
+        ):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
         with merlin_lock:
@@ -538,9 +551,24 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     },
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                 }
-                if parsed.path in {'/api/ox', '/api/ox/', '/api/ox/status', '/api/ox/status/'}:
+                legacy_root_allowlist = (
+                    'service',
+                    'internal_persona_name',
+                    'steward_persona_alias',
+                    'psicat_available',
+                    'merlin_available',
+                    'live_model_available',
+                    'openrouter_compat_enabled',
+                    'rebrand_label',
+                    'model',
+                    'context_pack_exists',
+                )
+                legacy_root_payload = {key: status_payload[key] for key in legacy_root_allowlist}
+                if route_path == '/api/ox':
+                    self._json(legacy_root_payload)
+                elif route_path == '/api/ox/status':
                     self._json({
-                        **status_payload,
+                        **legacy_root_payload,
                         'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
                         'api_base': 'local',
                     })

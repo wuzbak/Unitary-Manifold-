@@ -20,6 +20,17 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List
 
+from src.core.formal_bridge_schema import (
+    BRIDGE_ARCHITECTURE_LAYERS,
+    CERTIFICATE_TYPES,
+    NO_FLOAT_PROMOTION_POLICY,
+    build_normalization_contract,
+    certificate_requirements_for_row,
+    validate_certificate_requirements_override,
+    validate_normalization_contract_override,
+)
+from src.core.formal_frontier_work_queues import build_frontier_work_queue
+
 PROGRAM_ID = "FORMAL_PROOF_FOUNDRY"
 PROGRAM_STATUS = "ACTIVE_HONESTY_FIRST"
 
@@ -353,6 +364,43 @@ def _packet_claim_ids_exist(packet: Dict[str, Any]) -> bool:
     return all(claim_id in known for claim_id in packet["claim_ids"])
 
 
+def _row_work_queue(row: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return build_frontier_work_queue(str(row.get("id") or ""))
+
+
+def _enrich_traceability_row(row: Dict[str, Any]) -> Dict[str, Any]:
+    proof_class = str(row.get("epistemic_class") or "")
+    row_id = str(row.get("id") or "")
+    return dict(
+        row,
+        paths_exist=_row_paths_exist(row),
+        normalization_contract=(
+            validate_normalization_contract_override(
+                row["normalization_contract"],
+                row=row,
+                proof_class=proof_class,
+            )
+            if "normalization_contract" in row and row.get("normalization_contract") is not None
+            else build_normalization_contract(row)
+        ),
+        certificate_requirements=(
+            validate_certificate_requirements_override(
+                row["certificate_requirements"],
+                row_id=row_id,
+                proof_class=proof_class,
+            )
+            if "certificate_requirements" in row and row.get("certificate_requirements") is not None
+            else certificate_requirements_for_row(row)
+        ),
+        no_float_promotion_rule=dict(NO_FLOAT_PROMOTION_POLICY),
+        work_queue=(
+            list(row["work_queue"])
+            if "work_queue" in row and row.get("work_queue") is not None
+            else _row_work_queue(row)
+        ),
+    )
+
+
 def _iter_runtime_alignment_candidates() -> List[Path]:
     candidates: List[Path] = []
     seen: set[Path] = set()
@@ -415,7 +463,7 @@ def formal_traceability_spine() -> Dict[str, Any]:
     """Return the canonical formal frontier registry."""
     from src.core.lean_python_bridge_ir import build_python_lean_bridge_contract
 
-    rows = [dict(row, paths_exist=_row_paths_exist(row)) for row in TRACEABILITY_ROWS]
+    rows = [_enrich_traceability_row(row) for row in TRACEABILITY_ROWS]
     packets = [
         dict(
             packet,
@@ -473,6 +521,9 @@ def formal_traceability_spine() -> Dict[str, Any]:
         "status": PROGRAM_STATUS,
         "primary_lanes": PRIMARY_LANES,
         "proof_classes": PROOF_CLASSES,
+        "bridge_architecture": list(BRIDGE_ARCHITECTURE_LAYERS),
+        "certificate_types": list(CERTIFICATE_TYPES),
+        "no_float_promotion_rule": dict(NO_FLOAT_PROMOTION_POLICY),
         "curry_howard_matrix": CURRY_HOWARD_MATRIX,
         "runtime_alignment": runtime_alignment,
         "python_lean_bridge_contract": bridge_contract,
@@ -483,6 +534,8 @@ def formal_traceability_spine() -> Dict[str, Any]:
         "counts": {
             "lane_count": len(PRIMARY_LANES),
             "proof_class_count": len(PROOF_CLASSES),
+            "bridge_architecture_layer_count": len(BRIDGE_ARCHITECTURE_LAYERS),
+            "certificate_type_count": len(CERTIFICATE_TYPES),
             "curry_howard_row_count": len(CURRY_HOWARD_MATRIX),
             "traceability_row_count": len(rows),
             "review_packet_count": len(packets),
@@ -504,6 +557,9 @@ __all__ = [
     "TRACEABILITY_ROWS",
     "REVIEW_PACKETS",
     "INTAKE_SURFACE",
+    "BRIDGE_ARCHITECTURE_LAYERS",
+    "CERTIFICATE_TYPES",
+    "NO_FLOAT_PROMOTION_POLICY",
     "CURRY_HOWARD_MATRIX",
     "PSICAT_TRAINING_MANIFEST",
     "formal_traceability_spine",

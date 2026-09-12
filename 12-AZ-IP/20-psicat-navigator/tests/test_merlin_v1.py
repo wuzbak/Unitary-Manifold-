@@ -3246,10 +3246,39 @@ def test_server_merlin_endpoints():
             legacy_root = client.get('/api/ox')
             assert legacy_root.status_code == 200
             assert legacy_root.json()['psicat_available'] is True
+            assert legacy_root.headers.get('X-Merlin-Handshake-Challenge') is None
+            assert 'ox_available' not in legacy_root.json()
+            assert 'api_base' not in legacy_root.json()
+            assert 'memory_profile_token' not in legacy_root.json()
+            assert 'session_contract' not in legacy_root.json()
+            assert 'live_status' not in legacy_root.json()
+            assert 'memory' not in legacy_root.json()
+            assert 'telemetry' not in legacy_root.json()
 
             legacy_status = client.get('/api/ox/status')
             assert legacy_status.status_code == 200
             assert legacy_status.json()['psicat_available'] is True
+            assert legacy_status.json()['ox_available'] is True
+            assert legacy_status.json()['api_base'] == 'local'
+            assert legacy_status.headers.get('X-Merlin-Handshake-Challenge') is None
+            assert 'memory_profile_token' not in legacy_status.json()
+            assert 'session_contract' not in legacy_status.json()
+
+            legacy_status_with_query = client.get('/api/ox/status?view=full')
+            assert legacy_status_with_query.status_code == 200
+            assert legacy_status_with_query.json()['ox_available'] is True
+            assert legacy_status_with_query.json()['api_base'] == 'local'
+            assert legacy_status_with_query.headers.get('X-Merlin-Handshake-Challenge') is None
+            assert 'memory_profile_token' not in legacy_status_with_query.json()
+
+            legacy_status_with_slash = client.get('/api/ox/status/')
+            assert legacy_status_with_slash.status_code == 200
+            assert legacy_status_with_slash.json()['ox_available'] is True
+            assert legacy_status_with_slash.headers.get('X-Merlin-Handshake-Challenge') is None
+
+            legacy_memory = client.get('/api/ox/memory')
+            assert legacy_memory.status_code == 200
+            assert legacy_memory.headers.get('X-Merlin-Handshake-Challenge')
     finally:
         httpd.shutdown()
         httpd.server_close()
@@ -3269,6 +3298,10 @@ def test_server_merlin_compat_routes_do_not_rewrite_prefix_matches():
             bad_post = client.post('/api/merlinx', json={})
             assert bad_post.status_code == 404
             assert bad_post.json() == {'error': 'Not found'}
+
+            bad_ox = client.get('/api/oxx')
+            assert bad_ox.status_code == 404
+            assert bad_ox.headers.get('X-Merlin-Handshake-Challenge') is None
     finally:
         httpd.shutdown()
         httpd.server_close()

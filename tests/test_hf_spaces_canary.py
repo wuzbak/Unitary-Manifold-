@@ -166,4 +166,20 @@ def test_unexpected_transport_exception_hard_fails(monkeypatch) -> None:
     monkeypatch.setattr(canary, "urlopen", _raise)
     ok, message = canary.check_url(canary.TARGETS[0])
     assert ok is False
-    assert "transport error" in message
+    assert "error:" in message
+
+
+def test_main_aggregates_failures_and_returns_nonzero(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(canary, "TARGETS", ["https://ok", "https://fail"])
+
+    def _check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
+        if url.endswith("fail"):
+            return False, f"{url} -> HTTP 500"
+        return True, f"{url} -> 200"
+
+    monkeypatch.setattr(canary, "check_url", _check_url)
+    assert canary.main() == 1
+    output = capsys.readouterr().out
+    assert "https://ok -> 200" in output
+    assert "https://fail -> HTTP 500" in output
+    assert "HF CANARY FAILED" in output
