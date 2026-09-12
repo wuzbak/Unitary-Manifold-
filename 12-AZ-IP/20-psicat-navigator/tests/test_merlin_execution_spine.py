@@ -76,6 +76,8 @@ def test_server_convergence_charter_endpoint() -> None:
             assert ox_benchmark.status_code == 200
             ox_training = client.get("/api/ox/training-artifacts?limit=1")
             assert ox_training.status_code == 200
+            ox_benchmark_slash = client.get("/api/ox/benchmark-artifacts/?limit=1")
+            assert ox_benchmark_slash.status_code == 200
     finally:
         httpd.shutdown()
         thread.join(timeout=5)

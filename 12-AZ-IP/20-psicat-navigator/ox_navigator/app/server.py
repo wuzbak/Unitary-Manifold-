@@ -192,9 +192,14 @@ def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
 
 
 def _normalize_psicat_compat_route(path: str) -> str:
-    if path.startswith('/api/merlin'):
-        return '/api/psicat' + path[len('/api/merlin'):]
-    return _PSICAT_COMPAT_ROUTE_ALIASES.get(path, path)
+    normalized = path if path == '/' else path.rstrip('/')
+    if normalized.startswith('/api/merlin'):
+        return '/api/psicat' + normalized[len('/api/merlin'):]
+    if normalized in {'/api/ox', '/api/ox/status'}:
+        return normalized
+    if normalized.startswith('/api/ox/'):
+        return '/api/psicat' + normalized[len('/api/ox'):]
+    return _PSICAT_COMPAT_ROUTE_ALIASES.get(normalized, normalized)
 
 
 def _secure_cookie_required(host: str) -> bool:
