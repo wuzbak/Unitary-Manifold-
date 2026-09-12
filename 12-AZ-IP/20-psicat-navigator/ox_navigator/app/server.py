@@ -189,6 +189,11 @@ def _is_merlin_compat_route(path: str) -> bool:
     return normalized == '/api/merlin' or normalized.startswith('/api/merlin/')
 
 
+def _is_ox_compat_route(path: str) -> bool:
+    normalized = path if path == '/' else path.rstrip('/')
+    return normalized == '/api/ox' or normalized.startswith('/api/ox/')
+
+
 def _normalize_psicat_compat_route(path: str) -> str:
     normalized = path if path == '/' else path.rstrip('/')
     if _is_merlin_compat_route(path):
@@ -497,7 +502,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         if (
             route_path.startswith('/api/psicat')
             or _is_merlin_compat_route(parsed.path)
-            or route_path == '/api/ox'
+            or (_is_ox_compat_route(parsed.path) and route_path != '/api/ox/status')
         ):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
