@@ -6,12 +6,17 @@ on:
   pull_request:
     branches: ["**"]
 
+concurrency:
+  group: tests-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # ──────────────────────────────────────────────────────────────────────────
   # Job 1: Fast test suite (tests/ — excludes @pytest.mark.slow)
   # ──────────────────────────────────────────────────────────────────────────
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     permissions:
       contents: read
     steps:
@@ -23,14 +28,15 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
-      - name: Run pytest (fast suite — tests/)
-        run: python -m pytest tests/ -v
+      - name: Run pytest (fast suite — tests/ excluding @pytest.mark.slow)
+        run: python -m pytest tests/ -m "not slow" -v
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 2: Slow test suite (tests/ -m slow — Richardson extrapolation etc.)
   # ──────────────────────────────────────────────────────────────────────────
   test-slow:
     runs-on: ubuntu-latest
+    timeout-minutes: 120
     permissions:
       contents: read
     steps:
@@ -50,6 +56,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   test-claims:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: read
     steps:
@@ -69,6 +76,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   test-recycling:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: read
     steps:
@@ -86,6 +94,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   test-pentad:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     permissions:
       contents: read
     steps:
@@ -103,6 +112,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   algebra-proof:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: read
     steps:
@@ -121,6 +131,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   ledger-consistency:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: read
     steps:
@@ -148,3 +159,64 @@ jobs:
             --max-bytes 5242880 \
             --base-sha "$BASE_SHA" \
             --head-sha "$HEAD_SHA"
+
+  full-regression-gate:
+    name: Full regression gate (all shards)
+    if: always()
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - test-slow
+      - test-claims
+      - test-recycling
+      - test-pentad
+      - algebra-proof
+      - ledger-consistency
+    permissions:
+      contents: read
+    steps:
+      - name: Evaluate shard outcomes
+        env:
+          TEST_RESULT: ${{ needs.test.result }}
+          TEST_SLOW_RESULT: ${{ needs.test-slow.result }}
+          CLAIMS_RESULT: ${{ needs.test-claims.result }}
+          RECYCLING_RESULT: ${{ needs.test-recycling.result }}
+          PENTAD_RESULT: ${{ needs.test-pentad.result }}
+          ALGEBRA_RESULT: ${{ needs.algebra-proof.result }}
+          LEDGER_RESULT: ${{ needs.ledger-consistency.result }}
+        run: |
+          set -euo pipefail
+          failures=0
+
+          check_result () {
+            local label="$1"
+            local result="$2"
+            echo "${label}: ${result}"
+            if [ "${result}" != "success" ]; then
+              failures=$((failures + 1))
+            fi
+          }
+
+          check_result "tests-fast" "${TEST_RESULT}"
+          check_result "tests-slow" "${TEST_SLOW_RESULT}"
+          check_result "claims" "${CLAIMS_RESULT}"
+          check_result "recycling" "${RECYCLING_RESULT}"
+          check_result "pentad" "${PENTAD_RESULT}"
+          check_result "algebra-proof" "${ALGEBRA_RESULT}"
+          check_result "ledger-consistency" "${LEDGER_RESULT}"
+
+          {
+            echo "## Full regression shard results"
+            echo "- tests-fast: ${TEST_RESULT}"
+            echo "- tests-slow: ${TEST_SLOW_RESULT}"
+            echo "- claims: ${CLAIMS_RESULT}"
+            echo "- recycling: ${RECYCLING_RESULT}"
+            echo "- pentad: ${PENTAD_RESULT}"
+            echo "- algebra-proof: ${ALGEBRA_RESULT}"
+            echo "- ledger-consistency: ${LEDGER_RESULT}"
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+          if [ "${failures}" -ne 0 ]; then
+            echo "One or more required shards failed."
+            exit 1
+          fi
