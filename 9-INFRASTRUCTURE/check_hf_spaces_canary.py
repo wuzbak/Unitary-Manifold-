@@ -60,7 +60,11 @@ def check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
         if not _strict_mode_enabled():
             return True, f"{url} -> transport error: {exc} (network soft pass)"
         return False, f"{url} -> transport error: {exc}"
+    except (ValueError, TypeError, AttributeError, AssertionError) as exc:
+        return False, f"{url} -> error: {exc}"
     except Exception as exc:
+        if not _strict_mode_enabled():
+            return True, f"{url} -> external/runtime error: {exc} (soft pass)"
         return False, f"{url} -> error: {exc}"
 
 
