@@ -1809,7 +1809,7 @@ def run_sync_checks() -> dict[str, Any]:
     server_text = server_path.read_text(encoding="utf-8") if server_path.exists() else ""
     route_eq_matches = re.findall(r"(?:parsed\.path|route_path)\s*==\s*['\"]([^'\"]+)['\"]", server_text)
     route_in_blocks = re.findall(
-        r"(?:parsed\.path|route_path)\s+in\s*[\(\{]([^\)\}]*)[\)\}]",
+        r"(?:parsed\.path|route_path)\s+in\s*[\(\{\[]([^\)\}\]]*)[\)\}\]]",
         server_text,
         flags=re.DOTALL,
     )

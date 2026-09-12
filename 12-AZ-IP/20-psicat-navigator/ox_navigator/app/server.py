@@ -193,7 +193,7 @@ def _normalize_psicat_compat_route(path: str) -> str:
     if _is_merlin_compat_route(path):
         suffix = path[len('/api/merlin'):]
         return '/api/psicat' if suffix == '/' else '/api/psicat' + suffix
-    if path in {'/api/ox', '/api/ox/status'}:
+    if path in {'/api/ox', '/api/ox/status', '/api/ox/status/'}:
         return path
     if path == '/api/ox/':
         return '/api/ox'
