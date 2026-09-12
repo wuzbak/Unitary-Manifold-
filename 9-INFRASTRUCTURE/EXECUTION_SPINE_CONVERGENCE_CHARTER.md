@@ -36,25 +36,25 @@ status-bearing work is performed:
 
 ### Primary convergence targets
 
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/24-psicat-web-browser/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/01-axiom-os/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/04-um-sos/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/bot/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/9-INFRASTRUCTURE/`
+- `12-AZ-IP/20-psicat-navigator/`
+- `12-AZ-IP/24-psicat-web-browser/`
+- `12-AZ-IP/01-axiom-os/`
+- `12-AZ-IP/04-um-sos/`
+- `bot/`
+- `9-INFRASTRUCTURE/`
 
 ### Adjacent execution consumers
 
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/quantum/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/19-falsification-observatory/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/21-geo-monitor/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/22-az-sge/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/18-um-reader/`
+- `src/quantum/`
+- `12-AZ-IP/19-falsification-observatory/`
+- `12-AZ-IP/21-geo-monitor/`
+- `12-AZ-IP/22-az-sge/`
+- `12-AZ-IP/18-um-reader/`
 
 ### Compatibility-only surfaces
 
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/10-UM-SOS/`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/11-AZ-OS/`
+- `10-UM-SOS/`
+- `11-AZ-OS/`
 - legacy `/api/merlin/*`
 - legacy `/api/ox*`
 

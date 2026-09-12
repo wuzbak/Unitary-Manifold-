@@ -43,13 +43,19 @@ def test_server_convergence_charter_endpoint() -> None:
     try:
         port = httpd.server_address[1]
         with httpx.Client(base_url=f"http://127.0.0.1:{port}", timeout=10.0) as client:
-            response = client.get("/api/merlin/convergence-charter")
-            assert response.status_code == 200
-            payload = response.json()
+            primary = client.get("/api/psicat/convergence-charter")
+            assert primary.status_code == 200
+            payload = primary.json()
             assert payload["ok"] is True
             assert payload["convergence_charter"]["document_path"] == (
                 "9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md"
             )
+            compat = client.get("/api/merlin/convergence-charter")
+            assert compat.status_code == 200
+            assert compat.json()["convergence_charter"]["execution_spine"]["compatibility"]["legacy_endpoints"] == [
+                "/api/merlin/convergence-charter",
+                "/api/ox",
+            ]
     finally:
         httpd.shutdown()
         thread.join(timeout=5)
