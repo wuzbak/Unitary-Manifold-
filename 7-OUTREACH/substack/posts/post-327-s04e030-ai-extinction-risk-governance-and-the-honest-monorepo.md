@@ -108,7 +108,7 @@ It is a beginning that knows it is a beginning.
 
 *Repository: `wuzbak/Unitary-Manifold-`*  
 *Relevant files: `SEPARATION.md`, `LICENSE`, `DUAL_USE_NOTICE.md`, `5-GOVERNANCE/STEWARDSHIP.md`, `5-GOVERNANCE/co-emergence/TRUST_PROTOCOL.md`, `src/core/pillar510_ai_governance_stack.py`, `8-SAFETY/SAFETY/README.md`*  
-*Latest verified full regression recorded in current branch history: 64,150 passed · 22 skipped · 18 deselected · 0 failed.*
+*For the live regression record and current branch caveats, see `STATUS.md`.*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
