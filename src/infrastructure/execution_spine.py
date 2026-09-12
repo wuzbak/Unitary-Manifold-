@@ -30,6 +30,18 @@ def _json_dict(data: dict[str, Any] | None) -> dict[str, Any]:
     return dict(data or {})
 
 
+def _as_bool(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"true", "1", "yes", "on"}:
+            return True
+        if normalized in {"false", "0", "no", "off", ""}:
+            return False
+    return bool(value)
+
+
 def _health_check_list(values: list[ExecutionSpineHealthCheck | dict[str, Any]] | tuple[ExecutionSpineHealthCheck | dict[str, Any], ...] | None) -> list[ExecutionSpineHealthCheck]:
     items: list[ExecutionSpineHealthCheck] = []
     for value in list(values or []):
@@ -41,11 +53,12 @@ def _health_check_list(values: list[ExecutionSpineHealthCheck | dict[str, Any]] 
 
 
 def repo_rel(path: str | Path, repo_root: Path) -> str:
-    resolved = Path(path).resolve()
+    original = Path(path)
+    resolved = original.resolve()
     try:
         return resolved.relative_to(repo_root.resolve()).as_posix()
     except ValueError:
-        return str(resolved)
+        return original.as_posix() if not original.is_absolute() else f"NON_REPO_PATH::{original.name}"
 
 
 @dataclass(frozen=True)
@@ -60,7 +73,7 @@ class ExecutionSpineHealthCheck:
     def to_dict(self) -> dict[str, Any]:
         return {
             "check_id": self.check_id,
-            "passed": bool(self.passed),
+            "passed": _as_bool(self.passed),
             "status": self.status,
             "summary": self.summary,
             "details": _json_dict(self.details),
@@ -71,7 +84,7 @@ class ExecutionSpineHealthCheck:
     def from_dict(cls, payload: dict[str, Any]) -> "ExecutionSpineHealthCheck":
         return cls(
             check_id=str(payload.get("check_id", "")),
-            passed=bool(payload.get("passed")),
+            passed=_as_bool(payload.get("passed")),
             status=str(payload.get("status", "")),
             summary=str(payload.get("summary", "")),
             details=_json_dict(payload.get("details")),

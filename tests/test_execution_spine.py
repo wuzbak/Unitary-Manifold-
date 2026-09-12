@@ -10,6 +10,7 @@ from src.infrastructure.execution_spine import (
     ExecutionSpineHealthCheck,
     ExecutionSpineRecord,
     build_fail_closed_governance,
+    repo_rel,
 )
 from src.quantum.execution import ExecutionConfig, run_time_evolution, save_run_artifact
 from src.quantum.fermi_hubbard import build_fermi_hubbard_1d
@@ -80,6 +81,23 @@ def test_execution_spine_record_from_dict_accepts_health_check_objects() -> None
         }
     )
     assert restored.health_checks[0].check_id == "mixed-object"
+
+
+def test_execution_spine_health_check_parses_boolean_strings() -> None:
+    check = ExecutionSpineHealthCheck.from_dict(
+        {
+            "check_id": "bool-string",
+            "passed": "false",
+            "status": "fail",
+            "summary": "String boolean should parse as false.",
+        }
+    )
+    assert check.passed is False
+
+
+def test_repo_rel_avoids_absolute_non_repo_leak() -> None:
+    rel = repo_rel("/tmp/external-file.json", Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-"))
+    assert rel == "NON_REPO_PATH::external-file.json"
 
 
 def test_quantum_run_artifact_contains_execution_spine(tmp_path: Path) -> None:
