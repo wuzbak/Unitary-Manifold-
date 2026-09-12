@@ -157,8 +157,10 @@ def certificate_requirements_for_row(row: Dict[str, Any]) -> List[Dict[str, Any]
     for item_id in ids:
         if item_id in allowed:
             result.append(dict(allowed[item_id]))
-        elif item_id in _CERTIFICATE_MAP:
-            result.append(dict(_CERTIFICATE_MAP[item_id]))
+        else:
+            raise ValueError(
+                f"Row {row_id or '<unknown>'} requires disallowed certificate type {item_id}"
+            )
     return result
 
 

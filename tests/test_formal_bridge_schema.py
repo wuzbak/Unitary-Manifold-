@@ -3,6 +3,7 @@
 
 import pytest
 
+import src.core.formal_bridge_schema as formal_bridge_schema
 from src.core.formal_bridge_schema import (
     BRIDGE_ARCHITECTURE_LAYERS,
     CANONICAL_NORMALIZATION_FIELDS,
@@ -66,3 +67,18 @@ def test_certificate_requirements_follow_proof_class_and_row() -> None:
 def test_unknown_proof_class_is_rejected() -> None:
     with pytest.raises(ValueError, match="Unknown proof class"):
         certificate_types_for_proof_class("LEAN_TYPO")
+
+
+def test_disallowed_row_certificate_is_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setitem(
+        formal_bridge_schema._ROW_CERTIFICATE_REQUIREMENTS,
+        "TEST_ROW",
+        ["EXTERNAL_OBSERVATION_DEPENDENCY"],
+    )
+    with pytest.raises(ValueError, match="requires disallowed certificate type"):
+        certificate_requirements_for_row(
+            {
+                "id": "TEST_ROW",
+                "epistemic_class": "LEAN_UNCONDITIONAL",
+            }
+        )
