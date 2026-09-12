@@ -3278,6 +3278,10 @@ def test_server_merlin_compat_routes_do_not_rewrite_prefix_matches():
             bad_post = client.post('/api/merlinx', json={})
             assert bad_post.status_code == 404
             assert bad_post.json() == {'error': 'Not found'}
+
+            bad_ox = client.get('/api/oxx')
+            assert bad_ox.status_code == 404
+            assert bad_ox.headers.get('X-Merlin-Handshake-Challenge') is None
     finally:
         httpd.shutdown()
         httpd.server_close()
