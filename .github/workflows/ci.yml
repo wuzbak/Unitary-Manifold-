@@ -47,6 +47,7 @@ jobs:
             claims/integer_derivation/test_claim.py \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_detect_persona_mode_storyteller \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_merlin_session_trims_to_max_history \
+            12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_merlin_endpoints \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_merlin_compat_routes_do_not_rewrite_prefix_matches \
             -q --tb=short
           python3 -m pytest recycling/ -k "TestPolymerBondPhi and test_at_minimum" -q --tb=short

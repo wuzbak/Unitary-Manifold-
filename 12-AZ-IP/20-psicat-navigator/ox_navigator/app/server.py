@@ -193,8 +193,7 @@ def _is_ox_compat_route(path: str) -> bool:
     normalized = path if path == '/' else path.rstrip('/')
     if normalized in {'/api/ox', '/api/ox/status'}:
         return True
-    segments = normalized.split('/')
-    return len(segments) >= 4 and segments[1] == 'api' and segments[2] == 'ox'
+    return normalized.startswith('/api/ox/')
 
 
 def _normalize_psicat_compat_route(path: str) -> str:
