@@ -47,7 +47,7 @@ def test_deliverable_contract_tracks_evidence_and_remaining_single_blocker() -> 
     assert contract["promotion_ready"] is False
     assert {
         item["status"] for item in retirement_units
-    } <= {"EVIDENCE_SURFACED", "BLOCKED_NOT_YET_DERIVABLE", "CLOSED_NOW"}
+    } <= {"CONDITIONAL_ONLY", "BLOCKED_NOT_YET_DERIVABLE", "CLOSED_NOW"}
 
 
 def test_deliverable_contract_keeps_support_surfaces_secondary_only() -> None:
