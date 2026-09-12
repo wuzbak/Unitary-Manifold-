@@ -82,3 +82,12 @@ def test_disallowed_row_certificate_is_rejected(monkeypatch: pytest.MonkeyPatch)
                 "epistemic_class": "LEAN_UNCONDITIONAL",
             }
         )
+
+
+def test_unmapped_row_gets_no_invented_certificate_requirements() -> None:
+    assert certificate_requirements_for_row(
+        {
+            "id": "UNMAPPED_ROW",
+            "epistemic_class": "LEAN_UNCONDITIONAL",
+        }
+    ) == []

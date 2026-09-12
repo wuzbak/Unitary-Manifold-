@@ -152,7 +152,7 @@ def certificate_requirements_for_row(row: Dict[str, Any]) -> List[Dict[str, Any]
     allowed = {item["id"]: item for item in certificate_types_for_proof_class(str(row.get("epistemic_class") or ""))}
     ids = _ROW_CERTIFICATE_REQUIREMENTS.get(row_id, [])
     if not ids:
-        ids = [item["id"] for item in allowed.values() if item["promotion_eligible"]][:1]
+        return []
     result = []
     for item_id in ids:
         if item_id in allowed:
