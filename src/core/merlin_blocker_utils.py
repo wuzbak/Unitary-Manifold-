@@ -7,8 +7,11 @@ from __future__ import annotations
 from typing import Any
 
 
-def effective_blocking_pass(blocker: dict[str, Any]) -> Any:
+def effective_blocking_pass(blocker: dict[str, Any]) -> bool | None:
     blocking_pass = blocker.get("blocking_pass")
     if isinstance(blocking_pass, bool):
         return blocking_pass
-    return blocker.get("pass")
+    legacy_pass = blocker.get("pass")
+    if isinstance(legacy_pass, bool):
+        return legacy_pass
+    return None
