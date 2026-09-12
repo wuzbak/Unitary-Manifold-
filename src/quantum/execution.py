@@ -18,9 +18,18 @@ from typing import Protocol
 import numpy as np
 from scipy.linalg import expm
 
+from src.infrastructure.execution_spine import (
+    ExecutionSpineHealthCheck,
+    ExecutionSpineRecord,
+    build_fail_closed_governance,
+    repo_rel,
+)
+
 from .fermi_hubbard import FermiHubbardHamiltonian
 from .fermion_mapping import MappingName, fermion_terms_to_qubit_terms, pauli_terms_to_matrix
 from .observables import ObservableSnapshot, snapshot_observables
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 # Placeholder coefficients for deterministic mock-hardware timing emulation.
 MOCK_QUEUE_BASE_SEC = 0.25
@@ -170,11 +179,50 @@ def save_run_artifact(result: ExecutionResult, output_dir: str) -> Path:
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"{result.manifest.run_id}.json"
+    execution_spine = ExecutionSpineRecord(
+        surface_id=result.manifest.run_id,
+        surface_kind="quantum_run_artifact",
+        lane="lane_e_quantum_adjacent",
+        status="ADJACENT_EXECUTION_ARTIFACT",
+        summary="Adjacent quantum execution artifact with fail-closed provenance and optional backend disclosure.",
+        canonical_paths=[repo_rel(Path(__file__), REPO_ROOT)],
+        sources=[
+            repo_rel(Path(__file__), REPO_ROOT),
+        ],
+        governance=build_fail_closed_governance(
+            epistemic_label="ADJACENT_TRACK",
+            promotion_rule="Artifacts support adjacent execution benchmarking only and do not create hardgate closure.",
+            optional_backend=result.manifest.backend != "simulator",
+            residual_blockers=[
+                "Optional external/hardware backends remain execution-dependent.",
+            ],
+        ),
+        compatibility={
+            "backend": result.manifest.backend,
+            "simulator_first": True,
+        },
+        health_checks=[
+            ExecutionSpineHealthCheck(
+                check_id="observable_history_present",
+                passed=bool(result.observable_history),
+                status="pass" if result.observable_history else "fail",
+                summary="Observable history must be present in every saved artifact.",
+                details={"history_length": len(result.observable_history)},
+                sources=[repo_rel(Path(__file__), REPO_ROOT)],
+            ),
+        ],
+        promotion={
+            "eligible": False,
+            "gate": "adjacent_only",
+            "reason": "Quantum execution artifacts remain governed adjacent-lane evidence surfaces.",
+        },
+    ).to_dict()
 
     serialisable = {
         "manifest": asdict(result.manifest),
         "wall_clock_seconds": result.wall_clock_seconds,
         "backend_payload": result.backend_payload,
+        "execution_spine": execution_spine,
         "times": result.times.tolist(),
         "observables": [
             {

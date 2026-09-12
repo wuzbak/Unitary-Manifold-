@@ -53,6 +53,7 @@ from ox_navigator.engine.merlin_program import (
     get_training_framework_stack,
     get_frontier_readiness_packet,
     get_frontier_open_weight_stack,
+    get_psicat_convergence_charter,
     get_merlin_execution_board,
     get_merlin_hardware_architecture_board,
     get_merlin_heavy_reasoning_lane,
@@ -1254,6 +1255,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'execution_board': get_merlin_execution_board(limit=limit),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/convergence-charter':
+                self._json({
+                'ok': True,
+                'convergence_charter': get_psicat_convergence_charter(),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

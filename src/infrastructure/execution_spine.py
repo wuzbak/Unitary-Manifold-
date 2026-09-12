@@ -1,0 +1,147 @@
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+# SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
+"""
+Shared execution-spine contract for governed artifacts, health checks, and
+promotion metadata across repository products and adjacent execution lanes.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+EXECUTION_SPINE_SCHEMA_VERSION = "um_execution_spine_v1"
+DEFAULT_REPOSITORY = "wuzbak/Unitary-Manifold-"
+
+
+def _utcnow() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _string_list(values: list[str] | tuple[str, ...] | None) -> list[str]:
+    if values is None:
+        return []
+    return [str(value) for value in values if str(value).strip()]
+
+
+def _json_dict(data: dict[str, Any] | None) -> dict[str, Any]:
+    return dict(data or {})
+
+
+def repo_rel(path: str | Path, repo_root: Path) -> str:
+    resolved = Path(path).resolve()
+    try:
+        return resolved.relative_to(repo_root.resolve()).as_posix()
+    except ValueError:
+        return str(resolved)
+
+
+@dataclass(frozen=True)
+class ExecutionSpineHealthCheck:
+    check_id: str
+    passed: bool
+    status: str
+    summary: str
+    details: dict[str, Any] = field(default_factory=dict)
+    sources: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "check_id": self.check_id,
+            "passed": bool(self.passed),
+            "status": self.status,
+            "summary": self.summary,
+            "details": _json_dict(self.details),
+            "sources": _string_list(self.sources),
+        }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ExecutionSpineHealthCheck":
+        return cls(
+            check_id=str(payload.get("check_id", "")),
+            passed=bool(payload.get("passed")),
+            status=str(payload.get("status", "")),
+            summary=str(payload.get("summary", "")),
+            details=_json_dict(payload.get("details")),
+            sources=_string_list(payload.get("sources")),
+        )
+
+
+@dataclass(frozen=True)
+class ExecutionSpineRecord:
+    surface_id: str
+    surface_kind: str
+    lane: str
+    status: str
+    summary: str
+    repository: str = DEFAULT_REPOSITORY
+    schema_version: str = EXECUTION_SPINE_SCHEMA_VERSION
+    generated_at_utc: str = field(default_factory=_utcnow)
+    canonical_paths: list[str] = field(default_factory=list)
+    sources: list[str] = field(default_factory=list)
+    governance: dict[str, Any] = field(default_factory=dict)
+    compatibility: dict[str, Any] = field(default_factory=dict)
+    health_checks: list[ExecutionSpineHealthCheck] = field(default_factory=list)
+    promotion: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema_version": self.schema_version,
+            "surface_id": self.surface_id,
+            "surface_kind": self.surface_kind,
+            "lane": self.lane,
+            "status": self.status,
+            "summary": self.summary,
+            "repository": self.repository,
+            "generated_at_utc": self.generated_at_utc,
+            "canonical_paths": _string_list(self.canonical_paths),
+            "sources": _string_list(self.sources),
+            "governance": _json_dict(self.governance),
+            "compatibility": _json_dict(self.compatibility),
+            "health_checks": [item.to_dict() for item in self.health_checks],
+            "promotion": _json_dict(self.promotion),
+        }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ExecutionSpineRecord":
+        return cls(
+            schema_version=str(payload.get("schema_version", EXECUTION_SPINE_SCHEMA_VERSION)),
+            surface_id=str(payload.get("surface_id", "")),
+            surface_kind=str(payload.get("surface_kind", "")),
+            lane=str(payload.get("lane", "")),
+            status=str(payload.get("status", "")),
+            summary=str(payload.get("summary", "")),
+            repository=str(payload.get("repository", DEFAULT_REPOSITORY)),
+            generated_at_utc=str(payload.get("generated_at_utc", _utcnow())),
+            canonical_paths=_string_list(payload.get("canonical_paths")),
+            sources=_string_list(payload.get("sources")),
+            governance=_json_dict(payload.get("governance")),
+            compatibility=_json_dict(payload.get("compatibility")),
+            health_checks=[
+                ExecutionSpineHealthCheck.from_dict(item)
+                for item in list(payload.get("health_checks") or [])
+                if isinstance(item, dict)
+            ],
+            promotion=_json_dict(payload.get("promotion")),
+        )
+
+
+def build_fail_closed_governance(
+    *,
+    epistemic_label: str,
+    promotion_rule: str,
+    fail_closed: bool = True,
+    optional_backend: bool = False,
+    compatibility_only: bool = False,
+    residual_blockers: list[str] | tuple[str, ...] | None = None,
+) -> dict[str, Any]:
+    return {
+        "epistemic_label": epistemic_label,
+        "promotion_rule": promotion_rule,
+        "fail_closed": bool(fail_closed),
+        "optional_backend": bool(optional_backend),
+        "compatibility_only": bool(compatibility_only),
+        "residual_blockers": _string_list(residual_blockers),
+    }

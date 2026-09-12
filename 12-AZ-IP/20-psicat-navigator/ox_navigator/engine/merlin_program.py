@@ -18,6 +18,12 @@ import shlex
 import sys
 from typing import Any
 
+from src.infrastructure.execution_spine import (
+    ExecutionSpineHealthCheck,
+    ExecutionSpineRecord,
+    build_fail_closed_governance,
+)
+
 from .constants import GATE_LABELS
 from .merlin_admission import get_model_admission_policy
 from .merlin_identity import get_identity_policy
@@ -51,6 +57,7 @@ SUBSTACK_POSTS_ROOT = SUBSTACK_ROOT / "posts"
 MERLIN_THREE_LANE_DOC = PRODUCT_ROOT / "PSICAT_THREE_LANE_INTENSIVE_SPRINT.md"
 MERLIN_EXECUTION_BOARD_DOC = PRODUCT_ROOT / "PSICAT_EXECUTION_BOARD.md"
 MERLIN_VALIDATION_RESILIENCE_DOC = PRODUCT_ROOT / "PSICAT_VALIDATION_RESILIENCE_PACKET.md"
+EXECUTION_SPINE_CHARTER_DOC = REPO_ROOT / "9-INFRASTRUCTURE" / "EXECUTION_SPINE_CONVERGENCE_CHARTER.md"
 PSICAT_SPC_PLAN_DOC = PRODUCT_ROOT / "PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md"
 PSICAT_SPC_GATES_DOC = PRODUCT_ROOT / "PSICAT_SPC_BENCHMARK_GATES.md"
 COMBINED_GATE_REQUIRED_AXES = [
@@ -102,6 +109,45 @@ def _markdown_title(path: Path, *, fallback: str) -> str:
         text = path.read_text(encoding="utf-8")
     except OSError:
         return fallback
+
+
+def _spine_record(
+        *,
+        surface_id: str,
+        surface_kind: str,
+        lane: str,
+        status: str,
+        summary: str,
+        canonical_paths: list[str],
+        sources: list[str],
+        epistemic_label: str,
+        promotion_rule: str,
+        compatibility: dict[str, Any] | None = None,
+        health_checks: list[ExecutionSpineHealthCheck] | None = None,
+        promotion: dict[str, Any] | None = None,
+        optional_backend: bool = False,
+        compatibility_only: bool = False,
+        residual_blockers: list[str] | None = None,
+) -> dict[str, Any]:
+        return ExecutionSpineRecord(
+            surface_id=surface_id,
+            surface_kind=surface_kind,
+            lane=lane,
+            status=status,
+            summary=summary,
+            canonical_paths=canonical_paths,
+            sources=sources,
+            governance=build_fail_closed_governance(
+                epistemic_label=epistemic_label,
+                promotion_rule=promotion_rule,
+                optional_backend=optional_backend,
+                compatibility_only=compatibility_only,
+                residual_blockers=residual_blockers,
+            ),
+            compatibility=dict(compatibility or {}),
+            health_checks=list(health_checks or []),
+            promotion=dict(promotion or {}),
+        ).to_dict()
     for pattern in (r"^#\s+(.+)$", r"^##\s+(.+)$"):
         match = re.search(pattern, text, flags=re.MULTILINE)
         if match:
@@ -4428,6 +4474,140 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
     }
 
 
+def get_psicat_convergence_charter() -> dict[str, Any]:
+    primary_targets = [
+        _repo_rel(PRODUCT_ROOT),
+        "12-AZ-IP/24-psicat-web-browser",
+        "12-AZ-IP/01-axiom-os",
+        "12-AZ-IP/04-um-sos",
+        "bot",
+        "9-INFRASTRUCTURE",
+    ]
+    adjacent_consumers = [
+        "src/quantum",
+        "12-AZ-IP/19-falsification-observatory",
+        "12-AZ-IP/21-geo-monitor",
+        "12-AZ-IP/22-az-sge",
+        "12-AZ-IP/18-um-reader",
+    ]
+    compatibility_only = [
+        "10-UM-SOS",
+        "11-AZ-OS",
+        "/api/merlin",
+        "/api/ox",
+    ]
+    phases = [
+        {
+            "phase_id": "phase_1_charter_and_boundaries",
+            "objective": "Lock canonical surfaces, consumers, compatibility shims, and completion criteria before adding more integration spread.",
+            "acceptance_gate": "Every active lane has one explicit canonical home and one explicit non-claim boundary.",
+        },
+        {
+            "phase_id": "phase_2_shared_execution_contract",
+            "objective": "Converge artifacts, health checks, routing/preflight, promotion metadata, and telemetry onto one repository-native execution spine.",
+            "acceptance_gate": "Artifact and readiness surfaces expose one shared execution-spine contract with fail-closed governance.",
+        },
+        {
+            "phase_id": "phase_3_psicat_control_plane",
+            "objective": "Make PsiCat the canonical governed control plane for runtime, artifacts, readiness, and orchestration.",
+            "acceptance_gate": "Primary `/api/psicat` surfaces stay coherent while `/api/merlin` and `/api/ox` remain compatibility-only.",
+        },
+        {
+            "phase_id": "phase_4_quantum_attachment",
+            "objective": "Attach adjacent quantum execution and XDiag bridge artifacts to the same contract without overstating backend readiness.",
+            "acceptance_gate": "Quantum artifacts expose explicit adjacent-lane provenance, optional-backend truth, and non-promotion guardrails.",
+        },
+        {
+            "phase_id": "phase_5_consumer_convergence",
+            "objective": "Shift product consumers onto shared status, artifact, and readiness surfaces instead of bespoke local payloads.",
+            "acceptance_gate": "Top consumer products resolve through shared spine surfaces rather than duplicate ledgers or incompatible schemas.",
+        },
+        {
+            "phase_id": "phase_6_validation_and_sanity",
+            "objective": "Hold the repo to anti-bloat, anti-drift, and evidence-first validation before declaring the convergence program complete.",
+            "acceptance_gate": "Tests, benchmark receipts, and truth-surface sync pass without inflated status claims or hidden blockers.",
+        },
+    ]
+    sanity_rules = [
+        "No new competing source of truth.",
+        "No new product-local status ledger when a canonical status surface already exists.",
+        "No new orchestration surface without the shared execution-spine contract.",
+        "No promotion language without receipt-backed benchmark evidence.",
+        "No optional backend presented as guaranteed capability.",
+        "No hardgate-physics promotion as a side effect of infrastructure work.",
+        "No legacy compatibility route treated as the primary development center.",
+    ]
+    return {
+        "generated_at": _utcnow(),
+        "document_path": _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+        "execution_spine": _spine_record(
+            surface_id="psicat_convergence_charter",
+            surface_kind="convergence_charter",
+            lane="psicat_control_plane",
+            status="ACTIVE_CONVERGENCE_PROGRAM",
+            summary="Execution charter for monorepo convergence around one governed execution spine.",
+            canonical_paths=[
+                _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+                _repo_rel(PRODUCT_ROOT / "README.md"),
+            ],
+            sources=[
+                _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+                _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+                _repo_rel(PRODUCT_ROOT / "README.md"),
+            ],
+            epistemic_label="GOVERNANCE",
+            promotion_rule="The charter governs convergence sequencing and evidence requirements; it does not inflate capability on its own.",
+            compatibility={
+                "primary_endpoint": "/api/psicat/convergence-charter",
+                "legacy_endpoints": ["/api/merlin/convergence-charter", "/api/ox"],
+            },
+            health_checks=[
+                ExecutionSpineHealthCheck(
+                    check_id="charter_doc_present",
+                    passed=EXECUTION_SPINE_CHARTER_DOC.exists(),
+                    status="pass" if EXECUTION_SPINE_CHARTER_DOC.exists() else "fail",
+                    summary="The canonical execution-spine charter document must exist in the repository.",
+                    details={"document_path": _repo_rel(EXECUTION_SPINE_CHARTER_DOC)},
+                    sources=[_repo_rel(EXECUTION_SPINE_CHARTER_DOC)],
+                ),
+            ],
+            promotion={
+                "eligible": True,
+                "gate": "execution_program_only",
+                "reason": "The charter is the governing plan for execution convergence work in this PR.",
+            },
+            residual_blockers=[
+                "Legacy consumers still need phased convergence onto shared artifact and status surfaces.",
+            ],
+        ),
+        "thesis": "Consolidate the monorepo around one execution spine, one governed control plane, and explicit adjacent-lane boundaries.",
+        "completion_maps": {
+            "canonical_truth_surfaces": [
+                "STATUS.md",
+                "docs/mas_tracker.yml",
+                "FALLIBILITY.md",
+                "docs/CLAIM_MASTER_BOARD.md",
+                "docs/GATEKEEPER_SUMMARY.md",
+                "docs/TRUTH_LAYER.md",
+                "docs/WAVE_CHANGELOG.md",
+                "docs/SPRINT_PLAN.md",
+                "9-INFRASTRUCTURE/um_live_status.json",
+            ],
+            "primary_targets": primary_targets,
+            "adjacent_consumers": adjacent_consumers,
+            "compatibility_only": compatibility_only,
+        },
+        "phases": phases,
+        "sanity_rules": sanity_rules,
+        "acceptance_gates": [
+            "Shared artifact and readiness surfaces expose one execution-spine contract.",
+            "PsiCat remains the canonical control plane for governed orchestration.",
+            "Quantum execution remains explicit as an adjacent lane with optional backend disclosure.",
+            "Consumer products resolve through shared status and artifact surfaces wherever active integration exists.",
+        ],
+    }
+
+
 def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     review_packet = get_merlin_sprint_review_packet(limit=limit)
     heavy_lane = get_merlin_heavy_reasoning_lane(limit=max(2, int(limit if limit is not None else 2)))
@@ -4435,17 +4615,59 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     hardware_board = get_merlin_hardware_architecture_board(limit=max(2, int(limit if limit is not None else 2)))
     resilience = get_merlin_validation_resilience_packet(limit=max(3, int(limit if limit is not None else 2)))
     rhythm = get_operating_rhythm()
+    convergence_charter = get_psicat_convergence_charter()
     stage_reviews = list(review_packet.get("stage_reviews") or [])
     open_blockers = list(review_packet.get("open_blockers") or [])
     current_heavy_provider = str(heavy_lane.get("current_default_provider") or "deterministic_retrieval")
     return {
         "generated_at": _utcnow(),
         "document_path": _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+        "execution_spine": _spine_record(
+            surface_id="psicat_execution_board",
+            surface_kind="execution_board",
+            lane="psicat_control_plane",
+            status="ACTIVE_EXECUTION_BOARD",
+            summary="Follow-on execution board for governed convergence, validation resilience, and benchmark discipline.",
+            canonical_paths=[
+                _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+                _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+            ],
+            sources=[
+                _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+                _repo_rel(MERLIN_VALIDATION_RESILIENCE_DOC),
+                _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+            ],
+            epistemic_label="GOVERNANCE",
+            promotion_rule="Execution-board tasks must remain receipt-backed and fail-closed; the board itself is not evidence of completion.",
+            compatibility={
+                "primary_endpoint": "/api/psicat/execution-board",
+                "related_endpoint": "/api/psicat/convergence-charter",
+            },
+            health_checks=[
+                ExecutionSpineHealthCheck(
+                    check_id="open_blocker_visibility",
+                    passed=True,
+                    status="pass",
+                    summary="Execution board must retain visible open blockers rather than hide them behind aggregate labels.",
+                    details={"open_blocker_count": len(open_blockers)},
+                    sources=[_repo_rel(MERLIN_EXECUTION_BOARD_DOC)],
+                ),
+            ],
+            promotion={
+                "eligible": True,
+                "gate": "operating_board",
+                "reason": "The execution board is an active operating surface for the approved convergence program.",
+            },
+            residual_blockers=[
+                "Hosted review and CodeQL coverage can still remain environment-dependent.",
+            ],
+        ),
         "sprint": {
             "label": "Sprint CL",
             "theme": "Merlin sovereignty execution board",
             "objective": review_packet.get("sprint_objective", ""),
         },
+        "convergence_charter": convergence_charter,
         "immediate_tasks": [
             {
                 "task_id": "CL-0",
@@ -8186,6 +8408,48 @@ def build_training_artifact_bundle(
         "ok": True,
         "artifact_bundle": {
             "generated_at": _utcnow(),
+            "execution_spine": _spine_record(
+                surface_id="psicat_training_artifact_bundle",
+                surface_kind="training_artifact_bundle",
+                lane="psicat_control_plane",
+                status="GOVERNED_TRAINING_ARTIFACT_BUNDLE",
+                summary="Governed training artifact bundle aligned to the shared execution spine.",
+                canonical_paths=[
+                    _repo_rel(PRODUCT_ROOT / "README.md"),
+                    _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+                ],
+                sources=[
+                    _repo_rel(PRODUCT_ROOT / "README.md"),
+                    _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+                    _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
+                ],
+                epistemic_label="GOVERNANCE",
+                promotion_rule="Training artifacts inform promotion decisions but cannot replace benchmark receipts or frontier gates.",
+                compatibility={
+                    "primary_endpoint": "/api/psicat/training-artifacts",
+                    "legacy_endpoints": ["/api/merlin/training-artifacts", "/api/ox"],
+                },
+                health_checks=[
+                    ExecutionSpineHealthCheck(
+                        check_id="dataset_bundle_ok",
+                        passed=bool(dataset_bundle.get("ok", True)),
+                        status="pass" if dataset_bundle.get("ok", True) else "fail",
+                        summary="Training dataset bundle must build successfully before export.",
+                        details={
+                            "validation_error_count": int(dataset_bundle.get("validation_error_count", 0) or 0),
+                        },
+                        sources=[_repo_rel(PRODUCT_ROOT / "README.md")],
+                    ),
+                ],
+                promotion={
+                    "eligible": False,
+                    "gate": "benchmark_required",
+                    "reason": "Training bundles remain support artifacts until benchmark and frontier gates clear.",
+                },
+                residual_blockers=[
+                    "Promotion still depends on benchmark receipts, control-tower review, and frontier blockers.",
+                ],
+            ),
             "training_architecture": training_architecture,
             "training_dataset": dataset_bundle["dataset"],
             "training_curation": dict(((dataset_bundle.get("dataset") or {}).get("curation_ledger") or {})),
@@ -8231,6 +8495,7 @@ def build_training_artifact_bundle(
                     "ARC-AGI stays a shadow lane until contamination, provenance, and benchmark gates are all green."
                 ),
             },
+            "convergence_charter": get_psicat_convergence_charter(),
         },
     }
 

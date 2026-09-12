@@ -13,10 +13,18 @@ import json
 
 import numpy as np
 
+from src.infrastructure.execution_spine import (
+    ExecutionSpineHealthCheck,
+    ExecutionSpineRecord,
+    build_fail_closed_governance,
+    repo_rel,
+)
 from src.quantum.execution import ExecutionConfig
 from src.quantum.fermi_hubbard import FermiHubbardHamiltonian
 
 from .contract import XDiagBridgeSpec, build_xdiag_bridge_spec
+
+REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
 @dataclass(frozen=True)
@@ -138,12 +146,49 @@ def save_bridge_artifact(artifact: XDiagBridgeArtifact, output_dir: str) -> Path
     out_dir.mkdir(parents=True, exist_ok=True)
     run_id = str(artifact.manifest["run_id"])
     path = out_dir / f"{run_id}.xdiag_bridge.json"
+    execution_spine = ExecutionSpineRecord(
+        surface_id=run_id,
+        surface_kind="xdiag_bridge_artifact",
+        lane="lane_e_quantum_adjacent",
+        status="ADJACENT_BRIDGE_ARTIFACT",
+        summary="UM↔XDiag adjacent bridge artifact with explicit optional-backend and provenance boundaries.",
+        canonical_paths=[repo_rel(Path(__file__), REPO_ROOT)],
+        sources=[repo_rel(Path(__file__), REPO_ROOT)],
+        governance=build_fail_closed_governance(
+            epistemic_label="ADJACENT_TRACK",
+            promotion_rule="Bridge artifacts remain benchmark and interoperability evidence, not hardgate closure.",
+            optional_backend=True,
+            residual_blockers=[
+                "XDiag library availability remains optional and environment-dependent.",
+            ],
+        ),
+        compatibility={
+            "integration_lane": str(artifact.manifest.get("bridge", {}).get("integration_lane", "")),
+            "optional_backend": "xdiag",
+        },
+        health_checks=[
+            ExecutionSpineHealthCheck(
+                check_id="spectra_present",
+                passed=bool(artifact.spectra),
+                status="pass" if artifact.spectra else "fail",
+                summary="At least one spectral value must be retained in the bridge artifact.",
+                details={"spectra_count": len(artifact.spectra)},
+                sources=[repo_rel(Path(__file__), REPO_ROOT)],
+            ),
+        ],
+        promotion={
+            "eligible": False,
+            "gate": "adjacent_only",
+            "reason": "Bridge promotion remains gated by optional backend availability and adjacent-lane doctrine.",
+        },
+    ).to_dict()
 
     serializable = {
         "manifest": artifact.manifest,
         "spectra": artifact.spectra,
         "observables": artifact.observables,
         "backend_payload": artifact.backend_payload,
+        "execution_spine": execution_spine,
     }
     path.write_text(json.dumps(serializable, indent=2, sort_keys=True), encoding="utf-8")
     return path
@@ -203,4 +248,41 @@ def production_health_check() -> dict[str, object]:
         "schema_roundtrip_ok": schema_roundtrip_ok,
         "term_count": term_count,
         "status": "PRODUCTION_HEALTH_CHECK_PASSED — adjacent engineering lane",
+        "execution_spine": ExecutionSpineRecord(
+            surface_id="xdiag_production_health_check",
+            surface_kind="xdiag_bridge_health_check",
+            lane="lane_e_quantum_adjacent",
+            status="PRODUCTION_HEALTH_CHECK_PASSED",
+            summary="Known-answer XDiag bridge health check for adjacent interoperability.",
+            canonical_paths=[repo_rel(Path(__file__), REPO_ROOT)],
+            sources=[
+                repo_rel(Path(__file__), REPO_ROOT),
+                repo_rel(Path(__file__).resolve().with_name("contract.py"), REPO_ROOT),
+            ],
+            governance=build_fail_closed_governance(
+                epistemic_label="ADJACENT_TRACK",
+                promotion_rule="Health checks certify interoperability posture only; they do not promote hardgate claims.",
+                optional_backend=True,
+                residual_blockers=["Live XDiag backend remains optional in CI environments."],
+            ),
+            compatibility={
+                "health_check_backend": "simulator_export_roundtrip",
+                "adjacent_lane": True,
+            },
+            health_checks=[
+                ExecutionSpineHealthCheck(
+                    check_id="schema_roundtrip_ok",
+                    passed=schema_roundtrip_ok,
+                    status="pass" if schema_roundtrip_ok else "fail",
+                    summary="Exported XDiag contract must round-trip through schema parsing.",
+                    details={"term_count": term_count},
+                    sources=[repo_rel(Path(__file__), REPO_ROOT)],
+                ),
+            ],
+            promotion={
+                "eligible": False,
+                "gate": "adjacent_only",
+                "reason": "Health check success does not elevate the lane beyond adjacent engineering status.",
+            },
+        ).to_dict(),
     }
