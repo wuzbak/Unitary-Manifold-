@@ -5,6 +5,8 @@
 from __future__ import annotations
 
 import os
+import socket
+import ssl
 from urllib.error import URLError, HTTPError
 from urllib.request import Request, urlopen
 
@@ -53,6 +55,10 @@ def check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
         if not _strict_mode_enabled():
             return True, f"{url} -> URL error: {exc.reason} (network soft pass)"
         return False, f"{url} -> URL error: {exc.reason}"
+    except (TimeoutError, socket.timeout, ssl.SSLError, OSError) as exc:
+        if not _strict_mode_enabled():
+            return True, f"{url} -> transport error: {exc} (network soft pass)"
+        return False, f"{url} -> transport error: {exc}"
     except Exception as exc:
         return False, f"{url} -> error: {exc}"
 
