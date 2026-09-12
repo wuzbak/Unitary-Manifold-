@@ -69,13 +69,20 @@ def _has_non_slow_tests(path: Path) -> bool:
     return False
 
 
+def _include_in_fast_suite(path: Path) -> bool:
+    try:
+        return _has_non_slow_tests(path)
+    except SyntaxError:
+        return True
+
+
 def discover_fast_suite_files() -> List[str]:
     """Return the deterministic sorted test-file list for the non-slow tests/ suite."""
     test_root = _ROOT / "tests"
     return sorted(
         path.relative_to(_ROOT).as_posix()
         for path in test_root.rglob("test_*.py")
-        if path.is_file() and _has_non_slow_tests(path)
+        if path.is_file() and _include_in_fast_suite(path)
     )
 
 
@@ -116,16 +123,18 @@ def build_fast_suite_batches(batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> Lis
     return batches
 
 
+def _fast_batch_command_from_paths(paths: List[str]) -> str:
+    if not paths:
+        return ""
+    return f'python -m pytest -n auto -m "{FAST_MARK_EXPRESSION}" {" ".join(paths)} -q'
+
+
 def fast_batch_command(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> str:
     """Return the canonical pytest command for one supervised non-slow batch."""
     batches = build_fast_suite_batches(batch_count=batch_count)
     if batch_index < 0 or batch_index >= len(batches):
         raise IndexError("batch_index out of range")
-    batch = batches[batch_index]
-    if not batch["test_paths"]:
-        return ""
-    paths = " ".join(batch["test_paths"])
-    return f'python -m pytest -n auto -m "{FAST_MARK_EXPRESSION}" {paths} -q'
+    return _fast_batch_command_from_paths(batches[batch_index]["test_paths"])
 
 
 def compactified_preflight_command() -> str:
@@ -159,8 +168,8 @@ def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUN
             "marker_expression": FAST_MARK_EXPRESSION,
             "batches": batches,
             "batch_commands": [
-                fast_batch_command(batch_index=index, batch_count=batch_count)
-                for index in range(batch_count)
+                _fast_batch_command_from_paths(batch["test_paths"])
+                for batch in batches
             ],
         },
         "remaining_canonical_suites": remaining_canonical_suites,

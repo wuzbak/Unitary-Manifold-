@@ -74,3 +74,15 @@ def test_regression_supervision_plan_omits_claims_when_directory_is_missing(tmp_
     plan = supervision.build_regression_supervision_plan(batch_count=1)
 
     assert 'claims' not in plan['remaining_canonical_suites']
+
+
+def test_discovery_keeps_syntax_error_files_in_fast_suite(tmp_path, monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    tests_dir = tmp_path / 'tests'
+    tests_dir.mkdir()
+    broken = tests_dir / 'test_broken.py'
+    broken.write_text('def test_broken(:\n    pass\n', encoding='utf-8')
+    monkeypatch.setattr(supervision, '_ROOT', tmp_path)
+
+    assert supervision.discover_fast_suite_files() == ['tests/test_broken.py']

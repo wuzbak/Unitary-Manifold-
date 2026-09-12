@@ -99,6 +99,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   test-claims:
     runs-on: ubuntu-latest
+    if: ${{ hashFiles('claims/**/*.py') != '' }}
     timeout-minutes: 45
     permissions:
       contents: read
@@ -112,12 +113,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (claims/)
-        run: |
-          if [ -d claims ]; then
-            python -m pytest claims/ -q
-          else
-            echo "claims/ not present; skipping claims shard"
-          fi
+        run: python -m pytest claims/ -q
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 6: Recycling suite (recycling/ — Pillar 16 φ-debt entropy accounting)
@@ -230,6 +226,7 @@ jobs:
           TEST_FAST_RESULT: ${{ needs.test-fast-supervisor.result }}
           TEST_SLOW_RESULT: ${{ needs.test-slow.result }}
           CLAIMS_RESULT: ${{ needs.test-claims.result }}
+          CLAIMS_REQUIRED: ${{ hashFiles('claims/**/*.py') != '' }}
           RECYCLING_RESULT: ${{ needs.test-recycling.result }}
           PENTAD_RESULT: ${{ needs.test-pentad.result }}
           ALGEBRA_RESULT: ${{ needs.algebra-proof.result }}
@@ -241,7 +238,11 @@ jobs:
           check_result () {
             local label="$1"
             local result="$2"
+            local allow_skipped="${3:-false}"
             echo "${label}: ${result}"
+            if [ "${allow_skipped}" = "true" ] && [ "${result}" = "skipped" ]; then
+              return
+            fi
             if [ "${result}" != "success" ]; then
               failures=$((failures + 1))
             fi
@@ -250,7 +251,7 @@ jobs:
           check_result "compactified-preflight" "${COMPACTIFIED_RESULT}"
           check_result "tests-fast" "${TEST_FAST_RESULT}"
           check_result "tests-slow" "${TEST_SLOW_RESULT}"
-          check_result "claims" "${CLAIMS_RESULT}"
+          check_result "claims" "${CLAIMS_RESULT}" "${CLAIMS_REQUIRED}"
           check_result "recycling" "${RECYCLING_RESULT}"
           check_result "pentad" "${PENTAD_RESULT}"
           check_result "algebra-proof" "${ALGEBRA_RESULT}"
