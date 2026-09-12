@@ -91,7 +91,7 @@ All file references below are **repository-root-relative paths** in `wuzbak/Unit
 - When adjacent branches merge, update this appendix by appending new anchors rather than rewriting prior entries.  
 - Keep references repository-relative and stable.  
 - If attribution boundaries change, update both this appendix and Book 33 together.
-- The anchors listed above were verified as existing files at publication time.
+- Validate each anchor path during publication prep and refresh entries when repository structure changes.
 
 ---
 

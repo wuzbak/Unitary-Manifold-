@@ -114,7 +114,7 @@ manuscripts in this folder are original to this repository and its subsequent ed
 
 **v37.1 — Credit Lineage Commissioned Report Edition (September 2026):**
 - Book 33: *The Credit Lineage Ledger, Expanded* — a commissioned AxiomZero report that documents attribution across physics/mathematics lineage, open-source tooling, research infrastructure, and explicit human-AI role partition
-- Companion appendices added in-books folder for repository credit mapping and external lineage bibliography
+- Companion appendices added in the books folder for repository credit mapping and external lineage bibliography
 
 ---
 
