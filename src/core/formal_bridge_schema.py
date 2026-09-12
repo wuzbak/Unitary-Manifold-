@@ -243,10 +243,13 @@ def validate_certificate_requirements_override(
     }
     row_allowed_ids = set(_ROW_CERTIFICATE_REQUIREMENTS.get(row_id, []))
     result = []
+    seen_ids: set[str] = set()
     for item in requirements:
         if not isinstance(item, dict):
             raise TypeError("certificate_requirements override entries must be dicts")
         item_id = str(item.get("id") or "")
+        if item_id in seen_ids:
+            raise ValueError(f"Duplicate certificate requirement id: {item_id or '<missing>'}")
         if item_id not in allowed_ids:
             raise ValueError(
                 f"Certificate requirement {item_id or '<missing>'} is not allowed for proof class {proof_class}"
@@ -259,6 +262,7 @@ def validate_certificate_requirements_override(
         if "notes" in item:
             canonical["notes"] = str(item["notes"])
         result.append(canonical)
+        seen_ids.add(item_id)
     return result
 
 

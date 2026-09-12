@@ -138,3 +138,12 @@ def test_override_validators_enforce_schema() -> None:
 def test_mapped_row_without_proof_class_is_rejected_cleanly() -> None:
     with pytest.raises(ValueError, match="requires an epistemic_class"):
         certificate_requirements_for_row({"id": "ACTION_TO_EVOLUTION_BOUNDARY"})
+
+
+def test_duplicate_certificate_override_is_rejected() -> None:
+    with pytest.raises(ValueError, match="Duplicate certificate requirement id"):
+        validate_certificate_requirements_override(
+            [{"id": "EXACT_IDENTITY"}, {"id": "EXACT_IDENTITY"}],
+            row_id="ACTION_TO_EVOLUTION_BOUNDARY",
+            proof_class="LEAN_UNCONDITIONAL",
+        )
