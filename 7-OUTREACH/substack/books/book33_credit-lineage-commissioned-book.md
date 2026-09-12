@@ -275,7 +275,7 @@ It says, instead, that serious work should tell the truth about how it was made.
 
 ---
 
-## Appendix A: Repository Credit Map and Attribution Matrix
+## <a id="appendix-a-credit-map"></a>Appendix A: Repository Credit Map and Attribution Matrix
 
 This appendix identifies the main in-repository surfaces a reader can inspect to verify scope, lineage, and role partition.
 
@@ -350,7 +350,7 @@ When attribution boundaries materially change, update this appendix and the main
 
 ---
 
-## Appendix B: External Lineage and Foundational Credit List
+## <a id="appendix-b-credit-list"></a>Appendix B: External Lineage and Foundational Credit List
 
 This appendix provides a compact external lineage and credit list for public-facing citation and orientation.
 
@@ -399,7 +399,7 @@ Minimum credit block for derivative materials:
 
 ---
 
-## Glossary
+## <a id="glossary"></a>Glossary
 
 **Attribution** — a precise account of who or what a work depends on, and who is responsible for which parts of it.
 
