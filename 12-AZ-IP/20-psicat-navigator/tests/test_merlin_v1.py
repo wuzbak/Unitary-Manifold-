@@ -3250,6 +3250,9 @@ def test_server_merlin_endpoints():
             assert 'api_base' not in legacy_root.json()
             assert 'memory_profile_token' not in legacy_root.json()
             assert 'session_contract' not in legacy_root.json()
+            assert 'live_status' not in legacy_root.json()
+            assert 'memory' not in legacy_root.json()
+            assert 'telemetry' not in legacy_root.json()
 
             legacy_status = client.get('/api/ox/status')
             assert legacy_status.status_code == 200
