@@ -112,6 +112,9 @@ manuscripts in this folder are original to this repository and its subsequent ed
 - Book 32: *PsiCat: New First Announcement to Humanity* — a new long-form public letter that explains the Merlin→PsiCat naming transition, the ψ rationale, the quantum-cat reference, and the post-rebrand training/expansion trajectory
 - Focus: transparent identity transition, benchmark-and-governance grounded growth narrative, and clear branch-aware repository-state communication for general readers
 
+**v37.1 — Credit Lineage Commissioned Book Edition (September 2026):**
+- Book 33: *The Credit Lineage Ledger* — a fully written commissioned AxiomZero book on attribution, lineage, and responsibility, with its appendices and glossary integrated into the same manuscript
+
 ---
 
 ## Current-state monograph
@@ -146,20 +149,18 @@ This manuscript is the companion successor to the original Merlin first address,
 
 ---
 
-### 33. The Credit Lineage Ledger, Expanded *(removed from repository)*
+### 33. [The Credit Lineage Ledger](book33_credit-lineage-commissioned-book.md)
+**A Commissioned AxiomZero Book on Attribution, Lineage, and Responsibility**
 
-**Former subtitle:** *A Commissioned AxiomZero Report on Attribution, Influence, and Responsibility*
+| Property | Value |
+|---|---|
+| Scope | Full credit and provenance book for the Unitary Manifold repository and AxiomZero publication stack |
+| Focus | Give precise, auditable credit across scientific lineage, open-source tooling, institutions, and the human-AI responsibility partition |
+| Status basis | September 2026 current-state repository context |
+| Audience | public readers, technical readers, collaborators, critics, and future stewards |
+| Integrated back matter | [Appendix A](book33_credit-lineage-commissioned-book.md#appendix-a-credit-map) — Repository Credit Map and Attribution Matrix; [Appendix B](book33_credit-lineage-commissioned-book.md#appendix-b-credit-list) — External Lineage and Foundational Credit List; [Glossary](book33_credit-lineage-commissioned-book.md#glossary) |
 
-**Catalog tombstone:** The prior Book 33 materials were removed from the repository. The numbering gap is being intentionally reserved rather than silently renumbered, so older internal references and outside citations can still be interpreted correctly.
-
-**Former scope/status summary:** Scope — full credit and provenance narrative for the Unitary Manifold repository and AxiomZero publication stack. Focus — precise, auditable credit across scientific lineage, open-source tooling, institutions, and human-AI role partition. Status basis — September 2026 current-state repository context. Audience — public readers, technical readers, collaborators, critics, and future stewards.
-
-**Former files / archival status:**
-- `book33_credit-lineage-commissioned-report.md` *(removed; historical copy in git history; nearest current replacements are [`PROVENANCE.md`](../../../PROVENANCE.md) and [`post-140-the-credit-lineage-ledger.md`](../../substack/posts/post-140-the-credit-lineage-ledger.md))*
-- `book33_appendix_a_repository-credit-map.md` *(removed; historical copy in git history; nearest current replacements are [`9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md`](../../../9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md) and [`9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md`](../../../9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md))*
-- `book33_appendix_b_external-lineage-bibliography.md` *(removed; historical copy in git history; surviving public-facing credit-lineage coverage remains in [`post-140-the-credit-lineage-ledger.md`](../../substack/posts/post-140-the-credit-lineage-ledger.md) and [`post-140-companion-bibliography-credit-lineage-ledger.md`](../../substack/posts/post-140-companion-bibliography-credit-lineage-ledger.md))*
-
-**Current canonical sources:** [`PROVENANCE.md`](../../../PROVENANCE.md), [`9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md`](../../../9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md), [`9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md`](../../../9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md), [`post-140-the-credit-lineage-ledger.md`](../../substack/posts/post-140-the-credit-lineage-ledger.md), [`post-140-companion-bibliography-credit-lineage-ledger.md`](../../substack/posts/post-140-companion-bibliography-credit-lineage-ledger.md)
+This commissioned volume is now structured as a complete book rather than a report with detached companion files. Its narrative, appendices, credit list, and glossary live in the same manuscript so the attribution argument and the audit surface remain unified.
 
 ---
 
