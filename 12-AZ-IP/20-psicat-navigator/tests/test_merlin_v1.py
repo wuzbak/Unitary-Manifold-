@@ -3292,6 +3292,43 @@ def test_server_merlin_compat_routes_do_not_rewrite_prefix_matches():
         thread.join(timeout=2)
 
 
+def test_server_ox_legacy_status_contract():
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        port = httpd.server_address[1]
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+            legacy_root = client.get('/api/ox')
+            assert legacy_root.status_code == 200
+            root_payload = legacy_root.json()
+            assert set(root_payload) == {
+                'service',
+                'internal_persona_name',
+                'steward_persona_alias',
+                'psicat_available',
+                'merlin_available',
+                'ox_available',
+                'api_base',
+            }
+            assert root_payload['ox_available'] is True
+            assert legacy_root.headers.get('X-Merlin-Handshake-Challenge') is None
+
+            legacy_status = client.get('/api/ox/status')
+            assert legacy_status.status_code == 200
+            status_payload = legacy_status.json()
+            assert status_payload['psicat_available'] is True
+            assert status_payload['merlin_available'] is True
+            assert status_payload['ox_available'] is True
+            assert status_payload['api_base'] == 'local'
+            assert 'router_policy' in status_payload
+            assert legacy_status.headers.get('X-Merlin-Handshake-Challenge') is None
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
 def test_training_cycle_writes_only_isolated_artifacts(isolate_training_execution_artifacts):
     source_history_before = isolate_training_execution_artifacts['history_source'].read_text(encoding='utf-8')
     copy_history_before = isolate_training_execution_artifacts['history_copy'].read_text(encoding='utf-8')

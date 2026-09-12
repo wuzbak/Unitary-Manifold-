@@ -560,7 +560,6 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         'merlin_available': status_payload['merlin_available'],
                         'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
                         'api_base': 'local',
-                        'compatibility': status_payload['compatibility'],
                     })
                 elif route_path == '/api/ox/status':
                     self._json({
