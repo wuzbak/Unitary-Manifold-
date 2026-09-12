@@ -20,6 +20,7 @@ from src.quantum.xdiag_bridge import (
     save_bridge_artifact,
     spec_from_dict,
 )
+from src.quantum.xdiag_bridge.workflow import production_health_check
 
 
 def _build_model_and_config() -> tuple[object, ExecutionConfig]:
@@ -114,7 +115,20 @@ def test_save_bridge_artifact_writes_json(tmp_path: Path) -> None:
     path = save_bridge_artifact(artifact, str(tmp_path))
     parsed = json.loads(path.read_text(encoding="utf-8"))
     assert path.name.endswith(".xdiag_bridge.json")
+    assert set(parsed) == {"backend_payload", "manifest", "observables", "spectra"}
     assert parsed["manifest"]["run_id"] == payload.run_id
+    assert parsed["spectra"] == artifact.spectra
+    assert parsed["observables"] == artifact.observables
+    assert "execution_spine" not in parsed
+
+
+def test_production_health_check_reports_schema_roundtrip() -> None:
+    payload = production_health_check()
+
+    assert payload["passed"] is True
+    assert payload["schema_roundtrip_ok"] is True
+    assert payload["term_count"] > 0
+    assert payload["run_id"].startswith("xdiag_")
 
 
 def test_parity_gate_pass_and_fail_fast() -> None:

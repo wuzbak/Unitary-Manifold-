@@ -184,11 +184,16 @@ def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
     return 200, {"ok": True, "data": result["data"]}
 
 
+def _is_merlin_compat_route(path: str) -> bool:
+    normalized = path if path == '/' else path.rstrip('/')
+    return normalized == '/api/merlin' or normalized.startswith('/api/merlin/')
+
+
 def _normalize_psicat_compat_route(path: str) -> str:
     normalized = path if path == '/' else path.rstrip('/')
-    if normalized == '/api/merlin' or normalized.startswith('/api/merlin/'):
+    if _is_merlin_compat_route(path):
         return '/api/psicat' + normalized[len('/api/merlin'):]
-    if normalized == '/api/ox':
+    if normalized in {'/api/ox', '/api/ox/status'}:
         return normalized
     if normalized.startswith('/api/ox/'):
         return '/api/psicat' + normalized[len('/api/ox'):]
@@ -487,52 +492,60 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         profile_hint = self._profile_hint(params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
         self._handshake_state = "not_issued"
-        if parsed.path.startswith('/api/psicat') or parsed.path.startswith('/api/merlin') or parsed.path.startswith('/api/ox'):
+        if parsed.path.startswith('/api/psicat') or _is_merlin_compat_route(parsed.path) or parsed.path.startswith('/api/ox'):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
         with merlin_lock:
-            if route_path in ('/api/psicat', '/api/ox', '/api/psicat/status'):
-                self._json({
-                'service': 'PsiCat — the Quantum Cat',
-                'internal_persona_name': 'Merlin',
-                'steward_persona_alias': 'Merlin',
-                'psicat_available': True,
-                'merlin_available': True,
-                'live_model_available': bool(os.environ.get('OPENROUTER_API_KEY')),
-                'openrouter_compat_enabled': bool(os.environ.get('MERLIN_ENABLE_OPENROUTER_COMPAT')),
-                'rebrand_label': 'REBRAND-2026-09-PSICAT',
-                'model': MODEL_ID,
-                'context_pack_exists': CONTEXT_PACK.exists(),
-                'active_session_key': MERLIN_ACTIVE_SESSION_KEY,
-                'memory_profile_token': _sign_session_id(session_id),
-                'profile_resume_requires_key': bool(_MERLIN_PROFILE_SHARED_KEY),
-                'capability_views': ['index', 'domain', 'tool', 'full', 'state'],
-                'router_policy': get_router_policy(),
-                'live_status': route_tool('fetchRepoContext').get('result', {}).get('data', {}),
-                'memory': merlin_session.get_public_memory_state(),
-                'telemetry': merlin_session.get_telemetry_summary(public=True),
-                'compatibility': {
-                    'canonical_query_endpoint': '/api/psicat',
-                    'legacy_merlin_query_endpoint': '/api/merlin',
-                    'legacy_query_endpoint': '/api/ox',
-                    'legacy_status_endpoint': '/api/ox/status',
-                },
-                'session_contract': {
-                    'persistence': 'process_local_memory',
-                    'signed_cookie_resume_scope': 'same_process_only',
-                    'expired_cookie_behavior': 'new_session_id_issued',
-                    'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
-                    'handshake': {
-                        'state': self._handshake_state,
-                        'challenge': self._handshake_challenge,
-                        'receipt': self._handshake_receipt,
-                        'challenge_ttl_seconds': _HANDSHAKE_TTL_SECONDS,
-                        'proof_hash': 'sha256(challenge:memory_profile_token)',
-                        'invalid_or_replayed_behavior': 'request_refused',
+            if route_path in ('/api/psicat', '/api/ox', '/api/psicat/status', '/api/ox/status'):
+                status_payload = {
+                    'service': 'PsiCat — the Quantum Cat',
+                    'internal_persona_name': 'Merlin',
+                    'steward_persona_alias': 'Merlin',
+                    'psicat_available': True,
+                    'merlin_available': True,
+                    'live_model_available': bool(os.environ.get('OPENROUTER_API_KEY')),
+                    'openrouter_compat_enabled': bool(os.environ.get('MERLIN_ENABLE_OPENROUTER_COMPAT')),
+                    'rebrand_label': 'REBRAND-2026-09-PSICAT',
+                    'model': MODEL_ID,
+                    'context_pack_exists': CONTEXT_PACK.exists(),
+                    'active_session_key': MERLIN_ACTIVE_SESSION_KEY,
+                    'memory_profile_token': _sign_session_id(session_id),
+                    'profile_resume_requires_key': bool(_MERLIN_PROFILE_SHARED_KEY),
+                    'capability_views': ['index', 'domain', 'tool', 'full', 'state'],
+                    'router_policy': get_router_policy(),
+                    'live_status': route_tool('fetchRepoContext').get('result', {}).get('data', {}),
+                    'memory': merlin_session.get_public_memory_state(),
+                    'telemetry': merlin_session.get_telemetry_summary(public=True),
+                    'compatibility': {
+                        'canonical_query_endpoint': '/api/psicat',
+                        'legacy_merlin_query_endpoint': '/api/merlin',
+                        'legacy_query_endpoint': '/api/ox',
+                        'legacy_status_endpoint': '/api/ox/status',
                     },
-                },
-                'observatory_ingestion_lane': get_observatory_ingestion_lane(),
-                })
+                    'session_contract': {
+                        'persistence': 'process_local_memory',
+                        'signed_cookie_resume_scope': 'same_process_only',
+                        'expired_cookie_behavior': 'new_session_id_issued',
+                        'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
+                        'handshake': {
+                            'state': self._handshake_state,
+                            'challenge': self._handshake_challenge,
+                            'receipt': self._handshake_receipt,
+                            'challenge_ttl_seconds': _HANDSHAKE_TTL_SECONDS,
+                            'proof_hash': 'sha256(challenge:memory_profile_token)',
+                            'invalid_or_replayed_behavior': 'request_refused',
+                        },
+                    },
+                    'observatory_ingestion_lane': get_observatory_ingestion_lane(),
+                }
+                if parsed.path in {'/api/ox', '/api/ox/', '/api/ox/status', '/api/ox/status/'}:
+                    self._json({
+                        **status_payload,
+                        'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
+                        'api_base': 'local',
+                    })
+                else:
+                    self._json(status_payload)
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/program':

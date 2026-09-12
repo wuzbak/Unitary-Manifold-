@@ -1863,7 +1863,11 @@ def run_sync_checks() -> dict[str, Any]:
     server_path = PRODUCT_ROOT / "ox_navigator" / "app" / "server.py"
     server_text = server_path.read_text(encoding="utf-8") if server_path.exists() else ""
     route_eq_matches = re.findall(r"(?:parsed\.path|route_path)\s*==\s*['\"]([^'\"]+)['\"]", server_text)
-    route_in_blocks = re.findall(r"(?:parsed\.path|route_path)\s+in\s*\(([^)]*)\)", server_text, flags=re.DOTALL)
+    route_in_blocks = re.findall(
+        r"(?:parsed\.path|route_path)\s+in\s*[\(\{\[]([^\)\}\]]*)[\)\}\]]",
+        server_text,
+        flags=re.DOTALL,
+    )
     parsed_routes = set(route_eq_matches)
     for block in route_in_blocks:
         for route in re.findall(r"['\"]([^'\"]+)['\"]", block):
@@ -1926,6 +1930,11 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/promotion-packet",
         "/api/merlin/sync-checks",
         "/api/merlin/identity",
+        "/api/psicat/execution-board",
+        "/api/psicat/validation-resilience",
+        "/api/psicat/local-execution/status",
+        "/api/psicat/local-execution/run",
+        "/api/psicat/spc-phase0-packet",
         "/api/agentToolkit",
         "/api/agentInvoke",
         "/api/agentOrchestrate",

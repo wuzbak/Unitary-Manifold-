@@ -14,6 +14,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict
 
+from src.core.merlin_blocker_utils import effective_blocking_pass
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 from src.core.pillar1082_foundation_first_photon_action_audit import (
     foundation_first_photon_action_audit,
@@ -145,8 +146,13 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     blockers_all_clear_declared = blockers_all_clear_raw if isinstance(blockers_all_clear_raw, bool) else None
     promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
-    blocker_pass_field_types_ok = blockers_are_dicts and all(isinstance(item.get("pass"), bool) for item in promotion_blockers)
-    effective_all_clear = blocker_pass_field_types_ok and all(item.get("pass") is True for item in promotion_blockers)
+    blocker_pass_field_types_ok = blockers_are_dicts and all(
+        isinstance(effective_blocking_pass(item), bool)
+        for item in promotion_blockers
+    )
+    effective_all_clear = blocker_pass_field_types_ok and all(
+        effective_blocking_pass(item) is True for item in promotion_blockers
+    )
     declared_all_clear_semantics = effective_all_clear
     declared_matches_effective = (
         blockers_all_clear_declared == effective_all_clear

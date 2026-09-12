@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import numpy as np
@@ -32,5 +33,24 @@ def test_run_artifact_written(tmp_path: Path) -> None:
     cfg = ExecutionConfig(total_time=0.1, trotter_steps=2)
     result = run_time_evolution(model, cfg)
     path = save_run_artifact(result, str(tmp_path))
+    payload = json.loads(path.read_text(encoding="utf-8"))
+
     assert path.exists()
     assert path.suffix == ".json"
+    assert set(payload) == {"manifest", "wall_clock_seconds", "backend_payload", "times", "observables"}
+    assert payload["manifest"]["run_id"] == result.manifest.run_id
+    assert payload["times"] == result.times.tolist()
+    assert len(payload["observables"]) == len(result.observable_history)
+    assert "execution_spine" not in payload
+
+
+def test_hardware_run_artifact_written(tmp_path: Path) -> None:
+    model = build_fermi_hubbard_1d(n_sites=2, hopping_t=1.0, interaction_u=2.0)
+    cfg = ExecutionConfig(total_time=0.1, trotter_steps=2, backend="hardware")
+    result = run_time_evolution(model, cfg)
+    path = save_run_artifact(result, str(tmp_path))
+    payload = json.loads(path.read_text(encoding="utf-8"))
+
+    assert payload["manifest"]["backend"] == "hardware"
+    assert payload["backend_payload"]["hardware_emulated"] is True
+    assert "execution_spine" not in payload

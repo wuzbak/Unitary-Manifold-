@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
+from src.core.merlin_blocker_utils import effective_blocking_pass
 from src.core.pillar1052_targeted_closure_deterministic_rigor import targeted_closure_deterministic_rigor
 
 PILLAR_NUMBER: int = 1053
@@ -69,7 +70,8 @@ def merlin_frontier_development() -> Dict[str, Any]:
         and readiness_data.get("sovereign_primary") is True
         and readiness_data.get("openrouter_fallback_only") is True
         and len(promotion_blockers) >= 4
-        and all(b.get("pass") for b in promotion_blockers)
+        and all(isinstance(effective_blocking_pass(b), bool) for b in promotion_blockers)
+        and all(effective_blocking_pass(b) is True for b in promotion_blockers)
         and control_tower.get("ok") is True
         and control_tower_data.get("ok") is True
         and "stage_e_external_decommission" in [s.get("stage") for s in stage_entries if isinstance(s, dict)]
