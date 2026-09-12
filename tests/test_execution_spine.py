@@ -131,6 +131,12 @@ def test_repo_rel_canonicalizes_in_repo_symlink_alias() -> None:
     assert rel == "12-AZ-IP/01-axiom-os/README.md"
 
 
+def test_repo_rel_supports_explicit_base_dir() -> None:
+    repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
+    rel = repo_rel(Path("README.md"), repo_root, base_dir=repo_root / "az-os")
+    assert rel == "12-AZ-IP/01-axiom-os/README.md"
+
+
 def test_repo_rel_sanitizes_absolute_lexical_escape() -> None:
     repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
     rel = repo_rel(repo_root / "tmp" / ".." / ".." / "secret.txt", repo_root)
