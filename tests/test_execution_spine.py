@@ -62,6 +62,26 @@ def test_execution_spine_record_from_dict_preserves_missing_timestamp() -> None:
     assert restored.generated_at_utc is None
 
 
+def test_execution_spine_record_from_dict_accepts_health_check_objects() -> None:
+    check = ExecutionSpineHealthCheck(
+        check_id="mixed-object",
+        passed=True,
+        status="pass",
+        summary="Mixed payload health check.",
+    )
+    restored = ExecutionSpineRecord.from_dict(
+        {
+            "surface_id": "surface-3",
+            "surface_kind": "artifact",
+            "lane": "psicat_control_plane",
+            "status": "READY",
+            "summary": "Mixed payload.",
+            "health_checks": [check],
+        }
+    )
+    assert restored.health_checks[0].check_id == "mixed-object"
+
+
 def test_quantum_run_artifact_contains_execution_spine(tmp_path: Path) -> None:
     model = build_fermi_hubbard_1d(n_sites=2, hopping_t=1.0, interaction_u=2.0)
     cfg = ExecutionConfig(total_time=0.1, trotter_steps=2)

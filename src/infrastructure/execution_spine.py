@@ -30,6 +30,16 @@ def _json_dict(data: dict[str, Any] | None) -> dict[str, Any]:
     return dict(data or {})
 
 
+def _health_check_list(values: list[ExecutionSpineHealthCheck | dict[str, Any]] | tuple[ExecutionSpineHealthCheck | dict[str, Any], ...] | None) -> list[ExecutionSpineHealthCheck]:
+    items: list[ExecutionSpineHealthCheck] = []
+    for value in list(values or []):
+        if isinstance(value, ExecutionSpineHealthCheck):
+            items.append(value)
+        elif isinstance(value, dict):
+            items.append(ExecutionSpineHealthCheck.from_dict(value))
+    return items
+
+
 def repo_rel(path: str | Path, repo_root: Path) -> str:
     resolved = Path(path).resolve()
     try:
@@ -118,11 +128,7 @@ class ExecutionSpineRecord:
             "sources": _string_list(payload.get("sources")),
             "governance": _json_dict(payload.get("governance")),
             "compatibility": _json_dict(payload.get("compatibility")),
-            "health_checks": [
-                ExecutionSpineHealthCheck.from_dict(item)
-                for item in list(payload.get("health_checks") or [])
-                if isinstance(item, dict)
-            ],
+            "health_checks": _health_check_list(payload.get("health_checks")),
             "promotion": _json_dict(payload.get("promotion")),
         }
         if "generated_at_utc" in payload:
