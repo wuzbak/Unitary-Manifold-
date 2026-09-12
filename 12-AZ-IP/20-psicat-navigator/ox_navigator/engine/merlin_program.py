@@ -8431,7 +8431,7 @@ def build_training_artifact_bundle(
                 promotion_rule="Training artifacts inform promotion decisions but cannot replace benchmark receipts or frontier gates.",
                 compatibility={
                     "primary_endpoint": "/api/psicat/training-artifacts",
-                    "legacy_endpoints": ["/api/merlin/training-artifacts", "/api/ox"],
+                    "legacy_endpoints": ["/api/merlin/training-artifacts", "/api/ox/training-artifacts"],
                 },
                 health_checks=[
                     ExecutionSpineHealthCheck(

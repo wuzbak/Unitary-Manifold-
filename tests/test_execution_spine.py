@@ -106,6 +106,12 @@ def test_repo_rel_accepts_nonexistent_in_repo_path() -> None:
     assert rel == "tmp/not-yet-created.json"
 
 
+def test_repo_rel_sanitizes_relative_escape() -> None:
+    repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
+    rel = repo_rel("../secrets.txt", repo_root)
+    assert rel == "NON_REPO_PATH::secrets.txt"
+
+
 def test_quantum_run_artifact_contains_execution_spine(tmp_path: Path) -> None:
     model = build_fermi_hubbard_1d(n_sites=2, hopping_t=1.0, interaction_u=2.0)
     cfg = ExecutionConfig(total_time=0.1, trotter_steps=2)

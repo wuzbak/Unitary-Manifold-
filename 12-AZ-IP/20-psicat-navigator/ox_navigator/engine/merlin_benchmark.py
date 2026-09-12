@@ -1834,7 +1834,7 @@ def build_stage_a_artifact_bundle(
                     ],
                 ),
                 compatibility={
-                    "legacy_endpoints": ["/api/merlin/benchmark-artifacts", "/api/ox"],
+                    "legacy_endpoints": ["/api/merlin/benchmark-artifacts", "/api/ox/benchmark-artifacts"],
                     "primary_endpoint": "/api/psicat/benchmark-artifacts",
                 },
                 health_checks=[
