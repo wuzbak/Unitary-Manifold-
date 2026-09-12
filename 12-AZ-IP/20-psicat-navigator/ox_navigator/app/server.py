@@ -551,18 +551,19 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     },
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                 }
-                legacy_root_payload = {
-                    'service': status_payload['service'],
-                    'internal_persona_name': status_payload['internal_persona_name'],
-                    'steward_persona_alias': status_payload['steward_persona_alias'],
-                    'psicat_available': status_payload['psicat_available'],
-                    'merlin_available': status_payload['merlin_available'],
-                    'live_model_available': status_payload['live_model_available'],
-                    'openrouter_compat_enabled': status_payload['openrouter_compat_enabled'],
-                    'rebrand_label': status_payload['rebrand_label'],
-                    'model': status_payload['model'],
-                    'context_pack_exists': status_payload['context_pack_exists'],
-                }
+                legacy_root_allowlist = (
+                    'service',
+                    'internal_persona_name',
+                    'steward_persona_alias',
+                    'psicat_available',
+                    'merlin_available',
+                    'live_model_available',
+                    'openrouter_compat_enabled',
+                    'rebrand_label',
+                    'model',
+                    'context_pack_exists',
+                )
+                legacy_root_payload = {key: status_payload[key] for key in legacy_root_allowlist}
                 if route_path == '/api/ox':
                     self._json(legacy_root_payload)
                 elif route_path == '/api/ox/status':
