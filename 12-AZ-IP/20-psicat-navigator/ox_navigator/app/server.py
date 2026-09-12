@@ -496,26 +496,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._handshake_state = "challenge_issued"
         with merlin_lock:
             if route_path in ('/api/psicat', '/api/psicat/', '/api/psicat/status', '/api/ox', '/api/ox/', '/api/ox/status'):
-                if parsed.path == '/api/ox/status':
-                    self._json({
-                    'ox_available': bool(os.environ.get('OPENROUTER_API_KEY')),
-                    'model': MODEL_ID,
-                    'context_pack_exists': CONTEXT_PACK.exists(),
-                    'api_base': 'local',
-                    'psicat_available': True,
-                    'merlin_available': True,
-                    'service': 'Compatibility shim over Merlin Product 20',
-                    'openrouter_compat_enabled': bool(os.environ.get('MERLIN_ENABLE_OPENROUTER_COMPAT')),
-                    'rebrand_label': 'REBRAND-2026-09-PSICAT',
-                    'session_contract': {
-                        'persistence': 'process_local_memory',
-                        'signed_cookie_resume_scope': 'same_process_only',
-                        'expired_cookie_behavior': 'new_session_id_issued',
-                        'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
-                    },
-                    })
-                else:
-                    self._json({
+                status_payload = {
                     'service': 'PsiCat — the Quantum Cat',
                     'internal_persona_name': 'Merlin',
                     'steward_persona_alias': 'Merlin',
@@ -555,7 +536,16 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         },
                     },
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
+                }
+                if parsed.path == '/api/ox/status':
+                    self._json({
+                        **status_payload,
+                        'service': 'Compatibility shim over Merlin Product 20',
+                        'ox_available': bool(os.environ.get('OPENROUTER_API_KEY')),
+                        'api_base': 'local',
                     })
+                else:
+                    self._json(status_payload)
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/program':
