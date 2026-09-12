@@ -156,7 +156,7 @@ This manuscript is the companion successor to the original Merlin first address,
 
 **Former files:** `book33_credit-lineage-commissioned-report.md`, `book33_appendix_a_repository-credit-map.md`, `book33_appendix_b_external-lineage-bibliography.md`
 
-**Current canonical sources:** `PROVENANCE.md`, `7-OUTREACH/substack/posts/post-140-the-credit-lineage-ledger.md`, `7-OUTREACH/substack/posts/post-140-companion-bibliography-credit-lineage-ledger.md`, `9-INFRASTRUCTURE/provenance/`
+**Current canonical sources:** `PROVENANCE.md`, `9-INFRASTRUCTURE/provenance/`, and the current credit-lineage posts preserved in `7-OUTREACH/substack/posts/`
 
 ---
 
