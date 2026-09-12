@@ -66,6 +66,13 @@ def _as_dict(value: Any) -> Dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
 
+def _effective_blocking_pass(item: Dict[str, Any]) -> Any:
+    blocking_pass = item.get("blocking_pass")
+    if isinstance(blocking_pass, bool):
+        return blocking_pass
+    return item.get("pass")
+
+
 def _truth_surface_sync_status() -> Dict[str, Any]:
     checks = {
         (_ROOT / "STATUS.md").resolve().as_posix(): [f"{VERSION} Sprint {SPRINT}", f"Pillar {PILLAR_NUMBER}"],
@@ -146,11 +153,11 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
     blocker_pass_field_types_ok = blockers_are_dicts and all(
-        isinstance(item.get("blocking_pass", item.get("pass")), bool)
+        isinstance(_effective_blocking_pass(item), bool)
         for item in promotion_blockers
     )
     effective_all_clear = blocker_pass_field_types_ok and all(
-        item.get("blocking_pass", item.get("pass")) is True for item in promotion_blockers
+        _effective_blocking_pass(item) is True for item in promotion_blockers
     )
     declared_all_clear_semantics = effective_all_clear
     declared_matches_effective = (

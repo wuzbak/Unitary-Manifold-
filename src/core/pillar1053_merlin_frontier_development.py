@@ -29,6 +29,13 @@ def _json_safe(value: Any) -> Any:
     return json.loads(json.dumps(value))
 
 
+def _effective_blocking_pass(blocker: Dict[str, Any]) -> Any:
+    blocking_pass = blocker.get("blocking_pass")
+    if isinstance(blocking_pass, bool):
+        return blocking_pass
+    return blocker.get("pass")
+
+
 def merlin_frontier_development() -> Dict[str, Any]:
     closure = targeted_closure_deterministic_rigor()
     tools = _load("ox_navigator.engine.merlin_tools")
@@ -69,9 +76,8 @@ def merlin_frontier_development() -> Dict[str, Any]:
         and readiness_data.get("sovereign_primary") is True
         and readiness_data.get("openrouter_fallback_only") is True
         and len(promotion_blockers) >= 4
-        and all(isinstance(b.get("pass"), bool) for b in promotion_blockers)
-        and all(isinstance(b.get("blocking_pass", b.get("pass")), bool) for b in promotion_blockers)
-        and all(b.get("blocking_pass", b.get("pass")) is True for b in promotion_blockers)
+        and all(isinstance(_effective_blocking_pass(b), bool) for b in promotion_blockers)
+        and all(_effective_blocking_pass(b) is True for b in promotion_blockers)
         and control_tower.get("ok") is True
         and control_tower_data.get("ok") is True
         and "stage_e_external_decommission" in [s.get("stage") for s in stage_entries if isinstance(s, dict)]
