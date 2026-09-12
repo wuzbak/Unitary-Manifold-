@@ -107,8 +107,8 @@ That is not a final answer to AI existential risk. It is something better than a
 It is a beginning that knows it is a beginning.
 
 *Repository: `wuzbak/Unitary-Manifold-`*  
-*Stable repository anchors for this article: `LICENSE`, `DUAL_USE_NOTICE.md`, `SEPARATION.md`, `5-GOVERNANCE/STEWARDSHIP.md`, `PROVENANCE.md`, `STATUS.md`*  
-*For the live regression record and current branch caveats, see `STATUS.md`.*
+*Stable repository anchors for this article: [`LICENSE`](../../../LICENSE), [`DUAL_USE_NOTICE.md`](../../../DUAL_USE_NOTICE.md), [`SEPARATION.md`](../../../SEPARATION.md), [`5-GOVERNANCE/STEWARDSHIP.md`](../../../5-GOVERNANCE/STEWARDSHIP.md), [`PROVENANCE.md`](../../../PROVENANCE.md), [`STATUS.md`](../../../STATUS.md)*  
+*For the live regression record and current branch caveats, see [`STATUS.md`](../../../STATUS.md).*  
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
