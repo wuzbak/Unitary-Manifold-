@@ -63,6 +63,24 @@ def test_execution_spine_record_from_dict_uses_default_timestamp_when_missing() 
     assert restored.generated_at_utc is not None
 
 
+def test_execution_spine_record_from_dict_rejects_unknown_schema() -> None:
+    try:
+        ExecutionSpineRecord.from_dict(
+            {
+                "schema_version": "um_execution_spine_v999",
+                "surface_id": "surface-2",
+                "surface_kind": "artifact",
+                "lane": "psicat_control_plane",
+                "status": "READY",
+                "summary": "Bad schema payload.",
+            }
+        )
+    except ValueError as exc:
+        assert "Unsupported execution spine schema version" in str(exc)
+    else:  # pragma: no cover
+        raise AssertionError("Expected ValueError for unsupported schema version.")
+
+
 def test_execution_spine_record_from_dict_accepts_health_check_objects() -> None:
     check = ExecutionSpineHealthCheck(
         check_id="mixed-object",

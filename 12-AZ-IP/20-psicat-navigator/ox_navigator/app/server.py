@@ -124,9 +124,6 @@ _OBSERVATORY_INTERVAL_SECONDS = max(60.0, float(os.environ.get("MERLIN_OBSERVATO
 _OBSERVATORY_FAILURE_RETRY_SECONDS = max(10.0, float(os.environ.get("MERLIN_OBSERVATORY_FAILURE_RETRY_SECONDS", "60") or 60.0))
 _OBSERVATORY_LAST_RESULT: dict[str, object] = {"ok": True, "records": [], "ruptures": [], "fail_closed": False, "sources": []}
 _OBSERVATORY_POLL_IN_PROGRESS = False
-_PSICAT_COMPAT_ROUTE_ALIASES: dict[str, str] = {}
-
-
 def _sign_session_id(session_id: str) -> str:
     signature = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
     return f'{session_id}.{signature}'
@@ -195,7 +192,7 @@ def _normalize_psicat_compat_route(path: str) -> str:
         return normalized
     if normalized.startswith('/api/ox/'):
         return '/api/psicat' + normalized[len('/api/ox'):]
-    return _PSICAT_COMPAT_ROUTE_ALIASES.get(normalized, normalized)
+    return normalized
 
 
 def _secure_cookie_required(host: str) -> bool:

@@ -203,8 +203,14 @@ class ExecutionSpineRecord:
 
     @classmethod
     def from_dict(cls, payload: dict[str, Any]) -> "ExecutionSpineRecord":
+        schema_version = str(payload.get("schema_version", EXECUTION_SPINE_SCHEMA_VERSION))
+        if schema_version != EXECUTION_SPINE_SCHEMA_VERSION:
+            raise ValueError(
+                f"Unsupported execution spine schema version: {schema_version!r}; "
+                f"expected {EXECUTION_SPINE_SCHEMA_VERSION!r}."
+            )
         kwargs: dict[str, Any] = {
-            "schema_version": str(payload.get("schema_version", EXECUTION_SPINE_SCHEMA_VERSION)),
+            "schema_version": schema_version,
             "surface_id": str(payload.get("surface_id", "")),
             "surface_kind": str(payload.get("surface_kind", "")),
             "lane": str(payload.get("lane", "")),
