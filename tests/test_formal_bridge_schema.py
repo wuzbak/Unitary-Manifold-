@@ -147,3 +147,18 @@ def test_duplicate_certificate_override_is_rejected() -> None:
             row_id="ACTION_TO_EVOLUTION_BOUNDARY",
             proof_class="LEAN_UNCONDITIONAL",
         )
+
+
+def test_custom_row_override_uses_proof_class_allowlist() -> None:
+    override = validate_certificate_requirements_override(
+        [{"id": "EXACT_IDENTITY"}],
+        row_id="CUSTOM_ROW",
+        proof_class="LEAN_UNCONDITIONAL",
+    )
+    assert override == [
+        {
+            "id": "EXACT_IDENTITY",
+            "summary": "Exact symbolic or algebraic identity with no floating-point dependence.",
+            "promotion_eligible": True,
+        }
+    ]

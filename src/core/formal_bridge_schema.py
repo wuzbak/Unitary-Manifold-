@@ -241,7 +241,11 @@ def validate_certificate_requirements_override(
     allowed_ids = {
         item["id"] for item in certificate_types_for_proof_class(proof_class)
     }
-    row_allowed_ids = set(_ROW_CERTIFICATE_REQUIREMENTS.get(row_id, []))
+    row_allowed_ids = (
+        set(_ROW_CERTIFICATE_REQUIREMENTS[row_id])
+        if row_id in _ROW_CERTIFICATE_REQUIREMENTS
+        else set(allowed_ids)
+    )
     result = []
     seen_ids: set[str] = set()
     for item in requirements:
