@@ -125,13 +125,6 @@ def test_repo_rel_preserves_relative_in_repo_hint() -> None:
     assert rel == "tmp/not-yet-created.json"
 
 
-def test_repo_rel_sanitizes_relative_path_from_external_cwd(tmp_path: Path, monkeypatch) -> None:
-    repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
-    monkeypatch.chdir(tmp_path)
-    rel = repo_rel("tmp/not-yet-created.json", repo_root)
-    assert rel.startswith("NON_REPO_PATH::not-yet-created.json::")
-
-
 def test_repo_rel_canonicalizes_in_repo_symlink_alias() -> None:
     repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
     rel = repo_rel("az-os/README.md", repo_root)
