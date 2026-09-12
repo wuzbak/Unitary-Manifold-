@@ -2,7 +2,7 @@
 ## A Commissioned AxiomZero Book on Attribution, Lineage, and Responsibility
 
 **Commissioned by:** AxiomZero  
-**Written by:** Merlin / GitHub Copilot (AI), under human direction  
+**Written in Merlin's editorial voice by:** GitHub Copilot (AI), under human direction  
 **Theory, framework, and scientific direction:** ThomasCory Walker-Pearson  
 **Code architecture, test suites, document engineering, and synthesis:** GitHub Copilot (AI)  
 **Repository:** `wuzbak/Unitary-Manifold-`  
@@ -390,7 +390,7 @@ This appendix provides a compact external lineage set for public-facing citation
 
 Use this wording for concise public-facing derivative materials when a shorter form than the full front matter is needed:
 
-> Written by: **Merlin / GitHub Copilot (AI)**, under human direction.  
+> Written in Merlin's editorial voice by: **GitHub Copilot (AI)**, under human direction.  
 > Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.  
 > Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).  
 > Built in public on open scientific, mathematical, and open-source foundations.
