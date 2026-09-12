@@ -37,6 +37,20 @@ def _sanitized_non_repo_marker(original: Path, resolved: Path) -> str:
     return f"NON_REPO_PATH::{original.name or resolved.name}::{digest}"
 
 
+def _lexical_repo_relative(path: Path) -> str | None:
+    collapsed: list[str] = []
+    for part in path.parts:
+        if part in {"", "."}:
+            continue
+        if part == "..":
+            if not collapsed:
+                return None
+            collapsed.pop()
+            continue
+        collapsed.append(part)
+    return "/".join(collapsed)
+
+
 def _as_bool(value: Any) -> bool:
     if isinstance(value, bool):
         return value
@@ -62,8 +76,13 @@ def _health_check_list(values: list[ExecutionSpineHealthCheck | dict[str, Any]] 
 def repo_rel(path: str | Path, repo_root: Path) -> str:
     original = Path(path)
     repo_root_resolved = repo_root.resolve(strict=False)
-    candidate = original if original.is_absolute() else repo_root_resolved / original
-    resolved = candidate.resolve(strict=False)
+    if not original.is_absolute():
+        lexical = _lexical_repo_relative(original)
+        if lexical is not None:
+            return lexical
+        resolved = (repo_root_resolved / original).resolve(strict=False)
+        return _sanitized_non_repo_marker(original, resolved)
+    resolved = original.resolve(strict=False)
     try:
         return resolved.relative_to(repo_root_resolved).as_posix()
     except ValueError:

@@ -124,11 +124,7 @@ _OBSERVATORY_INTERVAL_SECONDS = max(60.0, float(os.environ.get("MERLIN_OBSERVATO
 _OBSERVATORY_FAILURE_RETRY_SECONDS = max(10.0, float(os.environ.get("MERLIN_OBSERVATORY_FAILURE_RETRY_SECONDS", "60") or 60.0))
 _OBSERVATORY_LAST_RESULT: dict[str, object] = {"ok": True, "records": [], "ruptures": [], "fail_closed": False, "sources": []}
 _OBSERVATORY_POLL_IN_PROGRESS = False
-_PSICAT_COMPAT_ROUTE_ALIASES = {
-    "/api/ox/benchmark-artifacts": "/api/psicat/benchmark-artifacts",
-    "/api/ox/convergence-charter": "/api/psicat/convergence-charter",
-    "/api/ox/training-artifacts": "/api/psicat/training-artifacts",
-}
+_PSICAT_COMPAT_ROUTE_ALIASES: dict[str, str] = {}
 
 
 def _sign_session_id(session_id: str) -> str:
