@@ -14,6 +14,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict
 
+from src.core.merlin_blocker_utils import effective_blocking_pass
 from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 from src.core.pillar1082_foundation_first_photon_action_audit import (
     foundation_first_photon_action_audit,
@@ -64,13 +65,6 @@ def _json_safe(value: Any) -> Any:
 
 def _as_dict(value: Any) -> Dict[str, Any]:
     return value if isinstance(value, dict) else {}
-
-
-def _effective_blocking_pass(item: Dict[str, Any]) -> Any:
-    blocking_pass = item.get("blocking_pass")
-    if isinstance(blocking_pass, bool):
-        return blocking_pass
-    return item.get("pass")
 
 
 def _truth_surface_sync_status() -> Dict[str, Any]:
@@ -153,11 +147,11 @@ def sprint_cj_parallel_orchestration() -> Dict[str, Any]:
     promotion_blockers_declared = isinstance(raw_promotion_blockers, list)
     blockers_are_dicts = all(isinstance(item, dict) for item in promotion_blockers)
     blocker_pass_field_types_ok = blockers_are_dicts and all(
-        isinstance(_effective_blocking_pass(item), bool)
+        isinstance(effective_blocking_pass(item), bool)
         for item in promotion_blockers
     )
     effective_all_clear = blocker_pass_field_types_ok and all(
-        _effective_blocking_pass(item) is True for item in promotion_blockers
+        effective_blocking_pass(item) is True for item in promotion_blockers
     )
     declared_all_clear_semantics = effective_all_clear
     declared_matches_effective = (
