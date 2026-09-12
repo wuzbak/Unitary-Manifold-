@@ -562,14 +562,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
                     'api_base': 'local',
                 }
+                legacy_status_payload = {
+                    **legacy_root_payload,
+                    'router_policy': status_payload['router_policy'],
+                    'memory_profile_token': status_payload['memory_profile_token'],
+                    'session_contract': status_payload['session_contract'],
+                    'compatibility': status_payload['compatibility'],
+                }
                 if route_path == '/api/ox':
                     self._json(legacy_root_payload)
                 elif route_path == '/api/ox/status':
-                    self._json({
-                        **status_payload,
-                        'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
-                        'api_base': 'local',
-                    })
+                    self._json(legacy_status_payload)
                 else:
                     self._json(status_payload)
                 self._persist_session(session_id, merlin_session)

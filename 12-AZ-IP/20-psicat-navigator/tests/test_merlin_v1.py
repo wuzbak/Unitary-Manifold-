@@ -3340,6 +3340,19 @@ def test_server_ox_legacy_status_contract():
             legacy_status = client.get('/api/ox/status')
             assert legacy_status.status_code == 200
             status_payload = legacy_status.json()
+            assert set(status_payload) == {
+                'service',
+                'internal_persona_name',
+                'steward_persona_alias',
+                'psicat_available',
+                'merlin_available',
+                'ox_available',
+                'api_base',
+                'router_policy',
+                'memory_profile_token',
+                'session_contract',
+                'compatibility',
+            }
             assert status_payload['psicat_available'] is True
             assert status_payload['merlin_available'] is True
             assert status_payload['ox_available'] is True

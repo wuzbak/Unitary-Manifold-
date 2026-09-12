@@ -32,28 +32,74 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt pytest
+          pip install -r requirements.txt pytest pytest-xdist
+          pip install pytest-cov sympy mpmath
       - name: Install dependencies (macOS z3-safe)
         if: matrix.os == 'macos-14'
         run: |
           python -m pip install --upgrade pip
           grep -v "^z3-solver" requirements.txt | pip install -r /dev/stdin
+          pip install pytest pytest-xdist
+          pip install pytest-cov sympy mpmath
           pip install "z3-solver>=4.12.0" --only-binary :all: || echo "z3-solver binary wheel unavailable on macOS runner; continuing (optional integration)"
-      - name: Run smoke tests (high-signal, budget-safe)
+      - name: Run smoke tests and compactified preflight
         run: |
           python3 -m pytest \
             tests/test_metric.py \
             tests/test_check_large_files.py \
-            tests/test_hf_spaces_canary.py::test_main_reports_failure_and_nonzero_exit \
+            tests/test_hf_spaces_canary.py::test_main_aggregates_failures_and_returns_nonzero \
             claims/integer_derivation/test_claim.py \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_detect_persona_mode_storyteller \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_merlin_session_trims_to_max_history \
+            12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_merlin_endpoints \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_merlin_compat_routes_do_not_rewrite_prefix_matches \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_ox_legacy_status_contract \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_ox_compat_rejects_invalid_prefix_routes \
             -q --tb=short
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite compactified-preflight
           python3 -m pytest recycling/tests/test_recycling.py -q --tb=short
           python3 -m pytest "5-GOVERNANCE/Unitary Pentad/test_unitary_pentad.py" -q --tb=short
+  suite-collection-smoke:
+    name: Suite collection smoke (ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install collection dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest pytest-cov sympy mpmath
+      - name: Collect major suites for import/collection regressions
+        run: |
+          python3 -m pytest tests/ --collect-only -q
+          python3 -m pytest recycling/ --collect-only -q
+          python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" --collect-only -q
+
+  push-full-regression:
+    name: Push full regression (main)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest pytest-xdist
+      - name: Run full regression
+        run: python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 
   ci-gate:
     name: CI gate
@@ -61,19 +107,33 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - platform-smoke
+      - suite-collection-smoke
+      - push-full-regression
     permissions:
       contents: read
     steps:
       - name: Evaluate CI smoke outcome
         env:
           PLATFORM_SMOKE_RESULT: ${{ needs.platform-smoke.result }}
+          SUITE_COLLECTION_SMOKE_RESULT: ${{ needs.suite-collection-smoke.result }}
+          PUSH_FULL_REGRESSION_RESULT: ${{ needs.push-full-regression.result }}
         run: |
           set -euo pipefail
           echo "platform-smoke: ${PLATFORM_SMOKE_RESULT}"
+          echo "suite-collection-smoke: ${SUITE_COLLECTION_SMOKE_RESULT}"
+          echo "push-full-regression: ${PUSH_FULL_REGRESSION_RESULT}"
           {
             echo "## CI smoke result"
             echo "- platform-smoke: ${PLATFORM_SMOKE_RESULT}"
+            echo "- suite-collection-smoke: ${SUITE_COLLECTION_SMOKE_RESULT}"
+            echo "- push-full-regression: ${PUSH_FULL_REGRESSION_RESULT}"
           } >> "${GITHUB_STEP_SUMMARY}"
           if [ "${PLATFORM_SMOKE_RESULT}" != "success" ]; then
+            exit 1
+          fi
+          if [ "${SUITE_COLLECTION_SMOKE_RESULT}" != "success" ]; then
+            exit 1
+          fi
+          if [ "${PUSH_FULL_REGRESSION_RESULT}" != "success" ] && [ "${PUSH_FULL_REGRESSION_RESULT}" != "skipped" ]; then
             exit 1
           fi
