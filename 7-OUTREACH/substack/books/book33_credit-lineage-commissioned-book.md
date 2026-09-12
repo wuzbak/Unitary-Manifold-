@@ -279,7 +279,7 @@ It says, instead, that serious work should tell the truth about how it was made.
 
 This appendix identifies the main in-repository surfaces a reader can inspect to verify scope, lineage, and role partition.
 
-All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifold-`. Each entry also includes a direct GitHub audit link for convenience.
+All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifold-`. Each entry also includes a direct GitHub audit link for convenience. Those links intentionally target the moving default branch so readers can inspect the current canonical repository structure alongside the stable path labels listed here.
 
 ### A.1 Identity, Scope, and Citation Anchors
 
