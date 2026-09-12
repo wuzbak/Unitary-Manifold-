@@ -191,7 +191,7 @@ def _normalize_psicat_compat_route(path: str) -> str:
     normalized = path if path == '/' else path.rstrip('/')
     if normalized == '/api/merlin' or normalized.startswith('/api/merlin/'):
         return '/api/psicat' + normalized[len('/api/merlin'):]
-    if normalized in {'/api/ox', '/api/ox/status'}:
+    if normalized == '/api/ox':
         return normalized
     if normalized.startswith('/api/ox/'):
         return '/api/psicat' + normalized[len('/api/ox'):]
@@ -1382,26 +1382,6 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 domain=str(params.get('domain', [''])[0] or '') or None,
                 tool=str(params.get('tool', [''])[0] or '') or None,
                 ))
-                self._persist_session(session_id, merlin_session)
-                return
-            if parsed.path == '/api/ox/status':
-                self._json({
-                'ox_available': bool(os.environ.get('OPENROUTER_API_KEY')),
-                'model': MODEL_ID,
-                'context_pack_exists': CONTEXT_PACK.exists(),
-                'api_base': 'local',
-                'psicat_available': True,
-                'merlin_available': True,
-                'service': 'Compatibility shim over Merlin Product 20',
-                'openrouter_compat_enabled': bool(os.environ.get('MERLIN_ENABLE_OPENROUTER_COMPAT')),
-                'rebrand_label': 'REBRAND-2026-09-PSICAT',
-                'session_contract': {
-                    'persistence': 'process_local_memory',
-                    'signed_cookie_resume_scope': 'same_process_only',
-                    'expired_cookie_behavior': 'new_session_id_issued',
-                    'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
-                },
-                })
                 self._persist_session(session_id, merlin_session)
                 return
         if parsed.path in ('', '/'):

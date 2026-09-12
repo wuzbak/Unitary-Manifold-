@@ -88,11 +88,12 @@ def repo_rel(path: str | Path, repo_root: Path) -> str:
     original = Path(path)
     repo_root_resolved = repo_root.resolve(strict=False)
     if not original.is_absolute():
-        lexical = _lexical_repo_relative(original)
-        if lexical is not None:
-            return _canonicalize_repo_relative(lexical, repo_root_resolved)
         resolved = (repo_root_resolved / original).resolve(strict=False)
-        return _sanitized_non_repo_marker(original, resolved)
+        try:
+            lexical = resolved.relative_to(repo_root_resolved).as_posix()
+            return _canonicalize_repo_relative(lexical, repo_root_resolved)
+        except ValueError:
+            return _sanitized_non_repo_marker(original, resolved)
     resolved = original.resolve(strict=False)
     try:
         lexical = resolved.relative_to(repo_root_resolved).as_posix()

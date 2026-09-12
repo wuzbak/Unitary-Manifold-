@@ -83,6 +83,9 @@ def test_server_convergence_charter_endpoint() -> None:
             ]
             ox = client.get("/api/ox/convergence-charter")
             assert ox.status_code == 200
+            ox_status = client.get("/api/ox/status")
+            assert ox_status.status_code == 200
+            assert ox_status.json()["service"] == "PsiCat — the Quantum Cat"
             ox_benchmark = client.get("/api/ox/benchmark-artifacts?limit=1")
             assert ox_benchmark.status_code == 200
             ox_training = client.get("/api/ox/training-artifacts?limit=1")
