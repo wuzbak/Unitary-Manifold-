@@ -113,12 +113,6 @@ def repo_rel(path: str | Path, repo_root: Path) -> str:
             if repo_candidate.exists() or repo_candidate.is_symlink():
                 return _canonicalize_repo_relative(lexical, repo_root_resolved)
         return _sanitized_non_repo_marker(original, resolved_from_cwd)
-    try:
-        lexical_original = _lexical_repo_relative(original.relative_to(repo_root_resolved))
-    except ValueError:
-        lexical_original = None
-    if lexical_original is not None:
-        return _canonicalize_repo_relative(lexical_original, repo_root_resolved)
     resolved = original.resolve(strict=False)
     try:
         return resolved.relative_to(repo_root_resolved).as_posix()
