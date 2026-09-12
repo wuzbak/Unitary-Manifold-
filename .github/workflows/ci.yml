@@ -44,6 +44,9 @@ jobs:
           python3 -m pytest \
             tests/test_metric.py \
             tests/test_check_large_files.py \
+            claims/integer_derivation/test_claim.py \
+            12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_detect_persona_mode_storyteller \
+            12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_merlin_session_trims_to_max_history \
             -q --tb=short
           python3 -m pytest recycling/ -k "TestPolymerBondPhi and test_at_minimum" -q --tb=short
           python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" -k "TestConstants and test_braided_sound_speed_value" -q --tb=short
