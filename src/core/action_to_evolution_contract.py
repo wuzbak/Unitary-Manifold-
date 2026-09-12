@@ -191,6 +191,5 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
 __all__ = [
     "PRIMARY_DELIVERABLE_IDS",
     "SECONDARY_SUPPORT_ONLY_IDS",
-    "_action_to_evolution_retirement_units",
     "action_to_evolution_deliverable_contract",
 ]
