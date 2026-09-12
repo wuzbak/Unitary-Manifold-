@@ -182,4 +182,6 @@ def test_main_reports_failure_and_nonzero_exit(monkeypatch, capsys) -> None:
     captured = capsys.readouterr()
 
     assert exit_code == 1
+    assert "https://example.invalid/a -> 200" in captured.out
+    assert "https://example.invalid/b -> HTTP 500" in captured.out
     assert "HF CANARY FAILED" in captured.out
