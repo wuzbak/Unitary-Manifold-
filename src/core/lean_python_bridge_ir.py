@@ -14,6 +14,8 @@ from src.core.formal_bridge_schema import (
     build_normalization_contract,
     certificate_requirements_for_row,
     certificate_types_for_proof_class,
+    validate_certificate_requirements_override,
+    validate_normalization_contract_override,
 )
 
 _BACKEND_COMPARISON: list[dict[str, str]] = [
@@ -88,12 +90,18 @@ def build_formal_unit_ir(
         proof_class = str(row.get("epistemic_class") or "")
         lane_id = str(row.get("lane_id") or "")
         normalization_contract = (
-            dict(row["normalization_contract"])
+            validate_normalization_contract_override(
+                row["normalization_contract"],
+                proof_class=proof_class,
+            )
             if "normalization_contract" in row and row.get("normalization_contract") is not None
             else build_normalization_contract(row)
         )
         certificate_requirements = (
-            list(row["certificate_requirements"])
+            validate_certificate_requirements_override(
+                row["certificate_requirements"],
+                proof_class=proof_class,
+            )
             if "certificate_requirements" in row and row.get("certificate_requirements") is not None
             else certificate_requirements_for_row(row)
         )

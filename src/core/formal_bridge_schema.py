@@ -182,6 +182,50 @@ def build_normalization_contract(row: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+def validate_normalization_contract_override(
+    override: Dict[str, Any],
+    *,
+    proof_class: str,
+) -> Dict[str, Any]:
+    """Validate an explicit normalization override against the canonical schema."""
+    if not isinstance(override, dict):
+        raise TypeError("normalization_contract override must be a dict")
+    field_registry = list(override.get("field_registry") or [])
+    known_fields = {item["field"] for item in CANONICAL_NORMALIZATION_FIELDS}
+    override_fields = {str(item.get("field") or "") for item in field_registry if isinstance(item, dict)}
+    if override_fields and not override_fields <= known_fields:
+        unknown = sorted(override_fields - known_fields)
+        raise ValueError(f"Unknown normalization fields: {unknown}")
+    override_class = override.get("allowed_epistemic_class")
+    if override_class is not None and str(override_class) != proof_class:
+        raise ValueError("normalization_contract override changes the row proof class")
+    return dict(override)
+
+
+def validate_certificate_requirements_override(
+    requirements: List[Dict[str, Any]],
+    *,
+    proof_class: str,
+) -> List[Dict[str, Any]]:
+    """Validate an explicit row-specific certificate override."""
+    if not isinstance(requirements, list):
+        raise TypeError("certificate_requirements override must be a list")
+    allowed_ids = {
+        item["id"] for item in certificate_types_for_proof_class(proof_class)
+    }
+    result = []
+    for item in requirements:
+        if not isinstance(item, dict):
+            raise TypeError("certificate_requirements override entries must be dicts")
+        item_id = str(item.get("id") or "")
+        if item_id not in allowed_ids:
+            raise ValueError(
+                f"Certificate requirement {item_id or '<missing>'} is not allowed for proof class {proof_class}"
+            )
+        result.append(dict(item))
+    return result
+
+
 __all__ = [
     "BRIDGE_ARCHITECTURE_LAYERS",
     "CANONICAL_NORMALIZATION_FIELDS",
@@ -190,4 +234,6 @@ __all__ = [
     "build_normalization_contract",
     "certificate_requirements_for_row",
     "certificate_types_for_proof_class",
+    "validate_certificate_requirements_override",
+    "validate_normalization_contract_override",
 ]

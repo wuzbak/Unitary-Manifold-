@@ -12,6 +12,8 @@ from src.core.formal_bridge_schema import (
     build_normalization_contract,
     certificate_requirements_for_row,
     certificate_types_for_proof_class,
+    validate_certificate_requirements_override,
+    validate_normalization_contract_override,
 )
 
 
@@ -92,3 +94,13 @@ def test_unmapped_row_gets_no_invented_certificate_requirements() -> None:
         }
     ) == []
     assert certificate_requirements_for_row({"id": "UNMAPPED_WITHOUT_CLASS"}) == []
+
+
+def test_override_validators_enforce_schema() -> None:
+    assert validate_normalization_contract_override({}, proof_class="LEAN_UNCONDITIONAL") == {}
+    assert validate_certificate_requirements_override([], proof_class="LEAN_UNCONDITIONAL") == []
+    with pytest.raises(ValueError, match="not allowed for proof class"):
+        validate_certificate_requirements_override(
+            [{"id": "EXTERNAL_OBSERVATION_DEPENDENCY"}],
+            proof_class="LEAN_UNCONDITIONAL",
+        )
