@@ -134,6 +134,7 @@ def certificate_types_for_proof_class(epistemic_class: str) -> List[Dict[str, An
         ]
     else:
         ids = [
+            "EXACT_IDENTITY",
             "INTERVAL_CERTIFIED_BOUND",
             "MONOTONICITY_CERTIFICATE",
             "RESIDUAL_CERTIFICATE",

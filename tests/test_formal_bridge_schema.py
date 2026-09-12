@@ -47,7 +47,7 @@ def test_certificate_requirements_follow_proof_class_and_row() -> None:
     unconditional = certificate_types_for_proof_class("LEAN_UNCONDITIONAL")
     executable = certificate_types_for_proof_class("EXECUTABLE_PYTHON_VALIDATION")
     assert any(item["id"] == "EXACT_IDENTITY" for item in unconditional)
-    assert all(item["id"] != "EXACT_IDENTITY" for item in executable)
+    assert any(item["id"] == "EXACT_IDENTITY" for item in executable)
 
     action_row = {
         "id": "ACTION_TO_EVOLUTION_BOUNDARY",
@@ -55,6 +55,7 @@ def test_certificate_requirements_follow_proof_class_and_row() -> None:
     }
     requirements = certificate_requirements_for_row(action_row)
     assert [item["id"] for item in requirements] == [
+        "EXACT_IDENTITY",
         "RESIDUAL_CERTIFICATE",
         "TRUNCATION_DISCRETIZATION_CERTIFICATE",
     ]
