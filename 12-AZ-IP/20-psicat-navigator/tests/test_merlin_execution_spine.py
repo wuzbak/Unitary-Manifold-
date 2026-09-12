@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
+# SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
-from ox_navigator.app.server import serve
+from ox_navigator.app.server import _normalize_psicat_compat_route, serve
 from ox_navigator.engine.merlin_benchmark import build_stage_a_artifact_bundle
 from ox_navigator.engine.merlin_program import (
     build_training_artifact_bundle,
@@ -55,6 +55,10 @@ def test_convergence_charter_surface_and_artifacts() -> None:
     )
     execution_board = get_merlin_execution_board()
     assert execution_board["execution_spine"]["promotion"]["eligible"] is False
+
+
+def test_route_normalization_ignores_non_compat_prefixes() -> None:
+    assert _normalize_psicat_compat_route("/api/merlinx") == "/api/merlinx"
 
 
 def test_server_convergence_charter_endpoint() -> None:

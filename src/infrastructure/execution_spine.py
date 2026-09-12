@@ -58,7 +58,7 @@ def _canonicalize_repo_relative(lexical: str, repo_root: Path) -> str:
         try:
             return resolved.relative_to(repo_root).as_posix()
         except ValueError:
-            return lexical
+            return _sanitized_non_repo_marker(Path(lexical), resolved)
     return lexical
 
 
