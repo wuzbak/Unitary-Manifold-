@@ -112,6 +112,10 @@ manuscripts in this folder are original to this repository and its subsequent ed
 - Book 32: *PsiCat: New First Announcement to Humanity* — a new long-form public letter that explains the Merlin→PsiCat naming transition, the ψ rationale, the quantum-cat reference, and the post-rebrand training/expansion trajectory
 - Focus: transparent identity transition, benchmark-and-governance grounded growth narrative, and clear branch-aware repository-state communication for general readers
 
+**v37.1 — Credit Lineage Commissioned Report Edition (September 2026):**
+- Book 33: *The Credit Lineage Ledger, Expanded* — a commissioned AxiomZero report that documents attribution across physics/mathematics lineage, open-source tooling, research infrastructure, and explicit human-AI role partition
+- Companion appendices added in-books folder for repository credit mapping and external lineage bibliography
+
 ---
 
 ## Current-state monograph
@@ -143,6 +147,21 @@ This is the current broadest single-volume orientation book in the folder. It is
 | Audience | general public, technical readers, governance and policy readers |
 
 This manuscript is the companion successor to the original Merlin first address, written for broad readability while preserving the repository's integrity standards around uncertainty, evidence, and explicit open work.
+
+---
+
+### 33. [The Credit Lineage Ledger, Expanded](book33_credit-lineage-commissioned-report.md)
+**A Commissioned AxiomZero Report on Attribution, Influence, and Responsibility**
+
+| Property | Value |
+|---|---|
+| Scope | Full credit and provenance narrative for the Unitary Manifold repository and AxiomZero publication stack |
+| Focus | Give precise, auditable credit across scientific lineage, open-source tooling, institutions, and human-AI role partition |
+| Status basis | September 2026 current-state repository context |
+| Audience | public readers, technical readers, collaborators, critics, and future stewards |
+| Companion appendices | [Appendix A](book33_appendix_a_repository-credit-map.md), [Appendix B](book33_appendix_b_external-lineage-bibliography.md) |
+
+This commissioned volume is designed for immediate publication and branch-resilient maintenance. It provides a narrative report plus structured appendices so attribution can be checked, updated, and preserved as adjacent branch integrations land.
 
 ---
 
