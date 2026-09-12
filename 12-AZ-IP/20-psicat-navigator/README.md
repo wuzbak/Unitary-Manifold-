@@ -22,7 +22,7 @@
 ## Start here (short → deep)
 
 1. [`PSICAT_SMART_ROADMAP.md`](./PSICAT_SMART_ROADMAP.md) (one-page plan)
-2. [`../../../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../../../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md) (canonical convergence charter and completion map)
+2. [`../../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md) (canonical convergence charter and completion map)
 3. [`PSICAT_EXECUTION_BOARD.md`](./PSICAT_EXECUTION_BOARD.md) (immediate tasks + blockers + Sprint CL blunt board)
 4. [`PSICAT_VALIDATION_RESILIENCE_PACKET.md`](./PSICAT_VALIDATION_RESILIENCE_PACKET.md) (repo-size mitigation + CodeQL scope-reduction doctrine)
 5. [`PSICAT_FRONTIER_ROADMAP.md`](./PSICAT_FRONTIER_ROADMAP.md) (full execution roadmap)

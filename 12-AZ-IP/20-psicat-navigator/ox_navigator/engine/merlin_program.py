@@ -109,50 +109,50 @@ def _markdown_title(path: Path, *, fallback: str) -> str:
         text = path.read_text(encoding="utf-8")
     except OSError:
         return fallback
-
-
-def _spine_record(
-        *,
-        surface_id: str,
-        surface_kind: str,
-        lane: str,
-        status: str,
-        summary: str,
-        canonical_paths: list[str],
-        sources: list[str],
-        epistemic_label: str,
-        promotion_rule: str,
-        compatibility: dict[str, Any] | None = None,
-        health_checks: list[ExecutionSpineHealthCheck] | None = None,
-        promotion: dict[str, Any] | None = None,
-        optional_backend: bool = False,
-        compatibility_only: bool = False,
-        residual_blockers: list[str] | None = None,
-) -> dict[str, Any]:
-        return ExecutionSpineRecord(
-            surface_id=surface_id,
-            surface_kind=surface_kind,
-            lane=lane,
-            status=status,
-            summary=summary,
-            canonical_paths=canonical_paths,
-            sources=sources,
-            governance=build_fail_closed_governance(
-                epistemic_label=epistemic_label,
-                promotion_rule=promotion_rule,
-                optional_backend=optional_backend,
-                compatibility_only=compatibility_only,
-                residual_blockers=residual_blockers,
-            ),
-            compatibility=dict(compatibility or {}),
-            health_checks=list(health_checks or []),
-            promotion=dict(promotion or {}),
-        ).to_dict()
     for pattern in (r"^#\s+(.+)$", r"^##\s+(.+)$"):
         match = re.search(pattern, text, flags=re.MULTILINE)
         if match:
             return str(match.group(1)).strip()
     return fallback
+
+
+def _spine_record(
+    *,
+    surface_id: str,
+    surface_kind: str,
+    lane: str,
+    status: str,
+    summary: str,
+    canonical_paths: list[str],
+    sources: list[str],
+    epistemic_label: str,
+    promotion_rule: str,
+    compatibility: dict[str, Any] | None = None,
+    health_checks: list[ExecutionSpineHealthCheck] | None = None,
+    promotion: dict[str, Any] | None = None,
+    optional_backend: bool = False,
+    compatibility_only: bool = False,
+    residual_blockers: list[str] | None = None,
+) -> dict[str, Any]:
+    return ExecutionSpineRecord(
+        surface_id=surface_id,
+        surface_kind=surface_kind,
+        lane=lane,
+        status=status,
+        summary=summary,
+        canonical_paths=canonical_paths,
+        sources=sources,
+        governance=build_fail_closed_governance(
+            epistemic_label=epistemic_label,
+            promotion_rule=promotion_rule,
+            optional_backend=optional_backend,
+            compatibility_only=compatibility_only,
+            residual_blockers=residual_blockers,
+        ),
+        compatibility=dict(compatibility or {}),
+        health_checks=list(health_checks or []),
+        promotion=dict(promotion or {}),
+    ).to_dict()
 
 
 def _safe_int(value: Any) -> int | None:
