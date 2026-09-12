@@ -3376,6 +3376,7 @@ def test_run_sync_checks_has_consistency_contract():
         '/api/psicat/local-execution/run',
         '/api/psicat/spc-phase0-packet',
     }.issubset(runtime_endpoints)
+    assert '/api/psicat/convergence-charter' not in runtime_endpoints
     assert checks['parity_dimensions']['engine_module_parity'] is True
     assert checks['parity_dimensions']['training_export_script_parity'] is True
     assert checks['parity_dimensions']['toolkit_function_parity'] is True
