@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 31335.00547567739,
-        "samples_per_second": 70.6539018617303,
+        "tokens_per_second": 30844.663907918075,
+        "samples_per_second": 69.54828389609487,
         "gpu_utilization_percent": 90.0,
         "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 10.794,
-        "step_time_p95_ms": 17.513,
-        "vram_peak_gb": 0.29663848876953125,
+        "step_time_p50_ms": 10.459,
+        "step_time_p95_ms": 18.298,
+        "vram_peak_gb": 0.2973747253417969,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 33841.80591373159,
-        "samples_per_second": 74.89313597343413,
+        "tokens_per_second": 33312.237020551525,
+        "samples_per_second": 73.72118092986057,
         "gpu_utilization_percent": 92.5,
         "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 9.930480000000001,
-        "step_time_p95_ms": 16.111960000000003,
-        "vram_peak_gb": 0.3085040283203125,
+        "step_time_p50_ms": 9.62228,
+        "step_time_p95_ms": 16.83416,
+        "vram_peak_gb": 0.30926971435546874,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 37902.82262337938,
-        "samples_per_second": 82.38244957077755,
+        "tokens_per_second": 37309.705463017715,
+        "samples_per_second": 81.09329902284662,
         "gpu_utilization_percent": 95.0,
         "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 9.036736800000002,
-        "step_time_p95_ms": 14.661883600000003,
-        "vram_peak_gb": 0.3177591491699219,
+        "step_time_p50_ms": 8.7562748,
+        "step_time_p95_ms": 15.319085600000001,
+        "vram_peak_gb": 0.3185478057861328,
         "cost_per_accepted_sample": 0.0
       }
     }

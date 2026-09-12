@@ -54,9 +54,9 @@ def _health_check_list(values: list[ExecutionSpineHealthCheck | dict[str, Any]] 
 
 def repo_rel(path: str | Path, repo_root: Path) -> str:
     original = Path(path)
-    resolved = original.resolve()
+    resolved = original.resolve(strict=False)
     try:
-        return resolved.relative_to(repo_root.resolve()).as_posix()
+        return resolved.relative_to(repo_root.resolve(strict=False)).as_posix()
     except ValueError:
         return original.as_posix() if not original.is_absolute() else f"NON_REPO_PATH::{original.name}"
 
