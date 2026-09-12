@@ -4493,8 +4493,8 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
     compatibility_only = [
         "10-UM-SOS",
         "11-AZ-OS",
-        "/api/merlin",
-        "/api/ox",
+        "/api/merlin/*",
+        "/api/ox*",
     ]
     phases = [
         {

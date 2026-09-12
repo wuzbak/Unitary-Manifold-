@@ -152,8 +152,14 @@ def save_bridge_artifact(artifact: XDiagBridgeArtifact, output_dir: str) -> Path
         lane="lane_e_quantum_adjacent",
         status="ADJACENT_BRIDGE_ARTIFACT",
         summary="UM↔XDiag adjacent bridge artifact with explicit optional-backend and provenance boundaries.",
-        canonical_paths=[repo_rel(Path(__file__), REPO_ROOT)],
-        sources=[repo_rel(Path(__file__), REPO_ROOT)],
+        canonical_paths=[
+            repo_rel(Path(__file__), REPO_ROOT),
+            repo_rel(Path(__file__).resolve().with_name("contract.py"), REPO_ROOT),
+        ],
+        sources=[
+            repo_rel(Path(__file__), REPO_ROOT),
+            repo_rel(Path(__file__).resolve().with_name("contract.py"), REPO_ROOT),
+        ],
         governance=build_fail_closed_governance(
             epistemic_label="ADJACENT_TRACK",
             promotion_rule="Bridge artifacts remain benchmark and interoperability evidence, not hardgate closure.",
