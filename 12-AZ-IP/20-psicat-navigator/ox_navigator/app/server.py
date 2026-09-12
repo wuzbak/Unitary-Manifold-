@@ -492,10 +492,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         profile_hint = self._profile_hint(params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
         self._handshake_state = "not_issued"
+        self._handshake_challenge = None
+        self._handshake_receipt = None
         if (
             route_path.startswith('/api/psicat')
             or _is_merlin_compat_route(parsed.path)
-            or route_path in {'/api/ox', '/api/ox/status'}
+            or route_path == '/api/ox'
         ):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"

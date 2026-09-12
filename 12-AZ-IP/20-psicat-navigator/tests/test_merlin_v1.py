@@ -3254,6 +3254,7 @@ def test_server_merlin_endpoints():
             assert legacy_status.json()['psicat_available'] is True
             assert legacy_status.json()['ox_available'] is True
             assert legacy_status.json()['api_base'] == 'local'
+            assert legacy_status.headers.get('X-Merlin-Handshake-Challenge') is None
 
             legacy_status_with_query = client.get('/api/ox/status?view=full')
             assert legacy_status_with_query.status_code == 200
