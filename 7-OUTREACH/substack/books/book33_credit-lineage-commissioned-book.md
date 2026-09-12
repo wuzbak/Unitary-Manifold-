@@ -310,7 +310,7 @@ All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifo
 
 ### A.4 Governance and Co-Emergence Anchors
 
-1. [`5-GOVERNANCE/Unitary Pentad/README.md`](../../../5-GOVERNANCE/Unitary%20Pentad/README.md)  
+1. [`5-GOVERNANCE/Unitary Pentad/README.md`](../../../5-GOVERNANCE/Unitary Pentad/README.md)  
 2. [`5-GOVERNANCE/co-emergence/README.md`](../../../5-GOVERNANCE/co-emergence/README.md)  
 3. [`CONTRIBUTING.md`](../../../CONTRIBUTING.md)  
 4. [`SECURITY.md`](../../../SECURITY.md)  
@@ -391,7 +391,10 @@ This appendix provides a compact external lineage set for public-facing citation
 
 ### B.6 Suggested Attribution Language
 
-For derivative materials, use the same credit wording that appears in this book's front matter. If a shorter form is necessary for space, preserve the exact theory line and the exact code-architecture line without rewriting their wording.
+Minimum credit block for derivative materials:
+
+> Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.  
+> Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).
 
 ---
 
