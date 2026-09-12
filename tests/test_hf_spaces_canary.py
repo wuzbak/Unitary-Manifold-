@@ -155,3 +155,15 @@ def test_http_exception_fails_in_strict_mode(monkeypatch) -> None:
     ok, message = canary.check_url(canary.TARGETS[0])
     assert ok is False
     assert "transport error" in message
+
+
+def test_unexpected_transport_exception_hard_fails(monkeypatch) -> None:
+    monkeypatch.delenv(canary.STRICT_ENV, raising=False)
+
+    def _raise(request, timeout=12):
+        raise OSError("unexpected local io failure")
+
+    monkeypatch.setattr(canary, "urlopen", _raise)
+    ok, message = canary.check_url(canary.TARGETS[0])
+    assert ok is False
+    assert "transport error" in message
