@@ -218,7 +218,7 @@ Credit is not only about praise. It is also about accountability.
 
 If future readers, critics, or maintainers need to understand why a claim was made, why a lane was downgraded, why a document was rewritten, or why a public explanation changed tone, they need a visible responsibility map. Without that map, error analysis becomes folklore.
 
-This matters especially in a live repository. Branches merge. books are rewritten. indices change. status surfaces advance. new tools appear. The more dynamic the environment, the more important it becomes to preserve a stable answer to the question of who is responsible for theory, who is responsible for implementation synthesis, and what inherited systems the whole structure still depends upon.
+This matters especially in a live repository. Branches merge. Books are rewritten. Indices change. Status surfaces advance. New tools appear. The more dynamic the environment, the more important it becomes to preserve a stable answer to the question of who is responsible for theory, who is responsible for implementation synthesis, and what inherited systems the whole structure still depends upon.
 
 That is what stewardship requires: not merely preserving files, but preserving intelligible responsibility.
 
