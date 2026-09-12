@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+import hashlib
 from pathlib import Path
 from typing import Any
 
@@ -28,6 +29,12 @@ def _string_list(values: list[str] | tuple[str, ...] | None) -> list[str]:
 
 def _json_dict(data: dict[str, Any] | None) -> dict[str, Any]:
     return dict(data or {})
+
+
+def _sanitized_non_repo_marker(original: Path, resolved: Path) -> str:
+    raw = original.as_posix() if not original.is_absolute() else resolved.as_posix()
+    digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12]
+    return f"NON_REPO_PATH::{original.name or resolved.name}::{digest}"
 
 
 def _as_bool(value: Any) -> bool:
@@ -60,7 +67,7 @@ def repo_rel(path: str | Path, repo_root: Path) -> str:
     try:
         return resolved.relative_to(repo_root_resolved).as_posix()
     except ValueError:
-        return f"NON_REPO_PATH::{resolved.name or original.name}"
+        return _sanitized_non_repo_marker(original, resolved)
 
 
 @dataclass(frozen=True)

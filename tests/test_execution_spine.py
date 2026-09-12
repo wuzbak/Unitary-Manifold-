@@ -97,7 +97,7 @@ def test_execution_spine_health_check_parses_boolean_strings() -> None:
 
 def test_repo_rel_avoids_absolute_non_repo_leak() -> None:
     rel = repo_rel("/tmp/external-file.json", Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-"))
-    assert rel == "NON_REPO_PATH::external-file.json"
+    assert rel.startswith("NON_REPO_PATH::external-file.json::")
 
 
 def test_repo_rel_accepts_nonexistent_in_repo_path() -> None:
@@ -109,7 +109,14 @@ def test_repo_rel_accepts_nonexistent_in_repo_path() -> None:
 def test_repo_rel_sanitizes_relative_escape() -> None:
     repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
     rel = repo_rel("../secrets.txt", repo_root)
-    assert rel == "NON_REPO_PATH::secrets.txt"
+    assert rel.startswith("NON_REPO_PATH::secrets.txt::")
+
+
+def test_repo_rel_distinguishes_non_repo_collisions() -> None:
+    repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
+    left = repo_rel("/tmp/a/config.json", repo_root)
+    right = repo_rel("/var/log/config.json", repo_root)
+    assert left != right
 
 
 def test_repo_rel_preserves_relative_in_repo_hint() -> None:

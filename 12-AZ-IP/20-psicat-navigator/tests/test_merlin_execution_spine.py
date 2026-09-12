@@ -18,12 +18,17 @@ if str(PRODUCT_ROOT) not in sys.path:
 
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_benchmark import build_stage_a_artifact_bundle
-from ox_navigator.engine.merlin_program import build_training_artifact_bundle, get_psicat_convergence_charter
+from ox_navigator.engine.merlin_program import (
+    build_training_artifact_bundle,
+    get_merlin_execution_board,
+    get_psicat_convergence_charter,
+)
 
 
 def test_convergence_charter_surface_and_artifacts() -> None:
     charter = get_psicat_convergence_charter()
     assert charter["execution_spine"]["surface_id"] == "psicat_convergence_charter"
+    assert charter["execution_spine"]["promotion"]["eligible"] is False
     assert charter["completion_maps"]["primary_targets"][0] == "12-AZ-IP/20-psicat-navigator"
 
     stage_a = build_stage_a_artifact_bundle(limit=1)
@@ -48,6 +53,8 @@ def test_convergence_charter_surface_and_artifacts() -> None:
     assert training["artifact_bundle"]["convergence_charter"]["document_path"] == (
         "9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md"
     )
+    execution_board = get_merlin_execution_board()
+    assert execution_board["execution_spine"]["promotion"]["eligible"] is False
 
 
 def test_server_convergence_charter_endpoint() -> None:

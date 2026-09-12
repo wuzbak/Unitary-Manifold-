@@ -4576,9 +4576,9 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
                 ),
             ],
             promotion={
-                "eligible": True,
+                "eligible": False,
                 "gate": "execution_program_only",
-                "reason": "The charter is the governing plan for execution convergence work in this PR.",
+                "reason": "The charter governs execution convergence work but is not capability evidence or a promotion receipt.",
             },
             residual_blockers=[
                 "Legacy consumers still need phased convergence onto shared artifact and status surfaces.",
@@ -4658,9 +4658,9 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 ),
             ],
             promotion={
-                "eligible": True,
+                "eligible": False,
                 "gate": "operating_board",
-                "reason": "The execution board is an active operating surface for the approved convergence program.",
+                "reason": "The execution board is an operating surface and blocker ledger, not a promotion receipt.",
             },
             residual_blockers=[
                 "Hosted review and CodeQL coverage can still remain environment-dependent.",
