@@ -8,9 +8,9 @@ on:
 
 jobs:
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 1: Fast test suite (tests/ — excludes @pytest.mark.slow)
+  # Job 1: Compactified preflight for early proof/frontier signal
   # ──────────────────────────────────────────────────────────────────────────
-  test:
+  test-compactified-preflight:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,11 +23,52 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
-      - name: Run pytest (fast suite — tests/)
-        run: python -m pytest tests/ -v
+      - name: Run compactified preflight
+        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite compactified-preflight
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 2: Slow test suite (tests/ -m slow — Richardson extrapolation etc.)
+  # Job 2: Fast test suite (tests/ — excludes @pytest.mark.slow) in shards
+  # ──────────────────────────────────────────────────────────────────────────
+  test-fast-batched:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        batch-index: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest pytest-xdist
+      - name: Run pytest (fast suite shard ${{ matrix.batch-index }})
+        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite tests-fast --batch-count 4 --batch-index ${{ matrix.batch-index }}
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 3: Supervisor gate for batched fast-suite coverage
+  # ──────────────────────────────────────────────────────────────────────────
+  test-fast-supervisor:
+    runs-on: ubuntu-latest
+    needs: test-fast-batched
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify batched fast-suite coverage
+        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite supervisor-check --batch-count 4 --emit-json
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 4: Slow test suite (tests/ -m slow — Richardson extrapolation etc.)
   # ──────────────────────────────────────────────────────────────────────────
   test-slow:
     runs-on: ubuntu-latest
@@ -43,10 +84,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (slow suite — tests/ -m slow)
-        run: python -m pytest tests/ -m slow -v
+        run: python -m pytest tests/ -m slow -q
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 3: Claims verification (claims/ — integer derivation, birefringence, etc.)
+  # Job 5: Claims verification (claims/ — integer derivation, birefringence, etc.)
   # ──────────────────────────────────────────────────────────────────────────
   test-claims:
     runs-on: ubuntu-latest
@@ -62,10 +103,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (claims/)
-        run: python -m pytest claims/ -v
+        run: python -m pytest claims/ -q
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 4: Recycling suite (recycling/ — Pillar 16 φ-debt entropy accounting)
+  # Job 6: Recycling suite (recycling/ — Pillar 16 φ-debt entropy accounting)
   # ──────────────────────────────────────────────────────────────────────────
   test-recycling:
     runs-on: ubuntu-latest
@@ -79,10 +120,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (recycling/)
-        run: python -m pytest recycling/ -v
+        run: python -m pytest recycling/ -q
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 5: Unitary Pentad suite (Unitary Pentad/ — HILS governance framework)
+  # Job 7: Unitary Pentad suite (Unitary Pentad/ — HILS governance framework)
   # ──────────────────────────────────────────────────────────────────────────
   test-pentad:
     runs-on: ubuntu-latest
@@ -96,10 +137,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (Unitary Pentad/)
-        run: python -m pytest "5-GOVERNANCE/Unitary Pentad/" -v
+        run: python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 6: ALGEBRA_PROOF.py — 114-check formal falsification proof
+  # Job 8: ALGEBRA_PROOF.py — 114-check formal falsification proof
   # ──────────────────────────────────────────────────────────────────────────
   algebra-proof:
     runs-on: ubuntu-latest
@@ -116,7 +157,7 @@ jobs:
         run: python3 ALGEBRA_PROOF.py
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 7: Canonical ledger + onboarding docs consistency gate
+  # Job 9: Canonical ledger + onboarding docs consistency gate
   # Ensures no doc drifts away from the canonical test count in STATUS.md.
   # ──────────────────────────────────────────────────────────────────────────
   ledger-consistency:
