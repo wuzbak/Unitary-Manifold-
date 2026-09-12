@@ -3251,6 +3251,11 @@ def test_server_merlin_endpoints():
             assert legacy_root.json()['api_base'] == 'local'
             assert 'router_policy' not in legacy_root.json()
             assert legacy_root.headers.get('X-Merlin-Handshake-Challenge') is None
+            assert 'memory_profile_token' not in legacy_root.json()
+            assert 'session_contract' not in legacy_root.json()
+            assert 'live_status' not in legacy_root.json()
+            assert 'memory' not in legacy_root.json()
+            assert 'telemetry' not in legacy_root.json()
 
             legacy_status = client.get('/api/ox/status')
             assert legacy_status.status_code == 200
@@ -3260,6 +3265,21 @@ def test_server_merlin_endpoints():
             assert legacy_status.json()['api_base'] == 'local'
             assert 'router_policy' in legacy_status.json()
             assert legacy_status.headers.get('X-Merlin-Handshake-Challenge') is None
+            legacy_status_with_query = client.get('/api/ox/status?view=full')
+            assert legacy_status_with_query.status_code == 200
+            assert legacy_status_with_query.json()['ox_available'] is True
+            assert legacy_status_with_query.json()['api_base'] == 'local'
+            assert legacy_status_with_query.headers.get('X-Merlin-Handshake-Challenge') is None
+            assert 'memory_profile_token' in legacy_status_with_query.json()
+
+            legacy_status_with_slash = client.get('/api/ox/status/')
+            assert legacy_status_with_slash.status_code == 200
+            assert legacy_status_with_slash.json()['ox_available'] is True
+            assert legacy_status_with_slash.headers.get('X-Merlin-Handshake-Challenge') is None
+
+            legacy_memory = client.get('/api/ox/memory')
+            assert legacy_memory.status_code == 200
+            assert legacy_memory.headers.get('X-Merlin-Handshake-Challenge')
     finally:
         httpd.shutdown()
         httpd.server_close()
@@ -3286,6 +3306,9 @@ def test_server_merlin_compat_routes_do_not_rewrite_prefix_matches():
             bad_ox_post = client.post('/api/oxx', json={})
             assert bad_ox_post.status_code == 404
             assert bad_ox_post.json() == {'error': 'Not found'}
+            bad_ox = client.get('/api/oxx')
+            assert bad_ox.status_code == 404
+            assert bad_ox.headers.get('X-Merlin-Handshake-Challenge') is None
     finally:
         httpd.shutdown()
         httpd.server_close()
@@ -3322,7 +3345,20 @@ def test_server_ox_legacy_status_contract():
             assert status_payload['ox_available'] is True
             assert status_payload['api_base'] == 'local'
             assert 'router_policy' in status_payload
+            assert 'memory_profile_token' in status_payload
+            assert 'session_contract' in status_payload
             assert legacy_status.headers.get('X-Merlin-Handshake-Challenge') is None
+
+            legacy_status_with_query = client.get('/api/ox/status?view=full')
+            assert legacy_status_with_query.status_code == 200
+            assert legacy_status_with_query.json()['ox_available'] is True
+            assert legacy_status_with_query.json()['api_base'] == 'local'
+            assert 'memory_profile_token' in legacy_status_with_query.json()
+
+            legacy_status_with_slash = client.get('/api/ox/status/')
+            assert legacy_status_with_slash.status_code == 200
+            assert legacy_status_with_slash.json()['ox_available'] is True
+            assert legacy_status_with_slash.headers.get('X-Merlin-Handshake-Challenge') is None
     finally:
         httpd.shutdown()
         httpd.server_close()
@@ -3336,6 +3372,10 @@ def test_server_ox_compat_rejects_invalid_prefix_routes():
     try:
         port = httpd.server_address[1]
         with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+            bad_ox = client.get('/api/oxx')
+            assert bad_ox.status_code == 404
+            assert bad_ox.headers.get('X-Merlin-Handshake-Challenge') is None
+
             bad_ox_get = client.get('/api/oxx/status')
             assert bad_ox_get.status_code == 404
 

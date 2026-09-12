@@ -22,6 +22,8 @@ def test_program_identity() -> None:
     assert report["program"] == PROGRAM_ID
     assert report["counts"]["lane_count"] == 2
     assert report["counts"]["proof_class_count"] == 3
+    assert report["counts"]["bridge_architecture_layer_count"] == 4
+    assert report["counts"]["certificate_type_count"] == 6
     assert report["counts"]["curry_howard_row_count"] == len(CURRY_HOWARD_MATRIX)
     assert report["valid"] is True
 
@@ -53,6 +55,11 @@ def test_traceability_rows_link_real_files() -> None:
     assert any(row["lane_id"] == LANE_A_ID for row in rows)
     assert any(row["lane_id"] == LANE_B_ID for row in rows)
     assert all(row["paths_exist"] is True for row in rows)
+    action_row = next(row for row in rows if row["id"] == "ACTION_TO_EVOLUTION_BOUNDARY")
+    assert len(action_row["work_queue"]) == 7
+    assert action_row["no_float_promotion_rule"]["raw_floats_do_not_promote"] is True
+    assert action_row["normalization_contract"]["silent_aliasing_forbidden"] is True
+    assert any(item["id"] == "RESIDUAL_CERTIFICATE" for item in action_row["certificate_requirements"])
 
 
 def test_review_packets_cover_rows() -> None:
@@ -97,6 +104,8 @@ def test_python_lean_bridge_contract_present() -> None:
     assert contract["contract_id"] == "python_lean_hybrid_bridge_v1"
     assert contract["strategy"] == "LSP_PLUS_REPL_HYBRID"
     assert contract["counts"]["formal_unit_count"] == len(contract["formal_units"])
+    assert contract["counts"]["bridge_architecture_layer_count"] == 4
+    assert contract["counts"]["certificate_type_count"] == 6
     assert any(unit["unit_id"] == "ACTION_TO_EVOLUTION_BOUNDARY" for unit in contract["formal_units"])
 
 

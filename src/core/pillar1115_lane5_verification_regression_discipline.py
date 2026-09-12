@@ -10,6 +10,7 @@ from typing import Any, Dict
 
 from src.core.pillar1109_sprint_cr_master_charter import SPRINT, VERSION, build_truth_surface_sync_status
 from src.core.pillar1114_lane4_falsifier_tension_discipline import PILLAR_VALID as P1114_VALID
+from src.core.regression_supervision_plan import build_regression_supervision_plan
 
 PILLAR_NUMBER: int = 1115
 PILLAR_GATE: str = 'LANE5_VERIFICATION_REGRESSION_DISCIPLINE'
@@ -43,6 +44,7 @@ def lane5_verification_regression_discipline() -> Dict[str, Any]:
     test_presence = {path: (_ROOT / path).exists() for path in test_files}
 
     truth_sync = _truth_surface_sync_status()
+    regression_plan = build_regression_supervision_plan()
     valid = bool(P1114_VALID) and bool(truth_sync.get('all_pass')) and all(test_presence.values())
     return {
         'pillar': PILLAR_NUMBER,
@@ -59,6 +61,10 @@ def lane5_verification_regression_discipline() -> Dict[str, Any]:
         'verification_plan': {
             'targeted': 'python -m pytest tests/test_pillar1109_sprint_cr_master_charter.py tests/test_pillar1110_formal_burden_board.py tests/test_pillar1111_lane1_action_to_evolution_closure_attempt.py tests/test_pillar1112_lane2_lean4_deterministic_proof.py tests/test_pillar1113_lane3_python_lean_truth_equivalence.py tests/test_pillar1114_lane4_falsifier_tension_discipline.py tests/test_pillar1115_lane5_verification_regression_discipline.py tests/test_pillar1116_documentation_evidence_packet.py tests/test_pillar1117_sprint_cr_status_coherence_certificate.py tests/test_pillar1118_sprint_cr_master_integration_certificate.py -q',
             'full': "python3 -m pytest tests/ recycling/ '5-GOVERNANCE/Unitary Pentad/' -q",
+            'compactified_preflight': regression_plan['compactified_preflight'],
+            'supervised_fast_suite': regression_plan['supervised_fast_suite'],
+            'remaining_canonical_suites': regression_plan['remaining_canonical_suites'],
+            'supervision': regression_plan['supervision'],
             'lean_scope_reporting': 'Scoped vs full-build status must be reported explicitly with no proxy substitution.',
         },
         'test_surface_presence': test_presence,
