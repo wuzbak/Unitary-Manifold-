@@ -393,7 +393,11 @@ def _enrich_traceability_row(row: Dict[str, Any]) -> Dict[str, Any]:
             else certificate_requirements_for_row(row)
         ),
         no_float_promotion_rule=dict(NO_FLOAT_PROMOTION_POLICY),
-        work_queue=_row_work_queue(row),
+        work_queue=(
+            list(row["work_queue"])
+            if "work_queue" in row and row.get("work_queue") is not None
+            else _row_work_queue(row)
+        ),
     )
 
 

@@ -125,10 +125,12 @@ def test_row_enrichment_preserves_explicit_overrides() -> None:
         "lean_symbols": [],
         "normalization_contract": {"notes": "custom"},
         "certificate_requirements": [{"id": "EXACT_IDENTITY", "notes": "custom"}],
+        "work_queue": [{"claim_id": "CUSTOM_QUEUE"}],
     }
     enriched = _enrich_traceability_row(row)
     assert enriched["normalization_contract"]["notes"] == "custom"
     assert enriched["certificate_requirements"][0]["notes"] == "custom"
+    assert enriched["work_queue"] == [{"claim_id": "CUSTOM_QUEUE"}]
 
 
 def test_psicat_training_manifest_ready() -> None:
