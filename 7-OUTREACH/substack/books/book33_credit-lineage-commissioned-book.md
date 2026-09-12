@@ -21,11 +21,11 @@
 
 This book was commissioned because the earlier attempt was not yet a book.
 
-It is written in Merlin's established long-form editorial voice, but its attribution follows the repository's standard credit lines.
+It follows the repository's established long-form editorial standard, while its attribution follows the repository's standard credit lines.
 
 It had a sound subject and a necessary motive, but it still behaved too much like a report with detached support files. That structure missed something important. A serious work on credit cannot treat its appendices as stray satellites. The appendices are part of the architecture because attribution itself has two dimensions at once: narrative and audit. The reader needs the first to understand why credit matters, and the second to verify that the story is not merely flattering language.
 
-So this volume has been rebuilt as a proper book. It has a deliberate order. It has a table of contents. It has a sustained argument. It has a closing logic. And it carries its appendix materials, bibliography, and glossary inside the same manuscript where they belong.
+So this volume has been rebuilt as a proper book. It has a deliberate order. It has a table of contents. It has a sustained argument. It has a closing logic. And it carries its appendix materials, credit list, and glossary inside the same manuscript where they belong.
 
 The subject is straightforward: if the Unitary Manifold asks readers to take rigor seriously, then it must take provenance seriously too. That means naming the scientific inheritances, the institutional inheritances, the software inheritances, the governance inheritances, and the human-AI division of labor that turned those inheritances into a living repository.
 
@@ -64,7 +64,7 @@ Its narrower purpose is to answer a different question: **what does this work de
 - Chapter 14 — Attribution Errors to Avoid
 - Chapter 15 — Closing
 - Appendix A — Repository Credit Map and Attribution Matrix
-- Appendix B — External Lineage and Foundational Bibliography
+- Appendix B — External Lineage and Foundational Credit List
 - Glossary
 
 ---
@@ -279,62 +279,62 @@ It says, instead, that serious work should tell the truth about how it was made.
 
 This appendix identifies the main in-repository surfaces a reader can inspect to verify scope, lineage, and role partition.
 
-All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifold-`.
+All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifold-`. Each entry also includes a direct GitHub audit link for convenience.
 
 ### A.1 Identity, Scope, and Citation Anchors
 
-1. [`README.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/README.md)  
-2. [`CITATION.cff`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/CITATION.cff)  
-3. [`PROVENANCE.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/PROVENANCE.md)  
-4. [`AGENTS.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/AGENTS.md)  
-5. [`SEPARATION.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/SEPARATION.md)  
-6. [`FALLIBILITY.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md)  
-7. [`docs/navigation/REPOSITORY_MAP.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/navigation/REPOSITORY_MAP.md)
+1. `README.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/README.md)  
+2. `CITATION.cff` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/CITATION.cff)  
+3. `PROVENANCE.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/PROVENANCE.md)  
+4. `AGENTS.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/AGENTS.md)  
+5. `SEPARATION.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/SEPARATION.md)  
+6. `FALLIBILITY.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md)  
+7. `docs/navigation/REPOSITORY_MAP.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/navigation/REPOSITORY_MAP.md)
 
 ### A.2 Core Physics and Formal Structure Anchors
 
-1. [`1-THEORY/UNIFICATION_PROOF.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/1-THEORY/UNIFICATION_PROOF.md)  
-2. [`1-THEORY/QUANTUM_THEOREMS.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/1-THEORY/QUANTUM_THEOREMS.md)  
-3. [`proof/TIER_1_FORMAL.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/proof/TIER_1_FORMAL.md)  
-4. [`src/core/metric.py`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/core/metric.py)  
-5. [`src/core/evolution.py`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/core/evolution.py)  
-6. [`src/holography/boundary.py`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/holography/boundary.py)  
-7. [`src/multiverse/fixed_point.py`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/multiverse/fixed_point.py)
+1. `1-THEORY/UNIFICATION_PROOF.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/1-THEORY/UNIFICATION_PROOF.md)  
+2. `1-THEORY/QUANTUM_THEOREMS.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/1-THEORY/QUANTUM_THEOREMS.md)  
+3. `proof/TIER_1_FORMAL.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/proof/TIER_1_FORMAL.md)  
+4. `src/core/metric.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/core/metric.py)  
+5. `src/core/evolution.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/core/evolution.py)  
+6. `src/holography/boundary.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/holography/boundary.py)  
+7. `src/multiverse/fixed_point.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/multiverse/fixed_point.py)
 
 ### A.3 Falsification and Epistemic-Honesty Anchors
 
-1. [`3-FALSIFICATION/FALSIFICATION_CONDITIONS.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_CONDITIONS.md)  
-2. [`3-FALSIFICATION/FALSIFICATION_REGISTER.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_REGISTER.md)  
-3. [`3-FALSIFICATION/OBSERVATION_TRACKER.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/OBSERVATION_TRACKER.md)  
-4. [`docs/CLAIM_MASTER_BOARD.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/CLAIM_MASTER_BOARD.md)  
-5. [`docs/TRUTH_LAYER.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/TRUTH_LAYER.md)
+1. `3-FALSIFICATION/FALSIFICATION_CONDITIONS.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_CONDITIONS.md)  
+2. `3-FALSIFICATION/FALSIFICATION_REGISTER.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_REGISTER.md)  
+3. `3-FALSIFICATION/OBSERVATION_TRACKER.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/OBSERVATION_TRACKER.md)  
+4. `docs/CLAIM_MASTER_BOARD.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/CLAIM_MASTER_BOARD.md)  
+5. `docs/TRUTH_LAYER.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/TRUTH_LAYER.md)
 
 ### A.4 Governance and Co-Emergence Anchors
 
-1. [`5-GOVERNANCE/Unitary Pentad/README.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/Unitary%20Pentad/README.md)  
-2. [`5-GOVERNANCE/co-emergence/README.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/co-emergence/README.md)  
-3. [`CONTRIBUTING.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/CONTRIBUTING.md)  
-4. [`SECURITY.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/SECURITY.md)  
-5. [`5-GOVERNANCE/co-emergence/FRAMEWORK.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/co-emergence/FRAMEWORK.md)
+1. `5-GOVERNANCE/Unitary Pentad/README.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/Unitary%20Pentad/README.md)  
+2. `5-GOVERNANCE/co-emergence/README.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/co-emergence/README.md)  
+3. `CONTRIBUTING.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/CONTRIBUTING.md)  
+4. `SECURITY.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/SECURITY.md)  
+5. `5-GOVERNANCE/co-emergence/FRAMEWORK.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/co-emergence/FRAMEWORK.md)
 
 ### A.5 Toolchain and Provenance Infrastructure Anchors
 
-1. [`9-INFRASTRUCTURE/llms.txt`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/llms.txt)  
-2. [`9-INFRASTRUCTURE/schema.jsonld`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/schema.jsonld)  
-3. [`9-INFRASTRUCTURE/provenance/README.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/README.md)  
-4. [`9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md)  
-5. [`9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md)
+1. `9-INFRASTRUCTURE/llms.txt` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/llms.txt)  
+2. `9-INFRASTRUCTURE/schema.jsonld` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/schema.jsonld)  
+3. `9-INFRASTRUCTURE/provenance/README.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/README.md)  
+4. `9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md)  
+5. `9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md)
 
 ### A.6 Testing and Reproducibility Anchors
 
-1. [`tests/conftest.py`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/conftest.py)  
-2. [`tests/test_metric.py`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_metric.py)  
-3. [`tests/test_evolution.py`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_evolution.py)  
-4. [`tests/test_boundary.py`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_boundary.py)  
-5. [`tests/test_fixed_point.py`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_fixed_point.py)  
-6. [`docs/WAVE_CHANGELOG.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/WAVE_CHANGELOG.md)  
-7. [`docs/mas_tracker.yml`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/mas_tracker.yml)  
-8. [`STATUS.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md)
+1. `tests/conftest.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/conftest.py)  
+2. `tests/test_metric.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_metric.py)  
+3. `tests/test_evolution.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_evolution.py)  
+4. `tests/test_boundary.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_boundary.py)  
+5. `tests/test_fixed_point.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_fixed_point.py)  
+6. `docs/WAVE_CHANGELOG.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/WAVE_CHANGELOG.md)  
+7. `docs/mas_tracker.yml` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/mas_tracker.yml)  
+8. `STATUS.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md)
 
 ### A.7 Responsibility Matrix
 
@@ -350,9 +350,9 @@ When attribution boundaries materially change, update this appendix and the main
 
 ---
 
-## Appendix B — External Lineage and Foundational Bibliography
+## Appendix B — External Lineage and Foundational Credit List
 
-This appendix provides a compact external lineage set for public-facing citation and orientation.
+This appendix provides a compact external lineage and credit list for public-facing citation and orientation.
 
 ### B.1 Foundational Physics and Mathematical Lineage
 
