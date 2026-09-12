@@ -143,3 +143,15 @@ def test_http_exception_soft_passes_in_non_strict_mode(monkeypatch) -> None:
     ok, message = canary.check_url(canary.TARGETS[0])
     assert ok is True
     assert "transport error" in message
+
+
+def test_http_exception_fails_in_strict_mode(monkeypatch) -> None:
+    monkeypatch.setenv(canary.STRICT_ENV, "1")
+
+    def _raise(request, timeout=12):
+        raise http.client.RemoteDisconnected("remote end closed connection without response")
+
+    monkeypatch.setattr(canary, "urlopen", _raise)
+    ok, message = canary.check_url(canary.TARGETS[0])
+    assert ok is False
+    assert "transport error" in message
