@@ -492,6 +492,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):  # noqa: N802
         parsed = urlparse(self.path)
+        normalized_path = parsed.path if parsed.path == '/' else parsed.path.rstrip('/')
         route_path = _normalize_psicat_compat_route(parsed.path)
         params = parse_qs(parsed.query)
         profile_hint = self._profile_hint(params=params)
@@ -499,10 +500,11 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         self._handshake_state = "not_issued"
         self._handshake_challenge = None
         self._handshake_receipt = None
+        ox_root_or_status = normalized_path in {'/api/ox', '/api/ox/status'}
         if (
             route_path.startswith('/api/psicat')
             or _is_merlin_compat_route(parsed.path)
-            or (_is_ox_compat_route(parsed.path) and route_path not in {'/api/ox', '/api/ox/status'})
+            or (_is_ox_compat_route(parsed.path) and not ox_root_or_status)
         ):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
