@@ -547,7 +547,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({
                         **status_payload,
                         'service': 'Compatibility shim over Merlin Product 20',
-                        'ox_available': bool(os.environ.get('OPENROUTER_API_KEY')),
+                        'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
                         'api_base': 'local',
                     })
                 else:
