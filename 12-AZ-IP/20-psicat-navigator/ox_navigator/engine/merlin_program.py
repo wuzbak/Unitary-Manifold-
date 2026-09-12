@@ -4486,6 +4486,7 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
 
 
 def get_psicat_convergence_charter() -> dict[str, Any]:
+    charter_doc_exists = EXECUTION_SPINE_CHARTER_DOC.exists()
     primary_targets = [
         _repo_rel(PRODUCT_ROOT),
         "12-AZ-IP/24-psicat-web-browser",
@@ -4579,8 +4580,8 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
             health_checks=[
                 ExecutionSpineHealthCheck(
                     check_id="charter_doc_present",
-                    passed=EXECUTION_SPINE_CHARTER_DOC.exists(),
-                    status="pass" if EXECUTION_SPINE_CHARTER_DOC.exists() else "fail",
+                    passed=charter_doc_exists,
+                    status="pass" if charter_doc_exists else "fail",
                     summary="The canonical execution-spine charter document must exist in the repository.",
                     details={"document_path": _repo_rel(EXECUTION_SPINE_CHARTER_DOC)},
                     sources=[_repo_rel(EXECUTION_SPINE_CHARTER_DOC)],
