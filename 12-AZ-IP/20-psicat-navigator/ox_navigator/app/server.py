@@ -549,7 +549,14 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     },
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                 }
-                if route_path == '/api/ox/status':
+                legacy_root_payload = {
+                    key: value
+                    for key, value in status_payload.items()
+                    if key not in {'memory_profile_token', 'session_contract'}
+                }
+                if route_path == '/api/ox':
+                    self._json(legacy_root_payload)
+                elif route_path == '/api/ox/status':
                     self._json({
                         **status_payload,
                         'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),

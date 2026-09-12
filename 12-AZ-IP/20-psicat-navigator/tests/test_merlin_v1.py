@@ -3248,6 +3248,8 @@ def test_server_merlin_endpoints():
             assert legacy_root.json()['psicat_available'] is True
             assert 'ox_available' not in legacy_root.json()
             assert 'api_base' not in legacy_root.json()
+            assert 'memory_profile_token' not in legacy_root.json()
+            assert 'session_contract' not in legacy_root.json()
 
             legacy_status = client.get('/api/ox/status')
             assert legacy_status.status_code == 200
