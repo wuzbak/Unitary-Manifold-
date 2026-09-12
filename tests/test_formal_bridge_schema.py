@@ -162,3 +162,17 @@ def test_custom_row_override_uses_proof_class_allowlist() -> None:
             "promotion_eligible": True,
         }
     ]
+
+
+def test_blank_proof_class_only_allows_empty_custom_override() -> None:
+    assert validate_certificate_requirements_override(
+        [],
+        row_id="CUSTOM_ROW",
+        proof_class="",
+    ) == []
+    with pytest.raises(ValueError, match="needs a valid proof_class"):
+        validate_certificate_requirements_override(
+            [{"id": "EXACT_IDENTITY"}],
+            row_id="CUSTOM_ROW",
+            proof_class="",
+        )

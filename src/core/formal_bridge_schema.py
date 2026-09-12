@@ -238,6 +238,12 @@ def validate_certificate_requirements_override(
     """Validate an explicit row-specific certificate override."""
     if not isinstance(requirements, list):
         raise TypeError("certificate_requirements override must be a list")
+    if not str(proof_class).strip():
+        if not requirements and row_id not in _ROW_CERTIFICATE_REQUIREMENTS:
+            return []
+        raise ValueError(
+            f"Row {row_id or '<unknown>'} needs a valid proof_class before override certificate requirements can be resolved"
+        )
     allowed_ids = {
         item["id"] for item in certificate_types_for_proof_class(proof_class)
     }
