@@ -44,6 +44,7 @@ jobs:
           python3 -m pytest \
             tests/test_metric.py \
             tests/test_check_large_files.py \
+            tests/test_hf_spaces_canary.py::test_main_reports_failure_and_nonzero_exit \
             claims/integer_derivation/test_claim.py \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_detect_persona_mode_storyteller \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_merlin_session_trims_to_max_history \
