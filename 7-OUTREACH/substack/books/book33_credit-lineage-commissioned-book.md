@@ -279,62 +279,62 @@ It says, instead, that serious work should tell the truth about how it was made.
 
 This appendix identifies the main in-repository surfaces a reader can inspect to verify scope, lineage, and role partition.
 
-All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifold-`. Each entry also includes a direct GitHub audit link for convenience. GitHub convenience links below track the repository's `main` branch so readers can follow the current canonical files alongside the stable path labels listed here.
+All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifold-`. Each entry includes both a pinned GitHub audit link (fixed at `92d616e782ec84b372fa28abbf2c842815eeb36a` for reproducible verification of this manuscript snapshot) and a live `main` link for the current canonical file.
 
 ### A.1 Identity, Scope, and Citation Anchors
 
-1. `README.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/README.md)  
-2. `CITATION.cff` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/CITATION.cff)  
-3. `PROVENANCE.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/PROVENANCE.md)  
-4. `AGENTS.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/AGENTS.md)  
-5. `SEPARATION.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/SEPARATION.md)  
-6. `FALLIBILITY.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md)  
-7. `docs/navigation/REPOSITORY_MAP.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/navigation/REPOSITORY_MAP.md)
+1. `README.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/README.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/README.md)  
+2. `CITATION.cff` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/CITATION.cff) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/CITATION.cff)  
+3. `PROVENANCE.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/PROVENANCE.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/PROVENANCE.md)  
+4. `AGENTS.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/AGENTS.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/AGENTS.md)  
+5. `SEPARATION.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/SEPARATION.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/SEPARATION.md)  
+6. `FALLIBILITY.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/FALLIBILITY.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md)  
+7. `docs/navigation/REPOSITORY_MAP.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/docs/navigation/REPOSITORY_MAP.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/navigation/REPOSITORY_MAP.md)
 
 ### A.2 Core Physics and Formal Structure Anchors
 
-1. `1-THEORY/UNIFICATION_PROOF.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/1-THEORY/UNIFICATION_PROOF.md)  
-2. `1-THEORY/QUANTUM_THEOREMS.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/1-THEORY/QUANTUM_THEOREMS.md)  
-3. `proof/TIER_1_FORMAL.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/proof/TIER_1_FORMAL.md)  
-4. `src/core/metric.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/core/metric.py)  
-5. `src/core/evolution.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/core/evolution.py)  
-6. `src/holography/boundary.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/holography/boundary.py)  
-7. `src/multiverse/fixed_point.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/multiverse/fixed_point.py)
+1. `1-THEORY/UNIFICATION_PROOF.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/1-THEORY/UNIFICATION_PROOF.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/1-THEORY/UNIFICATION_PROOF.md)  
+2. `1-THEORY/QUANTUM_THEOREMS.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/1-THEORY/QUANTUM_THEOREMS.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/1-THEORY/QUANTUM_THEOREMS.md)  
+3. `proof/TIER_1_FORMAL.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/proof/TIER_1_FORMAL.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/proof/TIER_1_FORMAL.md)  
+4. `src/core/metric.py` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/src/core/metric.py) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/core/metric.py)  
+5. `src/core/evolution.py` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/src/core/evolution.py) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/core/evolution.py)  
+6. `src/holography/boundary.py` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/src/holography/boundary.py) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/holography/boundary.py)  
+7. `src/multiverse/fixed_point.py` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/src/multiverse/fixed_point.py) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/src/multiverse/fixed_point.py)
 
 ### A.3 Falsification and Epistemic-Honesty Anchors
 
-1. `3-FALSIFICATION/FALSIFICATION_CONDITIONS.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_CONDITIONS.md)  
-2. `3-FALSIFICATION/FALSIFICATION_REGISTER.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_REGISTER.md)  
-3. `3-FALSIFICATION/OBSERVATION_TRACKER.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/OBSERVATION_TRACKER.md)  
-4. `docs/CLAIM_MASTER_BOARD.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/CLAIM_MASTER_BOARD.md)  
-5. `docs/TRUTH_LAYER.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/TRUTH_LAYER.md)
+1. `3-FALSIFICATION/FALSIFICATION_CONDITIONS.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/3-FALSIFICATION/FALSIFICATION_CONDITIONS.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_CONDITIONS.md)  
+2. `3-FALSIFICATION/FALSIFICATION_REGISTER.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/3-FALSIFICATION/FALSIFICATION_REGISTER.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_REGISTER.md)  
+3. `3-FALSIFICATION/OBSERVATION_TRACKER.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/3-FALSIFICATION/OBSERVATION_TRACKER.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/OBSERVATION_TRACKER.md)  
+4. `docs/CLAIM_MASTER_BOARD.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/docs/CLAIM_MASTER_BOARD.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/CLAIM_MASTER_BOARD.md)  
+5. `docs/TRUTH_LAYER.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/docs/TRUTH_LAYER.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/TRUTH_LAYER.md)
 
 ### A.4 Governance and Co-Emergence Anchors
 
-1. `5-GOVERNANCE/Unitary Pentad/README.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/Unitary%20Pentad/README.md)  
-2. `5-GOVERNANCE/co-emergence/README.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/co-emergence/README.md)  
-3. `CONTRIBUTING.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/CONTRIBUTING.md)  
-4. `SECURITY.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/SECURITY.md)  
-5. `5-GOVERNANCE/co-emergence/FRAMEWORK.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/co-emergence/FRAMEWORK.md)
+1. `5-GOVERNANCE/Unitary Pentad/README.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/5-GOVERNANCE/Unitary%20Pentad/README.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/Unitary%20Pentad/README.md)  
+2. `5-GOVERNANCE/co-emergence/README.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/5-GOVERNANCE/co-emergence/README.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/co-emergence/README.md)  
+3. `CONTRIBUTING.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/CONTRIBUTING.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/CONTRIBUTING.md)  
+4. `SECURITY.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/SECURITY.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/SECURITY.md)  
+5. `5-GOVERNANCE/co-emergence/FRAMEWORK.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/5-GOVERNANCE/co-emergence/FRAMEWORK.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/5-GOVERNANCE/co-emergence/FRAMEWORK.md)
 
 ### A.5 Toolchain and Provenance Infrastructure Anchors
 
-1. `9-INFRASTRUCTURE/llms.txt` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/llms.txt)  
-2. `9-INFRASTRUCTURE/schema.jsonld` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/schema.jsonld)  
-3. `9-INFRASTRUCTURE/provenance/README.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/README.md)  
-4. `9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md)  
-5. `9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md)
+1. `9-INFRASTRUCTURE/llms.txt` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/9-INFRASTRUCTURE/llms.txt) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/llms.txt)  
+2. `9-INFRASTRUCTURE/schema.jsonld` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/9-INFRASTRUCTURE/schema.jsonld) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/schema.jsonld)  
+3. `9-INFRASTRUCTURE/provenance/README.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/9-INFRASTRUCTURE/provenance/README.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/README.md)  
+4. `9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md)  
+5. `9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md)
 
 ### A.6 Testing and Reproducibility Anchors
 
-1. `tests/conftest.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/conftest.py)  
-2. `tests/test_metric.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_metric.py)  
-3. `tests/test_evolution.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_evolution.py)  
-4. `tests/test_boundary.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_boundary.py)  
-5. `tests/test_fixed_point.py` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_fixed_point.py)  
-6. `docs/WAVE_CHANGELOG.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/WAVE_CHANGELOG.md)  
-7. `docs/mas_tracker.yml` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/mas_tracker.yml)  
-8. `STATUS.md` — [GitHub](https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md)
+1. `tests/conftest.py` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/tests/conftest.py) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/conftest.py)  
+2. `tests/test_metric.py` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/tests/test_metric.py) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_metric.py)  
+3. `tests/test_evolution.py` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/tests/test_evolution.py) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_evolution.py)  
+4. `tests/test_boundary.py` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/tests/test_boundary.py) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_boundary.py)  
+5. `tests/test_fixed_point.py` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/tests/test_fixed_point.py) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/tests/test_fixed_point.py)  
+6. `docs/WAVE_CHANGELOG.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/docs/WAVE_CHANGELOG.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/WAVE_CHANGELOG.md)  
+7. `docs/mas_tracker.yml` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/docs/mas_tracker.yml) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/mas_tracker.yml)  
+8. `STATUS.md` — [Pinned](https://github.com/wuzbak/Unitary-Manifold-/blob/92d616e782ec84b372fa28abbf2c842815eeb36a/STATUS.md) · [Main](https://github.com/wuzbak/Unitary-Manifold-/blob/main/STATUS.md)
 
 ### A.7 Responsibility Matrix
 
