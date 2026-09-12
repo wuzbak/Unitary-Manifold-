@@ -10,6 +10,7 @@ import hashlib
 import hmac
 import json
 import os
+import re
 import threading
 import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -124,6 +125,7 @@ _OBSERVATORY_INTERVAL_SECONDS = max(60.0, float(os.environ.get("MERLIN_OBSERVATO
 _OBSERVATORY_FAILURE_RETRY_SECONDS = max(10.0, float(os.environ.get("MERLIN_OBSERVATORY_FAILURE_RETRY_SECONDS", "60") or 60.0))
 _OBSERVATORY_LAST_RESULT: dict[str, object] = {"ok": True, "records": [], "ruptures": [], "fail_closed": False, "sources": []}
 _OBSERVATORY_POLL_IN_PROGRESS = False
+_OX_COMPAT_ROUTE_RE = re.compile(r"^/api/ox(?:/|$)")
 def _sign_session_id(session_id: str) -> str:
     signature = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
     return f'{session_id}.{signature}'
@@ -191,9 +193,7 @@ def _is_merlin_compat_route(path: str) -> bool:
 
 def _is_ox_compat_route(path: str) -> bool:
     normalized = path if path == '/' else path.rstrip('/')
-    if normalized in {'/api/ox', '/api/ox/status'}:
-        return True
-    return normalized.startswith('/api/ox/')
+    return bool(_OX_COMPAT_ROUTE_RE.match(normalized))
 
 
 def _normalize_psicat_compat_route(path: str) -> str:

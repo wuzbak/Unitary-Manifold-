@@ -50,6 +50,7 @@ jobs:
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_merlin_session_trims_to_max_history \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_merlin_compat_routes_do_not_rewrite_prefix_matches \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_ox_legacy_status_contract \
+            12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_ox_compat_rejects_invalid_prefix_routes \
             -q --tb=short
           python3 -m pytest recycling/tests/test_recycling.py -q --tb=short
           python3 -m pytest "5-GOVERNANCE/Unitary Pentad/test_unitary_pentad.py" -q --tb=short

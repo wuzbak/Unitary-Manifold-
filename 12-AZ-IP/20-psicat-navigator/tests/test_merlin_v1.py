@@ -3329,6 +3329,25 @@ def test_server_ox_legacy_status_contract():
         thread.join(timeout=2)
 
 
+def test_server_ox_compat_rejects_invalid_prefix_routes():
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        port = httpd.server_address[1]
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+            bad_ox_get = client.get('/api/oxx/status')
+            assert bad_ox_get.status_code == 404
+
+            bad_ox_post = client.post('/api/oxx', json={})
+            assert bad_ox_post.status_code == 404
+            assert bad_ox_post.json() == {'error': 'Not found'}
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
 def test_training_cycle_writes_only_isolated_artifacts(isolate_training_execution_artifacts):
     source_history_before = isolate_training_execution_artifacts['history_source'].read_text(encoding='utf-8')
     copy_history_before = isolate_training_execution_artifacts['history_copy'].read_text(encoding='utf-8')
