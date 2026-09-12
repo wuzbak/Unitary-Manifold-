@@ -152,6 +152,8 @@ This manuscript is the companion successor to the original Merlin first address,
 
 **Catalog tombstone:** The prior Book 33 materials were removed from the repository. The numbering gap is being intentionally reserved rather than silently renumbered, so older internal references and outside citations can still be interpreted correctly.
 
+**Former scope/status summary:** Scope — full credit and provenance narrative for the Unitary Manifold repository and AxiomZero publication stack. Focus — precise, auditable credit across scientific lineage, open-source tooling, institutions, and human-AI role partition. Status basis — September 2026 current-state repository context. Audience — public readers, technical readers, collaborators, critics, and future stewards.
+
 **Former files:** `book33_credit-lineage-commissioned-report.md`, `book33_appendix_a_repository-credit-map.md`, `book33_appendix_b_external-lineage-bibliography.md`
 
 ---
