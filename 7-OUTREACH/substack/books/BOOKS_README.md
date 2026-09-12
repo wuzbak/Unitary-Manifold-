@@ -152,6 +152,8 @@ This manuscript is the companion successor to the original Merlin first address,
 
 **Catalog tombstone:** The prior Book 33 materials were removed from the repository. The numbering gap is being intentionally reserved rather than silently renumbered, so older internal references and outside citations can still be interpreted correctly.
 
+**Former files:** `book33_credit-lineage-commissioned-report.md`, `book33_appendix_a_repository-credit-map.md`, `book33_appendix_b_external-lineage-bibliography.md`
+
 ---
 
 ## The Four Books (v3.0 — Omega Expanded)
