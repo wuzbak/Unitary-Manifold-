@@ -109,7 +109,7 @@ def check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
     except (ValueError, TypeError, AttributeError, AssertionError) as exc:
         return False, f"{url} -> error: {exc}"
     except Exception as exc:
-        return False, f"{url} -> transport error: {exc}"
+        return False, f"{url} -> error: {exc}"
 
 
 def main() -> int:

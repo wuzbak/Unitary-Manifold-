@@ -166,7 +166,7 @@ def test_unexpected_transport_exception_hard_fails(monkeypatch) -> None:
     monkeypatch.setattr(canary, "urlopen", _raise)
     ok, message = canary.check_url(canary.TARGETS[0])
     assert ok is False
-    assert "transport error" in message
+    assert "error:" in message
 
 
 def test_main_aggregates_failures_and_returns_nonzero(monkeypatch, capsys) -> None:
