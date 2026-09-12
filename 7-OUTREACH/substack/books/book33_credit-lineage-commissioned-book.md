@@ -284,10 +284,11 @@ All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifo
 
 1. `README.md`  
 2. `CITATION.cff`  
-3. `AGENTS.md`  
-4. `SEPARATION.md`  
-5. `FALLIBILITY.md`  
-6. `docs/navigation/REPOSITORY_MAP.md`
+3. `PROVENANCE.md`  
+4. `AGENTS.md`  
+5. `SEPARATION.md`  
+6. `FALLIBILITY.md`  
+7. `docs/navigation/REPOSITORY_MAP.md`
 
 ### A.2 Core Physics and Formal Structure Anchors
 
