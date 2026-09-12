@@ -62,6 +62,14 @@ def _canonicalize_repo_relative(lexical: str, repo_root: Path) -> str:
     return lexical
 
 
+def _is_under_repo(path: Path, repo_root: Path) -> bool:
+    try:
+        path.relative_to(repo_root)
+        return True
+    except ValueError:
+        return False
+
+
 def _as_bool(value: Any) -> bool:
     if isinstance(value, bool):
         return value
@@ -88,11 +96,23 @@ def repo_rel(path: str | Path, repo_root: Path) -> str:
     original = Path(path)
     repo_root_resolved = repo_root.resolve(strict=False)
     if not original.is_absolute():
+        cwd_resolved = Path.cwd().resolve(strict=False)
+        resolved_from_cwd = (cwd_resolved / original).resolve(strict=False)
+        if _is_under_repo(resolved_from_cwd, repo_root_resolved):
+            try:
+                cwd_repo_relative = cwd_resolved.relative_to(repo_root_resolved)
+            except ValueError:
+                cwd_repo_relative = Path()
+            lexical_from_cwd = _lexical_repo_relative(Path(cwd_repo_relative) / original)
+            if lexical_from_cwd is not None:
+                return _canonicalize_repo_relative(lexical_from_cwd, repo_root_resolved)
+            return resolved_from_cwd.relative_to(repo_root_resolved).as_posix()
         lexical = _lexical_repo_relative(original)
         if lexical is not None:
-            return _canonicalize_repo_relative(lexical, repo_root_resolved)
-        resolved = (repo_root_resolved / original).resolve(strict=False)
-        return _sanitized_non_repo_marker(original, resolved)
+            repo_candidate = repo_root_resolved / lexical
+            if repo_candidate.exists() or repo_candidate.is_symlink():
+                return _canonicalize_repo_relative(lexical, repo_root_resolved)
+        return _sanitized_non_repo_marker(original, resolved_from_cwd)
     try:
         lexical_original = _lexical_repo_relative(original.relative_to(repo_root_resolved))
     except ValueError:
