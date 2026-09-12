@@ -50,7 +50,7 @@ def test_execution_spine_record_roundtrip() -> None:
     assert restored.governance["fail_closed"] is True
 
 
-def test_execution_spine_record_from_dict_preserves_missing_timestamp() -> None:
+def test_execution_spine_record_from_dict_uses_default_timestamp_when_missing() -> None:
     restored = ExecutionSpineRecord.from_dict(
         {
             "surface_id": "surface-2",
@@ -60,7 +60,7 @@ def test_execution_spine_record_from_dict_preserves_missing_timestamp() -> None:
             "summary": "No timestamp payload.",
         }
     )
-    assert restored.generated_at_utc is None
+    assert restored.generated_at_utc is not None
 
 
 def test_execution_spine_record_from_dict_accepts_health_check_objects() -> None:

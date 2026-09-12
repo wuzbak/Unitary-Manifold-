@@ -220,8 +220,6 @@ class ExecutionSpineRecord:
         }
         if "generated_at_utc" in payload:
             kwargs["generated_at_utc"] = payload.get("generated_at_utc")
-        else:
-            kwargs["generated_at_utc"] = None
         return cls(**kwargs)
 
 
