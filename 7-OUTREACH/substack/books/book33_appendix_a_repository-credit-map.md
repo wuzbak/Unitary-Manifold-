@@ -3,6 +3,8 @@
 
 This appendix maps major in-repository credit surfaces so attribution claims can be checked quickly.
 
+All file references below are **repository-root-relative paths** in `wuzbak/Unitary-Manifold-`.
+
 ---
 
 ## A.1 Identity, Scope, and Citation Anchors
