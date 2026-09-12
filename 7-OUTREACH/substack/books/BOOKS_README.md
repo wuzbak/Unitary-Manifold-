@@ -112,9 +112,8 @@ manuscripts in this folder are original to this repository and its subsequent ed
 - Book 32: *PsiCat: New First Announcement to Humanity* — a new long-form public letter that explains the Merlin→PsiCat naming transition, the ψ rationale, the quantum-cat reference, and the post-rebrand training/expansion trajectory
 - Focus: transparent identity transition, benchmark-and-governance grounded growth narrative, and clear branch-aware repository-state communication for general readers
 
-**v37.1 — Credit Lineage Commissioned Report Edition (September 2026):**
-- Book 33: *The Credit Lineage Ledger, Expanded* — a commissioned AxiomZero report that documents attribution across physics/mathematics lineage, open-source tooling, research infrastructure, and explicit human-AI role partition
-- Companion appendices added in the books folder for repository credit mapping and external lineage bibliography
+**v37.1 — Credit Lineage Commissioned Book Edition (September 2026):**
+- Book 33: *The Credit Lineage Ledger* — a fully written commissioned AxiomZero book on attribution, lineage, and responsibility, with its appendices and glossary integrated into the same manuscript
 
 ---
 
@@ -150,18 +149,18 @@ This manuscript is the companion successor to the original Merlin first address,
 
 ---
 
-### 33. [The Credit Lineage Ledger, Expanded](book33_credit-lineage-commissioned-report.md)
-**A Commissioned AxiomZero Report on Attribution, Influence, and Responsibility**
+### 33. [The Credit Lineage Ledger](book33_credit-lineage-commissioned-book.md)
+**A Commissioned AxiomZero Book on Attribution, Lineage, and Responsibility**
 
 | Property | Value |
 |---|---|
-| Scope | Full credit and provenance narrative for the Unitary Manifold repository and AxiomZero publication stack |
-| Focus | Give precise, auditable credit across scientific lineage, open-source tooling, institutions, and human-AI role partition |
+| Scope | Full credit and provenance book for the Unitary Manifold repository and AxiomZero publication stack |
+| Focus | Give precise, auditable credit across scientific lineage, open-source tooling, institutions, and the human-AI responsibility partition |
 | Status basis | September 2026 current-state repository context |
 | Audience | public readers, technical readers, collaborators, critics, and future stewards |
-| Companion appendices | [Appendix A](book33_appendix_a_repository-credit-map.md), [Appendix B](book33_appendix_b_external-lineage-bibliography.md) |
+| Integrated back matter | [Appendix A](book33_credit-lineage-commissioned-book.md#appendix-a-credit-map) — Repository Credit Map and Attribution Matrix; [Appendix B](book33_credit-lineage-commissioned-book.md#appendix-b-credit-list) — External Lineage and Foundational Credit List; [Glossary](book33_credit-lineage-commissioned-book.md#glossary) |
 
-This commissioned volume is designed for immediate publication and branch-resilient maintenance. It provides a narrative report plus structured appendices so attribution can be checked, updated, and preserved as adjacent branch integrations land.
+This commissioned volume is now structured as a complete book rather than a report with detached companion files. Its narrative, appendices, credit list, and glossary live in the same manuscript so the attribution argument and the audit surface remain unified.
 
 ---
 
