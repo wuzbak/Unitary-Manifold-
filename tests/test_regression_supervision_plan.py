@@ -36,6 +36,17 @@ def test_fast_batch_command_uses_non_slow_marker() -> None:
     assert 'tests/' in command
 
 
+def test_fast_batch_command_returns_empty_string_for_empty_batch(tmp_path, monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    tests_dir = tmp_path / 'tests'
+    tests_dir.mkdir()
+    (tests_dir / 'test_fast.py').write_text('def test_fast():\n    assert True\n', encoding='utf-8')
+    monkeypatch.setattr(supervision, '_ROOT', tmp_path)
+
+    assert supervision.fast_batch_command(batch_index=1, batch_count=2) == ""
+
+
 def test_compactified_preflight_files_exist_and_command_is_canonical() -> None:
     command = compactified_preflight_command()
     assert command.startswith('python -m pytest ')

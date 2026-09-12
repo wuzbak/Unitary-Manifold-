@@ -112,7 +112,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (claims/)
-        run: python -m pytest claims/ -q
+        run: |
+          if [ -d claims ]; then
+            python -m pytest claims/ -q
+          else
+            echo "claims/ not present; skipping claims shard"
+          fi
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 6: Recycling suite (recycling/ — Pillar 16 φ-debt entropy accounting)

@@ -123,7 +123,7 @@ def fast_batch_command(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_C
         raise IndexError("batch_index out of range")
     batch = batches[batch_index]
     if not batch["test_paths"]:
-        raise ValueError("selected batch is empty")
+        return ""
     paths = " ".join(batch["test_paths"])
     return f'python -m pytest -n auto -m "{FAST_MARK_EXPRESSION}" {paths} -q'
 

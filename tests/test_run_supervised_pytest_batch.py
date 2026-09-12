@@ -37,3 +37,17 @@ def test_run_executes_pytest_without_shell(monkeypatch) -> None:
     assert exit_code == 0
     assert observed["args"] == ["python", "-m", "pytest", "-m", "not slow", "tests/test_example.py", "-q"]
     assert observed["check"] is False
+
+
+def test_main_skips_empty_fast_batch(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
+        "suite": "tests-fast",
+        "batch_count": 2,
+        "batch_index": 1,
+        "dry_run": False,
+        "emit_json": False,
+    })())
+    monkeypatch.setattr(batch_runner, "fast_batch_command", lambda batch_index, batch_count: "")
+
+    assert batch_runner.main() == 0
+    assert "no non-slow tests assigned to batch 1; skipping" in capsys.readouterr().out

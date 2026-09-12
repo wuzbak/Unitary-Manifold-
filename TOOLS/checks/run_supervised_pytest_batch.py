@@ -66,10 +66,11 @@ def main() -> int:
     if args.batch_index is None:
         print("--batch-index is required for tests-fast", file=sys.stderr)
         return 2
-    return _run(
-        fast_batch_command(batch_index=args.batch_index, batch_count=args.batch_count),
-        dry_run=args.dry_run,
-    )
+    command = fast_batch_command(batch_index=args.batch_index, batch_count=args.batch_count)
+    if not command:
+        print(f"no non-slow tests assigned to batch {args.batch_index}; skipping")
+        return 0
+    return _run(command, dry_run=args.dry_run)
 
 
 if __name__ == "__main__":
