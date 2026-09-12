@@ -56,7 +56,12 @@ def isolate_training_execution_artifacts(tmp_path, monkeypatch):
     monkeypatch.setattr(merlin_training_execution, 'LANE_E_PROFILE_ARTIFACT_PATH', lane_copy)
     monkeypatch.setattr(merlin_training_execution, 'PERFORMANCE_GATE_HISTORY_PATH', history_copy)
     monkeypatch.setattr(merlin_training_execution, '_LANE_E_RUNTIME_PROFILE_CACHE', None)
-    yield
+    yield {
+        'lane_source': lane_source,
+        'history_source': history_source,
+        'lane_copy': lane_copy,
+        'history_copy': history_copy,
+    }
     merlin_training_execution._LANE_E_RUNTIME_PROFILE_CACHE = None
 from ox_navigator.engine.merlin_runtime import run_post_turn_compilation
 from ox_navigator.engine.merlin_sentinel import MODE_MONITOR, evaluate_query, get_sentinel_policy
@@ -3268,6 +3273,17 @@ def test_server_merlin_compat_routes_do_not_rewrite_prefix_matches():
         httpd.shutdown()
         httpd.server_close()
         thread.join(timeout=2)
+
+
+def test_training_cycle_writes_only_isolated_artifacts(isolate_training_execution_artifacts):
+    source_history_before = isolate_training_execution_artifacts['history_source'].read_text(encoding='utf-8')
+    copy_history_before = isolate_training_execution_artifacts['history_copy'].read_text(encoding='utf-8')
+
+    result = route_tool('runMerlinTrainingCycle', {'limit': 1})
+
+    assert result['ok'] is True
+    assert isolate_training_execution_artifacts['history_source'].read_text(encoding='utf-8') == source_history_before
+    assert isolate_training_execution_artifacts['history_copy'].read_text(encoding='utf-8') != copy_history_before
 
 
 def test_server_training_export_validation_failures_return_422(monkeypatch):

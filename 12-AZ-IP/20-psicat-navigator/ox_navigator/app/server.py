@@ -194,6 +194,8 @@ def _normalize_psicat_compat_route(path: str) -> str:
         return '/api/psicat' + path[len('/api/merlin'):]
     if path == '/api/ox':
         return '/api/psicat'
+    if path == '/api/ox/':
+        return '/api/psicat/'
     if path.startswith('/api/ox/'):
         return '/api/psicat' + path[len('/api/ox'):]
     return path
@@ -495,7 +497,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
         with merlin_lock:
-            if route_path in ('/api/psicat', '/api/psicat/status'):
+            if route_path in ('/api/psicat', '/api/psicat/', '/api/psicat/status'):
                 if parsed.path == '/api/ox/status':
                     self._json({
                     'ox_available': bool(os.environ.get('OPENROUTER_API_KEY')),
