@@ -41,6 +41,19 @@ def _strict_mode_enabled() -> bool:
 
 
 def _is_soft_network_reason(reason: object) -> bool:
+    if isinstance(reason, (TimeoutError, socket.timeout, socket.gaierror)):
+        return True
+    if isinstance(
+        reason,
+        (
+            ssl.SSLError,
+            ConnectionResetError,
+            BrokenPipeError,
+            ConnectionRefusedError,
+            TimeoutError,
+        ),
+    ):
+        return True
     text = str(reason).lower()
     return any(
         token in text
@@ -79,7 +92,17 @@ def check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
         if not _strict_mode_enabled() and _is_soft_network_reason(exc.reason):
             return True, f"{url} -> URL error: {exc.reason} (network soft pass)"
         return False, f"{url} -> URL error: {exc.reason}"
-    except (TimeoutError, socket.timeout, ssl.SSLError, http.client.HTTPException) as exc:
+    except (
+        TimeoutError,
+        socket.timeout,
+        socket.gaierror,
+        ssl.SSLError,
+        ConnectionResetError,
+        BrokenPipeError,
+        ConnectionRefusedError,
+        http.client.HTTPException,
+        OSError,
+    ) as exc:
         if not _strict_mode_enabled() and _is_soft_network_reason(exc):
             return True, f"{url} -> transport error: {exc} (network soft pass)"
         return False, f"{url} -> transport error: {exc}"
