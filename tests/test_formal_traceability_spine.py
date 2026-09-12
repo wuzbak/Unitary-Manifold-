@@ -13,6 +13,7 @@ from src.core.formal_traceability_spine import (
     PROOF_CLASS_UNCONDITIONAL,
     REVIEW_PACKETS,
     TRACEABILITY_ROWS,
+    _enrich_traceability_row,
     formal_traceability_spine,
 )
 
@@ -107,6 +108,27 @@ def test_python_lean_bridge_contract_present() -> None:
     assert contract["counts"]["bridge_architecture_layer_count"] == 4
     assert contract["counts"]["certificate_type_count"] == 6
     assert any(unit["unit_id"] == "ACTION_TO_EVOLUTION_BOUNDARY" for unit in contract["formal_units"])
+
+
+def test_row_enrichment_preserves_explicit_overrides() -> None:
+    row = {
+        "id": "ACTION_TO_EVOLUTION_BOUNDARY",
+        "lane_id": LANE_B_ID,
+        "kind": "open_gap",
+        "epistemic_class": PROOF_CLASS_EXECUTABLE,
+        "summary": "test row",
+        "review_packet": "proof/REVIEW_PACKET_ACTION_TO_EVOLUTION.md",
+        "python_modules": [],
+        "tests": [],
+        "status_entries": [],
+        "lean_file": "lean4/UnitaryManifold/SprintCAFormalTraceability.lean",
+        "lean_symbols": [],
+        "normalization_contract": {"notes": "custom"},
+        "certificate_requirements": [{"id": "EXACT_IDENTITY", "notes": "custom"}],
+    }
+    enriched = _enrich_traceability_row(row)
+    assert enriched["normalization_contract"]["notes"] == "custom"
+    assert enriched["certificate_requirements"][0]["notes"] == "custom"
 
 
 def test_psicat_training_manifest_ready() -> None:

@@ -26,6 +26,8 @@ from src.core.formal_bridge_schema import (
     NO_FLOAT_PROMOTION_POLICY,
     build_normalization_contract,
     certificate_requirements_for_row,
+    validate_certificate_requirements_override,
+    validate_normalization_contract_override,
 )
 from src.core.formal_frontier_work_queues import build_frontier_work_queue
 
@@ -367,11 +369,29 @@ def _row_work_queue(row: Dict[str, Any]) -> List[Dict[str, Any]]:
 
 
 def _enrich_traceability_row(row: Dict[str, Any]) -> Dict[str, Any]:
+    proof_class = str(row.get("epistemic_class") or "")
+    row_id = str(row.get("id") or "")
     return dict(
         row,
         paths_exist=_row_paths_exist(row),
-        normalization_contract=build_normalization_contract(row),
-        certificate_requirements=certificate_requirements_for_row(row),
+        normalization_contract=(
+            validate_normalization_contract_override(
+                row["normalization_contract"],
+                row=row,
+                proof_class=proof_class,
+            )
+            if "normalization_contract" in row and row.get("normalization_contract") is not None
+            else build_normalization_contract(row)
+        ),
+        certificate_requirements=(
+            validate_certificate_requirements_override(
+                row["certificate_requirements"],
+                row_id=row_id,
+                proof_class=proof_class,
+            )
+            if "certificate_requirements" in row and row.get("certificate_requirements") is not None
+            else certificate_requirements_for_row(row)
+        ),
         no_float_promotion_rule=dict(NO_FLOAT_PROMOTION_POLICY),
         work_queue=_row_work_queue(row),
     )
