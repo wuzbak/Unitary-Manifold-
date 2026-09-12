@@ -190,11 +190,13 @@ def build_normalization_contract(row: Dict[str, Any]) -> Dict[str, Any]:
 def validate_normalization_contract_override(
     override: Dict[str, Any],
     *,
+    row: Dict[str, Any],
     proof_class: str,
 ) -> Dict[str, Any]:
     """Validate an explicit normalization override against the canonical schema."""
     if not isinstance(override, dict):
         raise TypeError("normalization_contract override must be a dict")
+    canonical = build_normalization_contract(row)
     field_registry = list(override.get("field_registry") or [])
     known_fields = {item["field"] for item in CANONICAL_NORMALIZATION_FIELDS}
     override_fields = {str(item.get("field") or "") for item in field_registry if isinstance(item, dict)}
@@ -204,12 +206,33 @@ def validate_normalization_contract_override(
     override_class = override.get("allowed_epistemic_class")
     if override_class is not None and str(override_class) != proof_class:
         raise ValueError("normalization_contract override changes the row proof class")
-    return dict(override)
+    supported_keys = {
+        "field_registry",
+        "normalized_theorem_statement",
+        "allowed_epistemic_class",
+        "silent_aliasing_forbidden",
+        "units_policy",
+        "domain_policy",
+        "regularity_policy",
+        "symbol_sources",
+        "notes",
+    }
+    unknown_keys = set(override) - supported_keys
+    if unknown_keys:
+        raise ValueError(f"Unsupported normalization override keys: {sorted(unknown_keys)}")
+    merged = dict(canonical)
+    for key in supported_keys:
+        if key in override:
+            merged[key] = override[key]
+    merged["silent_aliasing_forbidden"] = True
+    merged["allowed_epistemic_class"] = proof_class
+    return merged
 
 
 def validate_certificate_requirements_override(
     requirements: List[Dict[str, Any]],
     *,
+    row_id: str,
     proof_class: str,
 ) -> List[Dict[str, Any]]:
     """Validate an explicit row-specific certificate override."""
@@ -218,6 +241,7 @@ def validate_certificate_requirements_override(
     allowed_ids = {
         item["id"] for item in certificate_types_for_proof_class(proof_class)
     }
+    row_allowed_ids = set(_ROW_CERTIFICATE_REQUIREMENTS.get(row_id, []))
     result = []
     for item in requirements:
         if not isinstance(item, dict):
@@ -226,6 +250,10 @@ def validate_certificate_requirements_override(
         if item_id not in allowed_ids:
             raise ValueError(
                 f"Certificate requirement {item_id or '<missing>'} is not allowed for proof class {proof_class}"
+            )
+        if item_id not in row_allowed_ids:
+            raise ValueError(
+                f"Certificate requirement {item_id or '<missing>'} is not allowed for row {row_id or '<unknown>'}"
             )
         canonical = dict(_CERTIFICATE_MAP[item_id])
         if "notes" in item:

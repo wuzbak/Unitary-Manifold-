@@ -77,7 +77,7 @@ def test_disallowed_row_certificate_is_rejected(monkeypatch: pytest.MonkeyPatch)
         "TEST_ROW",
         ["EXTERNAL_OBSERVATION_DEPENDENCY"],
     )
-    with pytest.raises(ValueError, match="requires disallowed certificate type"):
+    with pytest.raises(ValueError, match="disallowed certificate type|not allowed for proof class"):
         certificate_requirements_for_row(
             {
                 "id": "TEST_ROW",
@@ -97,23 +97,40 @@ def test_unmapped_row_gets_no_invented_certificate_requirements() -> None:
 
 
 def test_override_validators_enforce_schema() -> None:
-    assert validate_normalization_contract_override({}, proof_class="LEAN_UNCONDITIONAL") == {}
-    assert validate_certificate_requirements_override([], proof_class="LEAN_UNCONDITIONAL") == []
-    override = validate_certificate_requirements_override(
-        [{"id": "EXACT_IDENTITY", "summary": "ignored", "notes": "keep"}],
+    row = {
+        "id": "TEST_ROW",
+        "epistemic_class": "LEAN_UNCONDITIONAL",
+        "summary": "test row",
+        "lean_symbols": [],
+        "python_modules": [],
+    }
+    normalization = validate_normalization_contract_override(
+        {},
+        row=row,
         proof_class="LEAN_UNCONDITIONAL",
     )
-    assert override == [
-        {
-            "id": "EXACT_IDENTITY",
-            "summary": "Exact symbolic or algebraic identity with no floating-point dependence.",
-            "promotion_eligible": True,
-            "notes": "keep",
-        }
-    ]
-    with pytest.raises(ValueError, match="not allowed for proof class"):
+    assert normalization["silent_aliasing_forbidden"] is True
+    assert normalization["allowed_epistemic_class"] == "LEAN_UNCONDITIONAL"
+    assert validate_certificate_requirements_override(
+        [],
+        row_id="APS_ETA_AXIOM_HALF_CLASS",
+        proof_class="LEAN_CONDITIONAL_WITH_NAMED_AXIOMS",
+    ) == []
+    override = validate_certificate_requirements_override(
+        [{"id": "EXACT_IDENTITY", "summary": "ignored", "notes": "keep"}],
+        row_id="ACTION_TO_EVOLUTION_BOUNDARY",
+        proof_class="LEAN_UNCONDITIONAL",
+    )
+    assert override == [{
+        "id": "EXACT_IDENTITY",
+        "summary": "Exact symbolic or algebraic identity with no floating-point dependence.",
+        "promotion_eligible": True,
+        "notes": "keep",
+    }]
+    with pytest.raises(ValueError, match="not allowed"):
         validate_certificate_requirements_override(
             [{"id": "EXTERNAL_OBSERVATION_DEPENDENCY"}],
+            row_id="ACTION_TO_EVOLUTION_BOUNDARY",
             proof_class="LEAN_UNCONDITIONAL",
         )
 

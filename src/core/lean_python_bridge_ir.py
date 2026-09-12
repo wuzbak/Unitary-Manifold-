@@ -92,6 +92,7 @@ def build_formal_unit_ir(
         normalization_contract = (
             validate_normalization_contract_override(
                 row["normalization_contract"],
+                row=row,
                 proof_class=proof_class,
             )
             if "normalization_contract" in row and row.get("normalization_contract") is not None
@@ -100,6 +101,7 @@ def build_formal_unit_ir(
         certificate_requirements = (
             validate_certificate_requirements_override(
                 row["certificate_requirements"],
+                row_id=unit_id,
                 proof_class=proof_class,
             )
             if "certificate_requirements" in row and row.get("certificate_requirements") is not None

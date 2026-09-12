@@ -54,7 +54,7 @@ def test_empty_row_overrides_are_preserved() -> None:
         runtime_alignment={"mode": "MANUAL_PORT_WITH_TRACEABILITY"},
     )
     unit = contract["formal_units"][0]
-    assert unit["translation_contract"]["normalization_contract"] == {}
+    assert unit["translation_contract"]["normalization_contract"]["silent_aliasing_forbidden"] is True
     assert unit["translation_contract"]["certificate_contract"]["required_certificate_types"] == []
 
 
@@ -63,7 +63,7 @@ def test_invalid_certificate_override_is_rejected() -> None:
         build_python_lean_bridge_contract(
             rows=[
                 {
-                    "id": "TEST_UNIT",
+                    "id": "ACTION_TO_EVOLUTION_BOUNDARY",
                     "lane_id": "LANE_TEST",
                     "kind": "open_gap",
                     "epistemic_class": "LEAN_UNCONDITIONAL",
@@ -81,6 +81,6 @@ def test_invalid_certificate_override_is_rejected() -> None:
             runtime_alignment={"mode": "MANUAL_PORT_WITH_TRACEABILITY"},
         )
     except ValueError as exc:
-        assert "not allowed for proof class" in str(exc)
+        assert "not allowed" in str(exc)
     else:  # pragma: no cover
         raise AssertionError("Expected invalid certificate override to raise ValueError")
