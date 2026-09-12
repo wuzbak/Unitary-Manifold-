@@ -43,9 +43,10 @@ All file references below are **repository-root-relative paths** in `wuzbak/Unit
 ## A.4 Governance and Co-Emergence Anchors
 
 1. `5-GOVERNANCE/Unitary Pentad/README.md`  
-2. `5-GOVERNANCE/co-emergence/FRAMEWORK.md`  
+2. `5-GOVERNANCE/co-emergence/README.md`  
 3. `CONTRIBUTING.md`  
-4. `SECURITY.md`
+4. `SECURITY.md`  
+5. `5-GOVERNANCE/co-emergence/FRAMEWORK.md`
 
 ---
 
@@ -90,6 +91,7 @@ All file references below are **repository-root-relative paths** in `wuzbak/Unit
 - When adjacent branches merge, update this appendix by appending new anchors rather than rewriting prior entries.  
 - Keep references repository-relative and stable.  
 - If attribution boundaries change, update both this appendix and Book 33 together.
+- The anchors listed above were verified as existing files at publication time.
 
 ---
 
