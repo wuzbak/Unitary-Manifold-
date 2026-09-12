@@ -54,10 +54,9 @@ All file references below are **repository-root-relative paths** in `wuzbak/Unit
 
 1. `9-INFRASTRUCTURE/llms.txt`  
 2. `9-INFRASTRUCTURE/schema.jsonld`  
-3. `9-INFRASTRUCTURE/mcp-config.json`  
-4. `9-INFRASTRUCTURE/provenance/README.md`  
-5. `9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md`  
-6. `9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md`
+3. `9-INFRASTRUCTURE/provenance/README.md`  
+4. `9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md`  
+5. `9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md`
 
 ---
 
