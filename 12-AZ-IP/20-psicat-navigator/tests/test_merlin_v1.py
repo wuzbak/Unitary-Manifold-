@@ -7,11 +7,13 @@ import asyncio
 import hashlib
 import importlib.util
 import json
+import shutil
 import sys
 import threading
 from pathlib import Path
 
 import httpx
+import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 if str(PRODUCT_ROOT) not in sys.path:
@@ -19,6 +21,7 @@ if str(PRODUCT_ROOT) not in sys.path:
 
 import ox_navigator.engine.merlin_engine as merlin_engine
 import ox_navigator.engine.merlin_program as merlin_program
+import ox_navigator.engine.merlin_training_execution as merlin_training_execution
 import ox_navigator.engine.merlin_tools as merlin_tools
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_identity import (
@@ -38,6 +41,23 @@ from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
 from ox_navigator.engine.merlin_research_cycle import run_research_cycle
 from ox_navigator.engine.merlin_router import choose_runtime
 from ox_navigator.engine.merlin_rag import build_context_scaffold, build_rag_context, lookup_kb, retrieve_context
+
+
+@pytest.fixture(autouse=True)
+def isolate_training_execution_artifacts(tmp_path, monkeypatch):
+    lane_source = merlin_training_execution.LANE_E_PROFILE_ARTIFACT_PATH
+    history_source = merlin_training_execution.PERFORMANCE_GATE_HISTORY_PATH
+    artifact_dir = tmp_path / 'training_execution'
+    artifact_dir.mkdir(parents=True, exist_ok=True)
+    lane_copy = artifact_dir / lane_source.name
+    history_copy = artifact_dir / history_source.name
+    shutil.copy2(lane_source, lane_copy)
+    shutil.copy2(history_source, history_copy)
+    monkeypatch.setattr(merlin_training_execution, 'LANE_E_PROFILE_ARTIFACT_PATH', lane_copy)
+    monkeypatch.setattr(merlin_training_execution, 'PERFORMANCE_GATE_HISTORY_PATH', history_copy)
+    monkeypatch.setattr(merlin_training_execution, '_LANE_E_RUNTIME_PROFILE_CACHE', None)
+    yield
+    merlin_training_execution._LANE_E_RUNTIME_PROFILE_CACHE = None
 from ox_navigator.engine.merlin_runtime import run_post_turn_compilation
 from ox_navigator.engine.merlin_sentinel import MODE_MONITOR, evaluate_query, get_sentinel_policy
 from ox_navigator.engine.merlin_tools import get_toolkit_view, orchestrate_steps, route_tool
@@ -2492,6 +2512,10 @@ def test_server_merlin_endpoints():
     try:
         port = httpd.server_address[1]
         with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+            root_status = client.get('/api/merlin')
+            assert root_status.status_code == 200
+            assert root_status.json()['merlin_available'] is True
+
             status = client.get('/api/merlin/status')
             assert status.status_code == 200
             assert status.json()['merlin_available'] is True
@@ -3213,6 +3237,10 @@ def test_server_merlin_endpoints():
             })
             assert legacy.status_code == 200
             assert 'FOLLOWUPS:' in legacy.json()['answer']
+
+            legacy_status = client.get('/api/ox/status')
+            assert legacy_status.status_code == 200
+            assert legacy_status.json()['psicat_available'] is True
     finally:
         httpd.shutdown()
         httpd.server_close()

@@ -114,7 +114,11 @@ def test_save_bridge_artifact_writes_json(tmp_path: Path) -> None:
     path = save_bridge_artifact(artifact, str(tmp_path))
     parsed = json.loads(path.read_text(encoding="utf-8"))
     assert path.name.endswith(".xdiag_bridge.json")
+    assert set(parsed) == {"backend_payload", "manifest", "observables", "spectra"}
     assert parsed["manifest"]["run_id"] == payload.run_id
+    assert parsed["spectra"] == artifact.spectra
+    assert parsed["observables"] == artifact.observables
+    assert "execution_spine" not in parsed
 
 
 def test_parity_gate_pass_and_fail_fast() -> None:
