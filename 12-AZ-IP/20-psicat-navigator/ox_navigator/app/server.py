@@ -551,7 +551,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     },
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                 }
-                if parsed.path in {'/api/ox', '/api/ox/'}:
+                if route_path == '/api/ox':
                     self._json({
                         'service': status_payload['service'],
                         'internal_persona_name': status_payload['internal_persona_name'],
@@ -562,7 +562,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         'api_base': 'local',
                         'compatibility': status_payload['compatibility'],
                     })
-                elif parsed.path in {'/api/ox/status', '/api/ox/status/'}:
+                elif route_path == '/api/ox/status':
                     self._json({
                         **status_payload,
                         'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
