@@ -8,6 +8,11 @@ import argparse
 import json
 import subprocess
 import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+if ROOT.as_posix() not in sys.path:
+    sys.path.insert(0, ROOT.as_posix())
 
 from src.core.regression_supervision_plan import (
     DEFAULT_FAST_BATCH_COUNT,
