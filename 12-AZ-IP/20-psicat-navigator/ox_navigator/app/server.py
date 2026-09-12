@@ -189,6 +189,11 @@ def _is_merlin_compat_route(path: str) -> bool:
     return normalized == '/api/merlin' or normalized.startswith('/api/merlin/')
 
 
+def _is_ox_compat_route(path: str) -> bool:
+    normalized = path if path == '/' else path.rstrip('/')
+    return normalized in {'/api/ox', '/api/ox/status'} or normalized.startswith('/api/ox/')
+
+
 def _normalize_psicat_compat_route(path: str) -> str:
     normalized = path if path == '/' else path.rstrip('/')
     if _is_merlin_compat_route(path):
@@ -492,7 +497,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         profile_hint = self._profile_hint(params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
         self._handshake_state = "not_issued"
-        if parsed.path.startswith('/api/psicat') or _is_merlin_compat_route(parsed.path) or parsed.path.startswith('/api/ox'):
+        self._handshake_challenge = ""
+        self._handshake_receipt = ""
+        if (
+            parsed.path.startswith('/api/psicat')
+            or _is_merlin_compat_route(parsed.path)
+            or (_is_ox_compat_route(parsed.path) and route_path not in {'/api/ox', '/api/ox/status'})
+        ):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
         with merlin_lock:
@@ -538,7 +549,18 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     },
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                 }
-                if parsed.path in {'/api/ox', '/api/ox/', '/api/ox/status', '/api/ox/status/'}:
+                if parsed.path in {'/api/ox', '/api/ox/'}:
+                    self._json({
+                        'service': status_payload['service'],
+                        'internal_persona_name': status_payload['internal_persona_name'],
+                        'steward_persona_alias': status_payload['steward_persona_alias'],
+                        'psicat_available': status_payload['psicat_available'],
+                        'merlin_available': status_payload['merlin_available'],
+                        'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
+                        'api_base': 'local',
+                        'compatibility': status_payload['compatibility'],
+                    })
+                elif parsed.path in {'/api/ox/status', '/api/ox/status/'}:
                     self._json({
                         **status_payload,
                         'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),

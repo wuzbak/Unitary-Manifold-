@@ -167,3 +167,19 @@ def test_unexpected_transport_exception_hard_fails(monkeypatch) -> None:
     ok, message = canary.check_url(canary.TARGETS[0])
     assert ok is False
     assert "transport error" in message
+
+
+def test_main_reports_failure_and_nonzero_exit(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(canary, "TARGETS", ["https://example.invalid/a", "https://example.invalid/b"])
+
+    def _fake_check(url: str, timeout: int = 12):
+        if url.endswith("/a"):
+            return True, f"{url} -> 200"
+        return False, f"{url} -> HTTP 500"
+
+    monkeypatch.setattr(canary, "check_url", _fake_check)
+    exit_code = canary.main()
+    captured = capsys.readouterr()
+
+    assert exit_code == 1
+    assert "HF CANARY FAILED" in captured.out

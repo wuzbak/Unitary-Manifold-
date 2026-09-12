@@ -3246,10 +3246,20 @@ def test_server_merlin_endpoints():
             legacy_root = client.get('/api/ox')
             assert legacy_root.status_code == 200
             assert legacy_root.json()['psicat_available'] is True
+            assert legacy_root.json()['merlin_available'] is True
+            assert legacy_root.json()['ox_available'] is True
+            assert legacy_root.json()['api_base'] == 'local'
+            assert 'router_policy' not in legacy_root.json()
+            assert legacy_root.headers.get('X-Merlin-Handshake-Challenge') is None
 
             legacy_status = client.get('/api/ox/status')
             assert legacy_status.status_code == 200
             assert legacy_status.json()['psicat_available'] is True
+            assert legacy_status.json()['merlin_available'] is True
+            assert legacy_status.json()['ox_available'] is True
+            assert legacy_status.json()['api_base'] == 'local'
+            assert 'router_policy' in legacy_status.json()
+            assert legacy_status.headers.get('X-Merlin-Handshake-Challenge') is None
     finally:
         httpd.shutdown()
         httpd.server_close()
@@ -3269,6 +3279,13 @@ def test_server_merlin_compat_routes_do_not_rewrite_prefix_matches():
             bad_post = client.post('/api/merlinx', json={})
             assert bad_post.status_code == 404
             assert bad_post.json() == {'error': 'Not found'}
+
+            bad_ox_get = client.get('/api/oxx/status')
+            assert bad_ox_get.status_code == 404
+
+            bad_ox_post = client.post('/api/oxx', json={})
+            assert bad_ox_post.status_code == 404
+            assert bad_ox_post.json() == {'error': 'Not found'}
     finally:
         httpd.shutdown()
         httpd.server_close()
