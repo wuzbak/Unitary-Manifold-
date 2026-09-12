@@ -227,7 +227,10 @@ def validate_certificate_requirements_override(
             raise ValueError(
                 f"Certificate requirement {item_id or '<missing>'} is not allowed for proof class {proof_class}"
             )
-        result.append(dict(item))
+        canonical = dict(_CERTIFICATE_MAP[item_id])
+        if "notes" in item:
+            canonical["notes"] = str(item["notes"])
+        result.append(canonical)
     return result
 
 

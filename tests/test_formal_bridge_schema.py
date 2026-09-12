@@ -99,6 +99,18 @@ def test_unmapped_row_gets_no_invented_certificate_requirements() -> None:
 def test_override_validators_enforce_schema() -> None:
     assert validate_normalization_contract_override({}, proof_class="LEAN_UNCONDITIONAL") == {}
     assert validate_certificate_requirements_override([], proof_class="LEAN_UNCONDITIONAL") == []
+    override = validate_certificate_requirements_override(
+        [{"id": "EXACT_IDENTITY", "summary": "ignored", "notes": "keep"}],
+        proof_class="LEAN_UNCONDITIONAL",
+    )
+    assert override == [
+        {
+            "id": "EXACT_IDENTITY",
+            "summary": "Exact symbolic or algebraic identity with no floating-point dependence.",
+            "promotion_eligible": True,
+            "notes": "keep",
+        }
+    ]
     with pytest.raises(ValueError, match="not allowed for proof class"):
         validate_certificate_requirements_override(
             [{"id": "EXTERNAL_OBSERVATION_DEPENDENCY"}],
