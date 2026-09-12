@@ -3279,7 +3279,7 @@ def test_training_cycle_writes_only_isolated_artifacts(isolate_training_executio
     source_history_before = isolate_training_execution_artifacts['history_source'].read_text(encoding='utf-8')
     copy_history_before = isolate_training_execution_artifacts['history_copy'].read_text(encoding='utf-8')
 
-    result = route_tool('runMerlinTrainingCycle', {'limit': 1})
+    result = merlin_training_execution.run_merlin_training_cycle(session=MerlinSession(), limit=1)
 
     assert result['ok'] is True
     assert isolate_training_execution_artifacts['history_source'].read_text(encoding='utf-8') == source_history_before
