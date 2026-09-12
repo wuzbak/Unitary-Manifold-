@@ -31,7 +31,7 @@ def test_batches_cover_discovered_fast_suite_without_overlap() -> None:
 
 def test_fast_batch_command_uses_non_slow_marker() -> None:
     command = fast_batch_command(batch_index=0, batch_count=DEFAULT_FAST_BATCH_COUNT)
-    assert 'python -m pytest -n auto -m "not slow"' in command
+    assert "python -m pytest -n auto -m 'not slow'" in command
     assert command.endswith(' -q')
     assert 'tests/' in command
 
@@ -45,6 +45,13 @@ def test_fast_batch_command_returns_empty_string_for_empty_batch(tmp_path, monke
     monkeypatch.setattr(supervision, '_ROOT', tmp_path)
 
     assert supervision.fast_batch_command(batch_index=1, batch_count=2) == ""
+
+
+def test_build_fast_suite_batches_rejects_non_positive_batch_count() -> None:
+    import pytest
+
+    with pytest.raises(ValueError, match='batch_count must be positive'):
+        build_fast_suite_batches(batch_count=0)
 
 
 def test_compactified_preflight_files_exist_and_command_is_canonical() -> None:

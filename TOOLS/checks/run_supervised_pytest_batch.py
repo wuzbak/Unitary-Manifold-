@@ -18,8 +18,8 @@ if ROOT.as_posix() not in sys.path:
 from src.core.regression_supervision_plan import (
     DEFAULT_FAST_BATCH_COUNT,
     build_regression_supervision_plan,
-    compactified_preflight_command,
-    fast_batch_command,
+    compactified_preflight_argv,
+    fast_batch_argv,
 )
 
 
@@ -37,11 +37,11 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def _run(command: str, dry_run: bool) -> int:
-    print(command)
+def _run(args: list[str], dry_run: bool) -> int:
+    print(shlex.join(args))
     if dry_run:
         return 0
-    completed = subprocess.run(shlex.split(command), check=False)
+    completed = subprocess.run(args, check=False)
     return completed.returncode
 
 
@@ -62,12 +62,12 @@ def main() -> int:
         return 0
 
     if args.suite == "compactified-preflight":
-        return _run(compactified_preflight_command(), dry_run=args.dry_run)
+        return _run(compactified_preflight_argv(), dry_run=args.dry_run)
 
     if args.batch_index is None:
         print("--batch-index is required for tests-fast", file=sys.stderr)
         return 2
-    command = fast_batch_command(batch_index=args.batch_index, batch_count=args.batch_count)
+    command = fast_batch_argv(batch_index=args.batch_index, batch_count=args.batch_count)
     if not command:
         print(f"no non-slow tests assigned to batch {args.batch_index}; skipping")
         return 0

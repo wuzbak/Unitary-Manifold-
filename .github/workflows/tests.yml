@@ -99,7 +99,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   test-claims:
     runs-on: ubuntu-latest
-    if: ${{ hashFiles('claims/**/*.py') != '' }}
+    if: ${{ hashFiles('claims/*.py', 'claims/**/*.py') != '' }}
     timeout-minutes: 45
     permissions:
       contents: read
@@ -226,7 +226,7 @@ jobs:
           TEST_FAST_RESULT: ${{ needs.test-fast-supervisor.result }}
           TEST_SLOW_RESULT: ${{ needs.test-slow.result }}
           CLAIMS_RESULT: ${{ needs.test-claims.result }}
-          CLAIMS_REQUIRED: ${{ hashFiles('claims/**/*.py') != '' }}
+          CLAIMS_REQUIRED: ${{ hashFiles('claims/*.py', 'claims/**/*.py') != '' }}
           RECYCLING_RESULT: ${{ needs.test-recycling.result }}
           PENTAD_RESULT: ${{ needs.test-pentad.result }}
           ALGEBRA_RESULT: ${{ needs.algebra-proof.result }}

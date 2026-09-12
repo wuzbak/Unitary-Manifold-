@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import shlex
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -71,10 +72,14 @@ def build_fast_suite_batches(batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> Lis
     return batches
 
 
-def _fast_batch_command_from_paths(paths: List[str]) -> str:
+def _fast_batch_argv_from_paths(paths: List[str]) -> List[str]:
     if not paths:
-        return ""
-    return f'python -m pytest -n auto -m "{FAST_MARK_EXPRESSION}" {" ".join(paths)} -q'
+        return []
+    return ["python", "-m", "pytest", "-n", "auto", "-m", FAST_MARK_EXPRESSION, *paths, "-q"]
+
+
+def _fast_batch_command_from_paths(paths: List[str]) -> str:
+    return shlex.join(_fast_batch_argv_from_paths(paths))
 
 
 def fast_batch_command(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> str:
@@ -85,10 +90,22 @@ def fast_batch_command(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_C
     return _fast_batch_command_from_paths(batches[batch_index]["test_paths"])
 
 
+def fast_batch_argv(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> List[str]:
+    """Return the canonical pytest argv for one supervised non-slow batch."""
+    batches = build_fast_suite_batches(batch_count=batch_count)
+    if batch_index < 0 or batch_index >= len(batches):
+        raise IndexError("batch_index out of range")
+    return _fast_batch_argv_from_paths(batches[batch_index]["test_paths"])
+
+
 def compactified_preflight_command() -> str:
     """Return the canonical compactified preflight command."""
-    files = " ".join(COMPACTIFIED_PREFLIGHT_FILES)
-    return f"python -m pytest {files} -q"
+    return shlex.join(compactified_preflight_argv())
+
+
+def compactified_preflight_argv() -> List[str]:
+    """Return the canonical compactified preflight argv."""
+    return ["python", "-m", "pytest", *COMPACTIFIED_PREFLIGHT_FILES, "-q"]
 
 
 def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> Dict[str, Any]:
@@ -136,7 +153,9 @@ __all__ = [
     "FAST_MARK_EXPRESSION",
     "build_fast_suite_batches",
     "build_regression_supervision_plan",
+    "compactified_preflight_argv",
     "compactified_preflight_command",
     "discover_fast_suite_files",
+    "fast_batch_argv",
     "fast_batch_command",
 ]
