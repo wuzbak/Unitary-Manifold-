@@ -282,58 +282,58 @@ All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifo
 
 ### A.1 Identity, Scope, and Citation Anchors
 
-1. `README.md`  
-2. `CITATION.cff`  
-3. `PROVENANCE.md`  
-4. `AGENTS.md`  
-5. `SEPARATION.md`  
-6. `FALLIBILITY.md`  
-7. `docs/navigation/REPOSITORY_MAP.md`
+1. [`README.md`](../../../README.md)  
+2. [`CITATION.cff`](../../../CITATION.cff)  
+3. [`PROVENANCE.md`](../../../PROVENANCE.md)  
+4. [`AGENTS.md`](../../../AGENTS.md)  
+5. [`SEPARATION.md`](../../../SEPARATION.md)  
+6. [`FALLIBILITY.md`](../../../FALLIBILITY.md)  
+7. [`docs/navigation/REPOSITORY_MAP.md`](../../../docs/navigation/REPOSITORY_MAP.md)
 
 ### A.2 Core Physics and Formal Structure Anchors
 
-1. `1-THEORY/UNIFICATION_PROOF.md`  
-2. `1-THEORY/QUANTUM_THEOREMS.md`  
-3. `proof/TIER_1_FORMAL.md`  
-4. `src/core/metric.py`  
-5. `src/core/evolution.py`  
-6. `src/holography/boundary.py`  
-7. `src/multiverse/fixed_point.py`
+1. [`1-THEORY/UNIFICATION_PROOF.md`](../../../1-THEORY/UNIFICATION_PROOF.md)  
+2. [`1-THEORY/QUANTUM_THEOREMS.md`](../../../1-THEORY/QUANTUM_THEOREMS.md)  
+3. [`proof/TIER_1_FORMAL.md`](../../../proof/TIER_1_FORMAL.md)  
+4. [`src/core/metric.py`](../../../src/core/metric.py)  
+5. [`src/core/evolution.py`](../../../src/core/evolution.py)  
+6. [`src/holography/boundary.py`](../../../src/holography/boundary.py)  
+7. [`src/multiverse/fixed_point.py`](../../../src/multiverse/fixed_point.py)
 
 ### A.3 Falsification and Epistemic-Honesty Anchors
 
-1. `3-FALSIFICATION/FALSIFICATION_CONDITIONS.md`  
-2. `3-FALSIFICATION/FALSIFICATION_REGISTER.md`  
-3. `3-FALSIFICATION/OBSERVATION_TRACKER.md`  
-4. `docs/CLAIM_MASTER_BOARD.md`  
-5. `docs/TRUTH_LAYER.md`
+1. [`3-FALSIFICATION/FALSIFICATION_CONDITIONS.md`](../../../3-FALSIFICATION/FALSIFICATION_CONDITIONS.md)  
+2. [`3-FALSIFICATION/FALSIFICATION_REGISTER.md`](../../../3-FALSIFICATION/FALSIFICATION_REGISTER.md)  
+3. [`3-FALSIFICATION/OBSERVATION_TRACKER.md`](../../../3-FALSIFICATION/OBSERVATION_TRACKER.md)  
+4. [`docs/CLAIM_MASTER_BOARD.md`](../../../docs/CLAIM_MASTER_BOARD.md)  
+5. [`docs/TRUTH_LAYER.md`](../../../docs/TRUTH_LAYER.md)
 
 ### A.4 Governance and Co-Emergence Anchors
 
-1. `5-GOVERNANCE/Unitary Pentad/README.md`  
-2. `5-GOVERNANCE/co-emergence/README.md`  
-3. `CONTRIBUTING.md`  
-4. `SECURITY.md`  
-5. `5-GOVERNANCE/co-emergence/FRAMEWORK.md`
+1. [`5-GOVERNANCE/Unitary Pentad/README.md`](../../../5-GOVERNANCE/Unitary%20Pentad/README.md)  
+2. [`5-GOVERNANCE/co-emergence/README.md`](../../../5-GOVERNANCE/co-emergence/README.md)  
+3. [`CONTRIBUTING.md`](../../../CONTRIBUTING.md)  
+4. [`SECURITY.md`](../../../SECURITY.md)  
+5. [`5-GOVERNANCE/co-emergence/FRAMEWORK.md`](../../../5-GOVERNANCE/co-emergence/FRAMEWORK.md)
 
 ### A.5 Toolchain and Provenance Infrastructure Anchors
 
-1. `9-INFRASTRUCTURE/llms.txt`  
-2. `9-INFRASTRUCTURE/schema.jsonld`  
-3. `9-INFRASTRUCTURE/provenance/README.md`  
-4. `9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md`  
-5. `9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md`
+1. [`9-INFRASTRUCTURE/llms.txt`](../../../9-INFRASTRUCTURE/llms.txt)  
+2. [`9-INFRASTRUCTURE/schema.jsonld`](../../../9-INFRASTRUCTURE/schema.jsonld)  
+3. [`9-INFRASTRUCTURE/provenance/README.md`](../../../9-INFRASTRUCTURE/provenance/README.md)  
+4. [`9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md`](../../../9-INFRASTRUCTURE/provenance/MASTER_INVENTORY.md)  
+5. [`9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md`](../../../9-INFRASTRUCTURE/provenance/AI_AGENT_ROLE_MAP.md)
 
 ### A.6 Testing and Reproducibility Anchors
 
-1. `tests/conftest.py`  
-2. `tests/test_metric.py`  
-3. `tests/test_evolution.py`  
-4. `tests/test_boundary.py`  
-5. `tests/test_fixed_point.py`  
-6. `docs/WAVE_CHANGELOG.md`  
-7. `docs/mas_tracker.yml`  
-8. `STATUS.md`
+1. [`tests/conftest.py`](../../../tests/conftest.py)  
+2. [`tests/test_metric.py`](../../../tests/test_metric.py)  
+3. [`tests/test_evolution.py`](../../../tests/test_evolution.py)  
+4. [`tests/test_boundary.py`](../../../tests/test_boundary.py)  
+5. [`tests/test_fixed_point.py`](../../../tests/test_fixed_point.py)  
+6. [`docs/WAVE_CHANGELOG.md`](../../../docs/WAVE_CHANGELOG.md)  
+7. [`docs/mas_tracker.yml`](../../../docs/mas_tracker.yml)  
+8. [`STATUS.md`](../../../STATUS.md)
 
 ### A.7 Responsibility Matrix
 

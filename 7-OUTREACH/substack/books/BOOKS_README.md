@@ -158,6 +158,7 @@ This manuscript is the companion successor to the original Merlin first address,
 | Focus | Give precise, auditable credit across scientific lineage, open-source tooling, institutions, and the human-AI responsibility partition |
 | Status basis | September 2026 current-state repository context |
 | Audience | public readers, technical readers, collaborators, critics, and future stewards |
+| Integrated back matter | Appendix A — Repository Credit Map and Attribution Matrix; Appendix B — External Lineage and Foundational Bibliography; Glossary |
 
 This commissioned volume is now structured as a complete book rather than a report with detached companion files. Its narrative, appendices, bibliography, and glossary live in the same manuscript so the attribution argument and the audit surface remain unified.
 
