@@ -3246,6 +3246,7 @@ def test_server_merlin_endpoints():
             legacy_root = client.get('/api/ox')
             assert legacy_root.status_code == 200
             assert legacy_root.json()['psicat_available'] is True
+            assert legacy_root.headers.get('X-Merlin-Handshake-Challenge') is None
             assert 'ox_available' not in legacy_root.json()
             assert 'api_base' not in legacy_root.json()
             assert 'memory_profile_token' not in legacy_root.json()

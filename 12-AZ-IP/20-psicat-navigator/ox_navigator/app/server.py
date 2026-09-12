@@ -502,7 +502,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         if (
             route_path.startswith('/api/psicat')
             or _is_merlin_compat_route(parsed.path)
-            or (_is_ox_compat_route(parsed.path) and route_path != '/api/ox/status')
+            or (_is_ox_compat_route(parsed.path) and route_path not in {'/api/ox', '/api/ox/status'})
         ):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
