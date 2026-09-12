@@ -94,6 +94,20 @@ def test_dns_error_soft_passes_in_non_strict_mode(monkeypatch) -> None:
     assert "network soft pass" in message
 
 
+def test_dns_error_fails_in_strict_mode(monkeypatch) -> None:
+    monkeypatch.setenv(canary.STRICT_ENV, "1")
+    monkeypatch.setattr(
+        canary,
+        "urlopen",
+        lambda request, timeout=12: (_ for _ in ()).throw(
+            URLError(socket.gaierror(-5, "No address associated with hostname"))
+        ),
+    )
+    ok, message = canary.check_url(canary.TARGETS[0])
+    assert ok is False
+    assert "URL error" in message
+
+
 def test_direct_transport_exception_soft_passes_in_non_strict_mode(monkeypatch) -> None:
     monkeypatch.delenv(canary.STRICT_ENV, raising=False)
 
