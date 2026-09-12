@@ -568,7 +568,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json(legacy_root_payload)
                 elif route_path == '/api/ox/status':
                     self._json({
-                        **status_payload,
+                        **legacy_root_payload,
                         'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
                         'api_base': 'local',
                     })
