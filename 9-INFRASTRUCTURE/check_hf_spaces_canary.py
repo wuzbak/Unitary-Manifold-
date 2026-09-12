@@ -98,10 +98,10 @@ def check_url(url: str, timeout: int = 12) -> tuple[bool, str]:
         socket.gaierror,
         ssl.SSLError,
         ConnectionResetError,
+        ConnectionAbortedError,
         BrokenPipeError,
         ConnectionRefusedError,
         http.client.HTTPException,
-        OSError,
     ) as exc:
         if not _strict_mode_enabled() and _is_soft_network_reason(exc):
             return True, f"{url} -> transport error: {exc} (network soft pass)"
