@@ -99,7 +99,6 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   test-claims:
     runs-on: ubuntu-latest
-    if: ${{ hashFiles('claims/*.py', 'claims/**/*.py') != '' }}
     timeout-minutes: 45
     permissions:
       contents: read
@@ -112,8 +111,20 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
+      - name: Detect claims Python tests
+        id: claims-files
+        run: |
+          if [ -d claims ] && find claims -name '*.py' -print -quit | grep -q .; then
+            echo "has_claims=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_claims=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Run pytest (claims/)
+        if: steps.claims-files.outputs.has_claims == 'true'
         run: python -m pytest claims/ -q
+      - name: Report claims shard skipped
+        if: steps.claims-files.outputs.has_claims != 'true'
+        run: echo "claims/ has no Python tests; skipping claims shard"
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 6: Recycling suite (recycling/ — Pillar 16 φ-debt entropy accounting)
@@ -226,7 +237,6 @@ jobs:
           TEST_FAST_RESULT: ${{ needs.test-fast-supervisor.result }}
           TEST_SLOW_RESULT: ${{ needs.test-slow.result }}
           CLAIMS_RESULT: ${{ needs.test-claims.result }}
-          CLAIMS_REQUIRED: ${{ hashFiles('claims/*.py', 'claims/**/*.py') != '' }}
           RECYCLING_RESULT: ${{ needs.test-recycling.result }}
           PENTAD_RESULT: ${{ needs.test-pentad.result }}
           ALGEBRA_RESULT: ${{ needs.algebra-proof.result }}
@@ -251,7 +261,7 @@ jobs:
           check_result "compactified-preflight" "${COMPACTIFIED_RESULT}"
           check_result "tests-fast" "${TEST_FAST_RESULT}"
           check_result "tests-slow" "${TEST_SLOW_RESULT}"
-          check_result "claims" "${CLAIMS_RESULT}" "${CLAIMS_REQUIRED}"
+          check_result "claims" "${CLAIMS_RESULT}"
           check_result "recycling" "${RECYCLING_RESULT}"
           check_result "pentad" "${PENTAD_RESULT}"
           check_result "algebra-proof" "${ALGEBRA_RESULT}"

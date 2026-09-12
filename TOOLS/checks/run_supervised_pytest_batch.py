@@ -38,7 +38,7 @@ def _parse_args() -> argparse.Namespace:
 
 
 def _run(args: list[str], dry_run: bool) -> int:
-    print(shlex.join(args))
+    print(shlex.join(args), file=sys.stderr)
     if dry_run:
         return 0
     completed = subprocess.run(args, check=False)

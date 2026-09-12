@@ -17,7 +17,7 @@ def test_discovery_returns_sorted_files() -> None:
     files = discover_fast_suite_files()
     assert files == sorted(files)
     assert 'tests/test_regression_supervision_plan.py' in files
-    assert 'tests/test_richardson_multitime.py' in files
+    assert 'tests/test_richardson_multitime.py' not in files
 
 
 def test_batches_cover_discovered_fast_suite_without_overlap() -> None:

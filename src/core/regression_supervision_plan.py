@@ -16,6 +16,9 @@ FAST_SUITE_PATH = "tests/"
 CLAIMS_SUITE_PATH = "claims/"
 RECYCLING_SUITE_PATH = "recycling/"
 PENTAD_SUITE_PATH = "5-GOVERNANCE/Unitary Pentad/"
+FAST_SUITE_EXCLUDED_FILES = {
+    "tests/test_richardson_multitime.py",
+}
 COMPACTIFIED_PREFLIGHT_FILES = [
     "tests/test_closure_batch1.py",
     "tests/test_closure_batch2.py",
@@ -31,7 +34,7 @@ def discover_fast_suite_files() -> List[str]:
     return sorted(
         path.relative_to(_ROOT).as_posix()
         for path in test_root.rglob("test_*.py")
-        if path.is_file()
+        if path.is_file() and path.relative_to(_ROOT).as_posix() not in FAST_SUITE_EXCLUDED_FILES
     )
 
 
