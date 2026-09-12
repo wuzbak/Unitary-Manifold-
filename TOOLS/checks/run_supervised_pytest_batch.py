@@ -57,7 +57,8 @@ def main() -> int:
         if not ok:
             print("supervised regression coverage check failed", file=sys.stderr)
             return 1
-        print("supervised regression coverage check passed")
+        stream = sys.stderr if args.emit_json else sys.stdout
+        print("supervised regression coverage check passed", file=stream)
         return 0
 
     if args.suite == "compactified-preflight":

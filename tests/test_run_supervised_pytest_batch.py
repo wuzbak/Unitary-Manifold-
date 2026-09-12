@@ -51,3 +51,25 @@ def test_main_skips_empty_fast_batch(monkeypatch, capsys) -> None:
 
     assert batch_runner.main() == 0
     assert "no non-slow tests assigned to batch 1; skipping" in capsys.readouterr().out
+
+
+def test_supervisor_emit_json_keeps_status_off_stdout(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
+        "suite": "supervisor-check",
+        "batch_count": 4,
+        "batch_index": None,
+        "dry_run": False,
+        "emit_json": True,
+    })())
+    monkeypatch.setattr(batch_runner, "build_regression_supervision_plan", lambda batch_count: {
+        "supervision": {
+            "coverage_matches_discovery": True,
+            "all_files_unique": True,
+        }
+    })
+
+    assert batch_runner.main() == 0
+    captured = capsys.readouterr()
+    assert captured.out.strip().startswith("{")
+    assert "supervised regression coverage check passed" not in captured.out
+    assert "supervised regression coverage check passed" in captured.err

@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-import ast
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -25,64 +24,13 @@ COMPACTIFIED_PREFLIGHT_FILES = [
     "tests/test_action_to_evolution_contract.py",
 ]
 
-
-def _is_slow_mark_expression(node: ast.AST) -> bool:
-    candidate = node.func if isinstance(node, ast.Call) else node
-    if not isinstance(candidate, ast.Attribute) or candidate.attr != "slow":
-        return False
-    mark_owner = candidate.value
-    return (
-        isinstance(mark_owner, ast.Attribute)
-        and mark_owner.attr == "mark"
-        and isinstance(mark_owner.value, ast.Name)
-        and mark_owner.value.id == "pytest"
-    )
-
-
-def _has_module_slow_mark(tree: ast.Module) -> bool:
-    for node in tree.body:
-        if not isinstance(node, (ast.Assign, ast.AnnAssign)):
-            continue
-        targets = node.targets if isinstance(node, ast.Assign) else [node.target]
-        if not any(isinstance(target, ast.Name) and target.id == "pytestmark" for target in targets):
-            continue
-        value = node.value
-        if isinstance(value, (ast.List, ast.Tuple, ast.Set)):
-            return any(_is_slow_mark_expression(element) for element in value.elts)
-        return _is_slow_mark_expression(value)
-    return False
-
-
-def _has_non_slow_tests(path: Path) -> bool:
-    tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
-    module_slow = _has_module_slow_mark(tree)
-    for node in tree.body:
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name.startswith("test_"):
-            if not module_slow and not any(_is_slow_mark_expression(decorator) for decorator in node.decorator_list):
-                return True
-        if isinstance(node, ast.ClassDef) and node.name.startswith("Test"):
-            class_slow = module_slow or any(_is_slow_mark_expression(decorator) for decorator in node.decorator_list)
-            for child in node.body:
-                if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)) and child.name.startswith("test_"):
-                    if not class_slow and not any(_is_slow_mark_expression(decorator) for decorator in child.decorator_list):
-                        return True
-    return False
-
-
-def _include_in_fast_suite(path: Path) -> bool:
-    try:
-        return _has_non_slow_tests(path)
-    except SyntaxError:
-        return True
-
-
 def discover_fast_suite_files() -> List[str]:
-    """Return the deterministic sorted test-file list for the non-slow tests/ suite."""
+    """Return the deterministic sorted test-file list for the repository-root tests/ suite."""
     test_root = _ROOT / "tests"
     return sorted(
         path.relative_to(_ROOT).as_posix()
         for path in test_root.rglob("test_*.py")
-        if path.is_file() and _include_in_fast_suite(path)
+        if path.is_file()
     )
 
 
