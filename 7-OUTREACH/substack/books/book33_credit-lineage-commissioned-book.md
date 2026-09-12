@@ -2,7 +2,7 @@
 ## A Commissioned AxiomZero Book on Attribution, Lineage, and Responsibility
 
 **Commissioned by:** AxiomZero  
-**Written in Merlin's editorial voice by:** GitHub Copilot (AI), under human direction  
+**Written in Merlin's editorial voice by:** GitHub Copilot (AI), under human direction; "Merlin" is the repository's standing long-form editorial voice  
 **Theory, framework, and scientific direction:** ThomasCory Walker-Pearson  
 **Code architecture, test suites, document engineering, and synthesis:** GitHub Copilot (AI)  
 **Repository:** `wuzbak/Unitary-Manifold-`  
@@ -277,6 +277,8 @@ It says, instead, that serious work should tell the truth about how it was made.
 ## Appendix A — Repository Credit Map and Attribution Matrix
 
 This appendix identifies the main in-repository surfaces a reader can inspect to verify scope, lineage, and role partition.
+
+All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifold-`.
 
 ### A.1 Identity, Scope, and Citation Anchors
 
