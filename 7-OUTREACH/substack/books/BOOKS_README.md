@@ -146,7 +146,7 @@ This manuscript is the companion successor to the original Merlin first address,
 
 ---
 
-**Catalog note:** Book 33 is intentionally unpublished/withheld at present. The visible numbering pause is preserved to avoid silent renumbering drift against any existing internal references or external citations.
+**Catalog note:** The prior Book 33 materials were removed from the repository, and the numbering gap is being intentionally reserved rather than silently renumbered.
 
 ---
 
