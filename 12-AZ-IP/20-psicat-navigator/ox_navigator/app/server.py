@@ -185,6 +185,16 @@ def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
     return 200, {"ok": True, "data": result["data"]}
 
 
+def _is_merlin_compat_route(path: str) -> bool:
+    return path == '/api/merlin' or path.startswith('/api/merlin/')
+
+
+def _normalize_psicat_compat_route(path: str) -> str:
+    if _is_merlin_compat_route(path):
+        return '/api/psicat' + path[len('/api/merlin'):]
+    return path
+
+
 def _secure_cookie_required(host: str) -> bool:
     override = str(os.environ.get('MERLIN_COOKIE_SECURE') or '').strip().lower()
     if override in {'1', 'true', 'yes', 'on'}:
@@ -472,14 +482,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):  # noqa: N802
         parsed = urlparse(self.path)
-        route_path = parsed.path
-        if route_path.startswith('/api/merlin'):
-            route_path = '/api/psicat' + route_path[len('/api/merlin'):]
+        route_path = _normalize_psicat_compat_route(parsed.path)
         params = parse_qs(parsed.query)
         profile_hint = self._profile_hint(params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
         self._handshake_state = "not_issued"
-        if parsed.path.startswith('/api/psicat') or parsed.path.startswith('/api/merlin') or parsed.path.startswith('/api/ox'):
+        if parsed.path.startswith('/api/psicat') or _is_merlin_compat_route(parsed.path) or parsed.path.startswith('/api/ox'):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
         with merlin_lock:
@@ -1392,9 +1400,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):  # noqa: N802
         parsed = urlparse(self.path)
-        route_path = parsed.path
-        if route_path.startswith('/api/merlin'):
-            route_path = '/api/psicat' + route_path[len('/api/merlin'):]
+        route_path = _normalize_psicat_compat_route(parsed.path)
         params = parse_qs(parsed.query)
         length = int(self.headers.get('Content-Length', '0'))
         raw = self.rfile.read(length)
