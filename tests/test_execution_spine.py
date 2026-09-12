@@ -58,6 +58,9 @@ def test_quantum_run_artifact_contains_execution_spine(tmp_path: Path) -> None:
     assert payload["execution_spine"]["schema_version"] == EXECUTION_SPINE_SCHEMA_VERSION
     assert payload["execution_spine"]["lane"] == "lane_e_quantum_adjacent"
     assert payload["execution_spine"]["governance"]["epistemic_label"] == "ADJACENT_TRACK"
+    assert payload["execution_spine"]["governance"]["fail_closed"] is True
+    assert payload["execution_spine"]["health_checks"][0]["check_id"] == "observable_history_present"
+    assert payload["execution_spine"]["promotion"]["gate"] == "adjacent_only"
 
 
 def test_xdiag_bridge_artifact_contains_execution_spine(tmp_path: Path) -> None:
@@ -74,3 +77,6 @@ def test_xdiag_bridge_artifact_contains_execution_spine(tmp_path: Path) -> None:
     payload = json.loads(path.read_text(encoding="utf-8"))
     assert payload["execution_spine"]["surface_kind"] == "xdiag_bridge_artifact"
     assert payload["execution_spine"]["compatibility"]["optional_backend"] == "xdiag"
+    assert payload["execution_spine"]["governance"]["fail_closed"] is True
+    assert payload["execution_spine"]["health_checks"][0]["check_id"] == "spectra_present"
+    assert payload["execution_spine"]["promotion"]["gate"] == "adjacent_only"

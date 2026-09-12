@@ -4559,7 +4559,11 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
             promotion_rule="The charter governs convergence sequencing and evidence requirements; it does not inflate capability on its own.",
             compatibility={
                 "primary_endpoint": "/api/psicat/convergence-charter",
-                "legacy_endpoints": ["/api/merlin/convergence-charter", "/api/ox"],
+                "legacy_endpoints": ["/api/merlin/*", "/api/ox*"],
+                "legacy_route_examples": [
+                    "/api/merlin/convergence-charter",
+                    "/api/ox/convergence-charter",
+                ],
             },
             health_checks=[
                 ExecutionSpineHealthCheck(

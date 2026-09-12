@@ -53,9 +53,11 @@ def test_server_convergence_charter_endpoint() -> None:
             compat = client.get("/api/merlin/convergence-charter")
             assert compat.status_code == 200
             assert compat.json()["convergence_charter"]["execution_spine"]["compatibility"]["legacy_endpoints"] == [
-                "/api/merlin/convergence-charter",
-                "/api/ox",
+                "/api/merlin/*",
+                "/api/ox*",
             ]
+            ox = client.get("/api/ox/convergence-charter")
+            assert ox.status_code == 200
     finally:
         httpd.shutdown()
         thread.join(timeout=5)
