@@ -38,3 +38,17 @@ def test_hosted_ci_workflows_run_pushes_only_on_main() -> None:
 def test_psicat_performance_gate_limits_pushes_to_main() -> None:
     assert _extract_branches("psicat-performance-gate.yml", "push") == ["main"]
     assert _extract_branches("psicat-performance-gate.yml", "pull_request") == ["**"]
+
+
+def test_tests_workflow_restores_required_coverage_gate() -> None:
+    workflow = _load("tests.yml")
+    jobs = workflow["jobs"]
+
+    coverage_job = jobs["coverage-gate"]
+    coverage_step = next(
+        step for step in coverage_job["steps"] if step.get("name") == "Run coverage regression gate"
+    )
+
+    assert "--cov=src" in coverage_step["run"]
+    assert "--cov-fail-under=85" in coverage_step["run"]
+    assert "coverage-gate" in jobs["full-regression-gate"]["needs"]
