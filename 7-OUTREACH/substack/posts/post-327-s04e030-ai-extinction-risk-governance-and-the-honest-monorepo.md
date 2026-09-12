@@ -107,7 +107,7 @@ That is not a final answer to AI existential risk. It is something better than a
 It is a beginning that knows it is a beginning.
 
 *Repository: `wuzbak/Unitary-Manifold-`*  
-*Relevant files: `SEPARATION.md`, `LICENSE`, `DUAL_USE_NOTICE.md`, `5-GOVERNANCE/STEWARDSHIP.md`, `5-GOVERNANCE/co-emergence/TRUST_PROTOCOL.md`, `src/core/pillar510_ai_governance_stack.py`, `8-SAFETY/SAFETY/README.md`, `8-SAFETY/SAFETY/unitarity_sentinel.py`, `8-SAFETY/SAFETY/thermal_runaway_mitigation.py`, `5-GOVERNANCE/Unitary Pentad/distributed_authority.py`, `5-GOVERNANCE/Unitary Pentad/sentinel_load_balance.py`*  
+*Selected current-tree files discussed above: `LICENSE`, `DUAL_USE_NOTICE.md`, `SEPARATION.md`, `5-GOVERNANCE/STEWARDSHIP.md`, `5-GOVERNANCE/co-emergence/TRUST_PROTOCOL.md`, `src/core/pillar510_ai_governance_stack.py`, `8-SAFETY/SAFETY/unitarity_sentinel.py`, `8-SAFETY/SAFETY/thermal_runaway_mitigation.py`, `5-GOVERNANCE/Unitary Pentad/distributed_authority.py`, `5-GOVERNANCE/Unitary Pentad/sentinel_load_balance.py`*  
 *For the live regression record and current branch caveats, see `STATUS.md`.*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
