@@ -1874,6 +1874,8 @@ def run_sync_checks() -> dict[str, Any]:
         "/api/merlin/promotion-packet",
         "/api/merlin/sync-checks",
         "/api/merlin/identity",
+        "/api/psicat/execution-board",
+        "/api/psicat/validation-resilience",
         "/api/psicat/local-execution/status",
         "/api/psicat/local-execution/run",
         "/api/psicat/spc-phase0-packet",

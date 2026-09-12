@@ -190,19 +190,21 @@ def _is_merlin_compat_route(path: str) -> bool:
 
 
 def _normalize_psicat_compat_route(path: str) -> str:
+    normalized = path
     if _is_merlin_compat_route(path):
         suffix = path[len('/api/merlin'):]
-        return '/api/psicat' if suffix == '/' else '/api/psicat' + suffix
-    if path.startswith('/api/ox/'):
+        normalized = '/api/psicat' if suffix == '/' else '/api/psicat' + suffix
+    elif path.startswith('/api/ox/'):
         suffix = path[len('/api/ox'):]
         if suffix == '/':
-            return '/api/ox'
-        if suffix in {'/status', '/status/'}:
-            return '/api/ox/status'
-        return '/api/psicat' + suffix
-    if path == '/api/ox':
-        return path
-    return path
+            normalized = '/api/ox'
+        elif suffix in {'/status', '/status/'}:
+            normalized = '/api/ox/status'
+        else:
+            normalized = '/api/psicat' + suffix
+    if normalized.endswith('/') and normalized not in {'/', ''}:
+        normalized = normalized.rstrip('/')
+    return normalized
 
 
 def _secure_cookie_required(host: str) -> bool:

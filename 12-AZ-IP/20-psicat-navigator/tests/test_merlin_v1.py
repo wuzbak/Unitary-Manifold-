@@ -3372,6 +3372,8 @@ def test_run_sync_checks_has_consistency_contract():
     assert all(item['ok'] for item in checks['consistency']['gate_checks'])
     runtime_endpoints = {item['endpoint'] for item in checks['runtime_endpoint_checks'] if item['present']}
     assert {
+        '/api/psicat/execution-board',
+        '/api/psicat/validation-resilience',
         '/api/psicat/local-execution/status',
         '/api/psicat/local-execution/run',
         '/api/psicat/spc-phase0-packet',
