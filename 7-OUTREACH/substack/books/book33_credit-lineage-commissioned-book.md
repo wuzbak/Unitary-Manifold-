@@ -275,11 +275,12 @@ It says, instead, that serious work should tell the truth about how it was made.
 
 ---
 
+<a id="appendix-a-credit-map"></a>
 ## Appendix A — Repository Credit Map and Attribution Matrix
 
 This appendix identifies the main in-repository surfaces a reader can inspect to verify scope, lineage, and role partition.
 
-All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifold-`. Each entry also includes a direct GitHub audit link for convenience. Those links are pinned to the current revision of the repository so the audit surface remains reproducible alongside the stable path labels listed here.
+All paths below are repository-root-relative paths inside `wuzbak/Unitary-Manifold-`. Each entry also includes a direct GitHub audit link for convenience. Those links are pinned to repository revision `92d616e782ec84b372fa28abbf2c842815eeb36a` so the audit surface remains reproducible alongside the stable path labels listed here.
 
 ### A.1 Identity, Scope, and Citation Anchors
 
@@ -350,6 +351,7 @@ When attribution boundaries materially change, update this appendix and the main
 
 ---
 
+<a id="appendix-b-credit-list"></a>
 ## Appendix B — External Lineage and Foundational Credit List
 
 This appendix provides a compact external lineage and credit list for public-facing citation and orientation.
@@ -399,6 +401,7 @@ Minimum credit block for derivative materials:
 
 ---
 
+<a id="glossary"></a>
 ## Glossary
 
 **Attribution** — a precise account of who or what a work depends on, and who is responsible for which parts of it.
