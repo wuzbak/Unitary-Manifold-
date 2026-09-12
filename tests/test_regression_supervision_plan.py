@@ -17,6 +17,7 @@ def test_discovery_returns_sorted_files() -> None:
     files = discover_fast_suite_files()
     assert files == sorted(files)
     assert 'tests/test_regression_supervision_plan.py' in files
+    assert 'tests/test_richardson_multitime.py' not in files
 
 
 def test_batches_cover_discovered_fast_suite_without_overlap() -> None:
@@ -48,3 +49,17 @@ def test_regression_supervision_plan_reports_consistent_coverage() -> None:
     assert plan['supervision']['all_files_unique'] is True
     assert len(plan['supervised_fast_suite']['batches']) == DEFAULT_FAST_BATCH_COUNT
     assert plan['remaining_canonical_suites']['slow'] == 'python -m pytest tests/ -m "slow" -q'
+    assert plan['remaining_canonical_suites']['claims'] == 'python -m pytest claims/ -q'
+
+
+def test_regression_supervision_plan_omits_claims_when_directory_is_missing(tmp_path, monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    tests_dir = tmp_path / 'tests'
+    tests_dir.mkdir()
+    (tests_dir / 'test_fast.py').write_text('def test_fast():\n    assert True\n', encoding='utf-8')
+    monkeypatch.setattr(supervision, '_ROOT', tmp_path)
+
+    plan = supervision.build_regression_supervision_plan(batch_count=1)
+
+    assert 'claims' not in plan['remaining_canonical_suites']

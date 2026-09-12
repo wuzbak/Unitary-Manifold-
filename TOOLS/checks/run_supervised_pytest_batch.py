@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -40,7 +41,7 @@ def _run(command: str, dry_run: bool) -> int:
     print(command)
     if dry_run:
         return 0
-    completed = subprocess.run(command, shell=True)
+    completed = subprocess.run(shlex.split(command), check=False)
     return completed.returncode
 
 

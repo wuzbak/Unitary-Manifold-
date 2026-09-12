@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import ast
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -25,13 +26,56 @@ COMPACTIFIED_PREFLIGHT_FILES = [
 ]
 
 
+def _is_slow_mark_expression(node: ast.AST) -> bool:
+    candidate = node.func if isinstance(node, ast.Call) else node
+    if not isinstance(candidate, ast.Attribute) or candidate.attr != "slow":
+        return False
+    mark_owner = candidate.value
+    return (
+        isinstance(mark_owner, ast.Attribute)
+        and mark_owner.attr == "mark"
+        and isinstance(mark_owner.value, ast.Name)
+        and mark_owner.value.id == "pytest"
+    )
+
+
+def _has_module_slow_mark(tree: ast.Module) -> bool:
+    for node in tree.body:
+        if not isinstance(node, (ast.Assign, ast.AnnAssign)):
+            continue
+        targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+        if not any(isinstance(target, ast.Name) and target.id == "pytestmark" for target in targets):
+            continue
+        value = node.value
+        if isinstance(value, (ast.List, ast.Tuple, ast.Set)):
+            return any(_is_slow_mark_expression(element) for element in value.elts)
+        return _is_slow_mark_expression(value)
+    return False
+
+
+def _has_non_slow_tests(path: Path) -> bool:
+    tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    module_slow = _has_module_slow_mark(tree)
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name.startswith("test_"):
+            if not module_slow and not any(_is_slow_mark_expression(decorator) for decorator in node.decorator_list):
+                return True
+        if isinstance(node, ast.ClassDef) and node.name.startswith("Test"):
+            class_slow = module_slow or any(_is_slow_mark_expression(decorator) for decorator in node.decorator_list)
+            for child in node.body:
+                if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)) and child.name.startswith("test_"):
+                    if not class_slow and not any(_is_slow_mark_expression(decorator) for decorator in child.decorator_list):
+                        return True
+    return False
+
+
 def discover_fast_suite_files() -> List[str]:
     """Return the deterministic sorted test-file list for the non-slow tests/ suite."""
     test_root = _ROOT / "tests"
     return sorted(
         path.relative_to(_ROOT).as_posix()
         for path in test_root.rglob("test_*.py")
-        if path.is_file()
+        if path.is_file() and _has_non_slow_tests(path)
     )
 
 
@@ -96,6 +140,14 @@ def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUN
     all_files = [path for batch in batches for path in batch["test_paths"]]
     discovered = discover_fast_suite_files()
     unique_files = sorted(set(all_files))
+    remaining_canonical_suites: Dict[str, str] = {
+        "slow": f'python -m pytest {FAST_SUITE_PATH} -m "{SLOW_MARK_EXPRESSION}" -q',
+        "recycling": f"python -m pytest {RECYCLING_SUITE_PATH} -q",
+        "pentad": f'python -m pytest "{PENTAD_SUITE_PATH}" -q',
+        "full": f'python3 -m pytest {FAST_SUITE_PATH} {RECYCLING_SUITE_PATH} "{PENTAD_SUITE_PATH}" -q',
+    }
+    if (_ROOT / CLAIMS_SUITE_PATH.rstrip("/")).is_dir():
+        remaining_canonical_suites["claims"] = f"python -m pytest {CLAIMS_SUITE_PATH} -q"
     return {
         "default_fast_batch_count": batch_count,
         "compactified_preflight": {
@@ -111,13 +163,7 @@ def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUN
                 for index in range(batch_count)
             ],
         },
-        "remaining_canonical_suites": {
-            "slow": f'python -m pytest {FAST_SUITE_PATH} -m "{SLOW_MARK_EXPRESSION}" -q',
-            "claims": f"python -m pytest {CLAIMS_SUITE_PATH} -q",
-            "recycling": f"python -m pytest {RECYCLING_SUITE_PATH} -q",
-            "pentad": f'python -m pytest "{PENTAD_SUITE_PATH}" -q',
-            "full": f'python3 -m pytest {FAST_SUITE_PATH} {RECYCLING_SUITE_PATH} "{PENTAD_SUITE_PATH}" -q',
-        },
+        "remaining_canonical_suites": remaining_canonical_suites,
         "supervision": {
             "coverage_matches_discovery": all_files == discovered,
             "all_files_unique": len(unique_files) == len(all_files),
