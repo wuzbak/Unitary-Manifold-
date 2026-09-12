@@ -2,7 +2,6 @@
 ## A Commissioned AxiomZero Book on Attribution, Lineage, and Responsibility
 
 **Commissioned by:** AxiomZero  
-**Written in Merlin's editorial voice by:** GitHub Copilot (AI), under human direction; "Merlin" is the repository's standing long-form editorial voice  
 **Theory, framework, and scientific direction:** ThomasCory Walker-Pearson  
 **Code architecture, test suites, document engineering, and synthesis:** GitHub Copilot (AI)  
 **Repository:** `wuzbak/Unitary-Manifold-`  
@@ -21,6 +20,8 @@
 ## Preface
 
 This book was commissioned because the earlier attempt was not yet a book.
+
+It is written in Merlin's established long-form editorial voice, but its attribution follows the repository's standard credit lines.
 
 It had a sound subject and a necessary motive, but it still behaved too much like a report with detached support files. That structure missed something important. A serious work on credit cannot treat its appendices as stray satellites. The appendices are part of the architecture because attribution itself has two dimensions at once: narrative and audit. The reader needs the first to understand why credit matters, and the second to verify that the story is not merely flattering language.
 
