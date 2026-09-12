@@ -104,3 +104,8 @@ def test_override_validators_enforce_schema() -> None:
             [{"id": "EXTERNAL_OBSERVATION_DEPENDENCY"}],
             proof_class="LEAN_UNCONDITIONAL",
         )
+
+
+def test_mapped_row_without_proof_class_is_rejected_cleanly() -> None:
+    with pytest.raises(ValueError, match="requires an epistemic_class"):
+        certificate_requirements_for_row({"id": "ACTION_TO_EVOLUTION_BOUNDARY"})

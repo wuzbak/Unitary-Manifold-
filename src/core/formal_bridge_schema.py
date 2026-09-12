@@ -152,7 +152,12 @@ def certificate_requirements_for_row(row: Dict[str, Any]) -> List[Dict[str, Any]
     ids = _ROW_CERTIFICATE_REQUIREMENTS.get(row_id, [])
     if not ids:
         return []
-    allowed = {item["id"]: item for item in certificate_types_for_proof_class(str(row.get("epistemic_class") or ""))}
+    proof_class = str(row.get("epistemic_class") or "").strip()
+    if not proof_class:
+        raise ValueError(
+            f"Row {row_id or '<unknown>'} requires an epistemic_class before certificate requirements can be resolved"
+        )
+    allowed = {item["id"]: item for item in certificate_types_for_proof_class(proof_class)}
     result = []
     for item_id in ids:
         if item_id in allowed:
