@@ -28,8 +28,8 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
-      - name: Run pytest (fast suite — tests/ excluding @pytest.mark.slow)
-        run: python -m pytest tests/ -m "not slow" -v
+      - name: Run pytest (fast suite — tests/ excluding @pytest.mark.slow, xdist)
+        run: python -m pytest tests/ -m "not slow" -n auto --dist loadscope -v
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 2: Slow test suite (tests/ -m slow — Richardson extrapolation etc.)
