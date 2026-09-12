@@ -10,6 +10,7 @@ import hashlib
 import hmac
 import json
 import os
+import re
 import threading
 import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -124,6 +125,7 @@ _OBSERVATORY_INTERVAL_SECONDS = max(60.0, float(os.environ.get("MERLIN_OBSERVATO
 _OBSERVATORY_FAILURE_RETRY_SECONDS = max(10.0, float(os.environ.get("MERLIN_OBSERVATORY_FAILURE_RETRY_SECONDS", "60") or 60.0))
 _OBSERVATORY_LAST_RESULT: dict[str, object] = {"ok": True, "records": [], "ruptures": [], "fail_closed": False, "sources": []}
 _OBSERVATORY_POLL_IN_PROGRESS = False
+_OX_COMPAT_ROUTE_RE = re.compile(r"^/api/ox(?:/|$)")
 def _sign_session_id(session_id: str) -> str:
     signature = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
     return f'{session_id}.{signature}'
@@ -191,7 +193,7 @@ def _is_merlin_compat_route(path: str) -> bool:
 
 def _is_ox_compat_route(path: str) -> bool:
     normalized = path if path == '/' else path.rstrip('/')
-    return normalized == '/api/ox' or normalized.startswith('/api/ox/')
+    return bool(_OX_COMPAT_ROUTE_RE.match(normalized))
 
 
 def _normalize_psicat_compat_route(path: str) -> str:
@@ -551,27 +553,26 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     },
                     'observatory_ingestion_lane': get_observatory_ingestion_lane(),
                 }
-                legacy_root_allowlist = (
-                    'service',
-                    'internal_persona_name',
-                    'steward_persona_alias',
-                    'psicat_available',
-                    'merlin_available',
-                    'live_model_available',
-                    'openrouter_compat_enabled',
-                    'rebrand_label',
-                    'model',
-                    'context_pack_exists',
-                )
-                legacy_root_payload = {key: status_payload[key] for key in legacy_root_allowlist}
+                legacy_root_payload = {
+                    'service': status_payload['service'],
+                    'internal_persona_name': status_payload['internal_persona_name'],
+                    'steward_persona_alias': status_payload['steward_persona_alias'],
+                    'psicat_available': status_payload['psicat_available'],
+                    'merlin_available': status_payload['merlin_available'],
+                    'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
+                    'api_base': 'local',
+                }
+                legacy_status_payload = {
+                    **legacy_root_payload,
+                    'router_policy': status_payload['router_policy'],
+                    'memory_profile_token': status_payload['memory_profile_token'],
+                    'session_contract': status_payload['session_contract'],
+                    'compatibility': status_payload['compatibility'],
+                }
                 if route_path == '/api/ox':
                     self._json(legacy_root_payload)
                 elif route_path == '/api/ox/status':
-                    self._json({
-                        **legacy_root_payload,
-                        'ox_available': bool(status_payload['psicat_available'] and status_payload['merlin_available']),
-                        'api_base': 'local',
-                    })
+                    self._json(legacy_status_payload)
                 else:
                     self._json(status_payload)
                 self._persist_session(session_id, merlin_session)

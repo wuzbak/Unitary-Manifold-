@@ -29,9 +29,14 @@ on:
       - 'TOOLS/checks/check_large_files.py'
       - '.github/workflows/bazel-pilot.yml'
 
+concurrency:
+  group: bazel-pilot-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   bazel-metric-pilot:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
     steps:
@@ -59,6 +64,7 @@ jobs:
             --test_output=errors
       - name: Save Bazel caches
         if: always()
+        continue-on-error: true
         uses: actions/cache/save@v4
         with:
           path: |

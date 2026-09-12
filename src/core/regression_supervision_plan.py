@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import shlex
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -15,6 +16,9 @@ FAST_SUITE_PATH = "tests/"
 CLAIMS_SUITE_PATH = "claims/"
 RECYCLING_SUITE_PATH = "recycling/"
 PENTAD_SUITE_PATH = "5-GOVERNANCE/Unitary Pentad/"
+FAST_SUITE_EXCLUDED_FILES = {
+    "tests/test_richardson_multitime.py",
+}
 COMPACTIFIED_PREFLIGHT_FILES = [
     "tests/test_closure_batch1.py",
     "tests/test_closure_batch2.py",
@@ -24,14 +28,13 @@ COMPACTIFIED_PREFLIGHT_FILES = [
     "tests/test_action_to_evolution_contract.py",
 ]
 
-
 def discover_fast_suite_files() -> List[str]:
-    """Return the deterministic sorted test-file list for the non-slow tests/ suite."""
+    """Return the deterministic sorted test-file list for the repository-root tests/ suite."""
     test_root = _ROOT / "tests"
     return sorted(
         path.relative_to(_ROOT).as_posix()
         for path in test_root.rglob("test_*.py")
-        if path.is_file()
+        if path.is_file() and path.relative_to(_ROOT).as_posix() not in FAST_SUITE_EXCLUDED_FILES
     )
 
 
@@ -72,22 +75,40 @@ def build_fast_suite_batches(batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> Lis
     return batches
 
 
+def _fast_batch_argv_from_paths(paths: List[str]) -> List[str]:
+    if not paths:
+        return []
+    return ["python", "-m", "pytest", "-n", "auto", "-m", FAST_MARK_EXPRESSION, *paths, "-q"]
+
+
+def _fast_batch_command_from_paths(paths: List[str]) -> str:
+    return shlex.join(_fast_batch_argv_from_paths(paths))
+
+
 def fast_batch_command(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> str:
     """Return the canonical pytest command for one supervised non-slow batch."""
     batches = build_fast_suite_batches(batch_count=batch_count)
     if batch_index < 0 or batch_index >= len(batches):
         raise IndexError("batch_index out of range")
-    batch = batches[batch_index]
-    if not batch["test_paths"]:
-        raise ValueError("selected batch is empty")
-    paths = " ".join(batch["test_paths"])
-    return f'python -m pytest -n auto -m "{FAST_MARK_EXPRESSION}" {paths} -q'
+    return _fast_batch_command_from_paths(batches[batch_index]["test_paths"])
+
+
+def fast_batch_argv(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> List[str]:
+    """Return the canonical pytest argv for one supervised non-slow batch."""
+    batches = build_fast_suite_batches(batch_count=batch_count)
+    if batch_index < 0 or batch_index >= len(batches):
+        raise IndexError("batch_index out of range")
+    return _fast_batch_argv_from_paths(batches[batch_index]["test_paths"])
 
 
 def compactified_preflight_command() -> str:
     """Return the canonical compactified preflight command."""
-    files = " ".join(COMPACTIFIED_PREFLIGHT_FILES)
-    return f"python -m pytest {files} -q"
+    return shlex.join(compactified_preflight_argv())
+
+
+def compactified_preflight_argv() -> List[str]:
+    """Return the canonical compactified preflight argv."""
+    return ["python", "-m", "pytest", *COMPACTIFIED_PREFLIGHT_FILES, "-q"]
 
 
 def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> Dict[str, Any]:
@@ -96,6 +117,14 @@ def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUN
     all_files = [path for batch in batches for path in batch["test_paths"]]
     discovered = discover_fast_suite_files()
     unique_files = sorted(set(all_files))
+    remaining_canonical_suites: Dict[str, str] = {
+        "slow": f'python -m pytest {FAST_SUITE_PATH} -m "{SLOW_MARK_EXPRESSION}" -q',
+        "recycling": f"python -m pytest {RECYCLING_SUITE_PATH} -q",
+        "pentad": f'python -m pytest "{PENTAD_SUITE_PATH}" -q',
+        "full": f'python3 -m pytest {FAST_SUITE_PATH} {RECYCLING_SUITE_PATH} "{PENTAD_SUITE_PATH}" -q',
+    }
+    if (_ROOT / CLAIMS_SUITE_PATH.rstrip("/")).is_dir():
+        remaining_canonical_suites["claims"] = f"python -m pytest {CLAIMS_SUITE_PATH} -q"
     return {
         "default_fast_batch_count": batch_count,
         "compactified_preflight": {
@@ -107,17 +136,11 @@ def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUN
             "marker_expression": FAST_MARK_EXPRESSION,
             "batches": batches,
             "batch_commands": [
-                fast_batch_command(batch_index=index, batch_count=batch_count)
-                for index in range(batch_count)
+                _fast_batch_command_from_paths(batch["test_paths"])
+                for batch in batches
             ],
         },
-        "remaining_canonical_suites": {
-            "slow": f'python -m pytest {FAST_SUITE_PATH} -m "{SLOW_MARK_EXPRESSION}" -q',
-            "claims": f"python -m pytest {CLAIMS_SUITE_PATH} -q",
-            "recycling": f"python -m pytest {RECYCLING_SUITE_PATH} -q",
-            "pentad": f'python -m pytest "{PENTAD_SUITE_PATH}" -q',
-            "full": f'python3 -m pytest {FAST_SUITE_PATH} {RECYCLING_SUITE_PATH} "{PENTAD_SUITE_PATH}" -q',
-        },
+        "remaining_canonical_suites": remaining_canonical_suites,
         "supervision": {
             "coverage_matches_discovery": all_files == discovered,
             "all_files_unique": len(unique_files) == len(all_files),
@@ -133,7 +156,9 @@ __all__ = [
     "FAST_MARK_EXPRESSION",
     "build_fast_suite_batches",
     "build_regression_supervision_plan",
+    "compactified_preflight_argv",
     "compactified_preflight_command",
     "discover_fast_suite_files",
+    "fast_batch_argv",
     "fast_batch_command",
 ]

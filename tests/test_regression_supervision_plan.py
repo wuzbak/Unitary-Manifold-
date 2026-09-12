@@ -17,6 +17,7 @@ def test_discovery_returns_sorted_files() -> None:
     files = discover_fast_suite_files()
     assert files == sorted(files)
     assert 'tests/test_regression_supervision_plan.py' in files
+    assert 'tests/test_richardson_multitime.py' not in files
 
 
 def test_batches_cover_discovered_fast_suite_without_overlap() -> None:
@@ -30,9 +31,27 @@ def test_batches_cover_discovered_fast_suite_without_overlap() -> None:
 
 def test_fast_batch_command_uses_non_slow_marker() -> None:
     command = fast_batch_command(batch_index=0, batch_count=DEFAULT_FAST_BATCH_COUNT)
-    assert 'python -m pytest -n auto -m "not slow"' in command
+    assert "python -m pytest -n auto -m 'not slow'" in command
     assert command.endswith(' -q')
     assert 'tests/' in command
+
+
+def test_fast_batch_command_returns_empty_string_for_empty_batch(tmp_path, monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    tests_dir = tmp_path / 'tests'
+    tests_dir.mkdir()
+    (tests_dir / 'test_fast.py').write_text('def test_fast():\n    assert True\n', encoding='utf-8')
+    monkeypatch.setattr(supervision, '_ROOT', tmp_path)
+
+    assert supervision.fast_batch_command(batch_index=1, batch_count=2) == ""
+
+
+def test_build_fast_suite_batches_rejects_non_positive_batch_count() -> None:
+    import pytest
+
+    with pytest.raises(ValueError, match='batch_count must be positive'):
+        build_fast_suite_batches(batch_count=0)
 
 
 def test_compactified_preflight_files_exist_and_command_is_canonical() -> None:
@@ -48,3 +67,29 @@ def test_regression_supervision_plan_reports_consistent_coverage() -> None:
     assert plan['supervision']['all_files_unique'] is True
     assert len(plan['supervised_fast_suite']['batches']) == DEFAULT_FAST_BATCH_COUNT
     assert plan['remaining_canonical_suites']['slow'] == 'python -m pytest tests/ -m "slow" -q'
+    assert plan['remaining_canonical_suites']['claims'] == 'python -m pytest claims/ -q'
+
+
+def test_regression_supervision_plan_omits_claims_when_directory_is_missing(tmp_path, monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    tests_dir = tmp_path / 'tests'
+    tests_dir.mkdir()
+    (tests_dir / 'test_fast.py').write_text('def test_fast():\n    assert True\n', encoding='utf-8')
+    monkeypatch.setattr(supervision, '_ROOT', tmp_path)
+
+    plan = supervision.build_regression_supervision_plan(batch_count=1)
+
+    assert 'claims' not in plan['remaining_canonical_suites']
+
+
+def test_discovery_keeps_syntax_error_files_in_fast_suite(tmp_path, monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    tests_dir = tmp_path / 'tests'
+    tests_dir.mkdir()
+    broken = tests_dir / 'test_broken.py'
+    broken.write_text('def test_broken(:\n    pass\n', encoding='utf-8')
+    monkeypatch.setattr(supervision, '_ROOT', tmp_path)
+
+    assert supervision.discover_fast_suite_files() == ['tests/test_broken.py']
