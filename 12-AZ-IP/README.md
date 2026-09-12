@@ -7,6 +7,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Rebrand label: **REBRAND-2026-09-PSICAT**
 - Legal separation notice: [`BRAND_SEPARATION_NOTICE_PSICAT.md`](./BRAND_SEPARATION_NOTICE_PSICAT.md)
 - Internal/steward-facing identity for ThomasCory remains **Merlin**.
+- Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 
 ## Product registry (24 canonical software products / surfaces)
 
@@ -31,7 +32,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 17 | UM Physics Image Generator | 1.0.0 | TRL-5 | Browser / static | 113 | Canvas 2D browser tool generating PNG visualizations for 8 UM physics concepts. | [17-um-image-generator/](17-um-image-generator/) |
 | 18 | UM Reader / Educator | 1.0.0 | TRL-5 | Browser / static | 90 | 302-entry reading & TTS platform for the UM framework — offline, KaTeX, 9 categories. | [18-um-reader/](18-um-reader/) |
 | 19 | Falsification Observatory | 1.0.0 | TRL-5 | Browser / static | 112 | Live tracker for 7 experiments testing UM predictions — PASS / TENSION / FALSIFIED verdicts. | [19-falsification-observatory/](19-falsification-observatory/) |
-| 20 | PsiCat Navigator (formerly Merlin Navigator) | 1.0.0 | TRL-4 | Browser + /api/psicat (+ /api/ox compatibility) | 149 | AI physics/governance navigator with identity trust policy, Sentinel do-no-harm enforcement, and compatibility shim endpoints. | [20-psicat-navigator/](20-psicat-navigator/) |
+| 20 | PsiCat Navigator (formerly Merlin Navigator) | 1.0.0 | TRL-4 | Browser + /api/psicat (+ /api/ox compatibility) | 149 | AI physics/governance navigator and canonical execution/control plane with identity trust policy, Sentinel do-no-harm enforcement, and compatibility shim endpoints. | [20-psicat-navigator/](20-psicat-navigator/) |
 | 21 | UM Geophysical Monitor | 1.0.0 | TRL-5 | Browser / static | 121 | Live globe disaster monitor with USGS + NASA EONET feeds and UM φ-overlay (P806/P786/P16). | [21-geo-monitor/](21-geo-monitor/) |
 | 22 | AxiomZero SGE | 1.0.0 | TRL-7 | http://localhost:7622 | 229 | Next-gen system security governance engine for anti-malware, zero-day detection, IDS, firewall, anti-surveillance, and governed protection workflows. | [22-az-sge/](22-az-sge/) |
 | 23 | PsiCat DM Guide & Player Assistant | 1.1.0 | TRL-3 | http://localhost:8033 | 17 | Offline-first Dungeons & Dragons 5e / 5.5e campaign assistant with separate DM/player dashboards, invite-code joins, character import, XP/treasure/gold/item tracking, maps, NPCs, image pushes, and PsiCat expert guidance. | [23-psicat-dm-assistant/](23-psicat-dm-assistant/) |

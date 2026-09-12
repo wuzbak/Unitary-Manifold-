@@ -53,6 +53,7 @@ from ox_navigator.engine.merlin_program import (
     get_training_framework_stack,
     get_frontier_readiness_packet,
     get_frontier_open_weight_stack,
+    get_psicat_convergence_charter,
     get_merlin_execution_board,
     get_merlin_hardware_architecture_board,
     get_merlin_heavy_reasoning_lane,
@@ -123,8 +124,6 @@ _OBSERVATORY_INTERVAL_SECONDS = max(60.0, float(os.environ.get("MERLIN_OBSERVATO
 _OBSERVATORY_FAILURE_RETRY_SECONDS = max(10.0, float(os.environ.get("MERLIN_OBSERVATORY_FAILURE_RETRY_SECONDS", "60") or 60.0))
 _OBSERVATORY_LAST_RESULT: dict[str, object] = {"ok": True, "records": [], "ruptures": [], "fail_closed": False, "sources": []}
 _OBSERVATORY_POLL_IN_PROGRESS = False
-
-
 def _sign_session_id(session_id: str) -> str:
     signature = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
     return f'{session_id}.{signature}'
@@ -183,6 +182,17 @@ def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
     if not isinstance(result, dict) or "data" not in result:
         return 500, {"ok": False, "error": "Merlin tool returned no data payload."}
     return 200, {"ok": True, "data": result["data"]}
+
+
+def _normalize_psicat_compat_route(path: str) -> str:
+    normalized = path if path == '/' else path.rstrip('/')
+    if normalized == '/api/merlin' or normalized.startswith('/api/merlin/'):
+        return '/api/psicat' + normalized[len('/api/merlin'):]
+    if normalized == '/api/ox':
+        return normalized
+    if normalized.startswith('/api/ox/'):
+        return '/api/psicat' + normalized[len('/api/ox'):]
+    return normalized
 
 
 def _secure_cookie_required(host: str) -> bool:
@@ -472,9 +482,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):  # noqa: N802
         parsed = urlparse(self.path)
-        route_path = parsed.path
-        if route_path.startswith('/api/merlin'):
-            route_path = '/api/psicat' + route_path[len('/api/merlin'):]
+        route_path = _normalize_psicat_compat_route(parsed.path)
         params = parse_qs(parsed.query)
         profile_hint = self._profile_hint(params=params)
         session_id, merlin_session, merlin_lock = self._merlin_session(profile_hint=profile_hint)
@@ -483,7 +491,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
         with merlin_lock:
-            if route_path == '/api/psicat/status':
+            if route_path in ('/api/psicat', '/api/ox', '/api/psicat/status'):
                 self._json({
                 'service': 'PsiCat — the Quantum Cat',
                 'internal_persona_name': 'Merlin',
@@ -1257,6 +1265,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/convergence-charter':
+                self._json({
+                'ok': True,
+                'convergence_charter': get_psicat_convergence_charter(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/validation-resilience':
                 limit, error = _parse_int_query_param(params, 'limit', 5)
                 if error:
@@ -1366,35 +1381,13 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 ))
                 self._persist_session(session_id, merlin_session)
                 return
-            if parsed.path == '/api/ox/status':
-                self._json({
-                'ox_available': bool(os.environ.get('OPENROUTER_API_KEY')),
-                'model': MODEL_ID,
-                'context_pack_exists': CONTEXT_PACK.exists(),
-                'api_base': 'local',
-                'psicat_available': True,
-                'merlin_available': True,
-                'service': 'Compatibility shim over Merlin Product 20',
-                'openrouter_compat_enabled': bool(os.environ.get('MERLIN_ENABLE_OPENROUTER_COMPAT')),
-                'rebrand_label': 'REBRAND-2026-09-PSICAT',
-                'session_contract': {
-                    'persistence': 'process_local_memory',
-                    'signed_cookie_resume_scope': 'same_process_only',
-                    'expired_cookie_behavior': 'new_session_id_issued',
-                    'client_blind_ingestion_contract': get_client_blind_ingestion_contract(),
-                },
-                })
-                self._persist_session(session_id, merlin_session)
-                return
         if parsed.path in ('', '/'):
             self.path = '/ox-navigator.html'
         return super().do_GET()
 
     def do_POST(self):  # noqa: N802
         parsed = urlparse(self.path)
-        route_path = parsed.path
-        if route_path.startswith('/api/merlin'):
-            route_path = '/api/psicat' + route_path[len('/api/merlin'):]
+        route_path = _normalize_psicat_compat_route(parsed.path)
         params = parse_qs(parsed.query)
         length = int(self.headers.get('Content-Length', '0'))
         raw = self.rfile.read(length)

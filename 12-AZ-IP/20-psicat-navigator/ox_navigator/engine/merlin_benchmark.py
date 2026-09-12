@@ -6,13 +6,23 @@
 from __future__ import annotations
 
 import asyncio
+from pathlib import Path
 import re
 import threading
 from datetime import datetime, timezone
 from statistics import mean
 from typing import Any
 
+from src.infrastructure.execution_spine import (
+    ExecutionSpineHealthCheck,
+    ExecutionSpineRecord,
+    build_fail_closed_governance,
+    repo_rel,
+)
+
 from .merlin_kernel_routing import infer_kernel_for_benchmark_definition
+
+REPO_ROOT = Path(__file__).resolve().parents[4]
 
 STAGE_A_BENCHMARK_CORPUS: list[dict[str, Any]] = [
     {
@@ -1802,6 +1812,47 @@ def build_stage_a_artifact_bundle(
             "stage": readiness["stage"],
             "receipts": readiness["receipts"],
             "readiness": readiness,
+            "execution_spine": ExecutionSpineRecord(
+                surface_id="psicat_stage_a_artifact_bundle",
+                surface_kind="benchmark_artifact_bundle",
+                lane="psicat_benchmark_operations",
+                status="RECEIPT_BACKED_STAGE_A_BUNDLE",
+                summary="Stage A benchmark artifact bundle for receipt-backed parity and readiness review.",
+                canonical_paths=[
+                    repo_rel(Path(__file__), REPO_ROOT),
+                    "12-AZ-IP/20-psicat-navigator/README.md",
+                ],
+                sources=[
+                    repo_rel(Path(__file__), REPO_ROOT),
+                    "12-AZ-IP/20-psicat-navigator/README.md",
+                ],
+                governance=build_fail_closed_governance(
+                    epistemic_label="GOVERNANCE",
+                    promotion_rule="Stage A artifacts inform readiness and promotion review but cannot independently clear promotion.",
+                    residual_blockers=[
+                        "Later Stage B→E receipts must remain visible for broader promotion decisions.",
+                    ],
+                ),
+                compatibility={
+                    "legacy_endpoints": ["/api/merlin/benchmark-artifacts", "/api/ox/benchmark-artifacts"],
+                    "primary_endpoint": "/api/psicat/benchmark-artifacts",
+                },
+                health_checks=[
+                    ExecutionSpineHealthCheck(
+                        check_id="stage_a_receipts_present",
+                        passed=bool(readiness["receipts"].get("runs")),
+                        status="pass" if readiness["receipts"].get("runs") else "fail",
+                        summary="Stage A artifact bundle must include concrete receipt runs.",
+                        details={"receipt_count": len(list(readiness["receipts"].get("runs") or []))},
+                        sources=[repo_rel(Path(__file__), REPO_ROOT)],
+                    ),
+                ],
+                promotion={
+                    "eligible": False,
+                    "gate": "stage_a_only",
+                    "reason": "Stage A parity evidence is necessary but insufficient for broader promotion.",
+                },
+            ).to_dict(),
             "packet_decision": packet["decision"],
             "comparable_runs": packet["empirical_gate"]["metrics"]["comparable_runs"],
             "multi_stage_plan": get_multi_stage_benchmark_plan(),
