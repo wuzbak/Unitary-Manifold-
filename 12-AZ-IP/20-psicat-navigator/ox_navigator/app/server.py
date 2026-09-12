@@ -494,7 +494,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
             self._issue_handshake_challenge(session_id)
             self._handshake_state = "challenge_issued"
         with merlin_lock:
-            if route_path == '/api/psicat/status':
+            if route_path in ('/api/psicat', '/api/ox', '/api/psicat/status'):
                 self._json({
                 'service': 'PsiCat — the Quantum Cat',
                 'internal_persona_name': 'Merlin',

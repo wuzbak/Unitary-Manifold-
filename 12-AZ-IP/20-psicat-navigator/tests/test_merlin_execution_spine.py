@@ -75,6 +75,9 @@ def test_server_convergence_charter_endpoint() -> None:
             assert payload["convergence_charter"]["document_path"] == (
                 "9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md"
             )
+            ox_root = client.get("/api/ox")
+            assert ox_root.status_code == 200
+            assert ox_root.json()["service"] == "PsiCat — the Quantum Cat"
             compat = client.get("/api/merlin/convergence-charter")
             assert compat.status_code == 200
             assert compat.json()["convergence_charter"]["execution_spine"]["compatibility"]["legacy_endpoints"] == [
