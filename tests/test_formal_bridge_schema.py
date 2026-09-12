@@ -75,9 +75,9 @@ def test_disallowed_row_certificate_is_rejected(monkeypatch: pytest.MonkeyPatch)
     monkeypatch.setitem(
         formal_bridge_schema._ROW_CERTIFICATE_REQUIREMENTS,
         "TEST_ROW",
-        ["EXTERNAL_OBSERVATION_DEPENDENCY"],
+        ["NOT_A_REAL_CERTIFICATE"],
     )
-    with pytest.raises(ValueError, match="disallowed certificate type|not allowed for proof class"):
+    with pytest.raises(ValueError, match="disallowed certificate type"):
         certificate_requirements_for_row(
             {
                 "id": "TEST_ROW",

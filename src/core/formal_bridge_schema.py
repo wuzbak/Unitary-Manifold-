@@ -122,6 +122,7 @@ def certificate_types_for_proof_class(epistemic_class: str) -> List[Dict[str, An
             "MONOTONICITY_CERTIFICATE",
             "RESIDUAL_CERTIFICATE",
             "TRUNCATION_DISCRETIZATION_CERTIFICATE",
+            "EXTERNAL_OBSERVATION_DEPENDENCY",
         ]
     elif epistemic_class == PROOF_CLASS_CONDITIONAL:
         ids = [
