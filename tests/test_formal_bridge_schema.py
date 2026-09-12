@@ -91,3 +91,4 @@ def test_unmapped_row_gets_no_invented_certificate_requirements() -> None:
             "epistemic_class": "LEAN_UNCONDITIONAL",
         }
     ) == []
+    assert certificate_requirements_for_row({"id": "UNMAPPED_WITHOUT_CLASS"}) == []

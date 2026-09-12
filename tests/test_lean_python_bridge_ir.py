@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
-from src.core.lean_python_bridge_ir import get_python_lean_bridge_contract
+from src.core.lean_python_bridge_ir import (
+    build_python_lean_bridge_contract,
+    get_python_lean_bridge_contract,
+)
 
 
 def test_python_lean_bridge_contract_structure() -> None:
@@ -25,3 +28,31 @@ def test_python_lean_bridge_contract_structure() -> None:
         item["id"] == "TRUNCATION_DISCRETIZATION_CERTIFICATE"
         for item in action_unit["translation_contract"]["certificate_contract"]["required_certificate_types"]
     )
+
+
+def test_empty_row_overrides_are_preserved() -> None:
+    contract = build_python_lean_bridge_contract(
+        rows=[
+            {
+                "id": "TEST_UNIT",
+                "lane_id": "LANE_TEST",
+                "kind": "open_gap",
+                "epistemic_class": "EXECUTABLE_PYTHON_VALIDATION",
+                "summary": "test row",
+                "review_packet": "proof/FORMAL_PROOF_FOUNDRY.md",
+                "python_modules": [],
+                "tests": [],
+                "status_entries": [],
+                "lean_file": "lean4/UnitaryManifold/SprintCAFormalTraceability.lean",
+                "lean_symbols": [],
+                "normalization_contract": {},
+                "certificate_requirements": [],
+                "work_queue": [],
+            }
+        ],
+        primary_lanes=[{"id": "LANE_TEST", "title": "Test lane"}],
+        runtime_alignment={"mode": "MANUAL_PORT_WITH_TRACEABILITY"},
+    )
+    unit = contract["formal_units"][0]
+    assert unit["translation_contract"]["normalization_contract"] == {}
+    assert unit["translation_contract"]["certificate_contract"]["required_certificate_types"] == []

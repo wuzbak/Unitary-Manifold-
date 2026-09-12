@@ -87,8 +87,16 @@ def build_formal_unit_ir(
         lean_module = _lean_module_name(lean_file)
         proof_class = str(row.get("epistemic_class") or "")
         lane_id = str(row.get("lane_id") or "")
-        normalization_contract = dict(row.get("normalization_contract") or build_normalization_contract(row))
-        certificate_requirements = list(row.get("certificate_requirements") or certificate_requirements_for_row(row))
+        normalization_contract = (
+            dict(row["normalization_contract"])
+            if "normalization_contract" in row and row.get("normalization_contract") is not None
+            else build_normalization_contract(row)
+        )
+        certificate_requirements = (
+            list(row["certificate_requirements"])
+            if "certificate_requirements" in row and row.get("certificate_requirements") is not None
+            else certificate_requirements_for_row(row)
+        )
         unit = {
             "unit_id": unit_id,
             "lane_id": lane_id,

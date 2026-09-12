@@ -149,10 +149,10 @@ def certificate_types_for_proof_class(epistemic_class: str) -> List[Dict[str, An
 def certificate_requirements_for_row(row: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Return required certificate types for a specific traceability row."""
     row_id = str(row.get("id") or "")
-    allowed = {item["id"]: item for item in certificate_types_for_proof_class(str(row.get("epistemic_class") or ""))}
     ids = _ROW_CERTIFICATE_REQUIREMENTS.get(row_id, [])
     if not ids:
         return []
+    allowed = {item["id"]: item for item in certificate_types_for_proof_class(str(row.get("epistemic_class") or ""))}
     result = []
     for item_id in ids:
         if item_id in allowed:
