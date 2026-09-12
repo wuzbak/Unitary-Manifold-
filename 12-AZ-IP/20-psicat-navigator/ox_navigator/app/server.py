@@ -1258,7 +1258,9 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
-            normalized_route_path = '/api/psicat/convergence-charter' if route_path == '/api/ox/convergence-charter' else route_path
+            normalized_route_path = route_path
+            if parsed.path in {'/api/merlin/convergence-charter', '/api/ox/convergence-charter'}:
+                normalized_route_path = '/api/psicat/convergence-charter'
             if normalized_route_path == '/api/psicat/convergence-charter':
                 self._json({
                 'ok': True,

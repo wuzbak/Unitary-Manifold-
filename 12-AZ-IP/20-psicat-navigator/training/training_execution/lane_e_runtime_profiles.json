@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 30950.137827558534,
-        "samples_per_second": 69.78610558637776,
+        "tokens_per_second": 31715.95094218186,
+        "samples_per_second": 71.5128544355848,
         "gpu_utilization_percent": 90.0,
         "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 10.427,
-        "step_time_p95_ms": 18.232,
-        "vram_peak_gb": 0.24468231201171875,
+        "step_time_p50_ms": 10.41,
+        "step_time_p95_ms": 17.557,
+        "vram_peak_gb": 0.24849700927734375,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 33426.14885376322,
-        "samples_per_second": 73.97327192156042,
+        "tokens_per_second": 34253.22701755641,
+        "samples_per_second": 75.8036257017199,
         "gpu_utilization_percent": 92.5,
         "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 9.59284,
-        "step_time_p95_ms": 16.77344,
-        "vram_peak_gb": 0.25446960449218753,
+        "step_time_p50_ms": 9.577200000000001,
+        "step_time_p95_ms": 16.15244,
+        "vram_peak_gb": 0.25843688964843753,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 37437.28671621481,
-        "samples_per_second": 81.37059911371648,
+        "tokens_per_second": 38363.61425966318,
+        "samples_per_second": 83.3839882718919,
         "gpu_utilization_percent": 95.0,
         "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 8.7294844,
-        "step_time_p95_ms": 15.263830400000002,
-        "vram_peak_gb": 0.26210369262695316,
+        "step_time_p50_ms": 8.715252000000001,
+        "step_time_p95_ms": 14.6987204,
+        "vram_peak_gb": 0.26618999633789064,
         "cost_per_accepted_sample": 0.0
       }
     }
