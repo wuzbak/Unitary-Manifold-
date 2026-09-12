@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
+import pytest
+
 from src.core.formal_bridge_schema import (
     BRIDGE_ARCHITECTURE_LAYERS,
     CANONICAL_NORMALIZATION_FIELDS,
@@ -59,3 +61,8 @@ def test_certificate_requirements_follow_proof_class_and_row() -> None:
         "RESIDUAL_CERTIFICATE",
         "TRUNCATION_DISCRETIZATION_CERTIFICATE",
     ]
+
+
+def test_unknown_proof_class_is_rejected() -> None:
+    with pytest.raises(ValueError, match="Unknown proof class"):
+        certificate_types_for_proof_class("LEAN_TYPO")

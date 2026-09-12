@@ -132,7 +132,7 @@ def certificate_types_for_proof_class(epistemic_class: str) -> List[Dict[str, An
             "TRUNCATION_DISCRETIZATION_CERTIFICATE",
             "EXTERNAL_OBSERVATION_DEPENDENCY",
         ]
-    else:
+    elif epistemic_class == PROOF_CLASS_EXECUTABLE:
         ids = [
             "EXACT_IDENTITY",
             "INTERVAL_CERTIFIED_BOUND",
@@ -141,6 +141,8 @@ def certificate_types_for_proof_class(epistemic_class: str) -> List[Dict[str, An
             "TRUNCATION_DISCRETIZATION_CERTIFICATE",
             "EXTERNAL_OBSERVATION_DEPENDENCY",
         ]
+    else:
+        raise ValueError(f"Unknown proof class: {epistemic_class}")
     return [dict(_CERTIFICATE_MAP[item_id]) for item_id in ids]
 
 
