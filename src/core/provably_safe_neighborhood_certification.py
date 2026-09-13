@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Collection, Mapping
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 import math
 from numbers import Integral
@@ -431,9 +431,9 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
 
     raw_unknowns = packet.get("residual_unknowns", [])
-    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Collection)):
+    if not isinstance(raw_unknowns, (list, tuple)):
         raise ValueError(
-            "Malformed certification packet. 'residual_unknowns' must be a bounded collection."
+            "Malformed certification packet. 'residual_unknowns' must be a list or tuple."
         )
     residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
@@ -445,7 +445,7 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     if all_certified and residual_unknowns:
         raise ValueError("Inconsistent packet: all_certified=True with non-empty residual_unknowns.")
     if (not all_certified) and (not residual_unknowns):
-        residual_unknowns = ["Unspecified blocking reason (fail-closed)."]
+        raise ValueError("Inconsistent packet: all_certified=False requires at least one residual_unknown.")
     ready_for_formalization = all_certified and len(residual_unknowns) == 0
     return {
         "artifact_type": "FORMAL_BRIDGE_CERTIFICATE",

@@ -646,18 +646,16 @@ def test_formal_bridge_artifact_rejects_nonlist_unknowns() -> None:
         formal_bridge_artifact({"all_certified": False, "residual_unknowns": "missing proof"})
 
 
-def test_formal_bridge_artifact_accepts_set_unknowns_iterable() -> None:
-    artifact = formal_bridge_artifact({"all_certified": False, "residual_unknowns": {"b-proof", "a-proof"}})
-    assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
-    assert artifact["residual_unknowns"] == ["a-proof", "b-proof"]
+def test_formal_bridge_artifact_rejects_set_unknowns_iterable() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": False, "residual_unknowns": {"b-proof", "a-proof"}})
 
 
-def test_formal_bridge_artifact_accepts_frozenset_unknowns_deterministically() -> None:
-    artifact = formal_bridge_artifact(
-        {"all_certified": False, "residual_unknowns": frozenset({"b-proof", "a-proof"})}
-    )
-    assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
-    assert artifact["residual_unknowns"] == ["a-proof", "b-proof"]
+def test_formal_bridge_artifact_rejects_frozenset_unknowns() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact(
+            {"all_certified": False, "residual_unknowns": frozenset({"b-proof", "a-proof"})}
+        )
 
 
 def test_formal_bridge_artifact_accepts_tuple_unknowns_sequence() -> None:
@@ -681,13 +679,18 @@ def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
         formal_bridge_artifact([])  # type: ignore[arg-type]
 
 
+def test_formal_bridge_artifact_rejects_blocked_packet_without_unknowns() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": False, "residual_unknowns": []})
+
+
 def test_formal_bridge_artifact_rejects_mixed_type_unknowns_without_typeerror() -> None:
     with pytest.raises(ValueError):
         formal_bridge_artifact({"all_certified": False, "residual_unknowns": ["ok", 3]})
 
 
 def test_formal_bridge_artifact_accepts_mappingproxy_input() -> None:
-    packet = MappingProxyType({"all_certified": False, "residual_unknowns": []})
+    packet = MappingProxyType({"all_certified": False, "residual_unknowns": ["missing proof"]})
     artifact = formal_bridge_artifact(packet)  # type: ignore[arg-type]
     assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
-    assert artifact["residual_unknowns"] == ["Unspecified blocking reason (fail-closed)."]
+    assert artifact["residual_unknowns"] == ["missing proof"]
