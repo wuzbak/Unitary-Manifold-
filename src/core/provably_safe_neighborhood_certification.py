@@ -401,7 +401,8 @@ def full_certification_packet(
         residual_unknowns.append("Truncation envelope is not audit-ready.")
     if not sobolev["localized_contractive"]:
         residual_unknowns.append("Localized Sobolev obligation is not contractive.")
-    if routing_result["route"] != "REGULAR_REGION_CERTIFIABLE":
+    routing_regular_region = routing_result["route"] == "REGULAR_REGION_CERTIFIABLE"
+    if not routing_regular_region:
         residual_unknowns.append(f"Routing requires remediation: {routing_result['route']}")
 
     all_certified = (
@@ -409,7 +410,7 @@ def full_certification_packet(
         and trunc["audit_ready"]
         and sobolev["localized_contractive"]
         and (not routing_result["fail_closed"])
-        and routing_result["route"] == "REGULAR_REGION_CERTIFIABLE"
+        and routing_regular_region
         and len(residual_unknowns) == 0
     )
 
@@ -520,10 +521,19 @@ def checkpointed_formal_bridge_packet(
     if routing_route == "REGULAR_REGION_CERTIFIABLE":
         completed_invariants.append("singularity_topology_routing")
 
+    raw_unknowns = packet.get("residual_unknowns", [])
+    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
+        raise ValueError(
+            "Malformed certification packet. 'residual_unknowns' must be an ordered sequence."
+        )
+    remaining_obligations = list(raw_unknowns)
+    if any(not isinstance(item, str) for item in remaining_obligations):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
+
     checkpoint = phase_checkpoint(
         phase=phase,
         completed_invariants=completed_invariants,
-        remaining_obligations=list(packet["residual_unknowns"]),
+        remaining_obligations=remaining_obligations,
         restart_pointer=restart_pointer,
     )
     return {

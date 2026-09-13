@@ -831,3 +831,30 @@ def test_checkpointed_formal_bridge_packet_propagates_optional_params() -> None:
         out["packet"]["singularity_topology_routing"]["curvature_singularity_threshold"]
         == pytest.approx(10.0)
     )
+
+
+def test_checkpointed_formal_bridge_packet_rejects_malformed_packet_residual_unknowns(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    malformed_packet = {
+        "all_certified": False,
+        "residual_unknowns": "not-an-ordered-sequence",
+        "posterior_neighborhood": {"sufficient_condition": True, "residual_unknowns": []},
+        "truncation_envelope": {"audit_ready": True},
+        "sobolev_localization": {"localized_contractive": True},
+        "singularity_topology_routing": {"route": "REGULAR_REGION_CERTIFIABLE", "fail_closed": False},
+    }
+    monkeypatch.setattr(
+        cert_mod,
+        "full_certification_packet",
+        lambda **_kwargs: malformed_packet,
+    )
+
+    with pytest.raises(ValueError, match="residual_unknowns"):
+        checkpointed_formal_bridge_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            phase="Phase C",
+            restart_pointer="src/core/provably_safe_neighborhood_certification.py:checkpointed_formal_bridge_packet",
+        )
