@@ -270,7 +270,9 @@ def singularity_topology_route(
         not math.isfinite(routing.invariant_curvature_norm)
     ):
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
-    elif not isinstance(routing.topological_index_delta, Integral):
+    elif isinstance(routing.topological_index_delta, bool) or (
+        not isinstance(routing.topological_index_delta, Integral)
+    ):
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
     elif routing.invariant_curvature_norm < 0.0:
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
@@ -491,14 +493,19 @@ def checkpointed_formal_bridge_packet(
         curvature_singularity_threshold=curvature_singularity_threshold,
     )
     artifact = formal_bridge_artifact(packet)
+    completed_invariants: List[str] = []
+    if packet["posterior_neighborhood"]["sufficient_condition"]:
+        completed_invariants.append("posterior_neighborhood")
+    if packet["truncation_envelope"]["audit_ready"]:
+        completed_invariants.append("truncation_envelope")
+    if packet["sobolev_localization"]["localized_contractive"]:
+        completed_invariants.append("sobolev_localization")
+    if packet["singularity_topology_routing"]["route"] == "REGULAR_REGION_CERTIFIABLE":
+        completed_invariants.append("singularity_topology_routing")
+
     checkpoint = phase_checkpoint(
         phase=phase,
-        completed_invariants=[
-            "posterior_neighborhood",
-            "truncation_envelope",
-            "sobolev_localization",
-            "singularity_topology_routing",
-        ],
+        completed_invariants=completed_invariants,
         remaining_obligations=list(packet["residual_unknowns"]),
         restart_pointer=restart_pointer,
     )

@@ -394,6 +394,18 @@ def test_singularity_routing_nonintegral_topology_delta_is_input_fail_closed() -
     assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
 
 
+def test_singularity_routing_boolean_topology_delta_is_input_fail_closed() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=1.0,
+            invariant_curvature_norm=10.0,
+            topological_index_delta=True,  # type: ignore[arg-type]
+        ),
+        curvature_singularity_threshold=1.0e6,
+    )
+    assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+
+
 def test_singularity_routing_rejects_invalid_threshold() -> None:
     with pytest.raises(ValueError):
         singularity_topology_route(
@@ -797,6 +809,11 @@ def test_checkpointed_formal_bridge_packet_blocked_routes_unknowns_to_checkpoint
     assert out["packet"]["all_certified"] is False
     assert out["artifact"]["status"] == "BLOCKED_FAIL_CLOSED"
     assert out["checkpoint"]["checkpoint"]["remaining_obligations"]
+    assert list(out["checkpoint"]["checkpoint"]["completed_invariants"]) == [
+        "posterior_neighborhood",
+        "truncation_envelope",
+        "sobolev_localization",
+    ]
 
 
 def test_checkpointed_formal_bridge_packet_propagates_optional_params() -> None:
