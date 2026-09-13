@@ -420,15 +420,15 @@ def full_certification_packet(
         residual_unknowns.append("Truncation envelope is not audit-ready.")
     if not sobolev["localized_contractive"]:
         residual_unknowns.append("Localized Sobolev obligation is not contractive.")
-    routing_regular_region = routing_result["regular_region_gate"]
-    if not routing_regular_region:
+    routing_stage_passed = routing_result["regular_region_gate"] and (not routing_result["fail_closed"])
+    if not routing_stage_passed:
         residual_unknowns.append(f"Routing requires remediation: {routing_result['route']}")
 
     all_certified = (
         posterior["sufficient_condition"]
         and trunc["audit_ready"]
         and sobolev["localized_contractive"]
-        and routing_regular_region
+        and routing_stage_passed
         and len(residual_unknowns) == 0
     )
 
@@ -523,6 +523,10 @@ def checkpointed_formal_bridge_packet(
         raise ValueError(
             "Malformed packet stage: singularity_topology_routing.regular_region_gate must be bool."
         )
+    routing_fail_closed = routing_stage.get("fail_closed")
+    if not isinstance(routing_fail_closed, bool):
+        raise ValueError("Malformed packet stage: singularity_topology_routing.fail_closed must be bool.")
+    routing_stage_passed = routing_regular_region and (not routing_fail_closed)
 
     completed_invariants: List[str] = []
     if _checked_stage_bool("posterior_neighborhood", "sufficient_condition"):
@@ -531,7 +535,7 @@ def checkpointed_formal_bridge_packet(
         completed_invariants.append("truncation_envelope")
     if _checked_stage_bool("sobolev_localization", "localized_contractive"):
         completed_invariants.append("sobolev_localization")
-    if routing_regular_region:
+    if routing_stage_passed:
         completed_invariants.append("singularity_topology_routing")
 
     remaining_obligations = _validated_residual_unknowns(packet)
