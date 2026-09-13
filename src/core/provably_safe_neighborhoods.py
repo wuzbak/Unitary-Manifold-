@@ -90,7 +90,11 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
     if beta <= 0.0:
         fail_reasons.append("degenerate_radius_seed")
 
-    radius = beta / contraction_margin if contraction_margin > 0.0 else float("inf")
+    radius = (
+        beta / contraction_margin
+        if contraction_margin > 0.0 and beta > 0.0
+        else float("inf")
+    )
 
     # Conservative uniqueness gate.
     uniqueness_gate = 2.0 * inputs.inverse_bound * inputs.lipschitz_bound * radius
