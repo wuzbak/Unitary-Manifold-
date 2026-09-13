@@ -218,6 +218,13 @@ def test_sobolev_localization_obligation_rejects_negative_gradient_bound(monkeyp
         cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
 
 
+def test_sobolev_localization_obligation_rejects_malformed_dependency_payload(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "h1_lipschitz_estimate", lambda: {})
+    monkeypatch.setattr(cert_mod, "critical_gradient_bound", lambda: {"epsilon_grad_max": 0.1})
+    with pytest.raises(ValueError, match="l_h1"):
+        cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
+
+
 def test_singularity_routing_regular() -> None:
     route = singularity_topology_route(
         SingularityRoutingInput(
@@ -769,10 +776,9 @@ def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
         formal_bridge_artifact([])  # type: ignore[arg-type]
 
 
-def test_formal_bridge_artifact_accepts_blocked_packet_without_unknowns() -> None:
-    artifact = formal_bridge_artifact({"all_certified": False, "residual_unknowns": []})
-    assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
-    assert artifact["residual_unknowns"] == []
+def test_formal_bridge_artifact_rejects_blocked_packet_without_unknowns() -> None:
+    with pytest.raises(ValueError, match="all_certified=False"):
+        formal_bridge_artifact({"all_certified": False, "residual_unknowns": []})
 
 
 def test_formal_bridge_artifact_rejects_mixed_type_unknowns_without_typeerror() -> None:

@@ -26,6 +26,8 @@ from src.core.pillar405_sobolev_ftum_extension import (
     h1_lipschitz_estimate,
 )
 
+MAX_RESIDUAL_UNKNOWN_ITEMS = 10_000
+
 __all__ = [
     "FAIL_CLOSED_RULES",
     "WORKSTREAM_SCOPE",
@@ -224,6 +226,10 @@ def sobolev_localization_obligation(local_patch_radius: float = 1.0) -> Dict[str
 
     h1 = h1_lipschitz_estimate()
     grad = critical_gradient_bound()
+    if not isinstance(h1, Mapping) or "l_h1" not in h1:
+        raise ValueError("h1_lipschitz_estimate must return mapping with 'l_h1'.")
+    if not isinstance(grad, Mapping) or "epsilon_grad_max" not in grad:
+        raise ValueError("critical_gradient_bound must return mapping with 'epsilon_grad_max'.")
     l_h1 = float(h1["l_h1"])
     epsilon_grad_max = float(grad["epsilon_grad_max"])
     if (not math.isfinite(l_h1)) or l_h1 < 0.0:
@@ -305,7 +311,11 @@ def _validated_unknown_sequence(raw_unknowns: object, error_prefix: str) -> List
         raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
     if not isinstance(raw_unknowns, IterableABC):
         raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
-    normalized_unknowns = list(raw_unknowns)
+    normalized_unknowns: List[str] = []
+    for idx, item in enumerate(raw_unknowns):
+        if idx >= MAX_RESIDUAL_UNKNOWN_ITEMS:
+            raise ValueError(f"{error_prefix}: residual_unknowns must be a finite bounded sequence.")
+        normalized_unknowns.append(item)
     if any(not isinstance(item, str) for item in normalized_unknowns):
         raise ValueError(f"{error_prefix}: residual_unknowns entries must be strings.")
     return normalized_unknowns
@@ -330,7 +340,12 @@ def _validate_posterior_stage(posterior: Mapping[str, object]) -> List[str]:
 def _require_typed_field(stage: Mapping[str, object], field: str, expected_type: type, stage_name: str) -> None:
     if field not in stage:
         raise ValueError(f"Malformed {stage_name} stage output: missing '{field}'.")
-    if not isinstance(stage.get(field), expected_type):
+    value = stage.get(field)
+    if expected_type is bool:
+        if type(value) is not bool:
+            raise ValueError(f"Malformed {stage_name} stage output: {field} must be bool.")
+        return
+    if not isinstance(value, expected_type):
         raise ValueError(
             f"Malformed {stage_name} stage output: {field} must be {expected_type.__name__}."
         )
@@ -470,6 +485,8 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError("Malformed certification packet. 'all_certified' must be bool.")
     if all_certified and residual_unknowns:
         raise ValueError("Inconsistent packet: all_certified=True with non-empty residual_unknowns.")
+    if (not all_certified) and (not residual_unknowns):
+        raise ValueError("Inconsistent packet: all_certified=False requires non-empty residual_unknowns.")
     ready_for_formalization = all_certified and len(residual_unknowns) == 0
     return {
         "artifact_type": "FORMAL_BRIDGE_CERTIFICATE",
@@ -522,14 +539,9 @@ def checkpointed_formal_bridge_packet(
     routing_stage = packet.get("singularity_topology_routing")
     if not isinstance(routing_stage, Mapping):
         raise ValueError("Malformed packet stage: singularity_topology_routing must be a mapping.")
-    routing_regular_region = routing_stage.get("regular_region_gate")
-    if not isinstance(routing_regular_region, bool):
-        raise ValueError(
-            "Malformed packet stage: singularity_topology_routing.regular_region_gate must be bool."
-        )
-    routing_fail_closed = routing_stage.get("fail_closed")
-    if not isinstance(routing_fail_closed, bool):
-        raise ValueError("Malformed packet stage: singularity_topology_routing.fail_closed must be bool.")
+    _validate_routing_stage(routing_stage)
+    routing_regular_region = routing_stage["regular_region_gate"]
+    routing_fail_closed = routing_stage["fail_closed"]
     routing_stage_passed = routing_regular_region and (not routing_fail_closed)
 
     completed_invariants: List[str] = []
