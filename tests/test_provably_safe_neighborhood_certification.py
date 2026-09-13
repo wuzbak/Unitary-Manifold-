@@ -202,6 +202,17 @@ def test_singularity_routing_nonfinite_curvature_is_input_fail_closed() -> None:
     assert route["fail_closed"]
 
 
+def test_singularity_routing_nonfinite_curvature_precedes_coordinate_breakdown() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=0.0,
+            invariant_curvature_norm=float("inf"),
+            topological_index_delta=0,
+        ),
+    )
+    assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+
+
 def test_singularity_routing_topology_transition_fail_closed() -> None:
     route = singularity_topology_route(
         SingularityRoutingInput(

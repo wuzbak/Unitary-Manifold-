@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 import math
 from typing import Dict, List, Sequence
@@ -230,12 +230,12 @@ def singularity_topology_route(
     if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold <= 0.0:
         raise ValueError("curvature_singularity_threshold must be finite and positive.")
 
-    if not math.isfinite(routing.chart_jacobian_min):
+    if (not math.isfinite(routing.chart_jacobian_min)) or (
+        not math.isfinite(routing.invariant_curvature_norm)
+    ):
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
     elif routing.chart_jacobian_min <= 0.0:
         route = "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
-    elif not math.isfinite(routing.invariant_curvature_norm):
-        route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
     elif abs(routing.topological_index_delta) > 0:
         route = "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
     elif routing.invariant_curvature_norm >= curvature_singularity_threshold:
@@ -359,11 +359,11 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
 
     raw_unknowns = packet.get("residual_unknowns", [])
-    if isinstance(raw_unknowns, str) or (not isinstance(raw_unknowns, Sequence)):
-        raise ValueError("Malformed certification packet. 'residual_unknowns' must be a sequence of strings.")
-    if any(not isinstance(item, str) for item in raw_unknowns):
-        raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
+    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Iterable)):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' must be an iterable of strings.")
     residual_unknowns = list(raw_unknowns)
+    if any(not isinstance(item, str) for item in residual_unknowns):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
     all_certified = packet.get("all_certified")
     if not isinstance(all_certified, bool):
         raise ValueError("Malformed certification packet. 'all_certified' must be bool.")
