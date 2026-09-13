@@ -8,6 +8,7 @@ from computed approximations to explicit neighborhood theorems.
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import Dict, Literal
 
@@ -44,6 +45,8 @@ class PosteriorInputs:
 
 
 def _nonnegative(name: str, value: float) -> None:
+    if not math.isfinite(value):
+        raise ValueError(f"{name} must be finite")
     if value < 0.0:
         raise ValueError(f"{name} must be non-negative")
 
@@ -87,20 +90,17 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
     if contraction_margin <= 0.0:
         fail_reasons.append("non_contractive_linearization")
 
-    if beta <= 0.0:
-        fail_reasons.append("degenerate_radius_seed")
-
-    radius = (
-        beta / contraction_margin
-        if contraction_margin > 0.0 and beta > 0.0
-        else float("inf")
-    )
-
-    # Conservative uniqueness gate.
-    uniqueness_gate = 2.0 * inputs.inverse_bound * inputs.lipschitz_bound * radius
-    unique_local_solution = uniqueness_gate < 1.0
-    if not unique_local_solution:
-        fail_reasons.append("uniqueness_gate_failed")
+    if beta == 0.0 and contraction_margin > 0.0:
+        radius = 0.0
+        uniqueness_gate = 0.0
+        unique_local_solution = True
+    else:
+        radius = beta / contraction_margin if contraction_margin > 0.0 else float("inf")
+        # Conservative uniqueness gate.
+        uniqueness_gate = 2.0 * inputs.inverse_bound * inputs.lipschitz_bound * radius
+        unique_local_solution = uniqueness_gate < 1.0
+        if not unique_local_solution:
+            fail_reasons.append("uniqueness_gate_failed")
 
     certified = not fail_reasons
     return {

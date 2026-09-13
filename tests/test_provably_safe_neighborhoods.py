@@ -77,6 +77,41 @@ def test_negative_inputs_raise() -> None:
         )
 
 
+def test_nonfinite_inputs_raise() -> None:
+    with pytest.raises(ValueError):
+        posterior_neighborhood_certificate(
+            PosteriorInputs(
+                residual_bound=float("nan"),
+                inverse_bound=1.0,
+                lipschitz_bound=0.1,
+                envelope=TruncationEnvelope(0.0, 0.0, 0.0, 0.0),
+            )
+        )
+    with pytest.raises(ValueError):
+        posterior_neighborhood_certificate(
+            PosteriorInputs(
+                residual_bound=0.0,
+                inverse_bound=1.0,
+                lipschitz_bound=0.1,
+                envelope=TruncationEnvelope(float("inf"), 0.0, 0.0, 0.0),
+            )
+        )
+
+
+def test_zero_seed_exact_solution_is_certified() -> None:
+    cert = posterior_neighborhood_certificate(
+        PosteriorInputs(
+            residual_bound=0.0,
+            inverse_bound=0.8,
+            lipschitz_bound=0.2,
+            envelope=TruncationEnvelope(0.0, 0.0, 0.0, 0.0),
+        )
+    )
+    assert cert["certified"] is True
+    assert cert["radius"] == pytest.approx(0.0)
+    assert cert["uniqueness_gate"] == pytest.approx(0.0)
+
+
 def test_obligation_split_classifier() -> None:
     assert classify_obligation("interval_roundoff_bound") == "interval"
     assert classify_obligation("sobolev_tail_control") == "analytic"
