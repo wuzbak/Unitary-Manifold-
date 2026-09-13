@@ -142,8 +142,15 @@ jobs:
           @github-copilot Please execute the next autonomous sprint per the STEWARDSHIP.md protocol. Begin with Phase A frontier assessment.
           BODY
 
+          label_args=()
+          if gh label view "sprint-trigger" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            label_args=(--label "sprint-trigger")
+          else
+            echo "Label sprint-trigger not found; creating issue without it."
+          fi
+
           gh issue create \
             --title "[SPRINT TRIGGER] Week of ${WEEK} — Pillar slot ${NEXT_SLOT}" \
             --body-file /tmp/sprint_body.md \
-            --label "sprint-trigger" \
+            "${label_args[@]}" \
             --repo "${{ github.repository }}"

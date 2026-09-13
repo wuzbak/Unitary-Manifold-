@@ -188,6 +188,17 @@ jobs:
           with open("/tmp/alerts.json") as f:
               alerts = json.load(f)
 
+          has_falsifier_label = (
+              subprocess.run(
+                  ["gh", "label", "view", "falsifier-alert"],
+                  capture_output=True,
+                  text=True,
+              ).returncode
+              == 0
+          )
+          if not has_falsifier_label:
+              print("Label falsifier-alert not found; creating issues without it.")
+
           for alert in alerts:
               today = __import__('datetime').date.today().isoformat()
               body = f"""## [FALSIFIER ALERT] — {alert['label']}
@@ -223,15 +234,15 @@ jobs:
           @github-copilot Please assess this paper against the canonical predictions and execute the routing protocol.
           """
 
-              result = subprocess.run(
-                  [
-                      "gh", "issue", "create",
-                      "--title", f"[FALSIFIER ALERT] {alert['label']} — arXiv:{alert['arxiv_id']}",
-                      "--body", body,
-                      "--label", "falsifier-alert",
-                  ],
-                  capture_output=True, text=True
-              )
+              command = [
+                  "gh", "issue", "create",
+                  "--title", f"[FALSIFIER ALERT] {alert['label']} — arXiv:{alert['arxiv_id']}",
+                  "--body", body,
+              ]
+              if has_falsifier_label:
+                  command.extend(["--label", "falsifier-alert"])
+
+              result = subprocess.run(command, capture_output=True, text=True)
               if result.returncode == 0:
                   print(f"Created issue for {alert['arxiv_id']}: {result.stdout.strip()}")
               else:
