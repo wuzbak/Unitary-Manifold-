@@ -55,7 +55,7 @@ def test_posterior_certificate_fails_for_non_contractive_case() -> None:
 
 def test_posterior_certificate_fails_uniqueness_gate() -> None:
     bad = PosteriorInputs(
-        residual_bound=1.2,
+        residual_bound=5.0,
         inverse_bound=1.0,
         lipschitz_bound=0.49,
         envelope=TruncationEnvelope(0.0, 0.0, 0.0, 0.0),

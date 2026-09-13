@@ -306,7 +306,7 @@ def test_singularity_routing_geometric_precedes_topology_signal() -> None:
     assert route["route"] == "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
 
 
-def test_singularity_routing_coordinate_precedes_topology_on_invalid_chart() -> None:
+def test_singularity_routing_topology_precedes_coordinate_on_invalid_chart() -> None:
     route = singularity_topology_route(
         SingularityRoutingInput(
             chart_jacobian_min=0.0,
@@ -315,7 +315,7 @@ def test_singularity_routing_coordinate_precedes_topology_on_invalid_chart() -> 
         ),
         curvature_singularity_threshold=1.0e6,
     )
-    assert route["route"] == "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
+    assert route["route"] == "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
 
 
 def test_singularity_routing_negative_jacobian_is_rechart_required() -> None:

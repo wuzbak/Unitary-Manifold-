@@ -231,8 +231,8 @@ def singularity_topology_route(
     Precedence order:
     1) Invalid numeric input (non-finite Jacobian/curvature) -> fail-closed
     2) Geometric singularity (invariant curvature threshold exceeded)
-    3) Coordinate breakdown (non-positive chart Jacobian; rechart required)
-    4) Topology transition (non-zero topological index delta)
+    3) Topology transition (non-zero topological index delta)
+    4) Coordinate breakdown (non-positive chart Jacobian; rechart required)
     5) Regular region certifiable
     """
     if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold <= 0.0:
@@ -246,10 +246,10 @@ def singularity_topology_route(
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
     elif routing.invariant_curvature_norm > curvature_singularity_threshold:
         route = "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
-    elif routing.chart_jacobian_min <= 0.0:
-        route = "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
     elif abs(routing.topological_index_delta) > 0:
         route = "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
+    elif routing.chart_jacobian_min <= 0.0:
+        route = "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
     else:
         route = "REGULAR_REGION_CERTIFIABLE"
 
