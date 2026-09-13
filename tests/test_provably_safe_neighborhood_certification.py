@@ -80,6 +80,18 @@ def test_posterior_neighborhood_beta_zero_requires_zero_residual() -> None:
     assert any("Degenerate affine case" in msg for msg in cert["residual_unknowns"])
 
 
+def test_posterior_neighborhood_zero_inverse_bound_reports_inverse_degeneracy() -> None:
+    cert = posterior_neighborhood_certificate(
+        PosteriorNeighborhoodInput(
+            residual_bound=0.1,
+            inverse_bound=0.0,
+            lipschitz_bound=0.1,
+        )
+    )
+    assert not cert["sufficient_condition"]
+    assert any("Inverse-bound degeneracy" in msg for msg in cert["residual_unknowns"])
+
+
 def test_posterior_neighborhood_exact_affine_zero_residual_certified() -> None:
     cert = posterior_neighborhood_certificate(
         PosteriorNeighborhoodInput(

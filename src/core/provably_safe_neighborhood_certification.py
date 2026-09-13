@@ -121,7 +121,11 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
     beta = inp.inverse_bound * inp.lipschitz_bound
     discriminant = 1.0 - 2.0 * alpha * beta
     degenerate_affine_case = math.isclose(beta, 0.0, abs_tol=_ZERO_TOL)
-    exact_affine_zero_residual = degenerate_affine_case and math.isclose(alpha, 0.0, abs_tol=_ZERO_TOL)
+    exact_affine_zero_residual = (
+        degenerate_affine_case
+        and math.isclose(alpha, 0.0, abs_tol=_ZERO_TOL)
+        and math.isclose(inp.residual_bound, 0.0, abs_tol=_ZERO_TOL)
+    )
     sufficient_condition = (
         exact_affine_zero_residual
         or (
@@ -146,7 +150,11 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
 
     residual_unknowns: List[str] = []
     if not sufficient_condition:
-        if degenerate_affine_case:
+        if degenerate_affine_case and inp.inverse_bound == 0.0 and inp.residual_bound > 0.0:
+            residual_unknowns.append(
+                "Inverse-bound degeneracy: inverse_bound=0 with nonzero residual requires valid inverse estimate."
+            )
+        elif degenerate_affine_case:
             residual_unknowns.append(
                 "Degenerate affine case (beta=0) requires separate non-neighborhood certificate."
             )

@@ -54,14 +54,6 @@ def _nonnegative(name: str, value: float) -> None:
 def classify_obligation(obligation_name: str) -> ObligationClass:
     """Classify obligations into interval-safe vs analytic-required classes."""
     normalized = obligation_name.strip().lower()
-    interval_markers = (
-        "interval",
-        "roundoff",
-        "finite_mode",
-        "truncation",
-    )
-    if any(marker in normalized for marker in interval_markers):
-        return "interval"
     analytic_markers = (
         "tail",
         "operator",
@@ -75,6 +67,14 @@ def classify_obligation(obligation_name: str) -> ObligationClass:
     )
     if any(marker in normalized for marker in analytic_markers):
         return "analytic"
+    interval_markers = (
+        "interval",
+        "roundoff",
+        "finite_mode",
+        "truncation",
+    )
+    if any(marker in normalized for marker in interval_markers):
+        return "interval"
     return "interval"
 
 
