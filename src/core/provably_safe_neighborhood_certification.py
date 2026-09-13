@@ -444,6 +444,8 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError("Malformed certification packet. 'all_certified' must be bool.")
     if all_certified and residual_unknowns:
         raise ValueError("Inconsistent packet: all_certified=True with non-empty residual_unknowns.")
+    if (not all_certified) and (not residual_unknowns):
+        residual_unknowns = ["Unspecified blocking reason (fail-closed)."]
     ready_for_formalization = all_certified and len(residual_unknowns) == 0
     return {
         "artifact_type": "FORMAL_BRIDGE_CERTIFICATE",

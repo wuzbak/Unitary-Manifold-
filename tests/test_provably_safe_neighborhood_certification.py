@@ -690,3 +690,4 @@ def test_formal_bridge_artifact_accepts_mappingproxy_input() -> None:
     packet = MappingProxyType({"all_certified": False, "residual_unknowns": []})
     artifact = formal_bridge_artifact(packet)  # type: ignore[arg-type]
     assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
+    assert artifact["residual_unknowns"] == ["Unspecified blocking reason (fail-closed)."]
