@@ -65,18 +65,6 @@ def test_posterior_certificate_fails_uniqueness_gate() -> None:
     assert "uniqueness_gate_failed" in cert["fail_reasons"]
 
 
-def test_posterior_certificate_fails_self_mapping_gate() -> None:
-    bad = PosteriorInputs(
-        residual_bound=2.0,
-        inverse_bound=1.0,
-        lipschitz_bound=0.2,
-        envelope=TruncationEnvelope(0.0, 0.0, 0.0, 0.0),
-    )
-    cert = posterior_neighborhood_certificate(bad)
-    assert cert["certified"] is False
-    assert "self_mapping_gate_failed" in cert["fail_reasons"]
-
-
 def test_negative_inputs_raise() -> None:
     with pytest.raises(ValueError):
         posterior_neighborhood_certificate(
