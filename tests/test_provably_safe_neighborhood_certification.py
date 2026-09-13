@@ -737,3 +737,20 @@ def test_checkpointed_formal_bridge_packet_blocked_routes_unknowns_to_checkpoint
     assert out["packet"]["all_certified"] is False
     assert out["artifact"]["status"] == "BLOCKED_FAIL_CLOSED"
     assert out["checkpoint"]["checkpoint"]["remaining_obligations"]
+
+
+def test_checkpointed_formal_bridge_packet_propagates_optional_params() -> None:
+    out = checkpointed_formal_bridge_packet(
+        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+        routing=SingularityRoutingInput(1.0, 50.0, 0),
+        phase="Phase C",
+        restart_pointer="src/core/provably_safe_neighborhood_certification.py:checkpointed_formal_bridge_packet",
+        local_patch_radius=2.0,
+        curvature_singularity_threshold=10.0,
+    )
+    assert out["packet"]["sobolev_localization"]["obligation"]["local_patch_radius"] == pytest.approx(2.0)
+    assert (
+        out["packet"]["singularity_topology_routing"]["curvature_singularity_threshold"]
+        == pytest.approx(10.0)
+    )
