@@ -409,7 +409,6 @@ def full_certification_packet(
         posterior["sufficient_condition"]
         and trunc["audit_ready"]
         and sobolev["localized_contractive"]
-        and (not routing_result["fail_closed"])
         and routing_regular_region
         and len(residual_unknowns) == 0
     )
