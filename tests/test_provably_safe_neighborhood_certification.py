@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 import math
+from types import MappingProxyType
 
 import pytest
 
+import src.core.provably_safe_neighborhood_certification as cert_mod
 from src.core.provably_safe_neighborhood_certification import (
     FAIL_CLOSED_RULES,
     PosteriorNeighborhoodInput,
@@ -52,6 +54,67 @@ def test_posterior_neighborhood_fail_closed_case() -> None:
     assert cert["residual_unknowns"]
 
 
+def test_posterior_neighborhood_beta_zero_requires_zero_residual() -> None:
+    cert = posterior_neighborhood_certificate(
+        PosteriorNeighborhoodInput(
+            residual_bound=0.1,
+            inverse_bound=2.0,
+            lipschitz_bound=0.0,
+        )
+    )
+    assert not cert["sufficient_condition"]
+    assert math.isnan(cert["radius"])
+    assert cert["degenerate_affine_case"]
+    assert any("Degenerate affine case" in msg for msg in cert["residual_unknowns"])
+
+
+def test_posterior_neighborhood_exact_affine_zero_residual_certified() -> None:
+    cert = posterior_neighborhood_certificate(
+        PosteriorNeighborhoodInput(
+            residual_bound=0.0,
+            inverse_bound=2.0,
+            lipschitz_bound=0.0,
+        )
+    )
+    assert cert["sufficient_condition"]
+    assert cert["radius"] == pytest.approx(0.0, abs=1e-15)
+    assert cert["residual_unknowns"] == []
+
+
+def test_posterior_neighborhood_near_zero_lipschitz_is_stable() -> None:
+    cert = posterior_neighborhood_certificate(
+        PosteriorNeighborhoodInput(
+            residual_bound=1.0e-6,
+            inverse_bound=2.0,
+            lipschitz_bound=1.0e-14,
+        )
+    )
+    assert cert["sufficient_condition"]
+    assert cert["radius"] >= 0.0
+
+
+def test_posterior_neighborhood_rejects_negative_inputs() -> None:
+    with pytest.raises(ValueError):
+        posterior_neighborhood_certificate(
+            PosteriorNeighborhoodInput(
+                residual_bound=-0.1,
+                inverse_bound=2.0,
+                lipschitz_bound=0.1,
+            )
+        )
+
+
+def test_posterior_neighborhood_rejects_nonfinite_inputs() -> None:
+    with pytest.raises(ValueError):
+        posterior_neighborhood_certificate(
+            PosteriorNeighborhoodInput(
+                residual_bound=float("nan"),
+                inverse_bound=2.0,
+                lipschitz_bound=0.1,
+            )
+        )
+
+
 def test_truncation_envelope_aggregates_components() -> None:
     env = TruncationEnvelope(0.01, 0.02, 0.03)
     out = truncation_envelope(env)
@@ -60,11 +123,35 @@ def test_truncation_envelope_aggregates_components() -> None:
     assert out["audit_ready"]
 
 
+def test_truncation_envelope_rejects_nonfinite_components() -> None:
+    with pytest.raises(ValueError):
+        truncation_envelope(
+            TruncationEnvelope(
+                finite_mode_error=float("inf"),
+                tail_bound=0.01,
+                nonlinear_remainder=0.01,
+            )
+        )
+
+
 def test_sobolev_localization_obligation_compatible() -> None:
     out = sobolev_localization_obligation(local_patch_radius=0.5)
     assert out["localized_contractive"]
     assert out["obligation"]["l_h1"] < 1.0
     assert out["obligation"]["epsilon_grad_max"] > 0.0
+
+
+def test_sobolev_localization_obligation_radius_affects_bound() -> None:
+    small = sobolev_localization_obligation(local_patch_radius=0.5)
+    large = sobolev_localization_obligation(local_patch_radius=2.0)
+    assert large["obligation"]["epsilon_grad_max"] < small["obligation"]["epsilon_grad_max"]
+
+
+def test_sobolev_localization_obligation_rejects_nonpositive_radius() -> None:
+    with pytest.raises(ValueError):
+        sobolev_localization_obligation(local_patch_radius=0.0)
+    with pytest.raises(ValueError):
+        sobolev_localization_obligation(local_patch_radius=float("nan"))
 
 
 def test_singularity_routing_regular() -> None:
@@ -91,6 +178,30 @@ def test_singularity_routing_coordinate_breakdown() -> None:
     assert route["fail_closed"]
 
 
+def test_singularity_routing_nonfinite_jacobian_is_input_fail_closed() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=float("nan"),
+            invariant_curvature_norm=10.0,
+            topological_index_delta=0,
+        ),
+    )
+    assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+    assert route["fail_closed"]
+
+
+def test_singularity_routing_nonfinite_curvature_is_input_fail_closed() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=1.0,
+            invariant_curvature_norm=float("inf"),
+            topological_index_delta=0,
+        ),
+    )
+    assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+    assert route["fail_closed"]
+
+
 def test_singularity_routing_topology_transition_fail_closed() -> None:
     route = singularity_topology_route(
         SingularityRoutingInput(
@@ -101,6 +212,48 @@ def test_singularity_routing_topology_transition_fail_closed() -> None:
     )
     assert route["route"] == "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
     assert route["fail_closed"]
+
+
+def test_singularity_routing_custom_threshold_flips_route() -> None:
+    regular = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=0.9,
+            invariant_curvature_norm=50.0,
+            topological_index_delta=0,
+        ),
+        curvature_singularity_threshold=100.0,
+    )
+    flagged = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=0.9,
+            invariant_curvature_norm=50.0,
+            topological_index_delta=0,
+        ),
+        curvature_singularity_threshold=10.0,
+    )
+    assert regular["route"] == "REGULAR_REGION_CERTIFIABLE"
+    assert flagged["route"] == "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
+
+
+def test_singularity_routing_rejects_invalid_threshold() -> None:
+    with pytest.raises(ValueError):
+        singularity_topology_route(
+            SingularityRoutingInput(
+                chart_jacobian_min=0.9,
+                invariant_curvature_norm=50.0,
+                topological_index_delta=0,
+            ),
+            curvature_singularity_threshold=float("nan"),
+        )
+    with pytest.raises(ValueError):
+        singularity_topology_route(
+            SingularityRoutingInput(
+                chart_jacobian_min=0.9,
+                invariant_curvature_norm=50.0,
+                topological_index_delta=0,
+            ),
+            curvature_singularity_threshold=-1.0,
+        )
 
 
 def test_obligation_split_nonempty_and_disjoint_roles() -> None:
@@ -146,6 +299,66 @@ def test_full_packet_fail_closed_with_unknowns() -> None:
     assert packet["residual_unknowns"]
 
 
+def test_full_packet_fail_closed_when_truncation_not_audit_ready(monkeypatch: pytest.MonkeyPatch) -> None:
+    def _non_certifying_envelope(_env: TruncationEnvelope) -> dict:
+        return {"audit_ready": False}
+
+    monkeypatch.setattr(cert_mod, "truncation_envelope", _non_certifying_envelope)
+    packet = cert_mod.full_certification_packet(
+        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+        routing=SingularityRoutingInput(1.0, 10.0, 0),
+        local_patch_radius=1.0,
+    )
+    assert not packet["all_certified"]
+    assert packet["verdict"] == "PARTIAL_PACKET_FAIL_CLOSED_WITH_EXPLICIT_UNKNOWNS"
+    assert any("Truncation envelope" in reason for reason in packet["residual_unknowns"])
+
+
+def test_full_packet_rejects_malformed_truncation_stage(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "truncation_envelope", lambda _env: {})
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
+def test_full_packet_rejects_malformed_posterior_stage(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "posterior_neighborhood_certificate", lambda _inp: {})
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
+def test_full_packet_rejects_malformed_sobolev_stage(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "sobolev_localization_obligation", lambda local_patch_radius: {})
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
+def test_full_packet_rejects_malformed_routing_stage(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "singularity_topology_route", lambda _routing: {})
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
 def test_formal_bridge_artifact_ready_and_blocked() -> None:
     success_packet = full_certification_packet(
         posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
@@ -165,3 +378,34 @@ def test_formal_bridge_artifact_ready_and_blocked() -> None:
     assert ready["status"] == "READY_FOR_FORMALIZATION"
     assert blocked["status"] == "BLOCKED_FAIL_CLOSED"
     assert blocked["residual_unknowns"]
+
+
+def test_formal_bridge_artifact_rejects_malformed_packet() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": True})
+
+
+def test_formal_bridge_artifact_rejects_inconsistent_packet() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": True, "residual_unknowns": ["missing proof"]})
+
+
+def test_formal_bridge_artifact_rejects_nonboolean_all_certified() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": "false", "residual_unknowns": []})
+
+
+def test_formal_bridge_artifact_rejects_nonlist_unknowns() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": False, "residual_unknowns": "missing proof"})
+
+
+def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact([])  # type: ignore[arg-type]
+
+
+def test_formal_bridge_artifact_accepts_mappingproxy_input() -> None:
+    packet = MappingProxyType({"all_certified": False, "residual_unknowns": []})
+    artifact = formal_bridge_artifact(packet)  # type: ignore[arg-type]
+    assert artifact["status"] == "BLOCKED_FAIL_CLOSED"

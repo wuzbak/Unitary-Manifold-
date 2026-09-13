@@ -15,6 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 import math
 from typing import Dict, List, Sequence
@@ -59,6 +60,7 @@ WORKSTREAM_SCOPE: Sequence[str] = (
     "verification_matrix",
     "formal_bridge_artifacts",
 )
+_ZERO_TOL: float = 1.0e-300
 
 
 @dataclass(frozen=True)
@@ -98,8 +100,8 @@ class CertificationCheckpoint:
 
 
 def _nonnegative(value: float, name: str) -> None:
-    if value < 0.0:
-        raise ValueError(f"{name} must be non-negative.")
+    if (not math.isfinite(value)) or value < 0.0:
+        raise ValueError(f"{name} must be finite and non-negative.")
 
 
 def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[str, object]:
@@ -118,12 +120,21 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
     alpha = inp.inverse_bound * inp.residual_bound
     beta = inp.inverse_bound * inp.lipschitz_bound
     discriminant = 1.0 - 2.0 * alpha * beta
-    sufficient_condition = discriminant >= 0.0
+    degenerate_affine_case = math.isclose(beta, 0.0, abs_tol=_ZERO_TOL)
+    exact_affine_zero_residual = degenerate_affine_case and math.isclose(alpha, 0.0, abs_tol=_ZERO_TOL)
+    sufficient_condition = (
+        exact_affine_zero_residual
+        or (
+            (not degenerate_affine_case)
+            and beta > 0.0
+            and (2.0 * alpha * beta) <= 1.0
+        )
+    )
 
-    if beta == 0.0:
-        radius = alpha
-    elif sufficient_condition:
-        radius = (1.0 - math.sqrt(discriminant)) / beta
+    if exact_affine_zero_residual:
+        radius = 0.0
+    elif sufficient_condition and discriminant >= 0.0:
+        radius = (2.0 * alpha) / (1.0 + math.sqrt(discriminant))
     else:
         radius = float("nan")
 
@@ -133,18 +144,28 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
         else "POSTERIOR_NEIGHBORHOOD_NOT_CERTIFIED_FAIL_CLOSED"
     )
 
+    residual_unknowns: List[str] = []
+    if not sufficient_condition:
+        if degenerate_affine_case:
+            residual_unknowns.append(
+                "Degenerate affine case (beta=0) requires separate non-neighborhood certificate."
+            )
+        else:
+            residual_unknowns.append(
+                "Constructive inverse stability bound needed or Lipschitz constant too large."
+            )
+
     return {
         "inputs": asdict(inp),
         "alpha": alpha,
         "beta": beta,
+        "degenerate_affine_case": degenerate_affine_case,
         "discriminant": discriminant,
         "sufficient_condition": sufficient_condition,
         "radius": radius,
         "verdict": verdict,
         "theorem_form": "2*alpha*beta<=1 => existence+local uniqueness in explicit ball",
-        "residual_unknowns": [] if sufficient_condition else [
-            "Constructive inverse stability bound needed or Lipschitz constant too large."
-        ],
+        "residual_unknowns": residual_unknowns,
     }
 
 
@@ -176,14 +197,15 @@ def truncation_envelope(env: TruncationEnvelope) -> Dict[str, object]:
 
 def sobolev_localization_obligation(local_patch_radius: float = 1.0) -> Dict[str, object]:
     """Build localized Sobolev obligations using Pillar 405 interfaces."""
-    if local_patch_radius <= 0.0:
-        raise ValueError("local_patch_radius must be positive.")
+    if (not math.isfinite(local_patch_radius)) or local_patch_radius <= 0.0:
+        raise ValueError("local_patch_radius must be finite and positive.")
 
     h1 = h1_lipschitz_estimate()
     grad = critical_gradient_bound()
+    local_radius_factor = math.sqrt(1.0 + local_patch_radius ** 2)
     obligation = SobolevLocalizationObligation(
         l_h1=float(h1["l_h1"]),
-        epsilon_grad_max=float(grad["epsilon_grad_max"]),
+        epsilon_grad_max=float(grad["epsilon_grad_max"]) / local_radius_factor,
         local_patch_radius=local_patch_radius,
     )
     localized_contractive = obligation.l_h1 < 1.0 and obligation.epsilon_grad_max > 0.0
@@ -205,10 +227,15 @@ def singularity_topology_route(
     curvature_singularity_threshold: float = 1.0e6,
 ) -> Dict[str, object]:
     """Invariant-first routing for singularity and topology integrity."""
-    if not math.isfinite(routing.chart_jacobian_min) or routing.chart_jacobian_min <= 0.0:
+    if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold <= 0.0:
+        raise ValueError("curvature_singularity_threshold must be finite and positive.")
+
+    if not math.isfinite(routing.chart_jacobian_min):
+        route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+    elif routing.chart_jacobian_min <= 0.0:
         route = "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
     elif not math.isfinite(routing.invariant_curvature_norm):
-        route = "CONSTRUCTIVE_PROOF_REQUIRED_NONFINITE_INVARIANT"
+        route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
     elif abs(routing.topological_index_delta) > 0:
         route = "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
     elif routing.invariant_curvature_norm >= curvature_singularity_threshold:
@@ -275,17 +302,30 @@ def full_certification_packet(
     """Return complete fail-closed certification packet."""
     posterior = posterior_neighborhood_certificate(posterior_input)
     trunc = truncation_envelope(envelope)
+    if ("residual_unknowns" not in posterior) or ("sufficient_condition" not in posterior):
+        raise ValueError("Malformed posterior stage output.")
+    if "audit_ready" not in trunc:
+        raise ValueError("Malformed truncation envelope output: missing 'audit_ready'.")
     sobolev = sobolev_localization_obligation(local_patch_radius=local_patch_radius)
+    if "localized_contractive" not in sobolev:
+        raise ValueError("Malformed sobolev stage output.")
     routing_result = singularity_topology_route(routing)
+    if ("fail_closed" not in routing_result) or ("route" not in routing_result):
+        raise ValueError("Malformed routing stage output.")
     split = obligation_split()
 
     residual_unknowns: List[str] = []
     residual_unknowns.extend(posterior["residual_unknowns"])
+    if not trunc["audit_ready"]:
+        residual_unknowns.append("Truncation envelope is not audit-ready.")
+    if not sobolev["localized_contractive"]:
+        residual_unknowns.append("Localized Sobolev obligation is not contractive.")
     if routing_result["fail_closed"]:
         residual_unknowns.append(f"Routing requires constructive proof: {routing_result['route']}")
 
     all_certified = (
         posterior["sufficient_condition"]
+        and trunc["audit_ready"]
         and sobolev["localized_contractive"]
         and routing_result["route"] == "REGULAR_REGION_CERTIFIABLE"
     )
@@ -308,14 +348,32 @@ def full_certification_packet(
     }
 
 
-def formal_bridge_artifact(packet: Dict[str, object]) -> Dict[str, object]:
+def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     """Convert certification packet into a formal-bridge friendly artifact."""
-    residual_unknowns = list(packet.get("residual_unknowns", []))
-    all_certified = bool(packet.get("all_certified", False))
+    if not isinstance(packet, Mapping):
+        raise ValueError("Malformed certification packet. Packet must be a mapping.")
+
+    required_fields = {"all_certified", "residual_unknowns"}
+    missing = sorted(required_fields.difference(packet.keys()))
+    if missing:
+        raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
+
+    raw_unknowns = packet.get("residual_unknowns", [])
+    if isinstance(raw_unknowns, str) or (not isinstance(raw_unknowns, Sequence)):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' must be a sequence of strings.")
+    if any(not isinstance(item, str) for item in raw_unknowns):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
+    residual_unknowns = list(raw_unknowns)
+    all_certified = packet.get("all_certified")
+    if not isinstance(all_certified, bool):
+        raise ValueError("Malformed certification packet. 'all_certified' must be bool.")
+    if all_certified and residual_unknowns:
+        raise ValueError("Inconsistent packet: all_certified=True with non-empty residual_unknowns.")
+    ready_for_formalization = all_certified and len(residual_unknowns) == 0
     return {
         "artifact_type": "FORMAL_BRIDGE_CERTIFICATE",
         "all_certified": all_certified,
-        "status": "READY_FOR_FORMALIZATION" if all_certified else "BLOCKED_FAIL_CLOSED",
+        "status": "READY_FOR_FORMALIZATION" if ready_for_formalization else "BLOCKED_FAIL_CLOSED",
         "theorem_targets": [
             "posterior existence and local uniqueness",
             "truncation envelope soundness",
