@@ -320,6 +320,10 @@ def _validate_posterior_stage(posterior: Mapping[str, object]) -> List[str]:
     )
     if not isinstance(posterior.get("sufficient_condition"), bool):
         raise ValueError("Malformed posterior stage output: sufficient_condition must be bool.")
+    if posterior.get("sufficient_condition") and normalized_unknowns:
+        raise ValueError(
+            "Malformed posterior stage output: sufficient_condition=True requires empty residual_unknowns."
+        )
     return normalized_unknowns
 
 

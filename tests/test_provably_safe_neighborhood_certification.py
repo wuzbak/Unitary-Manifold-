@@ -515,7 +515,7 @@ def test_full_packet_fail_closed_when_truncation_not_audit_ready(monkeypatch: py
     assert any("Truncation envelope" in reason for reason in packet["residual_unknowns"])
 
 
-def test_full_packet_not_certified_when_posterior_unknowns_present(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_full_packet_rejects_inconsistent_posterior_stage(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(
         cert_mod,
         "posterior_neighborhood_certificate",
@@ -524,14 +524,13 @@ def test_full_packet_not_certified_when_posterior_unknowns_present(monkeypatch: 
             "residual_unknowns": ["manual-proof-gap"],
         },
     )
-    packet = cert_mod.full_certification_packet(
-        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
-        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
-        routing=SingularityRoutingInput(1.0, 10.0, 0),
-        local_patch_radius=1.0,
-    )
-    assert not packet["all_certified"]
-    assert "manual-proof-gap" in packet["residual_unknowns"]
+    with pytest.raises(ValueError, match="sufficient_condition=True"):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
 
 
 def test_full_packet_rejects_malformed_truncation_stage(monkeypatch: pytest.MonkeyPatch) -> None:
