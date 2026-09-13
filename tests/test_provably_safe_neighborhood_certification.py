@@ -562,6 +562,14 @@ def test_formal_bridge_artifact_accepts_set_unknowns_iterable() -> None:
     assert artifact["residual_unknowns"] == ["a-proof", "b-proof"]
 
 
+def test_formal_bridge_artifact_accepts_frozenset_unknowns_deterministically() -> None:
+    artifact = formal_bridge_artifact(
+        {"all_certified": False, "residual_unknowns": frozenset({"b-proof", "a-proof"})}
+    )
+    assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
+    assert artifact["residual_unknowns"] == ["a-proof", "b-proof"]
+
+
 def test_formal_bridge_artifact_accepts_tuple_unknowns_sequence() -> None:
     artifact = formal_bridge_artifact({"all_certified": False, "residual_unknowns": ("missing proof",)})
     assert artifact["status"] == "BLOCKED_FAIL_CLOSED"

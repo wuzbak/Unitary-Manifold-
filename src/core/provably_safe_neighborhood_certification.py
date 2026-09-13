@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable, Mapping, Set
 from dataclasses import asdict, dataclass
 import math
 from typing import Dict, List, Sequence
@@ -407,7 +407,7 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     raw_unknowns = packet.get("residual_unknowns", [])
     if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Iterable)):
         raise ValueError("Malformed certification packet. 'residual_unknowns' must be an iterable of strings.")
-    residual_unknowns = sorted(raw_unknowns) if isinstance(raw_unknowns, set) else list(raw_unknowns)
+    residual_unknowns = sorted(raw_unknowns) if isinstance(raw_unknowns, Set) else list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
         raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
     all_certified = packet.get("all_certified")
