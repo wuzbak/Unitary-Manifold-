@@ -112,18 +112,20 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
     if seed_radius == 0.0 and contraction_margin > 0.0:
         if total_seed_residual == 0.0:
             radius = 0.0
-            uniqueness_gate = 0.0
+            contraction_constant = 0.0
             unique_local_solution = True
         else:
             fail_reasons.append("degenerate_radius_seed")
             radius = float("inf")
-            uniqueness_gate = float("inf")
+            contraction_constant = float("inf")
             unique_local_solution = False
     else:
         radius = seed_radius / contraction_margin if contraction_margin > 0.0 else float("inf")
         # Contraction-theorem uniqueness gate.
-        uniqueness_gate = 1.0 - contraction_margin
-        unique_local_solution = True
+        contraction_constant = 1.0 - contraction_margin
+        unique_local_solution = contraction_constant < 1.0
+        if not unique_local_solution:
+            fail_reasons.append("uniqueness_gate_failed")
 
     certified = not fail_reasons
     return {
@@ -131,7 +133,8 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         "radius": radius,
         "beta": seed_radius,
         "contraction_margin": contraction_margin,
-        "uniqueness_gate": uniqueness_gate,
+        "contraction_constant": contraction_constant,
+        "uniqueness_gate": unique_local_solution,
         "envelope_total": envelope_total,
         "fail_reasons": fail_reasons,
         "obligation_split": {

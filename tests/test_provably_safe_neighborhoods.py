@@ -109,7 +109,8 @@ def test_zero_seed_exact_solution_is_certified() -> None:
     )
     assert cert["certified"] is True
     assert cert["radius"] == pytest.approx(0.0)
-    assert cert["uniqueness_gate"] == pytest.approx(0.0)
+    assert cert["contraction_constant"] == pytest.approx(0.0)
+    assert cert["uniqueness_gate"] is True
 
 
 def test_zero_beta_with_nonzero_residual_is_fail_closed() -> None:

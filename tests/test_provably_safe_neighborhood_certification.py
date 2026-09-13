@@ -693,9 +693,10 @@ def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
         formal_bridge_artifact([])  # type: ignore[arg-type]
 
 
-def test_formal_bridge_artifact_rejects_blocked_packet_without_unknowns() -> None:
-    with pytest.raises(ValueError):
-        formal_bridge_artifact({"all_certified": False, "residual_unknowns": []})
+def test_formal_bridge_artifact_accepts_blocked_packet_without_unknowns() -> None:
+    artifact = formal_bridge_artifact({"all_certified": False, "residual_unknowns": []})
+    assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
+    assert artifact["residual_unknowns"] == []
 
 
 def test_formal_bridge_artifact_rejects_mixed_type_unknowns_without_typeerror() -> None:
