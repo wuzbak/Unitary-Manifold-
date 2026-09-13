@@ -242,7 +242,7 @@ def singularity_topology_route(
         not math.isfinite(routing.invariant_curvature_norm)
     ):
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
-    elif routing.invariant_curvature_norm >= curvature_singularity_threshold:
+    elif routing.invariant_curvature_norm > curvature_singularity_threshold:
         route = "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
     elif abs(routing.topological_index_delta) > 0:
         route = "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
@@ -272,21 +272,29 @@ def _validate_posterior_stage(posterior: Mapping[str, object]) -> None:
         or not isinstance(posterior.get("residual_unknowns"), list)
     ):
         raise ValueError("Malformed posterior stage output: residual_unknowns must be a list.")
+    if not isinstance(posterior.get("sufficient_condition"), bool):
+        raise ValueError("Malformed posterior stage output: sufficient_condition must be bool.")
 
 
 def _validate_truncation_stage(trunc: Mapping[str, object]) -> None:
     if "audit_ready" not in trunc:
         raise ValueError("Malformed truncation envelope output: missing 'audit_ready'.")
+    if not isinstance(trunc.get("audit_ready"), bool):
+        raise ValueError("Malformed truncation envelope output: audit_ready must be bool.")
 
 
 def _validate_sobolev_stage(sobolev: Mapping[str, object]) -> None:
     if "localized_contractive" not in sobolev:
         raise ValueError("Malformed sobolev stage output.")
+    if not isinstance(sobolev.get("localized_contractive"), bool):
+        raise ValueError("Malformed sobolev stage output: localized_contractive must be bool.")
 
 
 def _validate_routing_stage(routing_result: Mapping[str, object]) -> None:
     if ("fail_closed" not in routing_result) or ("route" not in routing_result):
         raise ValueError("Malformed routing stage output.")
+    if not isinstance(routing_result.get("fail_closed"), bool):
+        raise ValueError("Malformed routing stage output: fail_closed must be bool.")
 
 
 def obligation_split() -> Dict[str, List[str]]:

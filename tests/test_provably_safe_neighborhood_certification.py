@@ -246,6 +246,18 @@ def test_singularity_routing_custom_threshold_flips_route() -> None:
     assert flagged["route"] == "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
 
 
+def test_singularity_routing_threshold_boundary_is_regular() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=0.9,
+            invariant_curvature_norm=10.0,
+            topological_index_delta=0,
+        ),
+        curvature_singularity_threshold=10.0,
+    )
+    assert route["route"] == "REGULAR_REGION_CERTIFIABLE"
+
+
 def test_singularity_routing_geometric_precedes_coordinate_breakdown() -> None:
     route = singularity_topology_route(
         SingularityRoutingInput(
@@ -387,6 +399,21 @@ def test_full_packet_rejects_posterior_stage_with_nonlist_unknowns(monkeypatch: 
         )
 
 
+def test_full_packet_rejects_posterior_stage_with_nonbool_gate(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        cert_mod,
+        "posterior_neighborhood_certificate",
+        lambda _inp: {"sufficient_condition": "yes", "residual_unknowns": []},
+    )
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
 def test_full_packet_rejects_malformed_sobolev_stage(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(cert_mod, "sobolev_localization_obligation", lambda local_patch_radius: {})
     with pytest.raises(ValueError):
@@ -398,8 +425,49 @@ def test_full_packet_rejects_malformed_sobolev_stage(monkeypatch: pytest.MonkeyP
         )
 
 
+def test_full_packet_rejects_nonbool_truncation_gate(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "truncation_envelope", lambda _env: {"audit_ready": "false"})
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
+def test_full_packet_rejects_nonbool_sobolev_gate(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        cert_mod,
+        "sobolev_localization_obligation",
+        lambda local_patch_radius: {"localized_contractive": 1},
+    )
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
 def test_full_packet_rejects_malformed_routing_stage(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(cert_mod, "singularity_topology_route", lambda _routing: {})
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
+def test_full_packet_rejects_nonbool_routing_gate(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        cert_mod,
+        "singularity_topology_route",
+        lambda _routing: {"route": "REGULAR_REGION_CERTIFIABLE", "fail_closed": "no"},
+    )
     with pytest.raises(ValueError):
         cert_mod.full_certification_packet(
             posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
