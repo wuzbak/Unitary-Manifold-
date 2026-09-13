@@ -127,6 +127,7 @@ def test_zero_beta_with_nonzero_residual_is_fail_closed() -> None:
 
 def test_obligation_split_classifier() -> None:
     assert classify_obligation("interval_roundoff_bound") == "interval"
+    assert classify_obligation("interval_roundoff_tail_bound") == "interval"
     assert classify_obligation("operator_remainder_bound") == "analytic"
     assert classify_obligation("sobolev_tail_control") == "analytic"
     assert classify_obligation("topology reaction") == "analytic"

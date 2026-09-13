@@ -54,6 +54,14 @@ def _nonnegative(name: str, value: float) -> None:
 def classify_obligation(obligation_name: str) -> ObligationClass:
     """Classify obligations into interval-safe vs analytic-required classes."""
     normalized = obligation_name.strip().lower()
+    interval_markers = (
+        "interval",
+        "roundoff",
+        "finite_mode",
+        "truncation",
+    )
+    if any(marker in normalized for marker in interval_markers):
+        return "interval"
     analytic_markers = (
         "tail",
         "operator",
@@ -104,7 +112,7 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
             uniqueness_gate = float("inf")
             unique_local_solution = False
     else:
-        radius = seed_radius * contraction_margin if contraction_margin > 0.0 else float("inf")
+        radius = seed_radius / contraction_margin if contraction_margin > 0.0 else float("inf")
         # Ball-consistent uniqueness gate.
         uniqueness_gate = inputs.inverse_bound * inputs.lipschitz_bound * radius
         unique_local_solution = uniqueness_gate < 1.0
