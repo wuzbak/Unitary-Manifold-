@@ -180,9 +180,11 @@ jobs:
         if: ${{ steps.monitor.outputs.alert_count != '0' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           python3 - <<'PYEOF'
           import json
+          import os
           import subprocess
 
           with open("/tmp/alerts.json") as f:
@@ -190,7 +192,7 @@ jobs:
 
           has_falsifier_label = (
               subprocess.run(
-                  ["gh", "label", "view", "falsifier-alert"],
+                  ["gh", "label", "view", "falsifier-alert", "--repo", os.environ["GH_REPO"]],
                   capture_output=True,
                   text=True,
               ).returncode
@@ -238,6 +240,7 @@ jobs:
                   "gh", "issue", "create",
                   "--title", f"[FALSIFIER ALERT] {alert['label']} — arXiv:{alert['arxiv_id']}",
                   "--body", body,
+                  "--repo", os.environ["GH_REPO"],
               ]
               if has_falsifier_label:
                   command.extend(["--label", "falsifier-alert"])
