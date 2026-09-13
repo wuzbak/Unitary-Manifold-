@@ -493,14 +493,31 @@ def checkpointed_formal_bridge_packet(
         curvature_singularity_threshold=curvature_singularity_threshold,
     )
     artifact = formal_bridge_artifact(packet)
+
+    def _checked_stage_bool(stage_name: str, field_name: str) -> bool:
+        stage_obj = packet.get(stage_name)
+        if not isinstance(stage_obj, Mapping):
+            raise ValueError(f"Malformed packet stage: {stage_name} must be a mapping.")
+        value = stage_obj.get(field_name)
+        if not isinstance(value, bool):
+            raise ValueError(f"Malformed packet stage: {stage_name}.{field_name} must be bool.")
+        return value
+
+    routing_stage = packet.get("singularity_topology_routing")
+    if not isinstance(routing_stage, Mapping):
+        raise ValueError("Malformed packet stage: singularity_topology_routing must be a mapping.")
+    routing_route = routing_stage.get("route")
+    if not isinstance(routing_route, str):
+        raise ValueError("Malformed packet stage: singularity_topology_routing.route must be str.")
+
     completed_invariants: List[str] = []
-    if packet["posterior_neighborhood"]["sufficient_condition"]:
+    if _checked_stage_bool("posterior_neighborhood", "sufficient_condition"):
         completed_invariants.append("posterior_neighborhood")
-    if packet["truncation_envelope"]["audit_ready"]:
+    if _checked_stage_bool("truncation_envelope", "audit_ready"):
         completed_invariants.append("truncation_envelope")
-    if packet["sobolev_localization"]["localized_contractive"]:
+    if _checked_stage_bool("sobolev_localization", "localized_contractive"):
         completed_invariants.append("sobolev_localization")
-    if packet["singularity_topology_routing"]["route"] == "REGULAR_REGION_CERTIFIABLE":
+    if routing_route == "REGULAR_REGION_CERTIFIABLE":
         completed_invariants.append("singularity_topology_routing")
 
     checkpoint = phase_checkpoint(

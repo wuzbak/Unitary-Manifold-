@@ -39,6 +39,26 @@ def test_posterior_certificate_passes_for_safe_case() -> None:
     assert cert["fail_reasons"] == []
 
 
+def test_posterior_certificate_radius_increases_with_envelope() -> None:
+    base = posterior_neighborhood_certificate(
+        PosteriorInputs(
+            residual_bound=1e-4,
+            inverse_bound=0.8,
+            lipschitz_bound=0.2,
+            envelope=TruncationEnvelope(0.0, 0.0, 0.0, 0.0),
+        )
+    )
+    expanded = posterior_neighborhood_certificate(
+        PosteriorInputs(
+            residual_bound=1e-4,
+            inverse_bound=0.8,
+            lipschitz_bound=0.2,
+            envelope=TruncationEnvelope(1e-4, 0.0, 0.0, 0.0),
+        )
+    )
+    assert expanded["radius"] > base["radius"]
+
+
 def test_posterior_certificate_fails_for_non_contractive_case() -> None:
     bad = PosteriorInputs(
         residual_bound=1e-4,
