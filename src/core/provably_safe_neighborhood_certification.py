@@ -251,7 +251,11 @@ def singularity_topology_route(
     else:
         route = "REGULAR_REGION_CERTIFIABLE"
 
-    fail_closed = route != "REGULAR_REGION_CERTIFIABLE"
+    fail_closed = route in {
+        "INVALID_NUMERIC_INPUT_FAIL_CLOSED",
+        "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT",
+        "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION",
+    }
     return {
         "input": asdict(routing),
         "curvature_singularity_threshold": curvature_singularity_threshold,
@@ -312,6 +316,11 @@ def full_certification_packet(
     trunc = truncation_envelope(envelope)
     if ("residual_unknowns" not in posterior) or ("sufficient_condition" not in posterior):
         raise ValueError("Malformed posterior stage output.")
+    if (
+        isinstance(posterior.get("residual_unknowns"), (str, bytes))
+        or not isinstance(posterior.get("residual_unknowns"), list)
+    ):
+        raise ValueError("Malformed posterior stage output: residual_unknowns must be a list.")
     if "audit_ready" not in trunc:
         raise ValueError("Malformed truncation envelope output: missing 'audit_ready'.")
     sobolev = sobolev_localization_obligation(local_patch_radius=local_patch_radius)

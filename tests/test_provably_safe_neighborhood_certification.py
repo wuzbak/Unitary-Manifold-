@@ -175,7 +175,7 @@ def test_singularity_routing_coordinate_breakdown() -> None:
         ),
     )
     assert route["route"] == "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
-    assert route["fail_closed"]
+    assert not route["fail_closed"]
 
 
 def test_singularity_routing_nonfinite_jacobian_is_input_fail_closed() -> None:
@@ -363,6 +363,21 @@ def test_full_packet_rejects_malformed_truncation_stage(monkeypatch: pytest.Monk
 
 def test_full_packet_rejects_malformed_posterior_stage(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(cert_mod, "posterior_neighborhood_certificate", lambda _inp: {})
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
+def test_full_packet_rejects_posterior_stage_with_nonlist_unknowns(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        cert_mod,
+        "posterior_neighborhood_certificate",
+        lambda _inp: {"sufficient_condition": True, "residual_unknowns": None},
+    )
     with pytest.raises(ValueError):
         cert_mod.full_certification_packet(
             posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
