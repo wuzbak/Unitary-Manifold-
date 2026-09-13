@@ -127,7 +127,7 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
         or (
             (not degenerate_affine_case)
             and beta > 0.0
-            and (2.0 * alpha * beta) <= 1.0
+            and (2.0 * alpha * beta) < 1.0
         )
     )
 
@@ -374,6 +374,7 @@ def full_certification_packet(
         and sobolev["localized_contractive"]
         and (not routing_result["fail_closed"])
         and routing_result["route"] == "REGULAR_REGION_CERTIFIABLE"
+        and len(residual_unknowns) == 0
     )
 
     return {

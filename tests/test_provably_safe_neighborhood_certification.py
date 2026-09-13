@@ -42,6 +42,18 @@ def test_posterior_neighborhood_success_case() -> None:
     assert cert["verdict"] == "POSTERIOR_NEIGHBORHOOD_CERTIFIED_UNIQUE"
 
 
+def test_posterior_neighborhood_boundary_case_is_not_certified() -> None:
+    # 2*alpha*beta == 1 boundary must fail closed.
+    cert = posterior_neighborhood_certificate(
+        PosteriorNeighborhoodInput(
+            residual_bound=0.5,
+            inverse_bound=1.0,
+            lipschitz_bound=1.0,
+        )
+    )
+    assert not cert["sufficient_condition"]
+
+
 def test_posterior_neighborhood_fail_closed_case() -> None:
     inp = PosteriorNeighborhoodInput(
         residual_bound=1.0,
@@ -398,6 +410,25 @@ def test_full_packet_fail_closed_when_truncation_not_audit_ready(monkeypatch: py
     assert not packet["all_certified"]
     assert packet["verdict"] == "PARTIAL_PACKET_FAIL_CLOSED_WITH_EXPLICIT_UNKNOWNS"
     assert any("Truncation envelope" in reason for reason in packet["residual_unknowns"])
+
+
+def test_full_packet_not_certified_when_posterior_unknowns_present(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        cert_mod,
+        "posterior_neighborhood_certificate",
+        lambda _inp: {
+            "sufficient_condition": True,
+            "residual_unknowns": ["manual-proof-gap"],
+        },
+    )
+    packet = cert_mod.full_certification_packet(
+        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+        routing=SingularityRoutingInput(1.0, 10.0, 0),
+        local_patch_radius=1.0,
+    )
+    assert not packet["all_certified"]
+    assert "manual-proof-gap" in packet["residual_unknowns"]
 
 
 def test_full_packet_rejects_malformed_truncation_stage(monkeypatch: pytest.MonkeyPatch) -> None:
