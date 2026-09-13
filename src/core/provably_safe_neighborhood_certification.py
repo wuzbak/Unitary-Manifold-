@@ -408,9 +408,10 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     raw_unknowns = packet.get("residual_unknowns", [])
     if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Iterable)):
         raise ValueError("Malformed certification packet. 'residual_unknowns' must be an iterable of strings.")
-    residual_unknowns = sorted(list(raw_unknowns))
+    residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
         raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
+    residual_unknowns = sorted(residual_unknowns)
     all_certified = packet.get("all_certified")
     if not isinstance(all_certified, bool):
         raise ValueError("Malformed certification packet. 'all_certified' must be bool.")

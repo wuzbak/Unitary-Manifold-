@@ -87,15 +87,22 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
     envelope_total = inputs.envelope.total_bound()
     beta = inputs.inverse_bound * (inputs.residual_bound + envelope_total)
     contraction_margin = 1.0 - (inputs.inverse_bound * inputs.lipschitz_bound)
+    total_seed_residual = inputs.residual_bound + envelope_total
 
     fail_reasons = []
     if contraction_margin <= 0.0:
         fail_reasons.append("non_contractive_linearization")
 
     if beta == 0.0 and contraction_margin > 0.0:
-        radius = 0.0
-        uniqueness_gate = 0.0
-        unique_local_solution = True
+        if total_seed_residual == 0.0:
+            radius = 0.0
+            uniqueness_gate = 0.0
+            unique_local_solution = True
+        else:
+            fail_reasons.append("degenerate_radius_seed")
+            radius = float("inf")
+            uniqueness_gate = float("inf")
+            unique_local_solution = False
     else:
         radius = beta / contraction_margin if contraction_margin > 0.0 else float("inf")
         # Ball-consistent uniqueness gate.

@@ -623,6 +623,11 @@ def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
         formal_bridge_artifact([])  # type: ignore[arg-type]
 
 
+def test_formal_bridge_artifact_rejects_mixed_type_unknowns_without_typeerror() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": False, "residual_unknowns": ["ok", 3]})
+
+
 def test_formal_bridge_artifact_accepts_mappingproxy_input() -> None:
     packet = MappingProxyType({"all_certified": False, "residual_unknowns": []})
     artifact = formal_bridge_artifact(packet)  # type: ignore[arg-type]

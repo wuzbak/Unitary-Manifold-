@@ -112,6 +112,19 @@ def test_zero_seed_exact_solution_is_certified() -> None:
     assert cert["uniqueness_gate"] == pytest.approx(0.0)
 
 
+def test_zero_beta_with_nonzero_residual_is_fail_closed() -> None:
+    cert = posterior_neighborhood_certificate(
+        PosteriorInputs(
+            residual_bound=0.1,
+            inverse_bound=0.0,
+            lipschitz_bound=0.2,
+            envelope=TruncationEnvelope(0.0, 0.0, 0.0, 0.0),
+        )
+    )
+    assert cert["certified"] is False
+    assert "degenerate_radius_seed" in cert["fail_reasons"]
+
+
 def test_obligation_split_classifier() -> None:
     assert classify_obligation("interval_roundoff_bound") == "interval"
     assert classify_obligation("operator_remainder_bound") == "analytic"
