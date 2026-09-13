@@ -189,6 +189,20 @@ def test_sobolev_localization_obligation_rejects_nonpositive_radius() -> None:
         sobolev_localization_obligation(local_patch_radius=float("nan"))
 
 
+def test_sobolev_localization_obligation_uses_patched_h1_dependency(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "h1_lipschitz_estimate", lambda: {"l_h1": 1.1})
+    monkeypatch.setattr(cert_mod, "critical_gradient_bound", lambda: {"epsilon_grad_max": 0.1})
+    out = cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
+    assert not out["localized_contractive"]
+
+
+def test_sobolev_localization_obligation_uses_patched_gradient_dependency(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "h1_lipschitz_estimate", lambda: {"l_h1": 0.8})
+    monkeypatch.setattr(cert_mod, "critical_gradient_bound", lambda: {"epsilon_grad_max": 0.0})
+    out = cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
+    assert not out["localized_contractive"]
+
+
 def test_singularity_routing_regular() -> None:
     route = singularity_topology_route(
         SingularityRoutingInput(

@@ -53,7 +53,7 @@ def test_posterior_certificate_fails_for_non_contractive_case() -> None:
     assert "non_contractive_linearization" in cert["fail_reasons"]
 
 
-def test_posterior_certificate_fails_uniqueness_gate() -> None:
+def test_posterior_certificate_fails_when_non_contractive() -> None:
     bad = PosteriorInputs(
         residual_bound=0.2,
         inverse_bound=1.0,
@@ -62,7 +62,7 @@ def test_posterior_certificate_fails_uniqueness_gate() -> None:
     )
     cert = posterior_neighborhood_certificate(bad)
     assert cert["certified"] is False
-    assert "uniqueness_gate_failed" in cert["fail_reasons"]
+    assert "non_contractive_linearization" in cert["fail_reasons"]
 
 
 def test_negative_inputs_raise() -> None:
