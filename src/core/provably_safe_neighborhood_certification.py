@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence as SequenceABC
 from dataclasses import asdict, dataclass
 import math
 from numbers import Integral
@@ -111,7 +111,7 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
 
     Let alpha = ||A^{-1}|| * ||F(x0)|| and beta = ||A^{-1}|| * Lip(F').
     Sufficient condition for uniqueness in a computable ball:
-        2 * alpha * beta <= 1.
+        2 * alpha * beta < 1.
     Radius (for beta>0):
         r = (1 - sqrt(1 - 2*alpha*beta)) / beta.
     """
@@ -299,38 +299,35 @@ def singularity_topology_route(
 def _validate_posterior_stage(posterior: Mapping[str, object]) -> None:
     if ("residual_unknowns" not in posterior) or ("sufficient_condition" not in posterior):
         raise ValueError("Malformed posterior stage output.")
-    if (
-        isinstance(posterior.get("residual_unknowns"), (str, bytes))
-        or not isinstance(posterior.get("residual_unknowns"), (list, tuple))
-    ):
-        raise ValueError("Malformed posterior stage output: residual_unknowns must be a list or tuple.")
-    if any(not isinstance(item, str) for item in posterior.get("residual_unknowns", [])):
+    raw_unknowns = posterior.get("residual_unknowns")
+    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
+        raise ValueError("Malformed posterior stage output: residual_unknowns must be an ordered sequence.")
+    if any(not isinstance(item, str) for item in raw_unknowns):
         raise ValueError("Malformed posterior stage output: residual_unknowns entries must be strings.")
     if not isinstance(posterior.get("sufficient_condition"), bool):
         raise ValueError("Malformed posterior stage output: sufficient_condition must be bool.")
 
 
+def _require_typed_field(stage: Mapping[str, object], field: str, expected_type: type, stage_name: str) -> None:
+    if field not in stage:
+        raise ValueError(f"Malformed {stage_name} stage output: missing '{field}'.")
+    if not isinstance(stage.get(field), expected_type):
+        raise ValueError(
+            f"Malformed {stage_name} stage output: {field} must be {expected_type.__name__}."
+        )
+
+
 def _validate_truncation_stage(trunc: Mapping[str, object]) -> None:
-    if "audit_ready" not in trunc:
-        raise ValueError("Malformed truncation envelope output: missing 'audit_ready'.")
-    if not isinstance(trunc.get("audit_ready"), bool):
-        raise ValueError("Malformed truncation envelope output: audit_ready must be bool.")
+    _require_typed_field(trunc, "audit_ready", bool, "truncation envelope")
 
 
 def _validate_sobolev_stage(sobolev: Mapping[str, object]) -> None:
-    if "localized_contractive" not in sobolev:
-        raise ValueError("Malformed sobolev stage output.")
-    if not isinstance(sobolev.get("localized_contractive"), bool):
-        raise ValueError("Malformed sobolev stage output: localized_contractive must be bool.")
+    _require_typed_field(sobolev, "localized_contractive", bool, "sobolev")
 
 
 def _validate_routing_stage(routing_result: Mapping[str, object]) -> None:
-    if ("fail_closed" not in routing_result) or ("route" not in routing_result):
-        raise ValueError("Malformed routing stage output.")
-    if not isinstance(routing_result.get("fail_closed"), bool):
-        raise ValueError("Malformed routing stage output: fail_closed must be bool.")
-    if not isinstance(routing_result.get("route"), str):
-        raise ValueError("Malformed routing stage output: route must be str.")
+    _require_typed_field(routing_result, "fail_closed", bool, "routing")
+    _require_typed_field(routing_result, "route", str, "routing")
 
 
 def obligation_split() -> Dict[str, List[str]]:
@@ -442,9 +439,9 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
 
     raw_unknowns = packet.get("residual_unknowns", [])
-    if not isinstance(raw_unknowns, (list, tuple)):
+    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
         raise ValueError(
-            "Malformed certification packet. 'residual_unknowns' must be a list or tuple."
+            "Malformed certification packet. 'residual_unknowns' must be an ordered sequence."
         )
     residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
