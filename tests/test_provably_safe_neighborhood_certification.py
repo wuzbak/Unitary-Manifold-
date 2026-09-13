@@ -79,6 +79,18 @@ def test_posterior_neighborhood_beta_zero_with_positive_inverse_uses_affine_radi
     assert cert["radius"] == pytest.approx(0.2)
 
 
+def test_posterior_neighborhood_beta_zero_large_seed_fails_closed() -> None:
+    cert = posterior_neighborhood_certificate(
+        PosteriorNeighborhoodInput(
+            residual_bound=1.0,
+            inverse_bound=1.0,
+            lipschitz_bound=0.0,
+        )
+    )
+    assert not cert["sufficient_condition"]
+    assert any("alpha < 1" in msg for msg in cert["residual_unknowns"])
+
+
 def test_posterior_neighborhood_zero_inverse_bound_reports_inverse_degeneracy() -> None:
     cert = posterior_neighborhood_certificate(
         PosteriorNeighborhoodInput(

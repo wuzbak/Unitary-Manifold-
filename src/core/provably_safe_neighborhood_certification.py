@@ -127,7 +127,11 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
         and math.isclose(alpha, 0.0, abs_tol=_ZERO_TOL)
         and math.isclose(inp.residual_bound, 0.0, abs_tol=_ZERO_TOL)
     )
-    near_affine_positive_inverse = degenerate_affine_case and inp.inverse_bound > 0.0
+    near_affine_positive_inverse = (
+        degenerate_affine_case
+        and inp.inverse_bound > 0.0
+        and alpha < 1.0
+    )
     sufficient_condition = (
         exact_affine_zero_residual
         or near_affine_positive_inverse
@@ -158,6 +162,10 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
         if degenerate_affine_case and inp.inverse_bound == 0.0 and inp.residual_bound > 0.0:
             residual_unknowns.append(
                 "Inverse-bound degeneracy: inverse_bound=0 with nonzero residual requires valid inverse estimate."
+            )
+        elif degenerate_affine_case and inp.inverse_bound > 0.0 and alpha >= 1.0:
+            residual_unknowns.append(
+                "Affine-near-zero Lipschitz case requires smaller residual seed (alpha < 1)."
             )
         elif degenerate_affine_case:
             residual_unknowns.append(

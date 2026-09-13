@@ -80,7 +80,6 @@ def classify_obligation(obligation_name: str) -> ObligationClass:
         "interval",
         "roundoff",
         "finite_mode",
-        "truncation",
     )
     if any(marker in normalized for marker in interval_markers):
         return "interval"
