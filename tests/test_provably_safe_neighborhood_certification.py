@@ -572,6 +572,21 @@ def test_full_packet_accepts_posterior_stage_with_tuple_unknowns(monkeypatch: py
     assert "tuple-unknown" in packet["residual_unknowns"]
 
 
+def test_full_packet_rejects_posterior_stage_with_nonstring_tuple_unknowns(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        cert_mod,
+        "posterior_neighborhood_certificate",
+        lambda _inp: {"sufficient_condition": False, "residual_unknowns": ("ok", 3)},
+    )
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
 def test_full_packet_rejects_posterior_stage_with_nonbool_gate(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(
         cert_mod,
@@ -640,6 +655,21 @@ def test_full_packet_rejects_nonbool_routing_gate(monkeypatch: pytest.MonkeyPatc
         cert_mod,
         "singularity_topology_route",
         lambda _routing, **kwargs: {"route": "REGULAR_REGION_CERTIFIABLE", "fail_closed": "no"},
+    )
+    with pytest.raises(ValueError):
+        cert_mod.full_certification_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            local_patch_radius=1.0,
+        )
+
+
+def test_full_packet_rejects_nonstring_routing_route(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        cert_mod,
+        "singularity_topology_route",
+        lambda _routing, **kwargs: {"route": None, "fail_closed": False},
     )
     with pytest.raises(ValueError):
         cert_mod.full_certification_packet(

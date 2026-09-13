@@ -304,6 +304,8 @@ def _validate_posterior_stage(posterior: Mapping[str, object]) -> None:
         or not isinstance(posterior.get("residual_unknowns"), (list, tuple))
     ):
         raise ValueError("Malformed posterior stage output: residual_unknowns must be a list or tuple.")
+    if any(not isinstance(item, str) for item in posterior.get("residual_unknowns", [])):
+        raise ValueError("Malformed posterior stage output: residual_unknowns entries must be strings.")
     if not isinstance(posterior.get("sufficient_condition"), bool):
         raise ValueError("Malformed posterior stage output: sufficient_condition must be bool.")
 
@@ -327,6 +329,8 @@ def _validate_routing_stage(routing_result: Mapping[str, object]) -> None:
         raise ValueError("Malformed routing stage output.")
     if not isinstance(routing_result.get("fail_closed"), bool):
         raise ValueError("Malformed routing stage output: fail_closed must be bool.")
+    if not isinstance(routing_result.get("route"), str):
+        raise ValueError("Malformed routing stage output: route must be str.")
 
 
 def obligation_split() -> Dict[str, List[str]]:
