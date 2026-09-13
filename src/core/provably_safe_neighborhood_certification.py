@@ -300,16 +300,25 @@ def singularity_topology_route(
     }
 
 
-def _validate_posterior_stage(posterior: Mapping[str, object]) -> None:
+def _validated_unknown_sequence(raw_unknowns: object, error_prefix: str) -> List[str]:
+    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
+        raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
+    normalized_unknowns = list(raw_unknowns)
+    if any(not isinstance(item, str) for item in normalized_unknowns):
+        raise ValueError(f"{error_prefix}: residual_unknowns entries must be strings.")
+    return normalized_unknowns
+
+
+def _validate_posterior_stage(posterior: Mapping[str, object]) -> List[str]:
     if ("residual_unknowns" not in posterior) or ("sufficient_condition" not in posterior):
         raise ValueError("Malformed posterior stage output.")
-    raw_unknowns = posterior.get("residual_unknowns")
-    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
-        raise ValueError("Malformed posterior stage output: residual_unknowns must be an ordered sequence.")
-    if any(not isinstance(item, str) for item in raw_unknowns):
-        raise ValueError("Malformed posterior stage output: residual_unknowns entries must be strings.")
+    normalized_unknowns = _validated_unknown_sequence(
+        posterior.get("residual_unknowns"),
+        "Malformed posterior stage output",
+    )
     if not isinstance(posterior.get("sufficient_condition"), bool):
         raise ValueError("Malformed posterior stage output: sufficient_condition must be bool.")
+    return normalized_unknowns
 
 
 def _require_typed_field(stage: Mapping[str, object], field: str, expected_type: type, stage_name: str) -> None:
@@ -336,15 +345,10 @@ def _validate_routing_stage(routing_result: Mapping[str, object]) -> None:
 
 
 def _validated_residual_unknowns(packet: Mapping[str, object]) -> List[str]:
-    raw_unknowns = packet.get("residual_unknowns", [])
-    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
-        raise ValueError(
-            "Malformed certification packet. 'residual_unknowns' must be an ordered sequence."
-        )
-    residual_unknowns = list(raw_unknowns)
-    if any(not isinstance(item, str) for item in residual_unknowns):
-        raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
-    return residual_unknowns
+    return _validated_unknown_sequence(
+        packet.get("residual_unknowns", []),
+        "Malformed certification packet",
+    )
 
 
 def obligation_split() -> Dict[str, List[str]]:
@@ -398,7 +402,7 @@ def full_certification_packet(
     """Return complete fail-closed certification packet."""
     posterior = posterior_neighborhood_certificate(posterior_input)
     trunc = truncation_envelope(envelope)
-    _validate_posterior_stage(posterior)
+    posterior_unknowns = _validate_posterior_stage(posterior)
     _validate_truncation_stage(trunc)
     sobolev = sobolev_localization_obligation(local_patch_radius=local_patch_radius)
     _validate_sobolev_stage(sobolev)
@@ -408,8 +412,6 @@ def full_certification_packet(
     )
     _validate_routing_stage(routing_result)
     split = obligation_split()
-    posterior_unknowns = list(posterior["residual_unknowns"])
-
     residual_unknowns: List[str] = []
     residual_unknowns.extend(posterior_unknowns)
     if not trunc["audit_ready"]:
