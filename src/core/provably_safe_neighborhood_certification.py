@@ -231,8 +231,8 @@ def singularity_topology_route(
     Precedence order:
     1) Invalid numeric input (non-finite Jacobian/curvature) -> fail-closed
     2) Geometric singularity (invariant curvature threshold exceeded)
-    3) Topology transition (non-zero topological index delta)
-    4) Coordinate breakdown (non-positive chart Jacobian; rechart required)
+    3) Coordinate breakdown (non-positive chart Jacobian; rechart required)
+    4) Topology transition (non-zero topological index delta)
     5) Regular region certifiable
     """
     if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold <= 0.0:
@@ -244,10 +244,10 @@ def singularity_topology_route(
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
     elif routing.invariant_curvature_norm > curvature_singularity_threshold:
         route = "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
-    elif abs(routing.topological_index_delta) > 0:
-        route = "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
     elif routing.chart_jacobian_min <= 0.0:
         route = "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
+    elif abs(routing.topological_index_delta) > 0:
+        route = "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
     else:
         route = "REGULAR_REGION_CERTIFIABLE"
 
@@ -403,7 +403,7 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     raw_unknowns = packet.get("residual_unknowns", [])
     if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Iterable)):
         raise ValueError("Malformed certification packet. 'residual_unknowns' must be an iterable of strings.")
-    residual_unknowns = list(raw_unknowns)
+    residual_unknowns = sorted(raw_unknowns) if isinstance(raw_unknowns, set) else list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
         raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
     all_certified = packet.get("all_certified")

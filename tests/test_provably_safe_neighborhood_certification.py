@@ -282,6 +282,18 @@ def test_singularity_routing_geometric_precedes_topology_signal() -> None:
     assert route["route"] == "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
 
 
+def test_singularity_routing_coordinate_precedes_topology_on_invalid_chart() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=0.0,
+            invariant_curvature_norm=10.0,
+            topological_index_delta=1,
+        ),
+        curvature_singularity_threshold=1.0e6,
+    )
+    assert route["route"] == "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
+
+
 def test_singularity_routing_rejects_invalid_threshold() -> None:
     with pytest.raises(ValueError):
         singularity_topology_route(
@@ -530,9 +542,9 @@ def test_formal_bridge_artifact_rejects_nonlist_unknowns() -> None:
 
 
 def test_formal_bridge_artifact_accepts_set_unknowns_iterable() -> None:
-    artifact = formal_bridge_artifact({"all_certified": False, "residual_unknowns": {"missing proof"}})
+    artifact = formal_bridge_artifact({"all_certified": False, "residual_unknowns": {"b-proof", "a-proof"}})
     assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
-    assert artifact["residual_unknowns"] == ["missing proof"]
+    assert artifact["residual_unknowns"] == ["a-proof", "b-proof"]
 
 
 def test_formal_bridge_artifact_accepts_tuple_unknowns_sequence() -> None:
