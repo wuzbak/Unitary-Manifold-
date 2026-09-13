@@ -359,8 +359,8 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
 
     raw_unknowns = packet.get("residual_unknowns", [])
-    if not isinstance(raw_unknowns, (list, tuple)):
-        raise ValueError("Malformed certification packet. 'residual_unknowns' must be a list or tuple of strings.")
+    if not isinstance(raw_unknowns, list):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' must be a list of strings.")
     residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
         raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")

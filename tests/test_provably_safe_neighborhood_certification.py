@@ -440,6 +440,11 @@ def test_formal_bridge_artifact_rejects_set_unknowns() -> None:
         formal_bridge_artifact({"all_certified": False, "residual_unknowns": {"missing proof"}})
 
 
+def test_formal_bridge_artifact_rejects_tuple_unknowns() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": False, "residual_unknowns": ("missing proof",)})
+
+
 def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
     with pytest.raises(ValueError):
         formal_bridge_artifact([])  # type: ignore[arg-type]
