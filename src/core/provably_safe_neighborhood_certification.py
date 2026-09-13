@@ -234,12 +234,12 @@ def singularity_topology_route(
         not math.isfinite(routing.invariant_curvature_norm)
     ):
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
-    elif routing.chart_jacobian_min <= 0.0:
-        route = "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
     elif abs(routing.topological_index_delta) > 0:
         route = "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
     elif routing.invariant_curvature_norm >= curvature_singularity_threshold:
         route = "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
+    elif routing.chart_jacobian_min <= 0.0:
+        route = "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
     else:
         route = "REGULAR_REGION_CERTIFIABLE"
 
