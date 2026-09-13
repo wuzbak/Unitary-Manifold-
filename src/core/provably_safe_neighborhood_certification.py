@@ -290,11 +290,13 @@ def singularity_topology_route(
         "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT",
         "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION",
     }
+    regular_region_gate = route == "REGULAR_REGION_CERTIFIABLE"
     return {
         "input": asdict(routing),
         "curvature_singularity_threshold": curvature_singularity_threshold,
         "route": route,
         "fail_closed": fail_closed,
+        "regular_region_gate": regular_region_gate,
     }
 
 
@@ -330,6 +332,19 @@ def _validate_sobolev_stage(sobolev: Mapping[str, object]) -> None:
 def _validate_routing_stage(routing_result: Mapping[str, object]) -> None:
     _require_typed_field(routing_result, "fail_closed", bool, "routing")
     _require_typed_field(routing_result, "route", str, "routing")
+    _require_typed_field(routing_result, "regular_region_gate", bool, "routing")
+
+
+def _validated_residual_unknowns(packet: Mapping[str, object]) -> List[str]:
+    raw_unknowns = packet.get("residual_unknowns", [])
+    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
+        raise ValueError(
+            "Malformed certification packet. 'residual_unknowns' must be an ordered sequence."
+        )
+    residual_unknowns = list(raw_unknowns)
+    if any(not isinstance(item, str) for item in residual_unknowns):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
+    return residual_unknowns
 
 
 def obligation_split() -> Dict[str, List[str]]:
@@ -401,7 +416,7 @@ def full_certification_packet(
         residual_unknowns.append("Truncation envelope is not audit-ready.")
     if not sobolev["localized_contractive"]:
         residual_unknowns.append("Localized Sobolev obligation is not contractive.")
-    routing_regular_region = routing_result["route"] == "REGULAR_REGION_CERTIFIABLE"
+    routing_regular_region = routing_result["regular_region_gate"]
     if not routing_regular_region:
         residual_unknowns.append(f"Routing requires remediation: {routing_result['route']}")
 
@@ -441,14 +456,7 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     if missing:
         raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
 
-    raw_unknowns = packet.get("residual_unknowns", [])
-    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
-        raise ValueError(
-            "Malformed certification packet. 'residual_unknowns' must be an ordered sequence."
-        )
-    residual_unknowns = list(raw_unknowns)
-    if any(not isinstance(item, str) for item in residual_unknowns):
-        raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
+    residual_unknowns = _validated_residual_unknowns(packet)
     all_certified = packet.get("all_certified")
     if not isinstance(all_certified, bool):
         raise ValueError("Malformed certification packet. 'all_certified' must be bool.")
@@ -506,9 +514,11 @@ def checkpointed_formal_bridge_packet(
     routing_stage = packet.get("singularity_topology_routing")
     if not isinstance(routing_stage, Mapping):
         raise ValueError("Malformed packet stage: singularity_topology_routing must be a mapping.")
-    routing_route = routing_stage.get("route")
-    if not isinstance(routing_route, str):
-        raise ValueError("Malformed packet stage: singularity_topology_routing.route must be str.")
+    routing_regular_region = routing_stage.get("regular_region_gate")
+    if not isinstance(routing_regular_region, bool):
+        raise ValueError(
+            "Malformed packet stage: singularity_topology_routing.regular_region_gate must be bool."
+        )
 
     completed_invariants: List[str] = []
     if _checked_stage_bool("posterior_neighborhood", "sufficient_condition"):
@@ -517,17 +527,10 @@ def checkpointed_formal_bridge_packet(
         completed_invariants.append("truncation_envelope")
     if _checked_stage_bool("sobolev_localization", "localized_contractive"):
         completed_invariants.append("sobolev_localization")
-    if routing_route == "REGULAR_REGION_CERTIFIABLE":
+    if routing_regular_region:
         completed_invariants.append("singularity_topology_routing")
 
-    raw_unknowns = packet.get("residual_unknowns", [])
-    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
-        raise ValueError(
-            "Malformed certification packet. 'residual_unknowns' must be an ordered sequence."
-        )
-    remaining_obligations = list(raw_unknowns)
-    if any(not isinstance(item, str) for item in remaining_obligations):
-        raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
+    remaining_obligations = _validated_residual_unknowns(packet)
 
     checkpoint = phase_checkpoint(
         phase=phase,

@@ -123,7 +123,7 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         radius = seed_radius / contraction_margin if contraction_margin > 0.0 else float("inf")
         # Contraction-theorem uniqueness gate.
         contraction_constant = 1.0 - contraction_margin
-        unique_local_solution = True
+        unique_local_solution = contraction_margin > 0.0
 
     certified = not fail_reasons
     return {

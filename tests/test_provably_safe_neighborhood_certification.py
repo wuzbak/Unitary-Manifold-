@@ -228,6 +228,7 @@ def test_singularity_routing_regular() -> None:
     )
     assert route["route"] == "REGULAR_REGION_CERTIFIABLE"
     assert not route["fail_closed"]
+    assert route["regular_region_gate"] is True
 
 
 def test_singularity_routing_coordinate_breakdown() -> None:
@@ -240,6 +241,7 @@ def test_singularity_routing_coordinate_breakdown() -> None:
     )
     assert route["route"] == "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
     assert not route["fail_closed"]
+    assert route["regular_region_gate"] is False
 
 
 def test_singularity_routing_nonfinite_jacobian_is_input_fail_closed() -> None:
@@ -299,6 +301,7 @@ def test_singularity_routing_topology_transition_fail_closed() -> None:
     )
     assert route["route"] == "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
     assert route["fail_closed"]
+    assert route["regular_region_gate"] is False
 
 
 def test_singularity_routing_custom_threshold_flips_route() -> None:
@@ -842,7 +845,11 @@ def test_checkpointed_formal_bridge_packet_rejects_malformed_packet_residual_unk
         "posterior_neighborhood": {"sufficient_condition": True, "residual_unknowns": []},
         "truncation_envelope": {"audit_ready": True},
         "sobolev_localization": {"localized_contractive": True},
-        "singularity_topology_routing": {"route": "REGULAR_REGION_CERTIFIABLE", "fail_closed": False},
+        "singularity_topology_routing": {
+            "route": "REGULAR_REGION_CERTIFIABLE",
+            "fail_closed": False,
+            "regular_region_gate": True,
+        },
     }
     monkeypatch.setattr(
         cert_mod,
@@ -851,6 +858,37 @@ def test_checkpointed_formal_bridge_packet_rejects_malformed_packet_residual_unk
     )
 
     with pytest.raises(ValueError, match="residual_unknowns"):
+        checkpointed_formal_bridge_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            phase="Phase C",
+            restart_pointer="src/core/provably_safe_neighborhood_certification.py:checkpointed_formal_bridge_packet",
+        )
+
+
+def test_checkpointed_formal_bridge_packet_rejects_non_bool_nested_stage_gate(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    malformed_packet = {
+        "all_certified": False,
+        "residual_unknowns": [],
+        "posterior_neighborhood": {"sufficient_condition": "yes", "residual_unknowns": []},
+        "truncation_envelope": {"audit_ready": True},
+        "sobolev_localization": {"localized_contractive": True},
+        "singularity_topology_routing": {
+            "route": "REGULAR_REGION_CERTIFIABLE",
+            "fail_closed": False,
+            "regular_region_gate": True,
+        },
+    }
+    monkeypatch.setattr(
+        cert_mod,
+        "full_certification_packet",
+        lambda **_kwargs: malformed_packet,
+    )
+
+    with pytest.raises(ValueError, match="posterior_neighborhood.sufficient_condition"):
         checkpointed_formal_bridge_packet(
             posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
             envelope=TruncationEnvelope(0.01, 0.02, 0.03),
