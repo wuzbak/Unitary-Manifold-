@@ -755,13 +755,14 @@ def test_formal_bridge_artifact_accepts_tuple_unknowns_sequence() -> None:
 
 
 def test_formal_bridge_artifact_accepts_generator_unknowns_deterministically() -> None:
-    with pytest.raises(ValueError):
-        formal_bridge_artifact(
-            {
-                "all_certified": False,
-                "residual_unknowns": (item for item in ["b-proof", "a-proof"]),
-            }
-        )
+    artifact = formal_bridge_artifact(
+        {
+            "all_certified": False,
+            "residual_unknowns": (item for item in ["b-proof", "a-proof"]),
+        }
+    )
+    assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
+    assert artifact["residual_unknowns"] == ["b-proof", "a-proof"]
 
 
 def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:

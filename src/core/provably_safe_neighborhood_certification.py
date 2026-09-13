@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence as SequenceABC
+from collections.abc import Iterable as IterableABC, Mapping
 from dataclasses import asdict, dataclass
 import math
 from numbers import Integral
@@ -301,7 +301,9 @@ def singularity_topology_route(
 
 
 def _validated_unknown_sequence(raw_unknowns: object, error_prefix: str) -> List[str]:
-    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, SequenceABC)):
+    if isinstance(raw_unknowns, (str, bytes, set, frozenset)) or isinstance(raw_unknowns, Mapping):
+        raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
+    if not isinstance(raw_unknowns, IterableABC):
         raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
     normalized_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in normalized_unknowns):
