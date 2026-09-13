@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Collection, Mapping
 from dataclasses import asdict, dataclass
 import math
 from numbers import Integral
@@ -431,9 +431,9 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
 
     raw_unknowns = packet.get("residual_unknowns", [])
-    if not isinstance(raw_unknowns, (list, tuple, set, frozenset)):
+    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Collection)):
         raise ValueError(
-            "Malformed certification packet. 'residual_unknowns' must be a bounded collection (list/tuple/set/frozenset)."
+            "Malformed certification packet. 'residual_unknowns' must be a bounded collection."
         )
     residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):

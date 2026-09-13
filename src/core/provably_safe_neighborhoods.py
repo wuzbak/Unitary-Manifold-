@@ -83,7 +83,7 @@ def classify_obligation(obligation_name: str) -> ObligationClass:
     )
     if any(marker in normalized for marker in interval_markers):
         return "interval"
-    return "interval"
+    raise ValueError(f"Unknown obligation name: {obligation_name}")
 
 
 def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, object]:
@@ -124,6 +124,9 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         # Contraction-theorem uniqueness gate.
         uniqueness_gate = inputs.inverse_bound * inputs.lipschitz_bound
         unique_local_solution = uniqueness_gate < 1.0
+        if radius > contraction_margin:
+            fail_reasons.append("self_mapping_gate_failed")
+            unique_local_solution = False
         if not unique_local_solution:
             fail_reasons.append("uniqueness_gate_failed")
 
