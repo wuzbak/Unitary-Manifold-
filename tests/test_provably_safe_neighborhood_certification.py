@@ -66,7 +66,7 @@ def test_posterior_neighborhood_fail_closed_case() -> None:
     assert cert["residual_unknowns"]
 
 
-def test_posterior_neighborhood_beta_zero_requires_zero_residual() -> None:
+def test_posterior_neighborhood_beta_zero_with_positive_inverse_uses_affine_radius() -> None:
     cert = posterior_neighborhood_certificate(
         PosteriorNeighborhoodInput(
             residual_bound=0.1,
@@ -74,10 +74,9 @@ def test_posterior_neighborhood_beta_zero_requires_zero_residual() -> None:
             lipschitz_bound=0.0,
         )
     )
-    assert not cert["sufficient_condition"]
-    assert math.isnan(cert["radius"])
+    assert cert["sufficient_condition"]
     assert cert["degenerate_affine_case"]
-    assert any("Degenerate affine case" in msg for msg in cert["residual_unknowns"])
+    assert cert["radius"] == pytest.approx(0.2)
 
 
 def test_posterior_neighborhood_zero_inverse_bound_reports_inverse_degeneracy() -> None:

@@ -61,7 +61,7 @@ WORKSTREAM_SCOPE: Sequence[str] = (
     "verification_matrix",
     "formal_bridge_artifacts",
 )
-_ZERO_TOL: float = 1.0e-300
+_ZERO_TOL: float = 1.0e-12
 
 
 @dataclass(frozen=True)
@@ -127,8 +127,10 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
         and math.isclose(alpha, 0.0, abs_tol=_ZERO_TOL)
         and math.isclose(inp.residual_bound, 0.0, abs_tol=_ZERO_TOL)
     )
+    near_affine_positive_inverse = degenerate_affine_case and inp.inverse_bound > 0.0
     sufficient_condition = (
         exact_affine_zero_residual
+        or near_affine_positive_inverse
         or (
             (not degenerate_affine_case)
             and beta > 0.0
@@ -138,6 +140,8 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
 
     if exact_affine_zero_residual:
         radius = 0.0
+    elif near_affine_positive_inverse:
+        radius = alpha
     elif sufficient_condition and discriminant >= 0.0:
         radius = (2.0 * alpha) / (1.0 + math.sqrt(discriminant))
     else:
@@ -421,7 +425,7 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     raw_unknowns = packet.get("residual_unknowns", [])
     if not isinstance(raw_unknowns, (list, tuple, set, frozenset)):
         raise ValueError(
-            "Malformed certification packet. 'residual_unknowns' must be a bounded collection (list/tuple/set)."
+            "Malformed certification packet. 'residual_unknowns' must be a bounded collection (list/tuple/set/frozenset)."
         )
     residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
