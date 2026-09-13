@@ -204,6 +204,20 @@ def test_sobolev_localization_obligation_uses_patched_gradient_dependency(monkey
     assert not out["localized_contractive"]
 
 
+def test_sobolev_localization_obligation_rejects_nonfinite_dependency_values(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "h1_lipschitz_estimate", lambda: {"l_h1": float("nan")})
+    monkeypatch.setattr(cert_mod, "critical_gradient_bound", lambda: {"epsilon_grad_max": 0.1})
+    with pytest.raises(ValueError):
+        cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
+
+
+def test_sobolev_localization_obligation_rejects_negative_gradient_bound(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cert_mod, "h1_lipschitz_estimate", lambda: {"l_h1": 0.8})
+    monkeypatch.setattr(cert_mod, "critical_gradient_bound", lambda: {"epsilon_grad_max": -0.1})
+    with pytest.raises(ValueError):
+        cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
+
+
 def test_singularity_routing_regular() -> None:
     route = singularity_topology_route(
         SingularityRoutingInput(
@@ -540,6 +554,22 @@ def test_full_packet_rejects_posterior_stage_with_nonlist_unknowns(monkeypatch: 
             routing=SingularityRoutingInput(1.0, 10.0, 0),
             local_patch_radius=1.0,
         )
+
+
+def test_full_packet_accepts_posterior_stage_with_tuple_unknowns(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        cert_mod,
+        "posterior_neighborhood_certificate",
+        lambda _inp: {"sufficient_condition": False, "residual_unknowns": ("tuple-unknown",)},
+    )
+    packet = cert_mod.full_certification_packet(
+        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+        routing=SingularityRoutingInput(1.0, 10.0, 0),
+        local_patch_radius=1.0,
+    )
+    assert not packet["all_certified"]
+    assert "tuple-unknown" in packet["residual_unknowns"]
 
 
 def test_full_packet_rejects_posterior_stage_with_nonbool_gate(monkeypatch: pytest.MonkeyPatch) -> None:

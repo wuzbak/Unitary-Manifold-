@@ -224,10 +224,16 @@ def sobolev_localization_obligation(local_patch_radius: float = 1.0) -> Dict[str
 
     h1 = h1_lipschitz_estimate()
     grad = critical_gradient_bound()
+    l_h1 = float(h1["l_h1"])
+    epsilon_grad_max = float(grad["epsilon_grad_max"])
+    if (not math.isfinite(l_h1)) or l_h1 < 0.0:
+        raise ValueError("h1_lipschitz_estimate must return finite non-negative l_h1.")
+    if (not math.isfinite(epsilon_grad_max)) or epsilon_grad_max < 0.0:
+        raise ValueError("critical_gradient_bound must return finite non-negative epsilon_grad_max.")
     local_radius_factor = math.sqrt(1.0 + local_patch_radius ** 2)
     obligation = SobolevLocalizationObligation(
-        l_h1=float(h1["l_h1"]),
-        epsilon_grad_max=float(grad["epsilon_grad_max"]) / local_radius_factor,
+        l_h1=l_h1,
+        epsilon_grad_max=epsilon_grad_max / local_radius_factor,
         local_patch_radius=local_patch_radius,
     )
     localized_contractive = obligation.l_h1 < 1.0 and obligation.epsilon_grad_max > 0.0
@@ -295,9 +301,9 @@ def _validate_posterior_stage(posterior: Mapping[str, object]) -> None:
         raise ValueError("Malformed posterior stage output.")
     if (
         isinstance(posterior.get("residual_unknowns"), (str, bytes))
-        or not isinstance(posterior.get("residual_unknowns"), list)
+        or not isinstance(posterior.get("residual_unknowns"), (list, tuple))
     ):
-        raise ValueError("Malformed posterior stage output: residual_unknowns must be a list.")
+        raise ValueError("Malformed posterior stage output: residual_unknowns must be a list or tuple.")
     if not isinstance(posterior.get("sufficient_condition"), bool):
         raise ValueError("Malformed posterior stage output: sufficient_condition must be bool.")
 

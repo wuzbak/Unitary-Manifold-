@@ -133,7 +133,7 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         "radius": radius,
         "beta": seed_radius,
         "contraction_margin": contraction_margin,
-        "contraction_constant": contraction_constant,
+        "linearized_contraction_constant": contraction_constant,
         "uniqueness_gate": unique_local_solution,
         "envelope_total": envelope_total,
         "fail_reasons": fail_reasons,
