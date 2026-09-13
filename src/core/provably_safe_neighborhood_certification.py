@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 import math
 from typing import Dict, List, Sequence
@@ -234,10 +234,10 @@ def singularity_topology_route(
         not math.isfinite(routing.invariant_curvature_norm)
     ):
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
-    elif abs(routing.topological_index_delta) > 0:
-        route = "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
     elif routing.invariant_curvature_norm >= curvature_singularity_threshold:
         route = "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
+    elif abs(routing.topological_index_delta) > 0:
+        route = "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION"
     elif routing.chart_jacobian_min <= 0.0:
         route = "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
     else:
@@ -359,8 +359,8 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
 
     raw_unknowns = packet.get("residual_unknowns", [])
-    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Iterable)):
-        raise ValueError("Malformed certification packet. 'residual_unknowns' must be an iterable of strings.")
+    if not isinstance(raw_unknowns, (list, tuple)):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' must be a list or tuple of strings.")
     residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
         raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")

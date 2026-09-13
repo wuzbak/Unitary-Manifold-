@@ -258,6 +258,18 @@ def test_singularity_routing_geometric_precedes_coordinate_breakdown() -> None:
     assert route["route"] == "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
 
 
+def test_singularity_routing_geometric_precedes_topology_signal() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=1.0,
+            invariant_curvature_norm=1.0e7,
+            topological_index_delta=1,
+        ),
+        curvature_singularity_threshold=1.0e6,
+    )
+    assert route["route"] == "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
+
+
 def test_singularity_routing_rejects_invalid_threshold() -> None:
     with pytest.raises(ValueError):
         singularity_topology_route(
@@ -421,6 +433,11 @@ def test_formal_bridge_artifact_rejects_nonboolean_all_certified() -> None:
 def test_formal_bridge_artifact_rejects_nonlist_unknowns() -> None:
     with pytest.raises(ValueError):
         formal_bridge_artifact({"all_certified": False, "residual_unknowns": "missing proof"})
+
+
+def test_formal_bridge_artifact_rejects_set_unknowns() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": False, "residual_unknowns": {"missing proof"}})
 
 
 def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
