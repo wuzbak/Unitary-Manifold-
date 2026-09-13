@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-09-10",
+  "updated": "2026-09-13",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -327,9 +327,9 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-09-10",
-      "sha256": "1168a35ec81a9b6e58f32d9587c6b0e96f85a3be2e68b853df764d347cf8b48b",
-      "size_bytes": 8839
+      "updated": "2026-09-13",
+      "sha256": "2ea2e1551e516c1c42379f47a2347812190f1c4ece09d51002091a6990d5ab26",
+      "size_bytes": 9033
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",
