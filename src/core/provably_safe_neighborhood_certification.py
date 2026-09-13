@@ -343,6 +343,7 @@ def full_certification_packet(
     envelope: TruncationEnvelope,
     routing: SingularityRoutingInput,
     local_patch_radius: float = 1.0,
+    curvature_singularity_threshold: float = 1.0e6,
 ) -> Dict[str, object]:
     """Return complete fail-closed certification packet."""
     posterior = posterior_neighborhood_certificate(posterior_input)
@@ -351,7 +352,10 @@ def full_certification_packet(
     _validate_truncation_stage(trunc)
     sobolev = sobolev_localization_obligation(local_patch_radius=local_patch_radius)
     _validate_sobolev_stage(sobolev)
-    routing_result = singularity_topology_route(routing)
+    routing_result = singularity_topology_route(
+        routing,
+        curvature_singularity_threshold=curvature_singularity_threshold,
+    )
     _validate_routing_stage(routing_result)
     split = obligation_split()
 

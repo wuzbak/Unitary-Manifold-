@@ -369,6 +369,21 @@ def test_full_packet_coordinate_breakdown_requires_rechart_and_blocks_certificat
     assert any("COORDINATE_BREAKDOWN_RECHART_REQUIRED" in reason for reason in packet["residual_unknowns"])
 
 
+def test_full_packet_propagates_custom_curvature_threshold() -> None:
+    packet = full_certification_packet(
+        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+        routing=SingularityRoutingInput(1.0, 50.0, 0),
+        local_patch_radius=1.0,
+        curvature_singularity_threshold=10.0,
+    )
+    assert not packet["all_certified"]
+    assert (
+        packet["singularity_topology_routing"]["route"]
+        == "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
+    )
+
+
 def test_full_packet_fail_closed_when_truncation_not_audit_ready(monkeypatch: pytest.MonkeyPatch) -> None:
     def _non_certifying_envelope(_env: TruncationEnvelope) -> dict:
         return {"audit_ready": False}
@@ -475,7 +490,7 @@ def test_full_packet_rejects_nonbool_sobolev_gate(monkeypatch: pytest.MonkeyPatc
 
 
 def test_full_packet_rejects_malformed_routing_stage(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(cert_mod, "singularity_topology_route", lambda _routing: {})
+    monkeypatch.setattr(cert_mod, "singularity_topology_route", lambda _routing, **kwargs: {})
     with pytest.raises(ValueError):
         cert_mod.full_certification_packet(
             posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
@@ -489,7 +504,7 @@ def test_full_packet_rejects_nonbool_routing_gate(monkeypatch: pytest.MonkeyPatc
     monkeypatch.setattr(
         cert_mod,
         "singularity_topology_route",
-        lambda _routing: {"route": "REGULAR_REGION_CERTIFIABLE", "fail_closed": "no"},
+        lambda _routing, **kwargs: {"route": "REGULAR_REGION_CERTIFIABLE", "fail_closed": "no"},
     )
     with pytest.raises(ValueError):
         cert_mod.full_certification_packet(
