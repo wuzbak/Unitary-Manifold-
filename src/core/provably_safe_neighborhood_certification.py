@@ -361,13 +361,14 @@ def full_certification_packet(
         residual_unknowns.append("Truncation envelope is not audit-ready.")
     if not sobolev["localized_contractive"]:
         residual_unknowns.append("Localized Sobolev obligation is not contractive.")
-    if routing_result["fail_closed"]:
-        residual_unknowns.append(f"Routing requires constructive proof: {routing_result['route']}")
+    if routing_result["route"] != "REGULAR_REGION_CERTIFIABLE":
+        residual_unknowns.append(f"Routing requires remediation: {routing_result['route']}")
 
     all_certified = (
         posterior["sufficient_condition"]
         and trunc["audit_ready"]
         and sobolev["localized_contractive"]
+        and (not routing_result["fail_closed"])
         and routing_result["route"] == "REGULAR_REGION_CERTIFIABLE"
     )
 

@@ -346,6 +346,17 @@ def test_full_packet_fail_closed_with_unknowns() -> None:
     assert packet["residual_unknowns"]
 
 
+def test_full_packet_coordinate_breakdown_requires_rechart_and_blocks_certification() -> None:
+    packet = full_certification_packet(
+        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+        routing=SingularityRoutingInput(0.0, 10.0, 0),
+        local_patch_radius=1.0,
+    )
+    assert not packet["all_certified"]
+    assert any("COORDINATE_BREAKDOWN_RECHART_REQUIRED" in reason for reason in packet["residual_unknowns"])
+
+
 def test_full_packet_fail_closed_when_truncation_not_audit_ready(monkeypatch: pytest.MonkeyPatch) -> None:
     def _non_certifying_envelope(_env: TruncationEnvelope) -> dict:
         return {"audit_ready": False}
