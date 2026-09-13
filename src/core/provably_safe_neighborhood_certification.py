@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping, Set
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 import math
 from typing import Dict, List, Sequence
@@ -164,7 +164,7 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
         "sufficient_condition": sufficient_condition,
         "radius": radius,
         "verdict": verdict,
-        "theorem_form": "2*alpha*beta<=1 => existence+local uniqueness in explicit ball",
+        "theorem_form": "2*alpha*beta<1 => existence+local uniqueness in explicit ball",
         "residual_unknowns": residual_unknowns,
     }
 
@@ -408,7 +408,7 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     raw_unknowns = packet.get("residual_unknowns", [])
     if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Iterable)):
         raise ValueError("Malformed certification packet. 'residual_unknowns' must be an iterable of strings.")
-    residual_unknowns = sorted(raw_unknowns) if isinstance(raw_unknowns, Set) else list(raw_unknowns)
+    residual_unknowns = sorted(list(raw_unknowns))
     if any(not isinstance(item, str) for item in residual_unknowns):
         raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
     all_certified = packet.get("all_certified")
