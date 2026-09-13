@@ -391,9 +391,10 @@ def full_certification_packet(
     )
     _validate_routing_stage(routing_result)
     split = obligation_split()
+    posterior_unknowns = list(posterior["residual_unknowns"])
 
     residual_unknowns: List[str] = []
-    residual_unknowns.extend(posterior["residual_unknowns"])
+    residual_unknowns.extend(posterior_unknowns)
     if not trunc["audit_ready"]:
         residual_unknowns.append("Truncation envelope is not audit-ready.")
     if not sobolev["localized_contractive"]:
@@ -446,7 +447,6 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
         raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
-    residual_unknowns = sorted(residual_unknowns)
     all_certified = packet.get("all_certified")
     if not isinstance(all_certified, bool):
         raise ValueError("Malformed certification packet. 'all_certified' must be bool.")

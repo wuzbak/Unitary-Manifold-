@@ -129,6 +129,7 @@ def test_obligation_split_classifier() -> None:
     assert classify_obligation("interval_roundoff_tail_bound") == "interval"
     assert classify_obligation("truncation_tail_bound") == "analytic"
     assert classify_obligation("truncation_tail_control") == "analytic"
+    assert classify_obligation("interval_operator_tail_bound") == "analytic"
     assert classify_obligation("operator_remainder_bound") == "analytic"
     assert classify_obligation("sobolev_tail_control") == "analytic"
     assert classify_obligation("topology reaction") == "analytic"
