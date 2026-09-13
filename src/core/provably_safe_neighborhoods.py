@@ -54,6 +54,15 @@ def _nonnegative(name: str, value: float) -> None:
 def classify_obligation(obligation_name: str) -> ObligationClass:
     """Classify obligations into interval-safe vs analytic-required classes."""
     normalized = obligation_name.strip().lower()
+    exact_policy = {
+        "interval_roundoff_bound": "interval",
+        "interval_roundoff_tail_bound": "interval",
+        "truncation_tail_bound": "analytic",
+        "operator_remainder_bound": "analytic",
+        "analytic_tail_bound": "analytic",
+    }
+    if normalized in exact_policy:
+        return exact_policy[normalized]  # type: ignore[return-value]
     analytic_markers = (
         "tail",
         "operator",

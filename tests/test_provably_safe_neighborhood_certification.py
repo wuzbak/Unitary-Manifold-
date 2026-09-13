@@ -342,6 +342,18 @@ def test_singularity_routing_negative_jacobian_is_rechart_required() -> None:
     assert route["route"] == "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
 
 
+def test_singularity_routing_nonintegral_topology_delta_is_input_fail_closed() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=1.0,
+            invariant_curvature_norm=10.0,
+            topological_index_delta=1.5,  # type: ignore[arg-type]
+        ),
+        curvature_singularity_threshold=1.0e6,
+    )
+    assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+
+
 def test_singularity_routing_rejects_invalid_threshold() -> None:
     with pytest.raises(ValueError):
         singularity_topology_route(
@@ -644,14 +656,13 @@ def test_formal_bridge_artifact_accepts_tuple_unknowns_sequence() -> None:
 
 
 def test_formal_bridge_artifact_accepts_generator_unknowns_deterministically() -> None:
-    artifact = formal_bridge_artifact(
-        {
-            "all_certified": False,
-            "residual_unknowns": (item for item in ["b-proof", "a-proof"]),
-        }
-    )
-    assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
-    assert artifact["residual_unknowns"] == ["a-proof", "b-proof"]
+    with pytest.raises(ValueError):
+        formal_bridge_artifact(
+            {
+                "all_certified": False,
+                "residual_unknowns": (item for item in ["b-proof", "a-proof"]),
+            }
+        )
 
 
 def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
