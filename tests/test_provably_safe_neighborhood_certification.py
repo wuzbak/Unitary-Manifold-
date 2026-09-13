@@ -14,6 +14,7 @@ from src.core.provably_safe_neighborhood_certification import (
     PosteriorNeighborhoodInput,
     SingularityRoutingInput,
     TruncationEnvelope,
+    checkpointed_formal_bridge_packet,
     full_certification_packet,
     formal_bridge_artifact,
     obligation_split,
@@ -709,3 +710,30 @@ def test_formal_bridge_artifact_accepts_mappingproxy_input() -> None:
     artifact = formal_bridge_artifact(packet)  # type: ignore[arg-type]
     assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
     assert artifact["residual_unknowns"] == ["missing proof"]
+
+
+def test_checkpointed_formal_bridge_packet_success() -> None:
+    out = checkpointed_formal_bridge_packet(
+        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+        routing=SingularityRoutingInput(1.0, 10.0, 0),
+        phase="Phase C",
+        restart_pointer="src/core/provably_safe_neighborhood_certification.py:checkpointed_formal_bridge_packet",
+    )
+    assert out["packet"]["all_certified"] is True
+    assert out["artifact"]["status"] == "READY_FOR_FORMALIZATION"
+    assert out["checkpoint"]["resumable"] is True
+    assert list(out["checkpoint"]["checkpoint"]["remaining_obligations"]) == []
+
+
+def test_checkpointed_formal_bridge_packet_blocked_routes_unknowns_to_checkpoint() -> None:
+    out = checkpointed_formal_bridge_packet(
+        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+        routing=SingularityRoutingInput(0.0, 10.0, 0),
+        phase="Phase C",
+        restart_pointer="src/core/provably_safe_neighborhood_certification.py:checkpointed_formal_bridge_packet",
+    )
+    assert out["packet"]["all_certified"] is False
+    assert out["artifact"]["status"] == "BLOCKED_FAIL_CLOSED"
+    assert out["checkpoint"]["checkpoint"]["remaining_obligations"]

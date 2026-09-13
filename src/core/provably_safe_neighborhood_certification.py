@@ -42,6 +42,7 @@ __all__ = [
     "phase_checkpoint",
     "full_certification_packet",
     "formal_bridge_artifact",
+    "checkpointed_formal_bridge_packet",
 ]
 
 
@@ -462,4 +463,40 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
             "A4: invariant routing inputs are correctly computed",
         ],
         "residual_unknowns": residual_unknowns,
+    }
+
+
+def checkpointed_formal_bridge_packet(
+    posterior_input: PosteriorNeighborhoodInput,
+    envelope: TruncationEnvelope,
+    routing: SingularityRoutingInput,
+    phase: str,
+    restart_pointer: str,
+    local_patch_radius: float = 1.0,
+    curvature_singularity_threshold: float = 1.0e6,
+) -> Dict[str, object]:
+    """Build packet + formal artifact + resumable checkpoint in one call."""
+    packet = full_certification_packet(
+        posterior_input=posterior_input,
+        envelope=envelope,
+        routing=routing,
+        local_patch_radius=local_patch_radius,
+        curvature_singularity_threshold=curvature_singularity_threshold,
+    )
+    artifact = formal_bridge_artifact(packet)
+    checkpoint = phase_checkpoint(
+        phase=phase,
+        completed_invariants=[
+            "posterior_neighborhood",
+            "truncation_envelope",
+            "sobolev_localization",
+            "singularity_topology_routing",
+        ],
+        remaining_obligations=list(packet["residual_unknowns"]),
+        restart_pointer=restart_pointer,
+    )
+    return {
+        "packet": packet,
+        "artifact": artifact,
+        "checkpoint": checkpoint,
     }
