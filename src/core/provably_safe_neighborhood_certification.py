@@ -226,7 +226,15 @@ def singularity_topology_route(
     routing: SingularityRoutingInput,
     curvature_singularity_threshold: float = 1.0e6,
 ) -> Dict[str, object]:
-    """Invariant-first routing for singularity and topology integrity."""
+    """Invariant-first routing for singularity and topology integrity.
+
+    Precedence order:
+    1) Invalid numeric input (non-finite Jacobian/curvature) -> fail-closed
+    2) Geometric singularity (invariant curvature threshold exceeded)
+    3) Topology transition (non-zero topological index delta)
+    4) Coordinate breakdown (non-positive chart Jacobian; rechart required)
+    5) Regular region certifiable
+    """
     if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold <= 0.0:
         raise ValueError("curvature_singularity_threshold must be finite and positive.")
 
@@ -359,8 +367,8 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
 
     raw_unknowns = packet.get("residual_unknowns", [])
-    if not isinstance(raw_unknowns, list):
-        raise ValueError("Malformed certification packet. 'residual_unknowns' must be a list of strings.")
+    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Sequence)):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' must be a sequence of strings.")
     residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
         raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
