@@ -56,6 +56,8 @@ def classify_obligation(obligation_name: str) -> ObligationClass:
     normalized = obligation_name.strip().lower()
     analytic_markers = (
         "tail",
+        "operator",
+        "remainder",
         "coerc",
         "compact",
         "sobolev",

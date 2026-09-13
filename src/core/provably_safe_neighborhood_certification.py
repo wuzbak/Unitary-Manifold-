@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 import math
 from typing import Dict, List, Sequence
@@ -264,6 +264,31 @@ def singularity_topology_route(
     }
 
 
+def _validate_posterior_stage(posterior: Mapping[str, object]) -> None:
+    if ("residual_unknowns" not in posterior) or ("sufficient_condition" not in posterior):
+        raise ValueError("Malformed posterior stage output.")
+    if (
+        isinstance(posterior.get("residual_unknowns"), (str, bytes))
+        or not isinstance(posterior.get("residual_unknowns"), list)
+    ):
+        raise ValueError("Malformed posterior stage output: residual_unknowns must be a list.")
+
+
+def _validate_truncation_stage(trunc: Mapping[str, object]) -> None:
+    if "audit_ready" not in trunc:
+        raise ValueError("Malformed truncation envelope output: missing 'audit_ready'.")
+
+
+def _validate_sobolev_stage(sobolev: Mapping[str, object]) -> None:
+    if "localized_contractive" not in sobolev:
+        raise ValueError("Malformed sobolev stage output.")
+
+
+def _validate_routing_stage(routing_result: Mapping[str, object]) -> None:
+    if ("fail_closed" not in routing_result) or ("route" not in routing_result):
+        raise ValueError("Malformed routing stage output.")
+
+
 def obligation_split() -> Dict[str, List[str]]:
     """Strict split of interval vs analytic responsibilities."""
     return {
@@ -314,21 +339,12 @@ def full_certification_packet(
     """Return complete fail-closed certification packet."""
     posterior = posterior_neighborhood_certificate(posterior_input)
     trunc = truncation_envelope(envelope)
-    if ("residual_unknowns" not in posterior) or ("sufficient_condition" not in posterior):
-        raise ValueError("Malformed posterior stage output.")
-    if (
-        isinstance(posterior.get("residual_unknowns"), (str, bytes))
-        or not isinstance(posterior.get("residual_unknowns"), list)
-    ):
-        raise ValueError("Malformed posterior stage output: residual_unknowns must be a list.")
-    if "audit_ready" not in trunc:
-        raise ValueError("Malformed truncation envelope output: missing 'audit_ready'.")
+    _validate_posterior_stage(posterior)
+    _validate_truncation_stage(trunc)
     sobolev = sobolev_localization_obligation(local_patch_radius=local_patch_radius)
-    if "localized_contractive" not in sobolev:
-        raise ValueError("Malformed sobolev stage output.")
+    _validate_sobolev_stage(sobolev)
     routing_result = singularity_topology_route(routing)
-    if ("fail_closed" not in routing_result) or ("route" not in routing_result):
-        raise ValueError("Malformed routing stage output.")
+    _validate_routing_stage(routing_result)
     split = obligation_split()
 
     residual_unknowns: List[str] = []
@@ -376,8 +392,8 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
         raise ValueError(f"Malformed certification packet. Missing fields: {', '.join(missing)}")
 
     raw_unknowns = packet.get("residual_unknowns", [])
-    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Sequence)):
-        raise ValueError("Malformed certification packet. 'residual_unknowns' must be a sequence of strings.")
+    if isinstance(raw_unknowns, (str, bytes)) or (not isinstance(raw_unknowns, Iterable)):
+        raise ValueError("Malformed certification packet. 'residual_unknowns' must be an iterable of strings.")
     residual_unknowns = list(raw_unknowns)
     if any(not isinstance(item, str) for item in residual_unknowns):
         raise ValueError("Malformed certification packet. 'residual_unknowns' entries must be strings.")
