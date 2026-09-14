@@ -151,7 +151,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/hardware-board` exposes the sovereign hardware topology for compact routing, default reasoning, heavy-lane shadow work, training ablations, and Lean4 proof-operations.
 - `GET /api/psicat/kernel-runtime` exposes backend detection, wavefront safety hints, and canonical kernel contract schema for compiled-kernel migration.
 - `GET /api/psicat/kernel-receipts` runs deterministic parity receipts (NumPy reference with optional JAX lane) and fails closed when compiled lanes are unavailable or out-of-tolerance.
-- `GET /api/psicat/kernel-benchmarks` exposes benchmark receipts for kernel hotspot lanes, including explicit parity/error metadata and measured timing surfaces.
+- `GET /api/psicat/kernel-benchmarks` exposes benchmark receipts for kernel hotspot lanes (`outer_bb_hotspot`, `kk_4x4_metric_block_hotspot`), including explicit parity/error metadata and measured timing surfaces.
 - `GET /api/psicat/kernel-gate` exposes the unified kernel promotion gate packet that combines parity, benchmark error, and compactification sanity into pass/hold/fail-closed verdicts.
 - `GET /api/psicat/compactification-sanity` validates compactification sanity against canonical epistemic files (`docs/mas_tracker.yml`, `FALLIBILITY.md`) and preserves open-gap visibility.
 - `GET /api/psicat/compactification-ingest` exposes governed compactification-ingest policy and allowed execution surfaces.

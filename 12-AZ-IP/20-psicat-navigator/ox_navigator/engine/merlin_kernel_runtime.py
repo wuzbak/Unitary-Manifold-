@@ -75,9 +75,13 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
 
     parity_receipt = dict(parity_payload.get("receipt") or {})
     benchmark_receipt = dict(benchmark_payload.get("receipt") or {})
-    hotspot = dict((benchmark_receipt.get("benchmarks") or {}).get("outer_bb_hotspot") or {})
-    lane = dict(hotspot.get("lane") or {})
-    benchmark_error = float(hotspot.get("max_abs_error_vs_reference", 1.0))
+    benchmarks = dict(benchmark_receipt.get("benchmarks") or {})
+    hotspot_outer = dict(benchmarks.get("outer_bb_hotspot") or {})
+    hotspot_metric = dict(benchmarks.get("kk_4x4_metric_block_hotspot") or {})
+    lane_outer = dict(hotspot_outer.get("lane") or {})
+    lane_metric = dict(hotspot_metric.get("lane") or {})
+    benchmark_error_outer = float(hotspot_outer.get("max_abs_error_vs_reference", 1.0))
+    benchmark_error_metric = float(hotspot_metric.get("max_abs_error_vs_reference", 1.0))
     benchmark_error_tolerance = 1e-6
 
     checks = [
@@ -87,10 +91,17 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
             "reason": "Kernel parity against canonical NumPy reference must pass.",
         },
         {
-            "id": "benchmark_error_gate",
-            "pass": benchmark_error <= benchmark_error_tolerance,
-            "reason": "Benchmark lane output must stay within bounded error tolerance.",
-            "max_abs_error": benchmark_error,
+            "id": "benchmark_outer_error_gate",
+            "pass": benchmark_error_outer <= benchmark_error_tolerance,
+            "reason": "Outer-product benchmark lane output must stay within bounded error tolerance.",
+            "max_abs_error": benchmark_error_outer,
+            "required_tolerance": benchmark_error_tolerance,
+        },
+        {
+            "id": "benchmark_metric_block_error_gate",
+            "pass": benchmark_error_metric <= benchmark_error_tolerance,
+            "reason": "KK 4x4 metric-block benchmark lane output must stay within bounded error tolerance.",
+            "max_abs_error": benchmark_error_metric,
             "required_tolerance": benchmark_error_tolerance,
         },
         {
@@ -100,7 +111,7 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
         },
     ]
     required_pass = all(bool(item.get("pass")) for item in checks)
-    compiled_lane_active = bool(lane.get("ok"))
+    compiled_lane_active = bool(lane_outer.get("ok") or lane_metric.get("ok"))
     if not required_pass:
         gate_verdict = "fail_closed"
     elif compiled_lane_active:

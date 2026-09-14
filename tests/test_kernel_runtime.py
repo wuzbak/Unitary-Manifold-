@@ -36,7 +36,9 @@ def test_kernel_parity_receipt_is_fail_closed_when_compiled_lane_missing():
     assert receipt["ok"] is True
     assert "numpy_reference" in receipt["lanes"]
     assert "triton_compiled" in receipt["lanes"]
+    assert "triton_metric_block_compiled" in receipt["lanes"]
     assert "max_abs_error_vs_numpy_outer_bb" in receipt["lanes"]["triton_compiled"]
+    assert "max_abs_error_vs_numpy_kk_4x4_block" in receipt["lanes"]["triton_metric_block_compiled"]
     assert "gate" in receipt
 
 
@@ -53,6 +55,9 @@ def test_epistemic_compactification_sanity_scans_mas_tracker_and_fallibility():
 def test_kernel_benchmark_receipt_has_hotspot_metrics():
     payload = build_kernel_benchmark_receipt(points=32, seed=5, repeats=2)
     assert payload["ok"] is True
-    metrics = payload["benchmarks"]["outer_bb_hotspot"]
-    assert metrics["repeats"] == 2
-    assert "max_abs_error_vs_reference" in metrics
+    outer_metrics = payload["benchmarks"]["outer_bb_hotspot"]
+    metric_block_metrics = payload["benchmarks"]["kk_4x4_metric_block_hotspot"]
+    assert outer_metrics["repeats"] == 2
+    assert metric_block_metrics["repeats"] == 2
+    assert "max_abs_error_vs_reference" in outer_metrics
+    assert "max_abs_error_vs_reference" in metric_block_metrics

@@ -41,13 +41,19 @@ def test_kernel_benchmark_receipts_contract():
     payload = get_kernel_benchmark_receipts(points=32, seed=5, repeats=2)
     assert payload["ok"] is True
     assert payload["receipt"]["benchmarks"]["outer_bb_hotspot"]["repeats"] == 2
+    assert payload["receipt"]["benchmarks"]["kk_4x4_metric_block_hotspot"]["repeats"] == 2
 
 
 def test_kernel_promotion_gate_summary_contract():
     payload = get_kernel_promotion_gate_summary(points=16, seed=5, repeats=2)
     assert payload["gate_verdict"] in {"pass", "hold", "fail_closed"}
     check_ids = {item["id"] for item in payload["checks"]}
-    assert {"parity_gate", "benchmark_error_gate", "compactification_sanity_gate"} <= check_ids
+    assert {
+        "parity_gate",
+        "benchmark_outer_error_gate",
+        "benchmark_metric_block_error_gate",
+        "compactification_sanity_gate",
+    } <= check_ids
     assert "artifacts" in payload
 
 

@@ -13,7 +13,13 @@ import platform
 import numpy as np
 
 from .metric import compute_curvature
-from .triton_kernels import benchmark_outer_bb, triton_outer_bb
+from .triton_kernels import (
+    benchmark_kk_4x4_block,
+    benchmark_outer_bb,
+    kk_4x4_block_reference,
+    triton_kk_4x4_block,
+    triton_outer_bb,
+)
 
 try:  # Optional dependency.
     from .jax_metric import JAX_AVAILABLE as _JAX_METRIC_AVAILABLE, jax_compute_curvature
@@ -212,15 +218,34 @@ def build_kernel_parity_receipt(points: int = 8, seed: int = 7) -> dict[str, Any
         "required_tolerance": triton_tolerance,
         "parity_pass": triton_parity_pass,
     }
+    triton_kk_block, triton_kk_status = triton_kk_4x4_block(g, B, phi, lam=1.0)
+    reference_kk_block = kk_4x4_block_reference(g, B, phi, lam=1.0)
+    triton_kk_error = float(np.max(np.abs(reference_kk_block - triton_kk_block)))
+    triton_kk_tolerance = 1e-6
+    triton_kk_parity_pass = bool(triton_kk_error <= triton_kk_tolerance)
+    lanes["triton_metric_block_compiled"] = {
+        "ok": bool(triton_kk_status.get("ok", False)),
+        "backend": str(triton_kk_status.get("backend", "triton_compiled")),
+        "reason": str(triton_kk_status.get("reason", "")),
+        "max_abs_error_vs_numpy_kk_4x4_block": triton_kk_error,
+        "required_tolerance": triton_kk_tolerance,
+        "parity_pass": triton_kk_parity_pass,
+    }
     triton_required = bool(
         capability.get("triton_available")
         and bool((capability.get("torch") or {}).get("available"))
         and bool((capability.get("torch") or {}).get("cuda_visible"))
     )
-    if triton_required and not triton_parity_pass:
+    triton_failures = []
+    if not triton_parity_pass:
+        triton_failures.append("outer_bb")
+    if not triton_kk_parity_pass:
+        triton_failures.append("kk_4x4_metric_block")
+    if triton_required and triton_failures:
         gate["parity_pass"] = False
         gate["fail_closed"] = True
         gate["triton_gate"] = "required_and_failed"
+        gate["triton_failed_hotspots"] = triton_failures
     else:
         gate["triton_gate"] = "optional_or_passed"
     return {
@@ -238,13 +263,15 @@ def build_kernel_parity_receipt(points: int = 8, seed: int = 7) -> dict[str, Any
 
 
 def build_kernel_benchmark_receipt(points: int = 128, seed: int = 11, repeats: int = 5) -> dict[str, Any]:
-    _, B, _, _ = _sample_fields(points=points, seed=seed)
-    bench = benchmark_outer_bb(B, repeats=repeats)
+    g, B, phi, _ = _sample_fields(points=points, seed=seed)
+    bench_outer = benchmark_outer_bb(B, repeats=repeats)
+    bench_metric = benchmark_kk_4x4_block(g, B, phi, lam=1.0, repeats=repeats)
     capability = detect_backend_capability()
     return {
         "ok": True,
         "benchmarks": {
-            "outer_bb_hotspot": bench,
+            "outer_bb_hotspot": bench_outer,
+            "kk_4x4_metric_block_hotspot": bench_metric,
         },
         "capability": capability,
         "policy": {
