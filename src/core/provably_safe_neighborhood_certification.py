@@ -26,7 +26,7 @@ from src.core.pillar405_sobolev_ftum_extension import (
     h1_lipschitz_estimate,
 )
 
-# Fail-closed resource policy: bound normalization of unknown-ledger iterables
+# Fail-closed resource policy: bound normalization of unknown-ledger sequences
 # to keep packet validation predictable and interruption-safe.
 RESIDUAL_UNKNOWNS_MAX_ITEMS = 10_000
 TRUNCATION_AUDIT_MAX_TOTAL_ERROR = 1.0
@@ -355,6 +355,7 @@ def _validated_string_sequence_base(
     error_prefix: str,
     max_items: int | None = None,
 ) -> List[str]:
+    """Validate concrete ordered string sequences (list/tuple-like containers)."""
     if isinstance(raw_values, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_values, Mapping):
         raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
     if not isinstance(raw_values, Sequence):
@@ -540,7 +541,12 @@ def phase_checkpoint(
         restart_pointer=restart_pointer.strip(),
     )
     return {
-        "checkpoint": asdict(ckpt),
+        "checkpoint": {
+            "phase": ckpt.phase,
+            "completed_invariants": ckpt.completed_invariants,
+            "remaining_obligations": ckpt.remaining_obligations,
+            "restart_pointer": ckpt.restart_pointer,
+        },
         "resumable": True,
     }
 
