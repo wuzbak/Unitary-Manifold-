@@ -126,3 +126,10 @@ def test_bazel_pilot_workflow_tracks_guard_files():
     content = workflow_path.read_text(encoding="utf-8")
     assert "tests/test_check_large_files.py" in content
     assert "TOOLS/checks/check_large_files.py" in content
+
+
+def test_bazel_metric_target_sets_explicit_main():
+    build_path = Path(__file__).resolve().parents[1] / "tests" / "BUILD.bazel"
+    content = build_path.read_text(encoding="utf-8")
+    assert 'name = "test_metric_bazel"' in content
+    assert 'main = "test_metric.py"' in content
