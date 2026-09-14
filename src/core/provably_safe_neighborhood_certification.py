@@ -329,7 +329,7 @@ def _validate_posterior_stage(posterior: Mapping[str, object]) -> List[str]:
         posterior.get("residual_unknowns"),
         "Malformed posterior stage output",
     )
-    if not isinstance(posterior.get("sufficient_condition"), bool):
+    if type(posterior.get("sufficient_condition")) is not bool:
         raise ValueError("Malformed packet stage: posterior_neighborhood.sufficient_condition must be bool.")
     if posterior.get("sufficient_condition") and normalized_unknowns:
         raise ValueError(
@@ -371,6 +371,36 @@ def _validated_residual_unknowns(packet: Mapping[str, object]) -> List[str]:
         packet.get("residual_unknowns", []),
         "Malformed certification packet",
     )
+
+
+def _validate_packet_consistency_from_stage_gates(
+    packet: Mapping[str, object],
+    posterior_ok: bool,
+    truncation_ok: bool,
+    sobolev_ok: bool,
+    routing_stage_passed: bool,
+) -> List[str]:
+    residual_unknowns = _validated_residual_unknowns(packet)
+
+    all_certified = packet.get("all_certified")
+    if type(all_certified) is not bool:
+        raise ValueError("Malformed certification packet. 'all_certified' must be bool.")
+
+    expected_all_certified = (
+        posterior_ok and truncation_ok and sobolev_ok and routing_stage_passed
+    )
+    if all_certified != expected_all_certified:
+        raise ValueError(
+            "Malformed certification packet: all_certified inconsistent with validated stage gates."
+        )
+
+    if expected_all_certified and residual_unknowns:
+        raise ValueError("Inconsistent packet: all_certified=True with non-empty residual_unknowns.")
+    if (not expected_all_certified) and (not residual_unknowns):
+        raise ValueError(
+            "Malformed certification packet: blocked stage gates require non-empty residual_unknowns."
+        )
+    return residual_unknowns
 
 
 def obligation_split() -> Dict[str, List[str]]:
@@ -567,7 +597,13 @@ def checkpointed_formal_bridge_packet(
     if routing_stage_passed:
         completed_invariants.append("singularity_topology_routing")
 
-    remaining_obligations = _validated_residual_unknowns(packet)
+    remaining_obligations = _validate_packet_consistency_from_stage_gates(
+        packet=packet,
+        posterior_ok=posterior_ok,
+        truncation_ok=truncation_ok,
+        sobolev_ok=sobolev_ok,
+        routing_stage_passed=routing_stage_passed,
+    )
     artifact = formal_bridge_artifact(packet)
 
     checkpoint = phase_checkpoint(
