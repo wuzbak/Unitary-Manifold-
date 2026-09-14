@@ -1816,6 +1816,8 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     )
     assert kernel_frontier_blocker['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
     assert isinstance(kernel_frontier_blocker['failed_checks'], list)
+    assert 0.0 <= float(kernel_frontier_blocker['health_score']) <= 1.0
+    assert kernel_frontier_blocker['severity'] in {'low', 'medium', 'high'}
     assert review_data['control_tower']['deployment_eligibility']['eligible'] is True
     assert review_data['control_tower']['deployment_eligibility']['frontier_blocker_count'] == len(review_data['open_blockers'])
     assert (
@@ -1833,6 +1835,9 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert execution_data['hardware_architecture']['packet_surface'] == 'getMerlinHardwareArchitectureBoard'
     assert execution_data['validation_resilience']['packet_surface'] == 'getMerlinValidationResiliencePacket'
     assert execution_data['blunt_board']['title'] == 'Sprint CL blunt board'
+    assert execution_data['kernel_runtime_gate_priority_context']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+    assert execution_data['kernel_runtime_gate_priority_context']['severity'] in {'low', 'medium', 'high'}
+    assert 0.0 <= float(execution_data['kernel_runtime_gate_priority_context']['health_score']) <= 1.0
     assert any(item['task_id'] == 'CL-6' and item['lane'] == 'arc_agi_shadow' for item in execution_data['immediate_tasks'])
     assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
     kernel_gate_verdict = execution_data['kernel_runtime_gate']['gate_verdict']
@@ -1843,6 +1848,8 @@ def test_route_tool_sprint_review_and_sovereign_boards():
         )
         assert kernel_blocker['source'] in {'kernel_runtime_gate', 'frontier_readiness'}
         assert isinstance(kernel_blocker['failed_checks'], list)
+        assert 0.0 <= float(kernel_blocker['health_score']) <= 1.0
+        assert kernel_blocker['severity'] in {'low', 'medium', 'high'}
     assert resilience_data['current_truth']['codeql_skip_reason'] == 'repository_database_too_large'
     assert resilience_data['current_truth']['codeql_language_matrix_workflow_configured'] is True
     assert resilience_data['review_resilience_assets']['orchestrator'] == 'TOOLS/checks/copilot_review_orchestrator.py'
@@ -2971,6 +2978,8 @@ def test_server_merlin_endpoints():
                 if item['id'] == 'kernel_runtime_cross_lane_gate'
             )
             assert isinstance(kernel_frontier_blocker['failed_checks'], list)
+            assert 0.0 <= float(kernel_frontier_blocker['health_score']) <= 1.0
+            assert kernel_frontier_blocker['severity'] in {'low', 'medium', 'high'}
             review_packet = client.get('/api/merlin/review-packet?limit=1')
             assert review_packet.status_code == 200
             assert review_packet.json()['ok'] is True
@@ -3041,12 +3050,16 @@ def test_server_merlin_endpoints():
             )
             assert 'contradiction_recovery' in execution_board.json()['execution_board']['combined_gate_contract']['required_axes']
             assert execution_board.json()['execution_board']['kernel_runtime_gate']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+            assert execution_board.json()['execution_board']['kernel_runtime_gate']['severity'] in {'low', 'medium', 'high'}
+            assert 0.0 <= float(execution_board.json()['execution_board']['kernel_runtime_gate']['health_score']) <= 1.0
             if execution_board.json()['execution_board']['kernel_runtime_gate']['gate_verdict'] in {'hold', 'fail_closed'}:
                 kernel_blocker = next(
                     item for item in execution_board.json()['execution_board']['blocker_register']
                     if item['blocker_id'] == 'kernel_runtime_cross_lane_gate'
                 )
                 assert isinstance(kernel_blocker['failed_checks'], list)
+                assert 0.0 <= float(kernel_blocker['health_score']) <= 1.0
+                assert kernel_blocker['severity'] in {'low', 'medium', 'high'}
             validation_resilience = client.get('/api/merlin/validation-resilience?limit=2')
             assert validation_resilience.status_code == 200
             assert validation_resilience.json()['ok'] is True

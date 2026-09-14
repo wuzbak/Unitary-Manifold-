@@ -53,6 +53,9 @@ def test_kernel_promotion_gate_summary_contract():
         "compiled_lane_unavailable_hold",
     }
     assert isinstance(payload["failed_checks"], list)
+    assert 0.0 <= float(payload["health_score"]) <= 1.0
+    assert payload["severity"] in {"low", "medium", "high"}
+    assert payload["blocking_pass"] is (payload["gate_verdict"] != "fail_closed")
     assert payload["promotion_blocking"] is (payload["gate_verdict"] == "fail_closed")
     check_ids = {item["id"] for item in payload["checks"]}
     assert {

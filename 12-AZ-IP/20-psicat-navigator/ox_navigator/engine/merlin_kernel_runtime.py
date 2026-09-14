@@ -113,21 +113,29 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
     required_pass = all(bool(item.get("pass")) for item in checks)
     compiled_lane_active = bool(lane_outer.get("ok") or lane_metric.get("ok"))
     failed_checks = [str(item.get("id") or "") for item in checks if not bool(item.get("pass"))]
+    passed_count = len(checks) - len(failed_checks)
+    health_score = float(passed_count / len(checks)) if checks else 0.0
     if not required_pass:
         gate_verdict = "fail_closed"
         reason = "required_kernel_checks_failed"
+        severity = "high"
     elif compiled_lane_active:
         gate_verdict = "pass"
         reason = "all_kernel_cross_lane_checks_passed"
+        severity = "low"
     else:
         gate_verdict = "hold"
         reason = "compiled_lane_unavailable_hold"
+        severity = "medium"
 
     return {
         "ok": gate_verdict != "fail_closed",
         "gate_verdict": gate_verdict,
         "reason": reason,
         "failed_checks": failed_checks,
+        "health_score": health_score,
+        "severity": severity,
+        "blocking_pass": gate_verdict != "fail_closed",
         "promotion_blocking": gate_verdict == "fail_closed",
         "policy": "Fail closed on parity/sanity/error failures; hold when compiled lane evidence is absent.",
         "compiled_lane_active": compiled_lane_active,
