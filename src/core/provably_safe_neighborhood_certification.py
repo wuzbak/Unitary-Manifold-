@@ -231,8 +231,14 @@ def sobolev_localization_obligation(local_patch_radius: float = 1.0) -> Dict[str
         raise ValueError("h1_lipschitz_estimate must return mapping with 'l_h1'.")
     if not isinstance(grad, Mapping) or "epsilon_grad_max" not in grad:
         raise ValueError("critical_gradient_bound must return mapping with 'epsilon_grad_max'.")
-    l_h1 = float(h1["l_h1"])
-    epsilon_grad_max = float(grad["epsilon_grad_max"])
+    raw_l_h1 = h1["l_h1"]
+    raw_epsilon_grad_max = grad["epsilon_grad_max"]
+    if isinstance(raw_l_h1, bool):
+        raise ValueError("h1_lipschitz_estimate must return finite non-negative l_h1.")
+    if isinstance(raw_epsilon_grad_max, bool):
+        raise ValueError("critical_gradient_bound must return finite non-negative epsilon_grad_max.")
+    l_h1 = float(raw_l_h1)
+    epsilon_grad_max = float(raw_epsilon_grad_max)
     if (not math.isfinite(l_h1)) or l_h1 < 0.0:
         raise ValueError("h1_lipschitz_estimate must return finite non-negative l_h1.")
     if (not math.isfinite(epsilon_grad_max)) or epsilon_grad_max < 0.0:
@@ -273,7 +279,9 @@ def singularity_topology_route(
     if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold < 0.0:
         raise ValueError("curvature_singularity_threshold must be finite and non-negative.")
 
-    if (not math.isfinite(routing.chart_jacobian_min)) or (
+    if isinstance(routing.chart_jacobian_min, bool) or isinstance(routing.invariant_curvature_norm, bool):
+        route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+    elif (not math.isfinite(routing.chart_jacobian_min)) or (
         not math.isfinite(routing.invariant_curvature_norm)
     ):
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
@@ -427,9 +435,9 @@ def phase_checkpoint(
     restart_pointer: str,
 ) -> Dict[str, object]:
     """Create interruption-safe checkpoint payload."""
-    if not phase:
+    if not isinstance(phase, str) or not phase:
         raise ValueError("phase must be non-empty.")
-    if not restart_pointer:
+    if not isinstance(restart_pointer, str) or not restart_pointer:
         raise ValueError("restart_pointer must be non-empty.")
 
     ckpt = CertificationCheckpoint(

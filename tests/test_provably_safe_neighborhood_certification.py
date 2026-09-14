@@ -225,6 +225,20 @@ def test_sobolev_localization_obligation_rejects_malformed_dependency_payload(mo
         cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
 
 
+def test_sobolev_localization_obligation_rejects_boolean_dependency_values(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(cert_mod, "h1_lipschitz_estimate", lambda: {"l_h1": True})
+    monkeypatch.setattr(cert_mod, "critical_gradient_bound", lambda: {"epsilon_grad_max": 0.1})
+    with pytest.raises(ValueError, match="l_h1"):
+        cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
+
+    monkeypatch.setattr(cert_mod, "h1_lipschitz_estimate", lambda: {"l_h1": 0.8})
+    monkeypatch.setattr(cert_mod, "critical_gradient_bound", lambda: {"epsilon_grad_max": False})
+    with pytest.raises(ValueError, match="epsilon_grad_max"):
+        cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
+
+
 def test_singularity_routing_regular() -> None:
     route = singularity_topology_route(
         SingularityRoutingInput(
@@ -416,6 +430,28 @@ def test_singularity_routing_boolean_topology_delta_is_input_fail_closed() -> No
     assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
 
 
+def test_singularity_routing_boolean_numeric_inputs_are_fail_closed() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=True,  # type: ignore[arg-type]
+            invariant_curvature_norm=10.0,
+            topological_index_delta=0,
+        ),
+        curvature_singularity_threshold=1.0e6,
+    )
+    assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=1.0,
+            invariant_curvature_norm=False,  # type: ignore[arg-type]
+            topological_index_delta=0,
+        ),
+        curvature_singularity_threshold=1.0e6,
+    )
+    assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+
+
 def test_singularity_routing_rejects_invalid_threshold() -> None:
     with pytest.raises(ValueError):
         singularity_topology_route(
@@ -466,6 +502,23 @@ def test_phase_checkpoint_resumable() -> None:
     )
     assert ckpt["resumable"]
     assert ckpt["checkpoint"]["phase"] == "Phase B"
+
+
+def test_phase_checkpoint_rejects_nonstring_phase_or_restart_pointer() -> None:
+    with pytest.raises(ValueError, match="phase must be non-empty"):
+        phase_checkpoint(  # type: ignore[arg-type]
+            phase=1,
+            completed_invariants=["posterior kernel"],
+            remaining_obligations=["tail bound"],
+            restart_pointer="src/core/provably_safe_neighborhood_certification.py:full_certification_packet",
+        )
+    with pytest.raises(ValueError, match="restart_pointer must be non-empty"):
+        phase_checkpoint(  # type: ignore[arg-type]
+            phase="Phase B",
+            completed_invariants=["posterior kernel"],
+            remaining_obligations=["tail bound"],
+            restart_pointer=1,
+        )
 
 
 def test_full_packet_success() -> None:
