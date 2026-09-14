@@ -330,7 +330,7 @@ def _validate_posterior_stage(posterior: Mapping[str, object]) -> List[str]:
         "Malformed posterior stage output",
     )
     if not isinstance(posterior.get("sufficient_condition"), bool):
-        raise ValueError("Malformed posterior stage output: sufficient_condition must be bool.")
+        raise ValueError("Malformed packet stage: posterior_neighborhood.sufficient_condition must be bool.")
     if posterior.get("sufficient_condition") and normalized_unknowns:
         raise ValueError(
             "Malformed posterior stage output: sufficient_condition=True requires empty residual_unknowns."
@@ -434,20 +434,25 @@ def full_certification_packet(
     )
     _validate_routing_stage(routing_result)
     split = obligation_split()
+    posterior_ok = posterior["sufficient_condition"]
+    trunc_ok = trunc["audit_ready"]
+    sobolev_ok = sobolev["localized_contractive"]
+    routing_regular_region = routing_result["regular_region_gate"]
+    routing_fail_closed = routing_result["fail_closed"]
     residual_unknowns: List[str] = []
     residual_unknowns.extend(posterior_unknowns)
-    if not trunc["audit_ready"]:
+    if not trunc_ok:
         residual_unknowns.append("Truncation envelope is not audit-ready.")
-    if not sobolev["localized_contractive"]:
+    if not sobolev_ok:
         residual_unknowns.append("Localized Sobolev obligation is not contractive.")
-    routing_stage_passed = routing_result["regular_region_gate"] and (not routing_result["fail_closed"])
+    routing_stage_passed = routing_regular_region and (not routing_fail_closed)
     if not routing_stage_passed:
         residual_unknowns.append(f"Routing requires remediation: {routing_result['route']}")
 
     all_certified = (
-        posterior["sufficient_condition"]
-        and trunc["audit_ready"]
-        and sobolev["localized_contractive"]
+        posterior_ok
+        and trunc_ok
+        and sobolev_ok
         and routing_stage_passed
         and len(residual_unknowns) == 0
     )
@@ -527,29 +532,37 @@ def checkpointed_formal_bridge_packet(
         curvature_singularity_threshold=curvature_singularity_threshold,
     )
 
-    def _checked_stage_bool(stage_name: str, field_name: str) -> bool:
-        stage_obj = packet.get(stage_name)
-        if not isinstance(stage_obj, Mapping):
-            raise ValueError(f"Malformed packet stage: {stage_name} must be a mapping.")
-        value = stage_obj.get(field_name)
-        if not isinstance(value, bool):
-            raise ValueError(f"Malformed packet stage: {stage_name}.{field_name} must be bool.")
-        return value
-
+    posterior_stage = packet.get("posterior_neighborhood")
+    truncation_stage = packet.get("truncation_envelope")
+    sobolev_stage = packet.get("sobolev_localization")
     routing_stage = packet.get("singularity_topology_routing")
+    if not isinstance(posterior_stage, Mapping):
+        raise ValueError("Malformed packet stage: posterior_neighborhood must be a mapping.")
+    if not isinstance(truncation_stage, Mapping):
+        raise ValueError("Malformed packet stage: truncation_envelope must be a mapping.")
+    if not isinstance(sobolev_stage, Mapping):
+        raise ValueError("Malformed packet stage: sobolev_localization must be a mapping.")
     if not isinstance(routing_stage, Mapping):
         raise ValueError("Malformed packet stage: singularity_topology_routing must be a mapping.")
+
+    _validate_posterior_stage(posterior_stage)
+    _validate_truncation_stage(truncation_stage)
+    _validate_sobolev_stage(sobolev_stage)
     _validate_routing_stage(routing_stage)
+
+    posterior_ok = posterior_stage["sufficient_condition"]
+    truncation_ok = truncation_stage["audit_ready"]
+    sobolev_ok = sobolev_stage["localized_contractive"]
     routing_regular_region = routing_stage["regular_region_gate"]
     routing_fail_closed = routing_stage["fail_closed"]
     routing_stage_passed = routing_regular_region and (not routing_fail_closed)
 
     completed_invariants: List[str] = []
-    if _checked_stage_bool("posterior_neighborhood", "sufficient_condition"):
+    if posterior_ok:
         completed_invariants.append("posterior_neighborhood")
-    if _checked_stage_bool("truncation_envelope", "audit_ready"):
+    if truncation_ok:
         completed_invariants.append("truncation_envelope")
-    if _checked_stage_bool("sobolev_localization", "localized_contractive"):
+    if sobolev_ok:
         completed_invariants.append("sobolev_localization")
     if routing_stage_passed:
         completed_invariants.append("singularity_topology_routing")
