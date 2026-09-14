@@ -66,6 +66,19 @@ WORKSTREAM_SCOPE: Sequence[str] = (
     "verification_matrix",
     "formal_bridge_artifacts",
 )
+
+INTERVAL_OBLIGATION_ITEMS: Sequence[str] = (
+    "finite-dimensional enclosure of computed constants",
+    "roundoff-safe bounds for evaluated residual terms",
+    "explicit interval bounds for truncation finite-mode block",
+)
+
+ANALYTIC_OBLIGATION_ITEMS: Sequence[str] = (
+    "infinite-dimensional tail coercivity",
+    "nonlinear remainder control in function spaces",
+    "singular-limit and topology-transition constructive arguments",
+    "uniform inverse stability in neighborhood",
+)
 _ZERO_TOL: float = 1.0e-12
 
 
@@ -453,17 +466,8 @@ def _remaining_obligations_from_stage_gates(
 def obligation_split() -> Dict[str, List[str]]:
     """Strict split of interval vs analytic responsibilities."""
     return {
-        "interval_obligations": [
-            "finite-dimensional enclosure of computed constants",
-            "roundoff-safe bounds for evaluated residual terms",
-            "explicit interval bounds for truncation finite-mode block",
-        ],
-        "analytic_obligations": [
-            "infinite-dimensional tail coercivity",
-            "nonlinear remainder control in function spaces",
-            "singular-limit and topology-transition constructive arguments",
-            "uniform inverse stability in neighborhood",
-        ],
+        "interval_obligations": list(INTERVAL_OBLIGATION_ITEMS),
+        "analytic_obligations": list(ANALYTIC_OBLIGATION_ITEMS),
     }
 
 
@@ -653,10 +657,17 @@ def checkpointed_formal_bridge_packet(
         completed_invariants.append("sobolev_localization")
     if routing_stage_passed:
         completed_invariants.append("singularity_topology_routing")
+    stage_remaining_obligations = _remaining_obligations_from_stage_gates(
+        posterior_ok=posterior_ok,
+        truncation_ok=truncation_ok,
+        sobolev_ok=sobolev_ok,
+        routing_stage_passed=routing_stage_passed,
+        routing_route=routing_stage["route"],
+    )
 
     consistency_error: str | None = None
     try:
-        remaining_obligations = _validate_packet_consistency_from_stage_gates(
+        _validate_packet_consistency_from_stage_gates(
             packet=packet,
             posterior_ok=posterior_ok,
             truncation_ok=truncation_ok,
@@ -673,17 +684,13 @@ def checkpointed_formal_bridge_packet(
         if not consistency_only:
             raise
         consistency_error = message
-        remaining_obligations = _remaining_obligations_from_stage_gates(
-            posterior_ok=posterior_ok,
-            truncation_ok=truncation_ok,
-            sobolev_ok=sobolev_ok,
-            routing_stage_passed=routing_stage_passed,
-            routing_route=routing_stage["route"],
-        )
+        remaining_obligations = list(stage_remaining_obligations)
         if not remaining_obligations:
             remaining_obligations = ["Packet consistency reconciliation required."]
         if consistency_error not in remaining_obligations:
             remaining_obligations.append(consistency_error)
+    else:
+        remaining_obligations = list(stage_remaining_obligations)
 
     if consistency_error is None:
         artifact = formal_bridge_artifact(packet)
