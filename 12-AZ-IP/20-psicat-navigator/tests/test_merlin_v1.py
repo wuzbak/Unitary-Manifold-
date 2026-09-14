@@ -1868,6 +1868,27 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert len(resilience_data['repo_size_mitigation_actions']) == 3
 
 
+def test_route_tool_kernel_runtime_surfaces():
+    runtime = route_tool('getMerlinKernelRuntimeBoard', {})
+    receipts = route_tool('getMerlinKernelExecutionReceipts', {'points': 8, 'seed': 7})
+    benchmarks = route_tool('getMerlinKernelBenchmarkReceipts', {'points': 32, 'seed': 11, 'repeats': 2})
+    gate = route_tool('getMerlinKernelPromotionGate', {'points': 16, 'seed': 13, 'repeats': 2})
+    compactification = route_tool('getMerlinCompactificationSanity', {})
+    topology = route_tool('getMerlinTopologyAdjacentBoard', {})
+    assert runtime['ok'] is True
+    assert receipts['ok'] is True
+    assert benchmarks['ok'] is True
+    assert gate['ok'] is True
+    assert compactification['ok'] is True
+    assert topology['ok'] is True
+    assert runtime['result']['data']['board_id'] == 'psicat_kernel_runtime_board_v1'
+    assert 'triton_metric_block_compiled' in receipts['result']['data']['receipt']['lanes']
+    assert 'kk_4x4_metric_block_hotspot' in benchmarks['result']['data']['receipt']['benchmarks']
+    assert gate['result']['data']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+    assert compactification['result']['data']['policy']['unchecked_bypass_forbidden'] is True
+    assert topology['result']['data']['summary']['lane'] == 'ADJACENT_TRACK'
+
+
 def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatch):
     monkeypatch.setattr(
         merlin_program,

@@ -126,6 +126,9 @@ def test_server_kernel_runtime_endpoints():
             compat_resp = client.get("/api/merlin/kernel-runtime")
             assert compat_resp.status_code == 200
             assert compat_resp.json()["ok"] is True
+            compat_gate_resp = client.get("/api/merlin/kernel-gate?points=16&seed=3&repeats=2")
+            assert compat_gate_resp.status_code == 200
+            assert compat_gate_resp.json()["kernel_gate"]["gate_verdict"] in {"pass", "hold", "fail_closed"}
     finally:
         httpd.shutdown()
         httpd.server_close()

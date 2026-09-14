@@ -148,6 +148,14 @@ from .merlin_reasoning_graph import get_reasoning_chain
 from .merlin_research_cycle import run_research_cycle
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_lean_bridge import get_merlin_lean_bridge_artifact
+from .merlin_kernel_runtime import (
+    get_compactification_sanity_receipt,
+    get_kernel_benchmark_receipts,
+    get_kernel_execution_receipts,
+    get_kernel_promotion_gate_summary,
+    get_kernel_runtime_board,
+    get_topology_adjacent_board,
+)
 from .merlin_router import choose_runtime, get_router_policy
 from .merlin_runtime import empirical_observatory_check, run_kernel_p_lean_proof_probe
 from .merlin_rag import (
@@ -392,6 +400,12 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinHeavyReasoningLane", "summary": "Return heavy-lane provider comparison, benchmark pack, failure taxonomy, and tuning agenda", "domain": "functions"},
             {"name": "getMerlinSovereignModelBoard", "summary": "Return runtime-tier shortlists, scoring board, and adaptation-vs-abandonment policy", "domain": "functions"},
             {"name": "getMerlinHardwareArchitectureBoard", "summary": "Return sovereign hardware topology for routing, training, heavy inference, and Lean proof-ops", "domain": "functions"},
+            {"name": "getMerlinKernelRuntimeBoard", "summary": "Return kernel runtime capability board and governed contract schema", "domain": "functions"},
+            {"name": "getMerlinKernelExecutionReceipts", "summary": "Return kernel parity receipts against canonical NumPy behavior", "domain": "functions"},
+            {"name": "getMerlinKernelBenchmarkReceipts", "summary": "Return kernel hotspot benchmark receipts with parity/error metadata", "domain": "functions"},
+            {"name": "getMerlinKernelPromotionGate", "summary": "Return unified kernel promotion gate packet with pass/hold/fail-closed verdict", "domain": "functions"},
+            {"name": "getMerlinCompactificationSanity", "summary": "Return compactification sanity checks against canonical epistemic files", "domain": "functions"},
+            {"name": "getMerlinTopologyAdjacentBoard", "summary": "Return adjacent-only topology prototype board with hardgate boundary note", "domain": "functions"},
             {"name": "getMerlinExecutionBoard", "summary": "Return the follow-on execution board with immediate tasks, blockers, validation resilience, and blunt board", "domain": "functions"},
             {"name": "getMerlinValidationResiliencePacket", "summary": "Return repo-size mitigation actions and CodeQL scope-reduction strategy for validation resilience", "domain": "functions"},
             {"name": "getMerlinTrainingDataset", "summary": "Return structured Merlin JSONL-ready training and benchmark dataset bundle", "domain": "functions"},
@@ -475,6 +489,12 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinHeavyReasoningLane": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinSovereignModelBoard": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinHardwareArchitectureBoard": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinKernelRuntimeBoard": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinKernelExecutionReceipts": {"args_schema": {"type": "object", "properties": {"points": {"type": "integer"}, "seed": {"type": "integer"}}, "additionalProperties": False}},
+        "getMerlinKernelBenchmarkReceipts": {"args_schema": {"type": "object", "properties": {"points": {"type": "integer"}, "seed": {"type": "integer"}, "repeats": {"type": "integer"}}, "additionalProperties": False}},
+        "getMerlinKernelPromotionGate": {"args_schema": {"type": "object", "properties": {"points": {"type": "integer"}, "seed": {"type": "integer"}, "repeats": {"type": "integer"}}, "additionalProperties": False}},
+        "getMerlinCompactificationSanity": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinTopologyAdjacentBoard": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinExecutionBoard": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinValidationResiliencePacket": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinLeanBridgeArtifact": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
@@ -1293,6 +1313,23 @@ _FUNCTIONS = {
     "getMerlinHeavyReasoningLane": lambda **args: {"data": get_merlin_heavy_reasoning_lane(limit=args.get("limit"))},
     "getMerlinSovereignModelBoard": lambda **args: {"data": get_merlin_sovereign_model_board()},
     "getMerlinHardwareArchitectureBoard": lambda **args: {"data": get_merlin_hardware_architecture_board(limit=args.get("limit"))},
+    "getMerlinKernelRuntimeBoard": lambda **args: {"data": get_kernel_runtime_board()},
+    "getMerlinKernelExecutionReceipts": lambda **args: {"data": get_kernel_execution_receipts(
+        points=_coerce_positive_int(args.get("points"), 8),
+        seed=int(args.get("seed", 7)),
+    )},
+    "getMerlinKernelBenchmarkReceipts": lambda **args: {"data": get_kernel_benchmark_receipts(
+        points=_coerce_positive_int(args.get("points"), 128),
+        seed=int(args.get("seed", 11)),
+        repeats=_coerce_positive_int(args.get("repeats"), 5),
+    )},
+    "getMerlinKernelPromotionGate": lambda **args: {"data": get_kernel_promotion_gate_summary(
+        points=_coerce_positive_int(args.get("points"), 32),
+        seed=int(args.get("seed", 13)),
+        repeats=_coerce_positive_int(args.get("repeats"), 3),
+    )},
+    "getMerlinCompactificationSanity": lambda **args: {"data": get_compactification_sanity_receipt()},
+    "getMerlinTopologyAdjacentBoard": lambda **args: {"data": get_topology_adjacent_board()},
     "getMerlinExecutionBoard": lambda **args: {"data": get_merlin_execution_board(limit=args.get("limit"))},
     "getMerlinValidationResiliencePacket": lambda **args: {"data": get_merlin_validation_resilience_packet(limit=args.get("limit"))},
     "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(
