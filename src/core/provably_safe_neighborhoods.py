@@ -130,6 +130,7 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         unique_local_solution = linearized_uniqueness_gate
         if radius > CERTIFICATION_BASIN_RADIUS:
             fail_reasons.append("self_mapping_gate_failed")
+            linearized_uniqueness_gate = False
             unique_local_solution = False
 
     certified = not fail_reasons
