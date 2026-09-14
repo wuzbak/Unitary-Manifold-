@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Iterable as IterableABC, Mapping, Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
 import math
 from numbers import Integral, Real
@@ -306,7 +306,9 @@ def singularity_topology_route(
     4) Coordinate breakdown (non-positive chart Jacobian; rechart required)
     5) Regular region certifiable
     """
-    if isinstance(curvature_singularity_threshold, bool):
+    if isinstance(curvature_singularity_threshold, bool) or (
+        not isinstance(curvature_singularity_threshold, Real)
+    ):
         raise ValueError("curvature_singularity_threshold must be finite and non-negative.")
     if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold < 0.0:
         raise ValueError("curvature_singularity_threshold must be finite and non-negative.")
@@ -354,9 +356,9 @@ def _validated_string_sequence_base(
     max_items: int | None = None,
 ) -> List[str]:
     if isinstance(raw_values, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_values, Mapping):
-        raise ValueError(f"{error_prefix}: {field_name} must be an ordered iterable.")
-    if not isinstance(raw_values, IterableABC):
-        raise ValueError(f"{error_prefix}: {field_name} must be an ordered iterable.")
+        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
+    if not isinstance(raw_values, Sequence):
+        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
     if (
         max_items is not None
         and isinstance(raw_values, Sequence)

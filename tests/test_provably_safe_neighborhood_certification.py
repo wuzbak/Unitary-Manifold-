@@ -501,6 +501,15 @@ def test_singularity_routing_rejects_invalid_threshold() -> None:
             ),
             curvature_singularity_threshold=True,  # type: ignore[arg-type]
         )
+    with pytest.raises(ValueError):
+        singularity_topology_route(
+            SingularityRoutingInput(
+                chart_jacobian_min=0.9,
+                invariant_curvature_norm=50.0,
+                topological_index_delta=0,
+            ),
+            curvature_singularity_threshold="10.0",  # type: ignore[arg-type]
+        )
 
 
 def test_singularity_routing_allows_zero_threshold() -> None:
@@ -894,15 +903,14 @@ def test_formal_bridge_artifact_accepts_tuple_unknowns_sequence() -> None:
     assert artifact["residual_unknowns"] == ["missing proof"]
 
 
-def test_formal_bridge_artifact_accepts_generator_unknowns_deterministically() -> None:
-    artifact = formal_bridge_artifact(
-        {
-            "all_certified": False,
-            "residual_unknowns": (item for item in ["b-proof", "a-proof"]),
-        }
-    )
-    assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
-    assert artifact["residual_unknowns"] == ["b-proof", "a-proof"]
+def test_formal_bridge_artifact_rejects_generator_unknowns() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact(
+            {
+                "all_certified": False,
+                "residual_unknowns": (item for item in ["b-proof", "a-proof"]),
+            }
+        )
 
 
 def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
