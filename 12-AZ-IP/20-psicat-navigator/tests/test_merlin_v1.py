@@ -1841,7 +1841,7 @@ def test_route_tool_sprint_review_and_sovereign_boards():
             item for item in execution_data['blocker_register']
             if item['blocker_id'] == 'kernel_runtime_cross_lane_gate'
         )
-        assert kernel_blocker['source'] == 'kernel_runtime_gate'
+        assert kernel_blocker['source'] in {'kernel_runtime_gate', 'frontier_readiness'}
         assert isinstance(kernel_blocker['failed_checks'], list)
     assert resilience_data['current_truth']['codeql_skip_reason'] == 'repository_database_too_large'
     assert resilience_data['current_truth']['codeql_language_matrix_workflow_configured'] is True

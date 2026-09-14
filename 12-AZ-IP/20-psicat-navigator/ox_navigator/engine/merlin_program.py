@@ -4662,16 +4662,17 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     selected_priorities = task_priorities.get(str(kernel_gate.get("gate_verdict")), task_priorities["hold"])
     kernel_gate_register: list[dict[str, Any]] = []
     if str(kernel_gate.get("gate_verdict")) in {"hold", "fail_closed"}:
-        kernel_gate_register.append(
-            {
-                "blocker_id": "kernel_runtime_cross_lane_gate",
-                "status": "open" if str(kernel_gate.get("gate_verdict")) == "fail_closed" else "watch",
-                "reason": str(kernel_gate.get("reason") or "kernel gate requires additional evidence"),
-                "source": "kernel_runtime_gate",
-                "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
-                "failed_checks": list(kernel_gate.get("failed_checks") or []),
-            }
-        )
+        if not any(str(item.get("id") or "") == "kernel_runtime_cross_lane_gate" for item in open_blockers):
+            kernel_gate_register.append(
+                {
+                    "blocker_id": "kernel_runtime_cross_lane_gate",
+                    "status": "open" if str(kernel_gate.get("gate_verdict")) == "fail_closed" else "watch",
+                    "reason": str(kernel_gate.get("reason") or "kernel gate requires additional evidence"),
+                    "source": "kernel_runtime_gate",
+                    "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
+                    "failed_checks": list(kernel_gate.get("failed_checks") or []),
+                }
+            )
     return {
         "generated_at": _utcnow(),
         "document_path": _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
@@ -4792,6 +4793,8 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "status": "open",
                 "reason": str(item.get("reason") or ""),
                 "source": "frontier_readiness",
+                "gate_verdict": str(item.get("gate_verdict") or ""),
+                "failed_checks": list(item.get("failed_checks") or []),
             }
             for item in open_blockers
         ] + kernel_gate_register + [
