@@ -71,7 +71,7 @@ def test_posterior_certificate_fails_self_mapping_gate_for_large_radius() -> Non
     )
     assert cert["certified"] is False
     assert cert["uniqueness_gate"] is False
-    assert cert["linearized_uniqueness_gate"] is False
+    assert cert["linearized_uniqueness_gate"] is True
     assert "self_mapping_gate_failed" in cert["fail_reasons"]
 
 

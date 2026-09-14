@@ -29,6 +29,7 @@ from src.core.pillar405_sobolev_ftum_extension import (
 # Fail-closed resource policy: bound normalization of unknown-ledger iterables
 # to keep packet validation predictable and interruption-safe.
 RESIDUAL_UNKNOWNS_MAX_ITEMS = 10_000
+TRUNCATION_AUDIT_MAX_TOTAL_ERROR = 1.0
 
 __all__ = [
     "FAIL_CLOSED_RULES",
@@ -116,6 +117,14 @@ class CertificationCheckpoint:
     completed_invariants: Sequence[str]
     remaining_obligations: Sequence[str]
     restart_pointer: str
+
+
+class PacketConsistencyError(ValueError):
+    """Structured consistency error for recoverable packet mismatches."""
+
+    def __init__(self, code: str, message: str) -> None:
+        super().__init__(message)
+        self.code = code
 
 
 def _nonnegative(value: float, name: str) -> None:
@@ -225,6 +234,7 @@ def truncation_envelope(env: TruncationEnvelope) -> Dict[str, object]:
         and env.tail_bound <= total_error
         and env.nonlinear_remainder <= total_error
     )
+    audit_ready = monotone_components and total_error <= TRUNCATION_AUDIT_MAX_TOTAL_ERROR
 
     return {
         "components": asdict(env),
@@ -235,7 +245,8 @@ def truncation_envelope(env: TruncationEnvelope) -> Dict[str, object]:
             "tail_bound": "analytic infinite-dimensional tail",
             "nonlinear_remainder": "nonlinear operator closure remainder",
         },
-        "audit_ready": monotone_components,
+        "audit_ready": audit_ready,
+        "audit_threshold": TRUNCATION_AUDIT_MAX_TOTAL_ERROR,
     }
 
 
@@ -453,14 +464,19 @@ def _validate_packet_consistency_from_stage_gates(
         posterior_ok and truncation_ok and sobolev_ok and routing_stage_passed
     )
     if all_certified != expected_all_certified:
-        raise ValueError(
+        raise PacketConsistencyError(
+            "all_certified_stage_mismatch",
             "Malformed certification packet: all_certified inconsistent with validated stage gates."
         )
 
     if expected_all_certified and residual_unknowns:
-        raise ValueError("Inconsistent packet: all_certified=True with non-empty residual_unknowns.")
+        raise PacketConsistencyError(
+            "all_certified_with_unknowns",
+            "Inconsistent packet: all_certified=True with non-empty residual_unknowns.",
+        )
     if (not expected_all_certified) and (not residual_unknowns):
-        raise ValueError(
+        raise PacketConsistencyError(
+            "blocked_without_unknowns",
             "Malformed certification packet: blocked stage gates require non-empty residual_unknowns."
         )
     return residual_unknowns
@@ -719,16 +735,8 @@ def checkpointed_formal_bridge_packet(
             sobolev_ok=sobolev_ok,
             routing_stage_passed=routing_stage_passed,
         )
-    except ValueError as exc:
-        message = str(exc)
-        consistency_only = (
-            "all_certified inconsistent with validated stage gates" in message
-            or "all_certified=True with non-empty residual_unknowns" in message
-            or "blocked stage gates require non-empty residual_unknowns" in message
-        )
-        if not consistency_only:
-            raise
-        consistency_error = message
+    except PacketConsistencyError as exc:
+        consistency_error = str(exc)
         if not remaining_obligations:
             remaining_obligations = ["Packet consistency reconciliation required."]
         if consistency_error not in remaining_obligations:

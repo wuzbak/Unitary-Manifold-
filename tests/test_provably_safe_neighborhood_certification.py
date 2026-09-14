@@ -157,6 +157,13 @@ def test_truncation_envelope_aggregates_components() -> None:
     assert out["total_error"] == pytest.approx(0.06, rel=1e-9)
     assert out["monotone_components"]
     assert out["audit_ready"]
+    assert out["audit_threshold"] == pytest.approx(cert_mod.TRUNCATION_AUDIT_MAX_TOTAL_ERROR)
+
+
+def test_truncation_envelope_fails_audit_for_oversized_total_error() -> None:
+    out = truncation_envelope(TruncationEnvelope(0.6, 0.5, 0.4))
+    assert out["total_error"] > out["audit_threshold"]
+    assert out["audit_ready"] is False
 
 
 def test_truncation_envelope_rejects_nonfinite_components() -> None:
