@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from src.core.kernel_runtime import (
+    build_kernel_benchmark_receipt,
     build_kernel_parity_receipt,
     detect_backend_capability,
     kernel_contract_schema,
@@ -53,6 +54,18 @@ def get_compactification_sanity_receipt() -> dict[str, Any]:
         mas_tracker_path=REPO_ROOT / "docs" / "mas_tracker.yml",
         fallibility_path=REPO_ROOT / "FALLIBILITY.md",
     )
+
+
+def get_kernel_benchmark_receipts(points: int = 128, seed: int = 11, repeats: int = 5) -> dict[str, Any]:
+    receipt = build_kernel_benchmark_receipt(points=points, seed=seed, repeats=repeats)
+    return {
+        "ok": bool(receipt.get("ok")),
+        "receipt": receipt,
+        "governance": {
+            "fail_closed": False,
+            "performance_claim_note": "Benchmark speedup claims require matching parity receipts.",
+        },
+    }
 
 
 def get_topology_adjacent_board() -> dict[str, Any]:

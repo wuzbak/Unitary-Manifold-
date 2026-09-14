@@ -65,6 +65,7 @@ PRIMARY_PSICAT_EXECUTION_SPINE_ENDPOINTS = (
     "/api/psicat/status",
     "/api/psicat/kernel-runtime",
     "/api/psicat/kernel-receipts",
+    "/api/psicat/kernel-benchmarks",
     "/api/psicat/compactification-sanity",
     "/api/psicat/compactification-ingest",
     "/api/psicat/topology-adjacent",

@@ -9,6 +9,7 @@ import httpx
 
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_kernel_runtime import (
+    get_kernel_benchmark_receipts,
     get_compactification_sanity_receipt,
     get_kernel_execution_receipts,
     get_kernel_runtime_board,
@@ -33,6 +34,12 @@ def test_kernel_execution_receipts_fail_closed_contract():
     assert payload["ok"] is True
     assert "receipt" in payload
     assert payload["governance"]["unchecked_or_unlogged_execution_forbidden"] is True
+
+
+def test_kernel_benchmark_receipts_contract():
+    payload = get_kernel_benchmark_receipts(points=32, seed=5, repeats=2)
+    assert payload["ok"] is True
+    assert payload["receipt"]["benchmarks"]["outer_bb_hotspot"]["repeats"] == 2
 
 
 def test_compactification_sanity_receipt_surface():
@@ -75,6 +82,9 @@ def test_server_kernel_runtime_endpoints():
             receipts_resp = client.get("/api/psicat/kernel-receipts?points=6&seed=4")
             assert receipts_resp.status_code == 200
             assert receipts_resp.json()["ok"] is True
+            bench_resp = client.get("/api/psicat/kernel-benchmarks?points=16&seed=3&repeats=2")
+            assert bench_resp.status_code == 200
+            assert bench_resp.json()["ok"] is True
 
             sanity_resp = client.get("/api/psicat/compactification-sanity")
             assert sanity_resp.status_code in {200, 422}

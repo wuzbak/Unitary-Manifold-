@@ -13,7 +13,7 @@ import platform
 import numpy as np
 
 from .metric import compute_curvature
-from .triton_kernels import triton_outer_bb
+from .triton_kernels import benchmark_outer_bb, triton_outer_bb
 
 try:  # Optional dependency.
     from .jax_metric import JAX_AVAILABLE as _JAX_METRIC_AVAILABLE, jax_compute_curvature
@@ -198,20 +198,35 @@ def build_kernel_parity_receipt(points: int = 8, seed: int = 7) -> dict[str, Any
             "reason": "jax_metric_backend_unavailable",
             "parity_pass": False,
         }
+    capability = detect_backend_capability()
     triton_outer, triton_status = triton_outer_bb(B)
     reference_outer = np.einsum("ni,nj->nij", B, B)
     triton_outer_error = float(np.max(np.abs(reference_outer - triton_outer)))
+    triton_tolerance = 1e-6
+    triton_parity_pass = bool(triton_outer_error <= triton_tolerance)
     lanes["triton_compiled"] = {
         "ok": bool(triton_status.get("ok", False)),
         "backend": str(triton_status.get("backend", "triton_compiled")),
         "reason": str(triton_status.get("reason", "")),
         "max_abs_error_vs_numpy_outer_bb": triton_outer_error,
-        "parity_pass": bool(triton_outer_error <= gate["required_tolerance"]),
+        "required_tolerance": triton_tolerance,
+        "parity_pass": triton_parity_pass,
     }
+    triton_required = bool(
+        capability.get("triton_available")
+        and bool((capability.get("torch") or {}).get("available"))
+        and bool((capability.get("torch") or {}).get("cuda_visible"))
+    )
+    if triton_required and not triton_parity_pass:
+        gate["parity_pass"] = False
+        gate["fail_closed"] = True
+        gate["triton_gate"] = "required_and_failed"
+    else:
+        gate["triton_gate"] = "optional_or_passed"
     return {
         "ok": True,
         "contract": "metric.curvature.v1",
-        "capability": detect_backend_capability(),
+        "capability": capability,
         "lanes": lanes,
         "gate": gate,
         "honesty_note": (
@@ -219,6 +234,23 @@ def build_kernel_parity_receipt(points: int = 8, seed: int = 7) -> dict[str, Any
             "reports unavailable compiled lanes explicitly; it does not claim that "
             "all kernels are already compiled."
         ),
+    }
+
+
+def build_kernel_benchmark_receipt(points: int = 128, seed: int = 11, repeats: int = 5) -> dict[str, Any]:
+    _, B, _, _ = _sample_fields(points=points, seed=seed)
+    bench = benchmark_outer_bb(B, repeats=repeats)
+    capability = detect_backend_capability()
+    return {
+        "ok": True,
+        "benchmarks": {
+            "outer_bb_hotspot": bench,
+        },
+        "capability": capability,
+        "policy": {
+            "compiled_lane_claim_requires_parity": True,
+            "compiled_lane_claim_requires_visible_receipt": True,
+        },
     }
 
 

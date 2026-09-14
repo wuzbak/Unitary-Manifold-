@@ -30,6 +30,7 @@ from ox_navigator.engine.merlin_local_execution import get_local_execution_statu
 from ox_navigator.engine.merlin_local_inference import get_inference_health, get_inference_providers
 from ox_navigator.engine.merlin_lean_bridge import get_merlin_lean_bridge_artifact
 from ox_navigator.engine.merlin_kernel_runtime import (
+    get_kernel_benchmark_receipts,
     get_compactification_sanity_receipt,
     get_kernel_execution_receipts,
     get_kernel_runtime_board,
@@ -1325,6 +1326,25 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'kernel_receipts': get_kernel_execution_receipts(points=points, seed=seed),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/kernel-benchmarks':
+                points, error = _parse_int_query_param(params, 'points', 128)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                seed, error = _parse_int_query_param(params, 'seed', 11)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                repeats, error = _parse_int_query_param(params, 'repeats', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'kernel_benchmarks': get_kernel_benchmark_receipts(points=points, seed=seed, repeats=repeats),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

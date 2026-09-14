@@ -6,6 +6,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from src.core.kernel_runtime import (
+    build_kernel_benchmark_receipt,
     build_kernel_parity_receipt,
     detect_backend_capability,
     kernel_contract_schema,
@@ -47,3 +48,11 @@ def test_epistemic_compactification_sanity_scans_mas_tracker_and_fallibility():
     )
     assert payload["check_count"] >= 6
     assert any(item["id"] == "mas_tracker_remaining_open" for item in payload["checks"])
+
+
+def test_kernel_benchmark_receipt_has_hotspot_metrics():
+    payload = build_kernel_benchmark_receipt(points=32, seed=5, repeats=2)
+    assert payload["ok"] is True
+    metrics = payload["benchmarks"]["outer_bb_hotspot"]
+    assert metrics["repeats"] == 2
+    assert "max_abs_error_vs_reference" in metrics
