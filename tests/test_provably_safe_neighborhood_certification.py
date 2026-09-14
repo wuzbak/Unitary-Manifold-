@@ -239,6 +239,20 @@ def test_sobolev_localization_obligation_rejects_boolean_dependency_values(
         cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
 
 
+def test_sobolev_localization_obligation_rejects_coercible_non_numeric_values(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(cert_mod, "h1_lipschitz_estimate", lambda: {"l_h1": "0.8"})
+    monkeypatch.setattr(cert_mod, "critical_gradient_bound", lambda: {"epsilon_grad_max": 0.1})
+    with pytest.raises(ValueError, match="l_h1"):
+        cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
+
+    monkeypatch.setattr(cert_mod, "h1_lipschitz_estimate", lambda: {"l_h1": 0.8})
+    monkeypatch.setattr(cert_mod, "critical_gradient_bound", lambda: {"epsilon_grad_max": "0.1"})
+    with pytest.raises(ValueError, match="epsilon_grad_max"):
+        cert_mod.sobolev_localization_obligation(local_patch_radius=1.0)
+
+
 def test_singularity_routing_regular() -> None:
     route = singularity_topology_route(
         SingularityRoutingInput(
@@ -518,6 +532,40 @@ def test_phase_checkpoint_rejects_nonstring_phase_or_restart_pointer() -> None:
             completed_invariants=["posterior kernel"],
             remaining_obligations=["tail bound"],
             restart_pointer=1,
+        )
+
+
+def test_phase_checkpoint_rejects_whitespace_only_phase_or_restart_pointer() -> None:
+    with pytest.raises(ValueError, match="phase must be non-empty"):
+        phase_checkpoint(
+            phase="   ",
+            completed_invariants=["posterior kernel"],
+            remaining_obligations=["tail bound"],
+            restart_pointer="src/core/provably_safe_neighborhood_certification.py:full_certification_packet",
+        )
+    with pytest.raises(ValueError, match="restart_pointer must be non-empty"):
+        phase_checkpoint(
+            phase="Phase B",
+            completed_invariants=["posterior kernel"],
+            remaining_obligations=["tail bound"],
+            restart_pointer="   ",
+        )
+
+
+def test_phase_checkpoint_rejects_nonstring_sequence_entries() -> None:
+    with pytest.raises(ValueError, match="completed_invariants entries must be strings"):
+        phase_checkpoint(  # type: ignore[list-item]
+            phase="Phase B",
+            completed_invariants=["posterior kernel", 1],
+            remaining_obligations=["tail bound"],
+            restart_pointer="src/core/provably_safe_neighborhood_certification.py:full_certification_packet",
+        )
+    with pytest.raises(ValueError, match="remaining_obligations entries must be strings"):
+        phase_checkpoint(  # type: ignore[list-item]
+            phase="Phase B",
+            completed_invariants=["posterior kernel"],
+            remaining_obligations=["tail bound", 1],
+            restart_pointer="src/core/provably_safe_neighborhood_certification.py:full_certification_packet",
         )
 
 

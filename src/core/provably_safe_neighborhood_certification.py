@@ -18,7 +18,7 @@ from __future__ import annotations
 from collections.abc import Iterable as IterableABC, Mapping
 from dataclasses import asdict, dataclass
 import math
-from numbers import Integral
+from numbers import Integral, Real
 from typing import Dict, List, Sequence
 
 from src.core.pillar405_sobolev_ftum_extension import (
@@ -233,9 +233,9 @@ def sobolev_localization_obligation(local_patch_radius: float = 1.0) -> Dict[str
         raise ValueError("critical_gradient_bound must return mapping with 'epsilon_grad_max'.")
     raw_l_h1 = h1["l_h1"]
     raw_epsilon_grad_max = grad["epsilon_grad_max"]
-    if isinstance(raw_l_h1, bool):
+    if isinstance(raw_l_h1, bool) or (not isinstance(raw_l_h1, Real)):
         raise ValueError("h1_lipschitz_estimate must return finite non-negative l_h1.")
-    if isinstance(raw_epsilon_grad_max, bool):
+    if isinstance(raw_epsilon_grad_max, bool) or (not isinstance(raw_epsilon_grad_max, Real)):
         raise ValueError("critical_gradient_bound must return finite non-negative epsilon_grad_max.")
     l_h1 = float(raw_l_h1)
     epsilon_grad_max = float(raw_epsilon_grad_max)
@@ -324,10 +324,27 @@ def _validated_unknown_sequence(raw_unknowns: object, error_prefix: str) -> List
     for idx, item in enumerate(raw_unknowns):
         if idx >= MAX_RESIDUAL_UNKNOWN_ITEMS:
             raise ValueError(f"{error_prefix}: residual_unknowns must be a finite bounded sequence.")
+        if not isinstance(item, str):
+            raise ValueError(f"{error_prefix}: residual_unknowns entries must be strings.")
         normalized_unknowns.append(item)
-    if any(not isinstance(item, str) for item in normalized_unknowns):
-        raise ValueError(f"{error_prefix}: residual_unknowns entries must be strings.")
     return normalized_unknowns
+
+
+def _validated_string_sequence(
+    raw_values: object,
+    field_name: str,
+    error_prefix: str,
+) -> List[str]:
+    if isinstance(raw_values, (str, bytes, set, frozenset)) or isinstance(raw_values, Mapping):
+        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence of strings.")
+    if not isinstance(raw_values, IterableABC):
+        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence of strings.")
+    normalized: List[str] = []
+    for item in raw_values:
+        if not isinstance(item, str):
+            raise ValueError(f"{error_prefix}: {field_name} entries must be strings.")
+        normalized.append(item)
+    return normalized
 
 
 def _validate_posterior_stage(posterior: Mapping[str, object]) -> List[str]:
@@ -435,16 +452,26 @@ def phase_checkpoint(
     restart_pointer: str,
 ) -> Dict[str, object]:
     """Create interruption-safe checkpoint payload."""
-    if not isinstance(phase, str) or not phase:
+    if not isinstance(phase, str) or not phase.strip():
         raise ValueError("phase must be non-empty.")
-    if not isinstance(restart_pointer, str) or not restart_pointer:
+    if not isinstance(restart_pointer, str) or not restart_pointer.strip():
         raise ValueError("restart_pointer must be non-empty.")
+    completed = _validated_string_sequence(
+        completed_invariants,
+        "completed_invariants",
+        "Malformed checkpoint payload",
+    )
+    remaining = _validated_string_sequence(
+        remaining_obligations,
+        "remaining_obligations",
+        "Malformed checkpoint payload",
+    )
 
     ckpt = CertificationCheckpoint(
-        phase=phase,
-        completed_invariants=tuple(completed_invariants),
-        remaining_obligations=tuple(remaining_obligations),
-        restart_pointer=restart_pointer,
+        phase=phase.strip(),
+        completed_invariants=tuple(completed),
+        remaining_obligations=tuple(remaining),
+        restart_pointer=restart_pointer.strip(),
     )
     return {
         "checkpoint": asdict(ckpt),
