@@ -59,6 +59,20 @@ def test_posterior_certificate_radius_increases_with_envelope() -> None:
     assert expanded["radius"] > base["radius"]
 
 
+def test_posterior_certificate_fails_self_mapping_gate_for_large_radius() -> None:
+    cert = posterior_neighborhood_certificate(
+        PosteriorInputs(
+            residual_bound=2.0,
+            inverse_bound=1.0,
+            lipschitz_bound=0.2,
+            envelope=TruncationEnvelope(0.0, 0.0, 0.0, 0.0),
+        )
+    )
+    assert cert["certified"] is False
+    assert cert["uniqueness_gate"] is True
+    assert "self_mapping_gate_failed" in cert["fail_reasons"]
+
+
 def test_posterior_certificate_fails_for_non_contractive_case() -> None:
     bad = PosteriorInputs(
         residual_bound=1e-4,

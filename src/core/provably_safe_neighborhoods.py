@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from typing import Dict, Literal
 
 ObligationClass = Literal["interval", "analytic"]
+CERTIFICATION_BASIN_RADIUS = 1.0
 
 
 @dataclass(frozen=True)
@@ -99,6 +100,7 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
     _nonnegative("operator_remainder_bound", inputs.envelope.operator_remainder_bound)
     _nonnegative("interval_roundoff_bound", inputs.envelope.interval_roundoff_bound)
     _nonnegative("analytic_tail_bound", inputs.envelope.analytic_tail_bound)
+    _nonnegative("certification_basin_radius", CERTIFICATION_BASIN_RADIUS)
 
     envelope_total = inputs.envelope.total_bound()
     seed_radius = inputs.inverse_bound * (inputs.residual_bound + envelope_total)
@@ -124,6 +126,8 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         # Contraction-theorem uniqueness gate.
         contraction_constant = 1.0 - contraction_margin
         unique_local_solution = contraction_margin > 0.0
+        if radius > CERTIFICATION_BASIN_RADIUS:
+            fail_reasons.append("self_mapping_gate_failed")
 
     certified = not fail_reasons
     return {
@@ -134,6 +138,7 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         "linearized_contraction_constant": contraction_constant,
         "uniqueness_gate": unique_local_solution,
         "envelope_total": envelope_total,
+        "certification_basin_radius": CERTIFICATION_BASIN_RADIUS,
         "fail_reasons": fail_reasons,
         "obligation_split": {
             "interval": [

@@ -176,7 +176,8 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
             )
         else:
             residual_unknowns.append(
-                "Constructive inverse stability bound needed or Lipschitz constant too large."
+                "Nonlinear gate failed: requires 2*alpha*beta < 1; "
+                f"computed alpha={alpha:.6g}, beta={beta:.6g}, product={2.0 * alpha * beta:.6g}."
             )
 
     return {
@@ -525,7 +526,6 @@ def checkpointed_formal_bridge_packet(
         local_patch_radius=local_patch_radius,
         curvature_singularity_threshold=curvature_singularity_threshold,
     )
-    artifact = formal_bridge_artifact(packet)
 
     def _checked_stage_bool(stage_name: str, field_name: str) -> bool:
         stage_obj = packet.get(stage_name)
@@ -555,6 +555,7 @@ def checkpointed_formal_bridge_packet(
         completed_invariants.append("singularity_topology_routing")
 
     remaining_obligations = _validated_residual_unknowns(packet)
+    artifact = formal_bridge_artifact(packet)
 
     checkpoint = phase_checkpoint(
         phase=phase,
