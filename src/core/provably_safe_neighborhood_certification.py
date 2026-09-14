@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Iterable as IterableABC, Mapping, Sequence
 from dataclasses import asdict, dataclass
 import math
 from numbers import Integral, Real
@@ -141,16 +141,14 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
     Radius (for beta>0):
         r = (2*alpha) / (1 + sqrt(1 - 2*alpha*beta)).
     (Equivalent to (1 - sqrt(1 - 2*alpha*beta)) / beta for beta>0.)
-    Near-zero beta values are normalized to zero at tolerance `_ZERO_TOL`
-    before branching to stabilize affine-limit behavior.
+    Theorem gating uses the exact nonnegative beta value from inputs.
     """
     _nonnegative(inp.residual_bound, "residual_bound")
     _nonnegative(inp.inverse_bound, "inverse_bound")
     _nonnegative(inp.lipschitz_bound, "lipschitz_bound")
 
     alpha = inp.inverse_bound * inp.residual_bound
-    raw_beta = inp.inverse_bound * inp.lipschitz_bound
-    beta = 0.0 if math.isclose(raw_beta, 0.0, abs_tol=_ZERO_TOL) else raw_beta
+    beta = inp.inverse_bound * inp.lipschitz_bound
     discriminant = 1.0 - 2.0 * alpha * beta
     degenerate_affine_case = beta == 0.0
     exact_affine_zero_residual = (
@@ -354,12 +352,16 @@ def _validated_string_sequence_base(
     field_name: str,
     error_prefix: str,
     max_items: int | None = None,
+    require_sequence: bool = True,
 ) -> List[str]:
-    """Validate concrete ordered string sequences (list/tuple-like containers)."""
+    """Validate ordered string containers and optionally require concrete sequences."""
     if isinstance(raw_values, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_values, Mapping):
         raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
-    if not isinstance(raw_values, Sequence):
-        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
+    if require_sequence:
+        if not isinstance(raw_values, Sequence):
+            raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
+    elif not isinstance(raw_values, IterableABC):
+        raise ValueError(f"{error_prefix}: {field_name} must be an ordered iterable.")
     if (
         max_items is not None
         and isinstance(raw_values, Sequence)
@@ -384,6 +386,7 @@ def _validated_unknown_sequence(raw_unknowns: object, error_prefix: str) -> List
         field_name="residual_unknowns",
         error_prefix=error_prefix,
         max_items=RESIDUAL_UNKNOWNS_MAX_ITEMS,
+        require_sequence=True,
     )
 
 
@@ -396,6 +399,7 @@ def _validated_string_sequence(
         raw_values=raw_values,
         field_name=field_name,
         error_prefix=error_prefix,
+        require_sequence=False,
     )
 
 

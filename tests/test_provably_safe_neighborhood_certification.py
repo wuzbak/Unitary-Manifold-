@@ -594,6 +594,17 @@ def test_phase_checkpoint_rejects_nonstring_sequence_entries() -> None:
         )
 
 
+def test_phase_checkpoint_accepts_generator_ordered_entries() -> None:
+    ckpt = phase_checkpoint(
+        phase="Phase B",
+        completed_invariants=(item for item in ["posterior kernel"]),
+        remaining_obligations=(item for item in ["tail bound"]),
+        restart_pointer="src/core/provably_safe_neighborhood_certification.py:full_certification_packet",
+    )
+    assert ckpt["checkpoint"]["completed_invariants"] == ("posterior kernel",)
+    assert ckpt["checkpoint"]["remaining_obligations"] == ("tail bound",)
+
+
 def test_full_packet_success() -> None:
     packet = full_certification_packet(
         posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
