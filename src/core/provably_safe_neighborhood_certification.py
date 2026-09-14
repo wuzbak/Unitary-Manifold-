@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Iterable as IterableABC, Mapping, Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
 import math
 from numbers import Integral, Real
@@ -148,7 +148,7 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
         and math.isclose(inp.residual_bound, 0.0, abs_tol=_ZERO_TOL)
     )
     near_affine_positive_inverse = (
-        degenerate_affine_case
+        beta_effectively_zero
         and inp.inverse_bound > 0.0
         and alpha < 1.0
     )
@@ -342,19 +342,13 @@ def _validated_string_sequence_base(
 ) -> List[str]:
     if isinstance(raw_values, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_values, Mapping):
         raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
-    if not isinstance(raw_values, IterableABC):
+    if not isinstance(raw_values, Sequence):
         raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
-    if (
-        max_items is not None
-        and isinstance(raw_values, Sequence)
-        and len(raw_values) > max_items
-    ):
+    if max_items is not None and len(raw_values) > max_items:
         raise ValueError(f"{error_prefix}: {field_name} must be a finite bounded sequence.")
 
     normalized_values: List[str] = []
-    for idx, item in enumerate(raw_values):
-        if max_items is not None and idx >= max_items:
-            raise ValueError(f"{error_prefix}: {field_name} must be a finite bounded sequence.")
+    for item in raw_values:
         if not isinstance(item, str):
             raise ValueError(f"{error_prefix}: {field_name} entries must be strings.")
         normalized_values.append(item)
