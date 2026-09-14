@@ -13,6 +13,7 @@ import platform
 import numpy as np
 
 from .metric import compute_curvature
+from .triton_kernels import triton_outer_bb
 
 try:  # Optional dependency.
     from .jax_metric import JAX_AVAILABLE as _JAX_METRIC_AVAILABLE, jax_compute_curvature
@@ -197,10 +198,15 @@ def build_kernel_parity_receipt(points: int = 8, seed: int = 7) -> dict[str, Any
             "reason": "jax_metric_backend_unavailable",
             "parity_pass": False,
         }
+    triton_outer, triton_status = triton_outer_bb(B)
+    reference_outer = np.einsum("ni,nj->nij", B, B)
+    triton_outer_error = float(np.max(np.abs(reference_outer - triton_outer)))
     lanes["triton_compiled"] = {
-        "ok": False,
-        "backend": "triton_compiled",
-        "reason": "not_implemented_in_this_scaffold",
+        "ok": bool(triton_status.get("ok", False)),
+        "backend": str(triton_status.get("backend", "triton_compiled")),
+        "reason": str(triton_status.get("reason", "")),
+        "max_abs_error_vs_numpy_outer_bb": triton_outer_error,
+        "parity_pass": bool(triton_outer_error <= gate["required_tolerance"]),
     }
     return {
         "ok": True,

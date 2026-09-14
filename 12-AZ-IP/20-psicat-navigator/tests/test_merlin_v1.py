@@ -3503,6 +3503,8 @@ def test_run_sync_checks_has_consistency_contract():
         '/api/psicat/kernel-runtime',
         '/api/psicat/kernel-receipts',
         '/api/psicat/compactification-sanity',
+        '/api/psicat/compactification-ingest',
+        '/api/psicat/topology-adjacent',
         '/api/psicat/execution-board',
         '/api/psicat/convergence-charter',
         '/api/psicat/validation-resilience',

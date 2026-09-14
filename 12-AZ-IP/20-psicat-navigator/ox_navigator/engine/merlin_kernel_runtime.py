@@ -14,6 +14,7 @@ from src.core.kernel_runtime import (
     kernel_contract_schema,
     run_epistemic_compactification_sanity,
 )
+from src.core.adjacent_topology_prototypes import topology_adjacent_summary
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 
@@ -52,3 +53,16 @@ def get_compactification_sanity_receipt() -> dict[str, Any]:
         mas_tracker_path=REPO_ROOT / "docs" / "mas_tracker.yml",
         fallibility_path=REPO_ROOT / "FALLIBILITY.md",
     )
+
+
+def get_topology_adjacent_board() -> dict[str, Any]:
+    summary = topology_adjacent_summary()
+    return {
+        "ok": True,
+        "board_id": "psicat_topology_adjacent_board_v1",
+        "summary": summary,
+        "policy": {
+            "claim_scope": "adjacent_track_only",
+            "hardgate_promotion_requires_independent_evidence": True,
+        },
+    }

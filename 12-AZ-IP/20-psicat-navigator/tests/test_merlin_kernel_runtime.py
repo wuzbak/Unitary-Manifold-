@@ -12,6 +12,11 @@ from ox_navigator.engine.merlin_kernel_runtime import (
     get_compactification_sanity_receipt,
     get_kernel_execution_receipts,
     get_kernel_runtime_board,
+    get_topology_adjacent_board,
+)
+from ox_navigator.engine.merlin_compactification import (
+    build_compactification_ingest_receipt,
+    get_compactification_ingest_policy,
 )
 
 
@@ -37,6 +42,25 @@ def test_compactification_sanity_receipt_surface():
     assert payload["policy"]["unchecked_bypass_forbidden"] is True
 
 
+def test_compactification_ingest_policy_and_receipt():
+    policy = get_compactification_ingest_policy()
+    assert policy["unchecked_bypass_forbidden"] is True
+    receipt = build_compactification_ingest_receipt({
+        "model_logic": {"mode": "strict"},
+        "telemetry_token": "drop",
+        "tracking_id": "drop",
+    })
+    assert receipt["retained_key_count"] == 1
+    assert receipt["stripped_key_count"] == 2
+
+
+def test_topology_adjacent_board_scope():
+    board = get_topology_adjacent_board()
+    assert board["ok"] is True
+    assert board["summary"]["lane"] == "ADJACENT_TRACK"
+    assert board["policy"]["hardgate_promotion_requires_independent_evidence"] is True
+
+
 def test_server_kernel_runtime_endpoints():
     httpd = serve(port=0)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
@@ -56,6 +80,20 @@ def test_server_kernel_runtime_endpoints():
             assert sanity_resp.status_code in {200, 422}
             payload = sanity_resp.json()
             assert "compactification_sanity" in payload
+            policy_resp = client.get("/api/psicat/compactification-ingest")
+            assert policy_resp.status_code == 200
+            assert policy_resp.json()["ok"] is True
+            post_resp = client.post("/api/psicat/compactification-ingest", json={
+                "payload": {
+                    "functional_logic": {"k": 1},
+                    "telemetry_key": "remove",
+                }
+            })
+            assert post_resp.status_code == 200
+            assert post_resp.json()["compactification_ingest"]["stripped_key_count"] >= 1
+            adjacent_resp = client.get("/api/psicat/topology-adjacent")
+            assert adjacent_resp.status_code == 200
+            assert adjacent_resp.json()["topology_adjacent"]["summary"]["lane"] == "ADJACENT_TRACK"
 
             compat_resp = client.get("/api/merlin/kernel-runtime")
             assert compat_resp.status_code == 200

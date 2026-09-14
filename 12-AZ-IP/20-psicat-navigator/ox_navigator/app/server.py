@@ -20,6 +20,10 @@ from uuid import uuid4
 
 from ox_navigator.engine.constants import DEFAULT_TEMPERATURE, MODEL_ID
 from ox_navigator.engine.merlin_benchmark import get_benchmark_corpus
+from ox_navigator.engine.merlin_compactification import (
+    build_compactification_ingest_receipt,
+    get_compactification_ingest_policy,
+)
 from ox_navigator.engine.merlin_engine import query_merlin
 from ox_navigator.engine.merlin_identity import get_identity_policy
 from ox_navigator.engine.merlin_local_execution import get_local_execution_status, run_local_execution_loop
@@ -29,6 +33,7 @@ from ox_navigator.engine.merlin_kernel_runtime import (
     get_compactification_sanity_receipt,
     get_kernel_execution_receipts,
     get_kernel_runtime_board,
+    get_topology_adjacent_board,
 )
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
@@ -1331,6 +1336,20 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 }, status=200 if payload.get('ok') else 422)
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/compactification-ingest':
+                self._json({
+                'ok': True,
+                'compactification_ingest_policy': get_compactification_ingest_policy(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/topology-adjacent':
+                self._json({
+                'ok': True,
+                'topology_adjacent': get_topology_adjacent_board(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/execution-board':
                 limit, error = _parse_int_query_param(params, 'limit', 2)
                 if error:
@@ -1535,6 +1554,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         self._json(orchestrate_steps(steps, session=merlin_session))
                     except ValueError as exc:
                         self._json({'ok': False, 'error': str(exc)}, status=400)
+                    return
+                if route_path == '/api/psicat/compactification-ingest':
+                    raw_payload = payload.get('payload')
+                    if not isinstance(raw_payload, dict):
+                        self._json({'ok': False, 'error': 'payload object is required'}, status=400)
+                        return
+                    self._json({
+                        'ok': True,
+                        'compactification_ingest': build_compactification_ingest_receipt(raw_payload),
+                    })
+                    self._persist_session(session_id, merlin_session)
                     return
 
                 if route_path in ('/api/psicat', '/api/ox'):
