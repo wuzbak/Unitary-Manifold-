@@ -125,9 +125,11 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         radius = seed_radius / contraction_margin if contraction_margin > 0.0 else float("inf")
         # Contraction-theorem uniqueness gate.
         contraction_constant = 1.0 - contraction_margin
-        unique_local_solution = contraction_margin > 0.0
+        linearized_uniqueness_gate = contraction_margin > 0.0
+        unique_local_solution = linearized_uniqueness_gate
         if radius > CERTIFICATION_BASIN_RADIUS:
             fail_reasons.append("self_mapping_gate_failed")
+            unique_local_solution = False
 
     certified = not fail_reasons
     return {
@@ -137,6 +139,7 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         "contraction_margin": contraction_margin,
         "linearized_contraction_constant": contraction_constant,
         "uniqueness_gate": unique_local_solution,
+        "linearized_uniqueness_gate": contraction_margin > 0.0,
         "envelope_total": envelope_total,
         "certification_basin_radius": CERTIFICATION_BASIN_RADIUS,
         "fail_reasons": fail_reasons,
