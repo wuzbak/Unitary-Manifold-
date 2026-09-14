@@ -1810,6 +1810,12 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert review_data['frontier_readiness']['promotion_required_blockers_all_clear'] is True
     assert review_data['frontier_readiness']['promotion_blocker_signals_all_present'] is False
     assert 'promotion-blocking blocker passes' in review_data['frontier_readiness']['policy']
+    kernel_frontier_blocker = next(
+        item for item in review_data['frontier_readiness']['promotion_blockers']
+        if item['id'] == 'kernel_runtime_cross_lane_gate'
+    )
+    assert kernel_frontier_blocker['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+    assert isinstance(kernel_frontier_blocker['failed_checks'], list)
     assert review_data['control_tower']['deployment_eligibility']['eligible'] is True
     assert review_data['control_tower']['deployment_eligibility']['frontier_blocker_count'] == len(review_data['open_blockers'])
     assert (
@@ -1829,6 +1835,14 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert execution_data['blunt_board']['title'] == 'Sprint CL blunt board'
     assert any(item['task_id'] == 'CL-6' and item['lane'] == 'arc_agi_shadow' for item in execution_data['immediate_tasks'])
     assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
+    kernel_gate_verdict = execution_data['kernel_runtime_gate']['gate_verdict']
+    if kernel_gate_verdict in {'hold', 'fail_closed'}:
+        kernel_blocker = next(
+            item for item in execution_data['blocker_register']
+            if item['blocker_id'] == 'kernel_runtime_cross_lane_gate'
+        )
+        assert kernel_blocker['source'] == 'kernel_runtime_gate'
+        assert isinstance(kernel_blocker['failed_checks'], list)
     assert resilience_data['current_truth']['codeql_skip_reason'] == 'repository_database_too_large'
     assert resilience_data['current_truth']['codeql_language_matrix_workflow_configured'] is True
     assert resilience_data['review_resilience_assets']['orchestrator'] == 'TOOLS/checks/copilot_review_orchestrator.py'
@@ -2952,6 +2966,11 @@ def test_server_merlin_endpoints():
             assert frontier.json()['frontier_readiness']['paper_intake_lane']['paper_reference']['id'] == '2508.21593'
             assert 'factuality' in frontier.json()['frontier_readiness']['combined_gate_contract']['required_axes']
             assert frontier.json()['frontier_readiness']['kernel_runtime_gate']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+            kernel_frontier_blocker = next(
+                item for item in frontier.json()['frontier_readiness']['promotion_blockers']
+                if item['id'] == 'kernel_runtime_cross_lane_gate'
+            )
+            assert isinstance(kernel_frontier_blocker['failed_checks'], list)
             review_packet = client.get('/api/merlin/review-packet?limit=1')
             assert review_packet.status_code == 200
             assert review_packet.json()['ok'] is True
@@ -3022,6 +3041,12 @@ def test_server_merlin_endpoints():
             )
             assert 'contradiction_recovery' in execution_board.json()['execution_board']['combined_gate_contract']['required_axes']
             assert execution_board.json()['execution_board']['kernel_runtime_gate']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+            if execution_board.json()['execution_board']['kernel_runtime_gate']['gate_verdict'] in {'hold', 'fail_closed'}:
+                kernel_blocker = next(
+                    item for item in execution_board.json()['execution_board']['blocker_register']
+                    if item['blocker_id'] == 'kernel_runtime_cross_lane_gate'
+                )
+                assert isinstance(kernel_blocker['failed_checks'], list)
             validation_resilience = client.get('/api/merlin/validation-resilience?limit=2')
             assert validation_resilience.status_code == 200
             assert validation_resilience.json()['ok'] is True

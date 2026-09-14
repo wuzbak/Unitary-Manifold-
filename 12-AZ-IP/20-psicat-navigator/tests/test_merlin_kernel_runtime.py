@@ -47,6 +47,13 @@ def test_kernel_benchmark_receipts_contract():
 def test_kernel_promotion_gate_summary_contract():
     payload = get_kernel_promotion_gate_summary(points=16, seed=5, repeats=2)
     assert payload["gate_verdict"] in {"pass", "hold", "fail_closed"}
+    assert payload["reason"] in {
+        "required_kernel_checks_failed",
+        "all_kernel_cross_lane_checks_passed",
+        "compiled_lane_unavailable_hold",
+    }
+    assert isinstance(payload["failed_checks"], list)
+    assert payload["promotion_blocking"] is (payload["gate_verdict"] == "fail_closed")
     check_ids = {item["id"] for item in payload["checks"]}
     assert {
         "parity_gate",

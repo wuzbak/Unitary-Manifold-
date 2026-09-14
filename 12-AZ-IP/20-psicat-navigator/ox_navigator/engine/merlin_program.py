@@ -4660,6 +4660,18 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
         "fail_closed": {"benchmark_operations": "highest", "physics_compute": "highest"},
     }
     selected_priorities = task_priorities.get(str(kernel_gate.get("gate_verdict")), task_priorities["hold"])
+    kernel_gate_register: list[dict[str, Any]] = []
+    if str(kernel_gate.get("gate_verdict")) in {"hold", "fail_closed"}:
+        kernel_gate_register.append(
+            {
+                "blocker_id": "kernel_runtime_cross_lane_gate",
+                "status": "open" if str(kernel_gate.get("gate_verdict")) == "fail_closed" else "watch",
+                "reason": str(kernel_gate.get("reason") or "kernel gate requires additional evidence"),
+                "source": "kernel_runtime_gate",
+                "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
+                "failed_checks": list(kernel_gate.get("failed_checks") or []),
+            }
+        )
     return {
         "generated_at": _utcnow(),
         "document_path": _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
@@ -4782,7 +4794,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "source": "frontier_readiness",
             }
             for item in open_blockers
-        ] + [
+        ] + kernel_gate_register + [
             {
                 "blocker_id": "code_review_tool_unavailable_in_environment",
                 "status": "open",
@@ -7581,9 +7593,10 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "id": "kernel_runtime_cross_lane_gate",
             "pass": str(kernel_gate.get("gate_verdict")) == "pass",
             "blocking_pass": True,
-            "reason": "Kernel runtime promotion gate is fail-closed on parity/sanity/error failures and holds when compiled-lane evidence is absent.",
+            "reason": str(kernel_gate.get("reason") or "Kernel runtime promotion gate is fail-closed on parity/sanity/error failures and holds when compiled-lane evidence is absent."),
             "required_for_promotion": False,
             "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
+            "failed_checks": list(kernel_gate.get("failed_checks") or []),
         },
     ]
 
