@@ -1066,3 +1066,33 @@ def test_checkpointed_formal_bridge_packet_emits_fail_closed_checkpoint_on_consi
     )
     assert out["artifact"]["status"] == "BLOCKED_FAIL_CLOSED"
     assert any("all_certified inconsistent with validated stage gates" in x for x in out["checkpoint"]["checkpoint"]["remaining_obligations"])
+
+
+def test_checkpointed_formal_bridge_packet_rejects_oversized_residual_unknown_ledger(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    oversized_packet = {
+        "all_certified": False,
+        "residual_unknowns": ["u"] * (cert_mod.RESIDUAL_UNKNOWNS_MAX_ITEMS + 1),
+        "posterior_neighborhood": {"sufficient_condition": False, "residual_unknowns": []},
+        "truncation_envelope": {"audit_ready": True},
+        "sobolev_localization": {"localized_contractive": True},
+        "singularity_topology_routing": {
+            "route": "REGULAR_REGION_CERTIFIABLE",
+            "fail_closed": False,
+            "regular_region_gate": True,
+        },
+    }
+    monkeypatch.setattr(
+        cert_mod,
+        "full_certification_packet",
+        lambda **_kwargs: oversized_packet,
+    )
+    with pytest.raises(ValueError, match="finite bounded sequence"):
+        checkpointed_formal_bridge_packet(
+            posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+            envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+            routing=SingularityRoutingInput(1.0, 10.0, 0),
+            phase="Phase C",
+            restart_pointer="src/core/provably_safe_neighborhood_certification.py:checkpointed_formal_bridge_packet",
+        )

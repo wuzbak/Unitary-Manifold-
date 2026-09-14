@@ -130,7 +130,8 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
     Sufficient condition for uniqueness in a computable ball:
         2 * alpha * beta < 1.
     Radius (for beta>0):
-        r = (1 - sqrt(1 - 2*alpha*beta)) / beta.
+        r = (2*alpha) / (1 + sqrt(1 - 2*alpha*beta)).
+    (Equivalent to (1 - sqrt(1 - 2*alpha*beta)) / beta for beta>0.)
     """
     _nonnegative(inp.residual_bound, "residual_bound")
     _nonnegative(inp.inverse_bound, "inverse_bound")
@@ -332,20 +333,35 @@ def singularity_topology_route(
     }
 
 
+def _validated_string_sequence_base(
+    raw_values: object,
+    field_name: str,
+    error_prefix: str,
+    max_items: int | None = None,
+) -> List[str]:
+    if isinstance(raw_values, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_values, Mapping):
+        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
+    if not isinstance(raw_values, Sequence):
+        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
+    if max_items is not None and len(raw_values) > max_items:
+        raise ValueError(f"{error_prefix}: {field_name} must be a finite bounded sequence.")
+
+    normalized_values: List[str] = []
+    for item in raw_values:
+        if not isinstance(item, str):
+            raise ValueError(f"{error_prefix}: {field_name} entries must be strings.")
+        normalized_values.append(item)
+    return normalized_values
+
+
 def _validated_unknown_sequence(raw_unknowns: object, error_prefix: str) -> List[str]:
     """Normalize residual unknown ledger from concrete ordered sequences."""
-    if isinstance(raw_unknowns, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_unknowns, Mapping):
-        raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
-    if not isinstance(raw_unknowns, Sequence):
-        raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
-    normalized_unknowns: List[str] = []
-    for idx, item in enumerate(raw_unknowns):
-        if idx >= RESIDUAL_UNKNOWNS_MAX_ITEMS:
-            raise ValueError(f"{error_prefix}: residual_unknowns must be a finite bounded sequence.")
-        if not isinstance(item, str):
-            raise ValueError(f"{error_prefix}: residual_unknowns entries must be strings.")
-        normalized_unknowns.append(item)
-    return normalized_unknowns
+    return _validated_string_sequence_base(
+        raw_values=raw_unknowns,
+        field_name="residual_unknowns",
+        error_prefix=error_prefix,
+        max_items=RESIDUAL_UNKNOWNS_MAX_ITEMS,
+    )
 
 
 def _validated_string_sequence(
@@ -353,16 +369,11 @@ def _validated_string_sequence(
     field_name: str,
     error_prefix: str,
 ) -> List[str]:
-    if isinstance(raw_values, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_values, Mapping):
-        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence of strings.")
-    if not isinstance(raw_values, Sequence):
-        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence of strings.")
-    normalized: List[str] = []
-    for item in raw_values:
-        if not isinstance(item, str):
-            raise ValueError(f"{error_prefix}: {field_name} entries must be strings.")
-        normalized.append(item)
-    return normalized
+    return _validated_string_sequence_base(
+        raw_values=raw_values,
+        field_name=field_name,
+        error_prefix=error_prefix,
+    )
 
 
 def _validate_posterior_stage(posterior: Mapping[str, object]) -> List[str]:
