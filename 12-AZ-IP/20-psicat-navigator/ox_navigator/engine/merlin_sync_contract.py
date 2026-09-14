@@ -50,6 +50,12 @@ REQUIRED_TOOLKIT_FUNCTIONS: tuple[str, ...] = (
     "getMerlinLaneProgressLedgers",
     "runMerlinTrainingCycle",
     "getMerlinTrainingChallengePack",
+    "getMerlinKernelRuntimeBoard",
+    "getMerlinKernelExecutionReceipts",
+    "getMerlinKernelBenchmarkReceipts",
+    "getMerlinKernelPromotionGate",
+    "getMerlinCompactificationSanity",
+    "getMerlinTopologyAdjacentBoard",
 )
 
 REQUIRED_ARTIFACT_SURFACES: tuple[str, ...] = (

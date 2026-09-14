@@ -812,6 +812,12 @@ def test_route_tool_training_architecture_and_artifacts():
         'getMerlinPythagoreanTriplesSatMethodTransferPacket'
     )
     assert full_architecture['result']['data']['active_training_surfaces']['arc_agi_program'] == 'getMerlinArcAgiProgram'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_runtime_board'] == 'getMerlinKernelRuntimeBoard'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_execution_receipts'] == 'getMerlinKernelExecutionReceipts'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_benchmark_receipts'] == 'getMerlinKernelBenchmarkReceipts'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_promotion_gate'] == 'getMerlinKernelPromotionGate'
+    assert full_architecture['result']['data']['active_training_surfaces']['compactification_sanity'] == 'getMerlinCompactificationSanity'
+    assert full_architecture['result']['data']['active_training_surfaces']['topology_adjacent_board'] == 'getMerlinTopologyAdjacentBoard'
 
     arc_agi_packet = route_tool('getMerlinArcAgiProgram', {})
     assert arc_agi_packet['ok'] is True
@@ -3543,3 +3549,13 @@ def test_run_sync_checks_has_consistency_contract():
     assert checks['parity_dimensions']['engine_module_parity'] is True
     assert checks['parity_dimensions']['training_export_script_parity'] is True
     assert checks['parity_dimensions']['toolkit_function_parity'] is True
+    toolkit = {item['tool']: item for item in checks['toolkit_function_checks']}
+    for tool in [
+        'getMerlinKernelRuntimeBoard',
+        'getMerlinKernelExecutionReceipts',
+        'getMerlinKernelBenchmarkReceipts',
+        'getMerlinKernelPromotionGate',
+        'getMerlinCompactificationSanity',
+        'getMerlinTopologyAdjacentBoard',
+    ]:
+        assert toolkit[tool]['present'] is True
