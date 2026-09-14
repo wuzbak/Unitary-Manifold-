@@ -552,6 +552,16 @@ def full_certification_packet(
     sobolev_ok = sobolev["localized_contractive"]
     routing_regular_region = routing_result["regular_region_gate"]
     routing_fail_closed = routing_result["fail_closed"]
+    if type(posterior_ok) is not bool:
+        raise ValueError("Malformed packet stage: posterior_neighborhood.sufficient_condition must be bool.")
+    if type(trunc_ok) is not bool:
+        raise ValueError("Malformed truncation envelope stage output: audit_ready must be bool.")
+    if type(sobolev_ok) is not bool:
+        raise ValueError("Malformed sobolev stage output: localized_contractive must be bool.")
+    if type(routing_regular_region) is not bool:
+        raise ValueError("Malformed routing stage output: regular_region_gate must be bool.")
+    if type(routing_fail_closed) is not bool:
+        raise ValueError("Malformed routing stage output: fail_closed must be bool.")
     residual_unknowns: List[str] = []
     residual_unknowns.extend(posterior_unknowns)
     if not trunc_ok:
@@ -700,6 +710,7 @@ def checkpointed_formal_bridge_packet(
     )
 
     consistency_error: str | None = None
+    remaining_obligations = list(stage_remaining_obligations)
     try:
         _validate_packet_consistency_from_stage_gates(
             packet=packet,
@@ -718,13 +729,10 @@ def checkpointed_formal_bridge_packet(
         if not consistency_only:
             raise
         consistency_error = message
-        remaining_obligations = list(stage_remaining_obligations)
         if not remaining_obligations:
             remaining_obligations = ["Packet consistency reconciliation required."]
         if consistency_error not in remaining_obligations:
             remaining_obligations.append(consistency_error)
-    else:
-        remaining_obligations = list(stage_remaining_obligations)
 
     if consistency_error is None:
         artifact = formal_bridge_artifact(packet)
