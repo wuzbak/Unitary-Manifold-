@@ -25,6 +25,11 @@ from ox_navigator.engine.merlin_identity import get_identity_policy
 from ox_navigator.engine.merlin_local_execution import get_local_execution_status, run_local_execution_loop
 from ox_navigator.engine.merlin_local_inference import get_inference_health, get_inference_providers
 from ox_navigator.engine.merlin_lean_bridge import get_merlin_lean_bridge_artifact
+from ox_navigator.engine.merlin_kernel_runtime import (
+    get_compactification_sanity_receipt,
+    get_kernel_execution_receipts,
+    get_kernel_runtime_board,
+)
 from ox_navigator.engine.merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MerlinSession
 from ox_navigator.engine.merlin_memory_store import MerlinMemoryStore
 from ox_navigator.engine.merlin_reasoning_graph import get_reasoning_chain
@@ -1294,6 +1299,36 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 'ok': True,
                 'hardware_board': get_merlin_hardware_architecture_board(limit=limit),
                 })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/kernel-runtime':
+                self._json({
+                'ok': True,
+                'kernel_runtime': get_kernel_runtime_board(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/kernel-receipts':
+                points, error = _parse_int_query_param(params, 'points', 8)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                seed, error = _parse_int_query_param(params, 'seed', 7)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'kernel_receipts': get_kernel_execution_receipts(points=points, seed=seed),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/compactification-sanity':
+                payload = get_compactification_sanity_receipt()
+                self._json({
+                'ok': bool(payload.get('ok')),
+                'compactification_sanity': payload,
+                }, status=200 if payload.get('ok') else 422)
                 self._persist_session(session_id, merlin_session)
                 return
             if route_path == '/api/psicat/execution-board':

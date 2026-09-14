@@ -63,6 +63,9 @@ PSICAT_SPC_GATES_DOC = PRODUCT_ROOT / "PSICAT_SPC_BENCHMARK_GATES.md"
 PRIMARY_PSICAT_EXECUTION_SPINE_ENDPOINTS = (
     "/api/psicat",
     "/api/psicat/status",
+    "/api/psicat/kernel-runtime",
+    "/api/psicat/kernel-receipts",
+    "/api/psicat/compactification-sanity",
     "/api/psicat/execution-board",
     "/api/psicat/convergence-charter",
     "/api/psicat/validation-resilience",
