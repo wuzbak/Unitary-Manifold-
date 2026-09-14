@@ -35,6 +35,7 @@ def test_posterior_certificate_passes_for_safe_case() -> None:
     cert = posterior_neighborhood_certificate(_good_inputs())
     assert cert["certified"] is True
     assert cert["radius"] > 0.0
+    assert cert["seed_radius"] > 0.0
     assert cert["contraction_margin"] > 0.0
     assert cert["fail_reasons"] == []
 

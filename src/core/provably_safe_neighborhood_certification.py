@@ -270,8 +270,8 @@ def singularity_topology_route(
     4) Coordinate breakdown (non-positive chart Jacobian; rechart required)
     5) Regular region certifiable
     """
-    if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold <= 0.0:
-        raise ValueError("curvature_singularity_threshold must be finite and positive.")
+    if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold < 0.0:
+        raise ValueError("curvature_singularity_threshold must be finite and non-negative.")
 
     if (not math.isfinite(routing.chart_jacobian_min)) or (
         not math.isfinite(routing.invariant_curvature_norm)

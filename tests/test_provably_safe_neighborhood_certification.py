@@ -437,6 +437,18 @@ def test_singularity_routing_rejects_invalid_threshold() -> None:
         )
 
 
+def test_singularity_routing_allows_zero_threshold() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(
+            chart_jacobian_min=0.9,
+            invariant_curvature_norm=0.0,
+            topological_index_delta=0,
+        ),
+        curvature_singularity_threshold=0.0,
+    )
+    assert route["route"] == "REGULAR_REGION_CERTIFIABLE"
+
+
 def test_obligation_split_nonempty_and_disjoint_roles() -> None:
     split = obligation_split()
     assert split["interval_obligations"]
