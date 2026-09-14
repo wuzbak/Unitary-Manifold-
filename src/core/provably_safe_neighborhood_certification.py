@@ -15,7 +15,7 @@ Scope covered in one coherent interface:
 """
 from __future__ import annotations
 
-from collections.abc import Iterable as IterableABC, Mapping
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 import math
 from numbers import Integral, Real
@@ -139,7 +139,7 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
     alpha = inp.inverse_bound * inp.residual_bound
     beta = inp.inverse_bound * inp.lipschitz_bound
     discriminant = 1.0 - 2.0 * alpha * beta
-    degenerate_affine_case = math.isclose(beta, 0.0, abs_tol=_ZERO_TOL)
+    degenerate_affine_case = beta == 0.0
     exact_affine_zero_residual = (
         degenerate_affine_case
         and math.isclose(alpha, 0.0, abs_tol=_ZERO_TOL)
@@ -331,10 +331,10 @@ def singularity_topology_route(
 
 
 def _validated_unknown_sequence(raw_unknowns: object, error_prefix: str) -> List[str]:
-    """Normalize residual unknown ledger from any ordered iterable up to policy cap."""
+    """Normalize residual unknown ledger from concrete ordered sequences."""
     if isinstance(raw_unknowns, (str, bytes, set, frozenset)) or isinstance(raw_unknowns, Mapping):
         raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
-    if not isinstance(raw_unknowns, IterableABC):
+    if not isinstance(raw_unknowns, Sequence):
         raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
     normalized_unknowns: List[str] = []
     for idx, item in enumerate(raw_unknowns):
@@ -353,7 +353,7 @@ def _validated_string_sequence(
 ) -> List[str]:
     if isinstance(raw_values, (str, bytes, set, frozenset)) or isinstance(raw_values, Mapping):
         raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence of strings.")
-    if not isinstance(raw_values, IterableABC):
+    if not isinstance(raw_values, Sequence):
         raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence of strings.")
     normalized: List[str] = []
     for item in raw_values:
@@ -585,6 +585,18 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
     if (not all_certified) and (not residual_unknowns):
         raise ValueError("Inconsistent packet: all_certified=False requires non-empty residual_unknowns.")
     ready_for_formalization = all_certified and len(residual_unknowns) == 0
+    return _build_formal_bridge_artifact(
+        all_certified=all_certified,
+        residual_unknowns=residual_unknowns,
+        ready_for_formalization=ready_for_formalization,
+    )
+
+
+def _build_formal_bridge_artifact(
+    all_certified: bool,
+    residual_unknowns: Sequence[str],
+    ready_for_formalization: bool,
+) -> Dict[str, object]:
     return {
         "artifact_type": "FORMAL_BRIDGE_CERTIFICATE",
         "all_certified": all_certified,
@@ -601,7 +613,7 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
             "A3: nonlinear Lipschitz bound is valid on the same neighborhood",
             "A4: invariant routing inputs are correctly computed",
         ],
-        "residual_unknowns": residual_unknowns,
+        "residual_unknowns": list(residual_unknowns),
     }
 
 
@@ -695,24 +707,11 @@ def checkpointed_formal_bridge_packet(
     if consistency_error is None:
         artifact = formal_bridge_artifact(packet)
     else:
-        artifact = {
-            "artifact_type": "FORMAL_BRIDGE_CERTIFICATE",
-            "all_certified": False,
-            "status": "BLOCKED_FAIL_CLOSED",
-            "theorem_targets": [
-                "posterior existence and local uniqueness",
-                "truncation envelope soundness",
-                "localized Sobolev contractivity",
-                "singularity/topology routing correctness",
-            ],
-            "assumption_ledger": [
-                "A1: finite-dimensional residual bound provided",
-                "A2: inverse operator bound is valid in the stated neighborhood",
-                "A3: nonlinear Lipschitz bound is valid on the same neighborhood",
-                "A4: invariant routing inputs are correctly computed",
-            ],
-            "residual_unknowns": remaining_obligations,
-        }
+        artifact = _build_formal_bridge_artifact(
+            all_certified=False,
+            residual_unknowns=remaining_obligations,
+            ready_for_formalization=False,
+        )
 
     checkpoint = phase_checkpoint(
         phase=phase,
