@@ -487,7 +487,7 @@ def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
 
     residual_unknowns = _validated_residual_unknowns(packet)
     all_certified = packet.get("all_certified")
-    if not isinstance(all_certified, bool):
+    if type(all_certified) is not bool:
         raise ValueError("Malformed certification packet. 'all_certified' must be bool.")
     if all_certified and residual_unknowns:
         raise ValueError("Inconsistent packet: all_certified=True with non-empty residual_unknowns.")
