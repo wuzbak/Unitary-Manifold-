@@ -1015,3 +1015,35 @@ def test_checkpointed_formal_bridge_packet_rejects_non_bool_nested_stage_gate(
             phase="Phase C",
             restart_pointer="src/core/provably_safe_neighborhood_certification.py:checkpointed_formal_bridge_packet",
         )
+
+
+def test_checkpointed_formal_bridge_packet_emits_fail_closed_checkpoint_on_consistency_mismatch(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    inconsistent_packet = {
+        "all_certified": False,
+        "residual_unknowns": [],
+        "posterior_neighborhood": {"sufficient_condition": True, "residual_unknowns": []},
+        "truncation_envelope": {"audit_ready": True},
+        "sobolev_localization": {"localized_contractive": True},
+        "singularity_topology_routing": {
+            "route": "REGULAR_REGION_CERTIFIABLE",
+            "fail_closed": False,
+            "regular_region_gate": True,
+        },
+    }
+    monkeypatch.setattr(
+        cert_mod,
+        "full_certification_packet",
+        lambda **_kwargs: inconsistent_packet,
+    )
+
+    out = checkpointed_formal_bridge_packet(
+        posterior_input=PosteriorNeighborhoodInput(0.01, 2.0, 0.2),
+        envelope=TruncationEnvelope(0.01, 0.02, 0.03),
+        routing=SingularityRoutingInput(1.0, 10.0, 0),
+        phase="Phase C",
+        restart_pointer="src/core/provably_safe_neighborhood_certification.py:checkpointed_formal_bridge_packet",
+    )
+    assert out["artifact"]["status"] == "BLOCKED_FAIL_CLOSED"
+    assert any("all_certified inconsistent with validated stage gates" in x for x in out["checkpoint"]["checkpoint"]["remaining_obligations"])

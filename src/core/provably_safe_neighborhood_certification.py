@@ -26,7 +26,9 @@ from src.core.pillar405_sobolev_ftum_extension import (
     h1_lipschitz_estimate,
 )
 
-MAX_RESIDUAL_UNKNOWN_ITEMS = 10_000
+# Fail-closed resource policy: bound normalization of unknown-ledger iterables
+# to keep packet validation predictable and interruption-safe.
+RESIDUAL_UNKNOWNS_MAX_ITEMS = 10_000
 
 __all__ = [
     "FAIL_CLOSED_RULES",
@@ -316,13 +318,14 @@ def singularity_topology_route(
 
 
 def _validated_unknown_sequence(raw_unknowns: object, error_prefix: str) -> List[str]:
+    """Normalize residual unknown ledger from any ordered iterable up to policy cap."""
     if isinstance(raw_unknowns, (str, bytes, set, frozenset)) or isinstance(raw_unknowns, Mapping):
         raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
     if not isinstance(raw_unknowns, IterableABC):
         raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
     normalized_unknowns: List[str] = []
     for idx, item in enumerate(raw_unknowns):
-        if idx >= MAX_RESIDUAL_UNKNOWN_ITEMS:
+        if idx >= RESIDUAL_UNKNOWNS_MAX_ITEMS:
             raise ValueError(f"{error_prefix}: residual_unknowns must be a finite bounded sequence.")
         if not isinstance(item, str):
             raise ValueError(f"{error_prefix}: residual_unknowns entries must be strings.")
@@ -426,6 +429,25 @@ def _validate_packet_consistency_from_stage_gates(
             "Malformed certification packet: blocked stage gates require non-empty residual_unknowns."
         )
     return residual_unknowns
+
+
+def _remaining_obligations_from_stage_gates(
+    posterior_ok: bool,
+    truncation_ok: bool,
+    sobolev_ok: bool,
+    routing_stage_passed: bool,
+    routing_route: str,
+) -> List[str]:
+    obligations: List[str] = []
+    if not posterior_ok:
+        obligations.append("Posterior neighborhood obligation unresolved.")
+    if not truncation_ok:
+        obligations.append("Truncation envelope obligation unresolved.")
+    if not sobolev_ok:
+        obligations.append("Sobolev localization obligation unresolved.")
+    if not routing_stage_passed:
+        obligations.append(f"Routing obligation unresolved: route={routing_route}.")
+    return obligations
 
 
 def obligation_split() -> Dict[str, List[str]]:
@@ -632,14 +654,58 @@ def checkpointed_formal_bridge_packet(
     if routing_stage_passed:
         completed_invariants.append("singularity_topology_routing")
 
-    remaining_obligations = _validate_packet_consistency_from_stage_gates(
-        packet=packet,
-        posterior_ok=posterior_ok,
-        truncation_ok=truncation_ok,
-        sobolev_ok=sobolev_ok,
-        routing_stage_passed=routing_stage_passed,
-    )
-    artifact = formal_bridge_artifact(packet)
+    consistency_error: str | None = None
+    try:
+        remaining_obligations = _validate_packet_consistency_from_stage_gates(
+            packet=packet,
+            posterior_ok=posterior_ok,
+            truncation_ok=truncation_ok,
+            sobolev_ok=sobolev_ok,
+            routing_stage_passed=routing_stage_passed,
+        )
+    except ValueError as exc:
+        message = str(exc)
+        consistency_only = (
+            "all_certified inconsistent with validated stage gates" in message
+            or "all_certified=True with non-empty residual_unknowns" in message
+            or "blocked stage gates require non-empty residual_unknowns" in message
+        )
+        if not consistency_only:
+            raise
+        consistency_error = message
+        remaining_obligations = _remaining_obligations_from_stage_gates(
+            posterior_ok=posterior_ok,
+            truncation_ok=truncation_ok,
+            sobolev_ok=sobolev_ok,
+            routing_stage_passed=routing_stage_passed,
+            routing_route=routing_stage["route"],
+        )
+        if not remaining_obligations:
+            remaining_obligations = ["Packet consistency reconciliation required."]
+        if consistency_error not in remaining_obligations:
+            remaining_obligations.append(consistency_error)
+
+    if consistency_error is None:
+        artifact = formal_bridge_artifact(packet)
+    else:
+        artifact = {
+            "artifact_type": "FORMAL_BRIDGE_CERTIFICATE",
+            "all_certified": False,
+            "status": "BLOCKED_FAIL_CLOSED",
+            "theorem_targets": [
+                "posterior existence and local uniqueness",
+                "truncation envelope soundness",
+                "localized Sobolev contractivity",
+                "singularity/topology routing correctness",
+            ],
+            "assumption_ledger": [
+                "A1: finite-dimensional residual bound provided",
+                "A2: inverse operator bound is valid in the stated neighborhood",
+                "A3: nonlinear Lipschitz bound is valid on the same neighborhood",
+                "A4: invariant routing inputs are correctly computed",
+            ],
+            "residual_unknowns": remaining_obligations,
+        }
 
     checkpoint = phase_checkpoint(
         phase=phase,
