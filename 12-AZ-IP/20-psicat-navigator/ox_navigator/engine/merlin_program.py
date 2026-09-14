@@ -4671,6 +4671,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                     "source": "kernel_runtime_gate",
                     "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
                     "failed_checks": list(kernel_gate.get("failed_checks") or []),
+                    "remediation_actions": list(kernel_gate.get("remediation_actions") or []),
                     "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
                     "severity": str(kernel_gate.get("severity") or ""),
                 }
@@ -4797,6 +4798,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "source": "frontier_readiness",
                 "gate_verdict": str(item.get("gate_verdict") or ""),
                 "failed_checks": list(item.get("failed_checks") or []),
+                "remediation_actions": list(item.get("remediation_actions") or []),
                 "health_score": float(item.get("health_score", 0.0) or 0.0),
                 "severity": str(item.get("severity") or ""),
             }
@@ -4852,6 +4854,13 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             "severity": str(kernel_gate.get("severity") or ""),
             "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
             "selected_priorities": dict(selected_priorities),
+        },
+        "kernel_risk_summary": {
+            "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
+            "severity": str(kernel_gate.get("severity") or ""),
+            "failed_checks": list(kernel_gate.get("failed_checks") or []),
+            "remediation_actions": list(kernel_gate.get("remediation_actions") or []),
+            "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
         },
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
@@ -7610,6 +7619,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "required_for_promotion": False,
             "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
             "failed_checks": list(kernel_gate.get("failed_checks") or []),
+            "remediation_actions": list(kernel_gate.get("remediation_actions") or []),
             "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
             "severity": str(kernel_gate.get("severity") or ""),
         },

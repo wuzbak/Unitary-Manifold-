@@ -110,9 +110,16 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
             "reason": "Compactification sanity checks must remain green against canonical epistemic files.",
         },
     ]
+    remediation_map = {
+        "parity_gate": "Re-run parity receipts and inspect canonical-vs-compiled lane drift before any promotion claim.",
+        "benchmark_outer_error_gate": "Tighten or disable outer-product compiled lane until benchmark error returns within tolerance.",
+        "benchmark_metric_block_error_gate": "Tighten or disable KK metric-block compiled lane until benchmark error returns within tolerance.",
+        "compactification_sanity_gate": "Restore compactification sanity invariants in canonical epistemic files before proceeding.",
+    }
     required_pass = all(bool(item.get("pass")) for item in checks)
     compiled_lane_active = bool(lane_outer.get("ok") or lane_metric.get("ok"))
     failed_checks = [str(item.get("id") or "") for item in checks if not bool(item.get("pass"))]
+    remediation_actions = [remediation_map[item] for item in failed_checks if item in remediation_map]
     passed_count = len(checks) - len(failed_checks)
     health_score = float(passed_count / len(checks)) if checks else 0.0
     if not required_pass:
@@ -133,6 +140,7 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
         "gate_verdict": gate_verdict,
         "reason": reason,
         "failed_checks": failed_checks,
+        "remediation_actions": remediation_actions,
         "health_score": health_score,
         "severity": severity,
         "blocking_pass": gate_verdict != "fail_closed",
