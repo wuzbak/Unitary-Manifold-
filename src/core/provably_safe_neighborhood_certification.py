@@ -132,23 +132,25 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
     Radius (for beta>0):
         r = (2*alpha) / (1 + sqrt(1 - 2*alpha*beta)).
     (Equivalent to (1 - sqrt(1 - 2*alpha*beta)) / beta for beta>0.)
+    Near-zero beta values are normalized to zero at tolerance `_ZERO_TOL`
+    before branching to stabilize affine-limit behavior.
     """
     _nonnegative(inp.residual_bound, "residual_bound")
     _nonnegative(inp.inverse_bound, "inverse_bound")
     _nonnegative(inp.lipschitz_bound, "lipschitz_bound")
 
     alpha = inp.inverse_bound * inp.residual_bound
-    beta = inp.inverse_bound * inp.lipschitz_bound
+    raw_beta = inp.inverse_bound * inp.lipschitz_bound
+    beta = 0.0 if math.isclose(raw_beta, 0.0, abs_tol=_ZERO_TOL) else raw_beta
     discriminant = 1.0 - 2.0 * alpha * beta
-    beta_effectively_zero = math.isclose(beta, 0.0, abs_tol=_ZERO_TOL)
-    degenerate_affine_case = beta_effectively_zero
+    degenerate_affine_case = beta == 0.0
     exact_affine_zero_residual = (
-        beta_effectively_zero
+        degenerate_affine_case
         and math.isclose(alpha, 0.0, abs_tol=_ZERO_TOL)
         and math.isclose(inp.residual_bound, 0.0, abs_tol=_ZERO_TOL)
     )
     near_affine_positive_inverse = (
-        beta_effectively_zero
+        degenerate_affine_case
         and inp.inverse_bound > 0.0
         and alpha < 1.0
     )
@@ -341,9 +343,9 @@ def _validated_string_sequence_base(
     max_items: int | None = None,
 ) -> List[str]:
     if isinstance(raw_values, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_values, Mapping):
-        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
+        raise ValueError(f"{error_prefix}: {field_name} must be an ordered iterable.")
     if not isinstance(raw_values, IterableABC):
-        raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence.")
+        raise ValueError(f"{error_prefix}: {field_name} must be an ordered iterable.")
     if (
         max_items is not None
         and isinstance(raw_values, Sequence)

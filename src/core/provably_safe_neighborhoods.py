@@ -91,7 +91,8 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
     """Compute fail-closed posterior neighborhood certificate.
 
     The certificate is accepted only when all contractivity and positivity
-    conditions are satisfied.
+    conditions are satisfied and the computed radius stays within the fixed
+    certification basin radius (`CERTIFICATION_BASIN_RADIUS`) self-mapping gate.
     """
     _nonnegative("residual_bound", inputs.residual_bound)
     _nonnegative("inverse_bound", inputs.inverse_bound)
