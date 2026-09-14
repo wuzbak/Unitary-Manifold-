@@ -473,6 +473,28 @@ def test_singularity_routing_boolean_numeric_inputs_are_fail_closed() -> None:
     assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
 
 
+def test_singularity_routing_nonreal_numeric_inputs_are_fail_closed() -> None:
+    route = singularity_topology_route(
+        SingularityRoutingInput(  # type: ignore[arg-type]
+            chart_jacobian_min="1.0",
+            invariant_curvature_norm=10.0,
+            topological_index_delta=0,
+        ),
+        curvature_singularity_threshold=1.0e6,
+    )
+    assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+
+    route = singularity_topology_route(
+        SingularityRoutingInput(  # type: ignore[arg-type]
+            chart_jacobian_min=1.0,
+            invariant_curvature_norm="10.0",
+            topological_index_delta=0,
+        ),
+        curvature_singularity_threshold=1.0e6,
+    )
+    assert route["route"] == "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
+
+
 def test_singularity_routing_rejects_invalid_threshold() -> None:
     with pytest.raises(ValueError):
         singularity_topology_route(

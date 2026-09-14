@@ -178,28 +178,36 @@ def singularity_routing_gate(
     coordinate_singularity_detected: bool,
     invariant_curvature_blowup: bool,
     topology_reaction_detected: bool,
-) -> Dict[str, str]:
+) -> Dict[str, object]:
     """Route singularity outcomes with fail-closed policy."""
     if invariant_curvature_blowup:
         return {
-            "route": "geometric_singularity",
+            "route": "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT",
+            "legacy_route": "geometric_singularity",
             "status": "fail_closed",
             "reason": "invariant_blowup_requires_constructive_argument",
+            "fail_closed": True,
         }
     if topology_reaction_detected:
         return {
-            "route": "topology_transition",
+            "route": "CONSTRUCTIVE_PROOF_REQUIRED_TOPOLOGICAL_TRANSITION",
+            "legacy_route": "topology_transition",
             "status": "fail_closed",
             "reason": "topology_reaction_requires_constructive_argument",
+            "fail_closed": True,
         }
     if coordinate_singularity_detected:
         return {
-            "route": "coordinate_artifact",
+            "route": "COORDINATE_BREAKDOWN_RECHART_REQUIRED",
+            "legacy_route": "coordinate_artifact",
             "status": "rechart_required",
             "reason": "invariants_bounded_but_coordinates_break",
+            "fail_closed": False,
         }
     return {
-        "route": "regular",
+        "route": "REGULAR_REGION_CERTIFIABLE",
+        "legacy_route": "regular",
         "status": "pass",
         "reason": "no_singularity_indicators",
+        "fail_closed": False,
     }

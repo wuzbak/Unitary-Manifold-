@@ -186,8 +186,10 @@ def test_singularity_route_geometric_fail_closed() -> None:
         invariant_curvature_blowup=True,
         topology_reaction_detected=False,
     )
-    assert routed["route"] == "geometric_singularity"
+    assert routed["route"] == "GEOMETRIC_SINGULAR_BEHAVIOR_CERTIFY_OR_REJECT"
+    assert routed["legacy_route"] == "geometric_singularity"
     assert routed["status"] == "fail_closed"
+    assert routed["fail_closed"] is True
 
 
 def test_singularity_route_coordinate_rechart() -> None:
@@ -196,11 +198,15 @@ def test_singularity_route_coordinate_rechart() -> None:
         invariant_curvature_blowup=False,
         topology_reaction_detected=False,
     )
-    assert routed["route"] == "coordinate_artifact"
+    assert routed["route"] == "COORDINATE_BREAKDOWN_RECHART_REQUIRED"
+    assert routed["legacy_route"] == "coordinate_artifact"
     assert routed["status"] == "rechart_required"
+    assert routed["fail_closed"] is False
 
 
 def test_singularity_route_regular() -> None:
     routed = singularity_routing_gate(False, False, False)
     assert routed["status"] == "pass"
-    assert routed["route"] == "regular"
+    assert routed["route"] == "REGULAR_REGION_CERTIFIABLE"
+    assert routed["legacy_route"] == "regular"
+    assert routed["fail_closed"] is False

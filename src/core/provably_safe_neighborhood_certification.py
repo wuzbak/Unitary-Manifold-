@@ -141,7 +141,7 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
     Radius (for beta>0):
         r = (2*alpha) / (1 + sqrt(1 - 2*alpha*beta)).
     (Equivalent to (1 - sqrt(1 - 2*alpha*beta)) / beta for beta>0.)
-    Theorem gating uses the exact nonnegative beta value from inputs.
+    Near-zero beta values are treated as affine at tolerance `_ZERO_TOL`.
     """
     _nonnegative(inp.residual_bound, "residual_bound")
     _nonnegative(inp.inverse_bound, "inverse_bound")
@@ -150,7 +150,7 @@ def posterior_neighborhood_certificate(inp: PosteriorNeighborhoodInput) -> Dict[
     alpha = inp.inverse_bound * inp.residual_bound
     beta = inp.inverse_bound * inp.lipschitz_bound
     discriminant = 1.0 - 2.0 * alpha * beta
-    degenerate_affine_case = beta == 0.0
+    degenerate_affine_case = math.isclose(beta, 0.0, abs_tol=_ZERO_TOL)
     exact_affine_zero_residual = (
         degenerate_affine_case
         and math.isclose(alpha, 0.0, abs_tol=_ZERO_TOL)
@@ -311,7 +311,12 @@ def singularity_topology_route(
     if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold < 0.0:
         raise ValueError("curvature_singularity_threshold must be finite and non-negative.")
 
-    if isinstance(routing.chart_jacobian_min, bool) or isinstance(routing.invariant_curvature_norm, bool):
+    if (
+        isinstance(routing.chart_jacobian_min, bool)
+        or isinstance(routing.invariant_curvature_norm, bool)
+        or (not isinstance(routing.chart_jacobian_min, Real))
+        or (not isinstance(routing.invariant_curvature_norm, Real))
+    ):
         route = "INVALID_NUMERIC_INPUT_FAIL_CLOSED"
     elif (not math.isfinite(routing.chart_jacobian_min)) or (
         not math.isfinite(routing.invariant_curvature_norm)
