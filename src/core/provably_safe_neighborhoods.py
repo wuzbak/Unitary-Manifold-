@@ -93,6 +93,10 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
     The certificate is accepted only when all contractivity and positivity
     conditions are satisfied and the computed radius stays within the fixed
     certification basin radius (`CERTIFICATION_BASIN_RADIUS`) self-mapping gate.
+    `linearized_uniqueness_gate` and `uniqueness_gate` reflect the contraction
+    condition `inverse_bound * lipschitz_bound < 1`, while
+    `self_mapping_gate_passed` records whether the computed radius stays inside
+    the admissible basin; `certified` requires all gates plus empty fail reasons.
     """
     _nonnegative("residual_bound", inputs.residual_bound)
     _nonnegative("inverse_bound", inputs.inverse_bound)

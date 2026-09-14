@@ -596,7 +596,7 @@ def full_certification_packet(
         and len(residual_unknowns) == 0
     )
 
-    return {
+    packet = {
         "scope": list(WORKSTREAM_SCOPE),
         "fail_closed_rules": dict(FAIL_CLOSED_RULES),
         "posterior_neighborhood": posterior,
@@ -612,6 +612,14 @@ def full_certification_packet(
         ),
         "residual_unknowns": residual_unknowns,
     }
+    _validate_packet_consistency_from_stage_gates(
+        packet=packet,
+        posterior_ok=posterior_ok,
+        truncation_ok=trunc_ok,
+        sobolev_ok=sobolev_ok,
+        routing_stage_passed=routing_stage_passed,
+    )
+    return packet
 
 
 def formal_bridge_artifact(packet: Mapping[str, object]) -> Dict[str, object]:
@@ -700,6 +708,7 @@ def checkpointed_formal_bridge_packet(
     _validate_truncation_stage(truncation_stage)
     _validate_sobolev_stage(sobolev_stage)
     _validate_routing_stage(routing_stage)
+    _validated_residual_unknowns(packet)
 
     posterior_ok = posterior_stage["sufficient_condition"]
     truncation_ok = truncation_stage["audit_ready"]
