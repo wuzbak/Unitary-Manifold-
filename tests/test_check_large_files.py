@@ -117,6 +117,8 @@ def test_workflow_invokes_large_file_guard():
     assert "--base-sha" in content
     assert "--head-sha" in content
     assert "github.event.pull_request.head.sha" in content
+    ledger_section = content.split("ledger-consistency:", 1)[1].split("coverage-gate:", 1)[0]
+    assert "fetch-depth: 0" in ledger_section
 
 
 def test_bazel_pilot_workflow_tracks_guard_files():
