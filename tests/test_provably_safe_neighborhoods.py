@@ -37,6 +37,7 @@ def test_posterior_certificate_passes_for_safe_case() -> None:
     assert cert["radius"] > 0.0
     assert cert["seed_radius"] > 0.0
     assert cert["contraction_margin"] > 0.0
+    assert cert["self_mapping_gate_passed"] is True
     assert cert["fail_reasons"] == []
 
 
@@ -70,8 +71,9 @@ def test_posterior_certificate_fails_self_mapping_gate_for_large_radius() -> Non
         )
     )
     assert cert["certified"] is False
-    assert cert["uniqueness_gate"] is False
-    assert cert["linearized_uniqueness_gate"] is False
+    assert cert["uniqueness_gate"] is True
+    assert cert["linearized_uniqueness_gate"] is True
+    assert cert["self_mapping_gate_passed"] is False
     assert "self_mapping_gate_failed" in cert["fail_reasons"]
 
 

@@ -116,26 +116,27 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         if total_seed_residual == 0.0:
             radius = 0.0
             contraction_constant = 0.0
+            linearized_uniqueness_gate = True
             unique_local_solution = True
+            self_mapping_gate_passed = True
         else:
             fail_reasons.append("degenerate_radius_seed")
             radius = float("inf")
             contraction_constant = float("inf")
+            linearized_uniqueness_gate = False
             unique_local_solution = False
+            self_mapping_gate_passed = False
     else:
         radius = seed_radius / contraction_margin if contraction_margin > 0.0 else float("inf")
         # Contraction-theorem uniqueness gate.
         contraction_constant = 1.0 - contraction_margin
         linearized_uniqueness_gate = contraction_margin > 0.0
         unique_local_solution = linearized_uniqueness_gate
+        self_mapping_gate_passed = radius <= CERTIFICATION_BASIN_RADIUS
         if radius > CERTIFICATION_BASIN_RADIUS:
             fail_reasons.append("self_mapping_gate_failed")
-            linearized_uniqueness_gate = False
-            unique_local_solution = False
 
     certified = not fail_reasons
-    if seed_radius == 0.0 and contraction_margin > 0.0:
-        linearized_uniqueness_gate = unique_local_solution
     return {
         "certified": certified,
         "radius": radius,
@@ -144,6 +145,7 @@ def posterior_neighborhood_certificate(inputs: PosteriorInputs) -> Dict[str, obj
         "linearized_contraction_constant": contraction_constant,
         "uniqueness_gate": unique_local_solution,
         "linearized_uniqueness_gate": linearized_uniqueness_gate,
+        "self_mapping_gate_passed": self_mapping_gate_passed,
         "envelope_total": envelope_total,
         "certification_basin_radius": CERTIFICATION_BASIN_RADIUS,
         "fail_reasons": fail_reasons,
