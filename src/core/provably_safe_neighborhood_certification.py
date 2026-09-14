@@ -291,6 +291,8 @@ def singularity_topology_route(
     4) Coordinate breakdown (non-positive chart Jacobian; rechart required)
     5) Regular region certifiable
     """
+    if isinstance(curvature_singularity_threshold, bool):
+        raise ValueError("curvature_singularity_threshold must be finite and non-negative.")
     if (not math.isfinite(curvature_singularity_threshold)) or curvature_singularity_threshold < 0.0:
         raise ValueError("curvature_singularity_threshold must be finite and non-negative.")
 
@@ -332,7 +334,7 @@ def singularity_topology_route(
 
 def _validated_unknown_sequence(raw_unknowns: object, error_prefix: str) -> List[str]:
     """Normalize residual unknown ledger from concrete ordered sequences."""
-    if isinstance(raw_unknowns, (str, bytes, set, frozenset)) or isinstance(raw_unknowns, Mapping):
+    if isinstance(raw_unknowns, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_unknowns, Mapping):
         raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
     if not isinstance(raw_unknowns, Sequence):
         raise ValueError(f"{error_prefix}: residual_unknowns must be an ordered sequence.")
@@ -351,7 +353,7 @@ def _validated_string_sequence(
     field_name: str,
     error_prefix: str,
 ) -> List[str]:
-    if isinstance(raw_values, (str, bytes, set, frozenset)) or isinstance(raw_values, Mapping):
+    if isinstance(raw_values, (str, bytes, bytearray, set, frozenset)) or isinstance(raw_values, Mapping):
         raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence of strings.")
     if not isinstance(raw_values, Sequence):
         raise ValueError(f"{error_prefix}: {field_name} must be an ordered sequence of strings.")

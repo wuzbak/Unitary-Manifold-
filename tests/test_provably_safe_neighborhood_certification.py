@@ -485,6 +485,15 @@ def test_singularity_routing_rejects_invalid_threshold() -> None:
             ),
             curvature_singularity_threshold=-1.0,
         )
+    with pytest.raises(ValueError):
+        singularity_topology_route(
+            SingularityRoutingInput(
+                chart_jacobian_min=0.9,
+                invariant_curvature_norm=50.0,
+                topological_index_delta=0,
+            ),
+            curvature_singularity_threshold=True,  # type: ignore[arg-type]
+        )
 
 
 def test_singularity_routing_allows_zero_threshold() -> None:
@@ -867,6 +876,11 @@ def test_formal_bridge_artifact_rejects_frozenset_unknowns() -> None:
         )
 
 
+def test_formal_bridge_artifact_rejects_bytearray_unknowns() -> None:
+    with pytest.raises(ValueError):
+        formal_bridge_artifact({"all_certified": False, "residual_unknowns": bytearray(b"abc")})
+
+
 def test_formal_bridge_artifact_accepts_tuple_unknowns_sequence() -> None:
     artifact = formal_bridge_artifact({"all_certified": False, "residual_unknowns": ("missing proof",)})
     assert artifact["status"] == "BLOCKED_FAIL_CLOSED"
@@ -886,6 +900,12 @@ def test_formal_bridge_artifact_rejects_generator_unknowns() -> None:
 def test_formal_bridge_artifact_rejects_nonmapping_packet() -> None:
     with pytest.raises(ValueError):
         formal_bridge_artifact([])  # type: ignore[arg-type]
+
+
+def test_formal_bridge_artifact_rejects_oversized_unknown_ledger() -> None:
+    too_many = ["u"] * (cert_mod.RESIDUAL_UNKNOWNS_MAX_ITEMS + 1)
+    with pytest.raises(ValueError, match="finite bounded sequence"):
+        formal_bridge_artifact({"all_certified": False, "residual_unknowns": too_many})
 
 
 def test_formal_bridge_artifact_rejects_blocked_packet_without_unknowns() -> None:
