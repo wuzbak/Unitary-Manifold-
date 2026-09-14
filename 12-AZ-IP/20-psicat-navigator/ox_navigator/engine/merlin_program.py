@@ -66,6 +66,7 @@ PRIMARY_PSICAT_EXECUTION_SPINE_ENDPOINTS = (
     "/api/psicat/kernel-runtime",
     "/api/psicat/kernel-receipts",
     "/api/psicat/kernel-benchmarks",
+    "/api/psicat/kernel-gate",
     "/api/psicat/compactification-sanity",
     "/api/psicat/compactification-ingest",
     "/api/psicat/topology-adjacent",
@@ -4640,6 +4641,8 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
 
 
 def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
+    from .merlin_kernel_runtime import get_kernel_promotion_gate_summary
+
     review_packet = get_merlin_sprint_review_packet(limit=limit)
     heavy_lane = get_merlin_heavy_reasoning_lane(limit=max(2, int(limit if limit is not None else 2)))
     model_board = get_merlin_sovereign_model_board()
@@ -4649,7 +4652,14 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     convergence_charter = get_psicat_convergence_charter()
     stage_reviews = list(review_packet.get("stage_reviews") or [])
     open_blockers = list(review_packet.get("open_blockers") or [])
+    kernel_gate = get_kernel_promotion_gate_summary()
     current_heavy_provider = str(heavy_lane.get("current_default_provider") or "deterministic_retrieval")
+    task_priorities = {
+        "pass": {"benchmark_operations": "high", "physics_compute": "high"},
+        "hold": {"benchmark_operations": "highest", "physics_compute": "highest"},
+        "fail_closed": {"benchmark_operations": "highest", "physics_compute": "highest"},
+    }
+    selected_priorities = task_priorities.get(str(kernel_gate.get("gate_verdict")), task_priorities["hold"])
     return {
         "generated_at": _utcnow(),
         "document_path": _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
@@ -4710,7 +4720,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             {
                 "task_id": "CL-1",
                 "lane": "benchmark_operations",
-                "priority": "highest",
+                "priority": selected_priorities["benchmark_operations"],
                 "task": "Run Stage A-E review packets on a recurring cadence and track per-stage failure reasons instead of raw pass/fail alone.",
                 "success_condition": "Every stage has receipts, failure taxonomy counts, and explicit go/hold/demote visibility.",
             },
@@ -4752,7 +4762,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             {
                 "task_id": "CL-7",
                 "lane": "physics_compute",
-                "priority": "high",
+                "priority": selected_priorities["physics_compute"],
                 "task": "Advance Lane D with JAX-first differentiable physics workloads (Diffrax/PINN track) under explicit non-closure governance.",
                 "success_condition": "Physics-compute receipts are reproducible, bounded, and never inflated into hardgate closure claims.",
             },
@@ -4814,6 +4824,10 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             }
             for stage in stage_reviews
         ],
+        "kernel_runtime_gate": {
+            **dict(kernel_gate),
+            "packet_surface": "getKernelPromotionGateSummary",
+        },
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
             "policy": "Promotion holds unless all required axes pass in the same receipt window.",
@@ -7450,6 +7464,7 @@ def _env_flag(name: str, default: bool = False) -> bool:
 
 def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     from .merlin_benchmark import build_merlin_control_tower, get_multi_stage_benchmark_plan
+    from .merlin_kernel_runtime import get_kernel_promotion_gate_summary
 
     required_receipts = [
         "stage_a_parity_capture",
@@ -7465,6 +7480,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     training = get_training_architecture(limit=resolved_limit)
     runtime = get_mythos_astra_contract()
     router = get_router_policy()
+    kernel_gate = get_kernel_promotion_gate_summary()
     resilience = get_merlin_validation_resilience_packet()
     resilience_truth = dict(resilience.get("current_truth") or {})
     hosted_review_signal_present = bool(resilience_truth.get("hosted_review_tool_available_in_every_environment"))
@@ -7555,6 +7571,14 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "signal_present": security_scan_signal_present,
             "required_for_promotion": security_scan_required_for_promotion,
         },
+        {
+            "id": "kernel_runtime_cross_lane_gate",
+            "pass": str(kernel_gate.get("gate_verdict")) == "pass",
+            "blocking_pass": str(kernel_gate.get("gate_verdict")) != "fail_closed",
+            "reason": "Kernel runtime promotion gate is fail-closed on parity/sanity/error failures and holds when compiled-lane evidence is absent.",
+            "required_for_promotion": True,
+            "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
+        },
     ]
 
     promotion_required_blockers_all_clear = all(
@@ -7573,6 +7597,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
         "sync_checks": sync,
         "control_tower": control_tower,
         "multi_stage_plan": benchmark_plan,
+        "kernel_runtime_gate": kernel_gate,
         "training_seed_examples": training.get("seed_statistics", {}),
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),

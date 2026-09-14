@@ -12,6 +12,7 @@ from ox_navigator.engine.merlin_kernel_runtime import (
     get_kernel_benchmark_receipts,
     get_compactification_sanity_receipt,
     get_kernel_execution_receipts,
+    get_kernel_promotion_gate_summary,
     get_kernel_runtime_board,
     get_topology_adjacent_board,
 )
@@ -40,6 +41,14 @@ def test_kernel_benchmark_receipts_contract():
     payload = get_kernel_benchmark_receipts(points=32, seed=5, repeats=2)
     assert payload["ok"] is True
     assert payload["receipt"]["benchmarks"]["outer_bb_hotspot"]["repeats"] == 2
+
+
+def test_kernel_promotion_gate_summary_contract():
+    payload = get_kernel_promotion_gate_summary(points=16, seed=5, repeats=2)
+    assert payload["gate_verdict"] in {"pass", "hold", "fail_closed"}
+    check_ids = {item["id"] for item in payload["checks"]}
+    assert {"parity_gate", "benchmark_error_gate", "compactification_sanity_gate"} <= check_ids
+    assert "artifacts" in payload
 
 
 def test_compactification_sanity_receipt_surface():
@@ -85,6 +94,9 @@ def test_server_kernel_runtime_endpoints():
             bench_resp = client.get("/api/psicat/kernel-benchmarks?points=16&seed=3&repeats=2")
             assert bench_resp.status_code == 200
             assert bench_resp.json()["ok"] is True
+            gate_resp = client.get("/api/psicat/kernel-gate?points=16&seed=3&repeats=2")
+            assert gate_resp.status_code == 200
+            assert gate_resp.json()["kernel_gate"]["gate_verdict"] in {"pass", "hold", "fail_closed"}
 
             sanity_resp = client.get("/api/psicat/compactification-sanity")
             assert sanity_resp.status_code in {200, 422}

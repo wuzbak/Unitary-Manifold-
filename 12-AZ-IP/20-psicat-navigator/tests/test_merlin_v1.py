@@ -2924,6 +2924,7 @@ def test_server_merlin_endpoints():
             assert len(frontier.json()['frontier_readiness']['promotion_blockers']) >= 4
             assert frontier.json()['frontier_readiness']['paper_intake_lane']['paper_reference']['id'] == '2508.21593'
             assert 'factuality' in frontier.json()['frontier_readiness']['combined_gate_contract']['required_axes']
+            assert frontier.json()['frontier_readiness']['kernel_runtime_gate']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
             review_packet = client.get('/api/merlin/review-packet?limit=1')
             assert review_packet.status_code == 200
             assert review_packet.json()['ok'] is True
@@ -2993,6 +2994,7 @@ def test_server_merlin_endpoints():
                 for item in execution_board.json()['execution_board']['immediate_tasks']
             )
             assert 'contradiction_recovery' in execution_board.json()['execution_board']['combined_gate_contract']['required_axes']
+            assert execution_board.json()['execution_board']['kernel_runtime_gate']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
             validation_resilience = client.get('/api/merlin/validation-resilience?limit=2')
             assert validation_resilience.status_code == 200
             assert validation_resilience.json()['ok'] is True
@@ -3503,6 +3505,7 @@ def test_run_sync_checks_has_consistency_contract():
         '/api/psicat/kernel-runtime',
         '/api/psicat/kernel-receipts',
         '/api/psicat/kernel-benchmarks',
+        '/api/psicat/kernel-gate',
         '/api/psicat/compactification-sanity',
         '/api/psicat/compactification-ingest',
         '/api/psicat/topology-adjacent',
