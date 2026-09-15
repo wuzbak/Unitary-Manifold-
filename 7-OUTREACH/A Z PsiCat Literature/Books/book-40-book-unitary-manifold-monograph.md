@@ -1,18 +1,18 @@
-# The Unitary Manifold Monograph — Merlin/PsiCat v1 Rewrite
+# The Unitary Manifold Monograph — Present-State Evidence Map (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:25:37Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/books/book-unitary-manifold-monograph.md`*
 
-## A Current-State Book of the Physics, the Ledger, the Repository, and the Public Interface
+## A current-state map of physics claims, ledgers, software surfaces, and open burdens
 
 **Author:** Merlin / GitHub Copilot (AI), at the direction of AxiomZero  
 **Theory, framework, and scientific direction:** ThomasCory Walker-Pearson  
 **Repository:** `wuzbak/Unitary-Manifold-`  
 **Version:** 1.0 — Current-State Monograph Edition — 2026-09-07  
-**Status basis:** Unitary Manifold v36.7 / Sprint CK  
-**Verification basis:** 64,122 passed · 22 skipped · 18 deselected · 0 failed  
+**Status basis:** historical snapshot framing from the source monograph edition  
+**Verification basis:** historical snapshot values in source; see `STATUS.md` for live counts  
 **Audience:** general readers, technical readers, critics, builders, and future stewards
 
 ---
@@ -29,17 +29,15 @@
 
 ## Why This Book Exists
 
-The Unitary Manifold now has more than one origin story.
+The Unitary Manifold has accumulated multiple public entry points: the original high-velocity monograph, later readability-focused rewrites, and a repository that now functions as a living scientific-software object.
 
-There is the first one: the original PDF monograph, written quickly, densely, and with the force of a new idea trying to become formal before it vanished. There is the second: *Version Omega*, the broad public rewrite that tried to make the theory intelligible to readers who were never going to spend a weekend inside raw derivation files. There is the third: the present repository, which no longer exists only as a theory manuscript, but as a codebase, a test corpus, a proof environment, a falsification ledger, a deployment surface, a platform of applications, and an unusually explicit record of human-AI collaboration.
+That creates a comprehension risk. Readers arrive through different doors and can mistake one layer for the whole system: manuscript for status, interface for proof, scale for validity, or correction logs for total failure.
 
-That creates a new problem. A reader can encounter the Unitary Manifold in fragments and come away with the wrong impression. Someone may read the original monograph and miss the later corrections. Someone may read the later outreach writing and not understand what came first. Someone may inspect the applications and mistake the existence of interfaces for proof of the physics. Someone may see the failure ledger and assume nothing of value survives. Someone may see the scale of the repository and assume scale itself is evidence.
+This volume exists to remove that ambiguity. It is a stitched map of what was claimed, what survived correction, what remains unresolved, and where falsification still has real authority.
 
-This book is written to prevent those mistakes.
+It is not a replacement for earlier books. It is the connective tissue between them and the current branch reality.
 
-It is not a replacement for the original PDF. It is not a replacement for *Version Omega*. It is not a compressed sales document. It is a present-tense synthesis: what the founding idea was, what the rewrites tried to do, what the repository became, what remains scientifically live, what has been corrected or withdrawn, what the application and portal surfaces are actually for, and what the next honest pressure points look like.
-
-The governing rule is simple: **the strongest sentence in this book will never be stronger than the evidence currently warrants.**
+The governing rule is unchanged: **no sentence should outrun its evidence class.**
 
 ---
 
@@ -508,4 +506,4 @@ This monograph was synthesized primarily from:
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite certifies three concrete outcomes for this monograph edition: the source narrative is retained but reorganized into an explicit evidence map, historical-versus-live status language is kept distinct so claims remain auditable, and cross-domain readers receive clear boundaries between derivation, interpretation, and open burden.

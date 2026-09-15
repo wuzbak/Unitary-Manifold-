@@ -1,52 +1,48 @@
-# S04E012 — Sprint CB: Targeted Closure Rigor With Deterministic Routing — Merlin/PsiCat v1 Rewrite
+# S04E012 — Sprint CB Targeted Closure: Deterministic Narrowing Without Premature Verdicts (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:25:37Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-309-s04e012-sprint-cb-targeted-closure-rigor.md`*
 
-The claim here is constrained and testable: Sprint CB reduced formal closure burden with deterministic routing while keeping final closure explicitly open. The claim is falsified if “boundary tightened” is rewritten as “closure earned,” or if the remaining Kawamura-independence step disappears from the burden map.
+Sprint CB’s targeted-closure lane is not a declaration of solved mathematics. It is a control decision: reduce ambiguity, reduce rhetorical drift, and leave only burdens that still require decisive proof.
 
-Pillar 1052 is best read as disciplined narrowing, not conclusion.
+What changed is not the existence of uncertainty. What changed is where uncertainty is allowed to hide.
 
-## What changed
+---
 
-- A new Lean4 kernel (`SprintCBDeterministicClosure.lean`) contributed **12 additional theorem kernels** (3988 → 4000).
-- Deterministic closure semantics were encoded in explicit markers:
-  - `DeterministicClosureRule`
-  - `NoLabelInflation`
-  - `OpenLaneCarryForwardExplicit`
-  - `BoundaryTighteningDeterministic`
-  - `KawamuraIndependenceResidualOpen`
-- Formal-open substeps were reduced from a broader prior set to one final listed burden:
-  - **“Full referee-grade Kawamura-independence functional analysis closure proof.”**
-- Closure attempts were explicitly split between lanes that tightened and lanes that remained carry-forward.
+## What Sprint CB actually delivered
 
-## What did not change
+The lane hardened deterministic routing markers, expanded formal traceability artifacts, and collapsed a diffuse burden list into a smaller and more auditable residual set.
 
-- No hardgate runtime flip was claimed.
-- Full Kawamura-independence closure was not claimed.
-- No open-lane label inflation was permitted.
-- The merge-gate dependency remained part of validity conditions.
+That is meaningful progress because it converts “still open” from a vibe into an explicit object.
 
-## Falsification implications
+---
 
-- Internal falsifier: if future communication presents this as full closure before the remaining step is proved, this post should be treated as contradicted.
-- External falsifiers remain untouched; this is a formal-lane tightening sprint.
-- Deterministic routing gives a cleaner future fork: either closure is proved, or the burden remains open in plain language.
+## What this did not deliver
 
-## Residual unknowns
+It did not certify final closure. It did not permit label inflation. It did not erase the remaining Kawamura-independence burden by language.
 
-- The final functional-analysis closure proof is still outstanding.
-- “Reduced burden” is not equivalent to “resolved burden.”
-- Cross-lane open architecture limits remain active despite formal gains.
-- The sprint improved proof discipline but did not end the proof program.
+If future prose turns this narrowing step into a closure claim before that burden is discharged, this post should be treated as contradicted by the record.
 
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
-*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+---
+
+## Why this matters
+
+Research programs often fail in the transition from technical progress to status communication. Sprint CB is useful precisely because it makes that failure mode harder.
+
+Deterministic narrowing protects credibility only if the final unresolved step remains visible until it is genuinely resolved.
+
+---
+
+## Bottom line
+
+This was not the finish line. It was the removal of side doors.
+
+The branch is stronger because one major proof burden is still plainly named.
 
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source sprint’s deterministic-closure intent while tightening the distinction between burden reduction and burden discharge. It keeps the final open proof obligation explicit and audit-visible, with no closure inflation.
