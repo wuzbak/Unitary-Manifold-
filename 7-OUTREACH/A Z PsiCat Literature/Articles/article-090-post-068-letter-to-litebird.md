@@ -32,9 +32,12 @@ n_w = 5 (and a historically analyzed competing n_w = 7 branch), Chern-Simons lev
 C_S = 12/37 — makes the following prediction for the CMB polarization birefringence
 angle β:
 
-**Primary prediction:**
+**Primary prediction (preregistered decision basis):**
 
-    β ∈ {0.273°, 0.331°} (canonical channel)
+    β ∈ {0.273°, 0.331°} (canonical channel; used for pass/fail decision logic below)
+
+**Secondary diagnostic channel (not the primary pass/fail basis):**
+
     β ∈ {0.290°, 0.351°} (derived channel)
 
 The most probable single value, given the Minami-Komatsu (2020) measurement and the
@@ -42,13 +45,13 @@ CS mechanism, is:
 
     β ≈ 0.351°
 
-**Falsification window:**
+**Falsification window (applied to the primary canonical channel):**
 
     β outside [0.22°, 0.38°] → framework falsified outright
     β within the gap [0.29°, 0.31°] → braided-winding mechanism falsified
     β = 0 (at LiteBIRD's precision of ~0.05°) → CS coupling mechanism ruled out
 
-**What would strongly confirm it:**
+**What would strongly confirm it (primary canonical channel):**
 
     β ≈ 0.35° measured with σ(β) ≤ 0.05°, ruling out k_CS = 73 (β ≈ 0.34°)
     and k_CS = 75 (β ≈ 0.36°)

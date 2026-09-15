@@ -27,7 +27,8 @@ and how it was resolved.
 ## The Tension
 
 For a period of the framework's development, the consistency log included the
-following entry:
+following entry (quoted from the historical source draft at
+`/7-OUTREACH/substack/posts/post-078-neutrino-mass-tension-resolved.md`):
 
 *"m_ν₁ = M_KK = 110 meV. Consistent with Planck Σm_ν < 120 meV? **YES.**"*
 

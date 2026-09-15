@@ -42,7 +42,7 @@ were suppressed by a factor of 4–7.
 
 ---
 
-## What Pillars 57 and 63 resolved
+## What Pillars 57 and 63 were documented to resolve at this historical stage
 
 **The root cause (Pillar 52):** The minimal KK-tower transfer function used in earlier
 implementations suppressed the acoustic peak amplitude by ×4–7 relative to Planck 2018.
@@ -58,8 +58,9 @@ term contains a factor (1 + R_b)^(1/4) × exp(...) from baryon-loaded damping. W
 standard cosmology (R_b ≈ 0.61 at z★ = 1090), this factor fully resolves the ×4–7
 amplitude suppression when combined with the overall COBE normalization.
 
-Combined result: the ×4–7 suppression is closed. The framework correctly reproduces
-both the spectral tilt n_s and the acoustic peak amplitude A_s.
+Combined historical result in this post's milestone frame: the ×4–7 suppression
+was recorded as closed, and the framework was reported as reproducing both the
+spectral tilt n_s and the acoustic peak amplitude A_s within that stage's modeling assumptions.
 
 ---
 
