@@ -28,7 +28,7 @@ from .constants import GATE_LABELS
 from .merlin_admission import get_model_admission_policy
 from .merlin_identity import get_identity_policy
 from .merlin_kernel_routing import infer_kernel_for_benchmark_definition, infer_merlin_kernel_id
-from .merlin_masterclass_runtime import get_masterclass_execution_packet
+from .merlin_masterclass_runtime import get_branch_convergence_packet, get_masterclass_execution_packet
 from .merlin_memory import MERLIN_MAX_HISTORY
 from .merlin_router import get_router_policy
 from .merlin_runtime import (
@@ -4531,6 +4531,7 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
 def get_psicat_convergence_charter() -> dict[str, Any]:
     charter_doc_exists = EXECUTION_SPINE_CHARTER_DOC.exists()
     masterclass_packet = get_masterclass_execution_packet(limit=8)
+    branch_packet = get_branch_convergence_packet(limit=8)
     primary_targets = [
         _repo_rel(PRODUCT_ROOT),
         "12-AZ-IP/24-psicat-web-browser",
@@ -4647,6 +4648,7 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
             "support_lanes": list(masterclass_packet.get("support_lanes") or []),
             "trajectory_axes": list(((masterclass_packet.get("observability_layer") or {}).get("trajectory_axes") or [])),
             "swarm_control_actions": list(((masterclass_packet.get("swarm_framework") or {}).get("control_actions") or [])),
+            "branch_review_endpoint": ((branch_packet.get("execution_spine") or {}).get("compatibility") or {}).get("review_endpoint"),
         },
         "completion_maps": {
             "canonical_truth_surfaces": [
@@ -4667,6 +4669,7 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
         "phases": phases,
         "sanity_rules": sanity_rules,
         "masterclass_execution_packet": masterclass_packet,
+        "branch_convergence_packet": branch_packet,
         "acceptance_gates": [
             "Shared artifact and readiness surfaces expose one execution-spine contract.",
             "PsiCat remains the canonical control plane for governed orchestration.",
@@ -4693,6 +4696,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     rhythm = get_operating_rhythm()
     convergence_charter = get_psicat_convergence_charter()
     masterclass_packet = get_masterclass_execution_packet(limit=max(4, int(limit if limit is not None else 2)))
+    branch_packet = get_branch_convergence_packet(limit=max(4, int(limit if limit is not None else 2)))
     stage_reviews = list(review_packet.get("stage_reviews") or [])
     open_blockers = list(review_packet.get("open_blockers") or [])
     kernel_gate = get_kernel_promotion_gate_summary()
@@ -4783,6 +4787,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
         },
         "convergence_charter": convergence_charter,
         "masterclass_execution_packet": masterclass_packet,
+        "branch_convergence_packet": branch_packet,
         "immediate_tasks": [
             {
                 "task_id": "CL-0",

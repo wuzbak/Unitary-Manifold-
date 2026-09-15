@@ -42,7 +42,12 @@ from .merlin_benchmark import (
     run_stage_domain_head_to_head_receipts_sync,
 )
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
-from .merlin_masterclass_runtime import analyze_swarm_trajectory, get_masterclass_execution_packet
+from .merlin_masterclass_runtime import (
+    analyze_swarm_trajectory,
+    get_branch_convergence_packet,
+    get_masterclass_execution_packet,
+    review_branch_convergence,
+)
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
     build_ast_context_training_records,
@@ -358,6 +363,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
             {"name": "analyzePsiCatSwarmTrajectory", "summary": "Classify coordinated swarm pressure into trusted, watch, quarantine, or hostile states", "domain": "functions"},
+            {"name": "getPsiCatBranchConvergence", "summary": "Return branch-aware convergence packet with dependency and collision posture", "domain": "functions"},
+            {"name": "reviewPsiCatBranchConvergence", "summary": "Validate branch intent, dependency, collision, and promotion evidence before convergence moves", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
             {"name": "getMerlinBackendPolicy", "summary": "Return backend expansion policy controls", "domain": "functions"},
             {"name": "getMerlinWorkspacePolicy", "summary": "Return governed back-room workspace policy", "domain": "functions"},
@@ -497,6 +504,22 @@ def _tool_manifest() -> dict[str, Any]:
                     "source": {"type": "string"},
                 },
                 "required": ["events"],
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
+        "getPsiCatBranchConvergence": {"args_schema": {"type": "object", "properties": {"limit": {"type": "integer"}}, "additionalProperties": False}},
+        "reviewPsiCatBranchConvergence": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "intent": {"type": "object"},
+                    "dependency_map": {"type": "object"},
+                    "collision_review": {"type": "object"},
+                    "promotion_request": {"type": "object"},
+                    "changed_paths": {"type": "array"},
+                    "limit": {"type": "integer"},
+                },
                 "additionalProperties": False,
             },
             "risk_level": "medium",
@@ -1267,6 +1290,17 @@ _FUNCTIONS = {
         list(args.get("events") or []),
         allow_internal_swarm=bool(args.get("allow_internal_swarm", True)),
         source=str(args.get("source") or "tool"),
+    )},
+    "getPsiCatBranchConvergence": lambda **args: {"data": get_branch_convergence_packet(
+        limit=_coerce_positive_int(args.get("limit"), 8),
+    )},
+    "reviewPsiCatBranchConvergence": lambda **args: {"data": review_branch_convergence(
+        intent=args.get("intent") if isinstance(args.get("intent"), dict) else None,
+        dependency_map=args.get("dependency_map") if isinstance(args.get("dependency_map"), dict) else None,
+        collision_review=args.get("collision_review") if isinstance(args.get("collision_review"), dict) else None,
+        promotion_request=args.get("promotion_request") if isinstance(args.get("promotion_request"), dict) else None,
+        changed_paths=list(args.get("changed_paths") or []) if isinstance(args.get("changed_paths"), list) else None,
+        limit=_coerce_positive_int(args.get("limit"), 8),
     )},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
     "getMerlinBackendPolicy": lambda **args: {"data": get_backend_expansion_policy()},

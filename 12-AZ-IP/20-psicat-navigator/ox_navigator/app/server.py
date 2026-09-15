@@ -91,7 +91,12 @@ from ox_navigator.engine.merlin_program import (
     get_sentinel_enforcement_policy,
     run_sync_checks,
 )
-from ox_navigator.engine.merlin_masterclass_runtime import analyze_swarm_trajectory, get_masterclass_execution_packet
+from ox_navigator.engine.merlin_masterclass_runtime import (
+    analyze_swarm_trajectory,
+    get_branch_convergence_packet,
+    get_masterclass_execution_packet,
+    review_branch_convergence,
+)
 from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
 from ox_navigator.engine.merlin_rag import build_context_scaffold, render_context_scaffold
 from ox_navigator.engine.merlin_router import get_router_policy
@@ -1496,6 +1501,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/branch-convergence':
+                limit, error = _parse_int_query_param(params, 'limit', 8)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'branch_convergence': get_branch_convergence_packet(limit=max(1, limit)),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/validation-resilience':
                 limit, error = _parse_int_query_param(params, 'limit', 5)
                 if error:
@@ -1707,6 +1723,29 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({
                         'ok': True,
                         'swarm_analysis': analysis,
+                    })
+                    self._persist_session(session_id, merlin_session)
+                    return
+                if route_path == '/api/psicat/branch-convergence-review':
+                    changed_paths = payload.get('changed_paths')
+                    if changed_paths is not None and not isinstance(changed_paths, list):
+                        self._json({'ok': False, 'error': 'changed_paths must be an array when provided'}, status=400)
+                        return
+                    limit = payload.get('limit', 8)
+                    if not isinstance(limit, int):
+                        self._json({'ok': False, 'error': 'limit must be an integer when provided'}, status=400)
+                        return
+                    review = review_branch_convergence(
+                        intent=payload.get('intent') if isinstance(payload.get('intent'), dict) else None,
+                        dependency_map=payload.get('dependency_map') if isinstance(payload.get('dependency_map'), dict) else None,
+                        collision_review=payload.get('collision_review') if isinstance(payload.get('collision_review'), dict) else None,
+                        promotion_request=payload.get('promotion_request') if isinstance(payload.get('promotion_request'), dict) else None,
+                        changed_paths=[str(item) for item in changed_paths] if isinstance(changed_paths, list) else None,
+                        limit=max(1, limit),
+                    )
+                    self._json({
+                        'ok': True,
+                        'branch_convergence_review': review,
                     })
                     self._persist_session(session_id, merlin_session)
                     return

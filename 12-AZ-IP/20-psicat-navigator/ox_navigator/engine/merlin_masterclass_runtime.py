@@ -22,6 +22,18 @@ PRODUCT_ROOT = Path(__file__).resolve().parents[2]
 EXECUTION_SPINE_CHARTER_DOC = REPO_ROOT / "9-INFRASTRUCTURE" / "EXECUTION_SPINE_CONVERGENCE_CHARTER.md"
 EXECUTION_BOARD_DOC = PRODUCT_ROOT / "PSICAT_EXECUTION_BOARD.md"
 README_DOC = PRODUCT_ROOT / "README.md"
+CANONICAL_TRUTH_SURFACES = (
+    "STATUS.md",
+    "FALLIBILITY.md",
+    "docs/mas_tracker.yml",
+    "docs/CLAIM_MASTER_BOARD.md",
+    "docs/GATEKEEPER_SUMMARY.md",
+    "docs/TRUTH_LAYER.md",
+    "docs/WAVE_CHANGELOG.md",
+    "docs/SPRINT_PLAN.md",
+    "9-INFRASTRUCTURE/um_live_status.json",
+)
+PROMOTION_ACTIONS = {"merge", "promote", "rebase", "sync"}
 
 
 def _utcnow() -> str:
@@ -83,6 +95,358 @@ def _visible_branch_rows(limit: int = 16) -> list[dict[str, Any]]:
             }
         )
     return rows
+
+
+def _git_status_rows(limit: int = 32) -> list[dict[str, Any]]:
+    raw = _run_git("status", "--porcelain", "--untracked-files=all")
+    rows: list[dict[str, Any]] = []
+    for line in raw.splitlines():
+        if not line.strip():
+            continue
+        code = line[:2].strip() or "??"
+        path = line[3:].strip()
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1].strip()
+        if not path:
+            continue
+        rows.append({"code": code, "path": path})
+        if len(rows) >= max(1, int(limit)):
+            break
+    return rows
+
+
+def _unique_paths(values: list[str]) -> list[str]:
+    deduped: list[str] = []
+    for value in values:
+        item = str(value or "").strip()
+        if item and item not in deduped:
+            deduped.append(item)
+    return deduped
+
+
+def _path_matches_any(path: str, candidates: tuple[str, ...]) -> bool:
+    return any(path == candidate or path.startswith(f"{candidate.rstrip('/')}/") for candidate in candidates)
+
+
+def _branch_dependency_map(changed_paths: list[str]) -> dict[str, Any]:
+    truth_surfaces = [path for path in changed_paths if _path_matches_any(path, CANONICAL_TRUTH_SURFACES)]
+    product_surfaces = [path for path in changed_paths if path.startswith("12-AZ-IP/20-psicat-navigator/")]
+    governance_surfaces = [
+        path for path in changed_paths
+        if path.startswith("9-INFRASTRUCTURE/") or path.startswith("docs/") or path in {"STATUS.md", "FALLIBILITY.md"}
+    ]
+    test_surfaces = [
+        path for path in changed_paths
+        if path.startswith("tests/") or "/tests/" in path or path.startswith("5-GOVERNANCE/Unitary Pentad/")
+    ]
+    return {
+        "changed_paths": list(changed_paths),
+        "truth_surface_dependencies": truth_surfaces,
+        "product_surface_dependencies": product_surfaces,
+        "governance_surface_dependencies": governance_surfaces,
+        "test_surface_dependencies": test_surfaces,
+        "sync_required": bool(truth_surfaces),
+        "dependency_evidence_required": [
+            "upstream_branch",
+            "touched_surfaces",
+            "sync_plan",
+            "validation_scope",
+        ],
+    }
+
+
+def _clone_visibility_summary(visible_branches: list[dict[str, Any]]) -> dict[str, Any]:
+    local_count = sum(str(item.get("scope") or "") in {"current", "local"} for item in visible_branches)
+    remote_count = sum(str(item.get("scope") or "") == "remote" for item in visible_branches)
+    clone_limited = len(visible_branches) <= 2 and local_count <= 1 and remote_count <= 1
+    return {
+        "visible_branch_count": len(visible_branches),
+        "local_branch_count": local_count,
+        "remote_branch_count": remote_count,
+        "clone_limited": clone_limited,
+    }
+
+
+def _branch_collision_review(
+    *,
+    current_branch: str,
+    visible_branches: list[dict[str, Any]],
+    changed_paths: list[str],
+    dependency_map: dict[str, Any],
+) -> dict[str, Any]:
+    reasons: list[str] = []
+    touched_truth = list(dependency_map.get("truth_surface_dependencies") or [])
+    if changed_paths:
+        reasons.append("working_tree_has_pending_changes")
+    if touched_truth:
+        reasons.append("canonical_truth_surfaces_touched")
+    visibility = _clone_visibility_summary(visible_branches)
+    if visibility["clone_limited"]:
+        reasons.append("partial_branch_visibility")
+    if current_branch.startswith("copilot/"):
+        reasons.append("task_branch_requires_user_directed_promotion")
+    risk_level = "low"
+    if changed_paths:
+        risk_level = "medium"
+    if touched_truth or len(reasons) >= 3:
+        risk_level = "high"
+    return {
+        "risk_level": risk_level,
+        "reasons": reasons,
+        "overlapping_surfaces": _unique_paths(touched_truth + changed_paths)[:12],
+        "review_required": bool(reasons),
+        "visibility_limit_note": (
+            "Only locally visible branches can be collision-checked automatically; hidden remote refs still require human review."
+        ),
+    }
+
+
+def _missing_string_fields(payload: dict[str, Any] | None, fields: list[str]) -> list[str]:
+    if not isinstance(payload, dict):
+        return list(fields)
+    missing: list[str] = []
+    for field in fields:
+        if not str(payload.get(field) or "").strip():
+            missing.append(field)
+    return missing
+
+
+def _has_list_field(payload: dict[str, Any] | None, field: str) -> bool:
+    return isinstance(payload, dict) and isinstance(payload.get(field), list) and bool(payload.get(field))
+
+
+def get_branch_convergence_packet(limit: int = 16) -> dict[str, Any]:
+    cap = max(1, int(limit))
+    current_branch = _run_git("branch", "--show-current") or "unknown"
+    upstream_branch = _run_git("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}") or ""
+    visible_branches = _visible_branch_rows(limit=cap)
+    status_rows = _git_status_rows(limit=max(8, cap * 2))
+    changed_paths = _unique_paths([str(item.get("path") or "") for item in status_rows])
+    dependency_map = _branch_dependency_map(changed_paths)
+    visibility = _clone_visibility_summary(visible_branches)
+    collision_review = _branch_collision_review(
+        current_branch=current_branch,
+        visible_branches=visible_branches,
+        changed_paths=changed_paths,
+        dependency_map=dependency_map,
+    )
+    health_checks = [
+        ExecutionSpineHealthCheck(
+            check_id="branch_identity_captured",
+            passed=bool(current_branch),
+            status="pass" if current_branch else "fail",
+            summary="The current branch identity must be visible before convergence review can proceed.",
+            details={"current_branch": current_branch, "upstream_branch": upstream_branch},
+            sources=["git branch --show-current", "git rev-parse --abbrev-ref --symbolic-full-name @{upstream}"],
+        ),
+        ExecutionSpineHealthCheck(
+            check_id="working_tree_state_captured",
+            passed=True,
+            status="pass",
+            summary="Pending path state must remain visible so convergence decisions cannot hide active overlap.",
+            details={"changed_path_count": len(changed_paths), "working_tree_clean": not bool(changed_paths)},
+            sources=["git status --porcelain --untracked-files=all"],
+        ),
+        ExecutionSpineHealthCheck(
+            check_id="clone_visibility_classified",
+            passed=bool(visible_branches),
+            status="pass" if visible_branches else "fail",
+            summary="Visible local and remote refs must be classified, even when the clone is shallow or partial.",
+            details=visibility,
+            sources=["git branch --format", "git branch --remotes --format"],
+        ),
+    ]
+    execution_spine = ExecutionSpineRecord(
+        surface_id="psicat_branch_convergence_packet",
+        surface_kind="branch_convergence_packet",
+        lane="monorepo_branch_convergence",
+        status="ACTIVE_BRANCH_CONVERGENCE_PACKET",
+        summary="Branch-aware convergence packet capturing visible refs, dependency overlap, collision risk, and promotion authority rules.",
+        canonical_paths=[
+            _repo_rel(README_DOC),
+            _repo_rel(EXECUTION_BOARD_DOC),
+            _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+        ],
+        sources=[
+            _repo_rel(README_DOC),
+            _repo_rel(EXECUTION_BOARD_DOC),
+            _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+            "git status --porcelain --untracked-files=all",
+        ],
+        governance=build_fail_closed_governance(
+            epistemic_label="GOVERNANCE",
+            promotion_rule="Convergence packets expose evidence requirements and review posture; they do not authorize automatic promotion or merge.",
+            residual_blockers=[
+                "Only visible refs in the local clone can be analyzed automatically.",
+                "Merge or promotion authority remains user-directed and evidence-backed.",
+            ],
+        ),
+        compatibility={
+            "primary_endpoint": "/api/psicat/branch-convergence",
+            "review_endpoint": "/api/psicat/branch-convergence-review",
+            "legacy_endpoints": ["/api/merlin/branch-convergence", "/api/ox/branch-convergence"],
+        },
+        health_checks=health_checks,
+        promotion={
+            "eligible": False,
+            "gate": "human_convergence_review_required",
+            "reason": "Branch convergence stays review-gated and cannot self-authorize merge or promotion.",
+        },
+    ).to_dict()
+    return {
+        "generated_at": _utcnow(),
+        "execution_spine": execution_spine,
+        "branch_convergence": {
+            "current_branch": current_branch,
+            "upstream_branch": upstream_branch,
+            "visible_branches": visible_branches,
+            "branch_visibility": visibility,
+            "working_tree": {
+                "is_clean": not bool(changed_paths),
+                "changed_path_count": len(changed_paths),
+                "changed_paths": changed_paths[: max(8, cap)],
+                "status_rows": status_rows[: max(8, cap)],
+            },
+            "intent_requirements": [
+                "branch_class",
+                "objective",
+                "change_scope",
+                "expected_merge_or_promotion_path",
+            ],
+            "dependency_map": {
+                **dependency_map,
+                "canonical_truth_surfaces": list(CANONICAL_TRUTH_SURFACES),
+            },
+            "collision_review": collision_review,
+            "promotion_authority": {
+                "automatic_merge_allowed": False,
+                "authority_model": "user_directed_branch_promotion",
+                "required_evidence": [
+                    "intent_packet",
+                    "dependency_map",
+                    "collision_strategy",
+                    "validation_receipts",
+                    "promotion_request",
+                ],
+                "visibility_constraint": (
+                    "When clone visibility is partial, human acknowledgement is required before merge, rebase, sync, or promotion."
+                ),
+            },
+            "readiness": {
+                "state": "working_tree_active" if changed_paths else "state_captured_clean",
+                "automatic_convergence_allowed": False,
+                "human_review_required": True,
+                "clone_visibility_limited": visibility["clone_limited"],
+            },
+        },
+    }
+
+
+def review_branch_convergence(
+    *,
+    intent: dict[str, Any] | None = None,
+    dependency_map: dict[str, Any] | None = None,
+    collision_review: dict[str, Any] | None = None,
+    promotion_request: dict[str, Any] | None = None,
+    changed_paths: list[str] | None = None,
+    limit: int = 16,
+) -> dict[str, Any]:
+    packet = get_branch_convergence_packet(limit=max(1, int(limit)))
+    branch_state = dict(packet.get("branch_convergence") or {})
+    live_changed_paths = list(((branch_state.get("working_tree") or {}).get("changed_paths")) or [])
+    effective_changed_paths = _unique_paths(
+        [str(item) for item in list(changed_paths or [])] if isinstance(changed_paths, list) else live_changed_paths
+    ) or live_changed_paths
+    live_dependency_map = _branch_dependency_map(effective_changed_paths)
+    visibility = dict(branch_state.get("branch_visibility") or {})
+    intent_payload = dict(intent or {})
+    dependency_payload = dict(dependency_map or {})
+    collision_payload = dict(collision_review or {})
+    promotion_payload = dict(promotion_request or {})
+    requested_action = str(promotion_payload.get("requested_action") or "hold").strip().lower() or "hold"
+    missing_fields = {
+        "intent": _missing_string_fields(
+            intent_payload,
+            ["branch_class", "objective", "change_scope", "expected_merge_or_promotion_path"],
+        ),
+        "dependency_map": _missing_string_fields(
+            dependency_payload,
+            ["upstream_branch", "sync_plan"],
+        ),
+        "collision_review": _missing_string_fields(collision_payload, ["conflict_strategy"]),
+        "promotion_request": [],
+    }
+    if not _has_list_field(dependency_payload, "validation_scope"):
+        missing_fields["dependency_map"].append("validation_scope")
+    if not _has_list_field(collision_payload, "overlapping_surfaces"):
+        missing_fields["collision_review"].append("overlapping_surfaces")
+    if requested_action in PROMOTION_ACTIONS:
+        missing_fields["promotion_request"].extend(
+            _missing_string_fields(promotion_payload, ["authority", "evidence_packet"])
+        )
+        if visibility.get("clone_limited") and promotion_payload.get("visible_branch_limit_acknowledged") is not True:
+            missing_fields["promotion_request"].append("visible_branch_limit_acknowledged")
+    blockers: list[str] = []
+    if missing_fields["intent"]:
+        blockers.append("branch_intent_incomplete")
+    if missing_fields["dependency_map"]:
+        blockers.append("dependency_evidence_incomplete")
+    if missing_fields["collision_review"]:
+        blockers.append("collision_review_incomplete")
+    if requested_action in PROMOTION_ACTIONS and missing_fields["promotion_request"]:
+        blockers.append("promotion_request_incomplete")
+    if live_dependency_map["truth_surface_dependencies"] and not str(dependency_payload.get("sync_plan") or "").strip():
+        blockers.append("canonical_truth_sync_plan_required")
+    if requested_action in PROMOTION_ACTIONS and visibility.get("clone_limited") and promotion_payload.get("visible_branch_limit_acknowledged") is not True:
+        blockers.append("clone_visibility_acknowledgement_required")
+    if requested_action in PROMOTION_ACTIONS and str(promotion_payload.get("authority") or "").strip() not in {
+        "user",
+        "user_directed",
+        "manual_user_promotion",
+        "steward_review",
+    }:
+        blockers.append("manual_promotion_authority_required")
+    review_verdict = (
+        "ready_for_human_convergence_review"
+        if requested_action in PROMOTION_ACTIONS and not blockers
+        else "hold"
+    )
+    evidence_complete = {
+        section: not bool(items)
+        for section, items in missing_fields.items()
+    }
+    recommended_actions = [
+        "capture_branch_intent",
+        "attach_dependency_map",
+        "attach_collision_strategy",
+        "attach_validation_receipts",
+    ]
+    if live_dependency_map["truth_surface_dependencies"]:
+        recommended_actions.append("synchronize_canonical_truth_surfaces")
+    if visibility.get("clone_limited"):
+        recommended_actions.append("acknowledge_partial_clone_visibility")
+    if requested_action in PROMOTION_ACTIONS:
+        recommended_actions.append("route_to_user_directed_promotion_review")
+    return {
+        "review_id": "psicat_branch_convergence_review_v1",
+        "generated_at": _utcnow(),
+        "review_verdict": review_verdict,
+        "requested_action": requested_action,
+        "current_branch": branch_state.get("current_branch"),
+        "upstream_branch": branch_state.get("upstream_branch"),
+        "changed_paths": effective_changed_paths,
+        "live_dependency_map": live_dependency_map,
+        "evidence_complete": evidence_complete,
+        "missing_fields": missing_fields,
+        "blockers": blockers,
+        "recommended_actions": _unique_paths(recommended_actions),
+        "policy": {
+            "automatic_merge_allowed": False,
+            "human_review_required": True,
+            "user_directed_promotion_only": True,
+            "clone_visibility_limited": bool(visibility.get("clone_limited")),
+        },
+    }
 
 
 def _endpoint_pressure(events: list[dict[str, Any]]) -> dict[str, Any]:
@@ -219,7 +583,8 @@ def analyze_swarm_trajectory(
 
 
 def get_masterclass_execution_packet(limit: int = 16) -> dict[str, Any]:
-    branches = _visible_branch_rows(limit=limit)
+    branch_packet = get_branch_convergence_packet(limit=limit)
+    branches = list(((branch_packet.get("branch_convergence") or {}).get("visible_branches")) or [])
     health_checks = [
         ExecutionSpineHealthCheck(
             check_id="execution_spine_charter_present",
@@ -423,16 +788,7 @@ def get_masterclass_execution_packet(limit: int = 16) -> dict[str, Any]:
                 "no_claim_inflation",
             ],
         },
-        "branch_convergence": {
-            "visible_branches": branches,
-            "intent_requirements": [
-                "branch_class",
-                "dependency_map",
-                "collision_review",
-                "promotion_authority",
-            ],
-            "visibility_limit_note": "Only branches visible in the current local clone can be classified automatically; hidden adjacent branches require explicit human context or fetch.",
-        },
+        "branch_convergence": dict(branch_packet.get("branch_convergence") or {}),
         "immediate_execution_packet": [
             "freeze_doctrine",
             "classify_visible_branches",
