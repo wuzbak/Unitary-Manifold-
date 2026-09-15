@@ -64,7 +64,8 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
             'id': str(item.get('id') or ''),
             'label': str(item.get('label') or ''),
             'status': str(item.get('status') or ''),
-            'earned': str(item.get('status') or '') == 'EARNED',
+            'earned': bool(item.get('earned')),
+            'promotion_complete': str(item.get('status') or '') == 'EARNED',
             'progress_state': (
                 'PROMOTION_COMPLETE'
                 if str(item.get('status') or '') == 'EARNED'
@@ -93,16 +94,19 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         (
             item['status'] == 'EARNED'
             and item['earned']
+            and item['promotion_complete']
             and item['progress_state'] == 'PROMOTION_COMPLETE'
         )
         or (
             item['status'] == 'EVIDENCE_SURFACED'
-            and not item['earned']
+            and item['earned']
+            and not item['promotion_complete']
             and item['progress_state'] == 'EVIDENCE_SURFACED'
         )
         or (
             item['status'] in promotion_blocking_statuses
             and not item['earned']
+            and not item['promotion_complete']
             and item['progress_state'] == 'OPEN'
         )
         for item in primary_deliverables
@@ -111,6 +115,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         len(primary_deliverables) == 3
         and all(
             item['earned']
+            and item['promotion_complete']
             and item['status'] == 'EARNED'
             and item['progress_state'] == 'PROMOTION_COMPLETE'
             for item in primary_deliverables
