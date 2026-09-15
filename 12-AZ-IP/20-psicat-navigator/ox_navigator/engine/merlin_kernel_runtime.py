@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+from math import ceil
 from pathlib import Path
 from typing import Any
 
@@ -23,13 +24,18 @@ MAX_KERNEL_REPEATS = 32
 
 
 def _bounded_kernel_inputs(points: int, repeats: int | None = None) -> dict[str, Any]:
-    requested_points = int(points)
+    requested_points = max(1, int(points))
     bounded_points = max(1, min(requested_points, MAX_KERNEL_POINTS))
+    estimated_batches = int(ceil(requested_points / MAX_KERNEL_POINTS))
     payload: dict[str, Any] = {
         "requested_points": requested_points,
         "points": bounded_points,
         "points_bounded": bounded_points != requested_points,
         "max_points": MAX_KERNEL_POINTS,
+        "recommended_chunk_points": MAX_KERNEL_POINTS,
+        "estimated_batches_for_requested_points": estimated_batches,
+        "batching_recommended": estimated_batches > 1,
+        "chunk_policy": "For oversized requests, run multiple bounded calls instead of one loop-heavy oversized call.",
     }
     if repeats is not None:
         requested_repeats = int(repeats)
@@ -311,6 +317,7 @@ def get_kernel_governance_packet(points: int = 32, seed: int = 13, repeats: int 
         "gate": gate,
         "risk": risk,
         "escalation": escalation,
+        "data_volume_strategy": dict(gate.get("input_contract") or {}),
     }
 
 

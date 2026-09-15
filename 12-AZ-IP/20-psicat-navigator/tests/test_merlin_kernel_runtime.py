@@ -112,6 +112,9 @@ def test_kernel_input_contract_bounds_large_requests():
     assert payload["gate"]["input_contract"]["bounded"] is True
     assert payload["gate"]["input_contract"]["points"] == 512
     assert payload["gate"]["input_contract"]["repeats"] == 32
+    assert payload["gate"]["input_contract"]["estimated_batches_for_requested_points"] == 196
+    assert payload["gate"]["input_contract"]["batching_recommended"] is True
+    assert payload["data_volume_strategy"]["recommended_chunk_points"] == 512
 
 
 def test_compactification_sanity_receipt_surface():
@@ -173,6 +176,7 @@ def test_server_kernel_runtime_endpoints():
             bounded_resp = client.get("/api/psicat/kernel-governance?points=100000&seed=3&repeats=1000")
             assert bounded_resp.status_code == 200
             assert bounded_resp.json()["kernel_governance"]["gate"]["input_contract"]["bounded"] is True
+            assert bounded_resp.json()["kernel_governance"]["data_volume_strategy"]["estimated_batches_for_requested_points"] == 196
 
             sanity_resp = client.get("/api/psicat/compactification-sanity")
             assert sanity_resp.status_code in {200, 422}

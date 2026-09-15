@@ -1940,6 +1940,7 @@ def test_route_tool_kernel_runtime_surfaces():
     assert governance['result']['data']['packet_id'] == 'psicat_kernel_governance_packet_v1'
     assert governance['result']['data']['gate']['input_contract']['bounded'] is False
     assert governance_bounded['result']['data']['gate']['input_contract']['bounded'] is True
+    assert governance_bounded['result']['data']['data_volume_strategy']['estimated_batches_for_requested_points'] == 196
     assert compactification['result']['data']['policy']['unchecked_bypass_forbidden'] is True
     assert topology['result']['data']['summary']['lane'] == 'ADJACENT_TRACK'
 
