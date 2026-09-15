@@ -10,8 +10,9 @@ is missing or incomplete.
 ## Sprint objective
 
 Operationalize Merlin's benchmark ladder, deepen kernel-specific training
-coverage, harden the heavy reasoning lane, and preserve honest fail-closed
-validation when hosted review or CodeQL coverage is unavailable.
+coverage, harden the heavy reasoning lane, preserve honest fail-closed
+validation when hosted review or CodeQL coverage is unavailable, and bind the
+geometry-first/swarm-safe execution packet into the control plane.
 
 ## Active acceleration package (this PR)
 
@@ -39,6 +40,9 @@ Monorepo convergence charter: `/api/psicat/convergence-charter` and `9-INFRASTRU
 | CL-3 | Training data | High | Expand Sage/Auditor/Gate failure-driven corpus coverage, including review-tool outage and CodeQL oversize handling | Kernel splits contain deeper failure-mode examples, not only canonical summaries |
 | CL-4 | Model board | High | Move compact/default/heavy candidates through explicit shortlist discipline | Each tier has a lead candidate, shadow candidate, and hold/reject rule |
 | CL-5 | Validation resilience | High | Teach Merlin to handle missing hosted review and skipped CodeQL honestly and usefully | Merlin preserves missing-scan truth and routes remediation work instead of false clearance |
+| CL-9 | Geometry-first runtime | Highest | Bind coherence, contradiction, barriers, and trajectory classes into one machine-readable execution packet | Runtime surfaces expose structural state classes and shared receipt fields rather than vague scorecards |
+| CL-10 | Swarm defense | Highest | Detect trusted, noisy, suspicious, quarantined, and hostile coordinated trajectories with explicit non-offensive controls | Swarm analysis can route traffic into observe/hold/quarantine/sandbox/training outcomes |
+| CL-11 | Branch convergence | High | Capture visible branch state and require intent/dependency/collision evidence before promotion or merge | Branch-aware execution remains explicit even when only partial refs are visible locally |
 
 ---
 
@@ -104,6 +108,10 @@ and CodeQL scope-reduction strategy.
 ## Targeted full-rigor sprint packet
 
 Use `/api/merlin/targeted-rigor-sprint` (or `/api/psicat/targeted-rigor-sprint`) when the objective is explicit proof that PsiCat both trains and works in one bounded run.
+
+Use `/api/psicat/masterclass-execution` for the integrated geometry-first,
+swarm-safe, branch-aware execution packet, and `POST /api/psicat/swarm-analyze`
+for bounded classification of coordinated pressure into trusted/watch/quarantine/hostile states.
 
 The packet executes:
 

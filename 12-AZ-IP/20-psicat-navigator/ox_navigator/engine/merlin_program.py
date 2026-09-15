@@ -28,6 +28,7 @@ from .constants import GATE_LABELS
 from .merlin_admission import get_model_admission_policy
 from .merlin_identity import get_identity_policy
 from .merlin_kernel_routing import infer_kernel_for_benchmark_definition, infer_merlin_kernel_id
+from .merlin_masterclass_runtime import get_masterclass_execution_packet
 from .merlin_memory import MERLIN_MAX_HISTORY
 from .merlin_router import get_router_policy
 from .merlin_runtime import (
@@ -76,6 +77,7 @@ PRIMARY_PSICAT_EXECUTION_SPINE_ENDPOINTS = (
     "/api/psicat/topology-adjacent",
     "/api/psicat/execution-board",
     "/api/psicat/convergence-charter",
+    "/api/psicat/masterclass-execution",
     "/api/psicat/validation-resilience",
     "/api/psicat/benchmark-artifacts",
     "/api/psicat/training-artifacts",
@@ -4528,6 +4530,7 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
 
 def get_psicat_convergence_charter() -> dict[str, Any]:
     charter_doc_exists = EXECUTION_SPINE_CHARTER_DOC.exists()
+    masterclass_packet = get_masterclass_execution_packet(limit=8)
     primary_targets = [
         _repo_rel(PRODUCT_ROOT),
         "12-AZ-IP/24-psicat-web-browser",
@@ -4638,6 +4641,13 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
             ],
         ),
         "thesis": "Consolidate the monorepo around one execution spine, one governed control plane, and explicit adjacent-lane boundaries.",
+        "command_doctrine": list(masterclass_packet.get("command_doctrine") or []),
+        "geometry_first_overlay": {
+            "primary_lane": masterclass_packet.get("primary_lane"),
+            "support_lanes": list(masterclass_packet.get("support_lanes") or []),
+            "trajectory_axes": list(((masterclass_packet.get("observability_layer") or {}).get("trajectory_axes") or [])),
+            "swarm_control_actions": list(((masterclass_packet.get("swarm_framework") or {}).get("control_actions") or [])),
+        },
         "completion_maps": {
             "canonical_truth_surfaces": [
                 "STATUS.md",
@@ -4656,11 +4666,13 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
         },
         "phases": phases,
         "sanity_rules": sanity_rules,
+        "masterclass_execution_packet": masterclass_packet,
         "acceptance_gates": [
             "Shared artifact and readiness surfaces expose one execution-spine contract.",
             "PsiCat remains the canonical control plane for governed orchestration.",
             "Quantum execution remains explicit as an adjacent lane with optional backend disclosure.",
             "Consumer products resolve through shared status and artifact surfaces wherever active integration exists.",
+            "Geometry-first governance and swarm-safe control remain explicit, bounded, and non-offensive.",
         ],
     }
 
@@ -4680,6 +4692,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     resilience = get_merlin_validation_resilience_packet(limit=max(3, int(limit if limit is not None else 2)))
     rhythm = get_operating_rhythm()
     convergence_charter = get_psicat_convergence_charter()
+    masterclass_packet = get_masterclass_execution_packet(limit=max(4, int(limit if limit is not None else 2)))
     stage_reviews = list(review_packet.get("stage_reviews") or [])
     open_blockers = list(review_packet.get("open_blockers") or [])
     kernel_gate = get_kernel_promotion_gate_summary()
@@ -4769,6 +4782,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             "objective": review_packet.get("sprint_objective", ""),
         },
         "convergence_charter": convergence_charter,
+        "masterclass_execution_packet": masterclass_packet,
         "immediate_tasks": [
             {
                 "task_id": "CL-0",
@@ -4832,6 +4846,27 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "priority": "high",
                 "task": "Advance Lane E with XDiag bridge and many-body learning benchmarks while keeping adjacent/non-hardgate labels explicit.",
                 "success_condition": "Quantum lane outputs retain ADJACENT_TRACK labeling with benchmark and provenance receipts attached.",
+            },
+            {
+                "task_id": "CL-9",
+                "lane": "geometry_first_runtime",
+                "priority": "highest",
+                "task": "Bind the geometry-first execution packet into runtime so coherence, contradiction, barriers, and trajectory classes remain first-class governance objects.",
+                "success_condition": "Execution surfaces expose structural state classes, allowed transitions, and shared receipt fields rather than vague scorecards alone.",
+            },
+            {
+                "task_id": "CL-10",
+                "lane": "swarm_defense",
+                "priority": "highest",
+                "task": "Detect bounded internal swarms and hostile coordinated pressure through structural observability, quarantine, and sandbox routing.",
+                "success_condition": "Swarm analysis distinguishes trusted, noisy, suspicious, quarantine, and hostile trajectories with explicit non-offensive controls.",
+            },
+            {
+                "task_id": "CL-11",
+                "lane": "branch_convergence",
+                "priority": "high",
+                "task": "Capture visible branch state and require intent, dependency, collision, and promotion evidence before convergence moves.",
+                "success_condition": "Branch-aware execution remains explicit even when only partial local refs are visible in the clone.",
             },
         ],
         "blocker_register": [

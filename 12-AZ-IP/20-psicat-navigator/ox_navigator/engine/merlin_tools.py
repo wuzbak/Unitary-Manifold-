@@ -42,6 +42,7 @@ from .merlin_benchmark import (
     run_stage_domain_head_to_head_receipts_sync,
 )
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
+from .merlin_masterclass_runtime import analyze_swarm_trajectory, get_masterclass_execution_packet
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
     build_ast_context_training_records,
@@ -356,6 +357,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinTrainingChallengePack", "summary": "Return deterministic challenge drills prioritized by stale or review-required training work", "domain": "functions"},
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
+            {"name": "analyzePsiCatSwarmTrajectory", "summary": "Classify coordinated swarm pressure into trusted, watch, quarantine, or hostile states", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
             {"name": "getMerlinBackendPolicy", "summary": "Return backend expansion policy controls", "domain": "functions"},
             {"name": "getMerlinWorkspacePolicy", "summary": "Return governed back-room workspace policy", "domain": "functions"},
@@ -398,6 +400,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinReplacementReadiness", "summary": "Return concrete self-hosted replacement readiness packet", "domain": "functions"},
             {"name": "getMerlinStageAArtifacts", "summary": "Return exportable Stage A artifact bundle", "domain": "functions"},
             {"name": "getPsiCatConvergenceCharter", "summary": "Return the approved execution-spine convergence charter and completion maps", "domain": "functions"},
+            {"name": "getPsiCatMasterclassExecution", "summary": "Return geometry-first execution, swarm-safe control, and branch-aware packet", "domain": "functions"},
             {"name": "getMerlinFrontierReadiness", "summary": "Return merged readiness packet with fail-closed promotion blockers", "domain": "functions"},
             {"name": "getMerlinControlTower", "summary": "Return control tower readiness, drift alerts, trendlines, and deployment eligibility", "domain": "functions"},
             {"name": "getMerlinSprintReviewPacket", "summary": "Return the canonical Stage A-E review packet with receipts, blockers, and failure reasons", "domain": "functions"},
@@ -485,6 +488,19 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinTrainingArchitecture": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinArcAgiProgram": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinTrainingArtifacts": {"args_schema": _LIMIT_SYNC_REFRESH_AST_ARGS_SCHEMA},
+        "analyzePsiCatSwarmTrajectory": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "events": {"type": "array"},
+                    "allow_internal_swarm": {"type": "boolean"},
+                    "source": {"type": "string"},
+                },
+                "required": ["events"],
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
         "getMerlinNavierStokesMethodTransferPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinPythagoreanTriplesSatMethodTransferPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinTrainingDataset": {"args_schema": _LIMIT_AST_ARGS_SCHEMA},
@@ -492,6 +508,7 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinAstContextRecords": {"args_schema": {"type": "object", "properties": {"file_limit": {"type": "integer"}}, "additionalProperties": False}},
         "getMerlinMLflowManifests": {"args_schema": _LIMIT_SYNC_REFRESH_ARGS_SCHEMA},
         "getPsiCatConvergenceCharter": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getPsiCatMasterclassExecution": {"args_schema": {"type": "object", "properties": {"limit": {"type": "integer"}}, "additionalProperties": False}},
         "getMerlinFrontierReadiness": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinSprintReviewPacket": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinHeavyReasoningLane": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
@@ -1246,6 +1263,11 @@ _FUNCTIONS = {
         include_ast_context=bool(args.get("include_ast_context", False)),
         ast_file_limit=args.get("ast_file_limit"),
     )},
+    "analyzePsiCatSwarmTrajectory": lambda **args: {"data": analyze_swarm_trajectory(
+        list(args.get("events") or []),
+        allow_internal_swarm=bool(args.get("allow_internal_swarm", True)),
+        source=str(args.get("source") or "tool"),
+    )},
     "getMerlinEnergyPlan": lambda **args: {"data": get_energy_optimization_track()},
     "getMerlinBackendPolicy": lambda **args: {"data": get_backend_expansion_policy()},
     "getMerlinWorkspacePolicy": lambda **args: {"data": get_workspace_policy()},
@@ -1295,6 +1317,9 @@ _FUNCTIONS = {
         sync_checks_ok=args.get("sync_checks_ok"),
     )},
     "getPsiCatConvergenceCharter": lambda **args: {"data": get_psicat_convergence_charter()},
+    "getPsiCatMasterclassExecution": lambda **args: {"data": get_masterclass_execution_packet(
+        limit=_coerce_positive_int(args.get("limit"), 8),
+    )},
     "getMerlinFrontierReadiness": lambda **args: {"data": get_frontier_readiness_packet(limit=args.get("limit"))},
     "getMerlinControlTower": lambda **args: {"data": build_merlin_control_tower(
         limit=_coerce_positive_int(args.get("limit"), 3),

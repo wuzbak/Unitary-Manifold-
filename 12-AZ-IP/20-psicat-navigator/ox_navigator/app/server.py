@@ -91,6 +91,7 @@ from ox_navigator.engine.merlin_program import (
     get_sentinel_enforcement_policy,
     run_sync_checks,
 )
+from ox_navigator.engine.merlin_masterclass_runtime import analyze_swarm_trajectory, get_masterclass_execution_packet
 from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
 from ox_navigator.engine.merlin_rag import build_context_scaffold, render_context_scaffold
 from ox_navigator.engine.merlin_router import get_router_policy
@@ -1484,6 +1485,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/masterclass-execution':
+                limit, error = _parse_int_query_param(params, 'limit', 8)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'masterclass_execution': get_masterclass_execution_packet(limit=max(1, limit)),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/validation-resilience':
                 limit, error = _parse_int_query_param(params, 'limit', 5)
                 if error:
@@ -1679,6 +1691,22 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({
                         'ok': True,
                         'compactification_ingest': build_compactification_ingest_receipt(raw_payload),
+                    })
+                    self._persist_session(session_id, merlin_session)
+                    return
+                if route_path == '/api/psicat/swarm-analyze':
+                    events = payload.get('events')
+                    if not isinstance(events, list):
+                        self._json({'ok': False, 'error': 'events array is required'}, status=400)
+                        return
+                    analysis = analyze_swarm_trajectory(
+                        [item for item in events if isinstance(item, dict)],
+                        allow_internal_swarm=bool(payload.get('allow_internal_swarm', True)),
+                        source=str(payload.get('source') or 'api'),
+                    )
+                    self._json({
+                        'ok': True,
+                        'swarm_analysis': analysis,
                     })
                     self._persist_session(session_id, merlin_session)
                     return
