@@ -6,12 +6,7 @@
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-065-cmb-amplitude-gap.md`*
 
 *Post 65 of the Unitary Manifold series.*
-*Claim: the Unitary Manifold's earlier CMB power spectrum amplitude suppression —
-a factor of approximately 4–7 at acoustic peaks relative to Planck observations —
-has been resolved by two independent mechanisms in Pillars 57 and 63. The spectral
-shape (n_s) matches; the amplitude now also matches. This post describes the problem,
-how it was identified, what was tried and failed first, and how it was ultimately
-resolved.*
+*Claim context (historical snapshot): this post records an earlier closure attempt for the CMB power-spectrum amplitude suppression (roughly 4–7 at acoustic peaks relative to Planck). Current repository status should be taken from the live ledgers (e.g., STATUS.md and FALLIBILITY.md), where this lane may remain open pending broader reassessment updates.*
 
 ---
 
@@ -22,7 +17,7 @@ factor of roughly four to seven at the acoustic peaks. The peaks were there — 
 oscillation structure of the primordial sound waves was present. The tilt of the
 spectrum matched Planck's measurement to within 1σ. But the amplitude was wrong.
 
-That gap has been closed.
+This post narrates a historical closure attempt; it is not the authoritative live-status source.
 
 This post states the problem completely and honestly, describes what was attempted,
 what failed first, and what ultimately worked. Documenting a resolved problem is as

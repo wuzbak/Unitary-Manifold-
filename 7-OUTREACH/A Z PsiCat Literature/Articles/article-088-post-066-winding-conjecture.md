@@ -19,10 +19,7 @@ Every physicist has a result they wish they could prove.
 
 This framework had one: the APS η-invariant argument — the claim that
 the Atiyah-Patodi-Singer η-invariant of the five-dimensional Dirac operator on
-the compact S¹/Z₂ orbifold, evaluated at winding number n_w, equals 1/2 when
-n_w = 5 and 0 when n_w = 7 — and that this specific η-invariant value is the
-mechanism by which the Standard Model's chiral fermion content selects n_w = 5
-as the unique consistent winding number.
+the compact S¹/Z₂ orbifold, evaluated at winding number n_w, yields the same triangular inflow class for n_w = 5 and n_w = 7, with the physical branch then selected by the chirality/boundary consistency step that excludes n_w = 7 — and that this mechanism selects n_w = 5 as the unique consistent winding number.
 
 It has been proved. Three times, independently.
 
