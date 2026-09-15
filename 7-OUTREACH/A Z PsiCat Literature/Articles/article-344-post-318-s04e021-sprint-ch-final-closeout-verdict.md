@@ -1,90 +1,66 @@
-# Post 318 (S04E021): Sprint CH Final Closeout Verdict — Merlin/PsiCat v1 Rewrite
+# Post 318 (S04E021): Sprint CH Final Closeout Verdict — What Improved, What Stayed Open (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:09:28Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-318-s04e021-sprint-ch-final-closeout-verdict.md`*
 
-Sprint CH should be judged by a narrow question: did the repository become better
-at handling criticism without pretending that criticism had disappeared?
+Sprint CH should be scored by one criterion: did critique handling become structurally enforceable instead of rhetorically persuasive?
 
 The answer is yes.
 
-Sprint CH result: **critique handling upgraded from narrative response to
-executable routing artifacts**. That statement is falsified if unresolved
-boundaries are relabeled as closed without new executable evidence.
-
-That does **not** mean the framework earned broad new scientific closure. It
-means the repository upgraded from narrative rebuttal to executable critique
-handling, preserved the open set, and made future self-contradiction harder.
-
-## Final verdict
-
-The sprint's durable contribution is a three-part accountability chain:
-
-- **The critique-to-proof matrix** turns major objections into rows with
-  evidence labels, required work, and exact stop conditions.
-- **The internal lane packet** routes flavor, UV, CMB, and neutrino
-  dependencies through deterministic outcome classes instead of hand-waving
-  summaries.
-- **The sprint certificate** fail-closes the package unless the code artifacts
-  and public-facing literature packet are all present together.
-
-The merged record also preserves the concrete Sprint CH receipts:
-
-- Prior Gemini adjudication artifacts preserved.
-- Critique-to-proof matrix added and executable.
-- Internal four-lane deterministic packet added.
-- Neutrino dependency freeze lane added.
-- Sprint certificate requires matrix + packet + publication packet integrity.
-- Open boundaries remain open where no closure evidence exists.
-
-That is the real closeout result: the response is now structured,
-cross-checkable, and less dependent on memory or tone.
-
-## What this verdict does and does not mean
-
-It means the repository is better organized around criticism.
-
-It does **not** mean:
-
-- flavor closure was earned,
-- DESI tension disappeared,
-- CMB amplitude was solved,
-- cold-fusion boundary problems vanished,
-- external gates became internal wins.
-
-Those statements remain false, and the sprint is stronger precisely because it
-leaves them false.
-
-## Approval condition met (scope-limited)
-
-This merged PR state contains additive technical artifacts, tests, synchronized
-truth-surface updates, and professional publication outputs tied to real
-execution work.
-
-## Why this counts as progress
-
-A live research repository can improve in two different ways. It can solve a
-scientific problem, or it can improve the honesty and precision with which
-unsolved problems are tracked. Sprint CH is mostly the second kind.
-
-That is still real progress. A framework that cannot classify critique
-correctly will eventually misclassify its own successes as well. By contrast, a
-framework that can say “this objection is stale, this one is constrained, this
-one is open, and this one now has an exact failure trigger” is at least
-building the right kind of discipline around uncertainty.
-
-So the closeout verdict is intentionally sober: critique handling improved
-materially; the scientific open set remains open where evidence says it should.
+The sprint’s durable verdict is not broad scientific closure. It is operational maturation in how unresolved criticism is represented, routed, and bounded.
 
 ---
 
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
-*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+## Closeout verdict
+
+`CRITIQUE_HANDLING_MATERIALLY_HARDENED`
+
+That verdict fails if open boundaries are re-labeled as solved without new executable evidence.
+
+---
+
+## What changed in substance
+
+Three linked artifacts now carry the burden:
+
+- a critique-to-proof matrix with explicit route semantics,
+- a deterministic lane packet for internal tension classes,
+- a fail-closed sprint certificate that requires matrix + lane packet + publication alignment.
+
+This changes behavior. It makes it harder to hide unresolved burden behind tone, and easier to inspect where status flips are actually justified.
+
+---
+
+## What did not change
+
+For clarity, CH did not eliminate live open sets in flavor, UV coupling, observation-gated lanes, or other named tensions.
+
+The value of this sprint is not that those problems vanished.
+The value is that their state descriptions became less gameable.
+
+---
+
+## Why this closeout is still meaningful
+
+In fast-moving repositories, uncertainty can be accidentally “smoothed” by repetitive narrative updates.
+Sprint CH pushes against that drift by insisting that critique responses become machine-checkable objects with exact stop conditions.
+
+That is not glamorous work.
+It is high-integrity work.
+
+---
+
+## Bottom line
+
+CH is a discipline sprint.
+It improved the repository’s honesty mechanics more than its closure count.
+
+That is legitimate progress and exactly what this phase required.
 
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite keeps the sprint’s original sober verdict while strengthening the reader map for what changed versus what remained unresolved. It preserves non-inflationary scope boundaries and reframes the closeout as executable-governance progress rather than false scientific closure.
