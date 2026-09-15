@@ -74,6 +74,8 @@ def test_kernel_risk_summary_contract():
     assert payload["risk_id"] == "psicat_kernel_risk_summary_v1"
     assert payload["gate_verdict"] in {"pass", "hold", "fail_closed"}
     assert payload["severity"] in {"low", "medium", "high"}
+    assert payload["escalation_tier"] in {"T1_MONITOR", "T2_HOLD", "T3_BLOCK"}
+    assert payload["lane_routing_hint"] in {"physics_compute", "benchmark_operations", "validation_resilience"}
     assert 0.0 <= float(payload["health_score"]) <= 1.0
     assert isinstance(payload["failed_checks"], list)
     assert isinstance(payload["remediation_actions"], list)
@@ -128,6 +130,7 @@ def test_server_kernel_runtime_endpoints():
             risk_resp = client.get("/api/psicat/kernel-risk?points=16&seed=3&repeats=2")
             assert risk_resp.status_code == 200
             assert risk_resp.json()["kernel_risk"]["risk_id"] == "psicat_kernel_risk_summary_v1"
+            assert risk_resp.json()["kernel_risk"]["escalation_tier"] in {"T1_MONITOR", "T2_HOLD", "T3_BLOCK"}
 
             sanity_resp = client.get("/api/psicat/compactification-sanity")
             assert sanity_resp.status_code in {200, 422}
@@ -157,6 +160,11 @@ def test_server_kernel_runtime_endpoints():
             compat_risk_resp = client.get("/api/merlin/kernel-risk?points=16&seed=3&repeats=2")
             assert compat_risk_resp.status_code == 200
             assert compat_risk_resp.json()["kernel_risk"]["severity"] in {"low", "medium", "high"}
+            assert compat_risk_resp.json()["kernel_risk"]["lane_routing_hint"] in {
+                "physics_compute",
+                "benchmark_operations",
+                "validation_resilience",
+            }
     finally:
         httpd.shutdown()
         httpd.server_close()

@@ -4675,6 +4675,8 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                     "remediation_actions": list(kernel_gate.get("remediation_actions") or []),
                     "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
                     "severity": str(kernel_gate.get("severity") or ""),
+                    "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
+                    "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
                 }
             )
     return {
@@ -4802,6 +4804,8 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "remediation_actions": list(item.get("remediation_actions") or []),
                 "health_score": float(item.get("health_score", 0.0) or 0.0),
                 "severity": str(item.get("severity") or ""),
+                "escalation_tier": str(item.get("escalation_tier") or ""),
+                "lane_routing_hint": str(item.get("lane_routing_hint") or ""),
             }
             for item in open_blockers
         ] + kernel_gate_register + [
@@ -4854,6 +4858,8 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
             "severity": str(kernel_gate.get("severity") or ""),
             "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
+            "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
+            "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
             "selected_priorities": dict(selected_priorities),
         },
         "kernel_risk_summary": {
@@ -4862,6 +4868,8 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             "failed_checks": list(kernel_gate.get("failed_checks") or []),
             "remediation_actions": list(kernel_gate.get("remediation_actions") or []),
             "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
+            "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
+            "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
         },
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
@@ -7624,6 +7632,8 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "remediation_actions": list(kernel_gate.get("remediation_actions") or []),
             "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
             "severity": str(kernel_gate.get("severity") or ""),
+            "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
+            "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
         },
     ]
 

@@ -20,6 +20,29 @@ from src.core.adjacent_topology_prototypes import topology_adjacent_summary
 REPO_ROOT = Path(__file__).resolve().parents[4]
 
 
+def _kernel_escalation_profile(gate_verdict: str, severity: str, health_score: float) -> dict[str, Any]:
+    if gate_verdict == "fail_closed":
+        return {
+            "tier": "T3_BLOCK",
+            "lane_routing_hint": "validation_resilience",
+            "priority": "highest",
+            "requires_human_review": True,
+        }
+    if gate_verdict == "hold" or severity == "medium" or health_score < 1.0:
+        return {
+            "tier": "T2_HOLD",
+            "lane_routing_hint": "benchmark_operations",
+            "priority": "high",
+            "requires_human_review": False,
+        }
+    return {
+        "tier": "T1_MONITOR",
+        "lane_routing_hint": "physics_compute",
+        "priority": "high",
+        "requires_human_review": False,
+    }
+
+
 def get_kernel_runtime_board() -> dict[str, Any]:
     capability = detect_backend_capability()
     contract = kernel_contract_schema()
@@ -134,6 +157,11 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
         gate_verdict = "hold"
         reason = "compiled_lane_unavailable_hold"
         severity = "medium"
+    escalation = _kernel_escalation_profile(
+        gate_verdict=gate_verdict,
+        severity=severity,
+        health_score=health_score,
+    )
 
     return {
         "ok": gate_verdict != "fail_closed",
@@ -143,6 +171,10 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
         "remediation_actions": remediation_actions,
         "health_score": health_score,
         "severity": severity,
+        "escalation_tier": str(escalation.get("tier") or ""),
+        "lane_routing_hint": str(escalation.get("lane_routing_hint") or ""),
+        "escalation_priority": str(escalation.get("priority") or ""),
+        "requires_human_review": bool(escalation.get("requires_human_review", False)),
         "blocking_pass": gate_verdict != "fail_closed",
         "promotion_blocking": gate_verdict == "fail_closed",
         "policy": "Fail closed on parity/sanity/error failures; hold when compiled lane evidence is absent.",
@@ -163,6 +195,10 @@ def get_kernel_risk_summary(points: int = 32, seed: int = 13, repeats: int = 3) 
         "risk_id": "psicat_kernel_risk_summary_v1",
         "gate_verdict": str(gate.get("gate_verdict") or ""),
         "severity": str(gate.get("severity") or ""),
+        "escalation_tier": str(gate.get("escalation_tier") or ""),
+        "lane_routing_hint": str(gate.get("lane_routing_hint") or ""),
+        "escalation_priority": str(gate.get("escalation_priority") or ""),
+        "requires_human_review": bool(gate.get("requires_human_review", False)),
         "health_score": float(gate.get("health_score", 0.0) or 0.0),
         "failed_checks": list(gate.get("failed_checks") or []),
         "remediation_actions": list(gate.get("remediation_actions") or []),

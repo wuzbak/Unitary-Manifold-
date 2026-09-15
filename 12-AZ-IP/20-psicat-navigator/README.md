@@ -153,7 +153,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/kernel-receipts` runs deterministic parity receipts (NumPy reference with optional JAX lane) and fails closed when compiled lanes are unavailable or out-of-tolerance.
 - `GET /api/psicat/kernel-benchmarks` exposes benchmark receipts for kernel hotspot lanes (`outer_bb_hotspot`, `kk_4x4_metric_block_hotspot`), including explicit parity/error metadata and measured timing surfaces.
 - `GET /api/psicat/kernel-gate` exposes the unified kernel promotion gate packet that combines parity, benchmark error, and compactification sanity into pass/hold/fail-closed verdicts.
-- `GET /api/psicat/kernel-risk` exposes compact triage metadata (`severity`, `health_score`, `failed_checks`, `remediation_actions`) for deterministic escalation and lane routing.
+- `GET /api/psicat/kernel-risk` exposes compact triage metadata (`escalation_tier`, `lane_routing_hint`, `severity`, `health_score`, `failed_checks`, `remediation_actions`) for deterministic escalation and lane routing.
 - `GET /api/psicat/compactification-sanity` validates compactification sanity against canonical epistemic files (`docs/mas_tracker.yml`, `FALLIBILITY.md`) and preserves open-gap visibility.
 - `GET /api/psicat/compactification-ingest` exposes governed compactification-ingest policy and allowed execution surfaces.
 - `POST /api/psicat/compactification-ingest` sanitizes incoming legacy payload keys into clean functional vectors and emits a receipt without executing tools.

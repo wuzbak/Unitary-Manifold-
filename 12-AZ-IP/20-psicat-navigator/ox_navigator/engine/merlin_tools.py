@@ -405,7 +405,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinKernelExecutionReceipts", "summary": "Return kernel parity receipts against canonical NumPy behavior", "domain": "functions"},
             {"name": "getMerlinKernelBenchmarkReceipts", "summary": "Return kernel hotspot benchmark receipts with parity/error metadata", "domain": "functions"},
             {"name": "getMerlinKernelPromotionGate", "summary": "Return unified kernel promotion gate packet with pass/hold/fail-closed verdict", "domain": "functions"},
-            {"name": "getMerlinKernelRiskSummary", "summary": "Return compact kernel risk packet with severity, health score, failed checks, and remediation actions", "domain": "functions"},
+            {"name": "getMerlinKernelRiskSummary", "summary": "Return compact kernel risk packet with escalation tier, lane routing hint, severity, health score, failed checks, and remediation actions", "domain": "functions"},
             {"name": "getMerlinCompactificationSanity", "summary": "Return compactification sanity checks against canonical epistemic files", "domain": "functions"},
             {"name": "getMerlinTopologyAdjacentBoard", "summary": "Return adjacent-only topology prototype board with hardgate boundary note", "domain": "functions"},
             {"name": "getMerlinExecutionBoard", "summary": "Return the follow-on execution board with immediate tasks, blockers, validation resilience, and blunt board", "domain": "functions"},

@@ -816,6 +816,7 @@ def test_route_tool_training_architecture_and_artifacts():
     assert full_architecture['result']['data']['active_training_surfaces']['kernel_execution_receipts'] == 'getMerlinKernelExecutionReceipts'
     assert full_architecture['result']['data']['active_training_surfaces']['kernel_benchmark_receipts'] == 'getMerlinKernelBenchmarkReceipts'
     assert full_architecture['result']['data']['active_training_surfaces']['kernel_promotion_gate'] == 'getMerlinKernelPromotionGate'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_risk_summary'] == 'getMerlinKernelRiskSummary'
     assert full_architecture['result']['data']['active_training_surfaces']['compactification_sanity'] == 'getMerlinCompactificationSanity'
     assert full_architecture['result']['data']['active_training_surfaces']['topology_adjacent_board'] == 'getMerlinTopologyAdjacentBoard'
 
@@ -1836,10 +1837,13 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert execution_data['validation_resilience']['packet_surface'] == 'getMerlinValidationResiliencePacket'
     assert execution_data['blunt_board']['title'] == 'Sprint CL blunt board'
     assert execution_data['kernel_risk_summary']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+    assert execution_data['kernel_risk_summary']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
+    assert execution_data['kernel_risk_summary']['lane_routing_hint'] in {'physics_compute', 'benchmark_operations', 'validation_resilience'}
     assert isinstance(execution_data['kernel_risk_summary']['remediation_actions'], list)
     assert execution_data['kernel_runtime_gate_priority_context']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
     assert execution_data['kernel_runtime_gate_priority_context']['severity'] in {'low', 'medium', 'high'}
     assert 0.0 <= float(execution_data['kernel_runtime_gate_priority_context']['health_score']) <= 1.0
+    assert execution_data['kernel_runtime_gate_priority_context']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
     assert any(item['task_id'] == 'CL-6' and item['lane'] == 'arc_agi_shadow' for item in execution_data['immediate_tasks'])
     assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
     kernel_gate_verdict = execution_data['kernel_runtime_gate']['gate_verdict']
@@ -1918,6 +1922,8 @@ def test_route_tool_kernel_runtime_surfaces():
     assert 'kk_4x4_metric_block_hotspot' in benchmarks['result']['data']['receipt']['benchmarks']
     assert gate['result']['data']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
     assert risk['result']['data']['risk_id'] == 'psicat_kernel_risk_summary_v1'
+    assert risk['result']['data']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
+    assert risk['result']['data']['lane_routing_hint'] in {'physics_compute', 'benchmark_operations', 'validation_resilience'}
     assert compactification['result']['data']['policy']['unchecked_bypass_forbidden'] is True
     assert topology['result']['data']['summary']['lane'] == 'ADJACENT_TRACK'
 
@@ -3060,6 +3066,12 @@ def test_server_merlin_endpoints():
             assert isinstance(execution_board.json()['execution_board']['kernel_runtime_gate']['remediation_actions'], list)
             assert execution_board.json()['execution_board']['kernel_runtime_gate']['severity'] in {'low', 'medium', 'high'}
             assert 0.0 <= float(execution_board.json()['execution_board']['kernel_runtime_gate']['health_score']) <= 1.0
+            assert execution_board.json()['execution_board']['kernel_runtime_gate']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
+            assert execution_board.json()['execution_board']['kernel_runtime_gate']['lane_routing_hint'] in {
+                'physics_compute',
+                'benchmark_operations',
+                'validation_resilience',
+            }
             if execution_board.json()['execution_board']['kernel_runtime_gate']['gate_verdict'] in {'hold', 'fail_closed'}:
                 kernel_blocker = next(
                     item for item in execution_board.json()['execution_board']['blocker_register']
@@ -3068,6 +3080,7 @@ def test_server_merlin_endpoints():
                 assert isinstance(kernel_blocker['failed_checks'], list)
                 assert 0.0 <= float(kernel_blocker['health_score']) <= 1.0
                 assert kernel_blocker['severity'] in {'low', 'medium', 'high'}
+                assert kernel_blocker['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
             validation_resilience = client.get('/api/merlin/validation-resilience?limit=2')
             assert validation_resilience.status_code == 200
             assert validation_resilience.json()['ok'] is True
@@ -3602,6 +3615,7 @@ def test_run_sync_checks_has_consistency_contract():
         'getMerlinKernelExecutionReceipts',
         'getMerlinKernelBenchmarkReceipts',
         'getMerlinKernelPromotionGate',
+        'getMerlinKernelRiskSummary',
         'getMerlinCompactificationSanity',
         'getMerlinTopologyAdjacentBoard',
     ]:
