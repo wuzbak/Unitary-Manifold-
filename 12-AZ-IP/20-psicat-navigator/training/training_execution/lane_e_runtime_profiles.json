@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 102259.62646991009,
-        "samples_per_second": 230.57412958266085,
+        "tokens_per_second": 29979.382837056815,
+        "samples_per_second": 67.59725555142461,
         "gpu_utilization_percent": 90.0,
         "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 4.134,
-        "step_time_p95_ms": 4.54,
-        "vram_peak_gb": 0.2442169189453125,
+        "step_time_p50_ms": 11.137,
+        "step_time_p95_ms": 18.45,
+        "vram_peak_gb": 0.4176483154296875,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 110440.3965875029,
-        "samples_per_second": 244.40857735762052,
+        "tokens_per_second": 32377.733464021363,
+        "samples_per_second": 71.65309088451009,
         "gpu_utilization_percent": 92.5,
         "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 3.8032800000000004,
-        "step_time_p95_ms": 4.1768,
-        "vram_peak_gb": 0.253985595703125,
+        "step_time_p50_ms": 10.24604,
+        "step_time_p95_ms": 16.974,
+        "vram_peak_gb": 0.434354248046875,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 123693.24417800325,
-        "samples_per_second": 268.84943509338257,
+        "tokens_per_second": 36263.06147970393,
+        "samples_per_second": 78.8183999729611,
         "gpu_utilization_percent": 95.0,
         "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 3.4609848000000003,
-        "step_time_p95_ms": 3.800888,
-        "vram_peak_gb": 0.26160516357421876,
+        "step_time_p50_ms": 9.3238964,
+        "step_time_p95_ms": 15.446340000000001,
+        "vram_peak_gb": 0.44738487548828126,
         "cost_per_accepted_sample": 0.0
       }
     }
