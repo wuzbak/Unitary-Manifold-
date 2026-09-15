@@ -14,6 +14,8 @@ People usually ask three versions of the same concern. Is this physics, governan
 The short version is that this repository holds both a physics program and a governance program, and we keep a hard boundary between them on purpose. The hardgate physics claims live in the derivation lanes. The Unitary Pentad is governance and collaboration architecture; it is not a substitute proof of the physics.
 
 The central physics claim is specific: irreversibility is treated as a geometric consequence of a 5D Kaluza-Klein structure, not only a statistical boundary story. That claim is strong, and because it is strong, it carries falsifiers. The main one remains LiteBIRD birefringence. If the measured window lands outside the admissible range, or inside the predicted exclusion gap, that mechanism fails. No speech can outrun that.
+
+For readers who want hard entry points rather than summaries, the practical references remain the repository itself, the Zenodo DOI, and the executable verification path through the test suite and falsification register.
 ---
 
 ### Gate Certification (v1)

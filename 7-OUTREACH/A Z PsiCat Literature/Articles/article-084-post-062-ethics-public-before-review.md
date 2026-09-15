@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **The Ethics of Going Public Before Peer Review** and keeps the same claim boundaries while tightening clarity and pace.
 
-ethical question of whether publishing a speculative framework to a general audience, before formal peer review, is justified — and the conditions under which it is.*
+This rewrite examines the ethical question of whether publishing a speculative framework to a general audience before formal peer review is justified, and under what conditions it might be.*
 
 Is it ethical to publish a speculative physics framework to a general audience before it has been through peer review?
 
