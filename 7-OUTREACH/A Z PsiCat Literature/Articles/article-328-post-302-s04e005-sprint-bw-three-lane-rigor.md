@@ -1,66 +1,40 @@
-# Sprint BW: Three-Lane Rigor, Explicit Gates, No Narrative Inflation — Merlin/PsiCat v1 Rewrite
+# Sprint BW Three-Lane Rigor: Control Surfaces, Not Celebration Surfaces (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:48:20Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-302-s04e005-sprint-bw-three-lane-rigor.md`*
 
-*Epistemic category: **SYNC RECORD** — v35.3 Sprint BW implementation certificate (P1031).*
+Sprint BW should be read as a control sprint. It made branch behavior more governed across three coupled lanes: closure discipline, Merlin replacement gating, and status-surface coherence.
 
-Sprint BW is a control sprint. It does not claim a new physics closure. It certifies execution discipline across three lanes and keeps every open lane explicit.
-
-## Lane 1 — Physics closure discipline
-
-We preserved the strict closure order from Sprint BV:
-1. shared flavor-root program,
-2. shared UV dual-lane program,
-3. CMB mechanism program,
-4. P636 residual-domain contraction path.
-
-No open-lane label was promoted in Sprint BW. The open set remains:
-- `CMB_AMP_CONFIRMED_IRREDUCIBLE`
-- `ALPHA_S_TYPE_B_FLOOR`
-- `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`
-- `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`
-- `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`
-- `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`
-- `DESI_DR3_MONITORING`
-- `LITEBIRD_BIREFRINGENCE`
-
-## Lane 2 — Merlin replacement gate hardening
-
-Merlin now has an explicit sustained empirical replacement gate contract:
-- `evaluateMerlinEmpiricalGate` (tool surface)
-- `getMerlinPromotionPacket` (tool surface)
-- `GET /api/merlin/promotion-packet` (API surface)
-
-The output is binary: `REPLACEMENT_APPROVED` or `REPLACEMENT_NOT_APPROVED`.  
-Default outcome is non-approval when comparable run receipts are insufficient.
-
-Back-room orchestration policy is tightened: privileged policy-mutation calls are blocked in multi-step orchestration and must use explicit single-step human-gate flow.
-
-## Lane 3 — Integrity and editorial coherence
-
-High-visibility stale status surfaces were updated to current branch reality, including current test totals and slot continuity markers.
-
-## Branch reality (at certification)
-
-- Version: `v35.3`
-- Sprint: `BW`
-- Pillars added: `1031`
-- Lean4: `3952` (unchanged)
-- Next pillar slot: `1032`
-- Latest verified full regression in branch history: `63,666 passed · 23 skipped · 12 deselected · 0 failed`
-
-This sprint is about control, not rhetoric. It strengthens execution quality without overstating closure.
+What it did not do is equally important: it did not convert governance progress into physics closure.
 
 ---
 
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
-*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+## Why the three-lane structure mattered
+
+By binding those lanes together, BW reduced a common failure mode: one surface tightens while another remains permissive, and the branch begins to overstate itself through whichever surface is least constrained. BW narrowed that loophole.
+
+It kept unresolved lanes explicit, hardened binary replacement decisions for Merlin promotion contexts, and treated status synchronization as a first-class requirement rather than a cleanup afterthought.
+
+---
+
+## Scope boundaries
+
+This sprint did not eliminate the open-set burdens carried from adjacent programs, nor did it weaken external falsification authority. Its contribution was infrastructural confidence: future claims are forced through stronger gates.
+
+That is a real gain, but it is not a solved-science announcement.
+
+---
+
+## Bottom line
+
+BW improved the branch’s ability to resist self-inflation under pressure.
+
+Control is not closure, but without control, closure claims are not trustworthy.
 
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source post’s three-lane architecture while emphasizing the distinction between governance hardening and unresolved scientific lanes. It keeps the tone sober and the claim boundaries explicit.

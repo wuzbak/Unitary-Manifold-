@@ -1,63 +1,40 @@
-# Repository Status Sanity Check (v35.1) — Merlin/PsiCat v1 Rewrite
+# Repository Status Sanity Check (v35.1): A Historical Coherence Failure Worth Keeping (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:48:20Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-301-s04e004-v35-1-repository-status-sanity-check.md`*
 
-**Unitary Manifold — S04E004 · 2026-09-03**
+This post captures a historical branch moment where verification and regression outcomes were not enough to certify release integrity because canonical reporting surfaces were out of sync.
+
+That distinction is why this entry remains useful.
 
 ---
 
-**Historical note:** this post preserves a branch-state check from Sprint BU/BV-era work. It is useful as a record of how coherence failures were identified, but it is not the current repository verdict. Current scope corrections and open obligations are tracked in `docs/TRUTH_LAYER.md`, `STATUS.md`, and `FALLIBILITY.md`.
+## What this snapshot showed
 
-A public technical project needs occasional plain status reports. Not because raw logs are elegant reading, but because integrity failures often show up first as mismatches between ledgers, metadata, and tests rather than as dramatic numerical explosions. That is what this post recorded.
+The run context indicated real execution strength in parts of the suite, but the branch still failed zero-failure release standards due to coherence-accounting drift across official status surfaces.
 
-## What was run
-
-Two branch-level checks were used in this snapshot:
-
-1. `python VERIFY.py`
-2. `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
-
-`VERIFY.py` finished with **18/18 PASS**. The combined regression, however, did not clear the zero-failure bar in this historical run.
-
-## What the result meant
-
-The run ended with:
-
-- **63,613 passed**
-- **23 skipped**
-- **12 deselected**
-- **5 failed**
-
-The important point was not the raw number of failures. It was the kind of failures. They clustered around canonical-ledger coherence rather than random numerical instability. In other words, the repository was saying slightly different things about itself in different official places.
-
-That may sound administrative, but it is not trivial. A framework that wants to make strong scientific claims cannot afford drift between status surfaces. If `STATUS.md`, live-status JSON, test certificates, and summary ledgers disagree about slot counts or current state, then even correct code can be wrapped in unreliable reporting.
-
-## Why that mattered
-
-This run therefore raised a public-facing integrity question, not a new physics question: was branch reality synchronized across the canonical surfaces that readers and tests were supposed to trust?
-
-The answer in this historical moment was no, not yet. The numerical/equation-side checks looked stable in the run, but the branch as a whole did not meet its own zero-failure release standard because the reporting surfaces were out of sync. That distinction matters. It is better to say “the equations executed, but the repository story is inconsistent” than to blur the problem into a vague sense of partial success.
-
-## What this post did not claim
-
-This sanity check did **not** establish broad scientific closure. It did **not** show that every derivation was physically correct. It did **not** say that passing `VERIFY.py` overrides unresolved open lanes. It only documented that, at this branch point, the immediate blocker to a clean release was coherence-accounting drift.
-
-## Why keep a post like this
-
-Because a literature layer should not only publish triumphs. It should also publish when the blocking issue is bookkeeping, synchronization, or release discipline. That is part of the actual work of maintaining an honest research repository.
-
-Later sprints hardened many of these status-sync expectations into executable gates. This post remains useful as the snapshot of why that hardening became necessary.
+In practical terms, the repository was briefly saying different things about itself in different canonical places.
 
 ---
 
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
-*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+## Why that is a real blocker
+
+For a framework claiming scientific seriousness, status disagreement is not administrative noise. It is an epistemic defect. Readers cannot evaluate claims cleanly when the branch’s own ledgers disagree on what is current.
+
+This post is valuable because it named that defect directly rather than masking it behind aggregate pass counts.
+
+---
+
+## Historical boundary
+
+This is not a live verdict for current repository state. It is a preserved diagnostic from the Sprint BU/BV-era coherence push.
+
+The lesson survives: synchronization is part of scientific honesty.
 
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source post’s sanity-check purpose while clarifying its historical scope and the specific integrity issue it documented. It keeps coherence failure distinct from physics failure and avoids retrospective inflation.
