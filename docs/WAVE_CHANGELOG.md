@@ -60,7 +60,7 @@ Convert the repo's current position into one sharp next-step contract. The goal 
 **Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
 
 **Lean4:** 4080 → 4080 (+0)
-**Regression:** Focused regression: Sprint CU routing and ledger suites 45 passed · 0 failed; latest verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed
+**Regression:** Focused regression: Sprint CU routing and ledger suites 46 passed · 0 failed; latest verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed
 **Next pillar slot:** 1122
 
 ## v37.6 (2026-09-10 — Sprint CT: Pillar 1120)

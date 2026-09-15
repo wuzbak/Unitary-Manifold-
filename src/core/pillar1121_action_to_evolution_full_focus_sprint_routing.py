@@ -76,8 +76,8 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     }
     deliverable_state_consistent = (
         len(primary_deliverables) == 3
-        and all(item['status'] for item in primary_deliverables)
-        and any(item['earned'] for item in primary_deliverables)
+        and all(item['id'] and item['label'] and item['status'] for item in primary_deliverables)
+        and len(unresolved_primary_ids) < len(primary_deliverables)
         and unresolved_primary_ids == contract_remaining_blockers
     )
     capability_gains = [

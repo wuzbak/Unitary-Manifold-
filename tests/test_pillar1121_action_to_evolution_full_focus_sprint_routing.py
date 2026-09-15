@@ -45,6 +45,32 @@ def test_packet_shape(report) -> None:
     assert report['psicat_status']['next_governed_step'] == 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'
 
 
+def test_packet_accepts_fully_completed_contract(monkeypatch) -> None:
+    monkeypatch.setattr(
+        p1121,
+        'action_to_evolution_deliverable_contract',
+        lambda: {
+            'primary_deliverables': [
+                {'id': 'A', 'label': 'Action', 'status': 'EARNED', 'earned': True},
+                {'id': 'B', 'label': 'Euler-Lagrange', 'status': 'EARNED', 'earned': True},
+                {'id': 'C', 'label': 'Time boundary', 'status': 'EARNED', 'earned': True},
+            ],
+            'remaining_blockers': [],
+        },
+    )
+    monkeypatch.setattr(
+        p1121,
+        'lane1_action_to_evolution_closure_attempt',
+        lambda: {
+            'blocker_certificate': {},
+            'closure_attempt': {'candidate_action_status': 'EARNED'},
+        },
+    )
+    report = p1121.action_to_evolution_full_focus_sprint_routing()
+    assert report['dependencies']['action_contract_state_consistent'] is True
+    assert report['valid'] is True
+
+
 def test_unfinished_physics_and_capabilities(report) -> None:
     assert 'PHOTON_ORIGIN' in report['unfinished_physics']
     assert 'ACTION_TO_EVOLUTION_EULER_LAGRANGE_DERIVATION' in report['unfinished_physics']
