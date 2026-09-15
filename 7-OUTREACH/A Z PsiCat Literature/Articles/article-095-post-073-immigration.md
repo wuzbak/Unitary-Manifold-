@@ -15,6 +15,8 @@ political and institutional work that is actually required.*
 
 *Primary source anchors used in this synthesis include USCIS visa-queue/publication data, EOIR court-backlog releases, CBP/ICE operational reporting, CBO budget analyses, American Action Forum mass-deportation cost modeling, and peer-reviewed public-health studies on mixed-status family outcomes.*
 
+*Audit links (representative source entry points): USCIS Visa Bulletin and queue publications (`https://www.uscis.gov/`), EOIR pending-cases dashboard (`https://www.justice.gov/eoir/`), CBP monthly encounters reporting (`https://www.cbp.gov/`), ICE annual/statistical reporting (`https://www.ice.gov/`), CBO immigration/economic publications (`https://www.cbo.gov/`), American Action Forum deportation-cost analysis (`https://www.americanactionforum.org/`), and peer-reviewed mixed-status-family outcomes literature indexed via PubMed (`https://pubmed.ncbi.nlm.nih.gov/`).*
+
 ---
 
 Immigration is not an abstract policy debate. It is the question of which human beings

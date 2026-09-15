@@ -121,8 +121,9 @@ This is not a fit. The prediction was derived from the Z₂ boundary condition
 before the T2K and NOvA results were compiled. The agreement at 0.05σ is either
 a success of the framework or a lucky coincidence that further data will resolve.
 
-DUNE (the Deep Underground Neutrino Experiment) and Hyper-Kamiokande will measure
-δ_CP^PMNS to σ ≈ 5° precision. If the measurement converges on -107° ± 5°,
+DUNE (the Deep Underground Neutrino Experiment) and Hyper-Kamiokande were, at the
+time of this post's forecast, expected to approach ~5°-class precision on
+δ_CP^PMNS. If the measurement converges on -107° within that forecast class,
 the prediction is confirmed at high significance. If it converges on a value far
 from -108°, the Z₂ dagger argument is wrong.
 

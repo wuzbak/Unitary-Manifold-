@@ -38,7 +38,7 @@ Are we serious? Yes. Are we trying not to take ourselves so seriously that we be
 **→ GitHub:** [github.com/wuzbak/Unitary-Manifold-](https://github.com/wuzbak/Unitary-Manifold-)  
 **→ Zenodo DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)  
 **→ Prerequisite setup:** install dependencies first via `pip install -r requirements.txt` (or use the repository [README quickstart](https://github.com/wuzbak/Unitary-Manifold-/blob/main/README.md)).  
-**→ Lightweight quick check:** `python VERIFY.py`  
+**→ Lightweight quick check:** `python VERIFY.py` (fast smoke/integrity check, not the full regression gate)  
 **→ Canonical verification:** `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
 
 ---

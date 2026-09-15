@@ -136,6 +136,8 @@ The universal 5D Yukawa Ŷ₅ = 1 was initially treated as a normalization choic
 
 This converts the Universal Yukawa result from "consistent with Ŷ₅ = 1" to "Ŷ₅ = 1 is derived." No fitting.
 
+Executable/audit pointer: `src/core/pillar209_universal_yukawa_bc.py` with regression coverage in `tests/test_pillar209_universal_yukawa_bc.py`.
+
 ---
 
 ## What Remains Open
