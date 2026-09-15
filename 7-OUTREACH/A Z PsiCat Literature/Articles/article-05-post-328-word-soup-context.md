@@ -16,7 +16,7 @@ That is not style drift; that is epistemic risk.
 
 The article’s strongest claim was not “complexity is good.” It was “complexity must stay auditable.” That requires layered writing: enough precision for machine reliability, enough narrative clarity for human oversight, and explicit category labels so readers know what kind of claim they are holding.
 
-The weakness the piece admitted—correctly—was that density can outrun explanation. When that happens, “read harder” is not a solution. Better maps are.
+The weakness the piece admitted — correctly — was that density can outrun explanation. When that happens, “read harder” is not a solution. Better maps are.
 
 That remains the right conclusion: keep the rigor, improve the doors.
 

@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **Time Travel: What the Framework Permits and What It Forbids** and keeps the same claim boundaries while tightening clarity and pace.
 
-curve (CTC) solutions mathematically — the geometry does not forbid them by fiat. But the FTUM fixed-point theorem forbids the grandfather paradox: a CTC that attempts to prevent its own creation would violate the uniqueness of the fixed point Ψ*, producing a contradiction the geometry resolves by forbidding the paradoxical trajectory. Time "travel" in the caricature sense is not possible; what is possible is more subtle and more interesting.*
+This rewrite argues that the framework permits closed timelike curve (CTC) solutions mathematically while still forbidding grandfather-paradox style contradictions. The result is a much narrower and stranger picture than the pop-culture version of time travel.*
 
 Time travel is the science fiction idea that physics has done the most damage to. Not because the physics is wrong — but because the way it is usually described strips out the parts that make it strange and keeps only the parts that make for good dramatic tension.
 

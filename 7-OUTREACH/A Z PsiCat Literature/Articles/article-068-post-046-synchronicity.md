@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **Synchronicity, Coincidence, and the 5D Pattern** and keeps the same claim boundaries while tightening clarity and pace.
 
-the 4D world through the topological structure of the compact dimension and the information conservation law. These correlations are real but small, deterministic at the 5D level, and not acausal in Jung's sense. What looks like synchronicity to a 4D observer is either genuine topological correlation, cognitive pattern-recognition applied to statistical noise, or some combination of both — and the framework can say which circumstances favor which. This claim would be falsified if the 4D field equations are found to produce no long-range correlations in the absence of local causal connection — which is testable in principle from the correlation functions of the irreversibility field.*
+This rewrite argues that some correlations can propagate into the 4D world through the topological structure of the compact dimension and the information conservation law. It distinguishes genuine long-range structure from ordinary human pattern-finding, and keeps the claim explicitly falsifiable.*
 
 Carl Jung coined the term "synchronicity" in 1952 to describe meaningful coincidences that appear to be connected without being connected by ordinary causality. The scarab beetle that arrived at the window just as his patient described dreaming of a golden scarab. The clock that stopped at the moment of its owner's death. The sequence of coincidences that feels like a message from the universe.
 
