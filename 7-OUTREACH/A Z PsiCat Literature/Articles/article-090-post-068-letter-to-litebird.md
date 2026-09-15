@@ -13,7 +13,19 @@ This letter is written in April 2026. The LiteBIRD satellite's full data release
 
 The Unitary Manifold — a five-dimensional Kaluza-Klein framework with winding numbers n_w = 5 and n_w = 7, Chern-Simons level k_CS = 74 = 5² + 7², and braided sound speed C_S = 12/37 — makes the following prediction for the CMB polarization birefringence angle β:
 
-The most probable single value, given the Minami-Komatsu (2020) measurement and the CS mechanism, is approximately **β ≈ 0.3513°**, with the broader admissible window stated elsewhere in the repository remaining the real falsification frame.
+The explicit prediction set is:
+
+- **Canonical channel:** β ∈ {0.273°, 0.331°}
+- **Derived channel:** β ∈ {0.290°, 0.351°}
+- **Most probable single value:** **β ≈ 0.3513°**
+
+The falsification conditions are also explicit:
+
+- β outside **[0.22°, 0.38°]** falsifies the framework's birefringence prediction outright.
+- β inside the predicted gap **[0.29°, 0.31°]** falsifies the braided-winding mechanism.
+- β consistent with **0** at LiteBIRD precision rules out the Chern-Simons coupling mechanism used here.
+
+What would count as strong confirmation is a LiteBIRD result near **β ≈ 0.35°** with enough precision to separate `k_CS = 74` from its adjacent alternatives. Even that would confirm one mechanism, not the entire framework.
 ---
 
 ### Gate Certification (v1)

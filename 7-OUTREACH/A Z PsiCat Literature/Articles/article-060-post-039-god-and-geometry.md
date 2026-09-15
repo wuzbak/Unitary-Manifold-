@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **God and Geometry: What Physics Can and Cannot Say About Creation** and keeps the same claim boundaries while tightening clarity and pace.
 
-is there something rather than nothing?" — the non-trivial fixed point Ψ* is the only stable solution of the field equations, making "nothing" dynamically unstable. This post draws an honest line between what the mathematics establishes and what it does not. No claim is made that this constitutes evidence for a personal God, a creator, or any specific theological position.*
+This rewrite asks whether the framework can say anything disciplined about why there is something rather than nothing. Its answer is narrow: the non-trivial fixed point Ψ* is treated as the only stable solution of the field equations, which makes "nothing" dynamically unstable without turning physics into theology.*
 
 The question "why is there something rather than nothing?" has been called the deepest question in philosophy. Leibniz asked it. Heidegger asked it. Every physicist who gets asked about the Big Bang eventually has to face it.
 
