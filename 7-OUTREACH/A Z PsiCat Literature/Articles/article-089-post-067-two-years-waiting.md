@@ -131,7 +131,7 @@ That is the correct state for a theory at this stage. We are here until LiteBIRD
 
 ---
 
-**[Editor's Update — v9.27]** This post was written at the 96-pillar milestone. Since then, Pillars 97–98 closed the absolute fermion mass scale problem, and Pillar Ω (the Omega Synthesis) has been added as the capstone synthesis. The repository now stands at **99 pillars + Pillar Ω** with **17,438 automated tests**. The predictions and falsification conditions described here remain unchanged.
+**[Editor's Update — v9.27]** This post was written at the 74-pillar milestone. Since then, Pillars 97–98 closed the absolute fermion mass scale problem, and Pillar Ω (the Omega Synthesis) has been added as the capstone synthesis. The repository now stands at **99 pillars + Pillar Ω** with **17,438 automated tests**. The predictions and falsification conditions described here remain unchanged.
 
 ---
 

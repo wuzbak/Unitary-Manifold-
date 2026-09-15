@@ -90,7 +90,7 @@ A pure 5D boundary condition argument:
 1. G_{μ5} has odd Z₂ parity → Dirichlet boundary conditions on the 5D metric.
 2. Dirichlet BCs on the compact dimension impose APS boundary conditions on the spinor.
 3. APS BCs with the Z₂ orbifold structure force η̄ = 1/2 for a non-trivial spin structure.
-4. η̄ = 1/2 is achieved uniquely by n_w = 5 in the set {5, 7}.
+4. Both n_w = 5 and n_w = 7 share η̄ = 1/2 at the triangular inflow step; n_w = 5 is selected only after the chirality/boundary-consistency filter excludes n_w = 7.
 
 Steps A→D: G_{μ5} Z₂-parity → Dirichlet BC → APS η̄=½ → n_w=5.
 
