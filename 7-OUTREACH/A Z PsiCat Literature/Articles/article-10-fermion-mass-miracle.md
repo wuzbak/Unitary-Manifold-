@@ -96,19 +96,17 @@ The key result: with a **single universal 5D Yukawa coupling Ŷ₅ = 1** (proved
 
 ## The Result: All 9 Fermions, Sub-1% Residual Accuracy
 
-Pillar 98 (Universal Yukawa) computes the nine SM charged-fermion masses from this lattice and compares to PDG values. The results:
+Pillar 98 (Universal Yukawa) computes the nine SM charged-fermion masses from this lattice and compares to PDG values:
 
-| Fermion | PDG mass (MeV) | UM prediction (MeV) | Residual |
-|---------|---------------|---------------------|---------|
-| Electron | 0.5110 | 0.5109 | 0.02% |
-| Muon | 105.66 | 105.63 | 0.03% |
-| Tau | 1776.9 | 1776.4 | 0.03% |
-| Up quark | 2.16 | 2.15 | 0.5% |
-| Down quark | 4.67 | 4.64 | 0.6% |
-| Strange | 93.4 | 93.0 | 0.4% |
-| Charm | 1275 | 1272 | 0.2% |
-| Bottom | 4183 | 4177 | 0.1% |
-| Top | 172,690 | 172,590 | 0.06% |
+- Electron: PDG 0.5110 MeV; UM 0.5109 MeV; residual 0.02%.
+- Muon: PDG 105.66 MeV; UM 105.63 MeV; residual 0.03%.
+- Tau: PDG 1776.9 MeV; UM 1776.4 MeV; residual 0.03%.
+- Up quark: PDG 2.16 MeV; UM 2.15 MeV; residual 0.5%.
+- Down quark: PDG 4.67 MeV; UM 4.64 MeV; residual 0.6%.
+- Strange quark: PDG 93.4 MeV; UM 93.0 MeV; residual 0.4%.
+- Charm quark: PDG 1275 MeV; UM 1272 MeV; residual 0.2%.
+- Bottom quark: PDG 4183 MeV; UM 4177 MeV; residual 0.1%.
+- Top quark: PDG 172,690 MeV; UM 172,590 MeV; residual 0.06%.
 
 **All nine SM charged fermions are reproduced with sub-1% residuals at the mass scale, from geometry alone, with no free parameters at the mass scale.**
 

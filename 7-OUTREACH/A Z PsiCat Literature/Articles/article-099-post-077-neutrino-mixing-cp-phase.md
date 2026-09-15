@@ -51,11 +51,9 @@ In the Unitary Manifold, these numbers emerge from two sources:
 
 The corrected predictions (Pillar 83, v9.25):
 
-| Parameter | UM Prediction | PDG Value | Discrepancy |
-|-----------|--------------|-----------|-------------|
-| sin²θ₂₃ | 29/50 = 0.580 | 0.572 | 1.4% |
-| sin²θ₁₃ | 1/50 = 0.020 | 0.0222 | 10% |
-| sin²θ₁₂ | 4/15 = 0.267 | 0.307 | 13% |
+- sin²θ₂₃: UM 29/50 = 0.580; PDG 0.572; discrepancy 1.4%.
+- sin²θ₁₃: UM 1/50 = 0.020; PDG 0.0222; discrepancy 10%.
+- sin²θ₁₂: UM 4/15 = 0.267; PDG 0.307; discrepancy 13%.
 
 The θ₂₃ and θ₁₃ angles are within experimental precision. The θ₁₂ (solar)
 angle remains at 13% — the largest discrepancy in the mixing sector. This is

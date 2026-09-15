@@ -91,7 +91,7 @@ of the data release. We commit to not attempting to reinterpret the measurement 
 "consistent with" the framework through post-hoc modification of the predicted window.
 The window [0.22°, 0.38°] was set in April 2026. It stays.
 
-If LiteBIRD measures β = 0 (or any value consistent with zero at σ ≤ 0.05°):
+If LiteBIRD measures β = 0 (or any value consistent with zero at LiteBIRD precision of ~0.05°):
 
 This rules out the CS mechanism entirely. The spectral index agreement (n_s = 0.9635)
 may be coincidental with some other mechanism. The framework as stated is falsified.

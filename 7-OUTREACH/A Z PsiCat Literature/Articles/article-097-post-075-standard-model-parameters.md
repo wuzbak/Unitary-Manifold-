@@ -138,12 +138,10 @@ then derived; later waves introduced additional progress on parts of this set.
 
 ## The Honest Tally
 
-| Category | Count | Examples |
-|----------|-------|---------|
-| Derived | 9 | α_em, N_gen, n_w, k_CS, nₛ, r, β, λ_CKM, η̄_CKM |
-| Constrained | 4 | sin²θ_W, A_CKM, δ_CP^CKM, δ_CP^PMNS |
-| Geometric estimate | 5 | θ₂₃^PMNS, θ₁₃^PMNS, θ₁₂^PMNS, m_H, Σmν |
-| Genuinely open | ~10 | absolute masses, α_s, Majorana phases |
+- Derived: 9 (α_em, N_gen, n_w, k_CS, nₛ, r, β, λ_CKM, η̄_CKM).
+- Constrained: 4 (sin²θ_W, A_CKM, δ_CP^CKM, δ_CP^PMNS).
+- Geometric estimates: 5 (θ₂₃^PMNS, θ₁₃^PMNS, θ₁₂^PMNS, m_H, Σmν).
+- Genuinely open: ~10 (absolute masses, α_s, Majorana phases).
 
 This is not a Theory of Everything in the strict sense. A complete TOE would derive
 all parameters with zero observational input. The Unitary Manifold derives or

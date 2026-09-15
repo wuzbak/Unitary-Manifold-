@@ -27,12 +27,10 @@ was verified by 17,438 automated tests in that v9-era snapshot. Not physical cor
 
 **Four predictions agree with current observations:**
 
-| Prediction | Value | Observation | Status |
-|-----------|-------|-------------|--------|
-| CMB spectral index n_s | 0.9635 | Planck: 0.9649 ± 0.0042 | Within 1σ |
-| Birefringence β | 0.3513° | Minami-Komatsu: 0.35° ± 0.14° | Within 1σ |
-| Tensor ratio r | 0.0315 | BICEP/Keck: r < 0.036 | Below limit |
-| Dark energy w | -0.9302 | DES/DESI: consistent | Preliminary |
+- CMB spectral index n_s: 0.9635; observation Planck 0.9649 ± 0.0042; status within 1σ.
+- Birefringence β: 0.3513° (historical derived emphasis in this post); observation Minami-Komatsu 0.35° ± 0.14°; status within 1σ.
+- Tensor ratio r: 0.0315; observation BICEP/Keck r < 0.036; status below limit.
+- Dark energy w: -0.9302; observation DES/DESI consistent; status preliminary.
 
 None of these were tuned post-hoc to match observations. All four emerge from
 the same mathematical structure — k_CS = 74, n_w = 5 — without additional parameters.

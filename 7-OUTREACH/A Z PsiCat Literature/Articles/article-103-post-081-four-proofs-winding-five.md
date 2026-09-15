@@ -152,12 +152,10 @@ the algebraic identity T(n_w) = n_w(n_w-1)/2. No observational input.
 
 ## The Four Arguments Together
 
-| Argument | Input required | Result |
-|----------|---------------|--------|
-| HW Majorana (Pillar 84-A) | M-theory consistency | n_w = 5 preferred |
-| Euclidean saddle (Pillar 84-B) | 5D path integral | n_w = 5 dominant |
-| Planck CMB (Pillar 84-C) | nₛ observation | n_w = 7 excluded at 4.8σ |
-| Algebraic BC (Pillar 89) | None | n_w = 7 algebraically excluded |
+- HW Majorana (Pillar 84-A): input required = M-theory consistency; result = n_w = 5 preferred.
+- Euclidean saddle (Pillar 84-B): input required = 5D path integral; result = n_w = 5 dominant.
+- Planck CMB (Pillar 84-C): input required = nₛ observation; result = n_w = 7 excluded at 4.8σ.
+- Algebraic BC (Pillar 89): input required = none; result = n_w = 7 algebraically excluded.
 
 Four arguments. Different methods. Different inputs. All agreeing.
 

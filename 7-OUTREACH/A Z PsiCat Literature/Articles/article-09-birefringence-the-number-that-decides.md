@@ -51,10 +51,8 @@ The Unitary Manifold has two winding sectors:
 
 Each sector predicts a different birefringence angle:
 
-| Sector | Braid pair | β (canonical) | β (derived) |
-|--------|-----------|---------------|-------------|
-| Primary | (5,7) | **0.331°** | 0.351° |
-| Shadow | (5,6) | **0.273°** | 0.290° |
+- Primary sector, braid pair (5,7): canonical β = 0.331°, derived β = 0.351°.
+- Shadow sector, braid pair (5,6): canonical β = 0.273°, derived β = 0.290°.
 
 The canonical values (0.331° and 0.273°) are computed from the geometric formula. The derived values include higher-order corrections. Both sets are within the admissible window.
 
@@ -98,12 +96,10 @@ LiteBIRD (Lite satellite for the studies of B-mode polarization and Inflation fr
 
 LiteBIRD will measure β to ±0.01° precision. At that precision, the framework prediction is decisive:
 
-| If LiteBIRD measures... | Verdict |
-|------------------------|---------|
-| β ≈ 0.331° ± 0.01° (primary) | Primary sector confirmed; braided winding strongly supported |
-| β ≈ 0.273° ± 0.01° (shadow) | Shadow sector confirmed; braided winding strongly supported |
-| β ∈ [0.29°, 0.31°] | **Braided winding FALSIFIED** |
-| β < 0.22° or β > 0.38° | **Full birefringence mechanism FALSIFIED** |
+- If β ≈ 0.331° ± 0.01° (primary), primary sector is confirmed and braided winding is strongly supported.
+- If β ≈ 0.273° ± 0.01° (shadow), shadow sector is confirmed and braided winding is strongly supported.
+- If β ∈ [0.29°, 0.31°], braided winding is falsified.
+- If β < 0.22° or β > 0.38°, the full birefringence mechanism is falsified.
 
 These four branches are machine-executable. The LiteBIRD readiness module (Pillar 644) implements the decision tree. The preregistered predictions are committed to the repository and to Zenodo with SHA-256 hashes. No post-hoc interpretation is possible.
 
