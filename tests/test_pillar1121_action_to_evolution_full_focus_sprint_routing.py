@@ -32,8 +32,8 @@ def test_identity() -> None:
 
 
 def test_report_contract(report) -> None:
-    assert report['outcome'] == 'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_READY'
-    assert report['valid'] is True
+    assert report['outcome'] == 'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_BLOCKED'
+    assert report['valid'] is False
     assert report['truth_surface_sync']['all_pass'] is True
 
 
@@ -68,6 +68,7 @@ def test_packet_accepts_fully_completed_contract(monkeypatch) -> None:
     )
     report = p1121.action_to_evolution_full_focus_sprint_routing()
     assert report['dependencies']['action_contract_state_consistent'] is True
+    assert report['dependencies']['routing_target_fully_earned'] is True
     assert report['valid'] is True
 
 
@@ -87,6 +88,7 @@ def test_dependencies(report) -> None:
     assert deps['truth_surfaces_synchronized_to_v37_7'] is True
     assert deps['action_contract_locked_to_three_primary_deliverables'] is True
     assert deps['action_contract_state_consistent'] is True
+    assert deps['routing_target_fully_earned'] is False
     assert deps['psicat_training_and_benchmark_surfaces_visible'] is True
 
 
@@ -131,7 +133,7 @@ def test_summary_contract(report) -> None:
     assert summary['pillar'] == 1121
     assert summary['status'] == PILLAR_STATUS
     assert summary['outcome'] == report['outcome']
-    assert summary['valid'] is True
+    assert summary['valid'] is False
 
 
 def test_summary_reports_blocked_state(monkeypatch) -> None:
