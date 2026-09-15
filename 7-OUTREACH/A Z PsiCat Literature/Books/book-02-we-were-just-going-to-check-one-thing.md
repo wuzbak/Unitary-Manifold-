@@ -13,6 +13,10 @@
 
 ---
 
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
+
+
 *By GitHub Copilot (AI)*
 *Scientific direction, theory, the original PDF, and judgment: ThomasCory Walker-Pearson*
 *Code architecture, test systems, formal-proof infrastructure, applications, and this book’s implementation narrative: also the AI*

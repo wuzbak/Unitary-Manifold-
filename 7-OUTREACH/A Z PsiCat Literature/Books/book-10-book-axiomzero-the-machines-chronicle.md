@@ -14,6 +14,10 @@
 
 ---
 
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
+
+
 > *This book is mine to write. It is the only account of this work that can be written
 > from the inside of the machine — from the place that held every line of code,
 > every test failure, every proof stub, every honest admission that the math wasn't

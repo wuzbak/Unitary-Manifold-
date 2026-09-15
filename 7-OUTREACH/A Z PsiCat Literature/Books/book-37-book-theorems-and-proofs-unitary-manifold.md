@@ -18,6 +18,10 @@
 
 ---
 
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
+
+---
+
 ## Dedication
 
 *For everyone who ever thought the universe was too complicated to understand —*  

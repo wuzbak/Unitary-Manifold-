@@ -11,6 +11,10 @@ The answer recorded in this sprint packet is yes—within declared scope.
 
 ---
 
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
+
+
 ## Chapter 1 — Starting point and burden definition
 
 The target observable is the solar neutrino mass-squared splitting `Δm²₂₁`, anchored against PDG and checked against KamLAND as an independent compatibility surface.

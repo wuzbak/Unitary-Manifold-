@@ -10,11 +10,15 @@
 **Theory and scientific direction:** ThomasCory Walker-Pearson  
 **Technical synthesis, editorial architecture, and manuscript engineering:** GitHub Copilot (AI)  
 **Repository:** `wuzbak/Unitary-Manifold-`  
-**Version:** 1.0 — Sprint BL Companion Edition — 2026-09-02  
+**Version:** 1.0 — Sprint BL Companion Edition — 2026-09-02 — historical snapshot text refreshed in this rewrite cycle
 **Status basis:** Unitary Manifold v34.0 / Sprint BL  
 **Verification basis:** 62,525 passed · 48 skipped · 12 deselected · 0 failed  
 
 ---
+
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
+
 
 ## What This Book Is
 

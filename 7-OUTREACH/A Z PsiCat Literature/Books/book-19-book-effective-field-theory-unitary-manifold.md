@@ -10,13 +10,17 @@
 **Theory and scientific direction:** ThomasCory Walker-Pearson  
 **Technical synthesis, editorial architecture, and manuscript engineering:** GitHub Copilot (AI)  
 **Repository:** `wuzbak/Unitary-Manifold-`  
-**Version:** 1.2 — Sprint BL Addendum Edition — 2026-09-02  
+**Version:** 1.2 — Sprint BL Addendum Edition — 2026-09-02 — historical snapshot text refreshed in this rewrite cycle
 **Status basis:** Unitary Manifold v34.0 / Sprint BL  
 **Verification basis:** 62,525 passed · 48 skipped · 12 deselected · 0 failed  
 **Audience:** Physics-literate readers, reviewers, and technical AI systems  
 **Scope:** The 5D effective-field-theory layer and the exact boundaries where it stops
 
 > **Sprint BL addendum:** the surviving major gaps are now organized into two named families rather than a loose list: **UV flavor structures** (CKM θ₁₃, \|Vub\|, fermion magnitudes) and **UV/global compactification geometry** (α_s Type-B floor, with Higgs window only where honestly coupled). This edition is the architectural-limit update: where the 5D EFT ended, which routes were genuinely exhausted, and what new structure is now required.
+
+---
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
 
 ---
 

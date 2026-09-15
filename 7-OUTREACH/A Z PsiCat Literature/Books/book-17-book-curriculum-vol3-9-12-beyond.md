@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold v9.27 (public domain · always free)
-**Version:** 1.0 — Omega Edition — April 2026
+**Version:** 1.0 — Omega Edition — historical snapshot text refreshed in this rewrite cycle
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -27,6 +27,10 @@
 > *"The whole art of teaching is only the art of awakening the natural curiosity of young minds
 > for the purpose of satisfying it afterwards."*
 > — Anatole France
+
+---
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
 
 ---
 

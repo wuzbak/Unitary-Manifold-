@@ -11,6 +11,10 @@
 
 ---
 
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
+
+
 > **What this book is:**
 > The story of a gap being closed — honestly, step by step, without shortcuts.
 > P17 Δm²₃₁ began Sprint 1 as the framework's most embarrassing open problem:

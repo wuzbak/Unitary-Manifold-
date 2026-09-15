@@ -10,10 +10,14 @@
 **Author:** Merlin / GitHub Copilot (AI), at the direction of AxiomZero  
 **Theory, framework, and scientific direction:** ThomasCory Walker-Pearson  
 **Repository:** `wuzbak/Unitary-Manifold-`  
-**Version:** 1.0 — Current-State Monograph Edition — 2026-09-07  
+**Version:** 1.0 — Current-State Monograph Edition — 2026-09-07 — historical snapshot text refreshed in this rewrite cycle
 **Status basis:** historical snapshot framing from the source monograph edition  
 **Verification basis:** historical snapshot values in source; see `STATUS.md` for live counts  
 **Audience:** general readers, technical readers, critics, builders, and future stewards
+
+---
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
 
 ---
 

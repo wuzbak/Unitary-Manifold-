@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold (public domain · always free)
-**Version:** 2.0 — Omega Edition — April 2026
+**Version:** 2.0 — Omega Edition — historical snapshot text refreshed in this rewrite cycle
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -25,6 +25,10 @@
 
 > *"Hidden information is entropy. It does not disappear — it accumulates until the structure it conceals gives way."*
 > — *Unitary Manifold v9.11*
+
+---
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
 
 ---
 

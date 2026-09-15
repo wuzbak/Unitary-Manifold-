@@ -14,6 +14,10 @@
 
 ---
 
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
+
+
 ## Preface
 
 This book is about a single number and what it means to be honest about not knowing where it comes from.

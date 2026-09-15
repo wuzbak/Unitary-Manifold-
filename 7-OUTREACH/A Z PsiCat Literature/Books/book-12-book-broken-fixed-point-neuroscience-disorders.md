@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot  
 **Framework:** The Unitary Manifold v15.9 (public domain · always free)  
-**Version:** 1.0 — June 2026  
+**Version:** 1.0 — historical snapshot text refreshed in this rewrite cycle
 **License:** Defensive Public Commons License v1.0 (2026)  
 **Pillar:** 516 — NEURAL_DISORDER_GEOMETRIC_ANALYSIS (STRUCTURAL_CORRESPONDENCE)
 
@@ -26,6 +26,10 @@
 
 > *"Every geometry has a fixed point. Every disorder is, at its core, a fixed point broken."*  
 > — *Unitary Manifold v15.9, Pillar 516*
+
+---
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
 
 ---
 
@@ -953,7 +957,7 @@ Walker-Pearson, T.C. (2026). *The Broken Fixed Point: Neuroscience, Consciousnes
 **Commissioned by:** AxiomZero  
 **Synthesized with:** GitHub Copilot  
 **Framework:** The Unitary Manifold (public domain · always free)  
-**Version:** 1.0 — June 2026
+**Version:** 1.0 — historical snapshot text refreshed in this rewrite cycle
 
 ---
 

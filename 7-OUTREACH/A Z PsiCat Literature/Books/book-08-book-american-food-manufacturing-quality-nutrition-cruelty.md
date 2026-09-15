@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold (public domain · always free)
-**Version:** 1.0 — First Edition — June 2026
+**Version:** 1.0 — First Edition — historical snapshot text refreshed in this rewrite cycle
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -25,6 +25,10 @@
 
 > *"You are what you eat, and what you eat eats too."*
 > — Michael Pollan, *The Omnivore's Dilemma*, 2006
+
+---
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
 
 ---
 

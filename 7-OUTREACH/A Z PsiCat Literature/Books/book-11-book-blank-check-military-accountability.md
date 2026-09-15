@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot  
 **Framework:** The Unitary Manifold (public domain · always free)  
-**Version:** 1.0 — Omega Edition — June 2026  
+**Version:** 1.0 — Omega Edition — historical snapshot text refreshed in this rewrite cycle
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -19,6 +19,10 @@
 
 > *"A government that spends $893 billion on national defense and cannot pass a basic financial audit is not defending the nation efficiently. It is funding a system that has insulated itself from accountability."*  
 > — Government Accountability Office, paraphrased from dozens of annual reports
+
+---
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
 
 ---
 

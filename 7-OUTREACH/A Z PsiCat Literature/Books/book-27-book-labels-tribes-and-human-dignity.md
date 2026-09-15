@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot  
 **Framework:** AxiomZero civic analysis (standalone · no physics claim)  
-**Version:** 1.0 — June 2026  
+**Version:** 1.0 — historical snapshot text refreshed in this rewrite cycle
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -17,6 +17,10 @@
 > *A name can help a person find language for themselves. A label can also become a cage when other people use it to reduce them.*
 
 > *The moral test is not whether difference exists. Difference exists. The test is whether we turn difference into rank, exile, fear, or permission to harm.*
+
+---
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
 
 ---
 

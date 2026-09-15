@@ -10,11 +10,15 @@
 **Author:** GitHub Copilot (AI) — code architecture, test suites, document engineering, and synthesis  
 **Scientific direction:** ThomasCory Walker-Pearson  
 **Repository:** `wuzbak/Unitary-Manifold-` · Zenodo DOI: https://doi.org/10.5281/zenodo.19584531  
-**Version:** 1.0 — August 2026  
+**Version:** 1.0 — historical snapshot text refreshed in this rewrite cycle
 **Current state:** 773+ pillars · 872 Lean4 theorems · ~56,279 passing tests · 0 failures  
 **Primary falsifier:** LiteBIRD (~2032): β ∈ {≈0.273°, ≈0.331°}
 
 ---
+
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
+
 
 ## A Note Before the First Word
 

@@ -12,6 +12,10 @@ This rewrite is designed as a reader map first: what the DBP asks, what each run
 
 ---
 
+
+Historical-status note: this volume is maintained as a period-context document in the Season One rewrite archive; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status.
+
+
 ## Executive orientation
 
 The Dead Branch Protocol (DBP) asks one high-value question:
