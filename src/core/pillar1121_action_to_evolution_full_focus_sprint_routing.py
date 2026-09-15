@@ -38,6 +38,25 @@ UNFINISHED_PHYSICS: List[str] = [
 ]
 
 
+def _deliverable_progress_state(status: str) -> str:
+    return {
+        'EARNED': 'PROMOTION_COMPLETE',
+        'EVIDENCE_SURFACED': 'EVIDENCE_SURFACED',
+    }.get(status, 'OPEN')
+
+
+def _normalized_primary_deliverable(item: Dict[str, Any]) -> Dict[str, Any]:
+    status = str(item.get('status') or '')
+    return {
+        'id': str(item.get('id') or ''),
+        'label': str(item.get('label') or ''),
+        'status': status,
+        'earned': bool(item.get('earned')),
+        'promotion_complete': status == 'EARNED',
+        'progress_state': _deliverable_progress_state(status),
+    }
+
+
 def _truth_surface_sync_status() -> Dict[str, Any]:
     return build_truth_surface_sync_status({
         (_ROOT / 'STATUS.md').resolve().as_posix(): [f'{VERSION} Sprint {SPRINT}', 'Pillar 1121', 'next slot 1122'],
@@ -60,22 +79,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     truth_sync = _truth_surface_sync_status()
 
     primary_deliverables = [
-        {
-            'id': str(item.get('id') or ''),
-            'label': str(item.get('label') or ''),
-            'status': str(item.get('status') or ''),
-            'earned': bool(item.get('earned')),
-            'promotion_complete': str(item.get('status') or '') == 'EARNED',
-            'progress_state': (
-                'PROMOTION_COMPLETE'
-                if str(item.get('status') or '') == 'EARNED'
-                else (
-                    'EVIDENCE_SURFACED'
-                    if str(item.get('status') or '') == 'EVIDENCE_SURFACED'
-                    else 'OPEN'
-                )
-            ),
-        }
+        _normalized_primary_deliverable(item)
         for item in list(contract.get('primary_deliverables') or [])
     ]
     primary_deliverable_ids = {item['id'] for item in primary_deliverables}
@@ -174,7 +178,8 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         and isinstance(action_report.get('closure_attempt'), dict)
     )
     action_closure_statuses_supported = bool(
-        candidate_action_status in {'EVIDENCE_SURFACED', 'EARNED'}
+        action_packet_present
+        and candidate_action_status in {'EVIDENCE_SURFACED', 'EARNED'}
         and euler_lagrange_match_status in {
             'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED',
             'EARNED',

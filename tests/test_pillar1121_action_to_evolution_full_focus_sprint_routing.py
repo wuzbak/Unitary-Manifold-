@@ -90,6 +90,8 @@ def test_packet_accepts_fully_completed_contract(monkeypatch) -> None:
     report = p1121.action_to_evolution_full_focus_sprint_routing()
     assert report['dependencies']['action_contract_state_consistent'] is True
     assert report['dependencies']['routing_target_fully_earned'] is True
+    assert report['sprint_readiness']['current_state'] == 'TARGET_SPRINT_ALREADY_COMPLETE'
+    assert report['outcome'] == 'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_READY'
     assert report['valid'] is True
 
 
