@@ -23,7 +23,7 @@ This is a moment to stop and take stock.
 **The 5D metric structure is internally consistent.** The Walker-Pearson field
 equations have a well-defined variational principle, produce a conserved stress-energy
 tensor, and recover standard 4D general relativity in the appropriate limit. This
-is verified by 17,438 automated tests. Not physical correctness — internal consistency.
+was verified by 17,438 automated tests in that v9-era snapshot. Not physical correctness — internal consistency.
 
 **Four predictions agree with current observations:**
 
@@ -131,14 +131,14 @@ That is the correct state for a theory at this stage. We are here until LiteBIRD
 
 ---
 
-**[Editor's Update — v9.27]** This post was written at the 74-pillar milestone. Since then, Pillars 97–98 closed the absolute fermion mass scale problem, and Pillar Ω (the Omega Synthesis) has been added as the capstone synthesis. The repository now stands at **99 pillars + Pillar Ω** with **17,438 automated tests**. The predictions and falsification conditions described here remain unchanged.
+**[Editor's Update — v9.27]** This post was written at the 74-pillar milestone. Since then, Pillars 97–98 closed the absolute fermion mass scale problem, and Pillar Ω (the Omega Synthesis) has been added as the capstone synthesis. At that historical update point, the repository stood at **99 pillars + Pillar Ω** with **17,438 automated tests**. The predictions and falsification conditions described here remain unchanged.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
-*Predictions: `predictions.md`*
+*Predictions register: `3-FALSIFICATION/prediction.md`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

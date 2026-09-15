@@ -153,9 +153,9 @@ sector. It is documented as such.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
-*Pillar 90: `src/core/` — neutrino mass hierarchy*
+*Pillar 90 lane reference: `src/sevend/pillar900_neutrino_mass_ordering.py` — neutrino mass-ordering implementation*
 *Honest gaps: `FALLIBILITY.md`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 

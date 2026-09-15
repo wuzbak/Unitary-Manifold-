@@ -157,7 +157,7 @@ described in `embryology-manifold/10_experiments.md`.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Embryology predictions: `embryology-manifold/`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

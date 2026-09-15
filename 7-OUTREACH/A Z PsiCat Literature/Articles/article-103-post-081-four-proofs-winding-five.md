@@ -187,7 +187,7 @@ only one winding number works — and that winding number is 5.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 84: `src/core/vacuum_selection.py`*
 *Pillar 89: `src/core/vacuum_geometric_proof.py`*

@@ -147,7 +147,7 @@ everything else the framework has established.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 92: `src/core/uv_completion_constraints.py`*
 *Pillar 94: `src/core/su5_orbifold_proof.py`*

@@ -165,7 +165,7 @@ means for humanity.
 > Pillars 97–98 substantially closed the absolute fermion mass scale problem, and
 > Pillar Ω (the Omega Synthesis) is the capstone that synthesizes all prior results
 > into a single queryable engine. The series now extends to **Post Ω**, and the
-> repository stands at **99 pillars + Pillar Ω** with **17,438 automated tests**.
+> repository stood at **99 pillars + Pillar Ω** with **17,438 automated tests** at that historical snapshot.
 > See `post-99-the-omega-synthesis.md` and `post-omega-the-omega-article.md`.
 
 ---
@@ -200,11 +200,11 @@ continued — through Post 96, and then through Post Ω.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
-*Predictions: `predictions.md`*
-*The complete series: `substack/`*
+*Predictions register: `3-FALSIFICATION/prediction.md`*
+*Grounded source series: `7-OUTREACH/substack/`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

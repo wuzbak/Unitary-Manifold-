@@ -133,10 +133,10 @@ need to be developed, not assumed.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Human-AI collaboration framework: `5-GOVERNANCE/co-emergence/FRAMEWORK.md`*
-*Authorship standard: `AGENTS.md` and all document footers*
+*Authorship standard context: `AGENTS.md` (access policy) plus `README.md`/document footer attribution pattern for source-vs-document credit boundaries*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

@@ -160,7 +160,7 @@ is genuine.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 70-B: `src/core/aps_spin_structure.py`*
 *Pillar 80: `src/core/aps_geometric_proof.py` — topological vacuum selection*
