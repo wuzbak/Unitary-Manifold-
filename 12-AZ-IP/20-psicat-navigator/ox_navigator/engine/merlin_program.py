@@ -63,6 +63,17 @@ PSICAT_SPC_GATES_DOC = PRODUCT_ROOT / "PSICAT_SPC_BENCHMARK_GATES.md"
 PRIMARY_PSICAT_EXECUTION_SPINE_ENDPOINTS = (
     "/api/psicat",
     "/api/psicat/status",
+    "/api/psicat/kernel-runtime",
+    "/api/psicat/kernel-receipts",
+    "/api/psicat/kernel-benchmarks",
+    "/api/psicat/kernel-gate",
+    "/api/psicat/kernel-risk",
+    "/api/psicat/kernel-escalation",
+    "/api/psicat/kernel-governance",
+    "/api/psicat/kernel-batch-plan",
+    "/api/psicat/compactification-sanity",
+    "/api/psicat/compactification-ingest",
+    "/api/psicat/topology-adjacent",
     "/api/psicat/execution-board",
     "/api/psicat/convergence-charter",
     "/api/psicat/validation-resilience",
@@ -4463,7 +4474,25 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
     control_tower = build_merlin_control_tower(limit=resolved_limit)
     frontier = get_frontier_readiness_packet(limit=resolved_limit)
     blockers = list(frontier.get("promotion_blockers") or [])
-    open_blockers = [item for item in blockers if not bool(item.get("pass"))]
+    frontier_kernel_governance = dict(frontier.get("kernel_governance_packet") or {})
+    frontier_kernel_batch_plan = dict(frontier.get("kernel_batch_plan") or {})
+    open_blockers = [
+        {
+            **dict(item),
+            "governance_packet_id": str(
+                item.get("governance_packet_id")
+                or frontier_kernel_governance.get("packet_id")
+                or ""
+            ),
+            "batch_plan_id": str(
+                item.get("batch_plan_id")
+                or frontier_kernel_batch_plan.get("plan_id")
+                or ""
+            ),
+        }
+        for item in blockers
+        if not bool(item.get("pass"))
+    ]
     coherent_control_tower = dict(control_tower)
     deployment_eligibility = dict(control_tower.get("deployment_eligibility") or {})
     deployment_eligibility["frontier_blocker_count"] = len(open_blockers)
@@ -4479,6 +4508,9 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
         "stage_reviews": stage_reviews,
         "control_tower": coherent_control_tower,
         "frontier_readiness": frontier,
+        "kernel_governance_packet": frontier_kernel_governance,
+        "kernel_data_volume_strategy": dict(frontier.get("kernel_data_volume_strategy") or {}),
+        "kernel_batch_plan": frontier_kernel_batch_plan,
         "open_blockers": open_blockers,
         "stage_discipline": {
             "policy": "No promotion decision without receipts, blocker review, and fail-closed governance gates.",
@@ -4634,6 +4666,13 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
 
 
 def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
+    from .merlin_kernel_runtime import (
+        get_kernel_batch_plan,
+        get_kernel_escalation_packet,
+        get_kernel_governance_packet,
+        get_kernel_promotion_gate_summary,
+    )
+
     review_packet = get_merlin_sprint_review_packet(limit=limit)
     heavy_lane = get_merlin_heavy_reasoning_lane(limit=max(2, int(limit if limit is not None else 2)))
     model_board = get_merlin_sovereign_model_board()
@@ -4643,7 +4682,44 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     convergence_charter = get_psicat_convergence_charter()
     stage_reviews = list(review_packet.get("stage_reviews") or [])
     open_blockers = list(review_packet.get("open_blockers") or [])
+    kernel_gate = get_kernel_promotion_gate_summary()
+    kernel_escalation = get_kernel_escalation_packet()
+    kernel_governance = get_kernel_governance_packet()
+    kernel_batch_plan = get_kernel_batch_plan(
+        points=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_points", 32) or 32),
+        repeats=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_repeats", 3) or 3),
+    )
     current_heavy_provider = str(heavy_lane.get("current_default_provider") or "deterministic_retrieval")
+    task_priorities = {
+        "pass": {"benchmark_operations": "high", "physics_compute": "high"},
+        "hold": {"benchmark_operations": "highest", "physics_compute": "highest"},
+        "fail_closed": {"benchmark_operations": "highest", "physics_compute": "highest"},
+    }
+    selected_priorities = task_priorities.get(str(kernel_gate.get("gate_verdict")), task_priorities["hold"])
+    kernel_gate_register: list[dict[str, Any]] = []
+    if str(kernel_gate.get("gate_verdict")) in {"hold", "fail_closed"}:
+        if not any(str(item.get("id") or "") == "kernel_runtime_cross_lane_gate" for item in open_blockers):
+            kernel_gate_register.append(
+                {
+                    "blocker_id": "kernel_runtime_cross_lane_gate",
+                    "status": "open" if str(kernel_gate.get("gate_verdict")) == "fail_closed" else "watch",
+                    "reason": str(kernel_gate.get("reason") or "kernel gate requires additional evidence"),
+                    "source": "kernel_runtime_gate",
+                    "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
+                    "failed_checks": list(kernel_gate.get("failed_checks") or []),
+                    "remediation_actions": list(kernel_gate.get("remediation_actions") or []),
+                    "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
+                    "severity": str(kernel_gate.get("severity") or ""),
+                    "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
+                    "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
+                    "lane_actions": list(kernel_escalation.get("lane_actions") or []),
+                    "governance_packet_id": str(kernel_governance.get("packet_id") or ""),
+                    "estimated_batches_for_requested_points": int(
+                        (kernel_governance.get("data_volume_strategy") or {}).get("estimated_batches_for_requested_points", 1) or 1
+                    ),
+                    "batch_plan_id": str(kernel_batch_plan.get("plan_id") or ""),
+                }
+            )
     return {
         "generated_at": _utcnow(),
         "document_path": _repo_rel(MERLIN_EXECUTION_BOARD_DOC),
@@ -4704,7 +4780,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             {
                 "task_id": "CL-1",
                 "lane": "benchmark_operations",
-                "priority": "highest",
+                "priority": selected_priorities["benchmark_operations"],
                 "task": "Run Stage A-E review packets on a recurring cadence and track per-stage failure reasons instead of raw pass/fail alone.",
                 "success_condition": "Every stage has receipts, failure taxonomy counts, and explicit go/hold/demote visibility.",
             },
@@ -4746,7 +4822,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             {
                 "task_id": "CL-7",
                 "lane": "physics_compute",
-                "priority": "high",
+                "priority": selected_priorities["physics_compute"],
                 "task": "Advance Lane D with JAX-first differentiable physics workloads (Diffrax/PINN track) under explicit non-closure governance.",
                 "success_condition": "Physics-compute receipts are reproducible, bounded, and never inflated into hardgate closure claims.",
             },
@@ -4764,9 +4840,20 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "status": "open",
                 "reason": str(item.get("reason") or ""),
                 "source": "frontier_readiness",
+                "gate_verdict": str(item.get("gate_verdict") or ""),
+                "failed_checks": list(item.get("failed_checks") or []),
+                "remediation_actions": list(item.get("remediation_actions") or []),
+                "health_score": float(item.get("health_score", 0.0) or 0.0),
+                "severity": str(item.get("severity") or ""),
+                "escalation_tier": str(item.get("escalation_tier") or ""),
+                "lane_routing_hint": str(item.get("lane_routing_hint") or ""),
+                "lane_actions": list(item.get("lane_actions") or []),
+                "governance_packet_id": str(item.get("governance_packet_id") or ""),
+                "estimated_batches_for_requested_points": int(item.get("estimated_batches_for_requested_points", 1) or 1),
+                "batch_plan_id": str(item.get("batch_plan_id") or ""),
             }
             for item in open_blockers
-        ] + [
+        ] + kernel_gate_register + [
             {
                 "blocker_id": "code_review_tool_unavailable_in_environment",
                 "status": "open",
@@ -4808,6 +4895,37 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             }
             for stage in stage_reviews
         ],
+        "kernel_runtime_gate": {
+            **dict(kernel_gate),
+            "packet_surface": "getKernelPromotionGateSummary",
+        },
+        "kernel_runtime_gate_priority_context": {
+            "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
+            "severity": str(kernel_gate.get("severity") or ""),
+            "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
+            "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
+            "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
+            "selected_priorities": dict(selected_priorities),
+        },
+        "kernel_risk_summary": {
+            "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
+            "severity": str(kernel_gate.get("severity") or ""),
+            "failed_checks": list(kernel_gate.get("failed_checks") or []),
+            "remediation_actions": list(kernel_gate.get("remediation_actions") or []),
+            "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
+            "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
+            "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
+        },
+        "kernel_escalation_packet": {
+            **dict(kernel_escalation),
+            "packet_surface": "getMerlinKernelEscalationPacket",
+        },
+        "kernel_governance_packet": {
+            **dict(kernel_governance),
+            "packet_surface": "getMerlinKernelGovernancePacket",
+        },
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
+        "kernel_batch_plan": dict(kernel_batch_plan),
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
             "policy": "Promotion holds unless all required axes pass in the same receipt window.",
@@ -4833,6 +4951,8 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
 
 
 def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, Any]:
+    from .merlin_kernel_runtime import get_kernel_batch_plan, get_kernel_governance_packet
+
     resolved_limit = max(1, int(limit if limit is not None else 5))
     execution_board_path = _repo_rel(MERLIN_EXECUTION_BOARD_DOC)
     truth_layer_path = _repo_rel(REPO_ROOT / "docs" / "TRUTH_LAYER.md")
@@ -4841,6 +4961,15 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
     codeql_matrix_workflow = ".github/workflows/codeql-language-matrix.yml"
     has_codeql_matrix_workflow = (REPO_ROOT / codeql_matrix_workflow).exists()
     has_review_orchestrator = (REPO_ROOT / "TOOLS" / "checks" / "copilot_review_orchestrator.py").exists()
+    kernel_governance = get_kernel_governance_packet()
+    kernel_batch_plan = get_kernel_batch_plan(
+        points=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_points", 32) or 32),
+        repeats=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_repeats", 3) or 3),
+    )
+    kernel_lane_hint = str(
+        ((kernel_governance.get("escalation_packet") or {}).get("gate_summary") or {}).get("lane_routing_hint")
+        or "validation_resilience"
+    )
     return {
         "generated_at": _utcnow(),
         "document_path": _repo_rel(MERLIN_VALIDATION_RESILIENCE_DOC),
@@ -4943,6 +5072,9 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
                 "Manual review and targeted tests do not erase missing CodeQL coverage.",
             ],
         },
+        "kernel_governance_packet": kernel_governance,
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
+        "kernel_batch_plan": kernel_batch_plan,
         "codeql_matrix_split_strategy": {
             "workflow_path": codeql_matrix_workflow,
             "matrix_axes": ["language", "path_slice"],
@@ -4984,11 +5116,15 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
                 "blocker_id": "code_review_tool_unavailable_in_environment",
                 "status": "open",
                 "next_action": "Use repository-side orchestrator and preserve the missing-review signal.",
+                "lane_routing_hint": kernel_lane_hint,
             },
             {
                 "blocker_id": "codeql_database_too_large",
                 "status": "open",
                 "next_action": "Run scope-reduced scans and keep the missing full-scan truth visible.",
+                "lane_routing_hint": kernel_lane_hint,
+                "governance_packet_id": str(kernel_governance.get("packet_id") or ""),
+                "batch_plan_id": str(kernel_batch_plan.get("plan_id") or ""),
             },
         ],
         "environment_observations": {
@@ -6253,6 +6389,16 @@ def get_training_architecture(limit: int | None = None) -> dict[str, Any]:
             "heavy_reasoning_lane": "getMerlinHeavyReasoningLane",
             "sovereign_model_board": "getMerlinSovereignModelBoard",
             "mlflow_manifests": "getMerlinMLflowManifests",
+            "kernel_runtime_board": "getMerlinKernelRuntimeBoard",
+            "kernel_execution_receipts": "getMerlinKernelExecutionReceipts",
+            "kernel_benchmark_receipts": "getMerlinKernelBenchmarkReceipts",
+            "kernel_promotion_gate": "getMerlinKernelPromotionGate",
+            "kernel_risk_summary": "getMerlinKernelRiskSummary",
+            "kernel_escalation_packet": "getMerlinKernelEscalationPacket",
+            "kernel_governance_packet": "getMerlinKernelGovernancePacket",
+            "kernel_batch_plan": "getMerlinKernelBatchPlan",
+            "compactification_sanity": "getMerlinCompactificationSanity",
+            "topology_adjacent_board": "getMerlinTopologyAdjacentBoard",
             "artifact_bundle": "getMerlinTrainingArtifacts",
             "execution_queue": "getMerlinTrainingExecutionQueue",
             "execution_bundle": "getMerlinTrainingExecutionBundle",
@@ -7444,6 +7590,12 @@ def _env_flag(name: str, default: bool = False) -> bool:
 
 def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     from .merlin_benchmark import build_merlin_control_tower, get_multi_stage_benchmark_plan
+    from .merlin_kernel_runtime import (
+        get_kernel_batch_plan,
+        get_kernel_escalation_packet,
+        get_kernel_governance_packet,
+        get_kernel_promotion_gate_summary,
+    )
 
     required_receipts = [
         "stage_a_parity_capture",
@@ -7459,6 +7611,13 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     training = get_training_architecture(limit=resolved_limit)
     runtime = get_mythos_astra_contract()
     router = get_router_policy()
+    kernel_gate = get_kernel_promotion_gate_summary()
+    kernel_escalation = get_kernel_escalation_packet()
+    kernel_governance = get_kernel_governance_packet()
+    kernel_batch_plan = get_kernel_batch_plan(
+        points=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_points", 32) or 32),
+        repeats=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_repeats", 3) or 3),
+    )
     resilience = get_merlin_validation_resilience_packet()
     resilience_truth = dict(resilience.get("current_truth") or {})
     hosted_review_signal_present = bool(resilience_truth.get("hosted_review_tool_available_in_every_environment"))
@@ -7549,6 +7708,26 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "signal_present": security_scan_signal_present,
             "required_for_promotion": security_scan_required_for_promotion,
         },
+        {
+            "id": "kernel_runtime_cross_lane_gate",
+            "pass": str(kernel_gate.get("gate_verdict")) == "pass",
+            "blocking_pass": True,
+            "reason": str(kernel_gate.get("reason") or "Kernel runtime promotion gate is fail-closed on parity/sanity/error failures and holds when compiled-lane evidence is absent."),
+            "required_for_promotion": False,
+            "gate_verdict": str(kernel_gate.get("gate_verdict") or ""),
+            "failed_checks": list(kernel_gate.get("failed_checks") or []),
+            "remediation_actions": list(kernel_gate.get("remediation_actions") or []),
+            "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
+            "severity": str(kernel_gate.get("severity") or ""),
+            "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
+            "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
+            "lane_actions": list(kernel_escalation.get("lane_actions") or []),
+            "governance_packet_id": str(kernel_governance.get("packet_id") or ""),
+            "estimated_batches_for_requested_points": int(
+                (kernel_governance.get("data_volume_strategy") or {}).get("estimated_batches_for_requested_points", 1) or 1
+            ),
+            "batch_plan_id": str(kernel_batch_plan.get("plan_id") or ""),
+        },
     ]
 
     promotion_required_blockers_all_clear = all(
@@ -7567,6 +7746,11 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
         "sync_checks": sync,
         "control_tower": control_tower,
         "multi_stage_plan": benchmark_plan,
+        "kernel_runtime_gate": kernel_gate,
+        "kernel_escalation_packet": kernel_escalation,
+        "kernel_governance_packet": kernel_governance,
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
+        "kernel_batch_plan": kernel_batch_plan,
         "training_seed_examples": training.get("seed_statistics", {}),
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
@@ -7612,6 +7796,7 @@ def run_merlin_targeted_rigor_sprint(
         run_stage_e_head_to_head_receipts_sync,
     )
     from .merlin_memory import MerlinSession
+    from .merlin_kernel_runtime import get_kernel_batch_plan, get_kernel_governance_packet
     from .merlin_training_execution import (
         build_merlin_training_execution_queue,
         get_merlin_lane_progress_ledgers,
@@ -7622,6 +7807,11 @@ def run_merlin_targeted_rigor_sprint(
     resolved_limit = _coerce_frontier_limit(limit, default=2)
     resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
     active_session = session if isinstance(session, MerlinSession) else MerlinSession()
+    kernel_governance = get_kernel_governance_packet()
+    kernel_batch_plan = get_kernel_batch_plan(
+        points=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_points", 32) or 32),
+        repeats=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_repeats", 3) or 3),
+    )
 
     queue_before = build_merlin_training_execution_queue(
         session=active_session,
@@ -7665,6 +7855,15 @@ def run_merlin_targeted_rigor_sprint(
             "blocker_id": str(item.get("id") or ""),
             "reason": str(item.get("reason") or ""),
             "source": "frontier_readiness",
+            "governance_packet_id": str(item.get("governance_packet_id") or kernel_governance.get("packet_id") or ""),
+            "estimated_batches_for_requested_points": int(
+                item.get(
+                    "estimated_batches_for_requested_points",
+                    (kernel_governance.get("data_volume_strategy") or {}).get("estimated_batches_for_requested_points", 1),
+                )
+                or 1
+            ),
+            "batch_plan_id": str(item.get("batch_plan_id") or kernel_batch_plan.get("plan_id") or ""),
         }
         for item in list(frontier.get("promotion_blockers") or [])
         if not bool(item.get("pass"))
@@ -7736,6 +7935,9 @@ def run_merlin_targeted_rigor_sprint(
         "stage_receipts": stage_receipts,
         "stage_gate_summary": stage_gate_summary,
         "frontier_readiness": frontier,
+        "kernel_governance_packet": kernel_governance,
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
+        "kernel_batch_plan": kernel_batch_plan,
         "blocker_register": blocker_register,
         "all_gates_green": all_gates_green,
         "verdict": (
@@ -8049,8 +8251,22 @@ def get_psicat_achievement_benchmark_promotion_sprint(
             and bool(row.get("domain_gate_pass"))
         )
     ]
+    frontier_kernel_governance = dict(frontier.get("kernel_governance_packet") or {})
+    frontier_kernel_batch_plan = dict(frontier.get("kernel_batch_plan") or {})
     frontier_blockers = [
-        dict(item)
+        {
+            **dict(item),
+            "governance_packet_id": str(
+                item.get("governance_packet_id")
+                or frontier_kernel_governance.get("packet_id")
+                or ""
+            ),
+            "batch_plan_id": str(
+                item.get("batch_plan_id")
+                or frontier_kernel_batch_plan.get("plan_id")
+                or ""
+            ),
+        }
         for item in list(frontier.get("promotion_blockers") or [])
         if not bool(item.get("pass"))
     ]
@@ -8138,10 +8354,16 @@ def get_psicat_achievement_benchmark_promotion_sprint(
             "stage_failures": stage_failures,
             "frontier_blockers_clear": frontier_clear,
             "frontier_open_blockers": frontier_blockers,
+            "kernel_governance_packet": frontier_kernel_governance,
+            "kernel_data_volume_strategy": dict(frontier.get("kernel_data_volume_strategy") or {}),
+            "kernel_batch_plan": frontier_kernel_batch_plan,
             "spc_phase1_lane_receipts": spc_lanes,
             "spc_phase1_clear_to_advance": phase1_clear,
             "spc_phase1_open_lanes": spc_lane_blockers,
         },
+        "kernel_governance_packet": frontier_kernel_governance,
+        "kernel_data_volume_strategy": dict(frontier.get("kernel_data_volume_strategy") or {}),
+        "kernel_batch_plan": frontier_kernel_batch_plan,
         "promotion_readiness": {
             "targeted_rigor_clear": targeted_clear,
             "frontier_blockers_all_clear": frontier_clear,

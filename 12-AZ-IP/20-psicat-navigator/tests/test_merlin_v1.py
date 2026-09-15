@@ -812,6 +812,16 @@ def test_route_tool_training_architecture_and_artifacts():
         'getMerlinPythagoreanTriplesSatMethodTransferPacket'
     )
     assert full_architecture['result']['data']['active_training_surfaces']['arc_agi_program'] == 'getMerlinArcAgiProgram'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_runtime_board'] == 'getMerlinKernelRuntimeBoard'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_execution_receipts'] == 'getMerlinKernelExecutionReceipts'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_benchmark_receipts'] == 'getMerlinKernelBenchmarkReceipts'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_promotion_gate'] == 'getMerlinKernelPromotionGate'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_risk_summary'] == 'getMerlinKernelRiskSummary'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_escalation_packet'] == 'getMerlinKernelEscalationPacket'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_governance_packet'] == 'getMerlinKernelGovernancePacket'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_batch_plan'] == 'getMerlinKernelBatchPlan'
+    assert full_architecture['result']['data']['active_training_surfaces']['compactification_sanity'] == 'getMerlinCompactificationSanity'
+    assert full_architecture['result']['data']['active_training_surfaces']['topology_adjacent_board'] == 'getMerlinTopologyAdjacentBoard'
 
     arc_agi_packet = route_tool('getMerlinArcAgiProgram', {})
     assert arc_agi_packet['ok'] is True
@@ -1076,6 +1086,19 @@ def test_route_tool_training_architecture_and_artifacts():
         == full_architecture['seed_statistics']['total_examples']
     )
     assert empty_artifacts['result']['data']['artifact_bundle']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] >= 1
+    stage_a_artifacts = route_tool('getMerlinStageAArtifacts', {'limit': 1})
+    assert stage_a_artifacts['ok'] is True
+    assert stage_a_artifacts['result']['data']['artifact_bundle']['kernel_governance_packet']['packet_id'] == (
+        'psicat_kernel_governance_packet_v1'
+    )
+    assert stage_a_artifacts['result']['data']['artifact_bundle']['kernel_batch_plan']['plan_id'] == (
+        'psicat_kernel_batch_plan_v1'
+    )
+    assert int(
+        stage_a_artifacts['result']['data']['artifact_bundle']['kernel_data_volume_strategy'][
+            'estimated_batches_for_requested_points'
+        ]
+    ) >= 1
     bad_artifact_refresh = route_tool('getMerlinTrainingArtifacts', {'refresh_lane_e_profiles': 'yes'})
     assert bad_artifact_refresh['ok'] is False
 
@@ -1447,6 +1470,8 @@ def test_route_tool_program_office_and_control_tower():
     assert control['ok'] is True
     data = control['result']['data']
     assert 'replacement_readiness' in data
+    assert data['replacement_readiness']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert data['replacement_readiness']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert 'deployment_eligibility' in data
     assert 'geometric_longitudinal_acceptance' in data
     assert 'drift_alerts' in data
@@ -1626,6 +1651,11 @@ def test_route_tool_stage_a_receipts_and_replacement_readiness():
     assert readiness_data['receipts']['summary']['total'] == 1
     assert readiness_data['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
     assert readiness_data['packet']['decision'] != 'REPLACEMENT_EVIDENCE_REQUIRED'
+    assert readiness_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(readiness_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+    assert readiness_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+    assert readiness_data['packet']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert readiness_data['packet']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
 
 
 def test_route_tool_empirical_gate_rejects_net_quality_downgrade():
@@ -1804,12 +1834,30 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert review_data['frontier_readiness']['promotion_required_blockers_all_clear'] is True
     assert review_data['frontier_readiness']['promotion_blocker_signals_all_present'] is False
     assert 'promotion-blocking blocker passes' in review_data['frontier_readiness']['policy']
+    assert review_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(review_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+    assert review_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+    kernel_frontier_blocker = next(
+        item for item in review_data['frontier_readiness']['promotion_blockers']
+        if item['id'] == 'kernel_runtime_cross_lane_gate'
+    )
+    assert kernel_frontier_blocker['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+    assert isinstance(kernel_frontier_blocker['failed_checks'], list)
+    assert 0.0 <= float(kernel_frontier_blocker['health_score']) <= 1.0
+    assert kernel_frontier_blocker['severity'] in {'low', 'medium', 'high'}
+    assert isinstance(kernel_frontier_blocker['lane_actions'], list)
+    assert kernel_frontier_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(kernel_frontier_blocker['estimated_batches_for_requested_points']) >= 1
     assert review_data['control_tower']['deployment_eligibility']['eligible'] is True
     assert review_data['control_tower']['deployment_eligibility']['frontier_blocker_count'] == len(review_data['open_blockers'])
     assert (
         review_data['control_tower']['deployment_eligibility']['frontier_blockers_clear']
         == (len(review_data['open_blockers']) == 0)
     )
+    for blocker in review_data['open_blockers']:
+        if blocker['id'] == 'kernel_runtime_cross_lane_gate':
+            assert blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert all('failure_reasons' in stage for stage in review_data['stage_reviews'])
     assert heavy_data['lane'] == 'heavy_reasoner_exception'
     assert any(item['failure_id'] == 'cross_source_conflict_collapse' for item in heavy_data['failure_taxonomy'])
@@ -1821,17 +1869,63 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert execution_data['hardware_architecture']['packet_surface'] == 'getMerlinHardwareArchitectureBoard'
     assert execution_data['validation_resilience']['packet_surface'] == 'getMerlinValidationResiliencePacket'
     assert execution_data['blunt_board']['title'] == 'Sprint CL blunt board'
+    assert execution_data['kernel_risk_summary']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+    assert execution_data['kernel_risk_summary']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
+    assert execution_data['kernel_risk_summary']['lane_routing_hint'] in {'physics_compute', 'benchmark_operations', 'validation_resilience'}
+    assert isinstance(execution_data['kernel_risk_summary']['remediation_actions'], list)
+    assert execution_data['kernel_runtime_gate_priority_context']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+    assert execution_data['kernel_runtime_gate_priority_context']['severity'] in {'low', 'medium', 'high'}
+    assert 0.0 <= float(execution_data['kernel_runtime_gate_priority_context']['health_score']) <= 1.0
+    assert execution_data['kernel_runtime_gate_priority_context']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
+    assert execution_data['kernel_escalation_packet']['packet_surface'] == 'getMerlinKernelEscalationPacket'
+    assert isinstance(execution_data['kernel_escalation_packet']['lane_actions'], list)
+    assert execution_data['kernel_governance_packet']['packet_surface'] == 'getMerlinKernelGovernancePacket'
+    assert execution_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(execution_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+    assert execution_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert any(item['task_id'] == 'CL-6' and item['lane'] == 'arc_agi_shadow' for item in execution_data['immediate_tasks'])
     assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
+    kernel_gate_verdict = execution_data['kernel_runtime_gate']['gate_verdict']
+    if kernel_gate_verdict in {'hold', 'fail_closed'}:
+        kernel_blocker = next(
+            item for item in execution_data['blocker_register']
+            if item['blocker_id'] == 'kernel_runtime_cross_lane_gate'
+        )
+        assert kernel_blocker['source'] in {'kernel_runtime_gate', 'frontier_readiness'}
+        assert isinstance(kernel_blocker['failed_checks'], list)
+        assert isinstance(kernel_blocker['remediation_actions'], list)
+        assert isinstance(kernel_blocker['lane_actions'], list)
+        assert kernel_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+        assert int(kernel_blocker['estimated_batches_for_requested_points']) >= 1
+        assert kernel_blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
+        assert 0.0 <= float(kernel_blocker['health_score']) <= 1.0
+        assert kernel_blocker['severity'] in {'low', 'medium', 'high'}
     assert resilience_data['current_truth']['codeql_skip_reason'] == 'repository_database_too_large'
     assert resilience_data['current_truth']['codeql_language_matrix_workflow_configured'] is True
+    assert resilience_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(resilience_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+    assert resilience_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert resilience_data['review_resilience_assets']['orchestrator'] == 'TOOLS/checks/copilot_review_orchestrator.py'
     assert resilience_data['review_resilience_assets']['codeql_language_matrix_workflow'] == '.github/workflows/codeql-language-matrix.yml'
     assert resilience_data['codeql_scope_reduction_strategy']['phases'][0]['name'] == 'changed_surface_first'
+    codeql_blocker = next(item for item in resilience_data['blocker_status'] if item['blocker_id'] == 'codeql_database_too_large')
+    assert codeql_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert codeql_blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert promotion_sprint_data['mode'] == 'achievement_benchmark_promotion_sprint'
     assert len(promotion_sprint_data['achievement_board']) == 5
+    assert promotion_sprint_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(promotion_sprint_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+    assert promotion_sprint_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert len(promotion_sprint_data['benchmark_board']['stage_gate_summary']) == 5
     assert len(promotion_sprint_data['benchmark_board']['spc_phase1_lane_receipts']) == 3
+    assert promotion_sprint_data['benchmark_board']['kernel_governance_packet']['packet_id'] == (
+        'psicat_kernel_governance_packet_v1'
+    )
+    assert promotion_sprint_data['benchmark_board']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+    for blocker in promotion_sprint_data['benchmark_board']['frontier_open_blockers']:
+        if blocker['id'] == 'kernel_runtime_cross_lane_gate':
+            assert blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
     if promotion_sprint_data['promotion_readiness']['decision'] == 'PROMOTION_SPRINT_ADVANCE_ALLOWED':
         assert promotion_sprint_data['appropriate_promotion_sprint']['sprint_id'] == 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'
     else:
@@ -1866,6 +1960,46 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert resilience_data['codeql_matrix_split_strategy']['matrix_axes'] == ['language', 'path_slice']
     assert resilience_data['duckdb_preflight_telemetry']['artifact'] == 'codeql-slice-inventory'
     assert len(resilience_data['repo_size_mitigation_actions']) == 3
+
+
+def test_route_tool_kernel_runtime_surfaces():
+    runtime = route_tool('getMerlinKernelRuntimeBoard', {})
+    receipts = route_tool('getMerlinKernelExecutionReceipts', {'points': 8, 'seed': 7})
+    benchmarks = route_tool('getMerlinKernelBenchmarkReceipts', {'points': 32, 'seed': 11, 'repeats': 2})
+    gate = route_tool('getMerlinKernelPromotionGate', {'points': 16, 'seed': 13, 'repeats': 2})
+    risk = route_tool('getMerlinKernelRiskSummary', {'points': 16, 'seed': 13, 'repeats': 2})
+    escalation = route_tool('getMerlinKernelEscalationPacket', {'points': 16, 'seed': 13, 'repeats': 2})
+    governance = route_tool('getMerlinKernelGovernancePacket', {'points': 16, 'seed': 13, 'repeats': 2})
+    batch_plan = route_tool('getMerlinKernelBatchPlan', {'points': 100000, 'repeats': 1000})
+    governance_bounded = route_tool('getMerlinKernelGovernancePacket', {'points': 100000, 'seed': 13, 'repeats': 1000})
+    compactification = route_tool('getMerlinCompactificationSanity', {})
+    topology = route_tool('getMerlinTopologyAdjacentBoard', {})
+    assert runtime['ok'] is True
+    assert receipts['ok'] is True
+    assert benchmarks['ok'] is True
+    assert gate['ok'] is True
+    assert risk['ok'] is True
+    assert escalation['ok'] is True
+    assert governance['ok'] is True
+    assert batch_plan['ok'] is True
+    assert governance_bounded['ok'] is True
+    assert compactification['ok'] is True
+    assert topology['ok'] is True
+    assert runtime['result']['data']['board_id'] == 'psicat_kernel_runtime_board_v1'
+    assert 'triton_metric_block_compiled' in receipts['result']['data']['receipt']['lanes']
+    assert 'kk_4x4_metric_block_hotspot' in benchmarks['result']['data']['receipt']['benchmarks']
+    assert gate['result']['data']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+    assert risk['result']['data']['risk_id'] == 'psicat_kernel_risk_summary_v1'
+    assert risk['result']['data']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
+    assert risk['result']['data']['lane_routing_hint'] in {'physics_compute', 'benchmark_operations', 'validation_resilience'}
+    assert escalation['result']['data']['packet_id'] == 'psicat_kernel_escalation_packet_v1'
+    assert governance['result']['data']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert governance['result']['data']['gate']['input_contract']['bounded'] is False
+    assert batch_plan['result']['data']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+    assert governance_bounded['result']['data']['gate']['input_contract']['bounded'] is True
+    assert governance_bounded['result']['data']['data_volume_strategy']['estimated_batches_for_requested_points'] == 196
+    assert compactification['result']['data']['policy']['unchecked_bypass_forbidden'] is True
+    assert topology['result']['data']['summary']['lane'] == 'ADJACENT_TRACK'
 
 
 def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatch):
@@ -2915,6 +3049,13 @@ def test_server_merlin_endpoints():
             assert readiness.status_code == 200
             assert readiness.json()['ok'] is True
             assert readiness.json()['readiness']['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
+            assert readiness.json()['readiness']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert int(readiness.json()['readiness']['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+            assert readiness.json()['readiness']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+            assert readiness.json()['readiness']['packet']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert readiness.json()['readiness']['packet']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
 
             frontier = client.get('/api/merlin/frontier-readiness?limit=1')
             assert frontier.status_code == 200
@@ -2924,15 +3065,47 @@ def test_server_merlin_endpoints():
             assert len(frontier.json()['frontier_readiness']['promotion_blockers']) >= 4
             assert frontier.json()['frontier_readiness']['paper_intake_lane']['paper_reference']['id'] == '2508.21593'
             assert 'factuality' in frontier.json()['frontier_readiness']['combined_gate_contract']['required_axes']
+            assert frontier.json()['frontier_readiness']['kernel_runtime_gate']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+            assert frontier.json()['frontier_readiness']['kernel_escalation_packet']['packet_id'] == 'psicat_kernel_escalation_packet_v1'
+            assert frontier.json()['frontier_readiness']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert int(frontier.json()['frontier_readiness']['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+            assert frontier.json()['frontier_readiness']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+            kernel_frontier_blocker = next(
+                item for item in frontier.json()['frontier_readiness']['promotion_blockers']
+                if item['id'] == 'kernel_runtime_cross_lane_gate'
+            )
+            assert isinstance(kernel_frontier_blocker['failed_checks'], list)
+            assert isinstance(kernel_frontier_blocker['remediation_actions'], list)
+            assert isinstance(kernel_frontier_blocker['lane_actions'], list)
+            assert kernel_frontier_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert int(kernel_frontier_blocker['estimated_batches_for_requested_points']) >= 1
+            assert kernel_frontier_blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
+            assert 0.0 <= float(kernel_frontier_blocker['health_score']) <= 1.0
+            assert kernel_frontier_blocker['severity'] in {'low', 'medium', 'high'}
             review_packet = client.get('/api/merlin/review-packet?limit=1')
             assert review_packet.status_code == 200
             assert review_packet.json()['ok'] is True
             assert len(review_packet.json()['review_packet']['stage_reviews']) == 5
+            assert review_packet.json()['review_packet']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert review_packet.json()['review_packet']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
             targeted_rigor_sprint = client.get('/api/merlin/targeted-rigor-sprint?limit=1&training_limit=3')
             assert targeted_rigor_sprint.status_code == 200
             assert targeted_rigor_sprint.json()['ok'] is True
             assert targeted_rigor_sprint.json()['targeted_rigor_sprint']['mode'] == 'targeted_full_rigor_sprint'
             assert len(targeted_rigor_sprint.json()['targeted_rigor_sprint']['stage_gate_summary']) == 5
+            assert targeted_rigor_sprint.json()['targeted_rigor_sprint']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert int(
+                targeted_rigor_sprint.json()['targeted_rigor_sprint']['kernel_data_volume_strategy'][
+                    'estimated_batches_for_requested_points'
+                ]
+            ) >= 1
+            assert targeted_rigor_sprint.json()['targeted_rigor_sprint']['kernel_batch_plan']['plan_id'] == (
+                'psicat_kernel_batch_plan_v1'
+            )
             spc_phase0_packet = client.get('/api/merlin/spc-phase0-packet')
             assert spc_phase0_packet.status_code == 200
             assert spc_phase0_packet.json()['ok'] is True
@@ -2949,6 +3122,12 @@ def test_server_merlin_endpoints():
             assert promotion_sprint.json()['ok'] is True
             assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['mode'] == 'achievement_benchmark_promotion_sprint'
             assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['achievement_board']) == 5
+            assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['kernel_batch_plan']['plan_id'] == (
+                'psicat_kernel_batch_plan_v1'
+            )
             assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['benchmark_board']['spc_phase1_lane_receipts']) == 3
             training_promotion_sprint = client.get('/api/merlin/training-benchmarking-promotion-sprint?limit=2&training_limit=4')
             assert training_promotion_sprint.status_code == 200
@@ -2993,17 +3172,55 @@ def test_server_merlin_endpoints():
                 for item in execution_board.json()['execution_board']['immediate_tasks']
             )
             assert 'contradiction_recovery' in execution_board.json()['execution_board']['combined_gate_contract']['required_axes']
+            assert execution_board.json()['execution_board']['kernel_runtime_gate']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+            assert isinstance(execution_board.json()['execution_board']['kernel_runtime_gate']['remediation_actions'], list)
+            assert execution_board.json()['execution_board']['kernel_runtime_gate']['severity'] in {'low', 'medium', 'high'}
+            assert 0.0 <= float(execution_board.json()['execution_board']['kernel_runtime_gate']['health_score']) <= 1.0
+            assert execution_board.json()['execution_board']['kernel_runtime_gate']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
+            assert execution_board.json()['execution_board']['kernel_runtime_gate']['lane_routing_hint'] in {
+                'physics_compute',
+                'benchmark_operations',
+                'validation_resilience',
+            }
+            assert execution_board.json()['execution_board']['kernel_escalation_packet']['packet_id'] == 'psicat_kernel_escalation_packet_v1'
+            assert execution_board.json()['execution_board']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert int(execution_board.json()['execution_board']['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+            assert execution_board.json()['execution_board']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+            if execution_board.json()['execution_board']['kernel_runtime_gate']['gate_verdict'] in {'hold', 'fail_closed'}:
+                kernel_blocker = next(
+                    item for item in execution_board.json()['execution_board']['blocker_register']
+                    if item['blocker_id'] == 'kernel_runtime_cross_lane_gate'
+                )
+                assert isinstance(kernel_blocker['failed_checks'], list)
+                assert isinstance(kernel_blocker['lane_actions'], list)
+                assert kernel_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+                assert int(kernel_blocker['estimated_batches_for_requested_points']) >= 1
+                assert kernel_blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
+                assert 0.0 <= float(kernel_blocker['health_score']) <= 1.0
+                assert kernel_blocker['severity'] in {'low', 'medium', 'high'}
+                assert kernel_blocker['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
             validation_resilience = client.get('/api/merlin/validation-resilience?limit=2')
             assert validation_resilience.status_code == 200
             assert validation_resilience.json()['ok'] is True
             assert validation_resilience.json()['validation_resilience']['current_truth']['codeql_completed_in_current_environment'] is False
             assert validation_resilience.json()['validation_resilience']['current_truth']['codeql_language_matrix_workflow_configured'] is True
+            assert validation_resilience.json()['validation_resilience']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert validation_resilience.json()['validation_resilience']['kernel_batch_plan']['plan_id'] == (
+                'psicat_kernel_batch_plan_v1'
+            )
             assert len(validation_resilience.json()['validation_resilience']['repo_size_mitigation_actions']) == 2
 
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200
             assert artifacts.json()['ok'] is True
             assert artifacts.json()['artifacts']['receipts']['summary']['total'] == 1
+            assert artifacts.json()['artifacts']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert int(
+                artifacts.json()['artifacts']['kernel_data_volume_strategy']['estimated_batches_for_requested_points']
+            ) >= 1
+            assert artifacts.json()['artifacts']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
 
             training_artifacts = client.get('/api/merlin/training-artifacts?limit=4&refresh_lane_e_profiles=true')
             assert training_artifacts.status_code == 200
@@ -3500,6 +3717,17 @@ def test_run_sync_checks_has_consistency_contract():
     for endpoint in [
         '/api/psicat',
         '/api/psicat/status',
+        '/api/psicat/kernel-runtime',
+        '/api/psicat/kernel-receipts',
+        '/api/psicat/kernel-benchmarks',
+        '/api/psicat/kernel-gate',
+        '/api/psicat/kernel-risk',
+        '/api/psicat/kernel-escalation',
+        '/api/psicat/kernel-governance',
+        '/api/psicat/kernel-batch-plan',
+        '/api/psicat/compactification-sanity',
+        '/api/psicat/compactification-ingest',
+        '/api/psicat/topology-adjacent',
         '/api/psicat/execution-board',
         '/api/psicat/convergence-charter',
         '/api/psicat/validation-resilience',
@@ -3513,3 +3741,17 @@ def test_run_sync_checks_has_consistency_contract():
     assert checks['parity_dimensions']['engine_module_parity'] is True
     assert checks['parity_dimensions']['training_export_script_parity'] is True
     assert checks['parity_dimensions']['toolkit_function_parity'] is True
+    toolkit = {item['tool']: item for item in checks['toolkit_function_checks']}
+    for tool in [
+        'getMerlinKernelRuntimeBoard',
+        'getMerlinKernelExecutionReceipts',
+        'getMerlinKernelBenchmarkReceipts',
+        'getMerlinKernelPromotionGate',
+        'getMerlinKernelRiskSummary',
+        'getMerlinKernelEscalationPacket',
+        'getMerlinKernelGovernancePacket',
+        'getMerlinKernelBatchPlan',
+        'getMerlinCompactificationSanity',
+        'getMerlinTopologyAdjacentBoard',
+    ]:
+        assert toolkit[tool]['present'] is True
