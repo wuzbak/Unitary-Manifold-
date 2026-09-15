@@ -70,7 +70,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     ]
     primary_deliverable_ids = {item['id'] for item in primary_deliverables}
     primary_deliverable_ids_unique = len(primary_deliverable_ids) == len(primary_deliverables)
-    deliverable_status_matches_earned = all(
+    deliverable_receipt_progress_consistent = all(
         (
             item['earned']
             and item['status'] in {'EVIDENCE_SURFACED', 'EARNED'}
@@ -80,6 +80,9 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
             and item['status'] in {'OPEN_BLOCKER', 'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED'}
         )
         for item in primary_deliverables
+    )
+    completion_statuses_fully_earned = all(
+        item['status'] == 'EARNED' for item in primary_deliverables
     )
     unresolved_primary_ids = {
         item['id'] for item in primary_deliverables if not item.get('earned')
@@ -92,11 +95,15 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     deliverable_state_consistent = (
         len(primary_deliverables) == 3
         and primary_deliverable_ids_unique
-        and deliverable_status_matches_earned
+        and deliverable_receipt_progress_consistent
         and all(item['id'] and item['label'] and item['status'] for item in primary_deliverables)
         and unresolved_primary_ids == primary_remaining_blockers
     )
-    routing_target_fully_earned = deliverable_state_consistent and len(unresolved_primary_ids) == 0
+    routing_target_fully_earned = (
+        deliverable_state_consistent
+        and completion_statuses_fully_earned
+        and len(unresolved_primary_ids) == 0
+    )
     capability_gains = [
         'EXACT_BLOCKER_SURFACES_INSTEAD_OF_VAGUE_CLOSURE_LANGUAGE',
         'DETERMINISTIC_PYTHON_LEAN_TOUCHED_UNIT_TRUTH_GATES',
