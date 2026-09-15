@@ -64,8 +64,8 @@ Step 2: The CS inflow contribution:
 
     η̄_CS = T(n_w) / 2 mod 1
 
-where T(n_w) is the Chern-Simons invariant. For n_w = 5: T(5) = 1, so η̄_CS = 1/2.
-For n_w = 7: T(7) = 0 mod 1. This step is derived from the APS theorem and the
+where T(n_w) is the Chern-Simons boundary parity class in this normalization. For n_w = 5: T(5) = 1 (odd class), so η̄_CS = 1/2.
+For n_w = 7: T(7) = 0 mod 1 (even class). This step is derived from the APS theorem and the
 Goldstone-Wilczek formula. Verified in 256 tests.
 
 Step 3 (Z₂ zero-mode parity): Physically motivated and numerically confirmed in

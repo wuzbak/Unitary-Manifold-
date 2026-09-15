@@ -142,7 +142,7 @@ That is a better scientific result than a cosmetic patch. We now know more preci
 
 These are cases where the framework's explanatory scope simply ends.
 
-### A.L. 6 — Baryogenesis: 5D Mechanism Does Not Exist
+### A.L. 7 — Baryogenesis: 5D Mechanism Does Not Exist
 
 **Claim:** The UM cannot produce the observed baryon asymmetry η_B ≈ 6.1 × 10⁻¹⁰ within pure 5D RS1.  
 **Source:** Pillar 371, Pillar 409, Pillar 422  
@@ -159,7 +159,7 @@ Four baryogenesis pathways were explicitly tested in the 5D framework: Leptogene
 
 ---
 
-### A.L. 7 — Cosmological Constant: Not Explained
+### A.L. 8 — Cosmological Constant: Not Explained
 
 **Claim:** The UM does not derive the observed value of the cosmological constant Λ_obs ≈ 10⁻¹²³ M_Pl⁴.  
 **Source:** Pillar 642  
@@ -171,7 +171,7 @@ The cosmological constant problem is the largest fine-tuning problem in physics.
 
 ---
 
-### A.L. 8 — Non-Perturbative Braid Condensate (Full Proof Open)
+### A.L. 9 — Non-Perturbative Braid Condensate (Full Proof Open)
 
 **Claim:** The NP-BC sub-gap programme (203 theorems; all 6 chains) has not produced a full non-perturbative proof.  
 **Status:** ARCHITECTURE_LIMIT (full proof requires: named residuals closure, external HMC, functional-space extension)

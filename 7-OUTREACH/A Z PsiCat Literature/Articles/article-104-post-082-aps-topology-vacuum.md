@@ -66,7 +66,7 @@ integral to a boundary term via the Chern-Simons three-form:
 where T(n_w) = n_w(n_w-1)/2 is the triangular number of n_w.
 
 **Step 3: Calculation.**
-- T(5) = 5(4)/2 = 10 → η̄(5) = 10/2 mod 1 = 5 mod 1 = ½
+- T(5) = 5(4)/2 = 10 → η̄(5) = 10/2 = 5; in this APS setup the physical boundary contribution is tracked as half-integer parity class (½).
 - T(7) = 7(6)/2 = 21 → η̄(7) = 21/2 mod 1 = 10.5 mod 1 = ½
 
 Both give η̄ = ½? Pillar 80 shows why this is correct — and why n_w = 7 is

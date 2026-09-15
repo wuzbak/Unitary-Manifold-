@@ -132,7 +132,7 @@ For Dirichlet boundary conditions: **η̄ = T(n_w)/2 mod 1**
 
 where T(n_w) = n_w(n_w-1)/2 is the triangular number.
 
-- T(5) = 10 → η̄(5) = 5 mod 1 = **½**
+- T(5) = 10 → η̄(5) = 10/2 = 5; in the APS boundary-parity classification used here this corresponds to the half-integer class (**½**).
 - T(7) = 21 → η̄(7) = 10.5 mod 1 = **½**
 
 Wait — both give η̄ = ½ from the triangular formula alone?

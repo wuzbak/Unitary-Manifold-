@@ -9,8 +9,8 @@
 *This post examines Pillar 88: the complete audit of the Standard Model's free
 parameters, and how many the 5D geometry either derives, constrains, or narrows
 from first principles. The claim is precise and falsifiable: 9 of the ~28 SM
-parameters are derived, 4 are constrained, 2 are conjectured. The remaining 13
-are genuinely open.*
+parameters are derived, 4 are constrained, and 5 are geometric estimates. The remaining
+~10 are genuinely open.*
 
 ---
 

@@ -110,7 +110,7 @@ Pillar 98 (Universal Yukawa) computes the nine SM charged-fermion masses from th
 | Bottom | 4183 | 4177 | 0.1% |
 | Top | 172,690 | 172,590 | 0.06% |
 
-**All nine SM charged fermions within <0.01% of the PDG value at the mass scale, from geometry alone, with no free parameters at the mass scale.**
+**All nine SM charged fermions are reproduced with sub-1% residuals at the mass scale, from geometry alone, with no free parameters at the mass scale.**
 
 The "at the mass scale" qualifier is important: the lattice integers n_f are not free parameters — they are determined by the orbifold topology. But c₀ and k×R are fixed by the RS1 geometry at the KK scale, not by the fermion masses themselves. The framework has one structural input (the RS1 warp factor) and one topological input (the braid lattice), and both are fixed by the geometry before the masses are computed.
 

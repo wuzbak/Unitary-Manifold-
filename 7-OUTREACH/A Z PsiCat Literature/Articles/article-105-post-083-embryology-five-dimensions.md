@@ -134,7 +134,7 @@ boundary between quantum information and classical information — the line wher
 a new organism's causal structure begins — is governed by the same APS boundary
 conditions that select the vacuum of the 5D geometry.
 
-This is a bold claim. It may be wrong. The five biology predictions listed here
+This is a bold claim. It may be wrong. The four biology predictions listed here
 are the test of whether it is.
 
 ---

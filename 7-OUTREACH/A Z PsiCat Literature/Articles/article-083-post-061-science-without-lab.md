@@ -7,13 +7,13 @@
 
 *Post 61 of the Unitary Manifold series.*
 *No falsifiable physics claim is made in this post. It is an epistemological
-examination of the status of 15,615 automated assertions as evidence — what they
+examination of the status of automated assertions as evidence — what they
 prove, what they don't prove, and how they fit into the broader evidential structure
 that science requires.*
 
 ---
 
-The repository has 15,615 automated tests that pass. Every time someone runs
+The repository snapshot shown in this article records 14,183 automated tests passing for that command sample. Every time someone runs
 `python -m pytest tests/ recycling/ "Unitary Pentad/" -q`, they get back:
 
     14183 passed, 2 skipped, 11 deselected, 0 failed
@@ -27,7 +27,7 @@ The second part is what it actually means. Both matter.
 
 ## What it doesn't mean
 
-Passing 15,615 tests does not mean the theory is correct.
+Passing 14,183 tests in that sample run does not mean the theory is correct.
 
 The tests verify that the code faithfully implements the stated mathematics. When
 `tests/test_inflation.py` passes, it means that the Python function `spectral_index()`

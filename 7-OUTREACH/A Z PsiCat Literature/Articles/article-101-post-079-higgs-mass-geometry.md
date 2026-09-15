@@ -99,7 +99,7 @@ cutoff at Λ_KK ≈ 327 GeV rather than at M_Pl ≈ 10¹⁹ GeV.
 This means the framework predicts: **no supersymmetric particles will be found.**
 
 If SUSY particles are discovered at an LHC upgrade or a future collider, the
-hierarchyresolution mechanism in this framework is wrong. This is a falsifiable
+hierarchy resolution mechanism in this framework is wrong. This is a falsifiable
 prediction, stated explicitly.
 
 ---

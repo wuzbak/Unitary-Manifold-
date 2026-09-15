@@ -65,8 +65,8 @@ weaknesses. The results were instructive:
 
 - The APS η-invariant argument (Pillar 70) was identified as the point where the
   framework transitioned from "derived" to "conjectured." That gap has subsequently
-  been closed at three independent levels (Pillars 70-B, 80, 89 — topological,
-  algebraic, and spectral-geometric proofs all converge on n_w = 5).
+  been substantially hardened across multiple levels (Pillars 70-B, 80, 89 — topological,
+  algebraic, and spectral-geometric lines all support n_w = 5 while preserving explicit scope caveats).
 
 - Several domain applications (medicine, justice, economics) were flagged as
   structural analogies rather than derivations. We agree; these are Tier 2
