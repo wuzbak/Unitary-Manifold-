@@ -321,6 +321,41 @@ def get_kernel_governance_packet(points: int = 32, seed: int = 13, repeats: int 
     }
 
 
+def get_kernel_batch_plan(points: int = 32, repeats: int = 3) -> dict[str, Any]:
+    bounded = _bounded_kernel_inputs(points=points, repeats=repeats)
+    requested_points = int(bounded.get("requested_points", 1) or 1)
+    chunk_points = int(bounded.get("recommended_chunk_points", MAX_KERNEL_POINTS) or MAX_KERNEL_POINTS)
+    estimated_batches = int(bounded.get("estimated_batches_for_requested_points", 1) or 1)
+    plan_preview = []
+    preview_limit = min(5, estimated_batches)
+    for index in range(preview_limit):
+        batch_index = index + 1
+        if batch_index < estimated_batches:
+            batch_points = chunk_points
+        else:
+            remainder = requested_points % chunk_points
+            batch_points = remainder if remainder else chunk_points
+        plan_preview.append({
+            "batch_index": batch_index,
+            "points": int(batch_points),
+            "repeats": int(bounded.get("repeats", 1) or 1),
+        })
+    return {
+        "ok": True,
+        "plan_id": "psicat_kernel_batch_plan_v1",
+        "input_contract": bounded,
+        "estimated_batches_for_requested_points": estimated_batches,
+        "batch_plan_preview": plan_preview,
+        "preview_truncated": estimated_batches > preview_limit,
+        "policy": {
+            "max_points_per_batch": MAX_KERNEL_POINTS,
+            "max_repeats_per_batch": MAX_KERNEL_REPEATS,
+            "execution_mode": "bounded_chunked",
+            "note": "Use bounded chunk batches for large requests instead of single loop-heavy oversized runs.",
+        },
+    }
+
+
 def get_topology_adjacent_board() -> dict[str, Any]:
     summary = topology_adjacent_summary()
     return {

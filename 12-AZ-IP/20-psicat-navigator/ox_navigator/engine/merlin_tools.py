@@ -149,6 +149,7 @@ from .merlin_research_cycle import run_research_cycle
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_lean_bridge import get_merlin_lean_bridge_artifact
 from .merlin_kernel_runtime import (
+    get_kernel_batch_plan,
     get_compactification_sanity_receipt,
     get_kernel_benchmark_receipts,
     get_kernel_escalation_packet,
@@ -410,6 +411,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinKernelRiskSummary", "summary": "Return compact kernel risk packet with escalation tier, lane routing hint, severity, health score, failed checks, and remediation actions", "domain": "functions"},
             {"name": "getMerlinKernelEscalationPacket", "summary": "Return deterministic lane-action escalation packet from kernel risk posture", "domain": "functions"},
             {"name": "getMerlinKernelGovernancePacket", "summary": "Return unified kernel governance packet bundling gate, risk, and escalation surfaces", "domain": "functions"},
+            {"name": "getMerlinKernelBatchPlan", "summary": "Return bounded chunk execution plan metadata for large kernel point requests", "domain": "functions"},
             {"name": "getMerlinCompactificationSanity", "summary": "Return compactification sanity checks against canonical epistemic files", "domain": "functions"},
             {"name": "getMerlinTopologyAdjacentBoard", "summary": "Return adjacent-only topology prototype board with hardgate boundary note", "domain": "functions"},
             {"name": "getMerlinExecutionBoard", "summary": "Return the follow-on execution board with immediate tasks, blockers, validation resilience, and blunt board", "domain": "functions"},
@@ -502,6 +504,7 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinKernelRiskSummary": {"args_schema": {"type": "object", "properties": {"points": {"type": "integer"}, "seed": {"type": "integer"}, "repeats": {"type": "integer"}}, "additionalProperties": False}},
         "getMerlinKernelEscalationPacket": {"args_schema": {"type": "object", "properties": {"points": {"type": "integer"}, "seed": {"type": "integer"}, "repeats": {"type": "integer"}}, "additionalProperties": False}},
         "getMerlinKernelGovernancePacket": {"args_schema": {"type": "object", "properties": {"points": {"type": "integer"}, "seed": {"type": "integer"}, "repeats": {"type": "integer"}}, "additionalProperties": False}},
+        "getMerlinKernelBatchPlan": {"args_schema": {"type": "object", "properties": {"points": {"type": "integer"}, "repeats": {"type": "integer"}}, "additionalProperties": False}},
         "getMerlinCompactificationSanity": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinTopologyAdjacentBoard": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinExecutionBoard": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
@@ -1350,6 +1353,10 @@ _FUNCTIONS = {
     "getMerlinKernelGovernancePacket": lambda **args: {"data": get_kernel_governance_packet(
         points=_coerce_positive_int(args.get("points"), 32),
         seed=int(args.get("seed", 13)),
+        repeats=_coerce_positive_int(args.get("repeats"), 3),
+    )},
+    "getMerlinKernelBatchPlan": lambda **args: {"data": get_kernel_batch_plan(
+        points=_coerce_positive_int(args.get("points"), 32),
         repeats=_coerce_positive_int(args.get("repeats"), 3),
     )},
     "getMerlinCompactificationSanity": lambda **args: {"data": get_compactification_sanity_receipt()},

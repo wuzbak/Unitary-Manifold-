@@ -9,6 +9,7 @@ import httpx
 
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_kernel_runtime import (
+    get_kernel_batch_plan,
     get_kernel_benchmark_receipts,
     get_compactification_sanity_receipt,
     get_kernel_escalation_packet,
@@ -107,6 +108,15 @@ def test_kernel_governance_packet_contract():
     assert payload["policy"]["bounded_execution_contract"] is True
 
 
+def test_kernel_batch_plan_contract():
+    payload = get_kernel_batch_plan(points=100000, repeats=1000)
+    assert payload["plan_id"] == "psicat_kernel_batch_plan_v1"
+    assert payload["input_contract"]["bounded"] is True
+    assert payload["estimated_batches_for_requested_points"] == 196
+    assert isinstance(payload["batch_plan_preview"], list)
+    assert payload["preview_truncated"] is True
+
+
 def test_kernel_input_contract_bounds_large_requests():
     payload = get_kernel_governance_packet(points=100000, seed=5, repeats=1000)
     assert payload["gate"]["input_contract"]["bounded"] is True
@@ -173,6 +183,9 @@ def test_server_kernel_runtime_endpoints():
             governance_resp = client.get("/api/psicat/kernel-governance?points=16&seed=3&repeats=2")
             assert governance_resp.status_code == 200
             assert governance_resp.json()["kernel_governance"]["packet_id"] == "psicat_kernel_governance_packet_v1"
+            batch_plan_resp = client.get("/api/psicat/kernel-batch-plan?points=100000&repeats=1000")
+            assert batch_plan_resp.status_code == 200
+            assert batch_plan_resp.json()["kernel_batch_plan"]["plan_id"] == "psicat_kernel_batch_plan_v1"
             bounded_resp = client.get("/api/psicat/kernel-governance?points=100000&seed=3&repeats=1000")
             assert bounded_resp.status_code == 200
             assert bounded_resp.json()["kernel_governance"]["gate"]["input_contract"]["bounded"] is True
@@ -221,6 +234,9 @@ def test_server_kernel_runtime_endpoints():
             compat_governance_resp = client.get("/api/merlin/kernel-governance?points=16&seed=3&repeats=2")
             assert compat_governance_resp.status_code == 200
             assert compat_governance_resp.json()["kernel_governance"]["gate"]["gate_verdict"] in {"pass", "hold", "fail_closed"}
+            compat_batch_plan_resp = client.get("/api/merlin/kernel-batch-plan?points=100000&repeats=1000")
+            assert compat_batch_plan_resp.status_code == 200
+            assert compat_batch_plan_resp.json()["kernel_batch_plan"]["estimated_batches_for_requested_points"] == 196
     finally:
         httpd.shutdown()
         httpd.server_close()

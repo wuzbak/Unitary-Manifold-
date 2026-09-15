@@ -819,6 +819,7 @@ def test_route_tool_training_architecture_and_artifacts():
     assert full_architecture['result']['data']['active_training_surfaces']['kernel_risk_summary'] == 'getMerlinKernelRiskSummary'
     assert full_architecture['result']['data']['active_training_surfaces']['kernel_escalation_packet'] == 'getMerlinKernelEscalationPacket'
     assert full_architecture['result']['data']['active_training_surfaces']['kernel_governance_packet'] == 'getMerlinKernelGovernancePacket'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_batch_plan'] == 'getMerlinKernelBatchPlan'
     assert full_architecture['result']['data']['active_training_surfaces']['compactification_sanity'] == 'getMerlinCompactificationSanity'
     assert full_architecture['result']['data']['active_training_surfaces']['topology_adjacent_board'] == 'getMerlinTopologyAdjacentBoard'
 
@@ -1933,6 +1934,7 @@ def test_route_tool_kernel_runtime_surfaces():
     risk = route_tool('getMerlinKernelRiskSummary', {'points': 16, 'seed': 13, 'repeats': 2})
     escalation = route_tool('getMerlinKernelEscalationPacket', {'points': 16, 'seed': 13, 'repeats': 2})
     governance = route_tool('getMerlinKernelGovernancePacket', {'points': 16, 'seed': 13, 'repeats': 2})
+    batch_plan = route_tool('getMerlinKernelBatchPlan', {'points': 100000, 'repeats': 1000})
     governance_bounded = route_tool('getMerlinKernelGovernancePacket', {'points': 100000, 'seed': 13, 'repeats': 1000})
     compactification = route_tool('getMerlinCompactificationSanity', {})
     topology = route_tool('getMerlinTopologyAdjacentBoard', {})
@@ -1943,6 +1945,7 @@ def test_route_tool_kernel_runtime_surfaces():
     assert risk['ok'] is True
     assert escalation['ok'] is True
     assert governance['ok'] is True
+    assert batch_plan['ok'] is True
     assert governance_bounded['ok'] is True
     assert compactification['ok'] is True
     assert topology['ok'] is True
@@ -1956,6 +1959,7 @@ def test_route_tool_kernel_runtime_surfaces():
     assert escalation['result']['data']['packet_id'] == 'psicat_kernel_escalation_packet_v1'
     assert governance['result']['data']['packet_id'] == 'psicat_kernel_governance_packet_v1'
     assert governance['result']['data']['gate']['input_contract']['bounded'] is False
+    assert batch_plan['result']['data']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert governance_bounded['result']['data']['gate']['input_contract']['bounded'] is True
     assert governance_bounded['result']['data']['data_volume_strategy']['estimated_batches_for_requested_points'] == 196
     assert compactification['result']['data']['policy']['unchecked_bypass_forbidden'] is True
@@ -3653,6 +3657,7 @@ def test_run_sync_checks_has_consistency_contract():
         '/api/psicat/kernel-risk',
         '/api/psicat/kernel-escalation',
         '/api/psicat/kernel-governance',
+        '/api/psicat/kernel-batch-plan',
         '/api/psicat/compactification-sanity',
         '/api/psicat/compactification-ingest',
         '/api/psicat/topology-adjacent',
@@ -3678,6 +3683,7 @@ def test_run_sync_checks_has_consistency_contract():
         'getMerlinKernelRiskSummary',
         'getMerlinKernelEscalationPacket',
         'getMerlinKernelGovernancePacket',
+        'getMerlinKernelBatchPlan',
         'getMerlinCompactificationSanity',
         'getMerlinTopologyAdjacentBoard',
     ]:
