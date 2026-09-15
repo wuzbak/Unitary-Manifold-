@@ -208,6 +208,48 @@ def get_kernel_risk_summary(points: int = 32, seed: int = 13, repeats: int = 3) 
     }
 
 
+def get_kernel_escalation_packet(points: int = 32, seed: int = 13, repeats: int = 3) -> dict[str, Any]:
+    risk = get_kernel_risk_summary(points=points, seed=seed, repeats=repeats)
+    lane = str(risk.get("lane_routing_hint") or "")
+    tier = str(risk.get("escalation_tier") or "")
+    lane_actions = {
+        "validation_resilience": [
+            "Freeze compiled-lane promotion claims.",
+            "Route remediation actions through validation resilience board.",
+            "Require human review sign-off before re-running promotion gate.",
+        ],
+        "benchmark_operations": [
+            "Run benchmark receipt refresh with bounded repeats.",
+            "Re-check parity and metric-block error tolerances.",
+            "Keep promotion state at hold until compiled evidence is green.",
+        ],
+        "physics_compute": [
+            "Monitor compiled lane receipts on regular cadence.",
+            "Keep parity receipts attached to all speedup claims.",
+        ],
+    }
+    return {
+        "ok": bool(risk.get("ok", False)),
+        "packet_id": "psicat_kernel_escalation_packet_v1",
+        "risk_surface": "getMerlinKernelRiskSummary",
+        "gate_verdict": str(risk.get("gate_verdict") or ""),
+        "severity": str(risk.get("severity") or ""),
+        "escalation_tier": tier,
+        "lane_routing_hint": lane,
+        "escalation_priority": str(risk.get("escalation_priority") or ""),
+        "requires_human_review": bool(risk.get("requires_human_review", False)),
+        "health_score": float(risk.get("health_score", 0.0) or 0.0),
+        "failed_checks": list(risk.get("failed_checks") or []),
+        "remediation_actions": list(risk.get("remediation_actions") or []),
+        "lane_actions": list(lane_actions.get(lane, [])),
+        "policy": {
+            "tier_order": ["T1_MONITOR", "T2_HOLD", "T3_BLOCK"],
+            "promotion_claims_require_kernel_gate_pass": True,
+            "human_review_required_when_t3": tier == "T3_BLOCK",
+        },
+    }
+
+
 def get_topology_adjacent_board() -> dict[str, Any]:
     summary = topology_adjacent_summary()
     return {

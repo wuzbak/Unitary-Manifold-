@@ -11,6 +11,7 @@ from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_kernel_runtime import (
     get_kernel_benchmark_receipts,
     get_compactification_sanity_receipt,
+    get_kernel_escalation_packet,
     get_kernel_execution_receipts,
     get_kernel_promotion_gate_summary,
     get_kernel_risk_summary,
@@ -81,6 +82,15 @@ def test_kernel_risk_summary_contract():
     assert isinstance(payload["remediation_actions"], list)
 
 
+def test_kernel_escalation_packet_contract():
+    payload = get_kernel_escalation_packet(points=16, seed=5, repeats=2)
+    assert payload["packet_id"] == "psicat_kernel_escalation_packet_v1"
+    assert payload["escalation_tier"] in {"T1_MONITOR", "T2_HOLD", "T3_BLOCK"}
+    assert payload["lane_routing_hint"] in {"physics_compute", "benchmark_operations", "validation_resilience"}
+    assert isinstance(payload["lane_actions"], list)
+    assert payload["policy"]["promotion_claims_require_kernel_gate_pass"] is True
+
+
 def test_compactification_sanity_receipt_surface():
     payload = get_compactification_sanity_receipt()
     assert "checks" in payload
@@ -131,6 +141,9 @@ def test_server_kernel_runtime_endpoints():
             assert risk_resp.status_code == 200
             assert risk_resp.json()["kernel_risk"]["risk_id"] == "psicat_kernel_risk_summary_v1"
             assert risk_resp.json()["kernel_risk"]["escalation_tier"] in {"T1_MONITOR", "T2_HOLD", "T3_BLOCK"}
+            escalation_resp = client.get("/api/psicat/kernel-escalation?points=16&seed=3&repeats=2")
+            assert escalation_resp.status_code == 200
+            assert escalation_resp.json()["kernel_escalation"]["packet_id"] == "psicat_kernel_escalation_packet_v1"
 
             sanity_resp = client.get("/api/psicat/compactification-sanity")
             assert sanity_resp.status_code in {200, 422}
@@ -161,6 +174,13 @@ def test_server_kernel_runtime_endpoints():
             assert compat_risk_resp.status_code == 200
             assert compat_risk_resp.json()["kernel_risk"]["severity"] in {"low", "medium", "high"}
             assert compat_risk_resp.json()["kernel_risk"]["lane_routing_hint"] in {
+                "physics_compute",
+                "benchmark_operations",
+                "validation_resilience",
+            }
+            compat_escalation_resp = client.get("/api/merlin/kernel-escalation?points=16&seed=3&repeats=2")
+            assert compat_escalation_resp.status_code == 200
+            assert compat_escalation_resp.json()["kernel_escalation"]["lane_routing_hint"] in {
                 "physics_compute",
                 "benchmark_operations",
                 "validation_resilience",

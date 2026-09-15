@@ -55,6 +55,7 @@ REQUIRED_TOOLKIT_FUNCTIONS: tuple[str, ...] = (
     "getMerlinKernelBenchmarkReceipts",
     "getMerlinKernelPromotionGate",
     "getMerlinKernelRiskSummary",
+    "getMerlinKernelEscalationPacket",
     "getMerlinCompactificationSanity",
     "getMerlinTopologyAdjacentBoard",
 )
