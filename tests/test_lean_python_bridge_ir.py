@@ -28,6 +28,10 @@ def test_python_lean_bridge_contract_structure() -> None:
         item["id"] == "TRUNCATION_DISCRETIZATION_CERTIFICATE"
         for item in action_unit["translation_contract"]["certificate_contract"]["required_certificate_types"]
     )
+    assert contract["governance"]["no_bloat_theorem_gate"]["gate_id"] == "NO_BLOAT_THEOREM_GATE_V1"
+    assert "promotion_requires_all" in contract["governance"]["closure_evidence_requirements"]
+    assert "python_to_lean" in contract["bidirectional_pipeline"]
+    assert "lean_to_python" in contract["bidirectional_pipeline"]
 
 
 def test_empty_row_overrides_are_preserved() -> None:
