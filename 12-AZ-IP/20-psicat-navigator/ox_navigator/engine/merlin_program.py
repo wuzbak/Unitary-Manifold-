@@ -4646,6 +4646,7 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
 def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     from .merlin_kernel_runtime import (
         get_kernel_escalation_packet,
+        get_kernel_governance_packet,
         get_kernel_promotion_gate_summary,
     )
 
@@ -4660,6 +4661,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     open_blockers = list(review_packet.get("open_blockers") or [])
     kernel_gate = get_kernel_promotion_gate_summary()
     kernel_escalation = get_kernel_escalation_packet()
+    kernel_governance = get_kernel_governance_packet()
     current_heavy_provider = str(heavy_lane.get("current_default_provider") or "deterministic_retrieval")
     task_priorities = {
         "pass": {"benchmark_operations": "high", "physics_compute": "high"},
@@ -4684,6 +4686,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                     "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
                     "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
                     "lane_actions": list(kernel_escalation.get("lane_actions") or []),
+                    "governance_packet_id": str(kernel_governance.get("packet_id") or ""),
                 }
             )
     return {
@@ -4814,6 +4817,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "escalation_tier": str(item.get("escalation_tier") or ""),
                 "lane_routing_hint": str(item.get("lane_routing_hint") or ""),
                 "lane_actions": list(item.get("lane_actions") or []),
+                "governance_packet_id": str(item.get("governance_packet_id") or ""),
             }
             for item in open_blockers
         ] + kernel_gate_register + [
@@ -4882,6 +4886,10 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
         "kernel_escalation_packet": {
             **dict(kernel_escalation),
             "packet_surface": "getMerlinKernelEscalationPacket",
+        },
+        "kernel_governance_packet": {
+            **dict(kernel_governance),
+            "packet_surface": "getMerlinKernelGovernancePacket",
         },
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
@@ -7530,6 +7538,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     from .merlin_benchmark import build_merlin_control_tower, get_multi_stage_benchmark_plan
     from .merlin_kernel_runtime import (
         get_kernel_escalation_packet,
+        get_kernel_governance_packet,
         get_kernel_promotion_gate_summary,
     )
 
@@ -7549,6 +7558,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     router = get_router_policy()
     kernel_gate = get_kernel_promotion_gate_summary()
     kernel_escalation = get_kernel_escalation_packet()
+    kernel_governance = get_kernel_governance_packet()
     resilience = get_merlin_validation_resilience_packet()
     resilience_truth = dict(resilience.get("current_truth") or {})
     hosted_review_signal_present = bool(resilience_truth.get("hosted_review_tool_available_in_every_environment"))
@@ -7653,6 +7663,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
             "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
             "lane_actions": list(kernel_escalation.get("lane_actions") or []),
+            "governance_packet_id": str(kernel_governance.get("packet_id") or ""),
         },
     ]
 
@@ -7674,6 +7685,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
         "multi_stage_plan": benchmark_plan,
         "kernel_runtime_gate": kernel_gate,
         "kernel_escalation_packet": kernel_escalation,
+        "kernel_governance_packet": kernel_governance,
         "training_seed_examples": training.get("seed_statistics", {}),
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),

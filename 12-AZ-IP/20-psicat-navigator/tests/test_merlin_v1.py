@@ -1822,6 +1822,7 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert 0.0 <= float(kernel_frontier_blocker['health_score']) <= 1.0
     assert kernel_frontier_blocker['severity'] in {'low', 'medium', 'high'}
     assert isinstance(kernel_frontier_blocker['lane_actions'], list)
+    assert kernel_frontier_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
     assert review_data['control_tower']['deployment_eligibility']['eligible'] is True
     assert review_data['control_tower']['deployment_eligibility']['frontier_blocker_count'] == len(review_data['open_blockers'])
     assert (
@@ -1849,6 +1850,8 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert execution_data['kernel_runtime_gate_priority_context']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
     assert execution_data['kernel_escalation_packet']['packet_surface'] == 'getMerlinKernelEscalationPacket'
     assert isinstance(execution_data['kernel_escalation_packet']['lane_actions'], list)
+    assert execution_data['kernel_governance_packet']['packet_surface'] == 'getMerlinKernelGovernancePacket'
+    assert execution_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
     assert any(item['task_id'] == 'CL-6' and item['lane'] == 'arc_agi_shadow' for item in execution_data['immediate_tasks'])
     assert any(item['blocker_id'] == 'codeql_database_too_large' for item in execution_data['blocker_register'])
     kernel_gate_verdict = execution_data['kernel_runtime_gate']['gate_verdict']
@@ -1861,6 +1864,7 @@ def test_route_tool_sprint_review_and_sovereign_boards():
         assert isinstance(kernel_blocker['failed_checks'], list)
         assert isinstance(kernel_blocker['remediation_actions'], list)
         assert isinstance(kernel_blocker['lane_actions'], list)
+        assert kernel_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
         assert 0.0 <= float(kernel_blocker['health_score']) <= 1.0
         assert kernel_blocker['severity'] in {'low', 'medium', 'high'}
     assert resilience_data['current_truth']['codeql_skip_reason'] == 'repository_database_too_large'
@@ -3003,6 +3007,7 @@ def test_server_merlin_endpoints():
             assert 'factuality' in frontier.json()['frontier_readiness']['combined_gate_contract']['required_axes']
             assert frontier.json()['frontier_readiness']['kernel_runtime_gate']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
             assert frontier.json()['frontier_readiness']['kernel_escalation_packet']['packet_id'] == 'psicat_kernel_escalation_packet_v1'
+            assert frontier.json()['frontier_readiness']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
             kernel_frontier_blocker = next(
                 item for item in frontier.json()['frontier_readiness']['promotion_blockers']
                 if item['id'] == 'kernel_runtime_cross_lane_gate'
@@ -3010,6 +3015,7 @@ def test_server_merlin_endpoints():
             assert isinstance(kernel_frontier_blocker['failed_checks'], list)
             assert isinstance(kernel_frontier_blocker['remediation_actions'], list)
             assert isinstance(kernel_frontier_blocker['lane_actions'], list)
+            assert kernel_frontier_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
             assert 0.0 <= float(kernel_frontier_blocker['health_score']) <= 1.0
             assert kernel_frontier_blocker['severity'] in {'low', 'medium', 'high'}
             review_packet = client.get('/api/merlin/review-packet?limit=1')
@@ -3092,6 +3098,7 @@ def test_server_merlin_endpoints():
                 'validation_resilience',
             }
             assert execution_board.json()['execution_board']['kernel_escalation_packet']['packet_id'] == 'psicat_kernel_escalation_packet_v1'
+            assert execution_board.json()['execution_board']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
             if execution_board.json()['execution_board']['kernel_runtime_gate']['gate_verdict'] in {'hold', 'fail_closed'}:
                 kernel_blocker = next(
                     item for item in execution_board.json()['execution_board']['blocker_register']
@@ -3099,6 +3106,7 @@ def test_server_merlin_endpoints():
                 )
                 assert isinstance(kernel_blocker['failed_checks'], list)
                 assert isinstance(kernel_blocker['lane_actions'], list)
+                assert kernel_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
                 assert 0.0 <= float(kernel_blocker['health_score']) <= 1.0
                 assert kernel_blocker['severity'] in {'low', 'medium', 'high'}
                 assert kernel_blocker['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
