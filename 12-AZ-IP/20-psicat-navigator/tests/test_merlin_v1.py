@@ -1085,6 +1085,16 @@ def test_route_tool_training_architecture_and_artifacts():
         == full_architecture['seed_statistics']['total_examples']
     )
     assert empty_artifacts['result']['data']['artifact_bundle']['stage_a_baseline']['artifact_bundle']['receipts']['summary']['total'] >= 1
+    stage_a_artifacts = route_tool('getMerlinStageAArtifacts', {'limit': 1})
+    assert stage_a_artifacts['ok'] is True
+    assert stage_a_artifacts['result']['data']['artifact_bundle']['kernel_governance_packet']['packet_id'] == (
+        'psicat_kernel_governance_packet_v1'
+    )
+    assert int(
+        stage_a_artifacts['result']['data']['artifact_bundle']['kernel_data_volume_strategy'][
+            'estimated_batches_for_requested_points'
+        ]
+    ) >= 1
     bad_artifact_refresh = route_tool('getMerlinTrainingArtifacts', {'refresh_lane_e_profiles': 'yes'})
     assert bad_artifact_refresh['ok'] is False
 
@@ -3032,6 +3042,14 @@ def test_server_merlin_endpoints():
             assert targeted_rigor_sprint.json()['ok'] is True
             assert targeted_rigor_sprint.json()['targeted_rigor_sprint']['mode'] == 'targeted_full_rigor_sprint'
             assert len(targeted_rigor_sprint.json()['targeted_rigor_sprint']['stage_gate_summary']) == 5
+            assert targeted_rigor_sprint.json()['targeted_rigor_sprint']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert int(
+                targeted_rigor_sprint.json()['targeted_rigor_sprint']['kernel_data_volume_strategy'][
+                    'estimated_batches_for_requested_points'
+                ]
+            ) >= 1
             spc_phase0_packet = client.get('/api/merlin/spc-phase0-packet')
             assert spc_phase0_packet.status_code == 200
             assert spc_phase0_packet.json()['ok'] is True
@@ -3128,6 +3146,10 @@ def test_server_merlin_endpoints():
             assert artifacts.status_code == 200
             assert artifacts.json()['ok'] is True
             assert artifacts.json()['artifacts']['receipts']['summary']['total'] == 1
+            assert artifacts.json()['artifacts']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert int(
+                artifacts.json()['artifacts']['kernel_data_volume_strategy']['estimated_batches_for_requested_points']
+            ) >= 1
 
             training_artifacts = client.get('/api/merlin/training-artifacts?limit=4&refresh_lane_e_profiles=true')
             assert training_artifacts.status_code == 200

@@ -7740,6 +7740,7 @@ def run_merlin_targeted_rigor_sprint(
         run_stage_e_head_to_head_receipts_sync,
     )
     from .merlin_memory import MerlinSession
+    from .merlin_kernel_runtime import get_kernel_governance_packet
     from .merlin_training_execution import (
         build_merlin_training_execution_queue,
         get_merlin_lane_progress_ledgers,
@@ -7750,6 +7751,7 @@ def run_merlin_targeted_rigor_sprint(
     resolved_limit = _coerce_frontier_limit(limit, default=2)
     resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
     active_session = session if isinstance(session, MerlinSession) else MerlinSession()
+    kernel_governance = get_kernel_governance_packet()
 
     queue_before = build_merlin_training_execution_queue(
         session=active_session,
@@ -7793,6 +7795,14 @@ def run_merlin_targeted_rigor_sprint(
             "blocker_id": str(item.get("id") or ""),
             "reason": str(item.get("reason") or ""),
             "source": "frontier_readiness",
+            "governance_packet_id": str(item.get("governance_packet_id") or kernel_governance.get("packet_id") or ""),
+            "estimated_batches_for_requested_points": int(
+                item.get(
+                    "estimated_batches_for_requested_points",
+                    (kernel_governance.get("data_volume_strategy") or {}).get("estimated_batches_for_requested_points", 1),
+                )
+                or 1
+            ),
         }
         for item in list(frontier.get("promotion_blockers") or [])
         if not bool(item.get("pass"))
@@ -7864,6 +7874,8 @@ def run_merlin_targeted_rigor_sprint(
         "stage_receipts": stage_receipts,
         "stage_gate_summary": stage_gate_summary,
         "frontier_readiness": frontier,
+        "kernel_governance_packet": kernel_governance,
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
         "blocker_register": blocker_register,
         "all_gates_green": all_gates_green,
         "verdict": (
