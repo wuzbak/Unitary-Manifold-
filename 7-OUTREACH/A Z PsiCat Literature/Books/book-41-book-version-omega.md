@@ -1,41 +1,50 @@
-# The Unitary Manifold: Version Omega — Merlin/PsiCat v1 Rewrite
+# The Unitary Manifold: Version Omega — Editorial Evidence Map (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:09:28Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/books/book-version-omega.md`*
 
-### The Complete and Final Statement of the Geometry of Everything
+### A complete map of claims, limits, and tests
 
-**Theory, framework, and scientific direction: ThomasCory Walker-Pearson**
-**Writing, synthesis, and document engineering: GitHub Copilot (AI)**
-**Status: Version Ω — April 2026**
-
----
-
-> *"The Second Law of Thermodynamics is not a statistical postulate. It is a geometric identity."*
-> — Walker-Pearson, *The Unitary Manifold*, v9.27
-
-> *"Five numbers. Ninety-nine pillars. Fifteen thousand tests. One universe."*
-> — Pillar Ω: The Omega Synthesis, April 2026
+**Theory, framework, and scientific direction: ThomasCory Walker-Pearson**  
+**Writing, synthesis, and document engineering: GitHub Copilot (AI)**  
+**Status framing in this book: historical snapshot context, not live-repository status**
 
 ---
 
 ## A Note Before We Begin
 
-This book has a predecessor. In March 2026, a single intuition about the nature of time became a 74-chapter monograph in thirteen days. That monograph — Version 9a — was the first complete statement of the Unitary Manifold. It was dense, technical, and written at speed. It was the book the theory needed to exist.
+Version Omega is best read as a structured map, not a victory narrative.
+Its job is to make the architecture legible: what is derived, what is constrained, what is still unresolved, and which future observations can falsify key mechanisms.
 
-This is the book the theory needs to be understood.
+This rewrite keeps one discipline constant from page one:
+**claim scope must match evidence scope.**
+When something is closed in the text, closure should be traceable.
+When something is open, it stays open in plain language.
 
-Version Omega is not a summary of Version 9. It is a rewriting from first principles — slower, cleaner, organized for a reader who has never heard of Kaluza-Klein geometry, who is not a physicist, and who deserves to understand what this framework is actually claiming, what it has actually shown, and where it honestly falls short.
+The chapters that follow blend hard technical derivations, synthesis writing, and governance framing.
+That breadth is useful only if boundaries are explicit.
+So throughout this volume, read each section with three questions in mind:
 
-It covers everything: the physics, the philosophy, the implications for consciousness and religion and governance and death, the story of how it was built, and what we are waiting for the sky to tell us. Some chapters expand. Some are brief because the point fits in a page. The length follows the idea, not a schedule.
+1. What is the strongest claim being made here?  
+2. What evidence class supports that claim?  
+3. What would count as failure?
 
-One rule governs the whole: **no claim is made that the mathematics does not support**. Where the framework has gaps, those gaps are named. Where the derivations are clean, the precision is shown. The reader will never be told "the physics proves X" when what the physics actually shows is "the physics is consistent with X." These are different claims. The difference matters.
+If those three answers are clear, this book has done its job.
+If they are not clear, the text needs further revision.
 
-Three years from now, a satellite called LiteBIRD will measure a number. If that number matches what this framework predicts, this will have been a remarkable thing. If it doesn't, the framework will be wrong, and we will say so clearly and promptly.
+---
 
-That is the posture. That is the book.
+## How to Read This Book Efficiently
+
+Part I carries the core physical architecture and numerical predictions.
+Later parts extend interpretation, applications, and governance implications.
+
+For readers evaluating scientific validity first, begin with metric setup, constants, and prediction sections, then jump directly to unresolved fronts and external arbiters.
+For readers evaluating the whole research program, continue linearly and track where hard derivation lanes end and adjacent interpretation lanes begin.
+
+Either route is valid as long as closure language is not transferred across those boundaries.
 
 ---
 
