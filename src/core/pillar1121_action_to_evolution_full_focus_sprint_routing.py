@@ -100,6 +100,11 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         'SPC_PHASE_RECEIPTS',
         'GOVERNED_PROMOTION_ROUTING',
     ]
+    psicat_training_and_benchmark_surfaces_visible = bool(
+        len(list(psicat_report.get('training_board') or [])) >= 4
+        and len(list((psicat_report.get('benchmark_board') or {}).get('stage_gate_summary') or [])) == 5
+        and len(list((psicat_report.get('benchmark_board') or {}).get('spc_phase1_lane_receipts') or [])) == 3
+    )
     psicat_packet_valid = bool(psicat_report.get('valid'))
     closure_attempt = dict(action_report.get('closure_attempt') or {})
     candidate_action_status = str(closure_attempt.get('candidate_action_status') or '')
@@ -126,9 +131,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         and psicat_packet_valid
         and bool(truth_sync.get('all_pass'))
         and deliverable_state_consistent
-        and len(list(psicat_report.get('training_board') or [])) >= 4
-        and len(list((psicat_report.get('benchmark_board') or {}).get('stage_gate_summary') or [])) == 5
-        and len(list((psicat_report.get('benchmark_board') or {}).get('spc_phase1_lane_receipts') or [])) == 3
+        and psicat_training_and_benchmark_surfaces_visible
     )
     return {
         'pillar': PILLAR_NUMBER,
@@ -145,11 +148,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
             'action_contract_locked_to_three_primary_deliverables': len(primary_deliverables) == 3,
             'action_contract_state_consistent': deliverable_state_consistent,
             'routing_target_fully_earned': routing_target_fully_earned,
-            'psicat_training_and_benchmark_surfaces_visible': (
-                len(list(psicat_report.get('training_board') or [])) >= 4
-                and len(list((psicat_report.get('benchmark_board') or {}).get('stage_gate_summary') or [])) == 5
-                and len(list((psicat_report.get('benchmark_board') or {}).get('spc_phase1_lane_receipts') or [])) == 3
-            ),
+            'psicat_training_and_benchmark_surfaces_visible': psicat_training_and_benchmark_surfaces_visible,
         },
         'inherited_starting_state': {
             'status_version': 'v37.6',
