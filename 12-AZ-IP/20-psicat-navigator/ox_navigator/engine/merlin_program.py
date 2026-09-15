@@ -4687,6 +4687,9 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                     "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
                     "lane_actions": list(kernel_escalation.get("lane_actions") or []),
                     "governance_packet_id": str(kernel_governance.get("packet_id") or ""),
+                    "estimated_batches_for_requested_points": int(
+                        (kernel_governance.get("data_volume_strategy") or {}).get("estimated_batches_for_requested_points", 1) or 1
+                    ),
                 }
             )
     return {
@@ -4818,6 +4821,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "lane_routing_hint": str(item.get("lane_routing_hint") or ""),
                 "lane_actions": list(item.get("lane_actions") or []),
                 "governance_packet_id": str(item.get("governance_packet_id") or ""),
+                "estimated_batches_for_requested_points": int(item.get("estimated_batches_for_requested_points", 1) or 1),
             }
             for item in open_blockers
         ] + kernel_gate_register + [
@@ -4891,6 +4895,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             **dict(kernel_governance),
             "packet_surface": "getMerlinKernelGovernancePacket",
         },
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
             "policy": "Promotion holds unless all required axes pass in the same receipt window.",
@@ -7664,6 +7669,9 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
             "lane_actions": list(kernel_escalation.get("lane_actions") or []),
             "governance_packet_id": str(kernel_governance.get("packet_id") or ""),
+            "estimated_batches_for_requested_points": int(
+                (kernel_governance.get("data_volume_strategy") or {}).get("estimated_batches_for_requested_points", 1) or 1
+            ),
         },
     ]
 
@@ -7686,6 +7694,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
         "kernel_runtime_gate": kernel_gate,
         "kernel_escalation_packet": kernel_escalation,
         "kernel_governance_packet": kernel_governance,
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
         "training_seed_examples": training.get("seed_statistics", {}),
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
