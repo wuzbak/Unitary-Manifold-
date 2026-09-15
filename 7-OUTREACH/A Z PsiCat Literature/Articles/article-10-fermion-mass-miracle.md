@@ -94,7 +94,7 @@ The key result: with a **single universal 5D Yukawa coupling Ŷ₅ = 1** (proved
 
 ---
 
-## The Result: All 9 Fermions, <0.01% Accuracy
+## The Result: All 9 Fermions, Sub-1% Residual Accuracy
 
 Pillar 98 (Universal Yukawa) computes the nine SM charged-fermion masses from this lattice and compares to PDG values. The results:
 

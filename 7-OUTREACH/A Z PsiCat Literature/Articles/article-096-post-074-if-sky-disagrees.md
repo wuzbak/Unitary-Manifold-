@@ -165,7 +165,7 @@ means for humanity.
 > Pillars 97–98 substantially closed the absolute fermion mass scale problem, and
 > Pillar Ω (the Omega Synthesis) is the capstone that synthesizes all prior results
 > into a single queryable engine. The series now extends to **Post Ω**, and the
-> repository stands at **99 pillars + Pillar Ω** with **15,615 automated tests**.
+> repository stands at **99 pillars + Pillar Ω** with **17,438 automated tests**.
 > See `post-99-the-omega-synthesis.md` and `post-omega-the-omega-article.md`.
 
 ---

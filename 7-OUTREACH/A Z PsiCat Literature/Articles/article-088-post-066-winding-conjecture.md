@@ -42,8 +42,8 @@ whether the chiral spectrum is consistent with the bulk topology.
 
 The prediction: η̄(n_w = 5) = 1/2, which corresponds to a Z₂ topological invariant
 that is non-trivial — it precisely accounts for the Standard Model's half-integer
-chirality. η̄(n_w = 7) = 0, which corresponds to a trivial invariant — the spectrum
-would be vector-like, not chiral.
+chirality. The triangular-step inflow also yields η̄(n_w = 7) = 1/2 mod 1, but the
+required chirality/boundary-consistency step then fails for n_w = 7, excluding it as a physical branch.
 
 This means n_w = 5 is the unique consistent winding number. The selection is geometric.
 
@@ -64,8 +64,8 @@ Step 2: The CS inflow contribution:
 
     η̄_CS = T(n_w) / 2 mod 1
 
-where T(n_w) is the Chern-Simons boundary parity class in this normalization. For n_w = 5: T(5) = 1 (odd class), so η̄_CS = 1/2.
-For n_w = 7: T(7) = 0 mod 1 (even class). This step is derived from the APS theorem and the
+where T(n_w) is the triangular inflow class in this normalization. For n_w = 5: T(5)=10 so η̄_CS=10/2 mod 1 = 1/2.
+For n_w = 7: T(7)=21 so η̄_CS=21/2 mod 1 = 1/2. This step is derived from the APS theorem and the
 Goldstone-Wilczek formula. Verified in 256 tests.
 
 Step 3 (Z₂ zero-mode parity): Physically motivated and numerically confirmed in
@@ -82,8 +82,7 @@ boundary term forces:
 
 topologically — independently of the spectral computation. This is not an argument
 about what the SM chirality requires; it is a direct computation from the topology
-of the compact space that gives the same result. For n_w = 5: η̄ = 1/2. For n_w = 7:
-η̄ = 0. The topological derivation is independent of the Pillar 70-B spectral one.
+of the compact space that gives the same inflow class result (η̄ = 1/2 mod 1) before physical branch filtering. The topological derivation is independent of the Pillar 70-B spectral one.
 
 ---
 

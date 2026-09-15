@@ -127,7 +127,7 @@ at the orbifold fixed planes. PDG central value: -107°. Agreement: 0.05σ.
 **Higgs mass m_H ≈ 124 GeV:** Tree-level: 143 GeV (14% off PDG 125.1 GeV);
 with top quark correction at Λ_KK ≈ 327 GeV: 124 GeV. (< 1% off PDG)
 
-### Genuinely open (14 parameters)
+### Genuinely open (~10 parameters)
 
 The absolute fermion masses (individual quark and lepton masses rather than
 ratios), the strong coupling α_s from first principles, the absolute neutrino

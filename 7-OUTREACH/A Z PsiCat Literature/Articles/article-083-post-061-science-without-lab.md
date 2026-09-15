@@ -14,7 +14,7 @@ that science requires.*
 ---
 
 The repository snapshot shown in this article records 14,183 automated tests passing for that command sample. Every time someone runs
-`python -m pytest tests/ recycling/ "Unitary Pentad/" -q`, they get back:
+`python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`, they get back:
 
     14183 passed, 2 skipped, 11 deselected, 0 failed
 
@@ -131,7 +131,7 @@ invite experimentalists to engage with the predictions and design tests.
 
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
-*Test suite: `python -m pytest tests/ recycling/ "Unitary Pentad/" -q`*
+*Test suite: `python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`*
 *Honest gaps: `FALLIBILITY.md`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 

@@ -99,7 +99,7 @@ The CMB spectral index nₛ distinguishes the two candidates observationally.
 
 For n_w = 5: nₛ(5) = 0.9635. Planck 2018: 0.9649 ± 0.0042. **0.33σ — consistent.**
 
-For n_w = 7: nₛ(7) = 0.9446. Planck 2018: 0.9649 ± 0.0042. **4.8σ — inconsistent.**
+For n_w = 7: nₛ(7) = 0.9446. Planck 2018: 0.9649 ± 0.0042. **high-sigma tension (~4–5σ) — inconsistent.**
 
 This is not an observational coincidence arranged by fitting. The slow-roll formula
 that gives nₛ as a function of n_w was written down before checking the Planck value.
