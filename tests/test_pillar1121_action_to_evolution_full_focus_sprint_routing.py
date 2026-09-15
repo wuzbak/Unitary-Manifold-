@@ -54,6 +54,7 @@ def test_packet_shape(report) -> None:
     assert report['inherited_starting_state']['status_version'] == 'v37.6'
     assert report['next_full_focus_physics_sprint']['focus'] == 'ACTION_TO_EVOLUTION_ONLY'
     assert len(report['next_full_focus_physics_sprint']['primary_deliverables']) == 3
+    assert report['next_full_focus_physics_sprint']['primary_deliverables'][0]['promotion_complete'] is False
     assert report['psicat_status']['benchmarking_ready_now'] is True
     assert report['psicat_status']['next_governed_step'] == 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'
     assert report['sprint_readiness']['action_to_evolution_target_complete_now'] is False
@@ -235,6 +236,8 @@ def test_status_and_earned_disagreement_keeps_report_blocked(monkeypatch) -> Non
         },
     )
     report = p1121.action_to_evolution_full_focus_sprint_routing()
+    assert report['next_full_focus_physics_sprint']['primary_deliverables'][0]['earned'] is False
+    assert report['next_full_focus_physics_sprint']['primary_deliverables'][0]['promotion_complete'] is True
     assert report['dependencies']['action_contract_state_consistent'] is False
     assert report['dependencies']['routing_target_fully_earned'] is False
     assert report['valid'] is False

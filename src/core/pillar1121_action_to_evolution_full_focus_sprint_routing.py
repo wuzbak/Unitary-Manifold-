@@ -64,7 +64,8 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
             'id': str(item.get('id') or ''),
             'label': str(item.get('label') or ''),
             'status': str(item.get('status') or ''),
-            'earned': str(item.get('status') or '') == 'EARNED',
+            'earned': bool(item.get('earned')),
+            'promotion_complete': str(item.get('status') or '') == 'EARNED',
         }
         for item in list(contract.get('primary_deliverables') or [])
     ]
@@ -80,8 +81,26 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         )
         for item in primary_deliverables
     )
+    deliverable_earned_matches_status = all(
+        (
+            item['status'] == 'EARNED'
+            and item['earned']
+            and item['promotion_complete']
+        )
+        or (
+            item['status'] == 'EVIDENCE_SURFACED'
+            and item['earned']
+            and not item['promotion_complete']
+        )
+        or (
+            item['status'] in promotion_blocking_statuses
+            and not item['earned']
+            and not item['promotion_complete']
+        )
+        for item in primary_deliverables
+    )
     completion_statuses_fully_earned = all(
-        item['status'] == 'EARNED' for item in primary_deliverables
+        item['promotion_complete'] for item in primary_deliverables
     )
     promotion_blocking_primary_ids = {
         item['id']
@@ -97,6 +116,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         len(primary_deliverables) == 3
         and primary_deliverable_ids_unique
         and deliverable_progress_status_supported
+        and deliverable_earned_matches_status
         and all(item['id'] and item['label'] and item['status'] for item in primary_deliverables)
         and promotion_blocking_primary_ids == primary_remaining_blockers
     )
