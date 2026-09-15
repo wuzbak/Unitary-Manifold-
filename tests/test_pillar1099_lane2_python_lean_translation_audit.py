@@ -28,3 +28,8 @@ def test_lane2_translation_contract() -> None:
     assert report['summary']['units_passed'] + report['summary']['units_failed'] == len(report['translation_verdict_matrix'])
     assert 'compartmentalized_harvest' in report
     assert isinstance(report['compartmentalized_harvest']['blocker_fallibility_certificates'], list)
+    assert report['closure_pipeline']['no_bloat_gate_id'] == 'NO_BLOAT_THEOREM_GATE_V1'
+    assert report['closure_pipeline']['obligation_count'] >= len(report['translation_verdict_matrix'])
+    assert all('no_bloat_theorem_gate' in row for row in report['translation_verdict_matrix'])
+    assert all('lean_outcome_ingestion' in row for row in report['translation_verdict_matrix'])
+    assert all('promotion_gate' in row for row in report['translation_verdict_matrix'])

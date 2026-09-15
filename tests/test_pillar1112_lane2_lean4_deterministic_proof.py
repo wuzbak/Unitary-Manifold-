@@ -21,3 +21,8 @@ def test_contract() -> None:
     report = lane2_lean4_deterministic_proof()
     assert report['outcome'] in {'LANE2_LEAN4_DETERMINISTIC_PROOF_READY', 'LANE2_LEAN4_DETERMINISTIC_PROOF_BLOCKED'} or report['outcome'] in {'SPRINT_CR_MASTER_CHARTER_READY','SPRINT_CR_MASTER_CHARTER_BLOCKED','SPRINT_CR_FORMAL_BURDEN_BOARD_READY','SPRINT_CR_FORMAL_BURDEN_BOARD_BLOCKED','LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_READY','LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_BLOCKED','LANE2_LEAN4_DETERMINISTIC_PROOF_READY','LANE2_LEAN4_DETERMINISTIC_PROOF_BLOCKED','LANE3_PYTHON_LEAN_TRUTH_EQUIVALENCE_READY','LANE3_PYTHON_LEAN_TRUTH_EQUIVALENCE_BLOCKED','LANE4_FALSIFIER_TENSION_DISCIPLINE_READY','LANE4_FALSIFIER_TENSION_DISCIPLINE_BLOCKED','LANE5_VERIFICATION_REGRESSION_DISCIPLINE_READY','LANE5_VERIFICATION_REGRESSION_DISCIPLINE_BLOCKED','SPRINT_CR_DOCUMENTATION_EVIDENCE_PACKET_READY','SPRINT_CR_DOCUMENTATION_EVIDENCE_PACKET_BLOCKED','SPRINT_CR_STATUS_COHERENCE_CERTIFICATE_READY','SPRINT_CR_STATUS_COHERENCE_CERTIFICATE_BLOCKED','SPRINT_CR_MASTER_INTEGRATION_CERTIFICATE_READY','SPRINT_CR_MASTER_INTEGRATION_CERTIFICATE_BLOCKED'}
     assert len(report['deterministic_proof_units']) == 3
+    assert 'closure_pipeline' in report
+    assert report['closure_pipeline']['lean_outcome_summary']['ready_units'] + report['closure_pipeline']['lean_outcome_summary']['blocked_units'] == 3
+    assert all('no_bloat_theorem_gate' in row for row in report['deterministic_proof_units'])
+    assert all('lean_outcome_ingestion' in row for row in report['deterministic_proof_units'])
+    assert all('promotion_gate' in row for row in report['deterministic_proof_units'])
