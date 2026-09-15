@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot  
 **Framework:** AxiomZero civic analysis (standalone · no physics claim)  
-**Version:** 1.0 — May 2026  
+**Version:** 1.0 — historical snapshot text refreshed in this rewrite cycle  
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -21,6 +21,10 @@
 > — Frederick Douglass, 1857
 
 > *A society that teaches human ranking eventually degrades everyone inside it.*
+
+---
+
+Historical-status note: this book is a civic-analysis volume; any framework-status references should be read as historical context, with live repository state sourced from canonical ledgers.
 
 ---
 

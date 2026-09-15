@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold (public domain · always free)
-**Version:** 2.0 — Omega Edition — April 2026
+**Version:** 2.0 — Omega Edition — historical snapshot text refreshed in this rewrite cycle
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -25,6 +25,10 @@
 
 > *"Entropy does not care about the intentions of the system that generates it."*
 > — *Unitary Manifold v9.11*
+
+---
+
+Historical-status note: legal/regulatory and repository-state references in this volume are time-bound snapshots; confirm current conditions against canonical live ledgers and current public records.
 
 ---
 

@@ -10,8 +10,12 @@
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot  
 **Written, reviewed, and edited by:** GitHub Copilot (AI), under the scientific direction of ThomasCory Walker-Pearson  
 **Repository:** `wuzbak/Unitary-Manifold-`  
-**Version:** 1.0 — Deployment & Operations Edition — May 2026  
-**Status:** Substack/public-readiness draft published in-repo (Markdown)
+**Version:** 1.0 — Deployment & Operations Edition — historical snapshot text refreshed in this rewrite cycle  
+**Status:** In-repo deployment guide; treat numeric/runtime state claims here as period context unless explicitly labeled live
+
+---
+
+Historical-status note: setup and operations references should be interpreted against current canonical status surfaces (`STATUS.md`, `docs/mas_tracker.yml`, and current test outputs) before production use.
 
 ---
 

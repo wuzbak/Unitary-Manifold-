@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
 **Framework:** The Unitary Manifold (public domain · always free)
-**Version:** 1.0 — May 2026
+**Version:** 1.0 — historical snapshot text refreshed in this rewrite cycle
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -28,6 +28,10 @@
 
 > *"Hidden information is entropy. It does not disappear — it accumulates until the structure it conceals gives way."*
 > — *Unitary Manifold v9.11*
+
+---
+
+Historical-status note: this is a period analysis volume; where it references repository state, treat values as snapshot context and defer to canonical ledgers for live status.
 
 ---
 

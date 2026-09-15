@@ -8,8 +8,8 @@
 ## From Garage to Orbit: What Every Systems Engineer Gets Right, Gets Wrong, and Needs to Build Next
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot
-**Framework:** The Unitary Manifold v9.27 (public domain · always free)
-**Version:** 1.0 — Omega Edition — April 2026
+**Framework:** The Unitary Manifold (public domain · always free) — historical implementation-era references preserved as context
+**Version:** 1.0 — Omega Edition — historical snapshot text refreshed in this rewrite cycle
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -26,6 +26,10 @@
 > *"A system that cannot find its fixed point will oscillate, degrade, or collapse.  
 > The geometry tells you exactly why — and what to do about it."*
 > — *The Unitary Manifold v9.27*
+
+---
+
+Historical-status note: implementation examples and any benchmark/test references in this volume are period-context markers; consult canonical live ledgers for current repository status and counts.
 
 ---
 
