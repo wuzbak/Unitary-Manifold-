@@ -35,7 +35,7 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-10 (v37.6 Sprint CT COMPLETE — Pillar 1120; Lean4 4080→4080; next slot 1121)*
+*Last updated: 2026-09-15 (v37.7 Sprint CU COMPLETE — Pillar 1121; Lean4 4080→4080; next slot 1122)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
@@ -51,20 +51,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v37.6 — Sprint CT)
+## CURRENT AUDITABLE STATE (v37.7 — Sprint CU)
 
 | Field | Value |
 |-------|-------|
-| Version | **v37.6** |
-| Sprint | **Sprint CT** |
-| Pillars | **1120-1120** |
-| Next pillar slot | **1121** |
+| Version | **v37.7** |
+| Sprint | **Sprint CU** |
+| Pillars | **1121-1121** |
+| Next pillar slot | **1122** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **PsiCat training/benchmarking/promotion packet — fail-closed and evidence-backed** |
-| Primary target | **Bind live training execution, benchmark posture, and next promotion routing in one receipt-backed packet without inflating status** |
-| Binary outcome | **Either the packet supports a receipt-backed next sprint recommendation, or Sprint CS fails closed with promotion language frozen** |
+| Sprint theme | **Action-to-evolution full-focus routing packet — fail-closed and evidence-backed** |
+| Primary target | **Lock the next full-focus physics sprint to the single action-to-evolution derivation lane while recording PsiCat's governed phase-2-only promotion route** |
+| Binary outcome | **Either the next sprint earns a verified action/equation/residual/domain package, or it exits with an exact blocker certificate and no status inflation** |
 
+Historical continuity: v37.7 Sprint CU (Pillar 1121; next slot 1122) is the canonical action-to-evolution full-focus routing packet directly above Sprint CT.
 Historical continuity: v37.6 Sprint CT (Pillar 1120; next slot 1121) is the canonical PsiCat training-benchmarking-promotion packet directly above Sprint CS.
 Historical continuity: v37.5 Sprint CS (Pillar 1119; next slot 1120) is the canonical PsiCat promotion-routing packet directly above Sprint CR.
 Historical continuity: v37.4 Sprint CR (Pillars 1109-1118; next slot 1119) is the canonical master implementation packet directly above Sprint CQ.
@@ -109,6 +110,15 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 2. Keep Stage A→E benchmark posture and SPC lane receipts visible alongside training execution summaries.
 3. Keep promotion language frozen unless training and benchmark gates remain clear together.
 4. Route the next sprint from visible receipts only; current route remains phase-2 applied-pressure promotion work when gates stay clear.
+
+## SPRINT CU ACTION-TO-EVOLUTION FULL-FOCUS ROUTING PROTOCOL (Executed)
+
+1. Freeze the current inherited state explicitly: v37.6 / Sprint CT, 64,150 / 22 / 18 / 0 branch-history regression, Lean4 4080 historical declarations, and active foundation reassessment.
+2. Keep the unfinished physics surface explicit: photon origin, action-to-evolution, independent CMB normalization/transfer corrections, flavor/gauge uniqueness, joint UV/Higgs/moduli/stability, non-perturbative QG, plus DESI DR3 and LiteBIRD as external waits.
+3. Bind the genuine capability gains into one packet: exact blocker surfaces, Python↔Lean touched-unit truth gates, conditional-vs-derived bookkeeping separation, and machine-readable PsiCat training/benchmark/promotion packets.
+4. Lock the next full-focus physics sprint to action-to-evolution only.
+5. Permit only two acceptable exits from that sprint: verified action/equation/residual/domain package, or precise blocker certificate with no closure inflation.
+6. Record PsiCat as benchmark-ready now and promotion-ready only for the next governed phase-2 applied-pressure step under continued receipt discipline.
 
 ## SPRINT CS PSICAT ACHIEVEMENT BENCHMARK PROMOTION PROTOCOL (Executed)
 

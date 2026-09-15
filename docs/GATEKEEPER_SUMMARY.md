@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v37.6
+# Unitary Manifold v37.7
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -22,6 +22,9 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
 
+> **Sprint CU (v37.7 — 2026-09-15):** 1 pillar (1121). P1121 adds a fail-closed routing packet that answers five operationally important questions without inflating any physics claim: where the repo now stands after the foundation reassessment, what physics remains unfinished, what execution surfaces are genuinely stronger than before, what the single next full-focus physics sprint should be, and where PsiCat stands on benchmarking/promotion. The packet locks the next physics sprint to action-to-evolution only, with exactly two acceptable outcomes: a verified action/equation/residual/domain package or an explicit blocker certificate. PsiCat is recorded as benchmark-ready and promotion-ready only for the next governed phase-2 applied-pressure step under continued receipt discipline, not for unconditional sovereign promotion. Lean4 4080→4080 (+0). Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CU routing and ledger suites 44 passed · 0 failed. Next slot 1122.
+>
+
 > **Sprint CT (v37.6 — 2026-09-10):** 1 pillar (1120). P1120 adds a fail-closed PsiCat training-benchmarking-promotion packet that keeps queue/cycle/lane training execution visibility, Stage A→E benchmark posture, and promotion routing in one governed board. Promotion language remains strictly receipt-gated: advancement only when training and benchmark gates are clear; otherwise explicit freeze-and-remediate routing stays active. Lean4 4080→4080 (+0). Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: PsiCat training/benchmarking/promotion sprint suites 7 passed · 0 failed. Next slot 1121.
 >
 
@@ -29,6 +32,8 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 >
 
 > **Sprint CR (v37.4 — 2026-09-09):** 1 sprint packet (1109-1118). P1109-P1118 implements the full master-plan packet with fail-closed discipline: scope lock and success criteria, deterministic burden board, primary action-to-evolution closure attempt, deterministic Lean routing, Python↔Lean truth-equivalence gating, falsifier/tension discipline, verification/regression discipline, documentation evidence packet, status coherence, and final integration certificate. The sprint tightens rigor and traceability without claiming unearned hardgate closure; open-lane labels remain explicit and unchanged. Lean4 4080→4080 (+0). Verified full regression in current branch history is 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CR targeted implementation + continuity suites 32 passed · 0 failed. Next slot 1119.
+> P1111 remains the action-to-evolution closure attempt anchor inside Sprint CR.
+
 >
 
 > **Sprint CQ (v37.3 — 2026-09-08):** 1 sprint packet (1103-1108). P1103-P1108 keeps the three-lane packet narrow and fail-closed with action-to-evolution as the sole primary unresolved unit: Lane 1 sharpens the blocker surface into exact deliverable blockers, Lane 2 audits only the touched translation units while preserving the strict master-theorem READY/BLOCKED gate, and Lane 3 ingests the new reviewer packets while exposing another local-first receipt cycle and retaining failed units for retraining. This sprint hardens blocker precision, translation-scope discipline, and governed co-runner traceability without claiming new hardgate closure. Lean4 4080→4080 (+0). Verified full regression in current branch history is 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CQ targeted continuation suites 12 passed · 0 failed. Next slot 1109.

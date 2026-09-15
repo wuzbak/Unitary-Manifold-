@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v37.6
+# Unitary Manifold v37.7
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -30,8 +30,9 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-10 (v37.6 — Sprint CT: Pillar 1120. This sprint adds one fail-closed PsiCat training-benchmarking-promotion packet that binds active training execution visibility, benchmark posture, and governed promotion routing into one evidence-backed surface. The current packet keeps promotion decisions receipt-gated with queue/cycle/lane training telemetry and preserves freeze-on-blocker behavior without claiming any new physics closure. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1121. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed; focused regression: PsiCat training/benchmarking/promotion sprint suites 7 passed · 0 failed.)*
+*Last updated: 2026-09-15 (v37.7 — Sprint CU: Pillar 1121. This sprint adds one fail-closed routing packet that binds inherited v37.6/CT status, the explicit unfinished-physics set, current execution-capability gains, and the next single-target physics sprint recommendation in one evidence-backed surface. The packet locks the next full-focus physics sprint to action-to-evolution only and records PsiCat as benchmark-ready with phase-2 applied-pressure promotion available only under continued receipt discipline, not as an unconditional sovereign-promotion claim. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1122. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Sprint CU routing and ledger suites 44 passed · 0 failed.)*
 
+*Historical continuity note: v37.7 Sprint CU (Pillar 1121; next slot 1122) is the canonical action-to-evolution full-focus routing packet directly above Sprint CT.*
 *Historical continuity note: v37.6 Sprint CT (Pillar 1120; next slot 1121) is the canonical PsiCat training-benchmarking-promotion packet directly above Sprint CS.*
 *Historical continuity note: v37.5 Sprint CS (Pillar 1119; next slot 1120) is the canonical PsiCat promotion-routing packet directly above Sprint CR.*
 *Historical continuity note: v37.4 Sprint CR (Pillars 1109–1118; next slot 1119) is the canonical master implementation packet directly above Sprint CQ.*
@@ -48,6 +49,8 @@ still-open physical obligations in the table.
 
 
 
+
+*P1121 (v37.7): Action-to-Evolution Full-Focus Sprint Routing — ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_COMPLETE. `src/core/pillar1121_action_to_evolution_full_focus_sprint_routing.py` binds the inherited Sprint CT status, the explicit unfinished-physics set, the current fail-closed execution capabilities, the single next full-focus action-to-evolution sprint target, and the governed PsiCat phase-2-only promotion route in one packet without claiming new hardgate closure.
 
 *P1120 (v37.6): PsiCat Training Benchmarking Promotion Sprint — PSICAT_TRAINING_BENCHMARKING_PROMOTION_SPRINT_COMPLETE. `src/core/pillar1120_psicat_training_benchmarking_promotion_sprint.py` binds active training execution visibility, benchmark posture, and promotion routing in one fail-closed packet while preserving freeze-on-blocker discipline and unchanged physics-closure boundaries.
 

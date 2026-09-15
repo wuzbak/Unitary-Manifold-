@@ -33,12 +33,35 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v37.6 (2026-09-10)**
+**Current version: v37.7 (2026-09-15)**
 **Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1121
+**Next pillar slot:** 1122
 
 
 
+
+## v37.7 (2026-09-15 — Sprint CU: Pillar 1121)
+
+**What changed:**
+Sprint CU adds one fail-closed routing packet. The new surface binds the inherited v37.6/CT status, the explicit unfinished-physics set, the execution surfaces that are genuinely stronger than before, the single next full-focus physics sprint target, and the governed PsiCat phase-2-only promotion route.
+
+**Why:**
+Convert the repo's current position into one sharp next-step contract. The goal is to prevent scope drift: one full-focus physics sprint on action-to-evolution, and one governed operational conclusion for PsiCat.
+
+**Epistemic label deltas:**
+- `ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_COMPLETE`
+
+**Physics label delta:** None — this is routing and focus hardening only; no new hardgate closure is claimed.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin under stated orbifold assumptions, action-to-evolution equivalence, independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Focused regression: Sprint CU routing and ledger suites 44 passed · 0 failed; latest verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed
+**Next pillar slot:** 1122
 
 ## v37.6 (2026-09-10 — Sprint CT: Pillar 1120)
 
