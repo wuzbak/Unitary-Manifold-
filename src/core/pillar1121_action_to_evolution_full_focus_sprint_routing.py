@@ -99,10 +99,13 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         'GOVERNED_PROMOTION_ROUTING',
     ]
     psicat_packet_valid = bool(psicat_report.get('valid'))
+    candidate_action_status = str(
+        ((action_report.get('closure_attempt') or {}).get('candidate_action_status')) or ''
+    )
     action_packet_present = (
         'blocker_certificate' in action_report
         and action_report.get('blocker_certificate') is not None
-        and bool((action_report.get('closure_attempt') or {}).get('candidate_action_status'))
+        and candidate_action_status in {'EVIDENCE_SURFACED', 'EARNED'}
     )
     valid = bool(
         action_packet_present

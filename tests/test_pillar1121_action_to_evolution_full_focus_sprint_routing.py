@@ -35,6 +35,19 @@ def test_report_contract(report) -> None:
     assert report['outcome'] == 'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_READY'
     assert report['valid'] is True
     assert report['truth_surface_sync']['all_pass'] is True
+    sprint = report['next_full_focus_physics_sprint']
+    assert sprint['focus'] == 'ACTION_TO_EVOLUTION_ONLY'
+    assert sprint['allowed_exits_only'] == [
+        'VERIFIED_ACTION_EQUATION_RESIDUAL_DOMAIN_PACKAGE',
+        'PRECISE_BLOCKER_CERTIFICATE_AND_STOP',
+    ]
+    assert sprint['do_not_expand_to_parallel_physics_lanes'] == [
+        'PHOTON_ORIGIN',
+        'INDEPENDENT_CMB_NORMALIZATION_AND_TRANSFER_CORRECTIONS',
+        'FLAVOR_SPECTRUM_AND_INTERNAL_GAUGE_UNIQUENESS',
+        'JOINT_UV_HIGGS_MODULI_AND_STABILITY',
+        'NON_PERTURBATIVE_QUANTUM_GRAVITY',
+    ]
 
 
 def test_packet_shape(report) -> None:
