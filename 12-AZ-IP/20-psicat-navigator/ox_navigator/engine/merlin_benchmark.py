@@ -1804,10 +1804,14 @@ def build_stage_a_artifact_bundle(
     sync_checks_ok: bool | None = None,
 ) -> dict[str, Any]:
     """Build an exportable Stage A artifact bundle with readiness state."""
-    from .merlin_kernel_runtime import get_kernel_governance_packet
+    from .merlin_kernel_runtime import get_kernel_batch_plan, get_kernel_governance_packet
 
     readiness = build_stage_a_replacement_readiness(limit=limit, sync_checks_ok=sync_checks_ok)
     kernel_governance = get_kernel_governance_packet()
+    kernel_batch_plan = get_kernel_batch_plan(
+        points=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_points", 32) or 32),
+        repeats=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_repeats", 3) or 3),
+    )
     packet = dict(readiness["packet"])
     return {
         "ok": True,
@@ -1860,6 +1864,7 @@ def build_stage_a_artifact_bundle(
             "comparable_runs": packet["empirical_gate"]["metrics"]["comparable_runs"],
             "kernel_governance_packet": kernel_governance,
             "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
+            "kernel_batch_plan": kernel_batch_plan,
             "multi_stage_plan": get_multi_stage_benchmark_plan(),
             "generated_from": [
                 "run_stage_a_head_to_head_receipts_sync",

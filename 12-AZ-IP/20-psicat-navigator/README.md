@@ -148,6 +148,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/review-packet` consolidates Stage A→E receipts, failure reasons, blocker state, and longitudinal discipline into one canonical sprint review surface.
 - `GET /api/psicat/targeted-rigor-sprint` executes a bounded full-rigor packet in one call (retained training cycle + Stage A→E receipts + frontier blockers) and reports fail-closed hold/clear verdict.
 - Targeted-rigor sprint payloads now include `kernel_governance_packet` and `kernel_data_volume_strategy` so large-data batching posture stays explicit during sprint triage.
+- Targeted-rigor sprint payloads also include `kernel_batch_plan` and kernel blocker `batch_plan_id` fields for deterministic batch-execution traceability.
 - `GET /api/psicat/achievement-benchmark-promotion-sprint` consolidates what PsiCat has actually earned, the live benchmark posture, and the next appropriate promotion sprint without inflating promotion status.
 - `GET /api/psicat/spc-phase0-packet` now validates the phase-0 execution packet schema and fails closed (`422`) when required governance fields are missing; backend artifact load/parse failures return `500`.
 - `GET /api/psicat/heavy-lane` exposes the heavy-lane benchmark pack, provider comparison, failure taxonomy, and tuning agenda for sovereign long-context work.
@@ -171,6 +172,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/validation-resilience` exposes the dedicated validation resilience packet with repo-size mitigation actions, CodeQL scope-reduction phases, and fail-closed review doctrine.
 - `GET /api/psicat/benchmark-artifacts` exports the receipts plus readiness state as a CI-friendly artifact bundle.
 - Benchmark artifact bundles now include kernel governance and data-volume strategy snapshots for CI-visible gate/risk/escalation + batching traceability.
+- Stage A benchmark artifacts now include `kernel_batch_plan` so CI exports carry the same bounded chunk-plan metadata as runtime surfaces.
 - `GET /api/psicat/training-artifacts` exports the training architecture, competitive benchmark plan, open-science registry, Stage A baseline, and a retained training-execution bundle preview (including Lane E runtime profile evidence) as one governed bundle.
 - `GET /api/psicat/promotion-packet` preserves the legacy promotion-packet contract while `replacement-readiness` exposes the new concrete receipt-backed surface.
 - Program discovery includes `getPsiCatProgram*` runtime blueprint functions for charter, baseline, evaluation, rollout, and exit criteria.
