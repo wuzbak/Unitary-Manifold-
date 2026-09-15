@@ -4643,7 +4643,10 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
 
 
 def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
-    from .merlin_kernel_runtime import get_kernel_promotion_gate_summary
+    from .merlin_kernel_runtime import (
+        get_kernel_escalation_packet,
+        get_kernel_promotion_gate_summary,
+    )
 
     review_packet = get_merlin_sprint_review_packet(limit=limit)
     heavy_lane = get_merlin_heavy_reasoning_lane(limit=max(2, int(limit if limit is not None else 2)))
@@ -4655,6 +4658,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     stage_reviews = list(review_packet.get("stage_reviews") or [])
     open_blockers = list(review_packet.get("open_blockers") or [])
     kernel_gate = get_kernel_promotion_gate_summary()
+    kernel_escalation = get_kernel_escalation_packet()
     current_heavy_provider = str(heavy_lane.get("current_default_provider") or "deterministic_retrieval")
     task_priorities = {
         "pass": {"benchmark_operations": "high", "physics_compute": "high"},
@@ -4678,6 +4682,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                     "severity": str(kernel_gate.get("severity") or ""),
                     "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
                     "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
+                    "lane_actions": list(kernel_escalation.get("lane_actions") or []),
                 }
             )
     return {
@@ -4807,6 +4812,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "severity": str(item.get("severity") or ""),
                 "escalation_tier": str(item.get("escalation_tier") or ""),
                 "lane_routing_hint": str(item.get("lane_routing_hint") or ""),
+                "lane_actions": list(item.get("lane_actions") or []),
             }
             for item in open_blockers
         ] + kernel_gate_register + [
@@ -4871,6 +4877,10 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
             "health_score": float(kernel_gate.get("health_score", 0.0) or 0.0),
             "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
             "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
+        },
+        "kernel_escalation_packet": {
+            **dict(kernel_escalation),
+            "packet_surface": "getMerlinKernelEscalationPacket",
         },
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),
@@ -7516,7 +7526,10 @@ def _env_flag(name: str, default: bool = False) -> bool:
 
 def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     from .merlin_benchmark import build_merlin_control_tower, get_multi_stage_benchmark_plan
-    from .merlin_kernel_runtime import get_kernel_promotion_gate_summary
+    from .merlin_kernel_runtime import (
+        get_kernel_escalation_packet,
+        get_kernel_promotion_gate_summary,
+    )
 
     required_receipts = [
         "stage_a_parity_capture",
@@ -7533,6 +7546,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
     runtime = get_mythos_astra_contract()
     router = get_router_policy()
     kernel_gate = get_kernel_promotion_gate_summary()
+    kernel_escalation = get_kernel_escalation_packet()
     resilience = get_merlin_validation_resilience_packet()
     resilience_truth = dict(resilience.get("current_truth") or {})
     hosted_review_signal_present = bool(resilience_truth.get("hosted_review_tool_available_in_every_environment"))
@@ -7636,6 +7650,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
             "severity": str(kernel_gate.get("severity") or ""),
             "escalation_tier": str(kernel_gate.get("escalation_tier") or ""),
             "lane_routing_hint": str(kernel_gate.get("lane_routing_hint") or ""),
+            "lane_actions": list(kernel_escalation.get("lane_actions") or []),
         },
     ]
 
@@ -7656,6 +7671,7 @@ def get_frontier_readiness_packet(limit: int | None = 3) -> dict[str, Any]:
         "control_tower": control_tower,
         "multi_stage_plan": benchmark_plan,
         "kernel_runtime_gate": kernel_gate,
+        "kernel_escalation_packet": kernel_escalation,
         "training_seed_examples": training.get("seed_statistics", {}),
         "combined_gate_contract": {
             "required_axes": list(COMBINED_GATE_REQUIRED_AXES),

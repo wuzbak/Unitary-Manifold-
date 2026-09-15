@@ -142,6 +142,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/stage-e-receipts` runs the self-hosted Stage E receipt set and returns comparable PsiCat/incumbent runs.
 - `GET /api/psicat/replacement-readiness` turns the receipt set into a concrete readiness packet instead of an evidence-empty placeholder.
 - `GET /api/psicat/frontier-readiness` merges sync checks, control-tower gates, benchmark cadence, and fail-closed promotion blockers in one packet.
+- Frontier-readiness and execution-board packets now carry `kernel_escalation_packet` lane actions so blocker triage routes deterministically to benchmark, physics-compute, or validation-resilience lanes.
 - `GET /api/psicat/review-packet` consolidates Stage A→E receipts, failure reasons, blocker state, and longitudinal discipline into one canonical sprint review surface.
 - `GET /api/psicat/targeted-rigor-sprint` executes a bounded full-rigor packet in one call (retained training cycle + Stage A→E receipts + frontier blockers) and reports fail-closed hold/clear verdict.
 - `GET /api/psicat/achievement-benchmark-promotion-sprint` consolidates what PsiCat has actually earned, the live benchmark posture, and the next appropriate promotion sprint without inflating promotion status.
