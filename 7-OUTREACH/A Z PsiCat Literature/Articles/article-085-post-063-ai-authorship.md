@@ -135,7 +135,7 @@ need to be developed, not assumed.
 
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
-*Human-AI collaboration framework: `co-emergence/FRAMEWORK.md`*
+*Human-AI collaboration framework: `5-GOVERNANCE/co-emergence/FRAMEWORK.md`*
 *Authorship standard: `AGENTS.md` and all document footers*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 

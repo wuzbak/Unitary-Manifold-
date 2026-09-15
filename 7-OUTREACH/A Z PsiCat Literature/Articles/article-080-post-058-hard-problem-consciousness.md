@@ -135,7 +135,7 @@ diffusely formulated.
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Coupled attractor (consciousness): `src/consciousness/coupled_attractor.py`*
-*Brain dynamics: `brain/COUPLED_MASTER_EQUATION.md`*
+*Brain dynamics: `4-IMPLICATIONS/brain/COUPLED_MASTER_EQUATION.md`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

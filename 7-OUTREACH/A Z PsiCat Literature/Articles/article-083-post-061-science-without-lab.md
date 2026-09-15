@@ -13,8 +13,9 @@ that science requires.*
 
 ---
 
-The repository snapshot shown in this article records a dated historical sample output (14,183 passing tests at that timepoint). At that time, running
-`python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q` produced:
+The repository snapshot shown in this article records a dated historical sample output (14,183 passing tests at that timepoint). At that time, the historical command sample was:
+`python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
+and it produced:
 
     14183 passed, 2 skipped, 11 deselected, 0 failed
 

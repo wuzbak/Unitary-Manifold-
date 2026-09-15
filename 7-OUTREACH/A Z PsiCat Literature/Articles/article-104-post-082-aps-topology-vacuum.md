@@ -163,7 +163,7 @@ is genuine.
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 70-B: `src/core/aps_spin_structure.py`*
-*Pillar 80: `src/core/` — topological vacuum selection*
+*Pillar 80: `src/core/aps_geometric_proof.py` — topological vacuum selection*
 *Pillar 89: `src/core/vacuum_geometric_proof.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 

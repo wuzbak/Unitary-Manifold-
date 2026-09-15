@@ -493,8 +493,8 @@ The geometry does not answer that question. Only the people do.
 
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
-*Governance framework: `Unitary Pentad/`*
-*HILS principles: `Unitary Pentad/README.md`*
+*Governance framework: `5-GOVERNANCE/Unitary Pentad/`*
+*HILS principles: `5-GOVERNANCE/Unitary Pentad/README.md`*
 *Justice module: `src/justice/`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
