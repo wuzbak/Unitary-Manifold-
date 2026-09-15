@@ -124,14 +124,16 @@ This is documented honestly. The mechanism is right. The precision is an estimat
 
 The LHC is measuring the Higgs boson's properties — its couplings to other particles,
 its self-coupling, and whether it decays in ways beyond the Standard Model.
-The Unitary Manifold predicts:
+The Unitary Manifold currently supports the following LHC-facing expectations:
 
 - **No SUSY partners** at accessible energies (if the KK mechanism is the
   hierarchy resolution)
-- **KK consistency scale estimate** near Λ_KK ≈ 327 GeV — this is currently a
-  calibration-dependent scale used in the Higgs fit, not yet an independently derived prediction
 - **No exotic Higgs decays** from SM singlet mixing, because the compact dimension
   forbids the coupling (Z₂ parity)
+
+Current fit input note: a **KK consistency scale estimate** near Λ_KK ≈ 327 GeV
+is used in the Higgs-fit consistency lane, but it is not yet an independently
+derived prediction.
 
 The third prediction is the most robust: no light singlet scalars mixing with
 the Higgs. This can be constrained by the HL-LHC's exotic Higgs decay measurements.

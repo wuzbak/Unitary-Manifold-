@@ -108,9 +108,12 @@ situation has changed:
 and the anomaly-cancellation argument ({5,7} narrowed to {5} by action dominance) were
 the only arguments. Both are valid; neither is a geometric proof.
 
-**Now:** Three independent geometric proofs — spectral, topological, algebraic — all
-arrive at n_w = 5 without observational input. The Planck measurement (nₛ ≈ 0.9635)
-is now a genuine prediction of the geometry, not a post-diction.
+**Now:** Three independent geometric lines — spectral, topological, algebraic —
+converge on n_w = 5 without observational input, but not by identical routes:
+spectral/topological structure narrows to the shared {5,7} inflow class, and the
+algebraic boundary-consistency step excludes n_w = 7, leaving n_w = 5. The Planck
+measurement (nₛ ≈ 0.9635) is therefore treated as corroboration of a geometrically
+selected branch, not as the selector itself.
 
 This changes the epistemological status of every downstream prediction:
 - nₛ ≈ 0.9635 is derived, not calibrated.

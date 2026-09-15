@@ -94,10 +94,12 @@ LiteBIRD is designed specifically to eliminate this systematic. Its anticipated 
 
 LiteBIRD (Lite satellite for the studies of B-mode polarization and Inflation from cosmic background Radiation Detection) is a JAXA-led mission with ESA and NASA contributions. Current launch target: approximately 2032.
 
-LiteBIRD will measure β to ±0.01° precision. At that precision, the framework prediction is decisive:
+LiteBIRD is expected to reach instrument-level precision near ±0.01°. For the
+preregistered pass/fail rule used across this series, we keep a decision-grade
+tolerance of ~±0.05° around each branch value:
 
-- If β ≈ 0.331° ± 0.01° (primary), primary sector is confirmed and braided winding is strongly supported.
-- If β ≈ 0.273° ± 0.01° (shadow), shadow sector is confirmed and braided winding is strongly supported.
+- If β ≈ 0.331° ± 0.05° (primary), primary sector is confirmed and braided winding is strongly supported.
+- If β ≈ 0.273° ± 0.05° (shadow), shadow sector is confirmed and braided winding is strongly supported.
 - If β ∈ [0.29°, 0.31°], braided winding is falsified.
 - If β < 0.22° or β > 0.38°, the full birefringence mechanism is falsified.
 

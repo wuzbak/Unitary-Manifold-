@@ -96,7 +96,8 @@ If LiteBIRD measures β = 0 (or any value consistent with zero at LiteBIRD preci
 This rules out the CS mechanism entirely. The spectral index agreement (n_s = 0.9635)
 may be coincidental with some other mechanism. The framework as stated is falsified.
 
-If LiteBIRD measures β ≈ 0.35° within the stated window:
+If LiteBIRD measures β near the canonical branch values (≈0.331° primary or
+≈0.273° shadow) within the stated window:
 
 We commit to pursuing targeted journal publication of the birefringence prediction,
 with all relevant derivation steps and the complete commit history as provenance.

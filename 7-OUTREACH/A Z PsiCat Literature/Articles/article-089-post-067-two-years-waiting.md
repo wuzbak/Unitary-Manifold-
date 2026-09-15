@@ -28,7 +28,7 @@ was verified by 17,438 automated tests in that v9-era snapshot. Not physical cor
 **Four predictions agree with current observations:**
 
 - CMB spectral index n_s: 0.9635; observation Planck 0.9649 ± 0.0042; status within 1σ.
-- Birefringence β: 0.3513° (historical derived emphasis in this post); observation Minami-Komatsu 0.35° ± 0.14°; status within 1σ.
+- Birefringence β: canonical branch targets are 0.273° and 0.331°; this historical post emphasized the derived-channel value 0.3513°; observation Minami-Komatsu 0.35° ± 0.14°; status within 1σ.
 - Tensor ratio r: 0.0315; observation BICEP/Keck r < 0.036; status below limit.
 - Dark energy w: -0.9302; observation DES/DESI consistent; status preliminary.
 

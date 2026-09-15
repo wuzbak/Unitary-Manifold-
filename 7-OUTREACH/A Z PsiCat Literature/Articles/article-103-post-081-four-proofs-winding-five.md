@@ -158,14 +158,17 @@ the algebraic identity T(n_w) = n_w(n_w-1)/2. No observational input.
 - Algebraic BC (Pillar 89): input required = none; result = n_w = 7 algebraically excluded.
 
 Four arguments. Different methods. Different inputs. All agreeing.
+In this framing, the algebraic BC line is a direct geometric exclusion, HW and
+Euclidean lines are geometric preference lines, and Planck is observational
+corroboration rather than a stand-alone geometric proof.
 
 The probability that all four would agree on the wrong answer by chance is
 negligible. The winding number of the compact fifth dimension is 5.
 
 This is not proven beyond all conceivable doubt — science doesn't work like
-that. But the convergence of four independent lines of argument is as strong
-as evidence gets in theoretical physics without direct experimental access to
-the fifth dimension.
+that. But the convergence of these geometric and observational lines is as
+strong as evidence gets in theoretical physics without direct experimental
+access to the fifth dimension.
 
 ---
 

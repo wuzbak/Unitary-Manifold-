@@ -19,8 +19,9 @@ It isn't one.
 
 Between the point where we wrote this and where you are reading it now, the
 framework grew from 74 pillars to 96 — from a framework that was internally
-consistent and observationally grounded to one that is, in a precise technical
-sense, analytically closed. The test suite grew from under 13,000 passing tests
+consistent and observationally grounded to one that, at that later 96-pillar
+milestone, was characterized as analytically closed in the historical series
+record. The test suite grew from under 13,000 passing tests
 to 14,641 — which is 11⁴, a number whose significance we will return to.
 
 This post is now the bridge between the first arc of the series (Posts 00–74)
