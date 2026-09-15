@@ -1,39 +1,40 @@
-# Sprint BN: The CMB Integrity Line — Merlin/PsiCat v1 Rewrite
+# S04E002 — Sprint BN CMB Integrity: Calibration Honesty as a Hard Gate (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T19:10:35Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-299-s04e002-sprint-bn-cmb-integrity-lane.md`*
 
-**Unitary Manifold — S04E002 · v34.4**
+This lane exists to enforce one difficult distinction: calibrated agreement is not the same claim as independent prediction.
+
+In Sprint BN, that distinction was tested under perturbation and reported without euphemism. The current lane label remained calibration-coupled, and the sprint preserved that fact instead of rephrasing it away.
 
 ---
 
-Some lanes are technically hard. This one is technically hard and rhetorically dangerous.
+## What this sprint achieved
 
-The CMB amplitude lane is exactly where projects can start calling calibrated agreement a prediction if nobody keeps the boundary explicit. Sprint BN existed to keep that boundary explicit in executable form.
+It converted a rhetorical risk into an executable classification boundary. The repository can now say exactly why this lane remains open and what mechanism would be required to change that status.
 
-The distinction is simple and non-negotiable. If a pipeline receives an observed target and back-solves the normalization constant, that is calibration. If the normalization appears independently and is only then compared to observation, that is prediction. Both can be useful. They are not the same claim.
-
-Pillar 999 stress-tested this distinction by perturbing supplied scalar-amplitude targets and tracking λ_COBE response. In the current architecture, λ_COBE remains target-coupled, so the correct technical label is `CALIBRATED_NOT_PREDICTED`.
-
-That label is not a demotion ritual. It is the accurate present-tense classification.
-
-None of this erases nearby strengths in spectral-index agreement pathways, braided tensor-ratio viability, or explicit birefringence falsifier windows. It simply means those strengths do not automatically close the amplitude lane. Each lane stands on its own evidence.
-
-What changes the label is mechanism, not phrasing: independent normalization derivation, stable propagation through the transfer chain to multipole space, rerun stability, and successful gate passage without hidden rescue parameters. Until then, open status remains open status.
-
-This is a credibility gain, not a branding problem. Scientific trust rises when a repository refuses to cash confidence checks that evidence has not signed.
-
-Sprint BN did not solve this lane. It made the lane harder to misstate.
+That is not cosmetic. It is a safeguard against one of the most common overclaim pathways in computational cosmology pipelines.
 
 ---
 
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
-*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+## What this sprint did not claim
+
+It did not claim independent CMB-amplitude closure. It did not treat adjacent successful lanes as transitive closure for this lane. It did not relax the burden definition.
+
+Open remained open because mechanism remained incomplete.
+
+---
+
+## Why this is a trust gain
+
+Scientific credibility does not grow by flattening distinctions. It grows by preserving them when pressure to blur them is strongest.
+
+Sprint BN made that preservation explicit and testable.
 
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source CMB-integrity argument while sharpening the calibration-versus-prediction boundary and keeping the lane’s open status mechanistic rather than rhetorical.
