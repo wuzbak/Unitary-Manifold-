@@ -127,9 +127,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         if item['status'] in promotion_blocking_statuses
     }
     primary_remaining_blockers = {
-        str(item)
-        for item in list(contract.get('remaining_blockers') or [])
-        if str(item) in primary_deliverable_ids
+        str(item) for item in list(contract.get('remaining_blockers') or [])
     }
     deliverable_state_consistent = (
         len(primary_deliverables) == 3
@@ -172,9 +170,8 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     action_packet_present = bool(
         'blocker_certificate' in action_report
         and action_report.get('blocker_certificate') is not None
-        and candidate_action_status
-        and euler_lagrange_match_status
-        and domain_boundary_status
+        and 'closure_attempt' in action_report
+        and isinstance(action_report.get('closure_attempt'), dict)
     )
     action_closure_statuses_supported = bool(
         candidate_action_status in {'EVIDENCE_SURFACED', 'EARNED'}

@@ -118,7 +118,7 @@ def test_invalid_if_lane1_breaks(monkeypatch) -> None:
     monkeypatch.setattr(
         p1121,
         'lane1_action_to_evolution_closure_attempt',
-        lambda: {'blocker_certificate': {}, 'closure_attempt': {}},
+        lambda: {'blocker_certificate': {}},
     )
     report = p1121.action_to_evolution_full_focus_sprint_routing()
     assert report['valid'] is False
@@ -192,6 +192,37 @@ def test_duplicate_deliverable_ids_keep_report_blocked(monkeypatch) -> None:
                 {'id': 'C', 'label': 'Time boundary', 'status': 'EARNED', 'earned': True},
             ],
             'remaining_blockers': [],
+        },
+    )
+    monkeypatch.setattr(
+        p1121,
+        'lane1_action_to_evolution_closure_attempt',
+        lambda: {
+            'blocker_certificate': {},
+            'closure_attempt': {
+                'candidate_action_status': 'EARNED',
+                'euler_lagrange_match_status': 'EARNED',
+                'domain_boundary_status': 'EARNED',
+            },
+        },
+    )
+    report = p1121.action_to_evolution_full_focus_sprint_routing()
+    assert report['dependencies']['action_contract_state_consistent'] is False
+    assert report['dependencies']['routing_target_fully_earned'] is False
+    assert report['valid'] is False
+
+
+def test_unexpected_remaining_blocker_id_keeps_report_blocked(monkeypatch) -> None:
+    monkeypatch.setattr(
+        p1121,
+        'action_to_evolution_deliverable_contract',
+        lambda: {
+            'primary_deliverables': [
+                {'id': 'A', 'label': 'Action', 'status': 'EARNED', 'earned': True},
+                {'id': 'B', 'label': 'Euler-Lagrange', 'status': 'EARNED', 'earned': True},
+                {'id': 'C', 'label': 'Time boundary', 'status': 'EARNED', 'earned': True},
+            ],
+            'remaining_blockers': ['UNEXPECTED_BLOCKER'],
         },
     )
     monkeypatch.setattr(
