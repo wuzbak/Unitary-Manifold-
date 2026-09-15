@@ -69,6 +69,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         for item in list(contract.get('primary_deliverables') or [])
     ]
     primary_deliverable_ids = {item['id'] for item in primary_deliverables}
+    primary_deliverable_ids_unique = len(primary_deliverable_ids) == len(primary_deliverables)
     unresolved_primary_ids = {
         item['id'] for item in primary_deliverables if not item.get('earned')
     }
@@ -79,6 +80,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     }
     deliverable_state_consistent = (
         len(primary_deliverables) == 3
+        and primary_deliverable_ids_unique
         and all(item['id'] and item['label'] and item['status'] for item in primary_deliverables)
         and unresolved_primary_ids == primary_remaining_blockers
     )
