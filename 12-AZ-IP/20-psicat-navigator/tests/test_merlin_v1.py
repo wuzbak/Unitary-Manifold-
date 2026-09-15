@@ -818,6 +818,7 @@ def test_route_tool_training_architecture_and_artifacts():
     assert full_architecture['result']['data']['active_training_surfaces']['kernel_promotion_gate'] == 'getMerlinKernelPromotionGate'
     assert full_architecture['result']['data']['active_training_surfaces']['kernel_risk_summary'] == 'getMerlinKernelRiskSummary'
     assert full_architecture['result']['data']['active_training_surfaces']['kernel_escalation_packet'] == 'getMerlinKernelEscalationPacket'
+    assert full_architecture['result']['data']['active_training_surfaces']['kernel_governance_packet'] == 'getMerlinKernelGovernancePacket'
     assert full_architecture['result']['data']['active_training_surfaces']['compactification_sanity'] == 'getMerlinCompactificationSanity'
     assert full_architecture['result']['data']['active_training_surfaces']['topology_adjacent_board'] == 'getMerlinTopologyAdjacentBoard'
 
@@ -1914,6 +1915,7 @@ def test_route_tool_kernel_runtime_surfaces():
     gate = route_tool('getMerlinKernelPromotionGate', {'points': 16, 'seed': 13, 'repeats': 2})
     risk = route_tool('getMerlinKernelRiskSummary', {'points': 16, 'seed': 13, 'repeats': 2})
     escalation = route_tool('getMerlinKernelEscalationPacket', {'points': 16, 'seed': 13, 'repeats': 2})
+    governance = route_tool('getMerlinKernelGovernancePacket', {'points': 16, 'seed': 13, 'repeats': 2})
     compactification = route_tool('getMerlinCompactificationSanity', {})
     topology = route_tool('getMerlinTopologyAdjacentBoard', {})
     assert runtime['ok'] is True
@@ -1922,6 +1924,7 @@ def test_route_tool_kernel_runtime_surfaces():
     assert gate['ok'] is True
     assert risk['ok'] is True
     assert escalation['ok'] is True
+    assert governance['ok'] is True
     assert compactification['ok'] is True
     assert topology['ok'] is True
     assert runtime['result']['data']['board_id'] == 'psicat_kernel_runtime_board_v1'
@@ -1932,6 +1935,7 @@ def test_route_tool_kernel_runtime_surfaces():
     assert risk['result']['data']['escalation_tier'] in {'T1_MONITOR', 'T2_HOLD', 'T3_BLOCK'}
     assert risk['result']['data']['lane_routing_hint'] in {'physics_compute', 'benchmark_operations', 'validation_resilience'}
     assert escalation['result']['data']['packet_id'] == 'psicat_kernel_escalation_packet_v1'
+    assert governance['result']['data']['packet_id'] == 'psicat_kernel_governance_packet_v1'
     assert compactification['result']['data']['policy']['unchecked_bypass_forbidden'] is True
     assert topology['result']['data']['summary']['lane'] == 'ADJACENT_TRACK'
 
@@ -3606,6 +3610,7 @@ def test_run_sync_checks_has_consistency_contract():
         '/api/psicat/kernel-gate',
         '/api/psicat/kernel-risk',
         '/api/psicat/kernel-escalation',
+        '/api/psicat/kernel-governance',
         '/api/psicat/compactification-sanity',
         '/api/psicat/compactification-ingest',
         '/api/psicat/topology-adjacent',
@@ -3630,6 +3635,7 @@ def test_run_sync_checks_has_consistency_contract():
         'getMerlinKernelPromotionGate',
         'getMerlinKernelRiskSummary',
         'getMerlinKernelEscalationPacket',
+        'getMerlinKernelGovernancePacket',
         'getMerlinCompactificationSanity',
         'getMerlinTopologyAdjacentBoard',
     ]:

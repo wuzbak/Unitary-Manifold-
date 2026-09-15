@@ -13,6 +13,7 @@ from ox_navigator.engine.merlin_kernel_runtime import (
     get_compactification_sanity_receipt,
     get_kernel_escalation_packet,
     get_kernel_execution_receipts,
+    get_kernel_governance_packet,
     get_kernel_promotion_gate_summary,
     get_kernel_risk_summary,
     get_kernel_runtime_board,
@@ -91,6 +92,14 @@ def test_kernel_escalation_packet_contract():
     assert payload["policy"]["promotion_claims_require_kernel_gate_pass"] is True
 
 
+def test_kernel_governance_packet_contract():
+    payload = get_kernel_governance_packet(points=16, seed=5, repeats=2)
+    assert payload["packet_id"] == "psicat_kernel_governance_packet_v1"
+    assert payload["gate"]["gate_verdict"] in {"pass", "hold", "fail_closed"}
+    assert payload["risk"]["risk_id"] == "psicat_kernel_risk_summary_v1"
+    assert payload["escalation"]["packet_id"] == "psicat_kernel_escalation_packet_v1"
+
+
 def test_compactification_sanity_receipt_surface():
     payload = get_compactification_sanity_receipt()
     assert "checks" in payload
@@ -144,6 +153,9 @@ def test_server_kernel_runtime_endpoints():
             escalation_resp = client.get("/api/psicat/kernel-escalation?points=16&seed=3&repeats=2")
             assert escalation_resp.status_code == 200
             assert escalation_resp.json()["kernel_escalation"]["packet_id"] == "psicat_kernel_escalation_packet_v1"
+            governance_resp = client.get("/api/psicat/kernel-governance?points=16&seed=3&repeats=2")
+            assert governance_resp.status_code == 200
+            assert governance_resp.json()["kernel_governance"]["packet_id"] == "psicat_kernel_governance_packet_v1"
 
             sanity_resp = client.get("/api/psicat/compactification-sanity")
             assert sanity_resp.status_code in {200, 422}
@@ -185,6 +197,9 @@ def test_server_kernel_runtime_endpoints():
                 "benchmark_operations",
                 "validation_resilience",
             }
+            compat_governance_resp = client.get("/api/merlin/kernel-governance?points=16&seed=3&repeats=2")
+            assert compat_governance_resp.status_code == 200
+            assert compat_governance_resp.json()["kernel_governance"]["gate"]["gate_verdict"] in {"pass", "hold", "fail_closed"}
     finally:
         httpd.shutdown()
         httpd.server_close()

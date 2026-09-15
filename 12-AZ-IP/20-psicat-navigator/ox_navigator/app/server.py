@@ -34,6 +34,7 @@ from ox_navigator.engine.merlin_kernel_runtime import (
     get_compactification_sanity_receipt,
     get_kernel_escalation_packet,
     get_kernel_execution_receipts,
+    get_kernel_governance_packet,
     get_kernel_promotion_gate_summary,
     get_kernel_risk_summary,
     get_kernel_runtime_board,
@@ -1405,6 +1406,25 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'kernel_escalation': get_kernel_escalation_packet(points=points, seed=seed, repeats=repeats),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/kernel-governance':
+                points, error = _parse_int_query_param(params, 'points', 32)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                seed, error = _parse_int_query_param(params, 'seed', 13)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                repeats, error = _parse_int_query_param(params, 'repeats', 3)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'kernel_governance': get_kernel_governance_packet(points=points, seed=seed, repeats=repeats),
                 })
                 self._persist_session(session_id, merlin_session)
                 return

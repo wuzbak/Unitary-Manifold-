@@ -250,6 +250,24 @@ def get_kernel_escalation_packet(points: int = 32, seed: int = 13, repeats: int 
     }
 
 
+def get_kernel_governance_packet(points: int = 32, seed: int = 13, repeats: int = 3) -> dict[str, Any]:
+    gate = get_kernel_promotion_gate_summary(points=points, seed=seed, repeats=repeats)
+    risk = get_kernel_risk_summary(points=points, seed=seed, repeats=repeats)
+    escalation = get_kernel_escalation_packet(points=points, seed=seed, repeats=repeats)
+    return {
+        "ok": bool(gate.get("ok", False)),
+        "packet_id": "psicat_kernel_governance_packet_v1",
+        "policy": {
+            "fail_closed_on_required_gate_failures": True,
+            "promotion_claims_require_kernel_gate_pass": True,
+            "escalation_tier_order": ["T1_MONITOR", "T2_HOLD", "T3_BLOCK"],
+        },
+        "gate": gate,
+        "risk": risk,
+        "escalation": escalation,
+    }
+
+
 def get_topology_adjacent_board() -> dict[str, Any]:
     summary = topology_adjacent_summary()
     return {
