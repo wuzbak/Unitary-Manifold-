@@ -10,8 +10,8 @@
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot  
 **Written, reviewed, and edited by:** GitHub Copilot (AI), under the scientific direction of ThomasCory Walker-Pearson  
 **Repository:** `wuzbak/Unitary-Manifold-`  
-**Version:** 1.0 — Outreach Edition — May 2026  
-**Status:** Substack/public-readiness draft published in-repo (Markdown)
+**Version:** 1.0 — Outreach Edition — historical snapshot text refreshed in this rewrite cycle  
+**Status:** In-repo outreach map; treat numerical state claims here as period-context unless explicitly labeled live
 
 ---
 
@@ -96,15 +96,13 @@ The project’s operational norm is unusually strict for a speculative framework
 - explicit expectation of zero failures on canonical gates
 - continuous insistence that mathematical storytelling without executable checks is insufficient
 
-In this work session, the full canonical regression gate run on this branch produced:
+Canonical expectation is simple: zero failures on required gates.
 
-- **27308 passed**
-- **329 skipped**
-- **11 deselected**
-- **0 failed**
+Exact counts evolve as the repository changes; use `STATUS.md`, `docs/mas_tracker.yml`,
+and current canonical regression outputs for live numbers. Any number quoted in this
+book should be read as historical context unless explicitly marked as live.
 
-That result proves implementation consistency, not empirical truth.
-The repository itself repeatedly emphasizes this distinction.
+Passing tests demonstrate implementation consistency, not empirical truth.
 
 ### 2.3 It tracks uncertainty instead of hiding it
 
@@ -192,7 +190,7 @@ If you are new, this order gives the highest signal first:
 4. `README.md` (navigation + current canonical framing)
 5. `5-GOVERNANCE/co-emergence/GENESIS.md` (process audit)
 6. `5-GOVERNANCE/Unitary Pentad/README.md` (independent governance framework)
-7. `omega/README.md`, `holon-zero/README.md`, and `src/core/axiomzero_guard.py` (the three master lenses: synthesis, closure, and seed-integrity guard)
+7. `5-GOVERNANCE/Unitary Pentad/omega/README.md`, `5-GOVERNANCE/Unitary Pentad/holon-zero/README.md`, and `src/core/axiomzero_guard.py` (the three master lenses: synthesis, closure, and seed-integrity guard)
 8. `7-OUTREACH/` books and posts (public translation layer)
 
 This order minimizes over-claiming and maximizes context.
