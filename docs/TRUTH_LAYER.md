@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v37.6
+# Unitary Manifold v37.7
 
 ## Foundation reassessment
 
@@ -119,6 +119,14 @@ PsiCat integration is kept practical and bounded: the pillar emits compact assis
 Sprint CT adds a training-benchmarking-promotion packet that extends the prior achievement board with explicit training execution telemetry: queue-before/queue-after state, cycle processing counts, lane-progress ledger visibility, and challenge-pack readiness. Benchmark and promotion routing remain fail-closed and receipt-bound; the packet does not advance status when blockers remain visible.
 
 The current route keeps phase-2 applied-pressure promotion contingent on clear training and benchmark gates, with freeze-and-remediate behavior preserved whenever any gate fails. This is governance/process hardening only and does not alter hardgate physics closure status.
+
+### Sprint CU action-to-evolution full-focus routing
+
+Sprint CU does not claim a new physics closure. It translates the current branch reality into one fail-closed next-step packet: inherited v37.6 / Sprint CT status, the explicit unfinished-physics set, the execution surfaces that are genuinely stronger than before, the single next full-focus physics sprint target, and the governed PsiCat promotion conclusion.
+
+The physics recommendation is intentionally narrow. The next full-focus sprint is locked to action-to-evolution only, not photon origin, CMB, flavor, UV/Higgs, or QG in parallel. The only acceptable exits are: (1) a verified action functional with Euler-Lagrange match, residual comparison, and stated time/domain boundary; or (2) a precise blocker certificate with no status inflation.
+
+The operational conclusion is likewise narrow. PsiCat is now beyond concept/demo because the repo has live queue/cycle/challenge visibility, lane-progress ledgers, Stage A→E benchmark surfaces, SPC receipts, and governed promotion routing. That is enough to support benchmarking now and phase-2 applied-pressure promotion next under continued receipt discipline only; it is not enough to justify an unconditional sovereign-promotion claim.
 
 ### Sprint CR master implementation packet
 

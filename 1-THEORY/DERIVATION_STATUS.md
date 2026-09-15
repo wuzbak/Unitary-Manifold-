@@ -7,15 +7,19 @@
 > mixed-block convention is not the stated canonical KK metric away from
 > unit radion, and parity alone does not establish flavor or internal
 > gauge-involution uniqueness. Sprint CI isolated the conditional metric and
-> circle-EH coupling bookkeeping, and Sprint CT now adds a governed PsiCat
-> training/benchmarking/promotion status packet above that foundation without
-> changing the underlying physics claim state. Photon origin and
-> action-to-evolution equivalence remain open. No new physics closure is claimed.
+> circle-EH coupling bookkeeping, Sprint CT adds a governed PsiCat
+> training/benchmarking/promotion status packet above that foundation, and
+> Sprint CU now locks the next full-focus physics sprint to the
+> action-to-evolution line without changing the underlying physics claim state.
+> Photon origin and action-to-evolution equivalence remain open. No new physics
+> closure is claimed.
 
-**The Unitary Manifold v37.6 — Unambiguous Record**
+**The Unitary Manifold v37.7 — Unambiguous Record**
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-10 (v37.6 — Sprint CT: Pillar 1120; governed PsiCat training-benchmarking-promotion packet keeps active training execution, benchmark posture, and next-sprint routing tied to visible receipts; Lean4 4080→4080; 64,150 passed · 22 skipped · 18 deselected · 0 failed; next slot 1121.)*
+*Last updated: 2026-09-15 (v37.7 — Sprint CU: Pillar 1121; fail-closed routing packet locks the next full-focus physics sprint to action-to-evolution and records PsiCat as benchmark-ready / phase-2-promotion-ready only under receipt discipline; Lean4 4080→4080; 64,150 passed · 22 skipped · 18 deselected · 0 failed; next slot 1122.)*
 *Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-10).*
+
+*Historical continuity note: The Unitary Manifold v37.6 retained the marker `Last updated: 2026-09-10 (v37.6 — Sprint CT: Pillar 1120; ...; next slot 1121.)` for the governed PsiCat training-benchmarking-promotion packet.*
 
 > **How to read this table:** Every major claim of the Unitary Manifold is listed.
 > The *Status* column uses the vocabulary defined in `1-THEORY/README.md`.
