@@ -157,6 +157,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/kernel-risk` exposes compact triage metadata (`escalation_tier`, `lane_routing_hint`, `severity`, `health_score`, `failed_checks`, `remediation_actions`) for deterministic escalation and lane routing.
 - `GET /api/psicat/kernel-escalation` exposes deterministic lane-action escalation packets derived from `kernel-risk`, including tier policy and review requirements.
 - `GET /api/psicat/kernel-governance` exposes a unified governance packet that bundles kernel gate, risk, and escalation artifacts under one fail-closed policy contract.
+- Kernel governance surfaces enforce bounded execution contracts (`max_points=512`, `max_repeats=32`) so oversized requests are clamped into deterministic ranges instead of loop-heavy runaway workloads.
 - `GET /api/psicat/compactification-sanity` validates compactification sanity against canonical epistemic files (`docs/mas_tracker.yml`, `FALLIBILITY.md`) and preserves open-gap visibility.
 - `GET /api/psicat/compactification-ingest` exposes governed compactification-ingest policy and allowed execution surfaces.
 - `POST /api/psicat/compactification-ingest` sanitizes incoming legacy payload keys into clean functional vectors and emits a receipt without executing tools.

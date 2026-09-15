@@ -18,6 +18,30 @@ from src.core.kernel_runtime import (
 from src.core.adjacent_topology_prototypes import topology_adjacent_summary
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
+MAX_KERNEL_POINTS = 512
+MAX_KERNEL_REPEATS = 32
+
+
+def _bounded_kernel_inputs(points: int, repeats: int | None = None) -> dict[str, Any]:
+    requested_points = int(points)
+    bounded_points = max(1, min(requested_points, MAX_KERNEL_POINTS))
+    payload: dict[str, Any] = {
+        "requested_points": requested_points,
+        "points": bounded_points,
+        "points_bounded": bounded_points != requested_points,
+        "max_points": MAX_KERNEL_POINTS,
+    }
+    if repeats is not None:
+        requested_repeats = int(repeats)
+        bounded_repeats = max(1, min(requested_repeats, MAX_KERNEL_REPEATS))
+        payload.update({
+            "requested_repeats": requested_repeats,
+            "repeats": bounded_repeats,
+            "repeats_bounded": bounded_repeats != requested_repeats,
+            "max_repeats": MAX_KERNEL_REPEATS,
+        })
+    payload["bounded"] = bool(payload.get("points_bounded")) or bool(payload.get("repeats_bounded"))
+    return payload
 
 
 def _kernel_escalation_profile(gate_verdict: str, severity: str, health_score: float) -> dict[str, Any]:
@@ -55,16 +79,23 @@ def get_kernel_runtime_board() -> dict[str, Any]:
             "preferred_lane_order": ["triton_compiled", "jax_xla", "numpy_cpu"],
             "hard_bypass_forbidden": True,
             "governed_local_execution_required": True,
+            "bounded_execution_contract": {
+                "max_points": MAX_KERNEL_POINTS,
+                "max_repeats": MAX_KERNEL_REPEATS,
+                "policy": "Bound oversized kernel requests to keep execution deterministic and avoid loop-heavy runaway workloads.",
+            },
             "backend_detection_note": "Backend identity is explicit; CUDA-visible ROCm environments are treated separately.",
         },
     }
 
 
 def get_kernel_execution_receipts(points: int = 8, seed: int = 7) -> dict[str, Any]:
-    receipt = build_kernel_parity_receipt(points=points, seed=seed)
+    bounded = _bounded_kernel_inputs(points=points)
+    receipt = build_kernel_parity_receipt(points=int(bounded["points"]), seed=seed)
     return {
         "ok": bool(receipt.get("ok")),
         "receipt": receipt,
+        "input_contract": bounded,
         "governance": {
             "fail_closed": bool((receipt.get("gate") or {}).get("fail_closed", True)),
             "unchecked_or_unlogged_execution_forbidden": True,
@@ -80,10 +111,16 @@ def get_compactification_sanity_receipt() -> dict[str, Any]:
 
 
 def get_kernel_benchmark_receipts(points: int = 128, seed: int = 11, repeats: int = 5) -> dict[str, Any]:
-    receipt = build_kernel_benchmark_receipt(points=points, seed=seed, repeats=repeats)
+    bounded = _bounded_kernel_inputs(points=points, repeats=repeats)
+    receipt = build_kernel_benchmark_receipt(
+        points=int(bounded["points"]),
+        seed=seed,
+        repeats=int(bounded["repeats"]),
+    )
     return {
         "ok": bool(receipt.get("ok")),
         "receipt": receipt,
+        "input_contract": bounded,
         "governance": {
             "fail_closed": False,
             "performance_claim_note": "Benchmark speedup claims require matching parity receipts.",
@@ -92,8 +129,13 @@ def get_kernel_benchmark_receipts(points: int = 128, seed: int = 11, repeats: in
 
 
 def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats: int = 3) -> dict[str, Any]:
-    parity_payload = get_kernel_execution_receipts(points=points, seed=seed)
-    benchmark_payload = get_kernel_benchmark_receipts(points=max(points, 32), seed=seed, repeats=repeats)
+    bounded = _bounded_kernel_inputs(points=points, repeats=repeats)
+    parity_payload = get_kernel_execution_receipts(points=int(bounded["points"]), seed=seed)
+    benchmark_payload = get_kernel_benchmark_receipts(
+        points=max(int(bounded["points"]), 32),
+        seed=seed,
+        repeats=int(bounded["repeats"]),
+    )
     compactification = get_compactification_sanity_receipt()
 
     parity_receipt = dict(parity_payload.get("receipt") or {})
@@ -171,6 +213,7 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
         "remediation_actions": remediation_actions,
         "health_score": health_score,
         "severity": severity,
+        "input_contract": bounded,
         "escalation_tier": str(escalation.get("tier") or ""),
         "lane_routing_hint": str(escalation.get("lane_routing_hint") or ""),
         "escalation_priority": str(escalation.get("priority") or ""),
@@ -199,6 +242,7 @@ def get_kernel_risk_summary(points: int = 32, seed: int = 13, repeats: int = 3) 
         "lane_routing_hint": str(gate.get("lane_routing_hint") or ""),
         "escalation_priority": str(gate.get("escalation_priority") or ""),
         "requires_human_review": bool(gate.get("requires_human_review", False)),
+        "input_contract": dict(gate.get("input_contract") or {}),
         "health_score": float(gate.get("health_score", 0.0) or 0.0),
         "failed_checks": list(gate.get("failed_checks") or []),
         "remediation_actions": list(gate.get("remediation_actions") or []),
@@ -238,6 +282,7 @@ def get_kernel_escalation_packet(points: int = 32, seed: int = 13, repeats: int 
         "lane_routing_hint": lane,
         "escalation_priority": str(risk.get("escalation_priority") or ""),
         "requires_human_review": bool(risk.get("requires_human_review", False)),
+        "input_contract": dict(risk.get("input_contract") or {}),
         "health_score": float(risk.get("health_score", 0.0) or 0.0),
         "failed_checks": list(risk.get("failed_checks") or []),
         "remediation_actions": list(risk.get("remediation_actions") or []),
@@ -260,6 +305,7 @@ def get_kernel_governance_packet(points: int = 32, seed: int = 13, repeats: int 
         "policy": {
             "fail_closed_on_required_gate_failures": True,
             "promotion_claims_require_kernel_gate_pass": True,
+            "bounded_execution_contract": True,
             "escalation_tier_order": ["T1_MONITOR", "T2_HOLD", "T3_BLOCK"],
         },
         "gate": gate,

@@ -30,6 +30,7 @@ def test_kernel_runtime_board_contract():
     assert board["ok"] is True
     assert board["board_id"] == "psicat_kernel_runtime_board_v1"
     assert board["policy"]["hard_bypass_forbidden"] is True
+    assert board["policy"]["bounded_execution_contract"]["max_points"] == 512
     assert "kernel_contracts" in board
 
 
@@ -37,12 +38,14 @@ def test_kernel_execution_receipts_fail_closed_contract():
     payload = get_kernel_execution_receipts(points=6, seed=4)
     assert payload["ok"] is True
     assert "receipt" in payload
+    assert payload["input_contract"]["bounded"] is False
     assert payload["governance"]["unchecked_or_unlogged_execution_forbidden"] is True
 
 
 def test_kernel_benchmark_receipts_contract():
     payload = get_kernel_benchmark_receipts(points=32, seed=5, repeats=2)
     assert payload["ok"] is True
+    assert payload["input_contract"]["bounded"] is False
     assert payload["receipt"]["benchmarks"]["outer_bb_hotspot"]["repeats"] == 2
     assert payload["receipt"]["benchmarks"]["kk_4x4_metric_block_hotspot"]["repeats"] == 2
 
@@ -59,6 +62,7 @@ def test_kernel_promotion_gate_summary_contract():
     assert isinstance(payload["remediation_actions"], list)
     assert 0.0 <= float(payload["health_score"]) <= 1.0
     assert payload["severity"] in {"low", "medium", "high"}
+    assert payload["input_contract"]["bounded"] is False
     assert payload["blocking_pass"] is (payload["gate_verdict"] != "fail_closed")
     assert payload["promotion_blocking"] is (payload["gate_verdict"] == "fail_closed")
     check_ids = {item["id"] for item in payload["checks"]}
@@ -78,6 +82,7 @@ def test_kernel_risk_summary_contract():
     assert payload["severity"] in {"low", "medium", "high"}
     assert payload["escalation_tier"] in {"T1_MONITOR", "T2_HOLD", "T3_BLOCK"}
     assert payload["lane_routing_hint"] in {"physics_compute", "benchmark_operations", "validation_resilience"}
+    assert payload["input_contract"]["bounded"] is False
     assert 0.0 <= float(payload["health_score"]) <= 1.0
     assert isinstance(payload["failed_checks"], list)
     assert isinstance(payload["remediation_actions"], list)
@@ -88,6 +93,7 @@ def test_kernel_escalation_packet_contract():
     assert payload["packet_id"] == "psicat_kernel_escalation_packet_v1"
     assert payload["escalation_tier"] in {"T1_MONITOR", "T2_HOLD", "T3_BLOCK"}
     assert payload["lane_routing_hint"] in {"physics_compute", "benchmark_operations", "validation_resilience"}
+    assert payload["input_contract"]["bounded"] is False
     assert isinstance(payload["lane_actions"], list)
     assert payload["policy"]["promotion_claims_require_kernel_gate_pass"] is True
 
@@ -98,6 +104,14 @@ def test_kernel_governance_packet_contract():
     assert payload["gate"]["gate_verdict"] in {"pass", "hold", "fail_closed"}
     assert payload["risk"]["risk_id"] == "psicat_kernel_risk_summary_v1"
     assert payload["escalation"]["packet_id"] == "psicat_kernel_escalation_packet_v1"
+    assert payload["policy"]["bounded_execution_contract"] is True
+
+
+def test_kernel_input_contract_bounds_large_requests():
+    payload = get_kernel_governance_packet(points=100000, seed=5, repeats=1000)
+    assert payload["gate"]["input_contract"]["bounded"] is True
+    assert payload["gate"]["input_contract"]["points"] == 512
+    assert payload["gate"]["input_contract"]["repeats"] == 32
 
 
 def test_compactification_sanity_receipt_surface():
@@ -156,6 +170,9 @@ def test_server_kernel_runtime_endpoints():
             governance_resp = client.get("/api/psicat/kernel-governance?points=16&seed=3&repeats=2")
             assert governance_resp.status_code == 200
             assert governance_resp.json()["kernel_governance"]["packet_id"] == "psicat_kernel_governance_packet_v1"
+            bounded_resp = client.get("/api/psicat/kernel-governance?points=100000&seed=3&repeats=1000")
+            assert bounded_resp.status_code == 200
+            assert bounded_resp.json()["kernel_governance"]["gate"]["input_contract"]["bounded"] is True
 
             sanity_resp = client.get("/api/psicat/compactification-sanity")
             assert sanity_resp.status_code in {200, 422}
