@@ -209,6 +209,37 @@ def test_duplicate_deliverable_ids_keep_report_blocked(monkeypatch) -> None:
     assert report['valid'] is False
 
 
+def test_status_and_earned_disagreement_keeps_report_blocked(monkeypatch) -> None:
+    monkeypatch.setattr(
+        p1121,
+        'action_to_evolution_deliverable_contract',
+        lambda: {
+            'primary_deliverables': [
+                {'id': 'A', 'label': 'Action', 'status': 'EARNED', 'earned': False},
+                {'id': 'B', 'label': 'Euler-Lagrange', 'status': 'OPEN_BLOCKER', 'earned': False},
+                {'id': 'C', 'label': 'Time boundary', 'status': 'EVIDENCE_SURFACED', 'earned': True},
+            ],
+            'remaining_blockers': ['A', 'B'],
+        },
+    )
+    monkeypatch.setattr(
+        p1121,
+        'lane1_action_to_evolution_closure_attempt',
+        lambda: {
+            'blocker_certificate': {},
+            'closure_attempt': {
+                'candidate_action_status': 'EVIDENCE_SURFACED',
+                'euler_lagrange_match_status': 'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED',
+                'domain_boundary_status': 'EVIDENCE_SURFACED',
+            },
+        },
+    )
+    report = p1121.action_to_evolution_full_focus_sprint_routing()
+    assert report['dependencies']['action_contract_state_consistent'] is False
+    assert report['dependencies']['routing_target_fully_earned'] is False
+    assert report['valid'] is False
+
+
 def test_summary_contract(report) -> None:
     summary = pillar1121_summary()
     assert summary['pillar'] == 1121
