@@ -62,7 +62,7 @@ v37_7_sprint_cu:
     - LITEBIRD_BIREFRINGENCE
     - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
   regression: "64,150 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in current branch history)"
-  focused_regression: "Sprint CU routing and ledger suites 44 passed · 0 failed"
+  focused_regression: "Sprint CU routing and ledger suites 45 passed · 0 failed"
   next_pillar_slot: 1122
 
 v37_6_sprint_ct:

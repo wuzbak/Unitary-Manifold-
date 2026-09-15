@@ -105,3 +105,22 @@ def test_summary_contract(report) -> None:
     assert summary['status'] == PILLAR_STATUS
     assert summary['outcome'] == report['outcome']
     assert summary['valid'] is True
+
+
+def test_summary_reports_blocked_state(monkeypatch) -> None:
+    monkeypatch.setattr(
+        p1121,
+        'psicat_training_benchmarking_promotion_sprint',
+        lambda: {
+            'valid': False,
+            'training_board': [{}] * 4,
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+            },
+        },
+    )
+    summary = p1121.pillar1121_summary()
+    assert summary['status'] == PILLAR_STATUS
+    assert summary['outcome'] == 'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_BLOCKED'
+    assert summary['valid'] is False
