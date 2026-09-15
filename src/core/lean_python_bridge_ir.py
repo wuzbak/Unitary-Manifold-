@@ -70,6 +70,36 @@ def _allowed_result_classes(epistemic_class: str) -> list[str]:
     return list(mapping.get(epistemic_class, ["ENVIRONMENT_BLOCKED"]))
 
 
+def _no_bloat_theorem_gate() -> dict[str, Any]:
+    return {
+        "gate_id": "NO_BLOAT_THEOREM_GATE_V1",
+        "acceptance_rule": (
+            "A new Lean theorem is accepted only if it retires at least one named blocker "
+            "unit or unlocks at least one concrete Python runtime/checking capability."
+        ),
+        "required_evidence_fields": [
+            "retired_blocker_ids",
+            "unlocked_python_capabilities",
+        ],
+        "bloat_rejection_rule": "No standalone theorem-count growth is promotion-eligible.",
+    }
+
+
+def _closure_evidence_requirements() -> dict[str, Any]:
+    return {
+        "promotion_requires_all": [
+            "lean_outcome_ready",
+            "python_integration_proof_passed",
+            "tests_passed",
+            "blocker_retirement_or_capability_unlock_evidence",
+        ],
+        "fallback_outcome_if_missing": "BLOCKED_OR_CONDITIONAL_ONLY",
+        "integration_rule": (
+            "Lean outcomes are re-ingested as typed Python runtime inputs before any status promotion."
+        ),
+    }
+
+
 def build_formal_unit_ir(
     *,
     rows: list[dict[str, Any]],
@@ -198,6 +228,12 @@ def build_python_lean_bridge_contract(
             "native_pipeline_rule": "Textual translation alone is never semantic proof equivalence.",
             "promotion_rule": "Only structured Lean receipts may strengthen downstream Python claims.",
             "fallback_rule": "Dataset-extraction and FFI layers are secondary to stable LSP/REPL execution.",
+            "no_bloat_theorem_gate": _no_bloat_theorem_gate(),
+            "closure_evidence_requirements": _closure_evidence_requirements(),
+        },
+        "bidirectional_pipeline": {
+            "python_to_lean": "emit normalized obligations with explicit proof class and certificate requirements",
+            "lean_to_python": "ingest typed Lean outcomes and gate runtime/status promotion deterministically",
         },
         "formal_units": units,
         "counts": {
