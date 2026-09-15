@@ -1934,13 +1934,27 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     codeql_blocker = next(item for item in resilience_data['blocker_status'] if item['blocker_id'] == 'codeql_database_too_large')
     assert codeql_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
     assert codeql_blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
+    spc_phase2 = route_tool('runPsiCatSpcPhase2AppliedPressure', {'limit': 2, 'training_limit': 3})
+    assert spc_phase2['ok'] is True
+    spc_phase2_data = spc_phase2['result']['data']
+    assert spc_phase2_data['mode'] == 'spc_phase2_applied_pressure_execution'
+    assert len(spc_phase2_data['applied_pressure_lanes']) == 3
+    assert spc_phase2_data['phase_verdict'] in {'PHASE2_CLEAR_ADVANCE_TO_PHASE3', 'PHASE2_HOLD_REMEDIATE'}
+    spc_phase3 = route_tool('getPsiCatSpcPhase3LiveReadiness', {'limit': 2, 'training_limit': 3})
+    assert spc_phase3['ok'] is True
+    spc_phase3_data = spc_phase3['result']['data']
+    assert spc_phase3_data['mode'] == 'spc_phase3_live_readiness'
+    assert isinstance(spc_phase3_data['integrated_run_receipts'], list)
+    assert spc_phase3_data['live_readiness_verdict'] in {'PHASE3_LIVE_READY', 'PHASE3_HOLD_REMEDIATE'}
     assert promotion_sprint_data['mode'] == 'achievement_benchmark_promotion_sprint'
-    assert len(promotion_sprint_data['achievement_board']) == 5
+    assert len(promotion_sprint_data['achievement_board']) >= 7
     assert promotion_sprint_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
     assert int(promotion_sprint_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
     assert promotion_sprint_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert len(promotion_sprint_data['benchmark_board']['stage_gate_summary']) == 5
     assert len(promotion_sprint_data['benchmark_board']['spc_phase1_lane_receipts']) == 3
+    assert promotion_sprint_data['benchmark_board']['spc_phase2_applied_pressure']['mode'] == 'spc_phase2_applied_pressure_execution'
+    assert promotion_sprint_data['benchmark_board']['spc_phase3_live_readiness']['mode'] == 'spc_phase3_live_readiness'
     assert promotion_sprint_data['benchmark_board']['kernel_governance_packet']['packet_id'] == (
         'psicat_kernel_governance_packet_v1'
     )
@@ -1950,7 +1964,7 @@ def test_route_tool_sprint_review_and_sovereign_boards():
             assert blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
             assert blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
     if promotion_sprint_data['promotion_readiness']['decision'] == 'PROMOTION_SPRINT_ADVANCE_ALLOWED':
-        assert promotion_sprint_data['appropriate_promotion_sprint']['sprint_id'] == 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'
+        assert promotion_sprint_data['appropriate_promotion_sprint']['sprint_id'] == 'CONTROLLED_LIVE_ENABLEMENT_SPRINT'
     else:
         assert promotion_sprint_data['promotion_readiness']['promotion_language'] == 'FROZEN_PENDING_VISIBLE_GATES'
     training_promotion_sprint = route_tool('getPsiCatTrainingBenchmarkingPromotionSprint', {'limit': 2, 'training_limit': 4})
@@ -2041,6 +2055,8 @@ def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatc
                 'targeted_rigor_clear': True,
                 'frontier_blockers_all_clear': True,
                 'spc_phase1_clear_to_advance': True,
+                'spc_phase2_clear_to_advance': True,
+                'spc_phase3_live_ready': True,
             },
             'appropriate_promotion_sprint': {'sprint_id': 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'},
             'targeted_rigor_sprint': {
@@ -2063,6 +2079,43 @@ def test_training_benchmarking_promotion_sprint_noop_cycle_not_earned(monkeypatc
     assert packet['promotion_readiness']['decision'] == 'PROMOTION_NOT_EARNED_YET'
     assert packet['promotion_readiness']['promotion_language'] == 'FROZEN_PENDING_VISIBLE_GATES'
     assert packet['appropriate_promotion_sprint']['sprint_id'] == 'TRAINING_EXECUTION_REMEDIATION_SPRINT'
+
+
+def test_training_benchmarking_promotion_sprint_phase3_hold_inherited(monkeypatch):
+    monkeypatch.setattr(
+        merlin_program,
+        'get_psicat_achievement_benchmark_promotion_sprint',
+        lambda **_kwargs: {
+            'generated_at': '2026-09-10T00:00:00Z',
+            'inputs': {'limit': 1, 'training_limit': 1},
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+                'spc_phase2_applied_pressure': {'mode': 'spc_phase2_applied_pressure_execution'},
+                'spc_phase3_live_readiness': {'mode': 'spc_phase3_live_readiness'},
+            },
+            'promotion_readiness': {
+                'decision': 'PROMOTION_NOT_EARNED_YET',
+                'targeted_rigor_clear': True,
+                'frontier_blockers_all_clear': True,
+                'spc_phase1_clear_to_advance': True,
+                'spc_phase2_clear_to_advance': True,
+                'spc_phase3_live_ready': False,
+            },
+            'appropriate_promotion_sprint': {'sprint_id': 'PHASE3_LIVE_READINESS_SPRINT'},
+            'targeted_rigor_sprint': {
+                'training': {
+                    'queue_before': {'ready_count': 0, 'queued_count': 0, 'stale_retrain_count': 0, 'needs_review_count': 0, 'total_queue_items': 0},
+                    'cycle': {'processed_count': 1, 'queue_after': {'stale_retrain_count': 0, 'needs_review_count': 0}},
+                    'lane_progress_ledgers': [{'lane_id': 'lane_a'}],
+                    'challenge_pack': {'challenges': [{'id': 'c1'}]},
+                }
+            },
+        },
+    )
+    packet = merlin_program.get_psicat_training_benchmarking_promotion_sprint(limit=1, training_limit=1)
+    assert packet['promotion_readiness']['decision'] == 'PROMOTION_NOT_EARNED_YET'
+    assert packet['appropriate_promotion_sprint']['sprint_id'] == 'PHASE3_LIVE_READINESS_SPRINT'
     assert packet['validity_signals']['has_sprint_routing'] is True
 
 
@@ -3140,11 +3193,20 @@ def test_server_merlin_endpoints():
             assert spc_phase1_baseline.json()['spc_phase1_baseline']['mode'] == 'spc_phase1_baseline_execution'
             assert len(spc_phase1_baseline.json()['spc_phase1_baseline']['lane_receipts']) == 3
             assert 'phase_verdict' in spc_phase1_baseline.json()['spc_phase1_baseline']
+            spc_phase2 = client.get('/api/merlin/spc-phase2-applied-pressure?limit=5&training_limit=3')
+            assert spc_phase2.status_code == 200
+            assert spc_phase2.json()['ok'] is True
+            assert spc_phase2.json()['spc_phase2_applied_pressure']['mode'] == 'spc_phase2_applied_pressure_execution'
+            assert len(spc_phase2.json()['spc_phase2_applied_pressure']['applied_pressure_lanes']) == 3
+            spc_phase3 = client.get('/api/merlin/spc-phase3-live-readiness?limit=5&training_limit=3')
+            assert spc_phase3.status_code == 200
+            assert spc_phase3.json()['ok'] is True
+            assert spc_phase3.json()['spc_phase3_live_readiness']['mode'] == 'spc_phase3_live_readiness'
             promotion_sprint = client.get('/api/merlin/achievement-benchmark-promotion-sprint?limit=2&training_limit=3')
             assert promotion_sprint.status_code == 200
             assert promotion_sprint.json()['ok'] is True
             assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['mode'] == 'achievement_benchmark_promotion_sprint'
-            assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['achievement_board']) == 5
+            assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['achievement_board']) >= 7
             assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['kernel_governance_packet']['packet_id'] == (
                 'psicat_kernel_governance_packet_v1'
             )
@@ -3152,6 +3214,8 @@ def test_server_merlin_endpoints():
                 'psicat_kernel_batch_plan_v1'
             )
             assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['benchmark_board']['spc_phase1_lane_receipts']) == 3
+            assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['benchmark_board']['spc_phase2_applied_pressure']['mode'] == 'spc_phase2_applied_pressure_execution'
+            assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['benchmark_board']['spc_phase3_live_readiness']['mode'] == 'spc_phase3_live_readiness'
             training_promotion_sprint = client.get('/api/merlin/training-benchmarking-promotion-sprint?limit=2&training_limit=4')
             assert training_promotion_sprint.status_code == 200
             assert training_promotion_sprint.json()['ok'] is True
@@ -3169,6 +3233,10 @@ def test_server_merlin_endpoints():
             bad_spc_phase1_limit = client.get('/api/merlin/spc-phase1-baseline?limit=abc')
             assert bad_spc_phase1_limit.status_code == 400
             assert bad_spc_phase1_limit.json()['ok'] is False
+            bad_spc_phase2_limit = client.get('/api/merlin/spc-phase2-applied-pressure?limit=abc')
+            assert bad_spc_phase2_limit.status_code == 400
+            bad_spc_phase3_limit = client.get('/api/merlin/spc-phase3-live-readiness?limit=abc')
+            assert bad_spc_phase3_limit.status_code == 400
             heavy_lane = client.get('/api/merlin/heavy-lane?limit=2')
             assert heavy_lane.status_code == 200
             assert heavy_lane.json()['ok'] is True

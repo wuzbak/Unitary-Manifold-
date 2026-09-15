@@ -77,7 +77,9 @@ from ox_navigator.engine.merlin_program import (
     get_merlin_sovereign_model_board,
     get_merlin_sprint_review_packet,
     get_psicat_spc_phase0_execution_packet,
+    get_psicat_spc_phase3_live_readiness,
     run_merlin_targeted_rigor_sprint,
+    run_psicat_spc_phase2_applied_pressure,
     run_psicat_spc_phase1_baseline,
     get_merlin_validation_resilience_packet,
     get_full_program_blueprint,
@@ -1238,6 +1240,44 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'spc_phase1_baseline': run_psicat_spc_phase1_baseline(
+                    session=merlin_session,
+                    limit=limit,
+                    training_limit=training_limit,
+                ),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/spc-phase2-applied-pressure':
+                limit, error = _parse_int_query_param(params, 'limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                training_limit, training_error = _parse_int_query_param(params, 'training_limit', 9)
+                if training_error:
+                    self._json({'ok': False, 'error': training_error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'spc_phase2_applied_pressure': run_psicat_spc_phase2_applied_pressure(
+                    session=merlin_session,
+                    limit=limit,
+                    training_limit=training_limit,
+                ),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/spc-phase3-live-readiness':
+                limit, error = _parse_int_query_param(params, 'limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                training_limit, training_error = _parse_int_query_param(params, 'training_limit', 9)
+                if training_error:
+                    self._json({'ok': False, 'error': training_error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'spc_phase3_live_readiness': get_psicat_spc_phase3_live_readiness(
                     session=merlin_session,
                     limit=limit,
                     training_limit=training_limit,

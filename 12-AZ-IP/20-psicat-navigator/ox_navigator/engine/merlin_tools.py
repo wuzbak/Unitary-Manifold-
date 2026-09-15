@@ -121,10 +121,12 @@ from .merlin_program import (
     get_mlflow_experiment_manifests,
     get_merlin_sovereign_model_board,
     get_merlin_sprint_review_packet,
+    get_psicat_spc_phase3_live_readiness,
     get_navier_stokes_method_transfer_packet,
     get_psicat_spc_phase0_execution_packet,
     get_pythagorean_triples_sat_method_transfer_packet,
     run_merlin_targeted_rigor_sprint,
+    run_psicat_spc_phase2_applied_pressure,
     run_psicat_spc_phase1_baseline,
     build_training_dataset_bundle,
     get_training_architecture,
@@ -358,6 +360,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "runMerlinTargetedRigorSprint", "summary": "Execute bounded full-rigor sprint packet: retained training cycle + Stage A-E receipts + fail-closed blockers", "domain": "functions"},
             {"name": "getPsiCatSpcPhase0ExecutionPacket", "summary": "Return immediate SPC phase-0 execution packet artifact", "domain": "functions"},
             {"name": "runPsiCatSpcPhase1Baseline", "summary": "Run immediate SPC phase-1 baseline batteries with lane verdict ledger", "domain": "functions"},
+            {"name": "runPsiCatSpcPhase2AppliedPressure", "summary": "Run governed SPC phase-2 applied-pressure drills with decision-quality and traceability gates", "domain": "functions"},
+            {"name": "getPsiCatSpcPhase3LiveReadiness", "summary": "Return governed SPC phase-3 live-readiness packet with integrated-run checks", "domain": "functions"},
             {"name": "getPsiCatAchievementBenchmarkPromotionSprint", "summary": "Return PsiCat achievements, benchmark posture, and the next appropriate promotion sprint", "domain": "functions"},
             {"name": "getPsiCatTrainingBenchmarkingPromotionSprint", "summary": "Return PsiCat training execution visibility, benchmark posture, and governed promotion routing", "domain": "functions"},
             {"name": "getMerlinTrainingChallengePack", "summary": "Return deterministic challenge drills prioritized by stale or review-required training work", "domain": "functions"},
@@ -614,6 +618,28 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getPsiCatSpcPhase0ExecutionPacket": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "runPsiCatSpcPhase1Baseline": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                    "training_limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
+        "runPsiCatSpcPhase2AppliedPressure": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "limit": {"type": "integer"},
+                    "training_limit": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+            "risk_level": "medium",
+        },
+        "getPsiCatSpcPhase3LiveReadiness": {
             "args_schema": {
                 "type": "object",
                 "properties": {
@@ -1379,6 +1405,16 @@ _FUNCTIONS = {
         limit=args.get("limit"),
         training_limit=args.get("training_limit"),
     )},
+    "runPsiCatSpcPhase2AppliedPressure": lambda **args: {"data": run_psicat_spc_phase2_applied_pressure(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+        training_limit=args.get("training_limit"),
+    )},
+    "getPsiCatSpcPhase3LiveReadiness": lambda **args: {"data": get_psicat_spc_phase3_live_readiness(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        limit=args.get("limit"),
+        training_limit=args.get("training_limit"),
+    )},
     "getPsiCatAchievementBenchmarkPromotionSprint": lambda **args: {"data": get_psicat_achievement_benchmark_promotion_sprint(
         limit=args.get("limit"),
         training_limit=args.get("training_limit"),
@@ -1715,6 +1751,8 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "getPsiCatSwarmObservatory",
                     "getMerlinControlTower",
                     "getMerlinExecutionBoard",
+                    "runPsiCatSpcPhase2AppliedPressure",
+                    "getPsiCatSpcPhase3LiveReadiness",
                     "getPsiCatAchievementBenchmarkPromotionSprint",
                     "getPsiCatTrainingBenchmarkingPromotionSprint",
                 }

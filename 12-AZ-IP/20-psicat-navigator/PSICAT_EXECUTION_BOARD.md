@@ -25,7 +25,7 @@ For immediate PsiCat SPC expert uplift, this board now runs:
 - `training/training_execution/psicat_spc_phase1_baseline_diff.json`
 
 These artifacts execute three parallel lanes (business operations, regulatory policy, and strategy resilience) with hard fail-closed gates and evidence-packet requirements.
-Live API surfaces: `/api/psicat/spc-phase0-packet` and `/api/psicat/spc-phase1-baseline`.
+Live API surfaces: `/api/psicat/spc-phase0-packet`, `/api/psicat/spc-phase1-baseline`, `/api/psicat/spc-phase2-applied-pressure`, and `/api/psicat/spc-phase3-live-readiness`.
 Promotion conversation surface: `/api/psicat/achievement-benchmark-promotion-sprint`.
 Monorepo convergence charter: `/api/psicat/convergence-charter` and `9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`.
 
@@ -126,6 +126,7 @@ The packet executes:
 This surface does not grant promotion by itself; it compresses evidence gathering and keeps every blocker visible.
 
 When the question is “what has PsiCat actually earned and what sprint should come next?”, use `/api/psicat/achievement-benchmark-promotion-sprint`. It keeps achievements, benchmark posture, and next-sprint routing in one fail-closed packet so promotion conversations stay evidence-backed.
+When the question is whether SPC uplift has actually survived realistic pressure, use `/api/psicat/spc-phase2-applied-pressure` for supervised pressure gates and `/api/psicat/spc-phase3-live-readiness` for integrated clean-run and governance-review visibility.
 
 ---
 
