@@ -203,7 +203,7 @@ continued — through Post 96, and then through Post Ω.
 *Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
-*Predictions register: `3-FALSIFICATION/prediction.md`*
+*Predictions register: `3-FALSIFICATION/FALSIFICATION_REGISTER.md`*
 *Grounded source series: `7-OUTREACH/substack/`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 

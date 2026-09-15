@@ -176,7 +176,7 @@ This is the next problem. It is documented as open, not hidden.
 *Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
-*Predictions register: `3-FALSIFICATION/prediction.md`*
+*Predictions register: `3-FALSIFICATION/FALSIFICATION_REGISTER.md`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
