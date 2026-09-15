@@ -1913,8 +1913,19 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert codeql_blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert promotion_sprint_data['mode'] == 'achievement_benchmark_promotion_sprint'
     assert len(promotion_sprint_data['achievement_board']) == 5
+    assert promotion_sprint_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(promotion_sprint_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+    assert promotion_sprint_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert len(promotion_sprint_data['benchmark_board']['stage_gate_summary']) == 5
     assert len(promotion_sprint_data['benchmark_board']['spc_phase1_lane_receipts']) == 3
+    assert promotion_sprint_data['benchmark_board']['kernel_governance_packet']['packet_id'] == (
+        'psicat_kernel_governance_packet_v1'
+    )
+    assert promotion_sprint_data['benchmark_board']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+    for blocker in promotion_sprint_data['benchmark_board']['frontier_open_blockers']:
+        if blocker['id'] == 'kernel_runtime_cross_lane_gate':
+            assert blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
     if promotion_sprint_data['promotion_readiness']['decision'] == 'PROMOTION_SPRINT_ADVANCE_ALLOWED':
         assert promotion_sprint_data['appropriate_promotion_sprint']['sprint_id'] == 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'
     else:
@@ -3111,6 +3122,12 @@ def test_server_merlin_endpoints():
             assert promotion_sprint.json()['ok'] is True
             assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['mode'] == 'achievement_benchmark_promotion_sprint'
             assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['achievement_board']) == 5
+            assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert promotion_sprint.json()['achievement_benchmark_promotion_sprint']['kernel_batch_plan']['plan_id'] == (
+                'psicat_kernel_batch_plan_v1'
+            )
             assert len(promotion_sprint.json()['achievement_benchmark_promotion_sprint']['benchmark_board']['spc_phase1_lane_receipts']) == 3
             training_promotion_sprint = client.get('/api/merlin/training-benchmarking-promotion-sprint?limit=2&training_limit=4')
             assert training_promotion_sprint.status_code == 200

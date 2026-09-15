@@ -152,6 +152,7 @@ Related reading outside this product folder:
 - Targeted-rigor sprint payloads now include `kernel_governance_packet` and `kernel_data_volume_strategy` so large-data batching posture stays explicit during sprint triage.
 - Targeted-rigor sprint payloads also include `kernel_batch_plan` and kernel blocker `batch_plan_id` fields for deterministic batch-execution traceability.
 - `GET /api/psicat/achievement-benchmark-promotion-sprint` consolidates what PsiCat has actually earned, the live benchmark posture, and the next appropriate promotion sprint without inflating promotion status.
+- Achievement benchmark promotion sprint packets now also surface `kernel_governance_packet`, `kernel_data_volume_strategy`, and `kernel_batch_plan` at packet and benchmark-board levels, with kernel blocker linkage normalized in `frontier_open_blockers`.
 - `GET /api/psicat/spc-phase0-packet` now validates the phase-0 execution packet schema and fails closed (`422`) when required governance fields are missing; backend artifact load/parse failures return `500`.
 - `GET /api/psicat/heavy-lane` exposes the heavy-lane benchmark pack, provider comparison, failure taxonomy, and tuning agenda for sovereign long-context work.
 - `GET /api/psicat/model-board` exposes the runtime-tier shortlist, scoring board, and adaptation-vs-abandonment policy for sovereign model selection.

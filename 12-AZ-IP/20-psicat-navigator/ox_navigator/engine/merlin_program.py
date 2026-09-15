@@ -8251,8 +8251,22 @@ def get_psicat_achievement_benchmark_promotion_sprint(
             and bool(row.get("domain_gate_pass"))
         )
     ]
+    frontier_kernel_governance = dict(frontier.get("kernel_governance_packet") or {})
+    frontier_kernel_batch_plan = dict(frontier.get("kernel_batch_plan") or {})
     frontier_blockers = [
-        dict(item)
+        {
+            **dict(item),
+            "governance_packet_id": str(
+                item.get("governance_packet_id")
+                or frontier_kernel_governance.get("packet_id")
+                or ""
+            ),
+            "batch_plan_id": str(
+                item.get("batch_plan_id")
+                or frontier_kernel_batch_plan.get("plan_id")
+                or ""
+            ),
+        }
         for item in list(frontier.get("promotion_blockers") or [])
         if not bool(item.get("pass"))
     ]
@@ -8340,10 +8354,16 @@ def get_psicat_achievement_benchmark_promotion_sprint(
             "stage_failures": stage_failures,
             "frontier_blockers_clear": frontier_clear,
             "frontier_open_blockers": frontier_blockers,
+            "kernel_governance_packet": frontier_kernel_governance,
+            "kernel_data_volume_strategy": dict(frontier.get("kernel_data_volume_strategy") or {}),
+            "kernel_batch_plan": frontier_kernel_batch_plan,
             "spc_phase1_lane_receipts": spc_lanes,
             "spc_phase1_clear_to_advance": phase1_clear,
             "spc_phase1_open_lanes": spc_lane_blockers,
         },
+        "kernel_governance_packet": frontier_kernel_governance,
+        "kernel_data_volume_strategy": dict(frontier.get("kernel_data_volume_strategy") or {}),
+        "kernel_batch_plan": frontier_kernel_batch_plan,
         "promotion_readiness": {
             "targeted_rigor_clear": targeted_clear,
             "frontier_blockers_all_clear": frontier_clear,
