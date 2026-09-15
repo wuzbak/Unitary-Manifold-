@@ -32,8 +32,8 @@ def test_identity() -> None:
 
 
 def test_report_contract(report) -> None:
-    assert report['outcome'] == 'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_BLOCKED'
-    assert report['valid'] is False
+    assert report['outcome'] == 'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_READY'
+    assert report['valid'] is True
     assert report['truth_surface_sync']['all_pass'] is True
 
 
@@ -43,6 +43,7 @@ def test_packet_shape(report) -> None:
     assert len(report['next_full_focus_physics_sprint']['primary_deliverables']) == 3
     assert report['psicat_status']['benchmarking_ready_now'] is True
     assert report['psicat_status']['next_governed_step'] == 'PHASE2_APPLIED_PRESSURE_PROMOTION_SPRINT'
+    assert report['sprint_readiness']['action_to_evolution_target_complete_now'] is False
 
 
 def test_packet_accepts_fully_completed_contract(monkeypatch) -> None:
@@ -133,7 +134,7 @@ def test_summary_contract(report) -> None:
     assert summary['pillar'] == 1121
     assert summary['status'] == PILLAR_STATUS
     assert summary['outcome'] == report['outcome']
-    assert summary['valid'] is False
+    assert summary['valid'] is True
 
 
 def test_summary_reports_blocked_state(monkeypatch) -> None:

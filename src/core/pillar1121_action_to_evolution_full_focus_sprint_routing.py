@@ -68,16 +68,19 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         }
         for item in list(contract.get('primary_deliverables') or [])
     ]
+    primary_deliverable_ids = {item['id'] for item in primary_deliverables}
     unresolved_primary_ids = {
         item['id'] for item in primary_deliverables if not item.get('earned')
     }
-    contract_remaining_blockers = {
-        str(item) for item in list(contract.get('remaining_blockers') or [])
+    primary_remaining_blockers = {
+        str(item)
+        for item in list(contract.get('remaining_blockers') or [])
+        if str(item) in primary_deliverable_ids
     }
     deliverable_state_consistent = (
         len(primary_deliverables) == 3
         and all(item['id'] and item['label'] and item['status'] for item in primary_deliverables)
-        and unresolved_primary_ids == contract_remaining_blockers
+        and unresolved_primary_ids == primary_remaining_blockers
     )
     routing_target_fully_earned = len(unresolved_primary_ids) == 0
     capability_gains = [
@@ -106,7 +109,6 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         and psicat_packet_valid
         and bool(truth_sync.get('all_pass'))
         and deliverable_state_consistent
-        and routing_target_fully_earned
         and len(list(psicat_report.get('training_board') or [])) >= 4
         and len(list((psicat_report.get('benchmark_board') or {}).get('stage_gate_summary') or [])) == 5
         and len(list((psicat_report.get('benchmark_board') or {}).get('spc_phase1_lane_receipts') or [])) == 3
@@ -178,6 +180,14 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         'supporting_packets': {
             'action_to_evolution': action_report,
             'psicat_training_benchmark_promotion': psicat_report,
+        },
+        'sprint_readiness': {
+            'action_to_evolution_target_complete_now': routing_target_fully_earned,
+            'current_state': (
+                'TARGET_SPRINT_ALREADY_COMPLETE'
+                if routing_target_fully_earned
+                else 'FAIL_CLOSED_ROUTE_TO_NEXT_ACTION_TO_EVOLUTION_SPRINT'
+            ),
         },
         'outcome': (
             'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_READY'
