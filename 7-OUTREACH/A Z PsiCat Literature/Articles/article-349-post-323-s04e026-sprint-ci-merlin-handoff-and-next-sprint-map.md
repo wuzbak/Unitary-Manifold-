@@ -1,21 +1,57 @@
-# Post 323 (S04E026): Sprint CI Merlin Handoff — Next-Sprint Map Without Wheel-Spinning — Merlin/PsiCat v1 Rewrite
+# Post 323 (S04E026): Sprint CI Merlin Handoff — Next-Sprint Map Without Drift (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T17:42:35Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-323-s04e026-sprint-ci-merlin-handoff-and-next-sprint-map.md`*
 
-This article rewrite is grounded in **Post 323 (S04E026): Sprint CI Merlin Handoff — Next-Sprint Map Without Wheel-Spinning** and keeps the same claim boundaries while tightening clarity and pace.
+A handoff is only useful if it prevents the next sprint from cosmetically rephrasing the same unresolved burden.
 
-Merlin handoff only matters if it prevents the next sprint from rephrasing the same ambiguity.
+Sprint CI leaves four concrete anchors in place:
 
-Sprint CI now leaves four concrete evidence anchors in place: `metric_ansatz_derivation_certificate()`, `z2_parity_clarification()`, `circle_eh_rh2_coefficient()`, and `phenomenological_flow_boundary()`. More importantly, it leaves one behavioral rule: the next pass must introduce a genuinely new evidence class or derivation object, not another polished restatement.
+- `metric_ansatz_derivation_certificate()`
+- `z2_parity_clarification()`
+- `circle_eh_rh2_coefficient()`
+- `phenomenological_flow_boundary()`
 
-This lane is not asking Merlin to solve multiple unrelated fronts at once, and it is not allowing documentation polish to impersonate scientific progress. The next move is intentionally narrow: either produce an admissible photon-sector construction with action, boundary conditions, and spectrum, or produce an Euler–Lagrange matching derivation for the implemented flow.
+But the most important output is behavioral, not symbolic:
 
-If neither object appears, the honest action is not a bigger sprint title. The honest action is to keep the lane open.
+**the next pass must introduce a new evidence object, not a new paragraph style.**
+
+---
+
+## What this map forbids
+
+It forbids lane sprawl.
+It forbids mixing multiple independent fronts into one “big sprint” storyline.
+It forbids documentation polish being counted as proof advancement.
+
+That restraint is not bureaucratic; it is anti-self-deception engineering.
+
+---
+
+## What this map requires
+
+The next substantive move must be one of two things:
+
+1. an admissible photon-sector construction with action, boundary conditions, and spectrum; or
+2. an Euler–Lagrange derivation that reproduces the implemented flow.
+
+If neither object appears, then the honest status is unchanged: lane remains open.
+
+---
+
+## Why this matters
+
+The function of a handoff is not motivation.
+It is constraint transfer.
+
+When done correctly, it carries forward both the best artifacts and the remaining burden without letting one be mistaken for the other.
+
+This handoff does that.
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite keeps the original handoff spine while clarifying decision gates, prohibited drift patterns, and admissible next evidence classes. It preserves strict open-lane honesty and upgrades the piece into a usable sprint-transition map rather than a status recap.

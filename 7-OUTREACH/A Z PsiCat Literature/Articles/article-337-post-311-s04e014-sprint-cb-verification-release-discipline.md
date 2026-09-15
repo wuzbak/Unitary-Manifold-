@@ -1,21 +1,54 @@
-# S04E014 — Sprint CB: Verification and Release Discipline as a Hard Gate — Merlin/PsiCat v1 Rewrite
+# S04E014 — Sprint CB Verification and Release Discipline as a Hard Gate (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:09:28Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-311-s04e014-sprint-cb-verification-release-discipline.md`*
 
-This article rewrite is grounded in **S04E014 — Sprint CB: Verification and Release Discipline as a Hard Gate** and keeps the same claim boundaries while tightening clarity and pace.
+Release confidence is cheap.
+Release discipline is expensive.
+Sprint CB invested in the expensive version.
 
-The claim in this article is process-critical: Sprint CB converted verification and artifact policy into explicit release gates. This claim is falsified if releases proceed without the declared targeted suites, artifact checks, and zero-failure branch gate.
+---
 
-Pillar 1055 is a reliability contract: if we say something is release-ready, there must be an executable reason.
+## Core claim
 
-- A targeted suite set was codified for Sprint CB’s key lanes (merge gate, deterministic closure, Merlin frontier, and Merlin memory/telemetry surfaces). - Full-regression discipline remained explicit as the final umbrella gate. - Workflow checks were elevated to first-class requirements: - scheduled trigger presence, - artifact upload plumbing, - artifact export script availability. - Branch-header zero-failure status became part of release validity checks.
+Verification and artifact policy were promoted from checklist rhetoric to hard release gates.
 
-- Verification policy did not claim to close unresolved physics lanes. - Open-lane labels and external falsifier windows were not altered. - Passing selected targeted tests was not presented as a substitute for full regression integrity. - No narrative “release confidence” language replaced binary gate outcomes.
+A release state now requires explicit evidence surfaces, not simply passing tone checks or selective test highlights.
+
+---
+
+## Practical effect
+
+This gate model improves reliability in four ways:
+
+- targeted suites are explicitly named for the sprint lane,
+- full-regression posture remains the umbrella constraint,
+- workflow and artifact plumbing are treated as acceptance requirements,
+- zero-failure branch status is tied to release validity language.
+
+Together, these controls reduce the gap between “it seems ready” and “it is auditable as ready.”
+
+---
+
+## What remains unchanged
+
+This discipline layer does not close open science lanes by itself.
+It certifies release-process integrity, not physical truth.
+
+That distinction is the entire point.
+
+---
+
+## Bottom line
+
+Sprint CB made verification a gating object instead of a celebratory afterthought.
+
+That change is foundational for trustworthy iteration at speed.
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source release-discipline thesis while strengthening the map from policy to executable gate behavior. It keeps claim scope narrow, professional, and audit-centered, with explicit separation between process validity and scientific closure.

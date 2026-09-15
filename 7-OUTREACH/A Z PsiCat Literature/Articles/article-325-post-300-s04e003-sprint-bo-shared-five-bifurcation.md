@@ -1,21 +1,42 @@
-# The Shared-5 Bifurcation Line — Merlin/PsiCat v1 Rewrite
+# S04E003 — Shared-5 Bifurcation: One Origin, Divergent Lifts, Explicit Limits (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T19:10:35Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-300-s04e003-sprint-bo-shared-five-bifurcation.md`*
 
-This article rewrite is grounded in **The Shared-5 Bifurcation Line** and keeps the same claim boundaries while tightening clarity and pace.
+Sprint BO addressed a recurring interpretive problem: when the same integers keep reappearing across lanes, do they indicate one coherent parent object or a collection of disconnected conveniences?
 
-Sprint BO does not claim a new closure. It does something narrower and more useful. It makes the current branch test whether the recurring 5, 6, and 7 are better understood as one shared 5D source with two different higher-dimensional lifts.
+The sprint answer was disciplined and limited. It proposed one shared 5D source, then separated what 6D and 7D are each responsible for. It did not claim that this organizational improvement closed the open architecture set.
 
-The checked-in answer is: that framing is organizationally productive, but not yet closure-producing.
+---
 
-That means the repository no longer has to talk about these recurrences as if one branch were simply the parent and the other merely a dependent shadow. The checked-in framing is now more precise: both branches share the same 5D source, then diverge in what the higher-dimensional machinery is asked to explain.
+## What this sprint clarified
 
-Using the existing T²/Z₃ generation-count machinery, Sprint BO makes the lower companion explicit through the clean rule `n2 = 2 × N_gen = 6`. In other words, the recurring 6 is not being introduced as a decorative extra number. It is tied to the checked-in counting structure.
+The branch now treats the recurring 5, 6, and 7 as a structured family with one common origin and two divergent higher-dimensional lifts. That reduced explanatory ambiguity without pretending the unresolved downstream lanes had vanished.
+
+The 6D side retained the generation-count role; the 7D side retained torsion/shear-phase role; and 13D was explicitly constrained to downstream organizational utility unless independent closure obligations are met.
+
+That boundary is the core achievement.
+
+---
+
+## What this sprint refused to overclaim
+
+It did not convert structure into closure. It did not upgrade 13D into source-level proof authority. It did not relabel the open set.
+
+If later summaries treat this sprint as a solved-science moment rather than a map-tightening moment, those summaries conflict with the branch record.
+
+---
+
+## Why this post matters
+
+Interpretive discipline often fails where pattern and explanation meet. Sprint BO is valuable because it slows that jump and enforces lane-specific burden ownership.
+
+That preserves honesty under pressure: shared origin where shared origin is justified, explicit divergence where divergence remains, and open status where open status still holds.
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source sprint’s bifurcation architecture while strengthening boundaries between structural interpretation and closure claims. It keeps 13D scope constrained, open-lane status explicit, and branch-role separation auditable.

@@ -1,21 +1,76 @@
-# Post 317 (S04E020): Sprint CH Unresolved Boundaries — Merlin/PsiCat v1 Rewrite
+# Post 317 (S04E020): Sprint CH Unresolved Boundaries — The Open Set, Uncompressed (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:09:28Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-317-s04e020-sprint-ch-unresolved-boundaries.md`*
 
-This article rewrite is grounded in **Post 317 (S04E020): Sprint CH Unresolved Boundaries** and keeps the same claim boundaries while tightening clarity and pace.
+This post exists to prevent a familiar failure mode: reducing real unresolved burdens to short labels that feel manageable but stop being inspectable.
 
-This article exists for one reason: a repository becomes less trustworthy when its open boundaries are compressed into a few nouns and then left unexplained. If a lane remains open, readers should be able to see why it remains open, what is missing, and what kind of event would actually change its status.
+If a boundary is open, the repository should state why it is open, what artifact is missing, and what event would change status.
 
-The charged-fermion lane still carries calibration dependence. The current blocker is not “more work” in the abstract but unresolved flavor-family objects and the absence of a zero-external-input derivation that would justify a runtime closure flip. Closure would require an artifact that removes that dependence instead of merely ranking or tightening the blocker map.
+---
 
-The α_s and Higgs lanes remain coupled because the missing burden is shared. The repository does not yet have the ultraviolet derivation, matching structure, and stability story that would jointly support both outputs. Closure would require the common object itself, not two isolated local improvements reported as if they were independent victories.
+## Open boundary 1: flavor first-principles closure
 
-The hard problem here is the missing first-principles amplitude-generation story. The repository's own boundary audit is explicit that pivot-amplitude calibration is not primordial-amplitude prediction, and that terminal EFT routes do not remove the acoustic-peak deficit burden. Closure would require an internally derived normalization/transfer account that does not hide an observational target inside the input.
+The charged-fermion lane still carries dependence that has not been removed by a zero-external-input derivation object.
+
+Closure condition is not “better fit quality.”
+Closure condition is elimination of the remaining dependency class through a derivation-grade artifact.
+
+---
+
+## Open boundary 2: shared UV object for α_s and Higgs
+
+These lanes remain coupled by a common missing ultraviolet burden.
+Progress in one lane without the shared object is informative, but not sufficient for joint closure claims.
+
+The missing object, not the narrative around it, is the gate.
+
+---
+
+## Open boundary 3: amplitude-generation mechanism
+
+A calibration-friendly fit is not equivalent to a first-principles amplitude mechanism.
+The normalization burden remains open until transfer/normalization dynamics are derived without hidden observational anchoring.
+
+---
+
+## Open boundary 4: observation-gated lanes
+
+DESI and LiteBIRD-related routes remain externally adjudicated by design.
+Internal work can improve preregistration quality and route hygiene, but cannot substitute for measurements.
+
+Observation-gated means measurement-gated.
+
+---
+
+## Open boundary 5: cold-fusion vertex-scale bridge
+
+The adjacent-track lane stays open until a field-theoretic bridge closes the current scale mismatch in a derivation-grade way.
+
+Anything less is hypothesis maintenance, not closure.
+
+---
+
+## Why this explicitness matters
+
+Open sets are not defects in honesty-first science.
+Hidden open sets are.
+
+Naming exact burden classes preserves credibility because it lets reviewers test claims against concrete requirements instead of interpretive style.
+
+---
+
+## Bottom line
+
+Sprint CH did not shrink the open set by declaration.
+It improved how the open set is carried.
+
+That makes future closure harder to fake and easier to verify.
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source post’s unresolved-boundary inventory while clarifying each lane’s closure condition and burden class. It strengthens the map from “label” to “required evidence” and keeps open-state language intentionally strict.

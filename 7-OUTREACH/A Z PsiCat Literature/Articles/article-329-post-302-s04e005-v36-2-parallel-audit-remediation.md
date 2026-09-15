@@ -1,21 +1,40 @@
-# v36.3: The Parallel Audit, the Fixes, and the Errors We Were Actually Carrying — Merlin/PsiCat v1 Rewrite
+# v36.3 Parallel Audit and Remediation: Fixing Drift Before It Becomes Doctrine (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:48:20Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-302-s04e005-v36-2-parallel-audit-remediation.md`*
 
-This article rewrite is grounded in **v36.3: The Parallel Audit, the Fixes, and the Errors We Were Actually Carrying** and keeps the same claim boundaries while tightening clarity and pace.
+This post records a branch reality that serious projects eventually face: the code can be largely stable while the reporting surfaces begin to drift. Left alone, that drift becomes institutional memory—and then it becomes doctrine.
 
-When a repository grows this large, the most dangerous failure mode is not always a broken equation. Sometimes it is something quieter: a status surface that kept an older story alive, a proxy theorem described too strongly, a live JSON feed that drifted away from the canonical ledger, or a code docstring that still talked as if an old gap were open after it had already been closed elsewhere.
+The remediation work mattered because it interrupted that progression.
 
-Not a collapse of the framework. Not a hidden miracle either. A collection of real, concrete integrity drifts — the kind that can make a serious repository less legible even when the underlying code still runs.
+---
 
-The goal was to force the checked-in story, the machine-readable story, and the actual code/proof surface to agree.
+## What was corrected
 
-`OBSERVATION_TRACKER.md` still carried a much older sprint header and an older lane architecture. Some of the routing logic inside it was still useful. But as a current branch-status surface, it was stale enough to mislead.
+The audit targeted mismatches across proof-language framing, live status exports, observation-routing documentation, and narrative descriptions that had become stronger than the implemented thresholds they described. The point was not to create a cleaner story; it was to remove places where the repository could accidentally say more than it had earned.
+
+The changes did not “rescue” open lanes. They restored alignment between what the branch computes and what it publicly claims.
+
+---
+
+## What remained true after cleanup
+
+Open architecture limits stayed open. External pressure lanes stayed pressured. No hidden closure was unlocked by editorial repair.
+
+That is exactly why this remediation is credible: it improved integrity without claiming scientific victory.
+
+---
+
+## Why this belongs in the literature layer
+
+Readers usually see equations and verdict lines. They rarely see maintenance of epistemic plumbing. But when that plumbing fails, even correct results become harder to trust.
+
+This sprint documented the less glamorous task of keeping ledgers, outputs, and explanation surfaces mutually coherent.
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source post’s remediation narrative while sharpening its core claim: synchronization repairs strengthen trust surfaces but do not alter unresolved scientific burdens. It maintains historical honesty and avoids conversion of maintenance work into closure rhetoric.

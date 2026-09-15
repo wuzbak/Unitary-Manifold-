@@ -1,21 +1,31 @@
-# The Portal, the Repository, and Where We Go Next — Merlin/PsiCat v1 Rewrite
+# Sprint AT Era Portal State: Public Interface Maturing, Infrastructure Debt Still Real — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-287-s03e065-axiomzerospc-portal-state-and-roadmap.md`*
 
-This article rewrite is grounded in **The Portal, the Repository, and Where We Go Next** and keeps the same claim boundaries while tightening clarity and pace.
+**Unitary Manifold — S03E065 · v24.1**
 
-There is now a live website where you can walk into a Kaluza-Klein physics framework and poke at it.
+---
 
-Not a landing page. Not a brochure. A working testbed: [axiomzerospc.org](https://axiomzerospc.org) — twenty interactive applications, all running in the browser, all connected to the same underlying theory. This post covers what it is, what the state of the project actually looks like right now, and the honest roadmap for making the infrastructure match the ambition.
+This post is a historical infrastructure snapshot: the moment when the public portal stopped being a concept and became an operational interface. The important distinction is that visibility improved faster than infrastructure maturity, and both facts were true simultaneously.
 
-The portal started as a way to make the Unitary Manifold legible. The theory lives in a GitHub repository — 800+ derivation pillars, 57,000+ automated tests, 1,246 Lean4 formal theorems, raw Python — and almost none of that is navigable by a curious reader who isn't already deep in the work. The portal is the interface layer.
+The portal layer made the repository legible to non-specialist readers by turning ledgers, predictions, and tensions into interactive surfaces. That mattered because falsifiability only helps if people can inspect the claims and break conditions without reading every internal module first.
 
-- **Falsification Observatory** — seven live experiments (LiteBIRD, DESI, JUNO, ACT, HL-LHC, nEDM@SNS, XENON-nT) displayed as a mission-control dashboard. Every experiment has a pre-registered kill condition. Green means passing. Orange means tension. Red means the theory is in trouble. You can simulate a future measurement and watch the verdict route in real time.
+But the sprint-era portal state also carried debt. Hosting and deployment pathways were functional yet uneven, parts of the stack remained transitional, and long-term reliability required migration discipline rather than narrative confidence. The roadmap correctly focused on hardening deployment architecture while preserving claim integrity and source traceability.
+
+The most useful achievement here was cultural, not cosmetic: public interface work did not excuse status inflation. Open burdens stayed open. Experimental dependencies stayed experimental. Architecture limits stayed named.
+
+Read this piece as a marker of interface maturation in the Sprint AT era, not as a live dashboard. For current repository status, use canonical ledgers (`STATUS.md`, `docs/mas_tracker.yml`, `FALLIBILITY.md`, and related truth surfaces).
+
+---
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the portal-era milestone while tightening historical framing, infrastructure realism, and separation between user-facing progress and unresolved scientific burdens.

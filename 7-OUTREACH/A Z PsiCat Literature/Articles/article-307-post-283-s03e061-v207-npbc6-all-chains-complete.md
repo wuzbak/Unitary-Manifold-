@@ -1,21 +1,25 @@
-# NP-BC-6 Complete: All Six Chains Proved — 203 Sub-Gap Theorems (v20.7) — Merlin/PsiCat v1 Rewrite
+# NP-BC-6: Chain Completion Packet and What It Actually Certifies — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-283-s03e061-v207-npbc6-all-chains-complete.md`*
 
-This article rewrite is grounded in **NP-BC-6 Complete: All Six Chains Proved — 203 Sub-Gap Theorems (v20.7)** and keeps the same claim boundaries while tightening clarity and pace.
+NP-BC-6 was reported as an all-chain completion event, and the durable value of that sprint is the machine-auditable handoff between sub-gap kernels and chain-level certificates. The sprint tightened consistency routes and reduced ambiguity about which burdens were resolved at that stage.
 
-Six non-perturbative braid closure chains. Eighteen sub-gaps. Six Lean4 files. **203 cumulative sub-gap theorems.**
+This rewrite keeps a strict distinction between proving a chain relation and proving every phenomenological endpoint that depends on that chain. The former can be closed while the latter remains architecture-limited or experimentally pending.
 
-Sprint K (Pillars 618–622, v20.7) completed NP-BC-6 — the sixth and final chain in the NP-BC programme — and issued the all_np_bc_chains_proved = True milestone certificate.
+That distinction protects downstream integrity. It keeps later updates from inheriting inflated interpretations and makes contradiction checks straightforward.
 
-NP-BC-6 addresses the deepest part of the non-perturbative programme: the connection between Einstein-Rosen wormhole geometry (ER) and quantum entanglement (EPR) in the Chern-Simons holographic sector of the Unitary Manifold.
+As with the rest of this era, read this as a historical milestone report; use canonical ledgers for live state.
 
-| Pillar | Sub-gap | Lean4 | Theorems | Key result | | 618 | P — KK Loop Correction Kernel | NPBC6SubgapP.lean | 11 | KK loop correction to holographic entropy; total Lean4 319 | | 619 | Q — Holographic Screen Entropy | NPBC6SubgapQ.lean | 11 | k_CS = 74 screen capacity; holographic entropy bound in CS sector | | 620 | R — ER=EPR Bridge | NPBC6SubgapR.lean | 12 | ER=EPR bridge kernel; ALL NP-BC chains proved; total Lean4 342 | | 621 | — | NP-BC-6 closure cert | — | 34 sub-gap theorems; 203 cumulative; all_np_bc_chains_proved = True | | 622 | — | Lean4 342 milestone | — | Lean4 342 total; all 6 chains; 18 sub-gaps proved |
+---
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source post’s substantive intent while strengthening claim-boundary clarity, historical-versus-live status discipline, and auditable narrative rigor.

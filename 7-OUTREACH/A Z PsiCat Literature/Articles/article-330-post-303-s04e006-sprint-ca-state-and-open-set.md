@@ -1,21 +1,40 @@
-# S04E006 — Sprint CA: State of the Branch and the Explicit Open Set — Merlin/PsiCat v1 Rewrite
+# S04E006 — Sprint CA State and Open Set: Discipline Over Momentum Theater (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T18:48:20Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-303-s04e006-sprint-ca-state-and-open-set.md`*
 
-This article rewrite is grounded in **S04E006 — Sprint CA: State of the Branch and the Explicit Open Set** and keeps the same claim boundaries while tightening clarity and pace.
+Sprint CA matters because it refused to blur branch state into mood. The central move was methodological: status must be executable, synchronized, and resistant to rhetorical promotion.
 
-Sprint CA makes one hard methodological claim: branch status should be driven by executable gates, not narrative confidence. That claim is falsified the moment an open lane is quietly relabeled, a promotion is declared without deterministic evidence, or status surfaces drift out of sync with the code and tests.
+That sounds procedural, but it is scientific hygiene. In a repository this large, narrative drift can do almost as much damage as algebraic error.
 
-Sprint CA (Pillars 1049–1050) is where that discipline was formalized as a closure-grade packet. The objective was not to manufacture a dramatic result. The objective was to force five active closure programs, Lean4 traceability, and publication artifacts into one auditable state machine with binary outcomes.
+---
 
-- **One integrated execution packet** was published in Pillar 1049, combining flavor, UV, CMB, formal, and non-perturbative QG lanes under explicit go/no-go outcomes (`CLOSURE_EARNED`, `BOUNDARY_TIGHTENED`, `CARRY_FORWARD_OPEN`). - **Lean4 traceability burden increased** from 3976 to 3988 (+12), including theorem-level trace links for claim labels, artifacts, and Lean status semantics. - **Status coherence became an executable requirement** in Pillar 1050: `STATUS.md`, `FALLIBILITY.md`, `docs/mas_tracker.yml`, claim board, gatekeeper, truth layer, wave changelog, sprint plan, and live-status JSON must all narrate the same sprint reality. - **Publication packet gating was enforced** for this CA article set (Posts 303–307): each draft must carry the same four accountability sections so public communication cannot hide uncertainty.
+## What this sprint established
 
-- No hardgate claim label was promoted by prose. - The open set remained explicit and unchanged: - `CMB_AMP_CONFIRMED_IRREDUCIBLE` - `ALPHA_S_TYPE_B_FLOOR` - `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW` - `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED` - `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED` - `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED` - `DESI_DR3_MONITORING` - `LITEBIRD_BIREFRINGENCE` - `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT` - No hidden calibration route was authorized. - No “score” branding replaced plain epistemic status.
+CA forced multiple closure programs into one deterministic reporting frame and required the major status surfaces to tell the same story at the same time. The practical result was a branch that could name progress and limits without pretending those are the same thing.
+
+The open set was not hidden. It was carried forward explicitly, including the coupled UV burdens, CMB amplitude pressure, and architecture-limit lanes that remain unresolved.
+
+---
+
+## What this sprint did not establish
+
+It did not earn new hardgate closure by prose. It did not convert unresolved lanes into solved lanes by introducing cleaner labels. It did not relax external arbiters.
+
+If any later summary presents CA as a closure sprint rather than a rigor sprint, that summary should be treated as inaccurate.
+
+---
+
+## Why this post still matters
+
+A branch state report is valuable when it narrows interpretive freedom without narrowing factual truth. CA did that by making contradiction harder: if a claim is promoted without gate evidence, the mismatch is visible.
+
+That is not a final answer. It is a better container for future answers.
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source post’s state-audit purpose while tightening the distinction between synchronized reporting, unresolved burden, and genuine closure. It keeps open-lane visibility central and blocks momentum-style overclaim language.

@@ -1,21 +1,38 @@
-# Where We Are (September 2026): Evidence, Boundaries, and the Next Decisions — Merlin/PsiCat v1 Rewrite
+# S03E075 — Where We Are (September 2026): Earned Ground, Open Burdens, External Judges (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T19:10:35Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-297-s03e075-where-we-are-september-2026.md`*
 
-This article rewrite is grounded in **Where We Are (September 2026): Evidence, Boundaries, and the Next Decisions** and keeps the same claim boundaries while tightening clarity and pace.
+This is a historical status map from its own branch-timepoint, and it should be read that way: not as a current global verdict, but as a disciplined snapshot of what had been earned and what remained unresolved.
 
-The question readers keep asking is simple: what is actually established, what remains open, and what still belongs to future instruments instead of present prose. That is the right question. Here is the direct answer.
+Its strongest contribution is boundary clarity under momentum pressure.
 
-At this article point, the repository snapshot is v34.0 in the Sprint BL window, with 62,525 passing tests, 48 skipped, 12 deselected, and zero failures, alongside 3,912 Lean4 machine-checked theorems. The raw counts matter less than the label discipline attached to them. We are not trying to win a scoreboard; we are trying to keep claim boundaries legible under pressure.
+---
 
-Across the late-summer BA→BL sequence, the meaningful work was not rhetorical polish. It was architectural tightening: dimensional-chain formalization improved, UV/flavor accounting became sharper, some derivations were promoted, and several vague dissatisfaction points were converted into explicit architecture-limit objects. That is real progress. It is not total closure.
+## What this snapshot got right
 
-The external decision lanes remain external. LiteBIRD still carries the principal birefringence falsifier burden. JUNO still carries ordering pressure for neutrino hierarchy interpretation. DESI updates still matter for the frozen-radion dark-energy lane. Internal coherence is necessary and valuable, but it does not replace observational arbitration.
+It separated internal verification scale from scientific finality, kept open-lane obligations visible, and preserved external arbiters as external arbiters. That combination prevented two equal and opposite mistakes: pretending nothing had been accomplished, or pretending unresolved burdens were merely rhetorical leftovers.
+
+The post’s posture is mature: report gains, preserve uncertainty, defer decisive calls to data when data is the judge.
+
+---
+
+## What readers should not do with this file
+
+Do not treat its numerical state markers as live repository status. Treat them as historical coordinates attached to a specific sprint window.
+
+Its enduring value is not the numbers; it is the integrity model behind how numbers were interpreted.
+
+---
+
+## Bottom line
+
+This snapshot demonstrates the discipline required for a project that wants to remain credible over long horizons: measurable progress without closure inflation, explicit open sets without theatrical defeatism, and external decision authority kept exactly where it belongs.
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source post’s historical-status role while tightening the separation between dated snapshot metrics and enduring claim-boundary doctrine. It keeps the tone sober and the epistemic framing explicit.

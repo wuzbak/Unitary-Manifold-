@@ -1,21 +1,35 @@
-# Flavour Physics: Why the Particles Have the Masses They Do — Merlin/PsiCat v1 Rewrite
+# Sprint BB: Flavor Derivation Advances and the Architecture-Limit Discipline — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-289-s03e067-sprint-bb-flavour-coupling-architecture-limits.md`*
 
-This article rewrite is grounded in **Flavour Physics: Why the Particles Have the Masses They Do** and keeps the same claim boundaries while tightening clarity and pace.
+**Unitary Manifold — S03E067 · v26.0 · Sprint BB**
 
-Of all the mysteries in particle physics, the "flavour problem" may be the strangest. The Standard Model contains six quarks and six leptons. Their masses span thirteen orders of magnitude — from the electron at 0.511 MeV to the top quark at 173,000 MeV. The mixing angles between quark families (encoded in the CKM matrix) are small but precisely measured. CP violation — the tiny asymmetry between matter and antimatter — is real and measured, but nobody knows *why* it has the magnitude it does.
+---
 
-The Standard Model does not explain any of this. It puts these numbers in by hand, measured from experiment, with no deeper origin. Sprint BB is the Unitary Manifold's systematic attempt to derive them from the 7D geometry. This post reports what was established, what was not, and why being honest about the latter matters more than claiming the former.
+Sprint BB is where the project confronted a difficult truth head-on: deriving the broad shape of flavor physics is not the same as deriving precision flavor physics. The sprint improved geometric control over hierarchy and mixing structure, but it also formalized the limits that still resisted closure.
 
-The CKM matrix (named for Cabibbo, Kobayashi, and Maskawa) is a 3×3 unitary matrix that encodes how likely quarks are to transform into each other during weak interactions. An up quark can decay into a down quark, a strange quark, or a bottom quark — the CKM matrix gives the probabilities.
+On the CKM side, BB strengthened the 7D bulk-mass spectrum route and improved agreement for major mixing-angle directions, while leaving a persistent residual lane in the smallest and most delicate angle. The CP-violation route produced the correct nonzero order class for Jarlskog behavior without claiming exact-value lock.
 
-The matrix is characterized by four numbers: three mixing angles (θ₁₂, θ₂₃, θ₁₃) and one CP-violating phase (δ). These four numbers determine the entire structure of quark flavour physics. They are measured to high precision. Any theory that claims to derive the Standard Model must either compute these numbers or honestly state it cannot.
+On the strong-coupling side, BB completed a broader cross-dimensional audit and narrowed consistency windows. The honest result remained a bounded interval consistent with observation, not an exact first-principles pin.
+
+On generation counting and E8-breaking structure, BB computed useful constraints and made degeneracies explicit instead of burying them. That public accounting is critical: unresolved multiplicity is a technical burden, not a reputational flaw, and must stay visible until resolved.
+
+Most importantly, BB advanced the architecture-limit registry model as a governance mechanism. By pre-registering what remained irreducible or architecture-dependent under then-current assumptions, the sprint made later overclaim detection easier. That is good scientific infrastructure.
+
+In short: BB expanded derivation reach, improved internal checks, and raised standards for honesty about what still could not be derived uniquely.
+
+Historical Sprint BB markers retained as period values: 60,196 passed · 45 skipped · 12 deselected · 0 failed; Lean4 marker 2,741.
+
+---
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite keeps Sprint BB’s dual reality intact: meaningful flavor-derivation progress and explicit architecture-limit accounting where precision closure was not yet earned.
