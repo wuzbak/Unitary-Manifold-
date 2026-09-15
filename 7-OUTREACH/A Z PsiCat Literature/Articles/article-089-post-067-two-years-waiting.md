@@ -6,9 +6,7 @@
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-067-two-years-waiting.md`*
 
 *Post 67 of the Unitary Manifold series.*
-*No new physics claim is made in this post. It is a retrospective on the series,
-a complete map of the framework's current status, and a forward calendar of tests.
-It is written as a durable reference that will still be accurate in 2032.*
+*No new physics claim is made in this post. It is a historical retrospective snapshot on the series at its original milestone, accompanied by later editor updates and a forward calendar of tests.*
 
 ---
 

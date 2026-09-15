@@ -129,10 +129,10 @@ with top quark correction at Λ_KK ≈ 327 GeV: 124 GeV. (< 1% off PDG)
 
 ### Genuinely open (~10 parameters)
 
-The absolute fermion masses (individual quark and lepton masses rather than
+At this post's original milestone snapshot, the absolute fermion masses (individual quark and lepton masses rather than
 ratios), the strong coupling α_s from first principles, the absolute neutrino
-mass scale, and the two Majorana CP phases remain outside what the geometry
-currently derives.
+mass scale, and the two Majorana CP phases remained outside what the geometry
+then derived; later waves introduced additional progress on parts of this set.
 
 ---
 

@@ -27,8 +27,8 @@ equivocation, before you told us the answer.
 
 ## What this framework predicts
 
-The Unitary Manifold — a five-dimensional Kaluza-Klein framework with winding numbers
-n_w = 5 and n_w = 7, Chern-Simons level k_CS = 74 = 5² + 7², and braided sound speed
+The Unitary Manifold — a five-dimensional Kaluza-Klein framework with selected winding number
+n_w = 5 (and a historically analyzed competing n_w = 7 branch), Chern-Simons level k_CS = 74 = 5² + 7², and braided sound speed
 C_S = 12/37 — makes the following prediction for the CMB polarization birefringence
 angle β:
 
