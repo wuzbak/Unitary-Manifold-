@@ -103,7 +103,9 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         item['promotion_complete'] for item in primary_deliverables
     )
     completion_statuses_fully_earned = (
-        len(primary_deliverables) == 3 and completion_statuses_fully_earned
+        len(primary_deliverables) == 3
+        and completion_statuses_fully_earned
+        and all(item['earned'] for item in primary_deliverables)
     )
     promotion_blocking_primary_ids = {
         item['id']
