@@ -123,7 +123,8 @@ a success of the framework or a lucky coincidence that further data will resolve
 
 DUNE (the Deep Underground Neutrino Experiment) and Hyper-Kamiokande were, at the
 time of this post's forecast, expected to approach ~5°-class precision on
-δ_CP^PMNS. If the measurement converges on -107° within that forecast class,
+δ_CP^PMNS. If the measurement converges near the predicted -108° within that
+forecast class,
 the prediction is confirmed at high significance. If it converges on a value far
 from -108°, the Z₂ dagger argument is wrong.
 

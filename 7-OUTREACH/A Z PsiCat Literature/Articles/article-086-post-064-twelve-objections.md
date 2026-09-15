@@ -111,9 +111,11 @@ from GR by future experiments.
 
 **A:** β outside [0.22°, 0.38°] falsifies the framework outright. β within the
 predicted gap [0.29°–0.31°] falsifies the specific braided-winding mechanism. β = 0
-(no birefringence) rules out the CS coupling entirely. β ≈ 0.35° with precision ≤ 0.05°
-that rules out adjacent integers (k = 73, k = 75) would strongly support the k_CS = 74
-selection. This is the right question to ask, and we're glad you asked it last.
+(no birefringence) rules out the CS coupling entirely. β near the canonical
+branch targets (≈0.331° primary or ≈0.273° shadow), with decision-grade
+precision (~0.05°) and exclusion of adjacent integers (k = 73, k = 75), would
+strongly support the k_CS = 74 selection. This is the right question to ask,
+and we're glad you asked it last.
 
 ---
 

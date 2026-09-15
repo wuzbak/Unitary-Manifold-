@@ -21,7 +21,9 @@ This framework had one: the APS η-invariant argument — the claim that
 the Atiyah-Patodi-Singer η-invariant of the five-dimensional Dirac operator on
 the compact S¹/Z₂ orbifold, evaluated at winding number n_w, yields the same triangular inflow class for n_w = 5 and n_w = 7, with the physical branch then selected by the chirality/boundary consistency step that excludes n_w = 7 — and that this mechanism selects n_w = 5 as the unique consistent winding number.
 
-It has been proved. Three times, independently.
+It has been established at theorem-grade by three independent lines, with the
+full spectral-geometry first-principles computation still left open as an
+invitation.
 
 ---
 

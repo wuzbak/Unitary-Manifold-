@@ -76,8 +76,10 @@ still excluded.
 
 ## The Resolution: APS Step 3 and Physical Chirality
 
-The mathematical APS theorem gives η̄(5) = η̄(7) = ½. This seems to say
-that both winding numbers satisfy the boundary condition equally well.
+At the strict modular step, the APS relation gives η̄_mod(5) = 0 and
+η̄_mod(7) = ½ from T(n_w)/2 mod 1. The physical branch handoff then evaluates
+candidate chirality on the APS half-integer parity class (η̄_phys = ½) before
+the final chirality/boundary-consistency filter is applied.
 
 The physical argument — APS Step 3 — is that the Standard Model's chiral
 fermion structure imposes an additional constraint. The SM has three generations

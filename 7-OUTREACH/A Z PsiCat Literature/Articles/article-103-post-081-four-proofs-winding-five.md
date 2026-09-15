@@ -132,10 +132,11 @@ For Dirichlet boundary conditions: **η̄ = T(n_w)/2 mod 1**
 
 where T(n_w) = n_w(n_w-1)/2 is the triangular number.
 
-- T(5) = 10 → η̄(5) = 10/2 mod 1 = 5 mod 1 = 0, with physical chirality carried by the APS half-integer parity class (**½**).
-- T(7) = 21 → η̄(7) = 10.5 mod 1 = **½**
+- T(5) = 10 → η̄_mod(5) = 10/2 mod 1 = 5 mod 1 = 0; physical branch testing then uses the APS half-integer chirality class (**½**).
+- T(7) = 21 → η̄_mod(7) = 10.5 mod 1 = **½**
 
-Wait — both give η̄ = ½ from the triangular formula alone?
+So the triangular formula gives a modular split, and the physical chirality
+handoff is where both candidates are tested against the same half-integer class.
 
 The resolution is in the algebraic consistency check: n_w = 7 with η̄ = ½ requires
 B_μ|_{y=0} ≠ 0 to generate the correct chirality structure for three fermion
