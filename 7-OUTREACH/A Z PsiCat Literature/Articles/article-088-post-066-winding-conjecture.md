@@ -139,7 +139,7 @@ to close a gap, but to confirm from a third angle what two proofs already say.
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *APS derivation (Pillar 70-B): `src/core/aps_spin_structure.py` — 256 tests*
-*Topological derivation (Pillar 80): `src/core/aps_step3_topological.py`*
+*Topological derivation (Pillar 80): `src/core/aps_geometric_proof.py`*
 *Algebraic proof (Pillar 89): `src/core/vacuum_geometric_proof.py` — 59 tests*
 *Status: `FALLIBILITY.md` (Admission 3 — substantially closed)*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

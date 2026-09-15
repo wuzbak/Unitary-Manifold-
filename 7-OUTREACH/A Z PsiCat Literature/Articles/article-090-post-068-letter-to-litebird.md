@@ -40,8 +40,8 @@ angle β:
 
     β ∈ {0.290°, 0.351°} (derived channel)
 
-The most probable single value, given the Minami-Komatsu (2020) measurement and the
-CS mechanism, is:
+Within the secondary derived channel, the most probable single value (given the
+Minami-Komatsu 2020 hint and the CS mechanism) is:
 
     β ≈ 0.351°
 
@@ -53,12 +53,16 @@ CS mechanism, is:
 
 **What would strongly confirm it (primary canonical channel):**
 
-    β ≈ 0.35° measured with σ(β) ≤ 0.05°, ruling out k_CS = 73 (β ≈ 0.34°)
-    and k_CS = 75 (β ≈ 0.36°)
+    β ≈ 0.331° or β ≈ 0.273° measured with σ(β) ≤ 0.05°
+
+**Secondary-channel discriminator (derived, not primary pass/fail basis):**
+
+    β ≈ 0.351° would favor the primary derived branch over nearby integer alternatives
 
 That precision requirement — ≤ 0.05° — is what LiteBIRD is designed to achieve.
-If LiteBIRD achieves that precision and finds β ≈ 0.35°, the CS level k_CS = 74
-is confirmed as distinct from adjacent integers. That confirmation would be the
+If LiteBIRD achieves that precision and lands near a canonical branch value, with
+derived-channel behavior consistent with k_CS = 74, the CS structure is strongly
+supported as distinct from adjacent alternatives. That confirmation would be the
 strongest evidence the framework has yet received.
 
 ---

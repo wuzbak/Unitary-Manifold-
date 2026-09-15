@@ -13,7 +13,7 @@ that science requires.*
 
 ---
 
-The repository snapshot shown in this article records a dated historical sample output (14,183 passing tests at that timepoint). At that time, the historical command sample was:
+The repository snapshot shown in this article records a dated historical sample output (14,183 passing tests at that timepoint), corresponding to the v9-era branch state in spring 2026. At that time, the historical command sample was:
 `python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
 and it produced:
 
