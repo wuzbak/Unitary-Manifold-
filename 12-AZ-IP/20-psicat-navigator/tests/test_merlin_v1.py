@@ -1895,9 +1895,15 @@ def test_route_tool_sprint_review_and_sovereign_boards():
         assert kernel_blocker['severity'] in {'low', 'medium', 'high'}
     assert resilience_data['current_truth']['codeql_skip_reason'] == 'repository_database_too_large'
     assert resilience_data['current_truth']['codeql_language_matrix_workflow_configured'] is True
+    assert resilience_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(resilience_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+    assert resilience_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert resilience_data['review_resilience_assets']['orchestrator'] == 'TOOLS/checks/copilot_review_orchestrator.py'
     assert resilience_data['review_resilience_assets']['codeql_language_matrix_workflow'] == '.github/workflows/codeql-language-matrix.yml'
     assert resilience_data['codeql_scope_reduction_strategy']['phases'][0]['name'] == 'changed_surface_first'
+    codeql_blocker = next(item for item in resilience_data['blocker_status'] if item['blocker_id'] == 'codeql_database_too_large')
+    assert codeql_blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert codeql_blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert promotion_sprint_data['mode'] == 'achievement_benchmark_promotion_sprint'
     assert len(promotion_sprint_data['achievement_board']) == 5
     assert len(promotion_sprint_data['benchmark_board']['stage_gate_summary']) == 5
@@ -3170,6 +3176,12 @@ def test_server_merlin_endpoints():
             assert validation_resilience.json()['ok'] is True
             assert validation_resilience.json()['validation_resilience']['current_truth']['codeql_completed_in_current_environment'] is False
             assert validation_resilience.json()['validation_resilience']['current_truth']['codeql_language_matrix_workflow_configured'] is True
+            assert validation_resilience.json()['validation_resilience']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert validation_resilience.json()['validation_resilience']['kernel_batch_plan']['plan_id'] == (
+                'psicat_kernel_batch_plan_v1'
+            )
             assert len(validation_resilience.json()['validation_resilience']['repo_size_mitigation_actions']) == 2
 
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')

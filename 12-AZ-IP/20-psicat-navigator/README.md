@@ -171,6 +171,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/topology-adjacent` exposes the adjacent-only topology prototype board and explicit hardgate boundary note.
 - `GET /api/psicat/execution-board` exposes the follow-on execution board with immediate tasks, blocker register, validation resilience, and Sprint CL blunt board.
 - `GET /api/psicat/validation-resilience` exposes the dedicated validation resilience packet with repo-size mitigation actions, CodeQL scope-reduction phases, and fail-closed review doctrine.
+- Validation-resilience packets also include `kernel_governance_packet`, `kernel_data_volume_strategy`, `kernel_batch_plan`, and blocker linkage fields (`governance_packet_id`, `batch_plan_id`) for deterministic escalation traceability.
 - `GET /api/psicat/benchmark-artifacts` exports the receipts plus readiness state as a CI-friendly artifact bundle.
 - Benchmark artifact bundles now include kernel governance and data-volume strategy snapshots for CI-visible gate/risk/escalation + batching traceability.
 - Stage A benchmark artifacts now include `kernel_batch_plan` so CI exports carry the same bounded chunk-plan metadata as runtime surfaces.

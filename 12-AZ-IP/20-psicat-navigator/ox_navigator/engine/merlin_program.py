@@ -4930,6 +4930,8 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
 
 
 def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, Any]:
+    from .merlin_kernel_runtime import get_kernel_batch_plan, get_kernel_governance_packet
+
     resolved_limit = max(1, int(limit if limit is not None else 5))
     execution_board_path = _repo_rel(MERLIN_EXECUTION_BOARD_DOC)
     truth_layer_path = _repo_rel(REPO_ROOT / "docs" / "TRUTH_LAYER.md")
@@ -4938,6 +4940,15 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
     codeql_matrix_workflow = ".github/workflows/codeql-language-matrix.yml"
     has_codeql_matrix_workflow = (REPO_ROOT / codeql_matrix_workflow).exists()
     has_review_orchestrator = (REPO_ROOT / "TOOLS" / "checks" / "copilot_review_orchestrator.py").exists()
+    kernel_governance = get_kernel_governance_packet()
+    kernel_batch_plan = get_kernel_batch_plan(
+        points=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_points", 32) or 32),
+        repeats=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_repeats", 3) or 3),
+    )
+    kernel_lane_hint = str(
+        ((kernel_governance.get("escalation_packet") or {}).get("gate_summary") or {}).get("lane_routing_hint")
+        or "validation_resilience"
+    )
     return {
         "generated_at": _utcnow(),
         "document_path": _repo_rel(MERLIN_VALIDATION_RESILIENCE_DOC),
@@ -5040,6 +5051,9 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
                 "Manual review and targeted tests do not erase missing CodeQL coverage.",
             ],
         },
+        "kernel_governance_packet": kernel_governance,
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
+        "kernel_batch_plan": kernel_batch_plan,
         "codeql_matrix_split_strategy": {
             "workflow_path": codeql_matrix_workflow,
             "matrix_axes": ["language", "path_slice"],
@@ -5081,11 +5095,15 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
                 "blocker_id": "code_review_tool_unavailable_in_environment",
                 "status": "open",
                 "next_action": "Use repository-side orchestrator and preserve the missing-review signal.",
+                "lane_routing_hint": kernel_lane_hint,
             },
             {
                 "blocker_id": "codeql_database_too_large",
                 "status": "open",
                 "next_action": "Run scope-reduced scans and keep the missing full-scan truth visible.",
+                "lane_routing_hint": kernel_lane_hint,
+                "governance_packet_id": str(kernel_governance.get("packet_id") or ""),
+                "batch_plan_id": str(kernel_batch_plan.get("plan_id") or ""),
             },
         ],
         "environment_observations": {
