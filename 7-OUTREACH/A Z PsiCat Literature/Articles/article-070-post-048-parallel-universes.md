@@ -7,11 +7,11 @@
 
 This article rewrite is grounded in **Parallel Universes Are Real (But Not Like the Movies)** and keeps the same claim boundaries while tightening clarity and pace.
 
-topologically distinct fixed points indexed by winding-number pairs (n₁, n₂). These are not alternate histories branching off your timeline — they are completely separate stable configurations of the five-dimensional geometry. Adjacent branches are real and enumerable; travel between them is topologically forbidden. The catalog is implemented in `src/multiverse/fixed_point.py:multiverse_branch_catalog`.*
+This rewrite argues that the framework's "parallel universes" are topologically distinct fixed points indexed by winding-number pairs (n₁, n₂). They are not alternate histories branching off your timeline but separate stable configurations of the five-dimensional geometry, with adjacent branches real and enumerable and inter-branch travel topologically forbidden.*
 
 "Parallel universes" has become one of the most casually misused concepts in popular science. It encompasses at least four distinct ideas that are almost never distinguished:
 
-wavefunction, producing an exponentially growing tree of histories. end up in different vacuum states, each constituting a separate universe. different low-energy physics. the winding-number pairs (n₁, n₂).
+Those four ideas are: many-worlds branching from measurement in the wavefunction; inflationary or landscape scenarios in which disconnected regions end up in different vacuum states; string-inspired pictures with different low-energy physics in distinct vacua; and, finally, the winding-number branch catalog indexed by pairs (n₁, n₂) that this framework actually discusses.
 
 These are different claims. They do not imply each other. This post is about the fourth one, which is the only one this framework actually derives.
 ---

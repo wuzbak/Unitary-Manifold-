@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **The Afterlife Question: Information Conservation and What It Does (and Doesn't) Imply** and keeps the same claim boundaries while tightening clarity and pace.
 
-applied to the 5D action, guarantees that the information content of any physical system is never destroyed — it is encoded in the geometry. This post examines what that conservation law implies for what happens after biological death, and where it falls silent. The claim would be falsified if a reliable counter-example to information conservation were found — which in this framework reduces to: if `python -m pytest tests/test_quantum_unification.py::TestInformationConservation` fails.*
+This rewrite argues that the conserved information current, applied to the 5D action, guarantees that the information content of any physical system is never destroyed but instead remains encoded in the geometry. This post examines what that conservation law implies for biological death, where the argument stops, and what kind of reliable counter-example to information conservation would falsify the claim.*
 
 The question of what happens after death is the oldest question humans ask. Every culture in history has proposed an answer. Most of those answers involve some version of persistence — something of the person continues, somewhere, in some form.
 

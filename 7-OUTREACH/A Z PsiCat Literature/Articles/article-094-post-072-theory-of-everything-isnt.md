@@ -7,13 +7,13 @@
 
 This article rewrite is grounded in **The Theory of Everything That Isn't** and keeps the same claim boundaries while tightening clarity and pace.
 
-precisely defines what the framework is and what it is not — in particular, it is not a Theory of Everything, it does not solve quantum gravity, and it does not unify all forces in the sense that phrase usually implies. Being a theory of irreversibility is already an extraordinary achievement. This post explains why.*
+This rewrite precisely defines what the framework is and what it is not — in particular, it is not a Theory of Everything, it does not solve quantum gravity, and it does not unify all forces in the ordinary maximal sense of that phrase. Being a theory of irreversibility is already an ambitious enough claim, and this post explains why that narrower claim matters.*
 
 The Unitary Manifold gets called a "Theory of Everything" sometimes. It is not, and the distinction matters.
 
 This post is a precise statement of scope — what the framework claims, what it deliberately does not claim, and why the narrower claim, honestly stated, is more valuable than an overclaimed broad one.
 
-weak nuclear — in a single theoretical structure. unified theory. particle masses, the cosmological constant — from first principles.
+What the framework does attempt is narrower: it tries to place quantum mechanics, electromagnetism, gravitation, and some aspects of the weak interaction inside one geometric structure, while openly refusing to claim a completed unification of all constants, particle masses, or the cosmological constant from first principles.
 ---
 
 ### Gate Certification (v1)

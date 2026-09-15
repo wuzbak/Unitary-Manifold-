@@ -7,13 +7,13 @@
 
 This article rewrite is grounded in **The Letter to LiteBIRD** and keeps the same claim boundaries while tightening clarity and pace.
 
-whoever reads this after the satellite's data release, expected around 2032. It states exactly what is predicted, exactly what would confirm it, and exactly what would falsify it. It is signed and dated. It is not a claim that the prediction is correct — it is a commitment to having made the prediction clearly before the measurement.*
+This rewrite is addressed to whoever reads it after the satellite's data release, expected around 2032. It states exactly what is predicted, exactly what would confirm it, and exactly what would falsify it. It is signed and dated. It is not a claim that the prediction is correct — it is a commitment to having made the prediction clearly before the measurement.*
 
 This letter is written in April 2026. The LiteBIRD satellite's full data release is expected around 2032. By the time you read this, you know something we do not. This letter is our commitment to have stated our prediction clearly, without equivocation, before you told us the answer.
 
 The Unitary Manifold — a five-dimensional Kaluza-Klein framework with winding numbers n_w = 5 and n_w = 7, Chern-Simons level k_CS = 74 = 5² + 7², and braided sound speed C_S = 12/37 — makes the following prediction for the CMB polarization birefringence angle β:
 
-The most probable single value, given the Minami-Komatsu (2020) measurement and the CS mechanism, is:
+The most probable single value, given the Minami-Komatsu (2020) measurement and the CS mechanism, is approximately **β ≈ 0.3513°**, with the broader admissible window stated elsewhere in the repository remaining the real falsification frame.
 ---
 
 ### Gate Certification (v1)
