@@ -47,8 +47,9 @@ a free parameter.
 
 **The birefringence prediction is post-hoc in k_CS.** The integer k = 74 was
 identified from the birefringence observation. The subsequent predictions (n_s, r,
-w) follow from k = 74 without additional tuning. The decisive test is whether LiteBIRD
-measures β ≈ 0.35° with enough precision to rule out k = 73 and k = 75.
+w) follow from k = 74 without additional tuning. In current series framing, canonical
+preregistered branch targets are 0.273° and 0.331°, while ~0.35° is treated as a
+derived-channel/historical emphasis in older posts; LiteBIRD remains the decisive arbiter.
 
 **The domain extensions (medicine, justice, economics) are structural analogies.**
 The mathematical form of the field equations is applied at scales and in domains

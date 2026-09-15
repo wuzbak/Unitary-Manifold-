@@ -51,11 +51,10 @@ computation remains an open mathematical invitation.
 versions. If the spectral shape is right but the amplitude was wrong, why should I
 trust the shape prediction?
 
-**A:** The amplitude gap has been resolved. Pillars 57 and 63 provide the closing
+**A:** In this post's historical framing, the amplitude gap was presented as resolved. Pillars 57 and 63 provide the closing
 mechanism: the radion back-reaction amplification (Pillar 57) and the Eisenstein-Hu
 baryon loading normalisation (Pillar 63) together account for the ×4–7 suppression.
-The framework now correctly reproduces both the spectral tilt (n_s) and the amplitude
-(A_s). The spectral shape (tilt, tensor ratio) and amplitude are determined by
+Current live-status treatment may still keep this lane open in broader reassessment surfaces, so authoritative present-tense status should be taken from `STATUS.md` and `FALLIBILITY.md`. The spectral shape (tilt, tensor ratio) and amplitude are determined by
 different physics — the tilt from the KK Jacobian, the amplitude from baryon loading
 — and the resolution of one does not imply the other. Both are now consistent. What
 remains open: a full Boltzmann integration of the peak *positions* (ℓ-values), a

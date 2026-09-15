@@ -78,6 +78,11 @@ propagates through to a consistent A_s prediction.
 
 ## What remains open
 
+**Live-status framing note:** This article’s amplitude-closure language above is a historical
+milestone claim from its source era. In current repository governance, the authoritative
+live verdict for this lane is whatever `STATUS.md` and `FALLIBILITY.md` currently report,
+including cases where broader reassessment keeps amplitude-related burdens open.
+
 **Peak positions (ℓ-values):** A full Boltzmann integration of the acoustic peak
 *positions* — the specific ℓ-values of the first, second, and third CMB maxima —
 has not been completed within the framework. The Eisenstein-Hu transfer function

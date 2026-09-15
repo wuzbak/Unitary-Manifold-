@@ -13,6 +13,8 @@ language — information encoding, fixed-point stability, entropy accumulation, 
 governance principle — provides a useful structural lens but does not replace the hard
 political and institutional work that is actually required.*
 
+*Primary source anchors used in this synthesis include USCIS visa-queue/publication data, EOIR court-backlog releases, CBP/ICE operational reporting, CBO budget analyses, American Action Forum mass-deportation cost modeling, and peer-reviewed public-health studies on mixed-status family outcomes.*
+
 ---
 
 Immigration is not an abstract policy debate. It is the question of which human beings

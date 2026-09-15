@@ -72,9 +72,9 @@ is a 5D Kaluza-Klein theory; it does not solve quantum gravity. The graviton in 
 5D theory has a KK spectrum, but the renormalization of the Planck-scale gravitational
 theory is not addressed.
 
-**Does not:** Derive the specific values of particle masses. The framework derives
-k_CS = 74 and n_w = 5, which constrain the spectrum of KK states, but the
-electron mass, quark masses, and Higgs mass are not derived from first principles.
+**Historical note on mass scope:** At this post’s original milestone framing, full first-principles
+mass closure was not established. In later waves, the repository reports additional progress on charged-fermion
+mass derivation and Higgs geometric estimation, while preserving open-status language on unresolved UV/flavor burdens.
 
 **Does not:** Eliminate the cosmological constant problem. The vacuum energy density
 problem — why the quantum vacuum contribution to the cosmological constant is 10¹²⁰
