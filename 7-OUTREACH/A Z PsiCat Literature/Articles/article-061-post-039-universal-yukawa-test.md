@@ -13,7 +13,7 @@ But is the same Ŷ₅ = 1 the *universal* coupling — the same number for all n
 
 That question is what Pillar 98 answers. And the answer is: **one coupling, nine masses, no free parameters in the Yukawa sector** (the c_L bulk masses are determined by the observed fermion masses, not freely chosen; ~15 SM parameters outside this sector remain free).
 
-where the only free quantity for each fermion is its left-handed bulk mass c_Lf. These c_L values are *not* additional free parameters — they are determined by solving equation [1] for each observed mass.
+In this setup, the only per-fermion quantity that varies is the left-handed bulk mass c_Lf. These c_L values are not treated as extra Yukawa freedoms; they are fixed by inverting the same RS wavefunction mass relation against the observed charged-fermion masses.
 ---
 
 ### Gate Certification (v1)

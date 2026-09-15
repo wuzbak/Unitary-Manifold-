@@ -13,7 +13,7 @@ The Eastern traditions — Buddhism and the various schools of Hinduism — have
 
 This post is less about finding correspondences and more about recognizing that the traditions and the framework are, in many respects, working on the same problem with different tools.
 
-Hinduism's central metaphysical claim — developed in the Upanishads (800–400 BCE) and refined through the Advaita Vedanta of Shankaracharya (8th century CE) — is:
+Hinduism's central metaphysical claim — developed in the Upanishads and refined in Advaita Vedanta — is that the deepest self and the deepest structure of reality are not ultimately separate. The framework is not identical to that claim, but it is one of the places where the structural correspondence is strongest.
 ---
 
 ### Gate Certification (v1)
