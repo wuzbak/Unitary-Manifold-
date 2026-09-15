@@ -1,4 +1,4 @@
-# Sprint BH: G₄ Moves from Abstract Consistency to Concrete Construction — Merlin/PsiCat v1 Rewrite
+# Sprint BH: From Abstract G₄ Possibility to Explicit Construction Attempts — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
@@ -9,67 +9,19 @@
 
 ---
 
-Sprint BG showed that G₄ consistency conditions could be satisfied in principle.
-Sprint BH pushed further and built an explicit shifted-form lane under declared geometric assumptions.
+Sprint BG established that key G₄ consistency conditions could hold in principle. Sprint BH moved one step closer to executable geometry by producing an explicit shifted-form lane under declared assumptions. The progress was concrete, but it was not universal closure.
 
-That is the core claim of this post.
+The core gain was methodological clarity. BH kept the abstract existence statements, added explicit construction artifacts, and retained open dependence on full CY₄ specification instead of burying it in footnotes. That made the lane more inspectable and less vulnerable to overclaim.
 
----
+In parallel, BH stress-tested the CKM θ₁₃ residual route against available KK-excitation leverage and did not get closure. The lane remained unresolved inside the architecture. That negative result is important because it prevents false confidence from spreading across neighboring claims.
 
-## What changed in Sprint BH
+The fermion-magnitude side also tightened. BH narrowed admissible windows and improved constraint discipline without asserting exact magnitude derivation. Again, this is progress by boundary tightening, not by narrative declaration.
 
-### Explicit shifted G₄ lane
+What did not change is as important as what did. Not every flavor residual closed. Explicit CY₄ dependence remained material. No external-data burden was bypassed. BH added structure and evidence organization; it did not erase architectural limits.
 
-A concrete G₄-shift construction was produced with bounded D3-brane integer choices in the current geometry context.
+That is why this sprint is still strong work. In research infrastructure, explicit partials are better than abstract optimism. BH made follow-on work easier to audit and harder to inflate.
 
-The key point is methodological:
-
-- abstract existence statements remained,
-- explicit construction artifacts were added,
-- and unresolved dependence on full CY₄ specificity was not hidden.
-
-### CKM residual reclassified as architecture-limited
-
-The CKM θ₁₃ residual lane was stress-tested against available KK-excitation leverage and remained unresolved within the current architecture.
-
-That is a negative result, but an honest one.
-
-### Fermion magnitude lane constrained
-
-Mass-magnitude behavior received stronger window constraints, improving admissible-space discipline without pretending exact final derivation.
-
----
-
-## What did not change
-
-- Not every flavor residual closed.
-- Explicit CY₄ choice dependence remained material.
-- No external-data pressure lane was bypassed.
-
-Sprint BH added structure; it did not grant universal closure.
-
----
-
-## Why this sprint still matters
-
-Because concrete partials are better than abstract optimism.
-
-This sprint gave the repository:
-
-- a sharper flux-construction footing,
-- cleaner negative evidence on one CKM route,
-- and tighter constraints for follow-on model-building.
-
-That makes subsequent claims harder to inflate and easier to audit.
-
----
-
-## Historical sprint snapshot
-
-- Test suite at this point: 61,717 passed · 45 skipped · 12 deselected · 0 failed
-- Lean4 total at this point: 3,712
-
-Values above are retained as article-time markers.
+Historical snapshot at this article point: 61,717 passed · 45 skipped · 12 deselected · 0 failed; Lean4 marker 3,712. These are period values, not live claims.
 
 ---
 
@@ -80,4 +32,4 @@ Values above are retained as article-time markers.
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite keeps Sprint BH’s real contribution in focus: explicit construction attempts plus honest residual burden, with no conversion of architecture dependence into implied closure.

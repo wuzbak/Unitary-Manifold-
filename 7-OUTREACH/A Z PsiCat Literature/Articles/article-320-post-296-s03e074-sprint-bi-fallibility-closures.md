@@ -1,4 +1,4 @@
-# Sprint BI: Closing FALLIBILITY Sections Without Closing Reality — Merlin/PsiCat v1 Rewrite
+# Sprint BI: Closing Named FALLIBILITY Admissions Without Pretending Full Closure — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
@@ -9,65 +9,17 @@
 
 ---
 
-This sprint article tracks a specific accomplishment:
+Sprint BI mattered because it closed two specifically named FALLIBILITY admissions and did so with explicit derivation paths, not with rhetorical relabeling. That distinction is the whole point of this entry. It is a record of what genuinely moved from open to closed in that sprint window, and what remained bounded or architecture-dependent.
 
-**two named FALLIBILITY sections were closed with explicit derivation paths.**
+The first closure was the SU(3) boundary-selection route (§XIV.2). BI connected the Kawamura parity-selection pattern to Chern-Simons boundary logic under the existing k_CS structure. In practical terms, that shifted the lane from an assumed matrix pattern toward a derived boundary consequence.
 
-It does **not** claim that every downstream lane was closed.
+The second closure was the secondary winding route (§XIII.4). BI promoted the n₂ = 7 lane from a floating assumption into a derived object inside the checked parity-and-constraint chain tied to k_CS = 74 and odd-boundary conditions. That reduced independent integer assumptions in a lane that later feeds birefringence-facing logic.
 
----
+Those two closures were real. They were also limited. Sprint BI did not close every downstream dependency. It strengthened several lines without claiming finality: neutrino-splitting directionality support, analytic CMB transfer residual characterization, analytic c_L spectrum expression, a bounded Higgs route, and KK-axion compatibility checks under then-current bounds. Useful progress, but not an excuse to call the board complete.
 
-## What was closed
+This is why BI is a trust sprint more than a victory sprint. It demonstrates a discipline rule: name the admission, show the route, state the residual burden. Closing text in `FALLIBILITY.md` is legitimate only when the mechanism is explicit and auditable.
 
-### 1) SU(3) boundary-selection route (§XIV.2)
-
-Sprint BI tied the Kawamura parity-selection pattern to the Chern-Simons boundary logic using the existing k_CS structure.
-
-Operationally, this moved the lane from “assumed matrix pattern” toward “derived boundary consequence” in the in-repo logic chain.
-
-### 2) Secondary winding number route (§XIII.4)
-
-The n₂ = 7 lane was promoted from a floating assumption to a derived object under the checked-in parity/constraint pathway tied to k_CS = 74 and the odd-boundary condition.
-
-That closure is meaningful because it reduces independent integer assumptions in the birefringence-relevant sector.
-
----
-
-## What was strengthened but not fully closed
-
-Sprint BI also improved several lanes without claiming finality:
-
-- tree-level neutrino splitting directionality support,
-- analytic characterization of CMB transfer residual structure,
-- analytic c_L spectrum expression,
-- Higgs mass bounded route (not exact closure),
-- KK-axion compatibility checks under current bounds.
-
-Those are valuable but still bounded by architecture and data dependencies.
-
----
-
-## Why this mattered for trust
-
-FALLIBILITY closures matter only when they are explicit about what changed and what did not.
-
-Sprint BI was useful because it:
-
-- closed two specific admissions with named mechanisms,
-- preserved unresolved lanes as unresolved,
-- and avoided relabeling “bounded” as “solved.”
-
-That is the standard this series should keep.
-
----
-
-## Snapshot at this article point
-
-- Test suite: 61,896 passed · 45 skipped · 12 deselected · 0 failed
-- Lean4 milestone: 3,812
-- Next pillar slot (at that point): 964
-
-Numbers are historical to the sprint window of this post.
+Historical snapshot for this article window: 61,896 passed · 45 skipped · 12 deselected · 0 failed; Lean4 marker 3,812; next pillar slot 964. These values are preserved as period markers only. For live status, use current canonical ledgers (`STATUS.md`, `docs/mas_tracker.yml`, and linked truth surfaces).
 
 ---
 
@@ -78,4 +30,4 @@ Numbers are historical to the sprint window of this post.
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the sprint-era record while tightening the separation between named closures and still-open dependencies, so readers can audit what changed without inheriting inflated conclusions.

@@ -1,4 +1,4 @@
-# Sprint BG: The G₄ Flux Lattice and the Cost of Being Exact — Merlin/PsiCat v1 Rewrite
+# Sprint BG: G₄ Consistency Conditions Land, Explicit Global Form Still Open — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
@@ -9,72 +9,17 @@
 
 ---
 
-This post records a partial closure, not a final one.
+Sprint BG should be read as a partial closure report. It established topological consistency for critical G₄ constraints in the reference basis, while leaving full explicit global representation architecture-dependent. Both parts are true, and the second part is not optional.
 
-**Claim:** Sprint BG established topological consistency for key G₄ flux constraints while leaving explicit representation architecture-dependent in the chosen reference geometry.
+Two constraints did close in-sprint. The Kähler primitivity condition was satisfied in the chosen cone basis. Tadpole integrality arithmetic remained consistent under the shifted counting logic used in the same lane. Together, these moved G₄ from speculative rhetoric toward constrained structure.
 
-That is a meaningful step and an honest limit.
+But BG did not produce a unique explicit global G₄ four-form for all relevant CY₄ choices. Additional intersection data was still required. In plain terms: the lane became mathematically tighter without becoming fully instantiated.
 
----
+That label discipline matters. Research repositories fail when partial progress is rewritten as finality. BG does the opposite by keeping three states visible: closed condition, bounded condition, architecture-dependent condition.
 
-## What Sprint BG closed
+The same sprint window also carried mixed outcomes elsewhere: second-order CKM tightening with one persistent residual lane, improved fermion hierarchy direction support without exact-magnitude closure, and confirmation that CMB amplitude remained an architecture-limit lane after extensive EFT-side checks. Mixed boards are healthy when they are reported honestly.
 
-### Kähler primitivity condition
-
-The primitivity constraint was satisfied in the reference cone basis used for this sprint.
-
-### Tadpole integrality condition
-
-The D3-charge arithmetic remained consistent under the shifted counting logic used in the same lane.
-
-Together, those two checks moved the G₄ story from speculative to structurally constrained.
-
----
-
-## What Sprint BG did not close
-
-### Explicit global G₄ representation
-
-A fully explicit global flux form still depends on additional CY₄-specific intersection structure.
-
-In practical terms: the lane is mathematically constrained but not yet uniquely instantiated at full specificity.
-
-This is why the sprint label remains partial-consistency, not full closure.
-
----
-
-## Adjacent lane outcomes in the same sprint window
-
-Sprint BG also carried:
-
-- second-order CKM tightening with one persistent residual lane,
-- fermion hierarchy-direction support with unresolved exact-magnitude dependence,
-- CMB amplitude architecture-limit confirmation after exhaustive EFT-side checks.
-
-These outcomes are mixed by design: gains where earned, limits where still binding.
-
----
-
-## Why the label discipline matters
-
-It is easy to overstate this kind of progress.
-
-A reliable repository must resist that impulse and keep distinctions visible:
-
-- closed condition,
-- bounded condition,
-- architecture-dependent condition.
-
-Sprint BG is a good example of that separation done correctly.
-
----
-
-## Historical sprint snapshot
-
-- Test suite at this point: 61,578 passed · 45 skipped · 12 deselected · 0 failed
-- Lean4 total at this point: 3,612
-
-These are sprint-era markers retained for traceability.
+Historical sprint markers retained for traceability: 61,578 passed · 45 skipped · 12 deselected · 0 failed; Lean4 marker 3,612. These are not live dashboard claims.
 
 ---
 
@@ -85,4 +30,4 @@ These are sprint-era markers retained for traceability.
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves Sprint BG as a disciplined partial: real closure on specific G₄ constraints, explicit non-closure on global representation, and clear separation between gains and remaining architecture burden.
