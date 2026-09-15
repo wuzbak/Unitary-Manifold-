@@ -10,11 +10,9 @@ from typing import Any, Dict, List
 from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
 from src.core.pillar1109_sprint_cr_master_charter import build_truth_surface_sync_status
 from src.core.pillar1111_lane1_action_to_evolution_closure_attempt import (
-    PILLAR_VALID as P1111_VALID,
     lane1_action_to_evolution_closure_attempt,
 )
 from src.core.pillar1120_psicat_training_benchmarking_promotion_sprint import (
-    PILLAR_VALID as P1120_VALID,
     psicat_training_benchmarking_promotion_sprint,
 )
 
@@ -85,12 +83,13 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         'SPC_PHASE_RECEIPTS',
         'GOVERNED_PROMOTION_ROUTING',
     ]
+    psicat_packet_valid = bool(psicat_report.get('valid'))
     action_packet_present = bool(action_report.get('blocker_certificate')) and bool(
         (action_report.get('closure_attempt') or {}).get('candidate_action_status')
     )
     valid = bool(
         action_packet_present
-        and bool(P1120_VALID)
+        and psicat_packet_valid
         and bool(truth_sync.get('all_pass'))
         and len(primary_deliverables) == 3
         and len(list(psicat_report.get('training_board') or [])) >= 4
@@ -106,7 +105,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         'next_pillar_slot': NEXT_PILLAR_SLOT,
         'dependencies': {
             'action_to_evolution_packet_present': action_packet_present,
-            'pillar1120_valid': bool(P1120_VALID),
+            'pillar1120_valid': psicat_packet_valid,
             'truth_surfaces_synchronized_to_v37_7': bool(truth_sync.get('all_pass')),
             'action_contract_locked_to_three_primary_deliverables': len(primary_deliverables) == 3,
             'psicat_training_and_benchmark_surfaces_visible': (

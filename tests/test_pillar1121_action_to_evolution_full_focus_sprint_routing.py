@@ -75,7 +75,18 @@ def test_invalid_if_lane1_breaks(monkeypatch) -> None:
 
 
 def test_invalid_if_psicat_breaks(monkeypatch) -> None:
-    monkeypatch.setattr(p1121, 'P1120_VALID', False)
+    monkeypatch.setattr(
+        p1121,
+        'psicat_training_benchmarking_promotion_sprint',
+        lambda: {
+            'valid': False,
+            'training_board': [{}] * 4,
+            'benchmark_board': {
+                'stage_gate_summary': [{}] * 5,
+                'spc_phase1_lane_receipts': [{}] * 3,
+            },
+        },
+    )
     report = p1121.action_to_evolution_full_focus_sprint_routing()
     assert report['valid'] is False
     assert report['dependencies']['pillar1120_valid'] is False
