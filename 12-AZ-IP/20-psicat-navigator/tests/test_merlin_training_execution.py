@@ -13,6 +13,7 @@ if str(PRODUCT_ROOT) not in sys.path:
 
 from ox_navigator.engine.merlin_memory import MerlinSession
 from ox_navigator.engine import merlin_training_execution as training_execution
+from ox_navigator.engine.merlin_benchmark import build_merlin_control_tower
 from ox_navigator.engine.merlin_training_execution import (
     build_merlin_training_execution_bundle,
     build_merlin_training_execution_queue,
@@ -75,6 +76,41 @@ def test_merlin_training_challenge_pack_prioritizes_rework():
     challenges = get_merlin_training_challenge_pack(session=session, limit=4)
     assert challenges["challenge_count"] == 4
     assert any(challenge["status"] == "stale_retrain_required" for challenge in challenges["challenges"])
+
+
+def test_merlin_training_challenge_pack_includes_governance_observatory_incidents():
+    session = MerlinSession()
+    session.register_observatory_event(
+        {
+            "kind": "swarm_analysis",
+            "source": "test",
+            "state_class": "HOSTILE_SWARM_PRESSURE",
+            "recommended_actions": ["quarantine", "human_review", "convert_to_training"],
+            "conversion_targets": ["training_challenge_pack"],
+        }
+    )
+    challenges = get_merlin_training_challenge_pack(session=session, limit=4)
+    assert challenges["challenge_sources"]["governance_observatory_incidents"] >= 1
+    assert challenges["challenges"][0]["source_kind"] == "governance_observatory"
+    assert challenges["challenges"][0]["required_output"] == "swarm_receipt"
+
+
+def test_control_tower_embeds_governance_observatory_constraints():
+    session = MerlinSession()
+    session.register_observatory_event(
+        {
+            "kind": "branch_convergence_review",
+            "review_verdict": "hold",
+            "requested_action": "merge",
+            "current_branch": "copilot/test",
+            "blockers": ["branch_intent_incomplete"],
+            "recommended_actions": ["capture_branch_intent", "human_review"],
+        }
+    )
+    tower = build_merlin_control_tower(session=session, limit=2)
+    assert "governance_observatory" in tower
+    assert tower["governance_observatory"]["governance_observatory"]["branch_review_event_count"] >= 1
+    assert tower["deployment_eligibility"]["required_gates"]["governance_observatory_clear"] is False
 
 
 def test_merlin_training_execution_bundle_reuses_retained_state():

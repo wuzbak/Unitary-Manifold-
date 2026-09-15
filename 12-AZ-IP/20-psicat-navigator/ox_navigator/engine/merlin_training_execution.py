@@ -19,6 +19,7 @@ from .merlin_benchmark import (
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_memory import MerlinSession
 from .merlin_meta_learning import analyze_depth, consolidate_memory, generate_falsification_oracle, run_self_audit
+from .merlin_masterclass_runtime import build_governance_observatory
 from .merlin_program import (
     build_training_dataset_bundle,
     build_merlin_continuous_learning_queue,
@@ -1171,9 +1172,51 @@ def _lane_gate_summary(receipts: list[dict[str, Any]], *, total: int) -> dict[st
     }
 
 
+def _observatory_challenges(*, session: MerlinSession, limit: int) -> list[dict[str, Any]]:
+    observatory = build_governance_observatory(session=session, limit=max(limit, 8))
+    posture = dict(observatory.get("governance_observatory") or {})
+    challenges: list[dict[str, Any]] = []
+    for index, incident in enumerate(list(posture.get("active_incidents") or []), start=1):
+        kind = str(incident.get("kind") or "")
+        severity = str(incident.get("severity") or "medium")
+        status = "needs_review" if severity == "high" else "queued"
+        if kind == "swarm_analysis":
+            state = str(incident.get("state_class") or "SUSPICIOUS_COORDINATED_PRESSURE")
+            prompt = (
+                f"Summarize the governance response for {state}, including containment, human-review, and training-conversion obligations."
+            )
+            required_output = "swarm_receipt"
+            answer_key = summary = str(incident.get("summary") or state)
+        else:
+            verdict = str(incident.get("review_verdict") or "hold")
+            requested_action = str(incident.get("requested_action") or "merge")
+            prompt = (
+                f"Summarize why branch convergence is {verdict} for {requested_action}, including missing evidence and the user-directed promotion rule."
+            )
+            required_output = "branch_convergence_receipt"
+            answer_key = summary = str(incident.get("summary") or verdict)
+        challenges.append(
+            {
+                "challenge_id": f"challenge_observatory_{index:02d}_{kind}",
+                "lane_id": "lane_c_adversarial_self_correction",
+                "queue_id": f"observatory_{kind}_{index:02d}",
+                "status": status,
+                "prompt": prompt,
+                "required_output": required_output,
+                "answer_key": answer_key,
+                "reference_path": "/api/psicat/swarm-observatory",
+                "source_kind": "governance_observatory",
+                "severity": severity,
+                "summary": summary,
+            }
+        )
+    return challenges[:max(0, int(limit))]
+
+
 def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 12) -> dict[str, Any]:
     cap = max(1, min(int(limit or 12), 48))
     queue = build_merlin_training_execution_queue(session=session, limit=None)
+    observatory_challenges = _observatory_challenges(session=session, limit=cap)
     challenge_items: list[dict[str, Any]] = []
     for item in list(queue.get("items") or []):
         lane_id = str(item.get("lane_id") or "")
@@ -1226,11 +1269,14 @@ def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 1
                 "required_output": item.get("expected_artifact"),
                 "answer_key": answer_key,
                 "reference_path": item.get("reference_path"),
+                "source_kind": "queue_blueprint",
             }
         )
     prioritized = sorted(
-        challenge_items,
+        observatory_challenges + challenge_items,
         key=lambda challenge: (
+            0 if str(challenge.get("source_kind") or "") == "governance_observatory" else 1,
+            0 if str(challenge.get("severity") or "") == "high" else 1,
             {"stale_retrain_required": 0, "needs_review": 1, "queued": 2, "completed": 3}.get(str(challenge.get("status") or ""), 4),
             0 if str(challenge.get("queue_id") or "") == "lane_a_arc_agi_shadow_program" else 1,
             0 if _navier_stokes_packet_kind(str(challenge.get("reference_path") or "")) else 1,
@@ -1241,7 +1287,11 @@ def get_merlin_training_challenge_pack(*, session: MerlinSession, limit: int = 1
     return {
         "generated_at": _utcnow(),
         "challenge_count": len(selected),
-        "selection_policy": "Prioritize stale and review-required work before merely completed work.",
+        "selection_policy": "Prioritize governance-observatory incidents, then stale and review-required work, before merely completed work.",
+        "challenge_sources": {
+            "governance_observatory_incidents": len(observatory_challenges),
+            "queue_blueprint_items": len(challenge_items),
+        },
         "challenges": selected,
     }
 

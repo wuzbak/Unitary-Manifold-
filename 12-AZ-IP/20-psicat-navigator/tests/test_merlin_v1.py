@@ -1481,6 +1481,7 @@ def test_route_tool_program_office_and_control_tower():
     assert 'mentorship_to_runtime' in data
     assert data['mentorship_to_runtime']['checks']['faculty_artifacts_landed'] is True
     assert data['mentorship_to_runtime']['checks']['exchange_cycle_complete'] is False
+    assert 'governance_observatory' in data
 
 
 def test_route_tool_pentad_contract():
@@ -1578,6 +1579,28 @@ def test_route_tool_control_tower_clamps_non_positive_limit():
     replacement_summary = control['result']['data']['replacement_readiness']['receipts']['summary']
     assert stage_a_summary['total'] == 1
     assert replacement_summary['total'] >= 1
+
+
+def test_route_tool_observatory_and_control_tower_session_integration():
+    session = MerlinSession()
+    session.register_observatory_event(
+        {
+            'kind': 'swarm_analysis',
+            'source': 'test',
+            'state_class': 'QUARANTINE_BASIN',
+            'recommended_actions': ['quarantine', 'human_review', 'convert_to_training'],
+            'conversion_targets': ['training_challenge_pack'],
+        }
+    )
+    observatory = route_tool('getPsiCatSwarmObservatory', {'limit': 4}, session=session)
+    assert observatory['ok'] is True
+    assert observatory['result']['data']['governance_observatory']['swarm_event_count'] >= 1
+    control = route_tool('getMerlinControlTower', {'limit': 1}, session=session)
+    assert control['ok'] is True
+    assert 'quarantine_swarm_state_active' in control['result']['data']['drift_alerts']
+    execution_board = route_tool('getMerlinExecutionBoard', {'limit': 1}, session=session)
+    assert execution_board['ok'] is True
+    assert 'governance_observatory' in execution_board['result']['data']
 
 
 def test_route_tool_multi_stage_and_longitudinal():

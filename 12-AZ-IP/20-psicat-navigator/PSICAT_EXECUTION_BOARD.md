@@ -110,7 +110,8 @@ and CodeQL scope-reduction strategy.
 Use `/api/merlin/targeted-rigor-sprint` (or `/api/psicat/targeted-rigor-sprint`) when the objective is explicit proof that PsiCat both trains and works in one bounded run.
 
 Use `/api/psicat/masterclass-execution` for the integrated geometry-first,
-swarm-safe, branch-aware execution packet, `GET /api/psicat/branch-convergence`
+swarm-safe, branch-aware execution packet, `GET /api/psicat/swarm-observatory`
+for session-backed observatory posture and training-conversion targets, `GET /api/psicat/branch-convergence`
 for visible-ref convergence posture, `POST /api/psicat/branch-convergence-review`
 for evidence-gated merge/promotion review, and `POST /api/psicat/swarm-analyze`
 for bounded classification of coordinated pressure into trusted/watch/quarantine/hostile states.

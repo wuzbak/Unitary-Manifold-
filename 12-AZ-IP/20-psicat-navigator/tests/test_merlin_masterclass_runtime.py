@@ -173,6 +173,11 @@ def test_server_masterclass_and_swarm_routes_and_tools() -> None:
                 "ready_for_human_convergence_review"
             )
 
+            observatory = client.get("/api/psicat/swarm-observatory?limit=4")
+            assert observatory.status_code == 200
+            assert observatory.json()["governance_observatory"]["governance_observatory"]["event_count"] >= 1
+            assert observatory.json()["governance_observatory"]["governance_observatory"]["branch_review_event_count"] >= 1
+
             swarm = client.post(
                 "/api/psicat/swarm-analyze",
                 json={
@@ -187,10 +192,19 @@ def test_server_masterclass_and_swarm_routes_and_tools() -> None:
             assert swarm.status_code == 200
             assert swarm.json()["swarm_analysis"]["state_class"] == "TRUSTED_INTERNAL_SWARM"
 
+            observatory_after_swarm = client.get("/api/psicat/swarm-observatory?limit=6")
+            assert observatory_after_swarm.status_code == 200
+            assert observatory_after_swarm.json()["governance_observatory"]["governance_observatory"]["swarm_event_count"] >= 1
+
             invoke = client.post("/api/agentInvoke", json={"tool": "getPsiCatMasterclassExecution", "args": {"limit": 2}})
             assert invoke.status_code == 200
             assert invoke.json()["ok"] is True
             assert invoke.json()["result"]["data"]["execution_spine"]["surface_id"] == "psicat_masterclass_execution_packet"
+
+            observatory_invoke = client.post("/api/agentInvoke", json={"tool": "getPsiCatSwarmObservatory", "args": {"limit": 4}})
+            assert observatory_invoke.status_code == 200
+            assert observatory_invoke.json()["ok"] is True
+            assert observatory_invoke.json()["result"]["data"]["execution_spine"]["surface_id"] == "psicat_governance_observatory_packet"
 
             branch_invoke = client.post("/api/agentInvoke", json={"tool": "getPsiCatBranchConvergence", "args": {"limit": 2}})
             assert branch_invoke.status_code == 200
@@ -202,6 +216,7 @@ def test_server_masterclass_and_swarm_routes_and_tools() -> None:
                 json={
                     "steps": [
                         {"tool": "getPsiCatMasterclassExecution", "args": {"limit": 2}},
+                        {"tool": "getPsiCatSwarmObservatory", "args": {"limit": 4}},
                         {"tool": "getPsiCatBranchConvergence", "args": {"limit": 2}},
                         {
                             "tool": "analyzePsiCatSwarmTrajectory",
@@ -250,13 +265,13 @@ def test_server_masterclass_and_swarm_routes_and_tools() -> None:
             )
             assert orchestrate.status_code == 200
             assert orchestrate.json()["ok"] is True
-            assert len(orchestrate.json()["steps"]) == 4
-            assert orchestrate.json()["steps"][2]["result"]["data"]["state_class"] in {
+            assert len(orchestrate.json()["steps"]) == 5
+            assert orchestrate.json()["steps"][3]["result"]["data"]["state_class"] in {
                 "SUSPICIOUS_COORDINATED_PRESSURE",
                 "QUARANTINE_BASIN",
                 "HOSTILE_SWARM_PRESSURE",
             }
-            assert orchestrate.json()["steps"][3]["result"]["data"]["review_verdict"] == "ready_for_human_convergence_review"
+            assert orchestrate.json()["steps"][4]["result"]["data"]["review_verdict"] == "ready_for_human_convergence_review"
     finally:
         httpd.shutdown()
         thread.join(timeout=5)

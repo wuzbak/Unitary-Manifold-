@@ -28,7 +28,7 @@ from .constants import GATE_LABELS
 from .merlin_admission import get_model_admission_policy
 from .merlin_identity import get_identity_policy
 from .merlin_kernel_routing import infer_kernel_for_benchmark_definition, infer_merlin_kernel_id
-from .merlin_masterclass_runtime import get_branch_convergence_packet, get_masterclass_execution_packet
+from .merlin_masterclass_runtime import build_governance_observatory, get_branch_convergence_packet, get_masterclass_execution_packet
 from .merlin_memory import MERLIN_MAX_HISTORY
 from .merlin_router import get_router_policy
 from .merlin_runtime import (
@@ -4680,7 +4680,7 @@ def get_psicat_convergence_charter() -> dict[str, Any]:
     }
 
 
-def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
+def get_merlin_execution_board(limit: int | None = 2, *, session: Any | None = None) -> dict[str, Any]:
     from .merlin_kernel_runtime import (
         get_kernel_batch_plan,
         get_kernel_escalation_packet,
@@ -4697,6 +4697,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     convergence_charter = get_psicat_convergence_charter()
     masterclass_packet = get_masterclass_execution_packet(limit=max(4, int(limit if limit is not None else 2)))
     branch_packet = get_branch_convergence_packet(limit=max(4, int(limit if limit is not None else 2)))
+    governance_observatory = build_governance_observatory(session=session, limit=max(4, int(limit if limit is not None else 2)))
     stage_reviews = list(review_packet.get("stage_reviews") or [])
     open_blockers = list(review_packet.get("open_blockers") or [])
     kernel_gate = get_kernel_promotion_gate_summary()
@@ -4714,6 +4715,25 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
     }
     selected_priorities = task_priorities.get(str(kernel_gate.get("gate_verdict")), task_priorities["hold"])
     kernel_gate_register: list[dict[str, Any]] = []
+    governance_constraints = dict(((governance_observatory.get("governance_observatory") or {}).get("deployment_constraints")) or {})
+    governance_incidents = list(((governance_observatory.get("governance_observatory") or {}).get("active_incidents")) or [])
+    observatory_blockers: list[dict[str, Any]] = []
+    if governance_constraints.get("block_deployment"):
+        observatory_blockers.append(
+            {
+                "blocker_id": "governance_observatory_high_severity_active",
+                "status": "open",
+                "reason": "High-severity swarm or branch-convergence observatory signals require containment or human review before broader convergence claims.",
+                "source": "governance_observatory",
+                "remediation_actions": list(dict.fromkeys(
+                    action
+                    for incident in governance_incidents
+                    for action in list(incident.get("recommended_actions") or [])
+                    if str(action).strip()
+                )),
+                "severity": "high",
+            }
+        )
     if str(kernel_gate.get("gate_verdict")) in {"hold", "fail_closed"}:
         if not any(str(item.get("id") or "") == "kernel_runtime_cross_lane_gate" for item in open_blockers):
             kernel_gate_register.append(
@@ -4788,6 +4808,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
         "convergence_charter": convergence_charter,
         "masterclass_execution_packet": masterclass_packet,
         "branch_convergence_packet": branch_packet,
+        "governance_observatory": governance_observatory,
         "immediate_tasks": [
             {
                 "task_id": "CL-0",
@@ -4893,7 +4914,7 @@ def get_merlin_execution_board(limit: int | None = 2) -> dict[str, Any]:
                 "batch_plan_id": str(item.get("batch_plan_id") or ""),
             }
             for item in open_blockers
-        ] + kernel_gate_register + [
+        ] + kernel_gate_register + observatory_blockers + [
             {
                 "blocker_id": "code_review_tool_unavailable_in_environment",
                 "status": "open",

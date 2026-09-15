@@ -93,6 +93,7 @@ from ox_navigator.engine.merlin_program import (
 )
 from ox_navigator.engine.merlin_masterclass_runtime import (
     analyze_swarm_trajectory,
+    build_governance_observatory,
     get_branch_convergence_packet,
     get_masterclass_execution_packet,
     review_branch_convergence,
@@ -1479,7 +1480,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     return
                 self._json({
                 'ok': True,
-                'execution_board': get_merlin_execution_board(limit=limit),
+                'execution_board': get_merlin_execution_board(limit=limit, session=merlin_session),
                 })
                 self._persist_session(session_id, merlin_session)
                 return
@@ -1498,6 +1499,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'masterclass_execution': get_masterclass_execution_packet(limit=max(1, limit)),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/swarm-observatory':
+                limit, error = _parse_int_query_param(params, 'limit', 8)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'governance_observatory': build_governance_observatory(session=merlin_session, limit=max(1, limit)),
                 })
                 self._persist_session(session_id, merlin_session)
                 return
@@ -1720,6 +1732,16 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         allow_internal_swarm=bool(payload.get('allow_internal_swarm', True)),
                         source=str(payload.get('source') or 'api'),
                     )
+                    merlin_session.register_observatory_event({
+                        'kind': 'swarm_analysis',
+                        'source': str(analysis.get('source') or 'api'),
+                        'state_class': str(analysis.get('state_class') or ''),
+                        'transition_verdict': str(analysis.get('transition_verdict') or ''),
+                        'hostile_signal_count': int(analysis.get('hostile_signal_count') or 0),
+                        'recommended_actions': list(analysis.get('recommended_actions') or []),
+                        'conversion_targets': list(analysis.get('conversion_targets') or []),
+                        'counts': dict(analysis.get('counts') or {}),
+                    })
                     self._json({
                         'ok': True,
                         'swarm_analysis': analysis,
@@ -1743,6 +1765,17 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         changed_paths=[str(item) for item in changed_paths] if isinstance(changed_paths, list) else None,
                         limit=max(1, limit),
                     )
+                    merlin_session.register_observatory_event({
+                        'kind': 'branch_convergence_review',
+                        'review_verdict': str(review.get('review_verdict') or ''),
+                        'requested_action': str(review.get('requested_action') or ''),
+                        'current_branch': str(review.get('current_branch') or ''),
+                        'upstream_branch': str(review.get('upstream_branch') or ''),
+                        'changed_paths': list(review.get('changed_paths') or []),
+                        'blockers': list(review.get('blockers') or []),
+                        'recommended_actions': list(review.get('recommended_actions') or []),
+                        'conversion_targets': ['branch_convergence_receipt', 'validation_receipt_bundle'],
+                    })
                     self._json({
                         'ok': True,
                         'branch_convergence_review': review,

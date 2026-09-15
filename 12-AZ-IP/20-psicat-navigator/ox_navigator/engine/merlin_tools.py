@@ -44,6 +44,7 @@ from .merlin_benchmark import (
 from .merlin_identity import authorize_privileged_request, verify_identity_signals
 from .merlin_masterclass_runtime import (
     analyze_swarm_trajectory,
+    build_governance_observatory,
     get_branch_convergence_packet,
     get_masterclass_execution_packet,
     review_branch_convergence,
@@ -363,6 +364,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinCompetitiveBenchmarkPlan", "summary": "Return competitive benchmark families and promotion metrics", "domain": "functions"},
             {"name": "getMerlinTrainingArtifacts", "summary": "Return exportable Merlin training artifact bundle", "domain": "functions"},
             {"name": "analyzePsiCatSwarmTrajectory", "summary": "Classify coordinated swarm pressure into trusted, watch, quarantine, or hostile states", "domain": "functions"},
+            {"name": "getPsiCatSwarmObservatory", "summary": "Return session-backed swarm and branch governance observatory posture", "domain": "functions"},
             {"name": "getPsiCatBranchConvergence", "summary": "Return branch-aware convergence packet with dependency and collision posture", "domain": "functions"},
             {"name": "reviewPsiCatBranchConvergence", "summary": "Validate branch intent, dependency, collision, and promotion evidence before convergence moves", "domain": "functions"},
             {"name": "getMerlinEnergyPlan", "summary": "Return energy-first optimization controls", "domain": "functions"},
@@ -508,6 +510,7 @@ def _tool_manifest() -> dict[str, Any]:
             },
             "risk_level": "medium",
         },
+        "getPsiCatSwarmObservatory": {"args_schema": {"type": "object", "properties": {"limit": {"type": "integer"}}, "additionalProperties": False}},
         "getPsiCatBranchConvergence": {"args_schema": {"type": "object", "properties": {"limit": {"type": "integer"}}, "additionalProperties": False}},
         "reviewPsiCatBranchConvergence": {
             "args_schema": {
@@ -1291,6 +1294,10 @@ _FUNCTIONS = {
         allow_internal_swarm=bool(args.get("allow_internal_swarm", True)),
         source=str(args.get("source") or "tool"),
     )},
+    "getPsiCatSwarmObservatory": lambda **args: {"data": build_governance_observatory(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else None,
+        limit=_coerce_positive_int(args.get("limit"), 8),
+    )},
     "getPsiCatBranchConvergence": lambda **args: {"data": get_branch_convergence_packet(
         limit=_coerce_positive_int(args.get("limit"), 8),
     )},
@@ -1356,6 +1363,7 @@ _FUNCTIONS = {
     )},
     "getMerlinFrontierReadiness": lambda **args: {"data": get_frontier_readiness_packet(limit=args.get("limit"))},
     "getMerlinControlTower": lambda **args: {"data": build_merlin_control_tower(
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else None,
         limit=_coerce_positive_int(args.get("limit"), 3),
         gate_history=list(args.get("gate_history") or []) or None,
     )},
@@ -1420,7 +1428,10 @@ _FUNCTIONS = {
     )},
     "getMerlinCompactificationSanity": lambda **args: {"data": get_compactification_sanity_receipt()},
     "getMerlinTopologyAdjacentBoard": lambda **args: {"data": get_topology_adjacent_board()},
-    "getMerlinExecutionBoard": lambda **args: {"data": get_merlin_execution_board(limit=args.get("limit"))},
+    "getMerlinExecutionBoard": lambda **args: {"data": get_merlin_execution_board(
+        limit=args.get("limit"),
+        session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else None,
+    )},
     "getMerlinValidationResiliencePacket": lambda **args: {"data": get_merlin_validation_resilience_packet(limit=args.get("limit"))},
     "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(
         limit=args.get("limit"),
@@ -1701,6 +1712,9 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "getMerlinLaneProgressLedgers",
                     "runMerlinTrainingCycle",
                     "getMerlinTrainingChallengePack",
+                    "getPsiCatSwarmObservatory",
+                    "getMerlinControlTower",
+                    "getMerlinExecutionBoard",
                     "getPsiCatAchievementBenchmarkPromotionSprint",
                     "getPsiCatTrainingBenchmarkingPromotionSprint",
                 }

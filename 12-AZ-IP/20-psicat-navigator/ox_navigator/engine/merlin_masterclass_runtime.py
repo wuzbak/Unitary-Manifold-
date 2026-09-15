@@ -34,6 +34,16 @@ CANONICAL_TRUTH_SURFACES = (
     "9-INFRASTRUCTURE/um_live_status.json",
 )
 PROMOTION_ACTIONS = {"merge", "promote", "rebase", "sync"}
+SWARM_STATE_SEVERITY = {
+    "INSUFFICIENT_SIGNAL": "low",
+    "ROUTINE_SINGLE_TRAJECTORY": "low",
+    "NOISY_BURST": "low",
+    "TRUSTED_INTERNAL_SWARM": "low",
+    "SUSPICIOUS_COORDINATED_PRESSURE": "medium",
+    "QUARANTINE_BASIN": "high",
+    "HOSTILE_SWARM_PRESSURE": "high",
+}
+SEVERITY_RANK = {"low": 1, "medium": 2, "high": 3}
 
 
 def _utcnow() -> str:
@@ -445,6 +455,151 @@ def review_branch_convergence(
             "human_review_required": True,
             "user_directed_promotion_only": True,
             "clone_visibility_limited": bool(visibility.get("clone_limited")),
+        },
+    }
+
+
+def build_governance_observatory(*, session: Any | None = None, limit: int = 12) -> dict[str, Any]:
+    cap = max(1, int(limit))
+    events = list(getattr(session, "observatory_events", []) or []) if session is not None else []
+    governance_events = [
+        dict(item)
+        for item in events
+        if isinstance(item, dict) and str(item.get("kind") or "") in {"swarm_analysis", "branch_convergence_review"}
+    ]
+    governance_events = governance_events[-cap:]
+    swarm_events = [item for item in governance_events if str(item.get("kind") or "") == "swarm_analysis"]
+    branch_events = [item for item in governance_events if str(item.get("kind") or "") == "branch_convergence_review"]
+    swarm_state_counts = dict(Counter(str(item.get("state_class") or "INSUFFICIENT_SIGNAL") for item in swarm_events))
+    branch_verdict_counts = dict(Counter(str(item.get("review_verdict") or "hold") for item in branch_events))
+    active_incidents: list[dict[str, Any]] = []
+    severity_counts = {"low": 0, "medium": 0, "high": 0}
+    conversion_targets: list[str] = []
+    drift_alerts: list[str] = []
+    deployment_constraints: list[str] = []
+    for item in governance_events:
+        kind = str(item.get("kind") or "")
+        if kind == "swarm_analysis":
+            state = str(item.get("state_class") or "INSUFFICIENT_SIGNAL")
+            severity = SWARM_STATE_SEVERITY.get(state, "medium")
+            summary = f"{state} on {item.get('source', 'unknown_source')}"
+            if state == "HOSTILE_SWARM_PRESSURE":
+                drift_alerts.append("hostile_swarm_pressure_active")
+                deployment_constraints.append("hostile_swarm_pressure_active")
+            elif state == "QUARANTINE_BASIN":
+                drift_alerts.append("quarantine_swarm_state_active")
+                deployment_constraints.append("quarantine_swarm_state_active")
+            elif state == "SUSPICIOUS_COORDINATED_PRESSURE":
+                drift_alerts.append("suspicious_swarm_pressure_active")
+        else:
+            verdict = str(item.get("review_verdict") or "hold")
+            requested_action = str(item.get("requested_action") or "hold")
+            severity = "high" if verdict == "hold" and requested_action in PROMOTION_ACTIONS else "medium" if verdict == "hold" else "low"
+            summary = f"{verdict} for {requested_action} on {item.get('current_branch', 'unknown_branch')}"
+            if verdict == "hold" and requested_action in PROMOTION_ACTIONS:
+                drift_alerts.append("branch_convergence_hold_active")
+                deployment_constraints.append("branch_convergence_hold_active")
+            elif verdict == "hold":
+                drift_alerts.append("branch_convergence_review_open")
+        severity_counts[severity] = severity_counts.get(severity, 0) + 1
+        if severity in {"medium", "high"}:
+            active_incidents.append(
+                {
+                    "kind": kind,
+                    "severity": severity,
+                    "summary": summary,
+                    "recorded_at": str(item.get("recorded_at") or item.get("generated_at") or ""),
+                    "recommended_actions": list(item.get("recommended_actions") or []),
+                    "blockers": list(item.get("blockers") or []),
+                    "state_class": item.get("state_class"),
+                    "review_verdict": item.get("review_verdict"),
+                    "requested_action": item.get("requested_action"),
+                }
+            )
+        conversion_targets.extend(str(target) for target in list(item.get("conversion_targets") or []) if str(target).strip())
+        if kind == "branch_convergence_review" and item.get("review_verdict") == "hold":
+            conversion_targets.extend(["branch_convergence_receipt", "validation_receipt_bundle"])
+    health_checks = [
+        ExecutionSpineHealthCheck(
+            check_id="governance_observatory_session_visible",
+            passed=session is not None,
+            status="pass" if session is not None else "fail",
+            summary="Governance observatory packets require session-backed event retention for live incident visibility.",
+            details={"event_count": len(governance_events)},
+            sources=["MerlinSession.observatory_events"],
+        ),
+        ExecutionSpineHealthCheck(
+            check_id="governance_observatory_drift_classified",
+            passed=True,
+            status="pass",
+            summary="Swarm and branch review events are classified into explicit severity and drift categories.",
+            details={"swarm_events": len(swarm_events), "branch_review_events": len(branch_events)},
+            sources=["swarm_analysis", "branch_convergence_review"],
+        ),
+    ]
+    execution_spine = ExecutionSpineRecord(
+        surface_id="psicat_governance_observatory_packet",
+        surface_kind="governance_observatory_packet",
+        lane="governance_hardening",
+        status="ACTIVE_GOVERNANCE_OBSERVATORY",
+        summary="Session-backed observatory packet for swarm pressure, branch review friction, and training-conversion signals.",
+        canonical_paths=[
+            _repo_rel(README_DOC),
+            _repo_rel(EXECUTION_BOARD_DOC),
+            _repo_rel(EXECUTION_SPINE_CHARTER_DOC),
+        ],
+        sources=[
+            _repo_rel(README_DOC),
+            _repo_rel(EXECUTION_BOARD_DOC),
+            "MerlinSession.observatory_events",
+        ],
+        governance=build_fail_closed_governance(
+            epistemic_label="GOVERNANCE",
+            promotion_rule="Observatory packets expose live governance posture and training-conversion signals; they do not grant autonomy or promotion.",
+            residual_blockers=[
+                "No session-backed events means the observatory can only report empty posture, not absence of risk.",
+            ],
+        ),
+        compatibility={
+            "primary_endpoint": "/api/psicat/swarm-observatory",
+            "legacy_endpoints": ["/api/merlin/swarm-observatory", "/api/ox/swarm-observatory"],
+        },
+        health_checks=health_checks,
+        promotion={
+            "eligible": False,
+            "gate": "observatory_only",
+            "reason": "Observatory posture informs governance and training but is not promotion evidence.",
+        },
+    ).to_dict()
+    active_incidents.sort(key=lambda item: (-SEVERITY_RANK.get(str(item.get("severity") or "low"), 1), str(item.get("recorded_at") or "")))
+    return {
+        "generated_at": _utcnow(),
+        "execution_spine": execution_spine,
+        "governance_observatory": {
+            "event_count": len(governance_events),
+            "swarm_event_count": len(swarm_events),
+            "branch_review_event_count": len(branch_events),
+            "swarm_state_counts": swarm_state_counts,
+            "branch_review_verdict_counts": branch_verdict_counts,
+            "severity_counts": severity_counts,
+            "drift_alerts": _unique_paths(drift_alerts),
+            "active_incidents": active_incidents[:cap],
+            "training_conversion_targets": _unique_paths(conversion_targets),
+            "latest_swarm_state": str(swarm_events[-1].get("state_class") or "") if swarm_events else "",
+            "latest_branch_review_verdict": str(branch_events[-1].get("review_verdict") or "") if branch_events else "",
+            "deployment_constraints": {
+                "block_deployment": bool(deployment_constraints),
+                "reasons": _unique_paths(deployment_constraints),
+            },
+            "history_window": {
+                "limit": cap,
+                "session_backed": session is not None,
+            },
+            "policy": {
+                "offensive_use_forbidden": True,
+                "human_review_required_for_high_severity": True,
+                "convert_incidents_to_training": True,
+            },
         },
     }
 
