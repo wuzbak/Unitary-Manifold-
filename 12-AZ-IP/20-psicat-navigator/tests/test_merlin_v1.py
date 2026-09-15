@@ -1903,18 +1903,21 @@ def test_route_tool_kernel_runtime_surfaces():
     receipts = route_tool('getMerlinKernelExecutionReceipts', {'points': 8, 'seed': 7})
     benchmarks = route_tool('getMerlinKernelBenchmarkReceipts', {'points': 32, 'seed': 11, 'repeats': 2})
     gate = route_tool('getMerlinKernelPromotionGate', {'points': 16, 'seed': 13, 'repeats': 2})
+    risk = route_tool('getMerlinKernelRiskSummary', {'points': 16, 'seed': 13, 'repeats': 2})
     compactification = route_tool('getMerlinCompactificationSanity', {})
     topology = route_tool('getMerlinTopologyAdjacentBoard', {})
     assert runtime['ok'] is True
     assert receipts['ok'] is True
     assert benchmarks['ok'] is True
     assert gate['ok'] is True
+    assert risk['ok'] is True
     assert compactification['ok'] is True
     assert topology['ok'] is True
     assert runtime['result']['data']['board_id'] == 'psicat_kernel_runtime_board_v1'
     assert 'triton_metric_block_compiled' in receipts['result']['data']['receipt']['lanes']
     assert 'kk_4x4_metric_block_hotspot' in benchmarks['result']['data']['receipt']['benchmarks']
     assert gate['result']['data']['gate_verdict'] in {'pass', 'hold', 'fail_closed'}
+    assert risk['result']['data']['risk_id'] == 'psicat_kernel_risk_summary_v1'
     assert compactification['result']['data']['policy']['unchecked_bypass_forbidden'] is True
     assert topology['result']['data']['summary']['lane'] == 'ADJACENT_TRACK'
 
@@ -3576,6 +3579,7 @@ def test_run_sync_checks_has_consistency_contract():
         '/api/psicat/kernel-receipts',
         '/api/psicat/kernel-benchmarks',
         '/api/psicat/kernel-gate',
+        '/api/psicat/kernel-risk',
         '/api/psicat/compactification-sanity',
         '/api/psicat/compactification-ingest',
         '/api/psicat/topology-adjacent',

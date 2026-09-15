@@ -156,6 +156,22 @@ def get_kernel_promotion_gate_summary(points: int = 32, seed: int = 13, repeats:
     }
 
 
+def get_kernel_risk_summary(points: int = 32, seed: int = 13, repeats: int = 3) -> dict[str, Any]:
+    gate = get_kernel_promotion_gate_summary(points=points, seed=seed, repeats=repeats)
+    return {
+        "ok": bool(gate.get("ok", False)),
+        "risk_id": "psicat_kernel_risk_summary_v1",
+        "gate_verdict": str(gate.get("gate_verdict") or ""),
+        "severity": str(gate.get("severity") or ""),
+        "health_score": float(gate.get("health_score", 0.0) or 0.0),
+        "failed_checks": list(gate.get("failed_checks") or []),
+        "remediation_actions": list(gate.get("remediation_actions") or []),
+        "blocking_pass": bool(gate.get("blocking_pass", False)),
+        "promotion_blocking": bool(gate.get("promotion_blocking", False)),
+        "source_surface": "getKernelPromotionGateSummary",
+    }
+
+
 def get_topology_adjacent_board() -> dict[str, Any]:
     summary = topology_adjacent_summary()
     return {

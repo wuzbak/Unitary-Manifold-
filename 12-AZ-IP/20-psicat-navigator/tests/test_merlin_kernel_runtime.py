@@ -13,6 +13,7 @@ from ox_navigator.engine.merlin_kernel_runtime import (
     get_compactification_sanity_receipt,
     get_kernel_execution_receipts,
     get_kernel_promotion_gate_summary,
+    get_kernel_risk_summary,
     get_kernel_runtime_board,
     get_topology_adjacent_board,
 )
@@ -68,6 +69,16 @@ def test_kernel_promotion_gate_summary_contract():
     assert "artifacts" in payload
 
 
+def test_kernel_risk_summary_contract():
+    payload = get_kernel_risk_summary(points=16, seed=5, repeats=2)
+    assert payload["risk_id"] == "psicat_kernel_risk_summary_v1"
+    assert payload["gate_verdict"] in {"pass", "hold", "fail_closed"}
+    assert payload["severity"] in {"low", "medium", "high"}
+    assert 0.0 <= float(payload["health_score"]) <= 1.0
+    assert isinstance(payload["failed_checks"], list)
+    assert isinstance(payload["remediation_actions"], list)
+
+
 def test_compactification_sanity_receipt_surface():
     payload = get_compactification_sanity_receipt()
     assert "checks" in payload
@@ -114,6 +125,9 @@ def test_server_kernel_runtime_endpoints():
             gate_resp = client.get("/api/psicat/kernel-gate?points=16&seed=3&repeats=2")
             assert gate_resp.status_code == 200
             assert gate_resp.json()["kernel_gate"]["gate_verdict"] in {"pass", "hold", "fail_closed"}
+            risk_resp = client.get("/api/psicat/kernel-risk?points=16&seed=3&repeats=2")
+            assert risk_resp.status_code == 200
+            assert risk_resp.json()["kernel_risk"]["risk_id"] == "psicat_kernel_risk_summary_v1"
 
             sanity_resp = client.get("/api/psicat/compactification-sanity")
             assert sanity_resp.status_code in {200, 422}
@@ -140,6 +154,9 @@ def test_server_kernel_runtime_endpoints():
             compat_gate_resp = client.get("/api/merlin/kernel-gate?points=16&seed=3&repeats=2")
             assert compat_gate_resp.status_code == 200
             assert compat_gate_resp.json()["kernel_gate"]["gate_verdict"] in {"pass", "hold", "fail_closed"}
+            compat_risk_resp = client.get("/api/merlin/kernel-risk?points=16&seed=3&repeats=2")
+            assert compat_risk_resp.status_code == 200
+            assert compat_risk_resp.json()["kernel_risk"]["severity"] in {"low", "medium", "high"}
     finally:
         httpd.shutdown()
         httpd.server_close()
