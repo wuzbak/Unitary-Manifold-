@@ -26,6 +26,10 @@ The answer, it turns out, is: a lot.
 
 ---
 
+Historical-status note: this book captures a specific product-era snapshot. Product inventories and test totals should be read as period context unless explicitly marked as live; current repository state is tracked in canonical ledgers.
+
+---
+
 ## Part I: Why the Oracle Exists
 
 ### The Fifteen Products Before It

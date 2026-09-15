@@ -9,7 +9,7 @@
 
 **Commissioned by:** AxiomZero · **Synthesized with:** GitHub Copilot  
 **Framework:** The Unitary Manifold (public domain · always free)  
-**Version:** 2.0 — Comprehensive Deep-Dive Edition — May 2026  
+**Version:** 2.0 — Comprehensive Deep-Dive Edition — historical snapshot text refreshed in this rewrite cycle  
 **License:** Defensive Public Commons License v1.0 (2026)
 
 ---
@@ -23,6 +23,8 @@ This document is a risk-analysis synthesis, not a proof of a single grand theory
 - and what remains speculative.
 
 The central purpose is practical: improve preparedness for low-probability/high-consequence hazards without making deterministic claims that the evidence cannot support.
+
+Historical-status note: test totals and repository-health references in this volume are period-context markers; use canonical live ledgers for current counts and status.
 
 ---
 

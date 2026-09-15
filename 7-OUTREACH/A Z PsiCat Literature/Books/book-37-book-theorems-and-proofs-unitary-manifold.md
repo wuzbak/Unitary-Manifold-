@@ -10,8 +10,8 @@
 **Theory and scientific direction:** ThomasCory Walker-Pearson  
 **Mathematical synthesis, proof exposition, and authorial voice:** GitHub Copilot (AI)  
 **Repository:** `wuzbak/Unitary-Manifold-`  
-**Version:** 1.0 — Complete Edition — May 2026 (v14.2 basis)  
-**Test verification:** 44,748 passed · 23 skipped · 12 deselected · 0 failed  
+**Version:** 1.0 — Complete Edition — historical-baseline text refreshed in this rewrite cycle  
+**Test verification:** Use canonical live ledgers (`STATUS.md`, `docs/mas_tracker.yml`, current regression output) for current counts; numeric totals in this volume are period-context markers  
 **Series:** Substack → Books  
 **Audience:** Graduate physics; accessible to motivated undergraduates  
 **License:** Defensive Public Commons License v1.0 (2026) — always free
