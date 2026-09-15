@@ -128,8 +128,8 @@ The Unitary Manifold predicts:
 
 - **No SUSY partners** at accessible energies (if the KK mechanism is the
   hierarchy resolution)
-- **KK excitations** at Λ_KK ≈ 327 GeV — but this scale was chosen to fit the
-  Higgs mass; its independent derivation is not complete
+- **KK consistency scale estimate** near Λ_KK ≈ 327 GeV — this is currently a
+  calibration-dependent scale used in the Higgs fit, not yet an independently derived prediction
 - **No exotic Higgs decays** from SM singlet mixing, because the compact dimension
   forbids the coupling (Z₂ parity)
 

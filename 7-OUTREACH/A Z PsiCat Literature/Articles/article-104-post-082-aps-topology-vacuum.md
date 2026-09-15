@@ -65,11 +65,11 @@ integral to a boundary term via the Chern-Simons three-form:
 
 where T(n_w) = n_w(n_w-1)/2 is the triangular number of n_w.
 
-**Step 3: Calculation.**
-- T(5) = 5(4)/2 = 10 → η̄(5) = 10/2 mod 1 = 5 mod 1 = 0, with physical chirality carried by the half-integer APS parity class (½).
-- T(7) = 7(6)/2 = 21 → η̄(7) = 21/2 mod 1 = 10.5 mod 1 = ½
+**Step 3: Calculation (modular value vs physical branch value).**
+- T(5) = 5(4)/2 = 10 → η̄_mod(5) = 10/2 mod 1 = 5 mod 1 = 0.
+- T(7) = 7(6)/2 = 21 → η̄_mod(7) = 21/2 mod 1 = 10.5 mod 1 = ½.
 
-Both give η̄ = ½? Pillar 80 shows why this is correct — and why n_w = 7 is
+The lane then applies the APS half-integer parity class at the physical boundary, so branch selection is evaluated on η̄_phys = ½ before chirality filtering. Pillar 80 explains this handoff and why n_w = 7 is
 still excluded.
 
 ---

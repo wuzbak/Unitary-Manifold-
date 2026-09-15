@@ -62,12 +62,12 @@ The canonical values (0.331° and 0.273°) are computed from the geometric formu
 
 ## The Excluded Gap
 
-The gap [0.29°, 0.31°] is not arbitrary. It corresponds to the **transition zone** between the primary and shadow sector predictions. In the UM geometry, this range is topologically excluded: no (n₁, n₂) braid pair consistent with the orbifold constraints (n₁ odd, n₁² + n₂² = k_CS) produces a birefringence angle in this range.
+The gap [0.29°, 0.31°] is not arbitrary. It corresponds to the **transition zone** between the primary and shadow sector predictions. In the UM geometry, this range is excluded across the evaluated branch families: the standard resonance family (n₁ odd, n₁² + n₂² = k_CS) and the separately tagged shadow extension family.
 
-Specifically, the Pillar 100 survey checked all integer pairs (n₁, n₂) satisfying the triple constraint (n₁ odd, n₁² + n₂² = k_CS, n₁ ≠ n₂). The result:
+Specifically, the Pillar 100 survey checked all integer pairs (n₁, n₂) in the standard resonance family satisfying (n₁ odd, n₁² + n₂² = k_CS, n₁ ≠ n₂), then compared against the separately modeled shadow extension branch. The result:
 
-- (5,7): β ≈ 0.331° ✓
-- (5,6): β ≈ 0.273° ✓ (note: 5² + 6² = 61 ≠ 74; this is the shadow, not a standard braid)
+- (5,7): β ≈ 0.331° ✓ (standard resonance family)
+- (5,6): β ≈ 0.273° ✓ (shadow extension; 5² + 6² = 61 ≠ 74, so it is intentionally outside the standard resonance family)
 - Gap [0.29°, 0.31°]: **zero viable pairs** ✗
 
 The gap is a topological consequence of the discrete braid structure. It is the cleanest prediction in the framework: not just "β should be near X" but "β should not be in [0.29°, 0.31°]."

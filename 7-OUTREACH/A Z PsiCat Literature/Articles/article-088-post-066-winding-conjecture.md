@@ -61,8 +61,8 @@ Step 2: The CS inflow contribution:
 
     η̄_CS = T(n_w) / 2 mod 1
 
-where T(n_w) is the triangular inflow class in this normalization. For n_w = 5: T(5)=10 so η̄_CS=10/2 mod 1 = 1/2.
-For n_w = 7: T(7)=21 so η̄_CS=21/2 mod 1 = 1/2. This step is derived from the APS theorem and the
+where T(n_w) is the triangular inflow class in this normalization. For n_w = 5: T(5)=10 so η̄_CS=10/2 mod 1 = 5 mod 1 = 0 (modular value).
+For n_w = 7: T(7)=21 so η̄_CS=21/2 mod 1 = 1/2 (modular value). The physical branch layer then evaluates the APS half-integer parity class at the boundary before chirality filtering. This step is derived from the APS theorem and the
 Goldstone-Wilczek formula. Verified in 256 tests.
 
 Step 3 (Z₂ zero-mode parity): Physically motivated and numerically confirmed in

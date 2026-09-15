@@ -6,7 +6,7 @@
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-073-immigration.md`*
 
 *Post 73 of the Unitary Manifold series.*
-*No physics claim is made in this post. It is a thorough, honest account of the
+*No physics claim is made in this post. It is a historical-policy synthesis built from the source post plus publicly reported USCIS/EOIR/CBP/ICE, CBO, and peer-reviewed public-health findings, and should be read as an evidence-auditable briefing rather than a first-party dataset. It is a thorough, honest account of the
 American immigration system: what has failed structurally, whose existence has been
 diminished and by how much, and what evidence-based repair looks like. The framework's
 language — information encoding, fixed-point stability, entropy accumulation, the HILS

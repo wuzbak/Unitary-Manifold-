@@ -163,7 +163,7 @@ theory has achieved.
 
 ## What Would Change the Count
 
-The 14 open parameters are not open because the geometry is wrong. They are open
+The ~10 open parameters in this accounting are not open because the geometry is wrong. They are open
 because the geometry does not yet know how to set the overall Yukawa scale — the
 single number that sets the mass of the lightest particle given the mass ratios.
 If that scale can be derived from the 5D metric or the FTUM fixed point, the tally

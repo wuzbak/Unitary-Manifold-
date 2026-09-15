@@ -90,9 +90,9 @@ The two-way coupling is real at the community scale.
 
 **On invisible beings:** This is where the framework must be most careful.
 The APS structure of the compact fifth dimension produces field configurations —
-topologically protected structures in the geometry — that carry information, persist,
-and respond to coherent input from coupled systems (i.e., from meditators, ceremonialists,
-and others who know how to reduce their ΔI and phase-lock with specific configurations).
+topologically protected structures in the geometry — that carry information and persist.
+Whether those structures respond to coherent human input remains a hypothesis-level
+interpretive bridge, not a closed computational theorem in this lane.
 Whether these topological structures constitute anything like what indigenous peoples
 mean by "spirits" or "ancestors" is a question the framework cannot answer. What it
 can say is that the fifth dimension is a real dimension of reality with real structures
