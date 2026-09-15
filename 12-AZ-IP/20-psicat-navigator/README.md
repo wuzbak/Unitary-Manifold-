@@ -147,6 +147,7 @@ Related reading outside this product folder:
 - Frontier-readiness and execution-board packets now also carry `kernel_governance_packet`, and kernel blocker rows reference its packet id for unified gate/risk/escalation traceability.
 - Those packets also expose `kernel_data_volume_strategy` (including estimated batch count) so large-request triage is visible at board/frontier level.
 - `GET /api/psicat/review-packet` consolidates Stage A→E receipts, failure reasons, blocker state, and longitudinal discipline into one canonical sprint review surface.
+- Sprint-review packets now also expose `kernel_governance_packet`, `kernel_data_volume_strategy`, and `kernel_batch_plan`, and normalize open blocker linkage fields (`governance_packet_id`, `batch_plan_id`).
 - `GET /api/psicat/targeted-rigor-sprint` executes a bounded full-rigor packet in one call (retained training cycle + Stage A→E receipts + frontier blockers) and reports fail-closed hold/clear verdict.
 - Targeted-rigor sprint payloads now include `kernel_governance_packet` and `kernel_data_volume_strategy` so large-data batching posture stays explicit during sprint triage.
 - Targeted-rigor sprint payloads also include `kernel_batch_plan` and kernel blocker `batch_plan_id` fields for deterministic batch-execution traceability.

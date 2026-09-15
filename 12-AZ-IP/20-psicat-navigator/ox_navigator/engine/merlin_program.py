@@ -4474,7 +4474,25 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
     control_tower = build_merlin_control_tower(limit=resolved_limit)
     frontier = get_frontier_readiness_packet(limit=resolved_limit)
     blockers = list(frontier.get("promotion_blockers") or [])
-    open_blockers = [item for item in blockers if not bool(item.get("pass"))]
+    frontier_kernel_governance = dict(frontier.get("kernel_governance_packet") or {})
+    frontier_kernel_batch_plan = dict(frontier.get("kernel_batch_plan") or {})
+    open_blockers = [
+        {
+            **dict(item),
+            "governance_packet_id": str(
+                item.get("governance_packet_id")
+                or frontier_kernel_governance.get("packet_id")
+                or ""
+            ),
+            "batch_plan_id": str(
+                item.get("batch_plan_id")
+                or frontier_kernel_batch_plan.get("plan_id")
+                or ""
+            ),
+        }
+        for item in blockers
+        if not bool(item.get("pass"))
+    ]
     coherent_control_tower = dict(control_tower)
     deployment_eligibility = dict(control_tower.get("deployment_eligibility") or {})
     deployment_eligibility["frontier_blocker_count"] = len(open_blockers)
@@ -4490,6 +4508,9 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
         "stage_reviews": stage_reviews,
         "control_tower": coherent_control_tower,
         "frontier_readiness": frontier,
+        "kernel_governance_packet": frontier_kernel_governance,
+        "kernel_data_volume_strategy": dict(frontier.get("kernel_data_volume_strategy") or {}),
+        "kernel_batch_plan": frontier_kernel_batch_plan,
         "open_blockers": open_blockers,
         "stage_discipline": {
             "policy": "No promotion decision without receipts, blocker review, and fail-closed governance gates.",

@@ -1834,6 +1834,9 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert review_data['frontier_readiness']['promotion_required_blockers_all_clear'] is True
     assert review_data['frontier_readiness']['promotion_blocker_signals_all_present'] is False
     assert 'promotion-blocking blocker passes' in review_data['frontier_readiness']['policy']
+    assert review_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(review_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+    assert review_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     kernel_frontier_blocker = next(
         item for item in review_data['frontier_readiness']['promotion_blockers']
         if item['id'] == 'kernel_runtime_cross_lane_gate'
@@ -1851,6 +1854,10 @@ def test_route_tool_sprint_review_and_sovereign_boards():
         review_data['control_tower']['deployment_eligibility']['frontier_blockers_clear']
         == (len(review_data['open_blockers']) == 0)
     )
+    for blocker in review_data['open_blockers']:
+        if blocker['id'] == 'kernel_runtime_cross_lane_gate':
+            assert blocker['governance_packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert blocker['batch_plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert all('failure_reasons' in stage for stage in review_data['stage_reviews'])
     assert heavy_data['lane'] == 'heavy_reasoner_exception'
     assert any(item['failure_id'] == 'cross_source_conflict_collapse' for item in heavy_data['failure_taxonomy'])
@@ -3068,6 +3075,10 @@ def test_server_merlin_endpoints():
             assert review_packet.status_code == 200
             assert review_packet.json()['ok'] is True
             assert len(review_packet.json()['review_packet']['stage_reviews']) == 5
+            assert review_packet.json()['review_packet']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert review_packet.json()['review_packet']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
             targeted_rigor_sprint = client.get('/api/merlin/targeted-rigor-sprint?limit=1&training_limit=3')
             assert targeted_rigor_sprint.status_code == 200
             assert targeted_rigor_sprint.json()['ok'] is True
