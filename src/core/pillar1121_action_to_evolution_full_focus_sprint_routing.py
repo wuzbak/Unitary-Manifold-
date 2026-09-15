@@ -64,8 +64,17 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
             'id': str(item.get('id') or ''),
             'label': str(item.get('label') or ''),
             'status': str(item.get('status') or ''),
-            'earned': bool(item.get('earned')),
-            'promotion_complete': str(item.get('status') or '') == 'EARNED',
+            'source_earned': bool(item.get('earned')),
+            'earned': str(item.get('status') or '') == 'EARNED',
+            'progress_state': (
+                'PROMOTION_COMPLETE'
+                if str(item.get('status') or '') == 'EARNED'
+                else (
+                    'EVIDENCE_SURFACED'
+                    if str(item.get('status') or '') == 'EVIDENCE_SURFACED'
+                    else 'OPEN'
+                )
+            ),
         }
         for item in list(contract.get('primary_deliverables') or [])
     ]
@@ -84,23 +93,26 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     deliverable_earned_matches_status = all(
         (
             item['status'] == 'EARNED'
+            and item['source_earned']
             and item['earned']
-            and item['promotion_complete']
+            and item['progress_state'] == 'PROMOTION_COMPLETE'
         )
         or (
             item['status'] == 'EVIDENCE_SURFACED'
-            and item['earned']
-            and not item['promotion_complete']
+            and item['source_earned']
+            and not item['earned']
+            and item['progress_state'] == 'EVIDENCE_SURFACED'
         )
         or (
             item['status'] in promotion_blocking_statuses
+            and not item['source_earned']
             and not item['earned']
-            and not item['promotion_complete']
+            and item['progress_state'] == 'OPEN'
         )
         for item in primary_deliverables
     )
     completion_statuses_fully_earned = all(
-        item['promotion_complete'] for item in primary_deliverables
+        item['earned'] for item in primary_deliverables
     )
     completion_statuses_fully_earned = (
         len(primary_deliverables) == 3
