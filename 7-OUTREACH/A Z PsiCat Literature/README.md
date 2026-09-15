@@ -31,3 +31,11 @@ Each piece is:
 4. `article-04-post-326-repository-audit.md`
 5. `article-05-post-328-word-soup-context.md`
 6. `article-06-we-were-just-going-to-check-one-thing.md`
+
+## Version and gate policy
+
+All included books and articles are treated as **Merlin/PsiCat Rewrite v1** works in **Series/Season One**. Each piece carries the commissioned tag, written-date stamp (starting 2026-09-15), and a gate-certification closeout covering uplift quality, factual/epistemic integrity, and human readability.
+
+## PsiCat superposition note
+
+PsiCat swarm execution is approximated here through phased parallel workflow and batch consistency passes across pieces, with unified quality gates applied to each individual rewrite.

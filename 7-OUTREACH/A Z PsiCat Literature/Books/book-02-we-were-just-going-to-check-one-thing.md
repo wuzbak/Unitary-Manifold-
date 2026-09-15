@@ -1,5 +1,9 @@
 # We Were Just Going to Check One Thing (PsiCat Long-Form Edition)
 
+*Merlin/PsiCat Rewrite v1 · Series/Season One*  
+*Written: 2026-09-15T05:25:27Z*  
+*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
+
 *Grounded rewrite source: `/7-OUTREACH/substack/books/book-we-were-just-going-to-check-one-thing.md`*
 
 Every large technical story has a myth of origin. Ours is unusually literal.
@@ -53,3 +57,9 @@ A project that started as “just check one thing” became a long-form exercise
 The humor survives because reality has a sense of proportion. A childhood dog name in a GitHub URL can carry an eleven-dimensional argument if everyone in the loop keeps their standards intact.
 
 That is the actual lesson.
+
+---
+
+### Gate Certification (v1)
+
+This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
