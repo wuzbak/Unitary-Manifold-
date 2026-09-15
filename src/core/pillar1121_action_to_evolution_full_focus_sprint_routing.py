@@ -68,6 +68,18 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         }
         for item in list(contract.get('primary_deliverables') or [])
     ]
+    unresolved_primary_ids = {
+        item['id'] for item in primary_deliverables if not item.get('earned')
+    }
+    contract_remaining_blockers = {
+        str(item) for item in list(contract.get('remaining_blockers') or [])
+    }
+    deliverable_state_consistent = (
+        len(primary_deliverables) == 3
+        and all(item['status'] for item in primary_deliverables)
+        and any(item['earned'] for item in primary_deliverables)
+        and unresolved_primary_ids == contract_remaining_blockers
+    )
     capability_gains = [
         'EXACT_BLOCKER_SURFACES_INSTEAD_OF_VAGUE_CLOSURE_LANGUAGE',
         'DETERMINISTIC_PYTHON_LEAN_TOUCHED_UNIT_TRUTH_GATES',
@@ -93,7 +105,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         action_packet_present
         and psicat_packet_valid
         and bool(truth_sync.get('all_pass'))
-        and len(primary_deliverables) == 3
+        and deliverable_state_consistent
         and len(list(psicat_report.get('training_board') or [])) >= 4
         and len(list((psicat_report.get('benchmark_board') or {}).get('stage_gate_summary') or [])) == 5
         and len(list((psicat_report.get('benchmark_board') or {}).get('spc_phase1_lane_receipts') or [])) == 3
@@ -110,6 +122,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
             'pillar1120_valid': psicat_packet_valid,
             'truth_surfaces_synchronized_to_v37_7': bool(truth_sync.get('all_pass')),
             'action_contract_locked_to_three_primary_deliverables': len(primary_deliverables) == 3,
+            'action_contract_state_consistent': deliverable_state_consistent,
             'psicat_training_and_benchmark_surfaces_visible': (
                 len(list(psicat_report.get('training_board') or [])) >= 4
                 and len(list((psicat_report.get('benchmark_board') or {}).get('stage_gate_summary') or [])) == 5

@@ -60,6 +60,7 @@ def test_dependencies(report) -> None:
     assert deps['pillar1120_valid'] is True
     assert deps['truth_surfaces_synchronized_to_v37_7'] is True
     assert deps['action_contract_locked_to_three_primary_deliverables'] is True
+    assert deps['action_contract_state_consistent'] is True
     assert deps['psicat_training_and_benchmark_surfaces_visible'] is True
 
 
