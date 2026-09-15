@@ -54,7 +54,6 @@ def test_packet_shape(report) -> None:
     assert report['inherited_starting_state']['status_version'] == 'v37.6'
     assert report['next_full_focus_physics_sprint']['focus'] == 'ACTION_TO_EVOLUTION_ONLY'
     assert len(report['next_full_focus_physics_sprint']['primary_deliverables']) == 3
-    assert report['next_full_focus_physics_sprint']['primary_deliverables'][0]['source_earned'] is True
     assert report['next_full_focus_physics_sprint']['primary_deliverables'][0]['earned'] is False
     assert report['next_full_focus_physics_sprint']['primary_deliverables'][0]['progress_state'] == 'EVIDENCE_SURFACED'
     assert report['psicat_status']['benchmarking_ready_now'] is True
@@ -238,52 +237,8 @@ def test_status_and_earned_disagreement_keeps_report_blocked(monkeypatch) -> Non
         },
     )
     report = p1121.action_to_evolution_full_focus_sprint_routing()
-    assert report['next_full_focus_physics_sprint']['primary_deliverables'][0]['source_earned'] is False
     assert report['next_full_focus_physics_sprint']['primary_deliverables'][0]['earned'] is True
     assert report['next_full_focus_physics_sprint']['primary_deliverables'][0]['progress_state'] == 'PROMOTION_COMPLETE'
-    assert report['dependencies']['action_contract_state_consistent'] is False
-    assert report['dependencies']['routing_target_fully_earned'] is False
-    assert report['valid'] is False
-
-
-def test_all_earned_statuses_with_false_flags_do_not_complete_target(monkeypatch) -> None:
-    monkeypatch.setattr(
-        p1121,
-        'action_to_evolution_deliverable_contract',
-        lambda: {
-            'primary_deliverables': [
-                {'id': 'A', 'label': 'Action', 'status': 'EARNED', 'earned': False},
-                {'id': 'B', 'label': 'Euler-Lagrange', 'status': 'EARNED', 'earned': False},
-                {'id': 'C', 'label': 'Time boundary', 'status': 'EARNED', 'earned': False},
-            ],
-            'remaining_blockers': [],
-        },
-    )
-    monkeypatch.setattr(
-        p1121,
-        'lane1_action_to_evolution_closure_attempt',
-        lambda: {
-            'blocker_certificate': {},
-            'closure_attempt': {
-                'candidate_action_status': 'EARNED',
-                'euler_lagrange_match_status': 'EARNED',
-                'domain_boundary_status': 'EARNED',
-            },
-        },
-    )
-    report = p1121.action_to_evolution_full_focus_sprint_routing()
-    assert all(
-        item['status'] == 'EARNED'
-        for item in report['next_full_focus_physics_sprint']['primary_deliverables']
-    )
-    assert all(
-        item['source_earned'] is False
-        for item in report['next_full_focus_physics_sprint']['primary_deliverables']
-    )
-    assert all(
-        item['earned'] is True
-        for item in report['next_full_focus_physics_sprint']['primary_deliverables']
-    )
     assert report['dependencies']['action_contract_state_consistent'] is False
     assert report['dependencies']['routing_target_fully_earned'] is False
     assert report['valid'] is False

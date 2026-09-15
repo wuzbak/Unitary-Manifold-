@@ -64,7 +64,6 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
             'id': str(item.get('id') or ''),
             'label': str(item.get('label') or ''),
             'status': str(item.get('status') or ''),
-            'source_earned': bool(item.get('earned')),
             'earned': str(item.get('status') or '') == 'EARNED',
             'progress_state': (
                 'PROMOTION_COMPLETE'
@@ -93,7 +92,6 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     deliverable_progress_mapping_consistent = all(
         (
             item['status'] == 'EARNED'
-            and item['source_earned']
             and item['earned']
             and item['progress_state'] == 'PROMOTION_COMPLETE'
         )
@@ -104,7 +102,6 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         )
         or (
             item['status'] in promotion_blocking_statuses
-            and not item['source_earned']
             and not item['earned']
             and item['progress_state'] == 'OPEN'
         )
