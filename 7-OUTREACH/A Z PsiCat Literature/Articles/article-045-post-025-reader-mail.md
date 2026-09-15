@@ -15,7 +15,7 @@ The short version is that this repository holds both a physics program and a gov
 
 The central physics claim is specific: irreversibility is treated as a geometric consequence of a 5D Kaluza-Klein structure, not only a statistical boundary story. That claim is strong, and because it is strong, it carries falsifiers. The main one remains LiteBIRD birefringence. If the measured window lands outside the admissible range, or inside the predicted exclusion gap, that mechanism fails. No speech can outrun that.
 
-For readers who want hard entry points rather than summaries, the practical references remain the repository itself, the Zenodo DOI, and the executable verification path through the test suite and falsification register.
+For readers who want hard entry points rather than summaries, the practical references remain the repository itself, the Zenodo DOI (`https://doi.org/10.5281/zenodo.19584531`), the executable verification path through `python -m pytest tests/ -q`, and the falsification ledger at `3-FALSIFICATION/FALSIFICATION_REGISTER.md`.
 ---
 
 ### Gate Certification (v1)
