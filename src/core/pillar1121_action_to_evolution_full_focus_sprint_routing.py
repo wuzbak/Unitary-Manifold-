@@ -99,16 +99,24 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         'GOVERNED_PROMOTION_ROUTING',
     ]
     psicat_packet_valid = bool(psicat_report.get('valid'))
-    candidate_action_status = str(
-        ((action_report.get('closure_attempt') or {}).get('candidate_action_status')) or ''
-    )
+    closure_attempt = dict(action_report.get('closure_attempt') or {})
+    candidate_action_status = str(closure_attempt.get('candidate_action_status') or '')
     action_packet_present = (
         'blocker_certificate' in action_report
         and action_report.get('blocker_certificate') is not None
-        and candidate_action_status in {'EVIDENCE_SURFACED', 'EARNED'}
+        and all(
+            str(closure_attempt.get(field) or '')
+            for field in (
+                'candidate_action_status',
+                'euler_lagrange_match_status',
+                'domain_boundary_status',
+            )
+        )
     )
+    action_candidate_status_supported = candidate_action_status in {'EVIDENCE_SURFACED', 'EARNED'}
     valid = bool(
         action_packet_present
+        and action_candidate_status_supported
         and psicat_packet_valid
         and bool(truth_sync.get('all_pass'))
         and deliverable_state_consistent
@@ -125,6 +133,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         'next_pillar_slot': NEXT_PILLAR_SLOT,
         'dependencies': {
             'action_to_evolution_packet_present': action_packet_present,
+            'action_candidate_status_supported': action_candidate_status_supported,
             'pillar1120_valid': psicat_packet_valid,
             'truth_surfaces_synchronized_to_v37_7': bool(truth_sync.get('all_pass')),
             'action_contract_locked_to_three_primary_deliverables': len(primary_deliverables) == 3,

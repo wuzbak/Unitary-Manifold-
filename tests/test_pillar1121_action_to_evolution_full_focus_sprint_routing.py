@@ -77,7 +77,11 @@ def test_packet_accepts_fully_completed_contract(monkeypatch) -> None:
         'lane1_action_to_evolution_closure_attempt',
         lambda: {
             'blocker_certificate': {},
-            'closure_attempt': {'candidate_action_status': 'EARNED'},
+            'closure_attempt': {
+                'candidate_action_status': 'EARNED',
+                'euler_lagrange_match_status': 'EARNED',
+                'domain_boundary_status': 'EARNED',
+            },
         },
     )
     report = p1121.action_to_evolution_full_focus_sprint_routing()
@@ -98,6 +102,7 @@ def test_unfinished_physics_and_capabilities(report) -> None:
 def test_dependencies(report) -> None:
     deps = report['dependencies']
     assert deps['action_to_evolution_packet_present'] is True
+    assert deps['action_candidate_status_supported'] is True
     assert deps['pillar1120_valid'] is True
     assert deps['truth_surfaces_synchronized_to_v37_7'] is True
     assert deps['action_contract_locked_to_three_primary_deliverables'] is True
@@ -115,6 +120,25 @@ def test_invalid_if_lane1_breaks(monkeypatch) -> None:
     report = p1121.action_to_evolution_full_focus_sprint_routing()
     assert report['valid'] is False
     assert report['dependencies']['action_to_evolution_packet_present'] is False
+
+
+def test_invalid_if_action_candidate_status_is_unrecognized(monkeypatch) -> None:
+    monkeypatch.setattr(
+        p1121,
+        'lane1_action_to_evolution_closure_attempt',
+        lambda: {
+            'blocker_certificate': {},
+            'closure_attempt': {
+                'candidate_action_status': 'BLOCKED',
+                'euler_lagrange_match_status': 'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED',
+                'domain_boundary_status': 'EVIDENCE_SURFACED',
+            },
+        },
+    )
+    report = p1121.action_to_evolution_full_focus_sprint_routing()
+    assert report['dependencies']['action_to_evolution_packet_present'] is True
+    assert report['dependencies']['action_candidate_status_supported'] is False
+    assert report['valid'] is False
 
 
 def test_invalid_if_psicat_breaks(monkeypatch) -> None:
@@ -175,6 +199,14 @@ def test_summary_reports_blocked_state(monkeypatch) -> None:
             },
         },
     )
+    summary = p1121.pillar1121_summary()
+    assert summary['status'] == PILLAR_STATUS
+    assert summary['outcome'] == 'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_BLOCKED'
+    assert summary['valid'] is False
+
+
+def test_summary_reports_blocked_state_when_truth_sync_breaks(monkeypatch) -> None:
+    monkeypatch.setattr(p1121, '_truth_surface_sync_status', lambda: {'all_pass': False, 'files': []})
     summary = p1121.pillar1121_summary()
     assert summary['status'] == PILLAR_STATUS
     assert summary['outcome'] == 'ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_BLOCKED'
