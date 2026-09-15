@@ -64,28 +64,29 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
             'id': str(item.get('id') or ''),
             'label': str(item.get('label') or ''),
             'status': str(item.get('status') or ''),
-            'earned': bool(item.get('earned')),
+            'earned': str(item.get('status') or '') == 'EARNED',
         }
         for item in list(contract.get('primary_deliverables') or [])
     ]
     primary_deliverable_ids = {item['id'] for item in primary_deliverables}
     primary_deliverable_ids_unique = len(primary_deliverable_ids) == len(primary_deliverables)
-    deliverable_receipt_progress_consistent = all(
-        (
-            item['earned']
-            and item['status'] in {'EVIDENCE_SURFACED', 'EARNED'}
-        )
-        or (
-            not item['earned']
-            and item['status'] in {'OPEN_BLOCKER', 'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED'}
+    promotion_blocking_statuses = {
+        'OPEN_BLOCKER',
+        'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED',
+    }
+    deliverable_progress_status_supported = all(
+        item['status'] in (
+            promotion_blocking_statuses | {'EVIDENCE_SURFACED', 'EARNED'}
         )
         for item in primary_deliverables
     )
     completion_statuses_fully_earned = all(
         item['status'] == 'EARNED' for item in primary_deliverables
     )
-    unresolved_primary_ids = {
-        item['id'] for item in primary_deliverables if not item.get('earned')
+    promotion_blocking_primary_ids = {
+        item['id']
+        for item in primary_deliverables
+        if item['status'] in promotion_blocking_statuses
     }
     primary_remaining_blockers = {
         str(item)
@@ -95,14 +96,14 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     deliverable_state_consistent = (
         len(primary_deliverables) == 3
         and primary_deliverable_ids_unique
-        and deliverable_receipt_progress_consistent
+        and deliverable_progress_status_supported
         and all(item['id'] and item['label'] and item['status'] for item in primary_deliverables)
-        and unresolved_primary_ids == primary_remaining_blockers
+        and promotion_blocking_primary_ids == primary_remaining_blockers
     )
     routing_target_fully_earned = (
         deliverable_state_consistent
         and completion_statuses_fully_earned
-        and len(unresolved_primary_ids) == 0
+        and len(promotion_blocking_primary_ids) == 0
     )
     capability_gains = [
         'EXACT_BLOCKER_SURFACES_INSTEAD_OF_VAGUE_CLOSURE_LANGUAGE',
