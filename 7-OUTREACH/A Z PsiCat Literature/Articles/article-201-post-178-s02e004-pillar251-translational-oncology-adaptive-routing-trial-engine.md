@@ -5,15 +5,54 @@
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-178-s02e004-pillar251-translational-oncology-adaptive-routing-trial-engine.md`*
 
-This article rewrite is grounded in **Pillar 251: Oncology as an Operating System — Routing, Sequencing, Trials, Access, Uncertainty** and keeps the same claim boundaries while tightening clarity and pace.
+*Post 178 of the Unitary Manifold series.*  
+*Series S02, Episode E004.*  
+*Epistemic category: **A/P** — adjacent translational research synthesis (non-hardgate, non-clinical).*  
+*May 2026.*
 
-The next requirement is orchestration: route the patient-state signal, sequence interventions, adapt trial structure, optimize access, and track uncertainty with explicit option value.
+---
 
-We already had imaging, bottlenecks, solution calculators, and universal control frameworks. Pillar 251 is the integration layer that turns those ingredients into a coherent operating surface.
+Pillar 251 exists because having many oncology calculators is not enough.
 
-Not a cure claim. Not a clinical directive. A planning architecture that can be falsified and improved.
+The next requirement is orchestration: route the patient-state signal, sequence
+interventions, adapt trial structure, optimize access, and track uncertainty with
+explicit option value.
 
-This pillar is non-hardgate and non-clinical by design. Outputs are for research, trial operations, and equity planning — never patient-specific medical advice.
+That is what this pillar does.
+
+### The five layers
+
+1. **Patient-state routing** across four pathway families  
+2. **Intervention sequencing** with go/no-go thresholds and fallback plans  
+3. **Adaptive trial design** (platform/seamless, interim cadence, arm elasticity)  
+4. **Access optimization** (distance, affordability, virtual eligibility, site fit)  
+5. **Uncertainty accounting** (elasticity map, top drivers, wait-vs-commit logic)
+
+### Why this matters
+
+We already had imaging, bottlenecks, solution calculators, and universal control
+frameworks. Pillar 251 is the integration layer that turns those ingredients into
+a coherent operating surface.
+
+Not a cure claim. Not a clinical directive. A planning architecture that can be
+falsified and improved.
+
+### Honest boundary
+
+This pillar is non-hardgate and non-clinical by design. Outputs are for research,
+trial operations, and equity planning — never patient-specific medical advice.
+
+### Falsification condition
+
+If pre-registered multicenter evaluations show no measurable relation between
+Pillar 251 routing/sequencing outputs and observed trial throughput, adaptation
+efficiency, or access equity outcomes, the pillar fails.
+
+---
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
 ---
 
 ### Gate Certification (v1)
