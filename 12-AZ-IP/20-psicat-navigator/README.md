@@ -78,14 +78,14 @@ Related reading outside this product folder:
   - `active_kernel` attribution (`kernel_id`, role, lane, provider variant)
   - `accumulated_learnings` (ranked memory/insight/contradiction injection ledger)
   - `context_scaffold` (typed boundary/lane/retrieval/AST/runtime packet used to scope the turn before generation)
+  - `geometric_memory_map` (hyperbolic hierarchy, Riemannian focus weights, topological persistence loops)
+  - `observatory_poll` (scheduled empirical tripwire polling status)
 
 ## Geometry-first and swarm-safe execution surfaces
 
 - `GET /api/psicat/masterclass-execution` returns the integrated geometry-first, branch-aware, swarm-safe execution packet.
 - `POST /api/psicat/swarm-analyze` classifies bounded event streams into routine, trusted internal swarm, suspicious coordinated pressure, quarantine, or hostile states.
 - These surfaces are defensive and governance-oriented only: no offensive swarm behavior, third-party commandeering, or hidden external automation is permitted.
-  - `geometric_memory_map` (hyperbolic hierarchy, Riemannian focus weights, topological persistence loops)
-  - `observatory_poll` (scheduled empirical tripwire polling status)
 - The frontend renders follow-up chips and typed source cards from that structure.
 - If a live model response omits the structure, PsiCat fills the gaps before rendering.
 - This keeps the UI deterministic even when the model is imperfect.
