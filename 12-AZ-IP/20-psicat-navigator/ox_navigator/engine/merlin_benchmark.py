@@ -1779,21 +1779,34 @@ def build_stage_a_replacement_readiness(
     sync_checks_ok: bool | None = None,
 ) -> dict[str, Any]:
     """Build a concrete Sprint BX self-hosted readiness packet."""
+    from .merlin_kernel_runtime import get_kernel_batch_plan, get_kernel_governance_packet
+
     receipts = run_stage_a_head_to_head_receipts_sync(limit=limit)
     if sync_checks_ok is None:
         from .merlin_program import run_sync_checks
 
         sync_checks_ok = bool(run_sync_checks().get("ok"))
+    kernel_governance = get_kernel_governance_packet()
+    kernel_batch_plan = get_kernel_batch_plan(
+        points=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_points", 32) or 32),
+        repeats=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_repeats", 3) or 3),
+    )
     packet = build_promotion_packet(
         head_to_head_runs=list(receipts["head_to_head_runs"]),
         telemetry_summary=receipts["summary"],
         sync_checks_ok=sync_checks_ok,
         kernel_gate_summary=dict(receipts.get("kernel_gate_summary") or {}),
     )
+    packet["kernel_governance_packet"] = kernel_governance
+    packet["kernel_data_volume_strategy"] = dict(kernel_governance.get("data_volume_strategy") or {})
+    packet["kernel_batch_plan"] = kernel_batch_plan
     return {
         "ok": True,
         "stage": receipts["stage"],
         "receipts": receipts,
+        "kernel_governance_packet": kernel_governance,
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
+        "kernel_batch_plan": kernel_batch_plan,
         "packet": packet,
     }
 
@@ -1880,6 +1893,8 @@ def build_multi_stage_replacement_readiness(
     limit: int | None = None,
     sync_checks_ok: bool | None = None,
 ) -> dict[str, Any]:
+    from .merlin_kernel_runtime import get_kernel_batch_plan, get_kernel_governance_packet
+
     comparable_limit = max(1, int(limit if limit is not None else 6))
     stage_receipts = {
         "stage_a_parity_capture": run_stage_a_head_to_head_receipts_sync(limit=comparable_limit),
@@ -1928,6 +1943,11 @@ def build_multi_stage_replacement_readiness(
     )
     empirical_gate = evaluate_empirical_gate(all_head_to_head_runs)
     geometric_gate = evaluate_geometric_gate(all_head_to_head_runs)
+    kernel_governance = get_kernel_governance_packet()
+    kernel_batch_plan = get_kernel_batch_plan(
+        points=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_points", 32) or 32),
+        repeats=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_repeats", 3) or 3),
+    )
     sync_gate = bool(sync_checks_ok) if sync_checks_ok is not None else True
     stage_checks = {
         stage_name: (
@@ -1950,6 +1970,9 @@ def build_multi_stage_replacement_readiness(
         "ok": True,
         "stage": "multi_stage_replacement_control",
         "stage_receipts": stage_receipts,
+        "kernel_governance_packet": kernel_governance,
+        "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
+        "kernel_batch_plan": kernel_batch_plan,
         "packet": {
             "stage": "stage_e_external_decommission",
             "decision": decision,
@@ -1958,6 +1981,9 @@ def build_multi_stage_replacement_readiness(
             "geometric_gate": geometric_gate,
             "domain_gate_summary": domain_gate_summary,
             "kernel_gate_summary": kernel_gate_summary,
+            "kernel_governance_packet": kernel_governance,
+            "kernel_data_volume_strategy": dict(kernel_governance.get("data_volume_strategy") or {}),
+            "kernel_batch_plan": kernel_batch_plan,
             "sync_checks_ok": sync_gate,
             "stage_checks": stage_checks,
             "evidence_scope": "deterministic_in_repo_benchmark_stack",

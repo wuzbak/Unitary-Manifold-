@@ -1470,6 +1470,8 @@ def test_route_tool_program_office_and_control_tower():
     assert control['ok'] is True
     data = control['result']['data']
     assert 'replacement_readiness' in data
+    assert data['replacement_readiness']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert data['replacement_readiness']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
     assert 'deployment_eligibility' in data
     assert 'geometric_longitudinal_acceptance' in data
     assert 'drift_alerts' in data
@@ -1649,6 +1651,11 @@ def test_route_tool_stage_a_receipts_and_replacement_readiness():
     assert readiness_data['receipts']['summary']['total'] == 1
     assert readiness_data['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
     assert readiness_data['packet']['decision'] != 'REPLACEMENT_EVIDENCE_REQUIRED'
+    assert readiness_data['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert int(readiness_data['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+    assert readiness_data['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+    assert readiness_data['packet']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+    assert readiness_data['packet']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
 
 
 def test_route_tool_empirical_gate_rejects_net_quality_downgrade():
@@ -3018,6 +3025,13 @@ def test_server_merlin_endpoints():
             assert readiness.status_code == 200
             assert readiness.json()['ok'] is True
             assert readiness.json()['readiness']['packet']['decision'] in {'REPLACEMENT_APPROVED', 'REPLACEMENT_NOT_APPROVED'}
+            assert readiness.json()['readiness']['kernel_governance_packet']['packet_id'] == 'psicat_kernel_governance_packet_v1'
+            assert int(readiness.json()['readiness']['kernel_data_volume_strategy']['estimated_batches_for_requested_points']) >= 1
+            assert readiness.json()['readiness']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
+            assert readiness.json()['readiness']['packet']['kernel_governance_packet']['packet_id'] == (
+                'psicat_kernel_governance_packet_v1'
+            )
+            assert readiness.json()['readiness']['packet']['kernel_batch_plan']['plan_id'] == 'psicat_kernel_batch_plan_v1'
 
             frontier = client.get('/api/merlin/frontier-readiness?limit=1')
             assert frontier.status_code == 200

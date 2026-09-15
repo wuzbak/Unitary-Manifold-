@@ -141,6 +141,7 @@ Related reading outside this product folder:
 - `GET /api/psicat/stage-d-receipts` runs the self-hosted Stage D receipt set and returns comparable PsiCat/incumbent runs.
 - `GET /api/psicat/stage-e-receipts` runs the self-hosted Stage E receipt set and returns comparable PsiCat/incumbent runs.
 - `GET /api/psicat/replacement-readiness` turns the receipt set into a concrete readiness packet instead of an evidence-empty placeholder.
+- Replacement-readiness packets now also carry `kernel_governance_packet`, `kernel_data_volume_strategy`, and `kernel_batch_plan` (including in nested packet payloads) so bounded batch-execution policy remains explicit during replacement decisions.
 - `GET /api/psicat/frontier-readiness` merges sync checks, control-tower gates, benchmark cadence, and fail-closed promotion blockers in one packet.
 - Frontier-readiness and execution-board packets now carry `kernel_escalation_packet` lane actions so blocker triage routes deterministically to benchmark, physics-compute, or validation-resilience lanes.
 - Frontier-readiness and execution-board packets now also carry `kernel_governance_packet`, and kernel blocker rows reference its packet id for unified gate/risk/escalation traceability.
