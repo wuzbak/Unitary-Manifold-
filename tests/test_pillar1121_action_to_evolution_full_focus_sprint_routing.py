@@ -142,6 +142,18 @@ def test_invalid_if_truth_sync_breaks(monkeypatch) -> None:
     assert report['valid'] is False
 
 
+def test_malformed_contract_is_not_reported_as_fully_earned(monkeypatch) -> None:
+    monkeypatch.setattr(
+        p1121,
+        'action_to_evolution_deliverable_contract',
+        lambda: {'primary_deliverables': [], 'remaining_blockers': []},
+    )
+    report = p1121.action_to_evolution_full_focus_sprint_routing()
+    assert report['dependencies']['action_contract_state_consistent'] is False
+    assert report['dependencies']['routing_target_fully_earned'] is False
+    assert report['sprint_readiness']['action_to_evolution_target_complete_now'] is False
+
+
 def test_summary_contract(report) -> None:
     summary = pillar1121_summary()
     assert summary['pillar'] == 1121

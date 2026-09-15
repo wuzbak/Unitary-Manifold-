@@ -41,7 +41,7 @@ UNFINISHED_PHYSICS: List[str] = [
 def _truth_surface_sync_status() -> Dict[str, Any]:
     return build_truth_surface_sync_status({
         (_ROOT / 'STATUS.md').resolve().as_posix(): [f'{VERSION} Sprint {SPRINT}', 'Pillar 1121', 'next slot 1122'],
-        (_ROOT / '1-THEORY' / 'DERIVATION_STATUS.md').resolve().as_posix(): [f'The Unitary Manifold {VERSION}', f'Last updated: {SPRINT_DATE} ({VERSION} — Sprint {SPRINT}', 'next slot 1122'],
+        (_ROOT / '1-THEORY' / 'DERIVATION_STATUS.md').resolve().as_posix(): [f'The Unitary Manifold {VERSION}', f'Last updated: {SPRINT_DATE} ({VERSION} — Sprint {SPRINT}: Pillar {PILLAR_NUMBER};', 'next slot 1122.)'],
         (_ROOT / 'docs' / 'mas_tracker.yml').resolve().as_posix(): ['v37_7_sprint_cu:', '  pillars: 1121-1121', '  next_pillar_slot: 1122'],
         (_ROOT / 'FALLIBILITY.md').resolve().as_posix(): [f'Unitary Manifold {VERSION}', 'Sprint CU', 'Next pillar slot 1122'],
         (_ROOT / 'docs' / 'CLAIM_MASTER_BOARD.md').resolve().as_posix(): [f'*P{PILLAR_NUMBER} ({VERSION}):', PILLAR_STATUS],
@@ -82,7 +82,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         and all(item['id'] and item['label'] and item['status'] for item in primary_deliverables)
         and unresolved_primary_ids == primary_remaining_blockers
     )
-    routing_target_fully_earned = len(unresolved_primary_ids) == 0
+    routing_target_fully_earned = deliverable_state_consistent and len(unresolved_primary_ids) == 0
     capability_gains = [
         'EXACT_BLOCKER_SURFACES_INSTEAD_OF_VAGUE_CLOSURE_LANGUAGE',
         'DETERMINISTIC_PYTHON_LEAN_TOUCHED_UNIT_TRUTH_GATES',
