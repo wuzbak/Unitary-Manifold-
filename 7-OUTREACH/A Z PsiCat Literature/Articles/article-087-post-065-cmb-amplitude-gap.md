@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **The CMB Acoustic Peak Problem — The Gap We Closed** and keeps the same claim boundaries while tightening clarity and pace.
 
-a factor of approximately 4–7 at acoustic peaks relative to Planck observations — has been resolved by two independent mechanisms in Pillars 57 and 63. The spectral shape (n_s) matches; the amplitude now also matches. This post describes the problem, how it was identified, what was tried and failed first, and how it was ultimately resolved.*
+This rewrite explains how the framework's CMB amplitude gap — a mismatch by a factor of approximately 4–7 at acoustic peaks relative to Planck observations — was addressed by two independent mechanisms in Pillars 57 and 63. The spectral shape (n_s) already matched; the claim here is that the amplitude can now be brought into line as well.*
 
 This framework's original gap was this: the predicted CMB power spectrum was off by a factor of roughly four to seven at the acoustic peaks. The peaks were there — the oscillation structure of the primordial sound waves was present. The tilt of the spectrum matched Planck's measurement to within 1σ. But the amplitude was wrong.
 

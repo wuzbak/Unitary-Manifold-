@@ -13,12 +13,12 @@ In April 2026, the Unitary Manifold repository crossed 14,641 automated tests an
 
 At minimum, the field equations have a well-defined variational principle, produce a conserved stress-energy tensor, and recover standard 4D general relativity in the appropriate limit. This is verified by 15,615 automated tests. Not physical correctness — internal consistency.
 
-| Prediction | Value | Observation | Status |
-|---|---|---|---|
-| CMB spectral index n_s | 0.9635 | Planck: 0.9649 ± 0.0042 | Within 1σ |
-| Birefringence β | 0.3513° | Minami-Komatsu: 0.35° ± 0.14° | Within 1σ |
-| Tensor ratio r | 0.0315 | BICEP/Keck: r < 0.036 | Below limit |
-| Dark energy w | -0.9302 | DES/DESI: consistent | Preliminary |
+Prediction status:
+
+- **CMB spectral index n_s:** 0.9635 vs Planck 0.9649 ± 0.0042 — within 1σ.
+- **Birefringence β:** 0.3513° vs Minami-Komatsu 0.35° ± 0.14° — within 1σ.
+- **Tensor ratio r:** 0.0315 vs BICEP/Keck limit r < 0.036 — below limit.
+- **Dark energy w:** -0.9302 vs DES/DESI consistency range — preliminary.
 ---
 
 ### Gate Certification (v1)

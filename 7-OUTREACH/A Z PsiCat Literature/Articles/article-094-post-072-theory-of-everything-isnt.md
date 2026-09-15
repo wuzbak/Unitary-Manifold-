@@ -1,11 +1,11 @@
-# The Theory of Everything That Isn't — Merlin/PsiCat v1 Rewrite
+# The Theory of Everything That Isn't — Abstract / Preview — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-072-theory-of-everything-isnt.md`*
 
-This article rewrite is grounded in **The Theory of Everything That Isn't** and keeps the same claim boundaries while tightening clarity and pace.
+This abstract/preview rewrite is grounded in **The Theory of Everything That Isn't** and keeps the same claim boundaries while tightening clarity and pace. The full source article remains the canonical complete version; this file is an intentionally short lead-in rather than the full essay.
 
 This rewrite precisely defines what the framework is and what it is not — in particular, it is not a Theory of Everything, it does not solve quantum gravity, and it does not unify all forces in the ordinary maximal sense of that phrase. Being a theory of irreversibility is already an ambitious enough claim, and this post explains why that narrower claim matters.*
 

@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **What Buddhism and Hinduism Say About Ψ*** and keeps the same claim boundaries while tightening clarity and pace.
 
-and Hindu traditions through the lens of the Unitary Manifold's fixed-point geometry. The analysis maps where the structural correspondences are strongest (which, for these traditions, is more extensive than for the Abrahamic ones), where the comparison breaks down, and where the geometry can contribute something that the traditions have not precisely formulated.*
+This rewrite reads Buddhist and Hindu traditions through the lens of the Unitary Manifold's fixed-point geometry. It maps where the structural correspondences are strongest, where the comparison breaks down, and where the geometry can contribute something the traditions themselves did not formulate in mathematical terms.*
 
 The Eastern traditions — Buddhism and the various schools of Hinduism — have something remarkable in common with the Unitary Manifold: they have been doing fixed-point analysis for two and a half millennia. Not in mathematical language, but in the language of practice, experience, and phenomenological precision.
 

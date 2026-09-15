@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **Indigenous Cosmologies and the Fifth Dimension** and keeps the same claim boundaries while tightening clarity and pace.
 
-analysis of how the framework's geometry relates to the cosmological knowledge systems of indigenous peoples worldwide. The analysis identifies genuine structural correspondences and explicit breaks, and refuses to appropriate or romanticize any tradition. The geometry maps what it can, and stops clearly where it cannot.*
+This rewrite offers a careful analysis of how the framework's geometry relates to the cosmological knowledge systems of indigenous peoples worldwide. It identifies genuine structural correspondences and explicit breaks, and refuses to appropriate or romanticize any tradition. The geometry maps what it can, and stops clearly where it cannot.*
 
 Indigenous knowledge systems — the cosmologies, ecological knowledge, and philosophical frameworks developed by the world's First Peoples over tens of thousands of years — have been systematically dismissed by Western science. That dismissal was often motivated by colonialism and racism, not by evidence. It was wrong.
 

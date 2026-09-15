@@ -7,13 +7,13 @@
 
 This article rewrite is grounded in **The Twelve Objections: A Socratic Dialogue** and keeps the same claim boundaries while tightening clarity and pace.
 
-a skeptical physicist ("Q") and the framework's defense ("A"), working through the twelve sharpest objections the framework has received. Both sides are argued as strongly as possible. No strawmanning. The reader should decide.*
+This rewrite stages a skeptical physicist ("Q") against the framework's defense ("A"), working through the twelve sharpest objections the framework has received. Both sides are argued as strongly as possible, without strawmanning, and the reader is left to judge.*
 
-consciousness, predict birefringence, unify quantum mechanics with thermodynamics, and cover 74 domains — all from the same 5D geometry — is almost certainly wrong in most of those claims. The prior probability of all that being correct is very low.
+Any framework that claims to explain consciousness, predict birefringence, unify quantum mechanics with thermodynamics, and cover 74 domains from the same 5D geometry is almost certainly wrong in most of those claims. The prior probability of total correctness is very low.
 
-prior — it is the posterior, updated by the specific agreements with observation. Four quantitative predictions emerge from the same structure without parameter tuning: n_s = 0.9635 (Planck 1σ), β = 0.3513° (within 1σ of 0.35°±0.14°), r = 0.0315 (below BICEP/Keck limit), and w ≈ -0.930 (consistent with current data). That's not a proof, but it updates the posterior.
+But the relevant quantity is not only the prior; it is the posterior updated by the specific agreements with observation. Four quantitative predictions emerge from the same structure without parameter tuning: n_s = 0.9635, β = 0.3513°, r = 0.0315, and w ≈ -0.930. That is not a proof, but it is the reason the objections are worth engaging seriously.
 
-that minimizes |β(k) − 0.35°|, then said "the framework predicts k = 74." That's fitting, not predicting.
+If someone simply chose the value of k that minimizes |β(k) − 0.35°| and then announced that the framework predicts k = 74, that would be curve fitting rather than prediction.
 ---
 
 ### Gate Certification (v1)
