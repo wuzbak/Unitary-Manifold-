@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **The Quantum Measurement Problem, Dissolved** and keeps the same claim boundaries while tightening clarity and pace.
 
-into definite outcomes when observed — is dissolved (not solved) by the 5D → 4D dimensional reduction. The projection G_AB → g_μν requires no observer, no consciousness, no collapse postulate, and no many-worlds branching. It is a geometric operation with a well-defined mathematical structure. This is the cleanest consequence of the five-dimensional framework and the most testable — testable in principle by the absence of coherence effects at macroscopic scales.*
+This rewrite argues that the quantum measurement problem — the transition from superposition to definite outcomes — is dissolved, not solved, by the 5D → 4D dimensional reduction. The key claim is that the projection is a geometric operation requiring no observer, collapse postulate, or many-worlds branch splitting.*
 
 The quantum measurement problem has been called the most embarrassing open problem in physics. Not because physicists don't know how to use quantum mechanics — they do, with extraordinary precision. But because the theory's foundation contains an inconsistency that every textbook either ignores or papers over.
 

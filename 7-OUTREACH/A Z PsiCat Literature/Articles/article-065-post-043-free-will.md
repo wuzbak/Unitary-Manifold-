@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **Free Will in a Deterministic 5D Universe** and keeps the same claim boundaries while tightening clarity and pace.
 
-given the full 5D state at any moment, the future 5D state is determined. But 4D observers have irreducible epistemic uncertainty about the 5D state, which produces genuine unpredictability in 4D experience. This is not compatibilism as a philosophical dodge — it is the precise mathematical structure of what "choice" means when you live in the projection of a higher-dimensional geometry. This claim is internally testable: the evolution equations in `src/core/evolution.py` are deterministic, and the information-theoretic uncertainty of 4D projections can be quantified.*
+This rewrite argues that, given the full 5D state at any moment, the future 5D state is determined, while 4D observers still face irreducible epistemic uncertainty about that higher-dimensional state. The result is a precise account of why choice feels real inside a deterministic geometry.*
 
 The free will debate has been conducted for over two thousand years with no resolution. This is not because the question is unimportant. It is because neither side has had a precise mathematical structure to point at.
 

@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **If This Theory Is Correct: What Changes About Medicine** and keeps the same claim boundaries while tightening clarity and pace.
 
-measure of information-carrying capacity at physiological scale — identifies a variable currently missing from evidence-based medicine: the system's convergence rate toward its own fixed point Ψ*. This post examines what this implies for chronic disease, aging, and the mechanism behind lifestyle interventions. These are Tier 2 speculative extensions — the mathematics is the same; the neural-to-physiological translation has not been empirically validated.*
+This rewrite argues that extending the framework's information-carrying measures to physiology identifies a missing variable in medicine: a system's convergence rate toward its own fixed point Ψ*. It explores the implications for chronic disease, aging, and lifestyle intervention while keeping the status explicitly speculative.*
 
 Modern medicine is extraordinarily good at intervention and poor at integration. It can remove a tumor, repair a broken bone, and suppress an autoimmune attack. It struggles with chronic conditions — the diseases that don't have a discrete cause, a clear mechanism, and a targeted fix. Metabolic syndrome. Chronic fatigue. Fibromyalgia. Treatment-resistant depression. Long COVID. The conditions that are real, debilitating, and that fall outside the sharp categories of pathogen-plus-immune-system medicine.
 

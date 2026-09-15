@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **Why This Wasn't Published in Physical Review Letters** and keeps the same claim boundaries while tightening clarity and pace.
 
-academic publication process, its genuine value, and the structural reasons why a framework that crosses 74 disciplinary domains cannot be published in the standard way. Nothing in this post should be read as dismissing peer review; the post argues for more rigorous public review, not less.*
+This rewrite examines the academic publication process, its genuine value, and the structural reasons why a framework spanning 74 disciplinary domains does not fit the standard journal pathway. Nothing in it should be read as dismissing peer review; the argument is for more rigorous review, not less.*
 
 The most common question from technically sophisticated readers is: why isn't this in a journal?
 

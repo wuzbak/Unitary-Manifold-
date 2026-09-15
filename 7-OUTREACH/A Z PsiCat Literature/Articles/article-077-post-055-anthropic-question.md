@@ -7,13 +7,13 @@
 
 This article rewrite is grounded in **Does the Universe Know We're Here? The Anthropic Question** and keeps the same claim boundaries while tightening clarity and pace.
 
-why the universe's constants are compatible with conscious observers. The question "why is the universe fine-tuned for life?" is reframed as "why does the fixed-point selection favor configurations with stable complexity?" — and that question has a geometric answer: stable complexity is a necessary condition for fixed-point stability. This replaces the anthropic principle with a structural stability argument.*
+This rewrite asks why the universe's constants are compatible with conscious observers. It reframes fine-tuning as a question about why fixed-point selection favors stable complexity, and proposes a structural stability argument in place of a purely anthropic one.*
 
 The anthropic principle is the observation that the universe's fundamental constants — the fine structure constant, the proton-to-electron mass ratio, the strength of gravity relative to electromagnetism — are precisely tuned to values that permit complex structures, chemistry, and ultimately life.
 
 Change the fine structure constant by a few percent and stars don't form. Change gravity by slightly more and the universe is either a black hole or disperses too rapidly for galaxies. The constants sit in an extraordinarily narrow window where complexity is possible.
 
-observers, because if it didn't, there would be no observers to notice. This is a tautology — true but explanatorily empty.
+The standard anthropic answer is that the universe must be compatible with observers, because otherwise there would be no observers to notice it. That statement is true, but explanatorily thin.
 ---
 
 ### Gate Certification (v1)

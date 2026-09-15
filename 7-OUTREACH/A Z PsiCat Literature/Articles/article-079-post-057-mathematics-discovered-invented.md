@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **What Is Mathematics? Is the Manifold Discovered or Invented?** and keeps the same claim boundaries while tightening clarity and pace.
 
-agreeing with observation, emerging from the same mathematical structure without parameter adjustment — provides concrete evidence for the position that mathematical structures are discovered rather than invented. This post examines that evidence, its limits, and the philosophical implications of a framework that appears to have found the universe's pre-existing geometry.*
+This rewrite argues that a set of quantitative predictions agreeing with observation and emerging from one mathematical structure without parameter adjustment provides concrete evidence for the view that mathematics is discovered rather than invented. It examines that evidence, its limits, and the philosophical implications carefully.*
 
 There is a philosophical question about mathematics that has never been settled: is mathematics discovered, or invented?
 

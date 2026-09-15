@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **The Hard Problem of Consciousness: Does the Framework Solve It?** and keeps the same claim boundaries while tightening clarity and pace.
 
-provides a structural account of the organizational features of consciousness: its unity, its temporal continuity, and its information-integrating character. It does not account for the qualitative feel of experience — the redness of red, the pain of pain — which remains outside the scope of what the field equations determine. The framework partially dissolves the hard problem by eliminating several of its presuppositions, while leaving the irreducible phenomenological core untouched.*
+This rewrite argues that the framework provides a structural account of the organizational features of consciousness: its unity, temporal continuity, and information-integrating character. It does not account for the qualitative feel of experience, which remains outside what the field equations determine, so the hard problem is only partially dissolved rather than fully solved.*
 
 David Chalmers named the "hard problem" of consciousness in 1995, and the name stuck because it captures something real. The hard problem is the question of why there is subjective experience at all — why there is something it is like to be you, rather than there just being information processing going on in the dark.
 

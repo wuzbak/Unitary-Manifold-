@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **What Is Time? (The Full Technical Answer)** and keeps the same claim boundaries while tightening clarity and pace.
 
-the fixed point Ψ* — measurable, derivable from the spectral properties of the UEUM operator, and consistent with dimensional analysis. This is not a metaphor for "time is change." It is a geometric identity that reproduces the correct time scales of 4D physics. The claim would be falsified if the convergence-rate spectrum of U produces time scales inconsistent with measured physical frequencies.*
+This rewrite argues that time is the geometric convergence rate toward the fixed point Ψ* — measurable, derivable from the spectral properties of the UEUM operator, and consistent with dimensional analysis. It is not a metaphor for change but a proposed identity with falsifiable numerical consequences.*
 
 Ask a physicist and you will hear: "time is a dimension of spacetime." Ask a little more and you will hear: "time is a coordinate, the one with the minus sign in the metric." Push further and you'll get: "at the Planck scale, time may not be fundamental at all — the Wheeler-DeWitt equation has no time parameter."
 

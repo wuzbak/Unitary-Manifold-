@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **Prayer, Meditation, and Phase-Locking** and keeps the same claim boundaries while tightening clarity and pace.
 
-five-dimensional geometry — has a well-defined convergence state in which the Information Gap ΔI = |φ²_brain − φ²_univ| approaches zero and the phase offset Δφ approaches zero. Contemplative practices across traditions are precision engineering of this convergence, developed empirically over millennia. This post gives the mathematical structure of what they are doing. The claim would be partially falsified if grid cell module ratios in mammalian entorhinal cortex are measured and ruled inconsistent with the 7:5 frequency ratio predicted by the braided winding structure.*
+This rewrite argues that contemplative alignment in the five-dimensional geometry has a well-defined convergence state in which the information gap and phase offset approach zero. It treats prayer and meditation as long-developed empirical practices that may be engineering toward that convergence, while keeping the neuroscientific extension falsifiable and provisional.*
 
 Humans have been meditating, praying, and entering altered states of consciousness for as long as there are records of human behaviour. The practices differ — the Zen koan, the Sufi dhikr, the Christian apophatic prayer, the Buddhist shamatha, the psychedelic ceremony, the sweat lodge, the hypnagogic state before sleep.
 

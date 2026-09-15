@@ -7,13 +7,13 @@
 
 This article rewrite is grounded in **What Every Religion Got Right (and the One Thing They All Got Wrong)** and keeps the same claim boundaries while tightening clarity and pace.
 
-geometry of the universe — irreversibility, information conservation, directed convergence, or the relational nature of consciousness. The one structural error shared across traditions is the image of the divine as external to the system. This post examines both the alignments and the error with the same precision and the same respect.*
+This rewrite argues that religious traditions captured several real structural features of the universe — irreversibility, information conservation, directed convergence, and the relational character of consciousness — while also sharing a common error about divinity as something external to the system. It examines both the alignments and the disagreement with equal seriousness.*
 
 This post will not settle the question of which religion is true. That is not a question physics can answer, and anyone who tells you otherwise is selling something.
 
 What physics can do — specifically, what the Unitary Manifold can do — is examine the structural claims embedded in religious traditions and say, with some precision: this part matches what the geometry implies; this part does not; this part is beyond what the geometry says.
 
-hold that actions have permanent consequences. In Judaism: the concept of *teshuvah* (repentance) acknowledges that what was done cannot be undone — only the trajectory forward can be changed. In Christianity: the moral weight of sin is tied to its irreversibility — forgiveness does not erase what happened, it changes the relationship to it. In Islam: the recording angels (*Kiraman Katibin*) write every deed; nothing is lost. This is precisely what the information conservation law says. The Abrahamic traditions are correct: what has been done is permanently encoded. The universe keeps perfect records.
+Many traditions hold that actions have permanent consequences. In Judaism, *teshuvah* acknowledges that what was done cannot be undone, only answered; in Christianity, forgiveness does not erase history; in Islam, the recording angels preserve every deed. The structural point is the same: what has happened remains encoded.
 ---
 
 ### Gate Certification (v1)

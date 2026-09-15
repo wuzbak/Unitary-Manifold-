@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **If This Theory Is Correct: What Changes About Economics** and keeps the same claim boundaries while tightening clarity and pace.
 
-and resource allocation systems, implies that certain economic configurations are structurally unstable — not because of political preference but because they violate the conditions for fixed-point convergence. Inequality beyond a threshold corresponds to entropy accumulation above the attractor's basin; recycling and externality correction correspond to φ-debt accounting. These are Tier 2 speculative structural implications, not economic policy prescriptions.*
+This rewrite argues that applying the framework to economies and resource-allocation systems implies that some economic configurations are structurally unstable, not because of ideology but because they violate conditions for fixed-point convergence. The claims remain structural and speculative rather than policy prescriptions.*
 
 Economics is not physics. Anyone who tells you the economy can be reduced to a set of differential equations and optimized is wrong in ways that are not innocent. The history of economics-as-physics is littered with the consequences of mistaking a model for a mandate.
 

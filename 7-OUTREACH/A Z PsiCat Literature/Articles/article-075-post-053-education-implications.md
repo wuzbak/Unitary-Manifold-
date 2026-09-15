@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **If This Theory Is Correct: What Changes About Education** and keeps the same claim boundaries while tightening clarity and pace.
 
-of learning — distinguishes understanding from memorization at the structural level. Understanding corresponds to a state where the learner's internal model has converged toward the concept's own attractor (ΔI → 0 between learner and concept); memorization corresponds to storing 4D surface features without the 5D convergence. This distinction has structural implications for how learning should be designed and assessed.*
+This rewrite argues that the framework's geometry of learning distinguishes understanding from memorization at the structural level. Understanding is treated as convergence toward the concept's own attractor, while memorization is treated as surface retention without that deeper convergence, and that distinction carries implications for teaching and assessment.*
 
 Education is the transmission of understanding from people who have it to people who don't yet have it. The challenge: understanding is not the same thing as information transfer, and information transfer is much easier to measure.
 

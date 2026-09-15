@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **The Simulation Hypothesis: Where Geometry Ends and Code Begins** and keeps the same claim boundaries while tightening clarity and pace.
 
-reality is computational — information-theoretic in the digital sense. The Unitary Manifold's fixed-point theorem implies the substrate is geometric — information-theoretic in the differential-geometric sense. These are different claims with different falsification conditions. One is falsifiable by LiteBIRD in 2032. The other is not yet falsifiable by any known experiment. This post examines both.*
+This rewrite distinguishes two claims that are often blurred together: that reality is computational in a digital sense, and that reality is geometric in the information-theoretic sense used by the Unitary Manifold. They are different claims with different evidentiary status and different falsification conditions.*
 
 The simulation hypothesis is the most popular speculative metaphysics of the last twenty years. Elon Musk endorses it. Nick Bostrom gave it a probabilistic argument. Physicists who should know better invoke it casually at conferences.
 
