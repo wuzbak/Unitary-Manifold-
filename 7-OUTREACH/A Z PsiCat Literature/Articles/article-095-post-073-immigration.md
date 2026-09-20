@@ -25,7 +25,7 @@ Immigration is not an abstract policy debate. It is the question of which human 
 are permitted to belong — and on what terms, under what conditions, with what assurances —
 to the place where they already live, work, and raise their children.
 
-The United States has approximately 11 million undocumented residents [CBO], a 3-million-case
+The United States has approximately 11 million undocumented residents [CBO], a 3-million-case [EOIR]
 backlog in immigration courts, employment visa queues that will take a skilled Indian
 software engineer more than a century to clear at current rates [EOIR][USCIS], and a border management
 apparatus that has been in perpetual crisis for thirty years. It is one of the most

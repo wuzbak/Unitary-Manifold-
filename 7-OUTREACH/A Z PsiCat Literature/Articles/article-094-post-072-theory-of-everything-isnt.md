@@ -117,8 +117,9 @@ that claims to explain everything and explains nothing precisely.
 
 1. **Quantum gravity:** the short-distance theory that the 5D framework is an
    effective limit of.
-2. **Particle masses:** the mechanism that sets the masses of quarks, leptons,
-   and gauge bosons at their observed values.
+2. **Remaining mass sectors:** the still-unresolved parts of the mass story,
+   especially neutrino masses, residual flavor magnitudes, and the full gauge-boson
+   value structure beyond the charged-fermion hierarchy now treated elsewhere as derived.
 3. **Cosmological constant:** the reason the vacuum energy density is 10¹²⁰ times
    smaller than naive calculation suggests.
 4. **CMB amplitude:** as discussed in Post 65, the primordial power spectrum amplitude

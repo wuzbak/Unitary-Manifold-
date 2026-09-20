@@ -47,7 +47,7 @@ that is non-trivial — it precisely accounts for the Standard Model's half-inte
 chirality. The triangular-step inflow also yields η̄(n_w = 7) = 1/2 mod 1, but the
 required chirality/boundary-consistency step then fails for n_w = 7, excluding it as a physical branch.
 
-This means n_w = 5 is the unique consistent winding number. The selection is geometric.
+This means the geometric lane strongly narrows to n_w = 5 as the surviving consistent branch once the chirality/boundary-consistency filter is applied, while the article still preserves the live caveat that the purely first-principles uniqueness story is not presented here as fully closed without the later observational selection step.
 
 ---
 
@@ -99,8 +99,7 @@ A pure 5D boundary condition argument:
 
 Steps A→D: G_{μ5} Z₂-parity → Dirichlet BC → APS η̄=½ → n_w=5.
 
-This is algebraically complete. No M-theory. No observational data. n_w = 5 follows
-from the 5D metric structure alone. (`src/core/vacuum_geometric_proof.py`, 59 tests.)
+This is algebraically complete at the narrowing stage described here. No M-theory is invoked, and the 5D metric structure carries the branch selection deep into the geometric lane, but this rewrite still preserves the stated live caveat that full first-principles uniqueness is not presented here as wholly closed without the later observational selection step. (`src/core/vacuum_geometric_proof.py`, 59 tests.)
 
 ---
 

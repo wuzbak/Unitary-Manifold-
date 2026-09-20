@@ -54,7 +54,7 @@ r_braided = (32 n_w c_s) / φ₀² × (1 + ρ²/(2(1−ρ²)))⁻¹
 
 where n_w = 5, c_s = 12/37, φ₀ fixed by FTUM, ρ = 70/74.
 
-**Current tension:** ACT DR6 + Planck gives r < 0.016 (95% CL) — the UM prediction exceeds this by a factor of ~2, at approximately 2σ tension.
+**Current live-status tension:** historical consistency-era framing treated r = 0.0315 as observationally allowed, but the present ACT DR6 + Planck summary gives r < 0.016 (95% CL), placing the UM prediction under approximately 2σ tension in the current repository framing.
 
 **Why it is irreducible:** Pillar 303 proved that 87 WZW loop corrections would be needed to drive r from 0.0315 to 0.016. Perturbativity breaks at N_loops ~ 176. The loop expansion cannot rescue the prediction.
 
