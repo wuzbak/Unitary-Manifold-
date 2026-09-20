@@ -12,6 +12,8 @@ Any framework that claims to explain consciousness, predict birefringence, unify
 But the relevant quantity is not only the prior; it is the posterior updated by the specific agreements with observation. Four quantitative predictions emerge from the same structure without parameter tuning: n_s = 0.9635, the canonical birefringence branch targets β ≈ 0.273° / 0.331° (with an upper derived-channel summary near 0.351°), r = 0.0315, and w ≈ -0.930. That is not a proof, but it is the reason the objections are worth engaging seriously.
 
 If someone simply chose the value of k that minimizes |β(k) − 0.35°| and then announced that the framework predicts k = 74, that would be curve fitting rather than prediction.
+
+That objection is not frivolous, and the repository's own `FALLIBILITY.md` records that the k = 74 selection is partly post-hoc rather than a clean first-principles closure. The reason to keep discussing it is not that the limitation vanished, but that the framework still makes enough constrained quantitative contact with data to deserve explicit, critical scrutiny.
 ---
 
 ### Gate Certification (v1)

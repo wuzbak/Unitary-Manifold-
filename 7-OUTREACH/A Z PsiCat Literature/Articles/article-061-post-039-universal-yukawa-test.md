@@ -17,7 +17,7 @@ In this setup, the only per-fermion quantity that varies is the left-handed bulk
 
 The auditable output is still concrete. The inversion yields a specific charged-fermion c_L spectrum, and when those values are pushed back through the same single-coupling mass relation, the charged-lepton, up-quark, and down-quark sectors remain consistent with one shared Ŷ₅ rather than requiring separate sector-by-sector Yukawa normalisations. That is the real content of the test: not magic, not full closure, but a nontrivial universality check that survives contact with the observed mass hierarchy.
 
-- Full fitted c_L spectrum from inversion against the observed charged-fermion masses: electron 0.798, muon 0.644, tau 0.555, up 0.757, charm 0.566, top 0.377, down 0.735, strange 0.648, bottom 0.522.
+- Full fitted c_L spectrum from inversion against the observed charged-fermion masses — inferred quantities, not first-principles predictions: electron 0.798, muon 0.644, tau 0.555, up 0.757, charm 0.566, top 0.377, down 0.735, strange 0.648, bottom 0.522.
 - Cross-sector check: one shared Ŷ₅ = 1 remains viable across leptons, up quarks, and down quarks.
 - Unification check: one-loop running gives r_bτ(M_GUT) ≈ 0.497, a standard near-unification result rather than exact equality.
 ---
