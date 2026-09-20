@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **Where Do Particle Masses Come From? The Goldberger-Wise Answer** and keeps the same claim boundaries while tightening clarity and pace.
 
-The framework derives why there are three generations of matter, predicts the cosmological spectral index nₛ ≈ 0.9635 to within a third of a sigma, and gives the cosmic birefringence angle β ≈ 0.331°. It derives the CKM Cabibbo angle to
+The framework derives why there are three generations of matter, predicts the cosmological spectral index nₛ ≈ 0.9635 to within a third of a sigma, and gives the cosmic birefringence angle β ≈ 0.331°. This post asks a different question: where the absolute fermion mass scale itself comes from.
 
 Not the ratio of the electron mass to the muon mass — that has been fitted since Pillar 75. The absolute scale: why 0.511 MeV and not 0.05 MeV, or 5 MeV?
 
