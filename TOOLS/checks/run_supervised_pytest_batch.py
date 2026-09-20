@@ -20,6 +20,7 @@ from src.core.regression_supervision_plan import (
     build_regression_supervision_plan,
     compactified_preflight_argv,
     fast_batch_argv,
+    full_core_batch_argv,
 )
 
 
@@ -27,7 +28,13 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--suite",
-        choices=("tests-fast", "compactified-preflight", "supervisor-check"),
+        choices=(
+            "tests-fast",
+            "compactified-preflight",
+            "supervisor-check",
+            "full-core",
+            "full-core-supervisor-check",
+        ),
         required=True,
     )
     parser.add_argument("--batch-count", type=int, default=DEFAULT_FAST_BATCH_COUNT)
@@ -61,8 +68,30 @@ def main() -> int:
         print("supervised regression coverage check passed", file=stream)
         return 0
 
+    if args.suite == "full-core-supervisor-check":
+        ok = (
+            plan["supervision"]["full_core_coverage_matches_discovery"]
+            and plan["supervision"]["full_core_all_files_unique"]
+        )
+        if not ok:
+            print("supervised full-core regression coverage check failed", file=sys.stderr)
+            return 1
+        stream = sys.stderr if args.emit_json else sys.stdout
+        print("supervised full-core regression coverage check passed", file=stream)
+        return 0
+
     if args.suite == "compactified-preflight":
         return _run(compactified_preflight_argv(), dry_run=args.dry_run)
+
+    if args.suite == "full-core":
+        if args.batch_index is None:
+            print("--batch-index is required for full-core", file=sys.stderr)
+            return 2
+        command = full_core_batch_argv(batch_index=args.batch_index, batch_count=args.batch_count)
+        if not command:
+            print(f"no full-core tests assigned to batch {args.batch_index}; skipping")
+            return 0
+        return _run(command, dry_run=args.dry_run)
 
     if args.batch_index is None:
         print("--batch-index is required for tests-fast", file=sys.stderr)

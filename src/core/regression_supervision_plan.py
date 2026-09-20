@@ -10,12 +10,18 @@ from typing import Any, Dict, List
 
 _ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_FAST_BATCH_COUNT = 4
+DEFAULT_FULL_CORE_BATCH_COUNT = 8
 FAST_MARK_EXPRESSION = "not slow"
 SLOW_MARK_EXPRESSION = "slow"
 FAST_SUITE_PATH = "tests/"
 CLAIMS_SUITE_PATH = "claims/"
 RECYCLING_SUITE_PATH = "recycling/"
 PENTAD_SUITE_PATH = "5-GOVERNANCE/Unitary Pentad/"
+FULL_CORE_SUITE_PATHS = (
+    FAST_SUITE_PATH,
+    RECYCLING_SUITE_PATH,
+    PENTAD_SUITE_PATH,
+)
 FAST_SUITE_EXCLUDED_FILES = {
     "tests/test_richardson_multitime.py",
 }
@@ -36,6 +42,25 @@ def discover_fast_suite_files() -> List[str]:
         for path in test_root.rglob("test_*.py")
         if path.is_file() and path.relative_to(_ROOT).as_posix() not in FAST_SUITE_EXCLUDED_FILES
     )
+
+
+def _discover_suite_files(suite_path: str) -> List[str]:
+    suite_root = _ROOT / suite_path.rstrip("/")
+    if not suite_root.exists():
+        return []
+    return sorted(
+        path.relative_to(_ROOT).as_posix()
+        for path in suite_root.rglob("test_*.py")
+        if path.is_file()
+    )
+
+
+def discover_full_core_suite_files() -> List[str]:
+    """Return the deterministic sorted file list for the combined tests/recycling/pentad core."""
+    combined: List[str] = []
+    for suite_path in FULL_CORE_SUITE_PATHS:
+        combined.extend(_discover_suite_files(suite_path))
+    return sorted(combined)
 
 
 def _partition_evenly(items: List[str], batch_count: int) -> List[List[str]]:
@@ -75,14 +100,42 @@ def build_fast_suite_batches(batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> Lis
     return batches
 
 
-def _fast_batch_argv_from_paths(paths: List[str]) -> List[str]:
+def build_full_core_batches(batch_count: int = DEFAULT_FULL_CORE_BATCH_COUNT) -> List[Dict[str, Any]]:
+    """Return deterministic supervised file batches for the full tests/recycling/pentad core."""
+    files = discover_full_core_suite_files()
+    partitions = _partition_evenly(files, batch_count)
+    batches: List[Dict[str, Any]] = []
+    for index, batch_files in enumerate(partitions):
+        batches.append(
+            {
+                "batch_index": index,
+                "batch_count": batch_count,
+                "suite_paths": list(FULL_CORE_SUITE_PATHS),
+                "test_paths": batch_files,
+                "file_count": len(batch_files),
+                "first_file": batch_files[0] if batch_files else "",
+                "last_file": batch_files[-1] if batch_files else "",
+            }
+        )
+    return batches
+
+
+def _pytest_argv_from_paths(paths: List[str], marker_expression: str | None = None) -> List[str]:
     if not paths:
         return []
-    return ["python", "-m", "pytest", "-n", "auto", "-m", FAST_MARK_EXPRESSION, *paths, "-q"]
+    command = ["python", "-m", "pytest", "-n", "auto"]
+    if marker_expression:
+        command.extend(["-m", marker_expression])
+    command.extend([*paths, "-q"])
+    return command
 
 
 def _fast_batch_command_from_paths(paths: List[str]) -> str:
-    return shlex.join(_fast_batch_argv_from_paths(paths))
+    return shlex.join(_pytest_argv_from_paths(paths, marker_expression=FAST_MARK_EXPRESSION))
+
+
+def _full_core_batch_command_from_paths(paths: List[str]) -> str:
+    return shlex.join(_pytest_argv_from_paths(paths))
 
 
 def fast_batch_command(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> str:
@@ -98,7 +151,32 @@ def fast_batch_argv(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_COUN
     batches = build_fast_suite_batches(batch_count=batch_count)
     if batch_index < 0 or batch_index >= len(batches):
         raise IndexError("batch_index out of range")
-    return _fast_batch_argv_from_paths(batches[batch_index]["test_paths"])
+    return _pytest_argv_from_paths(
+        batches[batch_index]["test_paths"],
+        marker_expression=FAST_MARK_EXPRESSION,
+    )
+
+
+def full_core_batch_command(
+    batch_index: int,
+    batch_count: int = DEFAULT_FULL_CORE_BATCH_COUNT,
+) -> str:
+    """Return the canonical pytest command for one supervised full-core batch."""
+    batches = build_full_core_batches(batch_count=batch_count)
+    if batch_index < 0 or batch_index >= len(batches):
+        raise IndexError("batch_index out of range")
+    return _full_core_batch_command_from_paths(batches[batch_index]["test_paths"])
+
+
+def full_core_batch_argv(
+    batch_index: int,
+    batch_count: int = DEFAULT_FULL_CORE_BATCH_COUNT,
+) -> List[str]:
+    """Return the canonical pytest argv for one supervised full-core batch."""
+    batches = build_full_core_batches(batch_count=batch_count)
+    if batch_index < 0 or batch_index >= len(batches):
+        raise IndexError("batch_index out of range")
+    return _pytest_argv_from_paths(batches[batch_index]["test_paths"])
 
 
 def compactified_preflight_command() -> str:
@@ -117,6 +195,10 @@ def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUN
     all_files = [path for batch in batches for path in batch["test_paths"]]
     discovered = discover_fast_suite_files()
     unique_files = sorted(set(all_files))
+    full_core_batches = build_full_core_batches(batch_count=DEFAULT_FULL_CORE_BATCH_COUNT)
+    full_core_files = [path for batch in full_core_batches for path in batch["test_paths"]]
+    full_core_discovered = discover_full_core_suite_files()
+    full_core_unique = sorted(set(full_core_files))
     remaining_canonical_suites: Dict[str, str] = {
         "slow": f'python -m pytest {FAST_SUITE_PATH} -m "{SLOW_MARK_EXPRESSION}" -q',
         "recycling": f"python -m pytest {RECYCLING_SUITE_PATH} -q",
@@ -140,12 +222,25 @@ def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUN
                 for batch in batches
             ],
         },
+        "supervised_full_core_suite": {
+            "suite_paths": list(FULL_CORE_SUITE_PATHS),
+            "default_batch_count": DEFAULT_FULL_CORE_BATCH_COUNT,
+            "batches": full_core_batches,
+            "batch_commands": [
+                _full_core_batch_command_from_paths(batch["test_paths"])
+                for batch in full_core_batches
+            ],
+        },
         "remaining_canonical_suites": remaining_canonical_suites,
         "supervision": {
             "coverage_matches_discovery": all_files == discovered,
             "all_files_unique": len(unique_files) == len(all_files),
             "discovered_file_count": len(discovered),
             "batched_file_count": len(all_files),
+            "full_core_coverage_matches_discovery": full_core_files == full_core_discovered,
+            "full_core_all_files_unique": len(full_core_unique) == len(full_core_files),
+            "full_core_discovered_file_count": len(full_core_discovered),
+            "full_core_batched_file_count": len(full_core_files),
         },
     }
 
@@ -153,12 +248,18 @@ def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUN
 __all__ = [
     "COMPACTIFIED_PREFLIGHT_FILES",
     "DEFAULT_FAST_BATCH_COUNT",
+    "DEFAULT_FULL_CORE_BATCH_COUNT",
     "FAST_MARK_EXPRESSION",
+    "FULL_CORE_SUITE_PATHS",
     "build_fast_suite_batches",
+    "build_full_core_batches",
     "build_regression_supervision_plan",
     "compactified_preflight_argv",
     "compactified_preflight_command",
     "discover_fast_suite_files",
+    "discover_full_core_suite_files",
     "fast_batch_argv",
     "fast_batch_command",
+    "full_core_batch_argv",
+    "full_core_batch_command",
 ]

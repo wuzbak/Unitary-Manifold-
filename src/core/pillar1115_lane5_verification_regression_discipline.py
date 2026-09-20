@@ -63,6 +63,7 @@ def lane5_verification_regression_discipline() -> Dict[str, Any]:
             'full': "python3 -m pytest tests/ recycling/ '5-GOVERNANCE/Unitary Pentad/' -q",
             'compactified_preflight': regression_plan['compactified_preflight'],
             'supervised_fast_suite': regression_plan['supervised_fast_suite'],
+            'supervised_full_core_suite': regression_plan['supervised_full_core_suite'],
             'remaining_canonical_suites': regression_plan['remaining_canonical_suites'],
             'supervision': regression_plan['supervision'],
             'lean_scope_reporting': 'Scoped vs full-build status must be reported explicitly with no proxy substitution.',
