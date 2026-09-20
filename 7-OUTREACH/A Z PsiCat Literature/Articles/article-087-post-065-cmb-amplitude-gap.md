@@ -9,7 +9,7 @@ This article rewrite is grounded in **The CMB Acoustic Peak Problem — The Gap 
 
 This framework's original gap was this: the predicted CMB power spectrum was off by a factor of roughly four to seven at the acoustic peaks. The peaks were there — the oscillation structure of the primordial sound waves was present. The tilt of the spectrum matched Planck's measurement to within 1σ. But the amplitude was wrong.
 
-This post states the problem completely and honestly, describes what was attempted, what failed first, and what ultimately worked. Documenting a resolved problem is as important as documenting an open one.
+This post states the problem completely and honestly, describes what was attempted, what failed first, and what partial corrections were proposed. In the repository's current live status, the amplitude suppression remains a documented open problem rather than a fully closed one.
 
 The CMB power spectrum — the pattern of temperature fluctuations in the cosmic microwave background as a function of angular scale — has two components:
 ---
