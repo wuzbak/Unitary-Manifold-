@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **The Open Falsification Invitation — And What Happened When We Issued It** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite reviews the open-falsification process — what was invited, what arrived, how it was handled, and what remains open. The goal is transparency about the review process, not a claim that the framework has been vindicated by it.*
+This rewrite reviews the open-falsification process — what was invited, what arrived, how it was handled, and what remains open. The goal is transparency about the review process, not a claim that the framework has been vindicated by it.
 
 In April 2026, the repository published an explicit invitation in its `discussions/` folder asking readers to try to break the framework on derivational, numerical, and observational grounds.
 

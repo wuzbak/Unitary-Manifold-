@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **Building Science Without a Lab** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite examines the status of 15,615 automated assertions as evidence — what they prove, what they do not prove, and how they fit into the broader evidential structure that science requires.*
+This rewrite examines the status of 15,615 automated assertions as evidence — what they prove, what they do not prove, and how they fit into the broader evidential structure that science requires.
 
 The repository has 15,615 automated tests that pass. Every time someone runs the test suite, they get the same result: the code conforms to the equations, identities, and numerical claims it was written to implement.
 

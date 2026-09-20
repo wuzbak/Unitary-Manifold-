@@ -7,7 +7,7 @@
 
 This article rewrite is grounded in **When AI Writes the Math: Authorship, Credit, and the Future of Theory** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite asks a direct question: if an AI system derives equations, implements code, and writes documentation, who is responsible for the correctness of the results? The answer has implications for scientific accountability that reach beyond this repository.*
+This rewrite asks a direct question: if an AI system derives equations, implements code, and writes documentation, who is responsible for the correctness of the results? The answer has implications for scientific accountability that reach beyond this repository.
 
 This is an honest description of the division of labor. It is also an unusual one, and it raises questions that the scientific community has not yet resolved.
 
