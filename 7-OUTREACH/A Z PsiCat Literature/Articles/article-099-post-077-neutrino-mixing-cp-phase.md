@@ -152,7 +152,7 @@ we will say so.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 83: `src/core/neutrino_pmns.py`*
 *Pillar 86: `src/core/neutrino_majorana_dirac.py`*

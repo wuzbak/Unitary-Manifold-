@@ -132,7 +132,7 @@ invite experimentalists to engage with the predictions and design tests.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Test suite: `python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`*
 *Honest gaps: `FALLIBILITY.md`*

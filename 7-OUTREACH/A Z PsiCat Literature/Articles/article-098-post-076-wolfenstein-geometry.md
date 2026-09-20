@@ -118,7 +118,7 @@ in the standard parameterization and verifies:
 3. CP violation (the non-zero area of the unitarity triangle) is non-zero and
    geometrically determined
 
-The 139 automated tests for this pillar verify all of these properties.
+The historical 139-test pillar suite for this lane verifies all of these properties; for live repository-wide totals, defer to `STATUS.md`.
 
 ---
 

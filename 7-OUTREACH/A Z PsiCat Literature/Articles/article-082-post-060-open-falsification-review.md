@@ -59,9 +59,11 @@ weaknesses. The results were instructive:
 **What AI found:**
 
 - The CMB amplitude gap (×4–7 suppression at acoustic peaks) was consistently
-  identified as the most significant unresolved problem. This has since been resolved
-  by Pillars 57 and 63 (radion amplification + E-H baryon loading). `FALLIBILITY.md`
-  Admission 2 now reflects this resolution.
+  identified as the most significant unresolved problem. This later received a
+  historical closure attempt via Pillars 57 and 63 (radion amplification + E-H baryon
+  loading), but current authoritative status should be taken from `FALLIBILITY.md`
+  and `STATUS.md`, where this lane may still remain open under the broader
+  reassessment framing.
 
 - The APS η-invariant argument (Pillar 70) was identified as the point where the
   framework transitioned from "derived" to "conjectured." That gap has subsequently
