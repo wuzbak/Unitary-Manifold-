@@ -11,6 +11,8 @@ The Eastern traditions — Buddhism and the various schools of Hinduism — have
 
 This post is less about finding correspondences and more about recognizing that the traditions and the framework are, in many respects, working on the same problem with different tools.
 
+That boundary matters. The framework does not establish the theological truth of Hindu or Buddhist claims, and it does not convert contemplative practice into physics. What it can do is mark a structural overlap at the level of convergence, fixed points, and the stability or instability of self-models. Beyond that, the geometry stops.
+
 Hinduism's central metaphysical claim — developed in the Upanishads and refined in Advaita Vedanta — is that the deepest self and the deepest structure of reality are not ultimately separate. The framework is not identical to that claim, but it is one of the places where the structural correspondence is strongest.
 
 Buddhism reaches similar terrain from a different direction. Its most distinctive claim is that the self is not a permanent substance but a conditioned process. In the language of the framework, that looks less like a thing and more like an attractor: a persistent organization of dynamics rather than an immortal object.

@@ -7,6 +7,8 @@
 
 This article rewrite is grounded in **Indigenous Cosmologies and the Fifth Dimension** and keeps the same claim boundaries while tightening clarity and pace.
 
+The boundary is important from the beginning: this is not a claim that physics proves Indigenous cosmologies, nor a claim that ceremonial, ethical, or community knowledge can be collapsed into equations. It is a narrower comparison about whether some structural features of the geometry rhyme with relational patterns that many Indigenous knowledge systems have long described, and about being explicit when that comparison must stop.
+
 Indigenous knowledge systems — the cosmologies, ecological knowledge, and philosophical frameworks developed by the world's First Peoples over tens of thousands of years — have been systematically dismissed by Western science. That dismissal was often motivated by colonialism and racism, not by evidence. It was wrong.
 
 It was also scientifically costly. Indigenous knowledge systems encode tens of millennia of careful observation about the natural world. The dismissal prevented science from engaging with that observational base.

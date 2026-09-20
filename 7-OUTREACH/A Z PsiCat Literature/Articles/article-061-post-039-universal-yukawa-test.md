@@ -14,6 +14,8 @@ But is the same Ŷ₅ = 1 the *universal* coupling — the same number for all n
 That question is what Pillar 98 answers. And the answer is constrained but narrower than a full ab initio prediction: **one coupling, nine masses, and no additional free Yukawa couplings introduced inside this sector** (the c_L bulk masses are inferred from the observed fermion masses rather than freely chosen, while ~15 SM parameters outside this sector remain free).
 
 In this setup, the only per-fermion quantity that varies is the left-handed bulk mass c_Lf. These c_L values are not treated as extra Yukawa freedoms, but they are still obtained by inverting the same RS wavefunction mass relation against the observed charged-fermion masses. That means the result is a strong universality test of the Yukawa coupling, not yet a claim that every charged-fermion mass is predicted from first principles without observational input.
+
+The auditable output is still concrete. The inversion yields a specific charged-fermion c_L spectrum, and when those values are pushed back through the same single-coupling mass relation, the charged-lepton, up-quark, and down-quark sectors remain consistent with one shared Ŷ₅ rather than requiring separate sector-by-sector Yukawa normalisations. That is the real content of the test: not magic, not full closure, but a nontrivial universality check that survives contact with the observed mass hierarchy.
 ---
 
 ### Gate Certification (v1)
