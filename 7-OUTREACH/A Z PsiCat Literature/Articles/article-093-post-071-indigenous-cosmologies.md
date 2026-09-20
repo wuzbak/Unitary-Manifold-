@@ -17,7 +17,7 @@ Several broad correspondences are worth naming plainly. Many indigenous cosmolog
 
 The most delicate comparison concerns invisible beings, ancestors, or sacred presences. The framework can say that there are structures in the fifth-dimensional geometry not directly available to ordinary perception. It cannot say that those structures are identical to what any specific community means by spirits or ancestors, and it would be disrespectful to pretend otherwise. That is exactly where the comparison must stop rather than overclaim.
 
-There are also limits the rewrite should preserve. Indigenous knowledge is carried through land, ceremony, relationship, memory, and obligation, not through equations alone. Physics may offer a structural analogy, but it does not generate the ethical obligations, cultural authority, or lived forms of transmission that make those traditions what they are. The respectful position is not that the framework explains indigenous cosmologies; it is that both may, at times, be describing a relational universe from very different knowledge systems.
+There are also limits that need to remain explicit. Indigenous knowledge is carried through land, ceremony, relationship, memory, and obligation, not through equations alone. Physics may offer a structural analogy, but it does not generate the ethical obligations, cultural authority, or lived forms of transmission that make those traditions what they are. The respectful position is not that the framework explains indigenous cosmologies; it is that both may, at times, be describing a relational universe from very different knowledge systems.
 ---
 
 ### Gate Certification (v1)
