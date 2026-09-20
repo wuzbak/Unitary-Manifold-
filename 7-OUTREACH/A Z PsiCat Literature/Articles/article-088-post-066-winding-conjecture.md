@@ -5,7 +5,7 @@
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-066-winding-conjecture.md`*
 
-This article rewrite is grounded in **The Winding Number — Proved** and keeps the same claim boundaries while tightening clarity and pace.
+This article rewrite is grounded in the historical source post **The Winding Number — Proved** and keeps the same claim boundaries while tightening clarity and pace. The rewrite title is narrower because the current repository status preserves the remaining caveat: the derivation strongly narrows toward five, but full uniqueness is not presented here as completely closed from first principles alone.
 
 This framework had one: the APS η-invariant argument — the claim that the Atiyah-Patodi-Singer η-invariant of the five-dimensional Dirac operator on the compact S¹/Z₂ orbifold places n_w = 5 and n_w = 7 in the same triangular inflow class at an intermediate step, before n_w = 7 is excluded by the later chirality and boundary-consistency filter. That is the derivation path by which the Standard Model's chiral fermion content is argued to favor n_w = 5, while the repository still preserves the caveat that full uniqueness from first principles alone is not yet completely closed without the later observational selection step.
 
