@@ -14,7 +14,7 @@ irreversibility is already an extraordinary achievement. This post explains why.
 
 ---
 
-This abstract/preview rewrite is grounded in **The Theory of Everything That Isn't** and keeps the same claim boundaries while tightening clarity and pace. The full source article remains the canonical complete version; this file is an intentionally short lead-in rather than the full essay.
+This rewrite is grounded in **The Theory of Everything That Isn't** and keeps the same claim boundaries while tightening clarity and pace. The full source article remains the canonical complete version; this version is a substantive standalone rewrite rather than only a short lead-in.
 
 Read the canonical full article here: [`/7-OUTREACH/substack/posts/post-072-theory-of-everything-isnt.md`](../../substack/posts/post-072-theory-of-everything-isnt.md). For the broader repository claim boundaries, see [`FALLIBILITY.md`](../../../../FALLIBILITY.md) and [`3-FALSIFICATION/FALSIFICATION_REGISTER.md`](../../../../3-FALSIFICATION/FALSIFICATION_REGISTER.md).
 

@@ -8,10 +8,11 @@
 *Post 66 of the Unitary Manifold series.*
 *Claim: the Atiyah-Patodi-Singer (APS) η-invariant argument — Pillar 70 of the
 framework — has been established at three independent levels (Pillars 70-B, 80, 89),
-elevating the selection of n_w = 5 from "preferred by anomaly-cancellation and
-observational selection" to a geometric theorem. This post explains what was proved,
-what each proof does, and what it means that the framework is now derived rather
-than calibrated.*
+strongly narrowing the winding selection toward n_w = 5 from anomaly-cancellation
+and geometric consistency, while this article still preserves the live caveat that
+full first-principles uniqueness is not presented here as completely closed without
+the later observational selection step. This post explains what was proved, what
+each proof does, and what remains open in the uniqueness story.*
 
 Every physicist has a result they wish they could prove.
 
