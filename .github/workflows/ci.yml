@@ -120,6 +120,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Require successful full regression slices
+        env:
+          PUSH_FULL_REGRESSION_BATCHED_RESULT: ${{ needs.push-full-regression-batched.result }}
+        run: |
+          test "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" = "success"
       - name: Verify full regression slice coverage
         run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core-supervisor-check --batch-count 8 --emit-json
 
