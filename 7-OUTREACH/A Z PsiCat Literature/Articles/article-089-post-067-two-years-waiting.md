@@ -14,7 +14,7 @@ At minimum, the field equations have a well-defined variational principle, produ
 Prediction status:
 
 - **CMB spectral index n_s:** 0.9635 vs Planck 0.9649 ± 0.0042 — within 1σ.
-- **Birefringence β:** 0.3513° vs Minami-Komatsu 0.35° ± 0.14° — within 1σ.
+- **Birefringence β:** the historical derived-channel emphasis was 0.3513° vs Minami-Komatsu 0.35° ± 0.14°, while the canonical preregistered branch targets remained 0.273° and 0.331°.
 - **Tensor ratio r:** 0.0315 vs BICEP/Keck limit r < 0.036 — below limit.
 - **Dark energy w:** -0.9302 vs DES/DESI consistency range — preliminary.
 ---

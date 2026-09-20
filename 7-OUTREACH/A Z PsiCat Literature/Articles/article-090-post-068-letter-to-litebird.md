@@ -23,7 +23,7 @@ The falsification conditions are also explicit:
 - β inside the predicted gap **[0.29°, 0.31°]** falsifies the braided-winding mechanism.
 - β consistent with **0** at LiteBIRD precision rules out the Chern-Simons coupling mechanism used here.
 
-What would count as strong confirmation is a LiteBIRD result near **β ≈ 0.35°** with enough precision to separate `k_CS = 74` from its adjacent alternatives. Even that would confirm one mechanism, not the entire framework.
+What would count as strong confirmation is a LiteBIRD result landing near one of the preregistered branch values — especially **β ≈ 0.273°** or **β ≈ 0.331°** in the canonical channel, or the corresponding derived-channel values if that route is made explicit in the analysis — with enough precision to separate `k_CS = 74` from its adjacent alternatives. Even that would confirm one mechanism, not the entire framework.
 ---
 
 ### Gate Certification (v1)

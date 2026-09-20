@@ -7,9 +7,9 @@
 
 This article rewrite is grounded in **Building Science Without a Lab** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite examines the status of 15,615 automated assertions as evidence — what they prove, what they do not prove, and how they fit into the broader evidential structure that science requires.
+This rewrite examines a historical snapshot in which 15,615 automated assertions were already in place — what those tests proved, what they did not prove, and how they fit into the broader evidential structure that science requires. For current live totals, readers should consult `STATUS.md`.
 
-The repository has 15,615 automated tests that pass. Every time someone runs the test suite, they get the same result: the code conforms to the equations, identities, and numerical claims it was written to implement.
+At the time described in this post, the repository had 15,615 automated tests passing. The larger point is not the exact historical count but the function of the suite: when readers run the current test corpus, they are checking that the code conforms to the equations, identities, and numerical claims it was written to implement.
 
 The answer has two parts. The first part is what most people assume it means. The second part is what it actually means. Both matter.
 
