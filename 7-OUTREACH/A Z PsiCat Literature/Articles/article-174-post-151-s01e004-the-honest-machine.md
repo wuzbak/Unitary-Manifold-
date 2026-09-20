@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Honest Machine** and keeps the same claim boundaries while tightening clarity and pace.
 
-The more important question is: *how was judgment divided, how was scale achieved, and what kept speed from turning into sophisticated nonsense?*
-
 If you erase the human role, you misdescribe the source of direction and responsibility. If you erase the AI role, you misdescribe the source of scale and formal throughput. The truth is the relationship.
 
 - deciding what should count as a valid claim, - rejecting polished overreach, - preserving unresolved problems as unresolved, - and remaining answerable when the external world disagrees.

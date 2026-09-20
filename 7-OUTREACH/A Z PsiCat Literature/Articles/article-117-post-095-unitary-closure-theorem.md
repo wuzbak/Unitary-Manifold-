@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Unitary Closure Theorem — The Final Analytic Result** and keeps the same claim boundaries while tightening clarity and pace.
 
-proof that exactly two lossless braid sectors exist, and the Unitary Summation — the ten-statement capstone of the framework. This is the last technical post before the conclusion.*
-
 Every framework, if it is to be complete, must be able to state what it has established. Not what it hopes, not what it suspects, but what it has proved.
 
 The Unitary Closure Theorem (Pillar 96) provides the analytic proof that closes the main technical question raised by the dual-sector structure. The Unitary Summation is the ten-statement record of what the framework has established. Together, they constitute the closure of the 96-pillar structure.

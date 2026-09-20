@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Next Telescope: What the Roman Space Telescope Will Tell Us** and keeps the same claim boundaries while tightening clarity and pace.
 
-dark energy equation of state w to a precision of σ(w) ≈ 0.02 via weak gravitational lensing. The Unitary Manifold predicts a specific, parameter-free value: w_KK ≈ −0.930. If the Roman measurement finds w inconsistent with this value, the framework is falsified. This is the nearest-term major falsification window after LiteBIRD.*
-
 Post 3 of this series introduced the primary falsification test: LiteBIRD will measure cosmic birefringence to precision σ(β) ≈ 0.02° around 2032. The framework lives or dies on that measurement.
 
 But 2032 is six years away. This post is about what happens between now and then — specifically, what the Nancy Grace Roman Space Telescope will measure, and why it matters for this framework.

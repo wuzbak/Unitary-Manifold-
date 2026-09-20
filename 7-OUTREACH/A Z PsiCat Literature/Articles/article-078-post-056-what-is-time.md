@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **What Is Time? (The Full Technical Answer)** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that time is the geometric convergence rate toward the fixed point Ψ* — measurable, derivable from the spectral properties of the UEUM operator, and consistent with dimensional analysis. It is not a metaphor for change but a proposed identity with falsifiable numerical consequences.*
-
 Ask a physicist and you will hear: "time is a dimension of spacetime." Ask a little more and you will hear: "time is a coordinate, the one with the minus sign in the metric." Push further and you'll get: "at the Planck scale, time may not be fundamental at all — the Wheeler-DeWitt equation has no time parameter."
 
 Ask what time *is* — as in, why does it seem to flow, why does it have a direction, why is the present moment special — and the physicist will usually change the subject.

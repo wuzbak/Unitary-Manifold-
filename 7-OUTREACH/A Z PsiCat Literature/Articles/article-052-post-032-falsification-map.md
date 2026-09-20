@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Full Falsification Map: What We Are Waiting For** and keeps the same claim boundaries while tightening clarity and pace.
 
-framework against the experiments and observations that will resolve them, ordered by tier and timeline. No new physics is introduced. This is the ledger: here is what the framework predicts, here is what would break it, here is when we will know. The series has now covered all 74 core pillars (98 total with particle physics extensions through v9.26). What remains is to wait, watch, and update.*
-
 Post 3 of this series introduced one date: 2032. That is when LiteBIRD launches and the framework's primary falsification test occurs.
 
 Post 5 introduced the honesty principle: every open problem would be stated plainly. The series has spent 31 posts trying to live up to that.

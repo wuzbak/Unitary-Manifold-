@@ -13,7 +13,7 @@ The Unitary Manifold now makes a concrete, falsifiable prediction for the proton
 
 Grand Unified Theories — which unify the strong, weak, and electromagnetic forces into a single gauge group — almost universally predict that the proton is unstable. The dominant decay mode in SU(5)-type theories is:
 
-mediated by the exchange of superheavy X and Y gauge bosons at the GUT scale. The lifetime of the proton in this mode depends on the fourth power of the GUT scale M_GUT:
+That decay is mediated by the exchange of superheavy X and Y gauge bosons at the GUT scale. The lifetime of the proton in this mode depends on the fourth power of the GUT scale M_GUT:
 ---
 
 ### Gate Certification (v1)

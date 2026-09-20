@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Signal, Noise, and Grounding: Why the Output Is Only as Good as the Input** and keeps the same claim boundaries while tightening clarity and pace.
 
-and why "filtering noise" is the wrong frame. The right frame is grounding — converting imprecise, ambiguous, or emotionally charged inputs into stable fixed points that the system can evolve coherently. The Unitary Manifold framework provides a mathematical model of this process. This post explains the model and its practical implications.*
-
 Every practitioner who has worked seriously with large language models arrives at the same realisation: the output quality is not determined by the model's capability — it is determined by the input quality. A sophisticated model receiving a vague prompt returns a sophisticated elaboration of vagueness. The same model receiving a precise prompt returns precision.
 
 This observation is not profound. It is obvious. What is less obvious is the mechanism — why imprecision propagates rather than being corrected, and what "precision" actually means in the context of a system that processes natural language.

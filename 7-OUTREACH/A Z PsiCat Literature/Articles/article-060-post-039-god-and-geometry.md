@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **God and Geometry: What Physics Can and Cannot Say About Creation** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite asks whether the framework can say anything disciplined about why there is something rather than nothing. Its answer is narrow: the non-trivial fixed point Ψ* is treated as the only stable solution of the field equations, which makes "nothing" dynamically unstable without turning physics into theology.*
-
 The question "why is there something rather than nothing?" has been called the deepest question in philosophy. Leibniz asked it. Heidegger asked it. Every physicist who gets asked about the Big Bang eventually has to face it.
 
 The standard physics answer: we don't know. The question may be outside the scope of physics entirely, since any physical explanation invokes existing laws to explain why something exists — and the laws themselves are part of the "something" that needs explaining.

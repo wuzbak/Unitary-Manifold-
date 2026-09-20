@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The CKM Matrix Without Free Parameters** and keeps the same claim boundaries while tightening clarity and pace.
 
-of the quark mixing matrix from 5D geometry alone — no fitting, no free parameters introduced by hand. The Cabibbo angle comes out at 0.6% of the PDG value. The CP-violating phase emerges from the winding number.*
-
 The Cabibbo angle — the angle that governs how strongly quarks mix between generations — is approximately 13.1 degrees, or in the parameterization used since 1983, a number called λ ≈ 0.225. The Standard Model requires this number. It does not explain it. You measure it, insert it, and move on.
 
 The Wolfenstein parameterization describes the full 3×3 quark mixing matrix — the CKM matrix — using four numbers: λ (the Cabibbo angle), A (a measure of mixing between the second and third generations), and two CP-violating parameters ρ̄ and η̄. Each of these four numbers is measured, not derived.

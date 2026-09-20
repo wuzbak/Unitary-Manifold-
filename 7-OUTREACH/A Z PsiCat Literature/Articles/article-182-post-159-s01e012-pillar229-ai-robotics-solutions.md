@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **From Quantified to Solved: Pillar 229 on Closing the AI Robotics Deployment Gap** and keeps the same claim boundaries while tightening clarity and pace.
 
-Pillar 227 answered: *how bad is it?* It returned a readiness index of `0.3539` for the 2026 baseline — a calculated number, not an opinion. Pillar 229 answers the next question: *what does it cost to fix, and in what order?*
-
 This is not a promise that the problems are solved. It is a structured allocation engine: given a budget and a target, find the path.
 
 For each of the 15 barriers (12 technical bottlenecks + 3 strategic hurdles), Pillar 229 defines an explicit cost formula:

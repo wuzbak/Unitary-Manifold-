@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Simulation Hypothesis: Where Geometry Ends and Code Begins** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite distinguishes two claims that are often blurred together: that reality is computational in a digital sense, and that reality is geometric in the information-theoretic sense used by the Unitary Manifold. They are different claims with different evidentiary status and different falsification conditions.*
-
 The simulation hypothesis is the most popular speculative metaphysics of the last twenty years. Elon Musk endorses it. Nick Bostrom gave it a probabilistic argument. Physicists who should know better invoke it casually at conferences.
 
 The hypothesis: we are almost certainly living inside a computer simulation run by a technologically advanced civilization.

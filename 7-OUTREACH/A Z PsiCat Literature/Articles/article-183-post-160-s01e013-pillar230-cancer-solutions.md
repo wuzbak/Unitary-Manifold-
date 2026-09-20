@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Cancer Bottlenecks, Calculated and Solved: Pillar 230** and keeps the same claim boundaries while tightening clarity and pace.
 
-Post 158 established that the enrollment bottleneck produces 1,728,000 patients per year who never enter a trial. That is a measurement. "Solved" does not mean "fixed." It means: *given a specific intervention at a specific scale, by exactly how many patients does that number decrease, and by what fraction of the gap to target is closed?*
-
 This is the difference between "decentralised trials improve enrollment" (an adjective) and "50% decentralised adoption + 30% navigator coverage + 40% financial assistance raises participation from 4.0% to 12.4%, closing 76.7% of the gap to the 15% target, adding 151,920 patients/year" (a calculation).
 
 Post 158 showed that with 10 subclones and a 90%-effective single drug, the probability of eliminating all disease is only 35%. The solution is combination therapy — but which combination, and how much does it help?

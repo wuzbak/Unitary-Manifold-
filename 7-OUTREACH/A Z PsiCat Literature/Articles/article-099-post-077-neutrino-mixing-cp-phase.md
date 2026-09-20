@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Neutrino Mixing and the CP Phase That Came Out Right** and keeps the same claim boundaries while tightening clarity and pace.
 
-prediction that neutrinos are Dirac (not Majorana) particles, and the derivation of the neutrino CP-violating phase δ_CP^PMNS = -108° — consistent with the T2K/NOvA measurement of -107° at 0.05σ.*
-
 In 1998, the Super-Kamiokande experiment in Japan confirmed that neutrinos oscillate — that a neutrino created as an electron neutrino can arrive at a detector as a muon neutrino. This was the first direct evidence that neutrinos have mass. The discovery earned Takaaki Kajita and Arthur McDonald the 2015 Nobel Prize.
 
 The mixing angles that govern neutrino oscillations — θ₁₂ (the solar angle), θ₁₃ (the reactor angle), and θ₂₃ (the atmospheric angle) — must be measured and inserted into the theory. More mysterious still is the CP-violating phase δ_CP^PMNS: the parameter that would explain why the universe prefers matter over antimatter in the neutrino sector.

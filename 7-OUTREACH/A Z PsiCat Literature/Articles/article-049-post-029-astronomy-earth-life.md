@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Stars, Galaxies, and the Living Earth: The Framework's Cosmic and Planetary Domains** and keeps the same claim boundaries while tightening clarity and pace.
 
-structure (stars as FTUM fixed points), dark matter (the B_μ irreversibility field as geometric dark matter), galaxy rotation curves (deriving the flat-rotation result from B_μ ∝ 1/r), planetary geology, and the origin of biological complexity. The dark matter claim is Tier 1 (a direct prediction of the 5D geometry); the astronomy and earth science applications are Tier 2–3. The primary falsification condition: if galaxy rotation curves are not well-described by the B_μ isothermal profile — or if a direct dark matter particle detection is made — the geometric dark matter claim is falsified.*
-
 The framework has moved through biology, psychology, materials, climate. This post pulls back to the largest scales: stars, galaxies, the Earth itself. These domains were not obvious candidates for the φ-field language when the framework was being built. They became natural targets as the structure clarified.
 
 The most consequential result at this level is not the stars or the geology — it is dark matter.

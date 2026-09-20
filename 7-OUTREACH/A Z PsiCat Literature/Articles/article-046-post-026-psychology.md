@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Mind in the Numbers: Psychology as φ-Field Dynamics** and keeps the same claim boundaries while tightening clarity and pace.
 
-irreversibility currents, and attractor dynamics — generates internally consistent formal descriptions of motivation, decision-making, habit formation, cognitive load, and social influence. This is a Tier 3 claim: the framework provides a consistent modelling language for psychology, not a physical derivation of why people behave as they do. The falsification condition is domain consistency: the model fails if the dynamics it predicts are incompatible with well-established findings in experimental and clinical psychology.*
-
 The previous post in this series applied the φ-field language to neuroscience — synaptic plasticity, memory encoding, the grid-cell module spacing ratio. That was biology: neurons, ion channels, brain regions.
 
 Psychology sits in an interesting position in the framework's hierarchy of claims. It is further from the physics core than chemistry or mechanics, but closer to something we experience directly: the texture of wanting, deciding, habituating, believing, and belonging. The φ-field language, applied here, says something precise about each of these.

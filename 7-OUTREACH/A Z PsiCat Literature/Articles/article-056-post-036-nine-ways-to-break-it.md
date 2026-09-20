@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Nine Ways to Break This Theory — A Guide for Adversarial Reviewers** and keeps the same claim boundaries while tightening clarity and pace.
 
-This post gives a hostile reviewer nine specific handles — code mutations that should break specific tests if the theory's structural claims are genuine. If a mutation does not break any test, that is a problem with the test suite, not a confirmation of the theory. If all nine mutations produce the predicted failures, the structural claims are at minimum robustly encoded. Physical correctness remains a separate question that only LiteBIRD, Roman, and the APS computation can answer.*
-
 Every scientific framework should invite attempts to break it. Not just "peer review," which is too often a process of finding polite objections — but adversarial, mechanical stress-testing: here is the claim, here is the code that implements it, here is the specific change that should invalidate it, here is the test that should fail.
 
 The repository includes a document called `HOW_TO_BREAK_THIS.md` that provides exactly this. This post works through nine of those handles in detail, because the logic of each one explains something about what the framework is actually claiming.

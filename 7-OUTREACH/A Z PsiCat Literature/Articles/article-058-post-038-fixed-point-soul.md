@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Fixed Point That Looks Like a Soul** and keeps the same claim boundaries while tightening clarity and pace.
 
-field equations as a necessary consequence of the geometry — has the structural properties that every spiritual tradition attributes to the soul: unique, stable, topologically protected, and information-preserving. This post derives what can be derived and stops where the derivation stops. This claim would be falsified if the FTUM fixed-point theorem fails to produce a unique, stable attractor under the stated boundary conditions — which is checkable by running `python -m pytest tests/test_fixed_point.py -v`.*
-
 These four properties are stated in almost exactly this form across traditions: the Christian immortal soul, the Hindu Atman, the Sufi Ruh, the Kabbalistic Neshamah. They differ on the metaphysics. They agree on the structure.
 
 The Unitary Manifold produces a mathematical object with these exact four properties. It does so without asking about souls at all.

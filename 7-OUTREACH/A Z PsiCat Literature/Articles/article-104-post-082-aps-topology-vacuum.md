@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Topology Proof — How Boundary Conditions Select the Vacuum** and keeps the same claim boundaries while tightening clarity and pace.
 
-η̄(5) = ½, the step that connects the orbifold structure to the vacuum selection. The Atiyah-Patodi-Singer theorem is the bridge between topology and physics.*
-
 The theorem is the Atiyah-Patodi-Singer index theorem. It was proved by Michael Atiyah, Vijay Kumar Patodi, and Isadore Singer in 1975 — before string theory, before extra dimensions were seriously discussed in particle physics, purely as a mathematical result about differential operators on manifolds with boundary.
 
 Consider a manifold — a curved space — with a boundary. On this manifold, you have a Dirac operator: the differential operator that governs how fermions propagate through the space. The APS theorem relates the number of solutions to this operator (the index of the operator) to the geometry of the manifold and the structure of its boundary.

@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Neutrino Masses: The Tension That Was There and How It Resolved** and keeps the same claim boundaries while tightening clarity and pace.
 
-development — a predicted sum Σm_ν ≈ 333 meV in conflict with the Planck satellite's 120 meV upper limit — and how Pillar 90 resolved it by separating the Kaluza-Klein compactification scale from the active neutrino mass generation mechanism.*
-
 The most embarrassing moment in the development of a scientific framework is not when the theory makes a prediction that turns out to be wrong. It is when the theory makes a prediction that seems to conflict with established observation and the conflict is not acknowledged promptly.
 
 This post is about exactly such a moment in the development of the Unitary Manifold, and how it was resolved.

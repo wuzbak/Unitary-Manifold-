@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **NP-BC-6 Complete: All Six Chains Proved — 203 Sub-Gap Theorems (v20.7)** and keeps the same claim boundaries while tightening clarity and pace.
 
-Six non-perturbative braid closure chains. Eighteen sub-gaps. Six Lean4 files. **203 cumulative sub-gap theorems.**
-
 Sprint K (Pillars 618–622, v20.7) completed NP-BC-6 — the sixth and final chain in the NP-BC programme — and issued the all_np_bc_chains_proved = True milestone certificate.
 
 NP-BC-6 addresses the deepest part of the non-perturbative programme: the connection between Einstein-Rosen wormhole geometry (ER) and quantum entanglement (EPR) in the Chern-Simons holographic sector of the Unitary Manifold.

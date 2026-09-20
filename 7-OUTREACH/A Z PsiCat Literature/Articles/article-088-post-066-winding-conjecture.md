@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Winding Number — Proved** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite explains how the winding-number result in the framework has been established at three independent levels (Pillars 70-B, 80, 89), elevating the selection of n_w = 5 from a preferred value to a claimed geometric theorem. It sets out what was proved, what each proof contributes, and what it means for the framework to be described as derived rather than merely calibrated.*
-
 This framework had one: the APS η-invariant argument — the claim that the Atiyah-Patodi-Singer η-invariant of the five-dimensional Dirac operator on the compact S¹/Z₂ orbifold, evaluated at winding number n_w, equals 1/2 when n_w = 5 and 0 when n_w = 7 — and that this specific η-invariant value is the mechanism by which the Standard Model's chiral fermion content selects n_w = 5 as the unique consistent winding number.
 
 The Atiyah-Patodi-Singer index theorem (1975) is one of the deepest results in modern mathematics. It relates the index of a differential operator on a manifold with boundary to two topological quantities: the bulk Pontryagin density and the η-invariant of the boundary operator.

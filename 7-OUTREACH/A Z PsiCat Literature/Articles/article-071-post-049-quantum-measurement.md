@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Quantum Measurement Problem, Dissolved** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that the quantum measurement problem — the transition from superposition to definite outcomes — is dissolved, not solved, by the 5D → 4D dimensional reduction. The key claim is that the projection is a geometric operation requiring no observer, collapse postulate, or many-worlds branch splitting.*
-
 The quantum measurement problem has been called the most embarrassing open problem in physics. Not because physicists don't know how to use quantum mechanics — they do, with extraordinary precision. But because the theory's foundation contains an inconsistency that every textbook either ignores or papers over.
 
 The inconsistency: quantum mechanics describes systems as existing in superpositions of states (the particle is here and there) until a measurement is made (now it's definitely here). But the theory provides no account of what a "measurement" is, who or what counts as an "observer," or why superpositions become definite outcomes.

@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Post #268 — S03E046 — v19.2: Open-Problem Closure Sprint** and keeps the same claim boundaries while tightening clarity and pace.
 
-v19.2 is the Open-Problem Closure Sprint: five pillars (554–558) that complete the DM31 correction cascade to 0.12σ, prove all three ER=EPR NP-BC geometric kernels, and derive the gen-1 fermion mass from first principles.
-
 The ν_R right-handed neutrino must satisfy a Dirichlet BC at the UV brane (it is Z₂-odd). The resulting Bessel-zero KK spectrum produces a differential orbifold factor between gen-1 and gen-3 that shifts Δm²₃₁ upward.
 
 The electroweak KK gauge bosons contribute to the seesaw mass matrix at two-loop order: G₅_EW²/(16π²). This net +0.169% shift completes the three-step cascade.

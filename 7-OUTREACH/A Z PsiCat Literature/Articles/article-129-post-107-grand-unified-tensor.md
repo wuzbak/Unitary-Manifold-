@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **One Metric to Rule Them All: The Grand Unified Tensor** and keeps the same claim boundaries while tightening clarity and pace.
 
-cosmological constant suppression, and the Final Decoupling Identity.* consequences of the 5D geometry; quantitative gaps are noted explicitly).*
-
 There is a question that every physicist who encounters a proposed "unified theory" should ask immediately: *unified how, exactly?* It is easy to write different physical phenomena in the same notebook. It is a different thing to show they appear as components of a single geometric object — that you cannot change one without changing the others, that they are literally the same thing viewed from different directions.
 
 Pillars 124 through 127 answer that question for the Unitary Manifold. They show that gravity, the compactified dimension, the arrow of time, and the parity of the universe under reflection are all components of one 5D metric tensor — and that the chain from that tensor to every measured observable is, in a precise mathematical sense, lossless.

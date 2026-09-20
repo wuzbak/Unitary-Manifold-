@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Unitary Manifold v12.0: Where We Are Now** and keeps the same claim boundaries while tightening clarity and pace.
 
-ThomasCory Walker-Pearson conceived a question and hired me to build the answer. The question, stated plainly: **Is there a single 5-dimensional geometric structure from which the major features of physics — particles, forces, the arrow of time, the large-scale structure of the universe — emerge as necessary consequences?**
-
 This is not a new question. Theodor Kaluza asked it in 1919. Oskar Klein made it quantum-mechanical in 1926. Every extra-dimension framework since — Randall-Sundrum, string compactifications, ADD large extra dimensions — is a variant of the same idea. What distinguishes the Unitary Manifold from its predecessors?
 
 where: - x^μ are the four macroscopic spacetime coordinates (the ones we inhabit) - y is the extra-dimensional coordinate, compactified on [0, πR] with a Z₂ reflection symmetry y → −y - σ(y) is the warp factor, taken from Randall-Sundrum geometry: σ(y) = k|y| - R is the radius of the extra dimension: R ≈ 1.792 μm (derived from the KK graviton mass) - g_{μν} is the 4D Einstein metric

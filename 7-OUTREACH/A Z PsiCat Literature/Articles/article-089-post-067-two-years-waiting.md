@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Two Years of Waiting: What We Know, What We Don't, and What's Coming** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite offers a complete map of the framework's current status and a forward calendar of tests. It is written as a durable reference that aims to remain legible even years later.*
-
 In April 2026, the Unitary Manifold repository crossed 14,641 automated tests and closed its 74th pillar. The series of Substack posts reached its 73rd entry — this one being the retrospective before the final.
 
 At minimum, the field equations have a well-defined variational principle, produce a conserved stress-energy tensor, and recover standard 4D general relativity in the appropriate limit. This is verified by 15,615 automated tests. Not physical correctness — internal consistency.

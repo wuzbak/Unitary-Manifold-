@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Recycling Problem Is a Geometry Problem** and keeps the same claim boundaries while tightening clarity and pace.
 
-of the complete framework — what 96 pillars and the FTUM fixed point say about why recycling fails economically, and what geometry suggests about how to fix it.*
-
 Everyone knows they should recycle. The bins are provided. The labels explain what goes where. And still, contamination rates run at 25% in many municipal programs. Still, recyclable materials end up in landfills. Still, the economics of recycling are precarious: when China stopped accepting American recyclables in 2018, municipal recycling programs across the United States collapsed overnight — not because the materials had changed, but because the market for them had evaporated.
 
 The recycling crisis is a geometry problem — a structural mismatch between the rate at which the system accumulates entropy (waste, misallocated materials, externalized costs) and the rate at which it can correct toward the fixed point of a circular economy.

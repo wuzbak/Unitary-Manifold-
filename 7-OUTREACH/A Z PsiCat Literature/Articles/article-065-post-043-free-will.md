@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Free Will in a Deterministic 5D Universe** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that, given the full 5D state at any moment, the future 5D state is determined, while 4D observers still face irreducible epistemic uncertainty about that higher-dimensional state. The result is a precise account of why choice feels real inside a deterministic geometry.*
-
 The free will debate has been conducted for over two thousand years with no resolution. This is not because the question is unimportant. It is because neither side has had a precise mathematical structure to point at.
 
 The Unitary Manifold provides one. The result is not "free will exists" or "free will doesn't exist." It is a more precise claim about what kind of system you are, and why the question itself has been asked in the wrong form.

@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Post #269 — S03E047 — v19.3: Closing the Neutrino Gap** and keeps the same claim boundaries while tightening clarity and pace.
 
-formally within JUNO Phase 1 measurement uncertainty. The first hardgate parameter to go from ARCHITECTURE_LIMIT to CLOSED.
-
 | Step | Pillar | Correction | Tension After | | WS-V KK Yukawa | 548 | +5.0% central | ~2.74σ | | ν_R Z₂ orbifold BC | 554 | +0.40% | 0.22σ | | Two-loop seesaw | 555 | +0.169% | **0.12σ** |
 
 Three formal conditions all satisfied: - |tension| = 0.12σ < 1σ threshold ✓ - All three correction steps executed ✓ - No additional architecture limit identified ✓

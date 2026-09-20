@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Time Travel: What the Framework Permits and What It Forbids** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that the framework permits closed timelike curve (CTC) solutions mathematically while still forbidding grandfather-paradox style contradictions. The result is a much narrower and stranger picture than the pop-culture version of time travel.*
-
 Time travel is the science fiction idea that physics has done the most damage to. Not because the physics is wrong — but because the way it is usually described strips out the parts that make it strange and keeps only the parts that make for good dramatic tension.
 
 The actual physics of time in the Unitary Manifold is not about grandfather paradoxes or going back to fix your mistakes. It is about the structure of causality in a five-dimensional geometry — and that structure is genuinely surprising.

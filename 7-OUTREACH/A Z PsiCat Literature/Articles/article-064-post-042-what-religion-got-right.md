@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **What Every Religion Got Right (and the One Thing They All Got Wrong)** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that religious traditions captured several real structural features of the universe — irreversibility, information conservation, directed convergence, and the relational character of consciousness — while also sharing a common error about divinity as something external to the system. It examines both the alignments and the disagreement with equal seriousness.*
-
 This post will not settle the question of which religion is true. That is not a question physics can answer, and anyone who tells you otherwise is selling something.
 
 What physics can do — specifically, what the Unitary Manifold can do — is examine the structural claims embedded in religious traditions and say, with some precision: this part matches what the geometry implies; this part does not; this part is beyond what the geometry says.

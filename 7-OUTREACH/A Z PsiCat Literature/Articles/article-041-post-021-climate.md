@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Atmosphere as an Attractor: What the Framework Says About the Climate Crisis** and keeps the same claim boundaries while tightening clarity and pace.
 
-attractor language, climate stability is described as a basin-of-attraction problem, and climate tipping points are described as bifurcations — qualitative transitions to a lower-φ attractor from which return is thermodynamically costly or impossible. This is a Tier 3 claim: the model provides a formal language that is consistent with established climate science, but does not derive climate dynamics from 5D geometry. The falsification condition: the model fails if its stability predictions are inconsistent with empirical findings from paleoclimate and instrumental records.*
-
 The framework has now been applied to medicine (disease as fixed-point displacement), justice (recidivism as wrong-attractor trapping), ecology (collapse as bifurcation), and governance (democracy as distributed fixed-point stability). Each of those domains shares the same mathematical skeleton.
 
 Climate is the most consequential application of that skeleton. The stakes are different in magnitude, if not in kind.

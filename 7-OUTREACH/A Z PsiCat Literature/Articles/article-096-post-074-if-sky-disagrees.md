@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Everything We've Built — And What's Still Coming** and keeps the same claim boundaries while tightening clarity and pace.
 
-where the framework stood at that milestone, what gaps remained, and what the next 22 posts — culminating in Post 96, the conclusion — will cover. The series is not over. It is entering its final phase.*
-
 Between the point where we wrote this and where you are reading it now, the framework grew from 74 pillars to 96 — from a framework that was internally consistent and observationally grounded to one that is, in a precise technical sense, analytically closed. The test suite grew from under 13,000 passing tests to 14,641 — which is 11⁴, a number whose significance we will return to.
 
 This post is now the bridge between the first arc of the series (Posts 00–74) and the second arc (Posts 75–96). What you are reading is a record of what was true at pillar 74, honest about where it was incomplete, and clear about what was coming.

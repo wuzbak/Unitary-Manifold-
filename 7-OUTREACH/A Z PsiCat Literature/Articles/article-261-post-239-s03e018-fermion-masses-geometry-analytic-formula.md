@@ -13,7 +13,7 @@ This is not a minor gap. If you claim to have a theory of everything, the masses
 
 The Unitary Manifold's claim, built across the sprints covered here, is that the fermion mass hierarchy is not an input. It is what the braid geometry produces.
 
-where σ(y) = k|y| is the warp factor and y ∈ [0, πR] is the extra dimension. Fermions in this geometry acquire a bulk mass from their coupling to the warp factor. A fermion with bulk mass parameter c (in units of the AdS curvature k) has a zero-mode wavefunction profile:
+In that language, σ(y) = k|y| is the warp factor and y ∈ [0, πR] is the extra dimension. Fermions in this geometry acquire a bulk mass from their coupling to the warp factor, and a fermion with bulk mass parameter c (in units of the AdS curvature k) has the following zero-mode wavefunction profile:
 ---
 
 ### Gate Certification (v1)

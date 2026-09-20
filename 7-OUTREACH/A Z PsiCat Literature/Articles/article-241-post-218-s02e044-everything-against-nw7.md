@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Post 218 — S02E044: Everything We Know Against n_w = 7** and keeps the same claim boundaries while tightening clarity and pace.
 
-Of all the open items in the Unitary Manifold, the one that comes up most in external review is this one: *why 5 and not 7?*
-
 The framework derives n_w ∈ {5, 7} as the only candidates from hard geometric constraints. Five survives. Seven is excluded — or more precisely, strongly disfavoured by multiple independent arguments, with one formal topological exclusion at the level the framework can currently reach.
 
 Pillar 312 consolidates every argument against n_w=7 into a single machine-readable module. This post makes those arguments accessible to a non-specialist reader.

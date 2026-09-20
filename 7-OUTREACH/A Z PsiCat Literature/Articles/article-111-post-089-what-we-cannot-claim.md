@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **What We Cannot Claim — The Remaining Open Questions at Closure** and keeps the same claim boundaries while tightening clarity and pace.
 
-derive, cannot claim, and has not resolved. An honest framework lists its failures at least as carefully as its successes.*
-
 Every scientific framework has gaps. What distinguishes a trustworthy framework from an untrustworthy one is not the absence of gaps, but the willingness to document them precisely and publicly.
 
 The Unitary Manifold has a file called `FALLIBILITY.md`. It documents every known gap, inconsistency, and approximation in the framework. This post is the Substack version of that document — the acknowledgment that the framework is not complete, and the precise statement of where it falls short.

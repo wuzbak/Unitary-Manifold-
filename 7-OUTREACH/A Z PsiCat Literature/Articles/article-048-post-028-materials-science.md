@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Building With Geometry: Materials Science From the Fifth Dimension** and keeps the same claim boundaries while tightening clarity and pace.
 
-of band gaps, phonon scattering, phase transitions, superconductivity, and metamaterial design. This is a Tier 3 claim for the domain-mapping modules, but Pillar 26 contains a Tier 2 element: the Fröhlich polaron coupling constant and polariton-vortex topological charge are derived from the braided sound speed C_S = 12/37, making them quantitative predictions anchored to the framework's physics core. The falsification condition: if the polaron effective mass or polariton winding numbers predicted from C_S are inconsistent with condensed matter experiment, the Tier 2 connection fails.*
-
 The domain applications in this series have so far covered life, mind, society, climate, and health. This post turns to something colder and more controlled: the physics of materials. Semiconductors, superconductors, metamaterials — the engineered substances that power every device used to read this post.
 
 Materials science occupies a different position in the framework's hierarchy from medicine or psychology. Condensed matter physics has its own geometric language — band theory, Berry phases, topological invariants — that is not obviously distant from the 5D Kaluza-Klein geometry of the physics core. The framework claims a formal bridge, and in one case, a quantitative one.

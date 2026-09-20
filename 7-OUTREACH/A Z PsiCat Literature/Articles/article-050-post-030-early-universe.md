@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **From the First Microsecond: The Early Universe in the Unitary Manifold** and keeps the same claim boundaries while tightening clarity and pace.
 
-numerically close to the quark-gluon plasma sound speed squared c_s²(QGP) ≈ 0.33 measured by ATLAS in Pb-Pb collisions. The framework is honest that this is a dimensional coincidence — C_S is a speed while c_s² is a speed-squared — not a derivation of QGP dynamics. The framework does derive the photon-epoch sound horizon (≈144 Mpc) and the sub-dominant radion pressure correction to Hubble expansion (Δρ/ρ ≈ 1.4 × 10⁻³) from first principles. These are Tier 2 claims. The falsification condition: any CMB measurement that requires the photon-baryon sound speed to differ from c/√3 at last scattering by more than the KK correction term would falsify the radion pressure calculation.*
-
 The first seventeen posts in this series covered the framework's structure. The middle stretch — Posts 17 through 29 — explored the domain applications: cold fusion, recycling, neuroscience, climate, psychology, genetics, materials, stars. They were all downstream applications of a core that had already been established.
 
 This post returns to the beginning. Not the beginning of the series — the beginning of time.

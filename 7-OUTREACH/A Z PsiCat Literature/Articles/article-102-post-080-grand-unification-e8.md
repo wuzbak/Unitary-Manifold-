@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Grand Unification: How E₈ Sees Five Dimensions** and keeps the same claim boundaries while tightening clarity and pace.
 
-the connection between the five-dimensional Kaluza-Klein geometry and the SU(5) Grand Unified Theory, and the chain n_w = 5 → SU(5) ⊂ E₈ → M-theory. Three steps of this connection are analytically closed; the fourth remains open.*
-
 Grand Unified Theory — the idea that the three forces of the Standard Model are really three faces of one higher-symmetry force at high energies — is one of the most elegant proposals in theoretical physics, and one of the most embattled.
 
 SU(5), Georgi and Glashow's 1974 proposal, was the simplest grand unified theory. It unified the strong, weak, and electromagnetic forces into a single SU(5) gauge group that breaks to the Standard Model at the GUT scale (~10¹⁵ GeV). The theory made one clear prediction: protons should decay, with a half-life around 10³⁰ years.

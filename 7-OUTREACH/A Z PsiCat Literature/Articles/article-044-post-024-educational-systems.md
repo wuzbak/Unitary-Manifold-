@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **What Would It Take to Actually Fix Education?** and keeps the same claim boundaries while tightening clarity and pace.
 
-to say about: why educational systems persistently underperform what cognitive science says is possible, and what would be required to close the gap.*
-
 Education is one of the most studied institutions in the world and one of the least reformed. Decades of rigorous cognitive science research have produced a clear picture of how learning actually works — and an equally clear picture of how little most school systems have changed in response to it.
 
 This isn't an accident. It is the predictable outcome of a system optimized for the wrong fixed point.

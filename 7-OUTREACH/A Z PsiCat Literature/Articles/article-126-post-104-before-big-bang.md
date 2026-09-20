@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Before the Big Bang: What Geometry Remembers** and keeps the same claim boundaries while tightening clarity and pace.
 
-There is a question that physicists are usually not allowed to ask at conferences. Not because it is rude, but because it is unanswerable in most frameworks. The question is: *what was happening before the Big Bang?*
-
 In standard cosmology the question has no answer, because "before" requires time, and time, according to general relativity, begins at the singularity. Ask what came before and the equations hand you infinity, which is the universe's polite way of saying: *wrong question*.
 
 If the universe is a five-dimensional geometry — if the compact fifth dimension is physically real — then what we call the Big Bang is not the beginning of was doing something different. The question is not unanswerable; it is a question about phase transitions.

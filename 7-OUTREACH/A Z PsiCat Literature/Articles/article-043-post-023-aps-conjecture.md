@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The One Proof We Needed — And Found** and keeps the same claim boundaries while tightening clarity and pace.
 
-as the unique consistent winding number by requiring a non-trivial spin structure — has now been established at three independent levels (Pillars 70-B, 80, and 89). The selection of n_w = 5 is no longer merely observationally preferred; it is derived from first principles. This post explains what was proved, how it was proved, and what it means for the framework's predictive status.*
-
 This is a post about a mathematical problem that the framework set for itself — and then solved.
 
 Post 0 of this series promised that every genuine open problem would be stated plainly. Post 5 listed the winding number uniqueness as Gap 1. Post 23 (this post, in its original version) called it "the one thing that still needs to be proved." That original version described Steps 1 and 2 as proved and Step 3 as a conjecture.

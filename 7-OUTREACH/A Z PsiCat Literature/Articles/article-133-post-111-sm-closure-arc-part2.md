@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **26 Parameters, Zero Free: The Standard Model Closure Arc (Part 2)** and keeps the same claim boundaries while tightening clarity and pace.
 
-neutrino splittings, dark energy, and the master parameter table. Part 2 covers the solar mixing angle, the Higgs VEV, the lightest neutrino mass (with a major open problem stated in full), Newton's constant, and the CKM Wolfenstein ρ̄. It ends with an honest scorecard: how many of the 26 SM parameters are truly derived?*
-
 This distinction matters more in fundamental physics than in almost any other field, because the temptation to claim success is structurally embedded in the way theories are built. You start with a framework, derive a formula, compare the formula to data, and feel the pull of the narrative: *it works*. The problem is that many theories "work" if you are allowed to choose the parameters of the derivation after seeing the experimental value.
 
 The Unitary Manifold uses a controlled vocabulary for exactly this reason, inherited directly from the source code itself:

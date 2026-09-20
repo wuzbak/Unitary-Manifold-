@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Fermion Masses From Bulk Curvature — The Yukawa Geometry** and keeps the same claim boundaries while tightening clarity and pace.
 
-how fermion masses arise from the five-dimensional bulk — not from arbitrary coupling constants, but from the localization of fermion wavefunctions in the curved extra dimension. The mass hierarchy is geometry, not guesswork.*
-
 The Standard Model has no answer. It has a Yukawa coupling for each fermion — a number that multiplies the fermion field by the Higgs field to generate mass after the Higgs acquires its vacuum expectation value. The top Yukawa coupling is close to 1; the electron Yukawa coupling is about 3 × 10⁻⁶. The ratio accounts for the mass hierarchy.
 
 But the Standard Model does not explain the ratio. The Yukawa couplings are measured, not derived. They are inputs, not outputs.

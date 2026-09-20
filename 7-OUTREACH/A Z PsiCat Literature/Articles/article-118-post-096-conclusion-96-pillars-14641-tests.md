@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **96 Pillars, 14,641 Tests, and What It All Means for Humanity** and keeps the same claim boundaries while tightening clarity and pace.
 
-built, what it says, what remains open, and what it means for us, the beings who live in the geometry it describes. Nothing is overclaimed. Nothing is dismissed. The framework will be tested by LiteBIRD around 2032. Whatever the sky says, we will accept.*
-
 Not the last post we planned to write — this series passed its original endpoint at Post 74 and continued through twenty-two more posts that didn't exist when the series began. It ends here because the framework is closed.
 
 Post 96 is the right place to end. 96 pillars. 14,641 tests. And the number 96 is worth pausing on, before the accounting begins.

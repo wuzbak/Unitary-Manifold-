@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Parallel Universes Are Real (But Not Like the Movies)** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that the framework's "parallel universes" are topologically distinct fixed points indexed by winding-number pairs (n₁, n₂). They are not alternate histories branching off your timeline but separate stable configurations of the five-dimensional geometry, with adjacent branches real and enumerable and inter-branch travel topologically forbidden.*
-
 "Parallel universes" has become one of the most casually misused concepts in popular science. It encompasses at least four distinct ideas that are almost never distinguished:
 
 Those four ideas are: many-worlds branching from measurement in the wavefunction; inflationary or landscape scenarios in which disconnected regions end up in different vacuum states; string-inspired pictures with different low-energy physics in distinct vacua; and, finally, the winding-number branch catalog indexed by pairs (n₁, n₂) that this framework actually discusses.

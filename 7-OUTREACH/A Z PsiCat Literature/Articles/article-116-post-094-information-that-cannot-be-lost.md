@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Information That Cannot Be Lost** and keeps the same claim boundaries while tightening clarity and pace.
 
-the information conservation theorem and what it says about memory, death, and the permanence of what has been. This is not religion. It is geometry. The distinction matters.*
-
 LiteBIRD will test the birefringence prediction. DUNE will test the CP phase. Roman will test the dark energy equation of state. These experiments will determine whether the framework's predictions about the physical universe are correct.
 
 But the information conservation theorem — the statement that information cannot be destroyed, that every event is permanently encoded in the geometry of spacetime — does not depend on any of those experiments. It follows from the structure of the 5D geometry directly, without reference to the birefringence angle or the spectral index.

@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The 2.9σ Gap — What LiteBIRD Will Actually Measure** and keeps the same claim boundaries while tightening clarity and pace.
 
-a predicted gap in the birefringence angle between 0.29° and 0.31°, separated from both sector predictions by 2.9σ at LiteBIRD sensitivity. This is the sharpest predictive consequence the framework produces for a near-term experiment.*
-
 The measurement that will determine the fate of this framework is not a single number. It is the location of a measurement on a continuous scale.
 
 If LiteBIRD measures the cosmic birefringence angle β and finds β ≈ 0.273°, the (5,6) sector is confirmed.

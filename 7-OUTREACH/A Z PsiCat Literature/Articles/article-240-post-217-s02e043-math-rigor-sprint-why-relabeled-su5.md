@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Post 217 — S02E043: The Math Rigor Sprint — Why We Relabeled SU(5)** and keeps the same claim boundaries while tightening clarity and pace.
 
-There is a kind of intellectual discomfort that comes with honest science that most public communication avoids. It is the discomfort of saying: *this works, and here is exactly why it does not fully prove what it looks like it proves.*
-
 The v11.13 sprint was built entirely inside that discomfort. No new pillars were added. No claim was promoted. No score changed. Instead, four language corrections were made to existing modules — corrections that make the framework harder to read as more certain than it is. This post explains what they were, why they matter, and what honest epistemic labels actually accomplish in a scientific framework.
 
 The Wave 2 audit (§XI in `FALLIBILITY.md`) was a focused review of three source modules that had been carrying language slightly more confident than their derivation chains warrant. The findings:

@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **What Islam, Judaism, and Christianity Each Say About the Fixed Point** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite reads the Abrahamic traditions through the lens of the Unitary Manifold's geometry — not to validate or invalidate theology, but to map honestly where the structures align, where they diverge, and where the comparison breaks down. It is written with respect for each tradition and without preferring any one of them.*
-
 The three Abrahamic traditions — Islam, Judaism, and Christianity — are the most widely practiced religious systems in the world, accounting for more than half of all human beings alive today. Each has a complex theology that has been refined over centuries. Each has internal diversity that makes any single description incomplete.
 
 This post is not a complete account of any of these traditions. It is a structural mapping: given what the Unitary Manifold says about the geometry of existence, what are the points of alignment and divergence with each tradition's core claims?

@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **What Is Mathematics? Is the Manifold Discovered or Invented?** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that a set of quantitative predictions agreeing with observation and emerging from one mathematical structure without parameter adjustment provides concrete evidence for the view that mathematics is discovered rather than invented. It examines that evidence, its limits, and the philosophical implications carefully.*
-
 There is a philosophical question about mathematics that has never been settled: is mathematics discovered, or invented?
 
 The **Platonist** position: mathematical structures exist independently of minds. The number 17 is prime whether or not any intelligent being has ever counted to 17. Mathematicians discover pre-existing structures; they do not create them. This explains the "unreasonable effectiveness of mathematics" (Wigner, 1960) — the astonishing fact that abstract mathematics developed for its own internal purposes keeps turning out to describe physics.

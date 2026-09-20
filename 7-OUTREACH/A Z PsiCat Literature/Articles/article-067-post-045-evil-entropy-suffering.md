@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Evil, Entropy, and the Geometry of Suffering** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite begins from a strict boundary: entropy is not evil, disorder is not malicious, and the geometry makes no normative claims. What it can do is describe why some harms are physically irreversible, and why that matters for any serious discussion of suffering, forgiveness, and moral repair.*
-
 Every serious engagement with religion eventually confronts the problem of evil. If God is omnipotent and omnibenevolent, why does suffering exist? Why are children born into poverty, wars fought, diseases distributed without regard for the moral character of their victims?
 
 The Unitary Manifold does not solve the problem of evil. Any claim that it does would be dishonest. But it does provide a precise geometric account of what suffering does to an irreversible system, and that opens theological questions worth stating clearly.

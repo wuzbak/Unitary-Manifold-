@@ -7,8 +7,6 @@
 
 This abstract/preview rewrite is grounded in **The Theory of Everything That Isn't** and keeps the same claim boundaries while tightening clarity and pace. The full source article remains the canonical complete version; this file is an intentionally short lead-in rather than the full essay.
 
-This rewrite precisely defines what the framework is and what it is not — in particular, it is not a Theory of Everything, it does not solve quantum gravity, and it does not unify all forces in the ordinary maximal sense of that phrase. Being a theory of irreversibility is already an ambitious enough claim, and this post explains why that narrower claim matters.*
-
 Read the canonical full article here: [`/7-OUTREACH/substack/posts/post-072-theory-of-everything-isnt.md`](../../substack/posts/post-072-theory-of-everything-isnt.md). For the broader repository claim boundaries, see [`FALLIBILITY.md`](../../../../FALLIBILITY.md) and [`3-FALSIFICATION/FALSIFICATION_REGISTER.md`](../../../../3-FALSIFICATION/FALSIFICATION_REGISTER.md).
 
 The Unitary Manifold gets called a "Theory of Everything" sometimes. It is not, and the distinction matters.

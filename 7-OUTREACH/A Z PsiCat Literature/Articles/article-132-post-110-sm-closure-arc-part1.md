@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **26 Parameters, Zero Free: The Standard Model Closure Arc (Part 1)** and keeps the same claim boundaries while tightening clarity and pace.
 
-have the values they do. The Unitary Manifold claims to derive them — not all, not yet, but more than any other approach has managed without fitting. This post is the honest accounting of Pillars 133 through 137: the CP phase, the Higgs mass, neutrino splittings, dark energy, and the first grand synchronization table of all 26 parameters.*
-
 Sometime in the 1970s, particle physicists finished assembling the most successful scientific theory ever written. The Standard Model describes every elementary particle we have ever detected and every force we have ever measured in a laboratory — except gravity. Its predictions match experiment to twelve decimal places. It is, in any fair accounting, a triumph.
 
 Twenty-six of them. Twenty-six numbers — quark masses, mixing angles, coupling constants, a CP-violating phase — that the theory itself cannot predict. You have to measure them and put them in by hand. The theory is a machine that takes 26 inputs and computes everything else with spectacular precision. But it offers no explanation for why those 26 inputs have the values they have, rather than any other values.

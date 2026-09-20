@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Higgs Boson From Geometry — 125 GeV Without Fine-Tuning** and keeps the same claim boundaries while tightening clarity and pace.
 
-The tree-level prediction from the Kaluza-Klein geometry is 143 GeV — 14% above the measured 125.1 GeV. With the top-quark radiative correction at the KK scale, the prediction closes to 124 GeV, within 1% of the measured value. This is presented as an estimate, not a derivation. But the mechanism is there.*
-
 The Higgs boson was discovered at the Large Hadron Collider in July 2012. Its mass was measured to be 125.1 GeV. This was one of the most consequential measurements in the history of physics — confirmation of the last undetected particle of the Standard Model, and the beginning of a new puzzle.
 
 Not wrong in the sense that the LHC got it wrong. The measurement is precise. The puzzle is: quantum field theory predicts that radiative corrections should drive the Higgs mass to enormously large values — up to the Planck scale at 10¹⁹ GeV. For the Higgs to sit at 125 GeV, there must be either extraordinary cancellations between competing contributions (fine-tuning) or some new physics mechanism that protects the Higgs mass.

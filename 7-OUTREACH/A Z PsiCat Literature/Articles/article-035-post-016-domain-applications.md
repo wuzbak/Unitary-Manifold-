@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Same Geometry, Everywhere Else** and keeps the same claim boundaries while tightening clarity and pace.
 
-information currents, fixed-point convergence, and entropy accounting — can be applied as a consistent modelling language across medicine, justice, ecology, and governance. This is a Tier 3 claim: the framework provides internally consistent models of these domains, not physical proofs. The falsification condition is different for each domain: the models fail if the dynamics they predict are inconsistent with domain-expert empirical findings, or if a simpler framework makes better predictions with fewer assumptions.*
-
 The first fifteen posts in this series focused on the physics core: five dimensions, winding modes, birefringence, black holes, and the governance architecture inspired by it. Post 6 mentioned that the framework extends to 99 pillars + Pillar Ω across domains including medicine, justice, ecology, neuroscience, and governance.
 
 This post goes into four of those domains specifically: not to claim they are branches of physics, but to show what the modelling language actually says and what it is useful for.

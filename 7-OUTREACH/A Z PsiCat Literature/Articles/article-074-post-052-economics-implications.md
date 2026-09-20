@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **If This Theory Is Correct: What Changes About Economics** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that applying the framework to economies and resource-allocation systems implies that some economic configurations are structurally unstable, not because of ideology but because they violate conditions for fixed-point convergence. The claims remain structural and speculative rather than policy prescriptions.*
-
 Economics is not physics. Anyone who tells you the economy can be reduced to a set of differential equations and optimized is wrong in ways that are not innocent. The history of economics-as-physics is littered with the consequences of mistaking a model for a mandate.
 
 This post is careful about exactly that danger. The Unitary Manifold has structural implications for economic systems — not because the field equations govern markets directly, but because the fixed-point framework provides a language for identifying when a complex adaptive system is stable versus when it is accumulating entropy toward a tipping point. That language can be applied to economies. The results are structural, not prescriptive.

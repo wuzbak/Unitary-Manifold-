@@ -13,7 +13,7 @@ The Unitary Manifold predicts a tensor-to-scalar ratio r = 0.0315. ACT DR6, in i
 
 The braided winding mechanism — the (5,7) braid geometry that gives rise to the CMB spectral index n_s = 0.9635 — also predicts a tensor-to-scalar ratio from the braid sound speed:
 
-with c_s = 12/37 (the braided sound speed, fixed by the (5,7) resonance) and n_w = 5. This gives r ≈ 0.0315, a number that follows from the same geometric input that nails n_s to within 0.33σ of Planck.
+Combined with c_s = 12/37 (the braided sound speed fixed by the (5,7) resonance) and n_w = 5, this gives r ≈ 0.0315 — a number that follows from the same geometric input that nails n_s to within 0.33σ of Planck.
 ---
 
 ### Gate Certification (v1)

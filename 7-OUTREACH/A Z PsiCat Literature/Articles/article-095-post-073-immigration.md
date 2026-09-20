@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Immigration: What's Broken, Who Pays, and Whether It Can Be Fixed** and keeps the same claim boundaries while tightening clarity and pace.
 
-American immigration system: what has failed structurally, whose existence has been diminished and by how much, and what evidence-based repair looks like. The framework's language — information encoding, fixed-point stability, entropy accumulation, the HILS governance principle — provides a useful structural lens but does not replace the hard political and institutional work that is actually required.*
-
 Immigration is not an abstract policy debate. It is the question of which human beings are permitted to belong — and on what terms, under what conditions, with what assurances — to the place where they already live, work, and raise their children.
 
 The United States has approximately 11 million undocumented residents, a 3-million-case backlog in immigration courts, employment visa queues that will take a skilled Indian software engineer more than a century to clear at current rates, and a border management apparatus that has been in perpetual crisis for thirty years. It is one of the most prosperous nations in human history, built almost entirely by people who came from somewhere else, and it cannot tell those people — the ones arriving now — what will happen to them, on what timeline, under what conditions.

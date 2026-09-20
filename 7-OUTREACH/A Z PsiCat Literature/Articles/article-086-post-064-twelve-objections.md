@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Twelve Objections: A Socratic Dialogue** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite stages a skeptical physicist ("Q") against the framework's defense ("A"), working through the twelve sharpest objections the framework has received. Both sides are argued as strongly as possible, without strawmanning, and the reader is left to judge.*
-
 Any framework that claims to explain consciousness, predict birefringence, unify quantum mechanics with thermodynamics, and cover 74 domains from the same 5D geometry is almost certainly wrong in most of those claims. The prior probability of total correctness is very low.
 
 But the relevant quantity is not only the prior; it is the posterior updated by the specific agreements with observation. Four quantitative predictions emerge from the same structure without parameter tuning: n_s = 0.9635, β = 0.3513°, r = 0.0315, and w ≈ -0.930. That is not a proof, but it is the reason the objections are worth engaging seriously.

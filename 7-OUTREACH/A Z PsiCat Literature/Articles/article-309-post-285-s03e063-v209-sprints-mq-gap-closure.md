@@ -13,7 +13,7 @@ This post is the concise record. For individual topics, dedicated posts cover th
 
 Rolling-radion wₐ analysis; 3-branch PASS/TENSION/FALSIFIED routing preregistered. The DR3 machine-executable tripwire is ready. See Post 281 for the full treatment.
 
-r = 0.0315 irreducibility formally certified (ARCHITECTURE_LIMIT_CERTIFIED; Pillar 396 predecessor). CMB-S4/SO 3-branch decision protocol ready. The r-tension at ~2σ with ACT DR6 is the most live scientific risk in the framework.
+The sprint also formally certified the irreducibility of r = 0.0315 (ARCHITECTURE_LIMIT_CERTIFIED; Pillar 396 predecessor). The CMB-S4/SO three-branch decision protocol is ready, and the r-tension at roughly 2σ with ACT DR6 remains the most live scientific risk in the framework.
 ---
 
 ### Gate Certification (v1)

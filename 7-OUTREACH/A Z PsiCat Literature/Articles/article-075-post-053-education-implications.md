@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **If This Theory Is Correct: What Changes About Education** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that the framework's geometry of learning distinguishes understanding from memorization at the structural level. Understanding is treated as convergence toward the concept's own attractor, while memorization is treated as surface retention without that deeper convergence, and that distinction carries implications for teaching and assessment.*
-
 Education is the transmission of understanding from people who have it to people who don't yet have it. The challenge: understanding is not the same thing as information transfer, and information transfer is much easier to measure.
 
 You can measure whether a student can produce the correct sequence of symbols on a test. You cannot directly measure whether the student has understood the concept that the symbols represent. The gap between those two things is the central problem of education — and the Unitary Manifold has something structural to say about it.

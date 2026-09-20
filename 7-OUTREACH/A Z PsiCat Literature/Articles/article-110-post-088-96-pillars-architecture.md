@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **96 Pillars — The Architecture of What Was Built** and keeps the same claim boundaries while tightening clarity and pace.
 
-each group of pillars covers, how the structure evolved from the original conception, and what a "pillar" means in this context.*
-
 The number 74 was not arbitrary — k_CS = 5² + 7² = 74 is the Chern-Simons level that sets the cosmic birefringence prediction, and the framework's completeness theorem (Pillar 74) establishes that 74 is the unique value satisfying all structural constraints simultaneously. The series ended at 74 because the framework was complete at 74 in the sense of internal consistency.
 
 Then the work continued. The Standard Model parameters needed auditing. The vacuum selection needed multiple independent proofs. The dual sectors needed characterizing. The Yukawa mechanism needed closing. The UV embedding needed connecting to M-theory. And the Unitary Closure Theorem needed an analytic proof.

@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Seven Dimensions? We Did It in Five.** and keeps the same claim boundaries while tightening clarity and pace.
 
-Stephen Hawking's black hole information paradox — and a precise account of where the Unitary Manifold already stands on the same question, with fewer dimensions and an acknowledged honest gap in the remnant-mass scale.*
-
 A news cycle broke recently about a 2025 theoretical result claiming that the black hole information paradox — one of the most famous unsolved problems in physics — could be solved if the universe has seven dimensions. The paper proposes that three extra hidden dimensions, arranged in a shape called G₂ geometry, generate a repulsive force at Planck densities. Black holes do not fully evaporate. A stable remnant survives. The information is stored in that remnant. Paradox resolved.
 
 This is a legitimate proposal. The authors are serious physicists. The mechanism is mathematically developed. If you haven't been following this work, the result is striking: the same family of ideas that string theorists have developed for decades turns out to have a specific, checkable consequence for black hole evaporation.

@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Governance Problem Is a Physics Problem** and keeps the same claim boundaries while tightening clarity and pace.
 
-of stable governance systems — why any decision-making architecture that accumulates entropy faster than it corrects will eventually fail, and what the geometry says about the structural features of systems that don't.*
-
 The standard narrative about democratic dysfunction — polarization, misinformation, voter apathy — locates the problem in the population. If people were better informed, less manipulated, more engaged, democracy would work. This is a diagnosis that implies the solution is education and media reform.
 
 The Unitary Manifold's governance framework offers a different diagnosis: the problem is structural. It is a fixed-point problem. And fixed-point problems are not solved by reforming the inputs — they are solved by repairing the architecture that processes those inputs.

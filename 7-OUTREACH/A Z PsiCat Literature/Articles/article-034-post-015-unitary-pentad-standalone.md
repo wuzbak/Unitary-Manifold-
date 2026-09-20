@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Unitary Pentad: A Governance Architecture, Not a Physics Claim** and keeps the same claim boundaries while tightening clarity and pace.
 
-architecture that borrows its mathematical structure — five bodies, a trust field, fixed-point convergence, and deception detection — from the Unitary Manifold physics framework, but does not require that physics to be correct. The Pentad functions as a governance model regardless of whether LiteBIRD confirms the birefringence prediction. Falsification condition for the Pentad itself: if trust-field collapse, as defined by the formal model (φ_trust below minimum threshold), cannot be detected before irreversible harm in deployed systems, the architecture fails its intended purpose.*
-
 Post 11 introduced the Unitary Pentad through the lens of AI safety. This post steps back and describes the architecture as a whole — not as a safety tool but as a governance framework that applies anywhere a human-AI system makes decisions under uncertainty.
 
 The distinction matters because the Pentad's potential uses are broader than AI safety. The same formal structure applies to clinical teams, policy committees, research collaborations, and crisis response networks. Any system in which human judgment, computational precision, and environmental feedback must remain coupled — and in which the degradation of that coupling is a detectable, addressable failure mode — is a candidate for the Pentad architecture.

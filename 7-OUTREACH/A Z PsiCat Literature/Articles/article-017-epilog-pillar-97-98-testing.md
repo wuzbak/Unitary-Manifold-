@@ -13,7 +13,7 @@ That statement was honest and accurate until v9.25. Pillars 97-98 change its sta
 
 This gives v_IR ≈ 1042 GeV (in the range 760 GeV – 2 TeV depending on the precise ratio v_EW/M_Pl used).
 
-m_e^{pred} = Ŷ₅ × v_EW × f₀^L(c_Le = 0.7980) × f₀^R(0.5) = 1.0 × 246220 × f₀^L(0.7980) × (1/√37) ≈ 0.5085 MeV
+This gives the explicit electron-mass estimate: m_e^{pred} = Ŷ₅ × v_EW × f₀^L(c_Le = 0.7980) × f₀^R(0.5) = 1.0 × 246220 × f₀^L(0.7980) × (1/√37) ≈ 0.5085 MeV.
 ---
 
 ### Gate Certification (v1)

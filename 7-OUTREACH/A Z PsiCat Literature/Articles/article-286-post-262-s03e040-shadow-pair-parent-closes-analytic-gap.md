@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Post #262 · S03E040 — The Shadow-Pair Parent: How One Integer Derives K_CS = 74** and keeps the same claim boundaries while tightening clarity and pace.
 
-When we ask "why does the Chern-Simons level equal 74?", the standard answer has been: invites a follow-up: *why (5, 7)?*
-
 Pillar 267 noted an explicit analytic gap: the selection of (5, 7) from the full Z₂-orbifold spectrum used computational enumeration. Planck nₛ was the tiebreaker selecting n_w = 5 over n_w = 7. The gap was honest and documented.
 
 This is the winding count *before* the Z₂ orbifold projects out one mode. It equals 2 × n_generations = 2 × 3 = 6. The Z₂ projection removes one mode (z2_removes = 1), leaving:

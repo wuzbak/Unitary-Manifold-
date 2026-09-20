@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Why This Wasn't Published in Physical Review Letters** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite examines the academic publication process, its genuine value, and the structural reasons why a framework spanning 74 disciplinary domains does not fit the standard journal pathway. Nothing in it should be read as dismissing peer review; the argument is for more rigorous review, not less.*
-
 The most common question from technically sophisticated readers is: why isn't this in a journal?
 
 It's a fair question. The framework makes specific, falsifiable predictions about CMB birefringence, the dark energy equation of state, and the tensor-to-scalar ratio. These are the bread and butter of observational cosmology. If the predictions are correct, they should pass peer review. If they don't pass peer review, something is wrong.

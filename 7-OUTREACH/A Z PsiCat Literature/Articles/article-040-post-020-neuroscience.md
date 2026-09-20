@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Brain Is a 5D Object: Neuroscience Without Mysticism** and keeps the same claim boundaries while tightening clarity and pace.
 
-modelling language to neuroscience, generates internally consistent formal descriptions of synaptic plasticity, memory encoding, and network-level cognitive states. This is a Tier 3 claim: the model provides a common formal language, not a proof that neurons are governed by 5D Kaluza-Klein geometry. The falsification condition for this tier is domain consistency: the model fails if the dynamics it predicts are incompatible with well-established neuroscience findings.*
-
 Post 14 introduced the brain as a coupled oscillator. It focused on the consciousness question — the brain-universe coupling, the FTUM fixed point, the resonance ratio 5/7. That post was deliberately philosophical: it explored what the framework says at the highest level about the relationship between mind and cosmos.
 
 This post goes one level lower — to the biology. Not "what is consciousness?" but "what does a synapse look like in this language?" Not "what is the mind?" but "what is memory encoding as a mathematical process?"

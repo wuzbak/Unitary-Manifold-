@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Why This Universe? The Uniqueness Theorem and the Grand Synthesis** and keeps the same claim boundaries while tightening clarity and pace.
 
-grand synthesis master action that contains all of physics the framework has derived.* the framework's assumptions; the assumptions themselves are falsifiable. Where individual parameters are "argued" rather than "proved," the source is cited and the honest status is stated.*
-
 The question sounds grandiose, and it should be approached with caution precisely because of that. But it is a legitimate physics question, not a philosophical one:
 
 Not "why does anything exist rather than nothing" — that is a different and harder question. This question is narrower. Given that a universe exists, given that it has five spacetime dimensions compactified as S¹/Z₂, given that it contains matter with three generations and a birefringent CMB signal and a tensor-to-scalar ratio just below the BICEP/Keck bound — *could it have been otherwise?*

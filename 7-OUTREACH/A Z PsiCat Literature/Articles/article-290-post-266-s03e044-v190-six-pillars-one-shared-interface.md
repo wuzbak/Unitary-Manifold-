@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Post #266 — S03E044 — v19.0: Six Pillars, One Shared Interface** and keeps the same claim boundaries while tightening clarity and pace.
 
-v19.0 is a housekeeping + depth sprint. Six new pillars, a book, and the first formal convergence point between the physics engine and the AxiomZero OS.
-
 Three canonical truth surfaces had drifted to v15.x while the codebase was at v18.5. This pillar corrects that:
 
 - `docs/GATEKEEPER_SUMMARY.md`: was v15.8, now v18.5 - `docs/TRUTH_LAYER.md`: was v15.7, now v18.5 - `3-FALSIFICATION/OBSERVATION_TRACKER.md`: was v15.3, now v18.5 - `docs/CLAIM_MASTER_BOARD.md` header: was v18.4, now v18.5

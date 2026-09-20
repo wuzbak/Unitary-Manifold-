@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Afterlife Question: Information Conservation and What It Does (and Doesn't) Imply** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite argues that the conserved information current, applied to the 5D action, guarantees that the information content of any physical system is never destroyed but instead remains encoded in the geometry. This post examines what that conservation law implies for biological death, where the argument stops, and what kind of reliable counter-example to information conservation would falsify the claim.*
-
 The question of what happens after death is the oldest question humans ask. Every culture in history has proposed an answer. Most of those answers involve some version of persistence — something of the person continues, somewhere, in some form.
 
 This post does not confirm or deny those answers. It does something more precise and more limited: it examines what a specific, derived conservation law — the information current ∇_μJ^μ_inf = 0 — actually implies about the persistence of information after a biological system ceases to function.

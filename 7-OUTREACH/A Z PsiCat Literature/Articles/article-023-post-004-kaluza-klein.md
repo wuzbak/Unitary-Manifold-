@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **The Fifth Dimension Isn't Science Fiction** and keeps the same claim boundaries while tightening clarity and pace.
 
-century-old technique already in every graduate general relativity textbook. Its use here is novel; the mathematics is not. This post addresses the "5D sounds like sci-fi" objection directly.*
-
 When this framework was described in the previous posts as working in five dimensions, some readers will have filed it immediately under "speculative physics that invents dimensions to make the math work." That reaction is understandable. It is also based on a misunderstanding of what extra dimensions mean in physics.
 
 The fifth dimension in this framework is not a place. It is not somewhere you could travel if you had a small enough vehicle. It is a mathematical structure introduced over a century ago — before quantum mechanics was mature, before the Big Bang was discovered — to unify two known forces. The technique is taught in graduate physics courses worldwide. Its application here is novel; the underlying idea is not.

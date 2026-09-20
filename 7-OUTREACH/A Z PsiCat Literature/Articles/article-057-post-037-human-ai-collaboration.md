@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **What Human-AI Collaboration Actually Looks Like From the Inside** and keeps the same claim boundaries while tightening clarity and pace.
 
-or extend the physics to a new domain. It describes the process by which this repository was built — the specific, unremarkable, extraordinary collaboration between one human with an intuition and an AI with the technical vocabulary to make it precise. The claim being made is not about physics. It is about how knowledge gets built when human understanding and machine precision are pointed at the same problem.*
-
 Those two lines are not a formality. They are a precise description of how every file in this repository came to exist. This post explains what they mean.
 
 The universe's arrow of time — the reason eggs break and don't unbreak, the reason the past is fixed and the future is open — is usually explained statistically. Boltzmann's argument: there are vastly more disordered configurations than ordered ones, so any evolving system will, with overwhelming probability, move from order to disorder. The past was ordered because the universe started in an improbably low-entropy state.

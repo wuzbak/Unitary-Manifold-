@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **Post #267 — S03E045 — v19.1: The Neutrino Gap Closes (Partially)** and keeps the same claim boundaries while tightening clarity and pace.
 
-v19.1 is a depth sprint targeting the two hardest open problems: the P17 neutrino mass gap (Step 1 of 3) and the ER=EPR formal proof gap (geometric kernel of NP-BC-1). Two physics pillars, two formal pillars, a DESI evolution model, an arXiv ledger sync, and the AZ-OS decision engine.
-
 The P17 closure path (Pillar 544) has three steps. Step 1 is the Weinberg-Sakai-Sugimoto-Vijay (WS-V) off-diagonal Yukawa correction.
 
 where f₀ is the zero-mode overlap, fₙ is the KK mode overlap, and δ_KT = 0.053 is the Froggatt-Nielsen sub-lattice correction (Pillar 402).

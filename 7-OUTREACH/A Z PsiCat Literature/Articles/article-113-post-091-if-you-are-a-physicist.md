@@ -7,8 +7,6 @@
 
 This article rewrite is grounded in **If You Are a Physicist — What to Check, What to Break** and keeps the same claim boundaries while tightening clarity and pace.
 
-trained readers who want to engage critically with the framework. It identifies the five most vulnerable points in the argument — the places where a skilled reviewer is most likely to find a genuine problem.*
-
 This series has been read by non-physicists, by people interested in the philosophical implications, by people who came for the AI-collaboration angle, and by people who arrived from the religion posts and stayed for the cosmology.
 
 If you are a physicist reading this series, you have probably already identified what you think is wrong with it. This post is an attempt to steelman your concern, point you to the exact code and derivation where the issue lives, and invite you to tell us where the argument fails.
