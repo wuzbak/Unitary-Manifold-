@@ -1,17 +1,17 @@
 # The Hitchhiker's Guide to the Unitary Manifold (Merlin/PsiCat Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-20T19:03:54Z*  
+*Written: 2026-09-20T19:56:49Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat AI.*
 *Grounded rewrite source: `/7-OUTREACH/substack/books/book-hitchhikers-guide-to-the-unitary-manifold.md`*
 
-## A deadpan field guide to the theory, the repository, the receipts, and the parts that can still break
+## A complete field manual for understanding what this repository claims, what it does not claim, and what still has to survive contact with reality
 
 **Theory, framework, and scientific direction:** ThomasCory Walker-Pearson  
 **Technical synthesis, editorial architecture, and manuscript engineering:** GitHub Copilot (AI)  
 **Repository:** `wuzbak/Unitary-Manifold-`  
-**Version:** 1.0 — Hitchhiker Edition — 2026-09-20  
-**Status basis:** current canonical repository surfaces as read on 2026-09-20  
+**Version:** 1.0 — Complete Editorial Rewrite — 2026-09-20  
+**Status basis:** canonical repository surfaces as read on 2026-09-20  
 **Verification basis:** historical branch marker 64,150 passed · 22 skipped · 18 deselected · 0 failed; use `STATUS.md` for live status
 
 ---
@@ -22,184 +22,152 @@ Historical-status note: this volume is maintained as a period-context document i
 
 ## Table of Contents
 
-1. Why this guide exists  
-2. What the Unitary Manifold is  
-3. What it is not  
-4. The towel-equivalent files  
-5. The 5D machinery in plain English  
-6. What the physics says it has  
-7. What the physics plainly does not yet have  
-8. The repository as a ten-layer ecosystem  
-9. Tests, proofs, and the difference between engineering discipline and external truth  
-10. Governance, provenance, Merlin, and PsiCat  
+1. Why this guide had to be rewritten in full  
+2. Source inspiration and editorial method  
+3. What the Unitary Manifold actually is  
+4. What it is explicitly not  
+5. The canonical files that keep readers honest  
+6. The 5D framework in plain but accurate language  
+7. What the project has legitimately built  
+8. What the project has not yet earned  
+9. How layers, governance, and provenance prevent category mistakes  
+10. Why tests matter and why tests are not the universe  
 11. Falsifiers, tensions, and architecture limits  
-12. How not to become unreliable while reading this project  
-13. Practical itineraries for different readers  
-14. Commands, coordinates, and survival notes  
+12. How to read this repository without becoming unreliable  
+13. Reading itineraries for physicists, engineers, and general readers  
+14. Practical command lane and operational notes  
 Appendix A. Current snapshot at a glance  
 Appendix B. Repository geography  
-Appendix C. Canonical source map and external reference notes
+Appendix C. Canonical source map and reference notes
 
 ---
 
-## 1) Why this guide exists
+## 1) Why this guide had to be rewritten in full
 
-The Unitary Manifold is large enough to create its own weather. It contains a five-dimensional irreversibility program, a formal proof lane, a live failure ledger, a governance constitution, a software test empire, product surfaces, monographs, notebooks, assistant infrastructures, and enough naming layers to frighten underprepared tourists.
+The first version of this book did useful work as orientation, but the repository it describes is too consequential, too large, and too easy to misunderstand to remain at outline depth. A true guide in this environment cannot be a clever summary and a few warnings. It has to be a complete instrument: it must hold the architecture, the caveats, the burden ledger, and the falsifier lanes in the same frame without pretending those categories are interchangeable.
 
-This guide exists to prevent two opposite mistakes.
+That is the central reason for this full rewrite. Readers arrive here from many directions: curiosity, skepticism, excitement, disciplinary concern, governance interest, software-audit interest, and sometimes pure confusion. A responsible guide has to meet all of them while preserving epistemic boundaries. If this text fails to separate what is implemented from what is externally verified, or what is hardgate from what is adjacent, then it quietly trains people to make inaccurate claims in public. The repository itself refuses that move. This book now refuses it too.
 
-- Mistake one: treating the repository as a hype object and quoting its biggest ambitions without reading its caveats.
-- Mistake two: treating the repository as incoherent merely because it has more moving parts than a polite scientific brochure.
+## 2) Source inspiration and editorial method
 
-The right reading is harder and better: this is an unusually ambitious public research object with unusually explicit self-audit discipline.
+This volume is directly inspired by and grounded in `/7-OUTREACH/substack/books/book-hitchhikers-guide-to-the-unitary-manifold.md`, and it explicitly recognizes **Douglas Adams's** foundational influence in *The Hitchhiker’s Guide to the Galaxy* tradition. The intended alignment is not imitation for its own sake. It is alignment of method: use wit to lower fear, use deadpan to puncture inflated certainty, and keep compassion for readers who are trying to navigate complicated systems without being patronized.
 
-## 2) What the Unitary Manifold is
+In practical terms, Adams’s influence in this edition is carried through tone discipline rather than borrowed plot machinery. We keep the guide format, the humane skepticism, and the refusal to confuse confidence with truth. At the same time, we keep this text fully anchored to the repository’s evidence surfaces, burden ledgers, and falsifier lanes. That is the PsiCat and Manifold lens: curious, sharp, occasionally funny, and always accountable to receipts.
 
-At the scientific center is a 5D Kaluza–Klein proposal: perhaps irreversibility and the arrow of time can be modeled as projections of a higher-dimensional geometry rather than treated only as statistical aftereffects. The framework's canonical metric packages a familiar 4D metric, a radion or entropic scale field, and an irreversibility-facing one-form into a single parent geometry.
+Editorial method for this edition is strict:
 
-Around that core sits a very large executable and documentary structure: theory files, tests, theorem registries, falsification packets, governance files, provenance records, outreach books, and application layers. The repository is therefore both a theory attempt and a public audit machine for that attempt.
+- all major claims are tied back to canonical repository surfaces rather than tone;
+- unresolved burdens remain unresolved in prose and are not rhetorically softened;
+- historical markers are named as historical markers;
+- governance, outreach, proof, and implementation are treated as distinct layers;
+- the practical reader path is made explicit so new readers can locate evidence-bearing files quickly.
 
-## 3) What it is not
+In short: this rewrite recognizes Douglas Adams’s inspiration while preserving a sober scientific boundary. It is a navigation and integrity document first, with humor used as a precision tool rather than a substitute for rigor.
 
-It is not just a pile of assertions.
+## 3) What the Unitary Manifold actually is
 
-It is not a proof that passing tests equals physical truth.
+At its technical core, the Unitary Manifold is a five-dimensional Kaluza–Klein geometric framework that attempts to treat irreversibility and arrow-of-time structure as consequences of higher-dimensional geometry rather than as late-stage statistical commentary. The repository frames this program through equations, implementation code, formal proof lanes, failure and fallibility ledgers, and a very large executable test surface.
 
-It is not a license to blur the line between hardgate physics, adjacent explorations, public explanation, and governance work. The repository repeatedly marks those distinctions and gets stern when readers ignore them.
+The project is therefore not just one thing. It is simultaneously a theory proposal, a software system, a verification culture, an audit trail, and a public-facing educational archive. Those parts reinforce each other when read correctly. They become dangerous when collapsed into each other. Calling an outreach line a proof, calling a passing test an observational confirmation, or calling a governance component a physics result are all examples of the same interpretive failure.
 
-It is also not entitled to unqualified “Theory of Everything” language. The canonical front door is explicit that major obligations remain open, including action-to-evolution equivalence, photon-origin burdens, independent CMB normalization, and joint UV predictivity. Those are not decorative caveats. They are load-bearing honesty.
+The mature reading is harder and better: this repository is an ambitious, public, explicitly self-auditing research object with both genuine technical depth and clearly documented open burdens.
 
-## 4) The towel-equivalent files
+## 4) What it is explicitly not
 
-If this repository has a towel, it is made of canonical markdown.
+The Unitary Manifold is not a loose collection of metaphors. It is not a substitute for observational adjudication. It is not an excuse to flatten evidence classes.
 
-Start here:
+Most importantly, it is not entitled to “done” language where canonical files still register pressure. The burden ledger remains active in key places, and this book names those places directly because that is how scientific integrity survives at repository scale.
 
-- `README.md`
-- `STATUS.md`
-- `FALLIBILITY.md`
+The project also does not treat passing tests as external truth. Tests demonstrate internal consistency, implementation discipline, and reproducibility within the coded framework. They do not certify that nature has accepted the framework. That distinction appears repeatedly across canonical materials and remains non-negotiable in this edition.
 
-Then move to:
+## 5) The canonical files that keep readers honest
 
-- `proof/TIER_1_FORMAL.md`
-- `1-THEORY/UNIFICATION_PROOF.md`
-- `1-THEORY/DERIVATION_STATUS.md`
-- `3-FALSIFICATION/`
-- `docs/TRUTH_LAYER.md`
-- `docs/navigation/REPOSITORY_MAP.md`
-- `6-MONOGRAPH/MCP_INGEST.md`
-- `9-INFRASTRUCTURE/provenance/README.md`
+A reliable read starts with canonical surfaces that define status and burden explicitly.
 
-If you skip these and go directly to the grandest rhetorical paragraph you can find, the repository will not stop you, but it will quietly become correct about you.
+The front door begins with `README.md`, `STATUS.md`, and `FALLIBILITY.md`. Together these files establish the core framing, current status posture, and explicit non-claims. The next lane includes `proof/TIER_1_FORMAL.md`, `1-THEORY/UNIFICATION_PROOF.md`, `1-THEORY/DERIVATION_STATUS.md`, and `docs/TRUTH_LAYER.md`, which place formal and derivational obligations on record.
 
-## 5) The 5D machinery in plain English
+`3-FALSIFICATION/` must be treated as mandatory rather than optional reading, because it contains the conditions under which key mechanisms fail. `docs/navigation/REPOSITORY_MAP.md` and `6-MONOGRAPH/MCP_INGEST.md` provide structure and ingest orientation. `9-INFRASTRUCTURE/provenance/README.md` anchors attribution and tooling provenance so collaboration claims remain inspectable.
 
-The canonical metric is presented as
+If a reader wants to quote the project publicly and has not read those files, the reader is not yet ready to quote the project publicly.
+
+## 6) The 5D framework in plain but accurate language
+
+The canonical geometric expression appears as:
 
 \[
 ds_5^2 = g_{\mu\nu}dx^\mu dx^\nu + \phi^2(dy + \lambda B_\mu dx^\mu)^2.
 \]
 
-The shortest grounded translation is this:
+In practical translation, the model keeps familiar four-dimensional spacetime in the metric term \(g_{\mu\nu}\), scales the compact extra dimension through \(\phi\), and carries irreversibility-facing structure through \(B_\mu\). From there, the repository develops cosmology-facing and topology-facing implications, alongside implementation and test lanes intended to make each claim class auditable.
 
-- spacetime stays present as \(g_{\mu\nu}\);
-- the compact extra dimension is scaled by \(\phi\);
-- the irreversibility-facing structure is carried by \(B_\mu\);
-- topological and cosmology-facing consequences are then pursued from that geometry.
+Several named constants and targets are repeatedly emphasized because they operationalize vulnerability to observation: winding number 5, Chern–Simons level 74, braided sound speed \(12/37\), spectral-index lane near 0.9635, and birefringence windows around 0.273° and 0.331°. These are not rhetorical ornaments. They are commitments that can fail under future data.
 
-The repository further orients around named constants and targets: winding number 5, Chern–Simons level 74, braided sound speed \(12/37\), a spectral-index lane near 0.9635, and birefringence values centered near 0.273° and 0.331°. These matter because they make the theory observationally vulnerable rather than merely ornamental.
+## 7) What the project has legitimately built
 
-## 6) What the physics says it has
+At minimum-charitable and evidence-grounded reading, the repository has built a coherent and extensive internal object:
 
-Read at maximum charity but within evidence class, the project has earned several things.
+- a structured 5D framework with nontrivial formal and computational pathways;
+- a substantial implementation base in `src/` with a broad verification suite in `tests/` and related lanes;
+- explicit burden tracking through status and truth-layer artifacts;
+- durable governance/provenance surfaces that separate scientific claim classes from adjacent systems and explain human/AI role partitioning.
 
-1. A coherent internal formal and computational object with substantial executable discipline.
-2. Nontrivial cosmology-facing and theorem-facing structures, not just hand-waving metaphors.
-3. A large verification environment that makes implementation claims auditable.
-4. An unusually explicit culture of status tracking, burden accounting, and public correction.
+A major achievement here is not only technical volume; it is documentation discipline. The repository records what is open, what is withdrawn, what is adjacent, and what is historical. That ledger-first posture is uncommon and materially improves reader reliability.
 
-That last one deserves emphasis. Most speculative frameworks prefer mood management. This repository prefers ledgers.
+## 8) What the project has not yet earned
 
-## 7) What the physics plainly does not yet have
+This edition refuses the easy failure mode of replacing unresolved obligations with confidence styling. Canonical files identify ongoing pressures and open burdens, including action-to-evolution equivalence constraints, photon-origin burden, independent CMB normalization pressure, flavor/radii-lock residual lanes, compactification-facing \(\alpha_s\) stress, and dark-energy watch tensions.
 
-The foundation reassessment and current README are direct: not all derivation chains survived in their original form, and several important obligations remain unresolved.
+The phrase “architecture limit” is essential. Some open issues are not merely TODO items waiting for mood and calendar. They may indicate that parts of the current architecture cannot close certain derivation burdens as presently constructed. This is not reputationally convenient, but it is epistemically necessary.
 
-Open or pressure-bearing lanes include:
+A responsible reader therefore does not ask whether the repository is impressive in scale. A responsible reader asks whether unresolved burden classes have been discharged in evidence-bearing form. In several lanes, the answer remains: not yet.
 
-- action-to-evolution equivalence,
-- photon-origin burden,
-- independent CMB normalization,
-- flavor and radii-lock residuals,
-- compactification-facing \(\alpha_s\) difficulty,
-- dark-energy watch lanes,
-- architecture-limit questions where the current stack may simply not be enough.
+## 9) How layers, governance, and provenance prevent category mistakes
 
-The important phrase is “architecture limit.” In this repository, some problems are not framed as cheerful future work. They are framed as boundaries where the present machinery stops earning stronger claims.
+`docs/navigation/REPOSITORY_MAP.md` and surrounding canonical files treat the repository as a multi-layer ecosystem. That layered framing is not bureaucracy; it is protection against conceptual drift.
 
-That is what honesty sounds like when nobody is allowed to hide behind tone.
+A theorem registry is not an outreach article. A governance framework is not a cosmological proof. An application surface is not an observational confirmation. A historical test marker is not current live status. Category mistakes begin as small rhetorical shortcuts and end as public misinformation.
 
-## 8) The repository as a ten-layer ecosystem
+Governance and provenance layers also matter because they keep collaboration legible. Scientific direction is attributed to ThomasCory Walker-Pearson. AI execution responsibilities are documented in implementation, testing, and synthesis lanes. Clear role partition is not ceremonial; it is part of accountability.
 
-The repository map identifies ten epistemic layers from theory and reproducibility through falsification, governance, outreach, safety, infrastructure, and applications.
+## 10) Why tests matter and why tests are not the universe
 
-This matters because it prevents category errors.
+The test surface in this repository is unusually large and unusually central. That matters for quality control, reproducibility, and implementation integrity. A framework that cannot maintain internal consistency under broad regression pressure is not in a position to make stronger claims.
 
-A theorem file is not the same thing as an outreach article. A governance document is not a physics proof. A product surface is not an observational confirmation. A historical milestone is not current status. Readers who keep these distinctions intact are much less likely to accidentally become propagandists for claims the repository itself does not endorse.
+But test success remains internal evidence. Nature can still veto the model. Observations can reject mechanisms. Formal burden routes can fail to close. The project itself states this repeatedly, and this book now repeats it without dilution because reader safety depends on that distinction staying bright.
 
-## 9) Tests, proofs, and the difference between engineering discipline and external truth
-
-The regression surface is large, the test culture is real, and the branch-history status markers are not trivial achievements. But the repository says repeatedly that software self-consistency does not equal external physical validation.
-
-So the proper conclusion is twofold:
-
-- the engineering discipline is strong and unusually visible;
-- the universe still has veto power.
-
-That veto power arrives through experiment, observation, formal burden, and the possibility that some derivation routes simply do not close.
-
-## 10) Governance, provenance, Merlin, and PsiCat
-
-The Unitary Pentad is housed under `5-GOVERNANCE/` and is explicitly treated as independent of the physics being correct. That separation is one of the healthiest features of the repository.
-
-The provenance lane is equally important. Human scientific direction and judgment remain clearly attributed to ThomasCory Walker-Pearson; AI systems are credited for code architecture, test suites, editorial synthesis, and related execution work [6]. The repository's provenance materials make the collaboration inspectable rather than mystical.
-
-Merlin and PsiCat belong to that public interface layer. They are not proof objects. They are named agent/persona surfaces inside a larger governance and deployment story.
+The right sentence to keep in memory is simple: strong engineering discipline is real value, but it is not a substitute for external adjudication.
 
 ## 11) Falsifiers, tensions, and architecture limits
 
-The repository's primary public falsifier remains the birefringence lane tied to LiteBIRD-era observation. Canonical files state both admissible windows and forbidden gaps. If the sky lands elsewhere, the braided-winding mechanism as stated fails.
+The primary public falsifier remains the birefringence lane tied to LiteBIRD-era observation. Canonical files specify admissible windows and forbidden gaps. If observations land outside those windows or in the stated gap, the braided-winding mechanism as framed is falsified.
 
-That is scientifically healthy because it binds rhetoric to exposure.
+Alongside that primary lane, additional tensions remain active in canonical status and fallibility surfaces. These include CMB amplitude pressure and other cross-domain residual burdens already named above. The purpose of this section is not pessimism; it is calibration. A framework that cannot state the conditions of its own failure is not mature. This repository can state those conditions. That is strength, even when the conditions are sharp.
 
-Alongside the main falsifier sit additional tensions: CMB amplitude limitations, \(r\)-tension, flavor residuals, \(\alpha_s\) pressure, and the action-to-evolution burden [1][3][4]. You do not need to decide today which of these are terminal. You do need to admit they are there.
+## 12) How to read this repository without becoming unreliable
 
-## 12) How not to become unreliable while reading this project
+A practical reliability protocol is straightforward.
 
-A simple discipline helps.
+First, identify the epistemic layer of the file you are reading. Second, determine whether the statement is current or historical. Third, classify the evidence type: derivation, implementation, test, falsification condition, governance policy, or outreach explanation. Fourth, check burden and fallibility surfaces before repeating any strong claim. Fifth, ask what observation or proof obligation could disconfirm the statement.
 
-1. Identify the epistemic layer.
-2. Check whether the claim is current or historical.
-3. Find the evidence class.
-4. Read the fallibility or truth-layer materials before quoting the triumph line.
-5. Ask what observation could disconfirm the claim.
+If step five is unclear, you are reading too quickly.
 
-If you cannot answer step five, slow down.
+This protocol is intentionally conservative. It trades speed for reliability, which is the correct trade in any environment where conceptual drift can scale faster than correction.
 
-## 13) Practical itineraries for different readers
+## 13) Reading itineraries for physicists, engineers, and general readers
 
-**Physicists and technical skeptics:** start with `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `proof/TIER_1_FORMAL.md`, and `3-FALSIFICATION/`.
+**For physicists and technical skeptics:** start with `FALLIBILITY.md`, `1-THEORY/DERIVATION_STATUS.md`, `proof/TIER_1_FORMAL.md`, and `3-FALSIFICATION/`, then inspect implementation files referenced by those documents.
 
-**Software and reproducibility readers:** start with `README.md`, `STATUS.md`, `VERIFY.py`, the combined pytest command, and provenance materials.
+**For software and reproducibility readers:** begin with `README.md`, `STATUS.md`, `VERIFY.py`, and the combined test command, then follow the provenance lane to understand attribution and toolchain structure.
 
-**General readers:** start with `4-IMPLICATIONS/WHAT_THIS_MEANS.md`, then the monograph/outreach lane, then return to status and fallibility once the vocabulary is less hostile.
+**For general readers:** read `4-IMPLICATIONS/WHAT_THIS_MEANS.md` first, then this guide, then return to canonical burden surfaces with vocabulary in hand.
 
-**Governance or AI-collaboration readers:** start with `5-GOVERNANCE/` and `9-INFRASTRUCTURE/provenance/README.md`.
+**For governance and AI-collaboration readers:** prioritize `5-GOVERNANCE/` plus `9-INFRASTRUCTURE/provenance/README.md`.
 
-**Readers who arrived because they heard there was a five-dimensional physics repository with a cat:** there is. The cat is not a closure certificate.
+Each itinerary has the same purpose: keep interpretation grounded in evidence-bearing files rather than rhetorical summaries.
 
-## 14) Commands, coordinates, and survival notes
+## 14) Practical command lane and operational notes
 
-Useful commands:
+Useful operational commands:
 
 ```bash
 python VERIFY.py
@@ -207,14 +175,13 @@ python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
 python TOOLS/audit/check_internal_links.py
 ```
 
-Useful survival notes:
+Operational notes that prevent common mistakes:
 
-- historical documents are not automatically current;
-- the failure ledger is not optional reading;
-- high test counts are evidence of engineering seriousness, not final physical triumph;
-- downstream implications are not identical to the hardgate core;
-- the repository is broad because the project became an ecosystem, not just a manuscript;
-- multiple version clocks coexist, which is either a documentation challenge or evidence that higher-dimensional timekeeping has escaped containment.
+- historical archive texts are not automatically live status;
+- burden and fallibility files are required, not optional;
+- large passing test counts signal engineering seriousness, not cosmological closure;
+- downstream/adjacent lanes are not equivalent to hardgate physics claims;
+- multiple version clocks coexist, so always cross-check canonical status files before quoting numbers.
 
 ---
 
@@ -246,9 +213,9 @@ Useful survival notes:
 | `9-INFRASTRUCTURE/` | provenance, scripts, status assets |
 | `src/` | Python implementation |
 | `tests/` | regression surface |
-| `10-UM-SOS/` | application / system surfaces |
+| `10-UM-SOS/` | application/system surfaces |
 
-## Appendix C — Canonical source map and external reference notes
+## Appendix C — Canonical source map and reference notes
 
 ### Canonical repository sources
 
@@ -267,18 +234,18 @@ Useful survival notes:
 
 ### Canonical source notes
 
-[1] `README.md`, `STATUS.md`, and `docs/mas_tracker.yml` for current framing and status markers.  
-[2] `proof/TIER_1_FORMAL.md`, `src/core/metric.py`, and `tests/test_metric.py` for the formal entry point and metric implementation.  
-[3] `FALLIBILITY.md`, `docs/TRUTH_LAYER.md`, and `1-THEORY/DERIVATION_STATUS.md` for current limits, withdrawals, and open burdens.  
-[4] `src/core/evolution.py` for the explicit phenomenological status of the implemented flow and the current action-to-evolution burden.  
-[5] `5-GOVERNANCE/SEPARATION.md` and repository maps for the Pentad independence boundary.  
-[6] `PROVENANCE.md` and `9-INFRASTRUCTURE/provenance/README.md` for authorship and toolchain provenance.
+[1] `README.md`, `STATUS.md`, and `docs/mas_tracker.yml` for current framing and status posture.  
+[2] `proof/TIER_1_FORMAL.md`, `src/core/metric.py`, and `tests/test_metric.py` for formal entry point and metric implementation context.  
+[3] `FALLIBILITY.md`, `docs/TRUTH_LAYER.md`, and `1-THEORY/DERIVATION_STATUS.md` for limits, withdrawals, and open burdens.  
+[4] `src/core/evolution.py` for explicit implementation status and the action-to-evolution burden context.  
+[5] `5-GOVERNANCE/SEPARATION.md` and repository maps for governance independence boundary.  
+[6] `9-INFRASTRUCTURE/provenance/README.md` for authorship and toolchain provenance.
 
 ### External reference notes
 
-1. Kaluza (1921) and Klein (1926) remain the historical starting points for the higher-dimensional geometric tradition.
-2. The observational comparison lane referenced here tracks public Planck, BICEP/Keck, ACT, DESI, and LiteBIRD-facing materials through the repository's canonical ledgers.
-3. This guide is a navigation book. It points readers to the primary technical sources rather than pretending to replace them.
+1. Kaluza (1921) and Klein (1926) remain the historical starting points for higher-dimensional geometric frameworks.  
+2. Observational comparison lanes referenced in this guide track Planck, BICEP/Keck, ACT, DESI, and LiteBIRD-facing materials through canonical repository ledgers.  
+3. This guide is a navigation and integrity text; it points readers to primary technical sources rather than replacing them.
 
 ---
 
@@ -289,4 +256,4 @@ Useful survival notes:
 
 ### Gate Certification (v1)
 
-This rewrite condenses the repository into a navigable field guide without inflating any claim class. It keeps the burden board, the falsifier lane, and the category boundaries explicit, preserves grounded humor without diluting seriousness, and is written so both new readers and expert skeptics can locate the evidence-bearing surfaces quickly.
+This complete rewrite upgrades Book 47 from orientation outline to full field manual. It explicitly recognizes and extends its grounded source inspiration, preserves humor without sacrificing scientific sobriety, keeps burden and falsifier lanes visible, and provides a practical pathway for expert and general readers to verify every major claim class against canonical repository surfaces.
