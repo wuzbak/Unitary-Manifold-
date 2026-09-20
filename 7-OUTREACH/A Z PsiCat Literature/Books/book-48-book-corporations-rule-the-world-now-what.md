@@ -44,7 +44,9 @@ That is what this complete rewrite does. It keeps the public-interest urgency, r
 
 ## 2) Source inspiration, scope, and method
 
-This volume is directly inspired by and grounded in `/7-OUTREACH/substack/books/book-corporations-rule-the-world-now-what.md`. That source established the moral and analytical frame: concentrated private power must be measured as a civic and governance issue, not only as an economic curiosity. This rewrite recognizes that source inspiration explicitly and expands it into a full ledger edition.
+This volume is directly inspired by and grounded in `/7-OUTREACH/substack/books/book-corporations-rule-the-world-now-what.md`, and it explicitly recognizes **David Korten’s** civic-intent lineage in *When Corporations Rule the World*. The alignment here is deliberate: treat concentrated corporate power as a democracy-and-human-dignity problem, not only a technical economics debate, and keep the center of gravity on institutional accountability and public agency.
+
+Korten’s influence in this rewrite is preserved in three ways. First, the moral frame stays public-interest rather than market-fetish or anti-market theater. Second, the analysis follows structural power—ownership, governance, capture pathways, and extraction design—rather than personality drama. Third, the narrative remains practical: readers leave with repair pathways, not just alarm.
 
 Scope and method are deliberately narrow and disciplined:
 
@@ -54,7 +56,7 @@ Scope and method are deliberately narrow and disciplined:
 - treat uncertainty honestly without reducing urgency where evidence is already strong;
 - end with realistic repair pathways rather than performative despair.
 
-If a claim cannot survive this method, it does not appear in this book.
+If a claim cannot survive this method, it does not appear in this book. This keeps the piece faithful to Korten’s democratic accountability intention while still written in the PsiCat voice and filtered through the Manifold lens: rigorous, sober, and actionable.
 
 ## 3) The concentration era and its governing consequences
 

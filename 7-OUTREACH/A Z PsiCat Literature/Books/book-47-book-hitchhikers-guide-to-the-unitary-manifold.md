@@ -50,7 +50,9 @@ That is the central reason for this full rewrite. Readers arrive here from many 
 
 ## 2) Source inspiration and editorial method
 
-This volume is directly inspired by and grounded in `/7-OUTREACH/substack/books/book-hitchhikers-guide-to-the-unitary-manifold.md`. That source provided the narrative frame, the voice cadence, and the invitation to keep rigor and deadpan in the same paragraph. This rewrite recognizes that inspiration explicitly and extends it into a complete long-form reference edition rather than a compressed orientation draft.
+This volume is directly inspired by and grounded in `/7-OUTREACH/substack/books/book-hitchhikers-guide-to-the-unitary-manifold.md`, and it explicitly recognizes **Douglas Adams's** foundational influence in *The Hitchhiker’s Guide to the Galaxy* tradition. The intended alignment is not imitation for its own sake. It is alignment of method: use wit to lower fear, use deadpan to puncture inflated certainty, and keep compassion for readers who are trying to navigate complicated systems without being patronized.
+
+In practical terms, Adams’s influence in this edition is carried through tone discipline rather than borrowed plot machinery. We keep the guide format, the humane skepticism, and the refusal to confuse confidence with truth. At the same time, we keep this text fully anchored to the repository’s evidence surfaces, burden ledgers, and falsifier lanes. That is the PsiCat and Manifold lens: curious, sharp, occasionally funny, and always accountable to receipts.
 
 Editorial method for this edition is strict:
 
@@ -60,7 +62,7 @@ Editorial method for this edition is strict:
 - governance, outreach, proof, and implementation are treated as distinct layers;
 - the practical reader path is made explicit so new readers can locate evidence-bearing files quickly.
 
-In short: this rewrite is not a vibe document. It is a navigation and integrity document.
+In short: this rewrite recognizes Douglas Adams’s inspiration while preserving a sober scientific boundary. It is a navigation and integrity document first, with humor used as a precision tool rather than a substitute for rigor.
 
 ## 3) What the Unitary Manifold actually is
 
