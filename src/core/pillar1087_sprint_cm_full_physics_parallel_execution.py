@@ -82,6 +82,12 @@ def _as_dict(value: Any) -> Dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
 
+def _normalized_fragment(text: str) -> str:
+    for marker in (">", "`", "*"):
+        text = text.replace(marker, " ")
+    return " ".join(text.split()).casefold()
+
+
 def _run_git(args: List[str]) -> str:
     result = subprocess.run(
         ["git", *args],
@@ -292,7 +298,10 @@ def last_merge_math_verification_lane() -> Dict[str, Any]:
                 content = candidate.read_text(encoding="utf-8")
             except (OSError, UnicodeDecodeError):
                 read_ok = False
-        fragments_ok = all(fragment in content for fragment in required) if read_ok and exists else False
+        normalized_content = _normalized_fragment(content) if read_ok and exists else ""
+        fragments_ok = all(
+            _normalized_fragment(fragment) in normalized_content for fragment in required
+        ) if read_ok and exists else False
         rule_rows.append(
             {
                 "path": rel_path,

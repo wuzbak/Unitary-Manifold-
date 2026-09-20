@@ -47,7 +47,7 @@ def _assert_piece_contract(path: Path) -> None:
 
 def test_all_psicat_books_follow_curated_contract() -> None:
     files = _markdown_files(BOOKS_DIR)
-    assert len(files) == 44
+    assert len(files) == 48
     for path in files:
         _assert_piece_contract(path)
 
