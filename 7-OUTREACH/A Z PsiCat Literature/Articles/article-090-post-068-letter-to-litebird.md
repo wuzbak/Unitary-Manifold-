@@ -15,12 +15,11 @@ The explicit prediction set is:
 
 - **Canonical channel:** β ∈ {0.273°, 0.331°}
 - **Derived-channel upper-side summary:** β ≈ 0.351°
-- **Most probable single value:** **β ≈ 0.3513°**
 
 The falsification conditions are also explicit:
 
 - β outside **[0.22°, 0.38°]** falsifies the framework's birefringence prediction outright.
-- β inside the predicted gap **[0.29°, 0.31°]** falsifies the braided-winding mechanism.
+- β inside the predicted gap **[0.29°, 0.31°]** falsifies the braided-winding mechanism; historical lower-derived summaries near 0.290° are therefore not part of the promoted public decision target.
 - β consistent with **0** at LiteBIRD precision rules out the Chern-Simons coupling mechanism used here.
 
 What would count as strong confirmation is a LiteBIRD result landing near one of the preregistered branch values — especially **β ≈ 0.273°** or **β ≈ 0.331°** in the canonical channel, or near the upper derived-channel summary **β ≈ 0.351°** if that route is made explicit in the analysis — with enough precision to separate `k_CS = 74` from its adjacent alternatives. Even that would confirm one mechanism, not the entire framework.

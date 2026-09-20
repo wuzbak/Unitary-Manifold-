@@ -11,7 +11,7 @@ Post 38 showed that the GW vacuum fixes the 5D Yukawa coupling to Ŷ₅ = 1. Wit
 
 But is the same Ŷ₅ = 1 the *universal* coupling — the same number for all nine charged fermions? Or are there three independent sector Yukawas (one for leptons, one for up quarks, one for down quarks), each separately normalised?
 
-That question is what Pillar 98 answers. And the answer is constrained but narrower than a full ab initio prediction: **one coupling, nine masses, and no additional free Yukawa couplings introduced inside this sector** (the c_L bulk masses are inferred from the observed fermion masses rather than freely chosen, while ~15 SM parameters outside this sector remain free).
+That question is what Pillar 98 answers. And the answer is constrained but narrower than a full ab initio prediction: **one coupling consistent across nine fitted masses, and no additional free Yukawa couplings introduced inside this sector** (the c_L bulk masses are inferred from the observed fermion masses rather than freely chosen, while ~15 SM parameters outside this sector remain free).
 
 In this setup, the only per-fermion quantity that varies is the left-handed bulk mass c_Lf. These c_L values are not treated as extra Yukawa freedoms, but they are still obtained by inverting the same RS wavefunction mass relation against the observed charged-fermion masses. That means the result is a strong universality test of the Yukawa coupling, not yet a claim that every charged-fermion mass is predicted from first principles without observational input.
 
