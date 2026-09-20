@@ -164,6 +164,43 @@ This commissioned volume is now structured as a complete book rather than a repo
 
 ---
 
+**v37.8 — Two New Public-Facing Research Books (September 2026):**
+- Book 34: *The Hitchhiker's Guide to the Unitary Manifold* — a concise but exhaustive deadpan field guide to the theory, the repository, the falsifiers, the governance layers, and the practical reading routes
+- Book 35: *When Corporations Rule the World, Where Are We Now, and What Can We Do?* — a current public-interest accountability book on concentration, capture, AI/cloud power, climate delay, and democratic repair
+
+---
+
+## New research books
+
+### 34. [The Hitchhiker's Guide to the Unitary Manifold](book-hitchhikers-guide-to-the-unitary-manifold.md)
+**A deadpan field guide to the repository, the theory, the software, the ledger, and the places reality can still say no**
+
+| Property | Value |
+|---|---|
+| Scope | Repository navigation, claim hygiene, theory summary, falsifier map, governance and provenance orientation |
+| Focus | What the framework is, what it is not, where the canonical files live, and how different readers should traverse the project honestly |
+| Status basis | Canonical repository surfaces as read on 2026-09-20 |
+| Verification basis | Historical branch marker 64,150 passed · 22 skipped · 18 deselected · 0 failed; see `STATUS.md` for live status |
+| Audience | curious general readers, technical skeptics, builders, and future stewards |
+
+This book is written for anyone who needs one compact, navigable, deadpan map of the Unitary Manifold without sacrificing epistemic discipline.
+
+---
+
+### 35. [When Corporations Rule the World, Where Are We Now, and What Can We Do?](book-corporations-rule-the-world-now-what.md)
+**A public-interest field book on concentration, capture, climate, digital power, and democratic repair**
+
+| Property | Value |
+|---|---|
+| Scope | Present-day concentration, billionaire wealth, labor strain, lobbying, digital gatekeepers, private equity, climate accountability, and civic repair |
+| Focus | Where we are, what we are underestimating, what we are not paying enough attention to, and what institutions and ordinary people can still do |
+| Status basis | Current public-record synthesis assembled 2026-09-20 |
+| Audience | general readers, organizers, policy staff, journalists, students, and workers |
+
+This book extends the repository's public-interest writing lane into a current structural account of private power and democratic repair.
+
+---
+
 ## The Four Books (v3.0 — Omega Expanded)
 
 ### 1. [The Broken Scale — Omega Edition](book-broken-scale.md)
