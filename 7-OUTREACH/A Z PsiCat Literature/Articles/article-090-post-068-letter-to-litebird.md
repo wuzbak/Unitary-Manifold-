@@ -26,6 +26,8 @@ The falsification conditions are also explicit:
 
 What would count as strong confirmation is a LiteBIRD result landing near one of the preregistered branch values — especially **β ≈ 0.273°** or **β ≈ 0.331°** in the canonical channel, or near the upper derived-channel summary **β ≈ 0.351°** if that route is made explicit in the analysis — with precision at or below roughly **σ(β) ≤ 0.05°**, so that `k_CS = 74` is separable from its adjacent alternatives. Even that would confirm one mechanism, not the entire framework.
 
+The commitment is part of the letter, not an afterthought. If LiteBIRD lands outside the allowed window, in the forbidden gap, or consistent with zero at the stated precision, the repository's position is that the mechanism is falsified and should be said so plainly in public. If LiteBIRD instead lands on one of the preregistered branch values with decision-grade precision, the proper next step is targeted publication of the derivation and provenance trail — not a claim that the entire framework is thereby proved.
+
 Signed in advance, in public, and before the measurement: this is the claim set the repository means to live or die by on this question.
 ---
 

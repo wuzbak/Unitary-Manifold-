@@ -15,6 +15,8 @@ That question is what Pillar 98 tests. The public-facing result is narrower than
 
 In this setup, the only per-fermion quantity that varies is the left-handed bulk mass c_Lf. These c_L values are not treated as extra Yukawa freedoms, but they are still obtained by inverting the same RS wavefunction mass relation against the observed charged-fermion masses. That means the result is a strong universality test of the Yukawa coupling, not yet a claim that every charged-fermion mass is predicted from first principles without observational input.
 
+The key setup is simple enough to keep in view: the same mass relation m_f = v_EW × f₀^L(c_Lf) × f₀^R(0.5) is used for every charged fermion, and the c_L values below come from inverting that one relation against the observed masses. That is why the result is an auditable consistency check of one shared coupling rather than a first-principles derivation of the full spectrum.
+
 The auditable output is still concrete. The inversion yields a specific charged-fermion c_L spectrum, and when those values are pushed back through the same single-coupling mass relation, the charged-lepton, up-quark, and down-quark sectors remain consistent with one shared Ŷ₅ rather than requiring separate sector-by-sector Yukawa normalisations. That is the real content of the test: not magic, not full closure, but a nontrivial universality check that survives contact with the observed mass hierarchy.
 
 - Full fitted c_L spectrum from inversion against the observed charged-fermion masses — inferred quantities, not first-principles predictions: electron 0.798, muon 0.644, tau 0.555, up 0.757, charm 0.566, top 0.377, down 0.735, strange 0.648, bottom 0.522.
