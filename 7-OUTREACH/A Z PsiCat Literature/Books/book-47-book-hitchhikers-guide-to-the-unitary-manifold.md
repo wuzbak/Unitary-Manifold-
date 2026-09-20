@@ -10,7 +10,7 @@
 **Theory, framework, and scientific direction:** ThomasCory Walker-Pearson  
 **Technical synthesis, editorial architecture, and manuscript engineering:** GitHub Copilot (AI)  
 **Repository:** `wuzbak/Unitary-Manifold-`  
-**Version:** 2.0 — Complete Editorial Edition — 2026-09-20  
+**Version:** 1.0 — Complete Editorial Rewrite — 2026-09-20  
 **Status basis:** canonical repository surfaces as read on 2026-09-20  
 **Verification basis:** historical branch marker 64,150 passed · 22 skipped · 18 deselected · 0 failed; use `STATUS.md` for live status
 
