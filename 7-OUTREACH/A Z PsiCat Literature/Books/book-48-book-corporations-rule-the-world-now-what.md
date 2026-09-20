@@ -57,7 +57,7 @@ Integrity constraints:
 
 Many modern markets are no longer best described as open, competitive fields. In essential sectors they increasingly resemble managed territories dominated by a smaller number of firms, platforms, financiers, and infrastructure providers.
 
-That concentration is not just an economics story. Recent public political-economy analysis argues that rising corporate market power degrades democracy itself by narrowing contestability and concentrating practical governing influence. Policy groups focused on economic democracy and antimonopoly reform have made the same point in institutional language: concentrated private power migrates into lawmaking, regulation, standards, and public administration.
+That concentration is not just an economics story. Recent public political-economy analysis argues that rising corporate market power degrades democracy itself by narrowing contestability and concentrating practical governing influence [1]. Policy groups focused on economic democracy and antimonopoly reform have made the same point in institutional language: concentrated private power migrates into lawmaking, regulation, standards, and public administration [2].
 
 In plain English, large firms do not need to replace the state to shape the state's output. They only need to become unavoidable.
 
@@ -72,7 +72,7 @@ Major 2024–2026 reporting streams converge on a stable pattern:
 - the billionaire class itself is concentrating internally;
 - ownership and control increasingly reinforce one another.
 
-That matters because extreme wealth at the top is not merely private comfort. It is public leverage. It buys time, law, influence, media insulation, philanthropic image management, and the ability to survive policy shocks that break everyone else.
+That matters because extreme wealth at the top is not merely private comfort. It is public leverage. It buys time, law, influence, media insulation, philanthropic image management, and the ability to survive policy shocks that break everyone else. Public 2024–2026 summaries cited in Appendix C describe roughly three-quarters of global wealth in the hands of the richest tenth, about two percent in the hands of the bottom half, and a post-2020 billionaire surge large enough to function as a democratic-structure problem rather than a lifestyle curiosity [4][5][6].
 
 The right phrase here is **command inequality**. The issue is not only that some people have much more. It is that some people can shape the terrain on which everyone else must negotiate.
 
@@ -82,7 +82,7 @@ Corporate rule often hides itself inside risk allocation.
 
 In profitable periods, gains move upward through profits, equity values, compensation structures, buybacks, and ownership concentration. In difficult periods, risk tends to move downward toward workers, renters, patients, consumers, small suppliers, and municipalities.
 
-Public labor and wage discussions in OECD and ILO lanes keep returning to the same deeper pattern: precarious work, weak bargaining power, platform-mediated control, and a long-run squeeze on labor's share leave households more exposed to shocks than the firms governing their conditions.
+Public labor and wage discussions in OECD and ILO lanes keep returning to the same deeper pattern: precarious work, weak bargaining power, platform-mediated control, and a long-run squeeze on labor's share leave households more exposed to shocks than the firms governing their conditions [10].
 
 That is one of the central features of the current order. Many people are not failing privately. They are being asked to absorb system volatility that was structurally displaced onto them.
 
@@ -90,7 +90,7 @@ That is one of the central features of the current order. Many people are not fa
 
 Lobbying is not a side activity. It is part of the business model of concentrated power.
 
-Recent public summaries place annual U.S. federal lobbying expenditure above four billion dollars. The exact yearly total will move. The structural lesson will not. Rule-writing, loophole protection, procurement positioning, enforcement shaping, and standards influence are all competitive functions.
+Recent public summaries place annual U.S. federal lobbying expenditure above four billion dollars [7]. The exact yearly total will move. The structural lesson will not. Rule-writing, loophole protection, procurement positioning, enforcement shaping, and standards influence are all competitive functions.
 
 Procurement dependence deepens the problem. When governments rely on narrow vendor classes for cloud services, software, weapons, carceral services, healthcare administration, or data infrastructure, bargaining power shifts. Public agencies may remain legally sovereign while becoming operationally dependent.
 
@@ -102,7 +102,7 @@ The digital layer has become one of the clearest sites where corporate power app
 
 A handful of firms mediate search, app distribution, cloud infrastructure, advertising rails, workplace software, recommendation systems, and increasingly AI model access. Surveillance advertising compounds the problem by rewarding data hoarding, behavioral profiling, emotional manipulation, and opaque optimization.
 
-Recent antimonopoly and public-interest analysis warns that AI is arriving through already concentrated stacks. That means existing gatekeepers can leverage data, cloud, capital, and distribution to dominate the next layer too. If compute, models, cloud contracts, and app ecosystems are all concentrated, then permission structures harden around innovation itself.
+Recent antimonopoly and public-interest analysis warns that AI is arriving through already concentrated stacks [3]. That means existing gatekeepers can leverage data, cloud, capital, and distribution to dominate the next layer too. If compute, models, cloud contracts, and app ecosystems are all concentrated, then permission structures harden around innovation itself.
 
 The problem is not only privacy. It is institutional dependence.
 
@@ -126,7 +126,7 @@ The larger civic issue is dependence. When housing, care, and work all become mo
 
 The climate problem is not only a fossil-fuels problem. It is also a corporate-governance and accountability problem.
 
-Recent Carbon Majors reporting supports the broad conclusion that a relatively small number of major fossil-fuel producers remain tied to a vast share of industrial greenhouse-gas emissions. Energy reporting also shows that fossil capital remains deeply embedded even as climate damages escalate.
+Recent Carbon Majors reporting supports the broad conclusion that a relatively small number of major fossil-fuel producers remain tied to a vast share of industrial greenhouse-gas emissions; recent public summaries describe 166 major producers linked to roughly 34.7 GtCO2e in 2024, with just 32 firms accounting for more than half of those emissions [8]. Energy reporting also shows that fossil capital remains deeply embedded even as climate damages escalate [9].
 
 This is a classic cost-transfer machine:
 
@@ -135,7 +135,7 @@ This is a classic cost-transfer machine:
 - adaptation costs are pushed onto states and households,
 - future instability becomes everyone else's inheritance.
 
-The old defense of ignorance no longer applies. The remaining defenses are delay, controlled narrative management, and partial-transition theater.
+The old defense of ignorance no longer applies. The remaining defenses are delay, controlled narrative management, and partial-transition theater. UNEP's recent emissions-gap framing is blunt: current trajectories remain far off a 1.5°C-compatible path, requiring cuts on the order of 42% by 2030 and 57% by 2035 from current trajectories [9].
 
 ## 9) Fragility and the myth of efficiency
 
@@ -167,7 +167,7 @@ Concentrated corporate power also operates through the information environment.
 
 If the advertising system rewards provocation, if platforms mediate the public square, if journalism depends on infrastructure owned by firms with separate commercial interests, and if AI systems inherit these asymmetries, then democratic reasoning itself degrades.
 
-People are left fighting in a manipulated fog. Structural failures are misrecognized as personal failure or neighborly betrayal. That confusion is politically useful to concentrated power and disastrous for democratic repair.
+People are left fighting in a manipulated fog. Structural failures are misrecognized as personal failure or neighborly betrayal. That confusion is politically useful to concentrated power and disastrous for democratic repair. Reuters Institute's 2026 digital-news reporting, for example, describes low trust and high news avoidance across many publics, which is exactly the sort of information fragility concentrated systems know how to exploit [12].
 
 ## 12) Likely trajectories if nothing material changes
 
@@ -227,7 +227,7 @@ Repair will require multiple coordinated lanes.
 - support watchdog journalism, public-records infrastructure, labor organizing, tenant organizing, and civic education;
 - stop treating public participation as optional décor.
 
-Repair is not anti-business. It is anti-domination.
+Repair is not anti-business. It is anti-domination. It is also measurement design: if the public does not track ownership concentration, bargaining coverage, tax leakage, lobbying intensity, emissions concentration, and infrastructure dependence together, the machinery remains partially invisible even while people are living inside it.
 
 ---
 
@@ -235,13 +235,13 @@ Repair is not anti-business. It is anti-domination.
 
 | Domain | Directional signal | Why it matters |
 |---|---|---|
-| Wealth concentration | extreme top-end concentration persists | converts money into governing leverage |
-| Billionaire wealth | strong post-2020 surge in major reporting cycles | indicates increasing elite insulation |
-| Lobbying | multi-billion-dollar annual influence market | lawmaking becomes part of competitive strategy |
-| Labor share / worker leverage | structural strain persists in many sectors | risk is shifted downward |
-| Cloud / AI concentration | a few firms dominate key infrastructure layers | digital dependency hardens |
-| Carbon concentration | major fossil producers remain central to emissions history | climate damage is socialized |
-| Private-equity reach | essential sectors remain exposed | daily life becomes yield terrain |
+| Wealth concentration | recent public summaries place ~75% of global wealth with the richest 10% and ~2% with the bottom 50% [4][5] | converts money into governing leverage |
+| Billionaire wealth | strong post-2020 surge in major reporting cycles [4][5][6] | indicates increasing elite insulation |
+| Lobbying | multi-billion-dollar annual influence market [7] | lawmaking becomes part of competitive strategy |
+| Labor share / worker leverage | structural strain persists in many sectors [10] | risk is shifted downward |
+| Cloud / AI concentration | a few firms dominate key infrastructure layers [3][11] | digital dependency hardens |
+| Carbon concentration | recent public summaries tie 166 major producers to ~34.7 GtCO2e in 2024, with 32 firms driving over half [8] | climate damage is socialized |
+| Private-equity reach | essential sectors remain exposed [12] | daily life becomes yield terrain |
 | Supply-chain resilience | repeated shocks reveal brittle optimization | public safety implications |
 
 ## Appendix B — Civic, labor, and policy action ladder
@@ -271,10 +271,10 @@ Repair is not anti-business. It is anti-domination.
 [6] Altrata (2026), *Billionaire Census 2026*.  
 [7] OpenSecrets, federal lobbying summary (latest public cycle).  
 [8] Carbon Majors public reporting (latest update).  
-[9] International Energy Agency public reporting (latest cycle).  
+[9] International Energy Agency public reporting (latest cycle), together with UNEP emissions-gap framing for 2030/2035 distance-to-target context.  
 [10] OECD / ILO labor-share and precarious-work discussion streams (latest public cycles).  
-[11] EU Digital Markets Act public gatekeeper enforcement materials.  
-[12] Recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, and infrastructure.
+[11] EU Digital Markets Act public gatekeeper enforcement materials and public cloud/AI concentration discussions.  
+[12] Recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, Reuters Institute digital-news reporting, and democratic governance.
 
 ### Precision note
 

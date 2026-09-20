@@ -84,7 +84,7 @@ That concentration has several consequences at once.
 - Communities become more dependent on decisions made elsewhere.
 - Failure at the top propagates faster and farther.
 
-Recent public discussion from competition scholars and democracy researchers has become blunter about this. A 2026 analysis in *ProMarket* synthesizing newer political-economy work argues that rising corporate market power is not just an economic problem but a democratic one, degrading contestation and concentrating governance influence in fewer hands. Policy organizations focused on corporate power have made similar arguments from the institutional side: concentrated private power does not stay “economic.” It migrates into law, media, standards, and public administration.
+Recent public discussion from competition scholars and democracy researchers has become blunter about this. A 2026 analysis in *ProMarket* synthesizing newer political-economy work argues that rising corporate market power is not just an economic problem but a democratic one, degrading contestation and concentrating governance influence in fewer hands [1]. Policy organizations focused on corporate power have made similar arguments from the institutional side: concentrated private power does not stay “economic.” It migrates into law, media, standards, and public administration [2].
 
 That is where we are now: not in a fully privatized sovereign order, but in a system where large corporate actors increasingly function as partial governors.
 
@@ -99,7 +99,7 @@ Recent inequality reporting summarized in 2024–2026 public sources shows:
 - billionaire wealth has surged since 2020,
 - the uppermost slice of that billionaire class has become even more concentrated internally.
 
-The precise figures vary by source and date, but the direction is not ambiguous. Oxfam's 2024 *Inequality Inc.* report, the 2026 World Inequality reporting cycle, and Altrata's 2026 billionaire census all converge on the same pattern: extreme wealth is not just large; it is increasingly clustered among fewer people whose fortunes are deeply integrated with corporate control.
+The precise figures vary by source and date, but the direction is not ambiguous. Oxfam's 2024 *Inequality Inc.* report, the 2026 World Inequality reporting cycle, and Altrata's 2026 billionaire census all converge on the same pattern: extreme wealth is not just large; it is increasingly clustered among fewer people whose fortunes are deeply integrated with corporate control. Public 2024–2026 summaries cited in Appendix C describe roughly three-quarters of global wealth in the hands of the richest tenth, about two percent in the hands of the bottom half, and a post-2020 billionaire surge large enough to function as a democratic-structure problem rather than a lifestyle curiosity [4][5][6].
 
 This matters because modern wealth concentration is not merely personal consumption inequality. It is command inequality. Wealth at this scale buys:
 
@@ -142,7 +142,7 @@ That happens through many channels:
 - trade-association coordination,
 - regulatory complexity that only the largest firms can continuously service.
 
-Recent U.S. public data summarized by OpenSecrets places federal lobbying expenditure above four billion dollars annually. The raw number matters less than the structural lesson: rule-writing has become a core competitive function.
+Recent U.S. public data summarized by OpenSecrets places federal lobbying expenditure above four billion dollars annually [7]. The raw number matters less than the structural lesson: rule-writing has become a core competitive function.
 
 Procurement capture deepens the problem. When governments depend on a narrow vendor class for cloud infrastructure, weapons systems, pharmaceuticals, insurance administration, detention operations, or data systems, public bargaining power weakens. The state does not disappear. It becomes entangled.
 
@@ -190,13 +190,13 @@ The reason this matters politically is simple. A person facing concentrated owne
 
 The climate question is also a corporate-power question.
 
-Recent Carbon Majors reporting continues to support the broad conclusion that a relatively small set of fossil-fuel producers is linked to a vast share of industrial greenhouse-gas emissions. Public climate-accountability work and energy reporting also show that even as climate risk becomes unignorable, capital expenditure and political influence tied to fossil infrastructure remain enormous.
+Recent Carbon Majors reporting continues to support the broad conclusion that a relatively small set of fossil-fuel producers is linked to a vast share of industrial greenhouse-gas emissions; recent public summaries describe 166 major producers linked to roughly 34.7 GtCO2e in 2024, with just 32 firms accounting for more than half of those emissions [8]. Public climate-accountability work and energy reporting also show that even as climate risk becomes unignorable, capital expenditure and political influence tied to fossil infrastructure remain enormous [9].
 
 This is corporate rule in one of its starkest forms: profits are privatized while atmospheric damage, adaptation cost, mortality risk, and future instability are socialized.
 
 The old defense was ignorance. That defense is gone.
 
-The newer defense is delay, partial transition theater, or controlled narrative management. But the physics does not bargain. A climate ledger eventually matures into a damage ledger.
+The newer defense is delay, partial transition theater, or controlled narrative management. UNEP's recent emissions-gap framing is blunt: current trajectories remain far off a 1.5°C-compatible path, requiring cuts on the order of 42% by 2030 and 57% by 2035 from current trajectories [9]. The physics does not bargain. A climate ledger eventually matures into a damage ledger.
 
 ## Chapter 8 — Fragility: Supply Chains, Public Capacity, and the Myth of Efficiency
 
@@ -235,7 +235,7 @@ Corporate rule today operates through epistemic channels as much as economic one
 
 When the advertising market rewards provocation, when media organizations depend on platform referral, when AI systems remix already concentrated information ecosystems, and when public institutions have weaker communication capacity than private platforms, the result is not merely “bias.” It is narrative disorder.
 
-People then fight inside a manipulated fog. They blame neighbors for conditions produced by incentive architecture. They lose the ability to distinguish structural problems from personal failures. They become easier to govern through exhaustion.
+People then fight inside a manipulated fog. They blame neighbors for conditions produced by incentive architecture. They lose the ability to distinguish structural problems from personal failures. They become easier to govern through exhaustion. Reuters Institute's 2026 digital-news reporting, for example, describes low trust and high news avoidance across many publics, which is exactly the sort of information fragility concentrated systems know how to exploit [12].
 
 That is why media concentration, platform governance, and information-system integrity are not side issues. They are central democratic infrastructure questions.
 
@@ -317,7 +317,7 @@ Repair is possible, but not by one lever.
 - teach institutional literacy so people can see the machinery, not just the symptoms;
 - stop treating civic participation as a lifestyle accessory.
 
-The common thread is not anti-business dogma. It is pro-democracy design.
+The common thread is not anti-business dogma. It is pro-democracy design. It is also measurement design: if the public does not track ownership concentration, bargaining coverage, tax leakage, lobbying intensity, emissions concentration, and infrastructure dependence together, the machinery remains partially invisible even while people are living inside it.
 
 ---
 

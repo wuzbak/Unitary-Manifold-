@@ -161,7 +161,7 @@ That veto power arrives through experiment, observation, formal burden, and the 
 
 The Unitary Pentad is housed under `5-GOVERNANCE/` and is explicitly treated as independent of the physics being correct. That separation is one of the healthiest features of the repository.
 
-The provenance lane is equally important. Human scientific direction and judgment remain clearly attributed to ThomasCory Walker-Pearson; AI systems are credited for code architecture, test suites, editorial synthesis, and related execution work. The repository's provenance materials make the collaboration inspectable rather than mystical.
+The provenance lane is equally important. Human scientific direction and judgment remain clearly attributed to ThomasCory Walker-Pearson; AI systems are credited for code architecture, test suites, editorial synthesis, and related execution work [6]. The repository's provenance materials make the collaboration inspectable rather than mystical.
 
 Merlin and PsiCat belong to that public interface layer. They are not proof objects. They are named agent/persona surfaces inside a larger governance and deployment story.
 
@@ -171,7 +171,7 @@ The repository's primary public falsifier remains the birefringence lane tied to
 
 That is scientifically healthy because it binds rhetoric to exposure.
 
-Alongside the main falsifier sit additional tensions: CMB amplitude limitations, \(r\)-tension, flavor residuals, \(\alpha_s\) pressure, and the action-to-evolution burden. You do not need to decide today which of these are terminal. You do need to admit they are there.
+Alongside the main falsifier sit additional tensions: CMB amplitude limitations, \(r\)-tension, flavor residuals, \(\alpha_s\) pressure, and the action-to-evolution burden [1][3][4]. You do not need to decide today which of these are terminal. You do need to admit they are there.
 
 ## 12) How not to become unreliable while reading this project
 
@@ -213,7 +213,8 @@ Useful survival notes:
 - the failure ledger is not optional reading;
 - high test counts are evidence of engineering seriousness, not final physical triumph;
 - downstream implications are not identical to the hardgate core;
-- the repository is broad because the project became an ecosystem, not just a manuscript.
+- the repository is broad because the project became an ecosystem, not just a manuscript;
+- multiple version clocks coexist, which is either a documentation challenge or evidence that higher-dimensional timekeeping has escaped containment.
 
 ---
 
@@ -263,6 +264,15 @@ Useful survival notes:
 - `docs/navigation/REPOSITORY_MAP.md`
 - `6-MONOGRAPH/MCP_INGEST.md`
 - `9-INFRASTRUCTURE/provenance/README.md`
+
+### Canonical source notes
+
+[1] `README.md`, `STATUS.md`, and `docs/mas_tracker.yml` for current framing and status markers.  
+[2] `proof/TIER_1_FORMAL.md`, `src/core/metric.py`, and `tests/test_metric.py` for the formal entry point and metric implementation.  
+[3] `FALLIBILITY.md`, `docs/TRUTH_LAYER.md`, and `1-THEORY/DERIVATION_STATUS.md` for current limits, withdrawals, and open burdens.  
+[4] `src/core/evolution.py` for the explicit phenomenological status of the implemented flow and the current action-to-evolution burden.  
+[5] `5-GOVERNANCE/SEPARATION.md` and repository maps for the Pentad independence boundary.  
+[6] `PROVENANCE.md` and `9-INFRASTRUCTURE/provenance/README.md` for authorship and toolchain provenance.
 
 ### External reference notes
 

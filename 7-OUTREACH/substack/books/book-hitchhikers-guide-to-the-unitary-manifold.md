@@ -30,7 +30,7 @@ The Unitary Manifold is easy to misunderstand in at least four directions.
 
 So this book does one job: it gives a concise, empirical, deadpan map of what the Unitary Manifold is, what it claims, what it refuses to claim, where the evidence is, where the tension lives, and how a sane person should move through it.
 
-If there is a single governing rule, it is this: **read the strongest claims through the strongest sources, and read the caveats before you start celebrating the architecture.**
+If there is a single governing rule, it is this: **read the strongest claims through the strongest sources, and read the caveats before you start celebrating the architecture** [1][2][3].
 
 ---
 
@@ -123,7 +123,7 @@ That one line does a shocking amount of work.
 - \(B_\mu\) is the irreversibility or gauge-facing one-form.
 - The compact fifth coordinate lets the framework reinterpret certain 4D structures as projections of a 5D parent geometry.
 
-The repository also foregrounds several derived or central constants: winding number 5, Chern–Simons level 74, the braided sound speed \(12/37\), the spectral index target near 0.9635, and a birefringence prediction family centered near 0.273° and 0.331°. These numbers are not decorative. They are the bridge between the geometric proposal and the observational lane.
+The repository also foregrounds several derived or central constants: winding number 5, Chern–Simons level 74, the braided sound speed \(12/37\), the spectral index target near 0.9635, and a birefringence prediction family centered near 0.273° and 0.331° [1][2]. These numbers are not decorative. They are the bridge between the geometric proposal and the observational lane.
 
 The best way to read them is not as trophies but as commitments. Once numbers leave the blackboard and meet the sky, the sky becomes management.
 
@@ -145,7 +145,7 @@ That last point is not glamorous, which is precisely why it matters.
 
 This is the chapter that keeps the guide honest.
 
-The current canonical surfaces state that the foundation reassessment corrected the metric normalization, withdrew the odd-composite photon argument, and left major obligations unresolved. The README is explicit: photon origin, action-to-evolution equivalence, independent CMB normalization, and joint UV predictivity remain open.
+The current canonical surfaces state that the foundation reassessment corrected the metric normalization, withdrew the odd-composite photon argument, and left major obligations unresolved. The README is explicit: photon origin, action-to-evolution equivalence, independent CMB normalization, and joint UV predictivity remain open [1][3][4].
 
 Several tensions are also live:
 
