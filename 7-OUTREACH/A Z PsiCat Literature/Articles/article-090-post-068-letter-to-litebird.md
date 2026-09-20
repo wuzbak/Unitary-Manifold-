@@ -9,7 +9,7 @@ This article rewrite is grounded in **The Letter to LiteBIRD** and keeps the sam
 
 This letter is written in April 2026. The LiteBIRD satellite's full data release is expected around 2032. By the time you read this, you know something we do not. This letter is our commitment to have stated our prediction clearly, without equivocation, before you told us the answer.
 
-The Unitary Manifold — a five-dimensional Kaluza-Klein framework with winding numbers n_w = 5 and n_w = 7, Chern-Simons level k_CS = 74 = 5² + 7², and braided sound speed C_S = 12/37 — makes the following prediction for the CMB polarization birefringence angle β:
+To the LiteBIRD collaboration and to future readers: the Unitary Manifold — a five-dimensional Kaluza-Klein framework with winding numbers n_w = 5 and n_w = 7, Chern-Simons level k_CS = 74 = 5² + 7², and braided sound speed C_S = 12/37 — records the following birefringence prediction set in advance:
 
 The explicit prediction set is:
 
@@ -24,6 +24,8 @@ The falsification conditions are also explicit:
 - β consistent with **0** at LiteBIRD precision rules out the Chern-Simons coupling mechanism used here.
 
 What would count as strong confirmation is a LiteBIRD result landing near one of the preregistered branch values — especially **β ≈ 0.273°** or **β ≈ 0.331°** in the canonical channel, or the corresponding derived-channel values if that route is made explicit in the analysis — with enough precision to separate `k_CS = 74` from its adjacent alternatives. Even that would confirm one mechanism, not the entire framework.
+
+Signed in advance, in public, and before the measurement: this is the claim set the repository means to live or die by on this question.
 ---
 
 ### Gate Certification (v1)

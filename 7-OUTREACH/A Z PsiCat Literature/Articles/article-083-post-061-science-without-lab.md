@@ -9,11 +9,11 @@ This article rewrite is grounded in **Building Science Without a Lab** and keeps
 
 This rewrite examines a historical snapshot in which 15,615 automated assertions were already in place — what those tests proved, what they did not prove, and how they fit into the broader evidential structure that science requires. For current live totals, readers should consult `STATUS.md`.
 
-At the time described in this post, the repository had 15,615 automated tests passing. The larger point is not the exact historical count but the function of the suite: when readers run the current test corpus, they are checking that the code conforms to the equations, identities, and numerical claims it was written to implement.
+At the time described in this post, the repository had 15,615 automated tests passing. The larger point is not the exact historical count but the function of the suite: when readers run a concrete command such as `python -m pytest tests/ -q`, they are checking that the code conforms to the equations, identities, and numerical claims it was written to implement.
 
 The answer has two parts. The first part is what most people assume it means. The second part is what it actually means. Both matter.
 
-The tests verify that the code faithfully implements the stated mathematics. When `tests/test_inflation.py` passes, it means that the Python function `spectral_index()` returns a value within the claimed range. It means that when the winding number is set to 5, the result is consistent with the stated derivation.
+The tests verify that the code faithfully implements the stated mathematics. When `tests/test_inflation.py` passes, it means that the Python function `spectral_index()` returns a value within the claimed range. It means that when the winding number is set to 5, the result is consistent with the stated derivation. For live totals the repository now points to `STATUS.md`, but the reproducibility path remains executable rather than rhetorical.
 ---
 
 ### Gate Certification (v1)

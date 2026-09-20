@@ -14,6 +14,8 @@ This is an honest description of the division of labor. It is also an unusual on
 ThomasCory Walker-Pearson had a theoretical intuition: that the arrow of time could be derived from geometry rather than postulated statistically. He had a framework: Kaluza-Klein gravity with a specific interpretation of the off-diagonal metric block as an irreversibility field. He had specific numerical targets: the CMB spectral index, the birefringence angle.
 
 What he did not have was the ability to implement the mathematics in code, run the numerical tests, produce the documentation, or generate the 92-pillar structure from the theoretical seed.
+
+The accountability line, however, stays human. The AI can assist with derivation, implementation, testing, and prose, but it does not bear scientific or moral responsibility in the way a human author does. The person who chooses the claims, signs the work, interprets the results, and must retract them if they fail is still the human steward named on the framework.
 ---
 
 ### Gate Certification (v1)
