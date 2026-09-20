@@ -241,7 +241,7 @@ Repair is not anti-business. It is anti-domination. It is also measurement desig
 | Labor share / worker leverage | OECD/ILO public reporting continues to show structural strain [10] | risk is shifted downward |
 | Cloud / AI concentration | a few firms dominate key infrastructure layers [3][11] | digital dependency hardens |
 | Carbon concentration | Carbon Majors public reporting ties a relatively small producer set to huge emissions shares [8] | climate damage is socialized |
-| Private-equity reach | essential sectors remain exposed [12] | daily life becomes yield terrain |
+| Private-equity reach | essential sectors remain exposed [13] | daily life becomes yield terrain |
 | Supply-chain resilience | repeated shocks reveal brittle optimization | public safety implications |
 
 ## Appendix B — Civic, labor, and policy action ladder
