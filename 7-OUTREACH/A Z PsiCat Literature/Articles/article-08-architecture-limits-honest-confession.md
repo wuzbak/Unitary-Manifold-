@@ -5,13 +5,11 @@
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-thematic-architecture-limits-honest-confession.md`*
 
-<<<<<<< HEAD
-One of the repository’s most important civic habits is naming what the framework cannot currently do without pretending that naming it is itself closure.
-=======
 *Thematic post — refreshed for Sprint BL.*
 *Epistemic category: **META** — Repository-wide honest accounting of what 5D geometry cannot explain.*
 *v34.0-S, 2026-09-02.*
->>>>>>> origin/main
+
+One of the repository’s most important civic habits is naming what the framework cannot currently do without pretending that naming it is itself closure.
 
 ---
 

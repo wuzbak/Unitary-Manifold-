@@ -5,14 +5,12 @@
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-065-cmb-amplitude-gap.md`*
 
-<<<<<<< HEAD
-This article rewrite is grounded in the historical source post **The CMB Acoustic Peak Problem — The Gap We Closed**, but it intentionally updates that historical closure claim to match the repository's current live-status framing. In current live status, the amplitude suppression is still treated as an open problem rather than a fully closed one.
-=======
 *Post 65 of the Unitary Manifold series.*
 *Claim context (historical snapshot): this post records an earlier closure attempt for the CMB power-spectrum amplitude suppression (roughly 4–7 at acoustic peaks relative to Planck). Current repository status should be taken from the live ledgers (e.g., STATUS.md and FALLIBILITY.md), where this lane may remain open pending broader reassessment updates.*
 
 ---
->>>>>>> origin/main
+
+This article rewrite is grounded in the historical source post **The CMB Acoustic Peak Problem — The Gap We Closed**, but it intentionally updates that historical closure claim to match the repository's current live-status framing. In current live status, the amplitude suppression is still treated as an open problem rather than a fully closed one.
 
 Every scientific framework has a gap it would rather not talk about.
 

@@ -12,11 +12,7 @@ systems of indigenous peoples worldwide. The analysis identifies genuine structu
 correspondences and explicit breaks, and refuses to appropriate or romanticize
 any tradition. The geometry maps what it can, and stops clearly where it cannot.*
 
-<<<<<<< HEAD
 The boundary is important from the beginning: this is not a claim that physics proves Indigenous cosmologies, nor a claim that ceremonial, ethical, or community knowledge can be collapsed into equations. It is a narrower comparison about whether some structural features of the geometry rhyme with relational patterns that many Indigenous knowledge systems have long described, and about being explicit when that comparison must stop.
-=======
----
->>>>>>> origin/main
 
 Indigenous knowledge systems — the cosmologies, ecological knowledge, and philosophical
 frameworks developed by the world's First Peoples over tens of thousands of years —

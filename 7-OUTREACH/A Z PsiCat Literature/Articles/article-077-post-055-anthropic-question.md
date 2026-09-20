@@ -13,16 +13,12 @@ selection favor configurations with stable complexity?" — and that question ha
 geometric answer: stable complexity is a necessary condition for fixed-point stability.
 This replaces the anthropic principle with a structural stability argument.*
 
-<<<<<<< HEAD
-The anthropic principle is the observation that the universe's fundamental constants — the fine structure constant, the proton-to-electron mass ratio, the strength of gravity relative to electromagnetism — are precisely tuned to values that permit complex structures, chemistry, and ultimately life.
-=======
 ---
 
 The anthropic principle is the observation that the universe's fundamental constants —
 the fine structure constant, the proton-to-electron mass ratio, the strength of gravity
 relative to electromagnetism — are precisely tuned to values that permit complex
 structures, chemistry, and ultimately life.
->>>>>>> origin/main
 
 Change the fine structure constant by a few percent and stars don't form. Change
 gravity by slightly more and the universe is either a black hole or disperses too

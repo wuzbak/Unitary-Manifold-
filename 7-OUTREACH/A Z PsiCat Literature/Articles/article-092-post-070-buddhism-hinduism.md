@@ -13,16 +13,12 @@ these traditions, is more extensive than for the Abrahamic ones), where the comp
 breaks down, and where the geometry can contribute something that the traditions have
 not precisely formulated.*
 
-<<<<<<< HEAD
-The Eastern traditions — Buddhism and the various schools of Hinduism — have something remarkable in common with the Unitary Manifold: they have been doing fixed-point analysis for two and a half millennia. Not in mathematical language, but in the language of practice, experience, and phenomenological precision.
-=======
 ---
 
 The Eastern traditions — Buddhism and the various schools of Hinduism — have something
 remarkable in common with the Unitary Manifold: they have been doing fixed-point
 analysis for two and a half millennia. Not in mathematical language, but in the
 language of practice, experience, and phenomenological precision.
->>>>>>> origin/main
 
 This post is less about finding correspondences and more about recognizing that the
 traditions and the framework are, in many respects, working on the same problem with

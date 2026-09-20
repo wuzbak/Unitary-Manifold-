@@ -12,14 +12,10 @@ or the relational nature of consciousness. The one structural error shared acros
 is the image of the divine as external to the system. This post examines both the
 alignments and the error with the same precision and the same respect.*
 
-<<<<<<< HEAD
-This post will not settle the question of which religion is true. That is not a question physics can answer, and anyone who tells you otherwise is selling something.
-=======
 ---
 
 This post will not settle the question of which religion is true. That is not
 a question physics can answer, and anyone who tells you otherwise is selling something.
->>>>>>> origin/main
 
 What physics can do — specifically, what the Unitary Manifold can do — is examine the
 structural claims embedded in religious traditions and say, with some precision:

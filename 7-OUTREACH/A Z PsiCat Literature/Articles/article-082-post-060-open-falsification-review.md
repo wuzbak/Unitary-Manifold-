@@ -11,16 +11,10 @@ process — what was invited, what arrived, how it was handled, and what remains
 open. The goal of this post is transparency about the review process, not
 a claim that the framework has been vindicated by that process.*
 
-<<<<<<< HEAD
 This rewrite reviews the open-falsification process — what was invited, what arrived, how it was handled, and what remains open. The goal is transparency about the review process, not a claim that the framework has been vindicated by it.
-
-In April 2026, the repository published an explicit invitation in its `discussions/` folder asking readers to try to break the framework on derivational, numerical, and observational grounds.
-=======
----
 
 In April 2026, the repository published the following invitation in its
 `discussions/` folder:
->>>>>>> origin/main
 
 > *This repository is an open invitation to peer review. We invite physicists,
 > mathematicians, philosophers, and AI systems to attempt to falsify the framework.

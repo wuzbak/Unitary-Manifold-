@@ -11,15 +11,13 @@ examination of the status of automated assertions as evidence — what they
 prove, what they don't prove, and how they fit into the broader evidential structure
 that science requires.*
 
-<<<<<<< HEAD
 This rewrite examines a historical snapshot in which 15,615 automated assertions were already in place — what those tests proved, what they did not prove, and how they fit into the broader evidential structure that science requires. The larger point is not the exact historical count but the function of the suite: when readers run a reduced modern example such as `python -m pytest tests/ -q`, they are checking that the core `tests/` suite conforms to the equations, identities, and numerical claims it was written to implement. Reproducing the broader repository-wide totals requires the canonical full-repository path and the live-status guidance in `STATUS.md`.
-=======
+
 ---
 
 The repository snapshot shown in this article records a dated historical sample output (14,183 passing tests at that timepoint), corresponding to the v9-era branch state in spring 2026. At that time, the historical command sample was:
 `python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
 and it produced:
->>>>>>> origin/main
 
     14183 passed, 2 skipped, 11 deselected, 0 failed
 

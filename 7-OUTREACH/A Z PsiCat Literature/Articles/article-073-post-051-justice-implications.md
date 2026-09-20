@@ -14,11 +14,7 @@ to trajectory change within the same fixed-point basin; irreversibility means ne
 harm nor its encoding in the victim can be undone. These are Tier 2 speculative
 extensions — structural implications, not policy prescriptions.*
 
-<<<<<<< HEAD
 This rewrite asks what happens when the framework's information-conservation structure is applied to harm, accountability, and repair. The result is a set of structural implications about justice — including limits on retribution, a stronger place for rehabilitation, and a serious account of irreversible harm — but they remain speculative extensions rather than policy prescriptions.
-=======
----
->>>>>>> origin/main
 
 Justice is the attempt to respond correctly to harm. Every society that has ever
 existed has had to answer the same questions: what do we owe victims? what do we

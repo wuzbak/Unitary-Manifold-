@@ -5,11 +5,6 @@
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-072-theory-of-everything-isnt.md`*
 
-<<<<<<< HEAD
-This abstract/preview rewrite is grounded in **The Theory of Everything That Isn't** and keeps the same claim boundaries while tightening clarity and pace. The full source article remains the canonical complete version; this file is an intentionally short lead-in rather than the full essay.
-
-Read the canonical full article here: [`/7-OUTREACH/substack/posts/post-072-theory-of-everything-isnt.md`](../../substack/posts/post-072-theory-of-everything-isnt.md). For the broader repository claim boundaries, see [`FALLIBILITY.md`](../../../../FALLIBILITY.md) and [`3-FALSIFICATION/FALSIFICATION_REGISTER.md`](../../../../3-FALSIFICATION/FALSIFICATION_REGISTER.md).
-=======
 *Post 72 of the Unitary Manifold series.*
 *No physics claim beyond what has been previously stated is made here. This post
 precisely defines what the framework is and what it is not — in particular, it is
@@ -18,7 +13,10 @@ unify all forces in the sense that phrase usually implies. Being a theory of
 irreversibility is already an extraordinary achievement. This post explains why.*
 
 ---
->>>>>>> origin/main
+
+This abstract/preview rewrite is grounded in **The Theory of Everything That Isn't** and keeps the same claim boundaries while tightening clarity and pace. The full source article remains the canonical complete version; this file is an intentionally short lead-in rather than the full essay.
+
+Read the canonical full article here: [`/7-OUTREACH/substack/posts/post-072-theory-of-everything-isnt.md`](../../substack/posts/post-072-theory-of-everything-isnt.md). For the broader repository claim boundaries, see [`FALLIBILITY.md`](../../../../FALLIBILITY.md) and [`3-FALSIFICATION/FALSIFICATION_REGISTER.md`](../../../../3-FALSIFICATION/FALSIFICATION_REGISTER.md).
 
 The Unitary Manifold gets called a "Theory of Everything" sometimes. It is not,
 and the distinction matters.

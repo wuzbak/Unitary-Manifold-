@@ -12,11 +12,7 @@ who is responsible for the correctness of the results? This question is new; the
 answer has implications for scientific accountability that extend beyond this
 repository.*
 
-<<<<<<< HEAD
 This rewrite asks a direct question: if an AI system derives equations, implements code, and writes documentation, who is responsible for the correctness of the results? The answer has implications for scientific accountability that reach beyond this repository.
-=======
----
->>>>>>> origin/main
 
 The authorship line at the bottom of every post in this series reads:
 

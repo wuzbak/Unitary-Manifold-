@@ -13,9 +13,6 @@ where the geometrical structures align, where they diverge, and where the compar
 breaks down. The analysis is written with respect for each tradition and without
 preferring any.*
 
-<<<<<<< HEAD
-The three Abrahamic traditions — Islam, Judaism, and Christianity — are the most widely practiced religious systems in the world, accounting for more than half of all human beings alive today. Each has a complex theology that has been refined over centuries. Each has internal diversity that makes any single description incomplete.
-=======
 ---
 
 The three Abrahamic traditions — Islam, Judaism, and Christianity — are the most
@@ -23,7 +20,6 @@ widely practiced religious systems in the world, accounting for more than half o
 all human beings alive today. Each has a complex theology that has been refined
 over centuries. Each has internal diversity that makes any single description
 incomplete.
->>>>>>> origin/main
 
 This post is not a complete account of any of these traditions. It is a structural
 mapping: given what the Unitary Manifold says about the geometry of existence,
