@@ -159,7 +159,7 @@ This protocol is intentionally conservative. It trades speed for reliability, wh
 
 **For general readers:** read `4-IMPLICATIONS/WHAT_THIS_MEANS.md` first, then this guide, then return to canonical burden surfaces with vocabulary in hand.
 
-**For governance and AI-collaboration readers:** prioritize `5-GOVERNANCE/` plus `9-INFRASTRUCTURE/provenance/README.md` and `PROVENANCE.md`.
+**For governance and AI-collaboration readers:** prioritize `5-GOVERNANCE/` plus `9-INFRASTRUCTURE/provenance/README.md`.
 
 Each itinerary has the same purpose: keep interpretation grounded in evidence-bearing files rather than rhetorical summaries.
 
@@ -229,7 +229,6 @@ Operational notes that prevent common mistakes:
 - [`docs/navigation/REPOSITORY_MAP.md`](../../../docs/navigation/REPOSITORY_MAP.md)
 - [`6-MONOGRAPH/MCP_INGEST.md`](../../../6-MONOGRAPH/MCP_INGEST.md)
 - [`9-INFRASTRUCTURE/provenance/README.md`](../../../9-INFRASTRUCTURE/provenance/README.md)
-- [`PROVENANCE.md`](../../../PROVENANCE.md)
 
 ### Canonical source notes
 
@@ -238,7 +237,7 @@ Operational notes that prevent common mistakes:
 [3] `FALLIBILITY.md`, `docs/TRUTH_LAYER.md`, and `1-THEORY/DERIVATION_STATUS.md` for limits, withdrawals, and open burdens.  
 [4] `src/core/evolution.py` for explicit implementation status and the action-to-evolution burden context.  
 [5] `5-GOVERNANCE/SEPARATION.md` and repository maps for governance independence boundary.  
-[6] `PROVENANCE.md` and `9-INFRASTRUCTURE/provenance/README.md` for authorship and toolchain provenance.
+[6] `9-INFRASTRUCTURE/provenance/README.md` for authorship and toolchain provenance.
 
 ### External reference notes
 
