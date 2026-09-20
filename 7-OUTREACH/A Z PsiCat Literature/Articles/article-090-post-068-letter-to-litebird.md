@@ -14,9 +14,9 @@ To the LiteBIRD collaboration and to future readers: the Unitary Manifold — a 
 The explicit prediction set is:
 
 - **Canonical channel:** β ∈ {0.273°, 0.331°}
-- **Derived-channel upper-side summary:** β ≈ 0.351°
+- **Promoted derived target:** β ≈ 0.351°
 
-This rewrite is intentionally publishing only the promoted public decision targets rather than the full historical derived-channel list, because the normalized pass/fail rule in this rewrite set excludes any target inside the forbidden gap.
+The full historical derived-channel pair was {0.290°, 0.351°}. This rewrite intentionally promotes only the upper value, because the normalized pass/fail rule in this rewrite set excludes any target inside the forbidden gap.
 
 The falsification conditions are also explicit:
 
