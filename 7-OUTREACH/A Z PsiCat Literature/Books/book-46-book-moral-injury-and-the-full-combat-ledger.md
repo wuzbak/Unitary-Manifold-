@@ -1,8 +1,8 @@
 # Moral Injury and the Full Combat Ledger — Part Two (Merlin/PsiCat Rewrite)
 
-*Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-20T19:10:24Z*  
-*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*  
+*Merlin/PsiCat Rewrite v1 · Series/Season One*
+*Written: 2026-09-20T19:10:24Z*
+*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/books/book-blank-check-military-accountability.md`*
 
 ## A field-credible ledger on what combat can do to body, conscience, family, trust, and life after war
@@ -15,17 +15,17 @@ Historical-status note: this volume is maintained as a period-context document i
 
 ## Table of Contents
 
-1. Why this book exists and who it is written for  
-2. Naming the injuries correctly: PTSD, TBI, depression, and moral injury  
-3. What combat and blast exposure can do to body and brain  
-4. What combat can do to conscience, trust, and identity  
-5. The family ledger: marriage, children, work, and social isolation  
-6. Where institutions help and where they still fail  
-7. What the evidence supports, and what remains uncertain  
-8. Repair by echelon: unit, clinic, VA, policy, and community  
-9. Conclusion: repair must be designed, not wished for  
-Appendix A. Practical signs leaders and families should not dismiss  
-Appendix B. A repair map for complex post-combat burden  
+1. Why this book exists and who it is written for
+2. Naming the injuries correctly: PTSD, TBI, depression, and moral injury
+3. What combat and blast exposure can do to body and brain
+4. What combat can do to conscience, trust, and identity
+5. The family ledger: marriage, children, work, and social isolation
+6. Where institutions help and where they still fail
+7. What the evidence supports, and what remains uncertain
+8. Repair by echelon: unit, clinic, VA, policy, and community
+9. Conclusion: repair must be designed, not wished for
+Appendix A. Practical signs leaders and families should not dismiss
+Appendix B. A repair map for complex post-combat burden
 Appendix C. Source and citation register
 
 ---
@@ -154,70 +154,70 @@ If we are serious about honoring service, then repair cannot remain optional, de
 
 ## Appendix A — Practical signs leaders and families should not dismiss
 
-- abrupt social withdrawal after return or retirement  
-- escalating guilt, shame, or fixation on betrayal  
-- chronic sleep collapse, irritability, or pain spirals  
-- difficulty tolerating ordinary crowds, noise, or moral ambiguity  
-- substance use that becomes a nightly management tool  
-- repeated statements that others would be better off without them  
+- abrupt social withdrawal after return or retirement
+- escalating guilt, shame, or fixation on betrayal
+- chronic sleep collapse, irritability, or pain spirals
+- difficulty tolerating ordinary crowds, noise, or moral ambiguity
+- substance use that becomes a nightly management tool
+- repeated statements that others would be better off without them
 - inability to imagine a future identity outside the service story
 
 ## Appendix B — A repair map for complex post-combat burden
 
-**Assessment domains:** trauma symptoms, TBI/balance/cognitive complaints, pain, sleep, substance use, guilt/shame, betrayal, spiritual distress, family strain, housing/work stress, social isolation, suicide risk.  
-**Core interventions:** evidence-based trauma therapy, integrated pain/TBI care, sleep treatment, medication when indicated, peer support, spiritually integrated care where desired, family therapy, peer navigation, employment and housing supports.  
+**Assessment domains:** trauma symptoms, TBI/balance/cognitive complaints, pain, sleep, substance use, guilt/shame, betrayal, spiritual distress, family strain, housing/work stress, social isolation, suicide risk.
+**Core interventions:** evidence-based trauma therapy, integrated pain/TBI care, sleep treatment, medication when indicated, peer support, spiritually integrated care where desired, family therapy, peer navigation, employment and housing supports.
 **System obligations:** warm handoffs, repeated follow-up, rural-access pathways, outcomes tracking, and quality review for moral-injury-informed care.
 
 ## Appendix C — Source and citation register
 
-[1] U.S. Department of Veterans Affairs Evidence Synthesis Program, *Moral Injury and Mental Health Among U.S. Military Service Members and Veterans: A Systematic Review and Evidence Overview* (2024). https://www.hsrd.research.va.gov/publications/esp/moral-injury-exec.pdf  
+[1] U.S. Department of Veterans Affairs Evidence Synthesis Program, *Moral Injury and Mental Health Among U.S. Military Service Members and Veterans: A Systematic Review and Evidence Overview* (2024). https://www.hsrd.research.va.gov/publications/esp/moral-injury-exec.pdf
 Supports the definitions of moral injury, its relationship to PTSD and depression, and the evidence overview on outcomes including social and suicide-related risk.
 
-[2] U.S. Department of Veterans Affairs / Department of Defense, *VA/DoD Clinical Practice Guideline for the Management of Posttraumatic Stress Disorder and Acute Stress Disorder* (2023). https://www.healthquality.va.gov/guidelines/mh/ptsd/VADoDPTSDCPG.pdf  
+[2] U.S. Department of Veterans Affairs / Department of Defense, *VA/DoD Clinical Practice Guideline for the Management of Posttraumatic Stress Disorder and Acute Stress Disorder* (2023). https://www.healthquality.va.gov/guidelines/mh/ptsd/VADoDPTSDCPG.pdf
 Supports the description of PTSD, evidence-based treatment standards, and the need for disciplined trauma care.
 
-[3] National Academies of Sciences, Engineering, and Medicine, *Exploring Military Exposures and Mental, Behavioral, and Neurologic Outcomes* (project chapter and related materials). https://www.nationalacademies.org/read/29219/chapter/7  
+[3] National Academies of Sciences, Engineering, and Medicine, *Exploring Military Exposures and Mental, Behavioral, and Neurologic Outcomes* (project chapter and related materials). https://www.nationalacademies.org/read/29219/chapter/7
 Supports the discussion of military exposures, repeated blast concern, and multi-domain neurologic and behavioral outcomes.
 
-[4] Carrie Esopenko et al., *Neurological Effects of Repeated Blast Exposure in Special Operations Personnel* (2024). https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11028462/  
+[4] Carrie Esopenko et al., *Neurological Effects of Repeated Blast Exposure in Special Operations Personnel* (2024). https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11028462/
 Supports the claim that repeated blast exposure can be associated with measurable neurologic and neurobehavioral effects even outside classic severe-TBI narratives.
 
-[5] National Academies of Sciences, Engineering, and Medicine, *Achieving Whole Health: A New Approach for Veterans and the Nation* (2023). https://doi.org/10.17226/26854  
+[5] National Academies of Sciences, Engineering, and Medicine, *Achieving Whole Health: A New Approach for Veterans and the Nation* (2023). https://doi.org/10.17226/26854
 Supports the argument for integrated, whole-person care rather than narrow single-condition treatment pathways.
 
-[6] Brett T. Litz et al., *Moral Injury and Moral Repair in War Veterans: A Preliminary Model and Intervention Strategy* (2009). https://pubmed.ncbi.nlm.nih.gov/19331440/  
+[6] Brett T. Litz et al., *Moral Injury and Moral Repair in War Veterans: A Preliminary Model and Intervention Strategy* (2009). https://pubmed.ncbi.nlm.nih.gov/19331440/
 Supports the foundational account of moral injury involving perpetration, witnessing, failure to prevent, and betrayal.
 
-[7] Jonathan Shay, *Achilles in Vietnam: Combat Trauma and the Undoing of Character* (classic military moral-injury text). https://www.simonandschuster.com/books/Achilles-in-Vietnam/Jonathan-Shay/9780684813219  
+[7] Jonathan Shay, *Achilles in Vietnam: Combat Trauma and the Undoing of Character* (classic military moral-injury text). https://www.simonandschuster.com/books/Achilles-in-Vietnam/Jonathan-Shay/9780684813219
 Supports the longstanding military-context discussion of betrayal, conscience, and character injury.
 
-[8] National Academies of Sciences, Engineering, and Medicine, *Improving Access to High-Quality Mental Health Care for Veterans* (2023 workshop proceedings). https://doi.org/10.17226/27206  
+[8] National Academies of Sciences, Engineering, and Medicine, *Improving Access to High-Quality Mental Health Care for Veterans* (2023 workshop proceedings). https://doi.org/10.17226/27206
 Supports the emphasis on access, continuity, and system design in veteran mental-health care.
 
-[9] A. C. Pugh et al., *The Transition to Civilian Life: Impact of Comorbid PTSD, Chronic Pain, and Sleep Disturbance on Veterans' Social Functioning and Suicidal Ideation* (2023). https://doi.org/10.1037/tra0001271  
+[9] A. C. Pugh et al., *The Transition to Civilian Life: Impact of Comorbid PTSD, Chronic Pain, and Sleep Disturbance on Veterans' Social Functioning and Suicidal Ideation* (2023). https://doi.org/10.1037/tra0001271
 Supports the claim that clustered conditions worsen social functioning and suicide risk during transition.
 
-[10] U.S. Department of Veterans Affairs Research Communications, *Moral injury increases suicide thoughts and attempts* (2025 summary of current findings). https://www.research.va.gov/news_briefs/news_brief.cfm?RecordID=258220  
+[10] U.S. Department of Veterans Affairs Research Communications, *Moral injury increases suicide thoughts and attempts* (2025 summary of current findings). https://www.research.va.gov/news_briefs/news_brief.cfm?RecordID=258220
 Supports the statement that moral injury is independently associated with elevated suicidal thoughts and attempts.
 
-[11] Harold G. Koenig et al., moral-injury clinical literature overview. Representative entry: *Moral Injury: A Clinical Approach* and related papers. https://www.ncbi.nlm.nih.gov/books/NBK610669/  
+[11] Harold G. Koenig et al., moral-injury clinical literature overview. Representative entry: *Moral Injury: A Clinical Approach* and related papers. https://www.ncbi.nlm.nih.gov/books/NBK610669/
 Supports the need for meaning-centered, relational, and where desired spiritually integrated approaches alongside standard trauma care.
 
-[12] Blue Star Families, *2025 Military Family Lifestyle Survey* (2025). https://bluestarfam.org/wp-content/uploads/2025/02/2025-MFLS-Report.pdf  
+[12] Blue Star Families, *2025 Military Family Lifestyle Survey* (2025). https://bluestarfam.org/wp-content/uploads/2025/02/2025-MFLS-Report.pdf
 Supports the family-burden discussion around caregiving strain, isolation, and instability.
 
-[13] Government Accountability Office, *DOD and VA Health Care: Actions Needed to Better Facilitate Access to Mental Health Services During Military to Civilian Transitions* (GAO-24-106189, 2024). https://www.gao.gov/products/gao-24-106189  
+[13] Government Accountability Office, *DOD and VA Health Care: Actions Needed to Better Facilitate Access to Mental Health Services During Military to Civilian Transitions* (GAO-24-106189, 2024). https://www.gao.gov/products/gao-24-106189
 Supports the transition-continuity and care-handoff failures discussed in the institutional sections.
 
-[14] U.S. Department of Veterans Affairs, *2025 National Veteran Suicide Prevention Annual Report, Part 2: Report Findings* (2026). https://www.mentalhealth.va.gov/docs/data-sheets/2025/2025_National_Veteran_Suicide_Prevention_Annual_Report_PART_2_FINAL.pdf  
+[14] U.S. Department of Veterans Affairs, *2025 National Veteran Suicide Prevention Annual Report, Part 2: Report Findings* (2026). https://www.mentalhealth.va.gov/docs/data-sheets/2025/2025_National_Veteran_Suicide_Prevention_Annual_Report_PART_2_FINAL.pdf
 Supports the conclusion that veteran suicide remains a grave and ongoing national burden.
 
-[15] Susan R. Kelley et al., *When Military-to-Civilian Transition Support Falls Short: A Qualitative Assessment of Transition Needs Among U.S. Veterans* (2026). https://doi.org/10.1080/08995605.2026.2643571  
+[15] Susan R. Kelley et al., *When Military-to-Civilian Transition Support Falls Short: A Qualitative Assessment of Transition Needs Among U.S. Veterans* (2026). https://doi.org/10.1080/08995605.2026.2643571
 Supports the veteran-reported account of fragmented transition systems and the need for more human, persistent continuity.
 
 ---
 
-> *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+> *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 > *Document engineering, synthesis, and investigative architecture: **GitHub Copilot** (AI).*
 
 ---

@@ -1,8 +1,8 @@
 # The Blank Check, Rewritten — Military Accountability v2 (Merlin/PsiCat Rewrite)
 
-*Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-20T19:10:24Z*  
-*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*  
+*Merlin/PsiCat Rewrite v1 · Series/Season One*
+*Written: 2026-09-20T19:10:24Z*
+*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/books/book-blank-check-military-accountability.md`*
 
 ## A veteran-facing ledger on force, budgets, oversight, and the price paid downrange and at home
@@ -15,18 +15,18 @@ Historical-status note: this volume is maintained as a period-context document i
 
 ## Table of Contents
 
-1. Who this book is for and what standard it follows  
-2. What a constitutional military owes the people who serve  
-3. The audit problem: why repeated disclaimers matter  
-4. Procurement, cost growth, and the culture of tolerated failure  
-5. The oversight trap: revolving doors, district capture, and war-authority drift  
-6. The human ledger: transition, care, suicide, and the costs shifted onto veterans  
-7. The lie that accountability weakens readiness  
-8. What repair looks like if leaders are serious  
-9. Hard questions, fair objections, direct answers  
-10. Conclusion: no more abstract patriotism without receipts  
-Appendix A. Practical accountability checklist  
-Appendix B. Questions every commander, staffer, and citizen should ask  
+1. Who this book is for and what standard it follows
+2. What a constitutional military owes the people who serve
+3. The audit problem: why repeated disclaimers matter
+4. Procurement, cost growth, and the culture of tolerated failure
+5. The oversight trap: revolving doors, district capture, and war-authority drift
+6. The human ledger: transition, care, suicide, and the costs shifted onto veterans
+7. The lie that accountability weakens readiness
+8. What repair looks like if leaders are serious
+9. Hard questions, fair objections, direct answers
+10. Conclusion: no more abstract patriotism without receipts
+Appendix A. Practical accountability checklist
+Appendix B. Questions every commander, staffer, and citizen should ask
 Appendix C. Source and citation register
 
 ---
@@ -173,74 +173,74 @@ A mature nation keeps the ledger open. It does not close the file because the tr
 
 ## Appendix A — Practical accountability checklist
 
-1. Require published variance ledgers for top-cost programs.  
-2. Tie incentive fees to on-time delivery, tested performance, and usable availability.  
-3. Trigger independent review and congressional notice at defined breach thresholds.  
-4. Track audit remediation against public milestone dashboards through 2028.  
-5. Harden revolving-door disclosures, compliance checks, and cooling-off enforcement.  
-6. Build warm-handoff transition accountability between DoD and VA.  
-7. Publish 30/90/180-day veteran continuity metrics for high-risk cohorts.  
+1. Require published variance ledgers for top-cost programs.
+2. Tie incentive fees to on-time delivery, tested performance, and usable availability.
+3. Trigger independent review and congressional notice at defined breach thresholds.
+4. Track audit remediation against public milestone dashboards through 2028.
+5. Harden revolving-door disclosures, compliance checks, and cooling-off enforcement.
+6. Build warm-handoff transition accountability between DoD and VA.
+7. Publish 30/90/180-day veteran continuity metrics for high-risk cohorts.
 8. Include downstream care burdens in lifecycle cost discussions.
 
 ## Appendix B — Questions every commander, staffer, and citizen should ask
 
-- What, precisely, failed the last audit milestone in this area, and who owns the fix?  
-- Which major programs are behind schedule, by how much, and what consequence followed?  
-- What is the actual mission-capable performance against the promise sold at authorization?  
-- How many separating personnel successfully connect to needed care inside 30, 90, and 180 days?  
-- Which oversight recommendations remain open year after year, and why?  
+- What, precisely, failed the last audit milestone in this area, and who owns the fix?
+- Which major programs are behind schedule, by how much, and what consequence followed?
+- What is the actual mission-capable performance against the promise sold at authorization?
+- How many separating personnel successfully connect to needed care inside 30, 90, and 180 days?
+- Which oversight recommendations remain open year after year, and why?
 - Where are veterans being asked to absorb burdens that the institution could have reduced upstream?
 
 ## Appendix C — Source and citation register
 
-[1] Government Accountability Office, *DOD Financial Management: Accelerated Timelines Needed to Address Long-standing Issues and Fraud Risk* (GAO-25-108191, 2025). https://files.gao.gov/reports/GAO-25-108191/index.html  
+[1] Government Accountability Office, *DOD Financial Management: Accelerated Timelines Needed to Address Long-standing Issues and Fraud Risk* (GAO-25-108191, 2025). https://files.gao.gov/reports/GAO-25-108191/index.html
 Supports the claim that persistent financial-management weaknesses and fraud-risk exposure remain central barriers to auditability and timely remediation.
 
-[2] Government Accountability Office, *DOD Financial Management: Insights into the Auditability of DOD's Fiscal Year 2024 Balance Sheet* (GAO-25-108052, 2025). https://files.gao.gov/reports/GAO-25-108052/index.html  
+[2] Government Accountability Office, *DOD Financial Management: Insights into the Auditability of DOD's Fiscal Year 2024 Balance Sheet* (GAO-25-108052, 2025). https://files.gao.gov/reports/GAO-25-108052/index.html
 Supports the discussion of weak traceability, record quality, and why repeated disclaimers reflect systemic evidentiary failure rather than a narrow bookkeeping dispute.
 
-[3] Government Accountability Office, *DOD Financial Management: Status of Remediation Efforts to Meet Audit Mandate* (GAO-25-107427, 2025). https://www.gao.gov/products/gao-25-107427  
+[3] Government Accountability Office, *DOD Financial Management: Status of Remediation Efforts to Meet Audit Mandate* (GAO-25-107427, 2025). https://www.gao.gov/products/gao-25-107427
 Supports the 2028 audit-mandate discussion and the point that remediation milestones remain difficult under current execution.
 
-[4] Congressional Research Service, *Defense Primer: FY2025 Department of Defense Audit Results* (2026), plus prior FY2024 primer. https://www.everycrsreport.com/files/2026-04-28_IF12627_5d29961262bb4125bc8b14826a35079b467a53f2.pdf ; https://www.congress.gov/crs_external_products/IF/PDF/IF12627/IF12627.7.pdf  
+[4] Congressional Research Service, *Defense Primer: FY2025 Department of Defense Audit Results* (2026), plus prior FY2024 primer. https://www.everycrsreport.com/files/2026-04-28_IF12627_5d29961262bb4125bc8b14826a35079b467a53f2.pdf ; https://www.congress.gov/crs_external_products/IF/PDF/IF12627/IF12627.7.pdf
 Provides concise congressional framing for the repeated disclaimer findings.
 
-[5] Government Accountability Office, *Weapon Systems Annual Assessment: DOD Leaders Should Ensure That Newer Programs Are Structured for Speed and Innovation* (GAO-25-107569, 2025). https://www.gao.gov/products/gao-25-107569  
+[5] Government Accountability Office, *Weapon Systems Annual Assessment: DOD Leaders Should Ensure That Newer Programs Are Structured for Speed and Innovation* (GAO-25-107569, 2025). https://www.gao.gov/products/gao-25-107569
 Supports the procurement discussion on schedule slip, program realism, and the recurring structure of acquisition risk.
 
-[6] Congressional Budget Office, *Long-Term Implications of the 2024 Future Years Defense Program* (2023). https://www.cbo.gov/publication/59703  
+[6] Congressional Budget Office, *Long-Term Implications of the 2024 Future Years Defense Program* (2023). https://www.cbo.gov/publication/59703
 Supports the argument that long-run operations, support, and modernization pressures continue to rise and can outgrow optimistic planning assumptions.
 
-[7] Government Accountability Office, *Post-Government Employment Restrictions: DOD Could Further Enhance Its Compliance Efforts Related to Former Employees Working for Defense Contractors* (GAO-21-104311, 2021). https://www.gao.gov/products/gao-21-104311  
+[7] Government Accountability Office, *Post-Government Employment Restrictions: DOD Could Further Enhance Its Compliance Efforts Related to Former Employees Working for Defense Contractors* (GAO-21-104311, 2021). https://www.gao.gov/products/gao-21-104311
 Supports the ethics and compliance discussion around the revolving door.
 
-[8] Project On Government Oversight, *Brass Parachutes: The Problem of the Pentagon Revolving Door* (2018 archive). https://perma.cc/GP4A-MA4B  
+[8] Project On Government Oversight, *Brass Parachutes: The Problem of the Pentagon Revolving Door* (2018 archive). https://perma.cc/GP4A-MA4B
 Supports the structural critique that post-government migration into the arms industry can soften oversight and normalize capture.
 
-[9] Government Accountability Office, *Military and Veteran Support: Programs to Help Servicemembers and New Veterans Transition to Civilian Life Could Be Enhanced* (GAO-24-107083, 2023). https://www.gao.gov/products/gao-24-107083  
+[9] Government Accountability Office, *Military and Veteran Support: Programs to Help Servicemembers and New Veterans Transition to Civilian Life Could Be Enhanced* (GAO-24-107083, 2023). https://www.gao.gov/products/gao-24-107083
 Supports the claim that transition support exists but remains uneven and improvable.
 
-[10] U.S. Department of Veterans Affairs, *Are Transitioning Veterans Using the VA Benefits and Services?* (National Center for Veterans Analysis and Statistics data story). https://www.data.va.gov/stories/s/9jtx-xawd  
+[10] U.S. Department of Veterans Affairs, *Are Transitioning Veterans Using the VA Benefits and Services?* (National Center for Veterans Analysis and Statistics data story). https://www.data.va.gov/stories/s/9jtx-xawd
 Supports measured statements about post-separation connection to VA systems and services.
 
-[11] Government Accountability Office, *DOD and VA Health Care: Actions Needed to Better Facilitate Access to Mental Health Services During Military to Civilian Transitions* (GAO-24-106189, 2024). https://www.gao.gov/products/gao-24-106189  
+[11] Government Accountability Office, *DOD and VA Health Care: Actions Needed to Better Facilitate Access to Mental Health Services During Military to Civilian Transitions* (GAO-24-106189, 2024). https://www.gao.gov/products/gao-24-106189
 Supports the discussion of mental-health continuity gaps during transition.
 
-[12] RAND Corporation, veteran transition and suicide-risk analysis corpus, including recent transition and care-access work. https://www.rand.org/topics/veterans-mental-health.html  
+[12] RAND Corporation, veteran transition and suicide-risk analysis corpus, including recent transition and care-access work. https://www.rand.org/topics/veterans-mental-health.html
 Supports the broader claim that transition stress, care access, and mental-health risk cluster in ways that require system design rather than ad hoc reassurance.
 
-[13] Susan R. Kelley et al., *When Military-to-Civilian Transition Support Falls Short: A Qualitative Assessment of Transition Needs Among U.S. Veterans* (2026). https://doi.org/10.1080/08995605.2026.2643571  
+[13] Susan R. Kelley et al., *When Military-to-Civilian Transition Support Falls Short: A Qualitative Assessment of Transition Needs Among U.S. Veterans* (2026). https://doi.org/10.1080/08995605.2026.2643571
 Supports the lived-experience account of fragmented, impersonal, and trust-thinning transitions.
 
-[14] U.S. Department of Veterans Affairs, *2025 National Veteran Suicide Prevention Annual Report, Part 2: Report Findings* (2026). https://www.mentalhealth.va.gov/docs/data-sheets/2025/2025_National_Veteran_Suicide_Prevention_Annual_Report_PART_2_FINAL.pdf  
+[14] U.S. Department of Veterans Affairs, *2025 National Veteran Suicide Prevention Annual Report, Part 2: Report Findings* (2026). https://www.mentalhealth.va.gov/docs/data-sheets/2025/2025_National_Veteran_Suicide_Prevention_Annual_Report_PART_2_FINAL.pdf
 Supports the statement that veteran suicide remains a severe national burden requiring continuity and prevention infrastructure.
 
-[15] Heidi Peltier, *The Long-Term Costs of United States Care for Veterans of the Afghanistan and Iraq Wars* (Brown University Costs of War, 2021). https://watson.brown.edu/costsofwar/papers/2021/veterans  
+[15] Heidi Peltier, *The Long-Term Costs of United States Care for Veterans of the Afghanistan and Iraq Wars* (Brown University Costs of War, 2021). https://watson.brown.edu/costsofwar/papers/2021/veterans
 Supports the claim that the true cost of war includes long-tail care obligations borne long after appropriations and operations recede from public attention.
 
 ---
 
-> *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+> *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 > *Document engineering, synthesis, and investigative architecture: **GitHub Copilot** (AI).*
 
 ---
