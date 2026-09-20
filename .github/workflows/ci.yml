@@ -107,7 +107,7 @@ jobs:
 
   push-full-regression-supervisor:
     name: Push full regression supervisor (main)
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: push-full-regression-batched
     timeout-minutes: 30
@@ -130,6 +130,7 @@ jobs:
     needs:
       - platform-smoke
       - suite-collection-smoke
+      - push-full-regression-batched
       - push-full-regression-supervisor
     permissions:
       contents: read
@@ -138,22 +139,28 @@ jobs:
         env:
           PLATFORM_SMOKE_RESULT: ${{ needs.platform-smoke.result }}
           SUITE_COLLECTION_SMOKE_RESULT: ${{ needs.suite-collection-smoke.result }}
+          PUSH_FULL_REGRESSION_BATCHED_RESULT: ${{ needs.push-full-regression-batched.result }}
           PUSH_FULL_REGRESSION_RESULT: ${{ needs.push-full-regression-supervisor.result }}
         run: |
           set -euo pipefail
           echo "platform-smoke: ${PLATFORM_SMOKE_RESULT}"
           echo "suite-collection-smoke: ${SUITE_COLLECTION_SMOKE_RESULT}"
+          echo "push-full-regression-batched: ${PUSH_FULL_REGRESSION_BATCHED_RESULT}"
           echo "push-full-regression: ${PUSH_FULL_REGRESSION_RESULT}"
           {
             echo "## CI smoke result"
             echo "- platform-smoke: ${PLATFORM_SMOKE_RESULT}"
             echo "- suite-collection-smoke: ${SUITE_COLLECTION_SMOKE_RESULT}"
+            echo "- push-full-regression-batched: ${PUSH_FULL_REGRESSION_BATCHED_RESULT}"
             echo "- push-full-regression: ${PUSH_FULL_REGRESSION_RESULT}"
           } >> "${GITHUB_STEP_SUMMARY}"
           if [ "${PLATFORM_SMOKE_RESULT}" != "success" ]; then
             exit 1
           fi
           if [ "${SUITE_COLLECTION_SMOKE_RESULT}" != "success" ]; then
+            exit 1
+          fi
+          if [ "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" != "success" ] && [ "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" != "skipped" ]; then
             exit 1
           fi
           if [ "${PUSH_FULL_REGRESSION_RESULT}" != "success" ] && [ "${PUSH_FULL_REGRESSION_RESULT}" != "skipped" ]; then
