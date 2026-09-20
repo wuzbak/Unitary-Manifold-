@@ -9,7 +9,7 @@ This article rewrite is grounded in **The Twelve Objections: A Socratic Dialogue
 
 Any framework that claims to explain consciousness, predict birefringence, unify quantum mechanics with thermodynamics, and cover 74 domains from the same 5D geometry is almost certainly wrong in most of those claims. The prior probability of total correctness is very low.
 
-But the relevant quantity is not only the prior; it is the posterior updated by the specific agreements with observation. Four quantitative predictions emerge from the same structure without parameter tuning: n_s = 0.9635, β = 0.3513°, r = 0.0315, and w ≈ -0.930. That is not a proof, but it is the reason the objections are worth engaging seriously.
+But the relevant quantity is not only the prior; it is the posterior updated by the specific agreements with observation. Four quantitative predictions emerge from the same structure without parameter tuning: n_s = 0.9635, the canonical birefringence branch targets β ≈ 0.273° / 0.331° (with an upper derived-channel summary near 0.351°), r = 0.0315, and w ≈ -0.930. That is not a proof, but it is the reason the objections are worth engaging seriously.
 
 If someone simply chose the value of k that minimizes |β(k) − 0.35°| and then announced that the framework predicts k = 74, that would be curve fitting rather than prediction.
 ---

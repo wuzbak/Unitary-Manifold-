@@ -20,6 +20,7 @@ The auditable output is still concrete. The inversion yields a specific charged-
 - Minimal outputs worth keeping in view: c_L(electron) = 0.798, c_L(tau) = 0.555, c_L(top) = 0.377, and c_L(bottom) = 0.522.
 - Cross-sector check: one shared Ŷ₅ = 1 remains viable across leptons, up quarks, and down quarks.
 - Unification check: one-loop running gives r_bτ(M_GUT) ≈ 0.497, a standard near-unification result rather than exact equality.
+- The complete nine-fermion c_L spectrum and the fuller derivation remain in the grounded source post at `/7-OUTREACH/substack/posts/post-039-universal-yukawa-test.md`.
 ---
 
 ### Gate Certification (v1)

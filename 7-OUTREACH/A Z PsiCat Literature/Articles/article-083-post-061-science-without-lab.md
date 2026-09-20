@@ -7,9 +7,7 @@
 
 This article rewrite is grounded in **Building Science Without a Lab** and keeps the same claim boundaries while tightening clarity and pace.
 
-This rewrite examines a historical snapshot in which 15,615 automated assertions were already in place — what those tests proved, what they did not prove, and how they fit into the broader evidential structure that science requires. For current live totals, readers should consult `STATUS.md`.
-
-At the time described in this post, the repository had 15,615 automated tests passing. The larger point is not the exact historical count but the function of the suite: when readers run a reduced modern example such as `python -m pytest tests/ -q`, they are checking that the code conforms to the equations, identities, and numerical claims it was written to implement. Reproducing the full historical repository-wide totals requires the broader live-status guidance in `STATUS.md`.
+This rewrite examines a historical snapshot in which 15,615 automated assertions were already in place — what those tests proved, what they did not prove, and how they fit into the broader evidential structure that science requires. The larger point is not the exact historical count but the function of the suite: when readers run a reduced modern example such as `python -m pytest tests/ -q`, they are checking that the code conforms to the equations, identities, and numerical claims it was written to implement. Reproducing the full historical repository-wide totals requires the broader live-status guidance in `STATUS.md`.
 
 The answer has two parts. The first part is what most people assume it means. The second part is what it actually means. Both matter.
 
