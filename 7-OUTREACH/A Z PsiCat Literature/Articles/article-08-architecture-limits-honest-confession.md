@@ -202,6 +202,11 @@ That is better.
 
 ---
 
+*Full source code and repository artifacts (historical milestone-era tests; see `STATUS.md` for live totals):*
+*https://github.com/wuzbak/Unitary-Manifold-*
+*Architecture-limit map: `1-THEORY/DERIVATION_STATUS.md`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`*
+*Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
+
 *Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*
 *Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).*
 

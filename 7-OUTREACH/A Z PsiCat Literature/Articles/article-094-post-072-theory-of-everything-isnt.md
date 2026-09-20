@@ -147,7 +147,7 @@ of everything.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *What the framework is: `README.md`, `WHAT_THIS_MEANS.md`*
 *Honest scope: `FALLIBILITY.md`*

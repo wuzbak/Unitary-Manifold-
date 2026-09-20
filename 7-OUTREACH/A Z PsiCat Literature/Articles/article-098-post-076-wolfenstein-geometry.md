@@ -159,7 +159,7 @@ will determine.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 87: `src/core/wolfenstein_geometry.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
