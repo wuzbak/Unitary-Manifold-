@@ -99,7 +99,7 @@ Recent inequality reporting summarized in 2024–2026 public sources shows:
 - billionaire wealth has surged since 2020,
 - the uppermost slice of that billionaire class has become even more concentrated internally.
 
-The precise figures vary by source and date, but the direction is not ambiguous. Oxfam's 2024 *Inequality Inc.* report, the 2026 World Inequality reporting cycle, and Altrata's 2026 billionaire census all converge on the same pattern: extreme wealth is not just large; it is increasingly clustered among fewer people whose fortunes are deeply integrated with corporate control. Public 2024–2026 summaries cited in Appendix C describe roughly three-quarters of global wealth in the hands of the richest tenth, about two percent in the hands of the bottom half, and a post-2020 billionaire surge large enough to function as a democratic-structure problem rather than a lifestyle curiosity [4][5][6].
+The precise figures vary by source and date, but the direction is not ambiguous. Oxfam's 2024 *Inequality Inc.* report, the World Inequality Database's public wealth summaries, and recent Altrata billionaire census reporting all converge on the same pattern: extreme wealth is not just large; it is increasingly clustered among fewer people whose fortunes are deeply integrated with corporate control. Public 2024–2026 summaries cited in Appendix C describe roughly three-quarters of global wealth in the hands of the richest tenth, about two percent in the hands of the bottom half, and a post-2020 billionaire surge large enough to function as a democratic-structure problem rather than a lifestyle curiosity [4][5][6].
 
 This matters because modern wealth concentration is not merely personal consumption inequality. It is command inequality. Wealth at this scale buys:
 
@@ -235,7 +235,7 @@ Corporate rule today operates through epistemic channels as much as economic one
 
 When the advertising market rewards provocation, when media organizations depend on platform referral, when AI systems remix already concentrated information ecosystems, and when public institutions have weaker communication capacity than private platforms, the result is not merely “bias.” It is narrative disorder.
 
-People then fight inside a manipulated fog. They blame neighbors for conditions produced by incentive architecture. They lose the ability to distinguish structural problems from personal failures. They become easier to govern through exhaustion. Reuters Institute's 2026 digital-news reporting, for example, describes low trust and high news avoidance across many publics, which is exactly the sort of information fragility concentrated systems know how to exploit [12].
+People then fight inside a manipulated fog. They blame neighbors for conditions produced by incentive architecture. They lose the ability to distinguish structural problems from personal failures. They become easier to govern through exhaustion. Recent Reuters Institute digital-news reporting, for example, describes low trust and high news avoidance across many publics, which is exactly the sort of information fragility concentrated systems know how to exploit [12].
 
 That is why media concentration, platform governance, and information-system integrity are not side issues. They are central democratic infrastructure questions.
 
@@ -325,13 +325,13 @@ The common thread is not anti-business dogma. It is pro-democracy design. It is 
 
 | Domain | Current directional signal | Why it matters |
 |---|---|---|
-| Global wealth | extreme top-end concentration remains high | converts money into command power |
-| Billionaire wealth | surged post-2020 in major reporting cycles | indicates increasing elite insulation |
-| Labor share / bargaining power | long-run strain in many economies | workers absorb volatility |
-| Lobbying | multi-billion-dollar annual federal influence market in the U.S. | rule-writing becomes a business function |
-| Cloud / AI concentration | a few firms control much of commercial cloud and frontier compute | digital dependency hardens |
-| Carbon concentration | major fossil producers remain tied to large historical emissions shares | climate cost transfer persists |
-| Essential-sector financialization | care and housing remain major extraction targets | everyday life becomes yield terrain |
+| Global wealth | public WID/Oxfam summaries describe about three-quarters of wealth with the richest 10% and about two percent with the bottom 50% [4][5] | converts money into command power |
+| Billionaire wealth | recent Altrata/Oxfam reporting shows strong post-2020 concentration acceleration [4][6] | indicates increasing elite insulation |
+| Labor share / bargaining power | OECD/ILO public reporting continues to show structural strain [10] | workers absorb volatility |
+| Lobbying | annual U.S. federal lobbying remains a multi-billion-dollar influence market [7] | rule-writing becomes a business function |
+| Cloud / AI concentration | a few firms dominate key infrastructure layers [3][11] | digital dependency hardens |
+| Carbon concentration | Carbon Majors public reporting ties a relatively small producer set to huge emissions shares [8] | climate cost transfer persists |
+| Essential-sector financialization | care and housing remain major extraction targets [12] | everyday life becomes yield terrain |
 | Supply-chain resilience | repeated shock exposure reveals brittle optimization | public safety and sovereignty implications |
 
 ## Appendix B — Civic, Labor, and Policy Action Ladder
@@ -355,18 +355,18 @@ The common thread is not anti-business dogma. It is pro-democracy design. It is 
 
 ## Appendix C — Source and Citation Register
 
-1. `ProMarket` (2026), synthesis on rising corporate market power and democratic erosion.  
-2. Demos (2023), *Economic Democracy Explained: Deconcentrating Corporate Power*.  
-3. Open Markets Institute (2023), *AI in the Public Interest: Confronting the Monopoly Threat*.  
-4. Oxfam (2024), *Inequality Inc.*  
-5. World Inequality reporting cycle (2026), global wealth concentration summaries.  
-6. Altrata (2026), *Billionaire Census 2026*.  
-7. OpenSecrets (latest public cycle), federal lobbying summary.  
-8. Carbon Majors public reporting (latest update), concentration of industrial greenhouse-gas emissions among major producers.  
-9. IEA public energy and emissions reporting (latest cycle), global emissions and fossil-investment trajectories.  
-10. Public OECD / ILO discussion streams on labor share, wage pressure, platformization, and precarious work.  
-11. EU Digital Markets Act enforcement materials and public gatekeeper actions.  
-12. Recent public-interest analyses on private equity, healthcare concentration, housing concentration, and democratic governance.
+1. Luigi Zingales, "How Rising Corporate Market Power Undermines Democracy," *ProMarket* (2026). https://www.promarket.org/2026/01/05/how-rising-corporate-market-power-undermines-democracy/  
+2. Demos, *Economic Democracy Explained: Deconcentrating Corporate Power* (policy brief, 2023). https://www.demos.org/policy-briefs/deconcentrating-corporate-power  
+3. Open Markets Institute, *AI in the Public Interest: Confronting the Monopoly Threat* (report page, 2023). https://www.openmarketsinstitute.org/publications/report-ai-in-the-public-interest-confronting-the-monopoly-threat  
+4. Oxfam, *Inequality Inc.* (2024). https://www.oxfam.org/en/research/inequality-inc  
+5. World Inequality Database (WID), global wealth data portal and public updates. https://wid.world/  
+6. Altrata, *Billionaire Census 2023* (latest directly identified public report page used here for billionaire-concentration context). https://www.altrata.com/reports/billionaire-census-2023/  
+7. OpenSecrets, *Federal Lobbying — Summary Data*. https://www.opensecrets.org/federal-lobbying  
+8. Carbon Majors Database (official public database and updates). https://carbonmajors.org/  
+9. UNEP, *Emissions Gap Report* main page; see the latest available annual report for 2030/2035 distance-to-target framing. https://www.unep.org/resources/emissions-gap-report  
+10. OECD, *Labour share of GDP* data page, and ILO, *Global Wage Report* series. https://data.oecd.org/natincome/labour-share.htm ; https://www.ilo.org/global/research/global-reports/global-wage-report/lang--en/index.htm  
+11. European Commission, *Digital Markets Act — Gatekeepers*. https://digital-markets-act.ec.europa.eu/gatekeepers_en  
+12. Reuters Institute, *Digital News Report 2024*; plus recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, and infrastructure. https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2024
 
 ### Source note on precision
 

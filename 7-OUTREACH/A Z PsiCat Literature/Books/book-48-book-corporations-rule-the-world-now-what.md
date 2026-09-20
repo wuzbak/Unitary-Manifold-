@@ -167,7 +167,7 @@ Concentrated corporate power also operates through the information environment.
 
 If the advertising system rewards provocation, if platforms mediate the public square, if journalism depends on infrastructure owned by firms with separate commercial interests, and if AI systems inherit these asymmetries, then democratic reasoning itself degrades.
 
-People are left fighting in a manipulated fog. Structural failures are misrecognized as personal failure or neighborly betrayal. That confusion is politically useful to concentrated power and disastrous for democratic repair. Reuters Institute's 2026 digital-news reporting, for example, describes low trust and high news avoidance across many publics, which is exactly the sort of information fragility concentrated systems know how to exploit [12].
+People are left fighting in a manipulated fog. Structural failures are misrecognized as personal failure or neighborly betrayal. That confusion is politically useful to concentrated power and disastrous for democratic repair. Recent Reuters Institute digital-news reporting, for example, describes low trust and high news avoidance across many publics, which is exactly the sort of information fragility concentrated systems know how to exploit [12].
 
 ## 12) Likely trajectories if nothing material changes
 
@@ -235,12 +235,12 @@ Repair is not anti-business. It is anti-domination. It is also measurement desig
 
 | Domain | Directional signal | Why it matters |
 |---|---|---|
-| Wealth concentration | recent public summaries place ~75% of global wealth with the richest 10% and ~2% with the bottom 50% [4][5] | converts money into governing leverage |
-| Billionaire wealth | strong post-2020 surge in major reporting cycles [4][5][6] | indicates increasing elite insulation |
-| Lobbying | multi-billion-dollar annual influence market [7] | lawmaking becomes part of competitive strategy |
-| Labor share / worker leverage | structural strain persists in many sectors [10] | risk is shifted downward |
+| Wealth concentration | public WID/Oxfam summaries describe about three-quarters of wealth with the richest 10% and about two percent with the bottom 50% [4][5] | converts money into governing leverage |
+| Billionaire wealth | recent Altrata/Oxfam reporting shows strong post-2020 concentration acceleration [4][6] | indicates increasing elite insulation |
+| Lobbying | annual U.S. federal lobbying remains a multi-billion-dollar influence market [7] | lawmaking becomes part of competitive strategy |
+| Labor share / worker leverage | OECD/ILO public reporting continues to show structural strain [10] | risk is shifted downward |
 | Cloud / AI concentration | a few firms dominate key infrastructure layers [3][11] | digital dependency hardens |
-| Carbon concentration | recent public summaries tie 166 major producers to ~34.7 GtCO2e in 2024, with 32 firms driving over half [8] | climate damage is socialized |
+| Carbon concentration | Carbon Majors public reporting ties a relatively small producer set to huge emissions shares [8] | climate damage is socialized |
 | Private-equity reach | essential sectors remain exposed [12] | daily life becomes yield terrain |
 | Supply-chain resilience | repeated shocks reveal brittle optimization | public safety implications |
 
@@ -263,18 +263,18 @@ Repair is not anti-business. It is anti-domination. It is also measurement desig
 
 ## Appendix C — Source and citation register
 
-[1] *ProMarket* (2026), public analysis linking rising corporate market power and democratic erosion.  
-[2] Demos (2023), *Economic Democracy Explained: Deconcentrating Corporate Power*.  
-[3] Open Markets Institute (2023), *AI in the Public Interest: Confronting the Monopoly Threat*.  
-[4] Oxfam (2024), *Inequality Inc.*  
-[5] World Inequality reporting cycle (2026), public summaries on global wealth concentration.  
-[6] Altrata (2026), *Billionaire Census 2026*.  
-[7] OpenSecrets, federal lobbying summary (latest public cycle).  
-[8] Carbon Majors public reporting (latest update).  
-[9] International Energy Agency public reporting (latest cycle), together with UNEP emissions-gap framing for 2030/2035 distance-to-target context.  
-[10] OECD / ILO labor-share and precarious-work discussion streams (latest public cycles).  
-[11] EU Digital Markets Act public gatekeeper enforcement materials and public cloud/AI concentration discussions.  
-[12] Recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, Reuters Institute digital-news reporting, and democratic governance.
+[1] Luigi Zingales, "How Rising Corporate Market Power Undermines Democracy," *ProMarket* (2026). https://www.promarket.org/2026/01/05/how-rising-corporate-market-power-undermines-democracy/  
+[2] Demos, *Economic Democracy Explained: Deconcentrating Corporate Power* (policy brief, 2023). https://www.demos.org/policy-briefs/deconcentrating-corporate-power  
+[3] Open Markets Institute, *AI in the Public Interest: Confronting the Monopoly Threat* (report page, 2023). https://www.openmarketsinstitute.org/publications/report-ai-in-the-public-interest-confronting-the-monopoly-threat  
+[4] Oxfam, *Inequality Inc.* (2024). https://www.oxfam.org/en/research/inequality-inc  
+[5] World Inequality Database (WID), global wealth data portal and public updates. https://wid.world/  
+[6] Altrata, *Billionaire Census 2023* (latest directly identified public report page used here for billionaire-concentration context). https://www.altrata.com/reports/billionaire-census-2023/  
+[7] OpenSecrets, *Federal Lobbying — Summary Data*. https://www.opensecrets.org/federal-lobbying  
+[8] Carbon Majors Database (official public database and updates). https://carbonmajors.org/  
+[9] UNEP, *Emissions Gap Report* main page; see the latest available annual report for 2030/2035 distance-to-target framing. https://www.unep.org/resources/emissions-gap-report  
+[10] OECD, *Labour share of GDP* data page, and ILO, *Global Wage Report* series. https://data.oecd.org/natincome/labour-share.htm ; https://www.ilo.org/global/research/global-reports/global-wage-report/lang--en/index.htm  
+[11] European Commission, *Digital Markets Act — Gatekeepers*. https://digital-markets-act.ec.europa.eu/gatekeepers_en  
+[12] Reuters Institute, *Digital News Report 2024*; plus recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, and infrastructure. https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2024
 
 ### Precision note
 
