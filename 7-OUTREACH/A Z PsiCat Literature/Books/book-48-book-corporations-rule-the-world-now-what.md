@@ -275,7 +275,7 @@ Repair is not anti-business. It is anti-domination. It is also measurement desig
 [10] OECD, *Labour share of GDP* data page, and ILO, *Global Wage Report* series. https://data.oecd.org/natincome/labour-share.htm ; https://www.ilo.org/global/research/global-reports/global-wage-report/lang--en/index.htm  
 [11] European Commission, *Digital Markets Act — Gatekeepers*. https://digital-markets-act.ec.europa.eu/gatekeepers_en  
 [12] Reuters Institute, *Digital News Report 2024*. https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2024  
-[13] Recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, and infrastructure.
+[13] Kannan et al., "Evaluating trends in private equity ownership and impacts on health outcomes, costs, and quality: systematic review," *BMJ* 382 (2023): e075244. https://www.bmj.com/content/382/bmj-2023-075244 ; and U.S. Government Accountability Office, *Rental Housing: Information on Institutional Investment* (GAO-22-105564, 2022). https://www.gao.gov/products/gao-22-105564
 
 ### Precision note
 
