@@ -22,6 +22,7 @@ For readers who want hard entry points rather than summaries:
 - Optional hands-on next stop: [`notebooks/01_quickstart.ipynb`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/notebooks/01_quickstart.ipynb)
 - Enduring citation: Zenodo DOI (`https://doi.org/10.5281/zenodo.19584531`)
 - Install dependencies: `python -m pip install -r requirements.txt`
+- Run the lightweight quick check first: `python -m pytest tests/ -q`
 - Run the executable verification path: `python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
 - Check the falsification ledger: [`3-FALSIFICATION/FALSIFICATION_REGISTER.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_REGISTER.md)
 ---
