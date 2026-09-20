@@ -17,7 +17,8 @@ if ROOT.as_posix() not in sys.path:
 
 from src.core.regression_supervision_plan import (
     DEFAULT_FAST_BATCH_COUNT,
-    build_regression_supervision_plan,
+    DEFAULT_FULL_CORE_BATCH_COUNT,
+    build_regression_supervision_plan_with_full_core_count,
     compactified_preflight_argv,
     fast_batch_argv,
     full_core_batch_argv,
@@ -37,7 +38,7 @@ def _parse_args() -> argparse.Namespace:
         ),
         required=True,
     )
-    parser.add_argument("--batch-count", type=int, default=DEFAULT_FAST_BATCH_COUNT)
+    parser.add_argument("--batch-count", type=int)
     parser.add_argument("--batch-index", type=int)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--emit-json", action="store_true")
@@ -54,7 +55,18 @@ def _run(args: list[str], dry_run: bool) -> int:
 
 def main() -> int:
     args = _parse_args()
-    plan = build_regression_supervision_plan(batch_count=args.batch_count)
+    fast_batch_count = (
+        args.batch_count if args.suite in {"tests-fast", "supervisor-check"} and args.batch_count is not None
+        else DEFAULT_FAST_BATCH_COUNT
+    )
+    full_core_batch_count = (
+        args.batch_count if args.suite in {"full-core", "full-core-supervisor-check"} and args.batch_count is not None
+        else DEFAULT_FULL_CORE_BATCH_COUNT
+    )
+    plan = build_regression_supervision_plan_with_full_core_count(
+        batch_count=fast_batch_count,
+        full_core_batch_count=full_core_batch_count,
+    )
 
     if args.emit_json:
         print(json.dumps(plan, indent=2, sort_keys=True))
@@ -87,7 +99,7 @@ def main() -> int:
         if args.batch_index is None:
             print("--batch-index is required for full-core", file=sys.stderr)
             return 2
-        command = full_core_batch_argv(batch_index=args.batch_index, batch_count=args.batch_count)
+        command = full_core_batch_argv(batch_index=args.batch_index, batch_count=full_core_batch_count)
         if not command:
             print(f"no full-core tests assigned to batch {args.batch_index}; skipping")
             return 0
@@ -96,7 +108,7 @@ def main() -> int:
     if args.batch_index is None:
         print("--batch-index is required for tests-fast", file=sys.stderr)
         return 2
-    command = fast_batch_argv(batch_index=args.batch_index, batch_count=args.batch_count)
+    command = fast_batch_argv(batch_index=args.batch_index, batch_count=fast_batch_count)
     if not command:
         print(f"no non-slow tests assigned to batch {args.batch_index}; skipping")
         return 0

@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import shlex
+import importlib.util
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -80,6 +81,11 @@ def _partition_evenly(items: List[str], batch_count: int) -> List[List[str]]:
     return partitions
 
 
+def pytest_xdist_available() -> bool:
+    """Return whether pytest-xdist is importable in the current environment."""
+    return importlib.util.find_spec("xdist") is not None
+
+
 def build_fast_suite_batches(batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> List[Dict[str, Any]]:
     """Return deterministic supervised file batches for the non-slow tests/ suite."""
     files = discover_fast_suite_files()
@@ -123,7 +129,9 @@ def build_full_core_batches(batch_count: int = DEFAULT_FULL_CORE_BATCH_COUNT) ->
 def _pytest_argv_from_paths(paths: List[str], marker_expression: str | None = None) -> List[str]:
     if not paths:
         return []
-    command = ["python", "-m", "pytest", "-n", "auto"]
+    command = ["python", "-m", "pytest"]
+    if pytest_xdist_available():
+        command.extend(["-n", "auto"])
     if marker_expression:
         command.extend(["-m", marker_expression])
     command.extend([*paths, "-q"])
@@ -191,11 +199,22 @@ def compactified_preflight_argv() -> List[str]:
 
 def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> Dict[str, Any]:
     """Return the machine-readable supervised regression plan."""
+    return build_regression_supervision_plan_with_full_core_count(
+        batch_count=batch_count,
+        full_core_batch_count=DEFAULT_FULL_CORE_BATCH_COUNT,
+    )
+
+
+def build_regression_supervision_plan_with_full_core_count(
+    batch_count: int = DEFAULT_FAST_BATCH_COUNT,
+    full_core_batch_count: int = DEFAULT_FULL_CORE_BATCH_COUNT,
+) -> Dict[str, Any]:
+    """Return the machine-readable supervised regression plan."""
     batches = build_fast_suite_batches(batch_count=batch_count)
     all_files = [path for batch in batches for path in batch["test_paths"]]
     discovered = discover_fast_suite_files()
     unique_files = sorted(set(all_files))
-    full_core_batches = build_full_core_batches(batch_count=DEFAULT_FULL_CORE_BATCH_COUNT)
+    full_core_batches = build_full_core_batches(batch_count=full_core_batch_count)
     full_core_files = [path for batch in full_core_batches for path in batch["test_paths"]]
     full_core_discovered = discover_full_core_suite_files()
     full_core_unique = sorted(set(full_core_files))
@@ -224,7 +243,7 @@ def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUN
         },
         "supervised_full_core_suite": {
             "suite_paths": list(FULL_CORE_SUITE_PATHS),
-            "default_batch_count": DEFAULT_FULL_CORE_BATCH_COUNT,
+            "default_batch_count": full_core_batch_count,
             "batches": full_core_batches,
             "batch_commands": [
                 _full_core_batch_command_from_paths(batch["test_paths"])
@@ -254,6 +273,7 @@ __all__ = [
     "build_fast_suite_batches",
     "build_full_core_batches",
     "build_regression_supervision_plan",
+    "build_regression_supervision_plan_with_full_core_count",
     "compactified_preflight_argv",
     "compactified_preflight_command",
     "discover_fast_suite_files",
