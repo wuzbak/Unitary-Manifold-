@@ -1,21 +1,35 @@
-# Froggatt-Nielsen: How Geometry Explains Why Particles Are Light — Merlin/PsiCat v1 Rewrite
+# Sprint BC: Froggatt-Nielsen Charges from Geometry, Precision Still Uneven — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-290-s03e068-sprint-bc-froggatt-nielsen-hierarchy.md`*
 
-This article rewrite is grounded in **Froggatt-Nielsen: How Geometry Explains Why Particles Are Light** and keeps the same claim boundaries while tightening clarity and pace.
+**Unitary Manifold — S03E068 · v27.0 · Sprint BC**
 
-There is a pattern in the Standard Model that nobody put there on purpose. The particle masses — quarks, leptons, the three families — are not random. They follow a rough geometric progression: each generation is roughly 10–100 times heavier than the one before. The top quark is about 40,000 times heavier than the up quark. The muon is about 200 times heavier than the electron.
+---
 
-In 1979, Christopher Froggatt and Helaine Nielsen proposed an answer: there is a new global symmetry (a "flavour symmetry"), and particles have different charges under it. The Yukawa couplings that generate masses are suppressed by powers of a small parameter ε for each unit of this charge. This is the Froggatt-Nielsen (FN) mechanism — it explains hierarchies as the result of a symmetry, not a coincidence.
+Sprint BC pushed directly into flavor structure: why masses spread across extreme scales, why CKM angles are small and uneven, why PMNS textures look different, and whether those patterns can be traced to geometry rather than inserted by hand.
 
-Sprint BC asks: where do the FN charges come from? In the Unitary Manifold, the answer is the 7D monodromy of the compactification. The charges are not inputs. They are geometric outputs.
+The strongest result in this sprint was structural: a Froggatt-Nielsen charge-assignment route linked to 7D monodromy. That move matters because it shifts the hierarchy story from a phenomenological convenience toward an internal geometric mechanism.
 
-When you wrap a field around the extra dimensions, it can come back to itself rotated by a phase. This rotation is the monodromy. Different fields have different monodromies depending on how they couple to the geometry. In 7D, the monodromy around the compactification cycle assigns each fermion a specific "winding charge." Sprint BC showed that these winding charges are exactly the FN charges needed to reproduce the observed fermion mass hierarchy.
+From there, BC carried the mechanism into quark mixing and CP structure. The framework improved CKM alignment in parts of the matrix and computed an NLO Jarlskog route in the right magnitude class, while still retaining unresolved architecture dependence in the hardest residuals. That is exactly the kind of mixed board that should be reported without embellishment.
+
+The sprint also extended the flavor bridge into the PMNS side, where texture-level pattern agreement was strengthened without claiming final numeric closure. Again: directionally coherent, not fully solved.
+
+In parallel, BC tightened several adjacent constraint lanes: a narrower α_s volume-consistency window, additional bundle filtering for generation-count consistency, and an inflationary e-fold audit under TCC-facing checks. These moves improved consistency pressure across connected modules, but they were not marketed as universal completion.
+
+What BC did exceptionally well was status labeling discipline. It reduced hidden assumptions, increased geometric linkage, and kept precision gaps visible rather than recoding them as achievements.
+
+Historical Sprint BC markers retained for traceability: 60,848 passed · 45 skipped · 12 deselected · 0 failed; Lean4 marker 3,176.
+
+---
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves Sprint BC as a substantive but non-final flavor sprint: stronger geometric derivation routes, tighter constraints, and unresolved precision burdens stated plainly.

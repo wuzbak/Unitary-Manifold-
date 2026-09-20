@@ -8,6 +8,13 @@ from pathlib import Path
 from typing import Any, Dict
 
 from src.core.formal_traceability_spine import formal_traceability_spine
+from src.core.lean_python_bridge_ir import get_python_lean_bridge_contract
+from src.core.lean_python_closure_pipeline import (
+    emit_normalized_obligations,
+    evaluate_closure_promotion_gate,
+    evaluate_no_bloat_theorem_gate,
+    ingest_lean_outcomes,
+)
 from src.core.pillar1098_lane1_formal_frontier_execution import PILLAR_VALID as P1098_VALID
 from src.core.pillar1097_sprint_cp_three_lane_charter import SPRINT, VERSION, build_truth_surface_sync_status
 
@@ -16,6 +23,14 @@ PILLAR_GATE: str = 'LANE2_PYTHON_LEAN_TRANSLATION_AUDIT'
 PILLAR_STATUS: str = 'LANE2_PYTHON_LEAN_TRANSLATION_AUDIT_COMPLETE'
 NEXT_PILLAR_SLOT: int = 1100
 _ROOT = Path(__file__).resolve().parents[2]
+
+
+def _result_class_for_proof_class(proof_class: str) -> str:
+    if proof_class == 'LEAN_UNCONDITIONAL':
+        return 'UNCONDITIONAL_THEOREM'
+    if proof_class == 'LEAN_CONDITIONAL_WITH_NAMED_AXIOMS':
+        return 'CONDITIONAL_THEOREM'
+    return 'EXECUTABLE_AUDIT'
 
 
 def _truth_surface_sync_status() -> Dict[str, Any]:
@@ -27,9 +42,16 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
 
 
 def lane2_python_lean_translation_audit() -> Dict[str, Any]:
+    bridge_contract = get_python_lean_bridge_contract()
     spine = formal_traceability_spine()
+    obligation_receipt = emit_normalized_obligations()
+    obligations_by_id = {
+        str(item.get('unit_id') or ''): item for item in list(obligation_receipt.get('obligations') or [])
+    }
     units = []
+    lean_outcomes = []
     for row in list(spine.get('traceability_rows') or []):
+        unit_id = str(row.get('id') or '')
         lean_file = _ROOT / str(row.get('lean_file') or '')
         runtime_paths = [(_ROOT / path) for path in list(row.get('python_modules') or [])]
         test_paths = [(_ROOT / path) for path in list(row.get('tests') or [])]
@@ -41,8 +63,29 @@ def lane2_python_lean_translation_audit() -> Dict[str, Any]:
             'EXECUTABLE_PYTHON_VALIDATION',
         }
         deterministic_pass = mapping_ok and statement_equivalence_ok and boundary_units_ok and lean_file.exists() and all(p.exists() for p in [*runtime_paths, *test_paths])
+        outcome_pass = deterministic_pass and bool(list(row.get('lean_symbols') or []))
+        obligation = obligations_by_id.get(unit_id, {})
+        no_bloat_input = {
+            'unit_id': unit_id,
+            'retired_blocker_ids': [
+                str(item.get('claim_id') or '')
+                for item in list(obligation.get('work_queue') or [])
+                if str(item.get('status') or '') == 'CLOSED_NOW'
+            ],
+            'unlocked_python_capabilities': (
+                [f'python_lean_ingestion::{unit_id}'] if deterministic_pass else []
+            ),
+        }
+        no_bloat_gate = evaluate_no_bloat_theorem_gate(no_bloat_input)
+        required_certificate_types = list(obligation.get('required_certificate_types') or [])
+        lean_outcomes.append({
+            'unit_id': unit_id,
+            'result_class': _result_class_for_proof_class(str(row.get('epistemic_class') or '')),
+            'lean_check_passed': outcome_pass,
+            'returned_certificate_types': required_certificate_types if outcome_pass else [],
+        })
         unit = {
-            'unit_id': str(row.get('id') or ''),
+            'unit_id': unit_id,
             'symbol_assumption_mapping': {
                 'lean_symbols': list(row.get('lean_symbols') or []),
                 'review_packet': str(row.get('review_packet') or ''),
@@ -61,6 +104,7 @@ def lane2_python_lean_translation_audit() -> Dict[str, Any]:
                 'python_modules': list(row.get('python_modules') or []),
                 'tests': list(row.get('tests') or []),
             },
+            'no_bloat_theorem_gate': no_bloat_gate,
             'verdict': 'PASS' if deterministic_pass else 'FAIL',
         }
         if not deterministic_pass:
@@ -70,6 +114,28 @@ def lane2_python_lean_translation_audit() -> Dict[str, Any]:
                 'verified_perimeter': 'Translation remains valid only on the explicitly passing sub-contract dimensions.',
             }
         units.append(unit)
+
+    ingestion = ingest_lean_outcomes(
+        obligations=list(obligation_receipt.get('obligations') or []),
+        lean_outcomes=lean_outcomes,
+    )
+    ingestion_by_id = {str(item.get('unit_id') or ''): item for item in list(ingestion.get('rows') or [])}
+    for unit in units:
+        unit_id = str(unit.get('unit_id') or '')
+        lean_row = dict(ingestion_by_id.get(unit_id) or {})
+        no_bloat_gate = dict(unit.get('no_bloat_theorem_gate') or {})
+        promotion_gate = evaluate_closure_promotion_gate(
+            unit_id=unit_id,
+            lean_row=lean_row,
+            python_receipt={
+                'python_integration_proof_passed': bool(unit.get('verdict') == 'PASS'),
+                'tests_passed': bool(unit.get('verdict') == 'PASS'),
+                'retired_blocker_ids': list(no_bloat_gate.get('retired_blocker_ids') or []),
+                'unlocked_python_capabilities': list(no_bloat_gate.get('unlocked_python_capabilities') or []),
+            },
+        )
+        unit['lean_outcome_ingestion'] = lean_row
+        unit['promotion_gate'] = promotion_gate
 
     harvested_units = [item['unit_id'] for item in units if item.get('verdict') == 'PASS']
     blocker_certificates = [
@@ -104,6 +170,26 @@ def lane2_python_lean_translation_audit() -> Dict[str, Any]:
             'promoted_units': harvested_units,
             'blocked_units': [item['unit_id'] for item in blocker_certificates],
             'blocker_fallibility_certificates': blocker_certificates,
+        },
+        'closure_pipeline': {
+            'bridge_contract_id': str(bridge_contract.get('contract_id') or ''),
+            'no_bloat_gate_id': str(
+                ((bridge_contract.get('governance') or {}).get('no_bloat_theorem_gate') or {}).get('gate_id') or ''
+            ),
+            'obligation_count': int((obligation_receipt.get('counts') or {}).get('obligation_count') or 0),
+            'lean_outcome_summary': dict(ingestion.get('summary') or {}),
+            'promotion_summary': {
+                'promotion_eligible_units': [
+                    item['unit_id']
+                    for item in units
+                    if bool((item.get('promotion_gate') or {}).get('promotion_eligible'))
+                ],
+                'blocked_or_conditional_units': [
+                    item['unit_id']
+                    for item in units
+                    if not bool((item.get('promotion_gate') or {}).get('promotion_eligible'))
+                ],
+            },
         },
         'summary': {
             'units_passed': sum(1 for item in units if item['verdict'] == 'PASS'),

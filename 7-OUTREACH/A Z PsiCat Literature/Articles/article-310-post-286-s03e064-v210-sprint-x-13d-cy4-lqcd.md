@@ -1,21 +1,25 @@
-# Sprint X: 13D, CY₄ χ=148, and Closing the Moduli Cluster (v21.0-S) — Merlin/PsiCat v1 Rewrite
+# Sprint X: 13D, CY₄ χ=148, and the Moduli Cluster Record — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-286-s03e064-v210-sprint-x-13d-cy4-lqcd.md`*
 
-This article rewrite is grounded in **Sprint X: 13D, CY₄ χ=148, and Closing the Moduli Cluster (v21.0-S)** and keeps the same claim boundaries while tightening clarity and pace.
+Sprint X is best read as a clustered-burden sprint rather than a single-claim sprint. It brought four coupled 13D lanes into one auditable packet: explicit reference-CY₄ χ logic, t₂ gauge-status clarification, Sp(2,ℝ)-anomaly consistency scaffolding, and a ΛQCD moduli-roadmap commitment where precision remained open.
 
-Sprint X (Pillars 682–687, v21.0-S) is the current frontier sprint. It closes a cluster of four related gaps: the CY₄ Euler characteristic, the t₂ dynamic degrees of freedom, the Sp(2,ℝ) anomaly in 13D, and the ΛQCD moduli closure. These four gaps share a structural fingerprint — they are all connected to the 13D I-theory parent geometry introduced in Pillar 682.
+The important feature of this sprint is not rhetorical closure; it is burden separation. One lane moved to explicit construction at reference geometry, one lane moved to gauge-artifact clarification, one lane reached scaffold-level cancellation consistency, and one lane remained architecture-limited with a declared follow-on pathway. That is what disciplined reporting looks like in a high-coupling frontier.
 
-This is not a standalone result. Sprint X is downstream of Posts 273 (13D I-theory parent) and 280–284 (F-theory Runge 7–10). Read those first if this is your entry point.
+This post therefore records mixed outcomes as mixed outcomes. It does not collapse adjacent-track advances into universal proof, and it does not hide the open moduli dependence behind symbolic success language.
 
-Pillar 682 hypothesized a 13D parent space with signature (11+2) following Itzhak Bars' Two-Time Physics framework. The 13×13 parent metric G_AB decomposes into sectors: two timelike dimensions (t₁ physical, t₂ Sp(2,ℝ) gauge tracker), the 4D physical spacetime block, a 6D F-theory CY₄ base, and the master radion Φ_M.
+Historical Sprint X markers belong to the period of this post. For current state, use canonical ledgers (`STATUS.md`, `docs/mas_tracker.yml`, and linked truth surfaces).
 
-Three algebraic theorems were proved: - **T682.1**: k_CS = 74 is a topological invariant of the 13D parent - **T682.2**: Sp(2,ℝ) null-cone condition independently selects φ₀_eff = 5 × 2π (crosscheck of Pillar 56 to < 10⁻¹⁰) - **T682.3**: Primary (5,7) and shadow (5,6) sectors connected by SL(2,ℝ) shear M = [[1,0],[−1/5,1]]; Δβ ≈ 0.058°
+---
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves the source post’s substantive intent while strengthening claim-boundary clarity, historical-versus-live status discipline, and auditable narrative rigor.

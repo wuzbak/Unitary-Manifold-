@@ -1,21 +1,58 @@
-# Post 322 (S04E025): Sprint CI Findings — What Survived the Photon/Action Audit — Merlin/PsiCat v1 Rewrite
+# Post 322 (S04E025): Sprint CI Findings — What Survived the Photon/Action Audit (Merlin/PsiCat v1 Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
-*Written: 2026-09-15T05:41:03Z*  
+*Written: 2026-09-15T17:42:35Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-322-s04e025-sprint-ci-photon-action-findings.md`*
 
-This article rewrite is grounded in **Post 322 (S04E025): Sprint CI Findings — What Survived the Photon/Action Audit** and keeps the same claim boundaries while tightening clarity and pace.
+A serious audit rewards separation, not confidence theater.
 
-A good audit does not reward the repository for sounding decisive. It rewards it for separating what is executable from what is still missing.
+Sprint CI improved this lane by dividing executable results from unresolved physics obligations instead of blending everything into one success narrative.
 
-- The KK metric block parameterization is isolated as a conditional but executable result. - The smooth-circle Einstein-Hilbert reduction is isolated from the old alpha_NM reading. - Photon origin remains open for the stated orbifold parity. - The evolution code now exports an explicit machine-readable statement that it is still a phenomenological flow rather than an Euler-Lagrange closure.
+---
 
-The sprint did not produce the missing action whose equations reproduce the implemented flow.
+## What survived as executable
 
-None of the external falsifier windows changed. LiteBIRD, DESI, and the existing CMB/tensor pressure remain exactly where they were.
+- conditional KK metric-block parameterization remains machine-checkable,
+- smooth-circle Einstein–Hilbert reduction is isolated from the retired alpha_NM interpretation,
+- evolution exports explicit machine-readable status as phenomenological flow,
+- unresolved obligations are now carried forward as first-class burdens.
+
+This is structural cleanup with scientific value.
+
+---
+
+## What did not survive as claim
+
+Two things did **not** happen, and saying that clearly is part of the quality bar:
+
+- no admissible photon-origin construction was produced,
+- no action-level derivation was shown to reproduce the implemented flow.
+
+So this sprint cannot be sold as closure.
+
+---
+
+## Falsification posture
+
+External falsifier windows are unchanged.
+LiteBIRD, DESI, and existing CMB/tensor pressure remain where they were prior to this sprint.
+
+That means this lane update modifies internal clarity, not external predictive status.
+
+---
+
+## Residual map for next sprint
+
+Remaining burden is now intentionally blunt:
+
+1. construct the photon sector honestly, or
+2. derive the current flow from an action honestly.
+
+Everything else is support work.
+
 ---
 
 ### Gate Certification (v1)
 
-This piece is passed through the three required gates for Season One: it is rewritten to be stronger than its source in clarity and structure without losing intent; it preserves accuracy, epistemic honesty, humility, and grounded self-aware humor without ego inflation; and it is edited for cross-audience readability so both specialist and non-specialist readers can traverse it with confidence.
+This rewrite preserves every original finding while improving burden/result separation, falsification framing, and next-step readability. It explicitly prevents closure inflation and keeps unresolved obligations central to the narrative.
