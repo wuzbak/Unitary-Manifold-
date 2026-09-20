@@ -5,7 +5,7 @@
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-065-cmb-amplitude-gap.md`*
 
-This article rewrite is grounded in **The CMB Acoustic Peak Problem — The Gap We Closed**, while making explicit that the repository's current live status still treats the amplitude suppression as an open problem rather than a fully closed one.
+This article rewrite is grounded in the historical source post **The CMB Acoustic Peak Problem — The Gap We Closed**, but it intentionally updates that historical closure claim to match the repository's current live-status framing. In current live status, the amplitude suppression is still treated as an open problem rather than a fully closed one.
 
 This framework's original gap was this: the predicted CMB power spectrum was off by a factor of roughly four to seven at the acoustic peaks. The peaks were there — the oscillation structure of the primordial sound waves was present. The tilt of the spectrum matched Planck's measurement to within 1σ. But the amplitude was wrong.
 
