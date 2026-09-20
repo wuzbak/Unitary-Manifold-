@@ -146,6 +146,11 @@ That is not a Theory of Everything. It is a precise and remarkable theory of som
 Remarkable theories of something are rarer and more valuable than vague theories
 of everything.
 
+What the framework does attempt is narrower: it tries to place quantum mechanics,
+electromagnetism, gravitation, and some aspects of the weak interaction inside one
+geometric structure, while openly refusing to claim a completed unification of all
+constants, particle masses, or the cosmological constant from first principles.
+
 ---
 
 *Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
@@ -156,8 +161,6 @@ of everything.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
-
-What the framework does attempt is narrower: it tries to place quantum mechanics, electromagnetism, gravitation, and some aspects of the weak interaction inside one geometric structure, while openly refusing to claim a completed unification of all constants, particle masses, or the cosmological constant from first principles.
 
 ---
 
