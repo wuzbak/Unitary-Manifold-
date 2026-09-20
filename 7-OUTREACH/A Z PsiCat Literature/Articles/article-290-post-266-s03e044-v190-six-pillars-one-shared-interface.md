@@ -11,6 +11,8 @@ A shared interface across six pillars can improve traceability, consistency chec
 
 By separating integration value from claim inflation, the post remains useful both to technical auditors and general readers.
 
+Three canonical truth surfaces had drifted to v15.x while the codebase was at v18.5. This pillar corrects that:
+
 All sprint statistics here are historical context and should not be treated as live counts.
 
 ---

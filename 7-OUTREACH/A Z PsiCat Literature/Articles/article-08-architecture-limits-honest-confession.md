@@ -9,6 +9,8 @@
 *Epistemic category: **META** — Repository-wide honest accounting of what 5D geometry cannot explain.*
 *v34.0-S, 2026-09-02.*
 
+One of the repository’s most important civic habits is naming what the framework cannot currently do without pretending that naming it is itself closure.
+
 ---
 
 ## Introduction: What an Architecture Limit Is
@@ -16,6 +18,12 @@
 Most scientific frameworks are criticized for overclaiming. Physics papers are occasionally retracted for understating uncertainty. The Unitary Manifold aims to do something unusual: it formally documents, in machine-readable form, not just what it claims to explain but **what it cannot explain**.
 
 An architecture limit is a named, certified gap in the framework's explanatory reach that follows from the structure of the theory itself — not from a missing calculation, a numerical error, or insufficient effort, but from the geometry.
+
+The strongest update here is family clustering. Instead of a scattered list of complaints, residuals now map into coherent groups around flavor UV structure and compactification/global geometry. That reorganization does not solve the limits, but it improves target clarity for the next round of work.
+
+Observation-gated limits also remain visible, especially around tensor ratio and dark-energy evolution tension routing. This is where many projects quietly “reinterpret.” Here the lane remains explicitly test-facing.
+
+The thesis is simple: mature science programs are defined as much by structured failure accounting as by successful predictions. If a limit is structural, saying so is not defeatism. It is evidence hygiene.
 
 Architecture limits are different from open problems. An open problem might eventually be closed by more work within the current framework. An architecture limit cannot be closed without changing the framework's core structure.
 
@@ -46,7 +54,7 @@ r_braided = (32 n_w c_s) / φ₀² × (1 + ρ²/(2(1−ρ²)))⁻¹
 
 where n_w = 5, c_s = 12/37, φ₀ fixed by FTUM, ρ = 70/74.
 
-**Current tension:** ACT DR6 + Planck gives r < 0.016 (95% CL) — the UM prediction exceeds this by a factor of ~2, at approximately 2σ tension.
+**Current live-status tension:** historical consistency-era framing treated r = 0.0315 as observationally allowed, but the present ACT DR6 + Planck summary gives r < 0.016 (95% CL), placing the UM prediction under approximately 2σ tension in the current repository framing.
 
 **Why it is irreducible:** Pillar 303 proved that 87 WZW loop corrections would be needed to drive r from 0.0315 to 0.016. Perturbativity breaks at N_loops ~ 176. The loop expansion cannot rescue the prediction.
 
@@ -193,6 +201,11 @@ This is what scientific honesty looks like at the level of a formal framework. S
 That is better.
 
 ---
+
+*Full source code and repository artifacts (historical milestone-era tests; see `STATUS.md` for live totals):*
+*https://github.com/wuzbak/Unitary-Manifold-*
+*Architecture-limit map: `1-THEORY/DERIVATION_STATUS.md`, `FALLIBILITY.md`, `docs/CLAIM_MASTER_BOARD.md`*
+*Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*
 *Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).*

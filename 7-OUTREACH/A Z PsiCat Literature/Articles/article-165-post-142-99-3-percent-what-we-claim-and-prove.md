@@ -17,8 +17,6 @@
 
 ## Why This Post Exists
 
-When the number "99.3%" appears in our documentation, it raises an immediate and correct question: *what exactly is that a percentage of, and who decided the scoring method?*
-
 The question deserves a thorough answer — not a defensive one. This post explains the score from the ground up: what the 28 parameters are, how the scoring rubric works, what "DERIVED" actually means in this context, where the hard gaps are, and what would kill the framework entirely.
 
 Nothing in this post is promotional. If anything, the goal is the opposite: to give readers exactly the tools they need to be skeptical.

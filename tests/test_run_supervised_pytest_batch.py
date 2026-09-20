@@ -61,7 +61,7 @@ def test_supervisor_emit_json_keeps_status_off_stdout(monkeypatch, capsys) -> No
         "dry_run": False,
         "emit_json": True,
     })())
-    monkeypatch.setattr(batch_runner, "build_regression_supervision_plan", lambda batch_count: {
+    monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count", lambda **kwargs: {
         "supervision": {
             "coverage_matches_discovery": True,
             "all_files_unique": True,
@@ -73,3 +73,103 @@ def test_supervisor_emit_json_keeps_status_off_stdout(monkeypatch, capsys) -> No
     assert captured.out.strip().startswith("{")
     assert "supervised regression coverage check passed" not in captured.out
     assert "supervised regression coverage check passed" in captured.err
+
+
+def test_full_core_main_executes_full_core_batch(monkeypatch) -> None:
+    observed: dict[str, object] = {}
+
+    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
+        "suite": "full-core",
+        "batch_count": 8,
+        "batch_index": 3,
+        "dry_run": False,
+        "emit_json": False,
+    })())
+    monkeypatch.setattr(batch_runner, "full_core_batch_argv", lambda batch_index, batch_count: ["python", "-m", "pytest", "tests/test_example.py", "-q"])
+    def _fake_run(args, dry_run):
+        observed["args"] = args
+        observed["dry_run"] = dry_run
+        return 0
+    monkeypatch.setattr(batch_runner, "_run", _fake_run)
+
+    assert batch_runner.main() == 0
+    assert observed["args"] == ["python", "-m", "pytest", "tests/test_example.py", "-q"]
+    assert observed["dry_run"] is False
+
+
+def test_full_core_main_uses_full_core_default_batch_count(monkeypatch) -> None:
+    observed: dict[str, object] = {}
+
+    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
+        "suite": "full-core",
+        "batch_count": None,
+        "batch_index": 3,
+        "dry_run": False,
+        "emit_json": False,
+    })())
+    monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count", lambda **kwargs: {
+        "supervision": {
+            "coverage_matches_discovery": True,
+            "all_files_unique": True,
+            "full_core_coverage_matches_discovery": True,
+            "full_core_all_files_unique": True,
+        }
+    })
+    def _fake_full_core_batch_argv(batch_index, batch_count):
+        observed["batch_index"] = batch_index
+        observed["batch_count"] = batch_count
+        return ["python", "-m", "pytest", "tests/test_example.py", "-q"]
+    monkeypatch.setattr(batch_runner, "full_core_batch_argv", _fake_full_core_batch_argv)
+    monkeypatch.setattr(batch_runner, "_run", lambda args, dry_run: 0)
+
+    assert batch_runner.main() == 0
+    assert observed["batch_index"] == 3
+    assert observed["batch_count"] == 8
+
+
+def test_full_core_supervisor_emit_json_keeps_status_off_stdout(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
+        "suite": "full-core-supervisor-check",
+        "batch_count": 8,
+        "batch_index": None,
+        "dry_run": False,
+        "emit_json": True,
+    })())
+    monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count", lambda **kwargs: {
+        "supervision": {
+            "full_core_coverage_matches_discovery": True,
+            "full_core_all_files_unique": True,
+        }
+    })
+
+    assert batch_runner.main() == 0
+    captured = capsys.readouterr()
+    assert captured.out.strip().startswith("{")
+    assert "supervised full-core regression coverage check passed" not in captured.out
+    assert "supervised full-core regression coverage check passed" in captured.err
+
+
+def test_full_core_supervisor_uses_full_core_default_batch_count(monkeypatch, capsys) -> None:
+    observed: dict[str, object] = {}
+
+    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
+        "suite": "full-core-supervisor-check",
+        "batch_count": None,
+        "batch_index": None,
+        "dry_run": False,
+        "emit_json": False,
+    })())
+    def _fake_plan(**kwargs):
+        observed.update(kwargs)
+        return {
+            "supervision": {
+                "full_core_coverage_matches_discovery": True,
+                "full_core_all_files_unique": True,
+            }
+        }
+    monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count", _fake_plan)
+
+    assert batch_runner.main() == 0
+    assert observed["batch_count"] == 4
+    assert observed["full_core_batch_count"] == 8
+    assert "supervised full-core regression coverage check passed" in capsys.readouterr().out

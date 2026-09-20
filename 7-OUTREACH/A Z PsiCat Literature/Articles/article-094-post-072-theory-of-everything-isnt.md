@@ -1,4 +1,4 @@
-# The Theory of Everything That Isn't — Merlin/PsiCat v1 Rewrite
+# The Theory of Everything That Isn't — Abstract / Preview — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
@@ -13,6 +13,10 @@ unify all forces in the sense that phrase usually implies. Being a theory of
 irreversibility is already an extraordinary achievement. This post explains why.*
 
 ---
+
+This rewrite is grounded in **The Theory of Everything That Isn't** and keeps the same claim boundaries while tightening clarity and pace. The full source article remains the canonical complete version; this version is a substantive standalone rewrite rather than only a short lead-in.
+
+Read the canonical full article here: [`/7-OUTREACH/substack/posts/post-072-theory-of-everything-isnt.md`](../../substack/posts/post-072-theory-of-everything-isnt.md). For the broader repository claim boundaries, see [`FALLIBILITY.md`](../../../FALLIBILITY.md) and [`3-FALSIFICATION/FALSIFICATION_REGISTER.md`](../../../3-FALSIFICATION/FALSIFICATION_REGISTER.md).
 
 The Unitary Manifold gets called a "Theory of Everything" sometimes. It is not,
 and the distinction matters.
@@ -113,8 +117,9 @@ that claims to explain everything and explains nothing precisely.
 
 1. **Quantum gravity:** the short-distance theory that the 5D framework is an
    effective limit of.
-2. **Particle masses:** the mechanism that sets the masses of quarks, leptons,
-   and gauge bosons at their observed values.
+2. **Remaining mass sectors:** the still-unresolved parts of the mass story,
+   especially neutrino masses, residual flavor magnitudes, and the full gauge-boson
+   value structure beyond the charged-fermion hierarchy now treated elsewhere as derived.
 3. **Cosmological constant:** the reason the vacuum energy density is 10¹²⁰ times
    smaller than naive calculation suggests.
 4. **CMB amplitude:** as discussed in Post 65, the primordial power spectrum amplitude
@@ -141,9 +146,14 @@ That is not a Theory of Everything. It is a precise and remarkable theory of som
 Remarkable theories of something are rarer and more valuable than vague theories
 of everything.
 
+What the framework does attempt is narrower: it tries to place quantum mechanics,
+electromagnetism, gravitation, and some aspects of the weak interaction inside one
+geometric structure, while openly refusing to claim a completed unification of all
+constants, particle masses, or the cosmological constant from first principles.
+
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *What the framework is: `README.md`, `WHAT_THIS_MEANS.md`*
 *Honest scope: `FALLIBILITY.md`*

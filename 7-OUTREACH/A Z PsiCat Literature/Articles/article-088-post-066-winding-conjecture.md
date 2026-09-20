@@ -1,4 +1,4 @@
-# The Winding Number — Proved — Merlin/PsiCat v1 Rewrite
+# The Winding Number — Narrowed Toward Five — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
@@ -8,14 +8,17 @@
 *Post 66 of the Unitary Manifold series.*
 *Claim: the Atiyah-Patodi-Singer (APS) η-invariant argument — Pillar 70 of the
 framework — has been established at three independent levels (Pillars 70-B, 80, 89),
-elevating the selection of n_w = 5 from "preferred by anomaly-cancellation and
-observational selection" to a geometric theorem. This post explains what was proved,
-what each proof does, and what it means that the framework is now derived rather
-than calibrated.*
-
----
+strongly narrowing the winding selection toward n_w = 5 from anomaly-cancellation
+and geometric consistency, while this article still preserves the live caveat that
+full first-principles uniqueness is not presented here as completely closed without
+the later observational selection step. This post explains what was proved, what
+each proof does, and what remains open in the uniqueness story.*
 
 Every physicist has a result they wish they could prove.
+
+This article rewrite is grounded in the historical source post **The Winding Number — Proved**, but it intentionally updates that historical claim to match the repository's current live-status framing. The rewrite title is narrower because the current repository status preserves the remaining caveat: the derivation strongly narrows toward five, but full uniqueness is not presented here as completely closed from first principles alone.
+
+This framework had one: the APS η-invariant argument — the claim that the Atiyah-Patodi-Singer η-invariant of the five-dimensional Dirac operator on the compact S¹/Z₂ orbifold narrows the geometric lane to {n_w = 5, n_w = 7} at an intermediate step. The later chirality and boundary-consistency analysis is presented as favoring n_w = 5 over 7, but the repository's live framing still preserves the caveat that full uniqueness is not treated as completely closed from first principles alone without the later observational selection step. In plain terms, the open step is the missing purely geometric argument that excludes 7 by itself rather than narrowing to {5,7} and then letting Planck's measured n_s choose the surviving branch.
 
 This framework had one: the APS η-invariant argument — the claim that
 the Atiyah-Patodi-Singer η-invariant of the five-dimensional Dirac operator on
@@ -44,7 +47,7 @@ that is non-trivial — it precisely accounts for the Standard Model's half-inte
 chirality. The triangular-step inflow also yields η̄(n_w = 7) = 1/2 mod 1, but the
 required chirality/boundary-consistency step then fails for n_w = 7, excluding it as a physical branch.
 
-This means n_w = 5 is the unique consistent winding number. The selection is geometric.
+This means the geometric lane strongly narrows to n_w = 5 as the surviving consistent branch once the chirality/boundary-consistency filter is applied, while the article still preserves the live caveat that the purely first-principles uniqueness story is not presented here as fully closed without the later observational selection step.
 
 ---
 
@@ -96,8 +99,7 @@ A pure 5D boundary condition argument:
 
 Steps A→D: G_{μ5} Z₂-parity → Dirichlet BC → APS η̄=½ → n_w=5.
 
-This is algebraically complete. No M-theory. No observational data. n_w = 5 follows
-from the 5D metric structure alone. (`src/core/vacuum_geometric_proof.py`, 59 tests.)
+This is algebraically complete at the narrowing stage described here. No M-theory is invoked, and the 5D metric structure carries the branch selection deep into the geometric lane, but this rewrite still preserves the stated live caveat that full first-principles uniqueness is not presented here as wholly closed without the later observational selection step. (`src/core/vacuum_geometric_proof.py`, 59 tests.)
 
 ---
 

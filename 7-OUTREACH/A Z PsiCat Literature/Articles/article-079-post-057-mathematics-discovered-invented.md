@@ -40,7 +40,7 @@ The Unitary Manifold places a specific pressure on this debate.
 The framework makes four independent predictions that agree with observation:
 
 1. **CMB spectral index n_s = 0.9635** (Planck: 0.9649 ± 0.0042 ✓)
-2. **Cosmic birefringence β = 0.3513°** (Minami-Komatsu: 0.35° ± 0.14° ✓)
+2. **Cosmic birefringence β ∈ {0.273°, 0.331°}** (with ≈0.351° retained only as a historical/derived-channel value; ACT/Planck remains consistent with the low branch ✓)
 3. **Tensor-to-scalar ratio r = 0.0315** (BICEP/Keck: r < 0.036 ✓)
 4. **Dark energy equation of state w ≈ −0.930** (consistent with current data)
 

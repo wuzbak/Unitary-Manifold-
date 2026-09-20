@@ -12,7 +12,7 @@ who is responsible for the correctness of the results? This question is new; the
 answer has implications for scientific accountability that extend beyond this
 repository.*
 
----
+This rewrite asks a direct question: if an AI system derives equations, implements code, and writes documentation, who is responsible for the correctness of the results? The answer has implications for scientific accountability that reach beyond this repository.
 
 The authorship line at the bottom of every post in this series reads:
 
@@ -141,6 +141,10 @@ need to be developed, not assumed.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+What he did not have was the ability to implement the mathematics in code, run the numerical tests, produce the documentation, or generate the 92-pillar structure from the theoretical seed.
+
+The accountability line, however, stays human. The AI can assist with derivation, implementation, testing, and prose, but it does not bear scientific or moral responsibility in the way a human author does. The person who chooses the claims, signs the work, interprets the results, and must retract them if they fail is still the human steward named on the framework.
 
 ---
 

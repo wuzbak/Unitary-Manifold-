@@ -1,4 +1,4 @@
-# The CMB Acoustic Peak Problem — The Gap We Closed — Merlin/PsiCat v1 Rewrite
+# The CMB Acoustic Peak Problem — Historical Closure Claim, Current Open Gap — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
@@ -9,6 +9,8 @@
 *Claim context (historical snapshot): this post records an earlier closure attempt for the CMB power-spectrum amplitude suppression (roughly 4–7 at acoustic peaks relative to Planck). Current repository status should be taken from the live ledgers (e.g., STATUS.md and FALLIBILITY.md), where this lane may remain open pending broader reassessment updates.*
 
 ---
+
+This article rewrite is grounded in the historical source post **The CMB Acoustic Peak Problem — The Gap We Closed**, but it intentionally updates that historical closure claim to match the repository's current live-status framing. In current live status, the amplitude suppression is still treated as an open problem rather than a fully closed one.
 
 Every scientific framework has a gap it would rather not talk about.
 
@@ -22,8 +24,6 @@ This post narrates a historical closure attempt; it is not the authoritative liv
 This post states the problem completely and honestly, describes what was attempted,
 what failed first, and what ultimately worked. Documenting a resolved problem is as
 important as documenting an open one.
-
----
 
 ## What the CMB power spectrum shows
 
@@ -39,8 +39,6 @@ Agreement is within Planck's 1σ. This was a genuine success throughout.
 power spectrum. The COBE/Planck normalization gives A_s ≈ 2.1 × 10⁻⁹. Earlier
 versions of the framework's radion field energy density, without separate normalization,
 were suppressed by a factor of 4–7.
-
----
 
 ## What Pillars 57 and 63 were documented to resolve at this historical stage
 
@@ -62,8 +60,6 @@ Combined historical result in this post's milestone frame: the ×4–7 suppressi
 was recorded as closed, and the framework was reported as reproducing both the
 spectral tilt n_s and the acoustic peak amplitude A_s within that stage's modeling assumptions.
 
----
-
 ## What the φ₀ self-consistency story says
 
 The φ₀ self-consistency (Pillar 56, `src/core/phi0_closure.py`) closes the loop
@@ -73,8 +69,6 @@ This is a genuine solution to the φ₀ problem.
 The φ₀ closure determines the value of φ₀ from the framework's internal dynamics.
 With the amplitude closure from Pillar 63, the closed φ₀ value now correctly
 propagates through to a consistent A_s prediction.
-
----
 
 ## What remains open
 
@@ -90,8 +84,6 @@ is an analytic approximation. The KK correction to peak positions is predicted a
 δ_KK ≈ 8 × 10⁻⁴ (Pillar 73), below current Planck sensitivity. This is an open
 numerical task, not an unresolved discrepancy.
 
----
-
 ## Why documenting resolved problems matters
 
 A framework that hides the history of its gaps — presenting only the successes — is
@@ -103,8 +95,6 @@ The amplitude gap does not and did not invalidate the spectral tilt, birefringen
 or tensor ratio predictions — these depend on different physics. The resolution of
 the amplitude gap strengthens the framework's overall consistency.
 
----
-
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *CMB amplitude gap live status: see current `FALLIBILITY.md` and `STATUS.md` (this post preserves a historical closure-attempt framing)*
@@ -115,6 +105,8 @@ the amplitude gap strengthens the framework's overall consistency.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+This post states the problem completely and honestly. The historical closure attempt ran through the transfer-function lane and later pillar work aimed to reduce the mismatch, but the repository's live status still treats those steps as partial corrections rather than a final resolution. In current live status, the amplitude suppression remains a documented open problem rather than a fully closed one.
 
 ---
 

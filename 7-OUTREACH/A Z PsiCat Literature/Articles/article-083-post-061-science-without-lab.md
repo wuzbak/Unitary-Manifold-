@@ -11,6 +11,8 @@ examination of the status of automated assertions as evidence — what they
 prove, what they don't prove, and how they fit into the broader evidential structure
 that science requires.*
 
+This rewrite examines a historical snapshot in which 15,615 automated assertions were already in place — what those tests proved, what they did not prove, and how they fit into the broader evidential structure that science requires. The larger point is not the exact historical count but the function of the suite: when readers run a reduced modern example such as `python -m pytest tests/ -q`, they are checking that the core `tests/` suite conforms to the equations, identities, and numerical claims it was written to implement. Reproducing the broader repository-wide totals requires the canonical full-repository path and the live-status guidance in `STATUS.md`.
+
 ---
 
 The repository snapshot shown in this article records a dated historical sample output (14,183 passing tests at that timepoint), corresponding to the v9-era branch state in spring 2026. At that time, the historical command sample was:
@@ -130,7 +132,7 @@ invite experimentalists to engage with the predictions and design tests.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Test suite: `python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`*
 *Honest gaps: `FALLIBILITY.md`*
@@ -138,6 +140,8 @@ invite experimentalists to engage with the predictions and design tests.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+The tests verify that the code faithfully implements the stated mathematics. When `tests/test_inflation.py` passes, it means that the Python function `spectral_index()` returns a value within the claimed range. It means that when the winding number is set to 5, the result is consistent with the stated derivation. For live totals the repository now points to `STATUS.md`, but the reproducibility path remains executable rather than rhetorical.
 
 ---
 

@@ -18,8 +18,6 @@
 
 ## Why Pillar 229 follows Pillar 227
 
-Pillar 227 answered: *how bad is it?* It returned a readiness index of `0.3539` for the 2026 baseline — a calculated number, not an opinion. Pillar 229 answers the next question: *what does it cost to fix, and in what order?*
-
 This is not a promise that the problems are solved. It is a structured allocation engine: given a budget and a target, find the path.
 
 ---

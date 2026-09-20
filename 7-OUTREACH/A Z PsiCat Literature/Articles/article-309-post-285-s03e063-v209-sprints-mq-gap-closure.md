@@ -18,6 +18,8 @@ For live counts and current verdicts, defer to current canonical status surfaces
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
 
+The sprint also formally certified the irreducibility of r = 0.0315 (ARCHITECTURE_LIMIT_CERTIFIED; Pillar 396 predecessor). The CMB-S4/SO three-branch decision protocol is ready, and the r-tension at roughly 2σ with ACT DR6 remains the most live scientific risk in the framework.
+
 ---
 
 ### Gate Certification (v1)

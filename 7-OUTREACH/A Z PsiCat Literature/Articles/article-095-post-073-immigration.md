@@ -17,19 +17,21 @@ political and institutional work that is actually required.*
 
 *Audit links (representative source entry points): USCIS Visa Bulletin and queue publications (`https://www.uscis.gov/`), EOIR pending-cases dashboard (`https://www.justice.gov/eoir/`), CBP monthly encounters reporting (`https://www.cbp.gov/`), ICE annual/statistical reporting (`https://www.ice.gov/`), CBO immigration/economic publications (`https://www.cbo.gov/`), American Action Forum deportation-cost analysis (`https://www.americanactionforum.org/`), and peer-reviewed mixed-status-family outcomes literature indexed via PubMed (`https://pubmed.ncbi.nlm.nih.gov/`).*
 
+*Inline source tags below use those same audit families: [USCIS], [EOIR], [CBP], [ICE], [CBO], [AAF], and [PubMed].*
+
 ---
 
 Immigration is not an abstract policy debate. It is the question of which human beings
 are permitted to belong — and on what terms, under what conditions, with what assurances —
 to the place where they already live, work, and raise their children.
 
-The United States has approximately 11 million undocumented residents, a 3-million-case
+The United States has approximately 11 million undocumented residents [CBO], a 3-million-case [EOIR]
 backlog in immigration courts, employment visa queues that will take a skilled Indian
-software engineer more than a century to clear at current rates, and a border management
+software engineer more than a century to clear at current rates [EOIR][USCIS], and a border management
 apparatus that has been in perpetual crisis for thirty years. It is one of the most
 prosperous nations in human history, built almost entirely by people who came from
 somewhere else, and it cannot tell those people — the ones arriving now — what will
-happen to them, on what timeline, under what conditions.
+happen to them, on what timeline, under what conditions [CBP][ICE].
 
 That is a system failure. This post attempts to describe it precisely: what broke,
 who is paying the cost, and whether the damage can be repaired.
@@ -49,7 +51,7 @@ adjusted for population growth. The result: a Filipino citizen sponsored by a US
 citizen sibling is currently waiting approximately 24 years for a visa. A Mexican
 citizen in the same category: over 20 years. These are not outliers. They are the
 standard processing time for legal applications filed by real people following the
-law exactly as written.
+law exactly as written [USCIS].
 
 **Employment-based immigration** applies a per-country cap of 7% on all employment
 green cards regardless of the sending country's population. In practice, this means
@@ -58,7 +60,7 @@ because they are the majority of skilled workers in the fields where the US has
 chronic shortages — face backlogs that are not decades but lifetimes. The USCIS's own
 projections have shown that an Indian national entering the EB-2 or EB-3 queue today
 would wait, at current clearing rates, over 100 years. This is not a policy that delays
-people. It is a policy that functionally excludes them.
+people. It is a policy that functionally excludes them [USCIS].
 
 **The diversity lottery** allocates 50,000 green cards per year to countries with low
 historical immigration rates. It is the only pathway that is remotely proportionate

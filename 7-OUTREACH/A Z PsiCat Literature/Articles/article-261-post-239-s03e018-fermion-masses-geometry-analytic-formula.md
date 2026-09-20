@@ -24,8 +24,6 @@ This is not a minor gap. If you claim to have a theory of everything, the masses
 
 The Unitary Manifold's claim, built across the sprints covered here, is that the fermion mass hierarchy is not an input. It is what the braid geometry produces.
 
----
-
 ## The Architecture: Warped Geometry and Exponential Hierarchies
 
 The 5D metric in the Randall-Sundrum geometry is:
@@ -49,8 +47,6 @@ y_{4D} ∝ exp(−k π R (c_L + c_R)/2)
 The key: exponential sensitivity to the bulk mass parameters. A difference of Δ(c_L + c_R) ≈ 1 changes the Yukawa coupling by a factor of exp(−kπR) ≈ exp(−37) ≈ 10⁻¹⁶ (using kR from the Goldberger-Wise stabilisation). This is the geometric origin of mass hierarchies.
 
 The problem was always: what determines c_L and c_R for each fermion?
-
----
 
 ## The Braid Lattice: Where Froggatt-Nielsen Meets Geometry (Pillars 385, 402, 408)
 
@@ -81,8 +77,6 @@ This identification — between the FN charge and the braid lattice position —
 
 These reproduce J_PDG within 0.02%. The required LKT correction δ_KT ≈ 0.053 is natural. Admission 7 (Jarlskog invariant gap) moves from ARCHITECTURE_LIMIT to ARCHITECTURE_LIMIT_MAPPED to NATURALNESS_DERIVED.
 
----
-
 ## The 3×3 Seesaw Texture (Pillar 386)
 
 The neutrino mass sector is governed by the seesaw mechanism: heavy right-handed neutrinos N_R with masses M_R mix with the light left-handed neutrinos ν_L through Dirac mass terms m_D, generating the observed small neutrino masses:
@@ -97,8 +91,6 @@ The key result: the ratio p_R = m_D/M_R — which sets the PMNS mixing angle pre
 
 This closes the seesaw texture participation gap. The PMNS mixing angles are no longer inputs — they are consequences of the warp-factor hierarchy in the neutrino sector.
 
----
-
 ## The 2-Loop KK Yukawa Calculation: Closing Admission 7 (Pillar 414–420, 445)
 
 The Jarlskog invariant J measures the total CP violation in quark mixing:
@@ -112,8 +104,6 @@ The UM geometric prediction at leading order had a 37% gap from the PDG value �
 Pillar 414 (v13.4): a 2-loop KK Yukawa calculation shows that the two-loop correction is subleading — of order (g_KK²/16π²)². The 37% gap is not explained by loop corrections; it requires the non-integer FN charge assignment (Δℓ ≈ 1.390 rather than n × 5/74).
 
 Pillar 445 (v13.8): at two-loop order, the KK Yukawa chain is certified TWOLOOP_SUBLEADING, and Admission 7 is closed: the exact non-integer target is reached by the UV-brane correction mechanism identified in Pillar 408. The Jarlskog invariant is reproduced within 0.02% by the full chain.
-
----
 
 ## The Fermion Hierarchy at 9/9 (Pillar 429, 449)
 
@@ -132,8 +122,6 @@ By v13.6, all nine charged SM fermions were fully constrained with natural FN ch
 | electron | 2.88 × 10⁻⁶ | 2.94 × 10⁻⁶ | 0.20 | NATURAL |
 
 All nine are NATURAL (δ_FN < 0.6), meaning the FN correction is less than 60% of one lattice step. No fine-tuning. The mass hierarchy spanning six orders of magnitude is reproduced from the braid geometry without adjusting parameters.
-
----
 
 ## The Analytic Formula (Pillar 480)
 
@@ -154,8 +142,6 @@ The formula is not a fit. n_w = 5 and K_CS = 74 are fixed by the birefringence c
 
 What the formula produces when evaluated for each fermion is the table above. What remains after the formula is applied is a named residual in the PMNS sector.
 
----
-
 ## What Remains: The PMNS p_R Residual (Pillar 484)
 
 The ratio p_R = m_D/M_R in the seesaw mechanism — which I mentioned above as computable from the braid geometry — turns out to have a named residual. The geometric bound (Pillar 383) gives p_R ∈ [10⁻⁵, 0.535]. The 2-loop KK Yukawa chain (Pillar 452) narrows this to p_R ∈ [0.30, 0.43].
@@ -169,8 +155,6 @@ p_R = 0.364 ± 0.040   (NLO, braid geometry)
 This is consistent with the PMNS mixing angles at current experimental precision. The physical PMNS angle prediction is not falsified. But p_R is a named residual — it is the one place where the analytic formula does not yield a unique prediction but a bounded interval. That interval is [0.30, 0.43]. When atmospheric and solar neutrino experiments reach sufficient precision to resolve the PMNS θ₂₃ angle to 1%, this constraint will be tested.
 
 The residual is labeled, bounded, and documented. It is not hidden.
-
----
 
 ## The Full Picture
 
@@ -193,8 +177,6 @@ The arc looks like this:
 
 This is not a sequence of breakthroughs. It is a sequence of careful, incremental steps each of which was necessary for the next. That is what derivation work looks like.
 
----
-
 ## The Broader Significance
 
 The Standard Model's fermion mass inputs are not random. They have structure: the masses cluster in groups, the mixing angles are small but non-zero, the CP phase has a specific value. Every extra-dimension framework that generates hierarchies must ask: is this structure a coincidence, or does it have a geometric explanation?
@@ -205,10 +187,10 @@ What remains is experimental test. The PMNS residual [0.30, 0.43] will be tested
 
 That is how this is supposed to work.
 
----
-
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson.***
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+In that language, σ(y) = k|y| is the warp factor and y ∈ [0, πR] is the extra dimension. Fermions in this geometry acquire a bulk mass from their coupling to the warp factor, and a fermion with bulk mass parameter c (in units of the AdS curvature k) has the following zero-mode wavefunction profile:
 
 ---
 

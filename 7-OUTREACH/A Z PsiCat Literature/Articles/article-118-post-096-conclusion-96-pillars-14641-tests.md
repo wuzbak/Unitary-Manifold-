@@ -255,8 +255,6 @@ We will accept what the sky says.
 
 ---
 
----
-
 > **[Editor's Update — v9.27]** This post was written at the closure of the
 > 96-pillar framework and remains an accurate historical record of that milestone.
 > Since its publication, the framework has continued to grow:

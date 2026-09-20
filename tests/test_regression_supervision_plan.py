@@ -4,12 +4,17 @@
 from src.core.regression_supervision_plan import (
     COMPACTIFIED_PREFLIGHT_FILES,
     DEFAULT_FAST_BATCH_COUNT,
+    DEFAULT_FULL_CORE_BATCH_COUNT,
     FAST_MARK_EXPRESSION,
     build_fast_suite_batches,
+    build_full_core_batches,
     build_regression_supervision_plan,
+    build_regression_supervision_plan_with_full_core_count,
     compactified_preflight_command,
     discover_fast_suite_files,
+    discover_full_core_suite_files,
     fast_batch_command,
+    full_core_batch_command,
 )
 
 
@@ -29,11 +34,56 @@ def test_batches_cover_discovered_fast_suite_without_overlap() -> None:
     assert all(batch['marker_expression'] == FAST_MARK_EXPRESSION for batch in batches)
 
 
+def test_full_core_discovery_includes_all_canonical_suites() -> None:
+    files = discover_full_core_suite_files()
+    assert 'tests/test_regression_supervision_plan.py' in files
+    assert 'recycling/tests/test_recycling.py' in files
+    assert '5-GOVERNANCE/Unitary Pentad/test_unitary_pentad.py' in files
+
+
+def test_full_core_batches_cover_discovered_suite_without_overlap() -> None:
+    batches = build_full_core_batches()
+    discovered = discover_full_core_suite_files()
+    flattened = [path for batch in batches for path in batch['test_paths']]
+    assert flattened == discovered
+    assert len(set(flattened)) == len(flattened)
+
+
 def test_fast_batch_command_uses_non_slow_marker() -> None:
     command = fast_batch_command(batch_index=0, batch_count=DEFAULT_FAST_BATCH_COUNT)
-    assert "python -m pytest -n auto -m 'not slow'" in command
+    assert command.startswith("python -m pytest ")
+    assert "-m 'not slow'" in command
     assert command.endswith(' -q')
     assert 'tests/' in command
+
+
+def test_full_core_batch_command_uses_pytest_without_marker() -> None:
+    command = full_core_batch_command(batch_index=0, batch_count=DEFAULT_FULL_CORE_BATCH_COUNT)
+    assert command.startswith("python -m pytest ")
+    assert "not slow" not in command
+    assert command.endswith(' -q')
+
+
+def test_fast_batch_command_omits_xdist_when_plugin_is_missing(monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    monkeypatch.setattr(supervision, 'pytest_xdist_available', lambda: False)
+
+    command = supervision.fast_batch_command(batch_index=0, batch_count=DEFAULT_FAST_BATCH_COUNT)
+
+    assert "python -m pytest -n auto" not in command
+    assert "-m 'not slow'" in command
+
+
+def test_full_core_batch_command_omits_xdist_when_plugin_is_missing(monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    monkeypatch.setattr(supervision, 'pytest_xdist_available', lambda: False)
+
+    command = supervision.full_core_batch_command(batch_index=0, batch_count=DEFAULT_FULL_CORE_BATCH_COUNT)
+
+    assert "python -m pytest -n auto" not in command
+    assert command.startswith("python -m pytest ")
 
 
 def test_fast_batch_command_returns_empty_string_for_empty_batch(tmp_path, monkeypatch) -> None:
@@ -65,9 +115,29 @@ def test_regression_supervision_plan_reports_consistent_coverage() -> None:
     plan = build_regression_supervision_plan()
     assert plan['supervision']['coverage_matches_discovery'] is True
     assert plan['supervision']['all_files_unique'] is True
+    assert plan['supervision']['full_core_coverage_matches_discovery'] is True
+    assert plan['supervision']['full_core_all_files_unique'] is True
     assert len(plan['supervised_fast_suite']['batches']) == DEFAULT_FAST_BATCH_COUNT
+    assert len(plan['supervised_full_core_suite']['batches']) == DEFAULT_FULL_CORE_BATCH_COUNT
     assert plan['remaining_canonical_suites']['slow'] == 'python -m pytest tests/ -m "slow" -q'
     assert plan['remaining_canonical_suites']['claims'] == 'python -m pytest claims/ -q'
+
+
+def test_regression_supervision_plan_accepts_custom_full_core_batch_count() -> None:
+    plan = build_regression_supervision_plan(full_core_batch_count=3)
+
+    assert len(plan['supervised_full_core_suite']['batches']) == 3
+    assert plan['supervised_full_core_suite']['default_batch_count'] == 3
+
+
+def test_regression_supervision_plan_respects_custom_full_core_batch_count() -> None:
+    plan = build_regression_supervision_plan_with_full_core_count(
+        batch_count=DEFAULT_FAST_BATCH_COUNT,
+        full_core_batch_count=3,
+    )
+
+    assert len(plan['supervised_full_core_suite']['batches']) == 3
+    assert plan['supervised_full_core_suite']['default_batch_count'] == 3
 
 
 def test_regression_supervision_plan_omits_claims_when_directory_is_missing(tmp_path, monkeypatch) -> None:

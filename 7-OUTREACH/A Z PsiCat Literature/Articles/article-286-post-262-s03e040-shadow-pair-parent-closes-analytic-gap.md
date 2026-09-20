@@ -11,6 +11,8 @@ The rewrite keeps the derivation narrative but avoids language that would imply 
 
 That preserves rigor: one strong derivation route can be genuine progress without becoming a universal proof shortcut.
 
+Pillar 267 noted an explicit analytic gap: the selection of (5, 7) from the full Z₂-orbifold spectrum used computational enumeration. Planck nₛ was the tiebreaker selecting n_w = 5 over n_w = 7. The gap was honest and documented.
+
 Treat sprint counts and state language here as historical markers; route live interpretation through current canonical status artifacts.
 
 ---

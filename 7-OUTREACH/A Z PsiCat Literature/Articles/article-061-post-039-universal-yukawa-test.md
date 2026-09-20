@@ -26,8 +26,6 @@ masses, no free parameters in the Yukawa sector** (the c_L bulk masses are deter
 by the observed fermion masses, not freely chosen; ~15 SM parameters outside this
 sector remain free).
 
----
-
 ## The c_L Spectrum at Ŷ₅ = 1
 
 If Ŷ₅ = 1 is truly universal, then for every charged fermion, the mass formula
@@ -71,8 +69,6 @@ All 9 fermion c_L values lie within 1.5× this spacing of one of those quantised
 levels — consistent with the winding geometry, though not yet derived algebraically
 from it.
 
----
-
 ## Zero Free Parameters for Absolute Masses
 
 Combining Pillars 97 and 98:
@@ -89,8 +85,6 @@ The only step that is not fully first-principles is the derivation of each
 individual c_L from the 5D orbifold boundary conditions. Pillar 98 shows that the
 c_L values are *consistent with* the winding-quantised spectrum, but the algebraic
 derivation of each exact value from the orbifold BCs is the subject of future work.
-
----
 
 ## The b-τ Unification Test
 
@@ -121,8 +115,6 @@ SU(5) prediction, consistent with unification once SUSY threshold corrections
 are included. This is the standard b-τ unification result, now confirmed within
 the UM framework.
 
----
-
 ## The Gap Closure Scorecard
 
 Before Pillars 97-98, the absolute fermion mass scale had three free parameters:
@@ -143,8 +135,6 @@ from first principles alone). But the SCALE — the universal Ŷ₅ = 1 — is n
 geometrically. That converts the problem from "three undetermined constants" to
 "one geometric principle plus nine wavefunction overlaps to compute."
 
----
-
 ## What Remains to Be Done
 
 The framework is honest about what is still open:
@@ -160,8 +150,6 @@ The framework is honest about what is still open:
 3. **Exact neutrino c_Lν_i.** Pillar 97 estimates the neutrino c_L values from the
    GW braid suppression picture. KATRIN and Project 8 measurements of the absolute
    neutrino mass scale (targeting sensitivity below 0.2 eV) will test this directly.
-
----
 
 ## The Big Picture
 
@@ -191,10 +179,20 @@ The c_L derivation will tell us whether the fermion masses are fully geometric.
 The framework is still making predictions. It is still testable. That is what
 distinguishes it from speculation.
 
----
-
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Post engineering and synthesis: **GitHub Copilot** (AI).*
+
+That question is what Pillar 98 tests. The public-facing result is narrower than a full ab initio prediction: **one coupling consistent across nine fitted masses, and no additional free Yukawa couplings introduced inside this sector** (the c_L bulk masses are inferred from the observed fermion masses rather than freely chosen, while ~15 SM parameters outside this sector remain free).
+
+In this setup, the only per-fermion quantity that varies is the left-handed bulk mass c_Lf. These c_L values are not treated as extra Yukawa freedoms, but they are still obtained by inverting the same RS wavefunction mass relation against the observed charged-fermion masses. That means the result is a strong universality test of the Yukawa coupling, not yet a claim that every charged-fermion mass is predicted from first principles without observational input.
+
+The key setup is simple enough to keep in view: the same mass relation m_f = v_EW × f₀^L(c_Lf) × f₀^R(0.5) is used for every charged fermion, and the c_L values below come from inverting that one relation against the observed masses. That is why the result is an auditable consistency check of one shared coupling rather than a first-principles derivation of the full spectrum.
+
+The auditable output is still concrete. The inversion yields a specific charged-fermion c_L spectrum, and when those values are pushed back through the same single-coupling mass relation, the charged-lepton, up-quark, and down-quark sectors remain consistent with one shared Ŷ₅ rather than requiring separate sector-by-sector Yukawa normalisations. Readers who want the executable trail can inspect `src/core/universal_yukawa.py` (`universal_yukawa_c_L_spectrum()` and `b_tau_unification_test()`) together with `tests/test_universal_yukawa.py`, which separately checks the reconstructed-mass path and the distinct one-loop RGE b-τ near-unification check. That is the real content of the test: not magic, not full closure, but a nontrivial universality check that survives contact with the observed mass hierarchy.
+
+- Full fitted c_L spectrum from inversion against the observed charged-fermion masses — inferred quantities, not first-principles predictions: electron 0.798, muon 0.644, tau 0.555, up 0.757, charm 0.566, top 0.377, down 0.735, strange 0.648, bottom 0.522.
+- Cross-sector check: one shared Ŷ₅ = 1 remains viable across leptons, up quarks, and down quarks.
+- Unification check: one-loop running gives r_bτ(M_GUT) ≈ 0.497, a standard near-unification result rather than exact equality.
 
 ---
 

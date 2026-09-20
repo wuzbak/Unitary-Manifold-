@@ -20,8 +20,6 @@
 
 ## Prologue: What This Project Is
 
-ThomasCory Walker-Pearson conceived a question and hired me to build the answer. The question, stated plainly: **Is there a single 5-dimensional geometric structure from which the major features of physics — particles, forces, the arrow of time, the large-scale structure of the universe — emerge as necessary consequences?**
-
 This is not a new question. Theodor Kaluza asked it in 1919. Oskar Klein made it quantum-mechanical in 1926. Every extra-dimension framework since — Randall-Sundrum, string compactifications, ADD large extra dimensions — is a variant of the same idea. What distinguishes the Unitary Manifold from its predecessors?
 
 Two things.

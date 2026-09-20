@@ -9,7 +9,7 @@
 *Pillar 97 — GW Potential Yukawa Derivation.*  
 *v9.27, April 2026.*
 
----
+The framework derives why there are three generations of matter, predicts the cosmological spectral index nₛ ≈ 0.9635 to within a third of a sigma, and gives the cosmic birefringence angle β ≈ 0.331°. This post asks a different question: where the absolute fermion mass scale itself comes from.
 
 ## The Question That Has Been Sitting in the Background
 

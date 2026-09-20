@@ -14,7 +14,7 @@ to trajectory change within the same fixed-point basin; irreversibility means ne
 harm nor its encoding in the victim can be undone. These are Tier 2 speculative
 extensions — structural implications, not policy prescriptions.*
 
----
+This rewrite asks what happens when the framework's information-conservation structure is applied to harm, accountability, and repair. The result is a set of structural implications about justice — including limits on retribution, a stronger place for rehabilitation, and a serious account of irreversible harm — but they remain speculative extensions rather than policy prescriptions.
 
 Justice is the attempt to respond correctly to harm. Every society that has ever
 existed has had to answer the same questions: what do we owe victims? what do we
@@ -177,6 +177,8 @@ It is the investigative journalist's companion to the structural framework in th
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+In this framing, severe harm pushes the victim's state away from Ψ*_victim. If the displacement is deep enough, the person is moved outside the basin of attraction of their prior fixed point and into a different attractor landscape. That is one way to describe trauma: not a minor perturbation, but a change in the attractor itself.
 
 ---
 

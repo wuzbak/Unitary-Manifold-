@@ -69,8 +69,7 @@ where T(n_w) = n_w(n_w-1)/2 is the triangular number of n_w.
 - T(5) = 5(4)/2 = 10 → η̄_mod(5) = 10/2 mod 1 = 5 mod 1 = 0.
 - T(7) = 7(6)/2 = 21 → η̄_mod(7) = 21/2 mod 1 = 10.5 mod 1 = ½.
 
-The lane then applies the APS half-integer parity class at the physical boundary, so branch selection is evaluated on η̄_phys = ½ before chirality filtering. Pillar 80 explains this handoff and why n_w = 7 is
-still excluded.
+The lane then applies the APS half-integer parity class at the physical boundary, so branch selection is evaluated on η̄_phys = ½ before chirality filtering. In this article, that handoff is only introduced as the bridge from the modular topological step to the later chirality discussion below; the actual branch exclusion is carried by the chirality/boundary-consistency analysis rather than by the topological step alone.
 
 ---
 

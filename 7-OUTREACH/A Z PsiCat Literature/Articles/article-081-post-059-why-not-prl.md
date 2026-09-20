@@ -91,11 +91,11 @@ applications exist in a publication space that no single journal covers.
 
 The alternative was not to bypass rigor. It was to be rigorous in a different format.
 
-**15,615 automated tests.** Every claim in the framework has a corresponding test
+**A historical milestone of 15,615 automated tests.** At that stage, every claim in the framework had a corresponding test
 in the repository. A test failure is a refutation. The test suite is public, runnable,
 and reproducible. Anyone can clone the repository and verify every assertion in
 under 180 seconds. This is a form of rigor that peer review doesn't provide —
-mechanical verifiability rather than expert judgment.
+mechanical verifiability rather than expert judgment. For live totals rather than this milestone-era snapshot, use `STATUS.md`.
 
 **The open falsification invitation.** The `discussions/AI-Automated-Review-Invitation.md`
 document invites any reader — human or AI — to attempt to break the framework and

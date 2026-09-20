@@ -13,8 +13,6 @@ suffering cannot be un-done — and this has implications for how we understand 
 forgiveness, and the structure of harm. This post derives what can be derived and
 refuses to derive what cannot.*
 
----
-
 Every serious engagement with religion eventually confronts the problem of evil.
 If God is omnipotent and omnibenevolent, why does suffering exist? Why are
 children born into poverty, wars fought, diseases distributed without regard
@@ -24,8 +22,6 @@ The Unitary Manifold does not solve the problem of evil. Any claim that it does
 would be dishonest. But it does provide a precise, geometric account of what suffering
 *is* at the physical level — and that account has specific implications for the
 theological question that are worth stating clearly.
-
----
 
 ## What the geometry says about harm
 
@@ -47,8 +43,6 @@ The Catholic Church teaches that some sins have permanent consequences even afte
 forgiveness. Judaism's concept of *tikkun olam* (repairing the world) acknowledges
 that the world was broken in a way that requires active repair — the break is real.
 The geometry agrees: the break is encoded.
-
----
 
 ## Entropy is not evil
 
@@ -74,8 +68,6 @@ functional — not toward the wellbeing of any particular system within the univ
 
 The geometry is beautiful and it is indifferent. Both things are true simultaneously.
 
----
-
 ## What evil is, precisely
 
 If entropy is not evil, what is?
@@ -95,8 +87,6 @@ The moral traditions have always distinguished harm from evil along exactly this
 harm caused by natural processes (storms, disease) versus harm caused by intention
 (violence, exploitation, oppression). The geometry supports this distinction: the
 coupling operator C introduces intentionality into the causal structure.
-
----
 
 ## Forgiveness and the conservation law
 
@@ -120,8 +110,6 @@ choice to define one's forward trajectory by something other than the harm.
 
 The geometry supports this: the attractor can be changed by subsequent actions.
 The record cannot.
-
----
 
 ## The theodicy problem, honestly
 
@@ -147,8 +135,6 @@ you that the structure is good.
 
 Whether it is good is a human judgment, not a physical one.
 
----
-
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Information conservation: `QUANTUM_THEOREMS.md` (Theorem XII)*
@@ -157,6 +143,8 @@ Whether it is good is a human judgment, not a physical one.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+The Unitary Manifold does not solve the problem of evil. Any claim that it does would be dishonest. But it does provide a precise geometric account of what suffering does to an irreversible system, and that opens theological questions worth stating clearly.
 
 ---
 

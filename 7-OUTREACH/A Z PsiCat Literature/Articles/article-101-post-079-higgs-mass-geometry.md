@@ -135,7 +135,7 @@ Current fit input note: a **KK consistency scale estimate** near Λ_KK ≈ 327 G
 is used in the Higgs-fit consistency lane, but it is not yet an independently
 derived prediction.
 
-The third prediction is the most robust: no light singlet scalars mixing with
+The singlet-scalar statement is the most robust of these LHC-facing expectations: no light singlet scalars mixing with
 the Higgs. This can be constrained by the HL-LHC's exotic Higgs decay measurements.
 
 ---

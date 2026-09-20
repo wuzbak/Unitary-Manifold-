@@ -9,13 +9,17 @@
 *Epistemic category: **FALSIFICATION** — CMB birefringence primary falsifier; LiteBIRD ~2032.*
 *v21.0-S, 2026-08-18.*
 
----
-
 ## One Number
 
 In approximately 2032, the LiteBIRD satellite will measure the rotation angle of CMB polarization as photons travel from the surface of last scattering to our detectors. This rotation — called CMB birefringence — is sensitive to parity-violating physics along the line of sight.
 
 The Unitary Manifold predicts this rotation will be:
+
+The decision rule is concrete. The hard branch targets are **β ≈ 0.273°** and **β ≈ 0.331°**. Some derived-channel summaries push the upper-side estimate toward **β ≈ 0.351°**. Historical lower-derived summaries are intentionally no longer promoted, because the public rule stays consistent across the rewrite set: values outside the admissible window **[0.22°, 0.38°]** falsify the prediction outright, and the excluded interval **0.29°–0.31°** is treated not as “close enough” territory but as a direct falsifier of the braided-winding mechanism.
+
+Equally important, the article distinguishes early hints from decision-grade evidence. Current indications are interesting, but calibration and systematics limits keep them provisional. LiteBIRD-level precision is where the verdict becomes hard.
+
+If the measurement lands in the excluded zone, the mechanism fails. If it lands on one of the predicted branches with sufficient precision, support strengthens materially. Either way, the value is that the decision rule is already written.
 
 > **β ∈ {0.273°, 0.331°}**
 

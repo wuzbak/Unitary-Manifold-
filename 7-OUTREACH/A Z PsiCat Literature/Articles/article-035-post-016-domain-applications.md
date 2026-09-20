@@ -286,8 +286,6 @@ collaboration. That is the open invitation the framework extends.
 
 ---
 
----
-
 ## Going Deeper: The Engineer's Manifold
 
 **[The Engineer's Manifold — Omega Edition](../books/book-systems-engineering-omega.md)**

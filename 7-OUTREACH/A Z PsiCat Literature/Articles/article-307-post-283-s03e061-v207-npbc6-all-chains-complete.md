@@ -11,6 +11,8 @@ This rewrite keeps a strict distinction between proving a chain relation and pro
 
 That distinction protects downstream integrity. It keeps later updates from inheriting inflated interpretations and makes contradiction checks straightforward.
 
+Sprint K (Pillars 618–622, v20.7) completed NP-BC-6 — the sixth and final chain in the NP-BC programme — and issued the all_np_bc_chains_proved = True milestone certificate.
+
 As with the rest of this era, read this as a historical milestone report; use canonical ledgers for live state.
 
 ---

@@ -187,6 +187,8 @@ follow.
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
 
+Many traditions hold that actions have permanent consequences. In Judaism, *teshuvah* acknowledges that what was done cannot be undone, only answered; in Christianity, forgiveness does not erase history; in Islam, the recording angels preserve every deed. The structural point is the same: what has happened remains encoded.
+
 ---
 
 ### Gate Certification (v1)

@@ -10,7 +10,7 @@
 ethical question of whether publishing a speculative framework to a general audience,
 before formal peer review, is justified — and the conditions under which it is.*
 
----
+This rewrite examines the ethical question of whether publishing a speculative framework to a general audience before formal peer review is justified, and under what conditions it might be.
 
 This is the question we least want to answer and most need to.
 

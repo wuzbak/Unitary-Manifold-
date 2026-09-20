@@ -110,7 +110,7 @@ def test_live_status_includes_historical_continuity(live_status_module):
     assert data["historical_continuity"][0] == {
         "version": data["meta"]["version"],
         "sprint": data["meta"]["sprint"],
-        "pillars": "1120",
+        "pillars": "1121",
         "next_slot": data["pillars"]["next_slot"],
     }
     assert any(

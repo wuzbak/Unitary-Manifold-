@@ -17,7 +17,7 @@ That means two truths can coexist without contradiction:
 
 Both are true.
 
----
+The weakness the piece admitted — correctly — was that density can outrun explanation. When that happens, “read harder” is not a solution. Better maps are.
 
 ## What readers are actually reporting when they say “word soup”
 

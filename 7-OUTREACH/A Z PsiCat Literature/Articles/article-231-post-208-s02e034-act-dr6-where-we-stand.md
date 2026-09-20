@@ -28,8 +28,6 @@ with c_s = 12/37 (the braided sound speed, fixed by the (5,7) resonance) and n_w
 
 The ACT DR6 bound of r < 0.016 at 95%CL is roughly a factor of 2 below our prediction. The prediction is not ruled out by the formal P2 falsifier — which requires r < 0.010 at ≥ 3σ *measured* (not merely upper-bounded). But the tension is real and deserves careful examination.
 
----
-
 ## Can Higher-Order Corrections Help?
 
 This is the first question to ask. Pillar 292 performs the complete analysis. The answer is: no, not within the 5D effective field theory.
@@ -40,8 +38,6 @@ There is no parameter adjustment, higher-order correction, or non-minimal coupli
 
 I find this clarifying, even if it's uncomfortable.
 
----
-
 ## What the P2 Falsifier Says
 
 The formal falsification condition for the braided winding mechanism (P2) is:
@@ -51,8 +47,6 @@ The formal falsification condition for the braided winding mechanism (P2) is:
 ACT DR6 does not trigger this. It provides a 95%CL upper limit of r < 0.016. That is a bound, not a detection. No measurement of the tensor-to-scalar ratio has been made at any significance level. The bound tightening from BICEP/Keck's r < 0.036 to ACT's r < 0.016 is progress — it narrows the window — but it is not a measured r, and it does not trigger the preregistered falsifier.
 
 The distinction matters. A 95%CL upper limit and a 3σ measurement are fundamentally different levels of evidence. The falsifier is deliberately set at the latter.
-
----
 
 ## CMB-S4 Is the Decider
 
@@ -68,8 +62,6 @@ The experiment, targeting launch around 2030, will constrain r to σ_r ≈ 0.001
 
 Pillar 292 preregisters these routing rules. They are locked at v11.9 and will not be adjusted post-hoc regardless of what CMB-S4 finds.
 
----
-
 ## Why I'm Writing This Now
 
 Science proceeds by prediction, measurement, and revision. The Unitary Manifold makes a specific, falsifiable prediction for r. That prediction is currently under pressure. The right response is to document the tension clearly, examine whether it can be resolved, and publish the routing rules for what will constitute confirmation or falsification.
@@ -80,8 +72,6 @@ The n_s prediction — 0.9635, within 0.33σ of Planck — remains solid. The sa
 
 I don't think that's the most likely outcome. But I am not going to pretend the ACT DR6 tension doesn't exist. It does. CMB-S4 will settle it.
 
----
-
 ## The Broader Principle
 
 There is a temptation in theoretical physics to move the goalposts when data comes in — to reinterpret what "the framework predicts," to claim the new result was "always expected," or to invoke higher-order corrections that weren't part of the original theory.
@@ -89,8 +79,6 @@ There is a temptation in theoretical physics to move the goalposts when data com
 I've tried not to do that here. Pillar 292 shows that no combination of available corrections closes the gap. The tension is irreducible within the current 5D-EFT formulation. The CMB-S4 routing rules are preregistered before the data arrives, not tuned after.
 
 This is how physics is supposed to work. The framework makes a prediction. The prediction is tested. The test either confirms or falsifies. I intend to follow that principle regardless of what CMB-S4 finds.
-
----
 
 ## Summary
 
@@ -100,10 +88,10 @@ This is how physics is supposed to work. The framework makes a prediction. The p
 - CMB-S4 (~2030) is the decider. Routing rules preregistered and locked.
 - The honest position: HIGH_TENSION, not resolved, not falsified. CMB-S4 decides.
 
----
-
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+Combined with c_s = 12/37 (the braided sound speed fixed by the (5,7) resonance) and n_w = 5, this gives r ≈ 0.0315 — a number that follows from the same geometric input that nails n_s to within 0.33σ of Planck.
 
 ---
 

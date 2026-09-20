@@ -28,8 +28,6 @@ mediated by the exchange of superheavy X and Y gauge bosons at the GUT scale. Th
 
 The Super-Kamiokande experiment already constrains this lifetime to more than 2.4 × 10³⁴ years. Hyper-Kamiokande will push that to roughly 10³⁵ years within a decade of operation.
 
----
-
 ## The UM Derivation Chain
 
 The Unitary Manifold's GUT sector follows from the Kawamura Z₂ orbifold mechanism. With n_w = 5 and the Chern-Simons level K_CS = 74 = 5² + 7², the gauge coupling at the GUT scale is fixed without any free parameters:
@@ -60,8 +58,6 @@ The second mode, p → ν̄ + K⁺ (mediated by strange-sector partners), is lon
 
 by approximately the ratio V_us⁻² × f_kaon ≈ 12, placing τ(ν̄K⁺) in the range 10^36–37 years.
 
----
-
 ## Uncertainty Sources
 
 The uncertainty on this prediction comes from three main sources:
@@ -78,8 +74,6 @@ Combined uncertainty: roughly a factor of 2–3 on the predicted lifetime, placi
 
 This is consistent with all existing limits and within the reach of Hyper-Kamiokande.
 
----
-
 ## The Falsifier
 
 The preregistered routing rule (Pillar 293, locked at v11.9) is:
@@ -91,8 +85,6 @@ where lower_bound_UM accounts for the full theoretical uncertainty on the UM pre
 The current Super-K lower limit of τ > 2.4 × 10³⁴ yr is **CONSISTENT_LOWER_LIMIT** — it is below our predicted range, so we cannot be falsified by non-observation yet. As Hyper-K accumulates data and pushes the limit higher, the consistency region narrows.
 
 If Hyper-K sees proton decay at, say, τ ≈ 10^34 yr (below the UM lower bound), the framework's GUT sector requires revision. If the limit rises to 10^36 yr without a signal, the prediction is constrained but not yet falsified (since the upper end of our range is 3 × 10^36 yr). If a signal appears within our predicted range, the framework is supported.
-
----
 
 ## Why This Prediction is Valuable
 
@@ -108,15 +100,11 @@ Some predictions are intrinsically difficult to falsify — they point at experi
 
 This is the kind of prediction that respects both the experiment and the audience.
 
----
-
 ## The Larger Picture
 
 The UM's GUT sector isn't an add-on. The SU(5) gauge group, the α_GUT = 3/74 coupling, the M_GUT scale — these follow from the same (5,7) braid geometry that gives the neutrino mass splittings, the CMB spectral index, and the tensor-to-scalar ratio. The framework is consistent: the same geometry that predicts n_s = 0.9635 also says the proton should live for 10^35–36 years.
 
 That coherence is either deep or coincidental. Hyper-Kamiokande will help determine which.
-
----
 
 ## Summary
 
@@ -126,10 +114,10 @@ That coherence is either deep or coincidental. Hyper-Kamiokande will help determ
 - Hyper-Kamiokande is the decisive experiment. Data is being taken now.
 - Routing rules preregistered and locked (Pillar 293, v11.9). Won't be adjusted post-hoc.
 
----
-
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+That decay is mediated by the exchange of superheavy X and Y gauge bosons at the GUT scale. The lifetime of the proton in this mode depends on the fourth power of the GUT scale M_GUT:
 
 ---
 

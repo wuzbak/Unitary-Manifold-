@@ -11,8 +11,6 @@ a skeptical physicist ("Q") and the framework's defense ("A"), working through
 the twelve sharpest objections the framework has received. Both sides are argued
 as strongly as possible. No strawmanning. The reader should decide.*
 
----
-
 **Q:** I'll be blunt. A framework that claims to derive the arrow of time, explain
 consciousness, predict birefringence, unify quantum mechanics with thermodynamics,
 and cover 74 domains — all from the same 5D geometry — is almost certainly wrong
@@ -117,8 +115,6 @@ precision (~0.05°) and exclusion of adjacent integers (k = 73, k = 75), would
 strongly support the k_CS = 74 selection. This is the right question to ask,
 and we're glad you asked it last.
 
----
-
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Honest gaps: `FALLIBILITY.md`*
@@ -127,6 +123,14 @@ and we're glad you asked it last.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+Any framework that claims to explain consciousness, predict birefringence, unify quantum mechanics with thermodynamics, and cover 74 domains from the same 5D geometry is almost certainly wrong in most of those claims. The prior probability of total correctness is very low.
+
+But the relevant quantity is not only the prior; it is the posterior updated by the specific agreements with observation. Four quantitative predictions emerge from the same structure without parameter tuning: n_s = 0.9635, the canonical birefringence branch targets β ≈ 0.273° / 0.331° (with an upper derived-channel summary near 0.351°), r = 0.0315, and w ≈ -0.930. That is not a proof, but it is the reason the objections are worth engaging seriously.
+
+If someone simply chose the value of k that minimizes |β(k) − 0.35°| and then announced that the framework predicts k = 74, that would be curve fitting rather than prediction.
+
+That objection is not frivolous, and the repository's own `FALLIBILITY.md` records that the k = 74 selection is partly post-hoc rather than a clean first-principles closure. The reason to keep discussing it is not that the limitation vanished, but that the framework still makes enough constrained quantitative contact with data to deserve explicit, critical scrutiny.
 
 ---
 

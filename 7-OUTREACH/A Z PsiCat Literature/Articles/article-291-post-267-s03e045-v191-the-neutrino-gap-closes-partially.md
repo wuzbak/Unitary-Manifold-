@@ -11,6 +11,8 @@ That precision supports trust more than inflated certainty. It lets future updat
 
 The result is a stronger record: partial closure stated plainly, residual route preserved for follow-on work.
 
+The P17 closure path (Pillar 544) has three steps. Step 1 is the Weinberg-Sakai-Sugimoto-Vijay (WS-V) off-diagonal Yukawa correction.
+
 Historical status markers remain period-specific; live status belongs to canonical ledgers.
 
 ---

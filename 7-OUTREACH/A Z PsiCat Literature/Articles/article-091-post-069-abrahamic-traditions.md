@@ -144,7 +144,7 @@ The Christian claim is more specific than what the geometry can support.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Soul and Science: `SOUL_AND_SCIENCE.md`*
 *Structural mapping: `BIG_QUESTIONS.md`*
@@ -152,6 +152,14 @@ The Christian claim is more specific than what the geometry can support.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+The mapping is offered with respect and without judgment. It is a physicist's way of reading theology — looking for structural correspondence, not evaluating truth claims.
+
+In Islam, the clearest structural overlap is with unity, information retention, and directed history. *Tawhid* resembles the insistence on a unique ultimate point of convergence, and the permanence of every act before divine judgment has an echo in the repository's information-conservation language. But a personal God who wills, commands, and reveals is more than the geometry provides.
+
+In Judaism, the strongest resonance is with covenant, memory, and the seriousness of action in history. The framework can model durable relation, consequence, and the preservation of what has happened. It cannot derive Torah, commandment, or the ethical particularity of covenantal life.
+
+In Christianity, the most suggestive overlap is with mediation, reconciliation, and the idea that relation rather than isolation sits at the center of reality. But grace, incarnation, resurrection, and divine personhood remain theological claims, not geometric outputs. The result is partial structural correspondence with explicit boundaries, not a proof of doctrine.
 
 ---
 

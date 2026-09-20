@@ -7,6 +7,23 @@ objective is to consolidate active execution, artifact, readiness, and status
 work into one coherent spine that remains honest about boundaries, optional
 backends, and unresolved blockers.
 
+## Command doctrine overlay
+
+The convergence program now runs with five explicit command constraints:
+
+1. execution-first,
+2. truth-first,
+3. geometry-first,
+4. swarm-safe,
+5. branch-aware.
+
+This means governance is treated as state-space control with explicit
+trajectory classes, contradiction pressure, barriers, and admissible versus
+non-admissible transitions. Ethical internal swarms are allowed only under
+bounded roles, logging, and human-governed escalation; hostile swarm pressure
+must be recognized, quarantined, sandboxed, or converted into defensive
+training evidence rather than ignored.
+
 ## Thesis
 
 The repository should converge around:
@@ -109,6 +126,13 @@ place of bespoke local payload contracts.
 Hold the convergence program to existing tests, explicit benchmark receipts,
 anti-bloat discipline, and visible blocker reporting.
 
+### Phase 7 — geometry-first runtime and swarm control
+
+Bind the geometry-first execution packet into the control plane so branch
+awareness, shared receipt fields, swarm-safe doctrine, and observability of
+contradiction/quarantine/escalation signals remain machine-readable through the
+same execution spine.
+
 ## Sanity rules
 
 1. No new competing source of truth.
@@ -118,6 +142,7 @@ anti-bloat discipline, and visible blocker reporting.
 5. No optional backend presented as guaranteed capability.
 6. No hardgate physics promotion as a side effect of infrastructure work.
 7. No legacy compatibility route treated as a primary development center.
+8. No offensive swarm behavior, third-party commandeering, or hidden external automation.
 
 ## Definition of completion
 

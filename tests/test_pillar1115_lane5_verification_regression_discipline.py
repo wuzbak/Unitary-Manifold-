@@ -23,4 +23,5 @@ def test_contract() -> None:
     assert 'targeted' in report['verification_plan']
     assert 'compactified_preflight' in report['verification_plan']
     assert 'supervised_fast_suite' in report['verification_plan']
+    assert 'supervised_full_core_suite' in report['verification_plan']
     assert report['verification_plan']['supervision']['coverage_matches_discovery'] is True

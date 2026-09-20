@@ -11,6 +11,8 @@ The rewrite keeps that significance while preserving unresolved dependencies tha
 
 In other words: meaningful closure movement, no narrative overreach.
 
+| Step | Pillar | Correction | Tension After | | WS-V KK Yukawa | 548 | +5.0% central | ~2.74σ | | ν_R Z₂ orbifold BC | 554 | +0.40% | 0.22σ | | Two-loop seesaw | 555 | +0.169% | **0.12σ** |
+
 All numbers and statuses here are historical to the posting window; check live ledgers for current state.
 
 ---

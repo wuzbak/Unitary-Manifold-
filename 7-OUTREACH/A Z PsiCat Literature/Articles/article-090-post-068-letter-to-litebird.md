@@ -13,8 +13,6 @@ what would falsify it. It is signed and dated. It is not a claim that the
 prediction is correct — it is a commitment to having made the prediction clearly
 before the measurement.*
 
----
-
 **To the LiteBIRD collaboration, the CMB scientific community, and the reader
 in 2032 or later:**
 
@@ -22,8 +20,6 @@ This letter is written in April 2026. The LiteBIRD satellite's full data release
 is expected around 2032. By the time you read this, you know something we do not.
 This letter is our commitment to have stated our prediction clearly, without
 equivocation, before you told us the answer.
-
----
 
 ## What this framework predicts
 
@@ -65,8 +61,6 @@ derived-channel behavior consistent with k_CS = 74, the CS structure is strongly
 supported as distinct from adjacent alternatives. That confirmation would be the
 strongest evidence the framework has yet received.
 
----
-
 ## What else is predicted
 
 In addition to β, the framework has committed to:
@@ -79,8 +73,6 @@ In addition to β, the framework has committed to:
 The w and w_a predictions will be tested by DESI and Roman before LiteBIRD reports.
 Those tests are intermediate checkpoints. If w is ruled out significantly below -0.93,
 the framework faces an additional problem even if β is confirmed.
-
----
 
 ## What we commit to
 
@@ -104,8 +96,6 @@ with all relevant derivation steps and the complete commit history as provenance
 We do not claim that confirmation of the birefringence prediction proves the framework
 is correct — it confirms one prediction from one mechanism. The amplitude gap and the
 APS gap remain.
-
----
 
 ## A word to the reader in 2032
 
@@ -135,8 +125,6 @@ Signed,
 
 *Written: April 28, 2026*
 *To be opened: circa 2032, upon LiteBIRD data release*
-
----
 
 *Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*

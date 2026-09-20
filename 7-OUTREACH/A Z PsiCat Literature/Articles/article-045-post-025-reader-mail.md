@@ -33,18 +33,25 @@ And if you think something is wrong, good. Pick one claim. Try to break it with 
 
 Are we serious? Yes. Are we trying not to take ourselves so seriously that we become unreadable? Also yes. The work is high-stakes; ego is not.
 
----
-
 **→ GitHub:** [github.com/wuzbak/Unitary-Manifold-](https://github.com/wuzbak/Unitary-Manifold-)  
 **→ Zenodo DOI:** [10.5281/zenodo.19584531](https://doi.org/10.5281/zenodo.19584531)  
 **→ Prerequisite setup:** install dependencies first via `pip install -r requirements.txt` (or use the repository [README quickstart](https://github.com/wuzbak/Unitary-Manifold-/blob/main/README.md)).  
-**→ Lightweight quick check:** `python VERIFY.py` (fast smoke/integrity check, not the full regression gate)  
+**→ Lightweight quick check:** `python -m pytest tests/ -q` (fast core-suite verification; not the full regression gate)  
 **→ Canonical verification:** `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
-
----
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+For readers who want hard entry points rather than summaries:
+
+- Start at the repository: [github.com/wuzbak/Unitary-Manifold-](https://github.com/wuzbak/Unitary-Manifold-)
+- Read the orientation path: [`README.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/README.md), [`proof/README.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/proof/README.md), and [`docs/navigation/REPOSITORY_MAP.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/docs/navigation/REPOSITORY_MAP.md)
+- Optional hands-on next stop: [`notebooks/01_quickstart.ipynb`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/notebooks/01_quickstart.ipynb)
+- Enduring citation: Zenodo DOI (`https://doi.org/10.5281/zenodo.19584531`)
+- Install dependencies: `python -m pip install -r requirements.txt`
+- Run the fast suite first: `python -m pytest tests/ -q`
+- Run the canonical full-repository verification path: `python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`
+- Check the falsification ledger: [`3-FALSIFICATION/FALSIFICATION_REGISTER.md`](https://github.com/wuzbak/Unitary-Manifold-/blob/main/3-FALSIFICATION/FALSIFICATION_REGISTER.md)
 
 ---
 

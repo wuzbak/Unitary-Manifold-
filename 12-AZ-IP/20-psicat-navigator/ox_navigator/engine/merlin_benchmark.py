@@ -2235,7 +2235,12 @@ def evaluate_geometric_longitudinal_acceptance(
     }
 
 
-def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+def build_merlin_control_tower(
+    *,
+    session: Any | None = None,
+    limit: int = 3,
+    gate_history: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     stage_a_readiness = build_stage_a_replacement_readiness(limit=limit)
     readiness = build_multi_stage_replacement_readiness(limit=max(limit, 6))
     packet = dict(readiness.get("packet") or {})
@@ -2305,11 +2310,15 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         get_mentorship_library_and_study_assets,
         get_specialized_model_faculty_matrix,
     )
+    from .merlin_masterclass_runtime import build_governance_observatory
 
     faculty_matrix = get_specialized_model_faculty_matrix()
     transfer_cycles = get_knowledge_transfer_cycles()
     library_and_study = get_mentorship_library_and_study_assets()
     completion_contract = get_mentorship_completion_contract()
+    governance_observatory = build_governance_observatory(session=session, limit=max(limit, 6))
+    governance_posture = dict(governance_observatory.get("governance_observatory") or {})
+    governance_constraints = dict(governance_posture.get("deployment_constraints") or {})
     latest_history_packet = dict((history[-1] or {}).get("packet") or {}) if history else {}
     mentorship_ledger = dict(latest_history_packet.get("mentorship") or {})
     exchange_cycle_complete = bool(mentorship_ledger.get("exchange_cycle_complete", False))
@@ -2333,10 +2342,11 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
         "faculty_artifacts_landed": faculty_artifacts_landed,
         "library_and_study_populated_and_auditable": library_and_study_populated,
         "exchange_cycle_complete": exchange_cycle_complete,
-        "control_tower_deployment_eligibility": deployment_eligible,
+        "control_tower_deployment_eligibility": deployment_eligible and not bool(governance_constraints.get("block_deployment")),
         "no_unresolved_high_severity_risks": unresolved_high_severity_risks == 0,
     }
     mentorship_to_runtime_complete = all(mentorship_to_runtime_checks.values())
+    alerts = list(dict.fromkeys(alerts + list(governance_posture.get("drift_alerts") or [])))
     return {
         "ok": True,
         "program": "merlin_all_hands_maximum_effort",
@@ -2360,8 +2370,9 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
             ),
         },
         "drift_alerts": alerts,
+        "governance_observatory": governance_observatory,
         "deployment_eligibility": {
-            "eligible": deployment_eligible,
+            "eligible": deployment_eligible and not bool(governance_constraints.get("block_deployment")),
             "required_gates": {
                 "replacement_approved": packet.get("decision") == "REPLACEMENT_APPROVED",
                 "sync_checks_ok": sync_ok,
@@ -2376,8 +2387,10 @@ def build_merlin_control_tower(*, limit: int = 3, gate_history: list[dict[str, A
                     (not bool(domain_gate_summary.get("data_present")))
                     or bool(domain_gate_summary.get("gate_pass"))
                 ),
+                "governance_observatory_clear": not bool(governance_constraints.get("block_deployment")),
             },
-            "policy": "Fail closed: deployment blocked if any gate is false.",
+            "policy": "Fail closed: deployment blocked if any gate is false, including active high-severity governance observatory constraints.",
+            "governance_constraints": governance_constraints,
         },
         "lane_shadow_deployment": lane_shadow_deployment,
         "mentorship_to_runtime": {

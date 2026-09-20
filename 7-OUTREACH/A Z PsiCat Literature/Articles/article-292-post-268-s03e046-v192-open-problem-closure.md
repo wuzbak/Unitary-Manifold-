@@ -11,6 +11,8 @@ That design improves long-term reliability of the record because it resists broa
 
 The sprint is therefore presented as a burden-accounting event with explicit outcomes, not a generalized victory banner.
 
+The ν_R right-handed neutrino must satisfy a Dirichlet BC at the UV brane (it is Z₂-odd). The resulting Bessel-zero KK spectrum produces a differential orbifold factor between gen-1 and gen-3 that shifts Δm²₃₁ upward.
+
 Treat this as historical sprint documentation and route live interpretation through canonical current ledgers.
 
 ---

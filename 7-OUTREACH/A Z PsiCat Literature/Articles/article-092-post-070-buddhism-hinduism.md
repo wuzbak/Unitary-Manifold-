@@ -163,7 +163,7 @@ At that border, the geometry stops. It cannot go further, and it should not pret
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Coupled attractor (ΔI, phase-locking): `src/consciousness/coupled_attractor.py`*
 *Soul and Science: `SOUL_AND_SCIENCE.md`*
@@ -171,6 +171,14 @@ At that border, the geometry stops. It cannot go further, and it should not pret
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+That boundary matters. The framework does not establish the theological truth of Hindu or Buddhist claims, and it does not convert contemplative practice into physics. What it can do is mark a structural overlap at the level of convergence, fixed points, and the stability or instability of self-models. Beyond that, the geometry stops.
+
+Hinduism's central metaphysical claim — developed in the Upanishads and refined in Advaita Vedanta — is that the deepest self and the deepest structure of reality are not ultimately separate. The framework is not identical to that claim, but it is one of the places where the structural correspondence is strongest.
+
+Buddhism reaches similar terrain from a different direction. Its most distinctive claim is that the self is not a permanent substance but a conditioned process. In the language of the framework, that looks less like a thing and more like an attractor: a persistent organization of dynamics rather than an immortal object.
+
+That is why these traditions belong together in the same discussion. Hinduism emphasizes convergence, identity, and the reduction of separation. Buddhism emphasizes non-attachment, the reduction of perturbation, and the end of orbiting around a falsely solid self. The framework does not prove either tradition, but it does offer a geometry in which both can be read as serious structural engagements with fixed points, convergence, and liberation.
 
 ---
 

@@ -118,7 +118,7 @@ in the standard parameterization and verifies:
 3. CP violation (the non-zero area of the unitarity triangle) is non-zero and
    geometrically determined
 
-The 139 automated tests for this pillar verify all of these properties.
+The historical 139-test pillar suite for this lane verifies all of these properties; for live repository-wide totals, defer to `STATUS.md`.
 
 ---
 
@@ -159,7 +159,7 @@ will determine.
 
 ---
 
-*Full source code, derivations, and 17,438 automated tests:*
+*Full source code, derivations, and historical milestone-era automated tests (see `STATUS.md` for live totals):*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Pillar 87: `src/core/wolfenstein_geometry.py`*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*

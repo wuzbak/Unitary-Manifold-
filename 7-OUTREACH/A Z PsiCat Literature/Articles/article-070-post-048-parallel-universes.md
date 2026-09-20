@@ -13,8 +13,6 @@ stable configurations of the five-dimensional geometry. Adjacent branches are re
 and enumerable; travel between them is topologically forbidden. The catalog is
 implemented in `src/multiverse/fixed_point.py:multiverse_branch_catalog`.*
 
----
-
 "Parallel universes" has become one of the most casually misused concepts in popular
 science. It encompasses at least four distinct ideas that are almost never distinguished:
 
@@ -29,8 +27,6 @@ science. It encompasses at least four distinct ideas that are almost never disti
 
 These are different claims. They do not imply each other. This post is about the
 fourth one, which is the only one this framework actually derives.
-
----
 
 ## What the UM multiverse is
 
@@ -60,8 +56,6 @@ These are the parallel universes the framework predicts. They are:
 - **Adjacent in information space** — they are near each other in the parameter space
   of 5D field configurations, even though they are separated by topological barriers.
 
----
-
 ## Why you cannot travel between them
 
 The topological barriers between winding sectors are genuine. To transition from
@@ -81,8 +75,6 @@ same reason you cannot untie a topological knot by gentle continuous deformation
 The energy required is not "very large." It is topologically infinite — no continuous
 path connects the sectors.
 
----
-
 ## The lossless branch identification
 
 BIG_QUESTIONS.md Q28 identifies a specific question: is there a unique winding pair
@@ -96,8 +88,6 @@ This is what makes our universe special in the catalog, if the framework is corr
 not that it is the only universe, but that it is one of a small number (possibly the
 unique one, if the (5, 6) pair is eliminated by additional constraints) that has
 zero information loss in its evolution.
-
----
 
 ## What the movies get wrong
 
@@ -114,8 +104,6 @@ Your choices do not branch the universe. They navigate the attractor landscape o
 fixed point Ψ* within this universe.
 
 The parallel universes are real. They are not the ones the movies describe.
-
----
 
 ## The honest frontier
 
@@ -134,8 +122,6 @@ This is an open question. The framework generates the catalog. It does not yet g
 the measure that would tell you how many of the catalog entries correspond to real
 universes.
 
----
-
 *Full source code, derivations, and 17,438 automated tests:*
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Multiverse catalog: `src/multiverse/fixed_point.py:multiverse_branch_catalog`*
@@ -144,6 +130,8 @@ universes.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+Those four ideas are: many-worlds branching from measurement in the wavefunction; inflationary or landscape scenarios in which disconnected regions end up in different vacuum states; string-inspired pictures with different low-energy physics in distinct vacua; and, finally, the winding-number branch catalog indexed by pairs (n₁, n₂) that this framework actually discusses.
 
 ---
 

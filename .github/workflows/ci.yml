@@ -82,11 +82,15 @@ jobs:
           python3 -m pytest recycling/ --collect-only -q
           python3 -m pytest "5-GOVERNANCE/Unitary Pentad/" --collect-only -q
 
-  push-full-regression:
-    name: Push full regression (main)
+  push-full-regression-batched:
+    name: Push full regression slice ${{ matrix.batch-index }} (main)
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        batch-index: [0, 1, 2, 3, 4, 5, 6, 7]
     permissions:
       contents: read
     steps:
@@ -98,8 +102,31 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
-      - name: Run full regression
-        run: python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
+      - name: Run full regression slice
+        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core --batch-count 8 --batch-index ${{ matrix.batch-index }}
+
+  push-full-regression-supervisor:
+    name: Push full regression supervisor (main)
+    if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: push-full-regression-batched
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Require successful full regression slices
+        env:
+          PUSH_FULL_REGRESSION_BATCHED_RESULT: ${{ needs.push-full-regression-batched.result }}
+        run: |
+          test "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" = "success"
+      - name: Verify full regression slice coverage
+        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core-supervisor-check --batch-count 8 --emit-json
 
   ci-gate:
     name: CI gate
@@ -108,7 +135,8 @@ jobs:
     needs:
       - platform-smoke
       - suite-collection-smoke
-      - push-full-regression
+      - push-full-regression-batched
+      - push-full-regression-supervisor
     permissions:
       contents: read
     steps:
@@ -116,22 +144,28 @@ jobs:
         env:
           PLATFORM_SMOKE_RESULT: ${{ needs.platform-smoke.result }}
           SUITE_COLLECTION_SMOKE_RESULT: ${{ needs.suite-collection-smoke.result }}
-          PUSH_FULL_REGRESSION_RESULT: ${{ needs.push-full-regression.result }}
+          PUSH_FULL_REGRESSION_BATCHED_RESULT: ${{ needs.push-full-regression-batched.result }}
+          PUSH_FULL_REGRESSION_RESULT: ${{ needs.push-full-regression-supervisor.result }}
         run: |
           set -euo pipefail
           echo "platform-smoke: ${PLATFORM_SMOKE_RESULT}"
           echo "suite-collection-smoke: ${SUITE_COLLECTION_SMOKE_RESULT}"
+          echo "push-full-regression-batched: ${PUSH_FULL_REGRESSION_BATCHED_RESULT}"
           echo "push-full-regression: ${PUSH_FULL_REGRESSION_RESULT}"
           {
             echo "## CI smoke result"
             echo "- platform-smoke: ${PLATFORM_SMOKE_RESULT}"
             echo "- suite-collection-smoke: ${SUITE_COLLECTION_SMOKE_RESULT}"
+            echo "- push-full-regression-batched: ${PUSH_FULL_REGRESSION_BATCHED_RESULT}"
             echo "- push-full-regression: ${PUSH_FULL_REGRESSION_RESULT}"
           } >> "${GITHUB_STEP_SUMMARY}"
           if [ "${PLATFORM_SMOKE_RESULT}" != "success" ]; then
             exit 1
           fi
           if [ "${SUITE_COLLECTION_SMOKE_RESULT}" != "success" ]; then
+            exit 1
+          fi
+          if [ "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" != "success" ] && [ "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" != "skipped" ]; then
             exit 1
           fi
           if [ "${PUSH_FULL_REGRESSION_RESULT}" != "success" ] && [ "${PUSH_FULL_REGRESSION_RESULT}" != "skipped" ]; then

@@ -211,6 +211,8 @@ That is what "closed" will mean when it happens.
 *Theory, scientific direction, and framework: **ThomasCory Walker-Pearson.***  
 *Epilog engineering and synthesis: **GitHub Copilot** (AI).*
 
+This gives the explicit electron-mass estimate: m_e^{pred} = Ŷ₅ × v_EW × f₀^L(c_Le = 0.7980) × f₀^R(0.5) = 1.0 × 246220 × f₀^L(0.7980) × (1/√37) ≈ 0.5085 MeV.
+
 ---
 
 ### Gate Certification (v1)

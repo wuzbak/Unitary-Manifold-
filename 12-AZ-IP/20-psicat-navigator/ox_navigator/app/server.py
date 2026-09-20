@@ -77,7 +77,9 @@ from ox_navigator.engine.merlin_program import (
     get_merlin_sovereign_model_board,
     get_merlin_sprint_review_packet,
     get_psicat_spc_phase0_execution_packet,
+    get_psicat_spc_phase3_live_readiness,
     run_merlin_targeted_rigor_sprint,
+    run_psicat_spc_phase2_applied_pressure,
     run_psicat_spc_phase1_baseline,
     get_merlin_validation_resilience_packet,
     get_full_program_blueprint,
@@ -90,6 +92,13 @@ from ox_navigator.engine.merlin_program import (
     get_program_office,
     get_sentinel_enforcement_policy,
     run_sync_checks,
+)
+from ox_navigator.engine.merlin_masterclass_runtime import (
+    analyze_swarm_trajectory,
+    build_governance_observatory,
+    get_branch_convergence_packet,
+    get_masterclass_execution_packet,
+    review_branch_convergence,
 )
 from ox_navigator.engine.merlin_counterexample import build_counterexample_digest
 from ox_navigator.engine.merlin_rag import build_context_scaffold, render_context_scaffold
@@ -1238,6 +1247,44 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/spc-phase2-applied-pressure':
+                limit, error = _parse_int_query_param(params, 'limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                training_limit, training_error = _parse_int_query_param(params, 'training_limit', 9)
+                if training_error:
+                    self._json({'ok': False, 'error': training_error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'spc_phase2_applied_pressure': run_psicat_spc_phase2_applied_pressure(
+                    session=merlin_session,
+                    limit=limit,
+                    training_limit=training_limit,
+                ),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/spc-phase3-live-readiness':
+                limit, error = _parse_int_query_param(params, 'limit', 5)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                training_limit, training_error = _parse_int_query_param(params, 'training_limit', 9)
+                if training_error:
+                    self._json({'ok': False, 'error': training_error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'spc_phase3_live_readiness': get_psicat_spc_phase3_live_readiness(
+                    session=merlin_session,
+                    limit=limit,
+                    training_limit=training_limit,
+                ),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/achievement-benchmark-promotion-sprint':
                 limit, error = _parse_int_query_param(params, 'limit', 3)
                 if error:
@@ -1473,7 +1520,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     return
                 self._json({
                 'ok': True,
-                'execution_board': get_merlin_execution_board(limit=limit),
+                'execution_board': get_merlin_execution_board(limit=limit, session=merlin_session),
                 })
                 self._persist_session(session_id, merlin_session)
                 return
@@ -1481,6 +1528,39 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({
                 'ok': True,
                 'convergence_charter': get_psicat_convergence_charter(),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/masterclass-execution':
+                limit, error = _parse_int_query_param(params, 'limit', 8)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'masterclass_execution': get_masterclass_execution_packet(limit=max(1, limit)),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/swarm-observatory':
+                limit, error = _parse_int_query_param(params, 'limit', 8)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'governance_observatory': build_governance_observatory(session=merlin_session, limit=max(1, limit)),
+                })
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/branch-convergence':
+                limit, error = _parse_int_query_param(params, 'limit', 8)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                self._json({
+                'ok': True,
+                'branch_convergence': get_branch_convergence_packet(limit=max(1, limit)),
                 })
                 self._persist_session(session_id, merlin_session)
                 return
@@ -1679,6 +1759,66 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                     self._json({
                         'ok': True,
                         'compactification_ingest': build_compactification_ingest_receipt(raw_payload),
+                    })
+                    self._persist_session(session_id, merlin_session)
+                    return
+                if route_path == '/api/psicat/swarm-analyze':
+                    events = payload.get('events')
+                    if not isinstance(events, list):
+                        self._json({'ok': False, 'error': 'events array is required'}, status=400)
+                        return
+                    analysis = analyze_swarm_trajectory(
+                        [item for item in events if isinstance(item, dict)],
+                        allow_internal_swarm=bool(payload.get('allow_internal_swarm', True)),
+                        source=str(payload.get('source') or 'api'),
+                    )
+                    merlin_session.register_observatory_event({
+                        'kind': 'swarm_analysis',
+                        'source': str(analysis.get('source') or 'api'),
+                        'state_class': str(analysis.get('state_class') or ''),
+                        'transition_verdict': str(analysis.get('transition_verdict') or ''),
+                        'hostile_signal_count': int(analysis.get('hostile_signal_count') or 0),
+                        'recommended_actions': list(analysis.get('recommended_actions') or []),
+                        'conversion_targets': list(analysis.get('conversion_targets') or []),
+                        'counts': dict(analysis.get('counts') or {}),
+                    })
+                    self._json({
+                        'ok': True,
+                        'swarm_analysis': analysis,
+                    })
+                    self._persist_session(session_id, merlin_session)
+                    return
+                if route_path == '/api/psicat/branch-convergence-review':
+                    changed_paths = payload.get('changed_paths')
+                    if changed_paths is not None and not isinstance(changed_paths, list):
+                        self._json({'ok': False, 'error': 'changed_paths must be an array when provided'}, status=400)
+                        return
+                    limit = payload.get('limit', 8)
+                    if not isinstance(limit, int):
+                        self._json({'ok': False, 'error': 'limit must be an integer when provided'}, status=400)
+                        return
+                    review = review_branch_convergence(
+                        intent=payload.get('intent') if isinstance(payload.get('intent'), dict) else None,
+                        dependency_map=payload.get('dependency_map') if isinstance(payload.get('dependency_map'), dict) else None,
+                        collision_review=payload.get('collision_review') if isinstance(payload.get('collision_review'), dict) else None,
+                        promotion_request=payload.get('promotion_request') if isinstance(payload.get('promotion_request'), dict) else None,
+                        changed_paths=[str(item) for item in changed_paths] if isinstance(changed_paths, list) else None,
+                        limit=max(1, limit),
+                    )
+                    merlin_session.register_observatory_event({
+                        'kind': 'branch_convergence_review',
+                        'review_verdict': str(review.get('review_verdict') or ''),
+                        'requested_action': str(review.get('requested_action') or ''),
+                        'current_branch': str(review.get('current_branch') or ''),
+                        'upstream_branch': str(review.get('upstream_branch') or ''),
+                        'changed_paths': list(review.get('changed_paths') or []),
+                        'blockers': list(review.get('blockers') or []),
+                        'recommended_actions': list(review.get('recommended_actions') or []),
+                        'conversion_targets': ['branch_convergence_receipt', 'validation_receipt_bundle'],
+                    })
+                    self._json({
+                        'ok': True,
+                        'branch_convergence_review': review,
                     })
                     self._persist_session(session_id, merlin_session)
                     return

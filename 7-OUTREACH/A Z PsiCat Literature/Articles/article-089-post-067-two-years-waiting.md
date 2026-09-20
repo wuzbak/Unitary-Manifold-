@@ -8,15 +8,11 @@
 *Post 67 of the Unitary Manifold series.*
 *No new physics claim is made in this post. It is a historical retrospective snapshot on the series at its original milestone, accompanied by later editor updates and a forward calendar of tests.*
 
----
-
 In April 2026, the Unitary Manifold repository crossed 14,641 automated tests
 and closed its 74th pillar. The series of Substack posts reached its 73rd entry —
 this one being the retrospective before the final.
 
 This is a moment to stop and take stock.
-
----
 
 ## What we know — firmly
 
@@ -39,8 +35,6 @@ the same mathematical structure — k_CS = 74, n_w = 5 — without additional pa
 determined by internal curvature-vorticity feedback (Pillar 56). It is no longer
 a free parameter.
 
----
-
 ## What we know — with caveats
 
 **The birefringence prediction is post-hoc in k_CS.** The integer k = 74 was
@@ -54,8 +48,6 @@ The mathematical form of the field equations is applied at scales and in domains
 where the Walker-Pearson dynamics are not physically derived — they are structurally
 motivated. These are Tier 2 extensions, not Tier 1 predictions.
 
----
-
 ## What we don't know
 
 **CMB amplitude.** The power spectrum amplitude A_s is off by 4–7× at acoustic peaks.
@@ -67,8 +59,6 @@ derivation requires an analytical result in spectral geometry that has not been 
 
 **Neural predictions.** The 7:5 grid cell frequency ratio prediction has not been
 tested at the precision needed to rule in or out the cosmological connection.
-
----
 
 ## The forward calendar
 
@@ -83,8 +73,6 @@ tested at the precision needed to rule in or out the cosmological connection.
 
 The framework has made specific predictions for every one of these tests.
 It will be right or it will be wrong. In 2032, there will be no ambiguity.
-
----
 
 ## What we've learned about doing science this way
 
@@ -112,8 +100,6 @@ but the quality of the speculative extensions is uneven — some are genuinely
 structural; others are too analogical. The distinction between Tier 1, Tier 2, and
 Tier 3 is correct but not uniformly applied.
 
----
-
 ## The state of the question in April 2026
 
 The Unitary Manifold is a motivated hypothesis with four quantitative predictions
@@ -128,11 +114,7 @@ its confirmation or its falsification.
 
 That is the correct state for a theory at this stage. We are here until LiteBIRD.
 
----
-
 **[Editor's Update — v9.27]** This post was written at the 74-pillar milestone. Since then, Pillars 97–98 closed the absolute fermion mass scale problem, and Pillar Ω (the Omega Synthesis) has been added as the capstone synthesis. At that historical update point, the repository stood at **99 pillars + Pillar Ω** with **17,438 automated tests**. The predictions and falsification conditions described here remain unchanged.
-
----
 
 *Full source code and derivations (historical test totals in this post's original era; see `STATUS.md` for live counts):*
 *https://github.com/wuzbak/Unitary-Manifold-*
@@ -142,6 +124,15 @@ That is the correct state for a theory at this stage. We are here until LiteBIRD
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, and document engineering: **GitHub Copilot** (AI).*
+
+At minimum, the field equations have a well-defined variational principle, produce a conserved stress-energy tensor, and recover standard 4D general relativity in the appropriate limit. In the narrower milestone discussed here, that meant the 14,641-test / Pillar 74 snapshot; later historical posts in the same sequence reported larger suite totals, but this article is about that earlier checkpoint. For current live totals, readers should consult `STATUS.md`. Not physical correctness — internal consistency.
+
+Prediction status:
+
+- **CMB spectral index n_s:** 0.9635 vs Planck 0.9649 ± 0.0042 — within 1σ.
+- **Birefringence β:** the historical derived-channel emphasis was 0.3513° vs Minami-Komatsu 0.35° ± 0.14°, while the canonical preregistered branch targets remained 0.273° and 0.331°.
+- **Tensor ratio r:** 0.0315 vs BICEP/Keck limit r < 0.036 — below limit.
+- **Dark energy w:** -0.9302 vs DES/DESI consistency range — preliminary.
 
 ---
 
