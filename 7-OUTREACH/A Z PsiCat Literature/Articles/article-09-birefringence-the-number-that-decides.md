@@ -8,13 +8,11 @@
 
 This article earns its title. If there is one near-future measurement that can sharply validate or break the braided-winding core, it is CMB birefringence at LiteBIRD precision.
 
-The source post is best where it is specific. It gives two admissible targets, preserves an excluded gap, and states explicit falsification branches without rhetorical escape hatches. That is scientific language, not inspirational language.
+The decision rule is concrete. The canonical branch values are **β ≈ 0.273°** and **β ≈ 0.331°**; the derived channel gives **β ≈ 0.290°** and **β ≈ 0.351°**. Between them sits the excluded interval **0.29°–0.31°**, which the framework treats not as “close enough” territory but as a direct falsifier of the braided-winding mechanism.
 
-Equally important, it distinguishes early hints from decision-grade evidence. Current indications are interesting, but calibration and systematics limits keep them provisional. LiteBIRD-level precision is where the verdict becomes hard.
+Equally important, the article distinguishes early hints from decision-grade evidence. Current indications are interesting, but calibration and systematics limits keep them provisional. LiteBIRD-level precision is where the verdict becomes hard.
 
-The rewrite keeps that backbone and removes hype drift. A pre-registered excluded interval is stronger than a broad “close enough” claim, and the article should be read that way.
-
-If the measurement lands in the excluded zone, the mechanism fails. If it lands on a predicted branch with sufficient precision, support strengthens materially. Either way, the value is that the decision rule is already written.
+If the measurement lands in the excluded zone, the mechanism fails. If it lands on one of the predicted branches with sufficient precision, support strengthens materially. Either way, the value is that the decision rule is already written.
 
 In plain terms: this is what an honest high-stakes prediction looks like when a project is willing to be wrong in public.
 

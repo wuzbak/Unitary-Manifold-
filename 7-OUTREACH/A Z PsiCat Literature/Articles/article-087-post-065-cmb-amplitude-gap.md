@@ -1,11 +1,11 @@
-# The CMB Acoustic Peak Problem — The Gap We Closed — Merlin/PsiCat v1 Rewrite
+# The CMB Acoustic Peak Problem — Historical Closure Claim, Current Open Gap — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/posts/post-065-cmb-amplitude-gap.md`*
 
-This article rewrite is grounded in **The CMB Acoustic Peak Problem — The Gap We Closed** and keeps the same claim boundaries while tightening clarity and pace.
+This article rewrite is grounded in **The CMB Acoustic Peak Problem — The Gap We Closed**, while making explicit that the repository's current live status still treats the amplitude suppression as an open problem rather than a fully closed one.
 
 This framework's original gap was this: the predicted CMB power spectrum was off by a factor of roughly four to seven at the acoustic peaks. The peaks were there — the oscillation structure of the primordial sound waves was present. The tilt of the spectrum matched Planck's measurement to within 1σ. But the amplitude was wrong.
 

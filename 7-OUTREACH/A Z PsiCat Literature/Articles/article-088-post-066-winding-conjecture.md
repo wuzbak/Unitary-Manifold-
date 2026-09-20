@@ -1,4 +1,4 @@
-# The Winding Number — Proved — Merlin/PsiCat v1 Rewrite
+# The Winding Number — Narrowed Toward Five — Merlin/PsiCat v1 Rewrite
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-15T05:41:03Z*  

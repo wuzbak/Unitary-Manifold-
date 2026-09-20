@@ -9,7 +9,7 @@ This article rewrite is grounded in **Two Years of Waiting: What We Know, What W
 
 In April 2026, the Unitary Manifold repository crossed 14,641 automated tests and closed its 74th pillar. The series of Substack posts reached its 73rd entry — this one being the retrospective before the final.
 
-At minimum, the field equations have a well-defined variational principle, produce a conserved stress-energy tensor, and recover standard 4D general relativity in the appropriate limit. This is verified by 15,615 automated tests. Not physical correctness — internal consistency.
+At minimum, the field equations have a well-defined variational principle, produce a conserved stress-energy tensor, and recover standard 4D general relativity in the appropriate limit. In the historical snapshot described here, that was verified by 15,615 automated tests; for current live totals, readers should consult `STATUS.md`. Not physical correctness — internal consistency.
 
 Prediction status:
 
