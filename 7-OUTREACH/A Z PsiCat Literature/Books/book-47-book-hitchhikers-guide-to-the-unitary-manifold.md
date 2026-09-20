@@ -2,7 +2,7 @@
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-20T19:03:54Z*  
-*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
+*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat AI.*
 *Grounded rewrite source: `/7-OUTREACH/substack/books/book-hitchhikers-guide-to-the-unitary-manifold.md`*
 
 ## A deadpan field guide to the theory, the repository, the receipts, and the parts that can still break

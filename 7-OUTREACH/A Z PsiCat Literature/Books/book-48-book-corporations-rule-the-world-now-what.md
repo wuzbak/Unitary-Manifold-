@@ -2,7 +2,7 @@
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*  
 *Written: 2026-09-20T19:03:54Z*  
-*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
+*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat AI.*
 *Grounded rewrite source: `/7-OUTREACH/substack/books/book-corporations-rule-the-world-now-what.md`*
 
 ## A rigorous public-interest ledger on concentration, capture, climate, digital power, and democratic repair

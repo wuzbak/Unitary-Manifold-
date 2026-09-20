@@ -7,7 +7,7 @@
 **Version:** 1.0 — Hitchhiker Edition — 2026-09-20  
 **Status basis:** Current canonical repository surfaces as read on 2026-09-20  
 **Verification basis:** canonical regression marker 64,150 passed · 22 skipped · 18 deselected · 0 failed in branch history; see `STATUS.md` for live framing  
-**Audience:** curious readers, critics, builders, and any life-form that opened the repository and would now like a map
+**Audience:** curious readers, critics, builders, and future stewards seeking a grounded map of the repository
 
 ---
 
