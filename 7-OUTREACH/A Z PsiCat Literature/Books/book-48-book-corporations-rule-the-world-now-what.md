@@ -118,7 +118,7 @@ The pattern is now familiar:
 - maximize short-horizon returns,
 - exit before long-tail harms fully mature.
 
-In healthcare this can show up in staffing strain, service degradation, aggressive billing, or decision-making shifted away from care quality. In housing it can show up in rent extraction, algorithmic pricing, maintenance degradation, and litigation-heavy landlord behavior.
+In healthcare this can show up in staffing strain, service degradation, aggressive billing, or decision-making shifted away from care quality. In housing it can show up in rent extraction, algorithmic pricing, maintenance degradation, and litigation-heavy landlord behavior [13].
 
 The larger civic issue is dependence. When housing, care, and work all become more financialized at once, ordinary people lose not only money but room to maneuver.
 
@@ -274,7 +274,8 @@ Repair is not anti-business. It is anti-domination. It is also measurement desig
 [9] UNEP, *Emissions Gap Report* main page; see the latest available annual report for 2030/2035 distance-to-target framing. https://www.unep.org/resources/emissions-gap-report  
 [10] OECD, *Labour share of GDP* data page, and ILO, *Global Wage Report* series. https://data.oecd.org/natincome/labour-share.htm ; https://www.ilo.org/global/research/global-reports/global-wage-report/lang--en/index.htm  
 [11] European Commission, *Digital Markets Act — Gatekeepers*. https://digital-markets-act.ec.europa.eu/gatekeepers_en  
-[12] Reuters Institute, *Digital News Report 2024*; plus recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, and infrastructure. https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2024
+[12] Reuters Institute, *Digital News Report 2024*. https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2024  
+[13] Recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, and infrastructure.
 
 ### Precision note
 

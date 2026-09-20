@@ -331,18 +331,18 @@ This is a better fate than the alternatives.
 
 ### Canonical repository sources
 
-- `README.md`
-- `STATUS.md`
-- `FALLIBILITY.md`
-- `proof/TIER_1_FORMAL.md`
-- `1-THEORY/UNIFICATION_PROOF.md`
-- `1-THEORY/DERIVATION_STATUS.md`
-- `3-FALSIFICATION/`
-- `docs/TRUTH_LAYER.md`
-- `docs/GATEKEEPER_SUMMARY.md`
-- `docs/navigation/REPOSITORY_MAP.md`
-- `6-MONOGRAPH/MCP_INGEST.md`
-- `9-INFRASTRUCTURE/provenance/README.md`
+- [`README.md`](../../../README.md)
+- [`STATUS.md`](../../../STATUS.md)
+- [`FALLIBILITY.md`](../../../FALLIBILITY.md)
+- [`proof/TIER_1_FORMAL.md`](../../../proof/TIER_1_FORMAL.md)
+- [`1-THEORY/UNIFICATION_PROOF.md`](../../../1-THEORY/UNIFICATION_PROOF.md)
+- [`1-THEORY/DERIVATION_STATUS.md`](../../../1-THEORY/DERIVATION_STATUS.md)
+- [`3-FALSIFICATION/`](../../../3-FALSIFICATION/)
+- [`docs/TRUTH_LAYER.md`](../../../docs/TRUTH_LAYER.md)
+- [`docs/GATEKEEPER_SUMMARY.md`](../../../docs/GATEKEEPER_SUMMARY.md)
+- [`docs/navigation/REPOSITORY_MAP.md`](../../../docs/navigation/REPOSITORY_MAP.md)
+- [`6-MONOGRAPH/MCP_INGEST.md`](../../../6-MONOGRAPH/MCP_INGEST.md)
+- [`9-INFRASTRUCTURE/provenance/README.md`](../../../9-INFRASTRUCTURE/provenance/README.md)
 
 ### External reference notes
 

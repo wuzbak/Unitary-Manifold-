@@ -182,7 +182,7 @@ It buys physician groups, nursing homes, ambulance services, veterinary practice
 
 The public costs can be subtle until they are not.
 
-In healthcare, that can mean staffing compression, billing aggression, reduced local service resilience, or decision-making shifted away from care quality. In housing, it can mean algorithmic rent maximization, slower maintenance, legal aggression against tenants, and the conversion of homes into yield instruments.
+In healthcare, that can mean staffing compression, billing aggression, reduced local service resilience, or decision-making shifted away from care quality. In housing, it can mean algorithmic rent maximization, slower maintenance, legal aggression against tenants, and the conversion of homes into yield instruments [13].
 
 The reason this matters politically is simple. A person facing concentrated ownership in housing, healthcare, digital access, and employment is not merely a consumer. They are a dependency bundle.
 
@@ -366,7 +366,8 @@ The common thread is not anti-business dogma. It is pro-democracy design. It is 
 9. UNEP, *Emissions Gap Report* main page; see the latest available annual report for 2030/2035 distance-to-target framing. https://www.unep.org/resources/emissions-gap-report  
 10. OECD, *Labour share of GDP* data page, and ILO, *Global Wage Report* series. https://data.oecd.org/natincome/labour-share.htm ; https://www.ilo.org/global/research/global-reports/global-wage-report/lang--en/index.htm  
 11. European Commission, *Digital Markets Act — Gatekeepers*. https://digital-markets-act.ec.europa.eu/gatekeepers_en  
-12. Reuters Institute, *Digital News Report 2024*; plus recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, and infrastructure. https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2024
+12. Reuters Institute, *Digital News Report 2024*. https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2024  
+13. Recent public-interest reporting and scholarship on private-equity concentration in healthcare, housing, and infrastructure.
 
 ### Source note on precision
 
