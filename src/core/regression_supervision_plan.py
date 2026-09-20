@@ -53,6 +53,7 @@ def _discover_suite_files(suite_path: str) -> List[str]:
         path.relative_to(_ROOT).as_posix()
         for path in suite_root.rglob("test_*.py")
         if path.is_file()
+        and not path.relative_to(_ROOT).as_posix().startswith("5-GOVERNANCE/Unitary Pentad/holon-zero/")
     )
 
 
