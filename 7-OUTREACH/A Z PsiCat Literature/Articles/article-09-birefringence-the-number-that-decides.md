@@ -8,7 +8,7 @@
 
 This article earns its title. If there is one near-future measurement that can sharply validate or break the braided-winding core, it is CMB birefringence at LiteBIRD precision.
 
-The decision rule is concrete. The hard branch targets are **β ≈ 0.273°** and **β ≈ 0.331°**. Some derived-channel summaries push the upper-side estimate toward **β ≈ 0.351°**, but the core falsification rule does not change: the excluded interval **0.29°–0.31°** is treated not as “close enough” territory but as a direct falsifier of the braided-winding mechanism, and no promoted target is supposed to sit inside it.
+The decision rule is concrete. The hard branch targets are **β ≈ 0.273°** and **β ≈ 0.331°**. Some derived-channel summaries push the upper-side estimate toward **β ≈ 0.351°**, but the public rule stays consistent across the rewrite set: the excluded interval **0.29°–0.31°** is treated not as “close enough” territory but as a direct falsifier of the braided-winding mechanism, so no promoted target is supposed to sit inside it.
 
 Equally important, the article distinguishes early hints from decision-grade evidence. Current indications are interesting, but calibration and systematics limits keep them provisional. LiteBIRD-level precision is where the verdict becomes hard.
 
