@@ -1,4 +1,4 @@
-# The Blank Check, Rewritten — Military Accountability v2 (Merlin/PsiCat Rewrite)
+# The Blank Check, Rewritten — Military Accountability (Merlin/PsiCat Rewrite)
 
 *Merlin/PsiCat Rewrite v1 · Series/Season One*
 *Written: 2026-09-20T19:10:24Z*
@@ -173,14 +173,14 @@ A mature nation keeps the ledger open. It does not close the file because the tr
 
 ## Appendix A — Practical accountability checklist
 
-1. Require published variance ledgers for top-cost programs.
-2. Tie incentive fees to on-time delivery, tested performance, and usable availability.
-3. Trigger independent review and congressional notice at defined breach thresholds.
-4. Track audit remediation against public milestone dashboards through 2028.
-5. Harden revolving-door disclosures, compliance checks, and cooling-off enforcement.
-6. Build warm-handoff transition accountability between DoD and VA.
-7. Publish 30/90/180-day veteran continuity metrics for high-risk cohorts.
-8. Include downstream care burdens in lifecycle cost discussions.
+- [ ] Require published variance ledgers for top-cost programs.
+- [ ] Tie incentive fees to on-time delivery, tested performance, and usable availability.
+- [ ] Trigger independent review and congressional notice at defined breach thresholds.
+- [ ] Track audit remediation against public milestone dashboards through 2028.
+- [ ] Harden revolving-door disclosures, compliance checks, and cooling-off enforcement.
+- [ ] Build warm-handoff transition accountability between DoD and VA.
+- [ ] Publish 30/90/180-day veteran continuity metrics for high-risk cohorts.
+- [ ] Include downstream care burdens in lifecycle cost discussions.
 
 ## Appendix B — Questions every commander, staffer, and citizen should ask
 
