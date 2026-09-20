@@ -198,11 +198,14 @@ def compactified_preflight_argv() -> List[str]:
     return ["python", "-m", "pytest", *COMPACTIFIED_PREFLIGHT_FILES, "-q"]
 
 
-def build_regression_supervision_plan(batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> Dict[str, Any]:
+def build_regression_supervision_plan(
+    batch_count: int = DEFAULT_FAST_BATCH_COUNT,
+    full_core_batch_count: int = DEFAULT_FULL_CORE_BATCH_COUNT,
+) -> Dict[str, Any]:
     """Return the machine-readable supervised regression plan."""
     return build_regression_supervision_plan_with_full_core_count(
         batch_count=batch_count,
-        full_core_batch_count=DEFAULT_FULL_CORE_BATCH_COUNT,
+        full_core_batch_count=full_core_batch_count,
     )
 
 

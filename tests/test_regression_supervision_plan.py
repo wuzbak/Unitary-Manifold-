@@ -123,6 +123,13 @@ def test_regression_supervision_plan_reports_consistent_coverage() -> None:
     assert plan['remaining_canonical_suites']['claims'] == 'python -m pytest claims/ -q'
 
 
+def test_regression_supervision_plan_accepts_custom_full_core_batch_count() -> None:
+    plan = build_regression_supervision_plan(full_core_batch_count=3)
+
+    assert len(plan['supervised_full_core_suite']['batches']) == 3
+    assert plan['supervised_full_core_suite']['default_batch_count'] == 3
+
+
 def test_regression_supervision_plan_respects_custom_full_core_batch_count() -> None:
     plan = build_regression_supervision_plan_with_full_core_count(
         batch_count=DEFAULT_FAST_BATCH_COUNT,
