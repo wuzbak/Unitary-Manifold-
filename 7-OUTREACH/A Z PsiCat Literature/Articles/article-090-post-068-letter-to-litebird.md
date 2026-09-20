@@ -16,6 +16,8 @@ The explicit prediction set is:
 - **Canonical channel:** β ∈ {0.273°, 0.331°}
 - **Derived-channel upper-side summary:** β ≈ 0.351°
 
+This rewrite is intentionally publishing only the promoted public decision targets rather than the full historical derived-channel list, because the normalized pass/fail rule in this rewrite set excludes any target inside the forbidden gap.
+
 The falsification conditions are also explicit:
 
 - β outside **[0.22°, 0.38°]** falsifies the framework's birefringence prediction outright.
