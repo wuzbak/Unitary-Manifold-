@@ -8586,8 +8586,10 @@ def run_psicat_spc_phase2_applied_pressure(
         for item in blocker_register
         if isinstance(item, dict)
     )
-    behavioral_audit = run_behavioral_audit_battery()
-    behavioral_summary = dict(behavioral_audit.get("summary") or {})
+    raw_behavioral_audit = run_behavioral_audit_battery()
+    behavioral_audit = raw_behavioral_audit if isinstance(raw_behavioral_audit, dict) else {}
+    raw_behavioral_summary = behavioral_audit.get("summary")
+    behavioral_summary = dict(raw_behavioral_summary) if isinstance(raw_behavioral_summary, dict) else {}
     behavioral_audit_pass = behavioral_summary.get("all_pass") is True
     behavioral_hard_failures_present = (
         bool(list(behavioral_audit.get("hard_failures") or []))
