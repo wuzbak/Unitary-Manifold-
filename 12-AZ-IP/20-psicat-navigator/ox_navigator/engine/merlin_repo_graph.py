@@ -34,7 +34,16 @@ def _priority_key(path: Path) -> tuple[int, str]:
 
 def _candidate_files(max_files: int) -> List[Path]:
     pool: List[Path] = []
-    for pattern in ("src/**/*.py", "tests/**/*.py", "proof/**/*.py", "1-THEORY/**/*.md", "docs/**/*.md", "12-AZ-IP/20-psicat-navigator/**/*.py", "12-AZ-IP/20-psicat-navigator/**/*.md"):
+    for pattern in (
+        "src/**/*.py",
+        "src/**/*.md",
+        "tests/**/*.py",
+        "proof/**/*.py",
+        "1-THEORY/**/*.md",
+        "docs/**/*.md",
+        "12-AZ-IP/20-psicat-navigator/**/*.py",
+        "12-AZ-IP/20-psicat-navigator/**/*.md",
+    ):
         pool.extend(REPO_ROOT.glob(pattern))
     unique = sorted({path.resolve() for path in pool if path.is_file()}, key=_priority_key)
     return unique[: max(1, min(int(max_files), 600))]
