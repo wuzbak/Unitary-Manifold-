@@ -4,8 +4,8 @@
   "entry_count": 180,
   "entries": [
     {
-      "generated_at": "2026-09-22T21:02:39.322414+00:00",
-      "cycle_id": 5904,
+      "generated_at": "2026-09-22T21:20:19.426792+00:00",
+      "cycle_id": 6445,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -19,14 +19,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5904,
-        "end_cycle": 5904,
+        "start_cycle": 6445,
+        "end_cycle": 6445,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:40.427636+00:00",
-      "cycle_id": 5905,
+      "generated_at": "2026-09-22T21:20:20.464509+00:00",
+      "cycle_id": 6446,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -40,14 +40,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5905,
-        "end_cycle": 5905,
+        "start_cycle": 6446,
+        "end_cycle": 6446,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:41.476068+00:00",
-      "cycle_id": 5906,
+      "generated_at": "2026-09-22T21:20:21.473872+00:00",
+      "cycle_id": 6447,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -61,14 +61,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5906,
-        "end_cycle": 5906,
+        "start_cycle": 6447,
+        "end_cycle": 6447,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:42.564930+00:00",
-      "cycle_id": 5907,
+      "generated_at": "2026-09-22T21:20:22.527957+00:00",
+      "cycle_id": 6448,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -82,14 +82,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5907,
-        "end_cycle": 5907,
+        "start_cycle": 6448,
+        "end_cycle": 6448,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:43.635000+00:00",
-      "cycle_id": 5908,
+      "generated_at": "2026-09-22T21:20:23.559421+00:00",
+      "cycle_id": 6449,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -103,14 +103,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5908,
-        "end_cycle": 5908,
+        "start_cycle": 6449,
+        "end_cycle": 6449,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:44.670067+00:00",
-      "cycle_id": 5909,
+      "generated_at": "2026-09-22T21:20:24.691707+00:00",
+      "cycle_id": 6450,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -124,14 +124,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5909,
-        "end_cycle": 5909,
+        "start_cycle": 6450,
+        "end_cycle": 6450,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:45.751942+00:00",
-      "cycle_id": 5910,
+      "generated_at": "2026-09-22T21:20:25.724222+00:00",
+      "cycle_id": 6451,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -145,14 +145,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5910,
-        "end_cycle": 5910,
+        "start_cycle": 6451,
+        "end_cycle": 6451,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:46.780185+00:00",
-      "cycle_id": 5911,
+      "generated_at": "2026-09-22T21:20:26.761762+00:00",
+      "cycle_id": 6452,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -166,14 +166,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5911,
-        "end_cycle": 5911,
+        "start_cycle": 6452,
+        "end_cycle": 6452,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:47.876381+00:00",
-      "cycle_id": 5912,
+      "generated_at": "2026-09-22T21:20:27.792427+00:00",
+      "cycle_id": 6453,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -187,14 +187,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5912,
-        "end_cycle": 5912,
+        "start_cycle": 6453,
+        "end_cycle": 6453,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:48.913127+00:00",
-      "cycle_id": 5913,
+      "generated_at": "2026-09-22T21:20:28.829468+00:00",
+      "cycle_id": 6454,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -208,14 +208,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5913,
-        "end_cycle": 5913,
+        "start_cycle": 6454,
+        "end_cycle": 6454,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:49.940793+00:00",
-      "cycle_id": 5914,
+      "generated_at": "2026-09-22T21:20:29.859903+00:00",
+      "cycle_id": 6455,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -229,14 +229,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5914,
-        "end_cycle": 5914,
+        "start_cycle": 6455,
+        "end_cycle": 6455,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:50.990017+00:00",
-      "cycle_id": 5915,
+      "generated_at": "2026-09-22T21:20:30.880922+00:00",
+      "cycle_id": 6456,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -250,14 +250,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5915,
-        "end_cycle": 5915,
+        "start_cycle": 6456,
+        "end_cycle": 6456,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:52.015963+00:00",
-      "cycle_id": 5916,
+      "generated_at": "2026-09-22T21:20:31.970212+00:00",
+      "cycle_id": 6457,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -271,14 +271,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5916,
-        "end_cycle": 5916,
+        "start_cycle": 6457,
+        "end_cycle": 6457,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:53.068665+00:00",
-      "cycle_id": 5917,
+      "generated_at": "2026-09-22T21:20:33.003768+00:00",
+      "cycle_id": 6458,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -292,14 +292,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5917,
-        "end_cycle": 5917,
+        "start_cycle": 6458,
+        "end_cycle": 6458,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:54.120094+00:00",
-      "cycle_id": 5918,
+      "generated_at": "2026-09-22T21:20:34.022463+00:00",
+      "cycle_id": 6459,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -313,14 +313,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5918,
-        "end_cycle": 5918,
+        "start_cycle": 6459,
+        "end_cycle": 6459,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:55.254398+00:00",
-      "cycle_id": 5919,
+      "generated_at": "2026-09-22T21:20:35.040601+00:00",
+      "cycle_id": 6460,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -334,14 +334,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5919,
-        "end_cycle": 5919,
+        "start_cycle": 6460,
+        "end_cycle": 6460,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:56.311483+00:00",
-      "cycle_id": 5920,
+      "generated_at": "2026-09-22T21:20:36.074542+00:00",
+      "cycle_id": 6461,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -355,14 +355,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5920,
-        "end_cycle": 5920,
+        "start_cycle": 6461,
+        "end_cycle": 6461,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:57.348517+00:00",
-      "cycle_id": 5921,
+      "generated_at": "2026-09-22T21:20:37.100475+00:00",
+      "cycle_id": 6462,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -376,14 +376,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5921,
-        "end_cycle": 5921,
+        "start_cycle": 6462,
+        "end_cycle": 6462,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:58.405344+00:00",
-      "cycle_id": 5922,
+      "generated_at": "2026-09-22T21:20:38.109193+00:00",
+      "cycle_id": 6463,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -397,14 +397,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5922,
-        "end_cycle": 5922,
+        "start_cycle": 6463,
+        "end_cycle": 6463,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:02:59.430046+00:00",
-      "cycle_id": 5923,
+      "generated_at": "2026-09-22T21:20:40.037793+00:00",
+      "cycle_id": 6464,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -418,14 +418,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5923,
-        "end_cycle": 5923,
+        "start_cycle": 6464,
+        "end_cycle": 6464,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:00.481676+00:00",
-      "cycle_id": 5924,
+      "generated_at": "2026-09-22T21:20:41.077162+00:00",
+      "cycle_id": 6465,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -439,14 +439,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5924,
-        "end_cycle": 5924,
+        "start_cycle": 6465,
+        "end_cycle": 6465,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:01.542533+00:00",
-      "cycle_id": 5925,
+      "generated_at": "2026-09-22T21:20:42.086457+00:00",
+      "cycle_id": 6466,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -460,14 +460,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5925,
-        "end_cycle": 5925,
+        "start_cycle": 6466,
+        "end_cycle": 6466,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:02.672327+00:00",
-      "cycle_id": 5926,
+      "generated_at": "2026-09-22T21:20:43.123150+00:00",
+      "cycle_id": 6467,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -481,14 +481,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5926,
-        "end_cycle": 5926,
+        "start_cycle": 6467,
+        "end_cycle": 6467,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:03.747248+00:00",
-      "cycle_id": 5927,
+      "generated_at": "2026-09-22T21:20:44.121360+00:00",
+      "cycle_id": 6468,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -502,14 +502,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5927,
-        "end_cycle": 5927,
+        "start_cycle": 6468,
+        "end_cycle": 6468,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:04.815372+00:00",
-      "cycle_id": 5928,
+      "generated_at": "2026-09-22T21:20:45.155537+00:00",
+      "cycle_id": 6469,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -523,14 +523,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5928,
-        "end_cycle": 5928,
+        "start_cycle": 6469,
+        "end_cycle": 6469,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:05.877407+00:00",
-      "cycle_id": 5929,
+      "generated_at": "2026-09-22T21:20:46.155768+00:00",
+      "cycle_id": 6470,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -544,14 +544,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5929,
-        "end_cycle": 5929,
+        "start_cycle": 6470,
+        "end_cycle": 6470,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:06.913161+00:00",
-      "cycle_id": 5930,
+      "generated_at": "2026-09-22T21:20:47.249347+00:00",
+      "cycle_id": 6471,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -565,14 +565,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5930,
-        "end_cycle": 5930,
+        "start_cycle": 6471,
+        "end_cycle": 6471,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:08.825199+00:00",
-      "cycle_id": 5931,
+      "generated_at": "2026-09-22T21:20:48.272418+00:00",
+      "cycle_id": 6472,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -586,14 +586,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5931,
-        "end_cycle": 5931,
+        "start_cycle": 6472,
+        "end_cycle": 6472,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:09.867697+00:00",
-      "cycle_id": 5932,
+      "generated_at": "2026-09-22T21:20:49.272174+00:00",
+      "cycle_id": 6473,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -607,14 +607,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5932,
-        "end_cycle": 5932,
+        "start_cycle": 6473,
+        "end_cycle": 6473,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:10.965580+00:00",
-      "cycle_id": 5933,
+      "generated_at": "2026-09-22T21:20:50.296995+00:00",
+      "cycle_id": 6474,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -628,14 +628,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5933,
-        "end_cycle": 5933,
+        "start_cycle": 6474,
+        "end_cycle": 6474,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:11.987226+00:00",
-      "cycle_id": 5934,
+      "generated_at": "2026-09-22T21:20:51.296563+00:00",
+      "cycle_id": 6475,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -649,14 +649,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5934,
-        "end_cycle": 5934,
+        "start_cycle": 6475,
+        "end_cycle": 6475,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:12.998045+00:00",
-      "cycle_id": 5935,
+      "generated_at": "2026-09-22T21:20:52.344215+00:00",
+      "cycle_id": 6476,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -670,14 +670,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5935,
-        "end_cycle": 5935,
+        "start_cycle": 6476,
+        "end_cycle": 6476,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:14.016122+00:00",
-      "cycle_id": 5936,
+      "generated_at": "2026-09-22T21:20:53.362610+00:00",
+      "cycle_id": 6477,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -691,14 +691,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5936,
-        "end_cycle": 5936,
+        "start_cycle": 6477,
+        "end_cycle": 6477,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:15.024454+00:00",
-      "cycle_id": 5937,
+      "generated_at": "2026-09-22T21:20:54.456334+00:00",
+      "cycle_id": 6478,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -712,14 +712,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5937,
-        "end_cycle": 5937,
+        "start_cycle": 6478,
+        "end_cycle": 6478,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:16.063784+00:00",
-      "cycle_id": 5938,
+      "generated_at": "2026-09-22T21:20:55.496931+00:00",
+      "cycle_id": 6479,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -733,14 +733,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5938,
-        "end_cycle": 5938,
+        "start_cycle": 6479,
+        "end_cycle": 6479,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:17.093164+00:00",
-      "cycle_id": 5939,
+      "generated_at": "2026-09-22T21:20:56.513697+00:00",
+      "cycle_id": 6480,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -754,14 +754,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5939,
-        "end_cycle": 5939,
+        "start_cycle": 6480,
+        "end_cycle": 6480,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:18.197944+00:00",
-      "cycle_id": 5940,
+      "generated_at": "2026-09-22T21:20:57.548508+00:00",
+      "cycle_id": 6481,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -775,14 +775,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5940,
-        "end_cycle": 5940,
+        "start_cycle": 6481,
+        "end_cycle": 6481,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:19.238147+00:00",
-      "cycle_id": 5941,
+      "generated_at": "2026-09-22T21:20:58.561260+00:00",
+      "cycle_id": 6482,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -796,14 +796,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5941,
-        "end_cycle": 5941,
+        "start_cycle": 6482,
+        "end_cycle": 6482,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:20.245483+00:00",
-      "cycle_id": 5942,
+      "generated_at": "2026-09-22T21:20:59.598236+00:00",
+      "cycle_id": 6483,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -817,14 +817,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5942,
-        "end_cycle": 5942,
+        "start_cycle": 6483,
+        "end_cycle": 6483,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:21.270304+00:00",
-      "cycle_id": 5943,
+      "generated_at": "2026-09-22T21:21:00.638447+00:00",
+      "cycle_id": 6484,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -838,14 +838,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5943,
-        "end_cycle": 5943,
+        "start_cycle": 6484,
+        "end_cycle": 6484,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:22.269492+00:00",
-      "cycle_id": 5944,
+      "generated_at": "2026-09-22T21:21:01.748756+00:00",
+      "cycle_id": 6485,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -859,14 +859,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5944,
-        "end_cycle": 5944,
+        "start_cycle": 6485,
+        "end_cycle": 6485,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:23.298902+00:00",
-      "cycle_id": 5945,
+      "generated_at": "2026-09-22T21:21:02.790285+00:00",
+      "cycle_id": 6486,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -880,14 +880,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5945,
-        "end_cycle": 5945,
+        "start_cycle": 6486,
+        "end_cycle": 6486,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:24.302989+00:00",
-      "cycle_id": 5946,
+      "generated_at": "2026-09-22T21:21:03.836086+00:00",
+      "cycle_id": 6487,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -901,14 +901,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5946,
-        "end_cycle": 5946,
+        "start_cycle": 6487,
+        "end_cycle": 6487,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:25.389007+00:00",
-      "cycle_id": 5947,
+      "generated_at": "2026-09-22T21:21:04.866258+00:00",
+      "cycle_id": 6488,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -922,14 +922,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5947,
-        "end_cycle": 5947,
+        "start_cycle": 6488,
+        "end_cycle": 6488,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:26.419072+00:00",
-      "cycle_id": 5948,
+      "generated_at": "2026-09-22T21:21:05.874501+00:00",
+      "cycle_id": 6489,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -943,14 +943,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5948,
-        "end_cycle": 5948,
+        "start_cycle": 6489,
+        "end_cycle": 6489,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:27.421096+00:00",
-      "cycle_id": 5949,
+      "generated_at": "2026-09-22T21:21:06.900989+00:00",
+      "cycle_id": 6490,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -964,14 +964,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5949,
-        "end_cycle": 5949,
+        "start_cycle": 6490,
+        "end_cycle": 6490,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:28.441063+00:00",
-      "cycle_id": 5950,
+      "generated_at": "2026-09-22T21:21:07.907481+00:00",
+      "cycle_id": 6491,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -985,14 +985,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5950,
-        "end_cycle": 5950,
+        "start_cycle": 6491,
+        "end_cycle": 6491,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:29.455161+00:00",
-      "cycle_id": 5951,
+      "generated_at": "2026-09-22T21:21:08.995328+00:00",
+      "cycle_id": 6492,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1006,14 +1006,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5951,
-        "end_cycle": 5951,
+        "start_cycle": 6492,
+        "end_cycle": 6492,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:30.483261+00:00",
-      "cycle_id": 5952,
+      "generated_at": "2026-09-22T21:21:10.005139+00:00",
+      "cycle_id": 6493,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1027,14 +1027,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5952,
-        "end_cycle": 5952,
+        "start_cycle": 6493,
+        "end_cycle": 6493,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:31.492362+00:00",
-      "cycle_id": 5953,
+      "generated_at": "2026-09-22T21:21:11.016164+00:00",
+      "cycle_id": 6494,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1048,14 +1048,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5953,
-        "end_cycle": 5953,
+        "start_cycle": 6494,
+        "end_cycle": 6494,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:32.584518+00:00",
-      "cycle_id": 5954,
+      "generated_at": "2026-09-22T21:21:12.052511+00:00",
+      "cycle_id": 6495,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1069,14 +1069,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5954,
-        "end_cycle": 5954,
+        "start_cycle": 6495,
+        "end_cycle": 6495,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:33.616952+00:00",
-      "cycle_id": 5955,
+      "generated_at": "2026-09-22T21:21:13.055895+00:00",
+      "cycle_id": 6496,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1090,14 +1090,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5955,
-        "end_cycle": 5955,
+        "start_cycle": 6496,
+        "end_cycle": 6496,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:34.627061+00:00",
-      "cycle_id": 5956,
+      "generated_at": "2026-09-22T21:21:14.075496+00:00",
+      "cycle_id": 6497,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1111,14 +1111,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5956,
-        "end_cycle": 5956,
+        "start_cycle": 6497,
+        "end_cycle": 6497,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:35.652116+00:00",
-      "cycle_id": 5957,
+      "generated_at": "2026-09-22T21:21:15.088634+00:00",
+      "cycle_id": 6498,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1132,14 +1132,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5957,
-        "end_cycle": 5957,
+        "start_cycle": 6498,
+        "end_cycle": 6498,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:36.658322+00:00",
-      "cycle_id": 5958,
+      "generated_at": "2026-09-22T21:21:16.190025+00:00",
+      "cycle_id": 6499,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1153,14 +1153,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5958,
-        "end_cycle": 5958,
+        "start_cycle": 6499,
+        "end_cycle": 6499,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:37.703470+00:00",
-      "cycle_id": 5959,
+      "generated_at": "2026-09-22T21:21:17.212731+00:00",
+      "cycle_id": 6500,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1174,14 +1174,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5959,
-        "end_cycle": 5959,
+        "start_cycle": 6500,
+        "end_cycle": 6500,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:38.714371+00:00",
-      "cycle_id": 5960,
+      "generated_at": "2026-09-22T21:21:18.223705+00:00",
+      "cycle_id": 6501,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1195,14 +1195,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5960,
-        "end_cycle": 5960,
+        "start_cycle": 6501,
+        "end_cycle": 6501,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:39.814263+00:00",
-      "cycle_id": 5961,
+      "generated_at": "2026-09-22T21:21:19.252092+00:00",
+      "cycle_id": 6502,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1216,14 +1216,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5961,
-        "end_cycle": 5961,
+        "start_cycle": 6502,
+        "end_cycle": 6502,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:40.838804+00:00",
-      "cycle_id": 5962,
+      "generated_at": "2026-09-22T21:21:20.267556+00:00",
+      "cycle_id": 6503,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1237,14 +1237,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5962,
-        "end_cycle": 5962,
+        "start_cycle": 6503,
+        "end_cycle": 6503,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:41.848753+00:00",
-      "cycle_id": 5963,
+      "generated_at": "2026-09-22T21:21:21.290375+00:00",
+      "cycle_id": 6504,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1258,14 +1258,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5963,
-        "end_cycle": 5963,
+        "start_cycle": 6504,
+        "end_cycle": 6504,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:42.881430+00:00",
-      "cycle_id": 5964,
+      "generated_at": "2026-09-22T21:21:22.318787+00:00",
+      "cycle_id": 6505,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1279,14 +1279,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5964,
-        "end_cycle": 5964,
+        "start_cycle": 6505,
+        "end_cycle": 6505,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:43.899308+00:00",
-      "cycle_id": 5965,
+      "generated_at": "2026-09-22T21:21:23.413240+00:00",
+      "cycle_id": 6506,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1300,14 +1300,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5965,
-        "end_cycle": 5965,
+        "start_cycle": 6506,
+        "end_cycle": 6506,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:44.915590+00:00",
-      "cycle_id": 5966,
+      "generated_at": "2026-09-22T21:21:24.437444+00:00",
+      "cycle_id": 6507,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1321,14 +1321,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5966,
-        "end_cycle": 5966,
+        "start_cycle": 6507,
+        "end_cycle": 6507,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:45.934491+00:00",
-      "cycle_id": 5967,
+      "generated_at": "2026-09-22T21:21:26.287177+00:00",
+      "cycle_id": 6508,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1342,14 +1342,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5967,
-        "end_cycle": 5967,
+        "start_cycle": 6508,
+        "end_cycle": 6508,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:47.036163+00:00",
-      "cycle_id": 5968,
+      "generated_at": "2026-09-22T21:21:27.316970+00:00",
+      "cycle_id": 6509,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1363,14 +1363,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5968,
-        "end_cycle": 5968,
+        "start_cycle": 6509,
+        "end_cycle": 6509,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:48.083166+00:00",
-      "cycle_id": 5969,
+      "generated_at": "2026-09-22T21:21:28.328526+00:00",
+      "cycle_id": 6510,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1384,14 +1384,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5969,
-        "end_cycle": 5969,
+        "start_cycle": 6510,
+        "end_cycle": 6510,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:49.086608+00:00",
-      "cycle_id": 5970,
+      "generated_at": "2026-09-22T21:21:29.360063+00:00",
+      "cycle_id": 6511,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1405,14 +1405,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5970,
-        "end_cycle": 5970,
+        "start_cycle": 6511,
+        "end_cycle": 6511,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:50.117857+00:00",
-      "cycle_id": 5971,
+      "generated_at": "2026-09-22T21:21:30.395494+00:00",
+      "cycle_id": 6512,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1426,14 +1426,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5971,
-        "end_cycle": 5971,
+        "start_cycle": 6512,
+        "end_cycle": 6512,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:51.115061+00:00",
-      "cycle_id": 5972,
+      "generated_at": "2026-09-22T21:21:31.488221+00:00",
+      "cycle_id": 6513,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1447,14 +1447,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5972,
-        "end_cycle": 5972,
+        "start_cycle": 6513,
+        "end_cycle": 6513,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:52.150665+00:00",
-      "cycle_id": 5973,
+      "generated_at": "2026-09-22T21:21:32.506549+00:00",
+      "cycle_id": 6514,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1468,14 +1468,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5973,
-        "end_cycle": 5973,
+        "start_cycle": 6514,
+        "end_cycle": 6514,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:53.157879+00:00",
-      "cycle_id": 5974,
+      "generated_at": "2026-09-22T21:21:33.518140+00:00",
+      "cycle_id": 6515,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1489,14 +1489,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5974,
-        "end_cycle": 5974,
+        "start_cycle": 6515,
+        "end_cycle": 6515,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:55.074404+00:00",
-      "cycle_id": 5975,
+      "generated_at": "2026-09-22T21:21:34.531249+00:00",
+      "cycle_id": 6516,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1510,14 +1510,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5975,
-        "end_cycle": 5975,
+        "start_cycle": 6516,
+        "end_cycle": 6516,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:56.091411+00:00",
-      "cycle_id": 5976,
+      "generated_at": "2026-09-22T21:21:35.541177+00:00",
+      "cycle_id": 6517,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1531,14 +1531,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5976,
-        "end_cycle": 5976,
+        "start_cycle": 6517,
+        "end_cycle": 6517,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:57.108796+00:00",
-      "cycle_id": 5977,
+      "generated_at": "2026-09-22T21:21:36.566130+00:00",
+      "cycle_id": 6518,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1552,14 +1552,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5977,
-        "end_cycle": 5977,
+        "start_cycle": 6518,
+        "end_cycle": 6518,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:58.136296+00:00",
-      "cycle_id": 5978,
+      "generated_at": "2026-09-22T21:21:37.616380+00:00",
+      "cycle_id": 6519,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1573,14 +1573,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5978,
-        "end_cycle": 5978,
+        "start_cycle": 6519,
+        "end_cycle": 6519,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:03:59.142123+00:00",
-      "cycle_id": 5979,
+      "generated_at": "2026-09-22T21:21:38.762393+00:00",
+      "cycle_id": 6520,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1594,14 +1594,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5979,
-        "end_cycle": 5979,
+        "start_cycle": 6520,
+        "end_cycle": 6520,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:00.180477+00:00",
-      "cycle_id": 5980,
+      "generated_at": "2026-09-22T21:21:39.793201+00:00",
+      "cycle_id": 6521,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1615,14 +1615,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5980,
-        "end_cycle": 5980,
+        "start_cycle": 6521,
+        "end_cycle": 6521,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:01.192528+00:00",
-      "cycle_id": 5981,
+      "generated_at": "2026-09-22T21:21:40.819836+00:00",
+      "cycle_id": 6522,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1636,14 +1636,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5981,
-        "end_cycle": 5981,
+        "start_cycle": 6522,
+        "end_cycle": 6522,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:02.283341+00:00",
-      "cycle_id": 5982,
+      "generated_at": "2026-09-22T21:21:41.854297+00:00",
+      "cycle_id": 6523,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1657,14 +1657,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5982,
-        "end_cycle": 5982,
+        "start_cycle": 6523,
+        "end_cycle": 6523,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:03.338712+00:00",
-      "cycle_id": 5983,
+      "generated_at": "2026-09-22T21:21:42.911392+00:00",
+      "cycle_id": 6524,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1678,14 +1678,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5983,
-        "end_cycle": 5983,
+        "start_cycle": 6524,
+        "end_cycle": 6524,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:04.351258+00:00",
-      "cycle_id": 5984,
+      "generated_at": "2026-09-22T21:21:43.944711+00:00",
+      "cycle_id": 6525,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1699,14 +1699,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5984,
-        "end_cycle": 5984,
+        "start_cycle": 6525,
+        "end_cycle": 6525,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:05.374788+00:00",
-      "cycle_id": 5985,
+      "generated_at": "2026-09-22T21:21:44.975690+00:00",
+      "cycle_id": 6526,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1720,14 +1720,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5985,
-        "end_cycle": 5985,
+        "start_cycle": 6526,
+        "end_cycle": 6526,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:06.385752+00:00",
-      "cycle_id": 5986,
+      "generated_at": "2026-09-22T21:21:46.100019+00:00",
+      "cycle_id": 6527,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1741,14 +1741,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5986,
-        "end_cycle": 5986,
+        "start_cycle": 6527,
+        "end_cycle": 6527,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:07.407044+00:00",
-      "cycle_id": 5987,
+      "generated_at": "2026-09-22T21:21:47.132322+00:00",
+      "cycle_id": 6528,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1762,14 +1762,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5987,
-        "end_cycle": 5987,
+        "start_cycle": 6528,
+        "end_cycle": 6528,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:08.418643+00:00",
-      "cycle_id": 5988,
+      "generated_at": "2026-09-22T21:21:48.138453+00:00",
+      "cycle_id": 6529,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1783,14 +1783,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5988,
-        "end_cycle": 5988,
+        "start_cycle": 6529,
+        "end_cycle": 6529,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:09.511918+00:00",
-      "cycle_id": 5989,
+      "generated_at": "2026-09-22T21:21:49.174891+00:00",
+      "cycle_id": 6530,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1804,14 +1804,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5989,
-        "end_cycle": 5989,
+        "start_cycle": 6530,
+        "end_cycle": 6530,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:10.543210+00:00",
-      "cycle_id": 5990,
+      "generated_at": "2026-09-22T21:21:50.186429+00:00",
+      "cycle_id": 6531,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1825,14 +1825,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5990,
-        "end_cycle": 5990,
+        "start_cycle": 6531,
+        "end_cycle": 6531,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:11.568620+00:00",
-      "cycle_id": 5991,
+      "generated_at": "2026-09-22T21:21:51.195678+00:00",
+      "cycle_id": 6532,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1846,14 +1846,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5991,
-        "end_cycle": 5991,
+        "start_cycle": 6532,
+        "end_cycle": 6532,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:12.605450+00:00",
-      "cycle_id": 5992,
+      "generated_at": "2026-09-22T21:21:52.197789+00:00",
+      "cycle_id": 6533,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1867,14 +1867,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5992,
-        "end_cycle": 5992,
+        "start_cycle": 6533,
+        "end_cycle": 6533,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:13.620669+00:00",
-      "cycle_id": 5993,
+      "generated_at": "2026-09-22T21:21:53.301184+00:00",
+      "cycle_id": 6534,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1888,14 +1888,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5993,
-        "end_cycle": 5993,
+        "start_cycle": 6534,
+        "end_cycle": 6534,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:14.647522+00:00",
-      "cycle_id": 5994,
+      "generated_at": "2026-09-22T21:21:54.327325+00:00",
+      "cycle_id": 6535,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1909,14 +1909,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5994,
-        "end_cycle": 5994,
+        "start_cycle": 6535,
+        "end_cycle": 6535,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:15.661000+00:00",
-      "cycle_id": 5995,
+      "generated_at": "2026-09-22T21:21:55.323053+00:00",
+      "cycle_id": 6536,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1930,14 +1930,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5995,
-        "end_cycle": 5995,
+        "start_cycle": 6536,
+        "end_cycle": 6536,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:16.836517+00:00",
-      "cycle_id": 5996,
+      "generated_at": "2026-09-22T21:21:56.363678+00:00",
+      "cycle_id": 6537,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1951,14 +1951,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5996,
-        "end_cycle": 5996,
+        "start_cycle": 6537,
+        "end_cycle": 6537,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:17.851732+00:00",
-      "cycle_id": 5997,
+      "generated_at": "2026-09-22T21:21:57.373178+00:00",
+      "cycle_id": 6538,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1972,14 +1972,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5997,
-        "end_cycle": 5997,
+        "start_cycle": 6538,
+        "end_cycle": 6538,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:18.866987+00:00",
-      "cycle_id": 5998,
+      "generated_at": "2026-09-22T21:21:58.396250+00:00",
+      "cycle_id": 6539,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -1993,14 +1993,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5998,
-        "end_cycle": 5998,
+        "start_cycle": 6539,
+        "end_cycle": 6539,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:19.905186+00:00",
-      "cycle_id": 5999,
+      "generated_at": "2026-09-22T21:21:59.394898+00:00",
+      "cycle_id": 6540,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2014,14 +2014,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 5999,
-        "end_cycle": 5999,
+        "start_cycle": 6540,
+        "end_cycle": 6540,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:20.915736+00:00",
-      "cycle_id": 6000,
+      "generated_at": "2026-09-22T21:22:00.481585+00:00",
+      "cycle_id": 6541,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2035,14 +2035,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6000,
-        "end_cycle": 6000,
+        "start_cycle": 6541,
+        "end_cycle": 6541,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:21.945071+00:00",
-      "cycle_id": 6001,
+      "generated_at": "2026-09-22T21:22:01.496494+00:00",
+      "cycle_id": 6542,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2056,14 +2056,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6001,
-        "end_cycle": 6001,
+        "start_cycle": 6542,
+        "end_cycle": 6542,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:22.957995+00:00",
-      "cycle_id": 6002,
+      "generated_at": "2026-09-22T21:22:02.504803+00:00",
+      "cycle_id": 6543,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2077,14 +2077,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6002,
-        "end_cycle": 6002,
+        "start_cycle": 6543,
+        "end_cycle": 6543,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:24.058946+00:00",
-      "cycle_id": 6003,
+      "generated_at": "2026-09-22T21:22:03.529220+00:00",
+      "cycle_id": 6544,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2098,14 +2098,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6003,
-        "end_cycle": 6003,
+        "start_cycle": 6544,
+        "end_cycle": 6544,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:25.088329+00:00",
-      "cycle_id": 6004,
+      "generated_at": "2026-09-22T21:22:04.538240+00:00",
+      "cycle_id": 6545,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2119,14 +2119,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6004,
-        "end_cycle": 6004,
+        "start_cycle": 6545,
+        "end_cycle": 6545,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:26.100197+00:00",
-      "cycle_id": 6005,
+      "generated_at": "2026-09-22T21:22:05.588230+00:00",
+      "cycle_id": 6546,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2140,14 +2140,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6005,
-        "end_cycle": 6005,
+        "start_cycle": 6546,
+        "end_cycle": 6546,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:27.132372+00:00",
-      "cycle_id": 6006,
+      "generated_at": "2026-09-22T21:22:06.604640+00:00",
+      "cycle_id": 6547,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2161,14 +2161,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6006,
-        "end_cycle": 6006,
+        "start_cycle": 6547,
+        "end_cycle": 6547,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:28.162027+00:00",
-      "cycle_id": 6007,
+      "generated_at": "2026-09-22T21:22:07.714610+00:00",
+      "cycle_id": 6548,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2182,14 +2182,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6007,
-        "end_cycle": 6007,
+        "start_cycle": 6548,
+        "end_cycle": 6548,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:29.189884+00:00",
-      "cycle_id": 6008,
+      "generated_at": "2026-09-22T21:22:08.756349+00:00",
+      "cycle_id": 6549,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2203,14 +2203,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6008,
-        "end_cycle": 6008,
+        "start_cycle": 6549,
+        "end_cycle": 6549,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:30.198427+00:00",
-      "cycle_id": 6009,
+      "generated_at": "2026-09-22T21:22:09.791765+00:00",
+      "cycle_id": 6550,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2224,14 +2224,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6009,
-        "end_cycle": 6009,
+        "start_cycle": 6550,
+        "end_cycle": 6550,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:31.327911+00:00",
-      "cycle_id": 6010,
+      "generated_at": "2026-09-22T21:22:10.817010+00:00",
+      "cycle_id": 6551,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2245,14 +2245,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6010,
-        "end_cycle": 6010,
+        "start_cycle": 6551,
+        "end_cycle": 6551,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:32.360473+00:00",
-      "cycle_id": 6011,
+      "generated_at": "2026-09-22T21:22:12.678311+00:00",
+      "cycle_id": 6552,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2266,14 +2266,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6011,
-        "end_cycle": 6011,
+        "start_cycle": 6552,
+        "end_cycle": 6552,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:33.352763+00:00",
-      "cycle_id": 6012,
+      "generated_at": "2026-09-22T21:22:13.719425+00:00",
+      "cycle_id": 6553,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2287,14 +2287,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6012,
-        "end_cycle": 6012,
+        "start_cycle": 6553,
+        "end_cycle": 6553,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:34.366289+00:00",
-      "cycle_id": 6013,
+      "generated_at": "2026-09-22T21:22:14.754700+00:00",
+      "cycle_id": 6554,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2308,14 +2308,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6013,
-        "end_cycle": 6013,
+        "start_cycle": 6554,
+        "end_cycle": 6554,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:35.385516+00:00",
-      "cycle_id": 6014,
+      "generated_at": "2026-09-22T21:22:15.862934+00:00",
+      "cycle_id": 6555,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2329,14 +2329,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6014,
-        "end_cycle": 6014,
+        "start_cycle": 6555,
+        "end_cycle": 6555,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:36.401686+00:00",
-      "cycle_id": 6015,
+      "generated_at": "2026-09-22T21:22:16.893322+00:00",
+      "cycle_id": 6556,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2350,14 +2350,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6015,
-        "end_cycle": 6015,
+        "start_cycle": 6556,
+        "end_cycle": 6556,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:37.417691+00:00",
-      "cycle_id": 6016,
+      "generated_at": "2026-09-22T21:22:17.902632+00:00",
+      "cycle_id": 6557,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2371,14 +2371,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6016,
-        "end_cycle": 6016,
+        "start_cycle": 6557,
+        "end_cycle": 6557,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:38.509968+00:00",
-      "cycle_id": 6017,
+      "generated_at": "2026-09-22T21:22:18.917225+00:00",
+      "cycle_id": 6558,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2392,14 +2392,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6017,
-        "end_cycle": 6017,
+        "start_cycle": 6558,
+        "end_cycle": 6558,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:39.546000+00:00",
-      "cycle_id": 6018,
+      "generated_at": "2026-09-22T21:22:19.914593+00:00",
+      "cycle_id": 6559,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2413,14 +2413,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6018,
-        "end_cycle": 6018,
+        "start_cycle": 6559,
+        "end_cycle": 6559,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:41.454368+00:00",
-      "cycle_id": 6019,
+      "generated_at": "2026-09-22T21:22:20.947830+00:00",
+      "cycle_id": 6560,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2434,14 +2434,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6019,
-        "end_cycle": 6019,
+        "start_cycle": 6560,
+        "end_cycle": 6560,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:42.465348+00:00",
-      "cycle_id": 6020,
+      "generated_at": "2026-09-22T21:22:21.949835+00:00",
+      "cycle_id": 6561,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2455,14 +2455,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6020,
-        "end_cycle": 6020,
+        "start_cycle": 6561,
+        "end_cycle": 6561,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:43.469419+00:00",
-      "cycle_id": 6021,
+      "generated_at": "2026-09-22T21:22:22.978100+00:00",
+      "cycle_id": 6562,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2476,14 +2476,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6021,
-        "end_cycle": 6021,
+        "start_cycle": 6562,
+        "end_cycle": 6562,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:44.491636+00:00",
-      "cycle_id": 6022,
+      "generated_at": "2026-09-22T21:22:24.066903+00:00",
+      "cycle_id": 6563,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2497,14 +2497,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6022,
-        "end_cycle": 6022,
+        "start_cycle": 6563,
+        "end_cycle": 6563,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:45.507995+00:00",
-      "cycle_id": 6023,
+      "generated_at": "2026-09-22T21:22:25.101932+00:00",
+      "cycle_id": 6564,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2518,14 +2518,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6023,
-        "end_cycle": 6023,
+        "start_cycle": 6564,
+        "end_cycle": 6564,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:46.604585+00:00",
-      "cycle_id": 6024,
+      "generated_at": "2026-09-22T21:22:26.117868+00:00",
+      "cycle_id": 6565,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2539,14 +2539,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6024,
-        "end_cycle": 6024,
+        "start_cycle": 6565,
+        "end_cycle": 6565,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:47.641214+00:00",
-      "cycle_id": 6025,
+      "generated_at": "2026-09-22T21:22:27.199609+00:00",
+      "cycle_id": 6566,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2560,14 +2560,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6025,
-        "end_cycle": 6025,
+        "start_cycle": 6566,
+        "end_cycle": 6566,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:48.654702+00:00",
-      "cycle_id": 6026,
+      "generated_at": "2026-09-22T21:22:28.239680+00:00",
+      "cycle_id": 6567,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2581,14 +2581,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6026,
-        "end_cycle": 6026,
+        "start_cycle": 6567,
+        "end_cycle": 6567,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:49.704441+00:00",
-      "cycle_id": 6027,
+      "generated_at": "2026-09-22T21:22:29.261640+00:00",
+      "cycle_id": 6568,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2602,14 +2602,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6027,
-        "end_cycle": 6027,
+        "start_cycle": 6568,
+        "end_cycle": 6568,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:50.734553+00:00",
-      "cycle_id": 6028,
+      "generated_at": "2026-09-22T21:22:30.295347+00:00",
+      "cycle_id": 6569,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2623,14 +2623,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6028,
-        "end_cycle": 6028,
+        "start_cycle": 6569,
+        "end_cycle": 6569,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:51.789373+00:00",
-      "cycle_id": 6029,
+      "generated_at": "2026-09-22T21:22:31.406586+00:00",
+      "cycle_id": 6570,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2644,14 +2644,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6029,
-        "end_cycle": 6029,
+        "start_cycle": 6570,
+        "end_cycle": 6570,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:52.827896+00:00",
-      "cycle_id": 6030,
+      "generated_at": "2026-09-22T21:22:32.454008+00:00",
+      "cycle_id": 6571,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2665,14 +2665,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6030,
-        "end_cycle": 6030,
+        "start_cycle": 6571,
+        "end_cycle": 6571,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:53.923384+00:00",
-      "cycle_id": 6031,
+      "generated_at": "2026-09-22T21:22:33.500061+00:00",
+      "cycle_id": 6572,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2686,14 +2686,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6031,
-        "end_cycle": 6031,
+        "start_cycle": 6572,
+        "end_cycle": 6572,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:54.967263+00:00",
-      "cycle_id": 6032,
+      "generated_at": "2026-09-22T21:22:34.550886+00:00",
+      "cycle_id": 6573,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2707,14 +2707,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6032,
-        "end_cycle": 6032,
+        "start_cycle": 6573,
+        "end_cycle": 6573,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:55.990796+00:00",
-      "cycle_id": 6033,
+      "generated_at": "2026-09-22T21:22:35.576532+00:00",
+      "cycle_id": 6574,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2728,14 +2728,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6033,
-        "end_cycle": 6033,
+        "start_cycle": 6574,
+        "end_cycle": 6574,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:57.011154+00:00",
-      "cycle_id": 6034,
+      "generated_at": "2026-09-22T21:22:36.623344+00:00",
+      "cycle_id": 6575,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2749,14 +2749,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6034,
-        "end_cycle": 6034,
+        "start_cycle": 6575,
+        "end_cycle": 6575,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:58.042004+00:00",
-      "cycle_id": 6035,
+      "generated_at": "2026-09-22T21:22:37.659088+00:00",
+      "cycle_id": 6576,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2770,14 +2770,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6035,
-        "end_cycle": 6035,
+        "start_cycle": 6576,
+        "end_cycle": 6576,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:04:59.067993+00:00",
-      "cycle_id": 6036,
+      "generated_at": "2026-09-22T21:22:38.775862+00:00",
+      "cycle_id": 6577,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2791,14 +2791,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6036,
-        "end_cycle": 6036,
+        "start_cycle": 6577,
+        "end_cycle": 6577,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:00.077743+00:00",
-      "cycle_id": 6037,
+      "generated_at": "2026-09-22T21:22:39.827256+00:00",
+      "cycle_id": 6578,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2812,14 +2812,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6037,
-        "end_cycle": 6037,
+        "start_cycle": 6578,
+        "end_cycle": 6578,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:01.162903+00:00",
-      "cycle_id": 6038,
+      "generated_at": "2026-09-22T21:22:40.843393+00:00",
+      "cycle_id": 6579,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2833,14 +2833,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6038,
-        "end_cycle": 6038,
+        "start_cycle": 6579,
+        "end_cycle": 6579,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:02.196084+00:00",
-      "cycle_id": 6039,
+      "generated_at": "2026-09-22T21:22:41.881786+00:00",
+      "cycle_id": 6580,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2854,14 +2854,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6039,
-        "end_cycle": 6039,
+        "start_cycle": 6580,
+        "end_cycle": 6580,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:03.213731+00:00",
-      "cycle_id": 6040,
+      "generated_at": "2026-09-22T21:22:42.893727+00:00",
+      "cycle_id": 6581,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2875,14 +2875,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6040,
-        "end_cycle": 6040,
+        "start_cycle": 6581,
+        "end_cycle": 6581,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:04.256134+00:00",
-      "cycle_id": 6041,
+      "generated_at": "2026-09-22T21:22:43.912620+00:00",
+      "cycle_id": 6582,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2896,14 +2896,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6041,
-        "end_cycle": 6041,
+        "start_cycle": 6582,
+        "end_cycle": 6582,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:05.270578+00:00",
-      "cycle_id": 6042,
+      "generated_at": "2026-09-22T21:22:44.925818+00:00",
+      "cycle_id": 6583,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2917,14 +2917,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6042,
-        "end_cycle": 6042,
+        "start_cycle": 6583,
+        "end_cycle": 6583,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:06.301394+00:00",
-      "cycle_id": 6043,
+      "generated_at": "2026-09-22T21:22:46.032597+00:00",
+      "cycle_id": 6584,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2938,14 +2938,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6043,
-        "end_cycle": 6043,
+        "start_cycle": 6584,
+        "end_cycle": 6584,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:07.315977+00:00",
-      "cycle_id": 6044,
+      "generated_at": "2026-09-22T21:22:47.067866+00:00",
+      "cycle_id": 6585,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2959,14 +2959,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6044,
-        "end_cycle": 6044,
+        "start_cycle": 6585,
+        "end_cycle": 6585,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:08.421182+00:00",
-      "cycle_id": 6045,
+      "generated_at": "2026-09-22T21:22:48.078663+00:00",
+      "cycle_id": 6586,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -2980,14 +2980,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6045,
-        "end_cycle": 6045,
+        "start_cycle": 6586,
+        "end_cycle": 6586,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:09.461256+00:00",
-      "cycle_id": 6046,
+      "generated_at": "2026-09-22T21:22:49.107988+00:00",
+      "cycle_id": 6587,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3001,14 +3001,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6046,
-        "end_cycle": 6046,
+        "start_cycle": 6587,
+        "end_cycle": 6587,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:10.470193+00:00",
-      "cycle_id": 6047,
+      "generated_at": "2026-09-22T21:22:50.103592+00:00",
+      "cycle_id": 6588,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3022,14 +3022,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6047,
-        "end_cycle": 6047,
+        "start_cycle": 6588,
+        "end_cycle": 6588,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:11.500124+00:00",
-      "cycle_id": 6048,
+      "generated_at": "2026-09-22T21:22:51.113602+00:00",
+      "cycle_id": 6589,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3043,14 +3043,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6048,
-        "end_cycle": 6048,
+        "start_cycle": 6589,
+        "end_cycle": 6589,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:12.522056+00:00",
-      "cycle_id": 6049,
+      "generated_at": "2026-09-22T21:22:52.121617+00:00",
+      "cycle_id": 6590,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3064,14 +3064,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6049,
-        "end_cycle": 6049,
+        "start_cycle": 6590,
+        "end_cycle": 6590,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:13.553310+00:00",
-      "cycle_id": 6050,
+      "generated_at": "2026-09-22T21:22:53.214892+00:00",
+      "cycle_id": 6591,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3085,14 +3085,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6050,
-        "end_cycle": 6050,
+        "start_cycle": 6591,
+        "end_cycle": 6591,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:14.559101+00:00",
-      "cycle_id": 6051,
+      "generated_at": "2026-09-22T21:22:54.230281+00:00",
+      "cycle_id": 6592,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3106,14 +3106,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6051,
-        "end_cycle": 6051,
+        "start_cycle": 6592,
+        "end_cycle": 6592,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:15.660675+00:00",
-      "cycle_id": 6052,
+      "generated_at": "2026-09-22T21:22:55.240681+00:00",
+      "cycle_id": 6593,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3127,14 +3127,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6052,
-        "end_cycle": 6052,
+        "start_cycle": 6593,
+        "end_cycle": 6593,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:16.697000+00:00",
-      "cycle_id": 6053,
+      "generated_at": "2026-09-22T21:22:56.260723+00:00",
+      "cycle_id": 6594,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3148,14 +3148,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6053,
-        "end_cycle": 6053,
+        "start_cycle": 6594,
+        "end_cycle": 6594,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:17.710342+00:00",
-      "cycle_id": 6054,
+      "generated_at": "2026-09-22T21:22:57.259894+00:00",
+      "cycle_id": 6595,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3169,14 +3169,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6054,
-        "end_cycle": 6054,
+        "start_cycle": 6595,
+        "end_cycle": 6595,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:18.742230+00:00",
-      "cycle_id": 6055,
+      "generated_at": "2026-09-22T21:22:59.109454+00:00",
+      "cycle_id": 6596,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3190,14 +3190,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6055,
-        "end_cycle": 6055,
+        "start_cycle": 6596,
+        "end_cycle": 6596,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:19.769305+00:00",
-      "cycle_id": 6056,
+      "generated_at": "2026-09-22T21:23:00.119178+00:00",
+      "cycle_id": 6597,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3211,14 +3211,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6056,
-        "end_cycle": 6056,
+        "start_cycle": 6597,
+        "end_cycle": 6597,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:20.812435+00:00",
-      "cycle_id": 6057,
+      "generated_at": "2026-09-22T21:23:01.204188+00:00",
+      "cycle_id": 6598,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3232,14 +3232,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6057,
-        "end_cycle": 6057,
+        "start_cycle": 6598,
+        "end_cycle": 6598,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:21.844979+00:00",
-      "cycle_id": 6058,
+      "generated_at": "2026-09-22T21:23:02.244243+00:00",
+      "cycle_id": 6599,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3253,14 +3253,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6058,
-        "end_cycle": 6058,
+        "start_cycle": 6599,
+        "end_cycle": 6599,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:22.942201+00:00",
-      "cycle_id": 6059,
+      "generated_at": "2026-09-22T21:23:03.260120+00:00",
+      "cycle_id": 6600,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3274,14 +3274,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6059,
-        "end_cycle": 6059,
+        "start_cycle": 6600,
+        "end_cycle": 6600,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:23.974921+00:00",
-      "cycle_id": 6060,
+      "generated_at": "2026-09-22T21:23:04.319393+00:00",
+      "cycle_id": 6601,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3295,14 +3295,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6060,
-        "end_cycle": 6060,
+        "start_cycle": 6601,
+        "end_cycle": 6601,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:24.986262+00:00",
-      "cycle_id": 6061,
+      "generated_at": "2026-09-22T21:23:05.360904+00:00",
+      "cycle_id": 6602,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3316,14 +3316,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6061,
-        "end_cycle": 6061,
+        "start_cycle": 6602,
+        "end_cycle": 6602,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:26.012700+00:00",
-      "cycle_id": 6062,
+      "generated_at": "2026-09-22T21:23:06.424475+00:00",
+      "cycle_id": 6603,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3337,14 +3337,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6062,
-        "end_cycle": 6062,
+        "start_cycle": 6603,
+        "end_cycle": 6603,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:27.873163+00:00",
-      "cycle_id": 6063,
+      "generated_at": "2026-09-22T21:23:07.469161+00:00",
+      "cycle_id": 6604,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3358,14 +3358,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6063,
-        "end_cycle": 6063,
+        "start_cycle": 6604,
+        "end_cycle": 6604,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:28.898539+00:00",
-      "cycle_id": 6064,
+      "generated_at": "2026-09-22T21:23:08.591896+00:00",
+      "cycle_id": 6605,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3379,14 +3379,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6064,
-        "end_cycle": 6064,
+        "start_cycle": 6605,
+        "end_cycle": 6605,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:29.916711+00:00",
-      "cycle_id": 6065,
+      "generated_at": "2026-09-22T21:23:09.648488+00:00",
+      "cycle_id": 6606,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3400,14 +3400,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6065,
-        "end_cycle": 6065,
+        "start_cycle": 6606,
+        "end_cycle": 6606,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:31.006495+00:00",
-      "cycle_id": 6066,
+      "generated_at": "2026-09-22T21:23:10.714156+00:00",
+      "cycle_id": 6607,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3421,14 +3421,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6066,
-        "end_cycle": 6066,
+        "start_cycle": 6607,
+        "end_cycle": 6607,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:32.043926+00:00",
-      "cycle_id": 6067,
+      "generated_at": "2026-09-22T21:23:11.776552+00:00",
+      "cycle_id": 6608,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3442,14 +3442,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6067,
-        "end_cycle": 6067,
+        "start_cycle": 6608,
+        "end_cycle": 6608,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:33.051217+00:00",
-      "cycle_id": 6068,
+      "generated_at": "2026-09-22T21:23:12.831273+00:00",
+      "cycle_id": 6609,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3463,14 +3463,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6068,
-        "end_cycle": 6068,
+        "start_cycle": 6609,
+        "end_cycle": 6609,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:34.104211+00:00",
-      "cycle_id": 6069,
+      "generated_at": "2026-09-22T21:23:13.903151+00:00",
+      "cycle_id": 6610,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3484,14 +3484,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6069,
-        "end_cycle": 6069,
+        "start_cycle": 6610,
+        "end_cycle": 6610,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:35.122437+00:00",
-      "cycle_id": 6070,
+      "generated_at": "2026-09-22T21:23:14.953787+00:00",
+      "cycle_id": 6611,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3505,14 +3505,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6070,
-        "end_cycle": 6070,
+        "start_cycle": 6611,
+        "end_cycle": 6611,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:36.168664+00:00",
-      "cycle_id": 6071,
+      "generated_at": "2026-09-22T21:23:16.089549+00:00",
+      "cycle_id": 6612,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3526,14 +3526,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6071,
-        "end_cycle": 6071,
+        "start_cycle": 6612,
+        "end_cycle": 6612,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:37.188945+00:00",
-      "cycle_id": 6072,
+      "generated_at": "2026-09-22T21:23:17.158501+00:00",
+      "cycle_id": 6613,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3547,14 +3547,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6072,
-        "end_cycle": 6072,
+        "start_cycle": 6613,
+        "end_cycle": 6613,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:38.277754+00:00",
-      "cycle_id": 6073,
+      "generated_at": "2026-09-22T21:23:18.233517+00:00",
+      "cycle_id": 6614,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3568,14 +3568,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6073,
-        "end_cycle": 6073,
+        "start_cycle": 6614,
+        "end_cycle": 6614,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:39.302411+00:00",
-      "cycle_id": 6074,
+      "generated_at": "2026-09-22T21:23:19.316041+00:00",
+      "cycle_id": 6615,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3589,14 +3589,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6074,
-        "end_cycle": 6074,
+        "start_cycle": 6615,
+        "end_cycle": 6615,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:40.313977+00:00",
-      "cycle_id": 6075,
+      "generated_at": "2026-09-22T21:23:20.365070+00:00",
+      "cycle_id": 6616,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3610,14 +3610,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6075,
-        "end_cycle": 6075,
+        "start_cycle": 6616,
+        "end_cycle": 6616,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:41.335246+00:00",
-      "cycle_id": 6076,
+      "generated_at": "2026-09-22T21:23:21.432464+00:00",
+      "cycle_id": 6617,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3631,14 +3631,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6076,
-        "end_cycle": 6076,
+        "start_cycle": 6617,
+        "end_cycle": 6617,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:42.344809+00:00",
-      "cycle_id": 6077,
+      "generated_at": "2026-09-22T21:23:22.475228+00:00",
+      "cycle_id": 6618,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3652,14 +3652,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6077,
-        "end_cycle": 6077,
+        "start_cycle": 6618,
+        "end_cycle": 6618,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:43.383500+00:00",
-      "cycle_id": 6078,
+      "generated_at": "2026-09-22T21:23:23.606052+00:00",
+      "cycle_id": 6619,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3673,14 +3673,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6078,
-        "end_cycle": 6078,
+        "start_cycle": 6619,
+        "end_cycle": 6619,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:44.402020+00:00",
-      "cycle_id": 6079,
+      "generated_at": "2026-09-22T21:23:24.689696+00:00",
+      "cycle_id": 6620,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3694,14 +3694,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6079,
-        "end_cycle": 6079,
+        "start_cycle": 6620,
+        "end_cycle": 6620,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:45.541913+00:00",
-      "cycle_id": 6080,
+      "generated_at": "2026-09-22T21:23:25.769445+00:00",
+      "cycle_id": 6621,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3715,14 +3715,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6080,
-        "end_cycle": 6080,
+        "start_cycle": 6621,
+        "end_cycle": 6621,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:46.561583+00:00",
-      "cycle_id": 6081,
+      "generated_at": "2026-09-22T21:23:26.831955+00:00",
+      "cycle_id": 6622,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3736,14 +3736,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6081,
-        "end_cycle": 6081,
+        "start_cycle": 6622,
+        "end_cycle": 6622,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:47.573720+00:00",
-      "cycle_id": 6082,
+      "generated_at": "2026-09-22T21:23:27.911590+00:00",
+      "cycle_id": 6623,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3757,14 +3757,14 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6082,
-        "end_cycle": 6082,
+        "start_cycle": 6623,
+        "end_cycle": 6623,
         "non_overlapping": true
       }
     },
     {
-      "generated_at": "2026-09-22T21:05:48.616563+00:00",
-      "cycle_id": 6083,
+      "generated_at": "2026-09-22T21:23:28.969733+00:00",
+      "cycle_id": 6624,
       "gate_verdict": "hold",
       "ok": false,
       "failed_checks": [],
@@ -3778,8 +3778,8 @@
         "ast_context_records": 0
       },
       "cadence_window": {
-        "start_cycle": 6083,
-        "end_cycle": 6083,
+        "start_cycle": 6624,
+        "end_cycle": 6624,
         "non_overlapping": true
       }
     }

@@ -38,10 +38,22 @@ jobs:
 
           all_slices = [
               {
-                  "slice_id": "python-core",
+                  "slice_id": "python-core-src",
                   "language": "python",
                   "build_mode": "none",
-                  "paths": ["src", "tests", "recycling", "claims"],
+                  "paths": ["src", "claims"],
+              },
+              {
+                  "slice_id": "python-core-tests",
+                  "language": "python",
+                  "build_mode": "none",
+                  "paths": ["tests", "recycling"],
+              },
+              {
+                  "slice_id": "python-governance-pentad",
+                  "language": "python",
+                  "build_mode": "none",
+                  "paths": ["5-GOVERNANCE/Unitary Pentad"],
               },
               {
                   "slice_id": "python-psicat-runtime",
