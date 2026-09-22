@@ -37,6 +37,7 @@ def test_behavioral_audit_and_epistemic_guard_are_fail_closed() -> None:
     assert audit["summary"]["all_pass"] is True
     guard = evaluate_scientific_closure_guard()
     assert guard["closure_language_allowed"] is False
+    assert "synthetic_residual_guard_not_clear" in guard["blocking_reasons"]
     policy = get_epistemic_claim_status_policy()
     assert any(item["id"] == "benchmark_ready" for item in policy["claim_status_classes"])
 
@@ -316,6 +317,41 @@ def test_phase2_does_not_duplicate_behavioral_blocker(monkeypatch) -> None:
     ) == 1
 
 
+def test_phase2_preserves_nondict_inherited_blockers_when_behavioral_audit_passes(monkeypatch) -> None:
+    monkeypatch.setattr(
+        merlin_behavioral_audit,
+        "run_behavioral_audit_battery",
+        lambda: {
+            "ok": True,
+            "summary": {"all_pass": True},
+            "hard_failures": [],
+        },
+    )
+    phase1_packet = {
+        "blocker_register": [
+            "opaque_external_blocker",
+            {
+                "blocker_id": "behavioral_audit_hard_failures_present",
+                "source": "behavioral_audit",
+                "severity": "high",
+                "reason": "stale blocker",
+            },
+        ],
+        "lane_receipts": [],
+    }
+    packet = merlin_program.run_psicat_spc_phase2_applied_pressure(
+        limit=1,
+        training_limit=1,
+        phase1_packet=phase1_packet,
+        observatory_payload={"governance_observatory": {"active_incidents": []}},
+    )
+    assert "opaque_external_blocker" in packet["blocker_register"]
+    assert not any(
+        isinstance(item, dict) and item.get("blocker_id") == "behavioral_audit_hard_failures_present"
+        for item in packet["blocker_register"]
+    )
+
+
 def test_phase2_can_clear_when_behavioral_audit_passes(monkeypatch) -> None:
     monkeypatch.setattr(
         merlin_behavioral_audit,
@@ -423,6 +459,38 @@ def test_phase3_ignores_unrelated_inherited_phase2_blockers_when_phase2_is_clear
     )
     assert not any(
         item["blocker_id"] == "unrelated_inherited_blocker"
+        for item in packet["blocker_register"]
+    )
+
+
+def test_phase3_preserves_nondict_inherited_blockers_when_behavioral_state_is_clear() -> None:
+    phase2_packet = {
+        "phase_verdict": "PHASE2_CLEAR_ADVANCE_TO_PHASE3",
+        "phase0_packet": {"packet": {}},
+        "applied_pressure_lanes": [],
+        "governance_observatory": {"governance_observatory": {"deployment_constraints": {"block_deployment": False}}},
+        "behavioral_audit": {
+            "summary": {"all_pass": True},
+            "hard_failures": [],
+        },
+        "blocker_register": [
+            "opaque_external_blocker",
+            {
+                "blocker_id": "behavioral_audit_hard_failures_present",
+                "source": "behavioral_audit",
+                "severity": "high",
+                "reason": "stale blocker",
+            },
+        ],
+    }
+    packet = merlin_program.get_psicat_spc_phase3_live_readiness(
+        limit=1,
+        training_limit=1,
+        phase2_packet=phase2_packet,
+    )
+    assert packet["mode"] == "spc_phase3_live_readiness"
+    assert not any(
+        isinstance(item, dict) and item.get("blocker_id") == "behavioral_audit_hard_failures_present"
         for item in packet["blocker_register"]
     )
 

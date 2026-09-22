@@ -8597,7 +8597,7 @@ def run_psicat_spc_phase2_applied_pressure(
         blocker_register = [
             item
             for item in blocker_register
-            if str(item.get("blocker_id") or "") != "behavioral_audit_hard_failures_present"
+            if not isinstance(item, dict) or str(item.get("blocker_id") or "") != "behavioral_audit_hard_failures_present"
         ]
         existing_blocker_ids.discard("behavioral_audit_hard_failures_present")
     if (
@@ -8770,7 +8770,7 @@ def get_psicat_spc_phase3_live_readiness(
         blocker_register = [
             item
             for item in blocker_register
-            if str(item.get("blocker_id") or "") != "behavioral_audit_hard_failures_present"
+            if not isinstance(item, dict) or str(item.get("blocker_id") or "") != "behavioral_audit_hard_failures_present"
         ]
     elif not any(
         str(item.get("blocker_id") or "") == "behavioral_audit_hard_failures_present"

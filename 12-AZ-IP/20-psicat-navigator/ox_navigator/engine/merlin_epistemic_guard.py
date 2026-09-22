@@ -41,8 +41,9 @@ def evaluate_scientific_closure_guard() -> Dict[str, Any]:
     traceability = action_to_evolution_traceability_registry()
     remaining_blockers = list(contract.get("remaining_blockers") or [])
     routing = dict(traceability.get("routing") or {})
+    summary = dict(traceability.get("summary") or {})
     residual_route = str(routing.get("route") or "")
-    residual_clear = residual_route == "SYNTHETIC_TRACEABILITY_PASS_NOT_CLOSURE"
+    residual_clear = bool(summary.get("closure_earned")) and bool(routing.get("theoretical_closure_allowed"))
     closure_allowed = bool(contract.get("promotion_ready")) and residual_clear
     reasons = []
     if remaining_blockers:
