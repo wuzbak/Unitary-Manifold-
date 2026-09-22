@@ -8170,6 +8170,7 @@ def _run_to_evidence_packet(run: dict[str, Any], *, lane_id: str) -> dict[str, A
             "score_100": score_100,
             "shadow_ok": bool(run.get("merlin_shadow_ok")),
         },
+        "merlin_telemetry": telemetry,
         "telemetry": {
             "provider": str(telemetry.get("provider") or ""),
             "lane": str(telemetry.get("lane") or ""),

@@ -232,6 +232,35 @@ def test_phase_telemetry_collection_accepts_legacy_and_new_packet_keys() -> None
     assert [run["provider"] for run in runs] == ["sovereign_local", "openrouter_compat"]
 
 
+def test_run_to_evidence_packet_preserves_full_merlin_telemetry_for_budget_summary() -> None:
+    packet = merlin_program._run_to_evidence_packet(
+        {
+            "benchmark_id": "scenario-1",
+            "merlin_evaluation": {
+                "score": 1.0,
+                "pass": True,
+                "checks": {
+                    "contract": {"Sources:": True, "FOLLOWUPS:": True},
+                    "provenance": {"repo": True},
+                    "gates": {},
+                },
+            },
+            "merlin_shadow_ok": True,
+            "merlin_telemetry": {
+                "provider": "sovereign_local",
+                "lane": "medium_reasoner_default",
+                "latency_ms": 4.0,
+                "kernel": {"id": "kernel_g"},
+            },
+        },
+        lane_id="lane_a",
+    )
+    assert packet["telemetry"]["provider"] == "sovereign_local"
+    assert packet["merlin_telemetry"]["kernel"]["id"] == "kernel_g"
+    runs = merlin_program._collect_phase_telemetry_runs([{"evidence_packets": [packet]}])
+    assert runs[0]["kernel"]["id"] == "kernel_g"
+
+
 def test_phase_telemetry_collection_accepts_lane_review_evidence_packets() -> None:
     runs = merlin_program._collect_phase_telemetry_runs(
         [
