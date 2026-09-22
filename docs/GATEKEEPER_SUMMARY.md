@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v37.7
+# Unitary Manifold v38.0
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -22,6 +22,8 @@ Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
 
+> **Sprint CV (v38.0 — 2026-09-22):** 7 pillars (1122-1128), a three-lane earned-version sprint. P1122 locks the charter (Lane 1 physics, Lane 2 PsiCat, Lane 3 monorepo health). P1123 re-attempts action-to-evolution closure and honestly reports a precise blocker certificate — no new hardgate physics closure is claimed. P1124 executes the real PsiCat SPC Phase 2 applied-pressure battery and earns a receipt-backed clear/promoted verdict. P1125 audits and repairs monorepo health, resolving the tests/ large-directory violation and the docs/mas_tracker.yml YAML-parse failure. P1126 is the documentation evidence packet. P1127 is the status coherence certificate. P1128 is the master integration certificate computing the version-earning gate. Lean4 4080→4080 (+0). Verified full regression in current branch history: REGRESSION_PLACEHOLDER_CV. Focused regression: Sprint CV lane/charter/certificate suites REGRESSION_FOCUSED_PLACEHOLDER_CV passed · 0 failed. Next slot 1129.
+>
 > **Sprint CU (v37.7 — 2026-09-15):** 1 pillar (1121). P1121 adds a fail-closed routing packet that answers five operationally important questions without inflating any physics claim: where the repo now stands after the foundation reassessment, what physics remains unfinished, what execution surfaces are genuinely stronger than before, what the single next full-focus physics sprint should be, and where PsiCat stands on benchmarking/promotion. The packet locks the next physics sprint to action-to-evolution only, with exactly two acceptable outcomes: a verified action/equation/residual/domain package or an explicit blocker certificate. PsiCat is recorded as benchmark-ready and promotion-ready only for the next governed phase-2 applied-pressure step under continued receipt discipline, not for unconditional sovereign promotion. Lean4 4080→4080 (+0). Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed. Focused regression: Sprint CU routing and ledger suites 46 passed · 0 failed. Next slot 1122.
 >
 

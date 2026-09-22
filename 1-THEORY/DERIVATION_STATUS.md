@@ -14,10 +14,12 @@
 > Photon origin and action-to-evolution equivalence remain open. No new physics
 > closure is claimed.
 
-**The Unitary Manifold v37.7 — Unambiguous Record**
+**The Unitary Manifold v38.0 — Unambiguous Record**
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-15 (v37.7 — Sprint CU: Pillar 1121; fail-closed routing packet locks the next full-focus physics sprint to action-to-evolution and records PsiCat as benchmark-ready / phase-2-promotion-ready only under receipt discipline; Lean4 4080→4080; 64,150 passed · 22 skipped · 18 deselected · 0 failed; next slot 1122.)*
-*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (tests/ + recycling/ + Pentad; 2026-09-10).*
+*Last updated: 2026-09-22 (v38.0 — Sprint CV: Pillars 1122-1128; three-lane earned-version sprint — Lane 1 honest action-to-evolution blocker certificate, Lane 2 receipt-backed PsiCat SPC Phase 2 promotion, Lane 3 monorepo health tightening incl. the mas_tracker.yml staleness/YAML-parse fix; Lean4 4080→4080; REGRESSION_PLACEHOLDER_CV; next slot 1129.)*
+*Latest verified full regression: REGRESSION_PLACEHOLDER_CV (tests/ + recycling/ + Pentad; 2026-09-22).*
+
+*Historical continuity note: The Unitary Manifold v37.7 retained the marker `Last updated: 2026-09-15 (v37.7 — Sprint CU: Pillar 1121; ...; next slot 1122.)` for the action-to-evolution full-focus routing packet.*
 
 *Historical continuity note: The Unitary Manifold v37.6 retained the marker `Last updated: 2026-09-10 (v37.6 — Sprint CT: Pillar 1120; ...; next slot 1121.)` for the governed PsiCat training-benchmarking-promotion packet.*
 

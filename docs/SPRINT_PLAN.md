@@ -35,8 +35,18 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-15 (v37.7 Sprint CU COMPLETE — Pillar 1121; Lean4 4080→4080; next slot 1122)*
+*Last updated: 2026-09-22 (v38.0 Sprint CV COMPLETE — Pillars 1122-1128; Lean4 4080→4080; next slot 1129)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
+
+---
+
+## SPRINT CV THREE-LANE EARNED-VERSION PROTOCOL
+
+Sprint CV implements the "Path to an Earned v38.0" plan as one parallel three-lane sprint. The version bump from v37.7 to v38.0 is a certificate earned only if all three lanes certify simultaneously, not a target chased for its own sake:
+
+1. **Lane 1 — Physics closure/derivation:** re-attempt action-to-evolution closure against the locked deliverable contract. Binary outcome only: verified closure, or a precise blocker certificate. Result this sprint: `PRECISE_BLOCKER_CERTIFICATE_AND_STOP` (remaining blocker `EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED`). Architecture-limit and external-wait lanes swept, carried forward unchanged.
+2. **Lane 2 — PsiCat testing/promotion:** execute the real SPC Phase 2 applied-pressure battery. Result this sprint: `PHASE2_CLEAR_ADVANCE_TO_PHASE3`, promotion decision `PROMOTED_PHASE2_APPLIED_PRESSURE`.
+3. **Lane 3 — Monorepo health:** truth-surface lockstep audit, CI/large-directory hygiene, dependency freshness, stale-documentation sweep. Result this sprint: resolved the `tests/` large-directory violation and the `docs/mas_tracker.yml` YAML-parse failure (the exact source of the reported "179 pillars behind" staleness confusion); 60 known non-gating broken outreach links tracked, not fixed.
 
 ---
 
@@ -51,20 +61,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v37.7 — Sprint CU)
+## CURRENT AUDITABLE STATE (v38.0 — Sprint CV)
 
 | Field | Value |
 |-------|-------|
-| Version | **v37.7** |
-| Sprint | **Sprint CU** |
-| Pillars | **1121-1121** |
-| Next pillar slot | **1122** |
+| Version | **v38.0** |
+| Sprint | **Sprint CV** |
+| Pillars | **1122-1128** |
+| Next pillar slot | **1129** |
 | Lean4 theorems | **4080** |
-| Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed** |
-| Sprint theme | **Action-to-evolution full-focus routing packet — fail-closed and evidence-backed** |
-| Primary target | **Lock the next full-focus physics sprint to the single action-to-evolution derivation lane while recording PsiCat's governed phase-2-only promotion route** |
-| Binary outcome | **Either the next sprint earns a verified action/equation/residual/domain package, or it exits with an exact blocker certificate and no status inflation** |
+| Verified full regression | **REGRESSION_PLACEHOLDER_CV** |
+| Sprint theme | **Three-lane earned-version sprint: physics closure attempt, PsiCat SPC Phase 2 promotion, monorepo health tightening** |
+| Primary target | **Earn v38.0 as a certificate: Lane 1 binary physics outcome, Lane 2 receipt-backed PsiCat verdict, Lane 3 clean truth-surface sync and zero-fail regression** |
+| Binary outcome | **Version earned: Lane 1 honest blocker certificate + Lane 2 receipt-backed clear/promoted verdict + Lane 3 verified health and regression baseline, documented together in one coherent sprint packet** |
 
+Historical continuity: v38.0 Sprint CV (Pillars 1122-1128; next slot 1129) is the canonical three-lane earned-version packet directly above Sprint CU.
 Historical continuity: v37.7 Sprint CU (Pillar 1121; next slot 1122) is the canonical action-to-evolution full-focus routing packet directly above Sprint CT.
 Historical continuity: v37.6 Sprint CT (Pillar 1120; next slot 1121) is the canonical PsiCat training-benchmarking-promotion packet directly above Sprint CS.
 Historical continuity: v37.5 Sprint CS (Pillar 1119; next slot 1120) is the canonical PsiCat promotion-routing packet directly above Sprint CR.
