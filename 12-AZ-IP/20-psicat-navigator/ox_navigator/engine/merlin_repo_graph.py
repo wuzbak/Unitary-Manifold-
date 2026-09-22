@@ -88,6 +88,11 @@ def _python_record(path: Path) -> Dict[str, Any]:
                 prefix = "." * int(getattr(node, "level", 0) or 0)
                 if node.module:
                     imports.append(f"{prefix}{node.module}")
+                    imports.extend(
+                        f"{prefix}{node.module}.{alias.name}"
+                        for alias in node.names
+                        if alias.name and alias.name != "*"
+                    )
                 else:
                     imports.extend(f"{prefix}{alias.name}" for alias in node.names if alias.name)
     return {
@@ -128,6 +133,10 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     token_sets = {path: set(record.get("tokens") or []) for path, record in by_path.items()}
     edges: List[Dict[str, Any]] = []
     known_paths = set(by_path)
+    symbol_frequency: dict[str, int] = {}
+    for symbols in symbol_sets.values():
+        for symbol in symbols:
+            symbol_frequency[symbol] = symbol_frequency.get(symbol, 0) + 1
     token_to_paths: dict[str, set[str]] = {}
     for path, tokens in token_sets.items():
         for token in tokens:
@@ -159,6 +168,8 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
                     )
         overlap_paths: set[str] = set()
         for symbol in symbol_sets[record["path"]]:
+            if len(symbol) < 4 or symbol.startswith("__") or symbol_frequency.get(symbol, 0) > 8:
+                continue
             overlap_paths.update(token_to_paths.get(symbol, set()))
         for other_path in overlap_paths:
             if other_path == record["path"]:
