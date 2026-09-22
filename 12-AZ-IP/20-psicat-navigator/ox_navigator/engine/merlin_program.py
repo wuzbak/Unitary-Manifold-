@@ -8578,7 +8578,10 @@ def run_psicat_spc_phase2_applied_pressure(
         if isinstance(item, dict)
     )
     behavioral_audit = run_behavioral_audit_battery()
-    behavioral_hard_failures_present = bool(list(behavioral_audit.get("hard_failures") or []))
+    behavioral_summary = dict(behavioral_audit.get("summary") or {})
+    behavioral_hard_failures_present = bool(list(behavioral_audit.get("hard_failures") or [])) or (
+        behavioral_summary.get("all_pass") is False
+    )
     if not behavioral_hard_failures_present:
         blocker_register = [
             item

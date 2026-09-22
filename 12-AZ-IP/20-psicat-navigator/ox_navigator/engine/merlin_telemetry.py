@@ -240,12 +240,17 @@ def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str
         "retrieval_hit_count": int(quality.get("retrieval_hit_count", 0) or 0) <= int(ceilings.get("retrieval_hit_count_max", 0) or 0),
     }
     degraded_mode = bool(((run.get("kernel_attribution") or {}).get("degraded_mode")) or quality.get("demotion_triggered"))
+    provider = str(
+        run.get("provider")
+        or ((run.get("router_decision") or {}).get("provider"))
+        or "sovereign_local"
+    )
     all_pass = all(checks.values())
     return {
         "policy_id": str(active_policy.get("policy_id") or "unknown"),
         "checks": checks,
         "all_pass": all_pass,
-        "execution_class": "fully_local" if str(run.get("provider") or "") == "sovereign_local" else "compatibility_only_external",
+        "execution_class": "fully_local" if provider == "sovereign_local" else "compatibility_only_external",
         "degraded_mode_visible": degraded_mode,
     }
 

@@ -118,6 +118,24 @@ def test_phase2_holds_when_behavioral_audit_has_hard_failures(monkeypatch) -> No
     )
 
 
+def test_phase2_holds_when_behavioral_audit_summary_fails_without_explicit_hard_failures(monkeypatch) -> None:
+    monkeypatch.setattr(
+        merlin_behavioral_audit,
+        "run_behavioral_audit_battery",
+        lambda: {
+            "ok": True,
+            "summary": {"all_pass": False},
+            "hard_failures": [],
+        },
+    )
+    packet = merlin_program.run_psicat_spc_phase2_applied_pressure(limit=1, training_limit=1)
+    assert packet["phase_verdict"] == "PHASE2_HOLD_REMEDIATE"
+    assert any(
+        item["blocker_id"] == "behavioral_audit_hard_failures_present"
+        for item in packet["blocker_register"]
+    )
+
+
 def test_phase2_does_not_duplicate_behavioral_blocker(monkeypatch) -> None:
     monkeypatch.setattr(
         merlin_behavioral_audit,

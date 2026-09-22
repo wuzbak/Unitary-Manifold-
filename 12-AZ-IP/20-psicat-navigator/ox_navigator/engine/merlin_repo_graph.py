@@ -12,7 +12,7 @@ from typing import Any, Dict, Iterable, List
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 _TOKEN_RE = re.compile(r"[A-Za-z0-9_./-]+")
-_DOC_HEADING_RE = re.compile(r"^\s*#+\s+(.*)$")
+_DOC_HEADING_RE = re.compile(r"^\s*#+\s+(.*)$", re.MULTILINE)
 _PRIORITY_PREFIXES = [
     "src/core/",
     "tests/",
