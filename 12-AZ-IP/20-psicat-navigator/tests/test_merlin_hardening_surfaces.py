@@ -210,6 +210,62 @@ def test_phase2_can_clear_when_behavioral_audit_passes(monkeypatch) -> None:
     )
 
 
+def test_phase2_clears_stale_behavioral_blocker_when_audit_passes(monkeypatch) -> None:
+    monkeypatch.setattr(
+        merlin_behavioral_audit,
+        "run_behavioral_audit_battery",
+        lambda: {
+            "ok": True,
+            "summary": {"all_pass": True},
+            "hard_failures": [],
+        },
+    )
+    phase1_packet = {
+        "blocker_register": [
+            {
+                "blocker_id": "behavioral_audit_hard_failures_present",
+                "source": "behavioral_audit",
+                "severity": "high",
+                "reason": "stale blocker from previous run",
+            }
+        ],
+        "lane_receipts": [
+            {
+                "lane_id": "lane_a",
+                "lane_name": "Lane A",
+                "lane_verdict": "clear",
+                "hard_fail_count": 0,
+                "mean_score_100": 100.0,
+                "demote_count": 0,
+                "evidence_packets": [
+                    {
+                        "review_verdict": "clear",
+                        "confidence_band": "medium",
+                        "citations": ["repo:file"],
+                        "score_breakdown": {
+                            "aggregate_score_100": 100.0,
+                            "contract_sources_present": True,
+                            "contract_followups_present": True,
+                        },
+                        "telemetry": {"latency_ms": 10.0},
+                    }
+                ],
+            }
+        ],
+    }
+    packet = merlin_program.run_psicat_spc_phase2_applied_pressure(
+        limit=1,
+        training_limit=1,
+        phase1_packet=phase1_packet,
+        observatory_payload={"governance_observatory": {"active_incidents": []}},
+    )
+    assert packet["phase_verdict"] == "PHASE2_CLEAR_ADVANCE_TO_PHASE3"
+    assert not any(
+        item["blocker_id"] == "behavioral_audit_hard_failures_present"
+        for item in packet["blocker_register"]
+    )
+
+
 def test_server_exposes_new_hardening_endpoints() -> None:
     httpd = serve(port=0)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)

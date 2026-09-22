@@ -8579,6 +8579,13 @@ def run_psicat_spc_phase2_applied_pressure(
     )
     behavioral_audit = run_behavioral_audit_battery()
     behavioral_hard_failures_present = bool(list(behavioral_audit.get("hard_failures") or []))
+    if not behavioral_hard_failures_present:
+        blocker_register = [
+            item
+            for item in blocker_register
+            if str(item.get("blocker_id") or "") != "behavioral_audit_hard_failures_present"
+        ]
+        existing_blocker_ids.discard("behavioral_audit_hard_failures_present")
     if (
         behavioral_hard_failures_present
         and "behavioral_audit_hard_failures_present" not in existing_blocker_ids
@@ -8818,8 +8825,6 @@ def get_psicat_achievement_benchmark_promotion_sprint(
     session: MerlinSession | None = None,
 ) -> dict[str, Any]:
     from .merlin_memory import MerlinSession
-    from .merlin_behavioral_audit import run_behavioral_audit_battery
-    from .merlin_epistemic_guard import evaluate_scientific_closure_guard, get_epistemic_claim_status_policy
 
     resolved_limit = _coerce_frontier_limit(limit, default=3)
     resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
@@ -8899,9 +8904,11 @@ def get_psicat_achievement_benchmark_promotion_sprint(
     phase2_clear = str(spc_phase2.get("phase_verdict") or "") == "PHASE2_CLEAR_ADVANCE_TO_PHASE3"
     phase3_clear = str(spc_phase3.get("live_readiness_verdict") or "") == "PHASE3_LIVE_READY"
     frontier_clear = bool(frontier.get("promotion_blockers_all_clear"))
-    behavioral_audit = run_behavioral_audit_battery()
-    epistemic_policy = get_epistemic_claim_status_policy()
-    scientific_closure_guard = evaluate_scientific_closure_guard()
+    behavioral_audit = dict(spc_phase2.get("behavioral_audit") or {})
+    epistemic_policy = dict(spc_phase3.get("epistemic_policy") or spc_phase2.get("epistemic_policy") or {})
+    scientific_closure_guard = dict(
+        spc_phase3.get("scientific_closure_guard") or spc_phase2.get("scientific_closure_guard") or {}
+    )
 
     achievement_board = [
         {

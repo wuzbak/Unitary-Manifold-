@@ -32,7 +32,8 @@ def _priority_key(path: Path) -> tuple[int, str]:
     return (len(_PRIORITY_PREFIXES), rel)
 
 
-def _candidate_files(max_files: int) -> List[Path]:
+@lru_cache(maxsize=16)
+def _candidate_files(max_files: int) -> tuple[Path, ...]:
     pool: List[Path] = []
     for pattern in (
         "src/**/*.py",
@@ -46,7 +47,7 @@ def _candidate_files(max_files: int) -> List[Path]:
     ):
         pool.extend(REPO_ROOT.glob(pattern))
     unique = sorted({path.resolve() for path in pool if path.is_file()}, key=_priority_key)
-    return unique[: max(1, min(int(max_files), 600))]
+    return tuple(unique[: max(1, min(int(max_files), 600))])
 
 
 def _state_signature(files: List[Path]) -> tuple[tuple[str, int, int], ...]:
@@ -178,7 +179,7 @@ def _build_repo_graph_cached(max_files: int, state_signature: tuple[tuple[str, i
 
 def build_repo_graph(*, max_files: int = 180) -> Dict[str, Any]:
     """Build a bounded deterministic repository graph for routing."""
-    files = _candidate_files(max_files=max_files)
+    files = list(_candidate_files(max_files=max_files))
     return _build_repo_graph_cached(max_files, _state_signature(files))
 
 
