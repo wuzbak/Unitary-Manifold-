@@ -17,7 +17,7 @@ Each piece is:
 
 ## Current coverage in this pass
 
-Coverage so far: **48 / 48 books**, **351 / 351 articles**.
+Coverage so far: **48 / 48 books**, **352 / 352 articles**.
 
 ### Books
 
@@ -423,6 +423,7 @@ Coverage so far: **48 / 48 books**, **351 / 351 articles**.
 349. `article-349-post-323-s04e026-sprint-ci-merlin-handoff-and-next-sprint-map.md`
 350. `article-350-post-324-s04e027-sprint-ci-closeout-verdict.md`
 351. `article-351-post-327-s04e030-ai-extinction-risk-governance-and-the-honest-monorepo.md`
+352. `article-352-post-329-repository-tracker-refresh-sep-2026.md`
 
 ## Version and gate policy
 
