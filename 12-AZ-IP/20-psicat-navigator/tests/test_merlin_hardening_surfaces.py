@@ -171,6 +171,20 @@ def test_repo_graph_relative_import_matches_package_init_target() -> None:
     assert "pkg/subpkg/__init__.py" in candidates
 
 
+def test_phase_telemetry_collection_accepts_legacy_and_new_packet_keys() -> None:
+    runs = merlin_program._collect_phase_telemetry_runs(
+        [
+            {
+                "evidence_packets": [
+                    {"telemetry": {"provider": "sovereign_local", "latency_ms": 1.0}},
+                    {"merlin_telemetry": {"provider": "openrouter_compat", "latency_ms": 2.0}},
+                ]
+            }
+        ]
+    )
+    assert [run["provider"] for run in runs] == ["sovereign_local", "openrouter_compat"]
+
+
 def test_phase2_holds_when_behavioral_audit_has_hard_failures(monkeypatch) -> None:
     monkeypatch.setattr(
         merlin_behavioral_audit,
