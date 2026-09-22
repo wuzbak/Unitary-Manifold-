@@ -1939,12 +1939,17 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     spc_phase2_data = spc_phase2['result']['data']
     assert spc_phase2_data['mode'] == 'spc_phase2_applied_pressure_execution'
     assert len(spc_phase2_data['applied_pressure_lanes']) == 3
+    assert spc_phase2_data['scientific_closure_guard']['closure_language_allowed'] is False
+    assert spc_phase2_data['resource_budget_policy']['local_first'] is True
+    assert spc_phase2_data['behavioral_audit']['summary']['all_pass'] is True
     assert spc_phase2_data['phase_verdict'] in {'PHASE2_CLEAR_ADVANCE_TO_PHASE3', 'PHASE2_HOLD_REMEDIATE'}
     spc_phase3 = route_tool('getPsiCatSpcPhase3LiveReadiness', {'limit': 2, 'training_limit': 3})
     assert spc_phase3['ok'] is True
     spc_phase3_data = spc_phase3['result']['data']
     assert spc_phase3_data['mode'] == 'spc_phase3_live_readiness'
     assert isinstance(spc_phase3_data['integrated_run_receipts'], list)
+    assert spc_phase3_data['scientific_closure_guard']['closure_language_allowed'] is False
+    assert spc_phase3_data['resource_budget_summary']['policy']['local_first'] is True
     assert spc_phase3_data['live_readiness_verdict'] in {'PHASE3_LIVE_READY', 'PHASE3_HOLD_REMEDIATE'}
     assert promotion_sprint_data['mode'] == 'achievement_benchmark_promotion_sprint'
     assert len(promotion_sprint_data['achievement_board']) >= 7
@@ -1955,6 +1960,9 @@ def test_route_tool_sprint_review_and_sovereign_boards():
     assert len(promotion_sprint_data['benchmark_board']['spc_phase1_lane_receipts']) == 3
     assert promotion_sprint_data['benchmark_board']['spc_phase2_applied_pressure']['mode'] == 'spc_phase2_applied_pressure_execution'
     assert promotion_sprint_data['benchmark_board']['spc_phase3_live_readiness']['mode'] == 'spc_phase3_live_readiness'
+    assert promotion_sprint_data['scientific_closure_guard']['closure_language_allowed'] is False
+    assert promotion_sprint_data['promotion_readiness']['scientific_closure_ready'] is False
+    assert promotion_sprint_data['benchmark_board']['behavioral_audit']['summary']['all_pass'] is True
     assert promotion_sprint_data['benchmark_board']['kernel_governance_packet']['packet_id'] == (
         'psicat_kernel_governance_packet_v1'
     )

@@ -86,6 +86,13 @@ Related reading outside this product folder:
 - `GET /api/psicat/masterclass-execution` returns the integrated geometry-first, branch-aware, swarm-safe execution packet.
 - `GET /api/psicat/spc-phase2-applied-pressure` returns the governed applied-pressure packet for all three SPC lanes, including decision-quality, false-confidence, traceability, replay, and observatory pressure blockers.
 - `GET /api/psicat/spc-phase3-live-readiness` returns the integrated live-readiness packet, including consecutive clean-run checks, governance traceability review, and authority-tier posture.
+- `GET /api/psicat/action-traceability` exposes the executable action-to-evolution residual audit/receipt surface and explicitly preserves non-closure routing when residual gates remain open.
+- `GET /api/psicat/epistemic-policy` exposes the centralized claim-status policy used to keep runtime/UI/promotion language aligned with scientific gate state.
+- `GET /api/psicat/repo-graph` and `GET /api/psicat/context-route` expose local-first structural repository mapping and deterministic context routing for low-waste retrieval.
+- `GET /api/psicat/formal-invariants` exposes the bounded formal non-regression registry and current machine-checked invariant results.
+- `GET /api/psicat/resource-budget` exposes local-first resource ceilings, execution-class policy, and budget posture.
+- `GET /api/psicat/behavioral-audit` exposes the deterministic applied-pressure/manipulation-resistance audit battery.
+- `GET /api/psicat/consciousness-boundary` exposes the adjacent-track boundary map separating speculative consciousness modeling from hardgate truth claims.
 - `GET /api/psicat/swarm-observatory` returns session-backed governance observability for swarm pressure, branch-review friction, drift alerts, and training-conversion targets.
 - `GET /api/psicat/branch-convergence` returns the visible-branch convergence packet with working-tree state, dependency overlap, collision risk, and promotion-authority requirements.
 - `POST /api/psicat/branch-convergence-review` validates whether intent, dependency, collision, and promotion evidence are complete enough for user-directed convergence review.

@@ -189,6 +189,67 @@ def build_run_telemetry(
     }
 
 
+def get_resource_budget_policy() -> dict[str, Any]:
+    """Return hard ceilings for local-first execution budgeting."""
+    return {
+        "policy_id": "psicat_resource_budget_policy_v1",
+        "local_first": True,
+        "compatibility_only_external_fallback": True,
+        "ceilings": {
+            "token_total_estimate_max": 12000,
+            "rss_peak_kb_max": 2_500_000,
+            "latency_ms_max": 30_000,
+            "tool_rounds_max": 12,
+            "retrieval_hit_count_max": 24,
+        },
+        "fallback_policy": {
+            "preferred": "fully_local",
+            "degraded_mode_allowed": True,
+            "external_provider_mode": "compatibility_only",
+        },
+        "guardrail": (
+            "Crossing a budget ceiling does not imply failure by itself, but it must be visible as bounded or degraded execution."
+        ),
+    }
+
+
+def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Evaluate one telemetry record against the resource ceilings."""
+    active_policy = policy or get_resource_budget_policy()
+    ceilings = dict(active_policy.get("ceilings") or {})
+    tokens = dict(run.get("tokens") or {})
+    quality = dict(run.get("quality_signals") or {})
+    checks = {
+        "token_total_estimate": int(tokens.get("total_estimate", 0) or 0) <= int(ceilings.get("token_total_estimate_max", 0) or 0),
+        "rss_peak_kb": int(run.get("rss_peak_kb", 0) or 0) <= int(ceilings.get("rss_peak_kb_max", 0) or 0),
+        "latency_ms": float(run.get("latency_ms", 0.0) or 0.0) <= float(ceilings.get("latency_ms_max", 0.0) or 0.0),
+        "tool_rounds": int(run.get("tool_rounds", 0) or 0) <= int(ceilings.get("tool_rounds_max", 0) or 0),
+        "retrieval_hit_count": int(quality.get("retrieval_hit_count", 0) or 0) <= int(ceilings.get("retrieval_hit_count_max", 0) or 0),
+    }
+    degraded_mode = bool(((run.get("kernel_attribution") or {}).get("degraded_mode")) or quality.get("demotion_triggered"))
+    all_pass = all(checks.values())
+    return {
+        "policy_id": str(active_policy.get("policy_id") or "unknown"),
+        "checks": checks,
+        "all_pass": all_pass,
+        "execution_class": "fully_local" if str(run.get("provider") or "") == "sovereign_local" else "compatibility_only_external",
+        "degraded_mode_visible": degraded_mode,
+    }
+
+
+def summarize_budget_compliance(runs: list[dict[str, Any]], *, policy: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Summarize budget compliance across a run list."""
+    active_policy = policy or get_resource_budget_policy()
+    audits = [evaluate_resource_budget_compliance(run, policy=active_policy) for run in runs]
+    return {
+        "policy": active_policy,
+        "run_count": len(audits),
+        "all_pass": all(item.get("all_pass") for item in audits) if audits else True,
+        "degraded_mode_count": sum(1 for item in audits if bool(item.get("degraded_mode_visible"))),
+        "audits": audits,
+    }
+
+
 def summarize_runs(runs: list[dict[str, Any]]) -> dict[str, Any]:
     if not runs:
         return {

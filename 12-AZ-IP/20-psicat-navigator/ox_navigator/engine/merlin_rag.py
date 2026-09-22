@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from .merlin_counterexample import build_counterexample_digest
+from .merlin_repo_graph import route_context_via_repo_graph
 from .merlin_training_execution import get_merlin_lane_e_runtime_profiles
 from .interrogator import load_kb, search_kb
 
@@ -144,6 +145,11 @@ def build_context_scaffold(
         if session is not None
         else {"ok": True, "model": "merlin_geometric_memory_map_v1", "landmark_count": 0, "frames": {}}
     )
+    structural_route = route_context_via_repo_graph(
+        query,
+        max_hits=max(3, min(normalized_ast_file_limit, 8)),
+        max_files=max(120, normalized_ast_file_limit * 20),
+    )
     runtime_alignment = {
         "local_first": True,
         "openrouter_compat_enabled": bool(os.environ.get("MERLIN_ENABLE_OPENROUTER_COMPAT")),
@@ -151,6 +157,7 @@ def build_context_scaffold(
         "agent_toolkit_path": "/api/agentToolkit",
         "invoke_path": "/api/agentInvoke",
         "orchestrate_path": "/api/agentOrchestrate",
+        "context_routing_mode": str(structural_route.get("mode") or "deterministic_repo_graph_context_route"),
     }
     if generic.get("lane", {}).get("lane_id") == "runtime_performance":
         lane_e_payload = get_merlin_lane_e_runtime_profiles(refresh=False)
@@ -178,6 +185,7 @@ def build_context_scaffold(
             "landmark_count": int(memory_geometry.get("landmark_count", 0) or 0),
         },
         "runtime_alignment": runtime_alignment,
+        "structural_route": structural_route,
     }
 
 
@@ -216,6 +224,10 @@ def render_context_scaffold(scaffold: dict[str, Any]) -> str:
         f"openrouter_compat_enabled={bool(runtime.get('openrouter_compat_enabled'))} | "
         f"agent_paths={runtime.get('agent_toolkit_path')}, {runtime.get('invoke_path')}, {runtime.get('orchestrate_path')}"
     )
+    structural = dict(scaffold.get("structural_route") or {})
+    suggested = [item.get("path") for item in list(structural.get("suggested_files") or [])[:3] if item.get("path")]
+    if suggested:
+        blocks.append("[STRUCTURAL ROUTE]\n" + "\n".join(str(item) for item in suggested))
     return "\n\n".join(blocks)
 
 

@@ -19,6 +19,9 @@ philosophically meaningful sense is not established here.
 This is not a proof that consciousness is a 5D geometric phenomenon.  The
 coupled-attractor model is internally consistent.  External validation (neural
 measurements showing the predicted (5,7) frequency lock) has not been performed.
+Operational safety, anthropomorphic-risk boundaries, and adjacent-track claim
+limits are tracked separately in `src/consciousness/research_boundaries.py` so
+this lane does not drift into hardgate or closure language.
 
 ## Tests
 
