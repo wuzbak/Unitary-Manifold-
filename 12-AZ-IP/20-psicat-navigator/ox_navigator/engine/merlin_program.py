@@ -8578,8 +8578,9 @@ def run_psicat_spc_phase2_applied_pressure(
         if isinstance(item, dict)
     )
     behavioral_audit = run_behavioral_audit_battery()
+    behavioral_hard_failures_present = bool(list(behavioral_audit.get("hard_failures") or []))
     if (
-        list(behavioral_audit.get("hard_failures") or [])
+        behavioral_hard_failures_present
         and "behavioral_audit_hard_failures_present" not in existing_blocker_ids
     ):
         blocker_register.append(
@@ -8595,7 +8596,12 @@ def run_psicat_spc_phase2_applied_pressure(
             }
         )
     hardening_bundle = _build_psicat_hardening_policy_bundle(phase2_lanes)
-    phase2_pass = bool(phase2_lanes) and all(lane["pressure_gate_pass"] for lane in phase2_lanes) and not blocker_register
+    phase2_pass = (
+        bool(phase2_lanes)
+        and all(lane["pressure_gate_pass"] for lane in phase2_lanes)
+        and not observatory_blockers
+        and not behavioral_hard_failures_present
+    )
     phase_gate_ledger = {
         "clear_count": sum(1 for lane in phase2_lanes if lane["pressure_verdict"] == "clear"),
         "hold_count": sum(1 for lane in phase2_lanes if lane["pressure_verdict"] == "hold"),

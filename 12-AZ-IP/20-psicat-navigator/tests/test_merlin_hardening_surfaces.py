@@ -163,7 +163,14 @@ def test_phase2_can_clear_when_behavioral_audit_passes(monkeypatch) -> None:
         },
     )
     phase1_packet = {
-        "blocker_register": [],
+        "blocker_register": [
+            {
+                "blocker_id": "unrelated_inherited_blocker",
+                "source": "phase1",
+                "severity": "low",
+                "reason": "should not affect current phase2 pass/fail once remediated elsewhere",
+            }
+        ],
         "lane_receipts": [
             {
                 "lane_id": "lane_a",
