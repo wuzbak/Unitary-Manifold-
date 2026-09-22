@@ -138,6 +138,27 @@ def test_resource_budget_policy_respects_local_first_override() -> None:
     assert compliance["all_pass"] is False
 
 
+def test_resource_budget_policy_marks_unknown_external_provider_as_unsupported() -> None:
+    run = build_run_telemetry(
+        query="Unsupported provider audit.",
+        answer="GOVERNANCE\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={"provider": "anthropic", "lane": "medium_reasoner_default"},
+        context_source="external_provider",
+        tool_rounds=1,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "repo"}]},
+        gate_badges=["GOVERNANCE"],
+        memory_hits=1,
+        contradiction_events=0,
+        latency_ms=12.0,
+        retrieval_hit_count=3,
+    )
+    compliance = evaluate_resource_budget_compliance(run, policy=get_resource_budget_policy())
+    assert compliance["execution_class"] == "unsupported_external"
+    assert compliance["checks"]["provider_mode"] is False
+    assert compliance["all_pass"] is False
+
+
 def test_route_tool_exposes_hardening_surfaces() -> None:
     traceability = route_tool("getMerlinActionTraceability", {})
     assert traceability["ok"] is True
@@ -183,6 +204,23 @@ def test_phase_telemetry_collection_accepts_legacy_and_new_packet_keys() -> None
         ]
     )
     assert [run["provider"] for run in runs] == ["sovereign_local", "openrouter_compat"]
+
+
+def test_phase_telemetry_collection_accepts_lane_review_evidence_packets() -> None:
+    runs = merlin_program._collect_phase_telemetry_runs(
+        [
+            {
+                "lane_reviews": [
+                    {
+                        "evidence_packet": {
+                            "telemetry": {"provider": "sovereign_local", "latency_ms": 3.0}
+                        }
+                    }
+                ]
+            }
+        ]
+    )
+    assert [run["provider"] for run in runs] == ["sovereign_local"]
 
 
 def test_phase2_holds_when_behavioral_audit_has_hard_failures(monkeypatch) -> None:

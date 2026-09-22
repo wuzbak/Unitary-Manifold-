@@ -247,11 +247,18 @@ def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str
     )
     fallback_policy = dict(active_policy.get("fallback_policy") or {})
     compatibility_providers = {"openrouter_compat", "incumbent_compat"}
+    provider_class = (
+        "fully_local"
+        if provider == "sovereign_local"
+        else "compatibility_only_external"
+        if provider in compatibility_providers
+        else "unsupported_external"
+    )
     provider_mode_allowed = (
-        provider == "sovereign_local"
+        provider_class == "fully_local"
         and bool(active_policy.get("local_first"))
     ) or (
-        provider in compatibility_providers
+        provider_class == "compatibility_only_external"
         and
         bool(active_policy.get("compatibility_only_external_fallback"))
         and degraded_mode
@@ -264,7 +271,7 @@ def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str
         "policy_id": str(active_policy.get("policy_id") or "unknown"),
         "checks": checks,
         "all_pass": all_pass,
-        "execution_class": "fully_local" if provider == "sovereign_local" else "compatibility_only_external",
+        "execution_class": provider_class,
         "degraded_mode_visible": degraded_mode,
     }
 

@@ -8253,7 +8253,13 @@ def _spc_gate_thresholds(phase0_packet: dict[str, Any], key: str) -> dict[str, A
 def _collect_phase_telemetry_runs(phase_lanes: list[dict[str, Any]]) -> list[dict[str, Any]]:
     runs: list[dict[str, Any]] = []
     for lane in phase_lanes:
-        for packet in list(lane.get("evidence_packets") or []):
+        packets = list(lane.get("evidence_packets") or [])
+        packets.extend(
+            review.get("evidence_packet")
+            for review in list(lane.get("lane_reviews") or [])
+            if isinstance(review.get("evidence_packet"), dict)
+        )
+        for packet in packets:
             telemetry = packet.get("merlin_telemetry")
             if not isinstance(telemetry, dict):
                 telemetry = packet.get("telemetry")
