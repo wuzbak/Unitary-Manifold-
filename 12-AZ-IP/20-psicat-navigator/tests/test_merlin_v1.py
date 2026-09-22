@@ -20,6 +20,7 @@ if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
 import ox_navigator.engine.merlin_engine as merlin_engine
+import ox_navigator.engine.merlin_benchmark as merlin_benchmark
 import ox_navigator.engine.merlin_program as merlin_program
 import ox_navigator.engine.merlin_training_execution as merlin_training_execution
 import ox_navigator.engine.merlin_tools as merlin_tools
@@ -110,6 +111,35 @@ def test_merlin_session_tracks_intents():
     assert len(intents) == 1
     assert intents[0]["intent"] == "planning"
     assert "query_text" in intents[0]["provenance_sources"]
+
+
+def test_merlin_sprint_review_packet_fails_closed_when_summary_malformed(monkeypatch):
+    def _fake_runner(*, limit: int = 1):
+        return {'summary': ['not-a-dict-summary'], 'runs': []}
+
+    monkeypatch.setattr(merlin_benchmark, 'run_stage_a_head_to_head_receipts_sync', _fake_runner)
+    monkeypatch.setattr(merlin_benchmark, 'run_stage_b_head_to_head_receipts_sync', _fake_runner)
+    monkeypatch.setattr(merlin_benchmark, 'run_stage_c_head_to_head_receipts_sync', _fake_runner)
+    monkeypatch.setattr(merlin_benchmark, 'run_stage_d_head_to_head_receipts_sync', _fake_runner)
+    monkeypatch.setattr(merlin_benchmark, 'run_stage_e_head_to_head_receipts_sync', _fake_runner)
+    monkeypatch.setattr(merlin_benchmark, 'get_multi_stage_benchmark_plan', lambda: {'stages': []})
+    monkeypatch.setattr(merlin_benchmark, 'build_merlin_control_tower', lambda *, limit=1: {'ok': True})
+    monkeypatch.setattr(
+        merlin_program,
+        'get_frontier_readiness_packet',
+        lambda *, limit=1: {
+            'promotion_blockers': [],
+            'kernel_governance_packet': {},
+            'kernel_batch_plan': {},
+            'kernel_runtime_gate': {'gate_verdict': 'hold'},
+            'promotion_blockers_all_clear': False,
+        },
+    )
+
+    packet = merlin_program.get_merlin_sprint_review_packet(limit=1)
+    assert packet['limit'] == 1
+    assert len(packet['stage_reviews']) == 5
+    assert all(item['promotion_gate_pass'] is False for item in packet['stage_reviews'])
 
 
 def test_export_stage_a_artifacts_script(tmp_path, monkeypatch):
@@ -3310,6 +3340,7 @@ def test_server_merlin_endpoints():
                 'psicat_kernel_batch_plan_v1'
             )
             assert len(validation_resilience.json()['validation_resilience']['repo_size_mitigation_actions']) == 2
+            assert validation_resilience.json()['validation_resilience']['verification_timeout_resilience']['batching_doctrine']['enabled'] is True
 
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200

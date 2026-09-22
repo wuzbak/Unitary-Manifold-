@@ -146,6 +146,10 @@ def _markdown_title(path: Path, *, fallback: str) -> str:
     return fallback
 
 
+def _coerce_mapping(value: Any) -> dict[str, Any]:
+    return dict(value) if isinstance(value, dict) else {}
+
+
 def _spine_record(
     *,
     surface_id: str,
@@ -4458,7 +4462,7 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
     stage_reviews = []
     for stage_name, runner in stage_runners:
         receipts = runner(limit=resolved_limit)
-        summary = dict(receipts.get("summary") or {})
+        summary = _coerce_mapping(receipts.get("summary"))
         meta = stage_meta.get(stage_name, {})
         failed_runs = [
             {
@@ -5244,6 +5248,20 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
                 "slice_rebalance_recommendations",
             ],
             "guardrail": "Telemetry never replaces CodeQL analysis; it only improves slice planning.",
+        },
+        "verification_timeout_resilience": {
+            "problem": "Long-running verification tools can timeout before complete evidence is produced.",
+            "fail_closed_rule": "Timeouts remain open blockers until the same scope is rerun to completion.",
+            "preferred_execution_order": [
+                "changed_surface_targeted_tests",
+                "changed_surface_scoped_codeql",
+                "full_matrix_follow_on",
+            ],
+            "batching_doctrine": {
+                "enabled": True,
+                "window_strategy": "small_deterministic_receipt_windows",
+                "promotion_guard": "No promotion claims from partial or timed-out windows.",
+            },
         },
         "merlin_training_directives": [
             "Detect and state when hosted review is unavailable.",
@@ -7982,7 +8000,7 @@ def run_merlin_targeted_rigor_sprint(
     }
     stage_gate_summary = []
     for stage_id, receipts in stage_receipts.items():
-        summary = dict(receipts.get("summary") or {})
+        summary = _coerce_mapping(receipts.get("summary"))
         stage_gate_summary.append(
             {
                 "stage": stage_id,
@@ -8239,7 +8257,7 @@ def _lane_receipt_summary(
         "hard_fail_count": hard_fail_count,
         "lane_gate_pass": lane_pass,
         "lane_verdict": lane_verdict,
-        "gate_summary": dict(receipts.get("summary") or {}),
+        "gate_summary": _coerce_mapping(receipts.get("summary")),
         "evidence_packets": evidence_packets,
     }
 
