@@ -111,6 +111,8 @@ def _record_for(path: Path) -> Dict[str, Any]:
 
 def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     by_path = {record["path"]: record for record in records}
+    symbol_sets = {path: set(record.get("symbols") or []) for path, record in by_path.items()}
+    token_sets = {path: set(record.get("tokens") or []) for path, record in by_path.items()}
     edges: List[Dict[str, Any]] = []
     known_paths = set(by_path)
     for record in by_path.values():
@@ -127,7 +129,7 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
         for other_path, other in by_path.items():
             if other_path == record["path"]:
                 continue
-            if set(record["symbols"]) & set(other["tokens"]):
+            if symbol_sets[record["path"]] & token_sets[other_path]:
                 edges.append(
                     {
                         "source": record["path"],

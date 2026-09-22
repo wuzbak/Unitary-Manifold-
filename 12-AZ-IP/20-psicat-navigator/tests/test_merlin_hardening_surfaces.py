@@ -86,7 +86,9 @@ def test_route_tool_exposes_hardening_surfaces() -> None:
 
     invariants = route_tool("getMerlinFormalInvariants", {})
     assert invariants["ok"] is True
-    assert invariants["result"]["data"]["results"]["summary"]["all_pass"] is True
+    invariants_data = invariants["result"]["data"]
+    assert invariants_data["results"]["summary"]["all_pass"] is True
+    assert len(invariants_data["registry"]["invariants"]) == invariants_data["results"]["summary"]["checked_count"]
 
     budget = route_tool("getPsiCatResourceBudget", {})
     assert budget["ok"] is True

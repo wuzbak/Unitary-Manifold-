@@ -134,12 +134,12 @@ def evaluate_formal_invariants() -> Dict[str, Any]:
     )
 
     closure = kcs_seven_closure_conditions()
-    closure_pass = bool(closure) and all(int(item.get("k_cs_value", -1)) == CANONICAL_K_CS for item in closure)
+    closure_pass = len(closure) == 7 and all(int(item.get("k_cs_value", -1)) == CANONICAL_K_CS for item in closure)
     results.append(
         {
             "id": "kcs_seven_condition_closure",
             "verification_surface": "python",
-            "observed": closure_pass,
+            "observed": {"condition_count": len(closure), "all_equal_74": closure_pass},
             "expected": True,
             "pass": closure_pass,
         }
