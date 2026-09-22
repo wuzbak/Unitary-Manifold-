@@ -123,6 +123,10 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     token_sets = {path: set(record.get("tokens") or []) for path, record in by_path.items()}
     edges: List[Dict[str, Any]] = []
     known_paths = set(by_path)
+    token_to_paths: dict[str, set[str]] = {}
+    for path, tokens in token_sets.items():
+        for token in tokens:
+            token_to_paths.setdefault(token, set()).add(path)
     for record in by_path.values():
         for imported in list(record.get("imports") or []):
             candidate = imported.replace(".", "/") + ".py"
@@ -134,17 +138,19 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
                         "relation": "imports",
                     }
                 )
-        for other_path, other in by_path.items():
+        overlap_paths: set[str] = set()
+        for symbol in symbol_sets[record["path"]]:
+            overlap_paths.update(token_to_paths.get(symbol, set()))
+        for other_path in overlap_paths:
             if other_path == record["path"]:
                 continue
-            if symbol_sets[record["path"]] & token_sets[other_path]:
-                edges.append(
-                    {
-                        "source": record["path"],
-                        "target": other_path,
-                        "relation": "symbol_overlap",
-                    }
-                )
+            edges.append(
+                {
+                    "source": record["path"],
+                    "target": other_path,
+                    "relation": "symbol_overlap",
+                }
+            )
     deduped = {(edge["source"], edge["target"], edge["relation"]): edge for edge in edges}
     return list(deduped.values())
 

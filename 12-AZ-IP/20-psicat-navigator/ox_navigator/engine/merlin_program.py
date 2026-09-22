@@ -8250,6 +8250,31 @@ def _spc_gate_thresholds(phase0_packet: dict[str, Any], key: str) -> dict[str, A
     return thresholds
 
 
+def _collect_phase_telemetry_runs(phase_lanes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        dict(packet.get("merlin_telemetry") or {})
+        for lane in phase_lanes
+        for packet in list(lane.get("evidence_packets") or [])
+        if isinstance(packet.get("merlin_telemetry"), dict)
+    ]
+
+
+def _build_psicat_hardening_policy_bundle(phase_lanes: list[dict[str, Any]]) -> dict[str, Any]:
+    from .merlin_epistemic_guard import evaluate_scientific_closure_guard, get_epistemic_claim_status_policy
+    from .merlin_telemetry import get_resource_budget_policy, summarize_budget_compliance
+
+    resource_budget_policy = get_resource_budget_policy()
+    return {
+        "resource_budget_policy": resource_budget_policy,
+        "resource_budget_summary": summarize_budget_compliance(
+            _collect_phase_telemetry_runs(phase_lanes),
+            policy=resource_budget_policy,
+        ),
+        "epistemic_policy": get_epistemic_claim_status_policy(),
+        "scientific_closure_guard": evaluate_scientific_closure_guard(),
+    }
+
+
 def _lane_traceability_coverage(evidence_packets: list[dict[str, Any]]) -> float:
     total = len(evidence_packets)
     if total <= 0:
@@ -8487,8 +8512,6 @@ def run_psicat_spc_phase2_applied_pressure(
     observatory_payload: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     from .merlin_behavioral_audit import run_behavioral_audit_battery
-    from .merlin_epistemic_guard import evaluate_scientific_closure_guard, get_epistemic_claim_status_policy
-    from .merlin_telemetry import get_resource_budget_policy, summarize_budget_compliance
 
     active_session = session if isinstance(session, MerlinSession) else MerlinSession()
     resolved_limit = _coerce_frontier_limit(limit, default=5)
@@ -8558,17 +8581,8 @@ def run_psicat_spc_phase2_applied_pressure(
                 ],
             }
         )
-    telemetry_runs = [
-        dict(packet.get("merlin_telemetry") or {})
-        for lane in phase2_lanes
-        for packet in list(lane.get("evidence_packets") or [])
-        if isinstance(packet.get("merlin_telemetry"), dict)
-    ]
-    resource_budget_policy = get_resource_budget_policy()
-    resource_budget_summary = summarize_budget_compliance(telemetry_runs, policy=resource_budget_policy)
-    epistemic_policy = get_epistemic_claim_status_policy()
-    scientific_closure_guard = evaluate_scientific_closure_guard()
-    phase2_pass = bool(phase2_lanes) and all(lane["pressure_gate_pass"] for lane in phase2_lanes) and not observatory_blockers
+    hardening_bundle = _build_psicat_hardening_policy_bundle(phase2_lanes)
+    phase2_pass = bool(phase2_lanes) and all(lane["pressure_gate_pass"] for lane in phase2_lanes) and not blocker_register
     phase_gate_ledger = {
         "clear_count": sum(1 for lane in phase2_lanes if lane["pressure_verdict"] == "clear"),
         "hold_count": sum(1 for lane in phase2_lanes if lane["pressure_verdict"] == "hold"),
@@ -8590,10 +8604,10 @@ def run_psicat_spc_phase2_applied_pressure(
         "phase0_packet": phase0_packet,
         "spc_phase1_baseline": spc_phase1,
         "governance_observatory": observatory_payload,
-        "epistemic_policy": epistemic_policy,
-        "scientific_closure_guard": scientific_closure_guard,
-        "resource_budget_policy": resource_budget_policy,
-        "resource_budget_summary": resource_budget_summary,
+        "epistemic_policy": hardening_bundle["epistemic_policy"],
+        "scientific_closure_guard": hardening_bundle["scientific_closure_guard"],
+        "resource_budget_policy": hardening_bundle["resource_budget_policy"],
+        "resource_budget_summary": hardening_bundle["resource_budget_summary"],
         "behavioral_audit": behavioral_audit,
         "applied_pressure_lanes": phase2_lanes,
         "phase_gate_ledger": phase_gate_ledger,
@@ -8624,8 +8638,6 @@ def get_psicat_spc_phase3_live_readiness(
     phase2_packet: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     from .merlin_benchmark import build_merlin_control_tower
-    from .merlin_epistemic_guard import evaluate_scientific_closure_guard, get_epistemic_claim_status_policy
-    from .merlin_telemetry import get_resource_budget_policy, summarize_budget_compliance
 
     active_session = session if isinstance(session, MerlinSession) else MerlinSession()
     resolved_limit = _coerce_frontier_limit(limit, default=5)
@@ -8696,16 +8708,7 @@ def get_psicat_spc_phase3_live_readiness(
         )
     )
     blocker_register: list[dict[str, Any]] = list(phase2_packet.get("blocker_register") or [])
-    telemetry_runs = [
-        dict(packet.get("merlin_telemetry") or {})
-        for lane in phase2_lanes
-        for packet in list(lane.get("evidence_packets") or [])
-        if isinstance(packet.get("merlin_telemetry"), dict)
-    ]
-    resource_budget_policy = get_resource_budget_policy()
-    resource_budget_summary = summarize_budget_compliance(telemetry_runs, policy=resource_budget_policy)
-    epistemic_policy = get_epistemic_claim_status_policy()
-    scientific_closure_guard = evaluate_scientific_closure_guard()
+    hardening_bundle = _build_psicat_hardening_policy_bundle(phase2_lanes)
     if clean_runs_count < required_clean_runs:
         blocker_register.append(
             {
@@ -8757,10 +8760,10 @@ def get_psicat_spc_phase3_live_readiness(
         },
         "phase0_packet": phase0_packet,
         "spc_phase2_applied_pressure": phase2_packet,
-        "epistemic_policy": epistemic_policy,
-        "scientific_closure_guard": scientific_closure_guard,
-        "resource_budget_policy": resource_budget_policy,
-        "resource_budget_summary": resource_budget_summary,
+        "epistemic_policy": hardening_bundle["epistemic_policy"],
+        "scientific_closure_guard": hardening_bundle["scientific_closure_guard"],
+        "resource_budget_policy": hardening_bundle["resource_budget_policy"],
+        "resource_budget_summary": hardening_bundle["resource_budget_summary"],
         "control_tower": control_tower,
         "integrated_run_receipts": integrated_runs,
         "integrated_clean_runs_required": required_clean_runs,

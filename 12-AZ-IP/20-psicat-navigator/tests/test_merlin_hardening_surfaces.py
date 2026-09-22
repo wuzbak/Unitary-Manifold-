@@ -17,6 +17,7 @@ if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
 from ox_navigator.app.server import serve
+from ox_navigator.engine import merlin_behavioral_audit, merlin_program
 from ox_navigator.engine.merlin_behavioral_audit import run_behavioral_audit_battery
 from ox_navigator.engine.merlin_epistemic_guard import (
     evaluate_scientific_closure_guard,
@@ -99,6 +100,24 @@ def test_route_tool_exposes_hardening_surfaces() -> None:
     assert boundary["result"]["data"]["status"] == "ADJACENT_TRACK_ONLY"
 
 
+def test_phase2_holds_when_behavioral_audit_has_hard_failures(monkeypatch) -> None:
+    monkeypatch.setattr(
+        merlin_behavioral_audit,
+        "run_behavioral_audit_battery",
+        lambda: {
+            "ok": True,
+            "summary": {"all_pass": False},
+            "hard_failures": ["synthetic_failure"],
+        },
+    )
+    packet = merlin_program.run_psicat_spc_phase2_applied_pressure(limit=1, training_limit=1)
+    assert packet["phase_verdict"] == "PHASE2_HOLD_REMEDIATE"
+    assert any(
+        item["blocker_id"] == "behavioral_audit_hard_failures_present"
+        for item in packet["blocker_register"]
+    )
+
+
 def test_server_exposes_new_hardening_endpoints() -> None:
     httpd = serve(port=0)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
@@ -131,3 +150,4 @@ def test_server_exposes_new_hardening_endpoints() -> None:
             assert boundary.json()["consciousness_boundary"]["status"] == "ADJACENT_TRACK_ONLY"
     finally:
         httpd.shutdown()
+        httpd.server_close()
