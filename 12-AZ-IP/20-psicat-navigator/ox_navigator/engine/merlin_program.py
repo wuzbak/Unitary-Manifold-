@@ -5219,6 +5219,20 @@ def get_merlin_validation_resilience_packet(limit: int | None = 5) -> dict[str, 
             ],
             "guardrail": "Telemetry never replaces CodeQL analysis; it only improves slice planning.",
         },
+        "verification_timeout_resilience": {
+            "problem": "Long-running verification tools can timeout before complete evidence is produced.",
+            "fail_closed_rule": "Timeouts remain open blockers until the same scope is rerun to completion.",
+            "preferred_execution_order": [
+                "changed_surface_targeted_tests",
+                "changed_surface_scoped_codeql",
+                "full_matrix_follow_on",
+            ],
+            "batching_doctrine": {
+                "enabled": True,
+                "window_strategy": "small_deterministic_receipt_windows",
+                "promotion_guard": "No promotion claims from partial or timed-out windows.",
+            },
+        },
         "merlin_training_directives": [
             "Detect and state when hosted review is unavailable.",
             "Route to repository-side review orchestration before claiming coverage.",

@@ -3332,6 +3332,7 @@ def test_server_merlin_endpoints():
                 'psicat_kernel_batch_plan_v1'
             )
             assert len(validation_resilience.json()['validation_resilience']['repo_size_mitigation_actions']) == 2
+            assert validation_resilience.json()['validation_resilience']['verification_timeout_resilience']['batching_doctrine']['enabled'] is True
 
             artifacts = client.get('/api/merlin/benchmark-artifacts?limit=1')
             assert artifacts.status_code == 200
