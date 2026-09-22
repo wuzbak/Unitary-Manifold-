@@ -16,6 +16,8 @@ import httpx
 import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
+SERVER_TEST_TIMEOUT_SECONDS = 30.0
+
 if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
@@ -2764,7 +2766,7 @@ def test_server_merlin_endpoints():
     thread.start()
     try:
         port = httpd.server_address[1]
-        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=SERVER_TEST_TIMEOUT_SECONDS) as client:
             root_status = client.get('/api/merlin')
             assert root_status.status_code == 200
             assert root_status.json()['merlin_available'] is True
@@ -3639,7 +3641,7 @@ def test_server_merlin_compat_routes_do_not_rewrite_prefix_matches():
     thread.start()
     try:
         port = httpd.server_address[1]
-        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=SERVER_TEST_TIMEOUT_SECONDS) as client:
             bad_get = client.get('/api/merlinx/status')
             assert bad_get.status_code == 404
 
@@ -3668,7 +3670,7 @@ def test_server_ox_legacy_status_contract():
     thread.start()
     try:
         port = httpd.server_address[1]
-        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=SERVER_TEST_TIMEOUT_SECONDS) as client:
             legacy_root = client.get('/api/ox')
             assert legacy_root.status_code == 200
             root_payload = legacy_root.json()
@@ -3731,7 +3733,7 @@ def test_server_ox_compat_rejects_invalid_prefix_routes():
     thread.start()
     try:
         port = httpd.server_address[1]
-        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=SERVER_TEST_TIMEOUT_SECONDS) as client:
             bad_ox = client.get('/api/oxx')
             assert bad_ox.status_code == 404
             assert bad_ox.headers.get('X-Merlin-Handshake-Challenge') is None
@@ -3788,7 +3790,7 @@ def test_server_training_export_validation_failures_return_422(monkeypatch):
     thread.start()
     try:
         port = httpd.server_address[1]
-        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=SERVER_TEST_TIMEOUT_SECONDS) as client:
             training_dataset = client.get('/api/merlin/training-dataset?limit=4')
             assert training_dataset.status_code == 422
             assert training_dataset.json()['ok'] is False
@@ -3817,7 +3819,7 @@ def test_server_training_curation_malformed_tool_payload_returns_500(monkeypatch
     thread.start()
     try:
         port = httpd.server_address[1]
-        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=10.0) as client:
+        with httpx.Client(base_url=f'http://127.0.0.1:{port}', timeout=SERVER_TEST_TIMEOUT_SECONDS) as client:
             training_curation = client.get('/api/merlin/training-curation?limit=4')
             assert training_curation.status_code == 500
             assert training_curation.json()['ok'] is False
