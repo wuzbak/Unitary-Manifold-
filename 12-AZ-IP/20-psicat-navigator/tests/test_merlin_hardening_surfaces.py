@@ -118,7 +118,7 @@ def test_resource_budget_policy_fails_closed_for_disallowed_external_provider_mo
     assert compliance["all_pass"] is False
 
 
-def test_resource_budget_policy_respects_local_first_override() -> None:
+def test_resource_budget_policy_keeps_local_provider_valid_when_local_first_is_overridden() -> None:
     run = build_run_telemetry(
         query="Local policy override audit.",
         answer="GOVERNANCE\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
@@ -134,8 +134,9 @@ def test_resource_budget_policy_respects_local_first_override() -> None:
         retrieval_hit_count=3,
     )
     compliance = evaluate_resource_budget_compliance(run, policy={"local_first": False})
-    assert compliance["checks"]["provider_mode"] is False
-    assert compliance["all_pass"] is False
+    assert compliance["execution_class"] == "fully_local"
+    assert compliance["checks"]["provider_mode"] is True
+    assert compliance["all_pass"] is True
 
 
 def test_resource_budget_policy_marks_unknown_external_provider_as_unsupported() -> None:

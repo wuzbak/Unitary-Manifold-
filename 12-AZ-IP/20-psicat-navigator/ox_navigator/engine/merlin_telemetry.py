@@ -254,10 +254,7 @@ def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str
         if provider in compatibility_providers
         else "unsupported_external"
     )
-    provider_mode_allowed = (
-        provider_class == "fully_local"
-        and bool(active_policy.get("local_first"))
-    ) or (
+    provider_mode_allowed = provider_class == "fully_local" or (
         provider_class == "compatibility_only_external"
         and
         bool(active_policy.get("compatibility_only_external_fallback"))
