@@ -63,5 +63,5 @@ class TestPhase2Summary:
 
 class TestLean4Files:
     def test_ckm_file_exists(self):
-        lean = Path(__file__).resolve().parents[1] / "lean4" / "UnitaryManifold" / "CKM7DMixingAngles.lean"
+        lean = Path(__file__).resolve().parents[2] / "lean4" / "UnitaryManifold" / "CKM7DMixingAngles.lean"
         assert lean.exists()

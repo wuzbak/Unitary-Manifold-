@@ -63,7 +63,7 @@ class TestSummary:
 
 
 class TestLean4File:
-    LEAN_FILE = Path(__file__).resolve().parents[1] / "lean4" / "UnitaryManifold" / "GS9DAnomalyBridge.lean"
+    LEAN_FILE = Path(__file__).resolve().parents[2] / "lean4" / "UnitaryManifold" / "GS9DAnomalyBridge.lean"
 
     def test_exists(self):
         assert self.LEAN_FILE.exists()
