@@ -81,6 +81,14 @@ PRIMARY_PSICAT_EXECUTION_SPINE_ENDPOINTS = (
     "/api/psicat/validation-resilience",
     "/api/psicat/benchmark-artifacts",
     "/api/psicat/training-artifacts",
+    "/api/psicat/action-traceability",
+    "/api/psicat/epistemic-policy",
+    "/api/psicat/repo-graph",
+    "/api/psicat/context-route",
+    "/api/psicat/formal-invariants",
+    "/api/psicat/resource-budget",
+    "/api/psicat/behavioral-audit",
+    "/api/psicat/consciousness-boundary",
 )
 COMBINED_GATE_REQUIRED_AXES = [
     "factuality",
@@ -4694,6 +4702,12 @@ def get_merlin_execution_board(limit: int | None = 2, *, session: Any | None = N
         get_kernel_governance_packet,
         get_kernel_promotion_gate_summary,
     )
+    from .merlin_behavioral_audit import run_behavioral_audit_battery
+    from .merlin_epistemic_guard import evaluate_scientific_closure_guard, get_epistemic_claim_status_policy
+    from .merlin_repo_graph import build_repo_graph, route_context_via_repo_graph
+    from src.consciousness.research_boundaries import get_consciousness_research_boundaries
+    from src.core.action_to_evolution_traceability import action_to_evolution_traceability_registry
+    from src.core.formal_invariant_registry import evaluate_formal_invariants
 
     review_packet = get_merlin_sprint_review_packet(limit=limit)
     heavy_lane = get_merlin_heavy_reasoning_lane(limit=max(2, int(limit if limit is not None else 2)))
@@ -4728,6 +4742,14 @@ def get_merlin_execution_board(limit: int | None = 2, *, session: Any | None = N
     kernel_gate = get_kernel_promotion_gate_summary()
     kernel_escalation = get_kernel_escalation_packet()
     kernel_governance = get_kernel_governance_packet()
+    action_traceability = action_to_evolution_traceability_registry()
+    repo_graph = build_repo_graph(max_files=180)
+    context_route = route_context_via_repo_graph("action evolution residual governance graph", max_hits=6, max_files=180)
+    formal_invariants = evaluate_formal_invariants()
+    behavioral_audit = run_behavioral_audit_battery()
+    epistemic_policy = get_epistemic_claim_status_policy()
+    scientific_closure_guard = evaluate_scientific_closure_guard()
+    consciousness_boundary = get_consciousness_research_boundaries()
     kernel_batch_plan = get_kernel_batch_plan(
         points=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_points", 32) or 32),
         repeats=int((kernel_governance.get("data_volume_strategy") or {}).get("requested_repeats", 3) or 3),
@@ -4864,6 +4886,14 @@ def get_merlin_execution_board(limit: int | None = 2, *, session: Any | None = N
         "governance_observatory": governance_observatory,
         "spc_phase2_applied_pressure": spc_phase2,
         "spc_phase3_live_readiness": spc_phase3,
+        "action_traceability": action_traceability,
+        "epistemic_policy": epistemic_policy,
+        "scientific_closure_guard": scientific_closure_guard,
+        "repo_graph": repo_graph,
+        "context_route": context_route,
+        "formal_invariants": formal_invariants,
+        "behavioral_audit": behavioral_audit,
+        "consciousness_boundary": consciousness_boundary,
         "immediate_tasks": [
             {
                 "task_id": "CL-0",
@@ -8220,6 +8250,40 @@ def _spc_gate_thresholds(phase0_packet: dict[str, Any], key: str) -> dict[str, A
     return thresholds
 
 
+def _collect_phase_telemetry_runs(phase_lanes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    runs: list[dict[str, Any]] = []
+    for lane in phase_lanes:
+        packets = list(lane.get("evidence_packets") or [])
+        packets.extend(
+            review.get("evidence_packet")
+            for review in list(lane.get("lane_reviews") or [])
+            if isinstance(review.get("evidence_packet"), dict)
+        )
+        for packet in packets:
+            telemetry = packet.get("merlin_telemetry")
+            if not isinstance(telemetry, dict):
+                telemetry = packet.get("telemetry")
+            if isinstance(telemetry, dict):
+                runs.append(dict(telemetry))
+    return runs
+
+
+def _build_psicat_hardening_policy_bundle(phase_lanes: list[dict[str, Any]]) -> dict[str, Any]:
+    from .merlin_epistemic_guard import evaluate_scientific_closure_guard, get_epistemic_claim_status_policy
+    from .merlin_telemetry import get_resource_budget_policy, summarize_budget_compliance
+
+    resource_budget_policy = get_resource_budget_policy()
+    return {
+        "resource_budget_policy": resource_budget_policy,
+        "resource_budget_summary": summarize_budget_compliance(
+            _collect_phase_telemetry_runs(phase_lanes),
+            policy=resource_budget_policy,
+        ),
+        "epistemic_policy": get_epistemic_claim_status_policy(),
+        "scientific_closure_guard": evaluate_scientific_closure_guard(),
+    }
+
+
 def _lane_traceability_coverage(evidence_packets: list[dict[str, Any]]) -> float:
     total = len(evidence_packets)
     if total <= 0:
@@ -8456,6 +8520,8 @@ def run_psicat_spc_phase2_applied_pressure(
     phase1_packet: dict[str, Any] | None = None,
     observatory_payload: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    from .merlin_behavioral_audit import run_behavioral_audit_battery
+
     active_session = session if isinstance(session, MerlinSession) else MerlinSession()
     resolved_limit = _coerce_frontier_limit(limit, default=5)
     resolved_training_limit = _coerce_frontier_limit(training_limit, default=9)
@@ -8488,6 +8554,11 @@ def run_psicat_spc_phase2_applied_pressure(
         source="spc_phase2_governance_observatory",
     )
     blocker_register: list[dict[str, Any]] = list(spc_phase1.get("blocker_register") or [])
+    existing_blocker_ids = {
+        str(item.get("blocker_id") or "")
+        for item in blocker_register
+        if isinstance(item, dict)
+    }
     for lane in phase2_lanes:
         if lane["pressure_gate_pass"]:
             continue
@@ -8510,7 +8581,50 @@ def run_psicat_spc_phase2_applied_pressure(
             }
         )
     blocker_register.extend(observatory_blockers)
-    phase2_pass = bool(phase2_lanes) and all(lane["pressure_gate_pass"] for lane in phase2_lanes) and not observatory_blockers
+    existing_blocker_ids.update(
+        str(item.get("blocker_id") or "")
+        for item in blocker_register
+        if isinstance(item, dict)
+    )
+    raw_behavioral_audit = run_behavioral_audit_battery()
+    behavioral_audit = raw_behavioral_audit if isinstance(raw_behavioral_audit, dict) else {}
+    raw_behavioral_summary = behavioral_audit.get("summary")
+    behavioral_summary = dict(raw_behavioral_summary) if isinstance(raw_behavioral_summary, dict) else {}
+    behavioral_audit_pass = behavioral_summary.get("all_pass") is True
+    behavioral_hard_failures_present = (
+        bool(list(behavioral_audit.get("hard_failures") or []))
+        or not behavioral_audit_pass
+    )
+    if not behavioral_hard_failures_present:
+        blocker_register = [
+            item
+            for item in blocker_register
+            if not isinstance(item, dict) or str(item.get("blocker_id") or "") != "behavioral_audit_hard_failures_present"
+        ]
+        existing_blocker_ids.discard("behavioral_audit_hard_failures_present")
+    if (
+        behavioral_hard_failures_present
+        and "behavioral_audit_hard_failures_present" not in existing_blocker_ids
+    ):
+        blocker_register.append(
+            {
+                "blocker_id": "behavioral_audit_hard_failures_present",
+                "source": "behavioral_audit",
+                "severity": "high",
+                "reason": "Behavioral audit contains hard failures that require remediation before applied-pressure promotion claims advance.",
+                "recommended_actions": [
+                    "Repair deterministic refusal/escalation or hostile-pressure containment regressions.",
+                    "Replay the canonical behavioral audit battery before advancing phase-2 language.",
+                ],
+            }
+        )
+    hardening_bundle = _build_psicat_hardening_policy_bundle(phase2_lanes)
+    phase2_pass = (
+        bool(phase2_lanes)
+        and all(lane["pressure_gate_pass"] for lane in phase2_lanes)
+        and not observatory_blockers
+        and not behavioral_hard_failures_present
+    )
     phase_gate_ledger = {
         "clear_count": sum(1 for lane in phase2_lanes if lane["pressure_verdict"] == "clear"),
         "hold_count": sum(1 for lane in phase2_lanes if lane["pressure_verdict"] == "hold"),
@@ -8532,6 +8646,11 @@ def run_psicat_spc_phase2_applied_pressure(
         "phase0_packet": phase0_packet,
         "spc_phase1_baseline": spc_phase1,
         "governance_observatory": observatory_payload,
+        "epistemic_policy": hardening_bundle["epistemic_policy"],
+        "scientific_closure_guard": hardening_bundle["scientific_closure_guard"],
+        "resource_budget_policy": hardening_bundle["resource_budget_policy"],
+        "resource_budget_summary": hardening_bundle["resource_budget_summary"],
+        "behavioral_audit": behavioral_audit,
         "applied_pressure_lanes": phase2_lanes,
         "phase_gate_ledger": phase_gate_ledger,
         "blocker_register": blocker_register,
@@ -8548,7 +8667,7 @@ def run_psicat_spc_phase2_applied_pressure(
         ],
         "honesty_note": (
             "Phase-2 metrics are benchmarked applied-pressure receipts plus session governance signals; "
-            "they are still supervised simulation evidence, not live operational clearance."
+            "they are still supervised simulation evidence, not live operational clearance or scientific closure."
         ),
     }
 
@@ -8630,7 +8749,45 @@ def get_psicat_spc_phase3_live_readiness(
             "control_tower_traceability_clear",
         )
     )
-    blocker_register: list[dict[str, Any]] = list(phase2_packet.get("blocker_register") or [])
+    phase2_clear = str(phase2_packet.get("phase_verdict") or "") == "PHASE2_CLEAR_ADVANCE_TO_PHASE3"
+    raw_phase2_blockers = list(phase2_packet.get("blocker_register") or [])
+    blocker_register: list[dict[str, Any]] = []
+    if not phase2_clear:
+        blocker_register = [
+            dict(item)
+            for item in raw_phase2_blockers
+            if isinstance(item, dict)
+            and (
+                str(item.get("source") or "") in {"spc_phase2_lane_gate", "spc_phase2_governance_observatory", "behavioral_audit"}
+                or str(item.get("blocker_id") or "").endswith("_phase2_pressure_hold")
+            )
+        ]
+    phase2_behavioral_audit = dict(phase2_packet.get("behavioral_audit") or {})
+    phase2_behavioral_summary = dict(phase2_behavioral_audit.get("summary") or {})
+    phase2_behavioral_fail = (
+        phase2_behavioral_summary.get("all_pass") is not True
+        or bool(list(phase2_behavioral_audit.get("hard_failures") or []))
+    )
+    if not phase2_behavioral_fail:
+        blocker_register = [
+            item
+            for item in blocker_register
+            if not isinstance(item, dict) or str(item.get("blocker_id") or "") != "behavioral_audit_hard_failures_present"
+        ]
+    elif not any(
+        str(item.get("blocker_id") or "") == "behavioral_audit_hard_failures_present"
+        for item in blocker_register
+        if isinstance(item, dict)
+    ):
+        blocker_register.append(
+            {
+                "blocker_id": "behavioral_audit_hard_failures_present",
+                "source": "behavioral_audit",
+                "severity": "high",
+                "reason": "Behavioral audit remains uncleared in the supplied phase-2 packet.",
+            }
+        )
+    hardening_bundle = _build_psicat_hardening_policy_bundle(phase2_lanes)
     if clean_runs_count < required_clean_runs:
         blocker_register.append(
             {
@@ -8661,7 +8818,6 @@ def get_psicat_spc_phase3_live_readiness(
                 "reason": "Governance/compliance traceability review remains incomplete or blocked.",
             }
         )
-    phase2_clear = str(phase2_packet.get("phase_verdict") or "") == "PHASE2_CLEAR_ADVANCE_TO_PHASE3"
     live_ready = (
         phase2_clear
         and clean_runs_count >= required_clean_runs
@@ -8682,6 +8838,10 @@ def get_psicat_spc_phase3_live_readiness(
         },
         "phase0_packet": phase0_packet,
         "spc_phase2_applied_pressure": phase2_packet,
+        "epistemic_policy": hardening_bundle["epistemic_policy"],
+        "scientific_closure_guard": hardening_bundle["scientific_closure_guard"],
+        "resource_budget_policy": hardening_bundle["resource_budget_policy"],
+        "resource_budget_summary": hardening_bundle["resource_budget_summary"],
         "control_tower": control_tower,
         "integrated_run_receipts": integrated_runs,
         "integrated_clean_runs_required": required_clean_runs,
@@ -8705,7 +8865,7 @@ def get_psicat_spc_phase3_live_readiness(
         ],
         "honesty_note": (
             "Phase-3 readiness remains a controlled live-readiness estimate derived from integrated benchmark receipts and governance review; "
-            "it is not a claim of unconstrained autonomy."
+            "it is not a claim of unconstrained autonomy or scientific closure."
         ),
     }
 
@@ -8796,6 +8956,11 @@ def get_psicat_achievement_benchmark_promotion_sprint(
     phase2_clear = str(spc_phase2.get("phase_verdict") or "") == "PHASE2_CLEAR_ADVANCE_TO_PHASE3"
     phase3_clear = str(spc_phase3.get("live_readiness_verdict") or "") == "PHASE3_LIVE_READY"
     frontier_clear = bool(frontier.get("promotion_blockers_all_clear"))
+    behavioral_audit = dict(spc_phase2.get("behavioral_audit") or {})
+    epistemic_policy = dict(spc_phase3.get("epistemic_policy") or spc_phase2.get("epistemic_policy") or {})
+    scientific_closure_guard = dict(
+        spc_phase3.get("scientific_closure_guard") or spc_phase2.get("scientific_closure_guard") or {}
+    )
 
     achievement_board = [
         {
@@ -8897,16 +9062,21 @@ def get_psicat_achievement_benchmark_promotion_sprint(
             "spc_phase2_clear_to_advance": phase2_clear,
             "spc_phase3_live_readiness": spc_phase3,
             "spc_phase3_live_ready": phase3_clear,
+            "behavioral_audit": behavioral_audit,
         },
         "kernel_governance_packet": frontier_kernel_governance,
         "kernel_data_volume_strategy": dict(frontier.get("kernel_data_volume_strategy") or {}),
         "kernel_batch_plan": frontier_kernel_batch_plan,
+        "epistemic_policy": epistemic_policy,
+        "scientific_closure_guard": scientific_closure_guard,
         "promotion_readiness": {
             "targeted_rigor_clear": targeted_clear,
             "frontier_blockers_all_clear": frontier_clear,
             "spc_phase1_clear_to_advance": phase1_clear,
             "spc_phase2_clear_to_advance": phase2_clear,
             "spc_phase3_live_ready": phase3_clear,
+            "scientific_closure_ready": bool(scientific_closure_guard.get("closure_language_allowed")),
+            "claim_status_class": str(scientific_closure_guard.get("claim_status") or "not_closure_eligible"),
             "decision": (
                 "PROMOTION_SPRINT_ADVANCE_ALLOWED"
                 if targeted_clear and phase1_clear and phase2_clear and phase3_clear and frontier_clear
@@ -8917,6 +9087,7 @@ def get_psicat_achievement_benchmark_promotion_sprint(
                 if targeted_clear and phase1_clear and phase2_clear and phase3_clear and frontier_clear
                 else "FROZEN_PENDING_VISIBLE_GATES"
             ),
+            "scientific_closure_language": "FORBIDDEN_UNTIL_ACTION_TO_EVOLUTION_CLEAR",
         },
         "appropriate_promotion_sprint": {
             "sprint_id": sprint_id,
@@ -8954,7 +9125,7 @@ def get_psicat_achievement_benchmark_promotion_sprint(
         "spc_phase3_live_readiness": spc_phase3,
         "honesty_note": (
             "This packet reports earned surfaces, benchmark posture, and the next governed sprint only; "
-            "it does not promote PsiCat beyond the visible receipts and gates."
+            "it does not promote PsiCat beyond the visible receipts and gates, and it does not imply scientific closure."
         ),
     }
 

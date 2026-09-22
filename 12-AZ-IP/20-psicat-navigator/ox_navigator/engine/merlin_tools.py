@@ -49,6 +49,8 @@ from .merlin_masterclass_runtime import (
     get_masterclass_execution_packet,
     review_branch_convergence,
 )
+from .merlin_behavioral_audit import run_behavioral_audit_battery
+from .merlin_epistemic_guard import evaluate_scientific_closure_guard, get_epistemic_claim_status_policy
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
     build_ast_context_training_records,
@@ -154,6 +156,7 @@ from .merlin_meta_learning import (
     run_self_audit,
 )
 from .merlin_reasoning_graph import get_reasoning_chain
+from .merlin_repo_graph import build_repo_graph, route_context_via_repo_graph
 from .merlin_research_cycle import run_research_cycle
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_lean_bridge import get_merlin_lean_bridge_artifact
@@ -181,8 +184,12 @@ from .merlin_rag import (
     render_context_scaffold,
 )
 from .merlin_energy_ledger import build_merlin_energy_ledger
+from .merlin_telemetry import get_resource_budget_policy
 from .merlin_sync_contract import REQUIRED_TOOLKIT_FUNCTIONS
 from .merlin_workspace import get_workspace_policy, get_workspace_state
+from src.consciousness.research_boundaries import get_consciousness_research_boundaries
+from src.core.action_to_evolution_traceability import action_to_evolution_traceability_registry
+from src.core.formal_invariant_registry import evaluate_formal_invariants
 
 _LIMIT_SYNC_ARGS_SCHEMA = {
     "type": "object",
@@ -431,6 +438,14 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinCompactificationSanity", "summary": "Return compactification sanity checks against canonical epistemic files", "domain": "functions"},
             {"name": "getMerlinTopologyAdjacentBoard", "summary": "Return adjacent-only topology prototype board with hardgate boundary note", "domain": "functions"},
             {"name": "getMerlinExecutionBoard", "summary": "Return the follow-on execution board with immediate tasks, blockers, validation resilience, and blunt board", "domain": "functions"},
+            {"name": "getMerlinActionTraceability", "summary": "Return the executable synthetic action-to-evolution residual registry", "domain": "functions"},
+            {"name": "getMerlinEpistemicPolicy", "summary": "Return runtime claim-status policy and scientific closure guardrails", "domain": "functions"},
+            {"name": "getMerlinRepoGraph", "summary": "Return the deterministic local repository graph for structural routing", "domain": "functions"},
+            {"name": "getMerlinContextRoute", "summary": "Return graph-guided file suggestions before raw file reads", "domain": "functions"},
+            {"name": "getMerlinFormalInvariants", "summary": "Return focused formal-invariant registry and non-regression results", "domain": "functions"},
+            {"name": "getPsiCatResourceBudget", "summary": "Return local-first resource-budget ceilings for PsiCat execution", "domain": "functions"},
+            {"name": "getPsiCatBehavioralAudit", "summary": "Return deterministic manipulation-resistance and escalation audit battery", "domain": "functions"},
+            {"name": "getConsciousnessResearchBoundaries", "summary": "Return the adjacent-track consciousness/emotion boundary map", "domain": "functions"},
             {"name": "getMerlinValidationResiliencePacket", "summary": "Return repo-size mitigation actions and CodeQL scope-reduction strategy for validation resilience", "domain": "functions"},
             {"name": "getMerlinTrainingDataset", "summary": "Return structured Merlin JSONL-ready training and benchmark dataset bundle", "domain": "functions"},
             {"name": "getMerlinTrainingCuration", "summary": "Return low-token Merlin curation ledger and budget metrics", "domain": "functions"},
@@ -555,6 +570,27 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinCompactificationSanity": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinTopologyAdjacentBoard": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinExecutionBoard": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "getMerlinActionTraceability": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinEpistemicPolicy": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinRepoGraph": {
+            "args_schema": {"type": "object", "properties": {"max_files": {"type": "integer"}}, "additionalProperties": False}
+        },
+        "getMerlinContextRoute": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "max_hits": {"type": "integer"},
+                    "max_files": {"type": "integer"},
+                },
+                "required": ["query"],
+                "additionalProperties": False,
+            }
+        },
+        "getMerlinFormalInvariants": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getPsiCatResourceBudget": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getPsiCatBehavioralAudit": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getConsciousnessResearchBoundaries": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinValidationResiliencePacket": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinLeanBridgeArtifact": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinOpenWeightAcquisitionLedger": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
@@ -1095,6 +1131,16 @@ def _require_positive_int(value: Any, *, field_name: str, default: int) -> int:
     return parsed
 
 
+def _formal_invariant_surface() -> dict[str, Any]:
+    results = evaluate_formal_invariants()
+    return {
+        "data": {
+            "registry": results["registry"],
+            "results": results,
+        }
+    }
+
+
 def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple[bool, str]:
     properties = dict(schema.get("properties") or {})
     required = list(schema.get("required") or [])
@@ -1468,6 +1514,23 @@ _FUNCTIONS = {
         limit=args.get("limit"),
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else None,
     )},
+    "getMerlinActionTraceability": lambda **args: {"data": action_to_evolution_traceability_registry()},
+    "getMerlinEpistemicPolicy": lambda **args: {
+        "data": {
+            "policy": get_epistemic_claim_status_policy(),
+            "scientific_closure_guard": evaluate_scientific_closure_guard(),
+        }
+    },
+    "getMerlinRepoGraph": lambda **args: {"data": build_repo_graph(max_files=_coerce_positive_int(args.get("max_files"), 180))},
+    "getMerlinContextRoute": lambda **args: {"data": route_context_via_repo_graph(
+        str(args.get("query", "")),
+        max_hits=_coerce_positive_int(args.get("max_hits"), 8),
+        max_files=_coerce_positive_int(args.get("max_files"), 180),
+    )},
+    "getMerlinFormalInvariants": lambda **args: _formal_invariant_surface(),
+    "getPsiCatResourceBudget": lambda **args: {"data": get_resource_budget_policy()},
+    "getPsiCatBehavioralAudit": lambda **args: {"data": run_behavioral_audit_battery()},
+    "getConsciousnessResearchBoundaries": lambda **args: {"data": get_consciousness_research_boundaries()},
     "getMerlinValidationResiliencePacket": lambda **args: {"data": get_merlin_validation_resilience_packet(limit=args.get("limit"))},
     "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(
         limit=args.get("limit"),

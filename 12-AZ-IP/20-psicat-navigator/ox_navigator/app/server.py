@@ -1524,6 +1524,66 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 })
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/action-traceability':
+                status, payload = _tool_data_or_error(route_tool('getMerlinActionTraceability', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'action_traceability': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/epistemic-policy':
+                status, payload = _tool_data_or_error(route_tool('getMerlinEpistemicPolicy', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'epistemic_policy': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/repo-graph':
+                max_files, error = _parse_int_query_param(params, 'max_files', 180)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool('getMerlinRepoGraph', {'max_files': max_files}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'repo_graph': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/context-route':
+                query = str(params.get('query', [''])[0] or '').strip()
+                if not query:
+                    self._json({'ok': False, 'error': 'query is required'}, status=400)
+                    return
+                max_hits, error = _parse_int_query_param(params, 'max_hits', 8)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                max_files, error = _parse_int_query_param(params, 'max_files', 180)
+                if error:
+                    self._json({'ok': False, 'error': error}, status=400)
+                    return
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinContextRoute',
+                    {'query': query, 'max_hits': max_hits, 'max_files': max_files},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'context_route': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/formal-invariants':
+                status, payload = _tool_data_or_error(route_tool('getMerlinFormalInvariants', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'formal_invariants': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/resource-budget':
+                status, payload = _tool_data_or_error(route_tool('getPsiCatResourceBudget', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'resource_budget': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/behavioral-audit':
+                status, payload = _tool_data_or_error(route_tool('getPsiCatBehavioralAudit', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'behavioral_audit': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/consciousness-boundary':
+                status, payload = _tool_data_or_error(route_tool('getConsciousnessResearchBoundaries', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'consciousness_boundary': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/convergence-charter':
                 self._json({
                 'ok': True,
