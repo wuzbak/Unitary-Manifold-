@@ -118,6 +118,57 @@ def test_phase2_holds_when_behavioral_audit_has_hard_failures(monkeypatch) -> No
     )
 
 
+def test_phase2_can_clear_when_behavioral_audit_passes(monkeypatch) -> None:
+    monkeypatch.setattr(
+        merlin_behavioral_audit,
+        "run_behavioral_audit_battery",
+        lambda: {
+            "ok": True,
+            "summary": {"all_pass": True},
+            "hard_failures": [],
+        },
+    )
+    phase1_packet = {
+        "blocker_register": [],
+        "lane_receipts": [
+            {
+                "lane_id": "lane_a",
+                "lane_name": "Lane A",
+                "lane_verdict": "clear",
+                "hard_fail_count": 0,
+                "mean_score_100": 100.0,
+                "demote_count": 0,
+                "evidence_packets": [
+                    {
+                        "review_verdict": "clear",
+                        "confidence_band": "medium",
+                        "citations": ["repo:file"],
+                        "score_breakdown": {
+                            "aggregate_score_100": 100.0,
+                            "contract_sources_present": True,
+                            "contract_followups_present": True,
+                        },
+                        "telemetry": {"latency_ms": 10.0},
+                    }
+                ],
+            }
+        ],
+    }
+    observatory_payload = {"governance_observatory": {"active_incidents": []}}
+    packet = merlin_program.run_psicat_spc_phase2_applied_pressure(
+        limit=1,
+        training_limit=1,
+        phase1_packet=phase1_packet,
+        observatory_payload=observatory_payload,
+    )
+    assert packet["phase_verdict"] == "PHASE2_CLEAR_ADVANCE_TO_PHASE3"
+    assert packet["behavioral_audit"]["summary"]["all_pass"] is True
+    assert not any(
+        item["blocker_id"] == "behavioral_audit_hard_failures_present"
+        for item in packet["blocker_register"]
+    )
+
+
 def test_server_exposes_new_hardening_endpoints() -> None:
     httpd = serve(port=0)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)

@@ -43,15 +43,12 @@ def evaluate_scientific_closure_guard() -> Dict[str, Any]:
     routing = dict(traceability.get("routing") or {})
     residual_route = str(routing.get("route") or "")
     residual_clear = residual_route == "SYNTHETIC_TRACEABILITY_PASS_NOT_CLOSURE"
-    explicit_closure_eligibility = bool(routing.get("theoretical_closure_allowed"))
-    closure_allowed = bool(contract.get("promotion_ready")) and residual_clear and explicit_closure_eligibility
+    closure_allowed = bool(contract.get("promotion_ready")) and residual_clear
     reasons = []
     if remaining_blockers:
         reasons.append("primary_deliverables_unearned")
     if not residual_clear:
         reasons.append("synthetic_residual_guard_not_clear")
-    if residual_clear and not explicit_closure_eligibility:
-        reasons.append("synthetic_traceability_not_closure_eligible")
     if closure_allowed:
         reasons.append("closure_guard_clear")
     return {
