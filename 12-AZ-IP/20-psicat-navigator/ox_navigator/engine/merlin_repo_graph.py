@@ -84,8 +84,12 @@ def _python_record(path: Path) -> Dict[str, Any]:
                 symbols.append(node.name)
             elif isinstance(node, ast.Import):
                 imports.extend(alias.name for alias in node.names)
-            elif isinstance(node, ast.ImportFrom) and node.module:
-                imports.append(node.module)
+            elif isinstance(node, ast.ImportFrom):
+                prefix = "." * int(getattr(node, "level", 0) or 0)
+                if node.module:
+                    imports.append(f"{prefix}{node.module}")
+                else:
+                    imports.extend(f"{prefix}{alias.name}" for alias in node.names if alias.name)
     return {
         "path": rel,
         "kind": "python",
@@ -130,15 +134,29 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
             token_to_paths.setdefault(token, set()).add(path)
     for record in by_path.values():
         for imported in list(record.get("imports") or []):
-            candidate = imported.replace(".", "/") + ".py"
-            if candidate in known_paths:
-                edges.append(
-                    {
-                        "source": record["path"],
-                        "target": candidate,
-                        "relation": "imports",
-                    }
-                )
+            candidate_targets: set[str] = set()
+            if str(imported).startswith("."):
+                level = len(str(imported)) - len(str(imported).lstrip("."))
+                module = str(imported).lstrip(".")
+                base = Path(str(record["path"])).parent
+                for _ in range(max(level - 1, 0)):
+                    base = base.parent
+                if module:
+                    candidate_targets.add((base / (module.replace(".", "/") + ".py")).as_posix())
+                else:
+                    candidate_targets.add((base / "__init__.py").as_posix())
+            else:
+                suffix = str(imported).replace(".", "/") + ".py"
+                candidate_targets.update(path for path in known_paths if str(path).endswith(suffix))
+            for candidate in candidate_targets:
+                if candidate in known_paths:
+                    edges.append(
+                        {
+                            "source": record["path"],
+                            "target": candidate,
+                            "relation": "imports",
+                        }
+                    )
         overlap_paths: set[str] = set()
         for symbol in symbol_sets[record["path"]]:
             overlap_paths.update(token_to_paths.get(symbol, set()))

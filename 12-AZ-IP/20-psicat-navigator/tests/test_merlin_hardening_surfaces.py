@@ -17,7 +17,7 @@ if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
 from ox_navigator.app.server import serve
-from ox_navigator.engine import merlin_behavioral_audit, merlin_program
+from ox_navigator.engine import merlin_behavioral_audit, merlin_program, merlin_repo_graph
 from ox_navigator.engine.merlin_behavioral_audit import run_behavioral_audit_battery
 from ox_navigator.engine.merlin_epistemic_guard import (
     evaluate_scientific_closure_guard,
@@ -50,6 +50,22 @@ def test_repo_graph_and_context_route_are_deterministic_and_local() -> None:
     assert route["mode"] == "deterministic_repo_graph_context_route"
     assert route["suggested_files"]
     assert any("action_to_evolution" in item["path"] for item in route["suggested_files"])
+
+
+def test_repo_graph_resolves_relative_import_edges() -> None:
+    behavioral = merlin_repo_graph._python_record(
+        REPO_ROOT / "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_behavioral_audit.py"
+    )
+    masterclass = merlin_repo_graph._python_record(
+        REPO_ROOT / "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_masterclass_runtime.py"
+    )
+    edges = merlin_repo_graph._edge_records([behavioral, masterclass])
+    assert any(
+        edge["source"].endswith("ox_navigator/engine/merlin_behavioral_audit.py")
+        and edge["target"].endswith("ox_navigator/engine/merlin_masterclass_runtime.py")
+        and edge["relation"] == "imports"
+        for edge in edges
+    )
 
 
 def test_resource_budget_policy_and_compliance_surface() -> None:
@@ -223,6 +239,29 @@ def test_phase2_can_clear_when_behavioral_audit_passes(monkeypatch) -> None:
     assert packet["phase_verdict"] == "PHASE2_CLEAR_ADVANCE_TO_PHASE3"
     assert packet["behavioral_audit"]["summary"]["all_pass"] is True
     assert not any(
+        item["blocker_id"] == "behavioral_audit_hard_failures_present"
+        for item in packet["blocker_register"]
+    )
+
+
+def test_phase3_readds_behavioral_blocker_when_supplied_phase2_packet_fails() -> None:
+    phase2_packet = {
+        "phase_verdict": "PHASE2_HOLD_REMEDIATE",
+        "phase0_packet": {"packet": {}},
+        "applied_pressure_lanes": [],
+        "governance_observatory": {"governance_observatory": {"deployment_constraints": {"block_deployment": False}}},
+        "behavioral_audit": {
+            "summary": {"all_pass": False},
+            "hard_failures": [],
+        },
+        "blocker_register": [],
+    }
+    packet = merlin_program.get_psicat_spc_phase3_live_readiness(
+        limit=1,
+        training_limit=1,
+        phase2_packet=phase2_packet,
+    )
+    assert any(
         item["blocker_id"] == "behavioral_audit_hard_failures_present"
         for item in packet["blocker_register"]
     )
