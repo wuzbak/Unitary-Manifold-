@@ -8616,13 +8616,7 @@ def run_psicat_spc_phase2_applied_pressure(
                 ],
             }
         )
-    default_hardening_bundle = _build_psicat_hardening_policy_bundle(phase2_lanes)
-    hardening_bundle = {
-        "resource_budget_policy": dict(default_hardening_bundle["resource_budget_policy"]),
-        "resource_budget_summary": dict(default_hardening_bundle["resource_budget_summary"]),
-        "epistemic_policy": dict(default_hardening_bundle["epistemic_policy"]),
-        "scientific_closure_guard": dict(default_hardening_bundle["scientific_closure_guard"]),
-    }
+    hardening_bundle = _build_psicat_hardening_policy_bundle(phase2_lanes)
     phase2_pass = (
         bool(phase2_lanes)
         and all(lane["pressure_gate_pass"] for lane in phase2_lanes)

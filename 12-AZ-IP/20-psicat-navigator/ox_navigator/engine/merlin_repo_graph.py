@@ -205,7 +205,7 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return list(deduped.values())
 
 
-@lru_cache(maxsize=16)
+@lru_cache(maxsize=4)
 def _build_repo_graph_cached(max_files: int, state_signature: tuple[tuple[str, int, int], ...]) -> Dict[str, Any]:
     files = [REPO_ROOT / rel_path for rel_path, _mtime_ns, _size in state_signature]
     records = [record for path in files if (record := _record_for(path)) is not None]
