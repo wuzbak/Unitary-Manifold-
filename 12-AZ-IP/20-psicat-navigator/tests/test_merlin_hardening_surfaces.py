@@ -187,6 +187,8 @@ def test_route_tool_exposes_hardening_surfaces() -> None:
     traceability = route_tool("getMerlinActionTraceability", {})
     assert traceability["ok"] is True
     assert traceability["result"]["data"]["status"] == "SYNTHETIC_TRACEABILITY_AUDIT_READY"
+    assert traceability["result"]["data"]["receipt"]["status"] == "RECEIPT_READY"
+    assert traceability["result"]["data"]["receipt"]["promotion_language_allowed"] is False
 
     repo_graph = route_tool("getMerlinRepoGraph", {"max_files": 90})
     assert repo_graph["ok"] is True
@@ -561,6 +563,8 @@ def test_server_exposes_new_hardening_endpoints() -> None:
             traceability = client.get("/api/psicat/action-traceability")
             assert traceability.status_code == 200
             assert traceability.json()["action_traceability"]["status"] == "SYNTHETIC_TRACEABILITY_AUDIT_READY"
+            assert traceability.json()["action_traceability"]["receipt"]["status"] == "RECEIPT_READY"
+            assert traceability.json()["action_traceability"]["receipt"]["promotion_language_allowed"] is False
 
             repo_graph = client.get("/api/psicat/repo-graph?max_files=100")
             assert repo_graph.status_code == 200

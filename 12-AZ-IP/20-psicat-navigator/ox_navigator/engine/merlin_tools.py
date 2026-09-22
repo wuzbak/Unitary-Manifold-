@@ -188,7 +188,10 @@ from .merlin_telemetry import get_resource_budget_policy
 from .merlin_sync_contract import REQUIRED_TOOLKIT_FUNCTIONS
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 from src.consciousness.research_boundaries import get_consciousness_research_boundaries
-from src.core.action_to_evolution_traceability import action_to_evolution_traceability_registry
+from src.core.action_to_evolution_traceability import (
+    action_to_evolution_traceability_receipt,
+    action_to_evolution_traceability_registry,
+)
 from src.core.formal_invariant_registry import evaluate_formal_invariants
 
 _LIMIT_SYNC_ARGS_SCHEMA = {
@@ -1514,7 +1517,12 @@ _FUNCTIONS = {
         limit=args.get("limit"),
         session=args.get("__session") if isinstance(args.get("__session"), MerlinSession) else None,
     )},
-    "getMerlinActionTraceability": lambda **args: {"data": action_to_evolution_traceability_registry()},
+    "getMerlinActionTraceability": lambda **args: {
+        "data": {
+            **action_to_evolution_traceability_registry(),
+            "receipt": action_to_evolution_traceability_receipt(),
+        }
+    },
     "getMerlinEpistemicPolicy": lambda **args: {
         "data": {
             "policy": get_epistemic_claim_status_policy(),
