@@ -118,6 +118,40 @@ def test_phase2_holds_when_behavioral_audit_has_hard_failures(monkeypatch) -> No
     )
 
 
+def test_phase2_does_not_duplicate_behavioral_blocker(monkeypatch) -> None:
+    monkeypatch.setattr(
+        merlin_behavioral_audit,
+        "run_behavioral_audit_battery",
+        lambda: {
+            "ok": True,
+            "summary": {"all_pass": False},
+            "hard_failures": ["synthetic_failure"],
+        },
+    )
+    phase1_packet = {
+        "blocker_register": [
+            {
+                "blocker_id": "behavioral_audit_hard_failures_present",
+                "source": "behavioral_audit",
+                "severity": "high",
+                "reason": "preexisting blocker",
+            }
+        ],
+        "lane_receipts": [],
+    }
+    packet = merlin_program.run_psicat_spc_phase2_applied_pressure(
+        limit=1,
+        training_limit=1,
+        phase1_packet=phase1_packet,
+        observatory_payload={"governance_observatory": {"active_incidents": []}},
+    )
+    assert sum(
+        1
+        for item in packet["blocker_register"]
+        if item["blocker_id"] == "behavioral_audit_hard_failures_present"
+    ) == 1
+
+
 def test_phase2_can_clear_when_behavioral_audit_passes(monkeypatch) -> None:
     monkeypatch.setattr(
         merlin_behavioral_audit,

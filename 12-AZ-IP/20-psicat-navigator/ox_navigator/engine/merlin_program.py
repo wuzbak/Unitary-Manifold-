@@ -8545,6 +8545,11 @@ def run_psicat_spc_phase2_applied_pressure(
         source="spc_phase2_governance_observatory",
     )
     blocker_register: list[dict[str, Any]] = list(spc_phase1.get("blocker_register") or [])
+    existing_blocker_ids = {
+        str(item.get("blocker_id") or "")
+        for item in blocker_register
+        if isinstance(item, dict)
+    }
     for lane in phase2_lanes:
         if lane["pressure_gate_pass"]:
             continue
@@ -8567,8 +8572,16 @@ def run_psicat_spc_phase2_applied_pressure(
             }
         )
     blocker_register.extend(observatory_blockers)
+    existing_blocker_ids.update(
+        str(item.get("blocker_id") or "")
+        for item in blocker_register
+        if isinstance(item, dict)
+    )
     behavioral_audit = run_behavioral_audit_battery()
-    if list(behavioral_audit.get("hard_failures") or []):
+    if (
+        list(behavioral_audit.get("hard_failures") or [])
+        and "behavioral_audit_hard_failures_present" not in existing_blocker_ids
+    ):
         blocker_register.append(
             {
                 "blocker_id": "behavioral_audit_hard_failures_present",
