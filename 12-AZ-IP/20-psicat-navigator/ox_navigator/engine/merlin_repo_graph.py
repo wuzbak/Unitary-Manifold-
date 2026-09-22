@@ -127,6 +127,21 @@ def _record_for(path: Path) -> Dict[str, Any]:
     return _markdown_record(path)
 
 
+def _relative_import_candidates(source_path: str, imported: str) -> set[str]:
+    level = len(str(imported)) - len(str(imported).lstrip("."))
+    module = str(imported).lstrip(".")
+    package_dir = Path(str(source_path)).parent
+    for _ in range(max(level - 1, 0)):
+        package_dir = package_dir.parent
+    if not module:
+        return {(package_dir / "__init__.py").as_posix()}
+    module_path = module.replace(".", "/")
+    return {
+        (package_dir / f"{module_path}.py").as_posix(),
+        (package_dir / module_path / "__init__.py").as_posix(),
+    }
+
+
 def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     by_path = {record["path"]: record for record in records}
     symbol_sets = {path: set(record.get("symbols") or []) for path, record in by_path.items()}
@@ -145,17 +160,7 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
         for imported in list(record.get("imports") or []):
             candidate_targets: set[str] = set()
             if str(imported).startswith("."):
-                level = len(str(imported)) - len(str(imported).lstrip("."))
-                module = str(imported).lstrip(".")
-                base = Path(str(record["path"])).parent
-                for _ in range(max(level - 1, 0)):
-                    base = base.parent
-                if module:
-                    module_path = module.replace(".", "/")
-                    candidate_targets.add((base / f"{module_path}.py").as_posix())
-                    candidate_targets.add((base / module_path / "__init__.py").as_posix())
-                else:
-                    candidate_targets.add((base / "__init__.py").as_posix())
+                candidate_targets.update(_relative_import_candidates(str(record["path"]), str(imported)))
             else:
                 module_path = str(imported).replace(".", "/")
                 candidate_targets.update(

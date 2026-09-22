@@ -147,27 +147,8 @@ def test_route_tool_exposes_hardening_surfaces() -> None:
 
 
 def test_repo_graph_relative_import_matches_package_init_target() -> None:
-    edges = merlin_repo_graph._edge_records(
-        [
-            {
-                "path": "pkg/consumer.py",
-                "imports": [".subpkg"],
-                "symbols": [],
-                "tokens": [],
-            },
-            {
-                "path": "pkg/subpkg/__init__.py",
-                "imports": [],
-                "symbols": [],
-                "tokens": [],
-            },
-        ]
-    )
-    assert {
-        "source": "pkg/consumer.py",
-        "target": "pkg/subpkg/__init__.py",
-        "relation": "imports",
-    } in edges
+    candidates = merlin_repo_graph._relative_import_candidates("pkg/consumer.py", ".subpkg")
+    assert "pkg/subpkg/__init__.py" in candidates
 
 
 def test_phase2_holds_when_behavioral_audit_has_hard_failures(monkeypatch) -> None:
