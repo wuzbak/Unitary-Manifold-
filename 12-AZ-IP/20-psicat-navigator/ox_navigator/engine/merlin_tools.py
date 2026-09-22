@@ -189,7 +189,7 @@ from .merlin_sync_contract import REQUIRED_TOOLKIT_FUNCTIONS
 from .merlin_workspace import get_workspace_policy, get_workspace_state
 from src.consciousness.research_boundaries import get_consciousness_research_boundaries
 from src.core.action_to_evolution_traceability import action_to_evolution_traceability_registry
-from src.core.formal_invariant_registry import evaluate_formal_invariants, formal_invariant_registry
+from src.core.formal_invariant_registry import evaluate_formal_invariants
 
 _LIMIT_SYNC_ARGS_SCHEMA = {
     "type": "object",
@@ -1131,6 +1131,16 @@ def _require_positive_int(value: Any, *, field_name: str, default: int) -> int:
     return parsed
 
 
+def _formal_invariant_surface() -> dict[str, Any]:
+    results = evaluate_formal_invariants()
+    return {
+        "data": {
+            "registry": results["registry"],
+            "results": results,
+        }
+    }
+
+
 def _validate_args_schema(args: dict[str, Any], schema: dict[str, Any]) -> tuple[bool, str]:
     properties = dict(schema.get("properties") or {})
     required = list(schema.get("required") or [])
@@ -1517,10 +1527,7 @@ _FUNCTIONS = {
         max_hits=_coerce_positive_int(args.get("max_hits"), 8),
         max_files=_coerce_positive_int(args.get("max_files"), 180),
     )},
-    "getMerlinFormalInvariants": lambda **args: {"data": {
-        "registry": formal_invariant_registry(),
-        "results": evaluate_formal_invariants(),
-    }},
+    "getMerlinFormalInvariants": lambda **args: _formal_invariant_surface(),
     "getPsiCatResourceBudget": lambda **args: {"data": get_resource_budget_policy()},
     "getPsiCatBehavioralAudit": lambda **args: {"data": run_behavioral_audit_battery()},
     "getConsciousnessResearchBoundaries": lambda **args: {"data": get_consciousness_research_boundaries()},

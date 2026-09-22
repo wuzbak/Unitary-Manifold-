@@ -88,6 +88,36 @@ def test_resource_budget_policy_and_compliance_surface() -> None:
     assert compliance["execution_class"] == "fully_local"
 
 
+def test_resource_budget_policy_fails_closed_for_disallowed_external_provider_mode() -> None:
+    run = build_run_telemetry(
+        query="Fallback audit.",
+        answer="GOVERNANCE\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={"provider": "openrouter_compat", "lane": "medium_reasoner_default"},
+        context_source="external_provider",
+        tool_rounds=1,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "repo"}]},
+        gate_badges=["GOVERNANCE"],
+        memory_hits=1,
+        contradiction_events=0,
+        latency_ms=12.0,
+        retrieval_hit_count=3,
+    )
+    compliance = evaluate_resource_budget_compliance(
+        run,
+        policy={
+            "compatibility_only_external_fallback": False,
+            "fallback_policy": {
+                "degraded_mode_allowed": False,
+                "external_provider_mode": "compatibility_only",
+            },
+        },
+    )
+    assert compliance["execution_class"] == "compatibility_only_external"
+    assert compliance["checks"]["provider_mode"] is False
+    assert compliance["all_pass"] is False
+
+
 def test_route_tool_exposes_hardening_surfaces() -> None:
     traceability = route_tool("getMerlinActionTraceability", {})
     assert traceability["ok"] is True
@@ -114,6 +144,30 @@ def test_route_tool_exposes_hardening_surfaces() -> None:
     boundary = route_tool("getConsciousnessResearchBoundaries", {})
     assert boundary["ok"] is True
     assert boundary["result"]["data"]["status"] == "ADJACENT_TRACK_ONLY"
+
+
+def test_repo_graph_relative_import_matches_package_init_target() -> None:
+    edges = merlin_repo_graph._edge_records(
+        [
+            {
+                "path": "pkg/consumer.py",
+                "imports": [".subpkg"],
+                "symbols": [],
+                "tokens": [],
+            },
+            {
+                "path": "pkg/subpkg/__init__.py",
+                "imports": [],
+                "symbols": [],
+                "tokens": [],
+            },
+        ]
+    )
+    assert {
+        "source": "pkg/consumer.py",
+        "target": "pkg/subpkg/__init__.py",
+        "relation": "imports",
+    } in edges
 
 
 def test_phase2_holds_when_behavioral_audit_has_hard_failures(monkeypatch) -> None:

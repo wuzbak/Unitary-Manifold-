@@ -151,12 +151,18 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 for _ in range(max(level - 1, 0)):
                     base = base.parent
                 if module:
-                    candidate_targets.add((base / (module.replace(".", "/") + ".py")).as_posix())
+                    module_path = module.replace(".", "/")
+                    candidate_targets.add((base / f"{module_path}.py").as_posix())
+                    candidate_targets.add((base / module_path / "__init__.py").as_posix())
                 else:
                     candidate_targets.add((base / "__init__.py").as_posix())
             else:
-                suffix = str(imported).replace(".", "/") + ".py"
-                candidate_targets.update(path for path in known_paths if str(path).endswith(suffix))
+                module_path = str(imported).replace(".", "/")
+                candidate_targets.update(
+                    path
+                    for path in known_paths
+                    if str(path).endswith(f"{module_path}.py") or str(path).endswith(f"{module_path}/__init__.py")
+                )
             for candidate in candidate_targets:
                 if candidate in known_paths:
                     edges.append(

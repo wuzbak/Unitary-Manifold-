@@ -245,6 +245,14 @@ def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str
         or ((run.get("router_decision") or {}).get("provider"))
         or "sovereign_local"
     )
+    fallback_policy = dict(active_policy.get("fallback_policy") or {})
+    provider_mode_allowed = provider == "sovereign_local" or (
+        bool(active_policy.get("compatibility_only_external_fallback"))
+        and degraded_mode
+        and bool(fallback_policy.get("degraded_mode_allowed"))
+        and str(fallback_policy.get("external_provider_mode") or "") == "compatibility_only"
+    )
+    checks["provider_mode"] = provider_mode_allowed
     all_pass = all(checks.values())
     return {
         "policy_id": str(active_policy.get("policy_id") or "unknown"),
