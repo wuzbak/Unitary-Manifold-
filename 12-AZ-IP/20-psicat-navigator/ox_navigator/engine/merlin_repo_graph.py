@@ -174,7 +174,7 @@ def route_context_via_repo_graph(query: str, *, max_hits: int = 8, max_files: in
             }
         )
     scored.sort(key=lambda item: (-float(item["score"]), item["path"]))
-    hits = scored[: max(1, min(int(max_hits), 20))]
+    hits = scored[: max(0, min(int(max_hits), 20))]
     return {
         "ok": True,
         "query": query,

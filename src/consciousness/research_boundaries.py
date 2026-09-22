@@ -16,8 +16,8 @@ def get_consciousness_research_boundaries() -> Dict[str, Any]:
         "ontology_proof_allowed": False,
         "separation": {
             "speculative_modeling": "allowed_with_explicit_boundary_note",
-            "operational_safety_logic": "allowed_when framed as behavioral governance rather than proof of consciousness",
-            "human_interaction_heuristics": "allowed_with auditability and non-anthropomorphic guardrails",
+            "operational_safety_logic": "allowed_when_framed_as_behavioral_governance_rather_than_proof_of_consciousness",
+            "human_interaction_heuristics": "allowed_with_auditability_and_non_anthropomorphic_guardrails",
             "hard_physics_claims": "forbidden_without independent hardgate derivation and truth-layer promotion",
         },
         "evidence_classes": {

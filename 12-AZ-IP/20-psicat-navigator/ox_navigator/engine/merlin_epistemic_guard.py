@@ -4,10 +4,7 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any, Dict
-
-REPO_ROOT = Path(__file__).resolve().parents[4]
 
 from src.core.action_to_evolution_contract import action_to_evolution_deliverable_contract
 from src.core.action_to_evolution_traceability import action_to_evolution_traceability_registry
