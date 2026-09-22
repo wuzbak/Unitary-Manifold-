@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v37.7
+# Unitary Manifold v38.0
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -32,6 +32,7 @@ still-open physical obligations in the table.
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
 *Last updated: 2026-09-15 (v37.7 — Sprint CU: Pillar 1121. This sprint adds one fail-closed routing packet that binds inherited v37.6/CT status, the explicit unfinished-physics set, current execution-capability gains, and the next single-target physics sprint recommendation in one evidence-backed surface. The packet locks the next full-focus physics sprint to action-to-evolution only and records PsiCat as benchmark-ready with phase-2 applied-pressure promotion available only under continued receipt discipline, not as an unconditional sovereign-promotion claim. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1122. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Sprint CU routing and ledger suites 46 passed · 0 failed.)*
 
+*Historical continuity note: v38.0 Sprint CV (Pillars 1122-1128; next slot 1129) is the canonical three-lane earned-version packet directly above Sprint CU.*
 *Historical continuity note: v37.7 Sprint CU (Pillar 1121; next slot 1122) is the canonical action-to-evolution full-focus routing packet directly above Sprint CT.*
 *Historical continuity note: v37.6 Sprint CT (Pillar 1120; next slot 1121) is the canonical PsiCat training-benchmarking-promotion packet directly above Sprint CS.*
 *Historical continuity note: v37.5 Sprint CS (Pillar 1119; next slot 1120) is the canonical PsiCat promotion-routing packet directly above Sprint CR.*
@@ -49,6 +50,20 @@ still-open physical obligations in the table.
 
 
 
+
+*P1128 (v38.0): Sprint CV Master Integration Certificate — SPRINT_CV_MASTER_INTEGRATION_CERTIFICATE_COMPLETE. `src/core/pillar1128_sprint_cv_master_integration_certificate.py` fail-closes Sprint CV validity across the charter and all three lanes, and computes the version-earning gate for v37.7→v38.0 as a certificate (not a narrative claim): Lane 1 emitted an honest blocker certificate (`PRECISE_BLOCKER_CERTIFICATE_AND_STOP`, remaining blocker `EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED`), Lane 2 earned a receipt-backed `PHASE2_CLEAR_ADVANCE_TO_PHASE3` verdict (`PROMOTED_PHASE2_APPLIED_PRESSURE`), and Lane 3 verified truth-surface lockstep plus resolved two real health findings (tests/ directory hygiene and docs/mas_tracker.yml YAML validity).
+
+*P1127 (v38.0): Sprint CV Status Coherence Certificate — SPRINT_CV_STATUS_COHERENCE_CERTIFICATE_COMPLETE. `src/core/pillar1127_sprint_cv_status_coherence_certificate.py` verifies STATUS.md, mas_tracker.yml, FALLIBILITY.md, CLAIM_MASTER_BOARD.md, GATEKEEPER_SUMMARY.md, TRUTH_LAYER.md, WAVE_CHANGELOG.md, SPRINT_PLAN.md, and um_live_status.json agree on v38.0/Sprint CV/Pillars 1122-1128/next slot 1129.
+
+*P1126 (v38.0): Sprint CV Documentation Evidence Packet — SPRINT_CV_DOCUMENTATION_EVIDENCE_PACKET_COMPLETE. `src/core/pillar1126_sprint_cv_documentation_evidence_packet.py` aggregates Lane 1/2/3 reports into one blunt board: no new closure claimed this sprint, tests/ hygiene and mas_tracker.yml validity tightened/corrected, remaining lanes and DESI/LiteBIRD external waits carried forward unchanged.
+
+*P1125 (v38.0): Sprint CV Lane 3 Monorepo Health Audit — LANE3_MONOREPO_HEALTH_AUDIT_COMPLETE. `src/core/pillar1125_lane3_monorepo_health_audit.py` runs large-directory, onboarding-consistency, and internal-link checks, and adds a new docs/mas_tracker.yml YAML-validity check; resolves the tests/ large-directory violation (sharded 25 files into `tests/pillar_0829_0858/`) and the mas_tracker.yml parse failure (legacy pre-v31 archive wrapped as one labeled non-canonical raw-text key), while honestly tracking 60 known non-gating broken outreach links as not fixed this sprint.
+
+*P1124 (v38.0): Sprint CV Lane 2 PsiCat SPC Phase 2 Promotion Sprint — LANE2_PSICAT_SPC_PHASE2_PROMOTION_SPRINT_COMPLETE. `src/core/pillar1124_lane2_psicat_spc_phase2_promotion_sprint.py` executes the real `/api/psicat/spc-phase2-applied-pressure` battery via the Product 20 `ox_navigator` bridge; returns a receipt-backed `PHASE2_CLEAR_ADVANCE_TO_PHASE3` verdict (3 clear / 0 hold / 0 demote lanes) and a governed `PROMOTED_PHASE2_APPLIED_PRESSURE` promotion decision; `performance_gate_history.json` refreshed (capped at 180 entries).
+
+*P1123 (v38.0): Sprint CV Lane 1 Action-to-Evolution Attempt — LANE1_ACTION_TO_EVOLUTION_CV_ATTEMPT_COMPLETE. `src/core/pillar1123_lane1_action_to_evolution_cv_attempt.py` re-attempts the locked action-to-evolution closure target and honestly reports `PRECISE_BLOCKER_CERTIFICATE_AND_STOP` (no unearned closure fabricated); sweeps the six architecture-limit lanes and three external-wait lanes and carries them forward unchanged.
+
+*P1122 (v38.0): Sprint CV Master Charter — SPRINT_CV_MASTER_CHARTER_COMPLETE. `src/core/pillar1122_sprint_cv_master_charter.py` locks the three-lane Sprint CV structure (physics closure/derivation, PsiCat testing/promotion, monorepo health) requested for an earned v38.0, with the version bump defined as a certificate earned by all three lanes reporting honestly, not a target chased for its own sake.
 
 *P1121 (v37.7): Action-to-Evolution Full-Focus Sprint Routing — ACTION_TO_EVOLUTION_FULL_FOCUS_SPRINT_ROUTING_COMPLETE. `src/core/pillar1121_action_to_evolution_full_focus_sprint_routing.py` binds the inherited Sprint CT status, the explicit unfinished-physics set, the current fail-closed execution capabilities, the single next full-focus action-to-evolution sprint target, and the governed PsiCat phase-2-only promotion route in one packet without claiming new hardgate closure.
 

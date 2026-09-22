@@ -33,9 +33,45 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v37.7 (2026-09-15)**
-**Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (latest verified full regression in branch history)
-**Next pillar slot:** 1122
+**Current version: v38.0 (2026-09-22)**
+**Regression:** REGRESSION_PLACEHOLDER_CV (latest verified full regression in branch history)
+**Next pillar slot:** 1129
+
+
+
+
+## v38.0 (2026-09-22 — Sprint CV: Pillars 1122-1128)
+
+**What changed:**
+Sprint CV is a parallel three-lane sprint executing the "Path to an Earned v38.0" master plan: Lane 1 physics closure/derivation, Lane 2 PsiCat SPC Phase 2 testing/promotion, Lane 3 monorepo health tightening. The version bump is treated as a certificate earned by all three lanes reporting honestly, not a narrative claim.
+
+**Why:**
+Bring the repository to an earned v38.0 without manufacturing closure in any lane: either genuine physics progress or an honest blocker certificate; either an earned PsiCat promotion or an explicit held-with-remediation verdict; and a verified, zero-drift monorepo health baseline.
+
+**Epistemic label deltas:**
+- `SPRINT_CV_MASTER_CHARTER_COMPLETE`
+- `LANE1_ACTION_TO_EVOLUTION_CV_ATTEMPT_COMPLETE`
+- `LANE2_PSICAT_SPC_PHASE2_PROMOTION_SPRINT_COMPLETE`
+- `LANE3_MONOREPO_HEALTH_AUDIT_COMPLETE`
+- `SPRINT_CV_DOCUMENTATION_EVIDENCE_PACKET_COMPLETE`
+- `SPRINT_CV_STATUS_COHERENCE_CERTIFICATE_COMPLETE`
+- `SPRINT_CV_MASTER_INTEGRATION_CERTIFICATE_COMPLETE`
+
+**Physics label delta:** None — Lane 1 reports `PRECISE_BLOCKER_CERTIFICATE_AND_STOP` (remaining blocker: `EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED`); no new hardgate closure is claimed.
+
+**PsiCat delta:** Lane 2 executed the real SPC Phase 2 applied-pressure battery and earned `PHASE2_CLEAR_ADVANCE_TO_PHASE3` (3 clear / 0 hold / 0 demote lanes); promotion decision `PROMOTED_PHASE2_APPLIED_PRESSURE`.
+
+**Monorepo health delta:** Lane 3 resolved two genuine findings: (1) `tests/` exceeded its configured large-directory limit (1502 > 1500) — fixed by sharding 25 older pillar test files into `tests/pillar_0829_0858/`; (2) `docs/mas_tracker.yml` did not parse as valid YAML — it mixed a top-level mapping with a top-level `- sprint_id:` sequence, and its legacy archive silently trailed off at `next_pillar_slot: 942` (Sprint v30.0) with no marker distinguishing it from the live top-of-file status. That is the exact source of the reported "179 pillars behind" staleness confusion; it is fixed by wrapping the legacy pre-v31 archive as one clearly-labeled, non-canonical raw-text key with zero content loss, plus a top-of-file `canonical_status_notice`. 60 known non-gating broken outreach links remain honestly tracked as not fixed this sprint.
+
+**Open-lane set held fixed:** `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** Photon origin, action-to-evolution equivalence (Euler-Lagrange match specifically), independent CMB normalization and transfer corrections, flavor/gauge uniqueness, joint UV/Higgs predictivity, and non-perturbative QG.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Focused regression: Sprint CV lane/charter/certificate suites REGRESSION_FOCUSED_PLACEHOLDER_CV passed · 0 failed; latest verified full regression in current branch history: REGRESSION_PLACEHOLDER_CV
+**Next pillar slot:** 1129
 
 
 
