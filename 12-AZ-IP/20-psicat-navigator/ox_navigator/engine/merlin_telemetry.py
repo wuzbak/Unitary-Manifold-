@@ -254,11 +254,12 @@ def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str
         if provider in compatibility_providers
         else "unsupported_external"
     )
+    degraded_mode_visible = degraded_mode or provider_class == "compatibility_only_external"
     provider_mode_allowed = provider_class == "fully_local" or (
         provider_class == "compatibility_only_external"
         and
         bool(active_policy.get("compatibility_only_external_fallback"))
-        and degraded_mode
+        and degraded_mode_visible
         and bool(fallback_policy.get("degraded_mode_allowed"))
         and str(fallback_policy.get("external_provider_mode") or "") == "compatibility_only"
     )
@@ -269,7 +270,7 @@ def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str
         "checks": checks,
         "all_pass": all_pass,
         "execution_class": provider_class,
-        "degraded_mode_visible": degraded_mode,
+        "degraded_mode_visible": degraded_mode_visible,
     }
 
 
