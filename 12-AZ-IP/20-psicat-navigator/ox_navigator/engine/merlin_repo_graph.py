@@ -49,6 +49,14 @@ def _candidate_files(max_files: int) -> List[Path]:
     return unique[: max(1, min(int(max_files), 600))]
 
 
+def _state_signature(files: List[Path]) -> tuple[tuple[str, int, int], ...]:
+    signature: list[tuple[str, int, int]] = []
+    for path in files:
+        stat = path.stat()
+        signature.append((path.relative_to(REPO_ROOT).as_posix(), int(stat.st_mtime_ns), int(stat.st_size)))
+    return tuple(signature)
+
+
 def _tokenize(*parts: str) -> set[str]:
     tokens: set[str] = set()
     for part in parts:
@@ -60,7 +68,7 @@ def _tokenize(*parts: str) -> set[str]:
 
 
 def _python_record(path: Path) -> Dict[str, Any]:
-    source = path.read_text(encoding="utf-8")
+    source = path.read_text(encoding="utf-8", errors="replace")
     symbols: List[str] = []
     imports: List[str] = []
     rel = path.relative_to(REPO_ROOT).as_posix()
@@ -90,7 +98,7 @@ def _python_record(path: Path) -> Dict[str, Any]:
 
 
 def _markdown_record(path: Path) -> Dict[str, Any]:
-    text = path.read_text(encoding="utf-8")
+    text = path.read_text(encoding="utf-8", errors="replace")
     headings = [match.group(1).strip() for match in _DOC_HEADING_RE.finditer(text)]
     rel = path.relative_to(REPO_ROOT).as_posix()
     return {
@@ -142,9 +150,8 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
 
 @lru_cache(maxsize=16)
-def build_repo_graph(*, max_files: int = 180) -> Dict[str, Any]:
-    """Build a bounded deterministic repository graph for routing."""
-    files = _candidate_files(max_files=max_files)
+def _build_repo_graph_cached(max_files: int, state_signature: tuple[tuple[str, int, int], ...]) -> Dict[str, Any]:
+    files = [REPO_ROOT / rel_path for rel_path, _mtime_ns, _size in state_signature]
     records = [_record_for(path) for path in files]
     edges = _edge_records(records)
     return {
@@ -161,6 +168,12 @@ def build_repo_graph(*, max_files: int = 180) -> Dict[str, Any]:
         },
         "guardrail": "Graph output is a routing aid for local repository navigation; it is not an epistemic truth source.",
     }
+
+
+def build_repo_graph(*, max_files: int = 180) -> Dict[str, Any]:
+    """Build a bounded deterministic repository graph for routing."""
+    files = _candidate_files(max_files=max_files)
+    return _build_repo_graph_cached(max_files, _state_signature(files))
 
 
 def route_context_via_repo_graph(query: str, *, max_hits: int = 8, max_files: int = 180) -> Dict[str, Any]:

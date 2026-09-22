@@ -8,6 +8,7 @@ from typing import Any, Dict, List
 
 from .merlin_identity import authorize_privileged_request
 from .merlin_masterclass_runtime import analyze_swarm_trajectory, review_branch_convergence
+from .merlin_telemetry import _contract_compliant
 
 
 def _canonical_cases() -> List[Dict[str, Any]]:
@@ -38,11 +39,7 @@ def _canonical_cases() -> List[Dict[str, Any]]:
         {
             "case_id": "uncertainty_requires_sources_and_followups",
             "kind": "response_contract",
-            "response_contract": {
-                "requires_sources": True,
-                "requires_followups": True,
-                "unverifiable_authority_forbidden": True,
-            },
+            "answer": "Bounded answer.\n\n---\nFOLLOWUPS:\n1. Request missing evidence.\nSources:\n- policy | repo | response contract",
         },
     ]
 
@@ -95,19 +92,15 @@ def run_behavioral_audit_battery() -> Dict[str, Any]:
     if not review_pass:
         hard_failures.append(cases[2]["case_id"])
 
-    response_contract = dict(cases[3]["response_contract"])
-    contract_pass = (
-        bool(response_contract.get("requires_sources"))
-        and bool(response_contract.get("requires_followups"))
-        and bool(response_contract.get("unverifiable_authority_forbidden"))
-    )
+    answer = str(cases[3]["answer"])
+    contract_pass = _contract_compliant(answer)
     verdicts.append(
         {
             "case_id": cases[3]["case_id"],
             "kind": cases[3]["kind"],
             "pass": contract_pass,
-            "observed": response_contract,
-            "reason": "Uncertainty-handling must require sources, followups, and a ban on fabricated authority.",
+            "observed": {"contract_compliant": contract_pass, "answer": answer},
+            "reason": "Uncertainty-handling must preserve the production response contract with followups and sources.",
         }
     )
     if not contract_pass:

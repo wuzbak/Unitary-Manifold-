@@ -215,7 +215,20 @@ def get_resource_budget_policy() -> dict[str, Any]:
 
 def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str, Any] | None = None) -> dict[str, Any]:
     """Evaluate one telemetry record against the resource ceilings."""
-    active_policy = policy or get_resource_budget_policy()
+    active_policy = get_resource_budget_policy()
+    if policy:
+        active_policy = {
+            **active_policy,
+            **policy,
+            "ceilings": {
+                **dict(active_policy.get("ceilings") or {}),
+                **dict(policy.get("ceilings") or {}),
+            },
+            "fallback_policy": {
+                **dict(active_policy.get("fallback_policy") or {}),
+                **dict(policy.get("fallback_policy") or {}),
+            },
+        }
     ceilings = dict(active_policy.get("ceilings") or {})
     tokens = dict(run.get("tokens") or {})
     quality = dict(run.get("quality_signals") or {})
