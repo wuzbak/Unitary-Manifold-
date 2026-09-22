@@ -110,16 +110,15 @@ def evaluate_formal_invariants() -> Dict[str, Any]:
         }
     )
 
-    sound_speed = Fraction.from_float(
-        round(braided_sound_speed(CANONICAL_N1, CANONICAL_N2, k_cs), 12)
-    ).limit_denominator()
+    sound_speed_value = braided_sound_speed(CANONICAL_N1, CANONICAL_N2, k_cs)
+    sound_speed_expected = float(CANONICAL_SOUND_SPEED)
     results.append(
         {
             "id": "canonical_braided_sound_speed",
             "verification_surface": "python",
-            "observed_fraction": f"{sound_speed.numerator}/{sound_speed.denominator}",
+            "observed": sound_speed_value,
             "expected_fraction": f"{CANONICAL_SOUND_SPEED.numerator}/{CANONICAL_SOUND_SPEED.denominator}",
-            "pass": sound_speed == CANONICAL_SOUND_SPEED,
+            "pass": abs(sound_speed_value - sound_speed_expected) < 1e-12,
         }
     )
 

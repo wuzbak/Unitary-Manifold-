@@ -52,17 +52,22 @@ def _tokenize(*parts: str) -> set[str]:
 
 def _python_record(path: Path) -> Dict[str, Any]:
     source = path.read_text(encoding="utf-8")
-    tree = ast.parse(source)
     symbols: List[str] = []
     imports: List[str] = []
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            symbols.append(node.name)
-        elif isinstance(node, ast.Import):
-            imports.extend(alias.name for alias in node.names)
-        elif isinstance(node, ast.ImportFrom) and node.module:
-            imports.append(node.module)
     rel = path.relative_to(REPO_ROOT).as_posix()
+    syntax_error: str | None = None
+    try:
+        tree = ast.parse(source)
+    except SyntaxError as exc:
+        syntax_error = f"{exc.msg} @ line {exc.lineno}"
+    else:
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                symbols.append(node.name)
+            elif isinstance(node, ast.Import):
+                imports.extend(alias.name for alias in node.names)
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                imports.append(node.module)
     return {
         "path": rel,
         "kind": "python",
@@ -70,6 +75,8 @@ def _python_record(path: Path) -> Dict[str, Any]:
         "imports": sorted(set(imports))[:40],
         "headings": [],
         "tokens": sorted(_tokenize(rel, " ".join(symbols), " ".join(imports))),
+        "parse_status": "syntax_error" if syntax_error else "ok",
+        "syntax_error": syntax_error,
     }
 
 
