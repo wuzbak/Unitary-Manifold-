@@ -211,6 +211,59 @@ def _tool_data_or_error(tool_payload: dict) -> tuple[int, dict]:
     return 200, {"ok": True, "data": result["data"]}
 
 
+def _as_dict(value: object) -> dict[str, object]:
+    return dict(value) if isinstance(value, dict) else {}
+
+
+def _as_str_list(value: object) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [str(item).strip() for item in value if str(item).strip()]
+
+
+def _extract_blocker_ids(value: object) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    rows: list[str] = []
+    for item in value:
+        if isinstance(item, dict):
+            blocker_id = str(item.get('blocker_id') or item.get('id') or item.get('reason') or '').strip()
+            if blocker_id:
+                rows.append(blocker_id)
+        else:
+            text = str(item).strip()
+            if text:
+                rows.append(text)
+    return rows
+
+
+def _register_phase_packet_observatory_event(session: MerlinSession, payload: dict[str, object]) -> None:
+    mode = str(payload.get('mode') or 'unknown_phase_mode')
+    blockers = _extract_blocker_ids(payload.get('blocker_register'))
+    audit_summary_raw = payload.get('phase_gate_ledger')
+    audit_summary = _as_dict(audit_summary_raw)
+    phase_verdict = str(payload.get('phase_verdict') or payload.get('live_readiness_verdict') or 'PHASE_HOLD_OR_UNKNOWN')
+    run_count = 0
+    if isinstance(payload.get('lane_receipts'), list):
+        run_count = len(list(payload.get('lane_receipts') or []))
+    elif isinstance(payload.get('applied_pressure_lanes'), list):
+        run_count = len(list(payload.get('applied_pressure_lanes') or []))
+    elif isinstance(payload.get('integrated_run_receipts'), list):
+        run_count = len(list(payload.get('integrated_run_receipts') or []))
+    next_step = str(payload.get('next_step') or '').strip()
+    session.register_observatory_event({
+        'kind': 'spc_phase_packet_run',
+        'mode': mode,
+        'phase_verdict': phase_verdict,
+        'run_count': max(0, int(run_count)),
+        'blockers': blockers,
+        'malformed_audit_summary': bool(audit_summary_raw is not None and not isinstance(audit_summary_raw, dict)),
+        'audit_summary': audit_summary,
+        'recommended_actions': [next_step] if next_step else [],
+        'conversion_targets': ['spc_phase_packet_receipt', 'phase_gate_training_bundle'],
+    })
+
+
 def _is_merlin_compat_route(path: str) -> bool:
     normalized = path if path == '/' else path.rstrip('/')
     return normalized == '/api/merlin' or normalized.startswith('/api/merlin/')
@@ -1237,13 +1290,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if training_error:
                     self._json({'ok': False, 'error': training_error}, status=400)
                     return
-                self._json({
-                'ok': True,
-                'spc_phase1_baseline': run_psicat_spc_phase1_baseline(
+                phase1_packet = run_psicat_spc_phase1_baseline(
                     session=merlin_session,
                     limit=limit,
                     training_limit=training_limit,
-                ),
+                )
+                _register_phase_packet_observatory_event(merlin_session, phase1_packet)
+                self._json({
+                'ok': True,
+                'spc_phase1_baseline': phase1_packet,
                 })
                 self._persist_session(session_id, merlin_session)
                 return
@@ -1256,13 +1311,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if training_error:
                     self._json({'ok': False, 'error': training_error}, status=400)
                     return
-                self._json({
-                'ok': True,
-                'spc_phase2_applied_pressure': run_psicat_spc_phase2_applied_pressure(
+                phase2_packet = run_psicat_spc_phase2_applied_pressure(
                     session=merlin_session,
                     limit=limit,
                     training_limit=training_limit,
-                ),
+                )
+                _register_phase_packet_observatory_event(merlin_session, phase2_packet)
+                self._json({
+                'ok': True,
+                'spc_phase2_applied_pressure': phase2_packet,
                 })
                 self._persist_session(session_id, merlin_session)
                 return
@@ -1275,13 +1332,15 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 if training_error:
                     self._json({'ok': False, 'error': training_error}, status=400)
                     return
-                self._json({
-                'ok': True,
-                'spc_phase3_live_readiness': get_psicat_spc_phase3_live_readiness(
+                phase3_packet = get_psicat_spc_phase3_live_readiness(
                     session=merlin_session,
                     limit=limit,
                     training_limit=training_limit,
-                ),
+                )
+                _register_phase_packet_observatory_event(merlin_session, phase3_packet)
+                self._json({
+                'ok': True,
+                'spc_phase3_live_readiness': phase3_packet,
                 })
                 self._persist_session(session_id, merlin_session)
                 return
@@ -1815,10 +1874,12 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                         'blockers': list(review.get('blockers') or []),
                         'recommended_actions': list(review.get('recommended_actions') or []),
                         'conversion_targets': ['branch_convergence_receipt', 'validation_receipt_bundle'],
+                        'audit_receipt': dict(review.get('audit_receipt') or {}),
                     })
                     self._json({
                         'ok': True,
                         'branch_convergence_review': review,
+                        'audit_receipt': dict(review.get('audit_receipt') or {}),
                     })
                     self._persist_session(session_id, merlin_session)
                     return

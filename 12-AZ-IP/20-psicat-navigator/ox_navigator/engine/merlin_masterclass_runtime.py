@@ -6,6 +6,8 @@ from __future__ import annotations
 
 from collections import Counter
 from datetime import datetime, timezone
+import hashlib
+import json
 from pathlib import Path
 import subprocess
 from typing import Any
@@ -132,6 +134,76 @@ def _unique_paths(values: list[str]) -> list[str]:
         if item and item not in deduped:
             deduped.append(item)
     return deduped
+
+
+def _as_dict(value: Any) -> dict[str, Any]:
+    return dict(value) if isinstance(value, dict) else {}
+
+
+def _as_str_list(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [str(item).strip() for item in value if str(item).strip()]
+
+
+def _is_truthy(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return value != 0
+    if isinstance(value, str):
+        return value.strip().lower() in {"1", "true", "yes", "on", "enabled"}
+    return False
+
+
+def _promotion_has_synthetic_closure_claim(payload: dict[str, Any]) -> bool:
+    if not isinstance(payload, dict):
+        return False
+    flag_keys = (
+        "synthetic_closure",
+        "synthetic_closure_flag",
+        "synthetic_closure_enabled",
+        "closure_synthetic",
+        "simulated_closure",
+        "closure_override",
+    )
+    if any(_is_truthy(payload.get(key)) for key in flag_keys):
+        return True
+    nested_flags = _as_dict(payload.get("flags"))
+    return any(_is_truthy(nested_flags.get(key)) for key in flag_keys)
+
+
+def _build_branch_review_audit_receipt(
+    *,
+    review_id: str,
+    requested_action: str,
+    blockers: list[str],
+    missing_fields: dict[str, list[str]],
+    evidence_complete: dict[str, bool],
+    synthetic_closure_claimed: bool,
+) -> dict[str, Any]:
+    signature_payload = {
+        "review_id": review_id,
+        "requested_action": requested_action,
+        "blockers": sorted(str(item) for item in blockers),
+        "missing_fields": {
+            section: sorted(str(field) for field in list(fields or []))
+            for section, fields in sorted(missing_fields.items())
+        },
+        "evidence_complete": {key: bool(value) for key, value in sorted(evidence_complete.items())},
+        "synthetic_closure_claimed": bool(synthetic_closure_claimed),
+    }
+    digest = hashlib.sha256(json.dumps(signature_payload, sort_keys=True).encode("utf-8")).hexdigest()
+    return {
+        "receipt_id": f"psicat_branch_convergence_audit_{digest[:16]}",
+        "generated_at": _utcnow(),
+        "signature_sha256": digest,
+        "fail_closed": bool(blockers),
+        "blocker_count": len(blockers),
+        "missing_field_count": sum(len(list(fields or [])) for fields in missing_fields.values()),
+        "synthetic_closure_claimed": bool(synthetic_closure_claimed),
+        "review_surface": "/api/psicat/branch-convergence-review",
+    }
 
 
 def _path_matches_any(path: str, candidates: tuple[str, ...]) -> bool:
@@ -416,6 +488,9 @@ def review_branch_convergence(
         "steward_review",
     }:
         blockers.append("manual_promotion_authority_required")
+    synthetic_closure_claimed = _promotion_has_synthetic_closure_claim(promotion_payload)
+    if requested_action in PROMOTION_ACTIONS and synthetic_closure_claimed:
+        blockers.append("synthetic_closure_claim_forbidden")
     review_verdict = (
         "ready_for_human_convergence_review"
         if requested_action in PROMOTION_ACTIONS and not blockers
@@ -437,8 +512,19 @@ def review_branch_convergence(
         recommended_actions.append("acknowledge_partial_clone_visibility")
     if requested_action in PROMOTION_ACTIONS:
         recommended_actions.append("route_to_user_directed_promotion_review")
+    if synthetic_closure_claimed:
+        recommended_actions.append("remove_synthetic_closure_flags_and_resubmit")
+    review_id = "psicat_branch_convergence_review_v1"
+    audit_receipt = _build_branch_review_audit_receipt(
+        review_id=review_id,
+        requested_action=requested_action,
+        blockers=blockers,
+        missing_fields=missing_fields,
+        evidence_complete=evidence_complete,
+        synthetic_closure_claimed=synthetic_closure_claimed,
+    )
     return {
-        "review_id": "psicat_branch_convergence_review_v1",
+        "review_id": review_id,
         "generated_at": _utcnow(),
         "review_verdict": review_verdict,
         "requested_action": requested_action,
@@ -456,22 +542,28 @@ def review_branch_convergence(
             "user_directed_promotion_only": True,
             "clone_visibility_limited": bool(visibility.get("clone_limited")),
         },
+        "audit_receipt": audit_receipt,
     }
 
 
 def build_governance_observatory(*, session: Any | None = None, limit: int = 12) -> dict[str, Any]:
     cap = max(1, int(limit))
     events = list(getattr(session, "observatory_events", []) or []) if session is not None else []
+    governance_event_kinds = {"swarm_analysis", "branch_convergence_review", "spc_phase_packet_run"}
     governance_events = [
         dict(item)
         for item in events
-        if isinstance(item, dict) and str(item.get("kind") or "") in {"swarm_analysis", "branch_convergence_review"}
+        if isinstance(item, dict) and str(item.get("kind") or "") in governance_event_kinds
     ]
     governance_events = governance_events[-cap:]
     swarm_events = [item for item in governance_events if str(item.get("kind") or "") == "swarm_analysis"]
     branch_events = [item for item in governance_events if str(item.get("kind") or "") == "branch_convergence_review"]
+    phase_events = [item for item in governance_events if str(item.get("kind") or "") == "spc_phase_packet_run"]
     swarm_state_counts = dict(Counter(str(item.get("state_class") or "INSUFFICIENT_SIGNAL") for item in swarm_events))
     branch_verdict_counts = dict(Counter(str(item.get("review_verdict") or "hold") for item in branch_events))
+    phase_verdict_counts = dict(Counter(str(item.get("phase_verdict") or "phase_hold_or_unknown") for item in phase_events))
+    phase_modes = sorted({str(item.get("mode") or "").strip() for item in phase_events if str(item.get("mode") or "").strip()})
+    phase_run_counts = [max(0, int(item.get("run_count") or 0)) for item in phase_events]
     active_incidents: list[dict[str, Any]] = []
     severity_counts = {"low": 0, "medium": 0, "high": 0}
     conversion_targets: list[str] = []
@@ -492,15 +584,30 @@ def build_governance_observatory(*, session: Any | None = None, limit: int = 12)
             elif state == "SUSPICIOUS_COORDINATED_PRESSURE":
                 drift_alerts.append("suspicious_swarm_pressure_active")
         else:
-            verdict = str(item.get("review_verdict") or "hold")
-            requested_action = str(item.get("requested_action") or "hold")
-            severity = "high" if verdict == "hold" and requested_action in PROMOTION_ACTIONS else "medium" if verdict == "hold" else "low"
-            summary = f"{verdict} for {requested_action} on {item.get('current_branch', 'unknown_branch')}"
-            if verdict == "hold" and requested_action in PROMOTION_ACTIONS:
-                drift_alerts.append("branch_convergence_hold_active")
-                deployment_constraints.append("branch_convergence_hold_active")
-            elif verdict == "hold":
-                drift_alerts.append("branch_convergence_review_open")
+            if kind == "branch_convergence_review":
+                verdict = str(item.get("review_verdict") or "hold")
+                requested_action = str(item.get("requested_action") or "hold")
+                severity = "high" if verdict == "hold" and requested_action in PROMOTION_ACTIONS else "medium" if verdict == "hold" else "low"
+                summary = f"{verdict} for {requested_action} on {item.get('current_branch', 'unknown_branch')}"
+                if verdict == "hold" and requested_action in PROMOTION_ACTIONS:
+                    drift_alerts.append("branch_convergence_hold_active")
+                    deployment_constraints.append("branch_convergence_hold_active")
+                elif verdict == "hold":
+                    drift_alerts.append("branch_convergence_review_open")
+            else:
+                phase_verdict = str(item.get("phase_verdict") or "phase_hold_or_unknown")
+                malformed_audit_summary = bool(item.get("malformed_audit_summary"))
+                if malformed_audit_summary:
+                    severity = "high"
+                    summary = f"malformed audit summary for {item.get('mode', 'unknown_mode')}"
+                    drift_alerts.append("phase_packet_audit_summary_malformed")
+                    deployment_constraints.append("phase_packet_audit_summary_malformed")
+                else:
+                    severity = "high" if "HOLD" in phase_verdict else "low"
+                    summary = f"{phase_verdict} for {item.get('mode', 'unknown_mode')}"
+                    if "HOLD" in phase_verdict:
+                        drift_alerts.append("phase_packet_hold_active")
+                        deployment_constraints.append("phase_packet_hold_active")
         severity_counts[severity] = severity_counts.get(severity, 0) + 1
         if severity in {"medium", "high"}:
             active_incidents.append(
@@ -509,14 +616,14 @@ def build_governance_observatory(*, session: Any | None = None, limit: int = 12)
                     "severity": severity,
                     "summary": summary,
                     "recorded_at": str(item.get("recorded_at") or item.get("generated_at") or ""),
-                    "recommended_actions": list(item.get("recommended_actions") or []),
-                    "blockers": list(item.get("blockers") or []),
+                    "recommended_actions": _as_str_list(item.get("recommended_actions")),
+                    "blockers": _as_str_list(item.get("blockers")),
                     "state_class": item.get("state_class"),
                     "review_verdict": item.get("review_verdict"),
                     "requested_action": item.get("requested_action"),
                 }
             )
-        conversion_targets.extend(str(target) for target in list(item.get("conversion_targets") or []) if str(target).strip())
+        conversion_targets.extend(_as_str_list(item.get("conversion_targets")))
         if kind == "branch_convergence_review" and item.get("review_verdict") == "hold":
             conversion_targets.extend(["branch_convergence_receipt", "validation_receipt_bundle"])
     health_checks = [
@@ -533,8 +640,8 @@ def build_governance_observatory(*, session: Any | None = None, limit: int = 12)
             passed=True,
             status="pass",
             summary="Swarm and branch review events are classified into explicit severity and drift categories.",
-            details={"swarm_events": len(swarm_events), "branch_review_events": len(branch_events)},
-            sources=["swarm_analysis", "branch_convergence_review"],
+            details={"swarm_events": len(swarm_events), "branch_review_events": len(branch_events), "phase_packet_events": len(phase_events)},
+            sources=["swarm_analysis", "branch_convergence_review", "spc_phase_packet_run"],
         ),
     ]
     execution_spine = ExecutionSpineRecord(
@@ -579,6 +686,15 @@ def build_governance_observatory(*, session: Any | None = None, limit: int = 12)
             "event_count": len(governance_events),
             "swarm_event_count": len(swarm_events),
             "branch_review_event_count": len(branch_events),
+            "phase_packet_event_count": len(phase_events),
+            "phase_packet_run_count": sum(phase_run_counts),
+            "phase_packet_modes": phase_modes,
+            "phase_packet_verdict_counts": phase_verdict_counts,
+            "phase_packet_telemetry": {
+                "total_runs_observed": sum(phase_run_counts),
+                "mean_run_count_per_event": round(sum(phase_run_counts) / max(1, len(phase_run_counts)), 3),
+                "max_run_count": max(phase_run_counts, default=0),
+            },
             "swarm_state_counts": swarm_state_counts,
             "branch_review_verdict_counts": branch_verdict_counts,
             "severity_counts": severity_counts,

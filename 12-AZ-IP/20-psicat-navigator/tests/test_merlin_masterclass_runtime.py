@@ -19,10 +19,12 @@ if str(PRODUCT_ROOT) not in sys.path:
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_masterclass_runtime import (
     analyze_swarm_trajectory,
+    build_governance_observatory,
     get_branch_convergence_packet,
     get_masterclass_execution_packet,
     review_branch_convergence,
 )
+from ox_navigator.engine.merlin_memory import MerlinSession
 from ox_navigator.engine.merlin_program import get_merlin_execution_board
 
 
@@ -87,6 +89,56 @@ def test_branch_convergence_review_can_become_ready_for_human_review() -> None:
     )
     assert review["review_verdict"] == "ready_for_human_convergence_review"
     assert review["policy"]["user_directed_promotion_only"] is True
+
+
+def test_branch_convergence_review_blocks_synthetic_closure_flags() -> None:
+    review = review_branch_convergence(
+        changed_paths=["12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_masterclass_runtime.py"],
+        intent={
+            "branch_class": "task_branch",
+            "objective": "Validate synthetic closure guard",
+            "change_scope": "product20_runtime",
+            "expected_merge_or_promotion_path": "user_review_then_merge",
+        },
+        dependency_map={
+            "upstream_branch": "origin/copilot/ai-landscape-review",
+            "sync_plan": "Focused runtime validation.",
+            "validation_scope": ["masterclass_runtime_tests"],
+        },
+        collision_review={
+            "overlapping_surfaces": [
+                "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_masterclass_runtime.py",
+            ],
+            "conflict_strategy": "Manual review.",
+        },
+        promotion_request={
+            "requested_action": "merge",
+            "authority": "user_directed",
+            "evidence_packet": "tests + review packet",
+            "visible_branch_limit_acknowledged": True,
+            "synthetic_closure_flag": True,
+        },
+    )
+    assert review["review_verdict"] == "hold"
+    assert "synthetic_closure_claim_forbidden" in review["blockers"]
+    assert review["audit_receipt"]["synthetic_closure_claimed"] is True
+
+
+def test_governance_observatory_tracks_phase_packet_runs_and_malformed_audit_summary() -> None:
+    session = MerlinSession()
+    session.register_observatory_event({
+        "kind": "spc_phase_packet_run",
+        "mode": "spc_phase2_applied_pressure_execution",
+        "phase_verdict": "PHASE2_HOLD_REMEDIATE",
+        "run_count": 3,
+        "blockers": ["traceability_incomplete"],
+        "malformed_audit_summary": True,
+    })
+    observatory = build_governance_observatory(session=session, limit=4)["governance_observatory"]
+    assert observatory["phase_packet_event_count"] >= 1
+    assert observatory["phase_packet_run_count"] >= 3
+    assert observatory["phase_packet_verdict_counts"]["PHASE2_HOLD_REMEDIATE"] >= 1
+    assert "phase_packet_audit_summary_malformed" in observatory["drift_alerts"]
 
 
 def test_swarm_analysis_detects_hostile_pressure() -> None:
@@ -172,11 +224,23 @@ def test_server_masterclass_and_swarm_routes_and_tools() -> None:
             assert branch_review.json()["branch_convergence_review"]["review_verdict"] == (
                 "ready_for_human_convergence_review"
             )
+            assert branch_review.json()["audit_receipt"]["receipt_id"].startswith("psicat_branch_convergence_audit_")
+            assert branch_review.json()["branch_convergence_review"]["audit_receipt"]["review_surface"] == (
+                "/api/psicat/branch-convergence-review"
+            )
 
             observatory = client.get("/api/psicat/swarm-observatory?limit=4")
             assert observatory.status_code == 200
             assert observatory.json()["governance_observatory"]["governance_observatory"]["event_count"] >= 1
             assert observatory.json()["governance_observatory"]["governance_observatory"]["branch_review_event_count"] >= 1
+
+            phase2 = client.get("/api/psicat/spc-phase2-applied-pressure?limit=2&training_limit=2")
+            assert phase2.status_code == 200
+            observatory_after_phase = client.get("/api/psicat/swarm-observatory?limit=8")
+            assert observatory_after_phase.status_code == 200
+            phase_observatory = observatory_after_phase.json()["governance_observatory"]["governance_observatory"]
+            assert phase_observatory["phase_packet_event_count"] >= 1
+            assert phase_observatory["phase_packet_run_count"] >= 1
 
             swarm = client.post(
                 "/api/psicat/swarm-analyze",
