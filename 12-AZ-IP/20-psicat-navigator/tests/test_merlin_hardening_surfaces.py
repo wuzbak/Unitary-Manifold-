@@ -267,6 +267,36 @@ def test_phase3_readds_behavioral_blocker_when_supplied_phase2_packet_fails() ->
     )
 
 
+def test_phase3_ignores_unrelated_inherited_phase2_blockers_when_phase2_is_clear() -> None:
+    phase2_packet = {
+        "phase_verdict": "PHASE2_CLEAR_ADVANCE_TO_PHASE3",
+        "phase0_packet": {"packet": {}},
+        "applied_pressure_lanes": [],
+        "governance_observatory": {"governance_observatory": {"deployment_constraints": {"block_deployment": False}}},
+        "behavioral_audit": {
+            "summary": {"all_pass": True},
+            "hard_failures": [],
+        },
+        "blocker_register": [
+            {
+                "blocker_id": "unrelated_inherited_blocker",
+                "source": "phase1",
+                "severity": "low",
+                "reason": "stale prior blocker",
+            }
+        ],
+    }
+    packet = merlin_program.get_psicat_spc_phase3_live_readiness(
+        limit=1,
+        training_limit=1,
+        phase2_packet=phase2_packet,
+    )
+    assert not any(
+        item["blocker_id"] == "unrelated_inherited_blocker"
+        for item in packet["blocker_register"]
+    )
+
+
 def test_phase2_clears_stale_behavioral_blocker_when_audit_passes(monkeypatch) -> None:
     monkeypatch.setattr(
         merlin_behavioral_audit,

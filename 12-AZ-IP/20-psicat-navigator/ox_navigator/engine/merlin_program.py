@@ -8744,7 +8744,19 @@ def get_psicat_spc_phase3_live_readiness(
             "control_tower_traceability_clear",
         )
     )
-    blocker_register: list[dict[str, Any]] = list(phase2_packet.get("blocker_register") or [])
+    phase2_clear = str(phase2_packet.get("phase_verdict") or "") == "PHASE2_CLEAR_ADVANCE_TO_PHASE3"
+    raw_phase2_blockers = list(phase2_packet.get("blocker_register") or [])
+    blocker_register: list[dict[str, Any]] = []
+    if not phase2_clear:
+        blocker_register = [
+            dict(item)
+            for item in raw_phase2_blockers
+            if isinstance(item, dict)
+            and (
+                str(item.get("source") or "") in {"spc_phase2_lane_gate", "spc_phase2_governance_observatory", "behavioral_audit"}
+                or str(item.get("blocker_id") or "").endswith("_phase2_pressure_hold")
+            )
+        ]
     phase2_behavioral_audit = dict(phase2_packet.get("behavioral_audit") or {})
     phase2_behavioral_summary = dict(phase2_behavioral_audit.get("summary") or {})
     phase2_behavioral_fail = (
@@ -8801,7 +8813,6 @@ def get_psicat_spc_phase3_live_readiness(
                 "reason": "Governance/compliance traceability review remains incomplete or blocked.",
             }
         )
-    phase2_clear = str(phase2_packet.get("phase_verdict") or "") == "PHASE2_CLEAR_ADVANCE_TO_PHASE3"
     live_ready = (
         phase2_clear
         and clean_runs_count >= required_clean_runs
