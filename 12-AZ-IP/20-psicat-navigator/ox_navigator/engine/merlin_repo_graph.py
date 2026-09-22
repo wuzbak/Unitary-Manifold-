@@ -53,7 +53,10 @@ def _candidate_files(max_files: int) -> tuple[Path, ...]:
 def _state_signature(files: List[Path]) -> tuple[tuple[str, int, int], ...]:
     signature: list[tuple[str, int, int]] = []
     for path in files:
-        stat = path.stat()
+        try:
+            stat = path.stat()
+        except FileNotFoundError:
+            continue
         signature.append((path.relative_to(REPO_ROOT).as_posix(), int(stat.st_mtime_ns), int(stat.st_size)))
     return tuple(signature)
 
@@ -68,8 +71,11 @@ def _tokenize(*parts: str) -> set[str]:
     return tokens
 
 
-def _python_record(path: Path) -> Dict[str, Any]:
-    source = path.read_text(encoding="utf-8", errors="replace")
+def _python_record(path: Path) -> Dict[str, Any] | None:
+    try:
+        source = path.read_text(encoding="utf-8", errors="replace")
+    except FileNotFoundError:
+        return None
     symbols: List[str] = []
     imports: List[str] = []
     rel = path.relative_to(REPO_ROOT).as_posix()
@@ -107,8 +113,11 @@ def _python_record(path: Path) -> Dict[str, Any]:
     }
 
 
-def _markdown_record(path: Path) -> Dict[str, Any]:
-    text = path.read_text(encoding="utf-8", errors="replace")
+def _markdown_record(path: Path) -> Dict[str, Any] | None:
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except FileNotFoundError:
+        return None
     headings = [match.group(1).strip() for match in _DOC_HEADING_RE.finditer(text)]
     rel = path.relative_to(REPO_ROOT).as_posix()
     return {
@@ -121,7 +130,7 @@ def _markdown_record(path: Path) -> Dict[str, Any]:
     }
 
 
-def _record_for(path: Path) -> Dict[str, Any]:
+def _record_for(path: Path) -> Dict[str, Any] | None:
     if path.suffix == ".py":
         return _python_record(path)
     return _markdown_record(path)
@@ -199,7 +208,7 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
 @lru_cache(maxsize=16)
 def _build_repo_graph_cached(max_files: int, state_signature: tuple[tuple[str, int, int], ...]) -> Dict[str, Any]:
     files = [REPO_ROOT / rel_path for rel_path, _mtime_ns, _size in state_signature]
-    records = [_record_for(path) for path in files]
+    records = [record for path in files if (record := _record_for(path)) is not None]
     edges = _edge_records(records)
     return {
         "ok": True,

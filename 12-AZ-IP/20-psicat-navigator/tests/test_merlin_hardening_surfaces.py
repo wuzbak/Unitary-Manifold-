@@ -118,6 +118,26 @@ def test_resource_budget_policy_fails_closed_for_disallowed_external_provider_mo
     assert compliance["all_pass"] is False
 
 
+def test_resource_budget_policy_respects_local_first_override() -> None:
+    run = build_run_telemetry(
+        query="Local policy override audit.",
+        answer="GOVERNANCE\n---\nFOLLOWUPS:\n1. next\nSources:\n- one",
+        router_decision={"provider": "sovereign_local", "lane": "medium_reasoner_default"},
+        context_source="sovereign_local_model",
+        tool_rounds=1,
+        used_websearch=False,
+        provenance={"complete": True, "sources": [{"kind": "repo"}]},
+        gate_badges=["GOVERNANCE"],
+        memory_hits=1,
+        contradiction_events=0,
+        latency_ms=12.0,
+        retrieval_hit_count=3,
+    )
+    compliance = evaluate_resource_budget_compliance(run, policy={"local_first": False})
+    assert compliance["checks"]["provider_mode"] is False
+    assert compliance["all_pass"] is False
+
+
 def test_route_tool_exposes_hardening_surfaces() -> None:
     traceability = route_tool("getMerlinActionTraceability", {})
     assert traceability["ok"] is True

@@ -247,7 +247,10 @@ def evaluate_resource_budget_compliance(run: dict[str, Any], *, policy: dict[str
     )
     fallback_policy = dict(active_policy.get("fallback_policy") or {})
     compatibility_providers = {"openrouter_compat", "incumbent_compat"}
-    provider_mode_allowed = provider == "sovereign_local" or (
+    provider_mode_allowed = (
+        provider == "sovereign_local"
+        and bool(active_policy.get("local_first"))
+    ) or (
         provider in compatibility_providers
         and
         bool(active_policy.get("compatibility_only_external_fallback"))
