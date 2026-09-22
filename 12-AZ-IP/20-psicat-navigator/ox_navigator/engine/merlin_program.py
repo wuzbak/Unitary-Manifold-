@@ -8579,8 +8579,10 @@ def run_psicat_spc_phase2_applied_pressure(
     )
     behavioral_audit = run_behavioral_audit_battery()
     behavioral_summary = dict(behavioral_audit.get("summary") or {})
-    behavioral_hard_failures_present = bool(list(behavioral_audit.get("hard_failures") or [])) or (
-        behavioral_summary.get("all_pass") is False
+    behavioral_audit_pass = behavioral_summary.get("all_pass") is True
+    behavioral_hard_failures_present = (
+        bool(list(behavioral_audit.get("hard_failures") or []))
+        or not behavioral_audit_pass
     )
     if not behavioral_hard_failures_present:
         blocker_register = [
@@ -8737,6 +8739,14 @@ def get_psicat_spc_phase3_live_readiness(
         )
     )
     blocker_register: list[dict[str, Any]] = list(phase2_packet.get("blocker_register") or [])
+    phase2_behavioral_audit = dict(phase2_packet.get("behavioral_audit") or {})
+    phase2_behavioral_summary = dict(phase2_behavioral_audit.get("summary") or {})
+    if phase2_behavioral_summary.get("all_pass") is True:
+        blocker_register = [
+            item
+            for item in blocker_register
+            if str(item.get("blocker_id") or "") != "behavioral_audit_hard_failures_present"
+        ]
     hardening_bundle = _build_psicat_hardening_policy_bundle(phase2_lanes)
     if clean_runs_count < required_clean_runs:
         blocker_register.append(
