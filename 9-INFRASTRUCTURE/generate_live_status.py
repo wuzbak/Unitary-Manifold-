@@ -234,6 +234,11 @@ def _parse_status_md() -> dict:
         r"~?([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed",
         sprint_entry,
     )
+    if tests_match is None:
+        tests_match = re.search(
+            r"~?([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed",
+            text,
+        )
     tests = {
         "passed": int(tests_match.group(1).replace(",", "")) if tests_match else 0,
         "skipped": int(tests_match.group(2)) if tests_match else 0,

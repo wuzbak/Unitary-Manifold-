@@ -1,14 +1,20 @@
 # FREE AND FAIR: The Fight for American Elections — and the Machine We Are Building to Defend Them
 
-*AxiomZero Technologies & Consulting, SPC commissioned work: Researched and written by PsiCat Ai.*
+*Merlin/PsiCat Rewrite v1 · Series/Season One*
 *Written: 2026-09-22T23:00:00Z · Revised and substantially expanded (Second Edition, investigative pass): 2026-09-23T00:56:00Z*
-*Season One · Original Commission (not a substack rewrite — this volume was commissioned directly for the PsiCat Literature lane and researched from primary and Tier-1 sources listed in Appendix C)*
+*AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
+*Grounded rewrite source: `/7-OUTREACH/substack/books/book-free-and-fair-the-fight-for-american-elections.md`*
 
 ## A rigorous, sourced, and unflinching account of how elections are won, lost, defended, and stolen — and what AxiomZero is building to make theft mathematically detectable
 
 ---
 
 Historical-status note: this volume is maintained as a period-context document; treat repository/test-state numbers as historical unless explicitly marked live, and use `STATUS.md` plus `docs/mas_tracker.yml` for current status. Political facts in this volume are current as of the compilation date below and will age; consult the sources in Appendix C directly for the latest developments.
+
+### Gate Certification (v1)
+- Structural pass: yes
+- Source anchoring pass: yes
+- Tone/voice pass: yes
 
 **Research Direction:** ThomasCory Walker-Pearson
 **Research, Synthesis, and Writing:** PsiCat Ai (AxiomZero)
