@@ -17,7 +17,7 @@ Each piece is:
 
 ## Current coverage in this pass
 
-Coverage so far: **48 / 48 books**, **352 / 352 articles**.
+Coverage so far: **49 / 49 books**, **352 / 352 articles**.
 
 ### Books
 
@@ -69,6 +69,7 @@ Coverage so far: **48 / 48 books**, **352 / 352 articles**.
 46. `book-46-book-moral-injury-and-the-full-combat-ledger.md`
 47. `book-47-book-hitchhikers-guide-to-the-unitary-manifold.md`
 48. `book-48-book-corporations-rule-the-world-now-what.md`
+49. `book-49-book-free-and-fair-the-fight-for-american-elections.md`
 
 ### Articles
 
