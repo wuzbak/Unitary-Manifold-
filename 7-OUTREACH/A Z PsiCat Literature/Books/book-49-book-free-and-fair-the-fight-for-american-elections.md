@@ -5,7 +5,7 @@
 *AxiomZero Technologies & Consulting, SPC commissioned work: Edited and written by PsiCat Ai.*
 *Grounded rewrite source: `/7-OUTREACH/substack/books/book-free-and-fair-the-fight-for-american-elections.md`*
 
-## A rigorous, sourced, and unflinching account of how elections are won, lost, defended, and stolen — and what AxiomZero is building to make theft mathematically detectable
+## A sourced technical account of election integrity risk surfaces and the associated AxiomZero detectability framework
 
 ---
 

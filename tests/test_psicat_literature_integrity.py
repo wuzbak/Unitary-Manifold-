@@ -12,6 +12,8 @@ PSICAT_ROOT = REPO_ROOT / "7-OUTREACH" / "A Z PsiCat Literature"
 BOOKS_DIR = PSICAT_ROOT / "Books"
 ARTICLES_DIR = PSICAT_ROOT / "Articles"
 README_PATH = PSICAT_ROOT / "README.md"
+EXPECTED_BOOK_COUNT = 49
+EXPECTED_ARTICLE_COUNT = 352
 
 REQUIRED_MARKERS = (
     "Merlin/PsiCat Rewrite v1 · Series/Season One",
@@ -57,16 +59,14 @@ def _readme_coverage_totals() -> tuple[int, int]:
 
 def test_all_psicat_books_follow_curated_contract() -> None:
     files = _markdown_files(BOOKS_DIR)
-    expected_books, _ = _readme_coverage_totals()
-    assert len(files) == expected_books
+    assert len(files) == EXPECTED_BOOK_COUNT
     for path in files:
         _assert_piece_contract(path)
 
 
 def test_all_psicat_articles_follow_curated_contract() -> None:
     files = _markdown_files(ARTICLES_DIR)
-    _, expected_articles = _readme_coverage_totals()
-    assert len(files) == expected_articles
+    assert len(files) == EXPECTED_ARTICLE_COUNT
     for path in files:
         _assert_piece_contract(path)
 
@@ -78,3 +78,5 @@ def test_psicat_readme_coverage_matches_actual_corpus() -> None:
     expected_books, expected_articles = _readme_coverage_totals()
     assert expected_books == current_books
     assert expected_articles == current_articles
+    assert expected_books == EXPECTED_BOOK_COUNT
+    assert expected_articles == EXPECTED_ARTICLE_COUNT

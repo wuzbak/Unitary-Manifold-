@@ -229,22 +229,11 @@ def _parse_status_md() -> dict:
     date_match = re.search(r"\((\d{4}-\d{2}-\d{2})\)", sprint_entry)
     date = date_match.group(1) if date_match else "unknown"
 
-    # Test counts — first occurrence
-    tests_match = re.search(
-        r"~?([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed",
-        sprint_entry,
+    # Test counts — parse canonical representations in priority order
+    tests = _parse_canonical_test_counts(
+        sprint_entry=sprint_entry,
+        canonical_prefix=text[:sprint_start] if sprint_start >= 0 else text,
     )
-    if tests_match is None:
-        tests_match = re.search(
-            r"~?([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed",
-            text,
-        )
-    tests = {
-        "passed": int(tests_match.group(1).replace(",", "")) if tests_match else 0,
-        "skipped": int(tests_match.group(2)) if tests_match else 0,
-        "deselected": int(tests_match.group(3)) if tests_match else 0,
-        "failed": int(tests_match.group(4)) if tests_match else 0,
-    }
 
     # Lean4 theorem count — first occurrence = latest sprint's final total
     lean4_matches = re.findall(r"Lean4[^)]*?(?:total\s+|→|\u2192)(\d{3,5})", sprint_entry)
@@ -262,6 +251,49 @@ def _parse_status_md() -> dict:
         "lean4_theorem_count": lean4_count,
         "next_pillar_slot": next_slot,
     }
+
+
+def _parse_canonical_test_counts(*, sprint_entry: str, canonical_prefix: str) -> dict[str, int]:
+    primary_pattern = (
+        r"~?([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed"
+    )
+    match = re.search(primary_pattern, sprint_entry)
+    if match:
+        return {
+            "passed": int(match.group(1).replace(",", "")),
+            "skipped": int(match.group(2)),
+            "deselected": int(match.group(3)),
+            "failed": int(match.group(4)),
+        }
+
+    slash_match = re.search(
+        r"Resumed combined regression record:\s*(?:\*\*)?([\d,]+)\s*/\s*(\d+)\s*/\s*(\d+)\s*/\s*(\d+)(?:\*\*)?",
+        canonical_prefix,
+        flags=re.IGNORECASE,
+    )
+    if slash_match:
+        return {
+            "passed": int(slash_match.group(1).replace(",", "")),
+            "skipped": int(slash_match.group(2)),
+            "deselected": int(slash_match.group(3)),
+            "failed": int(slash_match.group(4)),
+        }
+
+    summary_matches = list(re.finditer(primary_pattern, canonical_prefix))
+    if summary_matches:
+        latest = summary_matches[-1]
+        return {
+            "passed": int(latest.group(1).replace(",", "")),
+            "skipped": int(latest.group(2)),
+            "deselected": int(latest.group(3)),
+            "failed": int(latest.group(4)),
+        }
+
+    raise ValueError(
+        "Unable to parse canonical test counts from STATUS.md. "
+        "Expected sprint-entry bullet counts, resumed combined regression record, "
+        "or a canonical preamble regression summary."
+    )
 
 
 def _parse_historical_continuity() -> list[dict[str, object]]:

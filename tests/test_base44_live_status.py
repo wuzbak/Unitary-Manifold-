@@ -71,13 +71,28 @@ def _extract_expected_tests() -> tuple[int, int, int, int]:
             int(entry_match.group(3)),
             int(entry_match.group(4)),
         )
-    full_match = re.search(pattern, STATUS_PATH.read_text(encoding="utf-8"))
-    assert full_match is not None
+    full_text = STATUS_PATH.read_text(encoding="utf-8")
+    sprint_start = full_text.find("*v")
+    canonical_prefix = full_text[:sprint_start] if sprint_start >= 0 else full_text
+    slash_match = re.search(
+        r"Resumed combined regression record:\s*\*\*([\d,]+)\s*/\s*(\d+)\s*/\s*(\d+)\s*/\s*(\d+)\*\*",
+        canonical_prefix,
+    )
+    if slash_match:
+        return (
+            int(slash_match.group(1).replace(",", "")),
+            int(slash_match.group(2)),
+            int(slash_match.group(3)),
+            int(slash_match.group(4)),
+        )
+    all_matches = re.findall(pattern, canonical_prefix)
+    assert all_matches
+    passed, skipped, deselected, failed = all_matches[-1]
     return (
-        int(full_match.group(1).replace(",", "")),
-        int(full_match.group(2)),
-        int(full_match.group(3)),
-        int(full_match.group(4)),
+        int(passed.replace(",", "")),
+        int(skipped),
+        int(deselected),
+        int(failed),
     )
 
 
@@ -130,7 +145,16 @@ def test_live_status_includes_historical_continuity(live_status_module):
     assert first["version"] == data["meta"]["version"]
     assert first["sprint"] == data["meta"]["sprint"]
     assert first["next_slot"] == data["pillars"]["next_slot"]
-    assert re.fullmatch(r"\d+(?:-\d+)?", str(first["pillars"]))
+    pillars_label = str(first["pillars"])
+    assert re.fullmatch(r"\d+(?:-\d+)?", pillars_label)
+    current_total = data["pillars"]["total_slots"]
+    if "-" in pillars_label:
+        start, end = pillars_label.split("-", 1)
+        assert len(data["historical_continuity"]) > 1
+        assert int(start) == int(data["historical_continuity"][1]["next_slot"])
+        assert int(end) == current_total
+    else:
+        assert int(pillars_label) == current_total
     assert any(
         entry == {"version": "37.5", "sprint": "CS", "pillars": "1119", "next_slot": 1120}
         for entry in data["historical_continuity"]
