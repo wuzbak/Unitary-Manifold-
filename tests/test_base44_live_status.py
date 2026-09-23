@@ -59,24 +59,58 @@ def _first_sprint_entry() -> str:
     return text[sprint_start:].split("\n\n", 1)[0].strip()
 
 
+def _extract_expected_tests() -> tuple[int, int, int, int]:
+    pattern = (
+        r"~?([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed"
+    )
+    entry_match = re.search(pattern, _first_sprint_entry())
+    if entry_match:
+        return (
+            int(entry_match.group(1).replace(",", "")),
+            int(entry_match.group(2)),
+            int(entry_match.group(3)),
+            int(entry_match.group(4)),
+        )
+    full_text = STATUS_PATH.read_text(encoding="utf-8")
+    sprint_start = full_text.find("*v")
+    canonical_prefix = full_text[:sprint_start] if sprint_start >= 0 else full_text
+    slash_match = re.search(
+        r"Resumed combined regression record:\s*\*\*([\d,]+)\s*/\s*(\d+)\s*/\s*(\d+)\s*/\s*(\d+)\*\*",
+        canonical_prefix,
+    )
+    if slash_match:
+        return (
+            int(slash_match.group(1).replace(",", "")),
+            int(slash_match.group(2)),
+            int(slash_match.group(3)),
+            int(slash_match.group(4)),
+        )
+    all_matches = re.findall(pattern, canonical_prefix)
+    assert all_matches
+    passed, skipped, deselected, failed = all_matches[-1]
+    return (
+        int(passed.replace(",", "")),
+        int(skipped),
+        int(deselected),
+        int(failed),
+    )
+
+
 def test_build_live_status_matches_headline_entry(live_status_module):
     entry = _first_sprint_entry()
     version_match = re.search(r"\*v([\d.]+) Sprint (\w+)", entry)
     expected_lean4 = int(re.findall(r"Lean4[^)]*?(?:total\s+|→)(\d{3,5})", entry)[0])
-    expected_tests = re.search(
-        r"~?([\d,]+)\s+passed\s*[·•]\s*(\d+)\s+skipped\s*[·•]\s*(\d+)\s+deselected\s*[·•]\s*(\d+)\s+failed",
-        entry,
-    )
+    expected_tests = _extract_expected_tests()
     expected_next_slot = int(re.search(r"next slot (\d+)", entry).group(1))
 
     data = live_status_module.build_live_status()
 
     assert data["meta"]["version"] == version_match.group(1)
     assert data["meta"]["sprint"] == version_match.group(2)
-    assert data["tests"]["passed"] == int(expected_tests.group(1).replace(",", ""))
-    assert data["tests"]["skipped"] == int(expected_tests.group(2))
-    assert data["tests"]["deselected"] == int(expected_tests.group(3))
-    assert data["tests"]["failed"] == int(expected_tests.group(4))
+    assert data["tests"]["passed"] == expected_tests[0]
+    assert data["tests"]["skipped"] == expected_tests[1]
+    assert data["tests"]["deselected"] == expected_tests[2]
+    assert data["tests"]["failed"] == expected_tests[3]
     assert data["lean4"]["theorem_count"] == expected_lean4
     assert data["pillars"]["next_slot"] == expected_next_slot
 
@@ -107,12 +141,20 @@ def test_generated_live_status_file_is_current(live_status_module):
 
 def test_live_status_includes_historical_continuity(live_status_module):
     data = live_status_module.build_live_status()
-    assert data["historical_continuity"][0] == {
-        "version": data["meta"]["version"],
-        "sprint": data["meta"]["sprint"],
-        "pillars": "1121",
-        "next_slot": data["pillars"]["next_slot"],
-    }
+    first = data["historical_continuity"][0]
+    assert first["version"] == data["meta"]["version"]
+    assert first["sprint"] == data["meta"]["sprint"]
+    assert first["next_slot"] == data["pillars"]["next_slot"]
+    pillars_label = str(first["pillars"])
+    assert re.fullmatch(r"\d+(?:-\d+)?", pillars_label)
+    current_total = data["pillars"]["total_slots"]
+    if "-" in pillars_label:
+        start, end = pillars_label.split("-", 1)
+        assert len(data["historical_continuity"]) > 1
+        assert int(start) == int(data["historical_continuity"][1]["next_slot"])
+        assert int(end) == current_total
+    else:
+        assert int(pillars_label) == current_total
     assert any(
         entry == {"version": "37.5", "sprint": "CS", "pillars": "1119", "next_slot": 1120}
         for entry in data["historical_continuity"]
