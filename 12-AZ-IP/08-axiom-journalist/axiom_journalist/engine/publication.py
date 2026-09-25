@@ -478,15 +478,22 @@ def build_psicat_training_packet(
         if _normalized_text(source.get('url_or_ref', ''))
     ]
 
+    contradiction_capacity = 0
+    if policy.max_claim_challenges > 0 and contradictions:
+        contradiction_capacity = min(
+            len(contradictions),
+            max(1, policy.max_claim_challenges // 2),
+        )
+    claim_capacity = max(policy.max_claim_challenges - contradiction_capacity, 0)
+
     claim_challenges = [
         {
             'type': 'contradiction-check',
             'prompt': claim.get('statement', ''),
             'required_behavior': 'preserve uncertainty and cite supporting evidence before synthesis',
         }
-        for claim in claims[:policy.max_claim_challenges]
+        for claim in claims[:claim_capacity]
     ]
-    remaining_claim_capacity = max(policy.max_claim_challenges - len(claim_challenges), 0)
     contradiction_challenges = [
         {
             'type': 'cross-claim-contradiction',
@@ -497,7 +504,7 @@ def build_psicat_training_packet(
             ),
             'paired_claim': item['claim_b'],
         }
-        for item in contradictions[:remaining_claim_capacity]
+        for item in contradictions[:contradiction_capacity]
     ]
     challenge_set = claim_challenges + contradiction_challenges
     challenge_set.extend(

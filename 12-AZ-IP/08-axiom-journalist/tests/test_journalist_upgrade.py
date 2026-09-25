@@ -307,6 +307,13 @@ def test_build_dossier_packet_deduplicates_sources_and_detects_claim_conflicts()
 
 def test_build_psicat_training_packet_respects_policy_limits():
     investigation = _sample_investigation_dict()
+    investigation['claims'].append({
+        'statement': 'Acme Corp did not conflict with the public statement in the procurement filing.',
+        'confidence': 'ALLEGED',
+        'legal_risks': 'NONE',
+        'entities_involved': ['Acme Corp'],
+        'sources': [],
+    })
     investigation['claims'].extend([
         {
             'statement': f'Claim number {index} about procurement disclosure.',
@@ -325,7 +332,7 @@ def test_build_psicat_training_packet_respects_policy_limits():
     contradiction_checks = [item for item in packet['challenge_pack'] if item['type'] == 'contradiction-check']
     cross_claim_checks = [item for item in packet['challenge_pack'] if item['type'] == 'cross-claim-contradiction']
     open_questions = [item for item in packet['challenge_pack'] if item['type'] == 'open-question']
-    assert len(contradiction_checks) == 2
-    assert len(cross_claim_checks) == 0
+    assert len(contradiction_checks) == 1
+    assert len(cross_claim_checks) == 1
     assert len(open_questions) == 2
     assert packet['policy']['max_claim_challenges'] == 2
