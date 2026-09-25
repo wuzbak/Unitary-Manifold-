@@ -91,10 +91,10 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
     unknown_flags = set(legal_flags) - recognized_flags
 
     highest_risk = 'ELEVATED'
-    if unknown_flags:
-        highest_risk = 'REVIEW'
-    elif any(flag in legal_flags for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT', 'PRIVACY', 'WHISTLEBLOWER')):
+    if any(flag in legal_flags for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT', 'PRIVACY', 'WHISTLEBLOWER')):
         highest_risk = 'HIGH'
+    elif unknown_flags:
+        highest_risk = 'REVIEW'
     elif not legal_flags or set(legal_flags) == {'NONE_IDENTIFIED'}:
         highest_risk = 'CONTROLLED'
 
@@ -122,6 +122,7 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
         'publication_posture': {
             'status': 'HUMAN_REVIEW_REQUIRED',
             'legal_risk_level': highest_risk,
+            'unclassified_risk_flags': sorted(unknown_flags),
             'retaliation_awareness': [
                 'Preserve documentary chain-of-custody for every quoted source.',
                 'Separate adjudicated fact, corroborated reporting, allegation, and open question.',
@@ -225,6 +226,11 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
         '',
         '### Legal / retaliation awareness',
     ]
+    if packet['publication_posture']['unclassified_risk_flags']:
+        lines.append(
+            "- Unclassified legal flags requiring bespoke review: "
+            + ', '.join(packet['publication_posture']['unclassified_risk_flags'])
+        )
     for item in packet['publication_posture']['retaliation_awareness']:
         lines.append(f"- {item}")
     lines += [
