@@ -69,7 +69,7 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
             legal_flags[flag] += 1
 
     source_tiers = Counter(
-        str(source.get('tier', 'Unclassified'))
+        str(source.get('tier') or 'Unclassified')
         for source in sources
     )
     contradiction_count = sum(
@@ -80,11 +80,23 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
     overall_confidence = _safe_float(scores.get('overall_confidence', 0.0), 0.0)
     source_quality = _safe_float(scores.get('source_quality', 0.0), 0.0)
 
+    recognized_flags = {
+        'NONE_IDENTIFIED',
+        'LIBEL_EXPOSURE',
+        'SOURCE_PROTECT',
+        'WHISTLEBLOWER',
+        'PRIVACY',
+        'NATIONAL_SECURITY',
+    }
+    unknown_flags = set(legal_flags) - recognized_flags
+
     highest_risk = 'ELEVATED'
     if any(flag in legal_flags for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT', 'PRIVACY')):
         highest_risk = 'HIGH'
     elif not legal_flags or set(legal_flags) == {'NONE_IDENTIFIED'}:
         highest_risk = 'CONTROLLED'
+    elif unknown_flags:
+        highest_risk = 'REVIEW'
 
     return {
         'title': investigation.get('title', 'Untitled Investigation'),
