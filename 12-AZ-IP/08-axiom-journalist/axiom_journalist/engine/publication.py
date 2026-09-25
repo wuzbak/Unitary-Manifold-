@@ -85,7 +85,7 @@ def _source_identity(source: dict[str, Any]) -> tuple[str, str, str, str]:
 
 
 def _deduplicate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    seen: dict[tuple[str, str, str], dict[str, Any]] = {}
+    seen: dict[tuple[str, str, str, str], dict[str, Any]] = {}
     duplicates: list[dict[str, Any]] = []
     deduped: list[dict[str, Any]] = []
     for source in sources:
