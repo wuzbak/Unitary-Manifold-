@@ -323,7 +323,9 @@ def test_build_psicat_training_packet_respects_policy_limits():
         PublicationPolicy(max_claim_challenges=2, max_open_question_challenges=2, contradiction_overlap_minimum=2),
     )
     contradiction_checks = [item for item in packet['challenge_pack'] if item['type'] == 'contradiction-check']
+    cross_claim_checks = [item for item in packet['challenge_pack'] if item['type'] == 'cross-claim-contradiction']
     open_questions = [item for item in packet['challenge_pack'] if item['type'] == 'open-question']
     assert len(contradiction_checks) == 2
+    assert len(cross_claim_checks) == 0
     assert len(open_questions) == 2
     assert packet['policy']['max_claim_challenges'] == 2

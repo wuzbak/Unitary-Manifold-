@@ -478,7 +478,7 @@ def build_psicat_training_packet(
         if _normalized_text(source.get('url_or_ref', ''))
     ]
 
-    challenge_set = [
+    claim_challenges = [
         {
             'type': 'contradiction-check',
             'prompt': claim.get('statement', ''),
@@ -486,7 +486,8 @@ def build_psicat_training_packet(
         }
         for claim in claims[:policy.max_claim_challenges]
     ]
-    challenge_set.extend(
+    remaining_claim_capacity = max(policy.max_claim_challenges - len(claim_challenges), 0)
+    contradiction_challenges = [
         {
             'type': 'cross-claim-contradiction',
             'prompt': item['claim_a'],
@@ -496,8 +497,9 @@ def build_psicat_training_packet(
             ),
             'paired_claim': item['claim_b'],
         }
-        for item in contradictions[:policy.max_claim_challenges]
-    )
+        for item in contradictions[:remaining_claim_capacity]
+    ]
+    challenge_set = claim_challenges + contradiction_challenges
     challenge_set.extend(
         {
             'type': 'open-question',
