@@ -234,6 +234,14 @@ def test_parse_source_bundle_supports_json_and_pipe_rows():
     assert parsed[1]['title'] == 'Press report'
 
 
+def test_parse_source_bundle_preserves_pipes_in_excerpt_column():
+    parsed = parse_source_bundle(
+        'Email thread | Tier 2 | News article | https://news.example/pipe | 2026-01-02 | first | second | third'
+    )
+    assert parsed[0]['title'] == 'Email thread'
+    assert parsed[0]['excerpt'] == 'first | second | third'
+
+
 def test_merge_source_bundle_skips_duplicates():
     existing = _sample_investigation_dict()['sources']
     incoming = parse_source_bundle(

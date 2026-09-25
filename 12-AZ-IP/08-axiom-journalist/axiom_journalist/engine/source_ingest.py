@@ -65,7 +65,7 @@ def parse_source_bundle(bundle_text: str) -> list[dict[str, str]]:
             })
             continue
 
-        parts = [part.strip() for part in line.split('|')]
+        parts = [part.strip() for part in line.split('|', 5)]
         if len(parts) < 6:
             raise ValueError(
                 f'Invalid pipe-delimited source row on line {line_number}. '
