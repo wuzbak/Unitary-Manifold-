@@ -42,12 +42,19 @@ def _source_key(source: dict[str, Any]) -> tuple[str, str, str, str]:
 def parse_source_bundle(bundle_text: str) -> list[dict[str, str]]:
     """Parse a JSON-lines or pipe-delimited source bundle."""
     rows: list[dict[str, str]] = []
-    for raw_line in bundle_text.splitlines():
+    for line_number, raw_line in enumerate(bundle_text.splitlines(), start=1):
         line = raw_line.strip()
         if not line:
             continue
         if line.startswith('{'):
-            payload = json.loads(line)
+            try:
+                payload = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise ValueError(
+                    f'Invalid JSON source row on line {line_number}. '
+                    'Use JSON-lines or pipe-delimited rows: '
+                    'title | tier | source_type | url_or_ref | date | excerpt'
+                ) from exc
             rows.append({
                 'title': _clean(payload.get('title', '')),
                 'tier': normalize_tier_label(payload.get('tier', 'Unclassified')),

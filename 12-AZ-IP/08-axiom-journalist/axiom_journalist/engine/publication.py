@@ -188,9 +188,8 @@ def _cross_claim_contradictions(
                 continue
             overlap = sorted(left_terms & right_terms)
             phrase_overlap = sorted(left_phrases & right_phrases)
-            if len(overlap) < policy.contradiction_overlap_minimum:
-                continue
-            if not phrase_overlap:
+            phrase_threshold = max(1, policy.contradiction_overlap_minimum - 1)
+            if len(overlap) < policy.contradiction_overlap_minimum and len(phrase_overlap) < phrase_threshold:
                 continue
             right_negative = _claim_is_negative(str(right.get('statement', '')))
             if left_negative == right_negative:
