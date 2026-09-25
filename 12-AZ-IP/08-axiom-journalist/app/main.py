@@ -298,19 +298,20 @@ def import_source_bundle_ui(bundle_text: str) -> tuple[str, str]:
     except (ValueError, json.JSONDecodeError) as exc:
         return f"❌ {exc}", _sources_md()
     merged = merge_source_bundle([source.to_dict() for source in inv.sources], incoming)
+    if not hasattr(inv, "_db_id"):
+        inv._db_id = db.create_case(inv.title, inv.lead, inv.journalist)  # type: ignore[attr-defined]
     for source in merged['imported']:
         tier = TIER_OPTIONS.get(source['tier'], SourceTier.UNCLASSIFIED)
         try:
-            if hasattr(inv, "_db_id"):
-                db.add_source(
-                    inv._db_id,
-                    source['title'],
-                    tier.value,
-                    source['source_type'],
-                    source['url_or_ref'],
-                    source['date'],
-                    source['excerpt'],
-                )
+            db.add_source(
+                inv._db_id,
+                source['title'],
+                tier.value,
+                source['source_type'],
+                source['url_or_ref'],
+                source['date'],
+                source['excerpt'],
+            )
         except Exception as exc:  # pragma: no cover - guarded by tests via monkeypatch
             return f"❌ {exc}", _sources_md()
         inv.add_source(
