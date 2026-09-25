@@ -134,26 +134,33 @@ def _citation_map(sources: list[dict[str, Any]]) -> dict[tuple[str, str, str, st
     }
 
 
-def _claim_citations(claim: dict[str, Any], citations: dict[tuple[str, str, str, str], int]) -> list[dict[str, Any]]:
+def _claim_citations(
+    claim: dict[str, Any],
+    citations: dict[tuple[str, str, str, str], int],
+    sources: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     seen: set[int] = set()
     for source in claim.get('sources') or []:
         if not isinstance(source, dict):
             continue
         citation_id = citations.get(_source_citation_key(source))
+        matched_source = source
         if citation_id is None:
             title_only = _normalized_text(source.get('title', '')).casefold()
             for (candidate_title, _candidate_ref, _candidate_type, _candidate_date), candidate_id in citations.items():
                 if candidate_title == title_only:
                     citation_id = candidate_id
                     break
+        if citation_id is not None:
+            matched_source = sources[citation_id - 1]
         if citation_id is None or citation_id in seen:
             continue
         seen.add(citation_id)
         rows.append({
             'citation_id': citation_id,
-            'title': _normalized_text(source.get('title', '')),
-            'url_or_ref': _normalized_text(source.get('url_or_ref', '')),
+            'title': _normalized_text(matched_source.get('title', '')),
+            'url_or_ref': _normalized_text(matched_source.get('url_or_ref', '')),
         })
     return rows
 
@@ -437,8 +444,8 @@ def build_dossier_packet(
                         for source in (claim.get('sources') or [])
                         if isinstance(source, dict)
                     ],
-                    'citations': _claim_citations(claim, citations),
-                    'inline_citations': _render_inline_citations(_claim_citations(claim, citations)),
+                    'citations': _claim_citations(claim, citations, sources),
+                    'inline_citations': _render_inline_citations(_claim_citations(claim, citations, sources)),
                 }
                 for claim in claims
             ],
