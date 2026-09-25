@@ -35,6 +35,12 @@ from app.core.investigator import (
     ConfidenceLevel, EntityType, Investigation, LegalRisk, Source, SourceTier
 )
 from app.db import cases as db
+from axiom_journalist.engine import (
+   build_dossier_packet,
+   build_psicat_training_packet,
+   render_dossier_markdown,
+   render_psicat_training_markdown,
+)
 
 import gradio as gr
 
@@ -255,6 +261,22 @@ def generate_brief() -> str:
     return brief
 
 
+def generate_dossier_packet_ui() -> str:
+    inv = _inv()
+    if inv is None:
+        return "❌ No active investigation. Start or load one first."
+    packet = build_dossier_packet(inv.to_dict())
+    return render_dossier_markdown(packet)
+
+
+def generate_psicat_packet_ui() -> str:
+    inv = _inv()
+    if inv is None:
+        return "❌ No active investigation. Start or load one first."
+    packet = build_psicat_training_packet(inv.to_dict())
+    return render_psicat_training_markdown(packet)
+
+
 # ---------------------------------------------------------------------------
 # Tab 6 — Case Library
 # ---------------------------------------------------------------------------
@@ -456,6 +478,25 @@ def build_ui() -> gr.Blocks:
                                         placeholder="Click 'Generate Brief' to produce the structured report.")
                 btn_brief.click(generate_brief, [], out_brief)
                 gr.Markdown("> ⚠ **This brief is a research instrument. Editorial judgment is required before any publication.**")
+
+                gr.Markdown("### Governed Dossier / PsiCat Handoff\nBuild the document-first packet for publication review and the PsiCat study packet for governed training and editorial synthesis.")
+                with gr.Row():
+                    btn_dossier = gr.Button("🧾 Generate Dossier Packet", variant="primary")
+                    btn_psicat = gr.Button("🐈 Generate PsiCat Packet", variant="secondary")
+                out_dossier = gr.Textbox(
+                    label="Governed Dossier Packet",
+                    lines=28,
+                    interactive=False,
+                    placeholder="Generate a dossier packet to review legal-risk, retaliation, and evidence posture."
+                )
+                out_psicat = gr.Textbox(
+                    label="PsiCat Training / Publication Packet",
+                    lines=24,
+                    interactive=False,
+                    placeholder="Generate a PsiCat handoff packet to study claims, sources, and unknowns under governed constraints."
+                )
+                btn_dossier.click(generate_dossier_packet_ui, [], out_dossier)
+                btn_psicat.click(generate_psicat_packet_ui, [], out_psicat)
 
             # ---- Tab 6: Case Library ----
             with gr.Tab("🗂 Case Library"):

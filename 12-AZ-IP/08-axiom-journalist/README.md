@@ -24,6 +24,13 @@ generation — and produces a structured investigative brief for human review.
 AXIOM does **not** write articles. It does not produce publishable copy. It researches,
 organizes, and scores — and then a journalist decides what to do with what it found.
 
+AXIOM now also assembles two governed outward-facing support artifacts:
+
+- a **Governed Dossier Packet** for publication review, evidence posture, legal-risk visibility,
+  and retaliation-awareness checks
+- a **PsiCat Training / Publication Packet** that converts the investigation into a study,
+  contradiction, and publication-preparation handoff for governed PsiCat work
+
 ---
 
 ## Quick Start
@@ -143,6 +150,14 @@ OPEN QUESTIONS
 
 The brief can be saved (cached in the database) and retrieved at any time.
 
+This tab now also generates:
+
+- **Governed Dossier Packet** — a document-first review packet summarizing confidence mix,
+  source tiers, claim watchlist, legal-risk posture, retaliation-awareness checklist, and
+  mandatory HILS review gates before publication
+- **PsiCat Training / Publication Packet** — a governed handoff that tells PsiCat what claims,
+  sources, open questions, and contradiction drills to study before editorial synthesis
+
 ### 6. 🗂 Case Library
 
 Browse all saved investigations. Load a case to resume work on it. Delete cases you
@@ -166,6 +181,10 @@ The methodology formalizes practices the best investigative journalists have alw
 
 4. **Human judgment is structural, not optional.** The platform enforces a gate:
    no output is presented as ready to publish. It is presented as ready to review.
+
+5. **PsiCat handoff is governed, not magical.** Training/export packets preserve uncertainty,
+   contradiction, legal-risk markers, and source-ledger discipline so editorial synthesis does
+   not outrun the evidence.
 
 ---
 

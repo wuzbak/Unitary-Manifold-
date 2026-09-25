@@ -16,6 +16,12 @@ from axiom_journalist.engine.open_data_sources import (
     check_physics_integrity,
     fetch_usaspending_awards,
 )
+from axiom_journalist.engine.publication import (
+    build_dossier_packet,
+    build_psicat_training_packet,
+    render_dossier_markdown,
+    render_psicat_training_markdown,
+)
 
 
 def test_open_data_sources_have_expected_keys():
@@ -126,3 +132,85 @@ def test_format_review_output_falls_back_when_missing_fields():
     rendered = format_review_output({})
     assert 'UNKNOWN' in rendered
     assert 'NO-ID' in rendered
+
+
+def _sample_investigation_dict():
+    return {
+        'title': 'Contracting Irregularities',
+        'lead': 'Multiple procurement records appear to conflict with public statements.',
+        'journalist': 'Desk',
+        'status': 'Active',
+        'entities': [
+            {
+                'name': 'Acme Corp',
+                'type': 'Organization',
+                'stated_position': 'We complied with all rules.',
+                'contradictions': ['Bid spreadsheet omits an affiliated vendor.'],
+            },
+        ],
+        'sources': [
+            {
+                'title': 'Procurement filing',
+                'tier': 'Tier 1 — Primary Record (court/regulatory/FOIA)',
+                'source_type': 'Filing',
+                'url_or_ref': 'https://records.example/procurement',
+                'date': '2026-01-01',
+            },
+            {
+                'title': 'Major newspaper investigation',
+                'tier': 'Tier 2 — Established/On-Record',
+                'source_type': 'News article',
+                'url_or_ref': 'https://news.example/investigation',
+                'date': '2026-01-02',
+            },
+        ],
+        'claims': [
+            {
+                'statement': 'The public statement conflicts with the procurement filing.',
+                'confidence': 'CORROBORATED',
+                'legal_risks': 'LIBEL_EXPOSURE',
+                'entities_involved': ['Acme Corp'],
+                'sources': [
+                    {'title': 'Procurement filing'},
+                    {'title': 'Major newspaper investigation'},
+                ],
+            },
+        ],
+        'open_questions': ['Who approved the omitted vendor relationship?'],
+        'scores': {
+            'overall_confidence': 0.75,
+            'source_quality': 0.825,
+        },
+    }
+
+
+def test_build_dossier_packet_surfaces_evidence_and_hils_gate():
+    packet = build_dossier_packet(_sample_investigation_dict())
+    assert packet['publication_posture']['status'] == 'HUMAN_REVIEW_REQUIRED'
+    assert packet['publication_posture']['legal_risk_level'] == 'HIGH'
+    assert packet['evidence_summary']['confidence_counts']['CORROBORATED'] == 1
+    assert packet['hils_gate']['status'] == 'PENDING_HUMAN_REVIEW'
+
+
+def test_render_dossier_markdown_contains_claim_watchlist():
+    packet = build_dossier_packet(_sample_investigation_dict())
+    rendered = render_dossier_markdown(packet)
+    assert 'Claim watchlist' in rendered
+    assert 'LIBEL_EXPOSURE' in rendered
+    assert 'HUMAN_REVIEW_REQUIRED' in rendered
+
+
+def test_build_psicat_training_packet_creates_challenge_pack():
+    packet = build_psicat_training_packet(_sample_investigation_dict())
+    assert packet['product'] == 'PsiCat'
+    assert packet['handoff_status'] == 'READY_FOR_GOVERNED_PSICAT_STUDY'
+    assert packet['challenge_pack']
+    assert packet['challenge_pack'][0]['required_behavior'].startswith('preserve uncertainty')
+
+
+def test_render_psicat_training_markdown_contains_targets():
+    packet = build_psicat_training_packet(_sample_investigation_dict())
+    rendered = render_psicat_training_markdown(packet)
+    assert 'PsiCat Training / Publication Packet' in rendered
+    assert 'Priority source refs' in rendered
+    assert 'Challenge pack' in rendered
