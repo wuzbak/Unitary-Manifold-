@@ -260,7 +260,7 @@ def test_build_dossier_packet_unknown_risk_and_missing_tier_stay_explicit():
     investigation['claims'][0]['legal_risks'] = 'privacy | custom risk'
     investigation['sources'][0]['tier'] = None
     packet = build_dossier_packet(investigation)
-    assert packet['publication_posture']['legal_risk_level'] == 'HIGH'
+    assert packet['publication_posture']['legal_risk_level'] == 'HIGH_REVIEW'
     assert packet['publication_posture']['unclassified_risk_flags'] == ['CUSTOM_RISK']
     assert packet['evidence_summary']['source_tiers']['Unclassified'] == 1
     assert packet['evidence_summary']['legal_flags']['CUSTOM_RISK'] == 1

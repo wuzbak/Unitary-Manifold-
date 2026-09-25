@@ -91,8 +91,15 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
     unknown_flags = set(legal_flags) - recognized_flags
 
     normalized_flag_set = set(legal_flags)
+    has_high_risk_flags = any(
+        flag in legal_flags
+        for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT', 'PRIVACY', 'WHISTLEBLOWER')
+    )
+
     highest_risk = 'CONTROLLED'
-    if any(flag in legal_flags for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT', 'PRIVACY', 'WHISTLEBLOWER')):
+    if has_high_risk_flags and unknown_flags:
+        highest_risk = 'HIGH_REVIEW'
+    elif has_high_risk_flags:
         highest_risk = 'HIGH'
     elif unknown_flags:
         highest_risk = 'REVIEW'
