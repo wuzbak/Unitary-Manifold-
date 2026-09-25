@@ -1,9 +1,7 @@
-# PsiCat Repo Write Test
+# PsiCat Repo Write Test (Updated)
 
-This file was written by PsiCat's direct GitHub write function (`psicatRepoWrite`).
+This file was updated by PsiCat's direct GitHub write function.
 
-- Timestamp: 2026-09-25
+- Timestamp: 2026-09-25 (update test)
 - Function: psicatRepoWrite
-- Purpose: Verify the generalized file-write capability works end-to-end
-
-This is a test artifact and can be deleted.
+- This proves the SHA-fetch + update flow works.
