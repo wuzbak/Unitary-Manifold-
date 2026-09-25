@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
+import math
 from typing import Any
 
 
@@ -33,9 +34,10 @@ def _entities(investigation: dict[str, Any]) -> list[dict[str, Any]]:
 
 def _safe_float(value: Any, default: float = 0.0) -> float:
     try:
-        return float(value)
+        parsed = float(value)
     except (TypeError, ValueError):
         return default
+    return parsed if math.isfinite(parsed) else default
 
 
 def _normalized_legal_flags(claim: dict[str, Any]) -> list[str]:

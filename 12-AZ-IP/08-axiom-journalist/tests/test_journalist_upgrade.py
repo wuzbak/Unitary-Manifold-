@@ -218,7 +218,7 @@ def test_render_psicat_training_markdown_contains_targets():
 
 def test_build_dossier_packet_normalizes_no_risk_and_safe_scores():
     investigation = _sample_investigation_dict()
-    investigation['scores'] = {'overall_confidence': 'not-a-number', 'source_quality': None}
+    investigation['scores'] = {'overall_confidence': 'nan', 'source_quality': 'inf'}
     investigation['claims'][0]['legal_risks'] = 'none identified'
     packet = build_dossier_packet(investigation)
     assert packet['scores']['overall_confidence'] == 0.0
