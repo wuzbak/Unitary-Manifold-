@@ -195,7 +195,10 @@ def test_build_dossier_packet_surfaces_evidence_and_hils_gate():
 def test_render_dossier_markdown_contains_claim_watchlist():
     packet = build_dossier_packet(_sample_investigation_dict())
     rendered = render_dossier_markdown(packet)
+    assert 'Entity watchlist' in rendered
     assert 'Claim watchlist' in rendered
+    assert 'Source ledger' in rendered
+    assert 'Open questions' in rendered
     assert 'LIBEL_EXPOSURE' in rendered
     assert 'HUMAN_REVIEW_REQUIRED' in rendered
 

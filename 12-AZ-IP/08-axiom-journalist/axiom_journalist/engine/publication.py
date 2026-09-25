@@ -236,6 +236,22 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
         lines.append(f"- {item}")
     lines += [
         '',
+        '## Entity watchlist',
+    ]
+    entity_watchlist = packet['editorial_sections']['entity_watchlist']
+    if entity_watchlist:
+        for entity in entity_watchlist:
+            lines.append(f"- **{entity['name']}** [{entity['type']}]")
+            if entity['stated_position']:
+                lines.append(f"  - Stated position: {entity['stated_position']}")
+            contradictions = entity['contradictions'] or []
+            if contradictions:
+                for contradiction in contradictions:
+                    lines.append(f"  - Contradiction: {contradiction}")
+    else:
+        lines.append('- _No entities recorded._')
+    lines += [
+        '',
         '## Claim watchlist',
     ]
     for claim in packet['editorial_sections']['claim_watchlist']:
@@ -250,6 +266,32 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
             lines.append(f"  - Legal: {claim['legal_risks']}")
     if not packet['editorial_sections']['claim_watchlist']:
         lines.append('- _No claims recorded._')
+    lines += [
+        '',
+        '## Source ledger',
+    ]
+    source_ledger = packet['editorial_sections']['source_ledger']
+    if source_ledger:
+        for source in source_ledger:
+            lines.append(f"- **{source['title']}** [{source['tier']}]")
+            if source['source_type']:
+                lines.append(f"  - Type: {source['source_type']}")
+            if source['url_or_ref']:
+                lines.append(f"  - Ref: {source['url_or_ref']}")
+            if source['date']:
+                lines.append(f"  - Date: {source['date']}")
+    else:
+        lines.append('- _No sources recorded._')
+    lines += [
+        '',
+        '## Open questions',
+    ]
+    open_questions = packet['editorial_sections']['open_questions']
+    if open_questions:
+        for question in open_questions:
+            lines.append(f"- {question}")
+    else:
+        lines.append('- _No open questions recorded._')
     lines += [
         '',
         '## HILS gate',
