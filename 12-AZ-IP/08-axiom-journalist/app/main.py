@@ -261,18 +261,25 @@ def generate_brief() -> str:
     return brief
 
 
-def generate_dossier_packet_ui() -> str:
+def _active_or_error() -> Investigation | str:
     inv = _inv()
     if inv is None:
         return "❌ No active investigation. Start or load one first."
+    return inv
+
+
+def generate_dossier_packet_ui() -> str:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
     packet = build_dossier_packet(inv.to_dict())
     return render_dossier_markdown(packet)
 
 
 def generate_psicat_packet_ui() -> str:
-    inv = _inv()
-    if inv is None:
-        return "❌ No active investigation. Start or load one first."
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
     packet = build_psicat_training_packet(inv.to_dict())
     return render_psicat_training_markdown(packet)
 

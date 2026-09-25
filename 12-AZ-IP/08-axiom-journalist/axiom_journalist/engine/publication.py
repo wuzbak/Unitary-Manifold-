@@ -79,7 +79,7 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
     source_quality = _safe_float(scores.get('source_quality', 0.0), 0.0)
 
     highest_risk = 'ELEVATED'
-    if any(flag in legal_flags for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT')):
+    if any(flag in legal_flags for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT', 'PRIVACY')):
         highest_risk = 'HIGH'
     elif not legal_flags or set(legal_flags) == {'NONE_IDENTIFIED'}:
         highest_risk = 'CONTROLLED'
