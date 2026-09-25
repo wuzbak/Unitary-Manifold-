@@ -32,6 +32,9 @@ AXIOM now also assembles two governed outward-facing support artifacts:
   contradiction, and publication-preparation handoff for governed PsiCat work
 - a **PsiCat Publication Story Packet** that turns the same evidence into a source-led narrative
   spine for publishable drafting without dropping uncertainty or the human-review gate
+- a **public-record scan plan** across the AXIOM source catalog (SEC EDGAR, CourtListener,
+  FEC, ICIJ Offshore Leaks, OpenSanctions, OpenCorporates, ProPublica Nonprofit Explorer,
+  EPA ECHO, GovInfo, Wayback Machine, OFAC SDN)
 
 ---
 
@@ -95,6 +98,9 @@ For each source you record:
 AXIOM also supports **batch import** of public-record source bundles in either:
 - JSON-lines format (one JSON source object per line)
 - pipe-delimited rows: `title | tier | source_type | url_or_ref | date | excerpt`
+
+It also generates a **source scan manifest** for the public-record catalog so the same
+investigation entity can be searched consistently across all supported record systems.
 
 ### 4. ⚖ Claims
 
@@ -160,8 +166,8 @@ This tab now also generates:
 
 - **Governed Dossier Packet** — a document-first review packet summarizing confidence mix,
   source tiers, claim watchlist, legal-risk posture, retaliation-awareness checklist, and
-  mandatory HILS review gates before publication, plus duplicate-source review and heuristic
-  cross-claim contradiction checks
+  mandatory HILS review gates before publication, plus duplicate-source review, inline
+  citation packs, confidence tiers, HTML export, and heuristic cross-claim contradiction checks
 - **PsiCat Training / Publication Packet** — a governed handoff that tells PsiCat what claims,
   sources, open questions, contradiction drills, and configurable challenge limits to study
   before editorial synthesis
@@ -209,6 +215,7 @@ Schema:
 - `sources` — logged documents and records
 - `claims` — factual claims with confidence scores
 - `open_questions` — outstanding research questions
+- `audit_log` — create/update/delete trail for case lifecycle actions
 
 ---
 

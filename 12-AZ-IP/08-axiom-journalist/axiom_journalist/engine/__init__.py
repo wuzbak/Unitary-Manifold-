@@ -10,12 +10,24 @@ from .open_data_sources import (
 )
 from .publication import (
     PublicationPolicy,
+    approve_publication_packet,
     build_dossier_packet,
     build_story_packet,
     build_psicat_training_packet,
+    render_dossier_html,
     render_dossier_markdown,
+    render_story_html,
     render_story_markdown,
     render_psicat_training_markdown,
+)
+from .public_records import (
+    PUBLIC_RECORD_SOURCES,
+    build_public_record_queries,
+    deduplicate_public_records,
+    export_public_record_scan,
+    public_record_source_catalog,
+    scan_public_records,
+    standardize_public_record,
 )
 from .source_ingest import merge_source_bundle, normalize_tier_label, parse_source_bundle
 
@@ -23,18 +35,28 @@ __all__ = [
     'HILSReviewRequest',
     'OPEN_DATA_SOURCES',
     'PublicationPolicy',
+    'PUBLIC_RECORD_SOURCES',
+    'approve_publication_packet',
     'build_dossier_packet',
     'build_investigative_brief',
+    'build_public_record_queries',
     'build_story_packet',
     'build_psicat_training_packet',
     'check_physics_integrity',
+    'deduplicate_public_records',
+    'export_public_record_scan',
     'fetch_usaspending_awards',
     'format_review_output',
     'merge_source_bundle',
     'normalize_tier_label',
     'parse_source_bundle',
+    'public_record_source_catalog',
+    'render_dossier_html',
     'render_dossier_markdown',
+    'render_story_html',
     'render_story_markdown',
     'render_psicat_training_markdown',
+    'scan_public_records',
+    'standardize_public_record',
     'submit_for_review',
 ]

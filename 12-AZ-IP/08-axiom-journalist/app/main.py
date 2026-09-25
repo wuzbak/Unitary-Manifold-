@@ -35,12 +35,16 @@ from app.core.investigator import (
 )
 from app.db import cases as db
 from axiom_journalist.engine import (
+   build_public_record_queries,
    build_dossier_packet,
    build_story_packet,
    build_psicat_training_packet,
    merge_source_bundle,
    parse_source_bundle,
+   public_record_source_catalog,
+   render_dossier_html,
    render_dossier_markdown,
+   render_story_html,
    render_story_markdown,
    render_psicat_training_markdown,
 )
@@ -279,6 +283,14 @@ def generate_dossier_packet_ui() -> str:
     return render_dossier_markdown(packet)
 
 
+def generate_dossier_html_ui() -> str:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
+    packet = build_dossier_packet(inv.to_dict())
+    return render_dossier_html(packet)
+
+
 def generate_psicat_packet_ui() -> str:
     inv = _active_or_error()
     if isinstance(inv, str):
@@ -341,6 +353,34 @@ def generate_story_packet_ui() -> str:
         return inv
     packet = build_story_packet(inv.to_dict())
     return render_story_markdown(packet)
+
+
+def generate_story_html_ui() -> str:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
+    packet = build_story_packet(inv.to_dict())
+    return render_story_html(packet)
+
+
+def generate_source_scan_plan_ui(query: str) -> str:
+    normalized = query.strip()
+    if not normalized:
+        inv = _inv()
+        if inv is None:
+            return "❌ Provide an entity/query or start an investigation first."
+        normalized = inv.title
+    manifest = build_public_record_queries(normalized)
+    catalog = {item['slug']: item for item in public_record_source_catalog()}
+    lines = [f"### Public-record scan plan — {normalized}", ""]
+    for row in manifest:
+        details = catalog.get(row['slug'], {})
+        lines.append(f"- **{row['display_name']}** [{row['tier']}]")
+        lines.append(f"  - Type: {row['source_type']}")
+        lines.append(f"  - Query URL: {row['query_url']}")
+        if details.get('slug'):
+            lines.append(f"  - Source key: `{details['slug']}`")
+    return "\n".join(lines)
 
 
 # ---------------------------------------------------------------------------
@@ -518,6 +558,14 @@ def build_ui() -> gr.Blocks:
                 btn_import_sources = gr.Button("📥 Import Source Bundle", variant="secondary")
                 out_import_sources = gr.Textbox(label="Import Status", interactive=False)
                 btn_import_sources.click(import_source_bundle_ui, [s_bundle], [out_import_sources, out_source])
+                gr.Markdown("### Public-Record Scan Plan\nGenerate the full AXIOM public-record query manifest for an entity or investigation.")
+                scan_query = gr.Textbox(
+                    label="Entity / Query",
+                    placeholder="e.g. Acme Corp or leave blank to use the active investigation title"
+                )
+                btn_scan_plan = gr.Button("🛰 Build Source Scan Plan", variant="secondary")
+                out_scan_plan = gr.Markdown()
+                btn_scan_plan.click(generate_source_scan_plan_ui, [scan_query], out_scan_plan)
 
             # ---- Tab 4: Claims ----
             with gr.Tab("⚖ Claims"):
@@ -557,8 +605,10 @@ def build_ui() -> gr.Blocks:
                 gr.Markdown("### Governed Dossier / PsiCat Handoff\nBuild the document-first packet for publication review and the PsiCat study packet for governed training and editorial synthesis.")
                 with gr.Row():
                     btn_dossier = gr.Button("🧾 Generate Dossier Packet", variant="primary")
+                    btn_dossier_html = gr.Button("🌐 Dossier HTML", variant="secondary")
                     btn_psicat = gr.Button("🐈 Generate PsiCat Packet", variant="secondary")
                     btn_story = gr.Button("📝 Generate Story Packet", variant="secondary")
+                    btn_story_html = gr.Button("🌐 Story HTML", variant="secondary")
                 out_dossier = gr.Textbox(
                     label="Governed Dossier Packet",
                     lines=28,
@@ -577,9 +627,23 @@ def build_ui() -> gr.Blocks:
                     interactive=False,
                     placeholder="Generate an evidence-led story spine for governed PsiCat drafting."
                 )
+                out_dossier_html = gr.Textbox(
+                    label="Governed Dossier HTML",
+                    lines=12,
+                    interactive=False,
+                    placeholder="Generate HTML export for downstream web or editorial systems."
+                )
+                out_story_html = gr.Textbox(
+                    label="PsiCat Story HTML",
+                    lines=12,
+                    interactive=False,
+                    placeholder="Generate HTML export for downstream web or editorial systems."
+                )
                 btn_dossier.click(generate_dossier_packet_ui, [], out_dossier)
+                btn_dossier_html.click(generate_dossier_html_ui, [], out_dossier_html)
                 btn_psicat.click(generate_psicat_packet_ui, [], out_psicat)
                 btn_story.click(generate_story_packet_ui, [], out_story)
+                btn_story_html.click(generate_story_html_ui, [], out_story_html)
 
             # ---- Tab 6: Case Library ----
             with gr.Tab("🗂 Case Library"):

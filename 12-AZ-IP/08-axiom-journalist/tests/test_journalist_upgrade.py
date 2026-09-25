@@ -18,14 +18,26 @@ from axiom_journalist.engine.open_data_sources import (
 )
 from axiom_journalist.engine.publication import (
     PublicationPolicy,
+    approve_publication_packet,
     build_dossier_packet,
     build_story_packet,
     build_psicat_training_packet,
+    render_dossier_html,
     render_dossier_markdown,
+    render_story_html,
     render_story_markdown,
     render_psicat_training_markdown,
 )
+from axiom_journalist.engine.public_records import (
+    PUBLIC_RECORD_SOURCES,
+    build_public_record_queries,
+    deduplicate_public_records,
+    export_public_record_scan,
+    scan_public_records,
+    standardize_public_record,
+)
 from axiom_journalist.engine.source_ingest import merge_source_bundle, parse_source_bundle
+from app.db import cases as db
 
 
 def test_open_data_sources_have_expected_keys():
@@ -207,6 +219,14 @@ def test_render_dossier_markdown_contains_claim_watchlist():
     assert 'HUMAN_REVIEW_REQUIRED' in rendered
 
 
+def test_build_dossier_packet_assigns_citations_and_confidence_tiers():
+    packet = build_dossier_packet(_sample_investigation_dict())
+    claim = packet['editorial_sections']['claim_watchlist'][0]
+    assert claim['confidence_tier'] == 4
+    assert claim['inline_citations'] == '[1] [2]'
+    assert packet['editorial_sections']['source_ledger'][0]['citation_id'] == 1
+
+
 def test_build_psicat_training_packet_creates_challenge_pack():
     packet = build_psicat_training_packet(_sample_investigation_dict())
     assert packet['product'] == 'PsiCat'
@@ -221,6 +241,13 @@ def test_render_psicat_training_markdown_contains_targets():
     assert 'PsiCat Training / Publication Packet' in rendered
     assert 'Priority source refs' in rendered
     assert 'Challenge pack' in rendered
+
+
+def test_approve_publication_packet_updates_hils_gate():
+    packet = build_dossier_packet(_sample_investigation_dict())
+    approved = approve_publication_packet(packet, 'Editor Desk')
+    assert approved['hils_gate']['status'] == 'APPROVED_FOR_PUBLICATION'
+    assert approved['hils_gate']['human_approver'] == 'Editor Desk'
 
 
 def test_parse_source_bundle_supports_json_and_pipe_rows():
@@ -409,3 +436,112 @@ def test_build_and_render_story_packet_contains_narrative_contract():
     assert 'Narrative contract' in rendered
     assert 'Source backbone' in rendered
     assert 'Final gate' in rendered
+
+
+def test_render_dossier_html_contains_citation_markup():
+    packet = build_dossier_packet(_sample_investigation_dict())
+    rendered = render_dossier_html(packet)
+    assert '<html>' in rendered
+    assert '[1]' in rendered
+    assert 'Procurement filing' in rendered
+
+
+def test_render_story_html_contains_chapters():
+    packet = build_story_packet(_sample_investigation_dict())
+    rendered = render_story_html(packet)
+    assert '<section><h3>What can be established from the record</h3>' in rendered
+    assert 'Open with the lead' in rendered
+
+
+def test_build_public_record_queries_covers_axiom_catalog():
+    manifest = build_public_record_queries('Acme Corp')
+    assert len(manifest) == 11
+    assert manifest[0]['query_url']
+    assert {row['slug'] for row in manifest} == set(PUBLIC_RECORD_SOURCES)
+
+
+def test_standardize_public_record_adds_provenance_fields():
+    source = PUBLIC_RECORD_SOURCES['sec_edgar']
+    record = standardize_public_record(
+        source,
+        'Acme Corp',
+        'Acme 10-K',
+        'https://sec.example/acme',
+        raw_metadata={'form': '10-K'},
+    )
+    assert record['source_name'] == 'SEC EDGAR'
+    assert record['source_type'] == 'Regulatory filing'
+    assert record['raw_metadata']['form'] == '10-K'
+    assert record['entity_name'] == 'Acme Corp'
+
+
+def test_deduplicate_public_records_links_duplicate_sources():
+    source = PUBLIC_RECORD_SOURCES['sec_edgar']
+    left = standardize_public_record(source, 'Acme Corp', 'Acme 10-K', 'https://sec.example/acme')
+    right = standardize_public_record(source, 'Acme Corp', 'Acme filing mirror', 'https://sec.example/acme')
+    deduped = deduplicate_public_records([left, right])
+    assert len(deduped['records']) == 1
+    assert len(deduped['duplicates']) == 1
+    assert deduped['records'][0]['linked_sources'] == ['sec_edgar']
+
+
+def test_scan_public_records_uses_injected_fetchers_and_exports():
+    def sec_fetcher(query: str):
+        return [{
+            'title': f'{query} 10-K',
+            'source_url': 'https://sec.example/acme',
+            'excerpt': 'Primary filing',
+        }]
+
+    def mirror_fetcher(query: str):
+        return [{
+            'title': f'{query} mirrored filing',
+            'source_url': 'https://sec.example/acme',
+            'excerpt': 'Duplicate record',
+        }]
+
+    scan = scan_public_records('Acme Corp', {
+        'sec_edgar': sec_fetcher,
+        'courtlistener': mirror_fetcher,
+    })
+    exported = export_public_record_scan(scan)
+    assert len(scan['records']) == 1
+    assert len(scan['duplicates']) == 1
+    assert exported['source_count'] == 1
+    assert exported['duplicate_count'] == 1
+
+
+def test_scan_public_records_without_fetchers_returns_manifest_only():
+    scan = scan_public_records('Acme Corp')
+    assert len(scan['manifest']) == 11
+    assert scan['records'] == []
+
+
+def test_db_case_lifecycle_writes_audit_log(tmp_path):
+    db_path = tmp_path / 'cases.db'
+    db.init_db(db_path)
+    case_id = db.create_case('Audit', 'Lead', 'Desk', actor='Desk', db_path=db_path)
+    db.update_case(case_id, notes='first pass', actor='Desk', db_path=db_path)
+    db.archive_case(case_id, actor='Editor', db_path=db_path)
+    entries = db.list_audit_log(case_id, db_path)
+    assert [entry['action'] for entry in entries] == ['case_created', 'case_updated', 'case_updated']
+    assert entries[0]['actor'] == 'Desk'
+    assert entries[-1]['payload']['status'] == 'Archived'
+
+
+def test_db_add_records_append_audit_entries(tmp_path):
+    db_path = tmp_path / 'cases.db'
+    db.init_db(db_path)
+    case_id = db.create_case('Audit', 'Lead', db_path=db_path)
+    db.add_entity(case_id, 'Acme Corp', actor='Desk', db_path=db_path)
+    db.add_source(case_id, 'Procurement filing', actor='Desk', db_path=db_path)
+    db.add_claim(case_id, 'A claim', actor='Desk', db_path=db_path)
+    db.add_open_question(case_id, 'What changed?', actor='Desk', db_path=db_path)
+    actions = [entry['action'] for entry in db.list_audit_log(case_id, db_path)]
+    assert actions == [
+        'case_created',
+        'entity_added',
+        'source_added',
+        'claim_added',
+        'open_question_added',
+    ]

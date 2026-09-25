@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections import Counter
 from dataclasses import dataclass
+import html
 import math
 from typing import Any
 
@@ -31,6 +32,19 @@ def _score_label(value: float, policy: PublicationPolicy) -> str:
     if value >= policy.mixed_score_threshold:
         return 'MIXED'
     return 'LOW'
+
+
+def _confidence_tier(value: Any) -> int:
+    normalized = str(value or '').strip().upper()
+    if normalized in {'VERIFIED', 'CONFIRMED'}:
+        return 5
+    if normalized in {'HIGH', 'STRONG', 'CORROBORATED'}:
+        return 4
+    if normalized in {'MEDIUM', 'MIXED'}:
+        return 3
+    if normalized in {'LOW', 'PRELIMINARY', 'ALLEGED'}:
+        return 2
+    return 1
 
 
 def _claims(investigation: dict[str, Any]) -> list[dict[str, Any]]:
@@ -85,6 +99,13 @@ def _source_identity(source: dict[str, Any]) -> tuple[str, str, str, str]:
     )
 
 
+def _source_citation_key(source: dict[str, Any]) -> tuple[str, str]:
+    return (
+        _normalized_text(source.get('title', '')).casefold(),
+        _normalized_text(source.get('url_or_ref', '')).casefold(),
+    )
+
+
 def _deduplicate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     seen: dict[tuple[str, str, str, str], dict[str, Any]] = {}
     duplicates: list[dict[str, Any]] = []
@@ -107,6 +128,43 @@ def _deduplicate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, 
         seen[key] = normalized
         deduped.append(normalized)
     return deduped, duplicates
+
+
+def _citation_map(sources: list[dict[str, Any]]) -> dict[tuple[str, str], int]:
+    return {
+        _source_citation_key(source): index
+        for index, source in enumerate(sources, start=1)
+    }
+
+
+def _claim_citations(claim: dict[str, Any], citations: dict[tuple[str, str], int]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    seen: set[int] = set()
+    for source in claim.get('sources') or []:
+        if not isinstance(source, dict):
+            continue
+        citation_id = citations.get(_source_citation_key(source))
+        if citation_id is None:
+            title_only = _normalized_text(source.get('title', '')).casefold()
+            for (candidate_title, _candidate_ref), candidate_id in citations.items():
+                if candidate_title == title_only:
+                    citation_id = candidate_id
+                    break
+        if citation_id is None or citation_id in seen:
+            continue
+        seen.add(citation_id)
+        rows.append({
+            'citation_id': citation_id,
+            'title': _normalized_text(source.get('title', '')),
+            'url_or_ref': _normalized_text(source.get('url_or_ref', '')),
+        })
+    return rows
+
+
+def _render_inline_citations(citations: list[dict[str, Any]]) -> str:
+    if not citations:
+        return ''
+    return ' '.join(f"[{item['citation_id']}]" for item in citations)
 
 
 _NEGATION_MARKERS = {'no', 'not', 'never', 'none', 'without', 'cannot'}
@@ -213,6 +271,7 @@ def build_dossier_packet(
     """Build a governed dossier packet from a structured investigation dict."""
     claims = _claims(investigation)
     sources, duplicate_sources = _deduplicate_sources(_sources(investigation))
+    citations = _citation_map(sources)
     entities = _entities(investigation)
     scores = investigation.get('scores') or {}
     cross_claim_contradictions = _cross_claim_contradictions(claims, policy)
@@ -315,6 +374,7 @@ def build_dossier_packet(
                 {
                     'statement': claim.get('statement', ''),
                     'confidence': claim.get('confidence', 'UNVERIFIED'),
+                    'confidence_tier': _confidence_tier(claim.get('confidence', 'UNVERIFIED')),
                     'legal_risks': ' | '.join(_normalized_legal_flags(claim)).replace('NONE_IDENTIFIED', 'None identified'),
                     'entities_involved': claim.get('entities_involved') or [],
                     'source_titles': [
@@ -322,11 +382,14 @@ def build_dossier_packet(
                         for source in (claim.get('sources') or [])
                         if isinstance(source, dict)
                     ],
+                    'citations': _claim_citations(claim, citations),
+                    'inline_citations': _render_inline_citations(_claim_citations(claim, citations)),
                 }
                 for claim in claims
             ],
             'source_ledger': [
                 {
+                    'citation_id': citations[_source_citation_key(source)],
                     'title': source.get('title', ''),
                     'tier': _normalized_source_tier(source.get('tier')),
                     'source_type': source.get('source_type', ''),
@@ -357,6 +420,7 @@ def build_dossier_packet(
                 'Approve, hold, or narrow publication scope before any outward release.',
             ],
         },
+        'export_formats': ['json', 'markdown', 'html'],
     }
 
 
@@ -433,7 +497,7 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
     ]
     for claim in packet['editorial_sections']['claim_watchlist']:
         lines.append(
-            f"- **{claim['confidence']}** — {claim['statement']}"
+            f"- **{claim['confidence']}** (tier {claim['confidence_tier']}/5) — {claim['statement']} {claim['inline_citations']}".rstrip()
         )
         if claim['entities_involved']:
             lines.append(f"  - Entities: {', '.join(claim['entities_involved'])}")
@@ -457,6 +521,7 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
                 lines.append(f"  - Ref: {source['url_or_ref']}")
             if source['date']:
                 lines.append(f"  - Date: {source['date']}")
+            lines.append(f"  - Citation id: [{source['citation_id']}]")
     else:
         lines.append('- _No sources recorded._')
     lines += [
@@ -603,6 +668,20 @@ def build_psicat_training_packet(
     }
 
 
+def approve_publication_packet(packet: dict[str, Any], approver: str, decision: str = 'approve') -> dict[str, Any]:
+    """Return a packet copy with the HILS gate updated by a named human approver."""
+    normalized_decision = str(decision or '').strip().lower()
+    status = 'APPROVED_FOR_PUBLICATION' if normalized_decision == 'approve' else 'HELD_FOR_REVISION'
+    updated = dict(packet)
+    updated['hils_gate'] = dict(packet.get('hils_gate') or {})
+    updated['hils_gate'].update({
+        'status': status,
+        'human_approver': str(approver or '').strip(),
+        'decision': normalized_decision or 'hold',
+    })
+    return updated
+
+
 def render_psicat_training_markdown(packet: dict[str, Any]) -> str:
     """Render a PsiCat handoff packet as markdown."""
     lines = [
@@ -710,6 +789,7 @@ def build_story_packet(
             'challenge_pack': psicat_packet['challenge_pack'][:12],
         },
         'final_gate': dossier_packet['hils_gate'],
+        'export_formats': ['json', 'markdown', 'html'],
     }
 
 
@@ -771,3 +851,65 @@ def render_story_markdown(packet: dict[str, Any]) -> str:
     ]
     lines.extend(f"- {item}" for item in packet['final_gate']['checks'])
     return '\n'.join(lines)
+
+
+def render_dossier_html(packet: dict[str, Any]) -> str:
+    """Render the governed dossier packet as basic HTML."""
+    claim_rows = ''.join(
+        (
+            f"<li><strong>{html.escape(str(claim['confidence']))}</strong> "
+            f"(tier {claim['confidence_tier']}/5) — {html.escape(str(claim['statement']))} "
+            f"{html.escape(str(claim['inline_citations']))}</li>"
+        )
+        for claim in packet['editorial_sections']['claim_watchlist']
+    ) or '<li>No claims recorded.</li>'
+    source_rows = ''.join(
+        (
+            "<li>"
+            f"[{source['citation_id']}] <strong>{html.escape(str(source['title']))}</strong> "
+            f"({html.escape(str(source['tier']))})"
+            f"<div>{html.escape(str(source['url_or_ref']))}</div>"
+            "</li>"
+        )
+        for source in packet['editorial_sections']['source_ledger']
+    ) or '<li>No sources recorded.</li>'
+    return (
+        "<html><body>"
+        f"<h1>{html.escape(str(packet['title']))}</h1>"
+        f"<p><strong>Status:</strong> {html.escape(str(packet['publication_posture']['status']))}</p>"
+        f"<p><strong>Legal risk:</strong> {html.escape(str(packet['publication_posture']['legal_risk_level']))}</p>"
+        f"<h2>Lead</h2><p>{html.escape(str(packet['lead'] or 'No lead recorded.'))}</p>"
+        "<h2>Claims</h2><ol>"
+        f"{claim_rows}"
+        "</ol><h2>Sources</h2><ol>"
+        f"{source_rows}"
+        "</ol></body></html>"
+    )
+
+
+def render_story_html(packet: dict[str, Any]) -> str:
+    """Render the governed story packet as basic HTML."""
+    chapter_rows = ''.join(
+        (
+            f"<section><h3>{html.escape(str(chapter['heading']))}</h3>"
+            f"<p>{html.escape(str(chapter['focus']))}</p>"
+            + (
+                "<ul>"
+                + ''.join(f"<li>{html.escape(str(item))}</li>" for item in chapter['evidence'])
+                + "</ul>"
+                if chapter['evidence']
+                else "<p>No evidence items attached yet.</p>"
+            )
+            + "</section>"
+        )
+        for chapter in packet['story_spine']['chapters']
+    )
+    return (
+        "<html><body>"
+        f"<h1>{html.escape(str(packet['title']))}</h1>"
+        f"<p><strong>Status:</strong> {html.escape(str(packet['publication_posture']['status']))}</p>"
+        f"<p><strong>Voice:</strong> {html.escape(str(packet['narrative_contract']['voice']))}</p>"
+        f"<h2>Lede</h2><p>{html.escape(str(packet['story_spine']['lede']))}</p>"
+        f"<h2>Chapters</h2>{chapter_rows}"
+        "</body></html>"
+    )
