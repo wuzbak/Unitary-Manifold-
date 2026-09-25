@@ -530,14 +530,6 @@ def build_psicat_training_packet(
         )
     claim_capacity = max(policy.max_claim_challenges - contradiction_capacity, 0)
 
-    claim_challenges = [
-        {
-            'type': 'contradiction-check',
-            'prompt': claim.get('statement', ''),
-            'required_behavior': 'preserve uncertainty and cite supporting evidence before synthesis',
-        }
-        for claim in claims[:claim_capacity]
-    ]
     contradiction_challenges = [
         {
             'type': 'cross-claim-contradiction',
@@ -550,6 +542,22 @@ def build_psicat_training_packet(
         }
         for item in contradictions[:contradiction_capacity]
     ]
+    contradiction_claims = {
+        challenge['prompt']
+        for challenge in contradiction_challenges
+    } | {
+        challenge['paired_claim']
+        for challenge in contradiction_challenges
+    }
+    claim_challenges = [
+        {
+            'type': 'contradiction-check',
+            'prompt': claim.get('statement', ''),
+            'required_behavior': 'preserve uncertainty and cite supporting evidence before synthesis',
+        }
+        for claim in claims
+        if str(claim.get('statement', '')) not in contradiction_claims
+    ][:claim_capacity]
     challenge_set = claim_challenges + contradiction_challenges
     challenge_set.extend(
         {
