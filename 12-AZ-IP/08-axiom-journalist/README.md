@@ -219,7 +219,8 @@ Schema:
 - `sources` — logged documents and records
 - `claims` — factual claims with confidence scores
 - `open_questions` — outstanding research questions
-- `audit_log` — create/update/delete trail for case lifecycle actions
+- `audit_log` — create/update trail for case lifecycle actions (rows are cascade-deleted with their case)
+- `deletion_log` — immutable tombstone recording case deletions, not tied to `cases` by a cascading foreign key
 - `watchlist_entries` / `watchlist_hits` — monitored named entities plus persisted scan matches
 
 ---

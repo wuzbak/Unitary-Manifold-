@@ -606,6 +606,19 @@ def test_db_case_lifecycle_writes_audit_log(tmp_path):
     assert entries[-1]['payload']['status'] == 'Archived'
 
 
+def test_db_delete_case_preserves_deletion_tombstone(tmp_path):
+    db_path = tmp_path / 'cases.db'
+    db.init_db(db_path)
+    case_id = db.create_case('Audit', 'Lead', actor='Desk', db_path=db_path)
+    db.delete_case(case_id, actor='Editor', db_path=db_path)
+    assert db.get_case(case_id, db_path=db_path) is None
+    # 'case_deleted' cannot survive in audit_log, since its rows cascade away
+    # with the case; it must be recoverable from the deletion tombstone.
+    tombstone = db.list_deletion_log(case_id, db_path=db_path)
+    assert [entry['action'] for entry in tombstone] == ['case_deleted']
+    assert tombstone[0]['actor'] == 'Editor'
+
+
 def test_db_add_records_append_audit_entries(tmp_path):
     db_path = tmp_path / 'cases.db'
     db.init_db(db_path)

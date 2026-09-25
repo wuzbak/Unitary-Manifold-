@@ -18,6 +18,7 @@ Schema
   watchlist_entries (id, case_id, name, entity_type, notes)
   watchlist_hits (id, entry_id, source_name, title, url_or_ref, excerpt, retrieval_date)
   audit_log   (id, case_id, action, actor, payload_json, created_at)
+  deletion_log (id, case_id, action, actor, payload_json, created_at)
 
 Theory, methodology: ThomasCory Walker-Pearson / AxiomZero.
 Implementation: GitHub Copilot (AI).
@@ -126,6 +127,14 @@ def init_db(db_path: Path = DB_PATH) -> None:
                 payload_json TEXT DEFAULT '{}',
                 created_at   TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS deletion_log (
+                id           INTEGER PRIMARY KEY AUTOINCREMENT,
+                case_id      INTEGER NOT NULL,
+                action       TEXT NOT NULL,
+                actor        TEXT DEFAULT 'system',
+                payload_json TEXT DEFAULT '{}',
+                created_at   TEXT NOT NULL
+            );
         """)
     conn.close()
 
@@ -197,12 +206,42 @@ def get_case(case_id: int, db_path: Path = DB_PATH) -> Optional[dict]:
     return dict(row) if row else None
 
 
-def delete_case(case_id: int, db_path: Path = DB_PATH) -> None:
+def delete_case(case_id: int, actor: str = 'system', db_path: Path = DB_PATH) -> None:
+    from datetime import datetime
+
     conn = _connect(db_path)
     with conn:
-        _log_action(conn, case_id, 'case_deleted', payload={})
+        # `audit_log` rows are cascade-deleted with their case, so a
+        # 'case_deleted' entry written there would be erased by the DELETE
+        # below. Record the deletion tombstone in `deletion_log`, which has
+        # no foreign-key relationship to `cases` and therefore survives.
+        conn.execute(
+            "INSERT INTO deletion_log (case_id, action, actor, payload_json, created_at) VALUES (?,?,?,?,?)",
+            (
+                case_id,
+                'case_deleted',
+                actor,
+                json.dumps({}, sort_keys=True),
+                datetime.now().isoformat(timespec="seconds"),
+            ),
+        )
         conn.execute("DELETE FROM cases WHERE id=?", (case_id,))
     conn.close()
+
+
+def list_deletion_log(case_id: int, db_path: Path = DB_PATH) -> list[dict]:
+    conn = _connect(db_path)
+    rows = conn.execute(
+        "SELECT id, action, actor, payload_json, created_at FROM deletion_log WHERE case_id=? ORDER BY id",
+        (case_id,),
+    ).fetchall()
+    conn.close()
+    records: list[dict] = []
+    for row in rows:
+        item = dict(row)
+        item['payload'] = json.loads(item.pop('payload_json') or '{}')
+        records.append(item)
+    return records
 
 
 def save_brief(case_id: int, brief_text: str, db_path: Path = DB_PATH) -> None:
