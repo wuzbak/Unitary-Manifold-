@@ -729,12 +729,15 @@ def build_psicat_training_packet(
 def approve_publication_packet(packet: dict[str, Any], approver: str, decision: str = 'approve') -> dict[str, Any]:
     """Return a packet copy with the HILS gate updated by a named human approver."""
     normalized_decision = str(decision or '').strip().lower()
+    normalized_approver = str(approver or '').strip()
+    if normalized_decision == 'approve' and not normalized_approver:
+        raise ValueError('A named human approver is required for publication approval.')
     status = 'APPROVED_FOR_PUBLICATION' if normalized_decision == 'approve' else 'HELD_FOR_REVISION'
     updated = dict(packet)
     updated['hils_gate'] = dict(packet.get('hils_gate') or {})
     updated['hils_gate'].update({
         'status': status,
-        'human_approver': str(approver or '').strip(),
+        'human_approver': normalized_approver,
         'decision': normalized_decision or 'hold',
     })
     return updated
