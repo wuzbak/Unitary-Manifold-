@@ -167,6 +167,64 @@ def _render_inline_citations(citations: list[dict[str, Any]]) -> str:
     return ' '.join(f"[{item['citation_id']}]" for item in citations)
 
 
+def _claim_line(claim: dict[str, Any]) -> str:
+    return f"{claim['statement']} {claim.get('inline_citations', '')}".rstrip()
+
+
+def _chapter_source_ledger(claims: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen: set[int] = set()
+    ledger: list[dict[str, Any]] = []
+    for claim in claims:
+        for citation in claim.get('citations') or []:
+            citation_id = int(citation.get('citation_id', 0) or 0)
+            if citation_id <= 0 or citation_id in seen:
+                continue
+            seen.add(citation_id)
+            ledger.append(dict(citation))
+    return ledger
+
+
+def _story_chapter_drafts(
+    lead: str,
+    claims: list[dict[str, Any]],
+    entities: list[dict[str, Any]],
+    open_questions: list[str],
+) -> list[dict[str, Any]]:
+    opening_claims = claims[:3]
+    entity_claims = claims[: min(4, len(claims))]
+    unresolved_claims = claims[3:6]
+    entity_lines: list[str] = []
+    for entity in entities[:6]:
+        detail = f"{entity['name']} states: {entity['stated_position'] or 'No public position recorded.'}"
+        contradictions = entity.get('contradictions') or []
+        if contradictions:
+            detail += f" Contradictions in the record: {'; '.join(contradictions[:2])}."
+        entity_lines.append(detail)
+    return [
+        {
+            'heading': 'What the record already establishes',
+            'body': ' '.join([lead or 'No investigative lead recorded.'] + [_claim_line(claim) for claim in opening_claims]).strip(),
+            'citations': [item['citation_id'] for item in _chapter_source_ledger(opening_claims)],
+            'source_ledger': _chapter_source_ledger(opening_claims),
+        },
+        {
+            'heading': 'What the named entities say, and where the record resists them',
+            'body': ' '.join(entity_lines) if entity_lines else 'No named entities or public positions have been recorded yet.',
+            'citations': [item['citation_id'] for item in _chapter_source_ledger(entity_claims)],
+            'source_ledger': _chapter_source_ledger(entity_claims),
+        },
+        {
+            'heading': 'What remains unresolved',
+            'body': ' '.join(
+                ([f"What remains unresolved: {'; '.join(open_questions[:4])}."] if open_questions else ['No open questions recorded.'])
+                + [_claim_line(claim) for claim in unresolved_claims]
+            ).strip(),
+            'citations': [item['citation_id'] for item in _chapter_source_ledger(unresolved_claims)],
+            'source_ledger': _chapter_source_ledger(unresolved_claims),
+        },
+    ]
+
+
 _NEGATION_MARKERS = {'no', 'not', 'never', 'none', 'without', 'cannot'}
 _CLAIM_STOPWORDS = {
     'the', 'and', 'that', 'with', 'from', 'into', 'this', 'there', 'their', 'have',
@@ -764,6 +822,12 @@ def build_story_packet(
             'focus': 'Show contradiction pairs explicitly and explain why human review is still required.',
             'evidence': [item['claim_a'] for item in contradictions[:4]],
         })
+    chapter_drafts = _story_chapter_drafts(
+        dossier_packet['lead'],
+        claims,
+        entities,
+        open_questions,
+    )
 
     return {
         'title': f"{investigation.get('title', 'Untitled Investigation')} — PsiCat Publication Story Packet",
@@ -782,6 +846,7 @@ def build_story_packet(
             'evidence_posture': dossier_packet['scores'],
             'chapters': chapters,
         },
+        'chapter_drafts': chapter_drafts,
         'source_backbone': source_ledger[:12],
         'psicat_learning_packet': {
             'challenge_count': len(psicat_packet['challenge_pack']),
@@ -824,6 +889,23 @@ def render_story_markdown(packet: dict[str, Any]) -> str:
             lines.append('- _No evidence items attached yet._')
         lines.append('')
     lines += [
+        '## Chapter drafts',
+    ]
+    if packet.get('chapter_drafts'):
+        for chapter in packet['chapter_drafts']:
+            lines.append(f"### {chapter['heading']}")
+            lines.append(chapter['body'])
+            if chapter.get('citations'):
+                lines.append(f"Citations: {' '.join(f'[{item}]' for item in chapter['citations'])}")
+            if chapter.get('source_ledger'):
+                lines.append('Chapter source ledger:')
+                for item in chapter['source_ledger']:
+                    lines.append(f"- [{item['citation_id']}] {item['title']}")
+            lines.append('')
+    else:
+        lines.append('- _No chapter drafts available yet._')
+    lines += [
+        '',
         '## Source backbone',
     ]
     if packet['source_backbone']:
@@ -889,6 +971,29 @@ def render_dossier_html(packet: dict[str, Any]) -> str:
 
 def render_story_html(packet: dict[str, Any]) -> str:
     """Render the governed story packet as basic HTML."""
+    chapter_drafts = ''.join(
+        (
+            f"<section><h3>{html.escape(str(chapter['heading']))}</h3>"
+            f"<p>{html.escape(str(chapter['body']))}</p>"
+            + (
+                f"<p>Citations: {' '.join(f'[{int(citation)}]' for citation in chapter.get('citations', []))}</p>"
+                if chapter.get('citations')
+                else ''
+            )
+            + (
+                "<ul>"
+                + ''.join(
+                    f"<li>[{int(item['citation_id'])}] {html.escape(str(item['title']))}</li>"
+                    for item in chapter.get('source_ledger') or []
+                )
+                + "</ul>"
+                if chapter.get('source_ledger')
+                else ''
+            )
+            + "</section>"
+        )
+        for chapter in packet.get('chapter_drafts') or []
+    )
     chapter_rows = ''.join(
         (
             f"<section><h3>{html.escape(str(chapter['heading']))}</h3>"
@@ -910,6 +1015,6 @@ def render_story_html(packet: dict[str, Any]) -> str:
         f"<p><strong>Status:</strong> {html.escape(str(packet['publication_posture']['status']))}</p>"
         f"<p><strong>Voice:</strong> {html.escape(str(packet['narrative_contract']['voice']))}</p>"
         f"<h2>Lede</h2><p>{html.escape(str(packet['story_spine']['lede']))}</p>"
-        f"<h2>Chapters</h2>{chapter_rows}"
+        f"<h2>Chapters</h2>{chapter_rows}<h2>Chapter drafts</h2>{chapter_drafts}"
         "</body></html>"
     )

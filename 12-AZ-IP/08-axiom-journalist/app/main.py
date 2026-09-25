@@ -31,10 +31,11 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from app.core.investigator import (
-    ConfidenceLevel, EntityType, Investigation, LegalRisk, Source, SourceTier
+   ConfidenceLevel, EntityType, Investigation, LegalRisk, Source, SourceTier, WatchlistHit
 )
 from app.db import cases as db
 from axiom_journalist.engine import (
+   LIVE_PUBLIC_RECORD_FETCHERS,
    build_public_record_queries,
    build_dossier_packet,
    build_story_packet,
@@ -47,6 +48,7 @@ from axiom_journalist.engine import (
    render_story_html,
    render_story_markdown,
    render_psicat_training_markdown,
+   scan_public_records,
 )
 
 import gradio as gr
@@ -136,6 +138,24 @@ def refresh_entities() -> str:
     return _entities_md()
 
 
+def _watchlist_md() -> str:
+    inv = _inv()
+    if inv is None or not inv.watchlist:
+        return "_No watchlist entries yet._"
+    lines = ["**Watchlist**\n"]
+    for entry in inv.watchlist:
+        lines.append(f"- **{entry.name}** [{entry.entity_type.value}]")
+        if entry.notes:
+            lines.append(f"  - Notes: {entry.notes}")
+        if entry.hits:
+            lines.append(f"  - Hits: {len(entry.hits)}")
+            for hit in entry.hits[:5]:
+                lines.append(f"    - {hit.source_name}: {hit.title}")
+        else:
+            lines.append("  - Hits: 0")
+    return "\n".join(lines)
+
+
 # ---------------------------------------------------------------------------
 # Tab 3 — Sources
 # ---------------------------------------------------------------------------
@@ -186,6 +206,74 @@ def _sources_md() -> str:
 
 def refresh_sources() -> str:
     return _sources_md()
+
+
+def run_named_entity_scan_ui(entity_name: str) -> tuple[str, str]:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv, _sources_md()
+    query = entity_name.strip()
+    if not query:
+        return "❌ Entity/query is required.", _sources_md()
+    scan = scan_public_records(query, LIVE_PUBLIC_RECORD_FETCHERS)
+    imported = 0
+    for record in scan['records']:
+        tier = TIER_OPTIONS.get(record['tier'], SourceTier.UNCLASSIFIED)
+        inv.add_source(
+            record['title'],
+            tier,
+            record.get('source_type', ''),
+            record.get('url_or_ref', ''),
+            record.get('date', ''),
+            record.get('excerpt', ''),
+        )
+        imported += 1
+    if hasattr(inv, "_db_id") and imported:
+        db.add_sources(inv._db_id, [
+            {
+                'title': record['title'],
+                'tier': TIER_OPTIONS.get(record['tier'], SourceTier.UNCLASSIFIED).value,
+                'source_type': record.get('source_type', ''),
+                'url_or_ref': record.get('url_or_ref', ''),
+                'date': record.get('date', ''),
+                'excerpt': record.get('excerpt', ''),
+            }
+            for record in scan['records']
+        ])
+    return (
+        f"✅ Named-entity scan completed for '{query}'. Imported {imported} sources; duplicate hits: {len(scan['duplicates'])}.",
+        _sources_md(),
+    )
+
+
+def add_watchlist_entry_ui(name: str, entity_type: str, notes: str) -> tuple[str, str]:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv, _watchlist_md()
+    normalized = name.strip()
+    if not normalized:
+        return "❌ Watchlist entity name is required.", _watchlist_md()
+    et = next((e for e in EntityType if e.value == entity_type), EntityType.OTHER)
+    entry = inv.get_watchlist_entry(normalized) or inv.add_watchlist_entry(normalized, et, notes.strip())
+    entry.notes = notes.strip() or entry.notes
+    scan = scan_public_records(normalized, LIVE_PUBLIC_RECORD_FETCHERS)
+    for record in scan['records']:
+        entry.add_hit(WatchlistHit(
+            entity_name=normalized,
+            source_name=record.get('source_name', ''),
+            title=record.get('title', ''),
+            url_or_ref=record.get('url_or_ref', ''),
+            excerpt=record.get('excerpt', ''),
+            retrieval_date=record.get('retrieval_date', ''),
+        ))
+    if hasattr(inv, "_db_id"):
+        entry_id = db.add_watchlist_entry(inv._db_id, normalized, et.value, notes.strip())
+        if entry.hits:
+            db.add_watchlist_hits(entry_id, [hit.to_dict() for hit in entry.hits[-len(scan['records']):]])
+    return (
+        f"✅ Watchlist entry '{normalized}' scanned. Recorded {len(scan['records'])} hits and {len(scan['duplicates'])} duplicates.",
+        _watchlist_md(),
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -432,6 +520,18 @@ def load_case(case_id_str: str) -> tuple[str, str, str, str, str]:
     # Load open questions
     for q in db.list_open_questions(case_id):
         inv.open_questions.append(q["question"])
+    for entry_row in db.list_watchlist_entries(case_id):
+        et = next((x for x in EntityType if x.value == entry_row["entity_type"]), EntityType.OTHER)
+        entry = inv.add_watchlist_entry(entry_row["name"], et, entry_row.get("notes", ""))
+        for hit in db.list_watchlist_hits(entry_row["id"]):
+            entry.add_hit(WatchlistHit(
+                entity_name=entry.name,
+                source_name=hit["source_name"],
+                title=hit["title"],
+                url_or_ref=hit["url_or_ref"],
+                excerpt=hit["excerpt"],
+                retrieval_date=hit["retrieval_date"],
+            ))
     _set_inv(inv)
     brief_cache = row.get("brief_cache", "") or ""
     return (
@@ -549,6 +649,14 @@ def build_ui() -> gr.Blocks:
                 btn_source.click(add_source, [s_title, s_tier, s_type, s_ref, s_date, s_excerpt], out_source)
                 btn_refresh_s = gr.Button("🔄 Refresh", variant="secondary")
                 btn_refresh_s.click(refresh_sources, [], out_source)
+                gr.Markdown("### Named-Entity Live Scan\nRun the live public-record fetcher set against a specific company, person, or entity name.")
+                s_entity_query = gr.Textbox(
+                    label="Named Entity Scan",
+                    placeholder="e.g. Acme Corp, Jane Smith, 123 Main Street LLC"
+                )
+                btn_entity_scan = gr.Button("🔎 Run Named-Entity Scan", variant="secondary")
+                out_entity_scan = gr.Textbox(label="Named-Entity Scan Status", interactive=False)
+                btn_entity_scan.click(run_named_entity_scan_ui, [s_entity_query], [out_entity_scan, out_source])
                 gr.Markdown("### Batch Import Public-Record Sources\nPaste JSON-lines or pipe-delimited rows: `title | tier | source_type | url_or_ref | date | excerpt`")
                 s_bundle = gr.Textbox(
                     label="Source Bundle",
@@ -645,7 +753,19 @@ def build_ui() -> gr.Blocks:
                 btn_story.click(generate_story_packet_ui, [], out_story)
                 btn_story_html.click(generate_story_html_ui, [], out_story_html)
 
-            # ---- Tab 6: Case Library ----
+            # ---- Tab 6: Watchlist ----
+            with gr.Tab("👁 Watchlist"):
+                gr.Markdown("### Watchlist Monitoring\nTrack specific named entities and automatically scan the live public-record fetchers when an entry is created.")
+                with gr.Row():
+                    w_name = gr.Textbox(label="Watchlist Entity", placeholder="e.g. Acme Corp")
+                    w_type = gr.Dropdown(ENTITY_TYPES, label="Type", value="Organization")
+                w_notes = gr.Textbox(label="Notes", placeholder="Why this entity is on the watchlist")
+                btn_watchlist = gr.Button("🛰 Add Watchlist Entry + Scan", variant="primary")
+                out_watchlist_status = gr.Textbox(label="Watchlist Status", interactive=False)
+                out_watchlist = gr.Markdown(label="Watchlist")
+                btn_watchlist.click(add_watchlist_entry_ui, [w_name, w_type, w_notes], [out_watchlist_status, out_watchlist])
+
+            # ---- Tab 7: Case Library ----
             with gr.Tab("🗂 Case Library"):
                 gr.Markdown("### Saved Cases")
                 out_lib = gr.Markdown()

@@ -29,10 +29,15 @@ from axiom_journalist.engine.publication import (
     render_psicat_training_markdown,
 )
 from axiom_journalist.engine.public_records import (
+    LIVE_PUBLIC_RECORD_FETCHERS,
     PUBLIC_RECORD_SOURCES,
     build_public_record_queries,
     deduplicate_public_records,
     export_public_record_scan,
+    fetch_courtlistener,
+    fetch_icij_offshore_leaks,
+    fetch_opensanctions,
+    fetch_sec_edgar,
     scan_public_records,
     standardize_public_record,
 )
@@ -433,7 +438,9 @@ def test_build_and_render_story_packet_contains_narrative_contract():
     packet = build_story_packet(_sample_investigation_dict())
     rendered = render_story_markdown(packet)
     assert packet['story_spine']['chapters']
+    assert packet['chapter_drafts']
     assert 'Narrative contract' in rendered
+    assert 'Chapter drafts' in rendered
     assert 'Source backbone' in rendered
     assert 'Final gate' in rendered
 
@@ -450,6 +457,7 @@ def test_render_story_html_contains_chapters():
     packet = build_story_packet(_sample_investigation_dict())
     rendered = render_story_html(packet)
     assert '<section><h3>What can be established from the record</h3>' in rendered
+    assert 'What the record already establishes' in rendered
     assert 'Open with the lead' in rendered
 
 
@@ -458,6 +466,7 @@ def test_build_public_record_queries_covers_axiom_catalog():
     assert len(manifest) == 11
     assert manifest[0]['query_url']
     assert {row['slug'] for row in manifest} == set(PUBLIC_RECORD_SOURCES)
+    assert set(LIVE_PUBLIC_RECORD_FETCHERS).issuperset({'sec_edgar', 'courtlistener', 'icij_offshore_leaks', 'opensanctions'})
 
 
 def test_standardize_public_record_adds_provenance_fields():
@@ -517,6 +526,59 @@ def test_scan_public_records_without_fetchers_returns_manifest_only():
     assert scan['records'] == []
 
 
+class _FakeResponse:
+    def __init__(self, payload):
+        self.payload = payload
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        return False
+
+    def read(self):
+        return json.dumps(self.payload).encode('utf-8')
+
+
+def test_fetch_sec_edgar_parses_hits(monkeypatch):
+    payload = {
+        'hits': {
+            'hits': [
+                {'_source': {'display_names': 'Acme 10-K', 'file_date': '2026-01-01', 'linkToFilingDetails': '/Archives/acme', 'adsh': '0001', 'ciks': ['1001'], 'file_type': '10-K'}},
+            ]
+        }
+    }
+    monkeypatch.setattr('axiom_journalist.engine.public_records.urlopen', lambda *args, **kwargs: _FakeResponse(payload))
+    records = fetch_sec_edgar('Acme')
+    assert records[0]['title'] == 'Acme 10-K'
+    assert records[0]['source_slug'] == 'sec_edgar'
+    assert records[0]['url_or_ref'].startswith('https://www.sec.gov/')
+
+
+def test_fetch_opensanctions_parses_results(monkeypatch):
+    payload = {'results': [{'caption': 'Acme Corp', 'id': 'NK-1', 'schema': 'Company', 'topics': ['sanction'], 'openSanctionsUrl': 'https://opensanctions.example/acme'}]}
+    monkeypatch.setattr('axiom_journalist.engine.public_records.urlopen', lambda *args, **kwargs: _FakeResponse(payload))
+    records = fetch_opensanctions('Acme')
+    assert records[0]['title'] == 'Acme Corp'
+    assert records[0]['source_slug'] == 'opensanctions'
+
+
+def test_fetch_icij_offshore_leaks_parses_results(monkeypatch):
+    payload = {'q0': {'result': [{'id': 'node-1', 'name': 'Acme Holdings', 'type': 'Entity', 'score': 92.0}]}}
+    monkeypatch.setattr('axiom_journalist.engine.public_records.urlopen', lambda *args, **kwargs: _FakeResponse(payload))
+    records = fetch_icij_offshore_leaks('Acme')
+    assert records[0]['title'] == 'Acme Holdings'
+    assert records[0]['source_slug'] == 'icij_offshore_leaks'
+
+
+def test_fetch_courtlistener_parses_results(monkeypatch):
+    payload = {'results': [{'caseName': 'Acme v. State', 'absolute_url': '/opinion/1/acme/', 'court': 'ca1', 'dateFiled': '2026-01-02'}]}
+    monkeypatch.setattr('axiom_journalist.engine.public_records.urlopen', lambda *args, **kwargs: _FakeResponse(payload))
+    records = fetch_courtlistener('Acme')
+    assert records[0]['title'] == 'Acme v. State'
+    assert records[0]['url_or_ref'].startswith('https://www.courtlistener.com/')
+
+
 def test_db_case_lifecycle_writes_audit_log(tmp_path):
     db_path = tmp_path / 'cases.db'
     db.init_db(db_path)
@@ -545,3 +607,23 @@ def test_db_add_records_append_audit_entries(tmp_path):
         'claim_added',
         'open_question_added',
     ]
+
+
+def test_db_watchlist_records_hits_and_audit_entries(tmp_path):
+    db_path = tmp_path / 'cases.db'
+    db.init_db(db_path)
+    case_id = db.create_case('Audit', 'Lead', db_path=db_path)
+    entry_id = db.add_watchlist_entry(case_id, 'Acme Corp', 'Organization', actor='Desk', db_path=db_path)
+    db.add_watchlist_hits(entry_id, [{
+        'source_name': 'CourtListener',
+        'title': 'Acme v. State',
+        'url_or_ref': 'https://courtlistener.example/acme',
+        'excerpt': 'Docket match',
+        'retrieval_date': '2026-01-02T00:00:00+00:00',
+    }], actor='Desk', db_path=db_path)
+    hits = db.list_watchlist_hits(entry_id, db_path)
+    entries = db.list_watchlist_entries(case_id, db_path)
+    actions = [entry['action'] for entry in db.list_audit_log(case_id, db_path)]
+    assert entries[0]['name'] == 'Acme Corp'
+    assert hits[0]['title'] == 'Acme v. State'
+    assert actions[-2:] == ['watchlist_entry_added', 'watchlist_hits_added']

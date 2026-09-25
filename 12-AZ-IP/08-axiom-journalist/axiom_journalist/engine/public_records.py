@@ -4,8 +4,10 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+import json
 from typing import Any, Callable
 from urllib.parse import quote_plus
+from urllib.request import Request, urlopen
 
 from .source_ingest import normalize_tier_label
 
@@ -233,3 +235,153 @@ def export_public_record_scan(scan: dict[str, Any]) -> dict[str, Any]:
 def public_record_source_catalog() -> list[dict[str, Any]]:
     """Return the full source catalog as dictionaries."""
     return [asdict(source) for source in PUBLIC_RECORD_SOURCES.values()]
+
+
+def _json_request(
+    url: str,
+    *,
+    method: str = 'GET',
+    payload: dict[str, Any] | None = None,
+    headers: dict[str, str] | None = None,
+    timeout: float = 10.0,
+) -> dict[str, Any] | list[Any] | None:
+    request_headers = {'User-Agent': 'AxiomZero-AXIOM-Journalist/1.0', **(headers or {})}
+    data = None
+    if payload is not None:
+        request_headers.setdefault('Content-Type', 'application/json')
+        data = json.dumps(payload).encode('utf-8')
+    request = Request(url, data=data, headers=request_headers, method=method)
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            return json.loads(response.read().decode('utf-8'))
+    except Exception:
+        return None
+
+
+def fetch_sec_edgar(query: str, limit: int = 5) -> list[dict[str, Any]]:
+    """Fetch SEC EDGAR search hits for a named entity or issuer."""
+    source = PUBLIC_RECORD_SOURCES['sec_edgar']
+    payload = _json_request(
+        'https://efts.sec.gov/LATEST/search-index',
+        headers={'Accept': 'application/json'},
+        payload={'q': query.strip(), 'forms': ['10-K', '10-Q', '8-K', '4', 'SC-13D'], 'from': 0, 'size': max(1, int(limit))},
+        method='POST',
+    )
+    hits = []
+    if not isinstance(payload, dict):
+        return hits
+    for item in list(payload.get('hits', {}).get('hits', []) or [])[:limit]:
+        record = item.get('_source') if isinstance(item, dict) else {}
+        if not isinstance(record, dict):
+            continue
+        title = str(record.get('display_names') or record.get('file_type') or record.get('entityName') or 'SEC filing')
+        accession = str(record.get('adsh') or record.get('ciks') or '')
+        link = str(record.get('linkToFilingDetails') or '')
+        if link and link.startswith('/'):
+            link = f'https://www.sec.gov{link}'
+        url = link or source.build_query_url(query)
+        hits.append(standardize_public_record(
+            source,
+            query,
+            title=title,
+            source_url=url,
+            excerpt=str(record.get('display_names') or record.get('file_type') or ''),
+            retrieval_date=str(record.get('file_date') or '') or None,
+            raw_metadata={'adsh': accession, 'cik': record.get('ciks'), 'file_type': record.get('file_type')},
+        ))
+    return hits
+
+
+def fetch_opensanctions(query: str, limit: int = 5) -> list[dict[str, Any]]:
+    """Fetch OpenSanctions entity matches."""
+    source = PUBLIC_RECORD_SOURCES['opensanctions']
+    payload = _json_request(f'https://api.opensanctions.org/search/default?q={quote_plus(query.strip())}&limit={max(1, int(limit))}')
+    results = []
+    if not isinstance(payload, dict):
+        return results
+    for item in list(payload.get('results') or [])[:limit]:
+        if not isinstance(item, dict):
+            continue
+        properties = item.get('properties') if isinstance(item.get('properties'), dict) else {}
+        first_caption = ''
+        topics = item.get('topics') if isinstance(item.get('topics'), list) else []
+        if topics:
+            first_caption = ', '.join(str(topic) for topic in topics[:3])
+        caption = str(item.get('caption') or properties.get('name') or item.get('id') or 'OpenSanctions record')
+        entity_url = str(item.get('openSanctionsUrl') or item.get('link') or '')
+        url = entity_url or source.build_query_url(query)
+        results.append(standardize_public_record(
+            source,
+            query,
+            title=caption,
+            source_url=url,
+            excerpt=first_caption,
+            raw_metadata={'id': item.get('id'), 'schema': item.get('schema'), 'topics': topics},
+        ))
+    return results
+
+
+def fetch_icij_offshore_leaks(query: str, limit: int = 5) -> list[dict[str, Any]]:
+    """Fetch ICIJ Offshore Leaks reconciliation matches."""
+    source = PUBLIC_RECORD_SOURCES['icij_offshore_leaks']
+    payload = _json_request(
+        'https://offshoreleaks.icij.org/api/v1/reconcile',
+        method='POST',
+        payload={'queries': {'q0': {'query': query.strip(), 'limit': max(1, int(limit))}}},
+    )
+    results = []
+    if not isinstance(payload, dict):
+        return results
+    query_results = payload.get('q0', {}).get('result') if isinstance(payload.get('q0'), dict) else []
+    for item in list(query_results or [])[:limit]:
+        if not isinstance(item, dict):
+            continue
+        title = str(item.get('name') or item.get('id') or 'ICIJ Offshore Leaks record')
+        score = item.get('score')
+        excerpt = f"type={item.get('type') or 'unknown'}; score={score}" if score is not None else str(item.get('type') or '')
+        record_id = str(item.get('id') or '')
+        url = f'https://offshoreleaks.icij.org/nodes/{record_id}' if record_id else source.build_query_url(query)
+        results.append(standardize_public_record(
+            source,
+            query,
+            title=title,
+            source_url=url,
+            excerpt=excerpt,
+            raw_metadata={'id': record_id, 'type': item.get('type'), 'score': score},
+        ))
+    return results
+
+
+def fetch_courtlistener(query: str, limit: int = 5) -> list[dict[str, Any]]:
+    """Fetch CourtListener search hits."""
+    source = PUBLIC_RECORD_SOURCES['courtlistener']
+    payload = _json_request(f'https://www.courtlistener.com/api/rest/v4/search/?q={quote_plus(query.strip())}&page_size={max(1, int(limit))}')
+    results = []
+    if not isinstance(payload, dict):
+        return results
+    for item in list(payload.get('results') or [])[:limit]:
+        if not isinstance(item, dict):
+            continue
+        title = str(item.get('caseName') or item.get('case_name') or item.get('docketNumber') or 'CourtListener result')
+        url = str(item.get('absolute_url') or '')
+        if url and url.startswith('/'):
+            url = f'https://www.courtlistener.com{url}'
+        excerpt = str(item.get('snippet') or item.get('court') or '')
+        results.append(standardize_public_record(
+            source,
+            query,
+            title=title,
+            source_url=url or source.build_query_url(query),
+            excerpt=excerpt,
+            retrieval_date=str(item.get('dateFiled') or item.get('date_filed') or '') or None,
+            raw_metadata={'docket': item.get('docketNumber'), 'court': item.get('court')},
+        ))
+    return results
+
+
+LIVE_PUBLIC_RECORD_FETCHERS: dict[str, Callable[[str], list[dict[str, Any]]]] = {
+    'sec_edgar': fetch_sec_edgar,
+    'courtlistener': fetch_courtlistener,
+    'icij_offshore_leaks': fetch_icij_offshore_leaks,
+    'opensanctions': fetch_opensanctions,
+}

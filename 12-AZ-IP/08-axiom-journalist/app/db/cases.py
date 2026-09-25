@@ -15,6 +15,8 @@ Schema
   claim_sources (claim_id, source_id)
   claim_entities (claim_id, entity_name)
   open_questions (id, case_id, question)
+  watchlist_entries (id, case_id, name, entity_type, notes)
+  watchlist_hits (id, entry_id, source_name, title, url_or_ref, excerpt, retrieval_date)
   audit_log   (id, case_id, action, actor, payload_json, created_at)
 
 Theory, methodology: ThomasCory Walker-Pearson / AxiomZero.
@@ -99,6 +101,22 @@ def init_db(db_path: Path = DB_PATH) -> None:
                 id          INTEGER PRIMARY KEY AUTOINCREMENT,
                 case_id     INTEGER NOT NULL REFERENCES cases(id) ON DELETE CASCADE,
                 question    TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS watchlist_entries (
+                id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                case_id     INTEGER NOT NULL REFERENCES cases(id) ON DELETE CASCADE,
+                name        TEXT NOT NULL,
+                entity_type TEXT DEFAULT 'Other',
+                notes       TEXT DEFAULT ''
+            );
+            CREATE TABLE IF NOT EXISTS watchlist_hits (
+                id             INTEGER PRIMARY KEY AUTOINCREMENT,
+                entry_id       INTEGER NOT NULL REFERENCES watchlist_entries(id) ON DELETE CASCADE,
+                source_name    TEXT DEFAULT '',
+                title          TEXT NOT NULL,
+                url_or_ref     TEXT DEFAULT '',
+                excerpt        TEXT DEFAULT '',
+                retrieval_date TEXT DEFAULT ''
             );
             CREATE TABLE IF NOT EXISTS audit_log (
                 id           INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -380,3 +398,84 @@ def list_audit_log(case_id: int, db_path: Path = DB_PATH) -> list[dict]:
         item['payload'] = json.loads(item.pop('payload_json') or '{}')
         records.append(item)
     return records
+
+
+def add_watchlist_entry(
+    case_id: int,
+    name: str,
+    entity_type: str = 'Other',
+    notes: str = '',
+    *,
+    actor: str = 'system',
+    db_path: Path = DB_PATH,
+) -> int:
+    conn = _connect(db_path)
+    with conn:
+        cur = conn.execute(
+            "INSERT INTO watchlist_entries (case_id, name, entity_type, notes) VALUES (?,?,?,?)",
+            (case_id, name, entity_type, notes),
+        )
+        entry_id = cur.lastrowid
+        _log_action(conn, case_id, 'watchlist_entry_added', actor=actor, payload={
+            'entry_id': entry_id,
+            'name': name,
+            'entity_type': entity_type,
+        })
+    conn.close()
+    return entry_id
+
+
+def list_watchlist_entries(case_id: int, db_path: Path = DB_PATH) -> list[dict]:
+    conn = _connect(db_path)
+    rows = conn.execute(
+        "SELECT id, name, entity_type, notes FROM watchlist_entries WHERE case_id=? ORDER BY id",
+        (case_id,),
+    ).fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+
+def add_watchlist_hits(
+    entry_id: int,
+    hits: list[dict],
+    *,
+    actor: str = 'system',
+    db_path: Path = DB_PATH,
+) -> int:
+    conn = _connect(db_path)
+    case_row = conn.execute("SELECT case_id FROM watchlist_entries WHERE id=?", (entry_id,)).fetchone()
+    if case_row is None:
+        conn.close()
+        return 0
+    case_id = int(case_row['case_id'])
+    with conn:
+        conn.executemany(
+            "INSERT INTO watchlist_hits (entry_id, source_name, title, url_or_ref, excerpt, retrieval_date) VALUES (?,?,?,?,?,?)",
+            [
+                (
+                    entry_id,
+                    hit.get('source_name', ''),
+                    hit.get('title', ''),
+                    hit.get('url_or_ref', ''),
+                    hit.get('excerpt', ''),
+                    hit.get('retrieval_date', ''),
+                )
+                for hit in hits
+            ],
+        )
+        _log_action(conn, case_id, 'watchlist_hits_added', actor=actor, payload={
+            'entry_id': entry_id,
+            'count': len(hits),
+        })
+    conn.close()
+    return len(hits)
+
+
+def list_watchlist_hits(entry_id: int, db_path: Path = DB_PATH) -> list[dict]:
+    conn = _connect(db_path)
+    rows = conn.execute(
+        "SELECT source_name, title, url_or_ref, excerpt, retrieval_date FROM watchlist_hits WHERE entry_id=? ORDER BY id",
+        (entry_id,),
+    ).fetchall()
+    conn.close()
+    return [dict(row) for row in rows]

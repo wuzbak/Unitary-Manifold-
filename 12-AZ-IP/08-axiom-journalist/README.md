@@ -102,6 +102,10 @@ AXIOM also supports **batch import** of public-record source bundles in either:
 It also generates a **source scan manifest** for the public-record catalog so the same
 investigation entity can be searched consistently across all supported record systems.
 
+AXIOM now includes **live fetcher adapters** for SEC EDGAR, CourtListener, OpenSanctions,
+and ICIJ Offshore Leaks, plus a named-entity scan flow that can import the returned records
+directly into an investigation or use them as watchlist monitoring hits.
+
 ### 4. ⚖ Claims
 
 Add the factual claims your investigation is building toward. Each claim is:
@@ -216,6 +220,7 @@ Schema:
 - `claims` — factual claims with confidence scores
 - `open_questions` — outstanding research questions
 - `audit_log` — create/update/delete trail for case lifecycle actions
+- `watchlist_entries` / `watchlist_hits` — monitored named entities plus persisted scan matches
 
 ---
 

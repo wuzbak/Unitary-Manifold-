@@ -186,6 +186,45 @@ class Claim:
         }
 
 
+@dataclass
+class WatchlistHit:
+    entity_name: str
+    source_name: str
+    title: str
+    url_or_ref: str = ""
+    excerpt: str = ""
+    retrieval_date: str = ""
+
+    def to_dict(self) -> dict:
+        return {
+            'entity_name': self.entity_name,
+            'source_name': self.source_name,
+            'title': self.title,
+            'url_or_ref': self.url_or_ref,
+            'excerpt': self.excerpt,
+            'retrieval_date': self.retrieval_date,
+        }
+
+
+@dataclass
+class WatchlistEntry:
+    name: str
+    entity_type: EntityType = EntityType.OTHER
+    notes: str = ""
+    hits: list[WatchlistHit] = field(default_factory=list)
+
+    def add_hit(self, hit: WatchlistHit) -> None:
+        self.hits.append(hit)
+
+    def to_dict(self) -> dict:
+        return {
+            'name': self.name,
+            'entity_type': self.entity_type.value,
+            'notes': self.notes,
+            'hits': [hit.to_dict() for hit in self.hits],
+        }
+
+
 # ---------------------------------------------------------------------------
 # Investigation
 # ---------------------------------------------------------------------------
@@ -201,6 +240,7 @@ class Investigation:
     sources: list[Source] = field(default_factory=list)
     claims: list[Claim] = field(default_factory=list)
     open_questions: list[str] = field(default_factory=list)
+    watchlist: list[WatchlistEntry] = field(default_factory=list)
     notes: str = ""
 
     # --- entity helpers ---
@@ -243,6 +283,16 @@ class Investigation:
         )
         self.claims.append(c)
         return c
+
+    # --- watchlist helpers ---
+
+    def add_watchlist_entry(self, name: str, entity_type: EntityType = EntityType.OTHER, notes: str = "") -> WatchlistEntry:
+        entry = WatchlistEntry(name=name, entity_type=entity_type, notes=notes)
+        self.watchlist.append(entry)
+        return entry
+
+    def get_watchlist_entry(self, name: str) -> Optional[WatchlistEntry]:
+        return next((entry for entry in self.watchlist if entry.name.lower() == name.lower()), None)
 
     # --- scoring ---
 
@@ -374,6 +424,7 @@ class Investigation:
             "sources": [s.to_dict() for s in self.sources],
             "claims": [c.to_dict() for c in self.claims],
             "open_questions": self.open_questions,
+            "watchlist": [entry.to_dict() for entry in self.watchlist],
             "notes": self.notes,
             "scores": {
                 "overall_confidence": round(self.overall_confidence_score, 3),

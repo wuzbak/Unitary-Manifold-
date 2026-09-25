@@ -21,10 +21,15 @@ from .publication import (
     render_psicat_training_markdown,
 )
 from .public_records import (
+    LIVE_PUBLIC_RECORD_FETCHERS,
     PUBLIC_RECORD_SOURCES,
     build_public_record_queries,
     deduplicate_public_records,
     export_public_record_scan,
+    fetch_courtlistener,
+    fetch_icij_offshore_leaks,
+    fetch_opensanctions,
+    fetch_sec_edgar,
     public_record_source_catalog,
     scan_public_records,
     standardize_public_record,
@@ -33,6 +38,7 @@ from .source_ingest import merge_source_bundle, normalize_tier_label, parse_sour
 
 __all__ = [
     'HILSReviewRequest',
+    'LIVE_PUBLIC_RECORD_FETCHERS',
     'OPEN_DATA_SOURCES',
     'PublicationPolicy',
     'PUBLIC_RECORD_SOURCES',
@@ -45,6 +51,10 @@ __all__ = [
     'check_physics_integrity',
     'deduplicate_public_records',
     'export_public_record_scan',
+    'fetch_courtlistener',
+    'fetch_icij_offshore_leaks',
+    'fetch_opensanctions',
+    'fetch_sec_edgar',
     'fetch_usaspending_awards',
     'format_review_output',
     'merge_source_bundle',
