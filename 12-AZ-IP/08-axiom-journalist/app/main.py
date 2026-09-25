@@ -23,8 +23,6 @@ Theory, methodology: ThomasCory Walker-Pearson / AxiomZero Technologies.
 Implementation: GitHub Copilot (AI).
 """
 from __future__ import annotations
-
-import json
 import sys
 from pathlib import Path
 
@@ -295,7 +293,7 @@ def import_source_bundle_ui(bundle_text: str) -> tuple[str, str]:
         return inv, _sources_md()
     try:
         incoming = parse_source_bundle(bundle_text)
-    except (ValueError, json.JSONDecodeError) as exc:
+    except ValueError as exc:
         return f"❌ {exc}", _sources_md()
     merged = merge_source_bundle([source.to_dict() for source in inv.sources], incoming)
     if not hasattr(inv, "_db_id"):
