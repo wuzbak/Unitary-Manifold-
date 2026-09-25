@@ -268,3 +268,10 @@ def test_build_dossier_packet_unknown_risk_without_high_flag_requires_review():
     investigation['claims'][0]['legal_risks'] = 'custom risk'
     packet = build_dossier_packet(investigation)
     assert packet['publication_posture']['legal_risk_level'] == 'REVIEW'
+
+
+def test_build_dossier_packet_whistleblower_is_high_risk():
+    investigation = _sample_investigation_dict()
+    investigation['claims'][0]['legal_risks'] = 'whistleblower'
+    packet = build_dossier_packet(investigation)
+    assert packet['publication_posture']['legal_risk_level'] == 'HIGH'
