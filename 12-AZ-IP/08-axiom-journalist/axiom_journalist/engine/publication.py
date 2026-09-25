@@ -91,12 +91,12 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
     unknown_flags = set(legal_flags) - recognized_flags
 
     highest_risk = 'ELEVATED'
-    if unknown_flags:
-        highest_risk = 'REVIEW'
-    elif any(flag in legal_flags for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT', 'PRIVACY')):
+    if any(flag in legal_flags for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT', 'PRIVACY')):
         highest_risk = 'HIGH'
     elif not legal_flags or set(legal_flags) == {'NONE_IDENTIFIED'}:
         highest_risk = 'CONTROLLED'
+    elif unknown_flags:
+        highest_risk = 'REVIEW'
 
     return {
         'title': investigation.get('title', 'Untitled Investigation'),
