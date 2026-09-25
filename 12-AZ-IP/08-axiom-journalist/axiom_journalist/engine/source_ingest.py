@@ -55,6 +55,11 @@ def parse_source_bundle(bundle_text: str) -> list[dict[str, str]]:
                     'Use JSON-lines or pipe-delimited rows: '
                     'title | tier | source_type | url_or_ref | date | excerpt'
                 ) from exc
+            if not isinstance(payload, dict):
+                raise ValueError(
+                    f'Invalid JSON source row on line {line_number}. '
+                    'Each JSON source row must be an object.'
+                )
             rows.append({
                 'title': _clean(payload.get('title', '')),
                 'tier': normalize_tier_label(payload.get('tier', 'Unclassified')),
