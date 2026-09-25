@@ -300,6 +300,19 @@ def import_source_bundle_ui(bundle_text: str) -> tuple[str, str]:
     merged = merge_source_bundle([source.to_dict() for source in inv.sources], incoming)
     for source in merged['imported']:
         tier = TIER_OPTIONS.get(source['tier'], SourceTier.UNCLASSIFIED)
+        try:
+            if hasattr(inv, "_db_id"):
+                db.add_source(
+                    inv._db_id,
+                    source['title'],
+                    tier.value,
+                    source['source_type'],
+                    source['url_or_ref'],
+                    source['date'],
+                    source['excerpt'],
+                )
+        except Exception as exc:  # pragma: no cover - guarded by tests via monkeypatch
+            return f"❌ {exc}", _sources_md()
         inv.add_source(
             source['title'],
             tier,
@@ -308,16 +321,6 @@ def import_source_bundle_ui(bundle_text: str) -> tuple[str, str]:
             source['date'],
             source['excerpt'],
         )
-        if hasattr(inv, "_db_id"):
-            db.add_source(
-                inv._db_id,
-                source['title'],
-                tier.value,
-                source['source_type'],
-                source['url_or_ref'],
-                source['date'],
-                source['excerpt'],
-            )
     return (
         f"✅ Imported {len(merged['imported'])} sources; skipped {len(merged['duplicates'])} duplicates from {merged['attempted']} attempted rows.",
         _sources_md(),
