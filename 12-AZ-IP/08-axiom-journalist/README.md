@@ -30,6 +30,8 @@ AXIOM now also assembles two governed outward-facing support artifacts:
   and retaliation-awareness checks
 - a **PsiCat Training / Publication Packet** that converts the investigation into a study,
   contradiction, and publication-preparation handoff for governed PsiCat work
+- a **PsiCat Publication Story Packet** that turns the same evidence into a source-led narrative
+  spine for publishable drafting without dropping uncertainty or the human-review gate
 
 ---
 
@@ -89,6 +91,10 @@ For each source you record:
 - URL or document reference
 - Date
 - Key excerpt (the passage that matters)
+
+AXIOM also supports **batch import** of public-record source bundles in either:
+- JSON-lines format (one JSON source object per line)
+- pipe-delimited rows: `title | tier | source_type | url_or_ref | date | excerpt`
 
 ### 4. ⚖ Claims
 
@@ -159,6 +165,8 @@ This tab now also generates:
 - **PsiCat Training / Publication Packet** — a governed handoff that tells PsiCat what claims,
   sources, open questions, contradiction drills, and configurable challenge limits to study
   before editorial synthesis
+- **PsiCat Publication Story Packet** — an evidence-led chapter spine, narrative contract,
+  source backbone, and PsiCat learning packet for long-form publication drafting
 
 ### 6. 🗂 Case Library
 

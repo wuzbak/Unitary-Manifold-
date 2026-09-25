@@ -641,6 +641,132 @@ def render_psicat_training_markdown(packet: dict[str, Any]) -> str:
         for item in packet['challenge_pack']:
             lines.append(f"- [{item['type']}] {item['prompt']}")
             lines.append(f"  - Required behavior: {item['required_behavior']}")
+            if item.get('paired_claim'):
+                lines.append(f"  - Paired claim: {item['paired_claim']}")
     else:
         lines.append('- _No claims or open questions available yet._')
+    return '\n'.join(lines)
+
+
+def build_story_packet(
+    investigation: dict[str, Any],
+    policy: PublicationPolicy = DEFAULT_PUBLICATION_POLICY,
+) -> dict[str, Any]:
+    """Build an evidence-led story packet for governed PsiCat publication drafting."""
+    dossier_packet = build_dossier_packet(investigation, policy)
+    psicat_packet = build_psicat_training_packet(investigation, policy)
+    entities = dossier_packet['editorial_sections']['entity_watchlist']
+    claims = dossier_packet['editorial_sections']['claim_watchlist']
+    open_questions = dossier_packet['editorial_sections']['open_questions']
+    contradictions = dossier_packet['editorial_sections']['cross_claim_contradictions']
+    source_ledger = dossier_packet['editorial_sections']['source_ledger']
+
+    chapters: list[dict[str, Any]] = [
+        {
+            'heading': 'What can be established from the record',
+            'focus': 'Open with the lead, the strongest claims, and the highest-grade source anchors.',
+            'evidence': [claim['statement'] for claim in claims[:3]],
+        },
+        {
+            'heading': 'Who is in the story and what each party says',
+            'focus': 'Map the named entities, their public positions, and the documented contradictions.',
+            'evidence': [entity['name'] for entity in entities[:6]],
+        },
+        {
+            'heading': 'What remains unresolved',
+            'focus': 'Keep unanswered questions and contradiction points visible instead of narratively smoothing them away.',
+            'evidence': open_questions[:6],
+        },
+    ]
+    if contradictions:
+        chapters.insert(2, {
+            'heading': 'Where the record conflicts with itself',
+            'focus': 'Show contradiction pairs explicitly and explain why human review is still required.',
+            'evidence': [item['claim_a'] for item in contradictions[:4]],
+        })
+
+    return {
+        'title': f"{investigation.get('title', 'Untitled Investigation')} — PsiCat Publication Story Packet",
+        'publication_posture': dossier_packet['publication_posture'],
+        'narrative_contract': {
+            'voice': 'AxiomZero / PsiCat sober public-record narrative',
+            'governing_rule': 'Every major conclusion must stay attached to a source and confidence label.',
+            'forbidden_moves': [
+                'Do not collapse allegations into adjudicated fact.',
+                'Do not erase contradictions or unknowns for narrative elegance.',
+                'Do not imply publication readiness without human review.',
+            ],
+        },
+        'story_spine': {
+            'lede': dossier_packet['lead'] or 'No investigative lead recorded.',
+            'evidence_posture': dossier_packet['scores'],
+            'chapters': chapters,
+        },
+        'source_backbone': source_ledger[:12],
+        'psicat_learning_packet': {
+            'challenge_count': len(psicat_packet['challenge_pack']),
+            'training_objectives': psicat_packet['training_objectives'],
+            'challenge_pack': psicat_packet['challenge_pack'][:12],
+        },
+        'final_gate': dossier_packet['hils_gate'],
+    }
+
+
+def render_story_markdown(packet: dict[str, Any]) -> str:
+    """Render the governed story packet as a human-readable drafting guide."""
+    lines = [
+        f"# {packet['title']}",
+        '',
+        '## Publication posture',
+        f"- Legal risk level: **{packet['publication_posture']['legal_risk_level']}**",
+        f"- Status: **{packet['publication_posture']['status']}**",
+        '',
+        '## Narrative contract',
+        f"- Voice: **{packet['narrative_contract']['voice']}**",
+        f"- Governing rule: {packet['narrative_contract']['governing_rule']}",
+        '- Forbidden moves:',
+    ]
+    lines.extend(f"  - {item}" for item in packet['narrative_contract']['forbidden_moves'])
+    lines += [
+        '',
+        '## Story spine',
+        f"- Lede: {packet['story_spine']['lede']}",
+        f"- Evidence posture: confidence {packet['story_spine']['evidence_posture']['overall_confidence']:.2f} / source quality {packet['story_spine']['evidence_posture']['source_quality']:.2f}",
+        '',
+    ]
+    for chapter in packet['story_spine']['chapters']:
+        lines.append(f"### {chapter['heading']}")
+        lines.append(chapter['focus'])
+        if chapter['evidence']:
+            lines.extend(f"- {item}" for item in chapter['evidence'])
+        else:
+            lines.append('- _No evidence items attached yet._')
+        lines.append('')
+    lines += [
+        '## Source backbone',
+    ]
+    if packet['source_backbone']:
+        for source in packet['source_backbone']:
+            lines.append(f"- **{source['title']}** [{source['tier']}]")
+            if source['url_or_ref']:
+                lines.append(f"  - Ref: {source['url_or_ref']}")
+    else:
+        lines.append('- _No sources attached yet._')
+    lines += [
+        '',
+        '## PsiCat learning packet',
+        f"- Challenge count: {packet['psicat_learning_packet']['challenge_count']}",
+        '- Training objectives:',
+    ]
+    lines.extend(f"  - {item}" for item in packet['psicat_learning_packet']['training_objectives'])
+    if packet['psicat_learning_packet']['challenge_pack']:
+        lines.append('- Challenge pack:')
+        for item in packet['psicat_learning_packet']['challenge_pack']:
+            lines.append(f"  - [{item['type']}] {item['prompt']}")
+    lines += [
+        '',
+        '## Final gate',
+        f"- Status: **{packet['final_gate']['status']}**",
+    ]
+    lines.extend(f"- {item}" for item in packet['final_gate']['checks'])
     return '\n'.join(lines)

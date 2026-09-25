@@ -19,10 +19,13 @@ from axiom_journalist.engine.open_data_sources import (
 from axiom_journalist.engine.publication import (
     PublicationPolicy,
     build_dossier_packet,
+    build_story_packet,
     build_psicat_training_packet,
     render_dossier_markdown,
+    render_story_markdown,
     render_psicat_training_markdown,
 )
+from axiom_journalist.engine.source_ingest import merge_source_bundle, parse_source_bundle
 
 
 def test_open_data_sources_have_expected_keys():
@@ -220,6 +223,28 @@ def test_render_psicat_training_markdown_contains_targets():
     assert 'Challenge pack' in rendered
 
 
+def test_parse_source_bundle_supports_json_and_pipe_rows():
+    bundle = '\n'.join([
+        '{"title":"Court filing","tier":"Tier 1","source_type":"Docket","url_or_ref":"https://records.example/1","date":"2026-01-01","excerpt":"Primary filing"}',
+        'Press report | Tier 2 | News article | https://news.example/2 | 2026-01-02 | Secondary report',
+    ])
+    parsed = parse_source_bundle(bundle)
+    assert len(parsed) == 2
+    assert parsed[0]['tier'] == 'Tier 1 — Primary Record (court/regulatory/FOIA)'
+    assert parsed[1]['title'] == 'Press report'
+
+
+def test_merge_source_bundle_skips_duplicates():
+    existing = _sample_investigation_dict()['sources']
+    incoming = parse_source_bundle(
+        'Procurement filing | Tier 1 | Filing | https://records.example/procurement | 2026-01-01 | Duplicate\n'
+        'New audit | Tier 1 | Audit | https://records.example/audit | 2026-01-03 | Fresh'
+    )
+    merged = merge_source_bundle(existing, incoming)
+    assert len(merged['imported']) == 1
+    assert len(merged['duplicates']) == 1
+
+
 def test_build_dossier_packet_normalizes_no_risk_and_safe_scores():
     investigation = _sample_investigation_dict()
     investigation['scores'] = {'overall_confidence': 'nan', 'source_quality': 'inf'}
@@ -355,3 +380,12 @@ def test_build_psicat_training_packet_respects_policy_limits():
     assert cross_claim_checks[0]['paired_claim'] == "Acme Corp didn't conflict with the public statement in the procurement filing."
     assert len(open_questions) == 2
     assert packet['policy']['max_claim_challenges'] == 2
+
+
+def test_build_and_render_story_packet_contains_narrative_contract():
+    packet = build_story_packet(_sample_investigation_dict())
+    rendered = render_story_markdown(packet)
+    assert packet['story_spine']['chapters']
+    assert 'Narrative contract' in rendered
+    assert 'Source backbone' in rendered
+    assert 'Final gate' in rendered

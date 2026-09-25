@@ -24,6 +24,7 @@ Implementation: GitHub Copilot (AI).
 """
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -37,8 +38,12 @@ from app.core.investigator import (
 from app.db import cases as db
 from axiom_journalist.engine import (
    build_dossier_packet,
+   build_story_packet,
    build_psicat_training_packet,
+   merge_source_bundle,
+   parse_source_bundle,
    render_dossier_markdown,
+   render_story_markdown,
    render_psicat_training_markdown,
 )
 
@@ -284,6 +289,49 @@ def generate_psicat_packet_ui() -> str:
     return render_psicat_training_markdown(packet)
 
 
+def import_source_bundle_ui(bundle_text: str) -> tuple[str, str]:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv, _sources_md()
+    try:
+        incoming = parse_source_bundle(bundle_text)
+    except (ValueError, json.JSONDecodeError) as exc:
+        return f"❌ {exc}", _sources_md()
+    merged = merge_source_bundle([source.to_dict() for source in inv.sources], incoming)
+    for source in merged['imported']:
+        tier = TIER_OPTIONS.get(source['tier'], SourceTier.UNCLASSIFIED)
+        inv.add_source(
+            source['title'],
+            tier,
+            source['source_type'],
+            source['url_or_ref'],
+            source['date'],
+            source['excerpt'],
+        )
+        if hasattr(inv, "_db_id"):
+            db.add_source(
+                inv._db_id,
+                source['title'],
+                tier.value,
+                source['source_type'],
+                source['url_or_ref'],
+                source['date'],
+                source['excerpt'],
+            )
+    return (
+        f"✅ Imported {len(merged['imported'])} sources; skipped {len(merged['duplicates'])} duplicates from {merged['attempted']} attempted rows.",
+        _sources_md(),
+    )
+
+
+def generate_story_packet_ui() -> str:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
+    packet = build_story_packet(inv.to_dict())
+    return render_story_markdown(packet)
+
+
 # ---------------------------------------------------------------------------
 # Tab 6 — Case Library
 # ---------------------------------------------------------------------------
@@ -450,6 +498,15 @@ def build_ui() -> gr.Blocks:
                 btn_source.click(add_source, [s_title, s_tier, s_type, s_ref, s_date, s_excerpt], out_source)
                 btn_refresh_s = gr.Button("🔄 Refresh", variant="secondary")
                 btn_refresh_s.click(refresh_sources, [], out_source)
+                gr.Markdown("### Batch Import Public-Record Sources\nPaste JSON-lines or pipe-delimited rows: `title | tier | source_type | url_or_ref | date | excerpt`")
+                s_bundle = gr.Textbox(
+                    label="Source Bundle",
+                    lines=8,
+                    placeholder='{"title":"Court filing","tier":"Tier 1","source_type":"Docket","url_or_ref":"https://...","date":"2026-01-01","excerpt":"..."}'
+                )
+                btn_import_sources = gr.Button("📥 Import Source Bundle", variant="secondary")
+                out_import_sources = gr.Textbox(label="Import Status", interactive=False)
+                btn_import_sources.click(import_source_bundle_ui, [s_bundle], [out_import_sources, out_source])
 
             # ---- Tab 4: Claims ----
             with gr.Tab("⚖ Claims"):
@@ -490,6 +547,7 @@ def build_ui() -> gr.Blocks:
                 with gr.Row():
                     btn_dossier = gr.Button("🧾 Generate Dossier Packet", variant="primary")
                     btn_psicat = gr.Button("🐈 Generate PsiCat Packet", variant="secondary")
+                    btn_story = gr.Button("📝 Generate Story Packet", variant="secondary")
                 out_dossier = gr.Textbox(
                     label="Governed Dossier Packet",
                     lines=28,
@@ -502,8 +560,15 @@ def build_ui() -> gr.Blocks:
                     interactive=False,
                     placeholder="Generate a PsiCat handoff packet to study claims, sources, and unknowns under governed constraints."
                 )
+                out_story = gr.Textbox(
+                    label="PsiCat Publication Story Packet",
+                    lines=26,
+                    interactive=False,
+                    placeholder="Generate an evidence-led story spine for governed PsiCat drafting."
+                )
                 btn_dossier.click(generate_dossier_packet_ui, [], out_dossier)
                 btn_psicat.click(generate_psicat_packet_ui, [], out_psicat)
+                btn_story.click(generate_story_packet_ui, [], out_story)
 
             # ---- Tab 6: Case Library ----
             with gr.Tab("🗂 Case Library"):
