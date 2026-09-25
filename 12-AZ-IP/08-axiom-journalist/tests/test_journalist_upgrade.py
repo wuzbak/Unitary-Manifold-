@@ -302,7 +302,11 @@ def test_build_dossier_packet_deduplicates_sources_and_detects_claim_conflicts()
     assert packet['evidence_summary']['source_count'] == 2
     assert packet['evidence_summary']['duplicate_source_count'] == 1
     assert packet['evidence_summary']['source_tiers']['Tier 1 — Primary Record (court/regulatory/FOIA)'] == 1
-    assert packet['editorial_sections']['cross_claim_contradictions']
+    contradictions = packet['editorial_sections']['cross_claim_contradictions']
+    assert len(contradictions) == 1
+    assert contradictions[0]['claim_a'] == 'The public statement conflicts with the procurement filing.'
+    assert contradictions[0]['claim_b'] == 'Acme Corp did not conflict with the public statement in the procurement filing.'
+    assert 'public statement' in contradictions[0]['overlap_phrases']
 
 
 def test_build_psicat_training_packet_respects_policy_limits():

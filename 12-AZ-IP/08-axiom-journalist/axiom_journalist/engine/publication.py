@@ -123,6 +123,18 @@ def _claim_terms(statement: str) -> set[str]:
     return terms
 
 
+def _claim_phrases(statement: str) -> set[str]:
+    tokens = [
+        ''.join(ch for ch in raw if ch.isalnum())
+        for raw in _normalized_text(statement).lower().replace('-', ' ').split()
+    ]
+    filtered = [token for token in tokens if len(token) >= 4 and token not in _CLAIM_STOPWORDS]
+    return {
+        f'{filtered[index]} {filtered[index + 1]}'
+        for index in range(len(filtered) - 1)
+    }
+
+
 def _claim_is_negative(statement: str) -> bool:
     lowered = _normalized_text(statement).lower()
     return any(f" {marker} " in f" {lowered} " for marker in _NEGATION_MARKERS)
@@ -136,6 +148,7 @@ def _cross_claim_contradictions(
     for idx, left in enumerate(claims):
         left_entities = {str(item).strip().casefold() for item in (left.get('entities_involved') or []) if str(item).strip()}
         left_terms = _claim_terms(str(left.get('statement', '')))
+        left_phrases = _claim_phrases(str(left.get('statement', '')))
         if not left_terms:
             continue
         left_negative = _claim_is_negative(str(left.get('statement', '')))
@@ -145,10 +158,14 @@ def _cross_claim_contradictions(
             if not shared_entities:
                 continue
             right_terms = _claim_terms(str(right.get('statement', '')))
+            right_phrases = _claim_phrases(str(right.get('statement', '')))
             if not right_terms:
                 continue
             overlap = sorted(left_terms & right_terms)
+            phrase_overlap = sorted(left_phrases & right_phrases)
             if len(overlap) < policy.contradiction_overlap_minimum:
+                continue
+            if not phrase_overlap:
                 continue
             right_negative = _claim_is_negative(str(right.get('statement', '')))
             if left_negative == right_negative:
@@ -158,6 +175,7 @@ def _cross_claim_contradictions(
                 'claim_b': str(right.get('statement', '')),
                 'shared_entities': shared_entities,
                 'overlap_terms': overlap,
+                'overlap_phrases': phrase_overlap,
             })
     return contradictions
 
@@ -440,6 +458,7 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
             lines.append(f"  - Claim B: {item['claim_b']}")
             lines.append(f"  - Shared entities: {', '.join(item['shared_entities'])}")
             lines.append(f"  - Overlap terms: {', '.join(item['overlap_terms'])}")
+            lines.append(f"  - Overlap phrases: {', '.join(item['overlap_phrases'])}")
     else:
         lines.append('- _No cross-claim contradictions detected by heuristic review._')
     lines += [
