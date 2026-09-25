@@ -154,9 +154,11 @@ This tab now also generates:
 
 - **Governed Dossier Packet** — a document-first review packet summarizing confidence mix,
   source tiers, claim watchlist, legal-risk posture, retaliation-awareness checklist, and
-  mandatory HILS review gates before publication
+  mandatory HILS review gates before publication, plus duplicate-source review and heuristic
+  cross-claim contradiction checks
 - **PsiCat Training / Publication Packet** — a governed handoff that tells PsiCat what claims,
-  sources, open questions, and contradiction drills to study before editorial synthesis
+  sources, open questions, contradiction drills, and configurable challenge limits to study
+  before editorial synthesis
 
 ### 6. 🗂 Case Library
 

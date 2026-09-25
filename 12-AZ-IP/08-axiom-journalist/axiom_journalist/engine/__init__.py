@@ -9,6 +9,7 @@ from .open_data_sources import (
     fetch_usaspending_awards,
 )
 from .publication import (
+    PublicationPolicy,
     build_dossier_packet,
     build_psicat_training_packet,
     render_dossier_markdown,
@@ -18,6 +19,7 @@ from .publication import (
 __all__ = [
     'HILSReviewRequest',
     'OPEN_DATA_SOURCES',
+    'PublicationPolicy',
     'build_dossier_packet',
     'build_investigative_brief',
     'build_psicat_training_packet',

@@ -3,16 +3,30 @@
 from __future__ import annotations
 
 from collections import Counter
+from dataclasses import dataclass
 import math
 from typing import Any
 
 
-def _score_label(value: float) -> str:
-    if value >= 0.85:
+@dataclass(frozen=True)
+class PublicationPolicy:
+    high_score_threshold: float = 0.85
+    elevated_score_threshold: float = 0.6
+    mixed_score_threshold: float = 0.35
+    max_claim_challenges: int = 8
+    max_open_question_challenges: int = 8
+    contradiction_overlap_minimum: int = 3
+
+
+DEFAULT_PUBLICATION_POLICY = PublicationPolicy()
+
+
+def _score_label(value: float, policy: PublicationPolicy) -> str:
+    if value >= policy.high_score_threshold:
         return 'HIGH'
-    if value >= 0.6:
+    if value >= policy.elevated_score_threshold:
         return 'ELEVATED'
-    if value >= 0.35:
+    if value >= policy.mixed_score_threshold:
         return 'MIXED'
     return 'LOW'
 
@@ -52,12 +66,112 @@ def _normalized_legal_flags(claim: dict[str, Any]) -> list[str]:
     return normalized or ['NONE_IDENTIFIED']
 
 
-def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
+def _normalized_source_tier(value: Any) -> str:
+    normalized = str(value or '').strip()
+    return normalized or 'Unclassified'
+
+
+def _normalized_text(value: Any) -> str:
+    return ' '.join(str(value or '').split())
+
+
+def _source_identity(source: dict[str, Any]) -> tuple[str, str, str]:
+    return (
+        _normalized_text(source.get('title', '')).casefold(),
+        _normalized_text(source.get('url_or_ref', '')).casefold(),
+        _normalized_text(source.get('date', '')).casefold(),
+    )
+
+
+def _deduplicate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    seen: dict[tuple[str, str, str], dict[str, Any]] = {}
+    duplicates: list[dict[str, Any]] = []
+    deduped: list[dict[str, Any]] = []
+    for source in sources:
+        key = _source_identity(source)
+        if key in seen:
+            duplicates.append({
+                'title': _normalized_text(source.get('title', '')),
+                'url_or_ref': _normalized_text(source.get('url_or_ref', '')),
+                'date': _normalized_text(source.get('date', '')),
+            })
+            continue
+        normalized = dict(source)
+        normalized['title'] = _normalized_text(source.get('title', ''))
+        normalized['tier'] = _normalized_source_tier(source.get('tier'))
+        normalized['source_type'] = _normalized_text(source.get('source_type', ''))
+        normalized['url_or_ref'] = _normalized_text(source.get('url_or_ref', ''))
+        normalized['date'] = _normalized_text(source.get('date', ''))
+        seen[key] = normalized
+        deduped.append(normalized)
+    return deduped, duplicates
+
+
+_NEGATION_MARKERS = {'no', 'not', 'never', 'none', 'without', 'lack', 'lacks', 'lacking', 'denies', 'deny', 'denied'}
+_CLAIM_STOPWORDS = {
+    'the', 'and', 'that', 'with', 'from', 'into', 'this', 'there', 'their', 'have',
+    'were', 'will', 'shall', 'about', 'under', 'after', 'before', 'because',
+}
+
+
+def _claim_terms(statement: str) -> set[str]:
+    terms: set[str] = set()
+    for raw in _normalized_text(statement).lower().replace('-', ' ').split():
+        token = ''.join(ch for ch in raw if ch.isalnum())
+        if len(token) >= 4 and token not in _CLAIM_STOPWORDS:
+            terms.add(token)
+    return terms
+
+
+def _claim_is_negative(statement: str) -> bool:
+    lowered = _normalized_text(statement).lower()
+    return any(f" {marker} " in f" {lowered} " for marker in _NEGATION_MARKERS)
+
+
+def _cross_claim_contradictions(
+    claims: list[dict[str, Any]],
+    policy: PublicationPolicy,
+) -> list[dict[str, Any]]:
+    contradictions: list[dict[str, Any]] = []
+    for idx, left in enumerate(claims):
+        left_entities = {str(item).strip().casefold() for item in (left.get('entities_involved') or []) if str(item).strip()}
+        left_terms = _claim_terms(str(left.get('statement', '')))
+        if not left_terms:
+            continue
+        left_negative = _claim_is_negative(str(left.get('statement', '')))
+        for right in claims[idx + 1:]:
+            right_entities = {str(item).strip().casefold() for item in (right.get('entities_involved') or []) if str(item).strip()}
+            shared_entities = sorted(left_entities & right_entities)
+            if not shared_entities:
+                continue
+            right_terms = _claim_terms(str(right.get('statement', '')))
+            if not right_terms:
+                continue
+            overlap = sorted(left_terms & right_terms)
+            if len(overlap) < policy.contradiction_overlap_minimum:
+                continue
+            right_negative = _claim_is_negative(str(right.get('statement', '')))
+            if left_negative == right_negative:
+                continue
+            contradictions.append({
+                'claim_a': str(left.get('statement', '')),
+                'claim_b': str(right.get('statement', '')),
+                'shared_entities': shared_entities,
+                'overlap_terms': overlap,
+            })
+    return contradictions
+
+
+def build_dossier_packet(
+    investigation: dict[str, Any],
+    policy: PublicationPolicy = DEFAULT_PUBLICATION_POLICY,
+) -> dict[str, Any]:
     """Build a governed dossier packet from a structured investigation dict."""
     claims = _claims(investigation)
-    sources = _sources(investigation)
+    sources, duplicate_sources = _deduplicate_sources(_sources(investigation))
     entities = _entities(investigation)
     scores = investigation.get('scores') or {}
+    cross_claim_contradictions = _cross_claim_contradictions(claims, policy)
 
     confidence_counts = Counter(
         str(claim.get('confidence', 'UNVERIFIED')).upper()
@@ -69,13 +183,13 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
             legal_flags[flag] += 1
 
     source_tiers = Counter(
-        str(source.get('tier') or 'Unclassified')
+        _normalized_source_tier(source.get('tier'))
         for source in sources
     )
     contradiction_count = sum(
         len(entity.get('contradictions') or [])
         for entity in entities
-    )
+    ) + len(cross_claim_contradictions)
 
     overall_confidence = _safe_float(scores.get('overall_confidence', 0.0), 0.0)
     source_quality = _safe_float(scores.get('source_quality', 0.0), 0.0)
@@ -113,13 +227,14 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
         'status': investigation.get('status', 'Active'),
         'scores': {
             'overall_confidence': round(overall_confidence, 3),
-            'overall_confidence_label': _score_label(overall_confidence),
+            'overall_confidence_label': _score_label(overall_confidence, policy),
             'source_quality': round(source_quality, 3),
-            'source_quality_label': _score_label(source_quality),
+            'source_quality_label': _score_label(source_quality, policy),
         },
         'evidence_summary': {
             'entity_count': len(entities),
             'source_count': len(sources),
+            'duplicate_source_count': len(duplicate_sources),
             'claim_count': len(claims),
             'open_question_count': len(investigation.get('open_questions') or []),
             'contradiction_count': contradiction_count,
@@ -169,14 +284,24 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
             'source_ledger': [
                 {
                     'title': source.get('title', ''),
-                    'tier': source.get('tier') or 'Unclassified',
+                    'tier': _normalized_source_tier(source.get('tier')),
                     'source_type': source.get('source_type', ''),
                     'url_or_ref': source.get('url_or_ref', ''),
                     'date': source.get('date', ''),
                 }
                 for source in sources
             ],
+            'duplicate_sources': duplicate_sources,
+            'cross_claim_contradictions': cross_claim_contradictions,
             'open_questions': investigation.get('open_questions') or [],
+        },
+        'policy': {
+            'high_score_threshold': policy.high_score_threshold,
+            'elevated_score_threshold': policy.elevated_score_threshold,
+            'mixed_score_threshold': policy.mixed_score_threshold,
+            'max_claim_challenges': policy.max_claim_challenges,
+            'max_open_question_challenges': policy.max_open_question_challenges,
+            'contradiction_overlap_minimum': policy.contradiction_overlap_minimum,
         },
         'hils_gate': {
             'required': True,
@@ -208,6 +333,7 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
         '## Evidence summary',
         f"- Entities: {packet['evidence_summary']['entity_count']}",
         f"- Sources: {packet['evidence_summary']['source_count']}",
+        f"- Duplicate sources collapsed: {packet['evidence_summary']['duplicate_source_count']}",
         f"- Claims: {packet['evidence_summary']['claim_count']}",
         f"- Open questions: {packet['evidence_summary']['open_question_count']}",
         f"- Contradictions logged: {packet['evidence_summary']['contradiction_count']}",
@@ -291,6 +417,33 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
         lines.append('- _No sources recorded._')
     lines += [
         '',
+        '## Duplicate source review',
+    ]
+    duplicate_sources = packet['editorial_sections']['duplicate_sources']
+    if duplicate_sources:
+        for source in duplicate_sources:
+            lines.append(f"- **{source['title'] or 'Untitled source'}**")
+            if source['url_or_ref']:
+                lines.append(f"  - Ref: {source['url_or_ref']}")
+            if source['date']:
+                lines.append(f"  - Date: {source['date']}")
+    else:
+        lines.append('- _No duplicate sources detected._')
+    lines += [
+        '',
+        '## Cross-claim contradiction review',
+    ]
+    cross_claim_contradictions = packet['editorial_sections']['cross_claim_contradictions']
+    if cross_claim_contradictions:
+        for item in cross_claim_contradictions:
+            lines.append(f"- Claim A: {item['claim_a']}")
+            lines.append(f"  - Claim B: {item['claim_b']}")
+            lines.append(f"  - Shared entities: {', '.join(item['shared_entities'])}")
+            lines.append(f"  - Overlap terms: {', '.join(item['overlap_terms'])}")
+    else:
+        lines.append('- _No cross-claim contradictions detected by heuristic review._')
+    lines += [
+        '',
         '## Open questions',
     ]
     open_questions = packet['editorial_sections']['open_questions']
@@ -310,15 +463,19 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
     return '\n'.join(lines)
 
 
-def build_psicat_training_packet(investigation: dict[str, Any]) -> dict[str, Any]:
+def build_psicat_training_packet(
+    investigation: dict[str, Any],
+    policy: PublicationPolicy = DEFAULT_PUBLICATION_POLICY,
+) -> dict[str, Any]:
     """Convert an investigation into a PsiCat-oriented study and publication packet."""
     claims = _claims(investigation)
-    sources = _sources(investigation)
+    sources, duplicate_sources = _deduplicate_sources(_sources(investigation))
     open_questions = investigation.get('open_questions') or []
+    contradictions = _cross_claim_contradictions(claims, policy)
     source_refs = [
-        source.get('url_or_ref', '')
+        _normalized_text(source.get('url_or_ref', ''))
         for source in sources
-        if source.get('url_or_ref')
+        if _normalized_text(source.get('url_or_ref', ''))
     ]
 
     challenge_set = [
@@ -327,15 +484,27 @@ def build_psicat_training_packet(investigation: dict[str, Any]) -> dict[str, Any
             'prompt': claim.get('statement', ''),
             'required_behavior': 'preserve uncertainty and cite supporting evidence before synthesis',
         }
-        for claim in claims[:8]
+        for claim in claims[:policy.max_claim_challenges]
     ]
+    challenge_set.extend(
+        {
+            'type': 'cross-claim-contradiction',
+            'prompt': item['claim_a'],
+            'required_behavior': (
+                'compare against the paired claim, preserve the contradiction, '
+                'and route to human review before narrative closure'
+            ),
+            'paired_claim': item['claim_b'],
+        }
+        for item in contradictions[:policy.max_claim_challenges]
+    )
     challenge_set.extend(
         {
             'type': 'open-question',
             'prompt': question,
             'required_behavior': 'convert the unknown into a research task without pretending closure',
         }
-        for question in open_questions[:8]
+        for question in open_questions[:policy.max_open_question_challenges]
     )
 
     return {
@@ -345,6 +514,8 @@ def build_psicat_training_packet(investigation: dict[str, Any]) -> dict[str, Any
         'study_targets': {
             'claim_count': len(claims),
             'source_count': len(sources),
+            'duplicate_source_count': len(duplicate_sources),
+            'cross_claim_contradiction_count': len(contradictions),
             'priority_sources': source_refs[:12],
             'open_questions': open_questions[:12],
         },
@@ -361,6 +532,11 @@ def build_psicat_training_packet(investigation: dict[str, Any]) -> dict[str, Any
             'Unknowns remain visible in the publication packet.',
         ],
         'challenge_pack': challenge_set,
+        'policy': {
+            'max_claim_challenges': policy.max_claim_challenges,
+            'max_open_question_challenges': policy.max_open_question_challenges,
+            'contradiction_overlap_minimum': policy.contradiction_overlap_minimum,
+        },
         'handoff_status': 'READY_FOR_GOVERNED_PSICAT_STUDY',
     }
 
@@ -377,6 +553,8 @@ def render_psicat_training_markdown(packet: dict[str, Any]) -> str:
         '## Study targets',
         f"- Claims to study: {packet['study_targets']['claim_count']}",
         f"- Sources to study: {packet['study_targets']['source_count']}",
+        f"- Duplicate sources collapsed: {packet['study_targets']['duplicate_source_count']}",
+        f"- Cross-claim contradictions queued: {packet['study_targets']['cross_claim_contradiction_count']}",
     ]
     if packet['study_targets']['priority_sources']:
         lines.append('- Priority source refs:')

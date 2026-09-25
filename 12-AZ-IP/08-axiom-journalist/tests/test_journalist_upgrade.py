@@ -17,6 +17,7 @@ from axiom_journalist.engine.open_data_sources import (
     fetch_usaspending_awards,
 )
 from axiom_journalist.engine.publication import (
+    PublicationPolicy,
     build_dossier_packet,
     build_psicat_training_packet,
     render_dossier_markdown,
@@ -257,8 +258,8 @@ def test_render_dossier_markdown_empty_state_is_explicit():
 
 def test_build_dossier_packet_unknown_risk_and_missing_tier_stay_explicit():
     investigation = _sample_investigation_dict()
-    investigation['claims'][0]['legal_risks'] = 'privacy | custom risk'
-    investigation['sources'][0]['tier'] = None
+    investigation['claims'][0]['legal_risks'] = ' privacy | custom risk '
+    investigation['sources'][0]['tier'] = '   '
     packet = build_dossier_packet(investigation)
     assert packet['publication_posture']['legal_risk_level'] == 'HIGH_REVIEW'
     assert packet['publication_posture']['unclassified_risk_flags'] == ['CUSTOM_RISK']
@@ -279,3 +280,50 @@ def test_build_dossier_packet_whistleblower_is_high_risk():
     investigation['claims'][0]['legal_risks'] = 'whistleblower'
     packet = build_dossier_packet(investigation)
     assert packet['publication_posture']['legal_risk_level'] == 'HIGH'
+
+
+def test_build_dossier_packet_deduplicates_sources_and_detects_claim_conflicts():
+    investigation = _sample_investigation_dict()
+    investigation['sources'].append({
+        'title': '  Procurement filing  ',
+        'tier': ' Tier 1 — Primary Record (court/regulatory/FOIA) ',
+        'source_type': ' Filing ',
+        'url_or_ref': ' https://records.example/procurement ',
+        'date': ' 2026-01-01 ',
+    })
+    investigation['claims'].append({
+        'statement': 'Acme Corp did not conflict with the public statement in the procurement filing.',
+        'confidence': 'ALLEGED',
+        'legal_risks': 'NONE',
+        'entities_involved': ['Acme Corp'],
+        'sources': [{'title': 'Procurement filing'}],
+    })
+    packet = build_dossier_packet(investigation)
+    assert packet['evidence_summary']['source_count'] == 2
+    assert packet['evidence_summary']['duplicate_source_count'] == 1
+    assert packet['evidence_summary']['source_tiers']['Tier 1 — Primary Record (court/regulatory/FOIA)'] == 1
+    assert packet['editorial_sections']['cross_claim_contradictions']
+
+
+def test_build_psicat_training_packet_respects_policy_limits():
+    investigation = _sample_investigation_dict()
+    investigation['claims'].extend([
+        {
+            'statement': f'Claim number {index} about procurement disclosure.',
+            'confidence': 'ALLEGED',
+            'legal_risks': 'NONE',
+            'entities_involved': ['Acme Corp'],
+            'sources': [],
+        }
+        for index in range(5)
+    ])
+    investigation['open_questions'].extend([f'Question {index}' for index in range(5)])
+    packet = build_psicat_training_packet(
+        investigation,
+        PublicationPolicy(max_claim_challenges=2, max_open_question_challenges=2, contradiction_overlap_minimum=2),
+    )
+    contradiction_checks = [item for item in packet['challenge_pack'] if item['type'] == 'contradiction-check']
+    open_questions = [item for item in packet['challenge_pack'] if item['type'] == 'open-question']
+    assert len(contradiction_checks) == 2
+    assert len(open_questions) == 2
+    assert packet['policy']['max_claim_challenges'] == 2
