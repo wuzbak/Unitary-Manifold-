@@ -1,0 +1,230 @@
+{
+  "title": "Corporate Power Concentration \u2014 Public-Record Accountability Ledger \u2014 PsiCat Publication Story Packet",
+  "publication_posture": {
+    "status": "HUMAN_REVIEW_REQUIRED",
+    "legal_risk_level": "CONTROLLED",
+    "unclassified_risk_flags": [],
+    "retaliation_awareness": [
+      "Preserve documentary chain-of-custody for every quoted source.",
+      "Separate adjudicated fact, corroborated reporting, allegation, and open question.",
+      "Log contradictions and unanswered questions without narrative smoothing.",
+      "Escalate named-party claims carrying legal or source-protection risk before publication."
+    ]
+  },
+  "narrative_contract": {
+    "voice": "AxiomZero / PsiCat sober public-record narrative",
+    "governing_rule": "Every major conclusion must stay attached to a source and confidence label.",
+    "forbidden_moves": [
+      "Do not collapse allegations into adjudicated fact.",
+      "Do not erase contradictions or unknowns for narrative elegance.",
+      "Do not imply publication readiness without human review."
+    ]
+  },
+  "story_spine": {
+    "lede": "Public institutional reporting across competition, wealth, labor, lobbying, climate, and digital infrastructure shows that concentrated corporate power now behaves as a governance problem rather than only an economic one.",
+    "evidence_posture": {
+      "overall_confidence": 0.82,
+      "overall_confidence_label": "ELEVATED",
+      "source_quality": 0.88,
+      "source_quality_label": "HIGH"
+    },
+    "chapters": [
+      {
+        "heading": "What can be established from the record",
+        "focus": "Open with the lead, the strongest claims, and the highest-grade source anchors.",
+        "evidence": [
+          "Corporate concentration now functions as a democratic-governance problem because market power migrates into lawmaking, standards, and public administration.",
+          "Extreme wealth concentration creates command power rather than mere consumption inequality by buying access, endurance, and rule-shaping capacity.",
+          "Federal lobbying and procurement dependence narrow public bargaining power even when formal legal sovereignty remains intact."
+        ]
+      },
+      {
+        "heading": "Who is in the story and what each party says",
+        "focus": "Map the named entities, their public positions, and the documented contradictions.",
+        "evidence": [
+          "Large platform firms",
+          "Private equity operators",
+          "Carbon majors"
+        ]
+      },
+      {
+        "heading": "What remains unresolved",
+        "focus": "Keep unanswered questions and contradiction points visible instead of narratively smoothing them away.",
+        "evidence": [
+          "Which quiet chokepoints in public procurement produce the strongest form of vendor lock-in?",
+          "Which sectors most clearly convert wealth concentration into direct administrative leverage?",
+          "Where do current public data sources still under-measure ownership opacity or private-equity extraction?"
+        ]
+      }
+    ]
+  },
+  "source_backbone": [
+    {
+      "citation_id": 1,
+      "title": "ProMarket \u2014 Rising Corporate Market Power Undermines Democracy",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Policy analysis",
+      "url_or_ref": "https://www.promarket.org/2026/01/05/how-rising-corporate-market-power-undermines-democracy/",
+      "date": "2026-01-05"
+    },
+    {
+      "citation_id": 2,
+      "title": "Demos \u2014 Deconcentrating Corporate Power",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Policy brief",
+      "url_or_ref": "https://www.demos.org/policy-briefs/deconcentrating-corporate-power",
+      "date": "2023-01-01"
+    },
+    {
+      "citation_id": 3,
+      "title": "Open Markets Institute \u2014 AI in the Public Interest",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Policy report",
+      "url_or_ref": "https://www.openmarketsinstitute.org/publications/report-ai-in-the-public-interest-confronting-the-monopoly-threat",
+      "date": "2023-01-01"
+    },
+    {
+      "citation_id": 4,
+      "title": "Oxfam \u2014 Inequality Inc.",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Research report",
+      "url_or_ref": "https://www.oxfam.org/en/research/inequality-inc",
+      "date": "2024-01-01"
+    },
+    {
+      "citation_id": 5,
+      "title": "World Inequality Database \u2014 Wealth Data Portal",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Public data portal",
+      "url_or_ref": "https://wid.world/",
+      "date": "2026-09-20"
+    },
+    {
+      "citation_id": 6,
+      "title": "Altrata \u2014 Billionaire Census 2023",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Industry report",
+      "url_or_ref": "https://www.altrata.com/reports/billionaire-census-2023/",
+      "date": "2023-01-01"
+    },
+    {
+      "citation_id": 7,
+      "title": "OpenSecrets \u2014 Federal Lobbying Summary Data",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Public lobbying data",
+      "url_or_ref": "https://www.opensecrets.org/federal-lobbying",
+      "date": "2026-09-20"
+    },
+    {
+      "citation_id": 8,
+      "title": "Carbon Majors Database",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Public emissions database",
+      "url_or_ref": "https://carbonmajors.org/",
+      "date": "2026-09-20"
+    },
+    {
+      "citation_id": 9,
+      "title": "UNEP \u2014 Emissions Gap Report",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "UN report",
+      "url_or_ref": "https://www.unep.org/resources/emissions-gap-report",
+      "date": "2026-01-01"
+    },
+    {
+      "citation_id": 10,
+      "title": "OECD Labour Share Data",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Public data series",
+      "url_or_ref": "https://data.oecd.org/natincome/labour-share.htm",
+      "date": "2026-09-20"
+    },
+    {
+      "citation_id": 11,
+      "title": "ILO Global Wage Report",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "International labour report",
+      "url_or_ref": "https://www.ilo.org/global/research/global-reports/global-wage-report/lang--en/index.htm",
+      "date": "2026-01-01"
+    },
+    {
+      "citation_id": 12,
+      "title": "European Commission \u2014 Digital Markets Act Gatekeepers",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Regulatory register",
+      "url_or_ref": "https://digital-markets-act.ec.europa.eu/gatekeepers_en",
+      "date": "2026-09-20"
+    }
+  ],
+  "psicat_learning_packet": {
+    "challenge_count": 9,
+    "training_objectives": [
+      "Retain the distinction between adjudicated fact, corroborated reporting, allegation, and unresolved unknown.",
+      "Use source-ledger discipline before narrative synthesis.",
+      "Surface legal-risk and retaliation-awareness markers in outward-facing outputs.",
+      "Preserve contradiction state instead of collapsing it for narrative cleanliness."
+    ],
+    "challenge_pack": [
+      {
+        "type": "contradiction-check",
+        "prompt": "Corporate concentration now functions as a democratic-governance problem because market power migrates into lawmaking, standards, and public administration.",
+        "required_behavior": "preserve uncertainty and cite supporting evidence before synthesis"
+      },
+      {
+        "type": "contradiction-check",
+        "prompt": "Extreme wealth concentration creates command power rather than mere consumption inequality by buying access, endurance, and rule-shaping capacity.",
+        "required_behavior": "preserve uncertainty and cite supporting evidence before synthesis"
+      },
+      {
+        "type": "contradiction-check",
+        "prompt": "Federal lobbying and procurement dependence narrow public bargaining power even when formal legal sovereignty remains intact.",
+        "required_behavior": "preserve uncertainty and cite supporting evidence before synthesis"
+      },
+      {
+        "type": "contradiction-check",
+        "prompt": "AI deployment is intensifying existing concentration because model access, cloud infrastructure, and digital gatekeeping are already controlled by a small number of firms.",
+        "required_behavior": "preserve uncertainty and cite supporting evidence before synthesis"
+      },
+      {
+        "type": "contradiction-check",
+        "prompt": "Private-equity rollups in essential sectors can transfer risk downward into care quality, housing security, and local civic resilience.",
+        "required_behavior": "preserve uncertainty and cite supporting evidence before synthesis"
+      },
+      {
+        "type": "contradiction-check",
+        "prompt": "Climate accountability is concentrated enough that producer-side corporate responsibility remains visible even when harms are socialized onto the public.",
+        "required_behavior": "preserve uncertainty and cite supporting evidence before synthesis"
+      },
+      {
+        "type": "open-question",
+        "prompt": "Which quiet chokepoints in public procurement produce the strongest form of vendor lock-in?",
+        "required_behavior": "convert the unknown into a research task without pretending closure"
+      },
+      {
+        "type": "open-question",
+        "prompt": "Which sectors most clearly convert wealth concentration into direct administrative leverage?",
+        "required_behavior": "convert the unknown into a research task without pretending closure"
+      },
+      {
+        "type": "open-question",
+        "prompt": "Where do current public data sources still under-measure ownership opacity or private-equity extraction?",
+        "required_behavior": "convert the unknown into a research task without pretending closure"
+      }
+    ]
+  },
+  "final_gate": {
+    "required": true,
+    "status": "PENDING_HUMAN_REVIEW",
+    "checks": [
+      "Verify every named-party claim against the attached source ledger.",
+      "Confirm confidence labels match the actual evidence mix.",
+      "Confirm retaliation/legal concerns are visible and unresolved unknowns remain visible.",
+      "Approve, hold, or narrow publication scope before any outward release."
+    ]
+  },
+  "export_formats": [
+    "json",
+    "markdown",
+    "html"
+  ]
+}
