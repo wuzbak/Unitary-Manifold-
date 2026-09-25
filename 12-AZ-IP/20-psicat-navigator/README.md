@@ -16,6 +16,7 @@
 - **Rebrand label:** `REBRAND-2026-09-PSICAT`
 - **Legal separation notice:** [`../BRAND_SEPARATION_NOTICE_PSICAT.md`](../BRAND_SEPARATION_NOTICE_PSICAT.md)
 - **Internal identity policy:** product/legal name is **PsiCat**; internal steward-facing persona for ThomasCory remains **Merlin**.
+- **Webspace bridge module:** `ox_navigator/integrations/webspace_bridge.py` persists shared investigation state in `9-INFRASTRUCTURE/psicat_state.json` and exposes governed receive/send helper routes for dossier and training-packet exchange.
 
 ---
 

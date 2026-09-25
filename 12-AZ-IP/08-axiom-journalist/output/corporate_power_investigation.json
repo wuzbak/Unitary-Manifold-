@@ -1,0 +1,256 @@
+{
+  "title": "Corporate Power Concentration \u2014 Public-Record Accountability Ledger",
+  "lead": "Public institutional reporting across competition, wealth, labor, lobbying, climate, and digital infrastructure shows that concentrated corporate power now behaves as a governance problem rather than only an economic one.",
+  "journalist": "AXIOM Journalist Demo / PsiCat",
+  "status": "Research review",
+  "entities": [
+    {
+      "name": "Large platform firms",
+      "type": "Organization",
+      "stated_position": "Scale produces efficiency, innovation, and consumer benefit.",
+      "contradictions": [
+        "Public competition and democracy research warns that scale can reduce contestability and harden governance dependence."
+      ]
+    },
+    {
+      "name": "Private equity operators",
+      "type": "Corporate Structure",
+      "stated_position": "Operational discipline improves outcomes in essential sectors.",
+      "contradictions": [
+        "Systematic review and public oversight reporting tie some rollup models to quality strain, cost pressure, and civic fragility."
+      ]
+    },
+    {
+      "name": "Carbon majors",
+      "type": "Organization",
+      "stated_position": "Transition is underway and responsibility is diffuse across society.",
+      "contradictions": [
+        "Carbon-accountability reporting continues to identify concentrated producer responsibility for a large share of industrial emissions."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "ProMarket \u2014 Rising Corporate Market Power Undermines Democracy",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Policy analysis",
+      "url_or_ref": "https://www.promarket.org/2026/01/05/how-rising-corporate-market-power-undermines-democracy/",
+      "date": "2026-01-05",
+      "excerpt": "Frames market concentration as a democracy problem, not only a pricing problem."
+    },
+    {
+      "title": "Demos \u2014 Deconcentrating Corporate Power",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Policy brief",
+      "url_or_ref": "https://www.demos.org/policy-briefs/deconcentrating-corporate-power",
+      "date": "2023-01-01",
+      "excerpt": "Describes corporate concentration as a threat to democratic accountability."
+    },
+    {
+      "title": "Open Markets Institute \u2014 AI in the Public Interest",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Policy report",
+      "url_or_ref": "https://www.openmarketsinstitute.org/publications/report-ai-in-the-public-interest-confronting-the-monopoly-threat",
+      "date": "2023-01-01",
+      "excerpt": "Warns that AI is arriving through already concentrated infrastructure."
+    },
+    {
+      "title": "Oxfam \u2014 Inequality Inc.",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Research report",
+      "url_or_ref": "https://www.oxfam.org/en/research/inequality-inc",
+      "date": "2024-01-01",
+      "excerpt": "Documents extreme wealth concentration and post-2020 billionaire gains."
+    },
+    {
+      "title": "World Inequality Database \u2014 Wealth Data Portal",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Public data portal",
+      "url_or_ref": "https://wid.world/",
+      "date": "2026-09-20",
+      "excerpt": "Public wealth-distribution portal used for directional concentration context."
+    },
+    {
+      "title": "Altrata \u2014 Billionaire Census 2023",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Industry report",
+      "url_or_ref": "https://www.altrata.com/reports/billionaire-census-2023/",
+      "date": "2023-01-01",
+      "excerpt": "Documents billionaire concentration and accumulation trends."
+    },
+    {
+      "title": "OpenSecrets \u2014 Federal Lobbying Summary Data",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Public lobbying data",
+      "url_or_ref": "https://www.opensecrets.org/federal-lobbying",
+      "date": "2026-09-20",
+      "excerpt": "Shows multi-billion-dollar annual federal lobbying expenditures."
+    },
+    {
+      "title": "Carbon Majors Database",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Public emissions database",
+      "url_or_ref": "https://carbonmajors.org/",
+      "date": "2026-09-20",
+      "excerpt": "Public database linking a relatively small producer set to a large emissions share."
+    },
+    {
+      "title": "UNEP \u2014 Emissions Gap Report",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "UN report",
+      "url_or_ref": "https://www.unep.org/resources/emissions-gap-report",
+      "date": "2026-01-01",
+      "excerpt": "Tracks the gap between current emissions pathways and 1.5C-compatible targets."
+    },
+    {
+      "title": "OECD Labour Share Data",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Public data series",
+      "url_or_ref": "https://data.oecd.org/natincome/labour-share.htm",
+      "date": "2026-09-20",
+      "excerpt": "Public time series used to track labour share strain."
+    },
+    {
+      "title": "ILO Global Wage Report",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "International labour report",
+      "url_or_ref": "https://www.ilo.org/global/research/global-reports/global-wage-report/lang--en/index.htm",
+      "date": "2026-01-01",
+      "excerpt": "Tracks wage and bargaining conditions internationally."
+    },
+    {
+      "title": "European Commission \u2014 Digital Markets Act Gatekeepers",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "Regulatory register",
+      "url_or_ref": "https://digital-markets-act.ec.europa.eu/gatekeepers_en",
+      "date": "2026-09-20",
+      "excerpt": "Lists designated digital gatekeepers under the DMA."
+    },
+    {
+      "title": "BMJ Systematic Review \u2014 Private Equity and Health Outcomes",
+      "tier": "Tier 2 \u2014 Established/On-Record",
+      "source_type": "Peer-reviewed systematic review",
+      "url_or_ref": "https://www.bmj.com/content/382/bmj-2023-075244",
+      "date": "2023-01-01",
+      "excerpt": "Evaluates private-equity ownership and impacts on quality, cost, and outcomes."
+    },
+    {
+      "title": "GAO \u2014 Institutional Investment in Rental Housing",
+      "tier": "Tier 1 \u2014 Primary Record (court/regulatory/FOIA)",
+      "source_type": "GAO report",
+      "url_or_ref": "https://www.gao.gov/products/gao-22-105564",
+      "date": "2022-01-01",
+      "excerpt": "Public oversight report on institutional investment in rental housing."
+    }
+  ],
+  "claims": [
+    {
+      "statement": "Corporate concentration now functions as a democratic-governance problem because market power migrates into lawmaking, standards, and public administration.",
+      "confidence": "CORROBORATED",
+      "legal_risks": "NONE",
+      "entities_involved": [
+        "Large platform firms"
+      ],
+      "sources": [
+        {
+          "title": "ProMarket \u2014 Rising Corporate Market Power Undermines Democracy"
+        },
+        {
+          "title": "Demos \u2014 Deconcentrating Corporate Power"
+        }
+      ]
+    },
+    {
+      "statement": "Extreme wealth concentration creates command power rather than mere consumption inequality by buying access, endurance, and rule-shaping capacity.",
+      "confidence": "CORROBORATED",
+      "legal_risks": "NONE",
+      "entities_involved": [
+        "Large platform firms"
+      ],
+      "sources": [
+        {
+          "title": "Oxfam \u2014 Inequality Inc."
+        },
+        {
+          "title": "World Inequality Database \u2014 Wealth Data Portal"
+        },
+        {
+          "title": "Altrata \u2014 Billionaire Census 2023"
+        }
+      ]
+    },
+    {
+      "statement": "Federal lobbying and procurement dependence narrow public bargaining power even when formal legal sovereignty remains intact.",
+      "confidence": "CORROBORATED",
+      "legal_risks": "NONE",
+      "entities_involved": [
+        "Large platform firms"
+      ],
+      "sources": [
+        {
+          "title": "OpenSecrets \u2014 Federal Lobbying Summary Data"
+        },
+        {
+          "title": "ProMarket \u2014 Rising Corporate Market Power Undermines Democracy"
+        }
+      ]
+    },
+    {
+      "statement": "AI deployment is intensifying existing concentration because model access, cloud infrastructure, and digital gatekeeping are already controlled by a small number of firms.",
+      "confidence": "CORROBORATED",
+      "legal_risks": "NONE",
+      "entities_involved": [
+        "Large platform firms"
+      ],
+      "sources": [
+        {
+          "title": "Open Markets Institute \u2014 AI in the Public Interest"
+        },
+        {
+          "title": "European Commission \u2014 Digital Markets Act Gatekeepers"
+        }
+      ]
+    },
+    {
+      "statement": "Private-equity rollups in essential sectors can transfer risk downward into care quality, housing security, and local civic resilience.",
+      "confidence": "CORROBORATED",
+      "legal_risks": "NONE",
+      "entities_involved": [
+        "Private equity operators"
+      ],
+      "sources": [
+        {
+          "title": "BMJ Systematic Review \u2014 Private Equity and Health Outcomes"
+        },
+        {
+          "title": "GAO \u2014 Institutional Investment in Rental Housing"
+        }
+      ]
+    },
+    {
+      "statement": "Climate accountability is concentrated enough that producer-side corporate responsibility remains visible even when harms are socialized onto the public.",
+      "confidence": "CORROBORATED",
+      "legal_risks": "NONE",
+      "entities_involved": [
+        "Carbon majors"
+      ],
+      "sources": [
+        {
+          "title": "Carbon Majors Database"
+        },
+        {
+          "title": "UNEP \u2014 Emissions Gap Report"
+        }
+      ]
+    }
+  ],
+  "open_questions": [
+    "Which quiet chokepoints in public procurement produce the strongest form of vendor lock-in?",
+    "Which sectors most clearly convert wealth concentration into direct administrative leverage?",
+    "Where do current public data sources still under-measure ownership opacity or private-equity extraction?"
+  ],
+  "scores": {
+    "overall_confidence": 0.82,
+    "source_quality": 0.88
+  }
+}

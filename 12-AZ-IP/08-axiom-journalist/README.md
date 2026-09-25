@@ -24,6 +24,18 @@ generation — and produces a structured investigative brief for human review.
 AXIOM does **not** write articles. It does not produce publishable copy. It researches,
 organizes, and scores — and then a journalist decides what to do with what it found.
 
+AXIOM now also assembles two governed outward-facing support artifacts:
+
+- a **Governed Dossier Packet** for publication review, evidence posture, legal-risk visibility,
+  and retaliation-awareness checks
+- a **PsiCat Training / Publication Packet** that converts the investigation into a study,
+  contradiction, and publication-preparation handoff for governed PsiCat work
+- a **PsiCat Publication Story Packet** that turns the same evidence into a source-led narrative
+  spine for publishable drafting without dropping uncertainty or the human-review gate
+- a **public-record scan plan** across the AXIOM source catalog (SEC EDGAR, CourtListener,
+  FEC, ICIJ Offshore Leaks, OpenSanctions, OpenCorporates, ProPublica Nonprofit Explorer,
+  EPA ECHO, GovInfo, Wayback Machine, OFAC SDN)
+
 ---
 
 ## Quick Start
@@ -82,6 +94,17 @@ For each source you record:
 - URL or document reference
 - Date
 - Key excerpt (the passage that matters)
+
+AXIOM also supports **batch import** of public-record source bundles in either:
+- JSON-lines format (one JSON source object per line)
+- pipe-delimited rows: `title | tier | source_type | url_or_ref | date | excerpt`
+
+It also generates a **source scan manifest** for the public-record catalog so the same
+investigation entity can be searched consistently across all supported record systems.
+
+AXIOM now includes **live fetcher adapters** for SEC EDGAR, CourtListener, OpenSanctions,
+and ICIJ Offshore Leaks, plus a named-entity scan flow that can import the returned records
+directly into an investigation or use them as watchlist monitoring hits.
 
 ### 4. ⚖ Claims
 
@@ -143,6 +166,18 @@ OPEN QUESTIONS
 
 The brief can be saved (cached in the database) and retrieved at any time.
 
+This tab now also generates:
+
+- **Governed Dossier Packet** — a document-first review packet summarizing confidence mix,
+  source tiers, claim watchlist, legal-risk posture, retaliation-awareness checklist, and
+  mandatory HILS review gates before publication, plus duplicate-source review, inline
+  citation packs, confidence tiers, HTML export, and heuristic cross-claim contradiction checks
+- **PsiCat Training / Publication Packet** — a governed handoff that tells PsiCat what claims,
+  sources, open questions, contradiction drills, and configurable challenge limits to study
+  before editorial synthesis
+- **PsiCat Publication Story Packet** — an evidence-led chapter spine, narrative contract,
+  source backbone, and PsiCat learning packet for long-form publication drafting
+
 ### 6. 🗂 Case Library
 
 Browse all saved investigations. Load a case to resume work on it. Delete cases you
@@ -167,6 +202,10 @@ The methodology formalizes practices the best investigative journalists have alw
 4. **Human judgment is structural, not optional.** The platform enforces a gate:
    no output is presented as ready to publish. It is presented as ready to review.
 
+5. **PsiCat handoff is governed, not magical.** Training/export packets preserve uncertainty,
+   contradiction, legal-risk markers, and source-ledger discipline so editorial synthesis does
+   not outrun the evidence.
+
 ---
 
 ## Data Storage
@@ -180,6 +219,9 @@ Schema:
 - `sources` — logged documents and records
 - `claims` — factual claims with confidence scores
 - `open_questions` — outstanding research questions
+- `audit_log` — create/update trail for case lifecycle actions (rows are cascade-deleted with their case)
+- `deletion_log` — immutable tombstone recording case deletions, not tied to `cases` by a cascading foreign key
+- `watchlist_entries` / `watchlist_hits` — monitored named entities plus persisted scan matches
 
 ---
 

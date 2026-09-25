@@ -17,7 +17,7 @@ Each piece is:
 
 ## Current coverage in this pass
 
-Coverage so far: **49 / 49 books**, **352 / 352 articles**.
+Coverage so far: **50 / 50 books**, **352 / 352 articles**.
 
 ### Books
 
@@ -70,6 +70,7 @@ Coverage so far: **49 / 49 books**, **352 / 352 articles**.
 47. `book-47-book-hitchhikers-guide-to-the-unitary-manifold.md`
 48. `book-48-book-corporations-rule-the-world-now-what.md`
 49. `book-49-book-free-and-fair-the-fight-for-american-elections.md`
+50. `book-50-book-corporate-power-public-record-ledger.md`
 
 ### Articles
 

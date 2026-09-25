@@ -23,7 +23,6 @@ Theory, methodology: ThomasCory Walker-Pearson / AxiomZero Technologies.
 Implementation: GitHub Copilot (AI).
 """
 from __future__ import annotations
-
 import sys
 from pathlib import Path
 
@@ -32,9 +31,25 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from app.core.investigator import (
-    ConfidenceLevel, EntityType, Investigation, LegalRisk, Source, SourceTier
+   ConfidenceLevel, EntityType, Investigation, LegalRisk, Source, SourceTier, WatchlistHit
 )
 from app.db import cases as db
+from axiom_journalist.engine import (
+   LIVE_PUBLIC_RECORD_FETCHERS,
+   build_public_record_queries,
+   build_dossier_packet,
+   build_story_packet,
+   build_psicat_training_packet,
+   merge_source_bundle,
+   parse_source_bundle,
+   public_record_source_catalog,
+   render_dossier_html,
+   render_dossier_markdown,
+   render_story_html,
+   render_story_markdown,
+   render_psicat_training_markdown,
+   scan_public_records,
+)
 
 import gradio as gr
 
@@ -123,6 +138,24 @@ def refresh_entities() -> str:
     return _entities_md()
 
 
+def _watchlist_md() -> str:
+    inv = _inv()
+    if inv is None or not inv.watchlist:
+        return "_No watchlist entries yet._"
+    lines = ["**Watchlist**\n"]
+    for entry in inv.watchlist:
+        lines.append(f"- **{entry.name}** [{entry.entity_type.value}]")
+        if entry.notes:
+            lines.append(f"  - Notes: {entry.notes}")
+        if entry.hits:
+            lines.append(f"  - Hits: {len(entry.hits)}")
+            for hit in entry.hits[:5]:
+                lines.append(f"    - {hit.source_name}: {hit.title}")
+        else:
+            lines.append("  - Hits: 0")
+    return "\n".join(lines)
+
+
 # ---------------------------------------------------------------------------
 # Tab 3 — Sources
 # ---------------------------------------------------------------------------
@@ -173,6 +206,74 @@ def _sources_md() -> str:
 
 def refresh_sources() -> str:
     return _sources_md()
+
+
+def run_named_entity_scan_ui(entity_name: str) -> tuple[str, str]:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv, _sources_md()
+    query = entity_name.strip()
+    if not query:
+        return "❌ Entity/query is required.", _sources_md()
+    scan = scan_public_records(query, LIVE_PUBLIC_RECORD_FETCHERS)
+    imported = 0
+    for record in scan['records']:
+        tier = TIER_OPTIONS.get(record['tier'], SourceTier.UNCLASSIFIED)
+        inv.add_source(
+            record['title'],
+            tier,
+            record.get('source_type', ''),
+            record.get('url_or_ref', ''),
+            record.get('date', ''),
+            record.get('excerpt', ''),
+        )
+        imported += 1
+    if hasattr(inv, "_db_id") and imported:
+        db.add_sources(inv._db_id, [
+            {
+                'title': record['title'],
+                'tier': TIER_OPTIONS.get(record['tier'], SourceTier.UNCLASSIFIED).value,
+                'source_type': record.get('source_type', ''),
+                'url_or_ref': record.get('url_or_ref', ''),
+                'date': record.get('date', ''),
+                'excerpt': record.get('excerpt', ''),
+            }
+            for record in scan['records']
+        ])
+    return (
+        f"✅ Named-entity scan completed for '{query}'. Imported {imported} sources; duplicate hits: {len(scan['duplicates'])}.",
+        _sources_md(),
+    )
+
+
+def add_watchlist_entry_ui(name: str, entity_type: str, notes: str) -> tuple[str, str]:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv, _watchlist_md()
+    normalized = name.strip()
+    if not normalized:
+        return "❌ Watchlist entity name is required.", _watchlist_md()
+    et = next((e for e in EntityType if e.value == entity_type), EntityType.OTHER)
+    entry = inv.get_watchlist_entry(normalized) or inv.add_watchlist_entry(normalized, et, notes.strip())
+    entry.notes = notes.strip() or entry.notes
+    scan = scan_public_records(normalized, LIVE_PUBLIC_RECORD_FETCHERS)
+    for record in scan['records']:
+        entry.add_hit(WatchlistHit(
+            entity_name=normalized,
+            source_name=record.get('source_name', ''),
+            title=record.get('title', ''),
+            url_or_ref=record.get('url_or_ref', ''),
+            excerpt=record.get('excerpt', ''),
+            retrieval_date=record.get('retrieval_date', ''),
+        ))
+    if hasattr(inv, "_db_id"):
+        entry_id = db.add_watchlist_entry(inv._db_id, normalized, et.value, notes.strip())
+        if entry.hits:
+            db.add_watchlist_hits(entry_id, [hit.to_dict() for hit in entry.hits[-len(scan['records']):]])
+    return (
+        f"✅ Watchlist entry '{normalized}' scanned. Recorded {len(scan['records'])} hits and {len(scan['duplicates'])} duplicates.",
+        _watchlist_md(),
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -255,6 +356,121 @@ def generate_brief() -> str:
     return brief
 
 
+def _active_or_error() -> Investigation | str:
+    inv = _inv()
+    if inv is None:
+        return "❌ No active investigation. Start or load one first."
+    return inv
+
+
+def generate_dossier_packet_ui() -> str:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
+    packet = build_dossier_packet(inv.to_dict())
+    return render_dossier_markdown(packet)
+
+
+def generate_dossier_html_ui() -> str:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
+    packet = build_dossier_packet(inv.to_dict())
+    return render_dossier_html(packet)
+
+
+def generate_psicat_packet_ui() -> str:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
+    packet = build_psicat_training_packet(inv.to_dict())
+    return render_psicat_training_markdown(packet)
+
+
+def import_source_bundle_ui(bundle_text: str) -> tuple[str, str]:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv, _sources_md()
+    try:
+        incoming = parse_source_bundle(bundle_text)
+    except ValueError as exc:
+        return f"❌ {exc}", _sources_md()
+    merged = merge_source_bundle([source.to_dict() for source in inv.sources], incoming)
+    created_case_id: int | None = None
+    if not hasattr(inv, "_db_id"):
+        inv._db_id = db.create_case(inv.title, inv.lead, inv.journalist)  # type: ignore[attr-defined]
+        created_case_id = inv._db_id
+    persisted_sources = [
+        {
+            'title': source['title'],
+            'tier': TIER_OPTIONS.get(source['tier'], SourceTier.UNCLASSIFIED).value,
+            'source_type': source['source_type'],
+            'url_or_ref': source['url_or_ref'],
+            'date': source['date'],
+            'excerpt': source['excerpt'],
+        }
+        for source in merged['imported']
+    ]
+    try:
+        if persisted_sources:
+            db.add_sources(inv._db_id, persisted_sources)
+    except Exception as exc:  # pragma: no cover - guarded by tests via monkeypatch
+        if created_case_id is not None:
+            db.delete_case(created_case_id)
+            delattr(inv, "_db_id")
+        return f"❌ {exc}", _sources_md()
+    for source in merged['imported']:
+        tier = TIER_OPTIONS.get(source['tier'], SourceTier.UNCLASSIFIED)
+        inv.add_source(
+            source['title'],
+            tier,
+            source['source_type'],
+            source['url_or_ref'],
+            source['date'],
+            source['excerpt'],
+        )
+    return (
+        f"✅ Imported {len(merged['imported'])} sources; skipped {len(merged['duplicates'])} duplicates from {merged['attempted']} attempted rows.",
+        _sources_md(),
+    )
+
+
+def generate_story_packet_ui() -> str:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
+    packet = build_story_packet(inv.to_dict())
+    return render_story_markdown(packet)
+
+
+def generate_story_html_ui() -> str:
+    inv = _active_or_error()
+    if isinstance(inv, str):
+        return inv
+    packet = build_story_packet(inv.to_dict())
+    return render_story_html(packet)
+
+
+def generate_source_scan_plan_ui(query: str) -> str:
+    normalized = query.strip()
+    if not normalized:
+        inv = _inv()
+        if inv is None:
+            return "❌ Provide an entity/query or start an investigation first."
+        normalized = inv.title
+    manifest = build_public_record_queries(normalized)
+    catalog = {item['slug']: item for item in public_record_source_catalog()}
+    lines = [f"### Public-record scan plan — {normalized}", ""]
+    for row in manifest:
+        details = catalog.get(row['slug'], {})
+        lines.append(f"- **{row['display_name']}** [{row['tier']}]")
+        lines.append(f"  - Type: {row['source_type']}")
+        lines.append(f"  - Query URL: {row['query_url']}")
+        if details.get('slug'):
+            lines.append(f"  - Source key: `{details['slug']}`")
+    return "\n".join(lines)
+
+
 # ---------------------------------------------------------------------------
 # Tab 6 — Case Library
 # ---------------------------------------------------------------------------
@@ -304,6 +520,18 @@ def load_case(case_id_str: str) -> tuple[str, str, str, str, str]:
     # Load open questions
     for q in db.list_open_questions(case_id):
         inv.open_questions.append(q["question"])
+    for entry_row in db.list_watchlist_entries(case_id):
+        et = next((x for x in EntityType if x.value == entry_row["entity_type"]), EntityType.OTHER)
+        entry = inv.add_watchlist_entry(entry_row["name"], et, entry_row.get("notes", ""))
+        for hit in db.list_watchlist_hits(entry_row["id"]):
+            entry.add_hit(WatchlistHit(
+                entity_name=entry.name,
+                source_name=hit["source_name"],
+                title=hit["title"],
+                url_or_ref=hit["url_or_ref"],
+                excerpt=hit["excerpt"],
+                retrieval_date=hit["retrieval_date"],
+            ))
     _set_inv(inv)
     brief_cache = row.get("brief_cache", "") or ""
     return (
@@ -421,6 +649,31 @@ def build_ui() -> gr.Blocks:
                 btn_source.click(add_source, [s_title, s_tier, s_type, s_ref, s_date, s_excerpt], out_source)
                 btn_refresh_s = gr.Button("🔄 Refresh", variant="secondary")
                 btn_refresh_s.click(refresh_sources, [], out_source)
+                gr.Markdown("### Named-Entity Live Scan\nRun the live public-record fetcher set against a specific company, person, or entity name.")
+                s_entity_query = gr.Textbox(
+                    label="Named Entity Scan",
+                    placeholder="e.g. Acme Corp, Jane Smith, 123 Main Street LLC"
+                )
+                btn_entity_scan = gr.Button("🔎 Run Named-Entity Scan", variant="secondary")
+                out_entity_scan = gr.Textbox(label="Named-Entity Scan Status", interactive=False)
+                btn_entity_scan.click(run_named_entity_scan_ui, [s_entity_query], [out_entity_scan, out_source])
+                gr.Markdown("### Batch Import Public-Record Sources\nPaste JSON-lines or pipe-delimited rows: `title | tier | source_type | url_or_ref | date | excerpt`")
+                s_bundle = gr.Textbox(
+                    label="Source Bundle",
+                    lines=8,
+                    placeholder='{"title":"Court filing","tier":"Tier 1","source_type":"Docket","url_or_ref":"https://...","date":"2026-01-01","excerpt":"..."}'
+                )
+                btn_import_sources = gr.Button("📥 Import Source Bundle", variant="secondary")
+                out_import_sources = gr.Textbox(label="Import Status", interactive=False)
+                btn_import_sources.click(import_source_bundle_ui, [s_bundle], [out_import_sources, out_source])
+                gr.Markdown("### Public-Record Scan Plan\nGenerate the full AXIOM public-record query manifest for an entity or investigation.")
+                scan_query = gr.Textbox(
+                    label="Entity / Query",
+                    placeholder="e.g. Acme Corp or leave blank to use the active investigation title"
+                )
+                btn_scan_plan = gr.Button("🛰 Build Source Scan Plan", variant="secondary")
+                out_scan_plan = gr.Markdown()
+                btn_scan_plan.click(generate_source_scan_plan_ui, [scan_query], out_scan_plan)
 
             # ---- Tab 4: Claims ----
             with gr.Tab("⚖ Claims"):
@@ -457,7 +710,62 @@ def build_ui() -> gr.Blocks:
                 btn_brief.click(generate_brief, [], out_brief)
                 gr.Markdown("> ⚠ **This brief is a research instrument. Editorial judgment is required before any publication.**")
 
-            # ---- Tab 6: Case Library ----
+                gr.Markdown("### Governed Dossier / PsiCat Handoff\nBuild the document-first packet for publication review and the PsiCat study packet for governed training and editorial synthesis.")
+                with gr.Row():
+                    btn_dossier = gr.Button("🧾 Generate Dossier Packet", variant="primary")
+                    btn_dossier_html = gr.Button("🌐 Dossier HTML", variant="secondary")
+                    btn_psicat = gr.Button("🐈 Generate PsiCat Packet", variant="secondary")
+                    btn_story = gr.Button("📝 Generate Story Packet", variant="secondary")
+                    btn_story_html = gr.Button("🌐 Story HTML", variant="secondary")
+                out_dossier = gr.Textbox(
+                    label="Governed Dossier Packet",
+                    lines=28,
+                    interactive=False,
+                    placeholder="Generate a dossier packet to review legal-risk, retaliation, and evidence posture."
+                )
+                out_psicat = gr.Textbox(
+                    label="PsiCat Training / Publication Packet",
+                    lines=24,
+                    interactive=False,
+                    placeholder="Generate a PsiCat handoff packet to study claims, sources, and unknowns under governed constraints."
+                )
+                out_story = gr.Textbox(
+                    label="PsiCat Publication Story Packet",
+                    lines=26,
+                    interactive=False,
+                    placeholder="Generate an evidence-led story spine for governed PsiCat drafting."
+                )
+                out_dossier_html = gr.Textbox(
+                    label="Governed Dossier HTML",
+                    lines=12,
+                    interactive=False,
+                    placeholder="Generate HTML export for downstream web or editorial systems."
+                )
+                out_story_html = gr.Textbox(
+                    label="PsiCat Story HTML",
+                    lines=12,
+                    interactive=False,
+                    placeholder="Generate HTML export for downstream web or editorial systems."
+                )
+                btn_dossier.click(generate_dossier_packet_ui, [], out_dossier)
+                btn_dossier_html.click(generate_dossier_html_ui, [], out_dossier_html)
+                btn_psicat.click(generate_psicat_packet_ui, [], out_psicat)
+                btn_story.click(generate_story_packet_ui, [], out_story)
+                btn_story_html.click(generate_story_html_ui, [], out_story_html)
+
+            # ---- Tab 6: Watchlist ----
+            with gr.Tab("👁 Watchlist"):
+                gr.Markdown("### Watchlist Monitoring\nTrack specific named entities and automatically scan the live public-record fetchers when an entry is created.")
+                with gr.Row():
+                    w_name = gr.Textbox(label="Watchlist Entity", placeholder="e.g. Acme Corp")
+                    w_type = gr.Dropdown(ENTITY_TYPES, label="Type", value="Organization")
+                w_notes = gr.Textbox(label="Notes", placeholder="Why this entity is on the watchlist")
+                btn_watchlist = gr.Button("🛰 Add Watchlist Entry + Scan", variant="primary")
+                out_watchlist_status = gr.Textbox(label="Watchlist Status", interactive=False)
+                out_watchlist = gr.Markdown(label="Watchlist")
+                btn_watchlist.click(add_watchlist_entry_ui, [w_name, w_type, w_notes], [out_watchlist_status, out_watchlist])
+
+            # ---- Tab 7: Case Library ----
             with gr.Tab("🗂 Case Library"):
                 gr.Markdown("### Saved Cases")
                 out_lib = gr.Markdown()
