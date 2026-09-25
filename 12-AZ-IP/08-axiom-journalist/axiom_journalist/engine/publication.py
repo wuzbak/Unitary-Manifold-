@@ -7,6 +7,8 @@ from dataclasses import dataclass
 import math
 from typing import Any
 
+from .source_ingest import normalize_tier_label
+
 
 @dataclass(frozen=True)
 class PublicationPolicy:
@@ -67,8 +69,7 @@ def _normalized_legal_flags(claim: dict[str, Any]) -> list[str]:
 
 
 def _normalized_source_tier(value: Any) -> str:
-    normalized = str(value or '').strip()
-    return normalized or 'Unclassified'
+    return normalize_tier_label(value)
 
 
 def _normalized_text(value: Any) -> str:
