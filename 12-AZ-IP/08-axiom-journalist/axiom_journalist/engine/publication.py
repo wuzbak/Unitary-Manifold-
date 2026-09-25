@@ -31,6 +31,25 @@ def _entities(investigation: dict[str, Any]) -> list[dict[str, Any]]:
     return [item for item in raw if isinstance(item, dict)]
 
 
+def _safe_float(value: Any, default: float = 0.0) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _normalized_legal_flags(claim: dict[str, Any]) -> list[str]:
+    raw = str(claim.get('legal_risks', 'None identified'))
+    normalized: list[str] = []
+    for part in [piece.strip() for piece in raw.split('|') if piece.strip()]:
+        upper = part.upper().replace(' ', '_')
+        if upper in {'NONE_IDENTIFIED', 'NONE'}:
+            normalized.append('NONE_IDENTIFIED')
+        else:
+            normalized.append(upper)
+    return normalized or ['NONE_IDENTIFIED']
+
+
 def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
     """Build a governed dossier packet from a structured investigation dict."""
     claims = _claims(investigation)
@@ -44,8 +63,7 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
     )
     legal_flags = Counter()
     for claim in claims:
-        flags = str(claim.get('legal_risks', 'None identified'))
-        for flag in [part.strip() for part in flags.split('|') if part.strip()]:
+        for flag in _normalized_legal_flags(claim):
             legal_flags[flag] += 1
 
     source_tiers = Counter(
@@ -57,13 +75,13 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
         for entity in entities
     )
 
-    overall_confidence = float(scores.get('overall_confidence', 0.0) or 0.0)
-    source_quality = float(scores.get('source_quality', 0.0) or 0.0)
+    overall_confidence = _safe_float(scores.get('overall_confidence', 0.0), 0.0)
+    source_quality = _safe_float(scores.get('source_quality', 0.0), 0.0)
 
     highest_risk = 'ELEVATED'
     if any(flag in legal_flags for flag in ('NATIONAL_SECURITY', 'LIBEL_EXPOSURE', 'SOURCE_PROTECT')):
         highest_risk = 'HIGH'
-    elif not legal_flags or set(legal_flags) == {'None identified'}:
+    elif not legal_flags or set(legal_flags) == {'NONE_IDENTIFIED'}:
         highest_risk = 'CONTROLLED'
 
     return {
@@ -115,7 +133,7 @@ def build_dossier_packet(investigation: dict[str, Any]) -> dict[str, Any]:
                 {
                     'statement': claim.get('statement', ''),
                     'confidence': claim.get('confidence', 'UNVERIFIED'),
-                    'legal_risks': claim.get('legal_risks', 'None identified'),
+                    'legal_risks': ' | '.join(_normalized_legal_flags(claim)).replace('NONE_IDENTIFIED', 'None identified'),
                     'entities_involved': claim.get('entities_involved') or [],
                     'source_titles': [
                         source.get('title', '')
@@ -173,14 +191,22 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
         '',
         '### Confidence mix',
     ]
-    for key, value in sorted(packet['evidence_summary']['confidence_counts'].items()):
-        lines.append(f"- {key}: {value}")
+    confidence_counts = packet['evidence_summary']['confidence_counts']
+    if confidence_counts:
+        for key, value in sorted(confidence_counts.items()):
+            lines.append(f"- {key}: {value}")
+    else:
+        lines.append('- _No claims recorded yet._')
     lines += [
         '',
         '### Source tiers',
     ]
-    for key, value in sorted(packet['evidence_summary']['source_tiers'].items()):
-        lines.append(f"- {key}: {value}")
+    source_tiers = packet['evidence_summary']['source_tiers']
+    if source_tiers:
+        for key, value in sorted(source_tiers.items()):
+            lines.append(f"- {key}: {value}")
+    else:
+        lines.append('- _No sources recorded yet._')
     lines += [
         '',
         '### Legal / retaliation awareness',

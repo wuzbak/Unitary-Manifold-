@@ -214,3 +214,39 @@ def test_render_psicat_training_markdown_contains_targets():
     assert 'PsiCat Training / Publication Packet' in rendered
     assert 'Priority source refs' in rendered
     assert 'Challenge pack' in rendered
+
+
+def test_build_dossier_packet_normalizes_no_risk_and_safe_scores():
+    investigation = _sample_investigation_dict()
+    investigation['scores'] = {'overall_confidence': 'not-a-number', 'source_quality': None}
+    investigation['claims'][0]['legal_risks'] = 'none identified'
+    packet = build_dossier_packet(investigation)
+    assert packet['scores']['overall_confidence'] == 0.0
+    assert packet['scores']['source_quality'] == 0.0
+    assert packet['publication_posture']['legal_risk_level'] == 'CONTROLLED'
+    assert packet['evidence_summary']['legal_flags']['NONE_IDENTIFIED'] == 1
+
+
+def test_build_dossier_packet_counts_multiple_legal_flags():
+    investigation = _sample_investigation_dict()
+    investigation['claims'][0]['legal_risks'] = 'privacy | source_protect'
+    packet = build_dossier_packet(investigation)
+    assert packet['evidence_summary']['legal_flags']['PRIVACY'] == 1
+    assert packet['evidence_summary']['legal_flags']['SOURCE_PROTECT'] == 1
+    assert packet['publication_posture']['legal_risk_level'] == 'HIGH'
+
+
+def test_render_dossier_markdown_empty_state_is_explicit():
+    packet = build_dossier_packet({
+        'title': 'Empty packet',
+        'lead': '',
+        'scores': {},
+        'claims': [],
+        'sources': [],
+        'entities': [],
+        'open_questions': [],
+    })
+    rendered = render_dossier_markdown(packet)
+    assert '_No claims recorded yet._' in rendered
+    assert '_No sources recorded yet._' in rendered
+    assert '_No claims recorded._' in rendered
