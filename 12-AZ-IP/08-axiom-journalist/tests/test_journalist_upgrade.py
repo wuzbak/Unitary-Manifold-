@@ -309,10 +309,24 @@ def test_build_dossier_packet_deduplicates_sources_and_detects_claim_conflicts()
     assert 'public statement' in contradictions[0]['overlap_phrases']
 
 
+def test_build_dossier_packet_keeps_sources_distinct_when_type_differs():
+    investigation = _sample_investigation_dict()
+    investigation['sources'].append({
+        'title': 'Procurement filing',
+        'tier': 'Tier 1 — Primary Record (court/regulatory/FOIA)',
+        'source_type': 'Interview transcript',
+        'url_or_ref': 'https://records.example/procurement',
+        'date': '2026-01-01',
+    })
+    packet = build_dossier_packet(investigation)
+    assert packet['evidence_summary']['source_count'] == 3
+    assert packet['evidence_summary']['duplicate_source_count'] == 0
+
+
 def test_build_psicat_training_packet_respects_policy_limits():
     investigation = _sample_investigation_dict()
     investigation['claims'].append({
-        'statement': 'Acme Corp did not conflict with the public statement in the procurement filing.',
+        'statement': "Acme Corp didn't conflict with the public statement in the procurement filing.",
         'confidence': 'ALLEGED',
         'legal_risks': 'NONE',
         'entities_involved': ['Acme Corp'],
@@ -338,5 +352,6 @@ def test_build_psicat_training_packet_respects_policy_limits():
     open_questions = [item for item in packet['challenge_pack'] if item['type'] == 'open-question']
     assert len(contradiction_checks) == 1
     assert len(cross_claim_checks) == 1
+    assert cross_claim_checks[0]['paired_claim'] == "Acme Corp didn't conflict with the public statement in the procurement filing."
     assert len(open_questions) == 2
     assert packet['policy']['max_claim_challenges'] == 2

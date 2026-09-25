@@ -75,10 +75,11 @@ def _normalized_text(value: Any) -> str:
     return ' '.join(str(value or '').split())
 
 
-def _source_identity(source: dict[str, Any]) -> tuple[str, str, str]:
+def _source_identity(source: dict[str, Any]) -> tuple[str, str, str, str]:
     return (
         _normalized_text(source.get('title', '')).casefold(),
         _normalized_text(source.get('url_or_ref', '')).casefold(),
+        _normalized_text(source.get('source_type', '')).casefold(),
         _normalized_text(source.get('date', '')).casefold(),
     )
 
@@ -114,9 +115,18 @@ _CLAIM_STOPWORDS = {
 }
 
 
+def _normalized_tokens(statement: str) -> list[str]:
+    tokens: list[str] = []
+    for raw in _normalized_text(statement).lower().replace('-', ' ').split():
+        token = ''.join(ch for ch in raw if ch.isalnum() or ch == "'")
+        if token:
+            tokens.append(token)
+    return tokens
+
+
 def _claim_terms(statement: str) -> set[str]:
     terms: set[str] = set()
-    for raw in _normalized_text(statement).lower().replace('-', ' ').split():
+    for raw in _normalized_tokens(statement):
         token = ''.join(ch for ch in raw if ch.isalnum())
         if len(token) >= 4 and token not in _CLAIM_STOPWORDS:
             terms.add(token)
@@ -124,10 +134,7 @@ def _claim_terms(statement: str) -> set[str]:
 
 
 def _claim_phrases(statement: str) -> set[str]:
-    tokens = [
-        ''.join(ch for ch in raw if ch.isalnum())
-        for raw in _normalized_text(statement).lower().replace('-', ' ').split()
-    ]
+    tokens = [''.join(ch for ch in raw if ch.isalnum()) for raw in _normalized_tokens(statement)]
     filtered = [token for token in tokens if len(token) >= 4 and token not in _CLAIM_STOPWORDS]
     return {
         f'{filtered[index]} {filtered[index + 1]}'
@@ -136,8 +143,26 @@ def _claim_phrases(statement: str) -> set[str]:
 
 
 def _claim_is_negative(statement: str) -> bool:
-    lowered = _normalized_text(statement).lower()
-    return any(f" {marker} " in f" {lowered} " for marker in _NEGATION_MARKERS)
+    tokens = _normalized_tokens(statement)
+    normalized = {token.rstrip(".,;:!?") for token in tokens}
+    contraction_expansions = {
+        "didn't": 'not',
+        "doesn't": 'not',
+        "don't": 'not',
+        "isn't": 'not',
+        "wasn't": 'not',
+        "weren't": 'not',
+        "can't": 'not',
+        "couldn't": 'not',
+        "shouldn't": 'not',
+        "wouldn't": 'not',
+        "won't": 'not',
+        "hasn't": 'not',
+        "haven't": 'not',
+        "hadn't": 'not',
+    }
+    expanded = {contraction_expansions.get(token, token) for token in normalized}
+    return any(marker in expanded for marker in _NEGATION_MARKERS)
 
 
 def _cross_claim_contradictions(
