@@ -99,11 +99,8 @@ def _source_identity(source: dict[str, Any]) -> tuple[str, str, str, str]:
     )
 
 
-def _source_citation_key(source: dict[str, Any]) -> tuple[str, str]:
-    return (
-        _normalized_text(source.get('title', '')).casefold(),
-        _normalized_text(source.get('url_or_ref', '')).casefold(),
-    )
+def _source_citation_key(source: dict[str, Any]) -> tuple[str, str, str, str]:
+    return _source_identity(source)
 
 
 def _deduplicate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -130,14 +127,14 @@ def _deduplicate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, 
     return deduped, duplicates
 
 
-def _citation_map(sources: list[dict[str, Any]]) -> dict[tuple[str, str], int]:
+def _citation_map(sources: list[dict[str, Any]]) -> dict[tuple[str, str, str, str], int]:
     return {
         _source_citation_key(source): index
         for index, source in enumerate(sources, start=1)
     }
 
 
-def _claim_citations(claim: dict[str, Any], citations: dict[tuple[str, str], int]) -> list[dict[str, Any]]:
+def _claim_citations(claim: dict[str, Any], citations: dict[tuple[str, str, str, str], int]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     seen: set[int] = set()
     for source in claim.get('sources') or []:
@@ -146,7 +143,7 @@ def _claim_citations(claim: dict[str, Any], citations: dict[tuple[str, str], int
         citation_id = citations.get(_source_citation_key(source))
         if citation_id is None:
             title_only = _normalized_text(source.get('title', '')).casefold()
-            for (candidate_title, _candidate_ref), candidate_id in citations.items():
+            for (candidate_title, _candidate_ref, _candidate_type, _candidate_date), candidate_id in citations.items():
                 if candidate_title == title_only:
                     citation_id = candidate_id
                     break

@@ -232,6 +232,21 @@ def test_build_dossier_packet_assigns_citations_and_confidence_tiers():
     assert packet['editorial_sections']['source_ledger'][0]['citation_id'] == 1
 
 
+def test_build_dossier_packet_keeps_same_title_different_type_sources_distinct():
+    investigation = _sample_investigation_dict()
+    investigation['sources'].append({
+        'title': 'Procurement filing',
+        'tier': 'Tier 2 — Established/On-Record',
+        'source_type': 'News article',
+        'url_or_ref': 'https://records.example/procurement',
+        'date': '2026-01-03',
+    })
+    packet = build_dossier_packet(investigation)
+    citation_ids = [row['citation_id'] for row in packet['editorial_sections']['source_ledger']]
+    assert citation_ids == sorted(set(citation_ids))
+    assert len(citation_ids) == len(set(citation_ids))
+
+
 def test_build_psicat_training_packet_creates_challenge_pack():
     packet = build_psicat_training_packet(_sample_investigation_dict())
     assert packet['product'] == 'PsiCat'
