@@ -251,6 +251,12 @@ def test_parse_source_bundle_reports_line_for_invalid_json():
     assert 'line 1' in str(exc.value)
 
 
+def test_parse_source_bundle_reports_line_for_invalid_pipe_row():
+    with pytest.raises(ValueError) as exc:
+        parse_source_bundle('too | short\n')
+    assert 'line 1' in str(exc.value)
+
+
 def test_build_dossier_packet_normalizes_no_risk_and_safe_scores():
     investigation = _sample_investigation_dict()
     investigation['scores'] = {'overall_confidence': 'nan', 'source_quality': 'inf'}

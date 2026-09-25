@@ -108,7 +108,7 @@ def _deduplicate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, 
     return deduped, duplicates
 
 
-_NEGATION_MARKERS = {'no', 'not', 'never', 'none', 'without', 'lack', 'lacks', 'lacking', 'denies', 'deny', 'denied'}
+_NEGATION_MARKERS = {'no', 'not', 'never', 'none'}
 _CLAIM_STOPWORDS = {
     'the', 'and', 'that', 'with', 'from', 'into', 'this', 'there', 'their', 'have',
     'were', 'will', 'shall', 'about', 'under', 'after', 'before', 'because',

@@ -68,6 +68,7 @@ def parse_source_bundle(bundle_text: str) -> list[dict[str, str]]:
         parts = [part.strip() for part in line.split('|')]
         if len(parts) < 6:
             raise ValueError(
+                f'Invalid pipe-delimited source row on line {line_number}. '
                 'Each non-JSON source row must contain 6 pipe-delimited fields: '
                 'title | tier | source_type | url_or_ref | date | excerpt'
             )
