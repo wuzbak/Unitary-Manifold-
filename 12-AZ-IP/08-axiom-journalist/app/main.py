@@ -298,20 +298,24 @@ def import_source_bundle_ui(bundle_text: str) -> tuple[str, str]:
     merged = merge_source_bundle([source.to_dict() for source in inv.sources], incoming)
     if not hasattr(inv, "_db_id"):
         inv._db_id = db.create_case(inv.title, inv.lead, inv.journalist)  # type: ignore[attr-defined]
+    persisted_sources = [
+        {
+            'title': source['title'],
+            'tier': TIER_OPTIONS.get(source['tier'], SourceTier.UNCLASSIFIED).value,
+            'source_type': source['source_type'],
+            'url_or_ref': source['url_or_ref'],
+            'date': source['date'],
+            'excerpt': source['excerpt'],
+        }
+        for source in merged['imported']
+    ]
+    try:
+        if persisted_sources:
+            db.add_sources(inv._db_id, persisted_sources)
+    except Exception as exc:  # pragma: no cover - guarded by tests via monkeypatch
+        return f"❌ {exc}", _sources_md()
     for source in merged['imported']:
         tier = TIER_OPTIONS.get(source['tier'], SourceTier.UNCLASSIFIED)
-        try:
-            db.add_source(
-                inv._db_id,
-                source['title'],
-                tier.value,
-                source['source_type'],
-                source['url_or_ref'],
-                source['date'],
-                source['excerpt'],
-            )
-        except Exception as exc:  # pragma: no cover - guarded by tests via monkeypatch
-            return f"❌ {exc}", _sources_md()
         inv.add_source(
             source['title'],
             tier,

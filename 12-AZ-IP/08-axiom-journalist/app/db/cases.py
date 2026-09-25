@@ -194,6 +194,29 @@ def add_source(case_id: int, title: str, tier: int = 0, source_type: str = "",
     return sid
 
 
+def add_sources(case_id: int, sources: list[dict], db_path: Path = DB_PATH) -> int:
+    conn = _connect(db_path)
+    with conn:
+        conn.executemany(
+            "INSERT INTO sources (case_id, title, tier, source_type, url_or_ref, date, excerpt) "
+            "VALUES (?,?,?,?,?,?,?)",
+            [
+                (
+                    case_id,
+                    source.get('title', ''),
+                    source.get('tier', 0),
+                    source.get('source_type', ''),
+                    source.get('url_or_ref', ''),
+                    source.get('date', ''),
+                    source.get('excerpt', ''),
+                )
+                for source in sources
+            ],
+        )
+    conn.close()
+    return len(sources)
+
+
 def list_sources(case_id: int, db_path: Path = DB_PATH) -> list[dict]:
     conn = _connect(db_path)
     rows = conn.execute(

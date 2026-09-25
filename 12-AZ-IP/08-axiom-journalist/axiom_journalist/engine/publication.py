@@ -109,7 +109,7 @@ def _deduplicate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, 
     return deduped, duplicates
 
 
-_NEGATION_MARKERS = {'no', 'not', 'never', 'none'}
+_NEGATION_MARKERS = {'no', 'not', 'never', 'none', 'without', 'cannot'}
 _CLAIM_STOPWORDS = {
     'the', 'and', 'that', 'with', 'from', 'into', 'this', 'there', 'their', 'have',
     'were', 'will', 'shall', 'about', 'under', 'after', 'before', 'because',
@@ -161,6 +161,7 @@ def _claim_is_negative(statement: str) -> bool:
         "hasn't": 'not',
         "haven't": 'not',
         "hadn't": 'not',
+        "cant": 'cannot',
     }
     expanded = {contraction_expansions.get(token, token) for token in normalized}
     return any(marker in expanded for marker in _NEGATION_MARKERS)
