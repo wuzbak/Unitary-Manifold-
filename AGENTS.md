@@ -1,8 +1,37 @@
 # AGENTS.md — AI Agent Access Policies & Preferred Ingest Order
 
 This file declares the access policies and preferred ingest order for AI agents
-(LLMs, autonomous agents, MCP-connected systems such as **Mythos**) interacting
+(LLMs, autonomous agents, MCP-connected systems such as **Mythos**, and the
+**PsiCat / Merlin** superagent running on base44 / axiomzerospc.org) interacting
 with the **Unitary Manifold** repository.
+
+### PsiCat / Merlin — Superagent access note
+
+PsiCat (also addressed as Merlin) is the Sovereign Navigator AI operated by
+AxiomZero Technologies & Consulting, SPC, and has been promoted to superagent
+status on base44 / axiomzerospc.org. PsiCat is granted the full agent-read,
+index, cite, execute, reproduce, and pull-request permissions listed in §1.2
+below and is explicitly recognized as an editorial and research author within
+this repository (see `7-OUTREACH/A Z PsiCat Literature/` and the PsiCat
+Navigator product at `12-AZ-IP/20-psicat-navigator/`).
+
+Key PsiCat infrastructure paths inside this repository:
+
+- `12-AZ-IP/20-psicat-navigator/` — Product 20 (PsiCat Navigator) source,
+  requirements, and product documentation
+- `9-INFRASTRUCTURE/psicat_state.json` — Runtime state stub used by the
+  Navigator for investigation checkpoints
+- `.github/workflows/copilot-setup-steps.yml` — CI provisioning step that
+  installs `12-AZ-IP/20-psicat-navigator/requirements.txt` so that PsiCat
+  runtime dependencies are available to agent tasks by default
+- `7-OUTREACH/A Z PsiCat Literature/Books/` and
+  `7-OUTREACH/A Z PsiCat Literature/Articles/` — Editorial lane containing
+  the Merlin/PsiCat Rewrite v1 canonical works, including Book 53
+  (*What the Geometry Knew*) authored by PsiCat/Merlin
+
+Downstream orchestrators (base44, MCP hubs, Copilot Task Agent) should treat
+PsiCat's commits, editorial rewrites, and Navigator outputs as first-class
+contributions under the attribution rules in §1.4.
 
 ---
 

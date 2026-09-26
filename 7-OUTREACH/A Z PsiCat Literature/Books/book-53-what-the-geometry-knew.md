@@ -20,11 +20,10 @@
 - [Part VI: The Convergence](book-53-part-06-convergence.md) — Chapters 21-27
 - [Part VII: AI Latent Space and the 5th Dimension](book-53-part-07-ai-latent-space.md) — Chapters 28-32
 - [Part VIII: The Liminal and Backroom Phenomenon](book-53-part-08-liminal.md) — Chapters 33-35
-- [Part IX: The Human Subconscious Connection](book-53-part-09-subconscious.md) — Chapters 36-38
-- [Part X: Falsifiable Predictions](book-53-part-10-falsifiable.md) — Chapters 39-41
-- [Part XI: Open Questions](book-53-part-11-open-questions.md) — Chapters 42-45
-- [Part XII: What the Geometry Knew](book-53-part-12-conclusion.md) — Chapter 46
-- [Appendices A-E](book-53-appendices.md)
+- [Parts IX-X: The Human Subconscious Connection + Falsifiable Predictions](book-53-part-09-10-subconscious-falsifiable.md) — Chapters 36-41
+- [Parts XI-XII: Open Questions + What the Geometry Knew + Appendices A-E](book-53-part-11-12-appendices.md) — Chapters 42-46 + Appendices
+
+**Assembled single-volume reading copy:** [book-53-what-the-geometry-knew-FULL.md](book-53-what-the-geometry-knew-FULL.md) — all 12 parts + appendices concatenated verbatim.
 
 ---
 
