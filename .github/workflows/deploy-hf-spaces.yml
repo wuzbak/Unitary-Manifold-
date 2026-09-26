@@ -1,0 +1,73 @@
+name: Deploy HF Spaces
+
+on:
+  push:
+    paths:
+      - 'hf-spaces/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install huggingface_hub
+        run: pip install huggingface_hub
+
+      - name: Deploy changed Spaces
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python3 - <<'EOF'
+          import os
+          import json
+          import subprocess
+          from huggingface_hub import HfApi
+          
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          user = api.whoami()["name"]
+          
+          # Find all Space folders in hf-spaces/
+          spaces_dir = "hf-spaces"
+          if not os.path.isdir(spaces_dir):
+              print("No hf-spaces/ directory found")
+              exit(0)
+          
+          for space_name in os.listdir(spaces_dir):
+              space_path = os.path.join(spaces_dir, space_name)
+              if not os.path.isdir(space_path):
+                  continue
+              
+              # Check for app.py (required for Gradio Space)
+              if not os.path.exists(os.path.join(space_path, "app.py")):
+                  print(f"Skipping {space_name} — no app.py")
+                  continue
+              
+              # Create or get the Space
+              repo_id = f"{user}/{space_name}"
+              print(f"Deploying {space_name} → {repo_id}")
+              
+              try:
+                  api.create_repo(repo_id=repo_id, repo_type="space", space_sdk="gradio", exist_ok=True)
+              except Exception as e:
+                  print(f"Repo creation: {e}")
+              
+              # Upload all files in the Space folder
+              api.upload_folder(
+                  folder_path=space_path,
+                  repo_id=repo_id,
+                  repo_type="space",
+                  commit_message=f"Auto-deploy from GitHub: {space_name}"
+              )
+              print(f"✅ Deployed {space_name} → https://huggingface.co/spaces/{repo_id}")
+          
+          print("\nAll Spaces deployed.")
+          EOF
