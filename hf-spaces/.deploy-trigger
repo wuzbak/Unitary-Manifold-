@@ -1,0 +1,21 @@
+# Deploy trigger file — ensures the GitHub Action runs on initial setup.
+# All 15 Spaces are in subdirectories of this folder.
+# Auto-deploy: .github/workflows/deploy-hf-spaces.yml
+# Secret required: HUGGINGFACE_TOKEN (stored)
+
+Spaces:
+1. psicat-navigator
+2. axiomzero-portal
+3. geo-monitor
+4. sdr-radio
+5. dnd-assistant
+6. falsification-lab
+7. terra-os
+8. knowledge-hub
+9. training-gym
+10. delphi-oracle
+11. axiom-journalist
+12. film-companion
+13. space-weather
+14. lean4-registry
+15. corporate
