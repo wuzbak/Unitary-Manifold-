@@ -16,7 +16,40 @@ on:
   workflow_dispatch:
 
 jobs:
+  merlin-stage-a-pr-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: 12-AZ-IP/20-psicat-navigator
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+
+      - name: PsiCat training/benchmark smoke
+        run: |
+          python -m pytest \
+            tests/test_merlin_execution_spine.py \
+            tests/test_merlin_training_execution.py::test_merlin_training_cycle_executes_round_robin_receipts \
+            tests/test_merlin_training_execution.py::test_merlin_training_cycle_emits_performance_gate_receipts \
+            tests/test_merlin_v1.py::test_export_training_artifacts_script \
+            -q
+
   merlin-stage-a-gate:
+    if: github.event_name != 'pull_request'
     runs-on: [self-hosted, linux, x64, psicat]
     permissions:
       contents: read
