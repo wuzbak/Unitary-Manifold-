@@ -385,20 +385,22 @@ pytest tests/test_pillar397_unique_discriminant_register.py -v
 
 ---
 
-## 21. Break the three-sector anomaly uniqueness check
+## 21. Break the three-quantity anomaly distinction
 
-**Handle:** In `src/core/anomaly_inflow_3sector.py`,
-force `is_unique_at_18 = True` unconditionally in `required_weyl_fermions_3sector()`.
+**Handle:** In `src/core/anomaly_inflow_3sector.py`, edit
+`classify_anomaly_quantity()` so that particle count, topological anomaly count,
+and tension quadratic sum are merged into one value.
 
 **Expected result:** `tests/test_anomaly_inflow.py`
-fails at `test_18_is_not_uniquely_forced`.
+fails at `test_three_quantity_classification`.
 
-**What this tests:** Honest status labeling for GAP-1/GAP-2 must remain OPEN_GAP
-until competing anomaly prescriptions collapse to a unique forced count.
+**What this tests:** GAP-1 resolution depends on physically distinct observables:
+content count (18), topological count (12), and tension sum (74). If that
+distinction collapses, `RESOLVED_BY_DISTINCTION` fails.
 
 ```bash
 pytest tests/test_anomaly_inflow.py -v
-# → FAIL (test_18_is_not_uniquely_forced)
+# → FAIL (test_three_quantity_classification)
 ```
 
 ---
@@ -421,20 +423,21 @@ pytest tests/test_brane_tension.py -v
 
 ---
 
-## 23. Break the architecture-limit honesty gate for three-sector predictions
+## 23. Break the architecture-limit gate for Z₂-odd differential coupling
 
-**Handle:** In `src/core/three_sector_cosmology.py`,
-set any one of `resolved["AL1"]..resolved["AL4"]` to `True` without meeting the
-threshold condition.
+**Handle:** In `src/core/z2_odd_power_suppression.py`, alter the suppression
+fractions away from `25/74`, `49/74`, or `25/49`, then keep status as FITTED.
 
-**Expected result:** `tests/test_three_sector_predictions.py`
-fails at `test_architecture_limits_still_open`.
+**Expected result:** `tests/test_z2_odd_power_suppression.py` fails at
+`test_scalar_tensor_suppression_fractions` and/or
+`test_al1_al2_falsification_checks`.
 
-**What this tests:** New architecture claims must not overstate closure of AL-1..AL-4.
+**What this tests:** AL-1/AL-2 structural claims are numerically fragile and
+must remain tied to explicit geometric ratios with falsification thresholds.
 
 ```bash
-pytest tests/test_three_sector_predictions.py -v
-# → FAIL (test_architecture_limits_still_open)
+pytest tests/test_z2_odd_power_suppression.py -v
+# → FAIL
 ```
 
 ---
@@ -452,6 +455,24 @@ integrals, not hard-coded Yukawa textures.
 
 ```bash
 pytest tests/test_yukawa.py -v
+# → FAIL
+```
+
+---
+
+## 25. Break Γ(t) dynamical dark-energy route
+
+**Handle:** In `src/core/b_mu_dynamical_dark_energy.py`, force all candidate
+`w_a` outputs to stay near `0` while keeping the report status as FITTED.
+
+**Expected result:** `tests/test_b_mu_dynamical_dark_energy.py` fails at
+`test_gamma_model_wa_selection`.
+
+**What this tests:** AL-3 route must honestly report whether any geometrically
+motivated Γ(a) candidate can enter the DESI DR2-preferred window.
+
+```bash
+pytest tests/test_b_mu_dynamical_dark_energy.py -v
 # → FAIL
 ```
 

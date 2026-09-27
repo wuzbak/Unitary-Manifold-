@@ -19,6 +19,6 @@ def lapse (ϕ : ℝ) : ℝ := Real.rpow ϕ (-(1 / 2 : ℝ))
 
 theorem lapse_attractor_one : lapse 1 = 1 := by
   change Real.rpow (1 : ℝ) (-(1 / 2 : ℝ)) = 1
-  simpa using Real.one_rpow (-(1 / 2 : ℝ))
+  simp
 
 end UnitaryManifold

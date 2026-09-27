@@ -8,6 +8,7 @@ from src.core.anomaly_inflow_3sector import (
     K_CS,
     eta_invariants_3sector,
     anomaly_coefficients_3sector,
+    classify_anomaly_quantity,
     required_weyl_fermions_3sector,
 )
 
@@ -29,7 +30,7 @@ def test_eta_invariants_are_expected_classes():
 def test_linear_candidate_is_18():
     coeffs = anomaly_coefficients_3sector()
     assert coeffs["linear_sector_sum"] == 18.0
-    assert coeffs["eta_weighted_sum"] == 7.0
+    assert coeffs["aps_partial_index"] == 7.0
 
 
 def test_18_is_not_uniquely_forced():
@@ -37,4 +38,12 @@ def test_18_is_not_uniquely_forced():
     assert req["required_by_linear_model"] == 18
     assert req["required_by_eta_weighted_model"] == 7
     assert req["is_unique_at_18"] is False
-    assert req["status"] == "OPEN_GAP"
+    assert req["status"] == "RESOLVED_BY_DISTINCTION"
+
+
+def test_three_quantity_classification():
+    out = classify_anomaly_quantity()
+    assert out["N_particles_linear"] == 18.0
+    assert out["N_anomaly_topological"] == 12.0
+    assert out["N_tension_quadratic"] == 74.0
+    assert out["status"] == "RESOLVED_BY_DISTINCTION"

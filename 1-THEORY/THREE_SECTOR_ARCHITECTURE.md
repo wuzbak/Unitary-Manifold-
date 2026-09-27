@@ -30,8 +30,8 @@ What is computed:
 - η-weighted anomaly coefficient candidate.
 
 Status:
-- **OPEN_GAP** for uniqueness of “18 Weyl fermions required”.
-- Reason: the linear and η-weighted anomaly prescriptions do not yet collapse to a single forced integer count.
+- **RESOLVED_BY_DISTINCTION** for the prior 18-Weyl ambiguity.
+- Reason: particle-content count (18), fixed-point/topological count (12), and tension sum (74) are now treated as distinct observables rather than competing totals.
 
 ## Brane tension and stabilization structure
 

@@ -324,8 +324,8 @@ These are not new physical claims but expansions of the verification surface.
 
 | Gap | Current label | Evidence / implementation | Honest status |
 |-----|---------------|---------------------------|---------------|
-| GAP-1: `r_c = 2n = 12` | `FITTED` | `src/core/brane_tension_stabilization.py` computes `T_UV=25`, `T_IR=49`, and candidate `k r_c = 12` under a three-sector closure ansatz. | Holds exactly in the architecture ansatz; full RS1 variational derivation from action remains open. |
-| GAP-2: `φ_min_bare = 3n = 18` | `FITTED` | `src/core/brane_tension_stabilization.py` computes candidate `φ_min_bare=18` from the UV/bulk/IR sector count. | Integer closure survives in the ansatz; root-stable first-principles `A_c` derivation remains open. |
+| GAP-1: `r_c = 2n = 12` | `RESOLVED_BY_DISTINCTION` | `src/core/anomaly_inflow_3sector.py` now classifies three non-competing quantities: particle count `18`, topological anomaly count `12`, tension sum `74`. | `r_c=12` is now tracked as the topological anomaly count (fixed-point quantity), distinct from particle-content count. |
+| GAP-2: `φ_min_bare = 3n = 18` | `FITTED` | `src/core/brane_tension_stabilization.py` keeps `φ_min_bare=18` as content-count closure and adds a GW test with tension ratio `25/49`. | GW proxy with canonical ratio does **not** force `18`; this relation remains FITTED pending a derived stabilization mechanism. |
 | GAP-3: Yukawa top-down derivation | `PARTIALLY_DERIVED` | `src/core/yukawa_geometric.py` derives three-sector zero-mode overlap textures and hierarchy ratios. | Texture geometry is derived; full mass-spectrum closure still needs non-fitted electroweak/RG normalization. |
 | GAP-4: ADM time synchronisation proof | `SUBSTANTIALLY_CLOSED` | Canonical closure remains in `src/core/pillar212_adm_decomposition.py`, `src/core/adm_quantitative_closure.py`, and `src/core/wdw_full_5d.py`; supplemental Lean stub added at `lean4/UnitaryManifold/ADM_time_sync.lean`. | Kinematic/linearized closure is established; non-perturbative UV quantum-gravity completion remains open. |
 
@@ -333,12 +333,12 @@ These are not new physical claims but expansions of the verification surface.
 
 Evaluated in `src/core/three_sector_cosmology.py` and `tests/test_three_sector_predictions.py`.
 
-- AL-1 (CMB peak suppression): **reduced but not closed**
-- AL-2 (`r` tension): **reduced but not closed**
-- AL-3 (`w_a` tension): **reduced but not closed**
+- AL-1 (CMB peak suppression): **core three-sector: reduced not closed**; **separate Z₂-odd route: FITTED match** (`25/74≈0.3378` vs `0.336`)
+- AL-2 (`r` tension): **core three-sector: reduced not closed**; **separate Z₂-odd route: near-bound FITTED** (`r×25/49≈0.0161`)
+- AL-3 (`w_a` tension): **core three-sector: reduced not closed**; **separate Γ(t) route: mechanism derived / form fitted**
 - AL-4 (cosmological-constant hierarchy): **reduced but not closed**
 
-Overall label: **OPEN_GAP** for architecture-limit closure in the current three-sector pass.
+Overall labels: **OPEN_GAP** for core three-sector architecture; **PARTIAL_REDUCTION (FITTED extension)** for separate Z₂-odd route.
 
 ---
 

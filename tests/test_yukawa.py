@@ -4,6 +4,7 @@
 import pytest
 
 from src.core.yukawa_geometric import (
+    Localization,
     default_sector_localization,
     hierarchy_ratios_from_texture,
     zero_mode_overlap,
@@ -68,3 +69,33 @@ def test_report_is_honestly_labeled():
 def test_hierarchy_shape_validation():
     with pytest.raises(ValueError):
         hierarchy_ratios_from_texture([[1.0, 2.0], [3.0, 4.0]])
+
+
+def test_hierarchy_shape_validation_1d():
+    with pytest.raises(ValueError):
+        hierarchy_ratios_from_texture([1.0, 2.0, 3.0])
+
+
+def test_hierarchy_shape_validation_ragged():
+    with pytest.raises(ValueError):
+        hierarchy_ratios_from_texture([[1.0, 2.0, 3.0], [4.0]])
+
+
+def test_zero_mode_overlap_requires_more_than_one_point():
+    loc = default_sector_localization()
+    with pytest.raises(ValueError, match="n_points must be > 1"):
+        zero_mode_overlap(loc["uv"], loc["uv"], n_points=1)
+
+
+def test_zero_mode_overlap_requires_positive_width():
+    bad = Localization(center=0.2, width=0.0)
+    good = Localization(center=0.2, width=0.2)
+    with pytest.raises(ValueError, match="Localization width must be positive"):
+        zero_mode_overlap(bad, good)
+
+
+def test_hierarchy_rejects_nonfinite_entries():
+    with pytest.raises(ValueError, match="finite"):
+        hierarchy_ratios_from_texture(
+            [[1.0, 0.1, 0.2], [0.1, float("nan"), 0.3], [0.2, 0.3, 1.0]]
+        )

@@ -9,6 +9,7 @@ localization centers derived from the (5, 6, 7) three-sector split.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
 from typing import Dict, Tuple
 
 import numpy as np
@@ -40,6 +41,7 @@ def _orbifold_distance_array(y: np.ndarray, center: float) -> np.ndarray:
     return np.minimum(wrapped, mirrored)
 
 
+@lru_cache(maxsize=64)
 def _sampled_normalized_profile(loc: Localization, n_points: int = 4001) -> Tuple[np.ndarray, np.ndarray]:
     if n_points <= 1:
         raise ValueError("n_points must be > 1 for overlap integration")
@@ -72,11 +74,10 @@ def yukawa_matrix_three_sector() -> Dict[str, object]:
     matrix = [[0.0 for _ in range(3)] for _ in range(3)]
     for i in range(3):
         for j in range(i, 3):
-            y_i, psi_i = profiles[sectors[i]]
-            y_j, psi_j = profiles[sectors[j]]
-            if not np.allclose(y_i, y_j):
-                raise ValueError("profile grids must match for overlap integration")
-            value = float(np.trapezoid(psi_i * psi_j, y_i))
+            # keep profile precomputation warm while reusing the canonical overlap path
+            _ = profiles[sectors[i]]
+            _ = profiles[sectors[j]]
+            value = zero_mode_overlap(loc[sectors[i]], loc[sectors[j]], n_points=4001)
             matrix[i][j] = value
             matrix[j][i] = value
     return {
@@ -96,6 +97,8 @@ def hierarchy_ratios_from_texture(matrix: list[list[float]] | None = None) -> Di
     m = np.array(source, dtype=float)
     if m.shape != (3, 3):
         raise ValueError(f"Expected a 3x3 Yukawa texture, got shape {m.shape}.")
+    if not np.isfinite(m).all():
+        raise ValueError("Yukawa texture must contain only finite values.")
     singular_values = np.linalg.svd(m, compute_uv=False)
     s1, s2, s3 = sorted(float(v) for v in singular_values)
     eps = 1e-16

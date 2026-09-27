@@ -31,3 +31,18 @@ def test_architecture_limits_still_open():
     assert rep["resolved"]["AL3"] is False
     assert rep["resolved"]["AL4"] is False
     assert rep["status"] == "OPEN_GAP"
+
+
+def test_comparison_table_present():
+    rep = architecture_limit_delta_report()
+    table = rep["comparison_table"]
+    assert len(table) == 4
+    assert table[0]["AL"] == "AL-1"
+
+
+def test_z2_odd_route_is_separate_partial():
+    rep = architecture_limit_delta_report()
+    assert rep["z2_odd_route_assessment"]["status"] == "PARTIAL_REDUCTION"
+    assert rep["z2_odd_route_assessment"]["AL1"] is True
+    assert rep["z2_odd_route_assessment"]["AL3"] is False
+    assert rep["dynamic_gamma_route_assessment"]["AL3"] is True

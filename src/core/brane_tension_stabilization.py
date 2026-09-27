@@ -16,6 +16,7 @@ status is FITTED rather than DERIVED.
 
 from __future__ import annotations
 
+import math
 from typing import Dict
 
 N_W: int = 5
@@ -65,19 +66,48 @@ def phi_min_from_three_sector(n_parent: int = N_PARENT) -> Dict[str, object]:
     }
 
 
+def goldberger_wise_phi_min_from_tension_ratio(
+    n_w: int = N_W,
+    n_shadow: int = N_SHADOW,
+    epsilon: float = 0.1,
+    kr_c: float = 12.0,
+) -> Dict[str, object]:
+    """Test whether GW radion minimum with T_UV/T_IR=25/49 gives φ=18."""
+    tension_ratio = (n_w**2) / (n_shadow**2)  # 25/49
+    # Standard RS1/GW-inspired logarithmic minimum proxy:
+    #   k r_c ≈ (1/ε) ln(v_uv / v_ir) with v_uv/v_ir tracked by tension ratio.
+    # Rearranged here as a derived φ-proxy from the same ratio.
+    gw_phi_proxy = (kr_c / max(epsilon, 1e-12)) * abs(math.log(1.0 / max(tension_ratio, 1e-12)))
+    return {
+        "tension_ratio_25_over_49": tension_ratio,
+        "epsilon": epsilon,
+        "kr_c_input": kr_c,
+        "phi_min_gw_proxy": gw_phi_proxy,
+        "target_phi_min": 18.0,
+        "matches_phi_18_within_1": abs(gw_phi_proxy - 18.0) <= 1.0,
+        "status": "FITTED",
+        "epistemic_note": (
+            "GW mechanism is standard, but with canonical (25/49) tension ratio this proxy "
+            "does not force φ=18; φ=18 therefore remains FITTED pending a distinct derivation."
+        ),
+    }
+
+
 def brane_tension_stabilization_report() -> Dict[str, object]:
     """Aggregate stabilization results with explicit labels."""
     tensions = brane_tensions_from_winding()
     kr = kr_c_from_tension_balance()
     phi = phi_min_from_three_sector()
+    gw = goldberger_wise_phi_min_from_tension_ratio()
     return {
         "inputs": {"n_w": N_W, "n_parent": N_PARENT, "n_shadow": N_SHADOW},
         "tensions": tensions,
         "kr_c_result": kr,
         "phi_min_result": phi,
+        "goldberger_wise_test": gw,
         "status": "FITTED",
         "epistemic_note": (
-            "Candidate integer closures are exact under three-sector balance assumptions; "
-            "first-principles action derivation remains OPEN_GAP."
+            "Brane-tension ratio 25/49 is derived. Candidate integer closures are exact under "
+            "three-sector balance assumptions, while GW φ-min=18 closure is not yet derived."
         ),
     }
