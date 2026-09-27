@@ -33,9 +33,35 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v38.0 (2026-09-22)**
+**Current version: v38.1 (2026-09-27)**
 **Regression:** REGRESSION_PLACEHOLDER_CV (latest verified full regression in branch history)
-**Next pillar slot:** 1129
+**Next pillar slot:** 1130
+
+
+
+
+## v38.1 (2026-09-27 — Sprint CW: Pillar 1129)
+
+**What changed:**
+A new adjacent empirical connectome bridge was added for the MaleCNS v1.0 public fruit-fly CNS release. Pillar 1129 commits a compact, provenance-bearing benchmark panel derived from real public neuron-type pages and exposes deterministic observables: partner counts, synapse mass, reciprocity, top-partner concentration, neurotransmitter diversity, ROI balance, and cross-domain bridge signatures.
+
+**Why:**
+The repository already had a substantial neuroscience/consciousness lane, but it lacked a strict public-data connectome surface. Sprint CW converts that gap into a reproducible benchmark layer so the repo's brain/coupling language can be tested against real wiring summaries rather than prose alone.
+
+**Epistemic label deltas:**
+- `MALECNS_CONNECTOME_EMPIRICAL_BRIDGE_COMPLETE`
+
+**Physics label delta:** None — this is adjacent-track empirical connectome work only.
+
+**Connectome findings:** In the committed panel, `LPLC2` carries the largest imported input/output mass, `LC4` is the most reciprocal imported type, `EPG` has the highest downstream neurotransmitter entropy, and `AN01B004` plus `DNa02` are the clearest brain↔VNC bridge pair.
+
+**Falsification impact:** None — external falsifier windows are unchanged.
+
+**Residual unknowns:** The panel is a compact benchmark slice, not the full raw MaleCNS graph; no ontology, no hardgate physics, and no first-principles consciousness derivation are claimed.
+
+**Lean4:** 4080 → 4080 (+0)
+**Regression:** Focused regression: Pillar 1129 suite 24 passed · 0 failed; related neuroscience regressions 369 passed · 0 failed. Latest verified full regression in current branch history remains REGRESSION_PLACEHOLDER_CV
+**Next pillar slot:** 1130
 
 
 

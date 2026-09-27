@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v38.0
+# Unitary Manifold v38.1
 
 ## Current foundation reassessment (2026-09-05)
 
@@ -30,8 +30,9 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-15 (v37.7 — Sprint CU: Pillar 1121. This sprint adds one fail-closed routing packet that binds inherited v37.6/CT status, the explicit unfinished-physics set, current execution-capability gains, and the next single-target physics sprint recommendation in one evidence-backed surface. The packet locks the next full-focus physics sprint to action-to-evolution only and records PsiCat as benchmark-ready with phase-2 applied-pressure promotion available only under continued receipt discipline, not as an unconditional sovereign-promotion claim. Open-lane labels remain unchanged and explicit: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next slot 1122. Active falsification windows unchanged: DESI DR3 ~2027; CMB-S4 ~2028; LiteBIRD ~2032. Verified full regression in current branch history remains 64,150 passed · 22 skipped · 18 deselected · 0 failed; focused regression: Sprint CU routing and ledger suites 46 passed · 0 failed.)*
+*Last updated: 2026-09-27 (v38.1 — Sprint CW: Pillar 1129. This sprint adds one adjacent empirical MaleCNS connectome bridge rather than a new closure claim. The new surface commits a provenance-bearing benchmark panel from the public `male-cns:v1.0` release and computes deterministic partner-count, synapse-mass, reciprocity, concentration, neurotransmitter-diversity, ROI-balance, and cross-domain bridge observables. Open physics lanes and external falsifier windows remain unchanged. Next slot 1130. Verified full regression in current branch history remains REGRESSION_PLACEHOLDER_CV; focused regression: Pillar 1129 suite 24 passed · 0 failed; related neuroscience regressions 369 passed · 0 failed.)*
 
+*Historical continuity note: v38.1 Sprint CW (Pillar 1129; next slot 1130) is the canonical adjacent empirical MaleCNS bridge layer directly above Sprint CV.*
 *Historical continuity note: v38.0 Sprint CV (Pillars 1122-1128; next slot 1129) is the canonical three-lane earned-version packet directly above Sprint CU.*
 *Historical continuity note: v37.7 Sprint CU (Pillar 1121; next slot 1122) is the canonical action-to-evolution full-focus routing packet directly above Sprint CT.*
 *Historical continuity note: v37.6 Sprint CT (Pillar 1120; next slot 1121) is the canonical PsiCat training-benchmarking-promotion packet directly above Sprint CS.*
@@ -50,6 +51,8 @@ still-open physical obligations in the table.
 
 
 
+
+*P1129 (v38.1): MaleCNS Connectome Empirical Bridge — MALECNS_CONNECTOME_EMPIRICAL_BRIDGE_COMPLETE. `src/core/pillar1129_malecns_connectome_empirical_bridge.py` imports a compact, provenance-bearing benchmark panel from the public MaleCNS v1.0 fruit-fly CNS release and computes deterministic connectome observables from real public neuron-type pages. The result is adjacent-track empirical work only: no hardgate physics label change, no consciousness ontology proof, and no first-principles neural derivation are claimed.*
 
 *P1128 (v38.0): Sprint CV Master Integration Certificate — SPRINT_CV_MASTER_INTEGRATION_CERTIFICATE_COMPLETE. `src/core/pillar1128_sprint_cv_master_integration_certificate.py` fail-closes Sprint CV validity across the charter and all three lanes, and computes the version-earning gate for v37.7→v38.0 as a certificate (not a narrative claim): Lane 1 emitted an honest blocker certificate (`PRECISE_BLOCKER_CERTIFICATE_AND_STOP`, remaining blocker `EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED`), Lane 2 earned a receipt-backed `PHASE2_CLEAR_ADVANCE_TO_PHASE3` verdict (`PROMOTED_PHASE2_APPLIED_PRESSURE`), and Lane 3 verified truth-surface lockstep plus resolved two real health findings (tests/ directory hygiene and docs/mas_tracker.yml YAML validity).
 

@@ -23,6 +23,7 @@ objects, carrying different physical labels.
 | [`COUPLED_MASTER_EQUATION.md`](./COUPLED_MASTER_EQUATION.md) | **The dynamical alignment** — Brain and universe as coupled fixed-point attractors; the Coupled Master Equation; consciousness as the coupled fixed point Ψ*_brain ⊗ Ψ*_univ |
 | [`RESONANCE_74.md`](./RESONANCE_74.md) | **k_cs = 74 as the Resonance Integer** — the minimum complexity for self-awareness; the hippocampus-EC knot; β = 0.3513° as the tilt that allows the 74-resonance to perceive time |
 | [`DISORDERS_MANIFOLD.md`](./DISORDERS_MANIFOLD.md) | **Pathology** — Alzheimer's, amnesia, depression, epilepsy, schizophrenia, TBI as specific geometric failures of g_μν, B_μ, φ, k_cs, and β·C; five-class universal intervention framework; falsifiable clinical predictions (Pillar 516) |
+| [`MALECNS_CONNECTOME_BRIDGE.md`](./MALECNS_CONNECTOME_BRIDGE.md) | **Public-data connectome bridge** — MaleCNS v1.0 benchmark panel, real neuron-type summaries, reciprocity/concentration/ROI observables, and explicit adjacent-track boundaries (Pillar 1129) |
 
 ---
 
@@ -132,6 +133,9 @@ Neuroscience has independently found exactly these three structures in the brain
    **dynamical alignment**: the Coupled Master Equation, the Information Gap,
    the phase offset, and why consciousness is the coupled fixed point of the
    brain-universe two-body problem.
+7. Read [`MALECNS_CONNECTOME_BRIDGE.md`](./MALECNS_CONNECTOME_BRIDGE.md) for the
+   first public-data connectome benchmark layer: a compact MaleCNS v1.0 import
+   with empirical observables and explicit claim boundaries.
 
 ---
 

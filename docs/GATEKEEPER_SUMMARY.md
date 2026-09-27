@@ -1,5 +1,5 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v38.0
+# Unitary Manifold v38.1
 
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
@@ -21,6 +21,9 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+
+> **Sprint CW (v38.1 — 2026-09-27):** 1 pillar (1129). P1129 imports a compact, provenance-bearing MaleCNS v1.0 benchmark panel from real public neuron-type pages and computes deterministic connectome observables: partner counts, synapse mass, reciprocity, concentration, neurotransmitter diversity, ROI balance, and cross-domain bridge signatures. The result is an adjacent empirical bridge for the existing neuroscience lane, not a new hardgate physics closure, consciousness ontology proof, or first-principles derivation. The imported benchmark slice identifies `LPLC2` as the highest-throughput optic type in this panel, `LC4` as the most reciprocal type, and `AN01B004` plus `DNa02` as the clearest brain↔VNC bridge pair. Lean4 4080→4080 (+0). Verified full regression in current branch history remains REGRESSION_PLACEHOLDER_CV. Focused regression: Pillar 1129 suite 24 passed · 0 failed; related neuroscience regressions 369 passed · 0 failed. Next slot 1130.
+>
 
 > **Sprint CV (v38.0 — 2026-09-22):** 7 pillars (1122-1128), a three-lane earned-version sprint. P1122 locks the charter (Lane 1 physics, Lane 2 PsiCat, Lane 3 monorepo health). P1123 re-attempts action-to-evolution closure and honestly reports a precise blocker certificate — no new hardgate physics closure is claimed. P1124 executes the real PsiCat SPC Phase 2 applied-pressure battery and earns a receipt-backed clear/promoted verdict. P1125 audits and repairs monorepo health, resolving the tests/ large-directory violation and the docs/mas_tracker.yml YAML-parse failure. P1126 is the documentation evidence packet. P1127 is the status coherence certificate. P1128 is the master integration certificate computing the version-earning gate. Lean4 4080→4080 (+0). Verified full regression in current branch history: REGRESSION_PLACEHOLDER_CV. Focused regression: Sprint CV lane/charter/certificate suites REGRESSION_FOCUSED_PLACEHOLDER_CV passed · 0 failed. Next slot 1129.
 >

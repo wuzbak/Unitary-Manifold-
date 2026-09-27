@@ -1,6 +1,6 @@
-version: "v38.0"
-date: "2026-09-22"
-updated: "2026-09-22"
+version: "v38.1"
+date: "2026-09-27"
+updated: "2026-09-27"
 
 canonical_status_notice: >
   The single current, canonical status of this tracker is the topmost
@@ -45,6 +45,35 @@ foundation_reassessment:
     - "Joint UV/Higgs matching, moduli fixing and stability"
     - "Nonperturbative quantum gravity"
   observational_falsifiers_unchanged: true
+
+v38_1_sprint_cw:
+  sprint: CW
+  version: v38.1
+  date: "2026-09-27"
+  pillars: 1129-1129
+  new_pillars: 1
+  new_tests: 24
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures: []
+  advances:
+    - MALECNS_PUBLIC_CONNECTOME_BENCHMARK_PANEL_IMPORTED
+    - PUBLIC_NEURON_TYPE_PAGE_SUMMARIES_PARSED_INTO_DETERMINISTIC_OBSERVABLES
+    - CROSS_DOMAIN_BRAIN_TO_VNC_BRIDGE_TYPES_IDENTIFIED_IN_COMMITTED_PANEL
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "REGRESSION_PLACEHOLDER_CV (latest verified full regression in current branch history)"
+  focused_regression: "Pillar 1129 suite 24 passed · 0 failed; related neuroscience regressions 369 passed · 0 failed"
+  next_pillar_slot: 1130
 
 v38_0_sprint_cv:
   sprint: CV
