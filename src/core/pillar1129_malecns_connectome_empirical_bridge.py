@@ -59,7 +59,15 @@ PRIMARY_REGIONS: tuple[str, ...] = (
     "ventral nerve cord",
 )
 
-ROOT = Path(__file__).resolve().parent.parent.parent
+def _repository_root() -> Path:
+    current = Path(__file__).resolve()
+    for candidate in current.parents:
+        if (candidate / "data" / "malecns" / "benchmark_panel.json").exists():
+            return candidate
+    raise FileNotFoundError("Could not locate repository root for MaleCNS benchmark payload")
+
+
+ROOT = _repository_root()
 DEFAULT_BENCHMARK_PATH = ROOT / "data" / "malecns" / "benchmark_panel.json"
 
 PUBLIC_INTERFACES: Dict[str, str] = {
