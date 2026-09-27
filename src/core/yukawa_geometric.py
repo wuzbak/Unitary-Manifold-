@@ -43,8 +43,10 @@ def _orbifold_distance_array(y: np.ndarray, center: float) -> np.ndarray:
 def _sampled_normalized_profile(loc: Localization, n_points: int = 4001) -> Tuple[np.ndarray, np.ndarray]:
     if n_points <= 1:
         raise ValueError("n_points must be > 1 for overlap integration")
+    if loc.width <= 0:
+        raise ValueError("Localization width must be positive.")
     y = np.linspace(0.0, 1.0, n_points)
-    width = max(loc.width, 1e-12)
+    width = loc.width
     d = _orbifold_distance_array(y, loc.center)
     psi = np.exp(-0.5 * (d / width) ** 2)
     norm = float(np.sqrt(max(np.trapezoid(psi * psi, y), 1e-16)))

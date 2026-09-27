@@ -20,8 +20,10 @@ def test_adm_time_sync_lean_parses_when_lean_available():
     lean_bin = shutil.which("lean")
     if lean_bin is None:
         pytest.skip("Lean executable not available in this environment")
+    repo_root = Path(__file__).resolve().parents[1]
     result = subprocess.run(
         [lean_bin, "lean4/UnitaryManifold/ADM_time_sync.lean"],
+        cwd=repo_root,
         capture_output=True,
         text=True,
         check=False,
