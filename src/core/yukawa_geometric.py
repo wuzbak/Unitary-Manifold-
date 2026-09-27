@@ -52,6 +52,8 @@ def _orbifold_distance_array(y: np.ndarray, center: float) -> np.ndarray:
 
 
 def _sampled_normalized_profile(loc: Localization, n_points: int = 4001) -> Tuple[np.ndarray, np.ndarray]:
+    if n_points <= 1:
+        raise ValueError("n_points must be > 1 for overlap integration")
     y = np.linspace(0.0, 1.0, n_points)
     width = max(loc.width, 1e-12)
     d = _orbifold_distance_array(y, loc.center)
@@ -62,6 +64,8 @@ def _sampled_normalized_profile(loc: Localization, n_points: int = 4001) -> Tupl
 
 def zero_mode_overlap(loc_l: Localization, loc_r: Localization, n_points: int = 4001) -> float:
     """Numerically integrate overlap ∫ ψ_L ψ_R dy on [0,1]."""
+    if n_points <= 1:
+        raise ValueError("n_points must be > 1 for overlap integration")
     y_l, psi_l = _sampled_normalized_profile(loc_l, n_points=n_points)
     y_r, psi_r = _sampled_normalized_profile(loc_r, n_points=n_points)
     if not np.allclose(y_l, y_r):
@@ -72,12 +76,16 @@ def zero_mode_overlap(loc_l: Localization, loc_r: Localization, n_points: int = 
 def yukawa_matrix_three_sector() -> Dict[str, object]:
     """Build a 3×3 geometric Yukawa texture from sector-localized overlaps."""
     loc = default_sector_localization()
-    left = (loc["uv"], loc["bulk"], loc["ir"])
-    right = (loc["uv"], loc["bulk"], loc["ir"])
+    sectors = ("uv", "bulk", "ir")
+    profiles = {s: _sampled_normalized_profile(loc[s], n_points=4001) for s in sectors}
     matrix = [[0.0 for _ in range(3)] for _ in range(3)]
     for i in range(3):
         for j in range(i, 3):
-            value = zero_mode_overlap(left[i], right[j])
+            y_i, psi_i = profiles[sectors[i]]
+            y_j, psi_j = profiles[sectors[j]]
+            if not np.allclose(y_i, y_j):
+                raise ValueError("profile grids must match for overlap integration")
+            value = float(np.trapezoid(psi_i * psi_j, y_i))
             matrix[i][j] = value
             matrix[j][i] = value
     return {

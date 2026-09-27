@@ -75,5 +75,9 @@ def brane_tension_stabilization_report() -> Dict[str, object]:
         "tensions": tensions,
         "kr_c_result": kr,
         "phi_min_result": phi,
+        "status": "FITTED",
+        "epistemic_note": (
+            "Candidate integer closures are exact under three-sector balance assumptions; "
+            "first-principles action derivation remains OPEN_GAP."
+        ),
     }
-

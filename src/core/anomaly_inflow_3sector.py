@@ -60,13 +60,17 @@ def anomaly_coefficients_3sector(model: ThreeSectorAnomalyInput = ThreeSectorAno
 
 def required_weyl_fermions_3sector(model: ThreeSectorAnomalyInput = ThreeSectorAnomalyInput()) -> Dict[str, object]:
     """Assess whether anomaly cancellation uniquely requires 18 Weyl fermions."""
+    def _exact_int_if_integral(x: float, tol: float = 1e-12) -> int | None:
+        nearest = round(x)
+        return int(nearest) if abs(x - nearest) < tol else None
+
     coeffs = anomaly_coefficients_3sector(model)
-    n_linear = int(round(coeffs["linear_sector_sum"]))
-    n_eta = int(round(coeffs["eta_weighted_sum"]))
-    unique = n_linear == n_eta == 18
+    n_linear_exact = _exact_int_if_integral(coeffs["linear_sector_sum"])
+    n_eta_exact = _exact_int_if_integral(coeffs["eta_weighted_sum"])
+    unique = n_linear_exact == n_eta_exact == 18
     return {
-        "required_by_linear_model": n_linear,
-        "required_by_eta_weighted_model": n_eta,
+        "required_by_linear_model": n_linear_exact,
+        "required_by_eta_weighted_model": n_eta_exact,
         "is_unique_at_18": unique,
         "status": "DERIVED" if unique else "OPEN_GAP",
         "epistemic_note": (
@@ -93,4 +97,3 @@ def anomaly_inflow_report_3sector(model: ThreeSectorAnomalyInput = ThreeSectorAn
         "coefficients": coeffs,
         "fermion_requirement": req,
     }
-
