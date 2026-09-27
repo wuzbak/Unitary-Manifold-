@@ -12,6 +12,7 @@ import math
 from dataclasses import dataclass
 from typing import Dict, Tuple
 
+import numpy as np
 N_W: int = 5
 N_PARENT: int = 6
 N_SHADOW: int = 7
@@ -74,14 +75,15 @@ def yukawa_matrix_three_sector() -> Dict[str, object]:
 
 
 def hierarchy_ratios_from_texture() -> Dict[str, float]:
-    """Return simple hierarchy ratios from diagonal overlaps."""
-    m = yukawa_matrix_three_sector()["matrix"]
-    d1, d2, d3 = m[0][0], m[1][1], m[2][2]
+    """Return hierarchy ratios from singular values of the full texture."""
+    m = np.array(yukawa_matrix_three_sector()["matrix"], dtype=float)
+    singular_values = np.linalg.svd(m, compute_uv=False)
+    s1, s2, s3 = sorted((float(v) for v in singular_values), reverse=True)
     eps = 1e-16
     return {
-        "gen2_over_gen1": d2 / max(d1, eps),
-        "gen3_over_gen2": d3 / max(d2, eps),
-        "gen3_over_gen1": d3 / max(d1, eps),
+        "mode2_over_mode1": s2 / max(s1, eps),
+        "mode3_over_mode2": s3 / max(s2, eps),
+        "mode3_over_mode1": s3 / max(s1, eps),
     }
 
 
