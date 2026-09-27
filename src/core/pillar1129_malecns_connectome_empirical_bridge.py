@@ -159,8 +159,8 @@ def parse_partner_table_html(table_html: str) -> List[Dict[str, Any]]:
     """Parse a MaleCNS upstream/downstream partner table into row dictionaries."""
     rows: List[Dict[str, Any]] = []
     for cells in _iter_table_rows(table_html):
-        if len(cells) < 5:
-            raise ValueError(f"partner table row has {len(cells)} cells; expected at least 5")
+        if len(cells) != 6:
+            raise ValueError(f"partner table row has {len(cells)} cells; expected 6")
         partner_match = re.search(r"<a\b[^>]*>([^<]+)</a>", cells[0][1], re.I)
         partner = partner_match.group(1) if partner_match else _clean_text(cells[0][1])
         href = _attribute_value(partner_match.group(0), "href") if partner_match else None
