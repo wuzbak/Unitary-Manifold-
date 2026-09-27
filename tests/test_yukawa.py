@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 
+import pytest
+
 from src.core.yukawa_geometric import (
     default_sector_localization,
     hierarchy_ratios_from_texture,
@@ -60,3 +62,8 @@ def test_report_is_honestly_labeled():
     assert ratios["mode2_over_mode1"] > 1.0
     recomputed = hierarchy_ratios_from_texture(report["texture"]["matrix"])
     assert ratios == recomputed
+
+
+def test_hierarchy_shape_validation():
+    with pytest.raises(ValueError):
+        hierarchy_ratios_from_texture([[1.0, 2.0], [3.0, 4.0]])
