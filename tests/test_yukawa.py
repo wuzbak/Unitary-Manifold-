@@ -3,9 +3,9 @@
 
 from src.core.yukawa_geometric import (
     default_sector_localization,
+    hierarchy_ratios_from_texture,
     zero_mode_overlap,
     yukawa_matrix_three_sector,
-    hierarchy_ratios_from_texture,
     yukawa_geometric_report,
 )
 
@@ -58,3 +58,5 @@ def test_report_is_honestly_labeled():
     assert "mode3_over_mode2" in ratios
     assert "mode3_over_mode1" in ratios
     assert ratios["mode2_over_mode1"] > 1.0
+    recomputed = hierarchy_ratios_from_texture(report["texture"]["matrix"])
+    assert ratios == recomputed

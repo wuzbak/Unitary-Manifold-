@@ -46,9 +46,7 @@ def _gaussian(y: float, loc: Localization) -> float:
 
 def _sampled_normalized_profile(loc: Localization, n_points: int = 4001) -> Tuple[np.ndarray, np.ndarray]:
     y = np.linspace(0.0, 1.0, n_points)
-    width = max(loc.width, 1e-12)
-    z = (y - loc.center) / width
-    psi = np.exp(-0.5 * z * z)
+    psi = np.array([_gaussian(float(yy), loc) for yy in y], dtype=float)
     norm = float(np.sqrt(max(np.trapezoid(psi * psi, y), 1e-16)))
     return y, psi / norm
 
