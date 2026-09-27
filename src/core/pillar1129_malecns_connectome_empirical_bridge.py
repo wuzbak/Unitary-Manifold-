@@ -80,7 +80,10 @@ def _resolve_benchmark_path(path: Path | str) -> Path:
         raise FileNotFoundError(f"MaleCNS benchmark payload not found: {payload_path}")
     if payload_path.exists():
         return payload_path
-    return _repository_root() / payload_path
+    resolved = _repository_root() / payload_path
+    if resolved.exists():
+        return resolved
+    raise FileNotFoundError(f"MaleCNS benchmark payload not found: {resolved}")
 
 PUBLIC_INTERFACES: Dict[str, str] = {
     "neuprint_dataset": MALECNS_DATASET,

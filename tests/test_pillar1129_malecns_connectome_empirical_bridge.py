@@ -219,6 +219,10 @@ class TestBenchmarkPayload:
         with pytest.raises(FileNotFoundError, match='MaleCNS benchmark payload not found'):
             load_benchmark_payload(Path('/definitely/missing/malecns-benchmark.json'))
 
+    def test_missing_relative_payload_raises(self):
+        with pytest.raises(FileNotFoundError, match='MaleCNS benchmark payload not found'):
+            load_benchmark_payload(Path('data/malecns/missing-benchmark.json'))
+
     def test_load_payload(self):
         payload = load_benchmark_payload()
         assert 'manifest' in payload
