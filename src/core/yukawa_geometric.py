@@ -35,7 +35,12 @@ def default_sector_localization() -> Dict[str, Localization]:
 
 
 def _gaussian(y: float, loc: Localization) -> float:
-    z = (y - loc.center) / max(loc.width, 1e-12)
+    width = max(loc.width, 1e-12)
+    direct = abs(y - loc.center)
+    wrapped = min(direct, 1.0 - direct)
+    mirrored = abs(y - (1.0 - loc.center))
+    d_orbifold = min(wrapped, mirrored)
+    z = d_orbifold / width
     return math.exp(-0.5 * z * z)
 
 
@@ -79,9 +84,10 @@ def yukawa_matrix_three_sector() -> Dict[str, object]:
     }
 
 
-def hierarchy_ratios_from_texture() -> Dict[str, float]:
+def hierarchy_ratios_from_texture(matrix: list[list[float]] | None = None) -> Dict[str, float]:
     """Return hierarchy ratios from singular values of the full texture."""
-    m = np.array(yukawa_matrix_three_sector()["matrix"], dtype=float)
+    source = matrix if matrix is not None else yukawa_matrix_three_sector()["matrix"]
+    m = np.array(source, dtype=float)
     singular_values = np.linalg.svd(m, compute_uv=False)
     s1, s2, s3 = sorted(float(v) for v in singular_values)
     eps = 1e-16
@@ -95,7 +101,7 @@ def hierarchy_ratios_from_texture() -> Dict[str, float]:
 def yukawa_geometric_report() -> Dict[str, object]:
     """Return complete three-sector Yukawa report."""
     tex = yukawa_matrix_three_sector()
-    ratios = hierarchy_ratios_from_texture()
+    ratios = hierarchy_ratios_from_texture(tex["matrix"])
     return {
         "inputs": {"n_w": N_W, "n_parent": N_PARENT, "n_shadow": N_SHADOW, "PI_KR": PI_KR},
         "texture": tex,

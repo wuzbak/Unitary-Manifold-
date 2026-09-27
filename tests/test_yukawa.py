@@ -53,3 +53,8 @@ def test_report_is_honestly_labeled():
     report = yukawa_geometric_report()
     assert report["texture"]["status"] == "DERIVED"
     assert report["status"] == "FITTED"
+    ratios = report["hierarchy_ratios"]
+    assert "mode2_over_mode1" in ratios
+    assert "mode3_over_mode2" in ratios
+    assert "mode3_over_mode1" in ratios
+    assert ratios["mode2_over_mode1"] > 1.0
