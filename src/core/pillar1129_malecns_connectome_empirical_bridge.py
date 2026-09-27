@@ -39,6 +39,7 @@ __provenance__ = {
 import html
 import json
 import re
+from copy import deepcopy
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping
@@ -238,7 +239,7 @@ def _manifest_from_payload(payload: Mapping[str, Any]) -> Dict[str, Any]:
 
 
 def _panel_from_payload(payload: Mapping[str, Any]) -> List[Dict[str, Any]]:
-    return list(payload["benchmark_panel"])
+    return deepcopy(payload["benchmark_panel"])
 
 
 def _aggregate_from_payload(payload: Mapping[str, Any]) -> Dict[str, Any]:
@@ -278,8 +279,8 @@ def _cross_domain_bridge_types_from_panel(panel: List[Mapping[str, Any]]) -> Lis
     out: List[str] = []
     for row in panel:
         if (
-            _domain_total(row, "central_brain") > BRIDGE_DOMAIN_THRESHOLD
-            and _domain_total(row, "vnc_or_motor") > BRIDGE_DOMAIN_THRESHOLD
+            _domain_total(row, "central_brain") >= BRIDGE_DOMAIN_THRESHOLD
+            and _domain_total(row, "vnc_or_motor") >= BRIDGE_DOMAIN_THRESHOLD
         ):
             out.append(row["name"])
     return out

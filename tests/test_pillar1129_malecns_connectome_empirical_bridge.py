@@ -247,6 +247,12 @@ class TestBenchmarkPayload:
         for key in ['name', 'role', 'synapse_totals', 'reciprocity', 'concentration', 'macro_domain', 'top_partners', 'top_rois']:
             assert key in row
 
+    def test_benchmark_panel_returns_deep_copy(self):
+        rows = benchmark_panel()
+        original = benchmark_panel()
+        rows[0]['macro_domain']['dominant_domain'] = 'mutated'
+        assert original[0]['macro_domain']['dominant_domain'] != 'mutated'
+
     def test_aggregate_observables(self):
         agg = aggregate_observables()
         assert agg['highest_input_type'] == 'LPLC2'
@@ -261,6 +267,14 @@ class TestBenchmarkPayload:
 class TestDerivedRankings:
     def test_cross_domain_bridge_types(self):
         assert cross_domain_bridge_types() == ['AN01B004', 'DNa02']
+
+    def test_cross_domain_bridge_types_includes_threshold_boundary(self, tmp_path):
+        payload = load_benchmark_payload()
+        payload['benchmark_panel'][0]['macro_domain']['domain_synapse_totals']['central_brain'] = BRIDGE_DOMAIN_THRESHOLD
+        payload['benchmark_panel'][0]['macro_domain']['domain_synapse_totals']['vnc_or_motor'] = BRIDGE_DOMAIN_THRESHOLD
+        path = tmp_path / 'benchmark_panel.json'
+        path.write_text(json.dumps(payload), encoding='utf-8')
+        assert payload['benchmark_panel'][0]['name'] in cross_domain_bridge_types(path)
 
     def test_reciprocity_ranking(self):
         ranking = reciprocity_ranking()
