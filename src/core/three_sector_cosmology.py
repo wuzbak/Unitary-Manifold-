@@ -27,16 +27,17 @@ AL4_BASELINE_LAMBDA_LOG10_GAP: float = 55.0
 # Three-sector UV/bulk/IR coefficients (assessed, not fitted to data)
 SECTOR_WEIGHTS = (5.0 / 18.0, 6.0 / 18.0, 7.0 / 18.0)
 SECTOR_SUM = sum(SECTOR_WEIGHTS)
+SECTOR_SPREAD = max(SECTOR_WEIGHTS) - min(SECTOR_WEIGHTS)
+SECTOR_L2 = sum(w * w for w in SECTOR_WEIGHTS)
 
 
 def three_sector_modifiers() -> Dict[str, float]:
     """Return architecture modifiers implied by simple three-sector weighting."""
-    # The model deliberately uses conservative percent-level effects unless
-    # independently derived by deeper theory.
-    m_as = 1.0 - 0.04 * SECTOR_SUM
-    m_r = 1.0 - 0.03 * SECTOR_SUM
-    m_wa = 1.0 - 0.05 * SECTOR_SUM
-    m_lambda = 1.0 - 0.02 * SECTOR_SUM
+    # Conservative effects driven by weight asymmetry and concentration.
+    m_as = 1.0 - 0.12 * SECTOR_SPREAD - 0.03 * SECTOR_L2
+    m_r = 1.0 - 0.10 * SECTOR_SPREAD - 0.02 * SECTOR_L2
+    m_wa = 1.0 - 0.08 * SECTOR_SPREAD - 0.04 * SECTOR_L2
+    m_lambda = 1.0 - 0.06 * SECTOR_SPREAD - 0.01 * SECTOR_L2
     return {
         "modifier_as": m_as,
         "modifier_r": m_r,

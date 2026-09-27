@@ -28,6 +28,7 @@ def test_hierarchy_ratios_finite():
     assert ratios["mode2_over_mode1"] > 1.0
     assert ratios["mode3_over_mode2"] > 1.0
     assert ratios["mode3_over_mode1"] > 1.0
+    assert ratios["mode3_over_mode1"] >= ratios["mode2_over_mode1"]
 
 
 def test_overlap_self_exceeds_cross_overlap():
@@ -35,6 +36,7 @@ def test_overlap_self_exceeds_cross_overlap():
     self_overlap = zero_mode_overlap(loc["uv"], loc["uv"])
     cross_overlap = zero_mode_overlap(loc["uv"], loc["ir"])
     assert self_overlap > cross_overlap
+    assert 0.9 <= self_overlap <= 1.01
 
 
 def test_overlap_converges_with_grid_refinement():
