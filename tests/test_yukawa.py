@@ -21,6 +21,9 @@ def test_yukawa_matrix_is_3x3_positive():
     assert all(len(row) == 3 for row in mat)
     assert all(cell > 0.0 for row in mat for cell in row)
     assert mat[0][1] != mat[0][0]
+    for i in range(3):
+        for j in range(3):
+            assert mat[i][j] == mat[j][i]
 
 
 def test_hierarchy_ratios_finite():

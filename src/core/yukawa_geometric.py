@@ -39,28 +39,22 @@ def _gaussian(y: float, loc: Localization) -> float:
     return math.exp(-0.5 * z * z)
 
 
-def _gaussian_norm(loc: Localization, n_points: int = 4001) -> float:
-    step = 1.0 / (n_points - 1)
-    acc = 0.5 * (_gaussian(0.0, loc) ** 2 + _gaussian(1.0, loc) ** 2)
-    for i in range(1, n_points - 1):
-        y = i * step
-        acc += _gaussian(y, loc) ** 2
-    return math.sqrt(max(acc * step, 1e-16))
+def _sampled_normalized_profile(loc: Localization, n_points: int = 4001) -> Tuple[np.ndarray, np.ndarray]:
+    y = np.linspace(0.0, 1.0, n_points)
+    width = max(loc.width, 1e-12)
+    z = (y - loc.center) / width
+    psi = np.exp(-0.5 * z * z)
+    norm = float(np.sqrt(max(np.trapezoid(psi * psi, y), 1e-16)))
+    return y, psi / norm
 
 
 def zero_mode_overlap(loc_l: Localization, loc_r: Localization, n_points: int = 4001) -> float:
     """Numerically integrate overlap ∫ ψ_L ψ_R dy on [0,1]."""
-    norm_l = _gaussian_norm(loc_l, n_points=n_points)
-    norm_r = _gaussian_norm(loc_r, n_points=n_points)
-    step = 1.0 / (n_points - 1)
-    acc = 0.5 * (
-        (_gaussian(0.0, loc_l) / norm_l) * (_gaussian(0.0, loc_r) / norm_r)
-        + (_gaussian(1.0, loc_l) / norm_l) * (_gaussian(1.0, loc_r) / norm_r)
-    )
-    for i in range(1, n_points - 1):
-        y = i * step
-        acc += (_gaussian(y, loc_l) / norm_l) * (_gaussian(y, loc_r) / norm_r)
-    return acc * step
+    y_l, psi_l = _sampled_normalized_profile(loc_l, n_points=n_points)
+    y_r, psi_r = _sampled_normalized_profile(loc_r, n_points=n_points)
+    if not np.allclose(y_l, y_r):
+        raise ValueError("profile grids must match for overlap integration")
+    return float(np.trapezoid(psi_l * psi_r, y_l))
 
 
 def yukawa_matrix_three_sector() -> Dict[str, object]:
