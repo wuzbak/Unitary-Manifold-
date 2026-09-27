@@ -355,19 +355,23 @@ def _benchmark_panel_findings_from_parts(
     input_domain = _domain_label(input_row)
     output_domain = _domain_label(output_row)
     if agg["highest_input_type"] == agg["highest_output_type"]:
-        throughput_finding = (
-            f"{agg['highest_input_type']} carries the largest benchmark input and output mass "
-            f"({input_row['synapse_totals']['input']} input synapses; "
-            f"{output_row['synapse_totals']['output']} output synapses), "
-            f"supporting a {input_domain}-dominant high-throughput lane in this panel."
+        throughput_finding = "".join(
+            [
+                f"{agg['highest_input_type']} carries the largest benchmark input and output mass ",
+                f"({input_row['synapse_totals']['input']} input synapses; ",
+                f"{output_row['synapse_totals']['output']} output synapses), ",
+                f"supporting a {input_domain}-dominant high-throughput lane in this panel.",
+            ]
         )
     else:
-        throughput_finding = (
-            f"{agg['highest_input_type']} carries the largest benchmark input mass "
-            f"({input_row['synapse_totals']['input']} input synapses), while "
-            f"{agg['highest_output_type']} carries the largest benchmark output mass "
-            f"({output_row['synapse_totals']['output']} output synapses), "
-            f"supporting a split {input_domain}-input / {output_domain}-output high-throughput lane in this panel."
+        throughput_finding = "".join(
+            [
+                f"{agg['highest_input_type']} carries the largest benchmark input mass ",
+                f"({input_row['synapse_totals']['input']} input synapses), while ",
+                f"{agg['highest_output_type']} carries the largest benchmark output mass ",
+                f"({output_row['synapse_totals']['output']} output synapses), ",
+                f"supporting a split {input_domain}-input / {output_domain}-output high-throughput lane in this panel.",
+            ]
         )
     bridge_count = len(bridges)
     if bridge_count == 0:
