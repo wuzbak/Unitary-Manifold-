@@ -35,10 +35,16 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-22 (v38.0 Sprint CV COMPLETE — Pillars 1122-1128; Lean4 4080→4080; next slot 1129)*
+*Last updated: 2026-09-27 (v38.1 Sprint CW COMPLETE — Pillar 1129; Lean4 4080→4080; next slot 1130)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
+
+## SPRINT CW MALECNS EMPIRICAL BRIDGE
+
+Sprint CW adds one adjacent, public-data neuroscience lane rather than a new physics-closure attempt. Pillar 1129 imports a compact MaleCNS v1.0 benchmark panel from real public neuron-type pages and computes deterministic connectome observables — partner counts, synapse mass, reciprocity, concentration, neurotransmitter diversity, ROI balance, and cross-domain bridge signatures — that can be compared against the repository's existing brain/coupling language without promoting the claim class. The sprint is explicit about scope: adjacent-track empirical bridge only, no new hardgate physics closure, no consciousness ontology proof, and no first-principles neural derivation.
+
+Focused verification for Sprint CW: Pillar 1129 suite **24 passed · 0 failed**; related neuroscience regressions **369 passed · 0 failed**. Latest verified full regression in current branch history remains `REGRESSION_PLACEHOLDER_CV`.
 
 ## SPRINT CV THREE-LANE EARNED-VERSION PROTOCOL
 
@@ -61,20 +67,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v38.0 — Sprint CV)
+## CURRENT AUDITABLE STATE (v38.1 — Sprint CW)
 
 | Field | Value |
 |-------|-------|
-| Version | **v38.0** |
-| Sprint | **Sprint CV** |
-| Pillars | **1122-1128** |
-| Next pillar slot | **1129** |
+| Version | **v38.1** |
+| Sprint | **Sprint CW** |
+| Pillars | **1129-1129** |
+| Next pillar slot | **1130** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **REGRESSION_PLACEHOLDER_CV** |
-| Sprint theme | **Three-lane earned-version sprint: physics closure attempt, PsiCat SPC Phase 2 promotion, monorepo health tightening** |
-| Primary target | **Earn v38.0 as a certificate: Lane 1 binary physics outcome, Lane 2 receipt-backed PsiCat verdict, Lane 3 clean truth-surface sync and zero-fail regression** |
-| Binary outcome | **Version earned: Lane 1 honest blocker certificate + Lane 2 receipt-backed clear/promoted verdict + Lane 3 verified health and regression baseline, documented together in one coherent sprint packet** |
+| Sprint theme | **Adjacent public-data MaleCNS connectome bridge: empirical benchmark import, deterministic summaries, explicit claim boundaries** |
+| Primary target | **Turn the public MaleCNS release into a real in-repo connectome benchmark rather than a narrative-only neuroscience reference** |
+| Binary outcome | **P1129 committed with public provenance, deterministic observables, passing tests, and no inflation of the claim class** |
 
+Historical continuity: v38.1 Sprint CW (Pillar 1129; next slot 1130) is the canonical adjacent empirical MaleCNS bridge layer directly above Sprint CV.
 Historical continuity: v38.0 Sprint CV (Pillars 1122-1128; next slot 1129) is the canonical three-lane earned-version packet directly above Sprint CU.
 Historical continuity: v37.7 Sprint CU (Pillar 1121; next slot 1122) is the canonical action-to-evolution full-focus routing packet directly above Sprint CT.
 Historical continuity: v37.6 Sprint CT (Pillar 1120; next slot 1121) is the canonical PsiCat training-benchmarking-promotion packet directly above Sprint CS.

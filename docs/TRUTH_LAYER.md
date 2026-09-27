@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v37.7
+# Unitary Manifold v38.1
 
 ## Foundation reassessment
 
@@ -131,6 +131,12 @@ The operational conclusion is likewise narrow. PsiCat is now beyond concept/demo
 ### Sprint CV three-lane earned-version packet
 
 Sprint CV is a parallel three-lane sprint (Lane 1 / Lane 2 / Lane 3) whose purpose is to earn v38.0 as a certificate, not to chase a version number for its own sake. P1122 locks the charter. P1123 (Lane 1) re-attempts action-to-evolution closure and honestly reports `PRECISE_BLOCKER_CERTIFICATE_AND_STOP` — the Euler-Lagrange match to the implemented flow is not yet verified, so no new hardgate physics closure is claimed; the six architecture-limit lanes and three external-wait lanes are swept and carried forward unchanged. P1124 (Lane 2) executes the real PsiCat `/api/psicat/spc-phase2-applied-pressure` battery via the Product 20 bridge and earns a receipt-backed `PHASE2_CLEAR_ADVANCE_TO_PHASE3` verdict (3 clear / 0 hold / 0 demote lanes), promotion decision `PROMOTED_PHASE2_APPLIED_PRESSURE`; `performance_gate_history.json` is refreshed (capped at 180 entries). P1125 (Lane 3) audits monorepo health and resolves two genuine findings: the `tests/` directory's large-directory-limit violation (fixed by sharding 25 older pillar test files into `tests/pillar_0829_0858/`), and `docs/mas_tracker.yml`'s YAML-parse failure — the file mixed a top-level mapping with a top-level `- sprint_id:` sequence starting at Sprint v10.33, and its legacy archive silently trailed off at `next_pillar_slot: 942` (Sprint v30.0) with no marker distinguishing it from the live top-of-file status. That is the exact, now-fixed source of the reported "179 pillars behind" staleness confusion: the legacy pre-v31 archive is wrapped as one clearly-labeled, non-canonical raw-text key (`legacy_pre_v31_mixed_format_archive_raw_text`) with zero content loss, and a `canonical_status_notice` at the top of the file points to the true current live entry. 60 known non-gating broken outreach links are honestly tracked as not fixed this sprint. P1126 aggregates the three lane reports into one documentation evidence packet. P1127 certifies lockstep truth-surface sync across all nine canonical documents. P1128 is the master integration certificate that fail-closes sprint validity and computes the version-earning gate: v38.0 is earned because Lane 1 reported an honest binary outcome, Lane 2 reported a receipt-backed verdict, and Lane 3 verified clean truth-surface sync plus a zero-fail regression baseline.
+
+### Sprint CW MaleCNS empirical bridge
+
+Sprint CW adds one adjacent empirical connectome lane rather than reopening the hardgate physics frontier. Pillar 1129 imports a compact, provenance-bearing benchmark panel from the public MaleCNS v1.0 fruit-fly CNS release and parses real public neuron-type pages into deterministic summaries: partner counts, synapse mass, reciprocity, concentration, neurotransmitter diversity, ROI balance, and cross-domain bridge signatures.
+
+This is real data-bearing work, but its epistemic class is intentionally narrow. The pillar does not claim that a fly connectome proves Unitary Manifold physics, that consciousness ontology has been solved, or that connectome structure alone yields a first-principles derivation of cognition. What it does claim is stricter and testable: the repository now has a public whole-CNS benchmark slice that can pressure-test its neuroscience language against real wiring summaries. In the committed panel, `LPLC2` carries the largest imported input/output mass, `LC4` is the most reciprocal imported type, `EPG` has the highest downstream neurotransmitter entropy, and `AN01B004` plus `DNa02` form the clearest brain↔VNC bridge pair.
 
 ### Sprint CR master implementation packet
 
