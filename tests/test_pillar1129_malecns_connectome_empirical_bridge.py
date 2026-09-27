@@ -120,6 +120,14 @@ class TestFixtureParsers:
         assert len(parsed['downstream']) == 692
         assert len(parsed['roi']) == 8
 
+    def test_parse_public_page_missing_table_raises(self):
+        html = '\n'.join([
+            (FIXTURE_DIR / 'lplc2_upstream_table.html').read_text(encoding='utf-8'),
+            (FIXTURE_DIR / 'lplc2_roi_table.html').read_text(encoding='utf-8'),
+        ])
+        with pytest.raises(ValueError, match='downstream-table'):
+            parse_public_type_page_html(html)
+
 
 class TestBenchmarkPayload:
     def test_benchmark_payload_exists(self):
