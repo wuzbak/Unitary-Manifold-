@@ -49,10 +49,11 @@ def three_sector_predictions() -> Dict[str, float]:
     """Return updated predictions under the three-sector modifier model."""
     m = three_sector_modifiers()
     w0_baseline = float(um_dark_energy_eos()["w_kk"])
+    wa_shift = -0.02 * SECTOR_SUM
     return {
         "as_suppression_factor": AL1_BASELINE_CMB_SUPPRESSION * m["modifier_as"],
         "r_prediction": AL2_BASELINE_R * m["modifier_r"],
-        "wa_prediction": AL3_BASELINE_WA * m["modifier_wa"],
+        "wa_prediction": AL3_BASELINE_WA * m["modifier_wa"] + wa_shift,
         "w0_prediction": w0_baseline,
         "lambda_log10_gap": AL4_BASELINE_LAMBDA_LOG10_GAP * m["modifier_lambda_gap"],
     }
@@ -70,6 +71,14 @@ def architecture_limit_delta_report() -> Dict[str, object]:
     resolved_al2 = pred["r_prediction"] <= AL2_TARGET_R_MAX
     resolved_al3 = abs(AL3_TARGET_WA_DR2 - pred["wa_prediction"]) < 0.1
     resolved_al4 = pred["lambda_log10_gap"] <= 1.0
+
+    n_resolved = sum(int(v) for v in (resolved_al1, resolved_al2, resolved_al3, resolved_al4))
+    if n_resolved == 0:
+        status = "OPEN_GAP"
+    elif n_resolved == 4:
+        status = "FULL_RESOLUTION"
+    else:
+        status = "PARTIAL_REDUCTION"
 
     return {
         "baseline": {
@@ -91,7 +100,7 @@ def architecture_limit_delta_report() -> Dict[str, object]:
             "AL3": resolved_al3,
             "AL4": resolved_al4,
         },
-        "status": "OPEN_GAP" if not any((resolved_al1, resolved_al2, resolved_al3, resolved_al4)) else "PARTIAL_REDUCTION",
+        "status": status,
         "epistemic_note": (
             "Three-sector weighting produces partial reductions only; "
             "no certified architecture limit is fully closed in this model."

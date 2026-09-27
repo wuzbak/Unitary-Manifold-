@@ -92,7 +92,7 @@ def yukawa_geometric_report() -> Dict[str, object]:
     tex = yukawa_matrix_three_sector()
     ratios = hierarchy_ratios_from_texture()
     return {
-        "inputs": {"n_w": N_W, "n_parent": N_PARENT, "n_shadow": N_SHADOW, "pi_kR": PI_KR},
+        "inputs": {"n_w": N_W, "n_parent": N_PARENT, "n_shadow": N_SHADOW, "PI_KR": PI_KR},
         "texture": tex,
         "hierarchy_ratios": ratios,
         "status": "FITTED",
