@@ -120,6 +120,32 @@ class TestFixtureParsers:
         assert len(parsed['downstream']) == 692
         assert len(parsed['roi']) == 8
 
+    def test_parse_public_page_with_quoted_attributes(self):
+        upstream = (
+            (FIXTURE_DIR / 'lplc2_upstream_table.html')
+            .read_text(encoding='utf-8')
+            .replace('id=upstream-table', 'id="upstream-table"', 1)
+            .replace('href=LPLC2.html', "href='LPLC2.html'", 1)
+            .replace('title=acetylcholine', 'title="acetylcholine"', 1)
+        )
+        downstream = (
+            (FIXTURE_DIR / 'lplc2_downstream_table.html')
+            .read_text(encoding='utf-8')
+            .replace('id=downstream-table', "id='downstream-table'", 1)
+        )
+        roi = (
+            (FIXTURE_DIR / 'lplc2_roi_table.html')
+            .read_text(encoding='utf-8')
+            .replace('id=roi-table', 'id="roi-table"', 1)
+            .replace('data-roi-name=LOP', "data-roi-name='LOP'", 1)
+            .replace('title="Lobula Plate"', "title='Lobula Plate'", 1)
+        )
+        parsed = parse_public_type_page_html('\n'.join([upstream, downstream, roi]))
+        assert parsed['upstream'][0]['href'] == 'LPLC2.html'
+        assert parsed['upstream'][0]['neurotransmitter'] == 'acetylcholine'
+        assert parsed['roi'][0]['roi'] == 'LOP'
+        assert parsed['roi'][0]['label'] == 'Lobula Plate'
+
     def test_parse_public_page_missing_table_raises(self):
         html = '\n'.join([
             (FIXTURE_DIR / 'lplc2_upstream_table.html').read_text(encoding='utf-8'),

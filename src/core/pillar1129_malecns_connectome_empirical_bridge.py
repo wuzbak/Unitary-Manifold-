@@ -80,11 +80,23 @@ def _clean_text(text: str) -> str:
     return " ".join(text.split())
 
 
-def _extract_table(html: str, table_id: str) -> str:
-    match = re.search(rf"<table[^>]*id={re.escape(table_id)}[^>]*>(.*?)</table>", html, re.S | re.I)
+def _attribute_value(fragment: str, name: str) -> str | None:
+    match = re.search(
+        rf"""\b{re.escape(name)}\s*=\s*(?:"([^"]*)"|'([^']*)'|([^>\s]+))""",
+        fragment,
+        re.I,
+    )
     if not match:
-        raise ValueError(f"table {table_id!r} not found")
-    return match.group(0)
+        return None
+    return next(group for group in match.groups() if group is not None)
+
+
+def _extract_table(html: str, table_id: str) -> str:
+    for match in re.finditer(r"<table\b[^>]*>.*?</table>", html, re.S | re.I):
+        opening_tag = match.group(0).split(">", 1)[0]
+        if _attribute_value(opening_tag, "id") == table_id:
+            return match.group(0)
+    raise ValueError(f"table {table_id!r} not found")
 
 
 def _iter_table_rows(table_html: str) -> Iterable[List[tuple[str, str]]]:
@@ -106,20 +118,21 @@ def parse_partner_table_html(table_html: str) -> List[Dict[str, Any]]:
     """Parse a MaleCNS upstream/downstream partner table into row dictionaries."""
     rows: List[Dict[str, Any]] = []
     for cells in _iter_table_rows(table_html):
-        partner_match = re.search(r"<a [^>]*href=([^ >]+)>([^<]+)</a>", cells[0][1])
-        partner = partner_match.group(2) if partner_match else _clean_text(cells[0][1])
-        href = partner_match.group(1) if partner_match else None
-        nt_match = re.search(r"title=([A-Za-z]+)", cells[2][1])
+        partner_match = re.search(r"<a\b[^>]*>([^<]+)</a>", cells[0][1], re.I)
+        partner = partner_match.group(1) if partner_match else _clean_text(cells[0][1])
+        href = _attribute_value(partner_match.group(0), "href") if partner_match else None
+        nt_value = _attribute_value(cells[2][1], "title")
         synapse_match = re.search(r"∑ connections: ([0-9,]+)", cells[3][0])
-        percent_match = re.search(r"title=([0-9.]+)%", cells[4][0])
+        percent_title = _attribute_value(cells[4][0], "title")
+        neurotransmitter = nt_value.lower() if nt_value else _clean_text(cells[2][1]).lower()
         rows.append(
             {
                 "partner": partner,
                 "href": href,
                 "cell_count": int(_numeric_cell_value(cells[1][1])),
-                "neurotransmitter": nt_match.group(1) if nt_match else _clean_text(cells[2][1]),
+                "neurotransmitter": neurotransmitter,
                 "synapses": int(synapse_match.group(1).replace(",", "")) if synapse_match else int(round(_numeric_cell_value(cells[3][1]))),
-                "percentage": float(percent_match.group(1)) if percent_match else _numeric_cell_value(cells[4][1]),
+                "percentage": float(percent_title.rstrip("%")) if percent_title else _numeric_cell_value(cells[4][1]),
             }
         )
     return rows
@@ -130,19 +143,20 @@ def parse_roi_table_html(table_html: str) -> List[Dict[str, Any]]:
     rows: List[Dict[str, Any]] = []
     for cells in _iter_table_rows(table_html):
         attrs0, roi_html = cells[0]
-        roi_match = re.search(r"data-roi-name=([^ >]+)", attrs0)
-        title_match = re.search(r'title="([^"]+)"', roi_html)
-        input_pct_match = re.search(r"title=([0-9.]+)%", cells[2][0])
-        output_pct_match = re.search(r"title=([0-9.]+)%", cells[5][0])
+        roi_value = _attribute_value(attrs0, "data-roi-name")
+        title_value = _attribute_value(roi_html, "title")
+        input_pct_title = _attribute_value(cells[2][0], "title")
+        output_pct_title = _attribute_value(cells[5][0], "title")
+        label = title_value if title_value else _clean_text(roi_html)
         rows.append(
             {
-                "roi": roi_match.group(1) if roi_match else _clean_text(roi_html),
-                "label": title_match.group(1) if title_match else _clean_text(roi_html),
+                "roi": roi_value if roi_value else _clean_text(roi_html),
+                "label": label,
                 "input_synapses": int(_numeric_cell_value(cells[1][1])),
-                "input_percentage": float(input_pct_match.group(1)) if input_pct_match else _numeric_cell_value(cells[2][1]),
+                "input_percentage": float(input_pct_title.rstrip("%")) if input_pct_title else _numeric_cell_value(cells[2][1]),
                 "log_ratio": float(_clean_text(cells[3][1])),
                 "output_synapses": int(_numeric_cell_value(cells[4][1])),
-                "output_percentage": float(output_pct_match.group(1)) if output_pct_match else _numeric_cell_value(cells[5][1]),
+                "output_percentage": float(output_pct_title.rstrip("%")) if output_pct_title else _numeric_cell_value(cells[5][1]),
             }
         )
     return rows
@@ -235,17 +249,27 @@ def benchmark_panel_findings(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[
     agg = aggregate_observables(path)
     by_name = {row["name"]: row for row in panel}
     bridges = cross_domain_bridge_types(path)
+    if agg["highest_input_type"] == agg["highest_output_type"]:
+        throughput_finding = (
+            f"{agg['highest_input_type']} carries the largest benchmark input and output mass "
+            f"({by_name[agg['highest_input_type']]['synapse_totals']['input']} input synapses; "
+            f"{by_name[agg['highest_output_type']]['synapse_totals']['output']} output synapses), "
+            "supporting an optic-lobe-heavy high-throughput visual integration lane in this panel."
+        )
+    else:
+        throughput_finding = (
+            f"{agg['highest_input_type']} carries the largest benchmark input mass "
+            f"({by_name[agg['highest_input_type']]['synapse_totals']['input']} input synapses), while "
+            f"{agg['highest_output_type']} carries the largest benchmark output mass "
+            f"({by_name[agg['highest_output_type']]['synapse_totals']['output']} output synapses), "
+            "supporting an optic-lobe-heavy high-throughput visual integration lane in this panel."
+        )
     return [
         (
             f"The curated MaleCNS benchmark panel preserves {len(panel)} real public neuron-type pages from "
             f"{MALECNS_DATASET} and spans optic, central-complex, ascending, descending, motor, and neuromodulatory roles."
         ),
-        (
-            f"{agg['highest_input_type']} carries the largest benchmark input and output mass "
-            f"({by_name[agg['highest_input_type']]['synapse_totals']['input']} input synapses; "
-            f"{by_name[agg['highest_output_type']]['synapse_totals']['output']} output synapses), "
-            "supporting an optic-lobe-heavy high-throughput visual integration lane in this panel."
-        ),
+        throughput_finding,
         (
             f"Reciprocity is substantial rather than negligible: mean partner-set Jaccard overlap is "
             f"{agg['mean_reciprocity_jaccard']:.3f}, and {agg['most_reciprocal_type']} is the most reciprocal benchmark type."
