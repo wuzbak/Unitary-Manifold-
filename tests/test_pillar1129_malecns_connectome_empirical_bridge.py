@@ -203,7 +203,7 @@ class TestFixtureParsers:
 
 class TestBenchmarkPayload:
     def test_benchmark_payload_exists(self):
-        assert DEFAULT_BENCHMARK_PATH.exists()
+        assert load_benchmark_payload(DEFAULT_BENCHMARK_PATH)['manifest']['dataset'] == 'male-cns:v1.0'
 
     def test_load_payload(self):
         payload = load_benchmark_payload()
@@ -277,6 +277,16 @@ class TestReport:
         assert 'mean partner-set Jaccard overlap is 0.440' in findings[2]
         assert 'AN01B004, DNa02' in findings[3]
         assert findings[4].startswith('EPG has the highest downstream neurotransmitter entropy')
+
+    def test_findings_zero_bridge_case(self, tmp_path):
+        payload = load_benchmark_payload()
+        for row in payload['benchmark_panel']:
+            row['macro_domain']['domain_synapse_totals']['vnc_or_motor'] = 0
+            row['macro_domain']['domain_synapse_totals']['central_brain'] = 0
+        path = tmp_path / 'benchmark_panel.json'
+        path.write_text(json.dumps(payload), encoding='utf-8')
+        findings = benchmark_panel_findings(path)
+        assert findings[3].startswith('No benchmark types cross the current brain↔VNC bridge threshold')
 
     def test_report_shape(self):
         report = pillar1129_report()

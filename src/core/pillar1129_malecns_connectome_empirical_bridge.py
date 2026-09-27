@@ -39,6 +39,7 @@ __provenance__ = {
 import html
 import json
 import re
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping
 
@@ -59,16 +60,23 @@ PRIMARY_REGIONS: tuple[str, ...] = (
     "ventral nerve cord",
 )
 
+DEFAULT_BENCHMARK_PATH = Path("data") / "malecns" / "benchmark_panel.json"
+
+
+@lru_cache(maxsize=1)
 def _repository_root() -> Path:
     current = Path(__file__).resolve()
     for candidate in current.parents:
-        if (candidate / "data" / "malecns" / "benchmark_panel.json").exists():
+        if (candidate / DEFAULT_BENCHMARK_PATH).exists():
             return candidate
     raise FileNotFoundError("Could not locate repository root for MaleCNS benchmark payload")
 
 
-ROOT = _repository_root()
-DEFAULT_BENCHMARK_PATH = ROOT / "data" / "malecns" / "benchmark_panel.json"
+def _resolve_benchmark_path(path: Path | str) -> Path:
+    payload_path = Path(path)
+    if payload_path.is_absolute() or payload_path.exists():
+        return payload_path
+    return _repository_root() / payload_path
 
 PUBLIC_INTERFACES: Dict[str, str] = {
     "neuprint_dataset": MALECNS_DATASET,
@@ -201,7 +209,7 @@ def parse_public_type_page_html(html: str) -> Dict[str, Any]:
 
 
 def load_benchmark_payload(path: Path | str = DEFAULT_BENCHMARK_PATH) -> Dict[str, Any]:
-    payload_path = Path(path)
+    payload_path = _resolve_benchmark_path(path)
     return json.loads(payload_path.read_text(encoding="utf-8"))
 
 
@@ -291,10 +299,20 @@ def benchmark_panel_findings(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[
             "supporting an optic-lobe-heavy high-throughput visual integration lane in this panel."
         )
     bridge_count = len(bridges)
-    bridge_noun = "type" if bridge_count == 1 else "types"
-    bridge_verb = "carries" if bridge_count == 1 else "carry"
-    bridge_pronoun = "it" if bridge_count == 1 else "them"
-    bridge_names = ", ".join(bridges)
+    if bridge_count == 0:
+        bridge_finding = (
+            "No benchmark types cross the current brain↔VNC bridge threshold in this payload, "
+            "so the imported panel behaves as a set of compartment-specialized surfaces under this criterion."
+        )
+    else:
+        bridge_noun = "type" if bridge_count == 1 else "types"
+        bridge_verb = "carries" if bridge_count == 1 else "carry"
+        bridge_pronoun = "it" if bridge_count == 1 else "them"
+        bridge_names = ", ".join(bridges)
+        bridge_finding = (
+            f"Cross-domain bridge load is explicit in {bridge_names}: {bridge_count} benchmark {bridge_noun} {bridge_verb} nonzero central-brain and VNC/motor ROI totals, "
+            f"making {bridge_pronoun} useful reduced surfaces for brain↔nerve-cord coupling analysis."
+        )
     return [
         (
             f"The curated MaleCNS benchmark panel preserves {len(panel)} real public neuron-type pages from "
@@ -305,10 +323,7 @@ def benchmark_panel_findings(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[
             f"Reciprocity is substantial rather than negligible: mean partner-set Jaccard overlap is "
             f"{agg['mean_reciprocity_jaccard']:.3f}, and {agg['most_reciprocal_type']} is the most reciprocal benchmark type."
         ),
-        (
-            f"Cross-domain bridge load is explicit in {bridge_names}: {bridge_count} benchmark {bridge_noun} {bridge_verb} nonzero central-brain and VNC/motor ROI totals, "
-            f"making {bridge_pronoun} useful reduced surfaces for brain↔nerve-cord coupling analysis."
-        ),
+        bridge_finding,
         (
             f"{agg['most_diffuse_output_type']} has the highest downstream neurotransmitter entropy in the panel, "
             "which marks it as the broadest mixed-output benchmark among the imported types rather than a narrowly single-channel relay."
