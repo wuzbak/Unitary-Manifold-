@@ -320,6 +320,28 @@ These are not new physical claims but expansions of the verification surface.
 
 ---
 
+## Three-sector gap program update (2026-09-27)
+
+| Gap | Current label | Evidence / implementation | Honest status |
+|-----|---------------|---------------------------|---------------|
+| GAP-1: `r_c = 2n = 12` | `RESOLVED_BY_DISTINCTION` | `src/core/anomaly_inflow_3sector.py` now classifies three non-competing quantities: particle count `18`, topological anomaly count `12`, tension sum `74`. | `r_c=12` is now tracked as the topological anomaly count (fixed-point quantity), distinct from particle-content count. |
+| GAP-2: `φ_min_bare = 3n = 18` | `FITTED` | `src/core/brane_tension_stabilization.py` keeps `φ_min_bare=18` as content-count closure and adds a GW test with tension ratio `25/49`. | GW proxy with canonical ratio does **not** force `18`; this relation remains FITTED pending a derived stabilization mechanism. |
+| GAP-3: Yukawa top-down derivation | `PARTIALLY_DERIVED` | `src/core/yukawa_geometric.py` derives three-sector zero-mode overlap textures and hierarchy ratios. | Texture geometry is derived; full mass-spectrum closure still needs non-fitted electroweak/RG normalization. |
+| GAP-4: ADM time synchronisation proof | `SUBSTANTIALLY_CLOSED` | Canonical closure remains in `src/core/pillar212_adm_decomposition.py`, `src/core/adm_quantitative_closure.py`, and `src/core/wdw_full_5d.py`; supplemental Lean stub added at `lean4/UnitaryManifold/ADM_time_sync.lean`. | Kinematic/linearized closure is established; non-perturbative UV quantum-gravity completion remains open. |
+
+### Three-sector architecture-limit verdict (AL-1 … AL-4)
+
+Evaluated in `src/core/three_sector_cosmology.py` and `tests/test_three_sector_predictions.py`.
+
+- AL-1 (CMB peak suppression): **core three-sector: reduced not closed**; **separate Z₂-odd route: FITTED match** (`25/74≈0.3378` vs `0.336`)
+- AL-2 (`r` tension): **core three-sector: reduced not closed**; **separate Z₂-odd route: near-bound FITTED** (`r×25/49≈0.0161`)
+- AL-3 (`w_a` tension): **core three-sector: reduced not closed**; **separate Γ(t) route: mechanism derived / form fitted**
+- AL-4 (cosmological-constant hierarchy): **reduced but not closed**
+
+Overall labels: **OPEN_GAP** for core three-sector architecture; **PARTIAL_REDUCTION (FITTED extension)** for separate Z₂-odd route.
+
+---
+
 | Document | Purpose | Relationship to this file |
 |----------|---------|---------------------------|
 | [`FALLIBILITY.md`](../FALLIBILITY.md) | Failure modes, severity tiers, falsification conditions | Complementary: this file lists epistemic status; FALLIBILITY.md lists what breaks it and how badly |

@@ -1,0 +1,101 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+
+import pytest
+
+from src.core.yukawa_geometric import (
+    Localization,
+    default_sector_localization,
+    hierarchy_ratios_from_texture,
+    zero_mode_overlap,
+    yukawa_matrix_three_sector,
+    yukawa_geometric_report,
+)
+
+
+def test_localization_has_three_sectors():
+    loc = default_sector_localization()
+    assert set(loc.keys()) == {"uv", "bulk", "ir"}
+
+
+def test_yukawa_matrix_is_3x3_positive():
+    mat = yukawa_matrix_three_sector()["matrix"]
+    assert len(mat) == 3
+    assert all(len(row) == 3 for row in mat)
+    assert all(cell > 0.0 for row in mat for cell in row)
+    assert mat[0][1] != mat[0][0]
+    for i in range(3):
+        for j in range(3):
+            assert mat[i][j] == mat[j][i]
+
+
+def test_hierarchy_ratios_finite():
+    ratios = hierarchy_ratios_from_texture()
+    assert ratios["basis"] == "singular_values"
+    assert ratios["sv2_over_sv1"] > 1.0
+    assert ratios["sv3_over_sv2"] > 1.0
+    assert ratios["sv3_over_sv1"] > 1.0
+    assert ratios["sv3_over_sv1"] >= ratios["sv2_over_sv1"]
+
+
+def test_overlap_self_exceeds_cross_overlap():
+    loc = default_sector_localization()
+    self_overlap = zero_mode_overlap(loc["uv"], loc["uv"])
+    cross_overlap = zero_mode_overlap(loc["uv"], loc["ir"])
+    assert self_overlap > cross_overlap
+    assert 0.9 <= self_overlap <= 1.01
+
+
+def test_overlap_converges_with_grid_refinement():
+    loc = default_sector_localization()
+    coarse = zero_mode_overlap(loc["bulk"], loc["ir"], n_points=501)
+    fine = zero_mode_overlap(loc["bulk"], loc["ir"], n_points=4001)
+    assert abs(fine - coarse) < 1e-3
+
+
+def test_report_is_honestly_labeled():
+    report = yukawa_geometric_report()
+    assert report["texture"]["status"] == "DERIVED"
+    assert report["status"] == "FITTED"
+    ratios = report["hierarchy_ratios"]
+    assert "sv2_over_sv1" in ratios
+    assert "sv3_over_sv2" in ratios
+    assert "sv3_over_sv1" in ratios
+    assert ratios["sv2_over_sv1"] > 1.0
+    recomputed = hierarchy_ratios_from_texture(report["texture"]["matrix"])
+    assert ratios == recomputed
+
+
+def test_hierarchy_shape_validation():
+    with pytest.raises(ValueError):
+        hierarchy_ratios_from_texture([[1.0, 2.0], [3.0, 4.0]])
+
+
+def test_hierarchy_shape_validation_1d():
+    with pytest.raises(ValueError):
+        hierarchy_ratios_from_texture([1.0, 2.0, 3.0])
+
+
+def test_hierarchy_shape_validation_ragged():
+    with pytest.raises(ValueError):
+        hierarchy_ratios_from_texture([[1.0, 2.0, 3.0], [4.0]])
+
+
+def test_zero_mode_overlap_requires_more_than_one_point():
+    loc = default_sector_localization()
+    with pytest.raises(ValueError, match="n_points must be > 1"):
+        zero_mode_overlap(loc["uv"], loc["uv"], n_points=1)
+
+
+def test_zero_mode_overlap_requires_positive_width():
+    bad = Localization(center=0.2, width=0.0)
+    good = Localization(center=0.2, width=0.2)
+    with pytest.raises(ValueError, match="Localization width must be positive"):
+        zero_mode_overlap(bad, good)
+
+
+def test_hierarchy_rejects_nonfinite_entries():
+    with pytest.raises(ValueError, match="finite"):
+        hierarchy_ratios_from_texture(
+            [[1.0, 0.1, 0.2], [0.1, float("nan"), 0.3], [0.2, 0.3, 1.0]]
+        )

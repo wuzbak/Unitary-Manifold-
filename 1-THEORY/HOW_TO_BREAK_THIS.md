@@ -383,6 +383,99 @@ pytest tests/test_pillar397_unique_discriminant_register.py -v
 # → FAIL (test_p1_ns_uniquely_discriminating)
 ```
 
+---
+
+## 21. Break the three-quantity anomaly distinction
+
+**Handle:** In `src/core/anomaly_inflow_3sector.py`, edit
+`classify_anomaly_quantity()` so that particle count, topological anomaly count,
+and tension quadratic sum are merged into one value.
+
+**Expected result:** `tests/test_anomaly_inflow.py`
+fails at `test_three_quantity_classification`.
+
+**What this tests:** GAP-1 resolution depends on physically distinct observables:
+content count (18), topological count (12), and tension sum (74). If that
+distinction collapses, `RESOLVED_BY_DISTINCTION` fails.
+
+```bash
+pytest tests/test_anomaly_inflow.py -v
+# → FAIL (test_three_quantity_classification)
+```
+
+---
+
+## 22. Break the brane-tension integer closure identities
+
+**Handle:** In `src/core/brane_tension_stabilization.py`,
+change either `kr_c = 2*n_parent` or `phi_min_bare = 3*n_parent`.
+
+**Expected result:** `tests/test_brane_tension.py`
+fails at `test_kr_c_candidate_matches_2n` and/or `test_phi_min_candidate_matches_3n`.
+
+**What this tests:** The candidate integer identities for GAP-1 and GAP-2 are
+internally exact within the stated three-sector ansatz.
+
+```bash
+pytest tests/test_brane_tension.py -v
+# → FAIL
+```
+
+---
+
+## 23. Break the architecture-limit gate for Z₂-odd differential coupling
+
+**Handle:** In `src/core/z2_odd_power_suppression.py`, alter the suppression
+fractions away from `25/74`, `49/74`, or `25/49`, then keep status as FITTED.
+
+**Expected result:** `tests/test_z2_odd_power_suppression.py` fails at
+`test_scalar_tensor_suppression_fractions` and/or
+`test_al1_al2_falsification_checks`.
+
+**What this tests:** AL-1/AL-2 structural claims are numerically fragile and
+must remain tied to explicit geometric ratios with falsification thresholds.
+
+```bash
+pytest tests/test_z2_odd_power_suppression.py -v
+# → FAIL
+```
+
+---
+
+## 24. Break geometric Yukawa texture construction
+
+**Handle:** In `src/core/yukawa_geometric.py`,
+replace `zero_mode_overlap()` with a constant return value.
+
+**Expected result:** `tests/test_yukawa.py`
+fails at texture/hierarchy checks.
+
+**What this tests:** GAP-3 progress depends on explicit geometric overlap
+integrals, not hard-coded Yukawa textures.
+
+```bash
+pytest tests/test_yukawa.py -v
+# → FAIL
+```
+
+---
+
+## 25. Break Γ(t) dynamical dark-energy route
+
+**Handle:** In `src/core/b_mu_dynamical_dark_energy.py`, force all candidate
+`w_a` outputs to stay near `0` while keeping the report status as FITTED.
+
+**Expected result:** `tests/test_b_mu_dynamical_dark_energy.py` fails at
+`test_gamma_model_wa_selection`.
+
+**What this tests:** AL-3 route must honestly report whether any geometrically
+motivated Γ(a) candidate can enter the DESI DR2-preferred window.
+
+```bash
+pytest tests/test_b_mu_dynamical_dark_energy.py -v
+# → FAIL
+```
+
 A break that matters is one where:
 
 1. The test clearly corresponds to a physical claim (not just a numerical check).
