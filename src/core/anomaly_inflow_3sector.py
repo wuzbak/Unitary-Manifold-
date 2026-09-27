@@ -35,6 +35,12 @@ class ThreeSectorAnomalyInput:
     n_ir: int = N_SHADOW_IR
 
 
+def exact_int_if_integral(x: float, tol: float = 1e-12) -> int | None:
+    """Return exact integer only when x is integral within tolerance."""
+    nearest = round(x)
+    return int(nearest) if abs(x - nearest) < tol else None
+
+
 def eta_invariants_3sector(model: ThreeSectorAnomalyInput | None = None) -> Dict[str, float]:
     """Return boundary η-invariants at orbifold fixed points and bulk integer."""
     if model is None:
@@ -66,13 +72,9 @@ def required_weyl_fermions_3sector(model: ThreeSectorAnomalyInput | None = None)
     """Assess whether anomaly cancellation uniquely requires 18 Weyl fermions."""
     if model is None:
         model = ThreeSectorAnomalyInput()
-    def _exact_int_if_integral(x: float, tol: float = 1e-12) -> int | None:
-        nearest = round(x)
-        return int(nearest) if abs(x - nearest) < tol else None
-
     coeffs = anomaly_coefficients_3sector(model)
-    n_linear_exact = _exact_int_if_integral(coeffs["linear_sector_sum"])
-    n_eta_exact = _exact_int_if_integral(coeffs["eta_weighted_sum"])
+    n_linear_exact = exact_int_if_integral(coeffs["linear_sector_sum"])
+    n_eta_exact = exact_int_if_integral(coeffs["eta_weighted_sum"])
     unique = n_linear_exact == n_eta_exact == 18
     return {
         "required_by_linear_model": n_linear_exact,
