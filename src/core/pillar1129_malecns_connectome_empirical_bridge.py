@@ -149,11 +149,17 @@ def _numeric_cell_value(cell_html: str) -> float:
 
 
 def _parse_float_token(text: str) -> float:
-    cleaned = _clean_text(text).replace(",", "").replace("%", "").replace("−", "-")
+    cleaned = (
+        _clean_text(text)
+        .replace(",", "")
+        .replace("%", "")
+        .replace("−", "-")
+        .replace("∞", "inf")
+    )
     lowered = cleaned.lower()
-    if lowered in {"-∞", "-inf", "-infinity"}:
+    if lowered in {"-inf", "-infinity"}:
         return float("-inf")
-    if lowered in {"∞", "+∞", "inf", "+inf", "infinity", "+infinity"}:
+    if lowered in {"inf", "+inf", "infinity", "+infinity"}:
         return float("inf")
     if lowered == "nan":
         return float("nan")
