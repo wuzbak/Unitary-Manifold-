@@ -56,6 +56,7 @@ NEURON_COUNT_ESTIMATE: int = 166_700
 SYNAPSE_COUNT_ESTIMATE: int = 125_000_000
 TOTAL_NEURON_TYPES: int = 11_751
 BRIDGE_DOMAIN_THRESHOLD: int = 100
+PUBLIC_TYPE_PAGE_TABLE_IDS: tuple[str, str, str] = ("upstream-table", "downstream-table", "roi-table")
 PRIMARY_REGIONS: tuple[str, ...] = (
     "central brain",
     "optic lobes",
@@ -117,19 +118,22 @@ def _attribute_value(fragment: str, name: str) -> str | None:
 def _extract_table(html: str, table_id: str) -> str:
     table_matches = list(re.finditer(r"<table\b[^>]*>", html, re.I))
     token_pattern = re.compile(r"<table\b[^>]*>|</table>", re.I)
-    for index, match in enumerate(table_matches):
+    for match in table_matches:
         opening_tag = match.group(0)
         if _attribute_value(opening_tag, "id") == table_id:
             depth = 1
             for token in token_pattern.finditer(html, match.end()):
-                if token.group(0).lower().startswith("</table"):
+                token_html = token.group(0)
+                if token_html.lower().startswith("</table"):
                     depth -= 1
                     if depth == 0:
                         return html[match.start() : token.end()]
                 else:
+                    sibling_id = _attribute_value(token_html, "id")
+                    if depth == 1 and sibling_id in PUBLIC_TYPE_PAGE_TABLE_IDS and sibling_id != table_id:
+                        return html[match.start() : token.start()]
                     depth += 1
-            next_table_start = table_matches[index + 1].start() if index + 1 < len(table_matches) else len(html)
-            return html[match.start() : next_table_start]
+            return html[match.start() :]
     raise ValueError(f"table {table_id!r} not found")
 
 
