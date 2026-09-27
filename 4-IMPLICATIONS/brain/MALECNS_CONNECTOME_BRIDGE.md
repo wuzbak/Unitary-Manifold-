@@ -17,11 +17,11 @@ benchmark is intentionally compact and reproducible:
 
 The committed benchmark panel lives at:
 
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/data/malecns/benchmark_panel.json`
+- `data/malecns/benchmark_panel.json`
 
 The parser/test fixtures live at:
 
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/fixtures/malecns/`
+- `tests/fixtures/malecns/`
 
 ## Why this matters
 
@@ -107,8 +107,8 @@ Primary public interfaces tracked by this pillar:
 
 Implementation:
 
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/pillar1129_malecns_connectome_empirical_bridge.py`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_pillar1129_malecns_connectome_empirical_bridge.py`
+- `src/core/pillar1129_malecns_connectome_empirical_bridge.py`
+- `tests/test_pillar1129_malecns_connectome_empirical_bridge.py`
 
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.  
 Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).

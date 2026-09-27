@@ -264,6 +264,11 @@ def benchmark_panel_findings(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[
             f"({by_name[agg['highest_output_type']]['synapse_totals']['output']} output synapses), "
             "supporting an optic-lobe-heavy high-throughput visual integration lane in this panel."
         )
+    bridge_count = len(bridges)
+    bridge_noun = "type" if bridge_count == 1 else "types"
+    bridge_verb = "carries" if bridge_count == 1 else "carry"
+    bridge_pronoun = "it" if bridge_count == 1 else "them"
+    bridge_names = ", ".join(bridges)
     return [
         (
             f"The curated MaleCNS benchmark panel preserves {len(panel)} real public neuron-type pages from "
@@ -275,8 +280,8 @@ def benchmark_panel_findings(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[
             f"{agg['mean_reciprocity_jaccard']:.3f}, and {agg['most_reciprocal_type']} is the most reciprocal benchmark type."
         ),
         (
-            f"Cross-domain bridge load is explicit in {', '.join(bridges)}: both benchmark types carry nonzero central-brain and VNC/motor ROI totals, "
-            "making them useful reduced surfaces for brain↔nerve-cord coupling analysis."
+            f"Cross-domain bridge load is explicit in {bridge_names}: {bridge_count} benchmark {bridge_noun} {bridge_verb} nonzero central-brain and VNC/motor ROI totals, "
+            f"making {bridge_pronoun} useful reduced surfaces for brain↔nerve-cord coupling analysis."
         ),
         (
             f"{agg['most_diffuse_output_type']} has the highest downstream neurotransmitter entropy in the panel, "
