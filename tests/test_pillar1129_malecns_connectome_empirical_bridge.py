@@ -226,6 +226,15 @@ class TestBenchmarkPayload:
         with pytest.raises(FileNotFoundError, match='MaleCNS benchmark payload not found'):
             load_benchmark_payload(Path('data/malecns/missing-benchmark.json'))
 
+    def test_relative_payload_ignores_conflicting_cwd_file(self, tmp_path, monkeypatch):
+        conflicting_dir = tmp_path / 'data' / 'malecns'
+        conflicting_dir.mkdir(parents=True)
+        conflicting_path = conflicting_dir / 'benchmark_panel.json'
+        conflicting_path.write_text(json.dumps({'manifest': {'dataset': 'wrong'}}), encoding='utf-8')
+        monkeypatch.chdir(tmp_path)
+        payload = load_benchmark_payload(DEFAULT_BENCHMARK_PATH)
+        assert payload['manifest']['dataset'] == 'male-cns:v1.0'
+
     def test_load_payload(self):
         payload = load_benchmark_payload()
         assert 'manifest' in payload

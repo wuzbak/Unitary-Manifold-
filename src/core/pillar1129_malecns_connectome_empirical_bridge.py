@@ -80,8 +80,6 @@ def _resolve_benchmark_path(path: Path | str) -> Path:
         if payload_path.exists():
             return payload_path
         raise FileNotFoundError(f"MaleCNS benchmark payload not found: {payload_path}")
-    if payload_path.exists():
-        return payload_path
     resolved = _repository_root() / payload_path
     if resolved.exists():
         return resolved
