@@ -111,6 +111,18 @@ def _numeric_cell_value(cell_html: str) -> float:
     return float(_clean_text(cell_html).replace(",", ""))
 
 
+def _parse_float_token(text: str) -> float:
+    cleaned = _clean_text(text).replace(",", "").replace("%", "").replace("−", "-")
+    lowered = cleaned.lower()
+    if lowered in {"-∞", "-inf", "-infinity"}:
+        return float("-inf")
+    if lowered in {"∞", "+∞", "inf", "+inf", "infinity", "+infinity"}:
+        return float("inf")
+    if lowered == "nan":
+        return float("nan")
+    return float(cleaned)
+
+
 def _normalized_float(value: Any) -> float:
     return float(value)
 
@@ -123,7 +135,7 @@ def parse_partner_table_html(table_html: str) -> List[Dict[str, Any]]:
         partner = partner_match.group(1) if partner_match else _clean_text(cells[0][1])
         href = _attribute_value(partner_match.group(0), "href") if partner_match else None
         nt_value = _attribute_value(cells[2][1], "title")
-        synapse_match = re.search(r"∑ connections: ([0-9,]+)", cells[3][0])
+        synapse_match = re.search(r"∑ connections: ([0-9,]+)", f"{cells[3][0]} {cells[3][1]}")
         percent_title = _attribute_value(cells[4][0], "title")
         neurotransmitter = nt_value.lower() if nt_value else _clean_text(cells[2][1]).lower()
         rows.append(
@@ -155,7 +167,7 @@ def parse_roi_table_html(table_html: str) -> List[Dict[str, Any]]:
                 "label": label,
                 "input_synapses": int(_numeric_cell_value(cells[1][1])),
                 "input_percentage": float(input_pct_title.rstrip("%")) if input_pct_title else _numeric_cell_value(cells[2][1]),
-                "log_ratio": float(_clean_text(cells[3][1])),
+                "log_ratio": _parse_float_token(cells[3][1]),
                 "output_synapses": int(_numeric_cell_value(cells[4][1])),
                 "output_percentage": float(output_pct_title.rstrip("%")) if output_pct_title else _numeric_cell_value(cells[5][1]),
             }

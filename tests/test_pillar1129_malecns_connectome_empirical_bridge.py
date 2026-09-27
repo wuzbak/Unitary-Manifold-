@@ -154,6 +154,15 @@ class TestFixtureParsers:
         with pytest.raises(ValueError, match='downstream-table'):
             parse_public_type_page_html(html)
 
+    def test_parse_roi_table_infinity_log_ratio(self):
+        table = (
+            (FIXTURE_DIR / 'lplc2_roi_table.html')
+            .read_text(encoding='utf-8')
+            .replace('>-5.26<', '>-∞<', 1)
+        )
+        rows = parse_roi_table_html(table)
+        assert rows[0]['log_ratio'] == float('-inf')
+
 
 class TestBenchmarkPayload:
     def test_benchmark_payload_exists(self):
