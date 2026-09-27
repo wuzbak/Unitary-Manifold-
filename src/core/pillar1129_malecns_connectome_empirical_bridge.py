@@ -245,6 +245,15 @@ def _domain_total(row: Mapping[str, Any], domain: str) -> int:
     return int(row["macro_domain"]["domain_synapse_totals"].get(domain, 0))
 
 
+def _domain_label(row: Mapping[str, Any]) -> str:
+    dominant = str(row["macro_domain"].get("dominant_domain", "mixed")).strip().lower()
+    return {
+        "optic_lobe": "optic-lobe",
+        "central_brain": "central-brain",
+        "vnc_or_motor": "VNC/motor",
+    }.get(dominant, dominant.replace("_", "-"))
+
+
 def cross_domain_bridge_types(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[str]:
     """Return benchmark types with both central-brain and VNC/motor load present."""
     out: List[str] = []
@@ -298,20 +307,24 @@ def benchmark_panel_findings(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[
     agg = aggregate_observables(path)
     by_name = {row["name"]: row for row in panel}
     bridges = cross_domain_bridge_types(path)
+    input_row = by_name[agg["highest_input_type"]]
+    output_row = by_name[agg["highest_output_type"]]
+    input_domain = _domain_label(input_row)
+    output_domain = _domain_label(output_row)
     if agg["highest_input_type"] == agg["highest_output_type"]:
         throughput_finding = (
             f"{agg['highest_input_type']} carries the largest benchmark input and output mass "
-            f"({by_name[agg['highest_input_type']]['synapse_totals']['input']} input synapses; "
-            f"{by_name[agg['highest_output_type']]['synapse_totals']['output']} output synapses), "
-            "supporting an optic-lobe-heavy high-throughput visual integration lane in this panel."
+            f"({input_row['synapse_totals']['input']} input synapses; "
+            f"{output_row['synapse_totals']['output']} output synapses), "
+            f"supporting a {input_domain}-dominant high-throughput lane in this panel."
         )
     else:
         throughput_finding = (
             f"{agg['highest_input_type']} carries the largest benchmark input mass "
-            f"({by_name[agg['highest_input_type']]['synapse_totals']['input']} input synapses), while "
+            f"({input_row['synapse_totals']['input']} input synapses), while "
             f"{agg['highest_output_type']} carries the largest benchmark output mass "
-            f"({by_name[agg['highest_output_type']]['synapse_totals']['output']} output synapses), "
-            "supporting an optic-lobe-heavy high-throughput visual integration lane in this panel."
+            f"({output_row['synapse_totals']['output']} output synapses), "
+            f"supporting a split {input_domain}-input / {output_domain}-output high-throughput lane in this panel."
         )
     bridge_count = len(bridges)
     if bridge_count == 0:

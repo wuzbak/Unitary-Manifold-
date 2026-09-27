@@ -295,6 +295,7 @@ class TestReport:
         assert isinstance(findings[1], str)
         assert '7 real public neuron-type pages' in findings[0]
         assert 'LPLC2 carries the largest benchmark input and output mass' in findings[1]
+        assert 'optic-lobe-dominant high-throughput lane' in findings[1]
         assert 'mean partner-set Jaccard overlap is 0.440' in findings[2]
         assert 'AN01B004, DNa02' in findings[3]
         assert findings[4].startswith('EPG has the highest downstream neurotransmitter entropy')
@@ -308,6 +309,16 @@ class TestReport:
         path.write_text(json.dumps(payload), encoding='utf-8')
         findings = benchmark_panel_findings(path)
         assert findings[3].startswith('No benchmark types cross the current brain↔VNC bridge threshold')
+
+    def test_findings_adapt_to_changed_domain_metadata(self, tmp_path):
+        payload = load_benchmark_payload()
+        for row in payload['benchmark_panel']:
+            if row['name'] == payload['aggregate_observables']['highest_input_type']:
+                row['macro_domain']['dominant_domain'] = 'central_brain'
+        path = tmp_path / 'benchmark_panel.json'
+        path.write_text(json.dumps(payload), encoding='utf-8')
+        findings = benchmark_panel_findings(path)
+        assert 'central-brain-dominant high-throughput lane' in findings[1]
 
     def test_report_shape(self):
         report = pillar1129_report()
