@@ -134,6 +134,11 @@ class TestFixtureParsers:
             }
         ]
 
+    def test_parse_partner_table_incomplete_row_raises(self):
+        table = '<table id="upstream-table"><tbody><tr><td>A</td><td>1</td><td>B</td><td>2</td></tr></tbody></table>'
+        with pytest.raises(ValueError, match='expected at least 5'):
+            parse_partner_table_html(table)
+
     def test_parse_public_page_composition(self):
         html = '\n'.join([
             (FIXTURE_DIR / 'lplc2_upstream_table.html').read_text(encoding='utf-8'),
@@ -200,10 +205,19 @@ class TestFixtureParsers:
         rows = parse_roi_table_html(table)
         assert rows[0]['log_ratio'] == float('-inf')
 
+    def test_parse_roi_table_incomplete_row_raises(self):
+        table = '<table id="roi-table"><tbody><tr><td>A</td><td>1</td><td>2</td><td>3</td><td>4</td></tr></tbody></table>'
+        with pytest.raises(ValueError, match='expected at least 6'):
+            parse_roi_table_html(table)
+
 
 class TestBenchmarkPayload:
     def test_benchmark_payload_exists(self):
         assert load_benchmark_payload(DEFAULT_BENCHMARK_PATH)['manifest']['dataset'] == 'male-cns:v1.0'
+
+    def test_missing_absolute_payload_raises(self):
+        with pytest.raises(FileNotFoundError, match='MaleCNS benchmark payload not found'):
+            load_benchmark_payload(Path('/definitely/missing/malecns-benchmark.json'))
 
     def test_load_payload(self):
         payload = load_benchmark_payload()

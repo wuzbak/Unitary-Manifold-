@@ -74,7 +74,11 @@ def _repository_root() -> Path:
 
 def _resolve_benchmark_path(path: Path | str) -> Path:
     payload_path = Path(path)
-    if payload_path.is_absolute() or payload_path.exists():
+    if payload_path.is_absolute():
+        if payload_path.exists():
+            return payload_path
+        raise FileNotFoundError(f"MaleCNS benchmark payload not found: {payload_path}")
+    if payload_path.exists():
         return payload_path
     return _repository_root() / payload_path
 
@@ -152,6 +156,8 @@ def parse_partner_table_html(table_html: str) -> List[Dict[str, Any]]:
     """Parse a MaleCNS upstream/downstream partner table into row dictionaries."""
     rows: List[Dict[str, Any]] = []
     for cells in _iter_table_rows(table_html):
+        if len(cells) < 5:
+            raise ValueError(f"partner table row has {len(cells)} cells; expected at least 5")
         partner_match = re.search(r"<a\b[^>]*>([^<]+)</a>", cells[0][1], re.I)
         partner = partner_match.group(1) if partner_match else _clean_text(cells[0][1])
         href = _attribute_value(partner_match.group(0), "href") if partner_match else None
@@ -176,6 +182,8 @@ def parse_roi_table_html(table_html: str) -> List[Dict[str, Any]]:
     """Parse a MaleCNS ROI innervation table into row dictionaries."""
     rows: List[Dict[str, Any]] = []
     for cells in _iter_table_rows(table_html):
+        if len(cells) < 6:
+            raise ValueError(f"ROI table row has {len(cells)} cells; expected at least 6")
         attrs0, roi_html = cells[0]
         roi_value = _attribute_value(attrs0, "data-roi-name")
         title_value = _attribute_value(roi_html, "title")
