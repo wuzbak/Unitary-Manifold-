@@ -78,7 +78,7 @@ def hierarchy_ratios_from_texture() -> Dict[str, float]:
     """Return hierarchy ratios from singular values of the full texture."""
     m = np.array(yukawa_matrix_three_sector()["matrix"], dtype=float)
     singular_values = np.linalg.svd(m, compute_uv=False)
-    s1, s2, s3 = sorted((float(v) for v in singular_values), reverse=True)
+    s1, s2, s3 = sorted(float(v) for v in singular_values)
     eps = 1e-16
     return {
         "mode2_over_mode1": s2 / max(s1, eps),
