@@ -36,6 +36,7 @@ __provenance__ = {
     "toe_delta": 0.0,
 }
 
+import html
 import json
 import re
 from pathlib import Path
@@ -88,7 +89,7 @@ def _attribute_value(fragment: str, name: str) -> str | None:
     )
     if not match:
         return None
-    return next(group for group in match.groups() if group is not None)
+    return html.unescape(next(group for group in match.groups() if group is not None))
 
 
 def _extract_table(html: str, table_id: str) -> str:
