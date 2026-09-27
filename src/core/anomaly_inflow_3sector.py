@@ -35,8 +35,10 @@ class ThreeSectorAnomalyInput:
     n_ir: int = N_SHADOW_IR
 
 
-def eta_invariants_3sector(model: ThreeSectorAnomalyInput = ThreeSectorAnomalyInput()) -> Dict[str, float]:
+def eta_invariants_3sector(model: ThreeSectorAnomalyInput | None = None) -> Dict[str, float]:
     """Return boundary η-invariants at orbifold fixed points and bulk integer."""
+    if model is None:
+        model = ThreeSectorAnomalyInput()
     eta_uv = float(eta_bar_from_cs_inflow(model.n_uv))
     eta_ir = float(eta_bar_from_cs_inflow(model.n_ir))
     return {
@@ -46,8 +48,10 @@ def eta_invariants_3sector(model: ThreeSectorAnomalyInput = ThreeSectorAnomalyIn
     }
 
 
-def anomaly_coefficients_3sector(model: ThreeSectorAnomalyInput = ThreeSectorAnomalyInput()) -> Dict[str, float]:
+def anomaly_coefficients_3sector(model: ThreeSectorAnomalyInput | None = None) -> Dict[str, float]:
     """Return competing anomaly coefficients under explicit assumptions."""
+    if model is None:
+        model = ThreeSectorAnomalyInput()
     etas = eta_invariants_3sector(model)
     linear_sum = float(model.n_uv + model.n_bulk + model.n_ir)
     eta_weighted = float(model.n_bulk + 2.0 * etas["eta_uv_y0"] + 2.0 * etas["eta_ir_yPiR"])
@@ -58,8 +62,10 @@ def anomaly_coefficients_3sector(model: ThreeSectorAnomalyInput = ThreeSectorAno
     }
 
 
-def required_weyl_fermions_3sector(model: ThreeSectorAnomalyInput = ThreeSectorAnomalyInput()) -> Dict[str, object]:
+def required_weyl_fermions_3sector(model: ThreeSectorAnomalyInput | None = None) -> Dict[str, object]:
     """Assess whether anomaly cancellation uniquely requires 18 Weyl fermions."""
+    if model is None:
+        model = ThreeSectorAnomalyInput()
     def _exact_int_if_integral(x: float, tol: float = 1e-12) -> int | None:
         nearest = round(x)
         return int(nearest) if abs(x - nearest) < tol else None
@@ -81,8 +87,10 @@ def required_weyl_fermions_3sector(model: ThreeSectorAnomalyInput = ThreeSectorA
     }
 
 
-def anomaly_inflow_report_3sector(model: ThreeSectorAnomalyInput = ThreeSectorAnomalyInput()) -> Dict[str, object]:
+def anomaly_inflow_report_3sector(model: ThreeSectorAnomalyInput | None = None) -> Dict[str, object]:
     """Return machine-readable summary for DERIVATION_STATUS integration."""
+    if model is None:
+        model = ThreeSectorAnomalyInput()
     etas = eta_invariants_3sector(model)
     coeffs = anomaly_coefficients_3sector(model)
     req = required_weyl_fermions_3sector(model)

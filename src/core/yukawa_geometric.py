@@ -8,7 +8,6 @@ localization centers derived from the (5, 6, 7) three-sector split.
 
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass
 from typing import Dict, Tuple
 
@@ -32,16 +31,6 @@ def default_sector_localization() -> Dict[str, Localization]:
         "bulk": Localization(center=0.5, width=1.0 / N_PARENT),
         "ir": Localization(center=1.0, width=1.0 / N_SHADOW),
     }
-
-
-def _gaussian(y: float, loc: Localization) -> float:
-    width = max(loc.width, 1e-12)
-    direct = abs(y - loc.center)
-    wrapped = min(direct, 1.0 - direct)
-    mirrored = abs(y - (1.0 - loc.center))
-    d_orbifold = min(wrapped, mirrored)
-    z = d_orbifold / width
-    return math.exp(-0.5 * z * z)
 
 
 def _orbifold_distance_array(y: np.ndarray, center: float) -> np.ndarray:
