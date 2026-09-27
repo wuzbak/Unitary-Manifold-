@@ -320,6 +320,28 @@ These are not new physical claims but expansions of the verification surface.
 
 ---
 
+## Three-sector gap program update (2026-09-27)
+
+| Gap | Current label | Evidence / implementation | Honest status |
+|-----|---------------|---------------------------|---------------|
+| GAP-1: `r_c = 2n = 12` | `FITTED` | `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/brane_tension_stabilization.py` computes `T_UV=25`, `T_IR=49`, and candidate `k r_c = 12` under a three-sector closure ansatz. | Holds exactly in the architecture ansatz; full RS1 variational derivation from action remains open. |
+| GAP-2: `φ_min_bare = 3n = 18` | `FITTED` | `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/brane_tension_stabilization.py` computes candidate `φ_min_bare=18` from the UV/bulk/IR sector count. | Integer closure survives in the ansatz; root-stable first-principles `A_c` derivation remains open. |
+| GAP-3: Yukawa top-down derivation | `PARTIALLY_DERIVED` | `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/yukawa_geometric.py` derives three-sector zero-mode overlap textures and hierarchy ratios. | Texture geometry is derived; full mass-spectrum closure still needs non-fitted electroweak/RG normalization. |
+| GAP-4: ADM time synchronisation proof | `SUBSTANTIALLY_CLOSED` | Canonical closure remains in `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/pillar212_adm_decomposition.py`, `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/adm_quantitative_closure.py`, and `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/wdw_full_5d.py`; supplemental Lean stub added at `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/lean4/UnitaryManifold/ADM_time_sync.lean`. | Kinematic/linearized closure is established; non-perturbative UV quantum-gravity completion remains open. |
+
+### Three-sector architecture-limit verdict (AL-1 … AL-4)
+
+Evaluated in `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/three_sector_cosmology.py` and `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_three_sector_predictions.py`.
+
+- AL-1 (CMB peak suppression): **reduced but not closed**
+- AL-2 (`r` tension): **reduced but not closed**
+- AL-3 (`w_a` tension): **reduced but not closed**
+- AL-4 (cosmological-constant hierarchy): **reduced but not closed**
+
+Overall label: **OPEN_GAP** for architecture-limit closure in the current three-sector pass.
+
+---
+
 | Document | Purpose | Relationship to this file |
 |----------|---------|---------------------------|
 | [`FALLIBILITY.md`](../FALLIBILITY.md) | Failure modes, severity tiers, falsification conditions | Complementary: this file lists epistemic status; FALLIBILITY.md lists what breaks it and how badly |

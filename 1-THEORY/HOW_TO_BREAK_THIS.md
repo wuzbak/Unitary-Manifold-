@@ -383,6 +383,78 @@ pytest tests/test_pillar397_unique_discriminant_register.py -v
 # → FAIL (test_p1_ns_uniquely_discriminating)
 ```
 
+---
+
+## 21. Break the three-sector anomaly uniqueness check
+
+**Handle:** In `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/anomaly_inflow_3sector.py`,
+force `is_unique_at_18 = True` unconditionally in `required_weyl_fermions_3sector()`.
+
+**Expected result:** `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_anomaly_inflow.py`
+fails at `test_18_is_not_uniquely_forced`.
+
+**What this tests:** Honest status labeling for GAP-1/GAP-2 must remain OPEN_GAP
+until competing anomaly prescriptions collapse to a unique forced count.
+
+```bash
+pytest /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_anomaly_inflow.py -v
+# → FAIL (test_18_is_not_uniquely_forced)
+```
+
+---
+
+## 22. Break the brane-tension integer closure identities
+
+**Handle:** In `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/brane_tension_stabilization.py`,
+change either `kr_c = 2*n_parent` or `phi_min_bare = 3*n_parent`.
+
+**Expected result:** `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_brane_tension.py`
+fails at `test_kr_c_candidate_matches_2n` and/or `test_phi_min_candidate_matches_3n`.
+
+**What this tests:** The candidate integer identities for GAP-1 and GAP-2 are
+internally exact within the stated three-sector ansatz.
+
+```bash
+pytest /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_brane_tension.py -v
+# → FAIL
+```
+
+---
+
+## 23. Break the architecture-limit honesty gate for three-sector predictions
+
+**Handle:** In `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/three_sector_cosmology.py`,
+set any one of `resolved["AL1"]..resolved["AL4"]` to `True` without meeting the
+threshold condition.
+
+**Expected result:** `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_three_sector_predictions.py`
+fails at `test_architecture_limits_still_open`.
+
+**What this tests:** New architecture claims must not overstate closure of AL-1..AL-4.
+
+```bash
+pytest /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_three_sector_predictions.py -v
+# → FAIL (test_architecture_limits_still_open)
+```
+
+---
+
+## 24. Break geometric Yukawa texture construction
+
+**Handle:** In `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/yukawa_geometric.py`,
+replace `zero_mode_overlap()` with a constant return value.
+
+**Expected result:** `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_yukawa.py`
+fails at texture/hierarchy checks.
+
+**What this tests:** GAP-3 progress depends on explicit geometric overlap
+integrals, not hard-coded Yukawa textures.
+
+```bash
+pytest /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/tests/test_yukawa.py -v
+# → FAIL
+```
+
 A break that matters is one where:
 
 1. The test clearly corresponds to a physical claim (not just a numerical check).
