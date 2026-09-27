@@ -20,6 +20,7 @@ def test_predictions_reduce_but_not_resolve():
     pred = three_sector_predictions()
     assert pred["as_suppression_factor"] < 5.3
     assert pred["r_prediction"] < 0.0315
+    assert pred["wa_prediction"] < 0.0
     assert pred["lambda_log10_gap"] < 55.0
 
 
@@ -30,4 +31,3 @@ def test_architecture_limits_still_open():
     assert rep["resolved"]["AL3"] is False
     assert rep["resolved"]["AL4"] is False
     assert rep["status"] == "OPEN_GAP"
-

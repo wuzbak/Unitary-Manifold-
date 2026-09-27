@@ -33,4 +33,4 @@ def test_stabilization_report_keys():
     assert "tensions" in report
     assert "kr_c_result" in report
     assert "phi_min_result" in report
-
+    assert report["status"] == "FITTED"

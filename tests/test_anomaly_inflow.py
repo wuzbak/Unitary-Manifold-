@@ -35,5 +35,6 @@ def test_linear_candidate_is_18():
 def test_18_is_not_uniquely_forced():
     req = required_weyl_fermions_3sector()
     assert req["required_by_linear_model"] == 18
+    assert req["required_by_eta_weighted_model"] == 7
     assert req["is_unique_at_18"] is False
     assert req["status"] == "OPEN_GAP"

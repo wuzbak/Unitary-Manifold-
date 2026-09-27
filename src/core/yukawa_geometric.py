@@ -103,6 +103,8 @@ def hierarchy_ratios_from_texture(matrix: list[list[float]] | None = None) -> Di
     """Return hierarchy ratios from singular values of the full texture."""
     source = matrix if matrix is not None else yukawa_matrix_three_sector()["matrix"]
     m = np.array(source, dtype=float)
+    if m.shape != (3, 3):
+        raise ValueError(f"Expected a 3x3 Yukawa texture, got shape {m.shape}.")
     singular_values = np.linalg.svd(m, compute_uv=False)
     s1, s2, s3 = sorted(float(v) for v in singular_values)
     eps = 1e-16
