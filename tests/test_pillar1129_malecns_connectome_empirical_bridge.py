@@ -14,6 +14,7 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from src.core.pillar1129_malecns_connectome_empirical_bridge import (
+    BRIDGE_DOMAIN_THRESHOLD,
     DEFAULT_BENCHMARK_PATH,
     MALECNS_DATASET,
     MALECNS_DATASET_UUID,
@@ -64,6 +65,7 @@ class TestModuleConstants:
         assert NEURON_COUNT_ESTIMATE == 166700
         assert SYNAPSE_COUNT_ESTIMATE == 125000000
         assert TOTAL_NEURON_TYPES == 11751
+        assert BRIDGE_DOMAIN_THRESHOLD == 100
 
     def test_primary_regions(self):
         assert PRIMARY_REGIONS == ('central brain', 'optic lobes', 'ventral nerve cord')

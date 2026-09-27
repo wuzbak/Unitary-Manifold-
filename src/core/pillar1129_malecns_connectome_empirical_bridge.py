@@ -54,6 +54,7 @@ MALECNS_DATASET_UUID: str = "4b2087c0fbe046bfaf0d60bc970e3e5d"
 NEURON_COUNT_ESTIMATE: int = 166_700
 SYNAPSE_COUNT_ESTIMATE: int = 125_000_000
 TOTAL_NEURON_TYPES: int = 11_751
+BRIDGE_DOMAIN_THRESHOLD: int = 100
 PRIMARY_REGIONS: tuple[str, ...] = (
     "central brain",
     "optic lobes",
@@ -248,7 +249,10 @@ def cross_domain_bridge_types(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List
     """Return benchmark types with both central-brain and VNC/motor load present."""
     out: List[str] = []
     for row in benchmark_panel(path):
-        if _domain_total(row, "central_brain") > 100 and _domain_total(row, "vnc_or_motor") > 100:
+        if (
+            _domain_total(row, "central_brain") > BRIDGE_DOMAIN_THRESHOLD
+            and _domain_total(row, "vnc_or_motor") > BRIDGE_DOMAIN_THRESHOLD
+        ):
             out.append(row["name"])
     return out
 
