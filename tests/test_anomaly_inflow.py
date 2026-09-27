@@ -29,6 +29,7 @@ def test_eta_invariants_are_expected_classes():
 def test_linear_candidate_is_18():
     coeffs = anomaly_coefficients_3sector()
     assert coeffs["linear_sector_sum"] == 18.0
+    assert coeffs["eta_weighted_sum"] == 7.0
 
 
 def test_18_is_not_uniquely_forced():
@@ -36,4 +37,3 @@ def test_18_is_not_uniquely_forced():
     assert req["required_by_linear_model"] == 18
     assert req["is_unique_at_18"] is False
     assert req["status"] == "OPEN_GAP"
-

@@ -44,9 +44,18 @@ def _gaussian(y: float, loc: Localization) -> float:
     return math.exp(-0.5 * z * z)
 
 
+def _orbifold_distance_array(y: np.ndarray, center: float) -> np.ndarray:
+    direct = np.abs(y - center)
+    wrapped = np.minimum(direct, 1.0 - direct)
+    mirrored = np.abs(y - (1.0 - center))
+    return np.minimum(wrapped, mirrored)
+
+
 def _sampled_normalized_profile(loc: Localization, n_points: int = 4001) -> Tuple[np.ndarray, np.ndarray]:
     y = np.linspace(0.0, 1.0, n_points)
-    psi = np.array([_gaussian(float(yy), loc) for yy in y], dtype=float)
+    width = max(loc.width, 1e-12)
+    d = _orbifold_distance_array(y, loc.center)
+    psi = np.exp(-0.5 * (d / width) ** 2)
     norm = float(np.sqrt(max(np.trapezoid(psi * psi, y), 1e-16)))
     return y, psi / norm
 
@@ -65,12 +74,12 @@ def yukawa_matrix_three_sector() -> Dict[str, object]:
     loc = default_sector_localization()
     left = (loc["uv"], loc["bulk"], loc["ir"])
     right = (loc["uv"], loc["bulk"], loc["ir"])
-    matrix = []
-    for li in left:
-        row = []
-        for rj in right:
-            row.append(zero_mode_overlap(li, rj))
-        matrix.append(row)
+    matrix = [[0.0 for _ in range(3)] for _ in range(3)]
+    for i in range(3):
+        for j in range(i, 3):
+            value = zero_mode_overlap(left[i], right[j])
+            matrix[i][j] = value
+            matrix[j][i] = value
     return {
         "matrix": matrix,
         "status": "DERIVED",
