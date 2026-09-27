@@ -41,7 +41,6 @@ import json
 import math
 import re
 from copy import deepcopy
-from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping
 
@@ -66,7 +65,6 @@ PRIMARY_REGIONS: tuple[str, ...] = (
 DEFAULT_BENCHMARK_PATH = Path("data") / "malecns" / "benchmark_panel.json"
 
 
-@lru_cache(maxsize=1)
 def _repository_root() -> Path:
     current = Path(__file__).resolve()
     for candidate in current.parents:
