@@ -98,6 +98,10 @@ def _numeric_cell_value(cell_html: str) -> float:
     return float(_clean_text(cell_html).replace(",", ""))
 
 
+def _normalized_float(value: Any) -> float:
+    return float(value)
+
+
 def parse_partner_table_html(table_html: str) -> List[Dict[str, Any]]:
     """Parse a MaleCNS upstream/downstream partner table into row dictionaries."""
     rows: List[Dict[str, Any]] = []
@@ -193,9 +197,9 @@ def cross_domain_bridge_types(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List
 def reciprocity_ranking(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dict[str, Any]]:
     rows = sorted(
         benchmark_panel(path),
-        key=lambda row: (-float(row["reciprocity"]["jaccard"]), row["name"]),
+        key=lambda row: (-_normalized_float(row["reciprocity"]["jaccard"]), row["name"]),
     )
-    return [{"name": row["name"], "jaccard": row["reciprocity"]["jaccard"]} for row in rows]
+    return [{"name": row["name"], "jaccard": _normalized_float(row["reciprocity"]["jaccard"])} for row in rows]
 
 
 def neurotransmitter_entropy_ranking(
@@ -206,21 +210,21 @@ def neurotransmitter_entropy_ranking(
     key = f"{direction}_entropy_bits"
     rows = sorted(
         benchmark_panel(path),
-        key=lambda row: (-float(row["neurotransmitter_mix"][key]), row["name"]),
+        key=lambda row: (-_normalized_float(row["neurotransmitter_mix"][key]), row["name"]),
     )
-    return [{"name": row["name"], "entropy_bits": row["neurotransmitter_mix"][key]} for row in rows]
+    return [{"name": row["name"], "entropy_bits": _normalized_float(row["neurotransmitter_mix"][key])} for row in rows]
 
 
 def concentration_ranking(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dict[str, Any]]:
     rows = sorted(
         benchmark_panel(path),
-        key=lambda row: (-float(row["concentration"]["top5_output_share"]), row["name"]),
+        key=lambda row: (-_normalized_float(row["concentration"]["top5_output_share"]), row["name"]),
     )
     return [
         {
             "name": row["name"],
-            "top5_input_share": row["concentration"]["top5_input_share"],
-            "top5_output_share": row["concentration"]["top5_output_share"],
+            "top5_input_share": _normalized_float(row["concentration"]["top5_input_share"]),
+            "top5_output_share": _normalized_float(row["concentration"]["top5_output_share"]),
         }
         for row in rows
     ]

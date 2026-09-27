@@ -166,11 +166,13 @@ class TestDerivedRankings:
         assert ranking[0]['name'] == 'LC4'
         assert ranking[-1]['name'] == 'DNa02'
         assert ranking[0]['jaccard'] > ranking[-1]['jaccard']
+        assert isinstance(ranking[0]['jaccard'], float)
 
     def test_entropy_ranking(self):
         ranking = neurotransmitter_entropy_ranking('downstream')
         assert ranking[0]['name'] == 'EPG'
         assert ranking[-1]['name'] == '5-HTPLP01'
+        assert isinstance(ranking[0]['entropy_bits'], float)
 
     def test_entropy_bad_direction_raises(self):
         with pytest.raises(ValueError):
@@ -181,6 +183,8 @@ class TestDerivedRankings:
         assert ranking[0]['name'] == 'EPG'
         assert ranking[1]['name'] == 'LPLC2'
         assert ranking[0]['top5_output_share'] > ranking[-1]['top5_output_share']
+        assert isinstance(ranking[0]['top5_input_share'], float)
+        assert isinstance(ranking[0]['top5_output_share'], float)
 
 
 class TestReport:
