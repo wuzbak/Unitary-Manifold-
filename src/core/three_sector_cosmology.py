@@ -28,17 +28,24 @@ WA_THREE_SECTOR_SHIFT_COEFF: float = -0.02  # conservative phenomenological shif
 # Three-sector UV/bulk/IR coefficients (assessed, not fitted to data)
 SECTOR_WEIGHTS = (5.0 / 18.0, 6.0 / 18.0, 7.0 / 18.0)
 SECTOR_SUM = sum(SECTOR_WEIGHTS)
-SECTOR_SPREAD = max(SECTOR_WEIGHTS) - min(SECTOR_WEIGHTS)
-SECTOR_L2 = sum(w * w for w in SECTOR_WEIGHTS)
+
+
+def _weight_metrics(weights: tuple[float, float, float]) -> Dict[str, float]:
+    return {
+        "sum": sum(weights),
+        "spread": max(weights) - min(weights),
+        "l2": sum(w * w for w in weights),
+    }
 
 
 def three_sector_modifiers() -> Dict[str, float]:
     """Return architecture modifiers implied by simple three-sector weighting."""
+    metrics = _weight_metrics(SECTOR_WEIGHTS)
     # Conservative effects driven by weight asymmetry and concentration.
-    m_as = 1.0 - 0.12 * SECTOR_SPREAD - 0.03 * SECTOR_L2
-    m_r = 1.0 - 0.10 * SECTOR_SPREAD - 0.02 * SECTOR_L2
-    m_wa = 1.0 - 0.08 * SECTOR_SPREAD - 0.04 * SECTOR_L2
-    m_lambda = 1.0 - 0.06 * SECTOR_SPREAD - 0.01 * SECTOR_L2
+    m_as = 1.0 - 0.12 * metrics["spread"] - 0.03 * metrics["l2"]
+    m_r = 1.0 - 0.10 * metrics["spread"] - 0.02 * metrics["l2"]
+    m_wa = 1.0 - 0.08 * metrics["spread"] - 0.04 * metrics["l2"]
+    m_lambda = 1.0 - 0.06 * metrics["spread"] - 0.01 * metrics["l2"]
     return {
         "modifier_as": m_as,
         "modifier_r": m_r,
