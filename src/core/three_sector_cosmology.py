@@ -23,6 +23,7 @@ AL2_TARGET_R_MAX: float = float(R_ACT_UPPER)  # 0.016
 AL3_BASELINE_WA: float = 0.0
 AL3_TARGET_WA_DR2: float = -0.55
 AL4_BASELINE_LAMBDA_LOG10_GAP: float = 55.0
+WA_THREE_SECTOR_SHIFT_COEFF: float = -0.02  # conservative phenomenological shift
 
 # Three-sector UV/bulk/IR coefficients (assessed, not fitted to data)
 SECTOR_WEIGHTS = (5.0 / 18.0, 6.0 / 18.0, 7.0 / 18.0)
@@ -50,7 +51,7 @@ def three_sector_predictions() -> Dict[str, float]:
     """Return updated predictions under the three-sector modifier model."""
     m = three_sector_modifiers()
     w0_baseline = float(um_dark_energy_eos()["w_kk"])
-    wa_shift = -0.02 * SECTOR_SUM
+    wa_shift = WA_THREE_SECTOR_SHIFT_COEFF * SECTOR_SUM
     return {
         "as_suppression_factor": AL1_BASELINE_CMB_SUPPRESSION * m["modifier_as"],
         "r_prediction": AL2_BASELINE_R * m["modifier_r"],

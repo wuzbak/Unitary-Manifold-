@@ -30,10 +30,11 @@ def test_yukawa_matrix_is_3x3_positive():
 
 def test_hierarchy_ratios_finite():
     ratios = hierarchy_ratios_from_texture()
-    assert ratios["mode2_over_mode1"] > 1.0
-    assert ratios["mode3_over_mode2"] > 1.0
-    assert ratios["mode3_over_mode1"] > 1.0
-    assert ratios["mode3_over_mode1"] >= ratios["mode2_over_mode1"]
+    assert ratios["basis"] == "singular_values"
+    assert ratios["sv2_over_sv1"] > 1.0
+    assert ratios["sv3_over_sv2"] > 1.0
+    assert ratios["sv3_over_sv1"] > 1.0
+    assert ratios["sv3_over_sv1"] >= ratios["sv2_over_sv1"]
 
 
 def test_overlap_self_exceeds_cross_overlap():
@@ -56,10 +57,10 @@ def test_report_is_honestly_labeled():
     assert report["texture"]["status"] == "DERIVED"
     assert report["status"] == "FITTED"
     ratios = report["hierarchy_ratios"]
-    assert "mode2_over_mode1" in ratios
-    assert "mode3_over_mode2" in ratios
-    assert "mode3_over_mode1" in ratios
-    assert ratios["mode2_over_mode1"] > 1.0
+    assert "sv2_over_sv1" in ratios
+    assert "sv3_over_sv2" in ratios
+    assert "sv3_over_sv1" in ratios
+    assert ratios["sv2_over_sv1"] > 1.0
     recomputed = hierarchy_ratios_from_texture(report["texture"]["matrix"])
     assert ratios == recomputed
 

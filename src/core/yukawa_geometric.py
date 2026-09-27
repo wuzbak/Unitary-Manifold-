@@ -89,7 +89,7 @@ def yukawa_matrix_three_sector() -> Dict[str, object]:
 
 
 def hierarchy_ratios_from_texture(matrix: list[list[float]] | None = None) -> Dict[str, float]:
-    """Return hierarchy ratios from singular values of the full texture."""
+    """Return singular-value hierarchy ratios from the full texture."""
     source = matrix if matrix is not None else yukawa_matrix_three_sector()["matrix"]
     m = np.array(source, dtype=float)
     if m.shape != (3, 3):
@@ -98,9 +98,10 @@ def hierarchy_ratios_from_texture(matrix: list[list[float]] | None = None) -> Di
     s1, s2, s3 = sorted(float(v) for v in singular_values)
     eps = 1e-16
     return {
-        "mode2_over_mode1": s2 / max(s1, eps),
-        "mode3_over_mode2": s3 / max(s2, eps),
-        "mode3_over_mode1": s3 / max(s1, eps),
+        "basis": "singular_values",
+        "sv2_over_sv1": s2 / max(s1, eps),
+        "sv3_over_sv2": s3 / max(s2, eps),
+        "sv3_over_sv1": s3 / max(s1, eps),
     }
 
 
