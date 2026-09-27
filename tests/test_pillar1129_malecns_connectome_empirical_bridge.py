@@ -172,6 +172,17 @@ class TestFixtureParsers:
         assert parsed['roi'][0]['roi'] == 'LOP'
         assert parsed['roi'][0]['label'] == 'Lobula "Plate"'
 
+    def test_parse_public_page_with_unclosed_tables(self):
+        html = '\n'.join([
+            (FIXTURE_DIR / 'lplc2_upstream_table.html').read_text(encoding='utf-8').replace('</table>', '', 1),
+            (FIXTURE_DIR / 'lplc2_downstream_table.html').read_text(encoding='utf-8').replace('</table>', '', 1),
+            (FIXTURE_DIR / 'lplc2_roi_table.html').read_text(encoding='utf-8'),
+        ])
+        parsed = parse_public_type_page_html(html)
+        assert len(parsed['upstream']) == 536
+        assert len(parsed['downstream']) == 692
+        assert len(parsed['roi']) == 8
+
     def test_parse_public_page_missing_table_raises(self):
         html = '\n'.join([
             (FIXTURE_DIR / 'lplc2_upstream_table.html').read_text(encoding='utf-8'),

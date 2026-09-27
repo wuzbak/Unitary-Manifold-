@@ -101,10 +101,15 @@ def _attribute_value(fragment: str, name: str) -> str | None:
 
 
 def _extract_table(html: str, table_id: str) -> str:
-    for match in re.finditer(r"<table\b[^>]*>.*?</table>", html, re.S | re.I):
-        opening_tag = match.group(0).split(">", 1)[0]
+    table_matches = list(re.finditer(r"<table\b[^>]*>", html, re.I))
+    for index, match in enumerate(table_matches):
+        opening_tag = match.group(0)
         if _attribute_value(opening_tag, "id") == table_id:
-            return match.group(0)
+            next_table_start = table_matches[index + 1].start() if index + 1 < len(table_matches) else len(html)
+            closing_match = re.search(r"</table>", html[match.end():], re.I)
+            if closing_match and match.end() + closing_match.end() <= next_table_start:
+                return html[match.start() : match.end() + closing_match.end()]
+            return html[match.start() : next_table_start]
     raise ValueError(f"table {table_id!r} not found")
 
 
