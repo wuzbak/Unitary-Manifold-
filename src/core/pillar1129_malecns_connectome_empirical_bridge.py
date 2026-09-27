@@ -116,13 +116,19 @@ def _attribute_value(fragment: str, name: str) -> str | None:
 
 def _extract_table(html: str, table_id: str) -> str:
     table_matches = list(re.finditer(r"<table\b[^>]*>", html, re.I))
+    token_pattern = re.compile(r"<table\b[^>]*>|</table>", re.I)
     for index, match in enumerate(table_matches):
         opening_tag = match.group(0)
         if _attribute_value(opening_tag, "id") == table_id:
+            depth = 1
+            for token in token_pattern.finditer(html, match.end()):
+                if token.group(0).lower().startswith("</table"):
+                    depth -= 1
+                    if depth == 0:
+                        return html[match.start() : token.end()]
+                else:
+                    depth += 1
             next_table_start = table_matches[index + 1].start() if index + 1 < len(table_matches) else len(html)
-            closing_match = re.search(r"</table>", html[match.end():], re.I)
-            if closing_match and match.end() + closing_match.end() <= next_table_start:
-                return html[match.start() : match.end() + closing_match.end()]
             return html[match.start() : next_table_start]
     raise ValueError(f"table {table_id!r} not found")
 

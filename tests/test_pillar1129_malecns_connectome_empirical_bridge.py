@@ -14,6 +14,7 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from src.core.pillar1129_malecns_connectome_empirical_bridge import (
+    _extract_table,
     BRIDGE_DOMAIN_THRESHOLD,
     DEFAULT_BENCHMARK_PATH,
     MALECNS_DATASET,
@@ -190,6 +191,19 @@ class TestFixtureParsers:
         assert len(parsed['upstream']) == 536
         assert len(parsed['downstream']) == 692
         assert len(parsed['roi']) == 8
+
+    def test_extract_table_balances_nested_tables(self):
+        html = """
+        <table id="upstream-table">
+          <tr><td>outer</td><td><table id="nested"><tr><td>inner</td></tr></table></td></tr>
+          <tr><td>after</td></tr>
+        </table>
+        <table id="downstream-table"><tr><td>next</td></tr></table>
+        """
+        table_html = _extract_table(html, 'upstream-table')
+        assert '<table id="nested">' in table_html
+        assert 'after' in table_html
+        assert 'downstream-table' not in table_html
 
     def test_parse_public_page_missing_table_raises(self):
         html = '\n'.join([
