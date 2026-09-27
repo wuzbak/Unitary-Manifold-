@@ -138,9 +138,28 @@ class TestFixtureParsers:
             }
         ]
 
+    def test_parse_partner_table_allows_trailing_columns(self):
+        table = """
+        <table id="upstream-table">
+          <tbody>
+            <tr>
+              <td><a href="LPLC2.html">LPLC2</a></td>
+              <td>185</td>
+              <td><abbr title="acetylcholine">ACh</abbr></td>
+              <td title="∑ connections: 46,178"><span title="249.61081">249.6</span></td>
+              <td title="13.17331%">13.2%</td>
+              <td title="0.27300">0.3</td>
+              <td>ignored</td>
+            </tr>
+          </tbody>
+        </table>
+        """
+        rows = parse_partner_table_html(table)
+        assert rows[0]['synapses'] == 46178
+
     def test_parse_partner_table_incomplete_row_raises(self):
         table = '<table id="upstream-table"><tbody><tr><td>A</td><td>1</td><td>B</td><td>2</td></tr></tbody></table>'
-        with pytest.raises(ValueError, match='expected 6'):
+        with pytest.raises(ValueError, match='expected at least 6'):
             parse_partner_table_html(table)
 
     def test_parse_public_page_composition(self):

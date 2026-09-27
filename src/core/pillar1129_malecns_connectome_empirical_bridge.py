@@ -181,17 +181,18 @@ def _finite_metric(value: Any, field_name: str) -> float:
 def parse_partner_table_html(table_html: str) -> List[Dict[str, Any]]:
     """Parse a MaleCNS upstream/downstream partner table into row dictionaries.
 
-    Supported rows must contain exactly six ``<td>`` cells in the public MaleCNS
+    Supported rows must contain at least six ``<td>`` cells in the public MaleCNS
     order: partner link, cell count, neurotransmitter, synapse summary,
-    percentage, and CV. The parser prefers neurotransmitter names from an inner
-    ``title`` attribute and synapse totals from a ``∑ connections: ...``
-    attribute inside the synapse-summary cell. Rows with a different width raise
-    ``ValueError`` so malformed or shifted table shapes fail deterministically.
+    percentage, and CV. Any trailing columns are ignored. The parser prefers
+    neurotransmitter names from an inner ``title`` attribute and synapse totals
+    from a ``∑ connections: ...`` attribute inside the synapse-summary cell.
+    Rows with fewer than six cells raise ``ValueError`` so malformed or shifted
+    table shapes fail deterministically.
     """
     rows: List[Dict[str, Any]] = []
     for cells in _iter_table_rows(table_html):
-        if len(cells) != 6:
-            raise ValueError(f"partner table row has {len(cells)} cells; expected 6")
+        if len(cells) < 6:
+            raise ValueError(f"partner table row has {len(cells)} cells; expected at least 6")
         partner_match = re.search(r"<a\b[^>]*>([^<]+)</a>", cells[0][1], re.I)
         partner = partner_match.group(1) if partner_match else _clean_text(cells[0][1])
         href = _attribute_value(partner_match.group(0), "href") if partner_match else None
