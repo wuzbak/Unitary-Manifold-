@@ -292,6 +292,14 @@ class TestDerivedRankings:
         assert ranking[0]['jaccard'] > ranking[-1]['jaccard']
         assert isinstance(ranking[0]['jaccard'], float)
 
+    def test_reciprocity_ranking_rejects_nonfinite_metric(self, tmp_path):
+        payload = load_benchmark_payload()
+        payload['benchmark_panel'][0]['reciprocity']['jaccard'] = 'NaN'
+        path = tmp_path / 'benchmark_panel.json'
+        path.write_text(json.dumps(payload), encoding='utf-8')
+        with pytest.raises(ValueError, match='reciprocity.jaccard'):
+            reciprocity_ranking(path)
+
     def test_entropy_ranking(self):
         ranking = neurotransmitter_entropy_ranking('downstream')
         assert ranking[0]['name'] == 'EPG'
@@ -309,6 +317,14 @@ class TestDerivedRankings:
         assert ranking[0]['top5_output_share'] > ranking[-1]['top5_output_share']
         assert isinstance(ranking[0]['top5_input_share'], float)
         assert isinstance(ranking[0]['top5_output_share'], float)
+
+    def test_concentration_ranking_rejects_nonfinite_metric(self, tmp_path):
+        payload = load_benchmark_payload()
+        payload['benchmark_panel'][0]['concentration']['top5_output_share'] = 'Infinity'
+        path = tmp_path / 'benchmark_panel.json'
+        path.write_text(json.dumps(payload), encoding='utf-8')
+        with pytest.raises(ValueError, match='concentration.top5_output_share'):
+            concentration_ranking(path)
 
 
 class TestReport:

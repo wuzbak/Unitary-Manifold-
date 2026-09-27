@@ -38,6 +38,7 @@ __provenance__ = {
 
 import html
 import json
+import math
 import re
 from copy import deepcopy
 from functools import lru_cache
@@ -153,6 +154,13 @@ def _parse_float_token(text: str) -> float:
 
 def _normalized_float(value: Any) -> float:
     return float(value)
+
+
+def _finite_metric(value: Any, field_name: str) -> float:
+    numeric = float(value)
+    if not math.isfinite(numeric):
+        raise ValueError(f"ranking field {field_name!r} must be finite, got {value!r}")
+    return numeric
 
 
 def parse_partner_table_html(table_html: str) -> List[Dict[str, Any]]:
@@ -292,9 +300,9 @@ def cross_domain_bridge_types(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List
 def _reciprocity_ranking_from_panel(panel: List[Mapping[str, Any]]) -> List[Dict[str, Any]]:
     rows = sorted(
         panel,
-        key=lambda row: (-_normalized_float(row["reciprocity"]["jaccard"]), row["name"]),
+        key=lambda row: (-_finite_metric(row["reciprocity"]["jaccard"], "reciprocity.jaccard"), row["name"]),
     )
-    return [{"name": row["name"], "jaccard": _normalized_float(row["reciprocity"]["jaccard"])} for row in rows]
+    return [{"name": row["name"], "jaccard": _finite_metric(row["reciprocity"]["jaccard"], "reciprocity.jaccard")} for row in rows]
 
 
 def reciprocity_ranking(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dict[str, Any]]:
@@ -309,9 +317,9 @@ def _neurotransmitter_entropy_ranking_from_panel(
     key = f"{direction}_entropy_bits"
     rows = sorted(
         panel,
-        key=lambda row: (-_normalized_float(row["neurotransmitter_mix"][key]), row["name"]),
+        key=lambda row: (-_finite_metric(row["neurotransmitter_mix"][key], f"neurotransmitter_mix.{key}"), row["name"]),
     )
-    return [{"name": row["name"], "entropy_bits": _normalized_float(row["neurotransmitter_mix"][key])} for row in rows]
+    return [{"name": row["name"], "entropy_bits": _finite_metric(row["neurotransmitter_mix"][key], f"neurotransmitter_mix.{key}")} for row in rows]
 
 
 def neurotransmitter_entropy_ranking(
@@ -323,13 +331,13 @@ def neurotransmitter_entropy_ranking(
 def _concentration_ranking_from_panel(panel: List[Mapping[str, Any]]) -> List[Dict[str, Any]]:
     rows = sorted(
         panel,
-        key=lambda row: (-_normalized_float(row["concentration"]["top5_output_share"]), row["name"]),
+        key=lambda row: (-_finite_metric(row["concentration"]["top5_output_share"], "concentration.top5_output_share"), row["name"]),
     )
     return [
         {
             "name": row["name"],
-            "top5_input_share": _normalized_float(row["concentration"]["top5_input_share"]),
-            "top5_output_share": _normalized_float(row["concentration"]["top5_output_share"]),
+            "top5_input_share": _finite_metric(row["concentration"]["top5_input_share"], "concentration.top5_input_share"),
+            "top5_output_share": _finite_metric(row["concentration"]["top5_output_share"], "concentration.top5_output_share"),
         }
         for row in rows
     ]
