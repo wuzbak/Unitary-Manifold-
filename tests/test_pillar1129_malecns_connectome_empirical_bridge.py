@@ -248,6 +248,12 @@ class TestBenchmarkPayload:
         assert manifest['benchmark_panel_size'] == 7
         assert manifest['total_neuron_types'] == 11751
 
+    def test_manifest_returns_deep_copy(self):
+        manifest = malecns_manifest()
+        original = malecns_manifest()
+        manifest['public_interfaces']['neuprint_dataset'] = 'mutated'
+        assert original['public_interfaces']['neuprint_dataset'] == 'male-cns:v1.0'
+
     def test_benchmark_names(self):
         assert benchmark_names() == ['LPLC2', 'LC4', 'EPG', 'AN01B004', 'DNa02', 'MN5', '5-HTPLP01']
 
@@ -271,6 +277,12 @@ class TestBenchmarkPayload:
         assert agg['dominant_domain_counts']['optic_lobe'] == 2
         assert agg['dominant_domain_counts']['central_brain'] == 4
         assert agg['dominant_domain_counts']['vnc_or_motor'] == 1
+
+    def test_aggregate_observables_returns_deep_copy(self):
+        agg = aggregate_observables()
+        original = aggregate_observables()
+        agg['dominant_domain_counts']['optic_lobe'] = 999
+        assert original['dominant_domain_counts']['optic_lobe'] == 2
 
 
 class TestDerivedRankings:
@@ -303,6 +315,14 @@ class TestDerivedRankings:
     def test_reciprocity_ranking_rejects_nonnumeric_metric(self, tmp_path):
         payload = load_benchmark_payload()
         payload['benchmark_panel'][0]['reciprocity']['jaccard'] = 'not-a-number'
+        path = tmp_path / 'benchmark_panel.json'
+        path.write_text(json.dumps(payload), encoding='utf-8')
+        with pytest.raises(ValueError, match='reciprocity.jaccard'):
+            reciprocity_ranking(path)
+
+    def test_reciprocity_ranking_rejects_boolean_metric(self, tmp_path):
+        payload = load_benchmark_payload()
+        payload['benchmark_panel'][0]['reciprocity']['jaccard'] = True
         path = tmp_path / 'benchmark_panel.json'
         path.write_text(json.dumps(payload), encoding='utf-8')
         with pytest.raises(ValueError, match='reciprocity.jaccard'):

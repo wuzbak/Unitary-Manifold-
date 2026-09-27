@@ -151,6 +151,8 @@ def _parse_float_token(text: str) -> float:
 
 
 def _finite_metric(value: Any, field_name: str) -> float:
+    if isinstance(value, bool):
+        raise ValueError(f"ranking field {field_name!r} must be finite, got {value!r}")
     try:
         numeric = float(value)
     except (TypeError, ValueError) as exc:
@@ -238,7 +240,7 @@ def load_benchmark_payload(path: Path | str = DEFAULT_BENCHMARK_PATH) -> Dict[st
 
 
 def _manifest_from_payload(payload: Mapping[str, Any]) -> Dict[str, Any]:
-    return dict(payload["manifest"])
+    return deepcopy(payload["manifest"])
 
 
 def _panel_from_payload(payload: Mapping[str, Any]) -> List[Dict[str, Any]]:
@@ -246,7 +248,7 @@ def _panel_from_payload(payload: Mapping[str, Any]) -> List[Dict[str, Any]]:
 
 
 def _aggregate_from_payload(payload: Mapping[str, Any]) -> Dict[str, Any]:
-    return dict(payload["aggregate_observables"])
+    return deepcopy(payload["aggregate_observables"])
 
 
 def malecns_manifest(path: Path | str = DEFAULT_BENCHMARK_PATH) -> Dict[str, Any]:
