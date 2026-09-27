@@ -1,0 +1,1595 @@
+{
+  "aggregate_observables": {
+    "dominant_domain_counts": {
+      "central_brain": 4,
+      "optic_lobe": 2,
+      "vnc_or_motor": 1
+    },
+    "highest_input_type": "LPLC2",
+    "highest_output_type": "LPLC2",
+    "mean_reciprocity_jaccard": 0.440191,
+    "median_input_synapses": 47894,
+    "median_output_synapses": 23167,
+    "most_diffuse_output_type": "EPG",
+    "most_reciprocal_type": "LC4"
+  },
+  "benchmark_panel": [
+    {
+      "concentration": {
+        "top5_input_share": 0.364627,
+        "top5_output_share": 0.472675
+      },
+      "macro_domain": {
+        "domain_synapse_totals": {
+          "central_brain": 112239,
+          "optic_lobe": 310355,
+          "other": 0,
+          "vnc_or_motor": 0
+        },
+        "dominant_domain": "optic_lobe"
+      },
+      "name": "LPLC2",
+      "neurotransmitter_mix": {
+        "downstream_counts": {
+          "acetylcholine": 409,
+          "dopamine": 5,
+          "gaba": 150,
+          "glutamate": 110,
+          "octopamine": 4,
+          "serotonin": 1,
+          "unclear": 13
+        },
+        "downstream_entropy_bits": 1.56403,
+        "upstream_counts": {
+          "acetylcholine": 274,
+          "dopamine": 4,
+          "gaba": 124,
+          "glutamate": 114,
+          "octopamine": 4,
+          "serotonin": 2,
+          "unclear": 14
+        },
+        "upstream_entropy_bits": 1.731325
+      },
+      "reciprocity": {
+        "jaccard": 0.558376,
+        "reciprocal_partner_count": 440,
+        "sample_reciprocal_partners": [
+          "5-HTPLP01",
+          "5-HTPMPV03",
+          "AVLP016",
+          "AVLP040",
+          "AVLP080",
+          "AVLP153",
+          "AVLP176_d",
+          "AVLP202",
+          "AVLP204",
+          "AVLP205",
+          "AVLP340",
+          "AVLP396"
+        ],
+        "union_partner_count": 788
+      },
+      "role": "optic_projection",
+      "source_sha256": "4f375a926ed8a5186eb197158db1a66d86ac5f56647eb44c500146b5f71c1025",
+      "source_url": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/types/LPLC2.html",
+      "synapse_totals": {
+        "input": 350542,
+        "io_ratio": 0.521997,
+        "output": 182982
+      },
+      "table_row_counts": {
+        "downstream_partners": 692,
+        "roi_rows": 8,
+        "upstream_partners": 536
+      },
+      "top_partners": {
+        "downstream": [
+          {
+            "cell_count": 185,
+            "href": "LPLC2.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "LPLC2",
+            "percentage": 25.23636,
+            "synapses": 46178
+          },
+          {
+            "cell_count": 9,
+            "href": "PVLP111.html",
+            "neurotransmitter": "gaba",
+            "partner": "PVLP111",
+            "percentage": 7.03129,
+            "synapses": 12866
+          },
+          {
+            "cell_count": 2,
+            "href": "PVLP011.html",
+            "neurotransmitter": "gaba",
+            "partner": "PVLP011",
+            "percentage": 6.35199,
+            "synapses": 11623
+          },
+          {
+            "cell_count": 2,
+            "href": "PVLP069.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "PVLP069",
+            "percentage": 4.94748,
+            "synapses": 9053
+          },
+          {
+            "cell_count": 4,
+            "href": "PVLP151.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "PVLP151",
+            "percentage": 3.70036,
+            "synapses": 6771
+          }
+        ],
+        "upstream": [
+          {
+            "cell_count": 185,
+            "href": "LPLC2.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "LPLC2",
+            "percentage": 13.17331,
+            "synapses": 46178
+          },
+          {
+            "cell_count": 898,
+            "href": "Tm5Y.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "Tm5Y",
+            "percentage": 7.7189,
+            "synapses": 27058
+          },
+          {
+            "cell_count": 1610,
+            "href": "T5d.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "T5d",
+            "percentage": 5.46725,
+            "synapses": 19165
+          },
+          {
+            "cell_count": 1700,
+            "href": "T5b.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "T5b",
+            "percentage": 5.2048,
+            "synapses": 18245
+          },
+          {
+            "cell_count": 1699,
+            "href": "T5c.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "T5c",
+            "percentage": 4.89841,
+            "synapses": 17171
+          }
+        ]
+      },
+      "top_rois": [
+        {
+          "input_percentage": 44.01659435978839,
+          "input_synapses": 159999,
+          "label": "Lobula Plate",
+          "log_ratio": -5.26,
+          "output_percentage": 7.069732812156286,
+          "output_synapses": 4178,
+          "roi": "LOP"
+        },
+        {
+          "input_percentage": 37.61516601237424,
+          "input_synapses": 136730,
+          "label": "LO",
+          "log_ratio": -4.5,
+          "output_percentage": 10.23740629812004,
+          "output_synapses": 6050,
+          "roi": "LO"
+        },
+        {
+          "input_percentage": 17.342371463863525,
+          "input_synapses": 63039,
+          "label": "Posterior Ventrolateral Protocerebrum",
+          "log_ratio": -0.38,
+          "output_percentage": 81.74695839044284,
+          "output_synapses": 48310,
+          "roi": "PVLP"
+        },
+        {
+          "input_percentage": 0.6423711887580915,
+          "input_synapses": 2335,
+          "label": "inside the optic lobe and outside known ROIs",
+          "log_ratio": -2.85,
+          "output_percentage": 0.5482511802629575,
+          "output_synapses": 324,
+          "roi": "Optic-unspecified"
+        },
+        {
+          "input_percentage": 0.17304131808515616,
+          "input_synapses": 629,
+          "label": "inside the central brain and outside known ROIs",
+          "log_ratio": -1.69,
+          "output_percentage": 0.3299659881212244,
+          "output_synapses": 195,
+          "roi": "CentralBrain-unspecified"
+        },
+        {
+          "input_percentage": 0.19504975281776743,
+          "input_synapses": 709,
+          "label": "ME",
+          "log_ratio": -4.56,
+          "output_percentage": 0.05076399817249607,
+          "output_synapses": 30,
+          "roi": "ME"
+        },
+        {
+          "input_percentage": 0.015130798878670249,
+          "input_synapses": 55,
+          "label": "Posterior Lateral Protocerebrum",
+          "log_ratio": -3.78,
+          "output_percentage": 0.006768533089666142,
+          "output_synapses": 4,
+          "roi": "PLP"
+        },
+        {
+          "input_percentage": 0.00027510543415764087,
+          "input_synapses": 1,
+          "label": "EPA",
+          "log_ratio": 2.58,
+          "output_percentage": 0.010152799634499212,
+          "output_synapses": 6,
+          "roi": "EPA"
+        }
+      ]
+    },
+    {
+      "concentration": {
+        "top5_input_share": 0.514729,
+        "top5_output_share": 0.392221
+      },
+      "macro_domain": {
+        "domain_synapse_totals": {
+          "central_brain": 77182,
+          "optic_lobe": 283831,
+          "other": 0,
+          "vnc_or_motor": 0
+        },
+        "dominant_domain": "optic_lobe"
+      },
+      "name": "LC4",
+      "neurotransmitter_mix": {
+        "downstream_counts": {
+          "acetylcholine": 316,
+          "dopamine": 5,
+          "gaba": 154,
+          "glutamate": 74,
+          "octopamine": 5,
+          "serotonin": 1,
+          "unclear": 8
+        },
+        "downstream_entropy_bits": 1.588503,
+        "upstream_counts": {
+          "acetylcholine": 227,
+          "dopamine": 3,
+          "gaba": 138,
+          "glutamate": 69,
+          "octopamine": 4,
+          "serotonin": 1,
+          "unclear": 9
+        },
+        "upstream_entropy_bits": 1.676462
+      },
+      "reciprocity": {
+        "jaccard": 0.625,
+        "reciprocal_partner_count": 390,
+        "sample_reciprocal_partners": [
+          "5-HTPMPV03",
+          "AMMC-A1",
+          "AN07B004",
+          "AN08B010",
+          "AN09A005",
+          "AN09B016",
+          "AN10B019",
+          "AN17B005",
+          "AN17B013",
+          "ANXXX109",
+          "AVLP016",
+          "AVLP083"
+        ],
+        "union_partner_count": 624
+      },
+      "role": "optic_feature_detector",
+      "source_sha256": "51aeaa77883d129b7c6de0600a23a3e6ffac0540d924b2c309afb7dbd96d718d",
+      "source_url": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/types/LC4.html",
+      "synapse_totals": {
+        "input": 305252,
+        "io_ratio": 0.450762,
+        "output": 137596
+      },
+      "table_row_counts": {
+        "downstream_partners": 563,
+        "roi_rows": 9,
+        "upstream_partners": 451
+      },
+      "top_partners": {
+        "downstream": [
+          {
+            "cell_count": 126,
+            "href": "LC4.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "LC4",
+            "percentage": 13.36667,
+            "synapses": 18392
+          },
+          {
+            "cell_count": 2,
+            "href": "DNp04.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "DNp04",
+            "percentage": 8.4283,
+            "synapses": 11597
+          },
+          {
+            "cell_count": 6,
+            "href": "AMMC-A1.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "AMMC-A1",
+            "percentage": 7.82508,
+            "synapses": 10767
+          },
+          {
+            "cell_count": 3,
+            "href": "PVLP024.html",
+            "neurotransmitter": "gaba",
+            "partner": "PVLP024",
+            "percentage": 4.97834,
+            "synapses": 6850
+          },
+          {
+            "cell_count": 2,
+            "href": "DNp01.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "DNp01",
+            "percentage": 4.62368,
+            "synapses": 6362
+          }
+        ],
+        "upstream": [
+          {
+            "cell_count": 1630,
+            "href": "T2.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "T2",
+            "percentage": 15.12062,
+            "synapses": 46156
+          },
+          {
+            "cell_count": 818,
+            "href": "TmY3.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "TmY3",
+            "percentage": 13.39221,
+            "synapses": 40880
+          },
+          {
+            "cell_count": 1663,
+            "href": "Tm4.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "Tm4",
+            "percentage": 10.19944,
+            "synapses": 31134
+          },
+          {
+            "cell_count": 1706,
+            "href": "Tm2.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "Tm2",
+            "percentage": 6.73542,
+            "synapses": 20560
+          },
+          {
+            "cell_count": 126,
+            "href": "LC4.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "LC4",
+            "percentage": 6.02519,
+            "synapses": 18392
+          }
+        ]
+      },
+      "top_rois": [
+        {
+          "input_percentage": 88.09233349853227,
+          "input_synapses": 277290,
+          "label": "LO",
+          "log_ratio": -5.54,
+          "output_percentage": 12.876019117233623,
+          "output_synapses": 5954,
+          "roi": "LO"
+        },
+        {
+          "input_percentage": 11.144574485659462,
+          "input_synapses": 35080,
+          "label": "Posterior Ventrolateral Protocerebrum",
+          "log_ratio": 0.16,
+          "output_percentage": 84.61538461538461,
+          "output_synapses": 39127,
+          "roi": "PVLP"
+        },
+        {
+          "input_percentage": 0.467004689108307,
+          "input_synapses": 1470,
+          "label": "inside the central brain and outside known ROIs",
+          "log_ratio": -1.43,
+          "output_percentage": 1.1807703120607254,
+          "output_synapses": 546,
+          "roi": "CentralBrain-unspecified"
+        },
+        {
+          "input_percentage": 0.14391368990888642,
+          "input_synapses": 453,
+          "label": "inside the optic lobe and outside known ROIs",
+          "log_ratio": -1.98,
+          "output_percentage": 0.24869704374905388,
+          "output_synapses": 115,
+          "roi": "Optic-unspecified"
+        },
+        {
+          "input_percentage": 0.08704713252767082,
+          "input_synapses": 274,
+          "label": "WED",
+          "log_ratio": -0.3,
+          "output_percentage": 0.48225600657425227,
+          "output_synapses": 223,
+          "roi": "WED"
+        },
+        {
+          "input_percentage": 0.05813731844001373,
+          "input_synapses": 183,
+          "label": "Posterior Lateral Protocerebrum",
+          "log_ratio": 0.58,
+          "output_percentage": 0.5925477390194849,
+          "output_synapses": 274,
+          "roi": "PLP"
+        },
+        {
+          "input_percentage": 0.005400734499891985,
+          "input_synapses": 17,
+          "label": "Lobula Plate",
+          "log_ratio": -Infinity,
+          "output_percentage": 0.0,
+          "output_synapses": 0,
+          "roi": "LOP"
+        },
+        {
+          "input_percentage": 0.0009530707940985856,
+          "input_synapses": 3,
+          "label": "Lateral Accessory Lobe",
+          "log_ratio": -0.58,
+          "output_percentage": 0.004325165978244415,
+          "output_synapses": 2,
+          "roi": "LAL"
+        }
+      ]
+    },
+    {
+      "concentration": {
+        "top5_input_share": 0.367543,
+        "top5_output_share": 0.495725
+      },
+      "macro_domain": {
+        "domain_synapse_totals": {
+          "central_brain": 454322,
+          "optic_lobe": 0,
+          "other": 50,
+          "vnc_or_motor": 0
+        },
+        "dominant_domain": "central_brain"
+      },
+      "name": "EPG",
+      "neurotransmitter_mix": {
+        "downstream_counts": {
+          "acetylcholine": 87,
+          "dopamine": 6,
+          "gaba": 32,
+          "glutamate": 59,
+          "octopamine": 2,
+          "serotonin": 2,
+          "unclear": 10
+        },
+        "downstream_entropy_bits": 1.971068,
+        "upstream_counts": {
+          "acetylcholine": 80,
+          "dopamine": 7,
+          "gaba": 34,
+          "glutamate": 72,
+          "octopamine": 3,
+          "serotonin": 2,
+          "unclear": 13
+        },
+        "upstream_entropy_bits": 2.045864
+      },
+      "reciprocity": {
+        "jaccard": 0.514815,
+        "reciprocal_partner_count": 139,
+        "sample_reciprocal_partners": [
+          "AN09A005",
+          "DNc01",
+          "DNc02",
+          "Delta7",
+          "EL",
+          "EPG",
+          "EPGt",
+          "ER1_a",
+          "ER1_b",
+          "ER1_c",
+          "ER2_a",
+          "ER2_b"
+        ],
+        "union_partner_count": 270
+      },
+      "role": "central_complex_compass",
+      "source_sha256": "248b7a80aeff9f40b86978abf31fc69bd5b2d6365518b85c6590d0ab0bad10fd",
+      "source_url": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/types/EPG.html",
+      "synapse_totals": {
+        "input": 201367,
+        "io_ratio": 0.570372,
+        "output": 114854
+      },
+      "table_row_counts": {
+        "downstream_partners": 198,
+        "roi_rows": 12,
+        "upstream_partners": 211
+      },
+      "top_partners": {
+        "downstream": [
+          {
+            "cell_count": 42,
+            "href": "Delta7.html",
+            "neurotransmitter": "glutamate",
+            "partner": "Delta7",
+            "percentage": 17.32286,
+            "synapses": 19896
+          },
+          {
+            "cell_count": 46,
+            "href": "EPG.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "EPG",
+            "percentage": 10.00052,
+            "synapses": 11486
+          },
+          {
+            "cell_count": 2,
+            "href": "ExR6.html",
+            "neurotransmitter": "glutamate",
+            "partner": "ExR6",
+            "percentage": 8.85385,
+            "synapses": 10169
+          },
+          {
+            "cell_count": 18,
+            "href": "EL.html",
+            "neurotransmitter": "octopamine",
+            "partner": "EL",
+            "percentage": 7.97099,
+            "synapses": 9155
+          },
+          {
+            "cell_count": 22,
+            "href": "PEN_b(PEN2).html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "PEN_b(PEN2)",
+            "percentage": 5.42428,
+            "synapses": 6230
+          }
+        ],
+        "upstream": [
+          {
+            "cell_count": 11,
+            "href": "ER4m.html",
+            "neurotransmitter": "gaba",
+            "partner": "ER4m",
+            "percentage": 10.52903,
+            "synapses": 21202
+          },
+          {
+            "cell_count": 20,
+            "href": "ER2_c.html",
+            "neurotransmitter": "gaba",
+            "partner": "ER2_c",
+            "percentage": 7.24548,
+            "synapses": 14590
+          },
+          {
+            "cell_count": 20,
+            "href": "PEN_a(PEN1).html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "PEN_a(PEN1)",
+            "percentage": 7.15013,
+            "synapses": 14398
+          },
+          {
+            "cell_count": 26,
+            "href": "ER4d.html",
+            "neurotransmitter": "gaba",
+            "partner": "ER4d",
+            "percentage": 6.12563,
+            "synapses": 12335
+          },
+          {
+            "cell_count": 46,
+            "href": "EPG.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "EPG",
+            "percentage": 5.70401,
+            "synapses": 11486
+          }
+        ]
+      },
+      "top_rois": [
+        {
+          "input_percentage": 48.757647833176264,
+          "input_synapses": 195564,
+          "label": "Central Complex",
+          "log_ratio": -3.03,
+          "output_percentage": 44.96602725327528,
+          "output_synapses": 23957,
+          "roi": "CX"
+        },
+        {
+          "input_percentage": 46.239784190239696,
+          "input_synapses": 185465,
+          "label": "Ellipsoid Body",
+          "log_ratio": -3.77,
+          "output_percentage": 25.50396035887233,
+          "output_synapses": 13588,
+          "roi": "EB"
+        },
+        {
+          "input_percentage": 2.1982378195634937,
+          "input_synapses": 8817,
+          "label": "Protocerebral Bridge",
+          "log_ratio": 0.22,
+          "output_percentage": 19.240587109125716,
+          "output_synapses": 10251,
+          "roi": "PB"
+        },
+        {
+          "input_percentage": 1.949169022722853,
+          "input_synapses": 7818,
+          "label": "Lateral Accessory Lobe",
+          "log_ratio": -0.69,
+          "output_percentage": 9.076917301700513,
+          "output_synapses": 4836,
+          "roi": "LAL"
+        },
+        {
+          "input_percentage": 0.5018773654056157,
+          "input_synapses": 2013,
+          "label": "inside the central brain and outside known ROIs",
+          "log_ratio": -2.17,
+          "output_percentage": 0.8389954577874545,
+          "output_synapses": 447,
+          "roi": "CentralBrain-unspecified"
+        },
+        {
+          "input_percentage": 0.31962582337307466,
+          "input_synapses": 1282,
+          "label": "Fan-Shaped Body",
+          "log_ratio": -3.44,
+          "output_percentage": 0.22147978527722514,
+          "output_synapses": 118,
+          "roi": "FB"
+        },
+        {
+          "input_percentage": 0.018698858621669732,
+          "input_synapses": 75,
+          "label": "CRE",
+          "log_ratio": -2.23,
+          "output_percentage": 0.03003115732572544,
+          "output_synapses": 16,
+          "roi": "CRE"
+        },
+        {
+          "input_percentage": 0.004737044184156333,
+          "input_synapses": 19,
+          "label": "Mushroom Body",
+          "log_ratio": 0.71,
+          "output_percentage": 0.05818536731859304,
+          "output_synapses": 31,
+          "roi": "MB"
+        }
+      ]
+    },
+    {
+      "concentration": {
+        "top5_input_share": 0.297724,
+        "top5_output_share": 0.117595
+      },
+      "macro_domain": {
+        "domain_synapse_totals": {
+          "central_brain": 4093,
+          "optic_lobe": 0,
+          "other": 0,
+          "vnc_or_motor": 15236
+        },
+        "dominant_domain": "vnc_or_motor"
+      },
+      "name": "AN01B004",
+      "neurotransmitter_mix": {
+        "downstream_counts": {
+          "acetylcholine": 417,
+          "dopamine": 1,
+          "gaba": 296,
+          "glutamate": 129,
+          "histamine": 2,
+          "octopamine": 1,
+          "unclear": 33
+        },
+        "downstream_entropy_bits": 1.665454,
+        "upstream_counts": {
+          "acetylcholine": 206,
+          "gaba": 211,
+          "glutamate": 66,
+          "histamine": 2,
+          "octopamine": 1,
+          "serotonin": 1,
+          "unclear": 28
+        },
+        "upstream_entropy_bits": 1.730551
+      },
+      "reciprocity": {
+        "jaccard": 0.327619,
+        "reciprocal_partner_count": 344,
+        "sample_reciprocal_partners": [
+          "AN01B004",
+          "AN01B005",
+          "AN01B011",
+          "AN05B004",
+          "AN05B007",
+          "AN05B009",
+          "AN05B021",
+          "AN05B023a",
+          "AN05B025",
+          "AN05B026",
+          "AN05B027",
+          "AN05B076"
+        ],
+        "union_partner_count": 1050
+      },
+      "role": "ascending_vnc_bridge",
+      "source_sha256": "b467780d2666af570f130c467b8981b7f0efbe2ac753d27f91836a62202334e4",
+      "source_url": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/types/AN01B004.html",
+      "synapse_totals": {
+        "input": 10016,
+        "io_ratio": 1.816893,
+        "output": 18198
+      },
+      "table_row_counts": {
+        "downstream_partners": 879,
+        "roi_rows": 10,
+        "upstream_partners": 515
+      },
+      "top_partners": {
+        "downstream": [
+          {
+            "cell_count": 2,
+            "href": "GNG250.html",
+            "neurotransmitter": "gaba",
+            "partner": "GNG250",
+            "percentage": 3.1432,
+            "synapses": 572
+          },
+          {
+            "cell_count": 6,
+            "href": "AN01B004.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "AN01B004",
+            "percentage": 2.23651,
+            "synapses": 407
+          },
+          {
+            "cell_count": 5,
+            "href": "IN16B032.html",
+            "neurotransmitter": "glutamate",
+            "partner": "IN16B032",
+            "percentage": 2.18156,
+            "synapses": 397
+          },
+          {
+            "cell_count": 2,
+            "href": "GNG569.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "GNG569",
+            "percentage": 2.12111,
+            "synapses": 386
+          },
+          {
+            "cell_count": 2,
+            "href": "DNge174.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "DNge174",
+            "percentage": 2.07715,
+            "synapses": 378
+          }
+        ],
+        "upstream": [
+          {
+            "cell_count": 2,
+            "href": "DNde007.html",
+            "neurotransmitter": "glutamate",
+            "partner": "DNde007",
+            "percentage": 11.37181,
+            "synapses": 1139
+          },
+          {
+            "cell_count": 42,
+            "href": "LgLG4.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "LgLG4",
+            "percentage": 9.58466,
+            "synapses": 960
+          },
+          {
+            "cell_count": 6,
+            "href": "AN01B004.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "AN01B004",
+            "percentage": 4.0635,
+            "synapses": 407
+          },
+          {
+            "cell_count": 4,
+            "href": "AN05B106.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "AN05B106",
+            "percentage": 2.45607,
+            "synapses": 246
+          },
+          {
+            "cell_count": 5,
+            "href": "AN17A062.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "AN17A062",
+            "percentage": 2.29633,
+            "synapses": 230
+          }
+        ]
+      },
+      "top_rois": [
+        {
+          "input_percentage": 24.4201428697416,
+          "input_synapses": 2769,
+          "label": "Leg Neuropil in prothoracic ganglion",
+          "log_ratio": -0.08,
+          "output_percentage": 32.85356695869837,
+          "output_synapses": 2625,
+          "roi": "LegNp(T1)"
+        },
+        {
+          "input_percentage": 32.68365817091454,
+          "input_synapses": 3706,
+          "label": "Leg Neuropil in mesothoracic ganglion",
+          "log_ratio": -1.46,
+          "output_percentage": 16.83354192740926,
+          "output_synapses": 1345,
+          "roi": "LegNp(T2)"
+        },
+        {
+          "input_percentage": 30.046741335214744,
+          "input_synapses": 3407,
+          "label": "Leg Neuropil in metathoracic ganglion",
+          "log_ratio": -1.63,
+          "output_percentage": 13.754693366708384,
+          "output_synapses": 1099,
+          "roi": "LegNp(T3)"
+        },
+        {
+          "input_percentage": 10.82987917805803,
+          "input_synapses": 1228,
+          "label": "Gnathal Ganglia",
+          "log_ratio": 1.2,
+          "output_percentage": 35.28160200250313,
+          "output_synapses": 2819,
+          "roi": "GNG"
+        },
+        {
+          "input_percentage": 1.5433459740717876,
+          "input_synapses": 175,
+          "label": "inside the ventral nerve cord and outside known ROIs",
+          "log_ratio": -1.28,
+          "output_percentage": 0.9011264080100125,
+          "output_synapses": 72,
+          "roi": "VNC-unspecified"
+        },
+        {
+          "input_percentage": 0.2645735955551636,
+          "input_synapses": 30,
+          "label": "inside the central brain and outside known ROIs",
+          "log_ratio": -0.91,
+          "output_percentage": 0.2002503128911139,
+          "output_synapses": 16,
+          "roi": "CentralBrain-unspecified"
+        },
+        {
+          "input_percentage": 0.09701031837022665,
+          "input_synapses": 11,
+          "label": "inside the cervical connective and outside known ROIs",
+          "log_ratio": -0.29,
+          "output_percentage": 0.11264080100125157,
+          "output_synapses": 9,
+          "roi": "CV-unspecified"
+        },
+        {
+          "input_percentage": 0.10582943822206545,
+          "input_synapses": 12,
+          "label": "Medial Ventral Association Center in prothoracic ganglion",
+          "log_ratio": -2.58,
+          "output_percentage": 0.025031289111389236,
+          "output_synapses": 2,
+          "roi": "mVAC(T1)"
+        }
+      ]
+    },
+    {
+      "concentration": {
+        "top5_input_share": 0.103896,
+        "top5_output_share": 0.22006
+      },
+      "macro_domain": {
+        "domain_synapse_totals": {
+          "central_brain": 49310,
+          "optic_lobe": 0,
+          "other": 45,
+          "vnc_or_motor": 6255
+        },
+        "dominant_domain": "central_brain"
+      },
+      "name": "DNa02",
+      "neurotransmitter_mix": {
+        "downstream_counts": {
+          "acetylcholine": 292,
+          "dopamine": 1,
+          "gaba": 166,
+          "glutamate": 98,
+          "octopamine": 3,
+          "unclear": 41
+        },
+        "downstream_entropy_bits": 1.763099,
+        "upstream_counts": {
+          "acetylcholine": 536,
+          "dopamine": 6,
+          "gaba": 223,
+          "glutamate": 144,
+          "histamine": 1,
+          "octopamine": 5,
+          "unclear": 21
+        },
+        "upstream_entropy_bits": 1.58954
+      },
+      "reciprocity": {
+        "jaccard": 0.225678,
+        "reciprocal_partner_count": 283,
+        "sample_reciprocal_partners": [
+          "AN02A025",
+          "AN03A008",
+          "AN06B004",
+          "AN06B009",
+          "AN07B035",
+          "AN10B021",
+          "AN12A003",
+          "AN18B022",
+          "AN19B014",
+          "AN19B015",
+          "ANXXX049",
+          "ANXXX071"
+        ],
+        "union_partner_count": 1254
+      },
+      "role": "descending_motor_command",
+      "source_sha256": "9b18eb47b0e0ae1e14473fb9d923483b573a55b5808456999c41c77640f6a126",
+      "source_url": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/types/DNa02.html",
+      "synapse_totals": {
+        "input": 47894,
+        "io_ratio": 0.300393,
+        "output": 14387
+      },
+      "table_row_counts": {
+        "downstream_partners": 601,
+        "roi_rows": 27,
+        "upstream_partners": 936
+      },
+      "top_partners": {
+        "downstream": [
+          {
+            "cell_count": 6,
+            "href": "IN08A006.html",
+            "neurotransmitter": "gaba",
+            "partner": "IN08A006",
+            "percentage": 6.2487,
+            "synapses": 899
+          },
+          {
+            "cell_count": 12,
+            "href": "Sternal_anterior_rotator_MN.html",
+            "neurotransmitter": "unclear",
+            "partner": "Sternal anterior rotator MN",
+            "percentage": 5.39376,
+            "synapses": 776
+          },
+          {
+            "cell_count": 6,
+            "href": "IN19A003.html",
+            "neurotransmitter": "gaba",
+            "partner": "IN19A003",
+            "percentage": 4.372,
+            "synapses": 629
+          },
+          {
+            "cell_count": 6,
+            "href": "IN13B001.html",
+            "neurotransmitter": "gaba",
+            "partner": "IN13B001",
+            "percentage": 3.3572,
+            "synapses": 483
+          },
+          {
+            "cell_count": 4,
+            "href": "PS137.html",
+            "neurotransmitter": "glutamate",
+            "partner": "PS137",
+            "percentage": 2.63432,
+            "synapses": 379
+          }
+        ],
+        "upstream": [
+          {
+            "cell_count": 2,
+            "href": "AN03A008.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "AN03A008",
+            "percentage": 3.04422,
+            "synapses": 1458
+          },
+          {
+            "cell_count": 2,
+            "href": "PS049.html",
+            "neurotransmitter": "gaba",
+            "partner": "PS049",
+            "percentage": 2.1297,
+            "synapses": 1020
+          },
+          {
+            "cell_count": 4,
+            "href": "PS059.html",
+            "neurotransmitter": "gaba",
+            "partner": "PS059",
+            "percentage": 2.08377,
+            "synapses": 998
+          },
+          {
+            "cell_count": 6,
+            "href": "AN04B003.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "AN04B003",
+            "percentage": 1.59519,
+            "synapses": 764
+          },
+          {
+            "cell_count": 24,
+            "href": "PFL3.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "PFL3",
+            "percentage": 1.53673,
+            "synapses": 736
+          }
+        ]
+      },
+      "top_rois": [
+        {
+          "input_percentage": 33.25971999918958,
+          "input_synapses": 16416,
+          "label": "Lateral Accessory Lobe",
+          "log_ratio": -8.45,
+          "output_percentage": 0.7516392131776747,
+          "output_synapses": 47,
+          "roi": "LAL"
+        },
+        {
+          "input_percentage": 21.58356464128695,
+          "input_synapses": 10653,
+          "label": "VES",
+          "log_ratio": -10.21,
+          "output_percentage": 0.14393091316168238,
+          "output_synapses": 9,
+          "roi": "VES"
+        },
+        {
+          "input_percentage": 12.101626922219747,
+          "input_synapses": 5973,
+          "label": "Inferior Posterior Slope",
+          "log_ratio": -2.86,
+          "output_percentage": 13.14569006876699,
+          "output_synapses": 822,
+          "roi": "IPS"
+        },
+        {
+          "input_percentage": 7.514638247867578,
+          "input_synapses": 3709,
+          "label": "Superior Posterior Slope",
+          "log_ratio": -8.53,
+          "output_percentage": 0.15992323684631377,
+          "output_synapses": 10,
+          "roi": "SPS"
+        },
+        {
+          "input_percentage": 6.187572178211804,
+          "input_synapses": 3054,
+          "label": "Gnathal Ganglia",
+          "log_ratio": -2.45,
+          "output_percentage": 8.907724292339676,
+          "output_synapses": 557,
+          "roi": "GNG"
+        },
+        {
+          "input_percentage": 5.2292481309642,
+          "input_synapses": 2581,
+          "label": "EPA",
+          "log_ratio": -7.75,
+          "output_percentage": 0.19190788421557653,
+          "output_synapses": 12,
+          "roi": "EPA"
+        },
+        {
+          "input_percentage": 1.0191056992929068,
+          "input_synapses": 503,
+          "label": "Leg Neuropil in prothoracic ganglion",
+          "log_ratio": 1.66,
+          "output_percentage": 25.395810011194627,
+          "output_synapses": 1588,
+          "roi": "LegNp(T1)"
+        },
+        {
+          "input_percentage": 3.0897339789695484,
+          "input_synapses": 1525,
+          "label": "Posterior Lateral Protocerebrum",
+          "log_ratio": -10.57,
+          "output_percentage": 0.015992323684631375,
+          "output_synapses": 1,
+          "roi": "PLP"
+        }
+      ]
+    },
+    {
+      "concentration": {
+        "top5_input_share": 0.352228,
+        "top5_output_share": 0.118943
+      },
+      "macro_domain": {
+        "domain_synapse_totals": {
+          "central_brain": 3535,
+          "optic_lobe": 0,
+          "other": 0,
+          "vnc_or_motor": 1
+        },
+        "dominant_domain": "central_brain"
+      },
+      "name": "MN5",
+      "neurotransmitter_mix": {
+        "downstream_counts": {
+          "acetylcholine": 56,
+          "gaba": 44,
+          "glutamate": 19,
+          "unclear": 7
+        },
+        "downstream_entropy_bits": 1.69324,
+        "upstream_counts": {
+          "acetylcholine": 94,
+          "gaba": 65,
+          "glutamate": 24,
+          "histamine": 1,
+          "serotonin": 2,
+          "unclear": 13
+        },
+        "upstream_entropy_bits": 1.768634
+      },
+      "reciprocity": {
+        "jaccard": 0.359833,
+        "reciprocal_partner_count": 86,
+        "sample_reciprocal_partners": [
+          "AN10B009",
+          "BM_Hau",
+          "BM_Taste",
+          "DNg37",
+          "DNg54",
+          "DNge003",
+          "DNge031",
+          "DNge036",
+          "DNge051",
+          "DNge096",
+          "DNge121",
+          "DNge143"
+        ],
+        "union_partner_count": 239
+      },
+      "role": "motor_output",
+      "source_sha256": "cf7b4c652380b6f1a0c7dab6be32fb468bf8d7b8de7e77c0c4bddff7e3cfafa4",
+      "source_url": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/types/MN5.html",
+      "synapse_totals": {
+        "input": 3052,
+        "io_ratio": 0.074377,
+        "output": 227
+      },
+      "table_row_counts": {
+        "downstream_partners": 126,
+        "roi_rows": 2,
+        "upstream_partners": 199
+      },
+      "top_partners": {
+        "downstream": [
+          {
+            "cell_count": 2,
+            "href": "GNG076.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "GNG076",
+            "percentage": 2.64317,
+            "synapses": 6
+          },
+          {
+            "cell_count": 2,
+            "href": "MN6.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "MN6",
+            "percentage": 2.64317,
+            "synapses": 6
+          },
+          {
+            "cell_count": 1,
+            "href": "MN9.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "MN9",
+            "percentage": 2.20264,
+            "synapses": 5
+          },
+          {
+            "cell_count": 2,
+            "href": "GNG095.html",
+            "neurotransmitter": "gaba",
+            "partner": "GNG095",
+            "percentage": 2.20264,
+            "synapses": 5
+          },
+          {
+            "cell_count": 2,
+            "href": "DNg37.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "DNg37",
+            "percentage": 2.20264,
+            "synapses": 5
+          }
+        ],
+        "upstream": [
+          {
+            "cell_count": 2,
+            "href": "GNG076.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "GNG076",
+            "percentage": 10.05898,
+            "synapses": 307
+          },
+          {
+            "cell_count": 2,
+            "href": "GNG068.html",
+            "neurotransmitter": "glutamate",
+            "partner": "GNG068",
+            "percentage": 9.10878,
+            "synapses": 278
+          },
+          {
+            "cell_count": 2,
+            "href": "GNG494.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "GNG494",
+            "percentage": 5.47182,
+            "synapses": 167
+          },
+          {
+            "cell_count": 2,
+            "href": "GNG403.html",
+            "neurotransmitter": "gaba",
+            "partner": "GNG403",
+            "percentage": 5.34076,
+            "synapses": 163
+          },
+          {
+            "cell_count": 2,
+            "href": "GNG186.html",
+            "neurotransmitter": "gaba",
+            "partner": "GNG186",
+            "percentage": 5.24246,
+            "synapses": 160
+          }
+        ]
+      },
+      "top_rois": [
+        {
+          "input_percentage": 79.88235294117646,
+          "input_synapses": 2716,
+          "label": "Gnathal Ganglia",
+          "log_ratio": -4.85,
+          "output_percentage": 69.62962962962963,
+          "output_synapses": 94,
+          "roi": "GNG"
+        },
+        {
+          "input_percentage": 20.11764705882353,
+          "input_synapses": 684,
+          "label": "inside the central brain and outside known ROIs",
+          "log_ratio": -4.06,
+          "output_percentage": 30.37037037037037,
+          "output_synapses": 41,
+          "roi": "CentralBrain-unspecified"
+        }
+      ]
+    },
+    {
+      "concentration": {
+        "top5_input_share": 0.177767,
+        "top5_output_share": 0.167954
+      },
+      "macro_domain": {
+        "domain_synapse_totals": {
+          "central_brain": 18203,
+          "optic_lobe": 1,
+          "other": 3,
+          "vnc_or_motor": 0
+        },
+        "dominant_domain": "central_brain"
+      },
+      "name": "5-HTPLP01",
+      "neurotransmitter_mix": {
+        "downstream_counts": {
+          "acetylcholine": 701,
+          "dopamine": 4,
+          "gaba": 157,
+          "glutamate": 100,
+          "octopamine": 4,
+          "serotonin": 1,
+          "unclear": 12
+        },
+        "downstream_entropy_bits": 1.257531,
+        "upstream_counts": {
+          "acetylcholine": 459,
+          "dopamine": 5,
+          "gaba": 138,
+          "glutamate": 67,
+          "octopamine": 5,
+          "serotonin": 1,
+          "unclear": 13
+        },
+        "upstream_entropy_bits": 1.406834
+      },
+      "reciprocity": {
+        "jaccard": 0.470018,
+        "reciprocal_partner_count": 533,
+        "sample_reciprocal_partners": [
+          "AMMC034_b",
+          "AN05B102a",
+          "AN08B018",
+          "AN08B025",
+          "AN08B028",
+          "AN08B034",
+          "AN09A005",
+          "AN09B012",
+          "AN09B016",
+          "AN09B029",
+          "AN12B004",
+          "AN19B036"
+        ],
+        "union_partner_count": 1134
+      },
+      "role": "neuromodulatory_broadcaster",
+      "source_sha256": "67b87d8da5cffccaf7d91f6864767786b681ebe859ed8498566489a21267224c",
+      "source_url": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/types/5-HTPLP01.html",
+      "synapse_totals": {
+        "input": 11847,
+        "io_ratio": 1.955516,
+        "output": 23167
+      },
+      "table_row_counts": {
+        "downstream_partners": 979,
+        "roi_rows": 10,
+        "upstream_partners": 688
+      },
+      "top_partners": {
+        "downstream": [
+          {
+            "cell_count": 4,
+            "href": "LoVC16.html",
+            "neurotransmitter": "glutamate",
+            "partner": "LoVC16",
+            "percentage": 4.91216,
+            "synapses": 1138
+          },
+          {
+            "cell_count": 2,
+            "href": "AVLP500.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "AVLP500",
+            "percentage": 3.60858,
+            "synapses": 836
+          },
+          {
+            "cell_count": 2,
+            "href": "AVLP537.html",
+            "neurotransmitter": "glutamate",
+            "partner": "AVLP537",
+            "percentage": 3.0906,
+            "synapses": 716
+          },
+          {
+            "cell_count": 2,
+            "href": "AVLP538.html",
+            "neurotransmitter": "unclear",
+            "partner": "AVLP538",
+            "percentage": 2.7496,
+            "synapses": 637
+          },
+          {
+            "cell_count": 2,
+            "href": "AVLP536.html",
+            "neurotransmitter": "glutamate",
+            "partner": "AVLP536",
+            "percentage": 2.4345,
+            "synapses": 564
+          }
+        ],
+        "upstream": [
+          {
+            "cell_count": 2,
+            "href": "AVLP169.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "AVLP169",
+            "percentage": 4.8029,
+            "synapses": 569
+          },
+          {
+            "cell_count": 5,
+            "href": "PVLP073.html",
+            "neurotransmitter": "acetylcholine",
+            "partner": "PVLP073",
+            "percentage": 3.52832,
+            "synapses": 418
+          },
+          {
+            "cell_count": 2,
+            "href": "PVLP106.html",
+            "neurotransmitter": "unclear",
+            "partner": "PVLP106",
+            "percentage": 3.1738,
+            "synapses": 376
+          },
+          {
+            "cell_count": 2,
+            "href": "AVLP081.html",
+            "neurotransmitter": "gaba",
+            "partner": "AVLP081",
+            "percentage": 3.14848,
+            "synapses": 373
+          },
+          {
+            "cell_count": 2,
+            "href": "GNG506.html",
+            "neurotransmitter": "gaba",
+            "partner": "GNG506",
+            "percentage": 3.12315,
+            "synapses": 370
+          }
+        ]
+      },
+      "top_rois": [
+        {
+          "input_percentage": 71.4588599853217,
+          "input_synapses": 8763,
+          "label": "Anterior Ventrolateral Protocerebrum",
+          "log_ratio": -1.05,
+          "output_percentage": 70.97913862718708,
+          "output_synapses": 4219,
+          "roi": "AVLP"
+        },
+        {
+          "input_percentage": 23.061241131860065,
+          "input_synapses": 2828,
+          "label": "Posterior Ventrolateral Protocerebrum",
+          "log_ratio": -0.91,
+          "output_percentage": 25.3028263795424,
+          "output_synapses": 1504,
+          "roi": "PVLP"
+        },
+        {
+          "input_percentage": 2.919350892929952,
+          "input_synapses": 358,
+          "label": "Inferior Clamp",
+          "log_ratio": -1.59,
+          "output_percentage": 2.0020188425302825,
+          "output_synapses": 119,
+          "roi": "ICL"
+        },
+        {
+          "input_percentage": 1.5738400065236893,
+          "input_synapses": 193,
+          "label": "inside the central brain and outside known ROIs",
+          "log_ratio": -1.71,
+          "output_percentage": 0.9925975773889637,
+          "output_synapses": 59,
+          "roi": "CentralBrain-unspecified"
+        },
+        {
+          "input_percentage": 0.5218951316969747,
+          "input_synapses": 64,
+          "label": "WED",
+          "log_ratio": -1.36,
+          "output_percentage": 0.4205921938088829,
+          "output_synapses": 25,
+          "roi": "WED"
+        },
+        {
+          "input_percentage": 0.39142134877273094,
+          "input_synapses": 48,
+          "label": "Posterior Lateral Protocerebrum",
+          "log_ratio": -2.0,
+          "output_percentage": 0.2018842530282638,
+          "output_synapses": 12,
+          "roi": "PLP"
+        },
+        {
+          "input_percentage": 0.032618445731060916,
+          "input_synapses": 4,
+          "label": "EPA",
+          "log_ratio": -0.42,
+          "output_percentage": 0.05047106325706595,
+          "output_synapses": 3,
+          "roi": "EPA"
+        },
+        {
+          "input_percentage": 0.016309222865530458,
+          "input_synapses": 2,
+          "label": "GOR",
+          "log_ratio": 0.0,
+          "output_percentage": 0.033647375504710635,
+          "output_synapses": 2,
+          "roi": "GOR"
+        }
+      ]
+    }
+  ],
+  "manifest": {
+    "benchmark_panel_size": 7,
+    "dataset": "male-cns:v1.0",
+    "dataset_uuid": "4b2087c0fbe046bfaf0d60bc970e3e5d",
+    "index_snapshot_sha256": "cbbb8a35d0aac077f64d5f98d51d19f6d3ed40331b5c49fb4edb7e2f1e6b1180",
+    "neuron_count_estimate": 166700,
+    "primary_regions": [
+      "central brain",
+      "optic lobes",
+      "ventral nerve cord"
+    ],
+    "public_interfaces": {
+      "cell_type_explorer_readme": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/README.md",
+      "cell_type_explorer_repo": "https://github.com/reiserlab/celltype-explorer-drosophila-male-cns",
+      "neuprint_dataset": "male-cns:v1.0",
+      "neuroglancer_major_compartments": "precomputed://gs://flyem-male-cns/rois/malecns-major-compartments-v2",
+      "type_index_snapshot": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/data/neurons.json"
+    },
+    "public_release_window": "September 2026",
+    "scope": "adult male central nervous system",
+    "source_catalog_generated_utc": "2026-09-09 18:56:13 UTC",
+    "source_dataset_last_updated": "2026-03-28 11:56:30.222612573-04:00 / 2026-06-08T01:31:39-04:00 (segment property update)",
+    "species": "Drosophila melanogaster",
+    "synapse_count_estimate": 125000000,
+    "total_neuron_types": 11751
+  }
+}
