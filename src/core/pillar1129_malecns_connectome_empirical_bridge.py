@@ -233,16 +233,28 @@ def load_benchmark_payload(path: Path | str = DEFAULT_BENCHMARK_PATH) -> Dict[st
     return json.loads(payload_path.read_text(encoding="utf-8"))
 
 
+def _manifest_from_payload(payload: Mapping[str, Any]) -> Dict[str, Any]:
+    return dict(payload["manifest"])
+
+
+def _panel_from_payload(payload: Mapping[str, Any]) -> List[Dict[str, Any]]:
+    return list(payload["benchmark_panel"])
+
+
+def _aggregate_from_payload(payload: Mapping[str, Any]) -> Dict[str, Any]:
+    return dict(payload["aggregate_observables"])
+
+
 def malecns_manifest(path: Path | str = DEFAULT_BENCHMARK_PATH) -> Dict[str, Any]:
-    return dict(load_benchmark_payload(path)["manifest"])
+    return _manifest_from_payload(load_benchmark_payload(path))
 
 
 def benchmark_panel(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dict[str, Any]]:
-    return list(load_benchmark_payload(path)["benchmark_panel"])
+    return _panel_from_payload(load_benchmark_payload(path))
 
 
 def aggregate_observables(path: Path | str = DEFAULT_BENCHMARK_PATH) -> Dict[str, Any]:
-    return dict(load_benchmark_payload(path)["aggregate_observables"])
+    return _aggregate_from_payload(load_benchmark_payload(path))
 
 
 def benchmark_names(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[str]:
@@ -262,10 +274,9 @@ def _domain_label(row: Mapping[str, Any]) -> str:
     }.get(dominant, dominant.replace("_", "-"))
 
 
-def cross_domain_bridge_types(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[str]:
-    """Return benchmark types with both central-brain and VNC/motor load present."""
+def _cross_domain_bridge_types_from_panel(panel: List[Mapping[str, Any]]) -> List[str]:
     out: List[str] = []
-    for row in benchmark_panel(path):
+    for row in panel:
         if (
             _domain_total(row, "central_brain") > BRIDGE_DOMAIN_THRESHOLD
             and _domain_total(row, "vnc_or_motor") > BRIDGE_DOMAIN_THRESHOLD
@@ -274,30 +285,45 @@ def cross_domain_bridge_types(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List
     return out
 
 
-def reciprocity_ranking(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dict[str, Any]]:
+def cross_domain_bridge_types(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[str]:
+    """Return benchmark types with both central-brain and VNC/motor load present."""
+    return _cross_domain_bridge_types_from_panel(benchmark_panel(path))
+
+
+def _reciprocity_ranking_from_panel(panel: List[Mapping[str, Any]]) -> List[Dict[str, Any]]:
     rows = sorted(
-        benchmark_panel(path),
+        panel,
         key=lambda row: (-_normalized_float(row["reciprocity"]["jaccard"]), row["name"]),
     )
     return [{"name": row["name"], "jaccard": _normalized_float(row["reciprocity"]["jaccard"])} for row in rows]
 
 
-def neurotransmitter_entropy_ranking(
-    direction: str = "downstream", path: Path | str = DEFAULT_BENCHMARK_PATH
+def reciprocity_ranking(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dict[str, Any]]:
+    return _reciprocity_ranking_from_panel(benchmark_panel(path))
+
+
+def _neurotransmitter_entropy_ranking_from_panel(
+    panel: List[Mapping[str, Any]], direction: str = "downstream"
 ) -> List[Dict[str, Any]]:
     if direction not in {"upstream", "downstream"}:
         raise ValueError("direction must be 'upstream' or 'downstream'")
     key = f"{direction}_entropy_bits"
     rows = sorted(
-        benchmark_panel(path),
+        panel,
         key=lambda row: (-_normalized_float(row["neurotransmitter_mix"][key]), row["name"]),
     )
     return [{"name": row["name"], "entropy_bits": _normalized_float(row["neurotransmitter_mix"][key])} for row in rows]
 
 
-def concentration_ranking(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dict[str, Any]]:
+def neurotransmitter_entropy_ranking(
+    direction: str = "downstream", path: Path | str = DEFAULT_BENCHMARK_PATH
+) -> List[Dict[str, Any]]:
+    return _neurotransmitter_entropy_ranking_from_panel(benchmark_panel(path), direction)
+
+
+def _concentration_ranking_from_panel(panel: List[Mapping[str, Any]]) -> List[Dict[str, Any]]:
     rows = sorted(
-        benchmark_panel(path),
+        panel,
         key=lambda row: (-_normalized_float(row["concentration"]["top5_output_share"]), row["name"]),
     )
     return [
@@ -310,11 +336,16 @@ def concentration_ranking(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dic
     ]
 
 
-def benchmark_panel_findings(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[str]:
-    panel = benchmark_panel(path)
-    agg = aggregate_observables(path)
+def concentration_ranking(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dict[str, Any]]:
+    return _concentration_ranking_from_panel(benchmark_panel(path))
+
+
+def _benchmark_panel_findings_from_parts(
+    panel: List[Mapping[str, Any]],
+    agg: Mapping[str, Any],
+    bridges: List[str],
+) -> List[str]:
     by_name = {row["name"]: row for row in panel}
-    bridges = cross_domain_bridge_types(path)
     input_row = by_name[agg["highest_input_type"]]
     output_row = by_name[agg["highest_output_type"]]
     input_domain = _domain_label(input_row)
@@ -367,23 +398,34 @@ def benchmark_panel_findings(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[
     ]
 
 
+def benchmark_panel_findings(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[str]:
+    payload = load_benchmark_payload(path)
+    panel = _panel_from_payload(payload)
+    agg = _aggregate_from_payload(payload)
+    bridges = _cross_domain_bridge_types_from_panel(panel)
+    return _benchmark_panel_findings_from_parts(panel, agg, bridges)
+
+
 def pillar1129_report(path: Path | str = DEFAULT_BENCHMARK_PATH) -> Dict[str, Any]:
-    panel = benchmark_panel(path)
-    agg = aggregate_observables(path)
+    payload = load_benchmark_payload(path)
+    manifest = _manifest_from_payload(payload)
+    panel = _panel_from_payload(payload)
+    agg = _aggregate_from_payload(payload)
+    bridges = _cross_domain_bridge_types_from_panel(panel)
     return {
         "pillar_number": PILLAR_NUMBER,
         "title": PILLAR_TITLE,
         "status": PILLAR_STATUS,
         "adjacency": PILLAR_ADJACENCY,
         "track": PILLAR_TRACK,
-        "manifest": malecns_manifest(path),
+        "manifest": manifest,
         "benchmark_names": [row["name"] for row in panel],
         "aggregate_observables": agg,
-        "cross_domain_bridge_types": cross_domain_bridge_types(path),
-        "reciprocity_ranking": reciprocity_ranking(path)[:5],
-        "concentration_ranking": concentration_ranking(path)[:5],
-        "downstream_entropy_ranking": neurotransmitter_entropy_ranking("downstream", path)[:5],
-        "findings": benchmark_panel_findings(path),
+        "cross_domain_bridge_types": bridges,
+        "reciprocity_ranking": _reciprocity_ranking_from_panel(panel)[:5],
+        "concentration_ranking": _concentration_ranking_from_panel(panel)[:5],
+        "downstream_entropy_ranking": _neurotransmitter_entropy_ranking_from_panel(panel, "downstream")[:5],
+        "findings": _benchmark_panel_findings_from_parts(panel, agg, bridges),
         "epistemic_boundary": (
             "Adjacent-track empirical connectome bridge only: benchmark observables are derived from public MaleCNS pages, "
             "but no hardgate physics, consciousness ontology, or first-principles neural derivation is claimed."
