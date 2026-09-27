@@ -41,8 +41,11 @@ def _gaussian(y: float, loc: Localization) -> float:
 def zero_mode_overlap(loc_l: Localization, loc_r: Localization, n_points: int = 4001) -> float:
     """Numerically integrate overlap ∫ ψ_L ψ_R dy on [0,1]."""
     step = 1.0 / (n_points - 1)
-    acc = 0.0
-    for i in range(n_points):
+    acc = 0.5 * (
+        _gaussian(0.0, loc_l) * _gaussian(0.0, loc_r)
+        + _gaussian(1.0, loc_l) * _gaussian(1.0, loc_r)
+    )
+    for i in range(1, n_points - 1):
         y = i * step
         acc += _gaussian(y, loc_l) * _gaussian(y, loc_r)
     return acc * step
@@ -96,4 +99,3 @@ def yukawa_geometric_report() -> Dict[str, object]:
             "still needs non-fitted RG + Higgs-sector normalization."
         ),
     }
-

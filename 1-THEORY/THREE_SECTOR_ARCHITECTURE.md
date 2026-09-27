@@ -22,7 +22,7 @@ Derived invariant:
 ## Anomaly structure
 
 Implemented in:
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/anomaly_inflow_3sector.py`
+- `src/core/anomaly_inflow_3sector.py`
 
 What is computed:
 - APS η-invariants at both fixed points.
@@ -36,7 +36,7 @@ Status:
 ## Brane tension and stabilization structure
 
 Implemented in:
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/brane_tension_stabilization.py`
+- `src/core/brane_tension_stabilization.py`
 
 What is computed:
 - \(T_{UV}\propto n_w^2=25\), \(T_{IR}\propto n_{shadow}^2=49\), \(T_{UV}+T_{IR}=74\).
@@ -50,7 +50,7 @@ Status:
 ## Prediction-impact lane for certified architecture limits
 
 Implemented in:
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/three_sector_cosmology.py`
+- `src/core/three_sector_cosmology.py`
 
 Tested limits:
 - AL-1 CMB peak suppression
@@ -65,7 +65,7 @@ Status summary:
 ## Yukawa geometric lane
 
 Implemented in:
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/yukawa_geometric.py`
+- `src/core/yukawa_geometric.py`
 
 What is closed:
 - **DERIVED** three-sector zero-mode overlap texture (3×3 geometric Yukawa matrix).
@@ -76,9 +76,9 @@ What remains open:
 ## ADM synchronization lane
 
 Existing canonical closure lane remains:
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/pillar212_adm_decomposition.py`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/adm_quantitative_closure.py`
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/wdw_full_5d.py`
+- `src/core/pillar212_adm_decomposition.py`
+- `src/core/adm_quantitative_closure.py`
+- `src/core/wdw_full_5d.py`
 
 This sprint does not re-open or weaken the existing ADM closure claims; it
 only updates gap labels in the derivation ledger.
@@ -86,6 +86,6 @@ only updates gap labels in the derivation ledger.
 ## Falsifiability additions
 
 New break handles are added in:
-- `/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/1-THEORY/HOW_TO_BREAK_THIS.md`
+- `1-THEORY/HOW_TO_BREAK_THIS.md`
 
 Each added handle corresponds to a concrete mutation and test failure target.

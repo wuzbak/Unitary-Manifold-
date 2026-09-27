@@ -15,11 +15,10 @@ This file is intentionally minimal and supplements the Python closure lane:
 - src/core/wdw_full_5d.py
 -/
 
-def lapse (ϕ : ℝ) : ℝ := ϕ ^ (-(1 / 2 : ℝ))
+def lapse (ϕ : ℝ) : ℝ := Real.rpow ϕ (-(1 / 2 : ℝ))
 
 theorem lapse_attractor_one : lapse 1 = 1 := by
   unfold lapse
   norm_num
 
 end UnitaryManifold
-
