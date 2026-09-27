@@ -109,8 +109,8 @@ def _extract_table(html: str, table_id: str) -> str:
 
 
 def _iter_table_rows(table_html: str) -> Iterable[List[tuple[str, str]]]:
-    for row_html in re.findall(r"<tr[^>]*>(.*?)(?=<tr|$)", table_html, re.S | re.I):
-        cells = re.findall(r"<td([^>]*)>(.*?)(?=<td|$)", row_html, re.S | re.I)
+    for row_html in re.findall(r"<tr\b[^>]*>(.*?)(?=<tr\b|</tr>|$)", table_html, re.S | re.I):
+        cells = re.findall(r"<td\b([^>]*)>(.*?)(?=<td\b|</td>|$)", row_html, re.S | re.I)
         if cells:
             yield cells
 

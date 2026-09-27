@@ -108,6 +108,32 @@ class TestFixtureParsers:
         assert rows[2]['roi'] == 'PVLP'
         assert rows[2]['output_synapses'] == 48310
 
+    def test_parse_partner_table_with_explicit_closing_tags(self):
+        table = """
+        <table id="upstream-table">
+          <tbody>
+            <tr id="u0">
+              <td class="p-c"><a href="LPLC2.html">LPLC2</a></td>
+              <td>185</td>
+              <td><abbr title="acetylcholine">ACh</abbr></td>
+              <td title="∑ connections: 46,178"><span title="249.61081">249.6</span></td>
+              <td title="13.17331%">13.2%</td>
+            </tr>
+          </tbody>
+        </table>
+        """
+        rows = parse_partner_table_html(table)
+        assert rows == [
+            {
+                'partner': 'LPLC2',
+                'href': 'LPLC2.html',
+                'cell_count': 185,
+                'neurotransmitter': 'acetylcholine',
+                'synapses': 46178,
+                'percentage': 13.17331,
+            }
+        ]
+
     def test_parse_public_page_composition(self):
         html = '\n'.join([
             (FIXTURE_DIR / 'lplc2_upstream_table.html').read_text(encoding='utf-8'),
