@@ -225,6 +225,7 @@ class TestReport:
     def test_findings(self):
         findings = benchmark_panel_findings()
         assert len(findings) == 5
+        assert isinstance(findings[1], str)
         assert '7 real public neuron-type pages' in findings[0]
         assert 'LPLC2 carries the largest benchmark input and output mass' in findings[1]
         assert 'mean partner-set Jaccard overlap is 0.440' in findings[2]

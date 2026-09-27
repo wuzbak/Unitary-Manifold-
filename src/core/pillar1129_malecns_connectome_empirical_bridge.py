@@ -58,7 +58,7 @@ PRIMARY_REGIONS: tuple[str, ...] = (
     "ventral nerve cord",
 )
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_BENCHMARK_PATH = ROOT / "data" / "malecns" / "benchmark_panel.json"
 
 PUBLIC_INTERFACES: Dict[str, str] = {
