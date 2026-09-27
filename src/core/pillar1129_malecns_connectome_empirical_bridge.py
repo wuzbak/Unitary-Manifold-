@@ -152,10 +152,6 @@ def _parse_float_token(text: str) -> float:
     return float(cleaned)
 
 
-def _normalized_float(value: Any) -> float:
-    return float(value)
-
-
 def _finite_metric(value: Any, field_name: str) -> float:
     numeric = float(value)
     if not math.isfinite(numeric):
