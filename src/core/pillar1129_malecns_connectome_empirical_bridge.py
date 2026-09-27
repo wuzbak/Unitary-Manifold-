@@ -311,11 +311,14 @@ def cross_domain_bridge_types(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List
 
 
 def _reciprocity_ranking_from_panel(panel: List[Mapping[str, Any]]) -> List[Dict[str, Any]]:
-    rows = sorted(
-        panel,
-        key=lambda row: (-_finite_metric(row["reciprocity"]["jaccard"], "reciprocity.jaccard"), row["name"]),
-    )
-    return [{"name": row["name"], "jaccard": _finite_metric(row["reciprocity"]["jaccard"], "reciprocity.jaccard")} for row in rows]
+    rows = [
+        {
+            "name": row["name"],
+            "jaccard": _finite_metric(row["reciprocity"]["jaccard"], "reciprocity.jaccard"),
+        }
+        for row in panel
+    ]
+    return sorted(rows, key=lambda row: (-row["jaccard"], row["name"]))
 
 
 def reciprocity_ranking(path: Path | str = DEFAULT_BENCHMARK_PATH) -> List[Dict[str, Any]]:
@@ -328,11 +331,14 @@ def _neurotransmitter_entropy_ranking_from_panel(
     if direction not in {"upstream", "downstream"}:
         raise ValueError("direction must be 'upstream' or 'downstream'")
     key = f"{direction}_entropy_bits"
-    rows = sorted(
-        panel,
-        key=lambda row: (-_finite_metric(row["neurotransmitter_mix"][key], f"neurotransmitter_mix.{key}"), row["name"]),
-    )
-    return [{"name": row["name"], "entropy_bits": _finite_metric(row["neurotransmitter_mix"][key], f"neurotransmitter_mix.{key}")} for row in rows]
+    rows = [
+        {
+            "name": row["name"],
+            "entropy_bits": _finite_metric(row["neurotransmitter_mix"][key], f"neurotransmitter_mix.{key}"),
+        }
+        for row in panel
+    ]
+    return sorted(rows, key=lambda row: (-row["entropy_bits"], row["name"]))
 
 
 def neurotransmitter_entropy_ranking(
@@ -342,17 +348,17 @@ def neurotransmitter_entropy_ranking(
 
 
 def _concentration_ranking_from_panel(panel: List[Mapping[str, Any]]) -> List[Dict[str, Any]]:
-    rows = sorted(
-        panel,
-        key=lambda row: (-_finite_metric(row["concentration"]["top5_output_share"], "concentration.top5_output_share"), row["name"]),
-    )
-    return [
+    rows = [
         {
             "name": row["name"],
             "top5_input_share": _finite_metric(row["concentration"]["top5_input_share"], "concentration.top5_input_share"),
             "top5_output_share": _finite_metric(row["concentration"]["top5_output_share"], "concentration.top5_output_share"),
         }
-        for row in rows
+        for row in panel
+    ]
+    rows.sort(key=lambda row: (-row["top5_output_share"], row["name"]))
+    return [
+        dict(row) for row in rows
     ]
 
 
