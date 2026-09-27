@@ -300,6 +300,14 @@ class TestDerivedRankings:
         with pytest.raises(ValueError, match='reciprocity.jaccard'):
             reciprocity_ranking(path)
 
+    def test_reciprocity_ranking_rejects_nonnumeric_metric(self, tmp_path):
+        payload = load_benchmark_payload()
+        payload['benchmark_panel'][0]['reciprocity']['jaccard'] = 'not-a-number'
+        path = tmp_path / 'benchmark_panel.json'
+        path.write_text(json.dumps(payload), encoding='utf-8')
+        with pytest.raises(ValueError, match='reciprocity.jaccard'):
+            reciprocity_ranking(path)
+
     def test_entropy_ranking(self):
         ranking = neurotransmitter_entropy_ranking('downstream')
         assert ranking[0]['name'] == 'EPG'
