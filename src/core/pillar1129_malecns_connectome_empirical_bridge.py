@@ -167,12 +167,9 @@ def _parse_float_token(text: str) -> float:
 
 
 def _finite_metric(value: Any, field_name: str) -> float:
-    if isinstance(value, bool):
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise ValueError(f"ranking field {field_name!r} must be finite, got {value!r}")
-    try:
-        numeric = float(value)
-    except (TypeError, ValueError) as exc:
-        raise ValueError(f"ranking field {field_name!r} must be finite, got {value!r}") from exc
+    numeric = float(value)
     if not math.isfinite(numeric):
         raise ValueError(f"ranking field {field_name!r} must be finite, got {value!r}")
     return numeric
