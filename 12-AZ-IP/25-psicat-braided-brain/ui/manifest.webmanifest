@@ -1,0 +1,10 @@
+{
+  "name": "PsiCat Braided Brain",
+  "short_name": "Braided Brain",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#7c5cff",
+  "description": "A toroidal brain simulator game for desktop and mobile.",
+  "icons": []
+}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PsiCat Braided Brain</title>
+  <meta name="description" content="A toroidal brain simulator game for desktop and mobile, built for PsiCat and AxiomZero.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero panel">
+      <div>
+        <p class="eyebrow">Product 25 · AxiomZero commissioned work</p>
+        <h1 id="title">PsiCat Braided Brain</h1>
+        <p id="subtitle">A toroidal brain simulator game for desktop and mobile.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card"><span>Score</span><strong id="score">0</strong></div>
+        <div class="stat-card"><span>Coherence</span><strong id="coherence">100%</strong></div>
+        <div class="stat-card"><span>Wraps</span><strong id="wraps">0/0</strong></div>
+        <div class="stat-card"><span>Moves</span><strong id="moves">0</strong></div>
+        <div class="stat-card"><span>Levels</span><strong id="completed-levels">0/0</strong></div>
+      </div>
+    </section>
+
+    <section class="status panel">
+      <div>
+        <h2 id="level-name">Level</h2>
+        <p id="briefing"></p>
+        <p class="muted" id="source-note"></p>
+      </div>
+      <div>
+        <strong>Status</strong>
+        <p id="status-banner"></p>
+        <p class="muted" id="privacy-note"></p>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <section class="play-column">
+        <div class="panel">
+          <div id="level-selector" class="level-selector" aria-label="Level selector"></div>
+          <div id="board" class="board" aria-label="Toroidal game board"></div>
+          <div class="controls">
+            <button id="move-up" type="button">↑</button>
+            <div class="middle-row">
+              <button id="move-left" type="button">←</button>
+              <button id="move-down" type="button">↓</button>
+              <button id="move-right" type="button">→</button>
+            </div>
+          </div>
+          <div class="toolbar">
+            <button id="reset-level" type="button">Reset level</button>
+            <button id="advance-level" type="button">Advance level</button>
+            <button id="reset-campaign" type="button">Fresh run</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="info-column">
+        <div class="panel">
+          <h2>Signals</h2>
+          <div id="signal-list" class="stack"></div>
+        </div>
+        <div class="panel">
+          <h2>Science targets</h2>
+          <div id="target-list" class="stack"></div>
+        </div>
+        <div class="panel">
+          <h2>Science check</h2>
+          <div id="challenge-panel"></div>
+        </div>
+        <div class="panel split-panel">
+          <div>
+            <h2>Mission log</h2>
+            <ul id="mission-log" class="log"></ul>
+          </div>
+          <div>
+            <h2>Science log</h2>
+            <ul id="science-log" class="log"></ul>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>PsiCat coach</h2>
+          <label class="field">Optional Product 20 endpoint
+            <input id="coach-endpoint" value="http://127.0.0.1:8020/api/psicat">
+          </label>
+          <label class="field">Question for PsiCat
+            <textarea id="coach-input" rows="4" placeholder="How should I stabilize the next braid?"></textarea>
+          </label>
+          <div class="toolbar">
+            <button id="ask-psicat" type="button">Ask PsiCat</button>
+            <button id="copy-prompt" type="button">Copy local hint</button>
+          </div>
+          <pre id="coach-output" class="coach-output"></pre>
+        </div>
+        <div class="panel">
+          <h2>Training packet</h2>
+          <p class="muted">Exports include mission outcomes and science-card choices only. No hidden surveillance data is collected.</p>
+          <div class="toolbar">
+            <button id="export-packet" type="button">Export JSON packet</button>
+            <button id="export-jsonl" type="button">Export JSONL training rows</button>
+          </div>
+          <pre id="training-packet" class="coach-output"></pre>
+        </div>
+      </section>
+    </section>
+  </main>
+  <script src="game-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

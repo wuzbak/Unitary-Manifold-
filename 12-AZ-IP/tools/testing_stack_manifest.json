@@ -57,6 +57,16 @@
             "feed_ingest_shell",
             "map_sidebar_detail_flow"
           ]
+        },
+        {
+          "id": 25,
+          "name": "PsiCat Braided Brain",
+          "path": "12-AZ-IP/25-psicat-braided-brain",
+          "contract_focus": [
+            "launch_render",
+            "toroidal_wrap_navigation",
+            "training_packet_export"
+          ]
         }
       ]
     },

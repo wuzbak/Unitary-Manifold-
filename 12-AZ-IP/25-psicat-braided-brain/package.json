@@ -1,0 +1,19 @@
+{
+  "name": "psicat-braided-brain",
+  "version": "1.0.0",
+  "description": "Product 25 PsiCat Braided Brain",
+  "main": "ui/app.js",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "lint": "node --check ui/game-core.js && node --check ui/app.js"
+  },
+  "keywords": [
+    "psicat",
+    "brain",
+    "game",
+    "science",
+    "education"
+  ],
+  "author": "",
+  "license": "LicenseRef-DefensivePublicCommons-1.0"
+}
