@@ -890,11 +890,18 @@
       levelId: resolvedLevel.id,
       levelIndex: resolvedLevelIndex,
     };
-    normalized.current.completed = hasCompletedObjectives(normalized.current) && !normalized.current.activeChallenge;
-    normalized.current.failed = !normalized.current.completed && sameLevelPayload
-      ? Boolean(incomingCurrent.failed)
-        || normalized.current.coherence <= 0
-        || (normalized.current.movesLeft <= 0 && hasOutstandingObjectives(normalized.current))
+    const restoredCompleted = sameLevelPayload
+      ? Boolean(incomingCurrent.completed)
+        && hasCompletedObjectives(normalized.current)
+        && !normalized.current.activeChallenge
+      : levelTemplate.completed;
+    normalized.current.completed = restoredCompleted;
+    normalized.current.failed = sameLevelPayload
+      ? !restoredCompleted && (
+          Boolean(incomingCurrent.failed)
+          || normalized.current.coherence <= 0
+          || (normalized.current.movesLeft <= 0 && hasOutstandingObjectives(normalized.current))
+        )
       : levelTemplate.failed;
     normalized.version = VERSION;
     return normalized;

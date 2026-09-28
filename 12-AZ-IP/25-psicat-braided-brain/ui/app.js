@@ -3,15 +3,16 @@ const STORAGE_KEY = 'psicat-braided-brain-state-v2';
 const DEFAULT_COACH_ENDPOINT = 'http://127.0.0.1:8020/api/psicat';
 const OFFLINE_CACHE_SIGNAL = 'psicat-braided-brain-offline-ready';
 const OFFLINE_CACHE_NAME = 'psicat-braided-brain-v4';
+const PRODUCT_ROOT_URL = new URL('../', window.location.href);
 const OFFLINE_CACHE_PATHS = [
-  '../ui/index.html',
-  '../ui/app.js?v=3',
-  '../ui/game-core.js?v=3',
-  '../ui/manifest.webmanifest?v=2',
-  '../ui/icon-192.png?v=3',
-  '../ui/icon-512.png?v=3',
-  '../ui/favicon.png',
-  '../css/main.css?v=3',
+  './ui/index.html',
+  './ui/app.js?v=3',
+  './ui/game-core.js?v=3',
+  './ui/manifest.webmanifest?v=2',
+  './ui/icon-192.png?v=3',
+  './ui/icon-512.png?v=3',
+  './ui/favicon.png',
+  './css/main.css?v=3',
 ];
 
 let campaign = loadCampaign();
@@ -409,7 +410,7 @@ async function verifyOfflineCache() {
   try {
     const cache = await window.caches.open(OFFLINE_CACHE_NAME);
     const checks = await Promise.all(
-      OFFLINE_CACHE_PATHS.map((path) => cache.match(new URL(path, window.location.href).toString()))
+      OFFLINE_CACHE_PATHS.map((path) => cache.match(new URL(path, PRODUCT_ROOT_URL).toString()))
     );
     return checks.every(Boolean);
   } catch (_error) {
@@ -419,7 +420,7 @@ async function verifyOfflineCache() {
 
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('../sw.js', { scope: new URL('../', window.location.href).pathname })
+  navigator.serviceWorker.register('../sw.js', { scope: PRODUCT_ROOT_URL.pathname })
     .then(async () => {
       if (await verifyOfflineCache()) {
         campaign.installHints.offlineReady = true;

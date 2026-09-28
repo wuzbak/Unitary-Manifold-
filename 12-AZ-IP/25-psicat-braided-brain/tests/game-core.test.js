@@ -134,6 +134,21 @@ test('save bundle round-trips through import and normalization', () => {
   assert.equal(restored.version, '1.1.0');
 });
 
+test('save bundle round-trips a legitimately completed current level', () => {
+  const campaign = core.createCampaignState();
+  campaign.current.targets.forEach((target) => {
+    target.delivered = true;
+    target.challengeResolved = true;
+    target.challengeResult = 'correct';
+  });
+  campaign.current.completed = true;
+  campaign.current.failed = false;
+  const bundle = core.createSaveBundle(campaign);
+  const restored = core.importSaveBundle(bundle);
+  assert.equal(restored.current.completed, true);
+  assert.equal(restored.current.failed, false);
+});
+
 test('import clamps invalid progression indexes to the current level deck', () => {
   const campaign = core.createCampaignState();
   const bundle = core.createSaveBundle(campaign);
