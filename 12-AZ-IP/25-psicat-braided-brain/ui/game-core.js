@@ -290,7 +290,11 @@
   }
 
   function createRunId() {
-    return `brain-${Math.random().toString(36).slice(2, 10)}`;
+    const cryptoApi = global.crypto || (typeof require === 'function' ? require('node:crypto').webcrypto : null);
+    if (cryptoApi && typeof cryptoApi.randomUUID === 'function') {
+      return `brain-${cryptoApi.randomUUID()}`;
+    }
+    return `brain-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
   }
 
   function getLevelById(levelId) {
@@ -520,7 +524,10 @@
     const next = deepCopy(campaign);
     const state = next.current;
     if (state.completed || state.failed || state.activeChallenge) return next;
-    if (state.movesLeft <= 0) return markLevelFailed(state, 'Out of moves. Reset or try a new braid.');
+    if (state.movesLeft <= 0) {
+      markLevelFailed(state, 'Out of moves. Reset or try a new braid.');
+      return next;
+    }
 
     const rawX = state.player.x + dx;
     const rawY = state.player.y + dy;
@@ -725,21 +732,23 @@
   function normalizeCampaign(candidate) {
     const base = createCampaignState();
     const incoming = candidate && typeof candidate === 'object' ? candidate : {};
+    const rawLevelId = (incoming.current || {}).levelId || LEVELS[Math.max(0, Math.min(LEVELS.length - 1, Number(incoming.currentLevelIndex || 0)))].id;
+    const resolvedLevel = getLevelById(rawLevelId);
+    const resolvedLevelIndex = Math.max(0, LEVELS.findIndex((level) => level.id === resolvedLevel.id));
     const normalized = {
       ...base,
       ...incoming,
       telemetry: { ...base.telemetry, ...(incoming.telemetry || {}) },
       installHints: { ...base.installHints, ...(incoming.installHints || {}) },
       profile: { ...base.profile, ...(incoming.profile || {}) },
-      current: createLevelState(Math.max(0, Math.min(LEVELS.length - 1, Number(incoming.currentLevelIndex || 0)))),
+      current: createLevelState(resolvedLevelIndex),
     };
-    const levelIndex = Math.max(0, Math.min(LEVELS.length - 1, Number(normalized.currentLevelIndex || 0)));
-    normalized.currentLevelIndex = levelIndex;
+    normalized.currentLevelIndex = resolvedLevelIndex;
     normalized.current = {
-      ...createLevelState(levelIndex),
+      ...createLevelState(resolvedLevelIndex),
       ...(incoming.current || {}),
-      levelId: getLevelById((incoming.current || {}).levelId || LEVELS[levelIndex].id).id,
-      levelIndex,
+      levelId: resolvedLevel.id,
+      levelIndex: resolvedLevelIndex,
     };
     normalized.version = VERSION;
     return normalized;

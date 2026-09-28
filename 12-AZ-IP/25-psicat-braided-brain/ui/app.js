@@ -349,11 +349,14 @@ function importSaveBundle(file) {
 
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('../sw.js').then(() => {
-    campaign.installHints.offlineReady = true;
-    saveCampaign();
-    renderInstallStatus();
-  }).catch(() => {});
+  navigator.serviceWorker.register('../sw.js')
+    .then(() => navigator.serviceWorker.ready)
+    .then(() => {
+      campaign.installHints.offlineReady = true;
+      saveCampaign();
+      renderInstallStatus();
+    })
+    .catch(() => {});
 }
 
 function setupInstallPrompt() {
