@@ -317,6 +317,19 @@ function downloadText(filename, text, contentType = 'application/json') {
   URL.revokeObjectURL(url);
 }
 
+function buildLocalCoachFallback(reason) {
+  const nextTarget = campaign.current.targets.find((target) => !target.challengeResolved);
+  const wrapsRemaining = Math.max(0, campaign.current.wrapGoal - campaign.current.wraps);
+  const carried = campaign.current.carriedSignal ? campaign.current.carriedSignal.label : 'no signal yet';
+  const nextStep = nextTarget
+    ? `Next focus: deliver ${nextTarget.kind} to ${nextTarget.label}.`
+    : 'Next focus: finish the remaining science checks and prepare to advance.';
+  const wrapHint = wrapsRemaining > 0
+    ? `You still need ${wrapsRemaining} wrap${wrapsRemaining === 1 ? '' : 's'} for this mission.`
+    : 'Wrap goal complete — prioritize clean deliveries.';
+  return `Coach offline. Local hint: Carry ${carried}, keep coherence high, and use the torus edges to reposition. ${nextStep} ${wrapHint} (${reason})`;
+}
+
 async function askCoach() {
   const endpoint = byId('coach-endpoint').value.trim() || DEFAULT_COACH_ENDPOINT;
   const playerPrompt = byId('coach-input').value.trim();
@@ -351,7 +364,7 @@ async function askCoach() {
     renderCoachStatus(answer);
   } catch (error) {
     const reason = error && error.message ? error.message : 'coach endpoint unavailable';
-    renderCoachStatus(`Coach unavailable. Local hint: ${core.suggestCoachQuery(campaign)} (${reason})`);
+    renderCoachStatus(buildLocalCoachFallback(reason));
   }
 }
 
