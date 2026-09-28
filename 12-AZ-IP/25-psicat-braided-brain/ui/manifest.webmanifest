@@ -6,5 +6,12 @@
   "background_color": "#07111f",
   "theme_color": "#7c5cff",
   "description": "A toroidal brain simulator game for desktop and mobile.",
-  "icons": []
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }

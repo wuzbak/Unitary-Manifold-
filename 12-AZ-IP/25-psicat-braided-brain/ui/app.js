@@ -178,8 +178,8 @@ function move(dx, dy) {
   persistAndRender();
 }
 
-function downloadText(filename, text) {
-  const blob = new Blob([text], { type: 'application/json' });
+function downloadText(filename, text, contentType = 'application/json') {
+  const blob = new Blob([text], { type: contentType });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
@@ -235,10 +235,18 @@ function bindEvents() {
     persistAndRender();
   });
   byId('export-packet').addEventListener('click', () => {
-    downloadText('psicat-braided-brain-training-packet.json', JSON.stringify(core.createTrainingPacket(campaign), null, 2));
+    downloadText(
+      'psicat-braided-brain-training-packet.json',
+      JSON.stringify(core.createTrainingPacket(campaign), null, 2),
+      'application/json',
+    );
   });
   byId('export-jsonl').addEventListener('click', () => {
-    downloadText('psicat-braided-brain-training.jsonl', core.createJsonlExport(campaign));
+    downloadText(
+      'psicat-braided-brain-training.jsonl',
+      core.createJsonlExport(campaign),
+      'application/x-ndjson',
+    );
   });
   byId('ask-psicat').addEventListener('click', askCoach);
   byId('copy-prompt').addEventListener('click', async () => {
