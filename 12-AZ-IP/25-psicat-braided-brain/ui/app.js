@@ -395,7 +395,7 @@ function importSaveBundle(file) {
 
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('../sw.js')
+  navigator.serviceWorker.register('../sw.js', { scope: '../' })
     .catch(() => {});
 }
 

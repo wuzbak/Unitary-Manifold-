@@ -9,6 +9,7 @@ const STATIC_ASSETS = [
   './ui/icon-192.png',
   './ui/icon-192.png?v=3',
   './ui/icon-512.png',
+  './ui/icon-512.png?v=3',
   './ui/favicon.png',
   './css/main.css?v=3',
   './README.md',
