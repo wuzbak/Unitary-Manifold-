@@ -504,7 +504,6 @@ function bindEvents() {
       'application/json',
     );
   });
-  byId('import-save').addEventListener('click', () => byId('import-save-file').click());
   byId('import-save-file').addEventListener('change', (event) => {
     const [file] = event.target.files || [];
     if (file) importSaveBundle(file);

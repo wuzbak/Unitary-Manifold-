@@ -766,14 +766,104 @@
       profile: { ...base.profile, ...(incoming.profile || {}) },
       current: createLevelState(resolvedLevelIndex),
     };
+    const levelTemplate = createLevelState(resolvedLevelIndex);
+    const incomingCurrent = incoming.current || {};
+    const sameLevelPayload = !incomingCurrent.levelId || incomingCurrent.levelId === resolvedLevel.id;
+    const safeSignalIds = new Set(levelTemplate.signals.map((signal) => signal.id));
+    const safeTargetIds = new Set(levelTemplate.targets.map((target) => target.id));
+    const safeTargetMap = new Map((Array.isArray(incomingCurrent.targets) ? incomingCurrent.targets : []).map((target) => [target.id, target]));
     normalized.currentLevelIndex = resolvedLevelIndex;
     normalized.unlockedLevelIndex = Math.max(
       0,
       Math.min(LEVELS.length - 1, Number(incoming.unlockedLevelIndex ?? resolvedLevelIndex)),
     );
     normalized.current = {
-      ...createLevelState(resolvedLevelIndex),
-      ...(incoming.current || {}),
+      ...levelTemplate,
+      player: sameLevelPayload && incomingCurrent.player
+        ? {
+            x: Math.max(0, Math.min(levelTemplate.width - 1, Number(incomingCurrent.player.x ?? levelTemplate.player.x))),
+            y: Math.max(0, Math.min(levelTemplate.height - 1, Number(incomingCurrent.player.y ?? levelTemplate.player.y))),
+          }
+        : levelTemplate.player,
+      carriedSignal: sameLevelPayload && incomingCurrent.carriedSignal && safeSignalIds.has(incomingCurrent.carriedSignal.id)
+        ? {
+            id: incomingCurrent.carriedSignal.id,
+            kind: String(incomingCurrent.carriedSignal.kind),
+            label: String(incomingCurrent.carriedSignal.label),
+          }
+        : null,
+      signals: sameLevelPayload && Array.isArray(incomingCurrent.signals)
+        ? levelTemplate.signals.filter((signal) => incomingCurrent.signals.some((entry) => entry.id === signal.id))
+        : levelTemplate.signals,
+      targets: levelTemplate.targets.map((target) => {
+        const savedTarget = sameLevelPayload && safeTargetIds.has(target.id) ? safeTargetMap.get(target.id) : null;
+        return savedTarget
+          ? {
+              ...target,
+              delivered: Boolean(savedTarget.delivered),
+              challengeResolved: Boolean(savedTarget.challengeResolved),
+              challengeResult: savedTarget.challengeResult === 'correct' ? 'correct' : savedTarget.challengeResult === 'retry' ? 'retry' : null,
+            }
+          : target;
+      }),
+      movesLeft: sameLevelPayload
+        ? Math.max(0, Math.min(levelTemplate.movesLeft, Number(incomingCurrent.movesLeft ?? levelTemplate.movesLeft)))
+        : levelTemplate.movesLeft,
+      wraps: sameLevelPayload ? Math.max(0, Number(incomingCurrent.wraps ?? levelTemplate.wraps)) : levelTemplate.wraps,
+      wrapBonusAwarded: sameLevelPayload ? Boolean(incomingCurrent.wrapBonusAwarded) : levelTemplate.wrapBonusAwarded,
+      score: sameLevelPayload ? Math.max(0, Number(incomingCurrent.score ?? levelTemplate.score)) : levelTemplate.score,
+      coherence: sameLevelPayload ? clampCoherence(Number(incomingCurrent.coherence ?? levelTemplate.coherence)) : levelTemplate.coherence,
+      combo: sameLevelPayload ? Math.max(0, Number(incomingCurrent.combo ?? levelTemplate.combo)) : levelTemplate.combo,
+      activeChallenge: sameLevelPayload
+        && incomingCurrent.activeChallenge
+        && safeTargetIds.has(incomingCurrent.activeChallenge.targetId)
+        ? (() => {
+            const target = levelTemplate.targets.find((entry) => entry.id === incomingCurrent.activeChallenge.targetId);
+            return target
+              ? {
+                  targetId: target.id,
+                  label: target.label,
+                  prompt: target.challenge.prompt,
+                  choices: deepCopy(target.challenge.choices),
+                  correctChoice: target.challenge.correctChoice,
+                  explanation: target.challenge.explanation,
+                  source: target.source,
+                }
+              : null;
+          })()
+        : null,
+      completed: sameLevelPayload ? Boolean(incomingCurrent.completed) : levelTemplate.completed,
+      failed: sameLevelPayload ? Boolean(incomingCurrent.failed) : levelTemplate.failed,
+      missionLog: sameLevelPayload && Array.isArray(incomingCurrent.missionLog)
+        ? incomingCurrent.missionLog.map((entry) => String(entry)).slice(0, 8)
+        : levelTemplate.missionLog,
+      scienceLog: sameLevelPayload && Array.isArray(incomingCurrent.scienceLog)
+        ? incomingCurrent.scienceLog.map((entry) => String(entry)).slice(0, 10)
+        : levelTemplate.scienceLog,
+      touchHistory: sameLevelPayload && Array.isArray(incomingCurrent.touchHistory)
+        ? incomingCurrent.touchHistory
+            .map((entry) => ({
+              x: Math.max(0, Math.min(levelTemplate.width - 1, Number(entry.x ?? 0))),
+              y: Math.max(0, Math.min(levelTemplate.height - 1, Number(entry.y ?? 0))),
+            }))
+            .slice(-64)
+        : levelTemplate.touchHistory,
+      challengeHistory: sameLevelPayload && Array.isArray(incomingCurrent.challengeHistory)
+        ? incomingCurrent.challengeHistory
+            .filter((entry) => safeTargetIds.has(entry.targetId))
+            .map((entry) => ({
+              targetId: String(entry.targetId),
+              choiceId: String(entry.choiceId),
+              correct: Boolean(entry.correct),
+            }))
+            .slice(-32)
+        : levelTemplate.challengeHistory,
+      collectedConcepts: sameLevelPayload && Array.isArray(incomingCurrent.collectedConcepts)
+        ? incomingCurrent.collectedConcepts.map((entry) => String(entry)).slice(0, 64)
+        : levelTemplate.collectedConcepts,
+      retriedTargets: sameLevelPayload && Array.isArray(incomingCurrent.retriedTargets)
+        ? incomingCurrent.retriedTargets.filter((entry) => safeTargetIds.has(entry)).map((entry) => String(entry)).slice(0, 32)
+        : levelTemplate.retriedTargets,
       levelId: resolvedLevel.id,
       levelIndex: resolvedLevelIndex,
     };

@@ -78,10 +78,10 @@
           </label>
           <div class="toolbar">
             <button id="export-save" type="button">Download save bundle</button>
-            <button id="import-save" type="button">Import save bundle</button>
+            <label for="import-save-file" class="button-like">Import save bundle</label>
             <button id="install-app" type="button">Install app</button>
           </div>
-          <input id="import-save-file" type="file" accept="application/json" hidden>
+          <input id="import-save-file" class="visually-hidden-input" type="file" accept="application/json" aria-label="Choose save bundle to import">
           <p class="muted">Downloads stay local and explicit. Save bundles restore campaign state; training packets remain separate and science-facing.</p>
         </div>
       </section>

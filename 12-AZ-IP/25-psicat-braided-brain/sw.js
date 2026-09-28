@@ -1,8 +1,9 @@
 'use strict';
 
 const CACHE_NAME = 'psicat-braided-brain-v4';
+const APP_SHELL_URL = new URL('./ui/index.html', self.location).toString();
 const STATIC_ASSETS = [
-  './ui/index.html',
+  APP_SHELL_URL,
   './ui/app.js?v=3',
   './ui/game-core.js?v=3',
   './ui/manifest.webmanifest?v=2',
@@ -43,7 +44,7 @@ self.addEventListener('fetch', (event) => {
         return response;
       }).catch(async () => {
         if (event.request.mode === 'navigate') {
-          return caches.match('./ui/index.html');
+          return caches.match(APP_SHELL_URL);
         }
         throw new TypeError('Network request failed and no cached fallback is available.');
       });
