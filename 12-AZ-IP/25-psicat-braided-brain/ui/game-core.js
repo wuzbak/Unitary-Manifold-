@@ -732,9 +732,15 @@
   function normalizeCampaign(candidate) {
     const base = createCampaignState();
     const incoming = candidate && typeof candidate === 'object' ? candidate : {};
-    const rawLevelId = (incoming.current || {}).levelId || LEVELS[Math.max(0, Math.min(LEVELS.length - 1, Number(incoming.currentLevelIndex || 0)))].id;
+    const hasTopLevelIndex = incoming.currentLevelIndex !== undefined && incoming.currentLevelIndex !== null;
+    const clampedIncomingIndex = Math.max(0, Math.min(LEVELS.length - 1, Number(incoming.currentLevelIndex || 0)));
+    const rawLevelId = hasTopLevelIndex
+      ? LEVELS[clampedIncomingIndex].id
+      : (incoming.current || {}).levelId || LEVELS[0].id;
     const resolvedLevel = getLevelById(rawLevelId);
-    const resolvedLevelIndex = Math.max(0, LEVELS.findIndex((level) => level.id === resolvedLevel.id));
+    const resolvedLevelIndex = hasTopLevelIndex
+      ? clampedIncomingIndex
+      : Math.max(0, LEVELS.findIndex((level) => level.id === resolvedLevel.id));
     const normalized = {
       ...base,
       ...incoming,

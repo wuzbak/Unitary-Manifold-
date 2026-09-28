@@ -128,6 +128,16 @@ test('import clamps invalid progression indexes to the current level deck', () =
   assert.equal(restored.current.levelId, 'entorhinal-garden');
 });
 
+test('import preserves a valid top-level currentLevelIndex when current.levelId is stale', () => {
+  const campaign = core.createCampaignState();
+  const bundle = core.createSaveBundle(campaign);
+  bundle.campaign.currentLevelIndex = 2;
+  bundle.campaign.current.levelId = 'missing-level';
+  const restored = core.importSaveBundle(bundle);
+  assert.equal(restored.currentLevelIndex, 2);
+  assert.equal(restored.current.levelId, core.LEVELS[2].id);
+});
+
 test('atlas entries expose locked and unlocked science cards', () => {
   const campaign = core.createCampaignState();
   const entries = core.getAtlasEntries(campaign);

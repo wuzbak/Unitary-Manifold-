@@ -330,13 +330,14 @@ async function askCoach() {
     if (response.ok) {
       payload = await response.json();
     } else {
-      const errorText = await response.text();
-      throw new Error(errorText || `Coach request failed with status ${response.status}`);
+      await response.text();
+      throw new Error(`Coach endpoint returned status ${response.status}`);
     }
     const answer = payload.answer || payload.body || payload.message || JSON.stringify(payload, null, 2);
     renderCoachStatus(answer);
   } catch (error) {
-    renderCoachStatus(`Coach unavailable. Local hint: ${core.suggestCoachQuery(campaign)} (${error.message})`);
+    const reason = error && error.message ? error.message : 'coach endpoint unavailable';
+    renderCoachStatus(`Coach unavailable. Local hint: ${core.suggestCoachQuery(campaign)} (${reason})`);
   }
 }
 
