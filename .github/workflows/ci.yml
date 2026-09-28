@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   platform-smoke:
@@ -55,6 +55,9 @@ jobs:
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_merlin_compat_routes_do_not_rewrite_prefix_matches \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_ox_legacy_status_contract \
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_ox_compat_rejects_invalid_prefix_routes \
+            12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_execution.py::test_merlin_training_cycle_executes_round_robin_receipts \
+            12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_execution.py::test_merlin_training_execution_bundle_reuses_retained_state \
+            12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_export_training_artifacts_script \
             -q --tb=short
           python TOOLS/checks/run_supervised_pytest_batch.py --suite compactified-preflight
           python3 -m pytest recycling/tests/test_recycling.py -q --tb=short
@@ -90,7 +93,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        batch-index: [0, 1, 2, 3, 4, 5, 6, 7]
+        batch-index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     permissions:
       contents: read
     steps:
@@ -103,7 +106,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run full regression slice
-        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core --batch-count 8 --batch-index ${{ matrix.batch-index }}
+        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core --batch-count 12 --batch-index ${{ matrix.batch-index }}
 
   push-full-regression-supervisor:
     name: Push full regression supervisor (main)
@@ -126,7 +129,7 @@ jobs:
         run: |
           test "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" = "success"
       - name: Verify full regression slice coverage
-        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core-supervisor-check --batch-count 8 --emit-json
+        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core-supervisor-check --batch-count 12 --emit-json
 
   ci-gate:
     name: CI gate

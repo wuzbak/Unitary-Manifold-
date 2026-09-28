@@ -26,6 +26,7 @@ The real AxiomZero webspace — built on HuggingFace Spaces (free tier, CPU).
 
 Pushes to `hf-spaces/` trigger `.github/workflows/deploy-hf-spaces.yml`.
 Requires `HF_TOKEN` in GitHub repo secrets.
+Live status source: `9-INFRASTRUCTURE/um_live_status.json`.
 
 ## Design System
 

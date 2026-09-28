@@ -14,7 +14,39 @@ on:
   workflow_dispatch:
 
 jobs:
+  lane-e-pr-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: 12-AZ-IP/20-psicat-navigator
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+
+      - name: PsiCat performance/training smoke
+        run: |
+          python -m pytest \
+            tests/test_merlin_training_execution.py::test_merlin_training_cycle_emits_performance_gate_receipts \
+            tests/test_merlin_training_execution.py::test_performance_gate_history_cycle_ids_remain_unique_when_capped \
+            tests/test_merlin_v1.py::test_server_training_export_validation_failures_return_422 \
+            -q
+
   lane-e-dynamic-batch-sweep:
+    if: github.event_name != 'pull_request'
     name: lane-e sweep (bs=${{ matrix.batch_size }}, ga=${{ matrix.grad_accum }})
     runs-on: [self-hosted, linux, x64, psicat]
     strategy:
