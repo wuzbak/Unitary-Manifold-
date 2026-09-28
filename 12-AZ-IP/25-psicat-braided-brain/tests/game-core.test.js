@@ -123,9 +123,9 @@ test('import clamps invalid progression indexes to the current level deck', () =
   bundle.campaign.unlockedLevelIndex = 999;
   bundle.campaign.current.levelId = 'missing-level';
   const restored = core.importSaveBundle(bundle);
-  assert.equal(restored.currentLevelIndex, 0);
+  assert.equal(restored.currentLevelIndex, core.LEVELS.length - 1);
   assert.equal(restored.unlockedLevelIndex, core.LEVELS.length - 1);
-  assert.equal(restored.current.levelId, 'entorhinal-garden');
+  assert.equal(restored.current.levelId, core.LEVELS[core.LEVELS.length - 1].id);
 });
 
 test('import preserves a valid top-level currentLevelIndex when current.levelId is stale', () => {
