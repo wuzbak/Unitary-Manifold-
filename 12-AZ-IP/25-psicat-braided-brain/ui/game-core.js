@@ -436,6 +436,11 @@
     return recordLog(state, reason);
   }
 
+  function hasOutstandingObjectives(state) {
+    return Boolean(state.activeChallenge)
+      || !state.targets.every((item) => item.challengeResolved);
+  }
+
   function ensureAchievement(campaign, achievement) {
     if (!campaign.achievements.find((item) => item.id === achievement.id)) {
       campaign.achievements = campaign.achievements.concat([achievement]);
@@ -588,7 +593,7 @@
     if (state.coherence <= 0) {
       return markLevelFailed(state, 'Coherence collapsed. Reset the braid and try again.');
     }
-    if (state.movesLeft <= 0 && !state.activeChallenge && !state.targets.every((item) => item.delivered)) {
+    if (state.movesLeft <= 0 && hasOutstandingObjectives(state)) {
       return markLevelFailed(state, 'Out of moves before finishing the braid.');
     }
     next.updatedAt = new Date().toISOString();
@@ -629,6 +634,9 @@
     next.telemetry.retryCount += 1;
     recordLog(state, `Not quite. ${challenge.explanation}`);
     recordScience(state, `${target.label}: retry required after incorrect answer.`);
+    if (state.movesLeft <= 0 && hasOutstandingObjectives(state)) {
+      return markLevelFailed(state, 'Out of moves before finishing the braid.');
+    }
     next.updatedAt = new Date().toISOString();
     updateAchievements(next);
     return next;

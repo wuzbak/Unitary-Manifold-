@@ -67,6 +67,24 @@ test('incorrect challenge answers keep the challenge open until corrected', () =
   assert.equal(campaign.telemetry.retryCount, 1);
 });
 
+test('running out of moves with an unresolved challenge fails the level', () => {
+  let campaign = core.createCampaignState();
+  campaign.current.movesLeft = 0;
+  campaign.current.activeChallenge = {
+    targetId: 'entorhinal-torus',
+    label: 'Entorhinal torus',
+    prompt: 'Prompt',
+    choices: [{ id: 'torus', label: 'Torus' }, { id: 'sphere', label: 'Sphere' }],
+    correctChoice: 'torus',
+    explanation: 'Explanation',
+    source: 'Test',
+  };
+  campaign.current.targets[0].delivered = true;
+  campaign = core.answerChallenge(campaign, 'sphere');
+  assert.equal(campaign.current.failed, true);
+  assert.equal(campaign.current.activeChallenge, null);
+});
+
 test('training packet keeps privacy posture explicit', () => {
   const packet = core.createTrainingPacket(core.createCampaignState());
   assert.equal(packet.product, 25);

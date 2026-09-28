@@ -41,6 +41,11 @@ self.addEventListener('fetch', (event) => {
         const clone = response.clone();
         caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         return response;
+      }).catch(async () => {
+        if (event.request.mode === 'navigate') {
+          return caches.match('./ui/index.html');
+        }
+        throw new TypeError('Network request failed and no cached fallback is available.');
       });
     })
   );
