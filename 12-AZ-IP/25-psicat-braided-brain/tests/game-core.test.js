@@ -156,6 +156,32 @@ test('import preserves a valid top-level currentLevelIndex when current.levelId 
   assert.equal(restored.current.levelId, core.LEVELS[2].id);
 });
 
+test('import restores carried signals from canonical level data', () => {
+  const campaign = core.createCampaignState();
+  const bundle = core.createSaveBundle(campaign);
+  const carried = campaign.current.signals[0];
+  bundle.campaign.current.carriedSignal = {
+    id: carried.id,
+    kind: 'tampered-kind',
+    label: 'Tampered label',
+  };
+  bundle.campaign.current.signals = [];
+  const restored = core.importSaveBundle(bundle);
+  assert.equal(restored.current.carriedSignal.id, carried.id);
+  assert.equal(restored.current.carriedSignal.kind, carried.kind);
+  assert.equal(restored.current.carriedSignal.label, carried.label);
+});
+
+test('import derives completion from restored target state instead of trusting serialized flags', () => {
+  const campaign = core.createCampaignState();
+  const bundle = core.createSaveBundle(campaign);
+  bundle.campaign.current.completed = true;
+  bundle.campaign.current.targets[0].delivered = false;
+  bundle.campaign.current.targets[0].challengeResolved = false;
+  const restored = core.importSaveBundle(bundle);
+  assert.equal(restored.current.completed, false);
+});
+
 test('atlas entries expose locked and unlocked science cards', () => {
   const campaign = core.createCampaignState();
   const entries = core.getAtlasEntries(campaign);

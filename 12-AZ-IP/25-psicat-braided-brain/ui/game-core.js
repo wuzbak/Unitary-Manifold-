@@ -437,8 +437,11 @@
   }
 
   function hasOutstandingObjectives(state) {
-    return Boolean(state.activeChallenge)
-      || !state.targets.every((item) => item.challengeResolved);
+    return Boolean(state.activeChallenge) || !hasCompletedObjectives(state);
+  }
+
+  function hasCompletedObjectives(state) {
+    return state.targets.every((item) => item.delivered && item.challengeResolved);
   }
 
   function ensureAchievement(campaign, achievement) {
@@ -508,7 +511,7 @@
 
   function maybeFinishLevel(campaign) {
     const state = campaign.current;
-    const allDelivered = state.targets.every((target) => target.delivered && target.challengeResolved);
+    const allDelivered = hasCompletedObjectives(state);
     if (!allDelivered || state.activeChallenge) return campaign;
     state.completed = true;
     state.failed = false;
@@ -769,9 +772,35 @@
     const levelTemplate = createLevelState(resolvedLevelIndex);
     const incomingCurrent = incoming.current || {};
     const sameLevelPayload = !incomingCurrent.levelId || incomingCurrent.levelId === resolvedLevel.id;
-    const safeSignalIds = new Set(levelTemplate.signals.map((signal) => signal.id));
+    const levelSignalMap = new Map(levelTemplate.signals.map((signal) => [signal.id, signal]));
+    const safeSignalIds = new Set(levelSignalMap.keys());
     const safeTargetIds = new Set(levelTemplate.targets.map((target) => target.id));
     const safeTargetMap = new Map((Array.isArray(incomingCurrent.targets) ? incomingCurrent.targets : []).map((target) => [target.id, target]));
+    const restoredCarriedSignal = sameLevelPayload && incomingCurrent.carriedSignal && safeSignalIds.has(incomingCurrent.carriedSignal.id)
+      ? (() => {
+          const templateSignal = levelSignalMap.get(incomingCurrent.carriedSignal.id);
+          return templateSignal
+            ? {
+                id: templateSignal.id,
+                kind: templateSignal.kind,
+                label: templateSignal.label,
+              }
+            : null;
+        })()
+      : null;
+    const restoredTargets = levelTemplate.targets.map((target) => {
+      const savedTarget = sameLevelPayload && safeTargetIds.has(target.id) ? safeTargetMap.get(target.id) : null;
+      const delivered = Boolean(savedTarget?.delivered);
+      const challengeResolved = delivered && Boolean(savedTarget?.challengeResolved);
+      return savedTarget
+        ? {
+            ...target,
+            delivered,
+            challengeResolved,
+            challengeResult: challengeResolved ? 'correct' : savedTarget.challengeResult === 'retry' ? 'retry' : null,
+          }
+        : target;
+    });
     normalized.currentLevelIndex = resolvedLevelIndex;
     normalized.unlockedLevelIndex = Math.max(
       0,
@@ -785,27 +814,14 @@
             y: Math.max(0, Math.min(levelTemplate.height - 1, Number(incomingCurrent.player.y ?? levelTemplate.player.y))),
           }
         : levelTemplate.player,
-      carriedSignal: sameLevelPayload && incomingCurrent.carriedSignal && safeSignalIds.has(incomingCurrent.carriedSignal.id)
-        ? {
-            id: incomingCurrent.carriedSignal.id,
-            kind: String(incomingCurrent.carriedSignal.kind),
-            label: String(incomingCurrent.carriedSignal.label),
-          }
-        : null,
+      carriedSignal: restoredCarriedSignal,
       signals: sameLevelPayload && Array.isArray(incomingCurrent.signals)
-        ? levelTemplate.signals.filter((signal) => incomingCurrent.signals.some((entry) => entry.id === signal.id))
+        ? levelTemplate.signals.filter((signal) => (
+            signal.id !== restoredCarriedSignal?.id
+            && incomingCurrent.signals.some((entry) => entry.id === signal.id)
+          ))
         : levelTemplate.signals,
-      targets: levelTemplate.targets.map((target) => {
-        const savedTarget = sameLevelPayload && safeTargetIds.has(target.id) ? safeTargetMap.get(target.id) : null;
-        return savedTarget
-          ? {
-              ...target,
-              delivered: Boolean(savedTarget.delivered),
-              challengeResolved: Boolean(savedTarget.challengeResolved),
-              challengeResult: savedTarget.challengeResult === 'correct' ? 'correct' : savedTarget.challengeResult === 'retry' ? 'retry' : null,
-            }
-          : target;
-      }),
+      targets: restoredTargets,
       movesLeft: sameLevelPayload
         ? Math.max(0, Math.min(levelTemplate.movesLeft, Number(incomingCurrent.movesLeft ?? levelTemplate.movesLeft)))
         : levelTemplate.movesLeft,
@@ -818,8 +834,8 @@
         && incomingCurrent.activeChallenge
         && safeTargetIds.has(incomingCurrent.activeChallenge.targetId)
         ? (() => {
-            const target = levelTemplate.targets.find((entry) => entry.id === incomingCurrent.activeChallenge.targetId);
-            return target
+            const target = restoredTargets.find((entry) => entry.id === incomingCurrent.activeChallenge.targetId);
+            return target && !target.challengeResolved
               ? {
                   targetId: target.id,
                   label: target.label,
@@ -832,8 +848,8 @@
               : null;
           })()
         : null,
-      completed: sameLevelPayload ? Boolean(incomingCurrent.completed) : levelTemplate.completed,
-      failed: sameLevelPayload ? Boolean(incomingCurrent.failed) : levelTemplate.failed,
+      completed: levelTemplate.completed,
+      failed: levelTemplate.failed,
       missionLog: sameLevelPayload && Array.isArray(incomingCurrent.missionLog)
         ? incomingCurrent.missionLog.map((entry) => String(entry)).slice(0, 8)
         : levelTemplate.missionLog,
@@ -867,6 +883,12 @@
       levelId: resolvedLevel.id,
       levelIndex: resolvedLevelIndex,
     };
+    normalized.current.completed = hasCompletedObjectives(normalized.current) && !normalized.current.activeChallenge;
+    normalized.current.failed = !normalized.current.completed && sameLevelPayload
+      ? Boolean(incomingCurrent.failed)
+        || normalized.current.coherence <= 0
+        || (normalized.current.movesLeft <= 0 && hasOutstandingObjectives(normalized.current))
+      : levelTemplate.failed;
     normalized.version = VERSION;
     return normalized;
   }

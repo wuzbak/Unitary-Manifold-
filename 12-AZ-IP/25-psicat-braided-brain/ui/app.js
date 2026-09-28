@@ -396,7 +396,24 @@ function importSaveBundle(file) {
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   navigator.serviceWorker.register('../sw.js', { scope: '../' })
+    .then((registration) => {
+      if (navigator.serviceWorker.controller || registration.active) {
+        campaign.installHints.offlineReady = true;
+        saveCampaign();
+        renderInstallStatus();
+      }
+    })
     .catch(() => {});
+}
+
+function bindServiceWorkerEvents() {
+  navigator.serviceWorker?.addEventListener?.('message', (event) => {
+    if (event.data && event.data.type === OFFLINE_CACHE_SIGNAL) {
+      campaign.installHints.offlineReady = true;
+      saveCampaign();
+      renderInstallStatus();
+    }
+  });
 }
 
 function setupInstallPrompt() {
@@ -558,15 +575,9 @@ function bindEvents() {
   }, { passive: true });
 
   window.addEventListener('resize', drawBackground);
-  navigator.serviceWorker?.addEventListener?.('message', (event) => {
-    if (event.data && event.data.type === OFFLINE_CACHE_SIGNAL) {
-      campaign.installHints.offlineReady = true;
-      saveCampaign();
-      renderInstallStatus();
-    }
-  });
 }
 
+bindServiceWorkerEvents();
 bindEvents();
 setupInstallPrompt();
 registerServiceWorker();
