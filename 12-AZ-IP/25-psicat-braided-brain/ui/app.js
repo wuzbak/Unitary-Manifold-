@@ -1,9 +1,11 @@
 const core = window.PsiCatBraidedBrainCore;
-const STORAGE_KEY = 'psicat-braided-brain-state-v1';
+const STORAGE_KEY = 'psicat-braided-brain-state-v2';
 const DEFAULT_COACH_ENDPOINT = 'http://127.0.0.1:8020/api/psicat';
 
 let campaign = loadCampaign();
 let touchStart = null;
+let deferredInstallPrompt = null;
+let animationFrame = null;
 
 function byId(id) {
   return document.getElementById(id);
@@ -13,15 +15,14 @@ function loadCampaign() {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return core.createCampaignState();
-    const parsed = JSON.parse(raw);
-    if (!parsed || !parsed.current || !parsed.version) return core.createCampaignState();
-    return parsed;
+    return core.normalizeCampaign(JSON.parse(raw));
   } catch (_error) {
     return core.createCampaignState();
   }
 }
 
 function saveCampaign() {
+  campaign.updatedAt = new Date().toISOString();
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(campaign));
 }
 
@@ -65,8 +66,19 @@ function renderBoard() {
       button.dataset.x = String(x);
       button.dataset.y = String(y);
       button.type = 'button';
+      button.setAttribute('role', 'gridcell');
       button.setAttribute('aria-label', `Cell ${x + 1}, ${y + 1}, ${role}`);
-      button.textContent = role === 'player' ? '🐈' : role === 'signal' ? '✦' : role === 'target' ? '◎' : role === 'target-complete' ? '◉' : role === 'hazard' ? '≈' : '·';
+      button.textContent = role === 'player'
+        ? '🐈'
+        : role === 'signal'
+          ? '✦'
+          : role === 'target'
+            ? '◎'
+            : role === 'target-complete'
+              ? '◉'
+              : role === 'hazard'
+                ? '≈'
+                : '·';
       board.appendChild(button);
     }
   }
@@ -79,8 +91,13 @@ function renderLevelSelector() {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `level-pill ${campaign.currentLevelIndex === index ? 'active' : ''}`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', String(campaign.currentLevelIndex === index));
     if (index > campaign.unlockedLevelIndex) button.disabled = true;
     button.textContent = `${index + 1}. ${level.shortLabel}`;
+    const detail = document.createElement('small');
+    detail.textContent = level.difficulty;
+    button.appendChild(detail);
     button.addEventListener('click', () => {
       campaign = core.jumpToLevel(campaign, index);
       persistAndRender();
@@ -93,9 +110,10 @@ function renderTargets() {
   const wrap = byId('target-list');
   wrap.innerHTML = '';
   campaign.current.targets.forEach((target) => {
+    const status = target.challengeResolved ? 'Mastered' : target.delivered ? 'Awaiting correct answer' : `Awaiting ${target.kind}`;
     wrap.appendChild(createMiniCard([
       { tag: 'strong', text: target.label },
-      { tag: 'span', text: target.delivered ? 'Delivered' : `Awaiting ${target.kind}` },
+      { tag: 'span', text: status },
       { tag: 'small', text: target.scientificNote },
     ]));
   });
@@ -121,7 +139,10 @@ function renderChallenge() {
   wrap.innerHTML = '';
   const active = campaign.current.activeChallenge;
   if (!active) {
-    wrap.innerHTML = '<p class="muted">Deliver a signal to unlock a science check.</p>';
+    const hint = document.createElement('p');
+    hint.className = 'muted';
+    hint.textContent = 'Deliver a signal to unlock a science check.';
+    wrap.appendChild(hint);
     return;
   }
   const title = document.createElement('h3');
@@ -158,21 +179,78 @@ function renderCoachStatus(text) {
   byId('coach-output').textContent = text;
 }
 
+function renderAtlas() {
+  const wrap = byId('atlas-list');
+  wrap.innerHTML = '';
+  core.getAtlasEntries(campaign).forEach((entry) => {
+    const status = entry.unlocked ? 'Unlocked' : 'Locked until mastered';
+    wrap.appendChild(createMiniCard([
+      { tag: 'strong', text: `${entry.levelName} — ${entry.label}` },
+      { tag: 'span', text: status },
+      { tag: 'small', text: entry.unlocked ? entry.scientificNote : 'Play the corresponding level to reveal the full note.' },
+      { tag: 'small', text: `Source: ${entry.source}` },
+    ], entry.unlocked ? 'mini-card atlas-card unlocked' : 'mini-card atlas-card locked'));
+  });
+}
+
+function renderAchievements() {
+  const wrap = byId('achievement-list');
+  wrap.innerHTML = '';
+  const entries = core.buildAchievementLedger(campaign);
+  if (!entries.length) {
+    wrap.appendChild(createMiniCard([
+      { tag: 'strong', text: 'No badges yet' },
+      { tag: 'small', text: 'Finish missions and unlock concepts to fill this board.' },
+    ], 'mini-card'));
+    return;
+  }
+  entries.forEach((entry) => {
+    wrap.appendChild(createMiniCard([
+      { tag: 'strong', text: entry.label },
+      { tag: 'small', text: entry.id },
+    ], `mini-card badge-card ${entry.tone}`));
+  });
+}
+
+function renderProgress() {
+  const snapshot = core.getCampaignSnapshot(campaign);
+  const mastery = core.calculateLevelMastery(campaign.current);
+  byId('mastery-badge').textContent = `${mastery.badge} · ${mastery.stars}/3 stars`;
+  byId('moves-made').textContent = String(snapshot.telemetry.movesMade);
+  byId('wrap-count-total').textContent = String(snapshot.telemetry.wrapsAchieved);
+  byId('atlas-count').textContent = String(snapshot.atlasInsights);
+  byId('achievement-count').textContent = String(snapshot.achievements);
+  byId('save-status').textContent = `Saved locally · updated ${new Date(campaign.updatedAt || Date.now()).toLocaleString()}`;
+  byId('player-name').value = campaign.profile.playerName;
+}
+
+function renderInstallStatus() {
+  const button = byId('install-app');
+  button.disabled = !deferredInstallPrompt;
+  byId('offline-status').textContent = campaign.installHints.offlineReady
+    ? 'Offline cache ready'
+    : 'Offline cache pending';
+}
+
 function renderState() {
   const state = campaign.current;
   const level = core.LEVELS[campaign.currentLevelIndex];
+  const mastery = core.calculateLevelMastery(state);
   byId('title').textContent = 'PsiCat Braided Brain';
-  byId('subtitle').textContent = 'A toroidal brain simulator game for desktop and mobile.';
+  byId('subtitle').textContent = 'A toroidal brain simulator for serious play, local-first saves, and explicit science tethering.';
   byId('level-name').textContent = level.name;
   byId('briefing').textContent = state.briefing;
   byId('source-note').textContent = level.sourceNote;
+  byId('narrative-note').textContent = state.narrative;
   byId('score').textContent = String(campaign.totalScore + state.score);
   byId('coherence').textContent = `${state.coherence}%`;
   byId('coherence').dataset.tone = statusTone(state.coherence);
   byId('wraps').textContent = `${state.wraps}/${state.wrapGoal}`;
   byId('moves').textContent = String(state.movesLeft);
   byId('completed-levels').textContent = `${campaign.completedLevelIds.length}/${core.LEVELS.length}`;
-  byId('privacy-note').textContent = 'Local progress only unless you explicitly export a training packet.';
+  byId('privacy-note').textContent = 'Local progress only unless you explicitly export a save bundle or training packet.';
+  byId('difficulty-chip').textContent = state.difficulty;
+  byId('mastery-hero').textContent = `${mastery.badge} · ${mastery.stars}/3`;
   renderBoard();
   renderLevelSelector();
   renderTargets();
@@ -180,6 +258,10 @@ function renderState() {
   renderChallenge();
   renderLogs();
   renderTrainingPacket();
+  renderAtlas();
+  renderAchievements();
+  renderProgress();
+  renderInstallStatus();
 
   const summary = [];
   if (state.completed) summary.push('Level complete. Advance when ready.');
@@ -250,11 +332,98 @@ function resetCampaign() {
   persistAndRender();
 }
 
+function importSaveBundle(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const payload = JSON.parse(String(reader.result || '{}'));
+      campaign = core.importSaveBundle(payload);
+      persistAndRender();
+      renderCoachStatus('Save bundle imported.');
+    } catch (error) {
+      renderCoachStatus(`Import failed: ${error.message}`);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('../sw.js').then(() => {
+    campaign.installHints.offlineReady = true;
+    saveCampaign();
+    renderInstallStatus();
+  }).catch(() => {});
+}
+
+function setupInstallPrompt() {
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    renderInstallStatus();
+  });
+}
+
+async function installApp() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  try {
+    await deferredInstallPrompt.userChoice;
+  } finally {
+    deferredInstallPrompt = null;
+    renderInstallStatus();
+  }
+}
+
+function drawBackground() {
+  const canvas = byId('braid-canvas');
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = Math.max(1, Math.floor(rect.width * ratio));
+  canvas.height = Math.max(1, Math.floor(rect.height * ratio));
+  const ctx = canvas.getContext('2d');
+  ctx.scale(ratio, ratio);
+  const { width, height } = rect;
+  let phase = 0;
+  const loop = () => {
+    phase += 0.015;
+    ctx.clearRect(0, 0, width, height);
+    const gradient = ctx.createRadialGradient(width * 0.2, height * 0.1, 20, width * 0.5, height * 0.5, width * 0.9);
+    gradient.addColorStop(0, 'rgba(124,92,255,0.32)');
+    gradient.addColorStop(1, 'rgba(7,17,31,0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.lineWidth = 2;
+    for (let index = 0; index < 3; index += 1) {
+      ctx.beginPath();
+      ctx.strokeStyle = index === 1 ? 'rgba(37,208,255,0.65)' : index === 2 ? 'rgba(57,217,138,0.4)' : 'rgba(255,190,85,0.35)';
+      for (let x = 0; x <= width; x += 6) {
+        const y = height * (0.28 + index * 0.18) + Math.sin((x / width) * Math.PI * 4 + phase + index) * (26 + index * 8);
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+    ctx.lineWidth = 1.2;
+    ctx.ellipse(width * 0.77, height * 0.48, 84, 48, phase * 0.2, 0, Math.PI * 2);
+    ctx.stroke();
+    animationFrame = window.requestAnimationFrame(loop);
+  };
+  if (animationFrame) window.cancelAnimationFrame(animationFrame);
+  loop();
+}
+
 function bindEvents() {
   const coachEndpoint = byId('coach-endpoint');
   if (!coachEndpoint.value.trim()) {
     coachEndpoint.value = DEFAULT_COACH_ENDPOINT;
   }
+
   byId('move-up').addEventListener('click', () => move(0, -1));
   byId('move-down').addEventListener('click', () => move(0, 1));
   byId('move-left').addEventListener('click', () => move(-1, 0));
@@ -266,6 +435,8 @@ function bindEvents() {
     persistAndRender();
   });
   byId('export-packet').addEventListener('click', () => {
+    campaign.installHints.saveExports += 1;
+    persistAndRender();
     downloadText(
       'psicat-braided-brain-training-packet.json',
       JSON.stringify(core.createTrainingPacket(campaign), null, 2),
@@ -273,11 +444,28 @@ function bindEvents() {
     );
   });
   byId('export-jsonl').addEventListener('click', () => {
+    campaign.installHints.saveExports += 1;
+    persistAndRender();
     downloadText(
       'psicat-braided-brain-training.jsonl',
       core.createJsonlExport(campaign),
       'application/x-ndjson',
     );
+  });
+  byId('export-save').addEventListener('click', () => {
+    campaign.installHints.saveExports += 1;
+    persistAndRender();
+    downloadText(
+      'psicat-braided-brain-save.json',
+      JSON.stringify(core.createSaveBundle(campaign), null, 2),
+      'application/json',
+    );
+  });
+  byId('import-save').addEventListener('click', () => byId('import-save-file').click());
+  byId('import-save-file').addEventListener('change', (event) => {
+    const [file] = event.target.files || [];
+    if (file) importSaveBundle(file);
+    event.target.value = '';
   });
   byId('ask-psicat').addEventListener('click', askCoach);
   byId('copy-prompt').addEventListener('click', async () => {
@@ -288,6 +476,11 @@ function bindEvents() {
     } catch (_error) {
       renderCoachStatus(prompt);
     }
+  });
+  byId('install-app').addEventListener('click', installApp);
+  byId('player-name').addEventListener('change', (event) => {
+    campaign.profile.playerName = String(event.target.value || 'PsiCat Pilot').trim() || 'PsiCat Pilot';
+    persistAndRender();
   });
 
   document.addEventListener('keydown', (event) => {
@@ -316,8 +509,13 @@ function bindEvents() {
       move(0, dy > 0 ? 1 : -1);
     }
   }, { passive: true });
+
+  window.addEventListener('resize', drawBackground);
 }
 
 bindEvents();
+setupInstallPrompt();
+registerServiceWorker();
+drawBackground();
 renderState();
 renderCoachStatus('Ask PsiCat for coaching, or use the local hint if Product 20 is offline.');

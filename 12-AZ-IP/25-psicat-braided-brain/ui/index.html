@@ -5,16 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PsiCat Braided Brain</title>
   <meta name="description" content="A toroidal brain simulator game for desktop and mobile, built for PsiCat and AxiomZero.">
+  <meta name="theme-color" content="#08111f">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
+  <canvas id="braid-canvas" class="braid-canvas" aria-hidden="true"></canvas>
   <main class="shell">
     <section class="hero panel">
-      <div>
+      <div class="hero-copy">
         <p class="eyebrow">Product 25 · AxiomZero commissioned work</p>
         <h1 id="title">PsiCat Braided Brain</h1>
         <p id="subtitle">A toroidal brain simulator game for desktop and mobile.</p>
+        <div class="hero-inline">
+          <span class="hero-chip" id="difficulty-chip">Starter</span>
+          <span class="hero-chip" id="mastery-hero">Learning · 1/3</span>
+          <span class="hero-chip" id="offline-status">Offline cache pending</span>
+        </div>
       </div>
       <div class="hero-stats">
         <div class="stat-card"><span>Score</span><strong id="score">0</strong></div>
@@ -30,6 +37,7 @@
         <h2 id="level-name">Level</h2>
         <p id="briefing"></p>
         <p class="muted" id="source-note"></p>
+        <p class="narrative-note" id="narrative-note"></p>
       </div>
       <div>
         <strong>Status</strong>
@@ -40,7 +48,7 @@
 
     <section class="workspace">
       <section class="play-column">
-        <div class="panel">
+        <div class="panel board-panel">
           <div id="level-selector" class="level-selector" role="tablist" aria-label="Level selector"></div>
           <div id="board" class="board" role="grid" aria-label="Toroidal game board"></div>
           <div class="controls">
@@ -57,21 +65,42 @@
             <button id="reset-campaign" type="button">Fresh run</button>
           </div>
         </div>
+
+        <div class="panel tether-panel">
+          <div class="panel-header-row">
+            <h2>Save, install, and tether</h2>
+            <span id="save-status" class="muted">Saved locally</span>
+          </div>
+          <label class="field">Pilot name
+            <input id="player-name" value="PsiCat Pilot">
+          </label>
+          <div class="toolbar">
+            <button id="export-save" type="button">Download save bundle</button>
+            <button id="import-save" type="button">Import save bundle</button>
+            <button id="install-app" type="button">Install app</button>
+          </div>
+          <input id="import-save-file" type="file" accept="application/json" hidden>
+          <p class="muted">Downloads stay local and explicit. Save bundles restore campaign state; training packets remain separate and science-facing.</p>
+        </div>
       </section>
 
       <section class="info-column">
-        <div class="panel">
-          <h2>Signals</h2>
-          <div id="signal-list" class="stack"></div>
+        <div class="panel grid-two">
+          <div>
+            <h2>Signals</h2>
+            <div id="signal-list" class="stack"></div>
+          </div>
+          <div>
+            <h2>Science targets</h2>
+            <div id="target-list" class="stack"></div>
+          </div>
         </div>
-        <div class="panel">
-          <h2>Science targets</h2>
-          <div id="target-list" class="stack"></div>
-        </div>
+
         <div class="panel">
           <h2>Science check</h2>
           <div id="challenge-panel"></div>
         </div>
+
         <div class="panel split-panel">
           <div>
             <h2>Mission log</h2>
@@ -82,6 +111,27 @@
             <ul id="science-log" class="log"></ul>
           </div>
         </div>
+
+        <div class="panel progress-panel">
+          <div class="panel-header-row">
+            <h2>Progress board</h2>
+            <span id="mastery-badge" class="hero-chip">Learning · 1/3 stars</span>
+          </div>
+          <div class="hero-stats compact-stats">
+            <div class="stat-card"><span>Total moves</span><strong id="moves-made">0</strong></div>
+            <div class="stat-card"><span>Total wraps</span><strong id="wrap-count-total">0</strong></div>
+            <div class="stat-card"><span>Atlas unlocks</span><strong id="atlas-count">0</strong></div>
+            <div class="stat-card"><span>Achievements</span><strong id="achievement-count">0</strong></div>
+          </div>
+          <div id="achievement-list" class="stack"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Science atlas</h2>
+          <p class="muted">Each concept card stays tethered to a level, a source, and an explicit boundary.</p>
+          <div id="atlas-list" class="stack atlas-list"></div>
+        </div>
+
         <div class="panel">
           <h2>PsiCat coach</h2>
           <label class="field">Optional Product 20 endpoint
@@ -96,9 +146,10 @@
           </div>
           <pre id="coach-output" class="coach-output"></pre>
         </div>
+
         <div class="panel">
           <h2>Training packet</h2>
-          <p class="muted">Exports include mission outcomes and science-card choices only. No hidden surveillance data is collected.</p>
+          <p class="muted">Exports include mission outcomes, mastery, concept choices, and lightweight puzzle traces only. No hidden surveillance data is collected.</p>
           <div class="toolbar">
             <button id="export-packet" type="button">Export JSON packet</button>
             <button id="export-jsonl" type="button">Export JSONL training rows</button>

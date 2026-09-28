@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#07111f",
   "theme_color": "#7c5cff",
-  "description": "A toroidal brain simulator game for desktop and mobile.",
+  "description": "A toroidal brain simulator game for desktop and mobile with local-first saves and explicit science tethering.",
   "icons": [
     {
       "src": "./icon.svg",

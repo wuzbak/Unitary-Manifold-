@@ -1,4 +1,5 @@
 (function (global) {
+  const VERSION = '1.1.0';
   const LEVELS = [
     {
       id: 'entorhinal-garden',
@@ -10,6 +11,8 @@
       moveBudget: 18,
       briefing: 'Guide PsiCat around a toroidal board. Wrapping across edges teaches how brain maps recycle space instead of ending at a wall.',
       sourceNote: 'Gardner et al. 2022 and /4-IMPLICATIONS/brain/TORUS_ARCHITECTURE.md',
+      narrative: 'This opener teaches the foundational trick: real navigation codes can wrap in both directions. The board never ends because the science story never needed a wall in the first place.',
+      difficulty: 'Starter',
       signals: [
         { id: 'grid-phase', kind: 'grid', label: 'Grid phase', x: 0, y: 3 },
         { id: 'theta-tilt', kind: 'theta', label: 'Theta tilt', x: 5, y: 1 },
@@ -24,6 +27,7 @@
           y: 3,
           scientificNote: 'Grid-cell population activity can be represented on a torus.',
           source: 'Gardner et al. 2022',
+          conceptTag: 'toroidal-map',
           challenge: {
             prompt: 'What topology best matches the grid-cell population map?',
             choices: [
@@ -43,6 +47,7 @@
           y: 6,
           scientificNote: 'Theta rhythms help coordinate navigation updates.',
           source: '/4-IMPLICATIONS/brain/TORUS_ARCHITECTURE.md',
+          conceptTag: 'theta-coordination',
           challenge: {
             prompt: 'Why does theta matter in this level?',
             choices: [
@@ -66,6 +71,8 @@
       moveBudget: 22,
       briefing: 'Stabilize the braided dialogue between cortex and enteric nervous system. The gut lane is modeled as a second-brain support loop, not as surveillance or mind reading.',
       sourceNote: 'Pillar 538 and /4-IMPLICATIONS/brain plus src/core/pillar538_enteric_neural_core.py',
+      narrative: 'The ENS lane rewards players who can keep multiple loops in mind at once: central guidance, local autonomy, and explicit scientific humility.',
+      difficulty: 'Intermediate',
       signals: [
         { id: 'serotonin-wave', kind: 'serotonin', label: 'Serotonin wave', x: 7, y: 3 },
         { id: 'autonomy-pulse', kind: 'autonomy', label: 'Autonomy pulse', x: 1, y: 1 },
@@ -80,6 +87,7 @@
           y: 3,
           scientificNote: 'The ENS is often described as a second brain and produces most of the body’s serotonin.',
           source: 'src/core/pillar538_enteric_neural_core.py',
+          conceptTag: 'ens-serotonin',
           challenge: {
             prompt: 'Which claim matches the repository ENS lane?',
             choices: [
@@ -99,6 +107,7 @@
           y: 6,
           scientificNote: 'The ENS can retain substantial autonomy even when direct vagal input is disrupted.',
           source: 'src/core/pillar538_enteric_neural_core.py',
+          conceptTag: 'distributed-control',
           challenge: {
             prompt: 'Why is autonomy a useful gameplay mechanic here?',
             choices: [
@@ -122,6 +131,8 @@
       moveBudget: 26,
       briefing: 'Collect bridge signals from a compact MaleCNS-inspired deck. You are not proving a theory; you are learning how sensory, bridge, motor, and modulatory roles differ in a real connectome slice.',
       sourceNote: 'data/malecns/benchmark_panel.json and /4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md',
+      narrative: 'This mission turns a real connectome benchmark into a playable role-recognition exercise. It is where play starts looking like practice.',
+      difficulty: 'Research',
       signals: [
         { id: 'optic-trace', kind: 'optic', label: 'Optic trace', x: 1, y: 7 },
         { id: 'bridge-trace', kind: 'bridge', label: 'Bridge trace', x: 6, y: 0 },
@@ -137,6 +148,7 @@
           y: 7,
           scientificNote: 'LPLC2 is an optic projection surface and dominates throughput in the benchmark slice.',
           source: 'data/malecns/benchmark_panel.json',
+          conceptTag: 'lplc2-optic',
           challenge: {
             prompt: 'In the committed benchmark panel, what is LPLC2 best treated as?',
             choices: [
@@ -156,6 +168,7 @@
           y: 7,
           scientificNote: 'AN01B004 is used as an ascending VNC-to-brain bridge surface in the compact panel.',
           source: '/4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md',
+          conceptTag: 'ascending-bridge',
           challenge: {
             prompt: 'Why include AN01B004 in a teaching game?',
             choices: [
@@ -175,6 +188,7 @@
           y: 4,
           scientificNote: '5-HTPLP01 is part of the modulatory surface in the benchmark slice.',
           source: 'data/malecns/benchmark_panel.json',
+          conceptTag: 'modulatory-broadcast',
           challenge: {
             prompt: 'What kind of role does 5-HTPLP01 represent in this deck?',
             choices: [
@@ -198,6 +212,8 @@
       moveBudget: 28,
       briefing: 'Finish by braiding PsiCat and PhiCat into a governed hemispheric partnership. The result is a voluntary training packet built from game decisions and science-card reasoning, not personal surveillance.',
       sourceNote: 'Product 20 PsiCat surfaces and the repository brain/connectome lanes',
+      narrative: 'The finale turns all prior ideas into one governed synthesis: explicit memory, voluntary export, and a teaching loop that stays honest about what it knows.',
+      difficulty: 'Finale',
       signals: [
         { id: 'left-hemisphere', kind: 'hemisphere', label: 'Left-hemisphere thread', x: 8, y: 4 },
         { id: 'right-hemisphere', kind: 'mirror', label: 'Right-hemisphere thread', x: 0, y: 4 },
@@ -213,6 +229,7 @@
           y: 4,
           scientificNote: 'The playable metaphor is a braided partnership between local and global brain-style loops.',
           source: 'This product design lane',
+          conceptTag: 'braided-partnership',
           challenge: {
             prompt: 'What should this game retain by default?',
             choices: [
@@ -232,6 +249,7 @@
           y: 4,
           scientificNote: 'The mirrored hemisphere mechanic teaches coordination instead of domination.',
           source: 'This product design lane',
+          conceptTag: 'mirror-cooperation',
           challenge: {
             prompt: 'What is the intended relationship between PsiCat and PhiCat here?',
             choices: [
@@ -251,6 +269,7 @@
           y: 7,
           scientificNote: 'Training packets summarize voluntary puzzle outcomes into reusable science-and-game records.',
           source: 'Product 20 optional integration',
+          conceptTag: 'structured-training',
           challenge: {
             prompt: 'What makes the training packet useful to PsiCat?',
             choices: [
@@ -274,6 +293,31 @@
     return `brain-${Math.random().toString(36).slice(2, 10)}`;
   }
 
+  function getLevelById(levelId) {
+    return LEVELS.find((level) => level.id === levelId) || LEVELS[0];
+  }
+
+  function calculateStarRating(state) {
+    let stars = 1;
+    if (state.coherence >= 72) stars += 1;
+    if (state.wraps >= state.wrapGoal && state.movesLeft >= Math.ceil(getLevelById(state.levelId).moveBudget * 0.2)) stars += 1;
+    return Math.max(1, Math.min(3, stars));
+  }
+
+  function calculateLevelMastery(state) {
+    const allCorrect = state.targets.every((target) => target.challengeResult === 'correct');
+    const efficient = state.movesLeft >= Math.floor(getLevelById(state.levelId).moveBudget * 0.25);
+    const wrapDisciplined = state.wraps >= state.wrapGoal;
+    const stars = calculateStarRating(state);
+    return {
+      stars,
+      allCorrect,
+      efficient,
+      wrapDisciplined,
+      badge: allCorrect && efficient ? 'Mastered' : stars === 3 ? 'Excellent' : stars === 2 ? 'Stable' : 'Learning',
+    };
+  }
+
   function createLevelState(levelIndex) {
     const level = LEVELS[levelIndex];
     const targets = level.targets.map((target) => ({
@@ -290,8 +334,8 @@
       player: { ...level.start },
       carriedSignal: null,
       signals: level.signals.map((signal) => ({ ...signal })),
-      targets,
       hazards: deepCopy(level.hazards),
+      targets,
       movesLeft: level.moveBudget,
       wrapGoal: level.wrapGoal,
       wraps: 0,
@@ -305,24 +349,46 @@
       briefing: level.briefing,
       shortLabel: level.shortLabel,
       sourceNote: level.sourceNote,
+      narrative: level.narrative,
+      difficulty: level.difficulty,
       missionLog: [`Mission loaded: ${level.name}.`],
       scienceLog: [],
       touchHistory: [],
       challengeHistory: [],
+      collectedConcepts: [],
+      retriedTargets: [],
     };
   }
 
   function createCampaignState() {
     return {
-      version: '1.0.0',
+      version: VERSION,
       runId: createRunId(),
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       currentLevelIndex: 0,
       unlockedLevelIndex: 0,
       completedLevelIds: [],
       totalScore: 0,
       trainingRecords: [],
       coachNotes: [],
+      achievements: [],
+      atlasInsights: [],
+      levelHistory: {},
+      telemetry: {
+        movesMade: 0,
+        wrapsAchieved: 0,
+        correctAnswers: 0,
+        retryCount: 0,
+      },
+      installHints: {
+        offlineReady: false,
+        saveExports: 0,
+      },
+      profile: {
+        playerName: 'PsiCat Pilot',
+        preferredMode: 'Campaign',
+      },
       current: createLevelState(0),
     };
   }
@@ -366,6 +432,71 @@
     return recordLog(state, reason);
   }
 
+  function ensureAchievement(campaign, achievement) {
+    if (!campaign.achievements.find((item) => item.id === achievement.id)) {
+      campaign.achievements = campaign.achievements.concat([achievement]);
+    }
+  }
+
+  function mergeAtlasInsight(campaign, target) {
+    if (!target.conceptTag) return;
+    if (!campaign.atlasInsights.find((item) => item.conceptTag === target.conceptTag)) {
+      campaign.atlasInsights = campaign.atlasInsights.concat([{
+        conceptTag: target.conceptTag,
+        title: target.label,
+        note: target.scientificNote,
+        source: target.source,
+        unlockedAt: new Date().toISOString(),
+      }]);
+    }
+  }
+
+  function getAtlasEntries(campaign) {
+    return LEVELS.flatMap((level) => level.targets.map((target) => ({
+      levelId: level.id,
+      levelName: level.name,
+      label: target.label,
+      conceptTag: target.conceptTag,
+      scientificNote: target.scientificNote,
+      source: target.source,
+      unlocked: campaign.atlasInsights.some((item) => item.conceptTag === target.conceptTag),
+    })));
+  }
+
+  function buildAchievementLedger(campaign) {
+    const entries = [];
+    if (campaign.completedLevelIds.length >= 1) entries.push({ id: 'first-braid', label: 'First braid complete', tone: 'gold' });
+    if (campaign.telemetry.wrapsAchieved >= 8) entries.push({ id: 'torus-runner', label: 'Toroidal runner', tone: 'cyan' });
+    if (campaign.atlasInsights.length >= 6) entries.push({ id: 'science-scout', label: 'Science scout', tone: 'violet' });
+    if (campaign.trainingRecords.length >= 4) entries.push({ id: 'tether-ready', label: 'Tether ready', tone: 'emerald' });
+    return entries;
+  }
+
+  function levelSummary(state) {
+    return {
+      levelId: state.levelId,
+      levelIndex: state.levelIndex,
+      score: state.score,
+      wraps: state.wraps,
+      coherence: state.coherence,
+      movesUsed: LEVELS[state.levelIndex].moveBudget - state.movesLeft,
+      mastery: calculateLevelMastery(state),
+      cardResults: state.targets.map((target) => ({
+        targetId: target.id,
+        label: target.label,
+        delivered: target.delivered,
+        correct: target.challengeResult === 'correct',
+        conceptTag: target.conceptTag,
+      })),
+      touchHistory: state.touchHistory.slice(0, 32),
+      completedAt: new Date().toISOString(),
+    };
+  }
+
+  function updateAchievements(campaign) {
+    buildAchievementLedger(campaign).forEach((achievement) => ensureAchievement(campaign, achievement));
+  }
+
   function maybeFinishLevel(campaign) {
     const state = campaign.current;
     const allDelivered = state.targets.every((target) => target.delivered && target.challengeResolved);
@@ -379,26 +510,10 @@
       campaign.totalScore += state.score;
       campaign.unlockedLevelIndex = Math.max(campaign.unlockedLevelIndex, Math.min(LEVELS.length - 1, state.levelIndex + 1));
     }
+    campaign.levelHistory[state.levelId] = summary;
+    campaign.updatedAt = new Date().toISOString();
+    updateAchievements(campaign);
     return campaign;
-  }
-
-  function levelSummary(state) {
-    return {
-      levelId: state.levelId,
-      levelIndex: state.levelIndex,
-      score: state.score,
-      wraps: state.wraps,
-      coherence: state.coherence,
-      movesUsed: LEVELS[state.levelIndex].moveBudget - state.movesLeft,
-      cardResults: state.targets.map((target) => ({
-        targetId: target.id,
-        label: target.label,
-        delivered: target.delivered,
-        correct: target.challengeResult === 'correct',
-      })),
-      touchHistory: state.touchHistory.slice(0, 32),
-      completedAt: new Date().toISOString(),
-    };
   }
 
   function movePlayer(campaign, dx, dy) {
@@ -413,10 +528,12 @@
     state.player.x = normalizeWrap(rawX, state.width);
     state.player.y = normalizeWrap(rawY, state.height);
     state.movesLeft -= 1;
+    next.telemetry.movesMade += 1;
     state.touchHistory = state.touchHistory.concat([{ x: state.player.x, y: state.player.y }]).slice(-64);
 
     if (wrapped) {
       state.wraps += 1;
+      next.telemetry.wrapsAchieved += 1;
       recordLog(state, 'Toroidal wrap completed. Space folds instead of ending.');
       if (!state.wrapBonusAwarded && state.wraps >= state.wrapGoal) {
         state.wrapBonusAwarded = true;
@@ -467,6 +584,8 @@
     if (state.movesLeft <= 0 && !state.activeChallenge && !state.targets.every((item) => item.delivered)) {
       return markLevelFailed(state, 'Out of moves before finishing the braid.');
     }
+    next.updatedAt = new Date().toISOString();
+    updateAchievements(next);
     return next;
   }
 
@@ -485,24 +604,33 @@
       target.challengeResult = 'correct';
       state.score += 60;
       state.coherence = clampCoherence(state.coherence + 6);
+      state.collectedConcepts = Array.from(new Set(state.collectedConcepts.concat(target.conceptTag || [])));
+      next.telemetry.correctAnswers += 1;
       recordLog(state, `${target.label} locked in.`);
       recordScience(state, `${target.label}: ${challenge.explanation}`);
+      mergeAtlasInsight(next, target);
       state.activeChallenge = null;
+      next.updatedAt = new Date().toISOString();
+      updateAchievements(next);
       return maybeFinishLevel(next);
-    } else {
-      target.challengeResolved = false;
-      target.challengeResult = 'retry';
-      state.score = Math.max(0, state.score - 20);
-      state.coherence = clampCoherence(state.coherence - 8);
-      recordLog(state, `Not quite. ${challenge.explanation}`);
-      recordScience(state, `${target.label}: retry required after incorrect answer.`);
-      return next;
     }
+    target.challengeResolved = false;
+    target.challengeResult = 'retry';
+    state.score = Math.max(0, state.score - 20);
+    state.coherence = clampCoherence(state.coherence - 8);
+    state.retriedTargets = Array.from(new Set(state.retriedTargets.concat(target.id)));
+    next.telemetry.retryCount += 1;
+    recordLog(state, `Not quite. ${challenge.explanation}`);
+    recordScience(state, `${target.label}: retry required after incorrect answer.`);
+    next.updatedAt = new Date().toISOString();
+    updateAchievements(next);
+    return next;
   }
 
   function resetCurrentLevel(campaign) {
     const next = deepCopy(campaign);
     next.current = createLevelState(next.currentLevelIndex);
+    next.updatedAt = new Date().toISOString();
     return next;
   }
 
@@ -512,6 +640,7 @@
     if (safeIndex > next.unlockedLevelIndex) return next;
     next.currentLevelIndex = safeIndex;
     next.current = createLevelState(safeIndex);
+    next.updatedAt = new Date().toISOString();
     return next;
   }
 
@@ -521,31 +650,38 @@
     const next = deepCopy(campaign);
     next.currentLevelIndex = nextIndex;
     next.current = createLevelState(nextIndex);
+    next.updatedAt = new Date().toISOString();
     return next;
   }
 
   function createTrainingPacket(campaign) {
     const packet = {
-      schema: 'psicat-braided-brain-training-v1',
+      schema: 'psicat-braided-brain-training-v2',
       product: 25,
+      version: campaign.version,
       runId: campaign.runId,
       createdAt: campaign.createdAt,
       exportedAt: new Date().toISOString(),
       completedLevels: campaign.completedLevelIds.slice(),
       totalScore: campaign.totalScore + (campaign.current.completed ? 0 : campaign.current.score),
+      achievements: campaign.achievements.slice(),
+      atlasInsights: campaign.atlasInsights.slice(),
       currentLevel: {
         id: campaign.current.levelId,
         label: LEVELS[campaign.current.levelIndex].name,
         completed: campaign.current.completed,
         wraps: campaign.current.wraps,
         coherence: campaign.current.coherence,
+        difficulty: campaign.current.difficulty,
       },
+      telemetry: deepCopy(campaign.telemetry),
       trainingRecords: campaign.trainingRecords.concat(campaign.current.completed ? [] : [levelSummary(campaign.current)]),
       pedagogicalFocus: [
         'toroidal navigation',
         'distributed control',
         'connectome role recognition',
         'explicit epistemic boundaries',
+        'voluntary local-first scientific play',
       ],
       privacy: {
         surveillance: 'none',
@@ -565,6 +701,7 @@
         score: record.score,
         wraps: record.wraps,
         coherence: record.coherence,
+        mastery: record.mastery,
         concepts: record.cardResults,
       },
       metadata: {
@@ -576,6 +713,45 @@
     return records.join('\n');
   }
 
+  function createSaveBundle(campaign) {
+    return {
+      schema: 'psicat-braided-brain-save-v1',
+      exportedAt: new Date().toISOString(),
+      campaign: deepCopy(campaign),
+      atlas: getAtlasEntries(campaign),
+    };
+  }
+
+  function normalizeCampaign(candidate) {
+    const base = createCampaignState();
+    const incoming = candidate && typeof candidate === 'object' ? candidate : {};
+    const normalized = {
+      ...base,
+      ...incoming,
+      telemetry: { ...base.telemetry, ...(incoming.telemetry || {}) },
+      installHints: { ...base.installHints, ...(incoming.installHints || {}) },
+      profile: { ...base.profile, ...(incoming.profile || {}) },
+      current: createLevelState(Math.max(0, Math.min(LEVELS.length - 1, Number(incoming.currentLevelIndex || 0)))),
+    };
+    const levelIndex = Math.max(0, Math.min(LEVELS.length - 1, Number(normalized.currentLevelIndex || 0)));
+    normalized.currentLevelIndex = levelIndex;
+    normalized.current = {
+      ...createLevelState(levelIndex),
+      ...(incoming.current || {}),
+      levelId: getLevelById((incoming.current || {}).levelId || LEVELS[levelIndex].id).id,
+      levelIndex,
+    };
+    normalized.version = VERSION;
+    return normalized;
+  }
+
+  function importSaveBundle(bundle) {
+    if (!bundle || bundle.schema !== 'psicat-braided-brain-save-v1' || !bundle.campaign) {
+      throw new Error('Invalid PsiCat Braided Brain save bundle.');
+    }
+    return normalizeCampaign(bundle.campaign);
+  }
+
   function suggestCoachQuery(campaign) {
     const packet = createTrainingPacket(campaign);
     return [
@@ -583,6 +759,7 @@
       `Current level: ${packet.currentLevel.label}`,
       `Wraps: ${packet.currentLevel.wraps}, coherence: ${packet.currentLevel.coherence}`,
       `Completed levels: ${packet.completedLevels.join(', ') || 'none yet'}`,
+      `Atlas insights unlocked: ${packet.atlasInsights.length}`,
       'Keep the answer short, educational, and game-actionable.',
     ].join(' ');
   }
@@ -602,13 +779,30 @@
       name: level.name,
       shortLabel: level.shortLabel,
       briefing: level.briefing,
+      difficulty: level.difficulty,
     }));
   }
 
+  function getCampaignSnapshot(campaign) {
+    const current = campaign.current;
+    return {
+      version: campaign.version,
+      totalScore: campaign.totalScore + current.score,
+      completedLevels: campaign.completedLevelIds.length,
+      atlasInsights: campaign.atlasInsights.length,
+      achievements: campaign.achievements.length,
+      mastery: calculateLevelMastery(current),
+      telemetry: deepCopy(campaign.telemetry),
+    };
+  }
+
   const api = {
+    VERSION,
     LEVELS,
     createCampaignState,
     createLevelState,
+    normalizeCampaign,
+    importSaveBundle,
     movePlayer,
     answerChallenge,
     resetCurrentLevel,
@@ -616,9 +810,14 @@
     jumpToLevel,
     createTrainingPacket,
     createJsonlExport,
+    createSaveBundle,
     suggestCoachQuery,
     getCellRole,
     getLevelDeck,
+    getAtlasEntries,
+    getCampaignSnapshot,
+    calculateLevelMastery,
+    buildAchievementLedger,
   };
 
   if (typeof module !== 'undefined' && module.exports) {

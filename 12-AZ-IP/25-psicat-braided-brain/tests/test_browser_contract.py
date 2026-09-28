@@ -32,10 +32,12 @@ def test_braided_brain_browser_contract(browser_name: str) -> None:
                 page.goto(f'{base_url}ui/index.html', wait_until='domcontentloaded')
                 page.wait_for_function("document.querySelectorAll('#board .cell').length > 40")
                 assert 'PsiCat Braided Brain' in page.title()
-                page.get_by_role('button', name='←').click()
+                assert 'Science atlas' in (page.locator('body').text_content() or '')
+                page.get_by_role('button', name='Install app').is_visible()
                 page.get_by_role('button', name='Ask PsiCat').click()
                 page.wait_for_function("document.getElementById('coach-output').textContent.includes('entorhinal torus')")
-                assert 'Collect' in (page.locator('#status-banner').text_content() or '') or 'Level complete' in (page.locator('#status-banner').text_content() or '')
+                page.get_by_role('button', name='Download save bundle').click()
+                assert 'Saved locally' in (page.locator('#save-status').text_content() or '')
                 assert len(page.screenshot(full_page=True)) > 10_000
             finally:
                 browser.close()

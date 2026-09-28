@@ -2,11 +2,11 @@
   "product": 25,
   "name": "PsiCat Braided Brain",
   "resume_entrypoint": "/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/25-psicat-braided-brain/README.md",
-  "last_updated": "2026-09-28T01:31:16Z",
-  "status": "playable_v1_in_progress",
+  "last_updated": "2026-09-28T01:51:56Z",
+  "status": "playable_v1_1_professional_upgrade",
   "notes": [
-    "Responsive toroidal brain game shell created.",
-    "Optional Product 20 coach endpoint wired to /api/psicat.",
-    "Training packet export is local and explicit only."
+    "Responsive toroidal brain game upgraded with animated rendering and richer progression.",
+    "Offline service worker, installable manifest, and explicit save import/export added.",
+    "Science atlas, achievement board, and training tether exports remain local-first and explicit only."
   ]
 }
