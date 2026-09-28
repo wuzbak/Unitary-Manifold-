@@ -1,18 +1,15 @@
 'use strict';
 
-const CACHE_NAME = 'psicat-braided-brain-v3';
+const CACHE_NAME = 'psicat-braided-brain-v4';
 const STATIC_ASSETS = [
   './ui/index.html',
   './ui/app.js?v=3',
   './ui/game-core.js?v=3',
   './ui/manifest.webmanifest?v=2',
-  './ui/icon-192.png',
   './ui/icon-192.png?v=3',
-  './ui/icon-512.png',
   './ui/icon-512.png?v=3',
   './ui/favicon.png',
   './css/main.css?v=3',
-  './README.md',
 ];
 
 self.addEventListener('install', (event) => {

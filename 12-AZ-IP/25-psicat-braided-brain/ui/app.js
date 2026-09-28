@@ -426,7 +426,7 @@ function drawBackground() {
   canvas.width = Math.max(1, Math.floor(rect.width * ratio));
   canvas.height = Math.max(1, Math.floor(rect.height * ratio));
   const ctx = canvas.getContext('2d');
-  ctx.scale(ratio, ratio);
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   const { width, height } = rect;
   let phase = 0;
   const loop = () => {
@@ -551,7 +551,7 @@ function bindEvents() {
     const dx = touch.clientX - touchStart.x;
     const dy = touch.clientY - touchStart.y;
     touchStart = null;
-    if (Math.abs(dx) > Math.abs(dy)) {
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 12) {
       move(dx > 0 ? 1 : -1, 0);
     } else if (Math.abs(dy) > 12) {
       move(0, dy > 0 ? 1 : -1);
