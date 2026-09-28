@@ -33,6 +33,8 @@ def test_braided_brain_browser_contract(browser_name: str) -> None:
                 page.wait_for_function("document.querySelectorAll('#board .cell').length > 40")
                 assert 'PsiCat Braided Brain' in page.title()
                 assert 'Science atlas' in (page.locator('body').text_content() or '')
+                page.locator('#board .cell[data-x=\"1\"][data-y=\"0\"]').click()
+                page.wait_for_function("document.querySelector('#progress-board strong').textContent.includes('1')")
                 page.get_by_role('button', name='Install app').is_visible()
                 page.get_by_role('button', name='Ask PsiCat').click()
                 page.wait_for_function("document.getElementById('coach-output').textContent.includes('entorhinal torus')")

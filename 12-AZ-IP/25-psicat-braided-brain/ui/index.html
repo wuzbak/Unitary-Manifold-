@@ -6,7 +6,9 @@
   <title>PsiCat Braided Brain</title>
   <meta name="description" content="A toroidal brain simulator game for desktop and mobile, built for PsiCat and AxiomZero.">
   <meta name="theme-color" content="#08111f">
-  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest?v=2">
   <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
@@ -154,7 +156,10 @@
             <button id="export-packet" type="button">Export JSON packet</button>
             <button id="export-jsonl" type="button">Export JSONL training rows</button>
           </div>
-          <pre id="training-packet" class="coach-output"></pre>
+          <details class="packet-preview" open>
+            <summary>Live packet preview</summary>
+            <pre id="training-packet" class="coach-output"></pre>
+          </details>
         </div>
       </section>
     </section>

@@ -227,6 +227,7 @@ textarea { resize: vertical; min-height: 120px; }
 .coach-output {
   margin: 0.8rem 0 0;
   min-height: 130px;
+  max-height: 320px;
   overflow: auto;
   border-radius: 18px;
   background: rgba(4, 9, 19, 0.96);
@@ -250,6 +251,14 @@ textarea { resize: vertical; min-height: 120px; }
   gap: 1rem;
   align-items: center;
   flex-wrap: wrap;
+}
+.packet-preview {
+  margin-top: 0.8rem;
+}
+.packet-preview summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: 600;
 }
 .atlas-list { max-height: 540px; overflow: auto; }
 

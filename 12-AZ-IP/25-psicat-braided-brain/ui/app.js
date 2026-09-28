@@ -291,6 +291,20 @@ function move(dx, dy) {
   persistAndRender();
 }
 
+function moveTowardCell(x, y) {
+  const { player, width, height } = campaign.current;
+  const candidates = [
+    { dx: 1, dy: 0, nx: (player.x + 1) % width, ny: player.y },
+    { dx: -1, dy: 0, nx: (player.x - 1 + width) % width, ny: player.y },
+    { dx: 0, dy: 1, nx: player.x, ny: (player.y + 1) % height },
+    { dx: 0, dy: -1, nx: player.x, ny: (player.y - 1 + height) % height },
+  ];
+  const match = candidates.find((item) => item.nx === x && item.ny === y);
+  if (match) {
+    move(match.dx, match.dy);
+  }
+}
+
 function downloadText(filename, text, contentType = 'application/json') {
   const blob = new Blob([text], { type: contentType });
   const url = URL.createObjectURL(blob);
@@ -509,6 +523,11 @@ function bindEvents() {
   });
 
   const board = byId('board');
+  board.addEventListener('click', (event) => {
+    const cell = event.target.closest('[data-x][data-y]');
+    if (!cell) return;
+    moveTowardCell(Number(cell.dataset.x), Number(cell.dataset.y));
+  });
   board.addEventListener('touchstart', (event) => {
     const touch = event.touches[0];
     touchStart = { x: touch.clientX, y: touch.clientY };
