@@ -516,12 +516,19 @@
     state.completed = true;
     state.failed = false;
     const summary = levelSummary(state);
+    const existingRecordIndex = campaign.trainingRecords.findIndex((record) => record.levelId === state.levelId);
+    if (existingRecordIndex >= 0) {
+      campaign.trainingRecords = campaign.trainingRecords.map((record, index) => (
+        index === existingRecordIndex ? summary : record
+      ));
+    } else {
+      campaign.trainingRecords = campaign.trainingRecords.concat([summary]);
+    }
     if (!campaign.completedLevelIds.includes(state.levelId)) {
       campaign.completedLevelIds = campaign.completedLevelIds.concat(state.levelId);
-      campaign.trainingRecords = campaign.trainingRecords.concat([summary]);
-      campaign.totalScore += state.score;
       campaign.unlockedLevelIndex = Math.max(campaign.unlockedLevelIndex, Math.min(LEVELS.length - 1, state.levelIndex + 1));
     }
+    campaign.totalScore = campaign.trainingRecords.reduce((sum, record) => sum + Math.max(0, Number(record.score || 0)), 0);
     campaign.levelHistory[state.levelId] = summary;
     campaign.updatedAt = new Date().toISOString();
     updateAchievements(campaign);

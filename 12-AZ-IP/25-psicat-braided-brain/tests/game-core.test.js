@@ -182,6 +182,53 @@ test('import derives completion from restored target state instead of trusting s
   assert.equal(restored.current.completed, false);
 });
 
+test('re-completing a level refreshes the saved training summary', () => {
+  let campaign = core.createCampaignState();
+  campaign.current.targets.forEach((target) => {
+    target.delivered = true;
+    target.challengeResolved = true;
+    target.challengeResult = 'correct';
+  });
+  campaign.current.targets[0].challengeResolved = false;
+  campaign.current.targets[0].challengeResult = null;
+  campaign.current.activeChallenge = {
+    targetId: campaign.current.targets[0].id,
+    label: campaign.current.targets[0].label,
+    prompt: campaign.current.targets[0].challenge.prompt,
+    choices: campaign.current.targets[0].challenge.choices,
+    correctChoice: campaign.current.targets[0].challenge.correctChoice,
+    explanation: campaign.current.targets[0].challenge.explanation,
+    source: campaign.current.targets[0].source,
+  };
+  campaign.current.score = 120;
+  campaign = core.answerChallenge(campaign, campaign.current.targets[0].challenge.correctChoice);
+  const firstRecord = campaign.trainingRecords.find((record) => record.levelId === campaign.current.levelId);
+  assert.equal(firstRecord.score, 180);
+
+  campaign = core.jumpToLevel(campaign, 0);
+  campaign.current.targets.forEach((target) => {
+    target.delivered = true;
+    target.challengeResolved = true;
+    target.challengeResult = 'correct';
+  });
+  campaign.current.targets[0].challengeResolved = false;
+  campaign.current.targets[0].challengeResult = null;
+  campaign.current.activeChallenge = {
+    targetId: campaign.current.targets[0].id,
+    label: campaign.current.targets[0].label,
+    prompt: campaign.current.targets[0].challenge.prompt,
+    choices: campaign.current.targets[0].challenge.choices,
+    correctChoice: campaign.current.targets[0].challenge.correctChoice,
+    explanation: campaign.current.targets[0].challenge.explanation,
+    source: campaign.current.targets[0].source,
+  };
+  campaign.current.score = 240;
+  campaign = core.answerChallenge(campaign, campaign.current.targets[0].challenge.correctChoice);
+  const refreshedRecord = campaign.trainingRecords.find((record) => record.levelId === campaign.current.levelId);
+  assert.equal(refreshedRecord.score, 300);
+  assert.equal(campaign.totalScore, 300);
+});
+
 test('atlas entries expose locked and unlocked science cards', () => {
   const campaign = core.createCampaignState();
   const entries = core.getAtlasEntries(campaign);

@@ -2,6 +2,17 @@ const core = window.PsiCatBraidedBrainCore;
 const STORAGE_KEY = 'psicat-braided-brain-state-v2';
 const DEFAULT_COACH_ENDPOINT = 'http://127.0.0.1:8020/api/psicat';
 const OFFLINE_CACHE_SIGNAL = 'psicat-braided-brain-offline-ready';
+const OFFLINE_CACHE_NAME = 'psicat-braided-brain-v4';
+const OFFLINE_CACHE_PATHS = [
+  '../ui/index.html',
+  '../ui/app.js?v=3',
+  '../ui/game-core.js?v=3',
+  '../ui/manifest.webmanifest?v=2',
+  '../ui/icon-192.png?v=3',
+  '../ui/icon-512.png?v=3',
+  '../ui/favicon.png',
+  '../css/main.css?v=3',
+];
 
 let campaign = loadCampaign();
 let touchStart = null;
@@ -393,11 +404,24 @@ function importSaveBundle(file) {
   reader.readAsText(file);
 }
 
+async function verifyOfflineCache() {
+  if (!('caches' in window)) return false;
+  try {
+    const cache = await window.caches.open(OFFLINE_CACHE_NAME);
+    const checks = await Promise.all(
+      OFFLINE_CACHE_PATHS.map((path) => cache.match(new URL(path, window.location.href).toString()))
+    );
+    return checks.every(Boolean);
+  } catch (_error) {
+    return false;
+  }
+}
+
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('../sw.js', { scope: '../' })
-    .then((registration) => {
-      if (navigator.serviceWorker.controller || registration.active) {
+  navigator.serviceWorker.register('../sw.js', { scope: new URL('../', window.location.href).pathname })
+    .then(async () => {
+      if (await verifyOfflineCache()) {
         campaign.installHints.offlineReady = true;
         saveCampaign();
         renderInstallStatus();
@@ -545,10 +569,22 @@ function bindEvents() {
   document.addEventListener('keydown', (event) => {
     const targetTag = event.target && event.target.tagName ? event.target.tagName.toLowerCase() : '';
     if (targetTag === 'input' || targetTag === 'textarea') return;
-    if (event.key === 'ArrowUp' || event.key.toLowerCase() === 'w') move(0, -1);
-    if (event.key === 'ArrowDown' || event.key.toLowerCase() === 's') move(0, 1);
-    if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') move(-1, 0);
-    if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') move(1, 0);
+    if (event.key === 'ArrowUp' || event.key.toLowerCase() === 'w') {
+      event.preventDefault();
+      move(0, -1);
+    }
+    if (event.key === 'ArrowDown' || event.key.toLowerCase() === 's') {
+      event.preventDefault();
+      move(0, 1);
+    }
+    if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') {
+      event.preventDefault();
+      move(-1, 0);
+    }
+    if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') {
+      event.preventDefault();
+      move(1, 0);
+    }
   });
 
   const board = byId('board');
