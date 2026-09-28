@@ -9,7 +9,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Internal/steward-facing identity for ThomasCory remains **Merlin**.
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 
-## Product registry (24 canonical software products / surfaces)
+## Product registry (25 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -37,6 +37,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 22 | AxiomZero SGE | 1.0.0 | TRL-7 | http://localhost:7622 | 229 | Next-gen system security governance engine for anti-malware, zero-day detection, IDS, firewall, anti-surveillance, and governed protection workflows. | [22-az-sge/](22-az-sge/) |
 | 23 | PsiCat DM Guide & Player Assistant | 1.1.0 | TRL-3 | http://localhost:8033 | 17 | Offline-first Dungeons & Dragons 5e / 5.5e campaign assistant with separate DM/player dashboards, invite-code joins, character import, XP/treasure/gold/item tracking, maps, NPCs, image pushes, and PsiCat expert guidance. | [23-psicat-dm-assistant/](23-psicat-dm-assistant/) |
 | 24 | PsiCat Web Browser | 1.0.0 | TRL-3 | Electron / Android / Extension | 15 | Chromium-based next-gen browser foundation with Electron desktop, native-tab Android shell, split-workspace desktop scaffolding, embedded PsiCat research sidebar, local sync backend scaffold, Playwright-first browser proving ground, notebook, sync packet workflows, and import/export. | [24-psicat-web-browser/](24-psicat-web-browser/) |
+| 25 | PsiCat Braided Brain | 1.0.0 | TRL-3 | Browser / PWA | 0 | Toroidal brain simulator game for desktop and mobile with science missions, local training-packet export, and optional PsiCat coaching through Product 20. | [25-psicat-braided-brain/](25-psicat-braided-brain/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
@@ -68,6 +69,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - `22-az-sge/` — standalone system security governance engine with governed protection workflows and tests
 - `23-psicat-dm-assistant/` — standalone PsiCat-powered D&D 5e/5.5e assistant built as an offline-first campaign, encounter, and image-brief product
 - `24-psicat-web-browser/` — advanced Chromium-based PsiCat browser product with Electron desktop, split-workspace scaffolding, native-tab Android shell, local sync backend scaffold, Playwright-first testing, and Chrome/Edge extension companion
+- `25-psicat-braided-brain/` — responsive toroidal brain simulator game with PsiCat/PhiCat teaching loops, voluntary training-packet export, and optional Product 20 coaching
 
 ## Shared assets retained
 
