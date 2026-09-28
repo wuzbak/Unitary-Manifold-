@@ -52,3 +52,34 @@ test('training packet keeps privacy posture explicit', () => {
   assert.equal(packet.privacy.surveillance, 'none');
   assert.match(core.createJsonlExport(core.createCampaignState()), /instruction/);
 });
+
+test('training packet appends incomplete current level to export records', () => {
+  const campaign = core.createCampaignState();
+  const packet = core.createTrainingPacket(campaign);
+  assert.equal(packet.trainingRecords.length, 1);
+  assert.equal(packet.trainingRecords[0].levelId, campaign.current.levelId);
+});
+
+test('training packet does not duplicate completed current level records', () => {
+  const campaign = core.createCampaignState();
+  campaign.current.completed = true;
+  campaign.trainingRecords = [
+    {
+      levelId: campaign.current.levelId,
+      score: 240,
+      wraps: 2,
+      coherence: 94,
+      movesUsed: 10,
+      cardResults: [],
+      touchHistory: [],
+      completedAt: '2026-09-28T01:31:16Z',
+    },
+  ];
+  const packet = core.createTrainingPacket(campaign);
+  assert.equal(packet.trainingRecords.length, 1);
+  assert.equal(packet.trainingRecords[0].levelId, campaign.current.levelId);
+  const rows = core.createJsonlExport(campaign).trim().split('\n');
+  assert.equal(rows.length, 1);
+  const record = JSON.parse(rows[0]);
+  assert.equal(record.input.levelId, campaign.current.levelId);
+});

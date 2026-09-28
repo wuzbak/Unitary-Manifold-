@@ -205,7 +205,13 @@ async function askCoach() {
         user_context: JSON.stringify(core.createTrainingPacket(campaign)),
       }),
     });
-    const payload = await response.json();
+    let payload;
+    if (response.ok) {
+      payload = await response.json();
+    } else {
+      const errorText = await response.text();
+      throw new Error(errorText || `Coach request failed with status ${response.status}`);
+    }
     const answer = payload.answer || payload.body || payload.message || JSON.stringify(payload, null, 2);
     renderCoachStatus(answer);
   } catch (error) {
