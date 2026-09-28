@@ -1,6 +1,7 @@
 const core = window.PsiCatBraidedBrainCore;
 const STORAGE_KEY = 'psicat-braided-brain-state-v2';
 const DEFAULT_COACH_ENDPOINT = 'http://127.0.0.1:8020/api/psicat';
+const OFFLINE_CACHE_SIGNAL = 'psicat-braided-brain-offline-ready';
 
 let campaign = loadCampaign();
 let touchStart = null;
@@ -24,6 +25,15 @@ function loadCampaign() {
 function saveCampaign() {
   campaign.updatedAt = new Date().toISOString();
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(campaign));
+}
+
+function isTrustedLocalEndpoint(endpoint) {
+  try {
+    const parsed = new URL(endpoint, window.location.href);
+    return ['127.0.0.1', 'localhost', '::1', '[::1]', '0.0.0.0'].includes(parsed.hostname);
+  } catch (_error) {
+    return false;
+  }
 }
 
 function statusTone(value) {
@@ -297,6 +307,14 @@ async function askCoach() {
   const endpoint = byId('coach-endpoint').value.trim() || DEFAULT_COACH_ENDPOINT;
   const playerPrompt = byId('coach-input').value.trim();
   const query = playerPrompt || core.suggestCoachQuery(campaign);
+  const trustedLocal = isTrustedLocalEndpoint(endpoint);
+  if (!trustedLocal) {
+    const confirmed = window.confirm('This endpoint is not local. Sending coaching context there may export gameplay data. Continue?');
+    if (!confirmed) {
+      renderCoachStatus('Coach request cancelled to preserve local-only retention defaults.');
+      return;
+    }
+  }
   renderCoachStatus('PsiCat coach is thinking…');
   try {
     const response = await fetch(endpoint, {
@@ -350,12 +368,6 @@ function importSaveBundle(file) {
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   navigator.serviceWorker.register('../sw.js')
-    .then(() => navigator.serviceWorker.ready)
-    .then(() => {
-      campaign.installHints.offlineReady = true;
-      saveCampaign();
-      renderInstallStatus();
-    })
     .catch(() => {});
 }
 
@@ -514,6 +526,13 @@ function bindEvents() {
   }, { passive: true });
 
   window.addEventListener('resize', drawBackground);
+  navigator.serviceWorker?.addEventListener?.('message', (event) => {
+    if (event.data && event.data.type === OFFLINE_CACHE_SIGNAL) {
+      campaign.installHints.offlineReady = true;
+      saveCampaign();
+      renderInstallStatus();
+    }
+  });
 }
 
 bindEvents();

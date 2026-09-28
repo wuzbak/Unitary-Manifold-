@@ -116,6 +116,18 @@ test('save bundle round-trips through import and normalization', () => {
   assert.equal(restored.version, '1.1.0');
 });
 
+test('import clamps invalid progression indexes to the current level deck', () => {
+  const campaign = core.createCampaignState();
+  const bundle = core.createSaveBundle(campaign);
+  bundle.campaign.currentLevelIndex = 999;
+  bundle.campaign.unlockedLevelIndex = 999;
+  bundle.campaign.current.levelId = 'missing-level';
+  const restored = core.importSaveBundle(bundle);
+  assert.equal(restored.currentLevelIndex, 0);
+  assert.equal(restored.unlockedLevelIndex, core.LEVELS.length - 1);
+  assert.equal(restored.current.levelId, 'entorhinal-garden');
+});
+
 test('atlas entries expose locked and unlocked science cards', () => {
   const campaign = core.createCampaignState();
   const entries = core.getAtlasEntries(campaign);

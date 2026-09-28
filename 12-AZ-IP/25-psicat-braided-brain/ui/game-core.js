@@ -744,6 +744,10 @@
       current: createLevelState(resolvedLevelIndex),
     };
     normalized.currentLevelIndex = resolvedLevelIndex;
+    normalized.unlockedLevelIndex = Math.max(
+      0,
+      Math.min(LEVELS.length - 1, Number(incoming.unlockedLevelIndex ?? resolvedLevelIndex)),
+    );
     normalized.current = {
       ...createLevelState(resolvedLevelIndex),
       ...(incoming.current || {}),
