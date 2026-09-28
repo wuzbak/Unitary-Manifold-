@@ -591,10 +591,16 @@
     }
 
     if (state.coherence <= 0) {
-      return markLevelFailed(state, 'Coherence collapsed. Reset the braid and try again.');
+      markLevelFailed(state, 'Coherence collapsed. Reset the braid and try again.');
+      next.updatedAt = new Date().toISOString();
+      updateAchievements(next);
+      return next;
     }
     if (state.movesLeft <= 0 && hasOutstandingObjectives(state)) {
-      return markLevelFailed(state, 'Out of moves before finishing the braid.');
+      markLevelFailed(state, 'Out of moves before finishing the braid.');
+      next.updatedAt = new Date().toISOString();
+      updateAchievements(next);
+      return next;
     }
     next.updatedAt = new Date().toISOString();
     updateAchievements(next);
@@ -635,7 +641,10 @@
     recordLog(state, `Not quite. ${challenge.explanation}`);
     recordScience(state, `${target.label}: retry required after incorrect answer.`);
     if (state.movesLeft <= 0 && hasOutstandingObjectives(state)) {
-      return markLevelFailed(state, 'Out of moves before finishing the braid.');
+      markLevelFailed(state, 'Out of moves before finishing the braid.');
+      next.updatedAt = new Date().toISOString();
+      updateAchievements(next);
+      return next;
     }
     next.updatedAt = new Date().toISOString();
     updateAchievements(next);
