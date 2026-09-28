@@ -479,21 +479,25 @@
     if (!target) return next;
 
     const correct = choiceId === challenge.correctChoice;
-    target.challengeResolved = true;
-    target.challengeResult = correct ? 'correct' : 'retry';
     state.challengeHistory = state.challengeHistory.concat([{ targetId: target.id, choiceId, correct }]);
     if (correct) {
+      target.challengeResolved = true;
+      target.challengeResult = 'correct';
       state.score += 60;
       state.coherence = clampCoherence(state.coherence + 6);
       recordLog(state, `${target.label} locked in.`);
+      recordScience(state, `${target.label}: ${challenge.explanation}`);
+      state.activeChallenge = null;
+      return maybeFinishLevel(next);
     } else {
+      target.challengeResolved = false;
+      target.challengeResult = 'retry';
       state.score = Math.max(0, state.score - 20);
       state.coherence = clampCoherence(state.coherence - 8);
       recordLog(state, `Not quite. ${challenge.explanation}`);
+      recordScience(state, `${target.label}: retry required after incorrect answer.`);
+      return next;
     }
-    recordScience(state, `${target.label}: ${challenge.explanation}`);
-    state.activeChallenge = null;
-    return maybeFinishLevel(next);
   }
 
   function resetCurrentLevel(campaign) {

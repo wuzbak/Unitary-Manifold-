@@ -46,6 +46,23 @@ test('answering a challenge records a result and restores the free-move state', 
   assert.ok(campaign.current.score >= 60);
 });
 
+test('incorrect challenge answers keep the challenge open until corrected', () => {
+  let campaign = core.createCampaignState();
+  campaign.current.activeChallenge = {
+    targetId: 'entorhinal-torus',
+    label: 'Entorhinal torus',
+    prompt: 'Prompt',
+    choices: [{ id: 'torus', label: 'Torus' }, { id: 'sphere', label: 'Sphere' }],
+    correctChoice: 'torus',
+    explanation: 'Explanation',
+    source: 'Test',
+  };
+  campaign.current.targets[0].delivered = true;
+  campaign = core.answerChallenge(campaign, 'sphere');
+  assert.equal(campaign.current.targets[0].challengeResolved, false);
+  assert.equal(campaign.current.activeChallenge.label, 'Entorhinal torus');
+});
+
 test('training packet keeps privacy posture explicit', () => {
   const packet = core.createTrainingPacket(core.createCampaignState());
   assert.equal(packet.product, 25);

@@ -31,6 +31,27 @@ function statusTone(value) {
   return 'critical';
 }
 
+function createMiniCard(lines, className = 'mini-card') {
+  const item = document.createElement('div');
+  item.className = className;
+  lines.forEach(({ tag, text }) => {
+    const node = document.createElement(tag);
+    node.textContent = text;
+    item.appendChild(node);
+  });
+  return item;
+}
+
+function renderTextList(id, entries) {
+  const list = byId(id);
+  list.innerHTML = '';
+  entries.forEach((entry) => {
+    const item = document.createElement('li');
+    item.textContent = entry;
+    list.appendChild(item);
+  });
+}
+
 function renderBoard() {
   const board = byId('board');
   const state = campaign.current;
@@ -72,25 +93,26 @@ function renderTargets() {
   const wrap = byId('target-list');
   wrap.innerHTML = '';
   campaign.current.targets.forEach((target) => {
-    const item = document.createElement('div');
-    item.className = 'mini-card';
-    item.innerHTML = `<strong>${target.label}</strong><span>${target.delivered ? 'Delivered' : 'Awaiting ' + target.kind}</span><small>${target.scientificNote}</small>`;
-    wrap.appendChild(item);
+    wrap.appendChild(createMiniCard([
+      { tag: 'strong', text: target.label },
+      { tag: 'span', text: target.delivered ? 'Delivered' : `Awaiting ${target.kind}` },
+      { tag: 'small', text: target.scientificNote },
+    ]));
   });
 }
 
 function renderSignals() {
   const wrap = byId('signal-list');
   wrap.innerHTML = '';
-  const carried = document.createElement('div');
-  carried.className = 'mini-card carried';
-  carried.innerHTML = `<strong>Carried signal</strong><span>${campaign.current.carriedSignal ? campaign.current.carriedSignal.label : 'None'}</span>`;
-  wrap.appendChild(carried);
+  wrap.appendChild(createMiniCard([
+    { tag: 'strong', text: 'Carried signal' },
+    { tag: 'span', text: campaign.current.carriedSignal ? campaign.current.carriedSignal.label : 'None' },
+  ], 'mini-card carried'));
   campaign.current.signals.forEach((signal) => {
-    const item = document.createElement('div');
-    item.className = 'mini-card';
-    item.innerHTML = `<strong>${signal.label}</strong><span>${signal.kind}</span>`;
-    wrap.appendChild(item);
+    wrap.appendChild(createMiniCard([
+      { tag: 'strong', text: signal.label },
+      { tag: 'span', text: signal.kind },
+    ]));
   });
 }
 
@@ -124,8 +146,8 @@ function renderChallenge() {
 }
 
 function renderLogs() {
-  byId('mission-log').innerHTML = campaign.current.missionLog.map((item) => `<li>${item}</li>`).join('');
-  byId('science-log').innerHTML = campaign.current.scienceLog.map((item) => `<li>${item}</li>`).join('');
+  renderTextList('mission-log', campaign.current.missionLog);
+  renderTextList('science-log', campaign.current.scienceLog);
 }
 
 function renderTrainingPacket() {
@@ -151,7 +173,6 @@ function renderState() {
   byId('moves').textContent = String(state.movesLeft);
   byId('completed-levels').textContent = `${campaign.completedLevelIds.length}/${core.LEVELS.length}`;
   byId('privacy-note').textContent = 'Local progress only unless you explicitly export a training packet.';
-  byId('coach-endpoint').value = byId('coach-endpoint').value || DEFAULT_COACH_ENDPOINT;
   renderBoard();
   renderLevelSelector();
   renderTargets();
@@ -230,6 +251,10 @@ function resetCampaign() {
 }
 
 function bindEvents() {
+  const coachEndpoint = byId('coach-endpoint');
+  if (!coachEndpoint.value.trim()) {
+    coachEndpoint.value = DEFAULT_COACH_ENDPOINT;
+  }
   byId('move-up').addEventListener('click', () => move(0, -1));
   byId('move-down').addEventListener('click', () => move(0, 1));
   byId('move-left').addEventListener('click', () => move(-1, 0));
