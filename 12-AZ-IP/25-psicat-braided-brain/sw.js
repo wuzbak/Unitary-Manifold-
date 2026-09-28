@@ -1,15 +1,16 @@
 'use strict';
 
-const CACHE_NAME = 'psicat-braided-brain-v2';
+const CACHE_NAME = 'psicat-braided-brain-v3';
 const STATIC_ASSETS = [
   './ui/index.html',
-  './ui/app.js',
-  './ui/game-core.js',
-  './ui/manifest.webmanifest',
+  './ui/app.js?v=3',
+  './ui/game-core.js?v=3',
+  './ui/manifest.webmanifest?v=2',
   './ui/icon-192.png',
+  './ui/icon-192.png?v=3',
   './ui/icon-512.png',
   './ui/favicon.png',
-  './css/main.css',
+  './css/main.css?v=3',
   './README.md',
 ];
 
