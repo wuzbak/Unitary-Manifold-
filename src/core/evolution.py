@@ -252,7 +252,8 @@ def implemented_flow_equation_surface() -> Dict[str, Any]:
         "removed_legacy_elements": list(derived["removed_legacy_elements"]),
         "promotion_guard": (
             "Field equations are derived from the circle-reduced 5D Einstein-Hilbert action within the "
-            "stated perimeter; the t-dynamics are not. Deliverable-level promotion requires steward review."
+            "stated perimeter; the t-dynamics are not. Deliverable-level promotion is the steward decision "
+            "recorded in Pillar 1130 and is fail-closed on this evidence."
         ),
         "legacy_flow_surface": legacy_phenomenological_flow_surface(),
     }
@@ -264,7 +265,8 @@ def phenomenological_flow_boundary() -> Dict[str, Union[str, bool, list[str]]]:
     This is an explicit honesty surface for downstream audit packets.  It does
     not promote closure.  ``derived_from_circle_eh_action`` is the
     promotion-grade flag for the evolution itself; it stays False while the
-    t-relaxation law is declared and steward promotion has not occurred.
+    t-relaxation law is declared.  Steward promotion (Pillar 1130) covers the
+    field equations only, not the relaxation law.
     ``field_equations_derived_from_circle_eh_action`` records that the default
     flow's field equations (its fixed-point set) are now action-derived.
     """
@@ -288,9 +290,10 @@ def phenomenological_flow_boundary() -> Dict[str, Union[str, bool, list[str]]]:
             "Field equations of the default flow derived from the reduced action (src/core/action_derived_flow.py)",
         ],
         "remaining_obligation": (
-            "The Euler-Lagrange field equations are derived and residual-certified within a 1-D periodic "
-            "zero-mode perimeter; remaining: steward review for promotion, an exact reduction identity beyond "
-            "the reduced diagonal ansatz, and a derivation or justification of the declared t-relaxation law."
+            "The Euler-Lagrange field equations are derived, residual-certified and steward-promoted within a "
+            "1-D periodic zero-mode perimeter (Pillar 1130); remaining: an exact reduction identity beyond the "
+            "reduced diagonal ansatz, and a derivation or justification of the declared t-relaxation law "
+            "(physical-time evolution is not certified)."
         ),
     }
 

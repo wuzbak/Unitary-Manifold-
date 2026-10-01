@@ -33,12 +33,26 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v38.1 (2026-09-27)**
-**Regression:** REGRESSION_PLACEHOLDER_CV (latest verified full regression in branch history)
-**Next pillar slot:** 1130
+**Current version: v38.2 (2026-10-01)**
+**Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record; latest verified full regression in branch history)
+**Next pillar slot:** 1131
 
 
 
+
+## v38.2 (2026-10-01 — Sprint CX: Pillar 1130)
+
+**What changed:**
+Sprint CW replaced the phenomenological default flow in `src/core/evolution.py` with the relaxation of the field equations obtained by Euler-Lagrange variation of the circle-reduced 5D Einstein-Hilbert action (`src/core/action_derived_flow.py`, certificate in `src/core/action_to_evolution_derived_flow_certificate.py`). Pillar 1130 records the steward decision to promote the Euler-Lagrange deliverable of the action-to-evolution contract within the declared perimeter, and re-checks the evidence fail-closed: if the derived-flow certificate stops passing, the deliverable falls back to `DERIVED_PENDING_STEWARD_PROMOTION`. The contract now reports `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`, with residual obligations `T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ` and `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`. The live `scientific_assessment.action_to_evolution` field moves from OPEN to PARTIAL. The canonical status surfaces, which had drifted between v38.0 and v38.1 (DERIVATION_STATUS, README marker, public-site status JSON), are resynchronized, and the archived Sprint CV auditable-state record is restored in SPRINT_PLAN.
+
+**Why:**
+The derivation was complete and residual-certified on its perimeter, and the contract's promotion rule had been waiting only on a steward decision. Recording that decision in a fail-closed pillar keeps the promotion tied to executable evidence rather than to prose.
+
+**What it does not do:**
+It does not derive the t-relaxation law, identify t with coordinate time, cover the legacy flow law, or change framework-level `closure_earned = false`. No new hardgate physics closure is claimed.
+
+**Verification:** Pillar 1130 suite and the action-to-evolution consumer suites pass; local sharded verification is recorded in docs/TRUTH_LAYER.md.
+**Next pillar slot:** 1131
 
 ## v38.1 (2026-09-27 — Sprint CW: Pillar 1129)
 

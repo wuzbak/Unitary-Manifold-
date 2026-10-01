@@ -1,6 +1,6 @@
-version: "v38.1"
-date: "2026-09-27"
-updated: "2026-09-27"
+version: "v38.2"
+date: "2026-10-01"
+updated: "2026-10-01"
 
 canonical_status_notice: >
   The single current, canonical status of this tracker is the topmost
@@ -45,6 +45,39 @@ foundation_reassessment:
     - "Joint UV/Higgs matching, moduli fixing and stability"
     - "Nonperturbative quantum gravity"
   observational_falsifiers_unchanged: true
+
+v38_2_sprint_cx:
+  sprint: CX
+  version: v38.2
+  date: "2026-10-01"
+  pillars: 1130-1130
+  new_pillars: 1
+  new_tests: 9
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures: []
+  advances:
+    - ACTION_DERIVED_FLOW_EULER_LAGRANGE_DELIVERABLE_STEWARD_PROMOTED_WITHIN_DECLARED_PERIMETER
+    - ACTION_TO_EVOLUTION_CONTRACT_DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN
+    - CANONICAL_STATUS_SURFACES_RESYNCHRONIZED_AFTER_V38_0_V38_1_DRIFT
+  residual_obligations:
+    - T_RELAXATION_LAW_DECLARED_NOT_DERIVED
+    - EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ
+    - PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED
+  remaining_open:
+    - CMB_AMP_CONFIRMED_IRREDUCIBLE
+    - ALPHA_S_TYPE_B_FLOOR
+    - HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW
+    - CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED
+    - FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED
+    - JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED
+    - DESI_DR3_MONITORING
+    - LITEBIRD_BIREFRINGENCE
+    - NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT
+  regression: "64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record; latest verified full regression in current branch history)"
+  focused_regression: "see docs/TRUTH_LAYER.md Sprint CX section"
+  next_pillar_slot: 1131
 
 v38_1_sprint_cw:
   sprint: CW

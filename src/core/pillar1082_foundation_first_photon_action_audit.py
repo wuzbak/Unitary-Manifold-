@@ -105,13 +105,24 @@ def _action_evolution_row() -> Dict[str, Any]:
     remaining_list = remaining_blockers if isinstance(remaining_blockers, list) else []
     remaining_are_known = bool(remaining_list) and all(item in deliverable_ids for item in remaining_list)
     euler_lagrange_blocker_retained = "EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED" in remaining_list
+    # Pillar 1130 may promote the Euler-Lagrange deliverable within its declared
+    # perimeter; the evolution law then stays open through explicit residual obligations.
+    residual_obligations = contract.get("residual_obligations")
+    residual_list = residual_obligations if isinstance(residual_obligations, list) else []
+    euler_lagrange_promoted_with_residuals = bool(
+        not remaining_list
+        and residual_list
+        and contract["primary_deliverables"][1].get("status") == "EARNED"
+    )
     passed = bool(
         boundary["status"] == "OPEN"
         and boundary["derived_from_circle_eh_action"] is False
         and boundary["flow_parameter_is_coordinate_time"] is False
         and contract["promotion_ready"] is False
-        and remaining_are_known
-        and euler_lagrange_blocker_retained
+        and (
+            (remaining_are_known and euler_lagrange_blocker_retained)
+            or euler_lagrange_promoted_with_residuals
+        )
     )
     return {
         "item": "Action-to-evolution equivalence",

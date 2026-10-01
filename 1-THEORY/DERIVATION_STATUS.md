@@ -14,10 +14,14 @@
 > Photon origin and action-to-evolution equivalence remain open. No new physics
 > closure is claimed.
 
-**The Unitary Manifold v38.0 — Unambiguous Record**
+**The Unitary Manifold v38.2 — Unambiguous Record**
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-09-22 (v38.0 — Sprint CV: Pillars 1122-1128; three-lane earned-version sprint — Lane 1 honest action-to-evolution blocker certificate, Lane 2 receipt-backed PsiCat SPC Phase 2 promotion, Lane 3 monorepo health tightening incl. the mas_tracker.yml staleness/YAML-parse fix; Lean4 4080→4080; REGRESSION_PLACEHOLDER_CV; next slot 1129.)*
-*Latest verified full regression: REGRESSION_PLACEHOLDER_CV (tests/ + recycling/ + Pentad; 2026-09-22).*
+*Last updated: 2026-10-01 (v38.2 — Sprint CX: Pillar 1130; steward promotion of the Lane 1 Euler-Lagrange deliverable within the declared perimeter — the default flow relaxes the field equations derived from the circle-reduced 5D Einstein-Hilbert action, the t-relaxation law remains declared, the legacy flow stays phenomenological, framework closure is not earned — plus canonical status resynchronization after the v38.0/v38.1 drift; Lean4 4080→4080; next slot 1131.)*
+*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record, tests/ + recycling/ + Pentad; Sprints CV and CW recorded none; Sprint CX sharded verification is reported in docs/TRUTH_LAYER.md).*
+
+*Historical continuity note: The Unitary Manifold v38.1 Sprint CW (Pillar 1129; next slot 1130) added the adjacent MaleCNS connectome bridge without changing this record's physics claim state.*
+
+*Historical continuity note: The Unitary Manifold v38.0 retained the marker `Last updated: 2026-09-22 (v38.0 — Sprint CV: Pillars 1122-1128; three-lane earned-version sprint — Lane 1 honest action-to-evolution blocker certificate, Lane 2 receipt-backed PsiCat SPC Phase 2 promotion, Lane 3 monorepo health tightening incl. the mas_tracker.yml staleness/YAML-parse fix; Lean4 4080→4080; REGRESSION_PLACEHOLDER_CV; next slot 1129.)` for the three-lane earned-version sprint; its regression placeholder was never filled.*
 
 *Historical continuity note: The Unitary Manifold v37.7 retained the marker `Last updated: 2026-09-15 (v37.7 — Sprint CU: Pillar 1121; ...; next slot 1122.)` for the action-to-evolution full-focus routing packet.*
 

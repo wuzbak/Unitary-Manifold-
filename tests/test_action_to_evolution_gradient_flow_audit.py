@@ -98,7 +98,8 @@ def test_el_certificate_and_contract_consume_audit_without_promotion() -> None:
     contract = action_to_evolution_deliverable_contract()
     assert contract['promotion_ready'] is False
     el = contract['primary_deliverables'][1]
-    assert el['earned'] is False
+    assert el['earned'] is True
+    assert el['status'] == 'EARNED'
     assert 'block-diagonal' in el['current_gap']
 
 

@@ -138,7 +138,19 @@ Sprint CW adds one adjacent empirical connectome lane rather than reopening the 
 
 This is real data-bearing work, but its epistemic class is intentionally narrow. The pillar does not claim that a fly connectome proves Unitary Manifold physics, that consciousness ontology has been solved, or that connectome structure alone yields a first-principles derivation of cognition. What it does claim is stricter and testable: the repository now has a public whole-CNS benchmark slice that can pressure-test its neuroscience language against real wiring summaries. In the committed panel, `LPLC2` carries the largest imported input/output mass, `LC4` is the most reciprocal imported type, `EPG` has the highest downstream neurotransmitter entropy, and `AN01B004` plus `DNa02` form the clearest brain↔VNC bridge pair.
 
-### Lane 1 action-derived flow replacement (post-Sprint CW, pending steward promotion)
+### Sprint CX action-derived flow steward promotion
+
+Pillar 1130 (`src/core/pillar1130_action_derived_flow_steward_promotion.py`) records the steward decision to promote the Euler-Lagrange deliverable of the action-to-evolution contract within the perimeter stated in the next section. The decision is fail-closed. It takes effect only while the derived-flow certificate passes every check: the default law is the action-derived one, the field equations are derived, every sector has a residual certificate, the Minkowski fixed point holds, the perimeter is stated, and neither t-dynamics nor closure is claimed. If any check fails, the deliverable returns to `DERIVED_PENDING_STEWARD_PROMOTION` without a manual edit. Final ratification is the steward's merge of the pull request that carries the pillar.
+
+The promotion is deliberately narrow. The contract now reads `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` and `promotion_ready` stays false, because the evolution boundary is still OPEN: the t-relaxation law remains declared rather than derived, t is not coordinate time, and no physical-time evolution of the 5D field equations is implemented or certified. The contract lists three residual obligations: `T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ` and `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`. The legacy phenomenological flow law, with its free α coupling and KK backreaction source, is unchanged and is not covered. The live `scientific_assessment.action_to_evolution` field therefore moves from OPEN to PARTIAL rather than to closed. Framework-level `closure_earned` stays false.
+
+Historical fail-closed certificates that encoded "Euler-Lagrange blocker retained" as their validity condition (P1082, P1111) now also accept the promoted state, but only when the residual obligations are present and the contract is not closure-ready. Their pre-promotion records are otherwise unchanged.
+
+Sprint CX also resynchronizes the canonical status surfaces. `1-THEORY/DERIVATION_STATUS.md`, the README marker and the public-site status JSON had stayed at v38.0 while STATUS and FALLIBILITY moved to v38.1. Sprints CV and CW had left `REGRESSION_PLACEHOLDER_CV` where a regression record belonged, so the latest verified full regression in branch history remains the Sprint CU record (64,150 passed, 22 skipped, 18 deselected, 0 failed). The archived Sprint CV auditable-state record is restored in `docs/SPRINT_PLAN.md`.
+
+**Sprint CX verification (this environment).** The suite is too large to run serially within the session budget. It was verified with CI's own 4-batch runner (`TOOLS/checks/run_supervised_pytest_batch.py --suite tests-fast`), executed locally in parallel, plus the recycling and Unitary Pentad suites and `python VERIFY.py`. The full suite runs in CI. Results are recorded in the verification note at the end of this section.
+
+### Lane 1 action-derived flow replacement (Sprint CW; promoted within perimeter in Sprint CX)
 
 The phenomenological flow is no longer the default evolution law. Following the audit below, the flow was replaced rather than reinterpreted. `src/core/action_derived_flow.py` starts from the 5D Einstein-Hilbert action S₅ = ∫√(−G)R⁽⁵⁾ on the corrected ansatz (G_μ5 = λφ²B_μ, G_55 = φ²). It reduces on the circle to the Einstein frame g_E = φg, ψ = ln φ, which gives √(−g_E)[R_E − (3/2)(∂ψ)² − ¼λ²φ³F²]. It then varies that reduced action. `src/core/evolution.py` now defaults to `flow_law="action_derived"`, a relaxation whose fixed points are exactly the discretised Euler-Lagrange solutions. The old flow remains selectable as `"phenomenological_legacy"` for reproducibility. Pillar 988 and the tests of legacy-only features (KK-tower source, volume projection, heat-equation Richardson test) are pinned to it.
 
@@ -158,14 +170,14 @@ The evidence is recorded in `src/core/action_to_evolution_derived_flow_certifica
 - **Residual certificates:** the implemented Euler-Lagrange expressions converge to SymPy's δS/δ(field) at second order for the metric, gauge and scalar sectors.
 - **Ricci cross-check:** the finite-difference Ricci tensor converges at second order to an exact-derivative reference on a non-diagonal metric.
 
-The retirement units for the action functional, variation rules and residual comparison now read CLOSED_NOW. Their proof class is executable Python validation; no Lean proof of them exists yet. The Euler-Lagrange deliverable reads `DERIVED_PENDING_STEWARD_PROMOTION` and is not earned. Four limits keep it there:
+The retirement units for the action functional, variation rules and residual comparison now read CLOSED_NOW. Their proof class is executable Python validation; no Lean proof of them exists yet. At the end of Sprint CW the Euler-Lagrange deliverable read `DERIVED_PENDING_STEWARD_PROMOTION`. Sprint CX promoted it within the perimeter (see the section above). Four limits bound what that promotion means:
 
 - the parameter t is a declared relaxation parameter, not coordinate time, so the action fixes the field equations but not the t-dynamics;
 - the perimeter is the 1-D periodic zero-mode sector, and the KK tower is not evolved;
 - this is a circle reduction, not the Z₂ orbifold, so the photon obstruction is untouched;
-- promoting the deliverable would change the framework-level OPEN status, which requires a new pillar and a canonical status sync.
+- promotion required a new pillar and a canonical status sync, which Pillar 1130 and Sprint CX provide.
 
-The `action_to_evolution` question therefore remains OPEN.
+The `action_to_evolution` question is therefore PARTIAL, not closed: the field equations are earned, and the evolution law is still open.
 
 ### Lane 1 executable gradient-flow audit (legacy flow; motivated the replacement above)
 

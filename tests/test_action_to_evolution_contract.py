@@ -27,7 +27,8 @@ def test_deliverable_contract_tracks_evidence_and_remaining_single_blocker() -> 
     contract = action_to_evolution_deliverable_contract()
     deliverables = contract["primary_deliverables"]
     retirement_units = contract["retirement_units"]
-    assert contract["status"] == "OPEN"
+    assert contract["status"] == "DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN"
+    assert contract["promotion_ready"] is False
     assert len(deliverables) == 3
     assert len(retirement_units) == 7
     assert [item["id"] for item in deliverables] == PRIMARY_DELIVERABLE_IDS
@@ -39,15 +40,17 @@ def test_deliverable_contract_tracks_evidence_and_remaining_single_blocker() -> 
     assert first["status"] == "EVIDENCE_SURFACED"
 
     second = deliverables[1]
-    assert second["earned"] is False
-    assert second["status"] == "DERIVED_PENDING_STEWARD_PROMOTION"
+    assert second["earned"] is True
+    assert second["status"] == "EARNED"
+    assert second["steward_promotion"]["promoted"] is True
     assert second["euler_lagrange_mismatch_receipt"]["status"] == "RECEIPT_READY"
 
     third = deliverables[2]
     assert third["earned"] is True
     assert third["status"] == "EVIDENCE_SURFACED"
 
-    assert contract["remaining_blockers"] == [PRIMARY_DELIVERABLE_IDS[1]]
+    assert contract["remaining_blockers"] == []
+    assert "T_RELAXATION_LAW_DECLARED_NOT_DERIVED" in contract["residual_obligations"]
     assert contract["promotion_ready"] is False
     assert {
         item["status"] for item in retirement_units
