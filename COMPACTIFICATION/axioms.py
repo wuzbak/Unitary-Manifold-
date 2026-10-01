@@ -98,16 +98,15 @@ AXIOM_REGISTRY: List[Axiom] = [
         label="5D Metric Ansatz",
         statement=(
             "The 5D metric takes the KK block form "
-            "G_AB = [[g_μν + λ²φ²B_μB_ν, λφB_μ], [λφB_ν, φ²]] "
+            "G_AB = [[g_μν + λ²φ²B_μB_ν, λφ²B_μ], [λφ²B_ν, φ²]] "
             "with G₅₅ = φ², the radion scalar."
         ),
-        status=AxiomStatus.DERIVED,
+        status=AxiomStatus.PROVED_CONDITIONAL,
         lean4_ref="lean4/UnitaryManifold/P8FunctionalFull.lean",
         fallibility_note=(
-            "Block form is derived from 5D Einstein–Hilbert stationarity + "
-            "KK gauge covariance + Z₂ orbifold parity + radion normalization. "
-            "Executable certificate: src/core/metric_ansatz_derivation.py. "
-            "Conditional on A0_MANIFOLD."
+            "Conditional parameterization of a spacelike compact fibre with "
+            "positive radion and cylinder condition; not a derivation of the "
+            "photon or flow equations. See docs/TRUTH_LAYER.md foundation reassessment."
         ),
         pillars=[1, 2, 3],
     ),
@@ -119,10 +118,12 @@ AXIOM_REGISTRY: List[Axiom] = [
             "The 4D dynamics of (g_μν, B_μ, φ) are the projection of the 5D "
             "Einstein equations under the A1_METRIC ansatz."
         ),
-        status=AxiomStatus.DERIVED,
+        status=AxiomStatus.CONJECTURAL,
         lean4_ref=None,
         fallibility_note=(
-            "Standard KK reduction; the ADM (lapse/shift) treatment is an open gap. "
+            "Action-to-evolution equivalence and photon origin remain open "
+            "(docs/TRUTH_LAYER.md foundation reassessment). "
+            "The ADM (lapse/shift) treatment is also an open gap. "
             "Flow parameter t and coordinate time x⁰ are related but not formally "
             "synchronized in the current 1D spatial reduction.  "
             "See FALLIBILITY.md §III (ADM gap)."
