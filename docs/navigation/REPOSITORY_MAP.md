@@ -14,6 +14,8 @@ This map separates current canonical surfaces from historical records, tools, ar
 | Braid correspondence ledger | [`../../1-THEORY/BRAID_CORRESPONDENCE_AUDIT.md`](../../1-THEORY/BRAID_CORRESPONDENCE_AUDIT.md) |
 | Braid falsifier packet | [`../../3-FALSIFICATION/BRAID_FALSIFIER_PACKET.md`](../../3-FALSIFICATION/BRAID_FALSIFIER_PACKET.md) |
 | AI ingest order | [`../../AGENTS.md`](../../AGENTS.md) |
+| Machine-readable whole-repository file map | [`../../COMPACTIFICATION/monorepo_map.json`](../../COMPACTIFICATION/monorepo_map.json) |
+| Compact kernel boundaries and canonical source pointers | [`../../COMPACTIFICATION/kernel_map.json`](../../COMPACTIFICATION/kernel_map.json) |
 | Tool/provenance inventory | [`../../9-INFRASTRUCTURE/provenance/README.md`](../../9-INFRASTRUCTURE/provenance/README.md) |
 
 ## Numbered epistemic layers
@@ -44,6 +46,8 @@ This map separates current canonical surfaces from historical records, tools, ar
 | [`../../tests/`](../../tests/) | Main regression tests. |
 | [`../../recycling/`](../../recycling/) | Recycling implementation and tests. |
 | [`../../claims/`](../../claims/) | Claim-specific reproducibility packages. |
+| [`../../12-AZ-IP/`](../../12-AZ-IP/) | Canonical AZ IP product registry (01–25) and shared assets. |
+| [`../../COMPACTIFICATION/`](../../COMPACTIFICATION/) | Standalone historical kernel and reproducible repository inventories; not a substitute for current claim assessments. |
 | [`../../data/`](../../data/) | DVC-managed data and payloads. |
 
 ## Canonical vs historical rule

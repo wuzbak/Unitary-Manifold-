@@ -1,10 +1,20 @@
 {
-  "_comment": "Unitary Manifold — Compactification Kernel Snapshot Manifest",
+  "_comment": "Historical compact-kernel calculation snapshot. Not a current scientific claim registry; consult current_assessment and kernel_map.json.",
   "_format": "1.0",
-  "framework_version": "v22.11",
-  "kernel_version": "1.0.0",
+  "framework_version": "v22.11 (snapshot)",
+  "kernel_version": "1.1.0",
   "fingerprint": "(5, 7, 74)",
   "date": "2026-08-20",
+  "current_assessment": {
+    "as_of": "2026-10-01",
+    "framework_version": "v38.1",
+    "status": "STATUS.md",
+    "foundation_reassessment": "docs/TRUTH_LAYER.md",
+    "limitations": "FALLIBILITY.md",
+    "claim_registry": "docs/CLAIM_MASTER_BOARD.md",
+    "next_pillar_slot": 1130,
+    "note": "The historical results below are not independent proof of current physics claims. In particular, the old mixed metric block, photon-origin argument, and action-to-evolution equivalence were reassessed; see docs/TRUTH_LAYER.md."
+  },
   "zenodo_doi": "https://doi.org/10.5281/zenodo.19584531",
   "author": "ThomasCory Walker-Pearson",
   "organization": "AxiomZero Technologies & Consulting, SPC",
@@ -12,13 +22,14 @@
   "license_software": "AGPL-3.0-or-later",
   "license_theory": "Defensive Public Commons v1.0",
 
-  "repository_state": {
+  "historical_repository_state_as_of_2026_08_20": {
     "pillar_count": 785,
     "lean4_theorem_count": 976,
     "test_count_full_suite": 56964,
     "test_failures": 0,
     "next_pillar_slot": 786,
-    "status_file": "STATUS.md"
+    "status_file": "STATUS.md",
+    "note": "Historical test and theorem counts; not current verified totals."
   },
 
   "topological_sector": {
@@ -27,7 +38,7 @@
     "k_cs": 74,
     "k_cs_derivation": "n1² + n2² = 5² + 7² = 74",
     "n_w": 5,
-    "n_w_status": "PROVED (Pillar 70-D, APS theorem + Z₂ CS boundary)",
+    "n_w_status": "historical conditional claim; see docs/TRUTH_LAYER.md and FALLIBILITY.md",
     "n_c": 3,
     "n_c_derivation": "n_w - 2 = 3 (QCD colours)",
     "c_s": "12/37",
@@ -175,11 +186,14 @@
   ],
 
   "kernel_files": {
-    "kernel.py":      "Monolithic physics source; numpy required, scipy/sympy optional",
+    "kernel.py":      "Standalone historical calculation surface; numpy required, scipy/sympy optional",
     "kernel_test.py": "Standalone verification suite; 59 tests; plain python or pytest",
     "axioms.py":      "Machine-readable axiom registry; 19 entries across 4 layers",
     "ledger.json":    "This file — snapshot manifest",
-    "KERNEL_README.md": "One-page guide to the kernel"
+    "KERNEL_README.md": "Guide to the kernel and current epistemic boundary",
+    "kernel_map.json": "Machine-readable compact kernel navigation",
+    "monorepo_map.json": "Machine-readable tracked repository inventory",
+    "build_maps.py": "Deterministic map generator and --check validation"
   },
 
   "rebuild_instructions": {
