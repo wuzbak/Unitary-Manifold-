@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """Build deterministic path inventories for the compact kernel and the monorepo."""
@@ -11,7 +10,6 @@ import re
 import subprocess
 from collections import Counter
 from pathlib import Path
-
 
 ROOT = Path(__file__).resolve().parent.parent
 COMPACT = ROOT / "COMPACTIFICATION"
