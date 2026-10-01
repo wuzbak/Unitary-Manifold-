@@ -140,7 +140,7 @@ class TestCanonicalCommutation:
     def test_conjugate_momentum_matches_finite_difference(self):
         """π_φ = ∂_t φ must match the first-order finite-difference (φ_new − φ)/dt."""
         state = FieldState.flat(N=16, dx=0.1, rng=np.random.default_rng(32))
-        dt = 1e-5
+        dt = 1e-6
         pi_analytical = conjugate_momentum_phi(state)
         s1 = step(state, dt)
         pi_fd = (s1.phi - state.phi) / dt

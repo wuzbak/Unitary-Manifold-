@@ -18,6 +18,8 @@ from src.core.action_to_evolution_el_mismatch_certificate import (
 from src.core.action_to_evolution_retirement_units import build_action_to_evolution_retirement_units
 from src.core.evolution import implemented_flow_equation_surface, phenomenological_flow_boundary
 
+DERIVED_PENDING_STEWARD_PROMOTION = "DERIVED_PENDING_STEWARD_PROMOTION"
+
 PRIMARY_DELIVERABLE_IDS: List[str] = [
     "ACTION_FUNCTIONAL_NOT_YET_WRITTEN_DOWN_IN_CHECKABLE_FORM",
     "EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED",
@@ -65,14 +67,32 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
             "id": PRIMARY_DELIVERABLE_IDS[1],
             "label": "Verified Euler-Lagrange match to the implemented flow",
             "earned": False,
-            "status": "DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED" if el_receipt["status"] == "RECEIPT_READY" else "OPEN_BLOCKER",
+            "status": (
+                DERIVED_PENDING_STEWARD_PROMOTION
+                if el_certificate["summary"].get("euler_lagrange_deliverable_earned") and el_receipt["status"] == "RECEIPT_READY"
+                else "DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED" if el_receipt["status"] == "RECEIPT_READY"
+                else "OPEN_BLOCKER"
+            ),
             "required_evidence": [
                 "Euler-Lagrange equations derived from the candidate action",
                 "Per-equation side-by-side comparison for metric, gauge, and scalar flow equations",
                 "Residual or mismatch report on the stated domain",
             ],
             "current_gap": (
-                "Deterministic derivation scaffold is now surfaced, but a true Euler-Lagrange derivation "
+                "The legacy phenomenological flow was replaced (not reinterpreted): the default flow now relaxes "
+                "the Euler-Lagrange equations of the circle-reduced 5D Einstein-Hilbert action, with an exact "
+                "SymPy reduction identity on the reduced ansatz and second-order residual certificates for the "
+                "metric, gauge and scalar sectors. Not earned automatically: the perimeter is the 1-D periodic "
+                "zero-mode sector, the t-relaxation law is declared rather than varied, and promotion of this "
+                "deliverable (which changes the framework-level OPEN status) requires steward review."
+                if el_certificate["summary"].get("euler_lagrange_deliverable_earned")
+                else "Deterministic derivation scaffold is now surfaced, but a true Euler-Lagrange derivation "
+                "and residual-mismatch proof are still missing. The executable gradient-flow audit shows the "
+                "implemented coupled flow is not a gradient flow for any constant block-diagonal field-space "
+                "metric (dF_B/dphi = 0 while dF_phi/dB != 0), so the present flow cannot be matched as-is; "
+                "closure requires replacing it with the gradient flow of an explicit functional."
+                if el_certificate["summary"].get("coupled_flow_gradient_form_refuted_in_class")
+                else "Deterministic derivation scaffold is now surfaced, but a true Euler-Lagrange derivation "
                 "and residual-mismatch proof are still missing."
             ),
             "euler_lagrange_mismatch_certificate": el_certificate,
@@ -119,6 +139,7 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
 
 
 __all__ = [
+    "DERIVED_PENDING_STEWARD_PROMOTION",
     "PRIMARY_DELIVERABLE_IDS",
     "SECONDARY_SUPPORT_ONLY_IDS",
     "action_to_evolution_deliverable_contract",

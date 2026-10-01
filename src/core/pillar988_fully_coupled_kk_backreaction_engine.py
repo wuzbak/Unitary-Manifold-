@@ -16,7 +16,7 @@ from typing import Any, Dict, List
 
 import numpy as np
 
-from src.core.evolution import FieldState, braid_winding_number, step
+from src.core.evolution import FLOW_LAW_LEGACY, FieldState, braid_winding_number, step
 from src.core.kk_backreaction import back_reaction_metric_correction, kk_tower_stress_energy
 
 __all__ = [
@@ -74,6 +74,7 @@ def coupled_kk_step(state: FieldState, dt: float, max_modes: int = 8, coupling: 
         m_phi=evolved.m_phi,
         n_kk_modes=n_modes,
         kk_backreaction_coupling=coupling,
+        flow_law=evolved.flow_law,
     )
 
     rec = CoupledStepRecord(
@@ -105,6 +106,9 @@ def run_fully_coupled_kk_backreaction(
         phi_offset=1.2,
         n_kk_modes=1,
         kk_backreaction_coupling=coupling,
+        # The KK-tower source is phenomenological (not a term of the reduced
+        # action), so this engine runs on the legacy flow law.
+        flow_law=FLOW_LAW_LEGACY,
     )
 
     records: List[CoupledStepRecord] = []

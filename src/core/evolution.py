@@ -6,16 +6,38 @@ src/core/evolution.py
 Walker–Pearson field evolution for the Unitary Manifold.
 
 Implements the classical fourth-order Runge–Kutta (RK4) time integrator for
-the coupled field equations described in Appendix D of the monograph.  A
-first-order Euler integrator is also provided for accuracy benchmarking.
+the coupled (g, B, φ) system.  A first-order Euler integrator is also provided
+for accuracy benchmarking.  Two flow laws are available via
+``FieldState.flow_law``.
 
-Field equations (schematically):
+Default flow law ``"action_derived"`` (src/core/action_derived_flow.py)
+-----------------------------------------------------------------------
+The field equations are the Euler–Lagrange equations of the 5D
+Einstein–Hilbert action S₅ = ∫ √(−G) R⁽⁵⁾ on the corrected KK ansatz
+(G_μ5 = λφ²B_μ), reduced on the circle to the Einstein frame g_E = φ g,
+ψ = ln φ:
 
-This is a phenomenological flow, not the Euler–Lagrange evolution of the
-circle Einstein–Hilbert action. ``R`` below is the legacy contraction
-g^μν R^(5)_μν, not R4 or R5, and ``alpha`` is supplied independently.
-The geometric derivative routines sample only x (index 1); index 0 is time.
-The matter sources use Euclidean component norms, not Lorentzian contractions.
+    S₄ = ∫ √(−g_E) [ R_E − (3/2)(∂ψ)² − ¼ λ² φ³ F² − U(φ) ]
+
+and the default flow is the relaxation
+
+    ∂_t g^E_μν = −2 [ R^E_μν − (3/2)∂_μψ∂_νψ − ½λ²φ³(F_μαF_ν^α − ¼g^E_μν F²) − ½U g^E_μν ]
+    ∂_t B_ν    = g^E_νρ ∇_μ(λ² φ³ F^μρ)
+    ∂_t ψ      = □_E ψ − ¼ λ² φ³ F² − ⅓ dU/dψ
+
+whose fixed points are exactly the (discretised) Euler–Lagrange solutions.
+There is no free nonminimal coupling α, contractions are Lorentzian, and the
+derivatives are periodic central differences on x ∈ S¹.  U(φ) is an optional
+added assumption (off when m_phi = 0).  The t-relaxation law is declared,
+not obtained by varying the action; volume projection is off by default.
+
+Legacy flow law ``"phenomenological_legacy"``
+---------------------------------------------
+Retained for reproducibility.  This is a phenomenological flow, not the
+Euler–Lagrange evolution of the circle Einstein–Hilbert action. ``R`` below
+is the legacy contraction g^μν R^(5)_μν, not R4 or R5, and ``alpha`` is
+supplied independently.  The matter sources use Euclidean component norms,
+not Lorentzian contractions.
 
     ∂_t g_μν  = −2 R_μν + T_μν[B, φ]                   (modified Einstein)
     ∂_t B_μ   = ∇_ν (λ² H^νμ)                          (gauge / irreversibility)
@@ -23,11 +45,10 @@ The matter sources use Euclidean component norms, not Lorentzian contractions.
 
 where H_μν = ∂_μ B_ν − ∂_ν B_μ is the field strength,
 T_μν[B,φ] is the matter stress-energy sourced by B and φ, and the last
-term is an optional Goldberger–Wise–style mass potential that can pin the
-KK radion φ to its background value φ₀ and mitigate the collapse (φ → 0)
-and run-away (φ → ∞) channels identified in the Gemini peer review.
-This stabilization is available but disabled by default for backward
-compatibility: `m_phi = 0` recovers the original mass-less equation.
+term is an optional Goldberger–Wise–style mass potential.  Only the legacy
+law supports the KK-tower backreaction source and applies the metric
+volume projection by default.
+The geometric derivative routines sample only x (index 1); index 0 is time.
 
 **Time-synchronisation note (Gemini Issue 4 / ADM gap — documented in FALLIBILITY.md §III)**
 
@@ -75,11 +96,11 @@ FieldState.initialize_dynamic_braid(N, n_w_initial, dx, amplitude, phi_offset)
 FieldState.get_winding_number()
     Instance method: return the topological braid winding number of the state.
 
-step(state, dt, project_metric_volume=True)
+step(state, dt, project_metric_volume=None)
     Advance state by one RK4 timestep dt.  O(dt⁴) local truncation error.
-    A metric volume-preservation projection is applied after each step by
-    default to suppress numerical drift of the spacetime volume element
-    (det g); diagnostics can disable that post-step projection explicitly.
+    For the legacy flow law a metric volume-preservation projection is applied
+    after each step by default; the action-derived law does not project
+    (det g is dynamical there).  Pass True/False to override.
 
 step_euler(state, dt)
     Advance state by one first-order Euler timestep (for benchmarking).
@@ -145,6 +166,12 @@ from .kk_backreaction import kk_tower_stress_energy
 from .metric import compute_curvature, compute_curvature_backend, field_strength
 from .julia_acceleration import compute_rhs_julia
 from .polyglot_execution_matrix import load_polyglot_execution_config
+from .action_derived_flow import action_derived_flow_surface, action_derived_rhs
+
+FLOW_LAW_ACTION_DERIVED = "action_derived"
+FLOW_LAW_LEGACY = "phenomenological_legacy"
+FLOW_LAWS = (FLOW_LAW_ACTION_DERIVED, FLOW_LAW_LEGACY)
+DEFAULT_FLOW_LAW = FLOW_LAW_ACTION_DERIVED
 
 
 # ---------------------------------------------------------------------------
@@ -164,10 +191,11 @@ _NUMERICAL_EPSILON = 1e-30  # guard against exact-zero denominators / norms
 # Foundation-boundary audit helper
 # ---------------------------------------------------------------------------
 
-def implemented_flow_equation_surface() -> Dict[str, Any]:
-    """Return the implemented flow equations and boundary assumptions."""
+def legacy_phenomenological_flow_surface() -> Dict[str, Any]:
+    """Return the legacy phenomenological flow (``flow_law="phenomenological_legacy"``)."""
     return {
         "status": "PHENOMENOLOGICAL_FLOW_IMPLEMENTATION",
+        "flow_law": FLOW_LAW_LEGACY,
         "equations": {
             "metric": {
                 "lhs": "∂_t g_μν",
@@ -185,14 +213,6 @@ def implemented_flow_equation_surface() -> Dict[str, Any]:
                 "classification": "implemented_flow_term_list",
             },
         },
-        "time_domain_boundary": {
-            "flow_parameter_symbol": "t",
-            "flow_parameter_role": "irreversibility flow parameter λ-like evolution variable",
-            "coordinate_time_symbol": "x⁰",
-            "identified_with_coordinate_time": False,
-            "coordinate_time_gauge_fixed": True,
-            "domain": "symmetry-reduced 1-D spatial grid with geometric derivative sampling only along x (index 1)",
-        },
         "structural_assumptions": [
             "R denotes the legacy contraction g^μν R^(5)_μν, not R4 or R5.",
             "alpha is supplied independently rather than derived from a checked action.",
@@ -200,9 +220,38 @@ def implemented_flow_equation_surface() -> Dict[str, Any]:
             "The numerical evolution tracks only the zero-mode sector.",
         ],
         "promotion_guard": (
-            "Do not promote this implementation surface as action-derived until a checked action, "
-            "Euler-Lagrange match, and fixed time/domain boundary are all verified."
+            "Retained for reproducibility of earlier results only. This flow is not the "
+            "Euler-Lagrange evolution of any checked action and is no longer the default."
         ),
+    }
+
+
+def implemented_flow_equation_surface() -> Dict[str, Any]:
+    """Return the default (action-derived) flow equations and boundary assumptions."""
+    derived = action_derived_flow_surface()
+    return {
+        "status": derived["status"],
+        "flow_law": DEFAULT_FLOW_LAW,
+        "action": derived["action"],
+        "reduced_action": derived["reduced_action"],
+        "equations": derived["equations"],
+        "time_domain_boundary": {
+            "flow_parameter_symbol": "t",
+            "flow_parameter_role": "declared relaxation parameter whose fixed points are the Euler-Lagrange solutions",
+            "coordinate_time_symbol": "x⁰",
+            "identified_with_coordinate_time": False,
+            "coordinate_time_gauge_fixed": True,
+            "domain": "symmetry-reduced 1-D periodic spatial grid x ∈ S¹ with derivatives only along x (index 1)",
+        },
+        "structural_assumptions": list(derived["added_assumptions"]) + [
+            "The t-relaxation law is declared; only its fixed-point set is fixed by the action.",
+        ],
+        "removed_legacy_elements": list(derived["removed_legacy_elements"]),
+        "promotion_guard": (
+            "Field equations are derived from the circle-reduced 5D Einstein-Hilbert action within the "
+            "stated perimeter; the t-dynamics are not. Deliverable-level promotion requires steward review."
+        ),
+        "legacy_flow_surface": legacy_phenomenological_flow_surface(),
     }
 
 
@@ -210,23 +259,35 @@ def phenomenological_flow_boundary() -> Dict[str, Union[str, bool, list[str]]]:
     """Return the current action/evolution boundary in machine-readable form.
 
     This is an explicit honesty surface for downstream audit packets.  It does
-    not promote closure; it records the present scope of the implemented flow.
+    not promote closure.  ``derived_from_circle_eh_action`` is the
+    promotion-grade flag for the evolution itself; it stays False while the
+    t-relaxation law is declared and steward promotion has not occurred.
+    ``field_equations_derived_from_circle_eh_action`` records that the default
+    flow's field equations (its fixed-point set) are now action-derived.
     """
     return {
         "status": "OPEN",
-        "scope": "Phenomenological one-coordinate flow, not a derived 5D Euler-Lagrange evolution",
+        "scope": (
+            "Default flow relaxes the Euler-Lagrange equations of the circle-reduced 5D Einstein-Hilbert "
+            "action (1-D periodic zero-mode sector); the t-relaxation law itself is declared, not derived"
+        ),
+        "default_flow_law": DEFAULT_FLOW_LAW,
         "derived_from_circle_eh_action": False,
+        "field_equations_derived_from_circle_eh_action": DEFAULT_FLOW_LAW == FLOW_LAW_ACTION_DERIVED,
         "flow_parameter_is_coordinate_time": False,
         "coordinate_time_gauge_fixed": True,
         "legacy_alpha_is_action_derived": False,
-        "matter_norm_is_lorentzian": False,
+        "default_flow_has_free_alpha": DEFAULT_FLOW_LAW == FLOW_LAW_LEGACY,
+        "matter_norm_is_lorentzian": DEFAULT_FLOW_LAW == FLOW_LAW_ACTION_DERIVED,
         "closed_subgaps": [
             "Non-relativistic proper-time correction Ω(φ)=1/φ",
             "ADM/BSSN lapse sub-gap closed by Pillar 434",
+            "Field equations of the default flow derived from the reduced action (src/core/action_derived_flow.py)",
         ],
         "remaining_obligation": (
-            "Construct and verify an action whose Euler-Lagrange equations reproduce "
-            "the implemented flow, or replace the phenomenological flow with such equations."
+            "The Euler-Lagrange field equations are derived and residual-certified within a 1-D periodic "
+            "zero-mode perimeter; remaining: steward review for promotion, an exact reduction identity beyond "
+            "the reduced diagonal ansatz, and a derivation or justification of the declared t-relaxation law."
         ),
     }
 
@@ -250,6 +311,11 @@ class FieldState:
     m_phi: float = _M_PHI_DEFAULT # dilaton mass m_φ; 0 disables stabilization
     n_kk_modes: int = _N_KK_MODES_DEFAULT
     kk_backreaction_coupling: float = _KK_BACKREACTION_COUPLING_DEFAULT
+    flow_law: str = DEFAULT_FLOW_LAW
+
+    def __post_init__(self) -> None:
+        if self.flow_law not in FLOW_LAWS:
+            raise ValueError(f"flow_law must be one of {FLOW_LAWS}, got {self.flow_law!r}")
 
     # ------------------------------------------------------------------
     @classmethod
@@ -258,7 +324,8 @@ class FieldState:
              phi0: float = _PHI0_DEFAULT, m_phi: float = _M_PHI_DEFAULT,
              n_kk_modes: int = _N_KK_MODES_DEFAULT,
              kk_backreaction_coupling: float = _KK_BACKREACTION_COUPLING_DEFAULT,
-             rng: Optional[np.random.Generator] = None) -> "FieldState":
+             rng: Optional[np.random.Generator] = None,
+             flow_law: str = DEFAULT_FLOW_LAW) -> "FieldState":
         """Flat Minkowski background g = diag(-1,1,1,1) with small noise.
 
         Parameters
@@ -287,7 +354,8 @@ class FieldState:
         return cls(g=g, B=B, phi=phi, t=0.0, dx=dx, lam=lam, alpha=alpha,
                    phi0=phi0, m_phi=m_phi,
                    n_kk_modes=n_kk_modes,
-                   kk_backreaction_coupling=kk_backreaction_coupling)
+                   kk_backreaction_coupling=kk_backreaction_coupling,
+                   flow_law=flow_law)
 
     # ------------------------------------------------------------------
     @classmethod
@@ -304,6 +372,7 @@ class FieldState:
         m_phi: float = _M_PHI_DEFAULT,
         n_kk_modes: int = _N_KK_MODES_DEFAULT,
         kk_backreaction_coupling: float = _KK_BACKREACTION_COUPLING_DEFAULT,
+        flow_law: str = DEFAULT_FLOW_LAW,
     ) -> "FieldState":
         """Create a FieldState with a scalar field of topological winding number n_w_initial.
 
@@ -358,6 +427,7 @@ class FieldState:
             phi0=phi0, m_phi=m_phi,
             n_kk_modes=n_kk_modes,
             kk_backreaction_coupling=kk_backreaction_coupling,
+            flow_law=flow_law,
         )
 
     def get_winding_number(self) -> int:
@@ -455,7 +525,13 @@ def _compute_rhs(state: FieldState) -> tuple:
     dg   : ndarray, shape (N, 4, 4) — ∂_t g_μν  (symmetrised)
     dB   : ndarray, shape (N, 4)   — ∂_t B_μ
     dphi : ndarray, shape (N,)     — ∂_t φ
+
+    The default flow law is the action-derived relaxation flow
+    (:mod:`src.core.action_derived_flow`).  ``flow_law="phenomenological_legacy"``
+    selects the historical phenomenological flow.
     """
+    if state.flow_law == FLOW_LAW_ACTION_DERIVED:
+        return action_derived_rhs(state)
     cfg = load_polyglot_execution_config()
     if cfg.core_backend == "julia":
         try:
@@ -525,8 +601,9 @@ def rhs_backend_report(state: FieldState) -> Dict[str, object]:
         "use_cuda": cfg.use_cuda,
         "parity_rtol": cfg.parity_rtol,
         "parity_atol": cfg.parity_atol,
+        "flow_law": state.flow_law,
     }
-    if cfg.core_backend != "julia":
+    if cfg.core_backend != "julia" or state.flow_law == FLOW_LAW_ACTION_DERIVED:
         payload["effective_backend"] = "python"
         payload["fallback_used"] = False
         payload["parity_checked"] = False
@@ -571,7 +648,8 @@ def _advance_fields(state: FieldState,
                       dx=state.dx, lam=state.lam, alpha=state.alpha,
                       phi0=state.phi0, m_phi=state.m_phi,
                       n_kk_modes=state.n_kk_modes,
-                      kk_backreaction_coupling=state.kk_backreaction_coupling)
+                      kk_backreaction_coupling=state.kk_backreaction_coupling,
+                      flow_law=state.flow_law)
 
 
 # ---------------------------------------------------------------------------
@@ -619,7 +697,7 @@ def step(
     state: FieldState,
     dt: float,
     *,
-    project_metric_volume: bool = True,
+    project_metric_volume: Optional[bool] = None,
 ) -> FieldState:
     """Advance *state* by one RK4 timestep dt.
 
@@ -636,9 +714,11 @@ def step(
     ----------
     state : FieldState
     dt    : float  — timestep
-    project_metric_volume : bool, default True
-        Apply the post-step determinant projection. Set False only for
-        diagnostics that need the raw RK4 update without the renormalization.
+    project_metric_volume : bool or None, default None
+        Apply the post-step determinant projection det(g) = −1.  ``None``
+        resolves to True for the legacy phenomenological flow and False for
+        the action-derived flow, because the projection is an external
+        constraint that is not a consequence of the action.
 
     Returns
     -------
@@ -665,13 +745,16 @@ def step(
     result = _advance_fields(state, dg, dB, dphi, dt, t0 + dt)
     # Enforce metric volume conservation to separate physical irreversibility
     # from numerical dissipation (det-drift).
+    if project_metric_volume is None:
+        project_metric_volume = state.flow_law == FLOW_LAW_LEGACY
     g_out = _project_metric_volume(result.g) if project_metric_volume else result.g
     out = FieldState(g=g_out,
                      B=result.B, phi=result.phi, t=result.t,
                      dx=result.dx, lam=result.lam, alpha=result.alpha,
                      phi0=result.phi0, m_phi=result.m_phi,
                      n_kk_modes=result.n_kk_modes,
-                     kk_backreaction_coupling=result.kk_backreaction_coupling)
+                     kk_backreaction_coupling=result.kk_backreaction_coupling,
+                      flow_law=result.flow_law)
     # NaN/Inf guard: detect numerical blow-up caused by CFL violation or
     # chaotic initial conditions, and raise immediately with a clear message.
     if (not np.all(np.isfinite(out.phi)) or
@@ -705,12 +788,14 @@ def step_euler(state: FieldState, dt: float) -> FieldState:
     """
     dg, dB, dphi = _compute_rhs(state)
     result = _advance_fields(state, dg, dB, dphi, dt, state.t + dt)
-    return FieldState(g=_project_metric_volume(result.g),
+    g_out = _project_metric_volume(result.g) if state.flow_law == FLOW_LAW_LEGACY else result.g
+    return FieldState(g=g_out,
                       B=result.B, phi=result.phi, t=result.t,
                       dx=result.dx, lam=result.lam, alpha=result.alpha,
                       phi0=result.phi0, m_phi=result.m_phi,
                       n_kk_modes=result.n_kk_modes,
-                      kk_backreaction_coupling=result.kk_backreaction_coupling)
+                      kk_backreaction_coupling=result.kk_backreaction_coupling,
+                      flow_law=result.flow_law)
 
 
 def cfl_timestep(state: FieldState, cfl: float = 0.4) -> float:

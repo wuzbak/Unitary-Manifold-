@@ -87,6 +87,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
     promotion_blocking_statuses = {
         'OPEN_BLOCKER',
         'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED',
+        'DERIVED_PENDING_STEWARD_PROMOTION',
     }
     deliverable_progress_status_supported = all(
         item['status'] in (
@@ -182,6 +183,7 @@ def action_to_evolution_full_focus_sprint_routing() -> Dict[str, Any]:
         and candidate_action_status in {'EVIDENCE_SURFACED', 'EARNED'}
         and euler_lagrange_match_status in {
             'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED',
+            'DERIVED_PENDING_STEWARD_PROMOTION',
             'EARNED',
         }
         and domain_boundary_status in {'EVIDENCE_SURFACED', 'EARNED'}

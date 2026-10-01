@@ -31,6 +31,7 @@ import numpy as np
 import pytest
 
 from src.core.evolution import (
+    FLOW_LAW_LEGACY,
     FieldState,
     step,
     step_euler,
@@ -237,6 +238,7 @@ class TestRichardsonConvergenceAlpha:
         for N, dx in [(4, 0.4), (8, 0.2), (16, 0.1)]:
             s = _sin_phi_state(N, dx, A=amplitude)
             s.alpha = 0.0
+            s.flow_law = FLOW_LAW_LEGACY
             n = max(1, int(np.ceil(T / min(cfl_timestep(s), 0.01))))
             dt = T/n
             h   = run_evolution(s, dt, n)

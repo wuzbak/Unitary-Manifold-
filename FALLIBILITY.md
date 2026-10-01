@@ -533,6 +533,20 @@ decomposition).  This is a known gap for the framework's central claim that the
 `src/core/adm_time_parameterization.py` (Gap T3 quantitative closure, v10.53),
 `src/core/pillar434_adm_bssn_lapse.py` (BSSN dynamical lapse closure, v13.7).
 
+### Action-to-evolution: implemented flow is not a gradient flow in the tested class  *(Tier: STRUCTURAL — OPEN)*
+
+`src/core/action_to_evolution_gradient_flow_audit.py` checks the implemented flow
+for gradient-flow structure. Because t is not coordinate time, a gradient flow
+∂_t X = −G⁻¹ δE/δX is the relevant variational form. The scalar sector, with a
+frozen background, and the gauge sector at interior points, with g frozen, are
+each exact gradient flows of explicit functionals. The coupled system is not:
+∂F_B/∂φ ≡ 0 while ∂F_φ/∂B ≠ 0 when H ≠ 0, which violates the Helmholtz condition
+for every constant block-diagonal field-space metric. The flow also omits terms
+that an action would force: a φ-weighted back-reaction in the B equation, scalar
+stress in T_μν, and the metric variation of the αRφ² coupling. The
+Euler-Lagrange match deliverable therefore stays unearned. Closing it requires
+replacing the flow, not reinterpreting it.
+
 ---
 
 ## IV. Known Failure Modes and Regimes of Uncertainty

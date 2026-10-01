@@ -138,6 +138,18 @@ Sprint CW adds one adjacent empirical connectome lane rather than reopening the 
 
 This is real data-bearing work, but its epistemic class is intentionally narrow. The pillar does not claim that a fly connectome proves Unitary Manifold physics, that consciousness ontology has been solved, or that connectome structure alone yields a first-principles derivation of cognition. What it does claim is stricter and testable: the repository now has a public whole-CNS benchmark slice that can pressure-test its neuroscience language against real wiring summaries. In the committed panel, `LPLC2` carries the largest imported input/output mass, `LC4` is the most reciprocal imported type, `EPG` has the highest downstream neurotransmitter entropy, and `AN01B004` plus `DNa02` form the clearest brain↔VNC bridge pair.
 
+### Lane 1 executable gradient-flow audit (post-Sprint CW, no status change)
+
+The action-to-evolution question now has an executable test in place of template alignment: `src/core/action_to_evolution_gradient_flow_audit.py`. The implemented flow is first order in a parameter t that is explicitly not coordinate time, so it cannot be the second-order Euler-Lagrange system of a Lorentzian action in x⁰. The variational class it could belong to is a gradient flow, ∂_t X = −G⁻¹ δE/δX. For a constant field-space metric G, a necessary condition is that G·J is symmetric, where J is the Jacobian of the discrete right-hand side.
+
+Results on a deterministic nontrivial state (N = 12, H ≠ 0, KK backreaction source disabled):
+
+- **Scalar sector, with g, B, R and S[H] frozen:** ∂_t φ equals −δE_φ/δφ for E_φ = ∫[½(∂φ)² − ½αRφ² − S[H]φ + ½m_φ²(φ−φ₀)²], with relative residual ≈ 10⁻¹⁰. This holds only on a frozen background, because R depends on φ through G₅₅ = φ².
+- **Gauge sector, with g frozen:** ∂_t B equals −δE_B/δB for the Maxwell energy ¼λ²∫H_ab H^ab at interior points, with relative residual ≈ 10⁻¹¹. The one-sided boundary stencils do not satisfy the match. The scalar Laplacian is periodic but H uses non-periodic stencils, so the two sectors also use inconsistent boundary conventions.
+- **Coupled system:** ∂F_B/∂φ ≡ 0, but ∂F_φ/∂B ≠ 0 whenever H ≠ 0. No constant block-diagonal positive-definite field-space metric can therefore make the implemented coupled flow a gradient flow of any C² functional. The full interior Jacobian table (slow test) shows that the g–g, g–B, g–φ and B–φ block pairs are strongly non-symmetric, and that the φ–φ pair is mildly non-symmetric.
+
+Consequence: the Euler-Lagrange match deliverable is not earned and cannot be earned for the present flow. Within the stated class (constant, block-diagonal metrics; state-dependent or B–φ-mixing metrics are not excluded), the audit refutes the gradient-flow form. An action containing these terms would force several terms that the implementation omits: a φ-weighted back-reaction in ∂_t B, scalar stress ∂φ∂φ in T_μν (`_stress_energy` ignores φ, although the flow surface labels it T_μν[B, φ]), and the metric variation of −½αRφ². In addition, −2R_μν alone is not an L² gradient flow. Lane 1 can close only if the flow is replaced by the gradient flow of an explicit functional, which changes numerical outputs and requires steward approval. Otherwise the phenomenological label must stay. No gate, pillar count or version label changes.
+
 ### Sprint CR master implementation packet
 
 Sprint CR implements the full ten-step master plan as one fail-closed packet without widening claim scope. The charter locks action-to-evolution as the primary closure target and keeps APS/orbifold/Dirac as support-only surfaces. The burden board then converts the remaining action/equation/domain blockers into deterministic units with explicit evidence gates.
