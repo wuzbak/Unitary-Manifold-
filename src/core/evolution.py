@@ -45,7 +45,10 @@ not Lorentzian contractions.
 
 where H_μν = ∂_μ B_ν − ∂_ν B_μ is the field strength,
 T_μν[B,φ] is the matter stress-energy sourced by B and φ, and the last
-term is an optional Goldberger–Wise–style mass potential.  Only the legacy
+term is an optional Goldberger–Wise–style mass potential that can pin the
+KK radion φ to its background value φ₀.
+This stabilization is available but disabled by default (`m_phi = 0`) in
+both flow laws.  Only the legacy
 law supports the KK-tower backreaction source and applies the metric
 volume projection by default.
 The geometric derivative routines sample only x (index 1); index 0 is time.
