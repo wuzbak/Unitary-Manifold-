@@ -79,12 +79,14 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
                 "Residual or mismatch report on the stated domain",
             ],
             "current_gap": (
-                "The legacy phenomenological flow was replaced (not reinterpreted): the default flow now relaxes "
-                "the Euler-Lagrange equations of the circle-reduced 5D Einstein-Hilbert action, with an exact "
-                "SymPy reduction identity on the reduced ansatz and second-order residual certificates for the "
-                "metric, gauge and scalar sectors. Not earned automatically: the perimeter is the 1-D periodic "
-                "zero-mode sector, the t-relaxation law is declared rather than varied, and promotion of this "
-                "deliverable (which changes the framework-level OPEN status) requires steward review."
+                "The legacy phenomenological flow, which the gradient-flow audit showed is not a gradient flow for "
+                "any constant block-diagonal field-space metric, was replaced rather than reinterpreted: the default "
+                "flow now relaxes the field equations obtained by Euler-Lagrange derivation from the circle-reduced "
+                "5D Einstein-Hilbert action, with an exact SymPy reduction identity on the reduced ansatz and "
+                "second-order residual certificates for the metric, gauge and scalar sectors. Not earned "
+                "automatically: the perimeter is the 1-D periodic zero-mode sector, the t-relaxation law is "
+                "declared rather than varied, and promotion of this deliverable (which changes the framework-level "
+                "OPEN status) requires steward review."
                 if el_certificate["summary"].get("euler_lagrange_deliverable_earned")
                 else "Deterministic derivation scaffold is now surfaced, but a true Euler-Lagrange derivation "
                 "and residual-mismatch proof are still missing. The executable gradient-flow audit shows the "

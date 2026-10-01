@@ -11,10 +11,14 @@ from src.core.evolution import implemented_flow_equation_surface, phenomenologic
 
 def test_implemented_flow_surface_stays_explicit() -> None:
     surface = implemented_flow_equation_surface()
-    assert surface["status"] == "PHENOMENOLOGICAL_FLOW_IMPLEMENTATION"
-    assert surface["equations"]["metric"]["rhs_terms"] == ["-2 R_μν", "T_μν[B, φ]"]
-    assert surface["equations"]["gauge"]["rhs_terms"] == ["∇_ν (λ² H^νμ)"]
-    assert surface["equations"]["scalar"]["rhs_terms"] == ["□φ", "α R φ", "S[H]", "-m²_φ (φ − φ₀)"]
+    assert surface["status"] == "ACTION_DERIVED_FIELD_EQUATIONS_WITH_DECLARED_RELAXATION_FLOW"
+    assert surface["flow_law"] == "action_derived"
+    assert "-2 R^E_μν" in surface["equations"]["metric"]["rhs_terms"]
+    assert surface["equations"]["gauge"]["rhs_terms"] == ["g^E_νρ ∇_μ(λ² φ³ F^μρ)"]
+    assert "α R φ" not in surface["equations"]["scalar"]["rhs_terms"]
+    legacy = surface["legacy_flow_surface"]
+    assert legacy["status"] == "PHENOMENOLOGICAL_FLOW_IMPLEMENTATION"
+    assert legacy["equations"]["scalar"]["rhs_terms"] == ["□φ", "α R φ", "S[H]", "-m²_φ (φ − φ₀)"]
     assert surface["time_domain_boundary"]["identified_with_coordinate_time"] is False
     assert surface["time_domain_boundary"]["coordinate_time_gauge_fixed"] is True
 
@@ -36,7 +40,7 @@ def test_deliverable_contract_tracks_evidence_and_remaining_single_blocker() -> 
 
     second = deliverables[1]
     assert second["earned"] is False
-    assert second["status"] == "DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED"
+    assert second["status"] == "DERIVED_PENDING_STEWARD_PROMOTION"
     assert second["euler_lagrange_mismatch_receipt"]["status"] == "RECEIPT_READY"
 
     third = deliverables[2]

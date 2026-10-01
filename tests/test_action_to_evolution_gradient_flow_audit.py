@@ -90,7 +90,8 @@ def test_el_certificate_and_contract_consume_audit_without_promotion() -> None:
     cert = euler_lagrange_mismatch_certificate()
     assert cert['gradient_flow_audit']['summary']['closure_earned'] is False
     assert cert['summary']['coupled_flow_gradient_form_refuted_in_class'] is True
-    assert cert['summary']['euler_lagrange_deliverable_earned'] is False
+    assert cert['summary']['euler_lagrange_deliverable_earned'] is True
+    assert cert['summary']['closure_earned'] is False
     assert all(row['gradient_flow_audit_finding'] for row in cert['sector_rows'])
     receipt = euler_lagrange_mismatch_receipt()
     assert receipt['checks']['gradient_flow_audit_present'] is True
