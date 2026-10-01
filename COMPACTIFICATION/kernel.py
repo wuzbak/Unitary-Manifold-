@@ -6,8 +6,8 @@ COMPACTIFICATION/kernel.py
 ==========================
 The Unitary Manifold — Monolithic Source Kernel
 
-This single file is the *seed*: the minimal, self-contained, dependency-light
-source from which the entire Unitary Manifold framework can be reconstructed.
+This file is a standalone historical calculation surface, not a replacement
+for the repository's current derivations, tests, or epistemic assessments.
 
 Design principles
 -----------------
@@ -43,8 +43,9 @@ DOI:    https://doi.org/10.5281/zenodo.19584531
 
 from __future__ import annotations
 
-__version__ = "1.0.0"
-__framework_version__ = "v22.11"
+__version__ = "1.1.0"
+__framework_version__ = "v22.11 (historical calculation snapshot)"
+__assessment_version__ = "v38.1"
 __fingerprint__ = "(5, 7, 74)"   # The braid triad; unique to this framework
 
 __provenance__ = {
@@ -194,11 +195,11 @@ def assemble_5d_metric(
     -------
     G : (N, 5, 5) — 5D metric G_AB
 
-    Epistemic status: DERIVED (from 5D Einstein–Hilbert + KK gauge covariance
-    + Z₂ orbifold parity + radion normalisation; FALLIBILITY.md §II A1_METRIC)
+    Epistemic status: conditional KK parameterization; this assembly does not
+    derive the photon or the flow equations (docs/TRUTH_LAYER.md).
 
-    G_AB =  [g_μν + λ²φ²B_μB_ν  |  λφB_μ ]
-            [       λφB_ν         |   φ²   ]
+    G_AB =  [g_μν + λ²φ²B_μB_ν  |  λφ²B_μ ]
+            [       λφ²B_ν        |   φ²   ]
     """
     N = g.shape[0]
     G = np.zeros((N, 5, 5), dtype=np.float64)
@@ -207,8 +208,8 @@ def assemble_5d_metric(
         # 4×4 block
         G[i, :4, :4] = g[i] + (lam * p)**2 * np.outer(B[i], B[i])
         # Off-diagonal
-        G[i, :4, 4] = lam * p * B[i]
-        G[i, 4, :4] = lam * p * B[i]
+        G[i, :4, 4] = lam * p**2 * B[i]
+        G[i, 4, :4] = lam * p**2 * B[i]
         # G₅₅
         G[i, 4, 4] = p**2
     return G
@@ -879,6 +880,7 @@ def full_report() -> Dict[str, Any]:
     return {
         "kernel_version":      __version__,
         "framework_version":   __framework_version__,
+        "assessment_version":  __assessment_version__,
         "fingerprint":         __fingerprint__,
         "constants": {
             "N1": N1, "N2": N2, "K_CS": K_CS, "N_W": N_W, "N_C": N_C,

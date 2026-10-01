@@ -1,0 +1,38 @@
+{
+  "format": "unitary-compact-kernel-map-v1",
+  "scope": "standalone historical calculation surface plus live repository pointers",
+  "not_a_claim": "This inventory is not a derivation, formal proof, or validation of every repo asset.",
+  "anchors": {
+    "standalone_kernel": "COMPACTIFICATION/kernel.py",
+    "axiom_registry": "COMPACTIFICATION/axioms.py",
+    "kernel_tests": "COMPACTIFICATION/kernel_test.py",
+    "snapshot_ledger": "COMPACTIFICATION/ledger.json",
+    "kernel_guide": "COMPACTIFICATION/KERNEL_README.md",
+    "current_status": "STATUS.md",
+    "current_limitations": "FALLIBILITY.md",
+    "foundation_reassessment": "docs/TRUTH_LAYER.md",
+    "claim_registry": "docs/CLAIM_MASTER_BOARD.md",
+    "pillar_tracker": "docs/mas_tracker.yml",
+    "formal_gate": "proof/TIER_1_FORMAL.md",
+    "product_registry": "12-AZ-IP/README.md",
+    "ip_asset_registry": "12-AZ-IP/IP_REGISTRY.json",
+    "editorial_index": "7-OUTREACH/A Z PsiCat Literature/README.md",
+    "monorepo_map": "COMPACTIFICATION/monorepo_map.json",
+    "map_builder": "COMPACTIFICATION/build_maps.py"
+  },
+  "entrypoint": {
+    "command": "python3 COMPACTIFICATION/kernel_test.py",
+    "test_scope": "standalone kernel assertions, not the full monorepo regression"
+  },
+  "catalogues": {
+    "az_ip": "COMPACTIFICATION/monorepo_map.json#az_ip_products",
+    "books": "COMPACTIFICATION/monorepo_map.json#psicat_literature/books",
+    "articles": "COMPACTIFICATION/monorepo_map.json#psicat_literature/articles",
+    "all_files": "COMPACTIFICATION/monorepo_map.json#files"
+  },
+  "epistemic_boundary": {
+    "snapshot": "COMPACTIFICATION/ledger.json",
+    "superseding_assessment": "docs/TRUTH_LAYER.md",
+    "live_gaps": "FALLIBILITY.md"
+  }
+}
