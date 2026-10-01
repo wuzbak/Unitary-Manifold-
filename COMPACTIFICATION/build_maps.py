@@ -25,10 +25,7 @@ def tracked_paths() -> list[str]:
          "--exclude-standard", "-z"],
         check=True, capture_output=True,
     )
-    paths = {
-        path for path in result.stdout.decode("utf-8").split("\0")
-        if path and (ROOT / path).is_file()
-    }
+    paths = {path for path in result.stdout.decode("utf-8").split("\0") if path}
     # The maps must index themselves even on the first build, before they exist.
     paths.update({"COMPACTIFICATION/kernel_map.json", "COMPACTIFICATION/monorepo_map.json"})
     return sorted(paths)
@@ -37,7 +34,11 @@ def tracked_paths() -> list[str]:
 def classify(path: str) -> dict[str, str]:
     """Assign a navigational lane without inferring scientific or legal status."""
     parts = path.split("/")
-    entry = {"path": path, "top_level": parts[0]}
+    entry = {
+        "path": path,
+        "top_level": parts[0],
+        "kind": "symlink" if (ROOT / path).is_symlink() else "file",
+    }
     if path.startswith(BOOKS):
         entry["lane"] = "psicat_books"
     elif path.startswith(ARTICLES):
@@ -63,7 +64,7 @@ def build_monorepo_map(paths: list[str]) -> dict:
     }
     return {
         "format": "unitary-monorepo-map-v1",
-        "scope": "repository files in Git index and non-ignored new files at generation time",
+        "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
         "source": "git ls-files --cached --others --exclude-standard",
         "file_count": len(files),
         "lanes": dict(sorted(lanes.items())),

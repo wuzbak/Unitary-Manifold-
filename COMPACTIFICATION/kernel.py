@@ -44,7 +44,8 @@ DOI:    https://doi.org/10.5281/zenodo.19584531
 from __future__ import annotations
 
 __version__ = "1.1.0"
-__framework_version__ = "v38.1"
+__framework_version__ = "v22.11 (historical calculation snapshot)"
+__assessment_version__ = "v38.1"
 __fingerprint__ = "(5, 7, 74)"   # The braid triad; unique to this framework
 
 __provenance__ = {
@@ -879,6 +880,7 @@ def full_report() -> Dict[str, Any]:
     return {
         "kernel_version":      __version__,
         "framework_version":   __framework_version__,
+        "assessment_version":  __assessment_version__,
         "fingerprint":         __fingerprint__,
         "constants": {
             "N1": N1, "N2": N2, "K_CS": K_CS, "N_W": N_W, "N_C": N_C,

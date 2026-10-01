@@ -26,8 +26,8 @@ standalone implementation behaves as tested.
 | `monorepo_map.json` | Machine-readable file inventory for the **whole tracked repository** |
 | `build_maps.py` | Rebuild and staleness-check both maps using Git and the Python standard library |
 
-The monorepo map includes every tracked file (and new, non-ignored files at
-generation time). Each file has a repo-relative path, top-level folder and
+The monorepo map includes every tracked entry, including symlinks (and new,
+non-ignored entries at generation time). Each entry has a repo-relative path, top-level folder, kind and
 navigation lane. It groups **all** `12-AZ-IP/` products (01–25), shared IP
 assets and every file in the PsiCat Literature `Books/` and `Articles/`
 directories. These are navigational inventories, not attestations of product
