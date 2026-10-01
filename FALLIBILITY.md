@@ -547,6 +547,30 @@ stress in T_μν, and the metric variation of the αRφ² coupling. The
 Euler-Lagrange match deliverable therefore stays unearned. Closing it requires
 replacing the flow, not reinterpreting it.
 
+### Action-to-evolution: flow replaced by action-derived relaxation  *(Tier: STRUCTURAL — OPEN, pending steward promotion)*
+
+The phenomenological flow is no longer the default. `src/core/evolution.py`
+now relaxes the Euler-Lagrange equations of the circle-reduced 5D
+Einstein-Hilbert action (`src/core/action_derived_flow.py`); the legacy flow
+remains selectable as `flow_law="phenomenological_legacy"`. What is
+established: an exact SymPy reduction identity on g_E = diag(−a, b, 1, 1) with
+one gauge component; sample-point agreement on two wider metric forms (one
+with off-diagonal g_E components); and second-order residual convergence of
+the implemented Euler-Lagrange expressions in all three sectors. All of this
+is executable Python validation, not a Lean proof.
+
+What is not established, and why the question stays OPEN:
+
+- the t-relaxation law is declared, not obtained by varying the action;
+- the result covers only the 1-D periodic zero-mode sector, and the KK tower is
+  not evolved;
+- the exact identity is proved only on the restricted diagonal metric form;
+- it is a circle reduction, so the Z₂-orbifold photon obstruction is
+  unaffected.
+
+Results produced with the legacy flow, including its free α, are not supported
+by the new derivation and should be read as phenomenological.
+
 ---
 
 ## IV. Known Failure Modes and Regimes of Uncertainty

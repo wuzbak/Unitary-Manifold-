@@ -246,11 +246,18 @@ def action_derived_flow_surface() -> Dict[str, Any]:
 # Symbolic verification (SymPy)
 # ---------------------------------------------------------------------------
 
-def _symbolic_setup(full: bool):
+def _symbolic_setup(full: bool, offdiagonal: bool = False):
     import sympy as sp
 
     x = sp.symbols('x')
     lam = sp.symbols('lambda', positive=True)
+    if offdiagonal:
+        a, b, p = [sp.Function(n, positive=True)(x) for n in ['a', 'b', 'p']]
+        e, f, B0, B2 = [sp.Function(n, real=True)(x) for n in ['e', 'f', 'B0', 'B2']]
+        coords = [sp.Symbol('t'), x, sp.Symbol('z'), sp.Symbol('w'), sp.Symbol('y')]
+        gE = sp.Matrix([[-a, 0, e, 0], [0, b, 0, 0], [e, 0, 1, f], [0, 0, f, 1]])
+        Bv = sp.Matrix([B0, 0, B2, 0])
+        return sp, x, lam, (a, b, e, f, p, B0, B2), [a, b, e, f, p, B0, B2], coords, gE, Bv
     if full:
         a, b, c, d, p = [sp.Function(n, positive=True)(x) for n in ['a', 'b', 'c', 'd', 'p']]
         B0, B2 = [sp.Function(n, real=True)(x) for n in ['B0', 'B2']]
@@ -301,7 +308,13 @@ def _sym_reduced_lagrangian(sp, x, lam, gE, Bv, p, coords):
     )
 
 
-def _test_profiles(sp, x, syms):
+def _test_profiles(sp, x, syms, offdiagonal: bool = False):
+    if offdiagonal:
+        a, b, e, f, p, B0, B2 = syms
+        return {
+            a: 1 + sp.sin(x) / 5, b: sp.exp(sp.cos(x) / 7), e: sp.sin(2 * x) / 6, f: sp.cos(x) / 8,
+            p: 1 + sp.sin(3 * x) / 6, B0: sp.sin(x) / 3, B2: sp.cos(2 * x) / 5,
+        }
     a, b, c, d, p, B0, B2 = syms
     prof = {
         a: 1 + sp.sin(x) / 5, b: sp.exp(sp.cos(x) / 7), c: 1 + x ** 2 / 9,
@@ -311,7 +324,7 @@ def _test_profiles(sp, x, syms):
 
 
 @lru_cache(maxsize=4)
-def symbolic_kk_reduction_check(full: bool = False, exact: bool = False) -> Dict[str, Any]:
+def symbolic_kk_reduction_check(full: bool = False, exact: bool = False, offdiagonal: bool = False) -> Dict[str, Any]:
     """Verify √(−G)R⁽⁵⁾ − √(−g_E)[R_E − (3/2)(∂ψ)² − ¼λ²φ³F²] is a total derivative.
 
     Uses the Euler operator: a Lagrangian difference is a total derivative iff
@@ -319,12 +332,15 @@ def symbolic_kk_reduction_check(full: bool = False, exact: bool = False) -> Dict
     evaluated (30 significant digits) on smooth test profiles at sample points.
     ``full=True`` uses g_E = diag(−a,b,c,d), B = (B0,0,B2,0) (≈30 s);
     the default reduced ansatz uses g_E = diag(−a,b,1,1), B = (0,0,B2,0).
+    ``offdiagonal=True`` uses a non-diagonal Einstein-frame metric with
+    g_E,02 = e(x) and g_E,23 = f(x) (plus a, b) and B = (B0,0,B2,0); it is
+    evaluated at sample points only (≈3–4 min).
     ``exact=True`` additionally simplifies every Euler expression symbolically
     and reports whether each is identically zero (≈15 s on the reduced ansatz).
     """
     from sympy.calculus.euler import euler_equations
 
-    sp, x, lam, syms, fields, coords, gE, Bv = _symbolic_setup(full)
+    sp, x, lam, syms, fields, coords, gE, Bv = _symbolic_setup(full, offdiagonal)
     p = syms[4]
     g_jordan = gE / p
     G = sp.zeros(5, 5)
@@ -335,7 +351,7 @@ def symbolic_kk_reduction_check(full: bool = False, exact: bool = False) -> Dict
     L5 = sp.sqrt(-G.det()) * _sym_ricci_scalar(sp, G, coords)
     L4 = _sym_reduced_lagrangian(sp, x, lam, gE, Bv, p, coords)
     eqs = euler_equations(L5 - L4, fields, x)
-    prof = _test_profiles(sp, x, syms)
+    prof = _test_profiles(sp, x, syms, offdiagonal)
     max_abs = 0.0
     for eq in eqs:
         expr = eq.lhs.subs(prof).doit()
@@ -346,7 +362,11 @@ def symbolic_kk_reduction_check(full: bool = False, exact: bool = False) -> Dict
     if exact:
         exact_zero = all(sp.simplify(eq.lhs) == 0 for eq in eqs)
     return {
-        'ansatz': 'full_diagonal_two_component' if full else 'reduced_diagonal_one_component',
+        'ansatz': (
+            'offdiagonal_two_component' if offdiagonal
+            else 'full_diagonal_two_component' if full
+            else 'reduced_diagonal_one_component'
+        ),
         'fields_varied': [str(f.func) for f in fields],
         'max_abs_euler_operator_of_difference': max_abs,
         'reduction_verified': bool(max_abs < 1e-10),

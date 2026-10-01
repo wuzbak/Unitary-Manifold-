@@ -138,7 +138,36 @@ Sprint CW adds one adjacent empirical connectome lane rather than reopening the 
 
 This is real data-bearing work, but its epistemic class is intentionally narrow. The pillar does not claim that a fly connectome proves Unitary Manifold physics, that consciousness ontology has been solved, or that connectome structure alone yields a first-principles derivation of cognition. What it does claim is stricter and testable: the repository now has a public whole-CNS benchmark slice that can pressure-test its neuroscience language against real wiring summaries. In the committed panel, `LPLC2` carries the largest imported input/output mass, `LC4` is the most reciprocal imported type, `EPG` has the highest downstream neurotransmitter entropy, and `AN01B004` plus `DNa02` form the clearest brain↔VNC bridge pair.
 
-### Lane 1 executable gradient-flow audit (post-Sprint CW, no status change)
+### Lane 1 action-derived flow replacement (post-Sprint CW, pending steward promotion)
+
+The phenomenological flow is no longer the default evolution law. Following the audit below, the flow was replaced rather than reinterpreted. `src/core/action_derived_flow.py` starts from the 5D Einstein-Hilbert action S₅ = ∫√(−G)R⁽⁵⁾ on the corrected ansatz (G_μ5 = λφ²B_μ, G_55 = φ²). It reduces on the circle to the Einstein frame g_E = φg, ψ = ln φ, which gives √(−g_E)[R_E − (3/2)(∂ψ)² − ¼λ²φ³F²]. It then varies that reduced action. `src/core/evolution.py` now defaults to `flow_law="action_derived"`, a relaxation whose fixed points are exactly the discretised Euler-Lagrange solutions. The old flow remains selectable as `"phenomenological_legacy"` for reproducibility. Pillar 988 and the tests of legacy-only features (KK-tower source, volume projection, heat-equation Richardson test) are pinned to it.
+
+The derived equations differ from the old ones in substance:
+
+- the curvature is the 4D Einstein-frame Ricci tensor, not the legacy g^μν R^(5)_μν contraction;
+- there is no free nonminimal coupling α;
+- the gauge coupling is weighted by φ³;
+- the radion kinetic normalisation is fixed at 3/2;
+- every contraction is Lorentzian;
+- the scalar stress enters the metric equation.
+
+The evidence is recorded in `src/core/action_to_evolution_derived_flow_certificate.py`:
+
+- **Exact identity on a restricted metric:** SymPy simplifies the Euler operator of the difference between the 5D and reduced Lagrangians to zero on g_E = diag(−a, b, 1, 1), B = (0, 0, B₂, 0).
+- **Wider metrics, sample points only:** on the diagonal two-component form, and on a non-diagonal g_E with g_E,02 and g_E,23 components, the same difference vanishes at 30-digit sample points (≈5·10⁻¹⁵). These two checks are slow tests and are not exact-identity certificates.
+- **Residual certificates:** the implemented Euler-Lagrange expressions converge to SymPy's δS/δ(field) at second order for the metric, gauge and scalar sectors.
+- **Ricci cross-check:** the finite-difference Ricci tensor converges at second order to an exact-derivative reference on a non-diagonal metric.
+
+The retirement units for the action functional, variation rules and residual comparison now read CLOSED_NOW. Their proof class is executable Python validation; no Lean proof of them exists yet. The Euler-Lagrange deliverable reads `DERIVED_PENDING_STEWARD_PROMOTION` and is not earned. Four limits keep it there:
+
+- the parameter t is a declared relaxation parameter, not coordinate time, so the action fixes the field equations but not the t-dynamics;
+- the perimeter is the 1-D periodic zero-mode sector, and the KK tower is not evolved;
+- this is a circle reduction, not the Z₂ orbifold, so the photon obstruction is untouched;
+- promoting the deliverable would change the framework-level OPEN status, which requires a new pillar and a canonical status sync.
+
+The `action_to_evolution` question therefore remains OPEN.
+
+### Lane 1 executable gradient-flow audit (legacy flow; motivated the replacement above)
 
 The action-to-evolution question now has an executable test in place of template alignment: `src/core/action_to_evolution_gradient_flow_audit.py`. The implemented flow is first order in a parameter t that is explicitly not coordinate time, so it cannot be the second-order Euler-Lagrange system of a Lorentzian action in x⁰. The variational class it could belong to is a gradient flow, ∂_t X = −G⁻¹ δE/δX. For a constant field-space metric G, a necessary condition is that G·J is symmetric, where J is the Jacobian of the discrete right-hand side.
 

@@ -41,6 +41,8 @@ VERIFIED_PERIMETER: List[str] = [
     'y-independent Kaluza-Klein zero modes (consistent U(1) truncation); KK tower not evolved',
     'fields depend on one coordinate x (index 1) on a periodic grid x ∈ S¹; x⁰ gauge-fixed',
     'exact symbolic reduction identity checked on g_E = diag(−a, b, 1, 1), B = (0, 0, B₂, 0); '
+    'the reduction is also checked at sample points (30-digit evaluation, slow test) on a non-diagonal '
+    'g_E with g_E,02 and g_E,23 components and B = (B₀, 0, B₂, 0); '
     'the general-index Ricci implementation is cross-checked numerically on a non-diagonal metric',
     'circle reduction, not the Z₂ orbifold: the photon/orbifold obstruction is untouched',
     't is a declared relaxation parameter; its dynamics are not obtained by varying the action',

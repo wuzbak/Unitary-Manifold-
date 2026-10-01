@@ -14,11 +14,11 @@ Start with:
 - `src/core/evolution.py`
 - `src/core/pillar1082_foundation_first_photon_action_audit.py`
 
-Key honesty boundary:
+Key honesty boundary (updated after the action-derived replacement):
 
-- the current evolution engine is a phenomenological flow,
-- the flow parameter is not yet identified with coordinate time by a verified derivation,
-- the implemented equations are not yet shown to be the Euler-Lagrange equations of a checked action.
+- the default evolution engine now relaxes the Euler-Lagrange equations of the circle-reduced 5D Einstein-Hilbert action (`src/core/action_derived_flow.py`); the earlier phenomenological flow is retained only as `flow_law="phenomenological_legacy"`,
+- the flow parameter is not coordinate time, and the t-relaxation law is declared, not derived,
+- the derivation is verified only within a 1-D periodic zero-mode perimeter. The reduction identity is exact only on a restricted diagonal metric form, and the evidence class is executable Python validation (`src/core/action_to_evolution_derived_flow_certificate.py`), not Lean.
 
 ## Lean surface
 

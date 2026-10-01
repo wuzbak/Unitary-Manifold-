@@ -119,6 +119,12 @@ class TestVerification:
         res = symbolic_kk_reduction_check(full=True)
         assert res["reduction_verified"]
 
+    @pytest.mark.slow
+    def test_symbolic_reduction_offdiagonal_ansatz(self):
+        res = symbolic_kk_reduction_check(offdiagonal=True)
+        assert res["ansatz"] == "offdiagonal_two_component"
+        assert res["reduction_verified"]
+
 
 class TestDynamics:
     def test_flat_noise_relaxes_and_stays_finite(self):
