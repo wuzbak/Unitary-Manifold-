@@ -1,0 +1,44 @@
+board elapsed 78.03740840100022
+         105018759 function calls (102000391 primitive calls) in 77.924 seconds
+
+   Ordered by: cumulative time
+   List reduced from 5239 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.001    0.001   78.036   78.036 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py:4704(get_merlin_execution_board)
+       33    0.000    0.000   74.691    2.263 /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/asyncio/runners.py:160(run)
+       99    0.001    0.000   74.679    0.754 /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/asyncio/base_events.py:655(run_until_complete)
+       99    0.001    0.000   74.677    0.754 /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/asyncio/base_events.py:631(run_forever)
+       33    0.001    0.000   74.676    2.263 /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/asyncio/runners.py:86(run)
+      198    0.001    0.000   74.675    0.377 /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/asyncio/base_events.py:1922(_run_once)
+      198    0.000    0.000   74.673    0.377 /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/asyncio/events.py:86(_run)
+      198    0.001    0.000   74.673    0.377 {method 'run' of '_contextvars.Context' objects}
+       33    0.016    0.000   74.671    2.263 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_benchmark.py:1546(run_stage_head_to_head_receipts)
+      130    0.010    0.000   74.636    0.574 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_benchmark.py:1476(_run_benchmark_once)
+      292    0.038    0.000   74.569    0.255 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_engine.py:646(query_merlin)
+        3    0.000    0.000   60.450   20.150 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_benchmark.py:2238(build_merlin_control_tower)
+        3    0.000    0.000   57.315   19.105 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_benchmark.py:1891(build_multi_stage_replacement_readiness)
+      572    0.043    0.000   56.723    0.099 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_rag.py:118(build_context_scaffold)
+      573    0.723    0.001   50.549    0.088 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_repo_graph.py:343(route_context_via_repo_graph)
+      574    0.077    0.000   49.909    0.087 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_repo_graph.py:326(_build_repo_graph)
+        2    0.000    0.000   47.220   23.610 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py:7757(get_frontier_readiness_packet)
+        1    0.000    0.000   44.090   44.090 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py:4437(get_merlin_sprint_review_packet)
+        8    0.000    0.000   28.395    3.549 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_benchmark.py:1608(run_stage_a_head_to_head_receipts_sync)
+        8    0.000    0.000   28.389    3.549 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_benchmark.py:1600(run_stage_a_head_to_head_receipts)
+       84    0.118    0.001   23.385    0.278 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_repo_graph.py:293(_build_repo_graph_cached)
+        1    0.000    0.000   18.485   18.485 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py:8412(run_psicat_spc_phase1_baseline)
+        5    0.000    0.000   18.013    3.603 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_benchmark.py:1636(run_stage_b_head_to_head_receipts_sync)
+       84    1.261    0.015   16.852    0.201 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_repo_graph.py:239(_edge_records)
+      286    0.006    0.000   16.826    0.059 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_rag.py:234(build_rag_context)
+        1    0.001    0.001   16.528   16.528 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py:7951(run_merlin_targeted_rigor_sprint)
+       27    0.003    0.000   14.857    0.550 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/formal_traceability_spine.py:462(formal_traceability_spine)
+       12    0.000    0.000   14.414    1.201 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_runtime.py:306(run_kernel_p_lean_proof_probe)
+       12    0.001    0.000   14.413    1.201 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_lean_bridge.py:252(run_python_to_lean_bridge_receipt)
+       12    0.000    0.000   14.393    1.199 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_lean_bridge.py:125(_resolve_formal_unit)
+       12    0.000    0.000   14.392    1.199 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_lean_bridge.py:108(_formal_bridge_snapshot)
+   490912    0.323    0.000   14.190    0.000 {method 'update' of 'set' objects}
+        1    0.000    0.000   14.020   14.020 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py:8695(get_psicat_spc_phase3_live_readiness)
+      108    0.001    0.000   14.011    0.130 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/formal_traceability_spine.py:371(_enrich_traceability_row)
+       30    0.001    0.000   13.981    0.466 /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/src/core/action_to_evolution_retirement_units.py:19(build_action_to_evolution_retirement_units)
+
+
