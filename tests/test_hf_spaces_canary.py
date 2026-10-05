@@ -9,6 +9,8 @@ import socket
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 
+import yaml
+
 
 _MODULE_PATH = (
     Path(__file__).resolve().parents[1]
@@ -19,6 +21,18 @@ _SPEC = importlib.util.spec_from_file_location("check_hf_spaces_canary", _MODULE
 assert _SPEC and _SPEC.loader
 canary = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(canary)
+
+
+def test_space_deployment_is_mainline_or_explicit_manual_with_read_only_github_token():
+    workflow = yaml.safe_load(
+        (_MODULE_PATH.parents[1] / ".github/workflows/deploy-hf-spaces.yml").read_text()
+    )
+    events = workflow.get("on", workflow.get(True))
+    assert events["push"]["branches"] == ["main"]
+    assert events["push"]["paths"] == ["hf-spaces/**"]
+    assert "workflow_dispatch" in events
+    assert workflow["permissions"] == {"contents": "read"}
+    assert workflow["jobs"]["deploy"]["timeout-minutes"] == 30
 
 
 def test_401_soft_pass_without_token(monkeypatch) -> None:

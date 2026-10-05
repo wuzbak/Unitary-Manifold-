@@ -463,6 +463,94 @@ is still unavailable**. Changed-file secret scanning found no secrets.
 
 ## Foundation reassessment
 
+### CI continuation baseline (2026-10-05)
+
+The latest visible mainline CI and Tests runs remain failed at source
+`eba8f62b120b176b63bc84d91aca0df1917e6800` (runs `37250685069` and
+`37250685036`). Their logs identify JAX/NumPy parity, Richardson direction,
+PsiCat retained-state reuse and endpoint timeouts. Coverage was cancelled after
+approximately 180 minutes and a fast shard after approximately 90 minutes;
+these are incomplete executions, not passing checks. Current-branch JAX checks
+passed **83 tests** after enabling its existing dependency. Richardson passed
+**11 tests**, including unchanged convergence and coarse-grid assertions,
+under the current numerical implementation. No tolerance was loosened.
+
+An unchanged `needs_review` training receipt previously caused five rejected
+editorial inputs to be reprocessed on every export. Retaining those receipts
+must preserve their review counters and promotion blockers, while actual source
+changes still trigger retraining. This is evidence reuse, not promotion.
+The initial combined Product 20/JAX check reproduced two PsiCat failures:
+**160 passed, one skipped, two failed**, with JAX unavailable at collection.
+Those counts are a diagnostic baseline, not a final certificate. Separate
+claims/recycling/Pentad checks passed **3,489 tests with one skip**.
+`ALGEBRA_PROOF.py` exited successfully; its conditional software/model checks
+are not empirical confirmation.
+
+The README now distinguishes **CI (main)** from **Tests (main)** and labels
+the live JSON pass count as recorded metadata, not a green execution result.
+Both workflow badges explicitly target main. PR CI is a platform/collection
+gate, whereas the mainline full-core supervisor requires every matching frozen
+dependency-family receipt and final serial integration. Tests additionally
+requires slow, claims, recycling, Pentad, algebra, ledger and coverage jobs.
+The coverage threshold remains **85%**; bounded two-worker file scheduling,
+serial integration and failure artifacts address execution reliability without
+reducing its scope or threshold.
+
+GitHub's branch-filtered PR list and PR search returned no visible PR for
+`copilot/discuss-risk-mitigation`; no CI/Tests execution on its current head was
+found. Agent workflow success must not be interpreted as regression success.
+Repository workflow dependencies do not establish branch-protection/ruleset
+requirements: those settings remain unverified. Main badges cannot become
+green merely through an unmerged branch's local checks. Applicable hosted runs
+and external deployment credentials require separate verification.
+
+Workflow inventory (file basenames under `.github/workflows/`; trigger presence
+does not mean every branch/path/job executes):
+
+| Trigger class | Workflows |
+| --- | --- |
+| PR and push | `bazel-pilot`, `ci`, `copilot-setup-steps`, `kernel-ci`, `lean4-check`, `psicat-performance-gate`, `status-drift-gate`, `tests`, `um-sos-registry-check` |
+| PR/push plus scheduled/manual | `codeql-language-matrix`, `merlin-benchmark-gate` |
+| PR only | `dco`, `staleness-honesty-gate` |
+| PR plus manual | `external-constants-crosscheck`, `mutation-hard-gate` |
+| PR/review/comment orchestration | `copilot-review-orchestrator` |
+| Scheduled plus manual | `copilot-review-health`, `falsifier-monitor`, `hf-spaces-canary`, `sprint-trigger` |
+| Push plus manual | `deploy-hf-spaces`, `pages`, `release`, `um-sos-pages` |
+| Manual only | `build-download`, `desi-dr3-routing` |
+| Push only | `jupyterbook` |
+| Release only | `ipfs-publish` |
+
+The 28 workflows include deployment, publishing and observation lanes that
+must not be treated as universally required PR regression checks. CI/Tests
+jobs use read-only contents permissions; publishing/attestation/issue-creation
+lanes have distinct write needs. External service health and credentialed
+publishing cannot be certified by local Python tests.
+
+HF Spaces automatic deployment is now restricted to mainline changes under
+`hf-spaces/`, with read-only GitHub contents permission and a 30-minute job
+budget. Explicit manual dispatch remains available. This prevents an ordinary
+feature-branch push from automatically publishing its application changes.
+The deployment/canary contract suite passed **12 tests**; no credentialed
+deployment was attempted.
+
+Endpoint profiling found redundant control-tower construction and repeated
+repository discovery/graph rebuilding, rather than physics solver work, in the
+review packet hot path. The review packet now reuses the fresh tower already
+constructed by that same request's frontier packet, without caching sessions
+or results between requests. Graph discovery walks each eligible subtree once
+per call, retaining fresh file discovery; its existing source-signature-keyed
+metadata cache is bounded at 32 entries instead of four. Source additions,
+removals and edits must still invalidate graph evidence. Client timeout
+expectations and governance gate assertions remain unchanged.
+
+The Product 20 repair agent reported **61 focused tests passing** and a
+separate cold endpoint test passing with its unchanged 30-second request
+timeout. Workflow contracts and frozen-plan/timeout checks were validated by
+the CI implementation agent; the final marker contract pass covered
+**21 tests**. Independent review of the workflow, training, endpoint, graph
+and deployment changes found no significant issues. These focused results
+do not substitute for the pending matching full-core/coverage execution.
+
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a
 physics-closure claim.** This section supersedes the claims of derived
 contraction, photon recovery, and formal closure in the historical sprint

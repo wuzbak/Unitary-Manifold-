@@ -36,7 +36,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   test-fast-batched:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 105
     permissions:
       contents: read
     strategy:
@@ -262,19 +262,49 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt pytest pytest-cov
+          pip install -r requirements.txt pytest pytest-cov pytest-xdist
       - name: Run coverage regression gate
         run: |
-          python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" \
-            -q --tb=short \
+          set -o pipefail
+          timeout --verbose --signal=TERM --kill-after=60s 160m \
+            python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" \
+            -n 2 --dist loadfile -q --tb=short --junitxml=coverage-tests.xml \
             --cov=src --cov-report=xml:coverage.xml --cov-report=term-missing \
-            --cov-fail-under=85
+            --cov-fail-under=85 2>&1 | tee coverage.log
+      - name: Run serial coverage integration
+        run: |
+          set -o pipefail
+          timeout --verbose --signal=TERM --kill-after=60s 10m \
+            python3 -m pytest \
+            tests/test_metric.py tests/test_action_derived_flow.py tests/test_evolution.py \
+            tests/test_dark_matter_geometry.py tests/test_boundary.py tests/test_fixed_point.py \
+            -m '' -q --tb=short --junitxml=coverage-integration.xml \
+            --cov=src --cov-append --cov-report=xml:coverage.xml --cov-report=term-missing \
+            --cov-fail-under=85 2>&1 | tee coverage-integration.log
+      - name: Retain partial coverage evidence after failure
+        if: always()
+        run: |
+          if compgen -G '.coverage.*' > /dev/null; then
+            python -m coverage combine --keep
+          fi
+          if [ -f .coverage ]; then
+            python -m coverage xml -o coverage.xml --fail-under=85
+          fi
       - name: Upload coverage report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-xml
-          path: coverage.xml
+          path: |
+            coverage.xml
+            .coverage*
+            coverage-tests.xml
+            coverage.log
+            coverage-integration.xml
+            coverage-integration.log
+          include-hidden-files: true
           if-no-files-found: warn
+          retention-days: 14
 
   full-regression-gate:
     name: Full regression gate (all shards)

@@ -1534,9 +1534,9 @@ def build_merlin_training_execution_bundle(
     queue_state = build_merlin_training_execution_queue(session=session, limit=None)
     if (
         any(str(item.get("status") or "") == "completed" for item in session.training_execution_receipts)
-        and int(queue_state.get("queued_count", 0) or 0) == 0
+        # Unchanged review receipts remain blockers, not new source work.
+        and int(queue_state.get("queued_count", 0) or 0) == int(queue_state.get("needs_review_count", 0) or 0)
         and int(queue_state.get("stale_retrain_count", 0) or 0) == 0
-        and int(queue_state.get("needs_review_count", 0) or 0) == 0
     ):
         cycle = {
             "ok": True,

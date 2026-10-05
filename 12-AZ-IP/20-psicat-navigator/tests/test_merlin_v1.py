@@ -349,6 +349,40 @@ def test_merlin_sprint_review_packet_fails_closed_when_summary_malformed(monkeyp
     assert all(item['promotion_gate_pass'] is False for item in packet['stage_reviews'])
 
 
+def test_review_packet_reuses_current_frontier_tower_without_caching_requests(monkeypatch):
+    for stage in 'abcde':
+        monkeypatch.setattr(
+            merlin_benchmark,
+            f'run_stage_{stage}_head_to_head_receipts_sync',
+            lambda *, limit: {'summary': {}, 'runs': []},
+        )
+    monkeypatch.setattr(merlin_benchmark, 'get_multi_stage_benchmark_plan', lambda: {'stages': []})
+
+    def redundant_tower(*, limit):
+        raise AssertionError('frontier already supplies this request\'s control tower')
+
+    monkeypatch.setattr(merlin_benchmark, 'build_merlin_control_tower', redundant_tower)
+    frontiers = []
+
+    def current_frontier(*, limit):
+        revision = len(frontiers) + 1
+        frontier = {
+            'control_tower': {'revision': revision, 'deployment_eligibility': {'revision': revision}},
+            'promotion_blockers': [{'id': 'current_gate', 'pass': revision == 2}],
+        }
+        frontiers.append(frontier)
+        return frontier
+
+    monkeypatch.setattr(merlin_program, 'get_frontier_readiness_packet', current_frontier)
+    first = merlin_program.get_merlin_sprint_review_packet(limit=1)
+    second = merlin_program.get_merlin_sprint_review_packet(limit=1)
+    assert first['control_tower']['revision'] == 1
+    assert second['control_tower']['revision'] == 2
+    assert first['control_tower']['deployment_eligibility']['frontier_blockers_clear'] is False
+    assert second['control_tower']['deployment_eligibility']['frontier_blockers_clear'] is True
+    assert frontiers[0]['control_tower']['deployment_eligibility'] == {'revision': 1}
+
+
 def test_export_stage_a_artifacts_script(tmp_path, monkeypatch):
     script_path = PRODUCT_ROOT / 'tools' / 'export_merlin_stage_a_artifacts.py'
     spec = importlib.util.spec_from_file_location('export_merlin_stage_a_artifacts', script_path)

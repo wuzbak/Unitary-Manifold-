@@ -29,8 +29,9 @@ physical-time evolution and dark-matter identification remain open.
 
 ---
 
-[![Tests](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml)
-[![Tests passed (live)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fwuzbak%2FUnitary-Manifold-%2Fmain%2F9-INFRASTRUCTURE%2Fum_live_status.json&query=%24.tests.passed&label=tests%20passed&color=brightgreen)](9-INFRASTRUCTURE/um_live_status.json)
+[![CI (main)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/ci.yml?query=branch%3Amain)
+[![Tests (main)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/wuzbak/Unitary-Manifold-/actions/workflows/tests.yml?query=branch%3Amain)
+[![Recorded passes (main metadata)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fwuzbak%2FUnitary-Manifold-%2Fmain%2F9-INFRASTRUCTURE%2Fum_live_status.json&query=%24.tests.passed&label=recorded%20passes&color=blue)](9-INFRASTRUCTURE/um_live_status.json)
 [![Pillars (live)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fwuzbak%2FUnitary-Manifold-%2Fmain%2F9-INFRASTRUCTURE%2Fum_live_status.json&query=%24.pillars.total_slots&suffix=%2B%20%2B%20%CE%A9%E2%82%80&label=pillars&color=gold)](STATUS.md)
 [![Version (live)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fwuzbak%2FUnitary-Manifold-%2Fmain%2F9-INFRASTRUCTURE%2Fum_live_status.json&query=%24.meta.version&prefix=v&label=version&color=blue)](docs/mas_tracker.yml)
 [![Toolchain%20%26%20AI%20Provenance](https://img.shields.io/badge/Toolchain%20%26%20AI-Provenance-6f42c1)](9-INFRASTRUCTURE/provenance/README.md)

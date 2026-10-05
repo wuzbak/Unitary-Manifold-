@@ -110,6 +110,30 @@ def test_repo_graph_discovers_added_files_and_drops_removed_paths(graph_root, mo
     assert graph["summary"]["total_discovered"] == 1
 
 
+def test_discovery_preserves_source_suffixes_and_visits_each_subtree_once(graph_root, monkeypatch) -> None:
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
+    included = {
+        "src/core/example.py", "src/core/example.md", "tests/test_example.py",
+        "proof/example.py", "proof/example.md", "docs/example.md", "1-THEORY/example.md",
+        "12-AZ-IP/20-psicat-navigator/example.py", "12-AZ-IP/20-psicat-navigator/example.md",
+    }
+    excluded = {"src/core/example.json", "tests/example.md", "docs/example.py"}
+    for relative in included | excluded:
+        _write_graph_fixture(graph_root, relative)
+    original_scandir = merlin_repo_graph.os.scandir
+    visits = []
+
+    def counted_scandir(path):
+        visits.append(path)
+        return original_scandir(path)
+
+    monkeypatch.setattr(merlin_repo_graph.os, "scandir", counted_scandir)
+    discovered = merlin_repo_graph._discover_files()
+    assert {path.relative_to(graph_root).as_posix() for path in discovered} == included
+    assert len(visits) == len(set(visits))
+    assert len(visits) >= 6
+
+
 def test_selection_reuses_path_tokens_without_caching_discovery(graph_root, monkeypatch) -> None:
     monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
     merlin_repo_graph._file_layout_cached.cache_clear()
@@ -133,16 +157,42 @@ def test_selection_reuses_path_tokens_without_caching_discovery(graph_root, monk
     assert len(merlin_repo_graph._candidate_files(10)) == 2
 
 
+def test_graph_metadata_cache_reuses_benchmark_query_cycle_and_invalidates_sources(graph_root, monkeypatch) -> None:
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
+    merlin_repo_graph._build_repo_graph_cached.cache_clear()
+    for index in range(8):
+        _write_graph_fixture(graph_root, f"src/core/topic{index}.py")
+    original_edges = merlin_repo_graph._edge_records
+    calls = []
+
+    def counted_edges(records):
+        calls.append(records)
+        return original_edges(records)
+
+    monkeypatch.setattr(merlin_repo_graph, "_edge_records", counted_edges)
+    first = [merlin_repo_graph._build_repo_graph(1, f"topic{index}") for index in range(8)]
+    second = [merlin_repo_graph._build_repo_graph(1, f"topic{index}") for index in range(8)]
+    assert second == first
+    assert len(calls) == 8
+    _write_graph_fixture(graph_root, "src/core/topic0.py", "def updated_source(): pass\n")
+    updated = merlin_repo_graph._build_repo_graph(1, "topic0")
+    assert updated["nodes"][0]["symbols"] == ["updated_source"]
+    assert len(calls) == 9
+    assert merlin_repo_graph._build_repo_graph_cached.cache_info().maxsize == 32
+
+
 def test_discovery_reuses_priority_metadata_and_keys_it_by_root(graph_root, monkeypatch) -> None:
     monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
     merlin_repo_graph._priority_key_cached.cache_clear()
+    merlin_repo_graph._discovery_layout_cached.cache_clear()
     _write_graph_fixture(graph_root, "src/core/alpha.py")
     first = merlin_repo_graph._discover_files()
     assert merlin_repo_graph._discover_files() == first
+    assert merlin_repo_graph._discovery_layout_cached.cache_info().hits == 1
+    assert merlin_repo_graph._priority_key(first[0]) == (0, "src/core/alpha.py")
     cache = merlin_repo_graph._priority_key_cached.cache_info()
     assert cache.misses == 1
     assert cache.hits == 1
-    assert merlin_repo_graph._priority_key(first[0]) == (0, "src/core/alpha.py")
     monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root / "src")
     assert merlin_repo_graph._priority_key(first[0]) == (7, "core/alpha.py")
 

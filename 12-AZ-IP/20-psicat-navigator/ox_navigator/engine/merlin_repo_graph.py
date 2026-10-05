@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import ast
+import os
 import re
 from functools import lru_cache
 from pathlib import Path
@@ -38,24 +39,33 @@ def _priority_key_cached(path: Path, root: str) -> tuple[int, str]:
 
 
 def _discover_files() -> tuple[Path, ...]:
-    pool: List[Path] = []
-    for pattern in (
-        "src/**/*.py",
-        "src/**/*.md",
-        "tests/**/*.py",
-        "proof/**/*.py",
-        "proof/**/*.md",
-        "1-THEORY/**/*.md",
-        "docs/**/*.md",
-        "12-AZ-IP/20-psicat-navigator/**/*.py",
-        "12-AZ-IP/20-psicat-navigator/**/*.md",
+    pool: List[str] = []
+    for relative, suffixes in (
+        ("src", (".py", ".md")),
+        ("tests", (".py",)),
+        ("proof", (".py", ".md")),
+        ("1-THEORY", (".md",)),
+        ("docs", (".md",)),
+        ("12-AZ-IP/20-psicat-navigator", (".py", ".md")),
     ):
-        pool.extend(REPO_ROOT.glob(pattern))
-    unique = sorted(
-        {path.resolve() if path.is_symlink() else path for path in pool if path.is_file()},
-        key=_priority_key,
-    )
-    return tuple(unique)
+        directories = [str(REPO_ROOT / relative)]
+        while directories:
+            try:
+                with os.scandir(directories.pop()) as entries:
+                    for entry in entries:
+                        if entry.is_dir(follow_symlinks=False):
+                            directories.append(entry.path)
+                        elif entry.name.endswith(suffixes) and entry.is_file():
+                            pool.append(str(Path(entry.path).resolve()) if entry.is_symlink() else entry.path)
+            except OSError:
+                continue
+    return _discovery_layout_cached(tuple(sorted(set(pool))), str(REPO_ROOT))
+
+
+@lru_cache(maxsize=4)
+def _discovery_layout_cached(files: tuple[str, ...], root: str) -> tuple[Path, ...]:
+    # Only immutable path metadata is reused; discovery and source stats stay fresh.
+    return tuple(sorted((Path(path) for path in files), key=lambda path: _priority_key_cached(path, root)))
 
 
 @lru_cache(maxsize=4)
@@ -279,7 +289,7 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return [deduped[key] for key in sorted(deduped)]
 
 
-@lru_cache(maxsize=4)
+@lru_cache(maxsize=32)
 def _build_repo_graph_cached(
     max_files: int, state_signature: tuple[tuple[str, int, int], ...], root: str
 ) -> Dict[str, Any]:
