@@ -16,6 +16,67 @@ Covers:
 import numpy as np
 import pytest
 
+@pytest.mark.parametrize("dimension", [2, 4, 5])
+def test_broadcast_curvature_matches_ordered_scalar_reference(dimension):
+    rng = np.random.default_rng(74125 + dimension)
+    points = 7
+    metric = np.tile(np.eye(dimension), (points, 1, 1))
+    noise = rng.normal(scale=0.03, size=metric.shape)
+    metric += noise + noise.swapaxes(1, 2)
+    inverse = np.linalg.inv(metric)
+    dx = 0.17
+    for coordinate in range(dimension):
+        derivatives = np.zeros((points, dimension, dimension, dimension))
+        for mu in range(dimension):
+            for nu in range(dimension):
+                derivatives[:, coordinate, mu, nu] = np.gradient(
+                    metric[:, mu, nu], dx, edge_order=2
+                )
+        gamma = np.zeros_like(derivatives)
+        for sigma in range(dimension):
+            for mu in range(dimension):
+                for nu in range(dimension):
+                    total = np.zeros(points)
+                    for rho in range(dimension):
+                        total += inverse[:, sigma, rho] * (
+                            derivatives[:, mu, nu, rho]
+                            + derivatives[:, nu, mu, rho]
+                            - derivatives[:, rho, mu, nu]
+                        )
+                    gamma[:, sigma, mu, nu] = 0.5 * total
+        np.testing.assert_array_equal(christoffel(metric, dx, coordinate), gamma)
+
+        # Include non-symmetric connection inputs to verify axis placement.
+        random_connection = rng.normal(scale=0.1, size=gamma.shape)
+        for connection in (
+            gamma, random_connection, random_connection.astype(np.float32),
+            rng.integers(-2, 3, size=gamma.shape),
+        ):
+            gradient = np.zeros_like(connection)
+            for rho in range(dimension):
+                for mu in range(dimension):
+                    for nu in range(dimension):
+                        gradient[:, rho, mu, nu] = np.gradient(
+                            connection[:, rho, mu, nu], dx, edge_order=2
+                        )
+            expected = np.zeros((points, dimension, dimension, dimension, dimension))
+            for rho in range(dimension):
+                for sigma in range(dimension):
+                    for mu in range(dimension):
+                        for nu in range(dimension):
+                            first = gradient[:, rho, nu, sigma] if mu == coordinate else np.zeros(points)
+                            second = gradient[:, rho, mu, sigma] if nu == coordinate else np.zeros(points)
+                            quadratic = np.zeros(points)
+                            for lam in range(dimension):
+                                quadratic += (
+                                    connection[:, rho, mu, lam] * connection[:, lam, nu, sigma]
+                                    - connection[:, rho, nu, lam] * connection[:, lam, mu, sigma]
+                                )
+                            expected[:, rho, sigma, mu, nu] = first - second + quadratic
+            np.testing.assert_array_equal(
+                _riemann_from_christoffel(connection, dx, coordinate), expected
+            )
+
 import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))

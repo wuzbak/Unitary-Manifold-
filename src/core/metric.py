@@ -251,23 +251,14 @@ def christoffel(g, dx, coordinate_index=1):
     # Partial derivatives ∂_ρ g_μν  — only x-component is non-trivial on 1-D grid
     # The array's grid axis and the metric's coordinate index are distinct.
     dg = np.zeros((N, D, D, D))
-    for mu in range(D):
-        for nu in range(D):
-            dg[:, coordinate_index, mu, nu] = _grad(g[:, mu, nu], dx)
+    dg[:, coordinate_index] = _grad(g, dx)
 
     # Γ^σ_μν = ½ g^{σρ} (∂_μ g_{νρ} + ∂_ν g_{μρ} − ∂_ρ g_{μν})
     Gamma = np.zeros((N, D, D, D))
-    for sigma in range(D):
-        for mu in range(D):
-            for nu in range(D):
-                s = np.zeros(N)
-                for rho in range(D):
-                    s += g_inv[:, sigma, rho] * (
-                        dg[:, mu, nu, rho] +
-                        dg[:, nu, mu, rho] -
-                        dg[:, rho, mu, nu]
-                    )
-                Gamma[:, sigma, mu, nu] = 0.5 * s
+    for rho in range(D):
+        terms = dg[:, :, :, rho] + dg[:, :, :, rho].swapaxes(1, 2) - dg[:, rho]
+        Gamma += g_inv[:, :, rho, None, None] * terms[:, None]
+    Gamma *= 0.5
     return Gamma
 
 
@@ -284,24 +275,17 @@ def _riemann_from_christoffel(Gamma, dx, coordinate_index=1):
     _validate_coordinate_index(coordinate_index, D)
     Riem = np.zeros((N, D, D, D, D))
 
-    dGamma = np.zeros_like(Gamma)              # ∂_x Gamma only
-    for s in range(D):
-        for m in range(D):
-            for n in range(D):
-                dGamma[:, s, m, n] = _grad(Gamma[:, s, m, n], dx)
-
-    for rho in range(D):
-        for sigma in range(D):
-            for mu in range(D):
-                for nu in range(D):
-                    term1 = dGamma[:, rho, nu, sigma] if mu == coordinate_index else np.zeros(N)
-                    term2 = dGamma[:, rho, mu, sigma] if nu == coordinate_index else np.zeros(N)
-                    # Quadratic terms
-                    quad = np.zeros(N)
-                    for lam in range(D):
-                        quad += (Gamma[:, rho, mu, lam] * Gamma[:, lam, nu, sigma] -
-                                 Gamma[:, rho, nu, lam] * Gamma[:, lam, mu, sigma])
-                    Riem[:, rho, sigma, mu, nu] = term1 - term2 + quad
+    dGamma = np.zeros_like(Gamma)            # ∂_x Gamma only
+    dGamma[:] = _grad(Gamma, dx)
+    derivatives = np.zeros_like(Riem)
+    derivatives[:, :, :, coordinate_index, :] = dGamma.swapaxes(2, 3)
+    derivatives[:, :, :, :, coordinate_index] -= dGamma.swapaxes(2, 3)
+    # Retain the reference contraction order while broadcasting free indices.
+    for lam in range(D):
+        first = Gamma[:, :, :, lam][:, :, None, :, None]
+        second = Gamma[:, lam].swapaxes(1, 2)[:, None, :, None, :]
+        Riem += first * second - (first * second).swapaxes(3, 4)
+    Riem += derivatives
     return Riem
 
 

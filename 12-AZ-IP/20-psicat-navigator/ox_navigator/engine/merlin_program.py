@@ -4492,8 +4492,10 @@ def get_merlin_sprint_review_packet(limit: int | None = 2) -> dict[str, Any]:
                 "receipts": receipts,
             }
         )
-    control_tower = build_merlin_control_tower(limit=resolved_limit)
     frontier = get_frontier_readiness_packet(limit=resolved_limit)
+    control_tower = frontier.get("control_tower")
+    if not isinstance(control_tower, dict):
+        control_tower = build_merlin_control_tower(limit=resolved_limit)
     blockers = list(frontier.get("promotion_blockers") or [])
     frontier_kernel_governance = dict(frontier.get("kernel_governance_packet") or {})
     frontier_kernel_batch_plan = dict(frontier.get("kernel_batch_plan") or {})

@@ -119,7 +119,9 @@ Related reading outside this product folder:
 - `GET /api/psicat/runtime` exposes Mythos/Astra contract, optimization priorities, and max-rigor execution graph.
 - `GET /api/psicat/runtime` now also embeds the sovereign hardware architecture board so routing, proof-ops, and training topology stay in one runtime surface.
 - `GET /api/psicat/local-execution/status` exposes allowlisted local execution policy, timeout caps, and fail-closed controls.
-- `POST /api/psicat/local-execution/run` runs bounded allowlisted local commands inside repository scope and returns fail-closed execution receipts.
+- `POST /api/psicat/local-execution/run` is an operator-only capability, separate from the publicly issued query-session handshake. Interpreter commands execute trusted code with the server process's permissions: an executable allowlist, timeout, and repository-contained working directory are **not an operating-system sandbox**. Keep the server loopback-bound unless deployment authentication, TLS, and network isolation are deliberately configured.
+- Configure a strong independent `PSICAT_LOCAL_EXECUTION_TOKEN` through deployment secret storage and supply it in the `Authorization` header, using the format exercised by the local-execution endpoint tests. Unset, missing, or mismatched credentials deny execution; do not publish the token or place it in user-session receipts.
+- Query URL crawling requires `websearch` consent and public HTTP(S) destinations. Public-web requests pin validated destination addresses and revalidate redirects; explicitly configured inference-provider endpoints retain their separate policy.
 - `GET /api/psicat/benchmarks` exposes benchmark harness tracks and promotion gates.
 - `GET /api/psicat/testing-stack` exposes the shared browser-testing doctrine, the AxiomZero Class A/B/C product split, and PsiCat’s integrated browser/API/AI-evaluation lanes in one machine-readable payload.
 - `GET /api/psicat/training-architecture` exposes the full PsiCat training stack, dataset families, curriculum, and governed seed corpus manifest.

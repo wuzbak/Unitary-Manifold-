@@ -11,6 +11,7 @@ import threading
 from pathlib import Path
 
 import httpx
+import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 if str(PRODUCT_ROOT) not in sys.path:
@@ -21,6 +22,12 @@ from ox_navigator.engine.merlin_local_execution import get_local_execution_statu
 from ox_navigator.engine.merlin_memory import MerlinSession
 from ox_navigator.engine.merlin_program import get_psicat_spc_phase0_execution_packet
 from ox_navigator.engine.merlin_tools import route_tool
+
+
+@pytest.fixture
+def operator_headers(monkeypatch):
+    monkeypatch.setenv("PSICAT_LOCAL_EXECUTION_TOKEN", "test-local-operator")
+    return {"Authorization": "Bearer " + os.environ["PSICAT_LOCAL_EXECUTION_TOKEN"]}
 
 
 def test_local_execution_status_includes_fail_closed_policy():
@@ -77,7 +84,8 @@ def test_local_execution_loop_accepts_absolute_in_repo_cwd():
 
 def test_local_execution_loop_sanitizes_environment(monkeypatch):
     monkeypatch.setenv("OPENROUTER_API_KEY", "secret-value")
-    result = run_local_execution_loop(command='python -c "import os; print(os.getenv(\'OPENROUTER_API_KEY\', \'\'))"')
+    monkeypatch.setenv("PSICAT_LOCAL_EXECUTION_TOKEN", "test-local-operator")
+    result = run_local_execution_loop(command='python -c "import os; print(os.getenv(\'OPENROUTER_API_KEY\', \'\') + os.getenv(\'PSICAT_LOCAL_EXECUTION_TOKEN\', \'\'))"')
     assert result["ok"] is True
     assert result["execution"]["stdout"].strip() == ""
 
@@ -92,7 +100,7 @@ def test_local_execution_loop_timeout_fails_closed():
     assert "timeout" in result["contract"]["body"].lower()
 
 
-def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypatch):
+def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypatch, operator_headers):
     from ox_navigator.app import server as server_module
 
     original_env = os.environ.get("MERLIN_LOCAL_EXECUTION_ENABLED")
@@ -116,17 +124,20 @@ def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypat
             assert canonical_status.status_code == 200
             assert canonical_status.json()["ok"] is True
 
-            blocked = client.post("/api/merlin/local-execution/run", json={"command": "cat /etc/hosts"})
+            blocked = client.post("/api/merlin/local-execution/run", json={"command": "cat /etc/hosts"}, headers=operator_headers)
             assert blocked.status_code == 403
             assert blocked.json()["ok"] is False
 
-            good = client.post("/api/merlin/local-execution/run", json={"command": 'python -c "print(11)"'})
+            good = client.post("/api/merlin/local-execution/run", json={"command": 'python -c "print(11)"'}, headers=operator_headers)
             assert good.status_code == 200
             assert good.json()["ok"] is True
             assert good.json()["local_execution"]["execution"]["returncode"] == 0
-            good_canonical = client.post("/api/psicat/local-execution/run", json={"command": 'python -c "print(12)"'})
+            good_canonical = client.post("/api/psicat/local-execution/run", json={"command": 'python -c "print(12)"'}, headers=operator_headers)
             assert good_canonical.status_code == 200
             assert good_canonical.json()["ok"] is True
+            good_ox = client.post("/api/ox/local-execution/run/", json={"command": 'python -c "print(13)"'}, headers=operator_headers)
+            assert good_ox.status_code == 200
+            assert good_ox.json()["ok"] is True
 
             bad_phase0 = client.get("/api/merlin/spc-phase0-packet")
             assert bad_phase0.status_code == 422
@@ -139,6 +150,63 @@ def test_server_local_execution_endpoints_and_phase0_packet_validation(monkeypat
             os.environ.pop("MERLIN_LOCAL_EXECUTION_ENABLED", None)
         else:
             os.environ["MERLIN_LOCAL_EXECUTION_ENABLED"] = original_env
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
+@pytest.mark.parametrize("route", [
+    "/api/psicat/local-execution/run",
+    "/api/merlin/local-execution/run/",
+    "/api/ox/local-execution/run",
+])
+def test_http_execution_denies_public_sessions_and_wrong_or_unset_secret(monkeypatch, operator_headers, route):
+    from ox_navigator.app import server as server_module
+
+    calls = []
+    monkeypatch.setattr(server_module, "run_local_execution_loop", lambda **kwargs: calls.append(kwargs))
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        with httpx.Client(base_url=f"http://127.0.0.1:{httpd.server_address[1]}", timeout=10.0) as client:
+            # Public handshake/session material is never operator authorization.
+            public = client.get("/api/psicat/status")
+            assert public.status_code == 200
+            for headers in ({}, {"Authorization": "Bearer " + "wrong"}, {
+                "Authorization": "Bearer " + public.json().get("memory_profile_token", ""),
+            }):
+                response = client.post(route, json={"command": 'python -c "print(1)"'}, headers=headers)
+                assert response.status_code == 403
+                assert "test-local-operator" not in response.text
+            monkeypatch.delenv("PSICAT_LOCAL_EXECUTION_TOKEN")
+            response = client.post(route, json={"command": 'python -c "print(1)"'}, headers=operator_headers)
+            assert response.status_code == 403
+            assert calls == []
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=2)
+
+
+def test_generic_http_tools_cannot_invoke_local_execution(monkeypatch):
+    from ox_navigator.app import server as server_module
+
+    calls = []
+    monkeypatch.setattr(server_module, "run_local_execution_loop", lambda **kwargs: calls.append(kwargs))
+    httpd = serve(port=0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        with httpx.Client(base_url=f"http://127.0.0.1:{httpd.server_address[1]}", timeout=10.0) as client:
+            for tool in ("runLocalExecution", "run_local_execution_loop", "runPsiCatLocalExecution"):
+                invocation = {"tool": tool, "args": {"command": 'python -c "print(1)"'}}
+                response = client.post("/api/agentInvoke", json=invocation)
+                assert response.json()["ok"] is False
+                response = client.post("/api/agentOrchestrate", json={"steps": [invocation]})
+                assert response.json()["ok"] is False
+            assert calls == []
+    finally:
         httpd.shutdown()
         httpd.server_close()
         thread.join(timeout=2)

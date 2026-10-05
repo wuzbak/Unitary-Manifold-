@@ -1,0 +1,66 @@
+{
+  "batch_count": 33,
+  "batch_index": 32,
+  "command": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "-m",
+    "pytest",
+    "-m",
+    "",
+    "tests/test_metric.py",
+    "tests/test_action_derived_flow.py",
+    "tests/test_evolution.py",
+    "tests/test_dark_matter_geometry.py",
+    "tests/test_boundary.py",
+    "tests/test_fixed_point.py",
+    "-q",
+    "--junitxml=/tmp/axiom-74e125-verification/results/full-core-32.xml"
+  ],
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 311
+  },
+  "elapsed_seconds": 301.0855637469999,
+  "environment_fingerprint": {
+    "distributions_digest": "a8783e20eea8d25b5a45f8478296572aebdcd1618f80b638f2ae4645a4e8b5d8",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "execution_digest": "68de7032f8795846a896167ab1049ba2bfe57714df46747a54562473a4b91ab0",
+  "execution_settings": {
+    "environment": {
+      "MERLIN_TRAINING_RUNTIME_DIR": null,
+      "MKL_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null,
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTEST_DISABLE_PLUGIN_AUTOLOAD": null,
+      "PYTEST_PLUGINS": null,
+      "PYTHONHASHSEED": null,
+      "PYTHONOPTIMIZE": null,
+      "PYTHONPATH": null
+    },
+    "python": "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python"
+  },
+  "exit_code": 0,
+  "frozen_environment": {
+    "distributions_digest": "a8783e20eea8d25b5a45f8478296572aebdcd1618f80b638f2ae4645a4e8b5d8",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "junit_sha256": "7cccc7fa773b07ec86d9d582ca2055bc84f48212cea5d6209e372dcbc4bc937f",
+  "plan_digest": "3fa630b6dd31cdc8e161301f0a7cad5396230d770e55a427c74102d2d9f7106d",
+  "snapshot": {
+    "head": "74e12559c4a191cda7423eeec1984a2b62db113c",
+    "worktree_digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "success",
+  "suite": "full-core",
+  "workers": 0
+}

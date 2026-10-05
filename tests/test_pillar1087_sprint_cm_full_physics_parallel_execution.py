@@ -1,7 +1,13 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
+from concurrent.futures import ThreadPoolExecutor
+from threading import Barrier
+
+import pytest
+
 import src.core.pillar1087_sprint_cm_full_physics_parallel_execution as p1087
+from src.core.pillar_validation_scope import scoped_pillar_validity
 
 from src.core.pillar1087_sprint_cm_full_physics_parallel_execution import (
     NEXT_PILLAR_SLOT,
@@ -349,3 +355,102 @@ def test_summary_contract() -> None:
         "SPRINT_CM_FULL_PHYSICS_PARALLEL_EXECUTION_BLOCKED",
     }
     assert isinstance(summary["valid"], bool)
+
+
+class _ScopedProxy:
+    def __init__(self, evaluate):
+        self.evaluate = evaluate
+
+    @scoped_pillar_validity
+    def __bool__(self):
+        return bool(self.evaluate())
+
+
+@pytest.mark.parametrize("value", [False, True])
+def test_diamond_deduplicates_both_truth_values_and_refreshes(value):
+    calls = []
+    leaf = _ScopedProxy(lambda: calls.append(value) or value)
+    left = _ScopedProxy(lambda: bool(leaf))
+    right = _ScopedProxy(lambda: bool(leaf))
+    root = _ScopedProxy(lambda: [bool(left), bool(right)] == [True, True])
+    assert bool(root) is value
+    assert calls == [value]
+    leaf.evaluate = lambda: calls.append(not value) or not value
+    assert bool(root) is not value
+    assert calls == [value, not value]
+
+
+def test_exception_cleans_scope_and_is_retryable():
+    def fail():
+        raise ValueError("unavailable evidence")
+
+    leaf = _ScopedProxy(fail)
+    root = _ScopedProxy(lambda: bool(leaf))
+    with pytest.raises(ValueError, match="unavailable"):
+        bool(root)
+    leaf.evaluate = lambda: True
+    assert bool(root)
+
+
+def test_cycle_fails_closed_and_next_call_refreshes():
+    root = _ScopedProxy(lambda: bool(root))
+    assert not root
+    root.evaluate = lambda: True
+    assert root
+
+
+def test_real_proxy_retains_fail_closed_and_fresh_report(monkeypatch):
+    from src.core import pillar1099_lane2_python_lean_translation_audit as audit
+
+    calls = []
+    def unavailable():
+        calls.append(False)
+        raise ValueError("missing proof")
+
+    monkeypatch.setattr(audit, "lane2_python_lean_translation_audit", unavailable)
+    root = _ScopedProxy(lambda: [bool(audit.PILLAR_VALID), bool(audit.PILLAR_VALID)] == [True, True])
+    assert not root
+    assert calls == [False]
+    monkeypatch.setattr(audit, "lane2_python_lean_translation_audit", lambda: {"valid": True})
+    assert root
+
+
+def test_independent_threads_do_not_share_results():
+    barrier = Barrier(2)
+    calls = []
+    def leaf_evaluation():
+        calls.append(1)
+        barrier.wait(timeout=5)
+        return True
+    leaf = _ScopedProxy(leaf_evaluation)
+    root = _ScopedProxy(lambda: [bool(leaf), bool(leaf)] == [True, True])
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        assert list(pool.map(lambda _: bool(root), range(2))) == [True, True]
+    assert len(calls) == 2
+
+
+@pytest.mark.parametrize("missing", [False, True])
+def test_action_target_audit_requires_current_evidence_boundary(monkeypatch, tmp_path, missing):
+    target = "src/core/pillar1085_sprint_ck_target_lock_evidence_capture.py"
+    required = p1087._MERGE_AUDIT_RULES[target]
+    content = "\n".join(required[:-1] if missing else required)
+    path = tmp_path / target
+    path.parent.mkdir(parents=True)
+    path.write_text(content, encoding="utf-8")
+    monkeypatch.setattr(p1087, "_ROOT", tmp_path)
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "a" * 40)
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", lambda ref: ([target], False))
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+    lane = p1087.last_merge_math_verification_lane()
+    assert lane["valid"] is not missing
+    assert lane["scoped_failures"] == ([target] if missing else [])
+
+
+def test_action_target_current_source_passes_scoped_audit(monkeypatch):
+    target = "src/core/pillar1085_sprint_ck_target_lock_evidence_capture.py"
+    monkeypatch.setattr(p1087, "_latest_merge_commit", lambda: "a" * 40)
+    monkeypatch.setattr(p1087, "_latest_merge_touched_files", lambda ref: ([target], False))
+    monkeypatch.setattr(p1087, "pillar1078_parallel_audit_report", lambda: {"overall_status": "PASS"})
+    lane = p1087.last_merge_math_verification_lane()
+    assert lane["valid"] is True
+    assert lane["scoped_failures"] == []

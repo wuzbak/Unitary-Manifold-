@@ -3,24 +3,25 @@
 """
 tests/test_e2e_pipeline.py
 ==========================
-End-to-end observational pipeline tests for the Unitary Manifold.
+Conditional observational-pipeline software tests for the Unitary Manifold.
 
-These are the most powerful falsifiers in the suite: they exercise the *full
-causal chain* from the FTUM geometric fixed point to three distinct CMB
-observables, verifying the central claim of the theory — that a single
-compactification geometry determines nₛ, r, and β simultaneously with *no
-free parameters remaining*.
+The network convergence check and observable calculation share a test, but
+the converged network state is not propagated into the observables. The
+calculation uses supplied radion, winding, compactification and coupling
+inputs. These tests check deterministic formulas and conditional agreement;
+they do not establish a derived causal chain, first-principles uniqueness,
+parameter-free physics, or empirical confirmation.
 
 Tests are organised into four classes:
 
 TestChainClosure
-    The full pipeline fixed_point_iteration → φ₀_bare → KK Jacobian →
-    triple_constraint() reproduces (nₛ, r, β) all within Planck bounds in one
-    unbroken call chain.
+    Check network convergence independently, then use a supplied φ₀_bare →
+    KK Jacobian → triple_constraint() calculation.
 
 TestUniquenessOfCSLevel
     Loop k_cs ∈ [1, 100]: only k_cs = 74 yields β within the 1-σ Planck
-    birefringence window.  Falsifies the claim that k_cs is a free parameter.
+    birefringence window under the supplied inputs and finite scan domain.
+    This is not an unconditional selection theorem.
 
 TestAlphaConsistencyLoop
     φ₀ = 1  →  α = φ₀⁻² = 1  →  gauge_coupling_5d_for_alpha  →
@@ -29,7 +30,8 @@ TestAlphaConsistencyLoop
 
 TestNoFreeParameters
     With φ₀_bare = 1, n_w = 5, k_cs = 74 pinned, *all four* observables
-    (nₛ, r, β, α) are uniquely determined — no remaining dials.
+    (nₛ, r, β, α) are deterministic conditional outputs. Pinning inputs
+    does not show that those inputs have been derived.
 """
 
 from __future__ import annotations
@@ -88,7 +90,7 @@ _N_WINDING_RS = 7           # winding for RS orbifold
 # ===========================================================================
 
 class TestChainClosure:
-    """Full causal chain: FTUM fixed point → (nₛ, r, β) all pass Planck."""
+    """Conditional observable calculation with a separate convergence check."""
 
     @classmethod
     def _run_chain(cls):
@@ -97,14 +99,9 @@ class TestChainClosure:
         _, _, converged = fixed_point_iteration(net, max_iter=500, tol=1e-6)
         assert converged, "fixed_point_iteration must converge for chain to proceed"
 
-        # The FTUM fixed point pins φ₀_bare = 1 (Planck units).
-        # We run fixed_point_iteration above to *verify it converges* (the geometric
-        # sector is self-consistent) but the radion vev is analytically known to be 1;
-        # the converged network state is **not** used to extract φ₀ — direct attribute
-        # access is intentionally avoided because MultiverseNetwork does not expose a
-        # φ₀ field (reading one would couple this test to a future API detail).
-        # The fixed point establishes *that* the geometry is unique; the value φ₀=1
-        # follows from the normalisation M_Pl = 1 used throughout the FTUM construction.
+        # The converged network state is not used to extract the radion.
+        # phi0_bare = 1 is a supplied normalization in this calculation;
+        # convergence alone does not derive that value or prove uniqueness.
         phi0_bare = _PHI0_BARE
 
         # Step 2: KK Jacobian amplification

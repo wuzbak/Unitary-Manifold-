@@ -10,10 +10,14 @@ from src.core.pillar290_dark_matter_direct_detection import (
     M_N_GEV,
     N_W,
     K_CS,
+    G_N_CGS,
+    GEV_TO_G,
+    LEGACY_PROXY_UNITS,
     LZ_YEAR2_SIGMA_LIMIT_CM2,
     LZ_YEAR3_PROJECTED_LIMIT_CM2,
     separation_guard,
     kk_graviton_si_cross_section,
+    legacy_kk_graviton_dimensional_proxy,
     lz_year2_exclusion_limit,
     consistency_verdict,
     lz_year3_projection,
@@ -55,36 +59,48 @@ def test_lz_year2_limit_value():
 
 
 def test_kk_graviton_si_positive():
-    sigma = kk_graviton_si_cross_section(1.0)
+    with pytest.warns(DeprecationWarning):
+        sigma = kk_graviton_si_cross_section(1.0)
     assert sigma > 0.0
 
 
 def test_kk_graviton_si_finite():
-    sigma = kk_graviton_si_cross_section(1.0)
+    with pytest.warns(DeprecationWarning):
+        sigma = kk_graviton_si_cross_section(1.0)
     assert math.isfinite(sigma)
 
 
-def test_kk_graviton_si_below_lz():
-    sigma = kk_graviton_si_cross_section(1.0)
-    assert sigma < LZ_YEAR2_SIGMA_LIMIT_CM2
+def test_legacy_proxy_value_preserved_without_area_comparison():
+    expected = (
+        G_N_CGS ** 2 * (M_N_GEV * GEV_TO_G) ** 2
+        * (M_N_GEV / 1000.0) ** 4 * (N_W / K_CS) ** 2 / math.pi
+    )
+    with pytest.warns(DeprecationWarning, match="not a cross-section"):
+        proxy = kk_graviton_si_cross_section(1.0)
+    assert proxy == pytest.approx(expected, rel=1e-12, abs=0)
+    assert proxy == pytest.approx(1.4096711831004588e-77, rel=1e-12, abs=0)
+    assert legacy_kk_graviton_dimensional_proxy() == proxy
 
 
 def test_kk_graviton_si_very_small():
-    # Should be << 10^-48 cm²
-    sigma = kk_graviton_si_cross_section(1.0)
+    # Legacy numeric magnitude only; units are cm^6/s^4, not cm².
+    with pytest.warns(DeprecationWarning):
+        sigma = kk_graviton_si_cross_section(1.0)
     assert sigma < 1.0e-48
 
 
 def test_kk_graviton_si_raises_non_positive():
-    with pytest.raises(ValueError):
+    with pytest.warns(DeprecationWarning), pytest.raises(ValueError):
         kk_graviton_si_cross_section(0.0)
 
 
 def test_kk_graviton_si_scales_with_mass():
-    # Higher M_KK → smaller sigma
-    sigma_1 = kk_graviton_si_cross_section(1.0)
-    sigma_2 = kk_graviton_si_cross_section(2.0)
+    # Higher mediator mass → smaller dimensional proxy.
+    with pytest.warns(DeprecationWarning):
+        sigma_1 = kk_graviton_si_cross_section(1.0)
+        sigma_2 = kk_graviton_si_cross_section(2.0)
     assert sigma_2 < sigma_1
+    assert sigma_2 == pytest.approx(sigma_1 / 16, rel=1e-12, abs=0)
 
 
 def test_lz_year2_exclusion_limit_keys():
@@ -98,14 +114,21 @@ def test_lz_year2_exclusion_confidence():
     assert "90%" in r["confidence_level"]
 
 
-def test_consistency_verdict_consistent():
+def test_consistency_verdict_unsupported():
     v = consistency_verdict()
-    assert v["verdict"] == "CONSISTENT_BELOW_LIMIT"
+    assert v["verdict"] == "UNSUPPORTED"
+    assert v["um_sigma_cm2"] is None
 
 
-def test_consistency_verdict_margin_large():
+def test_consistency_verdict_no_dimensionally_invalid_margin():
     v = consistency_verdict()
-    assert v["margin_factors"] > 1e5  # should be many orders of magnitude
+    assert v["margin_factors"] is None
+    assert v["ratio_limit_to_um"] is None
+    assert v["legacy_kk_graviton_proxy_cm6_s4"] == legacy_kk_graviton_dimensional_proxy()
+    assert v["legacy_proxy_units"] == "cm^6/s^4"
+    assert v["mediator_mass_gev"] == 1000.0
+    assert v["dm_mass_gev"] is None
+    assert v["limit_dm_mass_gev"] == 30.0
 
 
 def test_consistency_verdict_keys():
@@ -114,9 +137,11 @@ def test_consistency_verdict_keys():
         assert key in v
 
 
-def test_lz_year3_projection_consistent():
+def test_lz_year3_projection_unsupported():
     r = lz_year3_projection()
-    assert "CONSISTENT" in r["verdict"]
+    assert r["verdict"] == "UNSUPPORTED"
+    assert r["um_sigma_cm2"] is None
+    assert r["ratio_limit_to_um"] is None
 
 
 def test_lz_year3_projection_keys():
@@ -134,3 +159,50 @@ def test_dm_report_has_sections():
     r = dm_detection_preregistration_report()
     for key in ("kk_graviton_sigma_cm2", "lz_year2_limit", "consistency", "lz_year3"):
         assert key in r
+
+
+def test_report_physical_quantity_absent_legacy_proxy_explicit():
+    report = dm_detection_preregistration_report()
+    assert report["kk_graviton_sigma_cm2"] is None
+    assert report["verdict"] == "UNSUPPORTED"
+    assert report["legacy_proxy_units"] == LEGACY_PROXY_UNITS == "cm^6/s^4"
+    assert report["legacy_kk_graviton_proxy_cm6_s4"] == legacy_kk_graviton_dimensional_proxy()
+    for section in (report["consistency"], report["lz_year3"]):
+        assert section["um_sigma_cm2"] is None
+        assert section["verdict"] == "UNSUPPORTED"
+        assert section["ratio_limit_to_um"] is None
+        assert section["legacy_proxy_units"] == LEGACY_PROXY_UNITS
+        assert section["legacy_kk_graviton_proxy_cm6_s4"] == legacy_kk_graviton_dimensional_proxy()
+
+
+def test_missing_prediction_cannot_route_confirmation_or_refutation():
+    for message in lz_year3_projection()["routing"].values():
+        assert "cannot confirm or refute" in message
+        assert "missing" in message
+
+
+def test_legacy_proxy_dimensions():
+    # G has [L³ M⁻¹ T⁻²]; squaring and multiplying by m_n² leaves L⁶ T⁻⁴.
+    newton_dimensions = (3, -1, -2)
+    nucleon_mass_dimensions = (0, 1, 0)
+    dimensions = tuple(
+        2 * gravity + 2 * mass
+        for gravity, mass in zip(newton_dimensions, nucleon_mass_dimensions)
+    )
+    assert dimensions == (6, 0, -4)
+    assert dimensions != (2, 0, 0)
+
+
+@pytest.mark.parametrize("proxy", [0.0, 1.0e10])
+def test_proxy_magnitude_cannot_create_physical_prediction(monkeypatch, proxy):
+    from src.core import pillar290_dark_matter_direct_detection as dm
+
+    monkeypatch.setattr(dm, "legacy_kk_graviton_dimensional_proxy", lambda: proxy)
+    report = dm.dm_detection_preregistration_report()
+    assert report["kk_graviton_sigma_cm2"] is None
+    assert report["verdict"] == "UNSUPPORTED"
+    for section in (report["consistency"], report["lz_year3"]):
+        assert section["legacy_kk_graviton_proxy_cm6_s4"] == proxy
+        assert section["um_sigma_cm2"] is None
+        assert section["ratio_limit_to_um"] is None
+        assert section["verdict"] == "UNSUPPORTED"

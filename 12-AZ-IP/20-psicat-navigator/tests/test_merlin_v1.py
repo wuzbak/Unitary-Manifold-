@@ -8,6 +8,7 @@ import hashlib
 import importlib.util
 import json
 import shutil
+import socket
 import sys
 import threading
 from pathlib import Path
@@ -85,6 +86,210 @@ def test_extract_urls_cap():
     assert urls == ['https://a.test', 'https://b.test', 'https://c.test']
 
 
+@pytest.fixture
+def public_crawl_transport(monkeypatch):
+    original_client = httpx.Client
+    requests = []
+    resolutions = []
+    options = []
+    responses = []
+
+    def resolve(host, port, **kwargs):
+        resolutions.append(host)
+        return [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("93.184.216.34", port))]
+
+    def handle(request):
+        requests.append(request)
+        status, headers, body = responses.pop(0) if responses else (200, {}, b"public content")
+        return httpx.Response(status, headers=headers, stream=httpx.ByteStream(body))
+
+    def client(**kwargs):
+        options.append(kwargs)
+        return original_client(**kwargs, transport=httpx.MockTransport(handle))
+
+    monkeypatch.setattr(merlin_engine.socket, "getaddrinfo", resolve)
+    monkeypatch.setattr(merlin_engine.httpx, "Client", client)
+    return requests, resolutions, options, responses
+
+
+@pytest.mark.parametrize("url", [
+    "http://127.0.0.1/", "http://10.0.0.1/", "http://169.254.169.254/",
+    "http://192.168.1.1/", "http://[::1]/", "http://[fc00::1]/",
+    "http://[fe80::1]/", "http://[::ffff:127.0.0.1]/",
+    "http://224.0.0.1/", "file:///etc/passwd", "ftp://public.test/",
+    "https://" + "user:password@" + "public.test/",
+])
+def test_public_crawl_rejects_nonpublic_or_invalid_targets(public_crawl_transport, url):
+    requests, _, _, _ = public_crawl_transport
+    result = merlin_engine._crawl_page(url)
+    assert result["ok"] is False
+    assert requests == []
+
+
+def test_public_crawl_pins_ip_and_preserves_host_sni(public_crawl_transport):
+    requests, resolutions, options, _ = public_crawl_transport
+    result = merlin_engine._crawl_page("https://public.test:8443/path?q=one")
+    assert result["ok"] is True
+    assert resolutions == ["public.test"]
+    request = requests[0]
+    assert request.url.host == "93.184.216.34"
+    assert request.url.port == 8443
+    assert request.url.path == "/path"
+    assert request.headers["host"] == "public.test:8443"
+    assert request.extensions["sni_hostname"] == "public.test"
+    assert options[0]["trust_env"] is False
+    assert options[0]["follow_redirects"] is False
+
+
+def test_public_crawl_rejects_mixed_dns_answers(public_crawl_transport, monkeypatch):
+    requests, _, _, _ = public_crawl_transport
+    monkeypatch.setattr(merlin_engine.socket, "getaddrinfo", lambda *a, **kw: [
+        (socket.AF_INET, socket.SOCK_STREAM, 6, "", ("93.184.216.34", 80)),
+        (socket.AF_INET, socket.SOCK_STREAM, 6, "", ("127.0.0.1", 80)),
+    ])
+    assert merlin_engine._crawl_page("http://mixed.test")["ok"] is False
+    assert requests == []
+
+
+@pytest.mark.parametrize("destination", ["http://127.0.0.1", "http://[::1]", "file:///etc/passwd"])
+def test_public_crawl_validates_redirect_destination(public_crawl_transport, destination):
+    requests, _, _, responses = public_crawl_transport
+    responses.append((302, {"location": destination}, b""))
+    assert merlin_engine._crawl_page("https://public.test/start")["ok"] is False
+    assert len(requests) == 1
+
+
+def test_public_crawl_rechecks_dns_on_relative_redirect(public_crawl_transport, monkeypatch):
+    requests, _, _, responses = public_crawl_transport
+    answers = iter(("93.184.216.34", "127.0.0.1"))
+    monkeypatch.setattr(merlin_engine.socket, "getaddrinfo", lambda *a, **kw: [
+        (socket.AF_INET, socket.SOCK_STREAM, 6, "", (next(answers), 443)),
+    ])
+    responses.append((302, {"location": "/next"}, b""))
+    assert merlin_engine._crawl_page("https://public.test/start")["ok"] is False
+    assert len(requests) == 1
+
+
+def test_public_crawl_follows_public_redirect_with_new_identity(public_crawl_transport):
+    requests, resolutions, _, responses = public_crawl_transport
+    responses.extend([
+        (302, {"location": "/relative"}, b""),
+        (302, {"location": "https://second.test/final"}, b""),
+    ])
+    assert merlin_engine._crawl_page("https://first.test/start")["ok"] is True
+    assert resolutions == ["first.test", "first.test", "second.test"]
+    assert [request.headers["host"] for request in requests] == [
+        "first.test", "first.test", "second.test",
+    ]
+    assert requests[-1].extensions["sni_hostname"] == "second.test"
+
+
+def test_public_crawl_rejects_compressed_response(public_crawl_transport):
+    _, _, _, responses = public_crawl_transport
+    responses.append((200, {"content-encoding": "gzip"}, b"untrusted compressed bytes"))
+    result = merlin_engine._crawl_page("https://public.test")
+    assert result["ok"] is False
+    assert "compressed response" in result["error"]
+
+
+def test_public_crawl_dns_failure_is_closed(public_crawl_transport, monkeypatch):
+    requests, _, _, _ = public_crawl_transport
+
+    def fail(*args, **kwargs):
+        raise socket.gaierror("DNS lookup failed")
+
+    monkeypatch.setattr(merlin_engine.socket, "getaddrinfo", fail)
+    assert merlin_engine._crawl_page("https://missing.test")["ok"] is False
+    assert requests == []
+
+
+def test_public_crawl_bounds_redirects_and_body(public_crawl_transport):
+    requests, _, _, responses = public_crawl_transport
+    responses.extend((302, {"location": "/next"}, b"") for _ in range(6))
+    result = merlin_engine._crawl_page("https://public.test/start")
+    assert result["ok"] is False
+    assert "redirect limit" in result["error"]
+    assert len(requests) == 6
+    responses.append((200, {}, b"x" * (merlin_engine._CRAWL_MAX_BYTES + 1)))
+    result = merlin_engine._crawl_page("https://public.test")
+    assert result["ok"] is False
+    assert "byte limit" in result["error"]
+
+
+def test_public_crawl_bounds_elapsed_time(public_crawl_transport, monkeypatch):
+    requests, _, _, _ = public_crawl_transport
+    clock = iter((0.0, 0.1, 11.0))
+    monkeypatch.setattr(merlin_engine.time, "monotonic", lambda: next(clock))
+    result = merlin_engine._crawl_page("https://public.test")
+    assert result["ok"] is False
+    assert "time limit" in result["error"]
+    assert len(requests) == 1
+
+
+def test_query_websearch_false_never_crawls_explicit_urls(monkeypatch):
+    calls = []
+    monkeypatch.setattr(merlin_engine, "_crawl_page", lambda url: calls.append(url))
+    result = asyncio.run(query_merlin(
+        text="Summarize https://public.test", session=MerlinSession(),
+        force_websearch=False, runtime_mode="incumbent_compat",
+    ))
+    assert calls == []
+    assert result["used_websearch"] is False
+    assert result["crawled_urls"] == []
+
+
+def test_query_websearch_true_allows_guarded_public_crawl(monkeypatch):
+    calls = []
+
+    def crawl(url):
+        calls.append(url)
+        return {"url": url, "ok": True, "content": "public evidence", "title": url}
+
+    monkeypatch.setattr(merlin_engine, "_crawl_page", crawl)
+    result = asyncio.run(query_merlin(
+        text="Summarize https://public.test", session=MerlinSession(),
+        force_websearch=True, runtime_mode="incumbent_compat",
+    ))
+    assert calls == ["https://public.test"]
+    assert result["used_websearch"] is True
+    assert result["crawled_urls"] == calls
+
+
+def test_email_sanitization_preserves_redaction_without_suffix_retries():
+    from ox_navigator.engine.merlin_runtime import _EMAIL_RE, _sanitize_text
+
+    assert _sanitize_text("Contact foo.bar+tag@example.org or a@b.co.") == (
+        "Contact [REDACTED_EMAIL] or [REDACTED_EMAIL]."
+    )
+    sample = "a" * 100_000
+    assert _EMAIL_RE.sub("[REDACTED_EMAIL]", sample) == sample
+    assert _sanitize_text("a@" + sample) == "a@" + sample
+
+
+@pytest.mark.parametrize("sample,expected", [
+    ("a@" + "b." * 50_000 + "!", None),
+    ("a@" + "a1." * 50_000 + "0!", None),
+    ("a@" * 50_000 + "!", None),
+    ("a@b.c!" * 25_000, None),
+    ("a@b." + "c" * 100_000 + "!", "[REDACTED_EMAIL]!"),
+    ("a@" + "b." * 50_000 + "cc" + "9" * 100_000 + "!", "[REDACTED_EMAIL]" + "9" * 100_000 + "!"),
+])
+def test_email_guard_handles_long_domain_and_delimiter_witnesses(sample, expected):
+    from ox_navigator.engine.merlin_runtime import _EMAIL_RE
+
+    assert _EMAIL_RE.sub("[REDACTED_EMAIL]", sample) == (sample if expected is None else expected)
+
+
+def test_profile_ids_reject_header_syntax_but_resume_valid_uuid():
+    from ox_navigator.app.server import _extract_session_id, _sign_session_id
+
+    valid = "a" * 32
+    assert _extract_session_id(_sign_session_id(valid)) == valid
+    assert _extract_session_id("bad\r\nX-Injected: yes.signature") == ""
+    with pytest.raises(ValueError):
+        _sign_session_id("bad\r\nX-Injected: yes")
+
+
 def test_is_internal_question():
     assert is_internal_question('What does Pillar 67 say about n_w and LiteBIRD?') is True
 
@@ -142,6 +347,40 @@ def test_merlin_sprint_review_packet_fails_closed_when_summary_malformed(monkeyp
     assert packet['limit'] == 1
     assert len(packet['stage_reviews']) == 5
     assert all(item['promotion_gate_pass'] is False for item in packet['stage_reviews'])
+
+
+def test_review_packet_reuses_current_frontier_tower_without_caching_requests(monkeypatch):
+    for stage in 'abcde':
+        monkeypatch.setattr(
+            merlin_benchmark,
+            f'run_stage_{stage}_head_to_head_receipts_sync',
+            lambda *, limit: {'summary': {}, 'runs': []},
+        )
+    monkeypatch.setattr(merlin_benchmark, 'get_multi_stage_benchmark_plan', lambda: {'stages': []})
+
+    def redundant_tower(*, limit):
+        raise AssertionError('frontier already supplies this request\'s control tower')
+
+    monkeypatch.setattr(merlin_benchmark, 'build_merlin_control_tower', redundant_tower)
+    frontiers = []
+
+    def current_frontier(*, limit):
+        revision = len(frontiers) + 1
+        frontier = {
+            'control_tower': {'revision': revision, 'deployment_eligibility': {'revision': revision}},
+            'promotion_blockers': [{'id': 'current_gate', 'pass': revision == 2}],
+        }
+        frontiers.append(frontier)
+        return frontier
+
+    monkeypatch.setattr(merlin_program, 'get_frontier_readiness_packet', current_frontier)
+    first = merlin_program.get_merlin_sprint_review_packet(limit=1)
+    second = merlin_program.get_merlin_sprint_review_packet(limit=1)
+    assert first['control_tower']['revision'] == 1
+    assert second['control_tower']['revision'] == 2
+    assert first['control_tower']['deployment_eligibility']['frontier_blockers_clear'] is False
+    assert second['control_tower']['deployment_eligibility']['frontier_blockers_clear'] is True
+    assert frontiers[0]['control_tower']['deployment_eligibility'] == {'revision': 1}
 
 
 def test_export_stage_a_artifacts_script(tmp_path, monkeypatch):

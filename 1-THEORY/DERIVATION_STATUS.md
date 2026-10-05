@@ -1,5 +1,12 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
+> **2026-10-05 scoped correction:** B² halo prescriptions and independently
+> assumed hot-relic, weak-scale and warped KK benchmarks are not a shared
+> action-derived dark sector. Corrected computable quantities and unresolved
+> detector/thermal assumptions are recorded in
+> [TRUTH_LAYER](../docs/TRUTH_LAYER.md#synthesis-repair-2026-10-05).
+> This repair does not promote the framework or allocate a new pillar.
+
 > **Foundation reassessment (2026-09-05):** historical labels below do not
 > override the counterexamples and scope corrections in
 > [TRUTH_LAYER](../docs/TRUTH_LAYER.md#foundation-reassessment).

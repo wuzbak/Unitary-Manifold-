@@ -122,6 +122,16 @@ class TestKKRelicDensity:
         for m in (0.0, 0.01, 1.0, 100.0):
             assert kk_relic_density(m) >= 0.0
 
+    @pytest.mark.parametrize("mass", [-1, float("nan"), float("inf")])
+    def test_invalid_mass_not_viable(self, mass):
+        with pytest.raises(ValueError):
+            kk_dark_matter_viable(mass)
+
+    @pytest.mark.parametrize("dof", [-1, float("nan"), float("inf")])
+    def test_invalid_effective_dof_rejected(self, dof):
+        with pytest.raises(ValueError):
+            kk_relic_density(1.0, g_kk=dof)
+
 
 # ---------------------------------------------------------------------------
 # kk_dark_matter_viable
@@ -279,8 +289,16 @@ class TestDarkMatterKKSummary:
         omega = kk_relic_density(m)
         assert abs(self._s["relic_density"] - omega) < 1e-20
 
-    def test_four_keys(self):
-        assert len(self._s) == 4
+    def test_legacy_keys_retained(self):
+        assert {"lightest_mass_eV", "relic_density", "viable", "n_viable_modes"} <= self._s.keys()
+
+    def test_underproduction_is_not_full_dark_matter(self):
+        assert self._s["fraction_of_observed_dm"] == pytest.approx(
+            self._s["relic_density"] / 0.12
+        )
+        assert self._s["fraction_of_observed_dm"] < 0.002
+        assert "not a full DM explanation" in self._s["viability_scope"]
+        assert "effective dof" in self._s["model_assumptions"]
 
     def test_lightest_mass_approx_range(self):
         m = self._s["lightest_mass_eV"]

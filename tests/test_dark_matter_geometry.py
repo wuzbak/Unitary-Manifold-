@@ -5,26 +5,30 @@ Tests for src/core/dark_matter_geometry.py
 
 Covers:
 
-    b_field_energy_density      — ρ_B = λ²φ²|B|²/2 on field grid
-    b_field_dark_density        — isothermal ρ_dark(r) ∝ 1/r² from B_μ ∝ 1/r
+    b_field_energy_density      — legacy imposed ρ_B = λ²φ²|B|²/2
+    b_field_strength_energy_density — action-derived orthonormal gauge energy
+    b_field_dark_density        — imposed isothermal ρ_dark(r) ∝ 1/r²
     b_field_dark_mass_enclosed  — M_dark(<r) ∝ r (flat curve signature)
     flat_curve_velocity         — v_flat² = 2π G λ²φ²B₀²r_s²
-    b_field_rotation_velocity   — v_total = v_baryon + v_dark combined
-    dark_field_profile          — full galaxy profile dataclass
+    b_field_rotation_velocity   — spherical Newtonian speeds added in quadrature
+    dark_field_profile          — phenomenological spherical profile dataclass
 """
 
 import numpy as np
 import pytest
 
+from src.core.action_derived_flow import action_derived_field_equations
 from src.core.dark_matter_geometry import (
     DarkFieldProfile,
     b_field_dark_density,
     b_field_dark_mass_enclosed,
     b_field_energy_density,
+    b_field_strength_energy_density,
     b_field_rotation_velocity,
     dark_field_profile,
     flat_curve_velocity,
 )
+from src.core.metric import field_strength
 
 
 # ---------------------------------------------------------------------------
@@ -41,12 +45,21 @@ def _exponential_sphere_mass(r, M_total=1.0, R_d=1.0):
     return M_total * (1.0 - (1.0 + x + 0.5 * x**2) * np.exp(-x))
 
 
+def _periodic_field_strength(B, dx):
+    """F = dB on the periodic x grid used by action_derived_field_equations."""
+    dB = (np.roll(B, -1, axis=0) - np.roll(B, 1, axis=0)) / (2 * dx)
+    F = np.zeros((len(B), 4, 4))
+    F[:, 1, :] = dB
+    F[:, :, 1] -= dB
+    return F
+
+
 # ---------------------------------------------------------------------------
 # b_field_energy_density
 # ---------------------------------------------------------------------------
 
 class TestBFieldEnergyDensity:
-    """ρ_B = λ²φ²|B|²/2 on the field grid."""
+    """Legacy gauge-dependent B² prescription, not action stress-energy."""
 
     def test_shape(self):
         """Output shape matches number of grid points."""
@@ -105,6 +118,143 @@ class TestBFieldEnergyDensity:
         B = np.random.default_rng(2).standard_normal((N, 4))
         phi = np.ones(N)
         assert np.all(np.isfinite(b_field_energy_density(B, phi)))
+
+
+class TestBFieldStrengthEnergyDensity:
+    """Gauge energy matches the reduced action, not the imposed halo."""
+
+    @pytest.mark.parametrize("mu,nu", [(0, 1), (0, 2), (0, 3),
+                                      (1, 2), (1, 3), (2, 3)])
+    def test_each_independent_component_counted_once(self, mu, nu):
+        F = np.zeros((3, 4, 4))
+        F[:, mu, nu] = [1.0, -2.0, 3.0]
+        F[:, nu, mu] = -F[:, mu, nu]
+        phi = np.array([0.5, 1.0, 2.0])
+        expected = 0.5 * 1.7**2 * phi**3 * F[:, mu, nu]**2
+        rho = b_field_strength_energy_density(F, phi, lam=1.7)
+        assert rho.shape == (3,)
+        assert np.all(rho >= 0.0)
+        np.testing.assert_allclose(rho, expected, rtol=1e-14)
+
+    def test_mixed_fields_and_coupling_scaling(self):
+        rng = np.random.default_rng(8)
+        A = rng.normal(size=(12, 4, 4))
+        F = A - A.transpose(0, 2, 1)
+        phi = np.linspace(0.4, 2.0, 12)
+        expected = 0.25 * phi**3 * np.sum(F**2, axis=(1, 2))
+        rho = b_field_strength_energy_density(F, phi)
+        np.testing.assert_allclose(rho, expected)
+        np.testing.assert_allclose(
+            b_field_strength_energy_density(2 * F, 2 * phi, lam=-3), 288 * rho)
+        np.testing.assert_array_equal(
+            b_field_strength_energy_density(F, phi, lam=0), np.zeros(12))
+
+    @pytest.mark.parametrize("components", [(0,), (2,), (3,), (0, 2, 3)])
+    @pytest.mark.parametrize("phi_value,lam", [(0.7, 1.3), (2.0, -0.6)])
+    def test_matches_action_metric_residual(self, components, phi_value, lam):
+        N = 48
+        dx = 2 * np.pi / N
+        x = dx * np.arange(N)
+        B = np.zeros((N, 4))
+        for component in components:
+            B[:, component] = (component + 1) * np.sin(x)
+        phi = np.full(N, phi_value)
+        # g_E = phi*g is exactly Minkowski, so coordinate F is orthonormal F.
+        g = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (N, 1, 1)) / phi_value
+        eq = action_derived_field_equations(g, B, phi, dx, lam=lam, m_phi=0)
+        F = _periodic_field_strength(B, dx)
+        # metric.field_strength uses different endpoint stencils.
+        np.testing.assert_allclose(F[1:-1], field_strength(B, dx)[1:-1])
+        rho = b_field_strength_energy_density(F, phi, lam)
+        assert np.max(rho) > 0
+        # The metric residual is R_00 - T_00/2 in this flat constant-phi case.
+        np.testing.assert_allclose(rho, -2 * eq["E_metric"][:, 0, 0], atol=1e-13)
+        np.testing.assert_allclose(
+            rho, -2 * eq["G_minus_half_T"][:, 0, 0], atol=1e-13)
+
+    def test_spatial_pure_gauge_shift_preserves_energy_and_action_residual(self):
+        N = 32
+        dx = 2 * np.pi / N
+        x = dx * np.arange(N)
+        B = np.zeros((N, 4))
+        B[:, 0] = np.sin(x)
+        B[:, 2] = 0.3 * np.cos(2 * x)
+        chi = np.sin(3 * x)
+        shifted = B.copy()
+        shifted[:, 1] += (np.roll(chi, -1) - np.roll(chi, 1)) / (2 * dx)
+        phi = np.full(N, 1.4)
+        F = _periodic_field_strength(B, dx)
+        shifted_F = _periodic_field_strength(shifted, dx)
+        np.testing.assert_array_equal(F, shifted_F)
+        np.testing.assert_array_equal(
+            b_field_strength_energy_density(F, phi),
+            b_field_strength_energy_density(shifted_F, phi))
+        assert not np.allclose(
+            b_field_energy_density(B, phi), b_field_energy_density(shifted, phi))
+        g = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (N, 1, 1)) / 1.4
+        eq = action_derived_field_equations(g, B, phi, dx, m_phi=0)
+        shifted_eq = action_derived_field_equations(g, shifted, phi, dx, m_phi=0)
+        np.testing.assert_array_equal(eq["E_metric"], shifted_eq["E_metric"])
+
+    def test_constant_potential_has_no_action_energy_but_nonzero_legacy_density(self):
+        N = 12
+        B = np.tile([0.3, 0.5, -0.2, 0.1], (N, 1))
+        phi = np.full(N, 1.6)
+        F = field_strength(B, dx=0.1)
+        np.testing.assert_array_equal(F, np.zeros((N, 4, 4)))
+        np.testing.assert_array_equal(
+            b_field_strength_energy_density(F, phi), np.zeros(N))
+        assert np.all(b_field_energy_density(B, phi) > 0)
+        g = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (N, 1, 1)) / 1.6
+        eq = action_derived_field_equations(g, B, phi, dx=0.1, m_phi=0)
+        np.testing.assert_array_equal(eq["E_metric"], np.zeros((N, 4, 4)))
+
+    def test_nonconstant_longitudinal_potential_has_zero_field_energy(self):
+        r = _radial_grid()
+        B = np.zeros((len(r), 4))
+        B[:, 1] = 2.0 / r
+        phi = np.ones(len(r))
+        F = field_strength(B, r[1] - r[0])
+        np.testing.assert_array_equal(
+            b_field_strength_energy_density(F, phi), np.zeros(len(r)))
+        np.testing.assert_allclose(
+            b_field_energy_density(B, phi),
+            b_field_dark_density(r, B0=2.0, r_scale=1.0, phi_mean=1.0))
+
+    @pytest.mark.parametrize("F,phi,lam,match", [
+        (np.zeros((4, 4)), np.ones(1), 1, "shape"),
+        (np.zeros((2, 3, 3)), np.ones(2), 1, "shape"),
+        (np.zeros((2, 4, 4)), np.ones((2, 1)), 1, "phi"),
+        (np.zeros((2, 4, 4)), np.ones(1), 1, "phi"),
+        (np.zeros((2, 4, 4)), np.array([1, 0]), 1, "phi"),
+        (np.zeros((2, 4, 4)), np.array([1, -1]), 1, "phi"),
+        (np.zeros((2, 4, 4)), np.array([1, np.nan]), 1, "finite"),
+        (np.zeros((2, 4, 4)), np.array([1, np.inf]), 1, "finite"),
+        (np.full((2, 4, 4), np.nan), np.ones(2), 1, "finite"),
+        (np.full((2, 4, 4), np.inf), np.ones(2), 1, "finite"),
+        (np.zeros((2, 4, 4)), np.ones(2), np.nan, "finite"),
+        (np.zeros((2, 4, 4)), np.ones(2), np.inf, "finite"),
+        (np.zeros((2, 4, 4)), np.ones(2), [1, 2], "scalar"),
+        (np.ones((2, 4, 4)), np.ones(2), 1, "antisymmetric"),
+        (np.zeros((2, 4, 4), dtype=complex), np.ones(2), 1, "real"),
+        (np.zeros((2, 4, 4)), np.ones(2), 1j, "real"),
+    ])
+    def test_invalid_inputs(self, F, phi, lam, match):
+        with pytest.raises(ValueError, match=match):
+            b_field_strength_energy_density(F, phi, lam)
+
+    def test_asymmetric_offdiagonal_rejected(self):
+        F = np.zeros((2, 4, 4))
+        F[:, 0, 1] = 1
+        with pytest.raises(ValueError, match="antisymmetric"):
+            b_field_strength_energy_density(F, np.ones(2))
+
+    def test_finite_inputs_with_overflow_rejected(self):
+        F = np.zeros((1, 4, 4))
+        F[:, 0, 1] = 1e200
+        F[:, 1, 0] = -1e200
+        with pytest.raises(ValueError, match="overflow"):
+            b_field_strength_energy_density(F, np.ones(1))
 
 
 # ---------------------------------------------------------------------------
@@ -336,7 +486,7 @@ class TestBFieldRotationVelocity:
 # ---------------------------------------------------------------------------
 
 class TestDarkFieldProfile:
-    """DarkFieldProfile builder — full galaxy prediction."""
+    """DarkFieldProfile builder — legacy imposed spherical halo."""
 
     def _make_profile(self, **kwargs):
         defaults = dict(B0=1.0, r_scale=1.0, phi_mean=1.0,
@@ -397,3 +547,8 @@ class TestDarkFieldProfile:
         """Asymptotic flat speed is positive."""
         p = self._make_profile()
         assert p.v_flat > 0.0
+
+    def test_baryonic_component_uses_spherical_exponential_mass(self):
+        p = self._make_profile(M_total=2.3, R_disk=1.7)
+        mass = _exponential_sphere_mass(p.r, M_total=2.3, R_d=1.7)
+        np.testing.assert_allclose(p.v_baryonic**2, mass / p.r, rtol=1e-12)

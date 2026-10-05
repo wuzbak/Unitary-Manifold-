@@ -1,0 +1,51 @@
+{
+  "batch_count": 33,
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 51,
+    "tests": 63019
+  },
+  "environment_fingerprint": {
+    "distributions_digest": "a8783e20eea8d25b5a45f8478296572aebdcd1618f80b638f2ae4645a4e8b5d8",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "execution_digest": "68de7032f8795846a896167ab1049ba2bfe57714df46747a54562473a4b91ab0",
+  "execution_settings": {
+    "environment": {
+      "MERLIN_TRAINING_RUNTIME_DIR": "/tmp/axiom-two-cpu-final/runtime",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTEST_DISABLE_PLUGIN_AUTOLOAD": null,
+      "PYTEST_PLUGINS": null,
+      "PYTHONHASHSEED": null,
+      "PYTHONOPTIMIZE": null,
+      "PYTHONPATH": null
+    },
+    "python": "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python"
+  },
+  "frozen_environment": {
+    "distributions_digest": "a8783e20eea8d25b5a45f8478296572aebdcd1618f80b638f2ae4645a4e8b5d8",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "plan_digest": "37162bda39dbda3ea95339d90c11734958d5e20807019efd3e707490aebc9867",
+  "problems": [
+    "batch 0: batch did not complete successfully",
+    "batch 32: [Errno 2] No such file or directory: '/tmp/axiom-two-cpu-final/receipts/full-core-32.json'"
+  ],
+  "snapshot": {
+    "head": "92815fa2a18c5b7caa10ed95383bbfc73ef43d32",
+    "worktree_digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "failure",
+  "suite": "full-core",
+  "workers": 0
+}

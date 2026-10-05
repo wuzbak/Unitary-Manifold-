@@ -1,0 +1,64 @@
+................................F                                        [100%]
+=================================== FAILURES ===================================
+_________________________ test_server_merlin_endpoints _________________________
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_transports/default.py:101: in map_httpcore_exceptions
+    yield
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_transports/default.py:250: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_backends/sync.py:126: in read
+    with map_exceptions(exc_map):
+         ^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/contextlib.py:158: in __exit__
+    self.gen.throw(value)
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_exceptions.py:14: in map_exceptions
+    raise to_exc(exc) from exc
+E   httpcore.ReadTimeout: timed out
+
+The above exception was the direct cause of the following exception:
+12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py:3531: in test_server_merlin_endpoints
+    execution_board = client.get('/api/merlin/execution-board?limit=1')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:1053: in get
+    return self.request(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_transports/default.py:249: in handle_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/contextlib.py:158: in __exit__
+    self.gen.throw(value)
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_transports/default.py:118: in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+E   httpx.ReadTimeout: timed out
+=========================== short test summary info ============================
+FAILED 12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_server_merlin_endpoints - httpx.ReadTimeout: timed out
+1 failed, 32 passed in 282.65s (0:04:42)
