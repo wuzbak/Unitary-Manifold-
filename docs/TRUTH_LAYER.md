@@ -245,6 +245,107 @@ separate evidence, not substitutes for a completed Python scan.
 The independent final code reviewer found no significant issues in the resumed
 RAG/graph changes or the automatic temporary-root guard and its tests.
 
+### Chunked regression and proof checkpoint (2026-10-05)
+
+The earlier interrupted run did **not** establish repository-wide regression.
+This continuation instead froze source and dependencies, discovered **1,568
+full-core test files**, and executed a fixed **32-chunk plan** covering
+`tests/`, `recycling/`, and the canonical executable Pentad tests. Every chunk
+contains 49 files. Full-core commands explicitly use `-m ""`, overriding the
+default slow-test exclusion; `--workers 0` keeps each chunk serial. Logs,
+JSON receipts and JUnit documents stayed outside the repository.
+
+**Baseline execution identity**
+
+- Source: `642456e4bc34f1d4d7cdd8bc85e7f6137bb1f792`, clean worktree.
+- Plan digest: `70a3555e65098f81fdaeb5f2e227c9bfada401bf45f6570439bc134c37f63bef`.
+- Environment: CPython 3.12.14, Linux x86_64; distribution digest
+  `2f26073443e24ae5dedc47cc4d4ae2ae8a6192d6b2ff3066a35dc0a843988802`.
+- Receipt directory: `/tmp/axiom-642456e4-core32`.
+- No dependencies were installed or changed during this execution.
+
+| Baseline chunks | Terminal evidence | Interpretation |
+|---|---|---|
+| 0–10, 14–28, 30–31 | **58,873 passed, 52 skipped**, zero failures/errors across 28 successful receipts | 1,372 files in successfully completed chunks; 87.5% of the file partition, **not** a percentage of all test nodes or physics proved |
+| 11, 12, 13 | Each final retry returned **124** at a 360-second execution limit | Incomplete; 147 files remain without successful chunk execution receipts |
+| 29 | **2,495 passed, 3 skipped, 7 failed**, zero errors | Completed failing chunk, not a successful receipt |
+
+The existing receipt aggregator checked snapshot/plan/environment identity and
+JUnit counts/digests and correctly returned **failure** for chunks 11, 12, 13
+and 29. Its totals include only successful chunks. The baseline is not
+relabelled as passing. Skips include missing JAX, FastAPI, CAMB, Z3 and Lake,
+seven collection skips, twenty empty parameter sets, and an insufficient
+residual-history case. Empty parameter sets and skipped formal tooling are not
+completed proof checks. File partitioning does not independently certify all
+expected test node IDs.
+
+**Repair and separate verification.** All seven failures were in
+`tests/test_run_supervised_pytest_batch.py`: obsolete argument mocks, subprocess
+mocks missing `cwd`, and old status-text expectations. The repair uses the
+actual CLI parser, supplies the current timeout signature, and additionally
+asserts repository working-directory enforcement and the
+“structural file coverage — not execution evidence” boundary. No production
+code, numerical tolerances, tests, or skip conditions were removed.
+The runner, receipt and supervision-plan suites passed **103 tests in 10.24
+seconds**. Independent code review found no significant issues.
+
+The entire formerly failing chunk was then rerun on clean source
+`76e771dd50175ffbbd65f676311f87493b6a8b1e`: **2,502 passed, 3 skipped in 200.60
+seconds**, zero failures/errors. Its separate receipt directory is
+`/tmp/axiom-runner-fixed-core32`; the JUnit digest/counts, source snapshot and
+unchanged environment were independently checked. These results must **not**
+be combined with older-source receipts to manufacture a full-core certificate.
+The subsequent documentation checkpoint is also a different snapshot.
+
+**Proof and integration perimeter.** All three slow action-reduction cases
+(exact reduced, full, offdiagonal) completed: **3 passed, 19 deselected in
+401.09 seconds**, with terminal and JUnit evidence. This exceeded the intended
+360-second budget; it is not claimed to have finished within that budget.
+It supersedes the earlier unconfirmed slow-run claim within those stated
+ansätze, not the open coupled physical-time obligations. A shared-process,
+explicitly non-slow metric/action/evolution/dark-sector/boundary/fixed-point
+run passed **308 tests, 3 deselected in 10.47 seconds**. Focused local RAG and
+PsiCat graph tests passed **122 tests in 5.46 seconds**. These executions overlap
+the chunked suite and are not added to its totals. Local navigation and RAG
+scope checks do not establish deployed PsiCat participation.
+
+**Measured bottleneck and safer continuation.** An uncaptured, built-in
+traceback diagnostic located expensive work *during collection*: importing
+`pillar1020` reaches `pillar952_observational_readiness_v4.py:175`, which starts
+a 12-step legacy KK simulation. The trace reached `pillar988`, `evolution.py`
+and Python-reference curvature computation in `metric.py`. The diagnostic was
+bounded and is not test-execution evidence. Smaller alphabetical shards do
+not remove shared import costs.
+
+Continue with the existing runner, fixed plan and external receipts rather
+than another indiscriminate full-suite attempt:
+
+1. Keep source, dependencies, marker selection and batch count fixed while
+   gathering a certificate. Validate receipts before reusing results; rerun
+   incomplete/failed chunks, not already verified chunks on that same snapshot.
+2. Let the runner own each pytest timeout and child-process cleanup. An outer
+   timeout equal to the runner timeout can kill the receipt writer first and
+   orphan pytest; such incomplete receipts were not accepted here. A session
+   budget must leave enough time for the current runner to finish and clean up.
+3. Profile expensive collection and group shared-import costs before changing
+   the partition. A changed partition requires a new plan and receipts.
+   Any deferred/lazy simulation repair must preserve real numerical outputs,
+   declared legacy-flow scope and public consumers—not replace execution with
+   cached claims or supplied constants.
+4. Preserve shared-process integration checks alongside independent chunks,
+   then require a successful aggregate. Source or dependency changes require
+   new snapshot-bound evidence; do not silently carry certificates forward.
+5. `/tmp` evidence is not guaranteed to survive another session. Existing CI
+   uploads batch JSON/JUnit artifacts for 14 days. Retain those artifacts for
+   interruption-safe continuation; this durable checkpoint is a summary, not
+   a substitute for the raw receipts.
+
+**Still open:** chunks 11–13, a complete matching aggregate on the repaired
+snapshot, full Product 20 coverage, and a completed Python security scan.
+Software regression and scoped symbolic identities do not establish physical
+or empirical confirmation. No pillar, version or physics-closure promotion
+is made.
+
 ## Foundation reassessment
 
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a
