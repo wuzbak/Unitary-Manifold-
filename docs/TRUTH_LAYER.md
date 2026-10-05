@@ -346,6 +346,82 @@ Software regression and scoped symbolic identities do not establish physical
 or empirical confirmation. No pillar, version or physics-closure promotion
 is made.
 
+### Implemented frozen dependency/cost workflow (2026-10-05)
+
+Pillar 952 now defers its three solver imports and calculations until the
+public `DEEP_LAYER_CHAIN` or the summary is requested. First access still
+performs the real UV, twelve-step legacy KK and flavor calculations. A lock
+ensures concurrent first accesses share one result; the result remains the
+same mutable list of dictionaries, including named/star imports and summary
+references. Failed computation is not cached. This removes unnecessary import
+work; consumers that explicitly request numerical summaries still incur it.
+It neither changes numerical equations nor supplies precomputed claim values.
+
+The optional dependency/cost planner parses local imports statically, with
+bounded transitive traversal and no physics-module execution. Tests choose a
+strongest shared dependency family; generic metric/evolution hubs do not merge
+the whole suite. Entire families are placed by deterministic descending-cost
+greedy balancing. Consequently a costly family can exceed a target chunk size:
+the planner prioritizes shared-import reuse rather than silently splitting it.
+Unmeasured files use an explicit one-second scheduling estimate, **not measured
+execution evidence**. Dynamic/external imports and truncated/unparsed static
+paths are disclosed in plan metadata. Existing equal-file CLI behavior remains
+available for compatibility.
+
+`TOOLS/checks/run_supervised_pytest_batch.py` now supports external frozen plans:
+
+- `--write-plan --plan-file` writes a new immutable manifest, refusing overwrite.
+  It includes source/worktree identity, dependency groups, explicit empty
+  full-core marker, Python/distribution fingerprint, interpreter and relevant
+  plugin/thread/runtime settings. `--workers` is fixed by the plan.
+- Optional `--durations-file` accepts a JSON map of repository-relative Python
+  test paths to positive finite measured seconds. Alternatively `--timings-dir`
+  reads successful historical batch receipts, verifies their JUnit counts and
+  SHA-256 digests, and extracts per-file case times with amortized batch
+  overhead when elapsed time is recorded. Unmapped files retain fallback costs.
+  Measurements and their provenance are frozen; historical timing data is
+  scheduling input, **never** current verification proof.
+- The final manifest batch is the canonical shared-process integration
+  preflight, including slow tests and always serial. A successful frozen
+  aggregate requires it as well as every full-core chunk.
+- `--resume` verifies current source/environment/settings against the plan and
+  checks each reusable receipt's plan/execution identity, exact command, JUnit
+  digest/counts and zero failures/errors. Invalid, missing, failed or incomplete
+  evidence is rerun; a changed source/environment requires a **new** plan.
+  Resume without `--batch-index` executes all unresolved chunks, then aggregates,
+  and requires an explicit per-chunk `--timeout`.
+- Frozen execution checks environment and source before/after each batch and
+  aggregation. JSON receipts are atomically replaced and record elapsed time.
+  Hashes provide integrity/provenance checks, not digital signatures against a
+  party able to rewrite both evidence and its hashes.
+
+Example commands (keep source, dependency and relevant environment settings
+fixed between them; use a fresh external destination):
+
+```bash
+cd /home/runner/work/Unitary-Manifold-/Unitary-Manifold-
+export PYTEST_ADDOPTS='' TMPDIR=/tmp OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+python /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/TOOLS/checks/run_supervised_pytest_batch.py \
+  --suite full-core --batch-count 32 --workers 0 \
+  --plan-file /tmp/axiom-frozen-plan.json --write-plan
+python /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/TOOLS/checks/run_supervised_pytest_batch.py \
+  --suite full-core --plan-file /tmp/axiom-frozen-plan.json \
+  --result-dir /tmp/axiom-frozen-results --resume --timeout 600
+python /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/TOOLS/checks/run_supervised_pytest_batch.py \
+  --suite full-core --plan-file /tmp/axiom-frozen-plan.json \
+  --result-dir /tmp/axiom-frozen-results --aggregate
+```
+
+To supply measured history, add `--timings-dir /absolute/external/receipts` only
+to plan creation, or supply `--durations-file /absolute/external/durations.json`.
+For bounded/manual execution, add `--batch-index N --resume` to execute only that
+unresolved chunk. The final integration index equals the number of core chunks.
+Allow the runner's timeout to finish child cleanup; do not wrap it with an
+equally short outer timeout. Retain the external manifest alongside JSON/JUnit
+artifacts outside the checkout. A later documentation or source commit is a
+different verification snapshot. No full regression certificate follows merely
+from implementing this workflow.
+
 ## Foundation reassessment
 
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a

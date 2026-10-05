@@ -471,3 +471,178 @@ def test_timeout_terminates_child_processes(runner):
             return
         time.sleep(0.01)
     pytest.fail("pytest child survived process-group termination")
+
+
+def frozen_plan(runner, monkeypatch, tmp_path):
+    (runner.ROOT / "test_sample.py").write_text("def test_sample(): pass\n")
+    configure(monkeypatch, runner, [["test_sample.py"]], suite="full-core")
+    monkeypatch.setattr(runner, "build_dependency_cost_batches",
+                        lambda files, count, durations: [{"batch_index": 0, "test_paths": files}])
+    monkeypatch.setattr(runner, "integration_preflight_argv",
+                        lambda: [sys.executable, "-m", "pytest", "test_sample.py", "-m", "", "-q"])
+    path = tmp_path / "frozen.json"
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "full-core", "--plan-file", str(path), "--write-plan", "--batch-count", "1",
+    ])
+    assert runner.main() == 0
+    return path, tmp_path / "receipts"
+
+
+def frozen_invoke(runner, monkeypatch, plan, result, *extra):
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "full-core", "--plan-file", str(plan),
+        "--result-dir", str(result), *extra,
+    ])
+    return runner.main()
+
+
+def test_frozen_resume_requires_matching_complete_integration(runner, monkeypatch, tmp_path):
+    plan, result = frozen_plan(runner, monkeypatch, tmp_path)
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--batch-index", "0") == 0
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--aggregate") == 1
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--resume", "--timeout", "20") == 0
+    assert receipt(result, 1, "full-core")["counts"]["tests"] == 1
+    monkeypatch.setattr(runner, "_run", lambda *args: pytest.fail("completed chunks must be reused"))
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--resume", "--timeout", "20") == 0
+
+
+@pytest.mark.parametrize("change", ["source", "environment", "workers", "manifest", "junit", "command"])
+def test_frozen_resume_never_reuses_invalid_evidence(runner, monkeypatch, tmp_path, change):
+    plan, result = frozen_plan(runner, monkeypatch, tmp_path)
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--batch-index", "0") == 0
+    if change == "source":
+        monkeypatch.setattr(runner, "_snapshot", lambda: {"head": "changed", "worktree_digest": "def"})
+    elif change == "environment":
+        monkeypatch.setattr(runner, "_environment_fingerprint", lambda: {"different": True})
+    elif change == "manifest":
+        data = json.loads(plan.read_text())
+        data["batches"][0]["test_paths"] = []
+        plan.write_text(json.dumps(data))
+    elif change == "junit":
+        (result / "full-core-0.xml").write_text("corrupt")
+    elif change == "command":
+        data = receipt(result, 0, "full-core")
+        data["command"] = ["python", "-m", "pytest", "-k", "partial"]
+        (result / "full-core-0.json").write_text(json.dumps(data))
+    extra = ("--workers", "2") if change == "workers" else ()
+    calls = []
+    def run(command, dry_run, timeout):
+        calls.append(command)
+        write_junit(Path(command[-1].split("=", 1)[1]))
+        return 0
+    monkeypatch.setattr(runner, "_run", run)
+    code = frozen_invoke(runner, monkeypatch, plan, result, "--resume", "--batch-index", "0", *extra)
+    if change in {"junit", "command"}:
+        assert code == 0
+        assert len(calls) == 1
+    else:
+        assert code == 2
+        assert not calls
+
+
+def test_frozen_execution_rejects_environment_mutation(runner, monkeypatch, tmp_path):
+    plan, result = frozen_plan(runner, monkeypatch, tmp_path)
+    original = runner._environment_fingerprint()
+    def run(command, dry_run, timeout):
+        write_junit(Path(command[-1].split("=", 1)[1]))
+        monkeypatch.setattr(runner, "_environment_fingerprint",
+                            lambda: {**original, "distributions_digest": "b" * 64})
+        return 0
+    monkeypatch.setattr(runner, "_run", run)
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--batch-index", "0") == 1
+    assert receipt(result, 0, "full-core")["status"] == "incomplete"
+
+
+def test_frozen_resume_retries_failed_chunks(runner, monkeypatch, tmp_path):
+    plan, result = frozen_plan(runner, monkeypatch, tmp_path)
+    monkeypatch.setattr(runner, "_run", lambda *args: 124)
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--batch-index", "0") == 1
+    def run(command, dry_run, timeout):
+        write_junit(Path(command[-1].split("=", 1)[1]))
+        return 0
+    monkeypatch.setattr(runner, "_run", run)
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--resume", "--timeout", "20") == 0
+
+
+def test_frozen_plan_cannot_be_overwritten(runner, monkeypatch, tmp_path):
+    plan, _ = frozen_plan(runner, monkeypatch, tmp_path)
+    original = plan.read_bytes()
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "full-core", "--plan-file", str(plan), "--write-plan",
+    ])
+    assert runner.main() == 2
+    assert plan.read_bytes() == original
+
+
+def test_frozen_settings_change_rejects_resume(runner, monkeypatch, tmp_path):
+    plan, result = frozen_plan(runner, monkeypatch, tmp_path)
+    monkeypatch.setenv("OMP_NUM_THREADS", "999")
+    monkeypatch.setattr(runner, "_run", lambda *args: pytest.fail("changed settings must not launch"))
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--resume", "--timeout", "20") == 2
+
+
+@pytest.mark.parametrize("optimization", ["1", "2", "unexpected"])
+def test_frozen_verification_rejects_disabled_assertions(runner, monkeypatch, tmp_path, optimization):
+    plan, result = frozen_plan(runner, monkeypatch, tmp_path)
+    monkeypatch.setenv("PYTHONOPTIMIZE", optimization)
+    monkeypatch.setattr(runner, "_run", lambda *args: pytest.fail("optimized tests must not launch"))
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--resume", "--timeout", "20") == 2
+
+
+@pytest.mark.parametrize("name", [
+    "full-core-0.json", "full-core-0.xml", "full-core-1.json.pending",
+    "full-core-aggregate.json", "full-core-aggregate.json.pending",
+])
+def test_frozen_plan_cannot_collide_with_result_artifacts(runner, monkeypatch, tmp_path, name):
+    plan, result = frozen_plan(runner, monkeypatch, tmp_path)
+    result.mkdir()
+    collision = result / name
+    plan.rename(collision)
+    original = collision.read_bytes()
+    monkeypatch.setattr(runner, "_run", lambda *args: pytest.fail("colliding artifacts must not be written"))
+    assert frozen_invoke(runner, monkeypatch, collision, result, "--resume", "--timeout", "20") == 2
+    assert collision.read_bytes() == original
+
+
+@pytest.mark.parametrize("change", ["environment", "settings"])
+def test_frozen_aggregate_checks_environment_again_at_completion(runner, monkeypatch, tmp_path, change):
+    plan, result = frozen_plan(runner, monkeypatch, tmp_path)
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--resume", "--timeout", "20") == 0
+    original_junit = runner._junit
+    original_environment = runner._environment_fingerprint()
+    def junit(path):
+        if change == "environment":
+            monkeypatch.setattr(runner, "_environment_fingerprint",
+                                lambda: {**original_environment, "distributions_digest": "b" * 64})
+        else:
+            monkeypatch.setenv("OMP_NUM_THREADS", "999")
+        return original_junit(path)
+    monkeypatch.setattr(runner, "_junit", junit)
+    assert frozen_invoke(runner, monkeypatch, plan, result, "--aggregate") == 1
+    summary = json.loads((result / "full-core-aggregate.json").read_text())
+    assert summary["status"] == "failure"
+    assert any("changed during aggregation" in problem for problem in summary["problems"])
+
+
+def test_historical_timing_receipts_are_validated_not_reused_as_proof(runner, tmp_path):
+    result = tmp_path / "timings"
+    result.mkdir()
+    xml = result / "full-core-0.xml"
+    xml.write_text(
+        '<testsuite tests="2" failures="0" errors="0" skipped="0">'
+        '<testcase classname="tests.test_one.TestGroup" time="2"/>'
+        '<testcase classname="tests.test_two" time="4"/></testsuite>'
+    )
+    counts, digest = runner._junit(xml)
+    data = {"batch_index": 0, "status": "success", "exit_code": 0, "counts": counts,
+            "junit_sha256": digest, "command": ["python", "tests/test_one.py", "tests/test_two.py"],
+            "elapsed_seconds": 10, "snapshot": {"head": "historical"}}
+    path = result / "full-core-0.json"
+    path.write_text(json.dumps(data))
+    (result / "full-core-aggregate.json").write_text(json.dumps({"status": "success", "exit_code": 0}))
+    durations, provenance = runner._measured_durations(result, ["tests/test_one.py", "tests/test_two.py"])
+    assert durations == {"tests/test_one.py": 4, "tests/test_two.py": 6}
+    assert provenance[0]["snapshot"] == {"head": "historical"}
+    xml.write_text(xml.read_text() + " ")
+    with pytest.raises(ValueError, match="corrupt JUnit"):
+        runner._measured_durations(result, ["tests/test_one.py"])

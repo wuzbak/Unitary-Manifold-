@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import shlex
 import importlib.util
+import ast
+import math
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -85,6 +87,210 @@ def _partition_evenly(items: List[str], batch_count: int) -> List[List[str]]:
         partitions.append(items[start:stop])
         start = stop
     return partitions
+
+
+def build_dependency_cost_batches(
+    files: list[str],
+    batch_count: int,
+    durations: dict[str, float] | None = None,
+) -> list[dict]:
+    """Partition files without executing imports, keeping strongest shared costs together.
+
+    Estimates are measured per-file seconds, not source-module timings. Static
+    reachability is bounded and ignores external/dynamic imports. Each file
+    chooses one strongest shared dependency rather than joining all intersecting
+    families; otherwise common base modules would connect nearly the whole suite.
+    """
+    if isinstance(batch_count, bool) or not isinstance(batch_count, int) or batch_count <= 0:
+        raise ValueError("batch_count must be a positive integer")
+
+    def local_path(value: str) -> Path:
+        if not isinstance(value, str) or not value:
+            raise ValueError("paths must be nonempty repository-relative Python paths")
+        path = Path(value)
+        if (
+            path.is_absolute() or ".." in path.parts or "\\" in value
+            or path.as_posix() != value or path.suffix != ".py"
+            or ".github" in path.parts
+        ):
+            raise ValueError(f"invalid repository-relative Python path: {value!r}")
+        resolved = (_ROOT / path).resolve()
+        if not resolved.is_relative_to(_ROOT.resolve()):
+            raise ValueError(f"path escapes repository: {value!r}")
+        return resolved
+
+    if not isinstance(files, list) or any(not isinstance(path, str) for path in files):
+        raise ValueError("files must be a list of repository-relative Python paths")
+    if durations is not None and not isinstance(durations, dict):
+        raise ValueError("durations must be a mapping of paths to positive finite seconds")
+    costs: dict[str, float] = {}
+    for path, value in (durations or {}).items():
+        local_path(path)
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError(f"duration must be positive and finite: {path}")
+        try:
+            cost = float(value)
+        except OverflowError as exc:
+            raise ValueError(f"duration must be positive and finite: {path}") from exc
+        if not math.isfinite(cost) or cost <= 0:
+            raise ValueError(f"duration must be positive and finite: {path}")
+        costs[path] = cost
+    paths = sorted(set(files))
+    if len(paths) != len(files):
+        raise ValueError("files must contain unique paths")
+    for path in paths:
+        if not local_path(path).is_file():
+            raise ValueError(f"test file does not exist: {path}")
+    costs = {path: costs.get(path, 1.0) for path in paths}
+    try:
+        math.fsum(costs.values())
+    except OverflowError as exc:
+        raise ValueError("total estimated duration must be finite") from exc
+    explicit_roots = {
+        "src.core.pillar952_observational_readiness_v4",
+        "src.core.pillar982_architecture_limit_registry_runtime",
+        "src.core.pillar987_uv_completion_compactification_layer",
+        "src.core.pillar988_fully_coupled_kk_backreaction_engine",
+        "src.core.pillar989_flavor_closure_geometric_layer",
+    }
+    generic_names = {
+        "__init__", "base", "config", "constants", "evolution", "geometry",
+        "metric", "units", "utils", "regression_supervision_plan",
+    }
+    parse_failures: set[str] = set()
+    import_cache: dict[str, set[str]] = {}
+    source_cache: dict[str, Path | None] = {}
+
+    def source_for(module: str) -> Path | None:
+        if module not in source_cache:
+            if not module.startswith("src.core."):
+                return None
+            relative = module.replace(".", "/")
+            candidates = (relative + ".py", relative + "/__init__.py")
+            source_cache[module] = next(
+                (local_path(candidate) for candidate in candidates
+                 if local_path(candidate).is_file()), None,
+            )
+        return source_cache[module]
+
+    def imports(path: Path, module: str = "") -> set[str]:
+        key = path.relative_to(_ROOT.resolve()).as_posix()
+        if key in import_cache:
+            return import_cache[key]
+        try:
+            tree = ast.parse(path.read_bytes(), filename=key)
+        except (OSError, SyntaxError, ValueError):
+            parse_failures.add(key)
+            import_cache[key] = set()
+            return set()
+        found: set[str] = set()
+        for node in ast.walk(tree):
+            names: list[str] = []
+            if isinstance(node, ast.Import):
+                names = [alias.name for alias in node.names]
+            elif isinstance(node, ast.ImportFrom):
+                base = node.module or ""
+                if node.level:
+                    package = module.split(".") if path.name == "__init__.py" else module.split(".")[:-1]
+                    if not module or node.level > len(package):
+                        continue
+                    base = ".".join(package[:len(package) - node.level + 1] + ([base] if base else []))
+                names = [base, *(base + "." + alias.name for alias in node.names)]
+            for name in names:
+                if name.startswith("src.core.") and source_for(name) is not None:
+                    found.add(name)
+        import_cache[key] = found
+        return found
+
+    signatures: dict[str, set[str]] = {}
+    truncated: list[str] = []
+    for path in paths:
+        seen: set[str] = set()
+        frontier = imports(local_path(path))
+        for _ in range(8):
+            pending = sorted(frontier - seen)
+            if not pending:
+                break
+            remaining = 256 - len(seen)
+            if len(pending) > remaining:
+                truncated.append(path)
+            pending = pending[:remaining]
+            if not pending:
+                break
+            seen.update(pending)
+            frontier = set()
+            for module in pending:
+                source = source_for(module)
+                if source is not None:
+                    frontier.update(imports(source, module))
+        if frontier - seen and path not in truncated:
+            truncated.append(path)
+        signatures[path] = seen
+    users: dict[str, list[str]] = {}
+    for path in paths:
+        for module in sorted(signatures[path]):
+            users.setdefault(module, []).append(path)
+    # A broad non-pillar hub is not evidence of shared expensive initialization.
+    candidates = {
+        module for module, members in users.items()
+        if len(members) > 1
+        and module.rsplit(".", 1)[-1] not in generic_names
+        and (
+            module in explicit_roots or module.rsplit(".", 1)[-1].startswith("pillar")
+            or len(members) <= max(8, math.ceil(len(paths) / 4))
+        )
+    }
+    ranked = sorted(
+        candidates,
+        key=lambda module: (
+            module not in explicit_roots,
+            -math.fsum(costs[path] for path in users[module]),
+            -len(users[module]), module,
+        ),
+    )
+    grouped: dict[str, list[str]] = {}
+    for path in paths:
+        root = next((module for module in ranked if module in signatures[path]), "")
+        grouped.setdefault(root or f"file:{path}", []).append(path)
+    groups = [
+        {
+            "dependency_root": "" if root.startswith("file:") else root,
+            "test_paths": members,
+            "estimated_seconds": math.fsum(costs[path] for path in members),
+        }
+        for root, members in grouped.items()
+    ]
+    groups.sort(key=lambda group: (-group["estimated_seconds"], group["test_paths"]))
+    assumptions = {
+        "fallback_seconds_per_file": 1.0,
+        "static_import_depth_limit": 8,
+        "static_import_module_limit_per_file": 256,
+        "grouping": "strongest shared explicit costly root, then aggregate file cost; no group splitting",
+        "estimates": "sum of per-file durations, not measured import costs; unknown files use fallback",
+        "imports": "AST-only local src.core imports; no execution, dynamic or external imports",
+        "generic_hubs": "common base names and broad non-pillar hubs excluded as grouping roots",
+        "unparsed_paths": sorted(parse_failures),
+        "truncated_test_paths": sorted(truncated),
+    }
+    batches = [
+        {
+            "batch_index": index, "batch_count": batch_count, "test_paths": [],
+            "file_count": 0, "estimated_seconds": 0.0, "dependency_groups": [],
+            "assumptions": dict(assumptions),
+        }
+        for index in range(batch_count)
+    ]
+    for group in groups:
+        batch = min(batches, key=lambda item: (item["estimated_seconds"], item["batch_index"]))
+        batch["dependency_groups"].append(group)
+        batch["test_paths"].extend(group["test_paths"])
+        batch["estimated_seconds"] = math.fsum(
+            item["estimated_seconds"] for item in batch["dependency_groups"]
+        )
+    for batch in batches:
+        batch["test_paths"].sort()
+        batch["file_count"] = len(batch["test_paths"])
+    return batches
 
 
 def pytest_xdist_available() -> bool:
