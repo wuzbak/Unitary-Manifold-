@@ -199,6 +199,13 @@ environment during this attempt. No repository dependency files changed; the
 advisory check reported no known vulnerabilities for those versions. This run
 does not establish an immutable final-checkpoint regression result.
 
+Final automated validation did not establish Python clearance. The review
+backend failed because its requested model was absent from the model registry,
+despite the wrapper reporting success; no completed automated review is
+claimed. Actions CodeQL reported no alerts, while Python analysis was skipped
+because its database was oversized. Independent specialist reviews are
+separate evidence, not substitutes for a completed Python scan.
+
 ## Foundation reassessment
 
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a
