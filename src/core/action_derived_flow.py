@@ -362,12 +362,15 @@ def symbolic_kk_reduction_check(full: bool = False, exact: bool = False, offdiag
     G[4, 4] = p ** 2
     L5 = sp.sqrt(-G.det()) * _sym_ricci_scalar(sp, G, coords)
     L4 = _sym_reduced_lagrangian(sp, x, lam, gE, Bv, p, coords)
-    eqs = euler_equations(L5 - L4, fields, x)
+    # Exact rational cancellation before variation preserves the Lagrangian
+    # difference on the nonsingular metric domain and avoids differentiating
+    # thousands of terms that cancel algebraically.
+    eqs = euler_equations(sp.cancel(L5 - L4), fields, x)
     prof = _test_profiles(sp, x, syms, offdiagonal)
     replacements = dict(prof)
     max_abs = 0.0
     for eq in eqs:
-        expr = _substitute_smooth_profiles(sp, eq.lhs, prof, replacements)
+        expr = _substitute_smooth_profiles(sp, sp.cancel(eq.lhs), prof, replacements)
         for xv in (0.3, 1.1, -0.7):
             val = complex(expr.evalf(30, subs={x: xv, lam: sp.Rational(7, 10)}))
             max_abs = max(max_abs, abs(val))

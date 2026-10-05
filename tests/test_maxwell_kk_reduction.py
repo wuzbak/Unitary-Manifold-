@@ -215,6 +215,8 @@ def test_physical_time_surface_is_scoped_without_contract_promotion():
     assert "not the metric orbifold" in surface["compactification"]
     assert "physical" in surface["time"] and "lapse 1" in surface["time"]
     assert "no cleaning" in surface["constraint_policy"]
+    assert "discrete" in surface["constraint_policy"]
+    assert "not a continuum certificate" in surface["constraint_policy"]
     assert "not evolved" in surface["backreaction"]
     for name in (
         "self_consistent_backreaction", "observed_photon_identified",
@@ -387,6 +389,29 @@ def test_centered_constraints_explicitly_have_a_nyquist_resolution_limit():
     state = MaxwellTestFieldState(electric, np.zeros_like(electric), 0.1)
     assert maxwell_test_field_diagnostics(state)["electric_gauss_rms"] == 0.0
     assert any("Nyquist" in note for note in maxwell_test_field_surface()["limitations"])
+
+
+@pytest.mark.parametrize("field_name", ["electric", "magnetic"])
+def test_diagnostics_reject_overflowing_squares_of_finite_fields(field_name):
+    fields = {"electric": np.zeros((16, 3)), "magnetic": np.zeros((16, 3))}
+    fields[field_name][:, 1] = 1e200
+    state = MaxwellTestFieldState(**fields, dx=0.1)
+    assert np.all(np.isfinite(getattr(state, field_name)))
+    with pytest.raises(ValueError, match="finite representable"):
+        maxwell_test_field_diagnostics(state)
+
+
+@pytest.mark.parametrize(
+    "amplitude,lam,dx",
+    [(1e100, 1e100, 0.1), (1e154, 1.0, 1.0), (1.0, 1.0, 1e-308)],
+)
+def test_diagnostics_reject_overflowing_weighted_products_totals_or_constraint_norms(amplitude, lam, dx):
+    electric = np.zeros((16, 3))
+    electric[:, 0] = amplitude * np.cos(2 * math.pi * np.arange(16) / 16)
+    state = MaxwellTestFieldState(electric, np.zeros_like(electric), dx, lam=lam)
+    assert math.isfinite(state.gauge_weight)
+    with pytest.raises(ValueError, match="finite representable"):
+        maxwell_test_field_diagnostics(state)
 
 
 def test_semidiscrete_energy_derivative_vanishes_by_periodic_summation_by_parts():

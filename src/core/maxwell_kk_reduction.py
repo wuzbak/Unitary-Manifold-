@@ -296,7 +296,10 @@ def maxwell_test_field_surface() -> Dict:
         "field_convention": "E_i = F_i0; F_ij = epsilon_ijk B_mag,k; B_mag is not the KK potential",
         "discretization": "periodic second-order centered spatial differences; separate RK4 in physical time",
         "timestep": "0 < dt <= dx (conservative hyperbolic CFL, not a diffusion timestep)",
-        "constraint_policy": "measure actual electric and magnetic divergences; no cleaning or projection",
+        "constraint_policy": (
+            "measure discrete centered Dx electric and magnetic divergences; "
+            "not a continuum certificate; no cleaning or projection"
+        ),
         "backreaction": "not evolved; metric and radion equations are not claimed to hold",
         "limitations": [
             "Nonzero Maxwell stress sources gravity even when F^2=0.",
@@ -434,26 +437,35 @@ def step_maxwell_test_field(
 
 
 def maxwell_test_field_diagnostics(state: MaxwellTestFieldState) -> Dict:
-    """Actual Gauss constraints, energy and Poynting flux per unit transverse area.
+    """Discrete Gauss constraints, energy and flux per unit transverse area.
 
     Energy is w*dx*sum(E^2+B_mag^2)/2; flux is w*(E cross B_mag).
     The centered spatial operator conserves this discrete energy exactly in
     continuous time (periodic summation by parts); RK4 has finite timestep error.
-    Nonzero divergence is reported rather than cleaned. In this 1D reduction
-    both longitudinal components are constant in time, so violations persist.
+    Discrete Dx divergences are reported rather than cleaned, not certified as
+    continuum constraints. In particular, even-N checkerboard/Nyquist modes
+    lie in the centered derivative's nullspace. In this 1D reduction both
+    longitudinal components are constant in time, so resolved violations persist.
+
+    Raises ValueError if any diagnostic product or reduction is nonfinite;
+    finite input fields alone do not ensure representable squares or totals.
     """
-    electric_squared = np.sum(state.electric * state.electric, axis=1)
-    magnetic_squared = np.sum(state.magnetic * state.magnetic, axis=1)
-    energy_density = 0.5 * state.gauge_weight * (electric_squared + magnetic_squared)
-    electric_divergence = _maxwell_periodic_derivative(state.electric[:, 0], state.dx)
-    magnetic_divergence = _maxwell_periodic_derivative(state.magnetic[:, 0], state.dx)
-    return {
-        "electric_divergence": electric_divergence,
-        "magnetic_divergence": magnetic_divergence,
-        "electric_gauss_rms": float(np.sqrt(np.mean(electric_divergence**2))),
-        "magnetic_gauss_rms": float(np.sqrt(np.mean(magnetic_divergence**2))),
-        "energy_density": energy_density,
-        "energy": float(state.dx * np.sum(energy_density)),
-        "poynting_flux": state.gauge_weight * np.cross(state.electric, state.magnetic),
-        "F2_lorentzian": 2.0 * (magnetic_squared - electric_squared),
-    }
+    with np.errstate(over="ignore", invalid="ignore", divide="ignore"):
+        electric_squared = np.sum(state.electric * state.electric, axis=1)
+        magnetic_squared = np.sum(state.magnetic * state.magnetic, axis=1)
+        energy_density = 0.5 * state.gauge_weight * (electric_squared + magnetic_squared)
+        electric_divergence = _maxwell_periodic_derivative(state.electric[:, 0], state.dx)
+        magnetic_divergence = _maxwell_periodic_derivative(state.magnetic[:, 0], state.dx)
+        diagnostics = {
+            "electric_divergence": electric_divergence,
+            "magnetic_divergence": magnetic_divergence,
+            "electric_gauss_rms": float(np.sqrt(np.mean(electric_divergence**2))),
+            "magnetic_gauss_rms": float(np.sqrt(np.mean(magnetic_divergence**2))),
+            "energy_density": energy_density,
+            "energy": float(state.dx * np.sum(energy_density)),
+            "poynting_flux": state.gauge_weight * np.cross(state.electric, state.magnetic),
+            "F2_lorentzian": 2.0 * (magnetic_squared - electric_squared),
+        }
+    if not all(np.all(np.isfinite(value)) for value in diagnostics.values()):
+        raise ValueError("Maxwell diagnostics require finite representable products and reductions")
+    return diagnostics

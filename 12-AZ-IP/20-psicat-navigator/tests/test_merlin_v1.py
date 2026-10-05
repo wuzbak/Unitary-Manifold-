@@ -266,6 +266,20 @@ def test_email_sanitization_preserves_redaction_without_suffix_retries():
     assert _sanitize_text("a@" + sample) == "a@" + sample
 
 
+@pytest.mark.parametrize("sample,expected", [
+    ("a@" + "b." * 50_000 + "!", None),
+    ("a@" + "a1." * 50_000 + "0!", None),
+    ("a@" * 50_000 + "!", None),
+    ("a@b.c!" * 25_000, None),
+    ("a@b." + "c" * 100_000 + "!", "[REDACTED_EMAIL]!"),
+    ("a@" + "b." * 50_000 + "cc" + "9" * 100_000 + "!", "[REDACTED_EMAIL]" + "9" * 100_000 + "!"),
+])
+def test_email_guard_handles_long_domain_and_delimiter_witnesses(sample, expected):
+    from ox_navigator.engine.merlin_runtime import _EMAIL_RE
+
+    assert _EMAIL_RE.sub("[REDACTED_EMAIL]", sample) == (sample if expected is None else expected)
+
+
 def test_profile_ids_reject_header_syntax_but_resume_valid_uuid():
     from ox_navigator.app.server import _extract_session_id, _sign_session_id
 
