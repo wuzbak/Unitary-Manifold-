@@ -161,6 +161,44 @@ ReDoS, and two pairs of cookie/header alerts. These require reachability and
 safeguard review; alerts are not automatically confirmed vulnerabilities.
 Neither a clean Python result nor full-monorepo clearance is claimed.
 
+### Resumed synthesis checkpoint (2026-10-05)
+
+The continuation used independent PsiCat runtime, RAG, numerical-review and
+security specialists. Local PsiCat repository navigation was exercised without
+hosted agents or provider APIs; this does not establish participation by the
+deployed PsiCat service.
+
+The RAG specialist reproduced missing Maxwell-specific routing and a stale
+“latest wave” label. The repair distinguishes the newest changelog entry from
+the historical versioned wave, describes physical-time Maxwell evolution as a
+prescribed-background test field, and keeps coupled Einstein/radion evolution
+open. Source-scaffold paths must resolve inside the repository; curated
+navigation labels are explicitly not source verification or scientific
+certification. The caller's retrieval limit is also preserved. The focused
+RAG, assistant API, research-resource and UM SOS tests passed **117 tests with
+3 skipped** in **4.59 seconds**. These overlap earlier suites and are not added
+to a repository-wide total.
+
+The read-only security specialist checked public-page DNS/IP pinning and
+redirect validation, RAG and Lean path containment, signed session identifiers,
+cookie settings, compatibility-route authorization, and the revised email
+pattern. It found no high-confidence reachable issue in that bounded review.
+This is **not a fresh CodeQL result or a complete disposition of the seven
+recorded alerts**. Deployment/proxy behavior, other products, and monorepo-wide
+dataflow remain unverified.
+
+An intermediate progress checkpoint accidentally captured concurrent test
+scratch. Secret scanning found no secrets in the scanned source and generated
+training records. Both generated scratch directories were subsequently removed;
+an intermediate commit is not evidence of completed verification.
+The combined all-core run included slow tests explicitly, but was stopped after
+approximately 990 seconds without a terminal summary or complete JUnit report.
+No pass/failure total is certified. Concurrent source work and a reviewer's
+installation of optional JAX/JAXlib 0.11.2 also changed the verification
+environment during this attempt. No repository dependency files changed; the
+advisory check reported no known vulnerabilities for those versions. This run
+does not establish an immutable final-checkpoint regression result.
+
 ## Foundation reassessment
 
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a

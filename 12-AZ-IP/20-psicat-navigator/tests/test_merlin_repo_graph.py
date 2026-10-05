@@ -110,6 +110,43 @@ def test_repo_graph_discovers_added_files_and_drops_removed_paths(graph_root, mo
     assert graph["summary"]["total_discovered"] == 1
 
 
+def test_selection_reuses_path_tokens_without_caching_discovery(graph_root, monkeypatch) -> None:
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
+    merlin_repo_graph._file_layout_cached.cache_clear()
+    for name in ("alpha", "beta"):
+        _write_graph_fixture(graph_root, f"src/core/{name}.py")
+    tokenize = merlin_repo_graph._tokenize
+    calls = []
+
+    def counted_tokenize(*parts):
+        calls.extend(parts)
+        return tokenize(*parts)
+
+    monkeypatch.setattr(merlin_repo_graph, "_tokenize", counted_tokenize)
+    assert merlin_repo_graph._candidate_files(1, "alpha")[0].name == "alpha.py"
+    assert merlin_repo_graph._candidate_files(1, "beta")[0].name == "beta.py"
+    assert calls.count("src/core/alpha.py") == 1
+    assert calls.count("src/core/beta.py") == 1
+    _write_graph_fixture(graph_root, "tests/test_gamma.py")
+    assert merlin_repo_graph._candidate_files(1, "gamma")[0].name == "test_gamma.py"
+    (graph_root / "tests/test_gamma.py").unlink()
+    assert len(merlin_repo_graph._candidate_files(10)) == 2
+
+
+def test_discovery_reuses_priority_metadata_and_keys_it_by_root(graph_root, monkeypatch) -> None:
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
+    merlin_repo_graph._priority_key_cached.cache_clear()
+    _write_graph_fixture(graph_root, "src/core/alpha.py")
+    first = merlin_repo_graph._discover_files()
+    assert merlin_repo_graph._discover_files() == first
+    cache = merlin_repo_graph._priority_key_cached.cache_info()
+    assert cache.misses == 1
+    assert cache.hits == 1
+    assert merlin_repo_graph._priority_key(first[0]) == (0, "src/core/alpha.py")
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root / "src")
+    assert merlin_repo_graph._priority_key(first[0]) == (7, "core/alpha.py")
+
+
 @pytest.mark.parametrize("requested,cap", [(-10, 1), (1, 1), (7, 7), (600, 600), (999, 600)])
 def test_repo_graph_representative_sampling_is_deterministic_and_bounded(
     graph_root, monkeypatch, requested, cap

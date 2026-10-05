@@ -25,7 +25,12 @@ _PRIORITY_PREFIXES = [
 
 
 def _priority_key(path: Path) -> tuple[int, str]:
-    rel = path.relative_to(REPO_ROOT).as_posix()
+    return _priority_key_cached(path, str(REPO_ROOT))
+
+
+@lru_cache(maxsize=8192)
+def _priority_key_cached(path: Path, root: str) -> tuple[int, str]:
+    rel = path.relative_to(Path(root)).as_posix()
     for index, prefix in enumerate(_PRIORITY_PREFIXES):
         if rel.startswith(prefix):
             return (index, rel)
@@ -46,21 +51,38 @@ def _discover_files() -> tuple[Path, ...]:
         "12-AZ-IP/20-psicat-navigator/**/*.md",
     ):
         pool.extend(REPO_ROOT.glob(pattern))
-    unique = sorted({path.resolve() for path in pool if path.is_file()}, key=_priority_key)
+    unique = sorted(
+        {path.resolve() if path.is_symlink() else path for path in pool if path.is_file()},
+        key=_priority_key,
+    )
     return tuple(unique)
 
 
-def _select_files(files: Iterable[Path], max_files: int, query: str = "") -> tuple[Path, ...]:
+@lru_cache(maxsize=4)
+def _file_layout_cached(
+    files: tuple[Path, ...], root: str,
+) -> tuple[tuple[Path, frozenset[str]], ...]:
+    repo_root = Path(root)
     areas: dict[str, list[Path]] = {}
+    relative_paths: dict[Path, str] = {}
     for path in files:
-        rel = path.relative_to(REPO_ROOT).as_posix()
+        rel = path.relative_to(repo_root).as_posix()
+        relative_paths[path] = rel
         area = next((prefix for prefix in _PRIORITY_PREFIXES if rel.startswith(prefix)), None)
         if area is None:
             parts = Path(rel).parts
             area = "/".join(parts[:2] if parts[0] == "src" else parts[:1])
         areas.setdefault(area, []).append(path)
-    groups = [sorted(group, key=_priority_key) for group in areas.values()]
-    groups.sort(key=lambda group: _priority_key(group[0]))
+    def priority(path: Path) -> tuple[int, str]:
+        rel = relative_paths[path]
+        index = next(
+            (index for index, prefix in enumerate(_PRIORITY_PREFIXES) if rel.startswith(prefix)),
+            len(_PRIORITY_PREFIXES),
+        )
+        return index, rel
+
+    groups = [sorted(group, key=priority) for group in areas.values()]
+    groups.sort(key=lambda group: priority(group[0]))
     # Interleave areas before applying the cap, including within equal query scores.
     representative = [
         group[index]
@@ -68,12 +90,18 @@ def _select_files(files: Iterable[Path], max_files: int, query: str = "") -> tup
         for group in groups
         if index < len(group)
     ]
+    return tuple((path, frozenset(_tokenize(relative_paths[path]))) for path in representative)
+
+
+def _select_files(files: Iterable[Path], max_files: int, query: str = "") -> tuple[Path, ...]:
+    # Discovery remains fresh; reuse only path metadata for an identical file set.
+    representative = _file_layout_cached(tuple(files), str(REPO_ROOT))
     query_tokens = _tokenize(query)
     if query_tokens:
-        representative.sort(
-            key=lambda path: -len(query_tokens & _tokenize(path.relative_to(REPO_ROOT).as_posix()))
+        representative = sorted(
+            representative, key=lambda item: -len(query_tokens & item[1])
         )
-    return tuple(representative[: max(1, min(int(max_files), 600))])
+    return tuple(path for path, _ in representative[: max(1, min(int(max_files), 600))])
 
 
 def _candidate_files(max_files: int, query: str = "") -> tuple[Path, ...]:
