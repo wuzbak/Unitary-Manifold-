@@ -133,7 +133,7 @@ def _pytest_argv_from_paths(paths: List[str], marker_expression: str | None = No
     command = ["python", "-m", "pytest"]
     if pytest_xdist_available():
         command.extend(["-n", "auto"])
-    if marker_expression:
+    if marker_expression is not None:
         command.extend(["-m", marker_expression])
     command.extend([*paths, "-q"])
     return command
@@ -144,7 +144,7 @@ def _fast_batch_command_from_paths(paths: List[str]) -> str:
 
 
 def _full_core_batch_command_from_paths(paths: List[str]) -> str:
-    return shlex.join(_pytest_argv_from_paths(paths))
+    return shlex.join(_pytest_argv_from_paths(paths, marker_expression=""))
 
 
 def fast_batch_command(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> str:
@@ -185,7 +185,7 @@ def full_core_batch_argv(
     batches = build_full_core_batches(batch_count=batch_count)
     if batch_index < 0 or batch_index >= len(batches):
         raise IndexError("batch_index out of range")
-    return _pytest_argv_from_paths(batches[batch_index]["test_paths"])
+    return _pytest_argv_from_paths(batches[batch_index]["test_paths"], marker_expression="")
 
 
 def compactified_preflight_command() -> str:

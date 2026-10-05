@@ -29,3 +29,6 @@ docs/_build/
 wandb/offline-run-*/
 .mutmut-cache
 *.bak
+
+# Local UM-ARTS evidence, logs, and SQLite indexes
+.um-arts/
