@@ -1,5 +1,114 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v38.1
+# Unitary Manifold v38.2
+
+## Synthesis repair (2026-10-05)
+
+This repair preserves the existing version and pillar allocation. It does not
+establish a full model of the universe, physical-time dynamics, or empirical
+confirmation. Independent review suggestions were checked against source and
+reproduced behavior; suggestions unsupported by the code were not adopted.
+
+**Dark-sector boundary.** The current reduced gauge action is
+−¼λ²φ³F² in the Einstein frame, with F=dB. The new
+`b_field_strength_energy_density` in `src/core/dark_matter_geometry.py` reports
+½λ²φ³(E²+H²) from an antisymmetric field-strength tensor in a local orthonormal
+Einstein frame. Coordinate components require a frame transformation first.
+This is gauge-sector energy only, not radion energy or a halo solver.
+A constant potential, or a static radial one-form proportional to dr/r away
+from its singular origin, has zero local field strength. The preserved legacy
+B² APIs impose a gauge-dependent halo and cannot supply the action-derived
+dark-matter interpretation previously asserted.
+
+The meV hot-relic proxy (`dark_matter_kk`), weak-scale annihilation benchmark
+(P714/P717), and warped-scale mass ansatz (P790) are separate assumptions.
+Their masses are not interchangeable or jointly derived. Unit corrections
+are not permission to fit constants until a Planck abundance is obtained.
+P790's spectrum gives 24.622 GeV for the first mode; its 1 TeV constant is
+a supplied benchmark, not that spectrum. Its certificate now reports computed
+quantities and leaves unsupported detector and uncertainty fields unset.
+The corrected toy abundance at that mass is Ωh²≈0.0782565, not the historical
+supplied interval [0.09, 0.14]. P714's supplied 1042 GeV benchmark gives
+σv≈1.123965 pb and Ωh²≈0.0889707 under its approximate freeze-out formula.
+P717 replaces the dimensionally invalid gravitational expression with an
+explicitly assumed contact toy, σ=G_N²μ²/π. This is not a derivation of
+graviton-mediated scattering. Thermal history, particle/mediator identities,
+abundance rescaling and mass-dependent recoil limits still need derivation.
+P290 preserves its legacy numerical proxy for reproducibility, but its actual
+dimensions are cm⁶/s⁴, not area. Physical cross-section and limit-ratio fields
+are now unset and its verdict is `UNSUPPORTED`: a 1 TeV mediator is not an
+identified dark-matter particle at the detector limit's 30 GeV reference mass.
+Neither a positive nor a null recoil result confirms or refutes that unspecified
+prediction. No replacement amplitude has been invented.
+
+**Local assistance.** PsiCat's local repository graph and `bot.rag_index` were
+executed as deterministic navigation/retrieval aids. No hosted PsiCat session
+or external model provider was used. The bounded graph is not a complete
+dependency graph. Fresh discovery replaces the stale cached file list, and
+query-aware path selection prevents alphabetically late modules/tests from
+being hidden solely by the cap; representative area sampling retains the
+bounded read budget. Two queries about current evolution and dark matter
+reproduced an unrelated closure-percentage answer; the touched retrieval
+routes now require topic grounding and expose the relevant limits instead.
+Untouched static knowledge entries and historical documents still require audit.
+
+**Observational integration limit.** `tests/test_e2e_pipeline.py` checks network
+convergence, then computes observables from a supplied φ₀=1 and other fixed
+inputs; it does not extract or propagate the converged state into that
+calculation. Its formulas and assertions are preserved, but the misleading
+“unbroken causal chain” and parameter-free validation descriptions are
+corrected. Conditional formula agreement is not a dynamical universe simulation.
+
+**Execution, not bookkeeping.** `pytest.ini` defaults to excluding slow tests.
+The former `full-core` commands did not override that default. They now use
+`-m ""`. A structural supervisor proves only file partition consistency, not
+successful collection or execution. The existing batch runner now supports
+JUnit-backed receipts tied to the commit, worktree and ordered batch plan,
+rejecting missing, failed, timed-out, stale or dry-run evidence on aggregation.
+Execution environment fingerprints must match across nonempty shards; the
+supervisor need not install the execution environment. Receipt-backed runs
+reject `PYTEST_ADDOPTS` filters. Skipped cases remain visible. These are local/CI reproducibility records, not
+cryptographic attestation or scientific certificates.
+
+Run these existing entry points from the repository:
+
+```bash
+python TOOLS/checks/run_supervised_pytest_batch.py --suite integration-preflight
+python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core --batch-count 12 --batch-index 0 --workers 2 --timeout 5100 --result-dir /tmp/um-regression
+# Repeat execution for indices 1–11, then require all matching receipts:
+python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core --batch-count 12 --aggregate --result-dir /tmp/um-regression
+```
+
+The integration preflight keeps the metric/action/relaxation/gauge-energy/
+boundary/fixed-point tests in a single pytest process, rather than assuming
+distributed successes detect shared-state issues. It still covers a declared
+software subset, not all physics or products. CI retains batch artifacts and
+requires execution aggregation. Product tests under `12-AZ-IP/` and other
+out-of-core roots are listed in the supervision plan; they have not been added
+to the core claim count or declared fully verified.
+
+**Verification checkpoint.** The shared-process integration preflight completed
+with **307 passed** in 798.82 seconds, with no failures or deselections.
+The focused geometry/action run passed **98 tests**, with two slow cases
+deselected there and enabled in the preflight. The KK/direct-detection repair
+and related dependency run passed **281 tests**. The RAG/API/resource run
+passed **108 tests**, with three skips. Runner/supervision, directory-size,
+workflow, ledger and epistemic-contract checks passed **176 tests**.
+The parent-owned supervision checks
+passed **20 tests**; the unchanged conditional observational pipeline passed
+**26 tests**. These overlapping suites must not be summed into a headline.
+
+The combined `tests/ recycling/ Pentad` run was started before editing with
+pytest's default non-slow selection and stopped without a terminal summary
+after prolonged execution. Some tests read live documents during execution,
+so it was not an immutable pre-change snapshot and is not final-code
+verification. There is **no completed all-core regression result for this
+repair**. The historical 64,150-pass marker is not this execution's result.
+The focused graph/hardening run passed **20 tests** with nine cases deselected; the
+broader Product 20 hardening rerun stalled on a phase-2 case and was stopped,
+so no complete Product 20 regression is claimed. Final review is recorded
+below when complete.
+Full formal build, deployed webspace behavior and empirical dark-sector
+validation remain outside this execution.
 
 ## Foundation reassessment
 

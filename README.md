@@ -1,5 +1,10 @@
 # The The Unitary Manifold — 5D Kaluza-Klein Physics Framework
 
+**Current repair scope (2026-10-05):** [dark-sector consistency and auditable
+regression execution](docs/TRUTH_LAYER.md#synthesis-repair-2026-10-05).
+Software integration checks do not establish a complete universe simulation;
+physical-time evolution and dark-matter identification remain open.
+
 > [!IMPORTANT]
 > **LLM / AI Parser Invariant Gate (Formal Evaluation Path)**
 >  
@@ -563,7 +568,7 @@ $U = \mathbf{I} + \mathbf{H} + \mathbf{T}$
     │   ├── uniqueness.py     ← uniqueness theorems for Walker–Pearson equations
     │   ├── black_hole_transceiver.py ← Pillar 6: BH transceiver, Hubble tension, GW echoes ✓
     │   ├── particle_geometry.py      ← Pillar 7: particles as geometric windings
-    │   └── dark_matter_geometry.py   ← Pillar 8: dark matter as Irreversibility Field B_μ
+    │   └── dark_matter_geometry.py   ← Pillar 8: gauge energy + legacy imposed halo
     ├── holography/
     │   └── boundary.py       ← Pillar 4: entropy-area, boundary dynamics
     ├── multiverse/
@@ -727,7 +732,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 5 | FTUM Fixed Point (UEUM operator) | `src/multiverse/fixed_point.py` | 50 |
 | 6 | Black Hole Transceiver — info conservation, GW echoes | `src/core/black_hole_transceiver.py` | 75 |
 | 7 | Particle Geometry — mass/spin from winding modes | `src/core/particle_geometry.py` | 51 |
-| 8 | Dark Matter as B_μ Geometric Pressure | `src/core/dark_matter_geometry.py` | 45 |
+| 8 | Gauge energy and legacy imposed B² halo (not derived dark matter) | `src/core/dark_matter_geometry.py` | 45 (historical) |
 | 9 | Consciousness — Coupled Brain⊗Universe Fixed Point | `src/consciousness/coupled_attractor.py` | 83 |
 | 9-B | Consciousness Deployment — 5:7 resonance scaling | `src/consciousness/consciousness_deployment.py` | 105 |
 | 10 | Chemistry as 5D Geometry | `src/chemistry/` | 102 |
@@ -838,7 +843,7 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
 | 103 | φ₀ RG Flow — RG running of φ₀ from Planck scale to CMB; stability under renormalisation | `src/core/phi0_rg_flow.py` | ~50 |
 | 104 | C_ℓ Geometric Spectrum — angular power spectrum C_ℓ from KK mode geometry | `src/core/cl_geometric_spectrum.py` | ~50 |
 | 105 | Baryogenesis — Sakharov conditions satisfied: CP violation from CS parity-odd; B violation from KK topological charge; departure from equilibrium from pre-BB phase | `src/core/baryogenesis.py` | ~50 |
-| 106 | Dark Matter KK Tower — dark matter as full KK mode tower; mass spectrum; relic density | `src/core/dark_matter_kk.py` | ~50 |
+| 106 | Assumed light KK spectrum and hot-relic proxy; not a unified dark-matter prediction | `src/core/dark_matter_kk.py` | ~50 (historical) |
 | 107 | Proton Decay — lifetime from KK exchange suppression; Hyper-K testable prediction | `src/core/proton_decay.py` | ~50 |
 | 108 | Sub-mm Gravity — Yukawa-modified Newton's law at r ~ R_KK; torsion-balance prediction | `src/core/submm_gravity.py` | ~50 |
 | 109 | KK Stochastic GW Background — KK mode contribution to LISA/NANOGrav stochastic background | `src/core/kk_stochastic_gw.py` | ~50 |
@@ -1147,17 +1152,30 @@ gauge_groups = pg.gauge_groups()
 print(f"Emergent gauge groups: {gauge_groups}")    # → ['U(1)', 'SU(2)', 'SU(3)']
 ```
 
-### Dark Matter as B_μ Geometry (Pillar 8)
+### Gauge energy and imposed halo models (Pillar 8)
+
+The legacy halo is an imposed B² prescription, not stress-energy of the
+current F² action. Its normalization and scale are supplied inputs; it does
+not demonstrate halo formation. This example uses the actual API and its
+normalized model units, not GeV/cm³ or kpc conversions:
 
 ```python
-from src.core.dark_matter_geometry import DarkMatterGeometry
+from src.core.dark_matter_geometry import dark_field_profile
 
-dm = DarkMatterGeometry(rho_0=0.3, r_s=8.5)      # rho_0 in GeV/cm³, r_s in kpc
-v_flat = dm.flat_rotation_velocity(r_kpc=10.0)
-print(f"Flat rotation velocity: {v_flat:.1f} km/s")
+profile = dark_field_profile(B0=0.3, r_scale=8.5, phi_mean=1.0)
+print(f"Imposed halo speed in model units: {profile.v_flat}")
 ```
 
+For reduced-action gauge energy use `b_field_strength_energy_density` with
+an antisymmetric F tensor in a local orthonormal Einstein frame. A static
+radial potential proportional to dr/r has zero local F away from the origin,
+so its legacy nonzero B² halo is not an action-derived density.
 
+The numerical-evolution diagram below is the legacy phenomenological
+scaffold, not the current default action-derived relaxation implementation.
+The current flow and its restricted circle/zero-mode/time perimeter are
+documented in `src/core/action_derived_flow.py` and the
+[repair record](docs/TRUTH_LAYER.md#synthesis-repair-2026-10-05).
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐

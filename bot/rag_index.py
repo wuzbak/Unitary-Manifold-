@@ -51,7 +51,6 @@ _TOKEN_ALIASES = {
     "cmb": "cmb",
     "gut": "alpha_gut",
     "toe": "toe_score",
-    "theory": "toe_score",
     "intent": "intent",
     "wave": "wave",
     "session": "intent",
@@ -72,6 +71,25 @@ DOCS_WEIGHT = 1.10
 TITLE_BONUS_WEIGHT = 0.25
 PHRASE_MATCH_BONUS = 0.15
 KB_PHRASE_MATCH_BONUS = 0.20
+_QUERY_NOISE = {
+    "a", "an", "and", "are", "as", "at", "be", "been", "by", "can", "could",
+    "did", "do", "does", "for", "from", "has", "have", "how", "i", "in", "is",
+    "it", "its", "of", "on", "or", "please", "the", "this", "to", "was", "we",
+    "what", "when", "where", "which", "why", "will", "with", "would", "you",
+    "current", "latest", "status", "model", "origin", "proof", "proved", "proven",
+    "derived", "derivation", "prediction", "predictions", "theory", "framework",
+    "physics", "geometry", "geometric", "5d", "scientific", "dark",
+}
+_FOUNDATION_DOCUMENTS = [
+    ("docs/TRUTH_LAYER.md", "Current foundation reassessment / action-derived flow"),
+    ("1-THEORY/Z2_PARITY_NOTE.md", "Orbifold photon origin — open boundary"),
+]
+_CURRENT_TRUTH_SECTIONS = (
+    (2, "Synthesis repair (2026-10-05)"),
+    (3, "Mathematical findings and assumptions"),
+    (3, "Sprint CX action-derived flow steward promotion"),
+    (3, "Lane 1 action-derived flow replacement (Sprint CW; promoted within perimeter in Sprint CX)"),
+)
 _AST_CONTEXT_SKIP_PARTS = {".git", "__pycache__", ".venv", "venv", "node_modules", "build", "dist"}
 _GATE_PRIORITY = {
     "GOVERNANCE": 5,
@@ -143,49 +161,144 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
     },
     "winding_number": {
         "topic": "Winding number n_w = 5 selection",
+        "match_terms": ["winding", "n_w", "nw5"],
         "answer": (
-            "The winding number n_w = 5 is a pure theorem from 5D geometry (Pillar 70-D). "
-            "The Z₂-odd CS boundary phase condition k_CS(n_w) × η̄(n_w) = odd integer "
-            "selects n_w=5 (product=37, odd ✓) and excludes n_w=7 (product=0, even ✗). "
-            "The Planck nₛ = 0.9649 ± 0.0042 confirms this at 0.33σ but is not the "
-            "selection mechanism. n_w=5 is derived without observational input."
+            "n_w = 5 is observationally selected by Planck n_s within the stated "
+            "candidate family {5,7}. Historical APS boundary-phase arguments select "
+            "5 conditionally on the half-class / boundary assumptions; they do not "
+            "establish unconditional first-principles uniqueness. The current "
+            "foundation reassessment controls stronger historical closure language: "
+            "orbifold parity alone does not choose an internal gauge involution "
+            "or supply the missing photon. Conditional algebra and observational "
+            "agreement are not empirical confirmation of the full framework."
         ),
-        "sources": ["src/core/nw5_pure_theorem.py", "FALLIBILITY.md §III"],
-        "status": "DERIVED — pure theorem",
+        "sources": [
+            "1-THEORY/DERIVATION_STATUS.md",
+            "1-THEORY/NW_UNIQUENESS_STATUS.md",
+            "FALLIBILITY.md",
+            "docs/TRUTH_LAYER.md",
+        ],
+        "status": "OBSERVATIONALLY_SELECTED / CONDITIONAL_UNIQUENESS",
     },
     "alpha_s": {
         "topic": "Strong coupling α_s(M_Z)",
         "answer": (
-            "α_s(M_Z) is P3 in the ToE table, currently ARCHITECTURE_LIMIT_CERTIFIED(10D). "
-            "The 5D geometric chain gives α_s ≈ 0.095 (19% below PDG 0.1179). "
-            "The 10D CY₃ + flux estimate closes the gap. "
-            "Full closure requires WS-IV (CY₃ moduli + flux α_s 10D calculation)."
+            "The cited historical forward-chain audit quotes corrected "
+            "α_s(M_EW) ≈ 0.030–0.048 versus the comparison value ≈ 0.118. "
+            "It separately quotes an SU(5) running route near 0.118, conditional "
+            "on unification assumptions; these are not one canonical derivation. "
+            "A 10D CY₃/flux completion is exploratory, not an established solution "
+            "of the gap. Current joint UV/Higgs predictivity remains open under "
+            "the foundation reassessment in docs/TRUTH_LAYER.md. No new "
+            "calculation or empirical confirmation is reported here."
         ),
-        "sources": ["src/core/alpha_s_forward_chain_audit.py", "docs/TOE_SCORE_AUDIT.md"],
-        "status": "ARCHITECTURE_LIMIT_CERTIFIED(10D)",
+        "sources": ["src/core/alpha_s_forward_chain_audit.py", "docs/TRUTH_LAYER.md"],
+        "status": "HISTORICAL_CONDITIONAL_ESTIMATES / OPEN_GAP",
     },
     "higgs_mass": {
         "topic": "Higgs mass m_H = 125.25 GeV",
         "answer": (
-            "The Higgs mass is P5 in the ToE table, ARCHITECTURE_LIMIT_CERTIFIED(6D+). "
-            "The 5D Goldberger-Wise mechanism gives the Higgs VEV v ≈ 257.6 GeV (4.6% residual). "
-            "The Higgs mass itself (125.25 GeV) requires the brane-localised kinetic mixing "
-            "θ_HR in the full 6D+ geometry (WS-I). The current 5D estimate gives ~125 GeV "
-            "but cannot close to sub-percent without the full 6D brane-localised calculation."
+            "Historical Higgs-sector summaries quote a conditional GW VEV "
+            "estimate v ≈ 257.6 GeV and mass estimates around 125 GeV; these "
+            "are not independent action-level predictions. The cited 6D+ mixing "
+            "module uses supplied VEV, base-mass, radion and brane inputs and "
+            "compares against m_H = 125.25 GeV. Numerical agreement is not a "
+            "derivation of those inputs. Current joint UV/Higgs predictivity "
+            "remains open under docs/TRUTH_LAYER.md's foundation reassessment."
         ),
-        "sources": ["src/sixd/higgs_radion_full_geometry_6dplus.py", "docs/mas_tracker.yml"],
-        "status": "ARCHITECTURE_LIMIT_CERTIFIED(6D+)",
+        "sources": [
+            "src/sixd/higgs_radion_full_geometry_6dplus.py",
+            "src/core/sm_free_parameters.py",
+            "docs/TRUTH_LAYER.md",
+        ],
+        "status": "HISTORICAL_CONDITIONAL_ESTIMATES / OPEN_GAP",
     },
     "toe_score": {
-        "topic": "framework derivation coverage — SM parameter completeness",
+        "topic": "Framework epistemic scope and derivation coverage",
+        "match_terms": [
+            "toe", "toe_score", "framework derivation coverage",
+            "framework status", "framework completeness", "parameter completeness",
+        ],
         "answer": (
-            "The canonical ToE / closure percentage is no longer maintained as a fixed "
-            "hard-coded number inside the bot. Consult docs/mas_tracker.yml, STATUS.md, "
-            "and docs/WAVE_CHANGELOG.md for the live % and the current wave-specific "
-            "epistemic promotions."
+            "The framework is not established as a complete physical theory. "
+            "Mathematical results apply within their stated assumptions and domains; "
+            "test success does not establish empirical confirmation. The default "
+            "flow has action-derived field equations within a restricted circle "
+            "reduction, but physical-time evolution and orbifold photon origin "
+            "remain open. Individual claims need scoped evidence and external tests, "
+            "not an aggregate completeness score."
         ),
-        "sources": ["docs/mas_tracker.yml", "STATUS.md", "docs/WAVE_CHANGELOG.md"],
-        "status": "CANONICAL_LEDGER_TRACKED",
+        "sources": ["docs/TRUTH_LAYER.md", "FALLIBILITY.md"],
+        "status": "SCOPED_RESULTS / OPEN_PHYSICAL_OBLIGATIONS",
+    },
+    "action_to_evolution": {
+        "topic": "Action-derived evolution / Euler-Lagrange field equations",
+        "match_terms": [
+            "action", "evolution", "euler lagrange", "euler_lagrange", "relaxation",
+        ],
+        "answer": (
+            "The action-to-evolution contract reports "
+            "DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN (Sprint CX, Pillar 1130). "
+            "The checkable action, Euler-Lagrange match and stated time/domain "
+            "deliverables are earned within the declared perimeter: y-independent "
+            "zero modes on a 1-D periodic grid, reducing the 5D Einstein-Hilbert "
+            "action on a circle. The default action_derived flow relaxes those "
+            "field equations, with metric, gauge and scalar residual certificates. "
+            "The t-relaxation law is declared, not derived; t is not coordinate "
+            "time and physical-time evolution is not certified. Exact reduction "
+            "beyond the reduced diagonal ansatz remains open. The legacy "
+            "phenomenological flow is unchanged and not covered. This is PARTIAL "
+            "action-to-evolution progress, not framework closure or photon recovery."
+        ),
+        "sources": [
+            "src/core/action_to_evolution_contract.py",
+            "src/core/action_to_evolution_derived_flow_certificate.py",
+            "src/core/pillar1130_action_derived_flow_steward_promotion.py",
+            "docs/TRUTH_LAYER.md",
+            "FALLIBILITY.md",
+        ],
+        "status": "DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN",
+    },
+    "dark_matter": {
+        "topic": "Dark matter model — imposed halos and KK relic benchmarks",
+        "match_terms": ["dark matter", "dark_matter", "dm", "halo", "halos", "relic"],
+        "answer": (
+            "The dark matter modules are scoped models, not an established "
+            "dark-matter explanation. dark_matter_geometry retains a "
+            "phenomenological, gauge-dependent B² halo prescription; it is not "
+            "reduced-action stress-energy or a solution showing halo formation. "
+            "The massless reduced-action gauge energy depends on F=dB, so a "
+            "constant potential or a locally pure-gauge radial one-form has zero "
+            "gauge energy. dark_matter_kk uses a hot-relic parametrization; its "
+            "legacy viability flag only checks non-overproduction, not the full "
+            "abundance or structure formation. Pillar 714 is a toy WIMP freeze-out "
+            "benchmark with supplied mass and coupling, not geometric derivations "
+            "or a solved thermal history. These distinct models must not be "
+            "combined into a claim of dark-matter closure."
+        ),
+        "sources": [
+            "src/core/dark_matter_geometry.py",
+            "src/core/dark_matter_kk.py",
+            "src/core/pillar714_kk_dark_matter_relic_density.py",
+        ],
+        "status": "PHENOMENOLOGICAL_MODELS / OPEN_PHYSICAL_EXPLANATION",
+    },
+    "photon_origin": {
+        "topic": "Photon origin under Z₂ orbifold parity",
+        "match_terms": ["photon", "photons", "photon_origin"],
+        "answer": (
+            "Photon origin remains OPEN under the stated Z₂ orbifold assumptions. "
+            "The metric vector G_mu5 and B_mu are odd: a regular odd field "
+            "vanishes at both fixed planes and has no constant massless zero mode. "
+            "Multiplication by a finite even radion cannot restore it; the old "
+            "fixed-plane composite-photon argument is withdrawn. A circle "
+            "reduction permits a gauge connection but does not resolve this "
+            "orbifold obstruction. An independent even gauge field, justified "
+            "boundary gauge sector or different compactification would need its "
+            "own action, boundary conditions and demonstrated massless mode."
+        ),
+        "sources": ["1-THEORY/Z2_PARITY_NOTE.md", "docs/TRUTH_LAYER.md"],
+        "status": "OPEN_GAP — ORBIFOLD_PHOTON_ORIGIN",
     },
     "litebird": {
         "topic": "LiteBIRD falsification timeline",
@@ -196,72 +309,103 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
             "β ∈ [0.29°, 0.31°] (the predicted gap between the two UM modes). "
             "See docs/LITEBIRD_FALSIFIER_BRIEF.md for the full protocol."
         ),
-        "sources": ["docs/LITEBIRD_FALSIFIER_BRIEF.md", "docs/TOE_SCORE_AUDIT.md"],
+        "sources": ["docs/LITEBIRD_FALSIFIER_BRIEF.md", "docs/TRUTH_LAYER.md"],
         "status": "PENDING — launch ~2032",
     },
     "cosmological_constant": {
         "topic": "Cosmological constant / dark energy",
+        "match_terms": ["cosmological constant", "cosmological_constant", "dark energy", "vacuum energy"],
         "answer": (
-            "P28 (cosmological constant) is ARCHITECTURE_LIMIT_CERTIFIED(10D). "
-            "RS1 reduces the problem from 10^{122} to 10^{58}. "
-            "The 10D Bousso-Polchinski flux landscape with N_flux=37=K_CS/2 provides "
-            "~10^{74} vacua that can in principle reach Λ_obs, but selection requires "
-            "the full 10D supergravity effective action (beyond current 5D UM scope). "
-            "See src/tend/cc_architecture_limit.py for the formal certificate."
+            "The historical RS1/flux model quotes a conditional reduction of "
+            "the cosmological-constant hierarchy from 10^{122} to 10^{58}, "
+            "and a landscape count ~10^{74} for the assumed N_flux=37. "
+            "Counting candidate vacua does not derive the observed vacuum or "
+            "its selection. The cited module explicitly describes the "
+            "Bousso-Polchinski selection as anthropic/probabilistic, not a "
+            "first-principles result from the UM action. This remains an "
+            "exploratory completion, not a solved cosmological constant or "
+            "empirically confirmed dark-energy model; current scope is bounded "
+            "by docs/TRUTH_LAYER.md."
         ),
-        "sources": ["src/tend/cc_architecture_limit.py", "src/core/pillar206_cosmological_constant.py"],
-        "status": "ARCHITECTURE_LIMIT_CERTIFIED(10D)",
+        "sources": [
+            "src/tend/cc_architecture_limit.py",
+            "src/core/pillar206_cosmological_constant.py",
+            "docs/TRUTH_LAYER.md",
+        ],
+        "status": "EXPLORATORY_VACUUM_SELECTION / OPEN_GAP",
     },
     "desi": {
         "topic": "DESI dark energy tension",
+        "match_terms": ["desi"],
         "answer": (
-            "DESI DR2 (2025) gives w₀ = −0.838 ± 0.072 and wₐ = −0.62 ± 0.30. "
-            "The UM predicts w₀ = −0.9302 (1.3σ consistent) and wₐ = 0 (2.1σ tension). "
-            "The wₐ=0 tension is an HONEST_OPEN_PROBLEM: the GW-stabilised radion gives "
-            "wₐ < 10^{-80}, far too small to explain DESI. DESI Year 3 (~2026) will "
-            "test whether the tension persists or resolves. See src/core/desi_year3_monitor.py."
+            "The historical DESI DR2 comparison uses w₀ = −0.838 ± 0.072 "
+            "and wₐ = −0.62 ± 0.30. The legacy model quotes w₀ ≈ −0.9302 "
+            "and wₐ = 0, but kk_de_wa_cpl.py warns that the former is an "
+            "inflationary-epoch expression, not a derived late-time dark-energy "
+            "value; the two claims cannot both follow from the frozen-radion "
+            "mechanism. The historical wₐ discrepancy is about 2.1σ. "
+            "This remains an open model/observational tension, not confirmation. "
+            "The local monitor is a comparison harness, not a live data fetch "
+            "or evidence that later DESI results have resolved the issue."
         ),
-        "sources": ["src/core/kk_de_wa_cpl.py", "src/core/desi_year3_monitor.py"],
+        "sources": [
+            "src/core/kk_de_wa_cpl.py", "src/core/desi_year3_monitor.py", "docs/TRUTH_LAYER.md",
+        ],
         "status": "HONEST_OPEN_PROBLEM",
     },
     "alpha_gut": {
         "topic": "GUT coupling α_GUT = N_c/K_CS derivation",
         "answer": (
-            "α_GUT = N_c/K_CS = 3/74 ≈ 0.0405 was previously 'POSTULATED BY CS ANALOGY'. "
-            "The current closure path derives it from the 5D SU(N_c) CS action: "
-            "(1) 5D Dirac condition → g₄² = 2π/K_CS; "
-            "(2) KK dimensional reduction; "
-            "(3) SU(N_c) trace normalisation → K_CS × α_GUT = N_c. "
-            "Residual caveat: higher-dimensional completion for full GUT field identification. "
-            "See the current α_GUT closure modules and WAVE_CHANGELOG ledger for the latest status."
+            "The historical 5D SU(N_c) CS argument quotes "
+            "α_GUT = N_c/K_CS = 3/74 ≈ 0.0405 under its gauge-bundle, "
+            "quantization and normalization assumptions. This numerical "
+            "relation is not an independently established coupling derivation "
+            "from the metric alone. Current foundation reassessment states that "
+            "spatial orbifold reflection does not choose an internal SU(5) "
+            "involution or recover the missing photon. The physical gauge-sector "
+            "identification remains unresolved; no purity or completion claim "
+            "is inferred from the historical modules' labels."
         ),
-        "sources": ["src/core/alpha_gut_cs_derivation.py", "src/core/alpha_gut_su5_complete.py", "FALLIBILITY.md §III.3.1"],
-        "status": "DERIVED / CONSTRAINED CLOSURE PATH",
+        "sources": [
+            "src/core/alpha_gut_cs_derivation.py",
+            "src/core/alpha_gut_su5_complete.py",
+            "FALLIBILITY.md",
+            "docs/TRUTH_LAYER.md",
+        ],
+        "status": "HISTORICAL_CONDITIONAL_RELATION / OPEN_GAP",
     },
     "neutrino_masses": {
         "topic": "Neutrino mass splittings",
         "answer": (
-            "P16 (Δm²₂₁, solar splitting) is now GEOMETRIC_ESTIMATE_CERTIFIED (v10.17). "
-            "The T²/Z₃ torsion split Δc₀₁ = 1/(2K_CS) = 1/148 produces a geometric ratio "
-            "Δm²₂₁/Δm²₃₁ that is independent of the seed mass. "
-            "P17 (Δm²₃₁, atmospheric splitting) is GEOMETRIC_ESTIMATE_CERTIFIED with "
-            "2NLO follow-up residual ~6.87% (improved from 7.26% NLO baseline). "
-            "Both require full 6D+ moduli stabilisation (WS-III) for GEOMETRIC_PREDICTION. "
-            "See src/sixd/solar_splitting_6dplus.py and neutrino_dm31_2nlo.py."
+            "Historical T²/Z₃ overlap models assume a torsion split "
+            "Δc₀₁ = 1/(2K_CS) = 1/148. A common seed can cancel from a "
+            "splitting ratio within that model without deriving the absolute "
+            "mass scale or the assumed bulk-mass spectrum. The atmospheric "
+            "2NLO module quotes a residual ~6.87%, versus its 7.26% NLO "
+            "baseline; these are historical conditional estimates, not new "
+            "verification. Current flavor identifiability remains unresolved: "
+            "parity alone does not fix bulk masses and overlaps, as documented "
+            "in docs/TRUTH_LAYER.md."
         ),
-        "sources": ["src/sixd/solar_splitting_6dplus.py", "src/sixd/neutrino_dm31_2nlo.py"],
-        "status": "P16: GEOMETRIC_ESTIMATE_CERTIFIED; P17: GEOMETRIC_ESTIMATE_CERTIFIED",
+        "sources": [
+            "src/sixd/solar_splitting_6dplus.py",
+            "src/sixd/neutrino_dm31_2nlo.py",
+            "docs/TRUTH_LAYER.md",
+        ],
+        "status": "HISTORICAL_CONDITIONAL_ESTIMATES / OPEN_GAP",
     },
     "roadmap_v10_18": {
         "topic": "v10.18 roadmap and delivery status",
         "answer": (
-            "Canonical roadmap status is maintained in docs/mas_tracker.yml. "
-            "v10.18 records ToE 15.2→15.8 (54%→56%), P6 and P13 promoted to "
-            "GEOMETRIC_PREDICTION, P17 2NLO improvement to 6.87% residual, and "
-            "delivery of CMB-S4/DUNE/Hyper-K/JUNO monitor harnesses plus RAG expansion."
+            "v10.18 is a historical roadmap record, not the current scientific "
+            "status. It records parameter-estimate updates and delivery of "
+            "CMB-S4/DUNE/Hyper-K/JUNO monitor harnesses plus RAG expansion. "
+            "Those historical labels do not establish present derivation or "
+            "empirical confirmation; current scope is controlled by the "
+            "foundation reassessment in docs/TRUTH_LAYER.md."
         ),
-        "sources": ["docs/mas_tracker.yml", "docs/TOE_SCORE_AUDIT.md"],
-        "status": "v10.18 delivered",
+        "sources": ["docs/mas_tracker.yml", "docs/TRUTH_LAYER.md"],
+        "status": "HISTORICAL_ROADMAP_RECORD",
     },
     "monitor_matrix": {
         "topic": "Machine-readable monitor matrix",
@@ -283,103 +427,151 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
     "proton_electron_ratio": {
         "topic": "Proton-electron mass ratio m_p/m_e",
         "answer": (
-            "m_p/m_e = K_CS²/N_c = 74²/3 = 5476/3 ≈ 1825.3 (PDG: 1836.15). "
-            "Residual: 0.59%. NLO error bound: O(1/πkR) ≈ 2.7% < 5%. "
-            "v10.17 upgrades P12 from CONSTRAINED to GEOMETRIC_PREDICTION. "
-            "C_lat (lattice QCD normalization) cancels exactly in the ratio formula. "
-            "See src/core/mp_me_geometric_prediction.py."
+            "The historical conditional ratio formula "
+            "m_p/m_e = K_CS²/N_c = 74²/3 ≈ 1825.3 is about 0.59% below "
+            "the cited comparison 1836.15. The module quotes an "
+            "O(1/πkR) ≈ 2.7% correction scale and cancellation of C_lat "
+            "within that ansatz; an order estimate is not by itself a rigorous "
+            "remainder bound or derivation of physical proton/electron masses. "
+            "Current foundation and flavor assumptions require reassessment "
+            "under docs/TRUTH_LAYER.md. Numerical proximity is not independent "
+            "empirical confirmation."
         ),
-        "sources": ["src/core/mp_me_geometric_prediction.py", "src/core/pillar202_mp_me_lattice_free.py"],
-        "status": "GEOMETRIC_PREDICTION (upgraded v10.17)",
+        "sources": [
+            "src/core/mp_me_geometric_prediction.py",
+            "src/core/pillar202_mp_me_lattice_free.py",
+            "docs/TRUTH_LAYER.md",
+        ],
+        "status": "HISTORICAL_CONDITIONAL_ESTIMATE / OPEN_GAP",
     },
     "sin2_theta_w": {
         "topic": "sin²θ_W electroweak mixing angle P4",
         "answer": (
-            "P4 (sin²θ_W) is GEOMETRIC_PREDICTION (v10.17). "
-            "Derivation: K_CS=74 and n_w=5 select SU(5) via Kawamura Z₂ orbifold → "
-            "sin²θ_W(M_GUT) = 3/8 (exact Georgi-Glashow). 1-loop SM RGE (Georgi-Quinn-Weinberg) "
-            "from M_GUT=10^13 GeV to M_Z gives sin²θ_W(M_Z) ≈ 0.2313 (PDG: 0.23122, residual 0.05%). "
-            "See src/core/sin2_theta_w_geometric.py."
+            "Assuming the SU(5) embedding and chosen internal orbifold "
+            "involution, the historical calculation uses "
+            "sin²θ_W(M_GUT) = 3/8 and quotes one-loop running from "
+            "M_GUT ≈ 10^13 GeV to sin²θ_W(M_Z) ≈ 0.2313 "
+            "(comparison 0.23122). This is a conditional model estimate. "
+            "The foundation reassessment states that spatial reflection "
+            "does not select SU(5) or its internal involution; n_w=5 "
+            "does not supply that missing physical identification."
         ),
-        "sources": ["src/core/sin2_theta_w_geometric.py", "src/core/sm_free_parameters.py"],
-        "status": "GEOMETRIC_PREDICTION (v10.17, 0.05% residual)",
+        "sources": [
+            "src/core/sin2_theta_w_geometric.py",
+            "src/core/sm_free_parameters.py",
+            "docs/TRUTH_LAYER.md",
+        ],
+        "status": "HISTORICAL_CONDITIONAL_ESTIMATE / OPEN_GAP",
     },
     "higgs_vev": {
         "topic": "Higgs VEV v = 246 GeV P6",
         "answer": (
-            "P6 (Higgs VEV v) is GEOMETRIC_PREDICTION (v10.18). "
-            "Derivation via Pillar 139 (higgs_vev_exact.py): quartic λ_H^tree = 25/148 (from n_w=5, k_CS=74), "
-            "KK threshold M_KK ≈ 1042 GeV, 1-loop top-Yukawa RGE correction gives λ_eff ≈ 0.130. "
-            "v_pred = m_H/sqrt(2λ_eff) ≈ 245.96 GeV (PDG: 246.22 GeV, residual ≈ 0.10%). "
-            "See src/core/higgs_vev_exact.py and higgs_vev_upgrade_p6.py."
+            "The historical Higgs VEV model uses λ_H^tree = 25/148, "
+            "M_KK ≈ 1042 GeV and a top-Yukawa/RGE prescription. Its "
+            "documentation quotes λ_eff ≈ 0.130 and v ≈ 245.96 GeV "
+            "versus 246.22 GeV; these are conditional historical estimates, "
+            "not a newly evaluated result. higgs_vev_exact.py explicitly "
+            "notes that m_H is a PDG input (or comes from a chain using "
+            "PDG VEV/top-mass inputs). Iteration does not remove that "
+            "dependence. Independent joint UV/Higgs predictivity remains "
+            "unresolved under docs/TRUTH_LAYER.md."
         ),
-        "sources": ["src/core/higgs_vev_exact.py", "src/core/higgs_vev_upgrade_p6.py"],
-        "status": "GEOMETRIC_PREDICTION (v10.18, 0.10% residual)",
+        "sources": [
+            "src/core/higgs_vev_exact.py", "src/core/higgs_vev_upgrade_p6.py", "docs/TRUTH_LAYER.md",
+        ],
+        "status": "HISTORICAL_INPUT_DEPENDENT_ESTIMATE / OPEN_GAP",
     },
     "alpha_em": {
         "topic": "Fine structure constant alpha α P13",
         "answer": (
-            "P13 (fine structure constant α) is GEOMETRIC_PREDICTION (v10.18). "
-            "Derivation: α_GUT = N_C/K_CS = 3/74 is fully derived from the 5D SU(N_c) CS action "
-            "(src/core/alpha_gut_cs_derivation.py). 1-loop SU(5)→SM RGE running from M_GUT to M_Z "
-            "then to 0 (Pillar 94, sm_free_parameters.py) gives α_em(0) ≈ 1/137.0. "
-            "PDG: 1/137.036, residual ≈ 0.026%. "
-            "See src/core/alpha_em_geometric.py."
+            "The historical module quotes α_em(0) ≈ 1/137.0 "
+            "(comparison 1/137.036), conditional on α_GUT = 3/74 "
+            "and an SU(5) running/matching prescription. Its source states "
+            "that 137.0 is a quoted chain value; the close comparison does "
+            "not independently derive the assumed gauge bundle or "
+            "normalization. Current foundation reassessment retains the "
+            "orbifold photon obstruction and conditional internal gauge "
+            "selection. This is not an unconditional metric-derived or "
+            "empirically confirmed fine-structure constant."
         ),
-        "sources": ["src/core/alpha_em_geometric.py", "src/core/alpha_gut_cs_derivation.py"],
-        "status": "GEOMETRIC_PREDICTION (v10.18, 0.026% residual)",
+        "sources": [
+            "src/core/alpha_em_geometric.py",
+            "src/core/alpha_gut_cs_derivation.py",
+            "docs/TRUTH_LAYER.md",
+        ],
+        "status": "HISTORICAL_CONDITIONAL_ESTIMATE / OPEN_GAP",
     },
     "cmbs4": {
         "topic": "CMB-S4 predictions falsification",
         "answer": (
-            "CMB-S4 (~2030) will measure n_s and r with precision σ(n_s)≈0.002 and σ(r)≈0.001. "
-            "UM predictions: n_s = 0.9635 (Planck: 0.9649±0.0042, currently 0.33σ CONSISTENT), "
-            "r = 0.0315 (< BICEP/Keck upper limit of 0.036 CONSISTENT). "
-            "Falsification: n_s ∉ [0.955, 0.972] at σ<0.001, or r < 0.010 at >3σ. "
-            "See src/core/cmbs4_monitor.py."
+            "The historical CMB-S4 monitor uses conditional targets "
+            "n_s = 0.9635 and r = 0.0315, comparing against "
+            "Planck 0.9649±0.0042 and a BICEP/Keck upper limit 0.036. "
+            "Its configured falsifiers remain n_s ∉ [0.955, 0.972] "
+            "at σ<0.001, or r < 0.010 at >3σ. Its ~2030 date and "
+            "sensitivities σ(n_s)≈0.002, σ(r)≈0.001 are historical "
+            "forecasts, not a checked current project schedule. This local "
+            "harness does not supply new observations or resolve the "
+            "foundation and CMB-normalization obligations in docs/TRUTH_LAYER.md."
         ),
-        "sources": ["src/core/cmbs4_monitor.py", "docs/TOE_SCORE_AUDIT.md"],
-        "status": "PENDING — CMB-S4 launch ~2030",
+        "sources": ["src/core/cmbs4_monitor.py", "docs/TRUTH_LAYER.md"],
+        "status": "PENDING — HISTORICAL_MONITOR_FORECAST",
     },
     "dune": {
         "topic": "DUNE delta CP leptonic CP violation",
         "answer": (
-            "DUNE (~2028-2032) will measure leptonic CP phase δ_CP with precision ~0.05 rad. "
-            "UM prediction (P15): δ_CP = π/3 + 9D correction ≈ 1.216 rad. "
-            "PDG: δ_CP = 1.20 ± 0.20 rad (currently 0.08σ CONSISTENT). "
-            "Falsification: δ_CP ∉ [0.85, 1.30] rad at < 3% uncertainty. "
-            "See src/core/dune_dcp_monitor.py."
+            "Historical DUNE monitor text quotes δ_CP ≈ 1.216 rad "
+            "against a stored comparison 1.20 ± 0.20 rad. That quote "
+            "disagrees with its executable constant π/3 + (9/74)×0.05, "
+            "so it must not be treated as a verified phase prediction. "
+            "The configured falsifier remains δ_CP ∉ [0.85, 1.30] rad "
+            "at < 3% uncertainty. The ~2028–2032 dates and ~0.05 rad "
+            "sensitivity are historical forecasts, not checked current "
+            "schedule or observational evidence. An independent physical "
+            "derivation remains unresolved under the current foundation boundary."
         ),
-        "sources": ["src/core/dune_dcp_monitor.py", "src/nined/cp_phase_9d_refinement.py"],
-        "status": "BEST_EVIDENCE_CONSTRAINED — DUNE first physics 2028",
+        "sources": [
+            "src/core/dune_dcp_monitor.py", "src/nined/cp_phase_9d_refinement.py", "docs/TRUTH_LAYER.md",
+        ],
+        "status": "HISTORICAL_MONITOR_ESTIMATE / OPEN_GAP",
     },
     "yukawa_hierarchy": {
         "topic": "Yukawa hierarchy top bottom tau electron",
         "answer": (
-            "P7-P10 (y_t, y_b, y_τ, y_e) are CONSTRAINED (all within 50% of PDG). "
-            "The 6D mechanism: fermion wavefunctions localized in the extra dimension with bulk mass c_L. "
-            "Overlap integral y ∝ f(c_L) where f decays exponentially with c_L. "
-            "With π kR = 37, Δc_L ≈ 0.17 between top and electron generates the full 10^5 hierarchy. "
-            "Current c_L parameters are CONSTRAINED (not yet derived from first principles). "
-            "Full derivation requires 6D wavefunction spectrum (WS-VII). "
-            "See src/sixd/yukawa_hierarchy_6d.py."
+            "Historical wavefunction-overlap models can reproduce a large "
+            "Yukawa hierarchy using chosen bulk masses; their documentation "
+            "quotes πkR = 37 and Δc_L ≈ 0.17 for a top/electron hierarchy "
+            "of order 10^5. That is a conditional mechanism estimate, not "
+            "selection of the mass parameters. Current foundation "
+            "reassessment exhibits a continuum of normalizable profiles: "
+            "parity selects chirality, not discrete bulk masses. Additional "
+            "mass-fixing equations and overlaps are needed; first-principles "
+            "flavor identifiability remains unresolved."
         ),
-        "sources": ["src/sixd/yukawa_hierarchy_6d.py", "src/core/fermion_cL_spectrum_6d_audit.py"],
-        "status": "CONSTRAINED — WS-VII path to GEOMETRIC_PREDICTION",
+        "sources": [
+            "src/sixd/yukawa_hierarchy_6d.py",
+            "src/core/fermion_cL_spectrum_6d_audit.py",
+            "docs/TRUTH_LAYER.md",
+        ],
+        "status": "HISTORICAL_OVERLAP_MODEL / OPEN_GAP",
     },
     "pillar102": {
         "topic": "Pillar 102 gravitational waves brane dynamics",
         "answer": (
-            "Pillar 102 (post-101 extension): GW signals from brane dynamics. "
-            "The UM predicts GW from: (1) brane-brane collisions at M_KK ≈ 1042 GeV "
-            "(f_peak ≈ 10^26 Hz — far above LISA/LIGO); (2) radion oscillations at m_r ≈ 70 GeV; "
-            "(3) stochastic KK graviton background Ω_GW ~ (M_KK/M_Pl)² × π_kR. "
-            "Detection requires future high-frequency GW detectors (>kHz). "
-            "ARCHITECTURE_LIMIT: brane GW signals are a genuine 6D+ prediction, not yet testable. "
-            "See src/core/pillar102_brane_gw.py."
+            "Pillar 102 explores conditional brane/KK gravitational-wave "
+            "estimates. Its historical benchmark uses M_KK ≈ 1042 GeV, "
+            "a collision frequency of order 10^26 Hz and radion mass "
+            "≈ 70 GeV, far from current LISA/LIGO collision-frequency bands. "
+            "Those model formulas do not independently establish a physical "
+            "source population, detectability or a completed higher-dimensional "
+            "theory. Their present derivation status is unresolved under "
+            "docs/TRUTH_LAYER.md's foundation boundary; no new GW result "
+            "is reported here."
         ),
-        "sources": ["src/core/pillar102_brane_gw.py", "src/core/kk_gw_background.py"],
-        "status": "ARCHITECTURE_LIMIT — future high-frequency GW detectors needed",
+        "sources": [
+            "src/core/pillar102_brane_gw.py", "src/core/kk_gw_background.py", "docs/TRUTH_LAYER.md",
+        ],
+        "status": "EXPLORATORY_GW_BENCHMARK / OPEN_GAP",
     },
     "trusted_open_resources": {
         "topic": "Trusted open research resources (Pillar 258)",
@@ -421,12 +613,44 @@ def _tokenize(text: str) -> Set[str]:
     }
 
 
+def _query_tokens(text: str) -> Set[str]:
+    return _tokenize(text) - _QUERY_NOISE
+
+
+def _current_document_text(source: str, text: str) -> str:
+    """Exclude superseded sprint narratives from the current truth-layer index."""
+    if source != "docs/TRUTH_LAYER.md":
+        return text
+    selected = []
+    active_level = None
+    fence = None
+    for line in text.splitlines(keepends=True):
+        fence_match = re.match(r"^[ \t]*(`{3,}|~{3,})", line)
+        if fence_match:
+            marker = fence_match.group(1)
+            if fence is None:
+                fence = (marker[0], len(marker))
+            elif marker[0] == fence[0] and len(marker) >= fence[1]:
+                fence = None
+        elif fence is None:
+            heading_match = re.match(r"^(#{1,6})[ \t]+(.+?)\s*$", line)
+            if heading_match:
+                level = len(heading_match.group(1))
+                if active_level is not None and level <= active_level:
+                    active_level = None
+                if (level, heading_match.group(2)) in _CURRENT_TRUTH_SECTIONS:
+                    active_level = level
+        if active_level is not None:
+            selected.append(line)
+    return "".join(selected)
+
+
 def _matches_lane_keyword(query_tokens: Set[str], normalized_query: str, keyword: str) -> bool:
     normalized_keyword = str(keyword or "").strip().lower()
     if not normalized_keyword:
         return False
     if " " in normalized_keyword:
-        pattern = r"\b" + re.escape(normalized_keyword).replace(r"\ ", r"\s+") + r"\b"
+        pattern = r"\b" + re.escape(normalized_keyword).replace(r"\ ", r"[\s-]+") + r"\b"
         return re.search(pattern, normalized_query) is not None
     return _normalize_token(normalized_keyword) in query_tokens
 
@@ -446,14 +670,28 @@ def _extract_latest_wave(repo_root: Path) -> Optional[str]:
 
 def _extract_status_header(repo_root: Path) -> Optional[str]:
     status = _safe_read_text(repo_root / "STATUS.md")
-    match = re.search(r"\*Unitary Manifold ([^*]+)\*", status)
-    return match.group(1).strip() if match else None
+    match = re.search(
+        r"^[ \t]*(?:\*{1,2}|#{1,6}[ \t]+)(?:Unitary Manifold[ \t]+)?"
+        r"(v[0-9]+(?:\.[0-9]+)+\b[^\n]*)",
+        status,
+        re.MULTILINE,
+    )
+    return match.group(1).rstrip("*").strip() if match else None
 
 
 def _extract_latest_regression(repo_root: Path) -> Optional[str]:
-    status = _safe_read_text(repo_root / "STATUS.md")
-    match = re.search(r"Latest verified branch regression:\s*([^\n]+)", status)
-    return match.group(1).strip() if match else None
+    # A missing receipt in the current marker must not fall through to old sprints.
+    status = _extract_status_header(repo_root)
+    if status is None:
+        status = _safe_read_text(repo_root / "STATUS.md")
+    match = re.search(
+        r"Latest verified (?:full regression in current branch history|branch regression)"
+        r"(?::|[ \t]+remains)[ \t]*([^\n]+)",
+        status,
+    )
+    if match and re.search(r"\b[0-9][0-9,]*[ \t]+passed\b", match.group(1)):
+        return match.group(1).strip()
+    return None
 
 
 def build_runtime_knowledge_base(repo_root: Optional[Path] = None) -> Dict[str, Dict]:
@@ -474,6 +712,7 @@ def build_runtime_knowledge_base(repo_root: Optional[Path] = None) -> Dict[str, 
             answer_parts.append(f"STATUS.md header: {status_header}.")
         kb["repo_state"] = {
             "topic": "Current repository wave and status snapshot",
+            "match_terms": ["repository", "repo", "wave"],
             "answer": " ".join(answer_parts),
             "sources": ["docs/WAVE_CHANGELOG.md", "STATUS.md"],
             "status": latest_wave or status_header or "AVAILABLE",
@@ -481,10 +720,14 @@ def build_runtime_knowledge_base(repo_root: Optional[Path] = None) -> Dict[str, 
 
     if latest_regression:
         kb["latest_regression"] = {
-            "topic": "Latest verified branch regression",
-            "answer": f"The canonical STATUS.md ledger reports: {latest_regression}.",
+            "topic": "Historical branch regression baseline",
+            "answer": (
+                f"Historical baseline recorded in STATUS.md: {latest_regression.rstrip('.')}. "
+                "This is not evidence of new execution or successful verification "
+                "of the current changes."
+            ),
             "sources": ["STATUS.md"],
-            "status": "REGRESSION_BASELINE",
+            "status": "HISTORICAL_BASELINE",
         }
 
     return kb
@@ -496,7 +739,9 @@ def _normalize_gate_label(status: str) -> str:
         return "GOVERNANCE"
     if "ADJACENT" in sample:
         return "ADJACENT_TRACK"
-    if "OPEN_GAP" in sample or "HONEST_OPEN_PROBLEM" in sample:
+    if any(label in sample for label in (
+        "OPEN_GAP", "HONEST_OPEN_PROBLEM", "EVOLUTION_LAW_OPEN", "OPEN_PHYSICAL",
+    )):
         return "OPEN_GAP"
     if "ARCHITECTURE_LIMIT" in sample or "CONSTRAINED" in sample or "PENDING" in sample:
         return "ARCHITECTURE_LIMIT"
@@ -839,17 +1084,16 @@ class RAGIndex:
             ("README.md", "README"),
             ("FALLIBILITY.md", "Fallibility / Limitations"),
             ("STATUS.md", "Pillar Status Registry"),
-            ("docs/TOE_SCORE_AUDIT.md", "ToE Score Audit"),
             ("docs/LITEBIRD_FALSIFIER_BRIEF.md", "LiteBIRD Falsifier Brief"),
-            ("docs/MAS_COMPLETION_CERTIFICATE.md", "MAS Completion Certificate"),
-            ("1-THEORY/UNIFICATION_PROOF.md", "Unification Proof"),
-        ]
+            ("1-THEORY/UNIFICATION_PROOF.md", "Historical unification argument — scoped by current reassessment"),
+        ] + _FOUNDATION_DOCUMENTS
 
         for rel_path, title in target_files:
             full_path = repo_root / rel_path
             if full_path.exists():
                 try:
                     text = full_path.read_text(encoding="utf-8", errors="replace")
+                    text = _current_document_text(rel_path, text)
                     # Split into chunks
                     for i in range(0, len(text), max_chunk_chars):
                         chunk_text = text[i: i + max_chunk_chars]
@@ -902,18 +1146,18 @@ class RAGIndex:
             ("FALLIBILITY.md", "Fallibility / Limitations"),
             ("STATUS.md", "Pillar Status Registry"),
             ("SEPARATION.md", "Epistemic Separation Boundary"),
-            ("docs/TOE_SCORE_AUDIT.md", "ToE Score Audit"),
-            ("docs/WAVE_CHANGELOG.md", "Wave Changelog"),
+            ("docs/WAVE_CHANGELOG.md", "Wave Changelog — historical records, not current proof"),
             ("docs/LITEBIRD_FALSIFIER_BRIEF.md", "LiteBIRD Falsifier Brief"),
-            ("1-THEORY/UNIFICATION_PROOF.md", "Unification Proof"),
+            ("1-THEORY/UNIFICATION_PROOF.md", "Historical unification argument — scoped by current reassessment"),
             ("6-MONOGRAPH/MCP_INGEST.md", "MCP Ingest (full repo summary)"),
-        ]
+        ] + _FOUNDATION_DOCUMENTS
 
         for rel_path, title in intent_sources + standard_sources:
             full_path = repo_root / rel_path
             if full_path.exists():
                 try:
                     text = full_path.read_text(encoding="utf-8", errors="replace")
+                    text = _current_document_text(rel_path, text)
                     for i in range(0, len(text), max_chunk_chars):
                         chunk_text = text[i: i + max_chunk_chars]
                         chunks.append(DocumentChunk(rel_path, title, chunk_text))
@@ -934,7 +1178,7 @@ class RAGIndex:
         -------
         list of (score, DocumentChunk) sorted by descending score.
         """
-        query_tokens = _tokenize(query)
+        query_tokens = _query_tokens(query)
         query_text = query.lower().strip()
         scored = [
             (min(1.0, chunk.score(query_tokens, query_text) * _source_weight(chunk.source)), chunk)
@@ -944,25 +1188,30 @@ class RAGIndex:
         return scored[:top_k]
 
     def lookup_kb(self, query: str) -> Optional[Dict]:
-        """Look up the knowledge base for a direct fact match.
+        """Match topic anchors, never incidental words in answers or citations.
 
         Returns the best matching KB entry, or None.
         """
-        query_tokens = _tokenize(query)
+        query_tokens = _query_tokens(query)
         query_text = query.lower().strip()
         best_score = 0.0
         best_entry = None
         for key, entry in self.knowledge_base.items():
-            combined = " ".join(
-                [
-                    key,
-                    entry.get("topic", ""),
-                    entry.get("answer", ""),
-                    " ".join(entry.get("sources", [])),
+            combined = " ".join([key, key.replace("_", " "), entry.get("topic", "")])
+            match_terms = entry.get("match_terms")
+            if match_terms is not None:
+                matched = [
+                    term for term in match_terms
+                    if _matches_lane_keyword(query_tokens, query_text, term)
                 ]
-            )
-            topic_tokens = _tokenize(combined)
+                if not matched:
+                    continue
+                topic_tokens = _query_tokens(combined + " " + " ".join(matched))
+            else:
+                topic_tokens = _query_tokens(combined)
             score = len(query_tokens & topic_tokens) / max(len(query_tokens), 1)
+            if match_terms is not None:
+                score += KB_PHRASE_MATCH_BONUS
             if query_text and query_text in combined.lower():
                 score = min(1.0, score + KB_PHRASE_MATCH_BONUS)
             if score > best_score:
@@ -1011,7 +1260,7 @@ def answer_question(index: RAGIndex, query: str, top_k: int = 3) -> Dict:
             "query": query,
             "answer": (
                 "No highly relevant result found in the index. "
-                "Please consult FALLIBILITY.md, STATUS.md, or docs/TOE_SCORE_AUDIT.md "
+                "Please consult FALLIBILITY.md, STATUS.md, or docs/TRUTH_LAYER.md "
                 "for comprehensive coverage of the Unitary Manifold framework."
             ),
             "source_type": "no_result",

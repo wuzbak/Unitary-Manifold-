@@ -3,63 +3,51 @@
 """
 src/core/dark_matter_geometry.py
 =================================
-Dark Matter as the Irreversibility Field B_μ — Pillar 8.
+Gauge-sector energy and legacy imposed halo profiles — Pillar 8.
 
-In the Unitary Manifold "dark matter" is not an invisible particle; it is
-the geometric pressure of the Irreversibility Field B_μ.  The B_μ field
-contributes an effective energy density that, for a galactic-scale profile
-B_r(r) ∝ 1/r, produces the isothermal-sphere dark-matter density:
+The reduced action in ``action_derived_flow`` contains the massless gauge term
+−¼ λ² φ³ F_μν F^μν, with F = dB and g_E = φ g.  Its gauge-invariant energy
+density in a local orthonormal Einstein frame (signature −+++) is:
 
-    ρ_dark(r) = λ² φ_mean² |B(r)|² / 2  ∝  1/r²
+    ρ_F = λ² φ³ [Σ_i F_0i² + Σ_{i<j} F_ij²] / 2.
 
-This is the only dark-matter profile that gives a flat rotation curve:
+There is no Proca mass term in the current action.  A constant potential has
+zero F and zero gauge-sector energy.  Likewise, a static radial one-form
+B = B₀ r_s dr/r = d(B₀ r_s ln r) is locally pure gauge away from r = 0;
+it does not supply an action-derived isothermal halo.
 
-    M_dark(<r) = 4π ∫₀ʳ ρ_dark r'² dr'  ∝  r   (for ρ ∝ 1/r²)
-    v²_flat = G M_dark(<r) / r = 4π G ρ₀  =  const
-
-The field thus acts as "geometric dark matter" — extra gravity sourced by
-the Irreversibility Field rather than by new particles.
-
-Theory summary
---------------
-B_μ dark density (isothermal profile):
-    ρ_dark(r) = ρ₀ r_s² / r²
-    where ρ₀ = λ² φ_mean² B₀² / 2  and  B(r) = B₀ r_s / r
-
-Dark mass enclosed:
-    M_dark(<r) = 4π ρ₀ r_s² r
-
-Flat curve velocity:
-    v_flat = sqrt(4π G ρ₀ r_s²) = sqrt(2π G λ² φ_mean² B₀² r_s²)
-
-B_μ field energy density (general):
-    ρ_B(x) = λ² φ²(x) |B(x)|² / 2
-
-Total rotation curve:
-    v_total(r) = sqrt(G [M_baryon(<r) + M_dark(<r)] / r)
+The existing B² APIs retain their numerical behavior for compatibility.
+They impose the phenomenological density λ² φ² |B|²/2, not reduced-action
+stress-energy.  Substituting B₀ r_s/r imposes an isothermal density ∝ 1/r²,
+an enclosed spherical mass ∝ r, and a flat Newtonian halo rotation curve.
+These functions neither solve the field equations nor demonstrate halo
+formation or physical-time evolution.
 
 Public API
 ----------
 b_field_dark_density(r, B0, r_scale, phi_mean, lam)
-    Isothermal dark density from a B_μ ∝ 1/r profile.
+    Legacy imposed isothermal halo density from a B² prescription.
 
 b_field_energy_density(B, phi, lam)
-    Local B_μ energy density ρ_B = λ²φ²|B|²/2 on the field grid.
+    Legacy gauge-dependent Euclidean B² density λ²φ²|B|²/2.
+
+b_field_strength_energy_density(F, phi, lam)
+    Reduced-action gauge energy from orthonormal Einstein-frame F = dB.
 
 b_field_dark_mass_enclosed(r, B0, r_scale, phi_mean, lam)
-    Cumulative dark mass M_dark(<r) for a 1/r B_μ profile.
+    Cumulative spherical mass of the imposed isothermal halo.
 
 flat_curve_velocity(B0, r_scale, phi_mean, lam, G4)
-    Asymptotic flat rotation speed v_flat from B_μ dark pressure.
+    Flat Newtonian rotation speed of the imposed halo.
 
 b_field_rotation_velocity(r, M_baryonic_arr, B0, r_scale, phi_mean, lam, G4)
-    Total circular velocity including B_μ dark contribution.
+    Spherical Newtonian circular velocity including the imposed halo.
 
 DarkFieldProfile
-    Dataclass summarising the B_μ dark-matter prediction for a galaxy.
+    Dataclass summarising the phenomenological halo model.
 
 dark_field_profile(B0, r_scale, phi_mean, r_max, N, lam, G4, M_total, R_disk)
-    Build a DarkFieldProfile for a galaxy with given parameters.
+    Build the imposed halo model with spherical exponential baryons.
 """
 
 
@@ -95,7 +83,7 @@ _MIN_RADIUS_FRACTION: float = 0.05
 
 
 # ---------------------------------------------------------------------------
-# B_μ energy density (general, on field grid)
+# Legacy B² density and reduced-action gauge-sector energy
 # ---------------------------------------------------------------------------
 
 def b_field_energy_density(
@@ -103,15 +91,13 @@ def b_field_energy_density(
     phi: np.ndarray,
     lam: float = _LAM_DEFAULT,
 ) -> np.ndarray:
-    """Local B_μ energy density on the field grid.
-
-    The stress-energy tensor of the Irreversibility Field contributes an
-    effective energy density:
+    """Legacy phenomenological B² density on the field grid.
 
         ρ_B(x) = λ² φ²(x) |B(x)|² / 2
 
-    This is the "dark" energy density seen by 4D observers: real gravity is
-    sourced by it, but there is no corresponding particle to detect.
+    This Euclidean component norm is gauge dependent and is NOT the
+    stress-energy of the reduced action.  It is preserved numerically for
+    compatibility; use ``b_field_strength_energy_density`` for gauge energy.
 
     Parameters
     ----------
@@ -122,14 +108,83 @@ def b_field_energy_density(
     Returns
     -------
     rho_B : ndarray, shape (N,)
-        Non-negative B_μ energy density at each grid point.
+        Non-negative imposed B² density at each grid point.
     """
     B_sq = np.einsum('ni,ni->n', B, B)          # |B|²  shape (N,)
     return 0.5 * lam**2 * phi**2 * B_sq
 
 
+def b_field_strength_energy_density(
+    F: np.ndarray,
+    phi: np.ndarray,
+    lam: float = _LAM_DEFAULT,
+) -> np.ndarray:
+    """Return the reduced-action gauge-sector energy density T_hat0hat0.
+
+    For −¼ λ²φ³ F², an orthonormal Einstein frame with signature (−,+,+,+)
+    gives ρ_F = ½ λ²φ³ (Σ_i F_0i² + Σ_{i<j} F_ij²).  This includes only
+    gauge stress, not radion kinetic or potential energy, and is invariant
+    under B → B + dχ.  It is not a halo-formation or evolution prescription.
+
+    Parameters
+    ----------
+    F : ndarray, shape (N, 4, 4)
+        Real finite antisymmetric covariant field strength in a local
+        orthonormal Einstein frame.  Coordinate components must first be
+        transformed to that frame; this function does not perform that step.
+    phi : ndarray, shape (N,)
+        Real finite positive radion.
+    lam : float
+        Real finite scalar KK coupling (default 1).
+
+    Returns
+    -------
+    ndarray, shape (N,)
+        Non-negative gauge-sector energy density.
+
+    Notes
+    -----
+    Evaluation uses ordinary floating-point products, not scaled arithmetic.
+    Huge finite inputs can overflow intermediate powers even when the final
+    algebraic result would be finite or zero; rescale inputs in that case.
+
+    Raises
+    ------
+    ValueError
+        For invalid shapes, non-real or non-finite inputs, nonpositive phi,
+        non-antisymmetric F (absolute tolerance 1e-12), or intermediate
+        numerical overflow.
+    """
+    if any(np.iscomplexobj(value) for value in (F, phi, lam)):
+        raise ValueError("F, phi and lam must be real.")
+    F_arr = np.asarray(F, dtype=float)
+    phi_arr = np.asarray(phi, dtype=float)
+    lam_arr = np.asarray(lam, dtype=float)
+    if F_arr.ndim != 3 or F_arr.shape[1:] != (4, 4):
+        raise ValueError("F must have shape (N, 4, 4).")
+    if phi_arr.shape != (F_arr.shape[0],):
+        raise ValueError("phi must have shape (N,) matching F.")
+    if lam_arr.ndim != 0:
+        raise ValueError("lam must be a finite scalar.")
+    if not all(np.all(np.isfinite(value)) for value in (F_arr, phi_arr, lam_arr)):
+        raise ValueError("F, phi and lam must be finite.")
+    if np.any(phi_arr <= 0.0):
+        raise ValueError("phi must be > 0 everywhere.")
+    if not np.allclose(F_arr, -F_arr.transpose(0, 2, 1), rtol=0.0, atol=1e-12):
+        raise ValueError("F must be antisymmetric.")
+    with np.errstate(over="ignore", invalid="ignore"):
+        electric_sq = np.sum(F_arr[:, 0, 1:] ** 2, axis=1)
+        magnetic_sq = (
+            F_arr[:, 1, 2] ** 2 + F_arr[:, 1, 3] ** 2 + F_arr[:, 2, 3] ** 2
+        )
+        rho = 0.5 * lam_arr**2 * phi_arr**3 * (electric_sq + magnetic_sq)
+    if not np.all(np.isfinite(rho)):
+        raise ValueError("Gauge energy density overflowed; rescale the inputs.")
+    return rho
+
+
 # ---------------------------------------------------------------------------
-# Galactic dark-matter model: isothermal profile from B_μ ∝ 1/r
+# Legacy imposed isothermal halo: B² prescription with B amplitude ∝ 1/r
 # ---------------------------------------------------------------------------
 
 def b_field_dark_density(
@@ -139,17 +194,17 @@ def b_field_dark_density(
     phi_mean: float,
     lam: float = _LAM_DEFAULT,
 ) -> np.ndarray:
-    """Isothermal dark-matter density from a B_μ(r) = B₀ r_s / r profile.
+    """Impose the legacy isothermal halo density using B(r) = B₀ r_s / r.
 
     For B_r(r) = B₀ r_s / r (field that falls like 1/r outward from the
-    galactic centre), the dark density is:
+    galactic centre), the phenomenological B² prescription is:
 
         ρ_dark(r) = λ² φ_mean² |B(r)|² / 2
                   = λ² φ_mean² B₀² r_s² / (2 r²)
 
-    This is the isothermal-sphere profile ρ ∝ 1/r² — the only profile that
-    produces a truly flat rotation curve.  The B_μ field thus geometrically
-    mimics the role historically assigned to dark matter.
+    This imposed spherical density gives a flat Newtonian halo curve.
+    It is not reduced-action stress-energy: the static radial potential
+    B_r ∝ 1/r has F = 0 locally away from the origin.
 
     Parameters
     ----------
@@ -175,15 +230,15 @@ def b_field_dark_mass_enclosed(
     phi_mean: float,
     lam: float = _LAM_DEFAULT,
 ) -> np.ndarray:
-    """Cumulative dark mass M_dark(<r) for a B_μ ∝ 1/r profile.
+    """Cumulative spherical mass of the legacy imposed isothermal halo.
 
     For the isothermal dark density ρ_dark ∝ 1/r²:
 
         M_dark(<r) = 4π ∫₀ʳ ρ_dark(r') r'² dr'
                    = 4π ρ₀ r_s² r
 
-    The enclosed dark mass grows linearly with r — this is the mathematical
-    origin of flat rotation curves.
+    The imposed mass grows linearly with r and gives a flat Newtonian halo
+    curve.  This is not a mass derived from the current gauge action.
 
     Parameters
     ----------
@@ -209,16 +264,15 @@ def flat_curve_velocity(
     lam: float = _LAM_DEFAULT,
     G4: float = _G4_DEFAULT,
 ) -> float:
-    """Asymptotic flat rotation speed from B_μ dark pressure.
+    """Flat Newtonian rotation speed from the legacy imposed halo.
 
     For the isothermal profile M_dark(<r) = 4π ρ₀ r_s² r:
 
         v²_flat = G₄ M_dark(<r) / r = 4π G₄ ρ₀ r_s²
                 = 2π G₄ λ² φ_mean² B₀² r_s²
 
-    This is the universal constant that the rotation curve asymptotes to at
-    large r — set entirely by the B₀, r_s, and φ_mean parameters, with no
-    free dark-matter mass parameter.
+    The speed is set by the phenomenological B₀, r_s, and φ_mean parameters,
+    not by solving the reduced-action field equations.
 
     Parameters
     ----------
@@ -256,10 +310,10 @@ def b_field_rotation_velocity(
     lam: float = _LAM_DEFAULT,
     G4: float = _G4_DEFAULT,
 ) -> np.ndarray:
-    """Total circular velocity including B_μ dark contribution.
+    """Spherical Newtonian circular velocity including the imposed halo.
 
-    Combines the baryonic (stars + gas) mass with the B_μ dark-matter mass
-    to give the total rotation curve:
+    Combines cumulative spherical baryonic mass with legacy imposed halo
+    mass.  This is not an exact disk curve or an action-derived prediction:
 
         v²_total(r) = G₄ [M_baryon(<r) + M_dark(<r)] / r
 
@@ -290,7 +344,7 @@ def b_field_rotation_velocity(
 
 @dataclass
 class DarkFieldProfile:
-    """Summary of the B_μ dark-matter prediction for a galaxy.
+    """Summary of the legacy phenomenological spherical halo model.
 
     Attributes
     ----------
@@ -329,12 +383,15 @@ def dark_field_profile(
     M_total: float = 1.0,
     R_disk: float = 1.0,
 ) -> DarkFieldProfile:
-    """Build a DarkFieldProfile for a galaxy with exponential baryonic disk.
+    """Build an imposed halo profile with spherical exponential baryons.
 
-    Constructs the full rotation curve prediction by combining:
+    Constructs a phenomenological spherical Newtonian rotation curve using:
 
       1. A baryonic exponential-sphere mass profile M_baryon(<r).
-      2. A B_μ dark-matter profile from B_r(r) = B₀ r_s / r.
+      2. The imposed legacy B² isothermal halo.
+
+    Neither component is derived here from the gauge action; no halo
+    formation or physical-time evolution is modeled.
 
     Parameters
     ----------
@@ -346,7 +403,7 @@ def dark_field_profile(
     lam      : float — KK coupling λ (default 1)
     G4       : float — Newton's constant (default 1)
     M_total  : float — total baryonic mass (default 1)
-    R_disk   : float — baryonic disk scale radius (default 1)
+    R_disk   : float — spherical exponential scale radius (legacy name; default 1)
 
     Returns
     -------

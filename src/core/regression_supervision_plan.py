@@ -34,15 +34,19 @@ COMPACTIFIED_PREFLIGHT_FILES = [
     "tests/test_formal_traceability_spine.py",
     "tests/test_action_to_evolution_contract.py",
 ]
+INTEGRATION_PREFLIGHT_FILES = [
+    "tests/test_metric.py",
+    "tests/test_action_derived_flow.py",
+    "tests/test_evolution.py",
+    "tests/test_dark_matter_geometry.py",
+    "tests/test_boundary.py",
+    "tests/test_fixed_point.py",
+]
 
 def discover_fast_suite_files() -> List[str]:
     """Return the deterministic sorted test-file list for the repository-root tests/ suite."""
-    test_root = _ROOT / "tests"
-    return sorted(
-        path.relative_to(_ROOT).as_posix()
-        for path in test_root.rglob("test_*.py")
-        if path.is_file() and path.relative_to(_ROOT).as_posix() not in FAST_SUITE_EXCLUDED_FILES
-    )
+    return [path for path in _discover_suite_files(FAST_SUITE_PATH)
+            if path not in FAST_SUITE_EXCLUDED_FILES]
 
 
 def _discover_suite_files(suite_path: str) -> List[str]:
@@ -51,7 +55,8 @@ def _discover_suite_files(suite_path: str) -> List[str]:
         return []
     return sorted(
         path.relative_to(_ROOT).as_posix()
-        for path in suite_root.rglob("test_*.py")
+        for pattern in ("test_*.py", "ALGEBRA_PROOF.py")
+        for path in suite_root.rglob(pattern)
         if path.is_file()
         and not path.relative_to(_ROOT).as_posix().startswith("5-GOVERNANCE/Unitary Pentad/holon-zero/")
     )
@@ -133,7 +138,7 @@ def _pytest_argv_from_paths(paths: List[str], marker_expression: str | None = No
     command = ["python", "-m", "pytest"]
     if pytest_xdist_available():
         command.extend(["-n", "auto"])
-    if marker_expression:
+    if marker_expression is not None:
         command.extend(["-m", marker_expression])
     command.extend([*paths, "-q"])
     return command
@@ -144,7 +149,7 @@ def _fast_batch_command_from_paths(paths: List[str]) -> str:
 
 
 def _full_core_batch_command_from_paths(paths: List[str]) -> str:
-    return shlex.join(_pytest_argv_from_paths(paths))
+    return shlex.join(_pytest_argv_from_paths(paths, marker_expression=""))
 
 
 def fast_batch_command(batch_index: int, batch_count: int = DEFAULT_FAST_BATCH_COUNT) -> str:
@@ -185,7 +190,7 @@ def full_core_batch_argv(
     batches = build_full_core_batches(batch_count=batch_count)
     if batch_index < 0 or batch_index >= len(batches):
         raise IndexError("batch_index out of range")
-    return _pytest_argv_from_paths(batches[batch_index]["test_paths"])
+    return _pytest_argv_from_paths(batches[batch_index]["test_paths"], marker_expression="")
 
 
 def compactified_preflight_command() -> str:
@@ -196,6 +201,11 @@ def compactified_preflight_command() -> str:
 def compactified_preflight_argv() -> List[str]:
     """Return the canonical compactified preflight argv."""
     return ["python", "-m", "pytest", *COMPACTIFIED_PREFLIGHT_FILES, "-q"]
+
+
+def integration_preflight_argv() -> List[str]:
+    """Run the coupled core in one process, including slow tests; not a universe validation."""
+    return ["python", "-m", "pytest", *INTEGRATION_PREFLIGHT_FILES, "-m", "", "-q"]
 
 
 def build_regression_supervision_plan(
@@ -226,7 +236,7 @@ def build_regression_supervision_plan_with_full_core_count(
         "slow": f'python -m pytest {FAST_SUITE_PATH} -m "{SLOW_MARK_EXPRESSION}" -q',
         "recycling": f"python -m pytest {RECYCLING_SUITE_PATH} -q",
         "pentad": f'python -m pytest "{PENTAD_SUITE_PATH}" -q',
-        "full": f'python3 -m pytest {FAST_SUITE_PATH} {RECYCLING_SUITE_PATH} "{PENTAD_SUITE_PATH}" -q',
+        "full": f'python3 -m pytest {FAST_SUITE_PATH} {RECYCLING_SUITE_PATH} "{PENTAD_SUITE_PATH}" -m "" -q',
     }
     if (_ROOT / CLAIMS_SUITE_PATH.rstrip("/")).is_dir():
         remaining_canonical_suites["claims"] = f"python -m pytest {CLAIMS_SUITE_PATH} -q"
@@ -235,6 +245,12 @@ def build_regression_supervision_plan_with_full_core_count(
         "compactified_preflight": {
             "test_paths": list(COMPACTIFIED_PREFLIGHT_FILES),
             "command": compactified_preflight_command(),
+        },
+        "integration_preflight": {
+            "test_paths": list(INTEGRATION_PREFLIGHT_FILES),
+            "command": shlex.join(integration_preflight_argv()),
+            "execution": "shared_process",
+            "scope": "software integration; not physical-time evolution or empirical validation",
         },
         "supervised_fast_suite": {
             "suite_path": FAST_SUITE_PATH,
@@ -255,6 +271,16 @@ def build_regression_supervision_plan_with_full_core_count(
             ],
         },
         "remaining_canonical_suites": remaining_canonical_suites,
+        "scope": {
+            "full_core_includes_slow": True,
+            "file_partition_is_not_execution_evidence": True,
+            "product_test_paths_outside_full_core": _discover_suite_files("12-AZ-IP/"),
+            "other_test_paths_outside_full_core": (
+                _discover_suite_files("COMPACTIFICATION/")
+                + _discover_suite_files("proof/")
+                + (["ALGEBRA_PROOF.py"] if (_ROOT / "ALGEBRA_PROOF.py").is_file() else [])
+            ),
+        },
         "supervision": {
             "coverage_matches_discovery": all_files == discovered,
             "all_files_unique": len(unique_files) == len(all_files),
@@ -270,6 +296,7 @@ def build_regression_supervision_plan_with_full_core_count(
 
 __all__ = [
     "COMPACTIFIED_PREFLIGHT_FILES",
+    "INTEGRATION_PREFLIGHT_FILES",
     "DEFAULT_FAST_BATCH_COUNT",
     "DEFAULT_FULL_CORE_BATCH_COUNT",
     "FAST_MARK_EXPRESSION",
@@ -286,4 +313,5 @@ __all__ = [
     "fast_batch_command",
     "full_core_batch_argv",
     "full_core_batch_command",
+    "integration_preflight_argv",
 ]

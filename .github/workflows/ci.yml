@@ -60,6 +60,7 @@ jobs:
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_export_training_artifacts_script \
             -q --tb=short
           python TOOLS/checks/run_supervised_pytest_batch.py --suite compactified-preflight
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite integration-preflight
           python3 -m pytest recycling/tests/test_recycling.py -q --tb=short
           python3 -m pytest "5-GOVERNANCE/Unitary Pentad/test_unitary_pentad.py" -q --tb=short
   suite-collection-smoke:
@@ -106,7 +107,18 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run full regression slice
-        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core --batch-count 12 --batch-index ${{ matrix.batch-index }}
+        run: |
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core \
+            --batch-count 12 --batch-index ${{ matrix.batch-index }} \
+            --workers 2 --timeout 5100 --result-dir "${{ runner.temp }}/regression-results"
+      - name: Retain execution evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: full-core-${{ matrix.batch-index }}
+          path: ${{ runner.temp }}/regression-results/
+          if-no-files-found: error
+          retention-days: 14
 
   push-full-regression-supervisor:
     name: Push full regression supervisor (main)
@@ -130,6 +142,18 @@ jobs:
           test "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" = "success"
       - name: Verify full regression slice coverage
         run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core-supervisor-check --batch-count 12 --emit-json
+      - name: Download full regression execution evidence
+        if: always()
+        uses: actions/download-artifact@v4.3.0
+        with:
+          pattern: full-core-*
+          path: ${{ runner.temp }}/regression-results/
+          merge-multiple: true
+      - name: Require complete matching execution receipts
+        if: always()
+        run: |
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core \
+            --batch-count 12 --aggregate --result-dir "${{ runner.temp }}/regression-results"
 
   ci-gate:
     name: CI gate

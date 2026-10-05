@@ -6,6 +6,7 @@ from src.core.regression_supervision_plan import (
     DEFAULT_FAST_BATCH_COUNT,
     DEFAULT_FULL_CORE_BATCH_COUNT,
     FAST_MARK_EXPRESSION,
+    INTEGRATION_PREFLIGHT_FILES,
     build_fast_suite_batches,
     build_full_core_batches,
     build_regression_supervision_plan,
@@ -15,6 +16,7 @@ from src.core.regression_supervision_plan import (
     discover_full_core_suite_files,
     fast_batch_command,
     full_core_batch_command,
+    integration_preflight_argv,
 )
 
 
@@ -57,10 +59,11 @@ def test_fast_batch_command_uses_non_slow_marker() -> None:
     assert 'tests/' in command
 
 
-def test_full_core_batch_command_uses_pytest_without_marker() -> None:
+def test_full_core_batch_command_overrides_default_marker() -> None:
     command = full_core_batch_command(batch_index=0, batch_count=DEFAULT_FULL_CORE_BATCH_COUNT)
     assert command.startswith("python -m pytest ")
     assert "not slow" not in command
+    assert "-m ''" in command
     assert command.endswith(' -q')
 
 
@@ -105,10 +108,42 @@ def test_build_fast_suite_batches_rejects_non_positive_batch_count() -> None:
 
 
 def test_compactified_preflight_files_exist_and_command_is_canonical() -> None:
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
     command = compactified_preflight_command()
     assert command.startswith('python -m pytest ')
     for path in COMPACTIFIED_PREFLIGHT_FILES:
         assert path in command
+        assert (root / path).is_file()
+
+
+def test_integration_preflight_is_serial_and_explicit_about_scope() -> None:
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    command = integration_preflight_argv()
+    assert "-n" not in command
+    assert command[-3:] == ["-m", "", "-q"]
+    assert all((root / path).is_file() for path in INTEGRATION_PREFLIGHT_FILES)
+    plan = build_regression_supervision_plan()
+    assert plan["integration_preflight"]["execution"] == "shared_process"
+    assert "not physical-time" in plan["integration_preflight"]["scope"]
+
+
+def test_supervision_reports_product_tests_outside_core(tmp_path, monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    product_tests = tmp_path / "12-AZ-IP" / "new-product" / "tests"
+    product_tests.mkdir(parents=True)
+    (product_tests / "test_product.py").write_text("def test_ok(): pass\n")
+    monkeypatch.setattr(supervision, "_ROOT", tmp_path)
+    plan = supervision.build_regression_supervision_plan(batch_count=1)
+    assert plan["scope"]["product_test_paths_outside_full_core"] == [
+        "12-AZ-IP/new-product/tests/test_product.py"
+    ]
+    assert plan["scope"]["file_partition_is_not_execution_evidence"] is True
+    assert plan["supervised_full_core_suite"]["batches"][0]["test_paths"] == []
 
 
 def test_regression_supervision_plan_reports_consistent_coverage() -> None:
@@ -120,6 +155,7 @@ def test_regression_supervision_plan_reports_consistent_coverage() -> None:
     assert len(plan['supervised_fast_suite']['batches']) == DEFAULT_FAST_BATCH_COUNT
     assert len(plan['supervised_full_core_suite']['batches']) == DEFAULT_FULL_CORE_BATCH_COUNT
     assert plan['remaining_canonical_suites']['slow'] == 'python -m pytest tests/ -m "slow" -q'
+    assert '-m ""' in plan['remaining_canonical_suites']['full']
     assert plan['remaining_canonical_suites']['claims'] == 'python -m pytest claims/ -q'
 
 
@@ -163,3 +199,45 @@ def test_discovery_keeps_syntax_error_files_in_fast_suite(tmp_path, monkeypatch)
     monkeypatch.setattr(supervision, '_ROOT', tmp_path)
 
     assert supervision.discover_fast_suite_files() == ['tests/test_broken.py']
+
+
+def test_discovery_matches_special_pytest_filename_pattern(tmp_path, monkeypatch) -> None:
+    import src.core.regression_supervision_plan as supervision
+
+    tests_dir = tmp_path / "tests"
+    tests_dir.mkdir()
+    (tests_dir / "ALGEBRA_PROOF.py").write_text("def test_ok(): pass\n")
+    monkeypatch.setattr(supervision, "_ROOT", tmp_path)
+    assert supervision.discover_fast_suite_files() == ["tests/ALGEBRA_PROOF.py"]
+    assert supervision.discover_full_core_suite_files() == ["tests/ALGEBRA_PROOF.py"]
+
+
+def test_full_core_batch_collects_slow_tests_despite_default_addopts(tmp_path, monkeypatch) -> None:
+    import subprocess
+    import sys
+    import src.core.regression_supervision_plan as supervision
+
+    (tmp_path / 'pytest.ini').write_text(
+        '[pytest]\naddopts = -m "not slow"\nmarkers = slow: slow tests\n',
+        encoding='utf-8',
+    )
+    tests_dir = tmp_path / 'tests'
+    tests_dir.mkdir()
+    (tests_dir / 'test_modes.py').write_text(
+        'import pytest\n'
+        'def test_fast(): pass\n'
+        '@pytest.mark.slow\n'
+        'def test_slow(): pass\n',
+        encoding='utf-8',
+    )
+    monkeypatch.setattr(supervision, '_ROOT', tmp_path)
+    monkeypatch.setattr(supervision, 'pytest_xdist_available', lambda: False)
+    command = supervision.full_core_batch_argv(0, 1)
+    command[0] = sys.executable
+    result = subprocess.run(
+        [*command, '--collect-only'], cwd=tmp_path, capture_output=True, text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert 'test_modes.py::test_slow' in result.stdout
+    assert '2 tests collected' in result.stdout

@@ -5,14 +5,76 @@ Repository-wide pytest path setup for nested Pentad packages.
 from __future__ import annotations
 
 import os
+import shutil
 import sys
+import tempfile
 import types
+from pathlib import Path
 from typing import Any
 
 import pytest
 
 _REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 _PENTAD_DIR = os.path.join(_REPO_ROOT, "5-GOVERNANCE", "Unitary Pentad")
+_TRAINING_RUNTIME_ENV = "MERLIN_TRAINING_RUNTIME_DIR"
+
+
+def _start_training_runtime(config: Any) -> None:
+    """Isolate persisted training state before any test modules are imported."""
+    original = os.environ.get(_TRAINING_RUNTIME_ENV)
+    if original is not None:
+        if not original.strip():
+            raise pytest.UsageError(f"{_TRAINING_RUNTIME_ENV} must not be empty")
+        runtime_path = Path(original).expanduser().resolve()
+        if runtime_path.is_relative_to(Path(_REPO_ROOT).resolve()):
+            raise pytest.UsageError(f"{_TRAINING_RUNTIME_ENV} must be outside the repository for pytest")
+    worker = hasattr(config, "workerinput")
+    if not worker and getattr(getattr(config, "option", None), "numprocesses", None):
+        # The xdist controller does not collect; workers own independent state.
+        return
+    if original is not None and not worker:
+        return
+    runtime = tempfile.TemporaryDirectory(prefix="merlin-training-pytest-")
+    config._merlin_training_runtime = runtime
+    config._merlin_training_runtime_original = original
+    config.add_cleanup(lambda: _finish_training_runtime(config))
+    try:
+        if original is not None:
+            for name in (
+                "three_lane_execution_bundle.json",
+                "lane_e_runtime_profiles.json",
+                "performance_gate_history.json",
+            ):
+                source = runtime_path / name
+                if source.is_file():
+                    shutil.copy2(source, Path(runtime.name) / name)
+        os.environ[_TRAINING_RUNTIME_ENV] = runtime.name
+    except BaseException:
+        _finish_training_runtime(config)
+        raise
+
+
+def _finish_training_runtime(config: Any) -> None:
+    runtime = getattr(config, "_merlin_training_runtime", None)
+    if runtime is not None:
+        try:
+            runtime.cleanup()
+        finally:
+            original = config._merlin_training_runtime_original
+            if original is None:
+                os.environ.pop(_TRAINING_RUNTIME_ENV, None)
+            else:
+                os.environ[_TRAINING_RUNTIME_ENV] = original
+            config._merlin_training_runtime = None
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_sessionstart(session: pytest.Session) -> None:
+    _start_training_runtime(session.config)
+
+
+def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
+    _finish_training_runtime(session.config)
 
 if _PENTAD_DIR not in sys.path:
     sys.path.insert(0, _PENTAD_DIR)

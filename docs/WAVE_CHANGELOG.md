@@ -1,5 +1,20 @@
 # Wave Changelog
 
+## Synthesis repair (2026-10-05; no new pillar)
+
+Separated action-derived gauge energy from the preserved legacy B² halo,
+corrected KK unit conversions and computed reporting, and retired unrelated
+closure-percentage responses on the touched RAG routes. Full-core batching
+now explicitly enables slow tests; execution receipts distinguish actual
+outcomes from file partition coverage and reject missing/stale results.
+The shared-process preflight links metric, action, relaxation, gauge energy,
+boundary and fixed-point software checks. Product tests outside the core
+scope are inventoried, not silently claimed as verified.
+
+No version/pillar promotion, physical-time derivation, unified dark-matter
+candidate or empirical confirmation is claimed. Verification and remaining
+work: [TRUTH_LAYER](TRUTH_LAYER.md#synthesis-repair-2026-10-05).
+
 ## Foundation reassessment (2026-09-05; no new pillar)
 
 **Changed interpretation:** the current audit supersedes historical scientific

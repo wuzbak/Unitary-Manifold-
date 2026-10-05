@@ -53,12 +53,24 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (fast suite shard ${{ matrix.batch-index }})
-        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite tests-fast --batch-count 4 --batch-index ${{ matrix.batch-index }}
+        run: |
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite tests-fast \
+            --batch-count 4 --batch-index ${{ matrix.batch-index }} \
+            --workers 2 --timeout 5100 --result-dir "${{ runner.temp }}/regression-results"
+      - name: Retain fast-suite execution evidence
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: tests-fast-${{ matrix.batch-index }}
+          path: ${{ runner.temp }}/regression-results/
+          if-no-files-found: error
+          retention-days: 14
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 3: Supervisor gate for batched fast-suite coverage
   # ──────────────────────────────────────────────────────────────────────────
   test-fast-supervisor:
+    if: always()
     runs-on: ubuntu-latest
     needs: test-fast-batched
     timeout-minutes: 30
@@ -73,6 +85,23 @@ jobs:
           python-version: "3.12"
       - name: Verify batched fast-suite coverage
         run: python TOOLS/checks/run_supervised_pytest_batch.py --suite supervisor-check --batch-count 4 --emit-json
+      - name: Download fast-suite execution evidence
+        if: always()
+        uses: actions/download-artifact@v4.3.0
+        with:
+          pattern: tests-fast-*
+          path: ${{ runner.temp }}/regression-results/
+          merge-multiple: true
+      - name: Require complete matching fast-suite execution receipts
+        if: always()
+        run: |
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite tests-fast \
+            --batch-count 4 --aggregate --result-dir "${{ runner.temp }}/regression-results"
+      - name: Require successful fast-suite jobs
+        if: always()
+        env:
+          BATCH_RESULT: ${{ needs.test-fast-batched.result }}
+        run: test "${BATCH_RESULT}" = "success"
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 4: Slow test suite (tests/ -m slow — Richardson extrapolation etc.)

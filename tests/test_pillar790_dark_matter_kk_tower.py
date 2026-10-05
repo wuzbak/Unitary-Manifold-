@@ -90,23 +90,53 @@ class TestPhysicsFunctions:
 
     def test_spin_independent_cs_small(self):
         sigma = spin_independent_cross_section_cm2(1.0)
-        assert sigma < 1e-40  # very small for weakly-coupled KK
+        assert sigma == pytest.approx(3.42659256e-42)
 
     def test_thermal_relic_positive(self):
         omega = thermal_relic_density(1.0)
         assert omega > 0
 
     def test_xenon_exclusion_low_mass(self):
-        # Very low mass (0.1 TeV) should be excluded
-        assert is_xenon_nt_excluded(0.1)
+        assert is_xenon_nt_excluded(0.1, 0.0) is None
 
-    def test_xenon_not_excluded_central(self):
-        # Central prediction at 1 TeV: σ_SI << XENON-nT limit
-        # (mass > 0.5 TeV exclusion threshold, and σ_SI below limit)
+    def test_supplied_benchmark_above_reference(self):
         excluded = is_xenon_nt_excluded(M_KK_TEV_CENTRAL)
-        # Central: should not be mass-excluded (M > 0.5 TeV)
-        # σ_SI check: our estimate is below limit
-        assert not excluded  # central M_KK=1 TeV: M > 0.5 TeV exclusion and sigma_SI < XENON-nT limit
+        assert excluded is True
+
+    def test_mass_ansatz_actual_value(self):
+        assert kk_mass_gev(1) == pytest.approx(K_ADS_OVER_MPL * M_EW_GEV)
+        assert kk_mass_gev(1) == pytest.approx(24.622)
+
+    def test_relic_unit_conversion(self):
+        sigma_tev2 = K_ADS_OVER_MPL ** 4 / (16 * math.pi)
+        expected = 0.1 / (sigma_tev2 * 389.4)
+        assert thermal_relic_density(1.0) == pytest.approx(expected)
+        assert thermal_relic_density(1.0) == pytest.approx(129.084443907)
+
+    def test_scattering_and_relic_mass_scaling(self):
+        assert spin_independent_cross_section_cm2(2.0) == pytest.approx(
+            spin_independent_cross_section_cm2(1.0) / 16, abs=0
+        )
+        assert thermal_relic_density(2.0) == pytest.approx(
+            4 * thermal_relic_density(1.0)
+        )
+
+    def test_explicit_limit_no_mass_only_exclusion(self):
+        assert is_xenon_nt_excluded(0.1, 0.0, limit_cm2=1e-47) is False
+        assert is_xenon_nt_excluded(0.1, 2e-47, limit_cm2=1e-47) is True
+        assert is_xenon_nt_excluded(1.0, 0.0) is False
+
+    @pytest.mark.parametrize("mass", [0, -1, float("nan"), float("inf")])
+    def test_invalid_mass_rejected(self, mass):
+        for function in (spin_independent_cross_section_cm2,
+                         thermal_relic_density, is_xenon_nt_excluded):
+            with pytest.raises(ValueError):
+                function(mass)
+
+    @pytest.mark.parametrize("limit", [0, -1, float("nan"), float("inf")])
+    def test_invalid_limit_rejected(self, limit):
+        with pytest.raises(ValueError):
+            is_xenon_nt_excluded(1.0, limit_cm2=limit)
 
 
 # ---------------------------------------------------------------------------
@@ -163,10 +193,14 @@ class TestDMKKCertificate:
         assert self.cert.r5_metres > 0
 
     def test_m_kk_central(self):
-        assert self.cert.m_kk_tev_central == M_KK_TEV_CENTRAL
+        assert self.cert.m_kk_tev_central == pytest.approx(kk_mass_gev() / 1000)
+        assert self.cert.supplied_benchmark_mass_tev == 1.0
 
     def test_below_xenon_limit(self):
-        assert self.cert.below_xenon_limit  # sigma_SI << XENON-nT limit at 1 TeV
+        assert self.cert.below_xenon_limit is None
+        assert self.cert.is_excluded_central is None
+        assert self.cert.xenon_nt_limit_cm2 is None
+        assert self.cert.xenon_nt_exclusion_below_tev is None
 
     def test_kk_tower_nonempty(self):
         assert len(self.cert.kk_tower) > 0
@@ -188,10 +222,29 @@ class TestDMKKCertificate:
         assert self.cert.failures == 0
 
     def test_omega_range_low(self):
-        assert self.cert.omega_h2_estimate_low > 0
+        assert self.cert.omega_h2_estimate_low is None
 
     def test_omega_range_high(self):
-        assert self.cert.omega_h2_estimate_high > self.cert.omega_h2_estimate_low
+        assert self.cert.omega_h2_estimate_high is None
+
+    def test_certificate_matches_actual_functions_and_first_mode(self):
+        mass = self.cert.m_kk_tev_central
+        assert self.cert.sigma_si_cm2_central == pytest.approx(
+            spin_independent_cross_section_cm2(mass), abs=0
+        )
+        assert self.cert.omega_h2_central == pytest.approx(thermal_relic_density(mass))
+        assert self.cert.omega_h2_central == pytest.approx(0.078256525554)
+        assert self.cert.relic_consistent is False
+        first = self.cert.kk_tower[0]
+        assert first.mass_tev == mass
+        assert first.omega_h2 == self.cert.omega_h2_central
+        assert first.sigma_si_cm2 == self.cert.sigma_si_cm2_central
+        assert first.xenon_excluded is None
+        assert first.relic_consistent is False
+
+    def test_no_derived_mass_uncertainty(self):
+        assert self.cert.m_kk_tev_low is None
+        assert self.cert.m_kk_tev_high is None
 
     def test_run_pillar790_returns_cert(self):
         cert = run_pillar790()
