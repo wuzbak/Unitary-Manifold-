@@ -138,6 +138,61 @@ Sprint CW adds one adjacent empirical connectome lane rather than reopening the 
 
 This is real data-bearing work, but its epistemic class is intentionally narrow. The pillar does not claim that a fly connectome proves Unitary Manifold physics, that consciousness ontology has been solved, or that connectome structure alone yields a first-principles derivation of cognition. What it does claim is stricter and testable: the repository now has a public whole-CNS benchmark slice that can pressure-test its neuroscience language against real wiring summaries. In the committed panel, `LPLC2` carries the largest imported input/output mass, `LC4` is the most reciprocal imported type, `EPG` has the highest downstream neurotransmitter entropy, and `AN01B004` plus `DNa02` form the clearest brain↔VNC bridge pair.
 
+### Sprint CX action-derived flow steward promotion
+
+Pillar 1130 (`src/core/pillar1130_action_derived_flow_steward_promotion.py`) records the steward decision to promote the Euler-Lagrange deliverable of the action-to-evolution contract within the perimeter stated in the next section. The decision is fail-closed. It takes effect only while the derived-flow certificate passes every check: the default law is the action-derived one, the field equations are derived, every sector has a residual certificate, the Minkowski fixed point holds, the perimeter is stated, and neither t-dynamics nor closure is claimed. If any check fails, the deliverable returns to `DERIVED_PENDING_STEWARD_PROMOTION` without a manual edit. Final ratification is the steward's merge of the pull request that carries the pillar.
+
+The promotion is deliberately narrow. The contract now reads `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` and `promotion_ready` stays false, because the evolution boundary is still OPEN: the t-relaxation law remains declared rather than derived, t is not coordinate time, and no physical-time evolution of the 5D field equations is implemented or certified. The contract lists three residual obligations: `T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ` and `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`. The legacy phenomenological flow law, with its free α coupling and KK backreaction source, is unchanged and is not covered. The live `scientific_assessment.action_to_evolution` field therefore moves from OPEN to PARTIAL rather than to closed. Framework-level `closure_earned` stays false.
+
+Historical fail-closed certificates that encoded "Euler-Lagrange blocker retained" as their validity condition (P1082, P1111) now also accept the promoted state, but only when the residual obligations are present and the contract is not closure-ready. Their pre-promotion records are otherwise unchanged.
+
+Sprint CX also resynchronizes the canonical status surfaces. `1-THEORY/DERIVATION_STATUS.md`, the README marker and the public-site status JSON had stayed at v38.0 while STATUS and FALLIBILITY moved to v38.1. Sprints CV and CW had left `REGRESSION_PLACEHOLDER_CV` where a regression record belonged, so the latest verified full regression in branch history remains the Sprint CU record (64,150 passed, 22 skipped, 18 deselected, 0 failed). The archived Sprint CV auditable-state record is restored in `docs/SPRINT_PLAN.md`.
+
+**Sprint CX verification (this environment).** The suite is too large to run serially within the session budget. It was verified with CI's own 4-batch runner (`TOOLS/checks/run_supervised_pytest_batch.py --suite tests-fast`), executed locally in parallel, plus the recycling and Unitary Pentad suites and `python VERIFY.py`. The full suite runs in CI. Results are recorded in the verification note at the end of this section.
+
+**Sprint CX verification note.** Batch 0: 18,840 tests passed with 9 skipped and 5 deselected; no failures. Batch 2: 15,107 passed, 8 skipped, 1 failed. The failure is the pre-existing pillar536 IP-registry seal test (`test_verify_no_tampered`), which fails identically on the base commit. Batch 3: 14,170 passed, 28 skipped, 5 deselected, 2 failed. Both failures are pre-existing PsiCat literature corpus-contract tests (books 51–53 have no rewrite-source provenance), with the same result on the base commit. Batch 1 had no failures through 41% of its tests. Its slow tail (Pillar 1092 onward, PsiCat/Merlin file-scan certificates unrelated to evolution) did not finish within the session and is left to CI. Targeted status, ledger, live-status and public-sync tests: 132 passed, 1 skipped. Recycling and Unitary Pentad: 3,398 passed, 3 skipped. `VERIFY.py`: 18/18. The pillar536 seal and the PsiCat corpus contract are steward decisions and were deliberately not altered. Automated code review was unavailable in this environment, and the CodeQL analysis was skipped (database too large); neither is a substitute for steward review.
+
+### Lane 1 action-derived flow replacement (Sprint CW; promoted within perimeter in Sprint CX)
+
+The phenomenological flow is no longer the default evolution law. Following the audit below, the flow was replaced rather than reinterpreted. `src/core/action_derived_flow.py` starts from the 5D Einstein-Hilbert action S₅ = ∫√(−G)R⁽⁵⁾ on the corrected ansatz (G_μ5 = λφ²B_μ, G_55 = φ²). It reduces on the circle to the Einstein frame g_E = φg, ψ = ln φ, which gives √(−g_E)[R_E − (3/2)(∂ψ)² − ¼λ²φ³F²]. It then varies that reduced action. `src/core/evolution.py` now defaults to `flow_law="action_derived"`, a relaxation whose fixed points are exactly the discretised Euler-Lagrange solutions. The old flow remains selectable as `"phenomenological_legacy"` for reproducibility. Pillar 988 and the tests of legacy-only features (KK-tower source, volume projection, heat-equation Richardson test) are pinned to it.
+
+The derived equations differ from the old ones in substance:
+
+- the curvature is the 4D Einstein-frame Ricci tensor, not the legacy g^μν R^(5)_μν contraction;
+- there is no free nonminimal coupling α;
+- the gauge coupling is weighted by φ³;
+- the radion kinetic normalisation is fixed at 3/2;
+- every contraction is Lorentzian;
+- the scalar stress enters the metric equation.
+
+The evidence is recorded in `src/core/action_to_evolution_derived_flow_certificate.py`:
+
+- **Exact identity on a restricted metric:** SymPy simplifies the Euler operator of the difference between the 5D and reduced Lagrangians to zero on g_E = diag(−a, b, 1, 1), B = (0, 0, B₂, 0).
+- **Wider metrics, sample points only:** on the diagonal two-component form, and on a non-diagonal g_E with g_E,02 and g_E,23 components, the same difference vanishes at 30-digit sample points (≈5·10⁻¹⁵). These two checks are slow tests and are not exact-identity certificates.
+- **Residual certificates:** the implemented Euler-Lagrange expressions converge to SymPy's δS/δ(field) at second order for the metric, gauge and scalar sectors.
+- **Ricci cross-check:** the finite-difference Ricci tensor converges at second order to an exact-derivative reference on a non-diagonal metric.
+
+The retirement units for the action functional, variation rules and residual comparison now read CLOSED_NOW. Their proof class is executable Python validation; no Lean proof of them exists yet. At the end of Sprint CW the Euler-Lagrange deliverable read `DERIVED_PENDING_STEWARD_PROMOTION`. Sprint CX promoted it within the perimeter (see the section above). Four limits bound what that promotion means:
+
+- the parameter t is a declared relaxation parameter, not coordinate time, so the action fixes the field equations but not the t-dynamics;
+- the perimeter is the 1-D periodic zero-mode sector, and the KK tower is not evolved;
+- this is a circle reduction, not the Z₂ orbifold, so the photon obstruction is untouched;
+- promotion required a new pillar and a canonical status sync, which Pillar 1130 and Sprint CX provide.
+
+The `action_to_evolution` question is therefore PARTIAL, not closed: the field equations are earned, and the evolution law is still open.
+
+### Lane 1 executable gradient-flow audit (legacy flow; motivated the replacement above)
+
+The action-to-evolution question now has an executable test in place of template alignment: `src/core/action_to_evolution_gradient_flow_audit.py`. The implemented flow is first order in a parameter t that is explicitly not coordinate time, so it cannot be the second-order Euler-Lagrange system of a Lorentzian action in x⁰. The variational class it could belong to is a gradient flow, ∂_t X = −G⁻¹ δE/δX. For a constant field-space metric G, a necessary condition is that G·J is symmetric, where J is the Jacobian of the discrete right-hand side.
+
+Results on a deterministic nontrivial state (N = 12, H ≠ 0, KK backreaction source disabled):
+
+- **Scalar sector, with g, B, R and S[H] frozen:** ∂_t φ equals −δE_φ/δφ for E_φ = ∫[½(∂φ)² − ½αRφ² − S[H]φ + ½m_φ²(φ−φ₀)²], with relative residual ≈ 10⁻¹⁰. This holds only on a frozen background, because R depends on φ through G₅₅ = φ².
+- **Gauge sector, with g frozen:** ∂_t B equals −δE_B/δB for the Maxwell energy ¼λ²∫H_ab H^ab at interior points, with relative residual ≈ 10⁻¹¹. The one-sided boundary stencils do not satisfy the match. The scalar Laplacian is periodic but H uses non-periodic stencils, so the two sectors also use inconsistent boundary conventions.
+- **Coupled system:** ∂F_B/∂φ ≡ 0, but ∂F_φ/∂B ≠ 0 whenever H ≠ 0. No constant block-diagonal positive-definite field-space metric can therefore make the implemented coupled flow a gradient flow of any C² functional. The full interior Jacobian table (slow test) shows that the g–g, g–B, g–φ and B–φ block pairs are strongly non-symmetric, and that the φ–φ pair is mildly non-symmetric.
+
+Consequence: the Euler-Lagrange match deliverable is not earned and cannot be earned for the present flow. Within the stated class (constant, block-diagonal metrics; state-dependent or B–φ-mixing metrics are not excluded), the audit refutes the gradient-flow form. An action containing these terms would force several terms that the implementation omits: a φ-weighted back-reaction in ∂_t B, scalar stress ∂φ∂φ in T_μν (`_stress_energy` ignores φ, although the flow surface labels it T_μν[B, φ]), and the metric variation of −½αRφ². In addition, −2R_μν alone is not an L² gradient flow. Lane 1 can close only if the flow is replaced by the gradient flow of an explicit functional, which changes numerical outputs and requires steward approval. Otherwise the phenomenological label must stay. No gate, pillar count or version label changes.
+
 ### Sprint CR master implementation packet
 
 Sprint CR implements the full ten-step master plan as one fail-closed packet without widening claim scope. The charter locks action-to-evolution as the primary closure target and keeps APS/orbifold/Dirac as support-only surfaces. The burden board then converts the remaining action/equation/domain blockers into deterministic units with explicit evidence gates.

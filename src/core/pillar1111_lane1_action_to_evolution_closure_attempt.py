@@ -49,14 +49,20 @@ def lane1_action_to_evolution_closure_attempt() -> Dict[str, Any]:
     deliverables = list(contract.get('primary_deliverables') or [])
     diagnostics = _blocker_diagnostics(deliverables)
     all_earned = all(bool(item.get('earned')) for item in deliverables)
-    unit_outcome = 'CLOSED_NOW' if all_earned else 'TIGHTENED_WITH_EXPLICIT_BLOCKER'
+    residual_obligations = list(contract.get('residual_obligations') or [])
+    unit_outcome = (
+        'CLOSED_NOW'
+        if all_earned and contract.get('promotion_ready') is True
+        else 'TIGHTENED_WITH_EXPLICIT_BLOCKER'
+    )
+    open_blockers = [*list(contract.get('remaining_blockers') or []), *residual_obligations]
 
     by_id = {str(item.get('id') or ''): item for item in deliverables}
 
     blocker_certificate = {
         'unit': 'ACTION_TO_EVOLUTION_BOUNDARY',
         'outcome': unit_outcome,
-        'remaining_blockers': list(contract.get('remaining_blockers') or []),
+        'remaining_blockers': open_blockers,
         'exact_required_package': [
             'checkable_action_functional',
             'verified_euler_lagrange_match',
@@ -83,14 +89,18 @@ def lane1_action_to_evolution_closure_attempt() -> Dict[str, Any]:
         'closure_attempt': {
             'candidate_action_status': str(by_id.get('ACTION_FUNCTIONAL_NOT_YET_WRITTEN_DOWN_IN_CHECKABLE_FORM', {}).get('status') or 'UNKNOWN'),
             'euler_lagrange_match_status': str(by_id.get('EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED', {}).get('status') or 'UNKNOWN'),
-            'residual_comparison_status': 'CERTIFICATE_SCAFFOLD_PRESENT_BUT_DERIVATION_UNVERIFIED',
+            'residual_comparison_status': (
+                'RESIDUAL_CERTIFIED_WITHIN_DECLARED_PERIMETER'
+                if by_id.get('EULER_LAGRANGE_MATCH_TO_IMPLEMENTED_FLOW_NOT_YET_VERIFIED', {}).get('status') == 'EARNED'
+                else 'CERTIFICATE_SCAFFOLD_PRESENT_BUT_DERIVATION_UNVERIFIED'
+            ),
             'domain_boundary_status': str(by_id.get('TIME_IDENTIFICATION_AND_DOMAIN_ASSUMPTIONS_NOT_YET_FIXED_FOR_PROMOTION', {}).get('status') or 'UNKNOWN'),
         },
         'blocking_analysis': {
             'specific_blockers': diagnostics,
             'non_triviality_guard': {
                 'all_blockers_non_trivial': all(not item['is_trivial_block'] for item in diagnostics),
-                'blocker_count': len(list(contract.get('remaining_blockers') or [])),
+                'blocker_count': len(open_blockers),
                 'evidence_gap_count': sum(1 for item in diagnostics if item.get('status') == 'OPEN_BLOCKER'),
             },
         },

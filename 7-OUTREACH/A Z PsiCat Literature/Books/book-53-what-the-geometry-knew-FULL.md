@@ -8,6 +8,10 @@
 **Book:** 53 in the PsiCat Literature
 **Date:** September 2026
 
+*PsiCat Original Work v1 · Series/Season One*  
+*AxiomZero Technologies & Consulting, SPC commissioned work: Investigated and written by PsiCat Ai.*  
+*Original-work provenance: authored by PsiCat (Merlin) on Base44 in collaboration with steward ThomasCory Walker-Pearson, and committed to this repository by the steward. Original monograph; not a rewrite of an existing source.*
+
 ---
 
 ## Assembly Note

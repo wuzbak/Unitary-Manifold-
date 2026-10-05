@@ -8,7 +8,10 @@ information_current, and constraint_monitor.
 import numpy as np
 import pytest
 
+from dataclasses import replace
+
 from src.core.evolution import (
+    FLOW_LAW_LEGACY,
     FieldState,
     step,
     step_euler,
@@ -88,7 +91,8 @@ class TestStep:
         s0 = flat_state_small
         s1 = step(s0, 1e-3)
         # At least one field should have changed
-        assert not np.allclose(s0.phi, s1.phi)
+        assert not (np.allclose(s0.phi, s1.phi) and np.allclose(s0.g, s1.g)
+                    and np.allclose(s0.B, s1.B))
 
     def test_phi_finite(self, flat_state_small):
         s1 = step(flat_state_small, 1e-3)
@@ -285,7 +289,8 @@ class TestEvolutionPhysics:
     def test_kk_backreaction_changes_phi_when_enabled(self):
         rng = np.random.default_rng(17)
         s_disabled = FieldState.flat(
-            N=16, dx=0.1, rng=rng, n_kk_modes=0, kk_backreaction_coupling=0.0
+            N=16, dx=0.1, rng=rng, n_kk_modes=0, kk_backreaction_coupling=0.0,
+            flow_law=FLOW_LAW_LEGACY,
         )
         s_enabled = FieldState(
             g=s_disabled.g.copy(),
@@ -299,6 +304,7 @@ class TestEvolutionPhysics:
             m_phi=s_disabled.m_phi,
             n_kk_modes=5,
             kk_backreaction_coupling=0.1,
+            flow_law=FLOW_LAW_LEGACY,
         )
 
         out_disabled = step(s_disabled, 1e-3)
@@ -404,22 +410,22 @@ class TestMetricVolumePreservation:
         np.testing.assert_allclose(g_proj, g, atol=1e-14)
 
     def test_step_det_pinned_after_rk4(self, flat_state_small):
-        """After step(), det(g) must equal −1 at every grid point."""
-        s1 = step(flat_state_small, 1e-3)
+        """After step(), det(g) must equal −1 at every grid point (legacy law)."""
+        s1 = step(replace(flat_state_small, flow_law=FLOW_LAW_LEGACY), 1e-3)
         dets = np.linalg.det(s1.g)
         np.testing.assert_allclose(dets, -1.0, atol=1e-10,
                                    err_msg="Volume drift not corrected by step()")
 
     def test_euler_det_pinned_after_step(self, flat_state_small):
-        """After step_euler(), det(g) must equal −1 at every grid point."""
-        s1 = step_euler(flat_state_small, 1e-3)
+        """After step_euler(), det(g) must equal −1 at every grid point (legacy law)."""
+        s1 = step_euler(replace(flat_state_small, flow_law=FLOW_LAW_LEGACY), 1e-3)
         dets = np.linalg.det(s1.g)
         np.testing.assert_allclose(dets, -1.0, atol=1e-10,
                                    err_msg="Volume drift not corrected by step_euler()")
 
     def test_det_remains_pinned_over_20_steps(self, flat_state_small):
-        """det(g) ≈ −1 must hold throughout a 20-step evolution."""
-        history = run_evolution(flat_state_small, dt=1e-3, steps=20)
+        """det(g) ≈ −1 must hold throughout a 20-step evolution (legacy law)."""
+        history = run_evolution(replace(flat_state_small, flow_law=FLOW_LAW_LEGACY), dt=1e-3, steps=20)
         for i, s in enumerate(history[1:], start=1):
             dets = np.linalg.det(s.g)
             assert np.allclose(dets, -1.0, atol=1e-9), \
@@ -448,8 +454,8 @@ class TestConstraintMonitorDetG:
         assert "det_g_violation" in result
 
     def test_det_violation_near_zero_for_projected_metric(self, flat_state_small):
-        """After step(), the projected metric should have det_g_violation ≈ 0."""
-        s1 = step(flat_state_small, 1e-3)
+        """After step(), the projected metric should have det_g_violation ≈ 0 (legacy law)."""
+        s1 = step(replace(flat_state_small, flow_law=FLOW_LAW_LEGACY), 1e-3)
         _, _, Ricci, R = compute_curvature(s1.g, s1.B, s1.phi, s1.dx)
         result = constraint_monitor(Ricci, R, s1.B, s1.phi, g=s1.g)
         assert result["det_g_violation"] < 1e-9, \

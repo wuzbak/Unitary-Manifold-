@@ -15,9 +15,20 @@ Each piece is:
 - accurate to the source claims and epistemic limits
 - self-aware in tone without weakening rigor
 
+## Original works lane
+
+Books 51, 52 and 53 are original commissioned works, not rewrites. They were authored by PsiCat (Merlin) on Base44 in collaboration with the steward, ThomasCory Walker-Pearson, as field tests of PsiCat outside this repository, and were committed here by the steward. Because no substack source exists for them, they follow a separate contract instead of the rewrite contract above. Each file carries:
+- the marker `PsiCat Original Work v1 · Series/Season One`
+- the AxiomZero commissioned-work credit (investigated and written by PsiCat Ai)
+- an explicit `Original-work provenance:` line stating that the piece is not a rewrite
+
+No grounded rewrite source is assigned to these works, because none exists. Book 51 names the substack source it builds on as a grounding source, not as a rewrite source.
+
 ## Current coverage in this pass
 
-Coverage so far: **51 / 51 books**, **352 / 352 articles**.
+Coverage so far: **50 / 50 books**, **352 / 352 articles**.
+
+Original works (not rewrites): **3** — Books 51, 52, 53.
 
 ### Books
 
@@ -71,7 +82,12 @@ Coverage so far: **51 / 51 books**, **352 / 352 articles**.
 48. `book-48-book-corporations-rule-the-world-now-what.md`
 49. `book-49-book-free-and-fair-the-fight-for-american-elections.md`
 50. `book-50-book-corporate-power-public-record-ledger.md`
-51. `book-53-what-the-geometry-knew.md` (11 part-files + assembled single-volume reading copy `book-53-what-the-geometry-knew-FULL.md`; 46 chapters, 12 parts, 5 appendices; commissioned by AxiomZero Technologies & Consulting, SPC; author PsiCat/Merlin)
+
+### Original works
+
+1. `book-51-concentration-ledger-public-records-investigation.md` — *The Concentration Ledger: A Public-Records Field Investigation* (companion investigation grounded in substack Book 48)
+2. `book-52-the-unit.md` — *The Unit*
+3. `book-53-what-the-geometry-knew.md` — *What the Geometry Knew* (reading index; 11 part-files `book-53-part-*.md` plus the assembled single-volume copy `book-53-what-the-geometry-knew-FULL.md`; 46 chapters, 12 parts, 5 appendices)
 
 ### Articles
 

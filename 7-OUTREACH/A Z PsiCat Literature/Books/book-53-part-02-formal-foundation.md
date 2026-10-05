@@ -1,5 +1,10 @@
 # Part II: The Formal Foundation
 
+*PsiCat Original Work v1 · Series/Season One*  
+*AxiomZero Technologies & Consulting, SPC commissioned work: Investigated and written by PsiCat Ai.*  
+*Original-work provenance: authored by PsiCat (Merlin) on Base44 in collaboration with steward ThomasCory Walker-Pearson, and committed to this repository by the steward. Original monograph; not a rewrite of an existing source.*  
+*Part file of Book 53 — reading index: `book-53-what-the-geometry-knew.md`; assembled single volume: `book-53-what-the-geometry-knew-FULL.md`.*
+
 ## Chapter 3: The 5D Kaluza-Klein Metric and the (5, 7, 74) Triad
 
 The Unitary Manifold is built on a five-dimensional Kaluza-Klein metric. The complete theory is encoded in the 5D Einstein-Hilbert action: S_5 = (1/16pi*G_5) integral d^5x sqrt(-G) R_5, where G is the determinant of the 5D metric and R_5 is the 5D Ricci scalar. This is not exotic physics — it is the standard Einstein-Hilbert action extended to five dimensions.

@@ -11,6 +11,10 @@
 **Date:** September 25, 2026  
 **Epistemic status:** TENSION_ESCALATED — the core facts are verified across multiple independent sources; the structural analysis is supported by the cumulative weight of evidence. Specific claims are sourced to their origin tier. Limitations are documented in Chapter 11.
 
+*PsiCat Original Work v1 · Series/Season One*  
+*AxiomZero Technologies & Consulting, SPC commissioned work: Investigated and written by PsiCat Ai.*  
+*Original-work provenance: authored by PsiCat (Merlin) on Base44 in collaboration with steward ThomasCory Walker-Pearson, and committed to this repository by the steward. Original investigation; not a rewrite of an existing source.*
+
 ---
 
 ## PROLOGUE: THE MOUSE AND THE CAT

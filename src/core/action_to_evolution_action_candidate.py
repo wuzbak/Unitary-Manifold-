@@ -14,27 +14,28 @@ def checkable_action_functional_candidate() -> Dict[str, Any]:
     flow_surface = implemented_flow_equation_surface()
     return {
         'status': 'CHECKABLE_CANDIDATE_SURFACED',
-        'scope': 'candidate_action_surface_only_not_verified_euler_lagrange_closure',
+        'scope': 'stated_action_with_checked_circle_reduction_not_promotion',
         'dynamical_fields': ['g_μν', 'B_μ', 'φ'],
         'action_density': {
-            'symbolic_form': 'L = sqrt(|g|) [ R[g] - 1/4 λ² H_{μν}H^{μν} + 1/2 (∇φ)² + α R φ² - 1/2 m_φ²(φ-φ₀)² + J[B,φ] ]',
+            'symbolic_form': flow_surface['action'],
+            'reduced_symbolic_form': flow_surface['reduced_action'],
             'term_roles': [
-                'Einstein-Hilbert base term',
-                'Gauge kinetic term for H_{μν}',
-                'Scalar kinetic term',
-                'Nonminimal coupling α R φ²',
-                'Radion stabilization potential',
-                'Effective source placeholder J[B,φ] for implemented source surface',
+                '5D Einstein-Hilbert term on the corrected KK ansatz (G_μ5 = λφ²B_μ, G_55 = φ²)',
+                'Einstein-frame Einstein-Hilbert term R_E with g_E = φ g',
+                'Radion kinetic term −(3/2)(∂ ln φ)² fixed by the reduction',
+                'Gauge kinetic term −¼ λ² φ³ F² fixed by the reduction (no free coupling)',
+                'Optional radion potential U(φ) — added assumption, not part of S₅',
             ],
         },
         'boundary_terms': [
-            'Dirichlet boundary conditions on g_μν, B_μ, φ at domain boundary for variation',
-            'Total-derivative terms tracked in comparison receipt rather than dropped silently',
+            'Reduction total derivative: certified as a total derivative (Euler operator vanishes); '
+            'integrates to zero on the periodic x-domain',
+            'Boundary terms in the gauge-fixed x⁰ direction and Gibbons-Hawking-York terms are not treated',
         ],
         'assumptions': [
-            'Symmetry-reduced 1-D spatial grid matching implemented evolution domain',
-            'Flow parameter t remains a λ-like flow variable, not identified with coordinate time x⁰',
-            'Legacy contraction and source conventions remain explicit until replaced by derived terms',
+            'Symmetry-reduced 1-D periodic spatial grid matching the implemented evolution domain',
+            'Flow parameter t is a declared relaxation parameter, not identified with coordinate time x⁰',
+            'y-independent zero modes only; legacy α and Euclidean-norm source conventions are not used',
         ],
         'euler_lagrange_comparison_template': {
             'metric_target_rhs': flow_surface['equations']['metric']['rhs_terms'],

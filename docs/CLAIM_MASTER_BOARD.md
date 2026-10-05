@@ -30,7 +30,10 @@ still-open physical obligations in the table.
 
 *Single source of truth for all active scientific claims.*
 *Every row is dual-published: gatekeeper verdict + truth-layer link.*
-*Last updated: 2026-09-27 (v38.1 — Sprint CW: Pillar 1129. This sprint adds one adjacent empirical MaleCNS connectome bridge rather than a new closure claim. The new surface commits a provenance-bearing benchmark panel from the public `male-cns:v1.0` release and computes deterministic partner-count, synapse-mass, reciprocity, concentration, neurotransmitter-diversity, ROI-balance, and cross-domain bridge observables. Open physics lanes and external falsifier windows remain unchanged. Next slot 1130. Verified full regression in current branch history remains REGRESSION_PLACEHOLDER_CV; focused regression: Pillar 1129 suite 24 passed · 0 failed; related neuroscience regressions 369 passed · 0 failed.)*
+*Last updated: 2026-10-01 (v38.2 — Sprint CX: Pillar 1130. This sprint records the steward promotion of the Lane 1 Euler-Lagrange deliverable within its declared perimeter: the default flow relaxes field equations derived from the circle-reduced 5D Einstein-Hilbert action, and the promotion is fail-closed on that evidence. The t-relaxation law remains declared, physical-time evolution is not certified, the legacy flow is unchanged, and no new hardgate physics closure is claimed. Next slot 1131.)*
+
+*Historical continuity note: v38.2 Sprint CX (Pillar 1130; next slot 1131) is the canonical action-derived flow steward-promotion layer directly above Sprint CW.*
+*Historical continuity note (superseded header): Last updated: 2026-09-27 (v38.1 — Sprint CW: Pillar 1129. This sprint adds one adjacent empirical MaleCNS connectome bridge rather than a new closure claim. The new surface commits a provenance-bearing benchmark panel from the public `male-cns:v1.0` release and computes deterministic partner-count, synapse-mass, reciprocity, concentration, neurotransmitter-diversity, ROI-balance, and cross-domain bridge observables. Open physics lanes and external falsifier windows remain unchanged. Next slot 1130. Verified full regression in current branch history remains REGRESSION_PLACEHOLDER_CV; focused regression: Pillar 1129 suite 24 passed · 0 failed; related neuroscience regressions 369 passed · 0 failed.)*
 
 *Historical continuity note: v38.1 Sprint CW (Pillar 1129; next slot 1130) is the canonical adjacent empirical MaleCNS bridge layer directly above Sprint CV.*
 *Historical continuity note: v38.0 Sprint CV (Pillars 1122-1128; next slot 1129) is the canonical three-lane earned-version packet directly above Sprint CU.*
@@ -51,6 +54,8 @@ still-open physical obligations in the table.
 
 
 
+
+*P1130 (v38.2): Action-Derived Flow Steward Promotion — ACTION_DERIVED_FLOW_PROMOTED_WITHIN_DECLARED_PERIMETER. `src/core/pillar1130_action_derived_flow_steward_promotion.py` records the steward decision to promote the Euler-Lagrange deliverable of `src/core/action_to_evolution_contract.py` within the declared perimeter (y-independent zero modes, 1-D periodic grid, circle reduction, declared t-relaxation). The decision is re-checked fail-closed against `src/core/action_to_evolution_derived_flow_certificate.py`. The contract reads DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN, not closure-ready; residual obligations: T_RELAXATION_LAW_DECLARED_NOT_DERIVED, EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ, PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED. Framework closure not earned. Truth layer: [Sprint CX](TRUTH_LAYER.md#sprint-cx-action-derived-flow-steward-promotion).*
 
 *P1129 (v38.1): MaleCNS Connectome Empirical Bridge — MALECNS_CONNECTOME_EMPIRICAL_BRIDGE_COMPLETE. `src/core/pillar1129_malecns_connectome_empirical_bridge.py` imports a compact, provenance-bearing benchmark panel from the public MaleCNS v1.0 fruit-fly CNS release and computes deterministic connectome observables from real public neuron-type pages. The result is adjacent-track empirical work only: no hardgate physics label change, no consciousness ontology proof, and no first-principles neural derivation are claimed.*
 

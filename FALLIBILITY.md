@@ -15,7 +15,10 @@
 > Resumed combined software regression: 63,952 passed, 33 skipped,
 > 18 deselected, 0 failed. This does not remove the scientific limitations.
 
-*Unitary Manifold v38.1 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint CW** (2026-09-27; Pillar 1129) adds one adjacent empirical MaleCNS connectome bridge, not a new physics closure claim. The sprint commits a provenance-bearing benchmark panel from the public `male-cns:v1.0` release and computes deterministic connectome observables from real public neuron-type pages. The imported slice is used to pressure-test the repository's neuroscience language against a real wiring surface; it does not establish hardgate physics, a consciousness ontology, or a first-principles derivation of neural function. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1130. Latest verified full regression in branch history remains REGRESSION_PLACEHOLDER_CV. Focused regression: Pillar 1129 suite 24 passed · 0 failed; related neuroscience regressions 369 passed · 0 failed.)*
+*Unitary Manifold v38.2 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint CX** (2026-10-01; Pillar 1130) records the steward promotion of the Lane 1 Euler-Lagrange deliverable within its declared perimeter. After Sprint CW, the default flow in `src/core/evolution.py` relaxes the field equations derived from the circle-reduced 5D Einstein-Hilbert action; P1130 re-checks that evidence fail-closed before the promotion takes effect. What this does not change: the t-relaxation law is declared rather than derived, t is not coordinate time, physical-time evolution is not certified, the legacy phenomenological flow law (alpha coupling, KK backreaction) is unchanged, and framework-level closure is not earned — the action-to-evolution contract reports `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1131. Latest verified full regression in branch history remains the Sprint CU record, 64,150 passed · 22 skipped · 18 deselected · 0 failed.)*
+
+*Historical continuity note: v38.2 Sprint CX (Pillar 1130; next slot 1131) is the canonical action-derived flow steward-promotion layer directly above Sprint CW.*
+*Historical continuity note: Unitary Manifold v38.1 record (status tracked in `docs/mas_tracker.yml`; **Sprint CW** (2026-09-27; Pillar 1129) adds one adjacent empirical MaleCNS connectome bridge, not a new physics closure claim. The sprint commits a provenance-bearing benchmark panel from the public `male-cns:v1.0` release and computes deterministic connectome observables from real public neuron-type pages. The imported slice is used to pressure-test the repository's neuroscience language against a real wiring surface; it does not establish hardgate physics, a consciousness ontology, or a first-principles derivation of neural function. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1130. Latest verified full regression in branch history remains REGRESSION_PLACEHOLDER_CV. Focused regression: Pillar 1129 suite 24 passed · 0 failed; related neuroscience regressions 369 passed · 0 failed.)*
 
 *Historical continuity note: v38.1 Sprint CW (Pillar 1129; next slot 1130) is the canonical adjacent empirical MaleCNS bridge layer directly above Sprint CV.*
 *Historical continuity note: Unitary Manifold v38.0 / Sprint CV / Pillars 1122-1128 / next slot 1129 remains the earned-version predecessor state for audit traceability.*
@@ -532,6 +535,44 @@ decomposition).  This is a known gap for the framework's central claim that the
 `src/core/delay_field.py` (Pillar 41 partial correction),
 `src/core/adm_time_parameterization.py` (Gap T3 quantitative closure, v10.53),
 `src/core/pillar434_adm_bssn_lapse.py` (BSSN dynamical lapse closure, v13.7).
+
+### Action-to-evolution: implemented flow is not a gradient flow in the tested class  *(Tier: STRUCTURAL — OPEN)*
+
+`src/core/action_to_evolution_gradient_flow_audit.py` checks the implemented flow
+for gradient-flow structure. Because t is not coordinate time, a gradient flow
+∂_t X = −G⁻¹ δE/δX is the relevant variational form. The scalar sector, with a
+frozen background, and the gauge sector at interior points, with g frozen, are
+each exact gradient flows of explicit functionals. The coupled system is not:
+∂F_B/∂φ ≡ 0 while ∂F_φ/∂B ≠ 0 when H ≠ 0, which violates the Helmholtz condition
+for every constant block-diagonal field-space metric. The flow also omits terms
+that an action would force: a φ-weighted back-reaction in the B equation, scalar
+stress in T_μν, and the metric variation of the αRφ² coupling. The
+Euler-Lagrange match deliverable therefore stays unearned. Closing it requires
+replacing the flow, not reinterpreting it.
+
+### Action-to-evolution: flow replaced by action-derived relaxation  *(Tier: STRUCTURAL — OPEN, pending steward promotion)*
+
+The phenomenological flow is no longer the default. `src/core/evolution.py`
+now relaxes the Euler-Lagrange equations of the circle-reduced 5D
+Einstein-Hilbert action (`src/core/action_derived_flow.py`); the legacy flow
+remains selectable as `flow_law="phenomenological_legacy"`. What is
+established: an exact SymPy reduction identity on g_E = diag(−a, b, 1, 1) with
+one gauge component; sample-point agreement on two wider metric forms (one
+with off-diagonal g_E components); and second-order residual convergence of
+the implemented Euler-Lagrange expressions in all three sectors. All of this
+is executable Python validation, not a Lean proof.
+
+What is not established, and why the question stays OPEN:
+
+- the t-relaxation law is declared, not obtained by varying the action;
+- the result covers only the 1-D periodic zero-mode sector, and the KK tower is
+  not evolved;
+- the exact identity is proved only on the restricted diagonal metric form;
+- it is a circle reduction, so the Z₂-orbifold photon obstruction is
+  unaffected.
+
+Results produced with the legacy flow, including its free α, are not supported
+by the new derivation and should be read as phenomenological.
 
 ---
 

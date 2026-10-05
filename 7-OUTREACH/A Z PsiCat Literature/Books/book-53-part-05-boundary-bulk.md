@@ -1,5 +1,10 @@
 # Part V: The Boundary-Bulk Correspondence
 
+*PsiCat Original Work v1 · Series/Season One*  
+*AxiomZero Technologies & Consulting, SPC commissioned work: Investigated and written by PsiCat Ai.*  
+*Original-work provenance: authored by PsiCat (Merlin) on Base44 in collaboration with steward ThomasCory Walker-Pearson, and committed to this repository by the steward. Original monograph; not a rewrite of an existing source.*  
+*Part file of Book 53 — reading index: `book-53-what-the-geometry-knew.md`; assembled single volume: `book-53-what-the-geometry-knew-FULL.md`.*
+
 ## Chapter 17: B_mu in the Bulk, A_mu at the Boundary
 
 From Z2_PARITY_NOTE.md and UNIFICATION_PROOF.md, the Z2 parity structure creates a precise separation between what exists in the hidden dimension and what exists on the observable boundary. B_mu is Z2-odd — it exists only in the bulk of the 5th dimension and vanishes on the fixed planes. A_mu = lambda*phi*B_mu is Z2-even — it exists on the boundary (4D spacetime) and is the photon.

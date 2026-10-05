@@ -22,7 +22,9 @@ def test_contract() -> None:
     assert report['outcome'] in {'LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_READY', 'LANE1_ACTION_TO_EVOLUTION_CLOSURE_ATTEMPT_BLOCKED'}
     assert report['unit_outcome'] in {'CLOSED_NOW', 'TIGHTENED_WITH_EXPLICIT_BLOCKER'}
     assert report['closure_attempt']['candidate_action_status'] == 'EVIDENCE_SURFACED'
-    assert report['closure_attempt']['euler_lagrange_match_status'] == 'DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED'
+    assert report['closure_attempt']['euler_lagrange_match_status'] == 'EARNED'
+    assert report['closure_attempt']['residual_comparison_status'] == 'RESIDUAL_CERTIFIED_WITHIN_DECLARED_PERIMETER'
+    assert report['unit_outcome'] == 'TIGHTENED_WITH_EXPLICIT_BLOCKER'
     assert report['closure_attempt']['domain_boundary_status'] == 'EVIDENCE_SURFACED'
 
 
@@ -30,7 +32,7 @@ def test_blocking_analysis_is_specific_and_non_trivial() -> None:
     report = lane1_action_to_evolution_closure_attempt()
     analysis = report['blocking_analysis']
     assert analysis['non_triviality_guard']['all_blockers_non_trivial'] is True
-    assert analysis['non_triviality_guard']['blocker_count'] == 1
+    assert analysis['non_triviality_guard']['blocker_count'] == 3
     assert len(analysis['specific_blockers']) == 3
     assert analysis['non_triviality_guard']['evidence_gap_count'] == 0
     for item in analysis['specific_blockers']:

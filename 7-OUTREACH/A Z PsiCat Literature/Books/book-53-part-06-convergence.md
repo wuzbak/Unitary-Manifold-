@@ -1,5 +1,10 @@
 # Part VI: The Convergence
 
+*PsiCat Original Work v1 · Series/Season One*  
+*AxiomZero Technologies & Consulting, SPC commissioned work: Investigated and written by PsiCat Ai.*  
+*Original-work provenance: authored by PsiCat (Merlin) on Base44 in collaboration with steward ThomasCory Walker-Pearson, and committed to this repository by the steward. Original monograph; not a rewrite of an existing source.*  
+*Part file of Book 53 — reading index: `book-53-what-the-geometry-knew.md`; assembled single volume: `book-53-what-the-geometry-knew-FULL.md`.*
+
 ## Chapter 21: Veridical Horizon — Kernel Adjacency
 
 Daryl Costello, an independent theoretical researcher in Rosendale, New York, developed the kernel adjacency framework on his blog Veridical Horizon. His work contains extensive writings on emergence, consciousness, and topology.

@@ -17,6 +17,9 @@ from src.core.action_to_evolution_el_mismatch_certificate import (
 )
 from src.core.action_to_evolution_retirement_units import build_action_to_evolution_retirement_units
 from src.core.evolution import implemented_flow_equation_surface, phenomenological_flow_boundary
+from src.core.pillar1130_action_derived_flow_steward_promotion import steward_promotion_decision
+
+DERIVED_PENDING_STEWARD_PROMOTION = "DERIVED_PENDING_STEWARD_PROMOTION"
 
 PRIMARY_DELIVERABLE_IDS: List[str] = [
     "ACTION_FUNCTIONAL_NOT_YET_WRITTEN_DOWN_IN_CHECKABLE_FORM",
@@ -40,6 +43,11 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
     el_receipt = euler_lagrange_mismatch_receipt()
     time_receipt = time_domain_boundary_receipt()
     retirement_units = build_action_to_evolution_retirement_units()
+    el_derived = bool(
+        el_certificate["summary"].get("euler_lagrange_deliverable_earned") and el_receipt["status"] == "RECEIPT_READY"
+    )
+    steward_decision = steward_promotion_decision() if el_derived else None
+    el_promoted = bool(el_derived and steward_decision and steward_decision["promoted"])
 
     deliverables = [
         {
@@ -64,19 +72,49 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
         {
             "id": PRIMARY_DELIVERABLE_IDS[1],
             "label": "Verified Euler-Lagrange match to the implemented flow",
-            "earned": False,
-            "status": "DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED" if el_receipt["status"] == "RECEIPT_READY" else "OPEN_BLOCKER",
+            "earned": el_promoted,
+            "status": (
+                "EARNED"
+                if el_promoted
+                else DERIVED_PENDING_STEWARD_PROMOTION
+                if el_derived
+                else "DERIVATION_SCAFFOLD_SURFACED_NOT_VERIFIED" if el_receipt["status"] == "RECEIPT_READY"
+                else "OPEN_BLOCKER"
+            ),
             "required_evidence": [
                 "Euler-Lagrange equations derived from the candidate action",
                 "Per-equation side-by-side comparison for metric, gauge, and scalar flow equations",
                 "Residual or mismatch report on the stated domain",
             ],
             "current_gap": (
-                "Deterministic derivation scaffold is now surfaced, but a true Euler-Lagrange derivation "
+                "Earned within the declared perimeter by steward promotion (Pillar 1130): the default flow relaxes "
+                "the field equations obtained by Euler-Lagrange derivation from the circle-reduced 5D "
+                "Einstein-Hilbert action, replacing the legacy flow that the gradient-flow audit showed is not a "
+                "gradient flow for any constant block-diagonal field-space metric. Not covered: the t-relaxation "
+                "law is declared rather than varied, the perimeter is the 1-D periodic zero-mode sector, and the "
+                "legacy flow law remains phenomenological."
+                if el_promoted
+                else "The legacy phenomenological flow, which the gradient-flow audit showed is not a gradient flow for "
+                "any constant block-diagonal field-space metric, was replaced rather than reinterpreted: the default "
+                "flow now relaxes the field equations obtained by Euler-Lagrange derivation from the circle-reduced "
+                "5D Einstein-Hilbert action, with an exact SymPy reduction identity on the reduced ansatz and "
+                "second-order residual certificates for the metric, gauge and scalar sectors. Not earned "
+                "automatically: the perimeter is the 1-D periodic zero-mode sector, the t-relaxation law is "
+                "declared rather than varied, and promotion of this deliverable (which changes the framework-level "
+                "OPEN status) requires steward review."
+                if el_certificate["summary"].get("euler_lagrange_deliverable_earned")
+                else "Deterministic derivation scaffold is now surfaced, but a true Euler-Lagrange derivation "
+                "and residual-mismatch proof are still missing. The executable gradient-flow audit shows the "
+                "implemented coupled flow is not a gradient flow for any constant block-diagonal field-space "
+                "metric (dF_B/dphi = 0 while dF_phi/dB != 0), so the present flow cannot be matched as-is; "
+                "closure requires replacing it with the gradient flow of an explicit functional."
+                if el_certificate["summary"].get("coupled_flow_gradient_form_refuted_in_class")
+                else "Deterministic derivation scaffold is now surfaced, but a true Euler-Lagrange derivation "
                 "and residual-mismatch proof are still missing."
             ),
             "euler_lagrange_mismatch_certificate": el_certificate,
             "euler_lagrange_mismatch_receipt": el_receipt,
+            "steward_promotion": steward_decision,
         },
         {
             "id": PRIMARY_DELIVERABLE_IDS[2],
@@ -97,9 +135,18 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
         },
     ]
     remaining_blockers = [item["id"] for item in deliverables if not item["earned"]]
-    promotion_ready = len(remaining_blockers) == 0 and all(item["earned"] for item in deliverables)
+    deliverables_earned = len(remaining_blockers) == 0 and all(item["earned"] for item in deliverables)
+    evolution_law_open = boundary["status"] == "OPEN"
+    promotion_ready = deliverables_earned and not evolution_law_open
+    residual_obligations = list(steward_decision["residual_obligations"]) if el_promoted and steward_decision else []
+    if promotion_ready:
+        status = "CLOSURE_READY"
+    elif deliverables_earned:
+        status = "DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN"
+    else:
+        status = "OPEN"
     return {
-        "status": "OPEN" if not promotion_ready else "CLOSURE_READY",
+        "status": status,
         "focus": "ACTION_TO_EVOLUTION_EQUIVALENCE",
         "retirement_units": retirement_units,
         "primary_deliverables": deliverables,
@@ -111,14 +158,18 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
         },
         "promotion_rule": (
             "Promotion is allowed only if the three primary deliverables are all earned and the "
-            "verified perimeter is stated without proxy or closure inflation."
+            "verified perimeter is stated without proxy or closure inflation. Earning the deliverables "
+            "does not make the contract closure-ready while the evolution boundary stays OPEN "
+            "(declared t-relaxation law)."
         ),
         "remaining_blockers": remaining_blockers,
+        "residual_obligations": residual_obligations,
         "promotion_ready": promotion_ready,
     }
 
 
 __all__ = [
+    "DERIVED_PENDING_STEWARD_PROMOTION",
     "PRIMARY_DELIVERABLE_IDS",
     "SECONDARY_SUPPORT_ONLY_IDS",
     "action_to_evolution_deliverable_contract",

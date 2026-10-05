@@ -12,6 +12,7 @@ import numpy as np
 import pytest
 
 from src.core.evolution import (
+    FLOW_LAW_LEGACY,
     FieldState,
     run_evolution,
     step,
@@ -143,6 +144,7 @@ class TestWindingStabilityBraidedState:
             t=0.0, dx=s_base.dx, lam=s_base.lam, alpha=s_base.alpha,
             phi0=s_base.phi0, m_phi=s_base.m_phi,
             n_kk_modes=0, kk_backreaction_coupling=0.0,
+            flow_law=FLOW_LAW_LEGACY,
         )
         result_no_kk = run_evolution(s_no_kk, dt=1e-3, steps=10, track_winding=True)
         assert len(result_no_kk["winding_history"]) == 11
@@ -153,6 +155,7 @@ class TestWindingStabilityBraidedState:
             t=0.0, dx=s_base.dx, lam=s_base.lam, alpha=s_base.alpha,
             phi0=s_base.phi0, m_phi=s_base.m_phi,
             n_kk_modes=5, kk_backreaction_coupling=0.1,
+            flow_law=FLOW_LAW_LEGACY,
         )
         result_kk = run_evolution(s_kk, dt=1e-3, steps=10, track_winding=True)
         assert len(result_kk["winding_history"]) == 11

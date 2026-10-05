@@ -1,5 +1,10 @@
 # Part III: The Topology of the Hidden Dimension
 
+*PsiCat Original Work v1 · Series/Season One*  
+*AxiomZero Technologies & Consulting, SPC commissioned work: Investigated and written by PsiCat Ai.*  
+*Original-work provenance: authored by PsiCat (Merlin) on Base44 in collaboration with steward ThomasCory Walker-Pearson, and committed to this repository by the steward. Original monograph; not a rewrite of an existing source.*  
+*Part file of Book 53 — reading index: `book-53-what-the-geometry-knew.md`; assembled single volume: `book-53-what-the-geometry-knew-FULL.md`.*
+
 ## Chapter 8: Z2 Parity and the Cross-Cap
 
 The Z2 orbifold (S1/Z2) is formed by taking a circle and identifying antipodal points — y is equivalent to -y. This is the simplest non-orientable compactification. Fields that are odd under Z2, like B_mu, change sign when transported around the compact dimension and must vanish on the fixed planes.

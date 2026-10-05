@@ -35,10 +35,16 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-09-27 (v38.1 Sprint CW COMPLETE — Pillar 1129; Lean4 4080→4080; next slot 1130)*
+*Last updated: 2026-10-01 (v38.2 Sprint CX COMPLETE — Pillar 1130; Lean4 4080→4080; next slot 1131)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
+
+## SPRINT CX ACTION-DERIVED FLOW STEWARD PROMOTION
+
+Sprint CX completes the step that Sprint CW left to the steward. Pillar 1130 records the decision to promote the Euler-Lagrange deliverable of the action-to-evolution contract within the declared perimeter, and re-checks the derived-flow certificate fail-closed every time the contract is built. The contract reads `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`: the field equations of the default flow are earned, and the evolution law is not. The t-relaxation law remains declared, physical-time evolution is not certified, and the legacy flow law is unchanged. The sprint also resynchronizes the canonical status surfaces after the v38.0/v38.1 drift and restores the archived Sprint CV auditable-state record below.
+
+Verification for Sprint CX is recorded in `docs/TRUTH_LAYER.md` (Sprint CX section). Latest verified full regression in current branch history remains the Sprint CU record.
 
 ## SPRINT CW MALECNS EMPIRICAL BRIDGE
 
@@ -67,20 +73,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v38.1 — Sprint CW)
+## CURRENT AUDITABLE STATE (v38.2 — Sprint CX)
 
 | Field | Value |
 |-------|-------|
-| Version | **v38.1** |
-| Sprint | **Sprint CW** |
-| Pillars | **1129-1129** |
-| Next pillar slot | **1130** |
+| Version | **v38.2** |
+| Sprint | **Sprint CX** |
+| Pillars | **1130-1130** |
+| Next pillar slot | **1131** |
 | Lean4 theorems | **4080** |
-| Verified full regression | **REGRESSION_PLACEHOLDER_CV** |
-| Sprint theme | **Adjacent public-data MaleCNS connectome bridge: empirical benchmark import, deterministic summaries, explicit claim boundaries** |
-| Primary target | **Turn the public MaleCNS release into a real in-repo connectome benchmark rather than a narrative-only neuroscience reference** |
-| Binary outcome | **P1129 committed with public provenance, deterministic observables, passing tests, and no inflation of the claim class** |
+| Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record)** |
+| Sprint theme | **Steward promotion of the action-derived flow's Euler-Lagrange deliverable within its declared perimeter; canonical status resynchronization** |
+| Primary target | **Record the promotion decision fail-closed on executable evidence without promoting the declared t-relaxation law or framework closure** |
+| Binary outcome | **P1130 valid, contract `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`, canonical surfaces on v38.2, no closure inflation** |
 
+Historical continuity: v38.2 Sprint CX (Pillar 1130; next slot 1131) is the canonical action-derived flow steward-promotion layer directly above Sprint CW.
 Historical continuity: v38.1 Sprint CW (Pillar 1129; next slot 1130) is the canonical adjacent empirical MaleCNS bridge layer directly above Sprint CV.
 Historical continuity: v38.0 Sprint CV (Pillars 1122-1128; next slot 1129) is the canonical three-lane earned-version packet directly above Sprint CU.
 Historical continuity: v37.7 Sprint CU (Pillar 1121; next slot 1122) is the canonical action-to-evolution full-focus routing packet directly above Sprint CT.
@@ -104,6 +111,34 @@ Historical continuity: v35.7 Sprint CA (Pillars 1049–1050; next slot 1051) rem
 Historical continuity: v35.6 Sprint BZ (Pillar 1048; next slot 1049) remains the targeted QG rigor layer below Sprint CA.
 Historical continuity: v35.5 Sprint BY (Pillars 1040–1047; next slot 1048) remains the precision-lock continuation layer below Sprint BZ.
 Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) remains the first parallel-closure layer below Sprint BY.
+
+
+### Archived auditable states (superseded; retained for audit traceability)
+
+#### Archived: CURRENT AUDITABLE STATE (v38.1 — Sprint CW)
+
+| Field | Value |
+|-------|-------|
+| Version | **v38.1** |
+| Sprint | **Sprint CW** |
+| Pillars | **1129-1129** |
+| Next pillar slot | **1130** |
+| Lean4 theorems | **4080** |
+| Verified full regression | **REGRESSION_PLACEHOLDER_CV** |
+| Sprint theme | **Adjacent public-data MaleCNS connectome bridge: empirical benchmark import, deterministic summaries, explicit claim boundaries** |
+| Primary target | **Turn the public MaleCNS release into a real in-repo connectome benchmark rather than a narrative-only neuroscience reference** |
+| Binary outcome | **P1129 committed with public provenance, deterministic observables, passing tests, and no inflation of the claim class** |
+
+#### Archived: CURRENT AUDITABLE STATE (v38.0 — Sprint CV)
+
+| Field | Value |
+|-------|-------|
+| Version | **v38.0** |
+| Sprint | **Sprint CV** |
+| Pillars | **1122-1128** |
+| Next pillar slot | **1129** |
+| Lean4 theorems | **4080** |
+| Verified full regression | **REGRESSION_PLACEHOLDER_CV (never filled; see the Sprint CU record)** |
 
 ---
 
