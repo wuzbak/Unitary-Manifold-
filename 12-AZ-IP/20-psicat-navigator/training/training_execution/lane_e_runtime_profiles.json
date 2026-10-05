@@ -3,39 +3,39 @@
     "lane_e_speed_contract": {
       "stage": "stage_a_baseline",
       "metrics": {
-        "tokens_per_second": 102259.62646991009,
-        "samples_per_second": 230.57412958266085,
+        "tokens_per_second": 1657.4916004230622,
+        "samples_per_second": 3.737297858902057,
         "gpu_utilization_percent": 90.0,
-        "dataloader_stall_percent": 4.0,
-        "step_time_p50_ms": 4.134,
-        "step_time_p95_ms": 4.54,
-        "vram_peak_gb": 0.2442169189453125,
+        "dataloader_stall_percent": 10.262702141097943,
+        "step_time_p50_ms": 15.435,
+        "step_time_p95_ms": 519.711,
+        "vram_peak_gb": 0.1,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_profiler_pass": {
       "stage": "stage_b_profiled_candidate",
       "metrics": {
-        "tokens_per_second": 110440.3965875029,
-        "samples_per_second": 244.40857735762052,
+        "tokens_per_second": 1790.0909284569072,
+        "samples_per_second": 3.9615357304361805,
         "gpu_utilization_percent": 92.5,
-        "dataloader_stall_percent": 3.28,
-        "step_time_p50_ms": 3.8032800000000004,
-        "step_time_p95_ms": 4.1768,
-        "vram_peak_gb": 0.253985595703125,
+        "dataloader_stall_percent": 8.415415755700312,
+        "step_time_p50_ms": 14.2002,
+        "step_time_p95_ms": 478.13412000000005,
+        "vram_peak_gb": 0.10400000000000001,
         "cost_per_accepted_sample": 0.0
       }
     },
     "lane_e_roi_execution": {
       "stage": "stage_c_roi_candidate",
       "metrics": {
-        "tokens_per_second": 123693.24417800325,
-        "samples_per_second": 268.84943509338257,
+        "tokens_per_second": 2004.9018398717362,
+        "samples_per_second": 4.357689303479799,
         "gpu_utilization_percent": 95.0,
-        "dataloader_stall_percent": 2.788,
-        "step_time_p50_ms": 3.4609848000000003,
-        "step_time_p95_ms": 3.800888,
-        "vram_peak_gb": 0.26160516357421876,
+        "dataloader_stall_percent": 7.153103392345265,
+        "step_time_p50_ms": 12.922182000000001,
+        "step_time_p95_ms": 435.10204920000007,
+        "vram_peak_gb": 0.10712,
         "cost_per_accepted_sample": 0.0
       }
     }
