@@ -34,7 +34,10 @@ def _start_training_runtime(config: Any) -> None:
         return
     if original is not None and not worker:
         return
-    runtime = tempfile.TemporaryDirectory(prefix="merlin-training-pytest-")
+    temp_root = Path(tempfile.gettempdir()).resolve()
+    if temp_root.is_relative_to(Path(_REPO_ROOT).resolve()):
+        raise pytest.UsageError("automatic training runtime must be outside the repository; check TMPDIR")
+    runtime = tempfile.TemporaryDirectory(prefix="merlin-training-pytest-", dir=temp_root)
     config._merlin_training_runtime = runtime
     config._merlin_training_runtime_original = original
     config.add_cleanup(lambda: _finish_training_runtime(config))

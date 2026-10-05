@@ -179,6 +179,26 @@ RAG, assistant API, research-resource and UM SOS tests passed **117 tests with
 3 skipped** in **4.59 seconds**. These overlap earlier suites and are not added
 to a repository-wide total.
 
+The PsiCat specialist reduced repeated graph path/token work by caching only
+selection metadata keyed by the discovered file set and repository root.
+Discovery still runs afresh, and file-content invalidation remains unchanged.
+Its bounded local Maxwell query selected 120 of 3,405 discovered files; this is
+navigation coverage, not monorepo verification. Focused runs reported **90
+runtime tests**, **22 hardening tests**, and **6 artifact-persistence tests**
+passing; the persistence run deselected 10 cases. These counts are separate,
+potentially overlapping executions. Two bounded attempts timed out, and the
+full Product 20 suite remains unverified.
+
+A combined graph/hardening/isolation run reported **37 passed and 1 failed**.
+The failure exposed a real isolation gap: automatically created training state
+could follow a repository-local `TMPDIR`, even though explicit runtime
+overrides were required to stay outside the repository. The startup hook now
+rejects repository-contained automatic temporary roots, including resolved
+symlinks, before creating or seeding state. Caller-owned external directories
+are still preserved. The final isolation run used an absolute `/tmp` basetemp
+and passed **19 tests in 0.92 seconds**, including four new serial/worker and
+symlink regression cases. The earlier combined run is not relabeled as passing.
+
 The read-only security specialist checked public-page DNS/IP pinning and
 redirect validation, RAG and Lean path containment, signed session identifiers,
 cookie settings, compatibility-route authorization, and the revised email

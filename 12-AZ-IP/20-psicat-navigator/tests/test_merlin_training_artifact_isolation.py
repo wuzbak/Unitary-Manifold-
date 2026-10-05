@@ -137,6 +137,29 @@ def test_pytest_respects_caller_owned_external_runtime(tmp_path, monkeypatch):
     assert json.loads(retained.read_text()) == {"retained": True}
 
 
+@pytest.mark.parametrize("worker", [False, True])
+@pytest.mark.parametrize("symlink", [False, True])
+def test_pytest_rejects_repository_automatic_temp_root(tmp_path, monkeypatch, worker, symlink):
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    temp_root = repository
+    if symlink:
+        temp_root = tmp_path / "linked-temp"
+        temp_root.symlink_to(repository, target_is_directory=True)
+    monkeypatch.delenv(training.TRAINING_RUNTIME_ENV, raising=False)
+    monkeypatch.setattr(root_config, "_REPO_ROOT", str(repository))
+    monkeypatch.setattr(root_config.tempfile, "tempdir", str(temp_root))
+    cleanups = []
+    config = SimpleNamespace(add_cleanup=cleanups.append)
+    if worker:
+        config.workerinput = {"workerid": "gw0"}
+    with pytest.raises(pytest.UsageError, match="outside the repository"):
+        root_config._start_training_runtime(config)
+    assert not list(repository.iterdir())
+    assert not cleanups
+    assert training.TRAINING_RUNTIME_ENV not in os.environ
+
+
 @pytest.mark.parametrize("relative", ["", "training/runtime"])
 def test_pytest_rejects_repository_runtime_paths(relative, monkeypatch):
     monkeypatch.setenv(training.TRAINING_RUNTIME_ENV, str(training.REPO_ROOT / relative))
