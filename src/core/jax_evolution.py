@@ -5,9 +5,10 @@ src/core/jax_evolution.py
 =========================
 JAX-accelerated field evolution for the Unitary Manifold.
 
-Provides a JIT-compiled RK4 integrator equivalent to ``src/core/evolution.py``
-but compiled by XLA for CPU/GPU acceleration.  All physics and mathematics are
-identical to the numpy version; only the compute backend changes.
+Provides a JIT-compiled RK4 integrator for the legacy phenomenological flow in
+``src/core/evolution.py``, compiled by XLA for CPU/GPU acceleration. The
+action-derived flow is not implemented by this backend, so interoperability
+rejects states using that flow instead of silently changing their equations.
 
 Key speedups vs. the numpy evolution pipeline:
 
@@ -163,7 +164,7 @@ def to_numpy_state(jax_state: JaxFieldState):
 
     Imports FieldState lazily to avoid circular imports.
     """
-    from .evolution import FieldState
+    from .evolution import FLOW_LAW_LEGACY, FieldState
     return FieldState(
         g=np.asarray(jax_state.g),
         B=np.asarray(jax_state.B),
@@ -174,12 +175,21 @@ def to_numpy_state(jax_state: JaxFieldState):
         alpha=jax_state.alpha,
         phi0=jax_state.phi0,
         m_phi=jax_state.m_phi,
+        flow_law=FLOW_LAW_LEGACY,
     )
 
 
 def from_numpy_state(np_state) -> JaxFieldState:
-    """Convert numpy FieldState → JaxFieldState."""
+    """Convert a legacy-flow numpy FieldState → JaxFieldState."""
     _require_jax()
+    from .evolution import FLOW_LAW_LEGACY
+
+    flow_law = getattr(np_state, "flow_law", FLOW_LAW_LEGACY)
+    if flow_law != FLOW_LAW_LEGACY:
+        raise ValueError(
+            "JAX evolution currently implements only the phenomenological legacy flow; "
+            f"cannot convert flow_law={flow_law!r} without changing its equations."
+        )
     return JaxFieldState(
         g=jnp.asarray(np_state.g),
         B=jnp.asarray(np_state.B),

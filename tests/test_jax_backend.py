@@ -42,7 +42,12 @@ from src.core.metric import (
     christoffel as np_christoffel,
     compute_curvature as np_compute_curvature,
 )
-from src.core.evolution import FieldState, step as np_step
+from src.core.evolution import (
+    FLOW_LAW_ACTION_DERIVED,
+    FLOW_LAW_LEGACY,
+    FieldState,
+    step as np_step,
+)
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -76,7 +81,7 @@ def flat_fields():
 
 @pytest.fixture
 def np_state():
-    return FieldState.flat(N=N, dx=DX)
+    return FieldState.flat(N=N, dx=DX, flow_law=FLOW_LAW_LEGACY)
 
 
 @pytest.fixture
@@ -272,7 +277,9 @@ def test_jax_rhs_uses_spatial_divergence_and_agrees_with_numpy():
     phi = np.full(len(x), 1.8)
     np.testing.assert_allclose(_jax_divergence_x(jnp.array(B), dx),
                                1.6*x, atol=1e-12)
-    state = FieldState(g=g, B=B, phi=phi, dx=dx, lam=1., alpha=0.1)
+    state = FieldState(
+        g=g, B=B, phi=phi, dx=dx, lam=1., alpha=0.1, flow_law=FLOW_LAW_LEGACY
+    )
     actual = _jax_compute_rhs(jnp.array(g), jnp.array(B), jnp.array(phi),
                               dx, state.lam, state.alpha, state.phi0, state.m_phi)
     expected_dB = np.tile([-0.4, 0., 0.6, 0.], (len(x), 1))
@@ -287,12 +294,19 @@ def test_jax_rk4_step_matches_numpy_for_nonunit_radion():
     B = np.column_stack((0.2*np.sin(x), 0.1*x*x, 0.15*np.cos(x), 0.05*x))
     phi = 1.7 + 0.02*np.sin(x)
     state = FieldState(g=g, B=B, phi=phi, dx=0.1, lam=0.7, alpha=0.03,
-                       phi0=1.7, m_phi=0.2)
+                       phi0=1.7, m_phi=0.2, flow_law=FLOW_LAW_LEGACY)
     expected = np_step(state, 1e-5)
     actual = to_numpy_state(jax_step(from_numpy_state(state), 1e-5))
     for field in ("g", "B", "phi"):
         np.testing.assert_allclose(getattr(actual, field), getattr(expected, field),
                                    rtol=1e-11, atol=1e-12)
+
+
+def test_from_numpy_state_rejects_unsupported_action_derived_flow():
+    state = FieldState.flat(N=4, flow_law=FLOW_LAW_ACTION_DERIVED)
+
+    with pytest.raises(ValueError, match="only the phenomenological legacy flow"):
+        from_numpy_state(state)
 
 
 # ===========================================================================

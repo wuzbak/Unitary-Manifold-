@@ -64,7 +64,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 import numpy as np
 import pytest
 
-from src.core.evolution import FieldState, step as rk4_step
+from src.core.evolution import FLOW_LAW_LEGACY, FieldState, step as rk4_step
 
 # ---------------------------------------------------------------------------
 # Module-level constant
@@ -99,6 +99,7 @@ def _run_grid(N: int, *,
         B   = np.zeros((N, 4)),
         phi = phi,
         dx  = dx,
+        flow_law = FLOW_LAW_LEGACY,
     )
 
     alphas:   dict[int, float | None] = {}

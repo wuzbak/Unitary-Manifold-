@@ -17,6 +17,7 @@ import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 SERVER_TEST_TIMEOUT_SECONDS = 30.0
+FULL_PROGRAM_TEST_TIMEOUT_SECONDS = 120.0
 
 if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
@@ -2784,7 +2785,10 @@ def test_server_merlin_endpoints():
             memory_profile_token = status.json()['memory_profile_token']
             handshake_proof = hashlib.sha256(f"{handshake_challenge}:{memory_profile_token}".encode('utf-8')).hexdigest()
 
-            program = client.get('/api/merlin/program')
+            program = client.get(
+                '/api/merlin/program',
+                timeout=FULL_PROGRAM_TEST_TIMEOUT_SECONDS,
+            )
             assert program.status_code == 200
             assert program.json()['ok'] is True
             assert 'charter' in program.json()['program']

@@ -1500,11 +1500,13 @@ def build_merlin_training_execution_bundle(
     lane_e_profile_payload = get_merlin_lane_e_runtime_profiles(refresh=bool(refresh_lane_e_profiles))
     lane_e_runtime_profiles = dict(lane_e_profile_payload.get("runtime_profiles") or {})
     queue_state = build_merlin_training_execution_queue(session=session, limit=None)
+    has_runnable_work = any(
+        str(item.get("status") or "") in {"queued", "stale_retrain_required"}
+        for item in list(queue_state.get("items") or [])
+    )
     if (
         any(str(item.get("status") or "") == "completed" for item in session.training_execution_receipts)
-        and int(queue_state.get("queued_count", 0) or 0) == 0
-        and int(queue_state.get("stale_retrain_count", 0) or 0) == 0
-        and int(queue_state.get("needs_review_count", 0) or 0) == 0
+        and not has_runnable_work
     ):
         cycle = {
             "ok": True,
@@ -1521,7 +1523,10 @@ def build_merlin_training_execution_bundle(
                 "file_limit": ast_file_limit,
                 "dataset_summary": {},
             },
-            "honesty_note": "Previously retained training receipts were reused for this export bundle.",
+            "honesty_note": (
+                "Previously retained training receipts were reused for this export bundle. "
+                "Items requiring review remain visible in the queue and are not retried implicitly."
+            ),
         }
     else:
         cycle = run_merlin_training_cycle(
