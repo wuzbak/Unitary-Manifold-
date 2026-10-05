@@ -7,6 +7,7 @@ from __future__ import annotations
 import ast
 import os
 import re
+from copy import deepcopy
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
@@ -319,7 +320,7 @@ def _build_repo_graph_cached(
 
 def build_repo_graph(*, max_files: int = 180) -> Dict[str, Any]:
     """Build a bounded deterministic repository graph for routing."""
-    return _build_repo_graph(max_files)
+    return deepcopy(_build_repo_graph(max_files))
 
 
 def _build_repo_graph(max_files: int, query: str = "") -> Dict[str, Any]:

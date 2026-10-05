@@ -551,6 +551,15 @@ the CI implementation agent; the final marker contract pass covered
 and deployment changes found no significant issues. These focused results
 do not substitute for the pending matching full-core/coverage execution.
 
+A follow-up cache-isolation check exposed that the public graph builder
+returned nested cached metadata by reference. It now returns a deep copy;
+mutating public graph nodes, edges, summaries or routed symbol lists must not
+alter subsequent requests. The final graph/review/cold-endpoint acceptance
+run passed **18 tests in 206.07 seconds**. This repair supersedes the initial
+freeze at `baa16e04`: that attempt's chunks were rejected before execution
+when source/scratch changed, and its coverage run was interrupted. Neither
+attempt supplies passing full-regression or coverage evidence.
+
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a
 physics-closure claim.** This section supersedes the claims of derived
 contraction, photon recovery, and formal closure in the historical sprint

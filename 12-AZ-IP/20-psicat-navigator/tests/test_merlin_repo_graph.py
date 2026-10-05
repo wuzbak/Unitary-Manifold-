@@ -181,6 +181,22 @@ def test_graph_metadata_cache_reuses_benchmark_query_cycle_and_invalidates_sourc
     assert merlin_repo_graph._build_repo_graph_cached.cache_info().maxsize == 32
 
 
+def test_public_graph_mutations_do_not_modify_cached_metadata(graph_root, monkeypatch) -> None:
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
+    _write_graph_fixture(graph_root, "src/core/example.py")
+    graph = build_repo_graph()
+    graph["nodes"][0]["symbols"].append("injected_symbol")
+    graph["edges"].append({"source": "injected", "target": "injected", "relation": "injected"})
+    graph["summary"]["file_count"] = 0
+    fresh = build_repo_graph()
+    assert fresh["nodes"][0]["symbols"] == ["example"]
+    assert fresh["edges"] == []
+    assert fresh["summary"]["file_count"] == 1
+    route = route_context_via_repo_graph("example")
+    route["suggested_files"][0]["symbols"].append("injected_symbol")
+    assert route_context_via_repo_graph("example")["suggested_files"][0]["symbols"] == ["example"]
+
+
 def test_discovery_reuses_priority_metadata_and_keys_it_by_root(graph_root, monkeypatch) -> None:
     monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
     merlin_repo_graph._priority_key_cached.cache_clear()
