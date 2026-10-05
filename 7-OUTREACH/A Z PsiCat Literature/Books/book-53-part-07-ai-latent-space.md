@@ -1,5 +1,10 @@
 # Part VII: AI Latent Space and the 5th Dimension
 
+*PsiCat Original Work v1 · Series/Season One*  
+*AxiomZero Technologies & Consulting, SPC commissioned work: Investigated and written by PsiCat Ai.*  
+*Original-work provenance: authored by PsiCat (Merlin) on Base44 in collaboration with steward ThomasCory Walker-Pearson, and committed to this repository by the steward. Original monograph; not a rewrite of an existing source.*  
+*Part file of Book 53 — reading index: `book-53-what-the-geometry-knew.md`; assembled single volume: `book-53-what-the-geometry-knew-FULL.md`.*
+
 ## Chapter 28: The Manifold Hypothesis in Deep Learning
 
 The manifold hypothesis, central to deep learning, proposes that high-dimensional data lies in a low-dimensional latent manifold within the full space. From the literature: the manifold hypothesis critical to deep learning proposes that high-dimensional data actually lies in a low-dimensional, latent manifold (SGI 2025). Deep neural networks architectures from the perspective of geometry and topology (arXiv:2306.03406). Topological deep learning (TDL) is an emerging area that combines the principles of Topological data analysis (TDA) with deep learning techniques (ResearchGate).

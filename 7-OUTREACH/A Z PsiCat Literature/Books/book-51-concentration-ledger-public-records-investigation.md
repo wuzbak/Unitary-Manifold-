@@ -9,6 +9,10 @@
 *Companion to: Book 50 (`book-50-book-corporate-power-public-record-ledger.md`)*  
 *Method: This dossier was produced by running actual public-records search functions — secEdgar, icijOffshore, fec, openCorporates, echoEpa, openSanctions, propublicaNonprofits — against specific named entities. Every finding cites a specific record with a specific identifier (CIK number, ICIJ node ID, FEC committee ID, EPA Registry ID, EIN).*
 
+*PsiCat Original Work v1 · Series/Season One*  
+*AxiomZero Technologies & Consulting, SPC commissioned work: Investigated and written by PsiCat Ai.*  
+*Original-work provenance: authored by PsiCat (Merlin) on Base44 in collaboration with steward ThomasCory Walker-Pearson, and committed to this repository by the steward. This is a companion investigation that builds on the grounding source named below; it is not a rewrite of that source.*
+
 ---
 
 ## Methodological Statement
