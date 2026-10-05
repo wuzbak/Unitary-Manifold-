@@ -1,0 +1,512 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+"""Machine-readable consistency checks across the canonical status ledgers.
+
+The regression-count parser is intentionally tolerant of the formatting currently
+used in the canonical ledgers: space-separated thousands ("28 560"), comma-
+separated thousands ("28,560"), or plain digit strings ("28560").
+
+Two layers of checks are provided:
+
+1. ``canonical_ledger_consistency_report`` — checks that the six core ledgers
+   (README, STATUS, FALLIBILITY, DERIVATION_STATUS, WAVE_CHANGELOG,
+   mas_tracker) agree on version and regression counts.
+
+2. ``onboarding_docs_consistency_report`` — checks that the user-facing
+   onboarding documents (CONTRIBUTING, 2-REPRODUCIBILITY/README,
+   9-INFRASTRUCTURE/TEST/README, .github/copilot-instructions,
+   wiki/Getting-Started, wiki/Contributing, MCP_INGEST, WHAT_THIS_MEANS)
+   each contain the canonical passed-count extracted from STATUS.md, so
+   verifiers cannot be directed to a stale test total.
+"""
+
+from __future__ import annotations
+
+import re
+from pathlib import Path
+from typing import Dict, List
+
+from src.core.closure_hardgate_registry import load_hardgate_registry
+
+ROOT = Path(__file__).resolve().parents[2]
+
+LEDGER_PATHS = {
+    "readme": ROOT / "README.md",
+    "status": ROOT / "STATUS.md",
+    "fallibility": ROOT / "FALLIBILITY.md",
+    "derivation_status": ROOT / "1-THEORY" / "DERIVATION_STATUS.md",
+    "wave_changelog": ROOT / "docs" / "WAVE_CHANGELOG.md",
+    "mas_tracker": ROOT / "docs" / "mas_tracker.yml",
+}
+
+# Onboarding documents that must contain the canonical full-suite passed count.
+# These are the files that direct contributors and verifiers to the test suite.
+ONBOARDING_PATHS: Dict[str, Path] = {
+    "contributing": ROOT / "CONTRIBUTING.md",
+    "reproducibility_readme": ROOT / "2-REPRODUCIBILITY" / "README.md",
+    "test_readme": ROOT / "9-INFRASTRUCTURE" / "TEST" / "README.md",
+    "copilot_instructions": ROOT / ".github" / "copilot-instructions.md",
+    "wiki_getting_started": ROOT / "9-INFRASTRUCTURE" / "wiki" / "Getting-Started.md",
+    "wiki_contributing": ROOT / "9-INFRASTRUCTURE" / "wiki" / "Contributing.md",
+    "mcp_ingest": ROOT / "6-MONOGRAPH" / "MCP_INGEST.md",
+    "what_this_means": ROOT / "4-IMPLICATIONS" / "WHAT_THIS_MEANS.md",
+}
+
+STATUS_TOKEN_PATHS: Dict[str, Path] = {
+    "fallibility": ROOT / "FALLIBILITY.md",
+    "derivation_status": ROOT / "1-THEORY" / "DERIVATION_STATUS.md",
+    "truth_layer": ROOT / "docs" / "TRUTH_LAYER.md",
+}
+
+HARDGATE_REGISTRY_PATH: Path = ROOT / "docs" / "closure_hardgates.json"
+
+LEDGER_SYNC_REQUIRED_PATHS: tuple[str, ...] = (
+    "STATUS.md",
+    "FALLIBILITY.md",
+    "README.md",
+    "1-THEORY/DERIVATION_STATUS.md",
+    "docs/WAVE_CHANGELOG.md",
+)
+
+PILLAR_PATH_RE = re.compile(r"^src/core/pillar[0-9A-Za-z_.-]*\.py$")
+PILLAR_IDENTITY_RE = re.compile(r"^src/core/pillar([0-9]+)")
+STATUS_BEARING_PILLAR_TOKENS: tuple[str, ...] = (
+    "PILLAR_NUMBER",
+    "PILLAR_GATE",
+    "PILLAR_STATUS",
+    "VERSION",
+    "SPRINT",
+    "NEXT_PILLAR_SLOT",
+)
+
+HISTORICAL_SNAPSHOT_PATHS: Dict[str, Path] = {
+    "falsification_register": ROOT / "3-FALSIFICATION" / "FALSIFICATION_REGISTER.md",
+    "mas_completion_certificate": ROOT / "docs" / "MAS_COMPLETION_CERTIFICATE.md",
+    "mas_tracker": ROOT / "docs" / "mas_tracker.yml",
+}
+
+HISTORICAL_SNAPSHOT_MARKERS: Dict[str, List[str]] = {
+    "falsification_register": [
+        "Historical snapshot notice (non-canonical)",
+        "OBSERVATION_TRACKER.md",
+        "docs/CLAIM_MASTER_BOARD.md",
+    ],
+    "mas_completion_certificate": [
+        "Historical snapshot notice (non-canonical status surface)",
+        "archival completion artifact",
+        "docs/CLAIM_MASTER_BOARD.md",
+    ],
+    "mas_tracker": [
+        "historical_snapshot_notice",
+        "Mixed-era historical records",
+        "canonical_truth_surfaces",
+    ],
+}
+
+VERSION_RE = re.compile(r"v\d+\.\d+")
+# Canonical ledgers currently render large counts with space-separated thousands,
+# but we also tolerate comma-separated and plain digit formatting for robustness.
+REGRESSION_RE = re.compile(r"(\d+(?:[,\s]+\d{3})*) passed\s*[·,]\s*(\d+) skipped\s*[·,]\s*(\d+) deselected", re.IGNORECASE)
+
+__all__ = [
+    "LEDGER_PATHS",
+    "LEDGER_SYNC_REQUIRED_PATHS",
+    "ONBOARDING_PATHS",
+    "canonical_ledger_snapshot",
+    "canonical_ledger_consistency_report",
+    "canonical_ledger_sync_requirement",
+    "onboarding_docs_consistency_report",
+    "canonical_status_token_report",
+    "closure_gate_label_discipline_report",
+    "historical_snapshot_disclaimer_report",
+]
+
+
+def _read(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
+
+
+def _is_pillar_path(path: str) -> bool:
+    return bool(PILLAR_PATH_RE.match(str(path or "").strip()))
+
+
+def _pillar_identity(path: str) -> str:
+    match = PILLAR_IDENTITY_RE.match(str(path or "").strip())
+    return match.group(1) if match else ""
+
+
+def _normalize_changed_path(entry: str) -> str:
+    return str(entry or "").strip()
+
+
+def _parse_name_status_line(line: str) -> Dict[str, str] | None:
+    raw = str(line or "").strip()
+    if not raw:
+        return None
+    parts = raw.split("\t")
+    status = parts[0].strip()
+    if not status:
+        return None
+    if status.startswith(("R", "C")) and len(parts) >= 3:
+        old_path = parts[1].strip()
+        new_path = parts[2].strip()
+    else:
+        old_path = parts[1].strip() if len(parts) >= 2 else ""
+        new_path = old_path
+    return {
+        "status": status,
+        "path": _normalize_changed_path(new_path),
+        "old_path": _normalize_changed_path(old_path),
+    }
+
+
+def _parse_changed_path_line(line: str) -> str:
+    return _normalize_changed_path(line)
+
+
+def _status_bearing_token_touched(patch_text: str) -> bool:
+    text = str(patch_text or "")
+    for line in text.splitlines():
+        if not line.startswith(("+", "-")) or line.startswith(("+++", "---")):
+            continue
+        if any(token in line for token in STATUS_BEARING_PILLAR_TOKENS):
+            return True
+    return False
+
+
+def _entry_requires_ledger_sync(entry: Dict[str, str], patch_text: str = "") -> bool:
+    status = str(entry.get("status") or "")
+    path = str(entry.get("path") or "")
+    old_path = str(entry.get("old_path") or "")
+
+    if path == "src/core/sm_free_parameters.py" or old_path == "src/core/sm_free_parameters.py":
+        return True
+
+    if not (_is_pillar_path(path) or _is_pillar_path(old_path)):
+        return False
+
+    if status.startswith("A"):
+        return True
+    if status.startswith("D"):
+        return True
+    if status.startswith("C"):
+        if path != old_path and _is_pillar_path(path) != _is_pillar_path(old_path):
+            return True
+        old_identity = _pillar_identity(old_path)
+        new_identity = _pillar_identity(path)
+        return (bool(new_identity) and old_identity != new_identity) or _status_bearing_token_touched(patch_text)
+    if status.startswith("R") and path != old_path:
+        if _is_pillar_path(path) != _is_pillar_path(old_path):
+            return True
+        old_identity = _pillar_identity(old_path)
+        new_identity = _pillar_identity(path)
+        return (bool(new_identity) and old_identity != new_identity) or _status_bearing_token_touched(patch_text)
+
+    return _status_bearing_token_touched(patch_text)
+
+
+def _extract_version(text: str) -> str | None:
+    match = VERSION_RE.search(text)
+    return match.group(0) if match else None
+
+
+def _extract_regression(text: str) -> Dict[str, int] | None:
+    match = REGRESSION_RE.search(text)
+    if not match:
+        return None
+    return {
+        "passed": int(match.group(1).replace(" ", "").replace(",", "")),
+        "skipped": int(match.group(2)),
+        "deselected": int(match.group(3)),
+    }
+
+
+def canonical_ledger_snapshot() -> Dict[str, Dict[str, object]]:
+    """Return extracted versions and regression tuples from the canonical ledgers."""
+    snapshot: Dict[str, Dict[str, object]] = {}
+    for key, path in LEDGER_PATHS.items():
+        text = _read(path)
+        snapshot[key] = {
+            "path": str(path),
+            "version": _extract_version(text),
+            "regression": _extract_regression(text),
+        }
+    return snapshot
+
+
+def canonical_ledger_consistency_report() -> Dict[str, object]:
+    """Check whether the core ledgers are synchronized on version/regression state."""
+    snapshot = canonical_ledger_snapshot()
+    core_versions = {
+        name: snapshot[name]["version"]
+        for name in ("status", "fallibility", "derivation_status")
+    }
+    version_consistent = len(set(core_versions.values())) == 1
+
+    status_regression = snapshot["status"]["regression"]
+    fallibility_regression = snapshot["fallibility"]["regression"]
+    regression_consistent = status_regression == fallibility_regression and status_regression is not None
+    public_versions = {
+        name: snapshot[name]["version"]
+        for name in (
+            "readme",
+            "status",
+            "fallibility",
+            "derivation_status",
+            "wave_changelog",
+            "mas_tracker",
+        )
+    }
+    public_version_consistent = len(set(public_versions.values())) == 1
+    public_regression_views = {
+        name: snapshot[name]["regression"]
+        for name in ("readme", "status", "fallibility")
+    }
+    public_regression_consistent = (
+        public_regression_views["readme"] == public_regression_views["status"] == public_regression_views["fallibility"]
+        and public_regression_views["status"] is not None
+    )
+
+    return {
+        "snapshot": snapshot,
+        "core_versions": core_versions,
+        "public_versions": public_versions,
+        "version_consistent": version_consistent,
+        "regression_consistent": regression_consistent,
+        "public_version_consistent": public_version_consistent,
+        "public_regression_views": public_regression_views,
+        "public_regression_consistent": public_regression_consistent,
+        "status_fallibility_regression": status_regression,
+        "all_pass": (
+            version_consistent
+            and regression_consistent
+            and public_version_consistent
+            and public_regression_consistent
+        ),
+    }
+
+
+def canonical_ledger_sync_requirement(
+    *,
+    changed_files: List[str],
+    name_status_lines: List[str] | None = None,
+    patch_by_path: Dict[str, str] | None = None,
+) -> Dict[str, object]:
+    """Determine whether changed files require canonical ledger synchronization.
+
+    Existing pillar maintenance edits should not fail the gate unless they touch
+    status-bearing pillar metadata. New pillar files, renamed pillar files, and
+    `sm_free_parameters.py` changes still require the ledger bundle.
+    """
+    normalized_changed = [
+        _parse_changed_path_line(line)
+        for line in list(changed_files or [])
+        if _parse_changed_path_line(line)
+    ]
+    changed_set = set(normalized_changed)
+    entries = [
+        parsed
+        for parsed in (
+            _parse_name_status_line(line)
+            for line in list(name_status_lines or [])
+        )
+        if parsed
+    ]
+    if not entries:
+        entries = [{"status": "M", "path": path, "old_path": path} for path in normalized_changed]
+
+    patch_lookup = {str(key): str(value) for key, value in dict(patch_by_path or {}).items()}
+    matched_paths: List[str] = []
+    reasons: List[str] = []
+    seen_matches: set[tuple[str, str, str]] = set()
+    for entry in entries:
+        path = str(entry.get("path") or "")
+        if not path:
+            continue
+        match_key = (
+            str(entry.get("status") or ""),
+            path,
+            str(entry.get("old_path") or ""),
+        )
+        if match_key in seen_matches:
+            continue
+        seen_matches.add(match_key)
+        patch_text = patch_lookup.get(path, "")
+        if not patch_text and str(entry.get("old_path") or "") != path:
+            patch_text = patch_lookup.get(str(entry.get("old_path") or ""), "")
+        if not _entry_requires_ledger_sync(entry, patch_text=patch_text):
+            continue
+        matched_paths.append(path)
+        if path == "src/core/sm_free_parameters.py":
+            reasons.append("sm_free_parameters changed")
+        elif str(entry.get("status") or "").startswith("A"):
+            reasons.append(f"new pillar file {path}")
+        elif str(entry.get("status") or "").startswith("C"):
+            reasons.append(f"copied pillar file with new identity {path}")
+        elif str(entry.get("status") or "").startswith("D"):
+            reasons.append(f"deleted pillar file {path}")
+        elif str(entry.get("status") or "").startswith("R") and str(entry.get("old_path") or "") != path:
+            reasons.append(f"renamed pillar file with new identity {path}")
+        else:
+            reasons.append(f"status-bearing pillar metadata changed in {path}")
+
+    missing_required = [
+        path for path in LEDGER_SYNC_REQUIRED_PATHS if path not in changed_set
+    ]
+    return {
+        "requires_sync": bool(matched_paths),
+        "matched_paths": matched_paths,
+        "reasons": reasons,
+        "required_paths": list(LEDGER_SYNC_REQUIRED_PATHS),
+        "missing_required_paths": missing_required,
+        "all_required_paths_changed": len(missing_required) == 0,
+    }
+
+
+def _contains_passed_count(text: str, passed: int) -> bool:
+    """Return True if *any* standard rendering of *passed* appears in *text*.
+
+    Accepted formats: space-separated thousands ("29 425"), comma-separated
+    ("29,425"), or plain ("29425"), each followed by the word "passed".
+    """
+    for sep in (" ", ",", ""):
+        rendered = f"{passed:,}".replace(",", sep)
+        if re.search(re.escape(rendered) + r"\s+passed", text, re.IGNORECASE):
+            return True
+    return False
+
+
+def onboarding_docs_consistency_report() -> Dict[str, object]:
+    """Check that every onboarding document contains the canonical passed count.
+
+    The canonical count is taken from STATUS.md (the single source of truth).
+    Any onboarding document that does *not* contain that exact count has drifted
+    and will direct contributors or verifiers to a stale total.
+
+    Returns a dict with:
+      ``canonical``      – the regression dict extracted from STATUS.md
+      ``results``        – per-document {path, exists, canonical_count_found}
+      ``drifted_docs``   – list of keys whose content does not contain the count
+      ``all_pass``       – True if every onboarding doc contains the canonical count
+    """
+    status_text = _read(LEDGER_PATHS["status"])
+    canonical = _extract_regression(status_text)
+    if canonical is None:
+        return {
+            "canonical": None,
+            "results": {},
+            "drifted_docs": list(ONBOARDING_PATHS),
+            "all_pass": False,
+            "error": "Could not extract canonical regression count from STATUS.md",
+        }
+
+    passed = canonical["passed"]
+    results: Dict[str, Dict[str, object]] = {}
+    drifted: List[str] = []
+
+    for key, path in ONBOARDING_PATHS.items():
+        try:
+            text = _read(path)
+            found = _contains_passed_count(text, passed)
+        except FileNotFoundError:
+            found = False
+            text = ""
+        results[key] = {
+            "path": str(path),
+            "exists": path.exists(),
+            "canonical_count_found": found,
+        }
+        if not found:
+            drifted.append(key)
+
+    return {
+        "canonical": canonical,
+        "results": results,
+        "drifted_docs": drifted,
+        "all_pass": len(drifted) == 0,
+    }
+
+
+def canonical_status_token_report() -> Dict[str, object]:
+    """Ensure ADM/KK canonical status tokens are synchronized across core ledgers."""
+    registry = load_hardgate_registry()
+    token_values: Dict[str, str] = registry["canonical_status_tokens"].copy()
+
+    per_doc: Dict[str, Dict[str, bool]] = {}
+    missing: Dict[str, List[str]] = {}
+    for doc_key, path in STATUS_TOKEN_PATHS.items():
+        text = _read(path)
+        token_hits = {
+            token_key: (token_value in text)
+            for token_key, token_value in token_values.items()
+        }
+        per_doc[doc_key] = token_hits
+        missing_tokens = [k for k, hit in token_hits.items() if not hit]
+        if missing_tokens:
+            missing[doc_key] = missing_tokens
+
+    return {
+        "registry_path": str(HARDGATE_REGISTRY_PATH),
+        "tokens": token_values,
+        "per_doc": per_doc,
+        "missing": missing,
+        "all_pass": len(missing) == 0,
+    }
+
+
+def closure_gate_label_discipline_report() -> Dict[str, object]:
+    """Block premature FULLY_CLOSED labels when a hardgate is not complete."""
+    registry = load_hardgate_registry()
+    violations: List[Dict[str, str]] = []
+
+    for gate in registry.get("gates", []):
+        status = str(gate.get("status", ""))
+        if status in {"COMPLETE", "CLOSED"}:
+            continue
+
+        forbidden_labels = list(gate.get("forbid_if_incomplete", []))
+        watch_paths = [ROOT / p for p in gate.get("watch_paths", [])]
+
+        for path in watch_paths:
+            text = _read(path)
+            for label in forbidden_labels:
+                if label in text:
+                    violations.append(
+                        {
+                            "gate": str(gate.get("key", "")),
+                            "path": str(path),
+                            "forbidden_label": label,
+                        }
+                    )
+
+    return {
+        "registry_path": str(HARDGATE_REGISTRY_PATH),
+        "violation_count": len(violations),
+        "violations": violations,
+        "all_pass": len(violations) == 0,
+    }
+
+
+def historical_snapshot_disclaimer_report() -> Dict[str, object]:
+    """Ensure archived ledgers are explicitly marked as historical/non-canonical."""
+    missing: Dict[str, List[str]] = {}
+    details: Dict[str, Dict[str, object]] = {}
+
+    for key, path in HISTORICAL_SNAPSHOT_PATHS.items():
+        text = _read(path)
+        required_markers = HISTORICAL_SNAPSHOT_MARKERS[key]
+        missing_markers = [m for m in required_markers if m not in text]
+        details[key] = {
+            "path": str(path),
+            "required_markers": required_markers,
+            "missing_markers": missing_markers,
+        }
+        if missing_markers:
+            missing[key] = missing_markers
+
+    return {
+        "paths": {k: str(v) for k, v in HISTORICAL_SNAPSHOT_PATHS.items()},
+        "details": details,
+        "missing": missing,
+        "all_pass": len(missing) == 0,
+    }

@@ -1,0 +1,8 @@
+name: Local Python regression analysis
+paths:
+  - tests
+  - recycling
+  - conftest.py
+paths-ignore:
+  - "**/__pycache__/**"
+  - "**/.venv/**"

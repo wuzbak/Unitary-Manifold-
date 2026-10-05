@@ -1,0 +1,46 @@
+---
+sourceLocationPrefix: /home/runner/work/Unitary-Manifold-/Unitary-Manifold-
+baselineLinesOfCode: 247893
+unicodeNewlines: false
+columnKind: utf32
+primaryLanguage: python
+inProgress:
+  primaryLanguage: python
+  installedExtractors:
+    javascript:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/javascript
+    go:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/go
+    html:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/html
+    csharp:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/csharp
+    csv:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/csv
+    actions:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/actions
+    ruby:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/ruby
+    yaml:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/yaml
+    xml:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/xml
+    python:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/python
+    cpp:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/cpp
+    properties:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/properties
+    rust:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/rust
+    swift:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/swift
+    java:
+     - /opt/hostedtoolcache/CodeQL/2.27.1/x64/codeql/java
+creationMetadata:
+  sha: f2e4449d82d43a3885149ac8a451af803a6448b4
+  cliVersion: 2.27.1
+  creationTime: 2026-10-05T03:48:13.761043111Z
+overlayBaseDatabase: false
+overlayDatabase: false
+finalised: false
