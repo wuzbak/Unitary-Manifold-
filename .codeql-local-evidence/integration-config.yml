@@ -1,9 +1,0 @@
-name: Local Python integration analysis
-paths:
-  - 12-AZ-IP/20-psicat-navigator
-  - bot
-  - TOOLS/checks
-  - conftest.py
-paths-ignore:
-  - "**/__pycache__/**"
-  - "**/.venv/**"

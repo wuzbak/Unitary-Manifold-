@@ -1,7 +1,0 @@
-name: Local Python core analysis
-paths:
-  - src
-  - claims
-paths-ignore:
-  - "**/__pycache__/**"
-  - "**/.venv/**"
