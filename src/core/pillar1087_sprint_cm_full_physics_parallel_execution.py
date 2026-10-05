@@ -484,7 +484,11 @@ def sprint_cm_full_physics_parallel_execution() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(sprint_cm_full_physics_parallel_execution().get("valid"))

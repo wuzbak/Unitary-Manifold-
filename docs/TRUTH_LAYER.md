@@ -560,6 +560,29 @@ freeze at `baa16e04`: that attempt's chunks were rejected before execution
 when source/scratch changed, and its coverage run was interrupted. Neither
 attempt supplies passing full-regression or coverage evidence.
 
+**2026-10-05 — bounded regression continuation.** Execution is limited to two
+single-worker CPU lanes, with BLAS/OpenMP threads limited to one. Curvature
+free-index broadcasting at `f967a513` preserves the scalar reference's ordered
+contractions and dtype semantics; exact-array reference tests cover dimensions
+2, 4 and 5, every coordinate, and nonsymmetric connections.
+
+Sampling the remaining P1099 translation audit found nested lazy validity
+traversals through P1098–P1084, repeatedly rebuilding governance and source
+evidence. A standalone call exceeded a 180-second diagnostic budget. This
+trace does not establish a Lean kernel or symbolic-solver bottleneck.
+The affected proxies now deduplicate Boolean results only within one
+synchronous outer validity evaluation, using a context-local scope. Results,
+including failures, are discarded when that evaluation ends; subsequent
+evaluations re-read evidence. Recursive dependency cycles fail closed.
+Live report functions and proof requirements are unchanged. Existing
+process-level report caches elsewhere are not expanded by this change.
+
+The unchanged P1099 and P1096 contract tests and initial scope tests passed:
+**9 passed in 25.30 seconds**, with P1099 taking 9.15 seconds. These focused
+results are not a full-regression certificate. Matching full-core aggregation,
+coverage at the unchanged 85% threshold, hosted checks and Python security
+analysis must be reported separately; Lean proof gaps remain open.
+
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a
 physics-closure claim.** This section supersedes the claims of derived
 contraction, photon recovery, and formal closure in the historical sprint

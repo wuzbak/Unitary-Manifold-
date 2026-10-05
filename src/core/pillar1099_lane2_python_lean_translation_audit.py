@@ -213,7 +213,11 @@ def lane2_python_lean_translation_audit() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(lane2_python_lean_translation_audit().get('valid'))
