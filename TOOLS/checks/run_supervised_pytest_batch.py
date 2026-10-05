@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import shlex
 import subprocess
 import sys
@@ -42,7 +43,12 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--batch-index", type=int)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--emit-json", action="store_true")
-    return parser.parse_args()
+    parser.add_argument("--evidence-dir", type=Path)
+    parser.add_argument("--timeout", type=float, default=3600)
+    args = parser.parse_args()
+    if not math.isfinite(args.timeout) or args.timeout <= 0:
+        parser.error("--timeout must be positive and finite")
+    return args
 
 
 def _run(args: list[str], dry_run: bool) -> int:
@@ -51,6 +57,17 @@ def _run(args: list[str], dry_run: bool) -> int:
         return 0
     completed = subprocess.run(args, check=False)
     return completed.returncode
+
+
+def _execute(command: list[str], args: argparse.Namespace) -> int:
+    output = getattr(args, "evidence_dir", None)
+    if output is not None:
+        command = [
+            sys.executable, "-m", "TOOLS.um_arts", "capture",
+            "--repo", str(ROOT), "--output", str(output.resolve()),
+            "--timeout", str(args.timeout), "--", *command,
+        ]
+    return _run(command, dry_run=args.dry_run)
 
 
 def main() -> int:
@@ -77,7 +94,7 @@ def main() -> int:
             print("supervised regression coverage check failed", file=sys.stderr)
             return 1
         stream = sys.stderr if args.emit_json else sys.stdout
-        print("supervised regression coverage check passed", file=stream)
+        print("supervised regression coverage check passed (file partition only)", file=stream)
         return 0
 
     if args.suite == "full-core-supervisor-check":
@@ -89,11 +106,11 @@ def main() -> int:
             print("supervised full-core regression coverage check failed", file=sys.stderr)
             return 1
         stream = sys.stderr if args.emit_json else sys.stdout
-        print("supervised full-core regression coverage check passed", file=stream)
+        print("supervised full-core regression coverage check passed (file partition only)", file=stream)
         return 0
 
     if args.suite == "compactified-preflight":
-        return _run(compactified_preflight_argv(), dry_run=args.dry_run)
+        return _execute(compactified_preflight_argv(), args)
 
     if args.suite == "full-core":
         if args.batch_index is None:
@@ -103,7 +120,7 @@ def main() -> int:
         if not command:
             print(f"no full-core tests assigned to batch {args.batch_index}; skipping")
             return 0
-        return _run(command, dry_run=args.dry_run)
+        return _execute(command, args)
 
     if args.batch_index is None:
         print("--batch-index is required for tests-fast", file=sys.stderr)
@@ -112,7 +129,7 @@ def main() -> int:
     if not command:
         print(f"no non-slow tests assigned to batch {args.batch_index}; skipping")
         return 0
-    return _run(command, dry_run=args.dry_run)
+    return _execute(command, args)
 
 
 if __name__ == "__main__":

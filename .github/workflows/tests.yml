@@ -23,13 +23,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run compactified preflight
-        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite compactified-preflight
+        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite compactified-preflight --evidence-dir "$GITHUB_WORKSPACE/.um-arts/preflight"
+      - name: Preserve preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-preflight
+          path: .um-arts/preflight
+          include-hidden-files: true
+          if-no-files-found: warn
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 2: Fast test suite (tests/ — excludes @pytest.mark.slow) in shards
@@ -47,13 +56,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (fast suite shard ${{ matrix.batch-index }})
-        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite tests-fast --batch-count 4 --batch-index ${{ matrix.batch-index }}
+        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite tests-fast --batch-count 4 --batch-index ${{ matrix.batch-index }} --evidence-dir "$GITHUB_WORKSPACE/.um-arts/fast"
+      - name: Preserve fast-shard evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-fast-${{ matrix.batch-index }}
+          path: .um-arts/fast
+          include-hidden-files: true
+          if-no-files-found: warn
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 3: Supervisor gate for batched fast-suite coverage
@@ -68,6 +86,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -86,13 +105,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (slow suite — tests/ -m slow)
-        run: python -m pytest tests/ -m slow -q
+        run: python -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/slow" --timeout 6000 -- python -m pytest tests/ -m slow -q
+      - name: Preserve slow-suite evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-slow
+          path: .um-arts/slow
+          include-hidden-files: true
+          if-no-files-found: warn
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 5: Claims verification (claims/ — integer derivation, birefringence, etc.)
@@ -106,6 +134,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -121,10 +150,18 @@ jobs:
           fi
       - name: Run pytest (claims/)
         if: steps.claims-files.outputs.has_claims == 'true'
-        run: python -m pytest claims/ -q
+        run: python -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/claims" --timeout 2400 -- python -m pytest claims/ -q
       - name: Report claims shard skipped
         if: steps.claims-files.outputs.has_claims != 'true'
         run: echo "claims/ has no Python tests; skipping claims shard"
+      - name: Preserve claims evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-claims
+          path: .um-arts/claims
+          include-hidden-files: true
+          if-no-files-found: warn
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 6: Recycling suite (recycling/ — Pillar 16 φ-debt entropy accounting)
@@ -136,13 +173,23 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (recycling/)
-        run: python -m pytest recycling/ -q
+        run: python -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/recycling" --timeout 2400 -- python -m pytest recycling/ -q
+      - name: Preserve recycling evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-recycling
+          path: .um-arts/recycling
+          include-hidden-files: true
+          if-no-files-found: warn
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 7: Unitary Pentad suite (Unitary Pentad/ — HILS governance framework)
@@ -154,13 +201,23 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
       - name: Run pytest (Unitary Pentad/)
-        run: python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
+        run: python -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/pentad" --timeout 4800 -- python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
+      - name: Preserve Pentad evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-pentad
+          path: .um-arts/pentad
+          include-hidden-files: true
+          if-no-files-found: warn
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 8: ALGEBRA_PROOF.py — 114-check formal falsification proof
@@ -172,13 +229,23 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist sympy
       - name: Run ALGEBRA_PROOF.py (114 formal checks)
-        run: python3 ALGEBRA_PROOF.py
+        run: python -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/algebra" --timeout 2400 -- python3 ALGEBRA_PROOF.py
+      - name: Preserve executable algebra evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-algebra
+          path: .um-arts/algebra
+          include-hidden-files: true
+          if-no-files-found: warn
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 9: Canonical ledger + onboarding docs consistency gate
@@ -193,6 +260,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -227,6 +295,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

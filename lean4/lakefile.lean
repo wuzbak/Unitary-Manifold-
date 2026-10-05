@@ -10,3 +10,6 @@ require mathlib from git
 
 lean_lib UnitaryManifold where
   roots := #[`UnitaryManifold]
+
+lean_exe um_arts_export where
+  root := `UMArtsExport

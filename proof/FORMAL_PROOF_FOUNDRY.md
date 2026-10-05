@@ -70,6 +70,41 @@ That spine maps:
 
 **axiom / open gap / theorem cluster → epistemic class → Lean file → Python module → tests → status entry → review packet**
 
+The registry also declares exact fully qualified export targets in
+`lean_declarations`. These are distinct from `lean_symbols`, which can include
+comment-only gap identifiers. An empty declaration list means there is no
+checked declaration to export for that gap; it is not an implicit pass.
+
+### Checked-environment export and regression evidence
+
+The versioned exporter is an explicit Lake executable, not a presumed
+`lake exe export` facility. From repository root, after compiling the requested
+module:
+
+```bash
+cd lean4
+lake exe um_arts_export \
+  --module UnitaryManifold.DiracOrbifoldSpectrum \
+  --decl UnitaryManifold.DiracOrbifoldSpectrum.cl_gen3
+```
+
+The JSON includes the exact name, displayed statement, declaration kind,
+transitive axioms, direct dependencies, and checking status. Axioms are not
+theorems. A theorem depending on `sorryAx` is not an accepted checked proof;
+other assumptions remain disclosed even when checking succeeds. Imports must
+come from the recorded toolchain and reviewed build artifacts.
+
+In particular, the APS registry targets include `True` placeholder axioms, and
+the action-to-evolution targets include proof-structure scaffolding. Exporting
+them does not retire the corresponding mathematical obligations. The
+Python↔Lean correspondence remains unresolved until the existing normalization
+and certificate requirements are independently satisfied.
+
+UM-ARTS consumes this registry and separates execution receipts from formal
+claims. See [the tools usage guide](../TOOLS/README.md#um-arts--regression-evidence-application).
+Missing toolchains or declarations are reported as blocked; declaration counts,
+keyword matches, and successful root builds never replace exact checking.
+
 ## Reviewer intake order
 
 For a first-pass review of the current honesty boundary, use:

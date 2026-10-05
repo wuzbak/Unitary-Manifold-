@@ -256,6 +256,7 @@ def build_regression_supervision_plan_with_full_core_count(
         },
         "remaining_canonical_suites": remaining_canonical_suites,
         "supervision": {
+            "evidence_scope": "file partitioning only; no test execution is certified",
             "coverage_matches_discovery": all_files == discovered,
             "all_files_unique": len(unique_files) == len(all_files),
             "discovered_file_count": len(discovered),

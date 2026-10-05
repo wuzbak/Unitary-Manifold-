@@ -117,6 +117,7 @@ def test_compactified_preflight_files_exist_and_command_is_canonical() -> None:
 
 def test_regression_supervision_plan_reports_consistent_coverage() -> None:
     plan = build_regression_supervision_plan()
+    assert plan['supervision']['evidence_scope'] == "file partitioning only; no test execution is certified"
     assert plan['supervision']['coverage_matches_discovery'] is True
     assert plan['supervision']['all_files_unique'] is True
     assert plan['supervision']['full_core_coverage_matches_discovery'] is True
@@ -194,7 +195,7 @@ def test_full_core_override_collects_slow_tests(tmp_path, monkeypatch) -> None:
     command[0] = sys.executable
     result = subprocess.run(
         [*command, "--collect-only"], cwd=tmp_path, capture_output=True, text=True,
-        timeout=30,
+        timeout=30, check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
     assert "test_scope.py::test_slow" in result.stdout

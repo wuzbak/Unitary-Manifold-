@@ -133,6 +133,10 @@ TRACEABILITY_ROWS: List[Dict[str, Any]] = [
             "aps_eta_invariant_5_is_half",
             "aps_eta_invariant_7_is_zero",
         ],
+        "lean_declarations": [
+            "UnitaryManifold.NWUniquenessHonest.aps_eta_invariant_5_is_half",
+            "UnitaryManifold.NWUniquenessHonest.aps_eta_invariant_7_is_zero",
+        ],
         "python_modules": [
             "src/core/aps_eta_invariant.py",
             "src/core/pillar828_aps_eta_invariant_lean4_bridge.py",
@@ -160,6 +164,7 @@ TRACEABILITY_ROWS: List[Dict[str, Any]] = [
             "APS_MATHLIB_FORMALIZATION",
             "NGEN_DERIVATION",
         ],
+        "lean_declarations": [],
         "python_modules": [
             "src/core/nw_circularity_audit.py",
         ],
@@ -185,6 +190,11 @@ TRACEABILITY_ROWS: List[Dict[str, Any]] = [
             "cl_gen3",
             "g4_bc_spectrum_certificate",
             "g4_generation_mixing_closure",
+        ],
+        "lean_declarations": [
+            "UnitaryManifold.DiracOrbifoldSpectrum.cl_gen3",
+            "UnitaryManifold.DiracOrbifoldSpectrum.g4_bc_spectrum_certificate",
+            "UnitaryManifold.DiracOrbifoldSpectrum.g4_generation_mixing_closure",
         ],
         "python_modules": [
             "src/core/yukawa_orbifold_bc_texture.py",
@@ -213,6 +223,12 @@ TRACEABILITY_ROWS: List[Dict[str, Any]] = [
             "UMArtifactTraceable",
             "UMLeanStatusTraceable",
             "ca_trace_kernel_12",
+        ],
+        "lean_declarations": [
+            "UnitaryManifold.UMClaimLabelTraceable",
+            "UnitaryManifold.UMArtifactTraceable",
+            "UnitaryManifold.UMLeanStatusTraceable",
+            "UnitaryManifold.ca_trace_kernel_12",
         ],
         "python_modules": [
             "src/core/action_to_evolution_contract.py",

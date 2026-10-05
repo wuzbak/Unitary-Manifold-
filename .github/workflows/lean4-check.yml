@@ -12,6 +12,7 @@ jobs:
   lean4-build:
     name: Lake build (Lean 4 + Mathlib)
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     permissions:
       contents: read
     defaults:
@@ -19,6 +20,8 @@ jobs:
         working-directory: lean4
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Install elan
         run: |
@@ -42,7 +45,18 @@ jobs:
         run: lake exe cache get || true
 
       - name: Lake build
-        run: lake build
+        working-directory: .
+        run: python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/lean-full" --timeout 3600 -- lake -d lean4 build
 
       - name: Verify NumericalChecks compile
-        run: lake build UnitaryManifold.NumericalChecks
+        working-directory: .
+        run: python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/lean-numerical" --timeout 900 -- lake -d lean4 build UnitaryManifold.NumericalChecks
+
+      - name: Preserve Lean build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-lean
+          path: .um-arts/
+          include-hidden-files: true
+          if-no-files-found: warn

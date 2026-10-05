@@ -173,3 +173,40 @@ def test_full_core_supervisor_uses_full_core_default_batch_count(monkeypatch, ca
     assert observed["batch_count"] == 4
     assert observed["full_core_batch_count"] == 8
     assert "supervised full-core regression coverage check passed" in capsys.readouterr().out
+
+
+def test_evidence_mode_wraps_existing_command(monkeypatch, tmp_path) -> None:
+    import argparse
+    import sys
+
+    observed = {}
+    command = ["python", "-m", "pytest", "-m", "", "tests/test_example.py", "-q"]
+
+    def fake_run(args, dry_run):
+        observed["args"] = args
+        observed["dry_run"] = dry_run
+        return 7
+
+    monkeypatch.setattr(batch_runner, "_run", fake_run)
+    args = argparse.Namespace(evidence_dir=tmp_path, timeout=15, dry_run=True)
+    assert batch_runner._execute(command, args) == 7
+    assert observed["args"] == [
+        sys.executable, "-m", "TOOLS.um_arts", "capture",
+        "--repo", str(batch_runner.ROOT), "--output", str(tmp_path.resolve()),
+        "--timeout", "15", "--", *command,
+    ]
+    assert observed["dry_run"] is True
+
+
+def test_timeout_must_be_positive_finite(monkeypatch) -> None:
+    import sys
+
+    import pytest
+
+    for timeout in ("0", "-1", "nan", "inf"):
+        monkeypatch.setattr(sys, "argv", [
+            str(MODULE_PATH), "--suite", "compactified-preflight", "--timeout", timeout,
+        ])
+        with pytest.raises(SystemExit) as error:
+            batch_runner._parse_args()
+        assert error.value.code == 2

@@ -1,0 +1,10 @@
+{
+  "adapter": "generic",
+  "workers": 2,
+  "timeout_seconds": 120,
+  "pytest_args": [],
+  "suites": [
+    {"name": "unit", "paths": ["tests/unit"]},
+    {"name": "integration", "paths": ["tests/integration"], "requires": ["unit"], "serial": true}
+  ]
+}
