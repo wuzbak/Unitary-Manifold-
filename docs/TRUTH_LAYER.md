@@ -199,6 +199,17 @@ are still preserved. The final isolation run used an absolute `/tmp` basetemp
 and passed **19 tests in 0.92 seconds**, including four new serial/worker and
 symlink regression cases. The earlier combined run is not relabeled as passing.
 
+The numerical specialist reported completed targeted runs of
+`test_maxwell_kk_reduction.py` (**101 passed in 3.59 seconds**),
+`test_action_derived_flow.py` (**19 passed, 3 deselected in 5.83 seconds**), and
+`test_jax_backend.py` (**83 passed in 15.34 seconds**, JAX/JAXlib 0.11.2 CPU).
+Its independent NumPy/JAX residual comparison agreed within approximately
+6×10⁻¹⁵ on the tested random state. No high-confidence defect was found in
+the bounded Maxwell/action/JAX review. A separate slow symbolic-run completion
+claim was retracted because overlapping/stopped commands prevented reliable
+attribution; those three slow symbolic cases are **not independently certified**
+by this review. CPU parity does not certify GPU behavior or coupled gravity.
+
 The read-only security specialist checked public-page DNS/IP pinning and
 redirect validation, RAG and Lean path containment, signed session identifiers,
 cookie settings, compatibility-route authorization, and the revised email
@@ -219,12 +230,20 @@ environment during this attempt. No repository dependency files changed; the
 advisory check reported no known vulnerabilities for those versions. This run
 does not establish an immutable final-checkpoint regression result.
 
+A second combined attempt was also stopped without completion. Its partial
+JUnit document reports **586 tests, 6 skipped and 1 internal error**; the
+recorded error is `BrokenPipeError` during terminal flushing after the output
+pipeline was stopped. This is interruption evidence, not a completed regression
+or a newly confirmed product defect.
+
 Final automated validation did not establish Python clearance. The review
 backend failed because its requested model was absent from the model registry,
 despite the wrapper reporting success; no completed automated review is
 claimed. Actions CodeQL reported no alerts, while Python analysis was skipped
 because its database was oversized. Independent specialist reviews are
 separate evidence, not substitutes for a completed Python scan.
+The independent final code reviewer found no significant issues in the resumed
+RAG/graph changes or the automatic temporary-root guard and its tests.
 
 ## Foundation reassessment
 
