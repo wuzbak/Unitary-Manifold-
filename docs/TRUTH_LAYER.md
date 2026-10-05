@@ -583,6 +583,23 @@ results are not a full-regression certificate. Matching full-core aggregation,
 coverage at the unchanged 85% threshold, hosted checks and Python security
 analysis must be reported separately; Lean proof gaps remain open.
 
+The first two-lane attempt at `92815fa2` completed all 32 core chunks. The
+previously unresolved chunk finished in 1,070 seconds with **1,602 passed,
+6 skipped and 11 failed**. One failure was an obsolete literal in the
+last-merge audit: it still demanded an older statement absent from P1085's
+current action-target contract. The rule now requires the current explicit
+construction/verification boundary instead, with a negative test confirming
+that removing that boundary still fails closed. The other ten failures
+cascaded from directory hygiene: the new scope test file made `tests/` reach
+1,501 tracked entries against its unchanged 1,500-entry limit. Those tests
+are now included in the existing, directly related P1087 test file.
+The rejected aggregate is retained as failed historical evidence; no receipts
+from that snapshot can certify the subsequent repair snapshot. The repair
+acceptance run passed **58 tests in 230.29 seconds**; a separate nine-case
+scope/source-audit run also passed, including validation against the actual
+current P1085 source. Independent read-only review found no significant
+issues. The directory check passes without changing its limit.
+
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a
 physics-closure claim.** This section supersedes the claims of derived
 contraction, photon recovery, and formal closure in the historical sprint
