@@ -422,6 +422,45 @@ artifacts outside the checkout. A later documentation or source commit is a
 different verification snapshot. No full regression certificate follows merely
 from implementing this workflow.
 
+**Implementation validation:** the runner/compatibility suites passed
+105 tests in 6.65 seconds. The separate implementation agents reported
+34 readiness tests (including real numerical comparisons) and 57 planning
+tests passing. These are targeted checks, not a combined repository total.
+
+**Committed frozen exercise:** source
+`b23a0f8e51ded95706848774cfbe94697b29f032`, clean worktree SHA-256
+`e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`,
+plan digest
+`780c0bd6aeca15fe9e553643b23d086e43d97f12b29a7a7ded25aa4ea95aa824`.
+The measured-cost plan exactly covered 1,568 unique full-core files in
+32 dependency-family chunks, plus integration. Two file costs came from the
+focused runner suite's JUnit case timings; other costs remained disclosed
+fallback estimates. Chunk 31 completed with **2,671 passed, one skipped** in
+14.11 seconds. Serial integration chunk 32, with the slow filter explicitly
+cleared, completed with **311 passed** in 181.80 seconds. Both successful JSON
+receipts and JUnit files were independently checked for matching source,
+counts and digest. Repeated `--resume --batch-index` calls reused both receipts
+without modifying any of the four artifacts. Aggregate correctly returned
+failure for the remaining **31 missing core chunks**. No complete repository
+regression certificate exists for this snapshot.
+
+Exercise artifacts are under `/tmp/axiom-frozen-committed-plan.json` and
+`/tmp/axiom-frozen-committed-results/`; these external sandbox paths are not
+durable remote archives and must be copied to persistent artifact storage
+before the sandbox is discarded. Any later commit, including this reporting
+update, must create a new matching plan rather than silently reuse that
+snapshot's certificate. Dependency fingerprints bind interpreter/platform and
+installed distribution names/versions, not every installed package byte.
+Source or dependency edits must be prohibited during a verification session;
+this is provenance checking, not an adversarially tamper-proof execution system.
+
+Independent read-only review identified and then confirmed fixes for disabled
+Python assertions and plan/result artifact collisions; it found no remaining
+significant issues. Automated review could not run because its requested model
+was unavailable. Actions CodeQL reported no alerts, but Python analysis was
+skipped because its database was too large; **complete Python security clearance
+is still unavailable**. Changed-file secret scanning found no secrets.
+
 ## Foundation reassessment
 
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a
