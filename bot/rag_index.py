@@ -218,13 +218,14 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
         "match_terms": [
             "toe", "toe_score", "framework derivation coverage",
             "framework status", "framework completeness", "parameter completeness",
+            "complete physical theory", "complete model",
         ],
         "answer": (
             "The framework is not established as a complete physical theory. "
             "Mathematical results apply within their stated assumptions and domains; "
             "test success does not establish empirical confirmation. The default "
             "flow has action-derived field equations within a restricted circle "
-            "reduction, but physical-time evolution and orbifold photon origin "
+            "reduction, but self-consistent coupled physical-time evolution and orbifold photon origin "
             "remain open. Individual claims need scoped evidence and external tests, "
             "not an aggregate completeness score."
         ),
@@ -245,7 +246,10 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
             "action on a circle. The default action_derived flow relaxes those "
             "field equations, with metric, gauge and scalar residual certificates. "
             "The t-relaxation law is declared, not derived; t is not coordinate "
-            "time and physical-time evolution is not certified. Exact reduction "
+            "time and coupled physical-time evolution is not certified. The separate "
+            "Maxwell test-field solver uses physical coordinate time on a prescribed "
+            "Minkowski background with constant radion; it does not solve the coupled "
+            "Einstein/radion equations or promote this contract. Exact reduction "
             "beyond the reduced diagonal ansatz remains open. The legacy "
             "phenomenological flow is unchanged and not covered. This is PARTIAL "
             "action-to-evolution progress, not framework closure or photon recovery."
@@ -256,8 +260,35 @@ KNOWLEDGE_BASE: Dict[str, Dict] = {
             "src/core/pillar1130_action_derived_flow_steward_promotion.py",
             "docs/TRUTH_LAYER.md",
             "FALLIBILITY.md",
+            "src/core/maxwell_kk_reduction.py",
         ],
         "status": "DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN",
+    },
+    "maxwell_kk_reduction": {
+        "topic": "Maxwell KK reduction / physical-time test-field evolution / orbifold photon limits",
+        "match_terms": ["maxwell", "maxwell_kk_reduction", "maxwelltestfieldstate"],
+        "answer": (
+            "The separate MaxwellTestFieldState API evolves source-free electric "
+            "and magnetic fields in physical Einstein-frame coordinate time on a "
+            "prescribed Minkowski background with positive constant radion and "
+            "circle vector zero mode, on one periodic spatial coordinate. The "
+            "action weight is λ²φ₀³; centered spatial differences and RK4 evolve "
+            "the fields, while discrete Gauss constraints and energy are measured. "
+            "This is a test-field approximation, not self-consistent coupled "
+            "Einstein/radion evolution: Maxwell stress still sources gravity, and "
+            "generic fields source the radion through F². The standard metric "
+            "orbifold projects out the odd vector zero mode; neither this circle "
+            "solver nor the assumed independent U(1) coupling illustration "
+            "identifies the observed photon or derives α_em. The action/evolution "
+            "contract remains DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN; no pillar, "
+            "hardgate or empirical-confirmation promotion is made."
+        ),
+        "sources": [
+            "src/core/maxwell_kk_reduction.py",
+            "docs/TRUTH_LAYER.md",
+            "src/core/action_to_evolution_contract.py",
+        ],
+        "status": "PRESCRIBED_BACKGROUND_TEST_FIELD / OPEN_PHYSICAL_OBLIGATIONS",
     },
     "dark_matter": {
         "topic": "Dark matter model — imposed halos and KK relic benchmarks",
@@ -668,6 +699,12 @@ def _extract_latest_wave(repo_root: Path) -> Optional[str]:
     return match.group(1) if match else None
 
 
+def _extract_latest_changelog_entry(repo_root: Path) -> Optional[str]:
+    changelog = _safe_read_text(repo_root / "docs/WAVE_CHANGELOG.md")
+    match = re.search(r"^##[ \t]+([^\n]+)", changelog, re.MULTILINE)
+    return match.group(1).strip() if match else None
+
+
 def _extract_status_header(repo_root: Path) -> Optional[str]:
     status = _safe_read_text(repo_root / "STATUS.md")
     match = re.search(
@@ -701,15 +738,19 @@ def build_runtime_knowledge_base(repo_root: Optional[Path] = None) -> Dict[str, 
 
     kb = dict(KNOWLEDGE_BASE)
     latest_wave = _extract_latest_wave(repo_root)
+    latest_entry = _extract_latest_changelog_entry(repo_root)
     status_header = _extract_status_header(repo_root)
     latest_regression = _extract_latest_regression(repo_root)
 
-    if latest_wave or status_header:
+    if latest_entry or latest_wave or status_header:
         answer_parts = []
+        if latest_entry:
+            answer_parts.append(f"Latest entry in docs/WAVE_CHANGELOG.md: {latest_entry}.")
         if latest_wave:
-            answer_parts.append(f"Latest wave entry in docs/WAVE_CHANGELOG.md: {latest_wave}.")
+            answer_parts.append(f"Latest versioned wave in docs/WAVE_CHANGELOG.md: {latest_wave}.")
         if status_header:
-            answer_parts.append(f"STATUS.md header: {status_header}.")
+            answer_parts.append(f"STATUS.md version marker (historical narrative): {status_header.rstrip('.')}.")
+        answer_parts.append("These ledger records do not establish new execution or physical closure.")
         kb["repo_state"] = {
             "topic": "Current repository wave and status snapshot",
             "match_terms": ["repository", "repo", "wave"],
@@ -792,7 +833,11 @@ def _existing_source_path(repo_root: Path, source: str) -> Path | None:
     cleaned = cleaned.split(" §", 1)[0].strip()
     cleaned = cleaned.split(" line ", 1)[0].strip()
     candidate = repo_root / cleaned
-    return candidate if candidate.exists() else None
+    try:
+        candidate.resolve().relative_to(repo_root.resolve())
+        return candidate if candidate.is_file() else None
+    except (OSError, RuntimeError, ValueError):
+        return None
 
 
 def _related_test_paths(repo_root: Path, path: Path) -> list[str]:
@@ -883,7 +928,7 @@ def build_context_scaffold(
         gate = _normalize_gate_label(kb_entry.get("status", ""))
         for source in kb_entry.get("sources", [])[:6]:
             label = str(source)
-            append_provenance(label, kind="knowledge_base", gate=gate)
+            append_provenance(label, kind="knowledge_base", gate=gate, confidence_tier="curated_navigation")
             real_path = _existing_source_path(repo_root, label)
             if real_path is not None and real_path.as_posix() not in seen_paths:
                 candidate_paths.append(real_path)
@@ -917,6 +962,8 @@ def build_context_scaffold(
         "do_not_treat_as": "raw_core_memory_dump",
         "keep_primary_model_focus": "reason_over_scoped_context_only",
         "dominant_gate": dominant_gate,
+        "gate_semantics": "navigation_labels_not_source_verification",
+        "not_scientific_certification": True,
     }
     return {
         "schema_version": "rag_context_scaffold_v1",
@@ -970,6 +1017,7 @@ def render_context_scaffold(scaffold: Dict[str, Any]) -> str:
         f"Matched keywords: {lane.get('matched_keywords', 'none')}",
         f"Dominant gate: {boundary.get('dominant_gate', 'ARCHITECTURE_LIMIT')}",
         "Role: architectural scaffold; not a raw memory dump.",
+        "Gate labels and citations are navigation metadata, not source verification or scientific certification.",
     ]
     kb_match = retrieval.get("knowledge_match")
     if isinstance(kb_match, dict):
@@ -1238,7 +1286,7 @@ def answer_question(index: RAGIndex, query: str, top_k: int = 3) -> Dict:
     -------
     dict with 'answer', 'source_type', 'context_chunks', and 'query'.
     """
-    scaffold = build_context_scaffold(index, query)
+    scaffold = build_context_scaffold(index, query, top_k=top_k)
     # Try KB lookup first
     kb_entry = index.lookup_kb(query)
     if kb_entry is not None:

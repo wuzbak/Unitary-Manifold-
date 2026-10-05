@@ -144,6 +144,22 @@ def test_current_header_without_regression_does_not_copy_history(status_fixture_
     assert "latest_regression" not in build_runtime_knowledge_base(status_fixture_root)
 
 
+def test_repo_state_distinguishes_repair_entry_from_versioned_wave(tmp_path):
+    (tmp_path / "docs").mkdir()
+    (tmp_path / "docs/WAVE_CHANGELOG.md").write_text(
+        "# Wave Changelog\n## Synthesis repair (2026-10-05; no new pillar)\n"
+        "Scoped continuation.\n## v38.2 Sprint CX\nHistorical record.\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "STATUS.md").write_text("*v38.2 Sprint CX — Historical scope.*\n", encoding="utf-8")
+    entry = build_runtime_knowledge_base(tmp_path)["repo_state"]
+    assert "Latest entry in docs/WAVE_CHANGELOG.md: Synthesis repair" in entry["answer"]
+    assert "Latest versioned wave in docs/WAVE_CHANGELOG.md: v38.2" in entry["answer"]
+    assert "historical narrative" in entry["answer"]
+    assert "do not establish new execution or physical closure" in entry["answer"]
+    assert entry["status"] == "v38.2"
+
+
 def test_detect_query_lane_prefers_runtime_performance():
     lane = detect_query_lane("Review runtime benchmark latency and training profile behavior.")
     assert lane["lane_id"] == "runtime_performance"
@@ -217,6 +233,45 @@ def test_build_context_scaffold_deduplicates_provenance_sources(monkeypatch: pyt
     scaffold = build_context_scaffold(idx, "physics navigation", repo_root=repo_root)
     assert scaffold["provenance"]["source_count"] == 1
     assert scaffold["provenance"]["sources"][0]["label"] == "README.md"
+
+
+def test_scaffold_source_paths_stay_inside_repository(tmp_path):
+    root = tmp_path / "repo"
+    root.mkdir()
+    outside = tmp_path / "outside.py"
+    outside.write_text("def outside_symbol():\n    pass\n", encoding="utf-8")
+    (root / "escape.py").symlink_to(outside)
+    local = root / "local.py"
+    local.write_text("def local_symbol():\n    pass\n", encoding="utf-8")
+    for label in ("../outside.py", str(outside), "escape.py", "."):
+        assert rag_index_module._existing_source_path(root, label) is None
+    assert rag_index_module._existing_source_path(root, "local.py") == local
+    idx = RAGIndex(knowledge_base={
+        "scoped": {
+            "topic": "Scoped test",
+            "answer": "Navigation only.",
+            "status": "OPEN_GAP",
+            "sources": ["../outside.py", "escape.py", "local.py"],
+        },
+    })
+    scaffold = build_context_scaffold(idx, "scoped", repo_root=root)
+    assert [hint["path"] for hint in scaffold["ast"]["files"]] == ["local.py"]
+    assert all(
+        source["confidence_tier"] == "curated_navigation"
+        for source in scaffold["provenance"]["sources"]
+    )
+    assert scaffold["boundary"]["guardrails"]["not_scientific_certification"] is True
+    assert "not source verification or scientific certification" in render_context_scaffold(scaffold)
+
+
+def test_answer_scaffold_respects_requested_retrieval_limit():
+    idx = RAGIndex(
+        chunks=[DocumentChunk(f"{i}.md", "Example", "unindexed science") for i in range(4)],
+        knowledge_base={"other": {"topic": "Other", "status": "OPEN_GAP"}},
+    )
+    result = answer_question(idx, "unindexed science", top_k=1)
+    assert len(result["context_chunks"]) == 1
+    assert len(result["context_scaffold"]["retrieval"]["top_chunks"]) == 1
 
 
 def test_render_context_scaffold_contains_structural_sections():
@@ -400,6 +455,9 @@ def built_science_index():
     ("Is the action-to-evolution contract closed?", "action_to_evolution"),
     ("Have the Euler-Lagrange equations been earned?", "action_to_evolution"),
     ("Is physical time evolution certified?", "action_to_evolution"),
+    ("What does maxwell_kk_reduction derive?", "maxwell_kk_reduction"),
+    ("Does Maxwell physical-time test-field evolution solve the full coupled evolution law?", "maxwell_kk_reduction"),
+    ("Does MaxwellTestFieldState recover the orbifold photon?", "maxwell_kk_reduction"),
     ("What is the dark matter model status?", "dark_matter"),
     ("Has the dark-matter model been proved?", "dark_matter"),
     ("Does the halo prescription solve formation?", "dark_matter"),
@@ -410,6 +468,7 @@ def built_science_index():
     ("What is the cosmological constant status?", "cosmological_constant"),
     ("What is the current framework derivation coverage status?", "toe_score"),
     ("toe_score", "toe_score"),
+    ("Is the framework a complete physical theory?", "toe_score"),
 ])
 def test_built_index_routes_science_topics(built_science_index, query, key):
     result = answer_question(built_science_index, query)
@@ -429,6 +488,24 @@ def test_action_evolution_reports_earned_deliverables_not_physical_time(built_sc
         "deliverables are earned", "1-D periodic", "on a circle",
         "t is not coordinate time", "physical-time evolution is not certified",
         "legacy", "not framework closure",
+    ):
+        assert boundary in result["answer"]
+    assert result["context_scaffold"]["boundary"]["dominant_gate"] == "OPEN_GAP"
+    assert "separate Maxwell test-field solver" in result["answer"]
+    assert "does not solve the coupled Einstein/radion equations" in result["answer"]
+    assert "src/core/maxwell_kk_reduction.py" in result["sources"]
+
+
+def test_maxwell_answer_exposes_prescribed_background_not_coupled_closure(built_science_index):
+    result = answer_question(built_science_index, "Maxwell physical-time test-field evolution")
+    for boundary in (
+        "physical Einstein-frame coordinate time", "prescribed Minkowski",
+        "positive constant radion", "circle vector zero mode", "one periodic",
+        "λ²φ₀³", "discrete Gauss", "test-field approximation",
+        "not self-consistent coupled Einstein/radion evolution",
+        "stress still sources gravity", "source the radion through F²",
+        "orbifold projects out", "DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN",
+        "no pillar, hardgate or empirical-confirmation promotion",
     ):
         assert boundary in result["answer"]
     assert result["context_scaffold"]["boundary"]["dominant_gate"] == "OPEN_GAP"
@@ -525,13 +602,13 @@ def test_science_answers_do_not_import_expensive_certificates(built_science_inde
         return original_import(name, *args, **kwargs)
 
     monkeypatch.setattr(builtins, "__import__", guarded_import)
-    for query in ("action-derived evolution", "dark matter", "photon origin"):
+    for query in ("action-derived evolution", "dark matter", "photon origin", "Maxwell"):
         assert answer_question(built_science_index, query)["source_type"] == "knowledge_base"
 
 
 def test_science_kb_sources_are_existing_local_paths():
     root = Path(__file__).parent.parent
-    for key in ("action_to_evolution", "dark_matter", "photon_origin", "winding_number", "toe_score"):
+    for key in ("action_to_evolution", "dark_matter", "photon_origin", "winding_number", "toe_score", "maxwell_kk_reduction"):
         for source in KNOWLEDGE_BASE[key]["sources"]:
             assert "://" not in source
             assert (root / source).is_file()
