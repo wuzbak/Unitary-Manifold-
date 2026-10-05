@@ -110,6 +110,57 @@ below when complete.
 Full formal build, deployed webspace behavior and empirical dark-sector
 validation remain outside this execution.
 
+### Verification continuation (2026-10-05)
+
+The continuation separates complete software regression, scoped security
+analysis, and physical-time validation. None supplies empirical confirmation
+or a complete dynamical model of the universe.
+
+**Physical-time perimeter.** The added Maxwell initial-value lane in
+`src/core/maxwell_kk_reduction.py` evolves independent electric and magnetic
+fields on a prescribed Einstein-frame Minkowski background with constant
+positive radion, unit lapse, one periodic spatial coordinate, and no sources.
+It uses the circle zero mode and the action's constant weight λ²φ₀³; it does
+not restore the metric vector projected out by the standard orbifold.
+Its coordinate time is separate from the existing relaxation parameter.
+Validation must compare traveling and standing waves with independent analytic
+solutions, check electric and magnetic Gauss constraints and energy/flux,
+and measure spatial and temporal convergence separately.
+
+This is a **test-field approximation**. Nonzero Maxwell stress does not solve
+the Einstein equations on the fixed Minkowski background. Generic non-null
+fields also source the radion equation; even null traveling waves still carry
+gravitational stress. Self-consistent physical time remains open: it requires
+constraint-compatible gravitational and radion momenta, hyperbolic gauge
+equations, action-consistent backreaction, and independent sourced-constraint
+checks. The action/evolution contract and pillar status are not promoted.
+
+The initial physical-time acceptance run passed **99 tests**, including
+unchanged action/evolution contract tests. Measured spatial convergence orders
+were **1.9804 and 1.9953**; temporal orders were **3.9991–3.9999**, against
+independent continuum or semi-discrete wave references. Gauss diagnostics use
+the discrete spatial derivative; centered differences cannot resolve a
+Nyquist/checkerboard mode. These results validate the declared numerical
+test-field scope, not sourced Einstein/radion evolution.
+
+**Security perimeter.** Python CodeQL databases and SARIF belong outside the
+repository. Bounded source slices avoid the oversized monorepo database; their
+union must name its covered files, query suite, extraction failures and alerts.
+Separate databases do not certify cross-slice dataflow. Older successful CI
+scans are not scans of this repaired checkpoint. In CLI 2.27.1, an exact file
+in `paths` causes the Python extractor to traverse it as a directory; a
+root-file glob such as `conftest*.py` extracts the actual file successfully.
+Disabling unrelated checks or copying a truncated source tree is not needed.
+
+The first completed integration scan used **CodeQL 2.27.1**, Python query pack
+**1.8.11**, and **52 security-extended/diagnostic queries**. It scanned **95/95
+Python files** across Product 20, `bot`, `TOOLS/checks`, and root `conftest.py`.
+Extraction, query evaluation, and SARIF export completed; this was not an
+oversize skip. It reported **seven alerts**: SSRF, path injection, polynomial
+ReDoS, and two pairs of cookie/header alerts. These require reachability and
+safeguard review; alerts are not automatically confirmed vulnerabilities.
+Neither a clean Python result nor full-monorepo clearance is claimed.
+
 ## Foundation reassessment
 
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a

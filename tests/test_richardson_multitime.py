@@ -52,8 +52,10 @@ Over-diffusion diagnostic
 
 Estimated wall-clock time
 -------------------------
-    ~115 s on a single core (cumulative RK4 steps: N=8→99, N=16→399,
-    N=32→1599 at CFL=0.1).  Marked ``slow`` so the normal CI suite
+    Runtime depends on the runner (nominal cumulative RK4 steps:
+    N=8→100, N=16→400, N=32→1600 at CFL=0.1, with a shortened
+    final step at each checkpoint to avoid rounding down the flow time).
+    Marked ``slow`` so the normal CI suite
     is not affected (see ``pytest.ini``).
 """
 

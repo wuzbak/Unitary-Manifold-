@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import ast
 import shutil
 import sys
 from pathlib import Path
@@ -21,6 +22,45 @@ def _write_graph_fixture(root: Path, relative: str, content: str = "def example(
     path = root / relative
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
+
+
+def test_python_record_skips_literal_nodes_but_preserves_nested_statements(
+    graph_root, monkeypatch,
+) -> None:
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
+    source = (
+        "DATA = [" + ", ".join(str(index) for index in range(5000)) + "]\n"
+        "import os\n"
+        "class Container:\n"
+        "    def method(self):\n"
+        "        try:\n"
+        "            from pathlib import Path\n"
+        "            if True:\n"
+        "                def nested(): pass\n"
+        "        except Exception:\n"
+        "            import json\n"
+    )
+    relative = "src/core/large_literals.py"
+    _write_graph_fixture(graph_root, relative, source)
+    tree = ast.parse(source)
+    expected_symbols = sorted({
+        node.name for node in ast.walk(tree)
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+    })
+    original = ast.iter_child_nodes
+    visits = []
+
+    def record_visit(node):
+        visits.append(type(node).__name__)
+        return original(node)
+
+    monkeypatch.setattr(ast, "iter_child_nodes", record_visit)
+    record = merlin_repo_graph._python_record(graph_root / relative)
+    assert record["symbols"] == expected_symbols
+    assert record["imports"] == ["json", "os", "pathlib", "pathlib.Path"]
+    assert record["parse_status"] == "ok"
+    assert "Constant" not in visits
+    assert len(visits) < 40
 
 
 @pytest.fixture

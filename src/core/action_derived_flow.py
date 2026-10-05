@@ -323,6 +323,18 @@ def _test_profiles(sp, x, syms, offdiagonal: bool = False):
     return {k: v for k, v in prof.items() if isinstance(k, sp.Expr) and not k.is_number}
 
 
+def _substitute_smooth_profiles(sp, expression, profiles, replacements=None):
+    """Substitute fields and their evaluated derivatives simultaneously."""
+    if replacements is None:
+        replacements = dict(profiles)
+    for derivative in expression.atoms(sp.Derivative):
+        if derivative not in replacements:
+            replacements[derivative] = derivative.xreplace(profiles).doit()
+    # Evaluating only derivative atoms avoids recursively re-evaluating the
+    # entire Euler expression and creating nested Subs objects for each field.
+    return expression.xreplace(replacements)
+
+
 @lru_cache(maxsize=4)
 def symbolic_kk_reduction_check(full: bool = False, exact: bool = False, offdiagonal: bool = False) -> Dict[str, Any]:
     """Verify √(−G)R⁽⁵⁾ − √(−g_E)[R_E − (3/2)(∂ψ)² − ¼λ²φ³F²] is a total derivative.
@@ -352,11 +364,12 @@ def symbolic_kk_reduction_check(full: bool = False, exact: bool = False, offdiag
     L4 = _sym_reduced_lagrangian(sp, x, lam, gE, Bv, p, coords)
     eqs = euler_equations(L5 - L4, fields, x)
     prof = _test_profiles(sp, x, syms, offdiagonal)
+    replacements = dict(prof)
     max_abs = 0.0
     for eq in eqs:
-        expr = eq.lhs.subs(prof).doit()
+        expr = _substitute_smooth_profiles(sp, eq.lhs, prof, replacements)
         for xv in (0.3, 1.1, -0.7):
-            val = complex(expr.subs({x: xv, lam: sp.Rational(7, 10)}).evalf(30))
+            val = complex(expr.evalf(30, subs={x: xv, lam: sp.Rational(7, 10)}))
             max_abs = max(max_abs, abs(val))
     exact_zero = None
     if exact:

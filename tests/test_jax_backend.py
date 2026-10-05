@@ -42,7 +42,10 @@ from src.core.metric import (
     christoffel as np_christoffel,
     compute_curvature as np_compute_curvature,
 )
-from src.core.evolution import FieldState, step as np_step
+from src.core.evolution import (
+    DEFAULT_FLOW_LAW, FLOW_LAW_ACTION_DERIVED, FLOW_LAW_LEGACY,
+    FieldState, step as np_step, step_euler as np_step_euler,
+)
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -272,27 +275,148 @@ def test_jax_rhs_uses_spatial_divergence_and_agrees_with_numpy():
     phi = np.full(len(x), 1.8)
     np.testing.assert_allclose(_jax_divergence_x(jnp.array(B), dx),
                                1.6*x, atol=1e-12)
-    state = FieldState(g=g, B=B, phi=phi, dx=dx, lam=1., alpha=0.1)
+    state = FieldState(g=g, B=B, phi=phi, dx=dx, lam=1., alpha=0.1,
+                       flow_law=FLOW_LAW_LEGACY)
     actual = _jax_compute_rhs(jnp.array(g), jnp.array(B), jnp.array(phi),
-                              dx, state.lam, state.alpha, state.phi0, state.m_phi)
+                              dx, state.lam, state.alpha, state.phi0, state.m_phi,
+                              state.flow_law)
     expected_dB = np.tile([-0.4, 0., 0.6, 0.], (len(x), 1))
     np.testing.assert_allclose(actual[1], expected_dB, atol=1e-12)
     for a, b in zip(actual, _compute_rhs(state)):
         np.testing.assert_allclose(a, b, rtol=1e-11, atol=1e-12)
 
 
-def test_jax_rk4_step_matches_numpy_for_nonunit_radion():
+@pytest.mark.parametrize("flow_law", [FLOW_LAW_ACTION_DERIVED, FLOW_LAW_LEGACY])
+def test_jax_rk4_step_matches_numpy_for_nonunit_radion(flow_law):
     x = np.arange(16)*0.1
     g = np.tile(np.diag([-1., 1., 1., 1.]), (len(x), 1, 1))
     B = np.column_stack((0.2*np.sin(x), 0.1*x*x, 0.15*np.cos(x), 0.05*x))
     phi = 1.7 + 0.02*np.sin(x)
     state = FieldState(g=g, B=B, phi=phi, dx=0.1, lam=0.7, alpha=0.03,
-                       phi0=1.7, m_phi=0.2)
+                       phi0=1.7, m_phi=0.2, flow_law=flow_law)
     expected = np_step(state, 1e-5)
     actual = to_numpy_state(jax_step(from_numpy_state(state), 1e-5))
     for field in ("g", "B", "phi"):
         np.testing.assert_allclose(getattr(actual, field), getattr(expected, field),
                                    rtol=1e-11, atol=1e-12)
+    assert actual.flow_law == expected.flow_law == flow_law
+
+
+def _general_periodic_state(size, flow_law=DEFAULT_FLOW_LAW, m_phi=0.2, lam=0.7):
+    x = 2.0 * np.pi * np.arange(size) / size
+    g = np.tile(np.diag([-1.3, 1.2, 0.9, 1.1]), (size, 1, 1))
+    for i in range(4):
+        g[:, i, i] += 0.03 * np.cos((i + 1) * x)
+    for i, j in ((0, 1), (0, 2), (1, 3), (2, 3)):
+        g[:, i, j] = g[:, j, i] = 0.02 * np.sin(x + i + j)
+    B = np.column_stack((0.2 * np.sin(x), 0.1 * np.cos(x),
+                         0.15 * np.sin(2.0 * x), 0.05 * np.cos(2.0 * x)))
+    return FieldState(g=g, B=B, phi=1.7 + 0.08 * np.cos(x),
+                      dx=2.0 * np.pi / size, t=0.3, lam=lam, alpha=0.03,
+                      phi0=1.5, m_phi=m_phi, flow_law=flow_law)
+
+
+@pytest.mark.parametrize("size", [7, 16])
+@pytest.mark.parametrize("m_phi,lam", [(0.0, 0.7), (0.2, 0.7), (0.2, 0.0)])
+def test_action_derived_jax_rhs_general_metric_matches_numpy(size, m_phi, lam):
+    from src.core.evolution import _compute_rhs
+    from src.core.jax_evolution import _jax_compute_rhs
+    state = _general_periodic_state(size, m_phi=m_phi, lam=lam)
+    actual = _jax_compute_rhs(jnp.array(state.g), jnp.array(state.B),
+                              jnp.array(state.phi), state.dx, state.lam,
+                              state.alpha, state.phi0, state.m_phi)
+    for a, b in zip(actual, _compute_rhs(state)):
+        np.testing.assert_allclose(a, b, rtol=1e-11, atol=1e-12)
+
+
+@pytest.mark.parametrize("flow_law", [FLOW_LAW_ACTION_DERIVED, FLOW_LAW_LEGACY])
+@pytest.mark.parametrize("method", ["rk4", "euler"])
+def test_jax_general_metric_integrator_matches_numpy(flow_law, method):
+    state = _general_periodic_state(12, flow_law=flow_law)
+    np_integrate, jax_integrate = ((np_step, jax_step) if method == "rk4"
+                                  else (np_step_euler, jax_step_euler))
+    expected = np_integrate(state, 1e-5)
+    actual = to_numpy_state(jax_integrate(from_numpy_state(state), 1e-5))
+    for field in ("g", "B", "phi"):
+        np.testing.assert_allclose(getattr(actual, field), getattr(expected, field),
+                                   rtol=1e-11, atol=1e-12)
+    assert actual.t == expected.t
+    assert actual.flow_law == flow_law
+
+
+@pytest.mark.parametrize("flow_law", [FLOW_LAW_ACTION_DERIVED, FLOW_LAW_LEGACY])
+def test_jax_multistep_evolution_preserves_law_and_numpy_parity(flow_law):
+    expected = _general_periodic_state(12, flow_law=flow_law)
+    history = jax_run_evolution(from_numpy_state(expected), dt=1e-5, steps=3)
+    assert history[0].flow_law == flow_law
+    for actual in history[1:]:
+        expected = np_step(expected, 1e-5)
+        assert actual.flow_law == expected.flow_law == flow_law
+        assert actual.t == expected.t
+        for field in ("g", "B", "phi"):
+            np.testing.assert_allclose(getattr(actual, field), getattr(expected, field),
+                                       rtol=1e-11, atol=1e-12)
+
+
+@pytest.mark.parametrize("flow_law", [FLOW_LAW_ACTION_DERIVED, FLOW_LAW_LEGACY])
+@pytest.mark.parametrize("projection", [True, False])
+def test_jax_metric_projection_override_matches_numpy(flow_law, projection):
+    state = _general_periodic_state(12, flow_law=flow_law)
+    actual = to_numpy_state(jax_step(from_numpy_state(state), 1e-5,
+                                    project_metric_volume=projection))
+    expected = np_step(state, 1e-5, project_metric_volume=projection)
+    np.testing.assert_allclose(actual.g, expected.g, rtol=1e-11, atol=1e-12)
+
+
+def test_action_derived_jax_ignores_legacy_alpha():
+    from src.core.jax_evolution import _jax_compute_rhs
+    state = _general_periodic_state(12)
+    args = (jnp.array(state.g), jnp.array(state.B), jnp.array(state.phi),
+            state.dx, state.lam)
+    rhs_a = _jax_compute_rhs(*args, 0.0, state.phi0, state.m_phi)
+    rhs_b = _jax_compute_rhs(*args, 999.0, state.phi0, state.m_phi)
+    for a, b in zip(rhs_a, rhs_b):
+        np.testing.assert_array_equal(a, b)
+
+
+@pytest.mark.parametrize("flow_law", [FLOW_LAW_ACTION_DERIVED, FLOW_LAW_LEGACY])
+def test_jax_conversion_preserves_flow_and_tower_metadata(flow_law):
+    state = _general_periodic_state(12, flow_law=flow_law)
+    state.n_kk_modes = 3
+    state.kk_backreaction_coupling = 0.05
+    jax_state = from_numpy_state(state)
+    converted = to_numpy_state(jax_state)
+    for field in ("flow_law", "n_kk_modes", "kk_backreaction_coupling",
+                  "t", "dx", "lam", "alpha", "phi0", "m_phi"):
+        assert getattr(jax_state, field) == getattr(state, field)
+        assert getattr(converted, field) == getattr(state, field)
+
+
+@pytest.mark.parametrize("flow_law,error", [
+    (FLOW_LAW_ACTION_DERIVED, ValueError),
+    (FLOW_LAW_LEGACY, NotImplementedError),
+])
+@pytest.mark.parametrize("integrate", [jax_step, jax_step_euler])
+def test_jax_active_tower_source_fails_closed(flow_law, error, integrate):
+    state = _general_periodic_state(12, flow_law=flow_law)
+    state.n_kk_modes = 3
+    state.kk_backreaction_coupling = 0.05
+    with pytest.raises(error, match="KK-tower"):
+        integrate(from_numpy_state(state), 1e-5)
+
+
+def test_jax_action_derived_nonpositive_radion_rejected():
+    state = _general_periodic_state(12)
+    state.phi[0] = 0.0
+    with pytest.raises(ValueError, match="φ > 0"):
+        jax_step(from_numpy_state(state), 1e-5)
+
+
+def test_jax_unknown_flow_law_rejected():
+    state = _general_periodic_state(12)
+    state.flow_law = "unknown"
+    with pytest.raises(ValueError, match="flow_law"):
+        from_numpy_state(state)
 
 
 # ===========================================================================
@@ -410,6 +534,7 @@ class TestJaxFieldState:
         assert s.B.shape == (N, 4)
         assert s.phi.shape == (N,)
         assert s.t == 0.0
+        assert s.flow_law == DEFAULT_FLOW_LAW
 
     def test_to_numpy_round_trip(self, np_state):
         jax_s = from_numpy_state(np_state)

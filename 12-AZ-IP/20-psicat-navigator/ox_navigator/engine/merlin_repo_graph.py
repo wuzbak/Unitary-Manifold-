@@ -115,7 +115,15 @@ def _python_record(path: Path) -> Dict[str, Any] | None:
     except SyntaxError as exc:
         syntax_error = f"{exc.msg} @ line {exc.lineno}"
     else:
-        for node in ast.walk(tree):
+        nodes = [tree]
+        while nodes:
+            node = nodes.pop()
+            # Expressions cannot contain definition/import statements. Skipping
+            # their literal data retains nested statement blocks without walking
+            # every element of large embedded benchmark datasets.
+            if isinstance(node, ast.expr):
+                continue
+            nodes.extend(ast.iter_child_nodes(node))
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
                 symbols.append(node.name)
             elif isinstance(node, ast.Import):
