@@ -53,7 +53,7 @@
     "cli_version_boundary": "CLI version 1 denotes the evidence schema; distribution release is 1.0.0."
   },
   "full_core": {
-    "status": "running",
+    "status": "blocked",
     "paths": [
       "tests",
       "recycling",
@@ -64,7 +64,15 @@
     "workers": 2,
     "files_per_job": 1024,
     "timeout_seconds_per_job": 1800,
-    "boundary": "Collection completed; this checkpoint does not yet certify execution."
+    "interrupted": true,
+    "source_stable": false,
+    "observed_failure": {
+      "test": "tests/test_pillar1087_sprint_cm_full_physics_parallel_execution.py::test_lane_b_latest_merge_math_verification_scope",
+      "observation": "Lane B returned FIX_REQUIRED instead of PASS in the Git-free snapshot; cause not resolved."
+    },
+    "observed_source_mutation": "lodge/ledger/exchange_history.jsonl was created during execution.",
+    "attempt": "f74de72dfba34f08b2966aad3d85c8cb",
+    "boundary": "Stopped for the available execution window. The source-unstable, interrupted attempt is not a certified baseline; its mismatched job checkpoints are not reusable."
   },
   "validation_limitations": [
     {
