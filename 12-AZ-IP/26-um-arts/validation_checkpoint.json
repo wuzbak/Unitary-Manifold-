@@ -124,5 +124,73 @@
     "retention": "Sandbox temporary storage; not guaranteed to survive a new session.",
     "resume_boundary": "Reuse only sealed jobs with exact source/environment/engine/settings compatibility. If receipts are missing, rerun; this summary and its hashes are not substitutes for receipts."
   },
-  "aggregation_boundary": "The 3,892 completed scoped identities are disjoint in their own certificate, but overlap full-core. Do not add them to full-core totals or combine pytest environments. This record describes the immutable tested revision, not subsequent metadata commits."
+  "aggregation_boundary": "The 3,892 completed scoped identities are disjoint in their own certificate, but overlap full-core. Do not add them to full-core totals or combine pytest environments. Earlier sections describe the immutable tested_revision, not subsequent metadata commits; scalable_analysis below has its own tested revision and evidence.",
+  "scalable_analysis": {
+    "tested_revision": "a3953eed089e95c4514f0c80fd36754c737f1b09",
+    "status": "operational_with_disclosed_gaps",
+    "source_fingerprint": "3f718443ac7a50f24a0a21ebb2183968722ef70aa319e10627a66108fa223e36",
+    "engine_fingerprint": "5f4b338df3eebbb62f22094078b2dbe1f31ad3573acb39877b2718f8aa326ee5",
+    "environment_fingerprint": "dd128b7df08bba00f26a0a49822e9d74a0a95e21acd2f74c722c817b9f3b84da",
+    "source_stable": true,
+    "code_index": {
+      "status": "partial",
+      "storage": "Standard-library SQLite and Python AST; no added runtime dependency",
+      "files": 3981,
+      "parsed": 3980,
+      "parse_errors": 1,
+      "oversized": 0,
+      "facts": 319665,
+      "calls": 185560,
+      "declarations": 90689,
+      "imports": 43416,
+      "reused_files": 3978,
+      "remaining_gap": "Pre-existing SyntaxError in lodge/watch.py:150, f-string: expecting '=', or '!', or ':', or '}'. Not changed or omitted from coverage.",
+      "result_sha256": "8072aa7a213ad2164375c953775782ee850dbee9f76209314dfd91b349a910a4",
+      "boundary": "Syntactic facts only, not resolved cross-file calls, data flow, security certification or executed regression evidence."
+    },
+    "all_python_scan": {
+      "status": "findings",
+      "selected": 3981,
+      "scanned": 3981,
+      "shards": 63,
+      "errors": 0,
+      "oversized": 0,
+      "untriaged_candidates": [
+        {"path": "12-AZ-IP/01-axiom-os/managers/m3_symbolic.py", "line": 187, "rule": "um-arts.python.dynamic-eval"},
+        {"path": "axiomzero_bootstrap.py", "line": 205, "rule": "um-arts.python.shell-command"},
+        {"path": "tests/test_az_os_state.py", "line": 121, "rule": "um-arts.python.pickle-input"},
+        {"path": "tests/test_az_os_state.py", "line": 136, "rule": "um-arts.python.pickle-input"}
+      ],
+      "tool": "Opengrep 1.30.0, optional trusted executable",
+      "tool_sha256": "35779bdd72e92129c8df2a77f0c55e8c08356801ea92591ef32108d6b28d564c",
+      "rules": "Packaged three-rule python-review.yml, not an exhaustive security profile",
+      "rules_sha256": "dd1187ebe45d2ba1313dbd5c1714d8c7ae218f25d9c2e1bfad6744a6bd23ac1d",
+      "invocation_policy": "local-patterns-stable-rule-ids-v1",
+      "files_per_shard": 64,
+      "timeout_seconds": 90,
+      "memory_mib": 512,
+      "max_file_bytes": 2097152,
+      "result_sha256": "0928400274693ee9c826dafbff83d8b0dcef81110e2757aa410447a591b03b34",
+      "sealed_report_verified": true,
+      "incremental_reused_shards": 63,
+      "incremental_result_sha256": "3ce3d288d442e1058b29ce1c91ed12c003569115df18bae8446b7f202355e1b6",
+      "security_certified": false,
+      "boundary": "Review candidates are not confirmed vulnerabilities. Exact coverage applies only to selected files and local rules; sharding does not establish cross-file data flow. Pattern parsing does not supersede the AST syntax gap."
+    },
+    "validation": {
+      "parent_scanner_tests": {"passed": 15, "actual_optional_binary_included": true},
+      "parent_application_compatibility_tests": {"passed": 249, "skipped": 1},
+      "agent_owned_index_tests": {"passed": 43, "ruff": "passed", "boundary": "Implementation agent validated its owned files; parent did not rerun those tests."},
+      "aggregation_boundary": "Separate scoped test runs, not a deduplicated combined regression certificate.",
+      "independent_final_review": "No significant issues found",
+      "automated_review": "Unavailable: configured model absent from registry",
+      "python_codeql": "Skipped: database too large; not analyzed",
+      "actions_and_javascript_codeql": "Prior run reported no alerts; these languages were unchanged in the latest run"
+    },
+    "remaining_gates": "Full-core certification and compiler-backed Lean remain incomplete as disclosed above. These analysis lanes do not replace those gates or certify security.",
+    "receipt_storage": {
+      "location": "/tmp/um-arts-scale",
+      "retention": "Temporary sandbox storage, not guaranteed across sessions. Preserve sealed artifact directories externally or rerun; this checkpoint and its hashes do not replace receipts."
+    }
+  }
 }
