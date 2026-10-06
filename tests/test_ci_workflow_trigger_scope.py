@@ -43,6 +43,17 @@ def test_psicat_performance_gate_limits_pushes_to_main() -> None:
     assert _extract_branches("psicat-performance-gate.yml", "pull_request") == ["**"]
 
 
+def test_psicat_pr_smoke_jobs_include_repository_root_on_pythonpath() -> None:
+    expected = "${{ github.workspace }}"
+    for workflow_name, job_name in [
+        ("merlin-benchmark-gate.yml", "merlin-stage-a-pr-smoke"),
+        ("psicat-performance-gate.yml", "lane-e-pr-smoke"),
+    ]:
+        job = _load(workflow_name)["jobs"][job_name]
+        assert job["defaults"]["run"]["working-directory"] == "12-AZ-IP/20-psicat-navigator"
+        assert job["env"]["PYTHONPATH"] == expected
+
+
 def test_tests_workflow_restores_required_coverage_gate() -> None:
     workflow = _load("tests.yml")
     jobs = workflow["jobs"]
