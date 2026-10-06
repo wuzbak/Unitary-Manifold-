@@ -180,9 +180,19 @@ class Application:
                 raise EvidenceError("Task queue is full, unavailable, or shutting down")
             task = {"id": uuid.uuid4().hex, "action": action, "artifact_id": artifact_id,
                     "status": "queued", "created": time.time(), "result": None}
-            self._save(task)
-            self._log(task["id"], f"Queued {action}; no pass inferred")
-            self.pending.put_nowait(task["id"])
+            try:
+                self._save(task)
+                self._log(task["id"], f"Queued {action}; no pass inferred")
+                self.pending.put_nowait(task["id"])
+            except Exception as exc:
+                task.update(status="blocked", finished=time.time(),
+                            error=f"{type(exc).__name__}: {exc}")
+                try:
+                    self._save(task)
+                except Exception as persist_error:  # noqa: BLE001 -- Fail closed when storage is broken.
+                    self.worker_error = f"{type(persist_error).__name__}: {persist_error}"
+                    self.task_failures[task["id"]] = dict(task)
+                raise EvidenceError(f"Task submission failed: {task['error']}") from exc
         return task
 
     def _work(self) -> None:

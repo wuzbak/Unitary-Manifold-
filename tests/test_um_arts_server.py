@@ -164,6 +164,31 @@ def test_terminal_persistence_failure_disables_new_submissions(http_app, monkeyp
         app.submit({"action": "plan"})
 
 
+@pytest.mark.parametrize("persistent", [False, True])
+def test_submission_log_failure_never_leaves_unqueued_pending_task(http_app, monkeypatch, persistent):
+    app, _ = http_app
+    original_save = app._save
+
+    def failed_log(*args):
+        raise OSError("queue log failure")
+
+    monkeypatch.setattr(app, "_log", failed_log)
+
+    def save(task):
+        if persistent and task["status"] == "blocked":
+            raise OSError("failure record unavailable")
+        original_save(task)
+
+    monkeypatch.setattr(app, "_save", save)
+    with pytest.raises(EvidenceError, match="submission failed"):
+        app.submit({"action": "plan"})
+    assert app.pending.empty()
+    assert all(task["status"] == "blocked" for task in app.tasks())
+    assert len(app.tasks()) == 1
+    assert bool(app.worker_error) == persistent
+    assert app.worker.is_alive()
+
+
 def test_cli_serve_parser_and_dispatch(arts_workspace, monkeypatch):
     cli = importlib.import_module("um_arts.__main__")
     captured = []
