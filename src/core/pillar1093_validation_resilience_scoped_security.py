@@ -63,7 +63,11 @@ def validation_resilience_scoped_security() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(validation_resilience_scoped_security().get('valid'))

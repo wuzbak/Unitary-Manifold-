@@ -60,6 +60,7 @@ jobs:
             12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py::test_export_training_artifacts_script \
             -q --tb=short
           python TOOLS/checks/run_supervised_pytest_batch.py --suite compactified-preflight
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite integration-preflight
           python3 -m pytest recycling/tests/test_recycling.py -q --tb=short
           python3 -m pytest "5-GOVERNANCE/Unitary Pentad/test_unitary_pentad.py" -q --tb=short
   suite-collection-smoke:
@@ -89,11 +90,12 @@ jobs:
     name: Push full regression slice ${{ matrix.batch-index }} (main)
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 105
     strategy:
       fail-fast: false
       matrix:
-        batch-index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        # The final frozen batch runs shared-process integration without xdist.
+        batch-index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     permissions:
       contents: read
     steps:
@@ -105,8 +107,25 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
+      - name: Freeze dependency-cost regression plan
+        run: |
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core \
+            --batch-count 12 --workers 2 --write-plan \
+            --plan-file "${{ runner.temp }}/regression-results/plan-${{ matrix.batch-index }}.json"
       - name: Run full regression slice
-        run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core --batch-count 12 --batch-index ${{ matrix.batch-index }}
+        run: |
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core \
+            --plan-file "${{ runner.temp }}/regression-results/plan-${{ matrix.batch-index }}.json" \
+            --batch-count 12 --batch-index ${{ matrix.batch-index }} \
+            --workers 2 --timeout 5100 --result-dir "${{ runner.temp }}/regression-results"
+      - name: Retain execution evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: full-core-${{ matrix.batch-index }}
+          path: ${{ runner.temp }}/regression-results/
+          if-no-files-found: error
+          retention-days: 14
 
   push-full-regression-supervisor:
     name: Push full regression supervisor (main)
@@ -123,6 +142,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install matching regression dependencies
+        run: pip install -r requirements.txt pytest pytest-xdist
       - name: Require successful full regression slices
         env:
           PUSH_FULL_REGRESSION_BATCHED_RESULT: ${{ needs.push-full-regression-batched.result }}
@@ -130,6 +151,19 @@ jobs:
           test "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" = "success"
       - name: Verify full regression slice coverage
         run: python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core-supervisor-check --batch-count 12 --emit-json
+      - name: Download full regression execution evidence
+        if: always()
+        uses: actions/download-artifact@v4.3.0
+        with:
+          pattern: full-core-*
+          path: ${{ runner.temp }}/regression-results/
+          merge-multiple: true
+      - name: Require complete matching execution receipts
+        if: always()
+        run: |
+          python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core \
+            --plan-file "${{ runner.temp }}/regression-results/plan-0.json" \
+            --batch-count 12 --aggregate --result-dir "${{ runner.temp }}/regression-results"
 
   ci-gate:
     name: CI gate
@@ -149,6 +183,7 @@ jobs:
           SUITE_COLLECTION_SMOKE_RESULT: ${{ needs.suite-collection-smoke.result }}
           PUSH_FULL_REGRESSION_BATCHED_RESULT: ${{ needs.push-full-regression-batched.result }}
           PUSH_FULL_REGRESSION_RESULT: ${{ needs.push-full-regression-supervisor.result }}
+          REQUIRE_FULL_REGRESSION: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: |
           set -euo pipefail
           echo "platform-smoke: ${PLATFORM_SMOKE_RESULT}"
@@ -167,6 +202,10 @@ jobs:
           fi
           if [ "${SUITE_COLLECTION_SMOKE_RESULT}" != "success" ]; then
             exit 1
+          fi
+          if [ "${REQUIRE_FULL_REGRESSION}" = "true" ]; then
+            test "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" = "success"
+            test "${PUSH_FULL_REGRESSION_RESULT}" = "success"
           fi
           if [ "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" != "success" ] && [ "${PUSH_FULL_REGRESSION_BATCHED_RESULT}" != "skipped" ]; then
             exit 1

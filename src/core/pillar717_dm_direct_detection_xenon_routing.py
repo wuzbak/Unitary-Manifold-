@@ -3,33 +3,16 @@
 """
 Pillar 717 — KK DM Direct Detection: XENON/LZ Routing
 
-The KK photon (γ¹) dark matter candidate scatters off nuclei via
-KK graviton exchange, with spin-independent (SI) cross-section:
+Dimensional toy contact-scattering benchmarks, not KK-graviton derivations:
+    σ_contact = C² μ_Nχ² / π,  [C] = GeV⁻².
+For the gravitational-strength toy choose C = G_N = 1/M_Pl².
+This is not long-range graviton exchange, whose momentum dependence, spin
+structure and recoil spectrum are unspecified.
 
-    σ_SI^KK = G_N² × m_N² × m_χ² / π
-
-where m_N ≈ 1 GeV (nucleon mass), m_χ = M_KK (LKP mass).
-
-For M_KK ≈ 1042 GeV:
-    σ_SI ≈ (6.7×10⁻³⁹ GeV⁻⁴) × (1 GeV)² × (1042 GeV)²
-          ≈ 7.3×10⁻³³ GeV⁻²
-          ≈ 7.3×10⁻³³ × 0.389 mb
-          ≈ 2.8×10⁻³³ mb = 2.8×10⁻⁹ pb
-
-XENON-nT / LZ sensitivity: ~10⁻⁴⁸ cm² ≈ 10⁻¹² pb (SI, M_χ~1 TeV)
-
-The KK graviton-mediated SI cross-section is ~24 orders of magnitude
-below current XENON/LZ sensitivity → null prediction for direct detection
-via gravitational channel.
-
-KK hypercharge-mediated scattering (EW channel):
-    σ_SI^EW ≈ g_Y⁴ / (π M_KK⁴) × Z²/A² × m_N²
-    ≈ 10⁻⁴⁶ cm²   (in XENON-nT range!)
-
-This pillar documents both channels and their detectability.
-
-Theory: ThomasCory Walker-Pearson (2026)
-Code: GitHub Copilot (AI)
+The EW toy retains σ = g_Y⁴ (Z/A)² m_N² / (π M_KK⁴).
+Its nuclear normalization and mediator assumptions are not derived.
+M_KK = 1042 GeV is supplied; neither toy establishes exclusion or discovery.
+The XENON sensitivity is only an approximate benchmark at that mass.
 """
 
 import math
@@ -38,13 +21,13 @@ import math
 M_KK_GEV    = 1042.0    # GeV
 M_N_GEV     = 0.939     # GeV (nucleon mass)
 G_N_STAR    = 3 * math.pi / (5 * 74 - 10)
-G_N_NEWTON  = 6.674e-11 / (1.221e19) ** 2   # in GeV⁻² units
+G_N_NEWTON  = 1.0 / (1.221e19) ** 2   # GeV⁻², unreduced Planck mass
 G_Y         = 0.357     # U(1)_Y gauge coupling
 Z_XE        = 54        # Z for Xenon
 A_XE        = 131       # A for Xenon
 
-# Conversion: 1 GeV⁻² = 0.389 mb = 3.89×10⁵ pb = 3.89×10⁻⁵ cm²
-GEV2_TO_PB  = 3.89e5    # pb per GeV⁻²
+# Conversion: 1 GeV⁻² = 0.3894 mb = 3.894e8 pb = 3.894e-28 cm²
+GEV2_TO_PB  = 3.894e8   # pb per GeV⁻²
 GEV2_TO_CM2 = 3.894e-28 # cm² per GeV⁻²
 
 # XENON-nT sensitivity
@@ -54,8 +37,11 @@ XENON_NT_SENSITIVITY_CM2 = 1e-47   # cm² SI (m_χ~1 TeV)
 
 def sigma_si_grav_cm2(m_kk: float = M_KK_GEV,
                        m_n: float = M_N_GEV) -> float:
-    """σ_SI^grav = G_N² × m_N² × m_χ² / π  [cm²]"""
-    sigma_gev2 = G_N_NEWTON ** 2 * m_n ** 2 * m_kk ** 2 / math.pi
+    """Toy contact σ = G_N² μ_Nχ² / π [cm²], not graviton exchange."""
+    if not all(math.isfinite(m) and m > 0 for m in (m_kk, m_n)):
+        raise ValueError("Masses must be finite and positive in GeV")
+    mu = m_n * m_kk / (m_n + m_kk)
+    sigma_gev2 = G_N_NEWTON ** 2 * mu ** 2 / math.pi
     return sigma_gev2 * GEV2_TO_CM2
 
 # ── EW (hypercharge) SI cross-section ────────────────────────────────────────
@@ -68,6 +54,12 @@ def sigma_si_ew_cm2(m_kk: float = M_KK_GEV,
     """
     σ_SI^EW ≈ g_Y⁴ / (π M_KK⁴) × (Z/A)² × m_N²  [cm²]
     """
+    if not all(math.isfinite(m) and m > 0 for m in (m_kk, m_n)):
+        raise ValueError("Masses must be finite and positive in GeV")
+    if not math.isfinite(g_y) or g_y < 0:
+        raise ValueError("Effective coupling must be finite and nonnegative")
+    if not all(math.isfinite(x) for x in (Z, A)) or A <= 0 or not 0 <= Z <= A:
+        raise ValueError("Nuclear benchmark requires 0 <= Z <= A and A > 0")
     sigma_gev2 = g_y ** 4 / (math.pi * m_kk ** 4) * (Z / A) ** 2 * m_n ** 2
     return sigma_gev2 * GEV2_TO_CM2
 
@@ -86,7 +78,12 @@ def direct_detection_summary() -> dict:
         "xenon_nt_cm2":         xenon,
         "grav_above_xenon":     sig_grav > xenon,
         "ew_above_xenon":       sig_ew > xenon,
-        "grav_null_prediction": True,
+        "grav_null_prediction": sig_grav < xenon,
         "ew_potentially_detectable": sig_ew > xenon * 1e-3,
-        "falsification":        "σ_SI > XENON-nT at M_χ=M_KK would confirm EW-mediated DM",
+        "model_scope":          "dimensional contact-scattering toys, not KK derivations",
+        "detector_comparison_scope": "supplied sensitivity benchmark only; not a likelihood exclusion",
+        "architecture_limit":  "Mediator/spin structure, nuclear response and detector "
+                                "likelihood unresolved; benchmark comparisons only",
+        "falsification":        "XENON excess alone cannot confirm EW-mediated KK DM; "
+                                "a specified recoil model and likelihood are required",
     }

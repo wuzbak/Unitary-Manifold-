@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="33" time="282.618" timestamp="2026-10-05T15:35:40.294317+00:00" hostname="runnervm8df0l"><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_python_record_skips_literal_nodes_but_preserves_nested_statements" time="0.059" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_repo_graph_routes_late_matching_module_tests_docs_and_product" time="0.642" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_repo_graph_discovers_added_files_and_drops_removed_paths" time="0.007" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_discovery_preserves_source_suffixes_and_visits_each_subtree_once" time="0.007" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_selection_reuses_path_tokens_without_caching_discovery" time="0.005" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_graph_metadata_cache_reuses_benchmark_query_cycle_and_invalidates_sources" time="0.016" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_public_graph_mutations_do_not_modify_cached_metadata" time="0.004" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_discovery_reuses_priority_metadata_and_keys_it_by_root" time="0.003" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_repo_graph_representative_sampling_is_deterministic_and_bounded[-10-1]" time="0.293" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_repo_graph_representative_sampling_is_deterministic_and_bounded[1-1]" time="0.125" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_repo_graph_representative_sampling_is_deterministic_and_bounded[7-7]" time="0.130" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_repo_graph_representative_sampling_is_deterministic_and_bounded[600-600]" time="0.536" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_repo_graph_representative_sampling_is_deterministic_and_bounded[999-600]" time="0.515" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_repo_graph_reuses_records_across_queries_and_invalidates_edits[src/core-.py-_python_record-def initial(): pass\n-def updated_record(): pass\n-symbols]" time="0.010" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_repo_graph" name="test_repo_graph_reuses_records_across_queries_and_invalidates_edits[docs-.md-_markdown_record-# initial\n-# updated_record\n-headings]" time="0.007" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_training_cycle_executes_round_robin_receipts" time="8.805" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_lane_progress_ledgers_report_retained_receipts" time="0.402" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_training_queue_detects_stale_receipts" time="0.299" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_training_challenge_pack_prioritizes_rework" time="0.330" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_training_challenge_pack_includes_governance_observatory_incidents" time="0.049" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_control_tower_embeds_governance_observatory_constraints" time="14.891" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_training_execution_bundle_reuses_retained_state" time="4.793" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_training_bundle_retains_review_blockers_until_source_changes" time="0.022" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_training_queue_includes_proof_foundry_lane" time="0.041" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_training_cycle_emits_performance_gate_receipts" time="0.425" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_lane_e_runtime_profiles_persist_and_reuse" time="0.833" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_lane_e_runtime_profiles_invalid_artifact_uses_fallback" time="0.423" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_training_execution_bundle_exposes_lane_e_runtime_profiles" time="0.471" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_training_cycle_persists_gate_history_and_ast_context" time="0.289" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_performance_gate_history_cycle_ids_remain_unique_when_capped" time="0.009" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_training_queue_and_challenge_pack_include_navier_packets" time="0.098" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_training_execution" name="test_merlin_training_challenge_pack_formats_sat_method_transfer_prompt" time="0.002" /><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_v1" name="test_server_merlin_endpoints" time="244.883"><failure message="httpx.ReadTimeout: timed out">/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_transports/default.py:101: in map_httpcore_exceptions
+    yield
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_transports/default.py:250: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_backends/sync.py:126: in read
+    with map_exceptions(exc_map):
+         ^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/contextlib.py:158: in __exit__
+    self.gen.throw(value)
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpcore/_exceptions.py:14: in map_exceptions
+    raise to_exc(exc) from exc
+E   httpcore.ReadTimeout: timed out
+
+The above exception was the direct cause of the following exception:
+12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py:3531: in test_server_merlin_endpoints
+    execution_board = client.get('/api/merlin/execution-board?limit=1')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:1053: in get
+    return self.request(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_transports/default.py:249: in handle_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/contextlib.py:158: in __exit__
+    self.gen.throw(value)
+/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/httpx/_transports/default.py:118: in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+E   httpx.ReadTimeout: timed out</failure></testcase></testsuite></testsuites>

@@ -34,6 +34,7 @@ jobs:
           import json
           import os
           import subprocess
+          from fnmatch import fnmatchcase
           from pathlib import Path
 
           all_slices = [
@@ -56,12 +57,15 @@ jobs:
                   "paths": ["5-GOVERNANCE/Unitary Pentad"],
               },
               {
-                  "slice_id": "python-psicat-runtime",
+                  "slice_id": "python-runtime-integration",
                   "language": "python",
                   "build_mode": "none",
                   "paths": [
-                      "12-AZ-IP/20-psicat-navigator/ox_navigator/app",
-                      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine",
+                      "12-AZ-IP/20-psicat-navigator/ox_navigator",
+                      "12-AZ-IP/20-psicat-navigator/run*.py",
+                      "bot",
+                      "TOOLS/checks",
+                      "conftest*.py",
                   ],
               },
               {
@@ -72,12 +76,6 @@ jobs:
                       "12-AZ-IP/20-psicat-navigator/tests",
                       "12-AZ-IP/20-psicat-navigator/tools",
                   ],
-              },
-              {
-                  "slice_id": "python-product20",
-                  "language": "python",
-                  "build_mode": "none",
-                  "paths": ["12-AZ-IP/20-psicat-navigator", "TOOLS/checks"],
               },
               {
                   "slice_id": "rust-kernel",
@@ -125,10 +123,17 @@ jobs:
                   changed_files = git_changed([before, "HEAD"])
 
           selected = []
-          if changed_files:
+          if ".github/workflows/codeql-language-matrix.yml" in changed_files:
+              selected = list(all_slices)
+          elif changed_files:
               for item in all_slices:
-                  prefixes = tuple(item["paths"])
-                  if any(path.startswith(prefixes) for path in changed_files):
+                  if any(
+                      fnmatchcase(path, prefix)
+                      if any(char in prefix for char in "*?[")
+                      else path == prefix or path.startswith(prefix + "/")
+                      for path in changed_files
+                      for prefix in item["paths"]
+                  ):
                       selected.append(item)
           else:
               selected = list(all_slices)
@@ -268,6 +273,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build_mode }}
+          queries: security-extended
           config: |
             paths:
             ${{ matrix.paths_yaml }}

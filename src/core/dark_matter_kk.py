@@ -25,11 +25,14 @@ Relic density (hot-relic formula)
 ----------------------------------
     Ω_KK h² = (m_KK / 94 eV) × (g_KK / g*_s)
 
-with g_KK = 2 (spin-2 graviton) and g*_s = 3.91 (entropy dof today).
+with an assumed effective g_KK = 2 and g*_s = 3.91 (entropy dof today).
+This is a hot-relic parametrization, not a derivation of the spin population
+or decoupling history of a massive KK graviton.
 
 Viability
 ---------
-The mode is a viable DM candidate when Ω_KK h² < 0.12 (Planck 2018 bound).
+The legacy viability flag checks only non-overproduction, Ω_KK h² < 0.12.
+It neither explains all dark matter nor tests structure-formation constraints.
 """
 
 from __future__ import annotations
@@ -85,19 +88,22 @@ def kk_relic_density(m_kk_eV: float, g_kk: float = 2.0) -> float:
     m_kk_eV:
         KK mode mass in eV.
     g_kk:
-        Internal dof of the KK mode (default 2 for spin-2 graviton).
+        Assumed effective internal dof (default 2, not a spin-count derivation).
 
     Returns
     -------
     float  Ω_KK h² (dimensionless).
     """
+    if not all(math.isfinite(x) and x >= 0 for x in (m_kk_eV, g_kk)):
+        raise ValueError("Mass and effective dof must be finite and nonnegative")
     return (m_kk_eV / _HOT_RELIC_SCALE_EV) * (g_kk / _G_STAR_S)
 
 
 def kk_dark_matter_viable(m_kk_eV: float, g_kk: float = 2.0) -> bool:
-    """Return True if the KK mode satisfies the Planck DM bound.
+    """Return True if the parametrized relic does not overproduce dark matter.
 
-    Viable iff Ω_KK h² < 0.12.
+    Viable iff Ω_KK h² < 0.12. This legacy name does not certify a full
+    dark-matter explanation or compatibility with structure formation.
 
     Parameters
     ----------
@@ -151,6 +157,8 @@ def dark_matter_kk_summary(phi0: float = 1.0,
     relic_density     : Ω_KK h²
     viable            : bool (Ω < 0.12)
     n_viable_modes    : number of viable modes in n = 1…n_max
+    fraction_of_observed_dm : parametrized density divided by 0.12
+    viability_scope / model_assumptions : limitations of the toy estimate
     """
     m1 = m_kk_lightest(phi0=phi0)
     omega = kk_relic_density(m1, g_kk)
@@ -161,4 +169,7 @@ def dark_matter_kk_summary(phi0: float = 1.0,
         "relic_density": omega,
         "viable": omega < _OMEGA_DM_BOUND,
         "n_viable_modes": n_viable,
+        "fraction_of_observed_dm": omega / _OMEGA_DM_BOUND,
+        "viability_scope": "non-overproduction only; not a full DM explanation",
+        "model_assumptions": "hot-relic parametrization; effective dof and thermal history supplied",
     }

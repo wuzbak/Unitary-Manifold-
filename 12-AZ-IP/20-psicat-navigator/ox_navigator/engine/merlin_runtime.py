@@ -16,7 +16,8 @@ from .lean4_index import LEAN4_THEOREM_SAMPLE, search_theorems
 from .merlin_lean_bridge import run_python_to_lean_bridge_receipt
 from .merlin_benchmark import get_stage_a_benchmark_corpus
 
-_EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
+# Do not retry every suffix of a long non-email local-part token.
+_EMAIL_RE = re.compile(r"(?<![A-Za-z0-9._%+-])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 _PHONE_RE = re.compile(r"\+?\d[\d\-\s().]{7,}\d")
 _THEOREM_CUE_RE = re.compile(r"\b(theorem|lemma|conjecture|proof|derive)\b", re.IGNORECASE)
 _W_A_NONZERO_RE = re.compile(r"w[\s_\-]*a\s*(?:!=|[><~]=?)\s*0", re.IGNORECASE)

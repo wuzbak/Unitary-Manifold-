@@ -100,6 +100,8 @@ def get_local_execution_status() -> dict[str, Any]:
         "policy": {
             "default": "deny_on_unallowlisted_command_or_out_of_repo_cwd",
             "execution_shell": "disabled",
+            "http_authorization": "PSICAT_LOCAL_EXECUTION_TOKEN via Authorization: Bearer",
+            "os_sandbox": False,
             "external_token_path": "local_first_before_external_fallback",
         },
         "checked_at": _utcnow(),

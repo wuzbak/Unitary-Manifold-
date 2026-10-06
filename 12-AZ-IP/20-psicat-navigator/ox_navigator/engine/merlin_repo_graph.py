@@ -5,7 +5,9 @@
 from __future__ import annotations
 
 import ast
+import os
 import re
+from copy import deepcopy
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
@@ -25,29 +27,96 @@ _PRIORITY_PREFIXES = [
 
 
 def _priority_key(path: Path) -> tuple[int, str]:
-    rel = path.relative_to(REPO_ROOT).as_posix()
+    return _priority_key_cached(path, str(REPO_ROOT))
+
+
+@lru_cache(maxsize=8192)
+def _priority_key_cached(path: Path, root: str) -> tuple[int, str]:
+    rel = path.relative_to(Path(root)).as_posix()
     for index, prefix in enumerate(_PRIORITY_PREFIXES):
         if rel.startswith(prefix):
             return (index, rel)
     return (len(_PRIORITY_PREFIXES), rel)
 
 
-@lru_cache(maxsize=16)
-def _candidate_files(max_files: int) -> tuple[Path, ...]:
-    pool: List[Path] = []
-    for pattern in (
-        "src/**/*.py",
-        "src/**/*.md",
-        "tests/**/*.py",
-        "proof/**/*.py",
-        "1-THEORY/**/*.md",
-        "docs/**/*.md",
-        "12-AZ-IP/20-psicat-navigator/**/*.py",
-        "12-AZ-IP/20-psicat-navigator/**/*.md",
+def _discover_files() -> tuple[Path, ...]:
+    pool: List[str] = []
+    for relative, suffixes in (
+        ("src", (".py", ".md")),
+        ("tests", (".py",)),
+        ("proof", (".py", ".md")),
+        ("1-THEORY", (".md",)),
+        ("docs", (".md",)),
+        ("12-AZ-IP/20-psicat-navigator", (".py", ".md")),
     ):
-        pool.extend(REPO_ROOT.glob(pattern))
-    unique = sorted({path.resolve() for path in pool if path.is_file()}, key=_priority_key)
-    return tuple(unique[: max(1, min(int(max_files), 600))])
+        directories = [str(REPO_ROOT / relative)]
+        while directories:
+            try:
+                with os.scandir(directories.pop()) as entries:
+                    for entry in entries:
+                        if entry.is_dir(follow_symlinks=False):
+                            directories.append(entry.path)
+                        elif entry.name.endswith(suffixes) and entry.is_file():
+                            pool.append(str(Path(entry.path).resolve()) if entry.is_symlink() else entry.path)
+            except OSError:
+                continue
+    return _discovery_layout_cached(tuple(sorted(set(pool))), str(REPO_ROOT))
+
+
+@lru_cache(maxsize=4)
+def _discovery_layout_cached(files: tuple[str, ...], root: str) -> tuple[Path, ...]:
+    # Only immutable path metadata is reused; discovery and source stats stay fresh.
+    return tuple(sorted((Path(path) for path in files), key=lambda path: _priority_key_cached(path, root)))
+
+
+@lru_cache(maxsize=4)
+def _file_layout_cached(
+    files: tuple[Path, ...], root: str,
+) -> tuple[tuple[Path, frozenset[str]], ...]:
+    repo_root = Path(root)
+    areas: dict[str, list[Path]] = {}
+    relative_paths: dict[Path, str] = {}
+    for path in files:
+        rel = path.relative_to(repo_root).as_posix()
+        relative_paths[path] = rel
+        area = next((prefix for prefix in _PRIORITY_PREFIXES if rel.startswith(prefix)), None)
+        if area is None:
+            parts = Path(rel).parts
+            area = "/".join(parts[:2] if parts[0] == "src" else parts[:1])
+        areas.setdefault(area, []).append(path)
+    def priority(path: Path) -> tuple[int, str]:
+        rel = relative_paths[path]
+        index = next(
+            (index for index, prefix in enumerate(_PRIORITY_PREFIXES) if rel.startswith(prefix)),
+            len(_PRIORITY_PREFIXES),
+        )
+        return index, rel
+
+    groups = [sorted(group, key=priority) for group in areas.values()]
+    groups.sort(key=lambda group: priority(group[0]))
+    # Interleave areas before applying the cap, including within equal query scores.
+    representative = [
+        group[index]
+        for index in range(max((len(group) for group in groups), default=0))
+        for group in groups
+        if index < len(group)
+    ]
+    return tuple((path, frozenset(_tokenize(relative_paths[path]))) for path in representative)
+
+
+def _select_files(files: Iterable[Path], max_files: int, query: str = "") -> tuple[Path, ...]:
+    # Discovery remains fresh; reuse only path metadata for an identical file set.
+    representative = _file_layout_cached(tuple(files), str(REPO_ROOT))
+    query_tokens = _tokenize(query)
+    if query_tokens:
+        representative = sorted(
+            representative, key=lambda item: -len(query_tokens & item[1])
+        )
+    return tuple(path for path, _ in representative[: max(1, min(int(max_files), 600))])
+
+
+def _candidate_files(max_files: int, query: str = "") -> tuple[Path, ...]:
+    return _select_files(_discover_files(), max_files, query)
 
 
 def _state_signature(files: List[Path]) -> tuple[tuple[str, int, int], ...]:
@@ -85,7 +154,15 @@ def _python_record(path: Path) -> Dict[str, Any] | None:
     except SyntaxError as exc:
         syntax_error = f"{exc.msg} @ line {exc.lineno}"
     else:
-        for node in ast.walk(tree):
+        nodes = [tree]
+        while nodes:
+            node = nodes.pop()
+            # Expressions cannot contain definition/import statements. Skipping
+            # their literal data retains nested statement blocks without walking
+            # every element of large embedded benchmark datasets.
+            if isinstance(node, ast.expr):
+                continue
+            nodes.extend(ast.iter_child_nodes(node))
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
                 symbols.append(node.name)
             elif isinstance(node, ast.Import):
@@ -134,6 +211,14 @@ def _record_for(path: Path) -> Dict[str, Any] | None:
     if path.suffix == ".py":
         return _python_record(path)
     return _markdown_record(path)
+
+
+@lru_cache(maxsize=1200)
+def _record_for_cached(
+    resolved_path: str, mtime_ns: int, size: int, root: str
+) -> Dict[str, Any] | None:
+    """Reuse records across subsets, with file identity and freshness in the key."""
+    return _record_for(Path(resolved_path))
 
 
 def _relative_import_candidates(source_path: str, imported: str) -> set[str]:
@@ -202,13 +287,20 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 }
             )
     deduped = {(edge["source"], edge["target"], edge["relation"]): edge for edge in edges}
-    return list(deduped.values())
+    return [deduped[key] for key in sorted(deduped)]
 
 
-@lru_cache(maxsize=4)
-def _build_repo_graph_cached(max_files: int, state_signature: tuple[tuple[str, int, int], ...]) -> Dict[str, Any]:
-    files = [REPO_ROOT / rel_path for rel_path, _mtime_ns, _size in state_signature]
-    records = [record for path in files if (record := _record_for(path)) is not None]
+@lru_cache(maxsize=32)
+def _build_repo_graph_cached(
+    max_files: int, state_signature: tuple[tuple[str, int, int], ...], root: str
+) -> Dict[str, Any]:
+    records = [
+        record
+        for rel_path, mtime_ns, size in state_signature
+        if (record := _record_for_cached(
+            str((Path(root) / rel_path).resolve()), mtime_ns, size, root
+        )) is not None
+    ]
     edges = _edge_records(records)
     return {
         "ok": True,
@@ -228,13 +320,29 @@ def _build_repo_graph_cached(max_files: int, state_signature: tuple[tuple[str, i
 
 def build_repo_graph(*, max_files: int = 180) -> Dict[str, Any]:
     """Build a bounded deterministic repository graph for routing."""
-    files = list(_candidate_files(max_files=max_files))
-    return _build_repo_graph_cached(max_files, _state_signature(files))
+    return deepcopy(_build_repo_graph(max_files))
+
+
+def _build_repo_graph(max_files: int, query: str = "") -> Dict[str, Any]:
+    discovered = _discover_files()
+    cap = max(1, min(int(max_files), 600))
+    files = list(_select_files(discovered, cap, query))
+    graph = _build_repo_graph_cached(cap, _state_signature(files), str(REPO_ROOT))
+    return {
+        **graph,
+        "summary": {
+            **graph["summary"],
+            "total_discovered": len(discovered),
+            "truncated": len(discovered) > len(files),
+            "truncated_count": len(discovered) - len(files),
+            "selection_mode": "query_path_priority" if query else "representative_area_sampling",
+        },
+    }
 
 
 def route_context_via_repo_graph(query: str, *, max_hits: int = 8, max_files: int = 180) -> Dict[str, Any]:
     """Return deterministic file-routing suggestions before raw file reads."""
-    graph = build_repo_graph(max_files=max_files)
+    graph = _build_repo_graph(max_files, query)
     query_tokens = _tokenize(query)
     scored: List[Dict[str, Any]] = []
     for node in list(graph.get("nodes") or []):

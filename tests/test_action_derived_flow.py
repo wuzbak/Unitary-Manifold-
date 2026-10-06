@@ -8,6 +8,9 @@ import numpy as np
 import pytest
 
 from src.core.action_derived_flow import (
+    _substitute_smooth_profiles,
+    _symbolic_setup,
+    _test_profiles,
     action_derived_field_equations,
     action_derived_flow_surface,
     action_derived_rhs,
@@ -98,6 +101,33 @@ class TestStructure:
 
 
 class TestVerification:
+    @pytest.mark.parametrize("full,offdiagonal", [(False, False), (True, False), (False, True)])
+    def test_profile_derivatives_match_sequential_substitution(self, full, offdiagonal):
+        sp, x, lam, syms, fields, _, _, _ = _symbolic_setup(full, offdiagonal)
+        profiles = _test_profiles(sp, x, syms, offdiagonal)
+        expression = sum(
+            sp.diff(field, x, 4) / field
+            + sp.diff(field, x, 2) * sp.diff(field, x)
+            for field in fields
+        ) + lam * sp.diff(fields[0] * fields[-1], x, 2)
+        reference = expression.subs(profiles).doit()
+        replacements = dict(profiles)
+        evaluated = _substitute_smooth_profiles(sp, expression, profiles, replacements)
+        assert not evaluated.has(sp.Derivative, sp.Subs)
+        assert sp.simplify(evaluated - reference) == 0
+        for xv in (0.3, 1.1, -0.7):
+            sample = {x: xv, lam: sp.Rational(7, 10)}
+            original = complex(reference.subs(sample).evalf(30))
+            optimized = complex(evaluated.evalf(30, subs=sample))
+            assert optimized == pytest.approx(original, rel=1e-13, abs=1e-13)
+
+    @pytest.mark.slow
+    def test_symbolic_reduction_exact_reduced_ansatz(self):
+        res = symbolic_kk_reduction_check(exact=True)
+        assert res["reduction_verified"]
+        assert res["exact_simplification_performed"]
+        assert res["exact_identity_verified"] is True
+
     def test_ricci_crosscheck_non_diagonal(self):
         res = numeric_ricci_crosscheck()
         assert res["ricci_verified"]

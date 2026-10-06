@@ -1,5 +1,20 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
+## Synthesis repair checkpoint (2026-10-05)
+
+This is a scoped repair, not a new numbered sprint or a closure claim.
+The current implementation, commands, verification scope and unresolved
+integration work are recorded in
+[TRUTH_LAYER](TRUTH_LAYER.md#synthesis-repair-2026-10-05).
+Keep historical regression totals separate from new execution receipts.
+
+The remaining synthesis work is not certified complete: register and validate
+each product's dependency/isolation boundary before broadening core regression;
+replace legacy observational-chain assumptions with propagation from computed
+states where justified; audit untouched retrieval facts and historical claim
+surfaces; derive a physical-time dark-sector initial/boundary-value problem
+before calling relaxation or an imposed rotation curve a dynamical halo.
+
 ## Foundation-first implementation (2026-09-05)
 
 This execution supersedes the historical narrative-only advancement criteria

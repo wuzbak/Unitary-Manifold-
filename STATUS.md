@@ -1,5 +1,11 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
+> **2026-10-05 synthesis repair:** dark-sector formulas are separated into
+> action-derived gauge energy and distinct phenomenological/KK toy models.
+> Regression partitioning is not execution evidence; full-core now explicitly
+> includes slow tests. See [scope and verification](docs/TRUTH_LAYER.md#synthesis-repair-2026-10-05).
+> No version, pillar, physical-time, or empirical-confirmation promotion is made.
+
 > **Foundation reassessment (2026-09-05):** no new pillar or physics closure.
 > Historical sprint summaries below are not evidence of universal derivation.
 > The mixed-metric normalization is corrected and the odd-field photon argument withdrawn;

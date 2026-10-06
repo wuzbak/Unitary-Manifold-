@@ -3,7 +3,9 @@
 """
 tests/test_richardson_multitime.py
 ====================================
-Parametric Richardson convergence + over-diffusion diagnostic.
+Parametric Richardson convergence of the legacy phenomenological flow.
+This is a reproducibility regression, not a physical-time validation of
+the default action-derived relaxation law.
 All tests in this module are marked ``@pytest.mark.slow`` and are
 **skipped by default** (see ``pytest.ini``).
 
@@ -50,8 +52,10 @@ Over-diffusion diagnostic
 
 Estimated wall-clock time
 -------------------------
-    ~115 s on a single core (cumulative RK4 steps: N=8→99, N=16→399,
-    N=32→1599 at CFL=0.1).  Marked ``slow`` so the normal CI suite
+    Runtime depends on the runner (nominal cumulative RK4 steps:
+    N=8→100, N=16→400, N=32→1600 at CFL=0.1, with a shortened
+    final step at each checkpoint to avoid rounding down the flow time).
+    Marked ``slow`` so the normal CI suite
     is not affected (see ``pytest.ini``).
 """
 
@@ -105,20 +109,21 @@ def _run_grid(N: int, *,
     alphas:   dict[int, float | None] = {}
     unstable: dict[int, bool]         = {}
 
-    cur_step    = 0
     is_unstable = False
 
     for mult in sorted(mults):
-        n_target = int(mult * t0 / dt)
+        target_time = mult * t0
 
         if not is_unstable:
-            while cur_step < n_target:
-                state = rk4_step(state, dt, project_metric_volume=False)
-                cur_step += 1
+            while state.t < target_time:
+                state = rk4_step(state, min(dt, target_time - state.t),
+                                 project_metric_volume=False)
                 if not (np.all(np.isfinite(state.phi)) and
                         np.all(np.isfinite(state.g))):
                     is_unstable = True
                     break
+            if not is_unstable:
+                assert state.t == pytest.approx(target_time, abs=1e-14)
 
         unstable[mult] = is_unstable
         alphas[mult]   = (

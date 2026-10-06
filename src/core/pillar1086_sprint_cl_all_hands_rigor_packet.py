@@ -193,7 +193,11 @@ def sprint_cl_all_hands_rigor_packet() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(sprint_cl_all_hands_rigor_packet().get("valid"))

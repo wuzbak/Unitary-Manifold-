@@ -71,7 +71,11 @@ def lean_python_bridge_hardening() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(lean_python_bridge_hardening().get('valid'))

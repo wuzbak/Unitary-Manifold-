@@ -1,0 +1,50 @@
+{
+  "batch_count": 33,
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 51,
+    "tests": 63330
+  },
+  "environment_fingerprint": {
+    "distributions_digest": "a8783e20eea8d25b5a45f8478296572aebdcd1618f80b638f2ae4645a4e8b5d8",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "execution_digest": "68de7032f8795846a896167ab1049ba2bfe57714df46747a54562473a4b91ab0",
+  "execution_settings": {
+    "environment": {
+      "MERLIN_TRAINING_RUNTIME_DIR": null,
+      "MKL_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null,
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTEST_DISABLE_PLUGIN_AUTOLOAD": null,
+      "PYTEST_PLUGINS": null,
+      "PYTHONHASHSEED": null,
+      "PYTHONOPTIMIZE": null,
+      "PYTHONPATH": null
+    },
+    "python": "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python"
+  },
+  "frozen_environment": {
+    "distributions_digest": "a8783e20eea8d25b5a45f8478296572aebdcd1618f80b638f2ae4645a4e8b5d8",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "plan_digest": "3fa630b6dd31cdc8e161301f0a7cad5396230d770e55a427c74102d2d9f7106d",
+  "problems": [
+    "batch 0: batch did not complete successfully"
+  ],
+  "snapshot": {
+    "head": "74e12559c4a191cda7423eeec1984a2b62db113c",
+    "worktree_digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "status": "failure",
+  "suite": "full-core",
+  "workers": 0
+}

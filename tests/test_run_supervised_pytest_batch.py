@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 from pathlib import Path
 
 
@@ -25,9 +26,10 @@ def test_run_executes_pytest_without_shell(monkeypatch) -> None:
     class Completed:
         returncode = 0
 
-    def _fake_run(args, check=False):
+    def _fake_run(args, check=False, cwd=None):
         observed["args"] = args
         observed["check"] = check
+        observed["cwd"] = cwd
         return Completed()
 
     monkeypatch.setattr(batch_runner.subprocess, "run", _fake_run)
@@ -37,30 +39,23 @@ def test_run_executes_pytest_without_shell(monkeypatch) -> None:
     assert exit_code == 0
     assert observed["args"] == ["python", "-m", "pytest", "-m", "not slow", "tests/test_example.py", "-q"]
     assert observed["check"] is False
+    assert observed["cwd"] == batch_runner.ROOT
 
 
 def test_main_skips_empty_fast_batch(monkeypatch, capsys) -> None:
-    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
-        "suite": "tests-fast",
-        "batch_count": 2,
-        "batch_index": 1,
-        "dry_run": False,
-        "emit_json": False,
-    })())
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "tests-fast", "--batch-count", "2", "--batch-index", "1",
+    ])
     monkeypatch.setattr(batch_runner, "fast_batch_argv", lambda batch_index, batch_count: [])
 
     assert batch_runner.main() == 0
-    assert "no non-slow tests assigned to batch 1; skipping" in capsys.readouterr().out
+    assert "no tests assigned to batch 1; skipping" in capsys.readouterr().out
 
 
 def test_supervisor_emit_json_keeps_status_off_stdout(monkeypatch, capsys) -> None:
-    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
-        "suite": "supervisor-check",
-        "batch_count": 4,
-        "batch_index": None,
-        "dry_run": False,
-        "emit_json": True,
-    })())
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "supervisor-check", "--batch-count", "4", "--emit-json",
+    ])
     monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count", lambda **kwargs: {
         "supervision": {
             "coverage_matches_discovery": True,
@@ -71,56 +66,42 @@ def test_supervisor_emit_json_keeps_status_off_stdout(monkeypatch, capsys) -> No
     assert batch_runner.main() == 0
     captured = capsys.readouterr()
     assert captured.out.strip().startswith("{")
-    assert "supervised regression coverage check passed" not in captured.out
-    assert "supervised regression coverage check passed" in captured.err
+    assert "structural file coverage check passed" not in captured.out
+    assert "supervised regression structural file coverage check passed (not execution evidence)" in captured.err
 
 
 def test_full_core_main_executes_full_core_batch(monkeypatch) -> None:
     observed: dict[str, object] = {}
 
-    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
-        "suite": "full-core",
-        "batch_count": 8,
-        "batch_index": 3,
-        "dry_run": False,
-        "emit_json": False,
-    })())
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "full-core", "--batch-count", "8", "--batch-index", "3",
+    ])
     monkeypatch.setattr(batch_runner, "full_core_batch_argv", lambda batch_index, batch_count: ["python", "-m", "pytest", "tests/test_example.py", "-q"])
-    def _fake_run(args, dry_run):
+    def _fake_run(args, dry_run, timeout=None):
         observed["args"] = args
         observed["dry_run"] = dry_run
+        observed["timeout"] = timeout
         return 0
     monkeypatch.setattr(batch_runner, "_run", _fake_run)
 
     assert batch_runner.main() == 0
     assert observed["args"] == ["python", "-m", "pytest", "tests/test_example.py", "-q"]
     assert observed["dry_run"] is False
+    assert observed["timeout"] is None
 
 
 def test_full_core_main_uses_full_core_default_batch_count(monkeypatch) -> None:
     observed: dict[str, object] = {}
 
-    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
-        "suite": "full-core",
-        "batch_count": None,
-        "batch_index": 3,
-        "dry_run": False,
-        "emit_json": False,
-    })())
-    monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count", lambda **kwargs: {
-        "supervision": {
-            "coverage_matches_discovery": True,
-            "all_files_unique": True,
-            "full_core_coverage_matches_discovery": True,
-            "full_core_all_files_unique": True,
-        }
-    })
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "full-core", "--batch-index", "3",
+    ])
     def _fake_full_core_batch_argv(batch_index, batch_count):
         observed["batch_index"] = batch_index
         observed["batch_count"] = batch_count
         return ["python", "-m", "pytest", "tests/test_example.py", "-q"]
     monkeypatch.setattr(batch_runner, "full_core_batch_argv", _fake_full_core_batch_argv)
-    monkeypatch.setattr(batch_runner, "_run", lambda args, dry_run: 0)
+    monkeypatch.setattr(batch_runner, "_run", lambda args, dry_run, timeout=None: 0)
 
     assert batch_runner.main() == 0
     assert observed["batch_index"] == 3
@@ -128,13 +109,9 @@ def test_full_core_main_uses_full_core_default_batch_count(monkeypatch) -> None:
 
 
 def test_full_core_supervisor_emit_json_keeps_status_off_stdout(monkeypatch, capsys) -> None:
-    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
-        "suite": "full-core-supervisor-check",
-        "batch_count": 8,
-        "batch_index": None,
-        "dry_run": False,
-        "emit_json": True,
-    })())
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "full-core-supervisor-check", "--batch-count", "8", "--emit-json",
+    ])
     monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count", lambda **kwargs: {
         "supervision": {
             "full_core_coverage_matches_discovery": True,
@@ -145,20 +122,16 @@ def test_full_core_supervisor_emit_json_keeps_status_off_stdout(monkeypatch, cap
     assert batch_runner.main() == 0
     captured = capsys.readouterr()
     assert captured.out.strip().startswith("{")
-    assert "supervised full-core regression coverage check passed" not in captured.out
-    assert "supervised full-core regression coverage check passed" in captured.err
+    assert "structural file coverage check passed" not in captured.out
+    assert "supervised full-core regression structural file coverage check passed (not execution evidence)" in captured.err
 
 
 def test_full_core_supervisor_uses_full_core_default_batch_count(monkeypatch, capsys) -> None:
     observed: dict[str, object] = {}
 
-    monkeypatch.setattr(batch_runner, "_parse_args", lambda: type("Args", (), {
-        "suite": "full-core-supervisor-check",
-        "batch_count": None,
-        "batch_index": None,
-        "dry_run": False,
-        "emit_json": False,
-    })())
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "full-core-supervisor-check",
+    ])
     def _fake_plan(**kwargs):
         observed.update(kwargs)
         return {
@@ -172,4 +145,4 @@ def test_full_core_supervisor_uses_full_core_default_batch_count(monkeypatch, ca
     assert batch_runner.main() == 0
     assert observed["batch_count"] == 4
     assert observed["full_core_batch_count"] == 8
-    assert "supervised full-core regression coverage check passed" in capsys.readouterr().out
+    assert "supervised full-core regression structural file coverage check passed (not execution evidence)" in capsys.readouterr().out
