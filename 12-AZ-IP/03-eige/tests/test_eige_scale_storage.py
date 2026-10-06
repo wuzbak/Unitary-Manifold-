@@ -161,3 +161,36 @@ def test_durable_log_exports_a_bundle_that_verifies(tmp_path):
         log.export_bundle(tmp_path / "out", files)
     report = verify_bundle(str(tmp_path / "out"))
     assert report.passed, [c.detail for c in report.by_status("failed")]
+
+
+def test_failed_commit_restores_tree_even_if_sqlite_already_rolled_back(tmp_path):
+    with DurableMerkleLog(tmp_path / "log.db", "L") as log:
+        log.append_many(_records(4))
+        root = log.root()
+
+        def sqlite_gave_up():
+            log._conn.execute("ROLLBACK")  # as SQLite does itself on SQLITE_FULL / SQLITE_IOERR
+            raise sqlite3.OperationalError("database or disk is full")
+
+        with pytest.raises(sqlite3.OperationalError):
+            log.append_many(_records(6, start=4), atomic=True, before_commit=sqlite_gave_up)
+        assert log.size == 4 and log.root() == root
+        log.append_many(_records(6, start=4), batch_size=4)
+        mem = MerkleLog("L")
+        for r in _records(10):
+            mem.append(r)
+        assert log.root() == mem.root() and log.check_integrity() == []
+
+
+def test_atomic_append_commits_nothing_when_the_input_fails_part_way(tmp_path):
+    def records():
+        yield from _records(25)
+        raise OSError("export unreadable")
+
+    with DurableMerkleLog(tmp_path / "log.db", "L") as log:
+        log.append_many(_records(2, start=100))
+        with pytest.raises(OSError):
+            log.append_many(records(), batch_size=4, atomic=True)
+        assert log.size == 2
+    with DurableMerkleLog(tmp_path / "log.db") as log:
+        assert log.size == 2 and log.check_integrity() == []

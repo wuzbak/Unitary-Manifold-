@@ -27,7 +27,7 @@ from __future__ import annotations
 import json
 import sqlite3
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from ..crypto import merkle
 from ..crypto.signing import Signer
@@ -125,26 +125,31 @@ class DurableMerkleLog:
         return self.append_many([record])[0]
 
     def append_many(self, records: Iterable[Dict[str, Any]], batch_size: int = 10_000,
-                    unique_key: Optional[Callable[[Dict[str, Any]], Optional[str]]] = None) -> List[int]:
-        """Append records atomically per batch; returns their leaf indices.
+                    unique_key: Optional[Callable[[Dict[str, Any]], Optional[str]]] = None,
+                    atomic: bool = False, before_commit: Optional[Callable[[], None]] = None) -> List[int]:
+        """Append records; returns their leaf indices.
 
-        Each batch of ``batch_size`` records is one transaction: after a crash
-        the log contains every committed batch and nothing of a partial one.
+        By default each batch of ``batch_size`` records is one transaction:
+        after a crash the log contains every committed batch and nothing of a
+        partial one.  With ``atomic=True`` the whole input is one transaction
+        (still written in batches of ``batch_size``), and ``before_commit`` is
+        called just before it commits; if anything raises, nothing is logged.
         If ``unique_key`` returns a key for a record, the key must never have
         been logged before (for example a CVR id); a repeat raises
-        :class:`LogError` and the whole batch is rolled back.
+        :class:`LogError` and rolls back the transaction.
         """
+        encoded = ((encode_record(r), unique_key(r) if unique_key else None) for r in records)
+        if atomic:
+            return self._write(encoded, batch_size, before_commit)
         out: List[int] = []
-        batch: List[bytes] = []
-        keys: List[Optional[str]] = []
-        for record in records:
-            batch.append(encode_record(record))
-            keys.append(unique_key(record) if unique_key else None)
+        batch: List[Tuple[bytes, Optional[str]]] = []
+        for item in encoded:
+            batch.append(item)
             if len(batch) >= batch_size:
-                out.extend(self._commit(batch, keys))
-                batch, keys = [], []
+                out.extend(self._write(batch, batch_size))
+                batch = []
         if batch:
-            out.extend(self._commit(batch, keys))
+            out.extend(self._write(batch, batch_size))
         return out
 
     def has_key(self, key: str) -> bool:
@@ -152,38 +157,59 @@ class DurableMerkleLog:
 
     def append_encoded(self, entries: Iterable[bytes], batch_size: int = 10_000) -> int:
         """Append already-canonical leaf bytes (e.g. from another log); returns new size."""
-        batch: List[bytes] = []
+        batch: List[Tuple[bytes, Optional[str]]] = []
         for e in entries:
-            batch.append(bytes(e))
+            batch.append((bytes(e), None))
             if len(batch) >= batch_size:
-                self._commit(batch)
+                self._write(batch, batch_size)
                 batch = []
         if batch:
-            self._commit(batch)
+            self._write(batch, batch_size)
         return self.size
 
-    def _commit(self, batch: List[bytes], keys: Optional[List[Optional[str]]] = None) -> List[int]:
+    def _write(self, items: Iterable[Tuple[bytes, Optional[str]]], batch_size: int,
+               before_commit: Optional[Callable[[], None]] = None) -> List[int]:
+        """Write ``items`` in one transaction; the in-memory tree is restored on any failure."""
         start = self._tree.size
         self._conn.execute("BEGIN IMMEDIATE")
         try:
-            self._conn.executemany("INSERT INTO leaves(idx, data) VALUES (?,?)",
-                                   ((start + i, d) for i, d in enumerate(batch)))
-            if keys:
-                try:
-                    self._conn.executemany("INSERT INTO unique_keys(key, idx) VALUES (?,?)",
-                                           ((k, start + i) for i, k in enumerate(keys) if k is not None))
-                except sqlite3.IntegrityError as exc:
-                    raise LogError("a record with the same unique key is already in the log "
-                                   "(for example a CVR id ingested twice); nothing in this batch was logged") from exc
-            for d in batch:
-                self._tree.append(merkle.leaf_hash(d))
+            chunk: List[Tuple[bytes, Optional[str]]] = []
+            for item in items:
+                chunk.append(item)
+                if len(chunk) >= batch_size:
+                    self._insert(chunk)
+                    chunk = []
+            if chunk:
+                self._insert(chunk)
+            if before_commit is not None:
+                before_commit()
             self._conn.execute("COMMIT")
         except BaseException:
-            self._conn.execute("ROLLBACK")
+            # Restore the in-memory view first: SQLite may already have rolled
+            # back on its own (e.g. SQLITE_FULL), making ROLLBACK itself fail.
             self._tree.size = start
             self._store.reset()
+            if self._conn.in_transaction:
+                try:
+                    self._conn.execute("ROLLBACK")
+                except sqlite3.Error:
+                    pass
             raise
-        return list(range(start, start + len(batch)))
+        return list(range(start, self._tree.size))
+
+    def _insert(self, chunk: List[Tuple[bytes, Optional[str]]]) -> None:
+        base = self._tree.size
+        self._conn.executemany("INSERT INTO leaves(idx, data) VALUES (?,?)",
+                               ((base + i, d) for i, (d, _) in enumerate(chunk)))
+        keys = [(k, base + i) for i, (_, k) in enumerate(chunk) if k is not None]
+        if keys:
+            try:
+                self._conn.executemany("INSERT INTO unique_keys(key, idx) VALUES (?,?)", keys)
+            except sqlite3.IntegrityError as exc:
+                raise LogError("a record with the same unique key is already in the log "
+                               "(for example a CVR id ingested twice); the transaction was rolled back") from exc
+        for d, _ in chunk:
+            self._tree.append(merkle.leaf_hash(d))
 
     # -------------------------------------------------------------------- reads
     @property

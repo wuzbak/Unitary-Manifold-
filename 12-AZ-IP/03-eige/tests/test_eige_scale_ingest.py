@@ -232,3 +232,66 @@ def test_export_refuses_unsigned_tail(county_dir, capsys):
     run(capsys, "event", db, "--type", "chain_of_custody", "--details", d / "ev.json")
     rc, _, err = run(capsys, "export", db, "--out", d / "bundle")
     assert rc == 2 and "after the last signed head" in err
+
+
+def test_interrupted_ingest_leaves_the_log_unchanged_and_can_be_retried(county_dir, capsys, monkeypatch):
+    d = county_dir
+    db = d / "county.db"
+    run(capsys, "init", db, "--log-id", "SYNTH-COUNTY")
+    real = county.iter_cvr_file
+    calls = {"n": 0}
+
+    def flaky(path, fmt):
+        calls["n"] += 1
+        for i, item in enumerate(real(path, fmt)):
+            if calls["n"] == 2 and i == 2:  # second (writing) pass dies part-way
+                raise OSError("disk read error")
+            yield item
+
+    monkeypatch.setattr(county, "iter_cvr_file", flaky)
+    election = parse_election(SYNTHETIC_ELECTION)
+    with DurableMerkleLog(db) as log:
+        with pytest.raises(OSError):
+            county.ingest_file(log, election, d / "a.csv", "csv", batch_size=1)
+        assert log.size == 0
+        monkeypatch.setattr(county, "iter_cvr_file", real)
+        rep = county.ingest_file(log, election, d / "a.csv", "csv", batch_size=1)
+        assert rep.logged and log.size == 4
+
+
+def test_export_changed_during_ingest_is_not_logged(county_dir, capsys, monkeypatch):
+    d = county_dir
+    db = d / "county.db"
+    run(capsys, "init", db, "--log-id", "SYNTH-COUNTY")
+    real = county._sha256_file
+    calls = {"n": 0}
+
+    def changing(path):
+        calls["n"] += 1
+        return real(path) if calls["n"] == 1 else "0" * 64
+
+    monkeypatch.setattr(county, "_sha256_file", changing)
+    with DurableMerkleLog(db) as log:
+        with pytest.raises(county.CountyError, match="changed while it was being ingested"):
+            county.ingest_file(log, parse_election(SYNTHETIC_ELECTION), d / "a.csv", "csv")
+        assert log.size == 0 and not log.has_key("cvr:a1")
+
+
+def test_edited_database_blocks_status_signing_and_export(county_dir, capsys):
+    import sqlite3
+
+    d = county_dir
+    db = d / "county.db"
+    run(capsys, "init", db, "--log-id", "SYNTH-COUNTY")
+    run(capsys, "ingest", db, "--election", d / "election.json", "--cvrs", d / "a.csv", "--format", "csv")
+    run(capsys, "sign-head", db, "--timestamp", 10, "--dev-key-file", d / "dev.key")
+    conn = sqlite3.connect(db)
+    conn.execute("UPDATE leaves SET data=? WHERE idx=2", (b'{"type":"cvr","cvr":{"id":"forged"}}',))
+    conn.commit()
+    conn.close()
+    rc, _, err = run(capsys, "status", db, "--check-integrity")
+    assert rc == 2 and "leaf 2" in err
+    rc, _, err = run(capsys, "sign-head", db, "--timestamp", 11, "--dev-key-file", d / "dev.key")
+    assert rc == 2 and "integrity check failed" in err
+    rc, _, err = run(capsys, "export", db, "--out", d / "bundle")
+    assert rc == 2 and "integrity check failed" in err

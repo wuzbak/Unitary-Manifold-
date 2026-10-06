@@ -4,7 +4,7 @@
 
 This is the county-side counterpart of :mod:`eige.verify`.  It keeps the log in
 a SQLite file (:class:`eige.ledger.store.DurableMerkleLog`), so the population
-size is limited by disk rather than memory, and every step is resumable.
+size is limited by disk rather than memory.
 
 Typical sequence (see ``docs/OFFICIAL_WORKFLOW.md``)::
 
@@ -19,11 +19,18 @@ Typical sequence (see ``docs/OFFICIAL_WORKFLOW.md``)::
         --file manifest.json=manifest.json --file results.json=ems_results.json
 
 ``ingest`` is all-or-nothing per file: the whole export is validated first
-(schema, contest/candidate ids, vote limits per ballot style, batch ids against
-the manifest, duplicate CVR ids inside the file and against everything already
-logged).  Only if that pass finds no problem is anything written, and the file's
-SHA-256 is logged ahead of its CVRs so the log records exactly which export it
-came from.  A CVR id can never be logged twice, even across separate runs.
+(schema, contest/candidate ids, vote limits, batch ids against the manifest,
+duplicate CVR ids inside the file and against everything already logged).
+Only if that pass finds no problem is anything written, and then the whole
+file is written in one database transaction that commits only if the file's
+SHA-256 is unchanged; an interruption or error leaves the log exactly as it
+was, so the same export can simply be ingested again.  The SHA-256 is logged
+ahead of the file's CVRs so the log records exactly which export they came
+from.  A CVR id can never be logged twice, even across separate runs.
+
+``sign-head``, ``export`` and ``status --check-integrity`` first recompute every
+leaf and stored head from the database and refuse to continue if anything was
+edited outside EIGE.
 """
 
 from __future__ import annotations
@@ -155,10 +162,12 @@ def ingest_file(log: DurableMerkleLog, election: Election, path: str | Path, fmt
     def key(rec: Dict[str, Any]) -> Optional[str]:
         return "cvr:" + rec["cvr"]["id"] if rec["type"] == "cvr" else None
 
+    def unchanged() -> None:
+        if _sha256_file(path) != report.sha256:
+            raise CountyError(f"{path} changed while it was being ingested; nothing was logged")
+
     start = log.size
-    log.append_many(records(), batch_size=batch_size, unique_key=key)
-    if _sha256_file(path) != report.sha256:
-        raise CountyError(f"{path} changed while it was being ingested; investigate before publishing")
+    log.append_many(records(), batch_size=batch_size, unique_key=key, atomic=True, before_commit=unchanged)
     report.logged = True
     report.first_index, report.last_index = start, log.size - 1
     return report
@@ -253,10 +262,17 @@ def _cmd_event(a: argparse.Namespace) -> dict:
         log.close()
 
 
+def _require_integrity(log: DurableMerkleLog) -> None:
+    problems = log.check_integrity()
+    if problems:
+        raise CountyError("log database integrity check failed: " + "; ".join(problems[:10]))
+
+
 def _cmd_sign_head(a: argparse.Namespace) -> dict:
     signer = make_signer(a)
     log = _open(a)
     try:
+        _require_integrity(log)
         return log.sign_head(signer, a.timestamp).as_dict()
     finally:
         log.close()
@@ -279,7 +295,7 @@ def _cmd_status(a: argparse.Namespace) -> dict:
         out = {"log_id": log.log_id, "size": log.size, "root": log.root().hex(),
                "heads": [{"tree_size": h.tree_size, "timestamp": h.timestamp} for h in log.heads()]}
         if a.check_integrity:
-            log.check_integrity()
+            _require_integrity(log)
             out["integrity"] = "ok"
         return out
     finally:
@@ -299,6 +315,7 @@ def _cmd_export(a: argparse.Namespace) -> dict:
             raise CountyError("no signed tree head; run 'sign-head' before exporting")
         if log.heads()[-1].tree_size != log.size:
             raise CountyError("entries were logged after the last signed head; sign a new head first")
+        _require_integrity(log)
         log.export_bundle(a.out, files)
         return {"bundle": a.out, "size": log.size}
     finally:

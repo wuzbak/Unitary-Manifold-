@@ -120,6 +120,16 @@ def test_serial_parallel_and_in_memory_reports_are_identical(tmp_path, name):
         assert any("DUPLICATE_CVR_ID" in k for k in failed(verify_bundle(str(d))))
 
 
+def test_parallel_scan_with_many_small_chunks_matches_serial(tmp_path, monkeypatch):
+    import eige.parallel_scan as ps
+
+    d = tmp_path / "b"
+    build_synthetic_bundle(d, tamper=_dup_id)
+    serial = verify_bundle(str(d)).as_dict()
+    monkeypatch.setattr(ps, "CHUNK_BYTES", 2048)  # ~100 jobs, at most 2 × workers in flight
+    assert verify_bundle(str(d), workers=2).as_dict() == serial
+
+
 def test_truncated_log_is_reported_identically_serial_and_parallel(tmp_path):
     d = tmp_path / "b"
     build_synthetic_bundle(d)

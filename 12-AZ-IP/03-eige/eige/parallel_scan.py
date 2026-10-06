@@ -18,9 +18,9 @@ import json
 import os
 import shutil
 import tempfile
-from collections import Counter
+from collections import Counter, deque
 from concurrent.futures import ProcessPoolExecutor
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Deque, Dict, Iterator, List, Optional, Set, Tuple
 
 from .audit import reconciliation as recon
 from .bundle import MAX_ENTRY_BYTES
@@ -159,9 +159,29 @@ class _SpilledIds:
         shutil.rmtree(self._root, ignore_errors=True)
 
 
+CHUNK_BYTES = 16 * 1024 * 1024  # bytes of log per job; bounds each job's returned leaf hashes
+
+
+def _ordered(pool: ProcessPoolExecutor, fn, jobs: List[tuple], window: int) -> Iterator[dict]:
+    """Like ``pool.map`` but with at most ``window`` jobs in flight (bounded parent memory)."""
+    pending: Deque = deque()
+    it = iter(jobs)
+    for job in it:
+        pending.append(pool.submit(fn, job))
+        if len(pending) >= window:
+            break
+    while pending:
+        result = pending.popleft().result()
+        nxt = next(it, None)
+        if nxt is not None:
+            pending.append(pool.submit(fn, nxt))
+        yield result
+
+
 def parallel_scan(path: str, workers: int, head_sizes: Set[int], election_doc: Optional[dict],
                   acc: Optional[recon.CanvassAccumulator], wanted: Set[Tuple[str, int]],
-                  tmpdir: Optional[str] = None, chunks_per_worker: int = 4):
+                  tmpdir: Optional[str] = None, chunks_per_worker: int = 4,
+                  chunk_bytes: Optional[int] = None):
     """Return a scan result equivalent to the serial ``_scan_log``."""
     from .verify import _Scan  # local import to avoid a cycle
 
@@ -169,7 +189,9 @@ def parallel_scan(path: str, workers: int, head_sizes: Set[int], election_doc: O
     tree = merkle.CompactRange()
     if 0 in head_sizes:
         s.roots[0] = tree.root()
-    ranges = split_ranges(path, max(1, workers * chunks_per_worker))
+    size = os.path.getsize(path)
+    chunk_bytes = chunk_bytes or CHUNK_BYTES
+    ranges = split_ranges(path, max(1, workers * chunks_per_worker, -(-size // max(1, chunk_bytes))))
     root = tempfile.mkdtemp(prefix="eige-scan-", dir=tmpdir)
     wanted_batches = {b for b, _ in wanted}
     track_units = bool(acc and acc.track_units)
@@ -181,7 +203,7 @@ def parallel_scan(path: str, workers: int, head_sizes: Set[int], election_doc: O
     cvr_error_seen = False
     try:
         with ProcessPoolExecutor(max_workers=workers) as pool:
-            for r in pool.map(_worker, jobs):
+            for r in _ordered(pool, _worker, jobs, window=2 * workers):
                 base = s.n
                 hb = r["hashes"]
                 for off in range(0, len(hb), 32):
