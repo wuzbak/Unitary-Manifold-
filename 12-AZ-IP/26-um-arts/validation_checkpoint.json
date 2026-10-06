@@ -1,19 +1,20 @@
 {
   "schema_version": 1,
   "record_kind": "validation_checkpoint_not_a_sealed_certificate",
-  "tested_revision": "a07de008702c74968d08e84d91da241c3caa8d6b",
+  "tested_revision": "d2608bb5463bf9208d7ed5a2994e945b72bce76d",
   "overall_status": "partial",
   "scope_boundary": "Application execution evidence, not confirmation of physics claims or coverage of every repository product.",
   "frozen_source": {
-    "snapshot_source_fingerprint": "058865cb22a84fdd79cff2bbce2486125e6eba8d732e9b4a8d8ba002474ecfe1",
+    "source_fingerprint": "23acaee25ab66fd20569bcfa3c58dd1a31b4a03cbe2b8c1cb3db2cfa9286c65a",
     "engine_fingerprint": "4aaa0697804d2d37a62ee35dea682964d4b71a22c583f6ea793e4d6db51e1d6a",
-    "origin": "Filesystem snapshot of the clean tested revision; Git metadata is not copied."
+    "git_fingerprint": "86fd9693d792012fc40c6cac00b4fd8b5ca19b07a04d40d2ba27cde54bc1c767",
+    "origin": "Clean real checkout of the tested revision, kept unchanged throughout planning and execution so commit audits retain genuine Git context."
   },
   "product_regression": {
     "status": "passed",
     "marker_expression": "",
-    "selected": 384,
-    "passed": 373,
+    "selected": 491,
+    "passed": 480,
     "skipped": 11,
     "optional_skips": {
       "compiler_backed_lean_exporter": 10,
@@ -23,15 +24,25 @@
       {
         "pytest": "9.1.1",
         "note": "Preinstalled sandbox version exceeds the repository's pytest<9.1 constraint.",
-        "capture_result_sha256": "2742d9dd39cedc872e405d313fd3b7d8e584656a0a36c797e97f703a03d3cddc"
+        "capture_result_sha256": "8e59cdb282749efaac9d1932852aaeff2639e39c3251afca431817770e286161"
       },
       {
         "pytest": "9.0.2",
         "note": "Separate environment satisfies the existing repository constraint.",
-        "capture_result_sha256": "31f146efa19b2c42dddcd2388b7590efb6b7e2d201be2962d22754faf2f235b1"
+        "capture_result_sha256": "5f4a30458a6f2dbd67cd9e690463eef431563b5bc6f5bff193ecb9f0aa89b528"
       }
     ],
-    "scope": "test_um_arts*.py plus supervised runner, regression supervision plan and formal traceability spine tests"
+    "source_stable": true,
+    "scope": "test_um_arts*.py plus supervised runner, regression supervision plan, formal traceability spine and Lodge tests"
+  },
+  "recycling_and_governance": {
+    "status": "passed",
+    "marker_expression": "",
+    "selected": 3401,
+    "passed": 3398,
+    "skipped": 3,
+    "source_stable": true,
+    "capture_result_sha256": "d0dec0e4a43804fdadaa2512bb6d39d24fadff15cdb6fb9d09391a9ed98a6201"
   },
   "compatible_product_and_python_checks": {
     "status": "passed",
@@ -42,13 +53,15 @@
       "python proof/ALGEBRA_PROOF.py"
     ],
     "proof_claim": false,
-    "certificate_result_sha256": "27099e8ad901621842d7b31dc767f4cbe102c16067b5ee5e2557add58248a296",
-    "boundary": "Successful executable assertions are not Lean compilation or a scientific proof."
+    "certificate_result_sha256": "1a0074f6ab11d33137246bbbb4904b0fded11ffa55a2a2f100956af9f0514c2b",
+    "unique_test_identities": 3892,
+    "counts": {"passed": 3878, "skipped": 14},
+    "boundary": "Disjoint product/Lodge and recycling/governance identities plus four compatible Python checks. Successful executable assertions are not Lean compilation or a scientific proof."
   },
   "packaging": {
     "status": "passed",
     "distribution": "um_arts-1.0.0-py3-none-any.whl",
-    "sha256": "5f69f6d29854562753607d5c2afa7887b064f62a709ed19d26a4b6a9dfe57171",
+    "sha256": "af20e9915d17488ac8a40cba83696c7e1c285f4d8c34e1db8100d249e4aa486c",
     "checks": "Wheel build, dependency-free external installation and CLI version smoke test",
     "cli_version_boundary": "CLI version 1 denotes the evidence schema; distribution release is 1.0.0."
   },
@@ -59,31 +72,41 @@
       "recycling",
       "5-GOVERNANCE/Unitary Pentad"
     ],
-    "selected": 64576,
+    "selected": 64577,
     "pytest_args": ["-m", ""],
     "workers": 2,
     "files_per_job": 1024,
-    "timeout_seconds_per_job": 1800,
+    "timeout_seconds_per_job": 3600,
     "interrupted": true,
-    "source_stable": false,
-    "observed_failure": {
-      "test": "tests/test_pillar1087_sprint_cm_full_physics_parallel_execution.py::test_lane_b_latest_merge_math_verification_scope",
-      "observation": "Lane B returned FIX_REQUIRED instead of PASS in the Git-free snapshot; cause not resolved."
+    "source_stable": true,
+    "environment_and_settings_stable": true,
+    "resolved_prior_blockers": {
+      "lane_b": "The existing 20-test Pillar 1087 suite passed with authentic checkout Git metadata. No audit results or physics assertions were weakened.",
+      "lodge_history": "Session startup redirects exchange history to a seeded external copy, preserving runtime behavior without modifying source.",
+      "scratch_directories": "Inventory/assistance fixtures now use the existing disclosed .um-arts-test-work boundary rather than introducing new source directories."
     },
-    "observed_source_mutation": "lodge/ledger/exchange_history.jsonl was created during execution.",
-    "attempt": "f74de72dfba34f08b2966aad3d85c8cb",
-    "boundary": "Stopped for the available execution window. The source-unstable, interrupted attempt is not a certified baseline; its mismatched job checkpoints are not reusable."
+    "attempt": "d127d5134e4c47deb101dbff156b32be",
+    "result_sha256": "d5a06163bdbbccb89de4b24cdb9e357076bd157d70c5c30973d4e5b1adb415fd",
+    "seal_sha256": "e6413f44ba9f1d10b77e3dea3d0a4fa1a6b4a2886b65b5a7d226ec14e8fac72c",
+    "remaining_blocker": "Long-running sprint evaluations were still executing in both jobs. Interrupt did not stop them; termination was required, and neither job emitted a completion receipt.",
+    "boundary": "Source stability succeeded, but execution completeness did not. Missing completion receipts and unreconciled planned identities block certification; partial progress logs are not passing test evidence.",
+    "next_execution": "Use the existing default files_per_job=32 for smaller independently sealed checkpoints, retaining explicit -m \"\" and real Git context. Do not reuse this attempt's unfinished jobs."
   },
   "validation_limitations": [
     {
       "gate": "Lean build and compiler-backed exporter integration",
       "status": "blocked_locally",
-      "reason": "Pinned toolchain unavailable; installation blocked by network/DNS restrictions. An explicit CI build and integration gate is configured but not verified for this revision."
+      "reason": "The official elan release archive downloaded and its checksum matched, but pinned-toolchain provisioning failed resolving release.lean-lang.org. The configured compiler-backed CI gate is still unverified for this revision."
     },
     {
       "gate": "Python CodeQL",
       "status": "not_analyzed",
       "reason": "Automated analysis skipped because the repository database is too large; a zero-alert wrapper result is not a completed scan."
+    },
+    {
+      "gate": "Actions and JavaScript CodeQL",
+      "status": "passed",
+      "reason": "The full-PR nontrivial validation run reported no alerts for these analyzed languages."
     },
     {
       "gate": "Automated review wrapper",
@@ -97,9 +120,9 @@
     "changed_file_secret_scan": "passed"
   },
   "receipt_storage": {
-    "location": "/tmp/um-arts-certification/validated-snapshot",
+    "location": "/tmp/um-arts-resume",
     "retention": "Sandbox temporary storage; not guaranteed to survive a new session.",
     "resume_boundary": "Reuse only sealed jobs with exact source/environment/engine/settings compatibility. If receipts are missing, rerun; this summary and its hashes are not substitutes for receipts."
   },
-  "aggregation_boundary": "Product tests overlap full-core tests; do not add their counts or combine incompatible environments."
+  "aggregation_boundary": "The 3,892 completed scoped identities are disjoint in their own certificate, but overlap full-core. Do not add them to full-core totals or combine pytest environments. This record describes the immutable tested revision, not subsequent metadata commits."
 }
