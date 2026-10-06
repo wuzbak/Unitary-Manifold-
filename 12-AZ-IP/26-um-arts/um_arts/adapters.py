@@ -29,7 +29,7 @@ def load_config(root: Path, path: Path | None = None, adapter: str = "um") -> di
     if not isinstance(raw, dict):
         raise EvidenceError("Configuration must be a JSON object")
     allowed = {"adapter", "suites", "workers", "timeout_seconds", "pytest_args", "lean",
-               "files_per_job", "plugins"}
+               "files_per_job", "plugins", "collection_timeout_seconds"}
     if set(raw) - allowed:
         raise EvidenceError(f"Unknown config settings: {sorted(set(raw) - allowed)}")
     config = {
@@ -55,6 +55,12 @@ def load_config(root: Path, path: Path | None = None, adapter: str = "um") -> di
     if isinstance(timeout, bool) or not isinstance(timeout, (int, float)) \
             or not math.isfinite(timeout) or not 0 < timeout <= 86400:
         raise EvidenceError("timeout_seconds must be finite and in (0, 86400]")
+    if "collection_timeout_seconds" in raw:
+        collection_timeout = raw["collection_timeout_seconds"]
+        if isinstance(collection_timeout, bool) or not isinstance(collection_timeout, (int, float)) \
+                or not math.isfinite(collection_timeout) or not 0 < collection_timeout <= 86400:
+            raise EvidenceError("collection_timeout_seconds must be finite and in (0, 86400]")
+        config["collection_timeout_seconds"] = collection_timeout
     args = config["pytest_args"]
     if not isinstance(args, list) or any(not isinstance(arg, str) for arg in args):
         raise EvidenceError("pytest_args must be strings")

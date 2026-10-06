@@ -70,6 +70,52 @@ def test_invalid_checkpoint_granularity_is_rejected(tmp_path, value):
         load_config(tmp_path, config, "generic")
 
 
+@pytest.mark.parametrize("value", [True, None, 0, -1, 86401, float("inf"), "600"])
+def test_invalid_collection_timeout_is_rejected(tmp_path, value):
+    (tmp_path / "tests").mkdir()
+    config = tmp_path / "config.json"
+    config.write_text(json.dumps({
+        "adapter": "generic", "suites": [{"name": "unit", "paths": ["tests"]}],
+        "collection_timeout_seconds": value}))
+    with pytest.raises(EvidenceError):
+        load_config(tmp_path, config, "generic")
+
+
+def test_collection_timeout_is_optional_and_explicit_budget_changes_settings(tmp_path):
+    (tmp_path / "tests").mkdir()
+    path = tmp_path / "config.json"
+    raw = {"adapter": "generic", "timeout_seconds": 10,
+           "suites": [{"name": "unit", "paths": ["tests"]}]}
+    path.write_text(json.dumps(raw))
+    old = load_config(tmp_path, path, "generic")
+    assert "collection_timeout_seconds" not in old
+    path.write_text(json.dumps({**raw, "collection_timeout_seconds": 600}))
+    new = load_config(tmp_path, path, "generic")
+    assert new["collection_timeout_seconds"] == 600
+    assert {k: v for k, v in new.items() if k != "collection_timeout_seconds"} == old
+
+
+@pytest.mark.parametrize("collect,explicit,expected", [
+    (True, False, 10), (False, False, 10), (True, True, 600), (False, True, 10),
+])
+def test_collection_and_execution_use_independent_timeouts(tmp_path, monkeypatch, collect, explicit, expected):
+    root = tmp_path / "root"
+    root.mkdir()
+    (root / "tests").mkdir()
+    (root / "tests" / "test_one.py").write_text("def test_one(): pass\n")
+    (root / "pytest.ini").write_text("[pytest]\n")
+    suite = {"name": "unit", "paths": ["tests"], "serial": False}
+    config = {"pytest_args": [], "timeout_seconds": 10}
+    if explicit:
+        config["collection_timeout_seconds"] = 600
+    timeouts = []
+    monkeypatch.setattr(engine, "execute",
+                        lambda command, cwd, directory, timeout, environment: timeouts.append(timeout))
+    engine._pytest(root, tmp_path / "job", suite, config,
+                   None if collect else ["tests/test_one.py::test_one"])
+    assert timeouts == [expected]
+
+
 @pytest.mark.parametrize("serial", [False, True])
 def test_independent_execution_does_not_recollect_whole_large_suite(tmp_path, monkeypatch, serial):
     root = tmp_path / "root"

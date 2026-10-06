@@ -215,6 +215,15 @@ checkpoints are rerun when resuming into the checkpoint-aware format.
 The tracker's ignored `.um-arts-test-work/` fixture directory is excluded from
 source fingerprints so parallel tracker tests do not invalidate one another's
 checkpoints. Ordinary test inputs and datasets remain fingerprinted.
+For large discovery passes, trusted execution configs may set
+`collection_timeout_seconds` independently of `timeout_seconds`. For example,
+600 seconds for initial suite collection can coexist with 120-second execution
+jobs and `files_per_job: 32`. Omission preserves the existing shared timeout;
+both budgets must be finite, positive and at most 86,400 seconds. Changing an
+explicit budget changes settings compatibility and requires a fresh plan.
+Execution timeouts include each job's own imports/collection. A timeout or
+missing receipt still blocks coverage; a larger collection budget never
+turns unfinished tests into passes.
 Keep downloaded compilers, scanner binaries, dependency archives and analysis
 databases outside the checkout (for example, in an external temporary directory).
 The legacy `.um-arts-completion/` provisioning directory is now explicitly

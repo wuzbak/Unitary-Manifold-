@@ -83,7 +83,9 @@ def _pytest(root: Path, directory: Path, suite: dict, config: dict,
     if nodes is not None:
         write_json(directory / "selection.json", nodes)
         environment["UM_ARTS_SELECTION"] = str(directory / "selection.json")
-    execute(command, root, directory, config["timeout_seconds"], environment)
+    timeout = config.get("collection_timeout_seconds", config["timeout_seconds"]) \
+        if nodes is None else config["timeout_seconds"]
+    execute(command, root, directory, timeout, environment)
     discard_scratch(directory / "scratch")
 
 
