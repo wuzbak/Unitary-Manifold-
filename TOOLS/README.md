@@ -369,6 +369,30 @@ state/training-linked engines are not imported or invoked by this read-only lane
 
 ### Lean build boundaries
 
+The `UM-ARTS Full Core Evidence` workflow runs independently of the cloud
+agent's session limit. It collects a frozen plan for `tests/`, `recycling/`
+and canonical Pentad with `-m ''`, uses four-file physics checkpoints and
+independent suites, and requires reconciled terminal outcomes before passing.
+It is not a claim that product, claims, or every other discovered monorepo
+suite was executed. Inspect the inventory for those additional lanes.
+The workflow preserves complete plans and job checkpoints with `always()`
+uploads and 90-day retention; it does not cancel an older run when a new
+commit arrives. An overall execution timeout leaves incomplete coverage,
+not a pass. Download artifacts before their retention expires. Cross-run
+resume still requires exact source/environment/settings compatibility;
+an artifact download does not authorize automatic execution.
+
+Full Python CodeQL now has an independent hosted job without changed-path
+selection or product/test exclusions. Only agent instruction files are
+excluded. It preserves SARIF separately from sliced analysis; the local
+validation wrapper's database-size skip is never counted as this job's pass.
+Lean supports manual workflow dispatch too. Mathlib cache retrieval is
+captured with a 600-second limit after the independent exporter and numerical
+checks. A failed download remains a failed captured command, while explicit
+`continue-on-error` permits the mandatory source build without the cache.
+The full library build still fails closed. Hosted workflow configuration is not execution
+evidence; actual results must be read for the tested commit.
+
 Selecting a discovered Lean project requests its full default build; the
 canonical Lean project now includes the actual `UnitaryManifold` library as a
 default target. An exporter executable build or passing exporter adapter tests

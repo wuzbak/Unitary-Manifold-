@@ -1,0 +1,74 @@
+name: UM-ARTS Full Core Evidence
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: um-arts-full-core-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  full-core:
+    name: Frozen full-core collection and checkpoint execution
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install existing verification dependencies
+        timeout-minutes: 30
+        run: |
+          python -m pip install -r requirements.txt -r requirements-dev.txt \
+            -r 12-AZ-IP/20-psicat-navigator/requirements.txt
+      - name: Collect, execute and verify frozen test identities
+        timeout-minutes: 290
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          from TOOLS.um_arts.engine import evaluate, plan, run
+          from TOOLS.um_arts.evidence import write_json
+
+          root = Path.cwd()
+          store = root / ".um-arts" / "full-core"
+          config = root / "12-AZ-IP/26-um-arts/um_arts/examples/full-core-ci.json"
+          planned = plan(root, store, config)
+          write_json(store / "planning_result.json", planned)
+          if planned["status"] != "ready":
+              sys.exit("Full-core collection blocked; see preserved receipts")
+          result = run(Path(planned["plan_path"]))
+          write_json(store / "execution_result.json", result)
+          verified = evaluate(Path(result["attempt_path"]))
+          write_json(store / "verified_result.json", verified)
+          print(json.dumps({
+              key: verified[key] for key in ["status", "counts", "selected", "reconciled"]
+          }, sort_keys=True))
+          if verified["status"] != "passed" or verified["selected"] != verified["reconciled"]:
+              sys.exit("Full-core execution blocked; missing or failed identities remain visible")
+          PY
+      - name: Preserve full-core plans and per-job checkpoints
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-full-core-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .um-arts/full-core/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 90
