@@ -137,13 +137,20 @@ class ContestTallyCommitment:
 
 
 def commit_tallies(
-    jurisdiction: str, contest_id: str, tallies: Mapping[str, int]
+    jurisdiction: str,
+    contest_id: str,
+    tallies: Mapping[str, int],
+    randomness: Optional[Mapping[str, int]] = None,
 ) -> tuple[ContestTallyCommitment, Dict[str, Opening]]:
-    """Commit separately to every candidate total of one contest."""
+    """Commit separately to every candidate total of one contest.
+
+    ``randomness`` should be omitted in practice (fresh CSPRNG blinding is
+    drawn); it exists only to generate reproducible test vectors.
+    """
     commitments: Dict[str, int] = {}
     openings: Dict[str, Opening] = {}
     for candidate, total in sorted(tallies.items()):
-        c, o = commit_value(int(total))
+        c, o = commit_value(int(total), None if randomness is None else randomness[candidate])
         commitments[candidate] = c
         openings[candidate] = o
     return ContestTallyCommitment(jurisdiction, contest_id, commitments), openings
