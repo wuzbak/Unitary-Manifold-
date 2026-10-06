@@ -92,7 +92,7 @@ def main(argv: list[str] | None = None) -> int:
                     stream.write(dashboard(result) if args.command == "dashboard"
                                  else json.dumps(result, sort_keys=True, indent=2))
         print(json.dumps(result, sort_keys=True, allow_nan=False))
-        return 0 if result["status"] in {"ready", "passed", "command_passed"} else 2
+        return 0 if result["status"] in {"ready", "passed", "command_passed", "collection_passed"} else 2
     except (EvidenceError, OSError, KeyError, TypeError, ValueError) as exc:
         print(json.dumps({"status": "blocked", "error": str(exc)}), file=sys.stderr)
         return 2

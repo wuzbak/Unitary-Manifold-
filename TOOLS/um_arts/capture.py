@@ -240,6 +240,7 @@ def evaluate_capture(directory: Path) -> dict:
     if process.get("returncode") != 0 or process.get("timed_out") or process.get("error"):
         errors.append("Captured command exited nonzero, timed out, or failed")
     structured = spec.get("structured_pytest")
+    collection_only = False
     if type(structured) is not bool:
         raise EvidenceError("Invalid structured capture flag")
     if structured:
@@ -247,12 +248,14 @@ def evaluate_capture(directory: Path) -> dict:
                                 timed_out=process["timed_out"])
         errors.extend(tests["errors"])
         raw = read_json(directory / "pytest.json") if (directory / "pytest.json").is_file() else {}
+        collection_only = raw.get("collection_only") is True
         if raw.get("root") != spec["root"]:
             errors.append("Pytest receipt root differs from captured source root")
     else:
         tests = {"counts": {}, "durations": {}, "selected": [], "deselected": [],
                  "collection_skips": [], "status": "not_observed"}
-    status = "blocked" if errors else "passed" if structured else "command_passed"
+    status = ("blocked" if errors else "collection_passed" if collection_only
+              else "passed" if structured else "command_passed")
     return {
         "version": VERSION, "attempt_id": spec["id"], "attempt_path": str(directory),
         "status": status, "errors": errors, "counts": tests["counts"],
@@ -263,9 +266,12 @@ def evaluate_capture(directory: Path) -> dict:
         "suites": {"captured_pytest" if structured else "command": status},
         "jobs": {"captured": tests}, "command": request["original_command"],
         "effective_command": process["command"], "returncode": process["returncode"],
-        "evidence_class": "STRUCTURED_PYTEST_EXECUTION" if structured else "COMMAND_EXECUTION_ONLY",
+        "evidence_class": ("STRUCTURED_PYTEST_COLLECTION" if collection_only
+                           else "STRUCTURED_PYTEST_EXECUTION" if structured
+                           else "COMMAND_EXECUTION_ONLY"),
         "sealed": True, "proof_claim": False,
-        "test_gate": structured, "pytest_status": tests["status"],
+        "test_gate": structured and not collection_only and not errors,
+        "collection_only": collection_only, "pytest_status": tests["status"],
         "formal": {"proof_claim": False, "correspondence": "UNRESOLVED",
                    "boundary": "Command/test evidence is not formal proof."},
         "provenance": {

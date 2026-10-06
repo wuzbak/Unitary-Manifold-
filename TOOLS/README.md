@@ -134,9 +134,27 @@ attempt logs, receipts, and the SQLite index together. Interrupted or timed-out
 attempts are not passes. Resume must reject incompatible source, environment,
 or execution settings rather than combine unrelated totals.
 
-Recovery currently reuses validated successes from sealed attempts only.
-Hard-killed, unsealed attempts are not resumable; preserve their logs and re-plan.
+Each completed orchestration job now has an independently sealed checkpoint
+with its exact job identity and before/after compatibility fingerprints.
+The attempt identity is persisted before execution. After a coordinator is
+hard-killed, `report` exposes an **incomplete** attempt, and `resume` creates a
+new attempt reusing only compatible, validated checkpoints. Missing, corrupt,
+unfinished, or source-unstable checkpoints must rerun. An unsealed attempt never
+certifies a baseline and cannot be imported as completed evidence.
+
+A runner lock prevents simultaneous recovery or recovery of an active
+coordinator. A hard kill cannot clean up independent child process groups:
+terminate orphaned workers before recovery. Preserve the original attempt;
+recovery never repairs or rewrites its receipts. A partially written final
+attempt seal is rejected rather than silently downgraded to recoverable evidence.
+Legacy sealed attempts remain readable; source-unstable attempts cannot be
+reused merely by restoring their original inputs. Legacy jobs without independent
+checkpoints are rerun when resuming into the checkpoint-aware format.
+
 Integration mode and automatic change-impact selection are not yet implemented.
+Collection-only captured pytest commands are labeled `collection_passed`, not
+test execution, and never satisfy `test_gate`. Reasonless unexpected xfail
+successes are blocked just like other XPASS outcomes.
 
 Artifact hashes detect corruption and inconsistent bundles; they are not a
 cryptographic attestation that an untrusted author executed the checks.

@@ -259,6 +259,19 @@ def test_wrapper_other_commands_do_not_claim_test_gate(arts_workspace):
     assert failed["returncode"] == 1
 
 
+def test_wrapper_collection_only_does_not_claim_execution_gate(arts_workspace):
+    _, _, root, _ = capture_command(arts_workspace)
+    result = capture_existing_command(
+        [sys.executable, "-m", "pytest", "--collect-only", "-q"],
+        arts_workspace / "collection-artifact", root)
+    assert result["status"] == "collection_passed"
+    assert result["test_gate"] is False
+    assert result["evidence_class"] == "STRUCTURED_PYTEST_COLLECTION"
+    assert result["counts"] == {}
+    assert result["reconciled"] == 0
+    assert result["selected"] > 0
+
+
 def test_wrapper_timeout_and_changed_sources_are_blocked(arts_workspace):
     root = arts_workspace / "command-root"
     root.mkdir()

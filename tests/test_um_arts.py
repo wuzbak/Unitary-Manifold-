@@ -59,6 +59,15 @@ def test_exact_evidence_green():
     assert result["counts"] == {"passed": 1}
 
 
+@pytest.mark.parametrize("outcome,expected", [("passed", "xpassed"), ("skipped", "xfailed")])
+def test_reasonless_xfail_metadata_is_not_treated_as_absent(outcome, expected):
+    receipt = events()
+    receipt["reports"][1].update(outcome=outcome, wasxfail="")
+    result = check_events(receipt, process(), "nonce", receipt["selected"])
+    assert result["counts"] == {expected: 1}
+    assert result["status"] == ("blocked" if outcome == "passed" else "passed")
+
+
 @pytest.mark.parametrize("mutation", [
     "missing_node", "extra_node", "duplicate_node", "missing_phase", "duplicate_phase",
     "wrong_nonce", "wrong_version", "nonzero_exit", "mismatched_exit", "timeout",

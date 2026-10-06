@@ -3,6 +3,8 @@
 """Real generic-repository CLI execution, immutable resume, and false-green tests."""
 
 import json
+import os
+import signal
 import subprocess
 import sys
 import time
@@ -136,6 +138,7 @@ def test_resume_failed_shard_only_and_dependency_order(arts_workspace, monkeypat
      "def test_teardown(broken): pass\n"),
     ("import pytest\n@pytest.mark.xfail(reason='unexpected pass')\n"
      "def test_xpass(): pass\n"),
+    "import pytest\n@pytest.mark.xfail\ndef test_reasonless_xpass(): pass\n",
 ])
 def test_real_phase_failures_are_blocked(arts_workspace, source):
     root, store, config = make_repository(arts_workspace, source)
@@ -200,6 +203,17 @@ def test_runtime_source_mutation_is_not_green(arts_workspace):
     assert any("changed during execution" in error for error in result["errors"])
 
 
+def test_restoring_source_does_not_make_unstable_attempt_reusable(arts_workspace):
+    root, store, config = make_repository(arts_workspace,
+        "from pathlib import Path\n"
+        "def test_changes_source(): Path('new_source.py').write_text('# changed\\n')\n")
+    result = engine.run(collect(root, store, config))
+    assert result["status"] == "blocked"
+    (root / "new_source.py").unlink()
+    with pytest.raises(EvidenceError, match="changed during prior execution"):
+        engine.resume(Path(result["attempt_path"]))
+
+
 def test_dataset_and_environment_changes_invalidate_source_plan(arts_workspace, monkeypatch):
     root, store, config = make_repository(arts_workspace)
     data = root / "fixture.bin"
@@ -252,6 +266,10 @@ def test_resealed_missing_phase_receipts_still_fail_semantic_gate(arts_workspace
     data["reports"] = []
     receipt.write_text(json.dumps(data))
     attempt.chmod(0o755)
+    receipt.parent.chmod(0o755)
+    (receipt.parent / "manifest.json").unlink()
+    (receipt.parent / "seal.json").unlink()
+    seal(receipt.parent)
     (attempt / "manifest.json").unlink()
     (attempt / "seal.json").unlink()
     seal(attempt)
@@ -338,3 +356,164 @@ def test_real_cli_plan_run_resume_verify_dashboard_and_import(arts_workspace):
     assert output.is_file()
     assert cli("import", "--artifact", attempt, "--store",
                arts_workspace / "cli-import")["executed_commands"] is False
+
+
+def unseal_attempt(attempt):
+    attempt.chmod(0o755)
+    for name in ["manifest.json", "seal.json", "end_fingerprints.json",
+                "execution_errors.json"]:
+        (attempt / name).unlink()
+
+
+def test_unsealed_attempt_is_never_green_and_reuses_checked_jobs(arts_workspace, monkeypatch):
+    root, store, config = make_repository(arts_workspace)
+    executed = engine.run(collect(root, store, config))
+    attempt = Path(executed["attempt_path"])
+    unseal_attempt(attempt)
+    incomplete = report(attempt)
+    assert incomplete["status"] == "incomplete"
+    assert all(job["status"] == "passed" for job in incomplete["jobs"].values())
+    with pytest.raises(EvidenceError, match="Unsealed"):
+        engine.import_artifact(attempt, arts_workspace / "incomplete-import")
+
+    def unexpected(*args, **kwargs):
+        raise AssertionError("Validated checkpoints should not rerun")
+
+    monkeypatch.setattr(engine, "_pytest", unexpected)
+    result = engine.resume(attempt)
+    assert result["status"] == "passed", result
+    assert report(attempt)["status"] == "incomplete"
+
+
+@pytest.mark.parametrize("damage", ["missing_seal", "corrupt_receipt", "wrong_identity",
+                                  "changed_environment"])
+def test_unsealed_invalid_checkpoints_rerun_only_affected_job(arts_workspace, monkeypatch, damage):
+    root, store, config = make_repository(arts_workspace)
+    attempt = Path(engine.run(collect(root, store, config))["attempt_path"])
+    unseal_attempt(attempt)
+    job = next((attempt / "jobs").iterdir())
+    job.chmod(0o755)
+    if damage == "missing_seal":
+        (job / "seal.json").unlink()
+    elif damage == "corrupt_receipt":
+        path = job / "events.json"
+        path.chmod(0o644)
+        path.write_text("{}")
+    else:
+        path = job / "checkpoint.json"
+        path.chmod(0o644)
+        data = read_json(path)
+        if damage == "wrong_identity":
+            data["job_digest"] = "different"
+        else:
+            data["after"]["environment"] = "different"
+        path.write_text(json.dumps(data))
+        (job / "manifest.json").unlink()
+        (job / "seal.json").unlink()
+        seal(job)
+    incomplete = report(attempt)
+    assert incomplete["jobs"][job.name]["status"] == "incomplete"
+    calls = []
+    original = engine._pytest
+
+    def record(*args, **kwargs):
+        calls.append(args[1].name)
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(engine, "_pytest", record)
+    resumed = engine.resume(attempt)
+    assert resumed["status"] == "passed", resumed
+    assert calls == [job.name]
+
+
+def test_partial_final_seal_is_not_treated_as_recoverable_checkpoint_state(arts_workspace):
+    root, store, config = make_repository(arts_workspace)
+    attempt = Path(engine.run(collect(root, store, config))["attempt_path"])
+    attempt.chmod(0o755)
+    (attempt / "seal.json").unlink()
+    with pytest.raises(EvidenceError, match="Missing regular"):
+        engine.resume(attempt)
+
+
+def test_runner_lock_blocks_concurrent_recovery(arts_workspace):
+    root, store, config = make_repository(arts_workspace)
+    attempt = Path(engine.run(collect(root, store, config))["attempt_path"])
+    unseal_attempt(attempt)
+    with engine._attempt_lock(attempt), pytest.raises(EvidenceError, match="still running"):
+        engine.resume(attempt)
+
+
+def test_sealed_attempt_cannot_silently_drop_required_checkpoint(arts_workspace):
+    root, store, config = make_repository(arts_workspace)
+    attempt = Path(engine.run(collect(root, store, config))["attempt_path"])
+    checkpoint = next((attempt / "jobs").glob("*/checkpoint.json"))
+    checkpoint.parent.chmod(0o755)
+    checkpoint.unlink()
+    (checkpoint.parent / "manifest.json").unlink()
+    (checkpoint.parent / "seal.json").unlink()
+    seal(checkpoint.parent)
+    attempt.chmod(0o755)
+    (attempt / "manifest.json").unlink()
+    (attempt / "seal.json").unlink()
+    seal(attempt)
+    result = report(attempt)
+    assert result["status"] == "blocked"
+    assert any("Required job checkpoint" in error for error in result["errors"])
+
+
+def test_hard_killed_cli_recovers_completed_checkpoint_without_reexecuting(arts_workspace):
+    calls = arts_workspace / "successful-calls"
+    child_pid = arts_workspace / "unfinished-child"
+    root, store, config = make_repository(arts_workspace,
+        "from pathlib import Path\n"
+        f"def test_pass(): Path({str(calls)!r}).write_text('once')\n")
+    (root / "tests/test_b.py").write_text(
+        "import os, time\nfrom pathlib import Path\n"
+        "def test_interrupted():\n"
+        f" p = Path({str(child_pid)!r})\n"
+        " if not p.exists():\n"
+        "  p.write_text(str(os.getpid()))\n"
+        "  time.sleep(60)\n")
+    planned = cli("plan", "--root", root, "--store", store, "--adapter", "generic",
+                  "--config", config)
+    plan = Path(planned["plan_path"])
+    runner = subprocess.Popen(
+        [sys.executable, "-m", "TOOLS.um_arts", "run", "--plan", str(plan)],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        deadline = time.monotonic() + 20
+        attempt = None
+        while time.monotonic() < deadline:
+            attempts = list((store / "attempts").glob("*")) if (store / "attempts").exists() else []
+            if attempts:
+               attempt = attempts[0]
+               if list((attempt / "jobs").glob("*/seal.json")) and child_pid.exists():
+                   break
+            if runner.poll() is not None:
+                pytest.fail("Runner exited before checkpoint capture: " +
+                            runner.stderr.read().decode())
+            time.sleep(0.05)
+        else:
+            pytest.fail("Runner did not finish a checkpoint before timeout")
+        runner.kill()
+        runner.wait(timeout=10)
+        # Hard-killing the coordinator cannot clean up its independent process groups.
+        os.killpg(int(child_pid.read_text()), signal.SIGKILL)
+        initial = report(attempt)
+        assert initial["status"] == "incomplete"
+        assert sum(job["status"] == "passed" for job in initial["jobs"].values()) == 1
+        calls.write_text("must not rerun")
+        resumed = cli("resume", "--attempt", attempt)
+        assert resumed["status"] == "passed", resumed
+        assert calls.read_text() == "must not rerun"
+    finally:
+        if runner.poll() is None:
+            runner.kill()
+            runner.wait(timeout=10)
+        if child_pid.exists():
+            try:
+               os.killpg(int(child_pid.read_text()), signal.SIGKILL)
+            except ProcessLookupError:
+               pass
+        runner.stdout.close()
+        runner.stderr.close()

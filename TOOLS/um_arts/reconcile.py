@@ -99,12 +99,12 @@ def check_events(events: dict, process: dict, nonce: str, expected: list[str] | 
             elif phases[0].get("outcome") == "skipped":
                 if len(phases) != 2:
                     errors.append(f"Skipped setup unexpectedly executed a call: {node}")
-                counts["xfailed" if phases[0].get("wasxfail") else "skipped"] += 1
+                counts["xfailed" if phases[0].get("wasxfail") is not None else "skipped"] += 1
             elif phases[0].get("outcome") != "passed" or len(phases) != 3:
                 errors.append(f"Missing call after successful setup: {node}")
             elif phases[1].get("outcome") == "skipped":
-                counts["xfailed" if phases[1].get("wasxfail") else "skipped"] += 1
-            elif phases[1].get("wasxfail"):
+                counts["xfailed" if phases[1].get("wasxfail") is not None else "skipped"] += 1
+            elif phases[1].get("wasxfail") is not None:
                 counts["xpassed"] += 1
                 # Unexpected success is visible, and does not silently satisfy the gate.
                 errors.append(f"Unexpected xfail success: {node}")

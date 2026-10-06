@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import fcntl
 import os
 import re
 import shutil
@@ -11,6 +12,7 @@ import sys
 import uuid
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import contextmanager
 from pathlib import Path
 
 from . import VERSION, formal
@@ -237,11 +239,61 @@ def _job_evaluation(directory: Path, job: dict, suite: dict) -> dict:
     return result
 
 
-def evaluate(attempt: Path) -> dict:
-    manifest = verify_seal(attempt)
-    if "capture.json" in manifest["files"]:
-        from .capture import evaluate_capture
-        return evaluate_capture(attempt)
+@contextmanager
+def _attempt_lock(attempt: Path, *, create: bool = False):
+    """Prevent recovery while a runner or another recovery owns the attempt."""
+    path = contained(attempt, "runner.lock", must_exist=not create)
+    with path.open("xb" if create else "rb") as stream:
+        try:
+            fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise EvidenceError("Attempt is still running or being recovered") from exc
+        try:
+            yield
+        finally:
+            fcntl.flock(stream, fcntl.LOCK_UN)
+
+
+def _checkpoint_job(root: Path, store: Path, destination: Path, suite: dict,
+                    config: dict, job: dict, compatibility: dict) -> None:
+    before = fingerprints(root, store, config)["compatibility"]
+    _pytest(root, destination, suite, config, job["nodes"])
+    after = fingerprints(root, store, config)["compatibility"]
+    write_json(destination / "checkpoint.json", {
+        "version": VERSION, "job_digest": digest(job),
+        "compatibility": compatibility, "before": before, "after": after,
+    })
+    seal(destination)
+    _freeze(destination)
+
+
+def _checked_checkpoint(directory: Path, job: dict, suite: dict,
+                        compatibility: dict) -> dict:
+    verify_seal(directory)
+    checkpoint = read_json(contained(directory, "checkpoint.json"))
+    if not isinstance(checkpoint, dict) or checkpoint.get("version") != VERSION \
+            or checkpoint.get("job_digest") != digest(job) \
+            or any(checkpoint.get(field) != compatibility
+                   for field in ["compatibility", "before", "after"]):
+        raise EvidenceError("Job checkpoint identity/source/environment/settings mismatch")
+    return _job_evaluation(directory, job, suite)
+
+
+def _execution_evaluation(directory: Path, job: dict, suite: dict,
+                          compatibility: dict, *, required: bool = False) -> dict:
+    if not (directory / "checkpoint.json").exists():
+        if required:
+            return {"status": "blocked", "errors": ["Required job checkpoint is missing"],
+                    "counts": {}, "durations": {}, "selected": []}
+        return _job_evaluation(directory, job, suite)
+    try:
+        return _checked_checkpoint(directory, job, suite, compatibility)
+    except EvidenceError as exc:
+        return {"status": "blocked", "errors": [str(exc)], "counts": {},
+                "durations": {}, "selected": []}
+
+
+def _attempt_identity(attempt: Path) -> tuple[dict, dict]:
     spec = read_json(contained(attempt, "attempt.json"))
     if not isinstance(spec, dict):
         raise EvidenceError("Attempt must be a JSON object")
@@ -249,11 +301,70 @@ def evaluate(attempt: Path) -> dict:
     if spec.get("version") != VERSION or spec.get("plan_digest") != digest(plan_spec) \
             or spec.get("compatibility") != plan_spec["fingerprints"]["compatibility"]:
         raise EvidenceError("Attempt identity does not agree with its plan")
+    if spec.get("checkpoint_policy") not in {None, "per-job-v1"}:
+        raise EvidenceError("Unsupported attempt checkpoint policy")
+    return spec, plan_spec
+
+
+def evaluate_incomplete(attempt: Path) -> dict:
+    """Unsealed runs can expose checked jobs but can never certify a baseline."""
+    if attempt.is_symlink() or not attempt.is_dir():
+        raise EvidenceError("Attempt root must be a regular directory")
+    spec, plan_spec = _attempt_identity(attempt)
+    start = read_json(contained(attempt, "start_fingerprints.json"))
+    if start.get("compatibility") != spec["compatibility"]:
+        raise EvidenceError("Attempt start fingerprints disagree with its plan")
+    jobs = {}
+    counts = Counter()
+    durations = {}
+    nodes = []
+    suites = {}
+    errors = ["Attempt is unsealed/incomplete; only validated job checkpoints are reusable"]
+    for suite in plan_spec["suites"]:
+        prerequisites_passed = all(suites.get(name) == "passed" for name in suite["requires"])
+        results = []
+        for job in [j for j in plan_spec["jobs"] if j["suite"] == suite["name"]]:
+            directory = contained(attempt, "jobs/" + job["id"], must_exist=False)
+            try:
+                result = _checked_checkpoint(directory, job, suite, spec["compatibility"])
+                if not prerequisites_passed:
+                    raise EvidenceError("Checkpoint prerequisite suite is incomplete")
+            except EvidenceError as exc:
+                result = {"status": "incomplete", "errors": [str(exc)], "counts": {},
+                          "durations": {}, "selected": []}
+            jobs[job["id"]] = result
+            results.append(result)
+            counts.update(result["counts"])
+            durations.update(result["durations"])
+            nodes.extend(result["selected"])
+        suites[suite["name"]] = "passed" if results and all(
+            result["status"] == "passed" for result in results) else "incomplete"
+    return {
+        "version": VERSION, "attempt_id": spec["id"], "status": "incomplete",
+        "errors": errors, "counts": dict(counts), "durations": durations,
+        "selected": sum(len(suite["nodes"]) for suite in plan_spec["suites"]),
+        "reconciled": len(nodes), "jobs": jobs, "suites": suites,
+        "compatibility": spec["compatibility"], "selection": plan_spec["selection"],
+        "formal": {"status": "incomplete", "proof_claim": False},
+        "integrity_boundary": "Job hashes are not signatures or execution attestations.",
+    }
+
+
+def evaluate(attempt: Path) -> dict:
+    if not (attempt / "manifest.json").exists() and not (attempt / "seal.json").exists():
+        return evaluate_incomplete(attempt)
+    manifest = verify_seal(attempt)
+    if "capture.json" in manifest["files"]:
+        from .capture import evaluate_capture
+        return evaluate_capture(attempt)
+    spec, plan_spec = _attempt_identity(attempt)
     counts = Counter()
     durations = {}
     nodes = []
     jobs = {}
     errors = list(spec.get("errors", []))
+    if "execution_errors.json" in manifest["files"]:
+        errors.extend(read_json(contained(attempt, "execution_errors.json")))
     if read_json(contained(attempt, "end_fingerprints.json"))["compatibility"] != spec["compatibility"]:
         errors.append("Source/environment/settings changed during execution")
     suite_status = {}
@@ -262,7 +373,9 @@ def evaluate(attempt: Path) -> dict:
             errors.append(f"{suite['name']}: dependency did not pass")
         results = []
         for job in [job for job in plan_spec["jobs"] if job["suite"] == suite["name"]]:
-            result = _job_evaluation(attempt / "jobs" / job["id"], job, suite)
+            result = _execution_evaluation(attempt / "jobs" / job["id"], job, suite,
+                                           spec["compatibility"],
+                                           required=spec.get("checkpoint_policy") == "per-job-v1")
             jobs[job["id"]] = result
             results.append(result)
             counts.update(result["counts"])
@@ -311,10 +424,15 @@ def run(plan_path: Path, previous: Path | None = None) -> dict:
     if current["compatibility"] != spec["fingerprints"]["compatibility"]:
         raise EvidenceError("Plan source/environment/settings are no longer compatible; re-plan")
     prior = None
+    prior_spec = None
     if previous:
         prior = evaluate(previous)
+        prior_spec = read_json(contained(previous, "plan/plan.json"))
         if prior["compatibility"] != current["compatibility"]:
             raise EvidenceError("Resume evidence is incompatible with current source/environment/settings")
+        if (previous / "end_fingerprints.json").is_file() and read_json(
+                contained(previous, "end_fingerprints.json"))["compatibility"] != current["compatibility"]:
+            raise EvidenceError("Source/environment/settings changed during prior execution; re-plan")
     index = Index(store)
     identifier = uuid.uuid4().hex
     attempt = contained(store, "attempts/" + identifier, must_exist=False)
@@ -324,39 +442,46 @@ def run(plan_path: Path, previous: Path | None = None) -> dict:
     errors = []
     attempt_spec = {"version": VERSION, "id": identifier, "root": str(root), "store": str(store),
                     "plan_digest": digest(spec), "compatibility": current["compatibility"],
-                    "previous_attempt": str(previous) if previous else None, "errors": errors}
+                    "previous_attempt": str(previous) if previous else None, "errors": errors,
+                    "checkpoint_policy": "per-job-v1"}
     write_json(attempt / "start_fingerprints.json", current)
+    write_json(attempt / "attempt.json", attempt_spec)
     suite_status = {}
-    try:
-        for suite in spec["suites"]:
-            if not all(suite_status.get(name) == "passed" for name in suite["requires"]):
-                suite_status[suite["name"]] = "blocked"
-                continue
-            suite_jobs = [job for job in spec["jobs"] if job["suite"] == suite["name"]]
-            pending = []
-            for job in suite_jobs:
-                destination = attempt / "jobs" / job["id"]
-                if prior and prior["jobs"].get(job["id"], {}).get("status") == "passed":
-                    shutil.copytree(previous / "jobs" / job["id"], destination)
-                else:
-                    pending.append((job, destination))
-            with ThreadPoolExecutor(max_workers=config["workers"]) as pool:
-                futures = [pool.submit(_pytest, root, destination, suite, config, job["nodes"])
-                           for job, destination in pending]
-                for future in futures:
-                    future.result()
-            suite_status[suite["name"]] = "passed" if all(
-                _job_evaluation(attempt / "jobs" / job["id"], job, suite)["status"] == "passed"
-                for job in suite_jobs) else "blocked"
-        if config["lean"]:
-            formal.build(root, attempt / "lean", config)
-    except (OSError, ValueError, KeyboardInterrupt) as exc:
-        errors.append(f"Execution interrupted: {type(exc).__name__}: {exc}")
-    finally:
-        write_json(attempt / "attempt.json", attempt_spec)
-        write_json(attempt / "end_fingerprints.json", fingerprints(root, store, config))
-        seal(attempt)
-        _freeze(attempt)
+    with _attempt_lock(attempt, create=True):
+        try:
+            for suite in spec["suites"]:
+                if not all(suite_status.get(name) == "passed" for name in suite["requires"]):
+                    suite_status[suite["name"]] = "blocked"
+                    continue
+                suite_jobs = [job for job in spec["jobs"] if job["suite"] == suite["name"]]
+                pending = []
+                for job in suite_jobs:
+                    destination = attempt / "jobs" / job["id"]
+                    same_job = prior_spec and job in prior_spec["jobs"]
+                    if same_job and prior["jobs"].get(job["id"], {}).get("status") == "passed" \
+                            and (previous / "jobs" / job["id"] / "checkpoint.json").is_file():
+                        shutil.copytree(previous / "jobs" / job["id"], destination)
+                    else:
+                        pending.append((job, destination))
+                with ThreadPoolExecutor(max_workers=config["workers"]) as pool:
+                    futures = [pool.submit(_checkpoint_job, root, store, destination, suite,
+                                           config, job, current["compatibility"])
+                               for job, destination in pending]
+                    for future in futures:
+                        future.result()
+                suite_status[suite["name"]] = "passed" if all(
+                    _execution_evaluation(attempt / "jobs" / job["id"], job, suite,
+                                          current["compatibility"], required=True)["status"] == "passed"
+                    for job in suite_jobs) else "blocked"
+            if config["lean"]:
+                formal.build(root, attempt / "lean", config)
+        except (OSError, ValueError, KeyboardInterrupt) as exc:
+            errors.append(f"Execution interrupted: {type(exc).__name__}: {exc}")
+        finally:
+            write_json(attempt / "execution_errors.json", errors)
+            write_json(attempt / "end_fingerprints.json", fingerprints(root, store, config))
+            seal(attempt)
+            _freeze(attempt)
     result = evaluate(attempt)
     index.record(attempt, result)
     return {"status": result["status"], "attempt_path": str(attempt),
@@ -368,12 +493,17 @@ def resume(attempt: Path) -> dict:
     evaluate(attempt)
     if (attempt / "capture.json").is_file():
         raise EvidenceError("Captured existing commands have no resumable plan; wrap the trusted command again")
+    if not (attempt / "manifest.json").exists() and not (attempt / "seal.json").exists():
+        with _attempt_lock(attempt):
+            return run(attempt / "plan" / "plan.json", previous=attempt)
     return run(attempt / "plan" / "plan.json", previous=attempt)
 
 
 def import_artifact(artifact: Path, store: Path) -> dict:
     """Import only regular, verified evidence files; never execute artifact commands."""
     result = evaluate(artifact)
+    if result["status"] == "incomplete":
+        raise EvidenceError("Unsealed attempts cannot be imported as completed evidence")
     manifest = verify_seal(artifact)
     index = Index(store)
     destination = contained(store.resolve(), "imports/" + uuid.uuid4().hex, must_exist=False)
