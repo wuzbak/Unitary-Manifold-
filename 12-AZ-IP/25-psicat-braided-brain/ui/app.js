@@ -264,7 +264,7 @@ function renderState() {
   byId('briefing').textContent = state.briefing;
   byId('source-note').textContent = level.sourceNote;
   byId('narrative-note').textContent = state.narrative;
-  byId('score').textContent = String(campaign.totalScore + state.score);
+  byId('score').textContent = String(core.getCampaignSnapshot(campaign).totalScore);
   byId('coherence').textContent = `${state.coherence}%`;
   byId('coherence').dataset.tone = statusTone(state.coherence);
   byId('wraps').textContent = `${state.wraps}/${state.wrapGoal}`;
@@ -342,6 +342,42 @@ function buildLocalCoachFallback(reason) {
   return `Coach offline. Local hint: Carry ${carried}, keep coherence high, and use the torus edges to reposition. ${nextStep} ${wrapHint} (${reason})`;
 }
 
+async function product20Handshake(endpoint) {
+  const endpointUrl = new URL(endpoint, window.location.href);
+  const endpointPath = endpointUrl.pathname.replace(/\/+$/, '');
+  if (endpointPath === '/api/ox') {
+    throw new Error('Product 20’s legacy /api/ox route does not issue handshake challenges. Use /api/psicat or /api/merlin.');
+  }
+  if (!['/api/psicat', '/api/merlin'].includes(endpointPath)) return {};
+
+  const statusUrl = new URL(`${endpointPath}/status`, endpointUrl.origin);
+  const statusResponse = await fetch(statusUrl, { credentials: 'include', cache: 'no-store' });
+  if (!statusResponse.ok) {
+    throw new Error(`Coach status endpoint returned status ${statusResponse.status}`);
+  }
+  const status = await statusResponse.json();
+  const handshake = status.session_contract?.handshake || {};
+  const challenge = handshake.challenge;
+  const receipt = handshake.receipt;
+  const profileToken = status.memory_profile_token;
+  if (!challenge || !receipt || !profileToken) {
+    throw new Error('Coach status response did not include handshake credentials');
+  }
+  const digest = await window.crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(`${challenge}:${profileToken}`),
+  );
+  const proof = Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
+  return {
+    merlin_handshake_challenge: challenge,
+    merlin_handshake_receipt: receipt,
+    merlin_handshake_proof: proof,
+    merlin_handshake_profile_token: profileToken,
+  };
+}
+
 async function askCoach() {
   const endpoint = byId('coach-endpoint').value.trim() || DEFAULT_COACH_ENDPOINT;
   const playerPrompt = byId('coach-input').value.trim();
@@ -356,13 +392,16 @@ async function askCoach() {
   }
   renderCoachStatus('PsiCat coach is thinking…');
   try {
+    const handshake = await product20Handshake(endpoint);
     const response = await fetch(endpoint, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         query,
         page_context: campaign.current.briefing,
         user_context: JSON.stringify(core.createTrainingPacket(campaign)),
+        ...handshake,
       }),
     });
     let payload;

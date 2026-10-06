@@ -458,7 +458,7 @@
           "input_percentage": 0.005400734499891985,
           "input_synapses": 17,
           "label": "Lobula Plate",
-          "log_ratio": -Infinity,
+          "log_ratio": "-Infinity",
           "output_percentage": 0.0,
           "output_synapses": 0,
           "roi": "LOP"

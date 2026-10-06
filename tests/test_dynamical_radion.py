@@ -95,7 +95,7 @@ class TestAssembleWarped5DMetric:
         assert np.allclose(G5[:, 4, 4], r_c**2)
 
     def test_off_diagonal_mu5_equals_lam_radius_squared_B(self):
-        """G_μ5 = G_5μ = λφB_μ (unchanged from flat KK ansatz)."""
+        """G_μ5 = G_5μ = λ r_c² B_μ for constant r_c."""
         n   = N
         g   = np.tile(np.diag([-1.0, 1.0, 1.0, 1.0]), (n, 1, 1))
         B   = np.random.default_rng(0).uniform(-0.5, 0.5, (n, 4))

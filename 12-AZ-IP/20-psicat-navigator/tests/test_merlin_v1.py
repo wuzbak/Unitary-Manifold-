@@ -28,6 +28,7 @@ import ox_navigator.engine.merlin_benchmark as merlin_benchmark
 import ox_navigator.engine.merlin_program as merlin_program
 import ox_navigator.engine.merlin_training_execution as merlin_training_execution
 import ox_navigator.engine.merlin_tools as merlin_tools
+import ox_navigator.app.server as merlin_server
 from ox_navigator.app.server import serve
 from ox_navigator.engine.merlin_identity import (
     CANONICAL_IDENTITY,
@@ -76,6 +77,71 @@ from ox_navigator.engine.merlin_program import run_sync_checks
 
 def test_detect_persona_mode_storyteller():
     assert detect_persona_mode('Explain this like a story with an analogy.') == 'storyteller'
+
+
+@pytest.mark.parametrize('api_root', ['/api/psicat', '/api/merlin'])
+def test_product25_local_origin_can_complete_handshake(monkeypatch, api_root):
+    async def fake_query_merlin(**kwargs):
+        return {'answer': 'Handshake accepted.'}
+
+    monkeypatch.setattr(merlin_server, 'query_merlin', fake_query_merlin)
+    httpd = serve('127.0.0.1', 0)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    origin = 'http://127.0.0.1:8025'
+    try:
+        with httpx.Client(
+            base_url=f'http://127.0.0.1:{httpd.server_address[1]}',
+            timeout=SERVER_TEST_TIMEOUT_SECONDS,
+        ) as client:
+            preflight = client.options(
+                api_root,
+                headers={
+                    'Origin': origin,
+                    'Access-Control-Request-Method': 'POST',
+                    'Access-Control-Request-Headers': 'content-type',
+                },
+            )
+            assert preflight.status_code == 204
+            assert preflight.headers['Access-Control-Allow-Origin'] == origin
+            assert preflight.headers['Access-Control-Allow-Credentials'] == 'true'
+
+            status = client.get(f'{api_root}/status', headers={'Origin': origin})
+            assert status.status_code == 200
+            assert status.headers['Access-Control-Allow-Origin'] == origin
+            handshake = status.json()['session_contract']['handshake']
+            profile_token = status.json()['memory_profile_token']
+            proof = hashlib.sha256(
+                f"{handshake['challenge']}:{profile_token}".encode('utf-8')
+            ).hexdigest()
+            response = client.post(
+                api_root,
+                headers={'Origin': origin},
+                json={
+                    'query': 'Say hello in one sentence.',
+                    'merlin_handshake_challenge': handshake['challenge'],
+                    'merlin_handshake_receipt': handshake['receipt'],
+                    'merlin_handshake_proof': proof,
+                    'merlin_handshake_profile_token': profile_token,
+                },
+            )
+            assert response.status_code == 200
+            assert response.headers['X-PsiCat-Handshake-State'] == 'verified'
+            assert response.headers['Access-Control-Allow-Origin'] == origin
+
+            denied = client.options(
+                api_root,
+                headers={
+                    'Origin': 'https://untrusted.example',
+                    'Access-Control-Request-Method': 'POST',
+                },
+            )
+            assert denied.status_code == 403
+            assert 'Access-Control-Allow-Origin' not in denied.headers
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+        thread.join(timeout=5)
 
 
 def test_detect_persona_mode_serious():

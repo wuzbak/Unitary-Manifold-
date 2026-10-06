@@ -13,6 +13,7 @@
 - **Session memory:** active browser session in `localStorage` key `merlin_active_session` (50-message cap) plus file-backed multi-tier PsiCat memory profiles with contradiction tracking and telemetry continuity
 - **Temperature range:** `0.0`–`1.0`
 - **Sub-tools:** Interrogator + Flashcard Trainer
+- **External test/report intake:** [`../psicat-external-intake/`](../psicat-external-intake/) (unreviewed submissions are evidence, not canonical tests)
 - **Rebrand label:** `REBRAND-2026-09-PSICAT`
 - **Legal separation notice:** [`../BRAND_SEPARATION_NOTICE_PSICAT.md`](../BRAND_SEPARATION_NOTICE_PSICAT.md)
 - **Internal identity policy:** product/legal name is **PsiCat**; internal steward-facing persona for ThomasCory remains **Merlin**.

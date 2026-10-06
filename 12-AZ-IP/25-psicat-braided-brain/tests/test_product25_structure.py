@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+
 from __future__ import annotations
 
 import json
@@ -26,10 +29,11 @@ class Product25StructureTests(unittest.TestCase):
         self.assertTrue((PRODUCT_ROOT / 'ui' / 'favicon.png').exists())
         self.assertEqual(resume['product'], 25)
         self.assertTrue(resume['resume_entrypoint'].endswith('/12-AZ-IP/25-psicat-braided-brain/README.md'))
-        self.assertIn('CACHE_NAME', service_worker)
+        self.assertIn("key.startsWith('psicat-braided-brain-')", service_worker)
 
     def test_package_scripts_cover_lint_and_tests(self) -> None:
         package_json = json.loads((PRODUCT_ROOT / 'package.json').read_text(encoding='utf-8'))
+        self.assertEqual(package_json['version'], '1.1.0')
         self.assertIn('lint', package_json['scripts'])
         self.assertIn('node --test', package_json['scripts']['test'])
         self.assertIn('sw.js', package_json['scripts']['lint'])
