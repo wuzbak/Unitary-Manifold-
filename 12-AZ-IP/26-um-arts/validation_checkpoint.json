@@ -360,5 +360,96 @@
       "retention": "Temporary sandbox storage; preserve sealed directories externally or rerun if missing. This summary and hashes do not replace execution receipts."
     },
     "aggregation_boundary": "Focused tests overlap scoped execution and prior captures. Do not sum these counts or treat subsequent metadata commits as the tested revision."
+  },
+  "bounded_invocation_slices": {
+    "tested_revision": "b9751383b62cefb28b47e90e1289ed400caf969f",
+    "interrupted_workflow_run": 37483433450,
+    "diagnosis": "Actions cancelled the agent at its session limit; no complete additional results or retained receipts from that session are available locally.",
+    "change": "run/resume --max-jobs caps new pytest jobs per invocation without changing frozen settings. Atomic inherited history and dispatch receipts prioritize never-attempted eligible jobs before retries. Deferred coverage remains blocked, not passing; compatible successful checkpoints are reused free.",
+    "boundary": "A job-count budget is not a wall-clock deadline. Collection, fingerprinting, copying and any subsequent Lean build have separate costs.",
+    "focused_tests": {"passed": 76, "ruff": "passed"},
+    "source_fingerprint": "766d7ef27debbcb7d0a19278a1d1fd02c79d7d8539a62e7745f37febf9e6c9fe",
+    "engine_fingerprint": "eddf574c586f0cea67f24d74c3808336e4da0cbeee485adc257b3b7d25a8f45f",
+    "environment_fingerprint": "d6d12920525eecf8fa1450e4256ec98adff11d068fba8c7038c5c720e8863413",
+    "settings_fingerprint": "902e2d579e09cf72b8af384554d23ca6c04b600225c290e5da7d8546d00e8028",
+    "pytest_version": "9.1.1",
+    "environment_boundary": "Preinstalled pytest exceeds the repository's pytest<9.1 constraint; does not replace the earlier supported-pytest scoped capture.",
+    "scope": "UM-ARTS compatibility excluding previously agent-owned index tests, four geometry modules, Pillar 536 registry, recycling and canonical Pentad.",
+    "workers": 2,
+    "files_per_job": 2,
+    "collection_timeout_seconds": 600,
+    "execution_timeout_seconds": 300,
+    "pytest_args": ["-m", ""],
+    "slices": [
+      {
+        "attempt": "0436c1170d7b412f84a1bd8195af14e3",
+        "max_jobs": 2,
+        "executed_jobs": 2,
+        "deferred_jobs": 11,
+        "status": "blocked",
+        "counts": {"passed": 142},
+        "result_sha256": "a23e1a5ed2916bc9ff328e9382b7aeea1d43ead7a91780cfaf20cdabc2a262e5"
+      },
+      {
+        "attempt": "6b081d38f35f4885909d2c395cee39b3",
+        "max_jobs": 3,
+        "executed_jobs": 3,
+        "deferred_jobs": 8,
+        "status": "blocked",
+        "counts": {"passed": 282, "skipped": 1},
+        "result_sha256": "f0c3a6cffb16d1bf19d09449f73fc509a58530d0690a954f05a743de2d7d6a7d"
+      },
+      {
+        "attempt": "bf25e4b4bc66486d9185cf7f8a482032",
+        "max_jobs": 8,
+        "executed_jobs": 8,
+        "deferred_jobs": 0,
+        "status": "passed",
+        "counts": {"passed": 4064, "skipped": 15},
+        "result_sha256": "2f3e51f7ba814436af97f821124f16e8482ae789559ee0757737b81f6d588898"
+      }
+    ],
+    "final_verification": {
+      "status": "passed",
+      "selected": 4079,
+      "reconciled": 4079,
+      "jobs": 13,
+      "passed": 4064,
+      "skipped": 15,
+      "source_environment_and_settings_stable": true,
+      "reused_process_receipts": 5,
+      "reused_receipts_byte_identical_to_previous": true,
+      "result_sha256": "411876dac47eeaed3e8985649b04c006ce3610a88936d57e5944027c6a834ea0",
+      "seal_sha256": "bf413c0d57a8cb0fced5595d1ef6eac4c0dbae14cabd77780cfb1b7dfa17c609",
+      "suite_counts": {
+        "application": {"passed": 389, "skipped": 12},
+        "geometry": {"passed": 207},
+        "registry": {"passed": 70},
+        "recycling": {"passed": 316},
+        "pentad": {"passed": 3082, "skipped": 3}
+      }
+    },
+    "completed_resume": {
+      "attempt": "894ff15046cb4cee80adc09e3dfef3ea",
+      "status": "passed",
+      "max_jobs": 1,
+      "executed_jobs": 0,
+      "deferred_jobs": 0,
+      "reused_jobs": 13,
+      "execution_log_bytes": 0,
+      "result_sha256": "6ac28b446a626251033818f96b4d837ef04f1ca1134de2e60828507b7dc850b8"
+    },
+    "review": {
+      "independent_final_review": "No significant issues found after addressing failure starvation, pre-dispatch persistence and atomic publication.",
+      "automated_review": "Unavailable: Autofind binary missing.",
+      "python_codeql": "Not analyzed: database too large.",
+      "actions_and_javascript_codeql": "Unchanged since prior analyzed run."
+    },
+    "remaining_gates": "Full-core execution, full Lean-library build and Python CodeQL remain unverified. The new budgets make bounded progress possible but do not certify unexecuted or timed-out tests.",
+    "receipt_storage": {
+      "location": "/tmp/um-arts-slices",
+      "retention": "Temporary sandbox storage. Preserve complete sealed directories externally or rerun if missing; this checkpoint does not substitute for receipts."
+    },
+    "aggregation_boundary": "Slice counts are cumulative, and completed resume repeats the same identities. Do not add slice, focused or earlier capture counts; this record belongs only to tested_revision."
   }
 }
