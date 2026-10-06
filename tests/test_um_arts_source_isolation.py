@@ -31,3 +31,28 @@ def test_training_isolation_copies_seed_artifacts_and_restores_paths():
             cleanup()
     assert all(getattr(training, name) == originals[name] for name in names)
     assert not isolated.exists()
+
+
+def test_exchange_history_isolation_preserves_source_and_restores_path(tmp_path, monkeypatch):
+    from lodge import rag_bridge
+
+    original = tmp_path / "exchange_history.jsonl"
+    seed = '{"question": "seed"}\n'
+    original.write_text(seed)
+    monkeypatch.setattr(rag_bridge, "_HISTORY_FILE", original)
+    cleanups = []
+    session = SimpleNamespace(config=SimpleNamespace(add_cleanup=cleanups.append))
+    try:
+        conftest.pytest_sessionstart(session)
+        isolated = rag_bridge._HISTORY_FILE
+        assert isolated != original
+        assert isolated.read_text() == seed
+        assert not isolated.is_relative_to(Path(conftest._REPO_ROOT))
+        rag_bridge.KnowledgeExchange().ask("What is the braided sound speed?")
+        assert len(isolated.read_text().splitlines()) == 2
+        assert original.read_text() == seed
+    finally:
+        for cleanup in reversed(cleanups):
+            cleanup()
+    assert rag_bridge._HISTORY_FILE == original
+    assert not isolated.exists()

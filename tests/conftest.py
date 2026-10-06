@@ -40,7 +40,7 @@ from src.multiverse.fixed_point import MultiverseNetwork
 
 
 def pytest_sessionstart(session):
-    """Isolate training writes before collection can evaluate pillar proxies."""
+    """Isolate runtime writes before collection can evaluate pillar proxies."""
     from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
 
     ensure_merlin_package_loaded(Path(_REPO_ROOT) / "12-AZ-IP" / "20-psicat-navigator")
@@ -57,6 +57,14 @@ def pytest_sessionstart(session):
             shutil.copy2(original, isolated)
         patches.setattr(merlin_training_execution, name, isolated)
     patches.setattr(merlin_training_execution, "_LANE_E_RUNTIME_PROFILE_CACHE", None)
+    from lodge import rag_bridge
+
+    original = rag_bridge._HISTORY_FILE
+    isolated = Path(directory.name) / "lodge" / original.name
+    isolated.parent.mkdir()
+    if original.is_file():
+        shutil.copy2(original, isolated)
+    patches.setattr(rag_bridge, "_HISTORY_FILE", isolated)
 
 
 # ---------------------------------------------------------------------------
