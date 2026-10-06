@@ -58,6 +58,18 @@ def test_exact_evidence_green():
     assert result["counts"] == {"passed": 1}
 
 
+def test_phase_reconciliation_uses_constant_time_identity_lookup():
+    class SelectedIdentities(list):
+        def __contains__(self, item):
+            raise AssertionError("Phase validation must not scan the selected list")
+
+    receipt = events()
+    receipt["selected"] = SelectedIdentities(receipt["selected"])
+    result = check_events(receipt, process(), "nonce", receipt["selected"])
+    assert result["status"] == "passed"
+    assert result["counts"] == {"passed": 1}
+
+
 @pytest.mark.parametrize("outcome,expected", [("passed", "xpassed"), ("skipped", "xfailed")])
 def test_reasonless_xfail_metadata_is_not_treated_as_absent(outcome, expected):
     receipt = events()

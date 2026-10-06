@@ -40,6 +40,8 @@ def capture_command(workspace, *extra):
     env = dict(os.environ)
     env.pop("UM_ARTS_RECEIPT", None)
     env.pop("UM_ARTS_SELECTION", None)
+    env.pop("UM_ARTS_CAPTURE_SERIAL", None)
+    env.pop("UM_ARTS_NONCE", None)
     env.pop("PYTEST_ADDOPTS", None)
     env.pop("PYTEST_PLUGINS", None)
     env["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"
@@ -174,6 +176,7 @@ def test_external_xdist_configuration_allowed_managed_nested_xdist_forbidden(art
     monkeypatch.setattr(plugin, "_data", events())
     monkeypatch.setenv("UM_ARTS_PYTEST_REPORT", str(arts_workspace / "output.json"))
     monkeypatch.delenv("UM_ARTS_RECEIPT", raising=False)
+    monkeypatch.delenv("UM_ARTS_CAPTURE_SERIAL", raising=False)
     config = SimpleNamespace(rootpath=arts_workspace,
                              option=SimpleNamespace(collectonly=False, numprocesses=2, dist="load"))
     plugin.pytest_configure(config)

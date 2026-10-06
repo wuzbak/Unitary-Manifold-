@@ -45,6 +45,7 @@ def check_events(events: dict, process: dict, nonce: str, expected: list[str] | 
             errors.append(f"Duplicate {label} node identities")
     if set(selected) & (set(deselected) | set(excluded)) or set(deselected) & set(excluded):
         errors.append("Selected/deselected/excluded identities overlap")
+    selected_set = set(selected)
     if expected is not None and Counter(selected) != Counter(expected):
         errors.append("Collected identities do not exactly match the plan")
     collection_reports = events.get("collection", [])
@@ -69,10 +70,10 @@ def check_events(events: dict, process: dict, nonce: str, expected: list[str] | 
         by_node = {}
         for report in reports:
             node = report.get("nodeid")
-            if node not in selected:
+            if node not in selected_set:
                 errors.append(f"Unexpected executed node: {node}")
             by_node.setdefault(node, []).append(report)
-        if set(by_node) != set(selected):
+        if set(by_node) != selected_set:
             errors.append("Missing or extra executed test identities")
         for node in selected:
             phases = by_node.get(node, [])
