@@ -133,7 +133,7 @@ def fingerprints(root: Path, store: Path, config: dict) -> dict:
     """Hash source bytes, not merely commit IDs or modification timestamps."""
     excluded = {".git", ".venv", "venv", "__pycache__", ".pytest_cache", ".mypy_cache",
                 ".ruff_cache", ".benchmarks", ".lake", "node_modules", ".um-arts",
-                ".um-arts-test-work", ".um-arts-completion"}
+                ".um-arts-test-work", ".um-arts-completion", ".lean-library-check"}
     sources = {}
     links = {}
     source_directories = []

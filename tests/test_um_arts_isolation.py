@@ -11,20 +11,21 @@ from TOOLS.um_arts.evidence import EvidenceError, fingerprints
 from TOOLS.um_arts.isolation import snapshot
 
 
-def test_provisioning_artifacts_are_excluded_but_ordinary_inputs_remain_tracked(tmp_path):
+@pytest.mark.parametrize("artifact_directory", [".um-arts-completion", ".lean-library-check"])
+def test_provisioning_artifacts_are_excluded_but_ordinary_inputs_remain_tracked(tmp_path, artifact_directory):
     root = tmp_path / "repo"
     root.mkdir()
     (root / "source.py").write_text("VALUE = 1\n")
     original = fingerprints(root, tmp_path / "store", {})
-    tools = root / ".um-arts-completion" / "lean" / "include"
+    tools = root / artifact_directory / "lean" / "include"
     tools.mkdir(parents=True)
     (tools / "generated.py").write_text("GENERATED = 1\n")
     (tools / "alias").symlink_to(tmp_path / "external-tool-input")
     changed = fingerprints(root, tmp_path / "store", {})
     assert changed["compatibility"]["source"] == original["compatibility"]["source"]
-    assert ".um-arts-completion" in changed["source_policy"]["excluded_directories"]
+    assert artifact_directory in changed["source_policy"]["excluded_directories"]
     copied = Path(snapshot(root, tmp_path / "snapshot")["snapshot_root"])
-    assert not (copied / ".um-arts-completion").exists()
+    assert not (copied / artifact_directory).exists()
     inputs = root / ".um-arts-real-inputs"
     inputs.mkdir()
     (inputs / "data.json").write_text('{"input": true}')
@@ -33,13 +34,14 @@ def test_provisioning_artifacts_are_excluded_but_ordinary_inputs_remain_tracked(
     assert actual["compatibility"]["source"] != original["compatibility"]["source"]
 
 
-def test_git_does_not_enumerate_provisioning_artifacts(tmp_path):
+@pytest.mark.parametrize("artifact_directory", [".um-arts-completion", ".lean-library-check"])
+def test_git_does_not_enumerate_provisioning_artifacts(tmp_path, artifact_directory):
     root = tmp_path / "repo"
     root.mkdir()
     ignore = Path(__file__).resolve().parents[1] / ".gitignore"
     (root / ".gitignore").write_bytes(ignore.read_bytes())
     subprocess.run(["git", "init", "-q", str(root)], check=True)
-    tools = root / ".um-arts-completion" / "lean"
+    tools = root / artifact_directory / "lean"
     tools.mkdir(parents=True)
     for index in range(100):
         (tools / f"generated-{index}.h").write_text("tool input")

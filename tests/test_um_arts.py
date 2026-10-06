@@ -21,7 +21,7 @@ from TOOLS.um_arts.evidence import (
 )
 from TOOLS.um_arts.formal import capture, coverage, evaluate_build
 from TOOLS.um_arts.process import discard_scratch
-from TOOLS.um_arts.reconcile import check_events
+from TOOLS.um_arts.reconcile import check_events, evaluate_job
 from TOOLS.um_arts.reporting import dashboard
 
 
@@ -57,6 +57,36 @@ def test_exact_evidence_green():
     result = check_events(evidence, process(), "nonce", evidence["selected"])
     assert result["status"] == "passed"
     assert result["counts"] == {"passed": 1}
+
+
+@pytest.mark.parametrize("receipt", ["missing", "malformed", "missing_request"])
+@pytest.mark.parametrize("failure,diagnostic", [
+    ({"timed_out": True, "returncode": -15}, "Subprocess timed out"),
+    ({"error": "interrupted", "returncode": -9}, "Subprocess interrupted"),
+    ({"returncode": 1}, "Nonzero subprocess exit: 1"),
+])
+def test_incomplete_job_preserves_process_failure_diagnostics(tmp_path, receipt, failure, diagnostic):
+    write_json(tmp_path / "process.json", {**process(), **failure})
+    if receipt != "missing_request":
+        write_json(tmp_path / "request.json", {"nonce": "nonce"})
+    if receipt == "malformed":
+        (tmp_path / "events.json").write_text("{")
+    result = evaluate_job(tmp_path, events()["selected"])
+    assert result["status"] == "blocked"
+    assert any(diagnostic in error for error in result["errors"])
+    assert result["counts"] == result["durations"] == {}
+    assert result["selected"] == []
+    assert "Unreadable JSON evidence" in result["errors"][0]
+
+
+@pytest.mark.parametrize("value", [[], None, {"timed_out": "true", "returncode": True}])
+def test_invalid_process_cannot_supply_incomplete_job_diagnostics(tmp_path, value):
+    write_json(tmp_path / "process.json", value)
+    write_json(tmp_path / "request.json", {"nonce": "nonce"})
+    result = evaluate_job(tmp_path, events()["selected"])
+    assert result["status"] == "blocked"
+    assert len(result["errors"]) == 1
+    assert result["counts"] == {}
 
 
 def test_phase_reconciliation_uses_constant_time_identity_lookup():

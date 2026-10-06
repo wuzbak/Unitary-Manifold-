@@ -19,6 +19,7 @@ EXCLUDED_DIRECTORIES = frozenset({
     "node_modules", "vendor", "vendors", "third_party", "third-party",
     "archive", "archives", "archived", "build", "dist", ".um-arts",
     ".um-arts-test-work", ".um-arts-assistance-work", ".um-arts-inventory-work",
+    ".lean-library-check",
 })
 POLICY_SOURCES = (
     "pytest.ini", "conftest.py", "src/core/regression_supervision_plan.py",

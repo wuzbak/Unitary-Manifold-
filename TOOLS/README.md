@@ -226,15 +226,19 @@ missing receipt still blocks coverage; a larger collection budget never
 turns unfinished tests into passes.
 Keep downloaded compilers, scanner binaries, dependency archives and analysis
 databases outside the checkout (for example, in an external temporary directory).
-The legacy `.um-arts-completion/` provisioning directory is now explicitly
+The legacy `.um-arts-completion/` and `.lean-library-check/` provisioning directories are explicitly
 Git-ignored and excluded from source fingerprints and snapshots. A previous
 agent run aborted with `stdout maxBuffer length exceeded` while Git enumerated
-an unpacked Lean toolchain there. This exact directory is reserved for generated
+an unpacked Lean toolchain in each location in separate failed runs. These exact directories are reserved for generated
 tooling, never source or tests; ordinary `.um-arts-*` directories are not broadly
 excluded from fingerprints. Tool/environment identities remain separate
 compatibility inputs. Git ignore rules do not seal artifacts, certify checks,
 or provide durable storage. Preserve sealed receipts externally before a
 sandbox ends, and never infer successful execution from a saved summary.
+When pytest completion evidence is missing or malformed, reports retain any
+explicit timeout, launch/interruption or nonzero-exit diagnosis from the process
+receipt. Such jobs remain blocked with no inferred test counts or reusable
+success; partial log output is not reconstructed into passing evidence.
 Source aliases such as this repository's `az-os` and `az-kernel` are recorded
 with both their link text and resolved in-repository target. Canonical target
 contents remain fingerprinted once, without recursively following directory

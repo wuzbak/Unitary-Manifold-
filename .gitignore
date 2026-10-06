@@ -34,3 +34,4 @@ wandb/offline-run-*/
 .um-arts/
 .um-arts-test-work/
 .um-arts-completion/
+.lean-library-check/

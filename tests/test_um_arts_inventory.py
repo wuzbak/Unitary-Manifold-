@@ -84,7 +84,8 @@ def test_unknown_and_disabled_candidates_are_not_silently_certified(inventory_wo
 
 @pytest.mark.parametrize("directory", [
     ".github/agents", "archive", "ARCHIVES", "vendor", "node_modules", ".lake",
-    ".um-arts-private-store", "12-AZ-IP/example/archived", "docs/archived_hypotheses",
+    ".um-arts-private-store", ".lean-library-check",
+    "12-AZ-IP/example/archived", "docs/archived_hypotheses",
 ])
 def test_excluded_subtrees_are_never_read(inventory_work, directory, monkeypatch):
     put(inventory_work, "tests/test_good.py")

@@ -119,9 +119,10 @@ def check_events(events: dict, process: dict, nonce: str, expected: list[str] | 
 
 def evaluate_job(directory: Path, expected: list[str] | None,
                  *, collection: bool = False) -> dict:
+    process = None
     try:
-        request = read_json(directory / "request.json")
         process = read_json(directory / "process.json")
+        request = read_json(directory / "request.json")
         events = read_json(directory / "events.json")
         result = check_events(events, process, request["nonce"], expected, collection=collection)
         if process.get("command") != request.get("command") \
@@ -137,5 +138,14 @@ def evaluate_job(directory: Path, expected: list[str] | None,
                 result["status"] = "blocked"
         return result
     except (EvidenceError, KeyError, TypeError, ValueError, AttributeError) as exc:
-        return {"status": "blocked", "errors": [str(exc)], "counts": {}, "durations": {},
+        errors = [str(exc)]
+        if isinstance(process, dict):
+            if process.get("timed_out") is True:
+                errors.append("Subprocess timed out; complete pytest evidence is unavailable")
+            if isinstance(process.get("error"), str) and process["error"]:
+                errors.append("Subprocess interrupted or failed to launch; complete pytest evidence is unavailable")
+            code = process.get("returncode")
+            if type(code) is int and code != 0:
+                errors.append(f"Nonzero subprocess exit: {code}")
+        return {"status": "blocked", "errors": errors, "counts": {}, "durations": {},
                 "selected": [], "deselected": [], "collection_skips": []}
