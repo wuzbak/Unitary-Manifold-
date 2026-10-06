@@ -1,0 +1,22 @@
+[
+  {
+    "alg": "Ed25519",
+    "format": "eige.sth.v1",
+    "key_id": "ed25519:7c043148b6d7b7ba4fbe78c82d17d941",
+    "log_id": "SYNTH-COUNTY",
+    "root_hash": "0e6c439a5c65246f52f45743afc20bf3b79837b83ab3cdff4efdf6b9e8857788",
+    "signature": "6fa6048b89c1e5f4e018fbfc7f6100bcfd8e65e06d697a20cd2b8998874d5f2263471e4e6113d7485a20ba101ab7a4bb2ec6600ff191093242a8d95404f12b08",
+    "timestamp": 1793700000,
+    "tree_size": 61
+  },
+  {
+    "alg": "Ed25519",
+    "format": "eige.sth.v1",
+    "key_id": "ed25519:7c043148b6d7b7ba4fbe78c82d17d941",
+    "log_id": "SYNTH-COUNTY",
+    "root_hash": "9926f37e637abb85fd18dcba0ea08b7cdff7a0b2d447c09dd4297e64bf3d9ee5",
+    "signature": "93c9d9e5bd689fffdd8d1d71effdedc7b48be71e0862ecacee2234ccda04189eaf7d74d71173168e62726c77e16fa2d2ebdb98ff2d9cad9a47c403cc83835405",
+    "timestamp": 1793710000,
+    "tree_size": 121
+  }
+]

@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 from eige.engine.hils_audit_trail import AuditEntry, create_audit_entry, format_audit_log
 from eige.engine.open_election_data import (
     ANOMALY_DETECTORS,
+    OpenDataError,
     HARVARD_DATAVERSE_BASE,
     OPEN_ELECTIONS_BASE,
     compute_integrity_score,
@@ -42,7 +43,7 @@ class _FakeResponse:
 
 
 def test_constants_are_stable():
-    assert OPEN_ELECTIONS_BASE == "https://openelections.net/results/"
+    assert OPEN_ELECTIONS_BASE == "https://raw.githubusercontent.com/openelections/"
     assert HARVARD_DATAVERSE_BASE == "https://dataverse.harvard.edu/api/access/datafile/"
     assert ANOMALY_DETECTORS == ["turnout_spike", "undervote_rate", "precinct_variance", "timestamp_gaps"]
 
@@ -53,63 +54,75 @@ def test_legacy_eige_import_path_works():
     assert PublicTrustIndexBuilder is not None
 
 
-def test_fetch_election_results_from_primary(monkeypatch):
-    def fake_urlopen(url, timeout=5):
-        assert url == f"{OPEN_ELECTIONS_BASE}2024/wa/"
-        return _FakeResponse({"results": [{"candidate": "A"}], "metrics": {"undervote_rate": 0.02}})
+_OE_CSV = (
+    b"county,office,district,party,candidate,votes\n"
+    b"King,President,,DEM,Alice,100\n"
+    b"King,President,,REP,Bob,80\n"
+)
+_MEDSL_CSV = (
+    b"year,state_po,county_name,county_fips,office,candidate,party,candidatevotes,totalvotes\n"
+    b"2020,WA,KING,53033,US PRESIDENT,ALICE,DEMOCRAT,100,180\n"
+    b"2020,TX,HARRIS,48201,US PRESIDENT,BOB,REPUBLICAN,90,170\n"
+)
 
-    monkeypatch.setattr("eige.engine.open_election_data.urllib.request.urlopen", fake_urlopen)
-    result = fetch_election_results("wa", 2024)
-    assert result["source"] == "open_elections"
-    assert result["fetched"] is True
-    assert result["results"][0]["candidate"] == "A"
 
-
-def test_fetch_election_results_falls_back_to_harvard(monkeypatch):
+def test_fetch_election_results_from_openelections_github():
     calls = []
 
-    def fake_urlopen(url, timeout=5):
+    def opener(url, timeout):
         calls.append(url)
-        if len(calls) == 1:
-            raise urllib.error.URLError("offline")
-        return _FakeResponse({"results": [{"candidate": "B"}]})
+        return _OE_CSV
 
-    monkeypatch.setattr("eige.engine.open_election_data.urllib.request.urlopen", fake_urlopen)
-    result = fetch_election_results("TX", 2022)
+    result = fetch_election_results(
+        "wa", 2020, openelections_path="2020/20201103__wa__general__county.csv", opener=opener
+    )
+    assert calls == [
+        "https://raw.githubusercontent.com/openelections/openelections-data-wa/master/"
+        "2020/20201103__wa__general__county.csv"
+    ]
+    assert result["source"] == "open_elections"
+    assert result["fetched"] is True
+    assert result["results"][0]["candidate"] == "Alice"
+    assert len(result["provenance"]["sha256"]) == 64
+
+
+def test_fetch_election_results_from_medsl_filters_state():
+    result = fetch_election_results("wa", 2020, dataverse_file_id=6104822, opener=lambda u, t: _MEDSL_CSV)
     assert result["source"] == "harvard_dataverse"
-    assert len(calls) == 2
-    assert calls[1] == f"{HARVARD_DATAVERSE_BASE}2022-tx"
+    assert [r["candidate"] for r in result["results"]] == ["ALICE"]
 
 
-def test_fetch_election_results_returns_fallback_on_total_failure(monkeypatch):
-    def fake_urlopen(url, timeout=5):
+def test_fetch_election_results_fails_loudly_on_network_failure():
+    def opener(url, timeout):
         raise urllib.error.URLError("down")
 
-    monkeypatch.setattr("eige.engine.open_election_data.urllib.request.urlopen", fake_urlopen)
-    result = fetch_election_results("ca", 2020)
-    assert result["source"] == "fallback"
-    assert result["fetched"] is False
-    assert result["results"] == []
-    assert "open_elections" in result["error"]
+    with pytest.raises(OpenDataError):
+        fetch_election_results("ca", 2020, openelections_path="2020/x.csv", opener=opener)
 
 
-def test_fetch_election_results_wraps_non_dict_payload(monkeypatch):
-    monkeypatch.setattr(
-        "eige.engine.open_election_data.urllib.request.urlopen",
-        lambda url, timeout=5: _FakeResponse([{"candidate": "C"}]),
-    )
-    result = fetch_election_results("ny", 2024)
-    assert result["results"] == [{"candidate": "C"}]
+def test_fetch_election_results_rejects_checksum_mismatch():
+    with pytest.raises(OpenDataError):
+        fetch_election_results(
+            "wa", 2020, openelections_path="2020/x.csv", expected_sha256="0" * 64,
+            opener=lambda u, t: _OE_CSV,
+        )
 
 
-def test_fetch_election_results_handles_invalid_json(monkeypatch):
-    monkeypatch.setattr(
-        "eige.engine.open_election_data.urllib.request.urlopen",
-        lambda url, timeout=5: _FakeResponse(b"not-json"),
-    )
-    result = fetch_election_results("fl", 2024)
-    assert result["source"] == "fallback"
-    assert result["fetched"] is False
+def test_fetch_election_results_requires_exactly_one_source():
+    with pytest.raises(OpenDataError):
+        fetch_election_results("wa", 2020)
+    with pytest.raises(OpenDataError):
+        fetch_election_results("wa", 2020, openelections_path="2020/x.csv", dataverse_file_id=1)
+
+
+def test_fetch_election_results_rejects_malformed_csv():
+    with pytest.raises(OpenDataError):
+        fetch_election_results("wa", 2020, openelections_path="2020/x.csv", opener=lambda u, t: b"not,a,results\n1,2,3\n")
+
+
+def test_compute_integrity_score_refuses_empty_metrics():
+    with pytest.raises(ValueError):
+        compute_integrity_score({"metrics": {}})
 
 
 def test_turnout_spike_detected():
@@ -173,7 +186,7 @@ def test_compute_integrity_score_nominal_case():
     score = compute_integrity_score({"metrics": {"turnout_change_pct": 2.0, "undervote_rate": 0.01, "precinct_variance": 0.02, "max_timestamp_gap_minutes": 10.0}})
     assert score["score"] == 1.0
     assert score["anomalies"] == []
-    assert score["verdict"] == "Integrity checks nominal"
+    assert score["verdict"] == "No screening leads raised"
 
 
 def test_compute_integrity_score_detects_multiple_anomalies():

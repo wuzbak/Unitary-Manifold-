@@ -1,0 +1,56 @@
+name: EIGE
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "12-AZ-IP/03-eige/**"
+      - ".github/workflows/eige.yml"
+  pull_request:
+    paths:
+      - "12-AZ-IP/03-eige/**"
+      - ".github/workflows/eige.yml"
+
+concurrency:
+  group: eige-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  eige-suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: 12-AZ-IP/03-eige
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install hash-locked dependencies
+        run: pip install --require-hashes --no-deps -r requirements.lock
+      - name: SBOM is current
+        run: python tools/make_sbom.py --check
+      - name: Test vectors are current
+        run: python tools/make_test_vectors.py --check
+      - name: EIGE test suite
+        run: python -m pytest tests -q -p no:cacheprovider
+      - name: Production mode refuses development keys
+        env:
+          EIGE_MODE: production
+        run: |
+          python - <<'PY'
+          from eige.config import ProductionModeViolation
+          from eige.crypto.signing import DevelopmentSigner
+          try:
+              DevelopmentSigner()
+          except ProductionModeViolation:
+              print("ok: development signer refused in production mode")
+          else:
+              raise SystemExit("development signer ran in production mode")
+          PY
+      - name: Demo bundle verifies end to end
+        run: python run_demo.py
