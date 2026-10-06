@@ -150,6 +150,9 @@ attempt seal is rejected rather than silently downgraded to recoverable evidence
 Legacy sealed attempts remain readable; source-unstable attempts cannot be
 reused merely by restoring their original inputs. Legacy jobs without independent
 checkpoints are rerun when resuming into the checkpoint-aware format.
+The tracker's ignored `.um-arts-test-work/` fixture directory is excluded from
+source fingerprints so parallel tracker tests do not invalidate one another's
+checkpoints. Ordinary test inputs and datasets remain fingerprinted.
 
 Integration mode and automatic change-impact selection are not yet implemented.
 Collection-only captured pytest commands are labeled `collection_passed`, not

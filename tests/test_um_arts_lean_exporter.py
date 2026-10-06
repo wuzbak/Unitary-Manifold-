@@ -9,13 +9,12 @@ fetch, toolchain installation, or Mathlib compilation.
 
 import json
 import os
-from pathlib import Path
 import shutil
 import subprocess
 import uuid
+from pathlib import Path
 
 import pytest
-
 
 ROOT = Path(__file__).resolve().parents[1]
 LEAN_DIR = ROOT / "lean4"

@@ -14,7 +14,7 @@ import pytest
 
 from tests.test_um_arts import arts_workspace as _arts_workspace
 from TOOLS.um_arts import engine
-from TOOLS.um_arts.evidence import EvidenceError, read_json, seal
+from TOOLS.um_arts.evidence import EvidenceError, fingerprints, read_json, seal
 from TOOLS.um_arts.reporting import report
 
 arts_workspace = _arts_workspace
@@ -226,6 +226,22 @@ def test_dataset_and_environment_changes_invalidate_source_plan(arts_workspace, 
     monkeypatch.setenv("UM_TEST_MACHINE_PROFILE", "changed")
     with pytest.raises(EvidenceError, match="compatible"):
         engine.run(plan)
+
+
+def test_parallel_tracker_scratch_is_not_a_source_change(arts_workspace):
+    root, store, config = make_repository(arts_workspace)
+    (root / ".gitignore").write_text(".um-arts-test-work/\n")
+    subprocess.run(["git", "init", str(root)], check=True, capture_output=True)
+    settings = engine.load_config(root, config, "generic")
+    initial = fingerprints(root, store, settings)
+    scratch = root / ".um-arts-test-work"
+    scratch.mkdir()
+    (scratch / "receipt.json").write_text('{"temporary":true}')
+    current = fingerprints(root, store, settings)
+    assert current["compatibility"] == initial["compatibility"]
+    assert ".um-arts-test-work" in current["source_policy"]["excluded_directories"]
+    (root / "fixture.bin").write_bytes(b"real test input")
+    assert fingerprints(root, store, settings)["compatibility"] != initial["compatibility"]
 
 
 def test_pytest_scratch_is_inside_store_and_not_imported_as_evidence(arts_workspace):
