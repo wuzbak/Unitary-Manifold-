@@ -20,7 +20,7 @@ from TOOLS.um_arts.inventory import (
 
 @pytest.fixture
 def inventory_work():
-    directory = Path.cwd() / ".um-arts-inventory-work" / uuid.uuid4().hex
+    directory = Path.cwd() / ".um-arts-test-work" / uuid.uuid4().hex
     directory.mkdir(parents=True)
     yield directory
     for path in directory.rglob("*"):

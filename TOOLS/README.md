@@ -400,6 +400,10 @@ system security sandbox for untrusted code.
 The snapshot destination must be new and outside the original source tree.
 Ordinary empty directories are preserved, and internal aliases are redirected
 into the copy.
+Git metadata is deliberately not copied. Tests that audit commits or merge
+history must run in a real checkout with the required history available, not a
+Git-free snapshot. Keep that checkout unchanged throughout planning and execution;
+do not replace missing Git evidence with simulated audit results.
 Execution and captured commands place the selected source root before the
 canonical engine/plugin bootstrap and inherited `PYTHONPATH`, so copied
 repository modules take precedence over original-checkout modules.
@@ -419,10 +423,14 @@ provides the current command list. No standalone product Markdown document is
 required for installation.
 
 The core suite's pre-collection hook copies the committed PsiCat training
-history and profile seeds into an external temporary directory and redirects
+history and profile seeds, and any existing Lodge exchange history, into an
+external temporary directory and redirects
 runtime writes there for the pytest session. This preserves real training
 execution without modifying committed evidence or relaxing source-stability
 checks. Paths and caches are restored when the session closes.
+UM-ARTS test fixtures use the disclosed `.um-arts-test-work` scratch boundary,
+rather than creating new source directories during captured runs. Runtime
+artifacts outside disclosed scratch boundaries still invalidate source stability.
 
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).

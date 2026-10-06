@@ -16,7 +16,7 @@ from TOOLS.um_arts import assistance
 
 @pytest.fixture
 def assistance_work():
-    directory = Path.cwd() / ".um-arts-assistance-work" / uuid.uuid4().hex
+    directory = Path.cwd() / ".um-arts-test-work" / uuid.uuid4().hex
     directory.mkdir(parents=True)
     yield directory
     shutil.rmtree(directory)
