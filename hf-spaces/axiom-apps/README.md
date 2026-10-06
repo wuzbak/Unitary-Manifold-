@@ -8,7 +8,7 @@ sdk_version: "4.44.0"
 app_file: app.py
 pinned: true
 license: other
-short_description: AZ Products 01–10 — AxiomOS, EIGE, UM-SOS, Omega Synthesis, Journalist, and more
+short_description: AZ Products 01–10 — OS, governance, physics, and AI tools
 tags:
   - physics
   - kaluza-klein

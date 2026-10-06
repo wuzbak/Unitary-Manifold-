@@ -316,7 +316,7 @@ python run.py --port 8020 --no-open
 ## File structure
 
 - `README.md` — long-form product guide
-- `requirements.txt` — `numpy`, `scipy`, `httpx`
+- `requirements.txt` — `numpy`, `scipy`, `sympy` (formal-proof bridge), `httpx`
 - `run.py` — local launcher
 - `ox_navigator/engine/constants.py` — canonical constants
 - `ox_navigator/engine/gate_parser.py` — gate and pillar extraction

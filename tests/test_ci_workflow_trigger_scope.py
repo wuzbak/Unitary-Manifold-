@@ -120,7 +120,7 @@ def test_fast_supervisor_remains_fail_closed_after_failed_or_missing_receipts() 
     jobs = _load("tests.yml")["jobs"]
     supervisor = jobs["test-fast-supervisor"]
     assert supervisor["if"] == "always()"
-    assert supervisor["needs"] == "test-fast-batched"
+    assert supervisor["needs"] == ["regression-environment", "test-fast-batched"]
     steps = {step.get("name"): step for step in supervisor["steps"]}
     for name in (
         "Download fast-suite execution evidence",
@@ -149,15 +149,82 @@ def test_main_regression_uses_frozen_cost_plan_and_serial_integration_slice() ->
     assert batch["timeout-minutes"] * 60 > 5100 + 600
     fast_batch = _load("tests.yml")["jobs"]["test-fast-batched"]
     assert fast_batch["timeout-minutes"] * 60 > 5100 + 600
-    installation = steps["Install dependencies"]["run"]
+    installation = steps["Install dependencies"]
     supervisor = jobs["push-full-regression-supervisor"]
     assert supervisor["if"].startswith("always()")
     steps = {step.get("name"): step for step in supervisor["steps"]}
-    assert steps["Install matching regression dependencies"]["run"] == installation
+    matching = steps["Install matching regression dependencies"]
+    assert matching["uses"] == installation["uses"]
+    assert matching["with"] == installation["with"]
     aggregate = steps["Require complete matching execution receipts"]
     assert aggregate["if"] == "always()"
     assert "--plan-file" in aggregate["run"] and "plan-0.json" in aggregate["run"]
     assert "--batch-count 12 --aggregate" in aggregate["run"]
+
+
+@pytest.mark.parametrize(
+    ("workflow", "batch", "supervisor"),
+    [("ci.yml", "push-full-regression-batched", "push-full-regression-supervisor"),
+     ("tests.yml", "test-fast-batched", "test-fast-supervisor")],
+)
+def test_receipt_jobs_share_one_locked_isolated_environment(workflow, batch, supervisor) -> None:
+    jobs = _load(workflow)["jobs"]
+    resolver = jobs["regression-environment"]
+    assert resolver["uses"] == "./.github/workflows/regression-environment.yml"
+    for name in (batch, supervisor):
+        job = jobs[name]
+        assert "regression-environment" in job["needs"]
+        install = next(
+            step for step in job["steps"]
+            if step.get("uses") == "./.github/actions/regression-environment"
+        )
+        assert install["with"]["python-version"] == (
+            "${{ needs.regression-environment.outputs.python-version }}"
+        )
+        assert all(step.get("uses") != "actions/setup-python@v5" for step in job["steps"])
+        assert not any("pip install" in step.get("run", "") for step in job["steps"])
+
+
+def test_regression_environment_freezes_all_packages_outside_checkout() -> None:
+    resolver = _load("regression-environment.yml")
+    freeze = resolver["jobs"]["freeze"]
+    steps = freeze["steps"]
+    command = next(step["run"] for step in steps if step.get("id") == "freeze")
+    assert 'python -m venv "${RUNNER_TEMP}/regression-venv"' in command
+    assert "-m pip freeze --all" in command
+    assert "platform.python_version()" in command
+    assert "-m pip check" in command
+    artifact = next(step for step in steps if "upload-artifact" in step.get("uses", ""))
+    assert artifact["with"]["name"] == "regression-environment"
+    assert artifact["with"]["path"].startswith("${{ runner.temp }}/")
+    assert artifact["with"]["if-no-files-found"] == "error"
+    action = yaml.safe_load(
+        (REPO_ROOT / ".github/actions/regression-environment/action.yml").read_text()
+    )
+    steps = action["runs"]["steps"]
+    assert steps[0]["with"]["python-version"] == "${{ inputs.python-version }}"
+    assert steps[1]["with"]["name"] == artifact["with"]["name"]
+    command = steps[2]["run"]
+    assert 'python -m venv "${RUNNER_TEMP}/regression-venv"' in command
+    assert "-m pip check" in command
+    assert "-m pip freeze --all" in command
+    assert "diff -u" in command
+    assert '"${GITHUB_PATH}"' in command
+    assert "set -euo pipefail" in command
+    assert "--system-site-packages" not in command
+
+
+def test_navigator_smoke_declares_the_symbolic_bridge_dependency() -> None:
+    requirements = (
+        REPO_ROOT / "12-AZ-IP/20-psicat-navigator/requirements.txt"
+    ).read_text().splitlines()
+    assert "sympy>=1.14,<2" in requirements
+    for workflow, job in (
+        ("merlin-benchmark-gate.yml", "merlin-stage-a-pr-smoke"),
+        ("psicat-performance-gate.yml", "lane-e-pr-smoke"),
+    ):
+        steps = _load(workflow)["jobs"][job]["steps"]
+        assert any("pip install -r requirements.txt" in step.get("run", "") for step in steps)
 
 
 @pytest.mark.parametrize(
