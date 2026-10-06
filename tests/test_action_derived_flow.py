@@ -115,6 +115,42 @@ class TestVerification:
         assert res["max_abs_euler_operator_of_difference"] < 1e-10
 
     @pytest.mark.slow
+    def test_symbolic_cancellation_preserves_lagrangian_before_variation(self, monkeypatch):
+        from sympy.calculus import euler
+
+        from src.core import action_derived_flow as flow
+
+        sp, x, lam, syms, fields, coords, gE, Bv = flow._symbolic_setup(False)
+        p = syms[4]
+        G = sp.zeros(5, 5)
+        G[:4, :4] = gE / p + lam ** 2 * p ** 2 * Bv * Bv.T
+        for i in range(4):
+            G[i, 4] = G[4, i] = lam * p ** 2 * Bv[i]
+        G[4, 4] = p ** 2
+        original = sp.sqrt(-G.det()) * flow._sym_ricci_scalar(sp, G, coords)
+        original -= flow._sym_reduced_lagrangian(sp, x, lam, gE, Bv, p, coords)
+        original_euler = euler.euler_equations
+        checked = []
+
+        def check_difference(lagrangian, varied_fields, coordinate):
+            assert sp.cancel(original - lagrangian) == 0
+            assert sp.count_ops(lagrangian) < sp.count_ops(original)
+            assert varied_fields == fields
+            assert coordinate == x
+            checked.append(True)
+            return original_euler(lagrangian, varied_fields, coordinate)
+
+        monkeypatch.setattr(euler, "euler_equations", check_difference)
+        symbolic_kk_reduction_check.cache_clear()
+        try:
+            result = symbolic_kk_reduction_check(exact=True)
+            assert checked == [True]
+            assert result["reduction_verified"]
+            assert result["exact_identity_verified"]
+        finally:
+            symbolic_kk_reduction_check.cache_clear()
+
+    @pytest.mark.slow
     def test_symbolic_reduction_full_ansatz(self):
         res = symbolic_kk_reduction_check(full=True)
         assert res["reduction_verified"]

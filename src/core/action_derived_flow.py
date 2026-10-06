@@ -350,7 +350,8 @@ def symbolic_kk_reduction_check(full: bool = False, exact: bool = False, offdiag
     G[4, 4] = p ** 2
     L5 = sp.sqrt(-G.det()) * _sym_ricci_scalar(sp, G, coords)
     L4 = _sym_reduced_lagrangian(sp, x, lam, gE, Bv, p, coords)
-    eqs = euler_equations(L5 - L4, fields, x)
+    # Cancel exact rational redundancies before differentiating the difference.
+    eqs = euler_equations(sp.cancel(L5 - L4), fields, x)
     prof = _test_profiles(sp, x, syms, offdiagonal)
     max_abs = 0.0
     for eq in eqs:
