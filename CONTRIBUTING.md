@@ -46,6 +46,13 @@ Run the test suite on your own machine and report the result (OS, Python version
 numpy version, pass/fail count) as a GitHub Issue.  This is genuinely useful —
 independent reproduction of numerical results is a key part of scientific validation.
 
+External PsiCat files and test reports are evidence for triage, not additions to
+the canonical regression suite. Preserve useful, sanitized submissions in
+[`12-AZ-IP/psicat-external-intake/`](12-AZ-IP/psicat-external-intake/) with their
+provenance and reported environment. Do not place unreviewed files in `tests/` or
+a product's test directory; promote a test into the normal pipeline only after
+review and verification in its canonical suite.
+
 ### Physics / mathematics review
 Open an Issue titled `[Review] <topic>` if you find:
 - An equation that doesn't match the monograph

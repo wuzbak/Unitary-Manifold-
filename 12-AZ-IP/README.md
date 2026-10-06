@@ -8,6 +8,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Legal separation notice: [`BRAND_SEPARATION_NOTICE_PSICAT.md`](./BRAND_SEPARATION_NOTICE_PSICAT.md)
 - Internal/steward-facing identity for ThomasCory remains **Merlin**.
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
+- External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
 ## Product registry (25 canonical software products / surfaces)
 
