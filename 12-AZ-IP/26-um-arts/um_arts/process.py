@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import signal
 import subprocess
 import sys
@@ -14,6 +15,16 @@ from contextlib import ExitStack
 from pathlib import Path
 
 from .evidence import write_json
+
+
+def discard_scratch(directory: Path) -> None:
+    """Remove temporary artifacts without following links or retaining frozen copies."""
+    if directory.is_symlink():
+        directory.unlink()
+    elif directory.exists():
+        for _, _, _, descriptor in os.fwalk(directory, follow_symlinks=False):
+            os.fchmod(descriptor, 0o700)
+        shutil.rmtree(directory)
 
 
 def execute(command: list[str], cwd: Path, directory: Path, timeout: float,

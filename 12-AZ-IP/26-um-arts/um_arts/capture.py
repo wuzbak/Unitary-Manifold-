@@ -8,7 +8,6 @@ import math
 import os
 import re
 import shlex
-import shutil
 import uuid
 from collections import Counter
 from pathlib import Path
@@ -23,7 +22,7 @@ from .evidence import (
     verify_seal,
     write_json,
 )
-from .process import execute
+from .process import discard_scratch, execute
 from .reconcile import check_events
 
 
@@ -200,11 +199,7 @@ def capture_command(command: list[str], output: Path, root: Path | None = None,
     before = fingerprints(root, output, settings)
     write_json(output / "start_fingerprints.json", before)
     execute(effective, root, output, timeout_seconds, environment)
-    scratch = output / "scratch"
-    if scratch.is_symlink():
-        scratch.unlink()
-    elif scratch.exists():
-        shutil.rmtree(scratch)
+    discard_scratch(output / "scratch")
     write_json(output / "end_fingerprints.json", fingerprints(root, output, settings))
     write_json(output / "capture.json", {
         "version": VERSION, "id": uuid.uuid4().hex, "root": str(root),

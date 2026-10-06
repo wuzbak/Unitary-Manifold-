@@ -13,7 +13,7 @@ from types import SimpleNamespace
 import pytest
 from TOOLS.um_arts.capture import _serial_pytest_arguments, evaluate_report
 from TOOLS.um_arts.capture import capture_command as capture_existing_command
-from TOOLS.um_arts.engine import import_artifact, resume
+from TOOLS.um_arts.engine import _pytest, import_artifact, resume
 from TOOLS.um_arts.evidence import EvidenceError
 from TOOLS.um_arts.reporting import report
 
@@ -73,6 +73,34 @@ def test_external_existing_pytest_invocation_emits_and_evaluates_receipt(arts_wo
     assert evaluate_report(path, returncode=1)["status"] == "blocked"
     assert evaluate_report(path, returncode=0, timed_out=True)["status"] == "blocked"
     assert evaluate_report(path, returncode=0, expected_nodeids=["missing"])["status"] == "blocked"
+
+
+@pytest.mark.parametrize("managed", [False, True])
+def test_capture_cleans_frozen_nested_test_artifacts(tmp_path, managed):
+    root = tmp_path / "source"
+    root.mkdir()
+    (root / "pytest.ini").write_text("[pytest]\n")
+    (root / "test_locked.py").write_text(
+        "def test_locked(tmp_path):\n"
+        "    directory = tmp_path / 'sealed'\n"
+        "    directory.mkdir()\n"
+        "    (directory / 'receipt.json').write_text('{}')\n"
+        "    (directory / 'receipt.json').chmod(0o444)\n"
+        "    directory.chmod(0o555)\n")
+    output = tmp_path / "evidence"
+    if managed:
+        _pytest(root, output, {"paths": ["test_locked.py"], "serial": False},
+                {"plugins": [], "pytest_args": [], "timeout_seconds": 30},
+                ["test_locked.py::test_locked"])
+        assert json.loads((output / "process.json").read_text())["returncode"] == 0
+        assert json.loads((output / "events.json").read_text())["selected"] == [
+            "test_locked.py::test_locked"]
+    else:
+        result = capture_existing_command(
+            [sys.executable, "-m", "pytest", "test_locked.py", "-q"], output, root, 30)
+        assert result["status"] == "passed"
+        assert result["counts"] == {"passed": 1}
+    assert not (output / "scratch").exists()
 
 
 def test_external_collection_only_receipt(arts_workspace):

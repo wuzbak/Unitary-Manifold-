@@ -29,7 +29,7 @@ from .evidence import (
     verify_seal,
     write_json,
 )
-from .process import execute
+from .process import discard_scratch, execute
 from .reconcile import evaluate_job
 
 
@@ -84,11 +84,7 @@ def _pytest(root: Path, directory: Path, suite: dict, config: dict,
         write_json(directory / "selection.json", nodes)
         environment["UM_ARTS_SELECTION"] = str(directory / "selection.json")
     execute(command, root, directory, config["timeout_seconds"], environment)
-    scratch = directory / "scratch"
-    if scratch.is_symlink():
-        scratch.unlink()
-    elif scratch.exists():
-        shutil.rmtree(scratch)
+    discard_scratch(directory / "scratch")
 
 
 def _freeze(directory: Path) -> None:

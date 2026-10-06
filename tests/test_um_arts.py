@@ -20,6 +20,7 @@ from TOOLS.um_arts.evidence import (
     write_json,
 )
 from TOOLS.um_arts.formal import capture, coverage, evaluate_build
+from TOOLS.um_arts.process import discard_scratch
 from TOOLS.um_arts.reconcile import check_events
 from TOOLS.um_arts.reporting import dashboard
 
@@ -68,6 +69,42 @@ def test_phase_reconciliation_uses_constant_time_identity_lookup():
     result = check_events(receipt, process(), "nonce", receipt["selected"])
     assert result["status"] == "passed"
     assert result["counts"] == {"passed": 1}
+
+
+def test_scratch_cleanup_removes_nested_read_only_directories(tmp_path):
+    scratch = tmp_path / "scratch"
+    nested = scratch / "sealed" / "source"
+    nested.mkdir(parents=True)
+    (nested / "receipt.json").write_text("{}")
+    (nested / "receipt.json").chmod(0o444)
+    for directory in (nested, nested.parent, scratch):
+        directory.chmod(0o555)
+    discard_scratch(scratch)
+    assert not scratch.exists()
+    discard_scratch(scratch)
+
+
+@pytest.mark.parametrize("root_alias", [False, True])
+def test_scratch_cleanup_never_changes_external_symlink_targets(tmp_path, root_alias):
+    external = tmp_path / "external"
+    external.mkdir()
+    (external / "keep.txt").write_text("unchanged")
+    external.chmod(0o555)
+    scratch = tmp_path / "scratch"
+    if root_alias:
+        scratch.symlink_to(external, target_is_directory=True)
+    else:
+        scratch.mkdir()
+        (scratch / "alias").symlink_to(external, target_is_directory=True)
+        (scratch / "dangling").symlink_to(tmp_path / "missing", target_is_directory=True)
+        scratch.chmod(0o555)
+    try:
+        discard_scratch(scratch)
+        assert not scratch.exists()
+        assert external.stat().st_mode & 0o777 == 0o555
+        assert (external / "keep.txt").read_text() == "unchanged"
+    finally:
+        external.chmod(0o755)
 
 
 @pytest.mark.parametrize("outcome,expected", [("passed", "xpassed"), ("skipped", "xfailed")])
