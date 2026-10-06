@@ -1,0 +1,22 @@
+{
+  "batch_count": 2,
+  "batch_index": 1,
+  "command": [],
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 0
+  },
+  "elapsed_seconds": 2.9749999157502316e-06,
+  "environment_fingerprint": null,
+  "exit_code": 0,
+  "junit_sha256": null,
+  "plan_digest": "7d28154b6cf5e8535e3fed47597971a3285cc1aabc47373324bad680232b7c70",
+  "snapshot": {
+    "head": "abc",
+    "worktree_digest": "def"
+  },
+  "status": "empty",
+  "suite": "full-core"
+}

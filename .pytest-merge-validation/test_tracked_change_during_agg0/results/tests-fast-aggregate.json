@@ -1,0 +1,26 @@
+{
+  "batch_count": 1,
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 1
+  },
+  "environment_fingerprint": {
+    "distributions_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "plan_digest": "d633faaeacfc46c1996aa1fcb07549201ba676036548e277b7e9d265f29d11bc",
+  "problems": [
+    "snapshot changed during aggregation"
+  ],
+  "snapshot": {
+    "head": "abc",
+    "worktree_digest": "def"
+  },
+  "status": "failure",
+  "suite": "tests-fast"
+}

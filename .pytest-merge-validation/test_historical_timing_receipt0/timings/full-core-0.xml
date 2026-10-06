@@ -1,0 +1,1 @@
+<testsuite tests="2" failures="0" errors="0" skipped="0"><testcase classname="tests.test_one.TestGroup" time="2"/><testcase classname="tests.test_two" time="4"/></testsuite> 

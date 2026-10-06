@@ -1,0 +1,1 @@
+{"batch_index": 0, "status": "success", "exit_code": 0, "counts": {"tests": 2, "failures": 0, "errors": 0, "skipped": 0}, "junit_sha256": "490b88b0f6f64a2b7402b64bb6de83136f181a79d19b8049ca2b43b275c80f5d", "command": ["python", "tests/test_one.py", "tests/test_two.py"], "elapsed_seconds": 10, "snapshot": {"head": "historical"}}

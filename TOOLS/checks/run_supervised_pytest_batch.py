@@ -346,7 +346,8 @@ def _aggregate(result_dir: Path, suite: str, batches: list[dict], identity: dict
 
 
 def _record_batch(result_dir: Path, suite: str, batches: list[dict], index: int,
-                  identity: dict, command: list[str], dry_run: bool, timeout: float | None) -> int:
+                  identity: dict, command: list[str], dry_run: bool, timeout: float | None,
+                  evidence_dir: Path | None = None) -> int:
     receipt_path = result_dir / f"{suite}-{index}.json"
     xml_path = result_dir / f"{suite}-{index}.xml"
     xml_path.unlink(missing_ok=True)
@@ -364,7 +365,8 @@ def _record_batch(result_dir: Path, suite: str, batches: list[dict], index: int,
         if "execution_settings" in identity and _execution_settings() != identity["execution_settings"]:
             raise ValueError("execution settings changed before batch")
         if dry_run:
-            code = _run(command, True, timeout)
+            code = _execute(command, argparse.Namespace(
+                evidence_dir=evidence_dir, dry_run=True, timeout=timeout))
             receipt["exit_code"] = code
             receipt["status"] = "dry-run"
         elif not batches[index]["test_paths"]:
@@ -377,7 +379,8 @@ def _record_batch(result_dir: Path, suite: str, batches: list[dict], index: int,
             if "frozen_environment" in identity and receipt["environment_fingerprint"] != identity["frozen_environment"]:
                 raise ValueError("execution environment changed before batch")
             _write_receipt(receipt_path, receipt)
-            code = _run(command, False, timeout)
+            code = _execute(command, argparse.Namespace(
+                evidence_dir=evidence_dir, dry_run=False, timeout=timeout))
             receipt["exit_code"] = code
             receipt["status"] = "incomplete" if code == 124 or code < 0 else "failure"
             if xml_path.exists():
@@ -644,7 +647,7 @@ def main() -> int:
         command[position:position + 2] = [] if args.workers == 0 else ["-n", str(args.workers)]
     if args.result_dir is not None:
         return _record_batch(args.result_dir, args.suite, batches, args.batch_index,
-                             identity, command, args.dry_run, args.timeout)
+                             identity, command, args.dry_run, args.timeout, args.evidence_dir)
     if not command:
         print(f"no tests assigned to batch {args.batch_index}; skipping")
         return 0

@@ -183,3 +183,43 @@ def test_timeout_must_be_positive_finite(monkeypatch) -> None:
         with pytest.raises(SystemExit) as error:
             batch_runner._parse_args()
         assert error.value.code == 2
+
+
+def test_receipt_batch_preserves_capture_evidence(monkeypatch, tmp_path) -> None:
+    import json
+
+    observed = {}
+    monkeypatch.setattr(batch_runner, "ROOT", tmp_path / "project")
+    monkeypatch.setattr(batch_runner, "_snapshot", lambda: {"head": "abc", "worktree_digest": "def"})
+    monkeypatch.setattr(batch_runner, "_environment_fingerprint", lambda: {"python": "test"})
+    monkeypatch.setenv("PYTEST_ADDOPTS", "")
+    batches = [{"test_paths": ["tests/test_example.py"]}]
+    monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count",
+                        lambda **kwargs: {"supervised_fast_suite": {"batches": batches}})
+    monkeypatch.setattr(batch_runner, "fast_batch_argv",
+                        lambda **kwargs: ["python", "-m", "pytest", "tests/test_example.py", "-q"])
+    results = tmp_path / "results"
+    evidence = tmp_path / "evidence"
+
+    def fake_run(command, dry_run):
+        observed["command"] = command
+        junit = next(item.split("=", 1)[1] for item in command if item.startswith("--junitxml="))
+        Path(junit).write_text(
+            '<testsuite tests="1" failures="0" errors="0" skipped="0"><testcase name="ok"/></testsuite>')
+        return 0
+
+    monkeypatch.setattr(batch_runner, "_run", fake_run)
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "tests-fast", "--batch-index", "0",
+        "--result-dir", str(results), "--evidence-dir", str(evidence), "--timeout", "15",
+    ])
+    assert batch_runner.main() == 0
+    assert observed["command"][:4] == [sys.executable, "-m", "TOOLS.um_arts", "capture"]
+    assert str(evidence.resolve()) in observed["command"]
+    receipt = json.loads((results / "tests-fast-0.json").read_text())
+    assert receipt["status"] == "success"
+    assert receipt["counts"]["tests"] == 1
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "tests-fast", "--aggregate", "--result-dir", str(results),
+    ])
+    assert batch_runner.main() == 0

@@ -1,0 +1,20 @@
+{
+  "batch_count": 1,
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 0
+  },
+  "environment_fingerprint": null,
+  "plan_digest": "e69daa0779e09318c1e6b91924a11c29a0c9279e06fa616a678b9fcec2e3d4a4",
+  "problems": [
+    "batch 0: stale or mismatched receipt"
+  ],
+  "snapshot": {
+    "head": "abc",
+    "worktree_digest": "def"
+  },
+  "status": "failure",
+  "suite": "tests-fast"
+}

@@ -1,0 +1,20 @@
+{
+  "batch_count": 1,
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 0
+  },
+  "environment_fingerprint": null,
+  "plan_digest": "7ec283a51536c72163fb0db632b88f99eb9f4d1381b34a0009d2aba95567db50",
+  "problems": [
+    "batch 0: missing or invalid execution environment fingerprint"
+  ],
+  "snapshot": {
+    "head": "abc",
+    "worktree_digest": "def"
+  },
+  "status": "failure",
+  "suite": "tests-fast"
+}

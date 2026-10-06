@@ -1,0 +1,5 @@
+## CI smoke result
+- platform-smoke: success
+- suite-collection-smoke: success
+- push-full-regression-batched: success
+- push-full-regression: success

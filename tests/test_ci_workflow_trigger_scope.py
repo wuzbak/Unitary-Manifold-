@@ -75,7 +75,9 @@ def test_full_core_evidence_runs_outside_the_agent_session() -> None:
     assert workflow["concurrency"]["cancel-in-progress"] is False
     assert job["steps"][0]["with"]["fetch-depth"] == 0
     assert job["timeout-minutes"] == 330
+    assert job["env"]["WANDB_DIR"] == "${{ runner.temp }}/um-arts-wandb"
     execution = next(step for step in job["steps"] if "Collect, execute" in step.get("name", ""))
+    assert 'Path(os.environ["WANDB_DIR"]).mkdir(parents=True, exist_ok=True)' in execution["run"]
     assert execution["timeout-minutes"] < job["timeout-minutes"]
     assert 'verified["status"] != "passed"' in execution["run"]
     assert 'verified["selected"] != verified["reconciled"]' in execution["run"]

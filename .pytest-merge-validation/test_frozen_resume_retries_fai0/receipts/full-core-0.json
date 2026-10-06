@@ -1,0 +1,55 @@
+{
+  "batch_count": 2,
+  "batch_index": 0,
+  "command": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "-m",
+    "pytest",
+    "-m",
+    "",
+    "test_sample.py",
+    "-q",
+    "--junitxml=/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/.pytest-merge-validation/test_frozen_resume_retries_fai0/receipts/full-core-0.xml"
+  ],
+  "counts": null,
+  "environment_fingerprint": {
+    "distributions_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "execution_digest": "68de7032f8795846a896167ab1049ba2bfe57714df46747a54562473a4b91ab0",
+  "execution_settings": {
+    "environment": {
+      "MERLIN_TRAINING_RUNTIME_DIR": "/tmp/merlin-training-pytest-ztv2wqc6",
+      "MKL_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null,
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+      "PYTEST_PLUGINS": null,
+      "PYTHONHASHSEED": null,
+      "PYTHONOPTIMIZE": null,
+      "PYTHONPATH": null
+    },
+    "python": "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python"
+  },
+  "exit_code": null,
+  "frozen_environment": {
+    "distributions_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "junit_sha256": null,
+  "plan_digest": "8123024a6e7ec949146a30c87494df3b6a3b5a3314a942ff704a2eee77fb24ac",
+  "snapshot": {
+    "head": "abc",
+    "worktree_digest": "def"
+  },
+  "status": "incomplete",
+  "suite": "full-core",
+  "workers": 0
+}

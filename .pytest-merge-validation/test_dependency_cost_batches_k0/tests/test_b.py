@@ -1,0 +1,1 @@
+from src.core import pillar982_architecture_limit_registry_runtime

@@ -1,0 +1,61 @@
+{
+  "batch_count": 2,
+  "batch_index": 0,
+  "command": [
+    "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python",
+    "-m",
+    "pytest",
+    "-m",
+    "",
+    "test_sample.py",
+    "-q",
+    "--junitxml=/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/.pytest-merge-validation/test_frozen_aggregate_checks_e1/receipts/full-core-0.xml"
+  ],
+  "counts": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 1
+  },
+  "elapsed_seconds": 0.21443095199992968,
+  "environment_fingerprint": {
+    "distributions_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "execution_digest": "68de7032f8795846a896167ab1049ba2bfe57714df46747a54562473a4b91ab0",
+  "execution_settings": {
+    "environment": {
+      "MERLIN_TRAINING_RUNTIME_DIR": "/tmp/merlin-training-pytest-ztv2wqc6",
+      "MKL_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null,
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+      "PYTEST_PLUGINS": null,
+      "PYTHONHASHSEED": null,
+      "PYTHONOPTIMIZE": null,
+      "PYTHONPATH": null
+    },
+    "python": "/opt/hostedtoolcache/Python/3.12.14/x64/bin/python"
+  },
+  "exit_code": 0,
+  "frozen_environment": {
+    "distributions_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "platform_machine": "x86_64",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.12.14"
+  },
+  "junit_sha256": "f675c81b4580c60f7835ef264f342ecb810a06145816b93a2ce784f000a4d6fa",
+  "plan_digest": "8123024a6e7ec949146a30c87494df3b6a3b5a3314a942ff704a2eee77fb24ac",
+  "snapshot": {
+    "head": "abc",
+    "worktree_digest": "def"
+  },
+  "status": "success",
+  "suite": "full-core",
+  "workers": 0
+}

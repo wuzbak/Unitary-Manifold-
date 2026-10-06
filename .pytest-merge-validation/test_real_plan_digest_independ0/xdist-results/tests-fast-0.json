@@ -1,0 +1,28 @@
+{
+  "batch_count": 1,
+  "batch_index": 0,
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "-n",
+    "2",
+    "-m",
+    "not slow",
+    "tests/test_sample.py",
+    "-q",
+    "--junitxml=/home/runner/work/Unitary-Manifold-/Unitary-Manifold-/.pytest-merge-validation/test_real_plan_digest_independ0/xdist-results/tests-fast-0.xml"
+  ],
+  "counts": null,
+  "elapsed_seconds": 1.9810000139841577e-05,
+  "environment_fingerprint": null,
+  "exit_code": 0,
+  "junit_sha256": null,
+  "plan_digest": "42d57bd4eeb58c5f4663d029d30bc7a7c2d01dee421533a58c74a8cf6f13a2a3",
+  "snapshot": {
+    "head": "abc",
+    "worktree_digest": "def"
+  },
+  "status": "dry-run",
+  "suite": "tests-fast"
+}
