@@ -1,8 +1,20 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """
-EIGE/src/metric_closure.py — 5D Metric Closure Validator
-=========================================================
+EIGE/src/metric_closure.py — 5D Metric Closure Validator (RETIRED as a detector)
+==================================================================================
+
+SECURITY NOTICE (v22, red-team finding F2)
+------------------------------------------
+This check is **not** a tamper-detection signal.  ``CountyNode`` derived
+φ_eff as π/4 plus a residual of at most ~1e-15/n, which is always inside
+``PHI_TOLERANCE``, so every county reported STABLE whatever happened to its
+ballots.  The validator is kept for API compatibility only; STABLE carries no
+evidentiary weight.  Use the Merkle log, signed tree heads, reconciliation and
+risk-limiting audits in the ``eige`` package instead.
+
+Original v21 description (detection claims RETRACTED)
+-----------------------------------------------------
 
 The 5D Kaluza-Klein metric ansatz G_AB packages:
   - g_μν  : baseline 4D spacetime metric
@@ -31,7 +43,6 @@ Implementation: GitHub Copilot (AI)
 
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import Optional
@@ -48,6 +59,9 @@ from .constants import (
 # ---------------------------------------------------------------------------
 # Closure status enum
 # ---------------------------------------------------------------------------
+
+SECURITY_ROLE = "retired: carries no tamper-detection or evidentiary weight (see RETRACTED_CLAIMS.md)"
+
 
 class ClosureStatus(Enum):
     """Result of a 5D metric closure validation."""

@@ -6,137 +6,68 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
-## [21.0.0] — 2026-07-17 — Phase 1-B Complete
+## [Unreleased] — county and state scale
 
 ### Summary
 
-Phase 1-B closes the three architectural vulnerabilities identified in the Phase 1 adversarial analysis: the **Translation Gap** (float scanner output → integer EIGE intake), the **Over-Fitting Trap** (system achieves STABLE status by silently suppressing low-turnout counties), and the **Epistemic Barrier** (math output unintelligible to non-technical certification audiences).
-
-**Total tests: 449 passing, 0 failures.**
+EIGE now works at full-population scale. Nothing has to fit in memory: the county log is a durable database, CVR exports are streamed, and verification reads the log in one pass in bounded memory. Each step measured here is described in `SCALE.md`, together with what has not been measured.
 
 ### Added
 
-#### Chaos Injection Module (`src/chaos_injection.py`)
-- `ChaosInjector` class: adversarial noise injection for EIGE adversarial resilience testing
-- Five noise modes: `NONE`, `BITFLIP`, `ZERO_OUT`, `RANDOMIZE`, `STOCHASTIC`
-- `inject_replay_attack()`: replay attack detection test
-- `inject_burst()`: high-volume burst stress testing for shard synchronisation
-- `check_freedom_floor()`: per-batch participation floor monitoring
-- `FreedomFloorViolation`: non-recoverable exception on participation suppression detection
-- Constants: `CHAOS_NOISE_BUDGET_DEFAULT = 0.10`, `FREEDOM_FLOOR = 0.85`, `FREEDOM_FLOOR_MIN_BALLOTS = 1`
+- `eige.crypto.merkle.CompactRange` and `LevelledTree`: streaming roots in O(log n) memory, and inclusion/consistency proofs from stored subtree nodes in O(log² n) reads. Outputs are identical to the RFC 9162 definition (property-tested against a recursive reference).
+- `eige.ledger.store.DurableMerkleLog`: SQLite-backed log (WAL, `synchronous=FULL`) with one transaction per batch, rollback on failure, a unique-key index (a CVR id is never logged twice), stored signed heads with monotonic timestamps, a full integrity check, and bundle export.
+- `eige.cvr_import`: streaming readers for NIST SP 1500-103 `CastVoteRecordReport` JSON (incremental parser, `CurrentSnapshotId`, `IsAllocable`, overvotes kept), NIST JSONL, and EIGE CSV.
+- `python -m eige.county`: `init`, `commit-manifest`, `ingest` (whole export validated before anything is logged, then logged in one transaction that is rolled back if the file changed or the run is interrupted; source SHA-256 recorded), `event`, `sign-head` (PKCS#11, or a development key refused in production), `results`, `status --check-integrity`, `export`. `sign-head` and `export` refuse to run when the integrity check finds any problem.
+- Precinct-level results: CVR `reporting_unit`, `results_report(..., by_reporting_unit=True)`, and verifier checks `REPORTED_UNIT_TOTAL_MISMATCH` / `CVR_REPORTING_UNIT_MISSING`. When results are jurisdiction-only, the verifier says so instead of passing silently.
+- `eige.audit_input.v2`: several contests audited from one sample with one hand interpretation per ballot.
+- `python -m eige.verify bundle --workers N` (parallel scan, identical report) and `python -m eige.verify state` / `eige.statewide` (statewide roll-up).
+- `eige.dedup.DuplicateDetector` (disk-spilling, exact), `eige.canonical.decode_canonical`, `eige.bundle.read_metadata` / `iter_log`.
+- `eige.synthetic_scale` and `tools/scale_benchmark.py` for reproducible large synthetic counties; `SCALE.md` with measured results.
+- Tests: `tests/test_eige_scale_storage.py`, `tests/test_eige_scale_ingest.py`, `tests/test_eige_scale_verify.py`, including a 200,000-ballot bounded-memory test (marked slow).
 
-#### Holographic Screen Layer (`src/holographic_screen.py`)
-- `HolographicScreen`: deterministic, rule-based normalisation of float scanner output → integer ballot vectors
-- `WriteInRegistry`: case-insensitive write-in candidate name resolution
-- `NormalisationRecord` / `NormalisationStatus`: full audit trail of every normalisation decision
-- `AdmissibilityError`: exception routing low-confidence ballots to human adjudicator queue
-- Normalisation rules: PASSTHROUGH, LOW_CONFIDENCE_ABSTAIN, ADJUDICATION_APPLIED, WRITE_IN_RESOLVED, WRITE_IN_UNRESOLVED, ZERO_PAD, TRUNCATED
-- `HOLOGRAPHIC_SCREEN_MIN_CONFIDENCE = 0.60`
+### Security
 
-#### Public Trust Index (`src/public_trust_index.py`)
-- `PublicTrustIndexBuilder` / `PublicTrustReport`: plain-English, legally defensible trust reports
-- Status mapping: STABLE→VERIFIED, DRIFTED→WATCH, VIOLATED→ALERT
-- `plain_english_summary`: court-ready paragraph with zero physics/mathematics vocabulary
-- `statistical_equivalent`: comparison to standard audit sampling confidence and Benford's Law p-value
-- `build_from_ledger_entry()`: constructs report from `StateLedgerEntry` (multi-county aggregation)
-
-#### Freedom Floor Kill-Switch (in `src/sentinel_load_balance.py`)
-- `SentinelLoadBalancer.check_freedom_floor()`: system-level participation floor check
-- `SentinelLoadBalancer.check_participation_variance()`: per-county participation variance monitor
-- `FreedomFloorBreach`: system-level non-recoverable exception
-
-#### Chaos Integration Test Suite (`tests/test_eige_chaos_integration.py`)
-- 7 full-pipeline adversarial scenarios:
-  1. Clean baseline (0% noise)
-  2. 10% noise budget (within tolerance)
-  3. 50% zero-out (triggers VIOLATED)
-  4. Multi-county mesh under noise
-  5. Freedom floor enforcement
-  6. Admissibility routing to human queue
-  7. Public Trust vocabulary verification (no 5D/KK terms in output)
-
-#### Public-Facing Documentation
-- `BOOK.md` — 21-chapter comprehensive technical and operational reference (62KB)
-- `README.md` — standalone orientation page
-- `EXPLAINER.md` — 5-minute plain-English explainer (4 audiences)
-- `FAQ.md` — skeptic FAQ (election deniers, cryptography researchers, privacy advocates, federalism advocates)
-- `SECURITY.md` — security policy and open cryptanalysis challenge
-- `CHANGELOG.md` — this file
-
-#### Research and Outreach Materials
-- `paper/eige_arxiv_preprint.md` — condensed 8-section arXiv preprint (cs.CR / cs.CY)
-- `outreach/king_county_pilot_proposal.md` — shadow-mode pilot proposal to King County Elections
-- `outreach/eac_cisa_engagement.md` — EAC, CISA, and NIST notification letters
-- `outreach/academic_channels.md` — academic venue and community launch guide
-
-#### Developer Experience
-- `requirements.txt` — pinned Python dependencies (numpy, mpmath, pytest)
-- `Dockerfile` — one-command image that runs the full 449-test suite
-- `run_demo.py` — end-to-end synthetic election demo (5 counties, 5,000 ballots)
-- `notebooks/01_eige_quickstart.ipynb` — Jupyter quickstart notebook
-- `src/constants_engineering.py` — physics-free equivalent constants for independent evaluation
-- `docs/index.html` — GitHub Pages landing page
+- EIGE is now analysed by CodeQL in CI (`python-eige` slice; see `SECURITY.md`). The first full local run (`security-and-quality`, 172 queries over 115 files) found no injection or data-flow vulnerability in the `eige/` package. Fixed in response: legacy `src/sentinel_load_balance.py` wrote override dossiers world-readable (now `0o600`); a test `assert` with a side effect; a duplicated assignment in a test; an implicit string concatenation; bucket files that could leak if opening failed part-way (`eige/dedup.py`, `eige/parallel_scan.py`); county commands now use `with` for the log; about 100 unused imports removed.
 
 ### Changed
 
-- `src/sentinel_load_balance.py`: added Freedom Floor check and `FreedomFloorBreach` exception
-- `src/constants.py`: added `CHAOS_NOISE_BUDGET_DEFAULT`, `FREEDOM_FLOOR`, `FREEDOM_FLOOR_MIN_BALLOTS`, `HOLOGRAPHIC_SCREEN_MIN_CONFIDENCE`
+- The verifier is a single streaming pass. Duplicate CVR ids are now reported as reconciliation `DUPLICATE_CVR_ID` rather than as a malformed CVR. A log whose last line is not newline-terminated is reported as **Log file readable: failed**. Individual discrepancy rows are capped at 500, followed by a count of the rest.
+- Ballot manifest lookups use binary search; contest lookups are constant-time; sampled ballots are captured during the scan rather than searched for.
+- A sampled ballot that cannot be found (`selections: null`) or a sampled position with no logged CVR counts as the worst case for the reported outcome in both comparison and polling audits.
+- `MAX_FILE_BYTES` now applies to JSON documents only; log entries are limited individually (4 MiB).
+- `docs/FORMATS.md`: corrected the `sample.json` and `cast.json` shapes to match the code, and documented the import formats, reporting-unit results, audit v2, log entry types, the county database and state results.
 
-### Test Growth
-
-| Phase | Tests Added | Running Total |
-|-------|-------------|---------------|
-| Phase 1 (TRL-7 sprint) | 312 | 312 |
-| Chaos Injection | +29 | 341 |
-| Holographic Screen | +72 | 413 |
-| Public Trust Index | +45 | 458 → *adjusted for dedup* → |
-| Freedom Floor + Integration | +47 | **449** |
-
----
-
-## [20.x] — 2026-06-xx — Phase 1 TRL-7 Sprint
+## [22.0.0] — v22 audit-support release
 
 ### Summary
 
-Initial implementation of the EIGE core engine. Technology Readiness Level 7 (system prototype demonstrated in operational environment).
-
-**Total tests: 312 passing, 0 failures.**
+EIGE has been repositioned as an audit-support and public-transparency tool for election officials. It no longer claims physics-based tamper detection, unsupported deterministic integrity or zero-knowledge-proof claims.
 
 ### Added
 
-#### Core Engine
-- `src/constants.py` — system-wide physical and operational constants (K_CS=74, PHI_0=π/4)
-- `src/chern_simon_hash.py` — CS rolling hash + `ShardedChernSimonChain` (8-shard holographic persistence)
-- `src/metric_closure.py` — metric closure validator → STABLE | DRIFTED | VIOLATED
-- `src/oscal_schema.py` — OSCAL 1.5.0 dataclasses + NIST SP-800-53 R5 control mapping
-- `src/holon_zero_cert.py` — Holon Zero Certificate engine (ZK commitment architecture)
-- `src/county_node.py` — county ingestion: int64 intake, 8-shard persistence, network partition handling
-- `src/sentinel_load_balance.py` — override interception + atomic OSCAL dossier writer (< 500ms)
-- `src/precision_audit_worker.py` — mpmath 512-bit async validation thread
-- `src/state_mesh.py` — state aggregation: cross-county braid sync, Holon Zero cert emission
-- `src/federal_auditor.py` — federal blind audit: ZK cert gate, `RawDataAccessAttempt` guard
-- `src/sovereign_mesh.py` — top-level orchestrator + 3 integration tests
-- `src/recovery_kernel.py` — cold-start integrity assertion + shard healing
-- `src/disaster_recovery.py` — cold storage snapshots + inter-county mTLS peer replication
+- `eige/` v22 package with canonical JSON for all signed, hashed, and committed artifacts.
+- RFC 6962/RFC 9162-style SHA-256 Merkle tree, inclusion proofs, and consistency proofs.
+- Ed25519 signing with domain separation, public key registry, rotation, revocation, development-key rejection, and PKCS#11 signer support.
+- Pedersen tally commitments with selective openings and homomorphic aggregation checks; no zero-knowledge claim.
+- Signed tree heads, bulletin board, witness cosignatures, and equivocation evidence for split views.
+- Strict election, contest, candidate, CVR, ballot-manifest, and result parsing.
+- Public-seed sampling, RLA calculations, canvass reconciliation, custody ledger, open-data provenance, screening, reports, bundle loading, and standalone verification CLI.
+- `docs/FORMATS.md` and `blueprint/OFFICIAL_WORKFLOW.md`.
 
-#### Infrastructure
-- `infra/eige-pod.yaml` — Kubernetes deployment manifest
-- `infra/state-mesh.yaml` — state mesh K8s configuration
-- `infra/network-policy.yaml` — network isolation policy
-- `infra/peer-authentication.yaml` — Istio mTLS peer authentication
-- `infra/nginx-dashboard.conf` — public transparency dashboard proxy
-- `infra/eige-backup-cron.yaml` — hourly cold storage CronJob
+### Changed
 
-#### Blueprints (reference implementations)
-- `blueprint/ingestion_engine.rs` — Rust fast-ingest parser blueprint
-- `blueprint/VerificationCockpit.tsx` — Next.js multi-party verification UI blueprint
+- `src/` is legacy compatibility code, not the basis for v22 security claims.
+- Open-data fetching now raises errors and records provenance rather than falling back to placeholders.
+- Verification reports list `verified`, `failed`, `warning`, and `not_checked`; `not_checked` is never a pass.
+- Documentation now avoids stale test counts and directs readers to run `python -m pytest tests/ -q`.
 
-#### Documentation
-- `ARCHITECTURE.md` — full system block diagram and 3-tier architecture
-- `COMPLIANCE.md` — NIST VVSG 2.0 / SP-800-53 R5 / OSCAL 1.5.0 control mapping
-- `ROADMAP.md` — Phase 1 → 3 deployment schedule
+### Retracted
 
----
+- The v21 Chern-Simons rolling hash is not tamper evidence and is retained only as a non-security sequence fingerprint.
+- The v21 metric-closure check is retired as a detection signal.
+- The v21 zero-knowledge proof claim is retracted; the prior format proved nothing.
+- HMAC telemetry and mock TEE paths are not public-verification or production-attestation mechanisms.
 
-*Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*  
-*Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).*
+## [21.0.0] — 2026-07-17 — Phase 1-B release
+
+This release is retained for historical context. Several security claims from this version were later retracted after red-team review; see [RETRACTED_CLAIMS.md](RETRACTED_CLAIMS.md).

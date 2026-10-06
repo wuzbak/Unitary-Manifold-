@@ -57,11 +57,9 @@ from __future__ import annotations
 import enum
 import random
 import time
-import uuid
-from typing import Dict, List, Optional, Any
+from typing import List, Optional
 
 from .holographic_screen import HolographicScreen, AdmissibilityError
-from .constants import HOLOGRAPHIC_SCREEN_MIN_CONFIDENCE
 
 
 # ---------------------------------------------------------------------------

@@ -12,8 +12,8 @@ custom_css = """
 
 def search_sec(query):
     try:
-        url = f"https://efts.sec.gov/LATEST/search-index?q={query}&forms=10-K,10-Q,8-K,4,SC-13D"
-        r = requests.get(url, headers={"User-Agent":"AxiomZero-Journalist admin@axiomzerospc.org"}, timeout=15)
+        r = requests.get("https://efts.sec.gov/LATEST/search-index",
+                         params={"q": query, "forms": "10-K,10-Q,8-K,4,SC-13D"}, headers={"User-Agent":"AxiomZero-Journalist admin@axiomzerospc.org"}, timeout=15)
         if not r.ok: return f"SEC EDGAR error: {r.status_code}"
         data = r.json()
         hits = (data.get("hits",{}).get("hits",[]))[:5]
@@ -48,7 +48,7 @@ def search_icij(query):
 
 def search_propublica(query):
     try:
-        r = requests.get(f"https://projects.propublica.org/nonprofits/api/v2/search.json?q={query}", timeout=10)
+        r = requests.get("https://projects.propublica.org/nonprofits/api/v2/search.json", params={"q": query}, timeout=10)
         if not r.ok: return "ProPublica unavailable"
         orgs = r.json().get("organizations",[])[:5]
         if not orgs: return "No nonprofits found."
@@ -61,7 +61,8 @@ def search_propublica(query):
 def search_wayback(url):
     try:
         target = url if url.startswith("http") else f"http://{url}"
-        r = requests.get(f"https://web.archive.org/cdx/search/cdx?url={target}&output=json&limit=5", timeout=10)
+        r = requests.get("https://web.archive.org/cdx/search/cdx",
+                         params={"url": target, "output": "json", "limit": 5}, timeout=10)
         if not r.ok: return "Wayback unavailable"
         rows = r.json()
         if len(rows) < 2: return "No archives found."

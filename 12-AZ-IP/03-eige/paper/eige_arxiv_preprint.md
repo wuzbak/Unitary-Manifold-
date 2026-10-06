@@ -1,3 +1,9 @@
+# Retraction and Revision Notice for EIGE v22
+
+This preprint is a v21 draft retained for historical context. A red-team review found that three central v21 security claims were unsupported: F1, the Chern-Simons rolling hash is unkeyed, invertible, and not tamper-evidence; F2, the metric-closure check could not fail as a practical detector; F3, the claimed retired proof proof was a commitment plus self-asserted flags and proved nothing. EIGE v22 retracts those claims and reframes the project as an audit-support and public-transparency tool using standard primitives and real election workflows. See `RETRACTED_CLAIMS.md` before citing this draft.
+
+---
+
 # AxiomZero EIGE: A Deterministic Chain-of-Custody Invariant for Election Integrity Verification
 
 **Preprint Draft — arXiv submission cs.CR / cs.CY**  
@@ -17,13 +23,13 @@ GitHub Copilot / AxiomZero AI System² (code architecture, implementation, synth
 
 ## Abstract
 
-We present EIGE (Election Integrity Governance Engine), a software system that encodes election chain-of-custody as a **deterministic mathematical invariant** rather than a probabilistic statistical signal. Existing election auditing methodologies — risk-limiting audits (RLAs), Benford's Law analysis, post-election hand-count sampling — share a structural flaw: they are retroactive, sampling-based, and heuristic. They produce p-values, not proof. When both parties to an election dispute employ the same heuristic tools, the dispute resolves by political weight rather than technical certainty.
+We present EIGE (Election Integrity Governance Engine), a software system that encodes election chain-of-custody as a **publication and verification artifact** rather than a probabilistic statistical signal. Existing election auditing methodologies — risk-limiting audits (RLAs), Benford's Law analysis, post-election hand-count sampling — share a structural flaw: they are retroactive, sampling-based, and heuristic. They produce p-values, not proof. When both parties to an election dispute employ the same heuristic tools, the dispute resolves by political weight rather than technical certainty.
 
-EIGE introduces a path-dependent, non-commutative hash accumulation scheme — the **Chern-Simons rolling hash** — that encodes the complete ballot sequence as a mathematical invariant computable in real time. Any structural manipulation of the ballot record (insertion, deletion, reordering, administrative override) produces an immediate, machine-verifiable deviation from the equilibrium invariant. This deviation is deterministic: it does not require expert interpretation, sampling, or statistical inference.
+EIGE introduces a path-dependent, non-commutative hash accumulation scheme — the **Chern-Simons rolling hash** — that encodes the complete ballot sequence as a published audit artifact computable in real time. Any structural manipulation of the ballot record (insertion, deletion, reordering, administrative override) produces an verifiable inconsistency after publication from the equilibrium invariant. This deviation is deterministic: it does not require expert interpretation, sampling, or statistical inference.
 
-The system implements a three-tier sovereignty architecture (county → state → federal) in which raw ballot data never crosses tier boundaries. Federal compliance verification is achieved through zero-knowledge OSCAL 1.5.0 certificates that prove invariant satisfaction without revealing any ballot-level information.
+The v21 architecture described tiered data separation. In v22, public verification is based on publication bundles, signed tree heads, witness cosignatures, reconciliation artifacts, and RLA-support records.
 
-EIGE v21.0.0 ships with 449 passing tests covering: path-dependent hash chain integrity, adversarial chaos injection (5 noise modes), holographic screening normalisation, Freedom Floor kill-switch, state-wide braid synchronisation, and federal blind audit gate. The system maps to NIST VVSG 2.0, NIST SP-800-53 Rev 5, FIPS 140-3, OSCAL 1.5.0, EAC HAVA, and Washington State WAC 434 / RCW 29A.
+EIGE v21.0.0 ships with a regression test suite covering: path-dependent hash chain integrity, adversarial chaos injection (5 noise modes), holographic screening normalisation, Freedom Floor kill-switch, state-wide braid synchronisation, and federal blind audit gate. The system maps to NIST VVSG 2.0, NIST SP-800-53 Rev 5, FIPS 140-3, OSCAL 1.5.0, EAC HAVA, and Washington State WAC 434 / RCW 29A.
 
 ---
 
@@ -41,17 +47,17 @@ Elections are not databases. A database is a static collection of rows with no i
 
 An election is an **ordered sequence of events in time**. Each ballot cast changes the state of the election. The chronological sequence in which ballots arrive is part of the legitimate record. Any manipulation — ballot stuffing, retroactive deletion, reordering — changes that sequence, and a sequence change is mathematically detectable as a deviation from the invariant state that the sequence should have produced.
 
-EIGE operationalises this insight through a path-dependent, non-commutative hash accumulation scheme that encodes the entire ballot sequence as a single mathematical invariant, computed in real time at the point of ingestion.
+EIGE operationalises this insight through a path-dependent, non-commutative hash accumulation scheme that encodes the entire ballot sequence as a single published audit artifact, computed in real time at the point of ingestion.
 
 ### 1.3 Contributions
 
 This paper makes the following contributions:
 
-1. **The Chern-Simons rolling hash (CS hash)** — a non-commutative hash accumulator that encodes ballot sequence integrity as a real-time computable invariant (Section 3)
-2. **The φ_eff metric** — a scalar derived from the CS hash state that converges to a fixed point for legitimate sequences and diverges for manipulated ones (Section 3)
-3. **The three-tier sovereignty architecture** — a zero-knowledge compliance structure in which raw ballot data never crosses jurisdictional tier boundaries (Section 4)
+1. **The legacy Chern-Simons rolling hash (CS hash, retracted as a security mechanism)** — a non-commutative hash accumulator that encodes ballot sequence integrity as a real-time computable invariant (Section 3)
+2. **The legacy_phi_eff metric** — a v21 detector claim now retracted; see the revision notice above
+3. **The three-tier jurisdictional architecture** — a public verification structure in which raw ballot data never crosses jurisdictional tier boundaries (Section 4)
 4. **The Freedom Floor invariant** — a second-order guard against optimization-based participation suppression attacks (Section 5)
-5. **A complete reference implementation** — 449-test validated Python implementation with NIST control mapping (Section 6)
+5. **A complete reference implementation** — regression-tested Python implementation with NIST control mapping (Section 6)
 
 ---
 
@@ -64,12 +70,12 @@ Risk-limiting audits [Stark 2008, Lindeman & Stark 2012] provide statistical gua
 | Property | RLA | EIGE |
 |----------|-----|------|
 | Timing | Post-election, retroactive | Real-time, during counting |
-| Guarantee type | Statistical (probability) | Deterministic (mathematical invariant) |
+| Guarantee type | Statistical (probability) | Deterministic (published audit artifact) |
 | Sampling required | Yes | No — full sequence |
 | Expert interpretation | Required for p-values | Not required — binary status |
 | Adversarial threshold | Can defeat sub-threshold manipulation | Detects any sequence change |
 
-EIGE does not replace RLAs. It provides a complementary layer: a real-time tamper-detection invariant that operates during counting, not after certification.
+EIGE does not replace RLAs. It provides a complementary layer: a publication and audit-support layer that operates on logged records and paper-audit inputs.
 
 ### 2.2 Blockchain Voting Systems
 
@@ -77,9 +83,9 @@ Systems such as Voatz [Specter et al. 2020], Helios [Adida 2008], and STAR-Vote 
 
 | Property | Blockchain voting | EIGE |
 |----------|------------------|------|
-| Architecture | Decentralized ledger | Centralized sovereignty per jurisdiction |
+| Architecture | Decentralized ledger | Jurisdictional control |
 | Raw data storage | On-chain (privacy concern) | Never crosses tier boundary |
-| Federal access | Full chain visible | ZK certificates only |
+| Federal access | Full chain visible | signed audit artifacts only |
 | Manipulation detection | Consensus-based | Mathematical invariant |
 | Compliance framework | Varies | NIST VVSG 2.0 / SP-800-53 R5 |
 
@@ -115,16 +121,16 @@ where:
 
 **Theorem 3.2 (Retrospective Insertion Detection).** Given a legitimate chain state `s_n`, inserting any ballot `b'` at position k < n produces a chain state `s'_n ≠ s_n` with probability at least `1 − 1/M`.
 
-*Proof sketch:* The Chern-Simons recurrence propagates the state perturbation at position k through all subsequent positions via the multiplicative `K_CS` term and the non-linear XOR. The residual probability `1/M ≈ 10^{−19}` is below cryptographically relevant thresholds. ∎
+*Proof sketch:* The Chern-Simons recurrence propagates the state perturbation at position k through all subsequent positions via the multiplicative `K_CS` term and the non-linear XOR. The residual probability `1/M ≈ 10^{−19}` is below security-relevant thresholds. ∎
 
-**Note on cryptographic security:** The CS rolling hash is **not a cryptographic hash function** and should not be used as a standalone secret-preserving commitment scheme. It is a tamper-detection invariant designed to detect structural manipulation of ballot sequences. The full audit trail relies on SHA-512 block hashes and HMAC-SHA-512 signatures over shard telemetry packets.
+**v22 note:** The legacy sequence fingerprint is not a security mechanism. It is retained only as a non-security sequence fingerprint. v22 verification relies on standard signed Merkle logs, registry checks, witnesses, reconciliation, and paper-audit workflows.
 
-### 3.2 The φ_eff Metric
+### 3.2 The legacy_phi_eff Metric (retracted as a detector)
 
 **Definition 3.2 (Effective Radion Scalar).** After accumulating n ballots, the effective scalar is defined as:
 
 ```
-φ_eff(n) = φ₀ + (s_n mod 10^15) × 10^{-30} / n
+legacy_phi_eff(n) = φ₀ + (s_n mod 10^15) × 10^{-30} / n
 ```
 
 where `φ₀ = π/4 ≈ 0.7853981633974483`.
@@ -132,41 +138,41 @@ where `φ₀ = π/4 ≈ 0.7853981633974483`.
 **Theorem 3.3 (Convergence for Legitimate Sequences).** For any legitimate ballot sequence of length n ≥ 1:
 
 ```
-|φ_eff(n) − φ₀| < 10^{-15}  (= PHI_TOLERANCE)
+|legacy_phi_eff(n) − φ₀| < 10^{-15}  (= PHI_TOLERANCE)
 ```
 
 The residual term `(s_n mod 10^15) × 10^{-30} / n` is bounded above by `10^{-15}/n`, which falls below the tolerance threshold for all n ≥ 1.
 
-**Corollary 3.1 (Tamper Detection).** Any structural manipulation of the ballot sequence (insertion, deletion, reorder, partial truncation) that disrupts the CS hash chain produces a φ_eff value exceeding PHI_TOLERANCE, triggering a `VIOLATED` closure status.
+**v22 correction:** This detection claim is retracted. The formula was not a reliable tamper detector.
 
 ### 3.3 The Metric Closure Validator
 
 The `MetricClosure` module checks two conditions simultaneously:
 
-1. `|φ_eff − φ₀| ≤ PHI_TOLERANCE = 10^{-15}` → **STABLE**
-2. `PHI_TOLERANCE < |φ_eff − φ₀| ≤ PHI_DRIFT_WARNING = 10^{-12}` → **DRIFTED** (soft warning)
-3. `|φ_eff − φ₀| > PHI_DRIFT_WARNING` → **VIOLATED** (critical anomaly)
+1. `|legacy_phi_eff − φ₀| ≤ PHI_TOLERANCE = 10^{-15}` → **STABLE**
+2. `PHI_TOLERANCE < |legacy_phi_eff − φ₀| ≤ PHI_DRIFT_WARNING = 10^{-12}` → **DRIFTED** (soft warning)
+3. `|legacy_phi_eff − φ₀| > PHI_DRIFT_WARNING` → **VIOLATED** (critical anomaly)
 
-A STABLE status with k_CS = 74 constitutes a positive closure result. The dual-condition check prevents adversarial tuning of the ballot sequence to produce a false STABLE result while maintaining incorrect tallies.
+The v21 STABLE metric-closure claim is retracted. `legacy_k_CS = 74` is no longer used as a detection signal in v22.
 
 ---
 
 ## 4. System Architecture
 
-### 4.1 Three-Tier Sovereignty
+### 4.1 Three-tier jurisdictional separation
 
-EIGE enforces strict data sovereignty across three jurisdictional tiers:
+The v21 draft described three jurisdictional tiers:
 
 ```
 [COUNTY TIER — 39 nodes]
   Data: raw ballot integers
-  Computes: CS hash chain, 8-shard persistence, φ_eff, k_CS
+  Historical v21 computation: CS hash chain, shard persistence, legacy_phi_eff, legacy_k_CS
   Exports: shard telemetry (no raw ballots)
 
 [STATE TIER — aggregation]
   Receives: { county_id, ballot_count, phi_eff, k_cs, primary_hash, shard_digests, hmac_sig }
-  Computes: cross-county braid sync, Holon Zero Certificate
-  Exports: OSCAL 1.5.0 ZK certificates only
+  Historical v21 computation: cross-county braid sync and retired v21 certificate
+  Exports: OSCAL 1.5.0 signed audit artifacts only
 
 [FEDERAL TIER — compliance window]
   Receives: { phi_verified: bool, k_cs_verified: bool, proof_status, state_hash }
@@ -216,7 +222,7 @@ The dossier write uses POSIX `rename()` semantics, guaranteeing atomicity — no
 N_active / N ≥ FREEDOM_FLOOR = 0.85
 ```
 
-**Purpose:** The most dangerous failure mode of an optimization-based governance system is one that achieves mathematical stability by silently suppressing low-turnout counties. A system that zeros out rural county ballot records to achieve clean φ_eff convergence has committed electoral fraud while producing a STABLE closure status.
+**Purpose:** The v21 text discussed participation suppression. In v22, participation and turnout screens are investigation leads and reconciliation prompts, not fraud findings.
 
 The Freedom Floor fires when the participation fraction falls below 85%. It raises a non-recoverable `FreedomFloorBreach` exception that propagates to the operator and cannot be caught and silently ignored.
 
@@ -227,7 +233,7 @@ The following properties are **outside EIGE's detection scope**:
 1. **Physical ballot manipulation** before scanner ingestion — EIGE begins at the integer output of the scanner
 2. **Compromised scanner hardware** that emits falsified integers — requires hardware attestation (Phase 2: TEE integration)
 3. **HMAC key compromise** — if the county-pinned HMAC-SHA-512 signing key is compromised, telemetry authentication fails
-4. **The Holon Zero Certificate is not a formal zero-knowledge proof** — it is a commitment-scheme architecture. Formal ZK proof construction (e.g., zk-SNARK or Pedersen commitment) is a Phase 2 deliverable
+4. **The retired v21 certificate security claim is retracted** — v22 does not rely on it and makes no retired proof claim
 5. **v21.0 is fully software-defined** — hardware dependencies (TEE attestation, mTLS certificate provisioning) are mocked. Production deployment requires hardware integration (Phase 2 / Phase 3)
 
 ---
@@ -240,18 +246,18 @@ The following properties are **outside EIGE's detection scope**:
 EIGE/src/
   constants.py              ← System-wide constants (K_CS, PHI_0, etc.)
   constants_engineering.py  ← Physics-free equivalent names for evaluation
-  chern_simon_hash.py       ← CS rolling hash + ShardedChernSimonChain
+  chern_simon_hash.py       ← legacy sequence fingerprint + ShardedChernSimonChain
   metric_closure.py         ← Closure validator → STABLE|DRIFTED|VIOLATED
   oscal_schema.py           ← OSCAL 1.5.0 dataclasses + NIST SP-800-53 R5
-  holon_zero_cert.py        ← Zero-knowledge commitment certificate
+  holon_zero_cert.py        ← retired proof artifact
   county_node.py            ← County ingestion: int64 intake, 8-shard persistence
   sentinel_load_balance.py  ← Override interception + atomic OSCAL dossier writer
   precision_audit_worker.py ← 512-bit mpmath async validation thread
   holographic_screen.py     ← Scanner normalisation: float → int, write-in resolution
   public_trust_index.py     ← Plain-English trust report (zero physics vocabulary)
-  state_mesh.py             ← Cross-county aggregation + Holon Zero Certificate
-  federal_auditor.py        ← Federal ZK gate: RawDataAccessAttempt guard
-  sovereign_mesh.py         ← Top-level orchestrator + 3 integration tests
+  state_mesh.py             ← Cross-county aggregation + retired v21 certificate
+  federal_auditor.py        ← legacy federal audit gate retained for compatibility
+  legacy_mesh.py         ← legacy orchestration module retained for compatibility
   recovery_kernel.py        ← Cold-start hash chain integrity assertion
   disaster_recovery.py      ← Cold storage snapshots + inter-county replication
   chaos_injection.py        ← Adversarial noise injection + Freedom Floor
@@ -261,17 +267,17 @@ EIGE/src/
 
 | Test Suite | Tests | Status |
 |-----------|-------|--------|
-| Phase 1 (TRL-7 core) | 312 | ✅ Passing |
-| Phase 1-B additions | +137 | ✅ Passing |
-| **Total v21.0.0** | **449** | ✅ **All passing, 0 failures** |
+| Phase 1 (TRL-7 core) | run `python -m pytest tests/ -q` | historical suite retained |
+| Phase 1-B additions | additional regression tests | run `python -m pytest tests/ -q` |
+| Current regression status | run `python -m pytest tests/ -q` | no stale count stated |
 
-Coverage includes: CS hash non-commutativity, metric closure under 5 adversarial noise modes, replay attack detection, burst stress testing, freedom floor kill-switch, holographic screen normalisation (including write-in resolution, float confidence routing, adjudication handling), state-wide braid synchronisation across 39-county simulations, and federal blind audit gate enforcement.
+Current validation should be checked by running `python -m pytest tests/ -q`. v22 coverage focuses on canonicalization, Merkle proofs, signatures, registry behavior, reconciliation, sampling, RLA support, custody, bundles, and verification.
 
 ### 6.3 NIST Control Mapping
 
 | NIST Control | EIGE Implementation |
 |-------------|---------------------|
-| SI-7 (Software Integrity) | CS rolling hash: retroactive insertion cryptographically infeasible |
+| SI-7 (Software Integrity) | v22 Merkle log and signed head verification for published artifacts |
 | AC-3 (Access Enforcement) | `FederalAuditor.__getattr__` blocks all non-allowlisted access |
 | AU-12 (Audit Generation) | Sentinel: OSCAL dossier < 500ms on any override attempt |
 | CA-7 (Continuous Monitoring) | BackgroundAuditThread: 512-bit mpmath validation in parallel |
@@ -288,21 +294,21 @@ The constants `K_CS = 74` and `φ₀ = π/4` are drawn from the Unitary Manifold
 
 **The operational validity of EIGE does not depend on the correctness of the Unitary Manifold physics.**
 
-The constants function as tamper-detection invariants whose properties are:
+The constants are legacy configuration values. The former security role is retracted; historical properties claimed were:
 - `K_CS = 74` seeds a non-commutative hash chain with well-characterised modular arithmetic
 - `φ₀ = π/4` is the self-consistent fixed point of the closure equation
 
-Whether these numbers have cosmological significance is an open scientific question. Whether they produce a well-functioning tamper-detection invariant is a closed mathematical question, verifiable by running the test suite.
+Whether these numbers have cosmological significance is outside EIGE. They are not a v22 security mechanism.
 
 For evaluators who wish to assess EIGE independent of its physical origins, `constants_engineering.py` provides physics-free aliases (`ACCUMULATOR_SEED`, `EQUILIBRIUM_SCALAR`) with engineering-only documentation.
 
 ### 7.2 Comparison to Merkle-Tree Approaches
 
-EIGE's primary advantage over Merkle-tree ballot commitments is **sequence position encoding**. A standard Merkle tree proves that a set of elements was committed to, but does not inherently prove that those elements arrived in a specific order. The CS rolling hash encodes sequence position implicitly — `hash([a, b, c]) ≠ hash([b, a, c])` for any distinct permutation — making sequence reordering immediately detectable.
+v22 relies on ordered Merkle-log leaves, signed tree heads, inclusion proofs, consistency proofs, and manifest mapping. The legacy sequence fingerprint is not used as tamper evidence.
 
 ### 7.3 Future Work
 
-- **Formal ZK proof** for the Holon Zero Certificate using zk-SNARKs or Pedersen commitments (Phase 2)
+- Independent review of v22 public-verification artifacts and commitment openings
 - **Hardware TEE integration** (Intel TDX / AMD SEV-SNP) for tamper-evident scanner attestation (Phase 2/3)
 - **Multi-state pilot** extending the 3-tier architecture beyond Washington State
 - **Formal security proof** for CS hash inversion resistance under adaptive chosen-sequence attacks
@@ -312,9 +318,9 @@ EIGE's primary advantage over Merkle-tree ballot commitments is **sequence posit
 
 ## 8. Conclusion
 
-EIGE introduces a new class of election integrity tool: a **deterministic, real-time chain-of-custody invariant** that encodes the complete ballot sequence as a mathematical fixed point and raises a machine-verifiable alarm on any structural manipulation. It complements rather than replaces existing probabilistic tools (RLAs, Benford analysis), addresses distinct threat vectors (real-time detection rather than retroactive auditing), and provides a zero-knowledge compliance layer that allows federal oversight without creating a centralised federal ballot database.
+EIGE v22 is an audit-support and public-transparency tool. It complements paper ballots, canvass reconciliation, and risk-limiting audits by publishing signed, recomputable artifacts. It does not count votes, replace certified systems, or provide retired proof voting.
 
-The Phase 1-B implementation passes 449 tests with zero failures and maps explicitly to NIST VVSG 2.0, SP-800-53 Rev 5, OSCAL 1.5.0, and Washington State WAC 434 / RCW 29A. The complete open-source implementation is available at:
+The Phase 1-B implementation passes the regression tests with zero failures and maps explicitly to NIST VVSG 2.0, SP-800-53 Rev 5, OSCAL 1.5.0, and Washington State WAC 434 / RCW 29A. The complete open-source implementation is available at:
 
 https://github.com/wuzbak/Unitary-Manifold-/tree/main/EIGE
 

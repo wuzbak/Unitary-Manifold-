@@ -2,15 +2,12 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for EIGE/src/recovery_kernel.py"""
 
-import json
 import os
 import sys
 import tempfile
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
-import pytest
 from EIGE.src.recovery_kernel import RecoveryKernel
-from EIGE.src.constants import K_CS
 
 
 def make_kernel(tmp_dir):

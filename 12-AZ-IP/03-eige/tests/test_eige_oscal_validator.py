@@ -7,7 +7,6 @@ and for the SI-7/AU-12 enhancement controls added to oscal_schema.py.
 
 from __future__ import annotations
 
-import json
 import sys
 import os
 import uuid

@@ -1,0 +1,12 @@
+[
+  {
+    "format": "eige.cosignature.v1",
+    "key_id": "ed25519:9e2995d88c572aac1bc6ded5feadd491",
+    "log_id": "SYNTH-COUNTY",
+    "root_hash": "9926f37e637abb85fd18dcba0ea08b7cdff7a0b2d447c09dd4297e64bf3d9ee5",
+    "signature": "3a94ef53e889ec8bc655c9bf69f5dc173bbbc46b3bcb32dd4d778113fe982ce6e33d3804e2f2ba959df53122ffec94b0e4a7a8843dbcaa4fcc6485b79dd62b04",
+    "timestamp": 1793710000,
+    "tree_size": 121,
+    "witness_id": "observer-university"
+  }
+]

@@ -7,17 +7,17 @@ All constants for the EIGE v21.0 engine live here.
 
 Physical origin of the key constants
 --------------------------------------
-K_CS = 74 = 5² + 7² — the Chern-Simons topological winding invariant
-    derived from the (5,7) braid resonance in the Unitary Manifold.
-    In EIGE, this integer seeds all shard placement arithmetic and the
-    path-dependent rolling hash, ensuring that any external tampering
-    with ballot sequences produces an immediate, machine-verifiable
-    deviation from the expected geometric state.
+SECURITY ROLE (v22): NONE.  K_CS and PHI_0 are named configuration constants
+retained for compatibility.  They seed shard placement and the legacy
+non-security sequence fingerprint; they do not provide tamper detection.
+The v21 claims that they make tampering "machine-verifiable" are retracted
+(RED_TEAM_FINDINGS.md F1/F2).  Tamper evidence now comes from standard
+primitives in the ``eige`` package (SHA-256 Merkle log, Ed25519).
 
-PHI_0 = π/4 — the radion scalar equilibrium value (φ₀) at which the
-    5D metric is self-consistent.  EIGE uses this as the "metric health"
-    reference: if the accumulated field state deviates from π/4 by more
-    than PHI_TOLERANCE, the closure validator flags a VIOLATED state.
+K_CS = 74 = 5² + 7² — borrowed from the Unitary Manifold (5,7) braid.
+    Used as a shard-placement / fingerprint seed only.
+
+PHI_0 = π/4 — reference value for the retired "metric closure" check.
 
 WINDING_NUMBER = 5 — n_w; the fundamental compactification winding number.
     Used as the base multiplier in braid reconstruction arithmetic.

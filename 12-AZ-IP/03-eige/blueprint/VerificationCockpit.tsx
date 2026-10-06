@@ -1,8 +1,9 @@
-// EIGE v21.0 — TypeScript Verification Cockpit Blueprint
+// EIGE v21.0 — TypeScript Verification Cockpit Blueprint (LEGACY)
 // AxiomZero Technologies & Consulting, SPC
 //
-// REFERENCE BLUEPRINT ONLY — not compiled as part of the Python test suite.
-// Intended for Phase 2 Next.js dashboard implementation.
+// LEGACY REFERENCE ONLY — superseded by blueprint/OfficialWorkflowCockpit.tsx.
+// The phi_eff / k_cs "closure" status shown here is retired as a detection
+// signal (see RED_TEAM_FINDINGS.md F2) and must not be presented as security.
 //
 // Theory & scientific direction: ThomasCory Walker-Pearson
 // Code architecture & synthesis:  GitHub Copilot (AI)
@@ -34,7 +35,7 @@ export interface HolonZeroCert {
   phi_verified?: boolean;
   /** @deprecated use k_cs_match for v21+ certs */
   k_cs_verified?: boolean;
-  proof_status: "INVARIANTS_VERIFIED" | "INVARIANTS_VIOLATED";
+  proof_status: "INVARIANTS_CLAIMED" | "INVARIANTS_VIOLATED";
   issued_at: string;       // ISO-8601
   county_count: number;
   engine_version: string;
@@ -329,7 +330,7 @@ export function VerificationCockpit({
         </p>
       </header>
 
-      {/* Federal ZK Certificate Status */}
+      {/* Federal structural certificate status (not zero-knowledge) */}
       {state.cert && (
         <section className="eige-federal-cert">
           <h2>Federal Holon Zero Certificate</h2>

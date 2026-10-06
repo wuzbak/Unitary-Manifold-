@@ -343,3 +343,14 @@ def test_copied_index_uses_root_relative_paths():
 
 def test_os_module_available_for_runtime():
     assert os.path.exists(PRODUCT_ROOT)
+
+
+def test_static_server_never_serves_paths_outside_ui_and_repo(tmp_path):
+    from um_reader.app.server import UMReaderRequestHandler
+
+    handler = UMReaderRequestHandler.__new__(UMReaderRequestHandler)
+    outside = Path(handler.translate_path("/../../../../../../../../etc/passwd")).resolve()
+    assert outside.parent == UI_ROOT.resolve() and not outside.exists()
+    assert Path(handler.translate_path("/")).name == "index.html"
+    readme = Path(handler.translate_path("/README.md")).resolve()
+    assert readme.exists() and readme.is_relative_to(SERVER_REPO_ROOT.resolve())

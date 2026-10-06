@@ -50,11 +50,11 @@ import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 import urllib.request
 import urllib.error
 
-from .constants import K_CS, ENGINE_VERSION, COUNTY_COUNT
+from .constants import K_CS, ENGINE_VERSION
 
 
 # ---------------------------------------------------------------------------

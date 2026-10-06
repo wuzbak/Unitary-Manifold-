@@ -1,0 +1,29 @@
+{
+  "format": "eige.key_registry.v1",
+  "keys": [
+    {
+      "compromised": false,
+      "development_only": true,
+      "key_id": "ed25519:7c043148b6d7b7ba4fbe78c82d17d941",
+      "owner": "SYNTH-COUNTY",
+      "public_key": "60368fe3ceb998a1b3b2533719a13138f4673d0ce77d8aab0b48d3abac72bb5c",
+      "revocation_reason": null,
+      "revoked_at": null,
+      "role": "county-log",
+      "valid_from": 0,
+      "valid_until": null
+    },
+    {
+      "compromised": false,
+      "development_only": true,
+      "key_id": "ed25519:9e2995d88c572aac1bc6ded5feadd491",
+      "owner": "observer-university",
+      "public_key": "52e18e2bad5bd134d0dccf00aec9ae1b65833da2cccc921820a7a72cb41e75fb",
+      "revocation_reason": null,
+      "revoked_at": null,
+      "role": "witness",
+      "valid_from": 0,
+      "valid_until": null
+    }
+  ]
+}

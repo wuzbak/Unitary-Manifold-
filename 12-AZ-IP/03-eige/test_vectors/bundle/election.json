@@ -1,0 +1,42 @@
+{
+  "contests": [
+    {
+      "candidates": [
+        {
+          "id": "alvarez",
+          "name": "R. Alvarez"
+        },
+        {
+          "id": "brooks",
+          "name": "T. Brooks"
+        },
+        {
+          "id": "chen",
+          "name": "M. Chen"
+        }
+      ],
+      "id": "mayor",
+      "name": "Mayor",
+      "vote_for": 1
+    },
+    {
+      "candidates": [
+        {
+          "id": "yes",
+          "name": "Yes"
+        },
+        {
+          "id": "no",
+          "name": "No"
+        }
+      ],
+      "id": "measure-1",
+      "name": "Measure 1",
+      "vote_for": 1
+    }
+  ],
+  "date": "2026-11-03",
+  "id": "synthetic-2026-general",
+  "jurisdiction": "SYNTH-COUNTY",
+  "name": "Synthetic County General Election (test data)"
+}

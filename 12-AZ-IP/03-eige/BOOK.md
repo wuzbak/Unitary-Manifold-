@@ -9,6 +9,8 @@
 
 ---
 
+> **v22 retraction notice:** Chapters written for v21 that describe the Chern-Simons rolling hash, metric closure, retired proof claims, holographic storage, or physics framing as election-security mechanisms are retracted. EIGE v22 uses standard publication, signature, Merkle-log, reconciliation, custody, and RLA-support workflows instead. See [RETRACTED_CLAIMS.md](RETRACTED_CLAIMS.md).
+
 ## Table of Contents
 
 1. [Foreword: Why This Book Exists](#1-foreword)
@@ -17,7 +19,7 @@
 4. [Mathematical Foundation](#4-mathematical-foundation)
 5. [System Architecture](#5-system-architecture)
 6. [Core Components: How It Works](#6-core-components)
-7. [The Three-Tier Sovereign Hierarchy](#7-the-three-tier-sovereign-hierarchy)
+7. [The Three-Tier Jurisdictional Hierarchy](#7-the-three-tier-jurisdictional-hierarchy)
 8. [The Chaos Injection Module: Building Adversarial Resilience](#8-the-chaos-injection-module)
 9. [The Holographic Screening Layer: Taming Real-World Input](#9-the-holographic-screening-layer)
 10. [The Public Trust Index: From Math to Plain English](#10-the-public-trust-index)
@@ -32,6 +34,7 @@
 19. [Glossary](#19-glossary)
 20. [Appendix A: Constants Reference](#20-appendix-a-constants-reference)
 21. [Appendix B: API Reference](#21-appendix-b-api-reference)
+22. [EIGE v22: Standard Primitives and Real Election Workflows](#22-eige-v22-standard-primitives-and-real-election-workflows)
 
 ---
 
@@ -87,7 +90,7 @@ a question of which expert witness the court finds more credible.
 ### 2.2 The Opportunity: Chain-of-Custody as a Mathematical Invariant
 
 The question that EIGE is designed to answer is: **can we replace probabilistic
-heuristics with a deterministic mathematical invariant that is verifiable by
+heuristics with a deterministic published audit artifact that is verifiable by
 any party, requires no expert interpretation, and is structurally impossible to
 manipulate after the fact?**
 
@@ -250,11 +253,7 @@ The metric closure validator checks two conditions simultaneously:
 1. `|φ_eff − φ₀| ≤ PHI_TOLERANCE`  (the radion scalar is at equilibrium)
 2. `k_CS_observed == 74`  (the topological invariant is intact)
 
-Both conditions must hold for STABLE status.  This double-invariant check
-means that an adversary who can forge the phi_eff value must simultaneously
-forge the k_CS invariant, and vice versa.  The two invariants are derived from
-different aspects of the hash chain, making a coordinated forgery computationally
-intractable within the time window of an election.
+This v21 detector claim is retracted. In v22, `k_CS = 74` and `φ₀ = π/4` remain only as named legacy configuration constants with no security role.
 
 ### 4.5 The 8-Shard Holographic Architecture
 
@@ -276,9 +275,9 @@ This ensures that:
 
 ## 5. System Architecture
 
-### 5.1 Three-Tier Sovereign Hierarchy
+### 5.1 Three-Tier Jurisdictional Hierarchy
 
-EIGE is organised as a three-tier sovereign hierarchy:
+EIGE is organised as a three-tier jurisdictional hierarchy:
 
 ```
 [FEDERAL COMPLIANCE VISIBILITY TIER]
@@ -296,16 +295,7 @@ EIGE is organised as a three-tier sovereign hierarchy:
 [LOCAL COUNTY INGESTION NODES (×39)]
 ```
 
-The architecture enforces a **zero-knowledge separation** between tiers:
-
-- **County tier**: holds all raw ballot data; never transmits raw ballots upward
-- **State tier**: aggregates hash state summaries from counties; emits Holon
-  Zero Certificates
-- **Federal tier**: receives only the certificate; cannot access any ballot data
-
-This separation is not a policy choice — it is a structural property enforced
-at the code level.  The FederalAuditor component raises `RawDataAccessAttempt`
-on any attempt to query ballot data from the federal tier.
+This v21 architecture is superseded by v22 publication bundles. Jurisdictions decide what CVRs, manifests, custody records, audit inputs, commitments, and signed heads to publish. Privacy protection depends on election-office CVR redaction rules and ordinary data-governance procedures.
 
 ### 5.2 System Block Diagram
 
@@ -340,10 +330,10 @@ on any attempt to query ballot data from the federal tier.
          │  Plain-English / statistically equivalent summary
          ▼
 [HOLON ZERO CERTIFICATE]
-         │  Zero-knowledge state proof
+         │  Signed state audit artifact
          ▼
 [FEDERAL BLIND AUDIT GATE]
-         │  ZK cert validation only
+         │  signed artifact validation only
          │  RawDataAccessAttempt on any ballot query
 ```
 
@@ -367,7 +357,7 @@ inadvertent divergence between components.  The hardgate constants are:
 | `PRECISION_BITS` | 512 | mpmath precision for deep audit validation |
 | `FREEDOM_FLOOR` | 0.85 | Minimum participating county fraction |
 
-### 6.2 `chern_simon_hash.py` — The Tamper-Evident Backbone
+### 6.2 `chern_simon_hash.py` — The Legacy Sequence Fingerprint
 
 The `ChernSimonChain` is the cryptographic backbone of EIGE.  It maintains a
 running non-commutative hash state that is updated with every ballot ingested.
@@ -453,15 +443,11 @@ The sort ensures determinism even if counties report in different orders.
 
 ### 6.8 `federal_auditor.py` — The Federal Blind Audit Gate
 
-The `FederalAuditor` provides a zero-knowledge view of the election record.
-It can validate the Holon Zero Certificate (confirming that the state-level
-closure was STABLE), but raises `RawDataAccessAttempt` on any attempt to
-query ballot data.  This is enforced at the code level, not the policy level.
+The v21 `FederalAuditor` path is retained only as legacy compatibility. v22 uses public bundles and audience-specific verification reports rather than a federal blind-audit gate.
 
-### 6.9 `holon_zero_cert.py` — The Zero-Knowledge Certificate
+### 6.9 `holon_zero_cert.py` — The Signed Audit Artifact
 
-The Holon Zero Certificate is the cryptographic commitment that travels from
-the state tier to the federal tier.  It contains:
+The v21 Holon Zero Certificate is retracted as a security mechanism. Historical fields included:
 
 - `phi_verified`: boolean (did φ_eff ≈ π/4?)
 - `k_cs_verified`: boolean (was k_CS = 74?)
@@ -470,11 +456,11 @@ the state tier to the federal tier.  It contains:
 - `jurisdiction_id`: jurisdiction identifier
 - `timestamp`: UTC ISO 8601
 
-No raw ballot data, no individual vote counts, no county-level details.
+In v22, privacy is handled by bundle contents and jurisdiction CVR redaction rules, not by this retired artifact.
 
 ---
 
-## 7. The Three-Tier Sovereign Hierarchy
+## 7. The Three-Tier Jurisdictional Hierarchy
 
 ### 7.1 County Tier: Where Democracy Happens
 
@@ -512,7 +498,7 @@ in the Holon Zero Certificate but cannot query any ballot data.  This design
 ensures that federal oversight is possible without creating a centralised
 federal database of voter choices.
 
-**What the federal tier receives**: zero-knowledge certificates
+**What the federal tier receives**: signed audit artifacts
 **What the federal tier can do**: verify the certificate; it cannot access
 any data about individual ballots, individual counties, or raw vote totals
 
@@ -666,7 +652,7 @@ list for each race before the election begins.
 
 The registry uses case-insensitive, whitespace-normalised matching, so
 "Alice Smith", "alice smith", and "  Alice Smith  " all resolve to the same
-candidate slot.  This prevents simple formatting variations from causing
+candidate slot.  This avoids simple formatting variations from causing
 write-in ballots to be counted for a non-existent "candidate".
 
 ---
@@ -841,7 +827,7 @@ The EIGE architecture treats this as a hard constraint, not a preference.
 EIGE's threat model covers four attack categories:
 
 **T1 — Ballot Stuffing**: retroactively inserting additional ballot records
-into the sequence.  Detected by: Chern-Simons hash chain disruption (φ_eff
+into the sequence.  Historical v21 text claimed detection by the Chern-Simons chain (legacy_phi_eff
 diverges from equilibrium).
 
 **T2 — Retroactive Deletion**: removing ballot records from the sequence.
@@ -891,7 +877,7 @@ governance model, which requires five independent observation checkpoints:
 | Telemetry signing | HMAC-SHA512 with county-pinned key | Authentication of county→state transmission |
 | Dossier write | POSIX atomic rename | No partial dossier reads |
 | State mesh transport | TLS 1.3 mTLS | Mutual authentication, no eavesdropping |
-| Zero-knowledge certificates | Holon Zero Cert (OSCAL 1.5.0) | Federal verification without data exposure |
+| Signed audit artifacts | Holon Zero Cert (OSCAL 1.5.0) | Federal verification without data exposure |
 
 ### 12.4 Key Management
 
@@ -1085,7 +1071,7 @@ builder = PublicTrustIndexBuilder("Washington State", COUNTY_COUNT)
 report = builder.from_state_ledger(ledger_entry)
 print(report)
 
-# Federal validation (ZK cert only)
+# Federal validation (signed artifact only)
 federal_auditor = FederalAuditor()
 cert = ledger_entry.holon_zero_cert
 audit_result = federal_auditor.validate_certificate(cert)
@@ -1337,8 +1323,7 @@ candidates before election day.  A write-in candidate whose name is not in
 the registry will receive the default slot (0), which is probably incorrect.
 
 Operational procedure must ensure that the registry is updated when new
-write-in candidates file, and that the final registry is cryptographically
-signed and timestamped before polls open.
+write-in candidates file, and that the final registry is Ed25519-signed and timestamped before polls open.
 
 ### 17.4 The HMAC Key Placeholder
 
@@ -1358,7 +1343,7 @@ partitions but does not model clock skew.
 
 ### 17.6 The Holographic Reconstruction Is Not Yet Implemented
 
-The 8-shard holographic architecture guarantees that 5 of 8 shards are
+The v21 8-shard holographic architecture claimed that 5 of 8 shards are
 sufficient to reconstruct the full ballot record.  The `reconstruct_check()`
 method verifies that enough shards are available, but the actual reconstruction
 algorithm is not yet implemented.
@@ -1373,7 +1358,7 @@ reconstruction from shard data would be required.
 
 **Q: Does EIGE prove that an election was not manipulated?**
 
-No. EIGE provides a machine-verifiable mathematical invariant that any ballot
+No. EIGE provides a machine-verifiable published audit artifact that any ballot
 sequence modification disrupts. If the invariant is intact (STABLE), it means
 that no modification of the ballot sequence occurred after the CS hash chain
 was initialised. It does not mean that the ballots were cast correctly,
@@ -1402,19 +1387,17 @@ period closes, not during active counting.
 Yes, if the `FREEDOM_FLOOR_MIN_BALLOTS` threshold is set to 1, submitting
 a single ballot per county would satisfy the floor. This is why the freedom
 floor is one layer of defence among many, not the sole protection. The Chern-
-Simons hash chain will still detect if those single ballots are fraudulent
-(because they disrupt the overall sequence integrity), and the participation
+Simons hash chain does not by itself prove whether those ballots are legitimate; however, the participation
 variance report will flag the suspicious uniformity.
 
 **Q: What is the physical interpretation of φ₀ = π/4?**
 
 In the Unitary Manifold physics framework, φ₀ = π/4 is the self-consistent
 fixed point of the 5D metric — the radion scalar value at which the geometry
-is stable. In EIGE, it is used as a tamper-detection invariant. The physical
+is stable. In EIGE, it is retained only as a named legacy configuration constant in v22. The physical
 interpretation is documented for scientific transparency, but the operational
 function of φ₀ = π/4 in EIGE does not depend on the physics being correct.
-It depends only on the mathematical property that legitimate sequences converge
-to it and manipulated sequences diverge from it.
+It depends only on the mathematical property that the old detector claim has been retired.
 
 **Q: How is EIGE different from a blockchain?**
 
@@ -1437,21 +1420,21 @@ differences are:
 | Term | Definition |
 |---|---|
 | **Braid Synchronisation** | The state-level process of computing a cross-county aggregate hash commitment, verifying mutual consistency across all county hash chains |
-| **Chern-Simons Rolling Hash (CS Hash)** | The non-commutative, path-dependent hash function that encodes the chronological sequence of ballots |
+| **Chern-Simons Rolling Hash (CS Hash)** | Legacy non-security sequence fingerprint retained for compatibility |
 | **Closure Status** | The result of a metric closure validation: STABLE, DRIFTED, or VIOLATED |
 | **EIGE** | Election Integrity Governance Engine |
 | **Freedom Floor** | The minimum fraction of county nodes that must contribute non-trivially for the system to accept a valid result |
 | **Holographic Persistence** | The 8-shard distributed storage architecture derived from k_CS = 74 arithmetic |
-| **Holon Zero Certificate** | The zero-knowledge cryptographic commitment that summarises the state-level closure result for federal consumption |
+| **Holon Zero Certificate** | Retired v21 artifact; v22 uses signed tree heads, witness cosignatures, and publication bundles |
 | **k_CS** | Chern-Simons topological winding invariant: 74 = 5² + 7² |
-| **MetricClosure** | The stateless validator that checks whether a county's hash state is consistent with the expected invariants |
+| **MetricClosure** | Retired v21 detector; v22 does not use metric closure as a security signal |
 | **Normalisation Log** | The side-channel audit trail produced by the HolographicScreen, recording every ballot normalisation decision |
 | **OSCAL** | Open Security Controls Assessment Language (NIST) — the standardised format used for EIGE dossiers and certificates |
 | **φ₀ (PHI_0)** | The radion scalar equilibrium value: π/4 ≈ 0.7854 — the fixed point that legitimate ballot sequences converge toward |
-| **φ_eff (phi_eff)** | The effective radion scalar computed from the current hash state — deviates from φ₀ when the sequence has been manipulated |
+| **φ_eff (phi_eff)** | Retired v21 scalar; not a v22 detection signal |
 | **Public Trust Index** | The plain-English translation layer that converts internal metric results into court-admissible, jargon-free summaries |
 | **Shard** | One of 8 independent sub-chains in the holographic persistence layer |
-| **SentinelLoadBalancer** | The override watchdog that intercepts administrative transactions and emits OSCAL dossiers on violations |
+| **SentinelLoadBalancer** | Legacy watchdog; v22 focuses on signed logs, reconciliation, custody, and verifier reports |
 | **StateMesh** | The state-level aggregation component that polls all county nodes and produces the state closure certificate |
 | **Unitary Manifold** | The 5-dimensional Kaluza-Klein physics framework from which EIGE's mathematical structure is derived |
 
@@ -1572,3 +1555,35 @@ SentinelLoadBalancer(
 
 *Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*  
 *Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).*
+---
+
+## 22. EIGE v22: Standard Primitives and Real Election Workflows
+
+EIGE v22 replaces the v21 security framing with a narrower audit-support model. It does not count votes, replace certified tabulators, replace paper ballots, or provide end-to-end voter-verifiable cryptographic voting. It helps officials publish records that observers can recompute.
+
+### 22.1 Standard primitives
+
+- Canonical JSON with sorted keys, compact separators, UTF-8 encoding, and float rejection.
+- RFC 6962/RFC 9162-style SHA-256 Merkle logs with leaf and node domain prefixes.
+- Ed25519 signatures over domain-separated messages and a public key registry with rotation and revocation.
+- Witness cosignatures and bulletin-board checks for split-view detection.
+- Pedersen tally commitments with selective openings; no zero-knowledge claim.
+
+### 22.2 Election workflow support
+
+The v22 workflow follows ordinary election administration:
+
+1. **Manifest:** load election definitions, contests, candidates, ballot manifests, cast counts, and provisional counts.
+2. **Ingest:** log CVRs and custody events, publish signed tree heads, and collect witness cosignatures.
+3. **Reconcile:** compare manifest counts, CVRs, reported results, vote opportunities, and provisional accounting.
+4. **Audit:** commit results, hold a public seed ceremony, draw samples, hand-interpret sampled paper ballots, and run RLA calculations.
+5. **Certify and publish:** assemble the bundle and run `python -m eige.verify bundle DIR --audience official|court|voter|json`.
+
+### 22.3 What the checks mean
+
+Merkle consistency checks can show that published records were appended consistently. Ed25519 signatures can show which registered key signed a payload. RLA calculations can show whether a risk limit has been met under the audit method and data supplied. Reconciliation can identify mismatches that require explanation. Custody records can identify gaps in documented handling. None of these checks proves that every official acted honestly or that the electronic record matches paper without a paper audit.
+
+### 22.4 Legacy status
+
+The v21 Chern-Simons rolling hash is retained only as a non-security sequence fingerprint. Metric closure is retired as a detection signal. Serialized v21 proof objects without openings do not verify. Development signers, mock HSMs, and mock TEE paths are not production controls.
+

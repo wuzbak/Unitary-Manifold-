@@ -1,17 +1,28 @@
-# EIGE v21.0 Python Dependencies
-# ================================
-# Install with: pip install -r requirements.txt
-# Tested with Python 3.11 and 3.12
+# EIGE v22 Python dependencies — exact pins (Python 3.12).
+# Direct dependencies are listed in requirements.in; requirements.lock carries
+# the same set with SHA-256 hashes (pip install --require-hashes -r requirements.lock).
+# Keep this file, requirements.lock and sbom.cdx.json in sync (tests/test_eige_supply_chain.py).
 
-# Core numeric / precision
-numpy>=1.26.0
-mpmath>=1.3.0
+# Direct
+cryptography==50.0.2
+flask==3.1.3
+hypothesis==6.168.5
+mpmath==1.3.0
+pytest==9.1.1
 
-# Testing
-pytest>=8.0.0
-pytest-timeout>=2.3.0
+# Transitive
+blinker==1.9.0
+cffi==2.1.1
+click==8.5.0
+iniconfig==2.3.0
+itsdangerous==2.2.0
+jinja2==3.1.6
+markupsafe==3.0.4
+packaging==26.3
+pluggy==1.6.0
+pycparser==3.0
+pygments==2.21.0
+sortedcontainers==2.4.0
+werkzeug==3.1.9
 
-# Optional: Jupyter notebook support
-# jupyter>=1.0.0
-# ipykernel>=6.29.0
-# matplotlib>=3.8.0
+# Optional (not installed by default): python-pkcs11 for HSM-backed signing.

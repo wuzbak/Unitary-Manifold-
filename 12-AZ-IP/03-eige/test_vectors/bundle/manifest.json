@@ -1,0 +1,17 @@
+{
+  "batches": [
+    {
+      "ballot_count": 60,
+      "batch_id": "B00",
+      "container_id": "BOX-00",
+      "tabulator_id": "TAB-1"
+    },
+    {
+      "ballot_count": 60,
+      "batch_id": "B01",
+      "container_id": "BOX-01",
+      "tabulator_id": "TAB-1"
+    }
+  ],
+  "jurisdiction": "SYNTH-COUNTY"
+}

@@ -1,8 +1,23 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """
-EIGE/src/zk_proof.py — Pedersen Commitment Zero-Knowledge Proof Layer
-======================================================================
+EIGE/src/zk_proof.py — Pedersen Commitment Layer (legacy; NOT zero-knowledge)
+=============================================================================
+
+SECURITY NOTICE (v22, red-team finding F3)
+------------------------------------------
+v21 called this a "zero-knowledge proof".  It was not one: the "proof" was a
+commitment followed by two self-asserted pass/fail flag bytes, and
+``verify_metric_proof`` only read those flags back, so anyone could produce a
+"passing" proof for any value.  As of v22:
+
+* ``verify_metric_proof`` requires the opening (value + blinding factor) and
+  recomputes both the commitment and the flags from the opened values.  A
+  serialized proof without its opening never verifies.
+* Nothing here is zero-knowledge.  Verifying requires revealing the value.
+* The committed quantity (φ_eff, k_cs) is the retired metric-closure signal
+  and carries no evidentiary weight.  For tally commitments use
+  ``eige.crypto.commitments``.
 
 Provides a Pedersen commitment scheme over the 2048-bit MODP group from
 RFC 3526 (Group 14).  This group was chosen for:
@@ -45,10 +60,10 @@ Implementation: GitHub Copilot (AI)
 from __future__ import annotations
 
 import hashlib
-import math
 import os
 import struct
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Optional
 
 from .constants import K_CS, PHI_0, PHI_TOLERANCE
 
@@ -109,7 +124,11 @@ class PedersenCommitment:
 
 @dataclass
 class PedersenProof:
-    """A zero-knowledge proof of metric state closure.
+    """A commitment to the (retired) metric state plus claimed flags.
+
+    NOT a zero-knowledge proof.  The flags are claims by the committer; they
+    are only trustworthy once checked by :func:`verify_metric_proof` against
+    the opening.
 
     Contains ONLY the commitment and boolean bounds — no raw phi_eff value,
     no hash state, no raw k_cs integer beyond the boolean match flag.
@@ -134,6 +153,7 @@ class PedersenProof:
     phi_delta_bound: bool
     k_cs_match: bool
     engine_version: str = "21.0.0"
+    opening: Optional["MetricOpening"] = field(default=None, repr=False, compare=False)
 
     def invariants_verified(self) -> bool:
         """Return True if both invariants hold in this proof."""
@@ -148,10 +168,12 @@ class PedersenProof:
             "k_cs_match": self.k_cs_match,
             "engine_version": self.engine_version,
             "proof_status": (
-                "INVARIANTS_VERIFIED"
+                "INVARIANTS_CLAIMED"
                 if self.invariants_verified()
                 else "INVARIANTS_VIOLATED"
             ),
+            "scheme_note": "Pedersen commitment with self-asserted flags; not zero-knowledge; "
+            "verification requires the opening (see RETRACTED_CLAIMS.md)",
         }
 
 
@@ -210,76 +232,70 @@ def verify_commitment(
     return expected == commitment_value
 
 
+@dataclass(frozen=True)
+class MetricOpening:
+    """Opening of a metric-state commitment: the packed value and blinding factor."""
+
+    phi_int: int
+    k_cs: int
+    randomness: int
+
+
+def _pack(phi_int: int, k_cs: int) -> int:
+    return phi_int * (K_CS + 1) + k_cs
+
+
 def commit_metric_state(
     phi_eff: float,
     k_cs: int,
     randomness: int | None = None,
 ) -> PedersenProof:
-    """Commit to the joint metric state (phi_eff, k_cs) and return a PedersenProof.
+    """Commit to the joint metric state (phi_eff, k_cs).
 
-    The commitment encodes both phi_eff and k_cs into a single integer:
-        v = round(phi_eff * PHI_SCALE) * (K_CS + 1) + k_cs
-
-    This packing ensures the commitment is to BOTH values jointly.
-
-    Parameters
-    ----------
-    phi_eff : float
-        Effective radion scalar.
-    k_cs : int
-        Chern-Simons invariant value.
-    randomness : int, optional
-        Optional blinding factor for deterministic testing.
-
-    Returns
-    -------
-    PedersenProof
-        Zero-knowledge proof of metric state closure.
+    The returned proof carries its :class:`MetricOpening` in memory (never
+    serialized by :meth:`PedersenProof.as_dict`) so the committer can later
+    reveal it to a verifier.
     """
     phi_int = round(phi_eff * _PHI_SCALE)
-    # Pack both values into a single integer commitment
-    combined = phi_int * (K_CS + 1) + k_cs
-    pc = commit(combined, randomness=randomness)
+    if not 0 <= k_cs <= K_CS:
+        raise ValueError(f"k_cs must be in [0, {K_CS}] to pack unambiguously")
+    pc = commit(_pack(phi_int, k_cs), randomness=randomness)
 
-    phi_delta = abs(phi_eff - PHI_0)
-    phi_ok = phi_delta <= PHI_TOLERANCE
+    phi_ok = abs(phi_eff - PHI_0) <= PHI_TOLERANCE
     kcs_ok = (k_cs == K_CS)
 
-    # Compact serialization: 256-byte commitment + 1-byte phi_flag + 1-byte kcs_flag
     commitment_bytes = pc.commitment.to_bytes(256, "big")
     flags = struct.pack("BB", int(phi_ok), int(kcs_ok))
-    proof_bytes = commitment_bytes + flags
-
     return PedersenProof(
         commitment=pc.commitment,
-        proof_bytes=proof_bytes,
+        proof_bytes=commitment_bytes + flags,
         phi_delta_bound=phi_ok,
         k_cs_match=kcs_ok,
+        opening=MetricOpening(phi_int, k_cs, pc.randomness),
     )
 
 
-def verify_metric_proof(proof: PedersenProof) -> bool:
-    """Verify the boolean invariant flags in a PedersenProof.
+def verify_metric_proof(proof: PedersenProof, opening: Optional[MetricOpening] = None) -> bool:
+    """Verify a metric-state commitment by opening it.
 
-    This does NOT require knowledge of the blinding factor.  It simply
-    checks that the commitment was generated with passing invariants.
-
-    Parameters
-    ----------
-    proof : PedersenProof
-        The proof to verify.
-
-    Returns
-    -------
-    bool
-        True if both invariant flags are set to True in the proof.
+    ``opening`` defaults to the opening held by the committer's in-memory
+    proof object.  Verification recomputes the commitment from the opening,
+    checks that ``proof_bytes`` encodes that same commitment, and recomputes
+    both invariant flags from the opened values — the flags stored in the
+    proof are never trusted.  Returns False when no opening is available.
     """
-    if len(proof.proof_bytes) < 258:
+    opening = opening if opening is not None else proof.opening
+    if opening is None or len(proof.proof_bytes) != 258:
         return False
-    # Re-extract flags from proof_bytes for redundant verification
-    phi_flag = proof.proof_bytes[256]
-    kcs_flag = proof.proof_bytes[257]
-    return bool(phi_flag) and bool(kcs_flag)
+    if int.from_bytes(proof.proof_bytes[:256], "big") != proof.commitment:
+        return False
+    if not verify_commitment(proof.commitment, _pack(opening.phi_int, opening.k_cs), opening.randomness):
+        return False
+    phi_ok = abs(opening.phi_int / _PHI_SCALE - PHI_0) <= PHI_TOLERANCE + 1.0 / _PHI_SCALE
+    kcs_ok = opening.k_cs == K_CS
+    if (bool(proof.proof_bytes[256]), bool(proof.proof_bytes[257])) != (phi_ok, kcs_ok):
+        return False
+    return phi_ok and kcs_ok
 
 
 def proof_from_dict(d: dict) -> PedersenProof:
@@ -289,10 +305,20 @@ def proof_from_dict(d: dict) -> PedersenProof:
     phi_delta_bound = bool(d["phi_delta_bound"])
     k_cs_match = bool(d["k_cs_match"])
     engine_version = d.get("engine_version", "21.0.0")
+    opening = None
+    if isinstance(d.get("opening"), dict):
+        o = d["opening"]
+        opening = MetricOpening(int(o["phi_int"]), int(o["k_cs"]), int(o["randomness"], 16))
     return PedersenProof(
         commitment=commitment,
         proof_bytes=proof_bytes,
         phi_delta_bound=phi_delta_bound,
         k_cs_match=k_cs_match,
         engine_version=engine_version,
+        opening=opening,
     )
+
+
+def opening_as_dict(opening: MetricOpening) -> dict:
+    """Serialize an opening for disclosure to a verifier."""
+    return {"phi_int": opening.phi_int, "k_cs": opening.k_cs, "randomness": hex(opening.randomness)}

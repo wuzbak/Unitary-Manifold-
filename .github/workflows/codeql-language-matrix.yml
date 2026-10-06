@@ -23,6 +23,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Every tracked source file belongs to a slice
+        run: python3 TOOLS/checks/codeql_slices.py check
       - name: Build language/slice matrix
         id: plan
         env:
@@ -30,141 +32,17 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
           BEFORE_SHA: ${{ github.event.before }}
         run: |
-          python3 - <<'PY'
-          import json
-          import os
-          import subprocess
-          from fnmatch import fnmatchcase
-          from pathlib import Path
-
-          all_slices = [
-              {
-                  "slice_id": "python-core-src",
-                  "language": "python",
-                  "build_mode": "none",
-                  "paths": ["src", "claims"],
-              },
-              {
-                  "slice_id": "python-core-tests",
-                  "language": "python",
-                  "build_mode": "none",
-                  "paths": ["tests", "recycling"],
-              },
-              {
-                  "slice_id": "python-governance-pentad",
-                  "language": "python",
-                  "build_mode": "none",
-                  "paths": ["5-GOVERNANCE/Unitary Pentad"],
-              },
-              {
-                  "slice_id": "python-runtime-integration",
-                  "language": "python",
-                  "build_mode": "none",
-                  "paths": [
-                      "12-AZ-IP/20-psicat-navigator/ox_navigator",
-                      "12-AZ-IP/20-psicat-navigator/run*.py",
-                      "bot",
-                      "TOOLS/checks",
-                      "conftest*.py",
-                  ],
-              },
-              {
-                  "slice_id": "python-psicat-tests-tools",
-                  "language": "python",
-                  "build_mode": "none",
-                  "paths": [
-                      "12-AZ-IP/20-psicat-navigator/tests",
-                      "12-AZ-IP/20-psicat-navigator/tools",
-                  ],
-              },
-              {
-                  "slice_id": "rust-kernel",
-                  "language": "rust",
-                  "build_mode": "none",
-                  "paths": ["11-AZ-OS/ax-kernel", "12-AZ-IP/02-az-kernel"],
-              },
-              {
-                  "slice_id": "c-cpp-audio",
-                  "language": "c-cpp",
-                  "build_mode": "none",
-                  "paths": [
-                      "12-AZ-IP/14-sdam/app/core/audio/src/main/cpp",
-                      "12-AZ-IP/15-pentacorder/core/audio/src/main/cpp",
-                  ],
-              },
-              {
-                  "slice_id": "java-kotlin-mobile",
-                  "language": "java-kotlin",
-                  "build_mode": "none",
-                  "paths": [
-                      "12-AZ-IP/14-sdam/app/core/security/src/main/java",
-                      "12-AZ-IP/15-pentacorder",
-                  ],
-              },
-          ]
-
-          event_name = os.environ.get("EVENT_NAME", "")
-          changed_files: list[str] = []
-
-          def git_changed(args: list[str]) -> list[str]:
-              result = subprocess.run(["git", "diff", "--name-only", *args], capture_output=True, text=True, check=False)
-              if result.returncode != 0:
-                  return []
-              return [line.strip() for line in result.stdout.splitlines() if line.strip()]
-
-          if event_name == "pull_request":
-              base_ref = os.environ.get("BASE_REF", "")
-              if base_ref:
-                  subprocess.run(["git", "fetch", "origin", base_ref, "--depth=1"], check=False, capture_output=True)
-                  changed_files = git_changed([f"origin/{base_ref}...HEAD"])
-          elif event_name == "push":
-              before = os.environ.get("BEFORE_SHA", "")
-              if before and set(before) != {"0"}:
-                  changed_files = git_changed([before, "HEAD"])
-
-          selected = []
-          if ".github/workflows/codeql-language-matrix.yml" in changed_files:
-              selected = list(all_slices)
-          elif changed_files:
-              for item in all_slices:
-                  if any(
-                      fnmatchcase(path, prefix)
-                      if any(char in prefix for char in "*?[")
-                      else path == prefix or path.startswith(prefix + "/")
-                      for path in changed_files
-                      for prefix in item["paths"]
-                  ):
-                      selected.append(item)
-          else:
-              selected = list(all_slices)
-
-          include = []
-          for item in selected:
-              paths_yaml = "\n".join(f"  - {path}" for path in item["paths"])
-              include.append(
-                  {
-                      "slice_id": item["slice_id"],
-                      "language": item["language"],
-                      "build_mode": item["build_mode"],
-                      "paths_yaml": paths_yaml,
-                  }
-              )
-
-          payload = {"include": include}
-          scope_manifest = {
-              "event_name": event_name,
-              "base_ref": os.environ.get("BASE_REF", ""),
-              "before_sha": os.environ.get("BEFORE_SHA", ""),
-              "changed_files_count": len(changed_files),
-              "changed_files": changed_files,
-              "selected_slice_ids": [item["slice_id"] for item in include],
-          }
-          Path("codeql_pr_scope_manifest.json").write_text(json.dumps(scope_manifest, indent=2), encoding="utf-8")
-          github_output = Path(os.environ["GITHUB_OUTPUT"])
-          with github_output.open("a", encoding="utf-8") as fh:
-              fh.write(f"has_work={'true' if include else 'false'}\n")
-              fh.write(f"matrix={json.dumps(payload)}\n")
-          PY
+          set -euo pipefail
+          : > changed_files.txt
+          if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$BASE_REF" ]; then
+            git fetch origin "$BASE_REF" --depth=1 || true
+            git diff --name-only "origin/$BASE_REF...HEAD" > changed_files.txt || : > changed_files.txt
+          elif [ "$EVENT_NAME" = "push" ] && [ -n "$BEFORE_SHA" ] && [ "${BEFORE_SHA//0/}" != "" ]; then
+            git diff --name-only "$BEFORE_SHA" HEAD > changed_files.txt || : > changed_files.txt
+          fi
+          # An empty change list (schedule, manual run, unknown base) analyses every slice.
+          python3 TOOLS/checks/codeql_slices.py plan --changed-from changed_files.txt \
+            --github-output "$GITHUB_OUTPUT" --manifest-out codeql_pr_scope_manifest.json
       - name: Upload PR scope manifest
         uses: actions/upload-artifact@v4
         with:
@@ -274,20 +152,7 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build_mode }}
           queries: security-extended
-          config: |
-            paths:
-            ${{ matrix.paths_yaml }}
-            paths-ignore:
-              - "**/*.md"
-              - "**/*.txt"
-              - "**/*.html"
-              - "**/*.xml"
-              - "**/*.pdf"
-              - "**/target/**"
-              - "**/node_modules/**"
-              - "**/.venv/**"
-              - "public-site/**"
-              - "9-INFRASTRUCTURE/repomix-output.xml"
+          config: ${{ matrix.config }}
       - name: Autobuild
         if: matrix.build_mode == 'autobuild'
         uses: github/codeql-action/autobuild@v3
