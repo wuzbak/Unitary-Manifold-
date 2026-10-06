@@ -79,7 +79,8 @@ def test_detect_persona_mode_storyteller():
     assert detect_persona_mode('Explain this like a story with an analogy.') == 'storyteller'
 
 
-def test_product25_local_origin_can_complete_psicat_handshake(monkeypatch):
+@pytest.mark.parametrize('api_root', ['/api/psicat', '/api/merlin'])
+def test_product25_local_origin_can_complete_handshake(monkeypatch, api_root):
     async def fake_query_merlin(**kwargs):
         return {'answer': 'Handshake accepted.'}
 
@@ -94,7 +95,7 @@ def test_product25_local_origin_can_complete_psicat_handshake(monkeypatch):
             timeout=SERVER_TEST_TIMEOUT_SECONDS,
         ) as client:
             preflight = client.options(
-                '/api/psicat',
+                api_root,
                 headers={
                     'Origin': origin,
                     'Access-Control-Request-Method': 'POST',
@@ -105,7 +106,7 @@ def test_product25_local_origin_can_complete_psicat_handshake(monkeypatch):
             assert preflight.headers['Access-Control-Allow-Origin'] == origin
             assert preflight.headers['Access-Control-Allow-Credentials'] == 'true'
 
-            status = client.get('/api/psicat/status', headers={'Origin': origin})
+            status = client.get(f'{api_root}/status', headers={'Origin': origin})
             assert status.status_code == 200
             assert status.headers['Access-Control-Allow-Origin'] == origin
             handshake = status.json()['session_contract']['handshake']
@@ -114,7 +115,7 @@ def test_product25_local_origin_can_complete_psicat_handshake(monkeypatch):
                 f"{handshake['challenge']}:{profile_token}".encode('utf-8')
             ).hexdigest()
             response = client.post(
-                '/api/psicat',
+                api_root,
                 headers={'Origin': origin},
                 json={
                     'query': 'Say hello in one sentence.',
@@ -129,7 +130,7 @@ def test_product25_local_origin_can_complete_psicat_handshake(monkeypatch):
             assert response.headers['Access-Control-Allow-Origin'] == origin
 
             denied = client.options(
-                '/api/psicat',
+                api_root,
                 headers={
                     'Origin': 'https://untrusted.example',
                     'Access-Control-Request-Method': 'POST',

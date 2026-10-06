@@ -368,7 +368,12 @@ _PRODUCT25_CORS_ORIGINS = frozenset({
     "http://127.0.0.1:8025",
     "http://localhost:8025",
 })
-_PRODUCT25_CORS_PATHS = frozenset({"/api/psicat", "/api/psicat/status"})
+_PRODUCT25_CORS_PATHS = frozenset({
+    "/api/psicat",
+    "/api/psicat/status",
+    "/api/merlin",
+    "/api/merlin/status",
+})
 
 
 def _is_product25_cors_request(origin: str, request_path: str) -> bool:

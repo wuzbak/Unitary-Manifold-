@@ -345,7 +345,10 @@ function buildLocalCoachFallback(reason) {
 async function product20Handshake(endpoint) {
   const endpointUrl = new URL(endpoint, window.location.href);
   const endpointPath = endpointUrl.pathname.replace(/\/+$/, '');
-  if (!['/api/psicat', '/api/merlin', '/api/ox'].includes(endpointPath)) return {};
+  if (endpointPath === '/api/ox') {
+    throw new Error('Product 20’s legacy /api/ox route does not issue handshake challenges. Use /api/psicat or /api/merlin.');
+  }
+  if (!['/api/psicat', '/api/merlin'].includes(endpointPath)) return {};
 
   const statusUrl = new URL(`${endpointPath}/status`, endpointUrl.origin);
   const statusResponse = await fetch(statusUrl, { credentials: 'include', cache: 'no-store' });

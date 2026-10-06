@@ -82,6 +82,9 @@ def track_b_verdict_report() -> Dict[str, Any]:
         ftheory_spectral_cover_report(),
         as_mechanism_report(),
     ]
+    all_attempts_claim_closure = bool(attempts) and all(
+        report.get("outcome") == "EXTENSION_CLOSES_LANE" for report in attempts
+    )
     param_audit = extension_free_parameter_audit()
     hardgate_veto = hardgate_non_breakage_veto()
 
@@ -173,7 +176,7 @@ def track_b_verdict_report() -> Dict[str, Any]:
         "parameter_free_extension": parameter_free,
         "hardgate_non_breakage_verified": hardgate_ok,
         "all_lanes_closed": verdict == "TRACK_B_CLOSES_ALL_ATTEMPTED_LANES",
-        "all_attempts_claim_closure": all_closed,
+        "all_attempts_claim_closure": all_attempts_claim_closure,
         "scientific_progress": scientific_progress,
         "derivations_established": derivations_established,
         "verdict": verdict,

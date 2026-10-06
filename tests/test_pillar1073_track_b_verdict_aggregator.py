@@ -65,6 +65,7 @@ def test_claimed_closure_without_valid_derivation_is_rejected(monkeypatch, extra
     assert result["verdict"] == "EXTENSION_UNESTABLISHED"
     assert result["closure_earned"] is False
     assert result["all_lanes_closed"] is False
+    assert result["all_attempts_claim_closure"] is True
     assert result["scientific_progress"] is False
 
 
