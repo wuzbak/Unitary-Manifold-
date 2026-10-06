@@ -19,8 +19,12 @@ without executing or silently modifying them. Add an `INTAKE.md` that records:
 
 Treat external files as untrusted input. Do not commit credentials, secrets,
 private user data, or unrelated proprietary material. Do not run submitted code
-in the repository environment. If a submission cannot safely be retained,
-record a sanitized description and why the original was excluded.
+in the repository environment. If a submission contains credential-like values,
+private data, or unreviewed database records, do not retain the raw payload.
+Retain only a sanitized review copy when appropriate, and record the original
+hash, inventory, exclusions, and scan limits. Receiving a file does not verify
+its author or the platform that produced it. Removing a file from the current
+tree does not erase copies in prior commits or external artifact storage.
 
 ## Test-pipeline boundary
 
