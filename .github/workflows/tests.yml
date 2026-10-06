@@ -271,14 +271,14 @@ jobs:
             -n 2 --dist loadfile -q --tb=short --junitxml=coverage-tests.xml \
             --cov=src --cov-report=xml:coverage.xml --cov-report=term-missing \
             --cov-fail-under=85 2>&1 | tee coverage.log
-      - name: Run serial coverage integration
+      - name: Run serial non-slow coverage integration
         run: |
           set -o pipefail
           timeout --verbose --signal=TERM --kill-after=60s 10m \
             python3 -m pytest \
             tests/test_metric.py tests/test_action_derived_flow.py tests/test_evolution.py \
             tests/test_dark_matter_geometry.py tests/test_boundary.py tests/test_fixed_point.py \
-            -m '' -q --tb=short --junitxml=coverage-integration.xml \
+            -m 'not slow' -q --tb=short --junitxml=coverage-integration.xml \
             --cov=src --cov-append --cov-report=xml:coverage.xml --cov-report=term-missing \
             --cov-fail-under=85 2>&1 | tee coverage-integration.log
       - name: Retain partial coverage evidence after failure

@@ -1553,7 +1553,10 @@ def build_merlin_training_execution_bundle(
                 "file_limit": ast_file_limit,
                 "dataset_summary": {},
             },
-            "honesty_note": "Previously retained training receipts were reused for this export bundle.",
+            "honesty_note": (
+                "Previously retained training receipts were reused for this export bundle. "
+                "Items requiring review remain visible in the queue and are not retried implicitly."
+            ),
         }
     else:
         cycle = run_merlin_training_cycle(

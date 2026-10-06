@@ -79,7 +79,7 @@ def flat_fields():
 
 @pytest.fixture
 def np_state():
-    return FieldState.flat(N=N, dx=DX)
+    return FieldState.flat(N=N, dx=DX, flow_law=FLOW_LAW_LEGACY)
 
 
 @pytest.fixture

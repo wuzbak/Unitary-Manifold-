@@ -180,7 +180,7 @@ def to_numpy_state(jax_state: JaxFieldState):
 
     Imports FieldState lazily to avoid circular imports.
     """
-    from .evolution import FieldState
+    from .evolution import FLOW_LAW_LEGACY, FieldState
     return FieldState(
         g=np.asarray(jax_state.g),
         B=np.asarray(jax_state.B),

@@ -121,11 +121,13 @@ def test_merlin_training_execution_bundle_reuses_retained_state():
     assert first["lane_e_profile_refresh_requested"] is True
     assert first["lane_e_runtime_profile_artifact_path"].endswith("lane_e_runtime_profiles.json")
     assert "lane_e_runtime_profiles" in first
+    review_count = first["execution_cycle"]["queue_after"]["needs_review_count"]
 
     second = build_merlin_training_execution_bundle(session=session)
     assert second["ok"] is True
     assert second["execution_cycle"]["processed_count"] == 0
     assert second["execution_cycle"]["mode"] == "reuse_retained_training_state"
+    assert second["training_execution_queue"]["needs_review_count"] == review_count
     assert second["training_execution_queue"]["needs_review_count"] == first["training_execution_queue"]["needs_review_count"]
     assert second["lane_progress_ledgers"]["overall"]["retained_training_receipts"] == first["lane_progress_ledgers"]["overall"]["retained_training_receipts"]
 
