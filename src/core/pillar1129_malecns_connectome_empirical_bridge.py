@@ -138,10 +138,59 @@ def _extract_table(html: str, table_id: str) -> str:
 
 
 def _iter_table_rows(table_html: str) -> Iterable[List[tuple[str, str]]]:
-    for row_html in re.findall(r"<tr\b[^>]*>(.*?)(?=<tr\b|</tr>|$)", table_html, re.S | re.I):
-        cells = re.findall(r"<td\b([^>]*)>(.*?)(?=<td\b|</td>|$)", row_html, re.S | re.I)
+    token_pattern = re.compile(r"<table\b[^>]*>|</table\s*>|<tr\b[^>]*>|</tr\s*>", re.I)
+    table_depth = 0
+    row_start = None
+    for match in token_pattern.finditer(table_html):
+        token = match.group(0).lower()
+        if token.startswith("<table"):
+            table_depth += 1
+        elif token.startswith("</table"):
+            if table_depth == 1 and row_start is not None:
+                cells = list(_iter_table_cells(table_html[row_start:match.start()]))
+                if cells:
+                    yield cells
+                row_start = None
+            table_depth = max(0, table_depth - 1)
+        elif table_depth == 1 and token.startswith("<tr"):
+            if row_start is not None:
+                cells = list(_iter_table_cells(table_html[row_start:match.start()]))
+                if cells:
+                    yield cells
+            row_start = match.end()
+        elif table_depth == 1 and token.startswith("</tr") and row_start is not None:
+            cells = list(_iter_table_cells(table_html[row_start:match.start()]))
+            if cells:
+                yield cells
+            row_start = None
+    if row_start is not None:
+        cells = list(_iter_table_cells(table_html[row_start:]))
         if cells:
             yield cells
+
+
+def _iter_table_cells(row_html: str) -> Iterable[tuple[str, str]]:
+    token_pattern = re.compile(r"<table\b[^>]*>|</table\s*>|<td\b([^>]*)>|</td\s*>", re.I)
+    table_depth = 0
+    cell_start = None
+    cell_attributes = ""
+    for match in token_pattern.finditer(row_html):
+        token = match.group(0).lower()
+        if token.startswith("<table"):
+            table_depth += 1
+        elif token.startswith("</table"):
+            table_depth = max(0, table_depth - 1)
+        elif table_depth == 0 and token.startswith("<td"):
+            if cell_start is not None:
+                yield cell_attributes, row_html[cell_start:match.start()]
+            cell_start = match.end()
+            cell_attributes = match.group(1) or ""
+        elif table_depth == 0 and token.startswith("</td") and cell_start is not None:
+            yield cell_attributes, row_html[cell_start:match.start()]
+            cell_start = None
+            cell_attributes = ""
+    if cell_start is not None:
+        yield cell_attributes, row_html[cell_start:]
 
 
 def _numeric_cell_value(cell_html: str) -> float:
@@ -407,7 +456,8 @@ def _benchmark_panel_findings_from_parts(
         bridge_pronoun = "it" if bridge_count == 1 else "them"
         bridge_names = ", ".join(bridges)
         bridge_finding = (
-            f"Cross-domain bridge load is explicit in {bridge_names}: {bridge_count} benchmark {bridge_noun} {bridge_verb} nonzero central-brain and VNC/motor ROI totals, "
+            f"Cross-domain bridge load is explicit in {bridge_names}: {bridge_count} benchmark {bridge_noun} {bridge_verb} "
+            f"central-brain and VNC/motor ROI totals of at least {BRIDGE_DOMAIN_THRESHOLD} synapses, "
             f"making {bridge_pronoun} useful reduced surfaces for brain↔nerve-cord coupling analysis."
         )
     return [

@@ -364,12 +364,46 @@ def _maybe_run_observatory_poll(session: MerlinSession) -> dict[str, object]:
     return payload
 
 
+_PRODUCT25_CORS_ORIGINS = frozenset({
+    "http://127.0.0.1:8025",
+    "http://localhost:8025",
+})
+_PRODUCT25_CORS_PATHS = frozenset({"/api/psicat", "/api/psicat/status"})
+
+
+def _is_product25_cors_request(origin: str, request_path: str) -> bool:
+    path = urlparse(request_path).path.rstrip("/") or "/"
+    return origin in _PRODUCT25_CORS_ORIGINS and path in _PRODUCT25_CORS_PATHS
+
+
 class OxRequestHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(UI_ROOT), **kwargs)
 
     def log_message(self, format, *args):  # noqa: A003
         return
+
+    def end_headers(self):
+        origin = str(self.headers.get("Origin") or "").strip()
+        if _is_product25_cors_request(origin, self.path):
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Access-Control-Allow-Credentials", "true")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.send_header("Access-Control-Max-Age", "600")
+            self.send_header("Vary", "Origin")
+        super().end_headers()
+
+    def do_OPTIONS(self):  # noqa: N802
+        if not _is_product25_cors_request(
+            str(self.headers.get("Origin") or "").strip(),
+            self.path,
+        ):
+            self.send_response(403)
+            self.end_headers()
+            return
+        self.send_response(204)
+        self.end_headers()
 
     def _json(self, payload: dict, status: int = 200) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode('utf-8')

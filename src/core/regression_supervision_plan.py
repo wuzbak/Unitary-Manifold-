@@ -29,6 +29,7 @@ FAST_SUITE_EXCLUDED_FILES = {
     "tests/test_richardson_multitime.py",
 }
 COMPACTIFIED_PREFLIGHT_FILES = [
+    "COMPACTIFICATION/test_maps.py",
     "tests/test_closure_batch1.py",
     "tests/test_closure_batch2.py",
     "tests/test_formal_bridge_schema.py",

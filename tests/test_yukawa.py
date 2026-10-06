@@ -2,9 +2,11 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 
 import pytest
+import numpy as np
 
 from src.core.yukawa_geometric import (
     Localization,
+    _orbifold_distance_array,
     default_sector_localization,
     hierarchy_ratios_from_texture,
     zero_mode_overlap,
@@ -16,6 +18,12 @@ from src.core.yukawa_geometric import (
 def test_localization_has_three_sectors():
     loc = default_sector_localization()
     assert set(loc.keys()) == {"uv", "bulk", "ir"}
+
+
+def test_orbifold_interval_keeps_fixed_points_distinct():
+    y = np.array([0.0, 0.5, 1.0])
+    np.testing.assert_array_equal(_orbifold_distance_array(y, 0.0), [0.0, 0.5, 1.0])
+    np.testing.assert_array_equal(_orbifold_distance_array(y, 1.0), [1.0, 0.5, 0.0])
 
 
 def test_yukawa_matrix_is_3x3_positive():

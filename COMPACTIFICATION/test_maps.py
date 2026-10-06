@@ -4,7 +4,7 @@
 
 import json
 
-import build_maps
+from COMPACTIFICATION import build_maps
 
 
 def test_maps_match_repository_inventory():
@@ -33,7 +33,7 @@ def test_ip_and_editorial_catalogues_are_complete():
 
 def test_dynamic_radion_metric_has_canonical_schur_complement():
     import numpy as np
-    from kernel import assemble_5d_metric
+    from COMPACTIFICATION.kernel import assemble_5d_metric
 
     g = np.diag([-1.0, 1.0, 1.0, 1.0])[None, :, :]
     B = np.array([[0.5, 0.25, 0.1, 0.0]])
@@ -42,3 +42,12 @@ def test_dynamic_radion_metric_has_canonical_schur_complement():
     horizontal = metric[:4, :4] - np.outer(metric[:4, 4], metric[4, :4]) / metric[4, 4]
     np.testing.assert_allclose(horizontal, g[0])
     np.testing.assert_allclose(np.linalg.det(metric), phi[0] ** 2 * np.linalg.det(g[0]))
+
+
+def test_axiom_registry_does_not_claim_unavailable_lean_proofs():
+    from COMPACTIFICATION.axioms import AXIOM_REGISTRY, AxiomStatus
+
+    axioms = {axiom.name: axiom for axiom in AXIOM_REGISTRY}
+    assert axioms["A1_METRIC"].status is AxiomStatus.POSTULATED
+    assert axioms["A1_METRIC"].lean4_ref is None
+    assert axioms["A5_AXIOM_A"].lean4_ref is None

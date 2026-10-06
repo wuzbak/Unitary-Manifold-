@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import sys
@@ -28,16 +30,49 @@ def test_braided_brain_browser_contract(browser_name: str) -> None:
             browser = launch_browser_or_skip(playwright, browser_name)
             page = browser.new_page(viewport={'width': 1440, 'height': 1200})
             try:
-                page.route('**/api/psicat', lambda route: route.fulfill(status=200, content_type='application/json', body='{"answer":"Wrap once, then deliver the grid phase to the entorhinal torus."}'))
+                challenge = 'test-handshake-challenge'
+                receipt = 'test-handshake-receipt'
+                profile_token = 'test-profile-token'
+                coach_requests = []
+                page.route(
+                    '**/api/psicat/status',
+                    lambda route: route.fulfill(
+                        status=200,
+                        content_type='application/json',
+                        body=json.dumps({
+                            'memory_profile_token': profile_token,
+                            'session_contract': {
+                                'handshake': {'challenge': challenge, 'receipt': receipt}
+                            },
+                        }),
+                    ),
+                )
+
+                def fulfill_coach(route):
+                    coach_requests.append(route.request.post_data_json)
+                    route.fulfill(
+                        status=200,
+                        content_type='application/json',
+                        body='{"answer":"Wrap once, then deliver the grid phase to the entorhinal torus."}',
+                    )
+
+                page.route('**/api/psicat', fulfill_coach)
                 page.goto(f'{base_url}ui/index.html', wait_until='domcontentloaded')
                 page.wait_for_function("document.querySelectorAll('#board .cell').length > 40")
                 assert 'PsiCat Braided Brain' in page.title()
                 assert 'Science atlas' in (page.locator('body').text_content() or '')
-                page.locator('#board .cell[data-x=\"1\"][data-y=\"0\"]').click()
+                page.locator('#board .cell[data-x=\"4\"][data-y=\"3\"]').click()
                 page.wait_for_function("document.getElementById('moves').textContent.trim() === '17'")
                 page.get_by_role('button', name='Install app').is_visible()
                 page.get_by_role('button', name='Ask PsiCat').click()
                 page.wait_for_function("document.getElementById('coach-output').textContent.includes('entorhinal torus')")
+                assert len(coach_requests) == 1
+                assert coach_requests[0]['merlin_handshake_challenge'] == challenge
+                assert coach_requests[0]['merlin_handshake_receipt'] == receipt
+                assert coach_requests[0]['merlin_handshake_profile_token'] == profile_token
+                assert coach_requests[0]['merlin_handshake_proof'] == hashlib.sha256(
+                    f'{challenge}:{profile_token}'.encode('utf-8')
+                ).hexdigest()
                 page.get_by_role('button', name='Download save bundle').click()
                 assert 'Saved locally' in (page.locator('#save-status').text_content() or '')
                 assert len(page.screenshot(full_page=True)) > 10_000

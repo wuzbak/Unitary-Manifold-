@@ -1,9 +1,11 @@
 # PsiCat External Intake
 
-This is the quarantine and triage area for files or test reports sent by PsiCat
-operating outside this repository. An external report may be useful evidence,
-but its failures are **not failures of the repository's canonical test suite**
-unless the affected code and tests have been reviewed and integrated.
+This is the quarantine and triage area for files or test reports attributed to
+PsiCat or another source operating outside this repository. Record provenance
+and treat attribution as unverified unless supported by independent evidence.
+An external report may be useful evidence, but its failures are **not failures
+of the repository's canonical test suite** unless the affected code and tests
+have been reviewed and integrated.
 
 ## Intake and triage
 

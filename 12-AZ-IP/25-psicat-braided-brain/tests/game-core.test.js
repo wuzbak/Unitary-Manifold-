@@ -171,6 +171,41 @@ test('import preserves a valid top-level currentLevelIndex when current.levelId 
   assert.equal(restored.current.levelId, core.LEVELS[2].id);
 });
 
+test('import safely normalizes malformed indexes and collections', () => {
+  const bundle = core.createSaveBundle(core.createCampaignState());
+  bundle.campaign.currentLevelIndex = 'invalid';
+  bundle.campaign.unlockedLevelIndex = 'NaN';
+  bundle.campaign.completedLevelIds = null;
+  bundle.campaign.trainingRecords = null;
+  bundle.campaign.achievements = null;
+  bundle.campaign.atlasInsights = null;
+  bundle.campaign.current.targets = [null];
+  bundle.campaign.current.signals = [null];
+  bundle.campaign.current.touchHistory = [null];
+  bundle.campaign.current.challengeHistory = [null];
+
+  const restored = core.importSaveBundle(bundle);
+
+  assert.equal(restored.currentLevelIndex, 0);
+  assert.equal(restored.unlockedLevelIndex, 0);
+  assert.equal(restored.current.levelId, core.LEVELS[0].id);
+  assert.ok(Array.isArray(restored.completedLevelIds));
+  assert.ok(Array.isArray(restored.trainingRecords));
+  assert.ok(Array.isArray(restored.achievements));
+  assert.ok(Array.isArray(restored.atlasInsights));
+  assert.doesNotThrow(() => core.createTrainingPacket(restored));
+});
+
+test('completed level score is not added twice to campaign totals', () => {
+  const campaign = core.createCampaignState();
+  campaign.totalScore = 180;
+  campaign.current.score = 180;
+  campaign.current.completed = true;
+
+  assert.equal(core.getCampaignSnapshot(campaign).totalScore, 180);
+  assert.equal(core.createTrainingPacket(campaign).totalScore, 180);
+});
+
 test('import restores carried signals from canonical level data', () => {
   const campaign = core.createCampaignState();
   const bundle = core.createSaveBundle(campaign);
