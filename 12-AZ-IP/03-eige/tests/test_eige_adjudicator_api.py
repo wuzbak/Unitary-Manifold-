@@ -224,6 +224,6 @@ class TestHealthEndpoint:
         assert resp.status_code == 200
 
     def test_health_returns_ok(self, client):
-        body = resp = client.get("/health")
+        resp = client.get("/health")
         body = resp.get_json()
         assert body.get("status") == "ok"

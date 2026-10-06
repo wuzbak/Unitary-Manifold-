@@ -25,6 +25,10 @@ EIGE now works at full-population scale. Nothing has to fit in memory: the count
 - `eige.synthetic_scale` and `tools/scale_benchmark.py` for reproducible large synthetic counties; `SCALE.md` with measured results.
 - Tests: `tests/test_eige_scale_storage.py`, `tests/test_eige_scale_ingest.py`, `tests/test_eige_scale_verify.py`, including a 200,000-ballot bounded-memory test (marked slow).
 
+### Security
+
+- EIGE is now analysed by CodeQL in CI (`python-eige` slice; see `SECURITY.md`). The first full local run (`security-and-quality`, 172 queries over 115 files) found no injection or data-flow vulnerability in the `eige/` package. Fixed in response: legacy `src/sentinel_load_balance.py` wrote override dossiers world-readable (now `0o600`); a test `assert` with a side effect; a duplicated assignment in a test; an implicit string concatenation; bucket files that could leak if opening failed part-way (`eige/dedup.py`, `eige/parallel_scan.py`); county commands now use `with` for the log; about 100 unused imports removed.
+
 ### Changed
 
 - The verifier is a single streaming pass. Duplicate CVR ids are now reported as reconciliation `DUPLICATE_CVR_ID` rather than as a malformed CVR. A log whose last line is not newline-terminated is reported as **Log file readable: failed**. Individual discrepancy rows are capped at 500, followed by a count of the rest.

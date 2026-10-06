@@ -41,7 +41,7 @@ from __future__ import annotations
 from typing import Optional
 
 from .chern_simon_hash import ShardedChernSimonChain
-from .constants import SHARD_COUNT, K_CS
+from .constants import SHARD_COUNT
 
 
 # ---------------------------------------------------------------------------

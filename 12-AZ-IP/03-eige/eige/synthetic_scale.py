@@ -120,8 +120,7 @@ def build_county(directory: str | Path, n_ballots: int, n_contests: int = 5, n_u
     db = work / "county.db"
     if db.exists():
         db.unlink()
-    log = DurableMerkleLog(db, el_doc["jurisdiction"])
-    try:
+    with DurableMerkleLog(db, el_doc["jurisdiction"]) as log:
         commit_manifest(log, manifest_doc)
         rep = ingest_file(log, election, csv_path, "csv", {b.batch_id for b in manifest.batches},
                           require_reporting_unit=True)
@@ -156,8 +155,6 @@ def build_county(directory: str | Path, n_ballots: int, n_contests: int = 5, n_u
         }
         log.export_bundle(d, files)
         size = log.size
-    finally:
-        log.close()
     if not keep_csv:
         csv_path.unlink()
         for p in work.glob("county.db*"):

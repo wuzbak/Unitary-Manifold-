@@ -6,7 +6,6 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
-import pytest
 from EIGE.src.county_node import CountyNode, BallotRecord
 from EIGE.src.metric_closure import ClosureStatus
 from EIGE.src.constants import K_CS, PHI_0, SHARD_COUNT

@@ -37,6 +37,19 @@ EIGE v22 is an audit-support and transparency tool. Security review should focus
 
 `DevelopmentSigner`, `SoftwareKeyProvider`, `MockHSM`, and mock TEE flows are for tests and demos only. They must not be used for production election artifacts. Production deployments should use controlled key ceremonies and, where required, HSM-backed keys. EIGE signatures identify a key; they do not prove the keyholder was honest.
 
+## Static analysis
+
+All of EIGE's Python code (`12-AZ-IP/03-eige/` and the `12-AZ-IP/EIGE` shim, 115 files) is analysed by CodeQL in its own path slice, `python-eige`, defined in `.github/codeql/slices.json` and run by `.github/workflows/codeql-language-matrix.yml` with the `security-extended` query suite. Before this slice existed, EIGE was in no slice and its Python code was not analysed in CI: the repository-wide Python database is too large for a single analysis.
+
+Anyone can repeat the analysis locally with the CodeQL CLI:
+
+```bash
+python TOOLS/checks/codeql_slices.py analyze python-eige --suite security-extended
+python TOOLS/checks/codeql_slices.py analyze python-eige --suite security-and-quality
+```
+
+Results of the first full local run (CodeQL 2.27.1) and their dispositions are recorded in `.github/codeql/README.md`. A clean CodeQL run means none of its queries matched; it is not a certification that the code is free of vulnerabilities.
+
 ## Reporting
 
 Report suspected vulnerabilities by email to `axiomzero-security@proton.me` with subject `[EIGE SECURITY]`, or open a GitHub issue marked `[SECURITY]` if public disclosure is appropriate.

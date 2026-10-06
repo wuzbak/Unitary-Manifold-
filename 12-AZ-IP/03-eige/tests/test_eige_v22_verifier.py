@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for synthetic bundle verification and verifier CLI exit codes."""
 
-from pathlib import Path
 
 import pytest
 

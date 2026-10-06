@@ -216,11 +216,8 @@ def make_signer(args: argparse.Namespace) -> Signer:
 def _cmd_init(a: argparse.Namespace) -> dict:
     if Path(a.db).exists():
         raise CountyError(f"{a.db} already exists")
-    log = DurableMerkleLog(a.db, a.log_id)
-    try:
+    with DurableMerkleLog(a.db, a.log_id) as log:
         return {"db": a.db, "log_id": log.log_id, "size": log.size}
-    finally:
-        log.close()
 
 
 def _open(a: argparse.Namespace) -> DurableMerkleLog:
@@ -234,32 +231,23 @@ def _cmd_ingest(a: argparse.Namespace) -> dict:
     batches = None
     if a.manifest:
         batches = {b.batch_id for b in parse_manifest(_load_json(a.manifest)).batches}
-    log = _open(a)
-    try:
+    with _open(a) as log:
         reports = [ingest_file(log, election, p, a.format, batches, a.batch_size, a.require_reporting_unit)
                    for p in a.cvrs]
         return {"size": log.size, "root": log.root().hex(), "files": [r.as_dict() for r in reports]}
-    finally:
-        log.close()
 
 
 def _cmd_commit_manifest(a: argparse.Namespace) -> dict:
-    log = _open(a)
-    try:
+    with _open(a) as log:
         return {"index": commit_manifest(log, _load_json(a.manifest))}
-    finally:
-        log.close()
 
 
 def _cmd_event(a: argparse.Namespace) -> dict:
     details = _load_json(a.details) if a.details else {}
     if a.type == "cvr":
         raise CountyError("use 'ingest' to log CVRs")
-    log = _open(a)
-    try:
+    with _open(a) as log:
         return {"index": log.append({"type": a.type, "details": details})}
-    finally:
-        log.close()
 
 
 def _require_integrity(log: DurableMerkleLog) -> None:
@@ -270,36 +258,27 @@ def _require_integrity(log: DurableMerkleLog) -> None:
 
 def _cmd_sign_head(a: argparse.Namespace) -> dict:
     signer = make_signer(a)
-    log = _open(a)
-    try:
+    with _open(a) as log:
         _require_integrity(log)
         return log.sign_head(signer, a.timestamp).as_dict()
-    finally:
-        log.close()
 
 
 def _cmd_results(a: argparse.Namespace) -> dict:
     election = parse_election(_load_json(a.election))
-    log = _open(a)
-    try:
+    with _open(a) as log:
         doc = tally_log(log, election, a.by_reporting_unit)
-    finally:
-        log.close()
     Path(a.out).write_text(json.dumps(doc, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return {"written": a.out, "contests": len(doc["Contest"])}
 
 
 def _cmd_status(a: argparse.Namespace) -> dict:
-    log = _open(a)
-    try:
+    with _open(a) as log:
         out = {"log_id": log.log_id, "size": log.size, "root": log.root().hex(),
                "heads": [{"tree_size": h.tree_size, "timestamp": h.timestamp} for h in log.heads()]}
         if a.check_integrity:
             _require_integrity(log)
             out["integrity"] = "ok"
         return out
-    finally:
-        log.close()
 
 
 def _cmd_export(a: argparse.Namespace) -> dict:
@@ -309,8 +288,7 @@ def _cmd_export(a: argparse.Namespace) -> dict:
         if not src:
             raise CountyError(f"--file expects NAME=PATH, got {spec!r}")
         files[name] = _load_json(src)
-    log = _open(a)
-    try:
+    with _open(a) as log:
         if not log.heads():
             raise CountyError("no signed tree head; run 'sign-head' before exporting")
         if log.heads()[-1].tree_size != log.size:
@@ -318,8 +296,6 @@ def _cmd_export(a: argparse.Namespace) -> dict:
         _require_integrity(log)
         log.export_bundle(a.out, files)
         return {"bundle": a.out, "size": log.size}
-    finally:
-        log.close()
 
 
 def build_parser() -> argparse.ArgumentParser:

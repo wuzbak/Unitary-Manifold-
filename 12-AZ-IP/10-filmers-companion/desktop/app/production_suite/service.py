@@ -865,6 +865,8 @@ class FilmProductionSuiteService:
             return tag.lower()
 
         text = str(content or "")
+        if re.search(r"<!(?:DOCTYPE|ENTITY)", text, re.IGNORECASE):
+            raise ValueError("Invalid FDX payload: DTD and entity declarations are not accepted.")
         try:
             root = ET.fromstring(text)
         except ET.ParseError as exc:

@@ -7,13 +7,12 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
-import pytest
 from EIGE.src.holon_zero_cert import (
     generate_holon_zero_cert,
     validate_holon_zero_cert,
     cert_to_json,
 )
-from EIGE.src.constants import K_CS, PHI_0, PHI_TOLERANCE
+from EIGE.src.constants import K_CS, PHI_0
 
 
 SAMPLE_STATE_HASH = "a" * 128  # 512-bit hex placeholder

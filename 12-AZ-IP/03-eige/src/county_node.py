@@ -33,10 +33,6 @@ Implementation: GitHub Copilot (AI)
 
 from __future__ import annotations
 
-import hashlib
-import hmac
-import json
-import math
 import time
 from dataclasses import dataclass, field
 from typing import List, Optional
@@ -46,11 +42,10 @@ from .constants import (
     K_CS,
     PHI_0,
     SHARD_COUNT,
-    WINDING_NUMBER,
 )
 from .hsm_interface import KeyProvider, SoftwareKeyProvider
 from eige.crypto.signing import DevelopmentSigner, KeyRegistry, Signer, VerificationResult
-from .metric_closure import MetricClosure, ClosureStatus, ClosureResult
+from .metric_closure import MetricClosure, ClosureResult
 from .rust_bridge import RustBallotBridge
 
 

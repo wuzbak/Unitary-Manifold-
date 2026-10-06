@@ -1,3 +1,5 @@
+from urllib.parse import quote
+import re
 import gradio as gr
 import requests
 
@@ -23,9 +25,17 @@ def get_repo_status():
         return f'<div style="font-family:monospace;color:#E0E0E0;"><span style="color:#FF9F00;">{v}</span> {sp} | TESTS: {t:,} | LEAN4: {l:,} | PILLARS: {p} | HARDGATES: {hg}</div>'
     except: return '<div style="color:#8B949E;">Status unavailable</div>'
 
+_SAFE_REPO_PATH = re.compile(r"[A-Za-z0-9_\-. /]{1,300}")  # one character class: linear time
+
+
 def fetch_file(path):
+    path = str(path or "").strip()
+    # Repository-relative file paths only: no scheme, query, fragment, absolute path or '..'.
+    parts = path.split("/")
+    if not _SAFE_REPO_PATH.fullmatch(path) or any(p in ("", ".", "..") for p in parts):
+        return f"Not a repository file path: {path!r}"
     try:
-        r = requests.get(f"https://raw.githubusercontent.com/{GITHUB_REPO}/main/{path}", headers={"User-Agent":"AZ"}, timeout=10)
+        r = requests.get(f"https://raw.githubusercontent.com/{GITHUB_REPO}/main/{quote(path)}", headers={"User-Agent":"AZ"}, timeout=10)
         if not r.ok: return f"File not found: {path}"
         text = r.text[:10000]
         if len(r.text) > 10000: text += "\n\n[... truncated ...]"

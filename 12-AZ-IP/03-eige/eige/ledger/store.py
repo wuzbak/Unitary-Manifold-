@@ -193,7 +193,7 @@ class DurableMerkleLog:
                 try:
                     self._conn.execute("ROLLBACK")
                 except sqlite3.Error:
-                    pass
+                    pass  # already rolled back by SQLite; the original error is re-raised below
             raise
         return list(range(start, self._tree.size))
 

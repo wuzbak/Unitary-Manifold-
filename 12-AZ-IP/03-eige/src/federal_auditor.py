@@ -38,11 +38,10 @@ Implementation: GitHub Copilot (AI)
 
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
-from typing import Any, Optional
+from typing import Any
 
 from .constants import K_CS, PHI_0, PHI_TOLERANCE, ENGINE_VERSION
 from .holon_zero_cert import validate_holon_zero_cert

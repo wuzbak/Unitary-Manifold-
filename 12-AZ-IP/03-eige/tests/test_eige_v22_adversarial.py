@@ -3,7 +3,6 @@
 """End-to-end adversarial tamper tests for publication bundles."""
 
 import json
-from pathlib import Path
 
 import pytest
 

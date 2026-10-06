@@ -10,7 +10,6 @@ import pytest
 from EIGE.src.federal_auditor import (
     FederalAuditor,
     RawDataAccessAttempt,
-    AuditResult,
     AuditVerdict,
 )
 from EIGE.src.holon_zero_cert import generate_holon_zero_cert

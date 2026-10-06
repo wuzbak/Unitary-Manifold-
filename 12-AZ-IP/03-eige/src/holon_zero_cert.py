@@ -26,7 +26,6 @@ Implementation: GitHub Copilot (AI)
 from __future__ import annotations
 
 import json
-import math
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -37,10 +36,9 @@ from .oscal_schema import (
     ControlImplementation,
     ImplementedRequirement,
     OSCALMetadata,
-    NIST_SP800_53_MAPPINGS,
     new_uuid,
 )
-from .zk_proof import PedersenProof, commit_metric_state, opening_as_dict, verify_metric_proof
+from .zk_proof import commit_metric_state, opening_as_dict
 
 
 # ---------------------------------------------------------------------------

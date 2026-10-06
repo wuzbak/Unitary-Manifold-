@@ -31,11 +31,11 @@ from __future__ import annotations
 
 import json
 import uuid
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
-from .constants import ENGINE_VERSION, OSCAL_VERSION, NIST_SP_VERSION, K_CS, PHI_0
+from .constants import ENGINE_VERSION, OSCAL_VERSION, K_CS, PHI_0
 
 
 # ---------------------------------------------------------------------------

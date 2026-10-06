@@ -24,7 +24,6 @@ from src.hsm_interface import (
     MockHSMKeyProvider,
 )
 from src.tee_attestation import (
-    AttestationReport,
     get_attestation_report,
     _get_software_mock_report,
 )

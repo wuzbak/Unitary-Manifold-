@@ -60,7 +60,6 @@ Implementation: GitHub Copilot (AI)
 from __future__ import annotations
 
 import hashlib
-import math
 import os
 import struct
 from dataclasses import dataclass, field

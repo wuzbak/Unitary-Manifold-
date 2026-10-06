@@ -13,21 +13,20 @@ Implementation: GitHub Copilot (AI)
 
 from __future__ import annotations
 
-import math
 
 import pytest
 
 from src.zk_proof import (
-    PedersenCommitment,
     PedersenProof,
     commit,
     verify_commitment,
     commit_metric_state,
     verify_metric_proof,
     proof_from_dict,
-    _P, _G, _H, _PHI_SCALE,
+    _P,
+    _G, _H, _PHI_SCALE,
 )
-from src.constants import K_CS, PHI_0, PHI_TOLERANCE
+from src.constants import K_CS, PHI_0
 from src.holon_zero_cert import generate_holon_zero_cert, validate_holon_zero_cert
 
 

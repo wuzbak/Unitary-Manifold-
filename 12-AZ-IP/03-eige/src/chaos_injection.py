@@ -40,7 +40,7 @@ import random
 import time
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from .constants import (
     CHAOS_NOISE_BUDGET_DEFAULT,

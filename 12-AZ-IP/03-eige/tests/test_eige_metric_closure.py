@@ -2,20 +2,16 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """Tests for EIGE/src/metric_closure.py"""
 
-import math
 import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
-import pytest
 from EIGE.src.metric_closure import (
     MetricClosure,
     ClosureStatus,
-    ClosureResult,
     compute_phi_eff,
-    compute_kcs_from_state,
 )
-from EIGE.src.constants import K_CS, PHI_0, PHI_TOLERANCE, PHI_DRIFT_WARNING
+from EIGE.src.constants import K_CS, PHI_0, PHI_DRIFT_WARNING
 
 
 class TestClosureStatus:

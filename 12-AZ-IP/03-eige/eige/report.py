@@ -106,7 +106,7 @@ def _court(r: VerificationReport) -> str:
         f"Statement of verification results — {r.subject}",
         "",
         "1. Method. Each check below was performed by recomputation from published artifacts using "
-        "the open-source EIGE verifier. Any party can repeat it and should obtain identical results.",
+        + "the open-source EIGE verifier. Any party can repeat it and should obtain identical results.",
         "2. Results by check:",
     ]
     for i, c in enumerate(r.checks, start=1):

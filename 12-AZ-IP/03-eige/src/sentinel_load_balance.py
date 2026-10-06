@@ -48,7 +48,6 @@ from .constants import (
     K_CS,
     PHI_0,
     PHI_TOLERANCE,
-    DOSSIER_EMIT_DEADLINE_MS,
     FREEDOM_FLOOR,
     FREEDOM_FLOOR_MIN_BALLOTS,
 )
@@ -478,7 +477,8 @@ class SentinelLoadBalancer:
         temp_path = f"{final_path}.tmp"
 
         try:
-            fd = os.open(temp_path, os.O_CREAT | os.O_WRONLY | os.O_TRUNC, 0o644)
+            # Owner-only: override dossiers are security audit records, not public artifacts.
+            fd = os.open(temp_path, os.O_CREAT | os.O_WRONLY | os.O_TRUNC, 0o600)
             with os.fdopen(fd, "w") as f:
                 json.dump(dossier.to_dict(), f, indent=2)
             os.rename(temp_path, final_path)
@@ -494,7 +494,7 @@ class SentinelLoadBalancer:
             try:
                 os.unlink(temp_path)
             except OSError:
-                pass
+                pass  # the temp file may never have been created; the original error is re-raised below
             raise
 
     # ------------------------------------------------------------------

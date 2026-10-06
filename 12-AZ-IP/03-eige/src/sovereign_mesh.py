@@ -41,7 +41,7 @@ from __future__ import annotations
 
 import os
 import tempfile
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 from .constants import (
     K_CS,
@@ -50,8 +50,8 @@ from .constants import (
     ENGINE_VERSION,
 )
 from .county_node import CountyNode
-from .state_mesh import StateMesh, StateLedgerEntry
-from .federal_auditor import FederalAuditor, RawDataAccessAttempt, AuditVerdict
+from .state_mesh import StateMesh
+from .federal_auditor import FederalAuditor, RawDataAccessAttempt
 from .sentinel_load_balance import SentinelLoadBalancer
 from .metric_closure import ClosureStatus
 
@@ -127,7 +127,6 @@ class SovereignMesh:
 
         for i in range(ballots_during):
             county.ingest_ballot([0, 1, i % 3])
-        count_during = county.ballot_count()
         queued = len(county.get_queued_payloads())
 
         # Phase 3: Reconnect and flush queue

@@ -23,7 +23,8 @@ def test_merkle_log_append_root_proofs_and_signed_head():
     reg = registry_with((signer, "county", "county-log"))
     log = MerkleLog("county")
     for i in range(5):
-        assert log.append({"type": "cvr", "i": i}) == i
+        idx = log.append({"type": "cvr", "i": i})
+        assert idx == i
     root = log.root()
     head = log.sign_head(signer, 100)
     assert head.tree_size == 5 and head.root_hash == root.hex()

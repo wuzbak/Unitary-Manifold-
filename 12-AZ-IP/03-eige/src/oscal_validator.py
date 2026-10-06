@@ -27,14 +27,12 @@ Implementation: GitHub Copilot (AI)
 from __future__ import annotations
 
 import json
-import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
 
 try:
-    import jsonschema
-    from jsonschema import Draft7Validator, ValidationError as _JSVError
+    from jsonschema import Draft7Validator
     _HAS_JSONSCHEMA = True
 except ImportError:  # pragma: no cover
     _HAS_JSONSCHEMA = False

@@ -18,6 +18,7 @@ import json
 import shutil
 import tempfile
 from collections import Counter
+from contextlib import ExitStack
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -45,7 +46,13 @@ class DuplicateDetector:
 
     def _spill(self) -> None:
         self._dir = Path(tempfile.mkdtemp(prefix="eige-dedup-", dir=self._tmp_parent))
-        self._files = [open(self._dir / f"{i:02x}.jsonl", "a", encoding="utf-8", buffering=1 << 16) for i in range(_BUCKETS)]
+        files: List = []
+        with ExitStack() as stack:  # if any bucket fails to open, the ones already open are closed
+            for i in range(_BUCKETS):
+                files.append(stack.enter_context(
+                    open(self._dir / f"{i:02x}.jsonl", "a", encoding="utf-8", buffering=1 << 16)))
+            stack.pop_all()  # all open: ownership passes to this detector, released by close()
+        self._files = files
         for key in self._seen:
             self._write(key)
         for key, extra in self._dups.items():

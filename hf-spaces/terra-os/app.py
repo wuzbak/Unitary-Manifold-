@@ -11,8 +11,14 @@ custom_css = """
 
 def get_weather(lat, lon):
     try:
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&forecast_days=7"
-        r = requests.get(url, timeout=10)
+        lat, lon = float(lat), float(lon)
+        if not (-90 <= lat <= 90 and -180 <= lon <= 180):
+            return "Latitude must be in [-90, 90] and longitude in [-180, 180]."
+        r = requests.get("https://api.open-meteo.com/v1/forecast", params={
+            "latitude": lat, "longitude": lon,
+            "current": "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code",
+            "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum",
+            "timezone": "auto", "forecast_days": 7}, timeout=10)
         if not r.ok: return "Weather unavailable"
         d = r.json()
         c = d.get("current",{})
@@ -25,7 +31,8 @@ def get_weather(lat, lon):
 
 def get_hardiness(zip_code):
     try:
-        r = requests.get(f"https://geocoding-api.open-meteo.com/v1/search?name={zip_code}&count=1&format=json", timeout=10)
+        r = requests.get("https://geocoding-api.open-meteo.com/v1/search",
+                         params={"name": zip_code, "count": 1, "format": "json"}, timeout=10)
         if not r.ok: return "Geocoding failed"
         results = r.json().get("results",[])
         if not results: return f"Location not found for {zip_code}"
@@ -36,8 +43,9 @@ def get_hardiness(zip_code):
         import datetime
         end = datetime.date.today().isoformat()
         start = (datetime.date.today().replace(year=datetime.date.today().year-1)).isoformat()
-        hist_url = f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={start}&end_date={end}&daily=temperature_2m_min&timezone=auto"
-        hr = requests.get(hist_url, timeout=15)
+        hr = requests.get("https://archive-api.open-meteo.com/v1/archive", params={
+            "latitude": lat, "longitude": lon, "start_date": start, "end_date": end,
+            "daily": "temperature_2m_min", "timezone": "auto"}, timeout=15)
         extreme_min = -99
         if hr.ok:
             hd = hr.json().get("daily",{}).get("temperature_2m_min",[])

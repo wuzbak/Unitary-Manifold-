@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 import pytest
 from EIGE.src.public_trust_index import PublicTrustIndexBuilder, PublicTrustReport
-from EIGE.src.metric_closure import MetricClosure, ClosureStatus
+from EIGE.src.metric_closure import MetricClosure
 from EIGE.src.constants import PHI_0, K_CS, PHI_TOLERANCE, PHI_DRIFT_WARNING
 
 

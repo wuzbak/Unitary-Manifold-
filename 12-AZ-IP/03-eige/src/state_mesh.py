@@ -35,15 +35,12 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
-import json
-import math
-import sys
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional
 
 try:
-    from mpmath import mp, mpf, sqrt as mp_sqrt
+    from mpmath import mp
     MPMATH_AVAILABLE = True
 except ImportError:  # pragma: no cover
     MPMATH_AVAILABLE = False
@@ -51,14 +48,11 @@ except ImportError:  # pragma: no cover
 from .constants import (
     K_CS,
     PHI_0,
-    PHI_TOLERANCE,
     MPMATH_DPS,
-    COUNTY_COUNT,
-    SHARD_COUNT,
 )
 from .county_node import CountyNode
-from .metric_closure import MetricClosure, ClosureStatus, ClosureResult
-from .holon_zero_cert import generate_holon_zero_cert, validate_holon_zero_cert
+from .metric_closure import MetricClosure, ClosureStatus
+from .holon_zero_cert import generate_holon_zero_cert
 
 
 # ---------------------------------------------------------------------------

@@ -20,6 +20,7 @@ import shutil
 import tempfile
 from collections import Counter, deque
 from concurrent.futures import ProcessPoolExecutor
+from contextlib import ExitStack
 from typing import Any, Deque, Dict, Iterator, List, Optional, Set, Tuple
 
 from .audit import reconciliation as recon
@@ -67,11 +68,13 @@ def _worker(args: tuple) -> dict:
     units: Dict[Tuple[str, str], Counter] = {}
     os.makedirs(id_dir, exist_ok=True)
     files: Dict[int, Any] = {}  # bucket files are opened on first use
+    stack = ExitStack()  # closes every bucket file opened below, whatever happens
 
     def bucket(b: int):
         f = files.get(b)
         if f is None:
-            f = files[b] = open(os.path.join(id_dir, f"{b:02x}.jsonl"), "w", encoding="utf-8", buffering=1 << 16)
+            f = files[b] = stack.enter_context(
+                open(os.path.join(id_dir, f"{b:02x}.jsonl"), "w", encoding="utf-8", buffering=1 << 16))
         return f
 
     try:
@@ -135,8 +138,7 @@ def _worker(args: tuple) -> dict:
                             c = units[key] = Counter()
                         c.update(marks)
     finally:
-        for f in files.values():
-            f.close()
+        stack.close()
     out["hashes"] = bytes(hashes)
     out["totals"] = totals
     out["units"] = units
