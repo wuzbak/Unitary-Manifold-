@@ -68,7 +68,10 @@ jobs:
         with:
           python-version: ${{ needs.regression-environment.outputs.python-version }}
       - name: Run pytest (fast suite shard ${{ matrix.batch-index }})
+        env:
+          WANDB_DIR: ${{ runner.temp }}/um-arts-wandb
         run: |
+          mkdir -p "$WANDB_DIR"
           python TOOLS/checks/run_supervised_pytest_batch.py --suite tests-fast \
             --batch-count 4 --batch-index ${{ matrix.batch-index }} \
             --workers 2 --timeout 5100 --result-dir "${{ runner.temp }}/regression-results" \

@@ -75,8 +75,9 @@ def test_full_core_evidence_runs_outside_the_agent_session() -> None:
     assert workflow["concurrency"]["cancel-in-progress"] is False
     assert job["steps"][0]["with"]["fetch-depth"] == 0
     assert job["timeout-minutes"] == 330
-    assert job["env"]["WANDB_DIR"] == "${{ runner.temp }}/um-arts-wandb"
+    assert "WANDB_DIR" not in job["env"]
     execution = next(step for step in job["steps"] if "Collect, execute" in step.get("name", ""))
+    assert execution["env"]["WANDB_DIR"] == "${{ runner.temp }}/um-arts-wandb"
     assert 'Path(os.environ["WANDB_DIR"]).mkdir(parents=True, exist_ok=True)' in execution["run"]
     assert execution["timeout-minutes"] < job["timeout-minutes"]
     assert 'verified["status"] != "passed"' in execution["run"]
@@ -85,6 +86,18 @@ def test_full_core_evidence_runs_outside_the_agent_session() -> None:
     assert upload["if"] == "always()"
     assert upload["with"]["include-hidden-files"] is True
     assert upload["with"]["retention-days"] == 90
+
+
+def test_fast_pytest_redirects_wandb_to_external_step_runtime() -> None:
+    jobs = _load("tests.yml")["jobs"]
+    execution = next(
+        step for job in jobs.values() for step in job.get("steps", [])
+        if step.get("name", "").startswith("Run pytest (fast suite shard")
+    )
+    assert execution["env"]["WANDB_DIR"] == "${{ runner.temp }}/um-arts-wandb"
+    assert 'mkdir -p "$WANDB_DIR"' in execution["run"]
+    assert execution["run"].index('mkdir -p "$WANDB_DIR"') < execution["run"].index(
+        "python TOOLS/checks/run_supervised_pytest_batch.py")
 
 
 def test_full_core_config_covers_slow_tests_and_independent_suites() -> None:

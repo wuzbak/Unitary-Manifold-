@@ -24,7 +24,6 @@ jobs:
       OPENBLAS_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       NUMEXPR_NUM_THREADS: "1"
-      WANDB_DIR: ${{ runner.temp }}/um-arts-wandb
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,6 +39,8 @@ jobs:
             -r 12-AZ-IP/20-psicat-navigator/requirements.txt
       - name: Collect, execute and verify frozen test identities
         timeout-minutes: 290
+        env:
+          WANDB_DIR: ${{ runner.temp }}/um-arts-wandb
         run: |
           python - <<'PY'
           import json

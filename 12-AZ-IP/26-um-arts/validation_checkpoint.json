@@ -746,5 +746,67 @@
     ],
     "receipt_storage": "/tmp/um-arts-closeout contains temporary logs. This committed record exposes the terminal counts and actual hosted approval link; it is not a sealed certificate.",
     "finalization_boundary": "Focused implementation review and tests are complete. Repository-wide verification cannot be finalized before the external approval and execution gates actually complete."
+  },
+  "main_merge_recovery": {
+    "date": "2026-10-06",
+    "pull_request": 1013,
+    "merge_commit": "707b8020944706faf5df225c3235a427f53f4852",
+    "merge_parents": [
+      "06cc9c826c41123e4ecbb058298a0525e227d3bb",
+      "def6491d42dc3b0ae576c01fdedff44569af0d17"
+    ],
+    "conflict_resolution": "All nine reported conflicts resolved. Main's frozen regression environment and aggregated JUnit gates coexist with branch capture/checkpoints; exact symbolic optimizations and tests are retained. Product 25 updates and Product 26 registration coexist in the resealed README.",
+    "actual_hosted_failure": {
+      "run": 37544801907,
+      "attempt": 2,
+      "status": "failed",
+      "artifact_id": 11450792738,
+      "artifact_sha256": "b756a1121bc7f97b9622919d4868236b7389b69288a01f276bf113f5963c4e19",
+      "root_causes": [
+        "tests/ exceeded the existing 1500 tracked-root-entry limit, blocking Pillar 1125 and downstream Pillars 1127 and 1128.",
+        "Execution-spine external-base fixture incorrectly assumed managed tmp_path was outside the real checkout.",
+        "W&B created runtime logs with external symlink targets inside the frozen source tree."
+      ],
+      "repairs": [
+        "Moved twenty unchanged Pillar 859-878 test files into tests/pillar_0859_0878; no assertions removed or weakened.",
+        "Created an isolated repository child in the external-base fixture so rejection remains meaningful under managed in-checkout scratch.",
+        "Redirected W&B output to an explicitly created external runner directory in both full-core and fast-shard capture steps."
+      ]
+    },
+    "workflow_context_repair": {
+      "failed_run": 37547449703,
+      "error": "Unrecognized named-value: runner in job-level env.",
+      "repair": "WANDB_DIR is now defined in step.env, where runner.temp is a supported GitHub context."
+    },
+    "timeout_review_repair": "Catch final post-SIGKILL TimeoutExpired and write a blocked process.json receipt; simulated non-exiting child regression verifies durable failure evidence.",
+    "validation": {
+      "merge_agent_initial": {"passed": 211, "timeout_seconds": 240},
+      "merge_agent_combined_receipts": {"passed": 187, "timeout_seconds": 240},
+      "capture": {"passed": 30, "skipped": 1},
+      "managed_execution_spine": {"passed": 16},
+      "sharded_and_health_gates": {"passed": 756},
+      "final_supported_combined_scope": {
+        "pytest": "8.4.2",
+        "passed": 1015,
+        "skipped": 1,
+        "timeout_seconds": 240,
+        "timed_out": false,
+        "terminal_summary": "1015 passed, 1 skipped in 70.43s",
+        "scope": "Symbolic, workflow, supervision, combined runner, capture, execution-spine, twenty sharded test files and the three failing monorepo-health dependent suites."
+      },
+      "large_directory_gate": "passed",
+      "onboarding_consistency_gate": "passed",
+      "optional_wandb_runtime": "Not executed locally: module collection skipped because W&B is unavailable; hosted dependency installation and external-directory regression assertions remain necessary.",
+      "boundary": "These focused runs overlap and are not a complete repository execution count. Existing Ruff findings remain disclosed rather than masked."
+    },
+    "review": {
+      "independent_review": "Found missing W&B redirection in fast capture; fixed. Follow-up reported no significant issues.",
+      "automated_review": "Unavailable: configured model missing from registry.",
+      "actions_codeql": "Analyzed; no alerts.",
+      "javascript_codeql": "Analyzed; no alerts.",
+      "python_wrapper": "Skipped because database is too large; no new full Python analysis claimed."
+    },
+    "artifact_hygiene": "Generated temporary validation files and training-history changes were removed/restored before final publication. The final tree contains no tracked .pytest-merge-validation artifacts.",
+    "hosted_boundary": "Updated PR checks are approval-gated. Resolved merge conflicts and focused tests do not establish that all required workflows have passed. Maintainer approval and successful hosted results on the final revision remain required."
   }
 }
