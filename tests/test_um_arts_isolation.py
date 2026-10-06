@@ -3,11 +3,52 @@
 """Source isolation does not turn mutating checks into certificates."""
 
 import json
+import subprocess
 from pathlib import Path
 
 import pytest
 from TOOLS.um_arts.evidence import EvidenceError, fingerprints
 from TOOLS.um_arts.isolation import snapshot
+
+
+def test_provisioning_artifacts_are_excluded_but_ordinary_inputs_remain_tracked(tmp_path):
+    root = tmp_path / "repo"
+    root.mkdir()
+    (root / "source.py").write_text("VALUE = 1\n")
+    original = fingerprints(root, tmp_path / "store", {})
+    tools = root / ".um-arts-completion" / "lean" / "include"
+    tools.mkdir(parents=True)
+    (tools / "generated.py").write_text("GENERATED = 1\n")
+    (tools / "alias").symlink_to(tmp_path / "external-tool-input")
+    changed = fingerprints(root, tmp_path / "store", {})
+    assert changed["compatibility"]["source"] == original["compatibility"]["source"]
+    assert ".um-arts-completion" in changed["source_policy"]["excluded_directories"]
+    copied = Path(snapshot(root, tmp_path / "snapshot")["snapshot_root"])
+    assert not (copied / ".um-arts-completion").exists()
+    inputs = root / ".um-arts-real-inputs"
+    inputs.mkdir()
+    (inputs / "data.json").write_text('{"input": true}')
+    actual = fingerprints(root, tmp_path / "store", {})
+    assert ".um-arts-real-inputs/data.json" in actual["source_files"]
+    assert actual["compatibility"]["source"] != original["compatibility"]["source"]
+
+
+def test_git_does_not_enumerate_provisioning_artifacts(tmp_path):
+    root = tmp_path / "repo"
+    root.mkdir()
+    ignore = Path(__file__).resolve().parents[1] / ".gitignore"
+    (root / ".gitignore").write_bytes(ignore.read_bytes())
+    subprocess.run(["git", "init", "-q", str(root)], check=True)
+    tools = root / ".um-arts-completion" / "lean"
+    tools.mkdir(parents=True)
+    for index in range(100):
+        (tools / f"generated-{index}.h").write_text("tool input")
+    (root / "source.py").write_text("VALUE = 1\n")
+    result = subprocess.run(
+        ["git", "-C", str(root), "ls-files", "--others", "--exclude-standard", "-z", "--"],
+        check=True, capture_output=True,
+    )
+    assert set(result.stdout.split(b"\0")) == {b".gitignore", b"source.py", b""}
 
 
 def test_snapshot_preserves_inputs_and_redirects_absolute_internal_aliases(tmp_path):

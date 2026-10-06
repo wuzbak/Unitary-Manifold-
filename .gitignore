@@ -33,3 +33,4 @@ wandb/offline-run-*/
 # Local UM-ARTS evidence, logs, and SQLite indexes
 .um-arts/
 .um-arts-test-work/
+.um-arts-completion/

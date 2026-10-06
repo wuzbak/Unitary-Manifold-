@@ -132,7 +132,8 @@ def verify_seal(directory: Path) -> dict:
 def fingerprints(root: Path, store: Path, config: dict) -> dict:
     """Hash source bytes, not merely commit IDs or modification timestamps."""
     excluded = {".git", ".venv", "venv", "__pycache__", ".pytest_cache", ".mypy_cache",
-                ".ruff_cache", ".benchmarks", ".lake", "node_modules", ".um-arts", ".um-arts-test-work"}
+                ".ruff_cache", ".benchmarks", ".lake", "node_modules", ".um-arts",
+                ".um-arts-test-work", ".um-arts-completion"}
     sources = {}
     links = {}
     source_directories = []
