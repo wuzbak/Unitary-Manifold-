@@ -666,5 +666,85 @@
       "retention": "Local receipts, database and full SARIF are temporary sandbox artifacts. This committed summary retains finding locations and hashes, not complete sealed receipts. Independent hosted runs will upload artifacts when actually executed."
     },
     "aggregation_boundary": "Continuation counts include reused first-slice identities; focused, historical and partial captures may overlap. Do not sum them. Historical sections retain their original scope and limitations."
+  },
+  "bounded_closeout": {
+    "date": "2026-10-06",
+    "tested_revision": "201ce552031d5f6b64701b773a48a77f178fee68",
+    "implementation_status": "reviewed_with_focused_validation",
+    "repository_verification_status": "blocked",
+    "latest_inherited_changes": "Exact DomainMatrix inversions and rational Ricci compaction, cancellation before Euler differentiation, curvature-preservation regression tests, narrower Mathlib import, 32-file full-core checkpoints and development-branch workflow activation.",
+    "focused_validation": {
+      "pytest_args": ["-m", "", "-q"],
+      "files": [
+        "tests/test_action_derived_flow.py",
+        "tests/test_ci_workflow_trigger_scope.py",
+        "tests/test_run_supervised_pytest_batch.py",
+        "tests/test_regression_supervision_plan.py",
+        "tests/test_pillar482_lean4_ci_full_activation.py"
+      ],
+      "supported_environment": {
+        "pytest": "8.4.2",
+        "status": "passed",
+        "passed": 121,
+        "returncode": 0,
+        "hard_timeout_seconds": 180,
+        "timed_out": false,
+        "terminal_summary": "121 passed in 51.26s",
+        "log_sha256": "c772b831f772f402b42c33e1c3c2e9a3e217f2406f9c8c5c8ff5f0c7dcb45822"
+      },
+      "preinstalled_environment": {
+        "pytest": "9.1.1",
+        "passed": 121,
+        "hard_timeout_seconds": 480,
+        "timed_out": false,
+        "terminal_summary": "121 passed in 63.17s (0:01:03)",
+        "boundary": "Outside the root pytest<9.1 constraint; the supported-environment result above is the applicable verification."
+      },
+      "boundary": "These two runs cover the same focused identities; do not add their counts or treat them as full-core execution.",
+      "ruff": {
+        "status": "findings",
+        "findings": 13,
+        "location": "src/core/action_derived_flow.py",
+        "categories": ["UP035", "UP006", "RUF059"],
+        "tests": "No findings in the two changed test files.",
+        "boundary": "Existing typing and unused-unpacked-variable issues are disclosed, not silently fixed as part of verification closeout."
+      }
+    },
+    "hosted_full_core": {
+      "run_id": 37537002867,
+      "url": "https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37537002867",
+      "head_sha": "201ce552031d5f6b64701b773a48a77f178fee68",
+      "status": "completed",
+      "conclusion": "action_required",
+      "jobs_started": 0,
+      "page_message": "This workflow is awaiting approval from a maintainer",
+      "workflow_sha256": "7bf03b02791241c66e2cad240e526ff48060b248e61f9e83a57e5c4f51c3170e",
+      "evidence": "GitHub Actions MCP run details and job logs returned zero jobs; the run page explicitly identifies the maintainer approval requirement.",
+      "required_action": "A maintainer must open the run and approve execution in GitHub. If that run cannot be approved, use permitted manual dispatch on the intended branch. Do not bypass workflow approval protections.",
+      "boundary": "No tests ran in this hosted run. Repeated agent restarts cannot supply maintainer approval. A newer metadata push may create another approval-pending run; inspect its commit before approving."
+    },
+    "timeout_diagnosis": {
+      "agent_run": 37534148686,
+      "job_id": 112510716213,
+      "processing_started": "2026-10-06T21:29:59Z",
+      "processing_cancelled": "2026-10-06T22:28:47Z",
+      "conclusion": "cancelled",
+      "change_in_execution": "No unbounded full-core, native CodeQL re-extraction or inaccessible Mathlib download was restarted in this closeout. Focused validation had explicit OS timeouts and completed."
+    },
+    "review": {
+      "independent_review": "No significant issues in the two latest inherited implementation commits. Lean compilation was not verified.",
+      "automated_review": "Unavailable: configured claude-sonnet-4.6 model missing from registry; wrapper success label is not a completed review.",
+      "actions_codeql": "Analyzed; no alerts.",
+      "javascript_codeql": "Analyzed; no alerts.",
+      "wrapper_python_codeql": "Skipped because database is too large.",
+      "native_python_codeql": "Earlier complete native results remain in durable_verification_continuation; they are historical evidence, not a scan of the newer symbolic revision."
+    },
+    "remaining_gates": [
+      "Maintainer approval and completed hosted full-core execution for the intended commit.",
+      "Full Lean-library compilation with its dependencies available; neither the narrow import nor focused Python activation tests establish compiler success.",
+      "Triage of the 23 historical native Python CodeQL candidates, resolution of its syntax-error exclusion and appropriate security verification of subsequent Python changes."
+    ],
+    "receipt_storage": "/tmp/um-arts-closeout contains temporary logs. This committed record exposes the terminal counts and actual hosted approval link; it is not a sealed certificate.",
+    "finalization_boundary": "Focused implementation review and tests are complete. Repository-wide verification cannot be finalized before the external approval and execution gates actually complete."
   }
 }

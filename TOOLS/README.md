@@ -386,6 +386,16 @@ not a pass. Download artifacts before their retention expires. Cross-run
 resume still requires exact source/environment/settings compatibility;
 an artifact download does not authorize automatic execution.
 
+If GitHub reports `action_required`, open the run's Actions page and inspect
+its approval message before restarting verification. A run awaiting maintainer
+approval has not executed any tests. A maintainer must review and approve it
+in GitHub; repeating a Copilot session does not grant that approval. Follow the
+approved run independently of the agent session, confirm its tested commit,
+and download its evidence artifacts. If approval is unavailable on that run,
+use the workflow's manual dispatch on the intended branch once GitHub permits
+it. Do not disable approval protections or substitute historical partial
+counts for the resulting execution evidence.
+
 Full Python CodeQL now has an independent hosted job without changed-path
 selection or product/test exclusions. Only agent instruction files are
 excluded. It preserves SARIF separately from sliced analysis; the local
