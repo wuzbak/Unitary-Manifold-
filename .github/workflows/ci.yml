@@ -11,6 +11,12 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  regression-environment:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/regression-environment.yml
+    permissions:
+      contents: read
+
   platform-smoke:
     name: Platform smoke (${{ matrix.os }})
     strategy:
@@ -89,6 +95,7 @@ jobs:
   push-full-regression-batched:
     name: Push full regression slice ${{ matrix.batch-index }} (main)
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: regression-environment
     runs-on: ubuntu-latest
     timeout-minutes: 105
     strategy:
@@ -102,11 +109,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
       - name: Install dependencies
-        run: pip install -r requirements.txt pytest pytest-xdist
+        uses: ./.github/actions/regression-environment
+        with:
+          python-version: ${{ needs.regression-environment.outputs.python-version }}
       - name: Freeze dependency-cost regression plan
         run: |
           python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core \
@@ -131,7 +137,7 @@ jobs:
     name: Push full regression supervisor (main)
     if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: push-full-regression-batched
+    needs: [regression-environment, push-full-regression-batched]
     timeout-minutes: 30
     permissions:
       contents: read
@@ -139,11 +145,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
       - name: Install matching regression dependencies
-        run: pip install -r requirements.txt pytest pytest-xdist
+        uses: ./.github/actions/regression-environment
+        with:
+          python-version: ${{ needs.regression-environment.outputs.python-version }}
       - name: Require successful full regression slices
         env:
           PUSH_FULL_REGRESSION_BATCHED_RESULT: ${{ needs.push-full-regression-batched.result }}

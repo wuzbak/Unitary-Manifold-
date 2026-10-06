@@ -1,0 +1,26 @@
+name: Install frozen regression environment
+description: Reproduce the resolver's Python and dependencies without runner-global packages
+inputs:
+  python-version:
+    description: Exact Python patch version from the environment resolver
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+    - uses: actions/download-artifact@v4.3.0
+      with:
+        name: regression-environment
+        path: ${{ runner.temp }}/regression-environment
+    - name: Install the locked dependencies in an isolated environment
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m venv "${RUNNER_TEMP}/regression-venv"
+        "${RUNNER_TEMP}/regression-venv/bin/python" -m pip install -r "${RUNNER_TEMP}/regression-environment/regression-requirements.txt"
+        "${RUNNER_TEMP}/regression-venv/bin/python" -m pip check
+        "${RUNNER_TEMP}/regression-venv/bin/python" -m pip freeze --all > "${RUNNER_TEMP}/regression-installed.txt"
+        diff -u <(sort "${RUNNER_TEMP}/regression-environment/regression-requirements.txt") <(sort "${RUNNER_TEMP}/regression-installed.txt")
+        echo "${RUNNER_TEMP}/regression-venv/bin" >> "${GITHUB_PATH}"

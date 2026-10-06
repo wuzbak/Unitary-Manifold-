@@ -8,7 +8,7 @@ sdk_version: "4.44.0"
 app_file: app.py
 pinned: false
 license: other
-short_description: AZ-IP catalog browser with canonical links to the current 24-product registry and fingerprint manifest
+short_description: AZ-IP catalog — 24-product registry and fingerprint manifest
 tags:
   - axiomzero
   - ip-registry

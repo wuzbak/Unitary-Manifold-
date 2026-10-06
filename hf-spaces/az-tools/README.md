@@ -8,7 +8,7 @@ sdk_version: "4.44.0"
 app_file: app.py
 pinned: true
 license: other
-short_description: HF-hosted tools suite (11–20 lane) with Merlin/OX compatibility for Product 20; canonical 24-product registry lives in 12-AZ-IP/README.md
+short_description: HF tools 11–20 — OS, oracles, and Merlin/OX-compatible AI
 tags:
   - physics
   - kaluza-klein

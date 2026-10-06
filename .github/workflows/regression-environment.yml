@@ -1,0 +1,40 @@
+name: Freeze regression environment
+
+on:
+  workflow_call:
+    outputs:
+      python-version:
+        description: Exact Python patch version used to resolve dependencies
+        value: ${{ jobs.freeze.outputs.python-version }}
+
+permissions:
+  contents: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      python-version: ${{ steps.freeze.outputs.python-version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Resolve one isolated environment for all regression jobs
+        id: freeze
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv "${RUNNER_TEMP}/regression-venv"
+          "${RUNNER_TEMP}/regression-venv/bin/python" -m pip install -r requirements.txt pytest pytest-xdist
+          "${RUNNER_TEMP}/regression-venv/bin/python" -m pip check
+          "${RUNNER_TEMP}/regression-venv/bin/python" -m pip freeze --all > "${RUNNER_TEMP}/regression-requirements.txt"
+          echo "python-version=$("${RUNNER_TEMP}/regression-venv/bin/python" -c 'import platform; print(platform.python_version())')" >> "${GITHUB_OUTPUT}"
+      - name: Retain the resolved dependency lock
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: regression-environment
+          path: ${{ runner.temp }}/regression-requirements.txt
+          if-no-files-found: error
+          retention-days: 14

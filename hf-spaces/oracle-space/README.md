@@ -8,7 +8,7 @@ sdk_version: "4.44.0"
 app_file: app.py
 pinned: true
 license: other
-short_description: Grand Synthesis Engine — 5D KK physics predictions with epistemic gate labels
+short_description: 5D KK physics predictions with epistemic gate labels
 tags:
   - physics
   - kaluza-klein

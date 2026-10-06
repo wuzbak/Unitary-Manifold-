@@ -9,6 +9,7 @@ import socket
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 
+import pytest
 import yaml
 
 
@@ -33,6 +34,26 @@ def test_space_deployment_is_mainline_or_explicit_manual_with_read_only_github_t
     assert "workflow_dispatch" in events
     assert workflow["permissions"] == {"contents": "read"}
     assert workflow["jobs"]["deploy"]["timeout-minutes"] == 30
+
+
+@pytest.mark.parametrize(
+    "readme",
+    sorted((_MODULE_PATH.parents[1] / "hf-spaces").glob("*/README.md")),
+    ids=lambda path: path.parent.name,
+)
+def test_space_readme_short_descriptions_fit_hub_limit(readme: Path) -> None:
+    text = readme.read_text(encoding="utf-8")
+    if not text.startswith("---\n"):
+        return
+    metadata = yaml.safe_load(text.split("---", 2)[1])
+    if "sdk" not in metadata or "short_description" not in metadata:
+        return
+    description = metadata["short_description"]
+    assert isinstance(description, str), f"{readme}: short_description must be text"
+    assert len(description) <= 60, (
+        f"{readme}: short_description has {len(description)} characters; "
+        "Hugging Face Spaces permits at most 60"
+    )
 
 
 def test_401_soft_pass_without_token(monkeypatch) -> None:
