@@ -67,14 +67,20 @@ def test_coverage_retains_failure_evidence_without_weakening_the_gate() -> None:
     assert "--signal=TERM --kill-after=60s 160m" in run
     assert "-n 2 --dist loadfile" in run
     assert "pytest-xdist" in steps["Install dependencies"]["run"]
-    integration = steps["Run serial coverage integration"]["run"]
+    integration = steps["Run serial non-slow coverage integration"]["run"]
     assert "--signal=TERM --kill-after=60s 10m" in integration
     assert "--cov-append" in integration
     assert "--cov-fail-under=85" in integration
-    assert "-m ''" in integration
+    assert "-m 'not slow'" in integration
     assert "-n " not in integration
     assert "--dist" not in integration
     assert "set -o pipefail" in integration
+    slow_runs = [
+        step["run"]
+        for step in jobs["test-slow"]["steps"]
+        if "run" in step
+    ]
+    assert any("tests/ -m slow" in run for run in slow_runs)
     from src.core.regression_supervision_plan import INTEGRATION_PREFLIGHT_FILES
 
     for path in INTEGRATION_PREFLIGHT_FILES:
