@@ -18,6 +18,7 @@ _MODULE_PATH = (
     / "9-INFRASTRUCTURE"
     / "check_hf_spaces_canary.py"
 )
+_HUB_COLORS = {"red", "yellow", "green", "blue", "indigo", "purple", "pink", "gray"}
 _SPEC = importlib.util.spec_from_file_location("check_hf_spaces_canary", _MODULE_PATH)
 assert _SPEC and _SPEC.loader
 canary = importlib.util.module_from_spec(_SPEC)
@@ -54,6 +55,23 @@ def test_space_readme_short_descriptions_fit_hub_limit(readme: Path) -> None:
         f"{readme}: short_description has {len(description)} characters; "
         "Hugging Face Spaces permits at most 60"
     )
+
+
+@pytest.mark.parametrize(
+    "readme",
+    sorted((_MODULE_PATH.parents[1] / "hf-spaces").glob("*/README.md")),
+    ids=lambda path: path.parent.name,
+)
+def test_space_readme_colors_are_supported_by_hub(readme: Path) -> None:
+    text = readme.read_text(encoding="utf-8")
+    if not text.startswith("---\n"):
+        return
+    metadata = yaml.safe_load(text.split("---", 2)[1])
+    for key in ("colorFrom", "colorTo"):
+        if key in metadata:
+            assert metadata[key] in _HUB_COLORS, (
+                f"{readme}: {key}={metadata[key]!r} is not a supported Hugging Face color"
+            )
 
 
 def test_401_soft_pass_without_token(monkeypatch) -> None:

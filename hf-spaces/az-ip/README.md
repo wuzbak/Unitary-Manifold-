@@ -2,7 +2,7 @@
 title: AxiomZero IP Registry
 emoji: 📜
 colorFrom: yellow
-colorTo: orange
+colorTo: yellow
 sdk: gradio
 sdk_version: "4.44.0"
 app_file: app.py
