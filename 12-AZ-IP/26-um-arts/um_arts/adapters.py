@@ -67,9 +67,8 @@ def load_config(root: Path, path: Path | None = None, adapter: str = "um") -> di
     if not isinstance(plugins, list) or any(
             not isinstance(plugin, str)
             or not re.fullmatch(r"[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*", plugin)
-            or plugin == "xdist" or plugin.startswith("xdist.")
-            or plugin in {"um_arts", "TOOLS.um_arts"}
-            or plugin.startswith(("um_arts.", "TOOLS.um_arts."))
+            or plugin in {"xdist", "um_arts", "TOOLS.um_arts"}
+            or plugin.startswith(("xdist.", "um_arts.", "TOOLS.um_arts."))
             for plugin in plugins) or len(plugins) != len(set(plugins)):
         raise EvidenceError("plugins must be unique module names, excluding xdist and UM-ARTS internals")
     suites = config["suites"]
