@@ -54,3 +54,5 @@ jobs:
           PY
       - name: Demo bundle verifies end to end
         run: python run_demo.py
+      - name: Scale smoke run (build and verify 250k synthetic ballots, serial and parallel)
+        run: python tools/scale_benchmark.py --ballots 250000 --contests 5 --workers 2

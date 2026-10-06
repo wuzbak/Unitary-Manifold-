@@ -59,14 +59,15 @@ CONTROL_MAPPINGS: Tuple[ControlMapping, ...] = (
     ),
     ControlMapping(
         "NIST SP 800-53r5", "AU-9", "Protection of Audit Information", "partial",
-        ("eige.crypto.merkle", "eige.ledger.log", "eige.ledger.bulletin"),
+        ("eige.crypto.merkle", "eige.ledger.log", "eige.ledger.store", "eige.ledger.bulletin"),
         "Signed tree heads, consistency proofs and witness cosignatures make post-publication alteration "
         "and split views detectable. They do not prevent deletion of unpublished data.",
         (f"{_ADV}::test_ballot_stuffing_extra_cvr_in_log_fails",
          f"{_ADV}::test_deletion_of_logged_cvr_fails",
          f"{_ADV}::test_reordering_logged_cvrs_fails",
          f"{_ADV}::test_equivocation_same_size_different_root_fails",
-         "tests/test_eige_v22_ledger.py::test_bulletin_board_consistency_witness_threshold_and_gossip"),
+         "tests/test_eige_v22_ledger.py::test_bulletin_board_consistency_witness_threshold_and_gossip",
+         "tests/test_eige_scale_storage.py::test_integrity_check_detects_edited_leaf_bytes"),
     ),
     ControlMapping(
         "NIST SP 800-53r5", "AU-10", "Non-repudiation", "partial",
@@ -114,11 +115,24 @@ CONTROL_MAPPINGS: Tuple[ControlMapping, ...] = (
     ),
     ControlMapping(
         "NIST SP 800-53r5", "SI-10", "Information Input Validation", "implemented",
-        ("eige.canonical", "eige.model.election", "eige.bundle", "eige.data.open_data"),
-        "Strict parsers reject malformed election definitions, CVRs, manifests, CSVs and bundles.",
+        ("eige.canonical", "eige.model.election", "eige.bundle", "eige.data.open_data", "eige.cvr_import", "eige.county"),
+        "Strict parsers reject malformed election definitions, CVRs, manifests, CSVs, CVR exports and bundles; "
+        "a CVR export is validated in full before any record is logged.",
         ("tests/test_eige_v22_model.py::test_parse_cvrs_strict_rejections_and_outcomes",
+         "tests/test_eige_scale_ingest.py::test_ingest_is_all_or_nothing_and_never_logs_a_cvr_twice",
+         "tests/test_eige_scale_ingest.py::test_malformed_nist_reports_are_rejected",
          "tests/test_eige_v22_properties.py::test_parse_cvrs_random_input_only_succeeds_or_raises_model_error",
          "tests/test_eige_v22_properties.py::test_parse_openelections_csv_random_bytes_only_succeeds_or_raises_open_data_error"),
+    ),
+    ControlMapping(
+        "NIST SP 800-53r5", "SC-5", "Denial-of-Service Protection", "partial",
+        ("eige.verify", "eige.bundle", "eige.dedup", "eige.parallel_scan"),
+        "The verifier streams the log in one pass with per-entry and per-document size limits, spills "
+        "duplicate detection to disk and bounds report size, so full-population bundles verify in bounded "
+        "memory. Network-level availability is a deployment responsibility.",
+        ("tests/test_eige_scale_verify.py::test_verification_memory_is_bounded_at_scale",
+         "tests/test_eige_scale_verify.py::test_duplicate_detector_is_exact_in_memory_and_when_spilled",
+         "tests/test_eige_scale_verify.py::test_truncated_log_is_reported_identically_serial_and_parallel"),
     ),
     ControlMapping(
         "NIST SP 800-53r5", "CM-6", "Configuration Settings", "partial",

@@ -432,6 +432,10 @@ def _hexlist(text: str) -> List[bytes]:
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv[:1] == ["state"]:
+        from .statewide import main as state_main
+        return state_main(argv[1:])
     parser = argparse.ArgumentParser(prog="python -m eige.verify", description="Verify published EIGE artifacts.")
     sub = parser.add_subparsers(dest="cmd", required=True)
     b = sub.add_parser("bundle", help="verify a full publication bundle directory")
@@ -444,6 +448,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     inc.add_argument("--tree-size", type=int, required=True)
     inc.add_argument("--root", required=True, help="root hash (hex)")
     inc.add_argument("--proof", default="", help="comma-separated hex hashes")
+    sub.add_parser("state", help="verify several county bundles and the state roll-up (see python -m eige.statewide -h)")
     con = sub.add_parser("consistency", help="verify a later head extends an earlier one")
     con.add_argument("--old-size", type=int, required=True)
     con.add_argument("--old-root", required=True)

@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional
+from typing import Any, Dict, Iterable, Iterator, Optional
 
 REQUIRED = ("registry.json", "log.jsonl", "heads.json", "election.json", "manifest.json", "results.json")
 OPTIONAL = ("sample.json", "audit.json", "commitments.json", "cosignatures.json", "provisional.json", "cast.json")

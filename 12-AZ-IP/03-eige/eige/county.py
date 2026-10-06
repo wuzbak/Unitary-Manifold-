@@ -229,7 +229,7 @@ def _cmd_ingest(a: argparse.Namespace) -> dict:
     try:
         reports = [ingest_file(log, election, p, a.format, batches, a.batch_size, a.require_reporting_unit)
                    for p in a.cvrs]
-        return {"size": log.size, "root": log.root(), "files": [r.as_dict() for r in reports]}
+        return {"size": log.size, "root": log.root().hex(), "files": [r.as_dict() for r in reports]}
     finally:
         log.close()
 
@@ -276,7 +276,7 @@ def _cmd_results(a: argparse.Namespace) -> dict:
 def _cmd_status(a: argparse.Namespace) -> dict:
     log = _open(a)
     try:
-        out = {"log_id": log.log_id, "size": log.size, "root": log.root(),
+        out = {"log_id": log.log_id, "size": log.size, "root": log.root().hex(),
                "heads": [{"tree_size": h.tree_size, "timestamp": h.timestamp} for h in log.heads()]}
         if a.check_integrity:
             log.check_integrity()

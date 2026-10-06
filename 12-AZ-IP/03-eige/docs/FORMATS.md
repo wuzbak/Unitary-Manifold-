@@ -129,18 +129,41 @@ The signature is over `signing_message("cosignature", payload_without_signature)
 
 ## Election, contest, candidate, CVR, manifest, and results files
 
-EIGE v22 parses strict election definitions, CVRs, ballot manifests, and result reports. These files may use EIGE native JSON or the supported NIST shapes:
+EIGE parses strict election definitions, CVRs, ballot manifests, and result reports. These files may use EIGE native JSON or the supported NIST shapes:
 
 - NIST SP 1500-103 CVR subset through `cvr_to_nist` / `cvr_from_nist`; CVR JSON root shape: `CVR.CVR`.
-- NIST SP 1500-100 ERR subset through `results_report`.
+- NIST SP 1500-100 ERR subset through `results_report` / `results_from_totals`.
 
-The manifest identifies batches and ballot positions. The convention for CVR-to-paper mapping is: the i-th CVR of a batch in Merkle-log order is the i-th ballot of that batch in the manifest.
+An EIGE CVR is:
+
+```json
+{"id": "B000017-00042", "batch_id": "B000017", "ballot_style": "odd",
+ "reporting_unit": "P0017", "selections": {"c00": ["a"], "c01": [], "c03": ["a", "b"]}}
+```
+
+A contest key that is present with an empty list is an undervote; more marks than `vote_for` is an overvote; a contest that is absent was not on that ballot style. `reporting_unit` (precinct or other GpUnit) is optional, but it is required for precinct-level results to be checked.
+
+The manifest identifies batches and ballot positions. The convention for CVR-to-paper mapping is: the i-th CVR of a batch in Merkle-log order is the i-th ballot of that batch in the manifest. Batches with `ballot_count: 0` are allowed and are never sampled.
 
 Overvotes, undervotes, and votes are reconciled using vote-opportunity identity:
 
 ```text
 votes + overvotes * vote_for + undervotes = ballots * vote_for
 ```
+
+### Results and reporting-unit (precinct) results
+
+`results.json` follows the ERR subset produced by `results_report`. Each candidate's `VoteCounts` entries are disjoint parts of its total. When every entry's `GpUnitId` is the jurisdiction, the verifier checks contest totals only and reports **Reporting-unit (precinct) results: not checked**. When entries name reporting units, the verifier recomputes every (contest, unit, candidate) figure from the logged CVRs and reports each difference as `REPORTED_UNIT_TOTAL_MISMATCH`; a CVR without `reporting_unit` in that case is `CVR_REPORTING_UNIT_MISSING`. Votes moved from one precinct to another therefore fail verification even when the contest total is unchanged.
+
+### CVR import formats (`python -m eige.county ingest --format ...`)
+
+| Format | Input | Notes |
+|---|---|---|
+| `nist-json` | one NIST SP 1500-103 `CVR.CastVoteRecordReport` document | The `CVR` array is parsed incrementally (constant memory). If `Election` appears before `CVR` and maps `ContestSelection` ids to a single `CandidateIds` entry, selection ids are translated; otherwise the selection id must equal the EIGE candidate id. The `CurrentSnapshotId` snapshot is used. Positions with `IsAllocable: "no"` are dropped unless the contest reports `Overvotes > 0`, in which case all indicated marks are kept so the ballot remains an overvote. `BallotStyleUnitId` becomes `reporting_unit`. |
+| `nist-jsonl` | one `CVR.CVR` object per line | Same conversion, no `Election` mapping. |
+| `csv` | header `cvr_id,batch_id,ballot_style[,reporting_unit],<contest_id>...` | Contest cells hold `|`-separated candidate ids; an empty cell is an undervote; `~` means the contest is not on that ballot. |
+
+Vendor-proprietary exports must be converted to one of these formats first. That conversion is jurisdiction-specific and outside EIGE.
 
 ## Sample record (`sample.json`)
 
@@ -149,28 +172,30 @@ Format name: `eige.sample.v1`.
 ```json
 {
   "format": "eige.sample.v1",
-  "committed_root": "hex sha256 results/log root",
   "seed": "12345678901234567890",
+  "population": 100000,
+  "committed_root": "hex SHA-256 root of a signed tree head",
   "seed_generated_at": 1791310000,
-  "population_size": 100000,
   "draws": [
-    {"draw": 1, "number": 48123, "batch_id": "batch-17", "position": 93}
+    {"draw": 1, "position": 48123, "batch_id": "batch-17", "index_in_batch": 93}
   ]
 }
 ```
 
-The public seed must contain at least 20 decimal digits and must be generated after the committed results root. Draw `i` is `1 + SHA256(f"{seed},{i}") mod N`, mapped to manifest batch and position. Escalation continues the same sequence rather than starting over.
+The public seed must contain at least 20 decimal digits and must be generated after the committed root was signed (`seed_generated_at` ≥ the head's timestamp). `population` must equal the manifest total. Draw `i` maps to position `1 + SHA256(f"{seed},{i}") mod N` and then to a manifest batch and 1-based index. Escalation continues the same sequence rather than starting over.
 
 ## Audit input (`audit.json`)
 
-Format name: `eige.audit_input.v1`.
+Two formats are accepted.
+
+`eige.audit_input.v1` audits one contest:
 
 ```json
 {
   "format": "eige.audit_input.v1",
   "contest_id": "mayor",
   "method": "comparison",
-  "risk_limit": "0.05",
+  "risk_limit": 0.05,
   "mvrs": [
     {"draw": 1, "selections": ["candidate-a"]},
     {"draw": 2, "selections": null}
@@ -178,7 +203,25 @@ Format name: `eige.audit_input.v1`.
 }
 ```
 
-`method` is `"comparison"` or `"polling"`. `selections: null` means the sampled ballot could not be interpreted from the manual voter record and must be handled under jurisdiction procedures. Failing to meet the risk limit means escalation, ultimately to a full hand count.
+`eige.audit_input.v2` audits several contests from the same sample (one hand interpretation per ballot):
+
+```json
+{
+  "format": "eige.audit_input.v2",
+  "contests": [
+    {"contest_id": "governor", "method": "comparison", "risk_limit": 0.05},
+    {"contest_id": "measure-1", "method": "polling", "risk_limit": 0.10}
+  ],
+  "mvrs": [
+    {"draw": 1, "selections": {"governor": ["a"], "measure-1": []}},
+    {"draw": 2, "selections": null}
+  ]
+}
+```
+
+In v2, a contest absent from a ballot's `selections` was not on that ballot. Every audited `draw` must appear in `sample.json`.
+
+`method` is `"comparison"` (Kaplan–Markov with per-assertion overstatements) or `"polling"` (BRAVO). `selections: null` means the sampled ballot could not be found. EIGE treats a missing ballot conservatively: in a comparison audit it is a two-vote overstatement for every assertion, and in a polling audit it counts as a vote for the reported loser. A sampled position with no logged CVR is treated the same way. Neither can help confirm an outcome. Failing to meet the risk limit means escalation, ultimately to a full hand count.
 
 ## Commitment bundle (`commitments.json`)
 
@@ -225,14 +268,10 @@ County commitments multiply into the state commitment. The state opening is chec
 }
 ```
 
-`cast.json`:
+`cast.json` maps each manifest batch to the number of ballots cast according to pollbooks or check-in records:
 
 ```json
-{
-  "jurisdiction": "Example County",
-  "ballots_cast": 10000,
-  "batches": [{"batch_id": "batch-1", "ballots_cast": 200}]
-}
+{"batch-1": 200, "batch-2": 187}
 ```
 
 Pending provisionals and mismatches between accepted and accepted-counted provisionals are reconciliation issues, not fraud findings.
@@ -265,15 +304,35 @@ provisional.json
 cast.json
 ```
 
-`log.jsonl` contains one canonical JSON object per line before hashing. Verifiers recompute roots, signatures, results from logged CVRs, reconciliation, sampling, RLA calculations, commitments, and witness cosignatures.
+`log.jsonl` contains one canonical JSON object per line, each terminated by `\n`. It is streamed, so it has no total size limit; a single entry may not exceed 4 MiB, and a final line without `\n` is reported as **Log file readable: failed** (a truncated download or file). Each JSON document other than the log may not exceed 512 MiB. Verifiers recompute roots, signatures, results from logged CVRs, reconciliation, sampling, RLA calculations, commitments, and witness cosignatures.
+
+Log entries written by `eige.county` are:
+
+| `type` | Content |
+|---|---|
+| `manifest_committed` | `details.sha256` = SHA-256 of the canonical manifest |
+| `cvr_import` | `details` = source file name, SHA-256, format and record count; precedes that file's CVRs |
+| `cvr` | `cvr` = the normalized EIGE CVR |
+| other | administrative events, e.g. chain-of-custody records, logged with `eige.county event` |
+
+### County log database
+
+`eige.county` keeps the log in a SQLite file (WAL mode, `synchronous=FULL`) holding the leaf bytes, the stored Merkle nodes of every complete subtree, signed heads, and a unique-key index of logged CVR ids. Each batch of appends is one transaction, so a crash leaves every committed batch and nothing of a partial one. `status --check-integrity` recomputes every leaf hash and the root from the stored bytes and rechecks every stored head. The database is an operational store, not a publication artifact: only the exported bundle is public.
+
+### State results (`python -m eige.statewide`)
+
+A state roll-up uses the results format with `Jurisdiction` set to the state and one `VoteCounts` entry per county whose `GpUnitId` is that county's jurisdiction id. The statewide verifier verifies every county bundle; checks that all bundles describe the same election and are distinct counties (no repeated jurisdiction, log id, or root); and, if state results are supplied, checks that each county figure equals that county's published total and each state total equals the sum of the county figures.
 
 ## Verifier commands and exit codes
 
 ```bash
-python -m eige.verify bundle DIR --audience official|court|voter|json
+python -m eige.verify bundle DIR --audience official|court|voter|json [--workers N]
+python -m eige.verify state DIR [DIR ...] [--state-results FILE] [--workers N]
 python -m eige.verify inclusion ...
 python -m eige.verify consistency ...
 ```
+
+`--workers` splits the log scan across processes; the report is identical to a single-process run (`--workers 0` uses every CPU).
 
 Exit codes:
 

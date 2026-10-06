@@ -97,13 +97,14 @@ def write_csv(path: Path, seed: str, sizes: List[int], n_contests: int, n_units:
 
 def build_county(directory: str | Path, n_ballots: int, n_contests: int = 5, n_units: int = 50,
                  batch_size: int = 500, seed: str = "scale", public_seed: str = "27182818284590452353",
-                 risk_limit: float = 0.05, keep_csv: bool = False) -> Dict[str, object]:
+                 risk_limit: float = 0.05, keep_csv: bool = False,
+                 jurisdiction: str = "SCALE-COUNTY") -> Dict[str, object]:
     """Generate, ingest, tally, sample, audit and export a synthetic county bundle."""
     d = Path(directory)
     d.mkdir(parents=True, exist_ok=True)
     work = d / "_work"
     work.mkdir(exist_ok=True)
-    el_doc = election_doc(n_contests)
+    el_doc = election_doc(n_contests, jurisdiction)
     election = parse_election(el_doc)
     sizes = batch_sizes(n_ballots, batch_size)
     manifest_doc = {"jurisdiction": el_doc["jurisdiction"], "batches": [
@@ -113,7 +114,7 @@ def build_county(directory: str | Path, n_ballots: int, n_contests: int = 5, n_u
     csv_path = work / "cvrs.csv"
     write_csv(csv_path, seed, sizes, n_contests, n_units)
 
-    signer = DevelopmentSigner(_seed32("county"))
+    signer = DevelopmentSigner(_seed32(jurisdiction))
     registry = KeyRegistry()
     registry.register_signer(signer, owner=el_doc["jurisdiction"], role="county-log", valid_from=0)
     db = work / "county.db"

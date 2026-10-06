@@ -40,6 +40,7 @@ from .model.election import ModelError
 
 NOT_ON_BALLOT = "~"
 _CHUNK = 1 << 20
+MAX_VALUE_CHARS = 64 * 1024 * 1024  # one CVR (or the Election header) must fit in this
 
 
 class CVRImportError(ValueError):
@@ -70,12 +71,16 @@ def nist_cvr_to_eige(d: Mapping[str, Any], selection_map: Optional[Mapping[str, 
         if contest_map:
             contest_id = contest_map.get(contest_id, contest_id)
         marks: List[str] = []
+        # An overvoted contest is kept as an overvote (all indicated marks), even
+        # though tabulators mark those positions IsAllocable="no"; otherwise only
+        # allocable indications count (e.g. adjudicated-out marks are dropped).
+        overvoted = isinstance(cc.get("Overvotes"), int) and cc["Overvotes"] > 0
         for sel in cc.get("CVRContestSelection", []) or []:
             positions = sel.get("SelectionPosition", []) if isinstance(sel, Mapping) else None
             if not isinstance(positions, list):
                 raise CVRImportError("malformed CVRContestSelection")
             if any(isinstance(p, Mapping) and p.get("HasIndication") == "yes"
-                   and p.get("IsAllocable", "yes") != "no" for p in positions):
+                   and (overvoted or p.get("IsAllocable", "yes") != "no") for p in positions):
                 sid = str(sel.get("ContestSelectionId"))
                 marks.append(selection_map.get(sid, sid) if selection_map else sid)
         selections[contest_id] = marks
@@ -140,6 +145,9 @@ class _Reader:
             try:
                 obj, end = self.dec.raw_decode(self.buf, self.pos)
             except json.JSONDecodeError as exc:
+                if len(self.buf) - self.pos > MAX_VALUE_CHARS:
+                    raise CVRImportError("CVR report value is malformed or larger than "
+                                         f"{MAX_VALUE_CHARS} characters") from exc
                 if self._fill():
                     continue
                 raise CVRImportError(f"invalid JSON in CVR report: {exc}") from exc

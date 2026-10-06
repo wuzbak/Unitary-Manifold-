@@ -46,8 +46,9 @@ This document describes the operator flow that the official cockpit should imple
 
 **Calls:**
 
+- `eige.county` (`python -m eige.county init | commit-manifest | ingest | event | sign-head | status`) for county-scale operation: the log lives in a durable SQLite file (`eige.ledger.store.DurableMerkleLog`), and each CVR export (NIST SP 1500-103 JSON/JSONL or EIGE CSV, via `eige.cvr_import`) is validated in full before anything is logged.
 - `eige.canonical` for canonical JSON.
-- `eige.ledger.log.MerkleLog` for append and root calculation.
+- `eige.ledger.log.MerkleLog` for in-memory append and root calculation (tests and small demonstrations).
 - `eige.crypto.signing` for signed tree heads and registry checks.
 - `eige.ledger.bulletin` for publishing heads and witness cosignatures.
 - `eige.ledger.custody` for seal, transfer, opening, and storage events.
@@ -64,6 +65,9 @@ This document describes the operator flow that the official cockpit should imple
 - Same-size different-root head for the same log.
 - Missing witness cosignature when a witness threshold is configured.
 - Custody event with fewer than two distinct official sign-offs.
+- A CVR export with any invalid record, a batch not in the manifest, a repeated CVR id, or a CVR id already in the log (the whole export is refused; nothing is logged).
+- An export file that changed while it was being ingested.
+- A failed `status --check-integrity` on the county log database.
 
 ## 3. Reconcile screen
 
@@ -135,8 +139,10 @@ This document describes the operator flow that the official cockpit should imple
 
 **Calls:**
 
+- `python -m eige.county export` to write the bundle from the durable log (refused if records were logged after the last signed head).
 - `eige.bundle` to assemble and load the directory.
-- `eige.verify` equivalent of `python -m eige.verify bundle DIR --audience official|court|voter|json`.
+- `eige.verify` equivalent of `python -m eige.verify bundle DIR --audience official|court|voter|json [--workers N]`.
+- For a state canvass, `python -m eige.verify state COUNTY_DIR... --state-results state.json`.
 - `eige.crypto.commitments` if `commitments.json` is present.
 - `eige.ledger.bulletin` for witness threshold checks.
 
