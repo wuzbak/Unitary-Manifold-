@@ -256,7 +256,7 @@ class TestCommitMetricState:
     def test_as_dict_proof_status_verified(self):
         proof = commit_metric_state(phi_eff=PHI_0, k_cs=K_CS)
         d = proof.as_dict()
-        assert d["proof_status"] == "INVARIANTS_VERIFIED"
+        assert d["proof_status"] == "INVARIANTS_CLAIMED"
 
     def test_as_dict_proof_status_violated(self):
         proof = commit_metric_state(phi_eff=PHI_0 + 1.0, k_cs=73)
@@ -314,7 +314,16 @@ class TestProofFromDict:
         proof = commit_metric_state(phi_eff=PHI_0, k_cs=K_CS)
         d = proof.as_dict()
         restored = proof_from_dict(d)
-        assert verify_metric_proof(restored) is True
+        # v22 (F3): a serialized proof without its opening never verifies.
+        assert verify_metric_proof(restored) is False
+        assert verify_metric_proof(restored, proof.opening) is True
+
+    def test_verify_after_roundtrip_with_disclosed_opening(self):
+        from src.zk_proof import opening_as_dict
+        proof = commit_metric_state(phi_eff=PHI_0, k_cs=K_CS)
+        d = proof.as_dict()
+        d["opening"] = opening_as_dict(proof.opening)
+        assert verify_metric_proof(proof_from_dict(d)) is True
 
 
 # ---------------------------------------------------------------------------
@@ -322,7 +331,7 @@ class TestProofFromDict:
 # ---------------------------------------------------------------------------
 
 class TestCertIntegration:
-    def test_cert_zero_knowledge_proof_has_no_raw_phi(self):
+    def test_cert_metric_commitment_has_no_raw_phi(self):
         cert = generate_holon_zero_cert(
             jurisdiction_id="WA-KING",
             phi_eff=PHI_0,
@@ -330,7 +339,7 @@ class TestCertIntegration:
             block_height=1,
             state_hash="aa" * 64,
         )
-        zk = cert["zero_knowledge_proof"]
+        zk = cert["metric_commitment"]
         # Must NOT contain raw phi_eff float
         assert "phi_eff" not in zk
 
@@ -342,7 +351,7 @@ class TestCertIntegration:
             block_height=1,
             state_hash="aa" * 64,
         )
-        assert "proof_bytes" in cert["zero_knowledge_proof"]
+        assert "proof_bytes" in cert["metric_commitment"]
 
     def test_cert_validates_with_pedersen_proof(self):
         cert = generate_holon_zero_cert(
@@ -362,7 +371,7 @@ class TestCertIntegration:
             block_height=1,
             state_hash="bb" * 64,
         )
-        assert cert["zero_knowledge_proof"]["phi_delta_bound"] is True
+        assert cert["metric_commitment"]["phi_delta_bound"] is True
 
     def test_cert_k_cs_match_true(self):
         cert = generate_holon_zero_cert(
@@ -372,7 +381,7 @@ class TestCertIntegration:
             block_height=1,
             state_hash="cc" * 64,
         )
-        assert cert["zero_knowledge_proof"]["k_cs_match"] is True
+        assert cert["metric_commitment"]["k_cs_match"] is True
 
     def test_cert_proof_status_verified(self):
         cert = generate_holon_zero_cert(
@@ -382,7 +391,7 @@ class TestCertIntegration:
             block_height=1,
             state_hash="dd" * 64,
         )
-        assert cert["zero_knowledge_proof"]["proof_status"] == "INVARIANTS_VERIFIED"
+        assert cert["metric_commitment"]["proof_status"] == "INVARIANTS_CLAIMED"
 
     def test_cert_with_drifted_phi_proof_status_violated(self):
         cert = generate_holon_zero_cert(
@@ -392,7 +401,7 @@ class TestCertIntegration:
             block_height=1,
             state_hash="ee" * 64,
         )
-        assert cert["zero_knowledge_proof"]["proof_status"] == "INVARIANTS_VIOLATED"
+        assert cert["metric_commitment"]["proof_status"] == "INVARIANTS_VIOLATED"
         assert validate_holon_zero_cert(cert) is False
 
     def test_cert_commitment_field_present_and_hex(self):
@@ -403,6 +412,6 @@ class TestCertIntegration:
             block_height=1,
             state_hash="ff" * 64,
         )
-        commitment_str = cert["zero_knowledge_proof"]["commitment"]
+        commitment_str = cert["metric_commitment"]["commitment"]
         assert isinstance(commitment_str, str)
         assert commitment_str.startswith("0x")

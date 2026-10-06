@@ -35,9 +35,9 @@ class TestGenerateHolonZeroCert:
         cert = self._valid_cert()
         assert isinstance(cert, dict)
 
-    def test_has_zero_knowledge_proof(self):
+    def test_has_metric_commitment(self):
         cert = self._valid_cert()
-        assert "zero_knowledge_proof" in cert
+        assert "metric_commitment" in cert
 
     def test_has_component_definition(self):
         cert = self._valid_cert()
@@ -49,24 +49,24 @@ class TestGenerateHolonZeroCert:
 
     def test_proof_phi_verified_true(self):
         cert = self._valid_cert(phi_eff=PHI_0)
-        assert cert["zero_knowledge_proof"]["phi_delta_bound"] is True
+        assert cert["metric_commitment"]["phi_delta_bound"] is True
 
     def test_proof_k_cs_verified_true(self):
         cert = self._valid_cert(k_cs=K_CS)
-        assert cert["zero_knowledge_proof"]["k_cs_match"] is True
+        assert cert["metric_commitment"]["k_cs_match"] is True
 
     def test_proof_status_verified(self):
         cert = self._valid_cert()
-        assert cert["zero_knowledge_proof"]["proof_status"] == "INVARIANTS_VERIFIED"
+        assert cert["metric_commitment"]["proof_status"] == "INVARIANTS_CLAIMED"
 
     def test_phi_drift_yields_violated_status(self):
         cert = self._valid_cert(phi_eff=PHI_0 + 1e-10)
-        assert cert["zero_knowledge_proof"]["phi_delta_bound"] is False
-        assert cert["zero_knowledge_proof"]["proof_status"] == "INVARIANTS_VIOLATED"
+        assert cert["metric_commitment"]["phi_delta_bound"] is False
+        assert cert["metric_commitment"]["proof_status"] == "INVARIANTS_VIOLATED"
 
     def test_wrong_k_cs_yields_violated_status(self):
         cert = self._valid_cert(k_cs=73)
-        assert cert["zero_knowledge_proof"]["k_cs_match"] is False
+        assert cert["metric_commitment"]["k_cs_match"] is False
 
     def test_jurisdiction_id_stored(self):
         cert = self._valid_cert(jurisdiction_id="WA-PIERCE-COUNTY")
@@ -122,7 +122,7 @@ class TestValidateHolonZeroCert:
 
     def test_missing_proof_fails(self):
         cert = self._valid_cert()
-        del cert["zero_knowledge_proof"]
+        del cert["metric_commitment"]
         assert validate_holon_zero_cert(cert) is False
 
     def test_violated_proof_fails(self):

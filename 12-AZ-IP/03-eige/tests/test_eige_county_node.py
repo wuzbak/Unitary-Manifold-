@@ -136,10 +136,13 @@ class TestCountyNodeTelemetry:
         assert "shard_digests" in t
         assert len(t["shard_digests"]) == SHARD_COUNT
 
-    def test_telemetry_has_hmac_signature(self):
+    def test_telemetry_has_ed25519_signature(self):
+        # v22 (F4/F5): attributable Ed25519 signature; no default HMAC.
         t = self.node.get_shard_telemetry()
-        assert "hmac_signature" in t
-        assert len(t["hmac_signature"]) == 128  # SHA-512 hex
+        assert t["signature_alg"] == "Ed25519"
+        assert len(t["signature"]) == 128  # 64-byte Ed25519 signature, hex
+        assert t["key_id"].startswith("ed25519:")
+        assert "hmac_signature" not in t
 
     def test_telemetry_ballot_count(self):
         t = self.node.get_shard_telemetry()

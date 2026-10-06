@@ -34,7 +34,7 @@ export interface HolonZeroCert {
   phi_verified?: boolean;
   /** @deprecated use k_cs_match for v21+ certs */
   k_cs_verified?: boolean;
-  proof_status: "INVARIANTS_VERIFIED" | "INVARIANTS_VIOLATED";
+  proof_status: "INVARIANTS_CLAIMED" | "INVARIANTS_VIOLATED";
   issued_at: string;       // ISO-8601
   county_count: number;
   engine_version: string;
@@ -329,7 +329,7 @@ export function VerificationCockpit({
         </p>
       </header>
 
-      {/* Federal ZK Certificate Status */}
+      {/* Federal structural certificate status (not zero-knowledge) */}
       {state.cert && (
         <section className="eige-federal-cert">
           <h2>Federal Holon Zero Certificate</h2>

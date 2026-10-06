@@ -53,6 +53,7 @@ from .constants import (
     FREEDOM_FLOOR_MIN_BALLOTS,
 )
 from .oscal_schema import build_override_dossier, AssessmentPlan
+from eige.config import require_non_production
 
 
 # Default output directory (can be overridden for testing)
@@ -64,6 +65,7 @@ DEFAULT_DOSSIER_DIR = "/var/www/eige_public_dashboard/dossiers"
 
 # Fixed HMAC key seed for software-mode quorum tokens.
 # In production each body uses its own HSM-pinned key.
+# v21 published seed retained only so the red-team test can show it is no longer used.
 _PENTAD_TOKEN_SEED = b"EIGE-v21-pentad-quorum-token-seed"
 
 
@@ -107,9 +109,8 @@ class PentadHILS:
     Parameters
     ----------
     body_hmac_keys : dict[str, bytes], optional
-        Per-body HMAC keys for token verification.  If not provided, a
-        deterministic software-mode key derived from ``_PENTAD_TOKEN_SEED``
-        is used for all bodies (testing only — NOT production-safe).
+        Per-body HMAC keys for token verification.  If not provided, random
+        per-instance development keys are generated (refused in production).
     """
 
     def __init__(
@@ -121,10 +122,11 @@ class PentadHILS:
             if body_hmac_keys and body_id in body_hmac_keys:
                 self._keys[body_id] = body_hmac_keys[body_id]
             else:
-                # Deterministic software-mode key
-                self._keys[body_id] = hashlib.sha512(
-                    _PENTAD_TOKEN_SEED + body_id.encode("utf-8")
-                ).digest()
+                # Development mode: random per-instance key.  The v21 default
+                # derived every body's key from a published seed, so anyone
+                # could mint acknowledgement tokens (red-team finding F4).
+                require_non_production("PentadHILS default keys")
+                self._keys[body_id] = os.urandom(64)
         self._acknowledgements: Dict[str, PentadAcknowledgement] = {}
 
     def generate_token(self, body_id: str, override_uuid: str) -> str:

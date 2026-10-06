@@ -130,7 +130,7 @@ class AuditResult:
 class FederalAuditor:
     """Federal-tier blind auditor for EIGE Holon Zero Certificates.
 
-    This class implements the strict zero-knowledge API gate.  It:
+    This class implements a data-minimising API gate (not zero-knowledge). It:
       - Accepts only OSCAL Holon Zero Certificate dicts.
       - Returns only proof metadata (AuditResult).
       - Raises RawDataAccessAttempt for any access outside the allowlist.
@@ -237,8 +237,8 @@ class FederalAuditor:
 
         if not validate_holon_zero_cert(cert):
             # Determine if it's a structural or invariant issue
-            has_proof = "zero_knowledge_proof" in cert
-            proof_data = cert.get("zero_knowledge_proof", {})
+            has_proof = "metric_commitment" in cert
+            proof_data = cert.get("metric_commitment", {})
 
             # Support both Pedersen and legacy boolean formats
             if "proof_bytes" in proof_data:
@@ -273,7 +273,7 @@ class FederalAuditor:
             return result
 
         # Certificate passes — extract proof metadata only
-        proof_data = cert["zero_knowledge_proof"]
+        proof_data = cert["metric_commitment"]
         comp_def = cert["component-definition"]
 
         # Support both Pedersen (v21+) and legacy boolean format
@@ -294,7 +294,9 @@ class FederalAuditor:
             k_cs_verified=kcs_ok,
             proof_status=proof_status,
             timestamp=ts,
-            remarks="All invariants verified. Certificate is authentic.",
+            remarks=("Structural checks passed. This certificate is unsigned and its "
+                     "invariant flags are self-asserted; it is not evidence of ballot "
+                     "integrity (see RETRACTED_CLAIMS.md)."),
         )
         self._history.append(result)
         return result

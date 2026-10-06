@@ -41,16 +41,29 @@ from .constants import ENGINE_VERSION, OSCAL_VERSION, NIST_SP_VERSION, K_CS, PHI
 # NIST SP-800-53 R5 control mapping catalogue
 # ---------------------------------------------------------------------------
 
+# v22 (red-team finding F7): the v21 descriptions claimed these legacy
+# mechanisms satisfied the listed controls.  Most did not — see
+# RED_TEAM_FINDINGS.md.  Each entry now states an honest OSCAL
+# implementation status ("implemented", "partial", "planned") and, where the
+# control is now addressed by the v22 ``eige`` package, which module does so.
+# The authoritative v22 mapping (each claim tied to tests) is
+# ``eige.compliance.CONTROL_MAPPINGS``.
+
+IMPLEMENTATION_STATUSES = ("implemented", "partial", "planned", "not-applicable")
+
 NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
     "chern_simon_hash": {
         "control_id": "SI-7",
         "control_family": "System and Information Integrity",
         "vvsg_criterion": "Data Integrity and Electronic Chain of Custody",
         "oscal_taxonomy": "System Integrity (SI) Component",
+        "implementation_status": "planned",
+        "superseded_by": "eige.ledger.log (RFC 6962 Merkle log, Ed25519 signed tree heads)",
         "description": (
-            "Path-dependent CS rolling hash ensures sequential ballot integrity. "
-            "Retroactive insertion or reordering of any ballot is immediately detectable "
-            "as a hash chain break, satisfying SI-7 software and information integrity controls."
+            "Legacy CS rolling function: a non-security sequence fingerprint.  It is "
+            "unkeyed and invertible, so it does NOT detect insertion or reordering by "
+            "anyone able to recompute it.  It does not satisfy SI-7.  Log integrity is "
+            "provided by eige.ledger.log."
         ),
     },
     "si7_integrity_checks": {
@@ -58,12 +71,14 @@ NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
         "control_family": "System and Information Integrity",
         "vvsg_criterion": "Periodic and Event-Driven Integrity Checks",
         "oscal_taxonomy": "System Integrity (SI) Enhancement Component",
+        "implementation_status": "partial",
+        "superseded_by": "eige.verify (independent bundle verifier)",
         "description": (
-            "SI-7(1) Integrity Checks: ChernSimonChain.sha512_hexdigest() provides a "
-            "cryptographically-standard integrity check on the running hash state, "
-            "verifiable at any point by an independent auditor without requiring "
-            "access to raw ballot data.  RecoveryKernel.cold_start_integrity_assertion() "
-            "performs an event-driven integrity check on every node cold-start."
+            "SI-7(1) Integrity Checks: SHA-512 of the legacy fingerprint state is a "
+            "standard digest of a non-security value and is not an integrity check on "
+            "ballot data.  Independent integrity checking of published artifacts is "
+            "provided by the eige verifier (Merkle root recomputation, signature and "
+            "consistency-proof checks)."
         ),
     },
     "si7_cryptographic_protection": {
@@ -71,13 +86,14 @@ NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
         "control_family": "System and Information Integrity",
         "vvsg_criterion": "Cryptographic Protection of Software and Firmware Integrity",
         "oscal_taxonomy": "System Integrity (SI) Enhancement Component",
+        "implementation_status": "partial",
+        "superseded_by": "eige.crypto.signing (Ed25519, key registry with rotation/revocation)",
         "description": (
-            "SI-7(6) Cryptographic Protection: All HMAC-SHA512 telemetry signatures "
-            "use a 512-bit key managed by the KeyProvider abstraction layer (HSMKeyProvider "
-            "in production).  The Pedersen commitment in HolonZeroCert provides a "
-            "zero-knowledge cryptographic proof of metric state without revealing raw values.  "
-            "ShardManifest primary_entries are cryptographically chained via the CS rolling "
-            "hash, providing tamper-evidence across the holographic shard set."
+            "SI-7(6) Cryptographic Protection: county telemetry and signed tree heads use "
+            "Ed25519 signatures with registered key ids.  HMAC is retained only as an "
+            "optional symmetric channel MAC.  The Pedersen commitment in HolonZeroCert is "
+            "not a zero-knowledge proof.  Production key custody (HSM) is supported via "
+            "PKCS#11 but has not been exercised on hardware in this repository."
         ),
     },
     "metric_closure": {
@@ -85,10 +101,12 @@ NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
         "control_family": "Access Control",
         "vvsg_criterion": "Access Control and Perimeter Hardening",
         "oscal_taxonomy": "Access Control (AC) Component",
+        "implementation_status": "not-applicable",
+        "superseded_by": "",
         "description": (
-            "5D metric closure validation (φ₀=π/4, k_CS=74) renders unauthorized "
-            "administrative modifications immediately detectable as curvature errors, "
-            "satisfying AC-1 access control policy and procedure requirements."
+            "Retired.  The φ₀/k_CS metric-closure check cannot fail in practice and has no "
+            "relationship to access-control policy.  AC-1 is a policy-and-procedures "
+            "control and is the responsibility of the deploying jurisdiction."
         ),
     },
     "scaffold_invariant": {
@@ -96,10 +114,12 @@ NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
         "control_family": "Audit and Accountability",
         "vvsg_criterion": "Comprehensive Audit and Accountability Tracks",
         "oscal_taxonomy": "Audit Logging (AU) Component",
+        "implementation_status": "partial",
+        "superseded_by": "eige.ledger.log, eige.ledger.custody",
         "description": (
-            "3:2 Scaffold Invariant Auditing Engine maps field layers to legal audit "
-            "counterweights (voter registry ↔ boundary tally), satisfying AU-12 audit "
-            "generation requirements with 500ms dossier emission guarantee."
+            "Audit records for ballot CVRs and paper chain-of-custody events are "
+            "generated as entries in an append-only Merkle log.  The legacy 3:2 scaffold "
+            "and the '500ms dossier' timing are not audit-generation guarantees."
         ),
     },
     "au12_system_wide_audit_trail": {
@@ -107,14 +127,13 @@ NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
         "control_family": "Audit and Accountability",
         "vvsg_criterion": "System-Wide Audit Trail Compilation",
         "oscal_taxonomy": "Audit Logging (AU) Enhancement Component",
+        "implementation_status": "partial",
+        "superseded_by": "eige.ledger.bulletin (published tree heads, witness cosignatures)",
         "description": (
-            "AU-12(1) System-Wide Audit Trail: The state mesh aggregates HMAC-signed "
-            "telemetry payloads from all 39 county nodes into a unified audit trail.  "
-            "Each SentinelLoadBalancer intercept event appends an OSCAL 1.5.0 dossier "
-            "to the append-only public dashboard mirror, compiling a system-wide "
-            "chronological record of all override attempts and metric violations.  "
-            "The NormalisationLog from HolographicScreen provides per-ballot decision "
-            "audit records meeting AU-12(1) compilation requirements."
+            "AU-12(1) System-Wide Audit Trail: county logs publish signed tree heads to a "
+            "bulletin board with consistency proofs and optional witness cosignatures, so "
+            "a single append-only history can be checked across counties.  Time "
+            "correlation relies on signer-asserted timestamps."
         ),
     },
     "hils_pentad": {
@@ -122,10 +141,12 @@ NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
         "control_family": "Personnel Security",
         "vvsg_criterion": "Human Factors, Transparency, and Usability Floors",
         "oscal_taxonomy": "Personnel Security (PS) Component",
+        "implementation_status": "planned",
+        "superseded_by": "eige.ledger.custody (two-person signoff for custody events)",
         "description": (
-            "Unitary Pentad HILS 5-body matrix treats all human actors as untrusted "
-            "data vectors requiring multi-signature handover protocols, satisfying PS-6 "
-            "access agreements and multi-party authorization requirements."
+            "PS-6 (access agreements) is an organisational control.  The software provides "
+            "multi-party acknowledgement tokens and two-person custody signoffs that can "
+            "support, but do not implement, a jurisdiction's access-agreement process."
         ),
     },
     "holon_zero_cert": {
@@ -133,10 +154,13 @@ NIST_SP800_53_MAPPINGS: Dict[str, Dict[str, str]] = {
         "control_family": "Security Assessment and Authorization",
         "vvsg_criterion": "Comprehensive Security and System State Assessment",
         "oscal_taxonomy": "Assessment Plan (AP) Component",
+        "implementation_status": "planned",
+        "superseded_by": "eige.report (verification report with explicit not-checked items)",
         "description": (
-            "Holon Zero Certificate Engine generates zero-knowledge OSCAL 1.5.0 proofs "
-            "of metric invariant satisfaction for federal oversight consumption, satisfying "
-            "CA-2 security assessment controls without exposing raw ballot telemetry."
+            "The Holon Zero certificate is an unsigned structural document with a "
+            "disclosed Pedersen commitment; it is not a zero-knowledge proof and not a "
+            "security assessment.  CA-2 assessments must be performed by the jurisdiction "
+            "or an independent assessor."
         ),
     },
 }
@@ -326,11 +350,21 @@ class ImplementedRequirement:
     req_uuid: str
     control_id: str
     remarks: str
+    implementation_status: str = "planned"
 
     def to_dict(self) -> dict:
+        if self.implementation_status not in IMPLEMENTATION_STATUSES:
+            raise ValueError(f"unknown implementation status {self.implementation_status!r}")
         return {
             "uuid": self.req_uuid,
             "control-id": self.control_id,
+            "props": [
+                {
+                    "name": "implementation-status",
+                    "ns": "https://fedramp.gov/ns/oscal",
+                    "value": self.implementation_status,
+                }
+            ],
             "remarks": self.remarks,
         }
 

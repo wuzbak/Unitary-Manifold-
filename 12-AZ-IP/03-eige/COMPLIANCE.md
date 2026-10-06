@@ -1,132 +1,55 @@
-# AxiomZero EIGE v21.0 — Compliance Reference Document
+# AxiomZero EIGE v22.0 — Compliance Reference Document
 
 **Theory & scientific direction:** ThomasCory Walker-Pearson  
 **Code architecture & implementation:** GitHub Copilot (AI)  
-**Version:** 21.0.0 | **Date:** 2026-07-17
+**Version:** 22.0.0
 
 ---
 
-## Applicable Standards
+EIGE is an audit-support and transparency tool. It is **not** a VVSG-certified voting system, does not count votes, and does not replace certified tabulators or legally required election procedures. The mappings below are conservative descriptions of implemented or planned support functions, not certification claims.
 
-| Standard | Scope |
-|----------|-------|
-| **NIST VVSG 2.0** | Voting System Verification and Validation — data integrity, audit trails, chain of custody |
-| **NIST SP 800-53 Rev 5** | Security and Privacy Controls — AC, SI, AU, CA, PS control families |
-| **OSCAL 1.5.0** | Open Security Controls Assessment Language — machine-readable security posture (SSP, POA&M, SAR) |
-| **FIPS 140-3** | Cryptographic module requirements — hash integrity, certificate chains |
-| **EAC HAVA** | Help America Vote Act — audit trail, accessible records, federal certification framework |
-| **WAC 434** | Washington Administrative Code — county-level ballot processing and public records requirements |
-| **RCW 29A** | Revised Code of Washington — elections administration, candidate filing, canvassing |
+Status values:
 
----
+- **implemented** — behavior exists in v22 modules and is covered by tests.
+- **partial** — behavior exists for a limited EIGE scope, or depends on deployment controls outside EIGE.
+- **planned** — not implemented in v22.
 
-## NIST SP-800-53 R5 Control Mapping
+OSCAL output is expected to report `implementation-status` as `implemented`, `partial`, or `planned`.
 
-### Access Control (AC)
+## NIST SP 800-53 Rev. 5 mapping
 
-| Control | EIGE Implementation |
-|---------|---------------------|
-| AC-1 (Policy) | `metric_closure.py` enforces algorithmic access boundary via `ClosureStatus`; any drift triggers `SentinelLoadBalancer` dossier |
-| AC-2 (Account Management) | Multi-party authentication required for ingestion node provisioning (Phase 2) |
-| AC-3 (Access Enforcement) | `FederalAuditor.__getattr__` raises `RawDataAccessAttempt` for any non-allowlisted attribute; structural, not configurable |
-| AC-6 (Least Privilege) | Federal tier receives zero raw ballot data; county tier shares only shard telemetry |
+| Control | Status | Module | EIGE behavior and boundary |
+|---|---:|---|---|
+| AU-2 Event Logging | implemented | `eige.ledger.log` | Election records and custody events can be appended to a Merkle log. EIGE does not log operating-system events. |
+| AU-3 Content of Audit Records | partial | `eige.ledger.log`, `eige.ledger.custody` | Records include typed canonical JSON payloads and custody fields. Local operator identity proofing remains a deployment responsibility. |
+| AU-9 Protection of Audit Information | partial | `eige.crypto.merkle`, `eige.ledger.log`, `eige.ledger.bulletin` | Merkle roots, signed tree heads, consistency proofs, and witnesses detect post-publication alteration or split views. They do not prevent deletion of unpublished local files. |
+| AU-10 Non-repudiation | partial | `eige.crypto.signing` | Ed25519 signatures identify which registered key signed a payload. They do not prove the keyholder was honest or that key custody was adequate. |
+| AU-12 Audit Record Generation | implemented | `eige.ledger.log`, `eige.pipeline` | EIGE can generate canonical audit records for CVRs, custody events, heads, and bundles. |
+| SC-12 Cryptographic Key Establishment and Management | partial | `eige.crypto.signing` | Key registry supports registration, rotation, revocation, roles, and development-key rejection. Hardware key ceremonies are outside current tests. |
+| SC-13 Cryptographic Protection | partial | `eige.crypto.signing`, `eige.crypto.merkle`, `eige.crypto.commitments` | Ed25519 via `cryptography`, SHA-256 Merkle trees, and Pedersen tally commitments are implemented. HSM integration is available through PKCS#11 but not hardware-certified by this repository. |
+| SI-7 Software, Firmware, and Information Integrity | partial | `eige.ledger.log`, `eige.ledger.bulletin`, `eige.verify` | EIGE checks integrity of published election records. It does not verify certified tabulator software, firmware, or build provenance. |
+| SI-7(6) Cryptographic Protection | planned | — | No claim is made for cryptographic software/firmware integrity protection of voting systems. |
+| SI-10 Information Input Validation | implemented | `eige.canonical`, `eige.model.election`, `eige.bundle` | Strict parsers reject invalid canonical JSON, malformed election definitions, bad manifests, and inconsistent CVR/result shapes. |
+| RA-5 Vulnerability Monitoring and Scanning | planned | — | Independent security review is invited but not automated as an EIGE control. |
+| AC-2 Account Management | planned | — | The current adjudicator/API blueprint does not implement production account management. |
+| AC-3 Access Enforcement | planned | — | Access control must be supplied by the deployment environment until application authentication is implemented. |
+| IA-2 Identification and Authentication | planned | — | No production user-authentication system is claimed. |
+| CM-6 Configuration Settings | partial | `eige.config` | `EIGE_MODE` separates development and production behavior; development-only components refuse production mode. Full configuration management remains external. |
+| CP-9 System Backup | planned | — | Publication bundles are exportable, but backup policy and retention are deployment responsibilities. |
 
-### Audit and Accountability (AU)
+## VVSG 2.0 relationship
 
-| Control | EIGE Implementation |
-|---------|---------------------|
-| AU-2 (Event Logging) | Every override attempt, drift event, and threshold violation logged to OSCAL dossier |
-| AU-3 (Audit Record Content) | Dossier includes: timestamp, operator_id, hardware_id, drift_value, action_type, k_cs_observed, phi_observed |
-| AU-9 (Audit Integrity) | Atomic write via POSIX rename; append-only; written to hardware-backed log before in-memory state update |
-| AU-12 (Audit Generation) | `SentinelLoadBalancer.intercept_override()` auto-generates OSCAL 1.5.0 blob on every interception event |
+EIGE v22 may support election-office evidence collection for some VVSG-related concerns, but it is not a voting system and is not certified under VVSG 2.0.
 
-### System and Information Integrity (SI)
+| VVSG concern | Status | Module | Notes |
+|---|---:|---|---|
+| Auditability of records | partial | `eige.ledger.log`, `eige.verify` | Published records can be independently recomputed. EIGE does not create the certified cast-vote record. |
+| Cryptographic verification of published artifacts | partial | `eige.crypto.signing`, `eige.crypto.merkle` | Signatures and Merkle proofs cover EIGE artifacts only. |
+| Ballot accounting support | partial | `eige.audit.reconciliation`, `eige.model.election` | Reconciliation flags mismatches for explanation. It is not a canvass authority. |
+| Risk-limiting audit support | partial | `eige.audit.rla`, `eige.audit.sampling` | Implements sampling and RLA calculations that can be cross-checked with SHANGRLA or Arlo. It is not the SHANGRLA library. |
+| Accessibility, usability, voter-facing functions | planned | — | EIGE is not voter-facing voting equipment. |
+| Tabulator security and certification | planned | — | Out of scope. |
 
-| Control | EIGE Implementation |
-|---------|---------------------|
-| SI-3 (Malware Protection) | Input validation: all ballot integers are type-enforced `int64`; no eval, no exec, no shell injection surface |
-| SI-7 (Software, Firmware, Integrity) | `ChernSimonChain`: path-dependent rolling hash makes retroactive ballot insertion cryptographically infeasible |
-| SI-10 (Information Input Validation) | `BallotRecord`: int64 type enforcement; values outside `[0, BALLOT_INT_MAX]` raise `ValueError` before insertion |
-| SI-12 (Information Management) | `ShardedChernSimonChain` persists across 8 independent shards; 5-of-8 threshold tolerates 3 simultaneous failures |
+## Controls no longer claimed
 
-### Contingency Planning (CP)
-
-| Control | EIGE Implementation |
-|---------|---------------------|
-| CP-2 (Contingency Plan) | `disaster_recovery.py`: full snapshot envelope + inter-county peer replication + retry queue |
-| CP-6 (Alternate Processing Site) | Cold-storage snapshots replicated to peer county nodes; K8s CronJob (`eige-backup-cron.yaml`) |
-| CP-9 (System Backup) | Hourly automated snapshots via `ColdStorageManager.create_snapshot()` |
-| CP-10 (Recovery) | `RecoveryKernel.cold_start_integrity_assertion()` validates hash chain on boot before accepting new ballots |
-
-### Security Assessment (CA)
-
-| Control | EIGE Implementation |
-|---------|---------------------|
-| CA-2 (Assessments) | `FederalAuditor`: accepts only `HolonZeroCert` structs; runs `validate_holon_zero_cert()` on every audit call |
-| CA-7 (Continuous Monitoring) | `BackgroundAuditThread`: runs 512-bit mpmath validation continuously in background, separate from ingest thread |
-| CA-8 (Penetration Testing) | Phase 2 deliverable: 3rd-party red-team assessment of CS hash inversion resistance |
-
----
-
-## OSCAL 1.5.0 Compliance
-
-EIGE produces machine-readable OSCAL 1.5.0 Security Assessment Reports (SAR):
-
-```
-oscal_schema.py:
-  - OscarControlStatus (dataclass) → individual NIST SP-800-53 R5 control record
-  - OscarSystemSecurityPlan (dataclass) → SSP document structure
-  - build_override_dossier() → factory for instantaneous dossier emission
-  - Supported NIST controls: AC-1, AC-2, AC-3, AU-2, AU-3, AU-9, SI-7, SI-10, CA-2, CA-7
-```
-
-**Dossier structure (JSON-serializable dataclass):**
-```
-OverrideDossier:
-  schema_version: "OSCAL-1.5.0"
-  system_id: "EIGE-WA-{county_id}"
-  timestamp: ISO-8601
-  operator_id: str
-  hardware_id: str
-  action_type: "ADMINISTRATIVE_OVERRIDE"
-  phi_observed: float
-  phi_expected: π/4
-  k_cs_observed: int
-  k_cs_expected: 74
-  drift_value: float
-  metric_status: STABLE|DRIFTED|VIOLATED
-  nist_controls_triggered: [AC-3, AU-2, AU-9, SI-7, ...]
-  escalation_required: bool
-```
-
----
-
-## Cryptographic Assumptions
-
-| Primitive | Algorithm | Notes |
-|-----------|-----------|-------|
-| Block hash | SHA-512 | Block digests before CS accumulation |
-| HMAC | HMAC-SHA-256 | Shard telemetry authentication |
-| CS hash | Polynomial accumulation mod k_CS=74 | Path-dependent; not cryptographically secure alone |
-| ZK cert | Holon Zero protocol | Proves (φ_eff ≈ π/4 AND k_CS=74) without revealing ballot data |
-| Shard distribution | 8-of-k_CS=74 braid topology | 5-of-8 Shamir-like threshold |
-
-> **Note:** The Chern-Simons rolling hash is NOT a cryptographic hash and should not
-> be used as a standalone secret-preserving commitment scheme.  It is a tamper-detection
-> invariant — a structural guard against *unauthorized reordering* of ballot events.
-> Full cryptographic audit trail relies on the SHA-512 block hashes and HMAC signatures
-> over each shard telemetry packet.
-
----
-
-## Washington State Specific Requirements (WAC 434 / RCW 29A)
-
-- All ballot audit logs must be retained for 22 months minimum post-election
-- Canvassing board must receive certified paper chain-of-custody report
-- Any system override must be logged in the public records request-accessible audit trail
-- EIGE OSCAL dossiers constitute the machine-readable layer of this paper trail
-
----
-
-*Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*  
-*Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).*
+EIGE no longer claims NIST or VVSG control satisfaction from the v21 Chern-Simons rolling hash, metric closure check, HMAC telemetry placeholder, TEE mock, or prior zero-knowledge proof format. Those claims were retracted after red-team review.

@@ -1,127 +1,49 @@
 # King County Elections — Shadow-Mode Pilot Proposal
 
-**AxiomZero EIGE v21.0**  
-**Proposal type:** Observational Shadow-Mode Technical Trial  
+**AxiomZero EIGE v22.0**  
+**Proposal type:** Observational shadow-mode audit-support trial  
 **Jurisdiction:** King County Elections, Washington State  
 **Proposing organization:** AxiomZero Technologies & Consulting, SPC  
 **Contact:** ThomasCory Walker-Pearson, Scientific Director
 
 ---
 
-## Executive Summary
+## Executive summary
 
-AxiomZero Technologies proposes a **shadow-mode observational trial** of the Election Integrity Governance Engine (EIGE) v21.0 in King County during an upcoming election cycle.
+AxiomZero proposes a shadow-mode trial of EIGE v22 as an open-source audit-support and public-transparency tool. EIGE would not replace any certified voting system, tabulator, paper ballot, canvass process, risk-limiting audit requirement, or chain-of-custody procedure.
 
-**Shadow mode means:** EIGE runs in parallel with the existing King County counting system. It receives the same integer ballot data already produced by the existing scanner and tabulation infrastructure. It produces its own independent integrity record. It has **zero operational impact** on the existing process — it does not modify, redirect, or delay any existing workflow.
+The goal is to evaluate whether EIGE can help publish verifiable records for observers: Merkle logs, signed tree heads, witness cosignatures, reconciliation outputs, RLA support artifacts, custody records, and a public verifier.
 
-The goal is to produce a publicly available comparison: the existing chain-of-custody record versus the EIGE mathematical invariant record, across a full election cycle, with all data published post-certification.
+## What EIGE would do in a pilot
 
-This is not a replacement. It is a verification layer.
+- Ingest copies of records already produced or exported by existing election systems.
+- Build a publication bundle: registry, log, heads, election definition, manifest, results, and optional audit/custody/commitment files.
+- Run reconciliation checks for manifest, cast-count, provisional, CVR, and reported-result consistency.
+- Support public-seed sampling and RLA calculations for comparison with existing tools.
+- Produce observer-facing verification reports.
 
----
+## What EIGE would not do
 
-## 1. Why King County
+- Count votes.
+- Change, delay, or control tabulation.
+- Replace certified systems or legal procedures.
+- Detect manipulation before a ballot is scanned or logged.
+- Treat statistical outliers as evidence of fraud.
+- Claim physics-based tamper detection or zero-knowledge proofs.
 
-King County is the ideal pilot jurisdiction for four reasons:
+## Proposed evaluation questions
 
-1. **Scale:** King County processes approximately 700,000–900,000 ballots per election cycle — large enough to stress-test multi-county mathematical aggregation
-2. **Technical infrastructure:** King County Elections operates one of the most technically sophisticated election administrations in the country and has the engineering capacity to evaluate EIGE independently
-3. **Public transparency culture:** King County has a strong track record of public transparency and citizen-accessible audit processes — EIGE's philosophy aligns with this culture
-4. **Geographic position:** Washington State's all-mail ballot system provides a well-defined ingestion pipeline that maps cleanly to EIGE's integer intake model
+1. Can the publication bundle be produced from existing exports without disrupting operations?
+2. Can independent observers run `python -m eige.verify bundle ...` and reproduce the same results?
+3. Do reconciliation outputs match existing canvass explanations?
+4. Do RLA calculations cross-check with SHANGRLA or Arlo?
+5. What CVR redaction rules are needed before public release?
+6. What key-management and witness procedures would be acceptable to the jurisdiction?
 
----
+## Data and privacy
 
-## 2. Technical Integration (Shadow Mode)
+No voter identity data is requested. CVRs can still create ballot-secrecy risks for rare ballot styles or small reporting groups. The pilot should follow King County and Washington State rules for CVR publication, redaction, and aggregation.
 
-### What EIGE needs from King County
+## Review request
 
-EIGE requires a single data feed: **integer ballot selection vectors** — the same data already produced by the existing optical scanner and tabulation system. Specifically:
-
-```
-Per ballot:
-  - selection_vector: list[int]  (one integer per race, encoding the selected candidate)
-  - sequence_index: int          (sequential position in the counting stream)
-
-No voter identity information is needed or accepted.
-```
-
-This data is already produced by existing tabulation software. Integration requires connecting one integer output stream from the existing system to the EIGE county node API. No modification of the existing system is required.
-
-### What EIGE produces
-
-- Real-time closure status: STABLE | DRIFTED | VIOLATED
-- OSCAL 1.5.0 dossier record (for any override attempt, drift event, or anomaly)
-- Holon Zero Certificate (post-count)
-- Plain-English Public Trust Report
-
-### Deployment
-
-EIGE runs on hardware provided and operated by King County. AxiomZero has no access to King County infrastructure during or after the election. All source code is open-source and independently auditable.
-
----
-
-## 3. Proposed Scope and Timeline
-
-| Phase | Activity | Duration |
-|-------|----------|----------|
-| Technical assessment | King County IT team reviews EIGE source code and integration specification | 4 weeks |
-| Integration development | Shadow data feed from existing tabulation system | 4–6 weeks |
-| Pre-election testing | EIGE run against historical ballot data (already public record) | 2 weeks |
-| Election day shadow run | EIGE processes ballots in parallel, zero operational impact | Election cycle |
-| Post-certification publication | Both records compared and published | 4 weeks post-certification |
-
----
-
-## 4. Data Privacy and Sovereignty
-
-EIGE is designed from the ground up for data sovereignty:
-
-- **No voter identity data** is ever accepted, processed, or stored by EIGE
-- **Raw ballot data never leaves King County infrastructure** — EIGE is county-tier only in this pilot
-- **King County controls all infrastructure** — AxiomZero operates nothing
-- **All source code is open-source** — King County IT can verify every line before and after deployment
-- **Zero network calls** from EIGE to external systems — the system is fully air-gappable
-
----
-
-## 5. Compliance
-
-EIGE maps to the following standards relevant to Washington State election administration:
-
-- **WAC 434** — ballot audit log retention requirements (22 months minimum)
-- **RCW 29A** — elections administration and canvassing
-- **NIST VVSG 2.0** — voting system verification and validation
-- **NIST SP-800-53 Rev 5** — security controls (AC, SI, AU, CA, PS families)
-- **OSCAL 1.5.0** — machine-readable security posture documentation
-
-Full mapping: [EIGE/COMPLIANCE.md](../COMPLIANCE.md)
-
----
-
-## 6. What King County Gets
-
-1. **An independent verification layer** that complements existing audit processes at zero operational cost
-2. **A publicly publishable record** that demonstrates commitment to transparency and technical rigor
-3. **Early access** to a novel tamper-detection approach before wider deployment
-4. **Academic co-authorship** on any published evaluation of the pilot results
-
----
-
-## 7. Next Steps
-
-We propose a 30-minute technical briefing with King County Elections IT staff and the County Auditor's Office to discuss:
-
-1. Integration feasibility assessment
-2. Legal review under WAC 434 / RCW 29A
-3. Pilot scope and timeline confirmation
-
-**Contact:**  
-ThomasCory Walker-Pearson  
-Scientific Director, AxiomZero Technologies & Consulting, SPC  
-GitHub: https://github.com/wuzbak/Unitary-Manifold-  
-Email: [to be added]
-
----
-
-*Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*  
-*Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).*
+We invite King County, independent election-security researchers, public observers, and civil-society groups to review the code, documentation, and threat model before any pilot. A useful pilot outcome may be a decision not to deploy; the purpose is sober evaluation, not promotion.
