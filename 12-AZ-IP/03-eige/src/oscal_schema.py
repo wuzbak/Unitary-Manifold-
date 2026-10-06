@@ -9,7 +9,8 @@ OSCAL 1.5.0 compliance artifacts.  The schema enforces:
 
   - NIST SP 800-53 Revision 5 control taxonomy
   - NIST VVSG 2.0 mapping criteria (from EIGE Section 3.4)
-  - Zero-knowledge structure: no raw ballot data, no voter identifiers
+  - Data minimisation: no raw ballot data, no voter identifiers (this is
+    not a zero-knowledge property; see RETRACTED_CLAIMS.md)
 
 All serialization produces valid JSON via to_json() / to_dict().
 
@@ -416,9 +417,11 @@ class HolonZeroComponentDefinition:
     """
     Top-level OSCAL component-definition document — Holon Zero Certificate.
 
-    This is the zero-knowledge artifact transmitted to federal oversight tiers.
-    It contains ONLY the mathematical proof that k_CS=74 and φ₀=π/4 hold;
-    no raw ballot counts, no voter identifiers.
+    Legacy artifact transmitted to federal oversight tiers.  It carries a
+    disclosed commitment to the k_CS / φ₀ configuration constants and no raw
+    ballot counts or voter identifiers.  It is not a zero-knowledge proof and
+    not evidence of election integrity; see eige.compliance for the v22
+    control mapping.
     """
 
     cert_uuid: str

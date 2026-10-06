@@ -355,7 +355,7 @@ class SovereignMesh:
             },
             "network_policy": {
                 "county_to_state": "mTLS_STRICT_ISTIO",
-                "state_to_federal": "ZERO_KNOWLEDGE_OSCAL_CERTS",
+                "state_to_federal": "OSCAL_METRIC_COMMITMENT_CERTS",
                 "external_ingress": "BLOCKED_EXCEPT_COCKPIT_PROXY",
             },
             "backup": {

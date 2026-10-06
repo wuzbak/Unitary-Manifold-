@@ -37,7 +37,7 @@ jobs:
       - name: Test vectors are current
         run: python tools/make_test_vectors.py --check
       - name: EIGE test suite
-        run: python -m pytest tests -q -p no:cacheprovider
+        run: python -m pytest tests -q -m "" -p no:cacheprovider
       - name: Production mode refuses development keys
         env:
           EIGE_MODE: production

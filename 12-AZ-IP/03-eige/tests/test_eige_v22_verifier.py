@@ -54,3 +54,11 @@ def test_cli_inclusion_and_consistency_exit_codes(tmp_path, capsys):
     cproof = ",".join(x.hex() for x in merkle.consistency_proof(hashes, 2))
     assert main(["consistency", "--old-size", "2", "--old-root", old_root.hex(), "--new-size", "3", "--new-root", root.hex(), "--proof", cproof]) == 0
     assert "VERIFIED" in capsys.readouterr().out
+
+
+def test_run_demo_verifies_clean_bundle_and_detects_stuffing(capsys):
+    import run_demo
+
+    assert run_demo.main() == 0
+    out = capsys.readouterr().out
+    assert "tampering detected" in out
