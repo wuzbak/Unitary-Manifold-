@@ -11,6 +11,7 @@ require mathlib from git
 @[default_target]
 lean_lib UnitaryManifold where
   roots := #[`UnitaryManifold]
+  globs := #[.one `UnitaryManifold, .submodules `UnitaryManifold]
 
 lean_exe um_arts_export where
   root := `UMArtsExport
