@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "record_kind": "validation_checkpoint_not_a_sealed_certificate",
+  "tested_revision": "a07de008702c74968d08e84d91da241c3caa8d6b",
+  "overall_status": "partial",
+  "scope_boundary": "Application execution evidence, not confirmation of physics claims or coverage of every repository product.",
+  "frozen_source": {
+    "snapshot_source_fingerprint": "058865cb22a84fdd79cff2bbce2486125e6eba8d732e9b4a8d8ba002474ecfe1",
+    "engine_fingerprint": "4aaa0697804d2d37a62ee35dea682964d4b71a22c583f6ea793e4d6db51e1d6a",
+    "origin": "Filesystem snapshot of the clean tested revision; Git metadata is not copied."
+  },
+  "product_regression": {
+    "status": "passed",
+    "marker_expression": "",
+    "selected": 384,
+    "passed": 373,
+    "skipped": 11,
+    "optional_skips": {
+      "compiler_backed_lean_exporter": 10,
+      "pytest_xdist": 1
+    },
+    "environments": [
+      {
+        "pytest": "9.1.1",
+        "note": "Preinstalled sandbox version exceeds the repository's pytest<9.1 constraint.",
+        "capture_result_sha256": "2742d9dd39cedc872e405d313fd3b7d8e584656a0a36c797e97f703a03d3cddc"
+      },
+      {
+        "pytest": "9.0.2",
+        "note": "Separate environment satisfies the existing repository constraint.",
+        "capture_result_sha256": "31f146efa19b2c42dddcd2388b7590efb6b7e2d201be2962d22754faf2f235b1"
+      }
+    ],
+    "scope": "test_um_arts*.py plus supervised runner, regression supervision plan and formal traceability spine tests"
+  },
+  "compatible_product_and_python_checks": {
+    "status": "passed",
+    "commands": [
+      "python VERIFY.py",
+      "python ALGEBRA_PROOF.py",
+      "python proof/VERIFY.py",
+      "python proof/ALGEBRA_PROOF.py"
+    ],
+    "proof_claim": false,
+    "certificate_result_sha256": "27099e8ad901621842d7b31dc767f4cbe102c16067b5ee5e2557add58248a296",
+    "boundary": "Successful executable assertions are not Lean compilation or a scientific proof."
+  },
+  "packaging": {
+    "status": "passed",
+    "distribution": "um_arts-1.0.0-py3-none-any.whl",
+    "sha256": "5f69f6d29854562753607d5c2afa7887b064f62a709ed19d26a4b6a9dfe57171",
+    "checks": "Wheel build, dependency-free external installation and CLI version smoke test",
+    "cli_version_boundary": "CLI version 1 denotes the evidence schema; distribution release is 1.0.0."
+  },
+  "full_core": {
+    "status": "running",
+    "paths": [
+      "tests",
+      "recycling",
+      "5-GOVERNANCE/Unitary Pentad"
+    ],
+    "selected": 64576,
+    "pytest_args": ["-m", ""],
+    "workers": 2,
+    "files_per_job": 1024,
+    "timeout_seconds_per_job": 1800,
+    "boundary": "Collection completed; this checkpoint does not yet certify execution."
+  },
+  "validation_limitations": [
+    {
+      "gate": "Lean build and compiler-backed exporter integration",
+      "status": "blocked_locally",
+      "reason": "Pinned toolchain unavailable; installation blocked by network/DNS restrictions. An explicit CI build and integration gate is configured but not verified for this revision."
+    },
+    {
+      "gate": "Python CodeQL",
+      "status": "not_analyzed",
+      "reason": "Automated analysis skipped because the repository database is too large; a zero-alert wrapper result is not a completed scan."
+    },
+    {
+      "gate": "Automated review wrapper",
+      "status": "unavailable",
+      "reason": "Model registry error. Independent read-only reviews completed and reported no significant remaining issues."
+    }
+  ],
+  "other_checks": {
+    "ruff": "passed",
+    "diff_whitespace": "passed",
+    "changed_file_secret_scan": "passed"
+  },
+  "receipt_storage": {
+    "location": "/tmp/um-arts-certification/validated-snapshot",
+    "retention": "Sandbox temporary storage; not guaranteed to survive a new session.",
+    "resume_boundary": "Reuse only sealed jobs with exact source/environment/engine/settings compatibility. If receipts are missing, rerun; this summary and its hashes are not substitutes for receipts."
+  },
+  "aggregation_boundary": "Product tests overlap full-core tests; do not add their counts or combine incompatible environments."
+}
