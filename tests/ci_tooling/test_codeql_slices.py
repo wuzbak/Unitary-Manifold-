@@ -13,7 +13,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 _spec = importlib.util.spec_from_file_location("codeql_slices", REPO_ROOT / "TOOLS" / "checks" / "codeql_slices.py")
 cs = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(cs)

@@ -10,7 +10,7 @@ smaller database.
 
 | Command | Used by | What it does |
 |---|---|---|
-| `python TOOLS/checks/codeql_slices.py check` | CI (`codeql-language-matrix.yml`, first step) and `tests/test_codeql_slices.py` | Fails if any tracked `.py` file is in no slice, or if a slice path matches no tracked file (CodeQL aborts on a missing path) |
+| `python TOOLS/checks/codeql_slices.py check` | CI (`codeql-language-matrix.yml`, first step) and `tests/ci_tooling/test_codeql_slices.py` | Fails if any tracked `.py` file is in no slice, or if a slice path matches no tracked file (CodeQL aborts on a missing path) |
 | `python TOOLS/checks/codeql_slices.py plan` | CI | Builds the job matrix: slices touching the changed files, or every slice on schedule/manual runs, or when the plan itself changes |
 | `python TOOLS/checks/codeql_slices.py analyze SLICE...` | People and agents | Runs the same scoped analysis locally with the CodeQL CLI and writes SARIF plus a summary to `codeql-results/` |
 
