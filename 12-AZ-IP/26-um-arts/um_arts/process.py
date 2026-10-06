@@ -87,7 +87,10 @@ def execute(command: list[str], cwd: Path, directory: Path, timeout: float,
                     os.killpg(process.pid, signal.SIGKILL)
                 except ProcessLookupError:
                     pass
-                result["returncode"] = process.wait(timeout=5)
+                try:
+                    result["returncode"] = process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    result["error"] = "process did not exit after SIGKILL"
                 for reader in readers:
                     reader.join(timeout=5)
                     if reader.is_alive():

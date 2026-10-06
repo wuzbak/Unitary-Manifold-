@@ -37,12 +37,10 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-import sys
 from typing import Dict, List, Optional, Tuple
 
 from .constants import (
     K_CS,
-    PHI_0,
     SHARD_COUNT,
     SHARD_RECONSTRUCTION_THRESHOLD,
     WINDING_NUMBER,

@@ -7,7 +7,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -32,9 +34,39 @@ from src.core.pythagorean_triples_sat_method_transfer import INTAKE_PACKET_PATH 
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 PRODUCT_ROOT = Path(__file__).resolve().parents[2]
-EXECUTION_ARTIFACT_PATH = PRODUCT_ROOT / "training" / "training_execution" / "three_lane_execution_bundle.json"
-LANE_E_PROFILE_ARTIFACT_PATH = PRODUCT_ROOT / "training" / "training_execution" / "lane_e_runtime_profiles.json"
-PERFORMANCE_GATE_HISTORY_PATH = PRODUCT_ROOT / "training" / "training_execution" / "performance_gate_history.json"
+TRAINING_RUNTIME_ENV = "MERLIN_TRAINING_RUNTIME_DIR"
+
+
+def _training_artifact_paths(default_dir: Path) -> tuple[Path, Path, Path]:
+    """Use seeded, writable runtime copies when the directory override is set.
+
+    Configure MERLIN_TRAINING_RUNTIME_DIR before importing this module. Without
+    it, production continues to read and write the repository artifact paths.
+    Existing runtime files are never overwritten by the baseline seeds.
+    """
+    names = (
+        "three_lane_execution_bundle.json",
+        "lane_e_runtime_profiles.json",
+        "performance_gate_history.json",
+    )
+    configured = os.environ.get(TRAINING_RUNTIME_ENV)
+    if configured is None:
+        return tuple(default_dir / name for name in names)
+    if not configured.strip():
+        raise ValueError(f"{TRAINING_RUNTIME_ENV} must not be empty")
+    runtime_dir = Path(configured).expanduser().resolve()
+    runtime_dir.mkdir(parents=True, exist_ok=True)
+    paths = tuple(runtime_dir / name for name in names)
+    for path in paths:
+        source = default_dir / path.name
+        if source.is_file() and not path.exists():
+            shutil.copy2(source, path)
+    return paths
+
+
+EXECUTION_ARTIFACT_PATH, LANE_E_PROFILE_ARTIFACT_PATH, PERFORMANCE_GATE_HISTORY_PATH = (
+    _training_artifact_paths(PRODUCT_ROOT / "training" / "training_execution")
+)
 PERFORMANCE_GATE_HISTORY_MAX_ENTRIES = 180
 GATE_LABELS = ("HARDGATE", "ADJACENT_TRACK", "OPEN_GAP", "ARCHITECTURE_LIMIT", "GOVERNANCE")
 LANE_ORDER = (
@@ -1502,9 +1534,9 @@ def build_merlin_training_execution_bundle(
     queue_state = build_merlin_training_execution_queue(session=session, limit=None)
     if (
         any(str(item.get("status") or "") == "completed" for item in session.training_execution_receipts)
-        and int(queue_state.get("queued_count", 0) or 0) == 0
+        # Unchanged review receipts remain blockers, not new source work.
+        and int(queue_state.get("queued_count", 0) or 0) == int(queue_state.get("needs_review_count", 0) or 0)
         and int(queue_state.get("stale_retrain_count", 0) or 0) == 0
-        and int(queue_state.get("needs_review_count", 0) or 0) == 0
     ):
         cycle = {
             "ok": True,
@@ -1521,7 +1553,10 @@ def build_merlin_training_execution_bundle(
                 "file_limit": ast_file_limit,
                 "dataset_summary": {},
             },
-            "honesty_note": "Previously retained training receipts were reused for this export bundle.",
+            "honesty_note": (
+                "Previously retained training receipts were reused for this export bundle. "
+                "Items requiring review remain visible in the queue and are not retried implicitly."
+            ),
         }
     else:
         cycle = run_merlin_training_cycle(

@@ -7,9 +7,8 @@ import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
-import pytest
 from EIGE.src.sentinel_load_balance import SentinelLoadBalancer
-from EIGE.src.constants import K_CS, PHI_0, PHI_TOLERANCE
+from EIGE.src.constants import K_CS, PHI_0
 
 
 class TestSentinelCleanPath:

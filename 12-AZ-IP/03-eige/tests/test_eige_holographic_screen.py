@@ -10,7 +10,6 @@ import pytest
 from EIGE.src.holographic_screen import (
     HolographicScreen,
     AdmissibilityError,
-    NormalisationRecord,
     NormalisationStatus,
     WriteInRegistry,
 )

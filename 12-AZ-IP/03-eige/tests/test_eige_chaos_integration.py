@@ -10,9 +10,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 import pytest
-import tempfile
 from EIGE.src.sentinel_load_balance import SentinelLoadBalancer, FreedomFloorBreach
-from EIGE.src.constants import PHI_0, K_CS, FREEDOM_FLOOR, FREEDOM_FLOOR_MIN_BALLOTS
+from EIGE.src.constants import FREEDOM_FLOOR
 
 
 # ---------------------------------------------------------------------------

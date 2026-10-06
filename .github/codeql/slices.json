@@ -1,0 +1,172 @@
+{
+  "description": "CodeQL path slices. Python is analysed per slice because a single repository-wide database exceeds the analysis size limit. TOOLS/checks/codeql_slices.py check fails CI if a tracked file of a language listed under 'coverage' is in no slice.",
+  "coverage": {
+    "python": [
+      ".py"
+    ]
+  },
+  "coverage_exclusions": {
+    "python": {}
+  },
+  "paths_ignore": [
+    "**/*.md",
+    "**/*.txt",
+    "**/*.html",
+    "**/*.xml",
+    "**/*.pdf",
+    "**/target/**",
+    "**/node_modules/**",
+    "**/.venv/**",
+    "public-site/**",
+    "9-INFRASTRUCTURE/repomix-output.xml"
+  ],
+  "slices": [
+    {
+      "slice_id": "python-core-src",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "src",
+        "claims"
+      ]
+    },
+    {
+      "slice_id": "python-core-tests",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "tests",
+        "recycling"
+      ]
+    },
+    {
+      "slice_id": "python-governance-pentad",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "5-GOVERNANCE"
+      ]
+    },
+    {
+      "slice_id": "python-runtime-integration",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/20-psicat-navigator/ox_navigator",
+        "12-AZ-IP/20-psicat-navigator/run*.py",
+        "bot",
+        "TOOLS"
+      ]
+    },
+    {
+      "slice_id": "python-psicat-tests-tools",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/20-psicat-navigator/tests",
+        "12-AZ-IP/20-psicat-navigator/tools"
+      ]
+    },
+    {
+      "slice_id": "python-eige",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/03-eige",
+        "12-AZ-IP/EIGE"
+      ]
+    },
+    {
+      "slice_id": "python-azip-systems",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/01-axiom-os",
+        "12-AZ-IP/02-az-kernel",
+        "12-AZ-IP/04-um-sos",
+        "12-AZ-IP/05-uos-kernel",
+        "12-AZ-IP/11-terra-os",
+        "12-AZ-IP/12-lithos-os"
+      ]
+    },
+    {
+      "slice_id": "python-azip-synthesis",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/06-omega-synthesis",
+        "12-AZ-IP/07-holon-zero",
+        "12-AZ-IP/09-omegaholon",
+        "12-AZ-IP/13-delphi",
+        "12-AZ-IP/16-oracle",
+        "12-AZ-IP/22-az-sge"
+      ]
+    },
+    {
+      "slice_id": "python-azip-applications",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/08-axiom-journalist",
+        "12-AZ-IP/10-filmers-companion",
+        "12-AZ-IP/14-sdam",
+        "12-AZ-IP/15-pentacorder",
+        "12-AZ-IP/17-um-image-generator",
+        "12-AZ-IP/18-um-reader",
+        "12-AZ-IP/19-falsification-observatory",
+        "12-AZ-IP/21-geo-monitor",
+        "12-AZ-IP/23-psicat-dm-assistant",
+        "12-AZ-IP/24-psicat-web-browser",
+        "12-AZ-IP/25-psicat-braided-brain",
+        "12-AZ-IP/lib",
+        "12-AZ-IP/engines",
+        "12-AZ-IP/tools"
+      ]
+    },
+    {
+      "slice_id": "python-repository-tooling",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "*.py",
+        "9-INFRASTRUCTURE",
+        "hf-spaces",
+        "lodge",
+        "COMPACTIFICATION",
+        "proof",
+        "PILLARS",
+        "unitary_manifold",
+        "4-IMPLICATIONS",
+        "6-MONOGRAPH",
+        "8-SAFETY"
+      ]
+    },
+    {
+      "slice_id": "rust-kernel",
+      "language": "rust",
+      "build_mode": "none",
+      "paths": [
+        "11-AZ-OS/ax-kernel",
+        "12-AZ-IP/02-az-kernel"
+      ]
+    },
+    {
+      "slice_id": "c-cpp-audio",
+      "language": "c-cpp",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/14-sdam/app/core/audio/src/main/cpp",
+        "12-AZ-IP/15-pentacorder/core/audio/src/main/cpp"
+      ]
+    },
+    {
+      "slice_id": "java-kotlin-mobile",
+      "language": "java-kotlin",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/14-sdam/app/core/security/src/main/java",
+        "12-AZ-IP/15-pentacorder"
+      ]
+    }
+  ]
+}

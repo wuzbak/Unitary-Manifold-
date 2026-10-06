@@ -1,0 +1,267 @@
+{
+  "committed_root": "9926f37e637abb85fd18dcba0ea08b7cdff7a0b2d447c09dd4297e64bf3d9ee5",
+  "draws": [
+    {
+      "batch_id": "B00",
+      "draw": 1,
+      "index_in_batch": 17,
+      "position": 17
+    },
+    {
+      "batch_id": "B01",
+      "draw": 2,
+      "index_in_batch": 36,
+      "position": 96
+    },
+    {
+      "batch_id": "B01",
+      "draw": 3,
+      "index_in_batch": 40,
+      "position": 100
+    },
+    {
+      "batch_id": "B00",
+      "draw": 4,
+      "index_in_batch": 54,
+      "position": 54
+    },
+    {
+      "batch_id": "B00",
+      "draw": 5,
+      "index_in_batch": 4,
+      "position": 4
+    },
+    {
+      "batch_id": "B00",
+      "draw": 6,
+      "index_in_batch": 2,
+      "position": 2
+    },
+    {
+      "batch_id": "B00",
+      "draw": 7,
+      "index_in_batch": 11,
+      "position": 11
+    },
+    {
+      "batch_id": "B00",
+      "draw": 8,
+      "index_in_batch": 42,
+      "position": 42
+    },
+    {
+      "batch_id": "B01",
+      "draw": 9,
+      "index_in_batch": 3,
+      "position": 63
+    },
+    {
+      "batch_id": "B00",
+      "draw": 10,
+      "index_in_batch": 25,
+      "position": 25
+    },
+    {
+      "batch_id": "B01",
+      "draw": 11,
+      "index_in_batch": 24,
+      "position": 84
+    },
+    {
+      "batch_id": "B01",
+      "draw": 12,
+      "index_in_batch": 53,
+      "position": 113
+    },
+    {
+      "batch_id": "B00",
+      "draw": 13,
+      "index_in_batch": 57,
+      "position": 57
+    },
+    {
+      "batch_id": "B00",
+      "draw": 14,
+      "index_in_batch": 6,
+      "position": 6
+    },
+    {
+      "batch_id": "B00",
+      "draw": 15,
+      "index_in_batch": 21,
+      "position": 21
+    },
+    {
+      "batch_id": "B00",
+      "draw": 16,
+      "index_in_batch": 15,
+      "position": 15
+    },
+    {
+      "batch_id": "B01",
+      "draw": 17,
+      "index_in_batch": 51,
+      "position": 111
+    },
+    {
+      "batch_id": "B00",
+      "draw": 18,
+      "index_in_batch": 49,
+      "position": 49
+    },
+    {
+      "batch_id": "B01",
+      "draw": 19,
+      "index_in_batch": 14,
+      "position": 74
+    },
+    {
+      "batch_id": "B01",
+      "draw": 20,
+      "index_in_batch": 8,
+      "position": 68
+    },
+    {
+      "batch_id": "B00",
+      "draw": 21,
+      "index_in_batch": 22,
+      "position": 22
+    },
+    {
+      "batch_id": "B00",
+      "draw": 22,
+      "index_in_batch": 56,
+      "position": 56
+    },
+    {
+      "batch_id": "B01",
+      "draw": 23,
+      "index_in_batch": 58,
+      "position": 118
+    },
+    {
+      "batch_id": "B00",
+      "draw": 24,
+      "index_in_batch": 50,
+      "position": 50
+    },
+    {
+      "batch_id": "B00",
+      "draw": 25,
+      "index_in_batch": 52,
+      "position": 52
+    },
+    {
+      "batch_id": "B00",
+      "draw": 26,
+      "index_in_batch": 44,
+      "position": 44
+    },
+    {
+      "batch_id": "B01",
+      "draw": 27,
+      "index_in_batch": 21,
+      "position": 81
+    },
+    {
+      "batch_id": "B00",
+      "draw": 28,
+      "index_in_batch": 50,
+      "position": 50
+    },
+    {
+      "batch_id": "B00",
+      "draw": 29,
+      "index_in_batch": 50,
+      "position": 50
+    },
+    {
+      "batch_id": "B01",
+      "draw": 30,
+      "index_in_batch": 20,
+      "position": 80
+    },
+    {
+      "batch_id": "B00",
+      "draw": 31,
+      "index_in_batch": 54,
+      "position": 54
+    },
+    {
+      "batch_id": "B01",
+      "draw": 32,
+      "index_in_batch": 9,
+      "position": 69
+    },
+    {
+      "batch_id": "B01",
+      "draw": 33,
+      "index_in_batch": 18,
+      "position": 78
+    },
+    {
+      "batch_id": "B01",
+      "draw": 34,
+      "index_in_batch": 53,
+      "position": 113
+    },
+    {
+      "batch_id": "B00",
+      "draw": 35,
+      "index_in_batch": 15,
+      "position": 15
+    },
+    {
+      "batch_id": "B00",
+      "draw": 36,
+      "index_in_batch": 60,
+      "position": 60
+    },
+    {
+      "batch_id": "B01",
+      "draw": 37,
+      "index_in_batch": 10,
+      "position": 70
+    },
+    {
+      "batch_id": "B01",
+      "draw": 38,
+      "index_in_batch": 48,
+      "position": 108
+    },
+    {
+      "batch_id": "B01",
+      "draw": 39,
+      "index_in_batch": 60,
+      "position": 120
+    },
+    {
+      "batch_id": "B00",
+      "draw": 40,
+      "index_in_batch": 52,
+      "position": 52
+    },
+    {
+      "batch_id": "B01",
+      "draw": 41,
+      "index_in_batch": 50,
+      "position": 110
+    },
+    {
+      "batch_id": "B00",
+      "draw": 42,
+      "index_in_batch": 1,
+      "position": 1
+    },
+    {
+      "batch_id": "B01",
+      "draw": 43,
+      "index_in_batch": 54,
+      "position": 114
+    }
+  ],
+  "format": "eige.sample.v1",
+  "population": 120,
+  "seed": "31415926535897932384",
+  "seed_generated_at": 1793720000
+}

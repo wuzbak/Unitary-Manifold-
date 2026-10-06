@@ -8,6 +8,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Legal separation notice: [`BRAND_SEPARATION_NOTICE_PSICAT.md`](./BRAND_SEPARATION_NOTICE_PSICAT.md)
 - Internal/steward-facing identity for ThomasCory remains **Merlin**.
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
+- External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
 ## Product registry (26 canonical software products / surfaces)
 
@@ -37,7 +38,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 22 | AxiomZero SGE | 1.0.0 | TRL-7 | http://localhost:7622 | 229 | Next-gen system security governance engine for anti-malware, zero-day detection, IDS, firewall, anti-surveillance, and governed protection workflows. | [22-az-sge/](22-az-sge/) |
 | 23 | PsiCat DM Guide & Player Assistant | 1.1.0 | TRL-3 | http://localhost:8033 | 17 | Offline-first Dungeons & Dragons 5e / 5.5e campaign assistant with separate DM/player dashboards, invite-code joins, character import, XP/treasure/gold/item tracking, maps, NPCs, image pushes, and PsiCat expert guidance. | [23-psicat-dm-assistant/](23-psicat-dm-assistant/) |
 | 24 | PsiCat Web Browser | 1.0.0 | TRL-3 | Electron / Android / Extension | 15 | Chromium-based next-gen browser foundation with Electron desktop, native-tab Android shell, split-workspace desktop scaffolding, embedded PsiCat research sidebar, local sync backend scaffold, Playwright-first browser proving ground, notebook, sync packet workflows, and import/export. | [24-psicat-web-browser/](24-psicat-web-browser/) |
-| 25 | PsiCat Braided Brain | 1.0.0 | TRL-3 | Browser / PWA | 0 | Toroidal brain simulator game for desktop and mobile with science missions, local training-packet export, and optional PsiCat coaching through Product 20. | [25-psicat-braided-brain/](25-psicat-braided-brain/) |
+| 25 | PsiCat Braided Brain | 1.1.0 | TRL-3 | Browser / PWA | 25 | Toroidal brain simulator game for desktop and mobile with science missions, local training-packet export, and optional PsiCat coaching through Product 20. | [25-psicat-braided-brain/](25-psicat-braided-brain/) |
 | 26 | UM-ARTS | 1.0.0 | Not assessed | CLI / local browser | Focused pytest suites | Evidence-first regression application: supervised execution, immutable receipts, compatible resume, inventory, and bounded assistance; no scientific claim promotion. | [26-um-arts/](26-um-arts/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*

@@ -328,9 +328,9 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-10-06",
-      "sha256": "106f48200f467650cef521c2c887d09dbd134b4c8216ef9dddcb1af714b6c8cf",
-      "size_bytes": 11273,
-      "reseal_note": "Re-sealed 2026-10-05 on steward confirmation (ThomasCory Walker-Pearson) that the post-2026-09-13 README edits are his own authorized changes. Prior seal: 2ea2e1551e516c1c42379f47a2347812190f1c4ece09d51002091a6990d5ab26 (9033 bytes). Updated 2026-10-06 for this branch's Product 26 UM-ARTS registration and usage documentation. Previous canonical seal: c5de1c8315d9b34d2bb8bf5c9ea30c83aad7f80ee765772f51b702112d3cd787 (9487 bytes)."
+      "sha256": "ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c",
+      "size_bytes": 11391,
+      "reseal_note": "Refreshed 2026-10-06 after resolving the authorized main merge: retain Product 26 UM-ARTS documentation and main's Product 25 v1.1.0 and external-intake entry. Prior branch seal: 106f48200f467650cef521c2c887d09dbd134b4c8216ef9dddcb1af714b6c8cf (11273 bytes); prior main seal: 1110cc9e2c1526e80745c360a3addeb915bd08764d6b25e163f6b15cb6f7c014 (9605 bytes)."
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",

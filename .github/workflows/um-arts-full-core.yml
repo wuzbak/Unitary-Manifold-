@@ -24,6 +24,7 @@ jobs:
       OPENBLAS_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       NUMEXPR_NUM_THREADS: "1"
+      WANDB_DIR: ${{ runner.temp }}/um-arts-wandb
     steps:
       - uses: actions/checkout@v4
         with:
@@ -42,12 +43,14 @@ jobs:
         run: |
           python - <<'PY'
           import json
+          import os
           import sys
           from pathlib import Path
           from TOOLS.um_arts.engine import evaluate, plan, run
           from TOOLS.um_arts.evidence import write_json
 
           root = Path.cwd()
+          Path(os.environ["WANDB_DIR"]).mkdir(parents=True, exist_ok=True)
           store = root / ".um-arts" / "full-core"
           config = root / "12-AZ-IP/26-um-arts/um_arts/examples/full-core-ci.json"
           planned = plan(root, store, config)

@@ -9,13 +9,13 @@ import pytest
 
 
 def _lake_parse_cmd(lake_bin: str) -> list[str]:
-    return [lake_bin, "env", "lean", "lean4/UnitaryManifold/ADM_time_sync.lean"]
+    return [lake_bin, "env", "lean", "UnitaryManifold/ADM_time_sync.lean"]
 
 
 def _assert_lean_parse_success(lake_bin: str, repo_root: Path) -> None:
     result = subprocess.run(
         _lake_parse_cmd(lake_bin),
-        cwd=repo_root,
+        cwd=repo_root / "lean4",
         capture_output=True,
         text=True,
         check=False,
@@ -34,7 +34,7 @@ def test_adm_time_sync_lean_artifact_present():
 def test_adm_time_sync_lean_parses_when_lean_available():
     lake_bin = shutil.which("lake")
     cmd = _lake_parse_cmd(lake_bin or "lake")
-    assert cmd[-1] == "lean4/UnitaryManifold/ADM_time_sync.lean"
+    assert cmd[-1] == "UnitaryManifold/ADM_time_sync.lean"
     assert cmd[1:3] == ["env", "lean"]
     if lake_bin is None:
         pytest.skip("Lake executable not available in this environment")
@@ -46,6 +46,7 @@ def test_adm_time_sync_lean_parse_failure_path(monkeypatch):
     monkeypatch.setattr(shutil, "which", lambda name: "/usr/bin/lake" if name == "lake" else None)
 
     def _fake_run(*args, **kwargs):
+        assert kwargs["cwd"] == Path(__file__).resolve().parents[1] / "lean4"
         return subprocess.CompletedProcess(args=args[0], returncode=1, stdout="", stderr="lean parse error")
 
     monkeypatch.setattr(subprocess, "run", _fake_run)

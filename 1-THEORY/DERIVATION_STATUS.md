@@ -1,5 +1,12 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
+> **2026-10-05 scoped correction:** B² halo prescriptions and independently
+> assumed hot-relic, weak-scale and warped KK benchmarks are not a shared
+> action-derived dark sector. Corrected computable quantities and unresolved
+> detector/thermal assumptions are recorded in
+> [TRUTH_LAYER](../docs/TRUTH_LAYER.md#synthesis-repair-2026-10-05).
+> This repair does not promote the framework or allocate a new pillar.
+
 > **Foundation reassessment (2026-09-05):** historical labels below do not
 > override the counterexamples and scope corrections in
 > [TRUTH_LAYER](../docs/TRUTH_LAYER.md#foundation-reassessment).
@@ -328,7 +335,7 @@ These are not new physical claims but expansions of the verification surface.
 
 | Gap | Current label | Evidence / implementation | Honest status |
 |-----|---------------|---------------------------|---------------|
-| GAP-1: `r_c = 2n = 12` | `RESOLVED_BY_DISTINCTION` | `src/core/anomaly_inflow_3sector.py` now classifies three non-competing quantities: particle count `18`, topological anomaly count `12`, tension sum `74`. | `r_c=12` is now tracked as the topological anomaly count (fixed-point quantity), distinct from particle-content count. |
+| GAP-1: candidate `k r_c = 2n = 12` | `FITTED` | `src/core/brane_tension_stabilization.py` retains `k r_c = 12` as a fitted candidate; `src/core/anomaly_inflow_3sector.py` separately reports a topological anomaly count of `12`. | The anomaly count does not derive the compactification relation; `k r_c = 12` remains open pending an independent stabilization derivation. |
 | GAP-2: `φ_min_bare = 3n = 18` | `FITTED` | `src/core/brane_tension_stabilization.py` keeps `φ_min_bare=18` as content-count closure and adds a GW test with tension ratio `25/49`. | GW proxy with canonical ratio does **not** force `18`; this relation remains FITTED pending a derived stabilization mechanism. |
 | GAP-3: Yukawa top-down derivation | `PARTIALLY_DERIVED` | `src/core/yukawa_geometric.py` derives three-sector zero-mode overlap textures and hierarchy ratios. | Texture geometry is derived; full mass-spectrum closure still needs non-fitted electroweak/RG normalization. |
 | GAP-4: ADM time synchronisation proof | `SUBSTANTIALLY_CLOSED` | Canonical closure remains in `src/core/pillar212_adm_decomposition.py`, `src/core/adm_quantitative_closure.py`, and `src/core/wdw_full_5d.py`; supplemental Lean stub added at `lean4/UnitaryManifold/ADM_time_sync.lean`. | Kinematic/linearized closure is established; non-perturbative UV quantum-gravity completion remains open. |

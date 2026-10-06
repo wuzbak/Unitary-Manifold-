@@ -147,7 +147,11 @@ def sprint_cp_three_lane_charter() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(sprint_cp_three_lane_charter().get('valid'))

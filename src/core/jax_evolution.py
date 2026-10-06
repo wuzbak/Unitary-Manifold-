@@ -5,14 +5,14 @@ src/core/jax_evolution.py
 =========================
 JAX-accelerated field evolution for the Unitary Manifold.
 
-Provides a JIT-compiled RK4 integrator equivalent to ``src/core/evolution.py``
-but compiled by XLA for CPU/GPU acceleration.  All physics and mathematics are
-identical to the numpy version; only the compute backend changes.
+Provides a JAX RK4 integrator matching the two zero-mode flow laws in
+``src/core/evolution.py``, with a JIT-compiled action-derived RHS for CPU/GPU
+acceleration. Active KK-tower backreaction is rejected as unsupported.
 
 Key speedups vs. the numpy evolution pipeline:
 
-  1. **JIT compilation** — the entire RK4 step is traced once and compiled; the
-     Python interpreter is bypassed on every subsequent call.
+  1. **JIT compilation** — the action-derived RHS is traced once per array
+     shape and compiled; the RK4 orchestration and validation remain in Python.
   2. **Vectorised RHS** — stress-energy and gauge-field divergence use einsum instead
      of Python loops, enabling XLA kernel fusion.
   3. **GPU dispatch** — placing arrays on a GPU device before calling ``jax_step``
@@ -53,11 +53,15 @@ Notes
 -----
 * JAX uses 32-bit floats by default.  For 64-bit precision (matching the numpy
   pipeline), call ``jax.config.update('jax_enable_x64', True)`` before importing.
-* The scalar Laplacian is periodic. Geometric first derivatives and gauge
-  divergence use one-sided endpoints, with x at coordinate index 1.
-* This mirrors a phenomenological flow, not a covariant EH evolution.
-* The metric volume-preservation projection (det g = −1) is applied after each step,
-  matching the behaviour in ``evolution.step``.
+* In the legacy law the scalar Laplacian is periodic, but geometric first
+  derivatives and gauge divergence use one-sided endpoints. Both laws use
+  x at coordinate index 1.
+* The default action-derived relaxation uses periodic central derivatives,
+  Lorentzian contractions and the Einstein-frame metric, matching NumPy.
+  Its parameter t is not physical coordinate time.
+* The legacy phenomenological law is explicitly selectable. Only that law
+  projects det g = −1 by default. Active KK-tower sources are unsupported
+  and rejected rather than silently discarded.
 """
 from __future__ import annotations
 
@@ -92,6 +96,7 @@ from .jax_metric import (
     _jax_field_strength_impl,
     _grad_np_compat,
 )
+from .evolution import DEFAULT_FLOW_LAW, FLOW_LAW_ACTION_DERIVED, FLOW_LAW_LEGACY, FLOW_LAWS
 
 
 def _require_jax() -> None:
@@ -118,12 +123,22 @@ class JaxFieldState:
     alpha: float = 0.1
     phi0: float = 1.0
     m_phi: float = 0.0
+    flow_law: str = DEFAULT_FLOW_LAW
+    n_kk_modes: int = 0
+    kk_backreaction_coupling: float = 0.0
+
+    def __post_init__(self) -> None:
+        if self.flow_law not in FLOW_LAWS:
+            raise ValueError(f"flow_law must be one of {FLOW_LAWS}, got {self.flow_law!r}")
 
     @classmethod
     def flat(cls, N: int = 64, dx: float = 0.1,
              lam: float = 1.0, alpha: float = 0.1,
              phi0: float = 1.0, m_phi: float = 0.0,
-             rng: Optional[np.random.Generator] = None) -> "JaxFieldState":
+             rng: Optional[np.random.Generator] = None,
+             flow_law: str = DEFAULT_FLOW_LAW,
+             n_kk_modes: int = 0,
+             kk_backreaction_coupling: float = 0.0) -> "JaxFieldState":
         """Flat Minkowski background with small noise, stored as JAX arrays.
 
         Parameters
@@ -151,6 +166,8 @@ class JaxFieldState:
             B=jnp.asarray(B_np),
             phi=jnp.asarray(phi_np),
             t=0.0, dx=dx, lam=lam, alpha=alpha, phi0=phi0, m_phi=m_phi,
+            flow_law=flow_law, n_kk_modes=n_kk_modes,
+            kk_backreaction_coupling=kk_backreaction_coupling,
         )
 
 
@@ -163,7 +180,7 @@ def to_numpy_state(jax_state: JaxFieldState):
 
     Imports FieldState lazily to avoid circular imports.
     """
-    from .evolution import FieldState
+    from .evolution import FLOW_LAW_LEGACY, FieldState
     return FieldState(
         g=np.asarray(jax_state.g),
         B=np.asarray(jax_state.B),
@@ -174,6 +191,9 @@ def to_numpy_state(jax_state: JaxFieldState):
         alpha=jax_state.alpha,
         phi0=jax_state.phi0,
         m_phi=jax_state.m_phi,
+        flow_law=jax_state.flow_law,
+        n_kk_modes=jax_state.n_kk_modes,
+        kk_backreaction_coupling=jax_state.kk_backreaction_coupling,
     )
 
 
@@ -190,6 +210,9 @@ def from_numpy_state(np_state) -> JaxFieldState:
         alpha=np_state.alpha,
         phi0=np_state.phi0,
         m_phi=np_state.m_phi,
+        flow_law=np_state.flow_law,
+        n_kk_modes=np_state.n_kk_modes,
+        kk_backreaction_coupling=np_state.kk_backreaction_coupling,
     )
 
 
@@ -221,12 +244,80 @@ def _jax_source_scalar(H):
     return 0.5 * jnp.einsum('nij,nij->n', H, H)
 
 
-def _jax_compute_rhs(g, B, phi, dx, lam, alpha, phi0, m_phi):
+def _jax_periodic_grad(f, dx):
+    """Second-order periodic derivative used by the action-derived law."""
+    return (jnp.roll(f, -1, axis=0) - jnp.roll(f, 1, axis=0)) / (2.0 * dx)
+
+
+def _jax_action_derived_rhs(g, B, phi, dx, lam, phi0, m_phi):
+    """Mirror action_derived_rhs, including its Einstein-to-Jordan chain rule."""
+    gE = phi[:, None, None] * g
+    gi = jnp.linalg.inv(gE)
+    sqrt_g = jnp.sqrt(jnp.abs(jnp.linalg.det(gE)))
+    psi = jnp.log(phi)
+    dpsi = jnp.zeros_like(B).at[:, 1].set(_jax_periodic_grad(psi, dx))
+
+    dgE = jnp.zeros((g.shape[0], 4, 4, 4), dtype=g.dtype)
+    dgE = dgE.at[:, 1].set(_jax_periodic_grad(gE, dx))
+    combo = dgE + dgE.transpose(0, 2, 1, 3) - dgE.transpose(0, 2, 3, 1)
+    Gam = 0.5 * jnp.einsum('nsr,nmvr->nsmv', gi, combo)
+    dGam = _jax_periodic_grad(Gam, dx)
+    term2 = jnp.zeros_like(gE).at[:, 1, :].set(jnp.einsum('nrrs->ns', dGam))
+    ric_vs = (
+        dGam[:, 1] - term2
+        + jnp.einsum('nl,nlvs->nvs', jnp.einsum('nrrl->nl', Gam), Gam)
+        - jnp.einsum('nrvl,nlrs->nvs', Gam, Gam)
+    )
+    ric = 0.5 * (ric_vs + ric_vs.transpose(0, 2, 1))
+
+    dB_dx = _jax_periodic_grad(B, dx)
+    F = jnp.zeros_like(gE).at[:, 1, :].set(dB_dx)
+    F = F.at[:, :, 1].add(-dB_dx)
+    F_up = jnp.einsum('nai,nbj,nij->nab', gi, gi, F)
+    F2 = jnp.einsum('nij,nij->n', F, F_up)
+    FF = jnp.einsum('nma,nab,nvb->nmv', F, gi, F)
+    w = lam ** 2 * phi ** 3
+    U = 0.5 * m_phi ** 2 * (phi - phi0) ** 2 / phi
+    dU_dpsi = m_phi ** 2 * (phi - phi0) - U
+    E_metric = (
+        ric - 1.5 * jnp.einsum('nm,nv->nmv', dpsi, dpsi)
+        - 0.5 * w[:, None, None] * (FF - 0.25 * gE * F2[:, None, None])
+        - 0.5 * U[:, None, None] * gE
+    )
+    E_gauge_up = _jax_periodic_grad(
+        sqrt_g[:, None] * w[:, None] * F_up[:, 1, :], dx
+    ) / sqrt_g[:, None]
+    box_psi = _jax_periodic_grad(
+        sqrt_g * jnp.einsum('nm,nm->n', gi[:, 1, :], dpsi), dx
+    ) / sqrt_g
+    dpsi_dt = (3.0 * box_psi - 0.75 * w * F2 - dU_dpsi) / 3.0
+    dg = -2.0 * E_metric / phi[:, None, None] - g * dpsi_dt[:, None, None]
+    return (0.5 * (dg + dg.transpose(0, 2, 1)),
+            jnp.einsum('nvr,nr->nv', gE, E_gauge_up),
+            phi * dpsi_dt)
+
+
+if JAX_AVAILABLE:
+    _jax_action_derived_rhs = jax.jit(_jax_action_derived_rhs)
+
+
+def _jax_compute_rhs(g, B, phi, dx, lam, alpha, phi0, m_phi,
+                     flow_law=DEFAULT_FLOW_LAW, n_kk_modes=0,
+                     kk_backreaction_coupling=0.0):
     """Compute field equation RHS — fully vectorised JAX version.
 
     Returns (dg, dB, dphi) with the same shapes as (g, B, phi).
     """
-    N = g.shape[0]
+    if flow_law not in FLOW_LAWS:
+        raise ValueError(f"flow_law must be one of {FLOW_LAWS}, got {flow_law!r}")
+    if n_kk_modes > 0 and kk_backreaction_coupling > 0.0:
+        if flow_law == FLOW_LAW_ACTION_DERIVED:
+            raise ValueError("KK-tower backreaction is not a term of the reduced action.")
+        raise NotImplementedError("The JAX backend does not support active KK-tower backreaction.")
+    if flow_law == FLOW_LAW_ACTION_DERIVED:
+        if np.any(np.asarray(phi) <= 0.0):
+            raise ValueError("action-derived equations require φ > 0 everywhere (G_55 = φ²).")
+        return _jax_action_derived_rhs(g, B, phi, dx, lam, phi0, m_phi)
 
     # 5D curvature pipeline
     G5     = _jax_assemble_5d_metric_impl(g, B, phi, lam)
@@ -279,11 +370,12 @@ def _jax_advance(g, B, phi, dg, dB, dphi, dt):
 # Public integrators
 # ---------------------------------------------------------------------------
 
-def jax_step(state: JaxFieldState, dt: float) -> JaxFieldState:
-    """Advance *state* by one JIT-compiled RK4 timestep.
+def jax_step(state: JaxFieldState, dt: float,
+             project_metric_volume: Optional[bool] = None) -> JaxFieldState:
+    """Advance *state* by one JAX RK4 timestep.
 
     Uses the classical fourth-order Runge–Kutta method with a metric
-    volume-preservation projection applied to the final result.  All
+    volume-preservation projection applied by default only for the legacy law. All
     arithmetic is dispatched through JAX/XLA.
 
     Parameters
@@ -300,17 +392,19 @@ def jax_step(state: JaxFieldState, dt: float) -> JaxFieldState:
     dx, lam, alpha = state.dx, state.lam, state.alpha
     phi0, m_phi, t0 = state.phi0, state.m_phi, state.t
     half = 0.5 * dt
+    rhs_params = (dx, lam, alpha, phi0, m_phi, state.flow_law,
+                  state.n_kk_modes, state.kk_backreaction_coupling)
 
-    k1g, k1B, k1phi = _jax_compute_rhs(g, B, phi, dx, lam, alpha, phi0, m_phi)
+    k1g, k1B, k1phi = _jax_compute_rhs(g, B, phi, *rhs_params)
 
     g2, B2, phi2 = _jax_advance(g, B, phi, k1g, k1B, k1phi, half)
-    k2g, k2B, k2phi = _jax_compute_rhs(g2, B2, phi2, dx, lam, alpha, phi0, m_phi)
+    k2g, k2B, k2phi = _jax_compute_rhs(g2, B2, phi2, *rhs_params)
 
     g3, B3, phi3 = _jax_advance(g, B, phi, k2g, k2B, k2phi, half)
-    k3g, k3B, k3phi = _jax_compute_rhs(g3, B3, phi3, dx, lam, alpha, phi0, m_phi)
+    k3g, k3B, k3phi = _jax_compute_rhs(g3, B3, phi3, *rhs_params)
 
     g4, B4, phi4 = _jax_advance(g, B, phi, k3g, k3B, k3phi, dt)
-    k4g, k4B, k4phi = _jax_compute_rhs(g4, B4, phi4, dx, lam, alpha, phi0, m_phi)
+    k4g, k4B, k4phi = _jax_compute_rhs(g4, B4, phi4, *rhs_params)
 
     dg   = (k1g   + 2.0 * k2g   + 2.0 * k3g   + k4g)   / 6.0
     dB   = (k1B   + 2.0 * k2B   + 2.0 * k3B   + k4B)   / 6.0
@@ -318,7 +412,10 @@ def jax_step(state: JaxFieldState, dt: float) -> JaxFieldState:
 
     g_new   = g + dt * dg
     g_new   = 0.5 * (g_new + g_new.transpose(0, 2, 1))
-    g_new   = _jax_project_metric_volume(g_new)
+    if project_metric_volume is None:
+        project_metric_volume = state.flow_law == FLOW_LAW_LEGACY
+    if project_metric_volume:
+        g_new = _jax_project_metric_volume(g_new)
     B_new   = B + dt * dB
     phi_new = phi + dt * dphi
 
@@ -338,6 +435,8 @@ def jax_step(state: JaxFieldState, dt: float) -> JaxFieldState:
     return JaxFieldState(
         g=g_new, B=B_new, phi=phi_new,
         t=t0 + dt, dx=dx, lam=lam, alpha=alpha, phi0=phi0, m_phi=m_phi,
+        flow_law=state.flow_law, n_kk_modes=state.n_kk_modes,
+        kk_backreaction_coupling=state.kk_backreaction_coupling,
     )
 
 
@@ -358,14 +457,20 @@ def jax_step_euler(state: JaxFieldState, dt: float) -> JaxFieldState:
     dx, lam, alpha = state.dx, state.lam, state.alpha
     phi0, m_phi = state.phi0, state.m_phi
 
-    dg, dB, dphi = _jax_compute_rhs(g, B, phi, dx, lam, alpha, phi0, m_phi)
+    dg, dB, dphi = _jax_compute_rhs(
+        g, B, phi, dx, lam, alpha, phi0, m_phi, state.flow_law,
+        state.n_kk_modes, state.kk_backreaction_coupling,
+    )
     g_new = g + dt * dg
     g_new = 0.5 * (g_new + g_new.transpose(0, 2, 1))
-    g_new = _jax_project_metric_volume(g_new)
+    if state.flow_law == FLOW_LAW_LEGACY:
+        g_new = _jax_project_metric_volume(g_new)
 
     return JaxFieldState(
         g=g_new, B=B + dt * dB, phi=phi + dt * dphi,
         t=state.t + dt, dx=dx, lam=lam, alpha=alpha, phi0=phi0, m_phi=m_phi,
+        flow_law=state.flow_law, n_kk_modes=state.n_kk_modes,
+        kk_backreaction_coupling=state.kk_backreaction_coupling,
     )
 
 

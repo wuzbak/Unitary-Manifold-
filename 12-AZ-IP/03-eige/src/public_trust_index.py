@@ -61,7 +61,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 from .constants import (
     K_CS,
@@ -146,7 +146,7 @@ class PublicTrustReport:
 
     def __str__(self) -> str:
         lines = [
-            f"═══ EIGE Public Trust Report ═══",
+            "═══ EIGE Public Trust Report ═══",
             f"Status     : {self.status}",
             f"Jurisdiction: {self.jurisdiction}",
             f"Timestamp  : {self.timestamp}",
@@ -155,9 +155,9 @@ class PublicTrustReport:
             f"{self.counties_verified} verified | "
             f"{self.counties_watch} watch | "
             f"{self.counties_alert} alert",
-            f"",
+            "",
             f"Summary    : {self.plain_english_summary}",
-            f"",
+            "",
             f"Statistical: {self.statistical_equivalent}",
         ]
         return "\n".join(lines)

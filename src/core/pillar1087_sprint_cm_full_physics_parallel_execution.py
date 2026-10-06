@@ -59,7 +59,7 @@ _MERGE_AUDIT_RULES = {
     "src/core/pillar1085_sprint_ck_target_lock_evidence_capture.py": [
         "ACTION_TO_EVOLUTION_EULER_LAGRANGE",
         "required_new_object_evidence_class",
-        "No verified action-level Euler-Lagrange derivation",
+        "Construct and verify an action whose Euler-Lagrange equations reproduce",
     ],
     "src/core/pillar1086_sprint_cl_all_hands_rigor_packet.py": [
         "run_merlin_targeted_rigor_sprint",
@@ -484,7 +484,11 @@ def sprint_cm_full_physics_parallel_execution() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(sprint_cm_full_physics_parallel_execution().get("valid"))

@@ -24,6 +24,24 @@ from TOOLS.um_arts import pytest_plugin as plugin
 arts_workspace = _arts_workspace
 
 
+def test_process_cleanup_timeout_preserves_failure_receipt(tmp_path, monkeypatch):
+    from TOOLS.um_arts import process as runner
+
+    child = SimpleNamespace(pid=12345, stdout=None, stderr=None)
+
+    def wait(*, timeout):
+        raise subprocess.TimeoutExpired(["stuck"], timeout)
+
+    child.wait = wait
+    monkeypatch.setattr(runner.subprocess, "Popen", lambda *args, **kwargs: child)
+    monkeypatch.setattr(runner.os, "killpg", lambda *args: None)
+    result = runner.execute(["stuck"], tmp_path, tmp_path / "receipt", 0.1, stream=False)
+    assert result["timed_out"] is True
+    assert result["returncode"] is None
+    assert result["error"] == "process did not exit after SIGKILL"
+    assert json.loads((tmp_path / "receipt" / "process.json").read_text()) == result
+
+
 def capture_command(workspace, *extra):
     root = workspace / "capture-repository"
     root.mkdir()

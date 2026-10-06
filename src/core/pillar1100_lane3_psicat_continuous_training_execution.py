@@ -108,7 +108,11 @@ def lane3_psicat_continuous_training_execution() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(lane3_psicat_continuous_training_execution().get('valid'))

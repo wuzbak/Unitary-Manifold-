@@ -4,13 +4,28 @@
 EIGE/src/tee_attestation.py — Trusted Execution Environment Attestation
 ========================================================================
 
-Provides a platform-agnostic TEE attestation interface with three
-implementations:
+SECURITY NOTICE (v22, red-team finding F4)
+------------------------------------------
+v21 silently fell back to a software mock signed with a fixed, published key
+and presented SHA-512(quote) as the TDX/SEV "signature".  Neither was
+attestation.  As of v22:
+
+* The mock is never selected implicitly.  It requires ``allow_mock=True``
+  (or ``EIGE_ALLOW_TEE_MOCK=1``) and refuses ``EIGE_MODE=production``.  Mock
+  reports carry no signature and ``verification_status="MOCK_NOT_EVIDENCE"``.
+* Hardware reports carry the raw quote/report bytes with
+  ``verification_status="RAW_QUOTE_UNVERIFIED"``.  This module does NOT
+  verify quotes: that requires validating the Intel DCAP (PCK → Intel SGX
+  Root CA) or AMD (VCEK → ASK → ARK) certificate chain plus TCB/collateral
+  checks, which must be done by an external verifier such as Intel's QVL or
+  AMD's ``snpguest``.  :func:`verify_attestation_report` therefore always
+  reports ``verified=False`` with the reason.
+
+Implementations:
 
   SOFTWARE_MOCK
-      Deterministic attestation report for development and testing.
-      Uses SHA-512 of (nonce + platform string) as the measurement.
-      Suitable for offline environments and CI pipelines.
+      Explicit opt-in development stub.  Measurement = SHA-512(nonce +
+      platform string).  Not evidence of anything.
 
   TDX (Intel Trust Domain Extensions)
       Invokes the Intel TDX attestation SDK to obtain a genuine Quote.
@@ -36,7 +51,9 @@ import hashlib
 import os
 import struct
 from dataclasses import dataclass, field
-from typing import Literal
+from typing import Literal, Optional
+
+from eige.config import require_non_production
 
 # Platform type alias
 Platform = Literal["TDX", "SEV-SNP", "SOFTWARE_MOCK"]
@@ -75,6 +92,12 @@ class AttestationReport:
     nonce: bytes
     signature: bytes
     report_data: bytes = field(default_factory=bytes)
+    verification_status: str = "RAW_QUOTE_UNVERIFIED"
+
+    @property
+    def verified(self) -> bool:
+        """Always False: this module performs no quote/certificate-chain verification."""
+        return False
 
     def is_mock(self) -> bool:
         """Return True if this is a software mock report (not hardware-attested)."""
@@ -93,6 +116,8 @@ class AttestationReport:
             "signature": self.signature.hex(),
             "report_data_len": len(self.report_data),
             "is_mock": self.is_mock(),
+            "verified": self.verified,
+            "verification_status": self.verification_status,
         }
 
 
@@ -100,24 +125,25 @@ class AttestationReport:
 # Software mock implementation
 # ---------------------------------------------------------------------------
 
-# Fixed test key for the mock — never used in production
-_MOCK_HMAC_KEY = hashlib.sha512(b"EIGE-v21-tee-mock-key").digest()
+MOCK_ENV_VAR = "EIGE_ALLOW_TEE_MOCK"
+
+
+class TEEUnavailable(RuntimeError):
+    """No hardware TEE is available and the mock was not explicitly allowed."""
 
 
 def _get_software_mock_report(nonce: bytes) -> AttestationReport:
-    """Generate a deterministic SOFTWARE_MOCK attestation report."""
-    import hmac as _hmac
-
+    """Generate a SOFTWARE_MOCK report (development only, carries no signature)."""
+    require_non_production("SOFTWARE_MOCK attestation")
     platform = b"SOFTWARE_MOCK"
     measurement = hashlib.sha512(nonce + platform).digest()
-    data = measurement + nonce
-    signature = _hmac.new(_MOCK_HMAC_KEY, data, hashlib.sha512).digest()
     return AttestationReport(
         platform="SOFTWARE_MOCK",
         measurement=measurement,
         nonce=nonce,
-        signature=signature,
+        signature=b"",
         report_data=b"",
+        verification_status="MOCK_NOT_EVIDENCE",
     )
 
 
@@ -156,8 +182,9 @@ def _get_tdx_report(nonce: bytes) -> AttestationReport:
 
     # Extract MRTD (bytes 128–176 of the TDX Quote body) as the measurement
     measurement = quote_bytes[128:176] if len(quote_bytes) >= 176 else hashlib.sha512(quote_bytes).digest()
-    # The quote itself is the signature artifact for TDX
-    signature = hashlib.sha512(quote_bytes).digest()
+    # The quote's ECDSA signature is embedded in quote_bytes; it is NOT
+    # verified here (see module notice).  No synthetic signature is produced.
+    signature = b""
 
     return AttestationReport(
         platform="TDX",
@@ -242,7 +269,8 @@ def _get_sev_snp_report(nonce: bytes) -> AttestationReport:
     if len(measurement) < 48:
         measurement = hashlib.sha512(report_bytes).digest()
 
-    signature = hashlib.sha512(report_bytes).digest()
+    # The report's VCEK signature is embedded in report_bytes; NOT verified here.
+    signature = b""
 
     return AttestationReport(
         platform="SEV-SNP",
@@ -259,48 +287,63 @@ def _get_sev_snp_report(nonce: bytes) -> AttestationReport:
 
 def get_attestation_report(
     nonce: bytes,
-    prefer: Platform = "SOFTWARE_MOCK",
+    prefer: Optional[Platform] = None,
+    allow_mock: bool = False,
 ) -> AttestationReport:
     """Obtain a TEE attestation report for the current execution environment.
 
-    Platform selection order:
-      1. If ``prefer`` is explicitly "TDX", attempt TDX; raise on failure.
-      2. If ``prefer`` is explicitly "SEV-SNP", attempt SEV-SNP; raise on failure.
-      3. If ``prefer`` is "SOFTWARE_MOCK" (default), or if hardware is unavailable
-         and ``prefer`` is not explicitly set, return a software mock.
+    Platform selection:
+      1. ``prefer="TDX"`` or ``"SEV-SNP"``: attempt that platform; raise on failure.
+      2. ``prefer="SOFTWARE_MOCK"``: return the mock, only if mock use is allowed.
+      3. ``prefer=None``: try TDX, then SEV-SNP; fall back to the mock only if
+         allowed, otherwise raise :class:`TEEUnavailable`.
 
-    Parameters
-    ----------
-    nonce : bytes
-        A fresh random nonce provided by the verifier.  Must be unique per
-        attestation request to prevent replay attacks.
-    prefer : str
-        Preferred platform: "TDX", "SEV-SNP", or "SOFTWARE_MOCK" (default).
-
-    Returns
-    -------
-    AttestationReport
-
-    Raises
-    ------
-    RuntimeError
-        If ``prefer`` is "TDX" or "SEV-SNP" and the platform is unavailable.
+    Mock use is allowed when ``allow_mock=True`` or ``EIGE_ALLOW_TEE_MOCK=1``,
+    and never in production mode.  The returned report is NOT verified; see
+    :func:`verify_attestation_report`.
     """
+    mock_allowed = allow_mock or os.environ.get(MOCK_ENV_VAR, "") == "1"
     if prefer == "TDX":
         return _get_tdx_report(nonce)
     if prefer == "SEV-SNP":
         return _get_sev_snp_report(nonce)
+    if prefer == "SOFTWARE_MOCK":
+        if not mock_allowed:
+            raise TEEUnavailable(f"SOFTWARE_MOCK requested without allow_mock=True or {MOCK_ENV_VAR}=1")
+        return _get_software_mock_report(nonce)
 
-    # Auto-detect: try hardware first, fall back to mock
+    errors = []
     if os.path.exists("/dev/tdx_guest"):
         try:
             return _get_tdx_report(nonce)
-        except Exception:
-            pass
+        except Exception as exc:  # pragma: no cover - hardware path
+            errors.append(f"TDX: {exc}")
     if os.path.exists(_SEV_GUEST_DEVICE):
         try:
             return _get_sev_snp_report(nonce)
-        except Exception:
-            pass
+        except Exception as exc:  # pragma: no cover - hardware path
+            errors.append(f"SEV-SNP: {exc}")
+    if mock_allowed:
+        return _get_software_mock_report(nonce)
+    raise TEEUnavailable("no hardware TEE available and mock not allowed" + (f" ({'; '.join(errors)})" if errors else ""))
 
-    return _get_software_mock_report(nonce)
+
+@dataclass(frozen=True)
+class AttestationVerification:
+    verified: bool
+    status: str
+    reason: str
+
+
+def verify_attestation_report(report: AttestationReport, expected_nonce: bytes) -> AttestationVerification:
+    """Assess a report honestly.  Never returns ``verified=True`` (no chain verification exists here)."""
+    if not report.verify_nonce(expected_nonce):
+        return AttestationVerification(False, "NONCE_MISMATCH", "report does not echo the expected nonce")
+    if report.is_mock():
+        return AttestationVerification(False, "MOCK_NOT_EVIDENCE", "software mock; not hardware attestation")
+    return AttestationVerification(
+        False,
+        "RAW_QUOTE_UNVERIFIED",
+        "quote signature and certificate chain were not verified; use an external "
+        "verifier (Intel DCAP QVL for TDX, AMD VCEK/ASK/ARK chain for SEV-SNP)",
+    )

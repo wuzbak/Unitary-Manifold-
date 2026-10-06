@@ -152,13 +152,15 @@ _OBSERVATORY_LAST_RESULT: dict[str, object] = {"ok": True, "records": [], "ruptu
 _OBSERVATORY_POLL_IN_PROGRESS = False
 _OX_COMPAT_ROUTE_RE = re.compile(r"^/api/ox(?:/|$)")
 def _sign_session_id(session_id: str) -> str:
+    if re.fullmatch(r"[0-9a-f]{32}", session_id) is None:
+        raise ValueError("Invalid session identifier.")
     signature = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
     return f'{session_id}.{signature}'
 
 
 def _extract_session_id(token: str) -> str:
     session_id, _, signature = str(token or '').partition('.')
-    if not session_id or not signature:
+    if re.fullmatch(r"[0-9a-f]{32}", session_id) is None or not signature:
         return ''
     expected = hmac.new(_MERLIN_SESSION_SECRET, session_id.encode('utf-8'), hashlib.sha256).hexdigest()
     return session_id if hmac.compare_digest(signature, expected) else ''
@@ -362,12 +364,51 @@ def _maybe_run_observatory_poll(session: MerlinSession) -> dict[str, object]:
     return payload
 
 
+_PRODUCT25_CORS_ORIGINS = frozenset({
+    "http://127.0.0.1:8025",
+    "http://localhost:8025",
+})
+_PRODUCT25_CORS_PATHS = frozenset({
+    "/api/psicat",
+    "/api/psicat/status",
+    "/api/merlin",
+    "/api/merlin/status",
+})
+
+
+def _is_product25_cors_request(origin: str, request_path: str) -> bool:
+    path = urlparse(request_path).path.rstrip("/") or "/"
+    return origin in _PRODUCT25_CORS_ORIGINS and path in _PRODUCT25_CORS_PATHS
+
+
 class OxRequestHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(UI_ROOT), **kwargs)
 
     def log_message(self, format, *args):  # noqa: A003
         return
+
+    def end_headers(self):
+        origin = str(self.headers.get("Origin") or "").strip()
+        if _is_product25_cors_request(origin, self.path):
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Access-Control-Allow-Credentials", "true")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.send_header("Access-Control-Max-Age", "600")
+            self.send_header("Vary", "Origin")
+        super().end_headers()
+
+    def do_OPTIONS(self):  # noqa: N802
+        if not _is_product25_cors_request(
+            str(self.headers.get("Origin") or "").strip(),
+            self.path,
+        ):
+            self.send_response(403)
+            self.end_headers()
+            return
+        self.send_response(204)
+        self.end_headers()
 
     def _json(self, payload: dict, status: int = 200) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode('utf-8')
@@ -1807,6 +1848,21 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
         except json.JSONDecodeError:
             self._json({'error': 'Invalid JSON body'}, status=400)
             return
+        if route_path == '/api/psicat/local-execution/run':
+            operator_token = os.environ.get("PSICAT_LOCAL_EXECUTION_TOKEN", "")
+            authorization = self.headers.get("Authorization", "")
+            supplied_token = authorization.removeprefix("Bearer ")
+            if (
+                not operator_token or not authorization.startswith("Bearer ")
+                or not hmac.compare_digest(
+                    supplied_token.encode("utf-8"), operator_token.encode("utf-8"),
+                )
+            ):
+                self._json({
+                    'ok': False,
+                    'error': 'Local execution requires separate operator authorization.',
+                }, status=403)
+                return
         profile_hint = self._profile_hint(payload=payload, params=params)
         if route_path in ('/api/psicat', '/api/ox') and str(getattr(self, '_profile_token_state', '')) in {'invalid_token_signature', 'invalid_shared_key', 'shared_key_not_configured'}:
             self._handshake_state = "not_checked"

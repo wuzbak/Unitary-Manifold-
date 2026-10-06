@@ -6,8 +6,10 @@
 from __future__ import annotations
 
 import json
+import ipaddress
 import os
 import re
+import socket
 import time
 from typing import Any
 
@@ -35,6 +37,9 @@ from .merlin_telemetry import build_run_telemetry
 from .merlin_tools import route_tool
 
 TOOL_CALL_RE = re.compile(r"\[TOOL_CALL\]\s*(\{[\s\S]*?\})\s*\[/TOOL_CALL\]")
+_CRAWL_MAX_REDIRECTS = 5
+_CRAWL_MAX_BYTES = 256_000
+_CRAWL_TIMEOUT_SECONDS = 10.0
 
 
 def extract_tool_call(text: str) -> dict[str, Any] | None:
@@ -56,12 +61,69 @@ def strip_tool_call(text: str) -> str:
     return TOOL_CALL_RE.sub("", text or "").strip()
 
 
+def _public_fetch_target(url: httpx.URL) -> httpx.URL:
+    """Resolve once and pin public-page traffic; inference providers are separate."""
+    if url.scheme not in {"http", "https"} or not url.host or url.userinfo:
+        raise ValueError("Public-page fetching requires an HTTP(S) URL without credentials.")
+    try:
+        addresses = [ipaddress.ip_address(url.host)]
+    except ValueError:
+        addresses = [
+            ipaddress.ip_address(record[4][0])
+            for record in socket.getaddrinfo(
+                url.host, url.port or (443 if url.scheme == "https" else 80),
+                type=socket.SOCK_STREAM,
+            )
+        ]
+    if not addresses or any(
+        not address.is_global or address.is_multicast
+        or (isinstance(address, ipaddress.IPv6Address) and (
+            address.sixtofour is not None or address.teredo is not None
+            or (address.ipv4_mapped is not None and not address.ipv4_mapped.is_global)
+        ))
+        for address in addresses
+    ):
+        raise ValueError("Public-page fetching denied: destination is not a public IP.")
+    return url.copy_with(host=str(addresses[0]))
+
+
 def _crawl_page(url: str) -> dict[str, Any]:
     try:
-        with httpx.Client(timeout=10.0, follow_redirects=True) as client:
-            response = client.get(url)
-            response.raise_for_status()
-        text = re.sub(r"\s+", " ", response.text)
+        deadline = time.monotonic() + _CRAWL_TIMEOUT_SECONDS
+        current = httpx.URL(url)
+        with httpx.Client(
+            timeout=_CRAWL_TIMEOUT_SECONDS, follow_redirects=False, trust_env=False,
+            limits=httpx.Limits(max_keepalive_connections=0),
+        ) as client:
+            for hop in range(_CRAWL_MAX_REDIRECTS + 1):
+                target = _public_fetch_target(current)
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise ValueError("Public-page fetch time limit exceeded.")
+                # Connect to the validated literal IP, retaining original HTTP/TLS identity.
+                with client.stream(
+                    "GET", target, headers={
+                        "Host": current.netloc.decode("ascii"), "Accept-Encoding": "identity",
+                    },
+                    extensions={"sni_hostname": current.host}, timeout=remaining,
+                ) as response:
+                    if response.is_redirect:
+                        if hop == _CRAWL_MAX_REDIRECTS:
+                            raise ValueError("Public-page redirect limit exceeded.")
+                        current = current.join(response.headers["location"])
+                        continue
+                    response.raise_for_status()
+                    if response.headers.get("content-encoding", "identity").lower() != "identity":
+                        raise ValueError("Public-page fetch denied: compressed response.")
+                    content = bytearray()
+                    for chunk in response.iter_raw(chunk_size=4096):
+                        if time.monotonic() > deadline:
+                            raise ValueError("Public-page fetch time limit exceeded.")
+                        if len(content) + len(chunk) > _CRAWL_MAX_BYTES:
+                            raise ValueError("Public-page fetch byte limit exceeded.")
+                        content.extend(chunk)
+                    text = re.sub(r"\s+", " ", content.decode(response.encoding or "utf-8", errors="replace"))
+                    break
         return {"url": url, "ok": True, "title": url, "content": text[:2500]}
     except Exception as exc:
         return {"url": url, "ok": False, "error": str(exc)}
@@ -790,11 +852,11 @@ async def query_merlin(
     context_scaffold = build_context_scaffold(text, session=session)
     rag_context = build_rag_context(text, session=session)
     urls = extract_urls(text)
-    crawled = [_crawl_page(url) for url in urls]
-    if on_status is not None:
-        on_status.append("crawling" if crawled else "rag")
     internal = is_internal_question(text)
     used_websearch = bool(force_websearch) if force_websearch is not None else (not internal or bool(urls))
+    crawled = [_crawl_page(url) for url in urls] if used_websearch else []
+    if on_status is not None:
+        on_status.append("crawling" if crawled else "rag")
     audit = session.audit_memory(text)
     compressed = session.compressed(text, matched_memory=audit.get("matched_memory"))
     policy_sources = _policy_sources_for_query(

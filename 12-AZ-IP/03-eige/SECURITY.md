@@ -1,6 +1,6 @@
 # EIGE Security Policy
 
-**AxiomZero EIGE v21.0 — Election Integrity Governance Engine**  
+**AxiomZero EIGE v22.0 — Election Integrity Governance Engine**  
 *Theory & scientific direction: ThomasCory Walker-Pearson*  
 *Code architecture & implementation: GitHub Copilot (AI)*
 
@@ -8,110 +8,58 @@
 
 ## Overview
 
-AxiomZero takes the security of EIGE seriously. This document describes our security policy, the scope of our security review program, and how to report vulnerabilities responsibly.
+EIGE v22 is an audit-support and transparency tool. Security review should focus on whether published artifacts can be independently verified, whether signatures and key status are interpreted correctly, whether Merkle and witness checks detect log inconsistency, and whether documentation states limits plainly.
 
-EIGE is an open-source election integrity system. Transparent adversarial review is a core design principle — not an afterthought. We actively welcome security researchers, cryptographers, and red-team practitioners to examine our work.
+## In scope
 
----
+| Component | What to review |
+|---|---|
+| `eige.canonical` | Canonical JSON ambiguity, duplicate-key handling, float rejection, UTF-8 handling |
+| `eige.crypto.merkle` | RFC 6962/RFC 9162 compatibility, inclusion proofs, consistency proofs, root calculation |
+| `eige.crypto.signing` | Ed25519 domain separation, key ID construction, registry time/role checks, rotation, revocation, development-key rejection |
+| `eige.crypto.commitments` | Group selection, generator derivation, opening checks, homomorphic aggregation, selective-opening behavior |
+| `eige.ledger.log` | Append-only semantics, signed tree heads, log record validation |
+| `eige.ledger.bulletin` | Witness behavior, split-view detection, equivocation evidence |
+| `eige.ledger.custody` | Two-person sign-off enforcement and custody anomaly checks |
+| `eige.audit.*` | Sampling ceremony, RLA calculations, reconciliation discrepancy classification |
+| `eige.verify` | Bundle verification, exit codes, report status semantics |
+| `eige.data.open_data` | HTTPS allow-list, provenance, expected SHA-256 pinning, no placeholder fallback |
 
-## Scope
+## Out of scope
 
-### In scope (we want your reports)
+- Certified tabulator design, firmware, certification, or operation.
+- Physical custody practices except where EIGE records and checks custody events.
+- Claims already retracted in [RETRACTED_CLAIMS.md](RETRACTED_CLAIMS.md), unless a new implementation issue is found.
+- Denial-of-service reports that require local administrative control and do not affect artifact verification.
+- Development-only signers, mock HSMs, or mock TEE components when they correctly refuse production mode.
 
-| Component | What to look for |
-|-----------|-----------------|
-| **CS rolling hash** (`src/chern_simon_hash.py`) | Algebraic attacks, collision constructions, state-recovery from partial hash output, commutativity attacks |
-| **Metric closure validator** (`src/metric_closure.py`) | False STABLE conditions, precision exploits, adversarial ballot sequences that pass closure without legitimate data |
-| **Freedom Floor** (`src/sentinel_load_balance.py`) | Bypass conditions that allow participation suppression to go undetected |
-| **Federal blind audit gate** (`src/federal_auditor.py`) | Raw data exfiltration paths, attribute reflection attacks, `__getattr__` bypass |
-| **Override interception** (`src/sentinel_load_balance.py`) | Race conditions in dossier emission, atomicity failures, timing-based bypass |
-| **Holographic shard reconstruction** (`src/chern_simon_hash.py`) | Below-threshold shard attacks, shard poisoning |
-| **HMAC-SHA-512 telemetry** (`src/county_node.py`) | Key derivation weaknesses in the placeholder implementation |
-| **HolographicScreen normalisation** (`src/holographic_screen.py`) | Input validation bypass, write-in injection, confidence-score manipulation |
-| **Recovery kernel** (`src/recovery_kernel.py`) | Cold-start bypass conditions |
+## Development-key warning
 
-### Out of scope
+`DevelopmentSigner`, `SoftwareKeyProvider`, `MockHSM`, and mock TEE flows are for tests and demos only. They must not be used for production election artifacts. Production deployments should use controlled key ceremonies and, where required, HSM-backed keys. EIGE signatures identify a key; they do not prove the keyholder was honest.
 
-- Bugs in Python itself, pytest, numpy, or mpmath
-- Denial-of-service attacks that require local administrative access
-- Theoretical issues that require hardware access (TEE, HSM) — Phase 2 deliverables
-- The underlying cosmological physics of the Unitary Manifold — this is a separate scientific question
-- Issues in the Rust/Go/Next.js blueprints (`blueprint/`) — these are reference blueprints, not production code
+## Static analysis
 
----
+All of EIGE's Python code (`12-AZ-IP/03-eige/` and the `12-AZ-IP/EIGE` shim, 115 files) is analysed by CodeQL in its own path slice, `python-eige`, defined in `.github/codeql/slices.json` and run by `.github/workflows/codeql-language-matrix.yml` with the `security-extended` query suite. Before this slice existed, EIGE was in no slice and its Python code was not analysed in CI: the repository-wide Python database is too large for a single analysis.
 
-## Known Limitations (publicly documented — not vulnerabilities)
+Anyone can repeat the analysis locally with the CodeQL CLI:
 
-The following are **known and explicitly documented limitations**, not security vulnerabilities:
+```bash
+python TOOLS/checks/codeql_slices.py analyze python-eige --suite security-extended
+python TOOLS/checks/codeql_slices.py analyze python-eige --suite security-and-quality
+```
 
-1. **The CS rolling hash is not a cryptographic hash.** It is a tamper-detection invariant. It should not be used as a standalone secret-preserving commitment scheme. Full cryptographic audit relies on SHA-512 block hashes and HMAC-SHA-512 shard signatures.
+Results of the first full local run (CodeQL 2.27.1) and their dispositions are recorded in `.github/codeql/README.md`. A clean CodeQL run means none of its queries matched; it is not a certification that the code is free of vulnerabilities.
 
-2. **The Holon Zero Certificate is a commitment-scheme architecture, not a formal ZK proof.** A formal zero-knowledge proof (zk-SNARK or Pedersen commitment) is a Phase 2 deliverable.
+## Reporting
 
-3. **v21.0 is fully software-defined.** Hardware dependencies (TEE attestation, mTLS certificate provisioning, hardware-pinned HMAC keys) are mocked. Production deployment requires hardware integration.
+Report suspected vulnerabilities by email to `axiomzero-security@proton.me` with subject `[EIGE SECURITY]`, or open a GitHub issue marked `[SECURITY]` if public disclosure is appropriate.
 
-4. **The HMAC key derivation placeholder** in `county_node.py::CountyNode._derive_key()` uses a SHA-512 hash of the county ID. **This is explicitly documented as a placeholder** and must be replaced with hardware-backed key management in production.
+Please include the affected component, version or commit, reproduction steps, expected behavior, observed behavior, and your severity assessment. We aim to acknowledge reports within five business days and coordinate public disclosure when a report is confirmed.
 
-Reporting one of the above as a new vulnerability is welcome only if you have discovered an additional attack vector beyond the documented limitation.
+## Known limitations
 
----
-
-## Bug Bounty Program — CS Hash Cryptanalysis Challenge
-
-We are offering an **open cryptanalysis challenge** focused on the Chern-Simons rolling hash:
-
-### Challenge Description
-
-Construct a ballot sequence `[b₁', b₂', ..., b_n']` that:
-
-1. Differs from a given legitimate sequence `[b₁, b₂, ..., b_n]` by at least one entry
-2. Produces the same final hash state `s_n` as the legitimate sequence
-3. Produces a `φ_eff` value within `PHI_TOLERANCE = 10^{-15}` of `φ₀ = π/4`
-
-### Prize
-
-Recognition in:
-- EIGE SECURITY.md Hall of Fame (below)
-- EIGE arXiv preprint acknowledgements section
-- EIGE v22.0 release notes
-
-If the attack is novel and practically exploitable: we commit to a full security reassessment of the hash design and public disclosure within 30 days.
-
-### Submission
-
-Email: `axiomzero-security@proton.me` (or open a GitHub Issue marked `[SECURITY]`)
-
----
-
-## Responsible Disclosure Policy
-
-1. **Report privately first.** Email `axiomzero-security@proton.me` with subject `[EIGE SECURITY]`
-2. **Include:** affected component, reproduction steps, version tested, your assessment of severity
-3. **Response time:** We commit to an initial response within 5 business days
-4. **Disclosure timeline:** We will aim to produce a fix or mitigation within 30 days of confirmation. We will coordinate public disclosure with you
-5. **Credit:** We will credit you by name (or handle) in the patched release notes and in this document, unless you prefer anonymity
-
----
-
-## Independent Review Status
-
-| Component | Status |
-|-----------|--------|
-| CS rolling hash | Open for review — no independent review completed yet |
-| Federal blind audit gate | Open for review |
-| OSCAL dossier emission | Open for review |
-| Full NIST SP-800-53 R5 penetration test | Phase 2 planned deliverable |
-| Third-party red-team engagement | Phase 2 planned deliverable |
-
-We are actively seeking academic cryptographers willing to co-sign an independent security assessment. If you are a researcher interested in this, contact us at the address above.
-
----
-
-## Hall of Fame
-
-*No submissions yet. Be the first.*
-
----
-
-*Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*  
-*Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).*
+- EIGE cannot detect manipulation before a ballot is scanned or logged.
+- EIGE cannot replace paper ballots, chain of custody, canvass reconciliation, or legally required audits.
+- EIGE does not provide end-to-end voter-verifiable cryptographic voting.
+- Statistical screening results are investigation leads, not evidence of fraud.
+- PKCS#11 signer support exists, but this repository does not claim hardware certification or successful testing against every HSM.

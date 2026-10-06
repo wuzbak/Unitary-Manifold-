@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import os
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -21,25 +22,26 @@ class UMReaderRequestHandler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(UI_ROOT), **kwargs)
 
     @staticmethod
-    def _is_within(candidate: Path, root: Path) -> bool:
-        try:
-            candidate.resolve().relative_to(root.resolve())
-            return True
-        except ValueError:
-            return False
+    def _contained(root: Path, relative: str) -> str | None:
+        """Absolute path of ``relative`` under ``root`` if it exists and stays inside ``root``."""
+        base = os.path.realpath(root)
+        full = os.path.realpath(os.path.join(base, relative))
+        if not full.startswith(base + os.sep):
+            return None
+        return full if os.path.exists(full) else None
 
     def translate_path(self, path: str) -> str:
         request_path = unquote(urlparse(path).path)
         if request_path in ('', '/'):
             return str(UI_ROOT / 'index.html')
-        relative = Path(request_path.lstrip('/'))
-        ui_candidate = (UI_ROOT / relative).resolve()
-        if self._is_within(ui_candidate, UI_ROOT) and ui_candidate.exists():
-            return str(ui_candidate)
-        repo_candidate = (REPO_ROOT / relative).resolve()
-        if self._is_within(repo_candidate, REPO_ROOT) and repo_candidate.exists():
-            return str(repo_candidate)
-        return str(ui_candidate)
+        relative = request_path.lstrip('/')
+        for root in (UI_ROOT, REPO_ROOT):
+            found = self._contained(root, relative)
+            if found is not None:
+                return found
+        # Not found, or outside both roots: a path that cannot exist yields a plain 404
+        # instead of serving whatever ``..`` segments resolved to.
+        return str(UI_ROOT / '__not_found__')
 
     def end_headers(self) -> None:
         self.send_header('Cache-Control', 'no-store, max-age=0')

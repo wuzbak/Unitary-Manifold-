@@ -224,8 +224,10 @@ def create_app() -> "FastAPI":
             from AxiomZero.core.model_router import _get_vram_pct
             pct = await _get_vram_pct()
             return {"vram_pct": pct, "paused": pct > 90}
-        except Exception as exc:
-            return {"vram_pct": None, "error": str(exc)}
+        except Exception:
+            # Exception text can reveal paths and driver details; keep it in the server log.
+            logger.exception("VRAM probe failed")
+            return {"vram_pct": None, "error": "vram probe unavailable"}
 
     # ------------------------------------------------------------------
     # Status
@@ -368,7 +370,8 @@ def create_app() -> "FastAPI":
             db.get_checkpoints("health-check")
             results["state_db"] = {"ok": True}
         except Exception as exc:
-            results["state_db"] = {"ok": False, "error": str(exc)}
+            logger.exception("deep health check failed: state_db")
+            results["state_db"] = {"ok": False, "error": type(exc).__name__}
 
         # Check vector store
         try:
@@ -377,7 +380,8 @@ def create_app() -> "FastAPI":
             vs.query("test", n_results=1)
             results["vector_store"] = {"ok": True}
         except Exception as exc:
-            results["vector_store"] = {"ok": False, "error": str(exc)}
+            logger.exception("deep health check failed: vector_store")
+            results["vector_store"] = {"ok": False, "error": type(exc).__name__}
 
         # Check Ollama
         try:
@@ -386,7 +390,8 @@ def create_app() -> "FastAPI":
                 resp = await client.get("http://localhost:11434/api/version")
                 results["ollama"] = {"ok": resp.status_code == 200, "version": resp.json()}
         except Exception as exc:
-            results["ollama"] = {"ok": False, "error": str(exc)}
+            logger.exception("deep health check failed: ollama")
+            results["ollama"] = {"ok": False, "error": type(exc).__name__}
 
         overall_ok = all(v.get("ok", False) for v in results.values())
         return {"ok": overall_ok, "checks": results, "ts": time.time()}

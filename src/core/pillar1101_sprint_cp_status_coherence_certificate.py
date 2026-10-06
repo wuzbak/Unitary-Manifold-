@@ -62,7 +62,11 @@ def sprint_cp_status_coherence_certificate() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(sprint_cp_status_coherence_certificate().get('valid'))

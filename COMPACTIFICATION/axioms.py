@@ -101,12 +101,12 @@ AXIOM_REGISTRY: List[Axiom] = [
             "G_AB = [[g_μν + λ²φ²B_μB_ν, λφ²B_μ], [λφ²B_ν, φ²]] "
             "with G₅₅ = φ², the radion scalar."
         ),
-        status=AxiomStatus.PROVED_CONDITIONAL,
-        lean4_ref="lean4/UnitaryManifold/P8FunctionalFull.lean",
+        status=AxiomStatus.POSTULATED,
+        lean4_ref=None,
         fallibility_note=(
-            "Conditional parameterization of a spacelike compact fibre with "
-            "positive radion and cylinder condition; not a derivation of the "
-            "photon or flow equations. See docs/TRUTH_LAYER.md foundation reassessment."
+            "The KK block form is the starting metric ansatz, not a proved theorem. "
+            "A spacelike compact fibre, positive radion, and cylinder condition "
+            "are explicit assumptions; see docs/TRUTH_LAYER.md foundation reassessment."
         ),
         pillars=[1, 2, 3],
     ),
@@ -181,7 +181,7 @@ AXIOM_REGISTRY: List[Axiom] = [
             "exp(iπ k_CS η̄) = −1 (odd), encoding SM chirality."
         ),
         status=AxiomStatus.DERIVED,
-        lean4_ref="lean4/UnitaryManifold/OrbifoldBCUniqueness.lean",
+        lean4_ref=None,
         fallibility_note=(
             "Derived from 5D CS action + Z₂-odd G_{μ5} → APS theorem. "
             "Callable proof: axiom_a_derived_from_cs_action() in "

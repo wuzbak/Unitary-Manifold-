@@ -1,5 +1,11 @@
 # Fallibility, Limitations, and Failure Modes
 
+> **2026-10-05 dark-sector correction:** the legacy potential-norm B² halo is
+> not stress-energy of the current F² action. KK mass, relic and detector
+> estimates describe separate assumed models, not a unified dark-matter result.
+> See [the repair record](docs/TRUTH_LAYER.md#synthesis-repair-2026-10-05);
+> physical-time halo formation remains unimplemented.
+
 > **Foundation reassessment (2026-09-05):** the historical closure and
 > contraction descriptions below are superseded on the audited paths by
 > [the current findings](docs/TRUTH_LAYER.md#foundation-reassessment).
@@ -2495,7 +2501,7 @@ in the table below and codified in `src/core/pillar_epistemics.py`.
 | 103 | φ₀ RG flow / CMB amplitude | CONDITIONAL_THEOREM | φ₀, K_CS | Running φ₀ gives ×4–7 suppression at CMB scale; gap PARTIALLY_CLOSED |
 | 104 | C_L geometric spectrum | CONDITIONAL_THEOREM | φ₀ | CMB C_L from 5D geometry; acoustic peaks at ℓ=[220,540,800] |
 | 105 | Baryogenesis from B_μ | FALSIFIABLE_PREDICTION | K_CS, B_μ | η_B ≈ 3.5×10⁻¹⁰ (observed: 6×10⁻¹⁰); order-of-magnitude match |
-| 106 | Dark Matter KK Modes | FALSIFIABLE_PREDICTION | M_KK | KK graviton at 33.6 meV; hot-relic Ω h² ≪ 0.12; all harmonics viable |
+| 106 | Dark Matter KK Modes | EXPLORATORY_HOT_RELIC_PROXY | M_KK | Assumed 33.6 meV scale and thermal normalization; underproduction is not full-DM viability, and higher modes require independent bounds |
 | 107 | Proton Decay Rate | FALSIFIABLE_PREDICTION | M_GUT, orbifold | τ_p ≈ 1.68×10³⁸ yr (Super-K bound: 1.6×10³⁴ yr); prediction viable |
 | 108 | Sub-mm Gravity | FALSIFIABLE_PREDICTION | M_KK | L_c ≈ 1.79 μm; next-gen gravity experiments target 2 μm |
 | 109 | LISA KK Stochastic GW | FALSIFIABLE_PREDICTION | M_KK | KK breathing mode at ~2.7×10¹³ Hz (UV, honest null for LISA) |

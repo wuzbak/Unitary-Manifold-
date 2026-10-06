@@ -138,6 +138,30 @@ class TestFixtureParsers:
             }
         ]
 
+    def test_parse_partner_table_ignores_nested_table_rows_and_cells(self):
+        table = """
+        <table id="upstream-table">
+          <tr>
+            <td><a href="LPLC2.html">LPLC2</a></td><td>185</td>
+            <td><table><tr><td>nested</td></tr></table><abbr title="acetylcholine">ACh</abbr></td>
+            <td title="∑ connections: 46,178"><span>249.6</span></td>
+            <td title="13.17331%">13.2%</td><td title="0.27300">0.3</td>
+          </tr>
+          <tr>
+            <td><a href="PVLP111.html">PVLP111</a></td><td>12</td>
+            <td><abbr title="GABA">GABA</abbr></td>
+            <td title="∑ connections: 250"><span>250</span></td>
+            <td title="1.25%">1.25%</td><td title="0.10">0.1</td>
+          </tr>
+        </table>
+        """
+        rows = parse_partner_table_html(table)
+        assert len(rows) == 2
+        assert rows[0]["partner"] == "LPLC2"
+        assert rows[0]["neurotransmitter"] == "acetylcholine"
+        assert rows[0]["synapses"] == 46178
+        assert rows[1]["partner"] == "PVLP111"
+
     def test_parse_partner_table_allows_trailing_columns(self):
         table = """
         <table id="upstream-table">
@@ -274,6 +298,21 @@ class TestBenchmarkPayload:
         assert 'benchmark_panel' in payload
         assert 'aggregate_observables' in payload
 
+    def test_benchmark_payload_is_strict_json(self):
+        path = Path(__file__).resolve().parents[1] / DEFAULT_BENCHMARK_PATH
+
+        def reject_nonstandard_constant(value):
+            raise ValueError(f"non-standard JSON constant: {value}")
+
+        payload = json.loads(path.read_text(encoding="utf-8"), parse_constant=reject_nonstandard_constant)
+        lop = next(
+            roi
+            for row in payload["benchmark_panel"]
+            for roi in row["top_rois"]
+            if roi["roi"] == "LOP" and roi["input_synapses"] == 17
+        )
+        assert lop["log_ratio"] == "-Infinity"
+
     def test_manifest(self):
         manifest = malecns_manifest()
         assert manifest['dataset'] == 'male-cns:v1.0'
@@ -399,6 +438,7 @@ class TestReport:
         assert 'mean partner-set Jaccard overlap is 0.440' in findings[2]
         assert 'AN01B004, DNa02' in findings[3]
         assert findings[4].startswith('EPG has the highest downstream neurotransmitter entropy')
+        assert "central-brain and VNC/motor ROI totals of at least 100 synapses" in findings[3]
 
     def test_findings_zero_bridge_case(self, tmp_path):
         payload = load_benchmark_payload()

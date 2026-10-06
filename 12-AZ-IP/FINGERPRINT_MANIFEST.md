@@ -39,15 +39,16 @@ sha256sum <file>
 
 | Asset | SHA-256 | Status |
 |-------|---------|--------|
-| `12-AZ-IP/README.md` | `2ea2e1551e516c1c42379f47a2347812190f1c4ece09d51002091a6990d5ab26` | ✅ REGISTERED |
+| `12-AZ-IP/README.md` | `ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c` | ✅ RESEALED 2026-10-06 |
 | `12-AZ-IP/IP_REGISTRY.json` | *computed at commit time* | ✅ SELF-REFERENTIAL |
 
 ### Product 26 integration refresh — 2026-10-06
 
 The tables above retain historical registration references. The current
 `12-AZ-IP/README.md` entry in `IP_REGISTRY.json` includes this branch's Product 26
-UM-ARTS registration and usage documentation: **11,273 bytes**, SHA-256
-`106f48200f467650cef521c2c887d09dbd134b4c8216ef9dddcb1af714b6c8cf`.
+UM-ARTS registration and usage documentation, merged with main's Product 25
+v1.1.0 and external-intake entry: **11,391 bytes**, SHA-256
+`ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c`.
 Its previous canonical seal was
 `c5de1c8315d9b34d2bb8bf5c9ea30c83aad7f80ee765772f51b702112d3cd787`
 (9,487 bytes). The registry retains the preceding steward reseal note.

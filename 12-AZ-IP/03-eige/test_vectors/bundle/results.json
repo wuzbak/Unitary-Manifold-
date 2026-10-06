@@ -1,0 +1,88 @@
+{
+  "@type": "ElectionResults.ElectionReport",
+  "Contest": [
+    {
+      "@id": "mayor",
+      "@type": "ElectionResults.CandidateContest",
+      "BallotsCast": 120,
+      "ContestSelection": [
+        {
+          "@type": "ElectionResults.CandidateSelection",
+          "CandidateId": "alvarez",
+          "VoteCounts": [
+            {
+              "@type": "ElectionResults.VoteCounts",
+              "Count": 58,
+              "GpUnitId": "SYNTH-COUNTY"
+            }
+          ]
+        },
+        {
+          "@type": "ElectionResults.CandidateSelection",
+          "CandidateId": "brooks",
+          "VoteCounts": [
+            {
+              "@type": "ElectionResults.VoteCounts",
+              "Count": 41,
+              "GpUnitId": "SYNTH-COUNTY"
+            }
+          ]
+        },
+        {
+          "@type": "ElectionResults.CandidateSelection",
+          "CandidateId": "chen",
+          "VoteCounts": [
+            {
+              "@type": "ElectionResults.VoteCounts",
+              "Count": 19,
+              "GpUnitId": "SYNTH-COUNTY"
+            }
+          ]
+        }
+      ],
+      "Overvotes": 0,
+      "Undervotes": 2,
+      "VotesAllowed": 1
+    },
+    {
+      "@id": "measure-1",
+      "@type": "ElectionResults.CandidateContest",
+      "BallotsCast": 120,
+      "ContestSelection": [
+        {
+          "@type": "ElectionResults.CandidateSelection",
+          "CandidateId": "no",
+          "VoteCounts": [
+            {
+              "@type": "ElectionResults.VoteCounts",
+              "Count": 52,
+              "GpUnitId": "SYNTH-COUNTY"
+            }
+          ]
+        },
+        {
+          "@type": "ElectionResults.CandidateSelection",
+          "CandidateId": "yes",
+          "VoteCounts": [
+            {
+              "@type": "ElectionResults.VoteCounts",
+              "Count": 68,
+              "GpUnitId": "SYNTH-COUNTY"
+            }
+          ]
+        }
+      ],
+      "Overvotes": 0,
+      "Undervotes": 0,
+      "VotesAllowed": 1
+    }
+  ],
+  "Election": {
+    "@id": "synthetic-2026-general",
+    "EndDate": "2026-11-03",
+    "Name": "Synthetic County General Election (test data)",
+    "StartDate": "2026-11-03"
+  },
+  "Jurisdiction": "SYNTH-COUNTY",
+  "format": "eige.err_subset.v1"
+}

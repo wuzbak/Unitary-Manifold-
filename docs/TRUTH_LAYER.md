@@ -1,7 +1,604 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v38.1
+# Unitary Manifold v38.2
+
+## Synthesis repair (2026-10-05)
+
+This repair preserves the existing version and pillar allocation. It does not
+establish a full model of the universe, physical-time dynamics, or empirical
+confirmation. Independent review suggestions were checked against source and
+reproduced behavior; suggestions unsupported by the code were not adopted.
+
+**Dark-sector boundary.** The current reduced gauge action is
+−¼λ²φ³F² in the Einstein frame, with F=dB. The new
+`b_field_strength_energy_density` in `src/core/dark_matter_geometry.py` reports
+½λ²φ³(E²+H²) from an antisymmetric field-strength tensor in a local orthonormal
+Einstein frame. Coordinate components require a frame transformation first.
+This is gauge-sector energy only, not radion energy or a halo solver.
+A constant potential, or a static radial one-form proportional to dr/r away
+from its singular origin, has zero local field strength. The preserved legacy
+B² APIs impose a gauge-dependent halo and cannot supply the action-derived
+dark-matter interpretation previously asserted.
+
+The meV hot-relic proxy (`dark_matter_kk`), weak-scale annihilation benchmark
+(P714/P717), and warped-scale mass ansatz (P790) are separate assumptions.
+Their masses are not interchangeable or jointly derived. Unit corrections
+are not permission to fit constants until a Planck abundance is obtained.
+P790's spectrum gives 24.622 GeV for the first mode; its 1 TeV constant is
+a supplied benchmark, not that spectrum. Its certificate now reports computed
+quantities and leaves unsupported detector and uncertainty fields unset.
+The corrected toy abundance at that mass is Ωh²≈0.0782565, not the historical
+supplied interval [0.09, 0.14]. P714's supplied 1042 GeV benchmark gives
+σv≈1.123965 pb and Ωh²≈0.0889707 under its approximate freeze-out formula.
+P717 replaces the dimensionally invalid gravitational expression with an
+explicitly assumed contact toy, σ=G_N²μ²/π. This is not a derivation of
+graviton-mediated scattering. Thermal history, particle/mediator identities,
+abundance rescaling and mass-dependent recoil limits still need derivation.
+P290 preserves its legacy numerical proxy for reproducibility, but its actual
+dimensions are cm⁶/s⁴, not area. Physical cross-section and limit-ratio fields
+are now unset and its verdict is `UNSUPPORTED`: a 1 TeV mediator is not an
+identified dark-matter particle at the detector limit's 30 GeV reference mass.
+Neither a positive nor a null recoil result confirms or refutes that unspecified
+prediction. No replacement amplitude has been invented.
+
+**Local assistance.** PsiCat's local repository graph and `bot.rag_index` were
+executed as deterministic navigation/retrieval aids. No hosted PsiCat session
+or external model provider was used. The bounded graph is not a complete
+dependency graph. Fresh discovery replaces the stale cached file list, and
+query-aware path selection prevents alphabetically late modules/tests from
+being hidden solely by the cap; representative area sampling retains the
+bounded read budget. Two queries about current evolution and dark matter
+reproduced an unrelated closure-percentage answer; the touched retrieval
+routes now require topic grounding and expose the relevant limits instead.
+Untouched static knowledge entries and historical documents still require audit.
+
+**Observational integration limit.** `tests/test_e2e_pipeline.py` checks network
+convergence, then computes observables from a supplied φ₀=1 and other fixed
+inputs; it does not extract or propagate the converged state into that
+calculation. Its formulas and assertions are preserved, but the misleading
+“unbroken causal chain” and parameter-free validation descriptions are
+corrected. Conditional formula agreement is not a dynamical universe simulation.
+
+**Execution, not bookkeeping.** `pytest.ini` defaults to excluding slow tests.
+The former `full-core` commands did not override that default. They now use
+`-m ""`. A structural supervisor proves only file partition consistency, not
+successful collection or execution. The existing batch runner now supports
+JUnit-backed receipts tied to the commit, worktree and ordered batch plan,
+rejecting missing, failed, timed-out, stale or dry-run evidence on aggregation.
+Execution environment fingerprints must match across nonempty shards; the
+supervisor need not install the execution environment. Receipt-backed runs
+reject `PYTEST_ADDOPTS` filters. Skipped cases remain visible. These are local/CI reproducibility records, not
+cryptographic attestation or scientific certificates.
+
+Run these existing entry points from the repository:
+
+```bash
+python TOOLS/checks/run_supervised_pytest_batch.py --suite integration-preflight
+python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core --batch-count 12 --batch-index 0 --workers 2 --timeout 5100 --result-dir /tmp/um-regression
+# Repeat execution for indices 1–11, then require all matching receipts:
+python TOOLS/checks/run_supervised_pytest_batch.py --suite full-core --batch-count 12 --aggregate --result-dir /tmp/um-regression
+```
+
+The integration preflight keeps the metric/action/relaxation/gauge-energy/
+boundary/fixed-point tests in a single pytest process, rather than assuming
+distributed successes detect shared-state issues. It still covers a declared
+software subset, not all physics or products. CI retains batch artifacts and
+requires execution aggregation. Product tests under `12-AZ-IP/` and other
+out-of-core roots are listed in the supervision plan; they have not been added
+to the core claim count or declared fully verified.
+
+**Verification checkpoint.** The shared-process integration preflight completed
+with **307 passed** in 798.82 seconds, with no failures or deselections.
+The focused geometry/action run passed **98 tests**, with two slow cases
+deselected there and enabled in the preflight. The KK/direct-detection repair
+and related dependency run passed **281 tests**. The RAG/API/resource run
+passed **108 tests**, with three skips. Runner/supervision, directory-size,
+workflow, ledger and epistemic-contract checks passed **176 tests**.
+The parent-owned supervision checks
+passed **20 tests**; the unchanged conditional observational pipeline passed
+**26 tests**. These overlapping suites must not be summed into a headline.
+
+The combined `tests/ recycling/ Pentad` run was started before editing with
+pytest's default non-slow selection and stopped without a terminal summary
+after prolonged execution. Some tests read live documents during execution,
+so it was not an immutable pre-change snapshot and is not final-code
+verification. There is **no completed all-core regression result for this
+repair**. The historical 64,150-pass marker is not this execution's result.
+The focused graph/hardening run passed **20 tests** with nine cases deselected; the
+broader Product 20 hardening rerun stalled on a phase-2 case and was stopped,
+so no complete Product 20 regression is claimed. Final review is recorded
+below when complete.
+Full formal build, deployed webspace behavior and empirical dark-sector
+validation remain outside this execution.
+
+### Verification continuation (2026-10-05)
+
+The continuation separates complete software regression, scoped security
+analysis, and physical-time validation. None supplies empirical confirmation
+or a complete dynamical model of the universe.
+
+**Physical-time perimeter.** The added Maxwell initial-value lane in
+`src/core/maxwell_kk_reduction.py` evolves independent electric and magnetic
+fields on a prescribed Einstein-frame Minkowski background with constant
+positive radion, unit lapse, one periodic spatial coordinate, and no sources.
+It uses the circle zero mode and the action's constant weight λ²φ₀³; it does
+not restore the metric vector projected out by the standard orbifold.
+Its coordinate time is separate from the existing relaxation parameter.
+Validation must compare traveling and standing waves with independent analytic
+solutions, check electric and magnetic Gauss constraints and energy/flux,
+and measure spatial and temporal convergence separately.
+
+This is a **test-field approximation**. Nonzero Maxwell stress does not solve
+the Einstein equations on the fixed Minkowski background. Generic non-null
+fields also source the radion equation; even null traveling waves still carry
+gravitational stress. Self-consistent physical time remains open: it requires
+constraint-compatible gravitational and radion momenta, hyperbolic gauge
+equations, action-consistent backreaction, and independent sourced-constraint
+checks. The action/evolution contract and pillar status are not promoted.
+
+The initial physical-time acceptance run passed **99 tests**, including
+unchanged action/evolution contract tests. Measured spatial convergence orders
+were **1.9804 and 1.9953**; temporal orders were **3.9991–3.9999**, against
+independent continuum or semi-discrete wave references. Gauss diagnostics use
+the discrete spatial derivative; centered differences cannot resolve a
+Nyquist/checkerboard mode. These results validate the declared numerical
+test-field scope, not sourced Einstein/radion evolution.
+
+**Security perimeter.** Python CodeQL databases and SARIF belong outside the
+repository. Bounded source slices avoid the oversized monorepo database; their
+union must name its covered files, query suite, extraction failures and alerts.
+Separate databases do not certify cross-slice dataflow. Older successful CI
+scans are not scans of this repaired checkpoint. In CLI 2.27.1, an exact file
+in `paths` causes the Python extractor to traverse it as a directory; a
+root-file glob such as `conftest*.py` extracts the actual file successfully.
+Disabling unrelated checks or copying a truncated source tree is not needed.
+
+The first completed integration scan used **CodeQL 2.27.1**, Python query pack
+**1.8.11**, and **52 security-extended/diagnostic queries**. It scanned **95/95
+Python files** across Product 20, `bot`, `TOOLS/checks`, and root `conftest.py`.
+Extraction, query evaluation, and SARIF export completed; this was not an
+oversize skip. It reported **seven alerts**: SSRF, path injection, polynomial
+ReDoS, and two pairs of cookie/header alerts. These require reachability and
+safeguard review; alerts are not automatically confirmed vulnerabilities.
+Neither a clean Python result nor full-monorepo clearance is claimed.
+
+### Resumed synthesis checkpoint (2026-10-05)
+
+The continuation used independent PsiCat runtime, RAG, numerical-review and
+security specialists. Local PsiCat repository navigation was exercised without
+hosted agents or provider APIs; this does not establish participation by the
+deployed PsiCat service.
+
+The RAG specialist reproduced missing Maxwell-specific routing and a stale
+“latest wave” label. The repair distinguishes the newest changelog entry from
+the historical versioned wave, describes physical-time Maxwell evolution as a
+prescribed-background test field, and keeps coupled Einstein/radion evolution
+open. Source-scaffold paths must resolve inside the repository; curated
+navigation labels are explicitly not source verification or scientific
+certification. The caller's retrieval limit is also preserved. The focused
+RAG, assistant API, research-resource and UM SOS tests passed **117 tests with
+3 skipped** in **4.59 seconds**. These overlap earlier suites and are not added
+to a repository-wide total.
+
+The PsiCat specialist reduced repeated graph path/token work by caching only
+selection metadata keyed by the discovered file set and repository root.
+Discovery still runs afresh, and file-content invalidation remains unchanged.
+Its bounded local Maxwell query selected 120 of 3,405 discovered files; this is
+navigation coverage, not monorepo verification. Focused runs reported **90
+runtime tests**, **22 hardening tests**, and **6 artifact-persistence tests**
+passing; the persistence run deselected 10 cases. These counts are separate,
+potentially overlapping executions. Two bounded attempts timed out, and the
+full Product 20 suite remains unverified.
+
+A combined graph/hardening/isolation run reported **37 passed and 1 failed**.
+The failure exposed a real isolation gap: automatically created training state
+could follow a repository-local `TMPDIR`, even though explicit runtime
+overrides were required to stay outside the repository. The startup hook now
+rejects repository-contained automatic temporary roots, including resolved
+symlinks, before creating or seeding state. Caller-owned external directories
+are still preserved. The final isolation run used an absolute `/tmp` basetemp
+and passed **19 tests in 0.92 seconds**, including four new serial/worker and
+symlink regression cases. The earlier combined run is not relabeled as passing.
+
+The numerical specialist reported completed targeted runs of
+`test_maxwell_kk_reduction.py` (**101 passed in 3.59 seconds**),
+`test_action_derived_flow.py` (**19 passed, 3 deselected in 5.83 seconds**), and
+`test_jax_backend.py` (**83 passed in 15.34 seconds**, JAX/JAXlib 0.11.2 CPU).
+Its independent NumPy/JAX residual comparison agreed within approximately
+6×10⁻¹⁵ on the tested random state. No high-confidence defect was found in
+the bounded Maxwell/action/JAX review. A separate slow symbolic-run completion
+claim was retracted because overlapping/stopped commands prevented reliable
+attribution; those three slow symbolic cases are **not independently certified**
+by this review. CPU parity does not certify GPU behavior or coupled gravity.
+
+The read-only security specialist checked public-page DNS/IP pinning and
+redirect validation, RAG and Lean path containment, signed session identifiers,
+cookie settings, compatibility-route authorization, and the revised email
+pattern. It found no high-confidence reachable issue in that bounded review.
+This is **not a fresh CodeQL result or a complete disposition of the seven
+recorded alerts**. Deployment/proxy behavior, other products, and monorepo-wide
+dataflow remain unverified.
+
+An intermediate progress checkpoint accidentally captured concurrent test
+scratch. Secret scanning found no secrets in the scanned source and generated
+training records. Both generated scratch directories were subsequently removed;
+an intermediate commit is not evidence of completed verification.
+The combined all-core run included slow tests explicitly, but was stopped after
+approximately 990 seconds without a terminal summary or complete JUnit report.
+No pass/failure total is certified. Concurrent source work and a reviewer's
+installation of optional JAX/JAXlib 0.11.2 also changed the verification
+environment during this attempt. No repository dependency files changed; the
+advisory check reported no known vulnerabilities for those versions. This run
+does not establish an immutable final-checkpoint regression result.
+
+A second combined attempt was also stopped without completion. Its partial
+JUnit document reports **586 tests, 6 skipped and 1 internal error**; the
+recorded error is `BrokenPipeError` during terminal flushing after the output
+pipeline was stopped. This is interruption evidence, not a completed regression
+or a newly confirmed product defect.
+
+Final automated validation did not establish Python clearance. The review
+backend failed because its requested model was absent from the model registry,
+despite the wrapper reporting success; no completed automated review is
+claimed. Actions CodeQL reported no alerts, while Python analysis was skipped
+because its database was oversized. Independent specialist reviews are
+separate evidence, not substitutes for a completed Python scan.
+The independent final code reviewer found no significant issues in the resumed
+RAG/graph changes or the automatic temporary-root guard and its tests.
+
+### Chunked regression and proof checkpoint (2026-10-05)
+
+The earlier interrupted run did **not** establish repository-wide regression.
+This continuation instead froze source and dependencies, discovered **1,568
+full-core test files**, and executed a fixed **32-chunk plan** covering
+`tests/`, `recycling/`, and the canonical executable Pentad tests. Every chunk
+contains 49 files. Full-core commands explicitly use `-m ""`, overriding the
+default slow-test exclusion; `--workers 0` keeps each chunk serial. Logs,
+JSON receipts and JUnit documents stayed outside the repository.
+
+**Baseline execution identity**
+
+- Source: `642456e4bc34f1d4d7cdd8bc85e7f6137bb1f792`, clean worktree.
+- Plan digest: `70a3555e65098f81fdaeb5f2e227c9bfada401bf45f6570439bc134c37f63bef`.
+- Environment: CPython 3.12.14, Linux x86_64; distribution digest
+  `2f26073443e24ae5dedc47cc4d4ae2ae8a6192d6b2ff3066a35dc0a843988802`.
+- Receipt directory: `/tmp/axiom-642456e4-core32`.
+- No dependencies were installed or changed during this execution.
+
+| Baseline chunks | Terminal evidence | Interpretation |
+|---|---|---|
+| 0–10, 14–28, 30–31 | **58,873 passed, 52 skipped**, zero failures/errors across 28 successful receipts | 1,372 files in successfully completed chunks; 87.5% of the file partition, **not** a percentage of all test nodes or physics proved |
+| 11, 12, 13 | Each final retry returned **124** at a 360-second execution limit | Incomplete; 147 files remain without successful chunk execution receipts |
+| 29 | **2,495 passed, 3 skipped, 7 failed**, zero errors | Completed failing chunk, not a successful receipt |
+
+The existing receipt aggregator checked snapshot/plan/environment identity and
+JUnit counts/digests and correctly returned **failure** for chunks 11, 12, 13
+and 29. Its totals include only successful chunks. The baseline is not
+relabelled as passing. Skips include missing JAX, FastAPI, CAMB, Z3 and Lake,
+seven collection skips, twenty empty parameter sets, and an insufficient
+residual-history case. Empty parameter sets and skipped formal tooling are not
+completed proof checks. File partitioning does not independently certify all
+expected test node IDs.
+
+**Repair and separate verification.** All seven failures were in
+`tests/test_run_supervised_pytest_batch.py`: obsolete argument mocks, subprocess
+mocks missing `cwd`, and old status-text expectations. The repair uses the
+actual CLI parser, supplies the current timeout signature, and additionally
+asserts repository working-directory enforcement and the
+“structural file coverage — not execution evidence” boundary. No production
+code, numerical tolerances, tests, or skip conditions were removed.
+The runner, receipt and supervision-plan suites passed **103 tests in 10.24
+seconds**. Independent code review found no significant issues.
+
+The entire formerly failing chunk was then rerun on clean source
+`76e771dd50175ffbbd65f676311f87493b6a8b1e`: **2,502 passed, 3 skipped in 200.60
+seconds**, zero failures/errors. Its separate receipt directory is
+`/tmp/axiom-runner-fixed-core32`; the JUnit digest/counts, source snapshot and
+unchanged environment were independently checked. These results must **not**
+be combined with older-source receipts to manufacture a full-core certificate.
+The subsequent documentation checkpoint is also a different snapshot.
+
+**Proof and integration perimeter.** All three slow action-reduction cases
+(exact reduced, full, offdiagonal) completed: **3 passed, 19 deselected in
+401.09 seconds**, with terminal and JUnit evidence. This exceeded the intended
+360-second budget; it is not claimed to have finished within that budget.
+It supersedes the earlier unconfirmed slow-run claim within those stated
+ansätze, not the open coupled physical-time obligations. A shared-process,
+explicitly non-slow metric/action/evolution/dark-sector/boundary/fixed-point
+run passed **308 tests, 3 deselected in 10.47 seconds**. Focused local RAG and
+PsiCat graph tests passed **122 tests in 5.46 seconds**. These executions overlap
+the chunked suite and are not added to its totals. Local navigation and RAG
+scope checks do not establish deployed PsiCat participation.
+
+**Measured bottleneck and safer continuation.** An uncaptured, built-in
+traceback diagnostic located expensive work *during collection*: importing
+`pillar1020` reaches `pillar952_observational_readiness_v4.py:175`, which starts
+a 12-step legacy KK simulation. The trace reached `pillar988`, `evolution.py`
+and Python-reference curvature computation in `metric.py`. The diagnostic was
+bounded and is not test-execution evidence. Smaller alphabetical shards do
+not remove shared import costs.
+
+Continue with the existing runner, fixed plan and external receipts rather
+than another indiscriminate full-suite attempt:
+
+1. Keep source, dependencies, marker selection and batch count fixed while
+   gathering a certificate. Validate receipts before reusing results; rerun
+   incomplete/failed chunks, not already verified chunks on that same snapshot.
+2. Let the runner own each pytest timeout and child-process cleanup. An outer
+   timeout equal to the runner timeout can kill the receipt writer first and
+   orphan pytest; such incomplete receipts were not accepted here. A session
+   budget must leave enough time for the current runner to finish and clean up.
+3. Profile expensive collection and group shared-import costs before changing
+   the partition. A changed partition requires a new plan and receipts.
+   Any deferred/lazy simulation repair must preserve real numerical outputs,
+   declared legacy-flow scope and public consumers—not replace execution with
+   cached claims or supplied constants.
+4. Preserve shared-process integration checks alongside independent chunks,
+   then require a successful aggregate. Source or dependency changes require
+   new snapshot-bound evidence; do not silently carry certificates forward.
+5. `/tmp` evidence is not guaranteed to survive another session. Existing CI
+   uploads batch JSON/JUnit artifacts for 14 days. Retain those artifacts for
+   interruption-safe continuation; this durable checkpoint is a summary, not
+   a substitute for the raw receipts.
+
+**Still open:** chunks 11–13, a complete matching aggregate on the repaired
+snapshot, full Product 20 coverage, and a completed Python security scan.
+Software regression and scoped symbolic identities do not establish physical
+or empirical confirmation. No pillar, version or physics-closure promotion
+is made.
+
+### Implemented frozen dependency/cost workflow (2026-10-05)
+
+Pillar 952 now defers its three solver imports and calculations until the
+public `DEEP_LAYER_CHAIN` or the summary is requested. First access still
+performs the real UV, twelve-step legacy KK and flavor calculations. A lock
+ensures concurrent first accesses share one result; the result remains the
+same mutable list of dictionaries, including named/star imports and summary
+references. Failed computation is not cached. This removes unnecessary import
+work; consumers that explicitly request numerical summaries still incur it.
+It neither changes numerical equations nor supplies precomputed claim values.
+
+The optional dependency/cost planner parses local imports statically, with
+bounded transitive traversal and no physics-module execution. Tests choose a
+strongest shared dependency family; generic metric/evolution hubs do not merge
+the whole suite. Entire families are placed by deterministic descending-cost
+greedy balancing. Consequently a costly family can exceed a target chunk size:
+the planner prioritizes shared-import reuse rather than silently splitting it.
+Unmeasured files use an explicit one-second scheduling estimate, **not measured
+execution evidence**. Dynamic/external imports and truncated/unparsed static
+paths are disclosed in plan metadata. Existing equal-file CLI behavior remains
+available for compatibility.
+
+`TOOLS/checks/run_supervised_pytest_batch.py` now supports external frozen plans:
+
+- `--write-plan --plan-file` writes a new immutable manifest, refusing overwrite.
+  It includes source/worktree identity, dependency groups, explicit empty
+  full-core marker, Python/distribution fingerprint, interpreter and relevant
+  plugin/thread/runtime settings. `--workers` is fixed by the plan.
+- Optional `--durations-file` accepts a JSON map of repository-relative Python
+  test paths to positive finite measured seconds. Alternatively `--timings-dir`
+  reads successful historical batch receipts, verifies their JUnit counts and
+  SHA-256 digests, and extracts per-file case times with amortized batch
+  overhead when elapsed time is recorded. Unmapped files retain fallback costs.
+  Measurements and their provenance are frozen; historical timing data is
+  scheduling input, **never** current verification proof.
+- The final manifest batch is the canonical shared-process integration
+  preflight, including slow tests and always serial. A successful frozen
+  aggregate requires it as well as every full-core chunk.
+- `--resume` verifies current source/environment/settings against the plan and
+  checks each reusable receipt's plan/execution identity, exact command, JUnit
+  digest/counts and zero failures/errors. Invalid, missing, failed or incomplete
+  evidence is rerun; a changed source/environment requires a **new** plan.
+  Resume without `--batch-index` executes all unresolved chunks, then aggregates,
+  and requires an explicit per-chunk `--timeout`.
+- Frozen execution checks environment and source before/after each batch and
+  aggregation. JSON receipts are atomically replaced and record elapsed time.
+  Hashes provide integrity/provenance checks, not digital signatures against a
+  party able to rewrite both evidence and its hashes.
+
+Example commands (keep source, dependency and relevant environment settings
+fixed between them; use a fresh external destination):
+
+```bash
+cd /home/runner/work/Unitary-Manifold-/Unitary-Manifold-
+export PYTEST_ADDOPTS='' TMPDIR=/tmp OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+python /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/TOOLS/checks/run_supervised_pytest_batch.py \
+  --suite full-core --batch-count 32 --workers 0 \
+  --plan-file /tmp/axiom-frozen-plan.json --write-plan
+python /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/TOOLS/checks/run_supervised_pytest_batch.py \
+  --suite full-core --plan-file /tmp/axiom-frozen-plan.json \
+  --result-dir /tmp/axiom-frozen-results --resume --timeout 600
+python /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/TOOLS/checks/run_supervised_pytest_batch.py \
+  --suite full-core --plan-file /tmp/axiom-frozen-plan.json \
+  --result-dir /tmp/axiom-frozen-results --aggregate
+```
+
+To supply measured history, add `--timings-dir /absolute/external/receipts` only
+to plan creation, or supply `--durations-file /absolute/external/durations.json`.
+For bounded/manual execution, add `--batch-index N --resume` to execute only that
+unresolved chunk. The final integration index equals the number of core chunks.
+Allow the runner's timeout to finish child cleanup; do not wrap it with an
+equally short outer timeout. Retain the external manifest alongside JSON/JUnit
+artifacts outside the checkout. A later documentation or source commit is a
+different verification snapshot. No full regression certificate follows merely
+from implementing this workflow.
+
+**Implementation validation:** the runner/compatibility suites passed
+105 tests in 6.65 seconds. The separate implementation agents reported
+34 readiness tests (including real numerical comparisons) and 57 planning
+tests passing. These are targeted checks, not a combined repository total.
+
+**Committed frozen exercise:** source
+`b23a0f8e51ded95706848774cfbe94697b29f032`, clean worktree SHA-256
+`e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`,
+plan digest
+`780c0bd6aeca15fe9e553643b23d086e43d97f12b29a7a7ded25aa4ea95aa824`.
+The measured-cost plan exactly covered 1,568 unique full-core files in
+32 dependency-family chunks, plus integration. Two file costs came from the
+focused runner suite's JUnit case timings; other costs remained disclosed
+fallback estimates. Chunk 31 completed with **2,671 passed, one skipped** in
+14.11 seconds. Serial integration chunk 32, with the slow filter explicitly
+cleared, completed with **311 passed** in 181.80 seconds. Both successful JSON
+receipts and JUnit files were independently checked for matching source,
+counts and digest. Repeated `--resume --batch-index` calls reused both receipts
+without modifying any of the four artifacts. Aggregate correctly returned
+failure for the remaining **31 missing core chunks**. No complete repository
+regression certificate exists for this snapshot.
+
+Exercise artifacts are under `/tmp/axiom-frozen-committed-plan.json` and
+`/tmp/axiom-frozen-committed-results/`; these external sandbox paths are not
+durable remote archives and must be copied to persistent artifact storage
+before the sandbox is discarded. Any later commit, including this reporting
+update, must create a new matching plan rather than silently reuse that
+snapshot's certificate. Dependency fingerprints bind interpreter/platform and
+installed distribution names/versions, not every installed package byte.
+Source or dependency edits must be prohibited during a verification session;
+this is provenance checking, not an adversarially tamper-proof execution system.
+
+Independent read-only review identified and then confirmed fixes for disabled
+Python assertions and plan/result artifact collisions; it found no remaining
+significant issues. Automated review could not run because its requested model
+was unavailable. Actions CodeQL reported no alerts, but Python analysis was
+skipped because its database was too large; **complete Python security clearance
+is still unavailable**. Changed-file secret scanning found no secrets.
 
 ## Foundation reassessment
+
+### CI continuation baseline (2026-10-05)
+
+The latest visible mainline CI and Tests runs remain failed at source
+`eba8f62b120b176b63bc84d91aca0df1917e6800` (runs `37250685069` and
+`37250685036`). Their logs identify JAX/NumPy parity, Richardson direction,
+PsiCat retained-state reuse and endpoint timeouts. Coverage was cancelled after
+approximately 180 minutes and a fast shard after approximately 90 minutes;
+these are incomplete executions, not passing checks. Current-branch JAX checks
+passed **83 tests** after enabling its existing dependency. Richardson passed
+**11 tests**, including unchanged convergence and coarse-grid assertions,
+under the current numerical implementation. No tolerance was loosened.
+
+An unchanged `needs_review` training receipt previously caused five rejected
+editorial inputs to be reprocessed on every export. Retaining those receipts
+must preserve their review counters and promotion blockers, while actual source
+changes still trigger retraining. This is evidence reuse, not promotion.
+The initial combined Product 20/JAX check reproduced two PsiCat failures:
+**160 passed, one skipped, two failed**, with JAX unavailable at collection.
+Those counts are a diagnostic baseline, not a final certificate. Separate
+claims/recycling/Pentad checks passed **3,489 tests with one skip**.
+`ALGEBRA_PROOF.py` exited successfully; its conditional software/model checks
+are not empirical confirmation.
+
+The README now distinguishes **CI (main)** from **Tests (main)** and labels
+the live JSON pass count as recorded metadata, not a green execution result.
+Both workflow badges explicitly target main. PR CI is a platform/collection
+gate, whereas the mainline full-core supervisor requires every matching frozen
+dependency-family receipt and final serial integration. Tests additionally
+requires slow, claims, recycling, Pentad, algebra, ledger and coverage jobs.
+The coverage threshold remains **85%**; bounded two-worker file scheduling,
+serial integration and failure artifacts address execution reliability without
+reducing its scope or threshold.
+
+GitHub's branch-filtered PR list and PR search returned no visible PR for
+`copilot/discuss-risk-mitigation`; no CI/Tests execution on its current head was
+found. Agent workflow success must not be interpreted as regression success.
+Repository workflow dependencies do not establish branch-protection/ruleset
+requirements: those settings remain unverified. Main badges cannot become
+green merely through an unmerged branch's local checks. Applicable hosted runs
+and external deployment credentials require separate verification.
+
+Workflow inventory (file basenames under `.github/workflows/`; trigger presence
+does not mean every branch/path/job executes):
+
+| Trigger class | Workflows |
+| --- | --- |
+| PR and push | `bazel-pilot`, `ci`, `copilot-setup-steps`, `kernel-ci`, `lean4-check`, `psicat-performance-gate`, `status-drift-gate`, `tests`, `um-sos-registry-check` |
+| PR/push plus scheduled/manual | `codeql-language-matrix`, `merlin-benchmark-gate` |
+| PR only | `dco`, `staleness-honesty-gate` |
+| PR plus manual | `external-constants-crosscheck`, `mutation-hard-gate` |
+| PR/review/comment orchestration | `copilot-review-orchestrator` |
+| Scheduled plus manual | `copilot-review-health`, `falsifier-monitor`, `hf-spaces-canary`, `sprint-trigger` |
+| Push plus manual | `deploy-hf-spaces`, `pages`, `release`, `um-sos-pages` |
+| Manual only | `build-download`, `desi-dr3-routing` |
+| Push only | `jupyterbook` |
+| Release only | `ipfs-publish` |
+
+The 28 workflows include deployment, publishing and observation lanes that
+must not be treated as universally required PR regression checks. CI/Tests
+jobs use read-only contents permissions; publishing/attestation/issue-creation
+lanes have distinct write needs. External service health and credentialed
+publishing cannot be certified by local Python tests.
+
+HF Spaces automatic deployment is now restricted to mainline changes under
+`hf-spaces/`, with read-only GitHub contents permission and a 30-minute job
+budget. Explicit manual dispatch remains available. This prevents an ordinary
+feature-branch push from automatically publishing its application changes.
+The deployment/canary contract suite passed **12 tests**; no credentialed
+deployment was attempted.
+
+Endpoint profiling found redundant control-tower construction and repeated
+repository discovery/graph rebuilding, rather than physics solver work, in the
+review packet hot path. The review packet now reuses the fresh tower already
+constructed by that same request's frontier packet, without caching sessions
+or results between requests. Graph discovery walks each eligible subtree once
+per call, retaining fresh file discovery; its existing source-signature-keyed
+metadata cache is bounded at 32 entries instead of four. Source additions,
+removals and edits must still invalidate graph evidence. Client timeout
+expectations and governance gate assertions remain unchanged.
+
+The Product 20 repair agent reported **61 focused tests passing** and a
+separate cold endpoint test passing with its unchanged 30-second request
+timeout. Workflow contracts and frozen-plan/timeout checks were validated by
+the CI implementation agent; the final marker contract pass covered
+**21 tests**. Independent review of the workflow, training, endpoint, graph
+and deployment changes found no significant issues. These focused results
+do not substitute for the pending matching full-core/coverage execution.
+
+A follow-up cache-isolation check exposed that the public graph builder
+returned nested cached metadata by reference. It now returns a deep copy;
+mutating public graph nodes, edges, summaries or routed symbol lists must not
+alter subsequent requests. The final graph/review/cold-endpoint acceptance
+run passed **18 tests in 206.07 seconds**. This repair supersedes the initial
+freeze at `baa16e04`: that attempt's chunks were rejected before execution
+when source/scratch changed, and its coverage run was interrupted. Neither
+attempt supplies passing full-regression or coverage evidence.
+
+**2026-10-05 — bounded regression continuation.** Execution is limited to two
+single-worker CPU lanes, with BLAS/OpenMP threads limited to one. Curvature
+free-index broadcasting at `f967a513` preserves the scalar reference's ordered
+contractions and dtype semantics; exact-array reference tests cover dimensions
+2, 4 and 5, every coordinate, and nonsymmetric connections.
+
+Sampling the remaining P1099 translation audit found nested lazy validity
+traversals through P1098–P1084, repeatedly rebuilding governance and source
+evidence. A standalone call exceeded a 180-second diagnostic budget. This
+trace does not establish a Lean kernel or symbolic-solver bottleneck.
+The affected proxies now deduplicate Boolean results only within one
+synchronous outer validity evaluation, using a context-local scope. Results,
+including failures, are discarded when that evaluation ends; subsequent
+evaluations re-read evidence. Recursive dependency cycles fail closed.
+Live report functions and proof requirements are unchanged. Existing
+process-level report caches elsewhere are not expanded by this change.
+
+The unchanged P1099 and P1096 contract tests and initial scope tests passed:
+**9 passed in 25.30 seconds**, with P1099 taking 9.15 seconds. These focused
+results are not a full-regression certificate. Matching full-core aggregation,
+coverage at the unchanged 85% threshold, hosted checks and Python security
+analysis must be reported separately; Lean proof gaps remain open.
+
+The first two-lane attempt at `92815fa2` completed all 32 core chunks. The
+previously unresolved chunk finished in 1,070 seconds with **1,602 passed,
+6 skipped and 11 failed**. One failure was an obsolete literal in the
+last-merge audit: it still demanded an older statement absent from P1085's
+current action-target contract. The rule now requires the current explicit
+construction/verification boundary instead, with a negative test confirming
+that removing that boundary still fails closed. The other ten failures
+cascaded from directory hygiene: the new scope test file made `tests/` reach
+1,501 tracked entries against its unchanged 1,500-entry limit. Those tests
+are now included in the existing, directly related P1087 test file.
+The rejected aggregate is retained as failed historical evidence; no receipts
+from that snapshot can certify the subsequent repair snapshot. The repair
+acceptance run passed **58 tests in 230.29 seconds**; a separate nine-case
+scope/source-audit run also passed, including validation against the actual
+current P1085 source. Independent read-only review found no significant
+issues. The directory check passes without changing its limit.
 
 **2026-09-05 — correction of evidentiary scope, without a new pillar or a
 physics-closure claim.** This section supersedes the claims of derived

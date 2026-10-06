@@ -1,0 +1,266 @@
+{
+  "contest_id": "mayor",
+  "format": "eige.audit_input.v1",
+  "method": "comparison",
+  "mvrs": [
+    {
+      "draw": 1,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 2,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 3,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 4,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 5,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 6,
+      "selections": [
+        "chen"
+      ]
+    },
+    {
+      "draw": 7,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 8,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 9,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 10,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 11,
+      "selections": [
+        "chen"
+      ]
+    },
+    {
+      "draw": 12,
+      "selections": [
+        "chen"
+      ]
+    },
+    {
+      "draw": 13,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 14,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 15,
+      "selections": [
+        "chen"
+      ]
+    },
+    {
+      "draw": 16,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 17,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 18,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 19,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 20,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 21,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 22,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 23,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 24,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 25,
+      "selections": [
+        "chen"
+      ]
+    },
+    {
+      "draw": 26,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 27,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 28,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 29,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 30,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 31,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 32,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 33,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 34,
+      "selections": [
+        "chen"
+      ]
+    },
+    {
+      "draw": 35,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 36,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 37,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 38,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 39,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 40,
+      "selections": [
+        "chen"
+      ]
+    },
+    {
+      "draw": 41,
+      "selections": [
+        "brooks"
+      ]
+    },
+    {
+      "draw": 42,
+      "selections": [
+        "alvarez"
+      ]
+    },
+    {
+      "draw": 43,
+      "selections": [
+        "alvarez"
+      ]
+    }
+  ],
+  "risk_limit": 0.05
+}

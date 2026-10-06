@@ -7,10 +7,11 @@ EIGE/src/hsm_interface.py — Hardware Security Module Key Provider Interface
 Provides an abstract KeyProvider base class and two concrete implementations:
 
   SoftwareKeyProvider
-      Deterministic key derivation from county_id via SHA-512.  Mirrors the
-      existing CountyNode._derive_key() logic exactly so all existing tests
-      remain green.  Safe for development, testing, and air-gapped offline
-      environments.
+      DEVELOPMENT ONLY.  Holds a random (or explicitly supplied) in-memory key
+      and refuses to construct when EIGE_MODE=production.  The v21 behaviour —
+      deriving the key from SHA-512("EIGE-v21-{county_id}-hmac-key-placeholder"),
+      which let anyone who knew a county id forge its telemetry — is removed
+      (red-team finding F4).
 
   HSMKeyProvider
       Thin wrapper around a PKCS#11 session.  Loads the HMAC key material by
@@ -20,9 +21,17 @@ Provides an abstract KeyProvider base class and two concrete implementations:
       provider library (e.g. SoftHSM2, AWS CloudHSM, Thales Luna).
 
   MockHSMKeyProvider
-      In-memory HSM simulation for unit tests.  Accepts a pre-loaded key
+      In-memory HSM simulation for unit tests; refuses production mode.  Accepts a pre-loaded key
       dict keyed by label and behaves identically to HSMKeyProvider without
       requiring a physical device or PKCS#11 library.
+
+Scope note (v22, red-team finding F5)
+-------------------------------------
+Every provider here computes HMAC-SHA512, a *symmetric* MAC.  Anyone able to
+verify a MAC can also produce one, so a MAC is not attributable evidence of
+which county produced a payload.  ``CountyNode`` therefore signs telemetry
+with Ed25519 (``eige.crypto.signing``); an HMAC is added only when a key
+provider is passed explicitly, for point-to-point channel integrity.
 
 Wiring
 ------
@@ -43,8 +52,11 @@ from __future__ import annotations
 import hashlib
 import hmac as _hmac
 import json
+import os
 from abc import ABC, abstractmethod
 from typing import Optional
+
+from eige.config import require_non_production
 
 
 # ---------------------------------------------------------------------------
@@ -97,34 +109,33 @@ class KeyProvider(ABC):
 # ---------------------------------------------------------------------------
 
 class SoftwareKeyProvider(KeyProvider):
-    """Deterministic key derivation from county_id — mirrors _derive_key().
+    """In-memory HMAC key — DEVELOPMENT AND TESTING ONLY.
 
-    WARNING: The derived key is deterministic and based on a plaintext
-    ``county_id``.  This is acceptable for development and offline testing
-    only.  In production, replace with HSMKeyProvider.
+    The key is 64 random bytes unless ``key`` is supplied.  Construction
+    raises :class:`eige.config.ProductionModeViolation` when
+    ``EIGE_MODE=production``.
 
     Parameters
     ----------
     county_id : str
-        Machine identifier for the county, e.g. "WA-047".
+        Machine identifier for the county, e.g. "WA-047" (label only; the key
+        is NOT derived from it).
+    key : bytes, optional
+        Explicit key bytes (e.g. for reproducible tests).
     """
 
-    def __init__(self, county_id: str) -> None:
+    def __init__(self, county_id: str, key: Optional[bytes] = None) -> None:
+        require_non_production("SoftwareKeyProvider")
+        if key is not None and len(key) < 32:
+            raise ValueError("SoftwareKeyProvider key must be at least 32 bytes")
         self._county_id = county_id
-        self._key: bytes = self._derive(county_id)
-
-    @staticmethod
-    def _derive(county_id: str) -> bytes:
-        """Derive a 64-byte key from county_id — matches CountyNode._derive_key()."""
-        return hashlib.sha512(
-            f"EIGE-v21-{county_id}-hmac-key-placeholder".encode("utf-8")
-        ).digest()
+        self._key: bytes = key if key is not None else os.urandom(64)
 
     def sign(self, message: bytes) -> bytes:
         return _hmac.new(self._key, message, hashlib.sha512).digest()
 
     def __repr__(self) -> str:
-        return f"SoftwareKeyProvider(county_id={self._county_id!r})"
+        return f"SoftwareKeyProvider(county_id={self._county_id!r}, development_only=True)"
 
 
 # ---------------------------------------------------------------------------
@@ -229,6 +240,7 @@ class MockHSMKeyProvider(KeyProvider):
         keys: Optional[dict] = None,
         active_label: Optional[str] = None,
     ) -> None:
+        require_non_production("MockHSMKeyProvider")
         self._keys: dict = dict(keys or {})
         self._active_label = active_label or (next(iter(self._keys), None))
 

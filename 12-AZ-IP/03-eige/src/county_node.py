@@ -33,10 +33,6 @@ Implementation: GitHub Copilot (AI)
 
 from __future__ import annotations
 
-import hashlib
-import hmac
-import json
-import math
 import time
 from dataclasses import dataclass, field
 from typing import List, Optional
@@ -46,10 +42,10 @@ from .constants import (
     K_CS,
     PHI_0,
     SHARD_COUNT,
-    WINDING_NUMBER,
 )
 from .hsm_interface import KeyProvider, SoftwareKeyProvider
-from .metric_closure import MetricClosure, ClosureStatus, ClosureResult
+from eige.crypto.signing import DevelopmentSigner, KeyRegistry, Signer, VerificationResult
+from .metric_closure import MetricClosure, ClosureResult
 from .rust_bridge import RustBallotBridge
 
 
@@ -94,6 +90,53 @@ class BallotRecord:
 
 
 # ---------------------------------------------------------------------------
+# Telemetry signing helpers
+# ---------------------------------------------------------------------------
+
+TELEMETRY_CONTEXT = "telemetry"
+_UNSIGNED_FIELDS = frozenset({"signature", "hmac_signature"})
+
+
+def _floats_to_text(value):
+    if isinstance(value, float):
+        return repr(value)
+    if isinstance(value, dict):
+        return {k: _floats_to_text(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_floats_to_text(v) for v in value]
+    return value
+
+
+def telemetry_signable(payload: dict) -> dict:
+    """Return the canonical signable view of a telemetry payload.
+
+    Signature fields are removed; floats are rendered with ``repr`` because the
+    canonical encoding rejects floats (their JSON form is not unique).
+    """
+    return _floats_to_text({k: v for k, v in payload.items() if k not in _UNSIGNED_FIELDS})
+
+
+def verify_telemetry(payload: dict, registry: KeyRegistry, **kwargs) -> VerificationResult:
+    """Verify a telemetry payload's Ed25519 signature against ``registry``.
+
+    ``kwargs`` are forwarded to :meth:`KeyRegistry.verify` (for example
+    ``expected_owner=county_id`` or ``allow_development=False``).  The key's
+    validity is evaluated at the payload's signed ``signed_at`` time.
+    """
+    signed_at = payload.get("signed_at")
+    if not isinstance(signed_at, int) or isinstance(signed_at, bool):
+        return VerificationResult(False, "missing signed_at", payload.get("key_id", ""))
+    return registry.verify(
+        payload.get("key_id", ""),
+        TELEMETRY_CONTEXT,
+        telemetry_signable(payload),
+        payload.get("signature", ""),
+        signed_at=signed_at,
+        **kwargs,
+    )
+
+
+# ---------------------------------------------------------------------------
 # County node
 # ---------------------------------------------------------------------------
 
@@ -107,9 +150,14 @@ class CountyNode:
     county_name : str
         Human-readable name, e.g. "King County".
     hmac_key : bytes, optional
-        Key for HMAC-SHA512 telemetry signing.  If not provided, a
-        deterministic key derived from the county_id is used.  In production,
-        this MUST be a hardware-pinned secret.
+        Legacy key for an additional HMAC-SHA512 channel MAC (symmetric, not
+        attributable).  Omitted from telemetry unless supplied.
+    key_provider : KeyProvider, optional
+        Legacy HMAC provider; takes precedence over ``hmac_key``.
+    signer : eige.crypto.signing.Signer, optional
+        Ed25519 signer for telemetry.  Defaults to a fresh random
+        :class:`DevelopmentSigner`, which refuses to run in production mode —
+        production deployments must pass an HSM-backed signer.
     """
 
     def __init__(
@@ -119,30 +167,23 @@ class CountyNode:
         hmac_key: Optional[bytes] = None,
         key_provider: Optional[KeyProvider] = None,
         use_rust: bool = False,
+        signer: Optional[Signer] = None,
     ) -> None:
         self.county_id = county_id
         self.county_name = county_name
 
-        # Key provider precedence:
-        #  1. Explicit key_provider (HSMKeyProvider / MockHSMKeyProvider)
-        #  2. Legacy hmac_key bytes (wrapped in a one-shot provider)
-        #  3. Default: SoftwareKeyProvider(county_id) — mirrors old _derive_key()
-        if key_provider is not None:
-            self._key_provider: KeyProvider = key_provider
-        elif hmac_key is not None:
-            # Wrap a raw bytes key for backward-compat with existing tests
-            from .hsm_interface import MockHSMKeyProvider
-            mock = MockHSMKeyProvider(keys={"legacy": hmac_key}, active_label="legacy")
-            self._key_provider = mock
-        else:
-            self._key_provider = SoftwareKeyProvider(county_id)
+        # Attributable telemetry signatures: Ed25519 (red-team findings F4/F5).
+        self._signer: Signer = signer if signer is not None else DevelopmentSigner()
 
-        # Keep legacy attribute for tests that access _hmac_key directly
-        self._hmac_key: bytes = (
-            hmac_key
-            if hmac_key is not None
-            else SoftwareKeyProvider._derive(county_id)
-        )
+        # Optional legacy HMAC channel MAC — only when explicitly configured.
+        # The v21 default (key derived from the public county_id) is removed.
+        self._key_provider: Optional[KeyProvider]
+        if key_provider is not None:
+            self._key_provider = key_provider
+        elif hmac_key is not None:
+            self._key_provider = SoftwareKeyProvider(county_id, key=hmac_key)
+        else:
+            self._key_provider = None
 
         # Chain: use Rust bridge if requested, else pure-Python
         if use_rust:
@@ -250,20 +291,33 @@ class CountyNode:
     # Telemetry & state
     # ------------------------------------------------------------------
 
+    @property
+    def signer(self) -> Signer:
+        """The Ed25519 signer used for telemetry."""
+        return self._signer
+
     def get_shard_telemetry(self) -> dict:
-        """Return HMAC-signed shard telemetry for state mesh transmission.
+        """Return Ed25519-signed shard telemetry for state mesh transmission.
 
         Returns a structured dict containing:
           - county identification
-          - shard digests (8 × 16-char hex)
-          - primary chain hash and SHA-512 digest
-          - metric state (phi_eff, k_cs)
-          - HMAC-SHA512 signature
+          - shard digests (non-security fingerprints, see chern_simon_hash)
+          - primary chain fingerprint and SHA-512 digest
+          - legacy metric state (phi_eff, k_cs) — no evidentiary weight
+          - ``signature_alg``, ``key_id`` and ``signature`` (Ed25519 over
+            the canonical payload, context "telemetry")
+          - ``hmac_signature`` only when a legacy key provider was configured
 
-        No raw ballot records are included.
+        No raw ballot records are included.  Verify with
+        :func:`verify_telemetry` against a key registry.
         """
         payload = self._build_telemetry_payload()
-        payload["hmac_signature"] = self._sign_payload(payload)
+        payload["signed_at"] = int(time.time())
+        payload["signature_alg"] = "Ed25519"
+        payload["key_id"] = self._signer.key_id
+        payload["signature"] = self._signer.sign(TELEMETRY_CONTEXT, telemetry_signable(payload))
+        if self._key_provider is not None:
+            payload["hmac_signature"] = self._sign_payload(payload)
         return payload
 
     def get_metric_state(self) -> dict:
@@ -348,18 +402,10 @@ class CountyNode:
         }
 
     def _sign_payload(self, payload: dict) -> str:
-        """Produce an HMAC-SHA512 signature of the telemetry payload."""
+        """Produce the legacy HMAC-SHA512 channel MAC (requires a key provider)."""
+        if self._key_provider is None:
+            raise RuntimeError("no legacy HMAC key provider configured for this node")
         return self._key_provider.sign_dict(payload)
-
-    @staticmethod
-    def _derive_key(county_id: str) -> bytes:
-        """Derive a deterministic HMAC key from the county_id.
-
-        WARNING: In production, replace with a hardware-pinned secret.
-        """
-        return hashlib.sha512(
-            f"EIGE-v21-{county_id}-hmac-key-placeholder".encode("utf-8")
-        ).digest()
 
     def __repr__(self) -> str:
         return (

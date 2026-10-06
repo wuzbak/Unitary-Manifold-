@@ -1,130 +1,42 @@
-# AxiomZero EIGE v21.0 — Phased Deployment Roadmap
+# AxiomZero EIGE v22.0 — Roadmap
 
 **Theory & scientific direction:** ThomasCory Walker-Pearson  
 **Code architecture & implementation:** GitHub Copilot (AI)  
-**Version:** 21.0.0 | **Date:** 2026-07-17
+**Version:** 22.0.0
 
 ---
 
-## Three-Phase Sovereign Deployment Schedule
+## Current v22 status
 
-```
-[PHASE 1: TRL-7 SPRINT] ──> [PHASE 2: BRAID-LOCK EXPANSION] ──> [PHASE 3: MAINNET SATURATION]
-  Finalize Python Core       Deploy to 39 Counties              Active TEE Attestation
-  Run 312+ Test Suite        Establish 8-Shard Clusters         Real-Time Public Logs
-  Freeze Logic Kernels        Activate CS Rolling Hash           Holographic Saturation
-  King County Pilot          State Mesh Activation              Federal ZK Cert Stream
-```
+Done in v22:
 
----
+- Repositioned EIGE as an audit-support and public-transparency tool.
+- Added canonical JSON for signed and hashed artifacts.
+- Added RFC 6962/RFC 9162-style Merkle logs, inclusion proofs, and consistency proofs.
+- Added Ed25519 signing, key registry, rotation, revocation, development-key rejection, and PKCS#11 signer support.
+- Added Pedersen tally commitments with selective openings and no zero-knowledge claim.
+- Added signed tree heads, bulletin board, witness cosignatures, and split-view evidence.
+- Added strict election/CVR/manifest/result parsing, including supported NIST CVR and ERR shapes.
+- Added public-seed sampling, RLA calculations, reconciliation, custody ledger, open-data provenance, screening, reports, bundles, and a standalone verifier.
+- Retired the v21 metric-closure detector and prior zero-knowledge proof claim.
+- Reframed the Chern-Simons rolling hash as a non-security sequence fingerprint.
 
-## Phase 1: TRL-7 Infrastructure Sprint ✅
+## Next steps
 
-**Objective:** Finalize software-defined continuous computation cores and execute global regression baselines.
+- Independent cryptographic review of canonicalization, Merkle proofs, Ed25519 domain separation, key registry semantics, witness behavior, and Pedersen commitment implementation.
+- Hardware HSM testing for PKCS#11 Ed25519 signing, key rotation, revocation, and failure behavior.
+- Pilot with an election office as a shadow-mode audit-support tool, not as a replacement for any certified voting system.
+- CVR privacy review and jurisdiction-specific redaction guidance for rare ballot styles and small reporting groups.
+- Cross-validation of RLA calculations with SHANGRLA and Arlo on public and synthetic datasets.
+- Operator UI implementation following `blueprint/OFFICIAL_WORKFLOW.md` and `blueprint/OfficialWorkflowCockpit.tsx`.
+- Authentication and authorization for the adjudicator/operator API before any production network deployment.
+- External review of open-data provenance and SHA-256 pinning procedures.
+- Usability testing of official, court, voter, and JSON report outputs.
 
-**Deliverables:**
-- ✅ 13 core Python modules implemented (`EIGE/src/`)
-- ✅ 312 tests passing, 0 failures (`EIGE/tests/`)
-- ✅ CS Rolling Hash (path-dependent, order-sensitive, non-commutative)
-- ✅ Metric Closure Validator (STABLE | DRIFTED | VIOLATED)
-- ✅ OSCAL 1.5.0 dossier emission (< 500ms, atomic write)
-- ✅ 8-Shard Holographic Persistence (k_CS=74 braid distribution)
-- ✅ Network Partition Resiliency (disconnect → queue → flush)
-- ✅ Federal Blind Audit Gate (RawDataAccessAttempt structural gate)
-- ✅ Cold Storage Snapshot + Peer Replication (ColdStorageManager)
-- ✅ Recovery Kernel (cold-start hash chain integrity assertion)
-- ✅ Infrastructure YAML manifests (eige-pod.yaml, state-mesh.yaml, etc.)
+## Non-goals
 
-**Operational Insulation:**  
-Hardware dependencies are explicitly mocked in software space.  This prevents adversarial
-handlers from stalling code reviews by restricting hardware access or funding channels.
-
----
-
-## Phase 1-B: Chaos Resilience & Public Trust Sprint ✅
-
-**Objective:** Address the three architectural vulnerabilities identified in the adversarial analysis
-(Translation Gap, Over-Fitting Trap, Epistemic Barrier) and produce the comprehensive EIGE book.
-
-**Deliverables:**
-- ✅ **Phase 1** — `ChaosInjector`: adversarial noise injection, replay attack, burst testing, freedom floor kill-switch (`chaos_injection.py`)
-- ✅ **Phase 2** — `HolographicScreen`: fuzzy mark normalisation, write-in resolution, admissibility rejection, normalisation audit log (`holographic_screen.py`)
-- ✅ **Phase 3** — `PublicTrustIndexBuilder` / `PublicTrustReport`: plain-English, legally defensible trust summaries with zero 5D/KK vocabulary (`public_trust_index.py`)
-- ✅ **Phase 4** — Freedom Floor Kill-Switch: `check_freedom_floor()` + `check_participation_variance()` + `FreedomFloorBreach` in `SentinelLoadBalancer`
-- ✅ **Phase 5** — Full-pipeline chaos integration test suite: 7 adversarial scenarios covering clean baseline, 10% noise, 50% zero-out, multi-county mesh, freedom floor enforcement, admissibility routing, and public vocabulary verification
-- ✅ **EIGE Book** — 21-chapter comprehensive technical and operational reference (`BOOK.md`)
-- ✅ **449 tests passing**, 0 failures
-
-**New constants** (all configurable):
-- `CHAOS_NOISE_BUDGET_DEFAULT = 0.10`
-- `FREEDOM_FLOOR = 0.85`
-- `FREEDOM_FLOOR_MIN_BALLOTS = 1`
-- `HOLOGRAPHIC_SCREEN_MIN_CONFIDENCE = 0.60`
-
----
-
-
-
-**Objective:** Deploy the validated logic clusters across 39 regional county nodes and secure the network topology.
-
-**Deliverables:**
-- [ ] Deploy EIGE engine across all 39 Washington State county processing configurations
-- [ ] Establish 8-Shard Holographic Persistence Architecture at each county node
-- [ ] Activate path-dependent Chern-Simons rolling hash across live ballot data flows
-- [ ] Configure King County K8s cluster (`eige-pod.yaml`, `network-policy.yaml`)
-- [ ] Activate Istio mTLS (`peer-authentication.yaml`)
-- [ ] Launch state aggregation mesh (`state-mesh.yaml`)
-- [ ] Multi-party authentication UI panels active (Next.js cockpit)
-- [ ] Public static Nginx dashboard live (`nginx-dashboard.conf`)
-
-**Operational Insulation:**  
-Any attempt to modify local ingestion configurations flags an instant alert and generates
-an automated public OSCAL record blob.
-
----
-
-## Phase 3: Sovereign Mainnet Saturation
-
-**Objective:** Transition network endpoints to full trusted hardware layers and reach maximum trust metrics.
-
-**Deliverables:**
-- [ ] Achieve Holographic Trust Saturation (Φ_trust → 1.0) fixed-point state
-- [ ] Activate bare-metal Trusted Execution Environment (TEE) attestation (Intel TDX / AMD SEV-SNP)
-- [ ] Turn on automated real-time streaming of override dossier logs to decentralized public data mirrors
-- [ ] Federal tier live: continuous OSCAL 1.5.0 Holon Zero Certificate streaming (NIST/EAC/CISA)
-- [ ] LiteBIRD integration milestone documentation (birefringence falsification window ~2032)
-- [ ] State Legislature audit presentation
-
----
-
-## Microservice Dependency Build Order
-
-```
-Week 1-2:   constants.py + chern_simon_hash.py + metric_closure.py   ← DONE
-Week 3-4:   oscal_schema.py + holon_zero_cert.py + county_node.py    ← DONE
-Week 5-6:   sentinel_load_balance.py + precision_audit_worker.py      ← DONE
-Week 7-8:   state_mesh.py + federal_auditor.py + sovereign_mesh.py    ← DONE
-Week 9-10:  recovery_kernel.py + disaster_recovery.py                  ← DONE
-Week 11-12: K8s infra YAML + Rust ingestion engine blueprint           ← DONE (blueprints)
-Week 13+:   Multi-party Next.js frontend + mTLS cert provisioning      ← Phase 2
-```
-
----
-
-## Test Suite Growth Target
-
-| Phase | Tests | Status |
-|-------|-------|--------|
-| Phase 1 (TRL-7) | 312 | ✅ PASSING |
-| Phase 1-B (Chaos Injection) | +86 new | ✅ PASSING |
-| Phase 2 (Holographic Screen) | +72 new | ✅ PASSING |
-| Phase 3 (Public Trust Index) | +45 new | ✅ PASSING |
-| Phase 4+5 (Freedom Floor + Integration) | +47 new | ✅ PASSING |
-| **Total (v21.0 complete)** | **449** | ✅ **ALL PASSING** |
-| Phase 2 (Braid-Lock) | ~600 | 🔲 Planned |
-| Phase 3 (Mainnet) | ~1,200 | 🔲 Planned |
-
----
-
-*Theory, framework, and scientific direction: ThomasCory Walker-Pearson.*  
-*Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).*
+- No deployment promise to any set number of counties.
+- No claim to count votes or certify elections.
+- No claim that statistical screens are evidence of fraud.
+- No claim that signatures prove the signer acted honestly.
+- No physics-based tamper-detection or zero-knowledge proof claim.

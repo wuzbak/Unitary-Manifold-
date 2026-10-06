@@ -1,8 +1,22 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """
-EIGE/src/chern_simon_hash.py — Path-Dependent Chern-Simons Rolling Hash
-========================================================================
+EIGE/src/chern_simon_hash.py — Sequence Fingerprint (NON-SECURITY, legacy v21)
+==============================================================================
+
+SECURITY NOTICE (v22, red-team finding F1)
+------------------------------------------
+This rolling function is **not** a cryptographic hash and provides **no**
+tamper evidence.  It is unkeyed and each step is trivially invertible: from
+any state an attacker can compute a ballot integer that drives the chain to
+any chosen target, and anyone can recompute a "valid" chain for a forged
+sequence.  It is retained only as a non-security *sequence fingerprint* for
+backwards compatibility (shard bookkeeping, demos).  Tamper evidence is now
+provided by the RFC 6962 Merkle log with Ed25519-signed tree heads in
+``eige.ledger.log``.  See RED_TEAM_FINDINGS.md and RETRACTED_CLAIMS.md.
+
+Original v21 description (claims below items 2–3 are RETRACTED)
+---------------------------------------------------------------
 
 The CS Rolling Hash treats ballot ingestion as a path-dependent sequence
 integral.  The chronological placement of each ballot modifies the running
@@ -23,10 +37,9 @@ Let s₀ = K_CS (seed state).  For each ballot integer bₙ:
 
 where M63 = 2⁶³ − 1 (Mersenne prime), SHIFT = 7.
 
-This accumulation is non-commutative: swapping any two bₙ produces a
-completely different final state.  The XOR term (s_n >> SHIFT) introduces
-non-linearity that prevents an adversary from solving for a forged ballot
-sequence that collides with the true sequence.
+This accumulation is order-sensitive, but it is NOT collision- or
+preimage-resistant: the step s → s·K_CS + b is affine in b, so an adversary
+can solve for a ballot value that produces any desired next state.
 
 Theory: ThomasCory Walker-Pearson
 Implementation: GitHub Copilot (AI)
@@ -45,6 +58,25 @@ from .constants import (
     SHARD_COUNT,
     SHARD_RECONSTRUCTION_THRESHOLD,
 )
+
+
+SECURITY_ROLE = "non-security sequence fingerprint (retired as tamper evidence; see RETRACTED_CLAIMS.md)"
+
+
+def forge_next_ballot(state: int, target: int) -> int:
+    """Return a ballot integer that moves ``state`` to ``target`` (demonstrates F1).
+
+    Exists so the red-team regression test can show — permanently — why this
+    function must never be used for tamper evidence.
+    """
+    shifted = state >> HASH_SHIFT_BITS
+    for wrap in range(1 << 12):
+        candidate = ((target + wrap * HASH_MODULUS) ^ shifted) - state * K_CS
+        if 0 <= candidate <= 0xFFFFFFFFFFFFFFFF and (
+            ((state * K_CS + candidate) ^ shifted) % HASH_MODULUS == target
+        ):
+            return candidate
+    raise ValueError("no 64-bit preimage found in search window")  # pragma: no cover
 
 
 # ---------------------------------------------------------------------------

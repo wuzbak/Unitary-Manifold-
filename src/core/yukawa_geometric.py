@@ -35,10 +35,7 @@ def default_sector_localization() -> Dict[str, Localization]:
 
 
 def _orbifold_distance_array(y: np.ndarray, center: float) -> np.ndarray:
-    direct = np.abs(y - center)
-    wrapped = np.minimum(direct, 1.0 - direct)
-    mirrored = np.abs(y - (1.0 - center))
-    return np.minimum(wrapped, mirrored)
+    return np.abs(y - center)
 
 
 @lru_cache(maxsize=64)

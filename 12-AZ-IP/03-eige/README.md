@@ -1,177 +1,94 @@
 # AxiomZero EIGE — Election Integrity Governance Engine
 
-**Version:** 21.0.0 | **Status:** Phase 1-B Complete — 449 tests passing, 0 failures  
+**Version:** 22.0.0  
 **Epistemic label:** 🔵 ADJACENT TRACK — governance application (not a physics claim)  
 **Theory & scientific direction:** ThomasCory Walker-Pearson  
 **Code architecture & implementation:** GitHub Copilot (AI)
 
 ---
 
-## What Is EIGE?
+EIGE v22 is an audit-support and public-transparency tool for election officials. It helps publish verifiable election records, reconcile canvass data, run risk-limiting audit calculations, document paper custody, and let observers rerun verification from a publication bundle.
 
-EIGE is a **deterministic, mathematically verifiable chain-of-custody engine for elections**.
+EIGE does **not** count votes. It does **not** replace certified tabulators, paper ballots, canvass procedures, or chain-of-custody law. It is not an end-to-end voter-verifiable cryptographic voting system.
 
-Existing election auditing tools — Benford's Law analysis, risk-limiting audits (RLAs), post-election sampling — share a structural flaw: they are retroactive, sampling-based, and probabilistic. They produce p-values, not proof. When both sides of a dispute cite the same heuristic tools and reach different conclusions, the dispute resolves by political weight, not technical certainty.
+## What changed in v22
 
-EIGE takes a different approach: it encodes the **entire ballot sequence as a mathematical invariant** that is computed in real time and verified continuously. Any structural manipulation — ballot stuffing, retroactive deletion, sequence reordering, administrative override — produces an immediate, machine-verifiable deviation from the invariant. This deviation is not a statistical signal; it is a deterministic cryptographic event.
+A red-team review found that several v21 security claims were unsupported. The Chern-Simons rolling hash is retained only as a non-security sequence fingerprint. The metric-closure detector and prior “zero-knowledge proof” claim are retired. See [RED_TEAM_FINDINGS.md](RED_TEAM_FINDINGS.md) and [RETRACTED_CLAIMS.md](RETRACTED_CLAIMS.md).
 
-> **An election is a field evolution, not a database.**
+The v22 package is `eige/`. The older `src/` package remains for compatibility and demonstration paths, with development-only components refusing production mode where applicable.
 
----
+## What EIGE detects or checks
 
-## A Note on the Math
+| Issue | v22 mechanism |
+|---|---|
+| Stuffing, deletion, or reordering of logged records after publication | RFC 6962/RFC 9162 Merkle log roots, inclusion proofs, and consistency proofs |
+| Forged county data by an unregistered key | Ed25519 signatures and public key registry checks |
+| Split views of the public log | Bulletin board, witness cosignatures, and equivocation evidence for conflicting signed heads |
+| Outcome-changing tabulation error in sampled ballots | Risk-limiting audit support: comparison audits and ballot-polling BRAVO calculations |
+| Count, manifest, provisional, or result mismatch | Canvass reconciliation with blocking/review discrepancy codes |
+| Custody gaps for paper containers | Chain-of-custody ledger requiring at least two official sign-offs per event |
+| Votes moved between precincts while contest totals stay the same | Precinct (reporting-unit) results recomputed from logged CVRs when results are published by reporting unit |
+| The same CVR export ingested twice, or a CVR id reused | All-or-nothing ingest with a unique CVR-id index; duplicate ids fail reconciliation |
+| A state roll-up that omits, repeats or alters a county | Statewide verifier: every county bundle, distinct counties, and every county figure and state sum |
+| Turnout or residual-vote anomalies | Robust statistical screens labelled only as investigation leads, not evidence |
 
-EIGE's tamper-detection invariants (`k_CS = 74`, `φ₀ = π/4`) are drawn from the [Unitary Manifold](https://github.com/wuzbak/Unitary-Manifold-) physics framework. **You do not need to evaluate the cosmological physics to evaluate EIGE.**
+## What EIGE does not detect
 
-The constants function as:
-1. Seeds for a path-dependent rolling hash (tamper-detection)
-2. Shard placement parameters for holographic persistence (resilience)
-3. Anchors for zero-knowledge compliance certificates (federal audit)
+- Manipulation before a ballot is scanned or logged. Only paper custody and audits can check paper reality.
+- Dishonest officials who sign false records. Signatures identify the key used; they do not prove the keyholder was honest.
+- Compromised certified tabulator firmware, unless the compromise produces records or samples that fail reconciliation or audit checks.
+- Ballot-secrecy risks from publishing rare CVR patterns; jurisdictions must apply their own CVR redaction rules.
+- A failed or incomplete risk-limiting audit as “fraud.” Failure to meet the risk limit means escalation, potentially to a full hand count.
 
-Their operational validity requires only their mathematical properties — not verification of the underlying physical theory. See [BOOK.md §3](BOOK.md#3-the-philosophy-from-physics-to-governance) for the full "Analogical Sandbox" treatment. For a physics-free evaluation, see [`src/constants_engineering.py`](src/constants_engineering.py).
-
----
-
-## What EIGE Detects
-
-| Attack | Detection Mechanism |
-|--------|---------------------|
-| Ballot stuffing (inserting extra records) | Chern-Simons rolling hash disruption |
-| Retroactive ballot deletion | Same — sequence-dependent hash encodes count |
-| Sequence reordering | Non-commutativity of CS hash |
-| Administrative override | SentinelLoadBalancer intercepts; OSCAL dossier emitted < 500ms |
-| Infrastructure attack (ransomware, power loss) | 8-shard holographic persistence; inter-county peer replication |
-| Precision attack (floating-point bias) | 512-bit mpmath out-of-band audit worker |
-| Participation suppression (rural county zeroing) | Freedom Floor kill-switch |
-
-## What EIGE Does NOT Detect
-
-- Manipulation of the physical ballot before it enters the scanner
-- Compromised scanner hardware that emits false integers
-- Colluding operators who collectively suppress the audit trail before EIGE is activated
-- Attacks below the HMAC-SHA-512 key management layer
-
-See [BOOK.md §17](BOOK.md#17-known-limitations-and-open-problems) for the full limitations chapter.
-
----
-
-## Quick Start
-
-### Prerequisites
+## Quick start
 
 ```bash
-Python 3.11+
+cd 12-AZ-IP/03-eige
 pip install -r requirements.txt
-```
-
-### Run the full test suite
-
-```bash
-cd EIGE/
-python -m pytest tests/ -v
-# Expected: 449 passed, 0 failed
-```
-
-### Run via Docker (one command)
-
-```bash
-docker build -t axiomzero-eige .
-docker run --rm axiomzero-eige
-# Runs full 449-test suite inside container
-```
-
-### Run the end-to-end synthetic election demo
-
-```bash
+python -m pytest tests/ -q
 python run_demo.py
-# Simulates: 5 counties × 1,000 ballots → state mesh → federal audit → Public Trust Report
+python -m eige.verify bundle path/to/bundle --audience official
 ```
 
-### Interactive Jupyter notebook
+For machine-readable artifact specifications, see [docs/FORMATS.md](docs/FORMATS.md).
 
-```bash
-pip install jupyter
-jupyter notebook notebooks/01_eige_quickstart.ipynb
-```
+## County and state scale
 
----
+EIGE is built to handle a full county or state, not a sample of one:
 
-## Architecture Overview
+- **County operations** — `python -m eige.county` keeps the log in a durable SQLite file and streams NIST SP 1500-103 (JSON or JSONL) or CSV exports into it. Each export is validated in full before anything is logged, and a CVR id can never be logged twice. Heads are signed through PKCS#11 (or a development key outside production), results can be tallied per precinct, and the bundle is exported from the database.
+- **Verification** — `python -m eige.verify bundle` reads the log in a single streaming pass, in bounded memory, and can split the work across processes with `--workers`; the report is identical either way. Merkle proofs read O(log² n) stored nodes rather than rebuilding the tree.
+- **Full-population checks** — results by reporting unit, risk-limiting audits of every contest from one sample (`eige.audit_input.v2`), conservative handling of lost ballots, and `python -m eige.verify state` for the statewide roll-up.
 
-```
-[COUNTY TIER — 39 nodes]
-  ballot integer → CS rolling hash → 8 shards → φ_eff, k_CS
-  [NO raw ballots leave the county tier]
-       │
-       ▼  Encrypted shard telemetry (TLS 1.3 mTLS)
-[STATE TIER — aggregation]
-  Cross-county braid sync → Holon Zero Certificate emission
-       │
-       ▼  OSCAL 1.5.0 ZK certificates only
-[FEDERAL TIER — compliance window]
-  Zero-knowledge certificate validation only
-  RawDataAccessAttempt raised on any raw data query
-```
+Measured throughput and memory, and the method for reproducing them, are in [SCALE.md](SCALE.md).
 
-Full system block diagram: [ARCHITECTURE.md](ARCHITECTURE.md)
+## Official workflow
 
----
+1. **Manifest** — load election definitions and ballot manifests.
+2. **Ingest** — log CVRs (`python -m eige.county ingest`), publish signed tree heads, and collect witness cosignatures.
+3. **Reconcile** — compare manifests, CVRs, cast counts, provisional counts, and reported results.
+4. **Audit** — commit results, hold a public seed ceremony, draw samples, hand-interpret sampled ballots, and run RLA calculations.
+5. **Certify & publish** — export the bundle (`python -m eige.county export`), run `python -m eige.verify bundle ...`, and for a state canvass `python -m eige.verify state ...`.
 
-## Repository Structure
+The UI flow is specified in [blueprint/OFFICIAL_WORKFLOW.md](blueprint/OFFICIAL_WORKFLOW.md).
 
-```
-EIGE/
-  README.md           ← You are here
-  BOOK.md             ← 21-chapter full technical & operational reference
-  ARCHITECTURE.md     ← System architecture and block diagrams
-  COMPLIANCE.md       ← NIST VVSG 2.0 / SP-800-53 R5 / OSCAL 1.5.0 mapping
-  ROADMAP.md          ← Phase 1 → 3 deployment schedule
-  CHANGELOG.md        ← Version history
-  SECURITY.md         ← Security policy and bug bounty
-  EXPLAINER.md        ← 5-minute plain-English explainer
-  FAQ.md              ← Skeptic FAQ (4 audiences)
-  requirements.txt    ← Python dependencies
-  Dockerfile          ← One-command test runner
-  run_demo.py         ← End-to-end synthetic election demo
-  src/                ← 13 Python modules (core engine)
-  tests/              ← 449-test suite
-  notebooks/          ← Jupyter quickstart
-  blueprint/          ← Rust ingestion engine + Next.js UI blueprints
-  infra/              ← Kubernetes / Istio deployment YAML
-  outreach/           ← Engagement letters (King County, EAC/CISA, academic)
-  paper/              ← arXiv preprint draft
-  docs/               ← GitHub Pages landing page
-```
+## Repository structure
 
----
+| Path | Purpose |
+|---|---|
+| `eige/` | v22 implementation: canonical JSON, signing, Merkle log (in-memory and durable), CVR import, county CLI, reconciliation, RLA, custody, streaming/parallel bundle verifier, statewide verifier |
+| `tools/scale_benchmark.py` | reproducible scale measurements (see `SCALE.md`) |
+| `src/` | legacy v21 compatibility modules; not the basis for v22 security claims |
+| `tests/` | regression and behavior tests |
+| `docs/FORMATS.md` | artifact and bundle specification |
+| `blueprint/` | UI and operator workflow blueprints |
+| `outreach/` | engagement material for review and pilots |
+| `paper/` | research preprint material with v22 retraction notice |
 
-## NIST Compliance
+## Related documents
 
-EIGE maps to NIST VVSG 2.0 and NIST SP-800-53 Rev 5:
-
-| Component | NIST Control |
-|-----------|-------------|
-| CS rolling hash | SI-7 (Software Integrity) |
-| 5D metric closure | AC-1 (Access Control Policy) |
-| Override dossier (< 500ms) | AU-12 (Audit Generation) |
-| Federal blind audit gate | AC-3 (Access Enforcement) |
-| 8-shard holographic backup | CP-9 (System Backup) |
-| 512-bit mpmath audit thread | CA-7 (Continuous Monitoring) |
-
-Full control mapping: [COMPLIANCE.md](COMPLIANCE.md)
-
----
-
-## Versioning & Release Artifacts
-
-| Version | Tests | Status |
-|---------|-------|--------|
-| v21.0.0 (Phase 1-B complete) | 449 | ✅ All passing |
-| v20.x (Phase 1 TRL-7) | 312 | ✅ Superseded |
-
----
-
-## Authorship
-
-*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
-*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+- [RED_TEAM_FINDINGS.md](RED_TEAM_FINDINGS.md)
+- [RETRACTED_CLAIMS.md](RETRACTED_CLAIMS.md)
+- [THREAT_MODEL.md](THREAT_MODEL.md)
+- [COMPLIANCE.md](COMPLIANCE.md)
+- [SECURITY.md](SECURITY.md)

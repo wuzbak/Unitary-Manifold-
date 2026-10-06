@@ -401,6 +401,21 @@
     return Math.max(0, Math.min(100, value));
   }
 
+  function isRecord(value) {
+    return value !== null && typeof value === 'object' && !Array.isArray(value);
+  }
+
+  function clampInteger(value, min, max, fallback) {
+    const numeric = Number(value);
+    if (!Number.isInteger(numeric)) return fallback;
+    return Math.max(min, Math.min(max, numeric));
+  }
+
+  function nonNegativeNumber(value, fallback = 0) {
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? Math.max(0, numeric) : fallback;
+  }
+
   function normalizeWrap(value, size) {
     if (value < 0) return size - 1;
     if (value >= size) return 0;
@@ -758,31 +773,64 @@
 
   function normalizeCampaign(candidate) {
     const base = createCampaignState();
-    const incoming = candidate && typeof candidate === 'object' ? candidate : {};
+    const incoming = isRecord(candidate) ? candidate : {};
+    const knownLevelIds = new Set(LEVELS.map((level) => level.id));
     const hasTopLevelIndex = incoming.currentLevelIndex !== undefined && incoming.currentLevelIndex !== null;
-    const clampedIncomingIndex = Math.max(0, Math.min(LEVELS.length - 1, Number(incoming.currentLevelIndex || 0)));
+    const clampedIncomingIndex = clampInteger(incoming.currentLevelIndex, 0, LEVELS.length - 1, 0);
     const rawLevelId = hasTopLevelIndex
       ? LEVELS[clampedIncomingIndex].id
-      : (incoming.current || {}).levelId || LEVELS[0].id;
+      : (isRecord(incoming.current) ? incoming.current.levelId : null) || LEVELS[0].id;
     const resolvedLevel = getLevelById(rawLevelId);
     const resolvedLevelIndex = hasTopLevelIndex
       ? clampedIncomingIndex
       : Math.max(0, LEVELS.findIndex((level) => level.id === resolvedLevel.id));
+    const incomingCurrent = isRecord(incoming.current) ? incoming.current : {};
+    const incomingTargets = Array.isArray(incomingCurrent.targets) ? incomingCurrent.targets : [];
+    const incomingSignals = Array.isArray(incomingCurrent.signals) ? incomingCurrent.signals : [];
+    const validTargets = incomingTargets.every(isRecord);
+    const validSignals = incomingSignals.every(isRecord);
+    const savedSignalIds = new Set(
+      (validSignals ? incomingSignals : [])
+        .map((signal) => signal.id)
+        .filter((id) => typeof id === 'string'),
+    );
     const normalized = {
       ...base,
       ...incoming,
-      telemetry: { ...base.telemetry, ...(incoming.telemetry || {}) },
-      installHints: { ...base.installHints, ...(incoming.installHints || {}) },
-      profile: { ...base.profile, ...(incoming.profile || {}) },
+      completedLevelIds: Array.isArray(incoming.completedLevelIds)
+        ? incoming.completedLevelIds.filter((id) => typeof id === 'string' && knownLevelIds.has(id))
+        : base.completedLevelIds,
+      totalScore: nonNegativeNumber(incoming.totalScore, base.totalScore),
+      trainingRecords: Array.isArray(incoming.trainingRecords)
+        ? incoming.trainingRecords
+            .filter((record) => isRecord(record) && knownLevelIds.has(record.levelId))
+            .map((record) => ({ ...record, score: nonNegativeNumber(record.score) }))
+        : base.trainingRecords,
+      coachNotes: Array.isArray(incoming.coachNotes)
+        ? incoming.coachNotes.filter((note) => typeof note === 'string')
+        : base.coachNotes,
+      achievements: Array.isArray(incoming.achievements)
+        ? incoming.achievements.filter((item) => isRecord(item) && typeof item.id === 'string')
+        : base.achievements,
+      atlasInsights: Array.isArray(incoming.atlasInsights)
+        ? incoming.atlasInsights.filter((item) => isRecord(item) && typeof item.conceptTag === 'string')
+        : base.atlasInsights,
+      levelHistory: isRecord(incoming.levelHistory) ? incoming.levelHistory : base.levelHistory,
+      telemetry: { ...base.telemetry, ...(isRecord(incoming.telemetry) ? incoming.telemetry : {}) },
+      installHints: { ...base.installHints, ...(isRecord(incoming.installHints) ? incoming.installHints : {}) },
+      profile: { ...base.profile, ...(isRecord(incoming.profile) ? incoming.profile : {}) },
       current: createLevelState(resolvedLevelIndex),
     };
     const levelTemplate = createLevelState(resolvedLevelIndex);
-    const incomingCurrent = incoming.current || {};
     const sameLevelPayload = !incomingCurrent.levelId || incomingCurrent.levelId === resolvedLevel.id;
     const levelSignalMap = new Map(levelTemplate.signals.map((signal) => [signal.id, signal]));
     const safeSignalIds = new Set(levelSignalMap.keys());
     const safeTargetIds = new Set(levelTemplate.targets.map((target) => target.id));
-    const safeTargetMap = new Map((Array.isArray(incomingCurrent.targets) ? incomingCurrent.targets : []).map((target) => [target.id, target]));
+    const safeTargetMap = new Map(
+      (validTargets ? incomingTargets : [])
+        .filter((target) => typeof target.id === 'string')
+        .map((target) => [target.id, target]),
+    );
     const restoredCarriedSignal = sameLevelPayload && incomingCurrent.carriedSignal && safeSignalIds.has(incomingCurrent.carriedSignal.id)
       ? (() => {
           const templateSignal = levelSignalMap.get(incomingCurrent.carriedSignal.id);
@@ -809,34 +857,38 @@
         : target;
     });
     normalized.currentLevelIndex = resolvedLevelIndex;
-    normalized.unlockedLevelIndex = Math.max(
+    normalized.unlockedLevelIndex = clampInteger(
+      incoming.unlockedLevelIndex,
       0,
-      Math.min(LEVELS.length - 1, Number(incoming.unlockedLevelIndex ?? resolvedLevelIndex)),
+      LEVELS.length - 1,
+      resolvedLevelIndex,
     );
     normalized.current = {
       ...levelTemplate,
-      player: sameLevelPayload && incomingCurrent.player
+      player: sameLevelPayload && isRecord(incomingCurrent.player)
         ? {
-            x: Math.max(0, Math.min(levelTemplate.width - 1, Number(incomingCurrent.player.x ?? levelTemplate.player.x))),
-            y: Math.max(0, Math.min(levelTemplate.height - 1, Number(incomingCurrent.player.y ?? levelTemplate.player.y))),
+            x: clampInteger(incomingCurrent.player.x, 0, levelTemplate.width - 1, levelTemplate.player.x),
+            y: clampInteger(incomingCurrent.player.y, 0, levelTemplate.height - 1, levelTemplate.player.y),
           }
         : levelTemplate.player,
       carriedSignal: restoredCarriedSignal,
-      signals: sameLevelPayload && Array.isArray(incomingCurrent.signals)
+      signals: sameLevelPayload && validSignals
         ? levelTemplate.signals.filter((signal) => (
             signal.id !== restoredCarriedSignal?.id
-            && incomingCurrent.signals.some((entry) => entry.id === signal.id)
+            && savedSignalIds.has(signal.id)
           ))
         : levelTemplate.signals,
       targets: restoredTargets,
       movesLeft: sameLevelPayload
-        ? Math.max(0, Math.min(levelTemplate.movesLeft, Number(incomingCurrent.movesLeft ?? levelTemplate.movesLeft)))
+        ? clampInteger(incomingCurrent.movesLeft, 0, levelTemplate.movesLeft, levelTemplate.movesLeft)
         : levelTemplate.movesLeft,
-      wraps: sameLevelPayload ? Math.max(0, Number(incomingCurrent.wraps ?? levelTemplate.wraps)) : levelTemplate.wraps,
+      wraps: sameLevelPayload ? clampInteger(incomingCurrent.wraps, 0, 100_000, levelTemplate.wraps) : levelTemplate.wraps,
       wrapBonusAwarded: sameLevelPayload ? Boolean(incomingCurrent.wrapBonusAwarded) : levelTemplate.wrapBonusAwarded,
-      score: sameLevelPayload ? Math.max(0, Number(incomingCurrent.score ?? levelTemplate.score)) : levelTemplate.score,
-      coherence: sameLevelPayload ? clampCoherence(Number(incomingCurrent.coherence ?? levelTemplate.coherence)) : levelTemplate.coherence,
-      combo: sameLevelPayload ? Math.max(0, Number(incomingCurrent.combo ?? levelTemplate.combo)) : levelTemplate.combo,
+      score: sameLevelPayload ? nonNegativeNumber(incomingCurrent.score, levelTemplate.score) : levelTemplate.score,
+      coherence: sameLevelPayload
+        ? clampCoherence(Number.isFinite(Number(incomingCurrent.coherence)) ? Number(incomingCurrent.coherence) : levelTemplate.coherence)
+        : levelTemplate.coherence,
+      combo: sameLevelPayload ? clampInteger(incomingCurrent.combo, 0, 100_000, levelTemplate.combo) : levelTemplate.combo,
       activeChallenge: sameLevelPayload
         && incomingCurrent.activeChallenge
         && safeTargetIds.has(incomingCurrent.activeChallenge.targetId)
@@ -863,15 +915,19 @@
       scienceLog: sameLevelPayload && Array.isArray(incomingCurrent.scienceLog)
         ? incomingCurrent.scienceLog.map((entry) => String(entry)).slice(0, 10)
         : levelTemplate.scienceLog,
-      touchHistory: sameLevelPayload && Array.isArray(incomingCurrent.touchHistory)
+      touchHistory: sameLevelPayload
+        && Array.isArray(incomingCurrent.touchHistory)
+        && incomingCurrent.touchHistory.every(isRecord)
         ? incomingCurrent.touchHistory
             .map((entry) => ({
-              x: Math.max(0, Math.min(levelTemplate.width - 1, Number(entry.x ?? 0))),
-              y: Math.max(0, Math.min(levelTemplate.height - 1, Number(entry.y ?? 0))),
+              x: clampInteger(entry.x, 0, levelTemplate.width - 1, levelTemplate.player.x),
+              y: clampInteger(entry.y, 0, levelTemplate.height - 1, levelTemplate.player.y),
             }))
             .slice(-64)
         : levelTemplate.touchHistory,
-      challengeHistory: sameLevelPayload && Array.isArray(incomingCurrent.challengeHistory)
+      challengeHistory: sameLevelPayload
+        && Array.isArray(incomingCurrent.challengeHistory)
+        && incomingCurrent.challengeHistory.every(isRecord)
         ? incomingCurrent.challengeHistory
             .filter((entry) => safeTargetIds.has(entry.targetId))
             .map((entry) => ({
@@ -882,10 +938,10 @@
             .slice(-32)
         : levelTemplate.challengeHistory,
       collectedConcepts: sameLevelPayload && Array.isArray(incomingCurrent.collectedConcepts)
-        ? incomingCurrent.collectedConcepts.map((entry) => String(entry)).slice(0, 64)
+        ? incomingCurrent.collectedConcepts.filter((entry) => typeof entry === 'string').slice(0, 64)
         : levelTemplate.collectedConcepts,
       retriedTargets: sameLevelPayload && Array.isArray(incomingCurrent.retriedTargets)
-        ? incomingCurrent.retriedTargets.filter((entry) => safeTargetIds.has(entry)).map((entry) => String(entry)).slice(0, 32)
+        ? incomingCurrent.retriedTargets.filter((entry) => typeof entry === 'string' && safeTargetIds.has(entry)).slice(0, 32)
         : levelTemplate.retriedTargets,
       levelId: resolvedLevel.id,
       levelIndex: resolvedLevelIndex,
@@ -949,7 +1005,7 @@
     const current = campaign.current;
     return {
       version: campaign.version,
-      totalScore: campaign.totalScore + current.score,
+      totalScore: campaign.totalScore + (current.completed ? 0 : current.score),
       completedLevels: campaign.completedLevelIds.length,
       atlasInsights: campaign.atlasInsights.length,
       achievements: campaign.achievements.length,

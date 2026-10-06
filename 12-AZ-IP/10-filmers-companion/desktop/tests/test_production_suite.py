@@ -411,3 +411,17 @@ def test_revision_with_no_character_cues_clears_auto_characters(tmp_path):
             "SELECT COUNT(*) FROM characters WHERE project_id='clear-001' AND notes='Detected from screenplay import'"
         ).fetchone()[0]
     assert count == 0
+
+
+def test_import_script_fdx_rejects_entity_declarations(tmp_path):
+    from desktop.app.db.schema import init_db
+    from desktop.app.production_suite.service import FilmProductionSuiteService
+
+    db_path = tmp_path / "fdx_entities.db"
+    init_db(db_path)
+    service = FilmProductionSuiteService(db_path)
+    bomb = ('<?xml version="1.0"?><!DOCTYPE FinalDraft [<!ENTITY a "aaaaaaaaaa">'
+            '<!ENTITY b "&a;&a;&a;&a;&a;&a;&a;&a;&a;&a;">]>'
+            '<FinalDraft><Content><Paragraph Type="Action"><Text>&b;</Text></Paragraph></Content></FinalDraft>')
+    with pytest.raises(ValueError, match="DTD and entity declarations are not accepted"):
+        service.import_script_fdx(project_id="fdx-bomb", title="Bomb", content=bomb, replace_existing=True)

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AxiomZero EIGE — Election Integrity Governance Engine</title>
-  <meta name="description" content="EIGE v21.0 — A deterministic, mathematically verifiable chain-of-custody engine for elections. 449 passing tests. Open-source. NIST-mapped." />
+  <meta name="description" content="EIGE v22.0 — open-source election audit-support and public-transparency tool for publication bundles, reconciliation, RLA support, custody records, and public verification." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -132,19 +132,19 @@
 <div class="hero">
   <div class="container">
     <h1>AxiomZero EIGE</h1>
-    <p class="subtitle">Election Integrity Governance Engine v21.0</p>
+    <p class="subtitle">Election Integrity Governance Engine v22.0</p>
     <div class="badge-row">
-      <span class="badge green">449 tests passing</span>
-      <span class="badge green">0 failures</span>
+      <span class="badge green">Audit-support tool</span>
+      <span class="badge green">Public verifier</span>
       <span class="badge blue">NIST VVSG 2.0</span>
       <span class="badge blue">OSCAL 1.5.0</span>
       <span class="badge">Open Source — Public Domain</span>
-      <span class="badge">Phase 1-B Complete</span>
+      <span class="badge">v22 publication bundles</span>
     </div>
     <div class="btn-row">
-      <a class="btn btn-primary" href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/EIGE">View on GitHub</a>
-      <a class="btn btn-secondary" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/EXPLAINER.md">5-Minute Explainer</a>
-      <a class="btn btn-secondary" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/paper/eige_arxiv_preprint.md">Read the Paper</a>
+      <a class="btn btn-primary" href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/03-eige">View on GitHub</a>
+      <a class="btn btn-secondary" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/EXPLAINER.md">5-Minute Explainer</a>
+      <a class="btn btn-secondary" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/paper/eige_arxiv_preprint.md">Read the Paper</a>
     </div>
   </div>
 </div>
@@ -156,53 +156,49 @@
   <section>
     <h2>The Problem with Current Election Auditing</h2>
     <p>
-      Every existing election audit tool — Benford's Law analysis, risk-limiting audits, post-election sampling — 
-      shares a structural flaw: they are retroactive, sampling-based, and probabilistic. They produce p-values, not proof.
+      Election records are difficult for observers to recompute unless CVRs, manifests, signed logs, custody records, audit samples, and results are published in consistent formats.
     </p>
     <div class="callout">
-      "An election is a field evolution, not a database." — EIGE design principle
+      EIGE v22 is audit support, not a vote-counting system.
     </div>
     <p>
-      EIGE treats the ballot counting process as what it actually is: an ordered sequence of events in time. 
-      It encodes that sequence as a mathematical invariant, computed in real time. Any structural manipulation 
-      — ballot stuffing, retroactive deletion, sequence reordering, administrative override — produces an 
-      immediate, machine-verifiable deviation. Not statistically. Exactly.
+      EIGE v22 helps officials publish verifiable artifacts: Merkle logs, signed tree heads, witness cosignatures, reconciliation outputs, RLA support records, custody events, and a standalone verifier.
     </p>
   </section>
 
   <!-- WHAT IT DETECTS -->
   <section>
-    <h2>What EIGE Detects</h2>
+    <h2>What EIGE Checks</h2>
     <table>
       <thead>
         <tr><th>Attack</th><th>Detection Mechanism</th></tr>
       </thead>
       <tbody>
-        <tr><td>Ballot stuffing</td><td>Chern-Simons hash chain disruption</td></tr>
-        <tr><td>Retroactive ballot deletion</td><td>Sequence-dependent hash encodes count</td></tr>
-        <tr><td>Sequence reordering</td><td>Non-commutativity of CS hash</td></tr>
-        <tr><td>Administrative override</td><td>SentinelLoadBalancer intercept → OSCAL dossier &lt;500ms</td></tr>
-        <tr><td>Infrastructure attack (ransomware)</td><td>8-shard 5-of-8 reconstruction + peer replication</td></tr>
-        <tr><td>Precision attack (float bias)</td><td>512-bit mpmath out-of-band audit thread</td></tr>
-        <tr><td>Participation suppression</td><td>Freedom Floor kill-switch</td></tr>
+        <tr><td>Logged-record insertion or deletion after publication</td><td>Merkle consistency and signed tree heads</td></tr>
+        <tr><td>Unauthorized signer or stale key</td><td>Ed25519 registry, role, and time checks</td></tr>
+        <tr><td>Split view of the public log</td><td>Witness cosignatures and equivocation evidence</td></tr>
+        <tr><td>Count or manifest mismatch</td><td>Canvass reconciliation codes and explanations</td></tr>
+        <tr><td>Outcome-changing tabulation error in sampled ballots</td><td>Risk-limiting audit calculations and escalation</td></tr>
+        <tr><td>Paper custody gap</td><td>Custody ledger with two-official sign-offs</td></tr>
+        <tr><td>Turnout or residual-vote outlier</td><td>Robust screen labelled as an investigation lead</td></tr>
       </tbody>
     </table>
   </section>
 
   <!-- ARCHITECTURE -->
   <section>
-    <h2>Three-Tier Sovereignty Architecture</h2>
+    <h2>Publication Bundle Architecture</h2>
     <div class="tier-diagram">
-      <div>[FEDERAL TIER — compliance window]</div>
-      <div>Receives: OSCAL 1.5.0 ZK certificates only</div>
-      <div>Cannot access: any raw ballot data ← structurally enforced</div>
-      <div style="margin: 8px 0;">▲ Zero-knowledge certificates</div>
-      <div>[STATE TIER — aggregation]</div>
-      <div>Cross-county braid sync → Holon Zero Certificate</div>
-      <div style="margin: 8px 0;">▲ Encrypted shard telemetry (TLS 1.3 mTLS)</div>
-      <div>[COUNTY TIER — 39 nodes]</div>
-      <div>ballot integer → CS rolling hash → 8 shards → φ_eff, k_CS</div>
-      <div>NO raw ballots leave the county tier</div>
+      <div>[PUBLIC VERIFIER]</div>
+      <div>Receives: publication bundle and registry</div>
+      <div>Reports: verified, failed, warning, or not_checked</div>
+      <div style="margin: 8px 0;">▲ signed tree heads and witness cosignatures</div>
+      <div>[BULLETIN BOARD AND WITNESSES]</div>
+      <div>Consistency checks and split-view detection</div>
+      <div style="margin: 8px 0;">▲ Merkle log, custody events, reconciliation, audit samples</div>
+      <div>[ELECTION OFFICE PUBLICATION BUNDLE]</div>
+      <div>CVRs, manifest, results, registry, log, heads</div>
+      <div>CVR redaction follows jurisdiction policy</div>
     </div>
   </section>
 
@@ -211,17 +207,16 @@
     <h2>Quick Start</h2>
     <pre>
 # Install
-pip install -r EIGE/requirements.txt
+pip install -r requirements.txt
 
-# Run the full 449-test suite
-python -m pytest EIGE/tests/ -v
-
-# Run via Docker (one command)
-docker build -t axiomzero-eige EIGE/
-docker run --rm axiomzero-eige
+# Run tests
+python -m pytest tests/ -q
 
 # End-to-end synthetic election demo
-python EIGE/run_demo.py
+python run_demo.py
+
+# Verify a publication bundle
+python -m eige.verify bundle path/to/bundle --audience voter
     </pre>
   </section>
 
@@ -231,33 +226,33 @@ python EIGE/run_demo.py
     <div class="grid">
       <div class="card">
         <h3>📖 Full Technical Book</h3>
-        <p>21-chapter reference covering every component, security property, and operational scenario.</p>
-        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/BOOK.md">BOOK.md →</a></p>
+        <p>Reference with v22 notice and legacy retractions.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/BOOK.md">BOOK.md →</a></p>
       </div>
       <div class="card">
         <h3>🏗️ Architecture</h3>
-        <p>System block diagrams, 3-tier data flow, override interception architecture.</p>
-        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/ARCHITECTURE.md">ARCHITECTURE.md →</a></p>
+        <p>v22 modules, trust boundaries, and legacy compatibility notes.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/ARCHITECTURE.md">ARCHITECTURE.md →</a></p>
       </div>
       <div class="card">
         <h3>🛡️ NIST Compliance</h3>
-        <p>VVSG 2.0, SP-800-53 R5, OSCAL 1.5.0, FIPS 140-3, EAC HAVA, WAC 434 mapping.</p>
-        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/COMPLIANCE.md">COMPLIANCE.md →</a></p>
+        <p>Conservative implemented, partial, and planned status mapping.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/COMPLIANCE.md">COMPLIANCE.md →</a></p>
       </div>
       <div class="card">
         <h3>🔐 Security Policy</h3>
-        <p>Open cryptanalysis challenge on the CS hash. Responsible disclosure policy.</p>
-        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/SECURITY.md">SECURITY.md →</a></p>
+        <p>Current security scope, development-key warning, and disclosure path.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/SECURITY.md">SECURITY.md →</a></p>
       </div>
       <div class="card">
         <h3>📜 arXiv Preprint</h3>
-        <p>Condensed academic paper: mathematical foundation, security analysis, comparison vs. RLA / blockchain.</p>
-        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/paper/eige_arxiv_preprint.md">eige_arxiv_preprint.md →</a></p>
+        <p>Historical preprint with v22 retraction notice at top.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/paper/eige_arxiv_preprint.md">eige_arxiv_preprint.md →</a></p>
       </div>
       <div class="card">
         <h3>❓ FAQ</h3>
-        <p>Skeptic FAQ for election deniers, cryptography researchers, privacy advocates, and federalism advocates.</p>
-        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/FAQ.md">FAQ.md →</a></p>
+        <p>FAQ for officials, observers, cryptographers, privacy advocates, and policy reviewers.</p>
+        <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/FAQ.md">FAQ.md →</a></p>
       </div>
     </div>
   </section>
@@ -270,31 +265,26 @@ python EIGE/run_demo.py
         <tr><th>Standard</th><th>Status</th><th>Notes</th></tr>
       </thead>
       <tbody>
-        <tr><td>NIST VVSG 2.0</td><td class="green-text">✅ Mapped</td><td>Data integrity, audit trails, chain of custody</td></tr>
-        <tr><td>NIST SP-800-53 R5</td><td class="green-text">✅ Mapped</td><td>AC, SI, AU, CA, CP control families</td></tr>
-        <tr><td>OSCAL 1.5.0</td><td class="green-text">✅ Implemented</td><td>SSP, SAR, dossier emission</td></tr>
-        <tr><td>FIPS 140-3</td><td class="green-text">✅ Mapped</td><td>SHA-512, HMAC-SHA-512 primitives</td></tr>
-        <tr><td>EAC HAVA</td><td class="green-text">✅ Mapped</td><td>Audit trail, accessible records</td></tr>
-        <tr><td>WAC 434 / RCW 29A</td><td class="green-text">✅ Mapped</td><td>Washington State elections administration</td></tr>
-        <tr><td>Formal ZK proof (Holon Zero)</td><td style="color:#d29922;">⏳ Phase 2</td><td>Currently commitment-scheme architecture</td></tr>
-        <tr><td>Hardware TEE attestation</td><td style="color:#d29922;">⏳ Phase 2</td><td>v21.0 is fully software-defined</td></tr>
+        <tr><td>NIST VVSG 2.0</td><td>Partial</td><td>Audit-support mapping only; no voting-system certification claim</td></tr>
+        <tr><td>NIST SP 800-53 R5</td><td>Partial / planned</td><td>Only implemented behavior is claimed in COMPLIANCE.md</td></tr>
+        <tr><td>OSCAL status output</td><td>Partial</td><td>Reports implementation-status values</td></tr>
+        <tr><td>Cryptographic primitives</td><td>Partial</td><td>Ed25519 and SHA-256 used; no module certification claimed</td></tr>
+        <tr><td>Election audit support</td><td>Partial</td><td>Reconciliation, custody, RLA support, and verifier outputs</td></tr>
+        <tr><td>State law fit</td><td>Planned</td><td>Requires jurisdiction-specific legal review</td></tr>
+        <tr><td>Zero-knowledge proofs</td><td>Retracted</td><td>No v22 zero-knowledge claim</td></tr>
+        <tr><td>Hardware HSM / TEE</td><td>Partial / planned</td><td>PKCS#11 signer support exists; TEE attestation is not verified</td></tr>
       </tbody>
     </table>
   </section>
 
   <!-- ON THE PHYSICS -->
   <section>
-    <h2>A Note on the Math</h2>
+    <h2>A Note on Scope</h2>
     <p>
-      EIGE's tamper-detection invariants (<code>k_CS = 74</code>, <code>φ₀ = π/4</code>) are drawn from the 
-      <a href="https://github.com/wuzbak/Unitary-Manifold-">Unitary Manifold</a> physics framework.
-      <strong>You do not need to evaluate the cosmological physics to evaluate EIGE.</strong>
+      EIGE v22 is an adjacent governance application. It does not rely on physics claims for election security.
     </p>
     <p>
-      The constants function as engineering parameters: seeds for a path-dependent rolling hash, 
-      shard placement indices, and OSCAL certificate anchors. Their operational validity requires only 
-      their mathematical properties. For a physics-free evaluation, see 
-      <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/src/constants_engineering.py"><code>constants_engineering.py</code></a>.
+      The v21 physics-framed security mechanisms are retracted. v22 uses standard signed logs, public verification, reconciliation, custody records, and RLA support.
     </p>
   </section>
 
@@ -314,12 +304,12 @@ python EIGE/run_demo.py
 </div>
 
 <footer>
-  <p>AxiomZero EIGE v21.0.0 | 449 tests passing | Phase 1-B complete</p>
+  <p>AxiomZero EIGE v22.0.0 | audit-support and public-transparency tool</p>
   <p style="margin-top: 8px;">
-    <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/EIGE">GitHub</a> ·
-    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/paper/eige_arxiv_preprint.md">Preprint</a> ·
-    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/SECURITY.md">Security</a> ·
-    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/EIGE/FAQ.md">FAQ</a>
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/tree/main/12-AZ-IP/03-eige">GitHub</a> ·
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/paper/eige_arxiv_preprint.md">Preprint</a> ·
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/SECURITY.md">Security</a> ·
+    <a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/03-eige/FAQ.md">FAQ</a>
   </p>
 </footer>
 

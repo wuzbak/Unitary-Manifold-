@@ -1,0 +1,83 @@
+{
+  "format": "eige.test_vectors.sampling.v1",
+  "record": {
+    "draws": [
+      {
+        "batch_id": "B01",
+        "draw": 1,
+        "index_in_batch": 57,
+        "position": 177
+      },
+      {
+        "batch_id": "B00",
+        "draw": 2,
+        "index_in_batch": 16,
+        "position": 16
+      },
+      {
+        "batch_id": "B00",
+        "draw": 3,
+        "index_in_batch": 60,
+        "position": 60
+      },
+      {
+        "batch_id": "B01",
+        "draw": 4,
+        "index_in_batch": 54,
+        "position": 174
+      },
+      {
+        "batch_id": "B01",
+        "draw": 5,
+        "index_in_batch": 4,
+        "position": 124
+      },
+      {
+        "batch_id": "B00",
+        "draw": 6,
+        "index_in_batch": 2,
+        "position": 2
+      },
+      {
+        "batch_id": "B01",
+        "draw": 7,
+        "index_in_batch": 11,
+        "position": 131
+      },
+      {
+        "batch_id": "B00",
+        "draw": 8,
+        "index_in_batch": 2,
+        "position": 2
+      },
+      {
+        "batch_id": "B01",
+        "draw": 9,
+        "index_in_batch": 23,
+        "position": 143
+      },
+      {
+        "batch_id": "B00",
+        "draw": 10,
+        "index_in_batch": 65,
+        "position": 65
+      },
+      {
+        "batch_id": "B00",
+        "draw": 11,
+        "index_in_batch": 84,
+        "position": 84
+      },
+      {
+        "batch_id": "B00",
+        "draw": 12,
+        "index_in_batch": 73,
+        "position": 73
+      }
+    ],
+    "format": "eige.sample.v1",
+    "population": 200,
+    "seed": "31415926535897932384"
+  },
+  "rule": "position_i = 1 + (int(SHA-256(f'{seed},{i}')) mod N), i = 1..n"
+}

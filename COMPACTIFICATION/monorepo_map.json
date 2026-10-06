@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 7705,
+  "file_count": 7881,
   "lanes": {
-    "az_ip": 2053,
+    "az_ip": 2134,
     "compactification": 9,
-    "other": 5227,
+    "other": 5322,
     "psicat_articles": 352,
     "psicat_books": 64
   },
@@ -15,22 +15,23 @@
     ".bazelversion": 1,
     ".dvc": 1,
     ".firebaserc": 1,
-    ".github": 43,
+    ".gitattributes": 1,
+    ".github": 48,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2053,
+    "12-AZ-IP": 2134,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 885,
+    "7-OUTREACH": 886,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 110,
+    "9-INFRASTRUCTURE": 192,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -72,7 +73,7 @@
     "SLA_MANIFESTO.md": 1,
     "STATUS.md": 1,
     "STEWARDSHIP.md": 1,
-    "TOOLS": 16,
+    "TOOLS": 17,
     "VERIFY.py": 1,
     "_config.yml": 1,
     "axiomzero_bootstrap.py": 1,
@@ -105,10 +106,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1620,
+    "src": 1621,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1523,
+    "tests": 1527,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -1004,16 +1005,54 @@
       "12-AZ-IP/03-eige/FAQ.md",
       "12-AZ-IP/03-eige/Makefile",
       "12-AZ-IP/03-eige/README.md",
+      "12-AZ-IP/03-eige/RED_TEAM_FINDINGS.md",
+      "12-AZ-IP/03-eige/RETRACTED_CLAIMS.md",
       "12-AZ-IP/03-eige/ROADMAP.md",
+      "12-AZ-IP/03-eige/SCALE.md",
       "12-AZ-IP/03-eige/SECURITY.md",
+      "12-AZ-IP/03-eige/THREAT_MODEL.md",
+      "12-AZ-IP/03-eige/blueprint/OFFICIAL_WORKFLOW.md",
+      "12-AZ-IP/03-eige/blueprint/OfficialWorkflowCockpit.tsx",
       "12-AZ-IP/03-eige/blueprint/VerificationCockpit.tsx",
       "12-AZ-IP/03-eige/blueprint/ingestion_engine.rs",
       "12-AZ-IP/03-eige/docker-compose.yml",
+      "12-AZ-IP/03-eige/docs/FORMATS.md",
       "12-AZ-IP/03-eige/docs/index.html",
       "12-AZ-IP/03-eige/eige/__init__.py",
+      "12-AZ-IP/03-eige/eige/audit/__init__.py",
+      "12-AZ-IP/03-eige/eige/audit/reconciliation.py",
+      "12-AZ-IP/03-eige/eige/audit/rla.py",
+      "12-AZ-IP/03-eige/eige/audit/sampling.py",
+      "12-AZ-IP/03-eige/eige/bundle.py",
+      "12-AZ-IP/03-eige/eige/canonical.py",
+      "12-AZ-IP/03-eige/eige/compliance.py",
+      "12-AZ-IP/03-eige/eige/config.py",
+      "12-AZ-IP/03-eige/eige/county.py",
+      "12-AZ-IP/03-eige/eige/crypto/__init__.py",
+      "12-AZ-IP/03-eige/eige/crypto/commitments.py",
+      "12-AZ-IP/03-eige/eige/crypto/merkle.py",
+      "12-AZ-IP/03-eige/eige/crypto/signing.py",
+      "12-AZ-IP/03-eige/eige/cvr_import.py",
+      "12-AZ-IP/03-eige/eige/data/__init__.py",
+      "12-AZ-IP/03-eige/eige/data/open_data.py",
+      "12-AZ-IP/03-eige/eige/dedup.py",
       "12-AZ-IP/03-eige/eige/engine/__init__.py",
       "12-AZ-IP/03-eige/eige/engine/hils_audit_trail.py",
       "12-AZ-IP/03-eige/eige/engine/open_election_data.py",
+      "12-AZ-IP/03-eige/eige/ledger/__init__.py",
+      "12-AZ-IP/03-eige/eige/ledger/bulletin.py",
+      "12-AZ-IP/03-eige/eige/ledger/custody.py",
+      "12-AZ-IP/03-eige/eige/ledger/log.py",
+      "12-AZ-IP/03-eige/eige/ledger/store.py",
+      "12-AZ-IP/03-eige/eige/model/__init__.py",
+      "12-AZ-IP/03-eige/eige/model/election.py",
+      "12-AZ-IP/03-eige/eige/parallel_scan.py",
+      "12-AZ-IP/03-eige/eige/pipeline.py",
+      "12-AZ-IP/03-eige/eige/report.py",
+      "12-AZ-IP/03-eige/eige/screening.py",
+      "12-AZ-IP/03-eige/eige/statewide.py",
+      "12-AZ-IP/03-eige/eige/synthetic_scale.py",
+      "12-AZ-IP/03-eige/eige/verify.py",
       "12-AZ-IP/03-eige/infra/eige-backup-cron.yaml",
       "12-AZ-IP/03-eige/infra/eige-pod.yaml",
       "12-AZ-IP/03-eige/infra/network-policy.yaml",
@@ -1025,8 +1064,11 @@
       "12-AZ-IP/03-eige/outreach/eac_cisa_engagement.md",
       "12-AZ-IP/03-eige/outreach/king_county_pilot_proposal.md",
       "12-AZ-IP/03-eige/paper/eige_arxiv_preprint.md",
+      "12-AZ-IP/03-eige/requirements.in",
+      "12-AZ-IP/03-eige/requirements.lock",
       "12-AZ-IP/03-eige/requirements.txt",
       "12-AZ-IP/03-eige/run_demo.py",
+      "12-AZ-IP/03-eige/sbom.cdx.json",
       "12-AZ-IP/03-eige/schemas/oscal-1.5.0-component-definition.json",
       "12-AZ-IP/03-eige/src/__init__.py",
       "12-AZ-IP/03-eige/src/adjudicator_api.py",
@@ -1055,12 +1097,28 @@
       "12-AZ-IP/03-eige/src/state_mesh.py",
       "12-AZ-IP/03-eige/src/tee_attestation.py",
       "12-AZ-IP/03-eige/src/zk_proof.py",
+      "12-AZ-IP/03-eige/test_vectors/bundle/audit.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/cast.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/commitments.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/cosignatures.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/election.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/heads.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/log.jsonl",
+      "12-AZ-IP/03-eige/test_vectors/bundle/manifest.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/provisional.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/registry.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/results.json",
+      "12-AZ-IP/03-eige/test_vectors/bundle/sample.json",
+      "12-AZ-IP/03-eige/test_vectors/ed25519.json",
+      "12-AZ-IP/03-eige/test_vectors/merkle.json",
+      "12-AZ-IP/03-eige/test_vectors/sampling.json",
       "12-AZ-IP/03-eige/tests/__init__.py",
       "12-AZ-IP/03-eige/tests/conftest.py",
       "12-AZ-IP/03-eige/tests/test_eige_adjudicator_api.py",
       "12-AZ-IP/03-eige/tests/test_eige_chaos_injection.py",
       "12-AZ-IP/03-eige/tests/test_eige_chaos_integration.py",
       "12-AZ-IP/03-eige/tests/test_eige_chern_simon_hash.py",
+      "12-AZ-IP/03-eige/tests/test_eige_compliance.py",
       "12-AZ-IP/03-eige/tests/test_eige_constants.py",
       "12-AZ-IP/03-eige/tests/test_eige_county_node.py",
       "12-AZ-IP/03-eige/tests/test_eige_disaster_recovery.py",
@@ -1076,13 +1134,32 @@
       "12-AZ-IP/03-eige/tests/test_eige_public_trust_index.py",
       "12-AZ-IP/03-eige/tests/test_eige_reconstruction.py",
       "12-AZ-IP/03-eige/tests/test_eige_recovery_kernel.py",
+      "12-AZ-IP/03-eige/tests/test_eige_redteam_findings.py",
       "12-AZ-IP/03-eige/tests/test_eige_rust_bridge.py",
+      "12-AZ-IP/03-eige/tests/test_eige_scale_ingest.py",
+      "12-AZ-IP/03-eige/tests/test_eige_scale_storage.py",
+      "12-AZ-IP/03-eige/tests/test_eige_scale_verify.py",
       "12-AZ-IP/03-eige/tests/test_eige_scanner_adapter.py",
       "12-AZ-IP/03-eige/tests/test_eige_sentinel_load_balance.py",
       "12-AZ-IP/03-eige/tests/test_eige_sovereign_mesh.py",
       "12-AZ-IP/03-eige/tests/test_eige_state_mesh.py",
+      "12-AZ-IP/03-eige/tests/test_eige_supply_chain.py",
       "12-AZ-IP/03-eige/tests/test_eige_upgrade.py",
-      "12-AZ-IP/03-eige/tests/test_eige_zk_proof.py"
+      "12-AZ-IP/03-eige/tests/test_eige_v22_adversarial.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_audit.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_commitments.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_ledger.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_merkle.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_model.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_open_data.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_properties.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_screening_report.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_signing.py",
+      "12-AZ-IP/03-eige/tests/test_eige_v22_verifier.py",
+      "12-AZ-IP/03-eige/tests/test_eige_zk_proof.py",
+      "12-AZ-IP/03-eige/tools/make_sbom.py",
+      "12-AZ-IP/03-eige/tools/make_test_vectors.py",
+      "12-AZ-IP/03-eige/tools/scale_benchmark.py"
     ],
     "04-um-sos": [
       "12-AZ-IP/04-um-sos/ARCHITECTURE.md",
@@ -1967,7 +2044,9 @@
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_masterclass_runtime.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_memory_and_telemetry.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_meta_learning.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_repo_graph.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_testing_stack.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_artifact_isolation.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_execution.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_ox_navigator.py",
@@ -2633,6 +2712,12 @@
       "lane": "other"
     },
     {
+      "path": ".gitattributes",
+      "top_level": ".gitattributes",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": ".github/CODEOWNERS",
       "top_level": ".github",
       "kind": "file",
@@ -2688,6 +2773,24 @@
     },
     {
       "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/actions/regression-environment/action.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/codeql/README.md",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/codeql/slices.json",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -2783,6 +2886,12 @@
       "lane": "other"
     },
     {
+      "path": ".github/workflows/eige.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": ".github/workflows/external-constants-crosscheck.yml",
       "top_level": ".github",
       "kind": "file",
@@ -2844,6 +2953,12 @@
     },
     {
       "path": ".github/workflows/psicat-performance-gate.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/workflows/regression-environment.yml",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -9429,6 +9544,20 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/RED_TEAM_FINDINGS.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/RETRACTED_CLAIMS.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/ROADMAP.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -9436,7 +9565,35 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/SCALE.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/SECURITY.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/THREAT_MODEL.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/blueprint/OFFICIAL_WORKFLOW.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/blueprint/OfficialWorkflowCockpit.tsx",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -9464,6 +9621,13 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/docs/FORMATS.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/docs/index.html",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -9472,6 +9636,125 @@
     },
     {
       "path": "12-AZ-IP/03-eige/eige/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/audit/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/audit/reconciliation.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/audit/rla.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/audit/sampling.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/bundle.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/canonical.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/compliance.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/config.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/county.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/crypto/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/crypto/commitments.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/crypto/merkle.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/crypto/signing.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/cvr_import.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/data/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/data/open_data.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/dedup.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -9493,6 +9776,104 @@
     },
     {
       "path": "12-AZ-IP/03-eige/eige/engine/open_election_data.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/ledger/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/ledger/bulletin.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/ledger/custody.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/ledger/log.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/ledger/store.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/model/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/model/election.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/parallel_scan.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/pipeline.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/report.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/screening.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/statewide.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/synthetic_scale.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/eige/verify.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -9576,6 +9957,20 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/requirements.in",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/requirements.lock",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/requirements.txt",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -9584,6 +9979,13 @@
     },
     {
       "path": "12-AZ-IP/03-eige/run_demo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/sbom.cdx.json",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -9786,6 +10188,111 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/audit.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/cast.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/commitments.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/cosignatures.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/election.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/heads.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/log.jsonl",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/manifest.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/provisional.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/registry.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/results.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/bundle/sample.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/ed25519.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/merkle.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/test_vectors/sampling.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/tests/__init__.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -9822,6 +10329,13 @@
     },
     {
       "path": "12-AZ-IP/03-eige/tests/test_eige_chern_simon_hash.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_compliance.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -9933,7 +10447,35 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_redteam_findings.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/tests/test_eige_rust_bridge.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_scale_ingest.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_scale_storage.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_scale_verify.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -9968,6 +10510,13 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_supply_chain.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/tests/test_eige_upgrade.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -9975,7 +10524,105 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_adversarial.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_audit.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_commitments.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_ledger.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_merkle.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_model.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_open_data.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_properties.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_screening_report.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_signing.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_v22_verifier.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/tests/test_eige_zk_proof.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tools/make_sbom.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tools/make_test_vectors.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
+      "path": "12-AZ-IP/03-eige/tools/scale_benchmark.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -15932,7 +16579,21 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_repo_graph.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_testing_stack.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_artifact_isolation.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -17531,6 +18192,24 @@
     },
     {
       "path": "12-AZ-IP/os/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip"
+    },
+    {
+      "path": "12-AZ-IP/psicat-external-intake/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip"
+    },
+    {
+      "path": "12-AZ-IP/psicat-external-intake/submissions/2026-10-05-base44-webspace-seed/INTAKE.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip"
+    },
+    {
+      "path": "12-AZ-IP/psicat-external-intake/submissions/2026-10-05-base44-webspace-seed/webspace-source-only.zip",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip"
@@ -22024,6 +22703,12 @@
       "lane": "other"
     },
     {
+      "path": "7-OUTREACH/substack/books/book-project-meridian-influence-map.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "7-OUTREACH/substack/books/book-psicat-first-announcement-to-humanity.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -24959,6 +25644,498 @@
     },
     {
       "path": "9-INFRASTRUCTURE/psicat_state.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/aggregate.log",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/chunk-0-final-resume.log",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/endpoint-retry.log",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/endpoint-retry.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/environment-packages.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/execution-board-profile.log",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/physics-timeout-1200.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/physics-timeout-1200.log",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/plan.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/product20.log",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/product20.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-0.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-1.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-1.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-10.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-10.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-11.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-11.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-12.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-12.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-13.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-13.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-14.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-14.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-15.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-15.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-16.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-16.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-17.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-17.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-18.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-18.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-19.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-19.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-2.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-2.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-20.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-20.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-21.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-21.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-22.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-22.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-23.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-23.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-24.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-24.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-25.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-25.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-26.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-26.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-27.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-27.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-28.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-28.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-29.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-29.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-3.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-3.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-30.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-30.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-31.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-31.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-32.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-32.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-4.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-4.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-5.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-5.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-6.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-6.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-7.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-7.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-8.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-8.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-9.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-9.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/74e12559/results/full-core-aggregate.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/92815fa2/full-core-0.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/92815fa2/full-core-0.xml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/92815fa2/full-core-aggregate.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/92815fa2/package-versions.txt",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/regression-evidence/92815fa2/plan.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -28931,6 +30108,12 @@
     },
     {
       "path": "TOOLS/checks/check_onboarding_consistency.py",
+      "top_level": "TOOLS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "TOOLS/checks/codeql_slices.py",
       "top_level": "TOOLS",
       "kind": "file",
       "lane": "other"
@@ -39802,6 +40985,12 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar_validation_scope.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pipeline_adapter.py",
       "top_level": "src",
       "kind": "file",
@@ -41728,6 +42917,18 @@
       "lane": "other"
     },
     {
+      "path": "tests/ci_tooling/test_check_canonical_ledger_sync_script.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/ci_tooling/test_codeql_slices.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "tests/conftest.py",
       "top_level": "tests",
       "kind": "file",
@@ -42401,12 +43602,6 @@
     },
     {
       "path": "tests/test_centrosome_integer_kernels.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_check_canonical_ledger_sync_script.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
@@ -48430,6 +49625,12 @@
       "lane": "other"
     },
     {
+      "path": "tests/test_pillar714_kk_dark_matter_relic_density.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "tests/test_pillar715_sprint_cc_regression_cert.py",
       "top_level": "tests",
       "kind": "file",
@@ -48437,6 +49638,12 @@
     },
     {
       "path": "tests/test_pillar716_xdiag_production_stub.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar717_dm_direct_detection_xenon_routing.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
@@ -50459,6 +51666,12 @@
     },
     {
       "path": "tests/test_submm_gravity.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_supervised_pytest_runner.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

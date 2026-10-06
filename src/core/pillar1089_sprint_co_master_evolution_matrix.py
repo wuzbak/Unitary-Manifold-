@@ -165,7 +165,11 @@ def sprint_co_master_evolution_matrix() -> Dict[str, Any]:
     }
 
 
+from src.core.pillar_validation_scope import scoped_pillar_validity
+
+
 class _PillarValidProxy:
+    @scoped_pillar_validity
     def __bool__(self) -> bool:
         try:
             return bool(sprint_co_master_evolution_matrix().get('valid'))

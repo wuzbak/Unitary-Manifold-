@@ -11,10 +11,8 @@ from EIGE.src.county_node import CountyNode
 from EIGE.src.chaos_injection import (
     ChaosInjector,
     FreedomFloorViolation,
-    InjectionEvent,
     NoiseMode,
 )
-from EIGE.src.constants import CHAOS_NOISE_BUDGET_DEFAULT, FREEDOM_FLOOR
 
 
 # ---------------------------------------------------------------------------

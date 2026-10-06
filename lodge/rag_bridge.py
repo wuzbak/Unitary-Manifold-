@@ -26,6 +26,7 @@ GitHub Copilot (AI).
 from __future__ import annotations
 
 import json
+import logging
 import sys
 from collections import Counter
 from datetime import datetime, timezone
@@ -85,8 +86,10 @@ class KnowledgeExchange:
                 answer = result.get("answer", "")
                 citations = result.get("sources", [])
                 confidence = float(result.get("score", 0.0))
-            except Exception as exc:
-                answer = f"RAG index error: {exc}"
+            except Exception:
+                # Exception text can reveal paths and internals; keep it in the server log.
+                logging.getLogger(__name__).exception("RAG index query failed")
+                answer = "RAG index error: the knowledge index could not answer this question."
         else:
             # Fallback: simple keyword lookup against key constants
             answer, citations = self._fallback_answer(question)

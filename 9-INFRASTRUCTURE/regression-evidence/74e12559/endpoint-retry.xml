@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="162.263" timestamp="2026-10-05T15:53:59.123742+00:00" hostname="runnervm8df0l"><testcase classname="12-AZ-IP.20-psicat-navigator.tests.test_merlin_v1" name="test_server_merlin_endpoints" time="161.883" /></testsuite></testsuites>

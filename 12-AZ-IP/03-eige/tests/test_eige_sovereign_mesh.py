@@ -6,11 +6,9 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
-import pytest
 from EIGE.src.sovereign_mesh import SovereignMesh
 from EIGE.src.county_node import CountyNode
-from EIGE.src.federal_auditor import RawDataAccessAttempt
-from EIGE.src.constants import K_CS, PHI_0, ENGINE_VERSION
+from EIGE.src.constants import K_CS, ENGINE_VERSION
 
 
 def make_mesh(n_counties: int = 3) -> SovereignMesh:

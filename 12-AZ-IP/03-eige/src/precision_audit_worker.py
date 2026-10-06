@@ -46,7 +46,7 @@ try:
 except ImportError:  # pragma: no cover
     MPMATH_AVAILABLE = False
 
-from .constants import K_CS, PHI_0, MPMATH_DPS, PRECISION_BITS
+from .constants import K_CS, MPMATH_DPS
 
 
 # ---------------------------------------------------------------------------

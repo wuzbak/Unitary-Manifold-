@@ -10,7 +10,6 @@ import tempfile
 import time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
-import pytest
 from EIGE.src.disaster_recovery import (
     ColdStorageManager,
     SnapshotEnvelope,

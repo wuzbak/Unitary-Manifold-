@@ -7,24 +7,17 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
-import pytest
 from EIGE.src.oscal_schema import (
     OSCALMetadata,
     SystemStateSnapshot,
     InterventionMetadata,
-    AutomatedResponseAction,
-    AssessmentResults,
     AssessmentPlan,
-    HolonZeroComponent,
-    HolonZeroComponentDefinition,
-    ControlImplementation,
-    ImplementedRequirement,
     NIST_SP800_53_MAPPINGS,
     DEFAULT_RESPONSE_ACTIONS,
     build_override_dossier,
     new_uuid,
 )
-from EIGE.src.constants import K_CS, PHI_0, ENGINE_VERSION, OSCAL_VERSION
+from EIGE.src.constants import K_CS, PHI_0, OSCAL_VERSION
 
 
 class TestNISTMappings:

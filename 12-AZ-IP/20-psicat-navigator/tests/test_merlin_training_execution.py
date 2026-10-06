@@ -121,11 +121,65 @@ def test_merlin_training_execution_bundle_reuses_retained_state():
     assert first["lane_e_profile_refresh_requested"] is True
     assert first["lane_e_runtime_profile_artifact_path"].endswith("lane_e_runtime_profiles.json")
     assert "lane_e_runtime_profiles" in first
+    review_count = first["execution_cycle"]["queue_after"]["needs_review_count"]
 
     second = build_merlin_training_execution_bundle(session=session)
     assert second["ok"] is True
     assert second["execution_cycle"]["processed_count"] == 0
     assert second["execution_cycle"]["mode"] == "reuse_retained_training_state"
+    assert second["training_execution_queue"]["needs_review_count"] == review_count
+    assert second["training_execution_queue"]["needs_review_count"] == first["training_execution_queue"]["needs_review_count"]
+    assert second["lane_progress_ledgers"]["overall"]["retained_training_receipts"] == first["lane_progress_ledgers"]["overall"]["retained_training_receipts"]
+
+
+def test_training_bundle_retains_review_blockers_until_source_changes(tmp_path, monkeypatch) -> None:
+    source = tmp_path / "editorial.md"
+    source.write_text("", encoding="utf-8")
+    item = {
+        "queue_id": "lane_b_editorial",
+        "lane_id": "lane_b_books_articles_mastery",
+        "reference_path": str(source),
+        "expected_artifact": "editorial_mastery_brief",
+    }
+    monkeypatch.setattr(training_execution, "_queue_blueprint", lambda: [item])
+    monkeypatch.setattr(training_execution, "PERFORMANCE_GATE_HISTORY_PATH", tmp_path / "history.json")
+    monkeypatch.setattr(training_execution, "LANE_E_PROFILE_ARTIFACT_PATH", tmp_path / "profiles.json")
+    monkeypatch.setattr(
+        training_execution,
+        "_LANE_E_RUNTIME_PROFILE_CACHE",
+        {
+            "profiles": training_execution._default_lane_e_stage_profiles(),
+            "evidence": {"source": "fallback_static_profiles", "status": "fallback"},
+        },
+    )
+
+    session = MerlinSession()
+    first = build_merlin_training_execution_bundle(session=session)
+    assert first["execution_cycle"]["processed_count"] == 1
+    receipt = dict(session.training_execution_receipts[0])
+    assert receipt["gate_verdict"] == "needs_review"
+    assert receipt["gate_blockers"] == ["empty_editorial_surface"]
+
+    second = build_merlin_training_execution_bundle(session=session)
+    assert second["execution_cycle"]["processed_count"] == 0
+    assert second["execution_cycle"]["mode"] == "reuse_retained_training_state"
+    assert second["training_execution_queue"]["needs_review_count"] == 1
+    assert second["training_execution_queue"]["completed_count"] == 0
+    assert second["training_execution_queue"]["items"][0]["status"] == "needs_review"
+    assert second["lane_progress_ledgers"]["overall"]["needs_review_count"] == 1
+    assert session.training_execution_receipts == [receipt]
+
+    source.write_text("# Revised editorial\n\n" + "evidence " * 900, encoding="utf-8")
+    queue = build_merlin_training_execution_queue(session=session)
+    assert queue["stale_retrain_count"] == 1
+    third = build_merlin_training_execution_bundle(session=session)
+    assert third["execution_cycle"]["processed_count"] == 1
+    assert third["training_execution_queue"]["needs_review_count"] == 0
+    assert third["training_execution_queue"]["stale_retrain_count"] == 0
+    assert third["training_execution_queue"]["completed_count"] == 1
+    latest = session.training_execution_receipts[-1]
+    assert latest["gate_verdict"] == "pass"
+    assert latest["source_snapshot"]["content_digest"] != receipt["source_snapshot"]["content_digest"]
 
 
 def test_merlin_training_queue_includes_proof_foundry_lane() -> None:

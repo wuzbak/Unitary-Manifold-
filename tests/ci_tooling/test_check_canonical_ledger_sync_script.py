@@ -12,7 +12,7 @@ import pytest
 
 @pytest.fixture
 def ledger_sync_script_module():
-    script_path = Path(__file__).resolve().parents[1] / "TOOLS" / "checks" / "check_canonical_ledger_sync.py"
+    script_path = Path(__file__).resolve().parents[2] / "TOOLS" / "checks" / "check_canonical_ledger_sync.py"
     spec = importlib.util.spec_from_file_location("check_canonical_ledger_sync", script_path)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
@@ -167,7 +167,7 @@ def test_git_diff_lines_uses_rename_and_copy_detection(monkeypatch, ledger_sync_
 
 
 def test_workflow_invokes_ledger_sync_script():
-    workflow_path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "staleness-honesty-gate.yml"
+    workflow_path = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "staleness-honesty-gate.yml"
     content = workflow_path.read_text(encoding="utf-8")
     assert "Enforce canonical ledger sync for wave/pillar changes" in content
     assert "python3 TOOLS/checks/check_canonical_ledger_sync.py" in content

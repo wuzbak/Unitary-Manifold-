@@ -10,7 +10,6 @@ import pytest
 from EIGE.src.federal_auditor import (
     FederalAuditor,
     RawDataAccessAttempt,
-    AuditResult,
     AuditVerdict,
 )
 from EIGE.src.holon_zero_cert import generate_holon_zero_cert
@@ -74,7 +73,7 @@ class TestFederalAuditorValidCert:
     def test_result_proof_status_verified(self):
         cert = valid_cert()
         result = self.auditor.validate_certificate(cert)
-        assert result.proof_status == "INVARIANTS_VERIFIED"
+        assert result.proof_status == "INVARIANTS_CLAIMED"
 
     def test_result_has_no_raw_ballot_data(self):
         import json
@@ -110,7 +109,7 @@ class TestFederalAuditorViolatedCert:
 
     def test_missing_proof_returns_schema_invalid(self):
         cert = valid_cert()
-        del cert["zero_knowledge_proof"]
+        del cert["metric_commitment"]
         result = self.auditor.validate_certificate(cert)
         assert result.verdict == AuditVerdict.SCHEMA_INVALID
 
