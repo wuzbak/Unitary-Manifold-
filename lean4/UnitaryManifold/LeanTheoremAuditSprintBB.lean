@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Sprint BB Lean4 Theorem Audit
 
@@ -15,7 +16,6 @@ ARCHITECTURE_LIMIT
 * proxy theorems are structural certificates, not semantic physics proofs.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.LeanAuditBB
 

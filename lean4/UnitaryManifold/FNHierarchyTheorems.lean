@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — FN Hierarchy Theorems
 
@@ -11,7 +12,6 @@ ARCHITECTURE_LIMIT
 * they do not prove phenomenological closure of the flavour sector.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.FNHierarchy
 

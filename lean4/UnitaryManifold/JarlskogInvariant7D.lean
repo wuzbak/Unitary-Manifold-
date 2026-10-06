@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — 7D Jarlskog Invariant
 
@@ -15,7 +16,6 @@ ARCHITECTURE_LIMIT
 * no free parameter is available to absorb the discrepancy.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.Jarlskog7D
 

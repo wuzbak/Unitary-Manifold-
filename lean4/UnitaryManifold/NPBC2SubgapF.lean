@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Real.Basic
 /-!
 # Unitary Manifold — NP-BC-2 Sub-gap F: UV-IR Consistency Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -41,10 +45,6 @@ Sub-gap F remains PARTIALLY_CLOSED:
 ## Contribution: 11 new theorems
 Total after this file: 195 + 11 = 206 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Real.Basic
 
 namespace UnitaryManifold.NPBC2SubgapF
 

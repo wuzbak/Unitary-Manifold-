@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Real.Basic
 /-!
 # Unitary Manifold — NP-BC-3 Sub-gap H: CS Entanglement Entropy Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -44,10 +48,6 @@ Sub-gap H remains PARTIALLY_CLOSED:
 ## Contribution: 11 new theorems
 Total after this file: 217 + 11 = 228 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Real.Basic
 
 namespace UnitaryManifold.NPBC3SubgapH
 

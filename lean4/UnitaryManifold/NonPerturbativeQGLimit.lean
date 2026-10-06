@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Non-Perturbative Quantum Gravity Irreducible Limit
 
@@ -17,7 +18,6 @@ ARCHITECTURE_LIMIT
 * O4 trans-Planckian states lie outside the EFT.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.NonPertQG
 

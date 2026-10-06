@@ -1,3 +1,8 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Data.Finset.Basic
+import Mathlib.Data.Finset.Card
+import Mathlib.Algebra.Order.Monoid.Lemmas
 /-!
 # Unitary Manifold — n_w Integer Lattice: Machine-Verified Exhaustive Enumeration (Lean 4 + Mathlib)
 
@@ -69,11 +74,6 @@ New theorems in this file: 20
 New total: 385 theorems
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Data.Finset.Basic
-import Mathlib.Data.Finset.Card
-import Mathlib.Algebra.Order.Monoid.Lemmas
 
 namespace UnitaryManifold.NWIntegerLattice
 

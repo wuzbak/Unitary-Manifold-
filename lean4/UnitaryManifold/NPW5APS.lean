@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Finset.Basic
 /-!
 # Unitary Manifold — n_w = 5 APS Phase Exclusion Theorem (Machine-Verified)
 
@@ -92,10 +96,6 @@ Theory: ThomasCory Walker-Pearson (2026)
 Code: GitHub Copilot (AI)
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Finset.Basic
 
 namespace UnitaryManifold.NPW5APS
 

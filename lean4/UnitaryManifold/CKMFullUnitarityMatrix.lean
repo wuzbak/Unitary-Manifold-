@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — CKM Full Unitarity Matrix (Lean 4 + Mathlib)
 
@@ -19,9 +22,6 @@ New theorems: 25
 New total: 593
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.CKMFullUnitarityMatrix
 

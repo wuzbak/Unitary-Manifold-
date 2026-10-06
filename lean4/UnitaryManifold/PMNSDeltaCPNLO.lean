@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — PMNS Delta CP NLO (Lean 4 + Mathlib)
 
@@ -18,9 +21,6 @@ New theorems: 10
 New total: 557
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.PMNSDeltaCPNLO
 

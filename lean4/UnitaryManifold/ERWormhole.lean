@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — ER Wormhole Conditional (Lean 4 + Mathlib)
 
@@ -20,9 +23,6 @@ New theorems: 11
 New total: 734
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.ERWormholeConditional
 

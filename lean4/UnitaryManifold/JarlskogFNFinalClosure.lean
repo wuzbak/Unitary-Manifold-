@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — Jarlskog FN Final Closure (Lean 4 + Mathlib)
 
@@ -20,9 +23,6 @@ New theorems: 14
 New total: 535
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.JarlskogFNFinalClosure
 

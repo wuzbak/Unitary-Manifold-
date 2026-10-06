@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.ZMod.Basic
+import Mathlib.Data.Nat.Parity
 /-!
 # Unitary Manifold — NP-BC-3 KK Chern-Simons Path Integral (Lean 4 + Mathlib)
 
@@ -38,10 +42,6 @@ Previous (Pillar 556): 125 theorems
 New (NPBC3Kernel.lean): 14 new theorems
 Total: 139 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Nat.Parity
 
 namespace UnitaryManifold.NPBC3
 

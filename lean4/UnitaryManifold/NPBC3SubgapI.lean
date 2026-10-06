@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Nat.Defs
 /-!
 # Unitary Manifold — NP-BC-3 Sub-gap I: CS↔ER=EPR Geometry Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -47,10 +51,6 @@ Sub-gap I remains PARTIALLY_CLOSED (this is the deepest open gap):
 ## Contribution: 12 new theorems
 Total after this file: 228 + 12 = 240 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Nat.Defs
 
 namespace UnitaryManifold.NPBC3SubgapI
 

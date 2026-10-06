@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — GS 9D Anomaly Bridge (Lean 4)
 
@@ -5,9 +8,6 @@ Proxy arithmetic certificate for the 9D Green-Schwarz to 5D Chern-Simons bridge
 and the associated PMNS torsion window.
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.GS9DAnomalyBridge
 

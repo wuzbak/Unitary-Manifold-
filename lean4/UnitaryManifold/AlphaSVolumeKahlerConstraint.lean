@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Alpha_s from the Green-Schwarz Kahler Volume Constraint
 
@@ -15,7 +16,6 @@ ARCHITECTURE_LIMIT
 * two-loop QCD running is not included in the proxy.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.AlphaSKahler
 

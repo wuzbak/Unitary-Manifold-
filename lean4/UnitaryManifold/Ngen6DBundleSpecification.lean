@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — N_gen from E8 Adjoint Bundle Restriction
 
@@ -15,7 +16,6 @@ ARCHITECTURE_LIMIT
 * the Wilson line that selects between them is not determined.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.Ngen6DBundle
 

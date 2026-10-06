@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Sprint BC Master Bridge
 
@@ -11,7 +12,6 @@ ARCHITECTURE_LIMIT
 * it does not elevate any residual tension into proof.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.SprintBCBridge
 

@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — KKLT Non-Perturbative Architecture Limit
 
@@ -14,7 +15,6 @@ ARCHITECTURE_LIMIT
 * the de Sitter uplift sector is not modelled.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.KKLTLimit
 

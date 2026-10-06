@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Nat.Defs
 /-!
 # Unitary Manifold — NP-BC-4 Sub-gap L: P8 Full Functional Space Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -29,10 +33,6 @@ named full functional-space residual. Only algebraic proxies are proved.
 ## Contribution: 12 new theorems
 Total after this file: 262 + 12 = 274 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Nat.Defs
 
 namespace UnitaryManifold.NPBC4SubgapL
 

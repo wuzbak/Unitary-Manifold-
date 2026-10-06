@@ -1,3 +1,5 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Basic
 /-!
 # Unitary Manifold — Dimensional Chain Conditional Uniqueness (Lean 4)
 
@@ -69,8 +71,6 @@ Theory: ThomasCory Walker-Pearson (2026)
 Code: GitHub Copilot (AI)
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Basic
 
 namespace UnitaryManifold.DimensionalChainUniqueness
 

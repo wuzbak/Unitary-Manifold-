@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — 6D Higgs UV Completion Architecture Limit
 
@@ -15,7 +16,6 @@ ARCHITECTURE_LIMIT
 * the Hosotani potential above Λ_NDA is not computable in the 6D EFT.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.Higgs6DUVLimit
 

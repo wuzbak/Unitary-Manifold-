@@ -1,3 +1,8 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Real.Basic
+import Mathlib.Data.ZMod.Basic
 /-!
 # Unitary Manifold — NP-BC-2 Sub-gap D: Mixing Angle Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -46,11 +51,6 @@ Sub-gap D remains PARTIALLY_CLOSED:
 ## Contribution: 11 new theorems
 Total after this file: 173 + 11 = 184 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Real.Basic
-import Mathlib.Data.ZMod.Basic
 
 namespace UnitaryManifold.NPBC2SubgapD
 

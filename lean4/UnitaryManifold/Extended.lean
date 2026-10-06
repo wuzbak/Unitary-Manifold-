@@ -1,3 +1,4 @@
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Extended Contract Library (Lean 4 + Mathlib)
 
@@ -22,7 +23,6 @@ Coverage:
   T20 — φ₀ self-consistency: 1 − 8·N_w/φ₀² recovers n_s when
          φ₀² = 8·N_w/(1 − n_s)
 -/
-import Mathlib.Tactic
 
 namespace UnitaryManifold.Extended
 

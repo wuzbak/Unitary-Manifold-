@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Alpha_s Cross-Dimensional Route Audit
 
@@ -17,7 +18,6 @@ ARCHITECTURE_LIMIT
 * no route fixes M₇ from first principles.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.AlphaSAudit
 

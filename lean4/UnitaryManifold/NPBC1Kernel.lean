@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.ZMod.Basic
+import Mathlib.Data.Nat.Parity
 /-!
 # Unitary Manifold — NP-BC-1 UV-Brane Z₂ Orbifold Proof Attempt (Lean 4 + Mathlib)
 
@@ -56,10 +60,6 @@ full non-perturbative background.  This requires:
 
 These three sub-gaps constitute the remaining open part of NP-BC-1.
 -/
-import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Nat.Parity
 
 namespace UnitaryManifold.NPBC1
 

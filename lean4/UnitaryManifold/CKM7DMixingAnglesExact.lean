@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — 7D CKM Mixing Angles
 
@@ -17,7 +18,6 @@ ARCHITECTURE_LIMIT
 * the tension is registered as PARTIAL_TENSION, not closed.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.CKM7DMixing
 

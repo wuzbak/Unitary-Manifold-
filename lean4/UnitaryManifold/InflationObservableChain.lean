@@ -1,3 +1,5 @@
+import Mathlib.Tactic
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
 /-!
 # Unitary Manifold — Full Inflation Observable Derivation Chain (Lean 4 + Mathlib)
 
@@ -50,8 +52,6 @@ New theorems: 16
 New total: 462
 -/
 
-import Mathlib.Tactic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
 
 namespace UnitaryManifold.InflationObservableChain
 

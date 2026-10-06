@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Sprint BB Master Bridge
 
@@ -15,7 +16,6 @@ ARCHITECTURE_LIMIT
 * several bridged files themselves terminate in architecture limits.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.SprintBBBridge
 

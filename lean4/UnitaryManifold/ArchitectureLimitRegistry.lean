@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Architecture Limit Registry
 
@@ -16,7 +17,6 @@ ARCHITECTURE_LIMIT
 * one entry (non-perturbative QG) is irreducible within the framework.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.ArchLimitRegistry
 

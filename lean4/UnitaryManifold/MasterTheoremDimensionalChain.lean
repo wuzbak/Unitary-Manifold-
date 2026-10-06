@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Master Theorem Dimensional Chain
 
@@ -22,7 +23,6 @@ The following items remain open outside the scope of this proxy file:
 * fully non-perturbative quantum gravity completion.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.MasterChain
 

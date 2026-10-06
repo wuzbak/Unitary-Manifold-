@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Prime.Basic
+import Mathlib.Data.Rat.Basic
 /-!
 # Unitary Manifold — Shadow-Pair Parent Derivation: Formal Lean 4 Certificate
 
@@ -59,9 +62,6 @@ Theory: ThomasCory Walker-Pearson (2026)
 Code: GitHub Copilot (AI)
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Prime.Basic
-import Mathlib.Data.Rat.Basic
 
 namespace UnitaryManifold.ShadowPairKCSFormal
 

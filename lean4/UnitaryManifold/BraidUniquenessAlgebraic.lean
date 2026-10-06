@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.GCD.Basic
+import Mathlib.Data.Finset.Basic
 /-!
 # Unitary Manifold — Braid Uniqueness Algebraic Certificate (Lean 4 + Mathlib)
 
@@ -58,9 +61,6 @@ New theorems in this file: 15
 New total: 509
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Nat.GCD.Basic
-import Mathlib.Data.Finset.Basic
 
 namespace UnitaryManifold
 

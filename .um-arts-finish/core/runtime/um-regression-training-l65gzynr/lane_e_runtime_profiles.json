@@ -1,0 +1,64 @@
+{
+  "profiles": {
+    "lane_e_speed_contract": {
+      "stage": "stage_a_baseline",
+      "metrics": {
+        "tokens_per_second": 5.816361938918284,
+        "samples_per_second": 1.0,
+        "gpu_utilization_percent": 90.0,
+        "dataloader_stall_percent": 12.0,
+        "step_time_p50_ms": 17.652,
+        "step_time_p95_ms": 152483.174,
+        "vram_peak_gb": 4.074256896972656,
+        "cost_per_accepted_sample": 0.0
+      }
+    },
+    "lane_e_profiler_pass": {
+      "stage": "stage_b_profiled_candidate",
+      "metrics": {
+        "tokens_per_second": 6.281670894031747,
+        "samples_per_second": 1.06,
+        "gpu_utilization_percent": 92.5,
+        "dataloader_stall_percent": 9.84,
+        "step_time_p50_ms": 16.23984,
+        "step_time_p95_ms": 140284.52008000002,
+        "vram_peak_gb": 4.237227172851562,
+        "cost_per_accepted_sample": 0.0
+      }
+    },
+    "lane_e_roi_execution": {
+      "stage": "stage_c_roi_candidate",
+      "metrics": {
+        "tokens_per_second": 7.035471401315558,
+        "samples_per_second": 1.1660000000000001,
+        "gpu_utilization_percent": 95.0,
+        "dataloader_stall_percent": 8.363999999999999,
+        "step_time_p50_ms": 14.778254400000002,
+        "step_time_p95_ms": 127658.91327280003,
+        "vram_peak_gb": 4.364343988037109,
+        "cost_per_accepted_sample": 0.0
+      }
+    }
+  },
+  "evidence": {
+    "source": "stage_b_stage_c_head_to_head_receipts",
+    "status": "captured",
+    "artifact_path": ".um-arts-finish/core/runtime/um-regression-training-l65gzynr/lane_e_runtime_profiles.json",
+    "stage_b_summary": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "promotion_gate_pass": true,
+      "kernel_gate_pass": true,
+      "domain_gate_pass": true
+    },
+    "stage_c_summary": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "promotion_gate_pass": true,
+      "kernel_gate_pass": true,
+      "domain_gate_pass": true
+    }
+  }
+}

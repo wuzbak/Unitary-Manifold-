@@ -1,3 +1,5 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
 /-!
 # Unitary Manifold — Honest Proof Distance: What Is and Isn't Machine-Proved (Lean 4)
 
@@ -31,8 +33,6 @@ New theorems + axioms: 14
 New total: 476
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
 
 namespace UnitaryManifold.NWUniquenessHonest
 

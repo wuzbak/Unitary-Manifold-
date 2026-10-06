@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — Seesaw Mechanism Full (Lean 4 + Mathlib)
 
@@ -19,9 +22,6 @@ New theorems: 20
 New total: 613
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.SeesawMechanismFull
 

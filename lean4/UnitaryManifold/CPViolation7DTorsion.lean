@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — 7D Discrete-Torsion CP Violation
 
@@ -14,7 +15,6 @@ ARCHITECTURE_LIMIT
 * NNLO torsion corrections are not computed.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.CPViolation7D
 

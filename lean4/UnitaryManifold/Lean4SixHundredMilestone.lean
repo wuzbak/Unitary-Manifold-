@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — Lean4 Six Hundred Milestone (Lean 4 + Mathlib)
 
@@ -18,9 +21,6 @@ New theorems: 46
 New total: 697
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.Lean4SixHundredMilestone
 

@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Bundle Degeneracy Resolution
 
@@ -11,7 +12,6 @@ ARCHITECTURE_LIMIT
 * they do not convert that residual limit into a semantic proof of uniqueness.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.BundleDegeneracy
 

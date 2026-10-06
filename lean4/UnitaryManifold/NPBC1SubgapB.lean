@@ -1,3 +1,8 @@
+import Mathlib.Tactic
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.ZMod.Basic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.GeomSum
 /-!
 # Unitary Manifold — NP-BC-1 Sub-gap B: NP Saddle Exponential Bound (Lean 4 + Mathlib)
 
@@ -46,11 +51,6 @@ Previous (Pillar 560): 151 theorems
 New (NPBC1SubgapB.lean): 11 new theorems
 Total: 162 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.GeomSum
 
 namespace UnitaryManifold.NPBC1SubgapB
 
