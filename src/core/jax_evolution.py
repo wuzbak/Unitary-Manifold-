@@ -213,9 +213,6 @@ def from_numpy_state(np_state) -> JaxFieldState:
         flow_law=np_state.flow_law,
         n_kk_modes=np_state.n_kk_modes,
         kk_backreaction_coupling=np_state.kk_backreaction_coupling,
-        flow_law=np_state.flow_law,
-        n_kk_modes=np_state.n_kk_modes,
-        kk_backreaction_coupling=np_state.kk_backreaction_coupling,
     )
 
 
