@@ -32,6 +32,28 @@ from ..model.election import Contest, ContestOutcome
 DEFAULT_GAMMA = 1.03905
 
 
+class _NotFound:
+    """Marker for a sampled ballot (or its CVR) that cannot be produced."""
+
+    __slots__ = ("what",)
+
+    def __init__(self, what: str) -> None:
+        self.what = what
+
+    def __repr__(self) -> str:  # pragma: no cover - debugging aid
+        return f"<{self.what} not found>"
+
+
+#: The paper ballot at a sampled position could not be found.  Treated as the
+#: worst case: a vote for the reported loser in every assertion (polling) and a
+#: two-vote overstatement (comparison), so a missing ballot can never help
+#: confirm an outcome.
+BALLOT_NOT_FOUND = _NotFound("ballot")
+#: No CVR exists for a sampled position (more ballots in the manifest than
+#: CVRs).  Treated as a two-vote overstatement in comparison audits.
+CVR_NOT_FOUND = _NotFound("cvr")
+
+
 class AuditError(ValueError):
     """Raised for audit inputs that cannot be audited."""
 
@@ -148,6 +170,9 @@ def bravo_audit(
         s = a.winner_votes / (a.winner_votes + a.loser_votes)
         t, t_max = 1.0, 1.0
         for outcome in sample:
+            if outcome is BALLOT_NOT_FOUND:
+                t *= 2 * (1 - s)
+                continue
             v = _votes(outcome)
             if a.winner in v and a.loser not in v:
                 t *= 2 * s
@@ -175,7 +200,12 @@ def bravo_sample_size(contest: Contest, reported: Mapping[str, int], ballots: in
 # --------------------------------------------------------------- Kaplan–Markov
 
 def overstatement(assertions: Sequence[Assertion], cvr: Optional[ContestOutcome], mvr: Optional[ContestOutcome]) -> int:
-    """Largest pairwise margin overstatement on one ballot, in votes (−2 … 2)."""
+    """Largest pairwise margin overstatement on one ballot, in votes (−2 … 2).
+
+    A ballot or CVR that cannot be found counts as the maximum overstatement (2).
+    """
+    if isinstance(cvr, _NotFound) or isinstance(mvr, _NotFound):
+        return 2
     cv, mv = _votes(cvr), _votes(mvr)
     worst = -3
     for a in assertions:

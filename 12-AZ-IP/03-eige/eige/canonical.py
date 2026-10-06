@@ -39,3 +39,35 @@ def canonical_bytes(obj: Any) -> bytes:
     """Return the canonical UTF-8 JSON encoding of ``obj``."""
     _reject_floats(obj)
     return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+
+
+def _no_float(text: str) -> Any:
+    raise CanonicalEncodingError(f"floating-point literal {text!r} is not allowed")
+
+
+def _no_constant(text: str) -> Any:
+    raise CanonicalEncodingError(f"non-finite literal {text!r} is not allowed")
+
+
+_DECODER = json.JSONDecoder(parse_float=_no_float, parse_constant=_no_constant)
+_ENCODER = json.JSONEncoder(sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def decode_canonical(data: bytes) -> Any:
+    """Parse ``data`` and return the object only if ``data`` is exactly its canonical encoding.
+
+    Floats and non-finite constants are rejected during parsing, so the result
+    is safe to re-encode without a separate validation walk.  Raises
+    :class:`CanonicalEncodingError` (or ``ValueError``) when the input is not
+    canonical JSON.
+    """
+    try:
+        text = data.decode("utf-8")
+        obj = _DECODER.decode(text)
+    except UnicodeDecodeError as exc:
+        raise CanonicalEncodingError("entry is not valid UTF-8") from exc
+    except json.JSONDecodeError as exc:
+        raise CanonicalEncodingError(f"invalid JSON: {exc}") from exc
+    if _ENCODER.encode(obj) != text:
+        raise CanonicalEncodingError("entry is not in canonical form")
+    return obj

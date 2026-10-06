@@ -19,7 +19,9 @@ duplicate identifiers and negative counts are rejected with :class:`ModelError`.
 
 from __future__ import annotations
 
+import bisect
 from dataclasses import dataclass, field
+from functools import cached_property
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 
@@ -59,6 +61,10 @@ class Contest:
     def candidate_ids(self) -> List[str]:
         return [c.id for c in self.candidates]
 
+    @cached_property
+    def candidate_set(self) -> frozenset:
+        return frozenset(c.id for c in self.candidates)
+
 
 @dataclass(frozen=True)
 class Election:
@@ -68,11 +74,15 @@ class Election:
     jurisdiction: str
     contests: Tuple[Contest, ...]
 
+    @cached_property
+    def contest_map(self) -> Dict[str, Contest]:
+        return {c.id: c for c in self.contests}
+
     def contest(self, contest_id: str) -> Contest:
-        for c in self.contests:
-            if c.id == contest_id:
-                return c
-        raise ModelError(f"unknown contest {contest_id!r}")
+        c = self.contest_map.get(contest_id)
+        if c is None:
+            raise ModelError(f"unknown contest {contest_id!r}")
+        return c
 
 
 def parse_election(d: Mapping[str, Any]) -> Election:
@@ -133,6 +143,7 @@ class CVR:
     batch_id: str
     ballot_style: str
     selections: Mapping[str, Tuple[str, ...]]  # contest_id -> marked candidate ids
+    reporting_unit: Optional[str] = None  # precinct / GpUnit the ballot is reported under
 
     def outcome(self, contest: Contest) -> Optional[ContestOutcome]:
         """Return the outcome for ``contest`` or ``None`` if not on this ballot."""
@@ -144,37 +155,47 @@ class CVR:
         return ContestOutcome(tuple(marks), False, contest.vote_for - len(marks))
 
 
+def parse_cvr(item: Any, election: Election, where: str = "cvr") -> CVR:
+    """Strictly parse one CVR object (no cross-CVR checks)."""
+    if not isinstance(item, Mapping):
+        raise ModelError(f"{where}: must be an object")
+    cvr_id = _req_str(item, "id", where)
+    raw_sel = item.get("selections")
+    if not isinstance(raw_sel, Mapping):
+        raise ModelError(f"{where}: 'selections' must be an object")
+    contests = election.contest_map
+    sel: Dict[str, Tuple[str, ...]] = {}
+    for contest_id, marks in raw_sel.items():
+        contest = contests.get(contest_id)
+        if contest is None:
+            raise ModelError(f"{where}: unknown contest {contest_id!r}")
+        if not isinstance(marks, list) or not all(isinstance(m, str) for m in marks):
+            raise ModelError(f"{where}: selections for {contest_id!r} must be a list of candidate ids")
+        if len(set(marks)) != len(marks):
+            raise ModelError(f"{where}: repeated candidate in {contest_id!r}")
+        allowed = contest.candidate_set
+        unknown = [m for m in marks if m not in allowed]
+        if unknown:
+            raise ModelError(f"{where}: unknown candidate(s) {unknown} in {contest_id!r}")
+        sel[contest_id] = tuple(marks)
+    unit = item.get("reporting_unit")
+    if unit is not None and (not isinstance(unit, str) or not unit.strip()):
+        raise ModelError(f"{where}: 'reporting_unit' must be a non-empty string when present")
+    return CVR(cvr_id, _req_str(item, "batch_id", where), _req_str(item, "ballot_style", where), sel, unit)
+
+
 def parse_cvrs(items: Sequence[Any], election: Election) -> List[CVR]:
+    """Parse a list of CVRs, rejecting duplicate ids (for in-memory use)."""
     if not isinstance(items, list):
         raise ModelError("cvrs must be a list")
-    contests = {c.id: c for c in election.contests}
     out: List[CVR] = []
     seen: set = set()
     for i, item in enumerate(items):
-        where = f"cvrs[{i}]"
-        if not isinstance(item, Mapping):
-            raise ModelError(f"{where}: must be an object")
-        cvr_id = _req_str(item, "id", where)
-        if cvr_id in seen:
-            raise ModelError(f"duplicate CVR id {cvr_id!r}")
-        seen.add(cvr_id)
-        raw_sel = item.get("selections")
-        if not isinstance(raw_sel, Mapping):
-            raise ModelError(f"{where}: 'selections' must be an object")
-        sel: Dict[str, Tuple[str, ...]] = {}
-        for contest_id, marks in raw_sel.items():
-            contest = contests.get(contest_id)
-            if contest is None:
-                raise ModelError(f"{where}: unknown contest {contest_id!r}")
-            if not isinstance(marks, list) or not all(isinstance(m, str) for m in marks):
-                raise ModelError(f"{where}: selections for {contest_id!r} must be a list of candidate ids")
-            if len(set(marks)) != len(marks):
-                raise ModelError(f"{where}: repeated candidate in {contest_id!r}")
-            unknown = [m for m in marks if m not in contest.candidate_ids]
-            if unknown:
-                raise ModelError(f"{where}: unknown candidate(s) {unknown} in {contest_id!r}")
-            sel[contest_id] = tuple(marks)
-        out.append(CVR(cvr_id, _req_str(item, "batch_id", where), _req_str(item, "ballot_style", where), sel))
+        cvr = parse_cvr(item, election, f"cvrs[{i}]")
+        if cvr.id in seen:
+            raise ModelError(f"duplicate CVR id {cvr.id!r}")
+        seen.add(cvr.id)
+        out.append(cvr)
     return out
 
 
@@ -251,26 +272,40 @@ class BallotManifest:
     jurisdiction: str
     batches: Tuple[ManifestBatch, ...]
 
+    @cached_property
+    def _cumulative(self) -> List[int]:
+        out, running = [], 0
+        for b in self.batches:
+            running += b.ballot_count
+            out.append(running)
+        return out
+
+    @cached_property
+    def _by_id(self) -> Dict[str, ManifestBatch]:
+        return {b.batch_id: b for b in self.batches}
+
     @property
     def total_ballots(self) -> int:
-        return sum(b.ballot_count for b in self.batches)
+        return self._cumulative[-1] if self.batches else 0
 
     def batch(self, batch_id: str) -> ManifestBatch:
-        for b in self.batches:
-            if b.batch_id == batch_id:
-                return b
-        raise ModelError(f"unknown batch {batch_id!r}")
+        b = self._by_id.get(batch_id)
+        if b is None:
+            raise ModelError(f"unknown batch {batch_id!r}")
+        return b
 
     def locate(self, position: int) -> Tuple[str, int]:
-        """Map a 1-based ballot position across the manifest to (batch_id, 1-based index in batch)."""
+        """Map a 1-based ballot position across the manifest to (batch_id, 1-based index in batch).
+
+        O(log B) in the number of batches, so statewide manifests with tens of
+        thousands of batches are mapped instantly.
+        """
         if not 1 <= position <= self.total_ballots:
             raise ModelError(f"position {position} outside manifest of {self.total_ballots} ballots")
-        remaining = position
-        for b in self.batches:
-            if remaining <= b.ballot_count:
-                return b.batch_id, remaining
-            remaining -= b.ballot_count
-        raise ModelError("unreachable")  # pragma: no cover
+        cum = self._cumulative
+        k = bisect.bisect_left(cum, position)
+        before = cum[k - 1] if k else 0
+        return self.batches[k].batch_id, position - before
 
 
 def parse_manifest(d: Mapping[str, Any]) -> BallotManifest:
@@ -334,9 +369,42 @@ def tally(election: Election, cvrs: Iterable[CVR]) -> Dict[str, ContestTotals]:
     return totals
 
 
-def results_report(election: Election, cvrs: Iterable[CVR]) -> dict:
-    """Per-contest results in a NIST SP 1500-100–style JSON subset."""
-    totals = tally(election, cvrs)
+def results_report(election: Election, cvrs: Iterable[CVR], by_reporting_unit: bool = False) -> dict:
+    """Per-contest results in a NIST SP 1500-100–style JSON subset.
+
+    ``VoteCounts`` entries for a candidate are disjoint parts of its total.
+    By default there is one entry for the whole jurisdiction; with
+    ``by_reporting_unit=True`` there is one entry per reporting unit (precinct)
+    taken from each CVR's ``reporting_unit``, which lets verifiers check
+    precinct-level results as well as contest totals.
+    """
+    from ..audit.reconciliation import CanvassAccumulator
+
+    acc = CanvassAccumulator(election, track_units=by_reporting_unit)
+    try:
+        for cvr in cvrs:
+            if by_reporting_unit and cvr.reporting_unit is None:
+                raise ModelError(f"CVR {cvr.id!r} has no reporting_unit")
+            acc.add(cvr)
+        return results_from_totals(election, acc.totals, acc.unit_votes if by_reporting_unit else None,
+                                   acc.unit_contests if by_reporting_unit else None)
+    finally:
+        acc.close()
+
+
+def results_from_totals(election: Election, totals: Mapping[str, "ContestTotals"],
+                        unit_votes: Optional[Mapping[Tuple[str, str], Mapping[str, int]]] = None,
+                        unit_contests: Optional[Iterable[Tuple[str, str]]] = None) -> dict:
+    """Build the results document from accumulated totals (see :func:`results_report`)."""
+    by_unit = unit_votes is not None
+    keys = sorted(set(unit_contests or ()) | set(unit_votes or ()))
+
+    def counts(contest_id: str, cid: str, v: int) -> list:
+        if not by_unit:
+            return [{"@type": "ElectionResults.VoteCounts", "Count": v, "GpUnitId": election.jurisdiction}]
+        return [{"@type": "ElectionResults.VoteCounts", "Count": int(unit_votes.get((c, u), {}).get(cid, 0)), "GpUnitId": u}
+                for (c, u) in keys if c == contest_id]
+
     return {
         "@type": "ElectionResults.ElectionReport",
         "format": "eige.err_subset.v1",
@@ -352,7 +420,7 @@ def results_report(election: Election, cvrs: Iterable[CVR]) -> dict:
                 "Undervotes": t.undervotes,
                 "ContestSelection": [
                     {"@type": "ElectionResults.CandidateSelection", "CandidateId": cid,
-                     "VoteCounts": [{"@type": "ElectionResults.VoteCounts", "Count": v, "GpUnitId": election.jurisdiction}]}
+                     "VoteCounts": counts(t.contest_id, cid, v)}
                     for cid, v in sorted(t.candidate_votes.items())
                 ],
             }
@@ -370,3 +438,25 @@ def reported_totals(report: Mapping[str, Any]) -> Dict[str, Dict[str, int]]:
             for sel in contest.get("ContestSelection", [])
         }
     return out
+
+
+def reported_unit_totals(report: Mapping[str, Any]) -> Optional[Dict[Tuple[str, str], Dict[str, int]]]:
+    """``{(contest_id, unit): {candidate_id: votes}}`` if results are broken down by reporting unit.
+
+    Returns ``None`` when every ``VoteCounts`` entry is for the whole
+    jurisdiction (no unit-level claims to check).
+    """
+    jurisdiction = report.get("Jurisdiction")
+    out: Dict[Tuple[str, str], Dict[str, int]] = {}
+    unit_level = False
+    for contest in report.get("Contest", []):
+        cid = str(contest["@id"])
+        for sel in contest.get("ContestSelection", []):
+            for vc in sel.get("VoteCounts", []):
+                unit = str(vc.get("GpUnitId", jurisdiction))
+                if unit != jurisdiction:
+                    unit_level = True
+                bucket = out.setdefault((cid, unit), {})
+                cand = str(sel["CandidateId"])
+                bucket[cand] = bucket.get(cand, 0) + int(vc["Count"])
+    return out if unit_level else None

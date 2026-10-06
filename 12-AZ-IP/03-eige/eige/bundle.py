@@ -22,11 +22,12 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, Iterator, List, Optional
 
 REQUIRED = ("registry.json", "log.jsonl", "heads.json", "election.json", "manifest.json", "results.json")
 OPTIONAL = ("sample.json", "audit.json", "commitments.json", "cosignatures.json", "provisional.json", "cast.json")
-MAX_FILE_BYTES = 512 * 1024 * 1024
+MAX_FILE_BYTES = 512 * 1024 * 1024   # per JSON document (log.jsonl is streamed and has no total limit)
+MAX_ENTRY_BYTES = 4 * 1024 * 1024    # per log entry line
 
 
 class BundleError(ValueError):
@@ -52,12 +53,22 @@ def write_bundle(directory: str | Path, files: Dict[str, Any], log_entries: Iter
     return d
 
 
-def read_bundle(directory: str | Path) -> Dict[str, Any]:
+def _dir(directory: str | Path) -> Path:
     d = Path(directory)
     if not d.is_dir():
         raise BundleError(f"{d} is not a directory")
+    return d
+
+
+def read_metadata(directory: str | Path) -> Dict[str, Any]:
+    """Read every bundle file except ``log.jsonl`` (which is streamed separately)."""
+    d = _dir(directory)
+    if not (d / "log.jsonl").is_file():
+        raise BundleError("bundle missing required file log.jsonl")
     out: Dict[str, Any] = {}
     for name in REQUIRED + OPTIONAL:
+        if name == "log.jsonl":
+            continue
         p = d / name
         if not p.exists():
             if name in REQUIRED:
@@ -65,17 +76,36 @@ def read_bundle(directory: str | Path) -> Dict[str, Any]:
             continue
         if p.stat().st_size > MAX_FILE_BYTES:
             raise BundleError(f"{name} exceeds size limit")
-        if name == "log.jsonl":
-            raw = p.read_bytes()
-            lines: List[bytes] = raw.split(b"\n")
-            if lines and lines[-1] == b"":
-                lines.pop()
-            out[name] = lines
-            continue
         try:
             out[name] = json.loads(p.read_text(encoding="utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise BundleError(f"{name}: invalid JSON ({exc})") from exc
+    return out
+
+
+def iter_log(directory: str | Path, max_entry_bytes: int = MAX_ENTRY_BYTES) -> Iterator[bytes]:
+    """Stream ``log.jsonl`` one entry at a time (constant memory, any file size).
+
+    Every entry, including the last, must be newline-terminated; a missing final
+    newline (a truncated file) raises :class:`BundleError`.
+    """
+    p = _dir(directory) / "log.jsonl"
+    with p.open("rb") as fh:
+        while True:
+            line = fh.readline(max_entry_bytes + 2)
+            if not line:
+                return
+            if not line.endswith(b"\n"):
+                if len(line) > max_entry_bytes:
+                    raise BundleError(f"log entry exceeds {max_entry_bytes} bytes")
+                raise BundleError("log.jsonl is truncated (last entry has no newline)")
+            yield line[:-1]
+
+
+def read_bundle(directory: str | Path) -> Dict[str, Any]:
+    """Load a whole bundle into memory (small bundles; use :func:`iter_log` at scale)."""
+    out = read_metadata(directory)
+    out["log.jsonl"] = list(iter_log(directory))
     return out
 
 
