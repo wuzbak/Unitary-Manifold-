@@ -37,6 +37,7 @@ def fake_execute(monkeypatch, *, omission=False, errors=None, findings=False, dr
         files = command[command.index("--") + 1:]
         invocations.append(files)
         assert "--disable-version-check" in command
+        assert "--no-rewrite-rule-ids" in command
         assert "--no-git-ignore" in command
         assert environment["SEMGREP_SEND_METRICS"] == "off"
         write_json(directory / "process.json", {
@@ -200,3 +201,4 @@ def test_real_optional_opengrep_capture(arts_workspace):
     assert result["selected"] == result["scanned"] == 1
     assert result["source_stable"]
     assert result["findings"][0]["line"] == 2
+    assert result["findings"][0]["rule"] == "um-arts.python.shell-command"

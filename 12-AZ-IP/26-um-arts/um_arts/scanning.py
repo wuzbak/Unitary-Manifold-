@@ -124,7 +124,8 @@ def scan(root: Path, output: Path, executable: Path, rules: Path, *,
             if not path.exists():
                 raise EvidenceError(f"Missing scan path: {value}")
             prefixes.append(value.rstrip("/"))
-    settings = {"schema": SCHEMA, "tool_sha256": file_hash(executable),
+    settings = {"schema": SCHEMA, "invocation_policy": "local-patterns-stable-rule-ids-v1",
+                "tool_sha256": file_hash(executable),
                 "rules_sha256": file_hash(rules), "paths": prefixes,
                 "files_per_shard": files_per_shard, "max_file_bytes": max_file_bytes,
                 "timeout_seconds": timeout_seconds, "memory_mib": memory_mib}
@@ -176,7 +177,7 @@ def scan(root: Path, output: Path, executable: Path, rules: Path, *,
         else:
             directory.mkdir(parents=True)
             command = [str(executable), "scan", "--config", str(output / "rules.yml"),
-                       "--json", "--disable-version-check",
+                       "--json", "--disable-version-check", "--no-rewrite-rule-ids",
                        "--no-git-ignore", "--disable-nosem", "--strict", "--jobs=1",
                        f"--max-memory={memory_mib}", f"--max-target-bytes={max_file_bytes}",
                        f"--timeout={min(timeout_seconds, 30)}", "--", *assigned]
