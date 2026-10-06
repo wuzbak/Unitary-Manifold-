@@ -28,12 +28,13 @@ def load_config(root: Path, path: Path | None = None, adapter: str = "um") -> di
         raise EvidenceError("The generic adapter requires --config")
     if not isinstance(raw, dict):
         raise EvidenceError("Configuration must be a JSON object")
-    allowed = {"adapter", "suites", "workers", "timeout_seconds", "pytest_args", "lean"}
+    allowed = {"adapter", "suites", "workers", "timeout_seconds", "pytest_args", "lean", "files_per_job"}
     if set(raw) - allowed:
         raise EvidenceError(f"Unknown config settings: {sorted(set(raw) - allowed)}")
     config = {
         "adapter": raw.get("adapter", adapter),
         "workers": raw.get("workers", 1),
+        "files_per_job": raw.get("files_per_job", 32),
         "timeout_seconds": raw.get("timeout_seconds", 600),
         "pytest_args": raw.get("pytest_args", []),
         "suites": raw.get("suites", []),
@@ -44,6 +45,10 @@ def load_config(root: Path, path: Path | None = None, adapter: str = "um") -> di
     workers = config["workers"]
     if isinstance(workers, bool) or not isinstance(workers, int) or not 1 <= workers <= 32:
         raise EvidenceError("workers must be an integer in [1, 32]")
+    files_per_job = config["files_per_job"]
+    if isinstance(files_per_job, bool) or not isinstance(files_per_job, int) \
+            or not 1 <= files_per_job <= 1024:
+        raise EvidenceError("files_per_job must be an integer in [1, 1024]")
     timeout = config["timeout_seconds"]
     if isinstance(timeout, bool) or not isinstance(timeout, (int, float)) \
             or not math.isfinite(timeout) or not 0 < timeout <= 86400:

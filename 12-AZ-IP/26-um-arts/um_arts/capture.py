@@ -169,11 +169,13 @@ def capture_command(command: list[str], output: Path, root: Path | None = None,
             shlex.split(environment.get("PYTEST_ADDOPTS", "")))
         environment["PYTEST_ADDOPTS"] = shlex.join(addopts)
         environment["UM_ARTS_CAPTURE_SERIAL"] = "1"
-        if not any("TOOLS.um_arts.pytest_plugin" in arg for arg in command):
-            effective[insertion:insertion] = ["-p", "TOOLS.um_arts.pytest_plugin"]
+        if not any("um_arts.pytest_plugin" in arg for arg in command):
+            effective[insertion:insertion] = ["-p", "um_arts.pytest_plugin"]
         environment["UM_ARTS_PYTEST_REPORT"] = str(output / "pytest.json")
         environment["PYTHONPATH"] = os.pathsep.join(
-            [str(Path(__file__).resolve().parents[2]), str(root), environment.get("PYTHONPATH", "")])
+            [str(Path(__file__).resolve().parents[1]),
+             str(Path(__file__).resolve().parents[3]),
+             str(root), environment.get("PYTHONPATH", "")])
         for option in ["--rootdir", "--confcutdir"]:
             if not any(arg == option or arg.startswith(option + "=") for arg in command):
                 effective.extend([option, str(root)])

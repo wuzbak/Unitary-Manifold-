@@ -44,7 +44,7 @@ def _pytest_command(root: Path, directory: Path, suite: dict, config: dict,
         own_config = directory / "pytest.ini"
         with own_config.open("x", encoding="utf-8") as stream:
             stream.write("[pytest]\n")
-    return [sys.executable, "-m", "pytest", "-p", "TOOLS.um_arts.pytest_plugin",
+    return [sys.executable, "-m", "pytest", "-p", "um_arts.pytest_plugin",
             "--rootdir", str(root), "--confcutdir", str(root), "-c", str(own_config),
             "--basetemp", str(directory / "scratch"),
             *suite["paths"], *config["pytest_args"], "-q",
@@ -55,14 +55,22 @@ def _pytest(root: Path, directory: Path, suite: dict, config: dict,
             nodes: list[str] | None = None) -> None:
     directory.mkdir(parents=True, exist_ok=True)
     nonce = uuid.uuid4().hex
-    command = _pytest_command(root, directory, suite, config, collect=nodes is None)
+    assigned_files = nodes is not None and not suite["serial"]
+    execution_suite = suite
+    if assigned_files:
+        paths = sorted({node.split("::", 1)[0] for node in nodes})
+        for path in paths:
+            contained(root, path)
+        execution_suite = {**suite, "paths": paths}
+    command = _pytest_command(root, directory, execution_suite, config, collect=nodes is None)
     write_json(directory / "request.json", {"nonce": nonce, "command": command,
-                                          "collection_only": nodes is None, "root": str(root)})
+                                          "collection_only": nodes is None, "root": str(root),
+                                          "collection_scope": "assigned_files" if assigned_files else "suite"})
     environment = dict(os.environ)
     environment.pop("PYTEST_ADDOPTS", None)
     environment.pop("PYTEST_PLUGINS", None)
     environment.pop("UM_ARTS_SELECTION", None)
-    engine_root = str(Path(__file__).resolve().parents[2])
+    engine_root = str(Path(__file__).resolve().parents[1])
     environment["PYTHONPATH"] = os.pathsep.join(
         [engine_root, str(root), environment.get("PYTHONPATH", "")])
     environment["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"
@@ -96,21 +104,31 @@ def _validate_store(root: Path, store: Path) -> None:
         raise EvidenceError("Artifact store may not be the repository root or its ancestor")
 
 
-def balanced_jobs(suites: list[dict], workers: int, durations: dict[str, float]) -> list[dict]:
+def balanced_jobs(suites: list[dict], workers: int, durations: dict[str, float],
+                  files_per_job: int = 32) -> list[dict]:
     """LPT balancing by test file preserves module/class fixture locality."""
+    if isinstance(files_per_job, bool) or not isinstance(files_per_job, int) \
+            or not 1 <= files_per_job <= 1024:
+        raise EvidenceError("files_per_job must be an integer in [1, 1024]")
     jobs = []
     for suite in suites:
         groups = defaultdict(list)
         for node in suite["nodes"]:
             groups[node.split("::", 1)[0]].append(node)
-        bins = [[] for _ in range(min(1 if suite["serial"] else workers, len(groups)))]
+        count = (1 if suite["serial"] else max(
+            workers, (len(groups) + files_per_job - 1) // files_per_job))
+        bins = [[] for _ in range(min(count, len(groups)))]
         loads = [0.0 for _ in bins]
+        file_counts = [0 for _ in bins]
         weighted = [(sum(durations.get(node, 1.0) for node in nodes), file, nodes)
                     for file, nodes in groups.items()]
         for weight, _, nodes in sorted(weighted, key=lambda value: (-value[0], value[1])):
-            slot = min(range(len(bins)), key=lambda index: (loads[index], index))
+            available = [index for index in range(len(bins))
+                         if suite["serial"] or file_counts[index] < files_per_job]
+            slot = min(available, key=lambda index: (loads[index], index))
             bins[slot].extend(nodes)
             loads[slot] += weight
+            file_counts[slot] += 1
         for index, nodes in enumerate(bins):
             jobs.append({"id": f"{suite['name']}-{index:03d}", "suite": suite["name"],
                          "nodes": sorted(nodes), "estimated_seconds": loads[index]})
@@ -160,7 +178,8 @@ def plan(root: Path, store: Path, config_path: Path | None = None,
         "version": VERSION, "root": str(root), "store": str(store), "config": config,
         "fingerprints": before, "selection": selection_policy(mode),
         "suites": suites, "formal": snapshot,
-        "jobs": balanced_jobs(suites, config["workers"], index.durations(before["compatibility"])),
+        "jobs": balanced_jobs(suites, config["workers"], index.durations(before["compatibility"]),
+                              config["files_per_job"]),
         "status": "ready" if not errors else "blocked", "errors": errors,
         "config_source": config_source,
     }
@@ -228,12 +247,24 @@ def validate_plan(directory: Path) -> dict:
 def _job_evaluation(directory: Path, job: dict, suite: dict) -> dict:
     result = evaluate_job(directory, job["nodes"])
     if result["status"] == "passed":
-        # Every shard recollects its complete suite. Check the identities it excluded
-        # as well, so disappearing tests outside a shard cannot hide in a green run.
-        outside = set(suite["nodes"]) - set(job["nodes"])
+        request = read_json(directory / "request.json")
+        files = {node.split("::", 1)[0] for node in job["nodes"]}
+        scope = request.get("collection_scope", "suite")
+        if not isinstance(scope, str) or scope not in {"suite", "assigned_files"}:
+            result["status"] = "blocked"
+            result["errors"].append("Unknown execution collection scope")
+            return result
+        local = scope == "assigned_files"
+        def in_scope(node):
+            return not local or node.split("::", 1)[0] in files
+        # Initial collection covers every suite. Each independent job recollects
+        # its assigned files; global reconciliation still requires every planned ID.
+        outside = {node for node in suite["nodes"] if in_scope(node)} - set(job["nodes"])
+        deselected = [node for node in suite["deselected"] if in_scope(node)]
+        skips = [node for node in suite["collection_skips"] if in_scope(node)]
         if set(result["partition_excluded"]) != outside \
-                or Counter(result["deselected"]) != Counter(suite["deselected"]) \
-                or result["collection_skips"] != suite["collection_skips"]:
+                or Counter(result["deselected"]) != Counter(deselected) \
+                or result["collection_skips"] != skips:
             result["status"] = "blocked"
             result["errors"].append("Suite collection universe/exclusions changed at execution")
     return result

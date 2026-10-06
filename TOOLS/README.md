@@ -45,11 +45,55 @@ If a tool is a public or tested entrypoint, keep a compatibility path or wrapper
 
 ## UM-ARTS — regression evidence application
 
-UM-ARTS lives in `TOOLS/um_arts/`, outside the physics implementation. It
+UM-ARTS is canonical AZ-IP **Product 26**, living in
+[`../12-AZ-IP/26-um-arts/`](../12-AZ-IP/26-um-arts/), outside the physics implementation.
+`TOOLS.um_arts` is a thin compatibility namespace; existing CLI and pytest-plugin
+imports remain supported. The canonical launcher is
+`python 12-AZ-IP/26-um-arts/run.py --help` from the repository root. It
 orchestrates existing checks and preserves their evidence; it does not generate
 new physics certificates, decide merges, or promote scientific claims. Its
 repository adapter uses the existing supervised suite planner and formal
 traceability contracts rather than a second pillar or theorem registry.
+
+### Canonical product installation and operational application
+
+Technology readiness has **not been assessed**. Python 3.12+ on a POSIX host is
+required for bounded process-group cleanup. The application uses the standard
+library; executing Python suites requires the existing pytest installation, and
+Lean capture requires the existing Lean/lake toolchain. No extra runtime
+dependencies are introduced.
+
+From the repository root:
+
+```bash
+python 12-AZ-IP/26-um-arts/run.py --help
+python 12-AZ-IP/26-um-arts/run.py serve \
+  --root "$PWD" --store "$PWD/.um-arts" --host 127.0.0.1 --port 8765
+```
+
+Open `http://127.0.0.1:8765`. The server only accepts loopback hosts; it is not
+a remotely hosted service. `--config`, `--adapter`, and `--mode` select the same
+trusted execution settings as the planner. Keep the ignored `.um-arts/` store.
+The operational API exposes health/preflight inspection and supervised plan,
+run, and resume tasks. Run/resume requests use server-issued identifiers, not
+arbitrary paths. Mutations require a per-session token and same-site
+Host/Origin/fetch checks. Local browser access is not permission to execute
+unreviewed repository code; use only trusted source and execution configuration.
+
+From the product directory, `python -m um_arts --help` is equivalent. For an
+editable installation using standard pip/setuptools:
+
+```bash
+python -m pip install --no-deps -e 12-AZ-IP/26-um-arts
+um-arts --help
+```
+
+The distribution contains only the product package and its bundled assets, not
+the physics repository. The legacy `TOOLS` namespace is available in repository
+checkouts; installed distributions use `um_arts` and `um_arts.pytest_plugin`.
+Plugin loading is explicit (`pytest -p um_arts.pytest_plugin`), never automatic.
+Trusted adapter examples are bundled under
+[`../12-AZ-IP/26-um-arts/um_arts/examples/`](../12-AZ-IP/26-um-arts/um_arts/examples/).
 
 ### Capturing existing checks
 
@@ -71,7 +115,7 @@ python -m TOOLS.um_arts capture --repo "$PWD" \
 The planner prints the sealed plan path in its JSON result. Pass that absolute
 path to `run --plan PATH`; use the resulting attempt path with
 `verify --attempt PATH`, `report --attempt PATH`, or
-`dashboard --attempt PATH --output /tmp/um-arts-dashboard.html`.
+`dashboard --attempt PATH --output .um-arts-dashboard.html`.
 Resume with `resume --attempt PATH`. Reports and dashboards must be written
 outside immutable evidence bundles. A previous attempt can be supplied with
 `report --attempt PATH --baseline BASELINE_PATH`; incompatible baselines cannot
@@ -187,3 +231,128 @@ unavailable checking tools, and unresolved correspondence must stay visible.
 A Lean build is distinct from a checked declaration with disclosed axioms;
 neither establishes that a Python implementation is mathematically equivalent.
 Executable checks do not establish empirical confirmation of the framework.
+
+### Repository inventory and bounded assistance
+
+Inventory statically discovers canonical suite candidates across the repository,
+including product, claim, proof, and other Python execution lanes. It separately
+discloses excluded mirrors, unclassified/uncovered candidates, unselected suites,
+and Lean projects. This is a **review-required inventory**, not executed coverage.
+
+```bash
+python 12-AZ-IP/26-um-arts/run.py inventory --root "$PWD" \
+  --output .um-arts/inventory.json --config-output .um-arts/repository.json
+python 12-AZ-IP/26-um-arts/run.py plan --root "$PWD" \
+  --store .um-arts --adapter generic --config .um-arts/repository.json
+python 12-AZ-IP/26-um-arts/run.py assist --root "$PWD" \
+  --query "collection evidence scope" --paths TOOLS/README.md proof/README.md
+```
+
+Review the generated trusted configuration before planning/execution. Repeated
+`--suite NAME` options restrict config generation; `--lean-project PATH` explicitly
+selects one discovered Lean project. Neither option executes it during inventory.
+Generated configs request `-m ''` to include slow tests; real skips still apply.
+Inventory and assistance outputs are created exclusively, never overwritten.
+
+`assist --attempt PATH` explains checked attempt evidence; `assist --report PATH`
+explains caller-supplied JSON without upgrading its trust. Optional `--output PATH`
+saves the packet. Assistance returns bounded source excerpts with citations and
+review guidance, not automatic edits, gate changes, or external model calls.
+Command exit zero means retrieval/inventory succeeded, **not** that tests passed.
+
+### Lean build boundaries
+
+Selecting a discovered Lean project requests its full default build; the
+canonical Lean project now includes the actual `UnitaryManifold` library as a
+default target. An exporter executable build or passing exporter adapter tests
+is **not** a full formal-library build. Record exporter, scoped inspection, and
+full-library outcomes separately. Missing dependencies or unavailable Mathlib
+caches leave affected builds incomplete/blocked, never certified passes.
+
+### Explicit multi-check manifests
+
+`certify --manifest PATH` reads and reconciles an explicitly disclosed manifest
+without executing its commands:
+
+```bash
+python 12-AZ-IP/26-um-arts/run.py certify --manifest .um-arts/required-checks.json
+```
+
+Example `.um-arts/required-checks.json`, after separately capturing the named
+checks against the same frozen source/environment:
+
+```json
+{
+  "label": "Focused metric tests and isolated executable proof check",
+  "checks": [
+    {
+      "id": "metric",
+      "artifact": "metric-capture",
+      "command": ["python", "-m", "pytest", "tests/test_metric.py", "-q"],
+      "kind": "pytest",
+      "scope": "Metric file only, with its recorded collection filters"
+    },
+    {
+      "id": "proof",
+      "artifact": "proof-capture",
+      "command": ["python", "proof/VERIFY.py"],
+      "kind": "command",
+      "scope": "Isolated executable proof check, not the Lean library"
+    }
+  ]
+}
+```
+
+Artifact paths are relative to the manifest directory. Use exactly the original
+argument list recorded by each capture, including its executable spelling;
+the example commands must not be substituted for different captured commands.
+The manifest has exactly `label` and `checks`; each check has exactly the five
+fields shown. Pytest identities across checks must be disjoint.
+
+Each named check declares its artifact, exact command, execution kind, and scope;
+the manifest labels the aggregate. Receipts must agree on source, environment,
+engine, Git identity, and root. Collection-only receipts cannot substitute for
+executed pytest checks; command receipts remain separate from test execution.
+Duplicate test identities across split jobs are rejected. Compatible proof/Lean
+command captures may be required alongside Python receipts, but their scope
+must remain explicit. A passing aggregate certifies **only the manifest's
+disclosed checks**, never an automatic full-repository badge or theorem claim.
+
+### Explicit source snapshots
+
+Use `snapshot` when tests must run against a separate source copy rather than
+your live checkout:
+
+```bash
+python 12-AZ-IP/26-um-arts/run.py snapshot --root "$PWD" \
+  --output .um-arts-test-work/source-snapshot
+python 12-AZ-IP/26-um-arts/run.py plan \
+  --root "$PWD/.um-arts-test-work/source-snapshot" \
+  --store "$PWD/.um-arts/snapshot-evidence" --mode full
+```
+
+A successful `snapshot_ready` result identifies `source_root` and `snapshot_root`
+and records original/copy fingerprints. Review the copy before executing trusted
+checks against its `snapshot_root`; use `run --plan PATH` with the plan path printed
+by the second command. Keep evidence outside that copied source.
+Snapshot success is **not** a test pass or baseline certification. Copying source
+never waives the frozen-source gate: tests that mutate copied inputs still
+invalidate source stability. This is source-copy isolation, not an operating
+system security sandbox for untrusted code.
+
+### Product validation
+
+From the repository root:
+
+```bash
+python -m pytest tests/test_um_arts*.py -q \
+  --basetemp=.um-arts-test-work/product26
+```
+
+The canonical product description is recorded in
+[`../12-AZ-IP/IP_REGISTRY.json`](../12-AZ-IP/IP_REGISTRY.json); `run.py --help`
+provides the current command list. No standalone product Markdown document is
+required for installation.
+
+Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
+Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).

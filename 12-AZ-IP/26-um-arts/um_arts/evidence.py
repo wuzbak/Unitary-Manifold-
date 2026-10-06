@@ -249,10 +249,16 @@ class Index:
                        (spec["id"], str(attempt), key, evaluation["status"], time.time()))
             if evaluation["status"] == "passed":
                 db.executemany("INSERT OR REPLACE INTO durations VALUES (?,?,?)",
-                               [(key, node, duration)
+                               [(self.duration_profile(spec["compatibility"]), node, duration)
                                 for node, duration in evaluation["durations"].items()])
+
+    @staticmethod
+    def duration_profile(compatibility: dict) -> str:
+        """Timings are scheduling hints, never reusable execution evidence."""
+        return digest({"purpose": "scheduling-v1",
+                       **{key: compatibility[key] for key in ["environment", "settings", "engine"]}})
 
     def durations(self, compatibility: dict) -> dict[str, float]:
         with sqlite3.connect(self.path) as db:
             return dict(db.execute("SELECT nodeid, seconds FROM durations WHERE compatibility=?",
-                                   (digest(compatibility),)))
+                                  (self.duration_profile(compatibility),)))

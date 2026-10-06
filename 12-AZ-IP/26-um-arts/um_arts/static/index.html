@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UM-ARTS · Local operations</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header><p class="eyebrow">AxiomZero · Product 26 · Local only</p><h1>UM-ARTS</h1>
+    <p>Evidence-first regression operations. No automatic pass; Python↔Lean correspondence remains unresolved.</p>
+  </header>
+  <main>
+    <section aria-labelledby="preflight-title">
+      <h2 id="preflight-title">Preflight</h2><p id="connection" role="status">Connecting…</p>
+      <pre id="preflight">Checking trusted startup inputs and tools…</pre>
+      <button id="plan" disabled>Collect &amp; seal plan</button>
+      <button id="refresh">Refresh</button>
+      <p>Repository, store, config, commands, and selection are controlled by the server CLI—not this browser.</p>
+      <p id="error" role="alert"></p>
+    </section>
+    <div class="columns">
+      <section aria-labelledby="tasks-title"><h2 id="tasks-title">Task queue</h2>
+        <p>One execution task at a time. Interrupted tasks remain incomplete until explicitly resumed.</p>
+        <ul id="tasks"><li>No tasks loaded</li></ul>
+      </section>
+      <section aria-labelledby="artifacts-title"><h2 id="artifacts-title">Plans &amp; attempts</h2>
+        <p>List entries are not validation. Inspect evaluates evidence without executing commands.</p>
+        <ul id="artifacts"><li>No artifacts loaded</li></ul>
+      </section>
+    </div>
+    <section aria-labelledby="report-title"><h2 id="report-title">Evidence report</h2>
+      <pre id="report">Select Inspect or a task to see exact evidence status and counts.</pre>
+    </section>
+    <section aria-labelledby="logs-title"><h2 id="logs-title">Live log tail</h2>
+      <p>Polling every 2 seconds; bounded to 64 KiB. Full evidence and logs remain in the local artifact store.</p>
+      <pre id="logs" aria-live="off">Select a task or artifact.</pre>
+    </section>
+  </main>
+  <footer>Theory, framework, and scientific direction: ThomasCory Walker-Pearson.<br>
+    Code architecture, test suites, document engineering, and synthesis: GitHub Copilot (AI).</footer>
+</body>
+</html>

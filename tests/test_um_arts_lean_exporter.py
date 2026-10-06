@@ -37,6 +37,11 @@ def test_executable_is_registered_without_mathlib_import(source):
     )
 
 
+def test_default_build_includes_formal_library_not_only_exporter():
+    lakefile = (LEAN_DIR / "lakefile.lean").read_text(encoding="utf-8")
+    assert "@[default_target]\nlean_lib UnitaryManifold where" in lakefile
+
+
 def test_input_requires_modules_and_exact_declarations(source):
     assert '"--module" :: value :: rest' in source
     assert '"--decl" :: value :: rest' in source

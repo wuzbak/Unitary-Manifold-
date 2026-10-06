@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "um-arts"
+version = "1.0.0"
+description = "AxiomZero evidence-first regression testing application"
+requires-python = ">=3.12"
+authors = [{name = "ThomasCory Walker-Pearson"}]
+dependencies = []
+
+[project.scripts]
+um-arts = "um_arts.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["um_arts*"]
+
+[tool.setuptools.package-data]
+um_arts = ["examples/*.json", "static/*"]
