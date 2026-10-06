@@ -361,6 +361,91 @@
     },
     "aggregation_boundary": "Focused tests overlap scoped execution and prior captures. Do not sum these counts or treat subsequent metadata commits as the tested revision."
   },
+  "dashboard_finalization": {
+    "tested_revision": "e885a15fed6a69fc0e048e0f51c0ad095981961a",
+    "previous_agent_run": 37501561453,
+    "diagnosis": "The preceding Actions agent was cancelled at its 59-minute session limit. Its log includes terminated pytest and Lean workers; cancellation does not certify their completion.",
+    "changes": [
+      "Authenticated run/resume tasks accept, persist and forward an optional positive integer max_jobs. Browser execution defaults to one new job per slice; omission preserves unlimited legacy API behavior.",
+      "Exporter compiler tests and NumericalChecks run before the expensive full-library CI build, preserving independent evidence if the library fails or takes too long."
+    ],
+    "focused_tests": {"passed": 108, "scope": "Server and scheduling, including slow integration tests.", "ruff": "passed", "javascript_syntax": "passed", "workflow_ordering": "passed"},
+    "application_capture": {
+      "status": "passed",
+      "pytest_version": "8.4.2",
+      "counts": {"passed": 433, "skipped": 12},
+      "selected": 445,
+      "reconciled": 445,
+      "scope": "All test_um_arts*.py modules except previously agent-owned code-index tests; explicit -m ''. Compiler-dependent skips remain disclosed.",
+      "source_environment_stable": true,
+      "source_fingerprint": "b5a3de2bca20eb367308175047aa1c1757e64d5c80b604d21d2bfbe3dbdd4f56",
+      "result_sha256": "c9b44b665c44991255f07ee4db45652dbe8f3ec34d7249abb1f32887bb2717a4",
+      "seal_sha256": "e529cd7d1adc6d29113c4a4869eb81c20b1261fa65d488b7886d9a9290e1968b"
+    },
+    "browser_smoke": {
+      "tool": "Existing Python Playwright with installed Chromium; CSP was not bypassed.",
+      "result": "Zero budget rejected; one-job slice blocked with deferred coverage; resume reconciled both fixture identities; completed resume executed zero jobs.",
+      "boundary": "Operational fixture smoke, not full-repository regression certification."
+    },
+    "broad_fast_capture": {
+      "status": "blocked",
+      "pytest_version": "8.4.2",
+      "pytest_args": ["-m", "not slow"],
+      "scope": "tests/, recycling/, canonical Pentad, excluding previously agent-owned code-index tests.",
+      "counts": {"passed": 24111, "skipped": 9},
+      "selected": 64619,
+      "reconciled": 24120,
+      "deselected": 28,
+      "returncode": 2,
+      "source_environment_stable": true,
+      "interruption": "Gracefully interrupted before the 900-second process ceiling; the agent itself did not time out. Missing identities remain blocked.",
+      "first_unfinished_identity": "tests/test_pillar1087_sprint_cm_full_physics_parallel_execution.py::test_report_invalid_if_lane_c_holds",
+      "result_sha256": "e8864a5998aaf5f1f8d709152dbaecfb7c771f744641ea137b76e5215bd22f0b",
+      "seal_sha256": "77bb999e9065d9e162a485bd64b29e44f1f58eca0373a4825bc16cc1cd83d160",
+      "boundary": "Counts come from terminal structured outcomes, not progress dots. Console collection-level skips are not additional executed test identities. This is not a passing fast-regression gate."
+    },
+    "broad_all_markers_capture": {
+      "tested_revision": "5b6f42d52ad174ec875ffc60b10b6390d83019c5",
+      "status": "blocked",
+      "pytest_args": ["-m", ""],
+      "selected": 64629,
+      "reconciled": 575,
+      "counts": {"passed": 575},
+      "returncode": -15,
+      "first_unfinished_identity": "tests/test_action_derived_flow.py::TestVerification::test_symbolic_reduction_offdiagonal_ansatz",
+      "interruption": "Requested graceful interruption of the expensive symbolic test, then terminated the worker while preserving the capture coordinator. Partial outcomes are not complete coverage.",
+      "source_environment_stable": true,
+      "result_sha256": "53008202df8bc60e4e9d8c211346aef8b6d267961a60a7842109abf99a42b64d"
+    },
+    "formal_execution": {
+      "copied_source_revision": "5b6f42d52ad174ec875ffc60b10b6390d83019c5",
+      "lean_version": "4.22.0-rc2",
+      "lean_archive_sha256": "73223e5077a2c691389c79900306c520d3f98d03bfffcf4590a7100e59e42c3a",
+      "scope": "Byte-identical external copies of Lean sources and exporter tests. Dependency archives use committed manifest revisions; Lake native local-package overrides avoid Git cloning. Original project source files were not edited.",
+      "exporter": {"status": "passed", "passed": 16, "result_sha256": "107b55f39b60eb162704c814eac663a425306550b01a0a4a52bc0657264c304c"},
+      "numerical_checks": {"status": "command_passed", "result_sha256": "ba5d0625e031e91796b2d45a0765bd6af31c9df703479dedcd8412bac245df0f"},
+      "mathlib_cache": "Unavailable: lakecache.blob.core.windows.net could not resolve; 0 of 6,892 requested cache files downloaded.",
+      "full_library": {"status": "blocked", "timeout_seconds": 180, "timed_out": true, "returncode": -15, "result_sha256": "731373437398429d94e53b6a31c022e9202d851dd91fb982760caaaaf7dc11ad"},
+      "boundary": "Exporter and numerical successes do not establish a complete library build, discharge axioms, prove Python correspondence, or confirm physics."
+    },
+    "existing_executable_checks": {
+      "tested_revision": "5b6f42d52ad174ec875ffc60b10b6390d83019c5",
+      "observables": {"status": "command_passed", "console_checks": 18, "result_sha256": "464cc8130f4629b670b8fc178f0ceaf621c968bedeb743b6d7e3b843982fc6cb"},
+      "algebra": {"status": "command_passed", "console_checks": 296, "result_sha256": "ec8e412f36334514a699de82f61c286aa4bb24e5beb8daefbadd8f3d3cb886e7"},
+      "boundary": "Successful existing commands; console check counts are not pytest identities or formal proof certificates."
+    },
+    "assistance": "Existing bot.rag_index.DocumentChunk.score and PsiCat merlin_repo_graph._tokenize were available in bounded read-only retrieval. Stateful training/session engines were not invoked and no evidence gates were waived.",
+    "review": {
+      "independent_review": "No significant issues found.",
+      "automated_review": "Unavailable: configured model missing from registry.",
+      "actions_codeql": "Analyzed; no alerts.",
+      "javascript_codeql": "Analyzed; no alerts.",
+      "python_codeql": "Not analyzed: database too large."
+    },
+    "remaining_gates": "Full-core and complete broad-fast execution, full Lean-library verification, and Python CodeQL remain incomplete. Finalized application changes are not a repository-wide passing baseline.",
+    "receipt_storage": {"location": "/tmp/um-arts-final", "retention": "Temporary sandbox storage. Preserve complete sealed directories externally; this committed summary and hashes do not replace receipts."},
+    "aggregation_boundary": "Application, focused, broad partial and prior captures overlap; do not sum their counts. Metadata commits are not the tested source revision."
+  },
   "bounded_invocation_slices": {
     "tested_revision": "b9751383b62cefb28b47e90e1289ed400caf969f",
     "interrupted_workflow_run": 37483433450,
