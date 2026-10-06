@@ -300,5 +300,65 @@
         "retention": "Temporary sandbox storage only. Preserve complete sealed directories externally before session teardown; committed summaries/hashes are not substitutes for receipts."
       },
       "aggregation_boundary": "Do not add overlapping scoped and broad counts or combine environments. Each record refers to its stated tested revision, not subsequent checkpoint-metadata commits."
-    }
+    },
+  "repeated_runner_recovery": {
+    "tested_revision": "386afd68e6d78d6c82591fb68b5e205982b9b672",
+    "failed_workflow_run": 37478130257,
+    "diagnosed_error": "Git ls-files --others --exclude-standard -z exceeded stdout maxBuffer while enumerating a newly unpacked Lean toolchain under .lean-library-check; agent process exited 134.",
+    "changes": [
+      "Reserved the exact legacy .lean-library-check generated-tooling boundary in Git, source fingerprints, snapshots and static inventory; ordinary source remains included.",
+      "Incomplete pytest evidence now retains explicit timeout, interruption/launch failure and nonzero-exit diagnostics from readable process receipts. Missing/malformed evidence remains blocked with no inferred test counts."
+    ],
+    "focused_tests": {"passed": 161, "ruff": "passed"},
+    "scoped_execution": {
+      "status": "passed",
+      "selected": 4071,
+      "reconciled": 4071,
+      "passed": 4056,
+      "skipped": 15,
+      "jobs": 9,
+      "workers": 2,
+      "files_per_job": 4,
+      "collection_timeout_seconds": 600,
+      "execution_timeout_seconds": 600,
+      "pytest_args": ["-m", ""],
+      "pytest_version": "9.1.1",
+      "environment_boundary": "Preinstalled pytest exceeds the repository's pytest<9.1 constraint; not a replacement for the prior supported-pytest capture.",
+      "scope": "Four geometry test modules, UM-ARTS compatibility excluding previously agent-owned index tests, existing Pillar 536 registry tests, recycling and canonical Pentad.",
+      "suite_counts": {
+        "geometry": {"passed": 207},
+        "application": {"passed": 381, "skipped": 12},
+        "registry": {"passed": 70},
+        "recycling": {"passed": 316},
+        "pentad": {"passed": 3082, "skipped": 3}
+      },
+      "source_environment_and_settings_stable": true,
+      "source_fingerprint": "cb0b0ccfb12535b66ed7cdb930ba3011f71c2230adc6d6e0646d1c6f978b022c",
+      "engine_fingerprint": "4f234f856f25e3ebb47d0d55c1cc036fccec128c48bb47c0988de7d90c45b591",
+      "attempt": "4808da7f7543449b8a982aeaf4e535d0",
+      "verified_result_sha256": "0328fc056728b47a90c839bae4459a2ebe1e583f0a5a0d223d3336159bf3e347",
+      "seal_sha256": "8eae15d4871fcd1802560f95627868634c8c6a5bfceef17823639870cac2b777"
+    },
+    "compatible_resume": {
+      "status": "passed",
+      "attempt": "bcc96a0c89b64b9d8c137c0cb56dfdc8",
+      "reused_jobs": 9,
+      "process_receipts_byte_identical_to_prior": true,
+      "execution_log_bytes": 0,
+      "verified_result_sha256": "4b04a32916290e0c741d814ca2787c7eb367a11b588dbca15f2bb0b132356373",
+      "boundary": "Reuse is operationally verified; the repeated counts represent the same test identities, not additional unique passing tests."
+    },
+    "review": {
+      "independent_review": "No significant issues found.",
+      "automated_review": "Unavailable: configured model missing from registry.",
+      "python_codeql": "Not analyzed: database too large.",
+      "actions_and_javascript_codeql": "No alerts in this validation run."
+    },
+    "remaining_gates": "Full-core execution, full Lean-library build and Python CodeQL remain incomplete. Previous timed-out jobs and syntax gaps are not relabeled by this scoped success.",
+    "receipt_storage": {
+      "location": "/tmp/um-arts-continuation",
+      "retention": "Temporary sandbox storage; preserve sealed directories externally or rerun if missing. This summary and hashes do not replace execution receipts."
+    },
+    "aggregation_boundary": "Focused tests overlap scoped execution and prior captures. Do not sum these counts or treat subsequent metadata commits as the tested revision."
+  }
 }
