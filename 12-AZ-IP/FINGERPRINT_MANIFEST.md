@@ -39,7 +39,7 @@ sha256sum <file>
 
 | Asset | SHA-256 | Status |
 |-------|---------|--------|
-| `12-AZ-IP/README.md` | `2ea2e1551e516c1c42379f47a2347812190f1c4ece09d51002091a6990d5ab26` | ✅ REGISTERED |
+| `12-AZ-IP/README.md` | `1110cc9e2c1526e80745c360a3addeb915bd08764d6b25e163f6b15cb6f7c014` | ✅ RESEALED 2026-10-06 |
 | `12-AZ-IP/IP_REGISTRY.json` | *computed at commit time* | ✅ SELF-REFERENTIAL |
 
 ---
