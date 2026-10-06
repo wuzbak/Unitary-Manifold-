@@ -56,9 +56,10 @@ def test_tests_workflow_restores_required_coverage_gate() -> None:
 def test_full_core_evidence_runs_outside_the_agent_session() -> None:
     workflow = _load("um-arts-full-core.yml")
     job = workflow["jobs"]["full-core"]
-    assert _extract_branches("um-arts-full-core.yml", "push") == ["main"]
+    assert _extract_branches("um-arts-full-core.yml", "push") == ["main", "copilot/um-arts-*"]
     assert _extract_branches("um-arts-full-core.yml", "pull_request") == ["**"]
     assert workflow["concurrency"]["cancel-in-progress"] is False
+    assert job["steps"][0]["with"]["fetch-depth"] == 0
     assert job["timeout-minutes"] == 330
     execution = next(step for step in job["steps"] if "Collect, execute" in step.get("name", ""))
     assert execution["timeout-minutes"] < job["timeout-minutes"]
@@ -76,7 +77,7 @@ def test_full_core_config_covers_slow_tests_and_independent_suites() -> None:
     config = load_config(
         REPO_ROOT, REPO_ROOT / "12-AZ-IP/26-um-arts/um_arts/examples/full-core-ci.json")
     assert config["pytest_args"] == ["-m", ""]
-    assert config["files_per_job"] == 4
+    assert config["files_per_job"] == 32
     assert config["collection_timeout_seconds"] == 900
     assert {path for suite in config["suites"] for path in suite["paths"]} == {
         "tests", "recycling", "5-GOVERNANCE/Unitary Pentad"}

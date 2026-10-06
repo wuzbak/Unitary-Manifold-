@@ -371,8 +371,12 @@ state/training-linked engines are not imported or invoked by this read-only lane
 
 The `UM-ARTS Full Core Evidence` workflow runs independently of the cloud
 agent's session limit. It collects a frozen plan for `tests/`, `recycling/`
-and canonical Pentad with `-m ''`, uses four-file physics checkpoints and
+and canonical Pentad with `-m ''`, uses 32-file physics checkpoints and
 independent suites, and requires reconciled terminal outcomes before passing.
+Larger bounded checkpoints amortize repeated interpreter imports and pure
+symbolic caches; they do not change the selected identities. Main pushes,
+`copilot/um-arts-*` development pushes, pull requests and manual dispatch start
+this lane. Full Git history is available for audit tests that inspect commits.
 It is not a claim that product, claims, or every other discovered monorepo
 suite was executed. Inspect the inventory for those additional lanes.
 The workflow preserves complete plans and job checkpoints with `always()`

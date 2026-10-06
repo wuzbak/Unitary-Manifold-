@@ -1,7 +1,7 @@
 {
   "adapter": "um",
   "workers": 2,
-  "files_per_job": 4,
+  "files_per_job": 32,
   "collection_timeout_seconds": 900,
   "timeout_seconds": 1800,
   "pytest_args": ["-m", ""],

@@ -98,6 +98,38 @@ class TestStructure:
 
 
 class TestVerification:
+    def test_symbolic_curvature_uses_exact_domainmatrix_inverse(self, monkeypatch):
+        import sympy as sp
+        from sympy.matrices.matrixbase import MatrixBase
+
+        from src.core import action_derived_flow as flow
+
+        x, y = sp.symbols("x y", real=True)
+        metric = sp.Matrix([[1 + x ** 2, x], [x, 1]])
+        original_inverse = MatrixBase.inv
+        methods = []
+
+        def checked_inverse(matrix, *args, **kwargs):
+            methods.append(kwargs.get("method"))
+            inverse = original_inverse(matrix, *args, **kwargs)
+            assert all(sp.cancel(entry) == 0 for entry in matrix * inverse - sp.eye(2))
+            return inverse
+
+        monkeypatch.setattr(MatrixBase, "inv", checked_inverse)
+        curvature = flow._sym_ricci_scalar(sp, metric, [x, y])
+        assert methods == ["DM"]
+        assert sp.simplify(curvature) == 0
+
+    def test_symbolic_curvature_compaction_preserves_nonzero_curvature(self):
+        import sympy as sp
+
+        from src.core import action_derived_flow as flow
+
+        x, y = sp.symbols("x y", real=True)
+        metric = sp.diag(1, (1 + x ** 2) ** 2)
+        curvature = flow._sym_ricci_scalar(sp, metric, [x, y])
+        assert sp.cancel(curvature + 4 / (1 + x ** 2)) == 0
+
     def test_ricci_crosscheck_non_diagonal(self):
         res = numeric_ricci_crosscheck()
         assert res["ricci_verified"]

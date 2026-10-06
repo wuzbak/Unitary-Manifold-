@@ -276,7 +276,7 @@ def _symbolic_setup(full: bool, offdiagonal: bool = False):
 
 def _sym_ricci_scalar(sp, G, coords):
     n = G.shape[0]
-    Gi = sp.simplify(G.inv())
+    Gi = sp.simplify(G.inv(method='DM'))
     dG = [[[sp.diff(G[i, j], coords[k]) for k in range(n)] for j in range(n)] for i in range(n)]
     Gam = [[[sp.simplify(sum(Gi[s, l] * (dG[l][m][q] + dG[l][q][m] - dG[m][q][l]) for l in range(n)) / 2)
              for q in range(n)] for m in range(n)] for s in range(n)]
@@ -289,11 +289,11 @@ def _sym_ricci_scalar(sp, G, coords):
                 for l in range(n):
                     ric += Gam[s][s][l] * Gam[l][m][q] - Gam[s][q][l] * Gam[l][m][s]
             R += Gi[m, q] * ric
-    return R
+    return sp.cancel(R)
 
 
 def _sym_reduced_lagrangian(sp, x, lam, gE, Bv, p, coords):
-    gi = gE.inv()
+    gi = gE.inv(method='DM')
     F = sp.zeros(4, 4)
     for mu in range(4):
         for nu in range(4):
@@ -330,13 +330,14 @@ def symbolic_kk_reduction_check(full: bool = False, exact: bool = False, offdiag
     Uses the Euler operator: a Lagrangian difference is a total derivative iff
     its Euler-Lagrange expressions vanish identically.  The expressions are
     evaluated (30 significant digits) on smooth test profiles at sample points.
-    ``full=True`` uses g_E = diag(−a,b,c,d), B = (B0,0,B2,0) (≈30 s);
+    ``full=True`` uses g_E = diag(−a,b,c,d), B = (B0,0,B2,0);
     the default reduced ansatz uses g_E = diag(−a,b,1,1), B = (0,0,B2,0).
     ``offdiagonal=True`` uses a non-diagonal Einstein-frame metric with
     g_E,02 = e(x) and g_E,23 = f(x) (plus a, b) and B = (B0,0,B2,0); it is
-    evaluated at sample points only (≈3–4 min).
+    evaluated at sample points only.
     ``exact=True`` additionally simplifies every Euler expression symbolically
-    and reports whether each is identically zero (≈15 s on the reduced ansatz).
+    and reports whether each is identically zero. Exact domain inverses and
+    rational Ricci compaction avoid unnecessary intermediate expression swell.
     """
     from sympy.calculus.euler import euler_equations
 
