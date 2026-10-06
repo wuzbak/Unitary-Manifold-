@@ -365,8 +365,9 @@ def _record_batch(result_dir: Path, suite: str, batches: list[dict], index: int,
         if "execution_settings" in identity and _execution_settings() != identity["execution_settings"]:
             raise ValueError("execution settings changed before batch")
         if dry_run:
-            code = _execute(command, argparse.Namespace(
-                evidence_dir=evidence_dir, dry_run=True, timeout=timeout))
+            code = (_run(command, True, timeout) if evidence_dir is None else
+                    _execute(command, argparse.Namespace(
+                        evidence_dir=evidence_dir, dry_run=True, timeout=timeout)))
             receipt["exit_code"] = code
             receipt["status"] = "dry-run"
         elif not batches[index]["test_paths"]:
@@ -379,8 +380,9 @@ def _record_batch(result_dir: Path, suite: str, batches: list[dict], index: int,
             if "frozen_environment" in identity and receipt["environment_fingerprint"] != identity["frozen_environment"]:
                 raise ValueError("execution environment changed before batch")
             _write_receipt(receipt_path, receipt)
-            code = _execute(command, argparse.Namespace(
-                evidence_dir=evidence_dir, dry_run=False, timeout=timeout))
+            code = (_run(command, False, timeout) if evidence_dir is None else
+                    _execute(command, argparse.Namespace(
+                        evidence_dir=evidence_dir, dry_run=False, timeout=timeout)))
             receipt["exit_code"] = code
             receipt["status"] = "incomplete" if code == 124 or code < 0 else "failure"
             if xml_path.exists():

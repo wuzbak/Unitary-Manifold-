@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="0.047" timestamp="2026-10-06T23:34:06.537989+00:00" hostname="runnervm8df0l"><testcase classname=".pytest-merge-validation.test_frozen_aggregate_checks_e1.project.test_sample" name="test_sample" time="0.000" /></testsuite></testsuites>

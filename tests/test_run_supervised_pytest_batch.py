@@ -191,7 +191,11 @@ def test_receipt_batch_preserves_capture_evidence(monkeypatch, tmp_path) -> None
     observed = {}
     monkeypatch.setattr(batch_runner, "ROOT", tmp_path / "project")
     monkeypatch.setattr(batch_runner, "_snapshot", lambda: {"head": "abc", "worktree_digest": "def"})
-    monkeypatch.setattr(batch_runner, "_environment_fingerprint", lambda: {"python": "test"})
+    monkeypatch.setattr(batch_runner, "_environment_fingerprint", lambda: {
+        "python_implementation": "CPython", "python_version": "3.12.14",
+        "platform_system": "Linux", "platform_machine": "x86_64",
+        "distributions_digest": "a" * 64,
+    })
     monkeypatch.setenv("PYTEST_ADDOPTS", "")
     batches = [{"test_paths": ["tests/test_example.py"]}]
     monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count",
