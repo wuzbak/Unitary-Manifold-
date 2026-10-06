@@ -327,10 +327,10 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-10-05",
-      "sha256": "c5de1c8315d9b34d2bb8bf5c9ea30c83aad7f80ee765772f51b702112d3cd787",
-      "size_bytes": 9487,
-      "reseal_note": "Re-sealed 2026-10-05 on steward confirmation (ThomasCory Walker-Pearson) that the post-2026-09-13 README edits are his own authorized changes. Prior seal: 2ea2e1551e516c1c42379f47a2347812190f1c4ece09d51002091a6990d5ab26 (9033 bytes)."
+      "updated": "2026-10-06",
+      "sha256": "1110cc9e2c1526e80745c360a3addeb915bd08764d6b25e163f6b15cb6f7c014",
+      "size_bytes": 9605,
+      "reseal_note": "Refreshed 2026-10-06 to reflect the canonical README content accepted in the 2026-10-06 main merge. Prior seal: c5de1c8315d9b34d2bb8bf5c9ea30c83aad7f80ee765772f51b702112d3cd787 (9487 bytes)."
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",
