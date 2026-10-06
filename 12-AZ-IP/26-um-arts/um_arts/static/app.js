@@ -37,7 +37,16 @@ function row(label) {
 
 async function submit(action, id) {
   element("error").textContent = "";
-  const task = await api("/api/tasks", id ? {action, id} : {action});
+  const payload = id ? {action, id} : {action};
+  if (action === "run" || action === "resume") {
+    const input = element("max-jobs");
+    const budget = Number(input.value);
+    if (!input.checkValidity() || !Number.isSafeInteger(budget) || budget < 1) {
+      throw new Error("New jobs per slice must be a positive integer.");
+    }
+    payload.max_jobs = budget;
+  }
+  const task = await api("/api/tasks", payload);
   selection = {type: "tasks", id: task.id};
   showReport(task);
   await refresh();
@@ -67,7 +76,8 @@ async function refresh() {
     element("connection").textContent = `Connected · ${health.version} · ${health.active_task ? "task running" : "idle"}`;
     element("tasks").replaceChildren();
     for (const task of tasks) {
-      const item = row(`${task.action} · ${task.status} · ${task.id}`);
+      const budget = task.max_jobs === undefined ? "" : ` · new-job budget ${task.max_jobs}`;
+      const item = row(`${task.action} · ${task.status}${budget} · ${task.id}`);
       item.append(button("View task & logs", async () => {
         selection = {type: "tasks", id: task.id};
         await updateSelection();

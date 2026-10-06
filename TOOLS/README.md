@@ -231,6 +231,14 @@ python -m TOOLS.um_arts run --plan /absolute/store/plans/ID/plan.json --max-jobs
 python -m TOOLS.um_arts resume --attempt /absolute/store/attempts/ID --max-jobs 4
 ```
 
+The local dashboard now exposes the same new-job budget, defaulting to one
+job per run/resume click. It persists the requested budget with the queued task
+and forwards it unchanged to the engine; it cannot change the frozen plan.
+The authenticated task API accepts an optional positive integer `max_jobs`
+for run/resume only. Omitting it preserves the existing unlimited API behavior.
+Planning does not accept this option. A completed resume executes zero jobs;
+a partially covered slice remains blocked even when every dispatched job passes.
+
 Legacy sealed attempts remain readable; source-unstable attempts cannot be
 reused merely by restoring their original inputs. Legacy jobs without independent
 checkpoints are rerun when resuming into the checkpoint-aware format.
@@ -368,7 +376,9 @@ is **not** a full formal-library build. Record exporter, scoped inspection, and
 full-library outcomes separately. Missing dependencies or unavailable Mathlib
 caches leave affected builds incomplete/blocked, never certified passes.
 The Lean workflow explicitly builds `um_arts_export` and runs its real compiler
-integration tests with the pinned toolchain. Local static-source tests and
+integration tests with the pinned toolchain before the full-library build, so
+a slow or failing library build cannot suppress these independent receipts.
+NumericalChecks also runs before the full library. Local static-source tests and
 skipped integration tests are not substitutes for this execution gate.
 Even a successful full Lean build does not substitute for declaration-level
 inspection with disclosed axioms or prove Python↔Lean correspondence.

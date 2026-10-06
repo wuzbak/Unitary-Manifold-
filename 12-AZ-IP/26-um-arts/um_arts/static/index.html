@@ -27,6 +27,10 @@
       </div>
       <button id="plan" disabled>Collect &amp; seal plan</button>
       <button id="refresh">Refresh</button>
+      <p><label for="max-jobs">New jobs per run/resume slice</label>
+        <input id="max-jobs" type="number" min="1" step="1" value="1" required></p>
+      <p>Verified compatible jobs reuse no budget. Deferred coverage stays blocked.
+        This limits new jobs, not wall-clock time; collection and Lean builds have separate costs.</p>
       <p>Repository, store, config, commands, and selection are controlled by the server CLI—not this browser.</p>
       <p id="error" role="alert"></p>
     </section>

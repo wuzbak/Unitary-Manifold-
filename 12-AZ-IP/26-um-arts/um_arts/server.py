@@ -167,8 +167,13 @@ class Application:
         if action not in {"plan", "run", "resume"}:
             raise EvidenceError("Only plan, run, and resume are supported")
         expected = {"action"} if action == "plan" else {"action", "id"}
+        if action != "plan" and "max_jobs" in payload:
+            expected.add("max_jobs")
         if set(payload) != expected:
             raise EvidenceError("Unexpected request settings; execution inputs are startup-only")
+        if "max_jobs" in payload and (
+                type(payload["max_jobs"]) is not int or payload["max_jobs"] < 1):
+            raise EvidenceError("max_jobs must be a positive integer")
         artifact_id = None if action == "plan" else identifier(payload["id"])
         if artifact_id:
             directory = self.artifact_path("plans" if action == "run" else "attempts", artifact_id)
@@ -180,6 +185,8 @@ class Application:
                 raise EvidenceError("Task queue is full, unavailable, or shutting down")
             task = {"id": uuid.uuid4().hex, "action": action, "artifact_id": artifact_id,
                     "status": "queued", "created": time.time(), "result": None}
+            if "max_jobs" in payload:
+                task["max_jobs"] = payload["max_jobs"]
             try:
                 self._save(task)
                 self._log(task["id"], f"Queued {action}; no pass inferred")
@@ -217,8 +224,9 @@ class Application:
                     kind = "plans" if task["action"] == "run" else "attempts"
                     directory = self.artifact_path(kind, task["artifact_id"])
                     self._trusted_plan(directory if kind == "plans" else directory / "plan")
-                    result = (engine.run(contained(directory, "plan.json")) if kind == "plans"
-                              else engine.resume(directory))
+                    options = {"max_jobs": task["max_jobs"]} if "max_jobs" in task else {}
+                    result = (engine.run(contained(directory, "plan.json"), **options)
+                              if kind == "plans" else engine.resume(directory, **options))
                 if not isinstance(result, dict) or result.get("status") not in {
                         "ready", "passed", "blocked", "incomplete"}:
                     raise EvidenceError("Engine returned no recognized evidence status")

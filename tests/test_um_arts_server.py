@@ -65,10 +65,12 @@ def request(server, path, payload=None, *, headers=None, raw=None, method=None):
     return status, result, response_headers
 
 
-def submit(server, token, action, artifact_id=None):
+def submit(server, token, action, artifact_id=None, max_jobs=None):
     payload = {"action": action}
     if artifact_id is not None:
         payload["id"] = artifact_id
+    if max_jobs is not None:
+        payload["max_jobs"] = max_jobs
     status, result, _ = request(server, "/api/tasks", payload,
                                 headers={"X-UM-ARTS-Token": token})
     assert status == 202, result
@@ -109,6 +111,8 @@ def test_health_preflight_session_offline_ui(http_app):
     assert "snapshot --root TRUSTED_REPO --output ISOLATED_COPY" in html
     assert "serve --root ISOLATED_COPY/source --store STORE_OUTSIDE_SOURCE" in html
     assert html.index("Execution warning:") < html.index('id="plan"')
+    assert 'id="max-jobs"' in html and 'value="1" required' in html
+    assert "Number.isSafeInteger" in script and "payload.max_jobs = budget" in script
 
 
 @pytest.mark.parametrize("failure", ["starting_log", "running_state", "finished_log"])
@@ -252,6 +256,7 @@ def test_same_origin_mutation_and_token_rotation(http_app, monkeypatch):
     {"action": "run", "id": "f" * 32, "path": "somewhere"},
     {"action": "run", "id": ["bad"]},
     {"action": "plan", "mode": "changed"},
+    {"action": "plan", "max_jobs": 1},
     [],
 ])
 def test_no_client_paths_configs_or_commands(http_app, payload):
@@ -316,7 +321,8 @@ def test_missing_engine_status_never_passes(http_app, monkeypatch):
     assert "recognized evidence status" in task["error"]
 
 
-def test_mocked_run_resume_receive_only_contained_preselected_artifacts(http_app, monkeypatch):
+@pytest.mark.parametrize("max_jobs", [None, 1, 4])
+def test_mocked_run_resume_receive_only_contained_preselected_artifacts(http_app, monkeypatch, max_jobs):
     app, server = http_app
     trusted = {"root": str(app.root), "store": str(app.store),
                "config": server_module.load_config(app.root, app.config, "generic"),
@@ -330,24 +336,41 @@ def test_mocked_run_resume_receive_only_contained_preselected_artifacts(http_app
     (attempt_dir / "plan").mkdir(parents=True)
     calls = []
 
-    def run(path):
-        calls.append(("run", path))
+    def run(path, **options):
+        calls.append(("run", path, options))
         return {"status": "blocked", "errors": ["mocked execution"]}
 
-    def resume(path):
-        calls.append(("resume", path))
+    def resume(path, **options):
+        calls.append(("resume", path, options))
         return {"status": "incomplete", "errors": ["mocked incomplete"]}
 
     monkeypatch.setattr(server_module.engine, "run", run)
     monkeypatch.setattr(server_module.engine, "resume", resume)
-    assert wait_task(server, submit(server, app.token, "run", plan_id)["id"])["status"] == "blocked"
-    assert wait_task(server, submit(server, app.token, "resume", attempt_id)["id"])["status"] == "incomplete"
-    assert calls == [("run", plan_dir / "plan.json"), ("resume", attempt_dir)]
+    for action, artifact_id, status in [
+            ("run", plan_id, "blocked"), ("resume", attempt_id, "incomplete")]:
+        task = wait_task(server, submit(server, app.token, action, artifact_id, max_jobs)["id"])
+        assert task["status"] == status
+        if max_jobs is not None:
+            assert task["max_jobs"] == max_jobs
+            assert app.task(task["id"])["max_jobs"] == max_jobs
+    options = {} if max_jobs is None else {"max_jobs": max_jobs}
+    assert calls == [("run", plan_dir / "plan.json", options), ("resume", attempt_dir, options)]
     trusted["root"] = str(app.root.parent)
     status, result, _ = request(server, "/api/tasks", {"action": "run", "id": plan_id},
                                 headers={"X-UM-ARTS-Token": app.token})
     assert status == 400 and "trusted execution inputs" in result["error"]
     assert len(calls) == 2
+
+
+@pytest.mark.parametrize("action", ["run", "resume"])
+@pytest.mark.parametrize("budget", [None, True, False, 0, -1, 1.5, "1"])
+def test_invalid_browser_invocation_budget_never_queues_work(http_app, action, budget):
+    app, server = http_app
+    status, result, _ = request(
+        server, "/api/tasks", {"action": action, "id": "f" * 32, "max_jobs": budget},
+        headers={"X-UM-ARTS-Token": app.token})
+    assert status == 400 and "positive integer" in result["error"]
+    assert app.tasks() == []
 
 
 def test_bounded_queue_backpressure(http_app, monkeypatch):
@@ -519,6 +542,32 @@ def test_actual_generic_plan_run_resume_read_only_report(http_app, monkeypatch):
     assert request(server, "/api/artifacts/plans/" + plan_id)[1]["status"] == "ready"
     assert request(server, "/api/artifacts/attempts/" + attempt_id)[1]["status"] == "passed"
     assert request(server, "/api/artifacts/imports/" + imported_id)[1]["status"] == "passed"
+
+
+@pytest.mark.slow
+def test_actual_browser_slices_reuse_jobs_without_certifying_deferred_coverage(http_app):
+    app, server = http_app
+    (app.root / "tests" / "test_second.py").write_text("def test_second(): assert True\n")
+    config = json.loads(app.config.read_text())
+    config["files_per_job"] = 1
+    app.config.write_text(json.dumps(config))
+    planned = wait_task(server, submit(server, app.token, "plan")["id"])
+    assert planned["status"] == "ready", planned
+    first = wait_task(server, submit(server, app.token, "run", planned["artifact"]["id"], 1)["id"])
+    assert first["status"] == "blocked", first
+    assert first["result"]["counts"] == {"passed": 1}
+    assert first["result"]["executed_jobs"] == first["result"]["deferred_jobs"] == 1
+    original = app.store / "attempts" / first["artifact"]["id"]
+    seal = (original / "seal.json").read_bytes()
+    second = wait_task(server, submit(server, app.token, "resume", first["artifact"]["id"], 1)["id"])
+    assert second["status"] == "passed", second
+    assert second["result"]["counts"] == {"passed": 2}
+    assert second["result"]["executed_jobs"] == 1
+    assert second["result"]["deferred_jobs"] == 0
+    completed = wait_task(server, submit(server, app.token, "resume", second["artifact"]["id"], 1)["id"])
+    assert completed["status"] == "passed", completed
+    assert completed["result"]["executed_jobs"] == 0
+    assert (original / "seal.json").read_bytes() == seal
 
 
 @pytest.mark.slow
