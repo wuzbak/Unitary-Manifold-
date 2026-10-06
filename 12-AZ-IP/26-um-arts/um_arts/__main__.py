@@ -31,6 +31,9 @@ def parser() -> argparse.ArgumentParser:
     running.add_argument("--plan", type=Path, required=True)
     continuing = commands.add_parser("resume", help="Create a new attempt, reusing only validated successes")
     continuing.add_argument("--attempt", type=Path, required=True)
+    for command in [running, continuing]:
+        command.add_argument("--max-jobs", type=int,
+                             help="Execute at most this many new jobs; reuse verified successes freely")
     for name in ["verify", "report", "dashboard"]:
         reading = commands.add_parser(name, help="Read evidence without executing project/artifact commands")
         reading.add_argument("--attempt", type=Path, required=True)
@@ -177,9 +180,9 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(result, sort_keys=True, allow_nan=False))
             return 0
         elif args.command == "run":
-            result = run(args.plan)
+            result = run(args.plan, max_jobs=args.max_jobs)
         elif args.command == "resume":
-            result = resume(args.attempt.resolve())
+            result = resume(args.attempt.resolve(), max_jobs=args.max_jobs)
         elif args.command == "import":
             result = import_artifact(args.artifact.resolve(), args.store.resolve())
         elif args.command == "capture":

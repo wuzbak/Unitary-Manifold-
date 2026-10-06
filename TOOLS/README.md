@@ -209,6 +209,28 @@ coordinator. A hard kill cannot clean up independent child process groups:
 terminate orphaned workers before recovery. Preserve the original attempt;
 recovery never repairs or rewrites its receipts. A partially written final
 attempt seal is rejected rather than silently downgraded to recoverable evidence.
+To avoid overrunning a caller's session, `run --max-jobs N` and
+`resume --max-jobs N` execute at most N new pytest jobs per invocation.
+Verified compatible successes are copied without spending this budget.
+The limit is invocation metadata, not a change to the frozen plan or its settings,
+so subsequent invocations may choose another limit. Each slice seals its attempt
+and records `execution_budget.json`; deferred or missing identities remain
+**blocked**, not passing. Dependent suites wait for their prerequisites, and
+requested Lean work waits until no eligible pytest jobs are deferred.
+Use the existing per-job timeout and worker count to choose a manageable slice;
+this is not a wall-clock deadline and cannot bound planning, hashing, copying or
+a later Lean build. Across currently eligible suites, never-attempted jobs take priority
+over retries, with attempted-job history carried across slices. Failed jobs
+remain blocked and are retried after fresh work; retries count toward the limit.
+Inherited history and per-suite dispatch receipts are written before workers
+start, so hard-kill recovery does not depend solely on finalization. Dispatch
+history guides scheduling only; it never counts as completed test evidence.
+
+```bash
+python -m TOOLS.um_arts run --plan /absolute/store/plans/ID/plan.json --max-jobs 4
+python -m TOOLS.um_arts resume --attempt /absolute/store/attempts/ID --max-jobs 4
+```
+
 Legacy sealed attempts remain readable; source-unstable attempts cannot be
 reused merely by restoring their original inputs. Legacy jobs without independent
 checkpoints are rerun when resuming into the checkpoint-aware format.

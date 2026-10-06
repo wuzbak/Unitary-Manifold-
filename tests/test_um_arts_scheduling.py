@@ -156,3 +156,114 @@ def test_real_fine_grained_run_reconciles_all_files_and_declared_skips(tmp_path)
     assert report["counts"] == {"passed": 4}
     assert report["selected"] == report["reconciled"] == 4
     assert report["collection_skips"] == {"unit": ["tests/test_optional.py"]}
+
+
+@pytest.mark.parametrize("value", [True, 0, -1, 1.5, "2"])
+def test_invalid_invocation_budget_is_rejected_before_reading_plan(tmp_path, value):
+    with pytest.raises(EvidenceError, match="max_jobs"):
+        engine.run(tmp_path / "missing" / "plan.json", max_jobs=value)
+
+
+def test_scheduling_history_is_published_only_after_complete_write(tmp_path, monkeypatch):
+    path = tmp_path / "dispatch" / "suite.json"
+
+    def interrupted(destination, value):
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text("{")
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(engine, "write_json", interrupted)
+    with pytest.raises(KeyboardInterrupt):
+        engine._write_scheduling_receipt(path, {"attempted_jobs": ["unit-000"]})
+    assert not path.exists()
+    assert path.with_name("suite.json.pending").read_text() == "{"
+
+
+def test_budgeted_slices_reuse_successes_and_preserve_dependency_order(tmp_path, monkeypatch):
+    root = tmp_path / "repo"
+    root.mkdir()
+    (root / "tests").mkdir()
+    for index in range(3):
+        (root / "tests" / f"test_{index}.py").write_text(f"def test_{index}(): assert True\n")
+    (root / "integration").mkdir()
+    (root / "integration" / "test_final.py").write_text("def test_final(): assert True\n")
+    config = tmp_path / "config.json"
+    config.write_text(json.dumps({
+        "adapter": "generic", "workers": 2, "files_per_job": 1,
+        "suites": [{"name": "unit", "paths": ["tests"]},
+                   {"name": "integration", "paths": ["integration"],
+                    "requires": ["unit"], "serial": True}]}))
+    planned = engine.plan(root, tmp_path / "store", config, adapter="generic")
+    assert planned["status"] == "ready"
+    calls = []
+    original = engine._checkpoint_job
+
+    def record(*args, **kwargs):
+        destination = args[2]
+        attempt = destination.parent.parent
+        assert (attempt / "scheduling_history.json").is_file()
+        dispatched = json.loads((attempt / "dispatch" / f"{args[3]['name']}.json").read_text())
+        assert destination.name in dispatched["attempted_jobs"]
+        calls.append(args[2].name)
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(engine, "_checkpoint_job", record)
+    first = engine.run(Path(planned["plan_path"]), max_jobs=1)
+    first_path = Path(first["attempt_path"])
+    first_manifest = (first_path / "manifest.json").read_bytes()
+    assert first["status"] == "blocked"
+    assert first["counts"] == {"passed": 1}
+    assert first["executed_jobs"] == 1
+    assert first["deferred_jobs"] == 2
+    assert not (first_path / "jobs" / "integration-000").exists()
+    assert any("budget exhausted" in error for error in first["errors"])
+    second = engine.resume(first_path, max_jobs=2)
+    assert second["status"] == "blocked"
+    assert second["counts"] == {"passed": 3}
+    assert second["executed_jobs"] == 2
+    assert second["deferred_jobs"] == 1
+    second_path = Path(second["attempt_path"])
+    assert not (second_path / "jobs" / "integration-000").exists()
+    third = engine.resume(second_path, max_jobs=1)
+    assert third["status"] == "passed", third
+    assert third["counts"] == {"passed": 4}
+    assert third["executed_jobs"] == 1
+    assert third["deferred_jobs"] == 0
+    assert len(calls) == len(set(calls)) == 4
+    assert calls[-1] == "integration-000"
+    assert (first_path / "manifest.json").read_bytes() == first_manifest
+    third_path = Path(third["attempt_path"])
+    verified = engine.evaluate(third_path)
+    assert verified["reconciled"] == verified["selected"] == 4
+    assert verified["compatibility"] == engine.evaluate(first_path)["compatibility"]
+    completed = engine.resume(third_path, max_jobs=1)
+    assert completed["status"] == "passed"
+    assert completed["executed_jobs"] == 0
+    assert len(calls) == 4
+
+
+def test_budgeted_failure_does_not_starve_never_executed_jobs(tmp_path):
+    root = tmp_path / "repo"
+    root.mkdir()
+    (root / "tests").mkdir()
+    for name in ["a", "b"]:
+        (root / "tests" / f"test_{name}.py").write_text(
+            f"def test_{name}(): assert False\n")
+    (root / "independent").mkdir()
+    (root / "independent" / "test_c.py").write_text("def test_c(): assert True\n")
+    config = tmp_path / "config.json"
+    config.write_text(json.dumps({
+        "adapter": "generic", "workers": 1, "files_per_job": 1,
+        "suites": [{"name": "unit", "paths": ["tests"]},
+                   {"name": "independent", "paths": ["independent"]}]}))
+    planned = engine.plan(root, tmp_path / "store", config, adapter="generic")
+    first = engine.run(Path(planned["plan_path"]), max_jobs=1)
+    second = engine.resume(Path(first["attempt_path"]), max_jobs=1)
+    inherited = json.loads((Path(second["attempt_path"]) / "scheduling_history.json").read_text())
+    assert inherited["attempted_jobs"] == ["unit-000"]
+    third = engine.resume(Path(second["attempt_path"]), max_jobs=1)
+    assert third["status"] == "blocked"
+    assert third["counts"] == {"passed": 1}
+    budget = json.loads((Path(third["attempt_path"]) / "execution_budget.json").read_text())
+    assert budget["attempted_jobs"] == ["independent-000", "unit-000", "unit-001"]
+    assert third["deferred_jobs"] == 2

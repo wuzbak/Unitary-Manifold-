@@ -438,7 +438,17 @@ def evaluate(attempt: Path) -> dict:
     }
 
 
-def run(plan_path: Path, previous: Path | None = None) -> dict:
+def _write_scheduling_receipt(path: Path, value: dict) -> None:
+    temporary = path.with_name(path.name + ".pending")
+    write_json(temporary, value)
+    with temporary.open("rb") as stream:
+        os.fsync(stream.fileno())
+    os.replace(temporary, path)
+
+
+def run(plan_path: Path, previous: Path | None = None, *, max_jobs: int | None = None) -> dict:
+    if max_jobs is not None and (type(max_jobs) is not int or max_jobs < 1):
+        raise EvidenceError("max_jobs must be a positive integer")
     source = plan_path.resolve().parent
     spec = validate_plan(source)
     root, store = Path(spec["root"]), Path(spec["store"])
@@ -455,6 +465,7 @@ def run(plan_path: Path, previous: Path | None = None) -> dict:
         raise EvidenceError("Plan source/environment/settings are no longer compatible; re-plan")
     prior = None
     prior_spec = None
+    attempted_jobs = set()
     if previous:
         prior = evaluate(previous)
         prior_spec = read_json(contained(previous, "plan/plan.json"))
@@ -463,6 +474,20 @@ def run(plan_path: Path, previous: Path | None = None) -> dict:
         if (previous / "end_fingerprints.json").is_file() and read_json(
                 contained(previous, "end_fingerprints.json"))["compatibility"] != current["compatibility"]:
             raise EvidenceError("Source/environment/settings changed during prior execution; re-plan")
+        attempted_jobs = {job["id"] for job in prior_spec["jobs"]
+                          if (previous / "jobs" / job["id"] / "checkpoint.json").is_file()}
+        history_paths = ["scheduling_history.json", "execution_budget.json",
+                         *(f"dispatch/{suite['name']}.json" for suite in prior_spec["suites"])]
+        for relative in history_paths:
+            if not (previous / relative).is_file():
+                continue
+            budget = read_json(contained(previous, relative))
+            history = budget.get("attempted_jobs", []) if isinstance(budget, dict) else None
+            known = {job["id"] for job in spec["jobs"]}
+            if not isinstance(history, list) or any(
+                    not isinstance(identifier, str) or identifier not in known for identifier in history):
+                raise EvidenceError("Invalid invocation job history")
+            attempted_jobs.update(history)
     index = Index(store)
     identifier = uuid.uuid4().hex
     attempt = contained(store, "attempts/" + identifier, must_exist=False)
@@ -476,7 +501,11 @@ def run(plan_path: Path, previous: Path | None = None) -> dict:
                     "checkpoint_policy": "per-job-v1"}
     write_json(attempt / "start_fingerprints.json", current)
     write_json(attempt / "attempt.json", attempt_spec)
+    _write_scheduling_receipt(attempt / "scheduling_history.json",
+                              {"attempted_jobs": sorted(attempted_jobs)})
     suite_status = {}
+    executed_jobs = 0
+    deferred_jobs = 0
     with _attempt_lock(attempt, create=True):
         try:
             for suite in spec["suites"]:
@@ -493,21 +522,43 @@ def run(plan_path: Path, previous: Path | None = None) -> dict:
                         shutil.copytree(previous / "jobs" / job["id"], destination)
                     else:
                         pending.append((job, destination))
+                available = len(pending) if max_jobs is None else max_jobs - executed_jobs
+                candidates = pending
+                if max_jobs is not None:
+                    eligible_suites = {candidate["name"] for candidate in spec["suites"]
+                                       if all(suite_status.get(name) == "passed"
+                                              for name in candidate["requires"])}
+                    if any(job["id"] not in attempted_jobs and job["suite"] in eligible_suites
+                           for job in spec["jobs"]):
+                        candidates = [item for item in pending if item[0]["id"] not in attempted_jobs]
+                scheduled = candidates[:available]
+                deferred_jobs += len(pending) - len(scheduled)
+                executed_jobs += len(scheduled)
+                attempted_jobs.update(job["id"] for job, _ in scheduled)
+                _write_scheduling_receipt(attempt / "dispatch" / f"{suite['name']}.json",
+                                          {"attempted_jobs": [job["id"] for job, _ in scheduled]})
                 with ThreadPoolExecutor(max_workers=config["workers"]) as pool:
                     futures = [pool.submit(_checkpoint_job, root, store, destination, suite,
                                            config, job, current["compatibility"])
-                               for job, destination in pending]
+                               for job, destination in scheduled]
                     for future in futures:
                         future.result()
                 suite_status[suite["name"]] = "passed" if all(
                     _execution_evaluation(attempt / "jobs" / job["id"], job, suite,
                                           current["compatibility"], required=True)["status"] == "passed"
                     for job in suite_jobs) else "blocked"
-            if config["lean"]:
+            if deferred_jobs:
+                errors.append(f"Invocation job budget exhausted; {deferred_jobs} eligible jobs deferred")
+            if config["lean"] and not deferred_jobs:
                 formal.build(root, attempt / "lean", config)
         except (OSError, ValueError, KeyboardInterrupt) as exc:
             errors.append(f"Execution interrupted: {type(exc).__name__}: {exc}")
         finally:
+            _write_scheduling_receipt(attempt / "execution_budget.json", {
+                "max_jobs": max_jobs, "executed_jobs": executed_jobs,
+                "deferred_jobs": deferred_jobs,
+                "attempted_jobs": sorted(attempted_jobs),
+            })
             write_json(attempt / "execution_errors.json", errors)
             write_json(attempt / "end_fingerprints.json", fingerprints(root, store, config))
             seal(attempt)
@@ -515,18 +566,19 @@ def run(plan_path: Path, previous: Path | None = None) -> dict:
     result = evaluate(attempt)
     index.record(attempt, result)
     return {"status": result["status"], "attempt_path": str(attempt),
-            "counts": result["counts"], "errors": result["errors"]}
+            "counts": result["counts"], "errors": result["errors"],
+            "executed_jobs": executed_jobs, "deferred_jobs": deferred_jobs}
 
 
-def resume(attempt: Path) -> dict:
+def resume(attempt: Path, *, max_jobs: int | None = None) -> dict:
     # The prior attempt is never mutated; completed evidence is copied and revalidated.
     evaluate(attempt)
     if (attempt / "capture.json").is_file():
         raise EvidenceError("Captured existing commands have no resumable plan; wrap the trusted command again")
     if not (attempt / "manifest.json").exists() and not (attempt / "seal.json").exists():
         with _attempt_lock(attempt):
-            return run(attempt / "plan" / "plan.json", previous=attempt)
-    return run(attempt / "plan" / "plan.json", previous=attempt)
+            return run(attempt / "plan" / "plan.json", previous=attempt, max_jobs=max_jobs)
+    return run(attempt / "plan" / "plan.json", previous=attempt, max_jobs=max_jobs)
 
 
 def import_artifact(artifact: Path, store: Path) -> dict:
