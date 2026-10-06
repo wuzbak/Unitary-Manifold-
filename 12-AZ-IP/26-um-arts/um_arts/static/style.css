@@ -17,5 +17,8 @@ button:hover { background: #236068; }
 button:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
 button:disabled { opacity: .5; cursor: not-allowed; }
 #error { color: #ffb4ad; overflow-wrap: anywhere; }
+.warning { border-left: 4px solid #ffd180; padding: .8rem; margin: 1rem 0; background: #302a1f; }
+.warning strong { color: #ffd180; }
+code { overflow-wrap: anywhere; }
 footer { font-size: .85rem; padding: 1rem 0; }
 @media (max-width: 720px) { body { padding: .7rem; } .columns { grid-template-columns: 1fr; gap: 0; } h1 { font-size: 2rem; } }

@@ -3,6 +3,7 @@
 """Historical timing hints must not imply historical test evidence reuse."""
 
 import json
+from pathlib import Path
 
 import pytest
 from TOOLS.um_arts.adapters import load_config
@@ -86,3 +87,26 @@ def test_independent_execution_does_not_recollect_whole_large_suite(tmp_path, mo
     assert request["collection_scope"] == ("suite" if serial else "assigned_files")
     assert ("tests" in commands[0]) is serial
     assert ("tests/test_one.py" in commands[0]) is not serial
+
+
+def test_real_fine_grained_run_reconciles_all_files_and_declared_skips(tmp_path):
+    root = tmp_path / "repo"
+    root.mkdir()
+    (root / "tests").mkdir()
+    for index in range(4):
+        (root / "tests" / f"test_{index}.py").write_text(f"def test_{index}(): assert True\n")
+    (root / "tests" / "test_optional.py").write_text(
+        "import pytest\npytest.skip('optional module', allow_module_level=True)\n")
+    config = tmp_path / "config.json"
+    config.write_text(json.dumps({
+        "adapter": "generic", "workers": 2, "files_per_job": 1,
+        "suites": [{"name": "unit", "paths": ["tests"]}]}))
+    planned = engine.plan(root, tmp_path / "store", config, adapter="generic")
+    assert planned["status"] == "ready", planned
+    result = engine.run(Path(planned["plan_path"]))
+    assert result["status"] == "passed", result
+    report = engine.evaluate(Path(result["attempt_path"]))
+    assert len(report["jobs"]) == 4
+    assert report["counts"] == {"passed": 4}
+    assert report["selected"] == report["reconciled"] == 4
+    assert report["collection_skips"] == {"unit": ["tests/test_optional.py"]}

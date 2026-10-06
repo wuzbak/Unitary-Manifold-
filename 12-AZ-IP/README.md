@@ -95,6 +95,9 @@ frozen-input checks. `certify --manifest PATH` only reconciles the explicit,
 disclosed compatible checks in a manifest, not an automatic full-repository
 badge. Python, exporter, scoped Lean, and full formal-library outcomes remain
 separate. Existing legacy module/CLI/plugin imports stay supported.
+Execution/recovery supports Python 3.12+ on Linux/macOS using Unix `fcntl` and
+POSIX process groups, not native Windows. Product release 1.0.0 is distinct from
+the preserved evidence schema `VERSION = "1"` displayed by legacy CLI version output.
 
 ## Shared assets retained
 

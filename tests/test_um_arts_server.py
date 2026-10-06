@@ -103,6 +103,12 @@ def test_health_preflight_session_offline_ui(http_app):
     script = request(server, "/app.js")[1].decode()
     assert "innerHTML" not in script and "setInterval" in script
     assert "textContent" in script and "submit(" in script
+    html = request(server, "/")[1].decode()
+    assert "Checks can modify the selected repository" in html
+    assert "directly does not make the original checkout immutable" in html
+    assert "snapshot --root TRUSTED_REPO --output ISOLATED_COPY" in html
+    assert "serve --root ISOLATED_COPY/source --store STORE_OUTSIDE_SOURCE" in html
+    assert html.index("Execution warning:") < html.index('id="plan"')
 
 
 def test_cli_serve_parser_and_dispatch(arts_workspace, monkeypatch):
@@ -367,7 +373,7 @@ def test_exclusive_store_lifecycle_lock_preserves_active_tasks(http_app, monkeyp
         )
         result = subprocess.run([sys.executable, "-c", code, str(PRODUCT), str(app.root),
                                  str(app.store), str(app.config)], capture_output=True,
-                                text=True, timeout=5)
+                                text=True, timeout=5, check=False)
         assert result.returncode == 0, result.stdout + result.stderr
         assert app.task(task["id"])["status"] == "running"
     finally:
@@ -462,3 +468,44 @@ def test_source_changes_block_both_old_plan_and_resume(http_app):
         assert task["status"] == "blocked" and task["result"] is None, task
         assert "no longer compatible" in task["error"], task
     assert len(app._artifact_ids("attempts")) == 1
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("capture_kind,expected", [
+    ("pytest", "passed"), ("collection", "collection_passed"), ("command", "command_passed"),
+])
+def test_imported_captures_are_read_only_and_keep_scoped_status(http_app, monkeypatch,
+                                                               capture_kind, expected):
+    app, server = http_app
+    capture = importlib.import_module("um_arts.capture")
+    (app.root / "pytest.ini").write_text("[pytest]\n")
+    command = ([sys.executable, "-c", "print('captured command')"] if capture_kind == "command"
+               else [sys.executable, "-m", "pytest", "-q",
+                     *(["--collect-only"] if capture_kind == "collection" else [])])
+    # Trusted CLI capture output is outside the server's indexed store.
+    output = app.store.parent / "external-capture"
+    captured = capture.capture_command(command, output, app.root, timeout_seconds=20)
+    assert captured["status"] == expected, captured
+    assert request(server, "/api/artifacts")[1] == []
+    imported = server_module.engine.import_artifact(output, app.store)
+    imported_id = Path(imported["attempt_path"]).name
+
+    def no_execution(*args, **kwargs):
+        pytest.fail("Imported capture inspection must not execute commands")
+
+    monkeypatch.setattr(subprocess, "Popen", no_execution)
+    listed = request(server, "/api/artifacts")[1]
+    assert len(listed) == 1 and listed[0] == {
+        "kind": "imports", "id": imported_id, "status": "unverified", "verified": False,
+        "evidence_kind": "capture", "resumable": False,
+    }
+    status, evidence, _ = request(server, "/api/artifacts/imports/" + imported_id)
+    assert status == 200 and evidence["status"] == expected
+    assert evidence["proof_claim"] is False
+    assert evidence["test_gate"] is (capture_kind == "pytest")
+    assert request(server, "/api/artifacts/imports/" + imported_id + "/logs")[0] == 200
+    assert request(server, "/api/tasks", {"action": "resume", "id": imported_id},
+                   headers={"X-UM-ARTS-Token": app.token})[0] == 400
+    assert not app.tasks()
+    script = request(server, "/app.js")[1].decode()
+    assert 'artifact.kind === "plans" || artifact.resumable' in script

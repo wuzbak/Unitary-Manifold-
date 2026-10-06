@@ -136,13 +136,17 @@ class Application:
             for artifact_id in sorted(self._artifact_ids(kind), reverse=True):
                 directory = self.artifact_path(kind, artifact_id)
                 # Listing does not assert validation; inspect/report is the evidence gate.
-                metadata = "plan.json" if kind == "plans" else "attempt.json"
+                captured = (directory / "capture.json").is_file()
+                metadata = ("plan.json" if kind == "plans" else "capture.json" if captured
+                            else "attempt.json")
                 try:
                     spec = read_json(contained(directory, metadata))
                     status = spec.get("status", "unverified")
                 except (EvidenceError, AttributeError):
                     status = "incomplete"
-                result.append({"kind": kind, "id": artifact_id, "status": status})
+                result.append({"kind": kind, "id": artifact_id, "status": status,
+                               "verified": False, "evidence_kind": "capture" if captured else kind,
+                               "resumable": kind == "attempts" and not captured})
         return result
 
     def _trusted_plan(self, directory: Path) -> None:
@@ -164,6 +168,8 @@ class Application:
         artifact_id = None if action == "plan" else identifier(payload["id"])
         if artifact_id:
             directory = self.artifact_path("plans" if action == "run" else "attempts", artifact_id)
+            if action == "resume" and (directory / "capture.json").exists():
+                raise EvidenceError("Captured bundles are read-only and cannot be resumed")
             self._trusted_plan(directory if action == "run" else directory / "plan")
         with self.lock:
             if self.stopping or self.pending.full():

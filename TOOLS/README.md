@@ -57,11 +57,16 @@ traceability contracts rather than a second pillar or theorem registry.
 
 ### Canonical product installation and operational application
 
-Technology readiness has **not been assessed**. Python 3.12+ on a POSIX host is
-required for bounded process-group cleanup. The application uses the standard
+Technology readiness has **not been assessed**. Python 3.12+ on Linux or macOS is
+required: execution/recovery uses Unix `fcntl` locking and POSIX process groups
+for bounded cleanup; native Windows is not supported. The application uses the standard
 library; executing Python suites requires the existing pytest installation, and
 Lean capture requires the existing Lean/lake toolchain. No extra runtime
 dependencies are introduced.
+
+The product release is **1.0.0** in packaging and the registry. The preserved
+`VERSION = "1"` constant identifies evidence schema compatibility; the legacy
+CLI `--version` displays that schema version, not a newer product release.
 
 From the repository root:
 
@@ -79,6 +84,8 @@ run, and resume tasks. Run/resume requests use server-issued identifiers, not
 arbitrary paths. Mutations require a per-session token and same-site
 Host/Origin/fetch checks. Local browser access is not permission to execute
 unreviewed repository code; use only trusted source and execution configuration.
+API clients obtain the session token from `/api/session` and send it in
+`X-UM-ARTS-Token` for mutations.
 
 From the product directory, `python -m um_arts --help` is equivalent. For an
 editable installation using standard pip/setuptools:
@@ -94,6 +101,10 @@ checkouts; installed distributions use `um_arts` and `um_arts.pytest_plugin`.
 Plugin loading is explicit (`pytest -p um_arts.pytest_plugin`), never automatic.
 Trusted adapter examples are bundled under
 [`../12-AZ-IP/26-um-arts/um_arts/examples/`](../12-AZ-IP/26-um-arts/um_arts/examples/).
+The bundled `repository.json` is a compact **review-required** starting
+configuration, not a complete coverage certificate. Review current inventory
+exclusions, unclassified/uncovered files, and local optional dependencies before
+execution; missing dependencies may skip or block their affected checks.
 
 ### Capturing existing checks
 
@@ -243,7 +254,7 @@ and Lean projects. This is a **review-required inventory**, not executed coverag
 python 12-AZ-IP/26-um-arts/run.py inventory --root "$PWD" \
   --output .um-arts/inventory.json --config-output .um-arts/repository.json
 python 12-AZ-IP/26-um-arts/run.py plan --root "$PWD" \
-  --store .um-arts --adapter generic --config .um-arts/repository.json
+  --store .um-arts --adapter um --config .um-arts/repository.json
 python 12-AZ-IP/26-um-arts/run.py assist --root "$PWD" \
   --query "collection evidence scope" --paths TOOLS/README.md proof/README.md
 ```
@@ -253,12 +264,41 @@ Review the generated trusted configuration before planning/execution. Repeated
 selects one discovered Lean project. Neither option executes it during inventory.
 Generated configs request `-m ''` to include slow tests; real skips still apply.
 Inventory and assistance outputs are created exclusively, never overwritten.
+Generated configurations retain the UM adapter when its canonical formal
+traceability spine is discovered, preserving formal registry capture; other
+repositories use the generic adapter. Use the adapter disclosed in the config.
+
+The Python APIs are also available after installation or from the product
+directory:
+
+```python
+from pathlib import Path
+from um_arts.inventory import discover_inventory, execution_config, selection_boundary
+
+repo = Path("/absolute/repository")
+inventory = discover_inventory(repo)
+# Review exclusions, uncovered/unclassified files, and collection policy first.
+config = execution_config(inventory, lean_project="lean4")
+boundary = selection_boundary(inventory, lean_project="lean4")
+```
+
+Select `lean4` only when it is a discovered project. Serialize the reviewed
+configuration into a JSON file, then pass that file to the engine planner;
+planning and running execute trusted repository code, unlike static inventory.
+Known Product 05/06/07 mirrors are excluded only when content-equal to their
+canonical Pentad/root test copies; unique product files remain disclosed.
 
 `assist --attempt PATH` explains checked attempt evidence; `assist --report PATH`
 explains caller-supplied JSON without upgrading its trust. Optional `--output PATH`
 saves the packet. Assistance returns bounded source excerpts with citations and
 review guidance, not automatic edits, gate changes, or external model calls.
 Command exit zero means retrieval/inventory succeeded, **not** that tests passed.
+Programmatic assistance uses `retrieve_context(repo, query, paths=[...])` and
+`diagnostic_packet(repo, reporting.report(attempt), query)` from
+`um_arts.assistance`. Citations carry exact path/line ranges and read-prefix
+SHA-256 provenance. Only the existing bot `DocumentChunk.score` utility is
+optionally reused, with an explicit deterministic fallback; PsiCat runtime
+state/training-linked engines are not imported or invoked by this read-only lane.
 
 ### Lean build boundaries
 
@@ -268,6 +308,8 @@ default target. An exporter executable build or passing exporter adapter tests
 is **not** a full formal-library build. Record exporter, scoped inspection, and
 full-library outcomes separately. Missing dependencies or unavailable Mathlib
 caches leave affected builds incomplete/blocked, never certified passes.
+Even a successful full Lean build does not substitute for declaration-level
+inspection with disclosed axioms or prove Python↔Lean correspondence.
 
 ### Explicit multi-check manifests
 
@@ -339,6 +381,9 @@ Snapshot success is **not** a test pass or baseline certification. Copying sourc
 never waives the frozen-source gate: tests that mutate copied inputs still
 invalidate source stability. This is source-copy isolation, not an operating
 system security sandbox for untrusted code.
+Execution and captured commands place the selected source root before the
+canonical engine/plugin bootstrap and inherited `PYTHONPATH`, so copied
+repository modules take precedence over original-checkout modules.
 
 ### Product validation
 

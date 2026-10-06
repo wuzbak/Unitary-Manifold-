@@ -77,9 +77,9 @@ async function refresh() {
     if (!tasks.length) element("tasks").append(row("No queued tasks."));
     element("artifacts").replaceChildren();
     for (const artifact of artifacts) {
-      const item = row(`${artifact.kind} · ${artifact.status} · ${artifact.id}`);
+      const item = row(`${artifact.kind} · ${artifact.evidence_kind} · ${artifact.status} (unverified list) · ${artifact.id}`);
       item.append(button("Inspect", () => inspect(artifact)));
-      if (artifact.kind !== "imports") {
+      if (artifact.kind === "plans" || artifact.resumable) {
         item.append(button(artifact.kind === "plans" ? "Run plan" : "Resume attempt",
           () => submit(artifact.kind === "plans" ? "run" : "resume", artifact.id)));
       }

@@ -15,6 +15,16 @@
     <section aria-labelledby="preflight-title">
       <h2 id="preflight-title">Preflight</h2><p id="connection" role="status">Connecting…</p>
       <pre id="preflight">Checking trusted startup inputs and tools…</pre>
+      <div class="warning" role="note">
+        <strong>Execution warning: collection, run, and resume execute trusted repository code.</strong>
+        <p>Checks can modify the selected repository, including during plan collection. Serving a checkout
+          directly does not make the original checkout immutable. Source changes must leave the evidence gate blocked.</p>
+        <p>For whole-repository checks, an isolated root is recommended: first run
+          <code>python run.py snapshot --root TRUSTED_REPO --output ISOLATED_COPY</code>, then start
+          <code>python run.py serve --root ISOLATED_COPY/source --store STORE_OUTSIDE_SOURCE --config TRUSTED_CONFIG</code>.
+          Select these trusted inputs in the CLI before opening this dashboard; there is no browser command input.</p>
+        <p>Inspecting reports and imported capture bundles is read-only and does not execute their commands.</p>
+      </div>
       <button id="plan" disabled>Collect &amp; seal plan</button>
       <button id="refresh">Refresh</button>
       <p>Repository, store, config, commands, and selection are controlled by the server CLI—not this browser.</p>

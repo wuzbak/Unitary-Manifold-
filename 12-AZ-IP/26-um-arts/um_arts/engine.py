@@ -45,6 +45,7 @@ def _pytest_command(root: Path, directory: Path, suite: dict, config: dict,
         with own_config.open("x", encoding="utf-8") as stream:
             stream.write("[pytest]\n")
     return [sys.executable, "-m", "pytest", "-p", "um_arts.pytest_plugin",
+            *(arg for plugin in config.get("plugins", []) for arg in ("-p", plugin)),
             "--rootdir", str(root), "--confcutdir", str(root), "-c", str(own_config),
             "--basetemp", str(directory / "scratch"),
             *suite["paths"], *config["pytest_args"], "-q",
@@ -72,7 +73,7 @@ def _pytest(root: Path, directory: Path, suite: dict, config: dict,
     environment.pop("UM_ARTS_SELECTION", None)
     engine_root = str(Path(__file__).resolve().parents[1])
     environment["PYTHONPATH"] = os.pathsep.join(
-        [engine_root, str(root), environment.get("PYTHONPATH", "")])
+        [str(root), engine_root, environment.get("PYTHONPATH", "")])
     environment["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"
     environment["UM_ARTS_RECEIPT"] = str(directory / "events.json")
     environment["UM_ARTS_NONCE"] = nonce

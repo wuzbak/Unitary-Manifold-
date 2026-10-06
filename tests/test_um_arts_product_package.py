@@ -85,7 +85,11 @@ def test_package_metadata_and_registry():
     from TOOLS.um_arts.evidence import file_hash
 
     metadata = tomllib.loads((PRODUCT / "pyproject.toml").read_text())
+    root_metadata = tomllib.loads((ROOT / "pyproject.toml").read_text())
+    assert metadata["build-system"]["requires"] == root_metadata["build-system"]["requires"]
     assert metadata["project"]["dependencies"] == []
+    assert "readme" not in metadata["project"]
+    assert not (PRODUCT / "README.md").exists()
     assert metadata["project"]["scripts"]["um-arts"] == "um_arts.__main__:main"
     assert "pytest11" not in metadata["project"].get("entry-points", {})
     registry = json.loads((ROOT / "12-AZ-IP" / "IP_REGISTRY.json").read_text())
@@ -193,3 +197,46 @@ def test_certify_cli_dispatch_and_gate_status(monkeypatch, capsys, status, code)
     assert cli.main(["certify", "--manifest", "required-checks.json"]) == code
     assert received == [Path("required-checks.json")]
     assert json.loads(capsys.readouterr().out)["status"] == status
+
+
+@pytest.mark.parametrize("lane", ["engine", "capture-pytest", "capture-script"])
+def test_selected_repository_modules_precede_original_checkout(lane, arts_workspace, monkeypatch):
+    from um_arts.capture import capture_command
+    from um_arts.engine import plan, run
+
+    root = arts_workspace / "selected"
+    (root / "src").mkdir(parents=True)
+    (root / "src" / "__init__.py").write_text('ORIGIN = "selected copy"\n')
+    (root / "tests").mkdir()
+    (root / "pytest.ini").write_text("[pytest]\n")
+    source = (
+        "import os\n"
+        "from pathlib import Path\n"
+        "import src\n"
+        f"ROOT = Path({str(root)!r})\n"
+        "def test_selected_source():\n"
+        "    assert src.ORIGIN == 'selected copy'\n"
+        "    assert Path(src.__file__).resolve() == ROOT / 'src' / '__init__.py'\n"
+        "    assert os.environ['PYTHONPATH'].split(os.pathsep)[0] == str(ROOT)\n"
+    )
+    (root / "tests" / "test_selected.py").write_text(source)
+    monkeypatch.setenv("PYTHONPATH", str(ROOT))
+    monkeypatch.setenv("PYTEST_DISABLE_PLUGIN_AUTOLOAD", "1")
+    monkeypatch.delenv("PYTEST_ADDOPTS", raising=False)
+    monkeypatch.delenv("PYTEST_PLUGINS", raising=False)
+    if lane == "engine":
+        config = arts_workspace / "config.json"
+        config.write_text(json.dumps({
+            "adapter": "generic", "suites": [{"name": "selected", "paths": ["tests"]}],
+        }))
+        planned = plan(root, arts_workspace / "store", config, "generic")
+        assert planned["status"] == "ready", planned
+        result = run(Path(planned["plan_path"]))
+    else:
+        if lane == "capture-script":
+            (root / "check.py").write_text(source + "test_selected_source()\n")
+            command = [sys.executable, "check.py"]
+        else:
+            command = [sys.executable, "-m", "pytest", "tests", "-q"]
+        result = capture_command(command, arts_workspace / "capture", root)
+    assert result["status"] == ("command_passed" if lane == "capture-script" else "passed"), result

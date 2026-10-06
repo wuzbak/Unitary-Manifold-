@@ -28,7 +28,8 @@ def load_config(root: Path, path: Path | None = None, adapter: str = "um") -> di
         raise EvidenceError("The generic adapter requires --config")
     if not isinstance(raw, dict):
         raise EvidenceError("Configuration must be a JSON object")
-    allowed = {"adapter", "suites", "workers", "timeout_seconds", "pytest_args", "lean", "files_per_job"}
+    allowed = {"adapter", "suites", "workers", "timeout_seconds", "pytest_args", "lean",
+               "files_per_job", "plugins"}
     if set(raw) - allowed:
         raise EvidenceError(f"Unknown config settings: {sorted(set(raw) - allowed)}")
     config = {
@@ -37,6 +38,7 @@ def load_config(root: Path, path: Path | None = None, adapter: str = "um") -> di
         "files_per_job": raw.get("files_per_job", 32),
         "timeout_seconds": raw.get("timeout_seconds", 600),
         "pytest_args": raw.get("pytest_args", []),
+        "plugins": raw.get("plugins", []),
         "suites": raw.get("suites", []),
         "lean": raw.get("lean"),
     }
@@ -61,6 +63,15 @@ def load_config(root: Path, path: Path | None = None, adapter: str = "um") -> di
     if any(arg.startswith(forbidden) or arg in {"-o", "-c"}
            or arg.startswith(("-p", "@")) for arg in args):
         raise EvidenceError("pytest_args may not alter collection plumbing or spawn xdist")
+    plugins = config["plugins"]
+    if not isinstance(plugins, list) or any(
+            not isinstance(plugin, str)
+            or not re.fullmatch(r"[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*", plugin)
+            or plugin == "xdist" or plugin.startswith("xdist.")
+            or plugin in {"um_arts", "TOOLS.um_arts"}
+            or plugin.startswith(("um_arts.", "TOOLS.um_arts."))
+            for plugin in plugins) or len(plugins) != len(set(plugins)):
+        raise EvidenceError("plugins must be unique module names, excluding xdist and UM-ARTS internals")
     suites = config["suites"]
     if not isinstance(suites, list) or not suites:
         raise EvidenceError("At least one suite is required")

@@ -161,6 +161,9 @@ def capture_command(command: list[str], output: Path, root: Path | None = None,
     environment.pop("UM_ARTS_RECEIPT", None)
     environment.pop("UM_ARTS_SELECTION", None)
     environment.pop("UM_ARTS_PYTEST_REPORT", None)
+    environment["PYTHONPATH"] = os.pathsep.join(
+        [str(root), str(Path(__file__).resolve().parents[1]),
+         str(Path(__file__).resolve().parents[3]), environment.get("PYTHONPATH", "")])
     if pytest_command:
         insertion = 3 if command[1:3] == ["-m", "pytest"] else 1
         arguments, removed_worker_options = _serial_pytest_arguments(command[insertion:])
@@ -172,10 +175,6 @@ def capture_command(command: list[str], output: Path, root: Path | None = None,
         if not any("um_arts.pytest_plugin" in arg for arg in command):
             effective[insertion:insertion] = ["-p", "um_arts.pytest_plugin"]
         environment["UM_ARTS_PYTEST_REPORT"] = str(output / "pytest.json")
-        environment["PYTHONPATH"] = os.pathsep.join(
-            [str(Path(__file__).resolve().parents[1]),
-             str(Path(__file__).resolve().parents[3]),
-             str(root), environment.get("PYTHONPATH", "")])
         for option in ["--rootdir", "--confcutdir"]:
             if not any(arg == option or arg.startswith(option + "=") for arg in command):
                 effective.extend([option, str(root)])
