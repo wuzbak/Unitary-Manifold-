@@ -66,7 +66,14 @@ def _worker(args: tuple) -> dict:
             totals[c.id] = [0, 0, 0, {k: 0 for k in c.candidate_ids}]
     units: Dict[Tuple[str, str], Counter] = {}
     os.makedirs(id_dir, exist_ok=True)
-    files = [open(os.path.join(id_dir, f"{i:02x}.jsonl"), "w", encoding="utf-8", buffering=1 << 16) for i in range(256)]
+    files: Dict[int, Any] = {}  # bucket files are opened on first use
+
+    def bucket(b: int):
+        f = files.get(b)
+        if f is None:
+            f = files[b] = open(os.path.join(id_dir, f"{b:02x}.jsonl"), "w", encoding="utf-8", buffering=1 << 16)
+        return f
+
     try:
         with open(path, "rb") as fh:
             fh.seek(start)
@@ -104,7 +111,7 @@ def _worker(args: tuple) -> dict:
                 except _MALFORMED as exc:
                     out["cvr_error"] = (k, str(exc))
                     continue
-                files[hashlib.sha256(cvr.id.encode("utf-8")).digest()[0]].write(json.dumps(cvr.id, ensure_ascii=False) + "\n")
+                bucket(hashlib.sha256(cvr.id.encode("utf-8")).digest()[0]).write(json.dumps(cvr.id, ensure_ascii=False) + "\n")
                 out["counted"][cvr.batch_id] += 1
                 if cvr.batch_id in wanted_batches:
                     out["offsets"].setdefault(cvr.batch_id, []).append(line_start)
@@ -128,7 +135,7 @@ def _worker(args: tuple) -> dict:
                             c = units[key] = Counter()
                         c.update(marks)
     finally:
-        for f in files:
+        for f in files.values():
             f.close()
     out["hashes"] = bytes(hashes)
     out["totals"] = totals
@@ -157,6 +164,16 @@ class _SpilledIds:
 
     def close(self) -> None:
         shutil.rmtree(self._root, ignore_errors=True)
+
+
+def _merge_buckets(src: str, dst: str) -> None:
+    """Append one job's bucket files to the shared buckets and delete them (bounded file count)."""
+    if not os.path.isdir(src):
+        return
+    for name in sorted(os.listdir(src)):
+        with open(os.path.join(src, name), "rb") as fin, open(os.path.join(dst, name), "ab") as fout:
+            shutil.copyfileobj(fin, fout, 1 << 20)
+    shutil.rmtree(src, ignore_errors=True)
 
 
 CHUNK_BYTES = 16 * 1024 * 1024  # bytes of log per job; bounds each job's returned leaf hashes
@@ -195,7 +212,9 @@ def parallel_scan(path: str, workers: int, head_sizes: Set[int], election_doc: O
     root = tempfile.mkdtemp(prefix="eige-scan-", dir=tmpdir)
     wanted_batches = {b for b, _ in wanted}
     track_units = bool(acc and acc.track_units)
-    dirs = [os.path.join(root, f"w{k:05d}") for k in range(len(ranges))]
+    dirs = [os.path.join(root, f"w{k:06d}") for k in range(len(ranges))]
+    merged = os.path.join(root, "ids")
+    os.makedirs(merged)
     jobs = [(path, a, b, election_doc, track_units, wanted_batches, d, MAX_ENTRY_BYTES)
             for (a, b), d in zip(ranges, dirs)]
     batch_seen: Counter = Counter()
@@ -203,7 +222,8 @@ def parallel_scan(path: str, workers: int, head_sizes: Set[int], election_doc: O
     cvr_error_seen = False
     try:
         with ProcessPoolExecutor(max_workers=workers) as pool:
-            for r in _ordered(pool, _worker, jobs, window=2 * workers):
+            for k, r in enumerate(_ordered(pool, _worker, jobs, window=2 * workers)):
+                _merge_buckets(dirs[k], merged)
                 base = s.n
                 hb = r["hashes"]
                 for off in range(0, len(hb), 32):
@@ -250,7 +270,7 @@ def parallel_scan(path: str, workers: int, head_sizes: Set[int], election_doc: O
                     break  # the serial scan stops at the first unreadable entry
         if acc is not None:
             acc.ids.close()
-            acc.ids = _SpilledIds(root, dirs)
+            acc.ids = _SpilledIds(root, [merged])
             root = None  # now owned by the accumulator
             election = acc.election
             with open(path, "rb") as fh:
