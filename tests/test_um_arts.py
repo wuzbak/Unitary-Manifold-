@@ -9,7 +9,6 @@ from copy import deepcopy
 from pathlib import Path
 
 import pytest
-
 from TOOLS.um_arts.adapters import load_config, selection_policy
 from TOOLS.um_arts.engine import balanced_jobs
 from TOOLS.um_arts.evidence import (

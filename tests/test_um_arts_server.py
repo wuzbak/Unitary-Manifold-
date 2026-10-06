@@ -111,6 +111,59 @@ def test_health_preflight_session_offline_ui(http_app):
     assert html.index("Execution warning:") < html.index('id="plan"')
 
 
+@pytest.mark.parametrize("failure", ["starting_log", "running_state", "finished_log"])
+def test_transient_task_io_failure_does_not_strand_next_task(http_app, monkeypatch, failure):
+    app, server = http_app
+    original_log, original_save = app._log, app._save
+    injected = []
+
+    def log(task_id, message):
+        trigger = message.startswith("Starting" if failure == "starting_log" else "Finished")
+        if failure != "running_state" and trigger and not injected:
+            injected.append(task_id)
+            raise OSError("transient log failure")
+        original_log(task_id, message)
+
+    def save(task):
+        if failure == "running_state" and task["status"] == "running" and not injected:
+            injected.append(task["id"])
+            raise OSError("transient persistence failure")
+        original_save(task)
+
+    monkeypatch.setattr(app, "_log", log)
+    monkeypatch.setattr(app, "_save", save)
+    monkeypatch.setattr(server_module.engine, "plan", lambda *args: {"status": "ready"})
+    first = submit(server, app.token, "plan")
+    assert wait_task(server, first["id"])["status"] == "blocked"
+    app.pending.join()
+    assert app.active is None and app.worker.is_alive()
+    second = submit(server, app.token, "plan")
+    assert wait_task(server, second["id"])["status"] == "ready"
+    app.pending.join()
+    assert app.active is None and app.worker_error is None
+
+
+def test_terminal_persistence_failure_disables_new_submissions(http_app, monkeypatch):
+    app, server = http_app
+    original_save = app._save
+
+    def save(task):
+        if task["status"] not in {"queued", "running"}:
+            raise OSError("evidence disk unavailable")
+        original_save(task)
+
+    monkeypatch.setattr(app, "_save", save)
+    monkeypatch.setattr(server_module.engine, "plan", lambda *args: {"status": "ready"})
+    first = submit(server, app.token, "plan")
+    app.pending.join()
+    assert app.task(first["id"])["status"] == "blocked"
+    assert app.active is None and app.worker.is_alive()
+    assert app.preflight()["status"] == "blocked"
+    assert "disk unavailable" in app.preflight()["queue_error"]
+    with pytest.raises(EvidenceError, match="unavailable"):
+        app.submit({"action": "plan"})
+
+
 def test_cli_serve_parser_and_dispatch(arts_workspace, monkeypatch):
     cli = importlib.import_module("um_arts.__main__")
     captured = []

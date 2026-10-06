@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 import pytest
-from TOOLS.um_arts.evidence import EvidenceError
+from TOOLS.um_arts.evidence import EvidenceError, fingerprints
 from TOOLS.um_arts.isolation import snapshot
 
 
@@ -67,3 +67,42 @@ def test_snapshot_preserves_empty_internal_directory_alias(tmp_path):
     copied = Path(snapshot(root, tmp_path / "snapshot")["snapshot_root"])
     assert (copied / "alias").is_dir()
     assert (copied / "alias").resolve() == copied / "empty"
+
+
+def test_empty_source_directories_affect_fingerprints_and_survive_snapshot(tmp_path):
+    root = tmp_path / "repo"
+    root.mkdir()
+    empty = root / "required" / "empty"
+    empty.mkdir(parents=True)
+    original = fingerprints(root, tmp_path / "store", {})
+    assert original["source_directories"] == ["required", "required/empty"]
+    copied = Path(snapshot(root, tmp_path / "snapshot")["snapshot_root"])
+    assert (copied / "required" / "empty").is_dir()
+    empty.rmdir()
+    changed = fingerprints(root, tmp_path / "store", {})
+    assert changed["compatibility"]["source"] != original["compatibility"]["source"]
+
+
+def test_snapshot_never_copies_worktree_git_pointer_files(tmp_path):
+    root = tmp_path / "repo"
+    root.mkdir()
+    external = tmp_path / "original-git-metadata"
+    external.mkdir()
+    pointer = root / ".git"
+    pointer.write_text(f"gitdir: {external}\n")
+    (root / "source.py").write_text("VALUE = 1\n")
+    original = fingerprints(root, tmp_path / "store", {})
+    assert ".git" not in original["source_files"]
+    copied = Path(snapshot(root, tmp_path / "snapshot")["snapshot_root"])
+    assert not (copied / ".git").exists()
+    assert pointer.read_text() == f"gitdir: {external}\n"
+
+
+def test_pytest_benchmark_cache_is_disclosed_but_not_source_input(tmp_path):
+    root = tmp_path / "repo"
+    root.mkdir()
+    original = fingerprints(root, tmp_path / "store", {})
+    (root / ".benchmarks").mkdir()
+    changed = fingerprints(root, tmp_path / "store", {})
+    assert changed["compatibility"] == original["compatibility"]
+    assert ".benchmarks" in changed["source_policy"]["excluded_directories"]

@@ -52,6 +52,21 @@ jobs:
         working-directory: .
         run: python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/lean-numerical" --timeout 900 -- lake -d lean4 build UnitaryManifold.NumericalChecks
 
+      - name: Build checked UM-ARTS declaration exporter
+        run: lake build um_arts_export
+
+      - name: Install existing pytest dependency for exporter checks
+        working-directory: .
+        run: python3 -m pip install 'pytest>=7.0,<9.1'
+
+      - name: Verify exporter with the pinned Lean toolchain
+        working-directory: .
+        run: |
+          python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" \
+            --output "$GITHUB_WORKSPACE/.um-arts/lean-exporter-tests" --timeout 300 \
+            -- python3 -m pytest tests/test_um_arts_lean_exporter.py \
+            --noconftest -m "" -q
+
       - name: Preserve Lean build evidence
         if: always()
         uses: actions/upload-artifact@v4

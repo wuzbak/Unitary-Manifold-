@@ -279,6 +279,7 @@ def evaluate_capture(directory: Path) -> dict:
             "command": request["original_command"], "effective_command": process["command"],
             "root": spec["root"], "returncode": process["returncode"],
             "source_files": start["source_files"], "source_links": start.get("source_links", {}),
+            "source_directories": start.get("source_directories", []),
             "source_policy": start["source_policy"],
             "environment": start["environment"], "git": start["git"],
             "engine": start["engine"], "settings": request["settings"],

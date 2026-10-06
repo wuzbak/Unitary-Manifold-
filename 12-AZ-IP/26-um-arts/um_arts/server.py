@@ -65,6 +65,8 @@ class Application:
             self.active = None
             self.before = {}
             self.stopping = False
+            self.worker_error = None
+            self.task_failures = {}
             # Recovery is allowed only while holding the store's exclusive lifecycle lease.
             for task in self.tasks():
                 if task["status"] in {"queued", "running"}:
@@ -95,6 +97,8 @@ class Application:
 
     def task(self, task_id: str) -> dict:
         with self.lock:
+            if task_id in self.task_failures:
+                return dict(self.task_failures[task_id])
             return read_json(contained(self.store, f"tasks/{identifier(task_id)}.json"))
 
     def tasks(self) -> list[dict]:
@@ -172,8 +176,8 @@ class Application:
                 raise EvidenceError("Captured bundles are read-only and cannot be resumed")
             self._trusted_plan(directory if action == "run" else directory / "plan")
         with self.lock:
-            if self.stopping or self.pending.full():
-                raise EvidenceError("Task queue is full or shutting down")
+            if self.stopping or self.pending.full() or self.worker_error or not self.worker.is_alive():
+                raise EvidenceError("Task queue is full, unavailable, or shutting down")
             task = {"id": uuid.uuid4().hex, "action": action, "artifact_id": artifact_id,
                     "status": "queued", "created": time.time(), "result": None}
             self._save(task)
@@ -184,6 +188,7 @@ class Application:
     def _work(self) -> None:
         while True:
             task_id = self.pending.get()
+            task = None
             try:
                 if task_id is None:
                     return
@@ -194,34 +199,47 @@ class Application:
                     task.update(status="running", started=time.time())
                     self._save(task)
                 self._log(task_id, f"Starting {task['action']}")
-                try:
-                    if task["action"] == "plan":
-                        result = engine.plan(self.root, self.store, self.config, self.adapter, self.mode)
-                    else:
-                        kind = "plans" if task["action"] == "run" else "attempts"
-                        directory = self.artifact_path(kind, task["artifact_id"])
-                        self._trusted_plan(directory if kind == "plans" else directory / "plan")
-                        result = (engine.run(contained(directory, "plan.json")) if kind == "plans"
-                                  else engine.resume(directory))
-                    if not isinstance(result, dict) or result.get("status") not in {
-                            "ready", "passed", "blocked", "incomplete"}:
-                        raise EvidenceError("Engine returned no recognized evidence status")
-                    task.update(status=result["status"], result=result)
-                    for key, kind in (("plan_path", "plans"), ("attempt_path", "attempts")):
-                        if key in result:
-                            path = Path(result[key])
-                            artifact_id = path.parent.name if key == "plan_path" else path.name
-                            self.artifact_path(kind, artifact_id)
-                            task["artifact"] = {"kind": kind, "id": artifact_id}
-                except Exception as exc:  # noqa: BLE001 -- Persist failures without terminating the queue.
-                    task.update(status="blocked", error=f"{type(exc).__name__}: {exc}")
-                task["finished"] = time.time()
-                self._log(task_id, f"Finished with evidence status: {task['status']}")
+                if self.worker_error:
+                    raise EvidenceError(f"Task persistence is unavailable: {self.worker_error}")
+                if task["action"] == "plan":
+                    result = engine.plan(self.root, self.store, self.config, self.adapter, self.mode)
+                else:
+                    kind = "plans" if task["action"] == "run" else "attempts"
+                    directory = self.artifact_path(kind, task["artifact_id"])
+                    self._trusted_plan(directory if kind == "plans" else directory / "plan")
+                    result = (engine.run(contained(directory, "plan.json")) if kind == "plans"
+                              else engine.resume(directory))
+                if not isinstance(result, dict) or result.get("status") not in {
+                        "ready", "passed", "blocked", "incomplete"}:
+                    raise EvidenceError("Engine returned no recognized evidence status")
+                task.update(status=result["status"], result=result)
+                for key, kind in (("plan_path", "plans"), ("attempt_path", "attempts")):
+                    if key in result:
+                        path = Path(result[key])
+                        artifact_id = path.parent.name if key == "plan_path" else path.name
+                        self.artifact_path(kind, artifact_id)
+                        task["artifact"] = {"kind": kind, "id": artifact_id}
+            except Exception as exc:  # noqa: BLE001 -- Keep persistence failures from stranding the queue.
+                if task is None:
+                    task = {"id": task_id, "action": "unknown", "created": time.time(), "result": None}
+                task.update(status="blocked", error=f"{type(exc).__name__}: {exc}")
+            finally:
+                if task_id is not None and task is not None:
+                    task["finished"] = time.time()
+                    try:
+                        self._log(task_id, f"Finished with evidence status: {task['status']}")
+                    except Exception as exc:  # noqa: BLE001 -- A log failure is not a passing task.
+                        task.update(status="blocked", error=f"{type(exc).__name__}: {exc}")
+                    try:
+                        self._save(task)
+                    except Exception as exc:  # noqa: BLE001 -- Disable new work if persistence is broken.
+                        task.update(status="blocked", error=f"{type(exc).__name__}: {exc}")
+                        with self.lock:
+                            self.worker_error = task["error"]
+                            self.task_failures[task_id] = dict(task)
                 with self.lock:
-                    self._save(task)
                     self.active = None
                     self.before = {}
-            finally:
                 self.pending.task_done()
 
     def _tail(self, path: Path) -> str:
@@ -260,8 +278,10 @@ class Application:
                  "git": shutil.which("git") is not None,
                  "lean": shutil.which("lean") is not None, "lake": shutil.which("lake") is not None}
         config = load_config(self.root, self.config, self.adapter)
-        ready = tools["pytest"] and (not config["lean"] or (tools["lean"] and tools["lake"]))
+        ready = tools["pytest"] and (not config["lean"] or (tools["lean"] and tools["lake"])) \
+            and not self.worker_error and self.worker.is_alive()
         return {"status": "ready" if ready else "blocked", "tools": tools,
+                 "queue_error": self.worker_error,
                 "root": str(self.root), "store": str(self.store), "adapter": config["adapter"],
                 "selection": selection_policy(self.mode),
                 "boundary": "Tool availability only, not regression evidence or formal correspondence"}

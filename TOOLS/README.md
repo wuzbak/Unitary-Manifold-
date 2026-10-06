@@ -87,6 +87,13 @@ unreviewed repository code; use only trusted source and execution configuration.
 API clients obtain the session token from `/api/session` and send it in
 `X-UM-ARTS-Token` for mutations.
 
+Task loading, state persistence, execution, and log writes share one guarded
+lifecycle. Transient I/O failures block the affected task without stranding
+later tasks. If a terminal task result cannot be persisted, new submissions are
+disabled and preflight reports the queue error; the failed task remains visible
+in memory until the server stops. Restart never upgrades interrupted tasks to
+passes.
+
 From the product directory, `python -m um_arts --help` is equivalent. For an
 editable installation using standard pip/setuptools:
 
@@ -215,6 +222,12 @@ aliases. Retargeting an alias invalidates compatibility even when both targets
 have identical bytes. External, dangling, cyclic, excluded-cache, and artifact
 store targets are rejected. This source policy does not relax the prohibition
 on symlinks inside imported evidence bundles.
+Nonexcluded directories, including empty ones, are source inputs too: adding or
+removing a required directory invalidates compatibility. Generated pytest
+benchmark caches (`.benchmarks/`) are explicitly excluded alongside other
+disclosed caches. Git metadata is excluded whether `.git` is a directory or a
+worktree/submodule pointer file; snapshots never copy pointers to the original
+repository's index.
 
 Integration mode and automatic change-impact selection are not yet implemented.
 Collection-only captured pytest commands are labeled `collection_passed`, not
@@ -308,6 +321,9 @@ default target. An exporter executable build or passing exporter adapter tests
 is **not** a full formal-library build. Record exporter, scoped inspection, and
 full-library outcomes separately. Missing dependencies or unavailable Mathlib
 caches leave affected builds incomplete/blocked, never certified passes.
+The Lean workflow explicitly builds `um_arts_export` and runs its real compiler
+integration tests with the pinned toolchain. Local static-source tests and
+skipped integration tests are not substitutes for this execution gate.
 Even a successful full Lean build does not substitute for declaration-level
 inspection with disclosed axioms or prove Python↔Lean correspondence.
 
@@ -367,9 +383,9 @@ your live checkout:
 
 ```bash
 python 12-AZ-IP/26-um-arts/run.py snapshot --root "$PWD" \
-  --output .um-arts-test-work/source-snapshot
+  --output /tmp/um-arts-source-snapshot
 python 12-AZ-IP/26-um-arts/run.py plan \
-  --root "$PWD/.um-arts-test-work/source-snapshot" \
+  --root /tmp/um-arts-source-snapshot/source \
   --store "$PWD/.um-arts/snapshot-evidence" --mode full
 ```
 
@@ -381,6 +397,9 @@ Snapshot success is **not** a test pass or baseline certification. Copying sourc
 never waives the frozen-source gate: tests that mutate copied inputs still
 invalidate source stability. This is source-copy isolation, not an operating
 system security sandbox for untrusted code.
+The snapshot destination must be new and outside the original source tree.
+Ordinary empty directories are preserved, and internal aliases are redirected
+into the copy.
 Execution and captured commands place the selected source root before the
 canonical engine/plugin bootstrap and inherited `PYTHONPATH`, so copied
 repository modules take precedence over original-checkout modules.
@@ -390,7 +409,7 @@ repository modules take precedence over original-checkout modules.
 From the repository root:
 
 ```bash
-python -m pytest tests/test_um_arts*.py -q \
+python -m pytest tests/test_um_arts*.py -m "" -q \
   --basetemp=.um-arts-test-work/product26
 ```
 
@@ -398,6 +417,12 @@ The canonical product description is recorded in
 [`../12-AZ-IP/IP_REGISTRY.json`](../12-AZ-IP/IP_REGISTRY.json); `run.py --help`
 provides the current command list. No standalone product Markdown document is
 required for installation.
+
+The core suite's pre-collection hook copies the committed PsiCat training
+history and profile seeds into an external temporary directory and redirects
+runtime writes there for the pytest session. This preserves real training
+execution without modifying committed evidence or relaxing source-stability
+checks. Paths and caches are restored when the session closes.
 
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).

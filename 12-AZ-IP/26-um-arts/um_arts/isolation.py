@@ -30,6 +30,8 @@ def snapshot(root: Path, output: Path) -> dict:
     source = output / "source"
     source.mkdir()
     try:
+        for relative in before["source_directories"]:
+            contained(source, relative, must_exist=False).mkdir(parents=True, exist_ok=True)
         for relative, expected in before["source_files"].items():
             original = contained(root, relative)
             destination = contained(source, relative, must_exist=False)

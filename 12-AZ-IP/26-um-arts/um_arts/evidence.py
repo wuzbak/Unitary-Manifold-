@@ -132,9 +132,10 @@ def verify_seal(directory: Path) -> dict:
 def fingerprints(root: Path, store: Path, config: dict) -> dict:
     """Hash source bytes, not merely commit IDs or modification timestamps."""
     excluded = {".git", ".venv", "venv", "__pycache__", ".pytest_cache", ".mypy_cache",
-                ".ruff_cache", ".lake", "node_modules", ".um-arts", ".um-arts-test-work"}
+                ".ruff_cache", ".benchmarks", ".lake", "node_modules", ".um-arts", ".um-arts-test-work"}
     sources = {}
     links = {}
+    source_directories = []
 
     def record_link(path):
         try:
@@ -165,8 +166,12 @@ def fingerprints(root: Path, store: Path, config: dict) -> dict:
                                 and (Path(current) / name).relative_to(root).as_posix() != ".github/agents"
                                 and not (Path(current) / name).resolve().is_relative_to(store)
                                 and not (Path(current) / name).is_symlink())
+        source_directories.extend((Path(current) / name).relative_to(root).as_posix()
+                                 for name in directories)
         for name in sorted(files):
             path = Path(current) / name
+            if name == ".git":
+                continue
             if path.suffix not in {".pyc", ".pyo", ".olean", ".ilean"}:
                 if path.is_symlink():
                     record_link(path)
@@ -207,9 +212,12 @@ def fingerprints(root: Path, store: Path, config: dict) -> dict:
             git[key] = result.stdout.strip() if result.returncode == 0 else None
         except (OSError, subprocess.TimeoutExpired):
             git[key] = None
-    compatibility = {"source": digest({"files": sources, "links": links}), "environment": digest(environment),
+    source_directories.sort()
+    compatibility = {"source": digest({"files": sources, "links": links,
+                                      "directories": source_directories}), "environment": digest(environment),
                      "settings": digest(config), "engine": digest(engine), "git": digest(git)}
     return {"compatibility": compatibility, "source_files": sources, "source_links": links,
+             "source_directories": source_directories,
             "environment": environment, "git": git, "engine": engine,
             "source_policy": {"included": "all regular files including datasets and binaries; "
                                          "internal source aliases recorded without recursive traversal",

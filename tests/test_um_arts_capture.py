@@ -11,15 +11,15 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
-
-from tests.test_um_arts import arts_workspace as _arts_workspace
-from tests.test_um_arts import events
-from TOOLS.um_arts import pytest_plugin as plugin
 from TOOLS.um_arts.capture import _serial_pytest_arguments, evaluate_report
 from TOOLS.um_arts.capture import capture_command as capture_existing_command
 from TOOLS.um_arts.engine import import_artifact, resume
 from TOOLS.um_arts.evidence import EvidenceError
 from TOOLS.um_arts.reporting import report
+
+from tests.test_um_arts import arts_workspace as _arts_workspace
+from tests.test_um_arts import events
+from TOOLS.um_arts import pytest_plugin as plugin
 
 arts_workspace = _arts_workspace
 

@@ -7,12 +7,12 @@ import json
 import sys
 
 import pytest
-
-from tests.test_um_arts import arts_workspace as _arts_workspace
-from TOOLS.um_arts import formal, lean_adapter
 from TOOLS.um_arts.adapters import load_config
 from TOOLS.um_arts.evidence import EvidenceError, write_json
 from TOOLS.um_arts.process import execute
+
+from tests.test_um_arts import arts_workspace as _arts_workspace
+from TOOLS.um_arts import formal, lean_adapter
 
 arts_workspace = _arts_workspace
 
