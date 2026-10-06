@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 7879,
+  "file_count": 7881,
   "lanes": {
     "az_ip": 2134,
     "compactification": 9,
-    "other": 5320,
+    "other": 5322,
     "psicat_articles": 352,
     "psicat_books": 64
   },
@@ -16,7 +16,7 @@
     ".dvc": 1,
     ".firebaserc": 1,
     ".gitattributes": 1,
-    ".github": 46,
+    ".github": 48,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
@@ -2778,6 +2778,12 @@
       "lane": "other"
     },
     {
+      "path": ".github/actions/regression-environment/action.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": ".github/codeql/README.md",
       "top_level": ".github",
       "kind": "file",
@@ -2947,6 +2953,12 @@
     },
     {
       "path": ".github/workflows/psicat-performance-gate.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/workflows/regression-environment.yml",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
