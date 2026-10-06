@@ -432,5 +432,69 @@ UM-ARTS test fixtures use the disclosed `.um-arts-test-work` scratch boundary,
 rather than creating new source directories during captured runs. Runtime
 artifacts outside disclosed scratch boundaries still invalidate source stability.
 
+### Large-repository code intelligence and scanner evidence
+
+Code indexing, security scanning and test execution are separate lanes. DuckDB
+and Tree-sitter can make syntax inventories queryable; neither an AST match nor
+retrieval establishes interprocedural taint coverage. UM-ARTS uses its existing
+standard-library SQLite stack for bounded Python AST facts without requiring a
+database server, embedding provider, downloaded extension or new runtime
+dependency. The index never imports repository modules.
+
+```bash
+python 12-AZ-IP/26-um-arts/run.py code-index --root "$PWD" \
+  --output /tmp/um-code-index
+python 12-AZ-IP/26-um-arts/run.py code-query --artifact /tmp/um-code-index \
+  --kind calls --name subprocess.run --limit 100
+python 12-AZ-IP/26-um-arts/run.py code-index --root "$PWD" \
+  --output /tmp/um-code-index-next --previous /tmp/um-code-index
+```
+
+Indexes disclose parsed, oversized and failed files. Incremental runs reuse only
+verified unchanged parsed files; deleted files are not carried forward.
+Queries are bounded, parameterized and read-only, not an arbitrary SQL execution
+endpoint. Calls are syntactic names, not resolved call graphs. A partial index
+cannot certify complete analysis. Keep output outside the source tree.
+
+For optional local pattern scanning, install a reviewed Opengrep release outside
+the source tree and verify its published checksum. The adapter was smoke-tested
+with the official **1.30.0** Linux binary. It does not install tools, fetch rule
+registries, update itself or launch repository builds.
+
+```bash
+python 12-AZ-IP/26-um-arts/run.py scan --root "$PWD" \
+  --executable /absolute/path/to/opengrep --output /tmp/um-scan \
+  --paths 12-AZ-IP/26-um-arts/um_arts TOOLS/um_arts \
+  --files-per-shard 64 --memory-mib 512 --timeout 120
+python 12-AZ-IP/26-um-arts/run.py scan-report --artifact /tmp/um-scan
+```
+
+`--rules /absolute/path/to/reviewed-rules.yml` selects a trusted local rule file.
+The bundled three-rule profile flags dynamic evaluation, shell commands and
+pickle input for **human review**, not automatic vulnerability declarations.
+Scanner and rule hashes, source/environment provenance, exact assigned/scanned
+file identities, raw JSON, errors and skipped targets/rules are retained.
+Oversized files, parse errors, timeouts, unexpected coverage, source drift or
+missing tools block a clean result. Findings exit nonzero and remain review
+candidates; `checked` means only these files completed these rules with no
+findings. It never means secure or CodeQL-certified.
+
+`--previous /tmp/um-scan` reuses only sealed completed shards with identical file,
+tool, rule and resource-setting digests from a source-stable prior scan. Changed
+inputs are rescanned. Output is new and external; old artifacts are not modified.
+One subprocess per bounded shard limits repeated whole-repository database
+construction. Tool memory/time flags are resource requests, not an OS sandbox.
+Sharding deliberately does **not** promise cross-file data flow, and these scans
+do not replace pytest or Lean compiler checks.
+
+Opengrep's capabilities are release-sensitive: the 1.30.0 documentation describes
+intrafile interprocedural taint, while later development documents interfile
+analysis. This adapter's starter profile uses pattern rules only. Do not infer
+newer development features or CodeQL-equivalent global analysis from a clean
+profile run. See the primary documentation for
+[CodeQL data flow](https://codeql.github.com/docs/writing-codeql-queries/about-data-flow-analysis/),
+[sitting_duck architecture](https://github.com/teaguesterling/sitting_duck/blob/main/docs/explanation/architecture.md),
+and [Opengrep 1.30.0](https://github.com/opengrep/opengrep/tree/v1.30.0).
+
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).

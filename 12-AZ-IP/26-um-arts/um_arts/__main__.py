@@ -78,13 +78,56 @@ def parser() -> argparse.ArgumentParser:
     snapshotting.add_argument("--output", type=Path, required=True)
     certifying = commands.add_parser("certify", help="Reconcile explicit manifest evidence without execution")
     certifying.add_argument("--manifest", type=Path, required=True)
+    indexing = commands.add_parser("code-index", help="Index bounded Python AST facts without execution")
+    indexing.add_argument("--root", type=Path, default=Path.cwd())
+    indexing.add_argument("--output", type=Path, required=True)
+    indexing.add_argument("--previous", type=Path)
+    indexing.add_argument("--max-file-bytes", type=int, default=2 * 1024 * 1024)
+    querying = commands.add_parser("code-query", help="Query sealed syntactic facts; not data-flow analysis")
+    querying.add_argument("--artifact", type=Path, required=True)
+    querying.add_argument("--kind", choices=["calls", "imports", "declarations", "files"], default="calls")
+    querying.add_argument("--name", default="")
+    querying.add_argument("--limit", type=int, default=100)
+    scanning = commands.add_parser("scan", help="Execute installed Opengrep with local rules in bounded shards")
+    scanning.add_argument("--root", type=Path, default=Path.cwd())
+    scanning.add_argument("--output", type=Path, required=True)
+    scanning.add_argument("--executable", type=Path, required=True)
+    scanning.add_argument("--rules", type=Path,
+                          default=Path(__file__).parent / "examples" / "python-review.yml")
+    scanning.add_argument("--paths", nargs="+")
+    scanning.add_argument("--files-per-shard", type=int, default=64)
+    scanning.add_argument("--max-file-bytes", type=int, default=2 * 1024 * 1024)
+    scanning.add_argument("--timeout", type=float, default=120)
+    scanning.add_argument("--memory-mib", type=int, default=512)
+    scanning.add_argument("--previous", type=Path)
+    scan_report = commands.add_parser("scan-report", help="Verify local scan evidence without execution")
+    scan_report.add_argument("--artifact", type=Path, required=True)
     return cli
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     try:
-        if args.command == "serve":
+        if args.command == "code-index":
+            from .code_index import build_index
+
+            result = build_index(args.root, args.output, args.previous, args.max_file_bytes)
+        elif args.command == "code-query":
+            from .code_index import query_index
+
+            result = query_index(args.artifact, args.kind, args.name, args.limit)
+        elif args.command == "scan":
+            from .scanning import scan
+
+            result = scan(args.root, args.output, args.executable, args.rules, paths=args.paths,
+                          files_per_shard=args.files_per_shard, max_file_bytes=args.max_file_bytes,
+                          timeout_seconds=args.timeout, memory_mib=args.memory_mib,
+                          previous=args.previous)
+        elif args.command == "scan-report":
+            from .scanning import inspect_scan
+
+            result = inspect_scan(args.artifact)
+        elif args.command == "serve":
             from .server import serve
 
             serve(args.root, args.store, args.config, args.adapter, args.mode, args.host, args.port)
@@ -168,6 +211,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(result, sort_keys=True, allow_nan=False))
         return 0 if result["status"] in {
             "ready", "passed", "command_passed", "collection_passed", "snapshot_ready",
+            "indexed", "queried", "checked",
         } else 2
     except (EvidenceError, OSError, KeyError, TypeError, ValueError) as exc:
         print(json.dumps({"status": "blocked", "error": str(exc)}), file=sys.stderr)

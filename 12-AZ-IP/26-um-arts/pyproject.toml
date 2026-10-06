@@ -17,4 +17,4 @@ um-arts = "um_arts.__main__:main"
 include = ["um_arts*"]
 
 [tool.setuptools.package-data]
-um_arts = ["examples/*.json", "static/*"]
+um_arts = ["examples/*.json", "examples/*.yml", "static/*"]

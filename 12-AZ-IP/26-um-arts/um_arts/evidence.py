@@ -155,7 +155,10 @@ def fingerprints(root: Path, store: Path, config: dict) -> dict:
             "target": os.readlink(path), "resolved": relative.as_posix(),
         }
 
-    for current, directories, files in os.walk(root, followlinks=False):
+    def traversal_error(error):
+        raise EvidenceError(f"Source traversal failed: {error}")
+
+    for current, directories, files in os.walk(root, followlinks=False, onerror=traversal_error):
         for name in directories:
             path = Path(current) / name
             if name not in excluded and path.is_symlink() \

@@ -1,0 +1,21 @@
+rules:
+  - id: um-arts.python.dynamic-eval
+    languages: [python]
+    severity: WARNING
+    message: Dynamic evaluation requires review of input trust; this match alone is not a vulnerability.
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: exec(...)
+  - id: um-arts.python.shell-command
+    languages: [python]
+    severity: WARNING
+    message: Shell execution requires review of quoting and input trust.
+    patterns:
+      - pattern: subprocess.$CALL(..., shell=True, ...)
+  - id: um-arts.python.pickle-input
+    languages: [python]
+    severity: WARNING
+    message: Pickle deserialization requires a trusted input boundary.
+    pattern-either:
+      - pattern: pickle.load(...)
+      - pattern: pickle.loads(...)

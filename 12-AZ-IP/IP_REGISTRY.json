@@ -449,8 +449,8 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-10-06",
-      "sha256": "f79531230c727d9ec86965557ce6ffe5bb66f1459bc52ec78edfd41fe282fb67",
-      "size_bytes": 489
+      "sha256": "82531dc749dbdb84ca015be11792eab6d3732612a2776f025370008a42b050bc",
+      "size_bytes": 507
     },
     "12-AZ-IP/24-psicat-web-browser/playwright.config.js": {
       "description": "Product 24 Playwright-first browser proving-ground test configuration",
