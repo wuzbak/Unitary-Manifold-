@@ -153,6 +153,13 @@ checkpoints are rerun when resuming into the checkpoint-aware format.
 The tracker's ignored `.um-arts-test-work/` fixture directory is excluded from
 source fingerprints so parallel tracker tests do not invalidate one another's
 checkpoints. Ordinary test inputs and datasets remain fingerprinted.
+Source aliases such as this repository's `az-os` and `az-kernel` are recorded
+with both their link text and resolved in-repository target. Canonical target
+contents remain fingerprinted once, without recursively following directory
+aliases. Retargeting an alias invalidates compatibility even when both targets
+have identical bytes. External, dangling, cyclic, excluded-cache, and artifact
+store targets are rejected. This source policy does not relax the prohibition
+on symlinks inside imported evidence bundles.
 
 Integration mode and automatic change-impact selection are not yet implemented.
 Collection-only captured pytest commands are labeled `collection_passed`, not

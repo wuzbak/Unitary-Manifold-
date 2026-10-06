@@ -134,11 +134,32 @@ def fingerprints(root: Path, store: Path, config: dict) -> dict:
     excluded = {".git", ".venv", "venv", "__pycache__", ".pytest_cache", ".mypy_cache",
                 ".ruff_cache", ".lake", "node_modules", ".um-arts", ".um-arts-test-work"}
     sources = {}
+    links = {}
+
+    def record_link(path):
+        try:
+            target = path.resolve(strict=True)
+        except (OSError, RuntimeError) as exc:
+            raise EvidenceError(f"Unresolvable source symlink: {path}") from exc
+        if not target.is_relative_to(root) or target.is_relative_to(store):
+            raise EvidenceError(f"Source symlink target is outside source scope: {path}")
+        relative = target.relative_to(root)
+        if any(part in excluded for part in relative.parts) \
+                or relative.as_posix().startswith(".github/agents/") \
+                or relative.as_posix() == ".github/agents" \
+                or target.suffix in {".pyc", ".pyo", ".olean", ".ilean"} \
+                or not (target.is_file() or target.is_dir()):
+            raise EvidenceError(f"Source symlink target is excluded or nonregular: {path}")
+        links[path.relative_to(root).as_posix()] = {
+            "target": os.readlink(path), "resolved": relative.as_posix(),
+        }
+
     for current, directories, files in os.walk(root, followlinks=False):
         for name in directories:
             path = Path(current) / name
-            if name not in excluded and path.is_symlink() and not path.resolve().is_relative_to(store):
-                raise EvidenceError(f"Source directory symlink requires explicit resolution: {path}")
+            if name not in excluded and path.is_symlink() \
+                   and path.relative_to(root).as_posix() != ".github/agents":
+                record_link(path)
         directories[:] = sorted(name for name in directories
                                 if name not in excluded
                                 and (Path(current) / name).relative_to(root).as_posix() != ".github/agents"
@@ -146,10 +167,12 @@ def fingerprints(root: Path, store: Path, config: dict) -> dict:
                                 and not (Path(current) / name).is_symlink())
         for name in sorted(files):
             path = Path(current) / name
-            if path.suffix not in {".pyc", ".pyo", ".olean", ".ilean"} \
-                    and not path.resolve().is_relative_to(store):
+            if path.suffix not in {".pyc", ".pyo", ".olean", ".ilean"}:
                 if path.is_symlink():
-                    raise EvidenceError(f"Source symlink requires explicit resolution: {path}")
+                    record_link(path)
+                    continue
+                if path.resolve().is_relative_to(store):
+                    continue
                 if not path.is_file():
                     raise EvidenceError(f"Nonregular source input cannot be fingerprinted: {path}")
                 sources[path.relative_to(root).as_posix()] = file_hash(path)
@@ -184,11 +207,12 @@ def fingerprints(root: Path, store: Path, config: dict) -> dict:
             git[key] = result.stdout.strip() if result.returncode == 0 else None
         except (OSError, subprocess.TimeoutExpired):
             git[key] = None
-    compatibility = {"source": digest(sources), "environment": digest(environment),
+    compatibility = {"source": digest({"files": sources, "links": links}), "environment": digest(environment),
                      "settings": digest(config), "engine": digest(engine), "git": digest(git)}
-    return {"compatibility": compatibility, "source_files": sources,
+    return {"compatibility": compatibility, "source_files": sources, "source_links": links,
             "environment": environment, "git": git, "engine": engine,
-            "source_policy": {"included": "all regular files including datasets and binaries",
+            "source_policy": {"included": "all regular files including datasets and binaries; "
+                                         "internal source aliases recorded without recursive traversal",
                               "excluded_directories": sorted(excluded),
                               "excluded_suffixes": [".pyc", ".pyo", ".olean", ".ilean"],
                               "excluded_store": str(store)}}

@@ -244,6 +244,51 @@ def test_parallel_tracker_scratch_is_not_a_source_change(arts_workspace):
     assert fingerprints(root, store, settings)["compatibility"] != initial["compatibility"]
 
 
+def test_internal_source_aliases_track_targets_and_content_without_cycles(arts_workspace):
+    root, store, config = make_repository(arts_workspace)
+    settings = engine.load_config(root, config, "generic")
+    inputs = root / "inputs"
+    inputs.mkdir()
+    (inputs / "first.bin").write_bytes(b"same data")
+    (inputs / "second.bin").write_bytes(b"same data")
+    (root / "directory_alias").symlink_to("inputs", target_is_directory=True)
+    file_alias = root / "file_alias"
+    file_alias.symlink_to("inputs/first.bin")
+    (root / "root_alias").symlink_to(".", target_is_directory=True)
+    first = fingerprints(root, store, settings)
+    assert first["source_links"]["directory_alias"]["resolved"] == "inputs"
+    assert first["source_links"]["root_alias"]["resolved"] == "."
+    assert first["source_links"]["file_alias"]["target"] == "inputs/first.bin"
+    assert not any(name.startswith("directory_alias/") for name in first["source_files"])
+    file_alias.unlink()
+    file_alias.symlink_to("inputs/second.bin")
+    second = fingerprints(root, store, settings)
+    assert second["compatibility"]["source"] != first["compatibility"]["source"]
+    (inputs / "second.bin").write_bytes(b"modified input")
+    third = fingerprints(root, store, settings)
+    assert third["compatibility"]["source"] != second["compatibility"]["source"]
+
+
+@pytest.mark.parametrize("target", ["external", "missing", "excluded", "cyclic", "store"])
+def test_unsafe_source_aliases_are_rejected(arts_workspace, target):
+    root, store, config = make_repository(arts_workspace)
+    settings = engine.load_config(root, config, "generic")
+    if target == "external":
+        destination = arts_workspace / "outside.bin"
+        destination.write_bytes(b"not in repository")
+    elif target == "excluded":
+        destination = root / ".lake"
+        destination.mkdir()
+    elif target == "store":
+        destination = store
+        destination.mkdir()
+    else:
+        destination = root / ("alias" if target == "cyclic" else "missing.bin")
+    (root / "alias").symlink_to(destination)
+    with pytest.raises(EvidenceError, match="source symlink|Source symlink"):
+        fingerprints(root, store, settings)
+
+
 def test_pytest_scratch_is_inside_store_and_not_imported_as_evidence(arts_workspace):
     root, store, config = make_repository(arts_workspace,
         "from pathlib import Path\n"
