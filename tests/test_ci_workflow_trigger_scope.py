@@ -251,8 +251,21 @@ def test_coverage_retains_failure_evidence_without_weakening_the_gate() -> None:
     assert "tee coverage.log" in run
     partial = steps["Retain partial coverage evidence after failure"]
     assert partial["if"] == "always()"
+    assert "[ -f coverage.xml ]" in partial["run"]
     assert "coverage combine --keep" in partial["run"]
     assert "--fail-under=85" in partial["run"]
+    report = tmp_path / "coverage.xml"
+    report.write_text("existing coverage report", encoding="utf-8")
+    retained = subprocess.run(
+        ["bash", "-e", "-c", partial["run"]],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "preserving the original report" in retained.stdout
+    assert report.read_text(encoding="utf-8") == "existing coverage report"
+    assert "|| echo" in partial["run"]
     upload = steps["Upload coverage report"]
     assert upload["if"] == "always()"
     assert upload["with"]["include-hidden-files"] is True

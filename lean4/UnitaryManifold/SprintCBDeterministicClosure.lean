@@ -50,14 +50,16 @@ axiom KawamuraIndependenceResidualOpen : Prop
  theorem cb_closure_kernel_11 : (p ∧ (p → q) ∧ (q → r)) → r := by
   intro h
   exact h.right.right (h.right.left h.left)
- theorem cb_closure_kernel_12 :
+ theorem cb_closure_kernel_12
+   (hDeterministicClosureRule : DeterministicClosureRule)
+   (hNoLabelInflation : NoLabelInflation)
+   (hOpenLaneCarryForwardExplicit : OpenLaneCarryForwardExplicit)
+   (hBoundaryTighteningDeterministic : BoundaryTighteningDeterministic)
+   (hKawamuraIndependenceResidualOpen : KawamuraIndependenceResidualOpen) :
    DeterministicClosureRule ∧ NoLabelInflation ∧ OpenLaneCarryForwardExplicit ∧
    BoundaryTighteningDeterministic ∧ KawamuraIndependenceResidualOpen := by
-  exact And.intro DeterministicClosureRule
-    (And.intro NoLabelInflation
-      (And.intro OpenLaneCarryForwardExplicit
-        (And.intro BoundaryTighteningDeterministic
-          KawamuraIndependenceResidualOpen)))
+  exact ⟨hDeterministicClosureRule, hNoLabelInflation, hOpenLaneCarryForwardExplicit,
+   hBoundaryTighteningDeterministic, hKawamuraIndependenceResidualOpen⟩
 
 end SprintCBDeterministicClosure
 

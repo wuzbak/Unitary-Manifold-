@@ -365,11 +365,15 @@ jobs:
       - name: Retain partial coverage evidence after failure
         if: always()
         run: |
-          if compgen -G '.coverage.*' > /dev/null; then
-            python -m coverage combine --keep
-          fi
-          if [ -f .coverage ]; then
-            python -m coverage xml -o coverage.xml --fail-under=85
+          if [ -f coverage.xml ]; then
+            echo "Coverage report already exists; preserving the original report."
+          else
+            if compgen -G '.coverage.*' > /dev/null; then
+              python -m coverage combine --keep || echo "::warning::Unable to combine partial coverage data."
+            fi
+            if [ -f .coverage ]; then
+              python -m coverage xml -o coverage.xml --fail-under=85 || echo "::warning::Unable to generate a partial coverage report."
+            fi
           fi
       - name: Upload coverage report
         if: always()
