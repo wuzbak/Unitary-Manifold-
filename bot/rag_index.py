@@ -25,6 +25,7 @@ GitHub Copilot (AI).
 from __future__ import annotations
 
 import ast
+import json
 import os
 import re
 import math
@@ -61,7 +62,10 @@ _TOKEN_ALIASES = {
     "pubmed": "trusted_open_resources",
     "openalex": "trusted_open_resources",
     "kaggle": "trusted_open_resources",
+    "test": "tests",
+    "workflow": "workflows",
 }
+
 
 # Intent/session sources should outrank generic documentation on tie-like matches
 # because they represent the freshest operator-visible state.
@@ -644,6 +648,30 @@ def _tokenize(text: str) -> Set[str]:
     }
 
 
+def _inventory_excerpt(text: str, query: str, limit: int = 600) -> str:
+    """Return the most query-relevant inventory paths within a bounded excerpt."""
+    lines = text.splitlines()
+    header = "\n".join(lines[:2])
+    query_tokens = _query_tokens(query)
+    ranked = sorted(
+        (
+            (len(query_tokens & _tokenize(line)), line)
+            for line in lines[2:]
+            if query_tokens & _tokenize(line)
+        ),
+        key=lambda item: (-item[0], item[1]),
+    )
+    if not ranked:
+        return text[:limit]
+    excerpt = header
+    for _, line in ranked:
+        candidate = f"{excerpt}\n{line}"
+        if len(candidate) > limit:
+            continue
+        excerpt = candidate
+    return excerpt[:limit]
+
+
 def _query_tokens(text: str) -> Set[str]:
     return _tokenize(text) - _QUERY_NOISE
 
@@ -674,6 +702,88 @@ def _current_document_text(source: str, text: str) -> str:
         if active_level is not None:
             selected.append(line)
     return "".join(selected)
+
+
+def _monorepo_index_chunks(repo_root: Path, max_chunk_chars: int) -> List["DocumentChunk"]:
+    """Index bounded component guides and path-only records from the generated monorepo map."""
+    inventory_path = repo_root / "COMPACTIFICATION" / "monorepo_map.json"
+    try:
+        inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    entries = inventory.get("files") if isinstance(inventory, dict) else None
+    if not isinstance(entries, list):
+        return []
+
+    grouped_paths: Dict[str, List[str]] = {}
+    component_readmes: List[str] = []
+    for entry in entries:
+        if not isinstance(entry, dict) or entry.get("kind") != "file":
+            continue
+        relative = entry.get("path")
+        if (
+            not isinstance(relative, str)
+            or not relative
+            or relative.startswith("/")
+            or "\\" in relative
+            or any(part in {"", ".", ".."} for part in relative.split("/"))
+        ):
+            continue
+        parts = relative.split("/")
+        directory_parts = parts[:-1]
+        group = "/".join(directory_parts[:2]) or "."
+        labels = [f"lane={entry['lane']}"] if isinstance(entry.get("lane"), str) else []
+        if isinstance(entry.get("product"), str):
+            labels.append(f"product={entry['product']}")
+        grouped_paths.setdefault(group, []).append(
+            relative + (f" [{', '.join(labels)}]" if labels else "")
+        )
+        if relative.lower().endswith("/readme.md") and (
+            relative.count("/") <= 1
+            or (parts[0] == "12-AZ-IP" and relative.count("/") == 2)
+        ):
+            component_readmes.append(relative)
+
+    chunks: List[DocumentChunk] = []
+    limit = max(256, max_chunk_chars)
+    for group, paths in sorted(grouped_paths.items()):
+        header = f"Repository inventory paths (not file contents or execution evidence)\nDirectory: {group}\n"
+        body = ""
+        part_number = 1
+        for path in sorted(set(paths)):
+            line = path + "\n"
+            if body and len(header) + len(body) + len(line) > limit:
+                chunks.append(DocumentChunk(
+                    "COMPACTIFICATION/monorepo_map.json",
+                    f"Monorepo inventory: {group} (part {part_number})",
+                    header + body,
+                ))
+                body = ""
+                part_number += 1
+            body += line
+        if body:
+            chunks.append(DocumentChunk(
+                "COMPACTIFICATION/monorepo_map.json",
+                f"Monorepo inventory: {group} (part {part_number})",
+                header + body,
+            ))
+
+    root = repo_root.resolve()
+    for relative in sorted(set(component_readmes)):
+        source = repo_root / relative
+        try:
+            resolved = source.resolve(strict=True)
+            if not resolved.is_relative_to(root) or not resolved.is_file():
+                continue
+            with resolved.open(encoding="utf-8", errors="replace") as stream:
+                text = stream.read(min(limit * 4, 32_768))
+        except OSError:
+            continue
+        directory = relative.rpartition("/")[0] or "."
+        title = f"Component guide: {directory} (documentation; check source status)"
+        for offset in range(0, len(text), limit):
+            chunks.append(DocumentChunk(relative, title, text[offset : offset + limit]))
+    return chunks
 
 
 def _matches_lane_keyword(query_tokens: Set[str], normalized_query: str, keyword: str) -> bool:
@@ -1149,6 +1259,7 @@ class RAGIndex:
                 except OSError:
                     pass
 
+        chunks.extend(_monorepo_index_chunks(repo_root, max_chunk_chars))
         return cls(chunks=chunks, knowledge_base=build_runtime_knowledge_base(repo_root))
 
     @classmethod
@@ -1212,6 +1323,7 @@ class RAGIndex:
                 except OSError:
                     pass
 
+        chunks.extend(_monorepo_index_chunks(repo_root, max_chunk_chars))
         return cls(chunks=chunks, knowledge_base=build_runtime_knowledge_base(repo_root))
 
     def search(self, query: str, top_k: int = 5) -> List[Tuple[float, DocumentChunk]]:
@@ -1228,12 +1340,15 @@ class RAGIndex:
         """
         query_tokens = _query_tokens(query)
         query_text = query.lower().strip()
-        scored = [
-            (min(1.0, chunk.score(query_tokens, query_text) * _source_weight(chunk.source)), chunk)
-            for chunk in self.chunks
-        ]
-        scored.sort(key=lambda x: x[0], reverse=True)
-        return scored[:top_k]
+        scored = []
+        for chunk in self.chunks:
+            raw_score = chunk.score(query_tokens, query_text)
+            source_weight = _source_weight(chunk.source)
+            scored.append(
+                (min(1.0, raw_score * source_weight), source_weight, raw_score, chunk)
+            )
+        scored.sort(key=lambda item: (item[0], item[1], item[2]), reverse=True)
+        return [(score, chunk) for score, _, _, chunk in scored[:top_k]]
 
     def lookup_kb(self, query: str) -> Optional[Dict]:
         """Match topic anchors, never incidental words in answers or citations.
@@ -1317,18 +1432,34 @@ def answer_question(index: RAGIndex, query: str, top_k: int = 3) -> Dict:
         }
 
     context_chunks = [
-        {"score": score, "source": chunk.source, "title": chunk.title, "excerpt": chunk.text[:300]}
+        {
+            "score": score,
+            "source": chunk.source,
+            "title": chunk.title,
+            "excerpt": (
+                _inventory_excerpt(chunk.text, query, limit=300)
+                if chunk.source == "COMPACTIFICATION/monorepo_map.json"
+                else chunk.text[:300]
+            ),
+        }
         for score, chunk in results
         if score > 0.0
     ]
 
     # Build a simple answer from the top chunk
     top_chunk = results[0][1]
-    answer = (
-        f"Relevant excerpt from {top_chunk.source} ({top_chunk.title}):\n\n"
-        + top_chunk.text[:600]
-        + ("\n\n[...continued in source file]" if len(top_chunk.text) > 600 else "")
-    )
+    if top_chunk.source == "COMPACTIFICATION/monorepo_map.json":
+        answer = (
+            f"Repository path inventory from {top_chunk.source} "
+            "(path metadata only; this does not establish file contents or test execution):\n\n"
+            + _inventory_excerpt(top_chunk.text, query)
+        )
+    else:
+        answer = (
+            f"Relevant excerpt from {top_chunk.source} ({top_chunk.title}):\n\n"
+            + top_chunk.text[:600]
+            + ("\n\n[...continued in source file]" if len(top_chunk.text) > 600 else "")
+        )
 
     return {
         "query": query,
@@ -1461,6 +1592,10 @@ def retrieve_intent(
 
 def _source_weight(source: str) -> float:
     lower = source.lower()
+    if lower == "compactification/monorepo_map.json":
+        return 1.1
+    if lower.startswith("12-az-ip/"):
+        return 1.05
     if lower.startswith("hils_session_"):
         return HILS_SESSION_WEIGHT
     if lower.startswith("5-governance/co-emergence/"):
