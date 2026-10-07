@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Finset.Basic
 /-!
 # Unitary Manifold — Orbifold BC Pattern Uniqueness (Lean 4)
 
@@ -63,9 +66,6 @@ Theory: ThomasCory Walker-Pearson (2026)
 Code: GitHub Copilot (AI)
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Finset.Basic
 
 namespace UnitaryManifold.OrbifoldBCUniqueness
 

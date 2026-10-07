@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — PMNS CP Phase NLO Stability
 
@@ -14,7 +15,6 @@ ARCHITECTURE_LIMIT
 * δ_CP^PMNS is measured to only ±25°, so the test is not yet decisive.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.PMNSCPNLO
 

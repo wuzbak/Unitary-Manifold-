@@ -5,7 +5,10 @@ Shared pytest fixtures for the Unitary Manifold test suite.
 """
 
 import os
+import shutil
 import sys
+import tempfile
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -34,6 +37,34 @@ if _GEO_MONITOR_DIR not in sys.path:
 from src.core.evolution import FieldState
 from src.holography.boundary import BoundaryState
 from src.multiverse.fixed_point import MultiverseNetwork
+
+
+def pytest_sessionstart(session):
+    """Isolate runtime writes before collection can evaluate pillar proxies."""
+    from src.core.merlin_package_bootstrap import ensure_merlin_package_loaded
+
+    ensure_merlin_package_loaded(Path(_REPO_ROOT) / "12-AZ-IP" / "20-psicat-navigator")
+    from ox_navigator.engine import merlin_training_execution
+
+    directory = tempfile.TemporaryDirectory(prefix="um-regression-training-")
+    patches = pytest.MonkeyPatch()
+    session.config.add_cleanup(directory.cleanup)
+    session.config.add_cleanup(patches.undo)
+    for name in ["LANE_E_PROFILE_ARTIFACT_PATH", "PERFORMANCE_GATE_HISTORY_PATH"]:
+        original = getattr(merlin_training_execution, name)
+        isolated = Path(directory.name) / original.name
+        if original.is_file():
+            shutil.copy2(original, isolated)
+        patches.setattr(merlin_training_execution, name, isolated)
+    patches.setattr(merlin_training_execution, "_LANE_E_RUNTIME_PROFILE_CACHE", None)
+    from lodge import rag_bridge
+
+    original = rag_bridge._HISTORY_FILE
+    isolated = Path(directory.name) / "lodge" / original.name
+    isolated.parent.mkdir()
+    if original.is_file():
+        shutil.copy2(original, isolated)
+    patches.setattr(rag_bridge, "_HISTORY_FILE", isolated)
 
 
 # ---------------------------------------------------------------------------

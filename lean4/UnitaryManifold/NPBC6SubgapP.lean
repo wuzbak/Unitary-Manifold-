@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Nat.Defs
 /-!
 # Unitary Manifold — NP-BC-6 Sub-gap P: KK Loop Correction Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -29,10 +33,6 @@ non-perturbative loop-integral closure is not claimed.
 ## Contribution: 11 new theorems
 Total after this file: 308 + 11 = 319 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Nat.Defs
 
 namespace UnitaryManifold.NPBC6SubgapP
 

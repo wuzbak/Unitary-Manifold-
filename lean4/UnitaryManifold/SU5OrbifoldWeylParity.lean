@@ -1,3 +1,8 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Basic
+import Mathlib.Data.Nat.GCD.Basic
+import Mathlib.Data.Finset.Basic
+import Mathlib.Data.Rat.Basic
 /-!
 # Unitary Manifold — SU(5) Orbifold Weyl-Group Parity Proof (Lean 4 + Mathlib)
 
@@ -114,11 +119,6 @@ Theory: ThomasCory Walker-Pearson (2026).
 Code: GitHub Copilot (AI).
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Basic
-import Mathlib.Data.Nat.GCD.Basic
-import Mathlib.Data.Finset.Basic
-import Mathlib.Data.Rat.Basic
 
 namespace UnitaryManifold.SU5OrbifoldWeylParity
 

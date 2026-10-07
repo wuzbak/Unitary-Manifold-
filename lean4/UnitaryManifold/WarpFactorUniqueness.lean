@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.GCD.Basic
+import Mathlib.Data.Nat.Prime.Basic
 /-!
 # Unitary Manifold — Warp Factor Uniqueness Certificate (Lean 4 + Mathlib)
 
@@ -74,9 +77,6 @@ New theorems in this file: 18
 New total: 494
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Nat.GCD.Basic
-import Mathlib.Data.Nat.Prime.Basic
 
 namespace UnitaryManifold
 

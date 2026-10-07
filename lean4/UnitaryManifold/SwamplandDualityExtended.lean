@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Extended Swampland Duality Audit
 
@@ -15,7 +16,6 @@ ARCHITECTURE_LIMIT
 * all Swampland conjectures are conjectures; PASS verdicts are conditional.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.SwamplandExtended
 

@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — N_gen Bundle Degeneracy and APS Index Bridge
 
@@ -16,7 +17,6 @@ ARCHITECTURE_LIMIT
 * the eta-invariant η̄ = 1/4 is imported, not derived here.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.Ngen6DAPS
 

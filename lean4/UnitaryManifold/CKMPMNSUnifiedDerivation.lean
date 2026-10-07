@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Unified CKM and PMNS Derivation
 
@@ -16,7 +17,6 @@ ARCHITECTURE_LIMIT
 * sub-leading bulk charge data remains unknown in both sectors.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.CKMPMNSUnified
 

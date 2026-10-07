@@ -156,7 +156,8 @@ def test_repo_rel_supports_explicit_base_dir() -> None:
 
 
 def test_repo_rel_rejects_external_base_dir(tmp_path: Path) -> None:
-    repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
+    repo_root = tmp_path / "repository"
+    repo_root.mkdir()
     rel = repo_rel(Path("README.md"), repo_root, base_dir=tmp_path)
     assert rel.startswith("NON_REPO_PATH::README.md::")
 

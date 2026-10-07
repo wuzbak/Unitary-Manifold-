@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — Yukawa SVD Closure (Lean 4)
 
@@ -28,9 +31,6 @@ New theorems: 30
 New total: 623
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.YukawaSVDClosure
 

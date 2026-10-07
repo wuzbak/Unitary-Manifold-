@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Nat.Defs
 /-!
 # Unitary Manifold — NP-BC-3 Sub-gap G: Path Integral Topology Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -40,10 +44,6 @@ Sub-gap G remains PARTIALLY_CLOSED:
 ## Contribution: 11 new theorems
 Total after this file: 206 + 11 = 217 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Nat.Defs
 
 namespace UnitaryManifold.NPBC3SubgapG
 

@@ -1,3 +1,8 @@
+import Mathlib.Tactic
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.ZMod.Basic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 /-!
 # Unitary Manifold — NP-BC-2 IR-Brane Mixing Proof Attempt (Lean 4 + Mathlib)
 
@@ -48,11 +53,6 @@ open axiom. Three sub-gaps block the full proof:
 
 New theorems in this file: 16
 -/
-import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 
 namespace UnitaryManifold.NPBC2
 

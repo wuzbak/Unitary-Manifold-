@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — CKM 7D Mixing Angles (Lean 4)
 
@@ -15,9 +18,6 @@ What is not proved here:
 - Full complex SVD of the Yukawa textures.
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.CKM7DMixingAngles
 

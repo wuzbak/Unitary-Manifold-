@@ -1,5 +1,8 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
+import Mathlib.Data.Real.Basic
+import Mathlib.Data.Nat.Basic
 /-!
 # Unitary Manifold — Sprint BE Bridge Theorems (Pillar 929)
 
@@ -19,9 +22,6 @@ Theory, framework, and scientific direction: ThomasCory Walker-Pearson.
 Lean4 encoding and synthesis: GitHub Copilot (AI).
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Real.Basic
-import Mathlib.Data.Nat.Basic
 
 namespace UnitaryManifold.SprintBE
 

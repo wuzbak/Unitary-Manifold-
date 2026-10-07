@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.ZMod.Basic
+import Mathlib.Data.Nat.Parity
 /-!
 # Unitary Manifold — NP-BC-1 Sub-gap C: Curved-Background Orbifold Consistency
 # (Lean 4 + Mathlib)
@@ -41,10 +45,6 @@ Previous (Pillar 561): 162 theorems
 New (NPBC1SubgapC.lean): 11 new theorems
 Total: 173 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Nat.Parity
 
 namespace UnitaryManifold.NPBC1SubgapC
 

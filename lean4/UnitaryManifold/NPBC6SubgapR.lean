@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Nat.Defs
 /-!
 # Unitary Manifold — NP-BC-6 Sub-gap R: ER=EPR Bridge Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -30,10 +34,6 @@ wormhole bridge structure via the braid condensate invariant k_CS = 5² + 7² = 
 ## Contribution: 12 new theorems
 Total after this file: 330 + 12 = 342 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Nat.Defs
 
 namespace UnitaryManifold.NPBC6SubgapR
 

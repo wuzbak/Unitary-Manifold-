@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — E8 Breaking Pattern Enumeration
 
@@ -15,7 +16,6 @@ ARCHITECTURE_LIMIT
 * the explicit CY₃ Wilson line realising a surviving chain is unknown.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.E8Breaking
 

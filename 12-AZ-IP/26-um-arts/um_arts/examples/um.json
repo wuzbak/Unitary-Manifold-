@@ -1,0 +1,16 @@
+{
+  "adapter": "um",
+  "workers": 2,
+  "timeout_seconds": 900,
+  "pytest_args": [],
+  "suites": [
+    {"name": "physics", "paths": ["tests"]},
+    {"name": "recycling", "paths": ["recycling"], "requires": ["physics"]},
+    {"name": "pentad", "paths": ["5-GOVERNANCE/Unitary Pentad"], "requires": ["recycling"], "serial": true}
+  ],
+  "lean": {
+    "scope": "scoped",
+    "project": "lean4",
+    "targets": ["UnitaryManifold.SprintCAFormalTraceability"]
+  }
+}

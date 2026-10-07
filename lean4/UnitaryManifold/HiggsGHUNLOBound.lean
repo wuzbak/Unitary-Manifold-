@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — Higgs GHU NLO Bound (Lean 4 + Mathlib)
 
@@ -19,9 +22,6 @@ New theorems: 11
 New total: 568
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.HiggsGHUNLOBound
 

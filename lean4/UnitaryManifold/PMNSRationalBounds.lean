@@ -1,3 +1,4 @@
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — PMNS Rational Arithmetic Bounds (Lean 4 + Mathlib)
 
@@ -68,7 +69,6 @@ New theorems in this file: 12
 New total: 521
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold
 

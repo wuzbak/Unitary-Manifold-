@@ -62,10 +62,13 @@ def test_fast_batch_command_uses_non_slow_marker() -> None:
 
 
 def test_full_core_batch_command_overrides_default_marker() -> None:
+    import shlex
+
     command = full_core_batch_command(batch_index=0, batch_count=DEFAULT_FULL_CORE_BATCH_COUNT)
     assert command.startswith("python -m pytest ")
     assert "not slow" not in command
-    assert "-m ''" in command
+    args = shlex.split(command)
+    assert args[args.index("-m", 3) + 1] == ""
     assert command.endswith(' -q')
 
 
@@ -150,6 +153,7 @@ def test_supervision_reports_product_tests_outside_core(tmp_path, monkeypatch) -
 
 def test_regression_supervision_plan_reports_consistent_coverage() -> None:
     plan = build_regression_supervision_plan()
+    assert plan['supervision']['evidence_scope'] == "file partitioning only; no test execution is certified"
     assert plan['supervision']['coverage_matches_discovery'] is True
     assert plan['supervision']['all_files_unique'] is True
     assert plan['supervision']['full_core_coverage_matches_discovery'] is True
@@ -201,6 +205,38 @@ def test_discovery_keeps_syntax_error_files_in_fast_suite(tmp_path, monkeypatch)
     monkeypatch.setattr(supervision, '_ROOT', tmp_path)
 
     assert supervision.discover_fast_suite_files() == ['tests/test_broken.py']
+
+
+def test_full_core_override_collects_slow_tests(tmp_path, monkeypatch) -> None:
+    import subprocess
+    import sys
+
+    import src.core.regression_supervision_plan as supervision
+
+    tests_dir = tmp_path / "tests"
+    tests_dir.mkdir()
+    (tmp_path / "pytest.ini").write_text(
+        '[pytest]\naddopts = -m "not slow"\nmarkers =\n    slow: slow test\n',
+        encoding="utf-8",
+    )
+    (tests_dir / "test_scope.py").write_text(
+        "import pytest\n"
+        "def test_fast():\n    pass\n"
+        "@pytest.mark.slow\n"
+        "def test_slow():\n    pass\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(supervision, "_ROOT", tmp_path)
+    monkeypatch.setattr(supervision, "pytest_xdist_available", lambda: False)
+    command = supervision.full_core_batch_argv(0, 1)
+    command[0] = sys.executable
+    result = subprocess.run(
+        [*command, "--collect-only"], cwd=tmp_path, capture_output=True, text=True,
+        timeout=30, check=False,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "test_scope.py::test_slow" in result.stdout
+    assert "2 tests collected" in result.stdout
 
 
 def test_discovery_matches_special_pytest_filename_pattern(tmp_path, monkeypatch) -> None:

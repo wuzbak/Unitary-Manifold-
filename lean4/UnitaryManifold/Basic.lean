@@ -1,3 +1,4 @@
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — Core Algebraic Theorems (Lean 4 + Mathlib)
 
@@ -27,7 +28,6 @@ of the fundamental UM constants.
 
 **Total: ~476 theorems** (v21.8+)
 -/
-import Mathlib.Tactic
 
 namespace UnitaryManifold
 

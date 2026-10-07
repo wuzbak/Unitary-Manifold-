@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — CMB Peak Amplitude KK Tower Survey
 
@@ -16,7 +17,6 @@ ARCHITECTURE_LIMIT
 * a fully non-linear 5D transfer computation is outside the EFT scope.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.CMBKKSurvey
 

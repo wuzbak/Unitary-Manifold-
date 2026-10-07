@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — CKM |V_ub| NLO Bound (Lean 4 + Mathlib)
 
@@ -19,9 +22,6 @@ New theorems: 12
 New total: 547
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.CKMVubNLO
 

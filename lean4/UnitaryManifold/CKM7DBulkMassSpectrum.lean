@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — 7D CKM Bulk Mass Spectrum
 
@@ -16,7 +17,6 @@ ARCHITECTURE_LIMIT
 * KK-level mixing corrections to the Yukawa texture are not resummed.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.CKM7DBulk
 

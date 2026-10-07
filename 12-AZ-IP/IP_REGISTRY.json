@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-10-05",
+  "updated": "2026-10-06",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -328,9 +328,9 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-10-06",
-      "sha256": "1110cc9e2c1526e80745c360a3addeb915bd08764d6b25e163f6b15cb6f7c014",
-      "size_bytes": 9605,
-      "reseal_note": "Refreshed 2026-10-06 to reflect the canonical README content accepted in the 2026-10-06 main merge. Prior seal: c5de1c8315d9b34d2bb8bf5c9ea30c83aad7f80ee765772f51b702112d3cd787 (9487 bytes)."
+      "sha256": "ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c",
+      "size_bytes": 11391,
+      "reseal_note": "Refreshed 2026-10-06 after resolving the authorized main merge: retain Product 26 UM-ARTS documentation and main's Product 25 v1.1.0 and external-intake entry. Prior branch seal: 106f48200f467650cef521c2c887d09dbd134b4c8216ef9dddcb1af714b6c8cf (11273 bytes); prior main seal: 1110cc9e2c1526e80745c360a3addeb915bd08764d6b25e163f6b15cb6f7c014 (9605 bytes)."
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",
@@ -435,6 +435,22 @@
       "updated": "2026-09-10",
       "sha256": "867d86ff0b7d7dc4fa785cd1592b4d32c541e3735ce7204780eb36c9b1b9f54f",
       "size_bytes": 5086
+    },
+    "12-AZ-IP/26-um-arts/run.py": {
+      "description": "Product 26 canonical UM-ARTS CLI launcher",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-06",
+      "sha256": "bb6d215a4c805b2e8c46e399f4ae7e23dbf9ba8456a75e27caac5d2e4af900f9",
+      "size_bytes": 268
+    },
+    "12-AZ-IP/26-um-arts/pyproject.toml": {
+      "description": "Product 26 UM-ARTS Python distribution manifest and explicit CLI entrypoint",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-06",
+      "sha256": "82531dc749dbdb84ca015be11792eab6d3732612a2776f025370008a42b050bc",
+      "size_bytes": 507
     },
     "12-AZ-IP/24-psicat-web-browser/playwright.config.js": {
       "description": "Product 24 Playwright-first browser proving-ground test configuration",
@@ -701,6 +717,18 @@
       "tests": 229,
       "description": "Next-gen System Security Governance Engine: anti-malware, zero-day detection, IDS, firewall, anti-surveillance, vulnerability scanner, SHA-512 audit chain, AES-256-GCM encryption. Full protection suite for desktop, mobile, and cloud.",
       "link": "12-AZ-IP/22-az-sge/"
+    },
+    {
+      "name": "UM-ARTS",
+      "version": "1.0.0",
+      "trl": "Not assessed",
+      "port": "CLI / local browser",
+      "tests": "Focused pytest suites",
+      "description": "Canonical evidence-first regression application with supervised execution, immutable receipts, compatible resume, repository inventory, and bounded assistance; does not promote scientific claims.",
+      "link": "26-um-arts/",
+      "pillar_refs": [],
+      "epistemic_status": "REGRESSION_INFRASTRUCTURE",
+      "added": "2026-10-06"
     }
   ]
 }

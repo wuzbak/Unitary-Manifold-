@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-!
 # Unitary Manifold — LiteBIRD Birefringence Discrimination Preparation
 
@@ -14,7 +15,6 @@ ARCHITECTURE_LIMIT
 * the forecast assumes foreground and calibration systematics are subdominant.
 -/
 
-import Mathlib.Tactic
 
 namespace UnitaryManifold.LiteBIRDPrep
 

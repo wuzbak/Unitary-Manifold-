@@ -24,11 +24,24 @@ def test_ip_and_editorial_catalogues_are_complete():
     articles = monorepo["psicat_literature"]["articles"]
     assert books == [path for path in paths if path.startswith(build_maps.BOOKS)]
     assert articles == [path for path in paths if path.startswith(build_maps.ARTICLES)]
-    assert len(monorepo["az_ip_products"]) == 25
+    product_directories = {
+        path.split("/")[1] for path in paths
+        if path.startswith("12-AZ-IP/") and len(path.split("/")) > 2
+        and build_maps.PRODUCT.fullmatch(path.split("/")[1])
+    }
+    assert set(monorepo["az_ip_products"]) == product_directories
+    assert "26-um-arts" in monorepo["az_ip_products"]
     assert set().union(*map(set, monorepo["az_ip_products"].values())) <= set(paths)
     assert monorepo["lanes"]["az_ip"] == sum(
         path.startswith("12-AZ-IP/") for path in paths
     )
+
+
+def test_product_classification_is_not_capped_at_current_product_count():
+    assert build_maps.classify("26-um-arts/README.md")["lane"] == "other"
+    assert build_maps.classify("12-AZ-IP/26-um-arts/README.md")["product"] == "26-um-arts"
+    assert build_maps.classify("12-AZ-IP/100-future-product/README.md")["product"] == "100-future-product"
+    assert "product" not in build_maps.classify("12-AZ-IP/psicat-external-intake/README.md")
 
 
 def test_dynamic_radion_metric_has_canonical_schur_complement():

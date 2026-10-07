@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+import Mathlib.Data.Real.Basic
 /-!
 # Unitary Manifold — PMNS Solar Angle Analytic Monotonicity Bound (Lean 4)
 
@@ -61,9 +64,6 @@ Theory: ThomasCory Walker-Pearson (2026)
 Code: GitHub Copilot (AI)
 -/
 
-import Mathlib.Tactic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.Data.Real.Basic
 
 namespace UnitaryManifold.PMNSSolarAngleBound
 

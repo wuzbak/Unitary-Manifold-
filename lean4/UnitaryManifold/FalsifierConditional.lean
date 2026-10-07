@@ -1,3 +1,5 @@
+import Mathlib.Tactic
+import Mathlib.Data.Int.Order
 /-!
 # Unitary Manifold — Explicit Conditional Falsifier Theorems (Lean 4 + Mathlib)
 
@@ -42,8 +44,6 @@ New theorems: 25
 New total: 410
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Int.Order
 
 namespace UnitaryManifold.FalsifierConditional
 

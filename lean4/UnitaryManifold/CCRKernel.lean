@@ -1,3 +1,5 @@
+import Mathlib.Tactic
+import Mathlib.Algebra.BigOperators.Basic
 /-!
 # Unitary Manifold — CCR and ER=EPR Conditional Theorem Kernels (Lean 4 + Mathlib)
 
@@ -51,8 +53,6 @@ of local bulk contributions at separated points, with the same factorization
 structure as the entanglement entropy of a bipartite quantum system. This
 is the factorization kernel of the ER=EPR identification.
 -/
-import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
 
 namespace UnitaryManifold.CCRKernel
 

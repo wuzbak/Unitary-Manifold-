@@ -1,3 +1,9 @@
+import Mathlib.Tactic
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.ZMod.Basic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Data.Real.Basic
+import Mathlib.Order.Basic
 /-!
 # Unitary Manifold — NP-BC-1 Sub-gap A: RS Warp Factor Algebra (Lean 4 + Mathlib)
 
@@ -48,12 +54,6 @@ The full closure requires:
 ## Contribution: 12 new theorems
 Total after this file: 139 + 12 = 151 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Data.Real.Basic
-import Mathlib.Order.Basic
 
 namespace UnitaryManifold.NPBC1SubgapA
 

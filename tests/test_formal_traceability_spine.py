@@ -35,6 +35,26 @@ def test_primary_lanes_are_exact_frontier_pair() -> None:
     assert PRIMARY_LANES[1]["priority"] == 2
 
 
+def test_checked_export_targets_are_explicit_not_gap_comment_ids() -> None:
+    rows = {row["id"]: row for row in TRACEABILITY_ROWS}
+    assert rows["APS_MATHLIB_FORMALIZATION_GAP"]["lean_declarations"] == []
+    assert rows["APS_ETA_AXIOM_HALF_CLASS"]["lean_declarations"] == [
+        "UnitaryManifold.NWUniquenessHonest.aps_eta_invariant_5_is_half",
+        "UnitaryManifold.NWUniquenessHonest.aps_eta_invariant_7_is_zero",
+    ]
+    assert rows["DIRAC_ORBIFOLD_PROXY_BOUNDARY"]["lean_declarations"] == [
+        "UnitaryManifold.DiracOrbifoldSpectrum.cl_gen3",
+        "UnitaryManifold.DiracOrbifoldSpectrum.g4_bc_spectrum_certificate",
+        "UnitaryManifold.DiracOrbifoldSpectrum.g4_generation_mixing_closure",
+    ]
+    assert rows["ACTION_TO_EVOLUTION_BOUNDARY"]["kind"] == "open_gap"
+    assert rows["ACTION_TO_EVOLUTION_BOUNDARY"]["label"] == "PHENOMENOLOGICAL_FLOW_BOUNDARY"
+    assert all(
+        declaration.startswith("UnitaryManifold.")
+        for row in TRACEABILITY_ROWS for declaration in row["lean_declarations"]
+    )
+
+
 def test_proof_class_separation_present() -> None:
     classes = {row["epistemic_class"] for row in TRACEABILITY_ROWS}
     assert PROOF_CLASS_UNCONDITIONAL not in classes or isinstance(classes, set)

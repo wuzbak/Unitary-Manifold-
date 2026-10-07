@@ -7,11 +7,13 @@ on:
   pull_request:
     branches:
       - '**'
+  workflow_dispatch:
 
 jobs:
   lean4-build:
     name: Lake build (Lean 4 + Mathlib)
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     permissions:
       contents: read
     defaults:
@@ -19,12 +21,15 @@ jobs:
         working-directory: lean4
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Install elan
         run: |
           curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
             | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
+          echo "ELAN_TOOLCHAIN=$(cat lean-toolchain)" >> "$GITHUB_ENV"
 
       - name: Cache .lake
         uses: actions/cache@v4
@@ -38,11 +43,42 @@ jobs:
       - name: Lake update
         run: lake update
 
-      - name: Download Mathlib cache
-        run: lake exe cache get || true
+      - name: Build checked UM-ARTS declaration exporter
+        run: lake build um_arts_export
 
-      - name: Lake build
-        run: lake build
+      - name: Install existing pytest dependency for exporter checks
+        working-directory: .
+        run: python3 -m pip install 'pytest>=7.0,<9.1'
+
+      - name: Verify exporter with the pinned Lean toolchain
+        working-directory: .
+        run: |
+          python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" \
+            --output "$GITHUB_WORKSPACE/.um-arts/lean-exporter-tests" --timeout 300 \
+            -- python3 -m pytest tests/test_um_arts_lean_exporter.py \
+            --noconftest -m "" -q
 
       - name: Verify NumericalChecks compile
-        run: lake build UnitaryManifold.NumericalChecks
+        working-directory: .
+        run: python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/lean-numerical" --timeout 900 -- lake -d lean4 build UnitaryManifold.NumericalChecks
+
+      - name: Download Mathlib cache
+        continue-on-error: true
+        working-directory: .
+        run: |
+          python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" \
+            --output "$GITHUB_WORKSPACE/.um-arts/lean-cache" --timeout 600 \
+            -- lake -d lean4 exe cache get
+
+      - name: Lake build
+        working-directory: .
+        run: python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/lean-full" --timeout 3600 -- lake -d lean4 build
+
+      - name: Preserve Lean build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-lean
+          path: .um-arts/
+          include-hidden-files: true
+          if-no-files-found: warn

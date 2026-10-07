@@ -101,6 +101,38 @@ class TestStructure:
 
 
 class TestVerification:
+    def test_symbolic_curvature_uses_exact_domainmatrix_inverse(self, monkeypatch):
+        import sympy as sp
+        from sympy.matrices.matrixbase import MatrixBase
+
+        from src.core import action_derived_flow as flow
+
+        x, y = sp.symbols("x y", real=True)
+        metric = sp.Matrix([[1 + x ** 2, x], [x, 1]])
+        original_inverse = MatrixBase.inv
+        methods = []
+
+        def checked_inverse(matrix, *args, **kwargs):
+            methods.append(kwargs.get("method"))
+            inverse = original_inverse(matrix, *args, **kwargs)
+            assert all(sp.cancel(entry) == 0 for entry in matrix * inverse - sp.eye(2))
+            return inverse
+
+        monkeypatch.setattr(MatrixBase, "inv", checked_inverse)
+        curvature = flow._sym_ricci_scalar(sp, metric, [x, y])
+        assert methods == ["DM"]
+        assert sp.simplify(curvature) == 0
+
+    def test_symbolic_curvature_compaction_preserves_nonzero_curvature(self):
+        import sympy as sp
+
+        from src.core import action_derived_flow as flow
+
+        x, y = sp.symbols("x y", real=True)
+        metric = sp.diag(1, (1 + x ** 2) ** 2)
+        curvature = flow._sym_ricci_scalar(sp, metric, [x, y])
+        assert sp.cancel(curvature + 4 / (1 + x ** 2)) == 0
+
     @pytest.mark.parametrize("full,offdiagonal", [(False, False), (True, False), (False, True)])
     def test_profile_derivatives_match_sequential_substitution(self, full, offdiagonal):
         sp, x, lam, syms, fields, _, _, _ = _symbolic_setup(full, offdiagonal)
@@ -143,6 +175,42 @@ class TestVerification:
         res = symbolic_kk_reduction_check(full=False)
         assert res["reduction_verified"]
         assert res["max_abs_euler_operator_of_difference"] < 1e-10
+
+    @pytest.mark.slow
+    def test_symbolic_cancellation_preserves_lagrangian_before_variation(self, monkeypatch):
+        from sympy.calculus import euler
+
+        from src.core import action_derived_flow as flow
+
+        sp, x, lam, syms, fields, coords, gE, Bv = flow._symbolic_setup(False)
+        p = syms[4]
+        G = sp.zeros(5, 5)
+        G[:4, :4] = gE / p + lam ** 2 * p ** 2 * Bv * Bv.T
+        for i in range(4):
+            G[i, 4] = G[4, i] = lam * p ** 2 * Bv[i]
+        G[4, 4] = p ** 2
+        original = sp.sqrt(-G.det()) * flow._sym_ricci_scalar(sp, G, coords)
+        original -= flow._sym_reduced_lagrangian(sp, x, lam, gE, Bv, p, coords)
+        original_euler = euler.euler_equations
+        checked = []
+
+        def check_difference(lagrangian, varied_fields, coordinate):
+            assert sp.cancel(original - lagrangian) == 0
+            assert sp.count_ops(lagrangian) < sp.count_ops(original)
+            assert varied_fields == fields
+            assert coordinate == x
+            checked.append(True)
+            return original_euler(lagrangian, varied_fields, coordinate)
+
+        monkeypatch.setattr(euler, "euler_equations", check_difference)
+        symbolic_kk_reduction_check.cache_clear()
+        try:
+            result = symbolic_kk_reduction_check(exact=True)
+            assert checked == [True]
+            assert result["reduction_verified"]
+            assert result["exact_identity_verified"]
+        finally:
+            symbolic_kk_reduction_check.cache_clear()
 
     @pytest.mark.slow
     def test_symbolic_reduction_full_ansatz(self):

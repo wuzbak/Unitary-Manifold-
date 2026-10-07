@@ -1,0 +1,14 @@
+{
+  "adapter": "um",
+  "workers": 2,
+  "files_per_job": 32,
+  "collection_timeout_seconds": 900,
+  "timeout_seconds": 1800,
+  "pytest_args": ["-m", ""],
+  "plugins": ["pytest_asyncio.plugin", "pytest_benchmark.plugin"],
+  "suites": [
+    {"name": "physics", "paths": ["tests"]},
+    {"name": "recycling", "paths": ["recycling"]},
+    {"name": "pentad", "paths": ["5-GOVERNANCE/Unitary Pentad"], "serial": true}
+  ]
+}

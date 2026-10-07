@@ -146,3 +146,84 @@ def test_full_core_supervisor_uses_full_core_default_batch_count(monkeypatch, ca
     assert observed["batch_count"] == 4
     assert observed["full_core_batch_count"] == 8
     assert "supervised full-core regression structural file coverage check passed (not execution evidence)" in capsys.readouterr().out
+
+
+def test_evidence_mode_wraps_existing_command(monkeypatch, tmp_path) -> None:
+    import argparse
+    import sys
+
+    observed = {}
+    command = ["python", "-m", "pytest", "-m", "", "tests/test_example.py", "-q"]
+
+    def fake_run(args, dry_run):
+        observed["args"] = args
+        observed["dry_run"] = dry_run
+        return 7
+
+    monkeypatch.setattr(batch_runner, "_run", fake_run)
+    args = argparse.Namespace(evidence_dir=tmp_path, timeout=15, dry_run=True)
+    assert batch_runner._execute(command, args) == 7
+    assert observed["args"] == [
+        sys.executable, "-m", "TOOLS.um_arts", "capture",
+        "--repo", str(batch_runner.ROOT), "--output", str(tmp_path.resolve()),
+        "--timeout", "15", "--", *command,
+    ]
+    assert observed["dry_run"] is True
+
+
+def test_timeout_must_be_positive_finite(monkeypatch) -> None:
+    import sys
+
+    import pytest
+
+    for timeout in ("0", "-1", "nan", "inf"):
+        monkeypatch.setattr(sys, "argv", [
+            str(MODULE_PATH), "--suite", "compactified-preflight", "--timeout", timeout,
+        ])
+        with pytest.raises(SystemExit) as error:
+            batch_runner._parse_args()
+        assert error.value.code == 2
+
+
+def test_receipt_batch_preserves_capture_evidence(monkeypatch, tmp_path) -> None:
+    import json
+
+    observed = {}
+    monkeypatch.setattr(batch_runner, "ROOT", tmp_path / "project")
+    monkeypatch.setattr(batch_runner, "_snapshot", lambda: {"head": "abc", "worktree_digest": "def"})
+    monkeypatch.setattr(batch_runner, "_environment_fingerprint", lambda: {
+        "python_implementation": "CPython", "python_version": "3.12.14",
+        "platform_system": "Linux", "platform_machine": "x86_64",
+        "distributions_digest": "a" * 64,
+    })
+    monkeypatch.setenv("PYTEST_ADDOPTS", "")
+    batches = [{"test_paths": ["tests/test_example.py"]}]
+    monkeypatch.setattr(batch_runner, "build_regression_supervision_plan_with_full_core_count",
+                        lambda **kwargs: {"supervised_fast_suite": {"batches": batches}})
+    monkeypatch.setattr(batch_runner, "fast_batch_argv",
+                        lambda **kwargs: ["python", "-m", "pytest", "tests/test_example.py", "-q"])
+    results = tmp_path / "results"
+    evidence = tmp_path / "evidence"
+
+    def fake_run(command, dry_run):
+        observed["command"] = command
+        junit = next(item.split("=", 1)[1] for item in command if item.startswith("--junitxml="))
+        Path(junit).write_text(
+            '<testsuite tests="1" failures="0" errors="0" skipped="0"><testcase name="ok"/></testsuite>')
+        return 0
+
+    monkeypatch.setattr(batch_runner, "_run", fake_run)
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "tests-fast", "--batch-index", "0",
+        "--result-dir", str(results), "--evidence-dir", str(evidence), "--timeout", "15",
+    ])
+    assert batch_runner.main() == 0
+    assert observed["command"][:4] == [sys.executable, "-m", "TOOLS.um_arts", "capture"]
+    assert str(evidence.resolve()) in observed["command"]
+    receipt = json.loads((results / "tests-fast-0.json").read_text())
+    assert receipt["status"] == "success"
+    assert receipt["counts"]["tests"] == 1
+    monkeypatch.setattr(sys, "argv", [
+        "runner", "--suite", "tests-fast", "--aggregate", "--result-dir", str(results),
+    ])
+    assert batch_runner.main() == 0

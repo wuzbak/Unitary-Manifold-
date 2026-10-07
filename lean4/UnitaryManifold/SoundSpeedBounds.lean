@@ -1,3 +1,8 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
+import Mathlib.Data.Nat.Prime.Basic
+import Mathlib.RingTheory.Coprime.Basic
 /-!
 # Unitary Manifold — Sound Speed Stability Bounds (Lean 4 + Mathlib)
 
@@ -44,11 +49,6 @@ New theorems: 18
 New total: 446
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
-import Mathlib.Data.Nat.Prime.Basic
-import Mathlib.RingTheory.Coprime.Basic
 
 namespace UnitaryManifold.SoundSpeedBounds
 

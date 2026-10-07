@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Order
 /-!
 # Unitary Manifold — ACT r Irreducibility (Lean 4 + Mathlib)
 
@@ -18,9 +21,6 @@ New theorems: 9
 New total: 643
 -/
 
-import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
 
 namespace UnitaryManifold.ACTrIrreducibility
 

@@ -10,7 +10,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 - External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
-## Product registry (25 canonical software products / surfaces)
+## Product registry (26 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -39,6 +39,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 23 | PsiCat DM Guide & Player Assistant | 1.1.0 | TRL-3 | http://localhost:8033 | 17 | Offline-first Dungeons & Dragons 5e / 5.5e campaign assistant with separate DM/player dashboards, invite-code joins, character import, XP/treasure/gold/item tracking, maps, NPCs, image pushes, and PsiCat expert guidance. | [23-psicat-dm-assistant/](23-psicat-dm-assistant/) |
 | 24 | PsiCat Web Browser | 1.0.0 | TRL-3 | Electron / Android / Extension | 15 | Chromium-based next-gen browser foundation with Electron desktop, native-tab Android shell, split-workspace desktop scaffolding, embedded PsiCat research sidebar, local sync backend scaffold, Playwright-first browser proving ground, notebook, sync packet workflows, and import/export. | [24-psicat-web-browser/](24-psicat-web-browser/) |
 | 25 | PsiCat Braided Brain | 1.1.0 | TRL-3 | Browser / PWA | 25 | Toroidal brain simulator game for desktop and mobile with science missions, local training-packet export, and optional PsiCat coaching through Product 20. | [25-psicat-braided-brain/](25-psicat-braided-brain/) |
+| 26 | UM-ARTS | 1.0.0 | Not assessed | CLI / local browser | Focused pytest suites | Evidence-first regression application: supervised execution, immutable receipts, compatible resume, inventory, and bounded assistance; no scientific claim promotion. | [26-um-arts/](26-um-arts/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
@@ -71,6 +72,33 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - `23-psicat-dm-assistant/` — standalone PsiCat-powered D&D 5e/5.5e assistant built as an offline-first campaign, encounter, and image-brief product
 - `24-psicat-web-browser/` — advanced Chromium-based PsiCat browser product with Electron desktop, split-workspace scaffolding, native-tab Android shell, local sync backend scaffold, Playwright-first testing, and Chrome/Edge extension companion
 - `25-psicat-braided-brain/` — responsive toroidal brain simulator game with PsiCat/PhiCat teaching loops, voluntary training-packet export, and optional Product 20 coaching
+- `26-um-arts/` — canonical UM-ARTS regression application and Python package; `TOOLS.um_arts` retains backwards-compatible CLI, submodule, and pytest-plugin imports
+
+## Product 26 operational entrypoints
+
+UM-ARTS is regression infrastructure, not a physics pillar or a scientific
+certificate; technology readiness has not been assessed. Its canonical product
+description lives in `IP_REGISTRY.json`. Full operational documentation is in the
+existing [`../TOOLS/README.md`](../TOOLS/README.md#um-arts--regression-evidence-application).
+
+From the repository root:
+
+```bash
+python 12-AZ-IP/26-um-arts/run.py --help
+python 12-AZ-IP/26-um-arts/run.py serve \
+  --root "$PWD" --store "$PWD/.um-arts" --host 127.0.0.1 --port 8765
+```
+
+The application is loopback-only. `inventory` discovers review-required
+repository-wide candidates; `assist` retrieves bounded cited context without
+changing evidence gates. `snapshot` explicitly copies source but never waives
+frozen-input checks. `certify --manifest PATH` only reconciles the explicit,
+disclosed compatible checks in a manifest, not an automatic full-repository
+badge. Python, exporter, scoped Lean, and full formal-library outcomes remain
+separate. Existing legacy module/CLI/plugin imports stay supported.
+Execution/recovery supports Python 3.12+ on Linux/macOS using Unix `fcntl` and
+POSIX process groups, not native Windows. Product release 1.0.0 is distinct from
+the preserved evidence schema `VERSION = "1"` displayed by legacy CLI version output.
 
 ## Shared assets retained
 

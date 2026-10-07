@@ -1,0 +1,812 @@
+{
+  "schema_version": 1,
+  "record_kind": "validation_checkpoint_not_a_sealed_certificate",
+  "tested_revision": "d2608bb5463bf9208d7ed5a2994e945b72bce76d",
+  "overall_status": "partial",
+  "scope_boundary": "Application execution evidence, not confirmation of physics claims or coverage of every repository product.",
+  "frozen_source": {
+    "source_fingerprint": "23acaee25ab66fd20569bcfa3c58dd1a31b4a03cbe2b8c1cb3db2cfa9286c65a",
+    "engine_fingerprint": "4aaa0697804d2d37a62ee35dea682964d4b71a22c583f6ea793e4d6db51e1d6a",
+    "git_fingerprint": "86fd9693d792012fc40c6cac00b4fd8b5ca19b07a04d40d2ba27cde54bc1c767",
+    "origin": "Clean real checkout of the tested revision, kept unchanged throughout planning and execution so commit audits retain genuine Git context."
+  },
+  "product_regression": {
+    "status": "passed",
+    "marker_expression": "",
+    "selected": 491,
+    "passed": 480,
+    "skipped": 11,
+    "optional_skips": {
+      "compiler_backed_lean_exporter": 10,
+      "pytest_xdist": 1
+    },
+    "environments": [
+      {
+        "pytest": "9.1.1",
+        "note": "Preinstalled sandbox version exceeds the repository's pytest<9.1 constraint.",
+        "capture_result_sha256": "8e59cdb282749efaac9d1932852aaeff2639e39c3251afca431817770e286161"
+      },
+      {
+        "pytest": "9.0.2",
+        "note": "Separate environment satisfies the existing repository constraint.",
+        "capture_result_sha256": "5f4a30458a6f2dbd67cd9e690463eef431563b5bc6f5bff193ecb9f0aa89b528"
+      }
+    ],
+    "source_stable": true,
+    "scope": "test_um_arts*.py plus supervised runner, regression supervision plan, formal traceability spine and Lodge tests"
+  },
+  "recycling_and_governance": {
+    "status": "passed",
+    "marker_expression": "",
+    "selected": 3401,
+    "passed": 3398,
+    "skipped": 3,
+    "source_stable": true,
+    "capture_result_sha256": "d0dec0e4a43804fdadaa2512bb6d39d24fadff15cdb6fb9d09391a9ed98a6201"
+  },
+  "compatible_product_and_python_checks": {
+    "status": "passed",
+    "commands": [
+      "python VERIFY.py",
+      "python ALGEBRA_PROOF.py",
+      "python proof/VERIFY.py",
+      "python proof/ALGEBRA_PROOF.py"
+    ],
+    "proof_claim": false,
+    "certificate_result_sha256": "1a0074f6ab11d33137246bbbb4904b0fded11ffa55a2a2f100956af9f0514c2b",
+    "unique_test_identities": 3892,
+    "counts": {"passed": 3878, "skipped": 14},
+    "boundary": "Disjoint product/Lodge and recycling/governance identities plus four compatible Python checks. Successful executable assertions are not Lean compilation or a scientific proof."
+  },
+  "packaging": {
+    "status": "passed",
+    "distribution": "um_arts-1.0.0-py3-none-any.whl",
+    "sha256": "af20e9915d17488ac8a40cba83696c7e1c285f4d8c34e1db8100d249e4aa486c",
+    "checks": "Wheel build, dependency-free external installation and CLI version smoke test",
+    "cli_version_boundary": "CLI version 1 denotes the evidence schema; distribution release is 1.0.0."
+  },
+  "full_core": {
+    "status": "blocked",
+    "paths": [
+      "tests",
+      "recycling",
+      "5-GOVERNANCE/Unitary Pentad"
+    ],
+    "selected": 64577,
+    "pytest_args": ["-m", ""],
+    "workers": 2,
+    "files_per_job": 1024,
+    "timeout_seconds_per_job": 3600,
+    "interrupted": true,
+    "source_stable": true,
+    "environment_and_settings_stable": true,
+    "resolved_prior_blockers": {
+      "lane_b": "The existing 20-test Pillar 1087 suite passed with authentic checkout Git metadata. No audit results or physics assertions were weakened.",
+      "lodge_history": "Session startup redirects exchange history to a seeded external copy, preserving runtime behavior without modifying source.",
+      "scratch_directories": "Inventory/assistance fixtures now use the existing disclosed .um-arts-test-work boundary rather than introducing new source directories."
+    },
+    "attempt": "d127d5134e4c47deb101dbff156b32be",
+    "result_sha256": "d5a06163bdbbccb89de4b24cdb9e357076bd157d70c5c30973d4e5b1adb415fd",
+    "seal_sha256": "e6413f44ba9f1d10b77e3dea3d0a4fa1a6b4a2886b65b5a7d226ec14e8fac72c",
+    "remaining_blocker": "Long-running sprint evaluations were still executing in both jobs. Interrupt did not stop them; termination was required, and neither job emitted a completion receipt.",
+    "boundary": "Source stability succeeded, but execution completeness did not. Missing completion receipts and unreconciled planned identities block certification; partial progress logs are not passing test evidence.",
+    "next_execution": "Use the existing default files_per_job=32 for smaller independently sealed checkpoints, retaining explicit -m \"\" and real Git context. Do not reuse this attempt's unfinished jobs."
+  },
+  "validation_limitations": [
+    {
+      "gate": "Lean build and compiler-backed exporter integration",
+      "status": "blocked_locally",
+      "reason": "The official elan release archive downloaded and its checksum matched, but pinned-toolchain provisioning failed resolving release.lean-lang.org. The configured compiler-backed CI gate is still unverified for this revision."
+    },
+    {
+      "gate": "Python CodeQL",
+      "status": "not_analyzed",
+      "reason": "Automated analysis skipped because the repository database is too large; a zero-alert wrapper result is not a completed scan."
+    },
+    {
+      "gate": "Actions and JavaScript CodeQL",
+      "status": "passed",
+      "reason": "The full-PR nontrivial validation run reported no alerts for these analyzed languages."
+    },
+    {
+      "gate": "Automated review wrapper",
+      "status": "unavailable",
+      "reason": "Model registry error. Independent read-only reviews completed and reported no significant remaining issues."
+    }
+  ],
+  "other_checks": {
+    "ruff": "passed",
+    "diff_whitespace": "passed",
+    "changed_file_secret_scan": "passed"
+  },
+  "receipt_storage": {
+    "location": "/tmp/um-arts-resume",
+    "retention": "Sandbox temporary storage; not guaranteed to survive a new session.",
+    "resume_boundary": "Reuse only sealed jobs with exact source/environment/engine/settings compatibility. If receipts are missing, rerun; this summary and its hashes are not substitutes for receipts."
+  },
+  "aggregation_boundary": "The 3,892 completed scoped identities are disjoint in their own certificate, but overlap full-core. Do not add them to full-core totals or combine pytest environments. Earlier sections describe the immutable tested_revision, not subsequent metadata commits; scalable_analysis and runner_recovery each have their own tested revisions and evidence.",
+  "scalable_analysis": {
+    "tested_revision": "a3953eed089e95c4514f0c80fd36754c737f1b09",
+    "status": "operational_with_disclosed_gaps",
+    "source_fingerprint": "3f718443ac7a50f24a0a21ebb2183968722ef70aa319e10627a66108fa223e36",
+    "engine_fingerprint": "5f4b338df3eebbb62f22094078b2dbe1f31ad3573acb39877b2718f8aa326ee5",
+    "environment_fingerprint": "dd128b7df08bba00f26a0a49822e9d74a0a95e21acd2f74c722c817b9f3b84da",
+    "source_stable": true,
+    "code_index": {
+      "status": "partial",
+      "storage": "Standard-library SQLite and Python AST; no added runtime dependency",
+      "files": 3981,
+      "parsed": 3980,
+      "parse_errors": 1,
+      "oversized": 0,
+      "facts": 319665,
+      "calls": 185560,
+      "declarations": 90689,
+      "imports": 43416,
+      "reused_files": 3978,
+      "remaining_gap": "Pre-existing SyntaxError in lodge/watch.py:150, f-string: expecting '=', or '!', or ':', or '}'. Not changed or omitted from coverage.",
+      "result_sha256": "8072aa7a213ad2164375c953775782ee850dbee9f76209314dfd91b349a910a4",
+      "boundary": "Syntactic facts only, not resolved cross-file calls, data flow, security certification or executed regression evidence."
+    },
+    "all_python_scan": {
+      "status": "findings",
+      "selected": 3981,
+      "scanned": 3981,
+      "shards": 63,
+      "errors": 0,
+      "oversized": 0,
+      "untriaged_candidates": [
+        {"path": "12-AZ-IP/01-axiom-os/managers/m3_symbolic.py", "line": 187, "rule": "um-arts.python.dynamic-eval"},
+        {"path": "axiomzero_bootstrap.py", "line": 205, "rule": "um-arts.python.shell-command"},
+        {"path": "tests/test_az_os_state.py", "line": 121, "rule": "um-arts.python.pickle-input"},
+        {"path": "tests/test_az_os_state.py", "line": 136, "rule": "um-arts.python.pickle-input"}
+      ],
+      "tool": "Opengrep 1.30.0, optional trusted executable",
+      "tool_sha256": "35779bdd72e92129c8df2a77f0c55e8c08356801ea92591ef32108d6b28d564c",
+      "rules": "Packaged three-rule python-review.yml, not an exhaustive security profile",
+      "rules_sha256": "dd1187ebe45d2ba1313dbd5c1714d8c7ae218f25d9c2e1bfad6744a6bd23ac1d",
+      "invocation_policy": "local-patterns-stable-rule-ids-v1",
+      "files_per_shard": 64,
+      "timeout_seconds": 90,
+      "memory_mib": 512,
+      "max_file_bytes": 2097152,
+      "result_sha256": "0928400274693ee9c826dafbff83d8b0dcef81110e2757aa410447a591b03b34",
+      "sealed_report_verified": true,
+      "incremental_reused_shards": 63,
+      "incremental_result_sha256": "3ce3d288d442e1058b29ce1c91ed12c003569115df18bae8446b7f202355e1b6",
+      "security_certified": false,
+      "boundary": "Review candidates are not confirmed vulnerabilities. Exact coverage applies only to selected files and local rules; sharding does not establish cross-file data flow. Pattern parsing does not supersede the AST syntax gap."
+    },
+    "validation": {
+      "parent_scanner_tests": {"passed": 15, "actual_optional_binary_included": true},
+      "parent_application_compatibility_tests": {"passed": 249, "skipped": 1},
+      "agent_owned_index_tests": {"passed": 43, "ruff": "passed", "boundary": "Implementation agent validated its owned files; parent did not rerun those tests."},
+      "aggregation_boundary": "Separate scoped test runs, not a deduplicated combined regression certificate.",
+      "independent_final_review": "No significant issues found",
+      "automated_review": "Unavailable: configured model absent from registry",
+      "python_codeql": "Skipped: database too large; not analyzed",
+      "actions_and_javascript_codeql": "Prior run reported no alerts; these languages were unchanged in the latest run"
+    },
+    "remaining_gates": "Full-core certification and compiler-backed Lean remain incomplete as disclosed above. These analysis lanes do not replace those gates or certify security.",
+    "receipt_storage": {
+      "location": "/tmp/um-arts-scale",
+      "retention": "Temporary sandbox storage, not guaranteed across sessions. Preserve sealed artifact directories externally or rerun; this checkpoint and its hashes do not replace receipts."
+    }
+  },
+    "runner_recovery": {
+      "date": "2026-10-06",
+      "status": "operational_with_disclosed_gaps",
+      "failed_workflow_run": 37415907061,
+      "diagnosed_error": "Agent process exited 134 after Git ls-files --others --exclude-standard -z exceeded stdout maxBuffer while enumerating an unpacked Lean toolchain under .um-arts-completion.",
+      "changes": [
+        "The exact .um-arts-completion generated-tooling directory is Git-ignored and excluded from fingerprints/snapshots; ordinary .um-arts-* source inputs remain fingerprinted.",
+        "Optional collection_timeout_seconds bounds initial suite discovery independently of execution timeout_seconds. Omission preserves legacy normalized settings.",
+        "The stale 12-AZ-IP/README.md registry seal was refreshed for this branch's Product 26 additions, preserving prior provenance notes and existing assertions."
+      ],
+      "runtime_revision": "91daf2db6789c61dd4751572f72e21cf40945fb2",
+      "runtime_source_fingerprint": "d7c8d498befda844ff857e1bd8cc387b5d611dbc4be7bdb91844f67db853d9a8",
+      "engine_fingerprint": "e3f520e9bf309fb1126934624affeaeda7d763eaf236ea39fbf50bfe95b1d724",
+      "broad_bounded_regression": {
+        "status": "blocked",
+        "selected": 64606,
+        "reconciled": 35278,
+        "counts": {"passed": 35254, "skipped": 23, "failed": 1},
+        "jobs": 50,
+        "sealed_job_checkpoints": 50,
+        "successful_jobs": 26,
+        "timed_out_jobs": 23,
+        "workers": 4,
+        "files_per_job": 32,
+        "collection_timeout_seconds": 600,
+        "execution_timeout_seconds": 120,
+        "pytest_args": ["-m", "", "--ignore=tests/test_um_arts_code_index.py"],
+        "pytest_version": "9.1.1",
+        "environment_boundary": "Preinstalled version exceeds the repository's pytest<9.1 constraint; the final scoped capture below uses supported pytest 9.0.2.",
+        "scope": "tests/, recycling/ and canonical Pentad collection, except the previously agent-owned code-index test file. Independent configured lanes, not every repository product or a complete full-core certificate.",
+        "suite_status": {
+          "recycling": {"status": "passed", "passed": 316},
+          "pentad": {"status": "passed", "passed": 3082, "skipped": 3},
+          "core_without_agent_index_tests": {"status": "blocked"}
+        },
+        "source_environment_and_settings_stable": true,
+        "attempt": "7ac7bb702a554960822cd0a6babfc3b5",
+        "verified_result_sha256": "3ce1a02fde07fd113d72696cbf04cc959a40f34f708c2dd585b3325ebf5b92fd",
+        "seal_sha256": "d7ead02e28ee9056c49466cf0dd0e36b0c752e19b5cb5debb698f89a7dbe56eb",
+        "observed_failure": "tests/test_pillar536_axiomzero_ip_registry.py::TestVerifyAgainstRegistry::test_verify_no_tampered: README seal still represented the pre-Product-26 bytes.",
+        "boundary": "All jobs ended and retained sealed checkpoints, but timed-out jobs lack complete pytest receipts. Partial stdout is not passing evidence. The earlier registry failure remains in this immutable attempt despite its subsequent correction."
+      },
+      "final_tested_revision": "287d977c4f9e031f62dd3e535558b054b5e5576f",
+      "final_source_fingerprint": "7a82910712fa45c7798b8eccfad35a1d4cfc2c5adaa1bb3e11e6df1ce07ab14b",
+      "final_supported_capture": {
+        "status": "passed",
+        "selected": 448,
+        "counts": {"passed": 437, "skipped": 11},
+        "pytest_version": "9.0.2",
+        "scope": "UM-ARTS compatibility suites, actual optional scanner integration and the existing Pillar 536 registry suite; excludes the previously agent-owned code-index tests.",
+        "source_stable": true,
+        "result_sha256": "61b9d15518890a6f74325a45658430d7cd10477c9abaee46c75b069fc9c40525",
+        "environment_fingerprint": "8d6dffd96c51cdfae06bf23d193bcfa6adbdba01c5789dbb93afe659bbcb5546",
+        "boundary": "The registry assertion passed after correcting the metadata; it was not weakened. This scoped capture does not supersede the earlier incomplete broad run."
+      },
+      "compiler_backed_exporter": {
+        "status": "passed",
+        "passed": 16,
+        "skipped": 0,
+        "toolchain": "Lean 4.22.0-rc2",
+        "archive_sha256": "73223e5077a2c691389c79900306c520d3f98d03bfffcf4590a7100e59e42c3a",
+        "source": "External UM-ARTS snapshot of runtime_revision, with internal source aliases redirected. Temporary fixture modules were compiled outside the original checkout.",
+        "source_stable": true,
+        "snapshot_source_fingerprint": "09968ba40d5ff701f90c9e01f708095c8b2d07b618728469cea0e33c4192106f",
+        "result_sha256": "7953c30b8d72712569744df60e5ce1652b719fbe35f2a3293ad2f147bc5ea540",
+        "boundary": "Existing exporter source and real compiler-backed fixture tests passed. This is not a full Mathlib/UnitaryManifold library build, a proof of Python correspondence or a physics certification."
+      },
+      "final_analysis_reuse": {
+        "code_index": {
+          "status": "partial",
+          "files": 3981,
+          "parsed": 3980,
+          "reused_files": 3980,
+          "facts": 319727,
+          "parse_errors": 1,
+          "remaining_gap": "Unchanged pre-existing SyntaxError in lodge/watch.py:150.",
+          "result_sha256": "4978b173f35f411eb5241700023036ce440fad3baa25338a376a771c3dd93d52"
+        },
+        "local_rule_scan": {
+          "status": "findings",
+          "selected": 3981,
+          "scanned": 3981,
+          "shards": 63,
+          "reused_shards": 63,
+          "errors": 0,
+          "untriaged_candidates": 4,
+          "tool": "Opengrep 1.30.0",
+          "tool_sha256": "35779bdd72e92129c8df2a77f0c55e8c08356801ea92591ef32108d6b28d564c",
+          "result_sha256": "c0afd34c1f73286e419fb6eb3ab739fc2fdb792742652444c2de724e1cb7ecd2",
+          "security_certified": false,
+          "boundary": "Same four review candidates disclosed in scalable_analysis, not confirmed vulnerabilities. Reuse verifies selected file/tool/rule identities, not global data flow."
+        },
+        "source_stable": true,
+        "boundary": "Incremental reuse across the metadata-only registry correction was verified on final_tested_revision. Neither lane is regression-pass or proof evidence."
+      },
+      "review": {
+        "independent_reviews": "No significant issues found in tooling exclusions, separate timeout budgets or the coupled registry correction.",
+        "automated_review": "Unavailable: configured model absent from registry.",
+        "python_codeql": "Not analyzed: database too large.",
+        "actions_and_javascript_codeql": "No alerts in the initial recovery validation; unchanged in the subsequent run."
+      },
+      "remaining_gates": "Complete full-core execution, full formal-library build and Python CodeQL remain unverified. The 23 timed-out jobs require a reviewed execution budget or smaller groups and a fresh plan on the corrected source; old-source successes must not be resumed against changed inputs.",
+      "receipt_storage": {
+        "location": "/tmp/um-arts-recovery",
+        "retention": "Temporary sandbox storage only. Preserve complete sealed directories externally before session teardown; committed summaries/hashes are not substitutes for receipts."
+      },
+      "aggregation_boundary": "Do not add overlapping scoped and broad counts or combine environments. Each record refers to its stated tested revision, not subsequent checkpoint-metadata commits."
+    },
+  "repeated_runner_recovery": {
+    "tested_revision": "386afd68e6d78d6c82591fb68b5e205982b9b672",
+    "failed_workflow_run": 37478130257,
+    "diagnosed_error": "Git ls-files --others --exclude-standard -z exceeded stdout maxBuffer while enumerating a newly unpacked Lean toolchain under .lean-library-check; agent process exited 134.",
+    "changes": [
+      "Reserved the exact legacy .lean-library-check generated-tooling boundary in Git, source fingerprints, snapshots and static inventory; ordinary source remains included.",
+      "Incomplete pytest evidence now retains explicit timeout, interruption/launch failure and nonzero-exit diagnostics from readable process receipts. Missing/malformed evidence remains blocked with no inferred test counts."
+    ],
+    "focused_tests": {"passed": 161, "ruff": "passed"},
+    "scoped_execution": {
+      "status": "passed",
+      "selected": 4071,
+      "reconciled": 4071,
+      "passed": 4056,
+      "skipped": 15,
+      "jobs": 9,
+      "workers": 2,
+      "files_per_job": 4,
+      "collection_timeout_seconds": 600,
+      "execution_timeout_seconds": 600,
+      "pytest_args": ["-m", ""],
+      "pytest_version": "9.1.1",
+      "environment_boundary": "Preinstalled pytest exceeds the repository's pytest<9.1 constraint; not a replacement for the prior supported-pytest capture.",
+      "scope": "Four geometry test modules, UM-ARTS compatibility excluding previously agent-owned index tests, existing Pillar 536 registry tests, recycling and canonical Pentad.",
+      "suite_counts": {
+        "geometry": {"passed": 207},
+        "application": {"passed": 381, "skipped": 12},
+        "registry": {"passed": 70},
+        "recycling": {"passed": 316},
+        "pentad": {"passed": 3082, "skipped": 3}
+      },
+      "source_environment_and_settings_stable": true,
+      "source_fingerprint": "cb0b0ccfb12535b66ed7cdb930ba3011f71c2230adc6d6e0646d1c6f978b022c",
+      "engine_fingerprint": "4f234f856f25e3ebb47d0d55c1cc036fccec128c48bb47c0988de7d90c45b591",
+      "attempt": "4808da7f7543449b8a982aeaf4e535d0",
+      "verified_result_sha256": "0328fc056728b47a90c839bae4459a2ebe1e583f0a5a0d223d3336159bf3e347",
+      "seal_sha256": "8eae15d4871fcd1802560f95627868634c8c6a5bfceef17823639870cac2b777"
+    },
+    "compatible_resume": {
+      "status": "passed",
+      "attempt": "bcc96a0c89b64b9d8c137c0cb56dfdc8",
+      "reused_jobs": 9,
+      "process_receipts_byte_identical_to_prior": true,
+      "execution_log_bytes": 0,
+      "verified_result_sha256": "4b04a32916290e0c741d814ca2787c7eb367a11b588dbca15f2bb0b132356373",
+      "boundary": "Reuse is operationally verified; the repeated counts represent the same test identities, not additional unique passing tests."
+    },
+    "review": {
+      "independent_review": "No significant issues found.",
+      "automated_review": "Unavailable: configured model missing from registry.",
+      "python_codeql": "Not analyzed: database too large.",
+      "actions_and_javascript_codeql": "No alerts in this validation run."
+    },
+    "remaining_gates": "Full-core execution, full Lean-library build and Python CodeQL remain incomplete. Previous timed-out jobs and syntax gaps are not relabeled by this scoped success.",
+    "receipt_storage": {
+      "location": "/tmp/um-arts-continuation",
+      "retention": "Temporary sandbox storage; preserve sealed directories externally or rerun if missing. This summary and hashes do not replace execution receipts."
+    },
+    "aggregation_boundary": "Focused tests overlap scoped execution and prior captures. Do not sum these counts or treat subsequent metadata commits as the tested revision."
+  },
+  "dashboard_finalization": {
+    "tested_revision": "e885a15fed6a69fc0e048e0f51c0ad095981961a",
+    "previous_agent_run": 37501561453,
+    "diagnosis": "The preceding Actions agent was cancelled at its 59-minute session limit. Its log includes terminated pytest and Lean workers; cancellation does not certify their completion.",
+    "changes": [
+      "Authenticated run/resume tasks accept, persist and forward an optional positive integer max_jobs. Browser execution defaults to one new job per slice; omission preserves unlimited legacy API behavior.",
+      "Exporter compiler tests and NumericalChecks run before the expensive full-library CI build, preserving independent evidence if the library fails or takes too long."
+    ],
+    "focused_tests": {"passed": 108, "scope": "Server and scheduling, including slow integration tests.", "ruff": "passed", "javascript_syntax": "passed", "workflow_ordering": "passed"},
+    "application_capture": {
+      "status": "passed",
+      "pytest_version": "8.4.2",
+      "counts": {"passed": 433, "skipped": 12},
+      "selected": 445,
+      "reconciled": 445,
+      "scope": "All test_um_arts*.py modules except previously agent-owned code-index tests; explicit -m ''. Compiler-dependent skips remain disclosed.",
+      "source_environment_stable": true,
+      "source_fingerprint": "b5a3de2bca20eb367308175047aa1c1757e64d5c80b604d21d2bfbe3dbdd4f56",
+      "result_sha256": "c9b44b665c44991255f07ee4db45652dbe8f3ec34d7249abb1f32887bb2717a4",
+      "seal_sha256": "e529cd7d1adc6d29113c4a4869eb81c20b1261fa65d488b7886d9a9290e1968b"
+    },
+    "browser_smoke": {
+      "tool": "Existing Python Playwright with installed Chromium; CSP was not bypassed.",
+      "result": "Zero budget rejected; one-job slice blocked with deferred coverage; resume reconciled both fixture identities; completed resume executed zero jobs.",
+      "boundary": "Operational fixture smoke, not full-repository regression certification."
+    },
+    "broad_fast_capture": {
+      "status": "blocked",
+      "pytest_version": "8.4.2",
+      "pytest_args": ["-m", "not slow"],
+      "scope": "tests/, recycling/, canonical Pentad, excluding previously agent-owned code-index tests.",
+      "counts": {"passed": 24111, "skipped": 9},
+      "selected": 64619,
+      "reconciled": 24120,
+      "deselected": 28,
+      "returncode": 2,
+      "source_environment_stable": true,
+      "interruption": "Gracefully interrupted before the 900-second process ceiling; the agent itself did not time out. Missing identities remain blocked.",
+      "first_unfinished_identity": "tests/test_pillar1087_sprint_cm_full_physics_parallel_execution.py::test_report_invalid_if_lane_c_holds",
+      "result_sha256": "e8864a5998aaf5f1f8d709152dbaecfb7c771f744641ea137b76e5215bd22f0b",
+      "seal_sha256": "77bb999e9065d9e162a485bd64b29e44f1f58eca0373a4825bc16cc1cd83d160",
+      "boundary": "Counts come from terminal structured outcomes, not progress dots. Console collection-level skips are not additional executed test identities. This is not a passing fast-regression gate."
+    },
+    "broad_all_markers_capture": {
+      "tested_revision": "5b6f42d52ad174ec875ffc60b10b6390d83019c5",
+      "status": "blocked",
+      "pytest_args": ["-m", ""],
+      "selected": 64629,
+      "reconciled": 575,
+      "counts": {"passed": 575},
+      "returncode": -15,
+      "first_unfinished_identity": "tests/test_action_derived_flow.py::TestVerification::test_symbolic_reduction_offdiagonal_ansatz",
+      "interruption": "Requested graceful interruption of the expensive symbolic test, then terminated the worker while preserving the capture coordinator. Partial outcomes are not complete coverage.",
+      "source_environment_stable": true,
+      "result_sha256": "53008202df8bc60e4e9d8c211346aef8b6d267961a60a7842109abf99a42b64d"
+    },
+    "formal_execution": {
+      "copied_source_revision": "5b6f42d52ad174ec875ffc60b10b6390d83019c5",
+      "lean_version": "4.22.0-rc2",
+      "lean_archive_sha256": "73223e5077a2c691389c79900306c520d3f98d03bfffcf4590a7100e59e42c3a",
+      "scope": "Byte-identical external copies of Lean sources and exporter tests. Dependency archives use committed manifest revisions; Lake native local-package overrides avoid Git cloning. Original project source files were not edited.",
+      "exporter": {"status": "passed", "passed": 16, "result_sha256": "107b55f39b60eb162704c814eac663a425306550b01a0a4a52bc0657264c304c"},
+      "numerical_checks": {"status": "command_passed", "result_sha256": "ba5d0625e031e91796b2d45a0765bd6af31c9df703479dedcd8412bac245df0f"},
+      "mathlib_cache": "Unavailable: lakecache.blob.core.windows.net could not resolve; 0 of 6,892 requested cache files downloaded.",
+      "full_library": {"status": "blocked", "timeout_seconds": 180, "timed_out": true, "returncode": -15, "result_sha256": "731373437398429d94e53b6a31c022e9202d851dd91fb982760caaaaf7dc11ad"},
+      "boundary": "Exporter and numerical successes do not establish a complete library build, discharge axioms, prove Python correspondence, or confirm physics."
+    },
+    "existing_executable_checks": {
+      "tested_revision": "5b6f42d52ad174ec875ffc60b10b6390d83019c5",
+      "observables": {"status": "command_passed", "console_checks": 18, "result_sha256": "464cc8130f4629b670b8fc178f0ceaf621c968bedeb743b6d7e3b843982fc6cb"},
+      "algebra": {"status": "command_passed", "console_checks": 296, "result_sha256": "ec8e412f36334514a699de82f61c286aa4bb24e5beb8daefbadd8f3d3cb886e7"},
+      "boundary": "Successful existing commands; console check counts are not pytest identities or formal proof certificates."
+    },
+    "assistance": "Existing bot.rag_index.DocumentChunk.score and PsiCat merlin_repo_graph._tokenize were available in bounded read-only retrieval. Stateful training/session engines were not invoked and no evidence gates were waived.",
+    "review": {
+      "independent_review": "No significant issues found.",
+      "automated_review": "Unavailable: configured model missing from registry.",
+      "actions_codeql": "Analyzed; no alerts.",
+      "javascript_codeql": "Analyzed; no alerts.",
+      "python_codeql": "Not analyzed: database too large."
+    },
+    "remaining_gates": "Full-core and complete broad-fast execution, full Lean-library verification, and Python CodeQL remain incomplete. Finalized application changes are not a repository-wide passing baseline.",
+    "receipt_storage": {"location": "/tmp/um-arts-final", "retention": "Temporary sandbox storage. Preserve complete sealed directories externally; this committed summary and hashes do not replace receipts."},
+    "aggregation_boundary": "Application, focused, broad partial and prior captures overlap; do not sum their counts. Metadata commits are not the tested source revision."
+  },
+  "bounded_invocation_slices": {
+    "tested_revision": "b9751383b62cefb28b47e90e1289ed400caf969f",
+    "interrupted_workflow_run": 37483433450,
+    "diagnosis": "Actions cancelled the agent at its session limit; no complete additional results or retained receipts from that session are available locally.",
+    "change": "run/resume --max-jobs caps new pytest jobs per invocation without changing frozen settings. Atomic inherited history and dispatch receipts prioritize never-attempted eligible jobs before retries. Deferred coverage remains blocked, not passing; compatible successful checkpoints are reused free.",
+    "boundary": "A job-count budget is not a wall-clock deadline. Collection, fingerprinting, copying and any subsequent Lean build have separate costs.",
+    "focused_tests": {"passed": 76, "ruff": "passed"},
+    "source_fingerprint": "766d7ef27debbcb7d0a19278a1d1fd02c79d7d8539a62e7745f37febf9e6c9fe",
+    "engine_fingerprint": "eddf574c586f0cea67f24d74c3808336e4da0cbeee485adc257b3b7d25a8f45f",
+    "environment_fingerprint": "d6d12920525eecf8fa1450e4256ec98adff11d068fba8c7038c5c720e8863413",
+    "settings_fingerprint": "902e2d579e09cf72b8af384554d23ca6c04b600225c290e5da7d8546d00e8028",
+    "pytest_version": "9.1.1",
+    "environment_boundary": "Preinstalled pytest exceeds the repository's pytest<9.1 constraint; does not replace the earlier supported-pytest scoped capture.",
+    "scope": "UM-ARTS compatibility excluding previously agent-owned index tests, four geometry modules, Pillar 536 registry, recycling and canonical Pentad.",
+    "workers": 2,
+    "files_per_job": 2,
+    "collection_timeout_seconds": 600,
+    "execution_timeout_seconds": 300,
+    "pytest_args": ["-m", ""],
+    "slices": [
+      {
+        "attempt": "0436c1170d7b412f84a1bd8195af14e3",
+        "max_jobs": 2,
+        "executed_jobs": 2,
+        "deferred_jobs": 11,
+        "status": "blocked",
+        "counts": {"passed": 142},
+        "result_sha256": "a23e1a5ed2916bc9ff328e9382b7aeea1d43ead7a91780cfaf20cdabc2a262e5"
+      },
+      {
+        "attempt": "6b081d38f35f4885909d2c395cee39b3",
+        "max_jobs": 3,
+        "executed_jobs": 3,
+        "deferred_jobs": 8,
+        "status": "blocked",
+        "counts": {"passed": 282, "skipped": 1},
+        "result_sha256": "f0c3a6cffb16d1bf19d09449f73fc509a58530d0690a954f05a743de2d7d6a7d"
+      },
+      {
+        "attempt": "bf25e4b4bc66486d9185cf7f8a482032",
+        "max_jobs": 8,
+        "executed_jobs": 8,
+        "deferred_jobs": 0,
+        "status": "passed",
+        "counts": {"passed": 4064, "skipped": 15},
+        "result_sha256": "2f3e51f7ba814436af97f821124f16e8482ae789559ee0757737b81f6d588898"
+      }
+    ],
+    "final_verification": {
+      "status": "passed",
+      "selected": 4079,
+      "reconciled": 4079,
+      "jobs": 13,
+      "passed": 4064,
+      "skipped": 15,
+      "source_environment_and_settings_stable": true,
+      "reused_process_receipts": 5,
+      "reused_receipts_byte_identical_to_previous": true,
+      "result_sha256": "411876dac47eeaed3e8985649b04c006ce3610a88936d57e5944027c6a834ea0",
+      "seal_sha256": "bf413c0d57a8cb0fced5595d1ef6eac4c0dbae14cabd77780cfb1b7dfa17c609",
+      "suite_counts": {
+        "application": {"passed": 389, "skipped": 12},
+        "geometry": {"passed": 207},
+        "registry": {"passed": 70},
+        "recycling": {"passed": 316},
+        "pentad": {"passed": 3082, "skipped": 3}
+      }
+    },
+    "completed_resume": {
+      "attempt": "894ff15046cb4cee80adc09e3dfef3ea",
+      "status": "passed",
+      "max_jobs": 1,
+      "executed_jobs": 0,
+      "deferred_jobs": 0,
+      "reused_jobs": 13,
+      "execution_log_bytes": 0,
+      "result_sha256": "6ac28b446a626251033818f96b4d837ef04f1ca1134de2e60828507b7dc850b8"
+    },
+    "review": {
+      "independent_final_review": "No significant issues found after addressing failure starvation, pre-dispatch persistence and atomic publication.",
+      "automated_review": "Unavailable: Autofind binary missing.",
+      "python_codeql": "Not analyzed: database too large.",
+      "actions_and_javascript_codeql": "Unchanged since prior analyzed run."
+    },
+    "remaining_gates": "Full-core execution, full Lean-library build and Python CodeQL remain unverified. The new budgets make bounded progress possible but do not certify unexecuted or timed-out tests.",
+    "receipt_storage": {
+      "location": "/tmp/um-arts-slices",
+      "retention": "Temporary sandbox storage. Preserve complete sealed directories externally or rerun if missing; this checkpoint does not substitute for receipts."
+    },
+    "aggregation_boundary": "Slice counts are cumulative, and completed resume repeats the same identities. Do not add slice, focused or earlier capture counts; this record belongs only to tested_revision."
+  },
+  "durable_verification_continuation": {
+    "date": "2026-10-06",
+    "implementation_revision": "ddab4620af74d799576c368f5f06ac5bff23f0a2",
+    "overall_status": "partial",
+    "interrupted_agent_run": 37501561453,
+    "diagnosis": "Actions logs confirm session cancellation and termination of pytest and Lean children. Long verification now has independent hosted workflows rather than relying on agent-session lifetime.",
+    "focused_validation": {
+      "passed": 100,
+      "pytest_version": "8.4.2",
+      "scope": "Workflow triggers, supervised batch runner, regression supervision plan and Lean CI activation.",
+      "log_sha256": "05b8250cac44bcbf913795ea48ab6c0e025ce71a30139139d6d07bf0fe4c25ff",
+      "ruff": "passed",
+      "whitespace": "passed",
+      "workflow_fixtures": "Exact embedded full-core workflow code reconciled three passing fixture identities and failed closed for three failing fixture identities.",
+      "cache_fallback": "Captured cache failure may continue to mandatory source compilation. Full build failures are not ignored."
+    },
+    "full_core": {
+      "collection_status": "ready",
+      "execution_status": "incomplete",
+      "selected": 64677,
+      "reconciled": 2513,
+      "counts": {"passed": 2513},
+      "validated_job_checkpoints": 9,
+      "planned_jobs": 383,
+      "suite_selected": {"physics": 61276, "recycling": 316, "pentad": 3085},
+      "pytest_args": ["-m", ""],
+      "workers": 2,
+      "files_per_job": 4,
+      "collection_timeout_seconds": 900,
+      "execution_timeout_seconds_per_job": 1800,
+      "config_sha256": "d8beb11260f9274ee52729de6e1018f7f6280d4377d69e1b8a031cf222d449b9",
+      "plan_sha256": "ac3de703ee17712b2d9d985142d3b607b00dd72e6537d70c25989bd216a20411",
+      "compatibility": {
+        "engine": "df0d76ae74616c5bc860ee7a5918a1273740bce1ea5b8771d7c3a1d1e146e409",
+        "environment": "afc17bacd4e173ec9b3c21668d56ab262bcb0a1d275c74967a7ecd4b613e98c1",
+        "git": "0c58f45d0e365c0c2e9f298970ae52e11600b08f863476600b814040487a9440",
+        "settings": "83112ba203f1e4ee292af13a785ebf21f886fece5baabfde90f9aaa5f482750d",
+        "source": "4c8da7b5736d1090c4f7eb76e2b5b22e359ed9d79212015e80d1e8077dd289c4"
+      },
+      "first_slice": {
+        "attempt": "8dad7c89f9aa497fa8aa777fd27c36ef",
+        "status": "blocked",
+        "executed_jobs": 4,
+        "deferred_jobs": 379,
+        "counts": {"passed": 1447},
+        "result_sha256": "804b72e7655d386bf87b1f756ea384d9895affe9eeb2adc5b95b286fd1d45b5a"
+      },
+      "continuation": {
+        "attempt": "edac59f977df437fb578deb61996a9b3",
+        "max_jobs": 10,
+        "status": "incomplete",
+        "reused_successful_checkpoints": 4,
+        "new_successful_checkpoints": 5,
+        "interrupted_active_jobs": ["physics-009", "physics-010"],
+        "evaluation_sha256": "b5ab1f5ffc225ff1a4f93c19fecd5294f30f5becc8bbcc2be8490045ce0ad569",
+        "interruption": "Stopped the bounded continuation while two pre-existing suites were still consuming CPU, leaving time for publication and review. Only sealed terminal checkpoints were counted; progress dots were not.",
+        "boundary": "No complete attempt seal exists. Incomplete evaluation verified the nine surviving job checkpoints and did not certify a baseline."
+      },
+      "source_context": "Collected and executed in the real checkout at 661d4c72398e1766b4b7e0b48d00dd44b64f1f7c with pending workflow/config/test changes. Final cache-fallback workflow edits and subsequent commits occurred afterward; these receipts do not establish execution coverage of the final Git revision.",
+      "hosted_lane": "Noncancelling 330-minute job; explicit slow coverage; independent core suites; complete plans and checkpoints uploaded even on failure, with 90-day retention.",
+      "hosted_execution": "Not claimed: workflow configuration and local fixtures are not evidence of a hosted full-core pass.",
+      "scope": "Configured core suites only, not every product or other monorepo test lane."
+    },
+    "native_python_codeql": {
+      "status": "completed_with_findings_and_extraction_limitations",
+      "cli_version": "2.27.1",
+      "query_pack_version": "1.8.11",
+      "suite": "codeql/python-queries:codeql-suites/python-code-scanning.qls",
+      "execution_successful": true,
+      "query_evaluations": 45,
+      "sarif_rule_descriptors": 43,
+      "reported_python_file_baseline": {"scanned": 3980, "expected": 3980},
+      "source_archive_sha256": "1fc95cecea20211009e4e8163ae9db98d12c1c5cb63c8fa7e38eab3722412bf2",
+      "archive_python_files_byte_matched": 3981,
+      "archive_python_files_changed": [],
+      "sarif_sha256": "49c4b6e1ca13a29c93b6a87a6ec355106ef3a2f86175bdecd9eaa916275f5362",
+      "excluded_path": ".github/agents",
+      "extraction_limitation": "Existing syntax error at lodge/watch.py:150 prevents analysis of that file. The archive's byte match and baseline denominator do not override this diagnostic. Extraction also reported unresolved relative imports.",
+      "findings": 23,
+      "findings_in_um_arts_or_changed_python_test": 0,
+      "finding_boundary": "These are untriaged CodeQL review candidates in other existing repository lanes, not 23 confirmed vulnerabilities. Unrelated source was not modified. No repository-wide clean-security result is claimed.",
+      "finding_locations": [
+        {"rule": "py/full-ssrf", "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_engine.py", "line": 62},
+        {"rule": "py/path-injection", "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_local_execution.py", "line": 68},
+        {"rule": "py/path-injection", "path": "12-AZ-IP/18-um-reader/um_reader/app/server.py", "line": 26},
+        {"rule": "py/stack-trace-exposure", "path": "lodge/server.py", "line": 306},
+        {"rule": "py/stack-trace-exposure", "path": "12-AZ-IP/01-axiom-os/api/server.py", "line": 228},
+        {"rule": "py/polynomial-redos", "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_runtime.py", "line": 72},
+        {"rule": "py/polynomial-redos", "path": "12-AZ-IP/10-filmers-companion/desktop/app/production_suite/service.py", "line": 855},
+        {"rule": "py/polynomial-redos", "path": "12-AZ-IP/10-filmers-companion/desktop/app/production_suite/service.py", "line": 1112},
+        {"rule": "py/polynomial-redos", "path": "12-AZ-IP/10-filmers-companion/desktop/app/production_suite/service.py", "line": 1136},
+        {"rule": "py/xml-bomb", "path": "12-AZ-IP/10-filmers-companion/desktop/app/production_suite/service.py", "line": 869},
+        {"rule": "py/incomplete-url-substring-sanitization", "path": "12-AZ-IP/22-az-sge/tests/test_az_sge.py", "line": 954},
+        {"rule": "py/incomplete-url-substring-sanitization", "path": "12-AZ-IP/22-az-sge/tests/test_az_sge.py", "line": 1688},
+        {"rule": "py/incomplete-url-substring-sanitization", "path": "12-AZ-IP/21-geo-monitor/tests/test_geo_monitor.py", "line": 439},
+        {"rule": "py/incomplete-url-substring-sanitization", "path": "12-AZ-IP/21-geo-monitor/tests/test_geo_monitor.py", "line": 683},
+        {"rule": "py/incomplete-url-substring-sanitization", "path": "12-AZ-IP/21-geo-monitor/tests/test_geo_monitor.py", "line": 789},
+        {"rule": "py/incomplete-url-substring-sanitization", "path": "12-AZ-IP/08-axiom-journalist/tests/test_journalist_upgrade.py", "line": 105},
+        {"rule": "py/incomplete-url-substring-sanitization", "path": "12-AZ-IP/08-axiom-journalist/tests/test_journalist_upgrade.py", "line": 106},
+        {"rule": "py/incomplete-url-substring-sanitization", "path": "12-AZ-IP/12-lithos-os/tests/test_mineral_guides.py", "line": 65},
+        {"rule": "py/incomplete-url-substring-sanitization", "path": "tests/test_pillar258_trusted_open_resource_registry.py", "line": 69},
+        {"rule": "py/cookie-injection", "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/app/server.py", "line": 382},
+        {"rule": "py/cookie-injection", "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/app/server.py", "line": 383},
+        {"rule": "py/http-response-splitting", "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/app/server.py", "line": 382},
+        {"rule": "py/http-response-splitting", "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/app/server.py", "line": 383}
+      ],
+      "provenance": "The first native extraction had one changed test file; a second complete extraction and analysis eliminated that mismatch. All archived repository Python bytes matched the implementation revision. Later checkpoint metadata does not change Python bytes.",
+      "hosted_lane": "Independent repository-wide Python job; no changed-path or product/test narrowing; 120-minute limit; SARIF always preserved."
+    },
+    "formal_status": {
+      "full_library": "unverified",
+      "local_cache": "lakecache.blob.core.windows.net remains unreachable by DNS in this sandbox.",
+      "prior_compiler_evidence": "See dashboard_finalization.formal_execution. Earlier exporter and NumericalChecks results are preserved historical evidence, not re-executed results for this continuation.",
+      "change": "Cache retrieval is captured after independent compiler checks, with explicit optional-cache fallback to the mandatory full library build. A failed optimization is not a successful cache download or a failed proof.",
+      "hosted_execution": "Not claimed for this implementation revision."
+    },
+    "review": {
+      "independent_review": "No significant issues; follow-up confirmed explicit cache fallback preserves previous source-compilation behavior.",
+      "automated_review": "Unavailable: Autofind binary absent. Wrapper success labeling is not a completed automated review.",
+      "actions_codeql": "Analyzed by required validation wrapper; no alerts.",
+      "javascript_codeql": "Analyzed by required validation wrapper; no alerts.",
+      "wrapper_python_codeql": "Still skipped because the database is too large; native completed analysis above is separate evidence."
+    },
+    "remaining_gates": "Complete full-core execution, full Lean-library compilation, triage of 23 native Python findings, and analysis of the pre-existing syntax-error file remain unresolved. No complete repository verification or clean-security baseline is certified.",
+    "receipt_storage": {
+      "location": "/tmp/um-arts-verification",
+      "retention": "Local receipts, database and full SARIF are temporary sandbox artifacts. This committed summary retains finding locations and hashes, not complete sealed receipts. Independent hosted runs will upload artifacts when actually executed."
+    },
+    "aggregation_boundary": "Continuation counts include reused first-slice identities; focused, historical and partial captures may overlap. Do not sum them. Historical sections retain their original scope and limitations."
+  },
+  "bounded_closeout": {
+    "date": "2026-10-06",
+    "tested_revision": "201ce552031d5f6b64701b773a48a77f178fee68",
+    "implementation_status": "reviewed_with_focused_validation",
+    "repository_verification_status": "blocked",
+    "latest_inherited_changes": "Exact DomainMatrix inversions and rational Ricci compaction, cancellation before Euler differentiation, curvature-preservation regression tests, narrower Mathlib import, 32-file full-core checkpoints and development-branch workflow activation.",
+    "focused_validation": {
+      "pytest_args": ["-m", "", "-q"],
+      "files": [
+        "tests/test_action_derived_flow.py",
+        "tests/test_ci_workflow_trigger_scope.py",
+        "tests/test_run_supervised_pytest_batch.py",
+        "tests/test_regression_supervision_plan.py",
+        "tests/test_pillar482_lean4_ci_full_activation.py"
+      ],
+      "supported_environment": {
+        "pytest": "8.4.2",
+        "status": "passed",
+        "passed": 121,
+        "returncode": 0,
+        "hard_timeout_seconds": 180,
+        "timed_out": false,
+        "terminal_summary": "121 passed in 51.26s",
+        "log_sha256": "c772b831f772f402b42c33e1c3c2e9a3e217f2406f9c8c5c8ff5f0c7dcb45822"
+      },
+      "preinstalled_environment": {
+        "pytest": "9.1.1",
+        "passed": 121,
+        "hard_timeout_seconds": 480,
+        "timed_out": false,
+        "terminal_summary": "121 passed in 63.17s (0:01:03)",
+        "boundary": "Outside the root pytest<9.1 constraint; the supported-environment result above is the applicable verification."
+      },
+      "boundary": "These two runs cover the same focused identities; do not add their counts or treat them as full-core execution.",
+      "ruff": {
+        "status": "findings",
+        "findings": 13,
+        "location": "src/core/action_derived_flow.py",
+        "categories": ["UP035", "UP006", "RUF059"],
+        "tests": "No findings in the two changed test files.",
+        "boundary": "Existing typing and unused-unpacked-variable issues are disclosed, not silently fixed as part of verification closeout."
+      }
+    },
+    "hosted_full_core": {
+      "run_id": 37537002867,
+      "url": "https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37537002867",
+      "head_sha": "201ce552031d5f6b64701b773a48a77f178fee68",
+      "status": "completed",
+      "conclusion": "action_required",
+      "jobs_started": 0,
+      "page_message": "This workflow is awaiting approval from a maintainer",
+      "workflow_sha256": "7bf03b02791241c66e2cad240e526ff48060b248e61f9e83a57e5c4f51c3170e",
+      "evidence": "GitHub Actions MCP run details and job logs returned zero jobs; the run page explicitly identifies the maintainer approval requirement.",
+      "required_action": "A maintainer must open the run and approve execution in GitHub. If that run cannot be approved, use permitted manual dispatch on the intended branch. Do not bypass workflow approval protections.",
+      "boundary": "No tests ran in this hosted run. Repeated agent restarts cannot supply maintainer approval. A newer metadata push may create another approval-pending run; inspect its commit before approving."
+    },
+    "timeout_diagnosis": {
+      "agent_run": 37534148686,
+      "job_id": 112510716213,
+      "processing_started": "2026-10-06T21:29:59Z",
+      "processing_cancelled": "2026-10-06T22:28:47Z",
+      "conclusion": "cancelled",
+      "change_in_execution": "No unbounded full-core, native CodeQL re-extraction or inaccessible Mathlib download was restarted in this closeout. Focused validation had explicit OS timeouts and completed."
+    },
+    "review": {
+      "independent_review": "No significant issues in the two latest inherited implementation commits. Lean compilation was not verified.",
+      "automated_review": "Unavailable: configured claude-sonnet-4.6 model missing from registry; wrapper success label is not a completed review.",
+      "actions_codeql": "Analyzed; no alerts.",
+      "javascript_codeql": "Analyzed; no alerts.",
+      "wrapper_python_codeql": "Skipped because database is too large.",
+      "native_python_codeql": "Earlier complete native results remain in durable_verification_continuation; they are historical evidence, not a scan of the newer symbolic revision."
+    },
+    "remaining_gates": [
+      "Maintainer approval and completed hosted full-core execution for the intended commit.",
+      "Full Lean-library compilation with its dependencies available; neither the narrow import nor focused Python activation tests establish compiler success.",
+      "Triage of the 23 historical native Python CodeQL candidates, resolution of its syntax-error exclusion and appropriate security verification of subsequent Python changes."
+    ],
+    "receipt_storage": "/tmp/um-arts-closeout contains temporary logs. This committed record exposes the terminal counts and actual hosted approval link; it is not a sealed certificate.",
+    "finalization_boundary": "Focused implementation review and tests are complete. Repository-wide verification cannot be finalized before the external approval and execution gates actually complete."
+  },
+  "main_merge_recovery": {
+    "date": "2026-10-06",
+    "pull_request": 1013,
+    "merge_commit": "707b8020944706faf5df225c3235a427f53f4852",
+    "merge_parents": [
+      "06cc9c826c41123e4ecbb058298a0525e227d3bb",
+      "def6491d42dc3b0ae576c01fdedff44569af0d17"
+    ],
+    "conflict_resolution": "All nine reported conflicts resolved. Main's frozen regression environment and aggregated JUnit gates coexist with branch capture/checkpoints; exact symbolic optimizations and tests are retained. Product 25 updates and Product 26 registration coexist in the resealed README.",
+    "actual_hosted_failure": {
+      "run": 37544801907,
+      "attempt": 2,
+      "status": "failed",
+      "artifact_id": 11450792738,
+      "artifact_sha256": "b756a1121bc7f97b9622919d4868236b7389b69288a01f276bf113f5963c4e19",
+      "root_causes": [
+        "tests/ exceeded the existing 1500 tracked-root-entry limit, blocking Pillar 1125 and downstream Pillars 1127 and 1128.",
+        "Execution-spine external-base fixture incorrectly assumed managed tmp_path was outside the real checkout.",
+        "W&B created runtime logs with external symlink targets inside the frozen source tree."
+      ],
+      "repairs": [
+        "Moved twenty unchanged Pillar 859-878 test files into tests/pillar_0859_0878; no assertions removed or weakened.",
+        "Created an isolated repository child in the external-base fixture so rejection remains meaningful under managed in-checkout scratch.",
+        "Redirected W&B output to an explicitly created external runner directory in both full-core and fast-shard capture steps."
+      ]
+    },
+    "workflow_context_repair": {
+      "failed_run": 37547449703,
+      "error": "Unrecognized named-value: runner in job-level env.",
+      "repair": "WANDB_DIR is now defined in step.env, where runner.temp is a supported GitHub context."
+    },
+    "timeout_review_repair": "Catch final post-SIGKILL TimeoutExpired and write a blocked process.json receipt; simulated non-exiting child regression verifies durable failure evidence.",
+    "validation": {
+      "merge_agent_initial": {"passed": 211, "timeout_seconds": 240},
+      "merge_agent_combined_receipts": {"passed": 187, "timeout_seconds": 240},
+      "capture": {"passed": 30, "skipped": 1},
+      "managed_execution_spine": {"passed": 16},
+      "sharded_and_health_gates": {"passed": 756},
+      "final_supported_combined_scope": {
+        "pytest": "8.4.2",
+        "passed": 1015,
+        "skipped": 1,
+        "timeout_seconds": 240,
+        "timed_out": false,
+        "terminal_summary": "1015 passed, 1 skipped in 70.43s",
+        "scope": "Symbolic, workflow, supervision, combined runner, capture, execution-spine, twenty sharded test files and the three failing monorepo-health dependent suites."
+      },
+      "large_directory_gate": "passed",
+      "onboarding_consistency_gate": "passed",
+      "optional_wandb_runtime": "Not executed locally: module collection skipped because W&B is unavailable; hosted dependency installation and external-directory regression assertions remain necessary.",
+      "boundary": "These focused runs overlap and are not a complete repository execution count. Existing Ruff findings remain disclosed rather than masked."
+    },
+    "review": {
+      "independent_review": "Found missing W&B redirection in fast capture; fixed. Follow-up reported no significant issues.",
+      "automated_review": "Unavailable: configured model missing from registry.",
+      "actions_codeql": "Analyzed; no alerts.",
+      "javascript_codeql": "Analyzed; no alerts.",
+      "python_wrapper": "Skipped because database is too large; no new full Python analysis claimed."
+    },
+    "artifact_hygiene": "Generated temporary validation files and training-history changes were removed/restored before final publication. The final tree contains no tracked .pytest-merge-validation artifacts.",
+    "hosted_boundary": "Updated PR checks are approval-gated. Resolved merge conflicts and focused tests do not establish that all required workflows have passed. Maintainer approval and successful hosted results on the final revision remain required."
+  }
+}

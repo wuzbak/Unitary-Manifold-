@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Nat.Defs
 /-!
 # Unitary Manifold — NP-BC-6 Sub-gap Q: Holographic Screen Entropy Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -29,10 +33,6 @@ Only finite Mathlib-verifiable arithmetic is claimed.
 ## Contribution: 11 new theorems
 Total after this file: 319 + 11 = 330 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Nat.Defs
 
 namespace UnitaryManifold.NPBC6SubgapQ
 

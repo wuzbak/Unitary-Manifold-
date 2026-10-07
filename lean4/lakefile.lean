@@ -8,5 +8,10 @@ package «unitary-manifold» where
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4" @ "v4.22.0-rc2"
 
+@[default_target]
 lean_lib UnitaryManifold where
   roots := #[`UnitaryManifold]
+  globs := #[.one `UnitaryManifold, .submodules `UnitaryManifold]
+
+lean_exe um_arts_export where
+  root := `UMArtsExport

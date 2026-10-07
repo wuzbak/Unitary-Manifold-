@@ -53,6 +53,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--batch-index", type=int)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--emit-json", action="store_true")
+    parser.add_argument("--evidence-dir", type=Path)
     parser.add_argument("--result-dir", type=Path)
     parser.add_argument("--aggregate", action="store_true")
     parser.add_argument("--timeout", type=float)
@@ -62,7 +63,10 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--durations-file", type=Path)
     parser.add_argument("--timings-dir", type=Path)
     parser.add_argument("--resume", action="store_true")
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.timeout is not None and (not math.isfinite(args.timeout) or args.timeout <= 0):
+        parser.error("--timeout must be positive and finite")
+    return args
 
 
 def _run(args: list[str], dry_run: bool, timeout: float | None = None,
@@ -342,7 +346,8 @@ def _aggregate(result_dir: Path, suite: str, batches: list[dict], identity: dict
 
 
 def _record_batch(result_dir: Path, suite: str, batches: list[dict], index: int,
-                  identity: dict, command: list[str], dry_run: bool, timeout: float | None) -> int:
+                  identity: dict, command: list[str], dry_run: bool, timeout: float | None,
+                  evidence_dir: Path | None = None) -> int:
     receipt_path = result_dir / f"{suite}-{index}.json"
     xml_path = result_dir / f"{suite}-{index}.xml"
     xml_path.unlink(missing_ok=True)
@@ -360,7 +365,9 @@ def _record_batch(result_dir: Path, suite: str, batches: list[dict], index: int,
         if "execution_settings" in identity and _execution_settings() != identity["execution_settings"]:
             raise ValueError("execution settings changed before batch")
         if dry_run:
-            code = _run(command, True, timeout)
+            code = (_run(command, True, timeout) if evidence_dir is None else
+                    _execute(command, argparse.Namespace(
+                        evidence_dir=evidence_dir, dry_run=True, timeout=timeout)))
             receipt["exit_code"] = code
             receipt["status"] = "dry-run"
         elif not batches[index]["test_paths"]:
@@ -373,7 +380,9 @@ def _record_batch(result_dir: Path, suite: str, batches: list[dict], index: int,
             if "frozen_environment" in identity and receipt["environment_fingerprint"] != identity["frozen_environment"]:
                 raise ValueError("execution environment changed before batch")
             _write_receipt(receipt_path, receipt)
-            code = _run(command, False, timeout)
+            code = (_run(command, False, timeout) if evidence_dir is None else
+                    _execute(command, argparse.Namespace(
+                        evidence_dir=evidence_dir, dry_run=False, timeout=timeout)))
             receipt["exit_code"] = code
             receipt["status"] = "incomplete" if code == 124 or code < 0 else "failure"
             if xml_path.exists():
@@ -524,8 +533,28 @@ def _frozen_main(args: argparse.Namespace) -> int:
         return 2
 
 
+def _execute(command: list[str], args: argparse.Namespace,
+             env: dict[str, str] | None = None) -> int:
+    output = getattr(args, "evidence_dir", None)
+    if output is not None:
+        command = [
+            sys.executable, "-m", "TOOLS.um_arts", "capture",
+            "--repo", str(ROOT), "--output", str(output.resolve()),
+            "--timeout", str(args.timeout if args.timeout is not None else 3600), "--", *command,
+        ]
+        if env is None:
+            return _run(command, dry_run=args.dry_run)
+        return _run(command, dry_run=args.dry_run, env=env)
+    if env is None:
+        return _run(command, dry_run=args.dry_run, timeout=args.timeout)
+    return _run(command, dry_run=args.dry_run, timeout=args.timeout, env=env)
+
+
 def main() -> int:
-    args = _parse_args()
+    try:
+        args = _parse_args()
+    except SystemExit as exc:
+        return exc.code
     if args.workers is not None and args.workers < 0:
         print("--workers must be nonnegative", file=sys.stderr)
         return 2
@@ -592,11 +621,11 @@ def main() -> int:
         return 0
 
     if args.suite == "compactified-preflight":
-        return _run(compactified_preflight_argv(), dry_run=args.dry_run, timeout=args.timeout)
+        return _execute(compactified_preflight_argv(), args)
 
     if args.suite == "integration-preflight":
-        return _run(integration_preflight_argv(), dry_run=args.dry_run, timeout=args.timeout,
-                    env={**os.environ, "PYTEST_ADDOPTS": ""})
+        return _execute(integration_preflight_argv(), args,
+                        env={**os.environ, "PYTEST_ADDOPTS": ""})
 
     section = plan["supervised_full_core_suite" if args.suite == "full-core" else "supervised_fast_suite"]
     batches = section["batches"]
@@ -620,11 +649,11 @@ def main() -> int:
         command[position:position + 2] = [] if args.workers == 0 else ["-n", str(args.workers)]
     if args.result_dir is not None:
         return _record_batch(args.result_dir, args.suite, batches, args.batch_index,
-                             identity, command, args.dry_run, args.timeout)
+                             identity, command, args.dry_run, args.timeout, args.evidence_dir)
     if not command:
         print(f"no tests assigned to batch {args.batch_index}; skipping")
         return 0
-    return _run(command, dry_run=args.dry_run, timeout=args.timeout)
+    return _execute(command, args)
 
 
 if __name__ == "__main__":

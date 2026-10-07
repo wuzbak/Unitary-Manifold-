@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Data.Nat.Defs
 /-!
 # Unitary Manifold — NP-BC-4 Sub-gap K: ADM Inhomogeneous Non-Perturbative Algebraic Kernel (Lean 4 + Mathlib)
 
@@ -27,10 +31,6 @@ Only arithmetic proxies of the continuum constraint structure are formalized.
 ## Contribution: 11 new theorems
 Total after this file: 251 + 11 = 262 theorems
 -/
-import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
-import Mathlib.Algebra.BigOperators.Basic
-import Mathlib.Data.Nat.Defs
 
 namespace UnitaryManifold.NPBC4SubgapK
 
