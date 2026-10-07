@@ -39,7 +39,7 @@ sha256sum <file>
 
 | Asset | SHA-256 | Status |
 |-------|---------|--------|
-| `12-AZ-IP/README.md` | `PENDING` | ✅ RESEALED 2026-10-07 |
+| `12-AZ-IP/README.md` | `8bddde7bf229d155cf432f8507a0b7b5e5e44b072beac260003c3e122e5f9261` | ✅ RESEALED 2026-10-07 |
 | `12-AZ-IP/IP_REGISTRY.json` | *computed at commit time* | ✅ SELF-REFERENTIAL |
 
 ### Product 27 registration refresh — 2026-10-07
@@ -52,12 +52,12 @@ in `IP_REGISTRY.json`.
 
 | Asset | SHA-256 | Size |
 |-------|---------|-----:|
-| `12-AZ-IP/README.md` | `PENDING` | pending |
-| `12-AZ-IP/27-psicat-vite-web-workbench/README.md` | `PENDING` | pending |
-| `12-AZ-IP/27-psicat-vite-web-workbench/package.json` | `PENDING` | pending |
-| `12-AZ-IP/27-psicat-vite-web-workbench/package-lock.json` | `PENDING` | pending |
-| `12-AZ-IP/27-psicat-vite-web-workbench/server.js` | `PENDING` | pending |
-| `12-AZ-IP/27-psicat-vite-web-workbench/workbench.js` | `PENDING` | pending |
+| `12-AZ-IP/README.md` | `8bddde7bf229d155cf432f8507a0b7b5e5e44b072beac260003c3e122e5f9261` | 12653 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/README.md` | `21fb3eef3f5c021e56c31f4a776222e7954ed741bcf8a759f03f14f0f7332adf` | 4684 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/package.json` | `a6472814998e7d6b3ce1bb9c463f765490647f8529aca2c46f482805abde8b07` | 400 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/package-lock.json` | `6e2711c726e1ca04fc71e821532f8d7ef776ac1a472194254fb74693b5394271` | 24638 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/server.js` | `ead7901c0a3ec35231900d5898f2cb2be0ceb765bc50e558e95884b45d98cb28` | 6728 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/workbench.js` | `b29dc3d070116a08cedc2d8ce5649b7006ee1e35b6d0a625bcf22899a0147b52` | 13747 |
 
 The master README fingerprint in the table is refreshed each time the catalog
 changes. Historical registration references remain in Git history and the
