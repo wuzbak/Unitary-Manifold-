@@ -67,6 +67,32 @@ def test_tests_workflow_restores_required_coverage_gate() -> None:
     assert "coverage-gate" in jobs["full-regression-gate"]["needs"]
 
 
+def test_ledger_consistency_installs_shared_and_navigator_requirements() -> None:
+    job = _load("tests.yml")["jobs"]["ledger-consistency"]
+    steps = job["steps"]
+    installation = next(step for step in steps if step.get("name") == "Install dependencies")
+    command = installation["run"]
+    assert "python -m pip install" in command
+    for requirements in (
+        "requirements.txt",
+        "requirements-dev.txt",
+        "12-AZ-IP/20-psicat-navigator/requirements.txt",
+    ):
+        assert f"-r {requirements}" in command
+    assert "pytest>=7.0,<9.1" in (REPO_ROOT / "requirements.txt").read_text().splitlines()
+    assert "--no-deps" not in command
+    assert "pytest" not in command
+    assert "continue-on-error" not in job
+    checks = [step for step in steps if "python -m pytest" in step.get("run", "")]
+    assert len(checks) == 2
+    for check in checks:
+        assert steps.index(installation) < steps.index(check)
+        assert "continue-on-error" not in check
+        assert "--noconftest" not in check["run"]
+        assert "--confcutdir" not in check["run"]
+        assert "|| true" not in check["run"]
+
+
 def test_full_core_evidence_runs_outside_the_agent_session() -> None:
     workflow = _load("um-arts-full-core.yml")
     job = workflow["jobs"]["full-core"]
@@ -138,6 +164,58 @@ def test_lean_cache_failures_are_captured_after_independent_checks() -> None:
     assert names.index("Verify exporter with the pinned Lean toolchain") < names.index("Download Mathlib cache")
     assert names.index("Verify NumericalChecks compile") < names.index("Download Mathlib cache")
     assert names.index("Download Mathlib cache") < names.index("Lake build")
+
+
+def test_lean_install_persists_the_repository_toolchain_pin() -> None:
+    job = _load("lean4-check.yml")["jobs"]["lean4-build"]
+    assert job["defaults"]["run"]["working-directory"] == "lean4"
+    steps = job["steps"]
+    installation = next(step for step in steps if step.get("name") == "Install elan")
+    pin_command = 'echo "ELAN_TOOLCHAIN=$(cat lean-toolchain)" >> "$GITHUB_ENV"'
+    assert pin_command in installation["run"]
+    assert steps.index(installation) < next(
+        index for index, step in enumerate(steps) if "lake " in step.get("run", "")
+    )
+    completed = subprocess.run(
+        ["bash", "-e", "-c", pin_command],
+        cwd=REPO_ROOT / "lean4",
+        env={**os.environ, "GITHUB_ENV": "/dev/stdout"},
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    pin = (REPO_ROOT / "lean4/lean-toolchain").read_text().strip()
+    assert completed.stdout.strip() == f"ELAN_TOOLCHAIN={pin}"
+
+
+@pytest.mark.parametrize(
+    ("name", "command", "allows_failure"),
+    [
+        ("Verify NumericalChecks compile", "build UnitaryManifold.NumericalChecks", False),
+        ("Download Mathlib cache", "exe cache get", True),
+        ("Lake build", "build", False),
+    ],
+)
+def test_root_lean_captures_use_the_persisted_pin(name, command, allows_failure) -> None:
+    steps = _load("lean4-check.yml")["jobs"]["lean4-build"]["steps"]
+    step = next(step for step in steps if step.get("name") == name)
+    assert step["working-directory"] == "."
+    assert step.get("continue-on-error", False) is allows_failure
+    assert "-- lake -d lean4 " + command in step["run"]
+    assert "|| true" not in step["run"]
+    pin = (REPO_ROOT / "lean4/lean-toolchain").read_text().strip()
+    completed = subprocess.run(
+        ["bash", "-e", "-c",
+         'python3() { printf "%s\\n" "$ELAN_TOOLCHAIN" "$@"; }\n' + step["run"]],
+        cwd=REPO_ROOT,
+        env={**os.environ, "ELAN_TOOLCHAIN": pin, "GITHUB_WORKSPACE": str(REPO_ROOT)},
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    arguments = completed.stdout.splitlines()
+    assert arguments[0] == pin
+    assert arguments[arguments.index("--") + 1:] == ["lake", "-d", "lean4", *command.split()]
 
 
 def test_coverage_retains_failure_evidence_without_weakening_the_gate() -> None:

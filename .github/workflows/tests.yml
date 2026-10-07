@@ -304,7 +304,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install numpy scipy pytest pytest-xdist
+        run: |
+          python -m pip install -r requirements.txt -r requirements-dev.txt \
+            -r 12-AZ-IP/20-psicat-navigator/requirements.txt
       - name: Run canonical ledger + onboarding consistency checks
         run: python -m pytest tests/test_canonical_ledger_consistency.py -v
       - name: Run status-sync and registry-integrity sweeps

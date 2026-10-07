@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 COMPACT = ROOT / "COMPACTIFICATION"
 BOOKS = "7-OUTREACH/A Z PsiCat Literature/Books/"
 ARTICLES = "7-OUTREACH/A Z PsiCat Literature/Articles/"
-PRODUCT = re.compile(r"^(0[1-9]|1[0-9]|2[0-5])-[^/]+$")
+PRODUCT = re.compile(r"^(0[1-9]|[1-9][0-9]+)-[^/]+$")
 
 
 def tracked_paths() -> list[str]:

@@ -29,6 +29,7 @@ jobs:
           curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
             | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
+          echo "ELAN_TOOLCHAIN=$(cat lean-toolchain)" >> "$GITHUB_ENV"
 
       - name: Cache .lake
         uses: actions/cache@v4

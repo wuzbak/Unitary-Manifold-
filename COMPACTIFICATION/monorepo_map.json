@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 7881,
+  "file_count": 7931,
   "lanes": {
-    "az_ip": 2134,
+    "az_ip": 2164,
     "compactification": 9,
-    "other": 5322,
+    "other": 5342,
     "psicat_articles": 352,
     "psicat_books": 64
   },
@@ -16,14 +16,14 @@
     ".dvc": 1,
     ".firebaserc": 1,
     ".gitattributes": 1,
-    ".github": 48,
+    ".github": 49,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2134,
+    "12-AZ-IP": 2164,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -73,7 +73,7 @@
     "SLA_MANIFESTO.md": 1,
     "STATUS.md": 1,
     "STEWARDSHIP.md": 1,
-    "TOOLS": 17,
+    "TOOLS": 18,
     "VERIFY.py": 1,
     "_config.yml": 1,
     "axiomzero_bootstrap.py": 1,
@@ -91,7 +91,7 @@
     "dvc.yaml": 1,
     "firebase.json": 1,
     "hf-spaces": 54,
-    "lean4": 162,
+    "lean4": 163,
     "lodge": 14,
     "manuscript": 6,
     "mkdocs.yml": 1,
@@ -109,7 +109,7 @@
     "src": 1621,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1527,
+    "tests": 1544,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -2262,6 +2262,38 @@
       "12-AZ-IP/25-psicat-braided-brain/ui/icon.svg",
       "12-AZ-IP/25-psicat-braided-brain/ui/index.html",
       "12-AZ-IP/25-psicat-braided-brain/ui/manifest.webmanifest"
+    ],
+    "26-um-arts": [
+      "12-AZ-IP/26-um-arts/pyproject.toml",
+      "12-AZ-IP/26-um-arts/run.py",
+      "12-AZ-IP/26-um-arts/um_arts/__init__.py",
+      "12-AZ-IP/26-um-arts/um_arts/__main__.py",
+      "12-AZ-IP/26-um-arts/um_arts/adapters.py",
+      "12-AZ-IP/26-um-arts/um_arts/assistance.py",
+      "12-AZ-IP/26-um-arts/um_arts/capture.py",
+      "12-AZ-IP/26-um-arts/um_arts/certification.py",
+      "12-AZ-IP/26-um-arts/um_arts/code_index.py",
+      "12-AZ-IP/26-um-arts/um_arts/engine.py",
+      "12-AZ-IP/26-um-arts/um_arts/evidence.py",
+      "12-AZ-IP/26-um-arts/um_arts/examples/full-core-ci.json",
+      "12-AZ-IP/26-um-arts/um_arts/examples/generic.json",
+      "12-AZ-IP/26-um-arts/um_arts/examples/python-review.yml",
+      "12-AZ-IP/26-um-arts/um_arts/examples/repository.json",
+      "12-AZ-IP/26-um-arts/um_arts/examples/um.json",
+      "12-AZ-IP/26-um-arts/um_arts/formal.py",
+      "12-AZ-IP/26-um-arts/um_arts/inventory.py",
+      "12-AZ-IP/26-um-arts/um_arts/isolation.py",
+      "12-AZ-IP/26-um-arts/um_arts/lean_adapter.py",
+      "12-AZ-IP/26-um-arts/um_arts/process.py",
+      "12-AZ-IP/26-um-arts/um_arts/pytest_plugin.py",
+      "12-AZ-IP/26-um-arts/um_arts/reconcile.py",
+      "12-AZ-IP/26-um-arts/um_arts/reporting.py",
+      "12-AZ-IP/26-um-arts/um_arts/scanning.py",
+      "12-AZ-IP/26-um-arts/um_arts/server.py",
+      "12-AZ-IP/26-um-arts/um_arts/static/app.js",
+      "12-AZ-IP/26-um-arts/um_arts/static/index.html",
+      "12-AZ-IP/26-um-arts/um_arts/static/style.css",
+      "12-AZ-IP/26-um-arts/validation_checkpoint.json"
     ]
   },
   "psicat_literature": {
@@ -2989,6 +3021,12 @@
     },
     {
       "path": ".github/workflows/tests.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/workflows/um-arts-full-core.yml",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -18035,6 +18073,216 @@
       "product": "25-psicat-braided-brain"
     },
     {
+      "path": "12-AZ-IP/26-um-arts/pyproject.toml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/__main__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/adapters.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/assistance.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/capture.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/certification.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/code_index.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/engine.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/evidence.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/examples/full-core-ci.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/examples/generic.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/examples/python-review.yml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/examples/repository.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/examples/um.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/formal.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/inventory.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/isolation.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/lean_adapter.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/process.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/pytest_plugin.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/reconcile.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/reporting.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/scanning.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/static/app.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/static/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/um_arts/static/style.css",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/26-um-arts/validation_checkpoint.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "26-um-arts"
+    },
+    {
       "path": "12-AZ-IP/BRAND_SEPARATION_NOTICE_PSICAT.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -30155,6 +30403,12 @@
       "lane": "other"
     },
     {
+      "path": "TOOLS/um_arts/__init__.py",
+      "top_level": "TOOLS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "VERIFY.py",
       "top_level": "VERIFY.py",
       "kind": "file",
@@ -31327,6 +31581,12 @@
     {
       "path": "hf-spaces/vqe-sandbox/requirements.txt",
       "top_level": "hf-spaces",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "lean4/UMArtsExport.lean",
+      "top_level": "lean4",
       "kind": "file",
       "lane": "other"
     },
@@ -43103,6 +43363,126 @@
       "lane": "other"
     },
     {
+      "path": "tests/pillar_0859_0878/test_pillar859_lean4_master_theorem.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar860_sprint_ba_regression_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar861_ckm_7d_bulk_mass_spectrum.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar862_ckm_7d_mixing_angles.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar863_cp_violation_7d_torsion.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar864_jarlskog_invariant_7d.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar865_alphas_7d_kahler_constraint.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar866_alphas_7d_route_d_tightened.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar867_alphas_cross_dimensional_audit.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar868_ngen_e8_adjoint_restriction.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar869_ngen_uniqueness_audit.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar870_ngen_aps_bundle_bridge.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar871_higgs_6d_uv_completion_limit.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar872_kklt_nonperturbative_limit.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar873_e8_breaking_enumeration.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar874_cmb_amplitude_kk_survey.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar875_nonperturbative_qg_limit.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar876_pmns_cp_nlo_tightened.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar877_phi0_sdc_bounded.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0859_0878/test_pillar878_swampland_extended_duality.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "tests/test_action_derived_flow.py",
       "top_level": "tests",
       "kind": "file",
@@ -50279,126 +50659,6 @@
       "lane": "other"
     },
     {
-      "path": "tests/test_pillar859_lean4_master_theorem.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar860_sprint_ba_regression_certificate.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar861_ckm_7d_bulk_mass_spectrum.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar862_ckm_7d_mixing_angles.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar863_cp_violation_7d_torsion.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar864_jarlskog_invariant_7d.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar865_alphas_7d_kahler_constraint.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar866_alphas_7d_route_d_tightened.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar867_alphas_cross_dimensional_audit.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar868_ngen_e8_adjoint_restriction.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar869_ngen_uniqueness_audit.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar870_ngen_aps_bundle_bridge.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar871_higgs_6d_uv_completion_limit.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar872_kklt_nonperturbative_limit.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar873_e8_breaking_enumeration.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar874_cmb_amplitude_kk_survey.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar875_nonperturbative_qg_limit.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar876_pmns_cp_nlo_tightened.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar877_phi0_sdc_bounded.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar878_swampland_extended_duality.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
       "path": "tests/test_pillar879_desi_dr3_routing_update.py",
       "top_level": "tests",
       "kind": "file",
@@ -51846,6 +52106,108 @@
     },
     {
       "path": "tests/test_twisted_torus_cmb.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_assistance.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_capture.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_certification.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_code_index.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_context_boundaries.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_formal_adapter.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_integration.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_inventory.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_isolation.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_lean_exporter.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_plugins.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_product_package.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_scanning.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_scheduling.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_server.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_source_isolation.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
