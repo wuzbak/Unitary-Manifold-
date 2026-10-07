@@ -1,3 +1,7 @@
+import Mathlib.Tactic
+import Mathlib.Data.Finset.Basic
+import Mathlib.Data.Int.Basic
+
 /-!
 # Unitary Manifold — Swampland Distance Conjecture as Formal Named Axiom (Lean 4)
 
