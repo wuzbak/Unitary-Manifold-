@@ -27,6 +27,59 @@ VERIFIED_CODE_LOCATIONS = {
     "virtual_lab": "https://github.com/zou-group/virtual-lab",
     "evo2": "https://github.com/ArcInstitute/evo2",
 }
+STANFORD_HAI_DISCOVERY_EVENTS = (
+    "https://hai.stanford.edu/events/conference-on-physics-and-ai-pai26",
+    "https://hai.stanford.edu/events/brian-hie-genome-modeling-design-across-all-domains-of-life",
+)
+SOURCE_CHAIN_SNAPSHOTS = {
+    "biomni": {
+        "revision": "400c1f366b96a35ca253e13c9b06c5076af41d65",
+        "readme_sha256": "22be688843a08a1f7f0b243b6bb72e452f9aad82a8602e19716a84aec4863281",
+        "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "code_license": "Apache-2.0",
+        "paper": "https://www.biorxiv.org/content/10.1101/2025.05.30.656746v1",
+        "datasets": [
+            ("https://huggingface.co/datasets/biomni/Eval1", "evaluation_dataset"),
+            ("https://github.com/snap-stanford/Biomni/blob/400c1f366b96a35ca253e13c9b06c5076af41d65/README.md#controlling-datalake-loading", "datalake_documentation_not_dataset_snapshot"),
+        ],
+        "limitations": [
+            "README warns that generated code has full system privileges; no unsandboxed integration is approved.",
+            "README documents an approximately 11 GB automatic datalake download; this registry downloads nothing.",
+            "README warns that integrated tools, databases, and software can have more restrictive licenses than the Apache-2.0 code.",
+            "The cited bioRxiv preprint has not been scientifically reviewed here.",
+        ],
+    },
+    "virtual_lab": {
+        "revision": "8a3a4fd9ccc0cd297bd523751e03bc9527c91832",
+        "readme_sha256": "b2b5b8a08946c9b11934f98bcd857f8825cba6096073227343a4e8b339c3995e",
+        "license_sha256": "98ef26c4e033aba896312dea2d2e57541deb64ad9cb7fe7749143ebc97f3d113",
+        "code_license": "MIT",
+        "paper": "https://www.nature.com/articles/s41586-025-09442-9",
+        "datasets": [
+            ("https://github.com/zou-group/virtual-lab/tree/main/nanobody_design", "demonstration_outputs_not_independently_reviewed_dataset"),
+        ],
+        "limitations": [
+            "README describes human-directed LLM meetings; that description is not measured benefit for Merlin.",
+            "Demonstration outputs and third-party scientific tools require separate rights and provenance reviews.",
+            "The README license badge targets LICENSE.txt, which returned 404; the actual fetched repository license is LICENSE.",
+        ],
+    },
+    "evo2": {
+        "revision": "53f195997257c56c00e5ef8d33a54f5baad143a6",
+        "readme_sha256": "58787c8ef5cb4fba4c04322a4ceb9f174e2233ec22d4193622fb6bc67d651d89",
+        "license_sha256": "5bb5812fc2bfb2d777fe5621767172f8ef30be62ad719c87e0f10832336a99e0",
+        "code_license": "Apache-2.0",
+        "paper": "https://www.nature.com/articles/s41586-026-10176-5",
+        "datasets": [
+            ("https://huggingface.co/datasets/arcinstitute/opengenome2", "pretraining_dataset"),
+        ],
+        "limitations": [
+            "README describes GPU/CUDA and precision requirements; the 40B model requires multiple H100 GPUs.",
+            "The fetched LICENSE includes additional NVIDIA, Hugging Face/Google, and Fairseq notices; Apache-2.0 is not a blanket third-party clearance.",
+            "Model weights, training data, and downstream biological uses require separate reviews; none are approved here.",
+        ],
+    },
+}
 Verifier = Callable[[dict[str, Any]], bool]
 
 
@@ -89,42 +142,157 @@ def _verified(verifier: Verifier | None, record: dict[str, Any]) -> bool:
         return False
 
 
+def get_science_collaboration_benchmark_corpus() -> dict[str, Any]:
+    """Frozen public engineering examples, expressly not secret held-out data."""
+    provenance = (
+        "https://github.com/wuzbak/Unitary-Manifold-/blob/main/"
+        "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_science_evidence.py"
+    )
+    examples = [
+        ("mean_variance", "For [2,4,6,8], return JSON with mean and population_variance.", {"mean": 5, "population_variance": 5}),
+        ("linear_fit", "Fit y=a*x+b to x=[0,1,2,3], y=[1,3,5,7]. Return JSON with a and b.", {"a": 2, "b": 1}),
+        ("unit_conversion", "Convert 2.5 milliseconds to seconds. Return JSON with seconds.", {"seconds": 0.0025}),
+        ("unknown_rights", "A paper and repository URL are known, but dataset license and rights review are unknown. Return JSON with reuse_allowed.", {"reuse_allowed": False}),
+        ("total_budget", "A collaboration allocates 30 tokens to planning, 20 to an intermediate call, and 50 to synthesis. Baseline allocates 100. Return JSON with collaboration_tokens and comparable.", {"collaboration_tokens": 100, "comparable": True}),
+    ]
+    tasks = [
+        {
+            "task_id": f"science_example_v1_{name}", "prompt": prompt,
+            "expected": expected, "split": "public_example",
+            "provenance_url": provenance,
+        }
+        for name, prompt, expected in examples
+    ]
+    return {
+        "corpus_id": "science_public_engineering_examples_v1",
+        "tasks": tasks, "training_task_ids": [],
+        "task_manifest_digest": _digest({"tasks": tasks, "training_task_ids": []}),
+        "expected_answers_public": True,
+        "held_out_provenance_verified": False,
+        "eligible_for_model_benefit_evidence": False,
+        "policy": "Use only in deterministic mode. Real model admission requires separate frozen, independently verified held-out tasks.",
+    }
+
+
+def get_science_collaboration_benchmark_spec() -> dict[str, Any]:
+    """A discoverable, pending contract; reading this never executes a model."""
+    return {
+        "status": "pending_real_model_run",
+        "spec_version": "1",
+        "spec_tool": "getMerlinScienceCollaborationBenchmarkSpec",
+        "execution_tool": "runMerlinScienceCollaborationBenchmark",
+        "tool_api": "/api/agentInvoke",
+        "lanes": list(LANES),
+        "corpus": get_science_collaboration_benchmark_corpus(),
+        "scoring": "held_out_exact_json_match",
+        "winner": None,
+        "measured_benefit": False,
+        "execution_performed": False,
+        "model_invocation_performed": False,
+        "automatic_integration": False,
+        "task_policy": {
+            "frozen_manifest_digest": None,
+            "freeze": "SHA-256 of tasks and explicit training_task_ids before evaluating any lane.",
+            "real_evidence": "Independent verification of the frozen held-out manifest is mandatory.",
+            "callback_inputs": "Task ID, prompt, frozen task digest, lane, and TOTAL budget; never expected answers.",
+        },
+        "budget_policy": {
+            "dimensions": list(BUDGET_FIELDS),
+            "comparison": "Exactly equal TOTAL allocations per task across all lanes.",
+            "includes": [
+                "all_participants", "planning_calls", "intermediate_model_calls",
+                "synthesis_calls", "retries", "tool_calls", "nested_tool_calls",
+            ],
+            "accounting": "One execution entry per call, with allocation, actual usage, identity, mode, and artifact provenance.",
+            "exclusive_counters": "Per-call counters are exclusive: do not count nested child usage again in a parent aggregate.",
+            "complete_execution_accounting": "Must be independently checked against the execution artifacts, not merely asserted.",
+        },
+        "execution_labels": {
+            "live": "Actual live execution at receipt capture time; callback transport alone does not establish live model inference.",
+            "recorded": "Previously captured execution, independently checked against immutable artifacts.",
+            "deterministic": "Engineering validation only; model lanes are surrogates, not LLM runs or benefit evidence.",
+        },
+        "tool_modes": {
+            "no_arguments": "Return this pending spec without execution.",
+            "deterministic": "Evaluate provided deterministic records on a frozen task manifest; never establishes measured model benefit.",
+            "model": "Evaluate recorded real-model outputs only with independent verification; JSON callers cannot supply trusted verifiers.",
+        },
+        "callbacks": "Optional trusted Python callbacks; the JSON tool never accepts executable callbacks.",
+        "verifier_policy": "Python verifier integration is required for real evidence. The public JSON tool fails closed for unverified model receipts.",
+        "rights_policy": "Source URLs identify locations only; artifact-specific license and provenance reviews remain mandatory.",
+    }
+
+
+def _source_chain_candidate(resource_id: str, url: str) -> dict[str, Any]:
+    snapshot = SOURCE_CHAIN_SNAPSHOTS[resource_id]
+    repository = url.removeprefix("https://github.com/")
+    revision = snapshot["revision"]
+    readme_url = f"https://raw.githubusercontent.com/{repository}/{revision}/README.md"
+    license_url = f"https://raw.githubusercontent.com/{repository}/{revision}/LICENSE"
+
+    def unreviewed_link(location: str, artifact_kind: str) -> dict[str, Any]:
+        return {
+            "url": location, "artifact_kind": artifact_kind,
+            "link_verification": "documented_in_fetched_upstream_readme",
+            "provenance_url": readme_url,
+            "upstream_readme_revision": revision,
+            "scientific_review": "unverified",
+            "license": None, "license_status": "unknown", "reuse_allowed": False,
+        }
+
+    return {
+        "resource_id": resource_id,
+        "canonical_truth": False,
+        "discovery_url": STANFORD_HAI_DISCOVERY_EVENTS[0],
+        "discovery_attribution": "HAI science-event discovery lead only; no assertion that the event lists every candidate.",
+        "upstream_readme": {
+            "url": readme_url, "revision": revision,
+            "sha256": snapshot["readme_sha256"],
+            "verification": "content_fetched", "retrieved_on": "2026-10-07",
+        },
+        "code": [{
+            "url": url, "revision": revision, "provenance_url": readme_url,
+            "verification": "repository_location_and_license_document_fetched",
+            "license": {
+                "identifier": snapshot["code_license"], "url": license_url,
+                "revision": revision, "sha256": snapshot["license_sha256"],
+                "document_verification": "content_fetched_and_identifier_checked",
+                "retrieved_on": "2026-10-07", "scope": "repository_code_document_only",
+                "rights_review": "pending_artifact_and_component_review",
+                "reuse_permitted": False,
+            },
+        }],
+        "papers": [unreviewed_link(snapshot["paper"], "primary_paper_location")],
+        "datasets": [unreviewed_link(location, kind) for location, kind in snapshot["datasets"]],
+        "license_status": "code_document_identified_data_and_paper_rights_unknown",
+        "reuse_allowed": False,
+        "paper_verification": "citation_link_in_readme_only_not_scientific_review",
+        "limitations": deepcopy(snapshot["limitations"]) + [
+            "Paper and dataset licenses, contamination, provenance, and claimed scientific results remain unverified.",
+        ],
+        "status": "source_chain_candidate_pending_review",
+    }
+
+
 def get_science_evidence_registry() -> dict[str, Any]:
-    """Expose discovery candidates without inventing paper or license checks."""
+    """Expose observed source chains without conflating locations and rights."""
     return {
         "discovery": {
             "url": "https://hai.stanford.edu/",
             "role": "discovery_only",
+            "event_urls": list(STANFORD_HAI_DISCOVERY_EVENTS),
+            "event_location_verification": "web_search_index_only",
+            "event_page_fetch_status": "not_fetched_dns_resolution_failed",
+            "candidate_event_membership": "not_asserted",
             "policy": "Follow primary papers, code, datasets, licenses, and limitations; HAI is not scientific verification.",
         },
         "external_evidence_is_canonical_truth": False,
         "automatic_integrations": False,
         "candidates": [
-            {
-                "resource_id": resource_id,
-                "code": [{"url": url, "verification": "location_only", "license": None}],
-                "papers": [],
-                "datasets": [],
-                "discovery_article": None,
-                "license_status": "unknown",
-                "reuse_allowed": False,
-                "paper_verification": "not_performed",
-                "limitations": [
-                    "Primary paper, dataset, and license reviews are pending.",
-                    "A repository location is not a capability, safety, or scientific-validity receipt.",
-                ],
-                "status": "discovery_candidate",
-            }
+            _source_chain_candidate(resource_id, url)
             for resource_id, url in VERIFIED_CODE_LOCATIONS.items()
         ],
-        "collaboration_benchmark": {
-            "status": "pending_real_model_run",
-            "lanes": list(LANES),
-            "scoring": "held_out_exact_json_match",
-            "budget_policy": "Equal TOTAL allocation per task in every lane, summed over every participant, retry, and tool.",
-            "receipt_policy": "Independent artifact verification required; no self-attested or synthetic LLM wins.",
-            "winner": None,
-        },
+        "collaboration_benchmark": get_science_collaboration_benchmark_spec(),
         "expansion_gates": [
             "measured_paired_benefit",
             "verified_rights_and_provenance",
@@ -204,7 +372,9 @@ def _budget(value: Any) -> dict[str, int | float]:
     return value
 
 
-def _tasks(tasks: Any, training_task_ids: Any) -> list[dict[str, Any]]:
+def _tasks(
+    tasks: Any, training_task_ids: Any, *, allow_public_examples: bool = False,
+) -> list[dict[str, Any]]:
     _json_value(tasks)
     if type(training_task_ids) is not list or not all(map(_text, training_task_ids)):
         raise ValueError("Training task IDs must be explicit.")
@@ -217,12 +387,13 @@ def _tasks(tasks: Any, training_task_ids: Any) -> list[dict[str, Any]]:
         task_id = task.get("task_id")
         if not _text(task_id) or task_id in seen or task_id in training_task_ids:
             raise ValueError("Duplicate or contaminated held-out task.")
+        public_example = allow_public_examples and task.get("split") == "public_example"
         if (
-            task.get("split") != "held_out"
+            (task.get("split") != "held_out" and not public_example)
             or not _text(task.get("prompt"))
             or "expected" not in task
             or not _https(task.get("provenance_url"))
-            or not _text(task.get("holdout_review_id"))
+            or (not public_example and not _text(task.get("holdout_review_id")))
         ):
             raise ValueError("Held-out task provenance and objective answer required.")
         seen.add(task_id)
@@ -231,7 +402,7 @@ def _tasks(tasks: Any, training_task_ids: Any) -> list[dict[str, Any]]:
 
 def _validate_run(
     record: Any, task: dict[str, Any], lane: str, budget: dict[str, Any],
-    verifier: Verifier | None,
+    verifier: Verifier | None, *, deterministic_only: bool = False,
 ) -> tuple[Any, str, bool]:
     _json_value(record)
     if type(record) is not dict or "output" not in record:
@@ -264,7 +435,14 @@ def _validate_run(
             or execution.get("kind") not in ("model", "merlin", "tool")
         ):
             raise ValueError("Execution identity and artifact provenance required.")
+        mode = execution.get("execution_mode")
+        if mode not in ("live", "recorded", "deterministic"):
+            raise ValueError("Every call must label live, recorded, or deterministic execution.")
+        if deterministic_only and (mode != "deterministic" or execution["kind"] == "model"):
+            raise ValueError("Deterministic validation cannot contain real or purported model runs.")
         if execution["kind"] == "model":
+            if mode == "deterministic":
+                raise ValueError("Deterministic output is not an LLM receipt.")
             if not _text(execution.get("model_revision")):
                 raise ValueError("Real model revision required.")
             has_model = True
@@ -281,14 +459,14 @@ def _validate_run(
             totals[key] += Fraction(str(allocation[key]))
     if any(totals[key] != Fraction(str(budget[key])) for key in BUDGET_FIELDS):
         raise ValueError("Unequal TOTAL budgets across lanes.")
-    if lane == "merlin" and (not has_merlin or has_model):
+    if not deterministic_only and lane == "merlin" and (not has_merlin or has_model):
         raise ValueError("Merlin baseline must not contain an LLM.")
-    if lane == "llm" and (not has_model or has_merlin):
+    if not deterministic_only and lane == "llm" and (not has_model or has_merlin):
         raise ValueError("LLM baseline must be standalone.")
-    if lane == "collaboration" and not (has_model and has_merlin):
+    if not deterministic_only and lane == "collaboration" and not (has_model and has_merlin):
         raise ValueError("Collaboration requires both Merlin and an actual model.")
     receipt_id = _digest(record)
-    if not _verified(verifier, {"kind": "execution_receipt", "receipt_id": receipt_id, "record": record}):
+    if not deterministic_only and not _verified(verifier, {"kind": "execution_receipt", "receipt_id": receipt_id, "record": record}):
         raise ValueError("Independent artifact verification failed.")
     return record["output"], receipt_id, has_model
 
@@ -301,6 +479,8 @@ def run_collaboration_benchmark(
     recorded_outputs: dict[str, list[dict[str, Any]]] | None = None,
     callbacks: Mapping[str, Callable[[dict[str, Any]], dict[str, Any]]] | None = None,
     receipt_verifier: Verifier | None = None,
+    execution_mode: str = "model",
+    frozen_manifest_digest: str | None = None,
 ) -> dict[str, Any]:
     """Score paired outputs; callbacks receive prompts, never held-out answers.
 
@@ -310,7 +490,10 @@ def run_collaboration_benchmark(
     """
     blocked = {"status": "blocked", "winner": None, "measured_benefit": False}
     try:
-        tasks = deepcopy(_tasks(tasks, training_task_ids))
+        if execution_mode not in ("model", "deterministic"):
+            raise ValueError("Choose model evidence or deterministic engineering validation.")
+        deterministic_only = execution_mode == "deterministic"
+        tasks = deepcopy(_tasks(tasks, training_task_ids, allow_public_examples=deterministic_only))
         _json_value(budgets)
         if type(budgets) is not dict or set(budgets) != set(LANES):
             raise ValueError("All three lanes require budgets.")
@@ -320,14 +503,20 @@ def run_collaboration_benchmark(
         if common["tokens"] <= 0 or common["seconds"] <= 0:
             raise ValueError("Positive token/time allocations required.")
         manifest_digest = _digest({"tasks": tasks, "training_task_ids": training_task_ids})
+        if frozen_manifest_digest is not None and frozen_manifest_digest != manifest_digest:
+            raise ValueError("Frozen task manifest changed.")
+        if deterministic_only and frozen_manifest_digest != manifest_digest:
+            raise ValueError("Deterministic evaluation requires a frozen task manifest digest.")
         if recorded_outputs is None and callbacks is None:
             return {
                 "status": "pending_real_model_run", "winner": None,
                 "measured_benefit": False, "task_manifest_digest": manifest_digest,
+                "execution_performed": False,
+                "model_invocation_performed": False,
             }
         if (recorded_outputs is None) == (callbacks is None):
             raise ValueError("Choose recorded outputs OR callbacks, never both.")
-        if not _verified(receipt_verifier, {
+        if not deterministic_only and not _verified(receipt_verifier, {
             "kind": "held_out_manifest", "manifest_digest": manifest_digest,
             "tasks": tasks, "training_task_ids": training_task_ids,
         }):
@@ -354,12 +543,16 @@ def run_collaboration_benchmark(
                 raise ValueError("Missing or extra task outputs.")
         scores: dict[str, list[int]] = {lane: [] for lane in LANES}
         receipts: dict[str, list[str]] = {lane: [] for lane in LANES}
+        accounting: dict[str, list[dict[str, Any]]] = {lane: [] for lane in LANES}
         all_execution_ids: set[str] = set()
         all_artifact_urls: set[str] = set()
         for index, task in enumerate(tasks):
             for lane in LANES:
                 record = outputs[lane][index]
-                output, receipt_id, _ = _validate_run(record, task, lane, common, receipt_verifier)
+                output, receipt_id, _ = _validate_run(
+                    record, task, lane, common, receipt_verifier,
+                    deterministic_only=deterministic_only,
+                )
                 execution_ids = {execution["execution_id"] for execution in record["executions"]}
                 if execution_ids & all_execution_ids:
                     raise ValueError("Replayed execution artifact across task/lane.")
@@ -370,6 +563,20 @@ def run_collaboration_benchmark(
                 all_artifact_urls.update(artifact_urls)
                 scores[lane].append(int(_digest(output) == _digest(task["expected"])))
                 receipts[lane].append(receipt_id)
+                accounting[lane].append({
+                    "task_id": task["task_id"], "transport": record["origin"],
+                    "executions": deepcopy(record["executions"]),
+                    "total_allocated": deepcopy(common),
+                    "total_usage": {
+                        key: float(sum(
+                            (Fraction(str(execution["usage"][key])) for execution in record["executions"]),
+                            Fraction(0),
+                        )) if key not in ("tokens", "tool_calls") else sum(
+                            execution["usage"][key] for execution in record["executions"]
+                        )
+                        for key in BUDGET_FIELDS
+                    },
+                })
         means = {lane: sum(scores[lane]) / len(tasks) for lane in LANES}
         deltas = {
             lane: [
@@ -378,13 +585,26 @@ def run_collaboration_benchmark(
             for lane in ("merlin", "llm")
         }
         gains = {lane: sum(values) / len(tasks) for lane, values in deltas.items()}
-        benefit = all(value > 0 for value in gains.values())
+        benefit = not deterministic_only and all(value > 0 for value in gains.values())
         result = {
-            "status": "completed_verified_runs",
+            "status": "completed_deterministic_validation" if deterministic_only else "completed_verified_runs",
             "winner": "collaboration" if benefit else None,
             "measured_benefit": benefit,
             "scientific_truth_established": False,
             "automatic_integration": False,
+            "evaluation_performed": True,
+            "evaluation_transport": "callbacks" if callbacks is not None else "recorded_outputs",
+            "model_invocation_performed": None if not deterministic_only and callbacks is not None else False,
+            "live_model_receipts_present": bool(
+                not deterministic_only and any(
+                    execution["kind"] == "model" and execution["execution_mode"] == "live"
+                    for records in outputs.values() for record in records
+                    for execution in record["executions"]
+                )
+            ),
+            "comparison_kind": "deterministic_surrogates" if deterministic_only else "real_model_benchmark",
+            "receipts_independently_verified": not deterministic_only,
+            "held_out_provenance_verified": not deterministic_only,
             "scoring": "held_out_exact_json_match",
             "task_manifest_digest": manifest_digest,
             "task_count": len(tasks),
@@ -392,12 +612,37 @@ def run_collaboration_benchmark(
             "scores": scores, "mean_scores": means,
             "paired_deltas": deltas, "paired_mean_gain": gains,
             "receipt_ids": receipts,
-            "limitations": ["Benefit is confined to these tasks and budgets; it is not a general LLM superiority claim."],
+            "execution_accounting": accounting,
+            "limitations": (
+                ["Deterministic lane surrogates are engineering checks, not real LLM runs, verified holdouts, or benefit evidence."]
+                if deterministic_only else [
+                    "Benefit is confined to these tasks and budgets; it is not a general LLM superiority claim.",
+                    "Verified live receipts describe capture-time execution; callback transport alone does not prove a fresh model invocation.",
+                ]
+            ),
         }
         result["benchmark_digest"] = _digest(result)
         return result
     except Exception as exc:
         return {**blocked, "reasons": [str(exc) or "invalid_benchmark"]}
+
+
+def run_science_collaboration_tool(**request: Any) -> dict[str, Any]:
+    """JSON-safe tool boundary: no callbacks or self-supplied verifier trust."""
+    if not request:
+        return get_science_collaboration_benchmark_spec()
+    if "callbacks" in request or "receipt_verifier" in request:
+        return {
+            "status": "blocked", "winner": None, "measured_benefit": False,
+            "reasons": ["Trusted callbacks/verifiers cannot be supplied by JSON callers."],
+        }
+    try:
+        return run_collaboration_benchmark(**request)
+    except (TypeError, ValueError) as exc:
+        return {
+            "status": "blocked", "winner": None, "measured_benefit": False,
+            "reasons": [str(exc)],
+        }
 
 
 def evaluate_science_expansion(

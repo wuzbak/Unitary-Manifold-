@@ -2,7 +2,7 @@ const core = window.PsiCatBraidedBrainCore;
 const STORAGE_KEY = 'psicat-braided-brain-state-v2';
 const DEFAULT_COACH_ENDPOINT = 'http://127.0.0.1:8020/api/psicat';
 const OFFLINE_CACHE_SIGNAL = 'psicat-braided-brain-offline-ready';
-const OFFLINE_CACHE_NAME = 'psicat-braided-brain-v4';
+const OFFLINE_CACHE_NAME = 'psicat-braided-brain-v5';
 const PRODUCT_ROOT_URL = new URL('../', window.location.href);
 const OFFLINE_CACHE_PATHS = [
   './ui/index.html',
@@ -136,7 +136,6 @@ function renderTargets() {
     wrap.appendChild(createMiniCard([
       { tag: 'strong', text: target.label },
       { tag: 'span', text: status },
-      { tag: 'small', text: `Evidence class: ${entry.epistemicStatus}` },
       { tag: 'small', text: target.scientificNote },
     ]));
   });
@@ -210,6 +209,7 @@ function renderAtlas() {
     wrap.appendChild(createMiniCard([
       { tag: 'strong', text: `${entry.levelName} — ${entry.label}` },
       { tag: 'span', text: status },
+      { tag: 'small', text: `Evidence class: ${entry.epistemicStatus}` },
       { tag: 'small', text: entry.unlocked ? entry.scientificNote : 'Play the corresponding level to reveal the full note.' },
       { tag: 'small', text: `Source: ${entry.source}` },
       { tag: 'small', text: `Scope: ${entry.limitation}` },

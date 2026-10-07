@@ -50,6 +50,10 @@ from .merlin_masterclass_runtime import (
     review_branch_convergence,
 )
 from .merlin_behavioral_audit import run_behavioral_audit_battery
+from .merlin_science_evidence import (
+    get_science_collaboration_benchmark_spec,
+    run_science_collaboration_tool,
+)
 from .merlin_epistemic_guard import evaluate_scientific_closure_guard, get_epistemic_claim_status_policy
 from .merlin_memory import MERLIN_ACTIVE_SESSION_KEY, MERLIN_CACHE_KEY, MerlinSession
 from .merlin_program import (
@@ -348,6 +352,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinNavierStokesMethodTransferPacket", "summary": "Return the governed Navier-Stokes method-transfer packet for UM/PsiCat", "domain": "functions"},
             {"name": "getMerlinPythagoreanTriplesSatMethodTransferPacket", "summary": "Return the governed Pythagorean-triples SAT method-transfer packet for UM/PsiCat", "domain": "functions"},
             {"name": "getMerlinOpenScienceRegistry", "summary": "Return governed external open-science ingestion registry", "domain": "functions"},
+            {"name": "getMerlinScienceCollaborationBenchmarkSpec", "summary": "Return the pending frozen-task collaboration benchmark contract; does not execute a model", "domain": "functions"},
+            {"name": "runMerlinScienceCollaborationBenchmark", "summary": "Evaluate frozen paired records, or return a pending spec; deterministic validation never establishes LLM benefit", "domain": "functions"},
             {"name": "getMerlinOpenWeightAcquisitionLedger", "summary": "Return scored open-weight acquisition channels, candidate roster, and roster freeze policy", "domain": "functions"},
             {"name": "getMerlinTrainingFrameworkStack", "summary": "Return governed training framework categories for distributed scale, fine-tuning/alignment, and mechanistic learning", "domain": "functions"},
             {"name": "getMerlinFrontierStack", "summary": "Return open-weight model and kernel stack for frontier-local Merlin training", "domain": "functions"},
@@ -629,6 +635,20 @@ def _tool_manifest() -> dict[str, Any]:
             },
         },
         "getMerlinContinuousLearningProtocol": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
+        "runMerlinScienceCollaborationBenchmark": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "tasks": {"type": "array"},
+                    "budgets": {"type": "object"},
+                    "training_task_ids": {"type": "array"},
+                    "recorded_outputs": {"type": "object"},
+                    "execution_mode": {"type": "string"},
+                    "frozen_manifest_digest": {"type": "string"},
+                },
+                "additionalProperties": False,
+            },
+        },
         "getMerlinTrainingExecutionQueue": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinTrainingExecutionBundle": {"args_schema": _LIMIT_SYNC_REFRESH_AST_ARGS_SCHEMA},
         "getMerlinLaneERuntimeProfiles": {
@@ -1312,6 +1332,8 @@ _FUNCTIONS = {
     "getMerlinNavierStokesMethodTransferPacket": lambda **args: {"data": get_navier_stokes_method_transfer_packet()},
     "getMerlinPythagoreanTriplesSatMethodTransferPacket": lambda **args: {"data": get_pythagorean_triples_sat_method_transfer_packet()},
     "getMerlinOpenScienceRegistry": lambda **args: {"data": get_open_science_resource_registry()},
+    "getMerlinScienceCollaborationBenchmarkSpec": lambda **args: {"data": get_science_collaboration_benchmark_spec()},
+    "runMerlinScienceCollaborationBenchmark": lambda **args: {"data": run_science_collaboration_tool(**args)},
     "getMerlinOpenWeightAcquisitionLedger": lambda **args: {"data": get_open_weight_acquisition_ledger()},
     "getMerlinTrainingFrameworkStack": lambda **args: {"data": get_training_framework_stack()},
     "getMerlinFrontierStack": lambda **args: {"data": get_frontier_open_weight_stack()},

@@ -103,6 +103,13 @@ scoring and independently verified execution artifacts are required; test
 fixtures and self-attested receipts do not establish a model advantage.
 The shipped benchmark remains **pending a real model run**.
 
+The existing `/api/agentInvoke` surface exposes
+`getMerlinScienceCollaborationBenchmarkSpec` and
+`runMerlinScienceCollaborationBenchmark`. Calling either without arguments
+returns the pending specification. Deterministic recorded-output
+evaluation checks the engineering contract only and never unlocks adoption;
+public JSON callers cannot supply a trusted receipt-verification callback.
+
 Expansion eligibility is advisory, never deployment authorization. It
 requires replayable measured benefit, reviewed artifact-specific rights and
 provenance, verified resource capacity, and a human approval bound to the

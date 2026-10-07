@@ -22,7 +22,10 @@ from ox_navigator.engine.merlin_science_evidence import (
     evaluate_science_evidence,
     evaluate_science_expansion,
     get_science_evidence_registry,
+    get_science_collaboration_benchmark_spec,
+    get_science_collaboration_benchmark_corpus,
     run_collaboration_benchmark,
+    run_science_collaboration_tool,
     science_evidence_digest,
 )
 
@@ -56,6 +59,7 @@ def fixture_request():
                     "system_id": f"fixture-{kind}",
                     "model_revision": "fixture-revision-not-a-real-model",
                     "kind": kind,
+                    "execution_mode": "recorded",
                     "artifact_url": f"https://example.org/fixtures/{lane}/{index}/{participant}",
                     "budget": allocation,
                     "usage": budget(10, 1, 1, .1),
@@ -97,6 +101,21 @@ def artifact_store_verifier(request):
         )
 
     return verify
+
+
+def deterministic_fixture_request():
+    request = fixture_request()
+    request["execution_mode"] = "deterministic"
+    request["frozen_manifest_digest"] = science_evidence_digest({
+        "tasks": request["tasks"], "training_task_ids": request["training_task_ids"],
+    })
+    for records in request["recorded_outputs"].values():
+        for record in records:
+            for execution in record["executions"]:
+                execution["kind"] = "merlin"
+                execution["execution_mode"] = "deterministic"
+                execution.pop("model_revision")
+    return request
 
 
 def evidence_fixture():
@@ -155,7 +174,7 @@ def expansion_fixture():
     }
 
 
-def test_discovery_registry_no_invented_verification_or_integration():
+def test_discovery_registry_source_chains_do_not_invent_rights_or_scientific_review():
     registry = get_science_evidence_registry()
     assert registry["discovery"]["role"] == "discovery_only"
     assert registry["external_evidence_is_canonical_truth"] is False
@@ -165,14 +184,103 @@ def test_discovery_registry_no_invented_verification_or_integration():
         "https://github.com/zou-group/virtual-lab",
         "https://github.com/ArcInstitute/evo2",
     }
+    expected_papers = {
+        "biomni": "https://www.biorxiv.org/content/10.1101/2025.05.30.656746v1",
+        "virtual_lab": "https://www.nature.com/articles/s41586-025-09442-9",
+        "evo2": "https://www.nature.com/articles/s41586-026-10176-5",
+    }
+    expected_licenses = {"biomni": "Apache-2.0", "virtual_lab": "MIT", "evo2": "Apache-2.0"}
     for entry in registry["candidates"]:
-        assert entry["papers"] == entry["datasets"] == []
-        assert entry["license_status"] == "unknown"
+        assert entry["papers"][0]["url"] == expected_papers[entry["resource_id"]]
+        assert entry["datasets"]
+        assert entry["license_status"] == "code_document_identified_data_and_paper_rights_unknown"
         assert entry["reuse_allowed"] is False
-        assert entry["paper_verification"] == "not_performed"
+        assert entry["paper_verification"] == "citation_link_in_readme_only_not_scientific_review"
+        code_license = entry["code"][0]["license"]
+        assert code_license["identifier"] == expected_licenses[entry["resource_id"]]
+        assert code_license["document_verification"] == "content_fetched_and_identifier_checked"
+        assert code_license["scope"] == "repository_code_document_only"
+        assert code_license["reuse_permitted"] is False
+        assert len(code_license["sha256"]) == 64
+        assert code_license["revision"] in code_license["url"]
+        assert entry["upstream_readme"]["revision"] in entry["upstream_readme"]["url"]
+        assert len(entry["upstream_readme"]["sha256"]) == 64
+        for source in entry["papers"] + entry["datasets"]:
+            assert source["license"] is None
+            assert source["scientific_review"] == "unverified"
+            assert source["link_verification"] == "documented_in_fetched_upstream_readme"
+            assert source["provenance_url"] == entry["upstream_readme"]["url"]
+        assert not evaluate_science_evidence(entry, review_verifier=lambda _: True)["reuse_allowed"]
     assert registry["collaboration_benchmark"]["status"] == "pending_real_model_run"
     registry["candidates"].clear()
     assert len(get_science_evidence_registry()["candidates"]) == 3
+
+
+def test_registry_distinguishes_dataset_locations_datalake_docs_and_demonstration_outputs():
+    entries = {entry["resource_id"]: entry for entry in get_science_evidence_registry()["candidates"]}
+    assert entries["biomni"]["datasets"][0]["url"] == "https://huggingface.co/datasets/biomni/Eval1"
+    assert entries["biomni"]["datasets"][1]["artifact_kind"] == "datalake_documentation_not_dataset_snapshot"
+    assert "#controlling-datalake-loading" in entries["biomni"]["datasets"][1]["url"]
+    assert entries["virtual_lab"]["datasets"][0]["url"] == "https://github.com/zou-group/virtual-lab/tree/main/nanobody_design"
+    assert entries["virtual_lab"]["datasets"][0]["artifact_kind"] == "demonstration_outputs_not_independently_reviewed_dataset"
+    assert entries["evo2"]["datasets"][0]["url"] == "https://huggingface.co/datasets/arcinstitute/opengenome2"
+    assert "NVIDIA" in " ".join(entries["evo2"]["limitations"])
+    assert "LICENSE.txt" in " ".join(entries["virtual_lab"]["limitations"])
+
+
+def test_exact_discovery_events_are_locations_not_verified_event_membership():
+    discovery = get_science_evidence_registry()["discovery"]
+    assert "https://hai.stanford.edu/events/conference-on-physics-and-ai-pai26" in discovery["event_urls"]
+    assert "https://hai.stanford.edu/events/brian-hie-genome-modeling-design-across-all-domains-of-life" in discovery["event_urls"]
+    assert discovery["event_location_verification"] == "web_search_index_only"
+    assert discovery["event_page_fetch_status"] == "not_fetched_dns_resolution_failed"
+    assert discovery["candidate_event_membership"] == "not_asserted"
+
+
+def test_public_spec_corpus_is_concrete_frozen_and_honest_about_non_holdout_status():
+    corpus = get_science_collaboration_benchmark_corpus()
+    assert len(corpus["tasks"]) == 5
+    assert corpus["expected_answers_public"] is True
+    assert corpus["eligible_for_model_benefit_evidence"] is False
+    assert corpus["held_out_provenance_verified"] is False
+    assert all(task["split"] == "public_example" for task in corpus["tasks"])
+    assert corpus["task_manifest_digest"] == science_evidence_digest({
+        "tasks": corpus["tasks"], "training_task_ids": corpus["training_task_ids"],
+    })
+    assert get_science_collaboration_benchmark_spec()["corpus"] == corpus
+    corpus["tasks"][0]["expected"] = "tampered"
+    assert get_science_collaboration_benchmark_corpus()["tasks"][0]["expected"] == {
+        "mean": 5, "population_variance": 5,
+    }
+
+
+def test_public_corpus_executable_only_as_deterministic_non_evidence():
+    corpus = get_science_collaboration_benchmark_corpus()
+    request = deterministic_fixture_request()
+    request.update(
+        tasks=corpus["tasks"], training_task_ids=corpus["training_task_ids"],
+        frozen_manifest_digest=corpus["task_manifest_digest"],
+    )
+    for lane in LANES:
+        template = deepcopy(request["recorded_outputs"][lane][0])
+        request["recorded_outputs"][lane] = []
+        for index, task in enumerate(corpus["tasks"]):
+            record = deepcopy(template)
+            record.update(
+                task_id=task["task_id"], task_digest=science_evidence_digest(task),
+                output=deepcopy(task["expected"]),
+            )
+            for participant, execution in enumerate(record["executions"]):
+                execution["execution_id"] = f"public-fixture-{lane}-{index}-{participant}"
+                execution["artifact_url"] = f"https://example.org/public-fixtures/{lane}/{index}/{participant}"
+            request["recorded_outputs"][lane].append(record)
+    result = run_science_collaboration_tool(**request)
+    assert result["status"] == "completed_deterministic_validation"
+    assert result["scores"] == {lane: [1] * 5 for lane in LANES}
+    assert result["winner"] is None
+    assert result["measured_benefit"] is False
+    request["execution_mode"] = "model"
+    assert run_collaboration_benchmark(**request, receipt_verifier=lambda _: True)["status"] == "blocked"
 
 
 def test_registry_integrated_without_replacing_existing_resources():
@@ -197,6 +305,154 @@ def test_existing_registry_http_endpoint_exposes_pending_evidence_policy():
             registry = payload["open_science_registry"]
             assert registry["science_evidence"]["automatic_integrations"] is False
             assert registry["science_evidence"]["collaboration_benchmark"]["status"] == "pending_real_model_run"
+            spec = registry["science_evidence"]["collaboration_benchmark"]
+            assert spec["execution_tool"] == "runMerlinScienceCollaborationBenchmark"
+            assert spec["execution_performed"] is False
+            assert "intermediate_model_calls" in spec["budget_policy"]["includes"]
+            invocation = client.post("/api/agentInvoke", json={
+                "tool": spec["execution_tool"], "args": {},
+            })
+            assert invocation.status_code == 200
+            assert invocation.json()["ok"] is True
+            assert invocation.json()["result"]["data"] == spec
+            deterministic = client.post("/api/agentInvoke", json={
+                "tool": spec["execution_tool"], "args": deterministic_fixture_request(),
+            })
+            assert deterministic.status_code == 200
+            benchmark = deterministic.json()["result"]["data"]
+            assert benchmark["status"] == "completed_deterministic_validation"
+            assert benchmark["model_invocation_performed"] is False
+            assert benchmark["winner"] is None
+
+
+def test_pending_benchmark_tools_discoverable_and_do_not_execute_models():
+    from ox_navigator.engine.merlin_tools import get_toolkit_view, route_tool
+
+    spec = get_science_collaboration_benchmark_spec()
+    for tool in (spec["spec_tool"], spec["execution_tool"]):
+        assert "error" not in get_toolkit_view("tool", tool=tool)
+        result = route_tool(tool, {})
+        assert result["ok"] is True
+        assert result["result"]["data"] == spec
+        assert result["result"]["data"]["model_invocation_performed"] is False
+
+
+def test_deterministic_tool_evaluates_frozen_records_without_claiming_model_benefit():
+    from ox_navigator.engine.merlin_tools import route_tool
+
+    result = route_tool("runMerlinScienceCollaborationBenchmark", deterministic_fixture_request())
+    assert result["ok"] is True
+    benchmark = result["result"]["data"]
+    assert benchmark["status"] == "completed_deterministic_validation"
+    assert benchmark["scores"]["collaboration"] == [1, 1]
+    assert benchmark["winner"] is None
+    assert benchmark["measured_benefit"] is False
+    assert benchmark["model_invocation_performed"] is False
+    assert benchmark["receipts_independently_verified"] is False
+    assert benchmark["held_out_provenance_verified"] is False
+    assert benchmark["comparison_kind"] == "deterministic_surrogates"
+
+
+def test_tool_rejects_self_supplied_verifiers_and_unverified_model_receipts():
+    from ox_navigator.engine.merlin_tools import route_tool
+
+    request = fixture_request()
+    result = route_tool("runMerlinScienceCollaborationBenchmark", request)
+    assert result["ok"] is True
+    assert result["result"]["data"]["status"] == "blocked"
+    request["receipt_verifier"] = True
+    assert route_tool("runMerlinScienceCollaborationBenchmark", request)["ok"] is False
+    assert run_science_collaboration_tool(**request)["status"] == "blocked"
+    request["receipt_verifier"] = lambda _: True
+    assert run_science_collaboration_tool(**request)["status"] == "blocked"
+    assert run_science_collaboration_tool(tasks=[])["status"] == "blocked"
+
+
+@pytest.mark.parametrize("change", [
+    lambda r: r.pop("frozen_manifest_digest"),
+    lambda r: r.update(frozen_manifest_digest="changed"),
+    lambda r: r["tasks"][0].update(expected="tampered"),
+    lambda r: r["recorded_outputs"]["llm"][0]["executions"][0].update(execution_mode="recorded"),
+    lambda r: r["recorded_outputs"]["llm"][0]["executions"][0].update(kind="model"),
+])
+def test_deterministic_evaluation_rejects_changed_tasks_or_model_impersonation(change):
+    request = deterministic_fixture_request()
+    change(request)
+    assert run_science_collaboration_tool(**request)["status"] == "blocked"
+
+
+def test_deterministic_callbacks_optional_and_cannot_promote_expansion():
+    request = deterministic_fixture_request()
+    records = request.pop("recorded_outputs")
+    result = run_collaboration_benchmark(
+        **request,
+        callbacks={
+            lane: lambda packet, lane=lane: next(
+                record for record in records[lane] if record["task_id"] == packet["task_id"]
+            )
+            for lane in LANES
+        },
+    )
+    assert result["status"] == "completed_deterministic_validation"
+    assert result["evaluation_transport"] == "callbacks"
+    assert result["model_invocation_performed"] is False
+    fixture = expansion_fixture()
+    fixture["benchmark_request"] = deterministic_fixture_request()
+    assert evaluate_science_expansion(**fixture)["expansion_allowed"] is False
+
+
+def test_intermediate_calls_count_toward_total_allocations_and_usage():
+    request = fixture_request()
+    for record in request["recorded_outputs"]["collaboration"]:
+        model = record["executions"][1]
+        model["budget"] = budget(25, 1, 2.5, .25)
+        intermediate = deepcopy(model)
+        intermediate["execution_id"] += "-intermediate"
+        intermediate["artifact_url"] += "/intermediate"
+        record["executions"].append(intermediate)
+    result = run_collaboration_benchmark(**request, receipt_verifier=artifact_store_verifier(request))
+    assert result["status"] == "completed_verified_runs"
+    accounting = result["execution_accounting"]["collaboration"][0]
+    assert len(accounting["executions"]) == 3
+    assert accounting["total_allocated"] == budget()
+    assert accounting["total_usage"] == budget(30, 3, 3, .3)
+    assert result["evaluation_transport"] == "recorded_outputs"
+    assert result["model_invocation_performed"] is False
+    request["recorded_outputs"]["collaboration"][0]["executions"][-1]["budget"]["tokens"] += 1
+    assert run_collaboration_benchmark(
+        **request, receipt_verifier=artifact_store_verifier(request),
+    )["status"] == "blocked"
+
+
+@pytest.mark.parametrize("label", ["live", "recorded", "deterministic", None, "fake"])
+def test_model_execution_modes_are_explicit_and_deterministic_is_not_a_model(label):
+    request = fixture_request()
+    for record in request["recorded_outputs"]["llm"]:
+        record["executions"][0]["execution_mode"] = label
+    result = run_collaboration_benchmark(**request, receipt_verifier=artifact_store_verifier(request))
+    assert result["status"] == ("completed_verified_runs" if label in ("live", "recorded") else "blocked")
+
+
+def test_live_callback_model_invocation_distinguished_from_record_replay():
+    request = fixture_request()
+    for records in request["recorded_outputs"].values():
+        for record in records:
+            record["origin"] = "callback"
+            for execution in record["executions"]:
+                execution["execution_mode"] = "live"
+    verifier = artifact_store_verifier(request)
+    records = request.pop("recorded_outputs")
+    callbacks = {
+        lane: lambda packet, lane=lane: next(
+            record for record in records[lane] if record["task_id"] == packet["task_id"]
+        )
+        for lane in LANES
+    }
+    live = run_collaboration_benchmark(**request, callbacks=callbacks, receipt_verifier=verifier)
+    assert live["model_invocation_performed"] is None
+    assert live["live_model_receipts_present"] is True
+    replay = run_collaboration_benchmark(**request, recorded_outputs=records, receipt_verifier=verifier)
+    assert replay["model_invocation_performed"] is False
 
 
 def test_evidence_requires_independent_rights_and_provenance_review():
