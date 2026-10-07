@@ -336,9 +336,17 @@
       "description": "Canonical AxiomZero notice file",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "34d225c70d36ddc941f2412caafef832e2ca15bf3ea8f219aec9f48ad8efda5c",
-      "size_bytes": 593
+      "updated": "2026-10-07",
+      "sha256": "136c758ccd29b0a44cdfaf6f4fdf88f7f14c5dd8da6f31ae81d5ff8e86e95d1f",
+      "size_bytes": 6939,
+      "reseal_note": "Authorized additive reciprocity clarification AZ-RECIPROCITY-2026-10-07. Previous registry-recorded seal retained in reseal_history; no claim that the old seal matched the pre-change working file.",
+      "reseal_history": [
+        {
+          "updated": "2026-08-18",
+          "sha256": "34d225c70d36ddc941f2412caafef832e2ca15bf3ea8f219aec9f48ad8efda5c",
+          "size_bytes": 593
+        }
+      ]
     },
     "12-AZ-IP/17-um-image-generator/image_generator/engine/visualizations.py": {
       "description": "UM Image Generator — 8 visualization data functions (CMB, birefringence, KK tower, winding mode, phi-landscape, Penrose, holographic, braided speed)",

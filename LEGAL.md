@@ -390,3 +390,266 @@ Known open problems and honest gaps are documented in [`FALLIBILITY.md`](FALLIBI
 
 > **Note:** This document is not a substitute for legal counsel.  For binding commercial
 > agreements, consult a licensed attorney.
+
+---
+
+## Part X — Public Reciprocity Release of Intent (2026-10-07)
+
+**Issuer:** AxiomZero Technologies & Consulting, SPC. **Policy identifier:**
+`AZ-RECIPROCITY-2026-10-07`. This additive clarification preserves the preceding
+record; it neither withdraws existing permissions nor converts public-domain
+material back into copyrighted property. For current corporate policy, this
+section clarifies inconsistent summaries above. Official license terms, existing
+valid grants, third-party rights, and mandatory law remain controlling.
+
+### 10.1 Public access and reciprocal software
+
+Anyone may study, use, modify, and integrate the work under the applicable asset
+license, including for commercial purposes. Permissions do not discriminate
+between authorized persons or organizations using human-operated or automated
+tools; this does not confer legal personality on machines. AxiomZero's default
+for its copyright-retained software is
+**AGPL-3.0-or-later**, not an AGPL license with additional field-of-use,
+notification, payment, or forum restrictions.
+
+Specifically, the historical Commercial Terms §4-B commercial-notification
+requirement is no longer asserted as a condition of AGPL permissions.
+Commercial notifications may be invited voluntarily; failure to notify alone
+is not asserted as grounds for AGPL termination. This clarification applies to
+the public licensing policy without requiring a commercial engagement. Notice
+preservation under §7(b) is not a general power to require business reporting.
+
+When AGPL requires Corresponding Source, recipients must receive the applicable
+source and license rights. Section 13 requires a prominent, no-charge source
+offer to users interacting remotely with a modified covered program that
+supports such interaction. Conveyance obligations arise separately under
+sections 4–6. Network interaction is not itself conveyance. Purely private
+modification without conveyance or qualifying remote interaction, mere
+aggregation, and independent programs do not automatically
+require public disclosure. The boundaries of a combined covered work depend on
+facts, not just a process boundary, API, or marketing description.
+Internal or access-controlled remote interaction is not automatically exempt
+from §13; its source offer is owed to all qualifying remote users.
+
+AxiomZero commits to public, versioned, downloadable source offers for its own
+covered releases, accessible without account registration or machine-specific
+discrimination. Source should include applicable build/install scripts and
+license notices, applicable run/modification scripts, and Installation
+Information where §6 requires it. This corporate publication commitment is stronger than a claim
+that every AGPL recipient must publish everything to the whole world.
+
+Keeping required Corresponding Source secret is not the public-license route.
+A party seeking permission to withhold source that AGPL would require must
+obtain a separately executed exception from AxiomZero for rights AxiomZero can
+actually license. The alternative is compliance, not compulsory purchase.
+Keeping unrelated IP private, or a genuinely private use that does not trigger
+AGPL obligations, does not by itself require an exception.
+
+### 10.2 Scope and preservation of prior grants
+
+The software scope described in the root notices includes relocated counterparts
+under `5-GOVERNANCE/Unitary Pentad/`. AxiomZero's forward-looking AGPL default
+also covers its copyright-retained software in `12-AZ-IP/`, `TOOLS/`,
+`9-INFRASTRUCTURE/`, and `public-site/`. This is **not** a declaration that every
+file there is newly or exclusively AGPL: individual asset notices, prior public
+grants, upstream licenses, and third-party components must be preserved.
+
+In particular, `LicenseRef-Defensive-Public-Commons-1.0` headers and historical
+public-domain releases require rights review, not automatic relabeling.
+Notebooks may mix code and public-domain text. Copies and mirrors inherit their
+actual asset permissions, not a new copyright merely through relocation.
+The machine-readable policy at `9-INFRASTRUCTURE/licensing_policy.json` records
+these distinctions; it is an index, not a replacement license.
+Its current software locations must exist; separately listed historical
+locations are archival scope references, not claims that those directories
+still exist at the repository root.
+
+Ideas, equations, facts, and methods are not made exclusive by this policy.
+Public-domain dedication cannot itself enforce prohibitions on charging,
+patenting, or downstream proprietary work. The older absolute statements above
+express commons-protection intent, not a guarantee of those legal effects.
+Attribution requests for public-domain material remain requests.
+
+### 10.3 Individually negotiated exceptions
+
+AxiomZero may offer an exception in exchange for payment **or** an expressly
+defined partnership contribution, case by case. No payment, use, conversation,
+or asserted affiliation alone grants an exception. A valid exception requires
+an executed agreement by authorized parties specifying entities, covered
+assets and versions, permitted integrations, consideration, disclosure duties,
+duration, termination, and surviving rights.
+
+The agreement must identify the copyright and contributor permissions supporting
+the exception. AxiomZero cannot waive someone else's upstream copyleft or rights.
+Neither an exception nor an NDA reduces the public's existing rights. Exceptions
+are not universal alternate licenses and do not transfer ownership by default.
+The supplemental terms in Commercial Terms §12 reconcile §4-A with §9.2.
+
+The B2B commercial route ordinarily includes a one-time due-diligence and
+alignment fee per product integration. For for-profit product integrations
+under an executed exception, the usual negotiating reference is a residual use
+fee around **2.32% of that product's quarterly revenues**. The actual rate,
+revenue basis, reporting, duration and other terms are individually agreed;
+this is not a universal charge, a share of all company revenue, or a condition
+of compliant public-license use. Exceptions typically concern disclosure but
+may address other expressly identified permissions within AxiomZero's rights.
+See Commercial Terms §12.6 for required schedule definitions and safeguards.
+
+### 10.4 AI disclosure and lawful limits
+
+Using software in an AI pipeline does not automatically impose AGPL on every
+model, weight, dataset, output, or surrounding system. Copyrightability,
+derivation, fair use, and Corresponding Source are fact-dependent. This release
+does not purport to resolve those questions or add a training restriction to AGPL.
+
+An accepted partnership or exception agreement may separately require a public
+reproducibility package: specified training/fine-tuning code, configurations,
+weights or adapters, evaluation methods, provenance, and lawful dataset
+descriptions, with explicit release licenses and deadlines. Actual datasets
+may be required only where authorized and lawful. Personal data, credentials,
+unrelated trade secrets, and third-party confidential material are excluded.
+Document lawful exclusions and resulting reproducibility limits honestly.
+No concealed telemetry, forced upload, or remote disabling enforces this policy.
+
+These contractual exclusions do not excuse omission of material independently
+required by the applicable public license. Operational credentials are not
+ordinary publication artifacts; Installation Information under §6 may include
+necessary authorization information. Resolve conflicts lawfully before covered
+conveyance or deployment, rather than silently omit required information.
+
+### 10.5 Washington law and King County forum
+
+For agreements that expressly incorporate Commercial Terms §12 and are accepted
+by authorized parties, AxiomZero selects Washington substantive law, subject to
+applicable federal and mandatory law, and the appropriate state courts in King
+County or the United States District Court for the Western District of Washington
+at Seattle where federal subject-matter jurisdiction exists.
+
+This selection does not bind public-domain users or AGPL recipients solely
+because they download, run, or integrate code. No mandatory forum term is added
+to AGPL. It does not unilaterally amend already executed agreements, override
+mandatory consumer protections, or create subject-matter jurisdiction.
+Forum enforceability depends on assent, applicable public policy and access
+to remedies; no particular outcome is warranted. In *Dix v. ICT Group, Inc.*,
+160 Wn.2d 826, 161 P.3d 1016 (2007), the Washington Supreme Court rejected a
+forum clause that impaired the Washington consumers' effective class-action
+remedy; this is not a rule invalidating or validating every forum clause.
+
+### 10.6 Legal foundations and enforcement
+
+The following authorities explain the mechanisms, not a promise of a particular
+judicial outcome:
+
+| Authority | Relevant boundary |
+|---|---|
+| [17 USC §102(b)](https://www.law.cornell.edu/uscode/text/17/102) | Copyright excludes ideas, procedures, systems, methods, and discoveries. |
+| [17 USC §106](https://www.law.cornell.edu/uscode/text/17/106), [§107](https://www.law.cornell.edu/uscode/text/17/107) | Exclusive rights are subject to statutory limitations, including fair use. |
+| [17 USC §204](https://www.law.cornell.edu/uscode/text/17/204) | Transfers of copyright ownership generally require signed writings. |
+| [17 USC §411](https://www.law.cornell.edu/uscode/text/17/411), [§412](https://www.law.cornell.edu/uscode/text/17/412) | Registration requirements and timing affect suits and remedies, subject to statutory exceptions. |
+| [17 USC §502](https://www.law.cornell.edu/uscode/text/17/502), [§504](https://www.law.cornell.edu/uscode/text/17/504), [§505](https://www.law.cornell.edu/uscode/text/17/505) | Injunctions, damages, profits, fees, and costs depend on statutory conditions and judicial decisions. |
+| [28 USC §1338(a)](https://www.law.cornell.edu/uscode/text/28/1338) | Federal courts have exclusive jurisdiction over claims arising under federal copyright law. |
+| [RCW 1.80.040](https://app.leg.wa.gov/RCW/default.aspx?cite=1.80.040), [1.80.060](https://app.leg.wa.gov/RCW/default.aspx?cite=1.80.060) | Electronic transactions depend on agreement; records and signatures are not denied effect merely for being electronic. |
+| [AGPL v3 §§0–2, 4–14](https://www.gnu.org/licenses/agpl-3.0.html) | Definitions, Corresponding Source, conveyance, additional terms, acceptance, downstream freedoms, cure, patents, remote interaction and later versions. |
+
+Electronic signature recognition is not proof of assent, authority, or forum
+enforceability. Fingerprints demonstrate identity/provenance, not infringement
+on their own. Preserve human-authorship evidence, assignments, contributor
+permissions, applicable registrations, release history, and source-offer
+evidence before asserting a claim. Use documented inquiry, fact assessment,
+notice and applicable cure opportunities, then proportionate enforcement.
+Court discovery is not automatic public disclosure of another party's secrets.
+
+Copyright assertions extend only to protectable human-authored expression and
+rights validly acquired. AI assistance, prompting, direction, review or a
+provider's contractual allocation of output does not alone create copyright.
+Human creative selection, arrangement or modifications require fact-specific
+review. The earlier blanket ownership statements must be read with this limit;
+third-party expression, provider software and provider agreements can involve
+separate rights. An assignment transfers rights actually held, not rights that
+never existed. See the U.S. Copyright Office's
+[2025 copyrightability report](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf).
+
+Public disclosure can provide relevant prior art; it cannot guarantee defeat of
+all future patent claims. Eligibility, novelty and nonobviousness are separate
+questions under [35 USC §§101–103](https://uscode.house.gov/view.xhtml?path=/prelim@title35/part2/chapter10&edition=prelim).
+AGPL §§10–11 address patent protections within their scope, including contributor
+essential claims, not general immunity from third-party patents.
+
+### 10.7 Executable release checks
+
+`TOOLS/checks/check_licensing_policy.py` detects changes to the approved policy
+index, verifies current directories and document identifiers in CI; it does not
+interpret or reconcile prose. Its optional `--release-manifest` checks declared source-offer
+evidence for covered distributions and modified network releases. It is local
+and read-only: no network requests, execution of submitted code, telemetry, or
+alteration of runtime access.
+
+A passing result means **structural evidence checks passed**, not a legal
+certification or verification of public URL contents. The gate cannot infer
+which software is a derivative work or authenticate a contract. Exception
+requests always stop for authorized agreement review; a boolean, payment
+receipt, or self-issued identifier cannot automatically approve them. Private
+use does not require a public source offer merely to satisfy this tool.
+
+The gate's JSON output and policy are readable by humans and machines. Run
+`python TOOLS/checks/check_licensing_policy.py` from the repository root.
+Optional release evidence is a JSON object with `policy_id`, `mode` (`public`
+or `exception`), `activity` (`distribution`, `modified_network`, or `private`),
+and `release_id`. Public distribution/network evidence additionally includes
+`source_url` (HTTPS), `source_revision`, `license` (`AGPL-3.0-or-later`),
+`source_offer_visible: true`, and `source_access: "public-no-auth"`.
+Exception requests include `agreement_reference` and return exit code 2 for
+manual review. Invalid evidence returns 1; structurally valid evidence returns 0.
+Submit only non-sensitive evidence; keep contracts and credentials out of public
+release manifests. Run this gate for each applicable release; CI's repository
+check alone does not certify every deployment.
+
+### 10.8 Research, licensing selection and publication record
+
+The release retains standard AGPL for copyright-retained software and existing
+public-domain permissions for their covered material. It does not retroactively
+add CC BY-SA, CC0 or ODbL as restrictions or alternative escape routes.
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en)
+can be considered for new rights-controlled expressive content;
+[CC0](https://creativecommons.org/publicdomain/zero/1.0/legalcode.en) clarifies
+waiver intent, not reciprocity;
+[ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/) concerns qualifying
+databases and does not automatically govern every trained model or database
+content. Asset-level rights and compatibility review precede any adoption.
+
+The complete, unmodified AGPL v3 document is now supplied in
+[`LICENSES/AGPL-3.0-or-later.txt`](LICENSES/AGPL-3.0-or-later.txt), separate from
+project summaries. Its application instructions are included. Retrieved from
+the public [Nextcloud license mirror](https://github.com/nextcloud/server/blob/master/COPYING),
+the copy matches Git blob `dba13ed2ddf783ee8118c6a581dbf75305f816a3`;
+SHA-256 `57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6`,
+34,520 bytes. This provenance is not a publisher signature. The GNU publisher's
+URL remains authoritative; direct publisher retrieval was unavailable.
+
+Research on 2026-10-07 read the existing grants, contributor terms, commercial
+contradictions and complete mirrored AGPL text. Statutory, Copyright Office and
+judicial references were corroborated through search; direct retrieval from
+GNU and several government/court hosts failed with DNS/access errors. Do not
+interpret citations as proof that every linked current text was independently
+downloaded or that private assignments, actual source offers or representative
+authority were authenticated.
+
+Official statutory collections:
+[U.S. Code Title 17](https://uscode.house.gov/view.xhtml?path=/prelim@title17&edition=prelim),
+[28 USC §1338](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title28-section1338&num=0&edition=prelim),
+[Washington electronic transactions](https://app.leg.wa.gov/RCW/default.aspx?cite=1.80),
+and [Washington SPC statute, RCW 23B.25](https://app.leg.wa.gov/RCW/default.aspx?cite=23B.25).
+SPC status supports a corporate social-purpose structure; it does not expand
+copyright, waive third-party rights or bind unconsenting users.
+The [Dix opinion reproduction](https://law.justia.com/cases/washington/supreme-court/2007/77101-4-1.html)
+is judicial authority, not a contract template.
+
+The publication sequence is rights/grants review, reconciliation by addition,
+separate accepted-agreement terms, machine-readable indexing, local release
+checks, tests and review, and a
+[human-readable PsiCat release](7-OUTREACH/A%20Z%20PsiCat%20Literature/Releases/axiomzero-spc-licensing.md).
+Technical publication does not execute anyone's exception agreement or announce
+an adjudicated infringement finding.
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

@@ -441,3 +441,149 @@ variable names are changed, see [`../../1-THEORY/FINGERPRINTS.md`](../../1-THEOR
 
 > **Reminder:** This document is not a substitute for legal counsel.  Have a licensed attorney
 > review all commercial agreements before execution.
+
+---
+
+## § 12 · Reciprocity and Exception Supplemental Terms (2026-10-07)
+
+**Policy identifier: `AZ-RECIPROCITY-2026-10-07`.** This additive supplement
+preserves the historical text above. It applies to new engagements expressly
+incorporating this section and accepted by authorized representatives, not
+automatically to existing agreements or public-license users. For such
+engagements, it controls inconsistencies with §§4-A, 8, and 9.2.
+The public-license clarification in §12.1 also expressly addresses historical
+§4-B and does not require an engagement or assent to take effect.
+
+### 12.1 Two lawful routes, no automatic payment requirement
+
+Anyone may use and integrate covered software under its actual public license.
+Compliant AGPL use does not require a fee, notification, approval, or commercial
+exception. Unrelated proprietary software and purely private modifications are
+not automatically subject to disclosure. Where AGPL requires Corresponding
+Source for a covered work, withholding it requires independently authorized
+rights or a duly executed exception covering the withheld material.
+
+The historical §4-B commercial-notification demand is not asserted as a
+condition of AGPL permissions. Notifications are voluntary under the public
+route; absence of a notification alone is not grounds asserted for AGPL
+termination. This clarifies the preserved historical text, independently of
+whether a party accepts commercial terms. Separate accepted contracts may
+specify their own reporting duties without changing public-license rights.
+
+AxiomZero may negotiate exceptions for **payment or partnership consideration**,
+individually. Neither route has a guaranteed entitlement or automatic approval.
+The agreement shall identify the parties and authorized signatories; covered
+assets, versions and rights; permitted integrations and affiliates; consideration
+and acceptance milestones; retained public disclosure obligations; duration;
+audit procedures; breach, cure and termination; and rights surviving termination.
+Payment without execution is not a license. Partnership obligations must be
+specific, lawful, measurable and expressly accepted.
+
+### 12.2 Authority and public rights
+
+An exception is effective only for rights AxiomZero holds or is authorized to
+license. Before execution, verify contributor grants and upstream dependencies;
+a DCO alone is not an assignment or blanket commercial relicensing authority.
+No exception overrides third-party copyleft, restores copyright validly waived,
+withdraws previous public grants, or transfers ownership unless expressly agreed.
+
+Section 9.2 means that ordinary services do not implicitly waive AGPL; it does
+not prohibit the expressly executed exceptions contemplated by §4-A and this
+supplement. The public continues to hold all previously granted rights. A private
+exception is not a permissive alternative license for all public recipients.
+
+### 12.3 Disclosure commitments and lawful exclusions
+
+Where the executed agreement requires public disclosure, its schedule shall
+identify deliverables, versions, deadlines, accessible download locations,
+reuse licenses, build instructions and source-offer visibility. AI schedules
+shall distinguish training code, weights/adapters, evaluations, provenance and
+dataset descriptions, rather than promise unspecified "all secrets."
+
+Exclude credentials, personal data not lawfully publishable, unrelated IP, and
+third-party confidential material. A claimed exclusion must be documented with
+its effect on reproducibility; parties must resolve conflicts before deployment,
+not silently omit required material. No NDA may extinguish public license rights.
+The parties may agree proportionate evidence preservation and independent audit
+of covered compliance, with privacy, confidentiality and access safeguards.
+
+These exclusions do not excuse material independently required by the applicable
+public license. Distinguish operational credentials from Installation
+Information, including necessary authorization information where AGPL §6
+requires it. Resolve conflicts lawfully before covered conveyance or deployment.
+
+### 12.4 Governing law, venue and assent
+
+Accepted agreements incorporating this supplement are governed by Washington
+substantive law, without its conflict-of-law rules, subject to applicable federal
+law and mandatory protections. The parties consent to personal jurisdiction and
+exclusive venue in competent state courts in **King County, Washington**, or,
+where federal subject-matter jurisdiction exists, the **United States District
+Court for the Western District of Washington at Seattle**. To the extent lawful,
+they waive objections based on inconvenient forum or contractual venue.
+
+This provision does not confer subject-matter jurisdiction; claims arising under
+federal copyright law remain subject to exclusive federal jurisdiction under
+28 USC §1338(a). Mandatory consumer law and nonwaivable rights prevail. No forum
+requirement attaches to public-domain use or AGPL use merely through downloading,
+running, modifying or integrating publicly licensed code.
+
+Record the accepted version, date, representative authority and signature or
+affirmative electronic acceptance. RCW 1.80 does not dispense with assent or
+authority. Repository publication alone is not acceptance. Amendments to
+existing agreements require the parties' valid agreement; this supplement does
+not displace a previously accepted counterparty forum or arbitration clause.
+
+### 12.5 Enforcement and remedies
+
+The parties retain the §8.2 negotiation and non-binding mediation procedure,
+but it does not prevent timely applications for urgent judicial relief or
+actions necessary to preserve rights or limitation periods. This supplement
+does not independently require arbitration. Remedies, including injunctions,
+damages and fees, remain subject to applicable law and the executed agreement;
+none are guaranteed by this policy or a compliance-check result.
+
+Local automated checks are evidence gates only. They do not authenticate
+signatures, assess derivative-work boundaries, authorize exceptions, inspect
+another company's systems or collect secrets. See [LEGAL.md Part X](../../LEGAL.md#part-x--public-reciprocity-release-of-intent-2026-10-07)
+for legal sources and operational limits.
+
+### 12.6 B2B corporate exception economics
+
+For a negotiated B2B corporate exception, ordinarily concerning disclosure
+obligations but potentially other expressly identified permissions, the
+commercial schedule provides a **one-time due-diligence and alignment fee per
+product integration**. The amount, review deliverables, payment milestones and
+any refund treatment must be agreed in writing. The review assesses licensing
+authority, covered integration boundaries, retained disclosures and alignment;
+paying for it does not guarantee approval or itself grant a waiver.
+
+For **for-profit product integrations under an executed exception**, AxiomZero's
+usual negotiating reference is a **residual use fee around 2.32% of the covered
+product's quarterly revenues**. This is commercial guidance, not an automatic
+royalty, fixed universal tariff, statutory rate or charge on all company revenue.
+The executed schedule sets the actual percentage and revenue basis. Exceptions
+remain case by case: rates, consideration and disclosure scope can differ,
+including specifically agreed partnership consideration.
+
+The schedule must identify each product/integration and define quarterly
+periods, currency and conversion, gross-versus-net treatment, refunds, taxes,
+discounts, credits, bundled-product allocations, affiliate/reseller receipts,
+and treatment of overlapping integrations so the same revenue is not
+unintentionally counted twice. It must define when residual fees accrue, their
+duration, reporting and payment deadlines, authorized records review,
+confidentiality, dispute/cure procedures and obligations surviving termination.
+These are matters for the signed bargain, not unilateral estimates made by a
+release gate.
+
+Residuals follow the agreed revenue basis, not profits unless expressly agreed.
+Only product revenue within the executed scope is included. Financial reporting
+under that contract need not be public; confidentiality cannot conceal source
+that remains owed under the applicable public license. No unauthenticated
+payment receipt or self-declared revenue report authorizes an exception.
+
+**Neither fee is a condition of compliant AGPL use or public-domain use.**
+These economics apply only through the separately executed commercial route,
+within rights AxiomZero can license and subject to §12.4's accepted-agreement
+Washington law and forum provisions. They do not expand a waiver to other
+products, grant an exception to upstream licenses, or reduce public permissions.

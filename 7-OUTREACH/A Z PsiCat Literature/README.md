@@ -6,6 +6,20 @@ This folder is the curated PsiCat editorial lane for outreach.
 
 - `Books/` — long-form narrative rewrites (book-length voice, context-rich)
 - `Articles/` — short-form narrative rewrites (tight, readable, precise)
+- `Releases/` — original commissioned explainers of corporate policy, separately
+  indexed from the historical book/article rewrite counts.
+
+## Corporate policy releases
+
+- [AxiomZero SPC licensing](Releases/axiomzero-spc-licensing.md) — 2026-10-07,
+  original explainer in PsiCat's editorial voice: reciprocity without entrapment,
+  public access, case-by-case profit models, and accepted-agreement Washington
+  jurisdiction. Grounded in primary legal sources and `LEGAL.md` Part X.
+
+Release pieces must identify date, original provenance, production assistance,
+primary citations, policy-versus-law boundaries and three explicit editorial
+gates. These are publication checks, not legal certifications. They do not
+claim a nonexistent substack rewrite source or change the counts below.
 
 ## Editorial contract
 
