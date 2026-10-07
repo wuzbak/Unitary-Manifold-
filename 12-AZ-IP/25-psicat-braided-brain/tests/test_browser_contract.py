@@ -61,6 +61,8 @@ def test_braided_brain_browser_contract(browser_name: str) -> None:
                 page.wait_for_function("document.querySelectorAll('#board .cell').length > 40")
                 assert 'PsiCat Braided Brain' in page.title()
                 assert 'Science atlas' in (page.locator('body').text_content() or '')
+                assert page.locator('#atlas-list').get_by_text('Evidence class: established-finding', exact=True).count() == 1
+                assert 'Unvalidated correspondence:' in (page.locator('#atlas-list').text_content() or '')
                 page.locator('#board .cell[data-x=\"4\"][data-y=\"3\"]').click()
                 page.wait_for_function("document.getElementById('moves').textContent.trim() === '17'")
                 page.get_by_role('button', name='Install app').is_visible()

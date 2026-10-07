@@ -25,8 +25,8 @@
           label: 'Entorhinal torus',
           x: 6,
           y: 3,
-          scientificNote: 'Grid-cell population activity can be represented on a torus.',
-          source: 'Gardner et al. 2022',
+          scientificNote: 'Gardner et al. found evidence for toroidal population activity within recorded rat grid-cell modules.',
+          source: 'Gardner et al., Nature (2022), doi:10.1038/s41586-021-04268-7',
           conceptTag: 'toroidal-map',
           challenge: {
             prompt: 'What topology best matches the grid-cell population map?',
@@ -85,7 +85,7 @@
           label: 'ENS hub',
           x: 0,
           y: 3,
-          scientificNote: 'The ENS is often described as a second brain and produces most of the body’s serotonin.',
+          scientificNote: 'The ENS supports local gut control. Most body serotonin is produced in the gut, predominantly by enterochromaffin cells, not ENS neurons.',
           source: 'src/core/pillar538_enteric_neural_core.py',
           conceptTag: 'ens-serotonin',
           challenge: {
@@ -210,7 +210,7 @@
       start: { x: 4, y: 4 },
       wrapGoal: 3,
       moveBudget: 28,
-      briefing: 'Finish by braiding PsiCat and PhiCat into a governed hemispheric partnership. The result is a voluntary training packet built from game decisions and science-card reasoning, not personal surveillance.',
+      briefing: 'Finish by braiding PsiCat and PhiCat into a cooperative partnership: a game metaphor, not a model of cerebral hemispheres. The result is a voluntary training packet built from game decisions, not personal surveillance.',
       sourceNote: 'Product 20 PsiCat surfaces and the repository brain/connectome lanes',
       narrative: 'The finale turns all prior ideas into one governed synthesis: explicit memory, voluntary export, and a teaching loop that stays honest about what it knows.',
       difficulty: 'Finale',
@@ -284,6 +284,63 @@
       ],
     },
   ];
+
+  const SCIENCE_EVIDENCE = {
+    'toroidal-map': {
+      epistemicStatus: 'established-finding',
+      limitation: 'Evidence concerns recorded grid-cell modules, not every brain region or consciousness.',
+      speculativeCorrespondence: 'Identifying this torus with a physical extra dimension or the (5, 7, 74) braid is unvalidated.',
+    },
+    'theta-coordination': {
+      epistemicStatus: 'analogy',
+      limitation: 'The update-timing mechanic is an educational simplification, not a quantitative neural model.',
+      speculativeCorrespondence: 'Equating theta amplitude with a KK radion is unvalidated.',
+    },
+    'ens-serotonin': {
+      epistemicStatus: 'analogy',
+      limitation: 'The repository source is an adjacent-track model; gut serotonin does not establish gut consciousness.',
+      speculativeCorrespondence: 'KK governance of enteric signalling remains speculative, not an established finding.',
+    },
+    'distributed-control': {
+      epistemicStatus: 'analogy',
+      limitation: 'Local enteric control does not mean all gut function is independent of central and hormonal inputs.',
+      speculativeCorrespondence: 'The game does not measure biological coupling constants.',
+    },
+    'lplc2-optic': {
+      epistemicStatus: 'empirical-summary',
+      limitation: 'Throughput ranking concerns the seven-type committed MaleCNS panel, not the whole fly CNS.',
+      speculativeCorrespondence: 'Connectivity summaries do not validate UM physics or explain consciousness.',
+    },
+    'ascending-bridge': {
+      epistemicStatus: 'empirical-summary',
+      limitation: 'The bridge role is drawn from a compact public-source panel, not a functional perturbation experiment.',
+      speculativeCorrespondence: 'An anatomical bridge is not evidence of a physical braid correspondence.',
+    },
+    'modulatory-broadcast': {
+      epistemicStatus: 'empirical-summary',
+      limitation: 'The teaching role summarizes one neuron type; synapse counts alone do not establish dynamics.',
+      speculativeCorrespondence: 'No consciousness or universal field identification follows from this role.',
+    },
+    'braided-partnership': {
+      epistemicStatus: 'analogy',
+      limitation: 'PsiCat/PhiCat cooperation is a product metaphor, not a measured model of cerebral hemispheres.',
+      speculativeCorrespondence: 'Biological equivalence of model collaboration remains unvalidated.',
+    },
+    'mirror-cooperation': {
+      epistemicStatus: 'analogy',
+      limitation: 'Complementary game roles do not establish a left/right-brain cognitive division.',
+      speculativeCorrespondence: 'A cooperative braid is not proof of biological or physical braiding.',
+    },
+    'structured-training': {
+      epistemicStatus: 'product-behavior',
+      limitation: 'Export creates reviewable records only; it does not train model weights or demonstrate learning gains.',
+      speculativeCorrespondence: 'Any downstream learning benefit requires separate held-out evaluation.',
+    },
+  };
+
+  function scienceEvidence(target) {
+    return deepCopy(SCIENCE_EVIDENCE[target.conceptTag]);
+  }
 
   function deepCopy(value) {
     return JSON.parse(JSON.stringify(value));
@@ -473,6 +530,7 @@
         title: target.label,
         note: target.scientificNote,
         source: target.source,
+        ...scienceEvidence(target),
         unlockedAt: new Date().toISOString(),
       }]);
     }
@@ -486,6 +544,7 @@
       conceptTag: target.conceptTag,
       scientificNote: target.scientificNote,
       source: target.source,
+      ...scienceEvidence(target),
       unlocked: campaign.atlasInsights.some((item) => item.conceptTag === target.conceptTag),
     })));
   }
@@ -714,7 +773,12 @@
       completedLevels: campaign.completedLevelIds.slice(),
       totalScore: campaign.totalScore + (campaign.current.completed ? 0 : campaign.current.score),
       achievements: campaign.achievements.slice(),
-      atlasInsights: campaign.atlasInsights.slice(),
+      atlasInsights: getAtlasEntries(campaign).filter((entry) => entry.unlocked).map((entry) => ({
+        ...entry,
+        title: entry.label,
+        note: entry.scientificNote,
+        unlockedAt: campaign.atlasInsights.find((item) => item.conceptTag === entry.conceptTag).unlockedAt,
+      })),
       currentLevel: {
         id: campaign.current.levelId,
         label: LEVELS[campaign.current.levelIndex].name,
@@ -757,6 +821,7 @@
         product: 25,
         runId: packet.runId,
         schema: packet.schema,
+        scienceAtlas: packet.atlasInsights,
       },
     }));
     return records.join('\n');

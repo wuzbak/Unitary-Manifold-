@@ -136,6 +136,7 @@ function renderTargets() {
     wrap.appendChild(createMiniCard([
       { tag: 'strong', text: target.label },
       { tag: 'span', text: status },
+      { tag: 'small', text: `Evidence class: ${entry.epistemicStatus}` },
       { tag: 'small', text: target.scientificNote },
     ]));
   });
@@ -211,6 +212,8 @@ function renderAtlas() {
       { tag: 'span', text: status },
       { tag: 'small', text: entry.unlocked ? entry.scientificNote : 'Play the corresponding level to reveal the full note.' },
       { tag: 'small', text: `Source: ${entry.source}` },
+      { tag: 'small', text: `Scope: ${entry.limitation}` },
+      { tag: 'small', text: `Unvalidated correspondence: ${entry.speculativeCorrespondence}` },
     ], entry.unlocked ? 'mini-card atlas-card unlocked' : 'mini-card atlas-card locked'));
   });
 }

@@ -30,6 +30,15 @@ This build was also shaped by contemporary citizen-science / serious-game patter
 
 ## Privacy and training stance
 
+The science atlas labels each card as an established finding, a bounded
+empirical summary, an educational analogy, or product behavior. Every card
+separately exposes its scope and unvalidated correspondences. Gardner et al.'s
+grid-cell result is a *Nature* (2022) finding about recorded modules, not
+confirmation of an extra dimension or the repository braid constants.
+Atlas exports use the current source and evidence labels even for older saves.
+Training-packet export creates records; it does not train model weights or
+demonstrate a learning improvement.
+
 - **No surveillance:** no hidden telemetry, biometrics, ads, or remote account requirement.
 - **Local by default:** progress is stored in browser `localStorage` and can be downloaded as a save bundle.
 - **Explicit export only:** save bundles and training packets are generated only when the player clicks export.
