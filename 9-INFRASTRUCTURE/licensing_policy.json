@@ -9,16 +9,19 @@
     "src",
     "tests",
     "recycling",
-    "scripts",
-    "submission",
     "5-GOVERNANCE/Unitary Pentad",
-    "omega",
     "bot",
-    "embryology-manifold",
     "12-AZ-IP",
     "TOOLS",
     "9-INFRASTRUCTURE",
     "public-site"
+  ],
+  "historical_locations": [
+    "scripts",
+    "submission",
+    "omega",
+    "embryology-manifold",
+    "Unitary Pentad"
   ],
   "safeguards": {
     "preserve_prior_grants": true,
@@ -46,7 +49,10 @@
     "LICENSE",
     "LICENSE-AGPL",
     "LEGAL.md",
-    "docs/policy/COMMERCIAL_TERMS.md"
+    "docs/policy/COMMERCIAL_TERMS.md",
+    "NOTICE",
+    "12-AZ-IP/NOTICE",
+    "12-AZ-IP/LICENSE-AGPL"
   ],
   "gate_limit": "structural-evidence-only-not-legal-certification"
 }

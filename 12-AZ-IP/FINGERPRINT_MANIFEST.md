@@ -37,6 +37,16 @@ sha256sum <file>
 
 ## Registry & Manifest
 
+### Licensing notice refresh — 2026-10-07
+
+The product notice received the additive `AZ-RECIPROCITY-2026-10-07`
+clarification. The registry retains its previously recorded seal as history;
+this is a new exact-byte seal, not a claim of prior seal verification.
+
+| Asset | SHA-256 | Bytes | Status |
+|-------|---------|-------|--------|
+| `12-AZ-IP/NOTICE` | `136c758ccd29b0a44cdfaf6f4fdf88f7f14c5dd8da6f31ae81d5ff8e86e95d1f` | 6939 | RESEALED 2026-10-07 |
+
 | Asset | SHA-256 | Status |
 |-------|---------|--------|
 | `12-AZ-IP/README.md` | `8bddde7bf229d155cf432f8507a0b7b5e5e44b072beac260003c3e122e5f9261` | ✅ RESEALED 2026-10-07 |

@@ -7,18 +7,22 @@ from __future__ import annotations
 import argparse
 import ipaddress
 import json
+import re
 from pathlib import Path
 from urllib.parse import urlsplit
 
 POLICY_ID = "AZ-RECIPROCITY-2026-10-07"
 REPO_ROOT = Path(__file__).resolve().parents[2]
 POLICY_PATH = "9-INFRASTRUCTURE/licensing_policy.json"
-DOCUMENTS = ("LICENSE", "LICENSE-AGPL", "LEGAL.md", "docs/policy/COMMERCIAL_TERMS.md")
+DOCUMENTS = (
+    "LICENSE", "LICENSE-AGPL", "LEGAL.md", "docs/policy/COMMERCIAL_TERMS.md",
+    "NOTICE", "12-AZ-IP/NOTICE", "12-AZ-IP/LICENSE-AGPL",
+)
 SOFTWARE_LOCATIONS = (
-    "src", "tests", "recycling", "scripts", "submission",
-    "5-GOVERNANCE/Unitary Pentad", "omega", "bot", "embryology-manifold",
+    "src", "tests", "recycling", "5-GOVERNANCE/Unitary Pentad", "bot",
     "12-AZ-IP", "TOOLS", "9-INFRASTRUCTURE", "public-site",
 )
+HISTORICAL_LOCATIONS = ("scripts", "submission", "omega", "embryology-manifold", "Unitary Pentad")
 MAX_JSON_BYTES = 1_048_576
 
 
@@ -56,6 +60,7 @@ def check_policy(root: Path) -> list[str]:
         "software_default": "AGPL-3.0-or-later",
         "scope_rule": "copyright-retained-first-party-software-only",
         "software_locations": list(SOFTWARE_LOCATIONS),
+        "historical_locations": list(HISTORICAL_LOCATIONS),
         "safeguards": {
             "preserve_prior_grants": True,
             "asset_notices_and_upstream_terms_control": True,
@@ -85,6 +90,10 @@ def check_policy(root: Path) -> list[str]:
     # JSON comparison preserves the distinction between booleans and integers.
     if json.dumps(policy, sort_keys=True) != json.dumps(expected, sort_keys=True):
         errors.append("Policy differs from the approved scope and safety boundaries.")
+    for name in SOFTWARE_LOCATIONS:
+        path = root / name
+        if not path.is_dir() or not path.resolve().is_relative_to(root.resolve()):
+            errors.append(f"Current software location is absent or outside repository: {name}.")
     for name in DOCUMENTS:
         path = root / name
         try:
@@ -118,7 +127,16 @@ def _public_https(value: object) -> bool:
         try:
             return ipaddress.ip_address(host).is_global
         except ValueError:
-            return "." in host and all(part for part in host.split("."))
+            labels = host.encode("idna").decode("ascii").split(".")
+            # Numeric final labels can be interpreted as noncanonical IPv4.
+            return (
+                len(labels) > 1
+                and not re.fullmatch(r"(?:[0-9]+|0x[0-9a-f]+)", labels[-1], re.IGNORECASE)
+                and all(
+                    re.fullmatch(r"(?!-)[a-z0-9-]{1,63}(?<!-)", label, re.IGNORECASE)
+                    for label in labels
+                )
+            )
     except ValueError:
         return False
 

@@ -10,6 +10,7 @@ from TOOLS.checks.check_licensing_policy import (
     POLICY_ID,
     POLICY_PATH,
     REPO_ROOT,
+    SOFTWARE_LOCATIONS,
     check_policy,
     check_release,
     main,
@@ -32,8 +33,10 @@ def public_release():
 
 
 def copy_policy(tmp_path):
+    for name in SOFTWARE_LOCATIONS:
+        (tmp_path / name).mkdir(parents=True, exist_ok=True)
     target = tmp_path / POLICY_PATH
-    target.parent.mkdir(parents=True)
+    target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes((REPO_ROOT / POLICY_PATH).read_bytes())
     for name in DOCUMENTS:
         target = tmp_path / name
@@ -69,6 +72,9 @@ def test_missing_public_evidence_fails(field):
     "https://example.org/source?token=private", "https://example.org/source#fragment",
     "https://example.org:bad/source", "https://example.org/\nsource",
     "https://example.local/source", "https:///source",
+    "https://127.1/source", "https://0177.0.0.1/source", "https://10.1/source",
+    "https://0x7f.0.0.1/source", "https://127.0.0.0x1/source",
+    "https://-invalid.org/source",
 ])
 def test_nonpublic_or_sensitive_urls_rejected(url):
     evidence = public_release()
@@ -120,6 +126,12 @@ def test_integer_is_not_boolean_assent(tmp_path):
 def test_missing_document_fails(tmp_path):
     copy_policy(tmp_path)
     (tmp_path / "LEGAL.md").unlink()
+    assert check_policy(tmp_path)
+
+
+def test_missing_current_software_directory_fails(tmp_path):
+    copy_policy(tmp_path)
+    (tmp_path / "public-site").rmdir()
     assert check_policy(tmp_path)
 
 

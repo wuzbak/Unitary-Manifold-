@@ -71,6 +71,14 @@ and release history matter, including where older software carries a Defensive
 Public Commons identifier. Moving a file into a new folder is not a ceremony
 that gives us new rights.
 
+AI assistance also does not manufacture copyright simply because we directed
+it. The U.S. Copyright Office distinguishes protectable human expression,
+including qualifying creative modifications or arrangements, from machine
+output for which prompting alone supplies no human authorship. We must show
+what rights exist and were validly acquired; an assignment cannot transfer a
+copyright that never existed. Provider contracts and third-party expression
+need their own review.[11]
+
 The default we select for AxiomZero's copyright-retained software is
 AGPL-3.0-or-later. The words "copyright-retained" are doing real work here.
 They prevent us from promising copyleft enforcement over material for which
@@ -91,6 +99,14 @@ without charge. "Corresponding Source" is a defined term. It includes source
 needed to generate, install and run the object code and modify the work,
 including applicable scripts, with the exclusions the license specifies.[4]
 
+Certain distributions of User Products also require Installation Information
+under section 6, potentially including authorization information needed to
+install and execute modified versions. An operational secret is not an
+ordinary publication artifact, but calling required installation information
+secret does not remove a license obligation. Resolve that conflict before the
+covered distribution. The complete license accompanies this release separately,
+so readers need not rely on our summary.[4]
+
 That is more substantial than publishing a decorative repository containing
 an entry-point file. It is also less expansive than disclosing every system
 inside the operator's organization.
@@ -100,6 +116,11 @@ automatically trigger a public release obligation. Mere aggregation does not
 automatically make every neighboring program a covered derivative. Conversely,
 calling something a plugin, a separate process or an API does not settle the
 combined-work question. The facts and the license matter more than our labels.
+
+An internal network is not automatically exempt from section 13. Its text
+addresses qualifying remote users, not only members of the general public.
+"Private" therefore means more than "behind our login" when deciding whether
+the modified program owes its interacting users a source offer.
 
 Suppose a company improves a covered server and offers users a network service
 through that modified program. A missing required source offer is a real
@@ -128,6 +149,12 @@ fee merely because it is successful. It may charge for a service while
 respecting the applicable license. We are not creating a compulsory revenue
 toll on compliant AGPL users.
 
+An earlier commercial-notification provision remains visible in the historical
+record, but the new public-policy clarification expressly stops asserting it as
+an AGPL condition. Notification is voluntary under that route. Merely failing
+to send one is not asserted as a reason to terminate AGPL permissions. We should
+not ask readers to discover this reconciliation by solving a legal crossword.
+
 If the intended integration is a covered work and the company wants to withhold
 source that the public license would require it to provide, a different
 permission is needed. AxiomZero can consider an individually negotiated
@@ -153,6 +180,11 @@ grant a particular company different permissions without withdrawing the
 public's existing permissions. It cannot turn public-domain material private
 again. It cannot cancel someone else's upstream license. A confidentiality
 agreement cannot retroactively make public source secret.
+
+Our Washington social-purpose corporate form supports the public-good purpose
+we choose to pursue. It does not create a new copyright power or a right to
+bind strangers. A mission can guide a profitable company; it cannot substitute
+for the rights and agreements that company actually holds.[12]
 
 Our business model is therefore not "free until we notice you." It is public
 permissions with their actual duties, plus separately negotiated permissions
@@ -215,6 +247,12 @@ application depends on parties' agreement to transact electronically. That
 does not make every mouse click an authorized signature or every website
 footer a binding contract.[8]
 
+Washington courts also consider public policy and practical access to remedies.
+In *Dix v. ICT Group, Inc.*, the Washington Supreme Court rejected a forum
+clause that impaired Washington consumers' effective class-action remedy.
+That does not invalidate every clause or guarantee ours. It reminds us that
+the fairness of the actual bargain matters.[13]
+
 The practical consequence is modest and important: preserve the accepted
 version, identity and authority of the representative, and affirmative
 acceptance. Make the selection visible before the bargain is made. A forum
@@ -224,7 +262,8 @@ unaccepted notice is a litigation problem waiting to introduce itself.
 ## What our code can enforce
 
 Our new local licensing gate checks the machine-readable policy and release
-evidence. It can reject an inconsistent policy, an incomplete declared source
+evidence. It can detect edits to the approved policy index, missing current
+directories and document identifiers, an incomplete declared source
 offer, or an attempted automatic exception approval. It returns structured
 results. It does not call home, seize secrets, disable an installation or
 inspect another company's systems.[9]
@@ -239,7 +278,9 @@ than being approved because a JSON field says "approved."
 This is a deliberate division of responsibility. Automation makes our own
 release process harder to neglect. Evidence and authorized human decisions
 address questions the software cannot answer. A passing check is not a court
-judgment with unusually good formatting.
+judgment with unusually good formatting. Nor does the gate interpret the prose
+or prove that every historical sentence has been reconciled; that remains a
+separate editorial and legal task.
 
 If an actual violation needs attention, we preserve the relevant releases and
 communications, verify ownership and the applicable permissions, assess the
@@ -293,6 +334,17 @@ research record in `LEGAL.md` identifies verification limits.
 8. [RCW 1.80.040](https://app.leg.wa.gov/RCW/default.aspx?cite=1.80.040) and [RCW 1.80.060](https://app.leg.wa.gov/RCW/default.aspx?cite=1.80.060): agreed electronic transactions and recognition of electronic records/signatures.
 9. [Machine-readable policy](../../../9-INFRASTRUCTURE/licensing_policy.json), [local gate](../../../TOOLS/checks/check_licensing_policy.py), and [tests](../../../tests/test_licensing_policy.py): operational evidence, not independent legal authority.
 10. [17 USC §411](https://www.law.cornell.edu/uscode/text/17/411), [§412](https://www.law.cornell.edu/uscode/text/17/412), [§502](https://www.law.cornell.edu/uscode/text/17/502), [§504](https://www.law.cornell.edu/uscode/text/17/504), and [§505](https://www.law.cornell.edu/uscode/text/17/505): registration, timing, injunctions, damages and fees.
+11. [U.S. Copyright Office, Copyright and Artificial Intelligence, Part 2: Copyrightability (2025)](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf): human authorship and limits of prompting.
+12. [RCW 23B.25](https://app.leg.wa.gov/RCW/default.aspx?cite=23B.25): Washington social-purpose corporation framework, not expanded IP powers.
+13. [Dix v. ICT Group, Inc., 160 Wn.2d 826, 161 P.3d 1016 (2007)](https://law.justia.com/cases/washington/supreme-court/2007/77101-4-1.html): forum selection and effective Washington consumer remedies.
+
+The [complete AGPL text supplied with this release](../../../LICENSES/AGPL-3.0-or-later.txt)
+was copied without modification from a publicly accessible mirror. The
+[research and publication record](../../../LEGAL.md#108-research-licensing-selection-and-publication-record)
+identifies its exact hash and retrieval limits. GNU and several official
+government hosts could not be retrieved directly in this environment; statutory
+and judicial findings had search-mediated support. We report that limit rather
+than turn a list of links into a claim of exhaustive direct verification.
 
 ### Gate Certification (v1)
 

@@ -132,6 +132,9 @@ DOI = "https://doi.org/10.5281/zenodo.19584531"
 # `from unitary_manifold.core import metric` resolves to src/core/metric.py
 # without moving any source files.
 # ---------------------------------------------------------------------------
+[tool.setuptools]
+license-files = ["LICENSE", "LICENSE-AGPL", "NOTICE", "LICENSES/AGPL-3.0-or-later.txt"]
+
 [tool.setuptools.packages.find]
 where = [".", "5-GOVERNANCE/Unitary Pentad"]
 include = ["unitary_manifold*", "omega*", "holon_zero*", "UOS*"]

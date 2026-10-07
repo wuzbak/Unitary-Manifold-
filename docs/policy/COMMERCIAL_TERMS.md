@@ -451,6 +451,8 @@ preserves the historical text above. It applies to new engagements expressly
 incorporating this section and accepted by authorized representatives, not
 automatically to existing agreements or public-license users. For such
 engagements, it controls inconsistencies with §§4-A, 8, and 9.2.
+The public-license clarification in §12.1 also expressly addresses historical
+§4-B and does not require an engagement or assent to take effect.
 
 ### 12.1 Two lawful routes, no automatic payment requirement
 
@@ -460,6 +462,13 @@ exception. Unrelated proprietary software and purely private modifications are
 not automatically subject to disclosure. Where AGPL requires Corresponding
 Source for a covered work, withholding it requires independently authorized
 rights or a duly executed exception covering the withheld material.
+
+The historical §4-B commercial-notification demand is not asserted as a
+condition of AGPL permissions. Notifications are voluntary under the public
+route; absence of a notification alone is not grounds asserted for AGPL
+termination. This clarifies the preserved historical text, independently of
+whether a party accepts commercial terms. Separate accepted contracts may
+specify their own reporting duties without changing public-license rights.
 
 AxiomZero may negotiate exceptions for **payment or partnership consideration**,
 individually. Neither route has a guaranteed entitlement or automatic approval.
@@ -497,6 +506,11 @@ its effect on reproducibility; parties must resolve conflicts before deployment,
 not silently omit required material. No NDA may extinguish public license rights.
 The parties may agree proportionate evidence preservation and independent audit
 of covered compliance, with privacy, confidentiality and access safeguards.
+
+These exclusions do not excuse material independently required by the applicable
+public license. Distinguish operational credentials from Installation
+Information, including necessary authorization information where AGPL §6
+requires it. Resolve conflicts lawfully before covered conveyance or deployment.
 
 ### 12.4 Governing law, venue and assent
 

@@ -102,3 +102,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
+
+ADDITIVE CLARIFICATION — 2026-10-07
+Policy identifier: AZ-RECIPROCITY-2026-10-07
+The official AGPL terms control inconsistent historical summaries above.
+Network interaction is not conveyance; section 13 applies to modified covered
+programs supporting remote interaction. There is no mandatory commercial
+notification, payment, field-of-use or forum condition on AGPL permissions.
+Asset-specific notices, upstream rights and prior valid grants remain intact.
+Paid or partnership exceptions require separate authorized execution.
+See ../LEGAL.md Part X and ../docs/policy/COMMERCIAL_TERMS.md section 12.
+The complete unmodified license is ../LICENSES/AGPL-3.0-or-later.txt.
+Retain a copy with covered releases.
