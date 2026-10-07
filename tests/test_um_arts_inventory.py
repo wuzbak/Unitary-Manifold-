@@ -4,6 +4,8 @@
 
 import json
 import shutil
+import subprocess
+import sys
 import uuid
 from pathlib import Path
 
@@ -15,6 +17,7 @@ from TOOLS.um_arts.inventory import (
     discover_inventory,
     execution_config,
     selection_boundary,
+    suite_names_by_kind,
 )
 
 
@@ -161,6 +164,58 @@ def test_deterministic_config_selection_and_lean_scope(inventory_work):
             execution_config(inventory, invalid)
     with pytest.raises(EvidenceError):
         execution_config(inventory, lean_project="outside")
+
+
+def test_suite_kind_selection_includes_family_and_rejects_unknown_kind():
+    inventory = {
+        "suites": [
+            {"name": "product", "kind": "product"},
+            {"name": "embedded", "kind": "product-embedded"},
+            {"name": "core", "kind": "physics-and-integration"},
+        ],
+    }
+    assert suite_names_by_kind(inventory, ["product"]) == ["embedded", "product"]
+    with pytest.raises(EvidenceError, match="Unknown suite kinds"):
+        suite_names_by_kind(inventory, ["products"])
+    with pytest.raises(EvidenceError, match="unique nonempty"):
+        suite_names_by_kind(inventory, ["product", "product"])
+
+
+def test_inventory_cli_can_emit_product_only_execution_config(inventory_work):
+    root = inventory_work / "repository"
+    put(root, "pytest.ini", "[pytest]\npython_files = test_*.py\n")
+    put(root, "tests/test_core.py")
+    put(root, "12-AZ-IP/26-example/tests/test_product.py")
+    inventory_path = inventory_work / "inventory.json"
+    config_path = inventory_work / "products.json"
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "TOOLS.um_arts",
+            "inventory",
+            "--root",
+            str(root),
+            "--output",
+            str(inventory_path),
+            "--config-output",
+            str(config_path),
+            "--kind",
+            "product",
+        ],
+        cwd=Path(__file__).resolve().parents[1],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
+    assert [suite["paths"] for suite in config["suites"]] == [
+        ["12-AZ-IP/26-example/tests/test_product.py"]
+    ]
+    unselected = set(inventory["selection_boundary"]["unselected"])
+    assert [suite["root"] for suite in inventory["suites"] if suite["name"] in unselected] == ["tests"]
 
 
 def test_repository_example_covers_current_canonical_suites_without_mirrors():
