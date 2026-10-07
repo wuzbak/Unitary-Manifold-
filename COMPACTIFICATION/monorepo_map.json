@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 7936,
+  "file_count": 7939,
   "lanes": {
-    "az_ip": 2167,
+    "az_ip": 2170,
     "compactification": 9,
     "other": 5344,
     "psicat_articles": 352,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2167,
+    "12-AZ-IP": 2170,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -1930,6 +1930,7 @@
     ],
     "19-falsification-observatory": [
       "12-AZ-IP/19-falsification-observatory/README.md",
+      "12-AZ-IP/19-falsification-observatory/conftest.py",
       "12-AZ-IP/19-falsification-observatory/css/az-apps.css",
       "12-AZ-IP/19-falsification-observatory/css/main.css",
       "12-AZ-IP/19-falsification-observatory/falsification_observatory/__init__.py",
@@ -1964,6 +1965,7 @@
       "12-AZ-IP/20-psicat-navigator/README.md",
       "12-AZ-IP/20-psicat-navigator/benchmarks/stage_b/receipts.json",
       "12-AZ-IP/20-psicat-navigator/benchmarks/stage_c/receipts.json",
+      "12-AZ-IP/20-psicat-navigator/conftest.py",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/adjacent_universe_summary.md",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/anthropic_j_space_validation.md",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/architecture_governance_backbone.md",
@@ -2140,6 +2142,7 @@
     "21-geo-monitor": [
       "12-AZ-IP/21-geo-monitor/ATTRIBUTION.md",
       "12-AZ-IP/21-geo-monitor/README.md",
+      "12-AZ-IP/21-geo-monitor/conftest.py",
       "12-AZ-IP/21-geo-monitor/geo_monitor/__init__.py",
       "12-AZ-IP/21-geo-monitor/geo_monitor/app/__init__.py",
       "12-AZ-IP/21-geo-monitor/geo_monitor/app/server.py",
@@ -15836,6 +15839,13 @@
       "product": "19-falsification-observatory"
     },
     {
+      "path": "12-AZ-IP/19-falsification-observatory/conftest.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "19-falsification-observatory"
+    },
+    {
       "path": "12-AZ-IP/19-falsification-observatory/css/az-apps.css",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16054,6 +16064,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/benchmarks/stage_c/receipts.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/conftest.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -17272,6 +17289,13 @@
     },
     {
       "path": "12-AZ-IP/21-geo-monitor/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "21-geo-monitor"
+    },
+    {
+      "path": "12-AZ-IP/21-geo-monitor/conftest.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
