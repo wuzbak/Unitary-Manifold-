@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import importlib.util
 import os
 import sys
 from pathlib import Path
@@ -15,7 +16,15 @@ PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
-import conftest as root_config
+ROOT_CONFIG_PATH = Path(__file__).resolve().parents[3] / "conftest.py"
+ROOT_CONFIG_SPEC = importlib.util.spec_from_file_location(
+    "unitary_manifold_root_pytest_config",
+    ROOT_CONFIG_PATH,
+)
+if ROOT_CONFIG_SPEC is None or ROOT_CONFIG_SPEC.loader is None:
+    raise ImportError(f"Could not load repository pytest configuration: {ROOT_CONFIG_PATH}")
+root_config = importlib.util.module_from_spec(ROOT_CONFIG_SPEC)
+ROOT_CONFIG_SPEC.loader.exec_module(root_config)
 from ox_navigator.engine import merlin_training_execution as training
 
 
