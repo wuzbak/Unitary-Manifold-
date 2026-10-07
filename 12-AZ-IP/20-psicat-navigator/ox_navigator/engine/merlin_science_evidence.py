@@ -28,6 +28,7 @@ VERIFIED_CODE_LOCATIONS = {
     "evo2": "https://github.com/ArcInstitute/evo2",
 }
 STANFORD_HAI_DISCOVERY_EVENTS = (
+    "https://hai.stanford.edu/events/ai-science-accelerating-discovery",
     "https://hai.stanford.edu/events/conference-on-physics-and-ai-pai26",
     "https://hai.stanford.edu/events/brian-hie-genome-modeling-design-across-all-domains-of-life",
 )
@@ -143,34 +144,100 @@ def _verified(verifier: Verifier | None, record: dict[str, Any]) -> bool:
 
 
 def get_science_collaboration_benchmark_corpus() -> dict[str, Any]:
-    """Frozen public engineering examples, expressly not secret held-out data."""
-    provenance = (
-        "https://github.com/wuzbak/Unitary-Manifold-/blob/main/"
-        "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_science_evidence.py"
-    )
-    examples = [
-        ("mean_variance", "For [2,4,6,8], return JSON with mean and population_variance.", {"mean": 5, "population_variance": 5}),
-        ("linear_fit", "Fit y=a*x+b to x=[0,1,2,3], y=[1,3,5,7]. Return JSON with a and b.", {"a": 2, "b": 1}),
-        ("unit_conversion", "Convert 2.5 milliseconds to seconds. Return JSON with seconds.", {"seconds": 0.0025}),
-        ("unknown_rights", "A paper and repository URL are known, but dataset license and rights review are unknown. Return JSON with reuse_allowed.", {"reuse_allowed": False}),
-        ("total_budget", "A collaboration allocates 30 tokens to planning, 20 to an intermediate call, and 50 to synthesis. Baseline allocates 100. Return JSON with collaboration_tokens and comparable.", {"collaboration_tokens": 100, "comparable": True}),
+    """Frozen source-based calibration challenges, not held-out model evidence."""
+    gardner = {
+        "url": "https://www.nature.com/articles/s41586-021-04268-7",
+        "doi": "10.1038/s41586-021-04268-7",
+        "title": "Toroidal topology of population activity in grid cells",
+        "journal": "Nature",
+        "verification": "bibliographic_index_and_repository_citation_only",
+        "direct_page_fetch_status": "dns_resolution_failed",
+        "scientific_results_reproduced": False,
+    }
+    malecns = {
+        "url": "https://raw.githubusercontent.com/reiserlab/celltype-explorer-drosophila-male-cns/main/types/LPLC2.html",
+        "dataset": "male-cns:v1.0",
+        "dataset_uuid": "4b2087c0fbe046bfaf0d60bc970e3e5d",
+        "verification": "committed_extract_hashes_checked_and_summary_recomputed",
+        "extracts": [
+            {"path": "tests/fixtures/malecns/lplc2_upstream_table.html", "sha256": "cc46da74a73fea46dbe7822df1a5a177127c5976171150bc1a55343add222682"},
+            {"path": "tests/fixtures/malecns/lplc2_downstream_table.html", "sha256": "8d162e9e8121068be9410bc985c3fb534a5c0214170e2da4aef054555cce431c"},
+            {"path": "tests/fixtures/malecns/lplc2_roi_table.html", "sha256": "c8d78287187e48db8a14bf3251798884251ebe576beef0b2d599fca13efdeb04"},
+        ],
+        "full_page_hash_verified": False,
+        "independent_source_authenticity_verified": False,
+        "experimental_replication": False,
+    }
+    evo2_license = {
+        "url": "https://raw.githubusercontent.com/ArcInstitute/evo2/53f195997257c56c00e5ef8d33a54f5baad143a6/LICENSE",
+        "sha256": SOURCE_CHAIN_SNAPSHOTS["evo2"]["license_sha256"],
+        "verification": "code_license_document_fetched_not_dataset_rights_review",
+        "dataset_url": "https://huggingface.co/datasets/arcinstitute/opengenome2",
+        "dataset_license_review": "unknown",
+    }
+    challenges = [
+        (
+            "gardner_bibliography",
+            "Identify the journal and DOI of Gardner et al., 'Toroidal topology of population activity in grid cells'. Return exact JSON keys journal and doi; do not substitute Nature Neuroscience.",
+            {"journal": "Nature", "doi": "10.1038/s41586-021-04268-7"},
+            [gardner],
+        ),
+        (
+            "gardner_representation_boundary",
+            "Does the cited Gardner title describe population activity or a physical torus of brain tissue? Return observed_space='population_activity' or 'physical_tissue', and physical_torus_established as a boolean justified by this source scope.",
+            {"observed_space": "population_activity", "physical_torus_established": False},
+            [gardner],
+        ),
+        (
+            "malecns_lplc2_source_counts",
+            "Parse the cited, hash-pinned MaleCNS v1.0 LPLC2 upstream/downstream HTML extracts. Count displayed partner types and sum integer connection weights, including the same-type row. Return upstream_partner_types, downstream_partner_types, input_synapses, output_synapses. These are type-level source-table counts, not numbers of individual neurons.",
+            {"upstream_partner_types": 536, "downstream_partner_types": 692, "input_synapses": 350542, "output_synapses": 182982},
+            [malecns],
+        ),
+        (
+            "malecns_lplc2_reciprocity_boundary",
+            "Using the same LPLC2 extracts, report the upstream/downstream partner-set intersection size as reciprocal_partner_types and the LPLC2-to-LPLC2 row weight as same_type_synapses. Also return individual_autapses_established: do aggregate type-to-type rows establish individual-neuron autapses?",
+            {"reciprocal_partner_types": 440, "same_type_synapses": 46178, "individual_autapses_established": False},
+            [malecns],
+        ),
+        (
+            "cross_source_epistemic_boundary",
+            "The MaleCNS extracts contain anatomical partner/connection summaries, but no grid-cell population activity. Does reproducing those summaries reproduce Gardner's activity-space topology or validate Unitary Manifold physics? Return gardner_topology_reproduced and um_validated.",
+            {"gardner_topology_reproduced": False, "um_validated": False},
+            [gardner, malecns],
+        ),
+        (
+            "code_vs_dataset_rights",
+            "Evo2's fetched code LICENSE begins with Apache-2.0 and includes third-party notices. OpenGenome2 data rights have not been reviewed. Return code_license, dataset_reuse_allowed, and scientific_truth_canonical. A code license or source URL must not authorize unreviewed dataset reuse or establish canonical scientific truth.",
+            {"code_license": "Apache-2.0", "dataset_reuse_allowed": False, "scientific_truth_canonical": False},
+            [evo2_license],
+        ),
     ]
     tasks = [
         {
-            "task_id": f"science_example_v1_{name}", "prompt": prompt,
+            "task_id": f"science_source_calibration_v1_{name}", "prompt": prompt,
             "expected": expected, "split": "public_example",
-            "provenance_url": provenance,
+            "provenance_url": references[0]["url"],
+            "source_references": deepcopy(references),
         }
-        for name, prompt, expected in examples
+        for name, prompt, expected, references in challenges
     ]
     return {
-        "corpus_id": "science_public_engineering_examples_v1",
+        "corpus_id": "science_external_source_calibration_v1",
         "tasks": tasks, "training_task_ids": [],
         "task_manifest_digest": _digest({"tasks": tasks, "training_task_ids": []}),
+        "corpus_class": "public_source_based_calibration_not_held_out",
         "expected_answers_public": True,
         "held_out_provenance_verified": False,
+        "training_exposure_review": "not_performed",
         "eligible_for_model_benefit_evidence": False,
-        "policy": "Use only in deterministic mode. Real model admission requires separate frozen, independently verified held-out tasks.",
+        "policy": "Public challenges and answer keys may be training-exposed. Use only in deterministic calibration mode; independent holdout and training-exposure review remain mandatory for real model admission.",
+        "limitations": [
+            "Bibliographic calibration is not paper replication.",
+            "Committed MaleCNS extract-byte verification is not independent source authentication or experimental replication.",
+            "Public answer keys and source links preclude asserting an independently verified held-out benchmark.",
+            "No actual model run, comparative model benefit, or physics validation is asserted by this corpus.",
+        ],
     }
 
 
@@ -194,7 +261,7 @@ def get_science_collaboration_benchmark_spec() -> dict[str, Any]:
             "frozen_manifest_digest": None,
             "freeze": "SHA-256 of tasks and explicit training_task_ids before evaluating any lane.",
             "real_evidence": "Independent verification of the frozen held-out manifest is mandatory.",
-            "callback_inputs": "Task ID, prompt, frozen task digest, lane, and TOTAL budget; never expected answers.",
+            "callback_inputs": "Task ID, prompt, cited source references when present, frozen task digest, lane, and TOTAL budget; never expected answers.",
         },
         "budget_policy": {
             "dimensions": list(BUDGET_FIELDS),
@@ -244,6 +311,7 @@ def _source_chain_candidate(resource_id: str, url: str) -> dict[str, Any]:
         "resource_id": resource_id,
         "canonical_truth": False,
         "discovery_url": STANFORD_HAI_DISCOVERY_EVENTS[0],
+        "discovery_location_verification": "user_provided_location_not_fetched",
         "discovery_attribution": "HAI science-event discovery lead only; no assertion that the event lists every candidate.",
         "upstream_readme": {
             "url": readme_url, "revision": revision,
@@ -281,7 +349,19 @@ def get_science_evidence_registry() -> dict[str, Any]:
             "url": "https://hai.stanford.edu/",
             "role": "discovery_only",
             "event_urls": list(STANFORD_HAI_DISCOVERY_EVENTS),
-            "event_location_verification": "web_search_index_only",
+            "requested_event_url": STANFORD_HAI_DISCOVERY_EVENTS[0],
+            "requested_event_verification": "user_provided_location_not_fetched",
+            "event_locations": [
+                {
+                    "url": event_url,
+                    "verification": (
+                        "user_provided_location_not_fetched" if index == 0 else "web_search_index_only"
+                    ),
+                    "page_fetched": False,
+                }
+                for index, event_url in enumerate(STANFORD_HAI_DISCOVERY_EVENTS)
+            ],
+            "event_location_verification": "per_event_location_only_not_event_content",
             "event_page_fetch_status": "not_fetched_dns_resolution_failed",
             "candidate_event_membership": "not_asserted",
             "policy": "Follow primary papers, code, datasets, licenses, and limitations; HAI is not scientific verification.",
@@ -534,6 +614,8 @@ def run_collaboration_benchmark(
                         "task_id": task["task_id"], "prompt": task["prompt"],
                         "task_digest": _digest(task), "lane": lane,
                         "total_budget": deepcopy(common),
+                        **({"source_references": deepcopy(task["source_references"])}
+                           if "source_references" in task else {}),
                     })
                     for task in tasks
                 ]

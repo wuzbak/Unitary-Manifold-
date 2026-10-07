@@ -109,6 +109,10 @@ The existing `/api/agentInvoke` surface exposes
 returns the pending specification. Deterministic recorded-output
 evaluation checks the engineering contract only and never unlocks adoption;
 public JSON callers cannot supply a trusted receipt-verification callback.
+The specification includes `science_external_source_calibration_v1`: public
+Gardner citation/scope, MaleCNS count/reciprocity, and rights-boundary challenges.
+Its answer keys are public and may be training-exposed; it is not a held-out
+model benchmark and cannot establish model benefit.
 
 Expansion eligibility is advisory, never deployment authorization. It
 requires replayable measured benefit, reviewed artifact-specific rights and

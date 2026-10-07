@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import hashlib
 from pathlib import Path
 import sys
 
@@ -229,17 +230,30 @@ def test_registry_distinguishes_dataset_locations_datalake_docs_and_demonstratio
 
 
 def test_exact_discovery_events_are_locations_not_verified_event_membership():
-    discovery = get_science_evidence_registry()["discovery"]
+    registry = get_science_evidence_registry()
+    discovery = registry["discovery"]
+    requested = "https://hai.stanford.edu/events/ai-science-accelerating-discovery"
+    assert discovery["event_urls"][0] == requested
+    assert discovery["requested_event_url"] == requested
+    assert discovery["requested_event_verification"] == "user_provided_location_not_fetched"
+    assert discovery["event_locations"][0] == {
+        "url": requested, "verification": "user_provided_location_not_fetched", "page_fetched": False,
+    }
+    assert all(entry["discovery_url"] == requested for entry in registry["candidates"])
+    assert all(entry["discovery_location_verification"] == "user_provided_location_not_fetched" for entry in registry["candidates"])
     assert "https://hai.stanford.edu/events/conference-on-physics-and-ai-pai26" in discovery["event_urls"]
     assert "https://hai.stanford.edu/events/brian-hie-genome-modeling-design-across-all-domains-of-life" in discovery["event_urls"]
-    assert discovery["event_location_verification"] == "web_search_index_only"
+    assert discovery["event_location_verification"] == "per_event_location_only_not_event_content"
+    assert all(event["verification"] == "web_search_index_only" for event in discovery["event_locations"][1:])
     assert discovery["event_page_fetch_status"] == "not_fetched_dns_resolution_failed"
     assert discovery["candidate_event_membership"] == "not_asserted"
 
 
 def test_public_spec_corpus_is_concrete_frozen_and_honest_about_non_holdout_status():
     corpus = get_science_collaboration_benchmark_corpus()
-    assert len(corpus["tasks"]) == 5
+    assert len(corpus["tasks"]) == 6
+    assert corpus["corpus_class"] == "public_source_based_calibration_not_held_out"
+    assert corpus["training_exposure_review"] == "not_performed"
     assert corpus["expected_answers_public"] is True
     assert corpus["eligible_for_model_benefit_evidence"] is False
     assert corpus["held_out_provenance_verified"] is False
@@ -250,7 +264,7 @@ def test_public_spec_corpus_is_concrete_frozen_and_honest_about_non_holdout_stat
     assert get_science_collaboration_benchmark_spec()["corpus"] == corpus
     corpus["tasks"][0]["expected"] = "tampered"
     assert get_science_collaboration_benchmark_corpus()["tasks"][0]["expected"] == {
-        "mean": 5, "population_variance": 5,
+        "journal": "Nature", "doi": "10.1038/s41586-021-04268-7",
     }
 
 
@@ -276,11 +290,90 @@ def test_public_corpus_executable_only_as_deterministic_non_evidence():
             request["recorded_outputs"][lane].append(record)
     result = run_science_collaboration_tool(**request)
     assert result["status"] == "completed_deterministic_validation"
-    assert result["scores"] == {lane: [1] * 5 for lane in LANES}
+    assert result["scores"] == {lane: [1] * len(corpus["tasks"]) for lane in LANES}
     assert result["winner"] is None
     assert result["measured_benefit"] is False
     request["execution_mode"] = "model"
     assert run_collaboration_benchmark(**request, receipt_verifier=lambda _: True)["status"] == "blocked"
+
+
+def test_external_calibration_has_explicit_citations_and_bibliographic_limits():
+    corpus = get_science_collaboration_benchmark_corpus()
+    tasks = {task["task_id"].split("_v1_", 1)[1]: task for task in corpus["tasks"]}
+    assert set(tasks) == {
+        "gardner_bibliography", "gardner_representation_boundary",
+        "malecns_lplc2_source_counts", "malecns_lplc2_reciprocity_boundary",
+        "cross_source_epistemic_boundary", "code_vs_dataset_rights",
+    }
+    gardner = tasks["gardner_bibliography"]
+    assert gardner["expected"] == {
+        "journal": "Nature", "doi": "10.1038/s41586-021-04268-7",
+    }
+    reference = gardner["source_references"][0]
+    assert reference["url"] == "https://www.nature.com/articles/s41586-021-04268-7"
+    assert reference["verification"] == "bibliographic_index_and_repository_citation_only"
+    assert reference["scientific_results_reproduced"] is False
+    assert reference["direct_page_fetch_status"] == "dns_resolution_failed"
+    assert tasks["cross_source_epistemic_boundary"]["expected"] == {
+        "gardner_topology_reproduced": False, "um_validated": False,
+    }
+    assert all(task["source_references"] for task in corpus["tasks"])
+
+
+def test_malecns_calibration_goldens_match_actual_hash_verified_source_extracts():
+    from src.neuroscience.empirical_benchmark import reproduce_lplc2_source_summary
+
+    report = reproduce_lplc2_source_summary()
+    tasks = {task["task_id"].split("_v1_", 1)[1]: task for task in get_science_collaboration_benchmark_corpus()["tasks"]}
+    task = tasks["malecns_lplc2_source_counts"]
+    assert task["expected"] == {
+        key: report["observed"][key] for key in (
+            "upstream_partner_types", "downstream_partner_types", "input_synapses", "output_synapses",
+        )
+    }
+    reciprocal = tasks["malecns_lplc2_reciprocity_boundary"]["expected"]
+    assert reciprocal["reciprocal_partner_types"] == report["observed"]["reciprocal_partner_types"]
+    assert reciprocal["same_type_synapses"] == report["observed"]["same_type_output_synapses"]
+    assert reciprocal["individual_autapses_established"] is False
+    reference = task["source_references"][0]
+    for extract in reference["extracts"]:
+        assert hashlib.sha256((REPO_ROOT / extract["path"]).read_bytes()).hexdigest() == extract["sha256"]
+    assert reference["full_page_hash_verified"] is False
+    assert reference["independent_source_authenticity_verified"] is False
+    assert reference["experimental_replication"] is False
+
+
+def test_calibration_callbacks_receive_citations_not_golden_answers():
+    corpus = get_science_collaboration_benchmark_corpus()
+    request = deterministic_fixture_request()
+    templates = {lane: request["recorded_outputs"][lane][0] for lane in LANES}
+    request.pop("recorded_outputs")
+    request.update(
+        tasks=corpus["tasks"], training_task_ids=corpus["training_task_ids"],
+        frozen_manifest_digest=corpus["task_manifest_digest"],
+    )
+    task_map = {task["task_id"]: task for task in corpus["tasks"]}
+    received = []
+
+    def callback(packet):
+        assert "expected" not in packet
+        task = task_map[packet["task_id"]]
+        assert packet["source_references"] == task["source_references"]
+        received.append((packet["lane"], packet["task_id"]))
+        record = deepcopy(templates[packet["lane"]])
+        record.update(task_id=packet["task_id"], task_digest=packet["task_digest"], output=task["expected"])
+        for participant, execution in enumerate(record["executions"]):
+            execution["execution_id"] = f"calibration-fixture-{packet['lane']}-{packet['task_id']}-{participant}"
+            execution["artifact_url"] = f"https://example.org/calibration-fixture/{execution['execution_id']}"
+        return record
+
+    result = run_collaboration_benchmark(**request, callbacks={lane: callback for lane in LANES})
+    assert len(received) == len(LANES) * len(corpus["tasks"])
+    assert result["status"] == "completed_deterministic_validation"
+    assert result["scores"] == {lane: [1] * len(corpus["tasks"]) for lane in LANES}
+    assert result["measured_benefit"] is False
+    assert result["winner"] is None
+    assert result["model_invocation_performed"] is False
 
 
 def test_registry_integrated_without_replacing_existing_resources():
