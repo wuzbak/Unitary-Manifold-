@@ -15,7 +15,7 @@ from pathlib import Path
 from .evidence import EvidenceError, contained
 
 EXCLUDED_DIRECTORIES = frozenset({
-    ".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache", ".lake",
+    ".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache", ".hypothesis", ".lake",
     "node_modules", "vendor", "vendors", "third_party", "third-party",
     "archive", "archives", "archived", "build", "dist", ".um-arts",
     ".um-arts-test-work", ".um-arts-assistance-work", ".um-arts-inventory-work",

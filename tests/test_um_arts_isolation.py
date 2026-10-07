@@ -141,11 +141,15 @@ def test_snapshot_never_copies_worktree_git_pointer_files(tmp_path):
     assert pointer.read_text() == f"gitdir: {external}\n"
 
 
-def test_pytest_benchmark_cache_is_disclosed_but_not_source_input(tmp_path):
+@pytest.mark.parametrize("runtime_directory", [".benchmarks", ".hypothesis"])
+def test_pytest_runtime_caches_are_disclosed_but_not_source_input(tmp_path, runtime_directory):
     root = tmp_path / "repo"
     root.mkdir()
     original = fingerprints(root, tmp_path / "store", {})
-    (root / ".benchmarks").mkdir()
+    cache = root / runtime_directory / "generated"
+    cache.mkdir(parents=True)
+    (cache / "state.json").write_text('{"runtime": true}')
     changed = fingerprints(root, tmp_path / "store", {})
     assert changed["compatibility"] == original["compatibility"]
-    assert ".benchmarks" in changed["source_policy"]["excluded_directories"]
+    assert runtime_directory in changed["source_policy"]["excluded_directories"]
+    assert not any(path.startswith(runtime_directory + "/") for path in changed["source_files"])

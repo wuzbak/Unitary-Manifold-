@@ -79,17 +79,22 @@ def test_versions_pinned():
         assert ">=" in req or "==" in req or "[" in req, f"Missing version pin: {req}"
 
 
-def test_run_install_returns_dict(tmp_path):
+@pytest.fixture
+def isolated_installer(tmp_path, monkeypatch):
+    from terra.deploy import install
+    monkeypatch.setattr(install, "__file__", str(tmp_path / "app" / "deploy" / "install.py"))
+    return install
+
+
+def test_run_install_returns_dict(tmp_path, isolated_installer):
     db = tmp_path / "run_install.db"
-    from terra.deploy.install import run_install
-    result = run_install(db_path=db, skip_pip=True)
+    result = isolated_installer.run_install(db_path=db, skip_pip=True)
     assert isinstance(result, dict)
     assert "platform" in result
 
 
-def test_run_install_steps(tmp_path):
+def test_run_install_steps(tmp_path, isolated_installer):
     db = tmp_path / "steps_install.db"
-    from terra.deploy.install import run_install
-    result = run_install(db_path=db, skip_pip=True)
+    result = isolated_installer.run_install(db_path=db, skip_pip=True)
     assert "steps" in result
     assert result["steps"]["python_version"] is True

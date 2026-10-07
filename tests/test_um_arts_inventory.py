@@ -86,7 +86,7 @@ def test_unknown_and_disabled_candidates_are_not_silently_certified(inventory_wo
 
 
 @pytest.mark.parametrize("directory", [
-    ".github/agents", "archive", "ARCHIVES", "vendor", "node_modules", ".lake",
+    ".github/agents", "archive", "ARCHIVES", "vendor", "node_modules", ".lake", ".hypothesis",
     ".um-arts-private-store", ".lean-library-check",
     "12-AZ-IP/example/archived", "docs/archived_hypotheses",
 ])
