@@ -1,0 +1,15 @@
+{
+  "name": "psicat-vite-web-workbench",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Governed Vite project workbench for PsiCat",
+  "type": "module",
+  "scripts": {
+    "build": "vite build --config vite.config.mjs",
+    "start": "node server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "vite": "8.3.3"
+  }
+}

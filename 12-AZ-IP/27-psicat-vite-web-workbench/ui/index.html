@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090b11">
+    <title>PsiCat · Vite Web Workbench</title>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="PsiCat Vite Workbench home"><span class="brand-mark">P</span><span>PsiCat <b>Workbench</b></span></a>
+        <div class="connection">
+          <label for="token">Local access token</label>
+          <input id="token" type="password" autocomplete="off" placeholder="Paste configured workbench token">
+          <button id="connect" type="button">Connect</button>
+        </div>
+      </header>
+      <main>
+        <section class="hero">
+          <p class="eyebrow">Product 27 · Local-first frontend tooling</p>
+          <h1>Build the web.<br><span>Keep the boundaries clear.</span></h1>
+          <p>Scaffold, inspect, preview, and build Vite projects from a governed workspace. Vite is the build tool; PsiCat remains your navigator and reviewer.</p>
+          <div class="status-row"><span id="status-dot" class="dot"></span><span id="status">Connect to the local workbench.</span><span id="version" class="version"></span></div>
+        </section>
+        <div class="columns">
+          <section class="panel create-panel">
+            <div class="panel-heading"><div><p class="eyebrow">Start a project</p><h2>Scaffold</h2></div><span class="step">01</span></div>
+            <form id="create-form">
+              <label for="project-name">Project name</label>
+              <input id="project-name" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" maxlength="40" placeholder="my-frontend">
+              <label for="template">Starter template</label>
+              <select id="template">
+                <option value="vanilla-js">Vanilla JavaScript</option>
+                <option value="vanilla-ts">Vanilla TypeScript</option>
+              </select>
+              <button class="primary" type="submit">Create project</button>
+            </form>
+            <p class="hint">Projects stay in the configured Workbench directory. No packages are installed and no project config or plugins are executed.</p>
+          </section>
+          <section class="panel project-panel">
+            <div class="panel-heading"><div><p class="eyebrow">Workspace</p><h2>Your projects</h2></div><button id="refresh" class="quiet" type="button">Refresh</button></div>
+            <div id="projects" class="projects"><p class="empty">Connect to see projects.</p></div>
+          </section>
+        </div>
+        <section class="panel activity-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Receipts and diagnostics</p><h2>Activity</h2></div><button id="clear" class="quiet" type="button">Clear</button></div>
+          <pre id="activity" aria-live="polite">No workbench actions yet.</pre>
+        </section>
+        <footer><span>Local loopback service · Vite <span id="footer-version">—</span></span><span>Preview pages execute project code; treat workspace projects as trusted local code.</span></footer>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
