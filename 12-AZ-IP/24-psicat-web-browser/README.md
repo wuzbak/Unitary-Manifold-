@@ -41,6 +41,10 @@ npm start
 - Backend sync requires both a sync account email and a sync access token; the scaffold uses that token to guard account-scoped packet push/pull on the trusted endpoint.
 - If Product 20 is unavailable, PsiCat falls back to clearly labeled local research summarization.
 
+## Vite Web Workbench
+
+Product 27 is a separate local Vite development tool with native Product 20 actions. When its loopback service is running, open `http://127.0.0.1:8327/` in a normal browser tab to scaffold, preview, and build workbench projects. The Product 24 Electron browser can use the same address through its address bar; Vite previews open as separate loopback origins. Keep the service local and only preview project code you trust.
+
 ## Test standard
 
 - **Playwright is now the default browser test standard for Product 24.**

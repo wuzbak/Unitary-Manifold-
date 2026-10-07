@@ -97,6 +97,16 @@
             "campaign_api_contracts",
             "embedded_psicat_response_quality"
           ]
+        },
+        {
+          "id": 27,
+          "name": "PsiCat's Vite Web Workbench",
+          "path": "12-AZ-IP/27-psicat-vite-web-workbench",
+          "contract_focus": [
+            "authenticated_workbench_api",
+            "bounded_project_scaffold_preview_build",
+            "native_psicat_tool_gates"
+          ]
         }
       ]
     },

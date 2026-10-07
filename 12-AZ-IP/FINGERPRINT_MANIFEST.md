@@ -39,21 +39,29 @@ sha256sum <file>
 
 | Asset | SHA-256 | Status |
 |-------|---------|--------|
-| `12-AZ-IP/README.md` | `ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c` | ✅ RESEALED 2026-10-06 |
+| `12-AZ-IP/README.md` | `8bddde7bf229d155cf432f8507a0b7b5e5e44b072beac260003c3e122e5f9261` | ✅ RESEALED 2026-10-07 |
 | `12-AZ-IP/IP_REGISTRY.json` | *computed at commit time* | ✅ SELF-REFERENTIAL |
 
-### Product 26 integration refresh — 2026-10-06
+### Product 27 registration refresh — 2026-10-07
 
-The tables above retain historical registration references. The current
-`12-AZ-IP/README.md` entry in `IP_REGISTRY.json` includes this branch's Product 26
-UM-ARTS registration and usage documentation, merged with main's Product 25
-v1.1.0 and external-intake entry: **11,391 bytes**, SHA-256
-`ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c`.
-Its previous canonical seal was
-`c5de1c8315d9b34d2bb8bf5c9ea30c83aad7f80ee765772f51b702112d3cd787`
-(9,487 bytes). The registry retains the preceding steward reseal note.
-Live checks use the machine-readable registry; updating this metadata does
-not turn the earlier frozen regression failure into a pass.
+Product 27, PsiCat's Vite Web Workbench, is registered as a standalone
+loopback-only frontend workbench with typed native Product 20 tools. The
+master registry README and the Product 27 operating/package/runtime assets
+were fingerprinted for this addition; current hashes and byte sizes are recorded
+in `IP_REGISTRY.json`.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/README.md` | `8bddde7bf229d155cf432f8507a0b7b5e5e44b072beac260003c3e122e5f9261` | 12653 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/README.md` | `21fb3eef3f5c021e56c31f4a776222e7954ed741bcf8a759f03f14f0f7332adf` | 4684 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/package.json` | `a6472814998e7d6b3ce1bb9c463f765490647f8529aca2c46f482805abde8b07` | 400 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/package-lock.json` | `6e2711c726e1ca04fc71e821532f8d7ef776ac1a472194254fb74693b5394271` | 24638 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/server.js` | `ead7901c0a3ec35231900d5898f2cb2be0ceb765bc50e558e95884b45d98cb28` | 6728 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/workbench.js` | `b29dc3d070116a08cedc2d8ce5649b7006ee1e35b6d0a625bcf22899a0147b52` | 13747 |
+
+The master README fingerprint in the table is refreshed each time the catalog
+changes. Historical registration references remain in Git history and the
+machine-readable reseal note.
 
 ---
 

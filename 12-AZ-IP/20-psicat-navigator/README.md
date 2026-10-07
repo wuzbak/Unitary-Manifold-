@@ -328,6 +328,12 @@ documented in `4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md`.
 - The Flashcard Trainer ships with a generated `flashcard-deck.json` sourced from the Python dataset.
 - These sub-tools keep Product 20 useful even without a live API key.
 
+## PsiCat Vite Web Workbench
+
+Product 27 is a standalone Vite frontend workbench with native Product 20 tools for project inspection, curated scaffolding, loopback preview lifecycle, and production builds. Start and configure the separate app using [`../27-psicat-vite-web-workbench/README.md`](../27-psicat-vite-web-workbench/README.md). Product 20 only calls its configured loopback origin and stores the credential in the environment; it does not launch arbitrary Node commands.
+
+The read-only tools are `getPsiCatViteWorkbenchStatus`, `listPsiCatViteProjects`, and `inspectPsiCatViteProject`. Project creation, preview start/stop, and builds require `human_gate_approved: true`. The workbench is a local developer tool—not an OS sandbox—and previews execute project code in the browser.
+
 ## Quick start
 
 ### With an API key

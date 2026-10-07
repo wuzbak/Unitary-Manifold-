@@ -178,6 +178,7 @@ from .merlin_kernel_runtime import (
 )
 from .merlin_router import choose_runtime, get_router_policy
 from .merlin_runtime import empirical_observatory_check, run_kernel_p_lean_proof_probe
+from . import merlin_vite_workbench
 from .merlin_rag import (
     INTERROGATOR_ENTRIES,
     PILLAR_KNOWLEDGE,
@@ -451,6 +452,13 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinFormalInvariants", "summary": "Return focused formal-invariant registry and non-regression results", "domain": "functions"},
             {"name": "getPsiCatResourceBudget", "summary": "Return local-first resource-budget ceilings for PsiCat execution", "domain": "functions"},
             {"name": "getPsiCatBehavioralAudit", "summary": "Return deterministic manipulation-resistance and escalation audit battery", "domain": "functions"},
+            {"name": "getPsiCatViteWorkbenchStatus", "summary": "Return the local Vite Web Workbench connection and policy status", "domain": "functions"},
+            {"name": "listPsiCatViteProjects", "summary": "List projects in the bounded local Vite Web Workbench", "domain": "functions"},
+            {"name": "inspectPsiCatViteProject", "summary": "Inspect a Vite workbench project without executing its config", "domain": "functions"},
+            {"name": "createPsiCatViteProject", "summary": "Create a project from a reviewed Vite starter template", "domain": "functions"},
+            {"name": "startPsiCatVitePreview", "summary": "Start a loopback-only Vite preview for a named workbench project", "domain": "functions"},
+            {"name": "stopPsiCatVitePreview", "summary": "Stop a Vite preview started by the workbench", "domain": "functions"},
+            {"name": "buildPsiCatViteProject", "summary": "Build static assets for a named Vite workbench project", "domain": "functions"},
             {"name": "getConsciousnessResearchBoundaries", "summary": "Return the adjacent-track consciousness/emotion boundary map", "domain": "functions"},
             {"name": "getMerlinValidationResiliencePacket", "summary": "Return repo-size mitigation actions and CodeQL scope-reduction strategy for validation resilience", "domain": "functions"},
             {"name": "getMerlinTrainingDataset", "summary": "Return structured Merlin JSONL-ready training and benchmark dataset bundle", "domain": "functions"},
@@ -596,6 +604,65 @@ def _tool_manifest() -> dict[str, Any]:
         "getMerlinFormalInvariants": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getPsiCatResourceBudget": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getPsiCatBehavioralAudit": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getPsiCatViteWorkbenchStatus": {"capability_class": "state_read", "args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "listPsiCatViteProjects": {"capability_class": "state_read", "args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "inspectPsiCatViteProject": {
+            "capability_class": "state_read",
+            "args_schema": {
+                "type": "object",
+                "properties": {"name": {"type": "string"}},
+                "required": ["name"],
+                "additionalProperties": False,
+            },
+        },
+        "createPsiCatViteProject": {
+            "capability_class": "write",
+            "risk_level": "medium",
+            "requires_human_gate": True,
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "template": {"type": "string"},
+                    "human_gate_approved": {"type": "boolean"},
+                },
+                "required": ["name"],
+                "additionalProperties": False,
+            },
+        },
+        "startPsiCatVitePreview": {
+            "capability_class": "write",
+            "risk_level": "medium",
+            "requires_human_gate": True,
+            "args_schema": {
+                "type": "object",
+                "properties": {"name": {"type": "string"}, "human_gate_approved": {"type": "boolean"}},
+                "required": ["name"],
+                "additionalProperties": False,
+            },
+        },
+        "stopPsiCatVitePreview": {
+            "capability_class": "write",
+            "risk_level": "low",
+            "requires_human_gate": True,
+            "args_schema": {
+                "type": "object",
+                "properties": {"name": {"type": "string"}, "human_gate_approved": {"type": "boolean"}},
+                "required": ["name"],
+                "additionalProperties": False,
+            },
+        },
+        "buildPsiCatViteProject": {
+            "capability_class": "write",
+            "risk_level": "medium",
+            "requires_human_gate": True,
+            "args_schema": {
+                "type": "object",
+                "properties": {"name": {"type": "string"}, "human_gate_approved": {"type": "boolean"}},
+                "required": ["name"],
+                "additionalProperties": False,
+            },
+        },
         "getConsciousnessResearchBoundaries": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinValidationResiliencePacket": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
         "getMerlinLeanBridgeArtifact": {"args_schema": _LIMIT_SYNC_ARGS_SCHEMA},
@@ -1122,6 +1189,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "OPENROUTER_API_KEY", "domain": "secrets"},
             {"name": "BRAVE_API_KEY", "domain": "secrets"},
             {"name": "HF_API_TOKEN", "domain": "secrets"},
+            {"name": "PSICAT_VITE_WORKBENCH_TOKEN", "domain": "secrets"},
         ],
     }
 
@@ -1552,6 +1620,13 @@ _FUNCTIONS = {
     "getMerlinFormalInvariants": lambda **args: _formal_invariant_surface(),
     "getPsiCatResourceBudget": lambda **args: {"data": get_resource_budget_policy()},
     "getPsiCatBehavioralAudit": lambda **args: {"data": run_behavioral_audit_battery()},
+    "getPsiCatViteWorkbenchStatus": lambda **args: merlin_vite_workbench.workbench_status(**args),
+    "listPsiCatViteProjects": lambda **args: merlin_vite_workbench.list_workbench_projects(**args),
+    "inspectPsiCatViteProject": lambda **args: merlin_vite_workbench.inspect_workbench_project(**args),
+    "createPsiCatViteProject": lambda **args: merlin_vite_workbench.create_workbench_project(**args),
+    "startPsiCatVitePreview": lambda **args: merlin_vite_workbench.start_workbench_preview(**args),
+    "stopPsiCatVitePreview": lambda **args: merlin_vite_workbench.stop_workbench_preview(**args),
+    "buildPsiCatViteProject": lambda **args: merlin_vite_workbench.build_workbench_project(**args),
     "getConsciousnessResearchBoundaries": lambda **args: {"data": get_consciousness_research_boundaries()},
     "getMerlinValidationResiliencePacket": lambda **args: {"data": get_merlin_validation_resilience_packet(limit=args.get("limit"))},
     "getMerlinTrainingDataset": lambda **args: {"data": build_training_dataset_bundle(
@@ -1664,6 +1739,10 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
                 "HF_API_TOKEN": {
                     "available": bool(os.environ.get("HF_API_TOKEN")),
                     "description": "HF inference compatibility token.",
+                },
+                "PSICAT_VITE_WORKBENCH_TOKEN": {
+                    "available": bool(os.environ.get("PSICAT_VITE_WORKBENCH_TOKEN")),
+                    "description": "Loopback-only PsiCat Vite Web Workbench bearer credential; never returned.",
                 },
             },
             "router": {
