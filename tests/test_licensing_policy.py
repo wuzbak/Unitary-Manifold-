@@ -75,6 +75,8 @@ def test_missing_public_evidence_fails(field):
     "https://127.1/source", "https://0177.0.0.1/source", "https://10.1/source",
     "https://0x7f.0.0.1/source", "https://127.0.0.0x1/source",
     "https://-invalid.org/source",
+    "https://localhost。localhost/source", "https://example。local/source",
+    "https://１２７.０.０.１/source",
 ])
 def test_nonpublic_or_sensitive_urls_rejected(url):
     evidence = public_release()

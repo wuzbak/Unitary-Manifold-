@@ -122,12 +122,13 @@ def _public_https(value: object) -> bool:
             or url.port not in (None, 443)
         ):
             return False
-        if host.lower() == "localhost" or host.lower().endswith((".localhost", ".local")):
+        host = host.encode("idna").decode("ascii").lower()
+        if host == "localhost" or host.endswith((".localhost", ".local")):
             return False
         try:
             return ipaddress.ip_address(host).is_global
         except ValueError:
-            labels = host.encode("idna").decode("ascii").split(".")
+            labels = host.split(".")
             # Numeric final labels can be interpreted as noncanonical IPv4.
             return (
                 len(labels) > 1
