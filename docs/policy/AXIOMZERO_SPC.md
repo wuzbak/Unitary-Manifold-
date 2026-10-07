@@ -178,3 +178,33 @@ For the IP assignment notice, see [`IP_ASSIGNMENT_NOTICE.md`](IP_ASSIGNMENT_NOTI
 *Document version: 1.0 — June 2026*  
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson** (Chief Purpose Officer).*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## 10 · Additive Corporate Licensing Intent — 2026-10-07
+
+`AZ-RECIPROCITY-2026-10-07` records the current public reciprocity policy in
+[LEGAL.md Part X](../../LEGAL.md#part-x--public-reciprocity-release-of-intent-2026-10-07)
+and [Commercial Terms §12](COMMERCIAL_TERMS.md#-12--reciprocity-and-exception-supplemental-terms-2026-10-07).
+This clarification preserves earlier statements as history, without withdrawing
+valid public grants or recreating copyright in public-domain material.
+
+The software default is standard AGPL-3.0-or-later for copyright-retained
+first-party software, subject to actual asset notices and upstream permissions.
+Covered distributions and modified remote interaction have their applicable
+source duties; not every use or private modification requires publication.
+Mandatory notification, payment, field-of-use and forum restrictions are not
+conditions added to AGPL. Earlier absolute anti-paywall or anti-patent language
+does not acquire enforceability merely from a public-domain dedication.
+
+AxiomZero may negotiate paid or partnership exceptions individually, only for
+rights it is authorized to license, through executed agreements defining scope,
+consideration, remaining disclosures and remedies. Profit from those exceptions
+and independent services supports the public work; payment alone grants no
+exception and cannot extinguish existing public permissions.
+
+Washington substantive law and King County/state or Seattle/federal venue are
+selected for appropriately accepted agreements, subject to mandatory law and
+court jurisdiction. Public use or integration alone does not accept separate
+terms. RCW 23B.25 supplies the social-purpose corporate framework, not additional
+IP powers or jurisdiction over every user.
