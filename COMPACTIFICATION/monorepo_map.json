@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 7931,
+  "file_count": 7936,
   "lanes": {
-    "az_ip": 2164,
+    "az_ip": 2167,
     "compactification": 9,
-    "other": 5342,
+    "other": 5344,
     "psicat_articles": 352,
     "psicat_books": 64
   },
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2164,
+    "12-AZ-IP": 2167,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -106,10 +106,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1621,
+    "src": 1622,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1544,
+    "tests": 1545,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -2019,6 +2019,7 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_research_cycle.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_router.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_runtime.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_science_evidence.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_sentinel.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_sync_contract.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_telemetry.py",
@@ -2050,6 +2051,7 @@
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_execution.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_ox_navigator.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_science_evidence.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_webspace_bridge.py",
       "12-AZ-IP/20-psicat-navigator/tools/check_training_execution_traces.py",
       "12-AZ-IP/20-psicat-navigator/tools/diff_psicat_spc_phase1_receipts.py",
@@ -2251,6 +2253,7 @@
       "12-AZ-IP/25-psicat-braided-brain/package.json",
       "12-AZ-IP/25-psicat-braided-brain/run.py",
       "12-AZ-IP/25-psicat-braided-brain/sw.js",
+      "12-AZ-IP/25-psicat-braided-brain/tests/app.test.js",
       "12-AZ-IP/25-psicat-braided-brain/tests/game-core.test.js",
       "12-AZ-IP/25-psicat-braided-brain/tests/test_browser_contract.py",
       "12-AZ-IP/25-psicat-braided-brain/tests/test_product25_structure.py",
@@ -16442,6 +16445,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_science_evidence.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_sentinel.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16653,6 +16663,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_ox_navigator.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_science_evidence.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -17990,6 +18007,13 @@
     },
     {
       "path": "12-AZ-IP/25-psicat-braided-brain/sw.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "25-psicat-braided-brain"
+    },
+    {
+      "path": "12-AZ-IP/25-psicat-braided-brain/tests/app.test.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -42511,6 +42535,12 @@
       "lane": "other"
     },
     {
+      "path": "src/neuroscience/empirical_benchmark.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/neuroscience/neurons.py",
       "top_level": "src",
       "kind": "file",
@@ -45680,6 +45710,12 @@
     },
     {
       "path": "tests/test_neuroscience.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_neuroscience_empirical_benchmark.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
