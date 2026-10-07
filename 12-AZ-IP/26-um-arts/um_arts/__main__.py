@@ -67,6 +67,7 @@ def parser() -> argparse.ArgumentParser:
     inventory.add_argument("--output", type=Path)
     inventory.add_argument("--config-output", type=Path)
     inventory.add_argument("--suite", action="append")
+    inventory.add_argument("--kind", action="append")
     inventory.add_argument("--lean-project")
     assisting = commands.add_parser("assist", help="Retrieve bounded cited context; never change evidence gates")
     assisting.add_argument("--root", type=Path, default=Path.cwd())
@@ -150,12 +151,18 @@ def main(argv: list[str] | None = None) -> int:
                 discover_inventory,
                 execution_config,
                 selection_boundary,
+                suite_names_by_kind,
             )
 
             result = discover_inventory(args.root)
+            if args.kind and args.suite:
+                raise EvidenceError("Select suites by --suite or --kind, not both")
+            if args.kind and not args.config_output:
+                raise EvidenceError("Suite kind selection requires --config-output")
+            selected = suite_names_by_kind(result, args.kind) if args.kind else args.suite
             if args.config_output:
-                config = execution_config(result, args.suite, args.lean_project)
-                result["selection_boundary"] = selection_boundary(result, args.suite, args.lean_project)
+                config = execution_config(result, selected, args.lean_project)
+                result["selection_boundary"] = selection_boundary(result, selected, args.lean_project)
                 write_json(args.config_output, config)
                 result["configuration_output"] = str(args.config_output.resolve())
             elif args.suite or args.lean_project:

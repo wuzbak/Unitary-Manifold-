@@ -69,7 +69,14 @@ function allowedOrigin(request, port) {
   }
 }
 
-export function createWorkbenchHttpServer({ workbench = new ViteWorkbench(), token = TOKEN, host = HOST, port = PORT } = {}) {
+export function createWorkbenchHttpServer({
+  workbench = new ViteWorkbench(),
+  token = TOKEN,
+  host = HOST,
+  port = PORT,
+  uiRoot = UI_ROOT,
+} = {}) {
+  const staticRoot = path.resolve(uiRoot);
   const server = http.createServer(async (request, response) => {
     let requestUrl;
     try {
@@ -89,8 +96,8 @@ export function createWorkbenchHttpServer({ workbench = new ViteWorkbench(), tok
       } catch {
         return sendJson(response, 400, { ok: false, error: 'Invalid asset path.' });
       }
-      const filePath = path.resolve(UI_ROOT, `.${requestedPath}`);
-      if (!filePath.startsWith(`${UI_ROOT}${path.sep}`)) return sendJson(response, 404, { ok: false, error: 'Not found.' });
+      const filePath = path.resolve(staticRoot, `.${requestedPath}`);
+      if (!filePath.startsWith(`${staticRoot}${path.sep}`)) return sendJson(response, 404, { ok: false, error: 'Not found.' });
       try {
         const body = await fs.readFile(filePath);
         response.writeHead(200, {

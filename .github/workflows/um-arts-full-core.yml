@@ -77,3 +77,162 @@ jobs:
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 90
+
+  product-suite-inventory:
+    name: Discover isolated product test suites
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      matrix: ${{ steps.discover.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Discover product suites with UM-ARTS
+        id: discover
+        run: |
+          python -m TOOLS.um_arts inventory --root "$GITHUB_WORKSPACE" \
+            --kind product --output "$RUNNER_TEMP/inventory.json" \
+            --config-output "$RUNNER_TEMP/product-suites.json" > /dev/null
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path(os.environ["GITHUB_WORKSPACE"])
+          inventory = json.loads(Path(os.environ["RUNNER_TEMP"], "inventory.json").read_text())
+          config = json.loads(Path(os.environ["RUNNER_TEMP"], "product-suites.json").read_text())
+          suites = {suite["name"]: suite for suite in inventory["suites"]}
+          matrix = []
+          for selected in config["suites"]:
+              suite = suites[selected["name"]]
+              parts = Path(suite["root"]).parts
+              if len(parts) < 3 or parts[0] != "12-AZ-IP":
+                  raise SystemExit(f"Unexpected product suite root: {suite['root']}")
+              product_root = root.joinpath(*parts[:2])
+              suite_root = root / suite["root"]
+              ancestors = [suite_root, *suite_root.parents]
+              requirements = sorted({
+                  (directory / name).relative_to(root).as_posix()
+                  for directory in ancestors
+                  if directory == product_root or directory.is_relative_to(product_root)
+                  for name in ("requirements.txt", "requirements-dev.txt")
+                  if (directory / name).is_file()
+              })
+              matrix.append({
+                  "suite": suite["name"],
+                  "root": suite["root"],
+                  "requirements": requirements,
+              })
+          if not matrix:
+              raise SystemExit("UM-ARTS found no product test suites")
+          output = json.dumps({"include": matrix}, separators=(",", ":"))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
+              stream.write(f"matrix={output}\n")
+          print(f"Discovered {len(matrix)} isolated product suites")
+          PY
+
+  product-suite-tests:
+    name: Product suite ${{ matrix.suite }}
+    needs: product-suite-inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.product-suite-inventory.outputs.matrix) }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+            12-AZ-IP/**/requirements*.txt
+      - name: Install root and package-declared test dependencies
+        env:
+          PRODUCT_REQUIREMENTS: ${{ toJSON(matrix.requirements) }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          import sys
+
+          requirements = json.loads(os.environ["PRODUCT_REQUIREMENTS"])
+          base_command = [
+              sys.executable, "-m", "pip", "install",
+              "-r", "requirements.txt", "-r", "requirements-dev.txt",
+          ]
+          subprocess.run(base_command, check=True)
+          if requirements:
+              command = [sys.executable, "-m", "pip", "install"]
+              for requirement in requirements:
+                  command.extend(["-r", requirement])
+              subprocess.run(command, check=True)
+          PY
+      - name: Collect, execute, and verify isolated suite with UM-ARTS
+        env:
+          UM_ARTS_PRODUCT_SUITE: ${{ matrix.suite }}
+          UM_ARTS_PRODUCT_ROOT: ${{ matrix.root }}
+          UM_ARTS_PRODUCT_STORE: ${{ runner.temp }}/um-arts-product/${{ matrix.suite }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+          from TOOLS.um_arts.engine import evaluate, plan, run
+          from TOOLS.um_arts.evidence import write_json
+          from TOOLS.um_arts.inventory import discover_inventory, execution_config
+
+          root = Path.cwd()
+          inventory = discover_inventory(root)
+          suite_name = os.environ["UM_ARTS_PRODUCT_SUITE"]
+          suite = next(
+              (suite for suite in inventory["suites"] if suite["name"] == suite_name),
+              None,
+          )
+          if suite is None or suite["root"] != os.environ["UM_ARTS_PRODUCT_ROOT"]:
+              sys.exit("Product suite identity changed after matrix discovery")
+          config = execution_config(inventory, [suite_name])
+          config["plugins"] = ["pytest_asyncio.plugin", "pytest_benchmark.plugin"]
+          config["timeout_seconds"] = 3600
+          config["collection_timeout_seconds"] = 900
+          store = Path(os.environ["UM_ARTS_PRODUCT_STORE"])
+          store.mkdir(parents=True, exist_ok=True)
+          config_path = store / "suite-config.json"
+          write_json(config_path, config)
+          planned = plan(root, store, config_path)
+          write_json(store / "planning-result.json", planned)
+          if planned["status"] != "ready":
+              sys.exit("Product suite collection blocked; see retained UM-ARTS evidence")
+          result = run(Path(planned["plan_path"]))
+          write_json(store / "execution-result.json", result)
+          verified = evaluate(Path(result["attempt_path"]))
+          write_json(store / "verified-result.json", verified)
+          print(json.dumps({
+              key: verified[key] for key in ["status", "counts", "selected", "reconciled"]
+          }, sort_keys=True))
+          if verified["status"] != "passed" or verified["selected"] != verified["reconciled"]:
+              sys.exit("Product suite failed or has unreconciled test identities")
+          PY
+      - name: Preserve product suite evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: um-arts-product-${{ matrix.suite }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/um-arts-product/${{ matrix.suite }}/
+          if-no-files-found: warn
+          retention-days: 90

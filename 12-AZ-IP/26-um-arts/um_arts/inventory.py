@@ -15,7 +15,7 @@ from pathlib import Path
 from .evidence import EvidenceError, contained
 
 EXCLUDED_DIRECTORIES = frozenset({
-    ".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache", ".lake",
+    ".git", ".venv", "venv", "env", "__pycache__", ".pytest_cache", ".hypothesis", ".lake",
     "node_modules", "vendor", "vendors", "third_party", "third-party",
     "archive", "archives", "archived", "build", "dist", ".um-arts",
     ".um-arts-test-work", ".um-arts-assistance-work", ".um-arts-inventory-work",
@@ -266,6 +266,30 @@ def execution_config(inventory: dict, selected: list[str] | None = None,
             raise EvidenceError("Select a discovered Lean project")
         config["lean"] = {"project": lean_project, "scope": "full", "targets": []}
     return config
+
+
+def suite_names_by_kind(inventory: dict, kinds: list[str]) -> list[str]:
+    """Select discovered suites by exact kind or an explicit kind-family prefix."""
+    if not kinds or len(kinds) != len(set(kinds)) or any(
+        not isinstance(kind, str) or not kind for kind in kinds
+    ):
+        raise EvidenceError("Select unique nonempty suite kinds")
+    available = inventory.get("suites", [])
+    known_kinds = {suite["kind"] for suite in available}
+    unknown = [
+        kind for kind in kinds
+        if kind not in known_kinds
+        and not any(value.startswith(kind + "-") for value in known_kinds)
+    ]
+    if unknown:
+        raise EvidenceError(f"Unknown suite kinds: {sorted(unknown)}")
+    selected = sorted(
+        suite["name"] for suite in available
+        if any(suite["kind"] == kind or suite["kind"].startswith(kind + "-") for kind in kinds)
+    )
+    if not selected:
+        raise EvidenceError("Selected suite kinds contain no discovered suites")
+    return selected
 
 
 def selection_boundary(inventory: dict, selected: list[str] | None = None,

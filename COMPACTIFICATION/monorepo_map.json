@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 7931,
+  "file_count": 7954,
   "lanes": {
-    "az_ip": 2164,
+    "az_ip": 2184,
     "compactification": 9,
-    "other": 5342,
+    "other": 5345,
     "psicat_articles": 352,
     "psicat_books": 64
   },
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2164,
+    "12-AZ-IP": 2184,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -95,6 +95,7 @@
     "lodge": 14,
     "manuscript": 6,
     "mkdocs.yml": 1,
+    "package-lock.json": 1,
     "proof": 17,
     "public-site": 83,
     "pyproject.toml": 1,
@@ -106,10 +107,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1621,
+    "src": 1622,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1544,
+    "tests": 1545,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -1930,6 +1931,7 @@
     ],
     "19-falsification-observatory": [
       "12-AZ-IP/19-falsification-observatory/README.md",
+      "12-AZ-IP/19-falsification-observatory/conftest.py",
       "12-AZ-IP/19-falsification-observatory/css/az-apps.css",
       "12-AZ-IP/19-falsification-observatory/css/main.css",
       "12-AZ-IP/19-falsification-observatory/falsification_observatory/__init__.py",
@@ -1964,6 +1966,7 @@
       "12-AZ-IP/20-psicat-navigator/README.md",
       "12-AZ-IP/20-psicat-navigator/benchmarks/stage_b/receipts.json",
       "12-AZ-IP/20-psicat-navigator/benchmarks/stage_c/receipts.json",
+      "12-AZ-IP/20-psicat-navigator/conftest.py",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/adjacent_universe_summary.md",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/anthropic_j_space_validation.md",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/architecture_governance_backbone.md",
@@ -2019,12 +2022,14 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_research_cycle.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_router.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_runtime.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_science_evidence.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_sentinel.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_sync_contract.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_telemetry.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_testing_stack.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tools.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_training_execution.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_vite_workbench.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_workspace.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/pillar_graph.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/session.py",
@@ -2050,6 +2055,8 @@
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_execution.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_ox_navigator.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_science_evidence.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_vite_workbench.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_webspace_bridge.py",
       "12-AZ-IP/20-psicat-navigator/tools/check_training_execution_traces.py",
       "12-AZ-IP/20-psicat-navigator/tools/diff_psicat_spc_phase1_receipts.py",
@@ -2138,6 +2145,7 @@
     "21-geo-monitor": [
       "12-AZ-IP/21-geo-monitor/ATTRIBUTION.md",
       "12-AZ-IP/21-geo-monitor/README.md",
+      "12-AZ-IP/21-geo-monitor/conftest.py",
       "12-AZ-IP/21-geo-monitor/geo_monitor/__init__.py",
       "12-AZ-IP/21-geo-monitor/geo_monitor/app/__init__.py",
       "12-AZ-IP/21-geo-monitor/geo_monitor/app/server.py",
@@ -2251,6 +2259,7 @@
       "12-AZ-IP/25-psicat-braided-brain/package.json",
       "12-AZ-IP/25-psicat-braided-brain/run.py",
       "12-AZ-IP/25-psicat-braided-brain/sw.js",
+      "12-AZ-IP/25-psicat-braided-brain/tests/app.test.js",
       "12-AZ-IP/25-psicat-braided-brain/tests/game-core.test.js",
       "12-AZ-IP/25-psicat-braided-brain/tests/test_browser_contract.py",
       "12-AZ-IP/25-psicat-braided-brain/tests/test_product25_structure.py",
@@ -2294,6 +2303,20 @@
       "12-AZ-IP/26-um-arts/um_arts/static/index.html",
       "12-AZ-IP/26-um-arts/um_arts/static/style.css",
       "12-AZ-IP/26-um-arts/validation_checkpoint.json"
+    ],
+    "27-psicat-vite-web-workbench": [
+      "12-AZ-IP/27-psicat-vite-web-workbench/.gitignore",
+      "12-AZ-IP/27-psicat-vite-web-workbench/README.md",
+      "12-AZ-IP/27-psicat-vite-web-workbench/package-lock.json",
+      "12-AZ-IP/27-psicat-vite-web-workbench/package.json",
+      "12-AZ-IP/27-psicat-vite-web-workbench/server.js",
+      "12-AZ-IP/27-psicat-vite-web-workbench/tests/server.test.js",
+      "12-AZ-IP/27-psicat-vite-web-workbench/tests/workbench.test.js",
+      "12-AZ-IP/27-psicat-vite-web-workbench/ui/index.html",
+      "12-AZ-IP/27-psicat-vite-web-workbench/ui/src/main.js",
+      "12-AZ-IP/27-psicat-vite-web-workbench/ui/src/style.css",
+      "12-AZ-IP/27-psicat-vite-web-workbench/vite.config.mjs",
+      "12-AZ-IP/27-psicat-vite-web-workbench/workbench.js"
     ]
   },
   "psicat_literature": {
@@ -15833,6 +15856,13 @@
       "product": "19-falsification-observatory"
     },
     {
+      "path": "12-AZ-IP/19-falsification-observatory/conftest.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "19-falsification-observatory"
+    },
+    {
       "path": "12-AZ-IP/19-falsification-observatory/css/az-apps.css",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16051,6 +16081,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/benchmarks/stage_c/receipts.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/conftest.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16442,6 +16479,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_science_evidence.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_sentinel.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16478,6 +16522,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_training_execution.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_vite_workbench.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16653,6 +16704,20 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_ox_navigator.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_science_evidence.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_vite_workbench.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -17255,6 +17320,13 @@
     },
     {
       "path": "12-AZ-IP/21-geo-monitor/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "21-geo-monitor"
+    },
+    {
+      "path": "12-AZ-IP/21-geo-monitor/conftest.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -17996,6 +18068,13 @@
       "product": "25-psicat-braided-brain"
     },
     {
+      "path": "12-AZ-IP/25-psicat-braided-brain/tests/app.test.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "25-psicat-braided-brain"
+    },
+    {
       "path": "12-AZ-IP/25-psicat-braided-brain/tests/game-core.test.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -18281,6 +18360,90 @@
       "kind": "file",
       "lane": "az_ip",
       "product": "26-um-arts"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/.gitignore",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/package-lock.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/package.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/server.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/tests/server.test.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/tests/workbench.test.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/ui/src/main.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/ui/src/style.css",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/vite.config.mjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/27-psicat-vite-web-workbench/workbench.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "27-psicat-vite-web-workbench"
     },
     {
       "path": "12-AZ-IP/BRAND_SEPARATION_NOTICE_PSICAT.md",
@@ -32689,6 +32852,12 @@
       "lane": "other"
     },
     {
+      "path": "package-lock.json",
+      "top_level": "package-lock.json",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "proof/ALGEBRA_PROOF.py",
       "top_level": "proof",
       "kind": "file",
@@ -42511,6 +42680,12 @@
       "lane": "other"
     },
     {
+      "path": "src/neuroscience/empirical_benchmark.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/neuroscience/neurons.py",
       "top_level": "src",
       "kind": "file",
@@ -45680,6 +45855,12 @@
     },
     {
       "path": "tests/test_neuroscience.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_neuroscience_empirical_benchmark.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

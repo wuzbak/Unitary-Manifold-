@@ -8,10 +8,17 @@ import { ViteWorkbench } from '../workbench.js';
 
 test('HTTP surface requires the token, blocks foreign origins, and serves the dashboard', async (t) => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'psicat-vite-http-'));
+  const uiRoot = path.join(root, 'dashboard');
+  await fs.mkdir(path.join(uiRoot, 'assets'), { recursive: true });
+  await fs.writeFile(
+    path.join(uiRoot, 'index.html'),
+    '<html><head><title>PsiCat Workbench</title></head><body><script src="/assets/app.js"></script></body></html>',
+  );
+  await fs.writeFile(path.join(uiRoot, 'assets', 'app.js'), 'document.body.textContent = "PsiCat Workbench";');
   const token = 'workbench-test-token-0123456789abcdef';
   const workbench = new ViteWorkbench({ workspaceRoot: root });
   await workbench.initialize();
-  const server = createWorkbenchHttpServer({ workbench, token, port: 0 });
+  const server = createWorkbenchHttpServer({ workbench, token, port: 0, uiRoot });
   server.listen(0, '127.0.0.1');
   await new Promise((resolve) => server.once('listening', resolve));
   const address = server.address();

@@ -422,4 +422,4 @@ def test_readme_mentions_required_topics():
 
 def test_requirements_exact():
     req_text = (PRODUCT_ROOT / 'requirements.txt').read_text(encoding='utf-8').strip().splitlines()
-    assert req_text == ['numpy>=1.24', 'scipy>=1.11', 'httpx>=0.26.0']
+    assert req_text == ['numpy>=1.24', 'scipy>=1.11', 'sympy>=1.14,<2', 'httpx>=0.26.0']

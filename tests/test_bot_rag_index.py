@@ -3,6 +3,7 @@
 """Tests for bot/rag_index.py — RAG Q&A endpoint."""
 from __future__ import annotations
 
+import json
 import pytest
 from pathlib import Path
 
@@ -394,6 +395,82 @@ def test_rag_index_build_from_repo():
     idx = RAGIndex.build(repo_root=repo_root)
     # Should have at least the KB entries
     assert len(idx.knowledge_base) > 0
+
+
+@pytest.mark.parametrize("builder", [RAGIndex.build, RAGIndex.build_intent_index])
+def test_rag_indexes_component_guides_and_monorepo_paths(tmp_path, builder):
+    component = tmp_path / "12-AZ-IP/06-omega-synthesis"
+    component.mkdir(parents=True)
+    (component / "README.md").write_text(
+        "Omega synthesis calculator guide for the Yukawa explorer.\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "COMPACTIFICATION").mkdir()
+    inventory = {
+        "files": [
+            *[
+                {
+                    "path": f".github/workflows/00-unrelated-workflow-{number:02}.yml",
+                    "kind": "file",
+                    "lane": "other",
+                }
+                for number in range(20)
+            ],
+            {
+                "path": "12-AZ-IP/06-omega-synthesis/README.md",
+                "kind": "file",
+                "lane": "az_ip",
+                "product": "06-omega-synthesis",
+            },
+            {
+                "path": "12-AZ-IP/06-omega-synthesis/tests/test_yukawa_explorer.py",
+                "kind": "file",
+                "lane": "az_ip",
+                "product": "06-omega-synthesis",
+            },
+            {
+                "path": ".github/workflows/um-arts-full-core.yml",
+                "kind": "file",
+                "lane": "other",
+            },
+            {
+                "path": "12-AZ-IP/06-omega-synthesis/linked.py",
+                "kind": "symlink",
+                "lane": "az_ip",
+            },
+            {"path": "../outside/secret.py", "kind": "file"},
+        ]
+    }
+    (tmp_path / "COMPACTIFICATION/monorepo_map.json").write_text(
+        json.dumps(inventory),
+        encoding="utf-8",
+    )
+
+    index = builder(repo_root=tmp_path)
+    guide = index.search("Omega synthesis Yukawa explorer calculator", top_k=1)
+    assert guide[0][1].source == "12-AZ-IP/06-omega-synthesis/README.md"
+
+    test_result = answer_question(index, "Where is the Omega synthesis test file?")
+    assert test_result["sources"][0] == "COMPACTIFICATION/monorepo_map.json"
+    assert "test_yukawa_explorer.py" in test_result["answer"]
+
+    result = answer_question(index, "Where is the UM-ARTS full-core workflow?")
+    assert result["source_type"] == "document_retrieval"
+    assert result["sources"] == ["COMPACTIFICATION/monorepo_map.json"]
+    assert ".github/workflows/um-arts-full-core.yml" in result["answer"]
+    assert "path metadata only" in result["answer"]
+    inventory_chunks = [
+        chunk for chunk in index.chunks
+        if chunk.source == "COMPACTIFICATION/monorepo_map.json"
+    ]
+    assert all("linked.py" not in chunk.text for chunk in inventory_chunks)
+    assert all("outside/secret.py" not in chunk.text for chunk in inventory_chunks)
+
+
+def test_rag_build_without_monorepo_map_keeps_existing_fallback(tmp_path):
+    index = RAGIndex.build(repo_root=tmp_path)
+    assert not index.chunks
+    assert index.knowledge_base
 
 
 # ---------------------------------------------------------------------------
