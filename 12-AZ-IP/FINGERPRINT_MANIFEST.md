@@ -39,21 +39,29 @@ sha256sum <file>
 
 | Asset | SHA-256 | Status |
 |-------|---------|--------|
-| `12-AZ-IP/README.md` | `ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c` | ✅ RESEALED 2026-10-06 |
+| `12-AZ-IP/README.md` | `PENDING` | ✅ RESEALED 2026-10-07 |
 | `12-AZ-IP/IP_REGISTRY.json` | *computed at commit time* | ✅ SELF-REFERENTIAL |
 
-### Product 26 integration refresh — 2026-10-06
+### Product 27 registration refresh — 2026-10-07
 
-The tables above retain historical registration references. The current
-`12-AZ-IP/README.md` entry in `IP_REGISTRY.json` includes this branch's Product 26
-UM-ARTS registration and usage documentation, merged with main's Product 25
-v1.1.0 and external-intake entry: **11,391 bytes**, SHA-256
-`ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c`.
-Its previous canonical seal was
-`c5de1c8315d9b34d2bb8bf5c9ea30c83aad7f80ee765772f51b702112d3cd787`
-(9,487 bytes). The registry retains the preceding steward reseal note.
-Live checks use the machine-readable registry; updating this metadata does
-not turn the earlier frozen regression failure into a pass.
+Product 27, PsiCat's Vite Web Workbench, is registered as a standalone
+loopback-only frontend workbench with typed native Product 20 tools. The
+master registry README and the Product 27 operating/package/runtime assets
+were fingerprinted for this addition; current hashes and byte sizes are recorded
+in `IP_REGISTRY.json`.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/README.md` | `PENDING` | pending |
+| `12-AZ-IP/27-psicat-vite-web-workbench/README.md` | `PENDING` | pending |
+| `12-AZ-IP/27-psicat-vite-web-workbench/package.json` | `PENDING` | pending |
+| `12-AZ-IP/27-psicat-vite-web-workbench/package-lock.json` | `PENDING` | pending |
+| `12-AZ-IP/27-psicat-vite-web-workbench/server.js` | `PENDING` | pending |
+| `12-AZ-IP/27-psicat-vite-web-workbench/workbench.js` | `PENDING` | pending |
+
+The master README fingerprint in the table is refreshed each time the catalog
+changes. Historical registration references remain in Git history and the
+machine-readable reseal note.
 
 ---
 

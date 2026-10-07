@@ -327,10 +327,10 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-10-06",
-      "sha256": "ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c",
-      "size_bytes": 11391,
-      "reseal_note": "Refreshed 2026-10-06 after resolving the authorized main merge: retain Product 26 UM-ARTS documentation and main's Product 25 v1.1.0 and external-intake entry. Prior branch seal: 106f48200f467650cef521c2c887d09dbd134b4c8216ef9dddcb1af714b6c8cf (11273 bytes); prior main seal: 1110cc9e2c1526e80745c360a3addeb915bd08764d6b25e163f6b15cb6f7c014 (9605 bytes)."
+      "updated": "2026-10-07",
+      "sha256": "PENDING",
+      "size_bytes": 0,
+      "reseal_note": "Refreshed 2026-10-07 to register Product 27 PsiCat's Vite Web Workbench alongside the existing Product 26 entry. Previous seal: ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c (11391 bytes). Prior merge provenance is retained in the preceding reseal history."
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",
@@ -462,6 +462,14 @@
     },
     "12-AZ-IP/27-psicat-vite-web-workbench/package.json": {
       "description": "Product 27 pinned Vite app package and workbench commands",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-07",
+      "sha256": "PENDING",
+      "size_bytes": 0
+    },
+    "12-AZ-IP/27-psicat-vite-web-workbench/package-lock.json": {
+      "description": "Product 27 locked Vite dependency graph",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-10-07",

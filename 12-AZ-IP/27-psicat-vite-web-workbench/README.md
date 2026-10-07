@@ -16,7 +16,7 @@ Projects are stored outside the repository by default in `~/.local/share/psicat-
 
 ## Run the app
 
-Requirements: Node.js `^20.19.0 || >=22.12.0`, npm, and the pinned Vite dependency.
+Requirements: Node.js `^20.19.0 || >=22.12.0`, npm, and the pinned Vite dependency. Vite 8.3.3 is MIT-licensed.
 
 ```bash
 cd /home/runner/work/Unitary-Manifold-/Unitary-Manifold-/12-AZ-IP/27-psicat-vite-web-workbench
