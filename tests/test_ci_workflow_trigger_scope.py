@@ -218,7 +218,9 @@ def test_root_lean_captures_use_the_persisted_pin(name, command, allows_failure)
     assert arguments[arguments.index("--") + 1:] == ["lake", "-d", "lean4", *command.split()]
 
 
-def test_coverage_retains_failure_evidence_without_weakening_the_gate() -> None:
+def test_coverage_retains_failure_evidence_without_weakening_the_gate(
+    tmp_path: Path,
+) -> None:
     jobs = _load("tests.yml")["jobs"]
     coverage_job = jobs["coverage-gate"]
     steps = {step.get("name"): step for step in coverage_job["steps"]}
