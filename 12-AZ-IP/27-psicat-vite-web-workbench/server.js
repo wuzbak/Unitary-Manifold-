@@ -23,12 +23,12 @@ const MIME_TYPES = {
   '.svg': 'image/svg+xml',
 };
 
-function authorized(request) {
+function authorized(request, token) {
   const authorization = String(request.headers.authorization || '');
   const match = authorization.startsWith('Bearer ') ? authorization.slice(7) : '';
-  if (!TOKEN || !match) return false;
+  if (!token || !match) return false;
   const provided = Buffer.from(match);
-  const expected = Buffer.from(TOKEN);
+  const expected = Buffer.from(token);
   return provided.length === expected.length && crypto.timingSafeEqual(provided, expected);
 }
 
@@ -62,7 +62,8 @@ function allowedOrigin(request, port) {
   if (!origin) return true;
   try {
     const parsed = new URL(origin);
-    return ['127.0.0.1', 'localhost'].includes(parsed.hostname) && parsed.port === String(port);
+    const allowedPorts = new Set([String(port), '5179']);
+    return ['127.0.0.1', 'localhost'].includes(parsed.hostname) && allowedPorts.has(parsed.port);
   } catch {
     return false;
   }
@@ -70,17 +71,53 @@ function allowedOrigin(request, port) {
 
 export function createWorkbenchHttpServer({ workbench = new ViteWorkbench(), token = TOKEN, host = HOST, port = PORT } = {}) {
   const server = http.createServer(async (request, response) => {
-    const requestUrl = new URL(request.url || '/', `http://${request.headers.host || `${host}:${port}`}`);
+    let requestUrl;
+    try {
+      requestUrl = new URL(request.url || '/', `http://${request.headers.host || `${host}:${port}`}`);
+    } catch {
+      return sendJson(response, 400, { ok: false, error: 'Invalid request URL.' });
+    }
     if (requestUrl.pathname === '/health' && request.method === 'GET') {
       return sendJson(response, 200, { ok: true, service: 'psicat-vite-web-workbench' });
     }
     if (!allowedOrigin(request, port)) return sendJson(response, 403, { ok: false, error: 'Cross-origin requests are not allowed.' });
-    if (!authorized(request)) return sendJson(response, 401, { ok: false, error: 'A valid workbench bearer token is required.' });
+    if (!requestUrl.pathname.startsWith('/api/')) {
+      if (request.method !== 'GET') return sendJson(response, 404, { ok: false, error: 'Not found.' });
+      let requestedPath;
+      try {
+        requestedPath = requestUrl.pathname === '/' ? '/index.html' : decodeURIComponent(requestUrl.pathname);
+      } catch {
+        return sendJson(response, 400, { ok: false, error: 'Invalid asset path.' });
+      }
+      const filePath = path.resolve(UI_ROOT, `.${requestedPath}`);
+      if (!filePath.startsWith(`${UI_ROOT}${path.sep}`)) return sendJson(response, 404, { ok: false, error: 'Not found.' });
+      try {
+        const body = await fs.readFile(filePath);
+        response.writeHead(200, {
+          'Content-Type': MIME_TYPES[path.extname(filePath)] || 'application/octet-stream',
+          'Content-Length': body.length,
+          'X-Content-Type-Options': 'nosniff',
+          'Content-Security-Policy': "default-src 'self'; connect-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+        });
+        return response.end(body);
+      } catch {
+        return sendJson(response, 404, { ok: false, error: 'Workbench UI has not been built. Run npm run build.' });
+      }
+    }
+    if (!authorized(request, token)) return sendJson(response, 401, { ok: false, error: 'A valid workbench bearer token is required.' });
     if (requestUrl.pathname === '/api/status' && request.method === 'GET') {
-      return sendJson(response, 200, await workbench.performAction({ action: 'status' }));
+      try {
+        return sendJson(response, 200, await workbench.performAction({ action: 'status' }));
+      } catch {
+        return sendJson(response, 500, { ok: false, error: 'Unable to read workbench status.' });
+      }
     }
     if (requestUrl.pathname === '/api/projects' && request.method === 'GET') {
-      return sendJson(response, 200, await workbench.performAction({ action: 'list' }));
+      try {
+        return sendJson(response, 200, await workbench.performAction({ action: 'list' }));
+      } catch {
+        return sendJson(response, 500, { ok: false, error: 'Unable to list workbench projects.' });
+      }
     }
     if (requestUrl.pathname === '/api/action' && request.method === 'POST') {
       try {
@@ -89,24 +126,7 @@ export function createWorkbenchHttpServer({ workbench = new ViteWorkbench(), tok
         return sendJson(response, 400, { ok: false, error: String(error.message || 'Workbench operation failed.') });
       }
     }
-    if (request.method !== 'GET' || requestUrl.pathname.startsWith('/api/')) {
-      return sendJson(response, 404, { ok: false, error: 'Not found.' });
-    }
-    const requestedPath = requestUrl.pathname === '/' ? '/index.html' : decodeURIComponent(requestUrl.pathname);
-    const filePath = path.resolve(UI_ROOT, `.${requestedPath}`);
-    if (!filePath.startsWith(`${UI_ROOT}${path.sep}`)) return sendJson(response, 404, { ok: false, error: 'Not found.' });
-    try {
-      const body = await fs.readFile(filePath);
-      response.writeHead(200, {
-        'Content-Type': MIME_TYPES[path.extname(filePath)] || 'application/octet-stream',
-        'Content-Length': body.length,
-        'X-Content-Type-Options': 'nosniff',
-        'Content-Security-Policy': "default-src 'self'; connect-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
-      });
-      return response.end(body);
-    } catch {
-      return sendJson(response, 404, { ok: false, error: 'Workbench UI has not been built. Run npm run build.' });
-    }
+    return sendJson(response, 404, { ok: false, error: 'Not found.' });
   });
   return server;
 }

@@ -65,6 +65,15 @@ and user-facing dashboards that expose the Unitary Manifold physics stack to end
 | **Status** | REGISTERED |
 | **Category** | Governance Application |
 
+### 7 · PsiCat's Vite Web Workbench
+| Field | Value |
+|-------|-------|
+| **Source path** | `27-psicat-vite-web-workbench/` |
+| **Key files** | `server.js`, `workbench.js`, `ui/` |
+| **Description** | Loopback-only Vite project workbench with curated JavaScript/TypeScript starters, preview/build operations, and native Product 20 PsiCat tools. |
+| **Status** | Implemented local product; production readiness not assessed |
+| **Category** | Developer Tool / Web Application |
+
 ---
 
 ## Assets Pending Integration from `wuzbak/Private`

@@ -10,7 +10,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 - External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
-## Product registry (26 canonical software products / surfaces)
+## Product registry (27 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -40,6 +40,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 24 | PsiCat Web Browser | 1.0.0 | TRL-3 | Electron / Android / Extension | 15 | Chromium-based next-gen browser foundation with Electron desktop, native-tab Android shell, split-workspace desktop scaffolding, embedded PsiCat research sidebar, local sync backend scaffold, Playwright-first browser proving ground, notebook, sync packet workflows, and import/export. | [24-psicat-web-browser/](24-psicat-web-browser/) |
 | 25 | PsiCat Braided Brain | 1.1.0 | TRL-3 | Browser / PWA | 25 | Toroidal brain simulator game for desktop and mobile with science missions, local training-packet export, and optional PsiCat coaching through Product 20. | [25-psicat-braided-brain/](25-psicat-braided-brain/) |
 | 26 | UM-ARTS | 1.0.0 | Not assessed | CLI / local browser | Focused pytest suites | Evidence-first regression application: supervised execution, immutable receipts, compatible resume, inventory, and bounded assistance; no scientific claim promotion. | [26-um-arts/](26-um-arts/) |
+| 27 | PsiCat's Vite Web Workbench | 1.0.0 | Not assessed | http://127.0.0.1:8327 | 10 targeted tests | Standalone loopback-only Vite project workbench with curated starters and native Product 20 tools; project configs/plugins are not loaded and arbitrary commands are not run. | [27-psicat-vite-web-workbench/](27-psicat-vite-web-workbench/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
@@ -73,6 +74,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - `24-psicat-web-browser/` — advanced Chromium-based PsiCat browser product with Electron desktop, split-workspace scaffolding, native-tab Android shell, local sync backend scaffold, Playwright-first testing, and Chrome/Edge extension companion
 - `25-psicat-braided-brain/` — responsive toroidal brain simulator game with PsiCat/PhiCat teaching loops, voluntary training-packet export, and optional Product 20 coaching
 - `26-um-arts/` — canonical UM-ARTS regression application and Python package; `TOOLS.um_arts` retains backwards-compatible CLI, submodule, and pytest-plugin imports
+- `27-psicat-vite-web-workbench/` — standalone local Vite app with curated frontend starters and human-gated native Product 20 actions
 
 ## Product 26 operational entrypoints
 
@@ -99,6 +101,25 @@ separate. Existing legacy module/CLI/plugin imports stay supported.
 Execution/recovery supports Python 3.12+ on Linux/macOS using Unix `fcntl` and
 POSIX process groups, not native Windows. Product release 1.0.0 is distinct from
 the preserved evidence schema `VERSION = "1"` displayed by legacy CLI version output.
+
+## Product 27 operational entrypoints
+
+Product 27 requires Node.js `^20.19.0 || >=22.12.0`. Install its pinned
+dependencies, build the Workbench dashboard, configure a local token, and start
+the loopback service:
+
+```bash
+cd 12-AZ-IP/27-psicat-vite-web-workbench
+npm install && npm run build
+export PSICAT_VITE_WORKBENCH_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+npm start
+```
+
+Open `http://127.0.0.1:8327/` in Product 24 or another browser. To expose the
+native PsiCat tools, set `PSICAT_VITE_WORKBENCH_URL` and the same token in
+Product 20's environment before launching it. Project creation, preview
+lifecycle, and builds require explicit tool approval. The service is a local
+developer workbench, not an OS sandbox; only preview code you trust.
 
 ## Shared assets retained
 

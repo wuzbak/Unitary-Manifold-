@@ -1189,6 +1189,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "OPENROUTER_API_KEY", "domain": "secrets"},
             {"name": "BRAVE_API_KEY", "domain": "secrets"},
             {"name": "HF_API_TOKEN", "domain": "secrets"},
+            {"name": "PSICAT_VITE_WORKBENCH_TOKEN", "domain": "secrets"},
         ],
     }
 
@@ -1738,6 +1739,10 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
                 "HF_API_TOKEN": {
                     "available": bool(os.environ.get("HF_API_TOKEN")),
                     "description": "HF inference compatibility token.",
+                },
+                "PSICAT_VITE_WORKBENCH_TOKEN": {
+                    "available": bool(os.environ.get("PSICAT_VITE_WORKBENCH_TOKEN")),
+                    "description": "Loopback-only PsiCat Vite Web Workbench bearer credential; never returned.",
                 },
             },
             "router": {
