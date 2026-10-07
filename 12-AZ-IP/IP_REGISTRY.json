@@ -327,10 +327,10 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-10-06",
-      "sha256": "ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c",
-      "size_bytes": 11391,
-      "reseal_note": "Refreshed 2026-10-06 after resolving the authorized main merge: retain Product 26 UM-ARTS documentation and main's Product 25 v1.1.0 and external-intake entry. Prior branch seal: 106f48200f467650cef521c2c887d09dbd134b4c8216ef9dddcb1af714b6c8cf (11273 bytes); prior main seal: 1110cc9e2c1526e80745c360a3addeb915bd08764d6b25e163f6b15cb6f7c014 (9605 bytes)."
+      "updated": "2026-10-07",
+      "sha256": "8bddde7bf229d155cf432f8507a0b7b5e5e44b072beac260003c3e122e5f9261",
+      "size_bytes": 12653,
+      "reseal_note": "Refreshed 2026-10-07 to register Product 27 PsiCat's Vite Web Workbench alongside the existing Product 26 entry. Previous seal: ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c (11391 bytes). Prior merge provenance is retained in the preceding reseal history."
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",
@@ -451,6 +451,46 @@
       "updated": "2026-10-06",
       "sha256": "82531dc749dbdb84ca015be11792eab6d3732612a2776f025370008a42b050bc",
       "size_bytes": 507
+    },
+    "12-AZ-IP/27-psicat-vite-web-workbench/README.md": {
+      "description": "Product 27 PsiCat Vite Web Workbench operating and security guide",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-07",
+      "sha256": "21fb3eef3f5c021e56c31f4a776222e7954ed741bcf8a759f03f14f0f7332adf",
+      "size_bytes": 4684
+    },
+    "12-AZ-IP/27-psicat-vite-web-workbench/package.json": {
+      "description": "Product 27 pinned Vite app package and workbench commands",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-07",
+      "sha256": "a6472814998e7d6b3ce1bb9c463f765490647f8529aca2c46f482805abde8b07",
+      "size_bytes": 400
+    },
+    "12-AZ-IP/27-psicat-vite-web-workbench/package-lock.json": {
+      "description": "Product 27 locked Vite dependency graph",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-07",
+      "sha256": "6e2711c726e1ca04fc71e821532f8d7ef776ac1a472194254fb74693b5394271",
+      "size_bytes": 24638
+    },
+    "12-AZ-IP/27-psicat-vite-web-workbench/server.js": {
+      "description": "Product 27 authenticated loopback service and static dashboard host",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-07",
+      "sha256": "ead7901c0a3ec35231900d5898f2cb2be0ceb765bc50e558e95884b45d98cb28",
+      "size_bytes": 6728
+    },
+    "12-AZ-IP/27-psicat-vite-web-workbench/workbench.js": {
+      "description": "Product 27 bounded Vite project scaffold, inspect, preview, and build engine",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-07",
+      "sha256": "b29dc3d070116a08cedc2d8ce5649b7006ee1e35b6d0a625bcf22899a0147b52",
+      "size_bytes": 13747
     },
     "12-AZ-IP/24-psicat-web-browser/playwright.config.js": {
       "description": "Product 24 Playwright-first browser proving-ground test configuration",
@@ -729,6 +769,18 @@
       "pillar_refs": [],
       "epistemic_status": "REGRESSION_INFRASTRUCTURE",
       "added": "2026-10-06"
+    },
+    {
+      "name": "PsiCat's Vite Web Workbench",
+      "version": "1.0.0",
+      "trl": "Not assessed",
+      "port": "http://127.0.0.1:8327",
+      "tests": "10 targeted tests",
+      "description": "Standalone loopback-only Vite workbench with curated JavaScript and TypeScript project templates, inspection, development preview, production build receipts, and human-gated Product 20 PsiCat actions. Does not load project Vite configs or plugins, install dependencies, or execute arbitrary commands.",
+      "link": "27-psicat-vite-web-workbench/",
+      "pillar_refs": [],
+      "epistemic_status": "LOCAL_DEVELOPER_TOOL",
+      "added": "2026-10-07"
     }
   ]
 }
