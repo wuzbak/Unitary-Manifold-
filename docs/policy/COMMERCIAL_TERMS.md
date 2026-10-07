@@ -441,3 +441,95 @@ variable names are changed, see [`../../1-THEORY/FINGERPRINTS.md`](../../1-THEOR
 
 > **Reminder:** This document is not a substitute for legal counsel.  Have a licensed attorney
 > review all commercial agreements before execution.
+
+---
+
+## § 12 · Reciprocity and Exception Supplemental Terms (2026-10-07)
+
+**Policy identifier: `AZ-RECIPROCITY-2026-10-07`.** This additive supplement
+preserves the historical text above. It applies to new engagements expressly
+incorporating this section and accepted by authorized representatives, not
+automatically to existing agreements or public-license users. For such
+engagements, it controls inconsistencies with §§4-A, 8, and 9.2.
+
+### 12.1 Two lawful routes, no automatic payment requirement
+
+Anyone may use and integrate covered software under its actual public license.
+Compliant AGPL use does not require a fee, notification, approval, or commercial
+exception. Unrelated proprietary software and purely private modifications are
+not automatically subject to disclosure. Where AGPL requires Corresponding
+Source for a covered work, withholding it requires independently authorized
+rights or a duly executed exception covering the withheld material.
+
+AxiomZero may negotiate exceptions for **payment or partnership consideration**,
+individually. Neither route has a guaranteed entitlement or automatic approval.
+The agreement shall identify the parties and authorized signatories; covered
+assets, versions and rights; permitted integrations and affiliates; consideration
+and acceptance milestones; retained public disclosure obligations; duration;
+audit procedures; breach, cure and termination; and rights surviving termination.
+Payment without execution is not a license. Partnership obligations must be
+specific, lawful, measurable and expressly accepted.
+
+### 12.2 Authority and public rights
+
+An exception is effective only for rights AxiomZero holds or is authorized to
+license. Before execution, verify contributor grants and upstream dependencies;
+a DCO alone is not an assignment or blanket commercial relicensing authority.
+No exception overrides third-party copyleft, restores copyright validly waived,
+withdraws previous public grants, or transfers ownership unless expressly agreed.
+
+Section 9.2 means that ordinary services do not implicitly waive AGPL; it does
+not prohibit the expressly executed exceptions contemplated by §4-A and this
+supplement. The public continues to hold all previously granted rights. A private
+exception is not a permissive alternative license for all public recipients.
+
+### 12.3 Disclosure commitments and lawful exclusions
+
+Where the executed agreement requires public disclosure, its schedule shall
+identify deliverables, versions, deadlines, accessible download locations,
+reuse licenses, build instructions and source-offer visibility. AI schedules
+shall distinguish training code, weights/adapters, evaluations, provenance and
+dataset descriptions, rather than promise unspecified "all secrets."
+
+Exclude credentials, personal data not lawfully publishable, unrelated IP, and
+third-party confidential material. A claimed exclusion must be documented with
+its effect on reproducibility; parties must resolve conflicts before deployment,
+not silently omit required material. No NDA may extinguish public license rights.
+The parties may agree proportionate evidence preservation and independent audit
+of covered compliance, with privacy, confidentiality and access safeguards.
+
+### 12.4 Governing law, venue and assent
+
+Accepted agreements incorporating this supplement are governed by Washington
+substantive law, without its conflict-of-law rules, subject to applicable federal
+law and mandatory protections. The parties consent to personal jurisdiction and
+exclusive venue in competent state courts in **King County, Washington**, or,
+where federal subject-matter jurisdiction exists, the **United States District
+Court for the Western District of Washington at Seattle**. To the extent lawful,
+they waive objections based on inconvenient forum or contractual venue.
+
+This provision does not confer subject-matter jurisdiction; claims arising under
+federal copyright law remain subject to exclusive federal jurisdiction under
+28 USC §1338(a). Mandatory consumer law and nonwaivable rights prevail. No forum
+requirement attaches to public-domain use or AGPL use merely through downloading,
+running, modifying or integrating publicly licensed code.
+
+Record the accepted version, date, representative authority and signature or
+affirmative electronic acceptance. RCW 1.80 does not dispense with assent or
+authority. Repository publication alone is not acceptance. Amendments to
+existing agreements require the parties' valid agreement; this supplement does
+not displace a previously accepted counterparty forum or arbitration clause.
+
+### 12.5 Enforcement and remedies
+
+The parties retain the §8.2 negotiation and non-binding mediation procedure,
+but it does not prevent timely applications for urgent judicial relief or
+actions necessary to preserve rights or limitation periods. This supplement
+does not independently require arbitration. Remedies, including injunctions,
+damages and fees, remain subject to applicable law and the executed agreement;
+none are guaranteed by this policy or a compliance-check result.
+
+Local automated checks are evidence gates only. They do not authenticate
+signatures, assess derivative-work boundaries, authorize exceptions, inspect
+another company's systems or collect secrets. See [LEGAL.md Part X](../../LEGAL.md#part-x--public-reciprocity-release-of-intent-2026-10-07)
+for legal sources and operational limits.

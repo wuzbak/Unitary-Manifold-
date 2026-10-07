@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "policy_id": "AZ-RECIPROCITY-2026-10-07",
+  "effective_date": "2026-10-07",
+  "issuer": "AxiomZero Technologies & Consulting, SPC",
+  "software_default": "AGPL-3.0-or-later",
+  "scope_rule": "copyright-retained-first-party-software-only",
+  "software_locations": [
+    "src",
+    "tests",
+    "recycling",
+    "scripts",
+    "submission",
+    "5-GOVERNANCE/Unitary Pentad",
+    "omega",
+    "bot",
+    "embryology-manifold",
+    "12-AZ-IP",
+    "TOOLS",
+    "9-INFRASTRUCTURE",
+    "public-site"
+  ],
+  "safeguards": {
+    "preserve_prior_grants": true,
+    "asset_notices_and_upstream_terms_control": true,
+    "no_extra_agpl_restrictions": true,
+    "no_automatic_ai_copyleft": true,
+    "no_telemetry_or_remote_disabling": true,
+    "no_automatic_exception_approval": true
+  },
+  "exceptions": {
+    "consideration": ["payment", "partnership"],
+    "requires_executed_authorized_agreement": true,
+    "requires_rights_review": true,
+    "does_not_reduce_public_rights": true
+  },
+  "contract_forum": {
+    "requires_affirmative_acceptance": true,
+    "governing_state": "Washington",
+    "state_venue": "King County, Washington",
+    "federal_venue": "Western District of Washington at Seattle",
+    "subject_to_mandatory_law": true,
+    "not_an_agpl_condition": true
+  },
+  "documents": [
+    "LICENSE",
+    "LICENSE-AGPL",
+    "LEGAL.md",
+    "docs/policy/COMMERCIAL_TERMS.md"
+  ],
+  "gate_limit": "structural-evidence-only-not-legal-certification"
+}

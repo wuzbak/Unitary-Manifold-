@@ -50,7 +50,9 @@ jobs:
           pip install "z3-solver>=4.12.0" --only-binary :all: || echo "z3-solver binary wheel unavailable on macOS runner; continuing (optional integration)"
       - name: Run smoke tests and compactified preflight
         run: |
+          python TOOLS/checks/check_licensing_policy.py
           python3 -m pytest \
+            tests/test_licensing_policy.py \
             tests/test_metric.py \
             tests/test_check_large_files.py \
             tests/test_hf_spaces_canary.py::test_main_aggregates_failures_and_returns_nonzero \

@@ -467,7 +467,7 @@ The agreement must identify the copyright and contributor permissions supporting
 the exception. AxiomZero cannot waive someone else's upstream copyleft or rights.
 Neither an exception nor an NDA reduces the public's existing rights. Exceptions
 are not universal alternate licenses and do not transfer ownership by default.
-The supplemental terms in Commercial Terms §11 reconcile §4-A with §9.2.
+The supplemental terms in Commercial Terms §12 reconcile §4-A with §9.2.
 
 ### 10.4 AI disclosure and lawful limits
 
@@ -487,7 +487,7 @@ No concealed telemetry, forced upload, or remote disabling enforces this policy.
 
 ### 10.5 Washington law and King County forum
 
-For agreements that expressly incorporate Commercial Terms §11 and are accepted
+For agreements that expressly incorporate Commercial Terms §12 and are accepted
 by authorized parties, AxiomZero selects Washington substantive law, subject to
 applicable federal and mandatory law, and the appropriate state courts in King
 County or the United States District Court for the Western District of Washington
