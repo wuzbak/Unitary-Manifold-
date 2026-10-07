@@ -83,6 +83,16 @@ def check_policy(root: Path) -> list[str]:
             "subject_to_mandatory_law": True,
             "not_an_agpl_condition": True,
         },
+        "b2b_economics_guidance": {
+            "scope": "individually-executed-exceptions-only",
+            "typical_waiver_subject": "disclosure-not-exclusively",
+            "one_time_fee": "due-diligence-and-alignment-per-product-integration",
+            "residual_reference_percent": "2.32",
+            "residual_period": "quarterly",
+            "residual_basis": "covered-for-profit-product-revenues-as-agreed",
+            "actual_terms_require_individual_agreement": True,
+            "not_a_public_license_fee": True,
+        },
         "documents": list(DOCUMENTS),
         "gate_limit": "structural-evidence-only-not-legal-certification",
     }

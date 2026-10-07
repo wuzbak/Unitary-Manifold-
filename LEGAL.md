@@ -485,6 +485,16 @@ Neither an exception nor an NDA reduces the public's existing rights. Exceptions
 are not universal alternate licenses and do not transfer ownership by default.
 The supplemental terms in Commercial Terms §12 reconcile §4-A with §9.2.
 
+The B2B commercial route ordinarily includes a one-time due-diligence and
+alignment fee per product integration. For for-profit product integrations
+under an executed exception, the usual negotiating reference is a residual use
+fee around **2.32% of that product's quarterly revenues**. The actual rate,
+revenue basis, reporting, duration and other terms are individually agreed;
+this is not a universal charge, a share of all company revenue, or a condition
+of compliant public-license use. Exceptions typically concern disclosure but
+may address other expressly identified permissions within AxiomZero's rights.
+See Commercial Terms §12.6 for required schedule definitions and safeguards.
+
 ### 10.4 AI disclosure and lawful limits
 
 Using software in an AI pipeline does not automatically impose AGPL on every

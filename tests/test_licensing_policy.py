@@ -125,6 +125,18 @@ def test_integer_is_not_boolean_assent(tmp_path):
     assert check_policy(tmp_path)
 
 
+def test_residual_guidance_cannot_become_automatic_public_fee(tmp_path):
+    copy_policy(tmp_path)
+    path = tmp_path / POLICY_PATH
+    policy = read_object(path)
+    guidance = policy["b2b_economics_guidance"]
+    assert guidance["residual_reference_percent"] == "2.32"
+    assert guidance["residual_period"] == "quarterly"
+    guidance["not_a_public_license_fee"] = False
+    path.write_text(json.dumps(policy), encoding="utf-8")
+    assert check_policy(tmp_path)
+
+
 def test_missing_document_fails(tmp_path):
     copy_policy(tmp_path)
     (tmp_path / "LEGAL.md").unlink()

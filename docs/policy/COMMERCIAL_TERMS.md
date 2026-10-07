@@ -547,3 +547,43 @@ Local automated checks are evidence gates only. They do not authenticate
 signatures, assess derivative-work boundaries, authorize exceptions, inspect
 another company's systems or collect secrets. See [LEGAL.md Part X](../../LEGAL.md#part-x--public-reciprocity-release-of-intent-2026-10-07)
 for legal sources and operational limits.
+
+### 12.6 B2B corporate exception economics
+
+For a negotiated B2B corporate exception, ordinarily concerning disclosure
+obligations but potentially other expressly identified permissions, the
+commercial schedule provides a **one-time due-diligence and alignment fee per
+product integration**. The amount, review deliverables, payment milestones and
+any refund treatment must be agreed in writing. The review assesses licensing
+authority, covered integration boundaries, retained disclosures and alignment;
+paying for it does not guarantee approval or itself grant a waiver.
+
+For **for-profit product integrations under an executed exception**, AxiomZero's
+usual negotiating reference is a **residual use fee around 2.32% of the covered
+product's quarterly revenues**. This is commercial guidance, not an automatic
+royalty, fixed universal tariff, statutory rate or charge on all company revenue.
+The executed schedule sets the actual percentage and revenue basis. Exceptions
+remain case by case: rates, consideration and disclosure scope can differ,
+including specifically agreed partnership consideration.
+
+The schedule must identify each product/integration and define quarterly
+periods, currency and conversion, gross-versus-net treatment, refunds, taxes,
+discounts, credits, bundled-product allocations, affiliate/reseller receipts,
+and treatment of overlapping integrations so the same revenue is not
+unintentionally counted twice. It must define when residual fees accrue, their
+duration, reporting and payment deadlines, authorized records review,
+confidentiality, dispute/cure procedures and obligations surviving termination.
+These are matters for the signed bargain, not unilateral estimates made by a
+release gate.
+
+Residuals follow the agreed revenue basis, not profits unless expressly agreed.
+Only product revenue within the executed scope is included. Financial reporting
+under that contract need not be public; confidentiality cannot conceal source
+that remains owed under the applicable public license. No unauthenticated
+payment receipt or self-declared revenue report authorizes an exception.
+
+**Neither fee is a condition of compliant AGPL use or public-domain use.**
+These economics apply only through the separately executed commercial route,
+within rights AxiomZero can license and subject to §12.4's accepted-agreement
+Washington law and forum provisions. They do not expand a waiver to other
+products, grant an exception to upstream licenses, or reduce public permissions.

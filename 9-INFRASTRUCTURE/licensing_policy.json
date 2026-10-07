@@ -37,6 +37,16 @@
     "requires_rights_review": true,
     "does_not_reduce_public_rights": true
   },
+  "b2b_economics_guidance": {
+    "scope": "individually-executed-exceptions-only",
+    "typical_waiver_subject": "disclosure-not-exclusively",
+    "one_time_fee": "due-diligence-and-alignment-per-product-integration",
+    "residual_reference_percent": "2.32",
+    "residual_period": "quarterly",
+    "residual_basis": "covered-for-profit-product-revenues-as-agreed",
+    "actual_terms_require_individual_agreement": true,
+    "not_a_public_license_fee": true
+  },
   "contract_forum": {
     "requires_affirmative_acceptance": true,
     "governing_state": "Washington",

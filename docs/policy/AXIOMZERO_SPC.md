@@ -208,3 +208,12 @@ selected for appropriately accepted agreements, subject to mandatory law and
 court jurisdiction. Public use or integration alone does not accept separate
 terms. RCW 23B.25 supplies the social-purpose corporate framework, not additional
 IP powers or jurisdiction over every user.
+
+For B2B exceptions, the normal commercial structure includes a one-time
+due-diligence and alignment fee per product integration and, for covered
+for-profit integrations, a residual use fee usually around 2.32% of that
+product's quarterly revenues. Disclosure waivers are typical, not the only
+possible exception scope. Actual rates, revenue definitions, reporting and
+duration require individual execution under Commercial Terms §12.6.
+These fees do not apply merely because someone uses public-domain material or
+complies with AGPL, and do not entitle AxiomZero to unrelated company revenue.

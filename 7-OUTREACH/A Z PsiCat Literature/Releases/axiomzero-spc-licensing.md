@@ -191,6 +191,35 @@ permissions with their actual duties, plus separately negotiated permissions
 for a different, clearly described use. A profitable company and a durable
 commons need not be enemies. They do need honest accounting.
 
+That accounting has a concrete commercial shape. Our B2B exception model
+ordinarily starts with a one-time due-diligence and alignment fee for each
+product integration. It pays for the agreed review: what is being integrated,
+what rights exist, what the proposed exception would permit, and what duties
+remain. Paying for the examination is not the same as passing it, and neither
+event replaces an executed agreement.
+
+For a for-profit product using a negotiated exception, our usual reference is
+a residual use fee around 2.32 percent of that product's quarterly revenues.
+Not the revenues of every company in the group. Not a surprise levy on every
+successful public-license user. Not a number that becomes binding because it
+appears in this essay. The signed schedule establishes the actual rate, revenue
+basis, duration and reporting duties. Payment and partnership arrangements
+remain individual bargains, and the exception typically concerns disclosure
+without being confined to that subject.[5]
+
+Revenue is not a synonym for profit, and a bundle of products is not a single
+self-explanatory number. Refunds, taxes, currency conversions, reseller
+receipts, allocations and overlapping integrations need agreed definitions.
+A sensible contract does that work before the first invoice, not during an
+argument about the fourth. Financial reporting can remain appropriately
+confidential while source still owed to the public remains available.
+
+This is how we intend to fund the work without turning the open door into a
+metered turnstile. If the public-license route meets your needs, use it and
+meet its actual conditions. If different rights are necessary, negotiate
+them. The fee belongs to that different bargain—not to the freedom we already
+gave.
+
 ## The model is not automatically the source
 
 Artificial intelligence introduces a temptation to overstate the reach of a
