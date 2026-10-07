@@ -2,6 +2,38 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const core = require('../ui/game-core.js');
 
+test('every atlas card separates evidence, scope, and unvalidated correspondences', () => {
+  const entries = core.getAtlasEntries(core.createCampaignState());
+  const allowed = new Set(['established-finding', 'empirical-summary', 'analogy', 'product-behavior']);
+  for (const entry of entries) {
+    assert.ok(allowed.has(entry.epistemicStatus));
+    assert.ok(entry.limitation.length > 20);
+    assert.ok(entry.speculativeCorrespondence.length > 20);
+    assert.ok(entry.source);
+  }
+  assert.match(entries[0].source, /Nature.*04268-7/);
+  assert.match(entries.find((entry) => entry.conceptTag === 'ens-serotonin').scientificNote, /not ENS neurons/);
+});
+
+test('export rehydrates evidence labels rather than trusting stale or forged save annotations', () => {
+  const campaign = core.createCampaignState();
+  campaign.atlasInsights = [{
+    conceptTag: 'toroidal-map', note: 'Proves UM', source: 'forged',
+    epistemicStatus: 'proved-physics',
+  }, { conceptTag: 'unknown', note: 'invented' }];
+  const restored = core.importSaveBundle(core.createSaveBundle(campaign));
+  const packet = core.createTrainingPacket(restored);
+  assert.equal(packet.atlasInsights.length, 1);
+  assert.equal(packet.atlasInsights[0].epistemicStatus, 'established-finding');
+  assert.match(packet.atlasInsights[0].source, /Nature/);
+  assert.match(packet.atlasInsights[0].speculativeCorrespondence, /unvalidated/);
+  assert.equal(packet.privacy.retainedByDefault, 'local progress only');
+  assert.equal(packet.privacy.exportMode, 'voluntary explicit packet export');
+  const jsonl = JSON.parse(core.createJsonlExport(restored).split('\n')[0]);
+  assert.equal(jsonl.metadata.scienceAtlas[0].epistemicStatus, 'established-finding');
+  assert.match(jsonl.metadata.scienceAtlas[0].speculativeCorrespondence, /unvalidated/);
+});
+
 test('campaign starts on level one with coherent defaults', () => {
   const campaign = core.createCampaignState();
   assert.equal(campaign.currentLevelIndex, 0);

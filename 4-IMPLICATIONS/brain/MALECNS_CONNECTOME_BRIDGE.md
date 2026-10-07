@@ -110,5 +110,36 @@ Implementation:
 - `src/core/pillar1129_malecns_connectome_empirical_bridge.py`
 - `tests/test_pillar1129_malecns_connectome_empirical_bridge.py`
 
+### Bounded offline empirical reproduction
+
+Run `python -m src.neuroscience.empirical_benchmark` to reproduce **published
+source-table summaries**, not an experiment or full paper replication.
+`tests/test_neuroscience_empirical_benchmark.py` independently counts integer
+`∑ connections` attributes and partner labels in the already committed LPLC2
+extracts; expected counts are not read from the panel JSON.
+
+The executable verifies SHA-256 hashes of all three extracts before parsing.
+It reproduces 536 upstream and 692 downstream partner types, 350,542 input
+and 182,982 output synapses, 440 reciprocal types in a union of 788, and eight
+ROI rows. Top-five displayed partner masses are 127,817 input and 86,491 output
+synapses. Both directions contain 46,178 same-type LPLC2 connections; these
+aggregate across neurons and **must not be called individual-neuron autapses**.
+ROI totals are not summed because ROI overlap can double-count synapses.
+
+An exact downstream weight-label permutation control assigns each of the 692
+displayed weights to the LPLC2 label once, preserving partner count and total
+mass. Observed same-type output share is 46,178 / 182,982 (25.2364%); mean
+shuffled share is 1 / 692 (0.1445%), with one assignment at least as large as
+observed. This is a descriptive label-sensitivity control, **not a biological
+p-value**: exchangeable type labels are not established by these data.
+
+The full-page hash in the panel is recorded provenance, not verified by table
+extracts; local hashes establish byte integrity, not independent authenticity.
+No new external dataset is copied or license inferred from public access.
+The default run is offline and covers only this displayed one-type slice.
+Experimental replication, full paper replication, and **Gardner activity-space
+topology reproduction remain pending**: no activity data or full connectivity
+simulation is supplied, and no UM physics validation is claimed.
+
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.  
 Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).

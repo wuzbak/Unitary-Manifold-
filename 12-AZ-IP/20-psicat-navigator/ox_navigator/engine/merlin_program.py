@@ -31,6 +31,7 @@ from .merlin_kernel_routing import infer_kernel_for_benchmark_definition, infer_
 from .merlin_masterclass_runtime import build_governance_observatory, get_branch_convergence_packet, get_masterclass_execution_packet
 from .merlin_memory import MERLIN_MAX_HISTORY, MerlinSession
 from .merlin_router import get_router_policy
+from .merlin_science_evidence import get_science_evidence_registry
 from .merlin_runtime import (
     get_advanced_execution_graph,
     get_benchmark_suite,
@@ -3931,6 +3932,7 @@ def get_arc_agi_training_integration() -> dict[str, Any]:
 
 def get_open_science_resource_registry() -> dict[str, Any]:
     return {
+        "science_evidence": get_science_evidence_registry(),
         "policy": (
             "Use external open-science resources as augmentation lanes for Merlin, never as a replacement "
             "for repository-native provenance, governance boundaries, or benchmark discipline."

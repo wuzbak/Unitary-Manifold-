@@ -85,6 +85,42 @@ Related reading outside this product folder:
 
 ## Geometry-first and swarm-safe execution surfaces
 
+### External science evidence and collaboration evaluation
+
+`GET /api/psicat/open-science-registry` includes `science_evidence`.
+Stanford HAI is a discovery index only: external findings are kept separate
+from canonical repository claims. Primary paper, code, dataset, license,
+revision, and limitation reviews are prerequisites to reuse; unknown rights
+block adoption. No registry entry installs tools, downloads data, or trains
+models automatically.
+
+The local `ox_navigator.engine.merlin_science_evidence` evaluator accepts
+paired recorded outputs or explicit caller-provided execution callbacks.
+Its Merlin-only, single-LLM, and collaboration lanes receive equal **total**
+allocations per task, including every participant, retry, and tool call.
+Held-out answers are not passed to execution callbacks. Objective exact-JSON
+scoring and independently verified execution artifacts are required; test
+fixtures and self-attested receipts do not establish a model advantage.
+The shipped benchmark remains **pending a real model run**.
+
+The existing `/api/agentInvoke` surface exposes
+`getMerlinScienceCollaborationBenchmarkSpec` and
+`runMerlinScienceCollaborationBenchmark`. Calling either without arguments
+returns the pending specification. Deterministic recorded-output
+evaluation checks the engineering contract only and never unlocks adoption;
+public JSON callers cannot supply a trusted receipt-verification callback.
+The specification includes `science_external_source_calibration_v1`: public
+Gardner citation/scope, MaleCNS count/reciprocity, and rights-boundary challenges.
+Its answer keys are public and may be training-exposed; it is not a held-out
+model benchmark and cannot establish model benefit.
+
+Expansion eligibility is advisory, never deployment authorization. It
+requires replayable measured benefit, reviewed artifact-specific rights and
+provenance, verified resource capacity, and a human approval bound to the
+evidence and benchmark. A passing software test is not scientific validation.
+The separate offline neuroscience reproduction and its narrower scope are
+documented in `4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md`.
+
 - `GET /api/psicat/masterclass-execution` returns the integrated geometry-first, branch-aware, swarm-safe execution packet.
 - `GET /api/psicat/spc-phase2-applied-pressure` returns the governed applied-pressure packet for all three SPC lanes, including decision-quality, false-confidence, traceability, replay, and observatory pressure blockers.
 - `GET /api/psicat/spc-phase3-live-readiness` returns the integrated live-readiness packet, including consecutive clean-run checks, governance traceability review, and authority-tier posture.

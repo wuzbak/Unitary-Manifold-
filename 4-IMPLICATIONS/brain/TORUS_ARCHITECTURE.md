@@ -21,11 +21,18 @@ torus and indexes it by winding number.**
 
 ---
 
-## The Discovery: Gardner et al., Science 2022
+## The Discovery: Gardner et al., Nature 2022
+
+**Evidence boundary:** Gardner et al. (*Nature*, doi:10.1038/s41586-021-04268-7)
+reported evidence for toroidal population activity within recorded grid-cell
+modules. The KK, orbifold, and `(5, 7, 74)` identifications below are speculative
+correspondences, not findings established by that paper. Product 25 labels
+these separately; no reproduction of the paper's neural-activity analysis is
+claimed by the game.
 
 Richard Gardner and colleagues recorded from hundreds of medial entorhinal cortex
-(MEC) neurons in freely moving rats.  Using topological data analysis (persistent
-homology), they proved:
+(MEC) neurons in freely moving rats. Using topological data analysis (persistent
+homology), they reported evidence that:
 
 > **The population activity of MEC grid cells lies on a toroidal manifold
 > T² = S¹ × S¹, not on a flat or spherical surface.**
@@ -135,10 +142,11 @@ approaches a resting value — consistent with the fixed-point φ₀.
 
 ---
 
-## Persistent Homology: The Mathematical Proof
+## Persistent Homology: The Empirical Topology Analysis
 
 The Gardner 2022 result used **persistent homology** — a branch of topological
-data analysis — to prove the torus topology of MEC.  The key result:
+data analysis — to identify toroidal structure in recorded grid-cell modules.
+The key result:
 
 - **First Betti number β₁ = 2**: the MEC population code has exactly two
   independent 1-cycles (loops), consistent with T² = S¹ × S¹.
@@ -147,8 +155,8 @@ data analysis — to prove the torus topology of MEC.  The key result:
 - **The loops correspond to spatial phase**: rotating through a full cycle in
   x or y returns the population exactly to its starting configuration.
 
-This is the experimental confirmation that the fifth dimension is not just a
-theoretical construct — it is a measurable topological feature of the living brain.
+This supports a toroidal neural-population representation and continuous
+attractor models. It does not experimentally confirm a physical fifth dimension.
 
 ---
 
@@ -200,4 +208,5 @@ table and [`IRREVERSIBILITY_BIOLOGY.md`](./IRREVERSIBILITY_BIOLOGY.md) for
 the biological mechanism of the irreversibility field.*
 
 *Primary reference: Gardner, R. J. et al. (2022). Toroidal topology of
-population activity in grid cells. *Science* 375, 190–194.*
+population activity in grid cells. *Nature* 602, 123–128.
+doi:10.1038/s41586-021-04268-7.*

@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'psicat-braided-brain-v4';
+const CACHE_NAME = 'psicat-braided-brain-v5';
 const APP_SHELL_URL = new URL('./ui/index.html', self.location).toString();
 const STATIC_ASSETS = [
   APP_SHELL_URL,
