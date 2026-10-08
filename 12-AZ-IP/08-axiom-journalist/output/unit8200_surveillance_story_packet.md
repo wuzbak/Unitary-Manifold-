@@ -14,13 +14,13 @@
 
 ## Story spine
 - Lede: Test whether the supplied claims about Israeli military-intelligence technology, Western cloud contracts, commercial acquisitions, veteran employment, and surveillance describe documented facts or inferential leaps. The case treats each lead as a hypothesis; it does not presume unlawful access, algorithm transfer, foreign control, or a threat from an individual’s service history.
-- Evidence posture: confidence 0.39 / source quality 0.81
+- Evidence posture: confidence 0.49 / source quality 0.78
 
 ### What can be established from the record
 Open with the lead, the strongest claims, and the highest-grade source anchors.
-- Microsoft’s September 25, 2025 statement says it disabled specified services for an Israeli Ministry of Defense unit after a review; it does not endorse every allegation in press coverage.
-- A collaborative Guardian / +972 / Local Call investigation alleged that Unit 8200 used Azure storage for a large collection of Palestinian phone-call recordings.
-- Investigative reporting described AI-assisted target-generation and classification systems used in Gaza; the reporting does not establish that their code, models, or methods were transferred to named commercial products.
+- [CORROBORATED] Microsoft’s September 25, 2025 statement says it disabled specified services for an Israeli Ministry of Defense unit after a review; it does not endorse every allegation in press coverage.
+- [CORROBORATED] Google announced an agreement to acquire Wiz for $32 billion on March 18, 2025; the transaction announcement provides no evidence of backdoor access or intelligence transfer.
+- [CORROBORATED] Palo Alto Networks announced an approximately $25 billion agreement to acquire CyberArk on July 30, 2025; the corporate announcement establishes a proposed commercial transaction, not intelligence purpose.
 
 ### Who is in the story and what each party says
 Map the named entities, their public positions, and the documented contradictions.
@@ -42,15 +42,19 @@ Keep unanswered questions and contradiction points visible instead of narrativel
 
 ## Chapter drafts
 ### What the record already establishes
-Test whether the supplied claims about Israeli military-intelligence technology, Western cloud contracts, commercial acquisitions, veteran employment, and surveillance describe documented facts or inferential leaps. The case treats each lead as a hypothesis; it does not presume unlawful access, algorithm transfer, foreign control, or a threat from an individual’s service history. [CORROBORATED] Microsoft’s September 25, 2025 statement says it disabled specified services for an Israeli Ministry of Defense unit after a review; it does not endorse every allegation in press coverage. [1] [3]
-Citations: [1] [3]
+Test whether the supplied claims about Israeli military-intelligence technology, Western cloud contracts, commercial acquisitions, veteran employment, and surveillance describe documented facts or inferential leaps. The case treats each lead as a hypothesis; it does not presume unlawful access, algorithm transfer, foreign control, or a threat from an individual’s service history. [CORROBORATED] Microsoft’s September 25, 2025 statement says it disabled specified services for an Israeli Ministry of Defense unit after a review; it does not endorse every allegation in press coverage. [1] [3] [CORROBORATED] Google announced an agreement to acquire Wiz for $32 billion on March 18, 2025; the transaction announcement provides no evidence of backdoor access or intelligence transfer. [6] [12] [CORROBORATED] Palo Alto Networks announced an approximately $25 billion agreement to acquire CyberArk on July 30, 2025; the corporate announcement establishes a proposed commercial transaction, not intelligence purpose. [7] [13]
+Citations: [1] [3] [6] [12] [7] [13]
 Chapter source ledger:
 - [1] Microsoft, “Update on ongoing Microsoft review”
 - [3] +972 Magazine, Microsoft terminates specified services to Israeli military unit
+- [6] Alphabet, “Google Announces Agreement to Acquire Wiz”
+- [12] TechCrunch, “Google wraps up $32B acquisition of cloud cybersecurity startup Wiz”
+- [7] Palo Alto Networks, “Agreement to Acquire CyberArk”
+- [13] Reuters, “Palo Alto’s $25 billion deal for CyberArk targets rising AI-driven threats”
 
 ### What the named entities say, and where the record resists them
 Unit 8200 / Israel Defense Forces states: No public position recorded. Microsoft Azure / Microsoft Corporation states: Microsoft stated it does not provide technology to facilitate mass surveillance of civilians and described a review and specified service discontinuation. Project Nimbus / Google / Amazon states: No party statement is treated as proof of the alleged contract interpretation. Wiz / Alphabet (Google) states: Google announced a $32 billion acquisition agreement in March 2025. CyberArk / Palo Alto Networks states: Palo Alto Networks announced an approximately $25 billion agreement in July 2025. Carbyne / Axon Enterprise states: Axon announced a $625 million acquisition agreement in November 2025.
-Citations: [1] [3] [2] [4] [5] [6]
+Citations: [1] [3] [2] [4] [5] [6] [12]
 Chapter source ledger:
 - [1] Microsoft, “Update on ongoing Microsoft review”
 - [3] +972 Magazine, Microsoft terminates specified services to Israeli military unit
@@ -58,15 +62,16 @@ Chapter source ledger:
 - [4] +972 Magazine, “Lavender”: AI-assisted targeting reporting
 - [5] The Guardian, AI-assisted targeting in Gaza
 - [6] Alphabet, “Google Announces Agreement to Acquire Wiz”
+- [12] TechCrunch, “Google wraps up $32B acquisition of cloud cybersecurity startup Wiz”
 
 ### What remains unresolved
-What remains unresolved: Obtain and authenticate Microsoft’s full review record and the relevant Azure subscription, data classification, and service logs; identify precisely what Microsoft confirmed and what it did not inspect.; Obtain the complete Project Nimbus master agreement, schedules, security addenda, legal-request procedures, suspension clauses, and formal Google/Amazon/Israeli government responses; have qualified counsel assess the reported clause.; For each military AI system described in reporting, locate original military documentation, system specifications, operational directives, and right-of-reply records; distinguish decision support from automated target approval.; Verify the current legal status and closing terms of the Google–Wiz, Palo Alto–CyberArk, and Axon–Carbyne transactions using current SEC filings and official closing notices.. [ALLEGED] A collaborative Guardian / +972 / Local Call investigation alleged that Unit 8200 used Azure storage for a large collection of Palestinian phone-call recordings. [2] [ALLEGED] Investigative reporting described AI-assisted target-generation and classification systems used in Gaza; the reporting does not establish that their code, models, or methods were transferred to named commercial products. [4] [5] [ALLEGED] Google announced an agreement to acquire Wiz for $32 billion on March 18, 2025; the transaction announcement provides no evidence of backdoor access or intelligence transfer. [6]
-Citations: [2] [4] [5] [6]
+What remains unresolved: Obtain and authenticate Microsoft’s full review record and the relevant Azure subscription, data classification, and service logs; identify precisely what Microsoft confirmed and what it did not inspect.; Obtain the complete Project Nimbus master agreement, schedules, security addenda, legal-request procedures, suspension clauses, and formal Google/Amazon/Israeli government responses; have qualified counsel assess the reported clause.; For each military AI system described in reporting, locate original military documentation, system specifications, operational directives, and right-of-reply records; distinguish decision support from automated target approval.; Verify the current legal status and closing terms of the Google–Wiz, Palo Alto–CyberArk, and Axon–Carbyne transactions using current SEC filings and official closing notices.. [ALLEGED] A collaborative Guardian / +972 / Local Call investigation alleged that Unit 8200 used Azure storage for a large collection of Palestinian phone-call recordings. [2] [ALLEGED] Investigative reporting described AI-assisted target-generation and classification systems used in Gaza; the reporting does not establish that their code, models, or methods were transferred to named commercial products. [4] [5] [ALLEGED] A Guardian investigation reported Project Nimbus contract provisions that allegedly notified Israel through coded signals when cloud providers were legally compelled to disclose data; the supplied source set does not include the complete authenticated contract. [9]
+Citations: [2] [4] [5] [9]
 Chapter source ledger:
 - [2] The Guardian / +972 Magazine / Local Call, investigation of Unit 8200 use of Azure
 - [4] +972 Magazine, “Lavender”: AI-assisted targeting reporting
 - [5] The Guardian, AI-assisted targeting in Gaza
-- [6] Alphabet, “Google Announces Agreement to Acquire Wiz”
+- [9] The Guardian, Project Nimbus contract notification mechanism reporting
 
 
 ## Source backbone
@@ -92,6 +97,8 @@ Chapter source ledger:
   - Ref: https://www.dropsitenews.com/p/israel-technology-palo-alto-networks-microsoft-unit-8200
 - **18 U.S.C. § 2511, interception and disclosure of communications** [Tier 1 — Primary Record (court/regulatory/FOIA)]
   - Ref: https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title18-section2511&num=0&edition=prelim
+- **TechCrunch, “Google wraps up $32B acquisition of cloud cybersecurity startup Wiz”** [Tier 2 — Established/On-Record]
+  - Ref: https://techcrunch.com/2026/03/11/google-completes-32b-acquisition-of-wiz/
 
 ## PsiCat learning packet
 - Challenge count: 16

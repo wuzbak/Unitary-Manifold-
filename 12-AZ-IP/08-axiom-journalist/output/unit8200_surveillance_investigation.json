@@ -161,6 +161,33 @@
       "date": "Current code",
       "excerpt": "Primary statutory text; application requires fact-specific analysis of interception, actor, intent/knowledge, jurisdiction, exceptions, and causation.",
       "notes": ""
+    },
+    {
+      "title": "TechCrunch, “Google wraps up $32B acquisition of cloud cybersecurity startup Wiz”",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Independent reporting on transaction completion",
+      "url_or_ref": "https://techcrunch.com/2026/03/11/google-completes-32b-acquisition-of-wiz/",
+      "date": "2026-03-11",
+      "excerpt": "Reports completion of the announced Google-Wiz transaction; confirm against current official filings before publication.",
+      "notes": ""
+    },
+    {
+      "title": "Reuters, “Palo Alto’s $25 billion deal for CyberArk targets rising AI-driven threats”",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Independent reporting on transaction announcement",
+      "url_or_ref": "https://www.reuters.com/technology/palo-alto-networks-buy-cyberark-25-bln-2025-07-30/",
+      "date": "2025-07-30",
+      "excerpt": "Independent reporting on Palo Alto Networks’ approximately $25 billion agreement announcement.",
+      "notes": ""
+    },
+    {
+      "title": "Calcalist Tech, “Public safety giant Axon acquires Carbyne for $625 million in cash”",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Independent reporting on transaction announcement",
+      "url_or_ref": "https://www.calcalistech.com/ctechnews/article/rj4vnuokwg",
+      "date": "2025-11-04",
+      "excerpt": "Independent reporting on Axon’s announced $625 million agreement.",
+      "notes": ""
     }
   ],
   "claims": [
@@ -245,7 +272,7 @@
     },
     {
       "statement": "Google announced an agreement to acquire Wiz for $32 billion on March 18, 2025; the transaction announcement provides no evidence of backdoor access or intelligence transfer.",
-      "confidence": "ALLEGED",
+      "confidence": "CORROBORATED",
       "sources": [
         {
           "title": "Alphabet, “Google Announces Agreement to Acquire Wiz”",
@@ -254,6 +281,15 @@
           "url_or_ref": "https://abc.xyz/investor/news/news-details/2025/Google-Announces-Agreement-to-Acquire-Wiz-03-18-2025/default.aspx",
           "date": "2025-03-18",
           "excerpt": "Google announced a definitive agreement valued at $32 billion; the release describes a commercial acquisition, not intelligence access or a backdoor.",
+          "notes": ""
+        },
+        {
+          "title": "TechCrunch, “Google wraps up $32B acquisition of cloud cybersecurity startup Wiz”",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Independent reporting on transaction completion",
+          "url_or_ref": "https://techcrunch.com/2026/03/11/google-completes-32b-acquisition-of-wiz/",
+          "date": "2026-03-11",
+          "excerpt": "Reports completion of the announced Google-Wiz transaction; confirm against current official filings before publication.",
           "notes": ""
         }
       ],
@@ -265,7 +301,7 @@
     },
     {
       "statement": "Palo Alto Networks announced an approximately $25 billion agreement to acquire CyberArk on July 30, 2025; the corporate announcement establishes a proposed commercial transaction, not intelligence purpose.",
-      "confidence": "ALLEGED",
+      "confidence": "CORROBORATED",
       "sources": [
         {
           "title": "Palo Alto Networks, “Agreement to Acquire CyberArk”",
@@ -274,6 +310,15 @@
           "url_or_ref": "https://investors.paloaltonetworks.com/news-releases/news-release-details/palo-alto-networks-announces-agreement-acquire-cyberark-identity",
           "date": "2025-07-30",
           "excerpt": "Company announced a roughly $25 billion transaction; acquisition terms do not prove an intelligence purpose.",
+          "notes": ""
+        },
+        {
+          "title": "Reuters, “Palo Alto’s $25 billion deal for CyberArk targets rising AI-driven threats”",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Independent reporting on transaction announcement",
+          "url_or_ref": "https://www.reuters.com/technology/palo-alto-networks-buy-cyberark-25-bln-2025-07-30/",
+          "date": "2025-07-30",
+          "excerpt": "Independent reporting on Palo Alto Networks’ approximately $25 billion agreement announcement.",
           "notes": ""
         }
       ],
@@ -285,7 +330,7 @@
     },
     {
       "statement": "Axon announced a $625 million agreement to acquire Carbyne on November 4, 2025; the release does not establish that Carbyne secretly intercepts emergency-call users or bypasses warrants.",
-      "confidence": "ALLEGED",
+      "confidence": "CORROBORATED",
       "sources": [
         {
           "title": "Axon, “Axon to acquire Carbyne”",
@@ -294,6 +339,15 @@
           "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
           "date": "2025-11-04",
           "excerpt": "Axon announced a $625 million transaction. This corrects earlier unsubstantiated approximations in supplied leads; transaction status must be checked against current filings before use.",
+          "notes": ""
+        },
+        {
+          "title": "Calcalist Tech, “Public safety giant Axon acquires Carbyne for $625 million in cash”",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Independent reporting on transaction announcement",
+          "url_or_ref": "https://www.calcalistech.com/ctechnews/article/rj4vnuokwg",
+          "date": "2025-11-04",
+          "excerpt": "Independent reporting on Axon’s announced $625 million agreement.",
           "notes": ""
         }
       ],
@@ -378,8 +432,8 @@
   "watchlist": [],
   "notes": "AXIOM real-world stress test. Direct URL retrieval was blocked by this execution environment for several reporting and corporate pages; search results supplied article metadata and summaries, but publication requires a human to retrieve and verify the linked originals, underlying records, dates, quotations, and responses. No target systems were probed and no private data was collected. Confidence and source-quality scores are software heuristics only. The supplied dossier claims are leads, not evidence.",
   "scores": {
-    "overall_confidence": 0.385,
-    "source_quality": 0.809,
+    "overall_confidence": 0.49,
+    "source_quality": 0.775,
     "has_legal_flags": true
   }
 }

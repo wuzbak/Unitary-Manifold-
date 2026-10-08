@@ -3,28 +3,28 @@
 ## Publication posture
 - Status: **HUMAN_REVIEW_REQUIRED**
 - Legal risk level: **HIGH**
-- Overall confidence: **0.39** (MIXED)
-- Source quality: **0.81** (ELEVATED)
+- Overall confidence: **0.49** (MIXED)
+- Source quality: **0.78** (ELEVATED)
 
 ## Investigative lead
 Test whether the supplied claims about Israeli military-intelligence technology, Western cloud contracts, commercial acquisitions, veteran employment, and surveillance describe documented facts or inferential leaps. The case treats each lead as a hypothesis; it does not presume unlawful access, algorithm transfer, foreign control, or a threat from an individual’s service history.
 
 ## Evidence summary
 - Entities: 7
-- Sources: 11
+- Sources: 14
 - Duplicate sources collapsed: 0
 - Claims: 10
 - Open questions: 8
 - Contradictions logged: 0
 
 ### Confidence mix
-- ALLEGED: 7
-- CORROBORATED: 1
+- ALLEGED: 4
+- CORROBORATED: 4
 - UNVERIFIED: 2
 
 ### Source tiers
 - Tier 1 — Primary Record (court/regulatory/FOIA): 5
-- Tier 2 — Established/On-Record: 6
+- Tier 2 — Established/On-Record: 9
 
 ### Legal / retaliation awareness
 - Preserve documentary chain-of-custody for every quoted source.
@@ -59,17 +59,17 @@ Test whether the supplied claims about Israeli military-intelligence technology,
   - Entities: Unit 8200 / Israel Defense Forces
   - Sources: +972 Magazine, “Lavender”: AI-assisted targeting reporting, The Guardian, AI-assisted targeting in Gaza
   - Legal: NATIONAL_SECURITY | LIBEL_EXPOSURE
-- **ALLEGED** (tier 2/5) — Google announced an agreement to acquire Wiz for $32 billion on March 18, 2025; the transaction announcement provides no evidence of backdoor access or intelligence transfer. [6]
+- **CORROBORATED** (tier 4/5) — Google announced an agreement to acquire Wiz for $32 billion on March 18, 2025; the transaction announcement provides no evidence of backdoor access or intelligence transfer. [6] [12]
   - Entities: Wiz / Alphabet (Google)
-  - Sources: Alphabet, “Google Announces Agreement to Acquire Wiz”
+  - Sources: Alphabet, “Google Announces Agreement to Acquire Wiz”, TechCrunch, “Google wraps up $32B acquisition of cloud cybersecurity startup Wiz”
   - Legal: LIBEL_EXPOSURE
-- **ALLEGED** (tier 2/5) — Palo Alto Networks announced an approximately $25 billion agreement to acquire CyberArk on July 30, 2025; the corporate announcement establishes a proposed commercial transaction, not intelligence purpose. [7]
+- **CORROBORATED** (tier 4/5) — Palo Alto Networks announced an approximately $25 billion agreement to acquire CyberArk on July 30, 2025; the corporate announcement establishes a proposed commercial transaction, not intelligence purpose. [7] [13]
   - Entities: CyberArk / Palo Alto Networks
-  - Sources: Palo Alto Networks, “Agreement to Acquire CyberArk”
+  - Sources: Palo Alto Networks, “Agreement to Acquire CyberArk”, Reuters, “Palo Alto’s $25 billion deal for CyberArk targets rising AI-driven threats”
   - Legal: LIBEL_EXPOSURE
-- **ALLEGED** (tier 2/5) — Axon announced a $625 million agreement to acquire Carbyne on November 4, 2025; the release does not establish that Carbyne secretly intercepts emergency-call users or bypasses warrants. [8]
+- **CORROBORATED** (tier 4/5) — Axon announced a $625 million agreement to acquire Carbyne on November 4, 2025; the release does not establish that Carbyne secretly intercepts emergency-call users or bypasses warrants. [8] [14]
   - Entities: Carbyne / Axon Enterprise
-  - Sources: Axon, “Axon to acquire Carbyne”
+  - Sources: Axon, “Axon to acquire Carbyne”, Calcalist Tech, “Public safety giant Axon acquires Carbyne for $625 million in cash”
   - Legal: PRIVACY | LIBEL_EXPOSURE
 - **ALLEGED** (tier 2/5) — A Guardian investigation reported Project Nimbus contract provisions that allegedly notified Israel through coded signals when cloud providers were legally compelled to disclose data; the supplied source set does not include the complete authenticated contract. [9]
   - Entities: Project Nimbus / Google / Amazon
@@ -142,6 +142,21 @@ Test whether the supplied claims about Israeli military-intelligence technology,
   - Ref: https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title18-section2511&num=0&edition=prelim
   - Date: Current code
   - Citation id: [11]
+- **TechCrunch, “Google wraps up $32B acquisition of cloud cybersecurity startup Wiz”** [Tier 2 — Established/On-Record]
+  - Type: Independent reporting on transaction completion
+  - Ref: https://techcrunch.com/2026/03/11/google-completes-32b-acquisition-of-wiz/
+  - Date: 2026-03-11
+  - Citation id: [12]
+- **Reuters, “Palo Alto’s $25 billion deal for CyberArk targets rising AI-driven threats”** [Tier 2 — Established/On-Record]
+  - Type: Independent reporting on transaction announcement
+  - Ref: https://www.reuters.com/technology/palo-alto-networks-buy-cyberark-25-bln-2025-07-30/
+  - Date: 2025-07-30
+  - Citation id: [13]
+- **Calcalist Tech, “Public safety giant Axon acquires Carbyne for $625 million in cash”** [Tier 2 — Established/On-Record]
+  - Type: Independent reporting on transaction announcement
+  - Ref: https://www.calcalistech.com/ctechnews/article/rj4vnuokwg
+  - Date: 2025-11-04
+  - Citation id: [14]
 
 ## Duplicate source review
 - _No duplicate sources detected._

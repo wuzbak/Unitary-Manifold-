@@ -92,7 +92,7 @@ Publication should remain on hold until the primary contracts and technical reco
 
 ### Sources
 
-See Volume I, “Sources cited,” references [1]–[11]. Additional claims cited in this volume are explicitly marked unverified where the source set did not substantiate them; the user-supplied lead is not itself a public-record citation.
+See Volume I, “Sources cited,” references [1]–[14]. Additional claims cited in this volume are explicitly marked unverified where the source set did not substantiate them; the user-supplied lead is not itself a public-record citation.
 
 ---
 

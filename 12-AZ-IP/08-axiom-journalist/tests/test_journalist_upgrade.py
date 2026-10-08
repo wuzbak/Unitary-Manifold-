@@ -6,11 +6,14 @@ from pathlib import Path
 import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
-if str(PRODUCT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PRODUCT_ROOT))
+APP_ROOT = PRODUCT_ROOT / "app"
+for import_root in (APP_ROOT, PRODUCT_ROOT):
+    if str(import_root) in sys.path:
+        sys.path.remove(str(import_root))
+    sys.path.insert(0, str(import_root))
 
 from axiom_journalist.engine.hils_review import HILSReviewRequest, format_review_output, submit_for_review
-from app.core.investigator import Claim, ConfidenceLevel, Source, SourceTier
+from core.investigator import Claim, ConfidenceLevel, Source, SourceTier
 from axiom_journalist.engine.open_data_sources import (
     OPEN_DATA_SOURCES,
     build_investigative_brief,
@@ -43,7 +46,7 @@ from axiom_journalist.engine.public_records import (
     standardize_public_record,
 )
 from axiom_journalist.engine.source_ingest import merge_source_bundle, parse_source_bundle
-from app.db import cases as db
+from db import cases as db
 
 
 def test_open_data_sources_have_expected_keys():

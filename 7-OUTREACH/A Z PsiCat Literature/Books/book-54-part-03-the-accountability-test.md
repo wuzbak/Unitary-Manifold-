@@ -10,7 +10,7 @@
 
 The supplied dossier places major acquisitions next to intelligence biographies and asks readers to see one continuous operation. The public record supports the transactions; it does not establish that implication.
 
-Alphabet announced a $32 billion agreement to acquire Wiz in March 2025. Palo Alto Networks announced an approximately $25 billion agreement to acquire CyberArk in July 2025. Axon announced a $625 million agreement to acquire Carbyne in November 2025. [6–8] These company releases are primary evidence of what the companies announced. Current completion, integration, and ownership status should be checked against up-to-date filings before publication.
+Alphabet announced a $32 billion agreement to acquire Wiz in March 2025; TechCrunch later reported the transaction’s March 2026 close. Palo Alto Networks announced an approximately $25 billion agreement to acquire CyberArk in July 2025, as also reported by Reuters. Axon announced a $625 million agreement to acquire Carbyne in November 2025, as also reported by Calcalist Tech. [6–8,12–14] These company releases are primary evidence of what the companies announced. Current completion, integration, and ownership status should be checked against up-to-date filings before publication.
 
 The deals matter because cloud security, identity management, and emergency communications can sit close to valuable data and operational workflows. A parent company’s acquisition can create new questions about access, data flows, customer consent, competition, contract assignment, and audit rights. Those questions are legitimate whether the founder is an Israeli veteran, a former American intelligence official, or someone with no government service at all.
 
@@ -78,5 +78,8 @@ That is not a retreat from investigation. It is the standard that makes the next
 [8] Axon, [Carbyne transaction announcement](https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne), 4 November 2025.  
 [10] Drop Site News, [report on Israeli intelligence veterans in U.S. technology](https://www.dropsitenews.com/p/israel-technology-palo-alto-networks-microsoft-unit-8200), 2025; count not independently audited here.  
 [11] United States Code, [18 U.S.C. § 2511](https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title18-section2511&num=0&edition=prelim).
+[12] TechCrunch, [Google-Wiz transaction close report](https://techcrunch.com/2026/03/11/google-completes-32b-acquisition-of-wiz/), 11 March 2026.
+[13] Reuters, [Palo Alto Networks-CyberArk agreement report](https://www.reuters.com/technology/palo-alto-networks-buy-cyberark-25-bln-2025-07-30/), 30 July 2025.
+[14] Calcalist Tech, [Axon-Carbyne agreement report](https://www.calcalistech.com/ctechnews/article/rj4vnuokwg), 4 November 2025.
 
 *For the complete status of claims, see AXIOM dossier Volumes I and II and the case file. The sources above are leads for human verification, not a certification that every underlying page was retrieved in this sandbox.*
