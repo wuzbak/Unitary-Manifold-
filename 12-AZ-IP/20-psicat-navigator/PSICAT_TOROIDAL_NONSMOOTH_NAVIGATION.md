@@ -59,6 +59,24 @@ The crease reset policy is now connected to context assembly, behind a flag that
 
 One early observation should be recorded plainly. With the current 14-entry pillar corpus, the two rankings usually agree on queries that sit on a crease, so fusion often adds no pillars. Whether it helps will depend on a larger corpus and a benchmark head-to-head. Until that comparison is run, the flag stays off.
 
+## Round two: measuring before promoting
+
+The first round built the geometry. The second round asked whether any of it earns a place in Merlin's live path, and it answered with measurements rather than adjectives.
+
+**Retrieval, measured.** `merlin_retrieval_eval.py` holds thirty hand-labelled queries over the fourteen-entry pillar corpus and scores three rankers: the existing Jaccard ordering (mirrored exactly; a test checks it against `retrieve_context` for every labelled query), BM25, and reciprocal-rank fusion of the two. BM25 came out ahead on mean reciprocal rank, 0.952 against Jaccard's 0.901, and on recall@1, 0.878 against 0.811. Fusion did not beat BM25 (MRR 0.908). Jaccard keeps a small edge at recall@5, 0.956 against 0.939, so the comparison is not a rout. The labels were written by the same hand that wrote the rankers, and the corpus is small, so these numbers are indicative rather than decisive. One query, about the neutrino mass-squared difference, defeats every ranker because its words do not appear in the pillar text. That is a vocabulary gap, and no reweighting of the same words will close it.
+
+**An opt-in ranking, not a replacement.** On the strength of that result, `retrieve_context` gained a second flag, `MERLIN_BM25_PILLAR_RANKING`, also off by default. With the flag unset the pillar list is unchanged. With it set, only the order and choice of pillars change; predictions, fallibility text, interrogator hits and knowledge-base matches are identical, and a test enforces this.
+
+**The A/B harness.** `merlin_flag_ab.py` runs every benchmark in every stage, thirty-four in all, in fresh sessions under four configurations: baseline, crease fusion, BM25 ranking, and both. It restores the environment afterwards. The result is plain. No configuration regressed any benchmark. Crease fusion changed no answers at all on this corpus. BM25 ranking changed seven answers and every one still passed with an unchanged score. Because the benchmark scores are structural and already sit at 1.0, the harness can show safety but not benefit. Both flags are therefore safe to try and neither has earned default-on status. A benchmark that grades the content of retrieved context is the missing instrument.
+
+**Situational awareness.** `merlin_toroidal_awareness.py` replays a session's turns as a hybrid trajectory and reports facet occupancy, crease visits, the lead pillar of each turn, topic jumps and the orientation of the current query: revisiting earlier ground or entering new territory. It reads `session.turns` and writes nothing; a test compares the session before and after. Topic decisions use exact overlap of content words, with common function words removed. An early version used the toroidal sketch for this and called two consecutive birefringence questions a topic jump, which is the sketch's known weakness showing itself. The sketch address is still reported, but it no longer decides.
+
+**The unitary operator lab.** `merlin_unitary_lab.py` turns the claim that a unitary baseline survives non-smooth geometry into an experiment. It fits a unitary matrix to noisy data under the non-smooth loss Σ|(UA − B)ᵢⱼ|, using Clarke subgradients projected to the tangent space of U(n) and the Cayley retraction, with diminishing steps. Every iterate stays unitary to about 10⁻¹⁴, however sharp the loss. With sparse gross outliers the smooth Frobenius fit (orthogonal Procrustes) fails to recover the planted operator in every one of twenty seeds; the L1 fit recovers it in twenty of twenty seeds at 10% outliers and seventeen of twenty at 20%. The three failures are reported, not hidden; subgradient descent is a local method. The lab shows what unitarity does guarantee, bounded magnitude at every step, and what it does not: a badly fitted unitary is still unitary.
+
+**A phase-index ISA, as specification.** `export_golden_vectors()` publishes 420 reference vectors for six phase-index operations, with a SHA-256 fingerprint pinned in the tests. The semantics are written up in `PSICAT_TOROIDAL_ISA_SPEC.md`. Nothing here is hardware; it is the contract any future implementation would have to meet.
+
+**New surfaces.** Merlin can call six new tools: `getMerlinToroidalGeometry`, `getMerlinToroidalNavigation`, `getMerlinToroidalAwareness` (session-aware, read-only), `getMerlinRetrievalEval`, `getMerlinUnitaryLab` and `getMerlinPhaseIsaVectors`. The server exposes `/api/psicat/toroidal-awareness`, `/api/psicat/retrieval-eval`, `/api/psicat/unitary-lab` and `/api/psicat/phase-isa`. The A/B harness is deliberately not exposed over HTTP, because it toggles process-wide flags and would disturb concurrent requests.
+
 ## Claims ledger
 
 | Claim | Status |
@@ -72,13 +90,19 @@ One early observation should be recorded plainly. With the current 14-entry pill
 | The phase sketch approximates lexical similarity | Weak: about 45% top-5 agreement with BM25 vs about 36% chance; not authoritative |
 | Hybrid-state primary facets equal the existing router decisions | Enforced by tests |
 | Crease fusion is additive: flag OFF leaves the scaffold unchanged; flag ON only appends | Enforced by tests |
-| Fusing context on creases improves answer quality | **Not yet measured**; on the 14-pillar corpus it rarely adds pillars |
+| Fusing context on creases improves answer quality | **Not shown**; across 34 benchmarks it changed no answers and caused no regressions |
+| BM25 ranks pillars better than Jaccard on the labelled set | Measured: MRR 0.952 vs 0.901, recall@1 0.878 vs 0.811; Jaccard slightly higher recall@5; small, self-labelled set |
+| The BM25 ranking flag is safe | Measured: 7 of 34 benchmark answers changed, 0 regressions; benefit not shown because scores are at ceiling |
+| Session awareness is read-only | Enforced by tests |
+| Riemannian subgradient steps with Cayley retraction stay unitary on a non-smooth loss | Measured: residual about 1e-14 over all iterates |
+| L1 fitting on U(n) is robust to sparse outliers where Procrustes is not | Measured on synthetic data: 20/20 and 17/20 recoveries vs 0/20 for Procrustes at 10% and 20% outliers |
+| Phase-index ISA semantics are fixed | Pinned by a golden-vector SHA-256 in tests |
 | Hardware speedups, compute-in-memory, custom ISA, RTL | **Not claimed**; specification work only, gated on the measurements above |
 | Unitarity prevents hallucination | **False as stated**; norm preservation bounds numerical blow-up, not content errors |
 
 ## Next steps
 
-The next experiment is to run the existing Stage A–E benchmark head-to-heads with `MERLIN_TOROIDAL_CREASE_FUSION` on and off. If fusing context on creases does not beat committing to the primary facet, the flag stays off. Hardware specification work, a Verilog CORDIC checked against the Python golden model and the `UNITARY_ROT` / `SUBDIFF_BOUND` instruction proposals, should start only after that result. It should target phase-index arithmetic, not Cartesian INT8, because the table above has already shown which of the two is exact.
+Both opt-in flags stay off. The instrument that would justify switching either on is a benchmark that grades the content of retrieved context rather than the structure of the answer, and that is the next piece of work. The neutrino query points to the next retrieval improvement: a small, curated synonym or alias table for pillar vocabulary, measured with the same labelled set. Hardware work remains specification only. A Verilog phase-index unit checked against the golden vectors is the natural first step if a hardware target is ever chosen; Cartesian INT8 CORDIC is not, for the reasons in the drift table.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

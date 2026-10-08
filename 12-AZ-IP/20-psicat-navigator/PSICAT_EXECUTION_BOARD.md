@@ -16,14 +16,17 @@ geometry-first/swarm-safe execution packet into the control plane.
 
 ## Checkpoint — toroidal non-smooth navigation (adjacent track)
 
-Done: Z₇₄ lattice core, integer CORDIC drift table, hybrid-automaton crease
-router, BM25 shared scorer, repo geodesics, three GET endpoints, tests
-(`tests/test_merlin_toroidal_navigation.py`), and opt-in crease fusion
-(`MERLIN_TOROIDAL_CREASE_FUSION`, default OFF, additive only). Resume point:
-run Stage A–E head-to-heads with the flag on vs off; keep it off unless it
-beats the baseline.
-Hardware/RTL specification stays gated on that result. See
-`PSICAT_TOROIDAL_NONSMOOTH_NAVIGATION.md`.
+Round 1 done: Z₇₄ lattice core, integer CORDIC drift table, hybrid-automaton
+crease router, BM25 shared scorer, repo geodesics, three GET endpoints, and
+opt-in crease fusion (`MERLIN_TOROIDAL_CREASE_FUSION`, default OFF).
+Round 2 done: labelled retrieval eval (BM25 MRR 0.952 vs Jaccard 0.901),
+opt-in BM25 pillar ranking (`MERLIN_BM25_PILLAR_RANKING`, default OFF), flag
+A/B harness (34 benchmarks, 0 regressions, benefit not shown at score
+ceiling), read-only session awareness, unitary operator lab, phase-index ISA
+golden vectors, six tools and four endpoints
+(`tests/test_merlin_toroidal_round_two.py`). Resume point: build a
+content-graded retrieval benchmark; keep both flags OFF until it shows a gain.
+See `PSICAT_TOROIDAL_NONSMOOTH_NAVIGATION.md` and `PSICAT_TOROIDAL_ISA_SPEC.md`.
 
 ## Active acceleration package (this PR)
 
