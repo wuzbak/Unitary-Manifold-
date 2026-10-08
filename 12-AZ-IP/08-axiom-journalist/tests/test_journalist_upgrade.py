@@ -606,12 +606,37 @@ def test_scan_public_records_uses_injected_fetchers_and_exports():
     assert len(scan['duplicates']) == 1
     assert exported['source_count'] == 1
     assert exported['duplicate_count'] == 1
+    assert exported['status'] == 'PARTIAL'
+    assert exported['source_statuses']['sec_edgar']['status'] == 'COMPLETED_WITH_RESULTS'
+    assert exported['source_statuses']['courtlistener']['status'] == 'COMPLETED_WITH_RESULTS'
+    assert exported['source_statuses']['fec']['status'] == 'NOT_CONFIGURED'
+
+
+def test_scan_public_records_reports_connector_errors_instead_of_empty_success():
+    def unavailable(_query: str):
+        raise OSError('name resolution failed')
+
+    scan = scan_public_records('Acme Corp', {'courtlistener': unavailable})
+    exported = export_public_record_scan(scan)
+    status = scan['source_statuses']['courtlistener']
+
+    assert scan['status'] == 'PARTIAL'
+    assert status['status'] == 'ERROR'
+    assert status['record_count'] == 0
+    assert 'name resolution failed' in status['error']
+    assert exported['source_statuses'] == scan['source_statuses']
+    assert scan['source_statuses']['sec_edgar']['status'] == 'NOT_CONFIGURED'
 
 
 def test_scan_public_records_without_fetchers_returns_manifest_only():
     scan = scan_public_records('Acme Corp')
     assert len(scan['manifest']) == 11
     assert scan['records'] == []
+    assert scan['status'] == 'PLAN_ONLY'
+    assert all(
+        item['status'] == 'NOT_RUN'
+        for item in scan['source_statuses'].values()
+    )
 
 
 class _FakeResponse:

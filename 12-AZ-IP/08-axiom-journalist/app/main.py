@@ -240,10 +240,26 @@ def run_named_entity_scan_ui(entity_name: str) -> tuple[str, str]:
             }
             for record in scan['records']
         ])
-    return (
-        f"✅ Named-entity scan completed for '{query}'. Imported {imported} sources; duplicate hits: {len(scan['duplicates'])}.",
-        _sources_md(),
+    scan_statuses = scan.get('source_statuses', {})
+    error_count = sum(1 for item in scan_statuses.values() if item['status'] == 'ERROR')
+    not_configured = sum(
+        1 for item in scan_statuses.values() if item['status'] == 'NOT_CONFIGURED'
     )
+    status_icon = '⚠️' if scan.get('status') != 'COMPLETED' else '✅'
+    lines = [
+        f"{status_icon} AXIOM public-record scan for '{query}': {scan.get('status', 'UNKNOWN')}.",
+        f"Imported {imported} records; duplicate hits: {len(scan['duplicates'])}; "
+        f"connector errors: {error_count}; not configured: {not_configured}.",
+    ]
+    for item in scan_statuses.values():
+        line = f"- {item['display_name']}: {item['status']} ({item['record_count']} records)"
+        if item.get('error'):
+            line += f" — {item['error']}"
+        lines.append(line)
+    lines.append(
+        "No results from a completed connector are not evidence that no responsive records exist."
+    )
+    return "\n".join(lines), _sources_md()
 
 
 def add_watchlist_entry_ui(name: str, entity_type: str, notes: str) -> tuple[str, str]:
@@ -270,8 +286,14 @@ def add_watchlist_entry_ui(name: str, entity_type: str, notes: str) -> tuple[str
         entry_id = db.add_watchlist_entry(inv._db_id, normalized, et.value, notes.strip())
         if entry.hits:
             db.add_watchlist_hits(entry_id, [hit.to_dict() for hit in entry.hits[-len(scan['records']):]])
+    error_count = sum(
+        1 for item in scan.get('source_statuses', {}).values()
+        if item['status'] == 'ERROR'
+    )
     return (
-        f"✅ Watchlist entry '{normalized}' scanned. Recorded {len(scan['records'])} hits and {len(scan['duplicates'])} duplicates.",
+        f"⚠️ Watchlist entry '{normalized}' scan status: {scan.get('status', 'UNKNOWN')}. "
+        f"Recorded {len(scan['records'])} hits, {len(scan['duplicates'])} duplicates, "
+        f"{error_count} connector errors. No hits are not evidence of absence.",
         _watchlist_md(),
     )
 

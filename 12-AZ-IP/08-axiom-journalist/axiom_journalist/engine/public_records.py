@@ -8,6 +8,7 @@ import json
 from typing import Any, Callable
 from urllib.parse import quote_plus
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
 
 from .source_ingest import normalize_tier_label
 
@@ -22,6 +23,10 @@ class PublicRecordSource:
 
     def build_query_url(self, query: str) -> str:
         return self.query_template.format(query=quote_plus(query.strip()))
+
+
+class PublicRecordFetchError(RuntimeError):
+    """A configured public-record adapter could not retrieve a response."""
 
 
 PUBLIC_RECORD_SOURCES: dict[str, PublicRecordSource] = {
@@ -188,15 +193,40 @@ def scan_public_records(
             'manifest': manifest,
             'records': [],
             'duplicates': [],
+            'status': 'PLAN_ONLY',
+            'source_statuses': {
+                item['slug']: {
+                    'display_name': item['display_name'],
+                    'status': 'NOT_RUN',
+                    'record_count': 0,
+                }
+                for item in manifest
+            },
         }
 
     collected: list[dict[str, Any]] = []
+    source_statuses: dict[str, dict[str, Any]] = {}
     for item in manifest:
         fetcher = fetchers.get(item['slug']) if fetchers else None
         if fetcher is None:
+            source_statuses[item['slug']] = {
+                'display_name': item['display_name'],
+                'status': 'NOT_CONFIGURED',
+                'record_count': 0,
+            }
             continue
         source = PUBLIC_RECORD_SOURCES[item['slug']]
-        for row in fetcher(entity_name):
+        try:
+            rows = fetcher(entity_name)
+        except Exception as exc:
+            source_statuses[item['slug']] = {
+                'display_name': item['display_name'],
+                'status': 'ERROR',
+                'record_count': 0,
+                'error': f'{type(exc).__name__}: {str(exc)[:240]}',
+            }
+            continue
+        for row in rows:
             collected.append(
                 standardize_public_record(
                     source,
@@ -211,13 +241,22 @@ def scan_public_records(
                     tier=str(row.get('tier') or source.tier),
                 )
             )
+        source_statuses[item['slug']] = {
+            'display_name': item['display_name'],
+            'status': 'COMPLETED_WITH_RESULTS' if rows else 'COMPLETED_NO_RESULTS',
+            'record_count': len(rows),
+        }
 
     deduped = deduplicate_public_records(collected)
+    configured_count = sum(1 for slug in source_statuses if slug in fetchers)
+    has_errors = any(status['status'] == 'ERROR' for status in source_statuses.values())
     return {
         'entity_name': entity_name.strip(),
         'manifest': manifest,
         'records': deduped['records'],
         'duplicates': deduped['duplicates'],
+        'status': 'PARTIAL' if has_errors or configured_count < len(manifest) else 'COMPLETED',
+        'source_statuses': source_statuses,
     }
 
 
@@ -229,6 +268,8 @@ def export_public_record_scan(scan: dict[str, Any]) -> dict[str, Any]:
         'duplicate_count': len(scan.get('duplicates') or []),
         'manifest': scan.get('manifest') or [],
         'records': scan.get('records') or [],
+        'status': scan.get('status') or 'UNKNOWN',
+        'source_statuses': scan.get('source_statuses') or {},
     }
 
 
@@ -253,9 +294,20 @@ def _json_request(
     request = Request(url, data=data, headers=request_headers, method=method)
     try:
         with urlopen(request, timeout=timeout) as response:
-            return json.loads(response.read().decode('utf-8'))
-    except Exception:
-        return None
+            try:
+                return json.loads(response.read().decode('utf-8'))
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                raise PublicRecordFetchError('The source returned an invalid JSON response.') from exc
+    except HTTPError as exc:
+        raise PublicRecordFetchError(f'The source returned HTTP {exc.code}.') from exc
+    except URLError as exc:
+        reason = exc.reason
+        detail = f'{type(reason).__name__}: {reason}' if reason else 'connection failed'
+        raise PublicRecordFetchError(f'Network request failed ({detail[:180]}).') from exc
+    except (TimeoutError, OSError) as exc:
+        raise PublicRecordFetchError(
+            f'Network request failed ({type(exc).__name__}: {str(exc)[:180]}).'
+        ) from exc
 
 
 def fetch_sec_edgar(query: str, limit: int = 5) -> list[dict[str, Any]]:
