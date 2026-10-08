@@ -117,14 +117,14 @@ theorem cs_exponent_monotone (n m : ℕ) (h : n < m) :
 
 /-- The n=1 sector has exponent k_CS = 74. -/
 theorem first_winding_exponent :
-    csExponent 1 = k_cs := by
-  unfold csExponent
+    csExponent (windingSectorN 1) = k_cs := by
+  unfold csExponent windingSectorN
   ring
 
 /-- The vacuum sector dominates over sector n=1 (smaller exponent). -/
 theorem vacuum_dominates_first :
-    csExponent vacuumSector < csExponent 1 := by
-  unfold csExponent vacuumSector k_cs
+    csExponent vacuumSector < csExponent (windingSectorN 1) := by
+  unfold csExponent vacuumSector windingSectorN k_cs
   norm_num
 
 -- ════════════════════════════════════════════════════════════════════════════
@@ -137,7 +137,7 @@ theorem vacuum_dominates_first :
 theorem path_integral_convergence_criterion :
     ∀ n : ℕ, csExponent n = k_cs * n := by
   intro n
-  unfold csExponent
+  rfl
 
 /-- For any winding number n, the exponent csExponent n is a multiple of k_CS. -/
 theorem winding_exponent_multiple_of_kcs (n : ℕ) :
@@ -149,7 +149,7 @@ theorem winding_exponent_multiple_of_kcs (n : ℕ) :
 theorem path_integral_factorizes :
     ∀ n : ℕ, ∃ k : ℕ, csExponent n = k_cs * k := by
   intro n
-  exact ⟨n, by unfold csExponent⟩
+  exact ⟨n, rfl⟩
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- NP-BC-3 geometric kernel summary

@@ -95,9 +95,7 @@ theorem first_excited_suppressed : 1 * suppression_exponent = k_cs := by decide
     n₁ < n₂ implies n₁ × k_CS < n₂ × k_CS. -/
 theorem winding_exponents_ordered (n₁ n₂ : ℕ) (h : n₁ < n₂) :
     n₁ * suppression_exponent < n₂ * suppression_exponent := by
-  apply Nat.mul_lt_mul_right
-  · exact suppression_exponent_positive
-  · exact h
+  exact (Nat.mul_lt_mul_right suppression_exponent_positive).2 h
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- Winding Parity (Z₂ Orbifold Sign)

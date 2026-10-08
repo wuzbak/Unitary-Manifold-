@@ -86,6 +86,7 @@ def test_db_parent_created(tmp_path, monkeypatch):
     from desktop.app.config import get_config
     cfg = get_config()
     assert cfg.db_path.parent.exists()
+    assert cfg.db_path.parent.is_relative_to(tmp_path)
 
 
 def test_llm_url_default():

@@ -37,6 +37,8 @@ import pytest
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PRODUCT_ROOT))
 
+import engine.threat_intel as threat_intel
+
 from engine.hash_chain import (
     HashChain, ChainLink, TamperError,
     _GENESIS_DIGEST, merkle_root_of_chain, verify_merkle_proof, K_CS,
@@ -403,7 +405,9 @@ class TestThreatIntel:
         all_inds = ti.all_indicators()
         assert len(all_inds) > 0
 
-    def test_refresh_deduplicates(self):
+    def test_refresh_deduplicates(self, monkeypatch):
+        monkeypatch.setattr(threat_intel, "_safe_get", lambda *args, **kwargs: None)
+        monkeypatch.setattr(threat_intel, "_safe_post", lambda *args, **kwargs: None)
         ti = ThreatIntelligenceEngine()
         n1 = ti.refresh()
         n2 = ti.refresh()
