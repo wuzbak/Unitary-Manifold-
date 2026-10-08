@@ -42,7 +42,7 @@ No grounded rewrite source is assigned to these works, because none exists. Book
 
 Coverage so far: **50 / 50 books**, **352 / 352 articles**.
 
-Original works (not rewrites): **3** — Books 51, 52, 53.
+Original works (not rewrites): **4** — Books 51, 52, 53, 54.
 
 ### Books
 
@@ -102,6 +102,7 @@ Original works (not rewrites): **3** — Books 51, 52, 53.
 1. `book-51-concentration-ledger-public-records-investigation.md` — *The Concentration Ledger: A Public-Records Field Investigation* (companion investigation grounded in substack Book 48)
 2. `book-52-the-unit.md` — *The Unit*
 3. `book-53-what-the-geometry-knew.md` — *What the Geometry Knew* (reading index; 11 part-files `book-53-part-*.md` plus the assembled single-volume copy `book-53-what-the-geometry-knew-FULL.md`; 46 chapters, 12 parts, 5 appendices)
+4. `book-54-axiomzero-surveillance-exposure.md` — *The Cloud Has a Memory* (three-part original AXIOM Journalist investigation; public-record and human-review caveats apply)
 
 ### Articles
 
