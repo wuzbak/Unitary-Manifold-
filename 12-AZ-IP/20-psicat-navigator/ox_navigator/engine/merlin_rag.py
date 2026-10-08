@@ -116,6 +116,80 @@ def _bm25_pillars(query: str, max_chunks: int) -> list[dict[str, Any]]:
     return [by_id[pid] for pid in order[: max(0, int(max_chunks))]]
 
 
+SEMANTIC_EMBEDDER_RANKING_FLAG = "MERLIN_SEMANTIC_EMBEDDER_RANKING"
+
+
+def semantic_embedder_ranking_enabled() -> bool:
+    """Opt-in only (default OFF): pillar ordering is unchanged unless the flag is set."""
+    return (os.environ.get(SEMANTIC_EMBEDDER_RANKING_FLAG) or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _semantic_embedder_pillars(query: str, max_chunks: int) -> list[dict[str, Any]]:
+    from .merlin_retrieval_eval import _embedder_ranking, _pillar_tokens
+    from .merlin_semantic_embedder import EmbedderIndex
+
+    ids = [pillar.get("id") for pillar in PILLAR_KNOWLEDGE]
+    order = _embedder_ranking(query, EmbedderIndex([_pillar_tokens(p) for p in PILLAR_KNOWLEDGE]), ids)
+    by_id = {pillar.get("id"): pillar for pillar in PILLAR_KNOWLEDGE}
+    return [by_id[pid] for pid in order[: max(0, int(max_chunks))]]
+
+
+PHICAT_PROTOCOL_FLAG = "MERLIN_PHICAT_PROTOCOL"
+
+
+def phicat_protocol_enabled() -> bool:
+    """Opt-in only (default OFF): pillar ordering is unchanged unless the flag is set."""
+    return (os.environ.get(PHICAT_PROTOCOL_FLAG) or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _phicat_protocol_pillars(query: str, max_chunks: int) -> list[dict[str, Any]]:
+    from .merlin_phicat_protocol import phicat_protocol_ranking
+    from .merlin_retrieval_eval import _pillar_tokens
+
+    ids = [pillar.get("id") for pillar in PILLAR_KNOWLEDGE]
+    order = phicat_protocol_ranking(query, [_pillar_tokens(p) for p in PILLAR_KNOWLEDGE], ids)
+    by_id = {pillar.get("id"): pillar for pillar in PILLAR_KNOWLEDGE}
+    return [by_id[pid] for pid in order[: max(0, int(max_chunks))]]
+
+
+RRF_FUSION_RANKING_FLAG = "MERLIN_RRF_FUSION_RANKING"
+
+
+def rrf_fusion_ranking_enabled() -> bool:
+    """Opt-in only (default OFF): pillar ordering is unchanged unless the flag is set."""
+    return (os.environ.get(RRF_FUSION_RANKING_FLAG) or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _rrf_fusion_pillars(query: str, max_chunks: int) -> list[dict[str, Any]]:
+    """Fuse jaccard + BM25 + hashed-embedder orderings via Reciprocal Rank Fusion.
+
+    This is the production wiring of the already-measured ``rrf_all`` fusion
+    from ``merlin_retrieval_eval.evaluate_rankers`` (30-query labelled corpus:
+    MRR 0.9526).  Unlike the BM25/embedder/PhiCat flags above (which each
+    *replace* the default ordering), this flag *fuses* three independent
+    rankers via ``1/(k + rank)`` scores so that any one ranker's blind spot is
+    covered by the other two.
+    """
+    from .merlin_retrieval_eval import (
+        _bm25_ranking,
+        _embedder_ranking,
+        _jaccard_ranking,
+        _pillar_tokens,
+        reciprocal_rank_fusion,
+    )
+    from .merlin_retrieval_scoring import BM25Index
+    from .merlin_semantic_embedder import EmbedderIndex
+
+    ids = [pillar.get("id") for pillar in PILLAR_KNOWLEDGE]
+    corpus_tokens = [_pillar_tokens(p) for p in PILLAR_KNOWLEDGE]
+    jaccard_order = _jaccard_ranking(query, corpus_tokens, ids)
+    bm25_order = _bm25_ranking(query, BM25Index(corpus_tokens), ids)
+    embedder_order = _embedder_ranking(query, EmbedderIndex(corpus_tokens), ids)
+    order = reciprocal_rank_fusion([jaccard_order, bm25_order, embedder_order])
+    by_id = {pillar.get("id"): pillar for pillar in PILLAR_KNOWLEDGE}
+    return [by_id[pid] for pid in order[: max(0, int(max_chunks))]]
+
+
 def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
     """Return pillar, prediction, fallibility, and interrogator context."""
     query_tokens = _tokens(query)
@@ -133,6 +207,12 @@ def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
     pillars = [pillar for _, pillar in scored[:max_chunks]]
     if bm25_pillar_ranking_enabled():
         pillars = _bm25_pillars(query, max_chunks)
+    if semantic_embedder_ranking_enabled():
+        pillars = _semantic_embedder_pillars(query, max_chunks)
+    if phicat_protocol_enabled():
+        pillars = _phicat_protocol_pillars(query, max_chunks)
+    if rrf_fusion_ranking_enabled():
+        pillars = _rrf_fusion_pillars(query, max_chunks)
     interrogator_hits = search_kb(INTERROGATOR_ENTRIES, query)[:3]
     return {
         "pillars": pillars,

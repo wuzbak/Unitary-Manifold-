@@ -159,9 +159,13 @@ from .merlin_meta_learning import (
     generate_falsification_oracle,
     run_self_audit,
 )
+from .merlin_grid_world import run_grid_world_episode, run_navigation_driven_episode
+from .merlin_braided_gut_microbiome import braided_gut_microbiome_report
+from .merlin_phicat_protocol import run_phicat_protocol
 from .merlin_reasoning_graph import get_reasoning_chain
 from .merlin_repo_graph import build_repo_graph, route_context_via_repo_graph
 from .merlin_retrieval_eval import evaluate_rankers
+from .merlin_semantic_embedder import pillar_embedder_report
 from .merlin_toroidal_awareness import build_session_awareness
 from .merlin_toroidal_geometry import export_golden_vectors, get_toroidal_geometry_report
 from .merlin_toroidal_router import build_toroidal_navigation_packet
@@ -463,6 +467,11 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinToroidalNavigation", "summary": "Return the hybrid-automaton facet, creases, and BM25-vs-sketch ranking for a query", "domain": "functions"},
             {"name": "getMerlinToroidalAwareness", "summary": "Read-only session trajectory: facets, creases, topic jumps, and current orientation", "domain": "functions"},
             {"name": "getMerlinRetrievalEval", "summary": "Return the labelled retrieval evaluation (Jaccard vs BM25 vs RRF)", "domain": "functions"},
+            {"name": "getMerlinSemanticEmbedder", "summary": "Return the opt-in local hashed n-gram embedder pillar ranking vs BM25 agreement", "domain": "functions"},
+            {"name": "getMerlinGridWorld", "summary": "Run a deterministic text/grid event-simulation episode (toroidal wrap + orbifold crease boundaries)", "domain": "functions"},
+            {"name": "getMerlinNavigationDrivenGridWorld", "summary": "Run a grid-world episode whose actions are read out from the Navigator's own toroidal phase-sketch code for a query", "domain": "functions"},
+            {"name": "getMerlinPhiCatProtocol", "summary": "Run the opt-in golden-ratio parallel braid-strand fusion ranker (PhiCat Protocol) for a query", "domain": "functions"},
+            {"name": "getMerlinBraidedGutMicrobiome", "summary": "Braid the (5,7) observable pair against the (5,6) shadow-parent pair for the gut-brain/microbiome lane", "domain": "functions"},
             {"name": "getMerlinUnitaryLab", "summary": "Run the unitary operator lab: L1 Clarke-subgradient fit on U(n) vs Procrustes", "domain": "functions"},
             {"name": "getMerlinPhaseIsaVectors", "summary": "Return phase-index ISA golden vectors with a SHA-256 fingerprint", "domain": "functions"},
             {"name": "getMerlinWebspaceProvenance", "summary": "Audit the webspace machine index and Data Provenance page against the repository", "domain": "functions"},
@@ -634,6 +643,57 @@ def _tool_manifest() -> dict[str, Any]:
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "additionalProperties": False}
         },
         "getMerlinRetrievalEval": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinSemanticEmbedder": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"query": {"type": "string"}, "top_k": {"type": "integer"}},
+                "required": ["query"],
+                "additionalProperties": False,
+            }
+        },
+        "getMerlinGridWorld": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "width": {"type": "integer"},
+                    "height": {"type": "integer"},
+                    "agent_count": {"type": "integer"},
+                    "steps": {"type": "integer"},
+                    "seed": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            }
+        },
+        "getMerlinNavigationDrivenGridWorld": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "width": {"type": "integer"},
+                    "height": {"type": "integer"},
+                    "agent_count": {"type": "integer"},
+                    "seed": {"type": "integer"},
+                    "top_k": {"type": "integer"},
+                },
+                "required": ["query"],
+                "additionalProperties": False,
+            }
+        },
+        "getMerlinPhiCatProtocol": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"query": {"type": "string"}, "top_k": {"type": "integer"}},
+                "required": ["query"],
+                "additionalProperties": False,
+            }
+        },
+        "getMerlinBraidedGutMicrobiome": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"query": {"type": "string"}},
+                "additionalProperties": False,
+            }
+        },
         "getMerlinUnitaryLab": {
             "args_schema": {
                 "type": "object",
@@ -1695,6 +1755,32 @@ _FUNCTIONS = {
         str(args.get("query", "") or "")[:4000],
     )},
     "getMerlinRetrievalEval": lambda **args: {"data": evaluate_rankers()},
+    "getMerlinSemanticEmbedder": lambda **args: {"data": pillar_embedder_report(
+        str(args.get("query", ""))[:4000],
+        top_k=min(_coerce_positive_int(args.get("top_k"), 5), 20),
+    )},
+    "getMerlinGridWorld": lambda **args: {"data": run_grid_world_episode(
+        width=_coerce_positive_int(args.get("width"), 12),
+        height=_coerce_positive_int(args.get("height"), 12),
+        agent_count=_coerce_positive_int(args.get("agent_count"), 3),
+        steps=_coerce_positive_int(args.get("steps"), 20),
+        seed=int(args.get("seed") or 0),
+    )},
+    "getMerlinNavigationDrivenGridWorld": lambda **args: {"data": run_navigation_driven_episode(
+        str(args.get("query", ""))[:4000],
+        width=_coerce_positive_int(args.get("width"), 12),
+        height=_coerce_positive_int(args.get("height"), 12),
+        agent_count=_coerce_positive_int(args.get("agent_count"), 1),
+        seed=int(args.get("seed") or 0),
+        top_k=min(_coerce_positive_int(args.get("top_k"), 5), 20),
+    )},
+    "getMerlinPhiCatProtocol": lambda **args: {"data": run_phicat_protocol(
+        str(args.get("query", ""))[:4000],
+        top_k=min(_coerce_positive_int(args.get("top_k"), 5), 20),
+    )},
+    "getMerlinBraidedGutMicrobiome": lambda **args: {"data": braided_gut_microbiome_report(
+        str(args.get("query", ""))[:4000],
+    )},
     "getMerlinUnitaryLab": lambda **args: _unitary_lab_surface(args),
     "getMerlinPhaseIsaVectors": lambda **args: {"data": export_golden_vectors()},
     "getMerlinWebspaceProvenance": lambda **args: {"data": audit_webspace_provenance()},
