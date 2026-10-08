@@ -88,4 +88,33 @@ The index says "every named array is the COMPLETE list", so repeated identical e
 - **One of the two Hippocratic-2.1 packages identified.** It is `@react-leaflet/core` 2.1.0, pulled in by `react-leaflet`.
 - **Two TensorFlow versions in the tree.** `@tensorflow/tfjs-backend-cpu` 3.21.0 is present while the declared `@tensorflow/tfjs` is ^4.22.0. It is probably pulled in by `danfojs`, and would mean two TensorFlow.js major versions are bundled. This needs confirming against the dependency edges.
 
+- **Part F.** From `@tensorflow/tfjs-backend-cpu` 4.22.0 through `@types/react-reconciler` 0.26.7.
+
+**Observations from Part F. These strengthen the Part E lead.**
+- **SBOM entries contradict themselves.** These cases are internally inconsistent, whatever the full list turns out to contain:
+  - `@tensorflow/tfjs` 3.21.0 is marked `"direct": true` with `resolved_by_spec: "^4.22.0"`. A 3.x version cannot satisfy ^4.22.0.
+  - `@types/node` 20.19.43 is likewise marked direct against `^22.13.5`. It appears twice.
+  
+  The generator evidently sets `direct` and `resolved_by_spec` from the package name alone, not from the lockfile path. In each case the entry that is actually direct is the one that satisfies the range: tfjs 4.22.0 and `@types/node` 22.19.11.
+- **Dev dependencies are mislabelled as runtime.** `@types/node` and `@types/react-dom` are declared in `devDependencies` but appear with `"dev": false`. So the `dev` flag is unreliable too, at least for packages that runtime packages also pull in.
+- **Two TensorFlow.js major versions are confirmed.** The 3.21.0 and 4.22.0 families are both present in full: `tfjs`, `-core`, `-backend-cpu`, `-backend-webgl`, `-converter`, `-data` and `-layers`. The 3.x family is most likely brought in by `danfojs`. If both are bundled, the build ships two TensorFlow runtimes; whether both actually reach the bundle is still to be checked.
+- **More identical repeats.** `@types/offscreencanvas` 2019.7.3 appears twice.
+
+- **Part G.** From `@types/react-reconciler` 0.28.9 through `base64-arraybuffer` 1.0.2.
+
+**Observations from Part G**
+- **The direct-flag pattern again.** `apache-arrow` 17.0.0 is marked direct against `^18.1.0`, alongside the real direct entry, 18.1.0. That makes two Apache Arrow majors in the tree; the 17.x copy is probably nested under `@duckdb/duckdb-wasm` or `danfojs`.
+- **Licence attribution.** The single Python-2.0 package in the histogram is `argparse` 2.0.1, a dev-only dependency of the eslint toolchain. It does not ship in the bundle.
+- **More identical repeats:**
+  - `argparse` 1.0.10 appears twice.
+  - `array-back` 6.2.3 appears twice.
+- **More dev-flag mismatches.** `@types/react` 18.3.28 and `@types/react-dom` are declared dev but marked `"dev": false`. By contrast, `@vitejs/plugin-react` and `autoprefixer` are correctly marked dev. So the flag is wrong specifically for dev packages that runtime packages also reach through their dependency trees.
+
+**What this means for the audit.** Once intake is complete, the audit should report findings on the SBOM itself:
+- a de-duplicated package count;
+- direct flags corrected by version-range satisfaction;
+- dev flags corrected against `package.json`.
+
+The webspace's coverage block says counts should be verified "against its array rather than trusting the number". Doing exactly that is what exposed these problems.
+
 **Status: holding.** No work will start until the steward says the intake is finished.
