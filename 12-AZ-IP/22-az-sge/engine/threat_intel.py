@@ -371,6 +371,9 @@ class ThreatIntelligenceEngine:
     def refresh(self) -> int:
         """Refresh all feeds.  Returns count of indicators loaded."""
         indicators: List[ThreatIndicator] = []
+        # Keep the curated offline indicators available even when a live feed
+        # succeeds but does not contain the older sample CVEs.
+        indicators.extend(i for i in _SAMPLE_INDICATORS if i.category == ThreatCategory.CVE)
         indicators.extend(fetch_nvd_recent(api_key=self._nvd_api_key))
         indicators.extend(fetch_malware_bazaar_recent())
         indicators.extend(load_custom_ioc_registry(self._custom_ioc))

@@ -101,6 +101,21 @@ IMPLEMENTATION of this work — specifically the contents of:
     omega/         Universal Mechanics Engine (Pillar Ω)
     bot/           AI assistant infrastructure (RAG, Copilot Extension)
     embryology-manifold/  Embryology geometric derivations
+    12-AZ-IP/      Copyright-retained first-party software in the AxiomZero
+                   portfolio, including Products 01–27
+    TOOLS/         Copyright-retained repository tools and software utilities
+    9-INFRASTRUCTURE/  Copyright-retained first-party software and automation
+    public-site/   Copyright-retained first-party application code
+
+The portfolio scope is identified in
+12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md. It lists all 27 canonical products,
+including the PsiCat products, and the registered operating systems, engines,
+applications, calculators, tools, and file-level IP catalogues. This schedule
+identifies subject matter only; it does not extend copyright or alter a license
+for theoretical content, third-party materials, software not held under
+copyright, or assets subject to a different asset-specific license or prior
+grant. See LICENSE-AGPL for the AGPL-3.0-or-later terms applicable to covered
+software.
 
 This copyright retention exists SOLELY to enable enforcement of the GNU Affero
 General Public License v3.0 (see LICENSE-AGPL) as a legally binding copyleft

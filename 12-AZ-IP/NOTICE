@@ -50,6 +50,11 @@ Layer 2 — SOFTWARE IMPLEMENTATION (Python source code and all automation)
     SPDX:    AGPL-3.0-or-later
     Scope:   src/   tests/   recycling/   scripts/   submission/
              Unitary Pentad/   omega/   bot/   embryology-manifold/
+             12-AZ-IP/   TOOLS/   9-INFRASTRUCTURE/   public-site/
+             All 27 AxiomZero products, including PsiCat Products 20, 23–25,
+             and 27, are identified in PORTFOLIO_LICENSE_SCHEDULE.md.
+             The schedule enumerates the registered operating systems,
+             engines, applications, calculators, tools, and file-level IP.
     Effect:  Strong copyleft.  Any company or individual who distributes or
              deploys a modified version of this software — including as a
              network service — MUST release their modified source code under
@@ -101,5 +106,6 @@ Paid or partnership exceptions require separate authorized execution and
 sufficient licensing rights. Washington/King County provisions apply only
 to expressly accepted agreements, not automatically to public-license use.
 Machine-readable index: ../9-INFRASTRUCTURE/licensing_policy.json.
+Portfolio license schedule: PORTFOLIO_LICENSE_SCHEDULE.md.
 
 ────────────────────────────────────────────────────────────────────────────

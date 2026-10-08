@@ -21,6 +21,19 @@ This license applies exclusively to the SOFTWARE in this repository:
     omega/              Universal Mechanics Engine (Pillar Ω)
     bot/                AI assistant infrastructure (RAG, Copilot Extension)
     embryology-manifold/  Embryology geometric derivations
+    12-AZ-IP/           AxiomZero portfolio software, including Products 01–27
+    TOOLS/              Repository tooling and software utilities
+    9-INFRASTRUCTURE/   Copyright-retained first-party software and automation
+    public-site/         Copyright-retained first-party application code
+
+The portfolio scope is identified in
+PORTFOLIO_LICENSE_SCHEDULE.md, which names all 27 canonical products, including
+the PsiCat products, and the registered operating systems, engines,
+applications, calculators, tools, and file-level IP catalogues. This schedule
+identifies subject matter only; it does not extend this license to non-software
+content, third-party materials, software not held under copyright, or assets
+subject to a different asset-specific license or prior grant. The official
+AGPL-3.0 terms govern all covered software.
 
 The theoretical content (manuscripts, equations, datasets, PDF monograph)
 remains under the Defensive Public Commons License v1.0 (2026); see LICENSE.

@@ -2,6 +2,7 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
 import json
+import re
 
 import pytest
 
@@ -46,6 +47,42 @@ def copy_policy(tmp_path):
 
 def test_repository_policy():
     assert check_policy(REPO_ROOT) == []
+
+
+def test_portfolio_schedule_matches_canonical_product_registry():
+    registry = (REPO_ROOT / "12-AZ-IP/README.md").read_text(encoding="utf-8")
+    schedule = (REPO_ROOT / "12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md").read_text(
+        encoding="utf-8"
+    )
+    registry_entries = {}
+    for line in registry.splitlines():
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) == 8 and re.fullmatch(r"\d{2}", cells[0]):
+            folder = re.search(r"\(([^)]+)\)", cells[-1])
+            assert folder is not None
+            registry_entries[cells[0]] = (cells[1], f"12-AZ-IP/{folder.group(1).rstrip('/')}/")
+
+    schedule_entries = {}
+    for line in schedule.splitlines():
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) == 4 and re.fullmatch(r"\d{2}", cells[0]):
+            name = cells[1].replace("**", "")
+            location = re.fullmatch(r"`([^`]+)`", cells[3])
+            assert location is not None
+            schedule_entries[cells[0]] = (name, location.group(1))
+
+    assert len(registry_entries) == 27
+    assert schedule_entries == registry_entries
+    assert {
+        number: schedule_entries[number][0]
+        for number in ("20", "23", "24", "25", "27")
+    } == {
+        "20": "PsiCat Navigator",
+        "23": "PsiCat DM Guide & Player Assistant",
+        "24": "PsiCat Web Browser",
+        "25": "PsiCat Braided Brain",
+        "27": "PsiCat's Vite Web Workbench",
+    }
 
 
 @pytest.mark.parametrize("activity", ["distribution", "modified_network"])

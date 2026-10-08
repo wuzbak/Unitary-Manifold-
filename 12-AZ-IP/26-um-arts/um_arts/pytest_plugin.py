@@ -128,7 +128,8 @@ def pytest_sessionfinish(session, exitstatus):
     if hasattr(config, "workerinput"):
         config.workeroutput["um_arts_collection"] = {
             key: _data[key] for key in ["version", "nonce", "root", "selected", "deselected",
-                                       "partition_excluded", "collection", "internal_errors"]
+                                       "partition_excluded", "collection", "reports",
+                                       "internal_errors"]
         }
         return
     workers = _data["xdist"]["worker_receipts"]
@@ -143,6 +144,15 @@ def pytest_sessionfinish(session, exitstatus):
             collection.update({json.dumps(item, sort_keys=True): item
                                for item in receipt["collection"]})
         _data["collection"] = list(collection.values())
+        reports = []
+        for worker, receipt in workers.items():
+            worker_reports = receipt.get("reports")
+            if not isinstance(worker_reports, list):
+                _data["internal_errors"].append(
+                    f"xdist worker reports missing or malformed: {worker}")
+                continue
+            reports.extend(worker_reports)
+        _data["reports"] = reports
     destination = Path(os.environ.get("UM_ARTS_RECEIPT") or os.environ["UM_ARTS_PYTEST_REPORT"])
     destination.parent.mkdir(parents=True, exist_ok=True)
     with destination.open("x", encoding="utf-8") as stream:
