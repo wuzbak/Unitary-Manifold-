@@ -22,6 +22,7 @@ on each circle of a torus ``T^m``.  On this lattice:
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 from collections.abc import Iterable, Sequence
 from functools import lru_cache
@@ -418,6 +419,55 @@ def sketch_similarity(code_a: Sequence[int], code_b: Sequence[int]) -> float:
     return round(max(0.0, 1.0 - toroidal_distance(code_a, code_b) / expected), 4)
 
 
+# ---------------------------------------------------------------------------
+# Phase-index ISA reference semantics and golden vectors (specification only)
+# ---------------------------------------------------------------------------
+
+ISA_VERSION = "psicat-phase-isa-0.1"
+GOLDEN_SAMPLE_INDICES = (0, 1, 5, 7, 24, 36, 37, 38, 50, 73)
+
+
+def isa_phrot(a: int, b: int) -> int:
+    """PHROT: rotate phase a by b on Z_74."""
+    return wrap(int(a) + int(b))
+
+
+def isa_phneg(a: int) -> int:
+    """PHNEG: reflection k -> -k (the S^1/Z_2 involution)."""
+    return wrap(-int(a))
+
+
+def isa_phsub_mask(a: int, b: int) -> int:
+    """PHSUB: 2-bit descent mask of d(., b) at a; bit0 = step -1, bit1 = step +1, 0 = minimum."""
+    directions = circular_distance_subdifferential(a, b)["descent_directions"]
+    return (1 if -1 in directions else 0) | (2 if 1 in directions else 0)
+
+
+def export_golden_vectors() -> dict[str, Any]:
+    """Deterministic reference vectors for any re-implementation of the phase-index ops."""
+    samples = GOLDEN_SAMPLE_INDICES
+    pairs = [(a, b) for a in samples for b in samples]
+    vectors = {
+        "PHROT": [[a, b, isa_phrot(a, b)] for a, b in pairs],
+        "PHNEG": [[a, isa_phneg(a)] for a in samples],
+        "PHFOLD": [[a, orbifold_fold(a)] for a in samples],
+        "PHDIST": [[a, b, circular_distance(a, b)] for a, b in pairs],
+        "PHSUB": [[a, b, isa_phsub_mask(a, b)] for a, b in pairs],
+        "BANK": [[a, b, braid_bank((a, b))] for a, b in pairs],
+    }
+    canonical = json.dumps(vectors, sort_keys=True, separators=(",", ":"))
+    return {
+        "status": STATUS_LABEL,
+        "isa_version": ISA_VERSION,
+        "lattice_order": LATTICE_ORDER,
+        "operand_bits": PHASE_INDEX_BITS,
+        "vectors": vectors,
+        "vector_count": sum(len(rows) for rows in vectors.values()),
+        "sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest(),
+        "scope": "Reference semantics for software and any future RTL; not evidence of hardware performance.",
+    }
+
+
 def get_toroidal_geometry_report() -> dict[str, Any]:
     return {
         "status": STATUS_LABEL,
@@ -440,6 +490,7 @@ def get_toroidal_geometry_report() -> dict[str, Any]:
 __all__ = [
     "BRAID_WINDINGS",
     "HALF_TURN",
+    "ISA_VERSION",
     "LATTICE_ORDER",
     "ORBIFOLD_FIXED_POINTS",
     "TICK_PHASE_STEP",
@@ -449,8 +500,12 @@ __all__ = [
     "cordic_closure_drift",
     "cordic_rotate",
     "cordic_vector_phase",
+    "export_golden_vectors",
     "first_hitting_time",
     "get_toroidal_geometry_report",
+    "isa_phneg",
+    "isa_phrot",
+    "isa_phsub_mask",
     "orbifold_bounce",
     "orbifold_fold",
     "orbit_period",

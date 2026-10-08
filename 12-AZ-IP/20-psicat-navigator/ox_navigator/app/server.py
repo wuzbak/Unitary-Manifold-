@@ -1698,6 +1698,36 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({'ok': True, 'repo_geodesic': route_repo_geodesic(source, target, max_files=max(1, min(max_files, 400)))})
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/toroidal-awareness':
+                query = str(params.get('query', [''])[0] or '')[:4000]
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinToroidalAwareness', {'query': query}, session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'toroidal_awareness': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/retrieval-eval':
+                status, payload = _tool_data_or_error(route_tool('getMerlinRetrievalEval', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'retrieval_eval': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/unitary-lab':
+                lab_args = {}
+                for key, default in (('n', 4), ('iterations', 1500), ('seed', 74), ('outlier_percent', 10)):
+                    value, error = _parse_int_query_param(params, key, default)
+                    if error:
+                        self._json({'ok': False, 'error': error}, status=400)
+                        return
+                    lab_args[key] = value
+                status, payload = _tool_data_or_error(route_tool('getMerlinUnitaryLab', lab_args, session=merlin_session))
+                self._json({'ok': payload['ok'], 'unitary_lab': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/phase-isa':
+                status, payload = _tool_data_or_error(route_tool('getMerlinPhaseIsaVectors', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'phase_isa': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/formal-invariants':
                 status, payload = _tool_data_or_error(route_tool('getMerlinFormalInvariants', {}, session=merlin_session))
                 self._json({'ok': payload['ok'], 'formal_invariants': payload.get('data', {})}, status=status)

@@ -98,6 +98,24 @@ def lookup_kb(query: str) -> dict[str, Any] | None:
     return None
 
 
+BM25_PILLAR_RANKING_FLAG = "MERLIN_BM25_PILLAR_RANKING"
+
+
+def bm25_pillar_ranking_enabled() -> bool:
+    """Opt-in only (default OFF): pillar ordering is unchanged unless the flag is set."""
+    return (os.environ.get(BM25_PILLAR_RANKING_FLAG) or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _bm25_pillars(query: str, max_chunks: int) -> list[dict[str, Any]]:
+    from .merlin_retrieval_eval import _bm25_ranking, _pillar_tokens
+    from .merlin_retrieval_scoring import BM25Index
+
+    ids = [pillar.get("id") for pillar in PILLAR_KNOWLEDGE]
+    order = _bm25_ranking(query, BM25Index([_pillar_tokens(p) for p in PILLAR_KNOWLEDGE]), ids)
+    by_id = {pillar.get("id"): pillar for pillar in PILLAR_KNOWLEDGE}
+    return [by_id[pid] for pid in order[: max(0, int(max_chunks))]]
+
+
 def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
     """Return pillar, prediction, fallibility, and interrogator context."""
     query_tokens = _tokens(query)
@@ -113,6 +131,8 @@ def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
         scored.append((score, pillar))
     scored.sort(key=lambda item: (-item[0], int(item[1].get("id", 0))))
     pillars = [pillar for _, pillar in scored[:max_chunks]]
+    if bm25_pillar_ranking_enabled():
+        pillars = _bm25_pillars(query, max_chunks)
     interrogator_hits = search_kb(INTERROGATOR_ENTRIES, query)[:3]
     return {
         "pillars": pillars,

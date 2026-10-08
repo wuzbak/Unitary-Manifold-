@@ -161,6 +161,11 @@ from .merlin_meta_learning import (
 )
 from .merlin_reasoning_graph import get_reasoning_chain
 from .merlin_repo_graph import build_repo_graph, route_context_via_repo_graph
+from .merlin_retrieval_eval import evaluate_rankers
+from .merlin_toroidal_awareness import build_session_awareness
+from .merlin_toroidal_geometry import export_golden_vectors, get_toroidal_geometry_report
+from .merlin_toroidal_router import build_toroidal_navigation_packet
+from .merlin_unitary_lab import run_unitary_lab
 from .merlin_research_cycle import run_research_cycle
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_lean_bridge import get_merlin_lean_bridge_artifact
@@ -450,6 +455,12 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinRepoGraph", "summary": "Return the deterministic local repository graph for structural routing", "domain": "functions"},
             {"name": "getMerlinContextRoute", "summary": "Return graph-guided file suggestions before raw file reads", "domain": "functions"},
             {"name": "getMerlinFormalInvariants", "summary": "Return focused formal-invariant registry and non-regression results", "domain": "functions"},
+            {"name": "getMerlinToroidalGeometry", "summary": "Return the exact Z_74 toroidal lattice report (operators, orbits, CORDIC drift)", "domain": "functions"},
+            {"name": "getMerlinToroidalNavigation", "summary": "Return the hybrid-automaton facet, creases, and BM25-vs-sketch ranking for a query", "domain": "functions"},
+            {"name": "getMerlinToroidalAwareness", "summary": "Read-only session trajectory: facets, creases, topic jumps, and current orientation", "domain": "functions"},
+            {"name": "getMerlinRetrievalEval", "summary": "Return the labelled retrieval evaluation (Jaccard vs BM25 vs RRF)", "domain": "functions"},
+            {"name": "getMerlinUnitaryLab", "summary": "Run the unitary operator lab: L1 Clarke-subgradient fit on U(n) vs Procrustes", "domain": "functions"},
+            {"name": "getMerlinPhaseIsaVectors", "summary": "Return phase-index ISA golden vectors with a SHA-256 fingerprint", "domain": "functions"},
             {"name": "getPsiCatResourceBudget", "summary": "Return local-first resource-budget ceilings for PsiCat execution", "domain": "functions"},
             {"name": "getPsiCatBehavioralAudit", "summary": "Return deterministic manipulation-resistance and escalation audit battery", "domain": "functions"},
             {"name": "getPsiCatViteWorkbenchStatus", "summary": "Return the local Vite Web Workbench connection and policy status", "domain": "functions"},
@@ -602,6 +613,32 @@ def _tool_manifest() -> dict[str, Any]:
             }
         },
         "getMerlinFormalInvariants": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinToroidalGeometry": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinToroidalNavigation": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"query": {"type": "string"}, "top_k": {"type": "integer"}},
+                "required": ["query"],
+                "additionalProperties": False,
+            }
+        },
+        "getMerlinToroidalAwareness": {
+            "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "additionalProperties": False}
+        },
+        "getMerlinRetrievalEval": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinUnitaryLab": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "n": {"type": "integer"},
+                    "iterations": {"type": "integer"},
+                    "seed": {"type": "integer"},
+                    "outlier_percent": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            }
+        },
+        "getMerlinPhaseIsaVectors": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getPsiCatResourceBudget": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getPsiCatBehavioralAudit": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getPsiCatViteWorkbenchStatus": {"capability_class": "state_read", "args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
@@ -1198,6 +1235,24 @@ def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _unitary_lab_surface(args: dict[str, Any]) -> dict[str, Any]:
+    def bounded(key: str, default: int, low: int, high: int) -> int:
+        try:
+            value = default if args.get(key) is None else int(args.get(key))
+        except (TypeError, ValueError):
+            value = default
+        return max(low, min(value, high))
+
+    report = run_unitary_lab(
+        n=bounded("n", 4, 2, 16),
+        iterations=bounded("iterations", 1500, 1, 2000),
+        seed=bounded("seed", 74, 0, 2**31 - 1),
+        outlier_fraction=bounded("outlier_percent", 10, 0, 50) / 100.0,
+        samples=max(24, bounded("n", 4, 2, 16) * 6),
+    )
+    return {"data": report} if report.get("ok") else {"error": report.get("error", "unitary lab failed")}
+
+
 def _coerce_positive_int(value: Any, default: int) -> int:
     try:
         if value is None:
@@ -1618,6 +1673,18 @@ _FUNCTIONS = {
         max_files=_coerce_positive_int(args.get("max_files"), 180),
     )},
     "getMerlinFormalInvariants": lambda **args: _formal_invariant_surface(),
+    "getMerlinToroidalGeometry": lambda **args: {"data": get_toroidal_geometry_report()},
+    "getMerlinToroidalNavigation": lambda **args: {"data": build_toroidal_navigation_packet(
+        str(args.get("query", ""))[:4000],
+        top_k=min(_coerce_positive_int(args.get("top_k"), 5), 20),
+    )},
+    "getMerlinToroidalAwareness": lambda **args: {"data": build_session_awareness(
+        args.get("__session") if isinstance(args.get("__session"), MerlinSession) else MerlinSession(),
+        str(args.get("query", "") or "")[:4000],
+    )},
+    "getMerlinRetrievalEval": lambda **args: {"data": evaluate_rankers()},
+    "getMerlinUnitaryLab": lambda **args: _unitary_lab_surface(args),
+    "getMerlinPhaseIsaVectors": lambda **args: {"data": export_golden_vectors()},
     "getPsiCatResourceBudget": lambda **args: {"data": get_resource_budget_policy()},
     "getPsiCatBehavioralAudit": lambda **args: {"data": run_behavioral_audit_battery()},
     "getPsiCatViteWorkbenchStatus": lambda **args: merlin_vite_workbench.workbench_status(**args),
@@ -1919,6 +1986,7 @@ def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: Merlin
                     "getPsiCatSpcPhase3LiveReadiness",
                     "getPsiCatAchievementBenchmarkPromotionSprint",
                     "getPsiCatTrainingBenchmarkingPromotionSprint",
+                    "getMerlinToroidalAwareness",
                 }
                 if tool in session_passthrough_tools:
                     result = _FUNCTIONS[tool](**{**args, "__session": active_session})

@@ -71,11 +71,14 @@ def _jaccard_ranking(query: str, corpus_tokens: Sequence[list[str]], ids: Sequen
     query_set = token_set(query)
     scored = [(jaccard_overlap(query_set, set(tokens)), ids[i]) for i, tokens in enumerate(corpus_tokens)]
     scored.sort(key=lambda item: (-item[0], int(item[1])))
-    return [pid for score, pid in scored if score > 0.0]
+    return [pid for _, pid in scored]
 
 
 def _bm25_ranking(query: str, index: BM25Index, ids: Sequence[Any]) -> list[Any]:
-    return [ids[i] for i, _ in index.rank(token_list(query), top_k=len(ids))]
+    """BM25 order; zero-score items follow in id order (same fill rule as Jaccard)."""
+    ranked = [ids[i] for i, _ in index.rank(token_list(query), top_k=len(ids))]
+    seen = set(ranked)
+    return ranked + sorted((pid for pid in ids if pid not in seen), key=int)
 
 
 def reciprocal_rank_fusion(rankings: Sequence[Sequence[Any]], *, k: int = RRF_K) -> list[Any]:
