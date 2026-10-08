@@ -362,3 +362,59 @@ def test_server_exposes_toroidal_endpoints() -> None:
     finally:
         httpd.shutdown()
         httpd.server_close()
+
+
+# --- opt-in crease fusion (additive; default OFF) -----------------------------------
+
+def test_crease_fusion_default_off_leaves_scaffold_unchanged(monkeypatch) -> None:
+    from ox_navigator.engine import merlin_rag
+
+    monkeypatch.delenv(merlin_rag.TOROIDAL_CREASE_FUSION_FLAG, raising=False)
+    assert merlin_rag.toroidal_crease_fusion_enabled() is False
+    scaffold = merlin_rag.build_context_scaffold("x" * 125)
+    assert "toroidal_crease" not in scaffold
+    assert "[TOROIDAL CREASE]" not in merlin_rag.render_context_scaffold(scaffold)
+
+
+def test_crease_fusion_flag_is_additive(monkeypatch) -> None:
+    from ox_navigator.engine import merlin_rag
+
+    query = "Kaluza-Klein metric ansatz " + "k" * 100  # length 127: lane crease
+    monkeypatch.delenv(merlin_rag.TOROIDAL_CREASE_FUSION_FLAG, raising=False)
+    baseline = merlin_rag.build_context_scaffold(query)
+    monkeypatch.setenv(merlin_rag.TOROIDAL_CREASE_FUSION_FLAG, "1")
+    fused = merlin_rag.build_context_scaffold(query)
+    crease = fused.pop("toroidal_crease")
+    assert fused == baseline  # every pre-existing field is identical
+    assert crease["on_crease"] is True
+    assert crease["reset_policy"] == "fuse_active_facet_contexts"
+    baseline_ids = {str(p["id"]) for p in baseline["retrieval"]["pillars"]}
+    fused_ids = [str(p["id"]) for p in crease["fused_pillars"]]
+    assert not baseline_ids & set(fused_ids)
+    assert len(fused_ids) == len(set(fused_ids))
+    fused["toroidal_crease"] = crease
+    assert "[TOROIDAL CREASE]" in merlin_rag.render_context_scaffold(fused)
+
+
+def test_crease_fusion_off_crease_adds_no_pillars(monkeypatch) -> None:
+    from ox_navigator.engine import merlin_rag
+
+    monkeypatch.setenv(merlin_rag.TOROIDAL_CREASE_FUSION_FLAG, "true")
+    scaffold = merlin_rag.build_context_scaffold("x" * 40)
+    assert scaffold["toroidal_crease"]["on_crease"] is False
+    assert scaffold["toroidal_crease"]["fused_pillars"] == []
+
+
+def test_crease_fusion_appends_only_missing_bm25_pillars(monkeypatch) -> None:
+    from ox_navigator.engine import merlin_rag, merlin_toroidal_router
+
+    present = [merlin_rag.PILLAR_KNOWLEDGE[0]]
+    missing = merlin_rag.PILLAR_KNOWLEDGE[1]
+    monkeypatch.setattr(
+        merlin_toroidal_router,
+        "rank_pillars_bm25",
+        lambda query, top_k=5: [{"id": present[0]["id"]}, {"id": missing["id"]}, {"id": "no-such-pillar"}],
+    )
+    block = merlin_rag._toroidal_crease_block("x" * 125, present, 5)
+    assert block["on_crease"] is True
+    assert block["fused_pillars"] == [missing]

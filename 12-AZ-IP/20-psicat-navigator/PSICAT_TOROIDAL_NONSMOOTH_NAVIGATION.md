@@ -53,6 +53,12 @@ What the hybrid state adds is awareness of where the creases are. If a query's l
 
 For repository routing, `route_repo_geodesic` runs a weighted Dijkstra search over the existing repository graph. Import edges cost 1 and symbol-overlap edges cost 2, so the shortest path prefers real dependencies to shared names.
 
+## Opt-in crease fusion
+
+The crease reset policy is now connected to context assembly, behind a flag that is off by default. With `MERLIN_TOROIDAL_CREASE_FUSION` unset, `build_context_scaffold` returns exactly what it returned before; a test compares the two outputs field by field. With the flag set, the scaffold gains exactly one new key, `toroidal_crease`, and the rendered prompt gains a `[TOROIDAL CREASE]` block. Every pre-existing field stays byte-for-byte identical. When a query sits on a crease, that block also carries pillars that BM25 ranks highly but the existing Jaccard ranking missed. Nothing is ever removed or reordered, and pillars are never duplicated.
+
+One early observation should be recorded plainly. With the current 14-entry pillar corpus, the two rankings usually agree on queries that sit on a crease, so fusion often adds no pillars. Whether it helps will depend on a larger corpus and a benchmark head-to-head. Until that comparison is run, the flag stays off.
+
 ## Claims ledger
 
 | Claim | Status |
@@ -65,13 +71,14 @@ For repository routing, `route_repo_geodesic` runs a weighted Dijkstra search ov
 | The braid bank map spreads lattice points evenly across 74 banks | Shown (exhaustive) |
 | The phase sketch approximates lexical similarity | Weak: about 45% top-5 agreement with BM25 vs about 36% chance; not authoritative |
 | Hybrid-state primary facets equal the existing router decisions | Enforced by tests |
-| Fusing context on creases improves answer quality | **Not yet measured**; requires a benchmark head-to-head |
+| Crease fusion is additive: flag OFF leaves the scaffold unchanged; flag ON only appends | Enforced by tests |
+| Fusing context on creases improves answer quality | **Not yet measured**; on the 14-pillar corpus it rarely adds pillars |
 | Hardware speedups, compute-in-memory, custom ISA, RTL | **Not claimed**; specification work only, gated on the measurements above |
 | Unitarity prevents hallucination | **False as stated**; norm preservation bounds numerical blow-up, not content errors |
 
 ## Next steps
 
-The next experiment is to wire the crease reset policy into context assembly behind a flag and run the existing Stage A–E benchmark head-to-heads with and without it. If fusing context on creases does not beat committing to the primary facet, the flag stays off. Hardware specification work, a Verilog CORDIC checked against the Python golden model and the `UNITARY_ROT` / `SUBDIFF_BOUND` instruction proposals, should start only after that result. It should target phase-index arithmetic, not Cartesian INT8, because the table above has already shown which of the two is exact.
+The next experiment is to run the existing Stage A–E benchmark head-to-heads with `MERLIN_TOROIDAL_CREASE_FUSION` on and off. If fusing context on creases does not beat committing to the primary facet, the flag stays off. Hardware specification work, a Verilog CORDIC checked against the Python golden model and the `UNITARY_ROT` / `SUBDIFF_BOUND` instruction proposals, should start only after that result. It should target phase-index arithmetic, not Cartesian INT8, because the table above has already shown which of the two is exact.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

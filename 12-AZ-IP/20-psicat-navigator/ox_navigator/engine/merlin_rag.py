@@ -174,7 +174,7 @@ def build_context_scaffold(
             "artifact_exists": lane_e_payload.get("artifact_exists"),
             "profile_keys": lane_e_payload.get("profile_keys", []),
         }
-    return {
+    scaffold = {
         **generic,
         "schema_version": "merlin_context_scaffold_v1",
         "retrieval": {
@@ -195,6 +195,43 @@ def build_context_scaffold(
         "runtime_alignment": runtime_alignment,
         "structural_route": structural_route,
     }
+    if toroidal_crease_fusion_enabled():
+        scaffold["toroidal_crease"] = _toroidal_crease_block(query, scaffold["retrieval"]["pillars"], max_chunks)
+    return scaffold
+
+
+TOROIDAL_CREASE_FUSION_FLAG = "MERLIN_TOROIDAL_CREASE_FUSION"
+
+
+def toroidal_crease_fusion_enabled() -> bool:
+    """Opt-in only (default OFF): the scaffold is unchanged unless the flag is set."""
+    return (os.environ.get(TOROIDAL_CREASE_FUSION_FLAG) or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _toroidal_crease_block(query: str, pillars: list[dict[str, Any]], max_chunks: int) -> dict[str, Any]:
+    """Additive crease annotation; on a crease, widen pillar context with BM25 candidates."""
+    from .merlin_toroidal_router import evaluate_hybrid_state, rank_pillars_bm25
+
+    state = evaluate_hybrid_state(query)
+    block: dict[str, Any] = {
+        "status": state["status"],
+        "primary_facet": state["primary_facet"],
+        "on_crease": state["on_crease"],
+        "creases": list(state["creases"]),
+        "active_facets": list(state["active_facets"]),
+        "reset_policy": state["reset_policy"],
+        "bank": state["toroidal_address"]["bank"],
+        "fused_pillars": [],
+    }
+    if state["on_crease"]:
+        present = {str(p.get("id")) for p in pillars}
+        by_id = {str(p.get("id")): p for p in PILLAR_KNOWLEDGE}
+        for item in rank_pillars_bm25(query, top_k=max(1, int(max_chunks))):
+            key = str(item.get("id"))
+            if key not in present and key in by_id:
+                block["fused_pillars"].append(by_id[key])
+                present.add(key)
+    return block
 
 
 def render_context_scaffold(scaffold: dict[str, Any]) -> str:
@@ -236,6 +273,15 @@ def render_context_scaffold(scaffold: dict[str, Any]) -> str:
     suggested = [item.get("path") for item in list(structural.get("suggested_files") or [])[:3] if item.get("path")]
     if suggested:
         blocks.append("[STRUCTURAL ROUTE]\n" + "\n".join(str(item) for item in suggested))
+    crease = scaffold.get("toroidal_crease")
+    if crease:
+        lines = [
+            f"facet={crease.get('primary_facet')} | on_crease={bool(crease.get('on_crease'))} | "
+            f"policy={crease.get('reset_policy')} | creases={','.join(crease.get('creases') or []) or 'none'}"
+        ]
+        for pillar in list(crease.get("fused_pillars") or [])[:3]:
+            lines.append(f"Pillar {pillar['id']} | {pillar['gate']} | {pillar['name']} | {pillar['text']}")
+        blocks.append("[TOROIDAL CREASE]\n" + "\n".join(lines))
     return "\n\n".join(blocks)
 
 

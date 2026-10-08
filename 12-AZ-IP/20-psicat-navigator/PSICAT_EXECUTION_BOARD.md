@@ -18,9 +18,10 @@ geometry-first/swarm-safe execution packet into the control plane.
 
 Done: Z₇₄ lattice core, integer CORDIC drift table, hybrid-automaton crease
 router, BM25 shared scorer, repo geodesics, three GET endpoints, tests
-(`tests/test_merlin_toroidal_navigation.py`). Resume point: wire the crease
-reset policy (`fuse_active_facet_contexts`) into context assembly behind a flag
-and run Stage A–E head-to-heads; keep it off unless it beats the baseline.
+(`tests/test_merlin_toroidal_navigation.py`), and opt-in crease fusion
+(`MERLIN_TOROIDAL_CREASE_FUSION`, default OFF, additive only). Resume point:
+run Stage A–E head-to-heads with the flag on vs off; keep it off unless it
+beats the baseline.
 Hardware/RTL specification stays gated on that result. See
 `PSICAT_TOROIDAL_NONSMOOTH_NAVIGATION.md`.
 
