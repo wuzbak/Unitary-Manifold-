@@ -23,6 +23,8 @@ HEAVY_LANE_PHRASES = (
     "lost-in-the-middle",
     "replacement-readiness brief",
 )
+MEDIUM_LANE_MIN_LENGTH = 120
+HEAVY_LANE_MIN_LENGTH = 350
 HIGH_RISK_KEYWORDS = {
     "execute", "delete", "token", "secret", "credential", "override", "bypass",
 }
@@ -38,11 +40,11 @@ def _bool_env(name: str, default: bool = False) -> bool:
 def classify_lane(query: str) -> str:
     sample = (query or "").lower()
     heavy_hits = sum(1 for phrase in HEAVY_LANE_PHRASES if phrase in sample)
-    if len(sample) > 350 or heavy_hits >= 1:
+    if len(sample) > HEAVY_LANE_MIN_LENGTH or heavy_hits >= 1:
         return "heavy_reasoner_exception"
     if any(key in sample for key in LARGE_CONTEXT_KEYWORDS):
         return "medium_reasoner_default"
-    if len(sample) > 120:
+    if len(sample) > MEDIUM_LANE_MIN_LENGTH:
         return "medium_reasoner_default"
     return "small_fast_router"
 

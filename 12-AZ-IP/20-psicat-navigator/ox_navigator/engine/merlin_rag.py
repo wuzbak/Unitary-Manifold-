@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import importlib.util
 import os
-import re
 import sys
 import threading
 from pathlib import Path
@@ -15,6 +14,7 @@ from typing import Any
 
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_repo_graph import route_context_via_repo_graph
+from .merlin_retrieval_scoring import TOKEN_RE, token_set  # noqa: F401  (TOKEN_RE re-exported)
 from .merlin_training_execution import get_merlin_lane_e_runtime_profiles
 from .interrogator import load_kb, search_kb
 
@@ -45,11 +45,13 @@ PREDICTIONS_TEXT: str = _assistant_api.PREDICTIONS_TEXT
 FALLIBILITY_TEXT: str = _assistant_api.FALLIBILITY_TEXT
 build_status_response = _assistant_api.build_status_response
 INTERROGATOR_ENTRIES = load_kb(INTERROGATOR_KB_PATH)
-TOKEN_RE = re.compile(r"[a-z0-9_ΔβΩ²³⁴⁵]+", re.IGNORECASE)
+
+
+KB_MATCH_THRESHOLD = 0.15
 
 
 def _tokens(text: str) -> set[str]:
-    return {token.lower() for token in TOKEN_RE.findall(text or "")}
+    return token_set(text)
 
 
 def _default_index():
@@ -61,11 +63,11 @@ def _default_index():
     return _RAG_INDEX_CACHE
 
 
-def lookup_kb(query: str) -> dict[str, Any] | None:
-    """Return the best knowledge-base match if overlap clears the threshold."""
+def best_kb_match(query: str) -> tuple[str | None, float]:
+    """Return the best knowledge-base key and its query-coverage score (no threshold)."""
     query_tokens = _tokens(query)
     if not query_tokens:
-        return None
+        return None, 0.0
     best_key = None
     best_score = 0.0
     for key, entry in KNOWLEDGE_BASE.items():
@@ -82,12 +84,36 @@ def lookup_kb(query: str) -> dict[str, Any] | None:
         if score > best_score:
             best_score = score
             best_key = key
-    if best_key and best_score > 0.15:
+    return best_key, best_score
+
+
+def lookup_kb(query: str) -> dict[str, Any] | None:
+    """Return the best knowledge-base match if overlap clears the threshold."""
+    best_key, best_score = best_kb_match(query)
+    if best_key and best_score > KB_MATCH_THRESHOLD:
         entry = dict(KNOWLEDGE_BASE[best_key])
         entry["key"] = best_key
         entry["score"] = round(best_score, 4)
         return entry
     return None
+
+
+BM25_PILLAR_RANKING_FLAG = "MERLIN_BM25_PILLAR_RANKING"
+
+
+def bm25_pillar_ranking_enabled() -> bool:
+    """Opt-in only (default OFF): pillar ordering is unchanged unless the flag is set."""
+    return (os.environ.get(BM25_PILLAR_RANKING_FLAG) or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _bm25_pillars(query: str, max_chunks: int) -> list[dict[str, Any]]:
+    from .merlin_retrieval_eval import _bm25_ranking, _pillar_tokens
+    from .merlin_retrieval_scoring import BM25Index
+
+    ids = [pillar.get("id") for pillar in PILLAR_KNOWLEDGE]
+    order = _bm25_ranking(query, BM25Index([_pillar_tokens(p) for p in PILLAR_KNOWLEDGE]), ids)
+    by_id = {pillar.get("id"): pillar for pillar in PILLAR_KNOWLEDGE}
+    return [by_id[pid] for pid in order[: max(0, int(max_chunks))]]
 
 
 def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
@@ -105,6 +131,8 @@ def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
         scored.append((score, pillar))
     scored.sort(key=lambda item: (-item[0], int(item[1].get("id", 0))))
     pillars = [pillar for _, pillar in scored[:max_chunks]]
+    if bm25_pillar_ranking_enabled():
+        pillars = _bm25_pillars(query, max_chunks)
     interrogator_hits = search_kb(INTERROGATOR_ENTRIES, query)[:3]
     return {
         "pillars": pillars,
@@ -166,7 +194,7 @@ def build_context_scaffold(
             "artifact_exists": lane_e_payload.get("artifact_exists"),
             "profile_keys": lane_e_payload.get("profile_keys", []),
         }
-    return {
+    scaffold = {
         **generic,
         "schema_version": "merlin_context_scaffold_v1",
         "retrieval": {
@@ -187,6 +215,43 @@ def build_context_scaffold(
         "runtime_alignment": runtime_alignment,
         "structural_route": structural_route,
     }
+    if toroidal_crease_fusion_enabled():
+        scaffold["toroidal_crease"] = _toroidal_crease_block(query, scaffold["retrieval"]["pillars"], max_chunks)
+    return scaffold
+
+
+TOROIDAL_CREASE_FUSION_FLAG = "MERLIN_TOROIDAL_CREASE_FUSION"
+
+
+def toroidal_crease_fusion_enabled() -> bool:
+    """Opt-in only (default OFF): the scaffold is unchanged unless the flag is set."""
+    return (os.environ.get(TOROIDAL_CREASE_FUSION_FLAG) or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _toroidal_crease_block(query: str, pillars: list[dict[str, Any]], max_chunks: int) -> dict[str, Any]:
+    """Additive crease annotation; on a crease, widen pillar context with BM25 candidates."""
+    from .merlin_toroidal_router import evaluate_hybrid_state, rank_pillars_bm25
+
+    state = evaluate_hybrid_state(query)
+    block: dict[str, Any] = {
+        "status": state["status"],
+        "primary_facet": state["primary_facet"],
+        "on_crease": state["on_crease"],
+        "creases": list(state["creases"]),
+        "active_facets": list(state["active_facets"]),
+        "reset_policy": state["reset_policy"],
+        "bank": state["toroidal_address"]["bank"],
+        "fused_pillars": [],
+    }
+    if state["on_crease"]:
+        present = {str(p.get("id")) for p in pillars}
+        by_id = {str(p.get("id")): p for p in PILLAR_KNOWLEDGE}
+        for item in rank_pillars_bm25(query, top_k=max(1, int(max_chunks))):
+            key = str(item.get("id"))
+            if key not in present and key in by_id:
+                block["fused_pillars"].append(by_id[key])
+                present.add(key)
+    return block
 
 
 def render_context_scaffold(scaffold: dict[str, Any]) -> str:
@@ -228,6 +293,15 @@ def render_context_scaffold(scaffold: dict[str, Any]) -> str:
     suggested = [item.get("path") for item in list(structural.get("suggested_files") or [])[:3] if item.get("path")]
     if suggested:
         blocks.append("[STRUCTURAL ROUTE]\n" + "\n".join(str(item) for item in suggested))
+    crease = scaffold.get("toroidal_crease")
+    if crease:
+        lines = [
+            f"facet={crease.get('primary_facet')} | on_crease={bool(crease.get('on_crease'))} | "
+            f"policy={crease.get('reset_policy')} | creases={','.join(crease.get('creases') or []) or 'none'}"
+        ]
+        for pillar in list(crease.get("fused_pillars") or [])[:3]:
+            lines.append(f"Pillar {pillar['id']} | {pillar['gate']} | {pillar['name']} | {pillar['text']}")
+        blocks.append("[TOROIDAL CREASE]\n" + "\n".join(lines))
     return "\n\n".join(blocks)
 
 

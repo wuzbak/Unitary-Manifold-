@@ -1,0 +1,340 @@
+{
+  "snapshot_note": "Transcribed from user-supplied text on 2026-10-08. The machine-index message arrived truncated inside sbom.packages; only the fields below were received. Phone-shaped sample strings from redaction.phone_shaped_strings were deliberately not transcribed.",
+  "machine_index": {
+    "schema": "axiomzero.machine-index/v2",
+    "received_complete": false,
+    "truncated_at": "sbom.packages (after @babel/plugin-transform-react-jsx-source)",
+    "identity": {
+      "name": "AxiomZero Technologies & Consulting, SPC",
+      "short_name": "AxiomZero, SPC",
+      "kind": "Washington State Social Purpose Corporation",
+      "declared_framework_version": "v37.7",
+      "declared_sprint": "Sprint CU",
+      "declared_status_date": "2026-09-15",
+      "human_url": "https://axiomzerospc.org",
+      "deploy_url": "https://axiomzero-webspace-prototype.base44.app",
+      "machine_url": "https://axiomzerospc.org/machine-index.json",
+      "machine_url_markdown": "https://axiomzerospc.org/machine-index.md",
+      "machine_source_url": "https://axiomzerospc.org/machine-source.json",
+      "machine_hashes_url": "https://axiomzerospc.org/machine-hashes.json",
+      "generator_url": "https://axiomzerospc.org/machine-index-generator.cjs",
+      "repository": "https://github.com/wuzbak/Unitary-Manifold-",
+      "repository_role": "Authoritative source of truth for framework status, claims, falsifiers and version",
+      "live_registry": "https://raw.githubusercontent.com/wuzbak/Unitary-Manifold-/main/9-INFRASTRUCTURE/um_live_status.json",
+      "license": "DPC v1.0 (theory, public domain) + AGPL-3.0 (software)",
+      "citation_doi": "https://doi.org/10.5281/zenodo.19584531"
+    },
+    "authority_split": "The GitHub repository is the authority for scientific claims and framework status. This document is the authority for the webspace's own structure, code, contracts and configuration.",
+    "disclosure_policy": "Nothing is withheld except credential values and personal or user data. Source is published in full, including the generator that produces this document, so the index can be recomputed from the same bytes.",
+    "provenance": {
+      "generator": "public/machine-index-generator.cjs",
+      "generator_sha256": "e5936976af994e6dd83c897348a2af3e41e57e22a09607a832ee7c8be760c3ec",
+      "generated_at": "2026-10-07T23:27:16.012Z",
+      "git_commit": "c65e690ff99ebf9d4f399babe8f3c2e535a26448",
+      "git_branch": "main",
+      "tree_hash_sha256": "1aa0540a8611552e26af436813958780bbacc7b42537271e18d74d36a3865b7e",
+      "tree_hash_definition": "SHA-256 over the newline-joined \"<path>\\0<file sha256>\" lines of every included file, sorted by path. Any change to any included file changes this value.",
+      "file_count": 1454,
+      "total_bytes": 10662000,
+      "node_version": "v24.21.0",
+      "build_command": "npm run build",
+      "build_output_files": 239
+    },
+    "coverage": {
+      "files_included": 1454,
+      "frontend": {
+        "routes": 60,
+        "redirects": 78,
+        "fallback_route": 1,
+        "page_files_total": 119,
+        "page_files_routed": 60,
+        "page_files_embedded": 50,
+        "page_files_orphaned": 9,
+        "component_files": 676,
+        "hook_files": 27,
+        "lib_module_files": 222,
+        "worker_files": 3,
+        "src_files_total": 1052
+      },
+      "backend": {
+        "functions": 190,
+        "entities": 91,
+        "entity_fields_total": 1104,
+        "workflows": 43,
+        "workflow_steps_total": 95,
+        "scheduled_workflows": 41,
+        "entity_triggered_workflows": 1,
+        "agents": 7,
+        "agent_prompts_published": 7,
+        "agent_skills": 11,
+        "shared_modules": 41,
+        "connectors": 2,
+        "mcp_files": 1,
+        "secret_names": 18,
+        "base44_files_total": 387
+      },
+      "dependencies": {
+        "sbom_packages": 892,
+        "direct_dependencies": 79,
+        "direct_dev_dependencies": 17,
+        "packages_without_license_metadata": 6,
+        "copyleft_packages": 1
+      }
+    },
+    "redaction": {
+      "secret_values_published": 0,
+      "personal_data_published": 0,
+      "personal_mailboxes_redacted": 23,
+      "files_with_redactions": 3,
+      "per_file_counts": {
+        "base44/functions/filmPermitExpert/entry.ts": 12,
+        "src/lib/filmers/duvallRegion.js": 8,
+        "src/pages/az-apps/EIGE.jsx": 3
+      }
+    },
+    "sbom": {
+      "lockfile_version": 3,
+      "package_count": 892,
+      "direct_count": 111,
+      "declared_runtime_dependencies": {
+        "@base44/sdk": "^0.8.53",
+        "@base44/vite-plugin": "^1.0.44",
+        "@duckdb/duckdb-wasm": "^1.32.0",
+        "@hello-pangea/dnd": "^17.0.0",
+        "@hookform/resolvers": "^4.1.2",
+        "@radix-ui/react-accordion": "^1.2.3",
+        "@radix-ui/react-alert-dialog": "^1.1.6",
+        "@radix-ui/react-aspect-ratio": "^1.1.2",
+        "@radix-ui/react-avatar": "^1.1.3",
+        "@radix-ui/react-checkbox": "^1.1.4",
+        "@radix-ui/react-collapsible": "^1.1.3",
+        "@radix-ui/react-context-menu": "^2.2.6",
+        "@radix-ui/react-dialog": "^1.1.6",
+        "@radix-ui/react-dropdown-menu": "^2.1.6",
+        "@radix-ui/react-hover-card": "^1.1.6",
+        "@radix-ui/react-label": "^2.1.2",
+        "@radix-ui/react-menubar": "^1.1.6",
+        "@radix-ui/react-navigation-menu": "^1.2.5",
+        "@radix-ui/react-popover": "^1.1.6",
+        "@radix-ui/react-progress": "^1.1.2",
+        "@radix-ui/react-radio-group": "^1.2.3",
+        "@radix-ui/react-scroll-area": "^1.2.3",
+        "@radix-ui/react-select": "^2.1.6",
+        "@radix-ui/react-separator": "^1.1.2",
+        "@radix-ui/react-slider": "^1.2.3",
+        "@radix-ui/react-slot": "^1.1.2",
+        "@radix-ui/react-switch": "^1.1.3",
+        "@radix-ui/react-tabs": "^1.1.3",
+        "@radix-ui/react-toast": "^1.2.2",
+        "@radix-ui/react-toggle": "^1.1.2",
+        "@radix-ui/react-toggle-group": "^1.1.2",
+        "@radix-ui/react-tooltip": "^1.1.8",
+        "@react-three/drei": "^9.122.0",
+        "@react-three/fiber": "^8.18.0",
+        "@stripe/react-stripe-js": "^3.0.0",
+        "@stripe/stripe-js": "^5.2.0",
+        "@tanstack/react-query": "^5.84.1",
+        "@techstark/opencv-js": "^5.0.0-release.1",
+        "@tensorflow/tfjs": "^4.22.0",
+        "apache-arrow": "^18.1.0",
+        "canvas-confetti": "^1.9.4",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "cmdk": "^1.0.0",
+        "danfojs": "^1.2.0",
+        "date-fns": "^3.6.0",
+        "embla-carousel-react": "^8.5.2",
+        "framer-motion": "^11.16.4",
+        "hls.js": "^1.7.2",
+        "html2canvas": "^1.4.1",
+        "input-otp": "^1.4.2",
+        "jspdf": "^4.2.1",
+        "katex": "^0.16.47",
+        "leaflet.heat": "^0.2.0",
+        "lodash": "^4.17.21",
+        "lucide-react": "^0.475.0",
+        "maplibre-gl": "^4.7.1",
+        "mathjs": "^14.9.1",
+        "moment": "^2.30.1",
+        "next-themes": "^0.4.4",
+        "numericjs": "^1.2.6",
+        "onnxruntime-web": "^1.30.0",
+        "react": "^18.2.0",
+        "react-day-picker": "^8.10.1",
+        "react-dom": "^18.2.0",
+        "react-hook-form": "^7.54.2",
+        "react-hot-toast": "^2.6.0",
+        "react-leaflet": "^4.2.1",
+        "react-markdown": "^9.0.1",
+        "react-quill": "^2.0.0",
+        "react-resizable-panels": "^2.1.7",
+        "react-router-dom": "^6.26.0",
+        "recharts": "^2.15.4",
+        "sonner": "^2.0.1",
+        "tailwind-merge": "^3.0.2",
+        "tailwindcss-animate": "^1.0.7",
+        "three": "^0.171.0",
+        "vaul": "^1.1.2",
+        "zod": "^3.24.2"
+      },
+      "declared_dev_dependencies": {
+        "@eslint/js": "^9.19.0",
+        "@types/node": "^22.13.5",
+        "@types/react": "^18.2.66",
+        "@types/react-dom": "^18.2.22",
+        "@vitejs/plugin-react": "^4.3.4",
+        "autoprefixer": "^10.4.20",
+        "baseline-browser-mapping": "^2.8.32",
+        "eslint": "^9.19.0",
+        "eslint-plugin-react": "^7.37.4",
+        "eslint-plugin-react-hooks": "^5.0.0",
+        "eslint-plugin-react-refresh": "^0.4.18",
+        "eslint-plugin-unused-imports": "^4.3.0",
+        "globals": "^15.14.0",
+        "postcss": "^8.5.3",
+        "tailwindcss": "^3.4.17",
+        "typescript": "^5.8.2",
+        "vite": "^6.1.0"
+      },
+      "packages_without_license_metadata": [
+        "@mapbox/jsonlint-lines-primitives",
+        "typed-function",
+        "json-bignum",
+        "leaflet.heat",
+        "webgl-constants",
+        "xmlhttprequest-ssl"
+      ],
+      "copyleft_packages": [
+        {
+          "name": "dompurify",
+          "version": "3.4.11",
+          "license": "(MPL-2.0 OR Apache-2.0)"
+        }
+      ],
+      "license_histogram": {
+        "MIT": 741,
+        "ISC": 49,
+        "Apache-2.0": 48,
+        "BSD-3-Clause": 26,
+        "BSD-2-Clause": 10,
+        "Hippocratic-2.1": 2,
+        "Apache-2.0 AND MIT": 2,
+        "Python-2.0": 1,
+        "CC-BY-4.0": 1,
+        "(MPL-2.0 OR Apache-2.0)": 1,
+        "BlueOak-1.0.0": 1,
+        "(MIT AND Zlib)": 1,
+        "MIT OR SEE LICENSE IN FEEL-FREE.md": 1,
+        "0BSD": 1,
+        "MIT AND ISC": 1
+      }
+    }
+  },
+  "data_provenance_page": {
+    "title": "Data Provenance",
+    "chain_hash": "35ccd2ab4cfad3e47ed1b3f27a2d1392c608b33cbd21ea54b84aeb8d08aa9018",
+    "chain_hash_definition": "SHA-256 of all component hashes concatenated. Any change to any component invalidates this chain.",
+    "components": [
+      {
+        "name": "AxiomOS Kernel",
+        "version": "v33.1",
+        "license": "MIT",
+        "kind": "internal"
+      },
+      {
+        "name": "Unitary Manifold Engine",
+        "version": "v33.1",
+        "license": "MIT",
+        "kind": "internal"
+      },
+      {
+        "name": "Pentad Governance Module",
+        "version": "v33.1",
+        "license": "MIT",
+        "kind": "internal"
+      },
+      {
+        "name": "ECLIPSA Sentinel",
+        "version": "v33.1",
+        "license": "MIT",
+        "kind": "internal"
+      },
+      {
+        "name": "Tarot Oracle Engine",
+        "version": "v1.0.0",
+        "license": "MIT",
+        "kind": "internal"
+      },
+      {
+        "name": "Three.js Renderer",
+        "version": "v0.171.0",
+        "license": "MIT",
+        "kind": "external",
+        "npm_package": "three"
+      },
+      {
+        "name": "React Framework",
+        "version": "v18.2.0",
+        "license": "MIT",
+        "kind": "external",
+        "npm_package": "react"
+      },
+      {
+        "name": "Tailwind CSS",
+        "version": "v3.4.0",
+        "license": "MIT",
+        "kind": "external",
+        "npm_package": "tailwindcss"
+      }
+    ],
+    "timeline": [
+      {
+        "event": "Manifest re-attested",
+        "component": "AxiomOS Kernel",
+        "date": "2026-08-04",
+        "hash_prefix": "f8c2b7d3"
+      },
+      {
+        "event": "v24.1 Sprint AR — vacuum energy + graviton bounds",
+        "component": "All modules",
+        "date": "2026-08-20",
+        "hash_prefix": "41a174f0"
+      },
+      {
+        "event": "License metadata updated",
+        "component": "Tarot Oracle Engine",
+        "date": "2026-08-01",
+        "hash_prefix": "e7b1a6c2"
+      },
+      {
+        "event": "Component verified",
+        "component": "ECLIPSA Sentinel",
+        "date": "2026-08-01",
+        "hash_prefix": "d6a0f5b1"
+      },
+      {
+        "event": "Version bump v24.1",
+        "component": "Pentad Governance Module",
+        "date": "2026-08-20",
+        "hash_prefix": "c5f9e4a0"
+      },
+      {
+        "event": "Initial attestation",
+        "component": "Unitary Manifold Engine",
+        "date": "2026-07-25",
+        "hash_prefix": "b4e8d3f9"
+      }
+    ],
+    "license_summary": {
+      "all_components": "Dual License — Physics & math: public domain · Code: copyleft (Defensive Public Commons License v1.0 AND AGPL-3.0) · Commercial waivers available",
+      "internal_components": {
+        "count": 5,
+        "attestation": "Self-attested by AxiomZero"
+      },
+      "external_dependencies": {
+        "count": 3,
+        "attestation": "Audited and hash-verified"
+      }
+    }
+  }
+}
