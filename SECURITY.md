@@ -33,6 +33,21 @@ This policy covers:
 **Out of scope:** third-party dependencies (report directly to those projects),
 theoretical physics content, documentation.
 
+## Known dependency limitation
+
+The 2026-10-08 environment audit found **CVE-2025-69872**
+([GHSA-w8v5-vhqr-4h9v](https://github.com/advisories/GHSA-w8v5-vhqr-4h9v))
+in `diskcache==5.6.3`, a transitive dependency of `dvc-data`. The latest
+available DiskCache release is affected; the audit lists no patched version.
+This finding is **unresolved**, not a clean dependency-audit result.
+
+DiskCache's default pickle deserialization can execute code if an attacker
+can modify the cache contents. Keep DVC/DiskCache cache directories and their
+parent directories private to the account running DVC; do not read caches
+restored from untrusted archives, shared writable volumes, or other users.
+Restricted filesystem access reduces exposure but does not patch the library.
+Recheck the upstream advisory before using shared or externally supplied caches.
+
 ## Security design principles
 
 1. **No credentials in source code.** All secrets are loaded from environment

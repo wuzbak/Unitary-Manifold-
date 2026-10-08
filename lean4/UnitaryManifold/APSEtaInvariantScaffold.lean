@@ -52,7 +52,7 @@ namespace UnitaryManifold.APSEtaInvariantScaffold
 
 /-! ## Named gap: APS boundary value problem -/
 
-/-- **APS_GAP_STATUS**: The APS boundary value problem for Dirac operators
+/- **APS_GAP_STATUS**: The APS boundary value problem for Dirac operators
     on S¹/Z₂ is not yet formalised in Mathlib (as of 2026-08).
     This is an OPEN gap in the formalized-mathematics layer.
     The physics result η̄(5) = 1/2 is established numerically in

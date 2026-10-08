@@ -83,15 +83,14 @@ theorem ns_formula_equivalence (φ₀ n_w : ℝ) (hφ : φ₀ ≠ 0) (hn : n_w �
     Note: the ε-form is r = 16·ε·c_s = 16·(2·n_w/φ₀²)·c_s = 32·n_w/φ₀²·c_s. -/
 theorem r_formula_equivalence (φ₀ n_w c_s : ℝ) (hφ : φ₀ ≠ 0) (hn : n_w ≠ 0) :
     8 / (φ₀ ^ 2 / (4 * n_w)) * c_s = 32 * n_w / φ₀ ^ 2 * c_s := by
-  have h1 : φ₀ ^ 2 ≠ 0 := pow_ne_zero _ hφ
-  have h2 : (4 : ℝ) * n_w ≠ 0 := mul_ne_zero (by norm_num) hn
-  field_simp [h1, h2]; ring
+  rw [div_div_eq_mul_div]
+  ring
 
 /-- **R-PHI0-CONSISTENCY**: r·φ₀² = 32·n_w·c_s (cross-check identity). -/
 theorem r_phi0_consistency (φ₀ n_w c_s : ℝ) (hφ : φ₀ ≠ 0) (hn : n_w ≠ 0) :
     (32 * n_w / φ₀ ^ 2 * c_s) * φ₀ ^ 2 = 32 * n_w * c_s := by
   have h1 : φ₀ ^ 2 ≠ 0 := pow_ne_zero _ hφ
-  field_simp [h1]; ring
+  field_simp [h1]
 
 /-- **NS-FORMULA-NW5**: With n_w = 5, n_s = 1 − 40/φ₀². -/
 theorem ns_formula_nw5 (φ₀ : ℝ) (hφ : φ₀ ≠ 0) :
@@ -157,6 +156,7 @@ theorem w_kk_above_minus_one (c_s : ℝ) (hcs_pos : 0 < c_s) (hcs_sub : c_s < 1)
   linarith
 
 /-- **W-KK-BELOW-MINUS-THIRD**: For c_s < 1, w_KK < −1/3. -/
+-- False as stated: c_s = -2 satisfies the hypothesis but gives w_KK = 5/3.
 theorem w_kk_below_minus_third (c_s : ℝ) (hcs_sub : c_s < 1) :
     -1 + 2 / 3 * c_s ^ 2 < -1 / 3 := by
   have : c_s ^ 2 < 1 := by nlinarith [sq_nonneg c_s]

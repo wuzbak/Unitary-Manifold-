@@ -144,7 +144,6 @@ theorem t16_inflation_chain (φ₀ N_w c_s : ℝ) (hφ : φ₀ ≠ 0) :
     32 * N_w * c_s / φ₀ ^ 2 * φ₀ ^ 2 = 32 * N_w * c_s := by
   have h : φ₀ ^ 2 ≠ 0 := pow_ne_zero _ hφ
   field_simp [h]
-  ring
 
 -- ---------------------------------------------------------------------------
 -- T18: N_C = n_w − 2 = 3
@@ -172,7 +171,6 @@ theorem t20_phi0_self_consistency (N_w n_s : ℝ) (hN : N_w ≠ 0) (hns : n_s �
   simp only
   have h1 : 1 - n_s ≠ 0 := sub_ne_zero.mpr (Ne.symm hns)
   field_simp [mul_ne_zero (by norm_num : (8 : ℝ) ≠ 0) hN, h1]
-  ring
 
 -- ---------------------------------------------------------------------------
 -- Aggregate invariant: all fundamental constants consistent

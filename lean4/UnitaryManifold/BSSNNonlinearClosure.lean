@@ -120,7 +120,7 @@ theorem pillar827_chi_positive : 0 < PHI_0_827 := by decide
 
 -- 22. BSSN evolution is deterministic from initial data
 -- Proxy: n_iter × 1 = n_iter for any n_iter (deterministic)
-theorem pillar827_deterministic (n : Nat) : n * 1 = n := by decide
+theorem pillar827_deterministic (n : Nat) : n * 1 = n := Nat.mul_one n
 
 -- 23. Non-linear correction bound: |δK_NL − δK_L|/|δK_L| ≤ C × (k/m_KK)² × ε
 -- For ε=10^{-4}, k/m_KK=0.1: bound = 1 × 0.01 × 10^{-4} = 10^{-6} ≪ 1%

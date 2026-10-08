@@ -55,7 +55,6 @@ theorem null_cone_symmetric_gauge (phi0 : ℝ) (h : phi0 > 0) :
   have hsum : (phi0 / Real.sqrt 2) ^ 2 + (phi0 / Real.sqrt 2) ^ 2 = phi0 ^ 2 := by
     rw [← two_mul, div_pow, h2_sq]
     field_simp
-    ring
   rw [hsum, Real.sqrt_sq_eq_abs, abs_of_pos h]
 
 /-- Status marker only: SP2R_NULL_CONE_CONSISTENT registration. -/

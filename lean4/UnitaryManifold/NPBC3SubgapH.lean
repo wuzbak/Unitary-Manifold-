@@ -106,8 +106,8 @@ theorem nonvacuum_entropy_positive : 1 * k_cs > 0 := by decide
 /-- **ENTROPY_MONOTONE**: The sector contribution n × k_CS increases with n:
     (n+1) × k_CS > n × k_CS for all n. -/
 theorem entropy_monotone (n : ℕ) : (n + 1) * k_cs > n * k_cs := by
-  apply Nat.lt_add_of_pos_right
-  exact Nat.pos_of_ne_zero (by decide)
+  rw [Nat.add_mul, Nat.one_mul]
+  exact Nat.lt_add_of_pos_right (by decide : 0 < k_cs)
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- Theorem 6: Even-level bosonic CS

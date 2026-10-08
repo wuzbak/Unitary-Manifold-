@@ -110,6 +110,7 @@ theorem braid_step2_global_minimum :
     cs_action_step2 5 ≤ cs_action_step2 3 ∧
     cs_action_step2 5 ≤ cs_action_step2 5 ∧
     cs_action_step2 5 ≤ cs_action_step2 7 := by
+  -- Compilation blocker: the first conjunct is 74 ≤ 10, which is false.
   native_decide
 
 -- ── Theorem 7: Uniqueness over 4-candidate set ───────────────────────────

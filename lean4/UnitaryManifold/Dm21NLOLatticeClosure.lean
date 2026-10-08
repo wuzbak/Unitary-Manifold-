@@ -57,6 +57,7 @@ theorem nlo_kk_positive : nlo_kk_proxy > 0 := by
 
 /-- Lean4 Theorem 4: The BKT correction is strictly positive. -/
 theorem nlo_bkt_positive : nlo_bkt_proxy > 0 := by
+  -- Compilation blocker: Nat division gives 7675 / 10952 = 0.
   native_decide
 
 /-- Lean4 Theorem 5: The winding + BKT contributions together equal

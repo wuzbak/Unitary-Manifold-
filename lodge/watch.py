@@ -147,7 +147,7 @@ def render_dashboard(
     print(f"  Total pillars in registry: {_c(str(summary['total']))}")
     for diff, count in summary.get("by_difficulty", {}).items():
         colour = {"easy": _g, "medium": _y, "hard": _r}.get(diff, _dim)
-        print(f"  {colour(diff.capitalize():10s)}  {count} challenges")
+        print(f"  {colour(f'{diff.capitalize():10s}')}  {count} challenges")
 
     # ── Hardest pillars (lowest mean scores) ─────────────────────────────────
     pillar_stats = []

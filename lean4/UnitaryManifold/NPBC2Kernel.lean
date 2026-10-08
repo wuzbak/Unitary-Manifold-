@@ -178,6 +178,8 @@ theorem kk_zero_mode_robin_bc :
 /-- For n=1, the first KK mode is consistent with a specific Robin BC. -/
 theorem kk_first_mode_robin_bc :
     kk_mode_consistent 1 ⟨79, 74, Or.inl (by decide)⟩ := by
+  -- Compilation blocker: these parameters require 5846 = 3108.
+  -- The statement is preserved, not silently reparameterized.
   unfold kk_mode_consistent delta_c_den delta_c_num kk_half
   ring
 

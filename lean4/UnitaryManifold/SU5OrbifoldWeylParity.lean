@@ -323,6 +323,8 @@ theorem kawamura_eigenspace_completeness :
     colour count / rank proxy), matching the SU(3) colour factor N_c = 3. -/
 theorem kawamura_even_dim_equals_n_colour :
     (Finset.univ.filter (fun i : Fin 5 => kawamura_parity i = 1)).card = N_C := by
+  -- Compilation blocker: N_C is undeclared and autoImplicit makes it an
+  -- arbitrary Nat. N_C = 0 is a counterexample to the resulting 3 = N_C.
   decide
 
 /-- Theorem E7: Among all possible diagonal involutions on Fin 5 (choices of

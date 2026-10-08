@@ -45,23 +45,23 @@ theorem yukawa_svd_k_cs : K_CS = 74 := by native_decide
 theorem yukawa_svd_n_gen : N_GEN = 3 := by native_decide
 theorem yukawa_svd_sumsq : (5 : ℕ)^2 + 7^2 = K_CS := by native_decide
 theorem yukawa_svd_nw_lt_kcs : N_W < K_CS := by native_decide
-theorem yukawa_svd_pi_kr_rational : (K_CS : ℚ) / 2 = 37 := by norm_num
+theorem yukawa_svd_pi_kr_rational : (K_CS : ℚ) / 2 = 37 := by norm_num [K_CS]
 
 -- Off-diagonal texture bound: |ε_{ij}| ≤ 2/K_CS for |i−j| ≤ 2
 -- (rational proxy: the bound 2/74 bounds |i−j|/K_CS for |i−j| ≤ 2)
-theorem yukawa_svd_eps_bound_12 : (1 : ℚ) / K_CS ≤ 2 / K_CS := by norm_num
+theorem yukawa_svd_eps_bound_12 : (1 : ℚ) / K_CS ≤ 2 / K_CS := by norm_num [K_CS]
 theorem yukawa_svd_eps_bound_13 : (2 : ℚ) / K_CS ≤ 2 / K_CS := by norm_num
-theorem yukawa_svd_eps_12_positive : (1 : ℚ) / K_CS > 0 := by norm_num
-theorem yukawa_svd_eps_13_positive : (2 : ℚ) / K_CS > 0 := by norm_num
-theorem yukawa_svd_eps_lt_one : (2 : ℚ) / K_CS < 1 := by norm_num
+theorem yukawa_svd_eps_12_positive : (1 : ℚ) / K_CS > 0 := by norm_num [K_CS]
+theorem yukawa_svd_eps_13_positive : (2 : ℚ) / K_CS > 0 := by norm_num [K_CS]
+theorem yukawa_svd_eps_lt_one : (2 : ℚ) / K_CS < 1 := by norm_num [K_CS]
 
 -- Singular value existence proxies (rational bounds on the texture)
 -- The texture Y = I + ε is a small perturbation of identity; σ_i ∈ (1−‖ε‖, 1+‖ε‖)
 -- With ‖ε‖_F ≤ 4/K_CS < 1, all singular values are positive.
-theorem yukawa_svd_texture_perturbation_bound : (4 : ℚ) / K_CS < 1 := by norm_num
-theorem yukawa_svd_sigma_1_positive : (1 : ℚ) - 4 / K_CS > 0 := by norm_num
-theorem yukawa_svd_sigma_3_positive_proxy : (1 : ℚ) - 4 / K_CS > 0 := by norm_num
-theorem yukawa_svd_sigma_ordering_proxy : (1 : ℚ) - 4 / K_CS ≤ 1 + 4 / K_CS := by norm_num
+theorem yukawa_svd_texture_perturbation_bound : (4 : ℚ) / K_CS < 1 := by norm_num [K_CS]
+theorem yukawa_svd_sigma_1_positive : (1 : ℚ) - 4 / K_CS > 0 := by norm_num [K_CS]
+theorem yukawa_svd_sigma_3_positive_proxy : (1 : ℚ) - 4 / K_CS > 0 := by norm_num [K_CS]
+theorem yukawa_svd_sigma_ordering_proxy : (1 : ℚ) - 4 / K_CS ≤ 1 + 4 / K_CS := by norm_num [K_CS]
 
 -- Unitarity proxy: orthogonal 3×3 matrix has determinant ±1
 -- (proxy: n_gen × n_gen identity has integer entries summing correctly)
@@ -73,7 +73,7 @@ theorem yukawa_svd_unitary_diag_sum : (1 : ℕ) + 1 + 1 = N_GEN := by native_dec
 -- warp factor exp(−37/74) = exp(−0.5) ≈ 0.607 < 1, so λ < ε^(1).
 -- Rational proxy: 1/2 < 1 bounds the exponent ratio.
 theorem yukawa_svd_brane_warp_exp_lt_one : (1 : ℚ) / 2 < 1 := by norm_num
-theorem yukawa_svd_brane_suppression_proxy : (37 : ℚ) / K_CS ≤ 1 := by norm_num
+theorem yukawa_svd_brane_suppression_proxy : (37 : ℚ) / K_CS ≤ 1 := by norm_num [K_CS]
 theorem yukawa_svd_brane_gap1_suppressed : (1 : ℚ) / 2 > 0 := by norm_num
 theorem yukawa_svd_brane_gap2_suppressed : (1 : ℚ) / 4 < 1 / 2 := by norm_num
 

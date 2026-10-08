@@ -120,7 +120,8 @@ theorem shadow_pair_identity (n : ℕ) : (n + 1) ^ 2 + (n + 1 + 2) ^ 2 = 2 * ((n
 theorem shadow_pair_identity_at_6 : (5 : ℕ)^2 + 7^2 = 2 * (6^2 + 1) := by norm_num
 
 /-- **TWO-TIMES-37**: 2 × 37 = 74 = K_CS. -/
-theorem two_times_37_is_74 : 2 * 37 = K_CS := by unfold K_CS; norm_num
+theorem two_times_37_is_74 : 2 * 37 = K_CS := by
+  norm_num [K_CS, n_w, n_shadow, n_before, z2_removes]
 
 /-! ## The Braid Step is Forced -/
 
@@ -166,12 +167,14 @@ theorem no_prime_n2p1_near_6 :
     ¬ Nat.Prime (5^2 + 1) ∧
     ¬ Nat.Prime (7^2 + 1) ∧
     ¬ Nat.Prime (8^2 + 1) := by
+  -- Compilation blocker: 4^2 + 1 = 17 is prime.
   refine ⟨?_, ?_, ?_, ?_⟩ <;> native_decide
 
 /-- **UNIQUENESS-IN-WINDOW**: Among n ∈ {4, 5, 6, 7, 8}, the only n with n²+1 prime is n=6.
     This is the arithmetic basis for the uniqueness claim of n_before = 6. -/
 theorem n_before_6_unique_prime_window :
     ∀ n ∈ ({4, 5, 7, 8} : Finset ℕ), ¬ Nat.Prime (n^2 + 1) := by
+  -- Compilation blocker: n = 4 belongs to the set and gives the prime 17.
   decide
 
 /-! ## Full Certificate -/

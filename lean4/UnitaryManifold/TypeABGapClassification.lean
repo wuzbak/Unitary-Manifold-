@@ -95,12 +95,15 @@ theorem g3_ceiling_below_observed : m_h_ceiling_proxy < m_h_obs_proxy := by nati
 /-- Lean4 Theorem 11: G2 α_s_ads < α_s_PDG proxy.
     α_s_ads ≈ 667 (×10^{-4}) < 1180 (= 0.1180 × 10^4). -/
 def alpha_s_pdg_proxy : Nat := 1180    -- α_s(M_Z) × 10^4
-theorem g2_ads_below_pdg : alpha_s_ads_proxy < alpha_s_pdg_proxy * 10 := by native_decide
+theorem g2_ads_below_pdg : alpha_s_ads_proxy < alpha_s_pdg_proxy * 10 := by
+  -- Compilation blocker: the defined proxies give 66689 < 11800.
+  native_decide
 
 /-- Lean4 Theorem 12: G2 residual fraction > 0.
     residual = 1 − α_s_ads/α_s_PDG > 0 ↔ α_s_ads < α_s_PDG.
     Same as Theorem 11 in a different encoding. -/
 theorem g2_residual_positive : alpha_s_ads_proxy > 0 ∧ alpha_s_pdg_proxy > alpha_s_ads_proxy / 10 := by
+  -- Compilation blocker: the second conjunct is 1180 > 6668.
   native_decide
 
 /-- Lean4 Theorem 13: The four gaps are not simultaneously closable by a single

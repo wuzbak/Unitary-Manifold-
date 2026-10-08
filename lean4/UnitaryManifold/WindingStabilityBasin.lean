@@ -52,7 +52,8 @@ theorem shadowPartner_5 : shadowPartner 5 = 7 := by native_decide
 
 /-- k_CS is strictly positive for all n_w ≥ 1. -/
 theorem kCS_pos (nw : Nat) (h : nw ≥ 1) : kCS nw ≥ 1 := by
-  simp [kCS]
+  have hsq : 0 < nw ^ 2 := Nat.pow_pos (by omega)
+  unfold kCS
   omega
 
 -- ---------------------------------------------------------------------------

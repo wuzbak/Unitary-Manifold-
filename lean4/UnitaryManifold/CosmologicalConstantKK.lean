@@ -12,6 +12,8 @@
   follows the established UM proxy pattern.
 -/
 
+import Mathlib.Tactic
+
 -- Proxy arithmetic universe
 def N_KK : Nat := 74
 def M_KK_PROXY : Nat := 1000   -- M_KK in GeV proxy

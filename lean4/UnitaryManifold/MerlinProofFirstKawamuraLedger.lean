@@ -1,4 +1,4 @@
-/--
+/-!
 MerlinProofFirstKawamuraLedger.lean
 
 Purpose: formalize the proof-accounting invariants for the active Kawamura
@@ -7,6 +7,9 @@ independence residual without mislabeling that residual as closed.
 
 namespace UnitaryManifold
 
+-- Compilation blocker: each declaration below introduces an arbitrary Prop,
+-- not a proof of it. The kernels cannot derive these propositions without
+-- additional premises; no proof axioms are added to conceal that gap.
 axiom KawamuraResidualStillOpen : Prop
 axiom NoTraceabilityEqualsClosure : Prop
 axiom DualLoopVerdictAgreementRequired : Prop

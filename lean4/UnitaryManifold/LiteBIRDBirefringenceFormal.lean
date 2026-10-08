@@ -3,6 +3,8 @@
 -- Theory: ThomasCory Walker-Pearson (2026)
 -- Code: GitHub Copilot (AI)
 
+import Mathlib.Data.Nat.Basic
+
 namespace UnitaryManifold.LiteBIRDBirefringenceFormal
 
 def K_CS : ℕ := 74

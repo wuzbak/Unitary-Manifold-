@@ -1,3 +1,6 @@
+import Mathlib.Tactic
+import Mathlib.Data.Nat.Sqrt
+
 /-!
 # Unitary Manifold — Dimensional Chain Closure (Lean 4)
 
@@ -72,6 +75,7 @@ theorem gauge_dim_factored : GAUGE_DIM = 16 * 31 := by decide
 
 theorem gauge_dim_uniquely_496 (d : ℕ) (h : d = 8 * (8 + 31 - 7) ∨ d = 248 + 248) :
     d = GAUGE_DIM := by
+  -- Compilation blocker: d = 256 satisfies the first disjunct, not d = 496.
   rcases h with rfl | rfl <;> decide
 
 -- ---------------------------------------------------------------------------
@@ -87,15 +91,16 @@ theorem n_c_positive : 0 < N_c := by decide
 theorem alpha_gut_proxy_numerator_bounded : N_c < K_CS := by decide
 
 -- The CS quantization uniquely identifies N_c from α_GUT: K_CS × α = N_c.
-theorem cs_quantization_selects_N_c (x : ℕ) (h : K_CS * x = N_c * K_CS) : x = N_c :=
-  Nat.eq_of_mul_eq_mul_left (by decide : 0 < K_CS) h
+theorem cs_quantization_selects_N_c (x : ℕ) (h : K_CS * x = N_c * K_CS) : x = N_c := by
+  apply Nat.eq_of_mul_eq_mul_left (by decide : 0 < K_CS)
+  simpa [Nat.mul_comm] using h
 
 -- ---------------------------------------------------------------------------
 -- Link 4: 8D → 7D: Z₃ torsion gives exactly 3 CP phases (ε ∈ {0, 1, 2})
 -- H¹(T²/Z₃, U(1)) = Z₃ has order 3. Three cohomology classes.
 -- ---------------------------------------------------------------------------
 theorem z3_torsion_order : 3 = N_GEN := by decide
-theorem torsion_classes_three : Finset.card {0, 1, 2} = 3 := by decide
+theorem torsion_classes_three : Finset.card ({0, 1, 2} : Finset ℕ) = 3 := by decide
 
 -- ---------------------------------------------------------------------------
 -- Link 5: 7D → 6D: T²/Z₃ fixed points → N_gen = 3

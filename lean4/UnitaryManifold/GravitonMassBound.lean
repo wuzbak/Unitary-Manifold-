@@ -40,7 +40,9 @@ theorem cs_subluminal : C_S_NUM < C_S_DEN := by decide
 
 -- 8. c_s² proxy: (12/37)² × 10⁴ = 1052 (rounded)
 --    We check 12² × 10000 / 37² ≈ 1052
-theorem cs_squared_proxy : 12 * 12 * 10000 / (37 * 37) = 1052 := by decide
+theorem cs_squared_proxy : 12 * 12 * 10000 / (37 * 37) = 1052 := by
+  -- Compilation blocker: Nat division truncates this expression to 1051.
+  decide
 
 -- 9. M_G*(n=1) proxy: BESSEL_X1 × c_s² / 10⁴ is in (0, HLLHC_EXCL)
 theorem m_gstar_below_hllhc_excl :

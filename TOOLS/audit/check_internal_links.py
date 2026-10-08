@@ -59,9 +59,7 @@ def target_exists(source: Path, raw_target: str) -> bool:
         return True
     if candidate.exists():
         return True
-    if not candidate.suffix and candidate.with_suffix(".md").exists():
-        return True
-    return False
+    return bool(not candidate.suffix and candidate.with_suffix(".md").exists())
 
 
 def main() -> int:

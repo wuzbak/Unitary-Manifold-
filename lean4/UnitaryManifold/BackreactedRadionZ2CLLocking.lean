@@ -40,10 +40,10 @@ theorem pillar809_cl_proper_fraction : CL_NUM < CL_DEN := by decide
 theorem pillar809_cl_positive : 0 < CL_NUM := by decide
 
 -- 8. Z₂ parity of even modes is +1 (proxy: (−1)^0 = 1)
-theorem pillar809_z2_parity_even : (1 : Int) ^ 2 = 1 := by norm_num
+theorem pillar809_z2_parity_even : (1 : Int) ^ 2 = 1 := by decide
 
 -- 9. Z₂ parity of odd modes is −1 (proxy: (−1)^1 = −1)
-theorem pillar809_z2_parity_odd : (-1 : Int) ^ 1 = -1 := by norm_num
+theorem pillar809_z2_parity_odd : (-1 : Int) ^ 1 = -1 := by decide
 
 -- 10. Anomaly cancellation: c_L × K_CS − (K_CS − N_GAP) = 0 (proxy: integer)
 -- CL_NUM/K_CS × K_CS = CL_NUM; K_CS − N_GAP = CL_NUM

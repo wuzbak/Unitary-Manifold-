@@ -3,6 +3,8 @@
 -- Theory: ThomasCory Walker-Pearson (2026)
 -- Code: GitHub Copilot (AI)
 
+import Mathlib.Data.Nat.Basic
+
 namespace UnitaryManifold.Lean4EightHundredMilestone
 
 def K_CS : ℕ := 74

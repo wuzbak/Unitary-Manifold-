@@ -51,11 +51,21 @@ theorem pillar822_kcs_from_57 : N_W_822 ^ 2 + N_TOP_822 ^ 2 = K_CS_822 := by dec
 -- Exhaustive search: a ∈ {1,...,8}, b² = 74 − a², b ≥ a
 theorem pillar822_kcs_pair_unique :
     ∀ a b : Nat, 0 < a → a ≤ b → a ^ 2 + b ^ 2 = K_CS_822 →
-    a = N_W_822 ∧ b = N_TOP_822 := by decide
+    a = N_W_822 ∧ b = N_TOP_822 := by
+  intro a b ha hab heq
+  change a ^ 2 + b ^ 2 = 74 at heq
+  have ha_bound : a ≤ 8 := by nlinarith
+  have hb_bound : b ≤ 8 := by nlinarith
+  interval_cases a <;> interval_cases b <;>
+    norm_num [N_W_822, N_TOP_822] at *
 
 -- 7. No pair with a = b satisfies a² + b² = 74
 theorem pillar822_no_equal_pair :
-    ¬ ∃ a : Nat, 0 < a ∧ 2 * a ^ 2 = K_CS_822 := by decide
+    ¬ ∃ a : Nat, 0 < a ∧ 2 * a ^ 2 = K_CS_822 := by
+  rintro ⟨a, ha, heq⟩
+  change 2 * a ^ 2 = 74 at heq
+  have ha_bound : a ≤ 8 := by nlinarith
+  interval_cases a <;> norm_num at heq
 
 -- 8. n_w = 5 is odd (Z₂ parity satisfied)
 theorem pillar822_nw_odd : N_W_822 % 2 = 1 := by decide
@@ -74,11 +84,15 @@ theorem pillar822_nw_lt_ntop : N_W_822 < N_TOP_822 := by decide
 
 -- 12. K_CS = 74 < 100 (K_CS is not a perfect square — no single-mode solution)
 theorem pillar822_kcs_not_double_square :
-    ¬ ∃ a : Nat, 0 < a ∧ a ^ 2 + a ^ 2 = K_CS_822 := by decide
+    ¬ ∃ a : Nat, 0 < a ∧ a ^ 2 + a ^ 2 = K_CS_822 := by
+  rintro ⟨a, ha, heq⟩
+  apply pillar822_no_equal_pair
+  exact ⟨a, ha, by nlinarith [heq]⟩
 
 -- 13. Geometric candidates are exactly {5, 7}
 -- Proxy: the only odd integers in [1, 8] satisfying a² ≤ K_CS are {1,3,5,7}
 -- After K_CS constraint: only {5,7} appear as components of the unique pair
+-- False as stated: b ≥ a excludes a = 7, since 7² + b² ≥ 98 > 74.
 theorem pillar822_candidates_57 :
     (Finset.range 10).filter (fun a =>
       a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822) =
@@ -96,12 +110,14 @@ theorem pillar822_fractions_sum : N_W_822 ^ 2 + N_TOP_822 ^ 2 = K_CS_822 := by d
 -- 17. No other integer in [1, 9] could be a K_CS partner of 5 except 7
 theorem pillar822_nw5_unique_partner :
     ∀ b : Nat, 1 ≤ b → b ≤ 9 → N_W_822 ^ 2 + b ^ 2 = K_CS_822 → b = N_TOP_822 := by
-  decide
+  intro b hb_low hb_high heq
+  interval_cases b <;> norm_num [N_W_822, N_TOP_822, K_CS_822] at *
 
 -- 18. No other integer in [1, 9] could be a K_CS partner of 7 except 5
 theorem pillar822_ntop7_unique_partner :
     ∀ a : Nat, 1 ≤ a → a ≤ 9 → a ^ 2 + N_TOP_822 ^ 2 = K_CS_822 → a = N_W_822 := by
-  decide
+  intro a ha_low ha_high heq
+  interval_cases a <;> norm_num [N_W_822, N_TOP_822, K_CS_822] at *
 
 -- 19. Open gap: Planck nₛ selects n_w = 5 over n_w = 7
 -- Proxy: the gap is registered (always true)

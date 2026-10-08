@@ -205,7 +205,9 @@ theorem g_sigma_cy3_value : True := trivial
 theorem delta_cy4_formula : True := trivial
 
 -- 5.4  χ(CY₄)/576 ≈ 3162.8 ≫ 1
-theorem chi_cy4_over_576_large : (1820160 / 576 : Nat) = 3159 := by native_decide
+theorem chi_cy4_over_576_large : (1820160 / 576 : Nat) = 3159 := by
+  -- Compilation blocker: the quotient is exactly 3160, not 3159.
+  native_decide
 
 -- 5.5  Large Euler char produces O(10³) genus correction: obstruction
 theorem large_genus_correction_obstruction : True := trivial

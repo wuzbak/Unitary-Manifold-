@@ -1,3 +1,5 @@
+import Mathlib.Tactic
+
 /-!
 # Unitary Manifold — α_GUT Derivation (Lean 4)
 
@@ -82,7 +84,8 @@ theorem n_c_is_positive   : 0 < N_c  := by decide
 -- In integer arithmetic: the equation K_CS * x = N_c * K_CS has unique solution x = N_c.
 -- ---------------------------------------------------------------------------
 theorem alpha_gut_unique (x : ℕ) (h : K_CS * x = N_c * K_CS) : x = N_c := by
-  exact Nat.eq_of_mul_eq_mul_left (by decide : 0 < K_CS) h
+  apply Nat.eq_of_mul_eq_mul_left (by decide : 0 < K_CS)
+  simpa [Nat.mul_comm] using h
 
 -- ---------------------------------------------------------------------------
 -- Theorem 4: α_GUT lies in the perturbative window (0, 1)
