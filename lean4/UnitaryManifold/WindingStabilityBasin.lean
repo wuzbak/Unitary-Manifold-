@@ -142,10 +142,8 @@ def nearest_excluded_lower : Nat := 4
 def nearest_excluded_upper : Nat := 6
 
 theorem stability_margin_value :
-    N_W_SELECTED - nearest_excluded_lower = stability_margin ∧
-    nearest_excluded_upper - N_W_SELECTED = stability_margin
-    where N_W_SELECTED := 5
-  := by native_decide
+    5 - nearest_excluded_lower = stability_margin ∧
+    nearest_excluded_upper - 5 = stability_margin := by native_decide
 
 -- ---------------------------------------------------------------------------
 -- Section 5: Structural gap

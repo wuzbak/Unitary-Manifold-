@@ -46,7 +46,7 @@
 -/
 
 import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 
 namespace UnitaryManifold.APSEtaInvariantScaffold
 

@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 import Mathlib.Algebra.Field.Rat
 import Mathlib.Data.Finset.Basic
 /-!

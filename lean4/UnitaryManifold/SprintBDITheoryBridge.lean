@@ -51,8 +51,12 @@ theorem p911_registered : True := trivial
 theorem null_cone_symmetric_gauge (phi0 : ℝ) (h : phi0 > 0) :
     Real.sqrt ((phi0 / Real.sqrt 2) ^ 2 + (phi0 / Real.sqrt 2) ^ 2) = phi0 := by
   have h2 : (Real.sqrt 2) > 0 := by positivity
-  rw [div_pow, div_pow, ← two_mul, Real.sqrt_sq_eq_abs, abs_of_pos h, Real.sq_sqrt (by norm_num : (2:ℝ) ≥ 0)]
-  field_simp
+  have h2_sq : Real.sqrt 2 ^ 2 = 2 := Real.sq_sqrt (by norm_num)
+  have hsum : (phi0 / Real.sqrt 2) ^ 2 + (phi0 / Real.sqrt 2) ^ 2 = phi0 ^ 2 := by
+    rw [← two_mul, div_pow, h2_sq]
+    field_simp
+    ring
+  rw [hsum, Real.sqrt_sq_eq_abs, abs_of_pos h]
 
 /-- Status marker only: SP2R_NULL_CONE_CONSISTENT registration. -/
 theorem sp2r_null_cone_status : True := trivial

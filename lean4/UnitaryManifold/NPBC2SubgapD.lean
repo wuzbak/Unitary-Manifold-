@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.ZMod.Basic

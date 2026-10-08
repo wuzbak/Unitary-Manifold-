@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Finset.Card
 import Mathlib.Algebra.Order.Monoid.Lemmas

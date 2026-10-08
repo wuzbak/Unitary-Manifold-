@@ -1,7 +1,7 @@
 import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Data.Nat.Defs
+import Mathlib.Data.Nat.Basic
 /-!
 # Unitary Manifold — NP-BC-6 Sub-gap R: ER=EPR Bridge Algebraic Kernel (Lean 4 + Mathlib)
 

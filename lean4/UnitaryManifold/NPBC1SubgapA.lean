@@ -1,7 +1,7 @@
 import Mathlib.Tactic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 import Mathlib.Data.Real.Basic
 import Mathlib.Order.Basic
 /-!

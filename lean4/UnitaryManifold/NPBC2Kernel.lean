@@ -1,7 +1,7 @@
 import Mathlib.Tactic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 /-!
 # Unitary Manifold — NP-BC-2 IR-Brane Mixing Proof Attempt (Lean 4 + Mathlib)

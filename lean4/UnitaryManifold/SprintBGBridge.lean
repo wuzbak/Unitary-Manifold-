@@ -182,7 +182,8 @@ theorem gen_radii_ratio : ∀ i : ℕ, i ∈ [1,2,3] → i > 0 := by decide
 
 -- 3.3 Warp factor ordering: ε₁ > ε₂ > ε₃ > 0 (exponential decreasing)
 theorem warp_ordering : ∀ r₁ r₂ : ℝ, r₁ < r₂ → Real.exp (-r₁) > Real.exp (-r₂) := by
-  intro r₁ r₂ h; exact Real.exp_lt_exp.mpr h |>.le |>.lt_of_lt (Real.exp_lt_exp.mpr h)
+  intro r₁ r₂ h
+  exact Real.exp_lt_exp.mpr (neg_lt_neg h)
 
 -- 3.4 Warp factor positive
 theorem warp_positive : ∀ x : ℝ, Real.exp x > 0 := Real.exp_pos

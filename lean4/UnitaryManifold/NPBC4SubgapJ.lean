@@ -1,7 +1,7 @@
 import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Data.Nat.Defs
+import Mathlib.Data.Nat.Basic
 /-!
 # Unitary Manifold — NP-BC-4 Sub-gap J: Wheeler-DeWitt Mini-Superspace Algebraic Kernel (Lean 4 + Mathlib)
 
