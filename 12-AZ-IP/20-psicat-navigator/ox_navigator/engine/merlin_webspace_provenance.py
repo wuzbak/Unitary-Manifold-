@@ -22,6 +22,9 @@ What it does:
   SBOM the same webspace publishes;
 - reports every inconsistency as a finding with severity and evidence.
 
+When the full index is present in ``data/raw/`` (see ``merlin_webspace_index``),
+its findings are merged in and the partial-transcription notice is dropped.
+
 What it does not do: fetch anything over the network, or certify that the live
 site matches this snapshot.
 """
@@ -35,6 +38,8 @@ from datetime import date
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Iterable, Sequence
+
+from .merlin_webspace_index import audit_full_index, load_full_index, verify_tree_hash
 
 STATUS_LABEL = "ADJACENT_TRACK"
 SNAPSHOT_PATH = Path(__file__).resolve().parent / "data" / "webspace_provenance_snapshot.json"
@@ -296,13 +301,20 @@ def _audit_provenance_page(page: dict[str, Any], mi: dict[str, Any], repo_versio
 
 
 def audit_webspace_provenance(snapshot: dict[str, Any] | None = None, *,
-                              repo_version: str | None = None, repo_root: Path | None = None) -> dict[str, Any]:
+                              repo_version: str | None = None, repo_root: Path | None = None,
+                              include_full_index: bool = True) -> dict[str, Any]:
     snap = snapshot if snapshot is not None else load_snapshot()
     root = repo_root or REPO_ROOT
     version = repo_version if repo_version is not None else _repo_framework_version(root / "9-INFRASTRUCTURE" / "um_live_status.json")
     mi = snap.get("machine_index", {})
     page = snap.get("data_provenance_page", {})
     findings = _audit_machine_index(mi, version) + _audit_provenance_page(page, mi, version, root)
+    full = load_full_index() if include_full_index else None
+    tree = None
+    if full is not None:
+        # The complete index supersedes the partial transcription.
+        findings = [f for f in findings if f["id"] != "MI-TRUNCATED"] + audit_full_index(full)
+        tree = verify_tree_hash(full)
     findings.sort(key=lambda f: (SEVERITY_ORDER.get(f["severity"], 9), f["id"]))
     counts: dict[str, int] = {}
     for f in findings:
@@ -315,14 +327,18 @@ def audit_webspace_provenance(snapshot: dict[str, Any] | None = None, *,
         "webspace_declared_version": mi.get("identity", {}).get("declared_framework_version"),
         "machine_index_tree_hash": mi.get("provenance", {}).get("tree_hash_sha256"),
         "provenance_chain_hash": page.get("chain_hash"),
+        "full_index_available": full is not None,
+        "machine_index_tree_hash_check": tree,
         "verifiable_now": [
             "count arithmetic in the machine index",
             "licence and version consistency against the repository",
-        ],
+        ] + (["machine-index tree hash over every file digest",
+              "SBOM flags against package.json ranges",
+              "backend auth, connector scope and schedule posture"] if full is not None else []),
         "verifiable_with_more_data": [
             "provenance chain hash (needs full per-component digests and the concatenation rule)",
-            "machine-index tree hash (needs machine-hashes.json)",
-        ],
+            "webspace clock constants (needs base44/shared/chronometry.ts from machine-source.json)",
+        ] + ([] if full is not None else ["machine-index tree hash (needs the full index)"]),
         "severity_counts": counts,
         "findings": findings,
     }

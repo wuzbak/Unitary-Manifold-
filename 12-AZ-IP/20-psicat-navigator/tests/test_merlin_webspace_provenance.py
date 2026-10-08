@@ -77,9 +77,14 @@ def test_audit_reports_the_expected_findings() -> None:
         "DP-CHAIN-UNVERIFIABLE", "DP-LICENSE-CONTRADICTION", "DP-TIMELINE-PLACEHOLDER",
         "DP-TIMELINE-TRUNCATED", "DP-TIMELINE-ORDER", "DP-TIMELINE-STALE", "DP-VERSION-DRIFT",
         "DP-EXTERNAL-UNDERCOUNT", "DP-DEP-VERSION-TAILWINDCSS", "MI-VERSION-DRIFT",
-        "MI-DIRECT-COUNT", "MI-HIPPOCRATIC", "MI-TRUNCATED",
+        "MI-DIRECT-COUNT", "MI-HIPPOCRATIC", "IX-TREE-HASH-VERIFIED",
     ):
         assert expected in ids
+    # the full index supersedes the partial-transcription notice
+    assert "MI-TRUNCATED" not in ids and report["full_index_available"] is True
+    assert report["machine_index_tree_hash_check"]["verified"] is True
+    partial = audit_webspace_provenance(repo_version="38.2", include_full_index=False)
+    assert "MI-TRUNCATED" in _ids(partial) and not any(i.startswith("IX-") for i in _ids(partial))
     # arithmetic that checks out is not reported
     assert not {"MI-PAGE-ARITHMETIC", "MI-DIRECT-DEPS", "MI-LICENSE-HISTOGRAM", "DP-INTERNAL-COUNT"} & ids
     # react and three match package.json

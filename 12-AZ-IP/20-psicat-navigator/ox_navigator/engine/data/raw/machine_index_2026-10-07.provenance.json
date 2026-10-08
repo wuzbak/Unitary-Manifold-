@@ -1,0 +1,33 @@
+{
+  "artifact": "axiomzero.machine-index/v2 (full)",
+  "supplied_by": "steward (wuzbak), 2026-10-08",
+  "source_file": "12-AZ-IP/20-psicat-navigator/WEBSPACE10_01.pdf",
+  "source_commit_on_main": "f4fa4dc54858b7cd54567c93ce6d6b9bef3a97ec",
+  "source_sha256": "e81d26ab17b8a397bc49f5bdaf1134d228f270a765b16da30fde171fead76104",
+  "source_bytes": 6549935,
+  "source_pages": 2190,
+  "source_producer": "Microsoft Word for Microsoft 365 (PDF export)",
+  "extraction": "pypdf text extraction, pages joined; JSON rebuilt by reconstruct_index_text",
+  "normalisation_rule_counts": {
+    "trailing_space_after_punctuation": 304,
+    "leading_space_before_dot": 167,
+    "space_before_glob_star": 9,
+    "space_after_glob_star": 3,
+    "space_before_comma": 36
+  },
+  "withheld": {
+    "phone_shaped_samples": 5,
+    "rule": "agency telephone samples replaced with 'omitted-in-repository-copy', as in the earlier snapshot"
+  },
+  "stored_as": "compact UTF-8 JSON, gzip (mtime 0)",
+  "stored_json_sha256": "14a04233fd4beb62cd12320487fa7276f6be0f5214b80fc41042cdd4bedeaf60",
+  "tree_hash_check": {
+    "published": "1aa0540a8611552e26af436813958780bbacc7b42537271e18d74d36a3865b7e",
+    "recomputed": "1aa0540a8611552e26af436813958780bbacc7b42537271e18d74d36a3865b7e",
+    "verified": true,
+    "files": 1454
+  },
+  "fidelity": "Paths, digests, counts and flags are exact (tree hash reproduces). Whitespace inside long prose strings is best-effort: the PDF does not preserve it unambiguously.",
+  "generated_at_by_webspace": "2026-10-07T23:27:16.012Z",
+  "webspace_git_commit": "c65e690ff99ebf9d4f399babe8f3c2e535a26448"
+}

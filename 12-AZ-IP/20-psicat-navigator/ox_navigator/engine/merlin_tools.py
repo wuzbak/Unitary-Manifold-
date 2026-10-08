@@ -167,6 +167,7 @@ from .merlin_toroidal_geometry import export_golden_vectors, get_toroidal_geomet
 from .merlin_toroidal_router import build_toroidal_navigation_packet
 from .merlin_unitary_lab import run_unitary_lab
 from .merlin_webspace_provenance import audit_webspace_provenance
+from .merlin_webspace_index import summarise_full_index
 from .merlin_research_cycle import run_research_cycle
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_lean_bridge import get_merlin_lean_bridge_artifact
@@ -463,6 +464,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinUnitaryLab", "summary": "Run the unitary operator lab: L1 Clarke-subgradient fit on U(n) vs Procrustes", "domain": "functions"},
             {"name": "getMerlinPhaseIsaVectors", "summary": "Return phase-index ISA golden vectors with a SHA-256 fingerprint", "domain": "functions"},
             {"name": "getMerlinWebspaceProvenance", "summary": "Audit the webspace machine index and Data Provenance page against the repository", "domain": "functions"},
+            {"name": "getMerlinWebspaceIndex", "summary": "Summarise the full webspace machine index: tree-hash check, SBOM integrity, backend posture, clock", "domain": "functions"},
             {"name": "getPsiCatResourceBudget", "summary": "Return local-first resource-budget ceilings for PsiCat execution", "domain": "functions"},
             {"name": "getPsiCatBehavioralAudit", "summary": "Return deterministic manipulation-resistance and escalation audit battery", "domain": "functions"},
             {"name": "getPsiCatViteWorkbenchStatus", "summary": "Return the local Vite Web Workbench connection and policy status", "domain": "functions"},
@@ -642,6 +644,7 @@ def _tool_manifest() -> dict[str, Any]:
         },
         "getMerlinPhaseIsaVectors": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getMerlinWebspaceProvenance": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinWebspaceIndex": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getPsiCatResourceBudget": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getPsiCatBehavioralAudit": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
         "getPsiCatViteWorkbenchStatus": {"capability_class": "state_read", "args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
@@ -1689,6 +1692,7 @@ _FUNCTIONS = {
     "getMerlinUnitaryLab": lambda **args: _unitary_lab_surface(args),
     "getMerlinPhaseIsaVectors": lambda **args: {"data": export_golden_vectors()},
     "getMerlinWebspaceProvenance": lambda **args: {"data": audit_webspace_provenance()},
+    "getMerlinWebspaceIndex": lambda **args: {"data": summarise_full_index()},
     "getPsiCatResourceBudget": lambda **args: {"data": get_resource_budget_policy()},
     "getPsiCatBehavioralAudit": lambda **args: {"data": run_behavioral_audit_battery()},
     "getPsiCatViteWorkbenchStatus": lambda **args: merlin_vite_workbench.workbench_status(**args),
