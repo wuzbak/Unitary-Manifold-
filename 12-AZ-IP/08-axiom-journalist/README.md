@@ -254,8 +254,11 @@ apps/axiom-journalist/
   investigations that have not yet been written.
 - **Not a replacement for source relationships**, editorial judgment, legal review,
   or the reporter's instinct for what a story actually means.
-- **Not connected to the internet.** AXIOM is an offline research organizer.
-  You bring the sources; AXIOM organizes and scores them.
+- **Not a general-purpose web crawler.** Case storage and evidence organization run locally,
+  while public-record scans use network access to four configured adapters. The 11-source
+  catalog includes sources without live adapters; AXIOM reports those separately from
+  retrieval failures and successful searches with no results. A scan is not complete when
+  configured sources fail or remain unconfigured.
 
 ---
 

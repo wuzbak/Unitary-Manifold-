@@ -201,6 +201,8 @@ def _sources_md() -> str:
             lines.append(f"  - Ref: {s.url_or_ref}")
         if s.excerpt:
             lines.append(f"  - _\"{s.excerpt[:100]}\"_")
+        if s.notes:
+            lines.append(f"  - Notes: {s.notes}")
     return "\n".join(lines)
 
 
@@ -430,6 +432,7 @@ def import_source_bundle_ui(bundle_text: str) -> tuple[str, str]:
             'url_or_ref': source['url_or_ref'],
             'date': source['date'],
             'excerpt': source['excerpt'],
+            'notes': source.get('notes', ''),
         }
         for source in merged['imported']
     ]
@@ -450,6 +453,7 @@ def import_source_bundle_ui(bundle_text: str) -> tuple[str, str]:
             source['url_or_ref'],
             source['date'],
             source['excerpt'],
+            source.get('notes', ''),
         )
     return (
         f"✅ Imported {len(merged['imported'])} sources; skipped {len(merged['duplicates'])} duplicates from {merged['attempted']} attempted rows.",
@@ -535,7 +539,15 @@ def load_case(case_id_str: str) -> tuple[str, str, str, str, str]:
     # Load sources
     for s in db.list_sources(case_id):
         t = next((x for x in SourceTier if x.value == s["tier"]), SourceTier.UNCLASSIFIED)
-        inv.add_source(s["title"], t, s["source_type"], s["url_or_ref"], s["date"], s["excerpt"])
+        inv.add_source(
+            s["title"],
+            t,
+            s["source_type"],
+            s["url_or_ref"],
+            s["date"],
+            s["excerpt"],
+            s.get("notes", ""),
+        )
     # Load claims (lightweight — no cross-link)
     for c in db.list_claims(case_id):
         inv.add_claim(c["statement"], [], [], [LegalRisk(c["legal_risks"])] if c["legal_risks"] else [])

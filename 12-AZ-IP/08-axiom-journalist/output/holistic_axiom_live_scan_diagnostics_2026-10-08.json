@@ -30,8 +30,7 @@
     }
   },
   "error_summary": {
-    "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname).": 60,
-    "PublicRecordFetchError: PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname).": 16
+    "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname).": 76
   },
   "scans": [
     {

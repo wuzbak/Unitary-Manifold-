@@ -4,6 +4,8 @@
 **AxiomZero Special Investigations Division · Commissioned working exposé**  
 **Prepared:** 8 October 2026 · **Publication status:** HOLD FOR PRIMARY RECORDS AND RIGHT OF REPLY
 
+The source records cited here are leads and locators, not authenticated copies retrieved for this draft. The claims remain unverified unless a passage below identifies a specific adjudicated finding; publication stays on hold until the underlying records and current docket status are checked.
+
 The phrase “follow the money” sounds decisive. In practice, it is a demand for names, dates and identifiers. It asks who sent funds, which account held them, what instrument moved them, who controlled the recipient, and what happened next. It asks for the wire—not the atmosphere around the wire.
 
 The existing dossiers assemble three Deutsche Bank stories into a single frame: loans to Trump-related borrowers, a Russian mirror-trading scheme that brought regulatory penalties, and Epstein-related banking. These stories deserve separate chapters. They do not become one transaction because the bank’s name appears in all of them.

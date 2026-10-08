@@ -1,6 +1,7 @@
 {
   "dossier_status": "HUMAN_REVIEW_REQUIRED",
   "claim_count": 52,
+  "claims_without_linked_entities": 52,
   "source_count": 32,
   "confidence_counts": {
     "UNVERIFIED": 52

@@ -276,12 +276,13 @@ def test_approve_publication_packet_updates_hils_gate():
 
 def test_parse_source_bundle_supports_json_and_pipe_rows():
     bundle = '\n'.join([
-        '{"title":"Court filing","tier":"Tier 1","source_type":"Docket","url_or_ref":"https://records.example/1","date":"2026-01-01","excerpt":"Primary filing"}',
+        '{"title":"Court filing","tier":"Tier 1","source_type":"Docket","url_or_ref":"https://records.example/1","date":"2026-01-01","excerpt":"Primary filing","notes":"Original record not retrieved"}',
         'Press report | Tier 2 | News article | https://news.example/2 | 2026-01-02 | Secondary report',
     ])
     parsed = parse_source_bundle(bundle)
     assert len(parsed) == 2
     assert parsed[0]['tier'] == 'Tier 1 — Primary Record (court/regulatory/FOIA)'
+    assert parsed[0]['notes'] == 'Original record not retrieved'
     assert parsed[1]['title'] == 'Press report'
 
 
@@ -733,6 +734,25 @@ def test_db_add_records_append_audit_entries(tmp_path):
         'claim_added',
         'open_question_added',
     ]
+
+
+def test_db_add_sources_preserves_provenance_notes(tmp_path):
+    db_path = tmp_path / 'cases.db'
+    db.init_db(db_path)
+    case_id = db.create_case('Source provenance', 'Lead', db_path=db_path)
+    note = 'Locator only; source content was not retrieved.'
+
+    db.add_sources(case_id, [{
+        'title': 'Primary record locator',
+        'tier': 3,
+        'source_type': 'Court record locator',
+        'url_or_ref': 'https://court.example/opinion',
+        'date': '2026-10-08',
+        'excerpt': 'Retrieve original opinion.',
+        'notes': note,
+    }], db_path=db_path)
+
+    assert db.list_sources(case_id, db_path=db_path)[0]['notes'] == note
 
 
 def test_db_watchlist_records_hits_and_audit_entries(tmp_path):

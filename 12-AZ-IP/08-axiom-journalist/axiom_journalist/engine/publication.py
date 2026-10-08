@@ -431,6 +431,10 @@ def build_dossier_packet(
             'source_count': len(sources),
             'duplicate_source_count': len(duplicate_sources),
             'claim_count': len(claims),
+            'claims_without_linked_entities': sum(
+                not claim.get('entities_involved')
+                for claim in claims
+            ),
             'open_question_count': len(investigation.get('open_questions') or []),
             'contradiction_count': contradiction_count,
             'source_tiers': dict(source_tiers),
@@ -535,6 +539,7 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
         f"- Sources: {packet['evidence_summary']['source_count']}",
         f"- Duplicate sources collapsed: {packet['evidence_summary']['duplicate_source_count']}",
         f"- Claims: {packet['evidence_summary']['claim_count']}",
+        f"- Claims without linked entities: {packet['evidence_summary']['claims_without_linked_entities']}",
         f"- Open questions: {packet['evidence_summary']['open_question_count']}",
         f"- Contradictions logged: {packet['evidence_summary']['contradiction_count']}",
         '',

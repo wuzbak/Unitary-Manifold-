@@ -14,6 +14,7 @@ Test the submitted allegations and prior dossier claims against identifiable pri
 - Sources: 32
 - Duplicate sources collapsed: 0
 - Claims: 52
+- Claims without linked entities: 52
 - Open questions: 10
 - Contradictions logged: 0
 
@@ -119,13 +120,13 @@ Test the submitted allegations and prior dossier claims against identifiable pri
 - **UNVERIFIED** (tier 1/5) — Verify FIN-06: JPMorgan 4,700 transactions/$1.1bn; Deutsche $1.3bn/40 accounts/$13m [ledger status: **REPORTED/REGULATORY SUMMARIES; PERIOD/DEFINITION MUST BE CHECKED**; readiness: R1] [16] [17] [24]
   - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
 - **UNVERIFIED** (tier 1/5) — Verify EP-01: 2008 Epstein NPA granted broad immunity; victims were not notified [ledger status: **NPA AND PROCEDURAL RECORD EXIST; APPELLATE CVRA POSTURE MUST BE STATED**; readiness: R1–R2*] [14] [24] [25] [26]
-  - Sources: Doe v. United States — Eleventh Circuit en banc, 960 F.3d 1310, United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map, In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal, DOJ Office of Professional Responsibility — Epstein NPA review
+  - Sources: United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map, In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal, DOJ Office of Professional Responsibility — Epstein NPA review
   - Legal: LIBEL_EXPOSURE
 - **UNVERIFIED** (tier 1/5) — Verify EP-02: Maxwell’s conviction logically requires an identifiable client list; DOJ memo contradicts verdict [ledger status: **LEGAL INFERENCE IS WRONG**; readiness: R0] [14] [24] [25] [27] [30] [31]
-  - Sources: Doe v. United States — Eleventh Circuit en banc, 960 F.3d 1310, United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map, In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal, United States v. Maxwell, 118 F.4th 256 — Second Circuit appeal, DOJ/FBI Epstein review memorandum, July 2025, Maxwell certiorari docket, No. 24-1073
+  - Sources: United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map, United States v. Maxwell, 118 F.4th 256 — Second Circuit appeal, DOJ/FBI Epstein review memorandum, July 2025, Maxwell certiorari docket, No. 24-1073
   - Legal: LIBEL_EXPOSURE
 - **UNVERIFIED** (tier 1/5) — Verify EP-03: Epstein/Maxwell intelligence links, Mossad, “honeypot,” CIA Glomar [ledger status: **ALLEGATIONS / FOIA RESPONSE NOT AFFIRMATIVE PROOF**; readiness: R0–R1] [14] [24]
-  - Sources: Doe v. United States — Eleventh Circuit en banc, 960 F.3d 1310, United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map
+  - Sources: United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map
   - Legal: LIBEL_EXPOSURE
 - **UNVERIFIED** (tier 1/5) — Verify POL-01: $25k Trump Foundation donation to Bondi committee; IRS excise tax; Bondi declined inquiry [ledger status: **TRANSACTION/IRS REPORTING LEAD; QUID PRO QUO NOT ESTABLISHED**; readiness: R1] [20] [24]
   - Sources: FEC campaign-finance records, Investigator-submitted allegations and repository source map
