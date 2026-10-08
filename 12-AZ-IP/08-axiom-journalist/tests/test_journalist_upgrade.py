@@ -486,13 +486,20 @@ def test_story_packet_keeps_unverified_claims_out_of_established_chapter():
         'sources': [{'title': 'Major newspaper investigation'}],
     }]
 
-    chapters = build_story_packet(investigation)['chapter_drafts']
+    packet = build_story_packet(investigation)
+    chapters = packet['chapter_drafts']
     established = next(item for item in chapters if item['heading'] == 'What the record already establishes')
     unresolved = next(item for item in chapters if item['heading'] == 'What remains unresolved')
+    story_spine = next(
+        item
+        for item in packet['story_spine']['chapters']
+        if item['heading'] == 'What can be established from the record'
+    )
 
     assert statement not in established['body']
     assert 'No claims currently meet the CONFIRMED or CORROBORATED threshold' in established['body']
     assert f'[UNVERIFIED] {statement}' in unresolved['body']
+    assert story_spine['evidence'] == ['No claims currently meet the CONFIRMED or CORROBORATED threshold.']
 
 
 def test_render_dossier_html_contains_citation_markup():

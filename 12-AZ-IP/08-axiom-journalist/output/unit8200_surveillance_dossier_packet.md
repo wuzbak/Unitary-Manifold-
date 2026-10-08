@@ -3,7 +3,7 @@
 ## Publication posture
 - Status: **HUMAN_REVIEW_REQUIRED**
 - Legal risk level: **HIGH**
-- Overall confidence: **0.31** (LOW)
+- Overall confidence: **0.39** (MIXED)
 - Source quality: **0.81** (ELEVATED)
 
 ## Investigative lead
@@ -18,9 +18,9 @@ Test whether the supplied claims about Israeli military-intelligence technology,
 - Contradictions logged: 0
 
 ### Confidence mix
-- ALLEGED: 4
+- ALLEGED: 7
 - CORROBORATED: 1
-- UNVERIFIED: 5
+- UNVERIFIED: 2
 
 ### Source tiers
 - Tier 1 — Primary Record (court/regulatory/FOIA): 5
@@ -51,7 +51,7 @@ Test whether the supplied claims about Israeli military-intelligence technology,
   - Entities: Microsoft Azure / Microsoft Corporation
   - Sources: Microsoft, “Update on ongoing Microsoft review”, +972 Magazine, Microsoft terminates specified services to Israeli military unit
   - Legal: NATIONAL_SECURITY | PRIVACY
-- **UNVERIFIED** (tier 1/5) — A collaborative Guardian / +972 / Local Call investigation alleged that Unit 8200 used Azure storage for a large collection of Palestinian phone-call recordings. [2]
+- **ALLEGED** (tier 2/5) — A collaborative Guardian / +972 / Local Call investigation alleged that Unit 8200 used Azure storage for a large collection of Palestinian phone-call recordings. [2]
   - Entities: Unit 8200 / Israel Defense Forces, Microsoft Azure / Microsoft Corporation
   - Sources: The Guardian / +972 Magazine / Local Call, investigation of Unit 8200 use of Azure
   - Legal: NATIONAL_SECURITY | PRIVACY | LIBEL_EXPOSURE
@@ -71,11 +71,11 @@ Test whether the supplied claims about Israeli military-intelligence technology,
   - Entities: Carbyne / Axon Enterprise
   - Sources: Axon, “Axon to acquire Carbyne”
   - Legal: PRIVACY | LIBEL_EXPOSURE
-- **UNVERIFIED** (tier 1/5) — A Guardian investigation reported Project Nimbus contract provisions that allegedly notified Israel through coded signals when cloud providers were legally compelled to disclose data; the supplied source set does not include the complete authenticated contract. [9]
+- **ALLEGED** (tier 2/5) — A Guardian investigation reported Project Nimbus contract provisions that allegedly notified Israel through coded signals when cloud providers were legally compelled to disclose data; the supplied source set does not include the complete authenticated contract. [9]
   - Entities: Project Nimbus / Google / Amazon
   - Sources: The Guardian, Project Nimbus contract notification mechanism reporting
   - Legal: PRIVACY | NATIONAL_SECURITY | LIBEL_EXPOSURE
-- **UNVERIFIED** (tier 1/5) — Drop Site News reported a compiled count of more than 1,400 Israeli intelligence veterans in U.S. technology; this is a media-reported count, not an official, independently audited roster. [10]
+- **ALLEGED** (tier 2/5) — Drop Site News reported a compiled count of more than 1,400 Israeli intelligence veterans in U.S. technology; this is a media-reported count, not an official, independently audited roster. [10]
   - Entities: Israeli intelligence-veteran employee-count report
   - Sources: Drop Site News, reporting on Israeli intelligence veterans in US technology
   - Legal: PRIVACY | LIBEL_EXPOSURE

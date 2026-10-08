@@ -819,6 +819,11 @@ def build_story_packet(
     psicat_packet = build_psicat_training_packet(investigation, policy)
     entities = dossier_packet['editorial_sections']['entity_watchlist']
     claims = dossier_packet['editorial_sections']['claim_watchlist']
+    established_claims = [
+        claim
+        for claim in claims
+        if str(claim.get('confidence', 'UNVERIFIED')).upper() in {'CONFIRMED', 'CORROBORATED'}
+    ][:3]
     open_questions = dossier_packet['editorial_sections']['open_questions']
     contradictions = dossier_packet['editorial_sections']['cross_claim_contradictions']
     source_ledger = dossier_packet['editorial_sections']['source_ledger']
@@ -827,7 +832,10 @@ def build_story_packet(
         {
             'heading': 'What can be established from the record',
             'focus': 'Open with the lead, the strongest claims, and the highest-grade source anchors.',
-            'evidence': [claim['statement'] for claim in claims[:3]],
+            'evidence': [
+                f"[{claim['confidence']}] {claim['statement']}"
+                for claim in established_claims
+            ] or ['No claims currently meet the CONFIRMED or CORROBORATED threshold.'],
         },
         {
             'heading': 'Who is in the story and what each party says',

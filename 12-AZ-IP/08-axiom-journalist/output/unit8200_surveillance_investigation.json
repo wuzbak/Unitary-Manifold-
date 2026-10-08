@@ -2,7 +2,7 @@
   "title": "AxiomZero Investigative Dossier — Commercial Surveillance, Cloud Contracts, and Military-Tech Human Capital",
   "lead": "Test whether the supplied claims about Israeli military-intelligence technology, Western cloud contracts, commercial acquisitions, veteran employment, and surveillance describe documented facts or inferential leaps. The case treats each lead as a hypothesis; it does not presume unlawful access, algorithm transfer, foreign control, or a threat from an individual’s service history.",
   "journalist": "AXIOM Journalist / AxiomZero Special Investigations Division",
-  "created_at": "2026-10-08T06:22:58",
+  "created_at": "2026-10-08T06:31:43",
   "status": "Active",
   "entities": [
     {
@@ -195,7 +195,7 @@
     },
     {
       "statement": "A collaborative Guardian / +972 / Local Call investigation alleged that Unit 8200 used Azure storage for a large collection of Palestinian phone-call recordings.",
-      "confidence": "UNVERIFIED",
+      "confidence": "ALLEGED",
       "sources": [
         {
           "title": "The Guardian / +972 Magazine / Local Call, investigation of Unit 8200 use of Azure",
@@ -305,7 +305,7 @@
     },
     {
       "statement": "A Guardian investigation reported Project Nimbus contract provisions that allegedly notified Israel through coded signals when cloud providers were legally compelled to disclose data; the supplied source set does not include the complete authenticated contract.",
-      "confidence": "UNVERIFIED",
+      "confidence": "ALLEGED",
       "sources": [
         {
           "title": "The Guardian, Project Nimbus contract notification mechanism reporting",
@@ -325,7 +325,7 @@
     },
     {
       "statement": "Drop Site News reported a compiled count of more than 1,400 Israeli intelligence veterans in U.S. technology; this is a media-reported count, not an official, independently audited roster.",
-      "confidence": "UNVERIFIED",
+      "confidence": "ALLEGED",
       "sources": [
         {
           "title": "Drop Site News, reporting on Israeli intelligence veterans in US technology",
@@ -378,7 +378,7 @@
   "watchlist": [],
   "notes": "AXIOM real-world stress test. Direct URL retrieval was blocked by this execution environment for several reporting and corporate pages; search results supplied article metadata and summaries, but publication requires a human to retrieve and verify the linked originals, underlying records, dates, quotations, and responses. No target systems were probed and no private data was collected. Confidence and source-quality scores are software heuristics only. The supplied dossier claims are leads, not evidence.",
   "scores": {
-    "overall_confidence": 0.31,
+    "overall_confidence": 0.385,
     "source_quality": 0.809,
     "has_legal_flags": true
   }
